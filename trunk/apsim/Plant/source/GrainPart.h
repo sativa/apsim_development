@@ -2,8 +2,8 @@
 // Modification log
 // 2 Feb 05 J. Hargreaves  Implementation
 
-#ifndef PLANTFRUIT_H
-#define PLANTFRUIT_H
+#ifndef GrainPart_H
+#define GrainPart_H
 
 #ifndef __CSTRING_H
 #include <cstring.h>
@@ -12,31 +12,28 @@
 #ifndef __IOSTREAM_H
 #include <iostream.h>
 #endif
-
+#include "PlantParts.h"
 class PlantComponent;
 class ApsimVariant;
-class plantThing;
+class plantPart;
 class eventObserver;
 class Plant;
-#include "PlantParts.h"
-#include "GrainPart.h"
 #include "OilPart.h"
 #include "MealPart.h"
-#include "PodPart.h"
 
-//typedef bool (PlantFruit::*ptr2setFn) (protocol::QuerySetValueData&);
+//typedef bool (fruitGrainPart::*ptr2setFn) (protocol::QuerySetValueData&);
 
 
-class PlantFruit : public plantPart
+class fruitGrainPart : public plantPart
 {
-   friend ostream &operator<<(ostream &, const PlantFruit &);
+   friend ostream &operator<<(ostream &, const fruitGrainPart &);
 	public:												// member functions
-            PlantFruit(plantInterface *p, const string &name);
+            fruitGrainPart(plantInterface *p, const string &name);
 
-//		PlantFruit(Plant *P);			// default constructor
-//            PlantFruit(float greenLeaf, float greenStem, float senescedLeaf, float senescedStem, float deadLeaf, float deadStem);
-//		PlantFruit(const PlantFruit &PlantFruit); 			// copy constructor
-		const PlantFruit &operator=(const PlantFruit &other);		// Assigment operator
+//		fruitGrainPart(Plant *P);			// default constructor
+//            fruitGrainPart(float greenLeaf, float greenStem, float senescedLeaf, float senescedStem, float deadLeaf, float deadStem);
+//		fruitGrainPart(const fruitGrainPart &fruitGrainPart); 			// copy constructor
+		const fruitGrainPart &operator=(const fruitGrainPart &other);		// Assigment operator
 
             void doInit(PlantComponent *systemInterface, PlantPhenology *plantPhenology);
             void doInit1();
@@ -60,23 +57,19 @@ class PlantFruit : public plantPart
              void writeCultivarInfo (protocol::Component *);
              void processBioDemand(void);
              void onDayOf(const string &);
-             float availableRetranslocateN(void);
 
 //             bool set_plant_grain_oil_conc(protocol::QuerySetValueData&v);
 
              void get_grain_size(protocol::Component *system, protocol::QueryValueData &qd);
             //  void get_dlt_dm_grain_demand(protocol::Component *, protocol::QueryValueData &);
              void get_grain_wt(protocol::Component *, protocol::QueryValueData &);
-             void get_head_wt(protocol::Component *, protocol::QueryValueData &);
              void get_yield(protocol::Component *, protocol::QueryValueData &);
-              void get_head_n(protocol::Component *, protocol::QueryValueData &);
 
              void get_n_conc_grain(protocol::Component *, protocol::QueryValueData &);
               void get_grain_n(protocol::Component *, protocol::QueryValueData &);
               void get_grain_n_demand(protocol::Component *, protocol::QueryValueData &);
               void get_grain_protein(protocol::Component *, protocol::QueryValueData &);
             //  void get_p_grain_pcnt(protocol::Component *, protocol::QueryValueData &qd);
-              void get_pod_n(protocol::Component *, protocol::QueryValueData &);
              void get_n_conc_meal(protocol::Component *, protocol::QueryValueData &);
 
             //  void get_grain_oil_conc(protocol::Component *, protocol::QueryValueData &);
@@ -84,8 +77,6 @@ class PlantFruit : public plantPart
               void get_grain_p(protocol::Component *, protocol::QueryValueData &qd);
               void get_p_conc_grain(protocol::Component *, protocol::QueryValueData &qd);
             //  void get_grain_p_demand(protocol::Component *, protocol::QueryValueData &qd);
-              void get_pod_p(protocol::Component *, protocol::QueryValueData &qd);
-              void get_head_p(protocol::Component *, protocol::QueryValueData &qd);
 
              void get_p_demand(vector<float> &p_demand);
              void get_dlt_p_green(vector<float> &dlt_p_green);
@@ -178,47 +169,28 @@ class PlantFruit : public plantPart
             void zeroDltDmGreen(void);
 
 
-            float coverTotal(void) const;
-            float coverGreen(void) const;
-            float coverSen(void) const;
-            float coverDead(void) const;
-            float interceptRadiation(float radiation);        //FIXME
             float grainEnergy(void) const;
             float grainNo(void) const;
-            float grainNConcPercent(void);
-            float grainNDemand(void) const;
+            float nConcPercent(void);
+            float nDemand(void) const;
 
-            float dltDmGrainDemand(void) const;
+            float dltDmDemand(void) const;
             float dltDmRetranslocate(void);
             float dltDmGreen(void);
-            float dltDmPotTe(void);            //FIXME
-            float dltDmPotRuePod(void);        //FIXME
 
             float dmTotal(void);
-            float dmGrainTotal(void);
-            float dmVegTotal(void);
-            float dmGreenGrainTotal(void);
             float dmGreen(void);
-            float dmGreenVegTotal(void);
-            float dmSenescedVegTotal(void);
             float dmSenesced(void);
-            float dmDeadVegTotal(void);
             float dmDead(void);
             float grainWt(void);
             float dmRetransSupply(void);
             float dmRetransDemand(void);
 
             float nTotal(void);
-            float nGrainTotal(void);
-            float nVegTotal(void);
-            float nGreenGrainTotal(void);
-            float nGreenVegTotal(void);
             float nGreen(void);
-            float nSenescedVegTotal(void);
             float nSenesced(void);
-            float nDeadVegTotal(void);
             float nDead(void);
-            float nConcGrain(void);
+            float nConc(void);
             float nGrainDemand2(void);
             float nRetransSupply(void);
             float nRetransDemand(void);
@@ -226,29 +198,15 @@ class PlantFruit : public plantPart
             float dltNGreen(void);
             float nDemand(void);
             float soilNDemand(void);
-            float nCapacity(void);
             void  nPartition(float nSupply);
             void  nFix(float nSupply);
 
-            float nMaxPot(void);
-            float nMax(void);
-            float nMinPot(void);
             float pTotal(void);
-            float pGrainTotal(void);
-            float pVegTotal(void);
-            float pGreenGrainTotal(void);
-            float pDeadGrainTotal(void);
-            float pGreenVegTotal(void);
             float pGreen(void);
-            float pSenescedGrainTotal(void);
-            float pSenescedVegTotal(void);
             float pSenesced(void);
-            float pDeadVegTotal(void);
             float pDead(void);
-            float pConcGrain(void);
-            float pConcGrainTotal(void);
-            float pMaxPot(void);
-            float pMinPot(void);
+            float pConc(void);
+            float pConcTotal(void);
             void  updatePDet(void);
 
             float pDemand(void);
@@ -265,15 +223,12 @@ class PlantFruit : public plantPart
            float pMinPotStressDeterminant(void);
 
 		virtual void display(ostream &os = cout) const;	// display function
-//            float calcCover (float pai);  // calc pod cover
             float calcCover (float canopy_fac);  // return pod cover   //FIXME
 
             float divide (float dividend, float divisor, float default_value) const;  // Command
 
-            void calcDlt_pod_area (void);   //FIXME
             float meanT (void);
 
-            void dm_pot_rue (double  radn_int_pod);                      //FIXME   // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
                                                                                                       //FIXME
             void transp_eff_co2();      // (OUTPUT) transpiration coefficient                         //FIXME
             void sw_demand1(float *sw_demand);        //(OUTPUT) crop water demand (mm)               //FIXME
@@ -288,7 +243,7 @@ class PlantFruit : public plantPart
 
             void grain_n_demand2(void);
 
-            float n_dlt_grain_conc(plantPart *grainPart
+            float n_dlt_grain_conc(plantPart *fruitGrainPart
                                        , float sfac_slope      //(INPUT)  soil water stress factor slope
                                        , float sw_fac_max      //(INPUT)  soil water stress factor maximum
                                        , float temp_fac_min    //(INPUT)  temperature stress factor minimum optimum temp
@@ -297,9 +252,7 @@ class PlantFruit : public plantPart
                                        , float nfact_grain_conc// (INPUT)
                                        , float swdef_expansion); // (INPUT)
 
-            float dm_yield_demand ( float  g_dlt_dm_veg);
-
-            float dm_yield_demand2 ( float  g_dlt_dm_veg);
+            float dm_yield_demand (void);
 
             void yieldpart_demand_stress1(void);
             void dm_partition1 (double g_dlt_dm);
@@ -317,10 +270,10 @@ class PlantFruit : public plantPart
                void n_retranslocate(void);
                void doNRetranslocate( float N_avail_rep, float g_grain_n_demand);
 
-#if TEST_PlantFruit
-		virtual ~PlantFruit();							// destructor
+#if TEST_fruitGrainPart
+		virtual ~fruitGrainPart();							// destructor
 #else
-	     ~PlantFruit();
+	     ~fruitGrainPart();
 #endif
 
 
@@ -332,14 +285,9 @@ class PlantFruit : public plantPart
         UInt2SetFnMap   IDtoSetFn;    /* setVariable */
 
       vector <plantPart *> myParts;
-      vector <plantPart *> myGrainParts;
-      vector <plantPart *> myVegParts;
-      vector<plantPart *> supplyPools;
 
-      fruitPodPart  *podPart;
       fruitOilPart  *oilPart;
       fruitMealPart  *mealPart;
-      fruitGrainPart  *grainPart;
 
       unsigned int idLatitude;
       float cGrain_fill_option;
