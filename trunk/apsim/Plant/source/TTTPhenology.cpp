@@ -10,6 +10,7 @@
 
 void TTTPhenology::zeroDeltas(void)
    {
+   CropPhenology::zeroDeltas();
    dlt_cumvd = 0.0;
    }
 void TTTPhenology::zeroAllGlobals(void)
