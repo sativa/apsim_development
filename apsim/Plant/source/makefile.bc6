@@ -15,7 +15,8 @@ OBJFILES=PlantComponent.obj Plant.obj PlantParts.obj PlantBiomass.obj PlantCanop
 PlantNitrogen.obj PlantPhenology.obj PlantRoot.obj PlantTemp.obj PlantUtility.obj PlantWater.obj Phase.obj CompositePhase.obj \
 Data.obj Science.obj Date.obj PlantComms.obj PlantP.obj PlantFruit.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj \
 WheatPhenology.obj Environment.obj TTTPhenology.obj CropPhenology.obj TTTRatePhenology.obj Observers.obj \
-LeafPart.obj FixedPhase.obj VernalPhase.obj BroccoliPhenology.obj MaizePhenology.obj
+LeafPart.obj StemPart.obj PodPart.obj MealPart.obj OilPart.obj GrainPart.obj \
+ FixedPhase.obj VernalPhase.obj BroccoliPhenology.obj MaizePhenology.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
@@ -86,6 +87,11 @@ TTTPhenology.obj: TTTPhenology.cpp TTTPhenology.h
 CropPhenology.obj: CropPhenology.cpp CropPhenology.h
 TTTRatePhenology.obj: TTTRatePhenology.cpp TTTRatePhenology.h
 LeafPart.obj: LeafPart.cpp PlantParts.h
+StemPart.obj: StemPart.cpp StemPart.h
+PodPart.obj: PodPart.cpp PodPart.h
+MealPart.obj: MealPart.cpp MealPart.h
+OilPart.obj: OilPart.cpp OilPart.h
+GrainPart.obj: GrainPart.cpp GrainPart.h
 MaizePhenology.obj: MaizePhenology.cpp MaizePhenology.h
 BroccoliPhenology.obj: BroccoliPhenology.cpp BroccoliPhenology.h
 FixedPhase.obj: FixedPhase.cpp FixedPhase.h
