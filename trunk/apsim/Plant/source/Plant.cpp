@@ -1060,7 +1060,6 @@ void Plant::plant_bio_distribute (int option /* (INPUT) option number */)
     }
     else if (option == 2)
     {          // do nothing                //FIXME do we need this code?
-        float dlt_dm_green_fruit[max_part];
         fruitPart->dm_partition2 ( g.dlt_dm_supply_to_fruit);    // this may need to be redone when fruit becomes true class
         fruitPart->dm_retranslocate2( g.dlt_dm_retrans_to_fruit);    // this may need to be redone when fruit becomes true class
 
@@ -1272,8 +1271,7 @@ void Plant::plant_bio_init (int option)
         {
         plant_dm_init ( c.dm_init[root]
                        , g.plants
-                       , g.dm_green
-                       , g.dm_plant_min);
+                       , g.dm_green);
         }
     else
         {
@@ -1461,10 +1459,7 @@ void Plant::plant_plant_death (int option /* (INPUT) option number*/)
 
         if (reals_are_equal (g.dlt_plants + g.plants, 0.0))
             {
-            plant_kill_crop(g.dm_dead
-                            , g.dm_green
-                            , g.dm_senesced
-                            , &g.plant_status);
+            plant_kill_crop(&g.plant_status);
             // XX Needs to signal a need to call zero_variables here...
             // Present method is to rely on calling zero_xx at tomorrow's prepare() event.. :(
             }
@@ -1746,13 +1741,8 @@ void Plant::plant_plants_temp
 
 //+  Changes
 //       290994 jngh specified and programmed
-void Plant::plant_kill_crop
-    (
-     float  *g_dm_dead                                  // (INPUT)  dry wt of dead plants (g/m^2)
-    ,float  *g_dm_green                                 // (INPUT)  live plant dry weight (biomass) (g/m^2)
-    ,float  *g_dm_senesced                              // (INPUT)  senesced plant dry wt (g/m^2)
-    ,status_t *g_plant_status                            // (OUTPUT)
-    ) {
+void Plant::plant_kill_crop (status_t *g_plant_status)
+    {
 //+  Constant Values
     const char*  my_name = "plant_kill_crop" ;
 
@@ -2093,7 +2083,6 @@ void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
                         , g.n_conc_crit
                         , g.n_conc_max
                         , g.n_green
-                        , fruitPart->grainNDemand()
                         , c.n_deficit_uptake_fraction
                         , g.n_demand
                         , g.n_max);
@@ -2227,11 +2216,8 @@ void Plant::plant_nit_partition (int option /* (INPUT) option number*/)
         legnew_n_partition(g.dlayer
                            , g.dlt_no3gsm
                            , g.dlt_nh4gsm
-                           , g.soil_n_demand
                            , g.n_fix_pot
-                           , g.n_max
                            , g.root_depth
-                           , g.dlt_n_green
                            , &g.n_fix_uptake
                            , allParts);
 
@@ -2330,8 +2316,6 @@ void Plant::plant_nit_demand_est (int option)
     float dlt_n_retrans[max_part];                // retranslocated N
     float dm_green_tot;                           // total dm green
     int   part;                                   // simple plant part counter
-    float n_demand[max_part];
-    float n_max[max_part];
     float n_fix_pot;
     const int  num_demand_parts = 1 ;
     int   demand_parts[num_demand_parts]={root};
@@ -2504,7 +2488,6 @@ void Plant::plant_sen_nit (int   option/*(INPUT) option number*/)
         {
         plant_N_senescence (max_part       // ok: N senescence is called later
                              , c.n_sen_conc
-                             , g.n_conc_max
                              , g.dlt_dm_senesced
                              , g.n_green
                              , g.dm_green
@@ -2547,11 +2530,6 @@ void Plant::plant_cleanup ()
     plant_update(c.n_conc_crit_root
                 , c.n_conc_max_root
                 , c.n_conc_min_root
-                , c.x_stage_code
-                , c.x_co2_nconc_modifier
-                , c.y_co2_nconc_modifier
-                , c.num_co2_nconc_modifier
-                , g.co2
                 , g.row_spacing
                 , g.skip_row_fac
                 , g.skip_plant_fac
@@ -2563,38 +2541,13 @@ void Plant::plant_cleanup ()
                 , &g.cover_dead
                 , &g.cover_green
                 , &g.cover_sen
-                , g.dlt_dm
-                , g.dlt_dm_dead_detached
-                , g.dlt_dm_detached
-                , g.dlt_dm_green
-                , g.dlt_dm_green_retrans
-                , g.dlt_dm_senesced
-                , g.dlt_dm_green_dead
-                , g.dlt_dm_senesced_dead
-                , g.dlt_n_dead_detached
-                , g.dlt_n_detached
-                , g.dlt_n_green
-                , g.dlt_n_retrans
-                , g.dlt_n_senesced
-                , g.dlt_n_senesced_trans
-                , g.dlt_n_senesced_retrans
-                , g.dlt_n_green_dead
-                , g.dlt_n_senesced_dead
                 , g.dlt_plants
                 , g.dlt_root_depth
-                , g.dm_dead
-                , g.dm_green
-                , g.dm_senesced
-                , &g.lai_canopy_green
                 , g.n_conc_crit
                 , g.n_conc_max
                 , g.n_conc_min
-                , g.n_dead
-                , g.n_green
-                , g.n_senesced
                 , &g.plants
                 , &g.root_depth
-                , g.swdef_pheno
                 , g.dlt_root_length_dead
                 , g.root_length_dead
                 , g.root_length
@@ -2605,31 +2558,14 @@ void Plant::plant_cleanup ()
                        , g.cover_green
                        , g.cover_sen
                        , g.dlayer
-                       , g.dm_dead
-                       , g.dm_green
-                       , g.dm_senesced
-                       , g.n_conc_crit
-                       , g.n_conc_max
-                       , g.n_conc_min
-                       , g.n_dead
-                       , g.n_green
-                       , g.n_senesced
                        , g.plants
                        , g.root_depth);
-    plant_totals(g.day_of_year
-                , g.dlayer
-                , g.dlt_n_retrans
+    plant_totals( g.dlayer
                 , g.dlt_sw_dep
-                , g.dm_green
                 , &g.lai_max
                 , &g.n_conc_act_stover_tot
-                , g.n_conc_crit
                 , &g.n_conc_crit_stover_tot
-                , g.n_dead
-                , g.n_demand
                 , &g.n_demand_tot
-                , g.n_green
-                , g.n_senesced
                 , &g.n_uptake_stover_tot
                 , &g.n_uptake_tot
                 , g.dlt_n_green
@@ -2644,10 +2580,6 @@ void Plant::plant_cleanup ()
         phenology->previousStageName() != phenology->stageName())
         {
         plant_event (g.dlayer
-                    , g.dm_dead
-                    , g.dm_green
-                    , g.dm_senesced
-                    , g.n_green
                     , g.root_depth
                     , g.sw_dep
                     , p.ll_dep);
@@ -2688,11 +2620,6 @@ void Plant::plant_update(
     float  c_n_conc_crit_root                     // (INPUT)  critical N concentration of ro
     ,float  c_n_conc_max_root                      // (INPUT)  maximum N concentration of roo
     ,float  c_n_conc_min_root                      // (INPUT)  minimum N concentration of roo
-    ,float *c_x_stage_code                         // (INPUT)  stage table for N concentratio
-    ,float *c_x_co2_nconc_modifier
-    ,float *c_y_co2_nconc_modifier
-    ,int   c_num_co2_nconc_modifier
-    ,float g_co2
     ,float  g_row_spacing                          // (INPUT)  row spacing (m) [optional]
     ,float  g_skip_row_fac                         // skip row factor
     ,float  g_skip_plant_fac                       // skip plant factor
@@ -2704,38 +2631,13 @@ void Plant::plant_update(
     ,float  *g_cover_dead                                 // (out/INPUT)  fraction of radiation reaching
     ,float  *g_cover_green                                // (out/INPUT)  fraction of radiation reaching
     ,float  *g_cover_sen                                  // (out/INPUT)  fraction of radiation reaching
-    ,float  g_dlt_dm                                           // (INPUT)  the daily biomass production (
-    ,float *g_dlt_dm_dead_detached                             // (INPUT)  plant biomass detached fro
-    ,float *g_dlt_dm_detached                                  // (INPUT)  plant biomass detached (g/m^2)
-    ,float *g_dlt_dm_green                                     // (INPUT)  plant biomass growth (g/m^2)
-    ,float *g_dlt_dm_green_retrans                             // (INPUT)  plant biomass retranslocat
-    ,float *g_dlt_dm_senesced                                  // (INPUT)  plant biomass senescence (g/m^
-    ,float *g_dlt_dm_green_dead                                  // (INPUT)  plant biomass senescence (g/m^
-    ,float *g_dlt_dm_senesced_dead                                  // (INPUT)  plant biomass senescence (g/m^
-    ,float *g_dlt_n_dead_detached                              // (INPUT)  actual N loss with detached
-    ,float *g_dlt_n_detached                                   // (INPUT)  actual N loss with detached pl
-    ,float *g_dlt_n_green                                      // (INPUT)  actual N uptake into plant (g/
-    ,float *g_dlt_n_retrans                                    // (INPUT)  nitrogen retranslocated out fr
-    ,float *g_dlt_n_senesced                                   // (INPUT)  actual N loss with senesced pl
-    ,float *g_dlt_n_senesced_trans                             //  ??
-    ,float *g_dlt_n_senesced_retrans                           //  ??
-    ,float *g_dlt_n_green_dead                                 // (INPUT)  plant N death (g/m^2)
-    ,float *g_dlt_n_senesced_dead                              // (INPUT)  plant N death (g/m^2)
     ,float  g_dlt_plants                                       // (INPUT)  change in Plant density (plant
     ,float  g_dlt_root_depth                                   // (INPUT)  increase in root depth (mm)
-    ,float *g_dm_dead                                          // (INPUT)  dry wt of dead plants (g/m^2)
-    ,float *g_dm_green                                         // (INPUT)  live plant dry weight (biomass
-    ,float *g_dm_senesced                                      // (INPUT)  senesced plant dry wt (g/m^2)
-    ,float *g_lai_canopy_green                                 // (out/INPUT)  live plant green lai in canopy
     ,float *g_n_conc_crit                                      // (out/INPUT)  critical N concentration (g N/
     ,float *g_n_conc_max                                       // (out/INPUT)  maximum N concentration (g N/g
     ,float *g_n_conc_min                                       // (out/INPUT)  minimum N concentration (g N/g
-    ,float *g_n_dead                                           // (INPUT)  plant N content of dead plants
-    ,float *g_n_green                                          // (INPUT)  plant nitrogen content (g N/m^
-    ,float *g_n_senesced                                       // (INPUT)  plant N content of senesced pl
     ,float *g_plants                                           // (out/INPUT)  Plant density (plants/m^2)
     ,float *g_root_depth                                         // (out/INPUT)  depth of roots (mm)
-    ,float g_swdef_pheno                                        // (INPUT)
     ,float *g_dlt_root_length_dead                                  // (INPUT)  Change in Root length of dead population in each layer
     ,float *g_root_length_dead                                  // (INPUT)  Root length of dead population in each layer
     ,float *g_root_length                                       // (INPUT)  Root length in each layer
@@ -2747,17 +2649,8 @@ void Plant::plant_update(
     const char*  my_name = "plant_update" ;
 
 //+  Local Variables
-    float dlt_leaf_area;                          // leaf area increase (mm^2/plant)
-    float dlt_leaf_dm;                            // leaf dm increase (g/plant)
-                                                  // (grains/m^2)
-    float dlt_root_length_dead;                   // root length of plant dying ()
     double dying_fract_plants;                    // fraction op population dying (0-1)
-    float node_no;                                // currently expanding node no.
     int   layer;                                  // layer index number
-    int   leaf_rec;                               // leaf record number
-    int   num_leaves;
-    int   node;
-    float leaf_no_dead_tot;
     float canopy_fac;
 
 //- Implementation Section ----------------------------------
@@ -2977,15 +2870,6 @@ void Plant::plant_check_bounds
     ,float  g_cover_green                       // (INPUT)  fraction of radiation reaching
     ,float  g_cover_sen                         // (INPUT)  fraction of radiation reaching
     ,float *g_dlayer                            // (INPUT)  thickness of soil layer I (mm)
-    ,float *g_dm_dead                           // (INPUT)  dry wt of dead plants (g/m^2)
-    ,float *g_dm_green                          // (INPUT)  live plant dry weight (biomass
-    ,float *g_dm_senesced                       // (INPUT)  senesced plant dry wt (g/m^2)
-    ,float *g_n_conc_crit                       // (INPUT)  critical N concentration (g N/
-    ,float *g_n_conc_max                        // (INPUT)  maximum N concentration (g N/g
-    ,float *g_n_conc_min                        // (INPUT)  minimum N concentration (g N/g
-    ,float *g_n_dead                            // (INPUT)  plant N content of dead plants
-    ,float *g_n_green                           // (INPUT)  plant nitrogen content (g N/m^
-    ,float *g_n_senesced                        // (INPUT)  plant N content of senesced pl
     ,float  g_plants                            // (INPUT)  Plant density (plants/m^2)
     ,float  g_root_depth                        // (INPUT)  depth of roots (mm)
     ) {
@@ -3045,20 +2929,12 @@ void Plant::plant_check_bounds
 //+  Changes
 //     010994 jngh specified and programmed
 void Plant::plant_totals
-    (int   g_day_of_year                // (INPUT)  day of year
-    ,float *g_dlayer                     // (INPUT)  thickness of soil layer I (mm)
-    ,float *g_dlt_n_retrans              // (INPUT)  nitrogen retranslocated out from parts to grain (g/m^2)
+    (float *g_dlayer                     // (INPUT)  thickness of soil layer I (mm)
     ,float *g_dlt_sw_dep                 // (INPUT)  water uptake in each layer (mm water)
-    ,float *g_dm_green                   // (INPUT)  live plant dry weight (biomass) (g/m^2)
     ,float *g_lai_max                    // (INPUT)  maximum lai - occurs at flowering
     ,float  *g_n_conc_act_stover_tot           // (INPUT)  sum of tops actual N concentration (g N/g biomass)
-    ,float  *g_n_conc_crit                     // (INPUT)  critical N concentration (g N/g biomass)
     ,float  *g_n_conc_crit_stover_tot          // (INPUT)  sum of tops critical N concentration (g N/g biomass)
-    ,float  *g_n_dead                          // (INPUT)  plant N content of dead plants (g N/m^2)
-    ,float  *g_n_demand                        // (INPUT)  critical plant nitrogen demand (g/m^2)
     ,float  *g_n_demand_tot                    // (out/INPUT)  sum of N demand since last output (g/m^2)
-    ,float  *g_n_green                         // (INPUT)  plant nitrogen content (g N/m^2)
-    ,float  *g_n_senesced                      // (INPUT)  plant N content of senesced plant (g N/m^2)
     ,float  *g_n_uptake_stover_tot             // (out/INPUT)  sum of tops N uptake (g N/m^2)
     ,float  *g_n_uptake_tot                    // (out/INPUT)  cumulative total N uptake (g/m^2)
     ,float  *g_dlt_n_green                     // (INPUT)  daily N uptake (g/m^2)
@@ -3155,10 +3031,6 @@ void Plant::plant_totals
 //+  Changes
 //     010994 jngh specified and programmed
 void Plant::plant_event(float *g_dlayer           // (INPUT)  thickness of soil layer I (mm)
-    ,float *g_dm_dead                     // (INPUT)  dry wt of dead plants (g/m^2)
-    ,float *g_dm_green                    // (INPUT)  live plant dry weight (biomass
-    ,float *g_dm_senesced                 // (INPUT)  senesced plant dry wt (g/m^2)
-    ,float *g_n_green                     // (INPUT)  plant nitrogen content (g N/m^
     ,float  g_root_depth                  // (INPUT)  depth of roots (mm)
     ,float *g_sw_dep                      // (INPUT)  soil water content of layer L
     ,float *p_ll_dep)          // (INPUT)  lower limit of plant-extractab
@@ -3171,7 +3043,6 @@ void Plant::plant_event(float *g_dlayer           // (INPUT)  thickness of soil 
     float pesw[max_layer];                        // plant extractable soil water (mm)
     float n_green;                                // plant nitrogen of tops (g/m^2) less pod
     float dm_green;                               // plant wt of tops (g/m^2) less pod
-    int   stage_no;                               // stage number at beginning of phase
     float n_green_conc_percent;                   // n% of tops less pod (incl grain)
 
     // Don't send an end crop to the system - otherwise all the other crops will stop too!
@@ -3990,11 +3861,7 @@ void Plant::plant_dm_init (
         float  c_dm_root_init                            // (INPUT)  root growth before emergence (
         ,float  g_plants                                  // (INPUT)  Plant density (plants/m^2)
         ,float  *dm_green                                  // (INPUT/OUTPUT) plant part weights  (g/m^2)
-        ,float  *dm_plant_min                              // (OUTPUT) minimum weight of each plant part (g/plant)
         ) {
-
-//+  Local Variables
-    float dm_plant_pod;                           // dry matter in pods (g/plant)
 
 //- Implementation Section ----------------------------------
 
@@ -4040,10 +3907,6 @@ void Plant::plant_n_conc_limits(float  c_n_conc_crit_root                 // (IN
                                ,float  *n_conc_min                         // (OUTPUT) minimum N concentration    g N/g part)
                                ) {
 
-//+  Constant Values
-//+  Local Variables
-    int   numvals;                                // number of values in stage code table
-    float stage_code;                             // interpolated current stage code
 
 //- Implementation Section ----------------------------------
 
@@ -4085,11 +3948,8 @@ void Plant::legnew_n_partition
     (float  *g_dlayer            // (INPUT)  thickness of soil layer I (mm)
     ,float  *g_dlt_no3gsm        // (INPUT)  actual NO3 uptake from soil (g
     ,float  *g_dlt_nh4gsm        // (INPUT)  actual NO3 uptake from soil (g
-    ,float  *g_n_demand          // (INPUT)  critical plant nitrogen demand
     ,float  g_n_fix_pot         // (INPUT)  N fixation potential (g/m^2)
-    ,float  *g_n_max             // (INPUT)  maximum plant nitrogen demand
     ,float  g_root_depth        // (INPUT)  depth of roots (mm)
-    ,float  *dlt_n_green         // (OUTPUT) actual plant N uptake into each plant part (g/m^2)
     ,float  *n_fix_uptake        // (OUTPUT) actual N fixation (g/m^2)
     ,vector<plantPart *> &allParts        // (INPUT) vector of plant parts
     ) {
@@ -4098,7 +3958,6 @@ void Plant::legnew_n_partition
     int   deepest_layer;                          // deepest layer in which the roots are growing
     float plant_part_fract;                       // fraction of nitrogen to use (0-1) for plant part
     vector<plantPart *>::iterator part;           // iterator
-    int   ipart;
     float n_uptake_sum;                           // total plant N uptake (g/m^2)
     float n_excess;                               // N uptake above N crit (g/m^2)
     vector<float> n_capacity(allParts.size());    // amount of N that can be stored in plant part above Ncrit (g/m^2)
@@ -4369,9 +4228,7 @@ void Plant::legnew_dm_retranslocate
 
     float dlt_dm_retrans_part;                    // carbohydrate removed from part (g/m^2)
     float demand_differential;                    // demand in excess of available supply (g/m^2)
-    int   counter;
     float dm_part_avail;                          // carbohydrate avail from part(g/m^2)
-    float mass_balance;                           // sum of translocated carbo (g/m^2)
     float dm_retranslocate = 0.0;
 
 //- Implementation Section ----------------------------------
@@ -4575,7 +4432,6 @@ void Plant::legnew_n_retranslocate (float g_grain_n_demand)
 //  Calculate change in senesced plant Nitrogen
 void Plant::plant_N_senescence (int num_part                  //(INPUT) number of plant part
                                ,float *c_n_sen_conc           //(INPUT)  N concentration of senesced materia  (g/m^2)
-                               ,float *g_n_conc_max           //(INPUT) critical N conc
                                ,float* g_dlt_dm_senesced      // (INPUT)  plant biomass senescence (g/m^2)
                                ,float* g_n_green              //(INPUT) nitrogen in plant material (g/m^2)
                                ,float* g_dm_green             // (INPUT) plant material (g/m^2)
@@ -4593,12 +4449,6 @@ void Plant::plant_N_senescence (int num_part                  //(INPUT) number o
       float    sen_n_conc;    //! N conc of senescing material (g/g)
       //float    dlt_n_in_senescing_part;
       float    dlt_n_in_senescing_leaf;
-      float    new_n_max;
-      float    new_n;
-      float    left_over_n;
-      float    trans_tot;
-      float    trans_grain;
-      float    grain_fraction;
       float    navail;
       float    n_demand_tot;
 
@@ -5040,22 +4890,8 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     float n_tops_residue;                              // nitrogen added to residue (kg/ha)
     float p_tops_residue;                              // phosp added to residue (kg/ha)
     float p_residue;                              // phosphorus added to residue (g/m^2)
-    float dm_removed;                             // dry matter removed from system (kg/ha)
-    float n_removed;                              // nitrogen removed from system (kg/ha)
-    float dm_root;
-    float n_root;
 //integer    leaf_no               ! currently expanding leaf no.
-    float fract;
-    int   numvals;
-    int   part;
-    float part_current;
-    float part_previous;
     float remove_fr;
-    int   stage_no;
-    int   stage_no_current;
-    int   stage_no_previous;
-    float dm_init;
-    float n_init, p_init;
     float height;                                 // cutting height
     float retain_fr_green;
     float retain_fr_sen;
@@ -5065,15 +4901,12 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     float chop_fr_green;                      // fraction chopped (0-1)
     float chop_fr_sen;                      // fraction chopped (0-1)
     float chop_fr_dead;                      // fraction chopped (0-1)
-    float chop_fr;                                 // fraction chopped (0-1)
     float dlt_dm_harvest;                         // dry matter harvested (g/m^2)
     float dlt_n_harvest;                          // N content of dm harvested (g/m^2)
     float dlt_p_harvest;                          // N content of dm harvested (kg/ha)
     float dlt_dm_die;                             // dry matter in dieback of roots (g/m^2)
     float dlt_n_die;                              // N content of drymatter in dieback (g/m^2)
     float dlt_p_die;                              // P content of drymatter in dieback (g/m^2)
-    float avg_leaf_area;
-    float P_tops;
     float cover_pod;
 
 //- Implementation Section ----------------------------------
@@ -5313,10 +5146,6 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
         phenology->previousStageName() != phenology->stageName())
         {
         plant_event (g.dlayer
-                   , g.dm_dead
-                   , g.dm_green
-                   , g.dm_senesced
-                   , g.n_green
                    , g.root_depth
                    , g.sw_dep
                    , p.ll_dep);
@@ -5348,22 +5177,12 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     const char*  my_name = "plant_kill_stem_update" ;
 
 //+  Local Variables
-    float stage_fract;
-    float stage_part_current;
-    float stage_part_previous;
-    int   stage_no;
-    int   stage_no_current;
-    int   stage_no_previous;
     float dm_init;
     float n_init, p_init;
     float temp;
     float dlt_dm_sen;                             // dry matter sened (g/m^2)
     float dlt_n_sen;                              // N content of dm senesced (g/m^2)
     float dlt_p_sen;                              // P content of dm senesced (g/m^2)
-    float avg_leaf_area;
-    int   numvals;
-    int   leaf_no_emerged;
-    float leaf_emerging_fract;
     float canopy_fac;
     float cover_pod;
 
@@ -5510,10 +5329,6 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
         phenology->previousStageName() != phenology->stageName())
         {
         plant_event (g.dlayer
-            , g.dm_dead
-            , g.dm_green
-            , g.dm_senesced
-            , g.n_green
             , g.root_depth
             , g.sw_dep
             , p.ll_dep );
@@ -5549,39 +5364,14 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
 
 //+  Local Variables
     //c      real       dlt_leaf_area         ;     // leaf area increase (mm^2/plant)
-    float dm_residue;                             // dry matter added to residue (kg/ha)
-    float n_residue;                              // nitrogen added to residue (kg/ha)
-    float dm_root_residue;                             // dry matter added to residue (kg/ha)
-    float n_root_residue;                              // nitrogen added to residue (kg/ha)
-    float dm_tops_residue;                             // dry matter added to residue (kg/ha)
-    float n_tops_residue;                              // nitrogen added to residue (kg/ha)
-    float P_residue;                              // phosphorus added to residue (g/m^2)
-    float dm_removed;                             // dry matter removed from system (kg/ha)
-    float n_removed;                              // nitrogen removed from system (kg/ha)
-    float dm_root;
-    float n_root;
-    float fract;
-    int   numvals;
     vector<plantPart *>::iterator part;
 
-    float remove_fr;
     float cover_pod;
 
     float dm_init;
     float n_init;
-    float height;                                 // cutting height
-    float fr_height;                              // fractional cutting height
-    float retain_fr_green;
-    float retain_fr_sen;
-    float retain_fr_dead;
     float canopy_fac;
-    float temp;
-    float chop_fr;                                 // fraction chopped (0-1)
 //    float fraction_to_residue[max_part];          // fraction sent to residue (0-1)
-    float dlt_dm_removed;                         // dry matter harvested (g/m^2)
-    float dlt_n_removed;                          // N content of dm harvested (g/m^2)
-    float avg_leaf_area;
-    float P_tops;
 
     plantPartHack *rootPart = new plantPartHack(this, root, "root");
 
@@ -5884,10 +5674,6 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
         phenology->previousStageName() != phenology->stageName())
         {
         plant_event (g.dlayer
-            , g.dm_dead
-            , g.dm_green
-            , g.dm_senesced
-            , g.n_green
             , g.root_depth
             , g.sw_dep
             , p.ll_dep );
@@ -6602,7 +6388,6 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
     const char*  my_name = "plant_start_crop" ;
 
 //+  Local Variables
-    int   numvals;                                // number of values found in array
     char  msg[200];                               // output string
     FString  dummy;                               // dummy variable
     float  sowing_depth;                          // sowing depth for reporting
@@ -6753,7 +6538,6 @@ void Plant::plant_read_cultivar_params ()
 //+  Local Variables
     string s;
     char  msg[200];                             // output string
-    int   numvals;                                // number of values read
 
 //- Implementation Section ----------------------------------
 
@@ -6972,8 +6756,6 @@ void Plant::plant_end_crop ()
     char  msg[400];
     float yield;                                  // grain wt (kg/ha)
     int part;                                     // part
-    float  incorp_fr;
-    float  P_tops;                // Phosphorus added to residue (g/m^2)
 
     push_routine (my_name);
 
@@ -7117,13 +6899,7 @@ void Plant::plant_kill_crop_action (protocol::Variant &mVar)
 
 //         if (reals_are_equal (g%dlt_plants_death_external
 //     :                       + g%plants, 0.0)) then
-//            call plant_kill_crop
-//     :               (
-//     :                g%dm_dead
-//     :              , g%dm_green
-//     :              , g%dm_senesced
-//     :              , g%plant_status
-//     :               )
+//            call plant_kill_crop (g%plant_status)
 //         else
 //         endif
 
@@ -7200,7 +6976,6 @@ void Plant::plant_get_other_variables ()
     const char*  my_name = "plant_get_other_variables" ;
     std::vector<float> values;               // Scratch area
 
-    int   numvals;                                // number of values put into array
     float soil_temp;                              // soil surface temperature (oC)
 
 //- Implementation Section ----------------------------------
@@ -7427,10 +7202,8 @@ void Plant::plant_update_other_variables (void)
     vector<float> dm_n;                      // N content of changeed dry matter (kg/ha)
     vector<float> dm_p;                      // P content of changeed dry matter (kg/ha)
 
-    float P_tops;                // Phosphorus added to residue (g/m^2)
     int   layer;
     float root_length[max_layer];
-    float incorp_fr[max_part];
 
 //- Implementation Section ----------------------------------
     push_routine (my_name);
@@ -7543,8 +7316,6 @@ void Plant::plant_read_constants ( void )
     const char*  my_name = "plant_read_constants" ;
     const char*  section_name = "constants" ;
 
-//+  Local Variables
-    int   numvals;                                // number of values returned
 
 //- Implementation Section ----------------------------------
 
@@ -7776,7 +7547,6 @@ void Plant::plant_read_species_const ()
 
 //+  Local Variables
     int   numvals;                                // number of values returned
-    int   num_sections;                           // number of sections to search
     int   part;                                   // plant part counter
     vector<string> search_order;                  // sections to search
     char  name[200];                              // scratch area
@@ -8410,7 +8180,6 @@ void Plant::plant_harvest_report ()
     float n_stover;                               // nitrogen content of stover (kg\ha)
     float n_total;                                // total gross nitrogen content (kg/ha)
     float n_grain_conc_percent;                   // grain nitrogen %
-    int   phase;                                  // phenological phase number
     char  msg[200];                               // message
     float yield;                                  // grain yield dry wt (kg/ha)
     float yield_wet;                              // grain yield including moisture (kg/ha)
@@ -8750,9 +8519,6 @@ void Plant::plant_get_site_characteristics ()
     {
 //+  Constant Values
     const char*  my_name = "plant_get_site_characteristics" ;
-
-//+  Local Variables
-    int   numvals;                                // number of values put into array
 
 //- Implementation Section ----------------------------------
 
@@ -9836,7 +9602,6 @@ void Plant::plant_n_demand(int max_part     // (INPUT)
        , float *g_n_conc_crit               // (INPUT)  critical N concentration (g N/
        , float *g_n_conc_max                // (INPUT)  maximum N concentration (g N/g
        , float *g_n_green                   // (INPUT)  plant nitrogen content (g N/m^
-       , float g_grain_n_demand             //
        , float c_n_deficit_uptake_fraction  //
        , float *n_demand                    // (OUTPUT) critical plant nitrogen demand  (g/m^2)
        , float *n_max)                      // (OUTPUT) max plant nitrogen demand  (g/m^2)

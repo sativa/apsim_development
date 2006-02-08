@@ -350,9 +350,6 @@ void fruitPodPart::dm_pot_rue (double  radn_int_pod)                    // (OUTP
 
 //+  Changes
 //       181197 nih specified and programmed
-//+  Local Variables
-  double podfr;                                  // fraction of intercepted light intercepted by pods
-  double rue_leaf;
 
 //- Implementation Section ----------------------------------
 
