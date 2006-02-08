@@ -250,6 +250,11 @@ int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void*)
                                break;
       case DLL_PROCESS_DETACH: break;
       }
+
+   const unsigned _MCW_EW = 0x037f;
+   const unsigned _EM_INVALID = 0xffff;
+   _controlfp(_MCW_EW, _EM_INVALID);
+
    return TRUE;
    }
 
