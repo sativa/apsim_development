@@ -8,7 +8,7 @@
       <filename name="filename">Blank Simulation.sum</filename>
     </summaryfile>
     <metfile name="met">
-      <filename name="filename">C:\Program Files\Apsim40\apsim\met\sample\goond.met</filename>
+      <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
     </metfile>
     <area name="paddock">
       <registrations name="global" />
@@ -2099,7 +2099,7 @@
       <filename name="filename">Sugar Simulation.sum</filename>
     </summaryfile>
     <metfile name="met">
-      <filename name="filename">C:\Program Files\Apsim40\apsim\met\sample\ingham.met</filename>
+      <filename name="filename">%apsuite\apsim\met\sample\ingham.met</filename>
     </metfile>
     <area name="paddock">
       <registrations name="global" />
@@ -2974,7 +2974,7 @@
           </category>
           <category name="Fertiliser application details">
             <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
-            <property name="fert_amount" value="200" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+            <property name="fert_amount" value="200" type="text" description="Amount of fertiliser to apply (kg/ha) : " />
             <property name="fert_type" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
           </category>
         </rule>

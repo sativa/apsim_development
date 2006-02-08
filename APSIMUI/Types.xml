@@ -1325,7 +1325,7 @@
          <variable name="flower_wt" description ="Maize Flower weight (g/m2)"/>
          <variable name="grain_wt" description ="Maize Grain weight (g/m2)"/>
          <variable name="yield" description ="Maize Yield (kg/ha)"/>
-         <variable name="biomass" description ="Maize Biomass (kg/ha)"/>
+         <variable name="biomass" description ="Maize Total Above Ground Biomass (kg/ha)"/>
          <variable name="stover" description ="Maize Stover (kg/ha)"/>
          <variable name="green_biomass" description ="Maize Green biomass (kg/ha)"/>
          <variable name="hi" description ="Maize harvest_index"/>
@@ -1466,7 +1466,7 @@
          <variable name="openz" description ="No. open bolls /m"/>
          <variable name="alint" description ="Lint weight (kg/ha)"/>
          <variable name="yield" description ="Yield (bales/ha)"/>
-         <variable name="dm" description ="Total biomass (kg/ha)"/>
+         <variable name="dm" description ="Total above ground biomass (kg/ha)"/>
          <variable name="lai" description ="Leaf area index"/>
          <variable name="totnup" description ="Total N uptake (kg/ha)"/>
          <variable name="evap_plant" description ="Crop transpiration (mm)"/>
@@ -1856,7 +1856,7 @@
          <variable name="root_wt" description ="Sunflower root weight (g/m^2)"/>
          <variable name="biomass_wt" description ="Sunflower biomass weight (g/m^2)"/>
          <variable name="yield" description ="Sunflower yield (kg/ha)"/>
-         <variable name="biomass" description ="Sunflower biomass (kg/ha)"/>
+         <variable name="biomass" description ="Sunflower total above ground biomass (kg/ha)"/>
          <variable name="green_biomass" description ="Sunflower green biomass (kg/ha)"/>
          <variable name="hi" description ="Sunflower harvest index"/>
          <variable name="swdef_photo" description ="Sunflower water stress factor for photosynthesis"/>

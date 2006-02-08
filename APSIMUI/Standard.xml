@@ -70,7 +70,7 @@
     <filename name="filename">sample.sum</filename>
   </summaryfile>
   <metfile name="metfile">
-    <filename name="filename">C:\Program Files\Apsim40\apsim\met\sample\dalby.met</filename>
+    <filename name="filename">%apsuite\apsim\met\sample\dalby.met</filename>
     <climatechange>
       <maxtmodifier description="Change in maximum temperature in degrees celsius">0.0</maxtmodifier>
       <mintmodifier description="Change in minimum temperature in degrees celsius">0.0</mintmodifier>
@@ -258,7 +258,7 @@
       </category>
       <category name="Fertiliser application details">
         <property name="fertmodule" value="" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
-        <property name="fert_amount" value="150" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+        <property name="fert_amount" value="150" type="text" description="Amount of fertiliser to apply (kg/ha) : " />
         <property name="fert_type" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
       </category>
     </rule>
