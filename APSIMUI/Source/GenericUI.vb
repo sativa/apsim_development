@@ -122,7 +122,7 @@ Public Class GenericUI
                 Grid.Cells(row, 1).Value = Prop.Value
                 Dim Editor As CustomEditor
                 Dim DefaultText As String
-                SetCellType(Grid, row, 1, Prop)
+                UIManager.SetCellType(Grid, row, 1, Prop)
             End If
             row = row + 1
         Next
@@ -139,57 +139,7 @@ Public Class GenericUI
     End Sub
 
 
-    ' --------------------------------
-    ' Set the type of a grid column
-    ' --------------------------------
-    Shared Sub SetCellType(ByVal Grid As SheetView, _
-                            ByVal row As Integer, _
-                            ByVal col As Integer, _
-                            ByVal Prop As APSIMData)
-        If Prop.Attribute("type") = "yesno" Then
-            Dim Combo As CellType.ComboBoxCellType = New CellType.ComboBoxCellType
-            Combo.Items = New String() {"yes", "no"}
-            Grid.Cells(row, col).CellType = Combo
-        ElseIf Prop.Attribute("type") = "date" Then
-            Dim DateEditor As CellType.DateTimeCellType = New CellType.DateTimeCellType
-            DateEditor.DateDefault = Prop.Value
-            DateEditor.DropDownButton = True
-            Grid.Cells(row, col).CellType = DateEditor
-        ElseIf Prop.Attribute("type") = "list" Then
-            Dim Combo As CellType.ComboBoxCellType = New CellType.ComboBoxCellType
-            Combo.Items = Prop.Attribute("listvalues").Split(",")
-            Grid.Cells(row, col).CellType = Combo
-        ElseIf Prop.Attribute("type") = "modulename" Then
-            Dim Combo As CellType.ComboBoxCellType = New CellType.ComboBoxCellType
-            Combo.Items = GetMatchingModuleNames(Prop)
-            Grid.Cells(row, col).CellType = Combo
-        ElseIf Prop.Attribute("type") = "cultivars" Then
-            Dim Combo As CellType.ComboBoxCellType = New CellType.ComboBoxCellType
-            Combo.Items = GetMatchingModuleNames(Prop)
-            Grid.Cells(row, col).CellType = Combo
-        End If
-    End Sub
 
-
-    ' ------------------------------------------------------------------
-    ' Return a list of instance names for the specified module name
-    ' ------------------------------------------------------------------
-    Shared Function GetMatchingModuleNames(ByVal Prop As APSIMData) As String()
-        Dim Values As New StringCollection
-        Dim System As APSIMData = Prop.Parent
-        While System.Type <> "simulation" And System.Type <> "area" And Not IsNothing(System.Parent)
-            System = System.Parent
-        End While
-
-        For Each ApsimModule As APSIMData In System.Children
-            If Prop.Attribute("moduletype") = "" Or ApsimModule.Type = Prop.Attribute("moduletype") Then
-                Values.Add(ApsimModule.Name())
-            End If
-        Next
-        Dim ReturnValues(Values.Count - 1) As String
-        Values.CopyTo(ReturnValues, 0)
-        Return ReturnValues
-    End Function
 
 
     Private Sub Grid_CellChanged(ByVal sender As Object, ByVal e As FarPoint.Win.Spread.SheetViewEventArgs) Handles Grid.CellChanged

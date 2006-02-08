@@ -104,7 +104,7 @@
         <property name="esw_amount" value="200" type="text" description="Enter minimum allowable available soil water (mm) : " />
       </category>
       <category name="Sowing parameters">
-        <property name="crop" value="wheat" type="modulename" description="Enter name of crop to sow : " />
+        <property name="crop" value="wheat" type="crop" description="Enter name of crop to sow : " />
         <property name="density" value="100" type="text" description="Enter sowing density  (plants/m2) : " />
         <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
         <property name="cultivar" value="hartog" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
@@ -132,7 +132,7 @@
             <property name="esw_amount" value="200" type="text" description="Enter minimum allowable available soil water (mm) : " />
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="sorghum" type="modulename" description="Enter name of crop to sow : " />
+            <property name="crop" value="sorghum" type="crop" description="Enter name of crop to sow : " />
             <property name="density" value="7" type="text" description="Enter sowing density  (plants/m2) : " />
             <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
             <property name="cultivar" value="early" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
@@ -151,7 +151,7 @@
         <property name="date" value="1-jan" type="text" description="Enter sowing date (dd-mmm) : " />
       </category>
       <category name="Sowing parameters">
-        <property name="crop" value="wheat" type="modulename" description="Enter name of crop to sow : " />
+        <property name="crop" value="wheat" type="crop" description="Enter name of crop to sow : " />
         <property name="density" value="10" type="text" description="Enter sowing density  (plants/m2) : " />
         <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
         <property name="cultivar" value="" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
@@ -204,7 +204,7 @@
             endif
                ]]></condition>
       <category name="Sugar plant crop management parameters">
-        <property name="crop" value="sugar" type="modulename" description="Enter name of crop to sow : " />
+        <property name="crop" value="sugar" type="crop" description="Enter name of crop to sow : " />
         <property name="planting_day" value="1-jan" type="text" description="Enter planting date (dd-mmm) : " />
         <property name="plantlen" value="450" type="text" description="Duration of a plant crop (days) (30 days/month * 15 months) : " />
         <property name="plant_stalks" value="10" type="text" description="Stalk density of plant crop (/m2) :" />
@@ -227,7 +227,7 @@
 
             </condition>
       <category name="Harvesting criteria">
-        <property name="crop" value="wheat" type="modulename" description="Enter name of crop to harvest when ripe : " />
+        <property name="crop" value="wheat" type="crop" description="Enter name of crop to harvest when ripe : " />
       </category>
     </rule>
     <rule name="Fertilise at sowing">
@@ -467,26 +467,26 @@
         <property name="WinterFallowEndDate" value="23-aug" type="text" description="Enter winter fallow END date (dd-mmm) : " />
       </category>
       <category name="Crop rotation sequence">
-        <property name="crop1" value="nil" type="modulename" description="Enter 1st crop : " />
-        <property name="crop2" value="nil" type="modulename" description="Enter 2nd crop : " />
-        <property name="crop3" value="nil" type="modulename" description="Enter 3rd crop : " />
-        <property name="crop4" value="nil" type="modulename" description="Enter 4th crop : " />
-        <property name="crop5" value="nil" type="modulename" description="Enter 5th crop : " />
-        <property name="crop6" value="nil" type="modulename" description="Enter 6th crop : " />
-        <property name="crop7" value="nil" type="modulename" description="Enter 7th crop : " />
-        <property name="crop8" value="nil" type="modulename" description="Enter 8th crop : " />
-        <property name="crop9" value="nil" type="modulename" description="Enter 9th crop : " />
-        <property name="crop10" value="nil" type="modulename" description="Enter 10th crop : " />
-        <property name="crop11" value="nil" type="modulename" description="Enter 11th crop : " />
-        <property name="crop12" value="nil" type="modulename" description="Enter 12th crop : " />
-        <property name="crop13" value="nil" type="modulename" description="Enter 13th crop : " />
-        <property name="crop14" value="nil" type="modulename" description="Enter 14th crop : " />
-        <property name="crop15" value="nil" type="modulename" description="Enter 15th crop : " />
-        <property name="crop16" value="nil" type="modulename" description="Enter 16th crop : " />
-        <property name="crop17" value="nil" type="modulename" description="Enter 17th crop : " />
-        <property name="crop18" value="nil" type="modulename" description="Enter 18th crop : " />
-        <property name="crop19" value="nil" type="modulename" description="Enter 19th crop : " />
-        <property name="crop20" value="nil" type="modulename" description="Enter 20th crop : " />
+        <property name="crop1" value="nil" type="crop" description="Enter 1st crop : " />
+        <property name="crop2" value="nil" type="crop" description="Enter 2nd crop : " />
+        <property name="crop3" value="nil" type="crop" description="Enter 3rd crop : " />
+        <property name="crop4" value="nil" type="crop" description="Enter 4th crop : " />
+        <property name="crop5" value="nil" type="crop" description="Enter 5th crop : " />
+        <property name="crop6" value="nil" type="crop" description="Enter 6th crop : " />
+        <property name="crop7" value="nil" type="crop" description="Enter 7th crop : " />
+        <property name="crop8" value="nil" type="crop" description="Enter 8th crop : " />
+        <property name="crop9" value="nil" type="crop" description="Enter 9th crop : " />
+        <property name="crop10" value="nil" type="crop" description="Enter 10th crop : " />
+        <property name="crop11" value="nil" type="crop" description="Enter 11th crop : " />
+        <property name="crop12" value="nil" type="crop" description="Enter 12th crop : " />
+        <property name="crop13" value="nil" type="crop" description="Enter 13th crop : " />
+        <property name="crop14" value="nil" type="crop" description="Enter 14th crop : " />
+        <property name="crop15" value="nil" type="crop" description="Enter 15th crop : " />
+        <property name="crop16" value="nil" type="crop" description="Enter 16th crop : " />
+        <property name="crop17" value="nil" type="crop" description="Enter 17th crop : " />
+        <property name="crop18" value="nil" type="crop" description="Enter 18th crop : " />
+        <property name="crop19" value="nil" type="crop" description="Enter 19th crop : " />
+        <property name="crop20" value="nil" type="crop" description="Enter 20th crop : " />
       </category>
     </rule>
   </manager>

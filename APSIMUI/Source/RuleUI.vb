@@ -197,12 +197,14 @@ Public Class RuleUI
         PropertyGrid.Rows(Row).Locked = True
         Row = Row + 1
 
+        Dim ApsimUI As ApsimUIController = Controller
+
         For Each Prop As APSIMData In Data.Children("property")
             PropertyGrid.Cells(Row, 0).Value = Prop.Attribute("description")
             PropertyGrid.Cells(Row, 1).Value = Prop.Attribute("value")
             PropertyGrid.Cells(Row, 2).Value = Data.Attribute("name")
             PropertyGrid.Cells(Row, 3).Value = Prop.Name
-            GenericUI.SetCellType(PropertyGrid, Row, 1, Prop)
+            ApsimUI.SetCellType(PropertyGrid, Row, 1, Prop)
             Row = Row + 1
         Next
     End Sub
@@ -283,7 +285,7 @@ Public Class RuleUI
         End If
 
         ' populate the dropdown
-        Dim Items(Values.Count) As String
+        Dim Items(Values.Count - 1) As String
         Values.CopyTo(Items, 0)
         Combo.Items = Items
     End Sub

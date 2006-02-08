@@ -497,4 +497,85 @@ Public Class ApsimUIController
         Data.ChildValue("filename") = FileName
     End Sub
 
+
+    ' --------------------------------
+    ' Set the type of a grid column
+    ' --------------------------------
+    Sub SetCellType(ByVal Grid As FarPoint.Win.Spread.SheetView, _
+                            ByVal row As Integer, _
+                            ByVal col As Integer, _
+                            ByVal Prop As APSIMData)
+        If Prop.Attribute("type") = "yesno" Then
+            Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
+            Combo.Items = New String() {"yes", "no"}
+            Grid.Cells(row, col).CellType = Combo
+        ElseIf Prop.Attribute("type") = "date" Then
+            Dim DateEditor As FarPoint.Win.Spread.CellType.DateTimeCellType = New FarPoint.Win.Spread.CellType.DateTimeCellType
+            DateEditor.DateDefault = Prop.Value
+            DateEditor.DropDownButton = True
+            Grid.Cells(row, col).CellType = DateEditor
+        ElseIf Prop.Attribute("type") = "list" Then
+            Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
+            Combo.Items = Prop.Attribute("listvalues").Split(",")
+            Combo.Editable = True
+            Grid.Cells(row, col).CellType = Combo
+        ElseIf Prop.Attribute("type") = "modulename" Then
+            Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
+            Combo.Items = GetMatchingModuleNames(Prop)
+            Combo.Editable = True
+            Grid.Cells(row, col).CellType = Combo
+        ElseIf Prop.Attribute("type") = "crop" Then
+            Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
+            Combo.Items = Me.GetCropNames(Prop)
+            Combo.Editable = True
+            Grid.Cells(row, col).CellType = Combo
+        ElseIf Prop.Attribute("type") = "cultivars" Then
+            Dim CultivarCombo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
+            CultivarCombo.Items = GetMatchingModuleNames(Prop)
+            CultivarCombo.Editable = True
+            CultivarCombo.AutoSearch = FarPoint.Win.AutoSearch.None
+            Grid.Cells(row, col).CellType = CultivarCombo
+        End If
+    End Sub
+
+
+    ' ------------------------------------------------------------------
+    ' Return a list of instance names for the specified module name
+    ' ------------------------------------------------------------------
+    Shared Function GetMatchingModuleNames(ByVal Prop As APSIMData) As String()
+        Dim Values As New StringCollection
+        Dim System As APSIMData = Prop.Parent
+        While System.Type <> "simulation" And System.Type <> "area" And Not IsNothing(System.Parent)
+            System = System.Parent
+        End While
+
+        For Each ApsimModule As APSIMData In System.Children
+            If Prop.Attribute("moduletype") = "" Or ApsimModule.Type = Prop.Attribute("moduletype") Then
+                Values.Add(ApsimModule.Name())
+            End If
+        Next
+        Dim ReturnValues(Values.Count - 1) As String
+        Values.CopyTo(ReturnValues, 0)
+        Return ReturnValues
+    End Function
+
+    ' ------------------------------------------------------------------
+    ' Return a list of crop names
+    ' ------------------------------------------------------------------
+    Function GetCropNames(ByVal Prop As APSIMData) As String()
+        Dim Values As New StringCollection
+        Dim System As APSIMData = Prop.Parent
+        While System.Type <> "simulation" And System.Type <> "area" And Not IsNothing(System.Parent)
+            System = System.Parent
+        End While
+
+        For Each ApsimModule As APSIMData In System.Children
+            If TypesData.ChildValue(ApsimModule.Type + "|IsCrop").ToLower = "yes" Then
+                Values.Add(ApsimModule.Name())
+            End If
+        Next
+        Dim ReturnValues(Values.Count - 1) As String
+        Values.CopyTo(ReturnValues, 0)
+        Return ReturnValues
+    End Function
 End Class
