@@ -141,18 +141,15 @@ Public MustInherit Class BaseController
             End With
             Dim choice As DialogResult = dialog.ShowDialog
             If choice = DialogResult.OK Then
+                IsReadOnly = ((File.GetAttributes(FileName) And FileAttributes.ReadOnly) = FileAttributes.ReadOnly)
+                If IsReadOnly Then
+                    MessageBox.Show("The file: " + FileName + " is readonly. All editing capability is disabled.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                End If
                 FileOpen(dialog.FileName)
             End If
         End If
-
     End Sub
     Public Function FileOpen(ByVal FileName As String) As Boolean
-        If (File.GetAttributes(FileName) And FileAttributes.ReadOnly) = FileAttributes.ReadOnly Then
-            MessageBox.Show("The file: " + FileName + " is readonly. All editing capability is disabled.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            IsReadOnly = True
-        Else
-            IsReadOnly = False
-        End If
         Dim FileData As New APSIMData
         If FileData.LoadFromFile(FileName) Then
             MyFileName = FileName
@@ -163,6 +160,10 @@ Public MustInherit Class BaseController
         Else
             Return False
         End If
+    End Function
+    Public Function FileOpenReadOnly(ByVal FileName As String) As Boolean
+        IsReadOnly = True
+        FileOpen(FileName)
     End Function
     Function FileSave() As Boolean
         RaiseEvent BeforeSaveEvent()
@@ -295,8 +296,8 @@ Public MustInherit Class BaseController
             Return AllData.FindChild(FullPath.Substring(PosDelimiter + 1))
         End If
     End Function
-    Private Function GetFullPathForData(ByVal Data As APSIMData) As String
-        Dim LocalData As APSIMData = AllData
+    Public Shared Function GetFullPathForData(ByVal Data As APSIMData) As String
+        Dim LocalData As APSIMData = Data
         Dim FullPath As String = LocalData.Name
         LocalData = LocalData.Parent
         While Not IsNothing(LocalData)
@@ -407,24 +408,26 @@ Public MustInherit Class BaseController
     End Property
     Public ReadOnly Property AllowMoveSelectedUp() As Boolean
         Get
-            If AllowChanges And MySelectedData.Count > 0 And Not Data.Parent Is Nothing Then
+            If AllowChanges AndAlso MySelectedData.Count > 0 Then
                 Dim FirstSelectedData As APSIMData = GetDataForFullPath(MySelectedData(0))
-                Dim ChildNames As StringCollection = Data.Parent.ChildList
-                Return FirstSelectedData.Name <> ChildNames(0) And AllSelectedNodesAreSiblings
-            Else
-                Return False
+                If Not FirstSelectedData.Parent Is Nothing Then
+                    Dim ChildNames As StringCollection = FirstSelectedData.Parent.ChildList
+                    Return FirstSelectedData.Name <> ChildNames(0) And AllSelectedNodesAreSiblings
+                End If
             End If
+            Return False
         End Get
     End Property
     Public ReadOnly Property AllowMoveSelectedDown() As Boolean
         Get
-            If AllowChanges And MySelectedData.Count > 0 And Not Data.Parent Is Nothing Then
+            If AllowChanges And MySelectedData.Count > 0 Then
                 Dim LastSelectedData As APSIMData = GetDataForFullPath(MySelectedData(MySelectedData.Count - 1))
-                Dim ChildNames As StringCollection = Data.Parent.ChildList
-                Return LastSelectedData.Name <> ChildNames(ChildNames.Count - 1) And AllSelectedNodesAreSiblings
-            Else
-                Return False
+                If Not LastSelectedData.Parent Is Nothing Then
+                    Dim ChildNames As StringCollection = LastSelectedData.Parent.ChildList
+                    Return LastSelectedData.Name <> ChildNames(ChildNames.Count - 1) And AllSelectedNodesAreSiblings
+                End If
             End If
+            Return False
         End Get
     End Property
 
