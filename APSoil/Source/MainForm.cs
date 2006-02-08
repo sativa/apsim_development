@@ -1058,6 +1058,9 @@ namespace APSoil
 			foreach (APSIMData SelectedData in Apsoil.SelectedData)
 				OnlySoilsSelected = (SelectedData.Type.ToLower() == "soil");
 
+			SaveSmallButton.Enabled = Apsoil.AllowChanges;
+			SaveFileMenu.Enabled = Apsoil.AllowChanges;
+
 			CutSmallButton.Enabled = Apsoil.AllowCut;
 			CopySmallButton.Enabled = Apsoil.AllowCopy;
 			PasteSmallButton.Enabled = Apsoil.AllowPaste;
@@ -1070,15 +1073,15 @@ namespace APSoil
 			ToSoilsButton.Enabled = OnlySoilsSelected;
 			CheckSoilsButton.Enabled = SomethingInTree;
 			SortButton.Enabled = SomethingInTree;
-			AddCropButton.Enabled = (OnlySoilsSelected && Apsoil.SelectedData.Count == 1);
-			DeleteCropButton.Enabled = (OnlySoilsSelected && Apsoil.SelectedData.Count == 1);
-			ReorderCropButton.Enabled = (OnlySoilsSelected && Apsoil.SelectedData.Count == 1);
-			AddNoteButton.Enabled = (OnlySoilsSelected && Apsoil.SelectedData.Count == 1);
-			DeleteNoteButton.Enabled = (OnlySoilsSelected && Apsoil.SelectedData.Count == 1);
+			AddCropButton.Enabled = (Apsoil.AllowChanges && OnlySoilsSelected && Apsoil.SelectedData.Count == 1);
+			DeleteCropButton.Enabled = (Apsoil.AllowChanges && OnlySoilsSelected && Apsoil.SelectedData.Count == 1);
+			ReorderCropButton.Enabled = (Apsoil.AllowChanges && OnlySoilsSelected && Apsoil.SelectedData.Count == 1);
+			AddNoteButton.Enabled = (Apsoil.AllowChanges && OnlySoilsSelected && Apsoil.SelectedData.Count == 1);
+			DeleteNoteButton.Enabled = (Apsoil.AllowChanges && OnlySoilsSelected && Apsoil.SelectedData.Count == 1);
 			PrintButton.Enabled = (OnlySoilsSelected && Apsoil.SelectedData.Count == 1);
-			InsertFolderButton.Enabled = Apsoil.AllowInsertFolder;
-			InsertSoilButton.Enabled = Apsoil.AllowInsertSoil;
-			InsertSampleButton.Enabled = Apsoil.AllowInsertSample;
+			InsertFolderButton.Enabled = (Apsoil.AllowChanges && Apsoil.AllowInsertFolder);
+			InsertSoilButton.Enabled = (Apsoil.AllowChanges && Apsoil.AllowInsertSoil);
+			InsertSampleButton.Enabled = (Apsoil.AllowChanges && Apsoil.AllowInsertSample);
 			}
 
 		private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -1135,13 +1138,12 @@ namespace APSoil
 			try
 				{
 				if (ImportSpreadsheetDialog.ShowDialog() == DialogResult.OK)
-					SoilSpreadsheet.ImportFromFile(ImportSpreadsheetDialog.FileName, Apsoil.AllData);
+					SoilSpreadsheet.ImportFromFile(ImportSpreadsheetDialog.FileName, Apsoil);
 				}
 			catch (Exception err)
 				{
 				MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
-			SoilExplorer.Refresh();
 			}                  
 
 		private void ImportFromW2N2()
@@ -1152,14 +1154,13 @@ namespace APSoil
 					{
 					string[] Files = Directory.GetFiles(FolderBrowserDialog.SelectedPath, "*.w2");
 					foreach (string File in Files)
-                        ParFileImporter.ImportW2N2P2(File, Apsoil.AllData);
+                        ParFileImporter.ImportW2N2P2(File, Apsoil);
 					}
 				}
 			 catch (Exception err)
 				{
 				MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
-			SoilExplorer.Refresh();
 			}
 
 		private void ImportFromPar()
@@ -1169,14 +1170,13 @@ namespace APSoil
 				if (ImportParDialog.ShowDialog() == DialogResult.OK)
 					{
 					foreach (string File in ImportParDialog.FileNames)
-                        ParFileImporter.ImportParFile(File, Apsoil.AllData);
+                        ParFileImporter.ImportParFile(File, Apsoil);
 					}
 				}
 			catch (Exception err)
 				{
 				MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
-			SoilExplorer.Refresh();
 			}
 
 		private void ImportFromSoils()
@@ -1190,7 +1190,7 @@ namespace APSoil
 						APSIMData NewData = new APSIMData();
 						NewData.LoadFromFile(File);
 						APSIMChangeTool.Upgrade(NewData);
-						Apsoil.AllData.Add(NewData);
+						Apsoil.AddXMLToSelected(NewData.XML);
 						}
 					}
 				}

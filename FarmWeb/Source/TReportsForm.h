@@ -38,11 +38,13 @@ class TReportsForm: public TIWAppForm
       TIWLink *HelpButton;
       TIWImageFile *IWImageFile4;
       TIWLink *RenameButton;
+      TIWLink *SuckLink;
       void __fastcall DeleteButtonClick(TObject *Sender);
       void __fastcall PaddockButtonClick(TObject *Sender);
       void __fastcall HelpButtonClick(TObject *Sender);
       void __fastcall ShowButtonClick(TObject *Sender);
       void __fastcall RenameButtonClick(TObject *Sender);
+      void __fastcall SuckLinkClick(TObject *Sender);
    private:	// User declarations
       TWebSession* webSession;
       Data* data;
@@ -56,7 +58,6 @@ class TReportsForm: public TIWAppForm
       void __fastcall deleteCallback(bool deleteConfirmed);
       void populateReportList(void);
       void suckInReportsMatching(const std::string& extension);
-      void writeReportHtml(const std::string& fileName);
 
       //---------------------------------------------------------------------------
       // User has finished renaming a report.

@@ -8,6 +8,8 @@
 #include <general\string_functions.h>
 #include <general\stl_functions.h>
 #include <general\io_functions.h>
+#include <general\db_functions.h>
+#include <general\path.h>
 #include "Data.h"
 #include "TWebSession.h"
 //---------------------------------------------------------------------------
@@ -44,8 +46,8 @@ void TReportsForm::setup(TWebSession* session,
    userName = userN;
    fromGrowerManagement = fromGrowerMan;
    ReportList->ItemIndex = -1;
+   SuckLink->Visible = Str_i_Eq(userN, "DeanoConsultant");
 
-   suckInReports();
    populateReportList();
    DeleteButton->Enabled = webSession->isSaveAllowed();
    }
@@ -56,78 +58,13 @@ void TReportsForm::populateReportList(void)
    {
    ReportList->Items->Clear();
    reportNames.erase(reportNames.begin(), reportNames.end());
-   data->getReports(userName, reportNames);
+   data->getReports(webSession->getFilesDir(), userName, reportNames);
    for (unsigned i = 0; i != reportNames.size(); i++)
       {
       string reportName = reportNames[i];
-      if (reportName.substr(0, strlen("#GIF#")) == "#GIF#")
-         reportName.erase(0, strlen("#GIF#"));
       stripLeadingTrailing(reportName, " ");
       ReportList->Items->Add(reportName.c_str());
       }
-   }
-//---------------------------------------------------------------------------
-// Suck in all reports for this grower.
-//---------------------------------------------------------------------------
-void TReportsForm::suckInReports(void)
-   {
-   suckInReportsMatching(".gif");
-
-   // do cleanup
-   vector<string> fileNames;
-   getDirectoryListing(webSession->getFilesDir(), userName + "*.*", fileNames, FA_NORMAL, true);
-   for (unsigned f = 0; f != fileNames.size(); f++)
-      {
-      DeleteFile(fileNames[f].c_str());
-      replaceAll(fileNames[f], " ", "_");
-      DeleteFile(fileNames[f].c_str());
-      }
-
-   string userNameNoSpaces = userName;
-   replaceAll(userNameNoSpaces, " ", "_");
-   vector<string> fileNames2;
-   getDirectoryListing(webSession->getFilesDir(), userNameNoSpaces + "*.*", fileNames2, FA_NORMAL, true);
-   for (unsigned f = 0; f != fileNames2.size(); f++)
-      {
-      DeleteFile(fileNames2[f].c_str());
-      replaceAll(fileNames2[f], " ", "_");
-      DeleteFile(fileNames2[f].c_str());
-      }
-   }
-//---------------------------------------------------------------------------
-// Suck in file that match the specified extension
-//---------------------------------------------------------------------------
-void TReportsForm::suckInReportsMatching(const std::string& extension)
-   {
-   vector<string> reportNames;
-   vector<string> reportFileNames;
-   getDirectoryListing(webSession->getFilesDir(), userName + "*" + extension, reportFileNames, FA_NORMAL, true);
-   for (unsigned f = 0; f != reportFileNames.size(); f++)
-      {
-      try
-         {
-         // The report name is everything after the " - " and before the
-         // extension.
-         string fileName = reportFileNames[f];
-         string reportName = fileName.substr(fileName.find(" - ")+3);
-         reportName.erase(reportName.find("."));
-         reportName = "#GIF#" + reportName;
-
-         reportNames.push_back(reportName);
-         data->storeReport(userName, reportName, fileName);
-         DeleteFile(fileName.c_str());
-         }
-      catch (const exception& err)
-         {
-         webSession->showMessage(err.what());
-         }
-      }
-//   if (reportNames.size() > 0)
-//      {
-//      string msg = "New reports added: ";
-//      msg += buildString(reportNames, ",");
-//      webSession->showMessage(msg);
-//      }
    }
 //---------------------------------------------------------------------------
 // User want's to delete a report.
@@ -137,7 +74,7 @@ void __fastcall TReportsForm::DeleteButtonClick(TObject *Sender)
    if (ReportList->ItemIndex >= 0)
       {
       AnsiString reportName = ReportList->Items->Strings[ReportList->ItemIndex];
-      AnsiString msg = "Are you sure you want to delete report " + reportName + "?";
+      AnsiString msg = "Are you sure you want to delete report: " + reportName + "?";
       webSession->showQuestionForm(msg.c_str(), deleteCallback);
       }
    }
@@ -151,7 +88,7 @@ void __fastcall TReportsForm::deleteCallback(bool deleteConfirmed)
       try
          {
          string reportName = reportNames[ReportList->ItemIndex];
-         data->deleteReport(userName, reportName.c_str());
+         data->deleteReport(webSession->getFilesDir(), userName, reportName.c_str());
          populateReportList();
          }
       catch (const exception& err)
@@ -179,20 +116,6 @@ void __fastcall TReportsForm::HelpButtonClick(TObject *Sender)
    webSession->showHelp();
    }
 //---------------------------------------------------------------------------
-// write a report html page to display the report nicely.
-//---------------------------------------------------------------------------
-void TReportsForm::writeReportHtml(const string& fileName)
-   {
-   string htmlFileName = webSession->getFilesDir() + "\\" + userName + ".htm";
-   ofstream html(htmlFileName.c_str());
-   html << "<html>" << endl;
-   html << "<head><title>Yield Prophet Report</title></head>" << endl;
-   html << "<body>" << endl;
-   html << "<img src=\"" << ExtractFileName(fileName.c_str()).c_str() << "\">" << endl;
-   html << "</body>" << endl;
-   html << "</html>" << endl;
-   }
-//---------------------------------------------------------------------------
 // Show the specified report.
 //---------------------------------------------------------------------------
 void __fastcall TReportsForm::ShowButtonClick(TObject *Sender)
@@ -200,23 +123,17 @@ void __fastcall TReportsForm::ShowButtonClick(TObject *Sender)
    if (ReportList->ItemIndex >= 0)
       {
       string reportName = reportNames[ReportList->ItemIndex];
-      string extension;
-      if (reportName.substr(0, strlen("#GIF#")) == "#GIF#")
-         extension = ".gif";
-      else
-         extension = ".jpg";
-
-      string fileName = webSession->getFilesDir() + "\\" + userName + extension;
-      data->generateReport(userName, reportName, fileName);
-      writeReportHtml(fileName);
-      string url = webSession->getBaseURL() + "/files/" + userName + ".htm";
-      webSession->newWindow(url, "Report", true);
+      string fileName = data->getReportFileName(webSession->getFilesDir(), userName, reportName);
+      string url = fileName;
+      replaceAll(url, webSession->getFilesDir(), webSession->getBaseURL() + "/files");
+      replaceAll(url, "\\", "/");
+      webSession->showViewReportForm(url, userName);
       }
    }
 //---------------------------------------------------------------------------
 void __fastcall TReportsForm::RenameButtonClick(TObject *Sender)
    {
-   webSession->showInfoForm("Consultant name", "", "", "", renameCallback);
+   webSession->showInfoForm("New report name:", "", "", "", renameCallback);
    }
 //---------------------------------------------------------------------------
 // User has finished renaming a report.
@@ -232,8 +149,8 @@ void __fastcall TReportsForm::renameCallback(bool okClicked,
       try
          {
          string reportName = reportNames[ReportList->ItemIndex];
-         string newReportName = string("#GIF#") + text1.c_str();
-         data->renameReport(userName, reportName, newReportName);
+         string newReportName = text1.c_str();
+         data->renameReport(webSession->getFilesDir(), userName, reportName, newReportName);
          populateReportList();
          }
       catch (const exception& err)
@@ -242,6 +159,57 @@ void __fastcall TReportsForm::renameCallback(bool okClicked,
          }
       }
    webSession->show(this);
+   }
+//---------------------------------------------------------------------------
+void __fastcall TReportsForm::SuckLinkClick(TObject *Sender)
+   {
+   ostringstream sql;
+   sql << "SELECT Reports.*, Users.userName FROM Users INNER JOIN Reports ON Users.id = Reports.userId";
+   TDataSet* query = runQuery(data->connectn(), sql.str());
+
+   while (!query->Eof)
+      {
+      string UserName = AnsiString(query->FieldByName("username")->AsString).c_str();
+      string ReportName = AnsiString(query->FieldByName("name")->AsString).c_str();
+      TDateTime ReportDate = query->FieldByName("date")->AsDateTime;
+
+      string Folder = webSession->getFilesDir() + "\\" + UserName;
+      if (!DirectoryExists(Folder))
+         CreateDir(Folder.c_str());
+
+      string ReportFileName = ReportName;
+      stripLeadingTrailing(ReportFileName, " ");
+
+      // If there is a "inetpub" in the filename then set the filename to ???
+      if (ReportFileName.find("inetpub") != string::npos)
+         ReportFileName = "(unknown).gif";
+      else
+         {
+         // get rid of date after the dash.
+         unsigned PosDash = ReportName.rfind(" - ");
+         if (PosDash != string::npos)
+            ReportFileName.erase(PosDash);
+
+         // get rid of #GIF# and add an appropriate extension.
+         if (ReportFileName.substr(0, 5) == "#GIF#")
+            {
+            ReportFileName.erase(0, 5);
+            ReportFileName += ".gif";
+            }
+         else
+            ReportFileName += ".jpg";
+         }
+
+      // Add a date to the front of the filename.
+      ReportFileName = ReportDate.FormatString("dd mmm yyyy(hnnam/pm)").c_str() + string(" ") + ReportFileName;
+      ReportFileName = Folder + "\\" + ReportFileName;
+
+      TBlobField* blob = (TBlobField*)query->FieldByName("contents");
+      blob->SaveToFile(ReportFileName.c_str());
+      FileSetDate(ReportFileName.c_str(), DateTimeToFileDate(ReportDate));
+
+      query->Next();
+      }
    }
 //---------------------------------------------------------------------------
 

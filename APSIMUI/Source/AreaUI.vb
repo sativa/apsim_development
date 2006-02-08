@@ -133,14 +133,15 @@ Public Class areaui
 
     End Sub
 
-
     ' ---------------------------------------------------------
     ' User has double clicked an item - show user interface
     ' for that item.
     ' ---------------------------------------------------------
     Private Sub ListView_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles ListView.DoubleClick
+        Dim Item As APSIMData = Controller.Data.Child(ListView.SelectedItems.Item(0).Text)
+
         Dim Selections As New StringCollection
-        Selections.Add(ListView.SelectedItems.Item(0).Text)
+        Selections.Add(BaseController.GetFullPathForData(Item))
         Controller.SelectedPaths = Selections
     End Sub
 
@@ -221,10 +222,11 @@ Public Class areaui
 
     Private Sub ListView_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles ListView.KeyDown
         If e.KeyCode = Keys.Delete Then
-            Dim DataToDelete As APSIMData = Controller.Data.Child(ListView.SelectedItems.Item(0).Text)
-            Dim ParentNode As APSIMData = DataToDelete.Parent
-            ParentNode.Delete(ListView.SelectedItems.Item(0).Text)
-            ListView.SelectedItems.Item(0).Remove()
+            Dim Item As APSIMData = Controller.Data.Child(ListView.SelectedItems.Item(0).Text)
+            Dim Selections As New StringCollection
+            Selections.Add(BaseController.GetFullPathForData(Item))
+            Controller.Delete(Selections)
+            Refresh()
         End If
     End Sub
 End Class

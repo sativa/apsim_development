@@ -17,6 +17,7 @@
 #include "TSoilsForm.h"
 #include "TMetStationForm.h"
 #include "TGenerateReportForm.h"
+#include "TViewReportForm.h"
 #include "Utilities.h"
 #include <general\string_functions.h>
 
@@ -47,6 +48,7 @@ __fastcall TWebSession::TWebSession (TComponent* Owner)
    soilsForm = NULL;
    metStationForm = NULL;
    generateForm = NULL;
+   viewReportForm = NULL;
    }
 //---------------------------------------------------------------------------
 // Session has been created - set ourselves up.
@@ -361,6 +363,28 @@ void TWebSession::showGenerateReportForm(const std::string& userName, const std:
       webApplication->ShowMessage(err.what());
       }
    }
+
+// -----------------------------------------
+// Show the view report form.
+// -----------------------------------------
+void TWebSession::showViewReportForm(const std::string& fileName, const std::string& userName)
+   {
+   try
+      {
+      if (viewReportForm == NULL)
+         {
+         viewReportForm = new TViewReportForm(this);
+         setupForm(viewReportForm);
+         }
+      viewReportForm->setup(this, fileName, userName);
+      show(viewReportForm);
+      }
+   catch (const exception& err)
+      {
+      webApplication->ShowMessage(err.what());
+      }
+   }
+
 //---------------------------------------------------------------------------
 // Show the Drop Down Management form.
 //---------------------------------------------------------------------------

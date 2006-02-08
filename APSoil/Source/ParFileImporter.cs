@@ -16,7 +16,7 @@ namespace APSoil
 		// ----------------------------
 		// Import from specified par file.
 		// ----------------------------
-		static public void ImportParFile(string FileName, APSIMData Soils)
+		static public void ImportParFile(string FileName, ApsoilController Apsoil)
 			{	
 			Cursor.Current = Cursors.WaitCursor;
 			if (!File.Exists(FileName))
@@ -39,7 +39,7 @@ namespace APSoil
 							ReadNitrogenSection(SoilName, FileName, NewSoil);
 							ReadCropSections(SoilName, FileName, NewSoil);
 							ReadPhosphorusSection(SoilName, FileName, NewSoil);
-							Soils.Add(NewSoil.Data);
+							Apsoil.AddXMLToSelected(NewSoil.Data.XML);
 							}
 						}
 					}
@@ -52,7 +52,7 @@ namespace APSoil
 		// ------------------------------
 		// Import from specified w2 file.
 		// ------------------------------
-		static public void ImportW2N2P2(string FileName, APSIMData Soils)
+		static public void ImportW2N2P2(string FileName, ApsoilController Apsoil)
 			{	
 			Cursor.Current = Cursors.WaitCursor;
 
@@ -93,7 +93,7 @@ namespace APSoil
 				ReadPhosphorusSection("run%", P2FileName, NewSoil);
 
 			// Add new soil to our soils.
-			Soils.Add(NewSoil.Data);
+			Apsoil.AddXMLToSelected(NewSoil.Data.XML);
 
 			Cursor.Current = Cursors.Default;
 			}

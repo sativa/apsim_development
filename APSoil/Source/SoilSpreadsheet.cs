@@ -15,7 +15,7 @@ namespace APSoil
 			}
 
 
-		static public void ImportFromFile(string FileName, APSIMData Soils)
+		static public void ImportFromFile(string FileName, ApsoilController Apsoil)
 			{
 			// Import all files
 			Cursor.Current = Cursors.WaitCursor;
@@ -24,7 +24,7 @@ namespace APSoil
 			
 			int Row = 0;
             while (Row < Table.Rows.Count)
-				Soils.Add(CreateSoilFromSpreadsheet(Table, ref Row).Data);
+				Apsoil.AddXMLToSelected(CreateSoilFromSpreadsheet(Table, ref Row).Data.XML);
 			
 			Cursor.Current = Cursors.Default;
 			}
@@ -68,7 +68,7 @@ namespace APSoil
 			DataTableUtility.AddValue(Data, "EnrACoeff", MySoil.EnrACoeff, Row, NumLayers);
 			DataTableUtility.AddValue(Data, "EnrBCoeff", MySoil.EnrBCoeff, Row, NumLayers);
 
-			DataTableUtility.AddColumn(Data, "Depth", MySoil.Thickness, Row, NumLayers);
+			DataTableUtility.AddColumn(Data, "Thickness", MySoil.Thickness, Row, NumLayers);
 			DataTableUtility.AddColumn(Data, "BD", MySoil.BD, Row, NumLayers);
 			DataTableUtility.AddColumn(Data, "LL15", MySoil.LL15, Row, NumLayers);
 			DataTableUtility.AddColumn(Data, "Airdry", MySoil.Airdry, Row, NumLayers);
@@ -151,21 +151,7 @@ namespace APSoil
 				NumLayers++;
 
 			// Store thickness.
-			if (Table.Columns.IndexOf("dlayer") != -1)
-				NewSoil.Thickness = DataTableUtility.GetColumnAsDoubles(Table, "dlayer", NumLayers, Row);
-			else
-				{
-				double[] Thickness = DataTableUtility.GetColumnAsDoubles(Table, "depth", NumLayers, Row);
-				double DepthSoFar = 0;
-				for (int Layer = 0; Layer != NumLayers; Layer++)
-					{
-					Thickness[Layer] *= 10.0;
-					if (Layer > 0)
-						Thickness[Layer] -= DepthSoFar;
-                    DepthSoFar += Thickness[Layer];
-					}
-				NewSoil.Thickness = Thickness;
-				}			
+			NewSoil.Thickness = DataTableUtility.GetColumnAsDoubles(Table, "Thickness", NumLayers, Row);
 			
 			// Store rest of soil layered variables.
 			NewSoil.BD = GetDoubleValues(Table, "bd", NumLayers, Row);

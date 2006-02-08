@@ -14,8 +14,8 @@ object ReportsForm: TReportsForm
   DesignSize = (
     893
     684)
-  DesignLeft = 485
-  DesignTop = 143
+  DesignLeft = 476
+  DesignTop = 241
   object IWRectangle1: TIWRectangle
     Left = 0
     Top = 0
@@ -130,7 +130,7 @@ object ReportsForm: TReportsForm
     Left = 144
     Top = 32
     Width = 740
-    Height = 634
+    Height = 641
     Cursor = crAuto
     Anchors = [akLeft, akTop, akRight, akBottom]
     IW50Hint = False
@@ -288,6 +288,31 @@ object ReportsForm: TReportsForm
     DoSubmitValidation = False
     FriendlyName = 'DeleteButton'
     OnClick = RenameButtonClick
+    TabOrder = 23
+    RawText = False
+  end
+  object SuckLink: TIWLink
+    Left = 563
+    Top = 11
+    Width = 142
+    Height = 17
+    Cursor = crAuto
+    Visible = False
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = False
+    Caption = 'Suck out all reports'
+    Color = clNone
+    Font.Color = clWebBLUE
+    Font.FontName = 'Arial'
+    Font.Size = 10
+    Font.Style = [fsUnderline]
+    ScriptEvents = <>
+    DoSubmitValidation = False
+    FriendlyName = 'DeleteButton'
+    OnClick = SuckLinkClick
     TabOrder = 23
     RawText = False
   end
