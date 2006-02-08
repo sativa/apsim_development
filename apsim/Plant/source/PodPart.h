@@ -20,6 +20,7 @@ class fruitPodPart : public plantPart {
    void onFlowering(void);
    void onStartGrainFill(void);
    void doDmMin(void);
+   void processBioDemand(void);
    void readSpeciesParameters (protocol::Component *, vector<string> &);
 
 ////   float retrans_init (void);

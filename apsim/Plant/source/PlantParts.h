@@ -69,6 +69,9 @@ class plantPart : public plantThing {
       float p_dead_det;
       float p_retrans;
 
+      float p_green_dead;
+      float p_senesced_dead;
+
       float height;                       // growth upwards (mm)
       float width;                        // growth outwards (mm)
    } dlt;

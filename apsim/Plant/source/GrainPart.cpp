@@ -1554,7 +1554,6 @@ void fruitGrainPart::processBioDemand(void)
 //===========================================================================
 {
 
-    bio_water1 ();
     yieldpart_demand_stress1 ();
     bio_grain_oil ();
     bio_grain_demand ();
@@ -2409,10 +2408,8 @@ void fruitGrainPart::nit_init (void)
 //- Implementation Section ----------------------------------
 
 
-//   if (plant->inPhase("grainfill"))            //FIXME when these data members are put in
-//      n_conc_grain_limits(gN_conc_crit
-//                        , gN_conc_max
-//                        , gN_conc_min);
+            //FIXME when these data members are put in
+//      n_conc_grain_limits();
 
 }
 
