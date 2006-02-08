@@ -229,11 +229,7 @@ class Plant : public plantInterface {
       			  ,int    g_year
       			  ,float  *killfr
       			  ) ;
-  void plant_kill_crop (float  *g_dm_dead
-      			,float  *g_dm_green
-      			,float  *g_dm_senesced
-      			,status_t *g_plant_status
-      			) ;
+  void plant_kill_crop (status_t *g_plant_status) ;
   void plant_leaf_area_potential (int option /* (INPUT) option number */);
   void plant_leaf_area_stressed (int option /* (INPUT) option number*/);
   void plant_leaf_area_init (int option);
@@ -261,11 +257,6 @@ class Plant : public plantInterface {
   void plant_update(float  c_n_conc_crit_root
                    ,float  c_n_conc_max_root
                    ,float  c_n_conc_min_root
-                   ,float *c_x_stage_code
-                   ,float *c_x_co2_nconc_modifier
-                   ,float *c_y_co2_nconc_modifier
-                   ,int   c_num_co2_nconc_modifier
-                   ,float  g_co2
                    ,float  g_row_spacing
                    ,float  g_skip_row_fac
                    ,float  g_skip_plant_fac
@@ -277,38 +268,13 @@ class Plant : public plantInterface {
                    ,float  *g_cover_dead
                    ,float  *g_cover_green
                    ,float  *g_cover_sen
-                   ,float  g_dlt_dm
-                   ,float *g_dlt_dm_dead_detached
-                   ,float *g_dlt_dm_detached
-                   ,float *g_dlt_dm_green
-                   ,float *g_dlt_dm_green_retrans
-                   ,float *g_dlt_dm_senesced
-                   ,float *g_dlt_dm_green_dead
-                   ,float *g_dlt_dm_senesced_dead
-                   ,float *g_dlt_n_dead_detached
-                   ,float *g_dlt_n_detached
-                   ,float *g_dlt_n_green
-                   ,float *g_dlt_n_retrans
-                   ,float *g_dlt_n_senesced
-                   ,float *g_dlt_n_senesced_trans
-                   ,float *g_dlt_n_senesced_retrans
-                   ,float *g_dlt_n_green_dead
-                   ,float *g_dlt_n_senesced_dead
                    ,float  g_dlt_plants
                    ,float  g_dlt_root_depth
-                   ,float *g_dm_dead
-                   ,float *g_dm_green
-                   ,float *g_dm_senesced
-                   ,float *g_lai_canopy_green
                    ,float *g_n_conc_crit
                    ,float *g_n_conc_max
                    ,float *g_n_conc_min
-                   ,float *g_n_dead
-                   ,float *g_n_green
-                   ,float *g_n_senesced
                    ,float *g_plants
                    ,float *g_root_depth
-                   ,float g_swdef_pheno
                    ,float *g_dlt_root_length_dead
                    ,float *g_root_length_dead
                    ,float *g_root_length
@@ -318,33 +284,16 @@ class Plant : public plantInterface {
                          ,float  g_cover_green
                          ,float  g_cover_sen
                          ,float *g_dlayer
-                         ,float *g_dm_dead
-                         ,float *g_dm_green
-                         ,float *g_dm_senesced
-                         ,float *g_n_conc_crit
-                         ,float *g_n_conc_max
-                         ,float *g_n_conc_min
-                         ,float *g_n_dead
-                         ,float *g_n_green
-                         ,float *g_n_senesced
                          ,float  g_plants
                          ,float  g_root_depth
                          ) ;
 
-  void plant_totals(int   g_day_of_year
-                   ,float *g_dlayer
-                   ,float *g_dlt_n_retrans
+  void plant_totals(float *g_dlayer
                    ,float *g_dlt_sw_dep
-                   ,float *g_dm_green
                    ,float *g_lai_max
                    ,float  *g_n_conc_act_stover_tot
-                   ,float  *g_n_conc_crit
                    ,float  *g_n_conc_crit_stover_tot
-                   ,float  *g_n_dead
-                   ,float  *g_n_demand
                    ,float  *g_n_demand_tot
-                   ,float  *g_n_green
-                   ,float  *g_n_senesced
                    ,float  *g_n_uptake_stover_tot
                    ,float  *g_n_uptake_tot
                    ,float  *g_dlt_n_green
@@ -354,10 +303,6 @@ class Plant : public plantInterface {
                    ,float  *g_transpiration_tot
                    )  ;
   void plant_event(float *g_dlayer
-                   ,float *g_dm_dead
-                   ,float *g_dm_green
-                   ,float *g_dm_senesced
-                   ,float *g_n_green
                    ,float  g_root_depth
                    ,float *g_sw_dep
                    ,float *p_ll_dep);
@@ -369,8 +314,7 @@ class Plant : public plantInterface {
                          ,float  *root_length)               ;
   void plant_dm_init (float  c_dm_root_init
 		      ,float  g_plants
-		      ,float  *dm_green
-		      ,float  *dm_plant_min);
+		      ,float  *dm_green);
 
   void plant_root_depth (int option /* (INPUT) option number*/);
   void plant_water_supply (int option /* (INPUT) option number*/);
@@ -413,11 +357,8 @@ class Plant : public plantInterface {
     (float  *g_dlayer
     ,float  *g_dlt_no3gsm
     ,float  *g_dlt_nh4gsm
-    ,float  *g_n_demand
     ,float  g_n_fix_pot
-    ,float  *g_n_max
     ,float  g_root_depth
-    ,float  *dlt_n_green
     ,float  *n_fix_uptake
     ,vector<plantPart *> &);        // (INPUT) vector of plant parts
 
@@ -487,7 +428,6 @@ void Plant::legnew_dm_retranslocate
 
   void plant_N_senescence (int num_part                  //(INPUT) number of plant part
                         ,float *c_n_sen_conc           //(INPUT)  N concentration of senesced materia  (g/m^2)
-                        ,float *g_n_conc_max           //(INPUT) critical N conc
                         ,float* g_dlt_dm_senesced      // (INPUT)  plant biomass senescence (g/m^2)
                         ,float* g_n_green              //(INPUT) nitrogen in plant material (g/m^2)
                         ,float* g_dm_green             // (INPUT) plant material (g/m^2)
@@ -549,7 +489,6 @@ void Plant::legnew_dm_retranslocate
        , float *g_n_conc_crit               // (INPUT)  critical N concentration (g N/
        , float *g_n_conc_max                // (INPUT)  maximum N concentration (g N/g
        , float *g_n_green                   // (INPUT)  plant nitrogen content (g N/m^
-       , float g_grain_n_demand             //
        , float c_n_deficit_uptake_fraction  //
        , float *n_demand                    // (OUTPUT) critical plant nitrogen demand  (g/m^2)
        , float *n_max);                      // (OUTPUT) max plant nitrogen demand  (g/m^2)
@@ -785,7 +724,7 @@ void Plant::legnew_dm_retranslocate
   void detachment_p(void);
   void summary_p (void);
 
-  void  PlantP_demand (vector<plantPart *>&, float dlt_dm_pot);
+  void  PlantP_demand (vector<plantPart *>&);
   void  PlantP_Stress (vector<plantPart *>&);
   void  PlantP_init_pools (vector<plantPart*>&);
   void  PlantP_partition (vector<plantPart*>&);

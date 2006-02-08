@@ -186,7 +186,6 @@ void cproc_dm_retranslocate1 (commsInterface *iface,
    float dlt_dm_retrans_part;   // carbohydrate removed from part (g/m^2)
    float dm_grain_differential; // demand in excess of available supply
                                   // (g/m^2)
-   int   counter;
    float dm_part_avail;         // carbohydrate avail from part(g/m^2)
    float dm_part_pot;           // potential part weight (g/m^2)
    float mass_balance;          // sum of translocated carbo (g/m^2)

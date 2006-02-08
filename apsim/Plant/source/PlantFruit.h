@@ -64,27 +64,27 @@ class PlantFruit : public plantPart
 
 //             bool set_plant_grain_oil_conc(protocol::QuerySetValueData&v);
 
-             void get_grain_size(protocol::Component *system, protocol::QueryValueData &qd);
-            //  void get_dlt_dm_grain_demand(protocol::Component *, protocol::QueryValueData &);
-             void get_grain_wt(protocol::Component *, protocol::QueryValueData &);
+             void get_grain_size(protocol::Component *system, protocol::QueryValueData &qd);   //remove
+            //  void get_dlt_dm_grain_demand(protocol::Component *, protocol::QueryValueData &); //remove
+             void get_grain_wt(protocol::Component *, protocol::QueryValueData &);       //remove
              void get_head_wt(protocol::Component *, protocol::QueryValueData &);
-             void get_yield(protocol::Component *, protocol::QueryValueData &);
+             void get_yield(protocol::Component *, protocol::QueryValueData &);          //remove
               void get_head_n(protocol::Component *, protocol::QueryValueData &);
 
-             void get_n_conc_grain(protocol::Component *, protocol::QueryValueData &);
-              void get_grain_n(protocol::Component *, protocol::QueryValueData &);
-              void get_grain_n_demand(protocol::Component *, protocol::QueryValueData &);
-              void get_grain_protein(protocol::Component *, protocol::QueryValueData &);
-            //  void get_p_grain_pcnt(protocol::Component *, protocol::QueryValueData &qd);
-              void get_pod_n(protocol::Component *, protocol::QueryValueData &);
-             void get_n_conc_meal(protocol::Component *, protocol::QueryValueData &);
+             void get_n_conc_grain(protocol::Component *, protocol::QueryValueData &);    //remove
+              void get_grain_n(protocol::Component *, protocol::QueryValueData &);         //remove
+              void get_grain_n_demand(protocol::Component *, protocol::QueryValueData &);  //remove
+              void get_grain_protein(protocol::Component *, protocol::QueryValueData &);   //remove
+            //  void get_p_grain_pcnt(protocol::Component *, protocol::QueryValueData &qd);//remove
+              void get_pod_n(protocol::Component *, protocol::QueryValueData &);           //remove to pod
+             void get_n_conc_meal(protocol::Component *, protocol::QueryValueData &);      //remove to meal
 
-            //  void get_grain_oil_conc(protocol::Component *, protocol::QueryValueData &);
+            //  void get_grain_oil_conc(protocol::Component *, protocol::QueryValueData &);   //remove
 
-              void get_grain_p(protocol::Component *, protocol::QueryValueData &qd);
-              void get_p_conc_grain(protocol::Component *, protocol::QueryValueData &qd);
-            //  void get_grain_p_demand(protocol::Component *, protocol::QueryValueData &qd);
-              void get_pod_p(protocol::Component *, protocol::QueryValueData &qd);
+              void get_grain_p(protocol::Component *, protocol::QueryValueData &qd);          //remove
+              void get_p_conc_grain(protocol::Component *, protocol::QueryValueData &qd);     //remove
+            //  void get_grain_p_demand(protocol::Component *, protocol::QueryValueData &qd); //remove
+              void get_pod_p(protocol::Component *, protocol::QueryValueData &qd);            //remove to pod
               void get_head_p(protocol::Component *, protocol::QueryValueData &qd);
 
              void get_p_demand(vector<float> &p_demand);
@@ -269,7 +269,7 @@ class PlantFruit : public plantPart
             float calcCover (float canopy_fac);  // return pod cover   //FIXME
 
             void calcDlt_pod_area (void);   //FIXME
-            float meanT (void);
+            float meanT (void);                   //remove
 
             void dm_pot_rue (double  radn_int_pod);                      //FIXME   // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
                                                                                                       //FIXME
@@ -277,9 +277,9 @@ class PlantFruit : public plantPart
             void sw_demand1(float *sw_demand);        //(OUTPUT) crop water demand (mm)               //FIXME
             void bio_water1(void); //(OUTPUT) potential dry matter production by transpiration (g/m^2)//FIXME
             void bio_grain_oil (void);
-            void bio_grain_demand (void);
-            void bio_yieldpart_demand1 (void) ;
-            void bio_yieldpart_demand2(void) ;
+            void bio_grain_demand (void);              //remove
+            void bio_yieldpart_demand1 (void) ;       //remove
+            void bio_yieldpart_demand2(void) ;        //remove
 
             void grain_n_demand1(float G_nfact_grain_conc
                                , float G_swdef_expansion);
@@ -299,7 +299,7 @@ class PlantFruit : public plantPart
 
             float dm_yield_demand2 ( float  g_dlt_dm_veg);
 
-            void yieldpart_demand_stress1(void);
+            void yieldpart_demand_stress1(void);               //remove
             void dm_partition1 (double g_dlt_dm);
             void dm_partition2 (double g_dlt_dm);
             void dm_retranslocate1(float  g_dlt_dm_retrans_to_fruit) ;

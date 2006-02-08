@@ -225,16 +225,11 @@ class fruitGrainPart : public plantPart
 		virtual void display(ostream &os = cout) const;	// display function
             float calcCover (float canopy_fac);  // return pod cover   //FIXME
 
-            float divide (float dividend, float divisor, float default_value) const;  // Command
 
-            float meanT (void);
 
                                                                                                       //FIXME
             void transp_eff_co2();      // (OUTPUT) transpiration coefficient                         //FIXME
             void sw_demand1(float *sw_demand);        //(OUTPUT) crop water demand (mm)               //FIXME
-            void bio_water1(void); //(OUTPUT) potential dry matter production by transpiration (g/m^2)//FIXME
-            void bio_grain_oil (void);
-            void bio_grain_demand (void);
             void bio_yieldpart_demand1 (void) ;
             void bio_yieldpart_demand2(void) ;
 
@@ -254,7 +249,6 @@ class fruitGrainPart : public plantPart
 
             float dm_yield_demand (void);
 
-            void yieldpart_demand_stress1(void);
             void dm_partition1 (double g_dlt_dm);
             void dm_partition2 (double g_dlt_dm);
             void dm_retranslocate1(float  g_dlt_dm_retrans_to_fruit) ;
@@ -281,6 +275,12 @@ class fruitGrainPart : public plantPart
 //         plantInterface *plant;                 // The plant we are attached to
 
 	private:
+            void bio_grain_oil (void);
+            void bio_grain_demand (void);
+            void yieldpart_demand_stress1(void);
+            float meanT (void);
+
+
         /* system interface: */
         UInt2SetFnMap   IDtoSetFn;    /* setVariable */
 

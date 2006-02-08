@@ -741,7 +741,6 @@ void plantPart::doNDemand2(float dlt_dm,             // (INPUT)  Whole plant the
 
 void plantPart::doPDemand(void)
 {
-      vector<plantPart *>::iterator part;
       float    deficit;
       float    p_conc_max;
       float    rel_growth_rate;

@@ -124,8 +124,6 @@ void Plant::read_p_constants (PlantComponent *systemInterface)
     const char*  section_name = "constants" ;
 
 //+  Local Variables
-    int    numvals;                  // number of values read
-    int    num_sections;             // number of sections to search
     float  temp[max_table];
     string scratch;
     vector<string> parts;
@@ -215,7 +213,7 @@ void Plant::prepare_p(void)
       {
       vector<plantPart*> allParts;
       setupHacks(allParts);
-      PlantP_demand(allParts, g.dlt_dm_pot_rue);
+      PlantP_demand(allParts);
       PlantP_Stress(allParts);
       deleteHacks(allParts);
       }
@@ -424,7 +422,7 @@ const char*  my_name = "PlantP_set_phosphorus_aware";
 
 
 // ====================================================================
-void Plant::PlantP_demand (vector<plantPart *> &allParts, float dlt_dm_pot)
+void Plant::PlantP_demand (vector<plantPart *> &allParts)
 {
 
 //+  Purpose
@@ -451,8 +449,6 @@ float Plant::PlantP_Pfact (vector<plantPart *> &allParts)
       const char*  my_name = "PlantP_Pfact";
 
 //+  Local Variables
-      float    p_conc_max;
-      float    p_conc_min;
       float    max_p;
       float    min_p;
       float    act_p;
@@ -612,11 +608,6 @@ void Plant::PlantP_retrans (vector<plantPart*>&parts)
       vector<float>    demand(parts.size());
 
       unsigned int ipart;
-      float    p_conc_min;
-      float    min_p;
-      float    p_conc_max;
-      float    max_p;
-      float    fraction;
       float    totSupply, totDemand;
 
 //- Implementation Section ----------------------------------

@@ -845,8 +845,6 @@ void fruitGrainPart::readCultivarParameters (protocol::Component *system, const 
 
 //+  Local Variables
     string s;
-    char  msg[200];                             // output string
-    int   numvals;                                // number of values read
 
 //- Implementation Section ----------------------------------
 
@@ -1187,7 +1185,6 @@ void fruitGrainPart::readSpeciesParameters(protocol::Component *system, vector<s
 //===========================================================================
 {
 
-    int   numvals;                                // number of valureturned
 
     //    plant_phenology_init
     system->readParameter (sections
@@ -1679,7 +1676,6 @@ void fruitGrainPart::bio_yieldpart_demand1(void)
     float harvest_index_new;                      // next harvest index (g grain/g biomass)
     float dm_grain_new;                           // new drymatter grain (g/m^2)
     float energy_adjust;                          // adjustment for energy used in oil conversion.
-    int   indx;                                   // loop index
     float hi_incr;                                // harvest index increment per day
     float photoperiod;                            // hours of photosynthetic light (hours)
 
@@ -1796,9 +1792,7 @@ void fruitGrainPart::grain_n_demand2 (void)
       const char *my_name = "plant_grain_n_demand2";
 
       float Tav ;
-      float N_potential;
       float grain_growth;
-      float max_grain_n;
 
       push_routine (my_name);
 
@@ -1911,7 +1905,6 @@ void fruitGrainPart::dm_partition1 (double g_dlt_dm)
 
 //+  Local Variables
     double dlt_dm_green_tot;                       // total of partitioned dm (g/m^2)
-    double dm_remaining;                           // interim dm pool for partitioning
     double yield_demand;                           // sum of grain, energy & pod
     double dm_grain_demand;                        // assimilate demand for grain (g/m^2)
     double dm_meal_demand;                         // assimilate demand for meal (g/m^2)
@@ -1993,7 +1986,6 @@ void fruitGrainPart::dm_partition2 (double g_dlt_dm)
 
 //+  Local Variables
     double dlt_dm_green_tot;                       // total of partitioned dm (g/m^2)
-    double dm_remaining;                           // interim dm pool for partitioning
     double yield_demand;                           // sum of grain, energy & pod
     double dm_grain_demand;                        // assimilate demand for grain (g/m^2)
     double dm_meal_demand;                         // assimilate demand for meal (g/m^2)
@@ -2930,76 +2922,6 @@ float fruitGrainPart::pMinPotStressDeterminant(void)
     }
     return p_min_pot;
 }
-
-// Command
-//===========================================================================
-float fruitGrainPart::divide (float dividend, float divisor, float default_value) const
-//===========================================================================
-
-/*Definition
- *   Returns (dividend / divisor) if the division can be done
- *   without overflow or underflow.  If divisor is zero or
- *   overflow would have occurred, a specified default is returned.
- *   If underflow would have occurred, zero is returned.
- *Assumptions
- *   largest/smallest real number is 1.0e+/-30
- *Parameters
- *   dividend:     dividend
- *   divisor:      divisor
- *   defaultValue: default value to return if overflow
- *Calls
- *   reals_are_equal
- */
-
-   {
-   //Constant Values
-   const float LARGEST = 1.0e30;    //largest acceptable no. for quotient
-   const float SMALLEST = 1.0e-30;  //smallest acceptable no. for quotient
-   const float nought = 0.0;
-   const float one = 1.0;
-   const float granularity = 1.0e-6;
-
-   //Local Varialbes
-   float quotient;
-
-   //Implementation
-   if(floatsAreEqual(dividend, nought, granularity))      //multiplying by 0
-      {
-      quotient = nought;
-      }
-   else if(floatsAreEqual(divisor, nought, granularity))  //dividing by 0
-      {
-      quotient = default_value;
-      }
-   else if(fabs(divisor) < one)            //possible overflow
-      {
-      if(fabs(dividend) > fabs(LARGEST * divisor)) //overflow
-         {
-         quotient = default_value;
-         }
-      else
-         {
-         quotient = dividend / divisor;          //ok
-         }
-      }
-   else if(fabs(divisor) > one)             //possible underflow
-      {
-      if(fabs(dividend) < fabs(SMALLEST * divisor))    //underflow
-         {
-         quotient = nought;
-         }
-      else
-         {
-         quotient = dividend / divisor;                //ok
-         }
-      }
-   else
-      {
-      quotient = dividend / divisor;                   //ok
-      }
-   return quotient;
-   }
-
 
 
 //============================================================================

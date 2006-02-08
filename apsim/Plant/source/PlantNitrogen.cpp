@@ -317,7 +317,6 @@ void cproc_n_uptake1(float C_no3_diffn_const,   //(INPUT)  time constant for upt
    int layer;                          // soil layer number of profile
    float NO3gsm_uptake;                // plant NO3 uptake from layer (g/m^2)
    float temp1;                  //Vars to pass composite terms to functions
-   float temp2;                  //expecting a pointer
    // Implementation Section ----------------------------------
 
             // get potential N uptake (supply) from the root profile.
@@ -455,7 +454,6 @@ void crop_n_mass_flow1(const int num_layer,          // (INPUT)  number of layer
    float NO3gsm_mflow;           // potential nitrogen uptake (g/m^2)
 
    float temp1;                  //Vars to pass composite terms to functions
-   float temp2;                  //expecting a pointer
 
    fill_real_array (NO3gsm_mflow_pot, 0.0, num_layer);
 
@@ -503,7 +501,6 @@ void crop_n_diffusion1 (const int num_layer,      // (INPUT)  number of layers i
    float NO3gsm_diffn;           // potential nitrogen uptake (g/m^2)
    float sw_avail_fract;         // fraction of extractable soil water ()
 
-   float temp1;                  //Vars to pass composite terms to functions
    float temp2;                  //expecting a pointer
 
    //- Implementation Section ----------------------------------

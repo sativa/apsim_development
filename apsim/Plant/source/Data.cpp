@@ -544,9 +544,6 @@ float sum_part_of_real(float *array,     // array to be summed
    //Local variables
    int index;     // array index
    float sum;     // sum of array
-   int upper;
-   int lower;
-   char name[80];
    //Implementation
    if (start < 0 || start >= size_of) {
       throw std::invalid_argument("Start in sum_part_of_real()");

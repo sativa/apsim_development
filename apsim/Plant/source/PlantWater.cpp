@@ -35,7 +35,6 @@ void crop_sw_avail(int   num_layer,     // (INPUT)  number of layers in profile
    {
    //  Local Variables
    int deepest_layer;    // index of deepest layer in which the roots are growing
-   int layer;            // soil profile layer number
    // Implementation Section ----------------------------------
 
    // get potential uptake
@@ -129,7 +128,6 @@ void crop_sw_uptake0(int   num_layer,      // (INPUT)  number of layers in profi
    {
    //  Local Variables
    int deepest_layer;       // deepest layer in which the roots are growing
-   int layer;               // layer number of profile ()
    float sw_supply_sum;     // total potential over profile (mm)
    // Implementation Section ----------------------------------
    // find total root water potential uptake as sum of all layers
@@ -393,7 +391,6 @@ void crop_oxdef_photo1(int   C_num_oxdef_photo,    //  (INPUT)
    int num_root_layers;
    float wet_root_fr;
    float wfps;
-   float tot_root_fr;
    float *root_fr = new float[max_layer];
 
    // Implementation Section ----------------------------------
@@ -682,9 +679,7 @@ void cproc_transp_eff1(float svp_fract,         ///  (INPUT)  fraction of distan
 */
    {
    //  Local Variables
-   float temp_arg;      // dummy temperature for function (oC)
    float vpd;           // vapour pressure deficit (kpa)
-   int current_phase;
    // Implementation Section ----------------------------------
 
    // get vapour pressure deficit when net radiation is positive.
@@ -871,10 +866,8 @@ void cproc_transp_eff_co2(float svp_fract,        // (INPUT)  fraction of distan
 */
    {
    //  Local Variables
-   float temp_arg;      // dummy temperature for function (oC)
    float vpd;           // vapour pressure deficit (kpa)
    float co2_modifier;
-   float tolerance;
 
    // Implementation Section ----------------------------------
    //get vapour pressure deficit when net radiation is positive.
@@ -924,8 +917,6 @@ void cproc_transp_eff_co2_1(float vpd,        // (INPUT)
 */
    {
    //  Local Variables
-   float temp_arg;      // dummy temperature for function (oC)
-   float tolerance;
 
    // Implementation Section ----------------------------------
    //get vapour pressure deficit when net radiation is positive.

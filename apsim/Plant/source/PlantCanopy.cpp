@@ -203,7 +203,6 @@ void crop_leaf_area_sen_light2 (float radn_int,                //(INPUT)
    float ave_lai_equilib_light;  //running mean lai threshold for light
                                  //senescence ()
    float radn_transmitted;       //radn transmitted through canopy (mj/m^2)
-   float temp;
    //Implementation
 
    // calculate senescense from water stress
@@ -252,8 +251,6 @@ void crop_leaf_area_sen_age1 (int emergence,                   //(INPUT)  emerge
    float min_lai;                // min allowable LAI
    float max_sen;
 
-   int temp_i;                     // temp vars to store composite args to functions
-   float temp_f;                              // expecting pointers
    //Implementation Section ----------------------------------
 
    // now calculate the leaf senescence
@@ -336,7 +333,7 @@ float crop_leaf_area_sen_water1 (float sen_rate_water,    //(INPUT)  slope in li
    float max_sen;
    float min_lai;
    float dlt_slai_water;
-   
+
    //Implementation Section ----------------------------------
 
    // drought stress factor
@@ -789,7 +786,6 @@ float leaf_size_bellshapecurve (float c_x0_const,
    float breadth;          // breadth coef of leaf
    float largest_leaf;     // leaf no of largeat leaf
    float skewness;         // skewness coef of leaf
-   float temp;                   // temp var to store composite args to functions
                                  // expecting pointers
 
    //Implementation Section ----------------------------------
@@ -1233,7 +1229,7 @@ void legopt_leaf_area_sen1
                               , g_leaf_area
                               , g_plants);
 
-    
+
     *g_dlt_slai_light = crop_leaf_area_sen_light1(c_lai_sen_light
                               , c_sen_light_slope
                               , g_lai

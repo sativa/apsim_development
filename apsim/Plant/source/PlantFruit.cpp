@@ -1202,8 +1202,6 @@ void PlantFruit::readCultivarParameters (protocol::Component *system, const stri
 
 //+  Local Variables
     string s;
-    char  msg[200];                             // output string
-    int   numvals;                                // number of values read
 
 //- Implementation Section ----------------------------------
 
@@ -1565,7 +1563,6 @@ void PlantFruit::readSpeciesParameters(protocol::Component *system, vector<strin
 //===========================================================================
 {
 
-    int   numvals;                                // number of valureturned
 
     //    plant_phenology_init                             //remove
     system->readParameter (sections                        //remove
@@ -2096,7 +2093,6 @@ void PlantFruit::bio_yieldpart_demand1(void)                                    
     float harvest_index_new;                      // next harvest index (g grain/g biom//removeass)
     float dm_grain_new;                           // new drymatter grain (g/m^2)       //remove
     float energy_adjust;                          // adjustment for energy used in oil //removeconversion.
-    int   indx;                                   // loop index                        //remove
     float hi_incr;                                // harvest index increment per day   //remove
     float photoperiod;                            // hours of photosynthetic light (hou//removers)
                                                                                        //remove
@@ -2219,9 +2215,7 @@ void PlantFruit::grain_n_demand2 (void)
       const char *my_name = "plant_grain_n_demand2";                                               //remove
                                                                                                    //remove
       float Tav ;                                                                                  //remove
-      float N_potential;                                                                           //remove
       float grain_growth;                                                                          //remove
-      float max_grain_n;                                                                           //remove
                                                                                                    //remove
       push_routine (my_name);                                                                      //remove
                                                                                                    //remove
@@ -2407,7 +2401,6 @@ void PlantFruit::dm_partition1 (double g_dlt_dm)
 
 //+  Local Variables
     double dlt_dm_green_tot;                       // total of partitioned dm (g/m^2)
-    double dm_remaining;                           // interim dm pool for partitioning
     double yield_demand;                           // sum of grain, energy & pod
     double dm_grain_demand;                        // assimilate demand for grain (g/m^2)
     double dm_meal_demand;                         // assimilate demand for meal (g/m^2)
@@ -2480,8 +2473,6 @@ void PlantFruit::dm_partition1 (double g_dlt_dm)
         gDlt_dm_oil_conv         = dm_oil_conv_demand;    //remove
         podPart->dlt.dm_green    = dm_pod_demand;
 
-//        // distribute remainder to vegetative parts
-//        dm_remaining = g_dlt_dm - yield_demand;
     }
 
 ////     for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
@@ -2522,7 +2513,6 @@ void PlantFruit::dm_partition2 (double g_dlt_dm)
 
 //+  Local Variables
     double dlt_dm_green_tot;                       // total of partitioned dm (g/m^2)
-    double dm_remaining;                           // interim dm pool for partitioning
     double yield_demand;                           // sum of grain, energy & pod
     double dm_grain_demand;                        // assimilate demand for grain (g/m^2)
     double dm_meal_demand;                         // assimilate demand for meal (g/m^2)
@@ -2597,8 +2587,6 @@ void PlantFruit::dm_partition2 (double g_dlt_dm)
         gDlt_dm_oil_conv         = dm_oil_conv_demand;     //remove
         podPart->dlt.dm_green    = dm_pod_demand;
 
-//        // distribute remainder to vegetative parts
-//        dm_remaining = g_dlt_dm - yield_demand;
     }
 
      dltDmGreen();   // update fruit dlt.dm_green
@@ -2654,7 +2642,6 @@ void PlantFruit::dm_retranslocate1( float  g_dlt_dm_retrans_to_fruit )
 //       150900 jngh specified and programmed
 
 //+  Local Variables
-    int   part;                                   // plant part no.
     float dlt_dm_retrans_part;                    // carbohydrate removed from part (g/m^2)
     float dlt_dm_retrans_total;                   // total carbohydrate removed from parts (g/m^2)
     float yield_demand_differential;              // demand in excess of available supply (g/m^2)
@@ -2800,7 +2787,6 @@ void PlantFruit::dm_retranslocate2( float  g_dlt_dm_retrans_to_fruit)
 //       150900 jngh specified and programmed
 
 //+  Local Variables
-    int   part;                                   // plant part no.
     float dlt_dm_retrans_part;                    // carbohydrate removed from part (g/m^2)
     float dlt_dm_retrans_total;                   // total carbohydrate removed from parts (g/m^2)
     float yield_demand_differential;              // demand in excess of available supply (g/m^2)
