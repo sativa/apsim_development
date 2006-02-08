@@ -268,8 +268,6 @@ class PlantFruit : public plantPart
 //            float calcCover (float pai);  // calc pod cover
             float calcCover (float canopy_fac);  // return pod cover   //FIXME
 
-            float divide (float dividend, float divisor, float default_value) const;  // Command
-
             void calcDlt_pod_area (void);   //FIXME
             float meanT (void);
 

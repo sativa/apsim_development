@@ -1835,8 +1835,9 @@ void Plant::plant_nit_init (int option /* (INPUT) option number*/)
 
     if (option == 1)
         {
-        if (phenology->inPhase("grainfill"))
-            fruitPart->n_conc_grain_limits();
+//         fruitPart->nit_init();
+        if (phenology->inPhase("grainfill"))             //remove to fruitpart
+            fruitPart->n_conc_grain_limits();            //remove to fruitpart
 
         if (phenology->on_day_of("emergence"))
            {

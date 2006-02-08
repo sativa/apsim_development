@@ -280,6 +280,13 @@ float fruitPodPart::fracPod1 (void)
       return cFrac_pod[(int)plant->getStageNumber()-1];
 }
 
+//===========================================================================
+void fruitPodPart::processBioDemand(void)
+//===========================================================================
+{
+    bio_water1 ();
+    return;
+}
 
 //===========================================================================
 void fruitPodPart::bio_actual (void)                                             //FIXME
