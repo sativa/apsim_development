@@ -449,7 +449,7 @@ void plantLeafPart::leaf_death (float  g_nfact_expansion, float  g_dlt_tt)
 
    leaf_death_rate = divide (node_sen_rate, leaf_per_node, 0.0);
 
-   if (plant->on_day_of("harvest_ripe"))
+   if (plant->inPhase("harvest_ripe"))
        {
        // Constrain leaf death to remaining leaves
        //cnh do we really want to do this?;  XXXX
