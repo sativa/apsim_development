@@ -179,6 +179,7 @@ Public Class DataTree
                 AddHandler Controller.AddEvent, AddressOf Refresh
                 AddHandler Controller.DeleteEvent, AddressOf Refresh
                 AddHandler Controller.RenameEvent, AddressOf Refresh
+                AddHandler Controller.SelectionChangingEvent, AddressOf OnSelectionChanging
                 AddHandler Controller.SelectionChangedEvent, AddressOf OnSelectionChanged
             End If
         End Set
@@ -722,6 +723,17 @@ Public Class DataTree
         End If
     End Sub
 
+    ' --------------------------------------------------------------------
+    ' Selection is about to change - remove paint from all selected nodes.
+    ' --------------------------------------------------------------------
+    Private Sub OnSelectionChanging()
+        If UserChange Then
+            UserChange = False
+            RemovePaintFromNodes()
+            UserChange = True
+        End If
+    End Sub
+
 
     ' ----------------------------------------
     ' Selection has changed - update tree.
@@ -729,8 +741,6 @@ Public Class DataTree
     Private Sub OnSelectionChanged()
         If UserChange Then
             UserChange = False
-            RemovePaintFromNodes()
-
             Dim Selections As StringCollection = Controller.SelectedPaths()
             If Selections.Count > 0 Then
                 TreeView.SelectedNode = GetNodeFromPath(Selections(0))
