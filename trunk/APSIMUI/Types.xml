@@ -705,11 +705,11 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
-     <SimMacro>
-         <![CDATA[
-         [comment] ################ manager ################ [endcomment]
-         <component name="tclmanager" executable="%apsuite\apsim\tcllink\lib\tcllink.dll">
-         <initdata>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\tcllink\lib\tcllink.dll</dll>
+         <sim>
+            <![CDATA[
             <master>yes</master>
             <rules>
                [foreach tclmanager.rule as rule]
@@ -723,10 +723,9 @@
                [endfor]
                [endfor]
             </rules>
-         </initdata>
-         </component>
-         ]]>
-     </SimMacro>
+            ]]>
+         </sim>
+      </ApsimToSim>
    </tclmanager>
    <farmmanager>
       <UItype>area</UItype>
@@ -740,11 +739,11 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
-     <SimMacro>
-         <![CDATA[
-         [comment] ################ manager ################ [endcomment]
-         <component name="tclmanager" executable="%apsuite\apsim\tcllink\lib\tcllink.dll">
-         <initdata>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\tcllink\lib\tcllink.dll</dll>
+         <sim>
+            <![CDATA[
             <master>yes</master>
             <rules>
                [foreach farmmanager.rule as rule]
@@ -758,10 +757,9 @@
                [endfor]
                [endfor]
             </rules>
-         </initdata>
-         </component>
-         ]]>
-     </SimMacro>
+            ]]>
+         </sim>
+      </ApsimToSim>
    </farmmanager>
    <paddockmanager>
       <UItype>area</UItype>
@@ -775,11 +773,11 @@
          <drop name="area"/>
          <drop name="folder"/>
      </drops>
-     <SimMacro>
-         <![CDATA[
-         [comment] ################ manager ################ [endcomment]
-         <component name="[area.name]" executable="%apsuite\apsim\tcllink\lib\tcllink.dll">
-         <initdata>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\tcllink\lib\tcllink.dll</dll>
+         <sim>
+            <![CDATA[
             <master>no</master>
             <rules>
                [foreach paddockmanager.rule as rule]
@@ -793,10 +791,9 @@
                [endfor]
                [endfor]
             </rules>
-         </initdata>
-         </component>
-         ]]>
-     </SimMacro>
+            ]]>
+         </sim>
+      </ApsimToSim>
    </paddockmanager>
    <rule>
       <UItype>rule</UItype>
@@ -1021,6 +1018,7 @@
    </grasp>
    <broccoli>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\broccoli.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -1050,6 +1048,7 @@
    </broccoli>
    <canola>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\Canola.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -1079,6 +1078,7 @@
    </canola>
    <chickpea>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\Chickpea.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -1109,6 +1109,7 @@
    </chickpea>
    <cowpea>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\Cowpea.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -1138,6 +1139,7 @@
    </cowpea>
    <fababean>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\FabaBean.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -1167,6 +1169,7 @@
    </fababean>
    <fieldpea>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\fieldpea.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -1196,6 +1199,7 @@
    </fieldpea>
    <lablab>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\lablab.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -1226,6 +1230,7 @@
    </lablab>
    <lucerne>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\lucerne.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -1255,6 +1260,7 @@
    </lucerne>
    <lupin>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\lupin.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -1284,6 +1290,7 @@
    </lupin>
    <maize>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\maize.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -1360,6 +1367,7 @@
    </maize>
    <mucuna>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\mucuna.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -1388,6 +1396,7 @@
    </mucuna>
    <mungbean>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\mungbean.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -1418,6 +1427,7 @@
    </mungbean>
    <navybean>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\navybean.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -1446,6 +1456,7 @@
    </navybean>
    <ozcot>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\cotton.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -1488,6 +1499,7 @@
    </ozcot>
    <rice>
       <UItype>generic</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\pigeonpea.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -1561,6 +1573,7 @@
    </rice>
    <peanut>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\peanut.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -1590,6 +1603,7 @@
    </peanut>
    <pigeonp>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\pigeonpea.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -1619,6 +1633,7 @@
    </pigeonp>
    <slurp>
       <UItype>generic</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Slurp science documentation">../apsim/slurp/docs/slurp_science.htm</Documentation>
@@ -1664,6 +1679,7 @@
    </slurp>
    <sorghum>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\sorghum.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -1693,6 +1709,7 @@
    </sorghum>
    <soybean>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\soybean.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -1722,6 +1739,7 @@
    </soybean>
    <stylo>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\stylo.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -1750,6 +1768,7 @@
    </stylo>
    <sugar>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\sugar.jpg</Image>
       <Documentation name="Sugar science documentation">../apsim/sugar/docs/sugar_science.htm</Documentation>
@@ -1823,6 +1842,7 @@
    </sugar>
    <sunflower>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\sunflower.jpg</Image>
@@ -1895,6 +1915,7 @@
    </sunflower>
    <weed>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\weed.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -1924,6 +1945,7 @@
    </weed>
    <wheat>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\wheat.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -1960,6 +1982,7 @@
 
    <TropicalPasture>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\TropicalPasture.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -2279,6 +2302,7 @@
 
    <egrandis>
       <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\ApsimUI\Graphics\Egrandis.jpg</Image>
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
@@ -2386,6 +2410,7 @@
    </root>
    <spaceslurp>
       <UItype>generic</UItype>
+      <IsCrop>Yes</IsCrop>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Description>The Spatial slurp module doesn't have any properties. It is required though if you wish to use the spatial root system capability in APSIM."</Description>
