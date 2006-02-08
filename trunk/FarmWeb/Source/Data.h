@@ -335,33 +335,30 @@ class Data
       //---------------------------------------------------------------------------
       // Return a list of reports to caller.
       //---------------------------------------------------------------------------
-      void getReports(const std::string& userName,
+      void getReports(const std::string& reportBaseDirectory,
+                      const std::string& userName,
                       std::vector<std::string>& reportNames);
 
-      //---------------------------------------------------------------------------
-      // Store the specified report file for the specified user.
-      //---------------------------------------------------------------------------
-      void storeReport(const std::string& userName,
-                       const std::string& reportName,
-                       const std::string& fileName);
+
+      // --------------------------------------------------
+      // Return a file name for the report.
+      // --------------------------------------------------
+      std::string Data::getReportFileName(const std::string& reportBaseDirectory,
+                                          const std::string& userName,
+                                          const std::string& reportName);
 
       //---------------------------------------------------------------------------
       // Delete the specified report file for the specified user.
       //---------------------------------------------------------------------------
-      void deleteReport(const std::string& userName,
+      void deleteReport(const std::string& reportBaseDirectory,
+                        const std::string& userName,
                         const std::string& reportName);
-
-      //---------------------------------------------------------------------------
-      // Get the specified report file for the specified user and paddock.
-      //---------------------------------------------------------------------------
-      void generateReport(const std::string& userName,
-                          const std::string& reportName,
-                          const std::string& fileName);
 
       //---------------------------------------------------------------------------
       // Rename the specified report file for the specified user.
       //---------------------------------------------------------------------------
-      void renameReport(const std::string& userName,
+      void renameReport(const std::string& reportBaseDirectory,
+                        const std::string& userName,
                         const std::string& oldReportName,
                         const std::string& newReportName);
 
@@ -466,6 +463,8 @@ class Data
       // Return the help url.
       //---------------------------------------------------------------------------
       std::string getHelpUrl() const;
+
+      Adodb::TADOConnection* connectn() {return connection;}
 
    private:
       Adodb::TADOConnection* connection;

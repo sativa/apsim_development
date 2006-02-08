@@ -131,9 +131,12 @@ void TSkin::InitApplication(void)
    settings.read("Outlook skin|helpfile", helpFile, true);
 
    // read version
-   settings.read("Outlook skin|version", St);
+   settings.read("Outlook skin|AboutText", St);
    if (St != "")
-      AboutBox->VersionLabel->Caption = St.c_str();
+      {
+      replaceAll(St, "\\n", "\n");
+      AboutBox->AboutLabel->Caption = St.c_str();
+      }
 
    // read SOI
 //   Skin.Read("skin", "soi", St);

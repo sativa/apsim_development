@@ -109,74 +109,85 @@ void saveDatePicker(TTIWDatePicker* datePicker,
 // -------------------------------------------
 // create a job xml file and return it's name
 // -------------------------------------------
-string createJobXML(const string& userName, const string& paddockName, const string& reportDescription)
+string createJobXML(TWebSession* webSession, Data* data, const string& userName,
+                    const string& reportDescription)
    {
-   string jobXml = webSession->getFilesDir() + "\\" + userName + ".xml";
-   ofstream out(jobXml.c_str());
-   out << "<job name=\"" + JobName + "\" owner=\"" + UserName + "\" folder=\"" + JobFolder + "\">\r\n" +
-		 << "   <cluster>\r\n";
-			int CommandNumber = 1;
-			foreach (string File in Directory.GetFiles(JobFolder, "*.sim"))
-				{
-				JobXML += "      <commandline>job.bat " + Path.GetFileName(File) + " " + CommandNumber.ToString() + "</commandline>\r\n";
-				CommandNumber++;
-				}
+   string DateTimeStamp = TDateTime::CurrentDateTime().FormatString("dd mmm yyyy(hnnam/pm)").c_str();
+   string GIFFileName = DateTimeStamp + " " + reportDescription + ".gif";
+   string userEmail = data->getUserEmail(userName);
 
-			string ftpSite = ExtractParamFromMessage(MailItem, "applicationftp");
-			string ftpLoginName = "apsru";
-			string ftpFolder = ExtractParamFromMessage(MailItem, "reportdirectory");
-			if (ftpSite == "")
-				{
-				// For Afloman only.
-				ftpSite = "www.apsim.info";
-				ftpLoginName = "vs27262";
-				ftpFolder = "/apsim/farmweb/data/files";
-				string ReportDescription = ExtractParamFromMessage(MailItem, "reportdescription");
-				GIFFileName = UserName + " - " + ReportDescription + " - " + DateString + "(" + TimeString + ").gif";
-				GIFFileName = GIFFileName.Replace(":", "");
-				}
+   // work out how many simulations are in control file.
+   string conFileName = webSession->getFilesDir() + "\\" + userName + ".con";
+   char buffer[100];
+   GetPrivateProfileString(NULL, NULL, NULL, buffer, sizeof(buffer), conFileName.c_str());
+   int count = 0;
+   char* ptr = buffer;
+   while (*ptr != 0)
+      {
+      ptr = strchr(ptr, '\0');
+      ptr++;
+      count++;
+      }
 
-			JobXML +=
-				"   </cluster>\r\n" +
-				"   <localcommand>\r\n" +
-				"	   <commandline>\"c:\\program files\\apsim42\\bin\\apsimreport.exe\" \"" + JobFolder + "\\" + ReportFileName + "\" \"" + GIFFileName + "\"</commandline>\r\n" +
-				"   </localcommand>\r\n" +
-				"	<ftp>\r\n" +
-				"		<from>" + GIFFileName + "</from>\r\n" +
-				"       <tosite>" + ftpSite + "</tosite>\r\n"+
-			    "       <loginname>" + ftpLoginName + "</loginname>\r\n"+
-				"       <loginpassword>Thor19216805</loginpassword>\r\n"+
-				"       <tofolder>" + ftpFolder + "</tofolder>\r\n"+
-				"	</ftp>\r\n" +
-				"	<email>\r\n" +
-				"		<to>" + ExtractParamFromMessage(MailItem, "useremail") + "</to>\r\n" +
-				"		<subject>Automated reply from " + ExtractParamFromMessage(MailItem, "applicationname") + "</subject>\r\n" +
-				"		<body>Your report has been generated and stored on your web page.</body>\r\n" +
-				"	</email>\r\n" +
-				"	<archive>\r\n" +
-				"		<to>" + ArchiveFile + "</to>\r\n" +
-				"		<description>" + ExtractParamFromMessage(MailItem, "reportdescription") + "</description>\r\n" +
-				"	</archive>\r\n" +
-				"</job>\r\n";
+   string xml = "<job owner=\"[USERNAME]\">\r\n"
+                "   <localcommand>\r\n"
+                "      <commandline>\"c:\\program files\\apsim42\\bin\\apsrun.exe\" /createsim \"[USERNAME].con\"</commandline>\r\n"
+                "   </localcommand>\r\n"
+                "   <cluster>\r\n";
+   if (count > 1)
+      {
+      for (int i = 1; i <= count; i++)
+         {
+         string IAsString = string(IntToStr(i).c_str());
+         xml += "      <commandline>job.bat [USERNAME]" + IAsString + ".sim " + IAsString + "</commandline>\r\n";
+         }
+      }
+   else
+      xml += "      <commandline>job.bat [USERNAME].sim 1</commandline>\r\n";
 
+   xml += "   </cluster>\r\n"
+          "   <localcommand>\r\n"
+          "	     <commandline>\"c:\\program files\\apsim42\\bin\\apsimreport.exe\" \"[USERNAME].report\" \"" + GIFFileName + "\"</commandline>\r\n"
+          "   </localcommand>\r\n"
+          "   <ftp>\r\n"
+          "	     <from>" + GIFFileName + "</from>\r\n"
+          "      <tosite>www.apsim.info</tosite>\r\n"
+          "      <loginname>vs27262</loginname>\r\n"
+          "      <loginpassword>Thor19216805</loginpassword>\r\n"
+          "      <tofolder>/apsim/farmweb/data/files/[USERNAME]</tofolder>\r\n"
+          "	  </ftp>\r\n"
+          "	  <email>\r\n"
+          "	     <to>" + userEmail + "</to>\r\n"
+          "		  <subject>Automated reply from Afloman</subject>\r\n"
+          "		  <body>Your report has been generated and stored on your web page.</body>\r\n"
+          "	  </email>\r\n"
+          "	  <archive>\r\n"
+          "		  <to>[USERNAME]\\[USERNAME].zip</to>\r\n"
+          "		  <description>" + reportDescription + ", Afloman</description>\r\n"
+          "   </archive>\r\n"
+          "</job>\r\n";
+   replaceAll(xml, "[USERNAME]", userName);
 
-
-   vector<string> consultantEmails;
-   data->getConsultantEmailAddresses(userName, consultantEmails);
-   string applicationftp = "www.apsim.info";
-   string reportUrl = "/apsim/farmweb/reports/" + userName;
-   string reportDirectory = webSession->getFilesDir() + "..\\reports\\" + userName;
-   CreateDirectory(reportDirectory);
-   string body = "JMail.AppendText \"username=" + userName + "~~\" & vbCrLf\n"
-               + "JMail.AppendText \"paddockname=" + paddockName + "~~\" & vbCrLf\n"
-               + "JMail.AppendText \"useremail=" + data->getUserEmail(userName) + "~~\" & vbCrLf\n"
-               + "JMail.AppendText \"applicationname=" + webSession->getApplicationName() + "~~\" & vbCrLf\n"
-               + "JMail.AppendText \"applicationurl=" + webSession->getApplicationUrl() + "~~\" & vbCrLf\n"
-               + "JMail.AppendText \"reportdescription=" + reportDescription + "~~\" & vbCrLf\n"
-               + "JMail.AppendText \"applicationftp=" + applicationFtp + "~~\" & vbCrLf\n"
-               + "JMail.AppendText \"reportdirectory=" + reportUrl + "~~\" & vbCrLf\n";
-   for (unsigned i = 0; i != consultantEmails.size(); i++)
-      body += "JMail.AppendText \"consultantemail" + lexical_cast<string>(i+1) + "=" + consultantEmails[i] + "~~\" & vbCrLf\n";
+   // write file.
+   string xmlFileName = webSession->getFilesDir() + "\\" + userName + ".xml";
+   ofstream out(xmlFileName.c_str());
+   out << xml;
+   return xmlFileName;
+   }
+// ----------------------------
+// Create a job._bat file
+// ----------------------------
+string createJobBat(TWebSession* webSession)
+   {
+   // write file.
+   string batFileName = webSession->getFilesDir() + "\\job._bat";
+   if (!FileExists(batFileName.c_str()))
+      {
+      ofstream out(batFileName.c_str());
+      out << "\"c:\\program files\\apsim42\\bin\\apsim.exe\" %1" << endl;
+      out << "echo Finished > Run%2.finished" << endl;
+      }
+   return batFileName;
 
    }
 //---------------------------------------------------------------------------
@@ -219,7 +230,8 @@ void sendEmail(TWebSession* webSession,
        "</BODY>\n"
        "</HTML>\n";
 
-   files.push_back(createJobXML(userName, paddockName, reportDescription));
+   files.push_back(createJobXML(webSession, data, userName, reportDescription));
+   files.push_back(createJobBat(webSession));
 
    // replace the $ATTACHMENTS$ macro with a list of attachments.
    string attachmentsString;
@@ -250,11 +262,13 @@ void sendEmail(TWebSession* webSession,
       string file = ExtractFileName(fullFile.c_str()).c_str();
       string fileNoSpaces = ExtractFileName(fullFileNoSpaces.c_str()).c_str();
       string fileUrlNoSpaces = webSession->getBaseURL() + "/files/" + fileNoSpaces;
+      string alias = doubleQuoted(file);
+      if (alias.find(".xml") != string::npos)
+         alias = "\"job.xml\"";
       attachmentsString += "JMail.AddURLAttachment " + doubleQuoted(fileUrlNoSpaces)
-                        + ", " + doubleQuoted(file) + "\n";
+                        + ", " + alias + "\n";
       }
    replaceAll(emailScript, "$ATTACHMENTS$", attachmentsString);
-
 
    // replace zzzz macro with recipients.
    string recipString;
@@ -262,21 +276,6 @@ void sendEmail(TWebSession* webSession,
       recipString += "JMail.AddRecipient \"" + toEmailAddresses[i] + "\"\n";
    replaceAll(emailScript, "zzzz", recipString);
 
-   // replace the wwww macro with VBScript to delete unwanted files.
-/*   string deleteVBScript = "dim fso\n";
-   deleteVBScript       += "Set fso = CreateObject(\"Scripting.FileSystemObject\")\n";
-   for (unsigned i = 0; i != files.size(); i++)
-      {
-      string fullFile = webSession->getFilesDir() + ExtractFileName(files[i].c_str()).c_str();
-      string fullFileNoSpaces = fullFile;
-      replaceAll(fullFileNoSpaces, " ", "_");
-      if (!Str_i_Eq(fullFileNoSpaces, fullFile))
-         deleteVBScript += "fso.DeleteFile " + doubleQuoted(fullFileNoSpaces) + "\n";
-      deleteVBScript += "fso.DeleteFile " + doubleQuoted(fullFile) + "\n";
-      }
-   deleteVBScript += "fso.DeleteFile " + doubleQuoted(emailScriptFileName) + "\n";
-   replaceAll(emailScript, "wwww", deleteVBScript);
-*/
    ofstream out(emailScriptFileName.c_str());
    out << emailScript;
    out.close();

@@ -8,8 +8,10 @@
 #include <general\string_functions.h>
 #include <general\stl_functions.h>
 #include <general\db_functions.h>
+#include <general\io_functions.h>
 #include <general\xml.h>
 #include <general\macro.h>
+#include <general\path.h>
 #include <general\date_functions.h>
 #include <ApsimShared\ApsimDataFileWriter.h>
 #include <soil\soil.h>
@@ -937,104 +939,81 @@ void Data::generateReportFiles(const std::string& userName,
    macro.go(xmlDoc.documentElement(), templateContents, filesGenerated,
             outputDirectory);
    }
+
+// Sort in descending order - NOTE the order of lhs and rhs arguments.
+bool operator< (const ffblk& rhs, const ffblk& lhs)
+   {
+   if (lhs.ff_fdate < rhs.ff_fdate)
+      return true;
+   else if (lhs.ff_fdate == rhs.ff_fdate)
+      return lhs.ff_ftime < rhs.ff_ftime;
+   else
+      return false;
+   }
+
+
 //---------------------------------------------------------------------------
 // Return a list of reports to caller.
 //---------------------------------------------------------------------------
-void Data::getReports(const std::string& userName,
+void Data::getReports(const std::string& reportBaseDirectory, const std::string& userName,
                       std::vector<std::string>& reportNames)
    {
-   unsigned userId = getUserId(userName);
+   string Folder = reportBaseDirectory + "\\" + userName;
+   string FileSpec = Folder + "\\*.*";
 
-   ostringstream sql;
-   sql << "SELECT * FROM Reports"
-       << " WHERE userId = " << userId
-       << " ORDER BY date";
-   TDataSet* query = runQuery(connection, sql.str());
-   getDBFieldValues(query, "name", reportNames);
-   delete query;
+   vector<ffblk> files;
+   struct ffblk ffblk;
+   int done = findfirst(FileSpec.c_str(), &ffblk, FA_ARCH);
+   while (!done)
+      {
+      bool Keep = (stristr(ffblk.ff_name, ".jpg")!=NULL ||
+                   stristr(ffblk.ff_name, ".gif")!=NULL);
+      if (Keep)
+         files.push_back(ffblk);
+      done = findnext (&ffblk);
+      }
+   sort(files.begin(), files.end());
+
+   for (unsigned i = 0; i != files.size(); i++)
+      reportNames.push_back(Path(files[i].ff_name).Get_name_without_ext());
+   }
+// --------------------------------------------------
+// Return a file name for the report.
+// --------------------------------------------------
+string Data::getReportFileName(const std::string& reportBaseDirectory,
+                               const std::string& userName,
+                               const std::string& reportName)
+   {
+   Path FullFileName(reportBaseDirectory + "\\" + userName + "\\" + reportName + ".gif");
+   if (!FullFileName.Exists())
+      FullFileName.Set_extension(".jpg");
+   if (!FullFileName.Exists())
+      throw runtime_error("Cannot find filename for report: " + reportName);
+   return FullFileName.Get_path();
    }
 //---------------------------------------------------------------------------
 // Delete the specified report file for the specified user.
 //---------------------------------------------------------------------------
-void Data::deleteReport(const std::string& userName,
+void Data::deleteReport(const std::string& reportBaseDirectory,
+                        const std::string& userName,
                         const std::string& reportName)
    {
-   unsigned userId = getUserId(userName);
-
-   ostringstream sql;
-   sql << "DELETE * FROM Reports"
-       << " WHERE userId = " << userId
-       << " AND name = " << singleQuoted(reportName);
-   executeQuery(connection, sql.str());
+   string FileName = getReportFileName(reportBaseDirectory, userName, reportName);
+   DeleteFile(FileName.c_str());
    }
 //---------------------------------------------------------------------------
 // Rename the specified report file for the specified user.
 //---------------------------------------------------------------------------
-void Data::renameReport(const std::string& userName,
+void Data::renameReport(const std::string& reportBaseDirectory,
+                        const std::string& userName,
                         const std::string& oldReportName,
                         const std::string& newReportName)
    {
-   unsigned userId = getUserId(userName);
-
-   ostringstream sql;
-   sql << "UPDATE [Reports] SET [name] = " << singleQuoted(newReportName)
-       << " WHERE userId = " << userId
-       << " AND name = " << singleQuoted(oldReportName);
-   executeQuery(connection, sql.str());
-   }
-//---------------------------------------------------------------------------
-// Store the specified report file for the specified user and paddock.
-//---------------------------------------------------------------------------
-void Data::storeReport(const std::string& userName,
-                       const std::string& reportName,
-                       const std::string& fileName)
-   {
-   if (!FileExists(fileName.c_str()))
-      throw runtime_error("Cannot store report. File doesn't exist: " + fileName);
-   deleteReport(userName, reportName);
-
-   unsigned userId = getUserId(userName);
-
-   TADOQuery* query = new TADOQuery(connection);
-   try
-      {
-      ostringstream insertSql;
-      insertSql << "INSERT INTO [Reports] ([userId], [name], [date], [contents]) "
-                << "VALUES (" << userId << ", "
-                << singleQuoted(reportName) << ", "
-                << "'" << TDateTime::CurrentDateTime() << "', "
-                << ":Contents)";
-      query->Connection = connection;
-      query->SQL->Text = insertSql.str().c_str();
-      query->Parameters->Items[0]->DataType = ftBlob;
-      query->Parameters->Items[0]->LoadFromFile(fileName.c_str(), ftBlob);
-      query->ExecSQL();
-      delete query;
-      }
-   catch (const Exception& err)
-      {
-      delete query;
-      throw runtime_error(err.Message.c_str());
-      }
-   }
-//---------------------------------------------------------------------------
-// Get the specified report file for the specified user and paddock.
-//---------------------------------------------------------------------------
-void Data::generateReport(const std::string& userName,
-                          const std::string& reportName,
-                          const std::string& fileName)
-   {
-   unsigned userId = getUserId(userName);
-
-   ostringstream sql;
-   sql << "SELECT contents FROM Reports"
-       << " WHERE userId = " << userId
-       << " AND name = " << singleQuoted(reportName);
-   TDataSet* query = runQuery(connection, sql.str());
-
-   TBlobField* blob = (TBlobField*)query->FieldByName("contents");
-   blob->SaveToFile(fileName.c_str());
-   delete query;
+   Path FullFileName(getReportFileName(reportBaseDirectory, userName, oldReportName));
+   Path NewFileName = FullFileName;
+   NewFileName.Set_name(newReportName.c_str());
+   NewFileName.Set_extension(FullFileName.Get_extension().c_str());
+   RenameFile(FullFileName.Get_path().c_str(), NewFileName.Get_path().c_str());
    }
 //---------------------------------------------------------------------------
 // Return region id for the specified region

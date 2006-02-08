@@ -25,6 +25,7 @@ class TClimateForecastForm;
 class TSoilsForm;
 class TMetStationForm;
 class TGenerateForm;
+class TViewReportForm;
 
 typedef void __fastcall (__closure *TQuestionEvent)(bool userClickedYes);
 typedef void __fastcall (__closure *TInfoEvent)(bool OkClicked,
@@ -141,6 +142,12 @@ class TWebSession : public TIWUserSessionBase
       // -----------------------------------------
       void showGenerateReportForm(const std::string& userName, const std::string& paddockName, bool readOnly);
 
+
+      // -----------------------------------------
+      // Show the view report form.
+      // -----------------------------------------
+      void showViewReportForm(const std::string& fileName, const std::string& userName);
+
       //---------------------------------------------------------------------------
       // Show the question form.
       //---------------------------------------------------------------------------
@@ -241,6 +248,7 @@ class TWebSession : public TIWUserSessionBase
       TSoilsForm* soilsForm;
       TMetStationForm* metStationForm;
       TGenerateForm* generateForm;
+      TViewReportForm* viewReportForm;
 
       // these next 3 variables are only used during a report generation.
       AnsiString currentReportName;
