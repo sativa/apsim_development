@@ -10,6 +10,7 @@
 ///////////////////////////WHEAT///////////////////////////////////
 void WheatPhenology::zeroDeltas(void)
    {
+   CropPhenology::zeroDeltas();
    dlt_cumvd = 0.0;
    }
 void WheatPhenology::zeroAllGlobals(void)
