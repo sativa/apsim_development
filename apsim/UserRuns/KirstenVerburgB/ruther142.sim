@@ -927,6 +927,8 @@
          <phenology_model>legume</phenology_model>
          <stage_code_list>1         2          3         4                5               6           7               8             9            10       12</stage_code_list>
          <stage_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</stage_names>
+         <phase_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</phase_names>
+         <phase_type>generic generic    generic   generic         generic           generic   generic          generic        generic  generic      generic</phase_type>
          <composite_phases>under_ground above_ground grainfill reproductive leaf_senescence vernalisation  emergence2floral_initiation preflowering node_formation start_grain_fill2harvest_ripe hi_stress_sensitive stress_reporting</composite_phases>
          <under_ground>sowing germination</under_ground>
          <above_ground>emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe</above_ground>
@@ -1750,6 +1752,8 @@
          <phenology_model>legume</phenology_model>
          <stage_code_list>1         2          3         4                5               6           7               8             9            10       12</stage_code_list>
          <stage_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</stage_names>
+         <phase_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</phase_names>
+         <phase_type>generic generic    generic   generic         generic           generic   generic          generic        generic  generic      generic</phase_type>
          <composite_phases>under_ground above_ground grainfill reproductive leaf_senescence vernalisation  emergence2floral_initiation preflowering node_formation start_grain_fill2harvest_ripe hi_stress_sensitive stress_reporting</composite_phases>
          <under_ground>sowing germination</under_ground>
          <above_ground>emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe</above_ground>
@@ -1982,6 +1986,8 @@
             <class_action>harvest   spray   delay   reduce  spring    dormancy     kill_stem</class_action>
             <class_change>unchanged sprayed delayed reduced unchanged dormant      unchanged</class_change>
             <stage_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</stage_names>
+            <phase_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</phase_names>
+            <phase_type>generic generic    generic   generic         generic           generic   generic          generic        generic  generic      generic</phase_type>
             <x_stage_rue>1   2    3     4     5     6     7     8       9    10   11  ()</x_stage_rue>
             <y_rue>0   0   1.8  1.8   1.4   0.8   0.4   0.1     0.0  0.0    0  (g/MJ)</y_rue>
             <transp_eff_cf>0.0  0.0 0.006 0.006 0.005 0.003 0.003 0.000 0.000   0.000     0 (Pa)</transp_eff_cf>
@@ -1998,6 +2004,8 @@
             <class_action>harvest    spray   delay   reduce  spring   dormancy     kill_stem</class_action>
             <class_change>unchanged  sprayed delayed reduced regrowth unchanged    unchanged</class_change>
             <stage_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</stage_names>
+            <phase_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</phase_names>
+            <phase_type>generic generic    generic   generic         generic           generic   generic          generic        generic  generic      generic</phase_type>
             <root_depth_rate>0      0   0.0   0.0   0.0   0.0   0.0    0.0   0.0     0.0    0  (mm/d)</root_depth_rate>
             <x_temp>1.0   40.0        (oC)</x_temp>
             <y_tt>0.0   0.0</y_tt>
@@ -2027,6 +2035,8 @@
             <class_action>harvest   spray   delay   reduce    spring   dormancy     kill_stem</class_action>
             <class_change>unchanged sprayed delayed unchanged regrowth dormant      unchanged</class_change>
             <stage_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</stage_names>
+            <phase_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</phase_names>
+            <phase_type>generic generic    generic   generic         generic           generic   generic          generic        generic  generic      generic</phase_type>
             <x_stage_rue>1      2    3     4     5     6     7      8     9      10    11  ()</x_stage_rue>
             <y_rue>0      0  0.60  0.60  0.50  0.20  0.20   0.0    0.0    0.00     0  (g/MJ)</y_rue>
          </lucerne_reduced>
@@ -2041,6 +2051,8 @@
             <class_action>harvest   frost   delay   reduce  spring   spray</class_action>
             <class_change>reduced   frosted delayed reduced regrowth sprayed</class_change>
             <stage_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</stage_names>
+            <phase_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</phase_names>
+            <phase_type>generic generic    generic   generic         generic           generic   generic          generic        generic  generic      generic</phase_type>
             <x_stage_rue>1      2    3     4     5     6     7      8     9      10    11  ()</x_stage_rue>
             <y_rue>0   0   0     0     0     0     0      0     0    0.00    0  (g/MJ)</y_rue>
          </lucerne_sprayed>
@@ -2231,6 +2243,8 @@
          <phenology_model>legume</phenology_model>
          <stage_code_list>1         2          3         4                5               6           7               8             9            10       12</stage_code_list>
          <stage_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</stage_names>
+         <phase_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</phase_names>
+         <phase_type>generic generic    generic   generic         generic           generic   generic          generic        generic  generic      generic</phase_type>
          <composite_phases>under_ground above_ground grainfill reproductive leaf_senescence vernalisation  emergence2floral_initiation preflowering node_formation start_grain_fill2harvest_ripe hi_stress_sensitive stress_reporting</composite_phases>
          <under_ground>sowing germination</under_ground>
          <above_ground>emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe</above_ground>
@@ -2732,6 +2746,8 @@
          <phenology_model>legume</phenology_model>
          <stage_code_list>1         2          3         4                5               6           7               8             9            10       12</stage_code_list>
          <stage_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</stage_names>
+         <phase_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</phase_names>
+         <phase_type>generic generic    generic   generic         generic           generic   generic          generic        generic  generic      generic</phase_type>
          <composite_phases>under_ground above_ground grainfill reproductive leaf_senescence vernalisation  emergence2floral_initiation preflowering node_formation start_grain_fill2harvest_ripe hi_stress_sensitive stress_reporting</composite_phases>
          <under_ground>sowing germination</under_ground>
          <above_ground>emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe</above_ground>
@@ -3111,6 +3127,8 @@
          <phenology_model>wheat</phenology_model>
          <stage_code_list>1         2          3         4                5               6           7               8             9            10       12</stage_code_list>
          <stage_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</stage_names>
+         <phase_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</phase_names>
+         <phase_type>generic generic    generic   generic         generic           generic   generic          generic        generic  generic      generic</phase_type>
          <composite_phases>under_ground above_ground grainfill reproductive leaf_senescence vernalisation eme2ej preflowering tiller_formation hi_stress_sensitive stress_reporting</composite_phases>
          <under_ground>sowing germination</under_ground>
          <above_ground>emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe</above_ground>
