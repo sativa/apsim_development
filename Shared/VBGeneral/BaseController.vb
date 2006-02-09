@@ -100,10 +100,14 @@ Public MustInherit Class BaseController
 #End Region
 
 #Region "File handling methods"
-    ReadOnly Property FileName() As String
+    Public Property FileName() As String
         Get
             Return MyFileName
         End Get
+        Set(ByVal newFileName As String)
+            Me.MyFileName = newFileName
+
+        End Set
     End Property
     ReadOnly Property AllowFileSave() As Boolean
         Get
@@ -141,9 +145,9 @@ Public MustInherit Class BaseController
             End With
             Dim choice As DialogResult = dialog.ShowDialog
             If choice = DialogResult.OK Then
-                IsReadOnly = ((File.GetAttributes(FileName) And FileAttributes.ReadOnly) = FileAttributes.ReadOnly)
+                IsReadOnly = ((File.GetAttributes(dialog.FileName) And FileAttributes.ReadOnly) = FileAttributes.ReadOnly)
                 If IsReadOnly Then
-                    MessageBox.Show("The file: " + FileName + " is readonly. All editing capability is disabled.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    MessageBox.Show("The file: " + dialog.FileName + " is readonly. All editing capability is disabled.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
                 FileOpen(dialog.FileName)
             End If

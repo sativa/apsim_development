@@ -12,6 +12,19 @@ Imports Xceed.SmartUI
 
 Public Class MainUI
     Inherits System.Windows.Forms.Form
+
+    Private Declare Ansi Sub excelFiles Lib "ApsimContextMenu.dll" _
+        Alias "excelFiles" (ByVal outFileList As String)
+
+    Private Declare Ansi Sub apsvisFiles Lib "ApsimContextMenu.dll" _
+            Alias "apsvisFiles" (ByVal outFileList As String)
+
+    Private Declare Ansi Sub apsimoutlookFiles Lib "ApsimContextMenu.dll" _
+            Alias "apsimoutlookFiles" (ByVal outFileList As String)
+
+
+
+
     Private ApsimUI As ApsimUIController
     Private Toolbox As ApsimUIController
     Private SimulationExplorer As ExplorerUI
@@ -121,6 +134,10 @@ Public Class MainUI
     Friend WithEvents SmallImages As System.Windows.Forms.ImageList
     Friend WithEvents MainToolBar As Xceed.SmartUI.Controls.ToolBar.SmartToolBar
     Friend WithEvents ToolboxButton As Xceed.SmartUI.Controls.ToolBar.Tool
+    Friend WithEvents FileExportMenu As Xceed.SmartUI.Controls.MenuBar.PopupMenuItem
+    Friend WithEvents FileExportExcelMenu As Xceed.SmartUI.Controls.MenuBar.MenuItem
+    Friend WithEvents ExcelToolBarButton As System.Windows.Forms.ToolBarButton
+    Friend WithEvents PrintDialog1 As System.Windows.Forms.PrintDialog
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MainUI))
@@ -143,6 +160,7 @@ Public Class MainUI
         Me.SimulationToolBar1 = New System.Windows.Forms.ToolBar
         Me.GraphButton = New System.Windows.Forms.ToolBarButton
         Me.ApsimOutlookButton = New System.Windows.Forms.ToolBarButton
+        Me.ExcelToolBarButton = New System.Windows.Forms.ToolBarButton
         Me.SimulationLabel1 = New System.Windows.Forms.Label
         Me.Splitter1 = New System.Windows.Forms.Splitter
         Me.SimulationPanel2 = New System.Windows.Forms.Panel
@@ -162,6 +180,8 @@ Public Class MainUI
         Me.OpenFileMenu = New Xceed.SmartUI.Controls.MenuBar.MenuItem("&Open file", 6)
         Me.SaveFileMenu = New Xceed.SmartUI.Controls.MenuBar.MenuItem("&Save file", 7)
         Me.SaveAsMenu = New Xceed.SmartUI.Controls.MenuBar.MenuItem("Save &As file", 8)
+        Me.FileExportMenu = New Xceed.SmartUI.Controls.MenuBar.PopupMenuItem("&Export ...")
+        Me.FileExportExcelMenu = New Xceed.SmartUI.Controls.MenuBar.MenuItem("Excel", 13)
         Me.separatorMenuItem1 = New Xceed.SmartUI.Controls.MenuBar.SeparatorMenuItem
         Me.ExitMenu = New Xceed.SmartUI.Controls.MenuBar.MenuItem("E&xit")
         Me.separatorTool2 = New Xceed.SmartUI.Controls.ToolBar.SeparatorTool
@@ -173,6 +193,7 @@ Public Class MainUI
         Me.SimulationButton = New Xceed.SmartUI.Controls.ToolBar.Tool("&Simulation")
         Me.ToolboxButton = New Xceed.SmartUI.Controls.ToolBar.Tool("&Toolboxes")
         Me.SmallImages = New System.Windows.Forms.ImageList(Me.components)
+        Me.PrintDialog1 = New System.Windows.Forms.PrintDialog
         Me.ToolBoxPanel.SuspendLayout()
         Me.ToolBoxToolBarPanel.SuspendLayout()
         Me.SimulationToolBarPanel.SuspendLayout()
@@ -265,7 +286,7 @@ Public Class MainUI
         '
         Me.Splitter7.BackColor = System.Drawing.Color.LightGray
         Me.Splitter7.Enabled = False
-        Me.Splitter7.Location = New System.Drawing.Point(287, 0)
+        Me.Splitter7.Location = New System.Drawing.Point(328, 0)
         Me.Splitter7.Name = "Splitter7"
         Me.Splitter7.Size = New System.Drawing.Size(1, 71)
         Me.Splitter7.TabIndex = 27
@@ -277,7 +298,7 @@ Public Class MainUI
         Me.HelpPanel.Controls.Add(Me.HelpToolBar)
         Me.HelpPanel.Controls.Add(Me.HelpLabel)
         Me.HelpPanel.Dock = System.Windows.Forms.DockStyle.Left
-        Me.HelpPanel.Location = New System.Drawing.Point(233, 0)
+        Me.HelpPanel.Location = New System.Drawing.Point(274, 0)
         Me.HelpPanel.Name = "HelpPanel"
         Me.HelpPanel.Size = New System.Drawing.Size(54, 71)
         Me.HelpPanel.TabIndex = 26
@@ -318,7 +339,7 @@ Public Class MainUI
         '
         Me.Splitter2.BackColor = System.Drawing.Color.LightGray
         Me.Splitter2.Enabled = False
-        Me.Splitter2.Location = New System.Drawing.Point(232, 0)
+        Me.Splitter2.Location = New System.Drawing.Point(273, 0)
         Me.Splitter2.Name = "Splitter2"
         Me.Splitter2.Size = New System.Drawing.Size(1, 71)
         Me.Splitter2.TabIndex = 21
@@ -330,15 +351,15 @@ Public Class MainUI
         Me.SimulationPanel1.Controls.Add(Me.SimulationToolBar1)
         Me.SimulationPanel1.Controls.Add(Me.SimulationLabel1)
         Me.SimulationPanel1.Dock = System.Windows.Forms.DockStyle.Left
-        Me.SimulationPanel1.Location = New System.Drawing.Point(80, 0)
+        Me.SimulationPanel1.Location = New System.Drawing.Point(65, 0)
         Me.SimulationPanel1.Name = "SimulationPanel1"
-        Me.SimulationPanel1.Size = New System.Drawing.Size(152, 71)
+        Me.SimulationPanel1.Size = New System.Drawing.Size(208, 71)
         Me.SimulationPanel1.TabIndex = 20
         '
         'SimulationToolBar1
         '
         Me.SimulationToolBar1.Appearance = System.Windows.Forms.ToolBarAppearance.Flat
-        Me.SimulationToolBar1.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.GraphButton, Me.ApsimOutlookButton})
+        Me.SimulationToolBar1.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.GraphButton, Me.ApsimOutlookButton, Me.ExcelToolBarButton})
         Me.SimulationToolBar1.Divider = False
         Me.SimulationToolBar1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SimulationToolBar1.DropDownArrows = True
@@ -346,7 +367,7 @@ Public Class MainUI
         Me.SimulationToolBar1.Location = New System.Drawing.Point(0, 20)
         Me.SimulationToolBar1.Name = "SimulationToolBar1"
         Me.SimulationToolBar1.ShowToolTips = True
-        Me.SimulationToolBar1.Size = New System.Drawing.Size(152, 48)
+        Me.SimulationToolBar1.Size = New System.Drawing.Size(208, 48)
         Me.SimulationToolBar1.TabIndex = 16
         '
         'GraphButton
@@ -361,6 +382,12 @@ Public Class MainUI
         Me.ApsimOutlookButton.Text = "&ApsimOutlook"
         Me.ApsimOutlookButton.ToolTipText = "Graph output files using ApsimOutlook"
         '
+        'ExcelToolBarButton
+        '
+        Me.ExcelToolBarButton.ImageIndex = 23
+        Me.ExcelToolBarButton.Text = "&Excel"
+        Me.ExcelToolBarButton.ToolTipText = "Export output file to Excel."
+        '
         'SimulationLabel1
         '
         Me.SimulationLabel1.BackColor = System.Drawing.Color.SteelBlue
@@ -368,16 +395,16 @@ Public Class MainUI
         Me.SimulationLabel1.ForeColor = System.Drawing.Color.White
         Me.SimulationLabel1.Location = New System.Drawing.Point(0, 0)
         Me.SimulationLabel1.Name = "SimulationLabel1"
-        Me.SimulationLabel1.Size = New System.Drawing.Size(152, 20)
+        Me.SimulationLabel1.Size = New System.Drawing.Size(208, 20)
         Me.SimulationLabel1.TabIndex = 15
-        Me.SimulationLabel1.Text = "Output file graphics"
+        Me.SimulationLabel1.Text = "Output File Export"
         Me.SimulationLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Splitter1
         '
         Me.Splitter1.BackColor = System.Drawing.Color.LightGray
         Me.Splitter1.Enabled = False
-        Me.Splitter1.Location = New System.Drawing.Point(79, 0)
+        Me.Splitter1.Location = New System.Drawing.Point(64, 0)
         Me.Splitter1.Name = "Splitter1"
         Me.Splitter1.Size = New System.Drawing.Size(1, 71)
         Me.Splitter1.TabIndex = 23
@@ -391,7 +418,7 @@ Public Class MainUI
         Me.SimulationPanel2.Dock = System.Windows.Forms.DockStyle.Left
         Me.SimulationPanel2.Location = New System.Drawing.Point(0, 0)
         Me.SimulationPanel2.Name = "SimulationPanel2"
-        Me.SimulationPanel2.Size = New System.Drawing.Size(79, 71)
+        Me.SimulationPanel2.Size = New System.Drawing.Size(64, 71)
         Me.SimulationPanel2.TabIndex = 22
         '
         'SimulationToolBar2
@@ -405,7 +432,7 @@ Public Class MainUI
         Me.SimulationToolBar2.Location = New System.Drawing.Point(0, 20)
         Me.SimulationToolBar2.Name = "SimulationToolBar2"
         Me.SimulationToolBar2.ShowToolTips = True
-        Me.SimulationToolBar2.Size = New System.Drawing.Size(79, 48)
+        Me.SimulationToolBar2.Size = New System.Drawing.Size(64, 48)
         Me.SimulationToolBar2.TabIndex = 16
         '
         'RunButton
@@ -421,7 +448,7 @@ Public Class MainUI
         Me.SimulationLabel2.ForeColor = System.Drawing.Color.White
         Me.SimulationLabel2.Location = New System.Drawing.Point(0, 0)
         Me.SimulationLabel2.Name = "SimulationLabel2"
-        Me.SimulationLabel2.Size = New System.Drawing.Size(79, 20)
+        Me.SimulationLabel2.Size = New System.Drawing.Size(64, 20)
         Me.SimulationLabel2.TabIndex = 15
         Me.SimulationLabel2.Text = "Simulation"
         Me.SimulationLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -513,7 +540,7 @@ Public Class MainUI
         '
         'FileMenu
         '
-        Me.FileMenu.Items.AddRange(New Object() {Me.NewFileMenu, Me.OpenFileMenu, Me.SaveFileMenu, Me.SaveAsMenu, Me.separatorMenuItem1, Me.ExitMenu})
+        Me.FileMenu.Items.AddRange(New Object() {Me.NewFileMenu, Me.OpenFileMenu, Me.SaveFileMenu, Me.SaveAsMenu, Me.FileExportMenu, Me.separatorMenuItem1, Me.ExitMenu})
         Me.FileMenu.Text = "&File"
         '
         'NewFileMenu
@@ -535,6 +562,16 @@ Public Class MainUI
         '
         Me.SaveAsMenu.ImageIndex = 8
         Me.SaveAsMenu.Text = "Save &As file"
+        '
+        'FileExportMenu
+        '
+        Me.FileExportMenu.Items.AddRange(New Object() {Me.FileExportExcelMenu})
+        Me.FileExportMenu.Text = "&Export ..."
+        '
+        'FileExportExcelMenu
+        '
+        Me.FileExportExcelMenu.ImageIndex = 13
+        Me.FileExportExcelMenu.Text = "Excel"
         '
         'ExitMenu
         '
@@ -639,12 +676,12 @@ Public Class MainUI
         ToolboxExplorer.BringToFront()
         ToolBoxSplitter.BringToFront()
 
-
         ' Load a default file if one was specified on the command line.
         Dim separators As String = " "
         Dim commands As String = Microsoft.VisualBasic.Command()
         Dim args() As String = commands.Split(separators.ToCharArray)
         Dim FileName As String = ""
+
         For Each Part As String In args
             If FileName <> "" Then
                 FileName = FileName + " "
@@ -655,11 +692,15 @@ Public Class MainUI
             FileName = FileName.Replace("""", "")
             ApsimUI.FileOpen(FileName)
         End If
+
         PopulateToolBoxContextMenu()
         SetFunctionality()
     End Sub
+
 #End Region
+
 #Region "Application level methods"
+
     Private Sub OnNewDataEvent()
         ' New data has entered the system.
         ' This is usually caused by FileNew,
@@ -667,6 +708,7 @@ Public Class MainUI
         ApsimUI.CheckAllComponents(ApsimUI.AllData)
         SetFunctionality()
     End Sub
+
     Private Sub SetFunctionality()
         ' Enable / Disable bits of functionality as 
         ' required. i.e. ensure program is in a 
@@ -681,7 +723,12 @@ Public Class MainUI
 
         GraphButton.Enabled = SomethingInTree
         ApsimOutlookButton.Enabled = SomethingInTree
+
+        Me.FileExportExcelMenu.Enabled = SomethingInTree
+        Me.ExcelToolBarButton.Enabled = SomethingInTree
+
     End Sub
+
     Private Sub MainUI_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
         ' User is closing down - save our work.
         e.Cancel = Not ApsimUI.FileSaveAfterPrompt()
@@ -701,27 +748,81 @@ Public Class MainUI
             End If
         End If
     End Sub
+
     Private Sub ToolBar_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles SimulationToolBar1.ButtonClick, SimulationToolBar2.ButtonClick, HelpToolBar.ButtonClick, ToolBoxToolBar.ButtonClick
+        'Catch which button on the toolboar the user clicked.
+
+        'Run button
         If e.Button Is RunButton Then
             RunSimulations()
-        ElseIf e.Button Is GraphButton Then
-            Graph()
-        ElseIf e.Button Is ApsimOutlookButton Then
-            ApsimOutlook()
+
+            'APSIM Help Button
         ElseIf e.Button Is ApsimHelpButton Then
             Dim HelpURL As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "docfile")
             ApsimUI.ShowHelp(HelpURL)
+
+            'Open Toolbox Button
         ElseIf e.Button Is OpenToolboxButton Then
+
+            Dim xy As New System.Drawing.Point( _
+                Me.OpenToolboxButton.Rectangle.Left, _
+                Me.OpenToolboxButton.Rectangle.Top + Me.OpenToolboxButton.Rectangle.Height)
+
+            Me.OpenToolboxButton.DropDownMenu.GetContextMenu.Show(Me.ToolBoxToolBar, xy)
 
         ElseIf e.Button Is ManageToolBoxesButton Then
             Dim Form As New OptionsForm
             Form.ShowDialog(Me)
             PopulateToolBoxContextMenu()
+
+            'The Output File Export buttons (Excel, Graph and APSIM Outlook)
+        ElseIf e.Button Is ExcelToolBarButton Or _
+                            e.Button Is GraphButton Or _
+                            e.Button Is ApsimOutlookButton Then
+
+            Dim arrFiles As StringCollection = GetAllOutputFiles(ApsimUI.AllData)
+            Dim frmOutput As New OutputFileExport(arrFiles)
+
+            ' Quit of routine if user chose "Cancel" or did not select any output files from the dialog
+            ' box list
+            If frmOutput.ShowDialog(Me) = DialogResult.Cancel Or frmOutput.SelectedOutputFiles.Count <= 0 Then
+                Exit Sub
+            End If
+
+            Dim OutputFileList As String = ComposeOutputFileCommandLineArgs(frmOutput.SelectedOutputFiles)
+
+            Select Case e.Button.Text
+
+                Case ExcelToolBarButton.Text
+                    Me.excelFiles(OutputFileList)
+
+                Case GraphButton.Text
+                    Me.apsvisFiles(OutputFileList)
+
+                Case Me.ApsimOutlookButton.Text
+                    Me.apsimoutlookFiles(OutputFileList)
+
+            End Select
+
         End If
 
-
     End Sub
+
+    'formats a collection of output file paths into a single comma delimited string
+    Private Function ComposeOutputFileCommandLineArgs(ByVal OutputFiles As System.Collections.Specialized.StringCollection) As String
+
+        Dim returnString As String
+
+        For Each str As String In OutputFiles
+            returnString += "," & str
+
+        Next
+
+        Return returnString.Remove(0, 1)
+
+    End Function
 #End Region
+
 #Region "Toolbox methods"
     Private Sub PopulateToolBoxContextMenu()
         Try
@@ -788,41 +889,47 @@ Public Class MainUI
     End Sub
 #End Region
 #Region "Graphing methods"
-    Private Sub Graph()
-        Dim Filename As String = Path.GetTempFileName()
-        Dim Writer As New StreamWriter(Filename)
-        Dim OutputFileNames As String = ""
-        GetAllOutputFiles(ApsimUI.AllData, Writer)
-        Writer.Close()
-        Writer = Nothing
 
-        Dim CommandLine As String = APSIMSettings.ApsimDirectory() + "\bin\apsvis.exe"
-        Process.Start(CommandLine, Filename)
-    End Sub
-    Private Sub ApsimOutlook()
-        Dim Filename As String = Path.GetTempFileName()
-        Dim Writer As New StreamWriter(Filename)
-        Dim OutputFileNames As String = ""
-        GetAllOutputFiles(ApsimUI.AllData, Writer)
-        Writer.Close()
-        Writer = Nothing
+    'return a StringCollection of all the output files currently in APSIM Project
+    Private Function GetAllOutputFiles(ByVal Data As APSIMData) As StringCollection
 
-        Dim CommandLine As String = APSIMSettings.ApsimDirectory() + "\bin\apsimoutlook.exe"
-        Process.Start(CommandLine, Filename)
-    End Sub
-    Private Sub GetAllOutputFiles(ByVal Data As APSIMData, ByRef OutputFileNames As StreamWriter)
+        Dim OutputFileCollection As New StringCollection
+
+        'loop through each node in the tree
         For Each Child As APSIMData In Data.Children
+
+            ' If child node is an "area", "simulation" or "simulations" then node is not a leaf
+            ' and a recursive call is made
             If Child.Type.ToLower() = "area" Or Child.Type.ToLower() = "simulation" Or Child.Type.ToLower() = "simulations" Then
-                GetAllOutputFiles(Child, OutputFileNames)  ' recursion
+
+                'On a recursive call, repopulate the string collection object with those
+                'output file paths already found.
+                For Each str As String In GetAllOutputFiles(Child)   ' recursion
+                    OutputFileCollection.Add(str)
+
+                Next
+
+
+                ' If leaf is an "Outputfile" type then check its path, making it absolute if neccesary
+                ' adding it to the string collection object
             ElseIf Child.Type.ToLower() = "outputfile" Then
                 Dim FullFileName As String = Child.ChildValue("filename")
+
                 If ApsimUI.FileName <> "" Then
                     FullFileName = Path.Combine(Path.GetDirectoryName(ApsimUI.FileName), FullFileName)
+
                 End If
-                OutputFileNames.WriteLine(FullFileName)
+
+                OutputFileCollection.Add(FullFileName)
+
             End If
+
         Next
-    End Sub
+
+        Return OutputFileCollection
+
+    End Function
+
 #End Region
 #Region "Top level menu bar"
     Private Sub MainButtonClick(ByVal sender As Object, ByVal e As Xceed.SmartUI.SmartItemClickEventArgs) Handles SimulationButton.Click, ToolboxButton.Click
@@ -894,4 +1001,10 @@ Public Class MainUI
             Return True
         End If
     End Function
+
+    Private Sub FileExportExcelMenu_Click(ByVal sender As System.Object, ByVal e As Xceed.SmartUI.SmartItemClickEventArgs) Handles FileExportExcelMenu.Click
+        Dim clickEvent As New System.Windows.Forms.ToolBarButtonClickEventArgs(Me.ExcelToolBarButton)
+        Me.ToolBar_ButtonClick(Me.ExcelToolBarButton, clickEvent)
+
+    End Sub
 End Class
