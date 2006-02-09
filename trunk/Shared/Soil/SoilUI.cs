@@ -692,6 +692,7 @@ namespace CSGeneral
 				PopulatePhosphorusGrid();
 				SetupCellNotes();
 				OperationMode mode = OperationMode.Normal;
+				
 				if (!Apsoil.AllowChanges)
 					mode = OperationMode.ReadOnly;
 					
@@ -1024,6 +1025,7 @@ namespace CSGeneral
 			GridUtils.SetCellAsDouble(APSIM, 1, 16, MySoil.EnrACoeff);
 			GridUtils.SetCellAsDouble(APSIM, 1, 17, MySoil.EnrBCoeff);
 			UserChange = true;
+			
 			}
 
 

@@ -168,63 +168,35 @@
                     HintPath = "..\..\Bin\Interop.SHDocVw.dll"
                 />
                 <Reference
-                    Name = "Soil"
-                    AssemblyName = "Soil"
-                    HintPath = "..\..\Shared\Soil\obj\Debug\Soil.dll"
-                    Private = "True"
+                    Name = "ChangeTool"
+                    AssemblyName = "ChangeTool"
+                    HintPath = "..\..\Shared\ChangeTool\obj\Debug\ChangeTool.dll"
                 />
                 <Reference
                     Name = "CSGeneral"
                     AssemblyName = "CSGeneral"
                     HintPath = "..\..\Shared\C#General\obj\Debug\CSGeneral.dll"
-                    Private = "True"
                 />
                 <Reference
-                    Name = "ChangeTool"
-                    AssemblyName = "ChangeTool"
-                    HintPath = "..\..\Shared\ChangeTool\obj\Debug\ChangeTool.dll"
-                    Private = "True"
-                />
-                <Reference
-                    Name = "VBMet"
-                    AssemblyName = "VBMet"
-                    HintPath = "..\..\Shared\VBMet\bin\VBMet.dll"
-                    Private = "True"
-                />
-                <Reference
-                    Name = "FarPoint.Win.Spread"
-                    AssemblyName = "FarPoint.Win.Spread"
-                    HintPath = "C:\Program Files\FarPoint Technologies\Spread.WinForms.v2\v2.0.1.0\bin\FarPoint.Win.Spread.dll"
-                    AssemblyFolderKey = "hklm\dn\farpoint spread for windows forms 2.0.1.0"
-                />
-                <Reference
-                    Name = "FarPoint.Win"
-                    AssemblyName = "FarPoint.Win"
-                    HintPath = "C:\Program Files\FarPoint Technologies\Spread.WinForms.v2\v2.0.1.0\bin\FarPoint.Win.dll"
-                    AssemblyFolderKey = "hklm\dn\farpoint spread for windows forms 2.0.1.0"
-                />
-                <Reference
-                    Name = "FarPoint.PluginCalendar.WinForms"
-                    AssemblyName = "FarPoint.PluginCalendar.WinForms"
-                    HintPath = "C:\Program Files\FarPoint Technologies\Spread.WinForms.v2\v2.0.1.0\bin\FarPoint.PluginCalendar.WinForms.dll"
-                    AssemblyFolderKey = "hklm\dn\farpoint spread for windows forms 2.0.1.0"
-                />
-                <Reference
-                    Name = "FarPoint.CalcEngine"
-                    AssemblyName = "FarPoint.CalcEngine"
-                    HintPath = "C:\Program Files\FarPoint Technologies\Spread.WinForms.v2\v2.0.1.0\bin\FarPoint.CalcEngine.dll"
-                    AssemblyFolderKey = "hklm\dn\farpoint spread for windows forms 2.0.1.0"
-                />
-                <Reference
-                    Name = "FarPoint.Excel"
-                    AssemblyName = "FarPoint.Excel"
-                    HintPath = "C:\Program Files\FarPoint Technologies\Spread.WinForms.v2\v2.0.1.0\bin\FarPoint.Excel.dll"
-                    AssemblyFolderKey = "hklm\dn\farpoint spread for windows forms 2.0.1.0"
+                    Name = "Soil"
+                    AssemblyName = "Soil"
+                    HintPath = "..\..\Shared\Soil\obj\Debug\Soil.dll"
                 />
                 <Reference
                     Name = "VBGeneral"
                     AssemblyName = "VBGeneral"
                     HintPath = "..\..\Shared\VBGeneral\bin\VBGeneral.dll"
+                />
+                <Reference
+                    Name = "VBMet"
+                    AssemblyName = "VBMet"
+                    HintPath = "..\..\Shared\VBMet\obj\Debug\VBMet.dll"
+                />
+                <Reference
+                    Name = "FarPoint.Win.Spread"
+                    AssemblyName = "FarPoint.Win.Spread"
+                    HintPath = "..\..\..\..\..\Program Files\FarPoint Technologies\Spread.WinForms.v2\v2.0.1.0\bin\FarPoint.Win.Spread.dll"
+                    AssemblyFolderKey = "hklm\dn\farpoint spread for windows forms 2.0.1.0"
                 />
             </References>
             <Imports>
@@ -405,6 +377,16 @@
                 <File
                     RelPath = "OutputFileDescUI.resx"
                     DependentUpon = "OutputFileDescUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "OutputFileExport.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "OutputFileExport.resx"
+                    DependentUpon = "OutputFileExport.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

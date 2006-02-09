@@ -64,38 +64,40 @@ Public Class ExplorerUI
         'DataTree
         '
         Me.DataTree.AllowDrop = True
+        Me.DataTree.AutoScroll = True
+        Me.DataTree.BackColor = System.Drawing.SystemColors.Control
         Me.DataTree.Controller = Nothing
         Me.DataTree.Dock = System.Windows.Forms.DockStyle.Left
-        Me.DataTree.Location = New System.Drawing.Point(0, 20)
+        Me.DataTree.HelpText = ""
+        Me.DataTree.Location = New System.Drawing.Point(0, 40)
         Me.DataTree.Name = "DataTree"
-        Me.DataTree.Size = New System.Drawing.Size(256, 733)
+        Me.DataTree.Size = New System.Drawing.Size(256, 551)
         Me.DataTree.Sorted = False
         Me.DataTree.TabIndex = 3
         '
         'Splitter1
         '
-        Me.Splitter1.Location = New System.Drawing.Point(256, 20)
+        Me.Splitter1.Location = New System.Drawing.Point(256, 40)
         Me.Splitter1.Name = "Splitter1"
-        Me.Splitter1.Size = New System.Drawing.Size(5, 733)
+        Me.Splitter1.Size = New System.Drawing.Size(5, 551)
         Me.Splitter1.TabIndex = 4
         Me.Splitter1.TabStop = False
         '
         'UIPanel
         '
         Me.UIPanel.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UIPanel.Location = New System.Drawing.Point(261, 20)
+        Me.UIPanel.Location = New System.Drawing.Point(261, 40)
         Me.UIPanel.Name = "UIPanel"
-        Me.UIPanel.Size = New System.Drawing.Size(492, 733)
+        Me.UIPanel.Size = New System.Drawing.Size(533, 551)
         Me.UIPanel.TabIndex = 5
         '
         'ExplorerUI
         '
-        Me.ClientSize = New System.Drawing.Size(753, 788)
         Me.Controls.Add(Me.UIPanel)
         Me.Controls.Add(Me.Splitter1)
         Me.Controls.Add(Me.DataTree)
         Me.Name = "ExplorerUI"
-        Me.Text = "explorerui"
+        Me.Size = New System.Drawing.Size(794, 591)
         Me.Controls.SetChildIndex(Me.DataTree, 0)
         Me.Controls.SetChildIndex(Me.Splitter1, 0)
         Me.Controls.SetChildIndex(Me.UIPanel, 0)
@@ -233,6 +235,4 @@ Public Class ExplorerUI
             End If
         End If
     End Sub
-
-
 End Class

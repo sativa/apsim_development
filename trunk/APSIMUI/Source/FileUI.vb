@@ -60,7 +60,7 @@ Public Class FileUI
         Me.FileContentsBox.Location = New System.Drawing.Point(0, 40)
         Me.FileContentsBox.Name = "FileContentsBox"
         Me.FileContentsBox.ReadOnly = True
-        Me.FileContentsBox.Size = New System.Drawing.Size(705, 693)
+        Me.FileContentsBox.Size = New System.Drawing.Size(794, 428)
         Me.FileContentsBox.TabIndex = 3
         Me.FileContentsBox.Text = ""
         Me.FileContentsBox.WordWrap = False
@@ -81,7 +81,7 @@ Public Class FileUI
         Me.BrowseToolBar.Dock = System.Windows.Forms.DockStyle.None
         Me.BrowseToolBar.DropDownArrows = True
         Me.BrowseToolBar.ImageList = Me.ImageList
-        Me.BrowseToolBar.Location = New System.Drawing.Point(619, 3)
+        Me.BrowseToolBar.Location = New System.Drawing.Point(708, 3)
         Me.BrowseToolBar.Name = "BrowseToolBar"
         Me.BrowseToolBar.ShowToolTips = True
         Me.BrowseToolBar.Size = New System.Drawing.Size(80, 32)
@@ -99,7 +99,7 @@ Public Class FileUI
         Me.Controls.Add(Me.BrowseToolBar)
         Me.Controls.Add(Me.FileContentsBox)
         Me.Name = "FileUI"
-        Me.Size = New System.Drawing.Size(705, 733)
+        Me.Size = New System.Drawing.Size(794, 468)
         Me.Controls.SetChildIndex(Me.FileContentsBox, 0)
         Me.Controls.SetChildIndex(Me.BrowseToolBar, 0)
         Me.ResumeLayout(False)
@@ -153,5 +153,4 @@ Public Class FileUI
             End If
         End If
     End Sub
-
 End Class

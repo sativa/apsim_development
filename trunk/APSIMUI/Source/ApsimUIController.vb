@@ -3,6 +3,7 @@ Imports System.Collections
 Imports System.Collections.Specialized
 Imports VBGeneral
 Imports CSGeneral
+
 Public Class ApsimUIController
     Inherits BaseController
     Private _MainForm As MainUI
@@ -11,7 +12,6 @@ Public Class ApsimUIController
     Private TypesFileName As String
     Private _LargeImageList As New ImageList
     Private _SmallImageList As New ImageList
-
 
 
     ' ---------------------
@@ -99,42 +99,59 @@ Public Class ApsimUIController
             Select Case UIType.ToLower
                 Case "area"
                     Return New areaui
+
                 Case "met"
                     Return New MetUI
+
                 Case "tracker"
                     Return New TrackerUI
+
                 Case "soil"
                     Dim SoilView As New SoilUI
                     Dim SoilController As New ApsoilController(".soil", "", "", Nothing)
+                    SoilController.FileName = Me.FileName
                     SoilController.AllData = Data
                     SoilView.Controller = SoilController
                     Return SoilView
+
                 Case "area"
                     Return New areaui
+
                 Case "toolbox"
                     Return New BaseView
                 Case "file"
                     Return New FileUI
+
                 Case "logic"
                     Return New LogicUI
+
                 Case "empty"
                     Return New EmptyUI
+
                 Case "swimsoil"
                     Return New SwimSoilUI
+
                 Case "outputfiledescription"
                     Return New OutputFileDescUI
+
                 Case "vinelogic"
                     Return New VineLogicUI
+
                 Case "rule"
                     Return New RuleUI
+
                 Case "initwater"
                     Return New InitWaterUI
+
                 Case "initnitrogen"
                     Return New InitNitrogenUI
+
                 Case "startup"
                     Return New StartupUI
+
                 Case Else
                     Return New GenericUI
+
             End Select
         End If
         Return Nothing
@@ -505,36 +522,42 @@ Public Class ApsimUIController
                             ByVal row As Integer, _
                             ByVal col As Integer, _
                             ByVal Prop As APSIMData)
+
         If Prop.Attribute("type") = "yesno" Then
             Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
             Combo.Items = New String() {"yes", "no"}
             Grid.Cells(row, col).CellType = Combo
+
         ElseIf Prop.Attribute("type") = "date" Then
-            Dim DateEditor As FarPoint.Win.Spread.CellType.DateTimeCellType = New FarPoint.Win.Spread.CellType.DateTimeCellType
+            Dim DateEditor As New APSIMUIDateTimeCellType
+            DateEditor.DefaultFormat()
             DateEditor.DateDefault = Prop.Value
-            DateEditor.DropDownButton = True
             Grid.Cells(row, col).CellType = DateEditor
+
         ElseIf Prop.Attribute("type") = "list" Then
             Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
             Combo.Items = Prop.Attribute("listvalues").Split(",")
             Combo.Editable = True
             Grid.Cells(row, col).CellType = Combo
+
         ElseIf Prop.Attribute("type") = "modulename" Then
             Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
             Combo.Items = GetMatchingModuleNames(Prop)
             Combo.Editable = True
             Grid.Cells(row, col).CellType = Combo
+
         ElseIf Prop.Attribute("type") = "crop" Then
             Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
             Combo.Items = Me.GetCropNames(Prop)
             Combo.Editable = True
             Grid.Cells(row, col).CellType = Combo
+
         ElseIf Prop.Attribute("type") = "cultivars" Then
             Dim CultivarCombo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
             CultivarCombo.Items = GetMatchingModuleNames(Prop)
             CultivarCombo.Editable = True
-            CultivarCombo.AutoSearch = FarPoint.Win.AutoSearch.None
             Grid.Cells(row, col).CellType = CultivarCombo
+
         End If
     End Sub
 
