@@ -3,8 +3,8 @@
 
 // Next iteration will provide this as a generic plant part. For now, it's a stem.
 class plantPart : public plantThing {
-      friend class Plant;
-   public: // for now
+  friend class Plant;
+  public:
    // (global) state variables
    struct {
       float dm_green;                     // live plant dry weight (biomass) (g/m^2)
@@ -171,7 +171,7 @@ private:
    virtual void onRemoveBiomass(float) {};
 
    virtual void prepare(void);
-   void process(void);
+   //void process(void);
    virtual void update(void);
    virtual void updateDm(void);
    virtual void updateN(void);

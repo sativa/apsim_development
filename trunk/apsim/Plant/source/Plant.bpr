@@ -11,7 +11,8 @@
       ..\..\..\Shared\ComponentInterface\EntryPoints.obj PlantParts.obj 
       PlantFruit.obj Phase.obj WheatPhenology.obj TTTPhenology.obj 
       TTTRatePhenology.obj CropPhenology.obj CompositePhase.obj Environment.obj 
-      Observers.obj"/>
+      Observers.obj VernalPhase.obj BroccoliPhenology.obj FixedPhase.obj 
+      MaizePhenology.obj LeafPart.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -85,6 +86,11 @@
       <FILE FILENAME="CompositePhase.cpp" FORMNAME="" UNITNAME="CompositePhase" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Environment.cpp" FORMNAME="" UNITNAME="Environment" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Observers.cpp" FORMNAME="" UNITNAME="Observers" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="VernalPhase.cpp" FORMNAME="" UNITNAME="VernalPhase.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="BroccoliPhenology.cpp" FORMNAME="" UNITNAME="BroccoliPhenology.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="FixedPhase.cpp" FORMNAME="" UNITNAME="FixedPhase.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="MaizePhenology.cpp" FORMNAME="" UNITNAME="MaizePhenology.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="LeafPart.cpp" FORMNAME="" UNITNAME="LeafPart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -186,7 +192,7 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl;C:\development\Shared\ComponentInterface\;C:\development\apsim\SummaryFile\Source\
 
 [Parameters]
-RunParams=D:\development\apsim\mungbean\sensibility\mungbean.sim
+RunParams=D:\development\apsim\canola\sample\canola.sim
 Launcher=
 UseLauncher=0
 DebugCWD=

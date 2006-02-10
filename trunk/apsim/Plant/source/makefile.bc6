@@ -60,7 +60,7 @@ clean:
 	rm -f $(OBJFILES) *.bak *.csm
 
 PlantComponent.obj: PlantComponent.cpp plant.h
-Plant.obj: plant.cpp plant.h PlantLibrary.h PlantPhenology.h PlantFruit.h PlantParts.h
+Plant.obj: plant.cpp plant.h PlantLibrary.h PlantPhenology.h PlantFruit.h PlantParts.h LeafPart.h
 PlantBiomass.obj: PlantBiomass.cpp PlantLibrary.h
 PlantCanopy.obj: PlantCanopy.cpp PlantLibrary.h
 PlantComms.obj: PlantComms.cpp PlantLibrary.h
@@ -86,7 +86,7 @@ Observers.obj: Observers.cpp Observers.h
 TTTPhenology.obj: TTTPhenology.cpp TTTPhenology.h
 CropPhenology.obj: CropPhenology.cpp CropPhenology.h
 TTTRatePhenology.obj: TTTRatePhenology.cpp TTTRatePhenology.h
-LeafPart.obj: LeafPart.cpp PlantParts.h
+LeafPart.obj: LeafPart.cpp PlantParts.h LeafPart.h
 StemPart.obj: StemPart.cpp StemPart.h
 PodPart.obj: PodPart.cpp PodPart.h
 MealPart.obj: MealPart.cpp MealPart.h
