@@ -1,5 +1,6 @@
 #include <general\pch.h>
 #include <vcl.h>
+#include <boost/function.hpp>
 #pragma hdrstop
 
 #include <math.h>
@@ -17,8 +18,10 @@
 #include <ComponentInterface/DataTypes.h>
 #include "ScienceConverterComponent.h"
 
+
 #pragma package(smart_init)
 using namespace std;
+
 
 #define singleArrayTypeDDML \
    "<type  array=\"T\" kind=\"single\"/>"
@@ -492,21 +495,37 @@ void ScienceConverterComponent::daylengthRelay (protocol::QueryValueData& queryD
 void ScienceConverterComponent::sendFeedOnOffer(protocol::QueryValueData& queryData)
 {
       float dmFeedOnOffer[6] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-      for (unsigned i = 0; i != feed.herbage.size(); i++)
+      int num_parts = feed.herbage.size();
+      if (num_parts > 0)
       {
-         dmFeedOnOffer[i] = feed.herbage[i].dm;
+         for (unsigned i = 0; i != num_parts; i++)
+         {
+            dmFeedOnOffer[i] = feed.herbage[i].dm;
+         }
       }
-      sendVariable(queryData, vector <float> (dmFeedOnOffer, dmFeedOnOffer+6));
+      else
+      {
+         num_parts = 6;
+      }
+      sendVariable(queryData, vector <float> (dmFeedOnOffer, dmFeedOnOffer+num_parts-1));
 }
 
 void ScienceConverterComponent::sendFeedRemoved(protocol::QueryValueData& queryData)
 {
       float dmFeedRemoved[6] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-      for (unsigned i = 0; i != grazed.herbage.size(); i++)
+      int num_parts = grazed.herbage.size();
+      if (num_parts > 0)
       {
-         dmFeedRemoved[i] = grazed.herbage[i];
+         for (unsigned i = 0; i != num_parts; i++)
+         {
+            dmFeedRemoved[i] = grazed.herbage[i];
+         }
       }
-      sendVariable(queryData, vector <float> (dmFeedRemoved, dmFeedRemoved+6));
+      else
+      {
+         num_parts = 6;
+      }
+      sendVariable(queryData, vector <float> (dmFeedRemoved, dmFeedRemoved+num_parts-1));
 }
 
 void ScienceConverterComponent::getParts(PlantPartType &parts, unsigned partsID)
@@ -804,8 +823,12 @@ void ScienceConverterComponent::calcDmdDecline(const float &thermalTime, PlantPo
 //   dQ = (dmdAvg - dmdMin) * (KQ5 * thermalTime);
 //   dQ.green.leaf = exp(-KQ5*thermalTime*max(0.0,1.0-thermalTime/KQ4)*ADJ) * (dmdAvg.green.leaf - dmdMin.green.leaf)*ADJ + dmdMin.green.leaf;
 //   dQ.green.stem = exp(-KQ5*thermalTime*ADJ) * (dmdAvg.green.stem - dmdMin.green.stem)*ADJ + dmdMin.green.stem;
-   dQ.green.leaf = max(0.0, (1.0-exp(-c.KQ5Leaf*(thermalTime-c.KQ4-TTCorrection))*ADJ)) * (dmdMax.green.leaf - dmdMin.green.leaf);
-   dQ.green.stem = max(0.0, (1.0-exp(-c.KQ5Stem*(thermalTime-TTCorrection))*ADJ)) * (dmdMax.green.stem - dmdMin.green.stem);
+//   dQ.green.leaf = max(0.0, (1.0-exp(-c.KQ5Leaf*(thermalTime-c.KQ4-TTCorrection))*ADJ)) * (dmdMax.green.leaf - dmdMin.green.leaf);
+//   dQ.green.stem = max(0.0, (1.0-exp(-c.KQ5Stem*(thermalTime-TTCorrection))*ADJ)) * (dmdMax.green.stem - dmdMin.green.stem);
+   float grlf = min(100.0, -c.KQ5Leaf*(thermalTime-c.KQ4-TTCorrection));
+   float grst = min(100.0, -c.KQ5Stem*(thermalTime-TTCorrection));
+   dQ.green.leaf = max(0.0, (1.0-exp(grlf)*ADJ)) * (dmdMax.green.leaf - dmdMin.green.leaf);
+   dQ.green.stem = max(0.0, (1.0-exp(grst)*ADJ)) * (dmdMax.green.stem - dmdMin.green.stem);
 
 }
 
