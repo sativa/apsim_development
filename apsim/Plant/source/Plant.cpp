@@ -21,6 +21,7 @@
 #include "TTTRatePhenology.h"
 #include "Plant.h"
 #include "PlantParts.h"
+#include "LeafPart.h"
 #include "PlantFruit.h"
 #include "StemPart.h"
 #include "LeafPart.h"
@@ -154,7 +155,7 @@ void Plant::doInit1(protocol::Component *s)
     myParts.push_back(stemPart);
     myStoverParts.push_back(stemPart);
 
-    leafPart = new plantLeafPart(this, "leaf");
+    leafPart = constructLeafPart(this, s->readParameter ("constants", "leaf_part"), "leaf");
     myThings.push_back(leafPart);
     myParts.push_back(leafPart);
     myStoverParts.push_back(leafPart);
@@ -599,17 +600,17 @@ void Plant::doRegistrations(protocol::Component *system)
                     &Plant::get_nh4gsm_uptake_pot,
                     "g/m2", "Pot NH4 uptake");
 
-   setupGetFunction(parent, "no3_swfac", protocol::DTsingle, false,
+   setupGetFunction(parent, "no3_swfac", protocol::DTsingle, true,
                     &Plant::get_no3_swfac,
-                    "", "Work this out...>>");
+                    "???", "Work this out...>>");
 
-   setupGetFunction(parent, "no3_uptake", protocol::DTsingle, false,
+   setupGetFunction(parent, "no3_uptake", protocol::DTsingle, true,
                     &Plant::get_no3_uptake,
-                    "","NO3 uptake");
+                    "kg/ha","NO3 uptake");
 
-   setupGetFunction(parent, "nh4_uptake", protocol::DTsingle, false,
+   setupGetFunction(parent, "nh4_uptake", protocol::DTsingle, true,
                     &Plant::get_nh4_uptake,
-                    "","NH4 uptake");
+                    "kg/ha","NH4 uptake");
 
    setupGetFunction(parent, "parasite_dm_supply", protocol::DTsingle, false,
                      &Plant::get_parasite_c_gain,

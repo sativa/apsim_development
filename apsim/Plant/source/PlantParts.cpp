@@ -21,6 +21,7 @@
 #include "PlantLibrary.h"
 #include "Plant.h"
 #include "PlantParts.h"
+#include "LeafPart.h"
 #include "PlantFruit.h"
 using namespace std;
 

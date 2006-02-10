@@ -46,7 +46,6 @@ class PlantFruit : public plantPart
 //zeroAllGlobals
 //zeroDeltas
 //readCultivarParameters
-//onDayOf
 //readConstants
 //readSpeciesParameters
 //             bool setVariable(unsigned id, protocol::QuerySetValueData& qd) ;
