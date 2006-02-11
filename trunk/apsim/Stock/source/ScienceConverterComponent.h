@@ -8,6 +8,9 @@
 
 #define min(A,B) ((A)<(B)?(A):(B))
 #define max(A,B) ((A)>(B)?(A):(B))
+// Maximum number of layers in soil
+#define max_layer 100
+
 std::string ftoa(double Float, char *fmtwidth=".2");
 std::string itoa(int value, int width);
 
@@ -39,6 +42,8 @@ class ScienceConverterComponent : public protocol::Component
       void sendFeedOnOffer(protocol::QueryValueData& queryData);
       void sendFeedRemoved(protocol::QueryValueData& queryData);
       void sendPlant2Stock(protocol::QueryValueData& queryData);
+      void sendAddSurfaceOMEvent (const string& omName, const string& omType, protocol::faeces_omType faecesOM);
+      void addUrine (protocol::urineType urine);
       void getParts(PlantPartType &parts, unsigned partsID);
       void getPGreen(PlantPartType &pGreen, PlantPool &dm);
       void getPSenesced(PlantPartType &pSenesced, PlantPool &dm);
@@ -58,8 +63,14 @@ class ScienceConverterComponent : public protocol::Component
 
       unsigned day_lengthID;
       unsigned dayLengthID;
+      unsigned tramplingID;
+      unsigned ureaID;
+      unsigned dltUreaID;
+      unsigned labilePID;
+      unsigned dltLabilePID;
       unsigned plant2stockID;
       unsigned removeHerbageID;
+      unsigned addExcretaID;
 
       unsigned dmGreenID;
       unsigned dmSenescedID;
@@ -87,10 +98,12 @@ class ScienceConverterComponent : public protocol::Component
       unsigned buyID;
       unsigned sellID;
       unsigned removeCropBiomassID;
+      unsigned addManureID;
       bool plant2StockSent;
 
       protocol::plant2stockType feed;
       protocol::remove_herbageType grazed;
+      protocol::add_excretaType excreted;
 
       PlantPool dmdPoolDm[maxDmdPools];
       PlantPool partFraction[maxDmdPools];

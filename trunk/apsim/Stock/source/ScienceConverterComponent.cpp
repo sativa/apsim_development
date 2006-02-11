@@ -98,9 +98,16 @@ void ScienceConverterComponent::doInit1(const FString& sdml)
    protocol::Component::doInit1(sdml);
 
    day_lengthID = addRegistration(RegistrationType::get, "day_length", singleTypeDDML);
+   tramplingID = addRegistration(RegistrationType::get, "trampling", singleTypeDDML);
+   ureaID = addRegistration(RegistrationType::get, "urea", singleArrayTypeDDML);
+   dltUreaID = addRegistration(RegistrationType::set, "dlt_urea", singleArrayTypeDDML);
+   labilePID = addRegistration(RegistrationType::get, "labile_p", singleArrayTypeDDML);
+   dltLabilePID = addRegistration(RegistrationType::set, "dlt_labile_p", singleArrayTypeDDML);
+
    dayLengthID = addRegistration(RegistrationType::respondToGet, "dayLength", singleTypeDDML);
    plant2stockID = addRegistration(RegistrationType::respondToGet, "plant2stock", plant2stockTypeDDML);
    removeHerbageID = addRegistration(RegistrationType::respondToEvent, "remove_herbage", remove_herbageTypeDDML);
+   addExcretaID = addRegistration(RegistrationType::respondToEvent, "add_excreta", add_excretaTypeDDML);
 
    dmFeedOnOfferID = addRegistration(RegistrationType::respondToGet, "dm_feed_on_offer", singleArrayTypeDDML);
    dmFeedRemovedID = addRegistration(RegistrationType::respondToGet, "dm_feed_removed", singleArrayTypeDDML);
@@ -111,6 +118,7 @@ void ScienceConverterComponent::doInit1(const FString& sdml)
    stockSellID = addRegistration(RegistrationType::respondToEvent, "sellstock", stringTypeDDML);
    sellID = addRegistration(RegistrationType::event, "sell", sellstockTypeDDML);
 
+   addManureID = addRegistration(RegistrationType::event, "add_surfaceom", "", "", "");
    }
 // ------------------------------------------------------------------
 // Init2 phase.
@@ -268,6 +276,24 @@ void ScienceConverterComponent::respondToEvent(unsigned int& fromID, unsigned in
          msg << endl << "   dm total = " << dmTotal << " (g/m2)" << endl << ends;
 
          writeString (msg.str());
+
+         protocol::Variant* variant;
+         bool ok = getVariable(tramplingID, variant, true);
+         if (ok)
+         {
+            float trampling;
+            bool ok = variant->unpack(trampling);  // what happens if this is not ok?
+            if (c.debug == "on")
+            {
+               ostrstream msg1;
+               msg1 << endl << "   trampling = " << trampling << " (kg/ha)" << endl << ends;
+
+               writeString (msg1.str());
+            }
+         }
+         else
+         {   // didn't get the day_length ID ok. Do nothing about it.
+         }
       }
 
       if (dmTotal > 1.0e-6)
@@ -276,6 +302,41 @@ void ScienceConverterComponent::respondToEvent(unsigned int& fromID, unsigned in
       }
 
    }
+   else if (eventID == addExcretaID && plant2StockSent == true)
+   {
+      variant.unpack(excreted);
+      ostrstream msg1;
+      if (c.debug == "on")
+      {
+         msg1 << endl << "Excretion:-" << endl;
+
+         msg1 << "   faeces om " <<  " (weight) =  " << excreted.faeces_om.weight << " (kg/ha)" << endl;
+         msg1 << "   faeces om " <<  " (n) =       " << excreted.faeces_om.n      << " (kg/ha)" << endl;
+         msg1 << "   faeces om " <<  " (p) =       " << excreted.faeces_om.p      << " (kg/ha)" << endl;
+         msg1 << "   faeces om " <<  " (s) =       " << excreted.faeces_om.s      << " (kg/ha)" << endl;
+         msg1 << "   faeces om " <<  " (ash_alk) = " << excreted.faeces_om.ash_alk << " (mol/ha)" << endl;
+
+         msg1 << "   faeces inorg " <<  " (n) = " << excreted.faeces_inorg.n << " (kg/ha)" << endl;
+         msg1 << "   faeces inorg " <<  " (p) = " << excreted.faeces_inorg.p << " (kg/ha)" << endl;
+         msg1 << "   faeces inorg " <<  " (s) = " << excreted.faeces_inorg.s << " (kg/ha)" << endl;
+
+         msg1 << "   urine " <<  " (volume) =  " << excreted.urine.volume  << " (m3/ha)" << endl;
+         msg1 << "   urine " <<  " (urea) =    " << excreted.urine.urea    << " (kg/ha)" << endl;
+         msg1 << "   urine " <<  " (pox) =     " << excreted.urine.pox     << " (kg/ha)" << endl;
+         msg1 << "   urine " <<  " (so4) =     " << excreted.urine.so4     << " (kg/ha)" << endl;
+         msg1 << "   urine " <<  " (ash_alk) = " << excreted.urine.ash_alk << " (mol/ha)" << endl;
+
+         msg1 << ends;
+
+         writeString (msg1.str());
+      }
+
+      const string omName = "manure";
+      const string omType = "manure";
+      sendAddSurfaceOMEvent (omName, omType, excreted.faeces_om);
+      addUrine (excreted.urine);
+    }
+
    else if (eventID == stockBuyID)
    {
       stockBuy(variant);
@@ -454,6 +515,53 @@ void ScienceConverterComponent::stockSell (protocol::Variant &v/*(INPUT) message
 
     publish (sellID, sellstock);
 }
+
+void ScienceConverterComponent::sendAddSurfaceOMEvent (const string& omName, const string& omType, protocol::faeces_omType faecesOM)
+{
+    protocol::ApsimVariant outgoingApsimVariant(this);
+    outgoingApsimVariant.store("name", protocol::DTstring, false, FString(omName.c_str()));
+    outgoingApsimVariant.store("type", protocol::DTstring, false, FString(omType.c_str()));
+
+    outgoingApsimVariant.store("mass", protocol::DTdouble, false, faecesOM.weight);
+    outgoingApsimVariant.store("n", protocol::DTdouble, false, faecesOM.n);
+    outgoingApsimVariant.store("p", protocol::DTdouble, false, faecesOM.p);
+    outgoingApsimVariant.store("s", protocol::DTdouble, false, faecesOM.s);
+    outgoingApsimVariant.store("ash_alk", protocol::DTdouble, false, faecesOM.ash_alk);
+
+    publish (addManureID, outgoingApsimVariant);
+    return;
+}
+
+void ScienceConverterComponent::addUrine (protocol::urineType urine)
+{
+    std::vector<float> values;               // Scratch area
+    float urea[max_layer];                     // soil Urea change (kg/ha)
+    float labileP[max_layer];                     // soil Urea change (kg/ha)
+    int   layer;                                  // soil layer no.
+    int   num_layers;                             // number of layers
+
+    getVariable (ureaID, values, 0.0, 1000.0, true);
+    num_layers = values.size();
+
+    for (layer = 0; layer != num_layers; layer++) {urea[layer] = 0.0;}
+    urea[0] = urine.urea;
+    protocol::vector<float> ureaValues(urea, urea+num_layers);
+    setVariable (dltUreaID, ureaValues);
+
+    values.clear();
+    if (getVariable (labilePID, values, 0.0, 1000.0, true))
+    {
+       num_layers = values.size();
+
+       for (layer = 0; layer != num_layers; layer++) {labileP[layer] = 0.0;}
+       labileP[0] = urine.pox;
+       protocol::vector<float> labilePValues(labileP, labileP+num_layers);
+       setVariable (dltLabilePID, labilePValues);
+    }
+
+    return;
+}
+
 // ------------------------------------------------------------------
 // return a variable to caller.  Return true if we own variable.
 // ------------------------------------------------------------------
@@ -823,12 +931,12 @@ void ScienceConverterComponent::calcDmdDecline(const float &thermalTime, PlantPo
 //   dQ = (dmdAvg - dmdMin) * (KQ5 * thermalTime);
 //   dQ.green.leaf = exp(-KQ5*thermalTime*max(0.0,1.0-thermalTime/KQ4)*ADJ) * (dmdAvg.green.leaf - dmdMin.green.leaf)*ADJ + dmdMin.green.leaf;
 //   dQ.green.stem = exp(-KQ5*thermalTime*ADJ) * (dmdAvg.green.stem - dmdMin.green.stem)*ADJ + dmdMin.green.stem;
-//   dQ.green.leaf = max(0.0, (1.0-exp(-c.KQ5Leaf*(thermalTime-c.KQ4-TTCorrection))*ADJ)) * (dmdMax.green.leaf - dmdMin.green.leaf);
-//   dQ.green.stem = max(0.0, (1.0-exp(-c.KQ5Stem*(thermalTime-TTCorrection))*ADJ)) * (dmdMax.green.stem - dmdMin.green.stem);
-   float grlf = min(100.0, -c.KQ5Leaf*(thermalTime-c.KQ4-TTCorrection));
-   float grst = min(100.0, -c.KQ5Stem*(thermalTime-TTCorrection));
-   dQ.green.leaf = max(0.0, (1.0-exp(grlf)*ADJ)) * (dmdMax.green.leaf - dmdMin.green.leaf);
-   dQ.green.stem = max(0.0, (1.0-exp(grst)*ADJ)) * (dmdMax.green.stem - dmdMin.green.stem);
+   dQ.green.leaf = max(0.0, (1.0-exp(-c.KQ5Leaf*(thermalTime-c.KQ4-TTCorrection))*ADJ)) * (dmdMax.green.leaf - dmdMin.green.leaf);
+   dQ.green.stem = max(0.0, (1.0-exp(-c.KQ5Stem*(thermalTime-TTCorrection))*ADJ)) * (dmdMax.green.stem - dmdMin.green.stem);
+//   float grlf = min(100.0, -c.KQ5Leaf*(thermalTime-c.KQ4-TTCorrection));
+//   float grst = min(100.0, -c.KQ5Stem*(thermalTime-TTCorrection));
+//   dQ.green.leaf = max(0.0, (1.0-exp(grlf)*ADJ)) * (dmdMax.green.leaf - dmdMin.green.leaf);
+//   dQ.green.stem = max(0.0, (1.0-exp(grst)*ADJ)) * (dmdMax.green.stem - dmdMin.green.stem);
 
 }
 
@@ -939,7 +1047,7 @@ void ScienceConverterComponent::sendPlant2Stock(protocol::QueryValueData& queryD
 
       PlantPool dmdFraction[maxDmdPools];
 
-//      calcDmdDistribution(dmdFraction, dQ);
+////      calcDmdDistribution(dmdFraction, dQ);
       calcDmdDistributionB(dmdFraction, dQ);
 
 // LEAF  - GREEN
@@ -978,6 +1086,7 @@ void ScienceConverterComponent::sendPlant2Stock(protocol::QueryValueData& queryD
 
          poolDm = dm * dmdFraction[pool];
          dmTot = poolDm.total();
+//         if (dmTot < 0.5) dmTot = 0.0;
          herbage.dm = dmTot;
          partFraction[pool] = poolDm / dmTot;
 
@@ -1088,6 +1197,7 @@ void ScienceConverterComponent::proportion (float dmdAvg, float dmdMax, float dm
 //   const float MAXDMD = 0.8;
 //   const float MINDMD = 0.3;
    const float errorMargin = 1.0e-5;
+   const float roundingMargin = 1.0e-2;
 
    //Local Varialbes
 
@@ -1184,6 +1294,14 @@ void ScienceConverterComponent::proportion (float dmdAvg, float dmdMax, float dm
       default:
          throw std::runtime_error("Too many digestibility classes");
 
+   }
+   for (int pool = 0; pool < numPools; pool ++)
+   {
+      if (dmdFraction[startDmd + pool] < roundingMargin)
+      {
+         dmdFraction[startDmd+pool+1] += dmdFraction[startDmd+pool];
+         dmdFraction[startDmd+pool] = 0.0;
+      }
    }
 }
 
