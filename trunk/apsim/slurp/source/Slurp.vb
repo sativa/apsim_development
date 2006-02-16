@@ -6,7 +6,6 @@ Imports VBMet
 Imports CSGeneral.MathUtility
 Imports ComponentInterface
 
-'Imports VBMath
 Public Class Slurp
     Inherits ApsimComponent
 
@@ -97,14 +96,19 @@ Public Class Slurp
         DoNewPotentialGrowthEvent()
     End Sub
     <ApsimEvent("process")> Public Sub OnProcess(ByVal Null As Null)
-        SWSupply = CalcSWSupply()
-        SWUptake = CalcSWUptake()
-        Dim DltSWDep(dlayer.Length - 1) As Single
-        For layer As Integer = 0 To dlayer.Length - 1
-            DltSWDep(layer) = SWUptake(layer) * -1
-        Next
-        properties.Set("dlt_sw_dep", DltSWDep)
-
+        If UptakeSource = "calc" Then
+            SWSupply = CalcSWSupply()
+            SWUptake = CalcSWUptake()
+            Dim DltSWDep(dlayer.Length - 1) As Single
+            For layer As Integer = 0 To dlayer.Length - 1
+                DltSWDep(layer) = SWUptake(layer) * -1
+            Next
+            properties.Set("dlt_sw_dep", DltSWDep)
+        Else
+            ' uptake is calculated by another module in APSIM
+            'properties.Get(Trim("uptake_water_" + CropType), SWUptake)
+            'SWUptake = CalcSWSupply()
+        End If
     End Sub
     <ApsimEvent("NewMet")> Public Sub OnNewMet(ByVal NewMetData As NewMet)
         MetData = NewMetData
@@ -173,7 +177,7 @@ Public Class Slurp
             DoNewCanopyEvent()
         End Set
     End Property
-    <ApsimProperty("height", "")> Public Property Heightproperty() As Single
+    <ApsimProperty("height", "mm")> Public Property Heightproperty() As Single
         Get
             Return Height
         End Get
@@ -217,7 +221,7 @@ Public Class Slurp
             Return FVPDFunction.value(VPD())
         End Get
     End Property
-    <ApsimProperty("ep", "")> Public ReadOnly Property EP() As Single
+    <ApsimProperty("ep", "mm")> Public ReadOnly Property EP() As Single
         Get
             ' EP is daily total crop water use from all layers
             Dim ReturnValue As Single = 0
