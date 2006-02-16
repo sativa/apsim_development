@@ -134,6 +134,8 @@ public __gc class ApsimComponent
 								data = new WrapMemberInfo<ApsimDouble, FieldInfo>(Properties[p], this);
 							else if (MemberType->CompareTo("Int32") == 0)
 								data = new WrapMemberInfo<ApsimInteger4, FieldInfo>(Properties[p], this);
+							else if (MemberType->CompareTo("String") == 0)
+								data = new WrapMemberInfo<ApsimString, FieldInfo>(Properties[p], this);
 							else if (MemberType->CompareTo("String[]") == 0)
 								data = new WrapMemberInfo<ApsimArray<ApsimString, String*>, FieldInfo>(Properties[p], this);
 							else if (MemberType->CompareTo("Int32[]") == 0)

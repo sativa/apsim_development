@@ -49,6 +49,7 @@ class ApsimString : public IData
 		ApsimString() { }
 		ApsimString(const std::string& st) : Data(st) { }
 		ApsimString(String* v) {Data = stringToStdString(v);}
+		ApsimString(Object* v) {Data = stringToStdString(dynamic_cast<String*> (v));}
 		ApsimString(Message& message) {unpack(message);}
 		
 		const char* value() {return Data.c_str();}
