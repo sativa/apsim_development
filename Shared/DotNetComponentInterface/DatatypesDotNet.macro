@@ -228,13 +228,13 @@ public  __gc class ApsimProperties
          return comms->setProperty(stringToStdString(PropertyName), "", Value);
          }
       #if (type.array = T)
-      void Register(String* PropertyName, String* Units, ApsimProperties::ReadWriteType ReadWrite, type.dotnetkind Data type.dotnetarraybits)
+      void Register(String* PropertyName, String* Units, ApsimProperties::ReadWriteType ReadWrite, type.dotnetkind (*Data) type.dotnetarraybits)
       #else
       void Register(String* PropertyName, String* Units, ApsimProperties::ReadWriteType ReadWrite, type.dotnetkind& Data type.dotnetarraybits)
       #endif
          {
          #if (type.array = T)
-         WrapVariableAlias<ApsimArray<Apsimtype.KKind, type.dotnetkind>, type.dotnetkind type.dotnetarraybits>* wrapper = new WrapVariableAlias<ApsimArray<Apsimtype.KKind, type.dotnetkind>, type.dotnetkind type.dotnetarraybits>(Data);
+         WrapVariableAlias<ApsimArray<Apsimtype.KKind, type.dotnetkind>, type.dotnetkind type.dotnetarraybits>* wrapper = new WrapVariableAlias<ApsimArray<Apsimtype.KKind, type.dotnetkind>, type.dotnetkind type.dotnetarraybits>(*Data);
          #else
          WrapVariableAlias<Apsimtype.KKind, type.dotnetkind>* wrapper = new WrapVariableAlias<Apsimtype.KKind, type.dotnetkind>(Data);
          #endif

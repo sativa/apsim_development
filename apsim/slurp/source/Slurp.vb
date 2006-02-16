@@ -28,7 +28,8 @@ Public Class Slurp
     Private Height As Single             ' Canopy height (mm)
     Private Frgr As Single               ' Relative Growth Rate Factor
     Public dlayer() As Single         ' Soil Layer Thickness (mm)
-    Private rlv() As Single              ' Root Length Density (mm/mm3)
+
+    Private rlv() As Single                 ' Root Length Density (mm/mm3)
     Private kl() As Single               ' SW uptake parameter (/day)
     Private ll() As Single               ' Crop Lower Limit (mm/mm)
     Private FtFunction As New InterpSet  ' Tmperature effect on Growth Interpolation Set
@@ -45,6 +46,7 @@ Public Class Slurp
     Public Overrides Sub init1()
 
         ' Do Registrations
+
 
 
         ' Property Getters and Setters
@@ -106,7 +108,7 @@ Public Class Slurp
             properties.Set("dlt_sw_dep", DltSWDep)
         Else
             ' uptake is calculated by another module in APSIM
-            'properties.Get(Trim("uptake_water_" + CropType), SWUptake)
+            properties.Get(Trim("uptake_water_" + CropType), SWUptake)
             'SWUptake = CalcSWSupply()
         End If
     End Sub
