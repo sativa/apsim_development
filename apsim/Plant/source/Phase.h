@@ -13,11 +13,12 @@
 class pPhase
    {
    protected:
-     std::string  myName;       // Usually the name of the "stage" that the phase starts from.
+     std::string  myName;  // Usually the name of the "stage" that the phase starts from.
      float tt,             // Thermal time spent in this phase
            target,         // Target time we want to spend here
            days;           // Number of days spent in this phase.
      bool empty;
+
    public:
      pPhase(const std::string& n) {myName = n; tt = target = days = 0.0; empty = true;};
      pPhase(const char *n) {myName = n; tt = target = days = 0.0; empty = true;};

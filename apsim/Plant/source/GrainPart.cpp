@@ -173,22 +173,22 @@ float fruitGrainPart::dmTotal(void)
 float fruitGrainPart::dmSenesced(void)
 //===========================================================================
 {
-    g.dm_senesced = 0.0;
+    DMSenesced = 0.0;
     vector<plantPart *>::iterator part;
     for (part = myParts.begin(); part != myParts.end(); part++)
-      g.dm_senesced += (*part)->dmSenesced();
-   return g.dm_senesced;
+      DMSenesced += (*part)->dmSenesced();
+   return DMSenesced;
 }
 
 //===========================================================================
 float fruitGrainPart::dmDead(void)
 //===========================================================================
 {
-    g.dm_dead = 0.0;
+    DMDead = 0.0;
     vector<plantPart *>::iterator part;
     for (part = myParts.begin(); part != myParts.end(); part++)
-      g.dm_dead += (*part)->dmDead();
-   return g.dm_dead;
+      DMDead += (*part)->dmDead();
+   return DMDead;
 }
 
 //===========================================================================
@@ -206,33 +206,33 @@ float fruitGrainPart::nTotal(void)
 float fruitGrainPart::nGreen(void)
 //===========================================================================
 {
-    g.n_green = 0.0;
+    NGreen = 0.0;
     vector<plantPart *>::iterator part;
     for (part = myParts.begin(); part != myParts.end(); part++)
-      g.n_green += (*part)->nGreen();
-   return g.n_green;
+      NGreen += (*part)->nGreen();
+   return NGreen;
 }
 
 //===========================================================================
 float fruitGrainPart::nSenesced(void)
 //===========================================================================
 {
-    g.n_senesced = 0.0;
+    NSenesced = 0.0;
     vector<plantPart *>::iterator part;
     for (part = myParts.begin(); part != myParts.end(); part++)
-      g.n_senesced += (*part)->nSenesced();
-   return g.n_senesced;
+      NSenesced += (*part)->nSenesced();
+   return NSenesced;
 }
 
 //===========================================================================
 float fruitGrainPart::nDead(void)
 //===========================================================================
 {
-    g.n_dead = 0.0;
+    NDead = 0.0;
     vector<plantPart *>::iterator part;
     for (part = myParts.begin(); part != myParts.end(); part++)
-      g.n_dead += (*part)->nDead();
-   return g.n_dead;
+      NDead += (*part)->nDead();
+   return NDead;
 }
 
 //===========================================================================
@@ -248,7 +248,7 @@ float fruitGrainPart::nConc(void)
 float fruitGrainPart::nGrainDemand2(void)
 //===========================================================================
 {
-    return l_bound(mealPart->v.soil_n_demand - mealPart->dlt.n_green, 0.0);
+    return l_bound(mealPart->SoilNDemand - mealPart->dlt.n_green, 0.0);
 }
 
 
@@ -256,13 +256,13 @@ float fruitGrainPart::nGrainDemand2(void)
 float fruitGrainPart::soilNDemand(void)
 //============================================================================
 {
-    v.soil_n_demand = 0.0;
+    SoilNDemand = 0.0;
     vector<plantPart *>::iterator part;
     for (part = myParts.begin(); part != myParts.end(); part++)
     {
-            v.soil_n_demand += (*part)->soilNDemand();
+            SoilNDemand += (*part)->soilNDemand();
     }
-    return v.soil_n_demand;
+    return SoilNDemand;
 }
 
 //============================================================================
@@ -1117,33 +1117,33 @@ void fruitGrainPart::onEndCrop(vector<string> &dm_type,
 void fruitGrainPart::refreshStates(void)
 // ====================================================================
 {
-     g.dm_dead     = 0.0;
-     g.dm_senesced = 0.0;
-     g.dm_green    = 0.0;
+     DMDead     = 0.0;
+     DMSenesced = 0.0;
+     DMGreen    = 0.0;
 
-     g.n_dead     = 0.0;
-     g.n_senesced = 0.0;
-     g.n_green    = 0.0;
+     NDead     = 0.0;
+     NSenesced = 0.0;
+     NGreen    = 0.0;
 
-     g.p_dead  = 0.0;
-     g.p_sen   = 0.0;
-     g.p_green = 0.0;
+     PDead  = 0.0;
+     PSen   = 0.0;
+     PGreen = 0.0;
 
     for (vector<plantPart *>::iterator part = myParts.begin();
          part != myParts.end();
          part++)
     {
-       g.dm_dead += (*part)->g.dm_dead;
-       g.dm_green += (*part)->g.dm_green;
-       g.dm_senesced += (*part)->g.dm_senesced;
+       DMDead += (*part)->DMDead;
+       DMGreen += (*part)->DMGreen;
+       DMSenesced += (*part)->DMSenesced;
 
-       g.n_dead += (*part)->g.n_dead;
-       g.n_green += (*part)->g.n_green;
-       g.n_senesced += (*part)->g.n_senesced;
+       NDead += (*part)->NDead;
+       NGreen += (*part)->NGreen;
+       NSenesced += (*part)->NSenesced;
 
-       g.p_dead += (*part)->g.p_dead;
-       g.p_green += (*part)->g.p_green;
-       g.p_sen += (*part)->g.p_sen;
+       PDead += (*part)->PDead;
+       PGreen += (*part)->PGreen;
+       PSen += (*part)->PSen;
     }
 }
 
@@ -1361,13 +1361,13 @@ void fruitGrainPart::readSpeciesParameters(protocol::Component *system, vector<s
 float fruitGrainPart::dmGreen(void)
 //===========================================================================
 {
-    g.dm_green = 0.0;
+    DMGreen = 0.0;
 
     vector<plantPart *>::iterator part;
     for (part = myParts.begin(); part != myParts.end(); part++)
-      g.dm_green +=(*part)->g.dm_green;
+      DMGreen +=(*part)->DMGreen;
 
-    return g.dm_green;
+    return DMGreen;
 }
 
 //===========================================================================
@@ -1449,9 +1449,9 @@ void fruitGrainPart::update(void)
     for (part = myParts.begin(); part != myParts.end(); part++)
       (*part)->updateN();
 
-        g.n_green = 0.0;
-        g.n_senesced = 0.0;
-        g.n_dead = 0.0;
+        NGreen = 0.0;
+        NSenesced = 0.0;
+        NDead = 0.0;
         dlt.n_senesced_dead = 0.0;
         dlt.n_green_dead = 0.0;
 
@@ -1459,9 +1459,9 @@ void fruitGrainPart::update(void)
              part != myParts.end();
              part++)
         {
-           g.n_green += (*part)->nGreen();
-           g.n_senesced += (*part)->nSenesced();
-           g.n_dead += (*part)->nDead();
+           NGreen += (*part)->nGreen();
+           NSenesced += (*part)->nSenesced();
+           NDead += (*part)->nDead();
            dlt.n_senesced_dead += (*part)->dlt.n_senesced_dead;
            dlt.n_green_dead += (*part)->dlt.n_green_dead;
         }
@@ -1470,18 +1470,18 @@ void fruitGrainPart::update(void)
     for (part = myParts.begin(); part != myParts.end(); part++)
       (*part)->updateDm();
 
-        g.dm_green = 0.0;
-        g.dm_senesced = 0.0;
-        g.dm_dead = 0.0;
+        DMGreen = 0.0;
+        DMSenesced = 0.0;
+        DMDead = 0.0;
         dlt.dm_senesced_dead = 0.0;
         dlt.dm_green_dead = 0.0;
         for (part = myParts.begin();
              part != myParts.end();
              part++)
         {
-           g.dm_green += (*part)->dmGreen();
-           g.dm_senesced += (*part)->dmSenesced();
-           g.dm_dead += (*part)->dmDead();
+           DMGreen += (*part)->dmGreen();
+           DMSenesced += (*part)->dmSenesced();
+           DMDead += (*part)->dmDead();
            dlt.dm_senesced_dead += (*part)->dlt.dm_senesced_dead;
            dlt.dm_green_dead += (*part)->dlt.dm_green_dead;
         }
@@ -1494,18 +1494,18 @@ void fruitGrainPart::update(void)
       (*part)->updateP();
     }
 
-        g.p_green = 0.0;
-        g.p_sen = 0.0;
-        g.p_dead = 0.0;
+        PGreen = 0.0;
+        PSen = 0.0;
+        PDead = 0.0;
 //        dlt.p_senesced_dead = 0.0;
 //        dlt.p_green_dead = 0.0;
         for (part = myParts.begin();
              part != myParts.end();
              part++)
         {
-           g.p_green += (*part)->pGreen();
-           g.p_sen += (*part)->pSenesced();
-           g.p_dead += (*part)->pDead();
+           PGreen += (*part)->pGreen();
+           PSen += (*part)->pSenesced();
+           PDead += (*part)->pDead();
 //           dlt.p_senesced_dead += (*part)->dlt.p_senesced_dead;
 //           dlt.p_green_dead += (*part)->dlt.p_green_dead;
         }
@@ -1700,7 +1700,7 @@ void fruitGrainPart::bio_yieldpart_demand1(void)
                                     ,pNum_pp_hi_incr);
 
         // effective grain filling period
-        float dm_green_yield_parts = mealPart->g.dm_green + oilPart->g.dm_green;
+        float dm_green_yield_parts = mealPart->DMGreen + oilPart->DMGreen;
 
         harvest_index = divide (dm_green_yield_parts, plant->getDmTops(), 0.0);
         dm_tops_new = plant->getDmTops() + plant->getDltDm();
@@ -1775,13 +1775,13 @@ void fruitGrainPart::grain_n_demand1(float g_nfact_grain_conc      //   (INPUT)
                           , g_swdef_expansion);
 
 
-      n_potential  = (mealPart->g.dm_green
+      n_potential  = (mealPart->DMGreen
                      + mealPart->dlt.dm_green
                      + mealPart->dlt.dm_green_retrans)
                    * mealPart->g.n_conc_max;
 
       gN_grain_demand = u_bound (gN_grain_demand
-                                , n_potential - mealPart->g.n_green);
+                                , n_potential - mealPart->NGreen);
 
    }
 
@@ -2144,9 +2144,9 @@ void fruitGrainPart::dm_retranslocate1( float  g_dlt_dm_retrans_to_fruit )
 ////          fPart != supplyPools.end();
 ////          fPart++)
 ////        {
-////           dm_part_pot = (*fPart)->g.dm_green + (*fPart)->dlt.dm_green_retrans;
+////           dm_part_pot = (*fPart)->DMGreen + (*fPart)->dlt.dm_green_retrans;
 ////           dm_part_avail = dm_part_pot
-////                         - (*fPart)->g.dm_plant_min * plant->getPlants();
+////                         - (*fPart)->DMPlantMin * plant->getPlants();
 ////           dm_part_avail = l_bound (dm_part_avail, 0.0);
 ////
 ////           dlt_dm_retrans_part = min (demand_differential, dm_part_avail);
@@ -2275,9 +2275,9 @@ void fruitGrainPart::dm_retranslocate2( float  g_dlt_dm_retrans_to_fruit)
 ////          fPart != supplyPools.end();
 ////          fPart++)
 ////        {
-////           dm_part_pot = (*fPart)->g.dm_green + (*fPart)->dlt.dm_green_retrans;
+////           dm_part_pot = (*fPart)->DMGreen + (*fPart)->dlt.dm_green_retrans;
 ////           dm_part_avail = dm_part_pot
-////                         - (*fPart)->g.dm_plant_min * plant->getPlants();
+////                         - (*fPart)->DMPlantMin * plant->getPlants();
 ////           dm_part_avail = l_bound (dm_part_avail, 0.0);
 ////
 ////           dlt_dm_retrans_part = min (demand_differential, dm_part_avail);
@@ -2374,13 +2374,13 @@ void fruitGrainPart::doSenescence2 (float sen_fr)       // (OUTPUT) actual bioma
 void fruitGrainPart::doDmMin (void)       // (OUTPUT) actual biomass senesced from plant parts (g/m^2)
 //============================================================================
 {
-   g.dm_plant_min = 0.0;
+   DMPlantMin = 0.0;
    for (vector<plantPart *>::iterator t = myParts.begin();
        t != myParts.end();
        t++)
    {
      (*t)->doDmMin();
-      g.dm_plant_min += (*t)->g.dm_plant_min;
+      DMPlantMin += (*t)->DMPlantMin;
    }
 }
 
@@ -2433,10 +2433,10 @@ void fruitGrainPart::n_conc_grain_limits (void)
 //- Implementation Section ----------------------------------
     if (plant->inPhase ("grainfill"))
         {
-        dm_oil = oilPart->g.dm_green
+        dm_oil = oilPart->DMGreen
                + oilPart->dlt.dm_green
                + oilPart->dlt.dm_green_retrans;
-        dm_meal = mealPart->g.dm_green
+        dm_meal = mealPart->DMGreen
                + mealPart->dlt.dm_green
                + mealPart->dlt.dm_green_retrans;
         dm_grain = dm_oil + dm_meal;
@@ -2559,8 +2559,8 @@ void fruitGrainPart::doNDemand1(float dlt_dm             // (INPUT)  Whole plant
 //     Calculate the Nitrogen demand and maximum uptake for each plant pool
 
 {
-    v.n_demand = 0.0;
-    v.n_max = 0.0;
+    NDemand = 0.0;
+    NMax = 0.0;
 }
 
 //============================================================================
@@ -2574,8 +2574,8 @@ void fruitGrainPart::doNDemand1Pot(float dlt_dm             // (INPUT)  Whole pl
 //     Calculate the Nitrogen demand and maximum uptake for each plant pool
 
 {
-    v.n_demand = 0.0;
-    v.n_max = 0.0;
+    NDemand = 0.0;
+    NMax = 0.0;
 }
 
 //============================================================================
@@ -2589,11 +2589,11 @@ void fruitGrainPart::doNDemand2(float dlt_dm             // (INPUT)  Whole plant
 //     Calculate the Nitrogen demand and maximum uptake for each plant pool
 
 {
-    v.n_demand = 0.0;
-    v.n_max = 0.0;
-    v.n_demand -= mealPart->nDemand();
-    mealPart->v.n_demand = gN_grain_demand;
-    v.n_demand += mealPart->nDemand();
+    NDemand = 0.0;
+    NMax = 0.0;
+    NDemand -= mealPart->nDemand();
+    mealPart->NDemand = gN_grain_demand;
+    NDemand += mealPart->nDemand();
 }
 
 
@@ -2601,12 +2601,12 @@ void fruitGrainPart::doNDemand2(float dlt_dm             // (INPUT)  Whole plant
 void fruitGrainPart::doSoilNDemand(void)
 //============================================================================
 {
-    v.soil_n_demand = 0.0;
+    SoilNDemand = 0.0;
     vector<plantPart *>::iterator part;
     for (part = myParts.begin(); part != myParts.end(); part++)
     {
            (*part)->doSoilNDemand();
-           v.soil_n_demand += (*part)->v.soil_n_demand;
+           SoilNDemand += (*part)->SoilNDemand;
     }
 }
 
@@ -2664,12 +2664,12 @@ void fruitGrainPart::doPDemand(void)     // (INPUT)  Whole plant potential dry m
 //     Calculate the P demand for each plant pool
 
 {
-    v.p_demand = 0.0;
+    PDemand = 0.0;
     vector<plantPart *>::iterator part;
     for (part = myParts.begin(); part != myParts.end(); part++)
     {
            (*part)->doPDemand();
-           v.p_demand += (*part)->pDemand();
+           PDemand += (*part)->pDemand();
     }
 }
 
@@ -2852,9 +2852,9 @@ void fruitGrainPart::updatePDet(void)
     for (part = myParts.begin(); part != myParts.end(); part++)
     {
            (*part)->updatePDet();
-            g.p_sen +=  (*part)->dlt.p_sen;
-            g.p_sen -= (*part)->dlt.p_det;
-            g.p_dead -= (*part)->dlt.p_dead_det;
+            PSen +=  (*part)->dlt.p_sen;
+            PSen -= (*part)->dlt.p_det;
+            PDead -= (*part)->dlt.p_dead_det;
     }
 }
 
@@ -2862,12 +2862,12 @@ void fruitGrainPart::updatePDet(void)
 void fruitGrainPart::pInit(void)
 //============================================================================
 {
-    g.p_green = 0.0;
+    PGreen = 0.0;
     vector<plantPart *>::iterator part;
     for (part = myParts.begin(); part != myParts.end(); part++)
     {
            (*part)->pInit();
-            g.p_green +=  (*part)->g.p_green;
+            PGreen +=  (*part)->PGreen;
     }
 }
 
