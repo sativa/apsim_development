@@ -13,16 +13,15 @@
 #include "FixedPhase.h"
 
 void FixedPhase::readCultivarParameters(protocol::Component *s, const string & cultivar)
+//=======================================================================================
    {
    pPhase::readCultivarParameters(s, cultivar);
    string key = "tt_"+name();
-   s->readParameter (cultivar
-                     , key
-                     , target
-                     , 0, 1e6);
+   s->readParameter (cultivar, key, target, 0, 1e6);
    }
+
 string FixedPhase::description() const
+//=======================================================================================
    {
-      return "   tt_"+pPhase::name()+" = "+ftoa(target, "10.0")+ " (dd)";
-      //return "hello";
+   return "   tt_"+pPhase::name()+" = "+ftoa(target, "10.0")+ " (dd)";
    }

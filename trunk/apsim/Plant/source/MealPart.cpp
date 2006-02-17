@@ -41,30 +41,30 @@ void fruitMealPart::onHarvest(float /* cutting_height */, float remove_fr,
      float chop_fr_dead  = 1.0 - retain_fr_dead;
      float chop_fr_sen   = 1.0 - retain_fr_sen;
 
-     float dlt_dm_harvest = g.dm_dead     * chop_fr_dead
-                          + g.dm_green    * chop_fr_green
-                          + g.dm_senesced * chop_fr_sen;
+     float dlt_dm_harvest = DMDead     * chop_fr_dead
+                          + DMGreen    * chop_fr_green
+                          + DMSenesced * chop_fr_sen;
 
-     float dlt_n_harvest = g.n_dead     * chop_fr_dead
-                         + g.n_green    * chop_fr_green
-                         + g.n_senesced * chop_fr_sen;
+     float dlt_n_harvest = NDead     * chop_fr_dead
+                         + NGreen    * chop_fr_green
+                         + NSenesced * chop_fr_sen;
 
-     float dlt_p_harvest = g.p_dead  * chop_fr_dead
-                         + g.p_green * chop_fr_green
-                         + g.p_sen   * chop_fr_sen;
+     float dlt_p_harvest = PDead  * chop_fr_dead
+                         + PGreen * chop_fr_green
+                         + PSen   * chop_fr_sen;
 
-     g.dm_dead     *= retain_fr_dead;
-     g.dm_senesced *= retain_fr_sen;
-     g.dm_green    *= retain_fr_green;
+     DMDead     *= retain_fr_dead;
+     DMSenesced *= retain_fr_sen;
+     DMGreen    *= retain_fr_green;
 
 
-     g.n_dead     *= retain_fr_dead;
-     g.n_senesced *= retain_fr_sen;
-     g.n_green    *= retain_fr_green;
+     NDead     *= retain_fr_dead;
+     NSenesced *= retain_fr_sen;
+     NGreen    *= retain_fr_green;
 
-     g.p_dead  *= retain_fr_dead;
-     g.p_sen   *= retain_fr_sen;
-     g.p_green *= retain_fr_green;
+     PDead  *= retain_fr_dead;
+     PSen   *= retain_fr_sen;
+     PGreen *= retain_fr_green;
 
 
      dm_type.push_back (c.name);
@@ -76,17 +76,17 @@ void fruitMealPart::onHarvest(float /* cutting_height */, float remove_fr,
 
 void fruitMealPart::onKillStem(void)
 {
-       g.dm_dead += g.dm_green + g.dm_senesced;
-       g.dm_green = 0.0;
-       g.dm_senesced = 0.0;
+       DMDead += DMGreen + DMSenesced;
+       DMGreen = 0.0;
+       DMSenesced = 0.0;
 
-       g.n_dead += g.n_green + g.n_senesced;
-       g.n_green = 0.0;
-       g.n_senesced = 0.0;
+       NDead += NGreen + NSenesced;
+       NGreen = 0.0;
+       NSenesced = 0.0;
 
-       g.p_dead += g.p_green + g.p_sen;
-       g.p_green = 0.0;
-       g.p_sen = 0.0;
+       PDead += PGreen + PSen;
+       PGreen = 0.0;
+       PSen = 0.0;
 }
 
 void fruitMealPart::onFlowering(void)

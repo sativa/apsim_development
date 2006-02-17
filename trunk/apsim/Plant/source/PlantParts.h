@@ -1,149 +1,134 @@
 #ifndef PlantPartsH
 #define PlantPartsH
 
-// Next iteration will provide this as a generic plant part. For now, it's a stem.
-class plantPart : public plantThing {
-  friend class Plant;
-  public:
-   // (global) state variables
-   struct {
-      float dm_green;                     // live plant dry weight (biomass) (g/m^2)
-      float dm_senesced;                  // senesced plant dry wt (g/m^2)
-      float dm_dead;                      // dry wt of dead plants (g/m^2)
 
-      float n_green;                      // plant nitrogen content (g N/m^2)
-      float n_dead;                       // plant N content of dead plants (g N/m^2)
-      float n_senesced;                   // plant N content of senesced plant (g N/m^2)
+class plantPart : public plantThing
+   {
+   friend class Plant;
+   public:
+      // (global) state variables
+      struct {
 
-      float p_green;
-      float p_sen;
-      float p_dead;
+         float n_conc_crit;                  // critical N concentration (g N/g biomass)
+         float n_conc_max;                   // maximum N concentration (g N/g biomass)
+         float n_conc_min;                   // minimum N concentration (g N/g biomass)
+         float p_conc_sen;                  // critical P concentration (g N/g biomass)
+         float p_conc_max;                   // maximum P concentration (g N/g biomass)
+         float p_conc_min;                   // minimum P concentration (g N/g biomass)
 
-      float height;                       // The height of this part (mm)
-      float width;                        // The width of this part (mm)
-      float n_conc_crit;                  // critical N concentration (g N/g biomass)
-      float n_conc_max;                   // maximum N concentration (g N/g biomass)
-      float n_conc_min;                   // minimum N concentration (g N/g biomass)
-      float p_conc_sen;                  // critical P concentration (g N/g biomass)
-      float p_conc_max;                   // maximum P concentration (g N/g biomass)
-      float p_conc_min;                   // minimum P concentration (g N/g biomass)
-      float dm_plant_min;                 // minimum weight of each plant part (g/plant)
-   } g;
+      } g;
+         float DMPlantMin;                 // minimum weight of each plant part (g/plant)
+         float Height;                     // The height of this part (mm)
+         float Width;                      // The width of this part (mm)
+         float PGreen;
+         float PSen;
+         float PDead;
+         float NGreen;                      // plant nitrogen content (g N/m^2)
+         float NDead;                       // plant N content of dead plants (g N/m^2)
+         float NSenesced;                   // plant N content of senesced plant (g N/m^2)
+         float DMGreen;                     // live plant dry weight (biomass) (g/m^2)
+         float DMSenesced;                  // senesced plant dry wt (g/m^2)
+         float DMDead;                      // dry wt of dead plants (g/m^2)
 
-   // deltas
-   struct {
-      float dm_green;                     // biomass growth (g/m^2)
-      float dm_senesced;                  // biomass senescence (g/m^2)
-      float dm_dead;                      // biomass dead (g/m^2)
 
-//      float dm_green_detached;            // biomass detached from green part (g/m^2)
-      float dm_detached;                  // biomass detached from senesced part (g/m^2)
-      float dm_dead_detached;             // biomass detached from dead plant (g/m^2)
+      // deltas
+      struct {
+         float dm_green;                     // biomass growth (g/m^2)
+         float dm_senesced;                  // biomass senescence (g/m^2)
+         float dm_dead;                      // biomass dead (g/m^2)
 
-      float dm_green_retrans;             // biomass retranslocated to/from (+/-) green part to/from <<somewhere else??>> (g/m^2)
+         float dm_detached;                  // biomass detached from senesced part (g/m^2)
+         float dm_dead_detached;             // biomass detached from dead plant (g/m^2)
 
-      float dm_green_dead;                // plant biomass from green part to dead population(g/m^2)
-      float dm_senesced_dead;             // plant biomass from green part to dead population(g/m^2)
+         float dm_green_retrans;             // biomass retranslocated to/from (+/-) green part to/from <<somewhere else??>> (g/m^2)
 
-      float n_green;                      // actual N uptake into plant (g/m^2)
-      float n_senesced;                   // actual N loss with senesced plant (g/m^2)
-      float n_dead;                       // actual N loss with dead plant (g/m^2)
+         float dm_green_dead;                // plant biomass from green part to dead population(g/m^2)
+         float dm_senesced_dead;             // plant biomass from green part to dead population(g/m^2)
 
-//      float n_green_detached;             // actual N loss with detached green part (g/m^2)
-      float n_detached;                   // actual N loss with detached senesced part (g/m^2)
-      float n_dead_detached;              // actual N loss with detached dead plant (g/m^2)
+         float n_green;                      // actual N uptake into plant (g/m^2)
+         float n_senesced;                   // actual N loss with senesced plant (g/m^2)
+         float n_dead;                       // actual N loss with dead plant (g/m^2)
 
-      float n_retrans;                    // nitrogen retranslocated to/from (+/-) green part to/from <<somewhere else??>> (g/m^2)
+         float n_detached;                   // actual N loss with detached senesced part (g/m^2)
+         float n_dead_detached;              // actual N loss with detached dead plant (g/m^2)
 
-      float n_green_dead;                 // plant N from green part to dead population(g/m^2)
-      float n_senesced_dead;              // plant N from senesced part to dead population(g/m^2)
+         float n_retrans;                    // nitrogen retranslocated to/from (+/-) green part to/from <<somewhere else??>> (g/m^2)
 
-      float n_senesced_retrans;           // plant N retranslocated to/from (+/-) senesced part to/from <<somewhere else??>> (g/m^2)
-      float n_senesced_trans;
+         float n_green_dead;                 // plant N from green part to dead population(g/m^2)
+         float n_senesced_dead;              // plant N from senesced part to dead population(g/m^2)
 
-      float p_green;
-      float p_sen;
-      float p_dead;
-      float p_det;
+         float n_senesced_retrans;           // plant N retranslocated to/from (+/-) senesced part to/from <<somewhere else??>> (g/m^2)
+         float n_senesced_trans;
 
-      float p_dead_det;
-      float p_retrans;
+         float p_green;
+         float p_sen;
+         float p_dead;
+         float p_det;
 
-      float p_green_dead;
-      float p_senesced_dead;
+         float p_dead_det;
+         float p_retrans;
 
-      float height;                       // growth upwards (mm)
-      float width;                        // growth outwards (mm)
-   } dlt;
+         float p_green_dead;
+         float p_senesced_dead;
 
-   // "Variables"
-   struct {
-      float dm_green_demand;              // biomass demand (g/m^2)
-      float n_demand ;                    // critical plant nitrogen demand (g/m^2)
-      float p_demand;
+         float height;                       // growth upwards (mm)
+         float width;                        // growth outwards (mm)
+      } dlt;
 
-      float soil_n_demand;
-      float n_capacity;                   // amount of nitrogen this part can take(g/m^2)
-      float n_max ;                       // maximum plant nitrogen demand (g/m^2)
-   } v;
+      // "Variables"
+      float DMGreenDemand;              // biomass demand (g/m^2)
+      float NDemand ;                   // critical plant nitrogen demand (g/m^2)
+      float PDemand;
 
-   // "Constants"
-   struct {
-      float dm_init;                      // Initial value
-      float n_init_conc;                  // Initial N value
-      float p_init_conc;                  // Initial P value
-      float n_sen_conc;                   // N concentration of senesced material (gN/gdm)
+      float SoilNDemand;
+      float NCapacity;                  // amount of nitrogen this part can take(g/m^2)
+      float NMax ;                      // maximum plant nitrogen demand (g/m^2)
 
-      float trans_frac;                   // fraction of part used in translocation to grain
-      float n_retrans_fraction;           // fraction of N in paret availale for retranslocation
 
-      float dead_detach_frac;             // fraction of dead plant parts detaching each day (0-1)
-      float sen_detach_frac;              // fraction of dead plant parts detaching each day (0-1)
+      // "Constants"
+      struct {
+         float dm_init;                      // Initial value
+         float n_init_conc;                  // Initial N value
+         float p_init_conc;                  // Initial P value
+         float n_sen_conc;                   // N concentration of senesced material (gN/gdm)
 
-      bool  p_stress_determinant;         // is a P stress_determinant
-      bool  p_yield_part;                 // is a P yield_part
-      bool  p_retrans_part;               // is a P retrans_part
+         float trans_frac;                   // fraction of part used in translocation to grain
+         float n_retrans_fraction;           // fraction of N in paret availale for retranslocation
 
-      bool  stress_determinant;           // is a stress_determinant
-      bool  yield_part;                   // is a yield_part
-      bool  retrans_part;                // is a retrans_part
+         float dead_detach_frac;             // fraction of dead plant parts detaching each day (0-1)
+         float sen_detach_frac;              // fraction of dead plant parts detaching each day (0-1)
 
-      float n_deficit_uptake_fraction;    // xxxxxxxxxx
+         bool  p_stress_determinant;         // is a P stress_determinant
+         bool  p_yield_part;                 // is a P yield_part
+         bool  p_retrans_part;               // is a P retrans_part
 
-      interpolationFunction n_conc_min;
-      interpolationFunction n_conc_crit;
-      interpolationFunction n_conc_max;
+         bool  stress_determinant;           // is a stress_determinant
+         bool  yield_part;                   // is a yield_part
+         bool  retrans_part;                // is a retrans_part
 
-      interpolationFunction p_conc_min;
-      interpolationFunction p_conc_sen;
-      interpolationFunction p_conc_max;
-      int   num_x_p_stage_code;
-      float x_p_stage_code [max_table];
-      float y_p_conc_min[max_table];
-      float y_p_conc_sen[max_table];
-      float y_p_conc_max[max_table];
+         float n_deficit_uptake_fraction;    // xxxxxxxxxx
 
-      interpolationFunction height;
-      interpolationFunction width;
+         interpolationFunction n_conc_min;
+         interpolationFunction n_conc_crit;
+         interpolationFunction n_conc_max;
 
-      interpolationFunction dm_sen_frac;
-      interpolationFunction fr_remain;
-      string name;                        // What we call ourselves
-   } c;
-protected:
-   plantInterface *plant;                 // The plant we are attached to
+         interpolationFunction p_conc_min;
+         interpolationFunction p_conc_sen;
+         interpolationFunction p_conc_max;
+         int   num_x_p_stage_code;
+         float x_p_stage_code [max_table];
+         float y_p_conc_min[max_table];
+         float y_p_conc_sen[max_table];
+         float y_p_conc_max[max_table];
 
-   virtual void onEmergence(void);
-   virtual void onFlowering(void);
-   virtual void onStartGrainFill(void);
+         interpolationFunction height;
+         interpolationFunction width;
 
-private:
-   void get_n_conc(protocol::Component *, protocol::QueryValueData &);
-   void get_n_conc_crit(protocol::Component *, protocol::QueryValueData &);
-   void get_n_conc_min(protocol::Component *, protocol::QueryValueData &);
-   void get_p_conc(protocol::Component *, protocol::QueryValueData &);
+         interpolationFunction dm_sen_frac;
+         interpolationFunction fr_remain;
+         string name;                        // What we call ourselves
+      } c;
 
-  public: // (for now)
    plantPart(plantInterface *p, const string &name)
      {
      zeroAllGlobals();
@@ -310,6 +295,19 @@ private:
    virtual void get_dm_green(vector<float> &);
    virtual void get_n_demanded(vector<float> &);
    virtual void get_dm_plant_min(vector<float> &);
+
+   protected:
+      plantInterface *plant;                 // The plant we are attached to
+
+      virtual void onEmergence(void);
+      virtual void onFlowering(void);
+      virtual void onStartGrainFill(void);
+
+   private:
+      void get_n_conc(protocol::Component *, protocol::QueryValueData &);
+      void get_n_conc_crit(protocol::Component *, protocol::QueryValueData &);
+      void get_n_conc_min(protocol::Component *, protocol::QueryValueData &);
+      void get_p_conc(protocol::Component *, protocol::QueryValueData &);
 
 };
 

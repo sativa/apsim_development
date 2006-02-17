@@ -9,27 +9,27 @@
 #include "Environment.h"
 
 void MaizePhenology::zeroAllGlobals(void)
+//=======================================================================================
    {
    CropPhenology::zeroAllGlobals();
    }
 
 
 void MaizePhenology::readConstants (protocol::Component *s, const string &section)
+//=======================================================================================
    {
    CropPhenology::readConstants(s, section);
    s->writeString("phenology model: TTT");
    }
 
-
-
-// static TT targets (called at sowing)
 void MaizePhenology::setupTTTargets(void)
+//=======================================================================================
+// static TT targets (called at sowing)
    {
-
    }
 
-
 void MaizePhenology::readCultivarParameters(protocol::Component *s, const string & cultivar)
+//=======================================================================================
    {
    CropPhenology::readCultivarParameters(s, cultivar);
 
@@ -37,23 +37,20 @@ void MaizePhenology::readCultivarParameters(protocol::Component *s, const string
       {
       phases[i]->readCultivarParameters(s, cultivar);
       }
-
    }
 
 void MaizePhenology::readSpeciesParameters (protocol::Component *s, vector<string> &sections)
+//=======================================================================================
    {
    CropPhenology::readSpeciesParameters (s, sections);
    for(unsigned i=0; i!= phases.size();i++)
       {
       phases[i]->readSpeciesParameters(s, sections);
       }
-}
-
-
-
-
+   }
 
 void MaizePhenology::writeCultivarInfo (PlantComponent *systemInterface)
+//=======================================================================================
    {
    string s;
 
@@ -67,15 +64,15 @@ void MaizePhenology::writeCultivarInfo (PlantComponent *systemInterface)
 
 float MaizePhenology::TT(const environment_t &e)
    {
-        return linint_3hrly_temp (e.maxt, e.mint, &y_tt);
+   return linint_3hrly_temp (e.maxt, e.mint, &y_tt);
    }
 
-//+  Purpose
+void MaizePhenology::process (const environment_t &e, const pheno_stress_t &ps)
+//=======================================================================================
 //     Use temperature, photoperiod and genetic characteristics
 //     to determine when the crop begins a new growth phase.
 //     The initial daily thermal time and height are also set.
 
-void MaizePhenology::process (const environment_t &e, const pheno_stress_t &ps)
    {
    float phase_devel, new_stage;
 
@@ -97,8 +94,6 @@ void MaizePhenology::process (const environment_t &e, const pheno_stress_t &ps)
          }
       new_stage = floor(currentStage) + phase_devel;
       }
-
-
    else if (inPhase("germination"))
       {
       int layer_no_seed = e.find_layer_no (sowing_depth);
@@ -113,7 +108,6 @@ void MaizePhenology::process (const environment_t &e, const pheno_stress_t &ps)
       phase_devel = divide(a, b, 1.0);
       new_stage = floor(currentStage) + phase_devel;
       }
-
    else
       {
       // ??Hmmm. should probably stop dead here??
@@ -136,7 +130,7 @@ void MaizePhenology::process (const environment_t &e, const pheno_stress_t &ps)
    float p_index = currentStage;           //  (INPUT) current p_index no
    float dlt_index = dltStage;       //  (INPUT) increment in p_index no
 
-   {
+
    int current_index;           // current index number ()
    float fract_in_old;           // fraction of value in last index
    float index_devel;            // fraction_of of current index elapsed ()
@@ -171,7 +165,7 @@ void MaizePhenology::process (const environment_t &e, const pheno_stress_t &ps)
       {
       phases[current_index]->add(1.0, value);
       }
-   }
+
    if (phase_devel >= 1.0)
       currentStage = floor(currentStage + 1.0);
    else
@@ -186,17 +180,18 @@ void MaizePhenology::process (const environment_t &e, const pheno_stress_t &ps)
    }
 
 void MaizePhenology::onRemoveBiomass(float removeBiomPheno)
-{
-   if (initialOnBiomassRemove == true)
+//=======================================================================================
    {
+   if (initialOnBiomassRemove == true)
+      {
       initialOnBiomassRemove = false;
       y_removeFractPheno.search(parentPlant, iniSectionList,
                "x_removeBiomPheno", "()", 0.0, 1.0,
                "y_removeFractPheno", "()", 0.0, 1.0);
-   }
+      }
    else
-   {     // parameters already read - do nothing
-   }
+      {     // parameters already read - do nothing
+      }
 
 
 //   float ttCritical = max(0.0, ttInPhase("above_ground") - ttInPhase("emergence"));
@@ -214,43 +209,42 @@ void MaizePhenology::onRemoveBiomass(float removeBiomPheno)
    float ttRemaining = removeTTPheno;
    vector <pPhase*>::reverse_iterator rphase;
    for (rphase = phases.rbegin(); rphase !=  phases.rend(); rphase++)
-   {
-      pPhase* phase = *rphase;
-      if (!phase->isEmpty())
       {
+      pPhase* phase = *rphase;
+      if (phase->isEmpty())
+         // Do nothing
+      else
+         {
          float ttCurrentPhase = phase->getTT();
          if (ttRemaining > ttCurrentPhase)
-         {
+            {
             phase->reset();
             ttRemaining -= ttCurrentPhase;
             currentStage -= 1.0;
-         }
+            }
          else
-         {
+            {
             phase->add(0.0, -ttRemaining);
             currentStage = (phase_fraction(0.0) + floor(currentStage));
             //ttRemaining = 0.0; /* not used */
             break;
+            }
          }
       }
-      else
-      { // phase is empty - not interested in it
-      }
-   }
    msg << "New Above ground TT = " << ttInPhase("above_ground") << endl << ends;
    parentPlant->writeString (msg.str());
 
-}
+   }
 
 void MaizePhenology::prepare (const environment_t &e)
+//=======================================================================================
    {
    CropPhenology::prepare(e);
    photoperiod = e.daylength (twilight);
 
    for(unsigned i=0; i!= phases.size();i++)
-      {
       phases[i]->updateTTTargets(e);
-      }
+
    }
 
 

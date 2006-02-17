@@ -4,14 +4,12 @@
 #include "phase.h"
 #include "environment.h"
 
-// A phenological phase.
 class VernalPhase : public pPhase
+   // A phenological phase.
    {
       protected:
-      interpolationFunction vernal_days;                // relate temperature to vernalisation
-
-      interpolationFunction vernal_tt;           // Growing degree days to complete phase as a function of cum vd
-
+      interpolationFunction vernal_days;     // relate temperature to vernalisation
+      interpolationFunction vernal_tt;       // Growing degree days to complete phase as a function of cum vd
       float dlt_cumvd;
       float cumvd;
 

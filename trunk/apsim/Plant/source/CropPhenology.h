@@ -5,7 +5,7 @@
 
 class CropPhenology : public PlantPhenology
    {
-    protected:
+   protected:
        CropPhenology(PlantComponent *s, plantInterface *p) : PlantPhenology(s, p) {};
        virtual void zeroDeltas(void);
        virtual void zeroAllGlobals(void);
@@ -19,13 +19,12 @@ class CropPhenology : public PlantPhenology
        virtual void readSpeciesParameters(protocol::Component *s, vector<string> &sections);
        virtual void update(void);
        virtual bool plant_germination(float pesw_germ, float sowing_depth, const environment_t &sw);
-
        int   das;
-                                    // cumulative v days
-       // Rates
 
+       // Rates
        float dlt_tt;
        float dlt_tt_phenol;
+
        // Parameters
        float shoot_lag;                                  // minimum growing degree days for
                                                          // germination (deg days)
@@ -37,7 +36,6 @@ class CropPhenology : public PlantPhenology
                                                          // germination (mm/mm)
        interpolationFunction y_tt, rel_emerg_rate;
        interpolationFunction y_removeFractPheno;
-
        lookupFunction stage_reduction_harvest;
        lookupFunction stage_reduction_kill_stem;
 

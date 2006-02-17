@@ -9,28 +9,28 @@
 #include "Environment.h"
 
 void BroccoliPhenology::zeroAllGlobals(void)
+//=======================================================================================
    {
    CropPhenology::zeroAllGlobals();
    est_days_emerg_to_init=0;
    cumvd = 0.0;
    }
 void BroccoliPhenology::zeroDeltas(void)
+//=======================================================================================
    {
    dlt_cumvd = 0.0;
    }
 
 void BroccoliPhenology::readConstants (protocol::Component *s, const string &section)
+//=======================================================================================
    {
    CropPhenology::readConstants(s, section);
    s->writeString("phenology model: TTT");
    }
 
-
-
-
-
-// static TT targets (called at sowing)
 void BroccoliPhenology::setupTTTargets(void)
+//=======================================================================================
+// static TT targets (called at sowing)
    {
    pPhase *germ_to_emerg = getStage("germination");
    germ_to_emerg->setTarget(shoot_lag + sowing_depth * shoot_rate);
@@ -42,8 +42,9 @@ void BroccoliPhenology::setupTTTargets(void)
    buttoning_to_maturity->setTarget(tt_buttoning_to_maturity);
    }
 
-// dynamic TT targets
 void BroccoliPhenology::updateTTTargets(const environment_t &e)
+//=======================================================================================
+// dynamic TT targets
    {
    dlt_cumvd = vernal_days.value((e.maxt + e.mint)*0.5);
    //dlt_cumvd = VernalDays(e);
@@ -82,11 +83,8 @@ void BroccoliPhenology::updateTTTargets(const environment_t &e)
       }
    }
 
-
-
-
-
 void BroccoliPhenology::readCultivarParameters(protocol::Component *s, const string & cultivar)
+//=======================================================================================
    {
    CropPhenology::readCultivarParameters(s, cultivar);
 
@@ -116,6 +114,7 @@ void BroccoliPhenology::readCultivarParameters(protocol::Component *s, const str
    }
 
 void BroccoliPhenology::readSpeciesParameters (protocol::Component *s, vector<string> &sections)
+//=======================================================================================
    {
    CropPhenology::readSpeciesParameters (s, sections);
 
@@ -127,14 +126,10 @@ void BroccoliPhenology::readSpeciesParameters (protocol::Component *s, vector<st
                    ,"tt_emerg_to_endjuv_ub"//, "()"
                    , tt_emerg_to_endjuv_ub
                    , 0.0, 1.e6);
-
-}
-
-
-
-
+   }
 
 void BroccoliPhenology::writeCultivarInfo (PlantComponent *systemInterface)
+//=======================================================================================
    {
    string s;
    s =  "   est_days_emerg_to_init     = " + itoa(est_days_emerg_to_init) + " (days)\n";
@@ -146,19 +141,22 @@ void BroccoliPhenology::writeCultivarInfo (PlantComponent *systemInterface)
    }
 
 float BroccoliPhenology::TT(const environment_t &e)
+//=======================================================================================
    {
-        return linint_3hrly_temp (e.maxt, e.mint, &y_tt);
+   return linint_3hrly_temp (e.maxt, e.mint, &y_tt);
    }
+
 float BroccoliPhenology::VernalDays(const environment_t &e)
+//=======================================================================================
    {
-        return linint_3hrly_temp (e.maxt, e.mint, &vernal_days);
+   return linint_3hrly_temp (e.maxt, e.mint, &vernal_days);
    }
-//+  Purpose
+
+void BroccoliPhenology::process (const environment_t &e, const pheno_stress_t &ps)
+//=======================================================================================
 //     Use temperature, photoperiod and genetic characteristics
 //     to determine when the crop begins a new growth phase.
 //     The initial daily thermal time and height are also set.
-
-void BroccoliPhenology::process (const environment_t &e, const pheno_stress_t &ps)
    {
    float phase_devel, new_stage;
 
@@ -279,18 +277,18 @@ void BroccoliPhenology::process (const environment_t &e, const pheno_stress_t &p
    }
 
 void BroccoliPhenology::onRemoveBiomass(float removeBiomPheno)
-{
-   if (initialOnBiomassRemove == true)
+//=======================================================================================
    {
+   if (initialOnBiomassRemove == true)
+      {
       initialOnBiomassRemove = false;
       y_removeFractPheno.search(parentPlant, iniSectionList,
                "x_removeBiomPheno", "()", 0.0, 1.0,
                "y_removeFractPheno", "()", 0.0, 1.0);
-   }
+      }
    else
-   {     // parameters already read - do nothing
-   }
-
+      {     // parameters already read - do nothing
+      }
 
 //   float ttCritical = max(0.0, ttInPhase("above_ground") - ttInPhase("emergence"));
    float ttCritical = ttInPhase("above_ground");
@@ -307,35 +305,35 @@ void BroccoliPhenology::onRemoveBiomass(float removeBiomPheno)
    float ttRemaining = removeTTPheno;
    vector <pPhase*>::reverse_iterator rphase;
    for (rphase = phases.rbegin(); rphase !=  phases.rend(); rphase++)
-   {
+      {
       pPhase* phase = *rphase;
       if (!phase->isEmpty())
-      {
+         {
          float ttCurrentPhase = phase->getTT();
          if (ttRemaining > ttCurrentPhase)
-         {
+            {
             phase->reset();
             ttRemaining -= ttCurrentPhase;
             currentStage -= 1.0;
-         }
+            }
          else
-         {
+            {
             phase->add(0.0, -ttRemaining);
             currentStage = (phase_fraction(0.0) + floor(currentStage));
             //ttRemaining = 0.0; /* not used */
             break;
+            }
+         }
+      else
+         { // phase is empty - not interested in it
          }
       }
-      else
-      { // phase is empty - not interested in it
-      }
-   }
    msg << "New Above ground TT = " << ttInPhase("above_ground") << endl << ends;
    parentPlant->writeString (msg.str());
-
-}
+   }
 
 void BroccoliPhenology::prepare (const environment_t &e)
+//=======================================================================================
    {
    CropPhenology::prepare(e);
    photoperiod = e.daylength (twilight);
@@ -344,6 +342,7 @@ void BroccoliPhenology::prepare (const environment_t &e)
    }
 
 void BroccoliPhenology::doRegistrations (protocol::Component *s)
+//=======================================================================================
    {
    CropPhenology::doRegistrations(s);
    parentPlant->addGettableVar("cum_vernal_days", cumvd, "vd", "Cumulative vernalisation");

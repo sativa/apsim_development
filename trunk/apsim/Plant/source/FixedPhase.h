@@ -3,12 +3,12 @@
 
 #include "phase.h"
 
-// A phenological phase.
 class FixedPhase : public pPhase
+// A fixed duration phenological phase.
    {
-       protected:
+   protected:
 
-      public:
+   public:
       void readCultivarParameters(protocol::Component *s, const string & cultivar);
       FixedPhase(const string& stage_name) : pPhase (stage_name){};
       virtual string description() const;

@@ -27,7 +27,7 @@ using namespace std;
 const float  tolerance_lai = 1.0e-4 ;
 
 // Return one of the leaf objects we know about.
-plantLeafPart* constructLeafPart (plantInterface *p, const string &type, const string &name) 
+plantLeafPart* constructLeafPart (plantInterface *p, const string &type, const string &name)
   {
   plantLeafPart *object;
   if (type == "generic_leaf")
@@ -35,12 +35,12 @@ plantLeafPart* constructLeafPart (plantInterface *p, const string &type, const s
   else if (type == "ahmad")
     object = new ahmadsLeafPart(p, name);
   else
-    throw std::invalid_argument("Unknown leaf_object '" + type + "'");  
-  
+    throw std::invalid_argument("Unknown leaf_object '" + type + "'");
+
   return (object);
   }
 
-// Read Constants 
+// Read Constants
 void genericLeafPart::readConstants (protocol::Component *system, const string &section)
 {
     plantPart::readConstants(system, section);
@@ -319,29 +319,29 @@ void genericLeafPart::onHarvest(float /* cutting_height */, float remove_fr,
 {
     float retain_fr_green, retain_fr_sen, retain_fr_dead;
 
-    float dm_init = u_bound(plantPart::c.dm_init * plant->getPlants(), plantPart::g.dm_green);
-    float n_init = u_bound(dm_init * plantPart::c.n_init_conc, plantPart::g.n_green);
-    float p_init = u_bound(dm_init * plantPart::c.p_init_conc, plantPart::g.p_green);
+    float dm_init = u_bound(plantPart::c.dm_init * plant->getPlants(), plantPart::DMGreen);
+    float n_init = u_bound(dm_init * plantPart::c.n_init_conc, plantPart::NGreen);
+    float p_init = u_bound(dm_init * plantPart::c.p_init_conc, plantPart::PGreen);
 
-    retain_fr_green = divide(dm_init, g.dm_green, 0.0);
+    retain_fr_green = divide(dm_init, DMGreen, 0.0);
     retain_fr_sen  = 0.0;
     retain_fr_dead = 0.0;
 
-    float dlt_dm_harvest = g.dm_dead + g.dm_green + g.dm_senesced - dm_init;
-    float dlt_n_harvest = g.n_dead + g.n_green + g.n_senesced - n_init;
-    float dlt_p_harvest = g.p_dead + g.p_green + g.p_sen - p_init;
+    float dlt_dm_harvest = DMDead + DMGreen + DMSenesced - dm_init;
+    float dlt_n_harvest = NDead + NGreen + NSenesced - n_init;
+    float dlt_p_harvest = PDead + PGreen + PSen - p_init;
 
-    g.dm_dead *= retain_fr_dead;
-    g.dm_senesced *= retain_fr_sen;
-    g.dm_green *= retain_fr_green;
+    DMDead *= retain_fr_dead;
+    DMSenesced *= retain_fr_sen;
+    DMGreen *= retain_fr_green;
 
-    g.n_dead *= retain_fr_dead;
-    g.n_senesced *= retain_fr_sen;
-    g.n_green = n_init;
+    NDead *= retain_fr_dead;
+    NSenesced *= retain_fr_sen;
+    NGreen = n_init;
 
-    g.p_dead *= retain_fr_dead;
-    g.p_sen *= retain_fr_sen;
-    g.p_green = p_init;
+    PDead *= retain_fr_dead;
+    PSen *= retain_fr_sen;
+    PGreen = p_init;
 
     initialiseAreas();
 
@@ -472,7 +472,7 @@ void genericLeafPart::leaf_death (float  g_nfact_expansion, float  g_dlt_tt)
        leaf_no_sen_now = sum_real_array (gLeafNoSen,max_node);
        dltLeafNoSen = l_bound (leaf_no_now - leaf_no_sen_now, 0.0);
        }
-   else if (plant->getStageNumber() > cSenStartStage 
+   else if (plant->getStageNumber() > cSenStartStage
        /*XXXX should be phenology->inPhase("leaf_senescence") !!!!!*/)
        {
        dltLeafNoSen = divide (g_dlt_tt, leaf_death_rate, 0.0);
@@ -579,7 +579,7 @@ void genericLeafPart::detachment (void)
    }
 
 //   Calculate todays leaf area senescence
-void genericLeafPart::leaf_area_sen(float swdef_photo , float mint) 
+void genericLeafPart::leaf_area_sen(float swdef_photo , float mint)
 {
     float plants = plant->getPlants();
 

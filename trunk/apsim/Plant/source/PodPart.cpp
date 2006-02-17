@@ -49,29 +49,29 @@ void fruitPodPart::onHarvest(float /* cutting_height */, float remove_fr,
 {
     float fractToResidue = 1.0 - remove_fr;
 
-    float dm_init = u_bound (plantPart::c.dm_init * plant->getPlants(), plantPart::g.dm_green);
-    float n_init  = u_bound (             dm_init * plantPart::c.n_init_conc, plantPart::g.n_green);
-    float p_init  = u_bound (             dm_init * plantPart::c.p_init_conc, plantPart::g.p_green);
+    float dm_init = u_bound (plantPart::c.dm_init * plant->getPlants(), plantPart::DMGreen);
+    float n_init  = u_bound (             dm_init * plantPart::c.n_init_conc, plantPart::NGreen);
+    float p_init  = u_bound (             dm_init * plantPart::c.p_init_conc, plantPart::PGreen);
 
-     float retain_fr_green = divide(dm_init, g.dm_green, 0.0);
+     float retain_fr_green = divide(dm_init, DMGreen, 0.0);
      float retain_fr_dead  = 0.0;
      float retain_fr_sen   = 0.0;
 
-    float dlt_dm_harvest = g.dm_dead + g.dm_green + g.dm_senesced - dm_init;
-    float dlt_n_harvest  = g.n_dead  + g.n_green  + g.n_senesced  - n_init;
-    float dlt_p_harvest  = g.p_dead  + g.p_green  + g.p_sen       - p_init;
+    float dlt_dm_harvest = DMDead + DMGreen + DMSenesced - dm_init;
+    float dlt_n_harvest  = NDead  + NGreen  + NSenesced  - n_init;
+    float dlt_p_harvest  = PDead  + PGreen  + PSen       - p_init;
 
-    g.dm_dead     *= retain_fr_dead;
-    g.dm_senesced *= retain_fr_sen;
-    g.dm_green    *= retain_fr_green;
+    DMDead     *= retain_fr_dead;
+    DMSenesced *= retain_fr_sen;
+    DMGreen    *= retain_fr_green;
 
-    g.n_dead     *= retain_fr_dead;
-    g.n_senesced *= retain_fr_sen;
-    g.n_green    = n_init;
+    NDead     *= retain_fr_dead;
+    NSenesced *= retain_fr_sen;
+    NGreen    = n_init;
 
-    g.p_dead  *= retain_fr_dead;
-    g.p_sen   *= retain_fr_sen;
-    g.p_green  = p_init;
+    PDead  *= retain_fr_dead;
+    PSen   *= retain_fr_sen;
+    PGreen  = p_init;
 
     dm_type.push_back(c.name);
     fraction_to_residue.push_back(fractToResidue);
@@ -82,34 +82,34 @@ void fruitPodPart::onHarvest(float /* cutting_height */, float remove_fr,
 
 void fruitPodPart::onKillStem(void)
 {
-       g.dm_dead += g.dm_green + g.dm_senesced;
-       g.dm_green = 0.0;
-       g.dm_senesced = 0.0;
+       DMDead += DMGreen + DMSenesced;
+       DMGreen = 0.0;
+       DMSenesced = 0.0;
 
-       g.n_dead += g.n_green + g.n_senesced;
-       g.n_green = 0.0;
-       g.n_senesced = 0.0;
+       NDead += NGreen + NSenesced;
+       NGreen = 0.0;
+       NSenesced = 0.0;
 
-       g.p_dead += g.p_green + g.p_sen;
-       g.p_green = 0.0;
-       g.p_sen = 0.0;
+       PDead += PGreen + PSen;
+       PGreen = 0.0;
+       PSen = 0.0;
 }
 
 void fruitPodPart::onFlowering(void)
 {
-     g.dm_plant_min = 0.0;
+     DMPlantMin = 0.0;
 }
 
 // set the minimum weight of part; used for retranslocation to grain
 void fruitPodPart::onStartGrainFill(void)
 {
-     g.dm_plant_min = 0.0;
+     DMPlantMin = 0.0;
 }
 
 void fruitPodPart::doDmMin(void)
 {
-   float dm_plant = divide (g.dm_green, plant->getPlants(), 0.0);
-   g.dm_plant_min = max (dm_plant * (1.0 - c.trans_frac), g.dm_plant_min);
+   float dm_plant = divide (DMGreen, plant->getPlants(), 0.0);
+   DMPlantMin = max (dm_plant * (1.0 - c.trans_frac), DMPlantMin);
 }
 
 void fruitPodPart::zeroAllGlobals(void)

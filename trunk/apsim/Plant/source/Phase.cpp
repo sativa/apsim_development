@@ -12,13 +12,17 @@
 #include "PlantLibrary.h"
 #include "Phase.h"
 
-bool operator == (const pPhase &a, const pPhase &b) {
+bool operator == (const pPhase &a, const pPhase &b)
+// ===================================================================================
+   {
    return (a.name() == b.name());
-};
+   };
+
+void pPhase::add(float dlt_days, float dlt_tt, float *balance_days, float *balance_tt)
+// ===================================================================================
 // Add tt and days to the accumulator. Return a balance if too much.
 // A target of 0.0 or less indicates it's a stage that doesn't use
 // thermal time accumulation. So avoid taking any tt if you can avoid it..
-void pPhase::add(float dlt_days, float dlt_tt, float *balance_days, float *balance_tt)
    {
    if (target > 0.0)
       {
