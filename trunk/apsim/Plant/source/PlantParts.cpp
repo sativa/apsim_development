@@ -533,6 +533,7 @@ void plantPart::update(void)
    {
    Height += dlt.height;
    Width += dlt.width;
+// need to call updateN/DM/P from here sometime.  FIXME
    }
 
 void plantPart::updateN(void)
@@ -819,6 +820,7 @@ void plantPart::doNRetranslocate( float N_supply, float g_grain_n_demand)
       // Retranslocate what is needed
       dlt.n_retrans = - g_grain_n_demand * divide (availableRetranslocateN(), N_supply, 0.0);
       }
+// need to do bound check here  FIXME
    }
 
 void plantPart::dm_detachment1(void)
