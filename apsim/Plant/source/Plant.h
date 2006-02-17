@@ -719,6 +719,7 @@ void Plant::legnew_dm_retranslocate
   void PlantP_set_phosphorus_aware (PlantComponent *systemInterface);
 
   bool phosphorusAware(void) const {return g.phosphorus_aware;};
+  bool removeBiomassReport(void) const {return c.remove_biomass_report == "on";};
   void prepare_p(void);
   void plant_p_retrans (void);
   void detachment_p(void);
