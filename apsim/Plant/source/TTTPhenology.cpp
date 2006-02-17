@@ -379,7 +379,8 @@ void TTTPhenology::onRemoveBiomass(float removeBiomPheno)
       }
    }
    msg << "New Above ground TT = " << ttInPhase("above_ground") << endl << ends;
-   parentPlant->writeString (msg.str());
+   if (plant->removeBiomassReport())
+      parentPlant->writeString (msg.str());
 
 }
 

@@ -57,6 +57,7 @@ class plantInterface {
       virtual float getPfactPhoto(void) const = 0;
       virtual float getSwdefPhoto(void) const = 0;
       virtual bool phosphorusAware(void) const = 0;       // Whether P is present in system
+      virtual bool removeBiomassReport(void) const = 0;
       virtual void doPlantEvent(const string &) = 0;      // Something is asking the plant to do something
       virtual bool on_day_of(const string &) = 0;
       virtual bool inPhase(const string &) = 0;
