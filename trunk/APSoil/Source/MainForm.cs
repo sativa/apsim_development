@@ -1065,10 +1065,17 @@ namespace APSoil
 			CopySmallButton.Enabled = Apsoil.AllowCopy;
 			PasteSmallButton.Enabled = Apsoil.AllowPaste;
 
-			FromSpreadsheetButton.Enabled = Apsoil.AllowChanges;
-			FromParButton.Enabled = Apsoil.AllowChanges;
-			FromSoilsButton.Enabled = Apsoil.AllowChanges;
-			Fromw2n2Button.Enabled = Apsoil.AllowChanges;
+			bool FolderIsSelected = false;
+			if (Apsoil.SelectedPaths.Count == 1)
+				{
+				APSIMData SelectedData = (APSIMData) Apsoil.SelectedData[0];
+				string SelectedType = SelectedData.Type.ToLower();
+				FolderIsSelected = (SelectedType == "soils" || SelectedType == "folder");
+				}
+			FromSpreadsheetButton.Enabled = FolderIsSelected && Apsoil.AllowChanges;
+			FromParButton.Enabled = FolderIsSelected && Apsoil.AllowChanges;
+			FromSoilsButton.Enabled = FolderIsSelected && Apsoil.AllowChanges;
+			Fromw2n2Button.Enabled = FolderIsSelected && Apsoil.AllowChanges;
 			ToParButton.Enabled = OnlySoilsSelected;
 			ToSoilsButton.Enabled = OnlySoilsSelected;
 			CheckSoilsButton.Enabled = SomethingInTree;
@@ -1431,7 +1438,6 @@ namespace APSoil
 		private void NewFileMenu_Click(object sender, Xceed.SmartUI.SmartItemClickEventArgs e)
 			{
 			APSIMData NewData = new APSIMData("soils", "");
-			NewData.Add(new Soil(new APSIMData("soil", "Blank soil")).Data);
 			Apsoil.FileNew(NewData);
 			}
 

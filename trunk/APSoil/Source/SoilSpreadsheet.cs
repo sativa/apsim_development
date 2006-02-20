@@ -20,11 +20,22 @@ namespace APSoil
 			// Import all files
 			Cursor.Current = Cursors.WaitCursor;
 
+			string InitialSelection = Apsoil.SelectedPaths[0];
+
 			DataTable Table = ExcelHelper.GetDataFromSheet(FileName, "SoilData");
-			
+
+			StringCollection NewSelections = new StringCollection();
 			int Row = 0;
             while (Row < Table.Rows.Count)
+				{
 				Apsoil.AddXMLToSelected(CreateSoilFromSpreadsheet(Table, ref Row).Data.XML);
+				NewSelections.Add(Apsoil.SelectedPaths[0]);
+				StringCollection Selections = new StringCollection();
+				Selections.Add(InitialSelection);
+				Apsoil.SelectedPaths = Selections;
+				}
+			if (NewSelections.Count > 0)
+				Apsoil.SelectedPaths = NewSelections;
 			
 			Cursor.Current = Cursors.Default;
 			}
@@ -193,11 +204,20 @@ namespace APSoil
 			// Now import all crop stuff.
 			for (int i = 0; i != Crops.Count; i++)
 				{
-				NewSoil.AddCrop(Crops[i]);
 				double[] ll = GetDoubleValues(Table, "LL(" + Crops[i] + ")", NumLayers, Row);
 				double[] kl = GetDoubleValues(Table, "KL(" + Crops[i] + ")", NumLayers, Row);
 				double[] xf = GetDoubleValues(Table, "XF(" + Crops[i] + ")", NumLayers, Row);
-				NewSoil.SetCrop(Crops[i], ll, kl, xf);
+
+				bool AllMissingValues = true;
+				for (int j = 0; j != ll.Length && AllMissingValues; j++)
+					AllMissingValues = (AllMissingValues && ll[j] == MathUtility.MissingValue &&
+										kl[j] == MathUtility.MissingValue && xf[j] == MathUtility.MissingValue);	
+
+				if (!AllMissingValues)
+					{
+					NewSoil.AddCrop(Crops[i]);
+    				NewSoil.SetCrop(Crops[i], ll, kl, xf);
+					}
 				}
 
 			Row += NumLayers;
@@ -207,7 +227,7 @@ namespace APSoil
 		static private string GetStringValue(DataTable Table, string FieldName, int Row)
 			{
 			// Get string value from specified table for specified field.
-			if (Table.Columns.IndexOf(FieldName) != -1)
+			if (Table.Columns.IndexOf(FieldName) != -1 && Table.Rows[Row][FieldName].ToString() != MathUtility.MissingValue.ToString())
 				return Table.Rows[Row][FieldName].ToString();
 			else
 				return "";

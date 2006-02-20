@@ -774,6 +774,9 @@ Public Class DataTree
         UserChange = False
         Controller.AddXMLToSelected("<folder name=""New folder""/>")
         Dim NewNode As TreeNode = TreeView.SelectedNode.Nodes.Add("New folder")
+        Dim ImageIndex As Integer = Controller.SmallImageIndex("folder")
+        NewNode.ImageIndex = ImageIndex
+        NewNode.SelectedImageIndex = ImageIndex
         NewNode.BeginEdit()
         UserChange = True
     End Sub
