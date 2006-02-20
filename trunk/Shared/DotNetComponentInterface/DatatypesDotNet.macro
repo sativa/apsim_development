@@ -233,12 +233,14 @@ public  __gc class ApsimProperties
       void Register(String* PropertyName, String* Units, ApsimProperties::ReadWriteType ReadWrite, type.dotnetkind& Data type.dotnetarraybits)
       #endif
          {
+         std::string units = stringToStdString(Units);
+
          #if (type.array = T)
-         WrapVariableAlias<ApsimArray<Apsimtype.KKind, type.dotnetkind>, type.dotnetkind type.dotnetarraybits>* wrapper = new WrapVariableAlias<ApsimArray<Apsimtype.KKind, type.dotnetkind>, type.dotnetkind type.dotnetarraybits>(*Data);
+         WrapVariableAlias<ApsimArray<Apsimtype.KKind, type.dotnetkind>, type.dotnetkind type.dotnetarraybits>* wrapper = new WrapVariableAlias<ApsimArray<Apsimtype.KKind, type.dotnetkind>, type.dotnetkind type.dotnetarraybits>(*Data, units);
          #else
-         WrapVariableAlias<Apsimtype.KKind, type.dotnetkind>* wrapper = new WrapVariableAlias<Apsimtype.KKind, type.dotnetkind>(Data);
+         WrapVariableAlias<Apsimtype.KKind, type.dotnetkind>* wrapper = new WrapVariableAlias<Apsimtype.KKind, type.dotnetkind>(Data, units);
          #endif
-         comms->registerProperty(stringToStdString(PropertyName), stringToStdString(Units), ReadWrite, wrapper);
+         comms->registerProperty(stringToStdString(PropertyName), units, ReadWrite, wrapper);
          }
       void RegisterHandler(String* PropertyName, String* Units, type.nameFunction::Handler* handler)
          {

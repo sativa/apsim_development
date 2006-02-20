@@ -300,9 +300,11 @@ class WrapMemberInfo : public IEventData
       gcroot<IT*> Member;
       gcroot<Object*> ComponentInstance;
       T Dummy;
+	  std::string TypeString;
+	  std::string Units;
    public:
-      WrapMemberInfo(IT* member, Object* ComponentInst) 
-         : Member(member), ComponentInstance(ComponentInst)
+      WrapMemberInfo(IT* member, Object* ComponentInst, const std::string& units) 
+         : Member(member), ComponentInstance(ComponentInst), Units(units)
          { }
 
 	  void SetValue(gcroot<Object*> Value)
@@ -325,7 +327,12 @@ class WrapMemberInfo : public IEventData
          }
       const char* ddml()
          {
-         return Dummy.ddml();
+		 if (TypeString == "")
+			 {
+			 TypeString = Dummy.ddml();
+			 TypeString = TypeString.substr(0, TypeString.length()-2) + " units=\"" + Units + "\"/>";
+			 }
+         return TypeString.c_str();
          }
    };
 template <class IT>
@@ -391,8 +398,11 @@ class WrapVariableAlias : public IData
    private:								 
       ExternalT __gc& Variable  ;
       InternalT* Dummy;
+	  std::string TypeString;
+	  std::string Units;
    public:
-      WrapVariableAlias(ExternalT __gc& v ) : Variable(v) {Dummy = new InternalT;}
+      WrapVariableAlias(ExternalT __gc& v, const std::string& units) : Variable(v), Units(units) 
+		{Dummy = new InternalT;}
       ~WrapVariableAlias() {delete Dummy;}
       void pack(Message& message)
          {
@@ -400,7 +410,12 @@ class WrapVariableAlias : public IData
          }
       const char* ddml()
          {
-         return Dummy->ddml();
+		 if (TypeString == "")
+			 {
+			 TypeString = Dummy->ddml();
+			 TypeString = TypeString.substr(0, TypeString.length()-2) + " units=\"" + Units + "\"/>";
+			 }
+ 		 return TypeString.c_str();
          }
       void unpack(Message& message) 
 		{
