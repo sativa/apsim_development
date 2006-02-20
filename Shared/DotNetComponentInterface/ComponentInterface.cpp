@@ -126,8 +126,8 @@ unsigned ComponentComms::nameToRegistrationID(const std::string& name,
 		reg.destID = parentID;
 		reg.name = name;
 		reg.type = data.ddml();
-		if (units != "")
-			reg.type = reg.type.substr(0, reg.type.length()-2) + " units=\"" + units + "\"/>";
+		//if (units != "")
+		//	reg.type = reg.type.substr(0, reg.type.length()-2) + " units=\"" + units + "\"/>";
 		Message message = messageFactory.create(MessageType::Register);
 		reg.pack(message);
 		sendMessage(message, parentID, false);
