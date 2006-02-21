@@ -1,5 +1,5 @@
 version = 4.3
-[apsim.test]  
+[apsim.test]
 module = clock    sample.par [sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report   sample.par [sample]
 module = input(met)      SAMPLE.MET [sample]
@@ -10,3 +10,4 @@ module = slurp    sample.par [sample]
 module = surface  sample.par [sample]
 module = SummaryFile  sample.par[sample]
 module = Screen  sample.par[sample]
+module = log
