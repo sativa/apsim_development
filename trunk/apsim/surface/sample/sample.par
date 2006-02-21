@@ -158,28 +158,49 @@ root_conductance =         1.4d-7 1.4d-7 1.4d-7
 
 
 [sample.slurp.parameters]
-crop_type =  wheat
-kg = 0.5
-kd = 0.5
-lai = 1.387
-laid = 0.0
-height = 1500.
-
-vpd = 0 10 50
-fvpd= 1 1  1
-tav =  5 20 25 40
-ft =   1  1  1  1
-
-frgr = 1
-
-
-! x =     0   10   50  150  300  450  600  750  900 1200 1500 1800 2000
-rlv =    .01 .02   .03 .05  .03  .02  .01  .01  0.0  0.0  0.0  0.0  0.0
-ll  =    .07 .07   .07 .07  .07  .07  .07  .07  .07  .07  .07  .07  .07
-kl  =    .06 .06   .06 .06  .06  .06  .06  .06  .06  .06  .06  .06  .06
-xf =     1.0 1.0   1.0 1.0  1.0  1.0  1.0  1.0  1.0  1.0  1.0  1.0  1.0
+crop_type = wheat   ! type of crop represented by slurp
+lai = 1.387         ! leaf area index (m2/m2)
+laid = 0            ! dead leaf area index (m2/m2)
+kg = 0.5            ! green leaf extinction coefficient
+kd = 0.5            ! dead leaf extinction coefficient
+height = 1500.      ! Canopy height (mm)
+frgr = 1            ! Relative growth rate (0-1) - to capture effect of growth limitation.
 uptake_source =  apsim
 solutes =
+
+table fvpd
+   point x    y
+   ()   ()   ()
+   1    0    1
+   2    10   1
+   3    50   1
+end table
+table ft
+   point  x    y
+   ()    ()   ()
+    1     5    1
+    2     20   1
+    3     25   1
+    4     40   1
+end table
+
+table layers
+   layer   ll       kl     rlv    xf
+      ()  (mm/mm)   ()     ()     ()
+       1   .070    0.06   0.01     1
+       2   .070    0.06   0.02     1
+       3   .070    0.06   0.03     1
+       4   .070    0.06   0.05     1
+       5   .070    0.06   0.03     1
+       6   .070    0.06   0.02     1
+       7   .070    0.06   0.01     1
+       8   .070    0.06   0.01     1
+       9   .070    0.06   0.00     1
+      10   .070    0.06   0.00     1
+      11   .070    0.06   0.00     1
+      12   .070    0.06   0.00     1
+      13   .070    0.06   0.00     1
+end table
 
 
 [sample.SummaryFile.parameters]
