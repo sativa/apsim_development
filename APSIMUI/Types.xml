@@ -2484,5 +2484,229 @@
          <dll>%apsuite\apsim\soi\lib\soi.dll</dll>
       </ApsimToSim>
    </soi>
+   <FarmwisePasture>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+     <variables link="stock.xml"/>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>c:\program files\farmwise\pasture.dll</dll>
+         <sim>
+            <initsection>
+               <init name="published_events" array="T">
+               </init>
+               <init name="driver_connections" array="T">
+               </init>
+               <init name="param_file" kind="string">
+                 <val></val>
+               </init>
+               <init name="species" kind="string">
+                 <val>[FarmwisePasture.species]</val>
+               </init>
+               <init name="nutrients" kind="string">
+                 <val>[FarmwisePasture.nutrients]</val>
+               </init>
+               <init name="fertility" kind="double">
+                 <val>[FarmwisePasture.fertility]</val>
+               </init>
+               <init name="layers" kind="double" array="T" unit="mm">
+               </init>
+               <init name="max_rtdep" kind="double" unit="mm">
+                 <val>[FarmwisePasture.max_rtdep]</val>
+               </init>
+               <init name="lagged_day_t" kind="double" unit="oC">
+                 <val>[FarmwisePasture.lagged_day_t]</val>
+               </init>
+               <init name="phenology" kind="double">
+                 <val>[FarmwisePasture.phenology]</val>
+               </init>
+               <init name="flower_len" kind="double" unit="d">
+                 <val>[FarmwisePasture.flower_len]</val>
+               </init>
+               <init name="flower_time" kind="double" unit="d">
+                 <val>[FarmwisePasture.flower_time]</val>
+               </init>
+               <init name="senc_index" kind="double" unit="d">
+                 <val>[FarmwisePasture.senc_index]</val>
+               </init>
+               <init name="dorm_index" kind="double" unit="d">
+                 <val>[FarmwisePasture.dorm_index]</val>
+               </init>
+               <init name="dorm_t" kind="double" unit="oC">
+                 <val>[FarmwisePasture.dorm_t]</val>
+               </init>
+               <init name="extinct_coeff" kind="double" array="T">
+                 <val>0.0</val>
+                 <val>0.5</val>
+                 <val>0.0</val>
+               </init>
+               <init name="green" array="T">
+               [foreach FarmwisePasture.FarmwisePastureGreen as Green]
+                 <element>
+                   <field name="status" kind="string">
+                     <val>[Green.status]</val>
+                   </field>
+                   <field name="herbage" array="T">
+                     [foreach Green.FarmwisePastureGreenHerbage as Herbage]
+                     <element>
+                       <field name="dmd" kind="double" array="T" unit="kg/kg">
+                         <val>[Herbage.dmd]</val>
+                       </field>
+                       <field name="weight" kind="double" array="T" unit="kg/ha">
+                         <val>[Herbage.weight]</val>
+                       </field>
+                       <field name="n_conc" kind="double" array="T" unit="kg/kg">
+                         <val>[Herbage.n_conc]</val>
+                       </field>
+                       <field name="p_conc" kind="double" array="T" unit="kg/kg">
+                         <val>[Herbage.p_conc]</val>
+                       </field>
+                       <field name="s_conc" kind="double" array="T" unit="kg/kg">
+                         <val>[Herbage.s_conc]</val>
+                       </field>
+                       <field name="spec_area" kind="double" array="T" unit="cm^2/g">
+                         <val>[Herbage.spec_area]</val>
+                       </field>
+                     </element>
+                     [endfor]
+                   </field>
+                   <field name="root_wt" array="T">
+                     [foreach Green.FarmwisePastureGreenHerbage as Herbage]
+                     <element kind="double" array="T" unit="kg/ha">
+                       <val>[Herbage.root_wt]</val>
+                     </element>
+                     [endfor]
+                   </field>
+                   <field name="rt_dep" kind="double" unit="mm">
+                     <val>[Green.rt_dep]</val>
+                   </field>
+                   <field name="estab_index" kind="double">
+                     <val>[Green.estab_index]</val>
+                   </field>
+                   <field name="stress_index" kind="double">
+                     <val>[Green.stress_index]</val>
+                   </field>
+                   <field name="stem_reloc" kind="double" unit="kg/ha">
+                     <val>[Green.stem_reloc]</val>
+                   </field>
+                   <field name="frosts" kind="integer4">
+                     <val>[Green.frosts]</val>
+                   </field>
+                 </element>
+               [endfor]
+               </init>
+               <init name="dry" array="T">
+               [foreach FarmwisePasture.FarmwisePastureDry as Dry]
+                 <element>
+                   <field name="status" kind="string">
+                     <val>[Dry.status]</val>
+                   </field>
+                   <field name="herbage" array="T">
+                     [foreach Dry.FarmwisePastureDryHerbage as Herbage]
+                     <element>
+                       <field name="dmd" kind="double" array="T" unit="kg/kg">
+                         <val>[Herbage.dmd]</val>
+                       </field>
+                       <field name="weight" kind="double" array="T" unit="kg/ha">
+                         <val>[Herbage.weight]</val>
+                       </field>
+                       <field name="n_conc" kind="double" array="T" unit="kg/kg">
+                         <val>[Herbage.n_conc]</val>
+                       </field>
+                       <field name="p_conc" kind="double" array="T" unit="kg/kg">
+                         <val>[Herbage.p_conc]</val>
+                       </field>
+                       <field name="s_conc" kind="double" array="T" unit="kg/kg">
+                         <val>[Herbage.s_conc]</val>
+                       </field>
+                       <field name="spec_area" kind="double" array="T" unit="cm^2/g">
+                         <val>[Herbage.spec_area]</val>
+                       </field>
+                     </element>
+                     [endfor]
+                   </field>
+                 </element>
+               [endfor]
+               </init>
+               [foreach FarmwisePasture.FarmwisePastureSeeds as Seeds]
+               <init name="seeds">
+                 <field name="soft_unripe" kind="double" array="T" unit="kg/ha">
+                   <val>[Seeds.soft_unripe]</val>
+                 </field>
+                 <field name="soft_ripe" kind="double" array="T" unit="kg/ha">
+                   <val>[Seeds.soft_ripe]</val>
+                 </field>
+                 <field name="hard_unripe" kind="double" array="T" unit="kg/ha">
+                   <val>[Seeds.hard_unripe]</val>
+                 </field>
+                 <field name="hard_ripe" kind="double" array="T" unit="kg/ha">
+                   <val>[Seeds.hard_ripe]</val>
+                 </field>
+               </init>
+               [endfor]
+               <init name="seed_dorm_time" kind="double" unit="d">
+                 <val>[FarmwisePasture.seed_dorm_time]</val>
+               </init>
+               <init name="germ_index" kind="double" unit="d">
+                 <val>[FarmwisePasture.germ_index]</val>
+               </init>
+            </initsection>
+         </sim>
+      </ApsimToSim>
+   </FarmwisePasture>
+   <FarmwisePastureGreen>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <SmallIcon>Images\cube_green.png</SmallIcon>
+      <drops>
+         <drop name="FarmwisePasture"/>
+     </drops>
+   </FarmwisePastureGreen>
+   <FarmwisePastureDry>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <SmallIcon>Images\cube_yellow.png</SmallIcon>
+      <drops>
+         <drop name="FarmwisePasture"/>
+     </drops>
+   </FarmwisePastureDry>
+   <FarmwisePastureSeeds>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <SmallIcon>Images\seeds16.gif</SmallIcon>
+      <drops>
+         <drop name="FarmwisePasture"/>
+     </drops>
+   </FarmwisePastureSeeds>
+   <FarmwisePastureGreenHerbage>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <SmallIcon>Images\herbage_green.gif</SmallIcon>
+      <drops>
+         <drop name="FarmwisePastureGreen"/>
+     </drops>
+   </FarmwisePastureGreenHerbage>
+   <FarmwisePastureDryHerbage>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <SmallIcon>Images\herbage_dry.gif</SmallIcon>
+      <drops>
+         <drop name="FarmwisePastureDry"/>
+     </drops>
+   </FarmwisePastureDryHerbage>
 </Types>
 

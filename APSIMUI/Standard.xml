@@ -829,4 +829,93 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
 *ROOTSTOCK
 00000 VineLogic Rsk      5.    5.    5.    1.7  0.12   9.1 ]]></data>
   </vinelogic>
+
+   <FarmwisePasture>
+      <species>Perennial Ryegrass</species>
+      <nutrients></nutrients>
+      <fertility>0.75</fertility>
+      <max_rtdep description="Maximum rooting depth (mm)">250.0</max_rtdep>
+      <lagged_day_t description="lagged_day_t (oC)">-999.9</lagged_day_t>
+      <phenology>1.005</phenology>
+      <flower_len description="flower_len (d)">0.0</flower_len>
+      <flower_time description="flower_time (d)">0.0</flower_time>
+      <senc_index description="senc_index (d)">0.0</senc_index>
+      <dorm_index description="dorm_index (d)">0.0</dorm_index>
+      <dorm_t description="dorm_t (oc)">-999.9</dorm_t>
+      <FarmwisePastureGreen name="Green">
+         <status>established</status>
+         <rt_dep description="rt_dep (mm)">100.0</rt_dep>
+         <estab_index>0.0</estab_index>
+         <stress_index>0.0</stress_index>
+         <stem_reloc description="stem_reloc (kg/ha)">0.0</stem_reloc>
+         <frosts>0</frosts>
+
+         <FarmwisePastureGreenHerbage name="Herbage">
+            <dmd description="dmd (kg/kg)">0.825</dmd>
+            <weight description="weight (kg/ha)">8000.0</weight>
+            <n_conc description="n_conc (kg/kg)"></n_conc>
+            <p_conc description="p_conc (kg/kg)"></p_conc>
+            <s_conc description="s_conc (kg/kg)"></s_conc>
+            <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
+            <root_wt description="root_wt (kg/ha)">3600.0</root_wt>
+         </FarmwisePastureGreenHerbage>
+
+         <FarmwisePastureGreenHerbage name="Herbage">
+            <dmd description="dmd (kg/kg)">0.825</dmd>
+            <weight description="weight (kg/ha)">1000.0</weight>
+            <n_conc description="n_conc (kg/kg)"></n_conc>
+            <p_conc description="p_conc (kg/kg)"></p_conc>
+            <s_conc description="s_conc (kg/kg)"></s_conc>
+            <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
+            <root_wt description="root_wt (kg/ha)">0.0</root_wt>
+         </FarmwisePastureGreenHerbage>
+      </FarmwisePastureGreen>
+      <FarmwisePastureDry name="Dry">
+         <status>dead</status>
+         <FarmwisePastureDryHerbage name="Herbage">
+            <dmd description="dmd (kg/kg)">0.65</dmd>
+            <weight description="weight (kg/ha)">500.0</weight>
+            <n_conc description="n_conc (kg/kg)"></n_conc>
+            <p_conc description="p_conc (kg/kg)"></p_conc>
+            <s_conc description="s_conc (kg/kg)"></s_conc>
+            <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
+         </FarmwisePastureDryHerbage>
+         <FarmwisePastureDryHerbage name="Herbage">
+            <dmd description="dmd (kg/kg)">0.425</dmd>
+            <weight description="weight (kg/ha)">100.0</weight>
+            <n_conc description="n_conc (kg/kg)"></n_conc>
+            <p_conc description="p_conc (kg/kg)"></p_conc>
+            <s_conc description="s_conc (kg/kg)"></s_conc>
+            <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
+         </FarmwisePastureDryHerbage>
+      </FarmwisePastureDry>
+      <FarmwisePastureDry name="Dry">
+         <status>litter</status>
+         <FarmwisePastureDryHerbage name="Herbage">
+            <dmd description="dmd (kg/kg)">0.651</dmd>
+            <weight description="weight (kg/ha)">233.0</weight>
+            <n_conc description="n_conc (kg/kg)"></n_conc>
+            <p_conc description="p_conc (kg/kg)"></p_conc>
+            <s_conc description="s_conc (kg/kg)"></s_conc>
+            <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
+         </FarmwisePastureDryHerbage>
+         <FarmwisePastureDryHerbage name="Herbage">
+            <dmd description="dmd (kg/kg)">0.0</dmd>
+            <weight description="weight (kg/ha)">0.0</weight>
+            <n_conc description="n_conc (kg/kg)"></n_conc>
+            <p_conc description="p_conc (kg/kg)"></p_conc>
+            <s_conc description="s_conc (kg/kg)"></s_conc>
+            <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
+         </FarmwisePastureDryHerbage>
+      </FarmwisePastureDry>
+      <FarmwisePastureSeeds name="Seeds">
+         <soft_unripe description="soft_unripe (kg/ha)"></soft_unripe>
+         <soft_ripe description="soft_ripe (kg/ha)"></soft_ripe>
+         <hard_unripe description="hard_unripe (kg/ha)"></hard_unripe>
+         <hard_ripe description="hard_ripe (kg/ha)"></hard_ripe>
+      </FarmwisePastureSeeds>
+      <seed_dorm_time description="seed_dorm_time (d)">0.0</seed_dorm_time>
+      <germ_index description="germ_index (d)">0.0</germ_index>
+   </FarmwisePasture>
+
 </folder>
