@@ -24,8 +24,13 @@ source: ..\lib\InterfaceTest.dll
 	#$(RM) linker.tmp
 
 InterfaceTest.obj: InterfaceTest.for
-Registrations.obj: Registrations.f90
+	$(ECHO) $(F90FLAGS) > compiler.tmp
+	$(ECHO) $(F90INCLUDES) >> compiler.tmp
+	$(ECHO) $(F90MODS) >> compiler.tmp
+	$(LF95) -c InterfaceTest.for @compiler.tmp
+	$(RM) compiler.tmp
 
+Registrations.obj: Registrations.f90
 Registrations.f90: ..\InterfaceTest.interface 
 	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\InterfaceTest.interface
 
