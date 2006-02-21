@@ -126,7 +126,7 @@ void *Computation::loadDLL(const string& filename) throw (runtime_error)
    result = LoadLibrary(filename.c_str());
    chdir(oldwd);
 
-   if (result == NULL) 
+   if (result == NULL)
       {
       // Get windows error message.
       LPVOID lpMsgBuf;
@@ -188,10 +188,35 @@ bool Computation::loadComponent(const std::string& filename,
 
       if (componentInterface != "")
          {
+         Path cwd = Path::getCurrentFolder();
+
          // This is a wrapped dll - it has no "entry points". Load the wrapper.
          FreeLibrary(handle);
-         componentInterface = getApsimDirectory() + "\\bin\\" + componentInterface;
-         handle = loadDLL(componentInterface.c_str());
+         if (Str_i_Eq(componentInterface, "piwrapper.dll"))
+            {
+            Path(executableFileName).Change_directory();
+            componentInterface = "C:\\Program Files\\Common Files\\AusFarm\\CMP\\piwrapper.dll";
+            }
+         else
+            componentInterface = getApsimDirectory() + "\\bin\\" + componentInterface;
+         handle = LoadLibrary(componentInterface.c_str());
+         if (handle == NULL)
+            {
+            // Get windows error message.
+            LPVOID lpMsgBuf;
+            FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+                          NULL,
+                          GetLastError(),
+                          MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
+                          (LPTSTR) &lpMsgBuf,
+                          0,
+                          NULL
+                          );
+            string errorMessage = ("Cannot load DLL: " + componentInterface + ".\n  " + (LPTSTR) lpMsgBuf);
+            LocalFree( lpMsgBuf );
+            throw runtime_error(errorMessage);
+            }
+         cwd.Change_directory();
          }
       else
          {

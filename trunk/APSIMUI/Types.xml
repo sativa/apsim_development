@@ -524,7 +524,7 @@
      <variables link="stock.xml"/>
       <ApsimToSim>
          <type>component</type>
-         <dll>%apsuite\apsim\stock\lib\stock.dll</dll>
+         <dll>c:\program files\farmwise\stock.dll</dll>
          <sim>
             <initsection>
                <init name="published_events" array="T"></init>
@@ -2496,11 +2496,12 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
-     <variables link="stock.xml"/>
+     <variables link="pasture.xml"/>
       <ApsimToSim>
          <type>component</type>
          <dll>c:\program files\farmwise\pasture.dll</dll>
          <sim>
+           <![CDATA[
             <initsection>
                <init name="published_events" array="T">
                </init>
@@ -2660,6 +2661,7 @@
                  <val>[FarmwisePasture.germ_index]</val>
                </init>
             </initsection>
+           ]]>
          </sim>
       </ApsimToSim>
    </FarmwisePasture>
