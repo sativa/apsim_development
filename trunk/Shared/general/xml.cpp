@@ -2,6 +2,8 @@
 #include <fstream>
 #include <sstream>
 
+#include <process.h>
+
 #include <general\TreeNodeIterator.h>
 #include <general\stl_functions.h>
 
@@ -274,7 +276,9 @@ XMLNode::iterator XMLNode::end() const
 string XMLNode::write() const
    {
    string tempFileName = GetTempDir();
-   tempFileName += "\\temp.xml";
+   unsigned int pid = getpid();
+   tempFileName += "\\temp" + itoa(pid) + ".xml";
+   
    xmlOutputBuffer* buf = xmlOutputBufferCreateFilename(tempFileName.c_str(), NULL, false);
    xmlNodeDumpOutput(buf, node->doc, node, 0, 1, NULL);
    xmlOutputBufferClose(buf);
@@ -366,3 +370,4 @@ XMLNode findNodeWithName(XMLNode node, const std::string& fqn)
    else
       return XMLNode();
    }
+
