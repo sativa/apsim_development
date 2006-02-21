@@ -116,6 +116,8 @@ void Coordinator::doInit1(const FString& sdml)
          componentsID = addRegistration(RegistrationType::respondToGet, "components", "<type kind=\"string\" array=\"T\"/>");
          }
       printReport = simulationData.doPrintReport();
+      readAllRegistrations();
+
 
       // loop through all services specified in SDML and create
       // and add a componentAlias object to our list of components.
@@ -162,7 +164,6 @@ void Coordinator::doInit1(const FString& sdml)
                       system.getXML());
          }
 
-      readAllRegistrations();
       }
    catch (const runtime_error& error)
       {
