@@ -23,6 +23,28 @@
 #include "MealPart.h"
 using namespace std;
 
+// ====================================================================
+void fruitMealPart::doInit (PlantComponent *systemInterface, PlantPhenology *plantPhenology)
+// ====================================================================
+{
+   parentPlant = systemInterface;
+   phenology = plantPhenology;
+}
+
+//     ===========================================================
+void fruitMealPart::dm_partition1 (double g_dlt_dm)
+//     ===========================================================
+{
+    dlt.dm_green = g_dlt_dm;
+}
+
+//     ===========================================================
+void fruitMealPart::dm_retranslocate1 (float g_dlt_dm)
+//     ===========================================================
+{
+    dlt.dm_green_retrans = g_dlt_dm;
+}
+
 void fruitMealPart::onHarvest(float /* cutting_height */, float remove_fr,
                               vector<string> &dm_type,
                               vector<float> &dlt_crop_dm,

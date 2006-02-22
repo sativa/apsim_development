@@ -6,6 +6,7 @@ class fruitPodPart : public plantPart {
   public:
    fruitPodPart(plantInterface *p, const string &name) : plantPart(p, name) {};
    ~fruitPodPart() {};
+   void doInit(PlantComponent *systemInterface, PlantPhenology *plantPhenology);
    void doRegistrations(protocol::Component *);
    void update(void);
    void onHarvest(float height, float remove_fr,
@@ -23,7 +24,6 @@ class fruitPodPart : public plantPart {
    void processBioDemand(void);
    void readSpeciesParameters (protocol::Component *, vector<string> &);
 
-////   float retrans_init (void);
    void zeroAllGlobals(void);
    void zeroDeltas(void);
    float interceptRadiation(float radiation);
@@ -35,14 +35,18 @@ class fruitPodPart : public plantPart {
    float dltDmPotTe(void);
    float dltDmPotRuePod(void);
    void calcDlt_pod_area (void);
-   void dm_pot_rue (double  radn_int_pod);   // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+   void dm_pot_rue (double  radn_int_pod);
 
-   void transp_eff_co2();      // (OUTPUT) transpiration coefficient
-   void sw_demand1(float *sw_demand);        //(OUTPUT) crop water demand (mm)
-   void bio_water1(void); //(OUTPUT) potential dry matter production by transpiration (g/m^2)
+   void transp_eff_co2();
+   void sw_demand1(float *sw_demand);
+   void bio_water1(void);
    void bio_actual (void);
    float fracPod(void);
    float fracPod1(void);
+   void dm_partition1 (double g_dlt_dm);
+   void dm_partition2 (double g_dlt_dm);
+   void dm_retranslocate1(float  g_dlt_dm_retrans) ;
+   void dm_retranslocate2(float  g_dlt_dm_retrans) ;
 
    private:
       float gDlt_dm;
@@ -81,6 +85,9 @@ class fruitPodPart : public plantPart {
       };
 
       Cover coverPod;
+
+      PlantComponent *parentPlant;
+      PlantPhenology *phenology;
 };
 
 #endif /* PodPartH */
