@@ -222,6 +222,12 @@ void plantPart::zeroDltDmGreen(void)
    dlt.dm_green = 0.0;
    }
 
+void plantPart::zeroDltDmGreenRetrans(void)
+//=======================================================================================
+   {
+   dlt.dm_green_retrans = 0.0;
+   }
+
 void plantPart::zeroAllGlobals(void)
 //=======================================================================================
    {
@@ -486,6 +492,18 @@ void plantPart::onKillStem(void)
    PSen = 0.0;
 
    }
+
+void plantPart::doInit (PlantComponent *systemInterface, PlantPhenology *plantPhenology)
+// ====================================================================
+{
+   parentPlant = systemInterface;
+   phenology = plantPhenology;
+}
+
+void plantPart::processBioDemand(void)
+//===========================================================================
+{
+}
 
 void plantPart::n_conc_limits(void)
 //=======================================================================================
@@ -777,6 +795,35 @@ void plantPart::doSenescence2(float sen_fr)
    dlt.dm_senesced = DMGreen * fraction_senescing;
    }
 
+void plantPart::doDmPartition(float DMAvail, float DMDemandTotal)
+//=======================================================================================
+   {
+   dlt.dm_green = DMAvail * divide (DMGreenDemand, DMDemandTotal, 0.0);
+   }
+
+void plantPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal)
+//=======================================================================================
+   {
+   dlt.dm_green_retrans = DMAvail * divide (dmDemandDifferential(), DMDemandDifferentialTotal, 0.0);
+   }
+
+float plantPart::dmDemandDifferential(void)
+//=======================================================================================
+   {
+   return dmGreenDemand() - dltDmGreen();
+   }
+
+float plantPart::dltDmRetranslocateSupply(float DemandDifferential)
+//=======================================================================================
+   {
+   float DMPartPot = DMGreen + dlt.dm_green_retrans;
+   float DMPartAvail = DMPartPot - DMPlantMin * plant->getPlants();
+   DMPartAvail = l_bound (DMPartAvail, 0.0);
+   float DltDmRetransPart = min (DemandDifferential, DMPartAvail);
+   dlt.dm_green_retrans = - DltDmRetransPart;
+   return DltDmRetransPart;
+   }
+
 void plantPart::doDmMin(void)
 //=======================================================================================
    {   // do nothing - set on events
@@ -799,6 +846,7 @@ void plantPart::doNSenescence(void)
    }
 
 void plantPart::doNSenescedRetrans(float navail, float n_demand_tot)
+//=======================================================================================
    {
    dlt.n_senesced_retrans = navail * divide (NDemand, n_demand_tot, 0.0);
    }
@@ -978,6 +1026,12 @@ float plantPart::dmTotal(void)
 //=======================================================================================
    {
    return (dmGreen() + dmSenesced() + dmDead());
+   }
+
+float plantPart::dmGreenDemand(void)
+//=======================================================================================
+   {
+   return (DMGreenDemand);
    }
 
 float plantPart::dmGreen(void)

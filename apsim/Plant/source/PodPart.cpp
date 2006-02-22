@@ -34,6 +34,28 @@ void fruitPodPart::doRegistrations(protocol::Component *system)
 
 }
 
+// ====================================================================
+void fruitPodPart::doInit (PlantComponent *systemInterface, PlantPhenology *plantPhenology)
+// ====================================================================
+{
+   parentPlant = systemInterface;
+   phenology = plantPhenology;
+}
+
+//     ===========================================================
+void fruitPodPart::dm_partition1 (double g_dlt_dm)
+//     ===========================================================
+{
+    dlt.dm_green = g_dlt_dm;
+}
+
+//     ===========================================================
+void fruitPodPart::dm_retranslocate1 (float g_dlt_dm)
+//     ===========================================================
+{
+    dlt.dm_green_retrans = g_dlt_dm;
+}
+
 void fruitPodPart::update(void)
 {
       plantPart::update();
@@ -292,18 +314,8 @@ void fruitPodPart::processBioDemand(void)
 void fruitPodPart::bio_actual (void)                                             //FIXME
 //===========================================================================
 {
-//+  Purpose
 //       Takes the minimum of biomass production limited by radiation and
 //       biomass production limited by water.
-
-//+  Mission Statement
-//     Takes the minimum of biomass production limited by radiation and
-//     biomass production limited by water.
-
-//+  Changes
-//      250894 jngh specified and programmed
-
-//- Implementation Section ----------------------------------
 
         // use whichever is limiting
         gDlt_dm = min (gDlt_dm_pot_rue, gDlt_dm_pot_te);
@@ -321,15 +333,7 @@ void fruitPodPart::calcDlt_pod_area (void)
 float fruitPodPart::interceptRadiation (float radiation)    // incident radiation on pods
 //===========================================================================
 {
-
-//+  Purpose
 //     Calculate pod total radiation interception and return transmitted radiation
-
-//+  Changes
-//     02 Feb 2005 JNGH - Programmed and Specified
-
-
-//- Implementation Section ----------------------------------
 
    float radiationIntercepted = coverTotal() * radiation;
    return radiation - radiationIntercepted;
@@ -339,19 +343,10 @@ float fruitPodPart::interceptRadiation (float radiation)    // incident radiatio
 void fruitPodPart::dm_pot_rue (double  radn_int_pod)                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
 //===========================================================================
 {
-//+  Purpose
 //       Potential biomass (carbohydrate) production from
 //       photosynthesis (g/m^2).  The effect of factors such
 //       temperature and nutritional status of the plant are
 //       taken into account in the radiation use efficiency.
-
-//+  Mission Statement
-//     Get the potential biomass production - limited by stress factors
-
-//+  Changes
-//       181197 nih specified and programmed
-
-//- Implementation Section ----------------------------------
 
   double stress_factor = min(min(min(plant->getTempStressPhoto(), plant->getNfactPhoto())
                                   , plant->getOxdefPhoto()), plant->getPfactPhoto());
@@ -376,15 +371,6 @@ void fruitPodPart::sw_demand1(float *sw_demand)         //(OUTPUT) crop water de
 /*  Purpose
 *       Return crop water demand from soil by the crop (mm) calculated by
 *       dividing biomass production limited by radiation by transpiration efficiency.
-*
-*  Mission Statement
-*   Calculate the crop demand for soil water (based upon transpiration efficiency)
-*
-*  Changes
-*       21/5/2003 ad converted to BC++
-*       010994 jngh specified and programmed
-*       970216 slw generalised
-*
 */
    {
    // get potential transpiration from potential
@@ -398,18 +384,9 @@ void fruitPodPart::sw_demand1(float *sw_demand)         //(OUTPUT) crop water de
 void fruitPodPart::bio_water1 (void)  //(OUTPUT) potential dry matter production
                                                     //         by transpiration (g/m^2)
 //===========================================================================
-//  Purpose
 //   Calculate the potential biomass production based upon today's water supply.
-
-//  Mission Statement
-//   Calculate the potential biomass production based upon today's water supply.
-
-//  Changes
-//       090994 jngh specified and programmed
 
 {
-   // Implementation Section ----------------------------------
-
    // potential (supply) by transpiration
 
    gDlt_dm_pot_te = plant->getWaterSupplyPod() * gTranspEff;

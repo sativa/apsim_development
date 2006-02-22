@@ -21,32 +21,17 @@ class Plant;
 #include "OilPart.h"
 #include "MealPart.h"
 
-//typedef bool (fruitGrainPart::*ptr2setFn) (protocol::QuerySetValueData&);
-
-
 class fruitGrainPart : public plantPart
 {
    friend ostream &operator<<(ostream &, const fruitGrainPart &);
 	public:												// member functions
             fruitGrainPart(plantInterface *p, const string &name);
 
-//		fruitGrainPart(Plant *P);			// default constructor
-//            fruitGrainPart(float greenLeaf, float greenStem, float senescedLeaf, float senescedStem, float deadLeaf, float deadStem);
 //		fruitGrainPart(const fruitGrainPart &fruitGrainPart); 			// copy constructor
 		const fruitGrainPart &operator=(const fruitGrainPart &other);		// Assigment operator
 
             void doInit(PlantComponent *systemInterface, PlantPhenology *plantPhenology);
             void doInit1();
-
-//            void setValue(float greenLeaf, float greenStem, float senescedLeaf, float senescedStem, float deadLeaf, float deadStem);
-//doRegistrations
-//zeroAllGlobals
-//zeroDeltas
-//readCultivarParameters
-//onDayOf
-//readConstants
-//readSpeciesParameters
-//             bool setVariable(unsigned id, protocol::QuerySetValueData& qd) ;
 
              void doRegistrations(protocol::Component *);
              void doTick(protocol::timeType &tick) ;
@@ -126,10 +111,6 @@ class fruitGrainPart : public plantPart
              void doPSenescence(void);
 
               void grain_number (void);
-              void grain_number (float stem_dm
-                                      ,float pGrains_per_gram_stem
-                                      ,float *gGrain_no);
-
             void onHarvest(float height, float remove_fr,
                            vector<string> &dm_type,
                            vector<float> &dlt_crop_dm,
@@ -164,17 +145,18 @@ class fruitGrainPart : public plantPart
                                           , vector<float> &fraction_to_residue);
 
             void update(void);
-            void refreshStates(void);
             void n_conc_limits(void);
             void zeroDltDmGreen(void);
+            void zeroDltDmGreenRetrans(void);
 
 
             float grainEnergy(void) const;
             float grainNo(void) const;
             float nConcPercent(void);
-            float nDemand(void) const;
+            float nGrainDemand(void) const;
 
             float dltDmDemand(void) const;
+            float dltDmRetranslocateSupply(float demand_differential);
             float dltDmRetranslocate(void);
             float dltDmGreen(void);
 
@@ -191,7 +173,7 @@ class fruitGrainPart : public plantPart
             float nSenesced(void);
             float nDead(void);
             float nConc(void);
-            float nGrainDemand2(void);
+            float nDemand2(void);
             float nRetransSupply(void);
             float nRetransDemand(void);
             float dltNRetransOut(void);
@@ -247,6 +229,9 @@ class fruitGrainPart : public plantPart
                                        , float nfact_grain_conc// (INPUT)
                                        , float swdef_expansion); // (INPUT)
 
+            float dmGreenDemand (void);
+            float dmDemandDifferential(void);
+            float dmYieldDemandDifferential(void);
             float dm_yield_demand (void);
 
             void dm_partition1 (double g_dlt_dm);
@@ -275,10 +260,15 @@ class fruitGrainPart : public plantPart
 //         plantInterface *plant;                 // The plant we are attached to
 
 	private:
+            void refreshStates(void);
             void bio_grain_oil (void);
             void bio_grain_demand (void);
             void yieldpart_demand_stress1(void);
             float meanT (void);
+              void grain_number (float stem_dm
+                                      ,float pGrains_per_gram_stem
+                                      ,float *gGrain_no);
+
 
 
         /* system interface: */

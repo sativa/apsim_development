@@ -129,6 +129,10 @@ class plantPart : public plantThing
          string name;                        // What we call ourselves
       } c;
 
+      PlantComponent *parentPlant;
+      PlantPhenology *phenology;
+
+
    plantPart(plantInterface *p, const string &name)
      {
      zeroAllGlobals();
@@ -142,6 +146,7 @@ class plantPart : public plantThing
      };
    virtual ~plantPart() {};
 
+   virtual void doInit(PlantComponent *systemInterface, PlantPhenology *plantPhenology);
    virtual void zeroAllGlobals(void);
    virtual void zeroDeltas(void);
    virtual void zeroDltNSenescedTrans(void);
@@ -165,6 +170,8 @@ class plantPart : public plantThing
    virtual void morphology(void);
    virtual void n_conc_limits(void);
 
+   virtual void doDmPartition(float DMAvail, float DMDemandTotal);
+   virtual void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
    virtual void doDmMin(void);
    virtual void doNDemand1(float, float);
    virtual void doNDemand1Pot(float, float);
@@ -177,11 +184,13 @@ class plantPart : public plantThing
    virtual void doNRetranslocate( float N_supply, float g_grain_n_demand);
    virtual void dm_detachment1(void);
    virtual void n_detachment1(void);
+   virtual void processBioDemand(void);
 
    virtual void p_detachment1(void);
    virtual void doPDemand(void);
    virtual void doPSenescence(void);
    virtual void zeroDltDmGreen(void);
+   virtual void zeroDltDmGreenRetrans(void);
 
    virtual void collectDetachedForResidue(vector<string> &part_name
                                           , vector<float> &dm_residue
@@ -194,6 +203,9 @@ class plantPart : public plantThing
                                           , vector<float> &p_dead_detached
                                           , vector<float> &fraction_to_residue);
    virtual float dmTotal(void);
+   virtual float dmGreenDemand(void);
+   virtual float dmDemandDifferential(void);
+   virtual float dltDmRetranslocateSupply(float DemandDifferential);
    virtual float dmGreen(void);
    virtual float dltDmGreen(void);
    virtual float dmSenesced(void);
