@@ -897,7 +897,7 @@
          <kl>0.08   0.08   0.04   0.04    0.02    0.02      0.01     0.01     0        0        0        0        0        0        0        0        0       0        0        0        0        0        0        0        0        0        0     ()</kl>
          <crop_type>canola</crop_type>
          <default_crop_class>plant</default_crop_class>
-         <part_names>root leaf</part_names>
+         <part_names>root</part_names>
          <sw_ub>1.0</sw_ub>
          <sw_lb>0.0</sw_lb>
          <year_ub>2000      ()</year_ub>
@@ -942,6 +942,7 @@
          <node_formation>emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill</node_formation>
          <hi_stress_sensitive>flowering</hi_stress_sensitive>
          <stress_reporting>end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill</stress_reporting>
+         <leaf_part>generic_leaf</leaf_part>
          <canola>
             <plant>canola</plant>
             <triazine>canola_triazine_tol canola</triazine>
@@ -1722,7 +1723,8 @@
          <xf>1.00   1.00   1.00   1.00    1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00    1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00  ()</xf>
          <crop_type>lucerne</crop_type>
          <default_crop_class>plant</default_crop_class>
-         <part_names>root leaf</part_names>
+         <part_names>root</part_names>
+         <leaf_part>generic_leaf</leaf_part>
          <sw_ub>1.0</sw_ub>
          <sw_lb>0.0</sw_lb>
          <year_ub>2000      ()</year_ub>
@@ -2213,7 +2215,8 @@
          <kl>0.08   0.08   0.04   0.04    0.02    0.02      0.01     0.01     0        0        0        0        0        0        0        0        0       0        0        0        0        0        0        0        0        0        0     ()</kl>
          <crop_type>lupin</crop_type>
          <default_crop_class>plant</default_crop_class>
-         <part_names>root leaf</part_names>
+         <part_names>root</part_names>
+         <leaf_part>generic_leaf</leaf_part>
          <sw_ub>1.0</sw_ub>
          <sw_lb>0.0</sw_lb>
          <year_ub>2000      ()</year_ub>
@@ -2717,6 +2720,7 @@
          <crop_type>weed</crop_type>
          <default_crop_class>plant</default_crop_class>
          <part_names>root</part_names>
+         <leaf_part>generic_leaf</leaf_part>
          <sw_ub>1.0</sw_ub>
          <sw_lb>0.0</sw_lb>
          <year_ub>2000      ()</year_ub>
@@ -3097,7 +3101,8 @@
          <xf>0.60   0.60   0.60   0.60    0.60    0.60      0.60     0.60     0        0        0        0        0        0        0        0        0       0        0        0        0        0        0        0        0        0        0     ()</xf>
          <crop_type>wheat</crop_type>
          <default_crop_class>plant</default_crop_class>
-         <part_names>root leaf</part_names>
+         <part_names>root</part_names>
+         <leaf_part>generic_leaf</leaf_part>
          <sw_ub>1.0</sw_ub>
          <sw_lb>0.0</sw_lb>
          <year_ub>2000      ()</year_ub>

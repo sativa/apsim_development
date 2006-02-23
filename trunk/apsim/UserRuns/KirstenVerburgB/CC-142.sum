@@ -826,6 +826,7 @@
       - reading constants for plant(wheat)
       - reading cultivar parameters
       - reading fruit cultivar parameters
+      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = katunga
         pesw germination           =       0.00 (0-1)
@@ -967,6 +968,7 @@
       - reading constants for plant(wheat)
       - reading cultivar parameters
       - reading fruit cultivar parameters
+      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = katunga
         pesw germination           =       0.00 (0-1)
@@ -1106,6 +1108,7 @@
       - reading constants for plant(lupin)
       - reading cultivar parameters
       - reading fruit cultivar parameters
+      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = gungurru
         est_days_emerg_to_init     = 83 (days)
@@ -1261,6 +1264,7 @@
       - reading constants for plant(wheat)
       - reading cultivar parameters
       - reading fruit cultivar parameters
+      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = katunga
         pesw germination           =       0.00 (0-1)
@@ -1423,6 +1427,7 @@
       - reading constants for plant(canola)
       - reading cultivar parameters
       - reading fruit cultivar parameters
+      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = oscar
         est_days_emerg_to_init     = 83 (days)
@@ -1556,7 +1561,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4565.04                    0.00
+                          DM (kg/ha) =               4565.03                    0.00
                           N  (kg/ha) =                 28.02                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -1607,6 +1612,7 @@
       - reading constants for plant(wheat)
       - reading cultivar parameters
       - reading fruit cultivar parameters
+      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = swift
         pesw germination           =       0.00 (0-1)
@@ -1715,7 +1721,7 @@
       flowering day          =  293                           stover (kg/ha)         =     7119.5
       maturity day           =  333                           grain yield (kg/ha)    =     2656.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3036.4
-      grain wt (g)           =    0.021                       grains/m^2             =  12517.198
+      grain wt (g)           =    0.021                       grains/m^2             =  12517.199
       grains/plant           =   63.9                         maximum lai            =      4.167
       total above ground biomass (kg/ha)    =     9776.4
       live above ground biomass (kg/ha)     =     9776.4
@@ -1776,6 +1782,7 @@
       - reading constants for plant(wheat)
       - reading cultivar parameters
       - reading fruit cultivar parameters
+      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = goldmark
         pesw germination           =       0.00 (0-1)
@@ -1872,6 +1879,7 @@
       - reading constants for winter_grass(weed)
       - reading cultivar parameters
       - reading fruit cultivar parameters
+      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = early
         est_days_emerg_to_init     = 83 (days)
@@ -1952,11 +1960,11 @@
                      stover N conc =     0.31 (%)    extractable sw =  133.33 (mm)
 30 November 1998(Day of year=334), wheat: 
       stage 9.0 maturity
-                     biomass =        1155.60 (g/m^2)   lai          =   0.379 (m^2/m^2)
+                     biomass =        1155.59 (g/m^2)   lai          =   0.379 (m^2/m^2)
                      stover N conc =     0.29 (%)    extractable sw =  136.03 (mm)
 1 December 1998(Day of year=335), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1155.60 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =        1155.59 (g/m^2)   lai          =   0.001 (m^2/m^2)
                      stover N conc =     0.29 (%)    extractable sw =  134.19 (mm)
 15 December 1998(Day of year=349), weed: 
       stage 4.0 end_of_juvenile
@@ -1969,7 +1977,7 @@
       flowering day          =  286                           stover (kg/ha)         =     7873.8
       maturity day           =  334                           grain yield (kg/ha)    =     3682.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4208.2
-      grain wt (g)           =    0.029                       grains/m^2             =  12548.575
+      grain wt (g)           =    0.029                       grains/m^2             =  12548.576
       grains/plant           =   56.5                         maximum lai            =      3.444
       total above ground biomass (kg/ha)    =    11556.0
       live above ground biomass (kg/ha)     =    11556.0
@@ -2110,6 +2118,7 @@
       - reading constants for triazine(canola)
       - reading cultivar parameters
       - reading fruit cultivar parameters
+      - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = pinnacle
         est_days_emerg_to_init     = 83 (days)
