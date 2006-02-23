@@ -1061,8 +1061,8 @@ void Plant::plant_bio_distribute (int option /* (INPUT) option number */)
     }
     else if (option == 2)
     {          // do nothing                //FIXME do we need this code?
-        fruitPart->dm_partition2 ( g.dlt_dm_supply_to_fruit);    // this may need to be redone when fruit becomes true class
-        fruitPart->dm_retranslocate2( g.dlt_dm_retrans_to_fruit);    // this may need to be redone when fruit becomes true class
+        fruitPart->dm_partition1 ( g.dlt_dm_supply_to_fruit);    // this may need to be redone when fruit becomes true class
+        fruitPart->dm_retranslocate1( g.dlt_dm_retrans_to_fruit);    // this may need to be redone when fruit becomes true class
 
     }
     else
@@ -8542,6 +8542,7 @@ bool Plant::set_plant_crop_class(protocol::QuerySetValueData&v)
     plant_read_species_const ();
     return true;
     }
+
 void Plant::get_plant_status(protocol::Component *system, protocol::QueryValueData &qd) const
 {
     switch (g.plant_status) {

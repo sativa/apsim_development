@@ -21,6 +21,8 @@ class fruitPodPart : public plantPart {
    void onFlowering(void);
    void onStartGrainFill(void);
    void doDmMin(void);
+   void doDmDemand1(float dm_grain_demand, float  dlt_dm_supply);
+   void doDmDemand2(float dm_grain_demand, float  dlt_dm_supply);
    void processBioDemand(void);
    void readSpeciesParameters (protocol::Component *, vector<string> &);
 
@@ -43,10 +45,8 @@ class fruitPodPart : public plantPart {
    void bio_actual (void);
    float fracPod(void);
    float fracPod1(void);
-   void dm_partition1 (double g_dlt_dm);
-   void dm_partition2 (double g_dlt_dm);
-   void dm_retranslocate1(float  g_dlt_dm_retrans) ;
-   void dm_retranslocate2(float  g_dlt_dm_retrans) ;
+   void dm_partition1 (double dlt_dm);
+   void dm_retranslocate1(float  dlt_dm_retrans) ;
 
    private:
       float gDlt_dm;

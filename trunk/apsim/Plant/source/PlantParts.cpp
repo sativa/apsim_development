@@ -609,26 +609,29 @@ void plantPart::updateDm(void)
 void plantPart::updateP(void)
 //=======================================================================================
    {
-   float dying_fract_plants = plant->getDyingFractionPlants();
-   // Update P
-   PDead -= dlt.p_dead_det;
+   if (plant->phosphorusAware())
+      {
+      float dying_fract_plants = plant->getDyingFractionPlants();
+      // Update P
+      PDead -= dlt.p_dead_det;
 
-   PGreen += dlt.p_green;
-   PGreen += dlt.p_retrans;
-   PGreen -= dlt.p_sen;
-   PGreen = l_bound(PGreen, 0.0);  // Can occur at total leaf senescence. FIXME! XXXX
+      PGreen += dlt.p_green;
+      PGreen += dlt.p_retrans;
+      PGreen -= dlt.p_sen;
+      PGreen = l_bound(PGreen, 0.0);  // Can occur at total leaf senescence. FIXME! XXXX
 
-   PSen += dlt.p_sen;
-   PSen -= dlt.p_det;
+      PSen += dlt.p_sen;
+      PSen -= dlt.p_det;
 
 
-   dlt.p_green_dead = PGreen * dying_fract_plants;
-   PGreen -= dlt.p_green_dead;
-   PDead += dlt.p_green_dead;
+      dlt.p_green_dead = PGreen * dying_fract_plants;
+      PGreen -= dlt.p_green_dead;
+      PDead += dlt.p_green_dead;
 
-   dlt.p_senesced_dead = PSen * dying_fract_plants;
-   PSen  -= dlt.p_senesced_dead;
-   PDead += dlt.p_senesced_dead;
+      dlt.p_senesced_dead = PSen * dying_fract_plants;
+      PSen  -= dlt.p_senesced_dead;
+      PDead += dlt.p_senesced_dead;
+      }
    }
 
 void plantPart::doNDemand1(float dlt_dm             //   Whole plant the daily biomass production (g/m^2)
