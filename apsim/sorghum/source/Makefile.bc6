@@ -1,5 +1,10 @@
 # (Borlandish) Makefile for apsim sorghum module
 
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+
 # APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
 #APSROOT=c:\progra~1\apsim33
 #APSROOT=c:\development
@@ -9,18 +14,22 @@
 
 # Fortran compiler defns
 !include $(APSROOT)\APSBuild\fortran.make
+!include $(APSROOT)\APSBuild\cpp.make
 
 # The statically linked components of the engine interface
 !include $(APSROOT)\APSBuild\ApsimComponentInterface.make
 
 # Main target
-source: ..\lib\sorghum.dll
-..\lib\sorghum.dll: Registrations.obj sorghum.obj $(STATICLINKEDOBJECTS) 
+source: ..\lib\sorghum-old.dll ..\lib\sorghum.dll 
+
+####---------------Fortran/cropmod sorghum:
+
+..\lib\sorghum-old.dll: Registrations.obj sorghum.obj $(STATICLINKEDOBJECTS) 
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90CROPLIBS) >> linker.tmp
 	$(LF95) sorghum.obj Registrations.obj \
- -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\sorghum.dll @linker.tmp
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\sorghum-old.dll @linker.tmp
 	$(RM) linker.tmp
    
 sorghum.obj: sorghum.for
@@ -34,6 +43,48 @@ Registrations.obj: Registrations.f90
 Registrations.f90: ..\sorghum.interface 
 	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\sorghum.interface
 
+####---------------OO sorghum:
+
+OBJFILES= OOLeaf.obj OOPlantInterface.obj OOBiomass.obj OOPhosphorus.obj OOPlantActions.obj \
+OOStem.obj Utilities.obj OONitrogen.obj   OORachis.obj OOGrain.obj \
+OOPlantComponents.obj OOWater.obj OOPhenology.obj  OOPlant.obj  OORoots.obj 
+
+LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
+	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
+	$(APSROOT)\Shared\general\general.lib
+
+USERDEFINES =
+SYSDEFINES = _RTLDLL;NO_STRICT;_NO_VCL;USEPACKAGES
+INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\Boost;$(APSROOT)\Shared
+LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface
+
+# ---------------------------------------------------------------------------
+CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
+WARNINGS = -w-par
+LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
+
+ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib sysinit.obj $(OBJFILES)
+ALLRES = $(RESFILES)
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cp32mti.lib
+
+CC=$(BCB)\Bin\bcc32.exe
+LD=$(BCB)\Bin\ilink32
+
+..\lib\sorghum.dll: $(OBJFILES) $(DEFFILE)
+    $(LD) @&&!
+    $(LFLAGS) -L$(LIBPATH) +
+    $(ALLOBJ), +
+    ..\lib\sorghum.dll,, +
+    $(ALLLIB), +
+    $(DEFFILE), +
+    $(ALLRES)
+!
+
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
 clean:
 	$(RM) ..\lib\sorghum.dll Registrations.obj Registrations.f90 sorghum.obj sorghum.imp
+	$(RM) $(OBJFILES) *.bak *.csm
 
+###Dependancies
