@@ -528,10 +528,15 @@ Public Class ApsimUIController
             Combo.Items = New String() {"yes", "no"}
             Grid.Cells(row, col).CellType = Combo
 
-        ElseIf Prop.Attribute("type") = "date" Then
+        ElseIf Prop.Attribute("type") = "ddmmmdate" Then
             Dim DateEditor As New APSIMUIDateTimeCellType
             DateEditor.DefaultFormat()
+            Grid.Cells(row, col).CellType = DateEditor
+
+        ElseIf Prop.Attribute("type") = "date" Then
+            Dim DateEditor As FarPoint.Win.Spread.CellType.DateTimeCellType = New FarPoint.Win.Spread.CellType.DateTimeCellType
             DateEditor.DateDefault = Prop.Value
+            dateeditor.DropDownButton = True
             Grid.Cells(row, col).CellType = DateEditor
 
         ElseIf Prop.Attribute("type") = "list" Then
