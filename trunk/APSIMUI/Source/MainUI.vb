@@ -134,8 +134,6 @@ Public Class MainUI
     Friend WithEvents SmallImages As System.Windows.Forms.ImageList
     Friend WithEvents MainToolBar As Xceed.SmartUI.Controls.ToolBar.SmartToolBar
     Friend WithEvents ToolboxButton As Xceed.SmartUI.Controls.ToolBar.Tool
-    Friend WithEvents FileExportMenu As Xceed.SmartUI.Controls.MenuBar.PopupMenuItem
-    Friend WithEvents FileExportExcelMenu As Xceed.SmartUI.Controls.MenuBar.MenuItem
     Friend WithEvents ExcelToolBarButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents PrintDialog1 As System.Windows.Forms.PrintDialog
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
@@ -180,8 +178,6 @@ Public Class MainUI
         Me.OpenFileMenu = New Xceed.SmartUI.Controls.MenuBar.MenuItem("&Open file", 6)
         Me.SaveFileMenu = New Xceed.SmartUI.Controls.MenuBar.MenuItem("&Save file", 7)
         Me.SaveAsMenu = New Xceed.SmartUI.Controls.MenuBar.MenuItem("Save &As file", 8)
-        Me.FileExportMenu = New Xceed.SmartUI.Controls.MenuBar.PopupMenuItem("&Export ...")
-        Me.FileExportExcelMenu = New Xceed.SmartUI.Controls.MenuBar.MenuItem("Excel", 13)
         Me.separatorMenuItem1 = New Xceed.SmartUI.Controls.MenuBar.SeparatorMenuItem
         Me.ExitMenu = New Xceed.SmartUI.Controls.MenuBar.MenuItem("E&xit")
         Me.separatorTool2 = New Xceed.SmartUI.Controls.ToolBar.SeparatorTool
@@ -540,7 +536,7 @@ Public Class MainUI
         '
         'FileMenu
         '
-        Me.FileMenu.Items.AddRange(New Object() {Me.NewFileMenu, Me.OpenFileMenu, Me.SaveFileMenu, Me.SaveAsMenu, Me.FileExportMenu, Me.separatorMenuItem1, Me.ExitMenu})
+        Me.FileMenu.Items.AddRange(New Object() {Me.NewFileMenu, Me.OpenFileMenu, Me.SaveFileMenu, Me.SaveAsMenu, Me.separatorMenuItem1, Me.ExitMenu})
         Me.FileMenu.Text = "&File"
         '
         'NewFileMenu
@@ -562,16 +558,6 @@ Public Class MainUI
         '
         Me.SaveAsMenu.ImageIndex = 8
         Me.SaveAsMenu.Text = "Save &As file"
-        '
-        'FileExportMenu
-        '
-        Me.FileExportMenu.Items.AddRange(New Object() {Me.FileExportExcelMenu})
-        Me.FileExportMenu.Text = "&Export ..."
-        '
-        'FileExportExcelMenu
-        '
-        Me.FileExportExcelMenu.ImageIndex = 13
-        Me.FileExportExcelMenu.Text = "Excel"
         '
         'ExitMenu
         '
@@ -724,7 +710,6 @@ Public Class MainUI
         GraphButton.Enabled = SomethingInTree
         ApsimOutlookButton.Enabled = SomethingInTree
 
-        Me.FileExportExcelMenu.Enabled = SomethingInTree
         Me.ExcelToolBarButton.Enabled = SomethingInTree
 
     End Sub
@@ -754,7 +739,13 @@ Public Class MainUI
 
         'Run button
         If e.Button Is RunButton Then
-            RunSimulations()
+            Try
+                RunSimulations()
+            Catch fnf As System.IO.FileNotFoundException
+                MessageBox.Show(fnf.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+            End Try
+
 
             'APSIM Help Button
         ElseIf e.Button Is ApsimHelpButton Then
@@ -884,7 +875,15 @@ Public Class MainUI
             Next
 
             Dim ApsRunFileName As String = Path.GetDirectoryName(Application.ExecutablePath) + "\apsrun.exe"
-            Process.Start(ApsRunFileName, """" + ApsimUI.FileName + """")
+
+            ' Check if The APSIM run application is where it should be, if not throw a FileNotFoundException
+            If System.IO.File.Exists(ApsRunFileName) Then
+                Process.Start(ApsRunFileName, """" + ApsimUI.FileName + """")
+            Else
+                Throw New System.IO.FileNotFoundException("The file '" & ApsRunFileName & "' could not be found.")
+            End If
+
+
         End If
     End Sub
 #End Region
@@ -1002,7 +1001,7 @@ Public Class MainUI
         End If
     End Function
 
-    Private Sub FileExportExcelMenu_Click(ByVal sender As System.Object, ByVal e As Xceed.SmartUI.SmartItemClickEventArgs) Handles FileExportExcelMenu.Click
+    Private Sub FileExportExcelMenu_Click(ByVal sender As System.Object, ByVal e As Xceed.SmartUI.SmartItemClickEventArgs)
         Dim clickEvent As New System.Windows.Forms.ToolBarButtonClickEventArgs(Me.ExcelToolBarButton)
         Me.ToolBar_ButtonClick(Me.ExcelToolBarButton, clickEvent)
 

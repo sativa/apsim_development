@@ -77,13 +77,15 @@ Public Class NewDocumentForm
         'DataTree
         '
         Me.DataTree.AllowDrop = True
+        Me.DataTree.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.DataTree.AutoScroll = True
         Me.DataTree.BackColor = System.Drawing.SystemColors.Control
         Me.DataTree.Controller = Nothing
         Me.DataTree.HelpText = ""
         Me.DataTree.Location = New System.Drawing.Point(136, 32)
         Me.DataTree.Name = "DataTree"
-        Me.DataTree.Size = New System.Drawing.Size(456, 328)
+        Me.DataTree.Size = New System.Drawing.Size(456, 716)
         Me.DataTree.Sorted = False
         Me.DataTree.TabIndex = 5
         '
