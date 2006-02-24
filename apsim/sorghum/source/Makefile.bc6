@@ -20,18 +20,18 @@ BCB = $(MAKEDIR)\..
 !include $(APSROOT)\APSBuild\ApsimComponentInterface.make
 
 # Main target
-source: ..\lib\sorghum-old.dll ..\lib\sorghum.dll 
+source: ..\lib\sorghum-old.dll ..\lib\sorghum.dll
 
 ####---------------Fortran/cropmod sorghum:
 
-..\lib\sorghum-old.dll: Registrations.obj sorghum.obj $(STATICLINKEDOBJECTS) 
+..\lib\sorghum-old.dll: Registrations.obj sorghum.obj $(STATICLINKEDOBJECTS)
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90CROPLIBS) >> linker.tmp
 	$(LF95) sorghum.obj Registrations.obj \
  -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\sorghum-old.dll @linker.tmp
 	$(RM) linker.tmp
-   
+
 sorghum.obj: sorghum.for
 	$(ECHO) $(F90FLAGS) > compiler.tmp
 	$(ECHO) $(F90CROPINCLUDES);$(APSROOT)\apsim\cropmod\source >> compiler.tmp
@@ -40,14 +40,14 @@ sorghum.obj: sorghum.for
 	$(RM) compiler.tmp
 
 Registrations.obj: Registrations.f90
-Registrations.f90: ..\sorghum.interface 
+Registrations.f90: ..\sorghum.interface
 	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\sorghum.interface
 
 ####---------------OO sorghum:
 
 OBJFILES= OOLeaf.obj OOPlantInterface.obj OOBiomass.obj OOPhosphorus.obj OOPlantActions.obj \
 OOStem.obj Utilities.obj OONitrogen.obj   OORachis.obj OOGrain.obj \
-OOPlantComponents.obj OOWater.obj OOPhenology.obj  OOPlant.obj  OORoots.obj 
+OOPlantComponents.obj OOWater.obj OOPhenology.obj  OOPlant.obj  OORoots.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
