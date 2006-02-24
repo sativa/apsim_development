@@ -52,19 +52,18 @@ Public Class GenericUI
         Me.PictureBox.Dock = System.Windows.Forms.DockStyle.Left
         Me.PictureBox.Location = New System.Drawing.Point(0, 40)
         Me.PictureBox.Name = "PictureBox"
-        Me.PictureBox.Size = New System.Drawing.Size(88, 594)
+        Me.PictureBox.Size = New System.Drawing.Size(88, 702)
         Me.PictureBox.TabIndex = 3
         Me.PictureBox.TabStop = False
         '
         'FpSpread1
         '
-        Me.FpSpread1.AllowDragDrop = True
         Me.FpSpread1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FpSpread1.EditModeReplace = True
         Me.FpSpread1.Location = New System.Drawing.Point(88, 40)
         Me.FpSpread1.Name = "FpSpread1"
         Me.FpSpread1.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.Grid})
-        Me.FpSpread1.Size = New System.Drawing.Size(570, 594)
+        Me.FpSpread1.Size = New System.Drawing.Size(1144, 702)
         Me.FpSpread1.TabIndex = 4
         Me.FpSpread1.TabStripPolicy = FarPoint.Win.Spread.TabStripPolicy.Never
         '
@@ -87,10 +86,10 @@ Public Class GenericUI
         '
         'GenericUI
         '
-        Me.ClientSize = New System.Drawing.Size(658, 634)
         Me.Controls.Add(Me.FpSpread1)
         Me.Controls.Add(Me.PictureBox)
         Me.Name = "GenericUI"
+        Me.Size = New System.Drawing.Size(1232, 742)
         Me.Controls.SetChildIndex(Me.PictureBox, 0)
         Me.Controls.SetChildIndex(Me.FpSpread1, 0)
         CType(Me.FpSpread1, System.ComponentModel.ISupportInitialize).EndInit()
