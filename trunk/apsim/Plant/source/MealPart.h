@@ -21,6 +21,8 @@ class fruitMealPart : public plantPart {
 
    void dm_partition1 (double g_dlt_dm);
    void dm_retranslocate1(float  g_dlt_dm_retrans) ;
+   void n_partition1 (double dltN);
+   void n_retranslocate1(float dltN) ;
 
   private:
       PlantComponent *parentPlant;

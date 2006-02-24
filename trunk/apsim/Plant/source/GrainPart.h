@@ -13,11 +13,6 @@
 #include <iostream.h>
 #endif
 #include "PlantParts.h"
-class PlantComponent;
-class ApsimVariant;
-class plantPart;
-class eventObserver;
-class Plant;
 #include "OilPart.h"
 #include "MealPart.h"
 
@@ -150,7 +145,7 @@ public:												// member functions
    void zeroDltDmGreenRetrans(void);
 
 
-   float grainEnergy(void) const;
+   float grainEnergy(void) const;        //remove
    float grainNo(void) const;
    float nConcPercent(void);
    float nGrainDemand(void) const;
@@ -210,8 +205,6 @@ public:												// member functions
 
 
    //FIXME
-   void transp_eff_co2();      // (OUTPUT) transpiration coefficient                         //FIXME
-   void sw_demand1(float *sw_demand); //(OUTPUT) crop water demand (mm)               //FIXME
    void bio_yieldpart_demand1 (void) ;
    void bio_yieldpart_demand2(void) ;
 
@@ -235,9 +228,7 @@ public:												// member functions
    float dm_yield_demand (void);
 
    void dm_partition1 (double g_dlt_dm);
-   void dm_partition2 (double g_dlt_dm);
    void dm_retranslocate1(float  g_dlt_dm_retrans_to_fruit) ;
-   void dm_retranslocate2(float  g_dlt_dm_retrans_to_fruit) ;
    void bio_actual (void);
    void doSenescence1 (float sen_fr);
    void doSenescence2 (float sen_fr);
@@ -261,7 +252,7 @@ public:												// member functions
 
 private:
    void refreshStates(void);
-   void bio_grain_oil (void);
+   void bio_grain_oil (void);          //remove
    void bio_grain_demand (void);
    void yieldpart_demand_stress1(void);
    float meanT (void);
@@ -285,12 +276,12 @@ private:
    int   cNum_temp_grainfill;
    float cY_rel_grainfill[max_table];
 
-   float cGrain_oil_conc;                            // fractional oil content of grain (0-1)
+   float cGrain_oil_conc;         //remove                   // fractional oil content of grain (0-1)
    float gDlt_dm_grain_demand;
    float gN_grain_demand;
    float gP_grain_demand;
-   float gDlt_dm_oil_conv;
-   float dmOil_conv_retranslocate;
+   float gDlt_dm_oil_conv;           //remove
+   float dmOil_conv_retranslocate;   //remove
 
    float gGrain_no;                 // multiplier of grain weight to account for seed energy content
 
@@ -304,7 +295,7 @@ private:
    int gDay_of_year;
    int gYear;
 
-   float gGrain_energy;                 // multiplier of grain weight to account for seed energy content
+   float gGrain_energy;     //remove            // multiplier of grain weight to account for seed energy content
    float dmRetranslocate;
    float gDlt_dm;
 
@@ -323,7 +314,7 @@ private:
    int   cNum_temp_grain_n_fill;
    float cY_rel_grain_n_fill[max_table];
    float cGrn_water_cont;
-   float cCarbo_oil_conv_ratio;
+   float cCarbo_oil_conv_ratio;      //remove
    int   cNum_n_conc_stage;
    float cX_stage_code[max_table];
    float cN_conc_crit_grain;
@@ -333,11 +324,6 @@ private:
                                                       // sunset and end of twilight - altitude
                                                       // of sun. (deg)
                                                       // to grain
-   float cX_co2_te_modifier[max_table];
-   float cY_co2_te_modifier[max_table];
-   int   cNum_co2_te_modifier;
-   float gTranspEff;
-
    float pGrains_per_gram_stem;
    float pPotential_grain_filling_rate;
 

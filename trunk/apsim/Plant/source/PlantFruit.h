@@ -13,11 +13,6 @@
 #include <iostream.h>
 #endif
 
-class PlantComponent;
-class ApsimVariant;
-class plantThing;
-class eventObserver;
-class Plant;
 #include "PlantParts.h"
 #include "GrainPart.h"
 #include "PodPart.h"

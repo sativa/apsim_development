@@ -19,8 +19,6 @@
 #include <general/string_functions.h>
 
 #include "PlantInterface.h"
-#include "PlantLibrary.h"
-#include "Plant.h"
 #include "OilPart.h"
 using namespace std;
 
@@ -30,6 +28,32 @@ void fruitOilPart::doInit (PlantComponent *systemInterface, PlantPhenology *plan
    parentPlant = systemInterface;
    phenology = plantPhenology;
 }
+
+void fruitOilPart::doRegistrations(protocol::Component *system)
+   //===========================================================================
+{
+   plantPart::doRegistrations(system);
+   system->addGettableVar("dlt_dm_oil_conv",gDlt_dm_oil_conv,"g/m^2", "change in oil via ??");
+   system->addGettableVar("dlt_dm_oil_conv_retrans", dmOil_conv_retranslocate, "g/m^2", "change in oil via retranslocation");
+   system->addGettableVar("grain_oil_conc", cGrain_oil_conc, "%", "??");
+}
+
+float fruitOilPart::grainEnergy(void) const {return gGrain_energy;}
+
+void fruitOilPart::zeroAllGlobals(void)
+{
+   plantPart::zeroAllGlobals();
+   cCarbo_oil_conv_ratio  = 0.0;
+   cGrain_oil_conc  = 0.0;
+   gGrain_energy = 0.0;
+}
+
+void fruitOilPart::zeroDeltas(void)
+{
+   plantPart::zeroDeltas();
+   gDlt_dm_oil_conv = 0.0;
+}
+
 
 void fruitOilPart::update(void)
 {
@@ -115,14 +139,41 @@ void fruitOilPart::onStartGrainFill(void)
 {  // do nothing
 }
 
+void fruitOilPart::bio_grain_oil (void)    // for seed energy content (>= 1.0)
+   //===========================================================================
+{
+   //       Calculate grain oil factors
+
+   gGrain_energy = 1.0 + cGrain_oil_conc * (cCarbo_oil_conv_ratio - 1.0);
+   bound_check_real_var (parentPlant, gGrain_energy, 1.0, 2.0, "grain_energy");
+}
+
+float fruitOilPart::energyAdjust (float harvestIndex)
+   //===========================================================================
+{
+      float energy_adjust = divide (gGrain_energy
+                                    , 1.0 + harvestIndex*(gGrain_energy - 1.0)
+                                    , 0.0);
+      return energy_adjust;
+}
+
+float fruitOilPart::dm_yield_demand (float dmDemand)
+   //===========================================================================
+{
+      float dmYieldDemand = divide (dmDemand, gGrain_energy, 0.0);
+      return dmYieldDemand;
+}
+
 void fruitOilPart::dm_retranslocate1 (float g_dlt_dm)                    //FIXME
 //     ===========================================================
 {
+    dlt.dm_green_retrans = g_dlt_dm;
 }
 
 void fruitOilPart::dm_partition1 (double g_dlt_dm)                    //FIXME
 //     ===========================================================
 {
+    dlt.dm_green = g_dlt_dm;
 
    ////+  Purpose
    ////       Partitions new dm (assimilate) between plant components (g/m^2)
@@ -191,3 +242,19 @@ void fruitOilPart::dm_partition1 (double g_dlt_dm)                    //FIXME
 
 }
 
+void fruitOilPart::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
+   //===========================================================================
+{
+   plantPart::readSpeciesParameters(system, sections);
+
+   system->readParameter (sections
+                          ,"carbo_oil_conv_ratio"//, "()"
+                          , cCarbo_oil_conv_ratio
+                          , 0.0, 20.0);
+
+   system->readParameter (sections
+                          ,"grain_oil_conc"//, "()"
+                          , cGrain_oil_conc
+                          , 0.0, 1.0);
+
+}

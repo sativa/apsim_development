@@ -18,8 +18,6 @@
 #include <general/string_functions.h>
 
 #include "PlantInterface.h"
-#include "PlantLibrary.h"
-#include "Plant.h"
 #include "MealPart.h"
 using namespace std;
 
@@ -40,6 +38,18 @@ void fruitMealPart::dm_retranslocate1 (float g_dlt_dm)
 //     ===========================================================
 {
     dlt.dm_green_retrans = g_dlt_dm;
+}
+
+void fruitMealPart::n_partition1 (double dltN)
+//     ===========================================================
+{
+    dlt.n_green = dltN;
+}
+
+void fruitMealPart::n_retranslocate1 (float dltN)
+//     ===========================================================
+{
+    dlt.n_retrans = dltN;
 }
 
 void fruitMealPart::update(void)

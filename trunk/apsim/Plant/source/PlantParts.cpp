@@ -1,28 +1,5 @@
-#include <stdio.h>
-#include <math.h>
-#include <map>
-#include <string>
-#include <stdexcept>
 
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
-
-#include <ComponentInterface/Type.h>
-#include <ComponentInterface/ApsimVariant.h>
-#include <ComponentInterface/Component.h>
-#include <ComponentInterface/dataTypes.h>
-#include <ComponentInterface/Messages.h>
-#include <ComponentInterface/MessageDataExt.h>
-#include <ApsimShared/ApsimComponentData.h>
-#include <ApsimShared/FStringExt.h>
-#include <general/string_functions.h>
-
-#include "PlantInterface.h"
-#include "PlantLibrary.h"
-#include "Plant.h"
 #include "PlantParts.h"
-#include "LeafPart.h"
-#include "PlantFruit.h"
 using namespace std;
 
 
@@ -1025,6 +1002,18 @@ void plantPart::collectDeadDetachedForResidue(vector<string> &part_name
    fraction_to_residue.push_back(1.0);
    }
 
+void plantPart::dm_partition1 (double g_dlt_dm)
+//     ===========================================================
+{
+    dlt.dm_green = g_dlt_dm;
+}
+
+void plantPart::dm_retranslocate1 (float g_dlt_dm)
+//     ===========================================================
+{
+    dlt.dm_green_retrans = g_dlt_dm;
+}
+
 float plantPart::dmTotal(void)
 //=======================================================================================
    {
@@ -1047,6 +1036,18 @@ float plantPart::dltDmGreen(void)
 //=======================================================================================
    {
    return (dlt.dm_green);
+   }
+
+float plantPart::dmGreenNew(void)
+//=======================================================================================
+   {
+   return (DMGreen + dlt.dm_green + dlt.dm_green_retrans);
+   }
+
+float plantPart::dltDmGreenNew(void)
+//=======================================================================================
+   {
+   return (dlt.dm_green + dlt.dm_green_retrans);
    }
 
 float plantPart::dmSenesced(void)
