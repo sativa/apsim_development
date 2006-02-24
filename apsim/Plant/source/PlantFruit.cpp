@@ -5,28 +5,6 @@
 #define YES 1
 #define NO 0
 #define TEST_PlantFruit NO					// build unit test?
-#include <stdio.h>
-#include <math.h>
-#include <string>
-
-#include <map>
-#include <list>
-#include <vector>
-
-#include <stdexcept>
-
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
-
-#include <ComponentInterface/Component.h>
-#include <ComponentInterface/Type.h>
-
-#include "PlantLibrary.h"
-#include "PlantComponent.h"
-#include "PlantPhenology.h"
-#include "Plant.h"
-#include "PlantParts.h"
-#include "PlantInterface.h"
 #include "PlantFruit.h"
 
 

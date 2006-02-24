@@ -1,6 +1,30 @@
 #ifndef PlantPartsH
 #define PlantPartsH
 
+#include <stdio.h>
+#include <math.h>
+#include <map>
+#include <string>
+#include <stdexcept>
+
+#include <boost/function.hpp>
+#include <boost/bind.hpp>
+
+#include <ComponentInterface/Type.h>
+#include <ComponentInterface/ApsimVariant.h>
+#include <ComponentInterface/Component.h>
+#include <ComponentInterface/dataTypes.h>
+#include <ComponentInterface/Messages.h>
+#include <ComponentInterface/MessageDataExt.h>
+#include <ApsimShared/ApsimComponentData.h>
+#include <ApsimShared/FStringExt.h>
+#include <general/string_functions.h>
+
+#include "PlantLibrary.h"
+#include "PlantComponent.h"
+#include "PlantInterface.h"
+#include "Plant.h"
+
 
 class plantPart : public plantThing
    {
@@ -208,6 +232,8 @@ class plantPart : public plantThing
    virtual float dltDmRetranslocateSupply(float DemandDifferential);
    virtual float dmGreen(void);
    virtual float dltDmGreen(void);
+   virtual float dmGreenNew(void);
+   virtual float dltDmGreenNew(void);
    virtual float dmSenesced(void);
    virtual float dmDead(void);
    virtual float dmRetransSupply(void);
@@ -307,6 +333,9 @@ class plantPart : public plantThing
    virtual void get_dm_green(vector<float> &);
    virtual void get_n_demanded(vector<float> &);
    virtual void get_dm_plant_min(vector<float> &);
+
+   virtual void dm_partition1 (double dlt_dm);
+   virtual void dm_retranslocate1(float  dlt_dm_retrans) ;
 
    protected:
       plantInterface *plant;                 // The plant we are attached to
