@@ -47,7 +47,8 @@ Registrations.f90: ..\sorghum.interface
 
 OBJFILES= OOLeaf.obj OOPlantInterface.obj OOBiomass.obj OOPhosphorus.obj OOPlantActions.obj \
 OOStem.obj Utilities.obj OONitrogen.obj   OORachis.obj OOGrain.obj \
-OOPlantComponents.obj OOWater.obj OOPhenology.obj  OOPlant.obj  OORoots.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
+OOPlantComponents.obj OOWater.obj OOPhenology.obj  OOPlant.obj  OORoots.obj \
+..\..\..\Shared\ComponentInterface\EntryPoints.obj 
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
