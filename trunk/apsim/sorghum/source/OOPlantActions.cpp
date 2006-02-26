@@ -309,23 +309,8 @@ void OOPlant::doEndCrop(unsigned &, unsigned &,protocol::Variant &v)     // Fiel
       summaryLine(plantInterface,"                    P  (kg/ha) =              %8.2f\t\t%8.2f",0,0);
 
 
-   //Root residue incorporation
-
-   float dmRoot = roots->totalBiomass();
-   float nRoot  = roots->totalN();
-   float pRoot  = roots->totalP();
-
-   /* TODO : more work needed here */
-
-
-
-
-
-
-
-
-
-
+   roots->incorporateResidue();
+   biomass->incorporateResidue();
 
 
    // reset variables

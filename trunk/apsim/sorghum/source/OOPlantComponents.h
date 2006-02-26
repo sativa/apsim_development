@@ -41,6 +41,7 @@ class PlantPart : public PlantComponent
    // variables
    float stage;
    int partNo;
+   string name;
 
 
    // Biomass
@@ -130,6 +131,8 @@ class PlantPart : public PlantComponent
    virtual float pConcMin(void){return pMinTable.value(stage);}
    virtual float pConcSen(void){return pSenTable.value(stage);}
    virtual float getPGreen(void){return pGreen;};
+   virtual float getPSenesced(void){return pSenesced;};
+   virtual float getPDead(void){return pDead;};
    virtual float getPDemand(void){return pDemand;};
 
    virtual void setPRetrans(float P){dltPRetranslocate = P;}
@@ -141,6 +144,7 @@ class PlantPart : public PlantComponent
    void calcDltPDetached(void);
    void updateP(void);
 
+   string getName(void){return name;}
    };
 //---------------------------------------------------------------------------
 class PlantProcess : public PlantComponent

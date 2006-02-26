@@ -204,6 +204,7 @@ class OOPlant
    float getTempStress(void)const{return tempStress;}
    float getTranspEff(void)const{return transpEff;}
    float getSowingDepth(void)const{return sowingDepth;}
+   string getCropType(void)const{return cropType;}
 
    float getRadnInt(void)const{return radnIntercepted;}
 

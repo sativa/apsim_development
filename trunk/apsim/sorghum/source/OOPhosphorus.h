@@ -124,6 +124,7 @@ class Phosphorus : public PlantProcess
 
    bool Active(void){return active;}
    void Summary(void);
+   float getPStover(void){return pStover;}
 
    };  // Phosphorus
 

@@ -15,6 +15,7 @@ Rachis::Rachis(OOPlant *p)
    {
    plant = p;
    plantInterface = p->plantInterface;
+   name = "Rachis";
 
    doRegistrations();
    initialize();
