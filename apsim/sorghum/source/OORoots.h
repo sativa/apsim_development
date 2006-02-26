@@ -11,7 +11,6 @@
 class Roots : public PlantPart
    {
    private:
-   string name;
 
 // Parameters ----------------------------------------------------------
 
@@ -90,6 +89,9 @@ class Roots : public PlantPart
    float totalBiomass(void)const{return dmGreen + dmSenesced + dmDead;}
    float totalN(void)const{return nGreen + nSenesced + nDead;}
    float totalP(void)const{return pGreen + pSenesced + pDead;}
+
+   void incorporateResidue(void);
+
 
    //Registration functions
    void getRootLength(protocol::Component *system, protocol::QueryValueData &qd);

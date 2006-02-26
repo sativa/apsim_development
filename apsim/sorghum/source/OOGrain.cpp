@@ -16,6 +16,7 @@ Grain::Grain(OOPlant *p)
    {
    plant = p;
    plantInterface = p->plantInterface;
+   name = "Grain";
 
    doRegistrations();
    initialize();

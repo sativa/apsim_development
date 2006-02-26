@@ -17,6 +17,7 @@ Leaf::Leaf(OOPlant *p)
    {
    plant = p;
    plantInterface = p->plantInterface;
+   name = "Leaf";
 
    doRegistrations();
    initialize();

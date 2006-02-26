@@ -154,9 +154,10 @@ void Biomass::updateVars(void)
       dltDMRetranslocate[i] = plant->PlantParts[i]->getDltDmRetranslocate();
       }
    float greenBiomass = sumVector(greenDM);
-   totalBiomass = greenBiomass + plant->leaf->getDmSenesced();
+   totalBiomass = greenBiomass + sumVector(senescedDM) + sumVector(deadDM);
 
-   aboveGroundGreenBiomass = greenBiomass - plant->roots->getDmGreen();
+   aboveGroundGreenBiomass = greenBiomass - plant->roots->getDmGreen() -
+                                                      plant->roots->getDmDead();
 
    aboveGroundBiomass = aboveGroundGreenBiomass + plant->leaf->getDmSenesced();
 
@@ -352,8 +353,84 @@ void Biomass::Summary(void)
    summaryLine(plantInterface,"dead above ground biomass     (kg/ha) = %.1f",
             aboveGroundBiomass - aboveGroundBiomass,NULL);
    }
+//------------------------------------------------------------------------------------------------
+void Biomass::incorporateResidue(void)
+   {
+   //Stover + remaining grain into surface residue     called from plantActions doEndCrop
+   float carbon = totalBiomass - plant->roots->getDmGreen() -  plant->roots->getDmSenesced()
+                                                   -   plant->roots->getDmDead();
+   float n = plant->nitrogen->getNStover();
+   float p = plant->phosphorus->getPStover();
+
+   if(carbon > 0.0)
+      {
+      // Build surface residues by part
+      vector<string> part_name;
+      vector<float> fraction_to_residue;           // fraction sent to residue (0-1)
+      vector<float> dlt_dm_crop;                   // change in dry matter of crop (kg/ha)
+      vector<float> dlt_dm_n;                      // N content of changed dry matter (kg/ha)
+      vector<float> dlt_dm_p;                      // P content of changed dry matter (kg/ha)
+
+      float fracts[] = {0.0, 1.0, 1.0, 1.0, 1.0};
+
+      for (unsigned part = 0; part < plant->PlantParts.size(); part++)
+         {
+         part_name.push_back(plant->PlantParts[part]->getName());
+         dlt_dm_crop.push_back((plant->PlantParts[part]->getDmGreen() +
+               plant->PlantParts[part]->getDmSenesced() + plant->PlantParts[part]->getDmDead()) *
+                                                       gm2kg/sm2ha);
+         dlt_dm_n.push_back((plant->PlantParts[part]->getNGreen() +
+               plant->PlantParts[part]->getNSenesced() + plant->PlantParts[part]->getNDead()) *
+                                                       gm2kg/sm2ha);
+         dlt_dm_p.push_back((plant->PlantParts[part]->getPGreen() +
+               plant->PlantParts[part]->getPSenesced() + plant->PlantParts[part]->getPDead()) *
+                                                       gm2kg/sm2ha);
 
 
+         fraction_to_residue.push_back(fracts[part]);
+         }
+
+      unsigned int id = plantInterface->addRegistration(RegistrationType::event,"crop_chopped", "", "", "");
+/*      protocol::crop_choppedType chopped;
+      chopped.crop_type = plant->getCropType();
+
+      chopped. dm_type = part_name;
+      chopped.dlt_crop_dm = dlt_dm_crop;
+      chopped.dlt_dm_n = dlt_dm_n;
+      chopped.fraction_to_residue = fraction_to_residue;
+
+
+      plantInterface->publish (id, chopped);    */
+
+    protocol::ApsimVariant outgoingApsimVariant(plantInterface);
+    outgoingApsimVariant.store("crop_type", protocol::DTstring, false, FString(plant->getCropType().c_str()));
+
+    // Make an FStrings string array and store it..
+    unsigned int maxlen = 0;
+    for (unsigned int i=0; i <  part_name.size();i++)
+        {
+        maxlen = max(maxlen, part_name[i].size());
+        }
+    char *buf = new char [maxlen*part_name.size()];
+    memset(buf, 0,maxlen*part_name.size());
+    for (unsigned int i=0; i <  part_name.size();i++)
+        {
+        strncpy(buf+i*maxlen, part_name[i].c_str(), maxlen);
+        }
+    outgoingApsimVariant.store("dm_type", protocol::DTstring, true,
+              FStrings(buf, maxlen, part_name.size(), part_name.size()));
+    delete [] buf;
+
+    outgoingApsimVariant.store("dlt_crop_dm", protocol::DTsingle, true, dlt_dm_crop);
+    outgoingApsimVariant.store("dlt_dm_n", protocol::DTsingle, true, dlt_dm_n);
+    outgoingApsimVariant.store("dlt_dm_p", protocol::DTsingle, true, dlt_dm_p);
+    outgoingApsimVariant.store("fraction_to_residue", protocol::DTsingle, true, fraction_to_residue);
+    plantInterface->publish (id, outgoingApsimVariant);
+
+
+      }
+   }
+//------------------------------------------------------------------------------------------------
 
 
 

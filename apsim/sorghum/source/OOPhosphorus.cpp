@@ -268,6 +268,8 @@ void Phosphorus::updateVars(void)
 
       }
    pBiomass = sumVector(pGreen);
+   pStover = pBiomass - plant->grain->getPGreen() - plant->roots->getPGreen();
+
    }
 //------------------------------------------------------------------------------------------------
 //------- calculate phosphorus supply potential from mass flow diffusion and fixation

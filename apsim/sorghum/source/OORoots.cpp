@@ -3,6 +3,8 @@
 
 #include "OORoots.h"
 #include "OOPlant.h"
+#include "TypeKind.h"
+
 
 #pragma package(smart_init)
 
@@ -48,6 +50,7 @@ void Roots::doRegistrations(void)
    setupGetVar("root_nd", nDemand, "g/m2", "Today's N demand from roots");
 
 #undef setupGetVar
+
    }
 
 //------------------------------------------------------------------------------------------------
@@ -319,6 +322,39 @@ float Roots::calcPDemand(void)
 
    pDemand = Max(deficit,0.0);
    return pDemand;
+   }
+//------------------------------------------------------------------------------------------------
+void Roots::incorporateResidue(void)
+   {
+   //Root residue incorporation    called from plantActions doEndCrop
+
+   if(!totalBiomass() > 0.0)return;
+
+   vector <float> dmIncorp;
+   vector <float> nIncorp;
+   vector <float> pIncorp;
+   float rootLengthSum = sumVector(rootLength);
+
+   float carbon = totalBiomass() * gm2kg /sm2ha;
+   float n = totalN() * gm2kg /sm2ha;
+   float p = totalP() * gm2kg /sm2ha;
+   for (unsigned layer = 0; layer < dLayer.size(); layer++)
+      {
+      dmIncorp.push_back(carbon * divide(rootLength[layer],rootLengthSum,0.0));
+      nIncorp.push_back(n * divide(rootLength[layer],rootLengthSum,0.0));
+      pIncorp.push_back(p * divide(rootLength[layer],rootLengthSum,0.0));
+      }
+
+   unsigned int id = plantInterface->addRegistration(RegistrationType::event,"incorp_fom", "", "", "");
+
+   protocol::ApsimVariant outgoingApsimVariant(plantInterface);
+   outgoingApsimVariant.store("dlt_fom_type", protocol::DTstring, false,
+                                    FString(plant->getCropType().c_str()));
+   outgoingApsimVariant. store("dlt_fom_wt", protocol::DTsingle, true,dmIncorp);
+   outgoingApsimVariant.store("dlt_fom_n", protocol::DTsingle, true,nIncorp);
+   outgoingApsimVariant.store("dlt_fom_p", protocol::DTsingle, true,pIncorp);
+   plantInterface->publish (id, outgoingApsimVariant);
+
    }
 //------------------------------------------------------------------------------------------------
 

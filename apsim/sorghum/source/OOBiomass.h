@@ -74,6 +74,7 @@ class Biomass : public PlantProcess
    float getDltDMPotTE(void)const{return dltDMPotTE;}
    float getEffectiveRue(void)const{return effectiveRue;}
    void detachment(vector<float> senDetachFrac, vector<float> deadDetachFrac);
+   void incorporateResidue(void);
 
    void getDMGreen(protocol::Component *system, protocol::QueryValueData &qd);
    void getDMSenesced(protocol::Component *system, protocol::QueryValueData &qd);

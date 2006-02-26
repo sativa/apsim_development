@@ -16,6 +16,7 @@ Stem::Stem(OOPlant *p)
    {
    plant = p;
    plantInterface = p->plantInterface;
+   name = "Stem";
 
    doRegistrations();
    initialize();
