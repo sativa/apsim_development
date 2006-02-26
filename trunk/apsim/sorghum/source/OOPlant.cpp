@@ -208,16 +208,16 @@ void OOPlant::sowCrop(unsigned &, unsigned &, protocol::Variant &v)
       }
    checkRange(plantInterface,ftn, 0.0, 10.0, "tiller_no_fertile");
 
-   if (sowLine.get("skip", protocol::DTstring, false, temp) == false)
+   skipRow = 1.0;
+   if (sowLine.get("skip", protocol::DTstring, false, temp) )
       {
-      //plantInterface->error("skip row not specified",fatal);
-      throw std::runtime_error("skip row not specified");
+      string skip = temp.substr(0,temp.length()).f_str();
+      skip = skip.substr(0,temp.length());
+      if (skip == "single")skipRow = 1.5;
+      else if (skip == "double")skipRow = 2.0;
+      else 
+        throw std::runtime_error("Unknown skip row configuration '" + skip + "'");
       }
-   string skip = temp.substr(0,temp.length()).f_str();
-   skip = skip.substr(0,temp.length());
-   if (skip == "single")skipRow = 1.5;
-   else if (skip == "double")skipRow = 2.0;
-   else skipRow = 1.0;
 
    checkRange(plantInterface,skipRow, 0.0, 2.0, "skiprow");
 
