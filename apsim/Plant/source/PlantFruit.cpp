@@ -1101,7 +1101,7 @@ float PlantFruit::dmGreen(void)
 
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      DMGreen +=(*part)->DMGreen;
+      DMGreen +=(*part)->dmGreen();
 
    return DMGreen;
 }
@@ -1113,9 +1113,21 @@ float PlantFruit::dltDmGreen(void)
 
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      dlt.dm_green +=(*part)->dlt.dm_green;
+      dlt.dm_green +=(*part)->dltDmGreen();
 
    return dlt.dm_green;
+}
+
+float PlantFruit::dltDmGreenUptake(void)
+   //===========================================================================
+{
+   float dltDmUptake = 0.0;
+
+   vector<plantPart *>::iterator part;
+   for (part = myParts.begin(); part != myParts.end(); part++)
+      dltDmUptake +=(*part)->dltDmGreenUptake();
+
+   return dltDmUptake;
 }
 
 void PlantFruit::doNSenescedRetrans(float navail, float n_demand_tot)
@@ -1301,8 +1313,19 @@ float PlantFruit::dltDmRetranslocate(void)
    for (vector<plantPart *>::iterator t = myParts.begin();
         t != myParts.end();
         t++)
-      dlt.dm_green_retrans += (*t)->dlt.dm_green_retrans;
+      dlt.dm_green_retrans += (*t)->dltDmGreenRetrans();
    return dlt.dm_green_retrans;
+}
+
+float PlantFruit::dltDmGreenRetransUptake(void)
+   //===========================================================================
+{
+   float dltDmUptake = 0.0;
+   for (vector<plantPart *>::iterator t = myParts.begin();
+        t != myParts.end();
+        t++)
+      dltDmUptake += (*t)->dltDmGreenRetransUptake();
+   return dltDmUptake;
 }
 
 float PlantFruit::interceptRadiation (float radiation) {return podPart->interceptRadiation(radiation);}
@@ -1360,6 +1383,79 @@ float PlantFruit::dm_yield_demand2 ( float  dlt_dm_veg_supply)
    return dm_yield_demand;
 }
 
+float PlantFruit::dmDemandDifferential(void)
+   //===========================================================================
+{
+   float dm_demand_differential = 0.0;
+   for (vector<plantPart *>::iterator t = myParts.begin();
+        t != myParts.end();
+        t++)
+      dm_demand_differential += (*t)->dmDemandDifferential();
+   return dm_demand_differential;
+}
+
+void PlantFruit::doDmPartition(float DMAvail, float DMDemandTotal)
+//=======================================================================================
+{
+    plantPart::doDmPartition(DMAvail, DMDemandTotal);
+    DMGreenDemand = 0.0;
+
+    for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
+         t != myParts.end();
+         t++)
+       DMGreenDemand += (*t)->dmGreenDemand ();
+
+        // now distribute the assimilate to plant parts
+
+    for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
+         t != myParts.end();
+         t++)
+       (*t)->doDmPartition (dlt.dm_green, DMGreenDemand);
+
+   // do mass balance check
+   float dlt_dm_green_tot = dltDmGreenUptake ();
+
+   if (!reals_are_equal(dlt_dm_green_tot, dlt.dm_green, 1.0E-4))  // XX this is probably too much slop - try doubles XX
+   {
+        string msg = "Fruit dlt_dm_green_tot mass balance is off: "
+                   + ftoa(dlt_dm_green_tot, ".6")
+                   + " vs "
+                   + ftoa(dlt.dm_green, ".6");
+        parentPlant->warningError(msg.c_str());
+   }
+}
+
+void PlantFruit::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal)
+//=======================================================================================
+{
+    plantPart::doDmRetranslocate(DMAvail, DMDemandDifferentialTotal);
+    float dm_demand_differential = 0.0;
+
+    for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
+         t != myParts.end();
+         t++)
+       dm_demand_differential += (*t)->dmDemandDifferential ();
+
+        // now distribute the assimilate to plant parts
+
+    for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
+         t != myParts.end();
+         t++)
+       (*t)->doDmRetranslocate (dlt.dm_green_retrans, dm_demand_differential);
+
+   // do mass balance check
+   float dlt_dm_green_tot = dltDmGreenRetransUptake ();
+
+   if (!reals_are_equal(dlt_dm_green_tot, dlt.dm_green_retrans, 1.0E-4))  // XX this is probably too much slop - try doubles XX
+   {
+        string msg = "Fruit dlt_dm_green_retrans_tot mass balance is off: "
+                   + ftoa(dlt_dm_green_tot, ".6")
+                   + " vs "
+                   + ftoa(dlt.dm_green_retrans, ".6");
+        parentPlant->warningError(msg.c_str());
+   }
+}
+
 void PlantFruit::dm_partition1 (double g_dlt_dm)
    //     ===========================================================
 {
@@ -1377,83 +1473,33 @@ void PlantFruit::dm_partition1 (double g_dlt_dm)
 
    //- Implementation Section ----------------------------------
 
-   //JNGH to replace old code    float dm_demand = 0.0;
-   //JNGH to replace old code
-   //JNGH to replace old code     for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
-   //JNGH to replace old code          t != myParts.end();
-   //JNGH to replace old code          t++)
-   //JNGH to replace old code        dm_demand += (*t)->dmGreenDemand ();
-   //JNGH to replace old code
-   //JNGH to replace old code         // now distribute the assimilate to plant parts
-   //JNGH to replace old code
-   //JNGH to replace old code     for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
-   //JNGH to replace old code          t != myParts.end();
-   //JNGH to replace old code          t++)
-   //JNGH to replace old code        (*t)->doDmPartition (g_dlt_dm, dm_demand);
-   //JNGH to replace old code
-   //JNGH to replace old code    // do mass balance check
-   //JNGH to replace old code    float dlt_dm_green_tot = dltDmGreen ();
-   //JNGH to replace old code
-   //JNGH to replace old code    if (!reals_are_equal(dlt_dm_green_tot, g_dlt_dm, 1.0E-4))  // XX this is probably too much slop - try doubles XX
-   //JNGH to replace old code    {
-   //JNGH to replace old code         string msg = "Fruit dlt_dm_green_tot mass balance is off: "
-   //JNGH to replace old code                    + ftoa(dlt_dm_green_tot, ".6")
-   //JNGH to replace old code                    + " vs "
-   //JNGH to replace old code                    + ftoa(g_dlt_dm, ".6");
-   //JNGH to replace old code         parentPlant->warningError(msg.c_str());
-   //JNGH to replace old code    }
-   //JNGH to replace old code
+   DMGreenDemand = 0.0;
 
+    for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
+         t != myParts.end();
+         t++)
+       DMGreenDemand += (*t)->dmGreenDemand ();
 
-   for (vector<plantPart *>::iterator t = myParts.begin();
-        t != myParts.end();
-        t++)
-      (*t)->zeroDltDmGreen();
+        // now distribute the assimilate to plant parts
 
-   // calculate demands of reproductive parts
-   yield_demand = podPart->dmGreenDemand()
-                  + grainPart->dmGreenDemand();
-
-   // now distribute the assimilate to plant parts
-   if (yield_demand >= g_dlt_dm)
-      // reproductive demand exceeds supply - distribute assimilate to those parts only
-      {
-      // reproductive demand exceeds supply - distribute assimilate to those parts only
-      dlt_dm_grain = g_dlt_dm * divide (grainPart->dmGreenDemand(), yield_demand, 0.0);
-      dlt_dm_pod = g_dlt_dm - dlt_dm_grain;
-      }
-   else
-      {
-      // more assimilate than needed for reproductive parts
-      // distribute to all parts
-
-      // satisfy reproductive demands
-      dlt_dm_grain   = grainPart->dmGreenDemand();
-      dlt_dm_pod    = podPart->dmGreenDemand();
-
-      }
-
-   podPart->dm_partition1 (dlt_dm_pod);
-   grainPart->dm_partition1 (dlt_dm_grain);
-
-   dltDmGreen();      // update fruit dlt.dm_green
+    for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
+         t != myParts.end();
+         t++)
+       (*t)->doDmPartition (g_dlt_dm, DMGreenDemand);
 
    // do mass balance check
-   //JNGH need to fix    dlt_dm_green_tot = dlt.dm_green
-   //JNGH need to fix                     + gDlt_dm_oil_conv;      //FIXME
-   //JNGH need to fix
-   //JNGH need to fix    if (!reals_are_equal(dlt_dm_green_tot, g_dlt_dm, 1.0E-4))  // XX this is probably too much slop - try doubles XX
-   //JNGH need to fix    {
-   //JNGH need to fix         string msg = "Fruit dlt_dm_green_tot mass balance is off: "
-   //JNGH need to fix                    + ftoa(dlt_dm_green_tot, ".6")
-   //JNGH need to fix                    + " vs "
-   //JNGH need to fix                    + ftoa(g_dlt_dm, ".6");
-   //JNGH need to fix         parentPlant->warningError(msg.c_str());
-   //JNGH need to fix    }
+   float dlt_dm_green_tot = dltDmGreenUptake ();
 
-   // check that deltas are in legal range       //FIXME need to do something about this when array is removed
-   //    bound_check_real_array (parentPlant, dlt_dm_green, max_part, 0.0, g_dlt_dm, "Fruit dlt.dm_green");
+   if (!reals_are_equal(dlt_dm_green_tot, g_dlt_dm, 1.0E-4))  // XX this is probably too much slop - try doubles XX
+   {
+        string msg = "Fruit dlt_dm_green_tot mass balance is off: "
+                   + ftoa(dlt_dm_green_tot, ".6")
+                   + " vs "
+                   + ftoa(g_dlt_dm, ".6");
+        parentPlant->warningError(msg.c_str());
+   }
 
+   dltDmGreen();      // update fruit dlt.dm_green
 }
 
 
@@ -1473,7 +1519,7 @@ void PlantFruit::yieldpart_demand_stress1 (void)                                
 }
 
 
-void PlantFruit::dm_retranslocate1( float  g_dlt_dm_retrans_to_fruit )       //FIXME this code should collapse to something similar to partition1
+void PlantFruit::dm_retranslocate1( float  g_dlt_dm_retrans_to_grain )       //FIXME this code should collapse to something similar to partition1
    //     ===========================================================
 {
    //     Calculate plant dry matter delta's due to retranslocation
@@ -1495,81 +1541,47 @@ void PlantFruit::dm_retranslocate1( float  g_dlt_dm_retrans_to_fruit )       //F
    // now translocate carbohydrate between plant components
    // this is different for each stage
 
+   dm_demand_differential = 0.0;
+
    for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
-        t != myParts.end();
-        t++)
-      (*t)->zeroDltDmGreenRetrans();
+      t != myParts.end();
+      t++)
+    dm_demand_differential += (*t)->dmDemandDifferential ();
 
-   if (grainPart->dmDemandDifferential() > 0.0)
+   // get available carbohydrate from fruit supply pools
+   demand_differential = dm_demand_differential - g_dlt_dm_retrans_to_grain;
+
+   for (vector<plantPart *>::iterator fPart = supplyPools.begin();      //FIXME later
+        fPart != supplyPools.end();
+        fPart++)
       {
-      // we can translocate source carbohydrate
-      // to reproductive parts if needed
-
-      // calculate demands for each reproductive part
-
-      dm_demand_differential          = grainPart->dmDemandDifferential();                      //FIXME
-      dm_pod_demand_differential      = podPart->dmDemandDifferential();                 //FIXME
-
-      yield_demand_differential  = dm_pod_demand_differential
-                                 + dm_demand_differential;
-
-      demand_differential = yield_demand_differential - g_dlt_dm_retrans_to_fruit;
-
-      // get available carbohydrate from fruit supply pools
-      for (vector<plantPart *>::iterator fPart = supplyPools.begin();      //FIXME later
-           fPart != supplyPools.end();
-           fPart++)
-         {
-         dlt_dm_retrans_part = (*fPart)->dltDmRetranslocateSupply(demand_differential);
-         demand_differential = demand_differential - dlt_dm_retrans_part;
-         }
-
-      dlt_dm_retrans_total = g_dlt_dm_retrans_to_fruit + (-dltDmRetranslocate());
-
-      // now distribute retranslocate to demand sinks.
-
-      if (yield_demand_differential > dlt_dm_retrans_total)
-         {
-         dlt_dm_retrans_grain = dlt_dm_retrans_total
-                              * divide (dm_demand_differential, yield_demand_differential, 0.0);
-         dlt_dm_retrans_pod = dlt_dm_retrans_total
-                              * divide (dm_pod_demand_differential, yield_demand_differential, 0.0)
-                              + podPart->dlt.dm_green_retrans;
-         }
-      else
-         {
-
-         dlt_dm_retrans_grain     = dm_demand_differential;
-         dlt_dm_retrans_pod      = dm_pod_demand_differential
-                                 + podPart->dlt.dm_green_retrans;
-         }
-
-      // ??? check that stem and leaf are >= min wts
-      podPart->dm_retranslocate1 (dlt_dm_retrans_pod);
-      grainPart->dm_retranslocate1 (dlt_dm_retrans_grain);
-      }
-   else
-      {
-      // we have no retranslocation
-      for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
-           t != myParts.end();
-           t++)
-         (*t)->zeroDltDmGreenRetrans();
+      dlt_dm_retrans_part = (*fPart)->dltDmRetranslocateSupply(demand_differential);
+      demand_differential = demand_differential - dlt_dm_retrans_part;
       }
 
+      dlt_dm_retrans_total = g_dlt_dm_retrans_to_grain + (-dltDmRetranslocate());
+
+        // now distribute the assimilate to plant parts
+
+    for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
+         t != myParts.end();
+         t++)
+       (*t)->doDmRetranslocate (dlt_dm_retrans_total, dm_demand_differential);
+
+   // do mass balance check
    dltDmRetranslocate();
+   float dlt_dm_green_tot = dltDmGreenRetransUptake ();
 
-   // now check that we have mass balance
-   //JNGH need to fix    if (!reals_are_equal(-1.0 * (dltDmRetranslocate() - g_dlt_dm_retrans_to_fruit), dmOil_conv_retranslocate, 1.0E-4))
-   //JNGH need to fix    {
-   //JNGH need to fix      string msg = "dm_retranslocate mass balance of fruit is off: "
-   //JNGH need to fix                 + ftoa(dltDmRetranslocate() - g_dlt_dm_retrans_to_fruit, ".6")
-   //JNGH need to fix                 + " vs "
-   //JNGH need to fix                 + ftoa(dmOil_conv_retranslocate, ".6");
-   //JNGH need to fix
-   //JNGH need to fix
-   //JNGH need to fix      parentPlant->warningError(msg.c_str());
-   //JNGH need to fix    }
+   if (!reals_are_equal(dlt_dm_green_tot, g_dlt_dm_retrans_to_grain, 1.0E-4))  // XX this is probably too much slop - try doubles XX
+   {
+        string msg = "Grain dlt_dm_green_tot mass balance is off: "
+                   + ftoa(dlt_dm_green_tot, ".6")
+                   + " vs "
+                   + ftoa(g_dlt_dm_retrans_to_grain, ".6");
+        parentPlant->warningError(msg.c_str());
+   }
+
+
 }
 
 void PlantFruit::doSenescence1 (float sen_fr)       // (OUTPUT) actual biomass senesced from plant parts (g/m^2)
@@ -1649,51 +1661,6 @@ void PlantFruit::n_conc_grain_limits (void)
    //     (*t)->n_conc_grain_limits();
    grainPart->n_conc_grain_limits();
 }
-
-//FIXME not called yet
-//void PlantFruit::n_retranslocate( void)
-////============================================================================
-////     Calculate the nitrogen retranslocation from the various fruit parts to the grain.
-//{
-//
-//    float N_avail_rep = 0.0;
-//         // Get Grain N supply in this cohort
-//
-//    vector<plantPart *>::iterator part;
-//    for (part = supplyPools.begin(); part != supplyPools.end(); part++)
-//        N_avail_rep += (*part)->availableRetranslocateN();  // grain N potential (supply) from pod
-//
-//            // available N does not include grain
-//            // this should not presume grain is 0.
-//
-//          // get actual grain N uptake by retransolcation
-//          // limit retranslocation to total available N
-//
-//    for (part = myParts.begin(); part != myParts.end(); part++)
-//         (*part)->dlt.n_retrans = 0.0;
-//
-//      if (gN_grain_demand >= N_avail_rep)
-//      {
-//             // demand greater than or equal to supply
-//             // retranslocate all available N
-//
-//         for (part = supplyPools.begin(); part != supplyPools.end(); part++)
-//              (*part)->dlt.n_retrans = - (*part)->availableRetranslocateN();
-//         mealPart->dlt.n_retrans = N_avail_rep;
-//      }
-//      else
-//      {
-//             // supply greater than demand.
-//             // Retranslocate what is needed
-//
-//         for (part = supplyPools.begin(); part != supplyPools.end(); part++)
-//               (*part)->dlt.n_retrans = - gN_grain_demand
-//                                       * divide ((*part)->availableRetranslocateN(), N_avail_rep, 0.0);
-//
-//         mealPart->dlt.n_retrans = gN_grain_demand;
-//
-//      }
-//}
 
 void PlantFruit::doNRetranslocate( float N_supply, float g_grain_n_demand)
    //============================================================================

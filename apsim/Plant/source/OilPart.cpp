@@ -148,99 +148,67 @@ void fruitOilPart::bio_grain_oil (void)    // for seed energy content (>= 1.0)
    bound_check_real_var (parentPlant, gGrain_energy, 1.0, 2.0, "grain_energy");
 }
 
-float fruitOilPart::energyAdjust (float harvestIndex)
+float fruitOilPart::energyAdjustHI (float harvestIndex)
    //===========================================================================
 {
-      float energy_adjust = divide (gGrain_energy
-                                    , 1.0 + harvestIndex*(gGrain_energy - 1.0)
-                                    , 0.0);
-      return energy_adjust;
+   return divide (1.0
+                 , 1.0 + harvestIndex*(gGrain_energy - 1.0)
+                 , 0.0);
+}
+
+float fruitOilPart::energyAdjustDM (float DM)
+   //===========================================================================
+{
+   return DM * gGrain_energy;
 }
 
 float fruitOilPart::dm_yield_demand (float dmDemand)
    //===========================================================================
 {
-      float dmYieldDemand = divide (dmDemand, gGrain_energy, 0.0);
-      return dmYieldDemand;
+   return divide (dmDemand, gGrain_energy, 0.0);
 }
 
-void fruitOilPart::dm_retranslocate1 (float g_dlt_dm)                    //FIXME
+float fruitOilPart::dltDmGreenUptake(void)
+//=======================================================================================
+   {
+   return (dlt.dm_green + gDlt_dm_oil_conv);
+   }
+
+float fruitOilPart::dltDmGreenRetransUptake(void)
+//=======================================================================================
+   {
+   return (dlt.dm_green_retrans + dmOil_conv_retranslocate);
+   }
+
+void fruitOilPart::doDMDemand (float dlt_dm_grain_demand)
 //     ===========================================================
 {
-    dlt.dm_green_retrans = g_dlt_dm;
+    float dltDmOil = divide (dlt_dm_grain_demand, gGrain_energy, 0.0) * cGrain_oil_conc;
+    float dltDmOilConversion =  divide (dlt_dm_grain_demand, gGrain_energy, 0.0) * (gGrain_energy - 1.0);
+    DMGreenDemand = dltDmOil + dltDmOilConversion;
 }
 
-void fruitOilPart::dm_partition1 (double g_dlt_dm)                    //FIXME
-//     ===========================================================
-{
-    dlt.dm_green = g_dlt_dm;
+void fruitOilPart::doDmPartition(float DMAvail, float DMDemandTotal)
+//=======================================================================================
+   {
+   float dltDM = DMAvail * divide (DMGreenDemand, DMDemandTotal, 0.0);
+   dlt.dm_green = divide (dltDM, cCarbo_oil_conv_ratio, 0.0);
+   gDlt_dm_oil_conv = dltDM - dlt.dm_green;
+   }
 
-   ////+  Purpose
-   ////       Partitions new dm (assimilate) between plant components (g/m^2)
-   //
-   ////+  Changes
-   ////      170703 jngh specified and programmed
-   //
-   ////+  Local Variables
-   //    double dlt_dm_green_tot;                       // total of partitioned dm (g/m^2)
-   //    double yield_demand;                           // sum of grain, energy & pod
-   //    double dm_grain_demand;                        // assimilate demand for grain (g/m^2)
-   //    double dm_oil_demand;                          // assimilate demand for oil (g/m^2)
-   //    double dm_oil_conv_demand;                     // assimilate demand for conversion to oil (g/m^2)
-   //
-   ////- Implementation Section ----------------------------------
-   //
-   //     dlt.dm_green = 0.0;
-   //     gDlt_dm_oil_conv = 0.0;
-   //
-   //    // calculate demands of reproductive parts
-   //    dm_grain_demand = divide (gDlt_dm_grain_demand, gGrain_energy, 0.0);
-   //
-   //    dm_oil_demand = dm_grain_demand - dm_meal_demand;
-   //    dm_oil_conv_demand = gDlt_dm_grain_demand - dm_grain_demand;
-   //
-   //    yield_demand = dm_oil_demand
-   //                 + dm_oil_conv_demand;
-   //
-   //         // now distribute the assimilate to plant parts
-   //    if (yield_demand >= g_dlt_dm)
-   //            // reproductive demand exceeds supply - distribute assimilate to those parts only
-   //    {
-   //            // reproductive demand exceeds supply - distribute assimilate to those parts only
-   //        oilPart->dlt.dm_green  = g_dlt_dm * divide (dm_oil_demand     , yield_demand, 0.0);
-   //        gDlt_dm_oil_conv       = g_dlt_dm * divide (dm_oil_conv_demand, yield_demand, 0.0);
-   //
-   //    }
-   //    else
-   //    {
-   //        // more assimilate than needed for reproductive parts
-   //        // distribute to all parts
-   //
-   //        // satisfy reproductive demands
-   //        oilPart->dlt.dm_green    = dm_oil_demand;
-   //        gDlt_dm_oil_conv         = dm_oil_conv_demand;
-   //
-   //    }
-   //
-   //     dltDmGreen();      // update fruit dlt.dm_green
-   //
-   //    // do mass balance check
-   //    dlt_dm_green_tot = dlt.dm_green
-   //                     + gDlt_dm_oil_conv;
-   //
-   //    if (!reals_are_equal(dlt_dm_green_tot, g_dlt_dm, 1.0E-4))  // XX this is probably too much slop - try doubles XX
-   //    {
-   //         string msg = "Grain dlt_dm_green_tot mass balance is off: "
-   //                    + ftoa(dlt_dm_green_tot, ".6")
-   //                    + " vs "
-   //                    + ftoa(g_dlt_dm, ".6");
-   //         parentPlant->warningError(msg.c_str());
-   //    }
-   //
-   //      // check that deltas are in legal range       //FIXME need to do something about this when array is removed
-   ////    bound_check_real_array (parentPlant, dlt_dm_green, max_part, 0.0, g_dlt_dm, "Fruit dlt.dm_green");
+void fruitOilPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal)
+//=======================================================================================
+   {
+   float dltDM = DMAvail * divide (dmDemandDifferential(), DMDemandDifferentialTotal, 0.0);
+   dlt.dm_green_retrans = divide (dltDM, cCarbo_oil_conv_ratio, 0.0);
+   dmOil_conv_retranslocate = dltDM - dlt.dm_green_retrans;
+   }
 
-}
+float fruitOilPart::dmDemandDifferential(void)
+//=======================================================================================
+   {
+   return dmGreenDemand() - dltDmGreenUptake();
+   }
 
 void fruitOilPart::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
    //===========================================================================

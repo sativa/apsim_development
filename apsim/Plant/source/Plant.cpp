@@ -1049,27 +1049,13 @@ void Plant::plant_bio_retrans (int option /* (INPUT) option number */)
 void Plant::plant_bio_distribute (int option /* (INPUT) option number */)
 //     ===========================================================
 {
-//+  Purpose
 //       distribute biomass to fruit parts.
 
+   fruitPart->dm_partition1 ( g.dlt_dm_supply_to_fruit);    // FIXME this may need to be redone when fruit becomes true class
+   fruitPart->dm_retranslocate1( g.dlt_dm_retrans_to_fruit);    // FIXME this may need to be redone when fruit becomes true class
 
-//- Implementation Section ----------------------------------
-    if (option == 1)
-    {
-          fruitPart->dm_partition1 ( g.dlt_dm_supply_to_fruit);    // this may need to be redone when fruit becomes true class
-          fruitPart->dm_retranslocate1( g.dlt_dm_retrans_to_fruit);    // this may need to be redone when fruit becomes true class
-    }
-    else if (option == 2)
-    {          // do nothing                //FIXME do we need this code?
-        fruitPart->dm_partition1 ( g.dlt_dm_supply_to_fruit);    // this may need to be redone when fruit becomes true class
-        fruitPart->dm_retranslocate1( g.dlt_dm_retrans_to_fruit);    // this may need to be redone when fruit becomes true class
-
-    }
-    else
-    {
-        throw std::invalid_argument("invalid template option in plant_bio_distribute");
-    }
-
+//   fruitPart->doDmPartition (g.dlt_dm_supply_to_fruit, g.dlt_dm_yield_demand_fruit);
+//   fruitPart->doDmPartition (g.dlt_dm_retrans_to_fruit, fruitPart->dmDemandDifferential ());
 }
 
 

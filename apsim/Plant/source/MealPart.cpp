@@ -28,16 +28,10 @@ void fruitMealPart::doInit (PlantComponent *systemInterface, PlantPhenology *pla
    phenology = plantPhenology;
 }
 
-void fruitMealPart::dm_partition1 (double g_dlt_dm)
+void fruitMealPart::doDMDemand (float dm_demand)
 //     ===========================================================
 {
-    dlt.dm_green = g_dlt_dm;
-}
-
-void fruitMealPart::dm_retranslocate1 (float g_dlt_dm)
-//     ===========================================================
-{
-    dlt.dm_green_retrans = g_dlt_dm;
+    DMGreenDemand = dm_demand;
 }
 
 void fruitMealPart::n_partition1 (double dltN)

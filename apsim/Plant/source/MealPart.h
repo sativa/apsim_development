@@ -19,8 +19,7 @@ class fruitMealPart : public plantPart {
    void onFlowering(void);
    void onStartGrainFill(void);
 
-   void dm_partition1 (double g_dlt_dm);
-   void dm_retranslocate1(float  g_dlt_dm_retrans) ;
+   void doDMDemand(float dm_demand);
    void n_partition1 (double dltN);
    void n_retranslocate1(float dltN) ;
 
