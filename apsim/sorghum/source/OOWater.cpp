@@ -301,13 +301,18 @@ void Water::calcAvailablePot(void)
 //------------------------------------------------------------------------------------------------
 void Water::calcSupply(void)
    {
+   /*       Return potential water uptake from each layer of the soil profile
+          by the crop (mm water). Row Spacing and configuration (skip) are used
+           to calculate semicircular root front to give proportion of the
+           layer occupied by the roots. This fraction is applied to the supply */
+
    for(int layer = 0;layer <= currentLayer;layer++)
       {
-      supply[layer] = available[layer] * kl[layer];
+      float prop = plant->roots->RootProportionInLayer(layer);
+      supply[layer] = Max(available[layer] * kl[layer] *  prop,0.0);
       }
    totalSupply = sumVector(supply);
    AccTotalSupply += totalSupply;
-
    }
 //------------------------------------------------------------------------------------------------
 //-------- Calculate the daily crop water stresses
@@ -356,7 +361,7 @@ void Water::calcUptake(void)
          dltSwDep[layer] = -1 * supply[layer];
          }
       }
-   totalUptake = sumVector(dltSwDep) * -1;
+   totalUptake += sumVector(dltSwDep) * -1;
    }
 //------------------------------------------------------------------------------------------------
 float Water::calcPeswSeed(void)

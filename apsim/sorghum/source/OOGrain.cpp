@@ -77,6 +77,8 @@ void Grain::readParams (string cultivar)
    pMinTable.read(plantInterface,sections,"x_p_stage_code","y_p_conc_min_grain");
    pSenTable.read(plantInterface,sections,"x_p_stage_code","y_p_conc_sen_grain");
    initialPConc = readVar(plantInterface,sections,"p_conc_init_grain");
+
+
    }
 
 //------------------------------------------------------------------------------------------------

@@ -39,7 +39,11 @@ class Roots : public PlantPart
 
 //  Variables  -----------------------------------------------------
    float rootDepth;
+   float rootFront;
+   float leftDist;                  // left distance of 2d soil square
+   float rightDist;                 // right distance of 2d soil square
    float dltRootDepth;             // daily increment
+   float dltRootFront;             // daily increment
    int    currentLayer;             // number of the layer that the roots are in now (starts at 0)
    float lastLayerPropn;           // proportion of the currentLayer occupied
    float rootDMTot;
@@ -58,8 +62,10 @@ class Roots : public PlantPart
    void   initialize(void);
    void   calcInitialLength(void);
    float calcDltRootDepth(float stage);
+   float calcDltRootFront(float stage);
    float swAvailFactor(int layer);
    float layerProportion(void);
+   float getRootArea(float top, float bottom, float rootLength, float dist);
 
 
 // public Methods -------------------------------------------------------
@@ -82,6 +88,9 @@ class Roots : public PlantPart
 
 //   float getNGreen(void)const{return nGreen;}       // nitrogen
    float getRootDepth(void)const{return rootDepth;} // nitrogen, water
+   float getRootFront(void)const{return rootFront;} //  water
+   float RootProportionInLayer(int layer);           //  water
+
    float calcNDemand(void);                         // nitrogen
 
    float calcPDemand(void);

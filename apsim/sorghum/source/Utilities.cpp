@@ -491,8 +491,8 @@ TableFn::TableFn(PlantInterface *P, vector<string> sections, string xName,string
 //------------------------------------------------------------------------------------------------
 void TableFn::read(PlantInterface *P, vector<string> sections, string xName,string yName)
    {
-   bool ok = readArray(P,sections,xName,x);
-   ok = readArray(P,sections,yName,y);
+   readArray(P,sections,xName,x);
+   readArray(P,sections,yName,y);
    }
 //------------------------------------------------------------------------------------------------
 //----------- Table Function constructor

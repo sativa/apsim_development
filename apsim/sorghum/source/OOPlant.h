@@ -210,6 +210,8 @@ class OOPlant
 
 
    float getPlantDensity(void)const{return plantDensity;}
+   float getRowSpacing(void)const{return rowSpacing;}
+   float getSkipRow(void)const{return skipRow;}
    float getFtn(void)const{return ftn;}
    void killCrop(void);
 
