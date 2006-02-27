@@ -33,25 +33,25 @@ Public Class StartupUI
     'Do not modify it using the code editor.
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents Label2 As System.Windows.Forms.Label
-    Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
     Friend WithEvents ImageList1 As System.Windows.Forms.ImageList
     Friend WithEvents SavedFilesPanel As System.Windows.Forms.Panel
     Friend WithEvents SimulationList As System.Windows.Forms.ListView
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents NewButton As System.Windows.Forms.Button
     Friend WithEvents OpenButton As System.Windows.Forms.Button
+    Friend WithEvents BannerPicture As System.Windows.Forms.PictureBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(StartupUI))
         Me.Label1 = New System.Windows.Forms.Label
         Me.Label2 = New System.Windows.Forms.Label
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox
         Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
         Me.SavedFilesPanel = New System.Windows.Forms.Panel
         Me.SimulationList = New System.Windows.Forms.ListView
         Me.Label4 = New System.Windows.Forms.Label
         Me.NewButton = New System.Windows.Forms.Button
         Me.OpenButton = New System.Windows.Forms.Button
+        Me.BannerPicture = New System.Windows.Forms.PictureBox
         Me.SavedFilesPanel.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -74,16 +74,6 @@ Public Class StartupUI
         Me.Label2.Size = New System.Drawing.Size(164, 18)
         Me.Label2.TabIndex = 3
         Me.Label2.Text = "What would you like to do?"
-        '
-        'PictureBox1
-        '
-        Me.PictureBox1.Dock = System.Windows.Forms.DockStyle.Left
-        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(0, 40)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(100, 697)
-        Me.PictureBox1.TabIndex = 6
-        Me.PictureBox1.TabStop = False
         '
         'ImageList1
         '
@@ -144,23 +134,33 @@ Public Class StartupUI
         Me.OpenButton.TabIndex = 12
         Me.OpenButton.Text = "Open existing..."
         '
+        'BannerPicture
+        '
+        Me.BannerPicture.BackgroundImage = CType(resources.GetObject("BannerPicture.BackgroundImage"), System.Drawing.Image)
+        Me.BannerPicture.Dock = System.Windows.Forms.DockStyle.Left
+        Me.BannerPicture.Location = New System.Drawing.Point(0, 40)
+        Me.BannerPicture.Name = "BannerPicture"
+        Me.BannerPicture.Size = New System.Drawing.Size(64, 753)
+        Me.BannerPicture.TabIndex = 13
+        Me.BannerPicture.TabStop = False
+        '
         'StartupUI
         '
         Me.BackColor = System.Drawing.SystemColors.Window
+        Me.Controls.Add(Me.BannerPicture)
         Me.Controls.Add(Me.OpenButton)
         Me.Controls.Add(Me.NewButton)
         Me.Controls.Add(Me.SavedFilesPanel)
-        Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
         Me.Name = "StartupUI"
-        Me.Size = New System.Drawing.Size(895, 737)
+        Me.Size = New System.Drawing.Size(822, 793)
         Me.Controls.SetChildIndex(Me.Label1, 0)
         Me.Controls.SetChildIndex(Me.Label2, 0)
-        Me.Controls.SetChildIndex(Me.PictureBox1, 0)
         Me.Controls.SetChildIndex(Me.SavedFilesPanel, 0)
         Me.Controls.SetChildIndex(Me.NewButton, 0)
         Me.Controls.SetChildIndex(Me.OpenButton, 0)
+        Me.Controls.SetChildIndex(Me.BannerPicture, 0)
         Me.SavedFilesPanel.ResumeLayout(False)
         Me.ResumeLayout(False)
 
