@@ -42,7 +42,9 @@ Public Class MainUI
     End Sub
     Public Sub New()
         MyBase.New()
-        Dim splash As New SplashScreen
+
+        Dim splash As New SplashScreenForm
+        splash.VersionText = "Version " & New VBGeneral.APSIMSettings().ApsimVersion
         splash.Show()
 
         Xceed.Chart.Licenser.LicenseKey = "CHT30-YTL57-0UXLJ-145A"
@@ -65,7 +67,6 @@ Public Class MainUI
             Me.WindowState = FormWindowState.Maximized
         End Try
 
-        splash.Hide()
     End Sub
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
         If disposing Then
@@ -639,6 +640,9 @@ Public Class MainUI
         AddHandler ApsimUI.NewDataEvent, AddressOf OnNewDataEvent
         AddHandler ApsimUI.SelectionChangedEvent, AddressOf SetFunctionality
         AddHandler ApsimUI.DataChangedEvent, AddressOf SetFunctionality
+        AddHandler ApsimUI.AddEvent, AddressOf OnAddEvent
+        AddHandler ApsimUI.RenameEvent, AddressOf OnAddEvent
+
 
         ' Show the Simulation Explorer.
         SimulationExplorer = New ExplorerUI(Me, ApsimUI)
@@ -691,8 +695,15 @@ Public Class MainUI
         ' New data has entered the system.
         ' This is usually caused by FileNew,
         ' FileOpen etc.        APSIMChangeTool.Upgrade(ApsimUI.Data)
-        ApsimUI.CheckAllComponents(ApsimUI.AllData)
+        OnAddEvent()
         SetFunctionality()
+
+    End Sub
+
+    Private Sub OnAddEvent()
+        ' Called when the tree view control is alterted
+        ApsimUI.CheckAllComponents(ApsimUI.AllData)
+
     End Sub
 
     Private Sub SetFunctionality()
@@ -771,10 +782,17 @@ Public Class MainUI
                             e.Button Is GraphButton Or _
                             e.Button Is ApsimOutlookButton Then
 
+            'if changes have been made reload the simulation to retrieve the up-to-date list of
+            'simulations.
+            'If ApsimUI.DirtyData Then
+            '    ApsimUI.FileSave()
+            '    ApsimUI.FileOpen(ApsimUI.FileName)
+            'End If
+
             Dim arrFiles As StringCollection = GetAllOutputFiles(ApsimUI.AllData)
             Dim frmOutput As New OutputFileExport(arrFiles)
 
-            ' Quit of routine if user chose "Cancel" or did not select any output files from the dialog
+            ' Quit routine if user chose "Cancel" or did not select any output files from the dialog
             ' box list
             If frmOutput.ShowDialog(Me) = DialogResult.Cancel Or frmOutput.SelectedOutputFiles.Count <= 0 Then
                 Exit Sub
@@ -799,8 +817,8 @@ Public Class MainUI
 
     End Sub
 
-    'formats a collection of output file paths into a single comma delimited string
     Private Function ComposeOutputFileCommandLineArgs(ByVal OutputFiles As System.Collections.Specialized.StringCollection) As String
+        'formats a collection of output file paths into a single comma delimited string
 
         Dim returnString As String
 
