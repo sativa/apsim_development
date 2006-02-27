@@ -183,11 +183,6 @@
                     HintPath = "..\..\Shared\Soil\obj\Debug\Soil.dll"
                 />
                 <Reference
-                    Name = "VBGeneral"
-                    AssemblyName = "VBGeneral"
-                    HintPath = "..\..\Shared\VBGeneral\bin\VBGeneral.dll"
-                />
-                <Reference
                     Name = "VBMet"
                     AssemblyName = "VBMet"
                     HintPath = "..\..\Shared\VBMet\obj\Debug\VBMet.dll"
@@ -197,6 +192,11 @@
                     AssemblyName = "FarPoint.Win.Spread"
                     HintPath = "..\..\..\..\..\Program Files\FarPoint Technologies\Spread.WinForms.v2\v2.0.1.0\bin\FarPoint.Win.Spread.dll"
                     AssemblyFolderKey = "hklm\dn\farpoint spread for windows forms 2.0.1.0"
+                />
+                <Reference
+                    Name = "VBGeneral"
+                    AssemblyName = "VBGeneral"
+                    HintPath = "..\..\Shared\VBGeneral\bin\VBGeneral.dll"
                 />
             </References>
             <Imports>
@@ -420,13 +420,13 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "SplashScreen.vb"
+                    RelPath = "SplashScreenForm.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "SplashScreen.resx"
-                    DependentUpon = "SplashScreen.vb"
+                    RelPath = "SplashScreenForm.resx"
+                    DependentUpon = "SplashScreenForm.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
