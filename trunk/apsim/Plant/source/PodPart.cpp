@@ -19,18 +19,6 @@ void fruitPodPart::doInit (PlantComponent *systemInterface, PlantPhenology *plan
    phenology = plantPhenology;
 }
 
-void fruitPodPart::dm_partition1 (double dlt_dm)
-   //     ===========================================================
-{
-   dlt.dm_green = dlt_dm;
-}
-
-void fruitPodPart::dm_retranslocate1 (float dlt_dm)
-   //     ===========================================================
-{
-   dlt.dm_green_retrans = dlt_dm;
-}
-
 void fruitPodPart::update(void)
 {
    plantPart::update();
@@ -133,6 +121,12 @@ void fruitPodPart::doDmDemand2(float dm_grain_demand, float dlt_dm_supply)
    else
       DMGreenDemand = dlt_dm_supply * fracPod() - dlt_dm_supply_by_pod;
 }
+
+void fruitPodPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal)
+//=======================================================================================
+   {
+   dlt.dm_green_retrans += DMAvail * divide (dmDemandDifferential(), DMDemandDifferentialTotal, 0.0);
+   }
 
 void fruitPodPart::zeroAllGlobals(void)
 {

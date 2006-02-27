@@ -46,8 +46,8 @@ public:												// member functions
    void get_head_wt(protocol::Component *, protocol::QueryValueData &);
    void get_head_n(protocol::Component *, protocol::QueryValueData &);
 
-   void get_pod_n(protocol::Component *, protocol::QueryValueData &);           //remove to pod
-   void get_pod_p(protocol::Component *, protocol::QueryValueData &qd);         //remove to pod
+   void get_pod_n(protocol::Component *, protocol::QueryValueData &);
+   void get_pod_p(protocol::Component *, protocol::QueryValueData &qd);
    void get_head_p(protocol::Component *, protocol::QueryValueData &qd);
 
    void get_p_demand(vector<float> &p_demand);
@@ -148,6 +148,8 @@ public:												// member functions
    float dltDmGreen(void);
    float dltDmPotTe(void);            //FIXME
    float dltDmPotRuePod(void);        //FIXME
+   float dltDmGreenUptake(void);
+   float dltDmGreenRetransUptake(void);
 
    float dmGreenDemand(void);
    float dmTotal(void);
@@ -235,6 +237,9 @@ public:												// member functions
    void yieldpart_demand_stress1(void);               //remove
    void dm_partition1 (double g_dlt_dm);
    void dm_retranslocate1(float  g_dlt_dm_retrans_to_fruit) ;
+   void doDmPartition(float DMAvail, float DMDemandTotal);
+   void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
+   float dmDemandDifferential(void);
    void bio_actual (void);
    void doSenescence1 (float sen_fr);
    void doSenescence2 (float sen_fr);

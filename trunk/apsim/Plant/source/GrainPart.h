@@ -154,6 +154,8 @@ public:												// member functions
    float dltDmRetranslocateSupply(float demand_differential);
    float dltDmRetranslocate(void);
    float dltDmGreen(void);
+   float dltDmGreenUptake(void);
+   float dltDmGreenRetransUptake(void);
 
    float dmTotal(void);
    float dmGreen(void);
@@ -205,9 +207,6 @@ public:												// member functions
 
 
    //FIXME
-   void bio_yieldpart_demand1 (void) ;
-   void bio_yieldpart_demand2(void) ;
-
    void grain_n_demand1(float G_nfact_grain_conc
                         , float G_swdef_expansion);
 
@@ -224,11 +223,11 @@ public:												// member functions
 
    float dmGreenDemand (void);
    float dmDemandDifferential(void);
-   float dmYieldDemandDifferential(void);
+////   float dmYieldDemandDifferential(void);
    float dm_yield_demand (void);
 
-   void dm_partition1 (double g_dlt_dm);
-   void dm_retranslocate1(float  g_dlt_dm_retrans_to_fruit) ;
+   void doDmPartition(float DMAvail, float DMDemandTotal);
+   void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
    void bio_actual (void);
    void doSenescence1 (float sen_fr);
    void doSenescence2 (float sen_fr);
@@ -239,6 +238,7 @@ public:												// member functions
    void nit_init (void);
    void n_retranslocate(void);
    void doNRetranslocate( float N_avail_rep, float g_grain_n_demand);
+   void bio_grain_oil (void);          //remove
 
 #if TEST_fruitGrainPart
    virtual ~fruitGrainPart();							// destructor
@@ -251,8 +251,10 @@ public:												// member functions
    //         plantInterface *plant;                 // The plant we are attached to
 
 private:
+   void bio_yieldpart_demand1 (void) ;
+   void bio_yieldpart_demand2(void) ;
+
    void refreshStates(void);
-   void bio_grain_oil (void);          //remove
    void bio_grain_demand (void);
    void yieldpart_demand_stress1(void);
    float meanT (void);
@@ -276,12 +278,9 @@ private:
    int   cNum_temp_grainfill;
    float cY_rel_grainfill[max_table];
 
-   float cGrain_oil_conc;         //remove                   // fractional oil content of grain (0-1)
    float gDlt_dm_grain_demand;
    float gN_grain_demand;
    float gP_grain_demand;
-   float gDlt_dm_oil_conv;           //remove
-   float dmOil_conv_retranslocate;   //remove
 
    float gGrain_no;                 // multiplier of grain weight to account for seed energy content
 
@@ -295,7 +294,6 @@ private:
    int gDay_of_year;
    int gYear;
 
-   float gGrain_energy;     //remove            // multiplier of grain weight to account for seed energy content
    float dmRetranslocate;
    float gDlt_dm;
 
@@ -314,7 +312,6 @@ private:
    int   cNum_temp_grain_n_fill;
    float cY_rel_grain_n_fill[max_table];
    float cGrn_water_cont;
-   float cCarbo_oil_conv_ratio;      //remove
    int   cNum_n_conc_stage;
    float cX_stage_code[max_table];
    float cN_conc_crit_grain;

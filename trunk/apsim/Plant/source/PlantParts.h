@@ -232,8 +232,11 @@ class plantPart : public plantThing
    virtual float dltDmRetranslocateSupply(float DemandDifferential);
    virtual float dmGreen(void);
    virtual float dltDmGreen(void);
+   virtual float dltDmGreenRetrans(void);
    virtual float dmGreenNew(void);
    virtual float dltDmGreenNew(void);
+   virtual float dltDmGreenUptake(void);
+   virtual float dltDmGreenRetransUptake(void);
    virtual float dmSenesced(void);
    virtual float dmDead(void);
    virtual float dmRetransSupply(void);
@@ -333,9 +336,6 @@ class plantPart : public plantThing
    virtual void get_dm_green(vector<float> &);
    virtual void get_n_demanded(vector<float> &);
    virtual void get_dm_plant_min(vector<float> &);
-
-   virtual void dm_partition1 (double dlt_dm);
-   virtual void dm_retranslocate1(float  dlt_dm_retrans) ;
 
    protected:
       plantInterface *plant;                 // The plant we are attached to

@@ -24,15 +24,19 @@ class fruitOilPart : public plantPart {
    void zeroDeltas(void);
    void readSpeciesParameters (protocol::Component *, vector<string> &);
    float grainEnergy(void) const;
-   float energyAdjust(float harvestIndex) ;
+   float energyAdjustHI(float harvestIndex) ;
+   float energyAdjustDM(float DM) ;
    float dm_yield_demand(float dmDemand) ;
+   void doDMDemand(float dlt_dm_grain_demand);
+   void doDmPartition(float DMAvail, float DMDemandTotal);
+   void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
+   float dltDmGreenUptake(void);
+   float dltDmGreenRetransUptake(void);
+   float dmDemandDifferential(void);
 
-
-   void dm_partition1 (double g_dlt_dm);
-   void dm_retranslocate1(float  g_dlt_dm_retrans) ;
+   void bio_grain_oil (void);
 
   private:
-   void bio_grain_oil (void);
 
 
    float cGrain_oil_conc;                            // fractional oil content of grain (0-1)
