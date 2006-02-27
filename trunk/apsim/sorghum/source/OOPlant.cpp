@@ -159,7 +159,7 @@ void OOPlant::sowCrop(unsigned &, unsigned &, protocol::Variant &v)
 
    protocol::ApsimVariant sowLine(plantInterface);
    sowLine.aliasTo(v.getMessageData());
-   plantInterface->writeString ("sow");
+   plantInterface->writeString ("Sowing initiate");
    FString temp;                                   // ?????
 
    if (sowLine.get("crop_class", protocol::DTstring, false, temp) == false)
@@ -215,10 +215,10 @@ void OOPlant::sowCrop(unsigned &, unsigned &, protocol::Variant &v)
       skip = skip.substr(0,temp.length());
       if (skip == "single")skipRow = 1.5;
       else if (skip == "double")skipRow = 2.0;
-      else 
+      else if (skip == "solid")skipRow = 1.0;
+      else
         throw std::runtime_error("Unknown skip row configuration '" + skip + "'");
       }
-
    checkRange(plantInterface,skipRow, 0.0, 2.0, "skiprow");
 
    phenology->setStage(sowing);
@@ -227,18 +227,18 @@ void OOPlant::sowCrop(unsigned &, unsigned &, protocol::Variant &v)
 
    plantInterface->writeString ("");
    plantInterface->writeString ("                 Crop Sowing Data");
-   plantInterface->writeString ("    ---------------------------------------------------");
-   plantInterface->writeString ("    Sowing  Depth Plants Spacing Skip  Skip   Cultivar");
-   plantInterface->writeString ("    Day no   mm     m^2     mm   row   plant  name");
-   plantInterface->writeString ("    ---------------------------------------------------");
+   plantInterface->writeString ("    -------------------------------------------------------");
+   plantInterface->writeString ("    Sowing   Depth  Plants Spacing Skiprow Cultivar    FTN");
+   plantInterface->writeString ("    Day no    mm      m^2    m      code     name       no");
+   plantInterface->writeString ("    -------------------------------------------------------");
 
    char msg[100];
-   sprintf(msg, "   %7d%7.1f%7.1f%7.1f%6.1f%6.1f   %s",
-               today.todayDate.doy, sowingDepth, plantDensity, rowSpacing, skipRow,
-               skipRow, cultivar.c_str());
+   sprintf(msg, "   %7d%7.1f%7.1f%7.1f%9.1f     %s%8.2f",
+               today.todayDate.doy, sowingDepth, plantDensity, rowSpacing,
+               skipRow, cultivar.c_str(),ftn);
    plantInterface->writeString (msg);
 
-   plantInterface->writeString ("    ---------------------------------------------------\n");
+   plantInterface->writeString ("    -------------------------------------------------------\n");
 
 
    readParams(); // now we have the cultivar, get all 'constants' and cultivar parameters.

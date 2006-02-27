@@ -41,6 +41,7 @@ void Roots::doRegistrations(void)
 
 #define setupGetVar plantInterface->addGettableVar
    setupGetVar("root_depth", rootDepth, "mm", "Depth of roots");
+   setupGetVar("root_front", rootFront, "mm", "Depth of roots");
    setupGetVar("root_wt", dmGreen, "g/m2", "Live root dry weight");
    setupGetVar("groot_n", nGreen, "g/m2", "N in live root");
    setupGetVar("troot_n", nTotal, "g/m2", "N in live and dead roots");
@@ -93,7 +94,11 @@ void Roots::doNewProfile(protocol::Variant &v /* message */)
 void Roots::initialize(void)
    {
    rootDepth = 0.0;
+   rootFront = 0.0;
    currentLayer = 0;
+   leftDist = 0.0;
+   rightDist = 0.0;
+
 
    partNo = 0;
 
@@ -156,6 +161,9 @@ void Roots::phenologyEvent(int stage)
       case germination :
 //         rootDepth = initialRootDepth;
          calcInitialLength();
+         leftDist = plant->getRowSpacing() * 1000 * (plant->getSkipRow() - 0.5);
+         rightDist = plant->getRowSpacing() * 1000 * 0.5;
+
          break;
       case emergence :
          dmGreen = initialDM * plant->getPlantDensity();
@@ -173,6 +181,8 @@ void Roots::updateVars(void)
    // update root variables by daily deltas
    dltRootDepth = calcDltRootDepth(plant->phenology->currentStage());
    rootDepth += dltRootDepth;
+   dltRootFront = calcDltRootFront(plant->phenology->currentStage());
+   rootFront += dltRootFront;
    // calculate current root layer
    currentLayer = findIndex(rootDepth, dLayer);
    // calculate proportion of this layer occupied
@@ -218,6 +228,7 @@ void Roots::calcInitialLength(void)
 
     //In the fortran it is only done by sowing depth
     dltRootDepth = initialRootDepth;
+    dltRootFront = initialRootDepth;
 
 /*
    float initialLength = dmGreen / sm2smm * specificRootLength;
@@ -277,6 +288,17 @@ float Roots::calcDltRootDepth(float stage)
    dltRootDepth = Min(dltRootDepth,profileDepth - rootDepth);
 
    return dltRootDepth;
+   }
+//------------------------------------------------------------------------------------------------
+float Roots::calcDltRootFront(float stage)
+   {
+   // calculate the root front
+   float swFactor = swAvailFactor(currentLayer);
+   dltRootFront  = rootDepthRate[int (stage)] * swFactor * xf[currentLayer];
+
+   double maxFront = sqrt(pow(rootDepth,2) + pow(leftDist,2));
+   dltRootFront = Min(dltRootFront, maxFront - rootFront);
+   return dltRootFront;
    }
 //------------------------------------------------------------------------------------------------
 float Roots::swAvailFactor(int layer)
@@ -357,4 +379,51 @@ void Roots::incorporateResidue(void)
 
    }
 //------------------------------------------------------------------------------------------------
+float Roots::RootProportionInLayer(int layer)
+   {
+   /* Row Spacing and configuration (skip) are used to calculate semicircular root front to give
+   proportion of the layer occupied by the roots. */
+   float top;
+   if(layer == 0)top = 0;
+   else top = sumVector(dLayer,layer);
+   float bottom = top + dLayer[layer];
+
+   float rootArea = getRootArea(top, bottom, rootFront, rightDist);    // Right side
+   rootArea += getRootArea(top, bottom, rootFront, leftDist);          // Left Side
+   float soilArea = (rightDist + leftDist) * (bottom - top);
+
+   return divide(rootArea, soilArea);
+   }
+//------------------------------------------------------------------------------------------------
+float Roots::getRootArea(float top, float bottom, float rootLength, float hDist)
+   {
+   // get the area occupied by roots in a semi-circular section between top and bottom
+   float topArea = 0.0, bottomArea = 0;
+   float SDepth, Theta, rootArea;
+
+   // intersection of roots and Section
+   if(rootLength <= hDist) SDepth = 0.0;
+   else SDepth = sqrt(pow(rootLength,2) - pow(hDist,2));
+
+   // Rectangle - SDepth past bottom of this area
+   if(SDepth >= bottom) rootArea = (bottom - top) * hDist;
+   else               // roots Past top
+      {
+      Theta = 2 * acos(divide(Max(top,SDepth),rootLength));
+      topArea = (pow(rootLength,2) / 2.0 * (Theta - sin(Theta))) / 2.0;
+
+      // bottom down
+      if(rootLength > bottom)
+         {
+         Theta = 2 * acos(bottom/rootLength);
+         bottomArea = (pow(rootLength,2) / 2.0 * (Theta - sin(Theta))) / 2.0;
+         }
+      // rectangle
+      if(SDepth > top) topArea = topArea + (SDepth - top) * hDist;
+      rootArea = topArea - bottomArea;
+      }
+   return rootArea;
+   }
+//------------------------------------------------------------------------------------------------
+
 
