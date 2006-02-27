@@ -96,8 +96,8 @@
       endif
             ]]></condition>
       <category name="Sowing criteria">
-        <property name="date1" value="15-may" type="text" description="Enter sowing window START date (dd-mmm) : " />
-        <property name="date2" value="10-jul" type="text" description="Enter sowing window END date (dd-mmm) : " />
+        <property name="date1" value="15-may" type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : " />
+        <property name="date2" value="10-jul" type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : " />
         <property name="must_sow" value="no" type="yesno" description="Must sow? : " />
         <property name="raincrit" value="30" type="text" description="Amount of rainfall : " />
         <property name="rainnumdays" value="3" type="text" description="Number of days of rainfall : " />
@@ -124,8 +124,8 @@
       endif
             ]]></condition>
           <category name="Sowing criteria">
-            <property name="date1" value="15-oct" type="text" description="Enter sowing window START date (dd-mmm) : " />
-            <property name="date2" value="10-jan" type="text" description="Enter sowing window END date (dd-mmm) : " />
+            <property name="date1" value="15-oct" type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : " />
+            <property name="date2" value="10-jan" type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : " />
             <property name="must_sow" value="no" type="yesno" description="Must sow? : " />
             <property name="raincrit" value="30" type="text" description="Amount of rainfall : " />
             <property name="rainnumdays" value="3" type="text" description="Number of days of rainfall : " />
@@ -253,7 +253,7 @@
             endif
          endif ]]></condition>
       <category name="When should fertiliser be applied">
-        <property name="fert_date" value="dd-mmm" type="text" description="Enter fertiliser date (dd-mmm) : " />
+        <property name="fert_date" value="dd-mmm" type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : " />
         <property name="fert_criteria" value="1000" type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : " />
       </category>
       <category name="Fertiliser application details">
@@ -269,7 +269,7 @@
             '[fertmodule]' apply amount = N_deficit (kg/ha), depth = 50 (mm), type = [fert_type] ()
          endif ]]></condition>
       <category name="When should fertiliser be applied">
-        <property name="fert_date" value="dd-mmm" type="text" description="Enter fertiliser date (dd-mmm) : " />
+        <property name="fert_date" value="dd-mmm" type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : " />
         <property name="fert_criteria" value="1000" type="text" description="Amount of N required in top 3 layers (kg/ha) : " />
       </category>
       <category name="Fertiliser application details">
@@ -305,7 +305,7 @@
          endif
       ]]></condition>
       <category name="When should tillage be done">
-        <property name="tillage_date" value="dd-mmm" type="text" description="Enter tillage date (dd-mmm) : " />
+        <property name="tillage_date" value="dd-mmm" type="ddmmmdate" description="Enter tillage date (dd-mmm) : " />
       </category>
       <category name="Tillage application details">
         <property name="surfaceommodule" value="" type="modulename" moduletype="surfaceom" description="Module used to apply the tillage : " />
@@ -332,7 +332,7 @@
          endif
       </condition>
       <category name="When should a reset be done">
-        <property name="reset_date" value="dd-mmm" type="text" description="Enter date of reset (dd-mmm) : " />
+        <property name="reset_date" value="dd-mmm" type="ddmmmdate" description="Enter date of reset (dd-mmm) : " />
       </category>
       <category name="Reset details">
         <property name="soilmodule" value="" type="modulename" moduletype="soil" description="Name of your soil module : " />
