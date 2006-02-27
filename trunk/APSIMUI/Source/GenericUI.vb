@@ -108,7 +108,7 @@ Public Class GenericUI
         Dim inifile As New APSIMSettings
         Dim UIManager As ApsimUIController = Controller
         Dim imagefile As String = UIManager.ImageFileForType(Controller.Data.Type)
-        PictureBox.Image = Image.FromFile(imagefile)
+        PictureBox.BackgroundImage = Image.FromFile(imagefile)
         Grid.RowCount = Controller.Data.ChildList.Count
         Dim row As Integer = 0
         For Each Prop As APSIMData In Controller.Data.Children()
