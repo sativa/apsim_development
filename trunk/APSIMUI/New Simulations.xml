@@ -42,8 +42,8 @@
       endif
             ]]></condition>
           <category name="Sowing criteria">
-            <property name="date1" value="15-may" type="text" description="Enter sowing window START date (dd-mmm) : " />
-            <property name="date2" value="10-jul" type="text" description="Enter sowing window END date (dd-mmm) : " />
+            <property name="date1" value="15-may" type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : " />
+            <property name="date2" value="10-jul" type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : " />
             <property name="must_sow" value="no" type="yesno" description="Must sow? : " />
             <property name="raincrit" value="30" type="text" description="Amount of rainfall : " />
             <property name="rainnumdays" value="3" type="text" description="Number of days of rainfall : " />
@@ -863,8 +863,8 @@
       endif
             ]]></condition>
           <category name="Sowing criteria">
-            <property name="date1" value="15-oct" type="text" description="Enter sowing window START date (dd-mmm) : " />
-            <property name="date2" value="10-jan" type="text" description="Enter sowing window END date (dd-mmm) : " />
+            <property name="date1" value="15-oct" type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : " />
+            <property name="date2" value="10-jan" type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : " />
             <property name="must_sow" value="no" type="yesno" description="Must sow? : " />
             <property name="raincrit" value="30" type="text" description="Amount of rainfall : " />
             <property name="rainnumdays" value="3" type="text" description="Number of days of rainfall : " />
@@ -1650,7 +1650,7 @@
          endif
             </condition>
           <category name="Sowing criteria">
-            <property name="date1" value="15-mar" type="text" description="Enter planting date (dd-mmm) : " />
+            <property name="date1" value="15-mar" type="ddmmmdate" description="Enter planting date (dd-mmm) : " />
           </category>
           <category name="Sowing parameters">
             <property name="crop" value="egrandis" type="crop" description="Enter name of growth module to sow : " />
@@ -1678,7 +1678,7 @@
             endif
         </condition>
           <category name="When should fertiliser be applied">
-            <property name="date1" value="15-mar-1992" type="text" description="Enter application date (dd-mmm,dd-mmm-yyyy) : " />
+            <property name="date1" value="15-mar" type="ddmmmdate" description="Enter application date (dd-mmm) : " />
           </category>
           <category name="Fertiliser application details">
             <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
@@ -2948,7 +2948,7 @@
                ]]></condition>
           <category name="Sugar plant crop management parameters">
             <property name="crop" value="sugar" type="crop" description="Enter name of crop to sow : " />
-            <property name="planting_day" value="1-apr" type="text" description="Enter planting date (dd-mmm) : " />
+            <property name="planting_day" value="1-apr" type="ddmmmdate" description="Enter planting date (dd-mmm) : " />
             <property name="plantlen" value="450" type="text" description="Duration of a plant crop (days) (30 days/month * 15 months) : " />
             <property name="plant_stalks" value="10" type="text" description="Stalk density of plant crop (/m2) :" />
             <property name="variety" value="q117" type="list" listvalues="q117,q96,q138,ts65-28,h73,q141,nco376,n12,n14,cp51,r570,m1356,m55560,q124" description="Planting variety :" />
@@ -2969,7 +2969,7 @@
             endif
          endif ]]></condition>
           <category name="When should fertiliser be applied">
-            <property name="fert_date" value="01-sep" type="text" description="Enter fertiliser date (dd-mmm) : " />
+            <property name="fert_date" value="01-sep" type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : " />
             <property name="fert_criteria" value="1000" type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : " />
           </category>
           <category name="Fertiliser application details">
