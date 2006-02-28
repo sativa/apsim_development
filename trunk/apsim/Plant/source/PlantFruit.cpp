@@ -324,7 +324,7 @@ float PlantFruit::nConcGrain(void)
 }
 
 
-float PlantFruit::nGrainDemand2(void)
+float PlantFruit::nDemandGrain2(void)
    //===========================================================================
 {
    return grainPart->nDemand2();
@@ -1299,7 +1299,7 @@ void PlantFruit::processBioDemand(void)
 }
 
 float PlantFruit::grainNo(void) const {return grainPart->grainNo();}
-float PlantFruit::grainNDemand(void) const {return grainPart->nGrainDemand();}
+float PlantFruit::nDemandGrain(void) const {return grainPart->nDemandGrain();}
 float PlantFruit::dltDmPotTe(void) {return podPart->dltDmPotTe();}
 float PlantFruit::dltDmPotRuePod(void) {return podPart->dltDmPotRuePod();}
 float PlantFruit::grainNConcPercent(void) {return grainPart->nConcPercent();}
@@ -1335,52 +1335,24 @@ void PlantFruit::sw_demand1(float *sw_demand) {podPart->sw_demand1(sw_demand);}
 void PlantFruit::bio_water1 (void) {podPart->bio_water1();}                          //remove
 void PlantFruit::bio_actual (void) {podPart->bio_actual();}
 
-void PlantFruit::grain_n_demand1(float g_nfact_grain_conc      //   (INPUT)
+void PlantFruit::doNDemandGrain(float g_nfact_grain_conc      //   (INPUT)
                                  , float g_swdef_expansion)    //   grain N demand (g/m^2)
    //===========================================================================
 {
    //    Calculate plant n demand
 
-   grainPart->grain_n_demand1(g_nfact_grain_conc
+   grainPart->doNDemandGrain(g_nfact_grain_conc
                               , g_swdef_expansion);
 }
 
-void PlantFruit::grain_n_demand2 (void)
+void PlantFruit::doDmDemand ( float dlt_dm_veg_supply)
    //===========================================================================
 {
-   grainPart->grain_n_demand2();
-
-}
-
-float PlantFruit::dm_yield_demand ( float dlt_dm_veg_supply)
-   //===========================================================================
-{
-   //       Calculate grain dm yield demand (g/m^2)
    //       (OUTPUT) assimilate demand for reproductive part (g/m^2)
-
    // calculate demands of reproductive parts
 
-   float dm_grain_demand = grainPart->dm_yield_demand();            //FIXME throughout - dm_grain_demand should be gDlt_dm_grain_demand. Leave asis for compatability
-   podPart->doDmDemand1(dm_grain_demand, dlt_dm_veg_supply);
-   float dm_yield_demand = podPart->dmGreenDemand()
-                         + grainPart->dmGreenDemand();
-
-   return dm_yield_demand;
-}
-
-float PlantFruit::dm_yield_demand2 ( float  dlt_dm_veg_supply)
-   //===========================================================================
-{
-   //       Calculate grain dm yield demand (g/m^2)
-   //       (OUTPUT) assimilate demand for reproductive part (g/m^2)
-
-   // calculate demands of reproductive parts
-   float dm_grain_demand = grainPart->dm_yield_demand();            //FIXME throughout - dm_grain_demand should be gDlt_dm_grain_demand. Leave asis for compatability
-   podPart->doDmDemand2(dm_grain_demand, dlt_dm_veg_supply);
-   float dm_yield_demand = podPart->dmGreenDemand()
-                         + grainPart->dmGreenDemand();
-
-   return dm_yield_demand;
+   float dm_grain_demand = grainPart->doDmDemand();            //FIXME throughout - dm_grain_demand should be gDlt_dm_grain_demand. Leave asis for compatability
+   podPart->doDmDemand(dm_grain_demand, dlt_dm_veg_supply);
 }
 
 float PlantFruit::dmDemandDifferential(void)
@@ -1552,22 +1524,6 @@ float PlantFruit::availableRetranslocateN(void)
       nAvail += (*t)->availableRetranslocateN();
 
    return nAvail;
-}
-
-void PlantFruit::n_conc_grain_limits (void)
-   //============================================================================
-   //       Calculate the critical N concentration for grain below which plant growth
-   //       is affected.  Also minimum and maximum N concentrations below
-   //       and above which it is not allowed to fall or rise.
-   //       These are analogous to the water concentrations
-   //       of sat, dul and ll.
-{
-
-   //   for (vector<plantPart *>::iterator t = myGrainParts.begin();
-   //       t != myGrainParts.end();
-   //       t++)
-   //     (*t)->n_conc_grain_limits();
-   grainPart->n_conc_grain_limits();
 }
 
 void PlantFruit::doNRetranslocate( float N_supply, float g_grain_n_demand)

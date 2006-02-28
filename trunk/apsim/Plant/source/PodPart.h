@@ -21,8 +21,7 @@ class fruitPodPart : public plantPart {
    void onFlowering(void);
    void onStartGrainFill(void);
    void doDmMin(void);
-   void doDmDemand1(float dm_grain_demand, float  dlt_dm_supply);
-   void doDmDemand2(float dm_grain_demand, float  dlt_dm_supply);
+   void doDmDemand(float dm_grain_demand, float  dlt_dm_supply);
    void processBioDemand(void);
    void readSpeciesParameters (protocol::Component *, vector<string> &);
    void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
@@ -44,10 +43,13 @@ class fruitPodPart : public plantPart {
    void sw_demand1(float *sw_demand);
    void bio_water1(void);
    void bio_actual (void);
-   float fracPod(void);
-   float fracPod1(void);
 
    private:
+      float fracPod(void);
+      float fracPod1(void);
+      void doDmDemand1(float dm_grain_demand, float  dlt_dm_supply);
+      void doDmDemand2(float dm_grain_demand, float  dlt_dm_supply);
+
       float gDlt_dm;
       float gDlt_dm_pot_rue;
       float gDlt_dm_pot_te;
@@ -75,6 +77,8 @@ class fruitPodPart : public plantPart {
       float cX_co2_te_modifier[max_table];
       float cY_co2_te_modifier[max_table];
       int   cNum_co2_te_modifier;
+
+      int cPartition_option;
       float gTranspEff;
       struct Cover
       {

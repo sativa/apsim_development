@@ -180,7 +180,7 @@ public:
 
    void plant_bio_actual (int option /* (INPUT) option number*/);
    void plant_bio_partition (int option /* (INPUT) option number */);
-   void plant_bio_retrans (int option /* (INPUT) option number */);
+   void plant_bio_retrans (void);
    void plant_water_stress (int option /* (INPUT) option number */);
    void plant_temp_stress (int option/* (INPUT) option number*/);
    void plant_oxdef_stress (int option /* (INPUT) option number */);
@@ -242,7 +242,7 @@ public:
    void plant_nit_uptake (int option       /* (INPUT) option number*/);
    void plant_nit_partition (int option    /* (INPUT) option number*/);
    void plant_nit_stress (int option       /* (INPUT) option number*/);
-   void plant_nit_grain_demand (int Option);
+   void doNDemandGrain (void);
    void plant_soil_nit_demand (int Option);
 
    void plant_nit_demand_est (int option);
@@ -414,16 +414,6 @@ public:
        ,float  *dlt_dm_retrans_to_fruit);   // (OUTPUT) dm retranslocated to fruit (g/m^2)
 
    void legnew_n_retranslocate(float g_grain_n_demand);
-   //  void legnew_n_retranslocate_test( int    *supply_pools
-   //                                , int    num_supply_pools
-   //                                , float  *g_n_conc_min               // (INPUT)  minimum N concentration (g N/g
-   //                                , float  *g_dm_green                 // (INPUT)  live plant dry weight (biomass
-   //                                , float  *g_n_green                  // (INPUT)  plant nitrogen content (g N/m^
-   //                                , float  g_grain_n_demand            //  INPUT
-   //                                , float  dlt_n_retrans_supply        // (OUTPUT) plant N supply to fruit (g N/m^2)
-   //                                , float  *dlt_n_retrans              // (OUTPUT) plant N taken out from plant parts (g N/m^2)
-   //                                );
-
 
    void plant_N_senescence (int num_part                  //(INPUT) number of plant part
                             ,float *c_n_sen_conc          //(INPUT)  N concentration of senesced materia  (g/m^2)
@@ -708,7 +698,7 @@ public:
    int  getDayOfYear(void) {return (g.day_of_year);};
 
    // To transfer to Fruit class
-   void plant_bio_distribute (int option /* (INPUT) option number */);
+   void plant_bio_distribute (void);
 
    //Phosporousy things:
    void zero_p_variables ();
