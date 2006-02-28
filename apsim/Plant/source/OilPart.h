@@ -34,7 +34,7 @@ class fruitOilPart : public plantPart {
    float dltDmGreenRetransUptake(void);
    float dmDemandDifferential(void);
 
-   void bio_grain_oil (void);
+   void doBioGrainOil (void);
 
   private:
 

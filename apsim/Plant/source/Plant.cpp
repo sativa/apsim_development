@@ -1200,7 +1200,7 @@ void Plant::plant_bio_water (int option /* (INPUT) option number */)
     if (option == 1)
         {
           float dltDmPotTeVeg = 0.0;
-        fruitPart->bio_water1 ();
+        fruitPart->doDmPotTE ();
         plant_bio_water1 (g.swSupplyVeg, g.transp_eff, &dltDmPotTeVeg);
         g.dlt_dm_pot_te = dltDmPotTeVeg + fruitPart->dltDmPotTe();
 
@@ -1273,7 +1273,7 @@ void Plant::plant_detachment (int option /* (INPUT) option number */)
         for (vector<plantPart *>::iterator t = myParts.begin();
              t != myParts.end();
              t++)
-           (*t)->dm_detachment1();
+           (*t)->doDmDetachment();
 
         cproc_n_detachment1 ( max_part
                              , c.sen_detach_frac
@@ -1286,8 +1286,8 @@ void Plant::plant_detachment (int option /* (INPUT) option number */)
              t != myParts.end();
              t++)
            {
-           (*t)->n_detachment1();
-           //(*t)->p_detachment1();
+           (*t)->doNDetachment();
+           //(*t)->doPDetachment();
            }
         }
     else
@@ -1759,7 +1759,7 @@ void Plant::plant_nit_init (int option /* (INPUT) option number*/)
 
     if (option == 1)
         {
-        fruitPart->nit_init();
+        fruitPart->doNInit();
         if (phenology->on_day_of("emergence"))
            {
            cproc_n_init1(c.n_init_conc
@@ -3165,10 +3165,10 @@ void Plant::plant_water_demand (int option /* (INPUT) option number*/)
     if (option == 1)
         {
 
-        fruitPart->sw_demand1 (&g.swDemandTEFruit);
+        g.swDemandTEFruit = fruitPart->SWDemand ();
 
         float swDemandTEVeg = 0.0;                                        //
-        float dltDmPotRueveg = g.dlt_dm_pot_rue - fruitPart->dltDmPotRuePod();     // FIXME when fruit is proper class
+        float dltDmPotRueveg = g.dlt_dm_pot_rue - fruitPart->dltDmPotRue();     // FIXME when fruit is proper class
         cproc_sw_demand1 (dltDmPotRueveg,                                 //
                           g.transp_eff,                                   //
                           &swDemandTEVeg);                                //
@@ -3407,7 +3407,7 @@ void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
     if (option == 1)
         {
 
-        fruitPart->dm_pot_rue( g.radnIntGreenFruit);
+        fruitPart->doDmPotRUE( g.radnIntGreenFruit);
 
 
         float radnIntGreenVeg = g.radn_int - g.radnIntGreenFruit;  //  FIXME temporary until proper fruit class
@@ -3419,7 +3419,7 @@ void Plant::plant_bio_rue (int option /*(INPUT) option number*/)
                                g.oxdef_photo), g.pfact_photo)
                            , &dlt_dm_pot_rue_veg);
 
-        g.dlt_dm_pot_rue = dlt_dm_pot_rue_veg + fruitPart->dltDmPotRuePod();  // FIXME when fruit is made proper class
+        g.dlt_dm_pot_rue = dlt_dm_pot_rue_veg + fruitPart->dltDmPotRue();  // FIXME when fruit is made proper class
         }
     else
         {
@@ -3564,7 +3564,7 @@ void Plant::plant_transpiration_eff (int option /*(INPUT) option number*/)
         {
         float te_coeff = c.transp_eff_cf[(int)phenology->stageNumber()-1];
 
-        fruitPart->transp_eff_co2();
+        fruitPart->doTECO2();
 
         cproc_transp_eff_co2(c.svp_fract, te_coeff,
                              g.maxt, g.mint, g.co2,
@@ -3824,7 +3824,7 @@ void Plant::plant_n_conc_limits(float  c_n_conc_crit_root                 // (IN
         for (vector<plantPart *>::iterator t = myParts.begin();
              t != myParts.end();
              t++)
-           (*t)->n_conc_limits();
+           (*t)->doNConccentrationLimits();
 
         leafPart->g.n_conc_crit *= g_co2_modifier_n_conc;
         if (leafPart->g.n_conc_crit <= leafPart->g.n_conc_min)
@@ -3898,7 +3898,7 @@ void Plant::legnew_n_partition
             plant_part_fract = divide ((*part)->nDemand(), n_demand_sum, 0.0);
             dlt_n_green_part = n_uptake_sum * plant_part_fract;
             }
-        (*part)->nPartition(dlt_n_green_part);
+        (*part)->doNPartition(dlt_n_green_part);
         }
 
     float dlt_n_green_sum = 0.0;
@@ -3919,12 +3919,7 @@ void Plant::legnew_n_partition
     *n_fix_uptake = bound (g_n_fix_pot, 0.0, n_fix_demand_tot);
 
     for (part = allParts.begin(); part != allParts.end(); part++)
-         {
-         fix_demand = l_bound ((*part)->nDemand() - (*part)->dltNGreen(), 0.0);
-         fix_part_fract = divide (fix_demand, n_fix_demand_tot, 0.0);
-         dlt_n_green_part = fix_part_fract * (*n_fix_uptake);
-         (*part)->nFix(dlt_n_green_part);
-         }
+         (*part)->doNFixRetranslocate (*n_fix_uptake, n_fix_demand_tot);
     }
 
 
@@ -4486,7 +4481,7 @@ void Plant::plant_process ( void )
 
         plant_bio_init(1);
         plant_bio_actual (1);
-        fruitPart->processBioDemand();
+        fruitPart->doProcessBioDemand();
 
         plant_bio_partition (c.partition_option);
 //        plant_retrans_init(1);
@@ -9563,7 +9558,7 @@ void Plant::plant_n_demand(int max_part     // (INPUT)
    float Plant::getCo2(void) const {return g.co2;}
    photosynthetic_pathway_t Plant::getPhotosynthetic_pathway(void) const {return c.photosynthetic_pathway;}
    //float Plant::getRadnInterceptedPod(void) const {return g.radn_int_pod;}
-   float Plant::getDltDMPotRueVeg(void) const {return g.dlt_dm_pot_rue - fruitPart->dltDmPotRuePod();}
+   float Plant::getDltDMPotRueVeg(void) const {return g.dlt_dm_pot_rue - fruitPart->dltDmPotRue();}
    float Plant::getDmGreenVeg(void) const {return leafPart->DMGreen + stemPart->DMGreen;}
    //float Plant::getDltDmVeg(void) const {return leafPart->dltDmTotal() + stemPart->dltDmTotal();}
    float Plant::getWaterSupplyPod(void) const {return g.swSupplyFruit;}

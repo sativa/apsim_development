@@ -227,7 +227,7 @@ float fruitGrainPart::nDemand(void)
    return n_demand;
 }
 
-void fruitGrainPart::nPartition(float nSupply)
+void fruitGrainPart::doNPartition(float nSupply)
    //============================================================================
 {
    float dlt_n_green = 0.0;
@@ -256,7 +256,7 @@ void fruitGrainPart::nPartition(float nSupply)
          float plant_part_fract = divide ((*part)->nDemand(), n_demand_sum, 0.0);
          dlt_n_green = nSupply * plant_part_fract;
          }
-      (*part)->nPartition(dlt_n_green);
+      (*part)->doNPartition(dlt_n_green);
       }
    //cnh mealPart->dlt.n_green = 0.0;
    oilPart->dlt.n_green = 0.0;
@@ -277,7 +277,7 @@ void fruitGrainPart::nPartition(float nSupply)
       }
 
 }
-void fruitGrainPart::nFix(float nSupply)
+void fruitGrainPart::doNFix(float nSupply)
    //============================================================================
 {
    float n_demand_sum = 0.0;
@@ -297,7 +297,7 @@ void fruitGrainPart::nFix(float nSupply)
       float fix_demand = l_bound ((*part)->nDemand() - (*part)->dltNGreen(), 0.0);
       float fix_part_fract = divide (fix_demand, n_fix_demand_tot, 0.0);
       float dlt_n_green = fix_part_fract * nSupply;
-      (*part)->nFix(dlt_n_green);
+      (*part)->doNFix(dlt_n_green);
       }
 }
 
@@ -660,7 +660,7 @@ void fruitGrainPart::get_dlt_p_sen(vector<float> &dlt_p_sen)
 }
 
 
-void fruitGrainPart::grain_number (void)
+void fruitGrainPart::doGrainNumber (void)
    //===========================================================================
    //       Calculate Grain Numer
 {
@@ -671,9 +671,8 @@ void fruitGrainPart::grain_number (void)
       }
    else if (cGrain_no_option == 2)
       {
-      grain_number (plant->getDmGreenStem()
-                    , pGrains_per_gram_stem
-                    , &gGrain_no);
+      gGrain_no = grainNumber (plant->getDmGreenStem()
+                              , pGrains_per_gram_stem);
       }
    else
       {
@@ -683,26 +682,27 @@ void fruitGrainPart::grain_number (void)
    return;
 }
 
-void fruitGrainPart::grain_number (float stem_dm_green
-                                   , float p_grains_per_gram_stem
-                                   , float *g_grain_no)    // OUTPUT
+float fruitGrainPart::grainNumber (float stem_dm_green
+                                      , float p_grains_per_gram_stem)    // OUTPUT
    //===========================================================================
    //       Perform grain number calculations
 {
+   float grain_no;
    if (plant->on_day_of ("emergence"))
       {
       // seedling has just emerged.
-      *g_grain_no = 0.0;
+      grain_no = 0.0;
       }
    else if (plant->on_day_of ("flowering"))
       {
       // we are at first day of grainfill.
-      *g_grain_no = p_grains_per_gram_stem * stem_dm_green;
+      grain_no = p_grains_per_gram_stem * stem_dm_green;
       }
    else
       {
-      // no changes
+      grain_no = gGrain_no;   // no changes
       }
+   return grain_no;
 }
 
 void fruitGrainPart::doTick(protocol::timeType &tick)
@@ -1366,13 +1366,13 @@ void fruitGrainPart::update(void)
    if (plant->inPhase("hi_stress_sensitive")) gDm_stress_max.update();
 }
 
-void fruitGrainPart::n_conc_limits(void)
+void fruitGrainPart::doNConccentrationLimits(void)
    //===========================================================================
 {
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
-      (*part)->n_conc_limits();
+      (*part)->doNConccentrationLimits();
       }
 }
 
@@ -1386,14 +1386,14 @@ void fruitGrainPart::display(ostream &os) const
 }
 
 
-void fruitGrainPart::processBioDemand(void)
+void fruitGrainPart::doProcessBioDemand(void)
    //===========================================================================
 {
 
-   yieldpart_demand_stress1 ();
-   grain_number();
-   oilPart->bio_grain_oil ();
-   bio_grain_demand ();
+   doDMDemandStress ();
+   doGrainNumber();
+   oilPart->doBioGrainOil ();
+   doDMDemandGrain ();
 
    return;
 }
@@ -1412,6 +1412,17 @@ float fruitGrainPart::dmDemandDifferential(void)
         t++)
       dm_demand_differential += (*t)->dmDemandDifferential();
    return dm_demand_differential;
+}
+
+float fruitGrainPart::nDemandDifferential(void)
+   //===========================================================================
+{
+   float n_demand_differential = 0.0;
+   for (vector<plantPart *>::iterator t = myParts.begin();
+        t != myParts.end();
+        t++)
+      n_demand_differential += (*t)->nDemandDifferential();
+   return n_demand_differential;
 }
 
 float fruitGrainPart::meanT (void) {return 0.5 * (gMaxt + gMint);}
@@ -1453,31 +1464,31 @@ float fruitGrainPart::dltDmRetranslocateSupply(float demand_differential)
 }
 
 
-void fruitGrainPart::bio_grain_demand (void)
+void fruitGrainPart::doDMDemandGrain (void)
    //===========================================================================
 {
    //       Simulate crop grain biomass demand.
 
    if (cGrain_fill_option == 1)
       {
-      bio_yieldpart_demand1();
+      doDMDemandGrain1();
       }
    else if (cGrain_fill_option == 2)
       {
       if (plant->inPhase("grainfill"))
-         bio_yieldpart_demand2();
+         doDMDemandGrain2();
       else
          gDlt_dm_grain_demand = 0.0;
       }
    else
       {
-      throw std::invalid_argument("invalid template option in plant_bio_grain_demand");
+      throw std::invalid_argument("invalid template option in doDMDemandGrain");
       }
 
    return;
 }
 
-void fruitGrainPart::bio_yieldpart_demand2(void)
+void fruitGrainPart::doDMDemandGrain2(void)
    //===========================================================================
 {
    //       Perform grain filling calculations
@@ -1497,7 +1508,7 @@ void fruitGrainPart::bio_yieldpart_demand2(void)
    mealPart->doDMDemand(gDlt_dm_grain_demand);
 }
 
-void fruitGrainPart::bio_yieldpart_demand1(void)
+void fruitGrainPart::doDMDemandGrain1(void)
    //===========================================================================
 {
    //        Find grain demand for carbohydrate using harvest index (g/m^2)
@@ -1608,14 +1619,14 @@ void fruitGrainPart::doNDemandGrain1(float nfact_grain_conc      //   (INPUT)
    float   n_potential;           // maximum grain N demand (g/m^2)
 
    gN_grain_demand = mealPart->dltDmGreenNew()
-                     * n_dlt_grain_conc(mealPart
-                                        , cSfac_slope
-                                        , cSw_fac_max
-                                        , cTemp_fac_min
-                                        , cTfac_slope
-                                        , meanT()
-                                        , nfact_grain_conc
-                                        , swdef_expansion);
+                     * dltNGrainConc(mealPart
+                                     , cSfac_slope
+                                     , cSw_fac_max
+                                     , cTemp_fac_min
+                                     , cTfac_slope
+                                     , meanT()
+                                     , nfact_grain_conc
+                                     , swdef_expansion);
 
 
    n_potential  = mealPart->dmGreenNew()
@@ -1667,14 +1678,14 @@ void fruitGrainPart::doNDemandGrain2 (void)
    pop_routine (my_name);
 }
 
-float fruitGrainPart::n_dlt_grain_conc(plantPart *grainPart
-                                       , float sfac_slope      //(INPUT)  soil water stress factor slope
-                                       , float sw_fac_max      //(INPUT)  soil water stress factor maximum
-                                       , float temp_fac_min    //(INPUT)  temperature stress factor minimum optimum temp
-                                       , float tfac_slope      //(INPUT)  temperature stress factor slope
-                                       , float ave_temp        //(INPUT)  mean air temperature (oC)
-                                       , float nfact_grain_conc// (INPUT)
-                                       , float swdef_expansion) // (INPUT)
+float fruitGrainPart::dltNGrainConc(plantPart *grainPart
+                                    , float sfac_slope      //(INPUT)  soil water stress factor slope
+                                    , float sw_fac_max      //(INPUT)  soil water stress factor maximum
+                                    , float temp_fac_min    //(INPUT)  temperature stress factor minimum optimum temp
+                                    , float tfac_slope      //(INPUT)  temperature stress factor slope
+                                    , float ave_temp        //(INPUT)  mean air temperature (oC)
+                                    , float nfact_grain_conc// (INPUT)
+                                    , float swdef_expansion) // (INPUT)
                                                                //==========================================================================
 
    /*  Purpose
@@ -1801,7 +1812,28 @@ void fruitGrainPart::doDmRetranslocate(float DMAvail, float DMDemandDifferential
 }
 
 
-void fruitGrainPart::yieldpart_demand_stress1 (void)
+void fruitGrainPart::doNFixRetranslocate(float NFix, float NDemandDifferentialTotal)
+//=======================================================================================
+{
+    plantPart::doNFixRetranslocate(NFix, NDemandDifferentialTotal);
+    float n_demand_differential = 0.0;
+
+    for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
+         t != myParts.end();
+         t++)
+       n_demand_differential += (*t)->nDemandDifferential ();
+
+        // now distribute the n fixed to plant parts
+
+    NFix = NFix * divide (nDemandDifferential(), NDemandDifferentialTotal, 0.0);
+    for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
+         t != myParts.end();
+         t++)
+       (*t)->doNFixRetranslocate (NFix, n_demand_differential);
+}
+
+
+void fruitGrainPart::doDMDemandStress (void)
    //     ===========================================================
 {
    //       Simulate crop grain biomass demand stress factor
@@ -1856,19 +1888,16 @@ void fruitGrainPart::doDmMin (void)       // (OUTPUT) actual biomass senesced fr
       }
 }
 
-void fruitGrainPart::nit_init (void)
+void fruitGrainPart::doNInit (void)
    //============================================================================
 {
    //       Initialise plant nitrogen.
 
    if (plant->inPhase("grainfill"))
-      {
-      n_conc_grain_limits();
-      }
-
+      doNConcGrainLimits();
 }
 
-void fruitGrainPart::n_conc_grain_limits (void)
+void fruitGrainPart::doNConcGrainLimits (void)
    //============================================================================
 {
    //       Calculate the critical N concentration for grain below which plant growth
@@ -1993,7 +2022,7 @@ void fruitGrainPart::doNSenescence(void)
       }
 }
 
-void fruitGrainPart::dm_detachment1(void)
+void fruitGrainPart::doDmDetachment(void)
    //============================================================================
 {
    dlt.dm_detached = 0.0;
@@ -2001,13 +2030,13 @@ void fruitGrainPart::dm_detachment1(void)
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
-      (*part)->dm_detachment1();
+      (*part)->doDmDetachment();
       dlt.dm_detached += (*part)->dlt.dm_detached;
       dlt.dm_dead_detached += (*part)->dlt.dm_dead_detached;
       }
 }
 
-void fruitGrainPart::n_detachment1(void)
+void fruitGrainPart::doNDetachment(void)
    //============================================================================
 {
    dlt.n_detached = 0.0;
@@ -2015,7 +2044,7 @@ void fruitGrainPart::n_detachment1(void)
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
-      (*part)->n_detachment1();
+      (*part)->doNDetachment();
       dlt.n_detached += (*part)->dlt.n_detached;
       dlt.n_dead_detached += (*part)->dlt.n_dead_detached;
       }
@@ -2154,31 +2183,31 @@ float fruitGrainPart::nRetransDemand(void)
    return n_retrans_demand;
 }
 
-void fruitGrainPart::distributeDltPGreen(float p_uptake, float total_p_demand)
+void fruitGrainPart::doPPartition(float p_uptake, float total_p_demand)
    //============================================================================
 {
    dlt.p_green = 0.0;
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
-      (*part)->distributeDltPGreen(p_uptake, total_p_demand);
+      (*part)->doPPartition(p_uptake, total_p_demand);
       dlt.p_green += (*part)->dlt.p_green;
       }
 }
 
-void fruitGrainPart::distributeDltPRetrans(float total_p_supply, float total_p_demand)
+void fruitGrainPart::doPRetranslocate(float total_p_supply, float total_p_demand)
    //============================================================================
 {
    dlt.p_retrans = 0.0;
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
-      (*part)->distributeDltPRetrans(total_p_supply, total_p_demand);
+      (*part)->doPRetranslocate(total_p_supply, total_p_demand);
       dlt.p_retrans += (*part)->dlt.p_retrans;
       }
 }
 
-void fruitGrainPart::p_detachment1(void)
+void fruitGrainPart::doPDetachment(void)
    //============================================================================
 {
    dlt.p_det = 0.0;
@@ -2186,7 +2215,7 @@ void fruitGrainPart::p_detachment1(void)
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
-      (*part)->p_detachment1();
+      (*part)->doPDetachment();
       dlt.p_det += (*part)->dlt.p_det;
       dlt.p_dead_det += (*part)->dlt.p_dead_det;
       }
@@ -2205,14 +2234,14 @@ void fruitGrainPart::updatePDet(void)
       }
 }
 
-void fruitGrainPart::pInit(void)
+void fruitGrainPart::doPInit(void)
    //============================================================================
 {
    PGreen = 0.0;
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
-      (*part)->pInit();
+      (*part)->doPInit();
       PGreen +=  (*part)->PGreen;
       }
 }
