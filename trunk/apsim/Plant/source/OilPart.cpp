@@ -139,7 +139,7 @@ void fruitOilPart::onStartGrainFill(void)
 {  // do nothing
 }
 
-void fruitOilPart::bio_grain_oil (void)    // for seed energy content (>= 1.0)
+void fruitOilPart::doBioGrainOil (void)    // for seed energy content (>= 1.0)
    //===========================================================================
 {
    //       Calculate grain oil factors
