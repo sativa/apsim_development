@@ -235,8 +235,6 @@ public:												// member functions
    float dm_yield_demand2 ( float  g_dlt_dm_veg);
 
    void yieldpart_demand_stress1(void);               //remove
-   void dm_partition1 (double g_dlt_dm);
-   void dm_retranslocate1(float  g_dlt_dm_retrans_to_fruit) ;
    void doDmPartition(float DMAvail, float DMDemandTotal);
    void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
    float dmDemandDifferential(void);
