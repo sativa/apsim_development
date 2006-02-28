@@ -272,7 +272,6 @@ class plantPart : public plantThing
    virtual float nMax(void);
    virtual float nCapacity(void);
    virtual void  doNPartition(float nSupply);
-   virtual void  doNFix(float nSupply);
    virtual float nRetransSupply(void);
    virtual float nRetransDemand(void);
    virtual float nDemandDifferential(void);

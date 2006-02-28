@@ -1125,7 +1125,6 @@ float plantPart::nCapacity(void)
    }
 
 void plantPart::doNPartition(float nSupply) {dlt.n_green = nSupply;}
-void plantPart::doNFix(float nSupply) {dlt.n_green += nSupply;}
 
 float plantPart::pDemand(void) {return (PDemand);}
 float plantPart::nTotal(void) {return (nGreen() + nSenesced() + nDead());}

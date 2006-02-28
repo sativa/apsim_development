@@ -414,30 +414,6 @@ void PlantFruit::doNPartition(float nSupply)
       }
 
 }
-void PlantFruit::doNFix(float nSupply)
-   //============================================================================
-{
-   float n_demand_sum = 0.0;
-   float dlt_n_green_sum = 0.0;
-   vector<plantPart *>::iterator part;
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      {
-      n_demand_sum += (*part)->nDemand();
-      dlt_n_green_sum += (*part)->dltNGreen();
-      }
-
-   float n_fix_demand_tot = l_bound (n_demand_sum - dlt_n_green_sum, 0.0);
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      {
-      float fix_demand = l_bound ((*part)->nDemand() - (*part)->dltNGreen(), 0.0);
-      float fix_part_fract = divide (fix_demand, n_fix_demand_tot, 0.0);
-      float dlt_n_green = fix_part_fract * nSupply;
-      (*part)->doNFix(dlt_n_green);
-      }
-}
-
 float PlantFruit::pTotal(void)
    //===========================================================================
 {
