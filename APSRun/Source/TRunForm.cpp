@@ -78,7 +78,7 @@ void TRunForm::setup(ApsimRuns& apsimRuns, bool autoRun)
       MainPanel->ActivePage = Page3;
       populatePage3();
       for (int i = 0; i != SimulationList->Items->Count; i++)
-         SimulationList->Items->Item[0]->Selected = true;
+         SimulationList->Items->Item[i]->Selected = true;
 
       PostMessage(NextButton->Handle, BM_CLICK, 0, 0);
       }
