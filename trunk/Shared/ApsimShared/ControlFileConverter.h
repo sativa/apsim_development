@@ -186,6 +186,11 @@ class __declspec(dllexport) ControlFileConverter
       void DeleteManagerActionCallback(std::vector<ApsimControlFile::ManagerActionParameter>& parameters,
                                        bool& modified);
 
+      //---------------------------------------------------------------------------
+      // Delete a module from the control file.
+      //---------------------------------------------------------------------------
+      bool executeDeleteModule(const string& arguments) throw(runtime_error);
+
    };
 
 // ------------------------------------------------------------------

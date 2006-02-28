@@ -9,7 +9,8 @@
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TRunForm.dfm"/>
     <LIBFILES value="..\..\Shared\ApsimShared\ApsimShared.lib ..\..\Shared\general\general.lib 
-      ..\..\Shared\general\general_vcl.lib &quot;C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\LibXML2.lib&quot;"/>
+      ..\..\Shared\general\general_vcl.lib 
+      &quot;C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\LibXML2.lib&quot; &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib&quot;"/>
     <LIBRARIES value="Tee7C6.lib VclSmp.lib TMSC6.lib"/>
     <SPARELIBS value="vcl.lib rtl.lib TMSC6.lib vclx.lib dbrtl.lib vcldb.lib VclSmp.lib Tee7C6.lib"/>
     <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi vcldb.bpi dbrtl.bpi bdertl.bpi 
@@ -37,7 +38,7 @@
       -tW -tWM"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
-    <AFLAGS value="/mx /w2 /zd"/>
+    <AFLAGS value="/mx /w2 /zi"/>
     <LFLAGS value="-D&quot;&quot; -aa -Tpe -x -Gn -v"/>
     <OTHERFILES value=""/>
   </OPTIONS>
@@ -57,6 +58,7 @@
       <FILE FILENAME="ApsimRuns.cpp" FORMNAME="" UNITNAME="ApsimRuns" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\Shared\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\LibXML2.lib" FORMNAME="" UNITNAME="LibXML2.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib" FORMNAME="" UNITNAME="date_time.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -91,6 +93,10 @@ Comments=
 
 [Excluded Packages]
 c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
+D:\development\Bin\APSGeneral.bpl=APSGeneral
+D:\development\Bin\APSData.bpl=APSuite data components
+C:\Program Files\Borland\CBuilder6\Components\TeeChart\source\Sources\Compiled\BuilderC6\System\TeeImage7C6.bpl=TeeChart Pro Graphic Exporting formats
+C:\Program Files\Borland\CBuilder6\Components\MemTable\kbmMemC6Des.bpl=kbmMemC6Des
 
 [HistoryLists\hlIncludePath]
 Count=7
@@ -127,7 +133,7 @@ Item1=..\..\Bin
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=d:\tmp\test.apsim
+RunParams=/auto D:\development\apsim\wheat\sensibility\wheat.con
 Launcher=
 UseLauncher=0
 DebugCWD=

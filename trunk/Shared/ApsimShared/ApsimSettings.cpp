@@ -111,7 +111,7 @@ void ApsimSettings::readSection(const std::string& sectionName, std::string& con
 // ------------------------------------------------------------------
 // Write out the contents of a given section.
 // ------------------------------------------------------------------
-void ApsimSettings::writeSection(const std::string& sectionName, std::string& contents) const
+void ApsimSettings::writeSection(const std::string& sectionName, const std::string& contents) const
    {
 //   working->readSection(sectionName, contents);
 //   if (contents == "")

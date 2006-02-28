@@ -1,7 +1,4 @@
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
-
+#include <stdio.h>
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -22,53 +19,25 @@
 using namespace std;
 using namespace protocol;
 //---------------------------------------------------------------------------
-WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
-   {
+int main(int argc, char **argv) {
    try
       {
       Simulation simulation;
 
-      if (_argc == 3 && strcmpi(_argv[1], "/console") == 0)
-         {
-         AllocConsole();
-         simulation.go(_argv[2]);
-         }
-
-      else if (_argc == 2)
-         simulation.go(_argv[1]);
+      if (argc == 2)
+         simulation.go(argv[1]);
 
       else
          {
-         ::MessageBox(NULL, "To run APSIM type : \n"
-                            "   apsim [/console] sim_file_name\n\n"
-                            "Where sim_file_name is the name of your simulation file (.SIM)",
-                            "Error", MB_ICONSTOP | MB_OK);
+         fprintf(stdout, "To run APSIM type : \n"
+                            "   apsim sim_file_name\n\n"
+                            "Where sim_file_name is the name of your simulation file (.SIM)");
          }
-       Application->Initialize();
-       Application->Run();
       }
    catch (const std::runtime_error& error)
       {
-      ShowMessage(error.what());
+      fwrite(error.what(),strlen(error.what()), 1, stdout);
       }
-   catch (Exception &exception)
-      {
-      Application->ShowException(&exception);
-      }
-   catch (...)
-      {
-      try
-         {
-         throw Exception("");
-         }
-       catch (Exception &exception)
-         {
-         Application->ShowException(&exception);
-         }
-      }
-   if (_argc == 3 && strcmpi(_argv[1], "/console") == 0)
-      FreeConsole();
-
    return 0;
 }
 //---------------------------------------------------------------------------

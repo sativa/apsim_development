@@ -248,6 +248,8 @@ bool ControlFileConverter::convertSection(const string& sectionName) throw(runti
             ok = executeFindModuleLocalIniFile(arguments) || ok;
          else if (routineName == "RemoveReportVariable")
             ok = executeRemoveReportVariable(arguments) || ok;
+         else if (routineName == "DeleteModule")
+            ok = executeDeleteModule(arguments) || ok;
 
          if (!ok)
             return false;
@@ -1060,6 +1062,13 @@ bool ControlFileConverter::executeRemoveReportVariable(const string& arguments)
       someHaveChanged = (someHaveChanged || found);
       }
    return someHaveChanged;
+   }
 
+//---------------------------------------------------------------------------
+// Delete a module in the control file.
+//---------------------------------------------------------------------------
+bool ControlFileConverter::executeDeleteModule(const string& arguments) throw(runtime_error)
+   {
+   return con->deleteModule(conSection, arguments);
    }
 

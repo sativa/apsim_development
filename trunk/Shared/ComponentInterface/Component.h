@@ -318,9 +318,14 @@ class __declspec(dllexport) Component
       unsigned int stateID;
       unsigned int errorID;
       unsigned int summaryID;
+      unsigned int tickID;
       bool setVariableSuccess;
       vector<unsigned> completeIDs;
       bool completeFound;
+      protocol::timeType tick;
+      bool sendTickToComponent;
+      bool haveWritenToStdOutToday;
+
 
       UInt2InfoMap getVarMap;                  // List of variables we can send to system
       UInt2EventMap eventMap;                  // List of events we handle
@@ -602,11 +607,11 @@ class __declspec(dllexport) Component
                          double upper,
                          bool optional=false)
          {
-         for (unsigned int i = 0; i < sections.size(); i++) 
+         for (unsigned int i = 0; i < sections.size(); i++)
            if (readParameter(sections[i], variableName, value, lower, upper, true))
               return true;
 
-         if (!optional) 
+         if (!optional)
             {
             std::string msg = string("Cannot find a parameter in any of the files/sections\n"
                                      "specified in the control file.\n"
@@ -617,17 +622,17 @@ class __declspec(dllexport) Component
          };
 
       template <class T>
-      bool readParameter(const std::vector<std::string> &sects, 
+      bool readParameter(const std::vector<std::string> &sects,
                          const std::string &name,
-                         T *v, int &numvals, 
-                         double lower, double upper, 
+                         T *v, int &numvals,
+                         double lower, double upper,
                          bool isOptional = false)
          {
-         for (unsigned int i = 0; i < sects.size(); i++) 
+         for (unsigned int i = 0; i < sects.size(); i++)
            if (readParameter(sects[i], name,  v, numvals, lower, upper, true))
               return true;
 
-         if (!isOptional) 
+         if (!isOptional)
             {
             std::string msg = string("Cannot find a parameter in any of the files/sections\n"
                                  "specified in the control file.\n"
@@ -636,7 +641,7 @@ class __declspec(dllexport) Component
             }
          return false;
          };
-         
+
       template <class T>
       bool readParameter(const std::vector<std::string> &sections,
                          const std::string &variableName,
@@ -645,11 +650,11 @@ class __declspec(dllexport) Component
                          double upper,
                          bool isOptional=false)
          {
-         for (unsigned int i = 0; i < sections.size(); i++) 
+         for (unsigned int i = 0; i < sections.size(); i++)
            if (readParameter(sections[i], variableName, values, lower, upper, true))
               return true;
 
-         if (!isOptional) 
+         if (!isOptional)
             {
             string msg = string("Cannot find a parameter in any of the files/sections\n"
                                  "specified in the control file.\n"

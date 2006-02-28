@@ -288,9 +288,14 @@ C     Last change:  E     5 Dec 2000    8:52 am
 *     dph 21/7/99 - changed to subroutine.
 *     dph 3/8/99  - added code to print percent complete to screen.
 
+*+  Local varialbles
+      integer thisdate(3)              ! day, month, year
+      character str*100                ! string for date formatting
+
 *+  Constant Values
       character This_routine*(*)       ! name of this routine
       parameter (This_routine='clock_next_timestep')
+
 
 *- Implementation Section ----------------------------------
 
@@ -320,6 +325,14 @@ C     Last change:  E     5 Dec 2000    8:52 am
      .                                g%year)
 
             g%end_current_run = .false.
+
+            if (End_week (g%day, g%year)) then
+               call day_of_year_to_date (g%day, g%year, thisdate)
+               write (str, '(a,i2,a,i2,a,i4)')
+     .             'Date:', thisdate(1), '/',
+     .             thisdate(2), '/', thisdate(3)
+               call write_string(str)
+            endif
 
             call Clock_DoTick()
 

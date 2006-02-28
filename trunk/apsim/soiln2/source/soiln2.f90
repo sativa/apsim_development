@@ -222,6 +222,8 @@ module Soiln2Module
       logical   use_external_st           ! flag for soil temperature
       logical   use_external_tav_amp      ! flag for soil ph
       logical   use_external_ph           ! flag for soil ph
+      logical   use_organic_solutes       ! flag for FOM leaching
+
    end type Soiln2Globals
 ! ====================================================================
 !      type Soiln2Parameters
@@ -484,6 +486,14 @@ subroutine soiln2_read_param ()
 
    endif
 
+   string = '  '
+   call read_char_var_optional (section_name, 'use_organic_solutes', '()', string, numvals)
+   if (string(1:2) .eq. 'on') then
+      g%use_organic_solutes = .true.
+   else
+      g%use_organic_solutes = .false.
+   endif
+
    do layer=1,max_layer
       g%nh4(layer) = divide (nh4(layer), soiln2_fac (layer), 0.0)
       g%no3(layer) = divide (no3(layer), soiln2_fac (layer), 0.0)
@@ -596,6 +606,7 @@ subroutine soiln2_zero_all_globals ()
    g%dlt_N_sed              = 0.0
    g%dlt_C_loss_sed         = 0.0
    g%p_N_reduction    = 0
+   g%use_organic_solutes = .false.
    g%residue_name(:)    = blank
    g%residue_type(:)     = blank
    g%fom_types(:)         = blank
@@ -746,6 +757,7 @@ subroutine soiln2_zero_variables ()
    g%dlt_N_sed      = 0.0
    g%dlt_C_loss_sed = 0.0
    g%p_n_reduction    = 0
+   g%use_organic_solutes = .false.
 
    c%oc2om_factor      = 0.0
    c%CNrf_coeff        = 0.0
@@ -4196,7 +4208,7 @@ subroutine soiln2_notification ()
 
 !+  Local Variables
    character  solute_names(7)*32    ! list of soilN solutes ()
-
+   integer    numsolutes
 !- Implementation Section ----------------------------------
    call push_routine (myname)
 
@@ -4210,7 +4222,15 @@ subroutine soiln2_notification ()
    solute_names(6) = 'org_c_pool3'
    solute_names(7) = 'org_n'
 
-   call post_char_array (DATA_new_solute_names, '()', solute_names, 7)
+   if (g%use_organic_solutes .eq. .true.) then
+      ! publish all the solutes including the organic ones
+      numsolutes = 7
+   else
+      ! unless the user states they need them - don't publish the organic solutes
+      numsolutes = 3
+   endif
+
+   call post_char_array (DATA_new_solute_names, '()', solute_names, numsolutes)
 
    call event_send (EVENT_new_solute)
 

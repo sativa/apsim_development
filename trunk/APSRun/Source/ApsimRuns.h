@@ -11,10 +11,14 @@ typedef void __fastcall (__closure *TApsimRunEvent)(const std::string& simFileNa
 class ApsimRuns
    {
    public:
-      ApsimRuns() : newFormat(true) { }
+      ApsimRuns() : newFormat(true), paused(false), stopApsim(false) { }
       ~ApsimRuns()
-      {
-      }
+         {
+         }
+
+      void clearSimulations();
+      unsigned count() {return fileNames.size();}
+
       //---------------------------------------------------------------------------
       // Add simulations from the specified file to the pending list of runs.
       //---------------------------------------------------------------------------
@@ -24,11 +28,6 @@ class ApsimRuns
       // Add a specific simulation to the pending list of runs.
       //---------------------------------------------------------------------------
       void addSimulation(const std::string& fileName, const std::string& simName);
-
-      //---------------------------------------------------------------------------
-      // Create SIM files for all runs.
-      //---------------------------------------------------------------------------
-      void createSims(void);
 
       //---------------------------------------------------------------------------
       // Get a list of control files that need converting.
@@ -48,7 +47,7 @@ class ApsimRuns
       //---------------------------------------------------------------------------
       // Perform all Apsim runs.
       //---------------------------------------------------------------------------
-      void runApsim(bool quiet, bool console, TApsimRunEvent notifyEvent);
+      void runApsim(bool quiet, TApsimRunEvent notifyEvent, TApsimRunEvent msgEvent);
 
       //---------------------------------------------------------------------------
       // Convert all Apsim runs if necessary.
@@ -60,10 +59,15 @@ class ApsimRuns
       // ---------------------
       void setSimFormat(bool NewFormat) {newFormat = NewFormat;}
 
+      void Pause(bool doPause) {paused = doPause;}
+      void StopApsim() {stopApsim = true;}
+
    private:
       bool newFormat;
       std::vector<std::string> fileNames;
       std::vector<std::string> simNames;
+      bool paused;
+      bool stopApsim;
 
       //---------------------------------------------------------------------------
       // Add the specified simulations from the specified CON file.
@@ -76,11 +80,7 @@ class ApsimRuns
       //---------------------------------------------------------------------------
       void addSimulationsFromApsimFile(const std::string& fileName);
 
-      //---------------------------------------------------------------------------
-      // Perform a single APSIM run.
-      //---------------------------------------------------------------------------
-      bool performRun(const std::string& simFileName, bool moreToGo, bool console,
-                      TApsimRunEvent notifyEvent);
+      void ApsExec(const char* Command_line, TApsimRunEvent msgEvent);
 
    };
 #endif

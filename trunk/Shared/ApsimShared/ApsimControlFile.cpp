@@ -1207,6 +1207,48 @@ bool ApsimControlFile::renameModule(const std::string& section,
       }
    return modsMade;
    }
+
+// ------------------------------------------------------------------
+// Delete the specified module
+// ------------------------------------------------------------------
+bool ApsimControlFile::deleteModule(const std::string& section,
+                                    const std::string& moduleName)
+   {
+   bool changeMade = false;
+
+   vector<string> lines;
+   ini->read(section, "module", lines);
+   vector<string> newLines;
+
+
+   // loop through all lines in control file looking for a module = oldModuleName
+   for(vector<string>::iterator line = lines.begin();
+                                line != lines.end();
+                                line++)
+      {
+      bool keepModuleLine = true;
+      unsigned posStartModuleName =line->find_first_not_of(' ');
+      if (posStartModuleName != string::npos)
+         {
+         unsigned posEndModuleName = line->find(' ', posStartModuleName);
+         if (posEndModuleName != string::npos)
+            {
+            int moduleNameLength = posEndModuleName - posStartModuleName;
+            if (Str_i_Eq(line->substr(posStartModuleName, moduleNameLength),
+                         moduleName))
+               {
+               keepModuleLine = false;
+               changeMade = true;
+               }
+            }
+         }
+      if (keepModuleLine)
+         newLines.push_back(*line);
+      }
+   if (changeMade)
+      ini->write(section, "module", newLines);
+   return changeMade;
+   }
 // ------------------------------------------------------------------
 // Perform a Search and Replace on the sections of the specified module.
 // ------------------------------------------------------------------
