@@ -186,7 +186,6 @@ public:												// member functions
    float soilNDemand(void);
    float nCapacity(void);
    void  doNPartition(float nSupply);
-   void  doNFix(float nSupply);
 
    float nMaxPot(void);
    float nMax(void);

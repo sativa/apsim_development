@@ -178,7 +178,6 @@ public:												// member functions
    float nDemand(void);
    float soilNDemand(void);
    void  doNPartition(float nSupply);
-   void  doNFix(float nSupply);
 
    float pTotal(void);
    float pGreen(void);
