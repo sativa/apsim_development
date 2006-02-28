@@ -30,6 +30,7 @@ static const char* SUMMARY_FILE_WRITE_TYPE = "<type name=\"SummaryFileWrite\">"
                                              "   <field name=\"componentName\" kind=\"string\"/>"
                                              "   <field name=\"lines\" kind=\"string\"/>"
                                              "</type>";
+
 Component* component;
 // ------------------------------------------------------------------
 //  Short description:
@@ -505,7 +506,7 @@ void Component::error(const FString& msg, bool isFatal)
    strcat(cMessage, name);
    strcat(cMessage, "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n");
 
-   writeString(cMessage);
+   writeToStdOut(cMessage);
 
    // create and send a message.
    Message* errorMessage = newPublishEventMessage(componentID,
@@ -727,35 +728,41 @@ namespace protocol {
       return memorySize(summaryData.componentName) + memorySize(summaryData.lines);
       }
    };
+
+void Component::writeToStdOut(const FString& st)
+   {
+   if (!haveWritenToStdOutToday)
+      {
+      if (tick.startday > 0)
+         {
+         GDate Today;
+         Today.Set(tick.startday);
+         Today.Write(std::cout);
+         }
+      else
+         std::cout << "Initialising";
+
+      std::cout << ": " << name << " \n";
+      haveWritenToStdOutToday = true;
+      }
+
+   string text = "      " + asString(st);
+   unsigned posEoln = 0;
+   while ((posEoln = text.find('\n', posEoln)) != string::npos)
+      {
+      posEoln++;
+      text.insert(posEoln, "      ");
+      }
+   std::cout << text << "\n";
+   }
+
 void Component::writeString(const FString& st)
    {
    if (st.find("Date:") != FString::npos)
       std::cout << asString(st) << "\n";
    else
       {
-      if (!haveWritenToStdOutToday)
-         {
-         if (tick.startday > 0)
-            {
-            GDate Today;
-            Today.Set(tick.startday);
-            Today.Write(std::cout);
-            }
-         else
-            std::cout << "Initialising";
-
-         std::cout << ": " << name << " \n";
-         haveWritenToStdOutToday = true;
-         }
-
-      string text = "      " + asString(st);
-      unsigned posEoln = 0;
-      while ((posEoln = text.find('\n', posEoln)) != string::npos)
-         {
-         posEoln++;
-         text.insert(posEoln, "      ");
-         }
-      std::cout << text << "\n";
+      writeToStdOut(st);
       protocol::SummaryData summaryData(name, st);
 
       sendMessage(newPublishEventMessage(componentID,
