@@ -1225,12 +1225,14 @@ bool ApsimControlFile::deleteModule(const std::string& section,
    for(vector<string>::iterator line = lines.begin();
                                 line != lines.end();
                                 line++)
-      {
+      {                                                   
       bool keepModuleLine = true;
       unsigned posStartModuleName =line->find_first_not_of(' ');
       if (posStartModuleName != string::npos)
          {
          unsigned posEndModuleName = line->find(' ', posStartModuleName);
+         if (posEndModuleName == string::npos)
+            posEndModuleName = line->length();
          if (posEndModuleName != string::npos)
             {
             int moduleNameLength = posEndModuleName - posStartModuleName;
