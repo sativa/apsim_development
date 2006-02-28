@@ -39,7 +39,7 @@ public:												// member functions
    void readSpeciesParameters (protocol::Component *, vector<string> &);
    void readCultivarParameters (protocol::Component *, const string &);
    void writeCultivarInfo (protocol::Component *);
-   void processBioDemand(void);
+   void doProcessBioDemand(void);
    void onDayOf(const string &);
    float availableRetranslocateN(void);
 
@@ -91,13 +91,13 @@ public:												// member functions
    void doNDemand2(float, float);
    void doSoilNDemand(void);
    void doNSenescence(void);
-   void dm_detachment1(void);
-   void n_detachment1(void);
-   void p_detachment1(void);
+   void doDmDetachment(void);
+   void doNDetachment(void);
+   void doPDetachment(void);
    void doPDemand(void);
    void doPSenescence(void);
 
-   void grain_number (void);
+   void doGrainNumber (void);
 
    void onHarvest(float height, float remove_fr,
                   vector<string> &dm_type,
@@ -130,7 +130,7 @@ public:												// member functions
                                       , vector<float> &fraction_to_residue);
 
    void update(void);
-   void n_conc_limits(void);
+   void doNConccentrationLimits(void);
    void zeroDltDmGreen(void);
 
 
@@ -147,7 +147,7 @@ public:												// member functions
    float dltDmRetranslocate(void);
    float dltDmGreen(void);
    float dltDmPotTe(void);            //FIXME
-   float dltDmPotRuePod(void);        //FIXME
+   float dltDmPotRue(void);        //FIXME
    float dltDmGreenUptake(void);
    float dltDmGreenRetransUptake(void);
 
@@ -185,8 +185,8 @@ public:												// member functions
    float nDemand(void);
    float soilNDemand(void);
    float nCapacity(void);
-   void  nPartition(float nSupply);
-   void  nFix(float nSupply);
+   void  doNPartition(float nSupply);
+   void  doNFix(float nSupply);
 
    float nMaxPot(void);
    float nMax(void);
@@ -213,30 +213,35 @@ public:												// member functions
    float pRetransSupply(void);
    float pRetransDemand(void);
 
-   void pInit(void);
+   void doPInit(void);
 
    virtual void display(ostream &os = cout) const;	// display function
    float calcCover (float canopy_fac);                  // return pod cover   //FIXME
 
    void calcDlt_pod_area (void);   //FIXME
 
-   void dm_pot_rue (double  radn_int_pod);                      //FIXME   // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
-   void transp_eff_co2();                                       // (OUTPUT) transpiration coefficient                         //FIXME
-   void sw_demand1(float *sw_demand);                           //(OUTPUT) crop water demand (mm)               //FIXME
-   void bio_water1(void);                                       //(OUTPUT) potential dry matter production by transpiration (g/m^2)//FIXME
+   void doDmPotRUE (double  radn_int_pod);                      //FIXME   // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+   void doTECO2();                                       // (OUTPUT) transpiration coefficient                         //FIXME
+   float SWDemand(void);                           //(OUTPUT) crop water demand (mm)               //FIXME
+   void doDmPotTE(void);                                       //(OUTPUT) potential dry matter production by transpiration (g/m^2)//FIXME
 
    void doNDemandGrain(float nfact_grain_conc, float swdef_expansion);
    void doDmDemand (float dlt_dm_supply_by_veg);
    void doDmPartition(float DMAvail, float DMDemandTotal);
    void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
    float dmDemandDifferential(void);
-   void bio_actual (void);
+   float nDemandDifferential(void);
+   void doNFixRetranslocate(float NFix, float NDemandDifferentialTotal);
+   void doBioActual (void);
    void doSenescence1 (float sen_fr);
    void doSenescence2 (float sen_fr);
    void doDmMin(void);
 
-   void nit_init (void);
+   void doNInit (void);
    void doNRetranslocate( float N_avail_rep, float grain_n_demand);
+
+   void doPPartition(float p_uptake, float total_p_demand);
+   void doPRetranslocate(float total_p_supply, float total_p_demand);
 
 #if TEST_PlantFruit
    virtual ~PlantFruit();							// destructor
@@ -254,8 +259,6 @@ private:
    float pGreenStressDeterminant(void);
    float pMaxPotStressDeterminant(void);
    float pMinPotStressDeterminant(void);
-   void distributeDltPGreen(float p_uptake, float total_p_demand);
-   void distributeDltPRetrans(float total_p_supply, float total_p_demand);
 
 
 

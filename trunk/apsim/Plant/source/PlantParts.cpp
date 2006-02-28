@@ -477,12 +477,12 @@ void plantPart::doInit (PlantComponent *systemInterface, PlantPhenology *plantPh
    phenology = plantPhenology;
 }
 
-void plantPart::processBioDemand(void)
+void plantPart::doProcessBioDemand(void)
 //===========================================================================
 {
 }
 
-void plantPart::n_conc_limits(void)
+void plantPart::doNConccentrationLimits(void)
 //=======================================================================================
    {
    g.n_conc_crit = c.n_conc_crit.value(plant->getStageCode());
@@ -790,7 +790,7 @@ void plantPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal
 float plantPart::dmDemandDifferential(void)
 //=======================================================================================
    {
-   return dmGreenDemand() - dltDmGreenUptake();
+   return l_bound(dmGreenDemand() - dltDmGreenUptake(), 0.0);
    }
 
 float plantPart::dltDmRetranslocateSupply(float DemandDifferential)
@@ -807,6 +807,12 @@ float plantPart::dltDmRetranslocateSupply(float DemandDifferential)
 void plantPart::doDmMin(void)
 //=======================================================================================
    {   // do nothing - set on events
+   }
+
+float plantPart::nDemandDifferential(void)
+//=======================================================================================
+   {
+   return l_bound(nDemand() - dltNGreen(), 0.0);
    }
 
 void plantPart::doNSenescence(void)
@@ -831,7 +837,11 @@ void plantPart::doNSenescedRetrans(float navail, float n_demand_tot)
    dlt.n_senesced_retrans = navail * divide (NDemand, n_demand_tot, 0.0);
    }
 
-
+void plantPart::doNFixRetranslocate(float NFix, float NDemandDifferentialTotal)
+//=======================================================================================
+   {
+   dlt.n_green += NFix * divide (nDemandDifferential(), NDemandDifferentialTotal, 0.0);
+   }
 
 void plantPart::doNRetranslocate( float N_supply, float g_grain_n_demand)
 //=======================================================================================
@@ -851,14 +861,14 @@ void plantPart::doNRetranslocate( float N_supply, float g_grain_n_demand)
 // need to do bound check here  FIXME
    }
 
-void plantPart::dm_detachment1(void)
+void plantPart::doDmDetachment(void)
 //=======================================================================================
    {
    dlt.dm_detached = DMSenesced * c.sen_detach_frac;
    dlt.dm_dead_detached = DMDead * c.dead_detach_frac;
    }
 
-void plantPart::n_detachment1(void)
+void plantPart::doNDetachment(void)
 //=======================================================================================
    {
    dlt.n_detached = NSenesced * c.sen_detach_frac;
@@ -879,7 +889,7 @@ void plantPart::doPSenescence(void)
    dlt.p_sen = u_bound (dlt.p_sen, PGreen);
    }
 
-void plantPart::p_detachment1(void)
+void plantPart::doPDetachment(void)
 //=======================================================================================
    {
    float sen_detach_frac = divide(dlt.dm_detached, DMSenesced, 0.0);
@@ -1114,8 +1124,8 @@ float plantPart::nCapacity(void)
    return (NCapacity);
    }
 
-void plantPart::nPartition(float nSupply) {dlt.n_green = nSupply;}
-void plantPart::nFix(float nSupply) {dlt.n_green += nSupply;}
+void plantPart::doNPartition(float nSupply) {dlt.n_green = nSupply;}
+void plantPart::doNFix(float nSupply) {dlt.n_green += nSupply;}
 
 float plantPart::pDemand(void) {return (PDemand);}
 float plantPart::nTotal(void) {return (nGreen() + nSenesced() + nDead());}
@@ -1223,13 +1233,13 @@ float plantPart::dmRetransDemand(void)
    }
 
 
-void plantPart::distributeDltPGreen(float p_uptake, float total_p_demand)
+void plantPart::doPPartition(float p_uptake, float total_p_demand)
 //=======================================================================================
    {
    dlt.p_green = p_uptake * divide(PDemand, total_p_demand, 0.0);
    }
 
-void plantPart::distributeDltPRetrans(float total_p_supply, float total_p_demand)
+void plantPart::doPRetranslocate(float total_p_supply, float total_p_demand)
 //=======================================================================================
    {
    float p_supply = pRetransSupply();
@@ -1252,7 +1262,7 @@ void plantPart::distributeDltPRetrans(float total_p_supply, float total_p_demand
       }
    }
 
-void plantPart::pInit()
+void plantPart::doPInit()
 //=======================================================================================
    {
    PGreen = c.p_init_conc * DMGreen;
