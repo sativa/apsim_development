@@ -279,27 +279,22 @@ void Plant::PlantP_partition (vector<plantPart*>&parts)
       total_p_demand = 0.0;
       for (part = parts.begin(); part != parts.end(); part++)
           total_p_demand += (*part)->pDemand();
-//          total_p_demand += fruitPart->pDemand();
 
       if (id.layered_p_uptake != 0)
       {
           parent->getVariable(id.layered_p_uptake, values, 0.0, 100.0);
           float sumValue = 0.0;
           for (unsigned int i = 0; i < values.size(); i++)
-          {
           	sumValue += values[i];
-          }
+
           p_uptake = sumValue * kg2gm/ha2sm;
       }
       else
-      {
           p_uptake = total_p_demand;
-      }
 
       for (part = parts.begin(); part != parts.end(); part++)
-      {
-         (*part)->distributeDltPGreen(p_uptake, total_p_demand);
-      }
+         (*part)->doPPartition(p_uptake, total_p_demand);
+
       pop_routine (my_name);
 }
 
@@ -330,7 +325,7 @@ void Plant::PlantP_detachment (vector<plantPart*>&parts)
       push_routine (my_name);
 
       for (part = parts.begin(); part != parts.end(); part++)
-         (*part)->p_detachment1();
+         (*part)->doPDetachment();
 
       pop_routine (my_name);
 }
@@ -574,7 +569,7 @@ void Plant::PlantP_init_pools (vector<plantPart*>&parts)  //FIXME - this is not 
          // biomass has been initialised but the p pools have not
          for (part = parts.begin(); part != parts.end(); part++)
             {
-            (*part)->pInit();
+            (*part)->doPInit();
             }
          }
    pop_routine (my_name);
@@ -622,9 +617,8 @@ void Plant::PlantP_retrans (vector<plantPart*>&parts)
          }
 
       for (ipart =0; ipart != parts.size(); ipart++)
-         {
-         parts[ipart]->distributeDltPRetrans(totSupply, totDemand);
-         }
+         parts[ipart]->doPRetranslocate(totSupply, totDemand);
+
       pop_routine (my_name);
 }
 

@@ -305,7 +305,7 @@ float fruitPodPart::calcCover (float canopy_fac)
 }
 
 float fruitPodPart::dltDmPotTe(void) {return gDlt_dm_pot_te;}
-float fruitPodPart::dltDmPotRuePod(void) {return gDlt_dm_pot_rue;}
+float fruitPodPart::dltDmPotRue(void) {return gDlt_dm_pot_rue;}
 
 float fruitPodPart::fracPod (void)
    //===========================================================================
@@ -325,14 +325,14 @@ float fruitPodPart::fracPod1 (void)
    return cFrac_pod[(int)plant->getStageNumber()-1];
 }
 
-void fruitPodPart::processBioDemand(void)
+void fruitPodPart::doProcessBioDemand(void)
    //===========================================================================
 {
-   bio_water1 ();
+   doDmPotTE ();
    return;
 }
 
-void fruitPodPart::bio_actual (void)                                             //FIXME
+void fruitPodPart::doBioActual (void)                                             //FIXME
    //===========================================================================
 {
    //       Takes the minimum of biomass production limited by radiation and
@@ -340,7 +340,6 @@ void fruitPodPart::bio_actual (void)                                            
 
    // use whichever is limiting
    gDlt_dm = min (gDlt_dm_pot_rue, gDlt_dm_pot_te);
-
 }
 
 void fruitPodPart::calcDlt_pod_area (void)
@@ -358,7 +357,7 @@ float fruitPodPart::interceptRadiation (float radiation)    // incident radiatio
    return radiation - radiationIntercepted;
 }
 
-void fruitPodPart::dm_pot_rue (double  radn_int_pod)                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+void fruitPodPart::doDmPotRUE (double  radn_int_pod)                    // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
    //===========================================================================
 {
    //       Potential biomass (carbohydrate) production from
@@ -373,7 +372,7 @@ void fruitPodPart::dm_pot_rue (double  radn_int_pod)                    // (OUTP
 }
 
 
-void fruitPodPart::transp_eff_co2()          // (OUTPUT) transpiration coefficient
+void fruitPodPart::doTECO2()          // (OUTPUT) transpiration coefficient
    //==========================================================================
 {
    cproc_transp_eff_co2_1(plant->getVpd()
@@ -382,7 +381,7 @@ void fruitPodPart::transp_eff_co2()          // (OUTPUT) transpiration coefficie
                           , &gTranspEff);
 }
 
-void fruitPodPart::sw_demand1(float *sw_demand)         //(OUTPUT) crop water demand (mm)
+float fruitPodPart::SWDemand(void)         //(OUTPUT) crop water demand (mm)
    //===========================================================================
    /*  Purpose
    *       Return crop water demand from soil by the crop (mm) calculated by
@@ -391,12 +390,14 @@ void fruitPodPart::sw_demand1(float *sw_demand)         //(OUTPUT) crop water de
 {
    // get potential transpiration from potential
    // carbohydrate production and transpiration efficiency
+   float sw_demand = 0.0;
    cproc_sw_demand1 (gDlt_dm_pot_rue
                      , gTranspEff
-                     , sw_demand);
+                     , &sw_demand);
+   return sw_demand;
 }
 
-void fruitPodPart::bio_water1 (void)  //(OUTPUT) potential dry matter production by transpiration (g/m^2)
+void fruitPodPart::doDmPotTE (void)  //(OUTPUT) potential dry matter production by transpiration (g/m^2)
    //===========================================================================
    //   Calculate the potential biomass production based upon today's water supply.
 

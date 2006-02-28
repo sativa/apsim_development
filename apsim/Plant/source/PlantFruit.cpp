@@ -366,7 +366,7 @@ float PlantFruit::nCapacity(void)
    return NCapacity;
 }
 
-void PlantFruit::nPartition(float nSupply)
+void PlantFruit::doNPartition(float nSupply)
    //============================================================================
 {
    float dlt_n_green;
@@ -395,7 +395,7 @@ void PlantFruit::nPartition(float nSupply)
          float plant_part_fract = divide ((*part)->nDemand(), n_demand_sum, 0.0);
          dlt_n_green = nSupply * plant_part_fract;
          }
-      (*part)->nPartition(dlt_n_green);
+      (*part)->doNPartition(dlt_n_green);
       }
 
    float dlt_n_green_sum = 0.0;
@@ -414,7 +414,7 @@ void PlantFruit::nPartition(float nSupply)
       }
 
 }
-void PlantFruit::nFix(float nSupply)
+void PlantFruit::doNFix(float nSupply)
    //============================================================================
 {
    float n_demand_sum = 0.0;
@@ -434,7 +434,7 @@ void PlantFruit::nFix(float nSupply)
       float fix_demand = l_bound ((*part)->nDemand() - (*part)->dltNGreen(), 0.0);
       float fix_part_fract = divide (fix_demand, n_fix_demand_tot, 0.0);
       float dlt_n_green = fix_part_fract * nSupply;
-      (*part)->nFix(dlt_n_green);
+      (*part)->doNFix(dlt_n_green);
       }
 }
 
@@ -863,12 +863,11 @@ void PlantFruit::get_dlt_p_sen(vector<float> &dlt_p_sen)
 }
 
 
-void PlantFruit::grain_number (void)
+void PlantFruit::doGrainNumber (void)
    //===========================================================================
    //       Calculate Grain Numer
 {
-   grainPart->grain_number();    // Calculate grain no
-   return;
+   grainPart->doGrainNumber();    // Calculate grain no
 }
 
 void PlantFruit::doTick(protocol::timeType &tick)
@@ -1245,13 +1244,13 @@ void PlantFruit::update(void)
       }
 }
 
-void PlantFruit::n_conc_limits(void)
+void PlantFruit::doNConccentrationLimits(void)
    //===========================================================================
 {
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
-      (*part)->n_conc_limits();
+      (*part)->doNConccentrationLimits();
       }
 }
 
@@ -1287,21 +1286,21 @@ void PlantFruit::display(ostream &os) const
 
 float PlantFruit::calcCover (float canopy_fac) {return  podPart->calcCover(canopy_fac);}
 
-void PlantFruit::processBioDemand(void)
+void PlantFruit::doProcessBioDemand(void)
    //===========================================================================
 {
 
    for (vector<plantPart *>::iterator t = myParts.begin();
         t != myParts.end();
         t++)
-      (*t)->processBioDemand();
+      (*t)->doProcessBioDemand();
    return;
 }
 
 float PlantFruit::grainNo(void) const {return grainPart->grainNo();}
 float PlantFruit::nDemandGrain(void) const {return grainPart->nDemandGrain();}
 float PlantFruit::dltDmPotTe(void) {return podPart->dltDmPotTe();}
-float PlantFruit::dltDmPotRuePod(void) {return podPart->dltDmPotRuePod();}
+float PlantFruit::dltDmPotRue(void) {return podPart->dltDmPotRue();}
 float PlantFruit::grainNConcPercent(void) {return grainPart->nConcPercent();}
 float PlantFruit::dltDmGrainDemand(void) const {return grainPart->dltDmDemand();}
 void PlantFruit::calcDlt_pod_area (void)  {podPart->calcDlt_pod_area();}
@@ -1329,11 +1328,11 @@ float PlantFruit::dltDmGreenRetransUptake(void)
 }
 
 float PlantFruit::interceptRadiation (float radiation) {return podPart->interceptRadiation(radiation);}
-void PlantFruit::dm_pot_rue (double  radn_int_pod ) {podPart->dm_pot_rue(radn_int_pod);}
-void PlantFruit::transp_eff_co2() {podPart->transp_eff_co2();}
-void PlantFruit::sw_demand1(float *sw_demand) {podPart->sw_demand1(sw_demand);}
-void PlantFruit::bio_water1 (void) {podPart->bio_water1();}                          //remove
-void PlantFruit::bio_actual (void) {podPart->bio_actual();}
+void PlantFruit::doDmPotRUE (double  radn_int_pod ) {podPart->doDmPotRUE(radn_int_pod);}
+void PlantFruit::doTECO2() {podPart->doTECO2();}
+float PlantFruit::SWDemand(void) {return podPart->SWDemand();}
+void PlantFruit::doDmPotTE (void) {podPart->doDmPotTE();}                          //remove
+void PlantFruit::doBioActual (void) {podPart->doBioActual();}
 
 void PlantFruit::doNDemandGrain(float g_nfact_grain_conc      //   (INPUT)
                                  , float g_swdef_expansion)    //   grain N demand (g/m^2)
@@ -1507,11 +1506,11 @@ void PlantFruit::doDmMin (void)       // (OUTPUT) actual biomass senesced from p
       }
 }
 
-void PlantFruit::nit_init (void)
+void PlantFruit::doNInit (void)
    //============================================================================
 {
    //       Initialise plant nitrogen.
-   grainPart->nit_init();
+   grainPart->doNInit();
 }
 
 float PlantFruit::availableRetranslocateN(void)
@@ -1524,6 +1523,37 @@ float PlantFruit::availableRetranslocateN(void)
       nAvail += (*t)->availableRetranslocateN();
 
    return nAvail;
+}
+
+float PlantFruit::nDemandDifferential(void)
+   //===========================================================================
+{
+   float n_demand_differential = 0.0;
+   for (vector<plantPart *>::iterator t = myParts.begin();
+        t != myParts.end();
+        t++)
+      n_demand_differential += (*t)->nDemandDifferential();
+   return n_demand_differential;
+}
+
+void PlantFruit::doNFixRetranslocate(float NFix, float NDemandDifferentialTotal)
+//=======================================================================================
+{
+    plantPart::doNFixRetranslocate(NFix, NDemandDifferentialTotal);
+    float n_demand_differential = 0.0;
+
+    for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
+         t != myParts.end();
+         t++)
+       n_demand_differential += (*t)->nDemandDifferential ();
+
+        // now distribute the n fixed to plant parts
+
+    NFix = NFix * divide (nDemandDifferential(), NDemandDifferentialTotal, 0.0);
+    for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
+         t != myParts.end();
+         t++)
+       (*t)->doNFixRetranslocate (NFix, n_demand_differential);
 }
 
 void PlantFruit::doNRetranslocate( float N_supply, float g_grain_n_demand)
@@ -1624,7 +1654,7 @@ void PlantFruit::doNSenescence(void)
       }
 }
 
-void PlantFruit::dm_detachment1(void)
+void PlantFruit::doDmDetachment(void)
    //============================================================================
 {
    dlt.dm_detached = 0.0;
@@ -1632,13 +1662,13 @@ void PlantFruit::dm_detachment1(void)
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
-      (*part)->dm_detachment1();
+      (*part)->doDmDetachment();
       dlt.dm_detached += (*part)->dlt.dm_detached;
       dlt.dm_dead_detached += (*part)->dlt.dm_dead_detached;
       }
 }
 
-void PlantFruit::n_detachment1(void)
+void PlantFruit::doNDetachment(void)
    //============================================================================
 {
    dlt.n_detached = 0.0;
@@ -1646,7 +1676,7 @@ void PlantFruit::n_detachment1(void)
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
-      (*part)->n_detachment1();
+      (*part)->doNDetachment();
       dlt.n_detached += (*part)->dlt.n_detached;
       dlt.n_dead_detached += (*part)->dlt.n_dead_detached;
       }
@@ -1785,31 +1815,31 @@ float PlantFruit::nRetransDemand(void)
    return n_retrans_demand;
 }
 
-void PlantFruit::distributeDltPGreen(float p_uptake, float total_p_demand)
+void PlantFruit::doPPartition(float p_uptake, float total_p_demand)
    //============================================================================
 {
    dlt.p_green = 0.0;
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
-      (*part)->distributeDltPGreen(p_uptake, total_p_demand);
+      (*part)->doPPartition(p_uptake, total_p_demand);
       dlt.p_green += (*part)->dlt.p_green;
       }
 }
 
-void PlantFruit::distributeDltPRetrans(float total_p_supply, float total_p_demand)
+void PlantFruit::doPRetranslocate(float total_p_supply, float total_p_demand)
    //============================================================================
 {
    dlt.p_retrans = 0.0;
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
-      (*part)->distributeDltPRetrans(total_p_supply, total_p_demand);
+      (*part)->doPRetranslocate(total_p_supply, total_p_demand);
       dlt.p_retrans += (*part)->dlt.p_retrans;
       }
 }
 
-void PlantFruit::p_detachment1(void)
+void PlantFruit::doPDetachment(void)
    //============================================================================
 {
    dlt.p_det = 0.0;
@@ -1817,7 +1847,7 @@ void PlantFruit::p_detachment1(void)
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
-      (*part)->p_detachment1();
+      (*part)->doPDetachment();
       dlt.p_det += (*part)->dlt.p_det;
       dlt.p_dead_det += (*part)->dlt.p_dead_det;
       }
@@ -1836,14 +1866,14 @@ void PlantFruit::updatePDet(void)
       }
 }
 
-void PlantFruit::pInit(void)
+void PlantFruit::doPInit(void)
    //============================================================================
 {
    PGreen = 0.0;
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
-      (*part)->pInit();
+      (*part)->doPInit();
       PGreen +=  (*part)->PGreen;
       }
 }

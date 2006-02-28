@@ -192,7 +192,7 @@ class plantPart : public plantThing
    virtual void updateP(void);
 
    virtual void morphology(void);
-   virtual void n_conc_limits(void);
+   virtual void doNConccentrationLimits(void);
 
    virtual void doDmPartition(float DMAvail, float DMDemandTotal);
    virtual void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
@@ -206,11 +206,12 @@ class plantPart : public plantThing
    virtual void doNSenescence(void);
    virtual void doNSenescedRetrans(float navail, float n_demand_tot);
    virtual void doNRetranslocate( float N_supply, float g_grain_n_demand);
-   virtual void dm_detachment1(void);
-   virtual void n_detachment1(void);
-   virtual void processBioDemand(void);
+   virtual void doNFixRetranslocate(float NFix, float NDemandDifferentialTotal);
+   virtual void doDmDetachment(void);
+   virtual void doNDetachment(void);
+   virtual void doProcessBioDemand(void);
 
-   virtual void p_detachment1(void);
+   virtual void doPDetachment(void);
    virtual void doPDemand(void);
    virtual void doPSenescence(void);
    virtual void zeroDltDmGreen(void);
@@ -270,18 +271,19 @@ class plantPart : public plantThing
    virtual float nDemand(void);
    virtual float nMax(void);
    virtual float nCapacity(void);
-   virtual void  nPartition(float nSupply);
-   virtual void  nFix(float nSupply);
+   virtual void  doNPartition(float nSupply);
+   virtual void  doNFix(float nSupply);
    virtual float nRetransSupply(void);
    virtual float nRetransDemand(void);
+   virtual float nDemandDifferential(void);
 
    virtual float pDemand(void);
    virtual float pRetransSupply(void);
    virtual float pRetransDemand(void);
 
-   virtual void distributeDltPGreen(float p_uptake, float total_p_demand);
-   virtual void distributeDltPRetrans(float total_p_supply, float total_p_demand);
-   virtual void pInit(void);
+   virtual void doPPartition(float p_uptake, float total_p_demand);
+   virtual void doPRetranslocate(float total_p_supply, float total_p_demand);
+   virtual void doPInit(void);
 
    virtual void onHarvest(float height, float remove_fr,
                           vector<string> &dm_type,
