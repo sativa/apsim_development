@@ -306,6 +306,7 @@ class __declspec(dllexport) Component
       unsigned getRegistrationID(const RegistrationType& type, const FString& eventName);
       bool getSetVariableSuccess(void) {return setVariableSuccess;}
       void setVariableError(unsigned int regID);
+      void writeToStdOut(const FString& st);
 
    private:
       Registrations* registrations;
