@@ -186,7 +186,6 @@ public:
    void plant_oxdef_stress (int option /* (INPUT) option number */);
    void plant_bio_water (int option  /* (INPUT) option number */);
    void plant_bio_init (int option);
-   void plant_bio_grain_demand_stress (int option /* (INPUT) option number */);
    void plant_retrans_init (int option);
    void plant_detachment (int option /* (INPUT) option number */);
    void plant_plant_death (int option /* (INPUT) option number*/);

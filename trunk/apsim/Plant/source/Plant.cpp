@@ -1268,32 +1268,6 @@ void Plant::plant_bio_init (int option)
 
 
 //+  Purpose
-//       Simulate crop grain biomass demand stress factor
-
-//+  Mission Statement
-//     Calculate grain biomass demand stress factor
-
-//+  Changes
-//      280598 nih specified and programmed
-void Plant::plant_bio_grain_demand_stress (int option /* (INPUT) option number */)
-    {
-    const char*  my_name = "plant_bio_grain_demand_stress" ;
-    push_routine (my_name);
-
-    if (option == 1)
-        {
-        fruitPart->yieldpart_demand_stress1 ();
-        }
-    else
-        {
-        throw std::invalid_argument ( "invalid template option in bio_grain_demand_stress");
-        }
-
-    pop_routine (my_name);
-    return;
-    }
-
-//+  Purpose
 //       Simulate plant detachment.
 
 //+  Mission Statement
@@ -4553,9 +4527,6 @@ void Plant::plant_process ( void )
         phenology->process (e,ps);
 
         plant_root_depth_init(1);
-
-//        plant_grain_number(c.grain_no_option);
-        fruitPart->grain_number();    // Calculate grain no
 
         for (vector<plantPart *>::iterator t = myParts.begin();
              t != myParts.end();
