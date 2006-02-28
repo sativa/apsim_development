@@ -943,12 +943,12 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
     const char*  my_name = "plant_bio_partition" ;
     push_routine (my_name);
 
+    double dlt_dm_supply_by_veg = g.dlt_dm;
+    fruitPart->doDmDemand (dlt_dm_supply_by_veg);
+    g.dlt_dm_yield_demand_fruit = fruitPart->dmGreenDemand ();
+
     if (option == 1)
-    {
-        double dlt_dm_supply_by_veg = g.dlt_dm;
-
-        g.dlt_dm_yield_demand_fruit = fruitPart->dm_yield_demand (dlt_dm_supply_by_veg);
-
+       {
         legnew_dm_partition1 (c.frac_leaf[(int)phenology->stageNumber()-1]
                               , c.ratio_root_shoot[(int)phenology->stageNumber()-1]
                               , dlt_dm_supply_by_veg
@@ -959,10 +959,6 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
        }
     else if (option == 2)
        {
-        double dlt_dm_supply_by_veg = g.dlt_dm;
-
-        g.dlt_dm_yield_demand_fruit = fruitPart->dm_yield_demand2 (dlt_dm_supply_by_veg);
-
         legnew_dm_partition2 (phenology->stageNumber()
                                , c.x_stage_no_partition
                                , c.y_frac_leaf
@@ -991,7 +987,7 @@ void Plant::plant_bio_partition (int option /* (INPUT) option number */)
 
 //+  Changes
 //      250894 jngh specified and programmed
-void Plant::plant_bio_retrans (int option /* (INPUT) option number */)
+void Plant::plant_bio_retrans (void)
     {
     const char*  my_name = "plant_bio_retrans" ;
 
@@ -1013,39 +1009,20 @@ void Plant::plant_bio_retrans (int option /* (INPUT) option number */)
 
     push_routine (my_name);
 
-    if (option == 1)
-        {
-         float dm_demand_differential = g.dlt_dm_yield_demand_fruit
-                                      - g.dlt_dm_supply_to_fruit;
-         legnew_dm_retranslocate(allParts
-                                    , supply_pools_by_veg
-                                    , dm_demand_differential
-                                    , g.plants
-                                    , &g.dlt_dm_retrans_to_fruit);
-//         g.dlt_dm_supply_to_fruit += g.dlt_dm_retrans_to_fruit;                 //FIXMME? when fruit made into proper class
+   float dm_demand_differential = g.dlt_dm_yield_demand_fruit
+                                - g.dlt_dm_supply_to_fruit;
+   legnew_dm_retranslocate(allParts
+                           , supply_pools_by_veg
+                           , dm_demand_differential
+                           , g.plants
+                           , &g.dlt_dm_retrans_to_fruit);
 
-        }
-    else if (option == 2)
-        {
-         float dm_demand_differential = g.dlt_dm_yield_demand_fruit
-                                      - g.dlt_dm_supply_to_fruit;
-         legnew_dm_retranslocate(allParts
-                                    , supply_pools_by_veg
-                                    , dm_demand_differential
-                                    , g.plants
-                                    , &g.dlt_dm_retrans_to_fruit);
-        }
-    else
-        {
-        throw std::invalid_argument("invalid template option in plant_bio_retrans");
-        }
-
-    pop_routine (my_name);
-    delete rootPart;
-    }
+   pop_routine (my_name);
+   delete rootPart;
+   }
 
 //     ===========================================================
-void Plant::plant_bio_distribute (int option /* (INPUT) option number */)
+void Plant::plant_bio_distribute (void)
 //     ===========================================================
 {
 //       distribute biomass to fruit parts.
@@ -1782,10 +1759,7 @@ void Plant::plant_nit_init (int option /* (INPUT) option number*/)
 
     if (option == 1)
         {
-//         fruitPart->nit_init();
-        if (phenology->inPhase("grainfill"))             //remove to fruitpart
-            fruitPart->n_conc_grain_limits();            //remove to fruitpart
-
+        fruitPart->nit_init();
         if (phenology->on_day_of("emergence"))
            {
            cproc_n_init1(c.n_init_conc
@@ -1930,29 +1904,11 @@ void Plant::plant_nit_retrans (int option/* (INPUT) option number*/)
 
     if (option == 1)
         {
-        legnew_n_retranslocate(fruitPart->grainNDemand());
-//         float dlt_n_retrans_fruit[max_part];
-//         fruitPart->n_retranslocate (g.n_conc_min
-//                               , g.dm_green
-//                               , g.n_green
-//                               , g.grain_n_demand
-//                               , dlt_n_retrans_fruit        //FIXME change to g. when proper fruit class
-//                               );
-//
-//         legnew_n_retranslocate_test(supply_pools_by_veg
-//                                   , num_supply_pools_by_veg
-//                                   , g.n_conc_min
-//                                   , g.dm_green
-//                                   , g.n_green
-//                                   , g.grain_n_demand
-//                                   , g.grain_n_supply
-//                                   , g.dlt_n_retrans
-//                                   ) ;
-
+        legnew_n_retranslocate(fruitPart->nDemandGrain());
         }
     else if (option == 2)
         {
-        legnew_n_retranslocate( fruitPart->nGrainDemand2());  //FIXME
+        legnew_n_retranslocate(fruitPart->nDemandGrain2());  //FIXME
         }
     else
         {
@@ -1968,23 +1924,9 @@ void Plant::plant_nit_retrans (int option/* (INPUT) option number*/)
 //
 //  Mission Statement
 //    Get the grain nitrogen demand
-void Plant::plant_nit_grain_demand (int Option)
-   {
-   if (Option == 1)
-      {
-        if (phenology->inPhase("grainfill"))
-            fruitPart->grain_n_demand1(g.nfact_grain_conc
-                                       , g.swdef_expansion);
-      }
-   else if (Option == 2)
-      {
-       // start grain n filling immediately after flowering
-      fruitPart->grain_n_demand2();
-      }
-    else
-      {
-      throw std::invalid_argument ("Invalid n demand option");
-      }
+void Plant::doNDemandGrain (void)
+{
+   fruitPart->doNDemandGrain(g.nfact_grain_conc, g.swdef_expansion);
 }
 
 //+  Purpose
@@ -4547,15 +4489,11 @@ void Plant::plant_process ( void )
         fruitPart->processBioDemand();
 
         plant_bio_partition (c.partition_option);
-
 //        plant_retrans_init(1);
-
-        plant_bio_retrans (c.partition_option);
-
-        plant_bio_distribute (c.partition_option);  // for fruit class - process bio distribute
+        plant_bio_retrans ();
+        plant_bio_distribute ();  // for fruit class - process bio distribute
 
         leafPart->actual ();
-
         plant_pod_area (1);
 
         plant_root_length_init(1);                //added NIH
@@ -4568,7 +4506,7 @@ void Plant::plant_process ( void )
         plant_sen_root_length(1);                 // added NIH
 
         plant_nit_init (1);
-        plant_nit_grain_demand (c.grain_n_option);
+        doNDemandGrain();
 
         plant_nit_supply (c.n_uptake_option);
         if (c.n_retrans_option==1)
@@ -7790,38 +7728,6 @@ void Plant::plant_read_species_const ()
                    ,"kl_ub"//, "()"
                    , c.kl_ub
                    , 0.0, 1000.0);
-
-     //    plant_n_dlt_grain_conc
-     parent->readParameter (search_order
-                        , "grain_n_option"//, "()"
-                        , c.grain_n_option
-                        , 1, 2);
-
-     if (c.grain_n_option==1)
-         {
-         parent->readParameter (search_order
-                        ,"sw_fac_max"//, "()"
-                        , c.sw_fac_max
-                        , 0.0, 100.0);
-
-         parent->readParameter (search_order
-                        ,"temp_fac_min"//, "()"
-                        , c.temp_fac_min
-                        , 0.0, 100.0);
-
-         parent->readParameter (search_order
-                        ,"sfac_slope"//, "()"
-                        , c.sfac_slope
-                        , -10.0, 0.0);
-
-         parent->readParameter (search_order
-                        ,"tfac_slope"//, "()"
-                        , c.tfac_slope
-                        , 0.0, 100.0);
-         }
-     else
-         { // do nothing - read in fruitPart
-         }
 
      parent->readParameter (search_order
                         , "n_retrans_option"//, "()"

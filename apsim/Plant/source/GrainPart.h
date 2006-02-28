@@ -148,7 +148,7 @@ public:												// member functions
    float grainEnergy(void) const;        //remove
    float grainNo(void) const;
    float nConcPercent(void);
-   float nGrainDemand(void) const;
+   float nDemandGrain(void) const;
 
    float dltDmDemand(void) const;
    float dltDmRetranslocateSupply(float demand_differential);
@@ -207,24 +207,13 @@ public:												// member functions
 
 
    //FIXME
-   void grain_n_demand1(float G_nfact_grain_conc
-                        , float G_swdef_expansion);
-
-   void grain_n_demand2(void);
-
-   float n_dlt_grain_conc(plantPart *fruitGrainPart
-                          , float sfac_slope      //(INPUT)  soil water stress factor slope
-                          , float sw_fac_max      //(INPUT)  soil water stress factor maximum
-                          , float temp_fac_min    //(INPUT)  temperature stress factor minimum optimum temp
-                          , float tfac_slope      //(INPUT)  temperature stress factor slope
-                          , float ave_temp        //(INPUT)  average air temperature (oC)
-                          , float nfact_grain_conc// (INPUT)
-                          , float swdef_expansion); // (INPUT)
+   void doNDemandGrain(float nfact_grain_conc, float swdef_expansion);
+   void doNDemandGrain1(float nfact_grain_conc, float swdef_expansion);
+   void doNDemandGrain2(void);
 
    float dmGreenDemand (void);
    float dmDemandDifferential(void);
-////   float dmYieldDemandDifferential(void);
-   float dm_yield_demand (void);
+   float doDmDemand (void);
 
    void doDmPartition(float DMAvail, float DMDemandTotal);
    void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
@@ -233,12 +222,8 @@ public:												// member functions
    void doSenescence2 (float sen_fr);
    void doDmMin(void);
 
-   void n_conc_grain_limits(void) ;
-
    void nit_init (void);
-   void n_retranslocate(void);
    void doNRetranslocate( float N_avail_rep, float g_grain_n_demand);
-   void bio_grain_oil (void);          //remove
 
 #if TEST_fruitGrainPart
    virtual ~fruitGrainPart();							// destructor
@@ -258,10 +243,21 @@ private:
    void bio_grain_demand (void);
    void yieldpart_demand_stress1(void);
    float meanT (void);
+
    void grain_number (float stem_dm
                       ,float pGrains_per_gram_stem
                       ,float *gGrain_no);
 
+   float n_dlt_grain_conc(plantPart *fruitGrainPart
+                          , float sfac_slope      //(INPUT)  soil water stress factor slope
+                          , float sw_fac_max      //(INPUT)  soil water stress factor maximum
+                          , float temp_fac_min    //(INPUT)  temperature stress factor minimum optimum temp
+                          , float tfac_slope      //(INPUT)  temperature stress factor slope
+                          , float ave_temp        //(INPUT)  average air temperature (oC)
+                          , float nfact_grain_conc// (INPUT)
+                          , float swdef_expansion); // (INPUT)
+
+   void n_conc_grain_limits(void) ;
 
 
    /* system interface: */
@@ -273,10 +269,6 @@ private:
    fruitMealPart  *mealPart;
 
    unsigned int idLatitude;
-   float cGrain_fill_option;
-   float cX_temp_grainfill[max_table];
-   int   cNum_temp_grainfill;
-   float cY_rel_grainfill[max_table];
 
    float gDlt_dm_grain_demand;
    float gN_grain_demand;
@@ -300,6 +292,10 @@ private:
    stateObserver gDm_stress_max;                      // sum of maximum daily stress on dm production per phase
    float gDlt_dm_stress_max;                          // maximum daily stress on dm production (0-1)
 
+   float cGrain_fill_option;
+   float cX_temp_grainfill[max_table];
+   int   cNum_temp_grainfill;
+   float cY_rel_grainfill[max_table];
    float cGrain_no_option;
    float cGrain_n_option;
    float cSw_fac_max;

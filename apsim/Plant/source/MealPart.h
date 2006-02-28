@@ -20,8 +20,7 @@ class fruitMealPart : public plantPart {
    void onStartGrainFill(void);
 
    void doDMDemand(float dm_demand);
-   void n_partition1 (double dltN);
-   void n_retranslocate1(float dltN) ;
+   void doNRetranslocate( float dltN, float grain_n_demand);
 
   private:
       PlantComponent *parentPlant;

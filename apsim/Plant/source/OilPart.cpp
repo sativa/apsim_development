@@ -162,7 +162,7 @@ float fruitOilPart::energyAdjustDM (float DM)
    return DM * gGrain_energy;
 }
 
-float fruitOilPart::dm_yield_demand (float dmDemand)
+float fruitOilPart::doDmDemand (float dmDemand)
    //===========================================================================
 {
    return divide (dmDemand, gGrain_energy, 0.0);

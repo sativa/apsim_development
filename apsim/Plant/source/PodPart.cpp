@@ -2,6 +2,7 @@
 using namespace std;
 
 void fruitPodPart::doRegistrations(protocol::Component *system)
+//=======================================================================================
 {
    plantPart::doRegistrations(system);
 
@@ -20,6 +21,7 @@ void fruitPodPart::doInit (PlantComponent *systemInterface, PlantPhenology *plan
 }
 
 void fruitPodPart::update(void)
+//=======================================================================================
 {
    plantPart::update();
    plantPart::updateDm();
@@ -34,6 +36,7 @@ void fruitPodPart::onHarvest(float /* cutting_height */, float remove_fr,
                              vector<float> &dlt_dm_n,
                              vector<float> &dlt_dm_p,
                              vector<float> &fraction_to_residue)
+//=======================================================================================
 {
    float fractToResidue = 1.0 - remove_fr;
 
@@ -69,6 +72,7 @@ void fruitPodPart::onHarvest(float /* cutting_height */, float remove_fr,
 }
 
 void fruitPodPart::onKillStem(void)
+//=======================================================================================
 {
    DMDead += DMGreen + DMSenesced;
    DMGreen = 0.0;
@@ -84,23 +88,38 @@ void fruitPodPart::onKillStem(void)
 }
 
 void fruitPodPart::onFlowering(void)
+//=======================================================================================
 {
    DMPlantMin = 0.0;
 }
 
 // set the minimum weight of part; used for retranslocation to grain
 void fruitPodPart::onStartGrainFill(void)
+//=======================================================================================
 {
    DMPlantMin = 0.0;
 }
 
 void fruitPodPart::doDmMin(void)
+//=======================================================================================
 {
    float dm_plant = divide (DMGreen, plant->getPlants(), 0.0);
    DMPlantMin = max (dm_plant * (1.0 - c.trans_frac), DMPlantMin);
 }
 
+void fruitPodPart::doDmDemand(float dm_grain_demand, float dlt_dm_supply)
+//=======================================================================================
+{
+   if (cPartition_option == 1)
+      doDmDemand1(dm_grain_demand, dlt_dm_supply);
+   else if (cPartition_option == 2)
+      doDmDemand2(dm_grain_demand, dlt_dm_supply);
+   else
+      throw std::invalid_argument("invalid template option in fruitPodPart::doDmDemand");
+}
+
 void fruitPodPart::doDmDemand1(float dm_grain_demand, float dlt_dm_supply)
+//=======================================================================================
 {
    float dlt_dm_supply_by_pod = 0.0;  // FIXME
    dlt_dm_supply += dlt_dm_supply_by_pod;
@@ -112,6 +131,7 @@ void fruitPodPart::doDmDemand1(float dm_grain_demand, float dlt_dm_supply)
 }
 
 void fruitPodPart::doDmDemand2(float dm_grain_demand, float dlt_dm_supply)
+//=======================================================================================
 {
    float dlt_dm_supply_by_pod = 0.0;  // FIXME
    dlt_dm_supply += dlt_dm_supply_by_pod;
@@ -129,6 +149,7 @@ void fruitPodPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTo
    }
 
 void fruitPodPart::zeroAllGlobals(void)
+//=======================================================================================
 {
    plantPart::zeroAllGlobals();
 
@@ -144,6 +165,7 @@ void fruitPodPart::zeroAllGlobals(void)
 }
 
 void fruitPodPart::zeroDeltas(void)
+//=======================================================================================
 {
    plantPart::zeroDeltas();
 
@@ -155,10 +177,16 @@ void fruitPodPart::zeroDeltas(void)
 
 
 void fruitPodPart::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
+//=======================================================================================
 {
    plantPart::readSpeciesParameters(system, sections);
 
    int   numvals;                                // number of values returned
+
+    system->readParameter (sections,
+                       "partition_option"//, "()"
+                      , cPartition_option
+                      , 1, 3);
 
    system->readParameter (sections,
                           "transp_eff_cf"//, "(kpa)"
@@ -226,21 +254,25 @@ void fruitPodPart::readSpeciesParameters(protocol::Component *system, vector<str
 
 // Query
 float fruitPodPart::coverTotal(void) const
+//=======================================================================================
 {
    return 1.0 - (1.0 - coverPod.green) * (1.0 - coverPod.sen) * (1.0 - coverPod.dead);
 }
 
 float fruitPodPart::coverGreen(void) const
+//=======================================================================================
 {
    return coverPod.green;
 }
 
 float fruitPodPart::coverDead(void) const
+//=======================================================================================
 {
    return coverPod.dead;
 }
 
 float fruitPodPart::coverSen(void) const
+//=======================================================================================
 {
    return coverPod.sen;
 }

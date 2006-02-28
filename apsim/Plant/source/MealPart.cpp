@@ -34,7 +34,7 @@ void fruitMealPart::doDMDemand (float dm_demand)
     DMGreenDemand = dm_demand;
 }
 
-void fruitMealPart::n_retranslocate1 (float dltN)
+void fruitMealPart::doNRetranslocate(float dltN, float grain_n_demand)
 //     ===========================================================
 {
     dlt.n_retrans = dltN;

@@ -611,8 +611,8 @@ void plantPart::updateP(void)
       }
    }
 
-void plantPart::doNDemand1(float dlt_dm             //   Whole plant the daily biomass production (g/m^2)
-                         , float dlt_dm_pot_rue)     //  Whole plant potential dry matter production (g/m^2)
+void plantPart::doNDemand1(float dlt_dm               //   Whole plant the daily biomass production (g/m^2)
+                          , float dlt_dm_pot_rue)     //  Whole plant potential dry matter production (g/m^2)
 //=======================================================================================
 //     Return plant nitrogen demand for this plant component
    {
@@ -628,10 +628,10 @@ void plantPart::doNDemand1(float dlt_dm             //   Whole plant the daily b
       float N_potential  = DMGreen * g.n_conc_max;     // maximum N uptake potential (g/m^2)
 
       // retranslocation is -ve for outflows
-      float N_demand_old = N_crit -                       // demand for N by old biomass (g/m^2)
-               (NGreen + dlt.n_retrans);
-      float N_max_old    = N_potential -                  // N required by old biomass to reach
-               (NGreen + dlt.n_retrans);               // N_conc_max  (g/m^2)
+      float N_demand_old = N_crit                       // demand for N by old biomass (g/m^2)
+                         - (NGreen + dlt.n_retrans);
+      float N_max_old    = N_potential                  // N required by old biomass to reach  N_conc_max  (g/m^2)
+                         - (NGreen + dlt.n_retrans);
 
       // get potential N demand (critical N) of potential growth
       float N_demand_new = dlt_dm_pot * g.n_conc_crit;     // demand for N by new growth
@@ -661,8 +661,8 @@ void plantPart::doNDemand1Pot(float dlt_dm             //  Whole plant the daily
    dlt.dm_green = 0.0;
    }
 
-void plantPart::doNDemand2(float dlt_dm,             // (INPUT)  Whole plant the daily biomass production (g/m^2)
-                          float dlt_dm_pot_rue)     // (INPUT)  Whole plant potential dry matter production (g/m^2)
+void plantPart::doNDemand2(float dlt_dm               // (INPUT)  Whole plant the daily biomass production (g/m^2)
+                          , float dlt_dm_pot_rue)     // (INPUT)  Whole plant potential dry matter production (g/m^2)
 //=======================================================================================
 //       Return plant nitrogen demand for each plant component
 //+  Notes

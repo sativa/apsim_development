@@ -141,7 +141,7 @@ public:												// member functions
    float interceptRadiation(float radiation);        //FIXME
    float grainNo(void) const;
    float grainNConcPercent(void);
-   float grainNDemand(void) const;
+   float nDemandGrain(void) const;
 
    float dltDmGrainDemand(void) const;
    float dltDmRetranslocate(void);
@@ -177,7 +177,7 @@ public:												// member functions
    float nDeadVegTotal(void);
    float nDead(void);
    float nConcGrain(void);
-   float nGrainDemand2(void);
+   float nDemandGrain2(void);
    float nRetransSupply(void);
    float nRetransDemand(void);
    float dltNRetransOut(void);
@@ -225,15 +225,8 @@ public:												// member functions
    void sw_demand1(float *sw_demand);                           //(OUTPUT) crop water demand (mm)               //FIXME
    void bio_water1(void);                                       //(OUTPUT) potential dry matter production by transpiration (g/m^2)//FIXME
 
-   void grain_n_demand1(float G_nfact_grain_conc
-                        , float G_swdef_expansion);
-
-   void grain_n_demand2(void);
-
-   float dm_yield_demand ( float  g_dlt_dm_veg);
-
-   float dm_yield_demand2 ( float  g_dlt_dm_veg);
-
+   void doNDemandGrain(float nfact_grain_conc, float swdef_expansion);
+   void doDmDemand (float dlt_dm_supply_by_veg);
    void doDmPartition(float DMAvail, float DMDemandTotal);
    void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
    float dmDemandDifferential(void);
@@ -242,11 +235,8 @@ public:												// member functions
    void doSenescence2 (float sen_fr);
    void doDmMin(void);
 
-   void n_conc_grain_limits(void) ;
-
    void nit_init (void);
-   void n_retranslocate(void);
-   void doNRetranslocate( float N_avail_rep, float g_grain_n_demand);
+   void doNRetranslocate( float N_avail_rep, float grain_n_demand);
 
 #if TEST_PlantFruit
    virtual ~PlantFruit();							// destructor
