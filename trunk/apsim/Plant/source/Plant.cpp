@@ -1051,11 +1051,8 @@ void Plant::plant_bio_distribute (int option /* (INPUT) option number */)
 {
 //       distribute biomass to fruit parts.
 
-   fruitPart->dm_partition1 ( g.dlt_dm_supply_to_fruit);    // FIXME this may need to be redone when fruit becomes true class
-   fruitPart->dm_retranslocate1( g.dlt_dm_retrans_to_fruit);    // FIXME this may need to be redone when fruit becomes true class
-
-//   fruitPart->doDmPartition (g.dlt_dm_supply_to_fruit, g.dlt_dm_yield_demand_fruit);
-//   fruitPart->doDmPartition (g.dlt_dm_retrans_to_fruit, fruitPart->dmDemandDifferential ());
+   fruitPart->doDmPartition (g.dlt_dm_supply_to_fruit, g.dlt_dm_supply_to_fruit);
+   fruitPart->doDmRetranslocate (g.dlt_dm_retrans_to_fruit, g.dlt_dm_retrans_to_fruit);
 }
 
 

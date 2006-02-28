@@ -1397,74 +1397,6 @@ float PlantFruit::dmDemandDifferential(void)
 void PlantFruit::doDmPartition(float DMAvail, float DMDemandTotal)
 //=======================================================================================
 {
-    plantPart::doDmPartition(DMAvail, DMDemandTotal);
-    DMGreenDemand = 0.0;
-
-    for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
-         t != myParts.end();
-         t++)
-       DMGreenDemand += (*t)->dmGreenDemand ();
-
-        // now distribute the assimilate to plant parts
-
-    for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
-         t != myParts.end();
-         t++)
-       (*t)->doDmPartition (dlt.dm_green, DMGreenDemand);
-
-   // do mass balance check
-   float dlt_dm_green_tot = dltDmGreenUptake ();
-
-   if (!reals_are_equal(dlt_dm_green_tot, dlt.dm_green, 1.0E-4))  // XX this is probably too much slop - try doubles XX
-   {
-        string msg = "Fruit dlt_dm_green_tot mass balance is off: "
-                   + ftoa(dlt_dm_green_tot, ".6")
-                   + " vs "
-                   + ftoa(dlt.dm_green, ".6");
-        parentPlant->warningError(msg.c_str());
-   }
-}
-
-void PlantFruit::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal)
-//=======================================================================================
-{
-    plantPart::doDmRetranslocate(DMAvail, DMDemandDifferentialTotal);
-    float dm_demand_differential = 0.0;
-
-    for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
-         t != myParts.end();
-         t++)
-       dm_demand_differential += (*t)->dmDemandDifferential ();
-
-        // now distribute the assimilate to plant parts
-
-    for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
-         t != myParts.end();
-         t++)
-       (*t)->doDmRetranslocate (dlt.dm_green_retrans, dm_demand_differential);
-
-   // do mass balance check
-   float dlt_dm_green_tot = dltDmGreenRetransUptake ();
-
-   if (!reals_are_equal(dlt_dm_green_tot, dlt.dm_green_retrans, 1.0E-4))  // XX this is probably too much slop - try doubles XX
-   {
-        string msg = "Fruit dlt_dm_green_retrans_tot mass balance is off: "
-                   + ftoa(dlt_dm_green_tot, ".6")
-                   + " vs "
-                   + ftoa(dlt.dm_green_retrans, ".6");
-        parentPlant->warningError(msg.c_str());
-   }
-}
-
-void PlantFruit::dm_partition1 (double g_dlt_dm)
-   //     ===========================================================
-{
-   //       Partitions new dm (assimilate) between plant components (g/m^2)
-
-   //+  Changes
-   //      170703 jngh specified and programmed
-
-   //+  Local Variables
    double yield_demand;                           // sum of grain, energy & pod
    double dm_grain_demand;                        // assimilate demand for grain (g/m^2)
    double dm_pod_demand;                          // assimilate demand for pod (g/m^2)
@@ -1480,22 +1412,22 @@ void PlantFruit::dm_partition1 (double g_dlt_dm)
          t++)
        DMGreenDemand += (*t)->dmGreenDemand ();
 
-        // now distribute the assimilate to plant parts
+        // now distribute the assimilate to fruit parts
 
     for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
          t != myParts.end();
          t++)
-       (*t)->doDmPartition (g_dlt_dm, DMGreenDemand);
+       (*t)->doDmPartition (DMAvail, DMGreenDemand);
 
    // do mass balance check
    float dlt_dm_green_tot = dltDmGreenUptake ();
 
-   if (!reals_are_equal(dlt_dm_green_tot, g_dlt_dm, 1.0E-4))  // XX this is probably too much slop - try doubles XX
+   if (!reals_are_equal(dlt_dm_green_tot, DMAvail, 1.0E-4))  // XX this is probably too much slop - try doubles XX
    {
         string msg = "Fruit dlt_dm_green_tot mass balance is off: "
                    + ftoa(dlt_dm_green_tot, ".6")
                    + " vs "
-                   + ftoa(g_dlt_dm, ".6");
+                   + ftoa(DMAvail, ".6");
         parentPlant->warningError(msg.c_str());
    }
 
@@ -1503,32 +1435,9 @@ void PlantFruit::dm_partition1 (double g_dlt_dm)
 }
 
 
-//     ===========================================================                        //remove
-void PlantFruit::yieldpart_demand_stress1 (void)                                          //remove
-   //     ===========================================================                        //remove
-{                                                                                         //remove
-   //+  Purpose                                                                              //remove
-   //       Simulate crop grain biomass demand stress factor                                 //remove
-                                                                                          //remove
-                                                                                          //remove
-   cproc_yieldpart_demand_stress1 (min(plant->getNfactPhoto(), plant->getPfactPhoto())    //remove
-                                   , plant->getSwdefPhoto()                               //remove
-                                   , plant->getTempStressPhoto()                          //remove
-                                   , &gDlt_dm_stress_max);                                //remove
-  //   gDlt_dm_stress_max  = dlt_dm_stress_max;                                             //remove
-}
-
-
-void PlantFruit::dm_retranslocate1( float  g_dlt_dm_retrans_to_grain )       //FIXME this code should collapse to something similar to partition1
-   //     ===========================================================
+void PlantFruit::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal)
+//=======================================================================================
 {
-   //     Calculate plant dry matter delta's due to retranslocation
-   //     to grain, pod and energy (g/m^2)
-
-   //+  Changes
-   //       150900 jngh specified and programmed
-
-   //+  Local Variables
    float dlt_dm_retrans_part;                    // carbohydrate removed from part (g/m^2)
    float dlt_dm_retrans_total;                   // total carbohydrate removed from parts (g/m^2)
    float yield_demand_differential;              // demand in excess of available supply (g/m^2)
@@ -1549,7 +1458,7 @@ void PlantFruit::dm_retranslocate1( float  g_dlt_dm_retrans_to_grain )       //F
     dm_demand_differential += (*t)->dmDemandDifferential ();
 
    // get available carbohydrate from fruit supply pools
-   demand_differential = dm_demand_differential - g_dlt_dm_retrans_to_grain;
+   demand_differential = dm_demand_differential - DMAvail;
 
    for (vector<plantPart *>::iterator fPart = supplyPools.begin();      //FIXME later
         fPart != supplyPools.end();
@@ -1559,9 +1468,9 @@ void PlantFruit::dm_retranslocate1( float  g_dlt_dm_retrans_to_grain )       //F
       demand_differential = demand_differential - dlt_dm_retrans_part;
       }
 
-      dlt_dm_retrans_total = g_dlt_dm_retrans_to_grain + (-dltDmRetranslocate());
+      dlt_dm_retrans_total = DMAvail + (-dltDmRetranslocate());
 
-        // now distribute the assimilate to plant parts
+        // now distribute the assimilate to fruit parts
 
     for (vector<plantPart *>::iterator t = myParts.begin();      //FIXME later
          t != myParts.end();
@@ -1572,17 +1481,33 @@ void PlantFruit::dm_retranslocate1( float  g_dlt_dm_retrans_to_grain )       //F
    dltDmRetranslocate();
    float dlt_dm_green_tot = dltDmGreenRetransUptake ();
 
-   if (!reals_are_equal(dlt_dm_green_tot, g_dlt_dm_retrans_to_grain, 1.0E-4))  // XX this is probably too much slop - try doubles XX
+   if (!reals_are_equal(dlt_dm_green_tot, DMAvail, 1.0E-4))  // XX this is probably too much slop - try doubles XX
    {
-        string msg = "Grain dlt_dm_green_tot mass balance is off: "
+        string msg = "Fruit dlt_dm_green_tot mass balance is off: "
                    + ftoa(dlt_dm_green_tot, ".6")
                    + " vs "
-                   + ftoa(g_dlt_dm_retrans_to_grain, ".6");
+                   + ftoa(DMAvail, ".6");
         parentPlant->warningError(msg.c_str());
    }
-
-
 }
+
+
+//     ===========================================================                        //remove
+void PlantFruit::yieldpart_demand_stress1 (void)                                          //remove
+   //     ===========================================================                        //remove
+{                                                                                         //remove
+   //+  Purpose                                                                              //remove
+   //       Simulate crop grain biomass demand stress factor                                 //remove
+                                                                                          //remove
+                                                                                          //remove
+   cproc_yieldpart_demand_stress1 (min(plant->getNfactPhoto(), plant->getPfactPhoto())    //remove
+                                   , plant->getSwdefPhoto()                               //remove
+                                   , plant->getTempStressPhoto()                          //remove
+                                   , &gDlt_dm_stress_max);                                //remove
+  //   gDlt_dm_stress_max  = dlt_dm_stress_max;                                             //remove
+}
+
+
 
 void PlantFruit::doSenescence1 (float sen_fr)       // (OUTPUT) actual biomass senesced from plant parts (g/m^2)
    //============================================================================
