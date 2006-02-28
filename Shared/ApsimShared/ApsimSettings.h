@@ -44,7 +44,7 @@ class __declspec(dllexport) ApsimSettings
 
       // Read and write section contents.
       void readSection(const std::string& sectionName, std::string& contents) const;
-      void writeSection(const std::string& sectionName, std::string& contents) const;
+      void writeSection(const std::string& sectionName, const std::string& contents) const;
       void deleteSection(const std::string& sectionName) const;
 
    private:

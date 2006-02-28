@@ -13,51 +13,26 @@ void processCmdLine(void)
    ApsimRuns runs;
 
    string fileName;
-   bool quietRun = false;
-   bool console = false;
-   bool createSIM = false;
-   bool runImmediately = false;
-   bool newSimFormat = true;
+   bool autoRun = false;
    for (int argIndex = 1; argIndex < _argc; argIndex++)
       {
-      if (stricmp(_argv[argIndex], "/CreateSIM") == 0)
-         createSIM = true;
-      else if (stricmp(_argv[argIndex], "/CreateOldSIM") == 0)
-         {
-         createSIM = true;
-         newSimFormat = false;
-         }
-      else if (stricmp(_argv[argIndex], "/q") == 0)
-         quietRun = true;
-      else if (stricmp(_argv[argIndex], "/Console") == 0)
-         console = true;
-      else if (stricmp(_argv[argIndex], "/run") == 0)
-         runImmediately =  true;
+      if (stricmp(_argv[argIndex], "/auto") == 0)
+         autoRun = true;
       else
          runs.addSimulationsFromFile(_argv[argIndex]);
       }
 
-   runs.setSimFormat(newSimFormat);
-   if (createSIM)
+   RunForm = new TRunForm(NULL);
+   RunForm->setup(runs, autoRun);
+   RunForm->Show();
+
+   MSG msg;
+   while (RunForm->Visible && GetMessage(&msg, 0, 0, 0) != 0)
       {
-      //runs.convertFiles();
-      runs.createSims();
+      TranslateMessage(&msg);
+      DispatchMessage(&msg);
       }
-   else if (quietRun || runImmediately)
-      {
-      RunForm = new TRunForm(NULL);
-      RunForm->setup(runs, console);
-      RunForm->Show();
-      RunForm->MainPanel->Visible = false;
-      runs.convertFiles();
-      runs.runApsim(quietRun, console, RunForm->OnRunNotifyEvent);
-      }
-   else
-      {
-      RunForm = new TRunForm(NULL);
-      RunForm->setup(runs, console);
-      RunForm->ShowModal();
-      }
+   delete RunForm;
    }
 // ------------------------------------------------------------------
 // Main program entry point.
@@ -75,7 +50,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
       }
    catch (Exception &exception)
       {
-      Application->ShowException(&exception);
+      ::MessageBox(NULL, exception.Message.c_str(), "Error", MB_ICONSTOP | MB_OK);
       }
    return 0;
    }

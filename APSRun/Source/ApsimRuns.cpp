@@ -16,18 +16,28 @@
 #include <ApsimShared\ApsimRunFile.h>
 #include <ApsimShared\ApsimSimulationFile.h>
 #include <ApsimShared\ApsimSettings.h>
-#include <ApsimShared\SimCreator.h>
 #include <ApsimShared\ApsimDirectories.h>
 #include <general\xml.h>
 #include "ApsimRuns.h"
+#include "TRunForm.h"
+
+#define bzero(a) memset(a,0,sizeof(a)) //easier -- shortcut
+
 
 #pragma package(smart_init)
 using namespace std;
 
-//---------------------------------------------------------------------------
-// Add simulations from the specified file to the pending list of runs.
-//---------------------------------------------------------------------------
+void ApsimRuns::clearSimulations()
+   //---------------------------------------------------------------------------
+   // Clear this object of all simulations.
+   {
+   fileNames.erase(fileNames.begin(), fileNames.end());
+   simNames.erase(simNames.begin(), simNames.end());
+   }
+
 void ApsimRuns::addSimulationsFromFile(const std::string& fileName)
+   //---------------------------------------------------------------------------
+   // Add simulations from the specified file to the pending list of runs.
    {
    if (!FileExists(fileName.c_str()))
       throw runtime_error("Cannot find file: " + fileName);
@@ -61,11 +71,11 @@ void ApsimRuns::addSimulationsFromFile(const std::string& fileName)
    else
       throw runtime_error("Invalid simulation file: " + fileName);
    }
-//---------------------------------------------------------------------------
-// Add the specified simulations from the specified CON file.
-//---------------------------------------------------------------------------
+
 void ApsimRuns::addSimulationsFromConFile(const std::string& fileName,
                                           const std::vector<std::string>& sims)
+   //---------------------------------------------------------------------------
+   // Add the specified simulations from the specified CON file.
    {
    vector<string> sections = sims;
    if (sections.size() == 0)
@@ -76,18 +86,18 @@ void ApsimRuns::addSimulationsFromConFile(const std::string& fileName,
    for (unsigned s = 0; s != sections.size(); s++)
       addSimulation(fileName, sections[s]);
    }
-//---------------------------------------------------------------------------
-// Add a specific simulation to the pending list of runs.
-//---------------------------------------------------------------------------
+
 void ApsimRuns::addSimulation(const std::string& fileName, const std::string& simName)
+   //---------------------------------------------------------------------------
+   // Add a specific simulation to the pending list of runs.
    {
    fileNames.push_back(fileName);
    simNames.push_back(simName);
    }
-//---------------------------------------------------------------------------
-// Add the specified simulations from the specified .APSIM file.
-//---------------------------------------------------------------------------
+
 void ApsimRuns::addSimulationsFromApsimFile(const std::string& fileName)
+   //---------------------------------------------------------------------------
+   // Add the specified simulations from the specified .APSIM file.
    {
    vector<string> simulationNames;
    XMLDocument doc(fileName);
@@ -100,10 +110,10 @@ void ApsimRuns::addSimulationsFromApsimFile(const std::string& fileName)
    for (unsigned s = 0; s != simulationNames.size(); s++)
       addSimulation(fileName, simulationNames[s]);
    }
-//---------------------------------------------------------------------------
-// Get a list of control files that need converting.
-//---------------------------------------------------------------------------
+
 void ApsimRuns::getFilesNeedingConversion(std::vector<std::string>& filesNeedingConversion)
+   //---------------------------------------------------------------------------
+   // Get a list of control files that need converting.
    {
    for (unsigned f = 0; f != fileNames.size(); f++)
       {
@@ -113,28 +123,26 @@ void ApsimRuns::getFilesNeedingConversion(std::vector<std::string>& filesNeeding
          filesNeedingConversion.push_back(fileName);
       }
    }
-//---------------------------------------------------------------------------
-// Perform all Apsim runs.
-//---------------------------------------------------------------------------
-void ApsimRuns::runApsim(bool quiet, bool console, TApsimRunEvent notifyEvent)
-   {
-   ApsimSettings settings;
-   if (quiet)
-      settings.write("Apsim|Quiet", "true");
-   else
-      settings.write("Apsim|Quiet", "false");
 
-   bool continueWithRuns = true;
-   for (unsigned f = 0; f != fileNames.size() && continueWithRuns; f++)
+void ApsimRuns::runApsim(bool quiet,  TApsimRunEvent notifyEvent, TApsimRunEvent msgEvent)
+   //---------------------------------------------------------------------------
+   // Perform all Apsim runs.
+   {
+   for (unsigned f = 0; f != fileNames.size() && !stopApsim; f++)
       {
       Path filePath(fileNames[f]);
+      string simFileName;
       try
          {
+         // Convert file to .sim if necessary (i.e. if it's a .con or a .apsim
          if (filePath.Get_extension() == ".con")
             {
-            SimCreator simCreator(newFormat);
-            simCreator.ConToSim(filePath.Get_path(), simNames[f], "");
-            filePath.Set_extension(".sim");
+            Path currentDir = Path::getCurrentFolder();
+            filePath.Change_directory();
+            string commandLine = "\"" + getApsimDirectory() + "\\bin\\contosim.exe\" \""
+                               + filePath.Get_name() + "\" \"" + simNames[f] + "\"";
+            Exec(commandLine.c_str(), SW_HIDE, true);
+            simFileName = filePath.Get_name_without_ext() + ".sim";
             }
          else if (filePath.Get_extension() == ".apsim")
             {
@@ -143,11 +151,20 @@ void ApsimRuns::runApsim(bool quiet, bool console, TApsimRunEvent notifyEvent)
             string commandLine = "\"" + getApsimDirectory() + "\\bin\\apsimtosim.exe\" \""
                                + filePath.Get_name() + "\" \"" + simNames[f] + "\"";
             Exec(commandLine.c_str(), SW_HIDE, true);
-            filePath.Set_name(simNames[f].c_str());
-            filePath.Set_extension(".sim");
+            simFileName = simNames[f] + ".sim";
             }
-         bool moreToGo = (f != fileNames.size()-1);
-         continueWithRuns = performRun(filePath.Get_path(), moreToGo, console, notifyEvent);
+
+         // go build a command line and pass it to ApsExec to do the real work.
+         if (FileExists(simFileName.c_str()))
+            {
+            string commandLine = "\"" + getApsimDirectory() + "\\bin\\apsim.exe\" ";
+            commandLine += "\"" + simFileName + "\"";
+
+            if (notifyEvent != NULL)
+               notifyEvent(simFileName);
+
+            ApsExec(commandLine.c_str(), msgEvent);
+            }
          }
       catch (const runtime_error& err)
          {
@@ -161,71 +178,12 @@ void ApsimRuns::runApsim(bool quiet, bool console, TApsimRunEvent notifyEvent)
             ::MessageBox(NULL, err.what(), "Error", MB_ICONSTOP | MB_OK);
          }
       }
-   settings.refresh();
-   settings.deleteKey("Apsim|Quiet");
-   settings.deleteKey("Apsim|MoreRunsToGo");
-   settings.deleteKey("Apsim|NextWasClicked");
    }
-//---------------------------------------------------------------------------
-// Perform a single APSIM run.
-//---------------------------------------------------------------------------
-bool ApsimRuns::performRun(const std::string& simFileName, bool moreToGo, bool console,
-                           TApsimRunEvent notifyEvent)
-   {
-   if (FileExists(simFileName.c_str()))
-      {
-      ApsimSettings settings;
-      if (moreToGo)
-         settings.write("Apsim|MoreRunsToGo", "true");
-      else
-         settings.write("Apsim|MoreRunsToGo", "false");
 
-      string commandLine = "\"" + getApsimDirectory() + "\\bin\\apsim.exe\" ";
-      if (console)
-         commandLine += "/console ";
-      commandLine += "\"" + simFileName + "\"";
-
-      string caption = "Running ";
-      caption += simFileName;
-      caption.erase(caption.find(".sim"));
-      if (notifyEvent != NULL)
-         notifyEvent(caption.c_str());
-
-      Exec(commandLine.c_str(), SW_SHOW, true);
-      settings.refresh();
-      string nextWasClicked;
-      settings.read("Apsim|NextWasClicked", nextWasClicked);
-      return (nextWasClicked == "true");
-      }
-   return false;
-   }
-//---------------------------------------------------------------------------
-// Create all sim files.
-//---------------------------------------------------------------------------
-void ApsimRuns::createSims(void)
-   {
-   for (unsigned f = 0; f != fileNames.size(); f++)
-      {
-      bool alreadyDone = 0;
-      for (unsigned g = 0; g < f; g++)
-         {
-      	 if (f != g && fileNames[f] == fileNames[g]) {alreadyDone = true;}
-         }
-      if (!alreadyDone)
-         {
-         string fileName = fileNames[f];
-         if (Path(fileName).Get_extension() == ".con")
-             {
-             SimCreator simCreator(newFormat);
-             simCreator.ConToSim(fileName, "");
-             }
-         }
-      }   
-   }
-//---------------------------------------------------------------------------
-// Convert all Apsim runs if necessary.
-//---------------------------------------------------------------------------
 void ApsimRuns::convertFiles()
+   //---------------------------------------------------------
+   // This is only called by main program to call control file
+   // converter on all simulations.
    {
    ControlFileConverter converter;
 
@@ -247,5 +205,141 @@ void ApsimRuns::convertFiles()
          log << err.what();
          }
       }
+   }
+
+
+bool IsWinNT()
+   //------------------------------------------------------------------------------
+   //check if we're running NT
+   {
+   OSVERSIONINFO osv;
+   osv.dwOSVersionInfoSize = sizeof(osv);
+   GetVersionEx(&osv);
+   return (osv.dwPlatformId == VER_PLATFORM_WIN32_NT);
+   }
+
+void ApsimRuns::ApsExec(const char* Command_line, TApsimRunEvent msgEvent)
+   //------------------------------------------------------------------------------
+   // Run a console process and capture stdout/err.
+   {
+   STARTUPINFO StartupInfo;
+   PROCESS_INFORMATION ProcessInfo;
+   const int bufsize = 8192;
+   char buffer[bufsize];
+
+   memset(&StartupInfo, '\0', sizeof(STARTUPINFO));
+   StartupInfo.cb = sizeof(StartupInfo);
+
+   HANDLE hChildStdoutRd, hChildStdoutWr, hChildStdinRd;
+   SECURITY_ATTRIBUTES sa;
+   SECURITY_DESCRIPTOR sd;
+
+   if (IsWinNT())        //initialize security descriptor (Windows NT)
+      {
+      InitializeSecurityDescriptor(&sd,SECURITY_DESCRIPTOR_REVISION);
+      SetSecurityDescriptorDacl(&sd, true, NULL, false);
+      sa.lpSecurityDescriptor = &sd;
+      }
+   else
+      sa.lpSecurityDescriptor = NULL;
+
+   sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+   sa.bInheritHandle = true;
+   sa.nLength = sizeof(sa);
+
+   // Create the pipe apsim will write to
+   if (! CreatePipe(&hChildStdoutRd, &hChildStdoutWr, &sa, 0)) goto winerr;
+   SetHandleInformation( hChildStdoutRd, HANDLE_FLAG_INHERIT, 0);
+
+   // Stdin stream - /dev/null
+   hChildStdinRd = CreateFileA("NUL:", GENERIC_WRITE, 0, &sa, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+
+   StartupInfo.hStdError = hChildStdoutWr;
+   StartupInfo.hStdOutput = hChildStdoutWr;
+   StartupInfo.hStdInput = hChildStdinRd;
+   StartupInfo.wShowWindow = SW_HIDE;
+   StartupInfo.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+
+   if (!CreateProcess( NULL,
+                       (char*) Command_line,   // pointer to command line string
+                       NULL,                    // pointer to process security attributes
+                       NULL,                    // pointer to thread security attributes
+                       true,                  // handle inheritance flag
+                       CREATE_NEW_CONSOLE | NORMAL_PRIORITY_CLASS,  // creation flags
+                       NULL,                   // pointer to new environment block
+                       NULL,                   // pointer to current directory name
+                       &StartupInfo,           // pointer to STARTUPINFO
+                       &ProcessInfo) )         // pointer to PROCESS_INF
+      goto winerr;
+
+   while (1)
+      {
+      Application->ProcessMessages();
+
+      // See if we need to kill apsim.
+      if (stopApsim)
+         TerminateProcess(ProcessInfo.hProcess, -1);
+
+      if (!paused)
+         {
+         // Check to see if there is any data to read
+         unsigned long nBytesRead;
+         unsigned long nBytesAvail;
+         if (!PeekNamedPipe(hChildStdoutRd,buffer,bufsize,&nBytesRead,&nBytesAvail,NULL)) goto winerr;
+         if (nBytesRead != 0)
+            {
+            bzero(buffer);
+            if (nBytesAvail > bufsize)
+               {
+               while (nBytesRead >= bufsize)
+                   {
+                   if (!ReadFile(hChildStdoutRd,buffer, bufsize, &nBytesRead, NULL)) goto winerr;
+                   if (msgEvent != NULL)
+                       msgEvent(string(buffer, nBytesRead));
+                   bzero(buffer);
+                   }
+               }
+            else
+               {
+               if (!ReadFile(hChildStdoutRd,buffer,bufsize,&nBytesRead,NULL)) goto winerr;
+               if (msgEvent != NULL)
+                   msgEvent(string(buffer, nBytesRead));
+               bzero(buffer);
+               }
+            }
+         }
+
+      // See if the process has exited
+      unsigned long exitCode=0;
+      if (!GetExitCodeProcess(ProcessInfo.hProcess, &exitCode)) goto winerr;
+      if (exitCode != STILL_ACTIVE)
+          break;
+
+      Sleep(100);
+      }
+   if (!CloseHandle(ProcessInfo.hProcess)) goto winerr;
+   if (!CloseHandle(ProcessInfo.hThread)) goto winerr;
+   if (!CloseHandle(hChildStdoutRd)) goto winerr;
+   if (!CloseHandle(hChildStdoutWr)) goto winerr;
+   if (!CloseHandle(hChildStdinRd)) goto winerr;
+
+   return;
+
+ winerr:
+   LPVOID lpMsgBuf;
+   FormatMessage(
+       FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+       NULL,
+       GetLastError(),
+       MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
+       (LPTSTR) &lpMsgBuf,
+       0,
+       NULL);
+
+   // Display the string.
+   MessageBox(NULL, (char*) lpMsgBuf, "Apsim Exec Error", MB_OK|MB_ICONINFORMATION );
+
+   // Free the buffer.
+   LocalFree( lpMsgBuf );
    }
 

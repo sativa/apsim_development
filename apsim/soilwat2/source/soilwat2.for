@@ -365,9 +365,6 @@
 
       call push_routine (my_name)
 
-      call soilwat2_check_rainfall_solutes ()
-
-
       call lateral_process(lateral, g%sw_dep
      :                            ,g%dul_dep
      :                            ,g%sat_dep
@@ -2863,59 +2860,6 @@ cjh
       call pop_routine (my_name)
       return
       end subroutine
-
-
-*     ===========================================================
-      subroutine soilwat2_check_rainfall_solutes ()
-*     ===========================================================
-      use EvapModule
-
-      Use Infrastructure
-      implicit none
-
-*+  Purpose
-*       collect any rainfall solute data
-
-*+  Mission Statement
-*     Read rainfall solute data
-
-*+  Changes
-
-*+  Constant Values
-      character  my_name*(*)            ! name of this module
-      parameter (my_name = 'soilwat2_check_rainfall_solutes')
-*
-       character  section_name*(*)
-       parameter (section_name = 'parameters')
-
-*+  Local Variables
-      integer    i                     ! simple counter
-      integer    numvals               ! number of values returned
-      character  dummy*100             ! first half of solute concatenation
-      character  default_name*100      ! concatenated parameter name for initial solute concentration
-
-*- Implementation Section ----------------------------------
-
-      call push_routine (my_name)
-
-   !********** check for any rainfall solute information    *********
-
-      do 100 i = 1,g%num_solutes
-      dummy = string_concat('rainfall_',g%solute_names(i))
-      default_name = string_concat(dummy,'_conc')
-      p%solute_conc_rain(i) = 0.0
-      call read_real_var_optional (section_name, default_name, '(ppm)'
-     +              , p%solute_conc_rain(i), numvals, 0.0, 10000.0)
-
- 100  continue
-
-   !********************************************************************************************
-
-
-      call pop_routine (my_name)
-      return
-      end subroutine
-
 
 
 *     ===========================================================
@@ -6408,13 +6352,18 @@ c dsg 070302 added runon
       character  my_name*(*)           ! this subroutine name
       parameter (my_name = 'soilwat2_on_new_solute')
 
+       character  section_name*(*)
+       parameter (section_name = 'parameters')
 *+  Local Variables
-      integer numvals
       character names(max_solute)*32
       integer sender
       integer counter
       integer mobile_no
       integer immobile_no
+      integer    numvals               ! number of values returned
+      integer  numConc
+      character  dummy*100             ! first half of solute concatenation
+      character  default_name*100      ! concatenated parameter name for initial solute concentration
 
 *- Implementation Section ----------------------------------
 
@@ -6464,6 +6413,16 @@ c dsg 070302 added runon
      :                 'No solute mobility information for '//
      :                 g%solute_names(g%num_solutes))
             endif
+
+            dummy = string_concat('rainfall_',
+     :                            g%solute_names(g%num_solutes))
+            default_name = string_concat(dummy,'_conc')
+            p%solute_conc_rain(g%num_solutes) = 0.0
+            call read_real_var_optional (section_name
+     :                                  , default_name
+     :                                  , '(ppm)'
+     +                  , p%solute_conc_rain(g%num_solutes)
+     :                  , numConc, 0.0, 10000.0)
 
   100    continue
       endif

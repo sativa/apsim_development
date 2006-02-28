@@ -23,6 +23,7 @@ ApsimComponentData::ApsimComponentData(void)
    xmlDoc = new XMLDocument("component", XMLDocument::rootName);
    node = xmlDoc->documentElement();
    node.appendChild("initdata");
+   haveReadBaseProperties = false;
    }
 // ------------------------------------------------------------------
 // constructor
@@ -32,6 +33,7 @@ ApsimComponentData::ApsimComponentData(const std::string& xml)
    {
    xmlDoc = new XMLDocument(xml, XMLDocument::xmlContents);
    node = xmlDoc->documentElement();
+   haveReadBaseProperties = false;
    }
 // ------------------------------------------------------------------
 // constructor
@@ -44,6 +46,7 @@ ApsimComponentData::ApsimComponentData(const XMLNode& n)
                                         EqualToName<XMLNode>("initdata"));
    if (initData == node.end())
       node.appendChild("initdata");
+   haveReadBaseProperties = false;
    }
 // ------------------------------------------------------------------
 // destructor
@@ -59,6 +62,7 @@ ApsimComponentData::~ApsimComponentData()
 ApsimComponentData::ApsimComponentData(const ApsimComponentData& rhs)
    : node(rhs.node), xmlDoc(NULL), dataTypesFile(NULL)
    {
+   haveReadBaseProperties = false;
    }
 // ------------------------------------------------------------------
 // Assignment operator.
@@ -69,6 +73,7 @@ ApsimComponentData& ApsimComponentData::operator=(const ApsimComponentData& rhs)
    delete xmlDoc;
    xmlDoc = NULL;
    dataTypesFile = NULL;
+   haveReadBaseProperties = false;
    return *this;
    }
 // ------------------------------------------------------------------
@@ -134,22 +139,51 @@ std::string ApsimComponentData::getProperty(const std::string& propType,
    strtod(propertyType.c_str(), &endptr);
    if (endptr != propertyType.c_str()) propertyType = "_" + propertyType;
 
-   vector<string> names, values, matches;
-   getProperties(propertyType, names, values);
+   vector<string> matches;
+   if (Str_i_Eq(propertyType, "parameters") ||
+       Str_i_Eq(propertyType, "constants"))
+      {
+      if (!haveReadBaseProperties)
+         {
+         getProperties(propertyType, baseNames, baseValues);
+         haveReadBaseProperties = true;
+         }
+      return matchProperty(name, baseNames, baseValues);
+      }
+   else
+      {
+      vector<string> names, values, matches;
+      getProperties(propertyType, names, values);
+      return matchProperty(name, names, values);
+      }
+   }
 
+// ------------------------------------------------------------------
+// Match and return the specified name
+// ------------------------------------------------------------------
+string ApsimComponentData::matchProperty(const std::string& name,
+                                         const vector<string>& names,
+                                         const vector<string>& values) const
+   {
+   vector<string> matches;
    for (unsigned int i = 0; i != names.size(); i++)
       if (Str_i_Eq(names[i].c_str(), name.c_str()))
         matches.push_back(values[i]);
 
-   if (matches.size() > 1) throw std::runtime_error("Parameter " + name + " has multiple definitions");
+   if (matches.size() > 1)
+      throw std::runtime_error("Parameter " + name + " has multiple definitions");
+   if (matches.size() == 1) return matches[0];
 
    // look in all tables if we can't find the parameter.
-   for (XMLNode::iterator propertyI = getInitData().begin();
-                          propertyI != getInitData().end() && matches.size() == 0;
-                          propertyI++)
-      if (Str_i_Eq(propertyI->getName(), "table"))
-         matches.push_back(getValuesFromTable(name, *propertyI));
-
+   if (find_if(names.begin(), names.end(), CaseInsensitiveStringComparison(name))
+       != names.end())
+      {
+      for (XMLNode::iterator propertyI = getInitData().begin();
+                             propertyI != getInitData().end() && matches.size() == 0;
+                             propertyI++)
+         if (Str_i_Eq(propertyI->getName(), "table"))
+            matches.push_back(getValuesFromTable(name, *propertyI));
+      }
    if (matches.size() == 1)
       return matches[0];
    else
@@ -186,17 +220,26 @@ void ApsimComponentData::getProperties(const std::string& propertyType,
                                        vector<string>& names,
                                        vector<string>& values) const
    {
-   XMLNode parentNode = getInitData();
-   if (propertyType != "" && !Str_i_Eq(propertyType, "parameters") &&
-       !Str_i_Eq(propertyType, "constants"))
-       parentNode = findNode(getInitData(), propertyType);
-
-   for (XMLNode::iterator propertyI = parentNode.begin();
-                          propertyI != parentNode.end();
-                          propertyI++)
+   if ((Str_i_Eq(propertyType, "parameters") ||
+        Str_i_Eq(propertyType, "constants")) && haveReadBaseProperties)
       {
-      names.push_back(propertyI->getName());
-      values.push_back(propertyI->getValue());
+      names = baseNames;
+      values = baseValues;
+      }
+   else
+      {
+      XMLNode parentNode = getInitData();
+      if (propertyType != "" && !Str_i_Eq(propertyType, "parameters") &&
+          !Str_i_Eq(propertyType, "constants"))
+          parentNode = findNode(getInitData(), propertyType);
+
+      for (XMLNode::iterator propertyI = parentNode.begin();
+                             propertyI != parentNode.end();
+                             propertyI++)
+         {
+         names.push_back(propertyI->getName());
+         values.push_back(propertyI->getValue());
+         }
       }
    }
 /*

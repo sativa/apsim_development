@@ -16,6 +16,10 @@
 #include <ComCtrls.hpp>
 #include "PreviousRuns.h"
 #include "ApsimRuns.h"
+#include "HTMLText.hpp"
+#include "AdvMemo.hpp"
+#include "advmws.hpp"
+#include <general\date_class.h>
 //---------------------------------------------------------------------------
 class __declspec(dllexport) TRunForm : public TForm
    {
@@ -35,42 +39,56 @@ class __declspec(dllexport) TRunForm : public TForm
       TTabSheet *Page3;
       TLabel *Label6;
       TTabSheet *Page4;
-      TLabel *Label9;
-      TLabel *Label10;
       TLabel *ControlFileLabel;
       TImageList *ImageList1;
-      TLabel *FileNameLabel;
       TListView *SimulationList;
-   TButton *MinimiseButton;
+      TProgressBar *ProgressBar;
+      TLabel *FileNameLabel;
+      TCheckBox *PauseCheckBox;
+      TLabel *CurrentDateLabel;
+      TMemo *Memo1;
+      TLabel *FinishedLabel;
+      TLabel *ErrorLabel;
+      TLabel *StartDateLabel;
+      TLabel *EndDateLabel;
       void __fastcall NextButtonClick(TObject *Sender);
       void __fastcall CancelButtonClick(TObject *Sender);
       void __fastcall checkOkButtonState(TObject *Sender);
       void __fastcall simulationListClick(TObject *Sender);
-   void __fastcall MinimiseButtonClick(TObject *Sender);
+      void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
+      void __fastcall PauseCheckBoxClick(TObject *Sender);
+   void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
    private:	// User declarations
       PreviousRuns previousRuns;
       std::vector<std::string> filesNeedingConversion;
-      bool console;
       ApsimRuns* runs;
+      bool paused;
+      bool pauseOnComplete;
+
+      unsigned long simStartJDay;
+      unsigned long simEndJDay;
+      unsigned long dayCounter;
 
       void populatePage1(void);
       void populatePage2(void);
       void populatePage3();
 
-      void fillSimulationList();
-
       void getSelectedSimulations(std::vector<std::string>& simulations);
       std::string getSelectedConfiguration(void);
-      ApsimRuns saveSelections(void);
+      void saveSelections(void);
+
+      void setupProgressBar(const string &simFileName);
+      void addLine(const string& line);
+      void runSimulations();
 
    public:		// User declarations
       __fastcall TRunForm(TComponent* Owner);
 
-      void setup(ApsimRuns& runs, bool console);
+      void setup(ApsimRuns& runs, bool autoRun);
 
       void __fastcall OnRunNotifyEvent(const std::string& simFileName);
-
-
+      //void __fastcall OnProgressEvent(const std::string& simFileName);
+      void __fastcall OnStdoutEvent(const string& text);
 
    };
 //---------------------------------------------------------------------------

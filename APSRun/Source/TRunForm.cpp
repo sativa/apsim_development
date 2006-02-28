@@ -4,11 +4,14 @@
 #pragma hdrstop
 #include <iterator>
 
+
 #include <general\TreeNodeIterator.h>
 #include <general\xml.h>
 #include <general\path.h>
+#include <general\date_class.h>
 #include <general\io_functions.h>
 #include <general\vcl_functions.h>
+#include <general\StringTokenizer.h>
 
 #include <ApsimShared\ApsimComponentData.h>
 #include <ApsimShared\ApsimServiceData.h>
@@ -17,55 +20,83 @@
 #include <ApsimShared\ControlFileConverter.h>
 #include <ApsimShared\ApsimRunFile.h>
 #include <ApsimShared\ApsimSimulationFile.h>
+#include <ApsimShared\ApsimSettings.h>
 
 #include "TRunForm.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "HTMLabel"
 #pragma link "HTMListB"
+#pragma link "HTMLText"
+#pragma link "AdvMemo"
+#pragma link "advmws"
 #pragma resource "*.dfm"
 TRunForm *RunForm;
-//---------------------------------------------------------------------------
-// constructor
-//---------------------------------------------------------------------------
+
+
 __fastcall TRunForm::TRunForm(TComponent* Owner)
    : TForm(Owner)
- {
- }
-//---------------------------------------------------------------------------
-// Setup form
-//---------------------------------------------------------------------------
-void TRunForm::setup(ApsimRuns& apsimRuns, bool cons)
+   //---------------------------------------------------------------------------
+   // constructor
    {
-   console = cons;
+   }
+   
+void TRunForm::setup(ApsimRuns& apsimRuns, bool autoRun)
+   //---------------------------------------------------------------------------
+   // Setup all form stuff
+   {
+   ApsimSettings settings;
+   settings.read("Apsim|PauseOnComplete", pauseOnComplete);
+
+   paused = false;
+   if (autoRun)
+      pauseOnComplete = false;
+
+   PauseCheckBox->Checked = pauseOnComplete;
+
    runs = &apsimRuns;
    runs->getFilesNeedingConversion(filesNeedingConversion);
    if (filesNeedingConversion.size() > 0)
       {
-      MainPanel->ActivePage = Page1;
-      populatePage1();
+      if (autoRun || runs->count() == 1)
+         runs->convertFiles();
+      else
+         {
+         MainPanel->ActivePage = Page1;
+         populatePage1();
+         }
       }
    else
       {
       MainPanel->ActivePage = Page3;
       populatePage3();
       }
+
+   // Do we automatically start the simulations running?
+   if (autoRun || runs->count() == 1)
+      {
+      MainPanel->ActivePage = Page3;
+      populatePage3();
+      for (int i = 0; i != SimulationList->Items->Count; i++)
+         SimulationList->Items->Item[0]->Selected = true;
+
+      PostMessage(NextButton->Handle, BM_CLICK, 0, 0);
+      }
    }
 
-//---------------------------------------------------------------------------
-// populate page 1.
-//---------------------------------------------------------------------------
 void TRunForm::populatePage1(void)
+   //---------------------------------------------------------------------------
+   // populate page 1.
    {
    ostringstream out;
    copy(filesNeedingConversion.begin(),filesNeedingConversion.end(),
         ostream_iterator<string, char>(out,"\n"));
    ControlFileLabel->Caption = out.str().c_str();
    }
-//---------------------------------------------------------------------------
-// populate page 2.
-//---------------------------------------------------------------------------
+
 void TRunForm::populatePage2()
+   //---------------------------------------------------------------------------
+   // populate page 2.
    {
    TCursor savedCursor = Screen->Cursor;
    Screen->Cursor = crHourGlass;
@@ -96,21 +127,15 @@ void TRunForm::populatePage2()
 
    Screen->Cursor = savedCursor;
    }
-//---------------------------------------------------------------------------
-// populate page 3.
-//---------------------------------------------------------------------------
+
 void TRunForm::populatePage3()
+   //---------------------------------------------------------------------------
+   // populate page 3.
    {
    NextButton->Caption = "&Run APSIM";
-   fillSimulationList();
-   }
-//---------------------------------------------------------------------------
-// Fill the simulation list.
-//---------------------------------------------------------------------------
-void TRunForm::fillSimulationList()
-   {
    SimulationList->Items->BeginUpdate();
 
+   SimulationList->Items->Clear();
    vector<string> fileNames, simNames;
    runs->getSimulations(fileNames, simNames);
    bool someWereSelected = false;
@@ -134,35 +159,75 @@ void TRunForm::fillSimulationList()
    SimulationList->Items->EndUpdate();
    checkOkButtonState(NULL);
    }
-//---------------------------------------------------------------------------
-// Next button has been clicked.
-//---------------------------------------------------------------------------
+
 void __fastcall TRunForm::NextButtonClick(TObject *Sender)
+   //---------------------------------------------------------------------------
+   // Next button has been clicked.
    {
-   MainPanel->ActivePageIndex = MainPanel->ActivePageIndex + 1;
-   if (MainPanel->ActivePage == Page2)
+   if (MainPanel->ActivePage == Page1)
+      {
       populatePage2();
-   else if (MainPanel->ActivePage == Page3)
+      MainPanel->ActivePageIndex ++;
+      }
+   else if (MainPanel->ActivePage == Page2)
+      {
       populatePage3();
+      MainPanel->ActivePageIndex ++;
+      }
+   else if (MainPanel->ActivePage == Page3)
+      {
+      saveSelections();
+      runSimulations();
+      }
    else if (MainPanel->ActivePage == Page4)
       {
-      NextButton->Visible = false;
-      CancelButton->Visible = false;
-      MainPanel->Visible = false;
-      ApsimRuns selectedRuns = saveSelections();
-      selectedRuns.runApsim(false, console, OnRunNotifyEvent);
-      Close();
+      paused = !paused;
+      if (paused)
+         {
+         NextButton->Caption = "Resume";
+         Memo1->ScrollBars = Stdctrls::ssBoth;
+         }
+      else
+         {
+         Memo1->ScrollBars = Stdctrls::ssNone;
+         NextButton->Caption = "Pause";
+         }
+      runs->Pause(paused);
       }
    }
-//---------------------------------------------------------------------------
-void __fastcall TRunForm::CancelButtonClick(TObject *Sender)
+
+void TRunForm::runSimulations()
+   //---------------------------------------------------------
+   // Go run all simulations.
    {
+   MainPanel->ActivePageIndex ++;
+   NextButton->Caption = "Pause";
+   FinishedLabel->Visible = false;
+   ErrorLabel->Visible = false;
+   dayCounter = 0;
+   Application->ProcessMessages();
+
+   runs->runApsim(false, OnRunNotifyEvent, OnStdoutEvent);
+
+   FinishedLabel->Visible = true;
+   NextButton->Visible = false;
+   CancelButton->Caption = "Ok";
+
+   if (!pauseOnComplete || !Visible)
+      Close();
+   }
+
+void __fastcall TRunForm::CancelButtonClick(TObject *Sender)
+   //---------------------------------------------------------------------------
+   // User has hit cancel - better stop APSIM.
+   {
+   runs->StopApsim();
    Close();
    }
-//---------------------------------------------------------------------------
-// Check the ok button state.
-//---------------------------------------------------------------------------
+
 void __fastcall TRunForm::checkOkButtonState(TObject *Sender)
+   //---------------------------------------------------------------------------
+   // Only enable the ok button if at least one simulation is selected.
    {
    bool somethingSelected = false;
    for (int n = 0; n != SimulationList->Items->Count && !somethingSelected; n++)
@@ -170,12 +235,12 @@ void __fastcall TRunForm::checkOkButtonState(TObject *Sender)
 
    NextButton->Enabled = somethingSelected;
    }
-//---------------------------------------------------------------------------
-// return all selected simulations
-//---------------------------------------------------------------------------
-ApsimRuns TRunForm::saveSelections(void)
+
+void TRunForm::saveSelections(void)
+   //---------------------------------------------------------------------------
+   // Save all selected simulations back to run object.
    {
-   ApsimRuns selectedRuns;
+   runs->clearSimulations();
    for (int i = 0; i != SimulationList->Items->Count; i++)
       {
       TListItem* simNameItem = SimulationList->Items->Item[i];
@@ -183,28 +248,134 @@ ApsimRuns TRunForm::saveSelections(void)
          {
          string simName = simNameItem->Caption.c_str();
          string fileName = simNameItem->SubItems->Strings[0].c_str();
-         selectedRuns.addSimulation(fileName, simName);
+         runs->addSimulation(fileName, simName);
          }
       }
-   previousRuns.saveSelectedRunNames(selectedRuns);
-   return selectedRuns;
+   previousRuns.saveSelectedRunNames(*runs);
    }
-//---------------------------------------------------------------------------
+
 void __fastcall TRunForm::simulationListClick(TObject *Sender)
+   //---------------------------------------------------------------------------
+   // Everytime a user clicks on the simulation list somewhere,
+   // enable or disable the ok button.
    {
    checkOkButtonState(NULL);
    }
-//---------------------------------------------------------------------------
-// APSIM is currently running - update screen.
-//---------------------------------------------------------------------------
+
 void __fastcall TRunForm::OnRunNotifyEvent(const std::string& simFileName)
+   //---------------------------------------------------------------------------
+   // An APSIM simulation is about to run. Display title and extract start/end dates.
    {
-   FileNameLabel->Caption = simFileName.c_str();
+   GDate d;
+   string caption = "Simulation progress for: ";
+   caption += simFileName;
+   caption.erase(caption.find(".sim"));
+   FileNameLabel->Caption = caption.c_str();
+
+   XMLDocument simDoc(simFileName);
+
+   XMLNode i = findNodeWithName(simDoc.documentElement(), "clock");
+   XMLNode id = findNode(i, "initdata");
+   XMLNode sdat = findNode(id, "start_date");
+   d.Read (sdat.getValue().c_str());
+   simStartJDay = d.Get_jday();
+
+   XMLNode edat = findNode(id, "end_date");
+   d.Read (edat.getValue().c_str());
+   simEndJDay = d.Get_jday();
+
+   ProgressBar->Step = 1;
+   ProgressBar->Min = 0;
+   ProgressBar->Max = simEndJDay - simStartJDay;
+
+   StartDateLabel->Caption = sdat.getValue().c_str();
+   EndDateLabel->Caption = edat.getValue().c_str();
    }
 
-void __fastcall TRunForm::MinimiseButtonClick(TObject *Sender)
+
+
+void TRunForm::addLine(const string& line)
+   //---------------------------------------------------------------------------
+   // Add a line to the memo box. Make sure it doesn't overflow.
    {
-   this->WindowState = wsMinimized;
+   static const int MAX_LINES = 5000;
+   if (Memo1->Lines->Count == MAX_LINES)
+      {
+      Memo1->Lines->BeginUpdate();
+      for (int i = MAX_LINES; i >= 0 / 2; i--)
+         Memo1->Lines->Delete(i);
+      Memo1->Lines->EndUpdate();
+      }
+   Memo1->Lines->Add(line.c_str());
    }
+
+void __fastcall TRunForm::OnStdoutEvent(const string& text)
+   //---------------------------------------------------------------------------
+   // Apsim has given us some stdout data. Note the text chunk may not be
+   // aligned with line breaks; expect (a few) partial lines.
+   {
+   if (MainPanel->ActivePage != Page4)
+      MainPanel->ActivePage = Page4;
+
+   // Parse dates out of text. Use the dates to update the progress bar.
+   GDate currentDate;
+   StringTokenizer st(text, "\r\n", false);
+   while (st.hasMoreTokens())
+      {
+      string line =  st.nextToken();
+      if (line.find("Date:") != string::npos)
+         {
+         string DateString = line.substr(5);
+         replaceAll(DateString, " ", "");
+         // 'Date' lines. Update 'indicator' dials
+         CurrentDateLabel->Caption = DateString.c_str();
+         currentDate.Read(DateString.c_str());
+         ProgressBar->Position = currentDate.Get_jday() - simStartJDay;
+         }
+      else
+         addLine(line);
+      }
+
+   if (!ErrorLabel->Visible)
+      {
+      if (text.find("APSIM  Fatal") != string::npos)
+         ErrorLabel->Visible = true;
+      else if (text.find("APSIM Warning") != string::npos)
+         {
+         ErrorLabel->Visible = true;
+         ErrorLabel->Caption = "warnings found";
+         }
+      }
+   }
+
+void __fastcall TRunForm::FormCloseQuery(TObject *Sender, bool &CanClose)
+   //-------------------------------------------
+   // form is about to close - shut down apsim
+   {
+   runs->StopApsim();
+   }
+
+void __fastcall TRunForm::PauseCheckBoxClick(TObject *Sender)
+   // ----------------------------------------------------------------
+   // User has clicked on the "Pause on simulation complete" checkbox
+   // Save this setting to the apsim.ini.
+   {
+   string YesNoValue;
+   if (PauseCheckBox->Checked)
+      YesNoValue = "yes";
+   else
+      YesNoValue = "no";
+
+   ApsimSettings settings;
+   settings.write("Apsim|PauseOnComplete", YesNoValue);
+   pauseOnComplete = PauseCheckBox->Checked;
+   }
+
+//---------------------------------------------------------------------------
+
+void __fastcall TRunForm::FormClose(TObject *Sender, TCloseAction &Action)
+{
+   runs->StopApsim();
+}
 //---------------------------------------------------------------------------
 

@@ -5,11 +5,13 @@
 #include <limits.h>
 
 #include <string>
-
+#include <iostream>
 #include <boost/lexical_cast.hpp>
 
 #include <ApsimShared/FStringExt.h>
 //#include <ApsimShared/FApsimComponentData.h>
+
+#include <general/date_class.h>
 
 #include "ProtocolVector.h"
 #include "Component.h"
@@ -48,6 +50,8 @@ Component::Component(void)
    beforeInit2 = true;
    initMessages();
    component = this;
+   haveWritenToStdOutToday = false;
+   sendTickToComponent = false;
    }
 
 // ------------------------------------------------------------------
@@ -144,7 +148,16 @@ try {
                                  break;}
       case Event:               {EventData eventData;
                                  messageData >> eventData;
-                                 respondToEvent(eventData.publishedByID, eventData.ID, eventData.params);
+                                 if (eventData.ID == tickID)
+                                    {
+                                    eventData.params.unpack(tick);
+                                    eventData.params.getMessageData().reset();
+                                    haveWritenToStdOutToday = false;
+                                    if (sendTickToComponent)
+                                       respondToEvent(eventData.publishedByID, eventData.ID, eventData.params);
+                                    }
+                                 else
+                                    respondToEvent(eventData.publishedByID, eventData.ID, eventData.params);
                                  break;}
       case QueryValue:          {QueryValueData queryData;
                                  messageData >> queryData;
@@ -285,6 +298,10 @@ void Component::doInit1(const FString& sdml)
    summaryID = addRegistration(RegistrationType::event,
                                "summaryFileWrite",
                                SUMMARY_FILE_WRITE_TYPE);
+   tickID = addRegistration(RegistrationType::respondToEvent,
+                            "tick",
+                            STRING_TYPE);
+   sendTickToComponent = false;
    }
 
 // ------------------------------------------------------------------
@@ -389,6 +406,8 @@ unsigned Component::addRegistration(RegistrationType kind,
                                      registrationName.c_str(),
                                      reg->getType()));
       }
+   if (Str_i_Eq(asString(regName), "tick"))
+      sendTickToComponent = true;
    return (unsigned) reg;
    }
 // ------------------------------------------------------------------
@@ -485,6 +504,8 @@ void Component::error(const FString& msg, bool isFatal)
    strcat(cMessage, "\nComponent name: ");
    strcat(cMessage, name);
    strcat(cMessage, "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n");
+
+   writeString(cMessage);
 
    // create and send a message.
    Message* errorMessage = newPublishEventMessage(componentID,
@@ -708,13 +729,41 @@ namespace protocol {
    };
 void Component::writeString(const FString& st)
    {
-   protocol::SummaryData summaryData(name, st);
+   if (st.find("Date:") != FString::npos)
+      std::cout << asString(st) << "\n";
+   else
+      {
+      if (!haveWritenToStdOutToday)
+         {
+         if (tick.startday > 0)
+            {
+            GDate Today;
+            Today.Set(tick.startday);
+            Today.Write(std::cout);
+            }
+         else
+            std::cout << "Initialising";
 
-   sendMessage(newPublishEventMessage(componentID,
-                                      parentID,
-                                      summaryID,
-                                      SUMMARY_FILE_WRITE_TYPE,
-                                      summaryData));
+         std::cout << ": " << name << " \n";
+         haveWritenToStdOutToday = true;
+         }
+
+      string text = "      " + asString(st);
+      unsigned posEoln = 0;
+      while ((posEoln = text.find('\n', posEoln)) != string::npos)
+         {
+         posEoln++;
+         text.insert(posEoln, "      ");
+         }
+      std::cout << text << "\n";
+      protocol::SummaryData summaryData(name, st);
+
+      sendMessage(newPublishEventMessage(componentID,
+                                         parentID,
+                                         summaryID,
+                                         SUMMARY_FILE_WRITE_TYPE,
+                                         summaryData));
+      }
    }
 
 // ------------------------------------------------------------------

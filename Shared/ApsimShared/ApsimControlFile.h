@@ -208,6 +208,12 @@ class __declspec(dllexport) ApsimControlFile
                         const std::string &newModuleName);
 
       // ------------------------------------------------------------------
+      // Delete the specified module
+      // ------------------------------------------------------------------
+      bool deleteModule(const std::string& section,
+                        const std::string& moduleName);
+
+      // ------------------------------------------------------------------
       // Perform a Search and Replace on the sections of the specified module.
       // ------------------------------------------------------------------
       bool searchReplace(const std::string& section,

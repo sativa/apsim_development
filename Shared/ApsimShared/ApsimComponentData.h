@@ -77,9 +77,15 @@ class __declspec(dllexport) ApsimComponentData
       XMLNode node;
       XMLNode getInitData(void) const;
       mutable ApsimDataTypesFile* dataTypesFile;
+      mutable bool haveReadBaseProperties;
+
+      mutable std::vector<std::string> baseNames, baseValues;
 
       void replaceAllMacros(XMLNode::iterator rules, std::string& contents) const;
       std::string getValuesFromTable(const std::string& name, XMLNode TableNode) const;
+      std::string matchProperty(const std::string& name,
+                                const std::vector<std::string>& names,
+                                const std::vector<std::string>& values) const;
 
       friend ApsimSystemData;  // so that ApsimSystemData::appendChild can get to node.
    };
