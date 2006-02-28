@@ -234,7 +234,6 @@ public:												// member functions
 
    float dm_yield_demand2 ( float  g_dlt_dm_veg);
 
-   void yieldpart_demand_stress1(void);               //remove
    void doDmPartition(float DMAvail, float DMDemandTotal);
    void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
    float dmDemandDifferential(void);
@@ -261,9 +260,6 @@ public:												// member functions
 
 private:
    void refreshStates(void);
-   void grain_number (float stem_dm
-                      ,float pGrains_per_gram_stem
-                      ,float *gGrain_no);
    float dmGreenStressDeterminant(void);
    float pGreenStressDeterminant(void);
    float pMaxPotStressDeterminant(void);
@@ -287,7 +283,6 @@ private:
    bool  gHasreadconstants;
    float dmRetranslocate;
    float gDlt_dm;
-   float gDlt_dm_stress_max;                          // maximum daily stress on dm production (0-1)
 
 
    // The plant we hook into

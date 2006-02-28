@@ -1492,23 +1492,6 @@ void PlantFruit::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTota
 }
 
 
-//     ===========================================================                        //remove
-void PlantFruit::yieldpart_demand_stress1 (void)                                          //remove
-   //     ===========================================================                        //remove
-{                                                                                         //remove
-   //+  Purpose                                                                              //remove
-   //       Simulate crop grain biomass demand stress factor                                 //remove
-                                                                                          //remove
-                                                                                          //remove
-   cproc_yieldpart_demand_stress1 (min(plant->getNfactPhoto(), plant->getPfactPhoto())    //remove
-                                   , plant->getSwdefPhoto()                               //remove
-                                   , plant->getTempStressPhoto()                          //remove
-                                   , &gDlt_dm_stress_max);                                //remove
-  //   gDlt_dm_stress_max  = dlt_dm_stress_max;                                             //remove
-}
-
-
-
 void PlantFruit::doSenescence1 (float sen_fr)       // (OUTPUT) actual biomass senesced from plant parts (g/m^2)
    //============================================================================
 {

@@ -34,12 +34,6 @@ void fruitMealPart::doDMDemand (float dm_demand)
     DMGreenDemand = dm_demand;
 }
 
-void fruitMealPart::n_partition1 (double dltN)
-//     ===========================================================
-{
-    dlt.n_green = dltN;
-}
-
 void fruitMealPart::n_retranslocate1 (float dltN)
 //     ===========================================================
 {

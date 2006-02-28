@@ -1404,6 +1404,7 @@ void fruitGrainPart::processBioDemand(void)
 {
 
    yieldpart_demand_stress1 ();
+   grain_number();
    bio_grain_oil ();
    bio_grain_demand ();
 
