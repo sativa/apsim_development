@@ -2069,7 +2069,7 @@ void Plant::plant_nit_uptake (int option/* (INPUT) option number*/)
                        , g.no3gsm_mflow_avail
                        , g.n_fix_pot
                        , c.n_supply_preference.c_str()
-                       , sumNDemand()
+                       , nDemand()
                        , sumNMax()
                        , g.root_depth
                        , g.dlt_no3gsm);
@@ -2260,7 +2260,7 @@ void Plant::plant_nit_demand_est (int option)
            (*t)->doNDemand1Pot(g.dlt_dm_pot_rue, g.dlt_dm_pot_rue);
            }
 
-        g.ext_n_demand = sumNDemand();
+        g.ext_n_demand = nDemand();
 
         //nh  use zero growth value here so that estimated n fix is always <= actual;
         biomass = topsGreen();
@@ -2870,7 +2870,7 @@ void Plant::plant_totals
 // note - g_n_conc_crit should be done before the stages change
 
     n_conc_stover_crit = (leafPart->g.n_conc_crit + stemPart->g.n_conc_crit) * 0.5;
-    n_green_demand = sumNDemand();
+    n_green_demand = nDemand();
 
     deepest_layer = find_layer_no (*g_root_depth, g_dlayer, max_layer);
 
@@ -3875,32 +3875,17 @@ void Plant::legnew_n_partition
     n_uptake_sum = - sum_real_array (g_dlt_no3gsm, deepest_layer+1)
                    - sum_real_array (g_dlt_nh4gsm, deepest_layer+1);
 
-    n_demand_sum = 0.0;
-    for (part = allParts.begin(); part != allParts.end(); part++)
-       n_demand_sum += (*part)->nDemand();
+    n_demand_sum = nDemand();
 
-    n_excess = n_uptake_sum - n_demand_sum;
-    n_excess = l_bound (n_excess, 0.0);
-
+//    n_capacity_sum = nCapacity(); //fixme - to replace next 3 lines when root is an object
     n_capacity_sum = 0.0;
     for (part = allParts.begin(); part != allParts.end(); part++)
        n_capacity_sum += (*part)->nCapacity();
 
-    for (part = allParts.begin(); part != allParts.end(); part++)
-        {
-        if (n_excess>0.0)
-            {
-            plant_part_fract = divide ((*part)->nCapacity(), n_capacity_sum, 0.0);
-            dlt_n_green_part = (*part)->nDemand() + n_excess * plant_part_fract;
-            }
-        else
-            {
-            plant_part_fract = divide ((*part)->nDemand(), n_demand_sum, 0.0);
-            dlt_n_green_part = n_uptake_sum * plant_part_fract;
-            }
-        (*part)->doNPartition(dlt_n_green_part);
-        }
+   for (part = allParts.begin(); part != allParts.end(); part++)
+      (*part)->doNPartition(n_uptake_sum, n_demand_sum, n_capacity_sum);
 
+//    float dlt_n_green_sum = plantDltNGreen();  //fixme - to replace next 3 lines when root is an object
     float dlt_n_green_sum = 0.0;
     for (part = allParts.begin(); part != allParts.end(); part++)
          dlt_n_green_sum += (*part)->dltNGreen();
@@ -3915,7 +3900,6 @@ void Plant::legnew_n_partition
         }
 
     n_fix_demand_tot = l_bound (n_demand_sum - n_uptake_sum, 0.0);
-
     *n_fix_uptake = bound (g_n_fix_pot, 0.0, n_fix_demand_tot);
 
     for (part = allParts.begin(); part != allParts.end(); part++)
@@ -4381,7 +4365,7 @@ void Plant::plant_N_senescence (int num_part                  //(INPUT) number o
       navail = dlt_n_in_senescing_leaf - leafPart->dlt.n_senesced;
       navail = l_bound(navail, 0.0);
 
-      n_demand_tot = sumNDemand();
+      n_demand_tot = nDemand();
       for (part=0; part < num_part; part++)
          {
          dlt_n_senesced_retrans[part] = navail
@@ -8616,7 +8600,7 @@ void Plant::get_no3_tot(protocol::Component *system, protocol::QueryValueData &q
 
 void Plant::get_n_demand(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    float n_demand = sumNDemand();
+    float n_demand = nDemand();
     system->sendVariable(qd, n_demand);
 }
 
@@ -9812,11 +9796,19 @@ float Plant::topsPTot(void) const
    {
       return  topsPGreen() + topsPSenesced() + topsPDead();
    }
-float Plant::sumNDemand(void)
+float Plant::nCapacity(void)
+   {
+   float n_capacity_sum = 0.0;
+   vector<plantPart *>::iterator part;
+   for (part = myParts.begin(); part != myParts.end(); part++)
+      n_capacity_sum += (*part)->nCapacity();
+   return n_capacity_sum;
+   }
+float Plant::nDemand(void)
    {
       float n_demand = 0.0;
       for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-      n_demand += (*t)->nDemand();
+         n_demand += (*t)->nDemand();
       n_demand += g.n_demand[root];
       return n_demand;
    }
@@ -9824,7 +9816,7 @@ float Plant::sumSoilNDemand(void)
    {
       float soil_n_demand = 0.0;
       for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-      soil_n_demand += (*t)->soilNDemand();
+         soil_n_demand += (*t)->soilNDemand();
       soil_n_demand += g.soil_n_demand[root];
       return soil_n_demand;
    }
@@ -9832,7 +9824,7 @@ float Plant::sumNMax(void)
    {
       float n_max = 0.0;
       for (vector<plantPart *>::iterator t = myParts.begin(); t != myParts.end(); t++)
-      n_max += (*t)->nMax();
+         n_max += (*t)->nMax();
       n_max += g.n_max[root];
       return n_max;
    }

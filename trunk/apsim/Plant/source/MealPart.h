@@ -21,6 +21,7 @@ class fruitMealPart : public plantPart {
 
    void doDMDemand(float dm_demand);
    void doNRetranslocate( float dltN, float grain_n_demand);
+   float nDemand2(void);
 
   private:
       PlantComponent *parentPlant;

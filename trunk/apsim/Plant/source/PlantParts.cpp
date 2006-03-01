@@ -611,6 +611,17 @@ void plantPart::updateP(void)
       }
    }
 
+void plantPart::doNDemand1Pot(float dlt_dm             //  Whole plant the daily biomass production (g/m^2)
+                            , float dlt_dm_pot_rue)    //  Whole plant potential dry matter production (g/m^2)
+//=======================================================================================
+   {
+   // Estimate of dlt dm green
+   dlt.dm_green = dlt_dm_pot_rue * divide (DMGreen, plant->getDmGreenTot(), 0.0);
+
+   doNDemand1(dlt_dm, dlt_dm_pot_rue);
+   dlt.dm_green = 0.0;
+   }
+
 void plantPart::doNDemand1(float dlt_dm               //   Whole plant the daily biomass production (g/m^2)
                           , float dlt_dm_pot_rue)     //  Whole plant potential dry matter production (g/m^2)
 //=======================================================================================
@@ -634,10 +645,9 @@ void plantPart::doNDemand1(float dlt_dm               //   Whole plant the daily
                          - (NGreen + dlt.n_retrans);
 
       // get potential N demand (critical N) of potential growth
-      float N_demand_new = dlt_dm_pot * g.n_conc_crit;     // demand for N by new growth
-                                                           // (g/m^2)
-      float N_max_new    = dlt_dm_pot * g.n_conc_max;      // N required by new growth to reach
-                                                           // N_conc_max  (g/m^2)
+      float N_demand_new = dlt_dm_pot * g.n_conc_crit;     // demand for N by new growth (g/m^2)
+      float N_max_new    = dlt_dm_pot * g.n_conc_max;      // N required by new growth to reach N_conc_max  (g/m^2)
+
       NDemand = N_demand_old + N_demand_new;
       NMax    = N_max_old    + N_max_new ;
 
@@ -648,17 +658,6 @@ void plantPart::doNDemand1(float dlt_dm               //   Whole plant the daily
       {
       NDemand = NMax = 0.0;
       }
-   }
-
-void plantPart::doNDemand1Pot(float dlt_dm             //  Whole plant the daily biomass production (g/m^2)
-                            , float dlt_dm_pot_rue)    //  Whole plant potential dry matter production (g/m^2)
-//=======================================================================================
-   {
-   // Estimate of dlt dm green
-   dlt.dm_green = dlt_dm_pot_rue * divide (DMGreen, plant->getDmGreenTot(), 0.0);
-
-   doNDemand1(dlt_dm, dlt_dm_pot_rue);
-   dlt.dm_green = 0.0;
    }
 
 void plantPart::doNDemand2(float dlt_dm               // (INPUT)  Whole plant the daily biomass production (g/m^2)
@@ -695,17 +694,16 @@ void plantPart::doNDemand2(float dlt_dm               // (INPUT)  Whole plant th
       if (N_demand_old > 0.0)                             // Don't allow demand to satisfy all deficit
          N_demand_old *= c.n_deficit_uptake_fraction;
 
-      float N_max_old    = N_potential - NGreen;       // N required by old biomass to reach
-                                                          // N_conc_max  (g/m^2)
+      float N_max_old    = N_potential - NGreen;       // N required by old biomass to reach N_conc_max  (g/m^2)
+
       if (N_max_old>0.0)
          N_max_old *= c.n_deficit_uptake_fraction;        // Don't allow demand to satisfy all deficit
 
 
       // get potential N demand (critical N) of potential growth
-      float N_demand_new = dlt_dm_pot * g.n_conc_crit;     // demand for N by new growth
-                                                           // (g/m^2)
-      float N_max_new    = dlt_dm_pot * g.n_conc_max;      // N required by new growth to reach
-                                                           // N_conc_max  (g/m^2)
+      float N_demand_new = dlt_dm_pot * g.n_conc_crit;     // demand for N by new growth (g/m^2)
+      float N_max_new    = dlt_dm_pot * g.n_conc_max;      // N required by new growth to reach N_conc_max  (g/m^2)
+
       NDemand = N_demand_old + N_demand_new;
       NMax    = N_max_old    + N_max_new ;
 
@@ -1066,6 +1064,12 @@ float plantPart::dltDmGreenNew(void)
    return (dlt.dm_green + dlt.dm_green_retrans);
    }
 
+float plantPart::dltDmDetached(void)
+//=======================================================================================
+   {
+   return (dlt.dm_detached);
+   }
+
 float plantPart::dmSenesced(void)
 //=======================================================================================
    {
@@ -1124,12 +1128,31 @@ float plantPart::nCapacity(void)
    return (NCapacity);
    }
 
-void plantPart::doNPartition(float nSupply) {dlt.n_green = nSupply;}
+void plantPart::doNPartition(float nSupply, float n_demand_sum, float n_capacity_sum)
+   //============================================================================
+{
+   dlt.n_green = 0.0;
+
+   float n_excess = nSupply - n_demand_sum;
+   n_excess = l_bound (n_excess, 0.0);
+
+   if (n_excess>0.0)
+      {
+      float plant_part_fract = divide (nCapacity(), n_capacity_sum, 0.0);
+      dlt.n_green = nDemand() + n_excess * plant_part_fract;
+      }
+   else
+      {
+      float plant_part_fract = divide (nDemand(), n_demand_sum, 0.0);
+      dlt.n_green = nSupply * plant_part_fract;
+      }
+}
 
 float plantPart::pDemand(void) {return (PDemand);}
 float plantPart::nTotal(void) {return (nGreen() + nSenesced() + nDead());}
 float plantPart::nGreen(void) {return (NGreen);}
 float plantPart::nSenesced(void) {return (NSenesced);}
+float plantPart::dltNSenescedRetrans(void) {return (dlt.n_senesced_retrans);}
 float plantPart::nDead(void) {return (NDead);}
 
 float plantPart::nConc(void)

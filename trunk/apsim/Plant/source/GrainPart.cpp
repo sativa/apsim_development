@@ -132,6 +132,16 @@ float fruitGrainPart::dmSenesced(void)
    return DMSenesced;
 }
 
+float fruitGrainPart::dltDmDetached(void)
+   //===========================================================================
+{
+   dlt.dm_detached = 0.0;
+   vector<plantPart *>::iterator part;
+   for (part = myParts.begin(); part != myParts.end(); part++)
+      dlt.dm_detached += (*part)->dltDmDetached();
+   return dlt.dm_detached;
+}
+
 float fruitGrainPart::dmDead(void)
    //===========================================================================
 {
@@ -199,9 +209,8 @@ float fruitGrainPart::nConc(void)
 float fruitGrainPart::nDemand2(void)
    //===========================================================================
 {
-   return l_bound(mealPart->SoilNDemand - mealPart->dlt.n_green, 0.0);
+   return mealPart->nDemand2();
 }
-
 
 float fruitGrainPart::soilNDemand(void)
    //============================================================================
@@ -227,56 +236,29 @@ float fruitGrainPart::nDemand(void)
    return n_demand;
 }
 
-void fruitGrainPart::doNPartition(float nSupply)
+void fruitGrainPart::doNPartition(float nSupply, float n_demand_sum, float n_capacity_sum)
    //============================================================================
 {
-   float dlt_n_green = 0.0;
+   plantPart::doNPartition(nSupply, n_demand_sum, n_capacity_sum);
    vector<plantPart *>::iterator part;
 
-   float n_demand_sum = 0.0;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      n_demand_sum += (*part)->nDemand();
-
-   float n_excess = nSupply - n_demand_sum;
-   n_excess = l_bound (n_excess, 0.0);
-
-   float n_capacity_sum = 0.0;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      n_capacity_sum += (*part)->nCapacity();
+   n_demand_sum = nDemand();
+   n_capacity_sum = nCapacity();
 
    for (part = myParts.begin(); part != myParts.end(); part++)
-      {
-      if (n_excess>0.0)
-         {
-         float plant_part_fract = divide ((*part)->nCapacity(), n_capacity_sum, 0.0);
-         dlt_n_green = (*part)->nDemand() + n_excess * plant_part_fract;
-         }
-      else
-         {
-         float plant_part_fract = divide ((*part)->nDemand(), n_demand_sum, 0.0);
-         dlt_n_green = nSupply * plant_part_fract;
-         }
-      (*part)->doNPartition(dlt_n_green);
-      }
-   //cnh mealPart->dlt.n_green = 0.0;
-   oilPart->dlt.n_green = 0.0;
+      (*part)->doNPartition(dlt.n_green, n_demand_sum, n_capacity_sum);
 
-   float dlt_n_green_sum = 0.0;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      dlt_n_green_sum += (*part)->dltNGreen();
-
-   dlt.n_green = dlt_n_green_sum;
-
-   if (!reals_are_equal(dlt_n_green_sum - nSupply, 0.0))
+   float dlt_n_green_sum = dltNGreen();
+   if (!reals_are_equal(dlt_n_green_sum - dlt.n_green, 0.0))
       {
       string msg ="Grain dlt_n_green mass balance is off: dlt_n_green_sum ="
                   + ftoa(dlt_n_green_sum, ".6")
                   + " vs nSupply ="
-                  + ftoa(nSupply, ".6");
+                  + ftoa(dlt.n_green, ".6");
       parentPlant->warningError(msg.c_str());
       }
-
 }
+
 float fruitGrainPart::pTotal(void)
    //===========================================================================
 {
@@ -982,17 +964,17 @@ void fruitGrainPart::refreshStates(void)
         part != myParts.end();
         part++)
       {
-      DMDead += (*part)->DMDead;
-      DMGreen += (*part)->DMGreen;
-      DMSenesced += (*part)->DMSenesced;
+      DMDead += (*part)->dmDead();
+      DMGreen += (*part)->dmGreen();
+      DMSenesced += (*part)->dmSenesced();
 
-      NDead += (*part)->NDead;
-      NGreen += (*part)->NGreen;
-      NSenesced += (*part)->NSenesced;
+      NDead += (*part)->nDead();
+      NGreen += (*part)->nGreen();
+      NSenesced += (*part)->nSenesced();
 
-      PDead += (*part)->PDead;
-      PGreen += (*part)->PGreen;
-      PSen += (*part)->PSen;
+      PDead += (*part)->pDead();
+      PGreen += (*part)->pGreen();
+      PSen += (*part)->pSenesced();
       }
 }
 
@@ -1191,7 +1173,7 @@ float fruitGrainPart::dmGreen(void)
 
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      DMGreen +=(*part)->DMGreen;
+      DMGreen +=(*part)->dmGreen();
 
    return DMGreen;
 }
@@ -1228,7 +1210,7 @@ void fruitGrainPart::doNSenescedRetrans(float navail, float n_demand_tot)
    for (myPart = myParts.begin(); myPart != myParts.end(); myPart++)
       {
       (*myPart)->doNSenescedRetrans(navail, n_demand_tot);
-      dlt.n_senesced_retrans +=(*myPart)->dlt.n_senesced_retrans;
+      dlt.n_senesced_retrans +=(*myPart)->dltNSenescedRetrans();
       }
 }
 
@@ -2111,6 +2093,17 @@ float fruitGrainPart::dmRetransDemand(void)
    return dm_retrans_demand;
 }
 
+float fruitGrainPart::dltNSenescedRetrans(void)
+   //============================================================================
+{
+   float dlt_n_senesced_retrans = 0.0;
+   vector<plantPart *>::iterator part;
+   for (part = myParts.begin(); part != myParts.end(); part++)
+      dlt_n_senesced_retrans += (*part)->dltNSenescedRetrans();
+
+   return dlt_n_senesced_retrans;
+}
+
 float fruitGrainPart::nRetransSupply(void)
    //============================================================================
 {
@@ -2218,7 +2211,7 @@ void fruitGrainPart::doPInit(void)
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
       (*part)->doPInit();
-      PGreen +=  (*part)->PGreen;
+      PGreen +=  (*part)->pGreen();
       }
 }
 

@@ -150,6 +150,7 @@ public:												// member functions
    float dltDmPotRue(void);        //FIXME
    float dltDmGreenUptake(void);
    float dltDmGreenRetransUptake(void);
+   float dltDmDetached(void);
 
    float dmGreenDemand(void);
    float dmTotal(void);
@@ -181,11 +182,12 @@ public:												// member functions
    float nRetransSupply(void);
    float nRetransDemand(void);
    float dltNRetransOut(void);
+   float dltNSenescedRetrans(void);
    float dltNGreen(void);
    float nDemand(void);
    float soilNDemand(void);
    float nCapacity(void);
-   void  doNPartition(float nSupply);
+   void  doNPartition(float nSupply, float n_demand_sum, float n_capacity_sum);
 
    float nMaxPot(void);
    float nMax(void);

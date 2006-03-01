@@ -156,6 +156,7 @@ public:												// member functions
    float dltDmGreen(void);
    float dltDmGreenUptake(void);
    float dltDmGreenRetransUptake(void);
+   float dltDmDetached(void);
 
    float dmTotal(void);
    float dmGreen(void);
@@ -174,10 +175,11 @@ public:												// member functions
    float nRetransSupply(void);
    float nRetransDemand(void);
    float dltNRetransOut(void);
+   float dltNSenescedRetrans(void);
    float dltNGreen(void);
    float nDemand(void);
    float soilNDemand(void);
-   void  doNPartition(float nSupply);
+   void  doNPartition(float nSupply, float n_demand_sum, float n_capacity_sum);
 
    float pTotal(void);
    float pGreen(void);
