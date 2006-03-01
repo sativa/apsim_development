@@ -11,11 +11,6 @@
          <summaryfile>lablab.sum</summaryfile>
       </initdata>
    </component>
-   <component name="Screen" executable="%apsuite\apsim\Screen\lib\Screen.dll">
-      <initdata>
-         <screen_output>on</screen_output>
-      </initdata>
-   </component>
    <component name="clock" executable="%apsuite\apsim\clock\lib\clock.dll">
       <initdata>
          <include>%apsuite\apsim\clock\clock.ini</include>
