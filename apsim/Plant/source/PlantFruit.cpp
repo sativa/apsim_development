@@ -157,6 +157,16 @@ float PlantFruit::dmSenescedVegTotal(void)
    return dmTotal;
 }
 
+float PlantFruit::dltDmDetached(void)
+   //===========================================================================
+{
+   dlt.dm_detached = 0.0;
+   vector<plantPart *>::iterator part;
+   for (part = myParts.begin(); part != myParts.end(); part++)
+      dlt.dm_detached += (*part)->dltDmDetached();
+   return dlt.dm_detached;
+}
+
 float PlantFruit::dmSenesced(void)
    //===========================================================================
 {
@@ -366,54 +376,29 @@ float PlantFruit::nCapacity(void)
    return NCapacity;
 }
 
-void PlantFruit::doNPartition(float nSupply)
+void PlantFruit::doNPartition(float nSupply, float n_demand_sum, float n_capacity_sum)
    //============================================================================
 {
-   float dlt_n_green;
+   plantPart::doNPartition(nSupply, n_demand_sum, n_capacity_sum);
    vector<plantPart *>::iterator part;
 
-   float n_demand_sum = 0.0;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      n_demand_sum += (*part)->nDemand();
-
-   float n_excess = nSupply - n_demand_sum;
-   n_excess = l_bound (n_excess, 0.0);
-
-   float n_capacity_sum = 0.0;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      n_capacity_sum += (*part)->nCapacity();
+   n_demand_sum = nDemand();
+   n_capacity_sum = nCapacity();
 
    for (part = myParts.begin(); part != myParts.end(); part++)
+      (*part)->doNPartition(dlt.n_green, n_demand_sum, n_capacity_sum);
+
+   float dlt_n_green_sum = dltNGreen();
+   if (!reals_are_equal(dlt_n_green_sum - dlt.n_green, 0.0))
       {
-      if (n_excess>0.0)
-         {
-         float plant_part_fract = divide ((*part)->nCapacity(), n_capacity_sum, 0.0);
-         dlt_n_green = (*part)->nDemand() + n_excess * plant_part_fract;
-         }
-      else
-         {
-         float plant_part_fract = divide ((*part)->nDemand(), n_demand_sum, 0.0);
-         dlt_n_green = nSupply * plant_part_fract;
-         }
-      (*part)->doNPartition(dlt_n_green);
-      }
-
-   float dlt_n_green_sum = 0.0;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      dlt_n_green_sum += (*part)->dltNGreen();
-
-   dlt.n_green = dlt_n_green_sum;
-
-   if (!reals_are_equal(dlt_n_green_sum - nSupply, 0.0))
-      {
-      string msg ="Fruit dlt_n_green mass balance is off: dlt_n_green_sum ="
-         + ftoa(dlt_n_green_sum, ".6")
-         + " vs nSupply ="
-         + ftoa(nSupply, ".6");
+      string msg ="Grain dlt_n_green mass balance is off: dlt_n_green_sum ="
+                  + ftoa(dlt_n_green_sum, ".6")
+                  + " vs nSupply ="
+                  + ftoa(dlt.n_green, ".6");
       parentPlant->warningError(msg.c_str());
       }
-
 }
+
 float PlantFruit::pTotal(void)
    //===========================================================================
 {
@@ -1113,7 +1098,7 @@ void PlantFruit::doNSenescedRetrans(float navail, float n_demand_tot)
    for (myPart = myParts.begin(); myPart != myParts.end(); myPart++)
       {
       (*myPart)->doNSenescedRetrans(navail, n_demand_tot);
-      dlt.n_senesced_retrans +=(*myPart)->dlt.n_senesced_retrans;
+      dlt.n_senesced_retrans +=(*myPart)->dltNSenescedRetrans();
       }
 }
 
@@ -1737,10 +1722,20 @@ float PlantFruit::dmRetransDemand(void)
    float dm_retrans_demand = 0.0;
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      {
       dm_retrans_demand += (*part)->dmRetransDemand();
-      }
+
    return dm_retrans_demand;
+}
+
+float PlantFruit::dltNSenescedRetrans(void)
+   //============================================================================
+{
+   float dlt_n_senesced_retrans = 0.0;
+   vector<plantPart *>::iterator part;
+   for (part = myParts.begin(); part != myParts.end(); part++)
+      dlt_n_senesced_retrans += (*part)->dltNSenescedRetrans();
+
+   return dlt_n_senesced_retrans;
 }
 
 float PlantFruit::nRetransSupply(void)
@@ -1749,9 +1744,8 @@ float PlantFruit::nRetransSupply(void)
    float n_retrans_supply = 0.0;
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      {
       n_retrans_supply += (*part)->nRetransSupply();
-      }
+
    return n_retrans_supply;
 }
 
@@ -1761,9 +1755,8 @@ float PlantFruit::dltNRetransOut(void)
    float dlt_n_retrans = 0.0;
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      {
       dlt_n_retrans += (*part)->dltNRetransOut();
-      }
+
    return dlt_n_retrans;
 }
 
@@ -1773,9 +1766,8 @@ float PlantFruit::dltNGreen(void)
    float dlt_n_green = 0.0;
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      {
       dlt_n_green += (*part)->dltNGreen();
-      }
+
    return dlt_n_green;
 }
 
@@ -1785,9 +1777,8 @@ float PlantFruit::nRetransDemand(void)
    float n_retrans_demand = 0.0;
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      {
       n_retrans_demand += (*part)->nRetransDemand();
-      }
+
    return n_retrans_demand;
 }
 
@@ -1850,7 +1841,7 @@ void PlantFruit::doPInit(void)
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
       (*part)->doPInit();
-      PGreen +=  (*part)->PGreen;
+      PGreen +=  (*part)->pGreen();
       }
 }
 
@@ -1860,9 +1851,8 @@ float PlantFruit::dmGreenStressDeterminant(void)
    float dm_green = 0.0;
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      {
       dm_green +=  (*part)->dmGreenStressDeterminant();
-      }
+
    return dm_green;
 }
 
@@ -1872,9 +1862,8 @@ float PlantFruit::pGreenStressDeterminant(void)
    float p_green = 0.0;
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      {
       p_green +=  (*part)->pGreenStressDeterminant();
-      }
+
    return p_green;
 }
 
@@ -1884,9 +1873,8 @@ float PlantFruit::pMaxPotStressDeterminant(void)
    float p_max_pot = 0.0;
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      {
       p_max_pot +=  (*part)->pMaxPotStressDeterminant();
-      }
+
    return p_max_pot;
 }
 
@@ -1896,9 +1884,8 @@ float PlantFruit::pMinPotStressDeterminant(void)
    float p_min_pot = 0.0;
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      {
       p_min_pot +=  (*part)->pMinPotStressDeterminant();
-      }
+
    return p_min_pot;
 }
 

@@ -34,6 +34,12 @@ void fruitMealPart::doDMDemand (float dm_demand)
     DMGreenDemand = dm_demand;
 }
 
+float fruitMealPart::nDemand2(void)
+   //===========================================================================
+{
+   return l_bound(NDemand - dlt.n_senesced_retrans - dlt.n_green, 0.0);
+}
+
 void fruitMealPart::doNRetranslocate(float dltN, float grain_n_demand)
 //     ===========================================================
 {

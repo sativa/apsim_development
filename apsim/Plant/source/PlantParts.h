@@ -238,6 +238,7 @@ class plantPart : public plantThing
    virtual float dltDmGreenNew(void);
    virtual float dltDmGreenUptake(void);
    virtual float dltDmGreenRetransUptake(void);
+   virtual float dltDmDetached(void);
    virtual float dmSenesced(void);
    virtual float dmDead(void);
    virtual float dmRetransSupply(void);
@@ -250,6 +251,7 @@ class plantPart : public plantThing
    virtual float nTotal(void);
    virtual float nGreen(void);
    virtual float nSenesced(void);
+   virtual float dltNSenescedRetrans(void);
    virtual float nDead(void);
    virtual float nConc(void);
    virtual float dltNRetransOut(void);
@@ -271,7 +273,7 @@ class plantPart : public plantThing
    virtual float nDemand(void);
    virtual float nMax(void);
    virtual float nCapacity(void);
-   virtual void  doNPartition(float nSupply);
+   virtual void  doNPartition(float nSupply, float n_demand_sum, float n_capacity_sum);
    virtual float nRetransSupply(void);
    virtual float nRetransDemand(void);
    virtual float nDemandDifferential(void);

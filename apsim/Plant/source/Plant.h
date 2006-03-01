@@ -146,7 +146,8 @@ private:
    float grainPConcTot(void) const;
    float sumNMax(void) ;
    float sumSoilNDemand(void) ;
-   float sumNDemand(void) ;
+   float nDemand(void) ;
+   float nCapacity(void) ;
 
 public:
    Plant(PlantComponent *P);
