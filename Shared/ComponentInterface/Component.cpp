@@ -513,7 +513,7 @@ void Component::error(const FString& msg, bool isFatal)
                                                   parentID,
                                                   errorID,
                                                   Type(ERROR_TYPE),
-                                                  ErrorData(cMessage));
+                                                  ErrorData(isFatal, cMessage));
    errorMessage->toAcknowledge = true;
    sendMessage(errorMessage);
    if (isFatal)
