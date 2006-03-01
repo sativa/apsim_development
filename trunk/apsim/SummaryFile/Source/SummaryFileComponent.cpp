@@ -111,7 +111,7 @@ void SummaryFileComponent::doInit1(const FString& sdml)
 void SummaryFileComponent::doInit2(void)
    {
    writeInfo();
-   if (!out) terminateSimulation(); // If open() failed earlier, stop now. 
+   if (!out) terminateSimulation(); // If open() failed earlier, stop now.
    }
 // ------------------------------------------------------------------
 // write all simulation information to summary file.
@@ -180,9 +180,9 @@ void SummaryFileComponent::respondToEvent(unsigned int& fromID, unsigned int& ev
       }
    else if (eventID == externalErrorID)
       {
-      FString errorMessage;
-      variant.unpack(errorMessage);
-      string componentName = asString(errorMessage);
+      ErrorData errorData;
+      variant.unpack(errorData);
+      string componentName = asString(errorData.errorMessage);
       unsigned int posComponentName = componentName.find("Component name: ");
       if (posComponentName != string::npos)
          {
@@ -191,7 +191,7 @@ void SummaryFileComponent::respondToEvent(unsigned int& fromID, unsigned int& ev
          }
       else
          componentName = "";
-      writeLine(componentName.c_str(), errorMessage);
+      writeLine(componentName.c_str(), errorData.errorMessage);
       }
    }
 
@@ -208,7 +208,7 @@ void SummaryFileComponent::respondToEvent(unsigned int& fromID, unsigned int& ev
 void SummaryFileComponent::writeLine(const FString& componentName, const FString& lines)
    {
    if (!out) return;
-   
+
    static string previousComponentName;
    unsigned indentation = 5;
    if (!inDiaryState)
