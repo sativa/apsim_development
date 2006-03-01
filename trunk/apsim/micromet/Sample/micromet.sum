@@ -9,10 +9,9 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 4.3
+     Version                = 5.0
      Title                  = Micromet Sample Simulation
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
      Component DLL          = c:\development\apsim\clock\lib\clock.dll
      Component DLL          = c:\development\apsim\report\lib\report.dll
      Component DLL          = c:\development\apsim\input\lib\input.dll
@@ -139,12 +138,6 @@
             Cuml evap (U):            4.00 (mm^0.5)
             CONA:                     2.50 ()
            Eo from priestly-taylor
-
-------- grass Initialisation --------------------------------------------------
-     Initialising:
-
-------- tree Initialisation ---------------------------------------------------
-     Initialising:
 ------- Start of simulation  --------------------------------------------------
 1 January 1988(Day of year=1), manager: 
      Manager sending message :- micromet lai_table
