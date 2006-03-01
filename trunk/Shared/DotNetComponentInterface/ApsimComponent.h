@@ -123,30 +123,30 @@ public __gc class ApsimComponent
 										ReadWrite = ComponentComms::ReadWriteType::readWrite;
 									}
 								}
-							}
-						if (myAttributes->Length > 0)
-							{
-							IData* data = NULL;
-							String* MemberType = Properties[p]->get_FieldType()->Name;
-							if (MemberType->CompareTo("Single") == 0)
-								data = new WrapMemberInfo<ApsimSingle, FieldInfo>(Properties[p], this, stringToStdString(units));
-							else if (MemberType->CompareTo("Double") == 0)
-								data = new WrapMemberInfo<ApsimDouble, FieldInfo>(Properties[p], this, stringToStdString(units));
-							else if (MemberType->CompareTo("Int32") == 0)
-								data = new WrapMemberInfo<ApsimInteger4, FieldInfo>(Properties[p], this, stringToStdString(units));
-							else if (MemberType->CompareTo("String") == 0)
-								data = new WrapMemberInfo<ApsimString, FieldInfo>(Properties[p], this, stringToStdString(units));
-							else if (MemberType->CompareTo("String[]") == 0)
-								data = new WrapMemberInfo<ApsimArray<ApsimString, String*>, FieldInfo>(Properties[p], this, stringToStdString(units));
-							else if (MemberType->CompareTo("Int32[]") == 0)
-								data = new WrapMemberInfo<ApsimArray<ApsimInteger4, Int32>, FieldInfo>(Properties[p], this, stringToStdString(units));
-							else if (MemberType->CompareTo("Single[]") == 0)
-								data = new WrapMemberInfo<ApsimArray<ApsimSingle, Single>, FieldInfo>(Properties[p], this, stringToStdString(units));
-							else if (MemberType->CompareTo("Double[]") == 0)
-								data = new WrapMemberInfo<ApsimArray<ApsimDouble, Double>, FieldInfo>(Properties[p], this, stringToStdString(units));
-							
-							if (data != NULL)
-								comms->registerProperty(stringToStdString(name), stringToStdString(units), ReadWrite, data);
+							if (name->Length > 0)
+								{
+								IData* data = NULL;
+								String* MemberType = Properties[p]->get_FieldType()->Name;
+								if (MemberType->CompareTo("Single") == 0)
+									data = new WrapMemberInfo<ApsimSingle, FieldInfo>(Properties[p], this, stringToStdString(units));
+								else if (MemberType->CompareTo("Double") == 0)
+									data = new WrapMemberInfo<ApsimDouble, FieldInfo>(Properties[p], this, stringToStdString(units));
+								else if (MemberType->CompareTo("Int32") == 0)
+									data = new WrapMemberInfo<ApsimInteger4, FieldInfo>(Properties[p], this, stringToStdString(units));
+								else if (MemberType->CompareTo("String") == 0)
+									data = new WrapMemberInfo<ApsimString, FieldInfo>(Properties[p], this, stringToStdString(units));
+								else if (MemberType->CompareTo("String[]") == 0)
+									data = new WrapMemberInfo<ApsimArray<ApsimString, String*>, FieldInfo>(Properties[p], this, stringToStdString(units));
+								else if (MemberType->CompareTo("Int32[]") == 0)
+									data = new WrapMemberInfo<ApsimArray<ApsimInteger4, Int32>, FieldInfo>(Properties[p], this, stringToStdString(units));
+								else if (MemberType->CompareTo("Single[]") == 0)
+									data = new WrapMemberInfo<ApsimArray<ApsimSingle, Single>, FieldInfo>(Properties[p], this, stringToStdString(units));
+								else if (MemberType->CompareTo("Double[]") == 0)
+									data = new WrapMemberInfo<ApsimArray<ApsimDouble, Double>, FieldInfo>(Properties[p], this, stringToStdString(units));
+								
+								if (data != NULL)
+									comms->registerProperty(stringToStdString(name), stringToStdString(units), ReadWrite, data);
+								}
 							}
 						}
 					}

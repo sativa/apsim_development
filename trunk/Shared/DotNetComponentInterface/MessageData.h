@@ -392,6 +392,9 @@ class WrapManaged : public IEventData
 	
 	};
 
+
+// Using this template IS NOT SAFE as it doesn't pin pointers. 
+// Two instances of SLURP confirmed this. See micromet sample.
 template <class InternalT, class ExternalT>
 class WrapVariableAlias : public IData
    {
