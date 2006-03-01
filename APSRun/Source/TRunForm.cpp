@@ -287,6 +287,7 @@ void __fastcall TRunForm::OnRunNotifyEvent(const std::string& simFileName)
    ProgressBar->Step = 1;
    ProgressBar->Min = 0;
    ProgressBar->Max = simEndJDay - simStartJDay;
+   ProgressBar->Position = 0;
 
    StartDateLabel->Caption = sdat.getValue().c_str();
    EndDateLabel->Caption = edat.getValue().c_str();
