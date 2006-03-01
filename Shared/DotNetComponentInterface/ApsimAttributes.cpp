@@ -33,7 +33,7 @@ public __gc class ApsimEvent : public System::Attribute
 	};
 
 
-[AttributeUsage(AttributeTargets::Field)]
+[AttributeUsage(AttributeTargets::Field, AllowMultiple = true)]
 public __gc class ApsimVariable : public System::Attribute
 	{
 	private:

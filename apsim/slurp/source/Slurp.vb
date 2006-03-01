@@ -19,6 +19,13 @@ Public Class Slurp
     <ApsimVariable("int_radn", "MJ", ApsimProperties.ReadWriteType.Read)> _
     Public IntRadn As Single         ' Daily Intercepted Radiation (MJ/m2)
 
+    <ApsimVariable("rlv", "mm/mm3", ApsimProperties.ReadWriteType.Read)> _
+    Public rlv() As Single                 ' Root Length Density (mm/mm3)
+
+    <ApsimVariable("sw_demand", "mm", ApsimProperties.ReadWriteType.Read), _
+     ApsimVariable("pet", "mm", ApsimProperties.ReadWriteType.Read)> _
+    Public SWDemand As Single           ' Daily Soil Water Demand (mm)
+
     ' ------------------------  Component Data ---------------------------
     Private LAI As Single                ' Leaf Area Index (Green)
     Private LAId As Single               ' Leaf Area Index (Dead)
@@ -29,32 +36,17 @@ Public Class Slurp
     Private Frgr As Single               ' Relative Growth Rate Factor
     Public dlayer() As Single         ' Soil Layer Thickness (mm)
 
-    Private rlv() As Single                 ' Root Length Density (mm/mm3)
     Private kl() As Single               ' SW uptake parameter (/day)
     Private ll() As Single               ' Crop Lower Limit (mm/mm)
     Private FtFunction As New InterpSet  ' Tmperature effect on Growth Interpolation Set
     Private Roots() As String            ' Array of root system names
     Private Root_Distance() As Single    ' Distance to each root system
     Private RootExtent As Single         ' Extent of root system (in multiples of height)
-    Private SWDemand As Single           ' Daily Soil Water Demand (mm)
     Private SWSupply() As Single         ' Daily water supply from each layer (mm)
     Private SWUptake() As Single         ' Daily uptake of SW from each layer (mm)
     Private MetData As NewMet            ' Daily Met Data
     Private UptakeSource As String       ' User choice for source of uptake information
 
-    ' ===================================================
-    Public Overrides Sub init1()
-
-        ' Do Registrations
-
-
-
-        ' Property Getters and Setters
-        properties.Register("rlv", "mm/mm3", ApsimProperties.ReadWriteType.Read, rlv)
-        properties.Register("pet", "mm", ApsimProperties.ReadWriteType.Read, SWDemand)
-        properties.Register("sw_demand", "mm", ApsimProperties.ReadWriteType.Read, SWDemand)
-
-    End Sub
     ' ===================================================
     Public Overrides Sub init2()
         ReadParameters()             ' Get info from parameter data

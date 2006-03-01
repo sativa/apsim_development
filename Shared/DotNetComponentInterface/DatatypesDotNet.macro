@@ -227,6 +227,7 @@ public  __gc class ApsimProperties
          #endif
          return comms->setProperty(stringToStdString(PropertyName), "", Value);
          }
+      /*
       #if (type.array = T)
       void Register(String* PropertyName, String* Units, ApsimProperties::ReadWriteType ReadWrite, type.dotnetkind (*Data) type.dotnetarraybits)
       #else
@@ -241,7 +242,7 @@ public  __gc class ApsimProperties
          WrapVariableAlias<Apsimtype.KKind, type.dotnetkind>* wrapper = new WrapVariableAlias<Apsimtype.KKind, type.dotnetkind>(Data, units);
          #endif
          comms->registerProperty(stringToStdString(PropertyName), units, ReadWrite, wrapper);
-         }
+         }*/
       void RegisterHandler(String* PropertyName, String* Units, type.nameFunction::Handler* handler)
          {
          type.nameFunction* data = new type.nameFunction;
