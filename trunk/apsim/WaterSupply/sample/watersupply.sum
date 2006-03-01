@@ -9,10 +9,9 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 4.3
+     Version                = 5.0
      Title                  = watersupply Sample Simulation
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
      Component DLL          = c:\development\apsim\clock\lib\clock.dll
      Component DLL          = c:\development\apsim\report\lib\report.dll
      Component DLL          = c:\development\apsim\Input\lib\Input.dll
@@ -253,12 +252,8 @@
       System Solute number  1  is no3 and the initial concentration in this storage is  0.00000000E+00  ppm
       System Solute number  2  is nh4 and the initial concentration in this storage is  0.00000000E+00  ppm
       System Solute number  3  is urea and the initial concentration in this storage is  0.00000000E+00  ppm
-      System Solute number  4  is org_c_pool1 and the initial concentration in this storage is  0.00000000E+00  ppm
-      System Solute number  5  is org_c_pool2 and the initial concentration in this storage is  0.00000000E+00  ppm
-      System Solute number  6  is org_c_pool3 and the initial concentration in this storage is  0.00000000E+00  ppm
-      System Solute number  7  is org_n and the initial concentration in this storage is  0.00000000E+00  ppm
-      System Solute number  8  is br and the initial concentration in this storage is  100.000000  ppm
-      System Solute number  9  is cl and the initial concentration in this storage is  0.00000000E+00  ppm
+      System Solute number  4  is br and the initial concentration in this storage is  100.000000  ppm
+      System Solute number  5  is cl and the initial concentration in this storage is  0.00000000E+00  ppm
 
 ------- dam Initialisation ----------------------------------------------------
      
@@ -283,12 +278,8 @@
       System Solute number  1  is no3 and the initial concentration in this storage is  0.00000000E+00  ppm
       System Solute number  2  is nh4 and the initial concentration in this storage is  0.00000000E+00  ppm
       System Solute number  3  is urea and the initial concentration in this storage is  0.00000000E+00  ppm
-      System Solute number  4  is org_c_pool1 and the initial concentration in this storage is  0.00000000E+00  ppm
-      System Solute number  5  is org_c_pool2 and the initial concentration in this storage is  0.00000000E+00  ppm
-      System Solute number  6  is org_c_pool3 and the initial concentration in this storage is  0.00000000E+00  ppm
-      System Solute number  7  is org_n and the initial concentration in this storage is  0.00000000E+00  ppm
-      System Solute number  8  is br and the initial concentration in this storage is  100.000000  ppm
-      System Solute number  9  is cl and the initial concentration in this storage is  0.00000000E+00  ppm
+      System Solute number  4  is br and the initial concentration in this storage is  100.000000  ppm
+      System Solute number  5  is cl and the initial concentration in this storage is  0.00000000E+00  ppm
 
 ------- sump Initialisation ---------------------------------------------------
      
@@ -313,12 +304,8 @@
       System Solute number  1  is no3 and the initial concentration in this storage is  0.00000000E+00  ppm
       System Solute number  2  is nh4 and the initial concentration in this storage is  0.00000000E+00  ppm
       System Solute number  3  is urea and the initial concentration in this storage is  0.00000000E+00  ppm
-      System Solute number  4  is org_c_pool1 and the initial concentration in this storage is  0.00000000E+00  ppm
-      System Solute number  5  is org_c_pool2 and the initial concentration in this storage is  0.00000000E+00  ppm
-      System Solute number  6  is org_c_pool3 and the initial concentration in this storage is  0.00000000E+00  ppm
-      System Solute number  7  is org_n and the initial concentration in this storage is  0.00000000E+00  ppm
-      System Solute number  8  is br and the initial concentration in this storage is  0.00000000E+00  ppm
-      System Solute number  9  is cl and the initial concentration in this storage is  50.0000000  ppm
+      System Solute number  4  is br and the initial concentration in this storage is  0.00000000E+00  ppm
+      System Solute number  5  is cl and the initial concentration in this storage is  50.0000000  ppm
 ------- Start of simulation  --------------------------------------------------
 1 January 1988(Day of year=1), manager: 
      Manager creating a new local real variable : dam_deficit =     6.00000000000000
