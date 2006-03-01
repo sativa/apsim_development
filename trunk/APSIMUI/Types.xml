@@ -140,11 +140,6 @@
          <recurse>yes</recurse>
          <sim>
             <title>[simulation.name]</title>
-            <component name="Screen" executable="%apsuite\apsim\Screen\lib\Screen.dll">
-               <initdata>
-                  <screen_output>on</screen_output>
-               </initdata>
-            </component>
          </sim>
       </ApsimToSim>
    </simulation>
