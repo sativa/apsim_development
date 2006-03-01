@@ -1214,6 +1214,35 @@ bool ApsimControlFile::renameModule(const std::string& section,
 bool ApsimControlFile::deleteModule(const std::string& section,
                                     const std::string& moduleName)
    {
+   // Get a complete list of all par/ini files for specified module.
+   vector<ParamFile> paramFiles;
+   getParameterFilesForModule(ini, section, moduleName, paramFiles, true);
+   set<string> parFileNames;
+   for (unsigned p = 0; p != paramFiles.size(); p++)
+      parFileNames.insert(paramFiles[p].fileName);
+
+   // rename all relevant sections.
+   for (set<string>::iterator paramFile = parFileNames.begin();
+                              paramFile != parFileNames.end();
+                              paramFile++)
+      {
+      if (paramFile->find(".ini") == string::npos)
+         {
+         IniFile* par = getParFile(*paramFile);
+         vector<string> sectionNames;
+         par->readSectionNames(sectionNames);
+         for (unsigned s = 0; s != sectionNames.size(); s++)
+            {
+            StringTokenizer tokenizer(sectionNames[s], ".");
+            string firstBit = tokenizer.nextToken();
+            string secondBit = tokenizer.nextToken();
+            string thirdBit = tokenizer.nextToken();
+            if (Str_i_Eq(secondBit, moduleName))
+               par->deleteSection(sectionNames[s]);
+            }
+         }
+      }
+
    bool changeMade = false;
 
    vector<string> lines;
