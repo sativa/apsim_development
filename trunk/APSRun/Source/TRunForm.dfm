@@ -893,7 +893,7 @@ object RunForm: TRunForm
     Top = 0
     Width = 676
     Height = 542
-    ActivePage = Page3
+    ActivePage = Page4
     Anchors = [akLeft, akTop, akRight, akBottom]
     Style = tsFlatButtons
     TabOrder = 0
@@ -1096,7 +1096,6 @@ object RunForm: TRunForm
         BorderWidth = 1
         Min = 0
         Max = 100
-        Position = 100
         Smooth = True
         Step = 1
         TabOrder = 0

@@ -131,7 +131,7 @@ void ApsimRuns::runApsim(bool quiet,  TApsimRunEvent notifyEvent, TApsimRunEvent
    for (unsigned f = 0; f != fileNames.size() && !stopApsim; f++)
       {
       Path filePath(fileNames[f]);
-      string simFileName;
+      string simFileName = fileNames[f];
       try
          {
          // Convert file to .sim if necessary (i.e. if it's a .con or a .apsim
