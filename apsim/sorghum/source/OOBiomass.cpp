@@ -382,6 +382,9 @@ void Biomass::incorporateResidue(void)
          dlt_dm_n.push_back((plant->PlantParts[part]->getNGreen() +
                plant->PlantParts[part]->getNSenesced() + plant->PlantParts[part]->getNDead()) *
                                                        gm2kg/sm2ha);
+         float dmP = plant->PlantParts[part]->getPGreen();
+         float senP = plant->PlantParts[part]->getPSenesced();
+         float deadP = plant->PlantParts[part]->getPDead();
          dlt_dm_p.push_back((plant->PlantParts[part]->getPGreen() +
                plant->PlantParts[part]->getPSenesced() + plant->PlantParts[part]->getPDead()) *
                                                        gm2kg/sm2ha);

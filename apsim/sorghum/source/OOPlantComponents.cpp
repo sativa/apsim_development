@@ -47,6 +47,7 @@ void PlantPart::initialize(void)
    pGreen = 0.0;
    pDemand = 0.0;
    pDead = 0.0;
+   pSenesced = 0.0;
    }
 
 //---------------------------------------------------------------------------

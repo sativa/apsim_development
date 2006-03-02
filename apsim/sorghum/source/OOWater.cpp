@@ -105,21 +105,23 @@ void Water::readParams (string cultivar)
    readArray (plantInterface,sections, "xf", xf);
 
     // report
-   plantInterface->writeString ("                   Root Profile");
-   plantInterface->writeString ("---------------------------------------------------");
-   plantInterface->writeString ("     Layer       Kl           Lower    Exploration");
-   plantInterface->writeString ("     Depth     Factor         Limit      Factor  ");
-   plantInterface->writeString ("     (mm)         ()        (mm/mm)       (0-1)");
-   plantInterface->writeString ("---------------------------------------------------");
+   plantInterface->writeString ("");
+   plantInterface->writeString ("");
+   plantInterface->writeString ("                       Root Profile");
+   plantInterface->writeString ("    ---------------------------------------------------");
+   plantInterface->writeString ("         Layer       Kl           Lower    Exploration");
+   plantInterface->writeString ("         Depth     Factor         Limit      Factor  ");
+   plantInterface->writeString ("         (mm)         ()        (mm/mm)       (0-1)");
+   plantInterface->writeString ("    ---------------------------------------------------");
 
    char msg[100];
    for (int layer = 0; layer < nLayers; layer++)
       {
-      sprintf (msg, "%9.1f%10.3f%15.3f%12.3f", dLayer[layer],kl[layer],
+      sprintf (msg, "    %9.1f%10.3f%15.3f%12.3f", dLayer[layer],kl[layer],
                                               ll[layer],xf[layer]);
       plantInterface->writeString (msg);
       }
-   plantInterface->writeString ("---------------------------------------------------\n");
+   plantInterface->writeString ("    ---------------------------------------------------\n");
 
    }
 //------------------------------------------------------------------------------------------------
