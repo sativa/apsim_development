@@ -54,6 +54,7 @@ class Phosphorus : public PlantProcess
    vector<float> dltPRetrans;
    vector<float> pSenesced;
    vector<float> pDead;
+   vector<float> dltPDead;
    vector<float> dltPDetached;
    vector<float> dltPDetachedDead;
    vector<float> pDemand;
@@ -119,6 +120,7 @@ class Phosphorus : public PlantProcess
    void getPSenesced(protocol::Component *system, protocol::QueryValueData &qd);
    void getPDead(protocol::Component *system, protocol::QueryValueData &qd);
    void getDltPDetached(protocol::Component *system, protocol::QueryValueData &qd);
+   void getDltPDead(protocol::Component *system, protocol::QueryValueData &qd);
    void getDltPDeadDetached(protocol::Component *system, protocol::QueryValueData &qd);
    void getPDemand(protocol::Component *system, protocol::QueryValueData &qd);
 
