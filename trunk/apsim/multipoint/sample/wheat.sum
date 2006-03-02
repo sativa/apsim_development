@@ -1,13 +1,13 @@
-     ###     ######     #####   #   #     #
-    #   #    #     #   #        #   ##   ##
-   #     #   #     #   #        #   ##   ##
-   #######   ######     #####   #   # # # #
-   #     #   #              #   #   #  #  #
-   #     #   #         #####    #   #  #  #
-
-
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
  The Agricultural Production Systems Simulator
-             Copyright(c) APSRU
+             Copyright(c) APSRU               
 
      Version                = 5.0
      Title                  = Simple System Simulation
@@ -32,13 +32,13 @@
      Output variables:
         clock.dd/mm/yyyy as Date
         SubSystem.rain as rain
-
+     
      Output file = wheat.out
      Format = normal
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
-
+     
      SECTION:- end_of_day
      if (day = 200) then
         subsystem.rain = 123
@@ -47,7 +47,7 @@
      report do_output
      subsystem do_output
      END of rules
-
+     
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
@@ -57,21 +57,21 @@
      Output variables:
         day
         met.rain
-
+     
      Output file = wheat2.out
      Format = normal
 
 ------- soilwat2 Initialisation -----------------------------------------------
-
+     
          - Reading constants
-
+     
         - Reading Soil Property Parameters
-
+     
         - Reading Soil Profile Parameters
      Initial soilwater distributed from top down using "profile_fesw" parameter.
-
-
-
+     
+     
+     
                       Soil Profile Properties
         ---------------------------------------------------------------------
               Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
@@ -89,9 +89,9 @@
          2400.- 2700.  0.350  0.350  0.460  0.510  0.460  1.200  0.000  0.300
          2700.- 3000.  0.360  0.360  0.440  0.490  0.440  1.250  0.000  0.300
         ---------------------------------------------------------------------
-
-
-
+     
+     
+     
                   Soil Water Holding Capacity
           ---------------------------------------------------------
               Depth    Unavailable Available  Max Avail.  Drainable
@@ -112,34 +112,34 @@
           ---------------------------------------------------------
                Totals     954.00     541.50     541.50     147.00
           ---------------------------------------------------------
-
-
-
-
-
-
+     
+     
+     
+     
+     
+     
                   Initial Soil Parameters
           ---------------------------------------------------------
                  Insoil        Salb     Dif_Con   Dif_Slope
           ---------------------------------------------------------
                    0.00        0.13       40.00       16.00
           ---------------------------------------------------------
-
-
-
+     
+     
+     
                   Runoff is predicted using scs curve number:
                 Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
                                            mm
           ---------------------------------------------------------
               73.00   20.00    0.80  450.00
           ---------------------------------------------------------
-
-
-
+     
+     
+     
            Using Ritchie evaporation model
             Cuml evap (U):            6.00 (mm^0.5)
             CONA:                     3.50 ()
            Eo from priestly-taylor
 ------- Start of simulation  --------------------------------------------------
-17 November 1988(Day of year=322), clock:
+17 November 1988(Day of year=322), clock: 
      Simulation is terminating due to end criteria being met.
