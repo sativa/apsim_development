@@ -11,7 +11,7 @@ BCB = $(MAKEDIR)\..
 
 PROJECT=..\lib\StockScienceConverter.dll
 
-OBJFILES=StockScienceConverter.obj ScienceConverterComponent.obj PlantPool.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
+OBJFILES=StockScienceConverter.obj ScienceConverterComponent.obj PlantPool.obj PlantHerbage.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
