@@ -12,11 +12,6 @@
          <summaryfile>wheat.sum</summaryfile>
       </initdata>
    </component>
-   <component name="Screen" executable="%apsuite\apsim\screen\lib\screen.dll">
-      <initdata>
-         <screen_output>on</screen_output>
-      </initdata>
-   </component>
    <component name="clock" executable="%apsuite\apsim\clock\lib\clock.dll">
       <initdata>
          <timestep_events>prepare process post rep</timestep_events>
