@@ -9,10 +9,9 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 4.3
+     Version                = 5.0
      Title                  =
      Component DLL          = c:\development\apsim\Summaryfile\lib\Summaryfile.dll
-     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
      Component DLL          = c:\development\apsim\clock\lib\clock.dll
      Component DLL          = c:\development\apsim\report\lib\report.dll
      Component DLL          = c:\development\apsim\Input\lib\Input.dll
@@ -278,13 +277,6 @@
 
 ------- wheat Initialisation --------------------------------------------------
      phenology model: Wheat
-
-------- sorghum Initialisation ------------------------------------------------
-      Initialising, V1.0 2000.01.21
-     
-         - Reading constants
-     
-         - Reading constants
 
 ------- tracker Initialisation ------------------------------------------------
      Tracker variables:
@@ -946,7 +938,7 @@
       flowering day          =  246                           stover (kg/ha)         =     4482.1
       maturity day           =  297                           grain yield (kg/ha)    =     1744.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1993.6
-      grain wt (g)           =    0.024                       grains/m^2             =   7276.032
+      grain wt (g)           =    0.024                       grains/m^2             =   7276.033
       grains/plant           =   72.8                         maximum lai            =      2.025
       total above ground biomass (kg/ha)    =     6226.5
       live above ground biomass (kg/ha)     =     6226.5
@@ -1082,7 +1074,7 @@
       flowering day          =  268                           stover (kg/ha)         =     4622.1
       maturity day           =  311                           grain yield (kg/ha)    =     1614.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1845.1
-      grain wt (g)           =    0.022                       grains/m^2             =   7378.735
+      grain wt (g)           =    0.022                       grains/m^2             =   7378.737
       grains/plant           =   73.8                         maximum lai            =      2.108
       total above ground biomass (kg/ha)    =     6236.5
       live above ground biomass (kg/ha)     =     6236.5
@@ -1218,7 +1210,7 @@
       flowering day          =  284                           stover (kg/ha)         =     5819.8
       maturity day           =  329                           grain yield (kg/ha)    =     2321.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2652.7
-      grain wt (g)           =    0.025                       grains/m^2             =   9409.816
+      grain wt (g)           =    0.025                       grains/m^2             =   9409.817
       grains/plant           =   94.1                         maximum lai            =      2.308
       total above ground biomass (kg/ha)    =     8141.0
       live above ground biomass (kg/ha)     =     8141.0
@@ -1242,7 +1234,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5819.64                    0.00
+                          DM (kg/ha) =               5819.65                    0.00
                           N  (kg/ha) =                 19.28                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -1354,7 +1346,7 @@
       flowering day          =  266                           stover (kg/ha)         =     3770.8
       maturity day           =  308                           grain yield (kg/ha)    =     1322.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1511.9
-      grain wt (g)           =    0.021                       grains/m^2             =   6315.580
+      grain wt (g)           =    0.021                       grains/m^2             =   6315.578
       grains/plant           =   63.2                         maximum lai            =      1.802
       total above ground biomass (kg/ha)    =     5093.7
       live above ground biomass (kg/ha)     =     5093.7
@@ -1490,7 +1482,7 @@
       flowering day          =  270                           stover (kg/ha)         =     5085.1
       maturity day           =  317                           grain yield (kg/ha)    =     2096.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2395.4
-      grain wt (g)           =    0.026                       grains/m^2             =   8039.916
+      grain wt (g)           =    0.026                       grains/m^2             =   8039.909
       grains/plant           =   80.4                         maximum lai            =      2.136
       total above ground biomass (kg/ha)    =     7181.1
       live above ground biomass (kg/ha)     =     7181.1
@@ -1514,7 +1506,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5084.95                    0.00
+                          DM (kg/ha) =               5084.94                    0.00
                           N  (kg/ha) =                 16.89                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -1626,7 +1618,7 @@
       flowering day          =  250                           stover (kg/ha)         =     5456.7
       maturity day           =  296                           grain yield (kg/ha)    =     2071.4
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2367.3
-      grain wt (g)           =    0.023                       grains/m^2             =   9065.155
+      grain wt (g)           =    0.023                       grains/m^2             =   9065.156
       grains/plant           =   90.7                         maximum lai            =      2.299
       total above ground biomass (kg/ha)    =     7528.1
       live above ground biomass (kg/ha)     =     7528.1
@@ -1898,7 +1890,7 @@
       flowering day          =  307                           stover (kg/ha)         =     5380.8
       maturity day           =  346                           grain yield (kg/ha)    =     2991.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3418.3
-      grain wt (g)           =    0.038                       grains/m^2             =   7970.876
+      grain wt (g)           =    0.038                       grains/m^2             =   7970.875
       grains/plant           =   79.7                         maximum lai            =      3.519
       total above ground biomass (kg/ha)    =     8371.9
       live above ground biomass (kg/ha)     =     8371.9
@@ -2034,7 +2026,7 @@
       flowering day          =  251                           stover (kg/ha)         =     6797.4
       maturity day           =  301                           grain yield (kg/ha)    =     3151.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3601.9
-      grain wt (g)           =    0.028                       grains/m^2             =  11237.209
+      grain wt (g)           =    0.028                       grains/m^2             =  11237.210
       grains/plant           =  112.4                         maximum lai            =      3.246
       total above ground biomass (kg/ha)    =     9949.1
       live above ground biomass (kg/ha)     =     9949.1
@@ -2170,7 +2162,7 @@
       flowering day          =  256                           stover (kg/ha)         =     1960.4
       maturity day           =  305                           grain yield (kg/ha)    =      755.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      863.6
-      grain wt (g)           =    0.023                       grains/m^2             =   3271.545
+      grain wt (g)           =    0.023                       grains/m^2             =   3271.543
       grains/plant           =   32.7                         maximum lai            =      0.789
       total above ground biomass (kg/ha)    =     2716.0
       live above ground biomass (kg/ha)     =     2716.0
@@ -2451,7 +2443,7 @@
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   45.0
       DM Root:Shoot ratio    =    0.146                       Harvest Index          =      0.277
-      Stover C:N ratio       =  124.198                       Root C:N ratio         =     43.287
+      Stover C:N ratio       =  124.197                       Root C:N ratio         =     43.287
       grain N percent        =       1.28                     total N content (kg/ha)=      44.39
       grain N uptake (kg/ha) =      26.85                     senesced N content (kg/ha)=    5.55
       green N content (kg/ha)=      12.00                     dead N content (kg/ha) =       0.00
@@ -2986,7 +2978,7 @@
       flowering day          =  250                           stover (kg/ha)         =     4281.6
       maturity day           =  298                           grain yield (kg/ha)    =     2089.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2387.5
-      grain wt (g)           =    0.031                       grains/m^2             =   6782.207
+      grain wt (g)           =    0.031                       grains/m^2             =   6782.205
       grains/plant           =   67.8                         maximum lai            =      1.788
       total above ground biomass (kg/ha)    =     6370.6
       live above ground biomass (kg/ha)     =     6370.6
@@ -3114,7 +3106,7 @@
 15 November 1978(Day of year=319), wheat: 
       stage 10.0 harvest_ripe
                      biomass =         625.97 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     0.29 (%)    extractable sw =   53.41 (mm)
+                     stover N conc =     0.29 (%)    extractable sw =   53.42 (mm)
 16 November 1978(Day of year=320), manager: 
      Manager sending message :- wheat harvest
 16 November 1978(Day of year=320), wheat: 
@@ -3122,7 +3114,7 @@
       flowering day          =  273                           stover (kg/ha)         =     3951.6
       maturity day           =  318                           grain yield (kg/ha)    =     2308.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2637.7
-      grain wt (g)           =    0.035                       grains/m^2             =   6642.818
+      grain wt (g)           =    0.035                       grains/m^2             =   6642.816
       grains/plant           =   66.4                         maximum lai            =      1.624
       total above ground biomass (kg/ha)    =     6259.7
       live above ground biomass (kg/ha)     =     6259.7
@@ -3155,7 +3147,7 @@
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
-                     stover N conc =     0.46 (%)    extractable sw =   53.41 (mm)
+                     stover N conc =     0.46 (%)    extractable sw =   53.42 (mm)
 16 November 1978(Day of year=320), manager: 
      Manager sending message :- wheat end_crop
 16 November 1978(Day of year=320), wheat: 
@@ -3258,7 +3250,7 @@
       flowering day          =  258                           stover (kg/ha)         =     3461.5
       maturity day           =  304                           grain yield (kg/ha)    =     1343.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1535.0
-      grain wt (g)           =    0.024                       grains/m^2             =   5563.928
+      grain wt (g)           =    0.024                       grains/m^2             =   5563.926
       grains/plant           =   55.6                         maximum lai            =      1.546
       total above ground biomass (kg/ha)    =     4804.6
       live above ground biomass (kg/ha)     =     4804.6
@@ -3394,7 +3386,7 @@
       flowering day          =  269                           stover (kg/ha)         =     6027.6
       maturity day           =  314                           grain yield (kg/ha)    =     2875.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3285.9
-      grain wt (g)           =    0.028                       grains/m^2             =  10347.198
+      grain wt (g)           =    0.028                       grains/m^2             =  10347.199
       grains/plant           =  103.5                         maximum lai            =      3.115
       total above ground biomass (kg/ha)    =     8902.8
       live above ground biomass (kg/ha)     =     8902.8
@@ -3530,7 +3522,7 @@
       flowering day          =  264                           stover (kg/ha)         =     1276.5
       maturity day           =  308                           grain yield (kg/ha)    =      455.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      520.2
-      grain wt (g)           =    0.023                       grains/m^2             =   1985.925
+      grain wt (g)           =    0.023                       grains/m^2             =   1985.924
       grains/plant           =   19.9                         maximum lai            =      0.498
       total above ground biomass (kg/ha)    =     1731.7
       live above ground biomass (kg/ha)     =     1731.7
@@ -3666,7 +3658,7 @@
       flowering day          =  274                           stover (kg/ha)         =     6961.0
       maturity day           =  315                           grain yield (kg/ha)    =     3535.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4040.9
-      grain wt (g)           =    0.030                       grains/m^2             =  11695.041
+      grain wt (g)           =    0.030                       grains/m^2             =  11695.039
       grains/plant           =  117.0                         maximum lai            =      3.782
       total above ground biomass (kg/ha)    =    10496.8
       live above ground biomass (kg/ha)     =    10496.8
@@ -3802,7 +3794,7 @@
       flowering day          =  295                           stover (kg/ha)         =     3955.5
       maturity day           =  337                           grain yield (kg/ha)    =     1614.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1844.8
-      grain wt (g)           =    0.024                       grains/m^2             =   6595.527
+      grain wt (g)           =    0.024                       grains/m^2             =   6595.526
       grains/plant           =   66.0                         maximum lai            =      2.622
       total above ground biomass (kg/ha)    =     5569.7
       live above ground biomass (kg/ha)     =     5569.7
@@ -3938,7 +3930,7 @@
       flowering day          =  276                           stover (kg/ha)         =     3772.2
       maturity day           =  317                           grain yield (kg/ha)    =     1398.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1598.7
-      grain wt (g)           =    0.023                       grains/m^2             =   6005.904
+      grain wt (g)           =    0.023                       grains/m^2             =   6005.905
       grains/plant           =   60.1                         maximum lai            =      1.726
       total above ground biomass (kg/ha)    =     5171.1
       live above ground biomass (kg/ha)     =     5171.1
@@ -4074,7 +4066,7 @@
       flowering day          =  294                           stover (kg/ha)         =     6116.2
       maturity day           =  334                           grain yield (kg/ha)    =     2715.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3103.6
-      grain wt (g)           =    0.028                       grains/m^2             =   9707.180
+      grain wt (g)           =    0.028                       grains/m^2             =   9707.179
       grains/plant           =   97.1                         maximum lai            =      2.748
       total above ground biomass (kg/ha)    =     8831.9
       live above ground biomass (kg/ha)     =     8831.9
@@ -4374,7 +4366,7 @@
                           N  (kg/ha) =                 20.05                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               3187.47                    0.00
+                          DM (kg/ha) =               3187.48                    0.00
                           N  (kg/ha) =                 54.29                    0.00
      
       stage 4.0 end_of_juvenile
@@ -4482,7 +4474,7 @@
       flowering day          =  252                           stover (kg/ha)         =     4219.5
       maturity day           =  297                           grain yield (kg/ha)    =     1731.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1978.3
-      grain wt (g)           =    0.026                       grains/m^2             =   6624.605
+      grain wt (g)           =    0.026                       grains/m^2             =   6624.606
       grains/plant           =   66.2                         maximum lai            =      1.900
       total above ground biomass (kg/ha)    =     5950.5
       live above ground biomass (kg/ha)     =     5950.5
@@ -4618,7 +4610,7 @@
       flowering day          =  258                           stover (kg/ha)         =     2112.6
       maturity day           =  304                           grain yield (kg/ha)    =      920.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1051.7
-      grain wt (g)           =    0.027                       grains/m^2             =   3394.077
+      grain wt (g)           =    0.027                       grains/m^2             =   3394.078
       grains/plant           =   33.9                         maximum lai            =      0.892
       total above ground biomass (kg/ha)    =     3032.9
       live above ground biomass (kg/ha)     =     3032.9
@@ -4754,7 +4746,7 @@
       flowering day          =  256                           stover (kg/ha)         =     6470.5
       maturity day           =  301                           grain yield (kg/ha)    =     2642.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3020.3
-      grain wt (g)           =    0.025                       grains/m^2             =  10733.101
+      grain wt (g)           =    0.025                       grains/m^2             =  10733.100
       grains/plant           =  107.3                         maximum lai            =      3.011
       total above ground biomass (kg/ha)    =     9113.2
       live above ground biomass (kg/ha)     =     9113.2
@@ -4782,7 +4774,7 @@
                           N  (kg/ha) =                 20.42                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2642.75                    0.00
+                          DM (kg/ha) =               2642.74                    0.00
                           N  (kg/ha) =                 38.88                    0.00
      
       stage 4.0 end_of_juvenile
@@ -5026,11 +5018,11 @@
       flowering day          =  255                           stover (kg/ha)         =     5951.6
       maturity day           =  305                           grain yield (kg/ha)    =     2485.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2840.6
-      grain wt (g)           =    0.025                       grains/m^2             =   9862.852
+      grain wt (g)           =    0.025                       grains/m^2             =   9862.848
       grains/plant           =   98.6                         maximum lai            =      2.640
       total above ground biomass (kg/ha)    =     8437.2
       live above ground biomass (kg/ha)     =     8437.2
-      green above ground biomass (kg/ha)    =     7292.0
+      green above ground biomass (kg/ha)    =     7291.9
       senesced above ground biomass (kg/ha) =     1145.2
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   42.6
@@ -5054,7 +5046,7 @@
                           N  (kg/ha) =                 18.83                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2485.56                    0.00
+                          DM (kg/ha) =               2485.55                    0.00
                           N  (kg/ha) =                 31.44                    0.00
      
       stage 4.0 end_of_juvenile
@@ -5186,11 +5178,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5004.29                    0.00
+                          DM (kg/ha) =               5004.30                    0.00
                           N  (kg/ha) =                 16.22                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1796.37                    0.00
+                          DM (kg/ha) =               1796.38                    0.00
                           N  (kg/ha) =                 24.04                    0.00
      
       stage 4.0 end_of_juvenile
@@ -5434,7 +5426,7 @@
       flowering day          =  255                           stover (kg/ha)         =     3746.1
       maturity day           =  301                           grain yield (kg/ha)    =     1317.8
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     1506.1
-      grain wt (g)           =    0.023                       grains/m^2             =   5842.093
+      grain wt (g)           =    0.023                       grains/m^2             =   5842.094
       grains/plant           =   58.4                         maximum lai            =      1.785
       total above ground biomass (kg/ha)    =     5063.9
       live above ground biomass (kg/ha)     =     5063.9
@@ -5570,7 +5562,7 @@
       flowering day          =  275                           stover (kg/ha)         =     6699.8
       maturity day           =  317                           grain yield (kg/ha)    =     3281.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3750.4
-      grain wt (g)           =    0.030                       grains/m^2             =  10970.461
+      grain wt (g)           =    0.030                       grains/m^2             =  10970.464
       grains/plant           =  109.7                         maximum lai            =      3.134
       total above ground biomass (kg/ha)    =     9981.4
       live above ground biomass (kg/ha)     =     9981.4
@@ -5598,7 +5590,7 @@
                           N  (kg/ha) =                 22.71                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               3281.63                    0.00
+                          DM (kg/ha) =               3281.62                    0.00
                           N  (kg/ha) =                 53.68                    0.00
      
       stage 4.0 end_of_juvenile
@@ -5609,7 +5601,7 @@
 14 November 1996(Day of year=319), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.20                 1383.10
+                          DM (kg/ha) =                  0.20                 1383.11
                           N  (kg/ha) =                  0.00                   15.32
      
 20 May 1997(Day of year=140), manager: 
@@ -5706,7 +5698,7 @@
       flowering day          =  254                           stover (kg/ha)         =     2286.1
       maturity day           =  299                           grain yield (kg/ha)    =      857.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      979.5
-      grain wt (g)           =    0.023                       grains/m^2             =   3781.030
+      grain wt (g)           =    0.023                       grains/m^2             =   3781.029
       grains/plant           =   37.8                         maximum lai            =      0.843
       total above ground biomass (kg/ha)    =     3143.2
       live above ground biomass (kg/ha)     =     3143.2
@@ -5730,7 +5722,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               2285.96                    0.00
+                          DM (kg/ha) =               2285.95                    0.00
                           N  (kg/ha) =                  7.26                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -5842,7 +5834,7 @@
       flowering day          =  271                           stover (kg/ha)         =     4927.8
       maturity day           =  316                           grain yield (kg/ha)    =     2616.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2989.8
-      grain wt (g)           =    0.033                       grains/m^2             =   7956.204
+      grain wt (g)           =    0.033                       grains/m^2             =   7956.201
       grains/plant           =   79.6                         maximum lai            =      2.092
       total above ground biomass (kg/ha)    =     7543.9
       live above ground biomass (kg/ha)     =     7543.9
@@ -5866,7 +5858,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4927.61                    0.00
+                          DM (kg/ha) =               4927.60                    0.00
                           N  (kg/ha) =                 16.48                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -5978,7 +5970,7 @@
       flowering day          =  260                           stover (kg/ha)         =     5648.9
       maturity day           =  305                           grain yield (kg/ha)    =     2478.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2832.3
-      grain wt (g)           =    0.026                       grains/m^2             =   9489.807
+      grain wt (g)           =    0.026                       grains/m^2             =   9489.809
       grains/plant           =   94.9                         maximum lai            =      2.567
       total above ground biomass (kg/ha)    =     8127.1
       live above ground biomass (kg/ha)     =     8127.1
@@ -6386,12 +6378,12 @@
       flowering day          =  292                           stover (kg/ha)         =     6691.3
       maturity day           =  331                           grain yield (kg/ha)    =     2589.0
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2958.8
-      grain wt (g)           =    0.023                       grains/m^2             =  11257.637
+      grain wt (g)           =    0.023                       grains/m^2             =  11257.633
       grains/plant           =  112.6                         maximum lai            =      3.866
       total above ground biomass (kg/ha)    =     9280.3
       live above ground biomass (kg/ha)     =     9280.3
       green above ground biomass (kg/ha)    =     7610.3
-      senesced above ground biomass (kg/ha) =     1670.1
+      senesced above ground biomass (kg/ha) =     1670.0
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   43.0
       DM Root:Shoot ratio    =    0.174                       Harvest Index          =      0.279
