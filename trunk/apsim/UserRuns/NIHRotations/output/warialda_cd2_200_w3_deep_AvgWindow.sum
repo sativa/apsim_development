@@ -9,10 +9,9 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 4.3
+     Version                = 5.0
      Title                  = site=warialda; soil=cd2; treatment=w3; Nrate=200; RootDepth=deep; Sowing = AvgWindow
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
      Component DLL          = c:\development\apsim\clock\lib\clock.dll
      Component DLL          = c:\development\apsim\report\lib\report.dll
      Component DLL          = c:\development\apsim\input\lib\input.dll
@@ -445,13 +444,6 @@
 
 ------- wheat Initialisation --------------------------------------------------
      phenology model: Wheat
-
-------- sorghum Initialisation ------------------------------------------------
-      Initialising, V1.0 2000.01.21
-     
-         - Reading constants
-     
-         - Reading constants
 
 ------- tracker Initialisation ------------------------------------------------
      Tracker variables:
@@ -2641,7 +2633,7 @@
                      stover N conc =     1.96 (%)    extractable sw =   81.97 (mm)
 12 December 1974(Day of year=346), chickpea: 
       stage 8.0 end_grain_fill
-                     biomass =         352.81 (g/m^2)   lai          =   0.538 (m^2/m^2)
+                     biomass =         352.82 (g/m^2)   lai          =   0.538 (m^2/m^2)
                      stover N conc =     1.80 (%)    extractable sw =   49.77 (mm)
 15 December 1974(Day of year=349), chickpea: 
       stage 9.0 maturity
@@ -4220,7 +4212,7 @@
       flowering day          =  297                           stover (kg/ha)         =     4055.2
       maturity day           =  332                           grain yield (kg/ha)    =     1832.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2093.8
-      grain wt (g)           =    0.031                       grains/m^2             =   5915.821
+      grain wt (g)           =    0.031                       grains/m^2             =   5915.823
       grains/plant           =   59.2                         maximum lai            =      2.798
       total above ground biomass (kg/ha)    =     5887.3
       live above ground biomass (kg/ha)     =     5887.3
@@ -6331,7 +6323,7 @@
       flowering day          =  273                           stover (kg/ha)         =     7077.1
       maturity day           =  312                           grain yield (kg/ha)    =     2712.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3100.1
-      grain wt (g)           =    0.025                       grains/m^2             =  10780.449
+      grain wt (g)           =    0.025                       grains/m^2             =  10780.448
       grains/plant           =  107.8                         maximum lai            =      5.500
       total above ground biomass (kg/ha)    =     9789.7
       live above ground biomass (kg/ha)     =     9789.7
@@ -6359,7 +6351,7 @@
                           N  (kg/ha) =                102.38                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2712.60                    0.00
+                          DM (kg/ha) =               2712.61                    0.00
                           N  (kg/ha) =                 70.55                    0.00
      
       stage 4.0 end_of_juvenile
