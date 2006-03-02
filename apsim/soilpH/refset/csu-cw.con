@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [apsim.WagCW]
 
 
@@ -15,5 +15,4 @@ module = plant(wheat)    csu-cw.par [all]  %apsuite\apsim\wheat\wheat.INI [stand
 module = fertiliz                    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
 module = soilph    csu-cw.par [all]  %apsuite\apsim\soilph\soilph.ini [standard]
 module = SummaryFile  csu-cw.par[WagCW]
-module = Screen  csu-cw.par[all]
 module = tracker  csu-cw.par[all]

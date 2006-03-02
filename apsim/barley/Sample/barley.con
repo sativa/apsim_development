@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [apsim.barley_sample]
 title=barley SAMPLE Simulation
 screen_output=on
@@ -10,7 +10,6 @@ module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_eart
 module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = SurfaceOM       %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = plant(barley)   barley.par [sample] %apsuite\apsim\barley\barley.ini [standard]
-module = Screen          barley.par[sample]
 module = SummaryFile     barley.par[sample]
 
 [apsim.standard_co2]
@@ -23,7 +22,6 @@ module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_eart
 module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = SurfaceOM       %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = plant(barley)   barley.par [sample] %apsuite\apsim\barley\barley.ini [standard]
-module = Screen          barley.par [sample]
 module = SummaryFile     co2.par [std_co2]
 
 [apsim.rising_co2]
@@ -36,5 +34,4 @@ module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_eart
 module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = SurfaceOM       %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = plant(barley)   barley.par [sample] %apsuite\apsim\barley\barley.ini [standard]
-module = Screen          barley.par [sample]
 module = SummaryFile     co2.par [rising_co2]

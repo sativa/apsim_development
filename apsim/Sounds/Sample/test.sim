@@ -3,7 +3,6 @@
   <title>Test of clock module</title>
   <component name="Log" executable="d:\development\apsim\Log\lib\Log.dll"><initdata></initdata></component>
   <component name="SummaryFile" executable="d:\development\apsim\SummaryFile\lib\SummaryFile.dll"><initdata><parameters name="test"><property name="summaryfile">test.sum</property></parameters></initdata></component>
-  <component name="Screen" executable="d:\development\apsim\Screen\lib\Screen.dll"><initdata><parameters name="test"><property name="screen_output">on</property></parameters></initdata></component>
   <component name="clock" executable="d:\development\apsim\clock\lib\clock.dll">
   <initdata><constants name="standard"><property name="timestep_events">prepare process post</property></constants><parameters name="test"><property name="start_date">1/1/1988</property><property name="end_date">8/4/1988</property></parameters></initdata>
 </component>

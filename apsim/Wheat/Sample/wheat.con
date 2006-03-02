@@ -1,7 +1,6 @@
-version = 4.3
+version = 5
 [apsim.wheat_sample]
 title=WHEAT SAMPLE Simulation
-screen_output=on
 module = clock           wheat.par [sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report          wheat.par [sample]
 module = Input(Met)      %apsuite\apsim\met\sample\dalby.met [weather]
@@ -10,7 +9,6 @@ module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_eart
 module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = plant(wheat)  wheat.par [sample] %apsuite\apsim\wheat\wheat.ini [standard]
-module = Screen          wheat.par[sample]
 module = SummaryFile     wheat.par[sample]
 
 [apsim.standard_co2]
@@ -23,7 +21,6 @@ module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_eart
 module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = plant(wheat)    wheat.par [sample] %apsuite\apsim\wheat\wheat.ini [standard]
-module = Screen          wheat.par [sample]
 module = SummaryFile     co2.par [std_co2]
 
 [apsim.rising_co2]
@@ -36,5 +33,4 @@ module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_eart
 module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = plant(wheat)    wheat.par [sample] %apsuite\apsim\wheat\wheat.ini [standard]
-module = Screen          wheat.par [sample]
 module = SummaryFile     co2.par [rising_co2]

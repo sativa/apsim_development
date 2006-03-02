@@ -14,7 +14,6 @@ module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %a
 module = plant(chickpea)   timing.par[sample] %apsuite\apsim\chickpea\chickpea.ini[standard]
 module = plant(mungbean)   timing.par[sample] %apsuite\apsim\mungbean\mungbean.ini[standard]
 module = SummaryFile   timing.par[run1]
-module = Screen   timing.par[long]
 [APSIM.run2]
 
 title = Run2 - Long Timing Test
@@ -30,4 +29,3 @@ module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %a
 module = plant(chickpea)   timing.par[sample] %apsuite\apsim\chickpea\chickpea.ini[standard]
 module = plant(mungbean)   timing.par[sample] %apsuite\apsim\mungbean\mungbean.ini[standard]
 module = SummaryFile   timing.par[run2]
-module = Screen   timing.par[long]

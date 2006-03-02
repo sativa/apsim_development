@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 
 [apsim.Sweet Corn Sample]
 title= Sweet Corn Sample Simulation
@@ -11,7 +11,6 @@ module = manager         SweetCorn.par [sample]
 module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]    %apsuite\apsim\soilwat2\soilwat2.ini [standard]
 module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = plant(SweetCorn)  SweetCorn.par [sample] %apsuite\apsim\SweetCorn\SweetCorn.ini [standard]
-module = Screen          SweetCorn.par [sample]
 module = SummaryFile     SweetCorn.par [sample]
 
  
