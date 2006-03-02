@@ -11,8 +11,9 @@
       ..\..\..\Shared\ComponentInterface\EntryPoints.obj PlantParts.obj 
       PlantFruit.obj Phase.obj WheatPhenology.obj TTTPhenology.obj 
       TTTRatePhenology.obj CropPhenology.obj CompositePhase.obj Environment.obj 
-      Observers.obj VernalPhase.obj BroccoliPhenology.obj FixedPhase.obj 
-      MaizePhenology.obj LeafPart.obj"/>
+      Observers.obj LeafPart.obj VernalPhase.obj FixedPhase.obj 
+      MaizePhenology.obj BroccoliPhenology.obj OilPart.obj PodPart.obj 
+      StemPart.obj MealPart.obj GrainPart.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -41,8 +42,7 @@
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c 
-      -tWM"/>
+    <CFLAG1 value="-WD -Od -w -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c -tWM"/>
     <PFLAGS value="-$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
     <AFLAGS value="/mx /w2 /zi"/>
@@ -86,11 +86,16 @@
       <FILE FILENAME="CompositePhase.cpp" FORMNAME="" UNITNAME="CompositePhase" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Environment.cpp" FORMNAME="" UNITNAME="Environment" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Observers.cpp" FORMNAME="" UNITNAME="Observers" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="VernalPhase.cpp" FORMNAME="" UNITNAME="VernalPhase.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="BroccoliPhenology.cpp" FORMNAME="" UNITNAME="BroccoliPhenology.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="FixedPhase.cpp" FORMNAME="" UNITNAME="FixedPhase.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="MaizePhenology.cpp" FORMNAME="" UNITNAME="MaizePhenology.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="LeafPart.cpp" FORMNAME="" UNITNAME="LeafPart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="VernalPhase.cpp" FORMNAME="" UNITNAME="VernalPhase" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="FixedPhase.cpp" FORMNAME="" UNITNAME="FixedPhase" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="MaizePhenology.cpp" FORMNAME="" UNITNAME="MaizePhenology" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="BroccoliPhenology.cpp" FORMNAME="" UNITNAME="BroccoliPhenology" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="OilPart.cpp" FORMNAME="" UNITNAME="OilPart.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="PodPart.cpp" FORMNAME="" UNITNAME="PodPart.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="StemPart.cpp" FORMNAME="" UNITNAME="StemPart.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="MealPart.cpp" FORMNAME="" UNITNAME="MealPart.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="GrainPart.cpp" FORMNAME="" UNITNAME="GrainPart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -167,8 +172,8 @@ Item17=$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=3
-Item0=$(BCB)\source\vcl;C:\development\Shared\ComponentInterface\;C:\development\apsim\SummaryFile\Source\
-Item1=$(BCB)\source\vcl;C:\development\Shared\ComponentInterface\
+Item0=$(BCB)\source\vcl;C:\data\Apsim\development\Shared\ComponentInterface\;c:\data\Apsim\development\apsim\SummaryFile\Source\
+Item1=$(BCB)\source\vcl;c:\data\Apsim\development\Shared\ComponentInterface\
 Item2=$(BCB)\source\vcl
 
 [HistoryLists\hlConditionals]
@@ -177,11 +182,11 @@ Item0=_DEBUG
 
 [HistoryLists\hlHostApplication]
 Count=1
-Item0=D:\apsuite\apsim\infra\cppsource\apsim.exe
+Item0=C:\data\Apsim\development\Bin\apsim.exe
 
 [HistoryLists\hlRunParameters]
 Count=1
-Item0=c:\apswork\test\test.run
+Item0=&quot;C:\data\Apsim\development\apsim\lablab\Sample\sample.sim&quot;
 
 [HistoryLists\hlFinalOutputDir]
 Count=2
@@ -189,14 +194,14 @@ Item0=..\lib\
 Item1=..\lib
 
 [Debugging]
-DebugSourceDirs=$(BCB)\source\vcl;C:\development\Shared\ComponentInterface\;C:\development\apsim\SummaryFile\Source\
+DebugSourceDirs=$(BCB)\source\vcl;c:\data\Apsim\development\Shared\ComponentInterface\;c:\data\Apsim\development\apsim\SummaryFile\Source\
 
 [Parameters]
-RunParams=D:\development\apsim\canola\sample\canola.sim
+RunParams=&quot;C:\data\Apsim\development\apsim\canola\sample\canola.sim&quot;
 Launcher=
 UseLauncher=0
 DebugCWD=
-HostApplication=d:\development\bin\apsim.exe
+HostApplication=C:\data\Apsim\development\Bin\apsim.exe
 RemoteHost=
 RemotePath=
 RemoteLauncher=
