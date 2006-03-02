@@ -143,8 +143,8 @@ void TclComponent::doInit2(void)
          string msg = "--->Section: " + condition;
          writeString(msg.c_str());
          writeString(rule.c_str());
-         if (condition == string("init")) {initRule = rule;}
-         if (condition == string("exit")) {terminationRule = rule;}
+         if (condition == string("init")) {initRule.append(rule);}
+         if (condition == string("exit")) {terminationRule.append(rule);}
       }
    writeString("--->End");
 
