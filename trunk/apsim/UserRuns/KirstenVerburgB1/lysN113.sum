@@ -9,10 +9,9 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 4.3
+     Version                = 5.0
      Title                  = north lysimeter
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
      Component DLL          = c:\development\apsim\clock\lib\clock.dll
      Component DLL          = c:\development\apsim\report\lib\report.dll
      Component DLL          = c:\development\apsim\report\lib\report.dll
@@ -957,14 +956,6 @@
         - Reading Constants
      
         - Reading Parameters
-
-------- apswim Initialisation -------------------------------------------------
-     Note - APSwim will not redistribute org_c_pool1
-     Note - APSwim will not redistribute org_c_pool2
-     Note - APSwim will not redistribute org_c_pool3
-     Note - APSwim will not redistribute org_n
-
-------- soiln2 Initialisation -------------------------------------------------
      
      
      
