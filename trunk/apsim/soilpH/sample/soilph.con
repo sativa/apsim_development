@@ -1,5 +1,5 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  Sample  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-version = 4.3
+version = 5
 [apsim.sample_soilph]
 
 
@@ -17,6 +17,5 @@ module = accum    soilph.par [sample]
 module = fertiliz                                                                %apsuite\apsim\fertiliz\fertiliz.ini [standard]
 module = soilph   soilph.par [sample]                                            %apsuite\apsim\soilph\soilph.ini [standard]
 module = SummaryFile   soilph.par[sample]
-module = Screen   soilph.par[sample]
 module = tracker(tracker1)   soilph.par[sample]
 module = tracker(tracker2)   soilph.par[sample]

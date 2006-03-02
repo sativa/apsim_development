@@ -1,4 +1,4 @@
-version = 3.1
+version = 5
 [apsim.tcllink]
 title = Test Tcl library
 
@@ -8,7 +8,6 @@ module = report           tcllink.par [all]
 module = manager          tcllink.par [all]
 module = TclLink          tcllink.par [all]
 module = SummaryFile      tcllink.par[all]
-module = Screen           tcllink.par[all]
 !module = Log              tcllink.par[all]
 
 [apsim.dbg]
@@ -23,7 +22,6 @@ module = cropmod(wheat)  %apsuite\apsim\wheat\sample\wheat.par [sample] %apsuite
 
 module = TclLink          tcllink.par [dbg]
 module = SummaryFile      %apsuite\apsim\wheat\sample\wheat.par [sample]
-module = Screen           %apsuite\apsim\wheat\sample\wheat.par [sample]
 
 
 [apsim.rtg]
@@ -38,4 +36,3 @@ module = sorghum         %apsuite\apsim\sorghum\sample\sorghum.par [sample] %aps
 
 module = TclLink         runtime-graphics.par [rtg]
 module = SummaryFile     %apsuite\apsim\sorghum\sample\sorghum.par [sample]
-module = Screen          %apsuite\apsim\sorghum\sample\sorghum.par [sample]

@@ -5,7 +5,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [read_real_var]
 module = SummaryFile  interfacetest.par [read_real_var]
-module = Screen       interfacetest.par[sample]
 
 [apsim.read_real_var_lbw]  
 title=read_real_var lower bound warning
@@ -13,7 +12,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [read_real_var_lbw]
 module = SummaryFile  interfacetest.par [read_real_var_lbw]
-module = Screen       interfacetest.par[sample]
 
 [apsim.read_real_var_ubw]  
 title=read_real_var upper bound warning
@@ -21,7 +19,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [read_real_var_ubw]
 module = SummaryFile  interfacetest.par [read_real_var_ubw]
-module = Screen       interfacetest.par[sample]
 
 [apsim.read_real_var_missing]  
 title=read_real_var missing
@@ -29,7 +26,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [read_real_var_missing]
 module = SummaryFile  interfacetest.par [read_real_var_missing]
-module = Screen       interfacetest.par[sample]
 
 !---------------------
 [apsim.get_real_var]  
@@ -38,7 +34,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [get_real_var]
 module = SummaryFile  interfacetest.par [get_real_var]
-module = Screen       interfacetest.par[sample]
 
 [apsim.get_real_var_lbw]  
 title=get_real_var lower bound warning
@@ -46,7 +41,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [get_real_var_lbw]
 module = SummaryFile  interfacetest.par [get_real_var_lbw]
-module = Screen       interfacetest.par[sample]
 
 [apsim.get_real_var_ubw]  
 title=get_real_var upper bound warning
@@ -54,7 +48,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [get_real_var_ubw]
 module = SummaryFile  interfacetest.par [get_real_var_ubw]
-module = Screen       interfacetest.par[sample]
 
 [apsim.get_real_var_missing]  
 title=get_real_var missing
@@ -62,7 +55,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [get_real_var_missing]
 module = SummaryFile  interfacetest.par [get_real_var_missing]
-module = Screen       interfacetest.par[sample]
 
 [apsim.read_double_var]  
 title=read_double_var
@@ -70,7 +62,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [read_double_var]
 module = SummaryFile  interfacetest.par [read_double_var]
-module = Screen       interfacetest.par[sample]
 
 [apsim.read_double_var_lbw]  
 title=read_double_var lower bound warning
@@ -78,7 +69,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [read_double_var_lbw]
 module = SummaryFile  interfacetest.par [read_double_var_lbw]
-module = Screen       interfacetest.par[sample]
 
 [apsim.read_double_var_ubw]  
 title=read_double_var upper bound warning
@@ -86,7 +76,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [read_double_var_ubw]
 module = SummaryFile  interfacetest.par [read_double_var_ubw]
-module = Screen       interfacetest.par[sample]
 
 [apsim.read_double_var_missing]  
 title=read_double_var missing
@@ -94,7 +83,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [read_double_var_missing]
 module = SummaryFile  interfacetest.par [read_double_var_missing]
-module = Screen       interfacetest.par[sample]
 
 !---------------------
 [apsim.get_double_var]  
@@ -103,7 +91,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [get_double_var]
 module = SummaryFile  interfacetest.par [get_double_var]
-module = Screen       interfacetest.par[sample]
 
 [apsim.get_double_var_lbw]  
 title=get_double_var lower bound warning
@@ -111,7 +98,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [get_double_var_lbw]
 module = SummaryFile  interfacetest.par [get_double_var_lbw]
-module = Screen       interfacetest.par[sample]
 
 [apsim.get_double_var_ubw]  
 title=get_double_var upper bound warning
@@ -119,7 +105,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [get_double_var_ubw]
 module = SummaryFile  interfacetest.par [get_double_var_ubw]
-module = Screen       interfacetest.par[sample]
 
 [apsim.get_double_var_missing]  
 title=get_double_var missing
@@ -127,7 +112,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [get_double_var_missing]
 module = SummaryFile  interfacetest.par [get_double_var_missing]
-module = Screen       interfacetest.par[sample]
 
 [apsim.read_integer_var]  
 title=read_integer_var
@@ -135,7 +119,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [read_integer_var]
 module = SummaryFile  interfacetest.par [read_integer_var]
-module = Screen       interfacetest.par[sample]
 
 [apsim.read_integer_var_lbw]  
 title=read_integer_var lower bound warning
@@ -143,7 +126,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [read_integer_var_lbw]
 module = SummaryFile  interfacetest.par [read_integer_var_lbw]
-module = Screen       interfacetest.par[sample]
 
 [apsim.read_integer_var_ubw]  
 title=read_integer_var upper bound warning
@@ -151,7 +133,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [read_integer_var_ubw]
 module = SummaryFile  interfacetest.par [read_integer_var_ubw]
-module = Screen       interfacetest.par[sample]
 
 [apsim.read_integer_var_missing]  
 title=read_integer_var missing
@@ -159,7 +140,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [read_integer_var_missing]
 module = SummaryFile  interfacetest.par [read_integer_var_missing]
-module = Screen       interfacetest.par[sample]
 
 !---------------------
 [apsim.get_integer_var]  
@@ -168,7 +148,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [get_integer_var]
 module = SummaryFile  interfacetest.par [get_integer_var]
-module = Screen       interfacetest.par[sample]
 
 [apsim.get_integer_var_lbw]  
 title=get_integer_var lower bound warning
@@ -176,7 +155,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [get_integer_var_lbw]
 module = SummaryFile  interfacetest.par [get_integer_var_lbw]
-module = Screen       interfacetest.par[sample]
 
 [apsim.get_integer_var_ubw]  
 title=get_integer_var upper bound warning
@@ -184,7 +162,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [get_integer_var_ubw]
 module = SummaryFile  interfacetest.par [get_integer_var_ubw]
-module = Screen       interfacetest.par[sample]
 
 [apsim.get_integer_var_missing]  
 title=get_integer_var missing
@@ -192,7 +169,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [get_integer_var_missing]
 module = SummaryFile  interfacetest.par [get_integer_var_missing]
-module = Screen       interfacetest.par[sample]
 
 
 [apsim.read_logical_var]  
@@ -201,7 +177,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [read_logical_var]
 module = SummaryFile  interfacetest.par [read_logical_var]
-module = Screen       interfacetest.par[sample]
 
 
 [apsim.read_logical_var_missing]  
@@ -210,7 +185,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [read_logical_var_missing]
 module = SummaryFile  interfacetest.par [read_logical_var_missing]
-module = Screen       interfacetest.par[sample]
 
 !---------------------
 [apsim.get_logical_var]  
@@ -219,7 +193,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [get_logical_var]
 module = SummaryFile  interfacetest.par [get_logical_var]
-module = Screen       interfacetest.par[sample]
 
 
 [apsim.get_logical_var_missing]  
@@ -228,7 +201,6 @@ module = clock    interfacetest.par [sample]   %apsuite\apsim\clock\clock.ini[st
 module = input(met)   %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = %apsuite\apsim\tests\lib\interfacetest.dll(interfacetest)  interfacetest.par [get_logical_var_missing]
 module = SummaryFile  interfacetest.par [get_logical_var_missing]
-module = Screen       interfacetest.par[sample]
 
 
 
