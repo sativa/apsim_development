@@ -120,6 +120,7 @@ class Water : public PlantProcess
    void getEpLayers(protocol::Component *system, protocol::QueryValueData &qd);
 
    float getESW(void){return sumVector(esw);}
+   float getESWAvail(void)const{return totalAvail;}
    };
 
 

@@ -113,15 +113,14 @@ void Phenology::readParams (string cultivar)
 
 
    // report
-   plantInterface->writeString ("    -------------------------------------------------------");
    char msg[100];
    sprintf(msg, "    tt_emerg_to_endjuv       =  %6.2f",ttEndJuvInit);plantInterface->writeString (msg);
    sprintf(msg, "    tt_flower_to_maturity    =  %6.2f",ttFlowerMaturity);  plantInterface->writeString (msg);
    sprintf(msg, "    tt_flag_to_flower        =  %6.2f",ttTarget[flag]);  plantInterface->writeString (msg);
    sprintf(msg, "    tt_flower_to_start_grain =  %6.2f",ttTarget[flowering]);  plantInterface->writeString (msg);
    sprintf(msg, "    tt_maturity_to_ripe      =  %6.2f",ttTarget[maturity]);  plantInterface->writeString (msg);
-
    plantInterface->writeString ("    -------------------------------------------------------");
+
 
 
    }

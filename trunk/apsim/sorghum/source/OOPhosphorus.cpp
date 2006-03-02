@@ -59,8 +59,13 @@ void Phosphorus::doRegistrations(void)
 
    setupGetFunction(plantInterface,"p_green", protocol::DTsingle, true,
                     &Phosphorus::getPGreen, "g/m2", "P content of live plant parts");
+   setupGetFunction(plantInterface,"p_senesced", protocol::DTsingle, true,
+                    &Phosphorus::getPSenesced, "g/m2", "P content of senesced plant parts");
    setupGetFunction(plantInterface,"p_sen", protocol::DTsingle, true,
                     &Phosphorus::getPSenesced, "g/m2", "P content of senesced plant parts");
+   setupGetFunction(plantInterface,"p_dead", protocol::DTsingle, true,
+                    &Phosphorus::getPDead, "g/m2", "P content of dead plant parts");
+
    setupGetFunction(plantInterface,"p_demand", protocol::DTsingle, true,
                     &Phosphorus::getPDemand, "g/m2", "P demand of plant parts");
 
@@ -373,10 +378,6 @@ void Phosphorus::retranslocate(void)
          plant->PlantParts[i]->setPRetrans(-supply[i]*fraction);
       else
          plant->PlantParts[i]->setPRetrans(demand[i]*fraction);
-
-
-
-
    }
 
 //------------------------------------------------------------------------------------------------
@@ -414,9 +415,6 @@ void Phosphorus::getPDemand(protocol::Component *system, protocol::QueryValueDat
    system->sendVariable(qd, protocol::vector<float>(&pDemand[0], &pDemand[0] + pDemand.size()));
    }
 //------------------------------------------------------------------------------------------------
-
-
-
 void Phosphorus::getDltPGreen(protocol::Component *system, protocol::QueryValueData &qd)
    {
 //   system->sendVariable(qd, protocol::vector<float>(&dltNGreen[0], &dltNGreen[0] + dltNGreen.size()));
@@ -429,7 +427,7 @@ void Phosphorus::getDltPRetrans(protocol::Component *system, protocol::QueryValu
 //------------------------------------------------------------------------------------------------
 void Phosphorus::getPDead(protocol::Component *system, protocol::QueryValueData &qd)
    {
-//   system->sendVariable(qd, protocol::vector<float>(&nDead[0], &nDead[0] + nDead.size()));
+   system->sendVariable(qd, protocol::vector<float>(&pDead[0], &pDead[0] + pDead.size()));
    }
 //------------------------------------------------------------------------------------------------
 void Phosphorus::getDltPDetached(protocol::Component *system, protocol::QueryValueData &qd)
@@ -447,8 +445,9 @@ void Phosphorus::Summary(void)
    summaryLine(plantInterface,"grain P percent            =  %8.3f \t grain P uptake     (kg/ha) = %8.3f",
             plant->grain->getPConc() * 100,plant->grain->getPGreen() * 10.0);
    summaryLine(plantInterface,"total P content    (kg/ha) =  %8.3f \t senesced P content (kg/ha) = %8.3f",
-            pBiomass * 10.0,0);
-   summaryLine(plantInterface,"green P content    (kg/ha) =  %8.3f \t dead P content     (kg/ha) = %8.3f",0,0);
+            pBiomass * 10.0,sumVector(pSenesced) * 10.0);
+   summaryLine(plantInterface,"green P content    (kg/ha) =  %8.3f \t dead P content     (kg/ha) = %8.3f",
+            sumVector(pGreen) * 10.0,sumVector(pDead) * 10.0);
    }
 //------------------------------------------------------------------------------------------------
 

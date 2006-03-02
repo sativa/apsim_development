@@ -131,6 +131,7 @@ void OOPlant::plantInit(void)
                                     PlantProcesses.push_back(water);
    biomass   = new Biomass(this);   PlantComponents.push_back(biomass);
                                     PlantProcesses.push_back(biomass);
+
    doRegistrations();
 
    setStatus(out);
@@ -280,22 +281,6 @@ void OOPlant::prepare (void)
 //------------------------------------------------------------------------------------------------
 void OOPlant::process (void)                 // do crop preparation
    {
- /*  stage = phenology->currentStage();
-
-   water->process();
-   stem->process();
-
-   leaf->calcLeafNo();
-   phenology->development();
-   leaf->calcPotentialArea();
-
-   biomass->process();
-   roots->process();
-
-   leaf->process();
-
-   nitrogen->process();  */
-
 
    stage = phenology->currentStage();
 
@@ -313,8 +298,7 @@ void OOPlant::process (void)                 // do crop preparation
    leaf->calcPotentialArea();
 
     biomass->calcBiomassTE();
- // TODO : This is called in prepare! why twice?
-//   biomass->calcBiomassRUE();
+
    biomass->calcDltBiomass();
 
    // calculate grain biomass demand
@@ -326,6 +310,7 @@ void OOPlant::process (void)                 // do crop preparation
 
    // biomass partitioning
    biomass->calcPartitioning();
+
    // biomass retranslocation
    if(stage >= startGrainFill && stage <= endGrainFill)
       biomass->calcRetranslocation();
@@ -346,14 +331,7 @@ void OOPlant::process (void)                 // do crop preparation
       roots->calcSenLength();
       }
    // nitrogen
-//   nitrogen->scenescence();
    nitrogen->process();
-//   nitrogen->getOtherVariables ();
-//   nitrogen->supply();
-//   nitrogen->demand();
-//   nitrogen->uptake();
-//   nitrogen->partition();
-//   nitrogen->retranslocate();
 
    if(phosphorus->Active())
        phosphorus->process();
@@ -371,7 +349,7 @@ void OOPlant::process (void)                 // do crop preparation
       {
       PlantComponents[i]->updateVars();
       }
-  // phenology->development();
+//   phenology->development();
    updateVars();
    }
 //------------------------------------------------------------------------------------------------
@@ -388,22 +366,6 @@ void OOPlant::death(void)
    sections.push_back("constants");
    sections.push_back(cultivar);
    float killfr = 0.0;
-/////////////////////////////
-//Not in Fortran Sorghum
-////////////////////////////
-
-/*
-   // Germination
-   float daysGermLimit = readVar(plantInterface,sections,"days_germ_limit");
-
-   if (phenology->currentStage() >= sowing && phenology->currentStage() < germination &&
-          das >= daysGermLimit)
-      {
-      dltDeadPlants = -plantDensity;
-      string msg = " crop failure because of lack of\n";
-      msg += string("        germination within") + ftoa(daysGermLimit, 4).c_str() + " days of sowing";
-      plantInterface->writeString (msg.c_str());
-      }  */
 
    // Emergence
    float ttEmergeLimit = readVar(plantInterface,sections,"tt_emerg_limit");
@@ -417,109 +379,6 @@ void OOPlant::death(void)
       return;
       }
 
-/////////////////////////////
-//Not in Fortran Sorghum
-////////////////////////////
-/*
-
-   // Leaf Sen
-   float leaf_area = divide(leaf->getLAI(), plantDensity, 0.0);                              // leaf area per plant
-
-   if ( isEqual(leaf_area,0.0) &&                    // reals_are_equal (leaf_area, 0.0, 1.0e-6)
-           phenology->currentStage() >= fi && phenology->currentStage() < endCrop)
-      {
-      dltDeadPlants = -plantDensity;
-      plantInterface->writeString ("Crop failure because of total leaf senescence.");
-      return;
-      } */
-
-/////////////////////////////
-//Not in Fortran Sorghum
-////////////////////////////
-
-
-/*
-   //Pheno Delay
-   float cswd_pheno;                             // cumulative water stress for phenology
-   float c_swdf_pheno_limit = readVar(plantInterface,sections,"swdf_pheno_limit");
-
-   cswd_pheno = sumVector(water->phenoStressTotal, emergence, flowering);
-
-   if (phenology->currentStage() >= emergence && phenology->currentStage() < flowering &&
-          cswd_pheno >= c_swdf_pheno_limit)
-      {
-      dltDeadPlants = -plantDensity;
-      plantInterface->writeString ("Crop failure because of prolonged");
-      plantInterface->writeString ("phenology delay through water stress.");
-
-      return;
-      } */
-
-/////////////////////////////
-//Not in Fortran Sorghum
-////////////////////////////
-/*
-
-   //Death Seedling
-   int days_after_emerg;                       // days after emergence (days)
-
-   days_after_emerg = (int) (phenology->sumDaysTotal(emergence, phenology->currentStage()));
-
-   if (days_after_emerg == 1)
-      {
-      /// TODO : Work out what to call here
-      //plant_plants_temp(c_num_weighted_temp
-      //   , c_x_weighted_temp
-      //   , c_y_plant_death
-      //   , g_day_of_year
-      //   , g_soil_temp
-      //   , g_year
-      //   , &killfr);
-      dltDeadPlants = -plantDensity * killfr;
-
-      if (killfr > 0.0)
-         {
-         string msg= "Plant kill. ";
-         msg = msg + ftoa(killfr * 100.0, 2).c_str();
-         msg = msg + "% failure because of high soil surface temperatures.";
-         plantInterface->writeString (msg.c_str());
-         }
-      }
-    */
-   //Drought
-   float c_swdf_photo_limit = readVar(plantInterface,sections,"swdf_photo_limit");
-   float c_leaf_no_crit = readVar(plantInterface,sections,"leaf_no_crit");
-   float c_swdf_photo_rate = readVar(plantInterface,sections,"swdf_photo_rate");
-
-
-   float cswd_photo = sumVector(water->photoStressTotal, emergence, flag);
-
-    if (leaf->getLeafNo() < c_leaf_no_crit && cswd_photo > c_swdf_photo_limit
-        && water->photosynthesisStress() < 1.0)
-        {
-
-        killfr = c_swdf_photo_rate * (cswd_photo - c_swdf_photo_limit); //XX This is wrong??
-        killfr = bound (killfr, 0.0, 1.0);
-        dltDeadPlants = -plantDensity * killfr;
-
-        string msg= "Plant kill. ";
-          msg = msg + ftoa(killfr * 100.0, 2).c_str();
-          msg = msg + "% failure because of water stress.";
-        plantInterface->writeString (msg.c_str());
-        }
-
-
-
-        //scc Don't really need a call to calculate a minimum!!!!
-
-//        g_dlt_plants_dead = Min(g_dlt_plants_all
-//     :          ,g_dlt_plants_water)
-//
-//         call srop_death_actual1 (
-//     .          g_dlt_plants_all,
-//     .          g_dlt_plants_water,
-//     .          dlt_plants
-//     .            )
 
    //If leaves are killed from frost, leaf->dltSlai is set to leaf->lai
    //need to kill plant if lai = 0
@@ -614,11 +473,11 @@ void OOPlant::killCrop(void)
 void OOPlant::phenologyEvent(int iStage)
    {
    //  report
-//                          stover N conc =    2.631721       extractable sw =    179.6515
+
    summaryLine(plantInterface,"\t\tbiomass = %6.2f \t\t lai = %6.2f",
-      biomass->getTotalBiomass() * 10.0, leaf->getLAI());
+      biomass->getAboveGroundBiomass() / 10.0, leaf->getLAI());
    summaryLine(plantInterface,"\t\tstover N conc = %6.2f \t\t extractable sw = %6.2f",
-      nitrogen->getNStover(),water->getESW());
+      nitrogen->getNStover(),water->getESWAvail());
 
    // output the current stage
    // Don't send an end crop to the system - otherwise all the other crops will stop too!
@@ -626,18 +485,8 @@ void OOPlant::phenologyEvent(int iStage)
    unsigned int id = plantInterface->addRegistration(RegistrationType::event,stage.c_str(), "", "", "");
    protocol::ApsimVariant outgoingApsimVariant(plantInterface);
    plantInterface->publish (id, outgoingApsimVariant);
-/*   if (phenology->stageName() != "end_crop")
-      sendStageMessage(phenology->stageName().c_str()); */
+
    }
 //------------------------------------------------------------------------------------------------
 
-/*
-void Plant::sendStageMessage(const char *what)
-  {
-   swDepID       = plantInterface->addRegistration(RegistrationType::get,"sw_dep", floatArrayType,"", "");
-  unsigned int id = plantInterface->addRegistration(RegistrationType::event,what, "", "", "");
 
-  protocol::ApsimVariant outgoingApsimVariant(parent);
-  parent->publish (id, outgoingApsimVariant);
-  }
-*/

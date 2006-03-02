@@ -162,6 +162,14 @@ void Leaf::readParams (string cultivar)
 
    density = plant->getPlantDensity();
 
+   // report
+   plantInterface->writeString ("    -------------------------------------------------------");
+   char msg[100];
+   sprintf(msg, "    tpla_prod_coef           =  %6.2f",tplaProductionCoef);plantInterface->writeString (msg);
+   sprintf(msg, "    tpla_inflection_ratio    =  %6.2f",tplaInflectionRatio);plantInterface->writeString (msg);
+   sprintf(msg, "    spla_prod_coef           =  %6.2f",splaProdCoef);plantInterface->writeString (msg);
+   sprintf(msg, "    spla_intercept           =  %6.2f",splaIntercept);plantInterface->writeString (msg);
+   sprintf(msg, "    spla_slope               =  %6.2f",splaSlope);plantInterface->writeString (msg);
    }
 //------------------------------------------------------------------------------------------------
 //----------- update Leaf state variables at the end of the day
