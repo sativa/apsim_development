@@ -9,10 +9,9 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 4.3
+     Version                = 5.0
      Title                  = jambincerealonly1995
      Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
-     Component DLL          = c:\development\apsim\screen\lib\screen.dll
      Component DLL          = c:\development\apsim\clock\lib\clock.dll
      Component DLL          = c:\development\apsim\report\lib\report.dll
      Component DLL          = c:\development\apsim\input\lib\input.dll
@@ -753,13 +752,6 @@
 
 ------- wheat Initialisation --------------------------------------------------
      phenology model: Wheat
-
-------- sorghum Initialisation ------------------------------------------------
-      Initialising, V1.0 2000.01.21
-     
-         - Reading constants
-     
-         - Reading constants
 ------- Start of simulation  --------------------------------------------------
 1 January 1940(Day of year=1), manager: 
      Manager creating a new local real variable : days_this_year =     366.000000000000
