@@ -379,34 +379,6 @@ public:
                               , double *dlt_dm_fruit
                               , float *dlt_dm_green);
 
-   void legnew_dm_partition1
-      (
-       float  c_frac_leaf
-       ,float  c_frac_pod
-       ,float  g_grain_energy
-       ,float  c_grain_oil_conc
-       ,float  c_ratio_root_shoot
-       ,double  g_dlt_dm
-       ,float  g_dlt_dm_grain_demand
-       ,float  dlt_dm_oil_conv
-       ,float  *dlt_dm_green
-      ) ;
-   void legnew_dm_partition2
-      (
-       float  g_current_stage
-       ,float  *c_x_stage_no_partition
-       ,float  *c_y_frac_leaf
-       ,float  *c_y_frac_pod
-       ,int    c_num_stage_no_partition
-       ,float  g_grain_energy
-       ,float  c_grain_oil_conc
-       ,float  *c_y_ratio_root_shoot
-       ,double  g_dlt_dm
-       ,float  g_dlt_dm_grain_demand
-       ,float  dlt_dm_oil_conv
-       ,float  *dlt_dm_green
-      ) ;
-
    void Plant::legnew_dm_retranslocate
       (vector<plantPart *> &allParts        // (INPUT) all parts of plant
        ,vector<plantPart *> &supply_pools   // (INPUT)
@@ -584,8 +556,6 @@ public:
    void get_dlt_dm_senesced(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_dm_senesced_dead(protocol::Component *, protocol::QueryValueData &);
    void get_dlt_dm_dead_detached(protocol::Component *, protocol::QueryValueData &);
-   void get_dlt_dm_oil_conv(protocol::Component *, protocol::QueryValueData &);
-   void get_dlt_dm_oil_conv_retrans(protocol::Component *, protocol::QueryValueData &);
    void get_biomass_n(protocol::Component *, protocol::QueryValueData &);
    void get_n_uptake(protocol::Component *, protocol::QueryValueData &);
    void get_green_biomass_n(protocol::Component *, protocol::QueryValueData &);
@@ -851,7 +821,6 @@ private:
                                                         // optimum water and nitrogen and
                                                         // temperature stress conditions (g/m^2)
       float dltDmPotTeFruit;                            // the potential daily biomass production of fruit from te (g/m^2)
-      float dlt_dm_oil_conv;                            // plant biomass used in conversion to oil (g/m^2)
       double dlt_dm_supply_to_fruit;                    // dry matter supplied to fruit from assimilate (g/m^2)
       float dlt_dm_yield_demand_fruit;                  // dry matter demand by fruit (g/m^2)
       float dlt_dm_retrans_to_fruit;                    // dry matter retranslocated to fruit (g/m^2)
@@ -861,7 +830,6 @@ private:
       float dlt_dm_green_dead[max_part];                // plant biomass to dead population(g/m^2)
       float dlt_dm_senesced_dead[max_part];             // plant biomass to dead population(g/m^2)
       float dlt_dm_dead_detached[max_part];             // plant biomass detached from dead plant (g/m^2)
-      float dlt_dm_oil_conv_retranslocate;              // retranslocated plant biomass used in conversion to oil for (g/m^2)
       float dlt_dm_green_retrans[max_part];             // plant biomass retranslocated (g/m^2)
                                                         //      stateObserver dm_stress_max;                      // sum of maximum daily stress on dm production per phase
                                                         //      float dlt_dm_stress_max;                          // maximum daily stress on dm production (0-1)
@@ -1154,12 +1122,10 @@ private:
                                                         // fraction and internode no**2 (0-1)
 
       float frac_leaf[max_table];                       // fraction of remaining dm allocated to leaves
-      float frac_pod[max_table];                        // fraction of dm or grain weight allocated to pod
       float ratio_root_shoot[max_table];                // root:shoot ratio of new dm ()
 
       float x_stage_no_partition[max_table];
       float y_frac_leaf[max_table];                     // fraction of remaining dm allocated to leaves
-      float y_frac_pod[max_table];                      // fraction of dm or grain weight allocated to pod
       float y_ratio_root_shoot[max_table];              // root:shoot ratio of new dm ()
 
       int   num_stage_no_partition;
@@ -1173,7 +1139,6 @@ private:
       float temp_grain_crit_stress;                     // temperature above which heat stress
                                                         // occurs
       float n_fact_lf_sen_rate;
-      float carbo_oil_conv_ratio;                       // Carbohydrate:oil conversion ratio (>= 1.0)
       float grain_oil_conc;                             // fractional oil content of grain (0-1)
       float x_ave_temp[max_table];                      // critical temperatures for
                                                         // photosynthesis (oC)

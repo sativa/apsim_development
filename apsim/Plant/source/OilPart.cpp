@@ -46,6 +46,7 @@ void fruitOilPart::zeroAllGlobals(void)
    cCarbo_oil_conv_ratio  = 0.0;
    cGrain_oil_conc  = 0.0;
    gGrain_energy = 0.0;
+   dmOil_conv_retranslocate = 0.0;
 }
 
 void fruitOilPart::zeroDeltas(void)
