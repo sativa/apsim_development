@@ -9,10 +9,9 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 4.3
+     Version                = 5.0
      Title                  = site=warialda; soil=cd2; treatment=w1; Nrate=200; RootDepth=deep; Sowing = AvgWindow
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\development\apsim\Screen\lib\Screen.dll
      Component DLL          = c:\development\apsim\clock\lib\clock.dll
      Component DLL          = c:\development\apsim\report\lib\report.dll
      Component DLL          = c:\development\apsim\input\lib\input.dll
@@ -445,13 +444,6 @@
 
 ------- wheat Initialisation --------------------------------------------------
      phenology model: Wheat
-
-------- sorghum Initialisation ------------------------------------------------
-      Initialising, V1.0 2000.01.21
-     
-         - Reading constants
-     
-         - Reading constants
 
 ------- tracker Initialisation ------------------------------------------------
      Tracker variables:
@@ -932,7 +924,7 @@
       flowering day          =  272                           stover (kg/ha)         =     5388.5
       maturity day           =  311                           grain yield (kg/ha)    =     2513.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2872.6
-      grain wt (g)           =    0.032                       grains/m^2             =   7761.256
+      grain wt (g)           =    0.032                       grains/m^2             =   7761.254
       grains/plant           =   77.6                         maximum lai            =      3.861
       total above ground biomass (kg/ha)    =     7902.0
       live above ground biomass (kg/ha)     =     7902.0
@@ -1255,7 +1247,7 @@
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   51.8
       DM Root:Shoot ratio    =    0.237                       Harvest Index          =      0.224
-      Stover C:N ratio       =   24.878                       Root C:N ratio         =     16.789
+      Stover C:N ratio       =   24.877                       Root C:N ratio         =     16.789
       grain N percent        =       2.93                     total N content (kg/ha)=     150.89
       grain N uptake (kg/ha) =      52.07                     senesced N content (kg/ha)=   15.95
       green N content (kg/ha)=      82.87                     dead N content (kg/ha) =       0.00
@@ -2031,7 +2023,7 @@
       flowering day          =  282                           stover (kg/ha)         =     7127.8
       maturity day           =  318                           grain yield (kg/ha)    =     2423.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2769.7
-      grain wt (g)           =    0.022                       grains/m^2             =  10971.086
+      grain wt (g)           =    0.022                       grains/m^2             =  10971.087
       grains/plant           =  109.7                         maximum lai            =      5.808
       total above ground biomass (kg/ha)    =     9551.3
       live above ground biomass (kg/ha)     =     9551.3
@@ -6212,7 +6204,7 @@
                           N  (kg/ha) =                 69.51                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               4235.64                    0.00
+                          DM (kg/ha) =               4235.65                    0.00
                           N  (kg/ha) =                 94.81                    0.00
      
       stage 4.0 end_of_juvenile
