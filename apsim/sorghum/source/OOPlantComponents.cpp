@@ -78,7 +78,6 @@ void PlantPart::resetDailyVars(void)
    dltDetNSenesced = 0.0;
    dltDetNDead = 0.0;
 
-   dltPGreen = 0.0;
    dltPSenesced = 0.0;
    dltPDetached = 0.0;
    dltPGreen = 0.0;

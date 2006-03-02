@@ -40,7 +40,8 @@ void Phosphorus::doRegistrations(void)
    setupGetVar("p_demand", totalDemand, "g/m2", "Today's total crop P demand");
 
    setupGetVar("pfact_pheno", phenoStress, "", "Phosphorus stress factor for phenology");
-   setupGetVar("pfact_expan", expansionStress, "", "Phosphorus stress factor for leaf expansion");
+//   setupGetVar("pfact_expan", expansionStress, "", "Phosphorus stress factor for leaf expansion");
+   setupGetVar("pfact_expansion", expansionStress, "", "Phosphorus stress factor for leaf expansion");
    setupGetVar("pfact_photo", photoStress, "", "Phosphorus stress factor for photosynthesis");
    setupGetVar("pfact_grain", grainStress, "", "Phosphorus stress factor for grain");
 /*   setupGetVar("n_sd_ratio", supplyDemandRatio, "", "Phosphorus supply/demand ratio");
@@ -69,18 +70,18 @@ void Phosphorus::doRegistrations(void)
    setupGetFunction(plantInterface,"p_demand", protocol::DTsingle, true,
                     &Phosphorus::getPDemand, "g/m2", "P demand of plant parts");
 
-/*   setupGetFunction("dlt_n_green", protocol::DTsingle, true,
-                    &Phosphorus::getDltNGreen, "g/m2", "Daily N increase in live plant parts");
-   setupGetFunction("dlt_n_retrans", protocol::DTsingle, true,
-                    &Phosphorus::getDltNRetrans, "g/m2", "N retranslocated from plant parts to grain");
-   setupGetFunction("n_dead", protocol::DTsingle, true,
-                    &Phosphorus::getNDead, "g/m2", "N content of dead plant parts");
-   setupGetFunction("dlt_n_detached", protocol::DTsingle, true,
-                    &Phosphorus::getDltNDetached, "g/m2", "Actual N loss with detached plant");
-   setupGetFunction("dlt_n_dead_detached", protocol::DTsingle, true,
-                    &Phosphorus::getDltNDeadDetached, "g/m2", "Actual N loss with detached dead plant");
+   setupGetFunction(plantInterface, "dlt_p_green", protocol::DTsingle, true,
+                    &Phosphorus::getDltPGreen, "g/m2", "Daily P increase in live plant parts");
+   setupGetFunction(plantInterface, "dlt_p_retrans", protocol::DTsingle, true,
+                    &Phosphorus::getDltPRetrans, "g/m2", "P retranslocated from plant parts to grain");
+   setupGetFunction(plantInterface, "dlt_p_detached", protocol::DTsingle, true,
+                    &Phosphorus::getDltPDetached, "g/m2", "Actual P loss with detached plant");
+   setupGetFunction(plantInterface, "dlt_p_dead", protocol::DTsingle, true,
+                    &Phosphorus::getDltPDead, "g/m2", "Actual P loss with dead plant");
+   setupGetFunction(plantInterface, "dlt_n_dead_detached", protocol::DTsingle, true,
+                    &Phosphorus::getDltPDeadDetached, "g/m2", "Actual N loss with detached dead plant");
 
-                                          */
+
 
    labileID    = plantInterface->addRegistration(RegistrationType::get,"labile_p", floatArrayType,"", "");
    uptakeID = plantInterface->addRegistration(RegistrationType::get,"uptake_p_sorghum", floatArrayType,"", "");
@@ -116,6 +117,7 @@ void Phosphorus::initialize(void)
    pSenesced.clear();
    pDead.clear();
    dltPDetached.clear();
+   dltPDead.clear();
    dltPDetachedDead.clear();
    pDemand.clear();
 
@@ -129,6 +131,7 @@ void Phosphorus::initialize(void)
       pSenesced.push_back(0.0);
       pDead.push_back(0.0);
       dltPDetached.push_back(0.0);
+      dltPDead.push_back(0.0);
       dltPDetachedDead.push_back(0.0);
       pDemand.push_back(0.0);
       }
@@ -269,7 +272,7 @@ void Phosphorus::updateVars(void)
       {
       pGreen[i] = plant->PlantParts[i]->getPGreen();
       pDemand[i] = plant->PlantParts[i]->getPDemand();
-      pSenesced[i] = plant->PlantParts[i]->getPDemand();
+      pSenesced[i] = plant->PlantParts[i]->getPSenesced();
 
       }
    pBiomass = sumVector(pGreen);
@@ -417,27 +420,32 @@ void Phosphorus::getPDemand(protocol::Component *system, protocol::QueryValueDat
 //------------------------------------------------------------------------------------------------
 void Phosphorus::getDltPGreen(protocol::Component *system, protocol::QueryValueData &qd)
    {
-//   system->sendVariable(qd, protocol::vector<float>(&dltNGreen[0], &dltNGreen[0] + dltNGreen.size()));
+   system->sendVariable(qd, protocol::vector<float>(&dltPGreen[0], &dltPGreen[0] + dltPGreen.size()));
    }
 //------------------------------------------------------------------------------------------------
 void Phosphorus::getDltPRetrans(protocol::Component *system, protocol::QueryValueData &qd)
    {
-//   system->sendVariable(qd, protocol::vector<float>(&dltNRetrans[0], &dltNRetrans[0] + dltNRetrans.size()));
+   system->sendVariable(qd, protocol::vector<float>(&dltPRetrans[0], &dltPRetrans[0] + dltPRetrans.size()));
+   }
+//------------------------------------------------------------------------------------------------
+void Phosphorus::getDltPDetached(protocol::Component *system, protocol::QueryValueData &qd)
+   {
+   system->sendVariable(qd, protocol::vector<float>(&dltPDetached[0], &dltPDetached[0] + dltPDetached.size()));
+   }
+//------------------------------------------------------------------------------------------------
+void Phosphorus::getDltPDead(protocol::Component *system, protocol::QueryValueData &qd)
+   {
+   system->sendVariable(qd, protocol::vector<float>(&dltPDead[0], &dltPDead[0] + dltPDead.size()));
+   }
+//------------------------------------------------------------------------------------------------
+void Phosphorus::getDltPDeadDetached(protocol::Component *system, protocol::QueryValueData &qd)
+   {
+   system->sendVariable(qd, protocol::vector<float>(&dltPDetachedDead[0], &dltPDetachedDead[0] + dltPDetachedDead.size()));
    }
 //------------------------------------------------------------------------------------------------
 void Phosphorus::getPDead(protocol::Component *system, protocol::QueryValueData &qd)
    {
    system->sendVariable(qd, protocol::vector<float>(&pDead[0], &pDead[0] + pDead.size()));
-   }
-//------------------------------------------------------------------------------------------------
-void Phosphorus::getDltPDetached(protocol::Component *system, protocol::QueryValueData &qd)
-   {
-//   system->sendVariable(qd, protocol::vector<float>(&dltNDetached[0], &dltNDetached[0] + dltNDetached.size()));
-   }
-//------------------------------------------------------------------------------------------------
-void Phosphorus::getDltPDeadDetached(protocol::Component *system, protocol::QueryValueData &qd)
-   {
-//   system->sendVariable(qd, protocol::vector<float>(&dltNDetachedDead[0], &dltNDetachedDead[0] + dltNDetachedDead.size()));
    }
 //------------------------------------------------------------------------------------------------
 void Phosphorus::Summary(void)
