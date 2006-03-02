@@ -2,8 +2,8 @@
    <title>lablab SAMPLE Simulation</title>
    <component name="Log" executable="%apsuite\apsim\log\lib\log.dll">
       <initdata>
-         <logfile>debug.log</logfile>
-         <debug_output>off</debug_output>
+         <logfile>debug.xml</logfile>
+         <debug_output>on</debug_output>
       </initdata>
    </component>
    <component name="SummaryFile" executable="%apsuite\apsim\SummaryFile\lib\SummaryFile.dll">
@@ -45,8 +45,8 @@
          <variable>stock.intake</variable>
          <variable>stock.wt_change</variable>
          <variable>stock.trampling</variable>
-         <variable>cattle.dm_feed_on_offer()</variable>
-         <variable>cattle.dm_feed_removed()</variable>
+         <variable>cattlelablab.dm_feed_on_offer()</variable>
+         <variable>cattlelablab.dm_feed_removed()</variable>
       </initdata>
    </component>
    <component name="Met" executable="%apsuite\apsim\Input\lib\Input.dll">
@@ -133,7 +133,6 @@
       </initdata>
    </component>
    <component name="stock" executable="C:\Program Files\FarmWise\stock.dll">
-    <executable>"C:\Program Files\FarmWise\stock.dll"</executable>
     <initdata>
        <![CDATA[
            <initsection>
@@ -170,10 +169,12 @@
        ]]>
      </initdata>
    </component>
-   <component name="cattle" executable="%apsuite\apsim\stock\lib\StockScienceConverter.dll">
+   <component name="cattlelablab" executable="%apsuite\apsim\stock\lib\StockScienceConverter.dll">
       <initdata>
          <herbage_module_name>lablab</herbage_module_name>
          <debug>on</debug>
+         <conversion_model>herbage</conversion_model>
+         <herbage_model>plant</herbage_model>
          <lablab name="standard">
             <dmdValue>0.8 0.7 0.6 0.5 0.4 0.3</dmdValue>
 
@@ -218,6 +219,12 @@
 
             <cp_n_ratio>6.25</cp_n_ratio>
          </lablab>
+      </initdata>
+   </component>
+    <component name="cattle" executable="%apsuite\apsim\stock\lib\StockScienceConverter.dll">
+      <initdata>
+         <debug>on</debug>
+         <conversion_model>nonherbage</conversion_model>
       </initdata>
    </component>
    <component name="sysbal" executable="%apsuite\apsim\sysbal\lib\sysbal.dll">
