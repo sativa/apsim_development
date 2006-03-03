@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [apsim.sample_sysbal]
 
 title=sysbal Sample Simulation
@@ -10,5 +10,4 @@ module = soilwat2       sysbal.par [black_earth]      %apsuite\apsim\soilwat2\so
 module = soiln2         sysbal.par [black_earth]      %apsuite\apsim\soiln2\soiln2.ini [standard]
 module = plant(wheat)   sysbal.par [sample]           %apsuite\apsim\wheat\wheat.ini [standard]
 module = SummaryFile    sysbal.par[sample]
-module = Screen         sysbal.par[sample]
 module = sysbal
