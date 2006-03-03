@@ -256,6 +256,8 @@ void plantPart::zeroDeltas(void)
    dlt.p_dead_det = 0.0;
    dlt.p_retrans = 0.0;
    dlt.p_dead = 0.0;
+   dlt.p_green_dead = 0.0;
+   dlt.p_senesced_dead = 0.0;
 
    dlt.height = 0.0;
    dlt.width = 0.0;
@@ -343,6 +345,11 @@ void plantPart::readConstants(protocol::Component *system, const string &section
        system->readParameter (section, c.name + "_p_conc_init",
                               c.p_init_conc, 0.0, 1.0);
        }
+     else
+       {
+       c.num_x_p_stage_code = 0;
+       c.p_init_conc = 0.0;
+       }  
     }
 
 void plantPart::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
