@@ -59,9 +59,9 @@ class __declspec(dllexport) baseInfo {
    bool                   myIsArray;
    int                    myLength;
    protocol::DataTypeCode myType;
-   FString                myName;
-   FString                myUnits;
-   FString                myDescription;
+   std::string            myName;
+   std::string            myUnits;
+   std::string            myDescription;
   public:
    baseInfo()
       {

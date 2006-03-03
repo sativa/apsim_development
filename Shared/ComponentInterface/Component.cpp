@@ -981,13 +981,13 @@ unsigned int Component::getReg(const char *systemName,
 // Build the xml fragment that describes this variable and publish to system
 std::string baseInfo::getXML()
    {
-   std::string st = "   <property name=\"" + asString(myName) + "\" description=\"" + asString(myDescription) + "\" access=\"read\" init=\"F\">\n";
+   std::string st = "   <property name=\"" + myName + "\" description=\"" + myDescription + "\" access=\"read\" init=\"F\">\n";
    st += "      <type kind=\"" + asString(Type::codeToString(myType)) + "\" array=\"";
    if (myIsArray)
       st += "T";
    else
       st += "F";
-   st += "\" unit=\"" + asString(myUnits) + "\"/>\n";
+   st += "\" unit=\"" + myUnits + "\"/>\n";
    st += "   </property>";
    return st;
    }
