@@ -55,7 +55,7 @@ void OOPlant::doRegistrations(void)
 
 
 #define setupGetVar plantInterface->addGettableVar
-   setupGetVar("crop_type", cropType, "", "Crop species");
+//   setupGetVar("crop_type", cropType, "", "Crop species");
    setupGetVar("crop_class",cropClass, "", "");
 //   setupGetVar("plant_status", statusString, "", "Status of crop");
    setupGetVar("das", das, "days", "Days after sowing");

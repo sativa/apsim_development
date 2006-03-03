@@ -27,7 +27,7 @@ Stem::Stem(OOPlant *p)
 void Stem::doRegistrations(void)
    {
 #define setupGetVar plantInterface->addGettableVar
-   setupGetVar("height", canopyHeight, "mm", "Height from ground to the top of canopy");
+//   setupGetVar("height", canopyHeight, "mm", "Height from ground to the top of canopy");
    setupGetVar("stem_wt", dmGreen, "g/m2", "Stem dry weight");
    setupGetVar("stem_n", nGreen, "g/m2", "N in stem");
    setupGetVar("dlt_n_retrans_stem", dltNRetranslocate, "g/m2", "Nitrogen retranslocated from stem to grain");

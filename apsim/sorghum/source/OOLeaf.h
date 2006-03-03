@@ -75,7 +75,11 @@ class Leaf : public PlantPart
    float dltLAI;
    float maxLai;
 
+   float extinctionCoef;
    float coverGreen;
+   float coverSen;
+   float coverDead;
+   float coverTot;
    // TPLA
    float tplaMax;                     // maximum possible total plant leaf area
    float tplaPot;
@@ -121,6 +125,7 @@ class Leaf : public PlantPart
    float calcLaiSenescenceFrost(void);
    float calcSLN(void);
    float calcLAI(void);
+   void  calcCover(void);
 
 
 // public Methods -------------------------------------------------------
@@ -140,7 +145,6 @@ class Leaf : public PlantPart
    void calcLeafNo(void);           // plant
    void calcPotentialArea(void);    // plant
 
-   float calcCover(float extinctionCoef,float skipRow); // plant
    float calcEmergFlagTT(void);                           // phenology
 
    // nitrogen
@@ -149,26 +153,28 @@ class Leaf : public PlantPart
    float provideN(float requiredN);
    float getSLN(void)const{return SLN;}             // nitrogen
    float laiToday(void)const;                       // nitrogen
-//   float getNGreen(void)const{return nGreen;}       // nitrogen
-//   float getDltNGreen(void)const{return dltNGreen;} // nitrogen
-//   float getNDemand(void)const{return nDemand;}     // nitrogen
+
    float getDltLAI(void)const{return dltLAI;}       // nitrogen
    float getLAI(void)const{return lai;}             // nitrogen
    float getDltSlai(void)const{return dltSlai;}     // nitrogen
    void   addDltSlai(float add);                    // nitrogen
-/* TODO : Fix this */
+
+
+   float getCoverGreen(void)const{return coverGreen;}
+   float getCoverTot(void)const{return coverTot;}
 
    // phosphorus
    float calcPDemand(void);
 
 //   float getDmGreen(void)const{return dmGreen;}            // biomass
 //   float getDmSenesced(void)const{return dmSenesced;}      // biomass
-   void   calcSenescence(void);                             // biomass
+   void  calcSenescence(void);                             // biomass
    float partitionDM(float dltDM);                        // biomass
    float dmRetransAvailable(void);                         // biomass
-   void   dmRetrans(float dltDm){dmRetranslocate = dltDm;} // biomass
+   void  dmRetrans(float dltDm){dmRetranslocate = dltDm;} // biomass
    float getLeafNo(void){return nLeaves;}
-   void laiDetachment(vector<float> senDetachFrac, vector<float> deadDetachFrac);
+   void  laiDetachment(vector<float> senDetachFrac, vector<float> deadDetachFrac);
+
 
    void Summary(void);
 

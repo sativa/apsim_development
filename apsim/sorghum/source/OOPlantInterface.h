@@ -21,6 +21,7 @@ class PlantInterface : public protocol::Component
    //virtual void respondToMethod(unsigned int& fromID, unsigned int& eventID,
    //                                             protocol::Variant& variant);
    bool respondToSet(unsigned int& /*fromID*/,protocol::QuerySetValueData& setValueData);
+   void onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryData);
 
 
   // void respondToGet(unsigned int& /*fromID*/,protocol::QueryValueData& queryData);

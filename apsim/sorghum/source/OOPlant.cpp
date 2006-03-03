@@ -48,10 +48,6 @@ void OOPlant::readParams(void)
    tempStressTable.read(plantInterface,sections,"x_ave_temp","y_stress_photo");
 
 
-   TableFn extinction;
-   extinction.read(plantInterface,sections,"x_row_spacing","y_extinct_coef");
-   extinctionCoef = extinction.value(rowSpacing);
-
    readArray(plantInterface,sections,"rue",rue);
    rue.insert(rue.begin(),0);  // for compatibility with fortran
 
@@ -407,7 +403,7 @@ void OOPlant::death(void)
 //------------------------------------------------------------------------------------------------
 float OOPlant::radnInt(void)
    {
-   if (isEqual(frIntcRadn,0.0))return leaf->calcCover(extinctionCoef,skipRow) * today.radn;
+   if (isEqual(frIntcRadn,0.0))return leaf->getCoverGreen() * today.radn;
    else
       // interception has already been calculated for us
       return frIntcRadn * today.radn;
@@ -488,5 +484,53 @@ void OOPlant::phenologyEvent(int iStage)
 
    }
 //------------------------------------------------------------------------------------------------
+
+void OOPlant::onApsimGetQuery(protocol::ApsimGetQueryData& apsimQueryData)
+   {
+   string name = string(apsimQueryData.name.f_str(),apsimQueryData.name.length());
+   boost::function2<void, protocol::Component *, protocol::QueryValueData &> fn;
+   if (name == string("crop_type"))
+      {
+
+      fn = boost::bind(&OOPlant::get_crop_type, this, _1, _2);
+      plantInterface->addGettableVar("crop_type", protocol::DTstring, false,fn, "",  "");
+      }
+   else if (name == string("cover_green"))
+      {
+      fn = boost::bind(&OOPlant::get_cover_green, this, _1, _2);
+      plantInterface->addGettableVar("cover_green", protocol::DTsingle, false,fn, "",  "");
+      }
+   else if (name == string("cover_tot"))
+      {
+      fn = boost::bind(&OOPlant::get_cover_tot, this, _1, _2);
+      plantInterface->addGettableVar("cover_tot", protocol::DTsingle, false,fn, "",  "");
+      }
+   else if (name == string("height"))
+      {
+      fn = boost::bind(&OOPlant::get_height, this, _1, _2);
+      plantInterface->addGettableVar("height", protocol::DTsingle, false,fn, "mm",  "");
+      }
+   }
+
+
+void OOPlant::get_crop_type(protocol::Component *system, protocol::QueryValueData &qd)
+   {
+   system->sendVariable(qd, FString(cropType.c_str()));
+   }
+void OOPlant::get_cover_green(protocol::Component *system, protocol::QueryValueData &qd)
+   {
+   float coverGreen = leaf->getCoverGreen();
+   system->sendVariable(qd, coverGreen);
+   }
+void OOPlant::get_cover_tot(protocol::Component *system, protocol::QueryValueData &qd)
+   {
+   float cover_tot = leaf->getCoverTot();
+   system->sendVariable(qd, cover_tot);
+   }
+void OOPlant::get_height(protocol::Component *system, protocol::QueryValueData &qd)
+   {
+   float height = stem->getCanopyHeight();
+   system->sendVariable(qd, height);
+   }
 
 

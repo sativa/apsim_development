@@ -117,7 +117,6 @@ class OOPlant
 
    vector<float> rue;
    float radnIntercepted;
-   float extinctionCoef;
    float transpEff;
 
    float tempStress;
@@ -186,6 +185,8 @@ class OOPlant
    void doEndRun(unsigned &, unsigned &, protocol::Variant &v) ;
    void doKillCrop(unsigned &, unsigned &, protocol::Variant &v);
 
+   void onApsimGetQuery(protocol::ApsimGetQueryData&);
+   
    bool setVariable(unsigned id, protocol::QuerySetValueData& qd);
  //  void getVariable(protocol::QueryValueData& qd);
  //  void mapVar(unsigned id,string name,void *ptr,int dType);
@@ -216,6 +217,11 @@ class OOPlant
    void killCrop(void);
 
    void getPlantStatus(protocol::Component *system, protocol::QueryValueData &qd);
+   void get_crop_type(protocol::Component *system, protocol::QueryValueData &qd);
+   void get_cover_green(protocol::Component *system, protocol::QueryValueData &qd);
+   void get_cover_tot(protocol::Component *system, protocol::QueryValueData &qd);
+   void get_height(protocol::Component *system, protocol::QueryValueData &qd);
+
 
    void   phenologyEvent(int stage);
 
