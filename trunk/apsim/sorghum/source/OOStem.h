@@ -64,6 +64,8 @@ class Stem : public PlantPart
 
    // phenology
    void phenologyEvent(int);
+
+   float getCanopyHeight(void)const{return canopyHeight;}
    };
 
 

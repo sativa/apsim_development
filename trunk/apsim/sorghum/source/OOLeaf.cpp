@@ -97,6 +97,10 @@ void Leaf::initialize(void)
 
    partNo = 1;
 
+   coverGreen = 0.0;
+   coverSen = 0.0;
+   coverDead = 0.0;
+
    PlantPart::initialize();
    }
 //------------------------------------------------------------------------------------------------
@@ -170,6 +174,15 @@ void Leaf::readParams (string cultivar)
    sprintf(msg, "    spla_prod_coef           =  %6.2f",splaProdCoef);plantInterface->writeString (msg);
    sprintf(msg, "    spla_intercept           =  %6.2f",splaIntercept);plantInterface->writeString (msg);
    sprintf(msg, "    spla_slope               =  %6.2f",splaSlope);plantInterface->writeString (msg);
+
+
+
+   // calculate extinction coef
+   TableFn extinction;
+   extinction.read(plantInterface,sections,"x_row_spacing","y_extinct_coef");
+   extinctionCoef = extinction.value(plant->getRowSpacing());
+
+
    }
 //------------------------------------------------------------------------------------------------
 //----------- update Leaf state variables at the end of the day
@@ -225,6 +238,9 @@ void Leaf::updateVars(void)
    dltNGreen = 0.0;
 
    maxLai = Max(lai,maxLai);
+
+   calcCover();
+
 
    }
 //------------------------------------------------------------------------------------------------
@@ -609,10 +625,13 @@ float Leaf::calcLaiSenescenceLight(void)
    return dltSlaiLight;
    }
 //------------------------------------------------------------------------------------------------
-float Leaf::calcCover(float extinctionCoef,float skipRow)
+void Leaf::calcCover()
    {
+   float skipRow = plant->getSkipRow();
    coverGreen = divide(1.0 - exp(-extinctionCoef * lai * skipRow), skipRow,0.0);
-   return coverGreen;
+   coverSen = divide(1.0 - exp(-extinctionCoef * sLai * skipRow), skipRow,0.0);
+   coverDead = divide(1.0 - exp(-extinctionCoef * deadLai * skipRow), skipRow,0.0);
+   coverTot = 1.0 - (1.0 - coverGreen) * (1 - coverSen) * (1 - coverDead);
    }
 //------------------------------------------------------------------------------------------------
 float Leaf::calcEmergFlagTT(void)
