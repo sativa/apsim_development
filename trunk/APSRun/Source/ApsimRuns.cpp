@@ -104,7 +104,7 @@ void ApsimRuns::addSimulationsFromApsimFile(const std::string& fileName)
    for (XMLNode::iterator node = doc.documentElement().begin();
                           node != doc.documentElement().end();
                           node++)
-      if (!Str_i_Eq(node->getName(), "shared"))
+      if (Str_i_Eq(node->getName(), "simulation"))
          simulationNames.push_back(node->getAttribute("name"));
 
    for (unsigned s = 0; s != simulationNames.size(); s++)
