@@ -57,7 +57,8 @@ class __declspec(dllexport) TRunForm : public TForm
       void __fastcall simulationListClick(TObject *Sender);
       void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
       void __fastcall PauseCheckBoxClick(TObject *Sender);
-   void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
+   void __fastcall FormKeyDown(TObject *Sender, WORD &Key,
+          TShiftState Shift);
    private:	// User declarations
       PreviousRuns previousRuns;
       std::vector<std::string> filesNeedingConversion;

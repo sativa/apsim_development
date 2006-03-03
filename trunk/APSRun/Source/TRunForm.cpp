@@ -186,6 +186,7 @@ void __fastcall TRunForm::NextButtonClick(TObject *Sender)
          {
          NextButton->Caption = "Resume";
          Memo1->ScrollBars = Stdctrls::ssBoth;
+         Memo1->Lines->Add(" ");
          }
       else
          {
@@ -200,6 +201,9 @@ void TRunForm::runSimulations()
    //---------------------------------------------------------
    // Go run all simulations.
    {
+   StartDateLabel->Caption = "";
+   CurrentDateLabel->Caption = "";
+   EndDateLabel->Caption = "";
    MainPanel->ActivePageIndex ++;
    NextButton->Caption = "Pause";
    FinishedLabel->Visible = false;
@@ -212,6 +216,10 @@ void TRunForm::runSimulations()
    FinishedLabel->Visible = true;
    NextButton->Visible = false;
    CancelButton->Caption = "Ok";
+   CancelButton->Default = true;
+   Memo1->ScrollBars = Stdctrls::ssBoth;
+   Memo1->Lines->Add(" ");
+
 
    if (!pauseOnComplete || !Visible)
       Close();
@@ -372,11 +380,14 @@ void __fastcall TRunForm::PauseCheckBoxClick(TObject *Sender)
    pauseOnComplete = PauseCheckBox->Checked;
    }
 
-//---------------------------------------------------------------------------
-
-void __fastcall TRunForm::FormClose(TObject *Sender, TCloseAction &Action)
-{
-   runs->StopApsim();
-}
+void __fastcall TRunForm::FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift)
+   //---------------------------------------------------------------------------
+   // Look for a return key and send next button. If ESC, then close down.
+   {
+   if (Key == VK_RETURN)
+      NextButtonClick(NULL);
+   else if (Key == VK_ESCAPE)
+      Close();
+   }
 //---------------------------------------------------------------------------
 
