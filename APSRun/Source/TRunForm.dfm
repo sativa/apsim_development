@@ -3,6 +3,7 @@ object RunForm: TRunForm
   Top = 257
   Width = 831
   Height = 631
+  ActiveControl = NextButton
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = 'Running APSIM...'
   Color = clWindow
@@ -11,11 +12,12 @@ object RunForm: TRunForm
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = False
   Position = poScreenCenter
   Scaled = False
-  OnClose = FormClose
   OnCloseQuery = FormCloseQuery
+  OnKeyDown = FormKeyDown
   DesignSize = (
     823
     596)
@@ -874,7 +876,8 @@ object RunForm: TRunForm
     Anchors = [akRight, akBottom]
     Caption = '&Next >'
     Default = True
-    TabOrder = 1
+    ModalResult = 1
+    TabOrder = 0
     OnClick = NextButtonClick
   end
   object CancelButton: TButton
@@ -883,9 +886,10 @@ object RunForm: TRunForm
     Width = 85
     Height = 25
     Anchors = [akRight, akBottom]
+    Cancel = True
     Caption = '&Close'
     ModalResult = 2
-    TabOrder = 2
+    TabOrder = 1
     OnClick = CancelButtonClick
   end
   object MainPanel: TPageControl
@@ -896,7 +900,8 @@ object RunForm: TRunForm
     ActivePage = Page4
     Anchors = [akLeft, akTop, akRight, akBottom]
     Style = tsFlatButtons
-    TabOrder = 0
+    TabOrder = 2
+    TabStop = False
     object Page1: TTabSheet
       TabVisible = False
       object Label1: TLabel

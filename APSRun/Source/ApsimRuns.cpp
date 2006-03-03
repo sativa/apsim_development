@@ -218,14 +218,71 @@ bool IsWinNT()
    return (osv.dwPlatformId == VER_PLATFORM_WIN32_NT);
    }
 
+void ThrowWindowsError()
+   // --------------------------------------------------------------------------
+   // Throw an exception using Windows API "GetLastError" for the error message.
+   {
+   LPVOID lpMsgBuf;
+   FormatMessage(
+       FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+       NULL,
+       GetLastError(),
+       MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
+       (LPTSTR) &lpMsgBuf,
+       0,
+       NULL);
+
+   string message = (char*) lpMsgBuf;
+   LocalFree( lpMsgBuf );
+   throw runtime_error(message);
+   }
+
+
+void ReadStdOut(HANDLE hChildStdoutRd, TApsimRunEvent msgEvent)
+   // --------------------------------------------------------------------------
+   // Read from the specified handle and send to msgEvent.
+   {
+   const int bufsize = 8192;
+   static char buffer[bufsize];
+
+   // Check to see if there is any data to read
+   unsigned long nBytesRead;
+   unsigned long nBytesAvail;
+   if (!PeekNamedPipe(hChildStdoutRd,buffer,bufsize,&nBytesRead,&nBytesAvail,NULL))
+      ThrowWindowsError();
+
+   if (nBytesRead != 0)
+      {
+      bzero(buffer);
+      if (nBytesAvail > bufsize)
+         {
+         while (nBytesRead >= bufsize)
+             {
+             if (!ReadFile(hChildStdoutRd,buffer, bufsize, &nBytesRead, NULL))
+                ThrowWindowsError();
+             if (msgEvent != NULL)
+                 msgEvent(string(buffer, nBytesRead));
+             bzero(buffer);
+             }
+         }
+      else
+         {
+         if (!ReadFile(hChildStdoutRd,buffer,bufsize,&nBytesRead,NULL))
+            ThrowWindowsError();
+
+         if (msgEvent != NULL)
+             msgEvent(string(buffer, nBytesRead));
+         bzero(buffer);
+         }
+      }
+   }
+
 void ApsimRuns::ApsExec(const char* Command_line, TApsimRunEvent msgEvent)
    //------------------------------------------------------------------------------
    // Run a console process and capture stdout/err.
    {
    STARTUPINFO StartupInfo;
    PROCESS_INFORMATION ProcessInfo;
-   const int bufsize = 8192;
-   char buffer[bufsize];
 
    memset(&StartupInfo, '\0', sizeof(STARTUPINFO));
    StartupInfo.cb = sizeof(StartupInfo);
@@ -248,7 +305,7 @@ void ApsimRuns::ApsExec(const char* Command_line, TApsimRunEvent msgEvent)
    sa.nLength = sizeof(sa);
 
    // Create the pipe apsim will write to
-   if (! CreatePipe(&hChildStdoutRd, &hChildStdoutWr, &sa, 0)) goto winerr;
+   if (! CreatePipe(&hChildStdoutRd, &hChildStdoutWr, &sa, 0)) ThrowWindowsError();
    SetHandleInformation( hChildStdoutRd, HANDLE_FLAG_INHERIT, 0);
 
    // Stdin stream - /dev/null
@@ -270,7 +327,7 @@ void ApsimRuns::ApsExec(const char* Command_line, TApsimRunEvent msgEvent)
                        NULL,                   // pointer to current directory name
                        &StartupInfo,           // pointer to STARTUPINFO
                        &ProcessInfo) )         // pointer to PROCESS_INF
-      goto winerr;
+      ThrowWindowsError();
 
    while (1)
       {
@@ -280,66 +337,26 @@ void ApsimRuns::ApsExec(const char* Command_line, TApsimRunEvent msgEvent)
       if (stopApsim)
          TerminateProcess(ProcessInfo.hProcess, -1);
 
+      // Read stdout.
       if (!paused)
-         {
-         // Check to see if there is any data to read
-         unsigned long nBytesRead;
-         unsigned long nBytesAvail;
-         if (!PeekNamedPipe(hChildStdoutRd,buffer,bufsize,&nBytesRead,&nBytesAvail,NULL)) goto winerr;
-         if (nBytesRead != 0)
-            {
-            bzero(buffer);
-            if (nBytesAvail > bufsize)
-               {
-               while (nBytesRead >= bufsize)
-                   {
-                   if (!ReadFile(hChildStdoutRd,buffer, bufsize, &nBytesRead, NULL)) goto winerr;
-                   if (msgEvent != NULL)
-                       msgEvent(string(buffer, nBytesRead));
-                   bzero(buffer);
-                   }
-               }
-            else
-               {
-               if (!ReadFile(hChildStdoutRd,buffer,bufsize,&nBytesRead,NULL)) goto winerr;
-               if (msgEvent != NULL)
-                   msgEvent(string(buffer, nBytesRead));
-               bzero(buffer);
-               }
-            }
-         }
+         ReadStdOut(hChildStdoutRd, msgEvent);
 
       // See if the process has exited
       unsigned long exitCode=0;
-      if (!GetExitCodeProcess(ProcessInfo.hProcess, &exitCode)) goto winerr;
+      if (!GetExitCodeProcess(ProcessInfo.hProcess, &exitCode))
+         ThrowWindowsError();
+
       if (exitCode != STILL_ACTIVE)
           break;
 
       Sleep(100);
       }
-   if (!CloseHandle(ProcessInfo.hProcess)) goto winerr;
-   if (!CloseHandle(ProcessInfo.hThread)) goto winerr;
-   if (!CloseHandle(hChildStdoutRd)) goto winerr;
-   if (!CloseHandle(hChildStdoutWr)) goto winerr;
-   if (!CloseHandle(hChildStdinRd)) goto winerr;
+   ReadStdOut(hChildStdoutRd, msgEvent);
 
-   return;
-
- winerr:
-   LPVOID lpMsgBuf;
-   FormatMessage(
-       FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-       NULL,
-       GetLastError(),
-       MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
-       (LPTSTR) &lpMsgBuf,
-       0,
-       NULL);
-
-   // Display the string.
-   MessageBox(NULL, (char*) lpMsgBuf, "Apsim Exec Error", MB_OK|MB_ICONINFORMATION );
-
-   // Free the buffer.
-   LocalFree( lpMsgBuf );
+   if (!CloseHandle(ProcessInfo.hProcess) ) ThrowWindowsError();
+   if (!CloseHandle(ProcessInfo.hThread)) ThrowWindowsError();
+   if (!CloseHandle(hChildStdoutRd)) ThrowWindowsError();
+   if (!CloseHandle(hChildStdoutWr)) ThrowWindowsError();
+   if (!CloseHandle(hChildStdinRd)) ThrowWindowsError();
    }
 
