@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 
 [apsim.sunflower]
 title=sunflower SAMPLE SIMULATION
@@ -13,7 +13,6 @@ module = soilwat2            %apsuite\apsim\soilwat2\sample\soilwat2.par[black_e
 module = soiln2              %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]     %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = SurfaceOM           %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = CropMod(sunflower)  sample.par[sample] %apsuite\apsim\sunflower\sunflower.ini [standard]
-module = Screen  sample.par[all]
 module = SummaryFile sample.par[sunflower]
 
 
@@ -32,6 +31,5 @@ module = soiln2   %apsuite\apsim\soiln2\soiln2.ini [standard]                  %
 module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = plant(cowpea) sample.par[sample] %apsuite\apsim\cowpea\cowpea.ini[standard]
 module = cropmod(sunflower) sample.par[sample] %apsuite\apsim\sunflower\sunflower.ini [standard]
-module = Screen  sample.par[all]
 module = SummaryFile sample.par[intercropping]
 

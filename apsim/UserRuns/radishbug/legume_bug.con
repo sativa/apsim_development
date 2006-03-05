@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [APSIM.rd_1000_timeA]
 module = clock   sow_rule.par [all] %apsuite\apsim\clock\clock.ini [standard]
 module = report   legume_bug.par [rd1000_timeA] sow_rule.par [all]
@@ -17,6 +17,5 @@ module = plant(ryegras2) soils.par[sand]                                  ryegra
 module = canopy           sow_rule.par[all]
 module = accum            sow_rule.par[all]
 module = SummaryFile   sow_rule.par [rd1000_timeA]
-module = Screen   sow_rule.par [all] 
 module = log
 

@@ -25,8 +25,5 @@ variable = met.mint
 bound_layer_cond = 20.0  (J/s/m2/K)
 clay =  0.1  0.1  0.1  0.1  0.1  0.2  0.3  () ! proportion of clay (0-1)    
 
-[sample.screen.parameters]
-screen_output = on
-
 [sample.summaryfile.parameters]
 summaryfile=soiltemp.sum

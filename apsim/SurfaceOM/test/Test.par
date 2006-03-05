@@ -5,14 +5,6 @@ start_date=1/1/1988
 end_date=30/1/1988
 
 
-[sample.Screen.parameters]
-screen_output = on
-
-
-! ================ TEST 1 ===============================
-! Two residue pools are simulated where N is non-limiting (via low C:N)
-! and temperature and water are non-limiting (via met file)
-! The two pools have the same mass but one pool has a standing fraction
 [test1.SummaryFile.parameters]
 summaryfile = test1.sum
 

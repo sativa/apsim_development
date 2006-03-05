@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [Sample PatchInput]
 
 title=PatchInput1 Simulation
@@ -8,7 +8,6 @@ module = input(met) %apsuite\apsim\met\sample\dalby.met[weather]
 module = PatchInput(patch) patch.dat [test]
 module = manager PatchInput.par [sample]
 module = SummaryFile  PatchInput.par[sample]
-module = Screen  PatchInput.par[sample]
 
 [Sample PatchInput2]
 
@@ -19,7 +18,6 @@ module = input(met) %apsuite\apsim\met\sample\dalby.met[weather]
 module = PatchInput(patch) patch2.dat [test]
 module = manager PatchInput.par [sample]
 module = SummaryFile  PatchInput.par[sample2]
-module = Screen  PatchInput.par[sample]
 
 [Sample PatchInput3]
 ! This sample is what Yield Prophet uses to patch data when the
@@ -36,4 +34,3 @@ module = input(met) %apsuite\apsim\met\sample\dalby.met[weather]
 module = PatchInput(patch) patch3.dat [test]
 module = manager PatchInput.par [sample]
 module = SummaryFile  PatchInput.par[sample3]
-module = Screen  PatchInput.par[sample]       

@@ -1,15 +1,14 @@
-version = 4.3
+version = 5
 [apsim.full potential]
 title = oryza Sample Simulation - potential
 module = clock   oryza.par [sample] %apsuite\apsim\clock\clock.ini [standard]
 module = report     oryza.par [sample] oryza.par [fp]
 module = input(met) %apsuite\apsim\MET\SAMPLE\LosBanos.met [weather]
-!module = micromet   oryza.par [sample] oryza.par [standard]                     %apsuite\apsim\micromet\micromet.ini[standard]
 module = manager    oryza.par [sample]
 module = eo         %apsuite\apsim\eo\sample\eo.par [sample]                    %apsuite\apsim\eo\eo.ini [standard]
 module = oryza      oryza.par [potential] oryza.par [sample] %apsuite\apsim\oryza\oryza.ini[standard]
 module = SummaryFile   oryza.par[fp]
-module = Screen        oryza.par[sample]
+!module = micromet   oryza.par [sample] oryza.par [standard]                     %apsuite\apsim\micromet\micromet.ini[standard]
 
 [apsim.water limited]
 title = oryza Sample Simulation - water limited
@@ -22,7 +21,6 @@ module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]   
 module = eo         %apsuite\apsim\eo\sample\eo.par [sample]                    %apsuite\apsim\eo\eo.ini [standard]
 module = oryza      oryza.par [sample] %apsuite\apsim\oryza\oryza.ini[standard]
 module = SummaryFile   oryza.par[wl]
-module = Screen        oryza.par[sample]
 
 [apsim.water and N limited]
 title = oryza Sample Simulation - water and N limited
@@ -36,4 +34,3 @@ module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]   %aps
 module = eo         %apsuite\apsim\eo\sample\eo.par [sample]                    %apsuite\apsim\eo\eo.ini [standard]
 module = oryza      oryza.par [sample] %apsuite\apsim\oryza\oryza.ini[standard]
 module = SummaryFile   oryza.par[wnl]
-module = Screen        oryza.par[sample]

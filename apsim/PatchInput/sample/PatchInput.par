@@ -13,9 +13,6 @@ report do_output
 [sample.SummaryFile.parameters]
 summaryfile=PatchInput.sum
 
-[sample.Screen.parameters]
-screen_output=on
-
 [sample2.report.parameters]
 outputfile = PatchInput2.out
 variable = met.site

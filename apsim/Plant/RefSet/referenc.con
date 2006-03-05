@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [apsim.mungbean reference data set]
 
 module = clock    referenc.par [reference] %apsuite\apsim\clock\clock.ini[standard]
@@ -12,5 +12,4 @@ module = plant(mungbean)   referenc.par [reference]     %apsuite\apsim\mungbean\
 module = fertiliz                              %apsuite\apsim\fertiliz\fertiliz.ini [standard]
 module = irrigate
 module = SummaryFile   referenc.par[reference]
-module = Screen   referenc.par[reference]
 module = tracker(tracker1)   referenc.par[reference]

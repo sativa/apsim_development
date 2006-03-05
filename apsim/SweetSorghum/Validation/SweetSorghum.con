@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 
 [apsim.PacSeeds1]
 title= Pacific Seeds Planting One
@@ -13,7 +13,6 @@ module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_eart
 module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = surfaceom       %apsuite\apsim\surfaceom\sample\surfaceom.par[legume_residue]  %apsuite\apsim\surfaceom\surfaceom.ini [standard]
 module = plant(sweetsorghum)  SweetSorghum.par [all   ] ..\sweetsorghum.ini [standard]
-module = Screen          SweetSorghum.par [all]
 module = SummaryFile     SweetSorghum.par [PacSeeds1]
 
 [apsim.PacSeeds2]
@@ -29,7 +28,6 @@ module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_eart
 module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = surfaceom       %apsuite\apsim\surfaceom\sample\surfaceom.par[legume_residue]  %apsuite\apsim\surfaceom\surfaceom.ini [standard]
 module = plant(sweetsorghum)  SweetSorghum.par [all   ] ..\sweetsorghum.ini [standard]
-module = Screen          SweetSorghum.par [all]
 module = SummaryFile     SweetSorghum.par [PacSeeds2]
 
 [apsim.Lawes1]
@@ -45,7 +43,6 @@ module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_eart
 module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = surfaceom       %apsuite\apsim\surfaceom\sample\surfaceom.par[legume_residue]  %apsuite\apsim\surfaceom\surfaceom.ini [standard]
 module = plant(sweetsorghum)  SweetSorghum.par [all   ] ..\sweetsorghum.ini [standard]
-module = Screen          SweetSorghum.par [all]
 module = SummaryFile     SweetSorghum.par [Lawes1]
 
 [apsim.Lawes2]
@@ -61,7 +58,6 @@ module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_eart
 module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = surfaceom       %apsuite\apsim\surfaceom\sample\surfaceom.par[legume_residue]  %apsuite\apsim\surfaceom\surfaceom.ini [standard]
 module = plant(sweetsorghum)  SweetSorghum.par [all   ] ..\sweetsorghum.ini [standard]
-module = Screen          SweetSorghum.par [all]
 module = SummaryFile     SweetSorghum.par [Lawes2]
 
 [apsim.Lawes3]
@@ -77,7 +73,6 @@ module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_eart
 module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = surfaceom       %apsuite\apsim\surfaceom\sample\surfaceom.par[legume_residue]  %apsuite\apsim\surfaceom\surfaceom.ini [standard]
 module = plant(sweetsorghum)  SweetSorghum.par [all   ] ..\sweetsorghum.ini [standard]
-module = Screen          SweetSorghum.par [all]
 module = SummaryFile     SweetSorghum.par [Lawes3]
 
 [apsim.Lawes4]
@@ -93,7 +88,6 @@ module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_eart
 module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = surfaceom       %apsuite\apsim\surfaceom\sample\surfaceom.par[legume_residue]  %apsuite\apsim\surfaceom\surfaceom.ini [standard]
 module = plant(sweetsorghum)  SweetSorghum.par [all   ] ..\sweetsorghum.ini [standard]
-module = Screen          SweetSorghum.par [all]
 module = SummaryFile     SweetSorghum.par [Lawes4]
 
 [apsim.Lawes5]
@@ -109,7 +103,6 @@ module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_eart
 module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = surfaceom       %apsuite\apsim\surfaceom\sample\surfaceom.par[legume_residue]  %apsuite\apsim\surfaceom\surfaceom.ini [standard]
 module = plant(sweetsorghum)  SweetSorghum.par [all   ] %apsuite\apsim\sweetsorghum\sweetsorghum.ini [standard]
-module = Screen          SweetSorghum.par [all]
 module = SummaryFile     SweetSorghum.par [Lawes5]
 
 [apsim.Lawes6]
@@ -125,7 +118,6 @@ module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_eart
 module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = surfaceom       %apsuite\apsim\surfaceom\sample\surfaceom.par[legume_residue]  %apsuite\apsim\surfaceom\surfaceom.ini [standard]
 module = plant(sweetsorghum)  SweetSorghum.par [all   ] %apsuite\apsim\sweetsorghum\sweetsorghum.ini [standard]
-module = Screen          SweetSorghum.par [all]
 module = SummaryFile     SweetSorghum.par [Lawes6]
 
 [apsim.Biboohra]
@@ -140,7 +132,6 @@ module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_eart
 module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = surfaceom       %apsuite\apsim\surfaceom\sample\surfaceom.par[legume_residue]  %apsuite\apsim\surfaceom\surfaceom.ini [standard]
 module = plant(sweetsorghum)  SweetSorghum.par [all   ] %apsuite\apsim\sweetsorghum\sweetsorghum.ini [standard]
-module = Screen          SweetSorghum.par [all]
 module = SummaryFile     SweetSorghum.par [Biboohra]
 
 [apsim.Miallo]
@@ -155,7 +146,6 @@ module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_eart
 module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = surfaceom       %apsuite\apsim\surfaceom\sample\surfaceom.par[legume_residue]  %apsuite\apsim\surfaceom\surfaceom.ini [standard]
 module = plant(sweetsorghum)  SweetSorghum.par [all   ] %apsuite\apsim\sweetsorghum\sweetsorghum.ini [standard]
-module = Screen          SweetSorghum.par [all]
 module = SummaryFile     SweetSorghum.par [Miallo]
 
 [apsim.MaryFarms]
@@ -170,5 +160,4 @@ module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_eart
 module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = surfaceom       %apsuite\apsim\surfaceom\sample\surfaceom.par[legume_residue]  %apsuite\apsim\surfaceom\surfaceom.ini [standard]
 module = plant(sweetsorghum)  SweetSorghum.par [all   ] %apsuite\apsim\sweetsorghum\sweetsorghum.ini [standard]
-module = Screen          SweetSorghum.par [all]
 module = SummaryFile     SweetSorghum.par [MaryFarms]

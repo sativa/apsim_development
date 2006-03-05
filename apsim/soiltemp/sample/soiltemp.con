@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [APSIM.soiltemp_sample]
 
 
@@ -10,5 +10,4 @@ module = Input(Met)        %apsuite\apsim\met\sample\dalby.met[weather]
 module = manager    soiltemp.par[sample]
 module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]           %apsuite\apsim\soilwat2\soilwat2.ini[standard]
 module = soiltemp   soiltemp.par[sample]          %apsuite\apsim\soiltemp\soiltemp.ini[standard]
-module = screen     soiltemp.par[sample]
 module = summaryfile soiltemp.par[sample]

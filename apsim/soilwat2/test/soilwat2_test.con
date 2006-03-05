@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [apsim.test_array_size_100_soilwat2]
 
 title=Soilwat2 test_array_size_100 Simulation
@@ -7,5 +7,4 @@ module = report   soilwat2_test.par [test_array_size_100]
 module = Input(Met)      %apsuite\apsim\met\sample\dalby.met[weather]
 module = manager  soilwat2_test.par [test_array_size_100]
 module = soilwat2 soilwat2_test.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
-module = Screen  soilwat2_test.par[test_array_size_100]
 module = SummaryFile soilwat2_test.par[test_array_size_100]

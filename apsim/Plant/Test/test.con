@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [APSIM.test1_chickpea]
 title=Test sowing before out
 module = clock      test.par[all] %apsuite\apsim\clock\clock.ini[standard]
@@ -10,7 +10,6 @@ module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_resid
 module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = plant(chickpea)   test.par[all] %apsuite\apsim\chickpea\chickpea.ini[standard]
 module = SummaryFile  test.par[test1]
-module = Screen  test.par[all]
 
 [APSIM.test2_chickpea]
 title=Test sowing after out on same day
@@ -23,7 +22,6 @@ module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_resid
 module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = plant(chickpea)   test.par[all] %apsuite\apsim\chickpea\chickpea.ini[standard]
 module = SummaryFile  test.par[test2]
-module = Screen  test.par[all]
 
 [APSIM.test3_chickpea]
 title=Test sowing next day after out
@@ -36,7 +34,6 @@ module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_resid
 module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = plant(chickpea)   test.par[all] %apsuite\apsim\chickpea\chickpea.ini[standard]
 module = SummaryFile  test.par[test3]
-module = Screen  test.par[all]
 
 [APSIM.test4_chickpea]
 title=Test kill_stem before sowing
@@ -49,7 +46,6 @@ module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_resid
 module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = plant(chickpea)   test.par[all] %apsuite\apsim\chickpea\chickpea.ini[standard]
 module = SummaryFile  test.par[test4]
-module = Screen  test.par[all]
 
 [APSIM.test5_long array]
 title=Test long array reporting
@@ -62,7 +58,6 @@ module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_resid
 module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = plant(lablab)   test.par[test5] %apsuite\apsim\lablab\lablab.ini[standard]
 module = SummaryFile  test.par[test5]
-module = Screen  test.par[all]
 
 
 
@@ -77,7 +72,6 @@ module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_resid
 module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = plant(lablab) test.par[test5] %apsuite\apsim\lablab\lablab.ini[standard]
 module = SummaryFile  test.par[test6]
-module = Screen  test.par[all]
 
 
 [APSIM.test7]
@@ -91,7 +85,6 @@ module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_resid
 module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = plant(lablab) test.par[test5] %apsuite\apsim\lablab\lablab.ini[standard]
 module = SummaryFile  test.par[test7]
-module = Screen  test.par[all]
 
 
 [APSIM.test8]
@@ -105,6 +98,5 @@ module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_resid
 module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = plant(wheat) %apsuite\apsim\wheat\sample\wheat.par[sample] %apsuite\apsim\wheat\wheat.ini[standard]
 module = SummaryFile  test.par[test8]
-module = Screen  test.par[all]
 
 

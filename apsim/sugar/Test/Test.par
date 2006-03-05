@@ -5,9 +5,6 @@
 [sample.SummaryFile.parameters]
 summaryfile = test.sum
 
-[sample.Screen.parameters]
-screen_output = on
-
 [sample.report.parameters]
 outputfile = test.out
 
@@ -175,9 +172,6 @@ endif
 
 [sample2.SummaryFile.parameters]
 summaryfile = test2.sum
-
-[sample2.Screen.parameters]
-screen_output = on
 
 [sample2.report.parameters]
 outputfile = test2.out

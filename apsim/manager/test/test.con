@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [apsim.sample_manager]  
 
 title=manager test
@@ -6,5 +6,4 @@ module = clock   test.par [sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report  test.par [sample]
 module = Input(Met)     %apsuite\apsim\met\sample\dalby.met [weather]
 module = manager test.par [sample]
-module = Screen  test.par[sample]
 module = summaryfile test.par[sample]

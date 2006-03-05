@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [APSIM.sample_stylo]
 title=stylo Sample Simulation
 module = clock      stylo.par[sample] %apsuite\apsim\clock\clock.ini[standard]
@@ -9,5 +9,4 @@ module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]  %a
 module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = plant(stylo)      stylo.par[sample] %apsuite\apsim\stylo\stylo.ini[standard]
-module = screen     stylo.par[sample]
 module = summaryfile stylo.par[sample]

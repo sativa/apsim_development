@@ -776,12 +776,6 @@ brD       =        0       0       0       0       0       0       0       0    
 [csu-S.SummaryFile.parameters]
 summaryfile = csu-S09.sum
 
-[all.Screen.parameters]
-screen_output = on
-
-[csu-p14.Screen.parameters]
-screen_output = off
-
 [all.tracker1.parameters]
 variable = sum of met.rain on end_of_day from report1.reported to now as sum@met_rain
 variable = sum of weed.ep on end_of_day from report1.reported to now as sum@weed_ep

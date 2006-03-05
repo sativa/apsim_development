@@ -1,6 +1,6 @@
 !******************************* Alan Hunter *************************
 
-version = 4.3
+version = 5
 [apsim.o97_1_1.cotton_Hunter_1995/96]  
    
 
@@ -15,4 +15,3 @@ module = soiln2   ozcot.par [belah]     %apsuite\apsim\soiln2\soiln2.ini [standa
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini [standard]
 module = ozcot    ozcot.par [belah]    ..\ozcot.ini [standard]
 module = SummaryFile  ozcot.par[o97_1_1]
-module = Screen  ozcot.par[standard]

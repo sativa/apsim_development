@@ -1,7 +1,7 @@
 !Risk analysis for cropping systems in Gansu
 ! +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-version = 4.3
+version = 5
 
 
 ! +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -19,7 +19,6 @@ module = soiln2     soil.par [xifeng]     %apsuite\apsim\soiln2\soiln2.ini [stan
 module = plant(wheat)     soil.par [xifeng]   %apsuite\apsim\wheat\wheat.ini [standard]
 module = fertiliz           %apsuite\apsim\fertiliz\fertiliz.ini [standard]
 module = SummaryFile  report.par [xifeng_w]
-module = Screen     gansu.man [all]
 module = tracker(tracker1)   gansu.man [all]
 
 [apsim.xifeng_w_n0] 
@@ -35,7 +34,6 @@ module = soiln2     soil.par [xifeng]     %apsuite\apsim\soiln2\soiln2.ini [stan
 module = plant(wheat)     soil.par [xifeng]   %apsuite\apsim\wheat\wheat.ini [standard]
 module = fertiliz           %apsuite\apsim\fertiliz\fertiliz.ini [standard]
 module = SummaryFile  report.par [xifeng_w_n0]
-module = Screen     gansu.man [all]
 module = tracker(tracker1)   gansu.man [all]
 
 
@@ -52,7 +50,6 @@ module = soiln2     soil.par [dingxi]     %apsuite\apsim\soiln2\soiln2.ini [stan
 module = plant(wheat)     soil.par [dingxi]   %apsuite\apsim\wheat\wheat.ini [standard]
 module = fertiliz           %apsuite\apsim\fertiliz\fertiliz.ini [standard]
 module = SummaryFile  report.par [dingxi_w]
-module = Screen      gansu.man [all]
 module = tracker(tracker1)   gansu.man [all]
 
 

@@ -14,10 +14,6 @@ start_date = 1/03/1970     ! dd/mm/yyyy
 end_date   = 10/10/2003     ! dd/mm/yyyy
 
 
-[all.Screen.parameters]
-screen_output = on
-
-
 [all.tracker1.parameters]
 variable = sum of met.rain on end_of_day from report.reported to now as sum@met_rain
 variable = sum of soilwat2.es on end_of_day from report.reported to now as sum@soilwat2_es

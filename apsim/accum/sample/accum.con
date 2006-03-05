@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [apsim.sample_accum]  
 
 title=Accum Sample Simulation
@@ -8,4 +8,3 @@ module = input(met)      %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = accum    accum.par [sample]
 module = manager  accum.par [sample]
 module = SummaryFile  accum.par[sample]
-module = Screen  accum.par[sample]

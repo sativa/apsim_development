@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 
 [APSIM.Tamet2_sample]
 title=Dalby Tamet2 check
@@ -7,5 +7,4 @@ module = report  tamet2.par[sample] tamet2.par[tamet2_dalby]
 module = Input(Met)     %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
 module = manager tamet2.par[sample]
 module = tamet2  tamet2.par [sample]
-module = screen tamet2.par [sample]
 module = summaryfile tamet2.par [sample]

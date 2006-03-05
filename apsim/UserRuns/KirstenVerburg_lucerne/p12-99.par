@@ -877,8 +877,6 @@ brD       =        0       0       0       0       0       0       0       0    
 
 [p12.SummaryFile.parameters]
 summaryfile = p12-99.sum
-[all.Screen.parameters]
-screen_output = off
 [all.tracker1.parameters]
 variable = sum of met.rain on process from report1.reported to now as sum@met_rain
 variable = sum of manager.T on process from report1.reported to now as sum@manager_T

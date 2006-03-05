@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 
 ! Basic run:
 [apsim.swat0.control]
@@ -10,7 +10,6 @@ module = report   refdata.par [swat]     refdata.par [standard]
 module = Input(Met)      GMTR.MET [weather]
 module = soilwat2 refdata.par [swat]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
 module = manager  refdata.par [swat]
-module = screen   refdata.par [swat]
 module = summaryfile refdata.par [swat]
 module = irrigate
 
@@ -22,6 +21,5 @@ module = report   refdata.par [swat]     refdata.par [calibrators]
 module = Input(Met)      GMTR.MET [weather]
 module = soilwat2 refdata.par [swat]     refdata.par [calibrators]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
 module = manager  refdata.par [swat]
-module = screen   refdata.par [swat]
 module = summaryfile refdata.par [calibrators]
 module = irrigate

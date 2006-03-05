@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [APSIM.Dalby 600mm High]
 title=Dalby 600mm wet soil High Population
 module = clock      Maize.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
@@ -12,7 +12,6 @@ module = soiln2     %apsuite\apsim\common files\waco.par[waco]      %apsuite\aps
 module = maize   %apsuite\apsim\common files\waco.par[waco] %apsuite\apsim\Maize\Maize.ini[standard]
 module = Tracker    Maize.par[sensibility]
 module = SummaryFile  Maize.par[Dalby600High]
-module = Screen  Maize.par[sensibility]
 
 [APSIM.Dalby 1500mm High]
 title=Dalby 1500mm wet soil High Population
@@ -27,7 +26,6 @@ module = soiln2     %apsuite\apsim\common files\waco.par[waco]      %apsuite\aps
 module = maize   %apsuite\apsim\common files\waco.par[waco] %apsuite\apsim\Maize\Maize.ini[standard]
 module = Tracker    Maize.par[sensibility]
 module = SummaryFile  Maize.par[Dalby1500High]
-module = Screen  Maize.par[sensibility]
 
 [APSIM.Roma 400mm High]
 title=Roma 400mm wet soil High Population
@@ -42,7 +40,6 @@ module = soiln2     %apsuite\apsim\common files\brownvertosol.par[brownvertosol]
 module = maize   %apsuite\apsim\common files\brownvertosol.par[brownvertosol] %apsuite\apsim\Maize\Maize.ini[standard]
 module = Tracker    Maize.par[sensibility]
 module = SummaryFile  Maize.par[Roma400High]
-module = Screen  Maize.par[sensibility]
 
 [APSIM.Roma 800mm High]
 title=Roma 800mm wet soil High Population
@@ -57,7 +54,6 @@ module = soiln2     %apsuite\apsim\common files\brownvertosol.par[brownvertosol]
 module = maize   %apsuite\apsim\common files\brownvertosol.par[brownvertosol] %apsuite\apsim\Maize\Maize.ini[standard]
 module = Tracker    Maize.par[sensibility]
 module = SummaryFile  Maize.par[Roma800High]
-module = Screen  Maize.par[sensibility]
 
 [APSIM.Dalby 600mm Low]
 title=Dalby 600mm wet soil Low Population
@@ -72,7 +68,6 @@ module = soiln2     %apsuite\apsim\common files\waco.par[waco]      %apsuite\aps
 module = maize   %apsuite\apsim\common files\waco.par[waco] %apsuite\apsim\Maize\Maize.ini[standard]
 module = Tracker    Maize.par[sensibility]
 module = SummaryFile  Maize.par[Dalby600Low]
-module = Screen  Maize.par[sensibility]
 
 [APSIM.Dalby 1500mm Low]
 title=Dalby 1500mm wet soil Low Population
@@ -87,7 +82,6 @@ module = soiln2     %apsuite\apsim\common files\waco.par[waco]      %apsuite\aps
 module = maize   %apsuite\apsim\common files\waco.par[waco] %apsuite\apsim\Maize\Maize.ini[standard]
 module = Tracker    Maize.par[sensibility]
 module = SummaryFile  Maize.par[Dalby1500Low]
-module = Screen  Maize.par[sensibility]
 
 [APSIM.Roma 400mm Low]
 title=Roma 400mm wet soil Low Population
@@ -102,7 +96,6 @@ module = soiln2     %apsuite\apsim\common files\brownvertosol.par[brownvertosol]
 module = maize   %apsuite\apsim\common files\brownvertosol.par[brownvertosol] %apsuite\apsim\Maize\Maize.ini[standard]
 module = Tracker    Maize.par[sensibility]
 module = SummaryFile  Maize.par[Roma400Low]
-module = Screen  Maize.par[sensibility]
 
 [APSIM.Roma 800mm Low]
 title=Roma 800mm wet soil Low Population
@@ -117,4 +110,3 @@ module = soiln2     %apsuite\apsim\common files\brownvertosol.par[brownvertosol]
 module = maize   %apsuite\apsim\common files\brownvertosol.par[brownvertosol] %apsuite\apsim\Maize\Maize.ini[standard]
 module = Tracker    Maize.par[sensibility]
 module = SummaryFile  Maize.par[Roma800Low]
-module = Screen  Maize.par[sensibility]
