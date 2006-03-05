@@ -23,7 +23,7 @@
 
             </condition>
           <category name="Harvesting criteria">
-            <property name="crop" value="sweetsorghum" type="modulename" description="Enter name of crop to harvest when ripe : " />
+            <property name="crop" value="SweetSorghum" type="modulename" description="Enter name of crop to harvest when ripe : " />
           </category>
         </rule>
         <rule name="Sowing fertiliser">
@@ -31,7 +31,7 @@
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
           <category name="When should fertiliser be applied">
-            <property name="modulename" value="sweetsorghum" type="modulename" description="On which module should the event come from : " />
+            <property name="modulename" value="SweetSorghum" type="modulename" description="On which module should the event come from : " />
             <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
           </category>
           <category name="Fertiliser application details">
@@ -50,7 +50,7 @@
             <property name="date" value="15-sep" type="text" description="Enter sowing date (dd-mmm) : " />
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="sweetsorghum" type="modulename" description="Enter name of crop to sow : " />
+            <property name="crop" value="SweetSorghum" type="modulename" description="Enter name of crop to sow : " />
             <property name="density" value="10" type="text" description="Enter sowing density  (plants/m2) : " />
             <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
             <property name="cultivar" value="sugargraze" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
@@ -67,18 +67,18 @@
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
       <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
-      <sweetsorghum />
+      <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">PacSeeds Planting1.out</filename>
         <outputfiledescription name="My Variables">
           <variables>
             <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="zadok_stage" description="Zadok's growth developmental stage" array="F" units="0-100" module="sweetsorghum" variablename="zadok_stage" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="sweetsorghum" variablename="lai" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="leaf_wt" description="Weight of leaf" array="F" units="g/m^2" module="sweetsorghum" variablename="leaf_wt" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="stem_wt" description="Weight of stem" array="F" units="g/m^2" module="sweetsorghum" variablename="stem_wt" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="head_wt" description="Weight of heads" array="F" units="g/m^2" module="sweetsorghum" variablename="head_wt" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="sweetsorghum" variablename="biomass_wt" arrayspec=" " ModuleType="sweetsorghum" />
+            <variable name="zadok_stage" description="Zadok's growth developmental stage" array="F" units="0-100" module="SweetSorghum" variablename="zadok_stage" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="SweetSorghum" variablename="lai" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="leaf_wt" description="Weight of leaf" array="F" units="g/m^2" module="SweetSorghum" variablename="leaf_wt" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="stem_wt" description="Weight of stem" array="F" units="g/m^2" module="SweetSorghum" variablename="stem_wt" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="head_wt" description="Weight of heads" array="F" units="g/m^2" module="SweetSorghum" variablename="head_wt" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="SweetSorghum" variablename="biomass_wt" arrayspec=" " ModuleType="SweetSorghum" />
           </variables>
           <events>
             <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
@@ -105,7 +105,7 @@
 
             </condition>
           <category name="Harvesting criteria">
-            <property name="crop" value="sweetsorghum" type="modulename" description="Enter name of crop to harvest when ripe : " />
+            <property name="crop" value="SweetSorghum" type="modulename" description="Enter name of crop to harvest when ripe : " />
           </category>
         </rule>
         <rule name="Sowing fertiliser">
@@ -113,7 +113,7 @@
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
           <category name="When should fertiliser be applied">
-            <property name="modulename" value="sweetsorghum" type="modulename" description="On which module should the event come from : " />
+            <property name="modulename" value="SweetSorghum" type="modulename" description="On which module should the event come from : " />
             <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
           </category>
           <category name="Fertiliser application details">
@@ -132,7 +132,7 @@
             <property name="date" value="12-jan" type="text" description="Enter sowing date (dd-mmm) : " />
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="sweetsorghum" type="modulename" description="Enter name of crop to sow : " />
+            <property name="crop" value="SweetSorghum" type="modulename" description="Enter name of crop to sow : " />
             <property name="density" value="10" type="text" description="Enter sowing density  (plants/m2) : " />
             <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
             <property name="cultivar" value="sugargraze" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
@@ -149,18 +149,18 @@
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
       <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
-      <sweetsorghum />
+      <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">PacSeeds Planting2.out</filename>
         <outputfiledescription name="My Variables">
           <variables>
             <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="zadok_stage" description="Zadok's growth developmental stage" array="F" units="0-100" module="sweetsorghum" variablename="zadok_stage" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="sweetsorghum" variablename="lai" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="leaf_wt" description="Weight of leaf" array="F" units="g/m^2" module="sweetsorghum" variablename="leaf_wt" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="stem_wt" description="Weight of stem" array="F" units="g/m^2" module="sweetsorghum" variablename="stem_wt" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="head_wt" description="Weight of heads" array="F" units="g/m^2" module="sweetsorghum" variablename="head_wt" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="sweetsorghum" variablename="biomass_wt" arrayspec=" " ModuleType="sweetsorghum" />
+            <variable name="zadok_stage" description="Zadok's growth developmental stage" array="F" units="0-100" module="SweetSorghum" variablename="zadok_stage" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="SweetSorghum" variablename="lai" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="leaf_wt" description="Weight of leaf" array="F" units="g/m^2" module="SweetSorghum" variablename="leaf_wt" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="stem_wt" description="Weight of stem" array="F" units="g/m^2" module="SweetSorghum" variablename="stem_wt" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="head_wt" description="Weight of heads" array="F" units="g/m^2" module="SweetSorghum" variablename="head_wt" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="SweetSorghum" variablename="biomass_wt" arrayspec=" " ModuleType="SweetSorghum" />
           </variables>
           <events>
             <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
@@ -427,7 +427,7 @@
 
             </condition>
           <category name="Harvesting criteria">
-            <property name="crop" value="sweetsorghum" type="modulename" description="Enter name of crop to harvest when ripe : " />
+            <property name="crop" value="SweetSorghum" type="modulename" description="Enter name of crop to harvest when ripe : " />
           </category>
         </rule>
         <rule name="Sowing fertiliser">
@@ -435,7 +435,7 @@
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
           <category name="When should fertiliser be applied">
-            <property name="modulename" value="sweetsorghum" type="modulename" description="On which module should the event come from : " />
+            <property name="modulename" value="SweetSorghum" type="modulename" description="On which module should the event come from : " />
             <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
           </category>
           <category name="Fertiliser application details">
@@ -454,7 +454,7 @@
             <property name="date" value="23-nov" type="text" description="Enter sowing date (dd-mmm) : " />
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="sweetsorghum" type="modulename" description="Enter name of crop to sow : " />
+            <property name="crop" value="SweetSorghum" type="modulename" description="Enter name of crop to sow : " />
             <property name="density" value="10" type="text" description="Enter sowing density  (plants/m2) : " />
             <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
             <property name="cultivar" value="sugargraze" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
@@ -471,18 +471,18 @@
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
       <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
-      <sweetsorghum />
+      <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">Lawes0102 Planting1.out</filename>
         <outputfiledescription name="My Variables">
           <variables>
             <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="zadok_stage" description="Zadok's growth developmental stage" array="F" units="0-100" module="sweetsorghum" variablename="zadok_stage" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="sweetsorghum" variablename="lai" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="leaf_wt" description="Weight of leaf" array="F" units="g/m^2" module="sweetsorghum" variablename="leaf_wt" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="stem_wt" description="Weight of stem" array="F" units="g/m^2" module="sweetsorghum" variablename="stem_wt" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="head_wt" description="Weight of heads" array="F" units="g/m^2" module="sweetsorghum" variablename="head_wt" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="sweetsorghum" variablename="biomass_wt" arrayspec=" " ModuleType="sweetsorghum" />
+            <variable name="zadok_stage" description="Zadok's growth developmental stage" array="F" units="0-100" module="SweetSorghum" variablename="zadok_stage" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="SweetSorghum" variablename="lai" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="leaf_wt" description="Weight of leaf" array="F" units="g/m^2" module="SweetSorghum" variablename="leaf_wt" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="stem_wt" description="Weight of stem" array="F" units="g/m^2" module="SweetSorghum" variablename="stem_wt" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="head_wt" description="Weight of heads" array="F" units="g/m^2" module="SweetSorghum" variablename="head_wt" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="SweetSorghum" variablename="biomass_wt" arrayspec=" " ModuleType="SweetSorghum" />
           </variables>
           <events>
             <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
@@ -509,7 +509,7 @@
 
             </condition>
           <category name="Harvesting criteria">
-            <property name="crop" value="sweetsorghum" type="modulename" description="Enter name of crop to harvest when ripe : " />
+            <property name="crop" value="SweetSorghum" type="modulename" description="Enter name of crop to harvest when ripe : " />
           </category>
         </rule>
         <rule name="Sowing fertiliser">
@@ -517,7 +517,7 @@
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
           <category name="When should fertiliser be applied">
-            <property name="modulename" value="sweetsorghum" type="modulename" description="On which module should the event come from : " />
+            <property name="modulename" value="SweetSorghum" type="modulename" description="On which module should the event come from : " />
             <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
           </category>
           <category name="Fertiliser application details">
@@ -536,7 +536,7 @@
             <property name="date" value="21-dec" type="text" description="Enter sowing date (dd-mmm) : " />
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="sweetsorghum" type="modulename" description="Enter name of crop to sow : " />
+            <property name="crop" value="SweetSorghum" type="modulename" description="Enter name of crop to sow : " />
             <property name="density" value="10" type="text" description="Enter sowing density  (plants/m2) : " />
             <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
             <property name="cultivar" value="sugargraze" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
@@ -553,18 +553,18 @@
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
       <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
-      <sweetsorghum />
+      <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">Lawes0102 Planting2.out</filename>
         <outputfiledescription name="My Variables">
           <variables>
             <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="zadok_stage" description="Zadok's growth developmental stage" array="F" units="0-100" module="sweetsorghum" variablename="zadok_stage" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="sweetsorghum" variablename="lai" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="leaf_wt" description="Weight of leaf" array="F" units="g/m^2" module="sweetsorghum" variablename="leaf_wt" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="stem_wt" description="Weight of stem" array="F" units="g/m^2" module="sweetsorghum" variablename="stem_wt" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="head_wt" description="Weight of heads" array="F" units="g/m^2" module="sweetsorghum" variablename="head_wt" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="sweetsorghum" variablename="biomass_wt" arrayspec=" " ModuleType="sweetsorghum" />
+            <variable name="zadok_stage" description="Zadok's growth developmental stage" array="F" units="0-100" module="SweetSorghum" variablename="zadok_stage" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="SweetSorghum" variablename="lai" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="leaf_wt" description="Weight of leaf" array="F" units="g/m^2" module="SweetSorghum" variablename="leaf_wt" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="stem_wt" description="Weight of stem" array="F" units="g/m^2" module="SweetSorghum" variablename="stem_wt" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="head_wt" description="Weight of heads" array="F" units="g/m^2" module="SweetSorghum" variablename="head_wt" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="SweetSorghum" variablename="biomass_wt" arrayspec=" " ModuleType="SweetSorghum" />
           </variables>
           <events>
             <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
@@ -591,7 +591,7 @@
 
             </condition>
           <category name="Harvesting criteria">
-            <property name="crop" value="sweetsorghum" type="modulename" description="Enter name of crop to harvest when ripe : " />
+            <property name="crop" value="SweetSorghum" type="modulename" description="Enter name of crop to harvest when ripe : " />
           </category>
         </rule>
         <rule name="Sowing fertiliser">
@@ -599,7 +599,7 @@
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
           <category name="When should fertiliser be applied">
-            <property name="modulename" value="sweetsorghum" type="modulename" description="On which module should the event come from : " />
+            <property name="modulename" value="SweetSorghum" type="modulename" description="On which module should the event come from : " />
             <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
           </category>
           <category name="Fertiliser application details">
@@ -618,7 +618,7 @@
             <property name="date" value="22-jan" type="text" description="Enter sowing date (dd-mmm) : " />
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="sweetsorghum" type="modulename" description="Enter name of crop to sow : " />
+            <property name="crop" value="SweetSorghum" type="modulename" description="Enter name of crop to sow : " />
             <property name="density" value="10" type="text" description="Enter sowing density  (plants/m2) : " />
             <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
             <property name="cultivar" value="sugargraze" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
@@ -635,18 +635,18 @@
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
       <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
-      <sweetsorghum />
+      <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">Lawes0102 Planting3.out</filename>
         <outputfiledescription name="My Variables">
           <variables>
             <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="zadok_stage" description="Zadok's growth developmental stage" array="F" units="0-100" module="sweetsorghum" variablename="zadok_stage" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="sweetsorghum" variablename="lai" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="leaf_wt" description="Weight of leaf" array="F" units="g/m^2" module="sweetsorghum" variablename="leaf_wt" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="stem_wt" description="Weight of stem" array="F" units="g/m^2" module="sweetsorghum" variablename="stem_wt" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="head_wt" description="Weight of heads" array="F" units="g/m^2" module="sweetsorghum" variablename="head_wt" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="sweetsorghum" variablename="biomass_wt" arrayspec=" " ModuleType="sweetsorghum" />
+            <variable name="zadok_stage" description="Zadok's growth developmental stage" array="F" units="0-100" module="SweetSorghum" variablename="zadok_stage" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="SweetSorghum" variablename="lai" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="leaf_wt" description="Weight of leaf" array="F" units="g/m^2" module="SweetSorghum" variablename="leaf_wt" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="stem_wt" description="Weight of stem" array="F" units="g/m^2" module="SweetSorghum" variablename="stem_wt" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="head_wt" description="Weight of heads" array="F" units="g/m^2" module="SweetSorghum" variablename="head_wt" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="SweetSorghum" variablename="biomass_wt" arrayspec=" " ModuleType="SweetSorghum" />
           </variables>
           <events>
             <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
@@ -673,7 +673,7 @@
 
             </condition>
           <category name="Harvesting criteria">
-            <property name="crop" value="sweetsorghum" type="modulename" description="Enter name of crop to harvest when ripe : " />
+            <property name="crop" value="SweetSorghum" type="modulename" description="Enter name of crop to harvest when ripe : " />
           </category>
         </rule>
         <rule name="Sowing fertiliser">
@@ -681,7 +681,7 @@
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
           <category name="When should fertiliser be applied">
-            <property name="modulename" value="sweetsorghum" type="modulename" description="On which module should the event come from : " />
+            <property name="modulename" value="SweetSorghum" type="modulename" description="On which module should the event come from : " />
             <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
           </category>
           <category name="Fertiliser application details">
@@ -700,7 +700,7 @@
             <property name="date" value="21-feb" type="text" description="Enter sowing date (dd-mmm) : " />
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="sweetsorghum" type="modulename" description="Enter name of crop to sow : " />
+            <property name="crop" value="SweetSorghum" type="modulename" description="Enter name of crop to sow : " />
             <property name="density" value="10" type="text" description="Enter sowing density  (plants/m2) : " />
             <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
             <property name="cultivar" value="sugargraze" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
@@ -717,18 +717,18 @@
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
       <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
-      <sweetsorghum />
+      <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">Lawes0102 Planting4.out</filename>
         <outputfiledescription name="My Variables">
           <variables>
             <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="zadok_stage" description="Zadok's growth developmental stage" array="F" units="0-100" module="sweetsorghum" variablename="zadok_stage" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="sweetsorghum" variablename="lai" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="leaf_wt" description="Weight of leaf" array="F" units="g/m^2" module="sweetsorghum" variablename="leaf_wt" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="stem_wt" description="Weight of stem" array="F" units="g/m^2" module="sweetsorghum" variablename="stem_wt" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="head_wt" description="Weight of heads" array="F" units="g/m^2" module="sweetsorghum" variablename="head_wt" arrayspec=" " ModuleType="sweetsorghum" />
-            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="sweetsorghum" variablename="biomass_wt" arrayspec=" " ModuleType="sweetsorghum" />
+            <variable name="zadok_stage" description="Zadok's growth developmental stage" array="F" units="0-100" module="SweetSorghum" variablename="zadok_stage" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="SweetSorghum" variablename="lai" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="leaf_wt" description="Weight of leaf" array="F" units="g/m^2" module="SweetSorghum" variablename="leaf_wt" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="stem_wt" description="Weight of stem" array="F" units="g/m^2" module="SweetSorghum" variablename="stem_wt" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="head_wt" description="Weight of heads" array="F" units="g/m^2" module="SweetSorghum" variablename="head_wt" arrayspec=" " ModuleType="SweetSorghum" />
+            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="SweetSorghum" variablename="biomass_wt" arrayspec=" " ModuleType="SweetSorghum" />
           </variables>
           <events>
             <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
