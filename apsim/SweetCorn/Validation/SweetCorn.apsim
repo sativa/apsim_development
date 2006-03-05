@@ -1,0 +1,956 @@
+<simulations name="SweetCornValidation" version="2">
+  <simulation name="NZIrrigation">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">30/10/1991</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1992</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">NZIrrigation.sum</filename>
+    </summaryfile>
+    <metfile name="met">
+      <filename name="filename">D:\development\apsim\SweetCorn\Validation\Lincoln9192.met</filename>
+    </metfile>
+    <area name="FI">
+      <registrations name="global" />
+      <fertiliser name="fertiliser" />
+      <surfaceom name="surface organic matter">
+        <PoolName description="Organic Matter pool name">wheat</PoolName>
+        <type description="Organic Matter type">wheat</type>
+        <mass description="Initial surface residue (kg/ha)">10</mass>
+        <cnr description="C:N ration of initial residue">80.0</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+      <SweetCorn />
+      <outputfile name="outputfile">
+        <filename name="filename">NZIrrigation FI.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec=" " description="Date (dd/mm/yyyy)" ModuleType="registrations" />
+            <variable name="zadok_stage" variablename="zadok_stage" module="SweetCorn" arrayspec=" " description="Zadok's growth developmental stage" ModuleType="SweetCorn" />
+            <variable name="lai" variablename="lai" module="SweetCorn" arrayspec=" " description="Leaf area index" ModuleType="SweetCorn" />
+            <variable name="leaf_wt" variablename="leaf_wt" module="SweetCorn" arrayspec=" " description="Weight of leaf" ModuleType="SweetCorn" />
+            <variable name="stem_wt" variablename="stem_wt" module="SweetCorn" arrayspec=" " description="Weight of stem" ModuleType="SweetCorn" />
+            <variable name="head_wt" variablename="head_wt" module="SweetCorn" arrayspec=" " description="Weight of heads" ModuleType="SweetCorn" />
+            <variable name="biomass_wt" variablename="biomass_wt" module="SweetCorn" arrayspec=" " description="Biomass weight" ModuleType="SweetCorn" />
+          </variables>
+          <events>
+            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">on</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <soil name="Lincoln">
+        <Site>Lincoln</Site>
+        <Region>NZ</Region>
+        <SoilType>Templeton Sandy Loam</SoilType>
+        <NearestTown>Lincoln</NearestTown>
+        <Water>
+          <Cona>3.5</Cona>
+          <DiffusConst>40</DiffusConst>
+          <DiffusSlope>16</DiffusSlope>
+          <U>6</U>
+          <Salb>0.13</Salb>
+          <Cn2Bare>73</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <layer name="1">
+            <thickness>150</thickness>
+            <bd>1.32</bd>
+            <ll15>0.26</ll15>
+            <airdry>0.13</airdry>
+            <dul>0.41</dul>
+            <sat>0.47</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="2">
+            <thickness>150</thickness>
+            <bd>1.3</bd>
+            <ll15>0.26</ll15>
+            <airdry>0.234</airdry>
+            <dul>0.43</dul>
+            <sat>0.48</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="3">
+            <thickness>300</thickness>
+            <bd>1.23</bd>
+            <ll15>0.26</ll15>
+            <airdry>0.26</airdry>
+            <dul>0.46</dul>
+            <sat>0.51</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="4">
+            <thickness>300</thickness>
+            <bd>1.27</bd>
+            <ll15>0.26</ll15>
+            <airdry>0.26</airdry>
+            <dul>0.44</dul>
+            <sat>0.49</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="5">
+            <thickness>300</thickness>
+            <bd>1.37</bd>
+            <ll15>0.25</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.4</dul>
+            <sat>0.45</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="6">
+            <thickness>300</thickness>
+            <bd>1.35</bd>
+            <ll15>0.28</ll15>
+            <airdry>0.28</airdry>
+            <dul>0.41</dul>
+            <sat>0.46</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="7">
+            <thickness>300</thickness>
+            <bd>1.35</bd>
+            <ll15>0.31</ll15>
+            <airdry>0.31</airdry>
+            <dul>0.38</dul>
+            <sat>0.46</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+        </Water>
+        <Nitrogen>
+          <CnCanopyFact>1</CnCanopyFact>
+          <RootCn>40</RootCn>
+          <RootWt>200</RootWt>
+          <SoilCn>12.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <fbiom>0.03</fbiom>
+            <finert>0.4</finert>
+            <no3>6.5</no3>
+            <nh4>0.6</nh4>
+            <oc>1.24</oc>
+            <ph>7</ph>
+          </layer>
+          <layer name="2">
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <oc>1.24</oc>
+            <ph>7</ph>
+          </layer>
+          <layer name="3">
+            <fbiom>0.01</fbiom>
+            <finert>0.8</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <oc>1.25</oc>
+            <ph>7</ph>
+          </layer>
+          <layer name="4">
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <oc>1.1</oc>
+            <ph>7</ph>
+          </layer>
+          <layer name="5">
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <oc>0.71</oc>
+            <ph>7</ph>
+          </layer>
+          <layer name="6">
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <oc>0.34</oc>
+            <ph>7</ph>
+          </layer>
+          <layer name="7">
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <oc>0.26</oc>
+            <ph>7</ph>
+          </layer>
+        </Nitrogen>
+        <other />
+        <InitWater>
+          <PercentMethod>
+            <Percent>0.83</Percent>
+            <Distributed>Filled from top</Distributed>
+          </PercentMethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>6.49399399399399</no3>
+            <nh4>0.608228980322003</nh4>
+          </layer>
+          <layer name="2">
+            <no3>2.0980595980596</no3>
+            <nh4>0.101371496720334</nh4>
+          </layer>
+          <layer name="3">
+            <no3>2.0980595980596</no3>
+            <nh4>0.101371496720334</nh4>
+          </layer>
+          <layer name="4">
+            <no3>1.6984291984292</no3>
+            <nh4>0.101371496720334</nh4>
+          </layer>
+          <layer name="5">
+            <no3>1.6984291984292</no3>
+            <nh4>0.101371496720334</nh4>
+          </layer>
+          <layer name="6">
+            <no3>1.6984291984292</no3>
+            <nh4>0.101371496720334</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1.6984291984292</no3>
+            <nh4>0.101371496720334</nh4>
+          </layer>
+        </InitNitrogen>
+        <SoilCrop name="SweetCorn">
+          <layer name="1">
+            <ll>0.26</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.26</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.26</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.26</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.25</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.29</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.38</ll>
+            <kl>0.01</kl>
+            <xf>1</xf>
+          </layer>
+        </SoilCrop>
+      </soil>
+      <manager name="LincolnCrop">
+        <rule name="Harvesting rule">
+          <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+          <category name="Harvesting criteria">
+            <property name="crop" value="SweetCorn" type="modulename" description="Enter name of crop to harvest when ripe : " />
+          </category>
+        </rule>
+        <rule name="Sowing fertiliser">
+          <condition name="[modulename].[eventname]">
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+            </condition>
+          <category name="When should fertiliser be applied">
+            <property name="modulename" value="SweetCorn" type="modulename" description="On which module should the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+          </category>
+          <category name="Fertiliser application details">
+            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
+            <property name="fert_amount_sow" value="24" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+            <property name="fert_type_sow" value="NO3_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          </category>
+        </rule>
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+      if (today = date('[date]') then
+                    [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+        endif
+               </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="30-oct" type="text" description="Enter sowing date (dd-mmm) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="SweetCorn" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="5.7" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="challenger" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="700" type="text" description="Enter row spacing (mm) : " />
+          </category>
+        </rule>
+        <rule name="Fertilise on fixed date">
+          <condition name="start_of_day"><![CDATA[
+         if (today = date('[fert_date]') then
+            N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+            if (N_topsoil < [fert_criteria]) then
+               [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+            endif
+         endif ]]></condition>
+          <category name="When should fertiliser be applied">
+            <property name="fert_date" value="20/11/0001" type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : " />
+            <property name="fert_criteria" value="1000" type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : " />
+          </category>
+          <category name="Fertiliser application details">
+            <property name="fertmodule" value="fertiliser" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
+            <property name="fert_amount" value="200" type="text" description="Amount of fertiliser to apply (kg/ha) : " />
+            <property name="fert_type" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          </category>
+        </rule>
+      </manager>
+    </area>
+    <log name="log">
+      <debugoutput name="debugoutput">on</debugoutput>
+      <filename name="filename">log.txt</filename>
+    </log>
+    <area name="FD">
+      <registrations name="global" />
+      <fertiliser name="fertiliser" />
+      <surfaceom name="surface organic matter">
+        <PoolName description="Organic Matter pool name">wheat</PoolName>
+        <type description="Organic Matter type">wheat</type>
+        <mass description="Initial surface residue (kg/ha)">10</mass>
+        <cnr description="C:N ration of initial residue">80.0</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+      <SweetCorn />
+      <outputfile name="outputfile">
+        <filename name="filename">NZIrrigation FD.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec=" " description="Date (dd/mm/yyyy)" ModuleType="registrations" />
+            <variable name="zadok_stage" variablename="zadok_stage" module="SweetCorn" arrayspec=" " description="Zadok's growth developmental stage" ModuleType="SweetCorn" />
+            <variable name="lai" variablename="lai" module="SweetCorn" arrayspec=" " description="Leaf area index" ModuleType="SweetCorn" />
+            <variable name="leaf_wt" variablename="leaf_wt" module="SweetCorn" arrayspec=" " description="Weight of leaf" ModuleType="SweetCorn" />
+            <variable name="stem_wt" variablename="stem_wt" module="SweetCorn" arrayspec=" " description="Weight of stem" ModuleType="SweetCorn" />
+            <variable name="head_wt" variablename="head_wt" module="SweetCorn" arrayspec=" " description="Weight of heads" ModuleType="SweetCorn" />
+            <variable name="biomass_wt" variablename="biomass_wt" module="SweetCorn" arrayspec=" " description="Biomass weight" ModuleType="SweetCorn" />
+          </variables>
+          <events>
+            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">on</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <soil name="Lincoln">
+        <Site>Lincoln</Site>
+        <Region>NZ</Region>
+        <SoilType>Templeton Sandy Loam</SoilType>
+        <NearestTown>Lincoln</NearestTown>
+        <Water>
+          <Cona>3.5</Cona>
+          <DiffusConst>40</DiffusConst>
+          <DiffusSlope>16</DiffusSlope>
+          <U>6</U>
+          <Salb>0.13</Salb>
+          <Cn2Bare>73</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <layer name="1">
+            <thickness>150</thickness>
+            <bd>1.32</bd>
+            <ll15>0.26</ll15>
+            <airdry>0.13</airdry>
+            <dul>0.41</dul>
+            <sat>0.47</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="2">
+            <thickness>150</thickness>
+            <bd>1.3</bd>
+            <ll15>0.26</ll15>
+            <airdry>0.234</airdry>
+            <dul>0.43</dul>
+            <sat>0.48</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="3">
+            <thickness>300</thickness>
+            <bd>1.23</bd>
+            <ll15>0.26</ll15>
+            <airdry>0.26</airdry>
+            <dul>0.46</dul>
+            <sat>0.51</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="4">
+            <thickness>300</thickness>
+            <bd>1.27</bd>
+            <ll15>0.26</ll15>
+            <airdry>0.26</airdry>
+            <dul>0.44</dul>
+            <sat>0.49</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="5">
+            <thickness>300</thickness>
+            <bd>1.37</bd>
+            <ll15>0.25</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.4</dul>
+            <sat>0.45</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="6">
+            <thickness>300</thickness>
+            <bd>1.35</bd>
+            <ll15>0.28</ll15>
+            <airdry>0.28</airdry>
+            <dul>0.41</dul>
+            <sat>0.46</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="7">
+            <thickness>300</thickness>
+            <bd>1.35</bd>
+            <ll15>0.31</ll15>
+            <airdry>0.31</airdry>
+            <dul>0.38</dul>
+            <sat>0.46</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+        </Water>
+        <Nitrogen>
+          <CnCanopyFact>1</CnCanopyFact>
+          <RootCn>40</RootCn>
+          <RootWt>200</RootWt>
+          <SoilCn>12.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <fbiom>0.03</fbiom>
+            <finert>0.4</finert>
+            <no3>6.5</no3>
+            <nh4>0.6</nh4>
+            <oc>1.24</oc>
+            <ph>7</ph>
+          </layer>
+          <layer name="2">
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <oc>1.24</oc>
+            <ph>7</ph>
+          </layer>
+          <layer name="3">
+            <fbiom>0.01</fbiom>
+            <finert>0.8</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+            <oc>1.25</oc>
+            <ph>7</ph>
+          </layer>
+          <layer name="4">
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <oc>1.1</oc>
+            <ph>7</ph>
+          </layer>
+          <layer name="5">
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <oc>0.71</oc>
+            <ph>7</ph>
+          </layer>
+          <layer name="6">
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <oc>0.34</oc>
+            <ph>7</ph>
+          </layer>
+          <layer name="7">
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <oc>0.26</oc>
+            <ph>7</ph>
+          </layer>
+        </Nitrogen>
+        <other />
+        <InitWater>
+          <PercentMethod>
+            <Percent>0.83</Percent>
+            <Distributed>Filled from top</Distributed>
+          </PercentMethod>
+        </InitWater>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>6.49399399399399</no3>
+            <nh4>0.608228980322003</nh4>
+          </layer>
+          <layer name="2">
+            <no3>2.0980595980596</no3>
+            <nh4>0.101371496720334</nh4>
+          </layer>
+          <layer name="3">
+            <no3>2.0980595980596</no3>
+            <nh4>0.101371496720334</nh4>
+          </layer>
+          <layer name="4">
+            <no3>1.6984291984292</no3>
+            <nh4>0.101371496720334</nh4>
+          </layer>
+          <layer name="5">
+            <no3>1.6984291984292</no3>
+            <nh4>0.101371496720334</nh4>
+          </layer>
+          <layer name="6">
+            <no3>1.6984291984292</no3>
+            <nh4>0.101371496720334</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1.6984291984292</no3>
+            <nh4>0.101371496720334</nh4>
+          </layer>
+        </InitNitrogen>
+        <SoilCrop name="SweetCorn">
+          <layer name="1">
+            <ll>0.26</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.26</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.26</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.26</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.25</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.29</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.38</ll>
+            <kl>0.01</kl>
+            <xf>1</xf>
+          </layer>
+        </SoilCrop>
+      </soil>
+      <manager name="LincolnCrop">
+        <rule name="Harvesting rule">
+          <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+          <category name="Harvesting criteria">
+            <property name="crop" value="SweetCorn" type="modulename" description="Enter name of crop to harvest when ripe : " />
+          </category>
+        </rule>
+        <rule name="Sowing fertiliser">
+          <condition name="[modulename].[eventname]">
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+            </condition>
+          <category name="When should fertiliser be applied">
+            <property name="modulename" value="SweetCorn" type="modulename" description="On which module should the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+          </category>
+          <category name="Fertiliser application details">
+            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
+            <property name="fert_amount_sow" value="24" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+            <property name="fert_type_sow" value="NO3_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          </category>
+        </rule>
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+      if (today = date('[date]') then
+                    [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+        endif
+               </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="30-oct" type="text" description="Enter sowing date (dd-mmm) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="SweetCorn" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="5.7" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="challenger" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="700" type="text" description="Enter row spacing (mm) : " />
+          </category>
+        </rule>
+        <rule name="Fertilise on fixed date">
+          <condition name="start_of_day"><![CDATA[
+         if (today = date('[fert_date]') then
+            N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+            if (N_topsoil < [fert_criteria]) then
+               [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+            endif
+         endif ]]></condition>
+          <category name="When should fertiliser be applied">
+            <property name="fert_date" value="20/11/0001" type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : " />
+            <property name="fert_criteria" value="1000" type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : " />
+          </category>
+          <category name="Fertiliser application details">
+            <property name="fertmodule" value="fertiliser" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
+            <property name="fert_amount" value="200" type="text" description="Amount of fertiliser to apply (kg/ha) : " />
+            <property name="fert_type" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          </category>
+        </rule>
+      </manager>
+    </area>
+  </simulation>
+  <folder name="shared">
+    <soil name="Lincoln">
+      <Site>UQ, Lawes</Site>
+      <Region>Lockyer</Region>
+      <SoilType>Black Vertosol</SoilType>
+      <NearestTown>Gatton, Q 4343</NearestTown>
+      <NaturalVegetation>Blue Gum, Moreton Bay Ash, Tea Tree</NaturalVegetation>
+      <Water>
+        <Cona>3.5</Cona>
+        <DiffusConst>40</DiffusConst>
+        <DiffusSlope>16</DiffusSlope>
+        <U>6</U>
+        <Salb>0.13</Salb>
+        <Cn2Bare>73</Cn2Bare>
+        <CnRed>20</CnRed>
+        <CnCov>0.8</CnCov>
+        <layer name="1">
+          <thickness>150</thickness>
+          <bd>1.32</bd>
+          <ll15>0.26</ll15>
+          <airdry>0.13</airdry>
+          <dul>0.41</dul>
+          <sat>0.47</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+        </layer>
+        <layer name="2">
+          <thickness>150</thickness>
+          <bd>1.3</bd>
+          <ll15>0.26</ll15>
+          <airdry>0.234</airdry>
+          <dul>0.43</dul>
+          <sat>0.48</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+        </layer>
+        <layer name="3">
+          <thickness>300</thickness>
+          <bd>1.23</bd>
+          <ll15>0.26</ll15>
+          <airdry>0.26</airdry>
+          <dul>0.46</dul>
+          <sat>0.51</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+        </layer>
+        <layer name="4">
+          <thickness>300</thickness>
+          <bd>1.27</bd>
+          <ll15>0.26</ll15>
+          <airdry>0.26</airdry>
+          <dul>0.44</dul>
+          <sat>0.49</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+        </layer>
+        <layer name="5">
+          <thickness>300</thickness>
+          <bd>1.37</bd>
+          <ll15>0.25</ll15>
+          <airdry>0.25</airdry>
+          <dul>0.4</dul>
+          <sat>0.45</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+        </layer>
+        <layer name="6">
+          <thickness>300</thickness>
+          <bd>1.35</bd>
+          <ll15>0.28</ll15>
+          <airdry>0.28</airdry>
+          <dul>0.41</dul>
+          <sat>0.46</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+        </layer>
+        <layer name="7">
+          <thickness>300</thickness>
+          <bd>1.35</bd>
+          <ll15>0.31</ll15>
+          <airdry>0.31</airdry>
+          <dul>0.38</dul>
+          <sat>0.46</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+        </layer>
+      </Water>
+      <Nitrogen>
+        <CnCanopyFact>1</CnCanopyFact>
+        <RootCn>40</RootCn>
+        <RootWt>200</RootWt>
+        <SoilCn>12.5</SoilCn>
+        <EnrACoeff>7.4</EnrACoeff>
+        <EnrBCoeff>0.2</EnrBCoeff>
+        <layer name="1">
+          <fbiom>0.03</fbiom>
+          <finert>0.4</finert>
+          <no3>6.5</no3>
+          <nh4>0.6</nh4>
+          <oc>1.24</oc>
+          <ph>7</ph>
+        </layer>
+        <layer name="2">
+          <fbiom>0.02</fbiom>
+          <finert>0.6</finert>
+          <no3>2.1</no3>
+          <nh4>0.1</nh4>
+          <oc>1.24</oc>
+          <ph>7</ph>
+        </layer>
+        <layer name="3">
+          <fbiom>0.01</fbiom>
+          <finert>0.8</finert>
+          <no3>2.1</no3>
+          <nh4>0.1</nh4>
+          <oc>1.25</oc>
+          <ph>7</ph>
+        </layer>
+        <layer name="4">
+          <fbiom>0.01</fbiom>
+          <finert>0.9</finert>
+          <no3>1.7</no3>
+          <nh4>0.1</nh4>
+          <oc>1.1</oc>
+          <ph>7</ph>
+        </layer>
+        <layer name="5">
+          <fbiom>0.01</fbiom>
+          <finert>0.95</finert>
+          <no3>1.7</no3>
+          <nh4>0.1</nh4>
+          <oc>0.71</oc>
+          <ph>7</ph>
+        </layer>
+        <layer name="6">
+          <fbiom>0.01</fbiom>
+          <finert>0.95</finert>
+          <no3>1.7</no3>
+          <nh4>0.1</nh4>
+          <oc>0.34</oc>
+          <ph>7</ph>
+        </layer>
+        <layer name="7">
+          <fbiom>0.01</fbiom>
+          <finert>0.95</finert>
+          <no3>1.7</no3>
+          <nh4>0.1</nh4>
+          <oc>0.26</oc>
+          <ph>7</ph>
+        </layer>
+      </Nitrogen>
+      <other />
+      <Comment>oc and ph not measured</Comment>
+      <InitWater>
+        <PercentMethod>
+          <Percent>0.83</Percent>
+          <Distributed>Filled from top</Distributed>
+        </PercentMethod>
+      </InitWater>
+      <InitNitrogen>
+        <layer name="1">
+          <no3>6.49399399399399</no3>
+          <nh4>0.608228980322003</nh4>
+        </layer>
+        <layer name="2">
+          <no3>2.0980595980596</no3>
+          <nh4>0.101371496720334</nh4>
+        </layer>
+        <layer name="3">
+          <no3>2.0980595980596</no3>
+          <nh4>0.101371496720334</nh4>
+        </layer>
+        <layer name="4">
+          <no3>1.6984291984292</no3>
+          <nh4>0.101371496720334</nh4>
+        </layer>
+        <layer name="5">
+          <no3>1.6984291984292</no3>
+          <nh4>0.101371496720334</nh4>
+        </layer>
+        <layer name="6">
+          <no3>1.6984291984292</no3>
+          <nh4>0.101371496720334</nh4>
+        </layer>
+        <layer name="7">
+          <no3>1.6984291984292</no3>
+          <nh4>0.101371496720334</nh4>
+        </layer>
+      </InitNitrogen>
+      <SoilCrop name="SweetCorn">
+        <layer name="1">
+          <ll>0.26</ll>
+          <kl>0.1</kl>
+          <xf>1</xf>
+        </layer>
+        <layer name="2">
+          <ll>0.26</ll>
+          <kl>0.1</kl>
+          <xf>1</xf>
+        </layer>
+        <layer name="3">
+          <ll>0.26</ll>
+          <kl>0.08</kl>
+          <xf>1</xf>
+        </layer>
+        <layer name="4">
+          <ll>0.26</ll>
+          <kl>0.06</kl>
+          <xf>1</xf>
+        </layer>
+        <layer name="5">
+          <ll>0.25</ll>
+          <kl>0.04</kl>
+          <xf>1</xf>
+        </layer>
+        <layer name="6">
+          <ll>0.29</ll>
+          <kl>0.02</kl>
+          <xf>1</xf>
+        </layer>
+        <layer name="7">
+          <ll>0.38</ll>
+          <kl>0.01</kl>
+          <xf>1</xf>
+        </layer>
+      </SoilCrop>
+    </soil>
+    <manager name="LincolnCrop">
+      <rule name="Harvesting rule">
+        <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+        <category name="Harvesting criteria">
+          <property name="crop" value="NZIrrigation" type="modulename" description="Enter name of crop to harvest when ripe : " />
+        </category>
+      </rule>
+      <rule name="Sowing fertiliser">
+        <condition name="[modulename].[eventname]">
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+            </condition>
+        <category name="When should fertiliser be applied">
+          <property name="modulename" value="SweetCorn" type="modulename" description="On which module should the event come from : " />
+          <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+        </category>
+        <category name="Fertiliser application details">
+          <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
+          <property name="fert_amount_sow" value="24" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+          <property name="fert_type_sow" value="NO3_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+        </category>
+      </rule>
+      <rule name="Sow on a fixed date">
+        <condition name="start_of_day">
+      if (today = date('[date]') then
+                    [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+        endif
+               </condition>
+        <category name="Sowing criteria">
+          <property name="date" value="30-oct" type="text" description="Enter sowing date (dd-mmm) : " />
+        </category>
+        <category name="Sowing parameters">
+          <property name="crop" value="SweetCorn" type="modulename" description="Enter name of crop to sow : " />
+          <property name="density" value="5.7" type="text" description="Enter sowing density  (plants/m2) : " />
+          <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
+          <property name="cultivar" value="challenger" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+          <property name="row_spacing" value="700" type="text" description="Enter row spacing (mm) : " />
+        </category>
+      </rule>
+      <rule name="Fertilise on fixed date">
+        <condition name="start_of_day"><![CDATA[
+         if (today = date('[fert_date]') then
+            N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+            if (N_topsoil < [fert_criteria]) then
+               [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
+            endif
+         endif ]]></condition>
+        <category name="When should fertiliser be applied">
+          <property name="fert_date" value="20/11/0001" type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : " />
+          <property name="fert_criteria" value="1000" type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : " />
+        </category>
+        <category name="Fertiliser application details">
+          <property name="fertmodule" value="fertiliser" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
+          <property name="fert_amount" value="200" type="text" description="Amount of fertiliser to apply (kg/ha) : " />
+          <property name="fert_type" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+        </category>
+      </rule>
+    </manager>
+  </folder>
+</simulations>
