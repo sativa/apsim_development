@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [apsim.sample_maize]
 title=Maize Sample Simulation
 module = clock    maize.par [sample] %apsuite\apsim\clock\clock.ini[standard]
@@ -8,5 +8,4 @@ module = manager  maize.par [sample]
 module = soilwat2 %apsuite\apsim\soilwat2\soilwat2.ini [standard] %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]
 module = soiln2   %apsuite\apsim\soiln2\soiln2.ini [standard] %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]
 module = maize    maize.par [sample]  %apsuite\apsim\maize\maize.ini [standard]
-module = summaryfile maize.par[sample] 
-module = Screen  maize.par[sample]
+module = summaryfile maize.par[sample]

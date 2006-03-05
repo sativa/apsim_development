@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 
 [apsim.fieldpea_sample]
 title = fieldpea sample
@@ -13,4 +13,3 @@ module = SurfaceOM       fieldpea.par [all] %apsuite\apsim\SurfaceOM\SurfaceOM.i
 module = soiln2          fieldpea.par [west7]       %apsuite\apsim\soiln2\soiln2.ini [standard]
 module = plant(fieldpea) fieldpea.par [west7]       %apsuite\apsim\fieldpea\fieldpea.ini[standard]
 module = SummaryFile     fieldpea.par[all]
-module = Screen          fieldpea.par[all]

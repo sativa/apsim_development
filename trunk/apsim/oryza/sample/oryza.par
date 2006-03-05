@@ -90,9 +90,6 @@ nplsb  = 1000.      ! Number of plants in seed-bed
 nplds  = 200.       ! Number of plants/m2 direct-seeded
 
 
-[sample.Screen.parameters]
-screen_output = on
-
 [sample.micromet.parameters]
 soil_albedo = 0.23
 a_interception = 0.0

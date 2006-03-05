@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [APSIM.Psample_soybean]
 title=soybean P Sample Simulation
 module = clock      soybean.par[sample] %apsuite\apsim\clock\clock.ini[standard]
@@ -11,4 +11,3 @@ module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]        
 module = soilp      %apsuite\apsim\soilp\sample\soilp.par   [sample]             %apsuite\apsim\soilp\soilp.ini [standard]
 module = plant(soybean)    soybean.par[sample] %apsuite\apsim\soybean\soybean.ini[standard]
 module = SummaryFile  soybean.par[sample]
-module = Screen  soybean.par[sample]

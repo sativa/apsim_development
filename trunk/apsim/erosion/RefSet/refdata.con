@@ -2,7 +2,7 @@
 ! gmtb0e gives eroding profile.
 ! gmtb0s gives swim/surface.
 
-version = 4.3
+version = 5
 [apsim.gmtb0a.control]
 
 title=Greenmount B0_SOILWAT
@@ -15,7 +15,6 @@ module = erosion refdata.par[gmtb0a]
 module = SurfaceOM   refdata.par [gmtb0] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = grasp refdata.par[gmtb0] %apsuite\apsim\grasp\grasp.ini[standard]
 module = SummaryFile  refdata.par[gmtb0a]
-module = Screen  refdata.par[gmtb0]
 [apsim.gmtb0b.control]
 
 title=Greenmount B0_SOILWAT
@@ -29,7 +28,6 @@ module = erosion refdata.par[gmtb0b]
 module = SurfaceOM   refdata.par [gmtb0] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = grasp refdata.par[gmtb0] grasp.ini[standard]
 module = SummaryFile  refdata.par[gmtb0b]
-module = Screen  refdata.par[gmtb0]
 [apsim.gmtb0c.control]
 
 title=Greenmount B0_SOILWAT
@@ -43,7 +41,6 @@ module = erosion refdata.par[gmtb0c]
 module = SurfaceOM   refdata.par [gmtb0] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = grasp refdata.par[gmtb0] %apsuite\apsim\grasp\grasp.ini[standard]
 module = SummaryFile  refdata.par[gmtb0c]
-module = Screen  refdata.par[gmtb0]
 [apsim.gmtb0d.control]
 
 title=Greenmount B0_SOILWAT
@@ -57,7 +54,6 @@ module = erosion refdata.par[gmtb0d]
 module = SurfaceOM   refdata.par [gmtb0] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = grasp refdata.par[gmtb0] %apsuite\apsim\grasp\grasp.ini[standard]
 module = SummaryFile  refdata.par[gmtb0d]
-module = Screen  refdata.par[gmtb0]
 
 ! NB.
 !     This will throw report into chaos when a profile layer disappears.
@@ -74,7 +70,6 @@ module = erosion refdata.par[gmtb0e]
 module = SurfaceOM   refdata.par [gmtb0] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = grasp refdata.par[gmtb0] %apsuite\apsim\grasp\grasp.ini[standard]
 module = SummaryFile  refdata.par[gmtb0e]
-module = Screen  refdata.par[gmtb0]
 [apsim.gmtb0s.control]
 
 title=Greenmount B0_SWIM
@@ -91,4 +86,3 @@ module = grasp    gmtswim.par [gmtb0]     %apsuite\apsim\grasp\grasp.ini [standa
 module = surface  gmtswim.par [gmtb0]
 module = canopy
 module = SummaryFile  gmtswim.par[gmtb0]
-module = Screen  gmtswim.par[gmtb0]

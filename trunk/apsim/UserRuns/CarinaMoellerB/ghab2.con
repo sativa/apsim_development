@@ -1,6 +1,6 @@
 
 
-version = 4.3
+version = 5
 [apsim.g2w1]
 title = Ghab2_W1_9900
 module = clock     ghab2.man [9900] %apsuite\apsim\clock\clock.ini[standard]
@@ -13,7 +13,6 @@ module = SurfaceOM   THsoil.par [b2cp00] %apsuite\apsim\SurfaceOM\SurfaceOM.ini 
 module = soiln2    THsoil.par [telhadya]  THsoil.par [b2cp00]   %apsuite\apsim\soiln2\soiln2.ini [standard]
 module = plant(chickpea)  chickpea.par [standard]  THsoil.par [B2]  %apsuite\apsim\chickpea\chickpea.ini [standard]
 module = SummaryFile   reportCP.par[g2w1_00]
-module = Screen   reportCP.par[all]
 
 
 [apsim.g2w0] 
@@ -27,7 +26,6 @@ module = SurfaceOM   THsoil.par [b2cp00] %apsuite\apsim\SurfaceOM\SurfaceOM.ini 
 module = soiln2    THsoil.par [telhadya]  THsoil.par [b2cp00]   %apsuite\apsim\soiln2\soiln2.ini [standard]
 module = plant(chickpea)  chickpea.par [standard] THsoil.par [B2] %apsuite\apsim\chickpea\chickpea.ini [standard]
 module = SummaryFile   reportCP.par[g2w0_00]
-module = Screen   reportCP.par[all]
 
 
 
@@ -42,7 +40,6 @@ module = SurfaceOM   THsoil.par [b7cp99] %apsuite\apsim\SurfaceOM\SurfaceOM.ini 
 module = soiln2    THsoil.par [telhadya]  THsoil.par [b7cp99] %apsuite\apsim\soiln2\soiln2.ini [standard]
 module = plant(chickpea)  chickpea.par [standard]  THsoil.par [B7]  %apsuite\apsim\chickpea\chickpea.ini [standard]
 module = SummaryFile   reportCP.par[g2rf_99]
-module = Screen   reportCP.par[all]
 
 
 

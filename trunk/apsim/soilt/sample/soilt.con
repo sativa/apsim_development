@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [APSIM.soilt_sample]
 
 
@@ -12,5 +12,4 @@ module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]    
 module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = soiln2       %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]         %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = soilt
-module = screen     soilt.par[sample]
 module = summaryfile soilt.par[sample]

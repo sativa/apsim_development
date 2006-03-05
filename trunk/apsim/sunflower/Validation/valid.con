@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [APSIM.em81dhi]
 !----------------------------------------------------------------------------------------------------
 ! EMERALD
@@ -15,7 +15,6 @@ module = manager valid.man[allexp] valid.man[sow49]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = cropmod(sunflower)  sunfsoil.par[emerald] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = SummaryFile  report.par[em81dhi]
-module = Screen  report.par[allexp]
 
 [APSIM.da84]
 !----------------------------------------------------------------------------------------------------
@@ -33,7 +32,6 @@ module = manager valid.man[allexp] valid.man[sow18]
 module = cropmod(sunflower) sunfsoil.par[DALBY]  %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[da84]
-module = Screen  report.par[allexp]
 
 [APSIM.ta81j1]
 !----------------------------------------------------------------------------------------------------
@@ -51,7 +49,6 @@ module = manager valid.man[allexp] valid.man[sow330]
 module = cropmod(sunflower) sunfsoil.par[TATURA] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[ta81j1]
-module = Screen  report.par[allexp]
 
 [APSIM.ta81j2]
 
@@ -67,7 +64,6 @@ module = manager valid.man[allexp] valid.man[sow330]
 module = cropmod(sunflower) sunfsoil.par[TATURA] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[ta81j2]
-module = Screen  report.par[allexp]
 
 
 [APSIM.BI723a]
@@ -86,7 +82,6 @@ module = manager valid.man[allexp] valid.man[sow249]
 module = cropmod(sunflower) sunfsoil.par[BI723] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI723a]
-module = Screen  report.par[allexp]
 
 
 [APSIM.BI723b]
@@ -103,7 +98,6 @@ module = manager valid.man[allexp] valid.man[sow277]
 module = cropmod(sunflower) sunfsoil.par[BI723] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI723b]
-module = Screen  report.par[allexp]
 
 
 [APSIM.BI723c]
@@ -120,7 +114,6 @@ module = manager valid.man[allexp] valid.man[sow335]
 module = cropmod(sunflower) sunfsoil.par[BI723] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI723c]
-module = Screen  report.par[allexp]
 
 
 [APSIM.BI723d]
@@ -137,7 +130,6 @@ module = manager valid.man[allexp] valid.man[sow38]
 module = cropmod(sunflower) sunfsoil.par[BI723] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI723d]
-module = Screen  report.par[allexp]
 
 [APSIM.BI723e]
 !----------------------------------------------------------------------------------------------------
@@ -154,7 +146,6 @@ module = manager valid.man[allexp] valid.man[sow60]
 module = cropmod(sunflower) sunfsoil.par[BI723] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI723e]
-module = Screen  report.par[allexp]
 
 
 [APSIM.BI734a]
@@ -171,7 +162,6 @@ module = manager valid.man[allexp] valid.man[sow215]
 module = cropmod(sunflower) sunfsoil.par[BI734] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI734a]
-module = Screen  report.par[allexp]
 
 
 [APSIM.BI734c]
@@ -188,7 +178,6 @@ module = manager valid.man[allexp] valid.man[sow274]
 module = cropmod(sunflower) sunfsoil.par[BI734] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI734c]
-module = Screen  report.par[allexp]
 
 
 [APSIM.BI734e]
@@ -206,7 +195,6 @@ module = manager valid.man[allexp] valid.man[sow36]
 module = cropmod(sunflower) sunfsoil.par[BI734] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI734e]
-module = Screen  report.par[allexp]
 
 
 [APSIM.BI745a]
@@ -223,7 +211,6 @@ module = manager valid.man[allexp] valid.man[sow218]
 module = cropmod(sunflower) sunfsoil.par[BI745] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI745a]
-module = Screen  report.par[allexp]
 
 
 [APSIM.BI745b]
@@ -240,7 +227,6 @@ module = manager valid.man[allexp] valid.man[sow277]
 module = cropmod(sunflower) sunfsoil.par[BI745] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI745b]
-module = Screen  report.par[allexp]
 
 
 [APSIM.BI745c]
@@ -257,7 +243,6 @@ module = manager valid.man[allexp] valid.man[sow274]
 module = cropmod(sunflower) sunfsoil.par[BI745] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI745c]
-module = Screen  report.par[allexp]
 
 
 [APSIM.BI745d]
@@ -274,7 +259,6 @@ module = manager valid.man[allexp] valid.man[sow333]
 module = cropmod(sunflower) sunfsoil.par[BI745] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI745d]
-module = Screen  report.par[allexp]
 
 [APSIM.BI745e]
 
@@ -290,7 +274,6 @@ module = manager valid.man[allexp] valid.man[sow38]
 module = cropmod(sunflower) sunfsoil.par[BI745] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI745e]
-module = Screen  report.par[allexp]
 
 [APSIM.BI745f]
 !----------------------------------------------------------------------------------------------------
@@ -308,7 +291,6 @@ module = manager valid.man[allexp] valid.man[sow63]
 module = cropmod(sunflower) sunfsoil.par[BI745] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[BI745f]
-module = Screen  report.par[allexp]
 
 
 [APSIM.mvs3d]
@@ -325,7 +307,6 @@ module = manager valid.man[allexp] valid.man[sow267]
 module = cropmod(sunflower) sunfsoil.par[MVS3] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[mvs3d]
-module = Screen  report.par[allexp]
 
 
 [APSIM.mvs3i]
@@ -342,7 +323,6 @@ module = manager valid.man[allexp] valid.man[sow267]
 module = cropmod(sunflower) sunfsoil.par[MVS3] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[mvs3i]
-module = Screen  report.par[allexp]
 
 
 [APSIM.mvs3dv53]
@@ -359,7 +339,6 @@ module = manager valid.man[allexp] valid.man[sow267v5]
 module = cropmod(sunflower) sunfsoil.par[MVS3] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[mvs3dv53]
-module = Screen  report.par[allexp]
 
 
 [APSIM.mvs3iv53]
@@ -376,7 +355,6 @@ module = manager valid.man[allexp] valid.man[sow267v5]
 module = cropmod(sunflower) sunfsoil.par[MVS3] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[mvs3iv53]
-module = Screen  report.par[allexp]
 
 
 [APSIM.mvs4d]
@@ -394,7 +372,6 @@ module = manager valid.man[allexp] valid.man[sow350]
 module = cropmod(sunflower) sunfsoil.par[MVS4] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[mvs4d]
-module = Screen  report.par[allexp]
 
 [APSIM.mvs4i]
 
@@ -411,7 +388,6 @@ module = manager valid.man[allexp] valid.man[sow350]
 module = cropmod(sunflower) sunfsoil.par[MVS4] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[mvs4i]
-module = Screen  report.par[allexp]
 
 [APSIM.mvs5d]
 
@@ -428,7 +404,6 @@ module = manager valid.man[allexp] valid.man[sow21s5d]
 module = cropmod(sunflower) sunfsoil.par[MVS5] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[mvs5d]
-module = Screen  report.par[allexp]
 
 [APSIM.mvs5i]
 
@@ -445,7 +420,6 @@ module = manager valid.man[allexp] valid.man[sow21s5d]
 module = cropmod(sunflower) sunfsoil.par[MVS5] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[mvs5i]
-module = Screen  report.par[allexp]
 
 [APSIM.mvs5dv53]
 
@@ -462,7 +436,6 @@ module = manager valid.man[allexp] valid.man[sow21v53]
 module = cropmod(sunflower) sunfsoil.par[MVS5] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[mvs5dv53]
-module = Screen  report.par[allexp]
 
 [APSIM.mvs5iv53]
 
@@ -478,4 +451,3 @@ module = manager valid.man[allexp] valid.man[sow21v53]
 module = cropmod(sunflower) sunfsoil.par[MVS5] %apsuite\apsim\sunflower\sunflower.ini[standard]
 module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = SummaryFile  report.par[mvs5iv53]
-module = Screen  report.par[allexp]

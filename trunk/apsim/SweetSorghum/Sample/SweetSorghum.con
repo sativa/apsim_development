@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 
 [apsim.Sweet Sorghum Sample]
 title= Sweet Sorghum Sample Simulation
@@ -11,7 +11,6 @@ module = manager         SweetSorghum.par [sample]
 module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]    %apsuite\apsim\soilwat2\soilwat2.ini [standard]
 module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = plant(sweetsorghum)  SweetSorghum.par [sample] %apsuite\apsim\sweetsorghum\sweetsorghum.ini [standard]
-module = Screen          SweetSorghum.par [sample]
 module = SummaryFile     SweetSorghum.par [sample]
 
  

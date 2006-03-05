@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [apsim.sample_sugar]
 
 
@@ -16,7 +16,6 @@ module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [sugar_residu
 module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]
 module = sugar    test.par [sample]      %apsuite\apsim\sugar\sugar.ini [standard]
 module = SummaryFile   test.par [sample]
-module = Screen   test.par [sample]
 
 
 [apsim.sample2_sugar]
@@ -34,4 +33,3 @@ module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [sugar_residu
 module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]
 module = sugar    test.par [sample]      %apsuite\apsim\sugar\sugar.ini [standard]
 module = SummaryFile   test.par [sample2]
-module = Screen   test.par [sample2]

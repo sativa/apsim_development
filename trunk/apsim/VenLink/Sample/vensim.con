@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [apsim.radish]
 title = VENSIM/APSIM sample HTT calculator
 
@@ -12,4 +12,3 @@ module = soiln2           cohort_soils.par [clay_loam]           %apsuite\apsim\
 module = fertiliz         %apsuite\apsim\fertiliz\fertiliz.ini[standard]
 module = VenLink          vensim.par [all]  vensim.ini [standard]
 module = SummaryFile      vensim.par[all]
-module = Screen           vensim.par[all]

@@ -229,8 +229,6 @@ profile_reduction =      on
 
 [reference.SummaryFile.parameters]
 summaryfile = referenc.sum
-[reference.Screen.parameters]
-screen_output = on
 [reference.tracker1.parameters]
 variable = average of mungbean.swdef_photo on process from report.reported to now as avg@mungbean_swdef_photo
 variable = average of mungbean.nfact_photo on process from report.reported to now as avg@mungbean_nfact_photo

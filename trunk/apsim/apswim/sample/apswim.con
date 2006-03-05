@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [apsim.Sample]
 title=Sample Simulation
 screen_output=on
@@ -16,7 +16,6 @@ module = solute          apswim.par [all]            %apsuite\apsim\solute\solut
 module = SurfaceOM   apswim.par [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = maize           apswim.par [all]            %apsuite\apsim\maize\maize.ini [standard]
 module = plant(cowpea)  apswim.par [all]            %apsuite\apsim\cowpea\cowpea.ini [standard]
-module = Screen          apswim.par [all]
 module = SummaryFile     apswim.par [all]
 
 

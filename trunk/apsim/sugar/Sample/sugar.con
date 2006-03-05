@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [apsim.sample_sugar]
 
 title=Sugar Sample Simulation
@@ -12,6 +12,5 @@ module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     
 module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [sugar_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]
 module = sugar    sugar.par [sample]      %apsuite\apsim\sugar\sugar.ini [standard]
-module = screen   sugar.par [sample]
 module = tracker  sugar.par [sample]
 module = summaryfile sugar.par [sample]

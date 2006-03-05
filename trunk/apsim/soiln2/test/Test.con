@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [apsim.Test1]
 
 title= Surface Organic Matter Module Test 1
@@ -9,7 +9,6 @@ module = manager  test.par [test1]
 module = soilwat2 test.par [sample]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
 module = SurfaceOM   test.par [test1] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = soiln2   test.par [sample]     %apsuite\apsim\soiln2\soiln2.ini [standard]
-module = screen   test.par [sample]
 module = summaryfile test.par [test1]
 module = log test.par[test1]
 
@@ -23,7 +22,6 @@ module = manager  test.par [test2]
 module = soilwat2 test.par [sample]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
 module = SurfaceOM   test.par [test2] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = soiln2   test.par [sample]     %apsuite\apsim\soiln2\soiln2.ini [standard]
-module = screen   test.par [sample]
 module = summaryfile test.par [test2]
 module = log test.par[test2]
 
@@ -37,7 +35,6 @@ module = manager  test.par [test3]
 module = soilwat2 test.par [sample]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
 module = SurfaceOM   test.par [test3] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = soiln2   test.par [sample]     %apsuite\apsim\soiln2\soiln2.ini [standard]
-module = screen   test.par [sample]
 module = summaryfile test.par [test3]
 module = log test.par[test3]
 
@@ -51,7 +48,6 @@ module = manager  test.par [test1]
 module = soilwat2 test.par [sample]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
 module = SurfaceOM   test.par [test4] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = soiln2   test.par [sample]     %apsuite\apsim\soiln2\soiln2.ini [standard]
-module = screen   test.par [sample]
 module = summaryfile test.par [test4]
 module = log test.par[test4]
 
@@ -66,7 +62,6 @@ module = manager  test.par [test5]
 module = soilwat2 test.par [sample]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
 module = SurfaceOM   test.par [test5] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = soiln2   test.par [sample]     %apsuite\apsim\soiln2\soiln2.ini [standard]
-module = screen   test.par [sample]
 module = summaryfile test.par [test5]
 module = log test.par[test5]
 
@@ -81,6 +76,5 @@ module = manager  test.par [test6]
 module = soilwat2 test.par [sample]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
 module = SurfaceOM   test.par [test6] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = soiln2   test.par [sample]     %apsuite\apsim\soiln2\soiln2.ini [standard]
-module = screen   test.par [sample]
 module = summaryfile test.par [test6]
 module = log test.par[test6]

@@ -34,10 +34,6 @@ variable = apswim.sw_dep()
 variable = soiln2.no3()
 variable = solute.br()
 
-[all.Screen.parameters]
-screen_output = on
-
-! ============== CLOCK DATA =====================
 [all.clock.parameters]
 start_date=1/9/1988 !1/1/1988     ! dd/mm/yyyy
 end_date=31/3/1989     ! dd/mm/yyyy

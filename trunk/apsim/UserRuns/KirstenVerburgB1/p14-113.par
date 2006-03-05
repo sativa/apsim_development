@@ -1878,8 +1878,6 @@ intercrop = weed1 weed2 weed3 lucerne wheat
 
 [fieldS.SummaryFile.parameters]
 summaryfile = fieldS113.sum
-[all.Screen.parameters]
-screen_output = on
 [all.tracker1.parameters]
 variable = sum of met.rain on process from report1.reported to now as sum@met_rain
 variable = sum of manager.T on process from report1.reported to now as sum@manager_T

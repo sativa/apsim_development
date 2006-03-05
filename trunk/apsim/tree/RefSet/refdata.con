@@ -1,7 +1,7 @@
 ! Derived from McKeon's 7 steps.
 ! See http://apsru.sth.dpi.qld.gov.au/~devoilp/grasp for a detailed explanation
 
-version = 4.3
+version = 5
 
 ! All off.
 [APSIM.step1.control]
@@ -13,7 +13,6 @@ module = manager refdata.par[all]
 module = soilwat2 refdata.par[all] %apsuite/apsim/soilwat2/soilwat2.ini[standard]
 module = tree refdata.par[all] refdata.par[step1] refdata.par[soilwat] %apsuite/apsim/tree/tree.ini[standard]
 module = SummaryFile  refdata.par[step1]
-module = Screen  refdata.par[all]
 
 ! Transpiration
 [APSIM.step2.control]
@@ -25,7 +24,6 @@ module = manager refdata.par[all]
 module = soilwat2 refdata.par[all] %apsuite/apsim/soilwat2/soilwat2.ini[standard]
 module = tree refdata.par[all] refdata.par[step2] refdata.par[soilwat] %apsuite/apsim/tree/tree.ini[standard]
 module = SummaryFile  refdata.par[step2]
-module = Screen  refdata.par[all]
 
 ! SWIM interface.
 [APSIM.step3.control]
@@ -37,4 +35,3 @@ module = manager refdata.par[all]
 module = apswim refdata.par[gmtb0] %apsuite/apsim/apswim/apswim.ini[standard]
 module = tree refdata.par[all] refdata.par[step3] refdata.par[swim] %apsuite/apsim/tree/tree.ini[standard]
 module = SummaryFile  refdata.par[gmtb0]
-module = Screen  refdata.par[gmtb0]

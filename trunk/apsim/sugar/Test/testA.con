@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [APSIM.test1_sugar]
 title=Test sowing before out
 module = clock      testA.par[all] %apsuite\apsim\clock\clock.ini[standard]
@@ -10,7 +10,6 @@ module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_resid
 module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = sugar    testA.par [all]      %apsuite\apsim\sugar\sugar.ini [standard]
 module = SummaryFile  testA.par[test1]
-module = Screen  testA.par[all]
 
 [APSIM.test2_sugar]
 title=Test sowing after out on same day
@@ -23,7 +22,6 @@ module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_resid
 module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = sugar    testA.par [all]      %apsuite\apsim\sugar\sugar.ini [standard]
 module = SummaryFile  testA.par[test2]
-module = Screen  testA.par[all]
 
 [APSIM.test3_sugar]
 title=Test sowing next day after out
@@ -36,5 +34,4 @@ module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_resid
 module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = sugar    testA.par [all]      %apsuite\apsim\sugar\sugar.ini [standard]
 module = SummaryFile  testA.par[test3]
-module = Screen  testA.par[all]
 

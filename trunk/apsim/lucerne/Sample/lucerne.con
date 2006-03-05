@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [APSIM.sample_lucerne]
 title=lucerne Sample Simulation
 module = clock      lucerne.par[sample] %apsuite\apsim\clock\clock.ini[standard]
@@ -10,4 +10,3 @@ module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_resid
 module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]        %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = plant(lucerne)    lucerne.par[sample] %apsuite\apsim\lucerne\lucerne.ini[standard]
 module = SummaryFile  lucerne.par[sample]
-module = Screen  lucerne.par[sample]

@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [APSIM.Dalby 600mm]
 title=Dalby 600mm wet soil
 module = clock      Fababean.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
@@ -11,7 +11,6 @@ module = soiln2     %apsuite\apsim\common files\waco.par[waco]      %apsuite\aps
 module = plant(Fababean)   %apsuite\apsim\common files\waco.par[waco] %apsuite\apsim\Fababean\Fababean.ini[standard]
 module = Tracker    Fababean.par[sensibility]
 module = SummaryFile  Fababean.par[Dalby600]
-module = Screen  Fababean.par[sensibility]
 
 [APSIM.Dalby 1500mm]
 title=Dalby 1500mm wet soil
@@ -25,7 +24,6 @@ module = soiln2     %apsuite\apsim\common files\waco.par[waco]      %apsuite\aps
 module = plant(Fababean)   %apsuite\apsim\common files\waco.par[waco] %apsuite\apsim\Fababean\Fababean.ini[standard]
 module = Tracker    Fababean.par[sensibility]
 module = SummaryFile  Fababean.par[Dalby1500]
-module = Screen  Fababean.par[sensibility]
 
 [APSIM.Roma 400mm]
 title=Roma 400mm wet soil
@@ -39,7 +37,6 @@ module = soiln2     %apsuite\apsim\common files\brownvertosol.par[brownvertosol]
 module = plant(Fababean)   %apsuite\apsim\common files\brownvertosol.par[brownvertosol] %apsuite\apsim\Fababean\Fababean.ini[standard]
 module = Tracker    Fababean.par[sensibility]
 module = SummaryFile  Fababean.par[Roma400]
-module = Screen  Fababean.par[sensibility]
 
 [APSIM.Roma 800mm]
 title=Roma 800mm wet soil
@@ -53,4 +50,3 @@ module = soiln2     %apsuite\apsim\common files\brownvertosol.par[brownvertosol]
 module = plant(Fababean)   %apsuite\apsim\common files\brownvertosol.par[brownvertosol] %apsuite\apsim\Fababean\Fababean.ini[standard]
 module = Tracker    Fababean.par[sensibility]
 module = SummaryFile  Fababean.par[Roma800]
-module = Screen  Fababean.par[sensibility]

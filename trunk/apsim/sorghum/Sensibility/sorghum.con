@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [APSIM.Dalby 600mm]
 title=Dalby 600mm wet soil
 module = clock      Sorghum.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
@@ -12,7 +12,6 @@ module = soiln2     %apsuite\apsim\common files\waco.par[waco]      %apsuite\aps
 module = Sorghum   %apsuite\apsim\common files\waco.par[waco] %apsuite\apsim\Sorghum\Sorghum.ini[standard]
 module = Tracker    Sorghum.par[sensibility]
 module = SummaryFile  Sorghum.par[Dalby600]
-module = Screen  Sorghum.par[sensibility]
 
 [APSIM.Dalby 1500mm]
 title=Dalby 1500mm wet soil
@@ -27,7 +26,6 @@ module = soiln2     %apsuite\apsim\common files\waco.par[waco]      %apsuite\aps
 module = Sorghum   %apsuite\apsim\common files\waco.par[waco] %apsuite\apsim\Sorghum\Sorghum.ini[standard]
 module = Tracker    Sorghum.par[sensibility]
 module = SummaryFile  Sorghum.par[Dalby1500]
-module = Screen  Sorghum.par[sensibility]
 
 [APSIM.Roma 600mm]
 title=Roma 600mm wet soil
@@ -42,7 +40,6 @@ module = soiln2     %apsuite\apsim\common files\waco.par[waco]      %apsuite\aps
 module = Sorghum   %apsuite\apsim\common files\waco.par[waco] %apsuite\apsim\Sorghum\Sorghum.ini[standard]
 module = Tracker    Sorghum.par[sensibility]
 module = SummaryFile  Sorghum.par[Roma600]
-module = Screen  Sorghum.par[sensibility]
 
 [APSIM.Roma 1500mm]
 title=Roma 1500mm wet soil
@@ -57,4 +54,3 @@ module = soiln2     %apsuite\apsim\common files\waco.par[waco]      %apsuite\aps
 module = Sorghum   %apsuite\apsim\common files\waco.par[waco] %apsuite\apsim\Sorghum\Sorghum.ini[standard]
 module = Tracker    Sorghum.par[sensibility]
 module = SummaryFile  Sorghum.par[Roma1500]
-module = Screen  Sorghum.par[sensibility]

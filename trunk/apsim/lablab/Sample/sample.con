@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 
 [APSIM.Highworth]
 title = Lablab gatton dryland high density highworth
@@ -12,7 +12,6 @@ module = soiln2            gat_site_all.par[gatton_heavy] sample.par[all] %apsui
 module = plant(lablab)     sample.par[gatton_heavy]                       %apsuite\apsim\lablab\lablab.ini[standard]
 module = irrigate
 module = SummaryFile       sample.par[Highworth]
-module = Screen            sample.par[all]
 module = Accum             sample.par[common]
 
 [APSIM.Endurance]
@@ -27,6 +26,5 @@ module = soiln2            gat_site_all.par[gatton_heavy] sample.par[all] %apsui
 module = plant(lablab)     sample.par[gatton_heavy]                       %apsuite\apsim\lablab\lablab.ini[standard]
 module = irrigate
 module = SummaryFile       sample.par[Endurance]
-module = Screen            sample.par[all]
 module = Accum             sample.par[common]
 

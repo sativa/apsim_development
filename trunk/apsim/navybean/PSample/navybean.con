@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [APSIM.sample_navybean]
 title=navybean Sample Simulation
 module = clock      navybean.par[sample] %apsuite\apsim\clock\clock.ini[standard]
@@ -11,4 +11,3 @@ module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]        
 module = soilp      %apsuite\apsim\soilp\sample\soilp.par   [sample]             %apsuite\apsim\soilp\soilp.ini [standard]
 module = plant(navybean)   navybean.par[sample] %apsuite\apsim\navybean\navybean.ini[standard]
 module = SummaryFile  navybean.par[sample]
-module = Screen  navybean.par[sample]

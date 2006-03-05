@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [APSIM.fababean]
 title = Sample Simulation
 module = clock      fababean.par[sample]  %apsuite/apsim/clock/clock.ini[standard]
@@ -12,7 +12,6 @@ module = soiln2     %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]      %a
 module = plant(fababean)     fababean.par[sample] %apsuite/apsim/fababean/fababean.ini[standard]
 module = parasite(orobanche) %apsuite/apsim/parasite/orobanche.ini[standard]
 module = SummaryFile   fababean.par[orobanche0]
-module = Screen        fababean.par[sample]
 
 
 [APSIM.fababean_orobanche]
@@ -28,7 +27,6 @@ module = soiln2     %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]      %a
 module = plant(fababean)     fababean.par[sample] %apsuite/apsim/fababean/fababean.ini[standard]
 module = parasite(orobanche) %apsuite/apsim/parasite/orobanche.ini[standard]
 module = SummaryFile   fababean.par[orobanche1]
-module = Screen        fababean.par[sample]
 
 [APSIM.fababean_orobanche_weed]
 title = orobanchen Sample Simulation
@@ -43,4 +41,3 @@ module = soiln2     %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]      %a
 module = plant(fababean)     fababean.par[sample] %apsuite/apsim/fababean/fababean.ini[standard]
 module = parasite(orobanche) %apsuite/apsim/parasite/orobanche.ini[standard]
 module = SummaryFile   fababean.par[orobanche2]
-module = Screen        fababean.par[sample]

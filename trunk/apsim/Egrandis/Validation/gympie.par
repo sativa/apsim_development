@@ -1093,9 +1093,6 @@ d_interception = 0.0
 [c.SummaryFile.parameters]
 summaryfile = c.sum
 
-[all.Screen.parameters]
-screen_output = on
-
 [all.tracker1.parameters]
 variable = sum of soilwat2.runoff on process from report.reported to now as sum@soilwat2_runoff
 variable = sum of soilwat2.drain on process from report.reported to now as sum@soilwat2_drain

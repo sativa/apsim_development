@@ -20,7 +20,7 @@
 
 !!!! Continuous wheat !!!!
 
-version = 4.3
+version = 5
 [apsim.sal_cw]
 Title = Salmon Gums continuous wheat
 module = clock    runs.par [1958_start] %apsuite\apsim\clock\clock.ini [standard]
@@ -35,7 +35,6 @@ module = accum    runs.par [all]
 module = plant(wheat)   soil.par [salmon_gums] %apsuite\apsim\wheat\wheat.ini [standard]
 module = sorghum     soil.par [salmon_gums] %apsuite\apsim\sorghum\sorghum.ini [standard]
 module = Summaryfile report.par[sal_cw]
-module = Screen      report.par[all]
 module = tracker   report.par[all]
  
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -54,7 +53,6 @@ module = accum    runs.par [all]
 module = plant(wheat)   soil.par [salmon_gums] %apsuite\apsim\wheat\wheat.ini [standard]
 module = sorghum     soil.par [salmon_gums] %apsuite\apsim\sorghum\sorghum.ini [standard]
 module = Summaryfile report.par[sal_sw]
-module = Screen      report.par[all]
 module = tracker   report.par[all]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -75,7 +73,6 @@ module = accum    runs.par [all]
 module = plant(wheat)   soil.par [salmon_gums] %apsuite\apsim\wheat\wheat.ini [standard]
 module = sorghum     soil.par [salmon_gums] %apsuite\apsim\sorghum\sorghum.ini [standard]
 module = Summaryfile report.par[sal_psw_r]
-module = Screen      report.par[all]
 module = tracker   report.par[all]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
@@ -94,7 +91,6 @@ module = accum    runs.par [all]
 module = plant(wheat)   soil.par [salmon_gums] %apsuite\apsim\wheat\wheat.ini [standard]
 module = sorghum     soil.par [salmon_gums] %apsuite\apsim\sorghum\sorghum.ini [standard]
 module = Summaryfile report.par[sal_pfw]
-module = Screen      report.par[all]
 module = tracker   report.par[all]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
@@ -119,7 +115,6 @@ module = accum    runs.par [all]
 module = plant(wheat)   soil.par [myrup] %apsuite\apsim\wheat\wheat.ini [standard]
 module = sorghum     soil.par [myrup] %apsuite\apsim\sorghum\sorghum.ini [standard]
 module = Summaryfile report.par[myr_cw]
-module = Screen      report.par[all]
 module = tracker   report.par[all]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -138,7 +133,6 @@ module = accum    runs.par [all]
 module = plant(wheat)   soil.par [myrup] %apsuite\apsim\wheat\wheat.ini [standard]
 module = sorghum     soil.par [myrup] %apsuite\apsim\sorghum\sorghum.ini [standard]
 module = Summaryfile report.par[myr_sw]
-module = Screen      report.par[all]
 module = tracker   report.par[all]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -157,7 +151,6 @@ module = accum    runs.par [all]
 module = plant(wheat)   soil.par [myrup] %apsuite\apsim\wheat\wheat.ini [standard]
 module = sorghum     soil.par [myrup] %apsuite\apsim\sorghum\sorghum.ini [standard]
 module = Summaryfile report.par[myr_psw_r]
-module = Screen      report.par[all]
 module = tracker   report.par[all]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
@@ -176,7 +169,6 @@ module = accum    runs.par [all]
 module = plant(wheat)   soil.par [myrup] %apsuite\apsim\wheat\wheat.ini [standard]
 module = sorghum     soil.par [myrup] %apsuite\apsim\sorghum\sorghum.ini [standard]
 module = Summaryfile report.par[myr_pfw]
-module = Screen      report.par[all]
 module = tracker   report.par[all]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
@@ -201,7 +193,6 @@ module = accum    runs.par [all]
 module = plant(wheat)   soil.par [kendenup] %apsuite\apsim\wheat\wheat.ini [standard]
 module = sorghum     soil.par [kendenup] %apsuite\apsim\sorghum\sorghum.ini [standard]
 module = Summaryfile report.par[kend_cw]
-module = Screen      report.par[all]
 module = tracker   report.par[all]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -220,7 +211,6 @@ module = accum    runs.par [all]
 module = plant(wheat)   soil.par [kendenup] %apsuite\apsim\wheat\wheat.ini [standard]
 module = sorghum     soil.par [kendenup] %apsuite\apsim\sorghum\sorghum.ini [standard]
 module = Summaryfile report.par[kend_sw]
-module = Screen      report.par[all]
 module = tracker   report.par[all]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -239,7 +229,6 @@ module = accum    runs.par [all]
 module = plant(wheat)   soil.par [kendenup] %apsuite\apsim\wheat\wheat.ini [standard]
 module = sorghum     soil.par [kendenup] %apsuite\apsim\sorghum\sorghum.ini [standard]
 module = Summaryfile report.par[kend_psw_r]
-module = Screen      report.par[all]
 module = tracker   report.par[all]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
@@ -258,7 +247,6 @@ module = accum    runs.par [all]
 module = plant(wheat)   soil.par [kendenup] %apsuite\apsim\wheat\wheat.ini [standard]
 module = sorghum     soil.par [kendenup] %apsuite\apsim\sorghum\sorghum.ini [standard]
 module = Summaryfile report.par[kend_pfw]
-module = Screen      report.par[all]
 module = tracker   report.par[all]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  

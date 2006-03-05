@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [apsim.rutherglenCC]
 module = clock   ruther142.par [early] %apsuite\apsim\clock\clock.ini [standard]
 module = report (report1)   report4.par [all]  ruther142.par [CC]
@@ -18,7 +18,6 @@ module = plant(lupin)  ruther142.par [all]    %apsuite\apsim\lupin\lupin.ini [st
 module = plant(weed)      ruther142.par [all]    %apsuite\apsim\weed\weed.ini [standard]
 module = canopy    ruther142.par [all]
 module = SummaryFile   ruther142.par[CC]
-module = Screen   ruther142.par[early]
 module = tracker(tracker1)   ruther142.par [early]
 module = tracker(tracker2)   ruther142.par [early]
 !module = log debug.par[debug]
@@ -42,7 +41,6 @@ module = plant(lupin)  ruther142.par [all]    %apsuite\apsim\lupin\lupin.ini [st
 module = plant(weed)      ruther142.par [all]    %apsuite\apsim\weed\weed.ini [standard]
 module = canopy    ruther142.par [all]
 module = SummaryFile   ruther142.par[CL]
-module = Screen   ruther142.par[early]
 module = tracker(tracker1)   ruther142.par[early]
 module = tracker(tracker2)   ruther142.par[early]
 
@@ -65,7 +63,6 @@ module = plant(lupin)  ruther142.par [all]    %apsuite\apsim\lupin\lupin.ini [st
 module = plant(weed)      ruther142.par [all]    %apsuite\apsim\weed\weed.ini [standard]
 module = canopy    ruther142.par [all]
 module = SummaryFile   ruther142.par[2L95]
-module = Screen   ruther142.par[early]
 module = tracker(tracker1)   ruther142.par[early]
 module = tracker(tracker2)   ruther142.par[early]
 
@@ -88,7 +85,6 @@ module = plant(lupin)  ruther142.par [all]    %apsuite\apsim\lupin\lupin.ini [st
 module = plant(weed)      ruther142.par [all]    %apsuite\apsim\weed\weed.ini [standard]
 module = canopy    ruther142.par [all]
 module = SummaryFile   ruther142.par[2L96]
-module = Screen   ruther142.par[late]
 module = tracker(tracker1)   ruther142.par[early]
 module = tracker(tracker2)   ruther142.par[early]
 
@@ -111,7 +107,6 @@ module = plant(lupin)  ruther142.par [all]    %apsuite\apsim\lupin\lupin.ini [st
 module = plant(weed)      ruther142.par [all]    %apsuite\apsim\weed\weed.ini [standard]
 module = canopy    ruther142.par [all]
 module = SummaryFile   ruther142.par[3L96]
-module = Screen   ruther142.par[early]
 module = tracker(tracker1)   ruther142.par[early]
 module = tracker(tracker2)   ruther142.par[early]
 
@@ -134,7 +129,6 @@ module = plant(lupin)  ruther142.par [all]    %apsuite\apsim\lupin\lupin.ini [st
 module = plant(weed)      ruther142.par [all]    %apsuite\apsim\weed\weed.ini [standard]
 module = canopy    ruther142.par [all]
 module = SummaryFile   ruther142.par[3L97]
-module = Screen   ruther142.par[late]
 module = tracker(tracker1)   ruther142.par[early]
 module = tracker(tracker2)   ruther142.par[early]
 
@@ -157,7 +151,6 @@ module = plant(lupin)  ruther142.par [all]    %apsuite\apsim\lupin\lupin.ini [st
 module = plant(weed)      ruther142.par [all]    %apsuite\apsim\weed\weed.ini [standard]
 module = canopy    ruther142.par [all]
 module = SummaryFile   ruther142.par[4L97]
-module = Screen   ruther142.par[early]
 module = tracker(tracker1)   ruther142.par[early]
 module = tracker(tracker2)   ruther142.par[early]
 title = 4 Years Lucerne Harvested 1997 plots

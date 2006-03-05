@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 
 [apsim.sample_input]  
 
@@ -7,5 +7,4 @@ module = clock met.par [sample] %apsuite\apsim\clock\clock.ini[standard]
 module = report met.par [sample]
 module = Input(Met) DALBY.MET [weather]
 module = manager met.par [sample]
-module = screen met.par [sample]
 module = summaryfile met.par [sample]

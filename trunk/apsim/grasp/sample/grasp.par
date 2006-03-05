@@ -115,9 +115,6 @@ report do_output
 [sample.summaryfile.parameters]
 summaryfile=grasp.sum
 
-[sample.Screen.parameters]
-screen_output = on
-
 [sample.log.parameters]
 debug_output = on
 logfile=log.xml

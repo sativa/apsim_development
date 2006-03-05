@@ -149,9 +149,6 @@ height = 100
 frgr = 1.0
 rlv = .02 .01 .00 .00 .00 .00
 
-[all.Screen.parameters]
-screen_output = on
-
 [all.tracker.parameters]
 variable = average of Egrandis.fn on process from report.reported to now as avg@fn
 variable = average of Egrandis.fw on process from report.reported to now as avg@fw

@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 
 [APSIM.sample_lupin]
 title=lupin Sample Simulation
@@ -11,4 +11,3 @@ module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_resid
 module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = plant(lupin)     lupin.par[sample] %apsuite\apsim\lupin\lupin.ini[standard]
 module = summaryfile lupin.par[sample]
-module = screen lupin.par[sample]

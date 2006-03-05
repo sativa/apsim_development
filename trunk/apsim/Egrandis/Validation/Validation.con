@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [APSIM.Wagga]
 title = Wagga Effluent Irrigated E. grandis
 
@@ -13,7 +13,6 @@ module = soilwat2   wagga.par [all]   %apsuite\apsim\soilwat2\soilwat2.ini[stand
 module = soiln2     wagga.par [all]   %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = SurfaceOM   wagga.par [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
 module = Growth(Egrandis)     wagga.par [all]   %apsuite\apsim\Egrandis\Egrandis.ini[standard]
-module = Screen     wagga.par[all]
 module = SummaryFile  wagga.par[all]
 module = tracker    wagga.par[all]
 
@@ -29,7 +28,6 @@ module = SurfaceOM   coffs.par [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [sta
 module = soiln2     coffs.par [all]   %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = Growth(Egrandis)     coffs.par [all]   %apsuite\apsim\Egrandis\Egrandis.ini[standard]
 module = SummaryFile  coffs.par[all]
-module = Screen  coffs.par[all]
 module = tracker  coffs.par[all]
 
 [APSIM.Wodonga]
@@ -46,7 +44,6 @@ module = SurfaceOM   wodonga.par [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [s
 module = soiln2     wodonga.par [all]   %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = Growth(Egrandis)     wodonga.par [all]  wodonga.par [grandis] %apsuite\apsim\Egrandis\Egrandis.ini[standard]
 module = SummaryFile  wodonga.par[grandis]
-module = Screen  wodonga.par[all]
 module = tracker(tracker1)  wodonga.par[all]
 module = log wodonga.par[all]
 
@@ -66,7 +63,6 @@ module = SurfaceOM   gympie.par [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [st
 module = soiln2     gympie.par [all]   %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = Growth(Egrandis)     gympie.par [all]   gympie.par[restrict_root] %apsuite\apsim\Egrandis\Egrandis.ini[standard]
 module = SummaryFile  gympie.par[c]
-module = Screen  gympie.par[all]
 module = tracker(tracker1)  gympie.par[all]
 [APSIM.gympie F]
 
@@ -84,7 +80,6 @@ module = SurfaceOM   gympie.par [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [st
 module = soiln2     gympie.par [all]   %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = Growth(Egrandis)     gympie.par [all]   gympie.par[restrict_root] %apsuite\apsim\Egrandis\Egrandis.ini[standard]
 module = SummaryFile  gympie.par[f]
-module = Screen  gympie.par[all]
 module = tracker(tracker1)  gympie.par[all]
 [APSIM.gympie I]
 
@@ -102,7 +97,6 @@ module = SurfaceOM   gympie.par [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [st
 module = soiln2     gympie.par [all]   %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = Growth(Egrandis)     gympie.par [all]   gympie.par[restrict_root] %apsuite\apsim\Egrandis\Egrandis.ini[standard]
 module = SummaryFile  gympie.par[i]
-module = Screen  gympie.par[all]
 module = tracker(tracker1)  gympie.par[all]
 [APSIM.gympie IF]
 
@@ -120,5 +114,4 @@ module = SurfaceOM   gympie.par [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [st
 module = soiln2     gympie.par [all]   %apsuite\apsim\soiln2\soiln2.ini[standard]
 module = Growth(Egrandis)     gympie.par [all]   gympie.par[restrict_root] %apsuite\apsim\Egrandis\Egrandis.ini[standard]
 module = SummaryFile  gympie.par[if]
-module = Screen  gympie.par[all]
 module = tracker(tracker1)  gympie.par[all]

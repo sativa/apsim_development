@@ -1,4 +1,4 @@
-version = 4.3
+version = 5
 [APSIM.Psample_peanut]
 title=peanut P Sample Simulation
 module = clock      peanut.par[sample] %apsuite\apsim\clock\clock.ini[standard]
@@ -11,4 +11,3 @@ module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]        
 module = soilp      %apsuite\apsim\soilp\sample\soilp.par   [sample]             %apsuite\apsim\soilp\soilp.ini [standard]
 module = plant(peanut)   peanut.par[sample] %apsuite\apsim\peanut\peanut.ini[standard]
 module = SummaryFile  peanut.par[sample]
-module = Screen  peanut.par[sample]
