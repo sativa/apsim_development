@@ -147,6 +147,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "MemoUI.cs"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "MemoUI.resx"
+                    DependentUpon = "MemoUI.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "StringManip.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
