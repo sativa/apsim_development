@@ -132,6 +132,7 @@ void OOPlant::plantInit(void)
 
    setStatus(out);
 
+   rowSpacingDefault = readVar (plantInterface,sections,"row_spacing_default" );
 
   }
 //------------------------------------------------------------------------------------------------
@@ -193,8 +194,7 @@ void OOPlant::sowCrop(unsigned &, unsigned &, protocol::Variant &v)
 
    if (sowLine.get("row_spacing", protocol::DTsingle, false, rowSpacing) == false)
       {
-      //plantInterface->error("row space not specified",fatal);
-      throw std::runtime_error("row space not specified");
+      rowSpacing = rowSpacingDefault; // metres!!!!!!
       }
    checkRange(plantInterface,rowSpacing, 0.0, 100.0, "row_spacing");
 
