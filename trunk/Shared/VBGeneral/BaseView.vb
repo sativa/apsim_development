@@ -61,14 +61,15 @@ Public Class BaseView
         Me.MyHelpLabel.Name = "MyHelpLabel"
         Me.MyHelpLabel.Size = New System.Drawing.Size(655, 40)
         Me.MyHelpLabel.TabIndex = 1
+        Me.MyHelpLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'BaseUI
+        'BaseView
         '
         Me.AutoScroll = True
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(655, 541)
         Me.Controls.Add(Me.MyHelpLabel)
-        Me.Name = "BaseUI"
+        Me.Name = "BaseView"
+        Me.Size = New System.Drawing.Size(655, 541)
         Me.ResumeLayout(False)
 
     End Sub
