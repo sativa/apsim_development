@@ -1,5 +1,4 @@
 Imports VBGeneral
-Imports Xceed.Grid.Editors
 Imports System.Collections
 Imports System.Collections.Specialized
 Imports FarPoint.Win.Spread
@@ -119,7 +118,6 @@ Public Class GenericUI
                 End If
                 Grid.Cells(row, 0).Value = Desc
                 Grid.Cells(row, 1).Value = Prop.Value
-                Dim Editor As CustomEditor
                 Dim DefaultText As String
                 UIManager.SetCellType(Grid, row, 1, Prop)
             End If
@@ -136,10 +134,6 @@ Public Class GenericUI
             Controller.Data.DataTable = Grid.DataSource
         End If
     End Sub
-
-
-
-
 
     Private Sub Grid_CellChanged(ByVal sender As Object, ByVal e As FarPoint.Win.Spread.SheetViewEventArgs) Handles Grid.CellChanged
         If Not InRefresh Then

@@ -12,8 +12,6 @@ Public Class ReportVariablesListView
     Public Sub New()
         MyBase.New()
 
-        Xceed.Grid.Licenser.LicenseKey = "GRD22-KTL57-34ZF5-W4JA"
-
         'This call is required by the Windows Form Designer.
         InitializeComponent()
 

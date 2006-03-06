@@ -15,8 +15,6 @@ Public Class RuleUI
     Public Sub New()
         MyBase.New()
 
-        Xceed.Grid.Licenser.LicenseKey = "GRD22-KTL57-34ZF5-W4JA"
-
         'This call is required by the Windows Form Designer.
         InitializeComponent()
 
@@ -40,36 +38,20 @@ Public Class RuleUI
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    Friend WithEvents celldataRowTemplate1Column1 As Xceed.Grid.DataCell
-    Friend WithEvents celldataRowTemplate1Column2 As Xceed.Grid.DataCell
     Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
     Friend WithEvents TabPage1 As System.Windows.Forms.TabPage
-    Friend WithEvents cellColumnManagerRow1Column1 As Xceed.Grid.ColumnManagerCell
-    Friend WithEvents cellColumnManagerRow1Column2 As Xceed.Grid.ColumnManagerCell
-    Friend WithEvents cellColumnManagerRow1Column3 As Xceed.Grid.ColumnManagerCell
-    Friend WithEvents cellColumnManagerRow1Column4 As Xceed.Grid.ColumnManagerCell
     Friend WithEvents FpSpread1 As FarPoint.Win.Spread.FpSpread
     Friend WithEvents PropertyGrid As FarPoint.Win.Spread.SheetView
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.celldataRowTemplate1Column1 = New Xceed.Grid.DataCell
-        Me.celldataRowTemplate1Column2 = New Xceed.Grid.DataCell
         Me.TabControl1 = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
         Me.FpSpread1 = New FarPoint.Win.Spread.FpSpread
         Me.PropertyGrid = New FarPoint.Win.Spread.SheetView
-        Me.cellColumnManagerRow1Column1 = New Xceed.Grid.ColumnManagerCell
-        Me.cellColumnManagerRow1Column2 = New Xceed.Grid.ColumnManagerCell
-        Me.cellColumnManagerRow1Column3 = New Xceed.Grid.ColumnManagerCell
-        Me.cellColumnManagerRow1Column4 = New Xceed.Grid.ColumnManagerCell
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.FpSpread1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PropertyGrid, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'celldataRowTemplate1Column1
-        '
-        Me.celldataRowTemplate1Column1.ReadOnly = True
         '
         'TabControl1
         '
@@ -116,15 +98,6 @@ Public Class RuleUI
         Me.PropertyGrid.RowHeader.Visible = False
         Me.PropertyGrid.SheetName = "Sheet1"
         Me.PropertyGrid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1
-        '
-        'cellColumnManagerRow1Column1
-        '
-        Me.cellColumnManagerRow1Column1.BackColor = System.Drawing.SystemColors.Window
-        Me.cellColumnManagerRow1Column1.ReadOnly = True
-        '
-        'cellColumnManagerRow1Column2
-        '
-        Me.cellColumnManagerRow1Column2.BackColor = System.Drawing.SystemColors.Window
         '
         'RuleUI
         '
