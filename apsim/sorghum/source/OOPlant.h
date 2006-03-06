@@ -108,6 +108,7 @@ class OOPlant
    string defaultCropClass;
    string cropType;
 
+   float rowSpacingDefault;
    float rowSpacing;
    float skipRow;
    float sowingDepth;

@@ -100,7 +100,7 @@ void Leaf::initialize(void)
    coverGreen = 0.0;
    coverSen = 0.0;
    coverDead = 0.0;
-
+   coverTot = 0.0;
    PlantPart::initialize();
    }
 //------------------------------------------------------------------------------------------------
