@@ -36,3 +36,18 @@ module = solute   test3.par [sample]     %apsuite\apsim\solute\solute.ini [stand
 module = slurp    test3.par [sample]
 module = SummaryFile  test3.par[sample]
 
+[apsim.Test4]
+title=Sample Simulation
+module = clock           test4.par [sample]          %apsuite\apsim\clock\clock.ini[standard]
+module = report          test4.par [sample]
+module = Input(Met)      sample4.met [weather]
+module = manager         test4.par [sample]
+module = operatns        test4.par [sample]
+module = fertiliz                                    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = irrigate
+module = apswim    test4.par [sample]    %apsuite\apsim\apswim\apswim.ini [standard]
+module = soiln2          test4.par [sample]            %apsuite\apsim\soiln2\soiln2.ini     [standard]
+module = SurfaceOM   test4.par [sample] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = sorghum           test4.par [sample]            %apsuite\apsim\sorghum\sorghum.ini [standard]
+module = SummaryFile     test4.par [sample]
+!module = log
