@@ -341,7 +341,7 @@ void __fastcall TRunForm::OnStdoutEvent(const string& text)
          currentDate.Read(DateString.c_str());
          ProgressBar->Position = currentDate.Get_jday() - simStartJDay;
          }
-      else
+      else if (line != "" || st.hasMoreTokens())
          addLine(line);
       }
 
