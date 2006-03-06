@@ -169,10 +169,13 @@ bool PlantPhenology::inPhase(const string &phase_name)
 
    // No, see if the stage is known at all to us
    pPhase *test = find(phase_name);
-   // Do not check in with this commented out - NIH
-   //if (test == phases.end()) { throw std::runtime_error("unknown phase name1 " + phase_name);}
-   const pPhase *current = phases[(int)currentStage];
-   return(*current == *test);
+   if (test == NULL)
+      return false;
+   else
+      {
+      const pPhase *current = phases[(int)currentStage];
+      return(*current == *test);
+      }
    }
 
 pPhase *PlantPhenology::getStage(const string &name)
