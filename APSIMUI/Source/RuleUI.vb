@@ -209,17 +209,26 @@ Public Class RuleUI
         Next
     End Sub
 
-
     ' --------------------------------------
     ' Save the script box if it has changd.
     ' --------------------------------------
     Overrides Sub Save()
+
         Dim index As Integer = 1
+
+        'stop editing the current cell before the save is called.  NullReferenceException is thrown when 
+        'user moves from node in the tree to another without editing.
+        If Not IsNothing(Me.FpSpread1.ActiveSheet.ActiveCell.Editor) Then
+            Me.FpSpread1.ActiveSheet.ActiveCell.Editor.StopEditing()
+
+        End If
+
         For Each Condition As APSIMData In Controller.Data.Children("condition")
             Dim page As TabPage = TabControl1.TabPages.Item(index)
             Dim ScriptBox As RichTextBox = page.Controls.Item(0)
             Condition.Value = ScriptBox.Text
             index = index + 1
+
         Next
     End Sub
 
@@ -229,17 +238,52 @@ Public Class RuleUI
     ' value in MyData
     ' -----------------------------------------------------------------------------
     Private Sub PropertyGrid_CellChanged(ByVal sender As Object, ByVal e As FarPoint.Win.Spread.SheetViewEventArgs) Handles PropertyGrid.CellChanged
+
         If Not InRefresh Then
             Dim Category As APSIMData = Controller.Data.Child(PropertyGrid.Cells(e.Row, 2).Value)
             Dim Prop As APSIMData = Category.Child(PropertyGrid.Cells(e.Row, 3).Value)
-            Prop.SetAttribute("value", PropertyGrid.Cells(e.Row, 1).Value)
-            If PropertyGrid.Cells(e.Row, 3).Value = "crop" Then
-                UpdateAllCultivarDropDowns()
+
+            ' Cells with a type of 'ddmmmdate' use the value in the text property to set the 'value' attribute
+            ' Prop object.  Otherwise use the 'value' property
+            If Prop.Attribute("type").ToLower().Equals("ddmmmdate") Then
+
+                If IsValidDate(Me.FpSpread1.ActiveSheet.Cells(e.Row, e.Column).Value) Then
+                    Prop.SetAttribute("value", PropertyGrid.Cells(e.Row, 1).Text)
+
+                Else
+                    Me.FpSpread1.ActiveSheet.SetActiveCell(e.Row, e.Column)
+
+                End If
+
+
+
+            Else
+                Prop.SetAttribute("value", PropertyGrid.Cells(e.Row, 1).Value)
+                If PropertyGrid.Cells(e.Row, 3).Value = "crop" Then UpdateAllCultivarDropDowns()
             End If
+
         End If
 
     End Sub
 
+
+    Private Function IsValidDate(ByVal aDate As String)
+        'Checks if the given date is valid against an Australian Culture
+
+        Dim systemDateInfo As System.Globalization.DateTimeFormatInfo = New System.Globalization.CultureInfo("en-AU").DateTimeFormat()
+        Dim blnIsValid As Boolean = True
+
+        Try
+            Date.Parse(aDate).Parse(aDate, systemDateInfo)
+
+        Catch fe As System.FormatException
+            MessageBox.Show(fe.Message, "Invalid Date", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            blnIsValid = False
+        End Try
+
+        Return blnIsValid
+
+    End Function
     ' ----------------------------------
     ' Update any cultivar drop downs.
     ' ----------------------------------
@@ -289,6 +333,5 @@ Public Class RuleUI
         Values.CopyTo(Items, 0)
         Combo.Items = Items
     End Sub
-
 
 End Class
