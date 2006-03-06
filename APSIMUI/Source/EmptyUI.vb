@@ -142,7 +142,7 @@ Public Class EmptyUI
         Dim UIManager As ApsimUIController = Controller
         Try
             Dim url As String = APSIMSettings.ApsimDirectory + "\apsimui\types.xml#" + Controller.Data.Type
-            UIManager.ShowHelp(url)
+            Process.Start("IExplore.exe", url)
         Catch ex As System.Exception
             UIManager.ShowHelp("www.apsim.info")
         End Try
