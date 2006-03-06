@@ -16,7 +16,6 @@ Public Class APSIMUIDateTimeCellType
 
         ' Set Date Picker
         Me.DropDownButton = True
-        Me.SetCalendarText("OK", "Cancel")
 
     End Sub
 

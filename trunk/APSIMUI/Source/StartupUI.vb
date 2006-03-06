@@ -140,7 +140,7 @@ Public Class StartupUI
         Me.BannerPicture.Dock = System.Windows.Forms.DockStyle.Left
         Me.BannerPicture.Location = New System.Drawing.Point(0, 40)
         Me.BannerPicture.Name = "BannerPicture"
-        Me.BannerPicture.Size = New System.Drawing.Size(64, 753)
+        Me.BannerPicture.Size = New System.Drawing.Size(64, 448)
         Me.BannerPicture.TabIndex = 13
         Me.BannerPicture.TabStop = False
         '
@@ -154,7 +154,7 @@ Public Class StartupUI
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
         Me.Name = "StartupUI"
-        Me.Size = New System.Drawing.Size(822, 793)
+        Me.Size = New System.Drawing.Size(590, 485)
         Me.Controls.SetChildIndex(Me.Label1, 0)
         Me.Controls.SetChildIndex(Me.Label2, 0)
         Me.Controls.SetChildIndex(Me.SavedFilesPanel, 0)
