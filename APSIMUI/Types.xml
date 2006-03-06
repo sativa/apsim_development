@@ -2393,17 +2393,16 @@
          <dll>%apsuite\apsim\growth\lib\growth.dll</dll>
          <ini>%apsuite\apsim\egrandis\egrandis.ini</ini>
          <sim>
-            <crop_type>grandis</crop_type>
             <uptake_source>calc</uptake_source>
             <n_uptake_source>calc</n_uptake_source>
-            <rlv> 0.01 [foreach sc.layer as l] 0.0[endfor]</rlv>
+            <rlv> 0.01 0 0 0 0 0 0 0 0 0 0 0 0 0</rlv>
          </sim>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
             <class>CSGeneral.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
-            <argument>wheat</argument>
+            <argument>egrandis</argument>
          </calldll>
       </ApsimToSim>
    </egrandis>
