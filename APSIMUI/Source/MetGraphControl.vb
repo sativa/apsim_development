@@ -63,7 +63,6 @@ Public Class MetGraphControl
     Friend WithEvents YearBox As System.Windows.Forms.NumericUpDown
     Friend WithEvents ChartPanel As System.Windows.Forms.Panel
     Friend WithEvents ContentsBox As System.Windows.Forms.RichTextBox
-    Friend WithEvents ChartToolbarControl1 As Xceed.Chart.ChartToolbarControl
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MetGraphControl))
@@ -85,7 +84,6 @@ Public Class MetGraphControl
         Me.DailyVPD = New Xceed.SmartUI.Controls.OutlookShortcutBar.Shortcut("DailyVPD", 0)
         Me.ChartPanel = New System.Windows.Forms.Panel
         Me.YearBox = New System.Windows.Forms.NumericUpDown
-        Me.ChartToolbarControl1 = New Xceed.Chart.ChartToolbarControl
         Me.ChartBox = New Xceed.Chart.ChartControl
         Me.ChartHelper = New VBGeneral.ChartHelper
         Me.ContentsBox = New System.Windows.Forms.RichTextBox
@@ -102,9 +100,9 @@ Public Class MetGraphControl
         'OutlookBar
         '
         Me.OutlookBar.Items.AddRange(New Object() {Me.Group1, Me.RainfallGroup, Me.TemperatureGroup, Me.RadiationGroup, Me.HumidityGroup})
-        Me.OutlookBar.Location = New System.Drawing.Point(0, 25)
+        Me.OutlookBar.Location = New System.Drawing.Point(0, 40)
         Me.OutlookBar.Name = "OutlookBar"
-        Me.OutlookBar.Size = New System.Drawing.Size(128, 511)
+        Me.OutlookBar.Size = New System.Drawing.Size(128, 456)
         Me.OutlookBar.TabIndex = 1
         Me.OutlookBar.Text = "OutlookBar"
         '
@@ -189,7 +187,6 @@ Public Class MetGraphControl
         'ChartPanel
         '
         Me.ChartPanel.Controls.Add(Me.YearBox)
-        Me.ChartPanel.Controls.Add(Me.ChartToolbarControl1)
         Me.ChartPanel.Controls.Add(Me.ChartBox)
         Me.ChartPanel.Location = New System.Drawing.Point(160, 304)
         Me.ChartPanel.Name = "ChartPanel"
@@ -209,21 +206,6 @@ Public Class MetGraphControl
         Me.YearBox.Size = New System.Drawing.Size(64, 21)
         Me.YearBox.TabIndex = 11
         Me.YearBox.Value = New Decimal(New Integer() {1900, 0, 0, 0})
-        '
-        'ChartToolbarControl1
-        '
-        Me.ChartToolbarControl1.ChartControl = Me.ChartBox
-        Me.ChartToolbarControl1.ChartSizeStep = 5.0!
-        Me.ChartToolbarControl1.DropDownArrows = True
-        Me.ChartToolbarControl1.ElevationStep = 10.0!
-        Me.ChartToolbarControl1.Location = New System.Drawing.Point(0, 0)
-        Me.ChartToolbarControl1.Name = "ChartToolbarControl1"
-        Me.ChartToolbarControl1.OffsetStep = 5.0!
-        Me.ChartToolbarControl1.RotationStep = 10.0!
-        Me.ChartToolbarControl1.ShowToolTips = True
-        Me.ChartToolbarControl1.Size = New System.Drawing.Size(464, 116)
-        Me.ChartToolbarControl1.TabIndex = 12
-        Me.ChartToolbarControl1.ZoomStep = 5.0!
         '
         'ChartBox
         '
@@ -247,7 +229,7 @@ Public Class MetGraphControl
         '
         Me.ChartHelper.Chart = Me.ChartBox
         Me.ChartHelper.DataTable = Nothing
-        Me.ChartHelper.Grid = Nothing
+        'Me.ChartHelper.Grid = Nothing
         '
         'ContentsBox
         '
@@ -265,7 +247,7 @@ Public Class MetGraphControl
         Me.Controls.Add(Me.ContentsBox)
         Me.Controls.Add(Me.OutlookBar)
         Me.Name = "MetGraphControl"
-        Me.Size = New System.Drawing.Size(888, 536)
+        Me.Size = New System.Drawing.Size(665, 482)
         Me.Controls.SetChildIndex(Me.OutlookBar, 0)
         Me.Controls.SetChildIndex(Me.ContentsBox, 0)
         Me.Controls.SetChildIndex(Me.ChartPanel, 0)
