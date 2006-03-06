@@ -137,6 +137,7 @@ Public Class MainUI
     Friend WithEvents ToolboxButton As Xceed.SmartUI.Controls.ToolBar.Tool
     Friend WithEvents ExcelToolBarButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents PrintDialog1 As System.Windows.Forms.PrintDialog
+    Friend WithEvents RecentSimulationsMenu As Xceed.SmartUI.Controls.MenuBar.PopupMenuItem
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MainUI))
@@ -176,11 +177,12 @@ Public Class MainUI
         Me.MainToolBar = New Xceed.SmartUI.Controls.ToolBar.SmartToolBar(Me.components)
         Me.FileMenu = New Xceed.SmartUI.Controls.ToolBar.MenuTool("&File")
         Me.NewFileMenu = New Xceed.SmartUI.Controls.MenuBar.MenuItem("&New file", 5)
-        Me.OpenFileMenu = New Xceed.SmartUI.Controls.MenuBar.MenuItem("&Open file", 6)
+        Me.OpenFileMenu = New Xceed.SmartUI.Controls.MenuBar.MenuItem("&Open file ...", 6)
         Me.SaveFileMenu = New Xceed.SmartUI.Controls.MenuBar.MenuItem("&Save file", 7)
-        Me.SaveAsMenu = New Xceed.SmartUI.Controls.MenuBar.MenuItem("Save &As file", 8)
+        Me.SaveAsMenu = New Xceed.SmartUI.Controls.MenuBar.MenuItem("Save &As file ...", 8)
+        Me.RecentSimulationsMenu = New Xceed.SmartUI.Controls.MenuBar.PopupMenuItem("Recent Simulations", 14)
         Me.separatorMenuItem1 = New Xceed.SmartUI.Controls.MenuBar.SeparatorMenuItem
-        Me.ExitMenu = New Xceed.SmartUI.Controls.MenuBar.MenuItem("E&xit")
+        Me.ExitMenu = New Xceed.SmartUI.Controls.MenuBar.MenuItem("E&xit", 15)
         Me.separatorTool2 = New Xceed.SmartUI.Controls.ToolBar.SeparatorTool
         Me.SaveSmallButton = New Xceed.SmartUI.Controls.ToolBar.Tool(7)
         Me.CutSmallButton = New Xceed.SmartUI.Controls.ToolBar.Tool(9)
@@ -537,7 +539,7 @@ Public Class MainUI
         '
         'FileMenu
         '
-        Me.FileMenu.Items.AddRange(New Object() {Me.NewFileMenu, Me.OpenFileMenu, Me.SaveFileMenu, Me.SaveAsMenu, Me.separatorMenuItem1, Me.ExitMenu})
+        Me.FileMenu.Items.AddRange(New Object() {Me.NewFileMenu, Me.OpenFileMenu, Me.SaveFileMenu, Me.SaveAsMenu, Me.RecentSimulationsMenu, Me.separatorMenuItem1, Me.ExitMenu})
         Me.FileMenu.Text = "&File"
         '
         'NewFileMenu
@@ -548,7 +550,7 @@ Public Class MainUI
         'OpenFileMenu
         '
         Me.OpenFileMenu.ImageIndex = 6
-        Me.OpenFileMenu.Text = "&Open file"
+        Me.OpenFileMenu.Text = "&Open file ..."
         '
         'SaveFileMenu
         '
@@ -558,10 +560,16 @@ Public Class MainUI
         'SaveAsMenu
         '
         Me.SaveAsMenu.ImageIndex = 8
-        Me.SaveAsMenu.Text = "Save &As file"
+        Me.SaveAsMenu.Text = "Save &As file ..."
+        '
+        'RecentSimulationsMenu
+        '
+        Me.RecentSimulationsMenu.ImageIndex = 14
+        Me.RecentSimulationsMenu.Text = "Recent Simulations"
         '
         'ExitMenu
         '
+        Me.ExitMenu.ImageIndex = 15
         Me.ExitMenu.Text = "E&xit"
         '
         'SaveSmallButton
@@ -683,6 +691,8 @@ Public Class MainUI
             ApsimUI.FileOpen(FileName)
         End If
 
+        CreateRecentFileListMenu()
+
         PopulateToolBoxContextMenu()
         SetFunctionality()
     End Sub
@@ -705,6 +715,33 @@ Public Class MainUI
         ApsimUI.CheckAllComponents(ApsimUI.AllData)
 
     End Sub
+
+
+    Private Sub CreateRecentFileListMenu()
+        'Creates a list of recent files under the 'File' menu
+
+        Dim FileNames() As String = ApsimUI.GetFrequentList()
+
+        For Each str As String In FileNames
+            Dim newItem As New Xceed.SmartUI.Controls.MenuBar.MenuItem(str)
+            newItem.ImageIndex = Me.RecentSimulationsMenu.ImageIndex
+
+            AddHandler newItem.Click, AddressOf OpenSimulation
+
+            Me.RecentSimulationsMenu.Items.Add(newItem)
+
+        Next
+
+    End Sub
+
+    Private Sub OpenSimulation(ByVal sender As Object, ByVal e As Xceed.SmartUI.SmartItemClickEventArgs)
+        'Open the simulation provided by the recent simulations menu item
+
+        ApsimUI.FileOpen(e.Item.Text)
+
+    End Sub
+
+
 
     Private Sub SetFunctionality()
         ' Enable / Disable bits of functionality as 
@@ -781,13 +818,6 @@ Public Class MainUI
         ElseIf e.Button Is ExcelToolBarButton Or _
                             e.Button Is GraphButton Or _
                             e.Button Is ApsimOutlookButton Then
-
-            'if changes have been made reload the simulation to retrieve the up-to-date list of
-            'simulations.
-            'If ApsimUI.DirtyData Then
-            '    ApsimUI.FileSave()
-            '    ApsimUI.FileOpen(ApsimUI.FileName)
-            'End If
 
             Dim arrFiles As StringCollection = GetAllOutputFiles(ApsimUI.AllData)
             Dim frmOutput As New OutputFileExport(arrFiles)
@@ -1024,4 +1054,5 @@ Public Class MainUI
         Me.ToolBar_ButtonClick(Me.ExcelToolBarButton, clickEvent)
 
     End Sub
+
 End Class
