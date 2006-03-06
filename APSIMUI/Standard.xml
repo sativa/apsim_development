@@ -1,4 +1,5 @@
 <folder name="Standard Toolbox">
+  <memo></memo>
   <bore name="bore">
     <max_available_water>100</max_available_water>
     <init_available_water>50</init_available_water>
@@ -265,7 +266,7 @@
     <rule name="Fertilise on fixed date - top up">
       <condition name="start_of_day"><![CDATA[
          if (today = date('[fert_date]') then
-            N_deficit = $fert_criteria - (no3(1) + nh4(1) + no3(2) + nh4(2) + no3(3) + nh4(3))
+            N_deficit = [fert_criteria] - (no3(1) + nh4(1) + no3(2) + nh4(2) + no3(3) + nh4(3))
             '[fertmodule]' apply amount = N_deficit (kg/ha), depth = 50 (mm), type = [fert_type] ()
          endif ]]></condition>
       <category name="When should fertiliser be applied">
