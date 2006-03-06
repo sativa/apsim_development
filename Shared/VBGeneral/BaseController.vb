@@ -437,6 +437,7 @@ Public MustInherit Class BaseController
 
     Public Sub RenameSelected(ByVal NewName As String)
         ' Rename the node, as specified by FullPath, to NewName
+
         If AllowRenameSelected() Then
             Data.Name = NewName
             If MySelectedData.Count = 1 Then

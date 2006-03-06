@@ -173,11 +173,6 @@
                     HintPath = "..\..\Shared\ChangeTool\obj\Debug\ChangeTool.dll"
                 />
                 <Reference
-                    Name = "CSGeneral"
-                    AssemblyName = "CSGeneral"
-                    HintPath = "..\..\Shared\C#General\obj\Debug\CSGeneral.dll"
-                />
-                <Reference
                     Name = "Soil"
                     AssemblyName = "Soil"
                     HintPath = "..\..\Shared\Soil\obj\Debug\Soil.dll"
@@ -192,6 +187,16 @@
                     AssemblyName = "FarPoint.Win.Spread"
                     HintPath = "..\..\..\..\..\Program Files\FarPoint Technologies\Spread.WinForms.v2\v2.0.1.0\bin\FarPoint.Win.Spread.dll"
                     AssemblyFolderKey = "hklm\dn\farpoint spread for windows forms 2.0.1.0"
+                />
+                <Reference
+                    Name = "FarPoint.Win"
+                    AssemblyName = "FarPoint.Win"
+                    HintPath = "..\..\Bin\FarPoint.Win.dll"
+                />
+                <Reference
+                    Name = "CSGeneral"
+                    AssemblyName = "CSGeneral"
+                    HintPath = "..\..\Shared\C#General\obj\Debug\CSGeneral.dll"
                 />
                 <Reference
                     Name = "VBGeneral"
@@ -330,6 +335,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "MemoUI.vb"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "MemoUI.resx"
+                    DependentUpon = "MemoUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "MetGraphControl.vb"
                     SubType = "UserControl"
                     BuildAction = "Compile"
@@ -417,6 +432,16 @@
                 <File
                     RelPath = "SimulationUI.resx"
                     DependentUpon = "SimulationUI.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SomeForm.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SomeForm.resx"
+                    DependentUpon = "SomeForm.vb"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
