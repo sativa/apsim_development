@@ -11,16 +11,19 @@
 <p class="Title1">TCL/Apsim </p>
 <p class="Normal">&nbsp;</p>
 <p class="Title2">Description </p>
-<p class="Normal">This module provides a simple link between apsim and a TCL interpreter. Variables are exchanged through Get/Set. </p>
+<p class="Normal">This module provides a simple link between apsim and TCL interpreters. Variables are exchanged through a Get/Set mechanism. </p>
 <p class="Normal">&nbsp;</p>
 <p class="Title2">Settings </p>
-<p class="Normal">Rules are defined just like the manager: the rules in [xyz.tcllink.init] will be evaluated at the simulation's initialisation. The other rules of interest are “init”, “prepare”, “start_of_day”, “process”,“ post”, “end_of_day”. </p>
+<p class="Normal">Rules are defined just like the manager: the rules in [xyz.tcllink.init] will be evaluated at the simulation's initialisation. The other rules of interest are “init”, “prepare”, “start_of_day”, “process”,“ post”, “end_of_day”, and "exit". </p>
 <p class="Normal">&nbsp;</p>
 <p class="Normal">Apsim messages are generated with the TCL procedure apsimSendMessage. It has two mandatory arguments, the destination module, the message name, and optional message name/value pairs are encoded as list elements. For example, </p>
 <p class="Normal">&nbsp;</p>
 <p class="Normal">apsimSendMessage wheat sow {cultivar hartog} {plants 120} {sowing_depth 30} </p>
 <p class="Normal">Apsim variables are set/get with apsimGet, apsimSet. </p>
+<p class="Normal">The procedure <tt>apsimWriteToSummaryFile</tt> sends a log message to the current summary file</p>
+
 <p class="Normal">A simple “command line” debugger is provided in the sample directory. It demonstrates the ability to examine apsim variables, step through simulations and set breakpoints. </p>
+
 <p class="Normal">&nbsp;</p>
 <p class="Code">(Sample) 1 % <strong>link clock.day day </strong></p>
 <p class="Normal">Link the apsim variable “clock.day” to the tcl variable “day”. </p>
@@ -43,6 +46,6 @@
 <p class="Code">(Sample) 7 % </p>
 <p class="Normal">&nbsp;</p>
 <p class="Title2">Missing features </p>
-<p class="Normal">Cannot uncrack events (eg newmet) </p>
+<p class="Normal">Cannot uncrack messageData structures (eg newmet) </p>
 </body>
 </html>
