@@ -1688,7 +1688,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
-     <variables link="plant.xml"/>
+     <variables link="sorghum.xml"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\sorghum\lib\sorghum.dll</dll>
@@ -2772,7 +2772,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
          <drop name="area"/>
-         <drop name="soil"/>         
+         <drop name="soil"/>
      </drops>
    </memo>
 </Types>
