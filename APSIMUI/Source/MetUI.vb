@@ -35,16 +35,14 @@ Public Class MetUI
     Friend WithEvents OpenFileDialog As System.Windows.Forms.OpenFileDialog
     Friend WithEvents ImageList As System.Windows.Forms.ImageList
     Friend WithEvents MetGraphControl1 As APSIMUI.MetGraphControl
-    Friend WithEvents BrowseToolBar As System.Windows.Forms.ToolBar
-    Friend WithEvents BrowseButton As System.Windows.Forms.ToolBarButton
+    Friend WithEvents btnBrowse As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MetUI))
         Me.ImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
         Me.MetGraphControl1 = New APSIMUI.MetGraphControl
-        Me.BrowseToolBar = New System.Windows.Forms.ToolBar
-        Me.BrowseButton = New System.Windows.Forms.ToolBarButton
+        Me.btnBrowse = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
         'ImageList
@@ -55,45 +53,39 @@ Public Class MetUI
         '
         'MetGraphControl1
         '
+        Me.MetGraphControl1.AutoScroll = True
+        Me.MetGraphControl1.BackColor = System.Drawing.SystemColors.Control
         Me.MetGraphControl1.Controller = Nothing
         Me.MetGraphControl1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.MetGraphControl1.HelpText = ""
         Me.MetGraphControl1.Location = New System.Drawing.Point(0, 40)
         Me.MetGraphControl1.Name = "MetGraphControl1"
-        Me.MetGraphControl1.Size = New System.Drawing.Size(726, 693)
+        Me.MetGraphControl1.Size = New System.Drawing.Size(922, 658)
         Me.MetGraphControl1.TabIndex = 8
         '
-        'BrowseToolBar
+        'btnBrowse
         '
-        Me.BrowseToolBar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.BrowseToolBar.Appearance = System.Windows.Forms.ToolBarAppearance.Flat
-        Me.BrowseToolBar.AutoSize = False
-        Me.BrowseToolBar.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.BrowseButton})
-        Me.BrowseToolBar.ButtonSize = New System.Drawing.Size(65, 26)
-        Me.BrowseToolBar.Divider = False
-        Me.BrowseToolBar.Dock = System.Windows.Forms.DockStyle.None
-        Me.BrowseToolBar.DropDownArrows = True
-        Me.BrowseToolBar.ImageList = Me.ImageList
-        Me.BrowseToolBar.Location = New System.Drawing.Point(643, 3)
-        Me.BrowseToolBar.Name = "BrowseToolBar"
-        Me.BrowseToolBar.ShowToolTips = True
-        Me.BrowseToolBar.Size = New System.Drawing.Size(69, 29)
-        Me.BrowseToolBar.TabIndex = 12
-        Me.BrowseToolBar.TextAlign = System.Windows.Forms.ToolBarTextAlign.Right
-        Me.BrowseToolBar.Wrappable = False
-        '
-        'BrowseButton
-        '
-        Me.BrowseButton.ImageIndex = 0
-        Me.BrowseButton.Text = "Browse"
+        Me.btnBrowse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnBrowse.BackColor = System.Drawing.SystemColors.Info
+        Me.btnBrowse.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.btnBrowse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btnBrowse.ImageIndex = 0
+        Me.btnBrowse.ImageList = Me.ImageList
+        Me.btnBrowse.Location = New System.Drawing.Point(816, 5)
+        Me.btnBrowse.Name = "btnBrowse"
+        Me.btnBrowse.Size = New System.Drawing.Size(88, 29)
+        Me.btnBrowse.TabIndex = 13
+        Me.btnBrowse.Text = "Browse ..."
+        Me.btnBrowse.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'MetUI
         '
-        Me.Controls.Add(Me.BrowseToolBar)
+        Me.Controls.Add(Me.btnBrowse)
         Me.Controls.Add(Me.MetGraphControl1)
         Me.Name = "MetUI"
-        Me.Size = New System.Drawing.Size(726, 733)
+        Me.Size = New System.Drawing.Size(922, 698)
         Me.Controls.SetChildIndex(Me.MetGraphControl1, 0)
-        Me.Controls.SetChildIndex(Me.BrowseToolBar, 0)
+        Me.Controls.SetChildIndex(Me.btnBrowse, 0)
         Me.ResumeLayout(False)
 
     End Sub
@@ -109,9 +101,18 @@ Public Class MetUI
         MetGraphControl1.SetFileName(FileName)
     End Sub
 
-    Private Sub BrowseToolBar_ButtonClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles BrowseToolBar.ButtonClick
+    Private Sub btnBrowse_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles btnBrowse.Paint
+        ControlPaint.DrawBorder3D(e.Graphics, e.ClipRectangle, Border3DStyle.Etched)
+    End Sub
+
+    Private Sub btnBrowse_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnBrowse.Click
+
         If OpenFileDialog.ShowDialog() = DialogResult.OK Then
             MetGraphControl1.SetFileName(OpenFileDialog.FileName)
+            Me.HelpText = OpenFileDialog.FileName
+
         End If
+
     End Sub
+
 End Class
