@@ -1,6 +1,5 @@
 
 Imports System.Drawing
-Imports Xceed.Grid
 Imports Xceed.Chart
 Imports Xceed.Chart.Core
 
@@ -11,7 +10,6 @@ Imports Xceed.Chart.Core
 Public Class ChartHelper
     Inherits System.ComponentModel.Component
     Private _Chart As ChartControl
-    Private _Grid As GridControl
     Private _DataTable As DataTable
 
     ' ---------------
@@ -27,19 +25,6 @@ Public Class ChartHelper
         End Set
     End Property
 
-
-    ' ---------------
-    ' GridProperty
-    ' ---------------
-    Public Property Grid() As GridControl
-        Get
-            Return _Grid
-        End Get
-        Set(ByVal Value As GridControl)
-            _Grid = Value
-            Clear()
-        End Set
-    End Property
     ' ---------------
     ' DataTable Property
     ' ---------------
@@ -77,24 +62,21 @@ Public Class ChartHelper
                                                 ByVal Width As Integer, ByVal LinePattern As Xceed.Chart.Standard.LinePattern, _
                                                 ByVal LinkedXAxis As StandardAxis, ByVal LinkedYAxis As StandardAxis) As LineSeries
         If Not IsNothing(_Chart) Then
-            'If (System.Type.GetTypeCode(X(0)) = TypeCode.Double) Then
-
-            'Else
-
-            'End If
-
 
             ' create the series.
             Dim NewSeries As LineSeries = _Chart.Charts(0).Series.Add(SeriesType.Line)
             NewSeries.DataLabels.Mode = DataLabelsMode.None
             NewSeries.LineFillEffect.Color = SeriesColour
             NewSeries.Name = SeriesName
+
             NewSeries.DisplayOnAxis(LinkedXAxis, True)
             NewSeries.DisplayOnAxis(LinkedYAxis, True)
             NewSeries.Markers.Visible = Markers
+
             NewSeries.Markers.Border.Color = Color.Empty
             NewSeries.LineBorder.Width = Width
             NewSeries.LineBorder.Pattern = LinePattern
+
             If Not SeriesColour.Equals(Color.Empty) Then
                 NewSeries.LineBorder.Color = SeriesColour
                 NewSeries.Markers.FillEffect.Color = SeriesColour
@@ -133,26 +115,6 @@ Public Class ChartHelper
         End With
 
     End Sub
-    ' ----------------------------------------------
-    ' Create a chart series on the specified chart
-    ' ----------------------------------------------
-    Public Sub CreateChartSeriesFromGrid(ByVal SeriesName As String, ByVal XColumn As Integer, ByVal YColumn As Integer, _
-                                                                ByVal Markers As Boolean, ByVal SeriesColour As Color, _
-                                                                ByVal Width As Integer, ByVal LinePattern As Xceed.Chart.Standard.LinePattern, _
-                                                                ByVal LinkedXAxis As StandardAxis, ByVal LinkedYAxis As StandardAxis)
-
-        If Not IsNothing(_Chart) And Not IsNothing(_Grid) Then
-            ' Get x and y values from grid.
-            'Dim X() As Double = GridUtils.GetColumnAsDoubles(_Grid, XColumn, 0)
-            'Dim Y() As Double = GridUtils.GetColumnAsDoubles(_Grid, YColumn, 0)
-            'If X.Length <> Y.Length Then
-            '    Throw New System.Exception("The number of x and y values doesn't match in routine: CreateChartSeriesFromGrid")
-            'End If
-
-            'Dim newseries As LineSeries = CreateChartSeries(SeriesName, Markers, SeriesColour, Width, LinePattern, LinkedXAxis, LinkedYAxis)
-            'PopulateChartSeries(newseries, X, Y)
-        End If
-    End Sub
 
     ' ----------------------------------------------
     ' Create a chart series on the specified chart
@@ -174,7 +136,6 @@ Public Class ChartHelper
                 Y(i) = row(YColumn)
                 i = i + 1
             Next
-
 
             If X.Length <> Y.Length Then
                 Throw New System.Exception("The number of x and y values doesn't match in routine: CreateChartSeriesFromGrid")
