@@ -578,6 +578,7 @@ Public Class DataTree
     ' Do we allow the rename of the node?
     ' ---------------------------------------
     Private Sub TreeView_BeforeLabelEdit(ByVal sender As Object, ByVal e As System.Windows.Forms.NodeLabelEditEventArgs) Handles TreeView.BeforeLabelEdit
+
         e.CancelEdit = Not Controller.AllowRenameSelected()
         If Not e.CancelEdit Then
             TreeView.ContextMenu = Nothing
@@ -589,11 +590,26 @@ Public Class DataTree
     ' User has just finished editing the label of a node.
     ' ---------------------------------------------------
     Private Sub TreeView_AfterLabelEdit(ByVal sender As Object, ByVal e As System.Windows.Forms.NodeLabelEditEventArgs) Handles TreeView.AfterLabelEdit
-        If Not IsNothing(e.Label) Then
+
+        'catch the event where user starts a label edit but does not change anything
+        'Appears to be a bug in TreeView control
+        If IsNothing(e.Label) Then
+            e.CancelEdit = True
+            Exit Sub
+
+        End If
+
+        ' A tree view node label cannot be an empty string.  If it is then
+        ' cancel the edit.
+        If (Not e.Label.Equals("")) Then
             UserChange = False
             Controller.RenameSelected(e.Label)
             UserChange = True
+
+        Else
+            e.CancelEdit = True
         End If
+
         TreeView.ContextMenu = Me.ContextMenu1
     End Sub
 
