@@ -361,15 +361,6 @@
   <data name="YearBox.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
-  <data name="ChartToolbarControl1.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
-  <data name="ChartToolbarControl1.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Assembly</value>
-  </data>
-  <data name="ChartToolbarControl1.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </data>
   <data name="ChartBox.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
   </data>
@@ -514,7 +505,7 @@
         b2xkZXIfU3lzdGVtLlVuaXR5U2VyaWFsaXphdGlvbkhvbGRlch9TeXN0ZW0uVW5pdHlTZXJpYWxpemF0
         aW9uSG9sZGVyCAgCAAAABfD///8gWGNlZWQuQ2hhcnQuQ29yZS5TZXJpZXNUb2xlcmFuY2UBAAAAB3Zh
         bHVlX18ACAIAAAAAAAAABe////8bWGNlZWQuQ2hhcnQuQ29yZS5TZXJpZXNUeXBlAQAAAAd2YWx1ZV9f
-        AAgCAAAAAAAAAAkSAAAACgkSAAAACgkSAAAACgkTAAAAAAAAAAQAAAAFCgAAAB9YY2VlZC5DaGFydC5D
+        AAgCAAAAAAAAAAkSAAAACgkSAAAACgkSAAAACgkTAAAAAAAAAAYAAAAFCgAAAB9YY2VlZC5DaGFydC5D
         b3JlLkF4aXNDb2xsZWN0aW9uCgAAABBtX25BeGlzSWRDb3VudGVyBm1fVHlwZQdtX3NOYW1lGlJlYmlu
         ZGFibGVBcnJheUxpc3QrbV9UeXBlG1JlYmluZGFibGVBcnJheUxpc3QrbV9zTmFtZRVUeXBlZEFycmF5
         TGlzdCttX1R5cGUWVHlwZWRBcnJheUxpc3QrbV9zTmFtZRBBcnJheUxpc3QrX2l0ZW1zD0FycmF5TGlz
@@ -1951,7 +1942,7 @@
         bWUVVHlwZWRBcnJheUxpc3QrbV9UeXBlFlR5cGVkQXJyYXlMaXN0K21fc05hbWUQQXJyYXlMaXN0K19p
         dGVtcw9BcnJheUxpc3QrX3NpemUSQXJyYXlMaXN0K192ZXJzaW9uAwEDAQMBBQAAH1N5c3RlbS5Vbml0
         eVNlcmlhbGl6YXRpb25Ib2xkZXIfU3lzdGVtLlVuaXR5U2VyaWFsaXphdGlvbkhvbGRlch9TeXN0ZW0u
-        VW5pdHlTZXJpYWxpemF0aW9uSG9sZGVyCAgCAAAACS8AAAAKCS8AAAAKCS8AAAAKCTAAAAAAAAAADAAA
+        VW5pdHlTZXJpYWxpemF0aW9uSG9sZGVyCAgCAAAACS8AAAAKCS8AAAAKCS8AAAAKCTAAAAAAAAAADQAA
         AAUaAAAAI1hjZWVkLkNoYXJ0LlN0YW5kYXJkLkxpbmVQcm9wZXJ0aWVzBAAAAAdtX0NvbG9yCG1fbldp
         ZHRoCm1fblBhdHRlcm4JbV9uRmFjdG9yBAAAABRTeXN0ZW0uRHJhd2luZy5Db2xvciIAAAAICAgJAAAA
         Bc////8UU3lzdGVtLkRyYXdpbmcuQ29sb3IEAAAABXZhbHVlCmtub3duQ29sb3IFc3RhdGUEbmFtZQAA
@@ -2088,11 +2079,14 @@
   <data name="$this.TrayLargeIcon" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
-  <data name="$this.Name">
-    <value>MetGraphControl</value>
+  <data name="$this.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
   </data>
   <data name="$this.SnapToGrid" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
+  </data>
+  <data name="$this.Name">
+    <value>MetGraphControl</value>
   </data>
   <data name="$this.DrawGrid" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -2108,9 +2102,6 @@
   </data>
   <data name="$this.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Assembly</value>
-  </data>
-  <data name="$this.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
   </data>
   <data name="$this.GridSize" type="System.Drawing.Size, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>8, 8</value>
