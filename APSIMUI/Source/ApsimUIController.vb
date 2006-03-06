@@ -149,6 +149,9 @@ Public Class ApsimUIController
                 Case "startup"
                     Return New StartupUI
 
+                Case "memo"
+                    Return New APSIMUI.MemoUI
+
                 Case Else
                     Return New GenericUI
 
@@ -529,14 +532,13 @@ Public Class ApsimUIController
             Grid.Cells(row, col).CellType = Combo
 
         ElseIf Prop.Attribute("type") = "ddmmmdate" Then
-            Dim DateEditor As New APSIMUIDateTimeCellType
-            DateEditor.DefaultFormat()
-            Grid.Cells(row, col).CellType = DateEditor
+            Grid.Cells(row, col).Note = "This cell accepts only 'dd/MMM' (10-Jan) or 'dd/mm/yyyy' (10/01/2005) style dates."
+            Grid.Cells(row, col).NoteStyle = FarPoint.Win.Spread.NoteStyle.PopupNote
 
         ElseIf Prop.Attribute("type") = "date" Then
             Dim DateEditor As FarPoint.Win.Spread.CellType.DateTimeCellType = New FarPoint.Win.Spread.CellType.DateTimeCellType
             DateEditor.DateDefault = Prop.Value
-            dateeditor.DropDownButton = True
+            DateEditor.DropDownButton = True
             Grid.Cells(row, col).CellType = DateEditor
 
         ElseIf Prop.Attribute("type") = "list" Then
