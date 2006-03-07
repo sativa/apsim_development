@@ -121,9 +121,10 @@ Public Class GenericUI
                 Grid.Cells(row, 1).Value = Prop.Value
                 Dim DefaultText As String
                 UIManager.SetCellType(Grid, row, 1, Prop)
+                row = row + 1
             End If
-            row = row + 1
         Next
+        Grid.RowCount = row
 
         InRefresh = False
 
