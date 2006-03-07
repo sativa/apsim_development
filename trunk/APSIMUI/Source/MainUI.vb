@@ -918,24 +918,27 @@ Public Class MainUI
         Try
             Dim toolboxes As New Toolboxes
 
+            ' Loop through each of the known toolboxes
             For Each FileName As String In toolboxes.Names
                 Dim apsimData As New VBGeneral.APSIMData
                 Dim toolBoxPath As String = toolboxes.NameToFileName(FileName)
 
                 apsimData.LoadFromFile(toolBoxPath)
 
+                ' Get the image attribute from the root node of the loaded xml file
                 Dim image As String = apsimData.Attribute("image")
+
                 Dim item As New Windows.Forms.ToolBarButton(FileName)
                 item.Tag = "User Defined"
 
-                ' If a predefined image has been given then attempt to add it.  Otherwise
-                ' use the default image in the images directory under the root.
+                ' If a predefined image has been given then attempt to add it.  
                 If System.IO.File.Exists(image) Then
                     Me.ToolBoxToolBar.ImageList.Images.Add( _
                         New System.Drawing.Bitmap(image))
 
                     item.ImageIndex = Me.ToolBoxToolBar.ImageList.Images.Count() - 1
 
+                    'Otherwise use the default image in the images directory under the APSIMUI root.
                 Else
                     Dim alternateImage As String = System.IO.Directory.GetParent(Environment.CurrentDirectory).FullName & "\ApsimUI\Images\toolbox.png"
 
@@ -944,10 +947,9 @@ Public Class MainUI
                         item.ImageIndex = Me.ToolBoxToolBar.ImageList.Images.Count() - 1
                     End If
 
+                End If
 
-                    End If
-
-                    Me.ToolBoxToolBar.Buttons.Add(item)
+                Me.ToolBoxToolBar.Buttons.Add(item)
 
             Next
 
