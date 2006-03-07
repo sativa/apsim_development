@@ -22,7 +22,7 @@ variable = manager.co2
 
 [co2.manager.start_of_day]
 if day = 169 then
-   barley sow cultivar = strzelecki, plants = 120, sowing_depth = 30 (mm)
+   barley sow cultivar = skiff, plants = 120, sowing_depth = 30 (mm)
 endif
 
 if barley.stage_name = 'harvest_ripe' or barley.plant_status = 'dead' then
@@ -38,4 +38,4 @@ co2 = 350
 !Rising CO2 levels to 700ppm by 1990
 [rising_co2.manager.start_of_day]
 dy = clock.year - 1940.0
-co2 = 350.0 + dy * (700.0 - 350.0)/50.0   
+co2 = 350.0 + dy * (700.0 - 350.0)/50.0
