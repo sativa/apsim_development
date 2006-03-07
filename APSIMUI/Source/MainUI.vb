@@ -29,6 +29,7 @@ Public Class MainUI
     Private Toolbox As ApsimUIController
     Private SimulationExplorer As ExplorerUI
     Private ToolboxExplorer As ExplorerUI
+    Private ToolBoxSplitterPoint As Integer
 
 #Region "Constructor / Destructor / Main"
     <System.STAThread()> _
@@ -116,7 +117,6 @@ Public Class MainUI
     Friend WithEvents HelpImageList As System.Windows.Forms.ImageList
     Friend WithEvents ToolBoxPanel As System.Windows.Forms.Panel
     Friend WithEvents ToolBoxPanelToolBar As System.Windows.Forms.ToolBar
-    Friend WithEvents ToolBarCloseButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents ToolBoxToolBarPanel As System.Windows.Forms.Panel
     Friend WithEvents FileMenu As Xceed.SmartUI.Controls.ToolBar.MenuTool
     Friend WithEvents NewFileMenu As Xceed.SmartUI.Controls.MenuBar.MenuItem
@@ -138,6 +138,10 @@ Public Class MainUI
     Friend WithEvents ExcelToolBarButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents PrintDialog1 As System.Windows.Forms.PrintDialog
     Friend WithEvents RecentSimulationsMenu As Xceed.SmartUI.Controls.MenuBar.PopupMenuItem
+    Friend WithEvents btnClose As System.Windows.Forms.Button
+    Friend WithEvents btnMaximise As System.Windows.Forms.Button
+    Friend WithEvents WindowToolTip As System.Windows.Forms.ToolTip
+    Friend WithEvents btnRestore As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MainUI))
@@ -146,8 +150,10 @@ Public Class MainUI
         Me.HelpImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.ToolBoxPanel = New System.Windows.Forms.Panel
         Me.ToolBoxToolBarPanel = New System.Windows.Forms.Panel
+        Me.btnMaximise = New System.Windows.Forms.Button
+        Me.btnRestore = New System.Windows.Forms.Button
+        Me.btnClose = New System.Windows.Forms.Button
         Me.ToolBoxPanelToolBar = New System.Windows.Forms.ToolBar
-        Me.ToolBarCloseButton = New System.Windows.Forms.ToolBarButton
         Me.ToolBoxSplitter = New System.Windows.Forms.Splitter
         Me.SimulationToolBarPanel = New System.Windows.Forms.Panel
         Me.Splitter7 = New System.Windows.Forms.Splitter
@@ -193,6 +199,7 @@ Public Class MainUI
         Me.ToolboxButton = New Xceed.SmartUI.Controls.ToolBar.Tool("&Toolboxes")
         Me.SmallImages = New System.Windows.Forms.ImageList(Me.components)
         Me.PrintDialog1 = New System.Windows.Forms.PrintDialog
+        Me.WindowToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.ToolBoxPanel.SuspendLayout()
         Me.ToolBoxToolBarPanel.SuspendLayout()
         Me.SimulationToolBarPanel.SuspendLayout()
@@ -228,6 +235,9 @@ Public Class MainUI
         'ToolBoxToolBarPanel
         '
         Me.ToolBoxToolBarPanel.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.ToolBoxToolBarPanel.Controls.Add(Me.btnMaximise)
+        Me.ToolBoxToolBarPanel.Controls.Add(Me.btnRestore)
+        Me.ToolBoxToolBarPanel.Controls.Add(Me.btnClose)
         Me.ToolBoxToolBarPanel.Controls.Add(Me.ToolBoxPanelToolBar)
         Me.ToolBoxToolBarPanel.Dock = System.Windows.Forms.DockStyle.Top
         Me.ToolBoxToolBarPanel.Location = New System.Drawing.Point(0, 0)
@@ -235,10 +245,48 @@ Public Class MainUI
         Me.ToolBoxToolBarPanel.Size = New System.Drawing.Size(632, 32)
         Me.ToolBoxToolBarPanel.TabIndex = 19
         '
+        'btnMaximise
+        '
+        Me.btnMaximise.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnMaximise.BackColor = System.Drawing.Color.Transparent
+        Me.btnMaximise.BackgroundImage = CType(resources.GetObject("btnMaximise.BackgroundImage"), System.Drawing.Image)
+        Me.btnMaximise.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnMaximise.Location = New System.Drawing.Point(576, 3)
+        Me.btnMaximise.Name = "btnMaximise"
+        Me.btnMaximise.Size = New System.Drawing.Size(24, 24)
+        Me.btnMaximise.TabIndex = 21
+        Me.btnMaximise.TabStop = False
+        Me.WindowToolTip.SetToolTip(Me.btnMaximise, "Maximise")
+        '
+        'btnRestore
+        '
+        Me.btnRestore.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnRestore.BackColor = System.Drawing.Color.Transparent
+        Me.btnRestore.BackgroundImage = CType(resources.GetObject("btnRestore.BackgroundImage"), System.Drawing.Image)
+        Me.btnRestore.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnRestore.Location = New System.Drawing.Point(576, 3)
+        Me.btnRestore.Name = "btnRestore"
+        Me.btnRestore.Size = New System.Drawing.Size(24, 24)
+        Me.btnRestore.TabIndex = 22
+        Me.btnRestore.TabStop = False
+        Me.WindowToolTip.SetToolTip(Me.btnRestore, "Restore")
+        '
+        'btnClose
+        '
+        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnClose.BackColor = System.Drawing.Color.Transparent
+        Me.btnClose.BackgroundImage = CType(resources.GetObject("btnClose.BackgroundImage"), System.Drawing.Image)
+        Me.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnClose.Location = New System.Drawing.Point(603, 3)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(24, 24)
+        Me.btnClose.TabIndex = 20
+        Me.btnClose.TabStop = False
+        Me.WindowToolTip.SetToolTip(Me.btnClose, "Close")
+        '
         'ToolBoxPanelToolBar
         '
         Me.ToolBoxPanelToolBar.Appearance = System.Windows.Forms.ToolBarAppearance.Flat
-        Me.ToolBoxPanelToolBar.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.ToolBarCloseButton})
         Me.ToolBoxPanelToolBar.Divider = False
         Me.ToolBoxPanelToolBar.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolBoxPanelToolBar.DropDownArrows = True
@@ -246,15 +294,9 @@ Public Class MainUI
         Me.ToolBoxPanelToolBar.Location = New System.Drawing.Point(0, 0)
         Me.ToolBoxPanelToolBar.Name = "ToolBoxPanelToolBar"
         Me.ToolBoxPanelToolBar.ShowToolTips = True
-        Me.ToolBoxPanelToolBar.Size = New System.Drawing.Size(632, 34)
+        Me.ToolBoxPanelToolBar.Size = New System.Drawing.Size(632, 26)
         Me.ToolBoxPanelToolBar.TabIndex = 17
         Me.ToolBoxPanelToolBar.TextAlign = System.Windows.Forms.ToolBarTextAlign.Right
-        '
-        'ToolBarCloseButton
-        '
-        Me.ToolBarCloseButton.ImageIndex = 22
-        Me.ToolBarCloseButton.Text = "Close"
-        Me.ToolBarCloseButton.ToolTipText = "Close this toolbar window"
         '
         'ToolBoxSplitter
         '
@@ -884,31 +926,35 @@ Public Class MainUI
 
         ToolBoxSplitter.Visible = True
         ToolBoxPanel.Visible = True
+        Me.ToolBoxSplitterPoint = ToolBoxSplitter.SplitPosition
 
         Dim toolboxes As New Toolboxes
         Dim filename As String = toolboxes.NameToFileName(ToolBoxName)
         ToolboxExplorer.ExpandAll = False
         Toolbox.FileOpenReadOnly(filename)
     End Sub
+
     Private Sub HideToolBoxWindow()
+
         If Toolbox.AllowFileSave Then
             Toolbox.FileSave()
         End If
+
         ToolBoxPanel.Visible = False
         ToolBoxSplitter.Visible = ToolBoxPanel.Visible
     End Sub
+
     Private Sub OnToolBoxClick(ByVal sender As System.Object, ByVal e As System.EventArgs)
         ShowToolBoxWindow(sender.text)
     End Sub
+
     Private Sub ToolBoxSplitter_LocationChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolBoxSplitter.LocationChanged
         If ToolBoxPanel.Visible Then
             Dim inifile As New APSIMSettings
             APSIMSettings.INIWrite(APSIMSettings.ApsimIniFile(), "apsimui", "toolboxheight", Str(ToolBoxPanel.Height))
         End If
     End Sub
-    Private Sub ToolPanelToolBar_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles ToolBoxPanelToolBar.ButtonClick
-        HideToolBoxWindow()
-    End Sub
+
 #End Region
 #Region "Run simulation"
     Private Sub RunSimulations()
@@ -1055,4 +1101,42 @@ Public Class MainUI
 
     End Sub
 
+    Private Sub btnClose_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles btnClose.Paint
+        ControlPaint.DrawBorder(e.Graphics, e.ClipRectangle, Me.ToolboxesToolbarPanel.BackColor, ButtonBorderStyle.Solid)
+    End Sub
+
+    Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
+        HideToolBoxWindow()
+    End Sub
+
+    Private Sub btnMaximise_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles btnMaximise.Paint
+        ControlPaint.DrawBorder(e.Graphics, e.ClipRectangle, Me.ToolboxesToolbarPanel.BackColor, ButtonBorderStyle.Solid)
+    End Sub
+
+    Private Sub btnMaximise_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMaximise.Click
+
+        Me.ToolBoxSplitterPoint = Me.ToolBoxSplitter.SplitPosition
+        Me.ToolBoxSplitter.SplitPosition = _
+            Me.ToolBoxToolBarPanel.Top + Me.ToolBoxToolBarPanel.Width + Me.ToolBoxSplitter.MinSize
+        Me.btnMaximise.Visible = False
+        Me.btnRestore.Visible = True
+
+    End Sub
+
+    Private Sub btnRestore_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles btnRestore.Paint
+        ControlPaint.DrawBorder(e.Graphics, e.ClipRectangle, Me.ToolboxesToolbarPanel.BackColor, ButtonBorderStyle.Solid)
+    End Sub
+
+    Private Sub btnRestore_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnRestore.Click
+
+        If Me.ToolBoxSplitter.SplitPosition = Me.ToolBoxSplitterPoint Then
+            Me.ToolBoxSplitterPoint = Me.ToolBoxSplitter.SplitPosition - 10
+
+        End If
+
+        Me.ToolBoxSplitter.SplitPosition = Me.ToolBoxSplitterPoint
+        Me.ToolBoxSplitterPoint = -1
+        Me.btnMaximise.Visible = True
+        Me.btnRestore.Visible = False
+    End Sub
 End Class
