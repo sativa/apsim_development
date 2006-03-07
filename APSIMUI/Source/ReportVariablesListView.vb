@@ -80,7 +80,7 @@ Public Class ReportVariablesListView
         Me.FpSpread.Location = New System.Drawing.Point(0, 40)
         Me.FpSpread.Name = "FpSpread"
         Me.FpSpread.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.VariablesList})
-        Me.FpSpread.Size = New System.Drawing.Size(705, 733)
+        Me.FpSpread.Size = New System.Drawing.Size(730, 442)
         Me.FpSpread.TabIndex = 3
         '
         'VariablesList
@@ -92,7 +92,7 @@ Public Class ReportVariablesListView
         Me.VariablesList.ColumnHeader.Cells.Get(0, 0).Text = "Name"
         Me.VariablesList.ColumnHeader.Cells.Get(0, 1).Text = "Module"
         Me.VariablesList.ColumnHeader.Cells.Get(0, 2).Text = "Alias"
-        Me.VariablesList.ColumnHeader.Cells.Get(0, 3).Text = "ArraySpec"
+        Me.VariablesList.ColumnHeader.Cells.Get(0, 3).Text = "Array Operation"
         Me.VariablesList.ColumnHeader.Cells.Get(0, 4).Text = "Description"
         Me.VariablesList.Columns.Get(0).Label = "Name"
         Me.VariablesList.Columns.Get(0).Width = 101.0!
@@ -103,7 +103,7 @@ Public Class ReportVariablesListView
         ComboBoxCellType1.Editable = True
         ComboBoxCellType1.Items = New String() {"all layers", "sum", "(1)", "(1-2)"}
         Me.VariablesList.Columns.Get(3).CellType = ComboBoxCellType1
-        Me.VariablesList.Columns.Get(3).Label = "ArraySpec"
+        Me.VariablesList.Columns.Get(3).Label = "Array Operation"
         Me.VariablesList.Columns.Get(3).Width = 90.0!
         Me.VariablesList.Columns.Get(4).Label = "Description"
         Me.VariablesList.Columns.Get(4).Width = 256.0!
@@ -116,7 +116,7 @@ Public Class ReportVariablesListView
         '
         Me.Controls.Add(Me.FpSpread)
         Me.Name = "ReportVariablesListView"
-        Me.Size = New System.Drawing.Size(705, 773)
+        Me.Size = New System.Drawing.Size(730, 482)
         Me.Controls.SetChildIndex(Me.FpSpread, 0)
         CType(Me.FpSpread, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.VariablesList, System.ComponentModel.ISupportInitialize).EndInit()
@@ -318,4 +318,5 @@ Public Class ReportVariablesListView
             ApsimUI.DirtyData = True
         End If
     End Sub
+
 End Class
