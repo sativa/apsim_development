@@ -72,8 +72,9 @@ namespace CSGeneral
 			XmlTextReader StyleSheet = new XmlTextReader(StyleSheetReader);
 
 			//Load the stylesheet.
-			XslTransform xslt = new XslTransform();
-			xslt.Load(StyleSheet, new XmlUrlResolver(), XmlSecureResolver.CreateEvidenceForUrl(""));
+			XslTransform xslt = new XslTransform();  
+			//xslt.Load(StyleSheet, new XmlUrlResolver(), XmlSecureResolver.CreateEvidenceForUrl(""));
+			xslt.Load("D:\\development\\APSIMUI\\ProtocolToVariables.xsl");
 
 			//Load the file to transform.
 

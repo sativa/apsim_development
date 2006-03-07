@@ -3,6 +3,8 @@ Imports System.IO
 Imports VBGeneral
 Public Class FileUI
     Inherits BaseView
+    Dim FileDateTime As DateTime
+    Dim FullFileName As String
 
 #Region " Windows Form Designer generated code "
 
@@ -118,7 +120,6 @@ Public Class FileUI
         ' setup all controls.
         If Not IsNothing(Controller) Then
             Dim FileName As String = Controller.Data.ChildValue("filename")
-            Dim FullFileName As String
             If Controller.FileName <> "" Then
                 FullFileName = Path.Combine(Path.GetDirectoryName(Controller.FileName), FileName)
             Else
@@ -128,14 +129,26 @@ Public Class FileUI
             HelpText = FullFileName
             If File.Exists(FullFileName) Then
                 Dim text As String
-                Dim sr As StreamReader = New StreamReader(FullFileName)
-                text = sr.ReadToEnd
-                sr.Close()
-                sr = Nothing
-                FileContentsBox.Text = text
+                Dim sr As StreamReader
+
+                Try
+                    sr = New StreamReader(FullFileName)
+                    text = sr.ReadToEnd
+                    sr.Close()
+                    sr = Nothing
+                    FileContentsBox.Text = text
+                    FileDateTime = File.GetLastWriteTime(FullFileName)
+                Catch e As System.Exception
+                End Try
+
             Else
-                FileContentsBox.Text = ""
+                FileContentsBox.Text = "<File doesn't exist>"
             End If
+            If Not IsNothing(Parent) Then
+                Dim F As Form = Parent.Parent.Parent
+                AddHandler F.Activated, AddressOf OnActivate
+            End If
+
             BrowseToolBar.Visible = (Controller.Data.Type.ToLower() <> "outputfile" And Controller.Data.Type.ToLower() <> "summaryfile")
         End If
     End Sub
@@ -151,6 +164,13 @@ Public Class FileUI
                 Controller.Data.Child("filename").Value = OpenFileDialog.FileName
                 Me.Refresh()
             End If
+        End If
+    End Sub
+
+
+    Private Sub OnActivate(ByVal sender As Object, ByVal e As EventArgs)
+        If FileDateTime <> File.GetLastWriteTime(FullFileName) Then
+            Refresh()
         End If
     End Sub
 End Class

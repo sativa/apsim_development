@@ -71,7 +71,7 @@ Public Class ExplorerUI
         Me.DataTree.HelpText = ""
         Me.DataTree.Location = New System.Drawing.Point(0, 40)
         Me.DataTree.Name = "DataTree"
-        Me.DataTree.Size = New System.Drawing.Size(256, 551)
+        Me.DataTree.Size = New System.Drawing.Size(256, 594)
         Me.DataTree.Sorted = False
         Me.DataTree.TabIndex = 3
         '
@@ -79,7 +79,7 @@ Public Class ExplorerUI
         '
         Me.Splitter1.Location = New System.Drawing.Point(256, 40)
         Me.Splitter1.Name = "Splitter1"
-        Me.Splitter1.Size = New System.Drawing.Size(5, 551)
+        Me.Splitter1.Size = New System.Drawing.Size(5, 594)
         Me.Splitter1.TabIndex = 4
         Me.Splitter1.TabStop = False
         '
@@ -88,7 +88,7 @@ Public Class ExplorerUI
         Me.UIPanel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UIPanel.Location = New System.Drawing.Point(261, 40)
         Me.UIPanel.Name = "UIPanel"
-        Me.UIPanel.Size = New System.Drawing.Size(533, 551)
+        Me.UIPanel.Size = New System.Drawing.Size(651, 594)
         Me.UIPanel.TabIndex = 5
         '
         'ExplorerUI
@@ -97,7 +97,7 @@ Public Class ExplorerUI
         Me.Controls.Add(Me.Splitter1)
         Me.Controls.Add(Me.DataTree)
         Me.Name = "ExplorerUI"
-        Me.Size = New System.Drawing.Size(794, 591)
+        Me.Size = New System.Drawing.Size(912, 634)
         Me.Controls.SetChildIndex(Me.DataTree, 0)
         Me.Controls.SetChildIndex(Me.Splitter1, 0)
         Me.Controls.SetChildIndex(Me.UIPanel, 0)
@@ -142,8 +142,8 @@ Public Class ExplorerUI
             ElseIf Not MyCurrentUI.Controller Is Controller Then
                 MyCurrentUI.Controller.AllData = Data
             End If
-            MyCurrentUI.Refresh()
             MyCurrentUI.Parent = UIPanel
+            MyCurrentUI.Refresh()
             MyCurrentUI.Dock = DockStyle.Fill
             MyCurrentUI.Show()
             CurrentUIType = Data.Type
