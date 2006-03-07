@@ -43,6 +43,8 @@ namespace CSGeneral
 		private System.Windows.Forms.RadioButton VolumetricCheck;
 		private System.Windows.Forms.RadioButton GravimetricCheck;
 		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.MenuItem CheckSoilMenuItem;
+		private System.Windows.Forms.MenuItem menuItem2;
 		private bool UserChange = true;
 		
 		// -------------
@@ -112,17 +114,17 @@ namespace CSGeneral
 			this.ButtonImageList = new System.Windows.Forms.ImageList(this.components);
 			this.fontDialog1 = new System.Windows.Forms.FontDialog();
 			this.Grid = new FarPoint.Win.Spread.FpSpread();
-			this.General = new FarPoint.Win.Spread.SheetView();
-			this.Water = new FarPoint.Win.Spread.SheetView();
-			this.SoilProfile = new FarPoint.Win.Spread.SheetView();
-			this.APSIM = new FarPoint.Win.Spread.SheetView();
-			this.Phosphorus = new FarPoint.Win.Spread.SheetView();
 			this.WaterMenu = new System.Windows.Forms.ContextMenu();
 			this.AddCropMenuItem = new System.Windows.Forms.MenuItem();
 			this.DeleteCropMenuItem = new System.Windows.Forms.MenuItem();
 			this.ReorderCropsMenuItem = new System.Windows.Forms.MenuItem();
 			this.menuItem1 = new System.Windows.Forms.MenuItem();
 			this.PrintMenuItem = new System.Windows.Forms.MenuItem();
+			this.General = new FarPoint.Win.Spread.SheetView();
+			this.Water = new FarPoint.Win.Spread.SheetView();
+			this.SoilProfile = new FarPoint.Win.Spread.SheetView();
+			this.APSIM = new FarPoint.Win.Spread.SheetView();
+			this.Phosphorus = new FarPoint.Win.Spread.SheetView();
 			this.splitter1 = new System.Windows.Forms.Splitter();
 			this.WaterChartControl = new CSGeneral.WaterChartControl();
 			this.PrintForm = new TMGDevelopment.Windows.Forms.PrintForm(this.components);
@@ -133,6 +135,8 @@ namespace CSGeneral
 			this.label1 = new System.Windows.Forms.Label();
 			this.GravimetricCheck = new System.Windows.Forms.RadioButton();
 			this.VolumetricCheck = new System.Windows.Forms.RadioButton();
+			this.CheckSoilMenuItem = new System.Windows.Forms.MenuItem();
+			this.menuItem2 = new System.Windows.Forms.MenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.General)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.Water)).BeginInit();
@@ -151,6 +155,7 @@ namespace CSGeneral
 			// Grid
 			// 
 			this.Grid.AllowDragDrop = true;
+			this.Grid.ContextMenu = this.WaterMenu;
 			this.Grid.Dock = System.Windows.Forms.DockStyle.Top;
 			this.Grid.EditModeReplace = true;
 			this.Grid.Location = new System.Drawing.Point(0, 64);
@@ -161,14 +166,56 @@ namespace CSGeneral
 																			  this.SoilProfile,
 																			  this.APSIM,
 																			  this.Phosphorus});
-			this.Grid.Size = new System.Drawing.Size(728, 292);
+			this.Grid.Size = new System.Drawing.Size(1049, 292);
 			this.Grid.TabIndex = 12;
 			this.Grid.TabStrip.ButtonPolicy = FarPoint.Win.Spread.TabStripButtonPolicy.AsNeeded;
 			this.Grid.TabStripPolicy = FarPoint.Win.Spread.TabStripPolicy.Always;
 			this.Grid.TabStripRatio = 0.547256097560976;
 			this.Grid.SetViewportLeftColumn(0, 1);
+			this.Grid.SetActiveViewport(0, -1);
 			this.Grid.SetViewportLeftColumn(1, 0, 6);
 			this.Grid.SetActiveViewport(1, 0, -1);
+			this.Grid.ActiveSheetIndex = 1;
+			// 
+			// WaterMenu
+			// 
+			this.WaterMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																					  this.AddCropMenuItem,
+																					  this.DeleteCropMenuItem,
+																					  this.ReorderCropsMenuItem,
+																					  this.menuItem2,
+																					  this.CheckSoilMenuItem,
+																					  this.menuItem1,
+																					  this.PrintMenuItem});
+			// 
+			// AddCropMenuItem
+			// 
+			this.AddCropMenuItem.Index = 0;
+			this.AddCropMenuItem.Text = "&Add crop";
+			this.AddCropMenuItem.Click += new System.EventHandler(this.AddCropMenuItem_Click_1);
+			// 
+			// DeleteCropMenuItem
+			// 
+			this.DeleteCropMenuItem.Index = 1;
+			this.DeleteCropMenuItem.Text = "&Delete crop";
+			this.DeleteCropMenuItem.Click += new System.EventHandler(this.DeleteCropMenuItem_Click_1);
+			// 
+			// ReorderCropsMenuItem
+			// 
+			this.ReorderCropsMenuItem.Index = 2;
+			this.ReorderCropsMenuItem.Text = "&Reorder crops";
+			this.ReorderCropsMenuItem.Click += new System.EventHandler(this.ReorderCropsMenuItem_Click);
+			// 
+			// menuItem1
+			// 
+			this.menuItem1.Index = 5;
+			this.menuItem1.Text = "-";
+			// 
+			// PrintMenuItem
+			// 
+			this.PrintMenuItem.Index = 6;
+			this.PrintMenuItem.Text = "&Print";
+			this.PrintMenuItem.Click += new System.EventHandler(this.PrintClick);
 			// 
 			// General
 			// 
@@ -177,8 +224,6 @@ namespace CSGeneral
 			this.General.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1;
 			this.General.ColumnCount = 2;
 			this.General.RowCount = 10;
-			this.General.ActiveColumnIndex = 1;
-			this.General.ActiveRowIndex = 3;
 			this.General.Cells.Get(0, 0).ParseFormatString = "G";
 			this.General.Cells.Get(0, 0).Text = "Region: ";
 			this.General.Cells.Get(1, 0).ParseFormatString = "G";
@@ -501,48 +546,12 @@ namespace CSGeneral
 			this.Phosphorus.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.Phosphorus_CellChanged);
 			this.Phosphorus.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
 			// 
-			// WaterMenu
-			// 
-			this.WaterMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																					  this.AddCropMenuItem,
-																					  this.DeleteCropMenuItem,
-																					  this.ReorderCropsMenuItem,
-																					  this.menuItem1,
-																					  this.PrintMenuItem});
-			// 
-			// AddCropMenuItem
-			// 
-			this.AddCropMenuItem.Index = 0;
-			this.AddCropMenuItem.Text = "&Add crop";
-			// 
-			// DeleteCropMenuItem
-			// 
-			this.DeleteCropMenuItem.Index = 1;
-			this.DeleteCropMenuItem.Text = "&Delete crop";
-			// 
-			// ReorderCropsMenuItem
-			// 
-			this.ReorderCropsMenuItem.Index = 2;
-			this.ReorderCropsMenuItem.Text = "&Reorder crops";
-			this.ReorderCropsMenuItem.Click += new System.EventHandler(this.ReorderCropsMenuItem_Click);
-			// 
-			// menuItem1
-			// 
-			this.menuItem1.Index = 3;
-			this.menuItem1.Text = "-";
-			// 
-			// PrintMenuItem
-			// 
-			this.PrintMenuItem.Index = 4;
-			this.PrintMenuItem.Text = "&Print";
-			this.PrintMenuItem.Click += new System.EventHandler(this.PrintClick);
-			// 
 			// splitter1
 			// 
 			this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.splitter1.Location = new System.Drawing.Point(0, 356);
 			this.splitter1.Name = "splitter1";
-			this.splitter1.Size = new System.Drawing.Size(728, 3);
+			this.splitter1.Size = new System.Drawing.Size(1049, 3);
 			this.splitter1.TabIndex = 13;
 			this.splitter1.TabStop = false;
 			// 
@@ -553,7 +562,7 @@ namespace CSGeneral
 			this.WaterChartControl.Location = new System.Drawing.Point(0, 359);
 			this.WaterChartControl.Name = "WaterChartControl";
 			this.WaterChartControl.ShowSoilWaterLine = false;
-			this.WaterChartControl.Size = new System.Drawing.Size(728, 378);
+			this.WaterChartControl.Size = new System.Drawing.Size(1049, 152);
 			this.WaterChartControl.TabIndex = 14;
 			// 
 			// PrintForm
@@ -595,7 +604,7 @@ namespace CSGeneral
 			this.UnitPanel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.UnitPanel.Location = new System.Drawing.Point(0, 40);
 			this.UnitPanel.Name = "UnitPanel";
-			this.UnitPanel.Size = new System.Drawing.Size(728, 24);
+			this.UnitPanel.Size = new System.Drawing.Size(1049, 24);
 			this.UnitPanel.TabIndex = 15;
 			// 
 			// label1
@@ -627,6 +636,17 @@ namespace CSGeneral
 			this.VolumetricCheck.Text = "Volumetric %";
 			this.VolumetricCheck.Click += new System.EventHandler(this.VolGravChecked);
 			// 
+			// CheckSoilMenuItem
+			// 
+			this.CheckSoilMenuItem.Index = 4;
+			this.CheckSoilMenuItem.Text = "&Check soil for errors";
+			this.CheckSoilMenuItem.Click += new System.EventHandler(this.CheckSoilMenuItem_Click);
+			// 
+			// menuItem2
+			// 
+			this.menuItem2.Index = 3;
+			this.menuItem2.Text = "-";
+			// 
 			// SoilUI
 			// 
 			this.Controls.Add(this.WaterChartControl);
@@ -634,7 +654,7 @@ namespace CSGeneral
 			this.Controls.Add(this.Grid);
 			this.Controls.Add(this.UnitPanel);
 			this.Name = "SoilUI";
-			this.Size = new System.Drawing.Size(728, 737);
+			this.Size = new System.Drawing.Size(1049, 511);
 			this.Controls.SetChildIndex(this.UnitPanel, 0);
 			this.Controls.SetChildIndex(this.Grid, 0);
 			this.Controls.SetChildIndex(this.splitter1, 0);
@@ -1420,6 +1440,28 @@ namespace CSGeneral
 				PopulateWaterGrid();
 				UserChange = true;
 				}
+			}
+
+		private void AddCropMenuItem_Click_1(object sender, System.EventArgs e)
+			{
+			ApsoilController Apsoil = Controller as ApsoilController;
+			Apsoil.AddCrop();
+			}
+
+		private void DeleteCropMenuItem_Click_1(object sender, System.EventArgs e)
+			{
+			ApsoilController Apsoil = Controller as ApsoilController;
+			Apsoil.DeleteCrop();
+			}
+
+		private void CheckSoilMenuItem_Click(object sender, System.EventArgs e)
+			{
+			string msg = MySoil.CheckForErrors();
+			if (msg == "")
+				MessageBox.Show("No errors encountered", "For your information", 
+								MessageBoxButtons.OK, MessageBoxIcon.Information);
+			else
+				MessageBox.Show(msg, "Errors", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 
 
