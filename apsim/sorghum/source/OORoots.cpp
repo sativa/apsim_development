@@ -198,9 +198,6 @@ void Roots::updateVars(void)
    rootDMTot = dmGreen + dmSenesced;
 
    nTotal = nGreen + nSenesced;
-
-   //dltNGreen = 0.0;
-
    }
 //------------------------------------------------------------------------------------------------
 //-------

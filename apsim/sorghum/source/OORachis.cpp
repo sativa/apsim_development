@@ -76,13 +76,6 @@ void Rachis::updateVars(void)
    nGreen += (dltNGreen + dltNRetranslocate);
    nConc = divide(nGreen,dmGreen,0);
    stage = plant->phenology->currentStage();
-
-   // zero deltas
-   dltDmGreen = 0.0;
-   dltNRetranslocate = 0.0;
-   dltNGreen = 0.0;
-//   dltDmGreen = 0.0;
-
    }
 //------------------------------------------------------------------------------------------------
 //------- react to a phenology event

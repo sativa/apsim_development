@@ -85,6 +85,9 @@ class Biomass : public PlantProcess
    void getDltDMGreenRetrans(protocol::Component *system, protocol::QueryValueData &qd);
    void getBiomass(protocol::Component *system, protocol::QueryValueData &qd);
 
+   void Harvest(void) {updateVars();}
+
+
    void Summary(void);
 };
 
