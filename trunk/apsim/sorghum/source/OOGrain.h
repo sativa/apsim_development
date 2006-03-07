@@ -58,7 +58,7 @@ class Grain : public PlantPart
 //   float getDmGreen(void)const{return dmGreen;}            // biomass
    float grainDMDifferential(void);                        // biomass
    void   dmRetrans(float dltDm){dmRetranslocate = dltDm;} // biomass
-
+   void Harvest(void) {initialize();}
 
    // nitrogen
    float getNConc(void)const{return nConc;}            // niitrogen

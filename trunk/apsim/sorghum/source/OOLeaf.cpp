@@ -231,11 +231,11 @@ void Leaf::updateVars(void)
    nTotal = nGreen + nSenesced;
    dmTotal = dmGreen + dmSenesced;
 
-   dltDmGreen = 0.0;
-   dltDmGreen = 0.0;
-   dmRetranslocate = 0.0;
-   dltNRetranslocate = 0.0;
-   dltNGreen = 0.0;
+   //xxxdltDmGreen = 0.0;
+   //xxxdltDmGreen = 0.0;
+   //xxxdmRetranslocate = 0.0;
+   //xxxdltNRetranslocate = 0.0;
+   //xxxdltNGreen = 0.0;
 
    maxLai = Max(lai,maxLai);
 

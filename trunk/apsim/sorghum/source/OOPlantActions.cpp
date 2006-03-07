@@ -115,7 +115,16 @@ void OOPlant::mapVar(unsigned id,string name, void *ptr,int dType)
 //------------------------------------------------------------------------------------------------
 void OOPlant::doPrepare(unsigned &, unsigned &, protocol::Variant &)
    {
-   if (plantStatus == alive)
+   if (plantStatus == out) 
+      {
+      // reset variables
+      initialize();
+      for(unsigned i=0;i < PlantComponents.size();i++)
+         {
+         PlantComponents[i]->initialize ();
+         }
+      }
+   else if (plantStatus == alive)
       {
       getOtherVariables (); // sw etc..
       prepare ();                 // do crop preparation
@@ -205,12 +214,12 @@ void OOPlant::doHarvest(unsigned &, unsigned &, protocol::Variant &v)     // Fie
 
    // stress - not done yet
    plantInterface->writeString("Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc");
-   plantInterface->writeString("   emergence           to end_of_juvenile         0.000        0.000        0.000        0.000");
-   plantInterface->writeString("   end_of_juvenile     to floral_initiation       0.000        0.000        0.000        0.000");
-   plantInterface->writeString("   floral_initiation   to flag_leaf               0.000        0.000        0.000        0.000");
-   plantInterface->writeString("   flag_leaf           to flowering               0.000        0.000        0.000        0.000");
-   plantInterface->writeString("   flowering           to start_grain_fill        0.000        0.000        0.000        0.000");
-   plantInterface->writeString("   start_grain_fill    to end_grain_fill          0.000        0.000        0.006        0.000");
+   plantInterface->writeString("   emergence           to end_of_juvenile           N/A          N/A        N/A          N/A        ");
+   plantInterface->writeString("   end_of_juvenile     to floral_initiation         N/A          N/A        N/A          N/A        ");
+   plantInterface->writeString("   floral_initiation   to flag_leaf                 N/A          N/A        N/A          N/A        ");
+   plantInterface->writeString("   flag_leaf           to flowering                 N/A          N/A        N/A          N/A        ");
+   plantInterface->writeString("   flowering           to start_grain_fill          N/A          N/A        N/A          N/A        ");
+   plantInterface->writeString("   start_grain_fill    to end_grain_fill            N/A          N/A        N/A          N/A        ");
 
    plantInterface->writeString("");
    plantInterface->writeString("Crop harvested.");
@@ -224,6 +233,8 @@ void OOPlant::doHarvest(unsigned &, unsigned &, protocol::Variant &v)     // Fie
    protocol::ApsimVariant outgoingApsimVariant(plantInterface);
    plantInterface->publish (id, outgoingApsimVariant);
 
+   grain->Harvest();
+   biomass->Harvest();
    //plant_harvest (v);             // harvest crop - turn into residue
    }
 //------------------------------------------------------------------------------------------------
@@ -312,13 +323,6 @@ void OOPlant::doEndCrop(unsigned &, unsigned &,protocol::Variant &v)     // Fiel
    roots->incorporateResidue();
    biomass->incorporateResidue();
 
-
-   // reset variables
-   initialize();
-   for(unsigned i=0;i < PlantComponents.size();i++)
-      {
-      PlantComponents[i]->initialize ();
-      }
    }
 //------------------------------------------------------------------------------------------------
 void OOPlant::getPlantStatus(protocol::Component *system, protocol::QueryValueData &qd)

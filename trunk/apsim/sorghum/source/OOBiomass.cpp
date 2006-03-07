@@ -363,7 +363,7 @@ void Biomass::incorporateResidue(void)
    float p = plant->phosphorus->getPStover();
 
    if(carbon > 0.0)
-      {
+      {      	
       // Build surface residues by part
       vector<string> part_name;
       vector<float> fraction_to_residue;           // fraction sent to residue (0-1)
@@ -371,7 +371,7 @@ void Biomass::incorporateResidue(void)
       vector<float> dlt_dm_n;                      // N content of changed dry matter (kg/ha)
       vector<float> dlt_dm_p;                      // P content of changed dry matter (kg/ha)
 
-      float fracts[] = {0.0, 1.0, 1.0, 1.0, 1.0};
+      float fracts[] = {0.0, 1.0, 1.0, 1.0, 1.0};  // No root or grain to residue.
 
       for (unsigned part = 0; part < plant->PlantParts.size(); part++)
          {

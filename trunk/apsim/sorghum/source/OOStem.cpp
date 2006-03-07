@@ -99,11 +99,6 @@ void Stem::updateVars(void)
    dltNConc = dayNConc - nConc;
 
    stage = plant->phenology->currentStage();
-
-   dltDmGreen = 0.0;
-   dmRetranslocate = 0.0;
-   dltNRetranslocate = 0.0;
-   dltNGreen = 0.0;
    }
 //------------------------------------------------------------------------------------------------
 //------- react to a phenology event

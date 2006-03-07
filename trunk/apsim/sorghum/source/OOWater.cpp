@@ -80,6 +80,7 @@ void Water::initialize(void)
    totalUptake = 0.0;
    AccTotalSupply = 0.0;
    ep = 0.0;
+   swDemand = 0.0;
    }
 //------------------------------------------------------------------------------------------------
 //------ read Water parameters
