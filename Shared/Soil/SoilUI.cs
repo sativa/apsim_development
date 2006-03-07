@@ -118,6 +118,8 @@ namespace CSGeneral
 			this.AddCropMenuItem = new System.Windows.Forms.MenuItem();
 			this.DeleteCropMenuItem = new System.Windows.Forms.MenuItem();
 			this.ReorderCropsMenuItem = new System.Windows.Forms.MenuItem();
+			this.menuItem2 = new System.Windows.Forms.MenuItem();
+			this.CheckSoilMenuItem = new System.Windows.Forms.MenuItem();
 			this.menuItem1 = new System.Windows.Forms.MenuItem();
 			this.PrintMenuItem = new System.Windows.Forms.MenuItem();
 			this.General = new FarPoint.Win.Spread.SheetView();
@@ -135,8 +137,6 @@ namespace CSGeneral
 			this.label1 = new System.Windows.Forms.Label();
 			this.GravimetricCheck = new System.Windows.Forms.RadioButton();
 			this.VolumetricCheck = new System.Windows.Forms.RadioButton();
-			this.CheckSoilMenuItem = new System.Windows.Forms.MenuItem();
-			this.menuItem2 = new System.Windows.Forms.MenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.General)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.Water)).BeginInit();
@@ -205,6 +205,17 @@ namespace CSGeneral
 			this.ReorderCropsMenuItem.Index = 2;
 			this.ReorderCropsMenuItem.Text = "&Reorder crops";
 			this.ReorderCropsMenuItem.Click += new System.EventHandler(this.ReorderCropsMenuItem_Click);
+			// 
+			// menuItem2
+			// 
+			this.menuItem2.Index = 3;
+			this.menuItem2.Text = "-";
+			// 
+			// CheckSoilMenuItem
+			// 
+			this.CheckSoilMenuItem.Index = 4;
+			this.CheckSoilMenuItem.Text = "&Check soil for errors";
+			this.CheckSoilMenuItem.Click += new System.EventHandler(this.CheckSoilMenuItem_Click);
 			// 
 			// menuItem1
 			// 
@@ -635,17 +646,6 @@ namespace CSGeneral
 			this.VolumetricCheck.TabStop = true;
 			this.VolumetricCheck.Text = "Volumetric %";
 			this.VolumetricCheck.Click += new System.EventHandler(this.VolGravChecked);
-			// 
-			// CheckSoilMenuItem
-			// 
-			this.CheckSoilMenuItem.Index = 4;
-			this.CheckSoilMenuItem.Text = "&Check soil for errors";
-			this.CheckSoilMenuItem.Click += new System.EventHandler(this.CheckSoilMenuItem_Click);
-			// 
-			// menuItem2
-			// 
-			this.menuItem2.Index = 3;
-			this.menuItem2.Text = "-";
 			// 
 			// SoilUI
 			// 
