@@ -726,7 +726,7 @@
       <UItype>area</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <Documentation name="Science documentation">../apsim/tcllink/docs/tcllink_science.htm</Documentation>
+      <Documentation name="Science documentation">../apsim/tcllink/docs/farmmanager_science.htm</Documentation>
       <LargeIcon>Images\manager32.png</LargeIcon>
       <SmallIcon>Images\manager16.png</SmallIcon>
       <drops>
@@ -760,7 +760,7 @@
       <UItype>area</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <Documentation name="Science documentation">../apsim/tcllink/docs/tcllink_science.htm</Documentation>
+      <Documentation name="Science documentation">../apsim/tcllink/docs/farmmanager_science.htm</Documentation>
       <LargeIcon>Images\manager32.png</LargeIcon>
       <SmallIcon>Images\manager16.png</SmallIcon>
       <drops>
@@ -2033,95 +2033,6 @@
       </ApsimToSim>
    </wheat>
 
-   <TropicalPasture>
-      <UItype>empty</UItype>
-      <IsCrop>Yes</IsCrop>
-      <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\ApsimUI\Graphics\TropicalPasture.jpg</Image>
-      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
-      <Documentation name="Grasp science documentation">../apsim/wheat/docs/wheat_science.htm</Documentation>
-      <LargeIcon>Images\leaf32.bmp</LargeIcon>
-      <SmallIcon>Images\leaf16.bmp</SmallIcon>
-      <drops>
-         <drop name="toolbox"/>
-         <drop name="area"/>
-         <drop name="simulation"/>
-         <drop name="folder"/>
-     </drops>
-     <variables>
-         <variable name="crop_status"      description="Status of crop: alive, dead or out"/>
-         <variable name="stage"            description="Phenological stage of crop"/>
-         <variable name="stage_code"       description="Numeric code of phenologic stage"/>
-         <variable name="stage_name"       description="Name of phenologic stage"/>
-         <variable name="height"           description="Height of sward (mm)"/>
-         <variable name="cover_tot"        description="Cover of leaf &amp; stem"/>
-         <variable name="green_cover"      description="Cover of live leaf &amp; stem"/>
-         <variable name="cover_green"      description="Cover of live leaf &amp; stem"/>
-         <variable name="radn_cover"       description="Cover used in radiation interception equation"/>
-         <variable name="transp_cover"     description="Cover used in transpiration equation"/>
-         <variable name="clothesline"      description="Clothesline effect"/>
-         <variable name="tfact"            description="Temperature factor"/>
-         <variable name="nfact"            description="Nitrogen factor"/>
-         <variable name="vpd_estimation"   description="Estimation of vpd"/>
-         <variable name="tsdm"             description="Total Standing Dry matter (kg/ha)"/>
-         <variable name="root_depth"       description="Depth of roots (mm)"/>
-         <variable name="green_root"       description="Weight of live roots (kg/ha)"/>
-         <variable name="green_leaf"       description="Weight of live leaves (kg/ha)"/>
-         <variable name="green_stem"       description="Weight of live stem (kg/ha)"/>
-         <variable name="green_pool"       description="Weight of live material (kg/ha)"/>
-         <variable name="dead_pool"        description="Weight of dead material (kg/ha)"/>
-         <variable name="dead_root"        description="Weight of dead roots (kg/ha)"/>
-         <variable name="dead_leaf"        description="Weight of dead leaves (kg/ha)"/>
-         <variable name="dead_stem"        description="Weight of dead stem (kg/ha)"/>
-         <variable name="detachment"       description="Weight detached material (kg/ha)"/>
-         <variable name="basal_area"       description="Basal area of tussocks (%)"/>
-         <variable name="acc_growth"       description="Cumulative growth this season (kg/ha)"/>
-         <variable name="ep"               description="Water uptake (mm)"/>
-         <variable name="sw_uptake"        description="Water uptake per layer (mm)"/>
-         <variable name="sw_pot"           description="Potential water uptake from the sward (mm)"/>
-         <variable name="growth"           description="Daily growth of sward (kg/ha)"/>
-         <variable name="growth_transp"    description="Potential growth by transpiration (kg/ha)"/>
-         <variable name="growth_photo"     description="Potential growth by photosynthesis (kg/ha)"/>
-         <variable name="growth_regrowth"  description="Potential growth by regrowth (kg/ha)"/>
-         <variable name="death"            description="Daily death (kg/ha)"/>
-         <variable name="death_frost"      description="Death by frost (kg/ha)"/>
-         <variable name="death_frost_leaf" description="Death of leaf by frost (kg/ha)"/>
-         <variable name="death_frost_stem" description="Death of stem by frost (kg/ha)"/>
-         <variable name="death_water"      description="Death by water stress (kg/ha)"/>
-         <variable name="death_water_leaf" description="Death of leaf by water stress (kg/ha)"/>
-         <variable name="death_water_stem" description="Death of stem by water stress (kg/ha)"/>
-         <variable name="death_pheno"      description="Death by phenological process (age) (kg/ha)"/>
-         <variable name="death_pheno_leaf" description="Death of leaf by phenological process (age) (kg/ha)"/>
-         <variable name="death_pheno_stem" description="Death of leaf by phenological process (age) (kg/ha)"/>
-         <variable name="sw_demand"        description="Demand of water (mm)"/>
-         <variable name="n_uptake"         description="Uptake of N (kg/ha)"/>
-         <variable name="n_index"          description="Index of N stress (0-1)"/>
-         <variable name="rad_index"        description="Index of radiation (ie lack of) stress (0-1)" />
-         <variable name="sw_index"         description="Index of SW stress (0-1)"/>
-         <variable name="swi"              description="Soil Water Index ()"/>
-         <variable name="temp_index"       description="Photosynthetic reduction factor for temperature stress (0-1)"/>
-         <variable name="growth_index"     description="Product of temperature, radiation &amp; SW indices ()"/>
-         <variable name="transp_eff_adj"   description="today's transpiration efficiency (kg dm/m^2/mm water)"/>
-         <variable name="vpd_hgt_ndx"      description="height adjusted vpd"/>
-         <variable name="rlv"              description="Root length volume"/>
-         <variable name="max_n_avail"      description="Max N available per layer"/>
-     </variables>
-      <ApsimToSim>
-         <type>component</type>
-         <dll>%apsuite\apsim\grasp\lib\grasp.dll</dll>
-         <ini>%apsuite\apsim\grasp\grasp.ini</ini>
-         <sim>
-            <max_n_avail_dist>[foreach sc.layer as l] [l.max_n_avail_dist][endfor]</max_n_avail_dist>
-         </sim>
-         <calldll>
-            <dll>%apsuite\bin\soil.dll</dll>
-            <class>CSGeneral.Soil</class>
-            <method>ExportCropToSim</method>
-            <ConstructorArgument>soil</ConstructorArgument>
-            <argument>TropicalPasture</argument>
-         </calldll>
-      </ApsimToSim>
-   </TropicalPasture>
 
    <accum>
       <UItype>generic</UItype>
