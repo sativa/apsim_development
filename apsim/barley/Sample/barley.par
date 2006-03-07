@@ -159,7 +159,7 @@ end_date=17/11/1988     ! dd/mm/yyyy
 [sample.manager.start_of_day]
 
 if day = 169 and year = 1988 then
-   barley sow cultivar = strzelecki, plants = 120, sowing_depth = 30 (mm)
+   barley sow cultivar = skiff, plants = 120, sowing_depth = 30 (mm)
 endif
 
 if barley.stage_name = 'harvest_ripe' or barley.plant_status = 'dead' then
