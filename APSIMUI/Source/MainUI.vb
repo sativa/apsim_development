@@ -941,7 +941,7 @@ Public Class MainUI
         Dim toolboxes As New Toolboxes
         Dim filename As String = toolboxes.NameToFileName(ToolBoxName)
         ToolboxExplorer.ExpandAll = False
-        Toolbox.FileOpenReadOnly(filename)
+        Toolbox.FileOpen(filename)
     End Sub
 
     Private Sub HideToolBoxWindow()
