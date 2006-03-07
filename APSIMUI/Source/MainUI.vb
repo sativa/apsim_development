@@ -105,7 +105,6 @@ Public Class MainUI
     Friend WithEvents ToolboxesToolbarPanel As System.Windows.Forms.Panel
     Friend WithEvents Panel3 As System.Windows.Forms.Panel
     Friend WithEvents ToolboxLabel As System.Windows.Forms.Label
-    Friend WithEvents OpenToolboxButton As System.Windows.Forms.ToolBarButton
     Friend WithEvents Splitter3 As System.Windows.Forms.Splitter
     Friend WithEvents HelpPanel As System.Windows.Forms.Panel
     Friend WithEvents HelpToolBar As System.Windows.Forms.ToolBar
@@ -177,7 +176,6 @@ Public Class MainUI
         Me.Splitter3 = New System.Windows.Forms.Splitter
         Me.Panel3 = New System.Windows.Forms.Panel
         Me.ToolBoxToolBar = New System.Windows.Forms.ToolBar
-        Me.OpenToolboxButton = New System.Windows.Forms.ToolBarButton
         Me.ManageToolBoxesButton = New System.Windows.Forms.ToolBarButton
         Me.ToolboxLabel = New System.Windows.Forms.Label
         Me.MainToolBar = New Xceed.SmartUI.Controls.ToolBar.SmartToolBar(Me.components)
@@ -327,7 +325,7 @@ Public Class MainUI
         '
         Me.Splitter7.BackColor = System.Drawing.Color.LightGray
         Me.Splitter7.Enabled = False
-        Me.Splitter7.Location = New System.Drawing.Point(328, 0)
+        Me.Splitter7.Location = New System.Drawing.Point(274, 0)
         Me.Splitter7.Name = "Splitter7"
         Me.Splitter7.Size = New System.Drawing.Size(1, 71)
         Me.Splitter7.TabIndex = 27
@@ -335,13 +333,14 @@ Public Class MainUI
         '
         'HelpPanel
         '
+        Me.HelpPanel.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.HelpPanel.BackColor = System.Drawing.Color.Transparent
         Me.HelpPanel.Controls.Add(Me.HelpToolBar)
         Me.HelpPanel.Controls.Add(Me.HelpLabel)
-        Me.HelpPanel.Dock = System.Windows.Forms.DockStyle.Left
         Me.HelpPanel.Location = New System.Drawing.Point(274, 0)
         Me.HelpPanel.Name = "HelpPanel"
-        Me.HelpPanel.Size = New System.Drawing.Size(54, 71)
+        Me.HelpPanel.Size = New System.Drawing.Size(358, 71)
         Me.HelpPanel.TabIndex = 26
         '
         'HelpToolBar
@@ -355,7 +354,7 @@ Public Class MainUI
         Me.HelpToolBar.Location = New System.Drawing.Point(0, 20)
         Me.HelpToolBar.Name = "HelpToolBar"
         Me.HelpToolBar.ShowToolTips = True
-        Me.HelpToolBar.Size = New System.Drawing.Size(54, 48)
+        Me.HelpToolBar.Size = New System.Drawing.Size(358, 48)
         Me.HelpToolBar.TabIndex = 16
         '
         'ApsimHelpButton
@@ -371,7 +370,7 @@ Public Class MainUI
         Me.HelpLabel.ForeColor = System.Drawing.Color.White
         Me.HelpLabel.Location = New System.Drawing.Point(0, 0)
         Me.HelpLabel.Name = "HelpLabel"
-        Me.HelpLabel.Size = New System.Drawing.Size(54, 20)
+        Me.HelpLabel.Size = New System.Drawing.Size(358, 20)
         Me.HelpLabel.TabIndex = 15
         Me.HelpLabel.Text = "Help"
         Me.HelpLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -510,7 +509,7 @@ Public Class MainUI
         '
         Me.Splitter3.BackColor = System.Drawing.Color.LightGray
         Me.Splitter3.Enabled = False
-        Me.Splitter3.Location = New System.Drawing.Point(224, 0)
+        Me.Splitter3.Location = New System.Drawing.Point(0, 0)
         Me.Splitter3.Name = "Splitter3"
         Me.Splitter3.Size = New System.Drawing.Size(1, 71)
         Me.Splitter3.TabIndex = 21
@@ -518,19 +517,20 @@ Public Class MainUI
         '
         'Panel3
         '
+        Me.Panel3.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel3.BackColor = System.Drawing.Color.Transparent
         Me.Panel3.Controls.Add(Me.ToolBoxToolBar)
         Me.Panel3.Controls.Add(Me.ToolboxLabel)
-        Me.Panel3.Dock = System.Windows.Forms.DockStyle.Left
         Me.Panel3.Location = New System.Drawing.Point(0, 0)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(224, 71)
+        Me.Panel3.Size = New System.Drawing.Size(632, 71)
         Me.Panel3.TabIndex = 22
         '
         'ToolBoxToolBar
         '
         Me.ToolBoxToolBar.Appearance = System.Windows.Forms.ToolBarAppearance.Flat
-        Me.ToolBoxToolBar.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.OpenToolboxButton, Me.ManageToolBoxesButton})
+        Me.ToolBoxToolBar.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.ManageToolBoxesButton})
         Me.ToolBoxToolBar.Divider = False
         Me.ToolBoxToolBar.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolBoxToolBar.DropDownArrows = True
@@ -538,16 +538,8 @@ Public Class MainUI
         Me.ToolBoxToolBar.Location = New System.Drawing.Point(0, 20)
         Me.ToolBoxToolBar.Name = "ToolBoxToolBar"
         Me.ToolBoxToolBar.ShowToolTips = True
-        Me.ToolBoxToolBar.Size = New System.Drawing.Size(224, 48)
+        Me.ToolBoxToolBar.Size = New System.Drawing.Size(632, 48)
         Me.ToolBoxToolBar.TabIndex = 16
-        '
-        'OpenToolboxButton
-        '
-        Me.OpenToolboxButton.DropDownMenu = Me.toolBoxContextMenu
-        Me.OpenToolboxButton.ImageIndex = 19
-        Me.OpenToolboxButton.Style = System.Windows.Forms.ToolBarButtonStyle.DropDownButton
-        Me.OpenToolboxButton.Text = "&Open toolbox"
-        Me.OpenToolboxButton.ToolTipText = "Open a toolbox"
         '
         'ManageToolBoxesButton
         '
@@ -562,7 +554,7 @@ Public Class MainUI
         Me.ToolboxLabel.ForeColor = System.Drawing.Color.White
         Me.ToolboxLabel.Location = New System.Drawing.Point(0, 0)
         Me.ToolboxLabel.Name = "ToolboxLabel"
-        Me.ToolboxLabel.Size = New System.Drawing.Size(224, 20)
+        Me.ToolboxLabel.Size = New System.Drawing.Size(632, 20)
         Me.ToolboxLabel.TabIndex = 15
         Me.ToolboxLabel.Text = "Toolbox"
         Me.ToolboxLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -735,7 +727,7 @@ Public Class MainUI
 
         CreateRecentFileListMenu()
 
-        PopulateToolBoxContextMenu()
+        ConstructToolBoxToolBar()
         SetFunctionality()
     End Sub
 
@@ -826,6 +818,9 @@ Public Class MainUI
 
     Private Sub ToolBar_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles SimulationToolBar1.ButtonClick, SimulationToolBar2.ButtonClick, HelpToolBar.ButtonClick, ToolBoxToolBar.ButtonClick
         'Catch which button on the toolboar the user clicked.
+        'Please Note: To catch user defined toolbox button events its code is in the 'else'
+        'section of the parent 'if' statement.  an 'exit sub' statement must be added to all
+        'preceeding if statements.
 
         'Run button
         If e.Button Is RunButton Then
@@ -836,25 +831,15 @@ Public Class MainUI
 
             End Try
 
-
             'APSIM Help Button
         ElseIf e.Button Is ApsimHelpButton Then
             Dim HelpURL As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "docfile")
             ApsimUI.ShowHelp(HelpURL)
 
-            'Open Toolbox Button
-        ElseIf e.Button Is OpenToolboxButton Then
-
-            Dim xy As New System.Drawing.Point( _
-                Me.OpenToolboxButton.Rectangle.Left, _
-                Me.OpenToolboxButton.Rectangle.Top + Me.OpenToolboxButton.Rectangle.Height)
-
-            Me.OpenToolboxButton.DropDownMenu.GetContextMenu.Show(Me.ToolBoxToolBar, xy)
-
         ElseIf e.Button Is ManageToolBoxesButton Then
             Dim Form As New OptionsForm
             Form.ShowDialog(Me)
-            PopulateToolBoxContextMenu()
+            ConstructToolBoxToolBar()
 
             'The Output File Export buttons (Excel, Graph and APSIM Outlook)
         ElseIf e.Button Is ExcelToolBarButton Or _
@@ -894,9 +879,14 @@ Public Class MainUI
 
             End Select
 
+            ' User has selected a user defined toolbox button on the toolboxes toolbar (read it again slowly :-)
+        ElseIf e.Button.Tag = "User Defined" Then
+            ShowToolBoxWindow(e.Button.Text)
+
         End If
 
     End Sub
+
 
     Private Function ComposeOutputFileCommandLineArgs(ByVal OutputFiles As System.Collections.Specialized.StringCollection) As String
         'formats a collection of output file paths into a single comma delimited string
@@ -914,21 +904,76 @@ Public Class MainUI
 #End Region
 
 #Region "Toolbox methods"
-    Private Sub PopulateToolBoxContextMenu()
+
+    Private Sub ConstructToolBoxToolBar()
+        'Create a toolbar button for each toolbox.
+
+        'Remove user defined buttons first
+        For Each button As Windows.Forms.ToolBarButton In GetUserDefinedButtons(Me.ToolBoxToolBar.Buttons)
+            Me.ToolBoxToolBar.Buttons.Remove(button)
+
+        Next
+
+        'then reset the list of user defined toolboxes.
         Try
             Dim toolboxes As New Toolboxes
-            toolBoxContextMenu.MenuItems.Clear()
-            For Each Filename As String In toolboxes.Names
-                Dim Item As New MenuItem(Filename)
-                AddHandler Item.Click, AddressOf OnToolBoxClick
-                toolBoxContextMenu.MenuItems.Add(Item)
+
+            For Each FileName As String In toolboxes.Names
+                Dim apsimData As New VBGeneral.APSIMData
+                Dim toolBoxPath As String = toolboxes.NameToFileName(FileName)
+
+                apsimData.LoadFromFile(toolBoxPath)
+
+                Dim image As String = apsimData.Attribute("image")
+                Dim item As New Windows.Forms.ToolBarButton(FileName)
+                item.Tag = "User Defined"
+
+                ' If a predefined image has been given then attempt to add it.  Otherwise
+                ' use the default image in the images directory under the root.
+                If System.IO.File.Exists(image) Then
+                    Me.ToolBoxToolBar.ImageList.Images.Add( _
+                        New System.Drawing.Bitmap(image))
+
+                    item.ImageIndex = Me.ToolBoxToolBar.ImageList.Images.Count() - 1
+
+                Else
+                    Dim alternateImage As String = System.IO.Directory.GetParent(Environment.CurrentDirectory).FullName & "\ApsimUI\Images\toolbox.png"
+
+                    If System.IO.File.Exists(alternateImage) Then
+                        Me.ToolBoxToolBar.ImageList.Images.Add(New System.Drawing.Bitmap(alternateImage))
+                        item.ImageIndex = Me.ToolBoxToolBar.ImageList.Images.Count() - 1
+                    End If
+
+
+                    End If
+
+                    Me.ToolBoxToolBar.Buttons.Add(item)
+
             Next
+
         Catch e As System.Exception
             MsgBox(e.Message, MsgBoxStyle.Critical, "Error building tool box menus")
         End Try
+
     End Sub
 
+    Private Function GetUserDefinedButtons(ByVal buttonArray As Windows.Forms.ToolBar.ToolBarButtonCollection) As _
+                            System.Collections.ArrayList
+        'Iterates through given button array finding those with the tag of "User Defined"
+
+        Dim userDefinedButtons As New System.Collections.ArrayList
+
+        For Each button As Windows.Forms.ToolBarButton In buttonArray
+            If button.Tag = "User Defined" Then userDefinedButtons.Add(button)
+
+        Next
+
+        Return userDefinedButtons
+
+    End Function
     Private Sub ShowToolBoxWindow(ByVal ToolBoxName As String)
+        'Display the given ToolBoxName in the toolbox panel at
+
         Dim inifile As New APSIMSettings
         ToolBoxPanel.Height = Val(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "toolboxheight"))
         ToolBoxPanel.Height = ToolBoxPanel.Height - 1
