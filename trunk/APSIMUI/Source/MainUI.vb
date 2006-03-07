@@ -862,15 +862,24 @@ Public Class MainUI
                             e.Button Is ApsimOutlookButton Then
 
             Dim arrFiles As StringCollection = GetAllOutputFiles(ApsimUI.AllData)
-            Dim frmOutput As New OutputFileExport(arrFiles)
 
-            ' Quit routine if user chose "Cancel" or did not select any output files from the dialog
-            ' box list
-            If frmOutput.ShowDialog(Me) = DialogResult.Cancel Or frmOutput.SelectedOutputFiles.Count <= 0 Then
-                Exit Sub
+
+            'Only show export screen if more than one output file
+            If arrFiles.Count > 1 Then
+                Dim frmOutput As New OutputFileExport(arrFiles)
+
+                ' Quit routine if user chose "Cancel" or did not select any output files from the dialog
+                ' box list
+                If frmOutput.ShowDialog(Me) = DialogResult.Cancel Or frmOutput.SelectedOutputFiles.Count <= 0 Then
+                    Exit Sub
+
+                End If
+
+                arrFiles = frmOutput.SelectedOutputFiles
+
             End If
 
-            Dim OutputFileList As String = ComposeOutputFileCommandLineArgs(frmOutput.SelectedOutputFiles)
+            Dim OutputFileList As String = ComposeOutputFileCommandLineArgs(arrFiles)
 
             Select Case e.Button.Text
 
@@ -918,6 +927,7 @@ Public Class MainUI
             MsgBox(e.Message, MsgBoxStyle.Critical, "Error building tool box menus")
         End Try
     End Sub
+
     Private Sub ShowToolBoxWindow(ByVal ToolBoxName As String)
         Dim inifile As New APSIMSettings
         ToolBoxPanel.Height = Val(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "toolboxheight"))
