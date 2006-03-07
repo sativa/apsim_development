@@ -793,6 +793,7 @@
       <drops>
          <drop name="manager"/>
          <drop name="StockScienceConverter"/>
+         <drop name="barley"/>
          <drop name="canola"/>
          <drop name="chickpea"/>
          <drop name="cowpea"/>
@@ -2027,6 +2028,36 @@
       </ApsimToSim>
    </wheat>
 
+   <barley>
+      <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\barley.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Barley science documentation">../apsim/barley/docs/barley_science.htm</Documentation>
+      <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables link="plant.xml"/>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
+         <ini>%apsuite\apsim\barley\barley.ini</ini>
+         <calldll>
+            <dll>%apsuite\bin\soil.dll</dll>
+            <class>CSGeneral.Soil</class>
+            <method>ExportCropToSim</method>
+            <ConstructorArgument>soil</ConstructorArgument>
+            <argument>barley</argument>
+         </calldll>
+      </ApsimToSim>
+   </barley>
 
    <accum>
       <UItype>generic</UItype>
