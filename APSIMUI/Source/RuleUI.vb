@@ -191,7 +191,7 @@ Public Class RuleUI
 
         'stop editing the current cell before the save is called.  NullReferenceException is thrown when 
         'user moves from node in the tree to another without editing.
-        If Not IsNothing(Me.FpSpread1.ActiveSheet.ActiveCell.Editor) Then
+        If Not IsNothing(Me.FpSpread1.ActiveSheet.ActiveCell) AndAlso Not IsNothing(Me.FpSpread1.ActiveSheet.ActiveCell.Editor) Then
             Me.FpSpread1.ActiveSheet.ActiveCell.Editor.StopEditing()
 
         End If
