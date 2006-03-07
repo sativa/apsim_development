@@ -129,13 +129,21 @@ Public Class EmptyUI
         Me.HelpText = "This module does not have any editable properties."
         Dim inifile As New APSIMSettings
         Dim UIManager As ApsimUIController = Controller
-        Dim imagefile As String = UIManager.ImageFileForType(Controller.Data.Type)
-        PictureBox.Image = Image.FromFile(imagefile)
+
         Try
             Label1.Text = UIManager.DescriptionForType(Controller.Data.Type)
         Catch ex As System.Exception
             ' Don't update label.
         End Try
+
+        Dim imagefile As String = UIManager.ImageFileForType(Controller.Data.Type)
+        If System.IO.File.Exists(imagefile) Then
+            PictureBox.Image = Image.FromFile(imagefile)
+        Else
+            PictureBox.Image = Nothing
+        End If
+
+
     End Sub
 
     Private Sub DocumentationLink_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles DocumentationLink.LinkClicked
