@@ -853,7 +853,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
          <stem_reloc description="stem_reloc (kg/ha)">0.0</stem_reloc>
          <frosts>0</frosts>
 
-         <FarmwisePastureGreenHerbage name="Herbage">
+         <FarmwisePastureGreenHerbage name="Herbage1">
             <dmd description="dmd (kg/kg)">0.825</dmd>
             <weight description="weight (kg/ha)">8000.0</weight>
             <n_conc description="n_conc (kg/kg)"></n_conc>
@@ -863,7 +863,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
             <root_wt description="root_wt (kg/ha)">3600.0</root_wt>
          </FarmwisePastureGreenHerbage>
 
-         <FarmwisePastureGreenHerbage name="Herbage">
+         <FarmwisePastureGreenHerbage name="Herbage2">
             <dmd description="dmd (kg/kg)">0.825</dmd>
             <weight description="weight (kg/ha)">1000.0</weight>
             <n_conc description="n_conc (kg/kg)"></n_conc>
@@ -873,9 +873,9 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
             <root_wt description="root_wt (kg/ha)">0.0</root_wt>
          </FarmwisePastureGreenHerbage>
       </FarmwisePastureGreen>
-      <FarmwisePastureDry name="Dry">
+      <FarmwisePastureDry name="Dry1">
          <status>dead</status>
-         <FarmwisePastureDryHerbage name="Herbage">
+         <FarmwisePastureDryHerbage name="Herbage1">
             <dmd description="dmd (kg/kg)">0.65</dmd>
             <weight description="weight (kg/ha)">500.0</weight>
             <n_conc description="n_conc (kg/kg)"></n_conc>
@@ -883,7 +883,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
             <s_conc description="s_conc (kg/kg)"></s_conc>
             <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
          </FarmwisePastureDryHerbage>
-         <FarmwisePastureDryHerbage name="Herbage">
+         <FarmwisePastureDryHerbage name="Herbage2">
             <dmd description="dmd (kg/kg)">0.425</dmd>
             <weight description="weight (kg/ha)">100.0</weight>
             <n_conc description="n_conc (kg/kg)"></n_conc>
@@ -892,9 +892,9 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
             <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
          </FarmwisePastureDryHerbage>
       </FarmwisePastureDry>
-      <FarmwisePastureDry name="Dry">
+      <FarmwisePastureDry name="Dry2">
          <status>litter</status>
-         <FarmwisePastureDryHerbage name="Herbage">
+         <FarmwisePastureDryHerbage name="Herbage1">
             <dmd description="dmd (kg/kg)">0.651</dmd>
             <weight description="weight (kg/ha)">233.0</weight>
             <n_conc description="n_conc (kg/kg)"></n_conc>
@@ -902,7 +902,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
             <s_conc description="s_conc (kg/kg)"></s_conc>
             <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
          </FarmwisePastureDryHerbage>
-         <FarmwisePastureDryHerbage name="Herbage">
+         <FarmwisePastureDryHerbage name="Herbage2">
             <dmd description="dmd (kg/kg)">0.0</dmd>
             <weight description="weight (kg/ha)">0.0</weight>
             <n_conc description="n_conc (kg/kg)"></n_conc>
