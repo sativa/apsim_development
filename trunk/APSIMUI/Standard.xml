@@ -1,62 +1,343 @@
-<folder name="Standard Toolbox">
-  <memo></memo>
-  <bore name="bore">
-    <max_available_water>100</max_available_water>
-    <init_available_water>50</init_available_water>
-    <max_pump>10</max_pump>
-    <min_volume>2</min_volume>
-    <annual_allocation>100</annual_allocation>
-    <allocation_renewal_day>180</allocation_renewal_day>
-    <init_salt_conc>704.0</init_salt_conc>
-  </bore>
-  <channel name="channel">
-    <max_available_water>100</max_available_water>
-    <init_available_water>50</init_available_water>
-    <max_pump>10</max_pump>
-    <min_volume>2</min_volume>
-    <annual_allocation>100</annual_allocation>
-    <allocation_renewal_day>180</allocation_renewal_day>
-    <init_salt_conc>704.0</init_salt_conc>
-  </channel>
-  <dam name="dam">
-    <source_type>dam_gully</source_type>
-    <max_available_water>100</max_available_water>
-    <max_area>5</max_area>
-    <init_available_water>50</init_available_water>
-    <max_pump>10</max_pump>
-    <min_volume>2</min_volume>
-    <permeability>0.00007</permeability>
-    <seal_thickness>0.5</seal_thickness>
-    <receive_catchment_runoff>no</receive_catchment_runoff>
-    <receive_crop_runoff>no</receive_crop_runoff>
-    <init_salt_conc>704.0</init_salt_conc>
-    <receive_catchment_runoff>no</receive_catchment_runoff>
-    <catchment_area>50.0</catchment_area>
-    <catchment_runoff_factor>0.5</catchment_runoff_factor>
-    <receive_crop_runoff>yes</receive_crop_runoff>
-    <runoff_salt_conc>700.0</runoff_salt_conc>
-    <rainfall_salt_conc>20.0</rainfall_salt_conc>
-  </dam>
-  <soilwatkludge name="soilwatkludge">
-    <mwcon>1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0</mwcon>
-    <max_pond>100</max_pond>
-  </soilwatkludge>
-  <solute name="solute">
-    <solute_names>salt</solute_names>
-    <salt>491 62 1490 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000</salt>
-  </solute>
-  <area name="paddock">
-    <registrations name="global" />
-  </area>
-  <folder name="folder">
+<folder name="Standard Toolbox" image="Images/folder_window.png">
+  <folder name="Structural">
+   <memo></memo>
+   <folder name="folder">
+   </folder>
+   <folder name="shared">
+   </folder>
+   <area name="paddock">
+     <registrations name="global" />
+   </area>
+  </folder> 
+  <folder name="Crops">
+    <barley />
+    <bambatsi />
+    <broccoli />
+    <canola />
+    <chickpea />
+    <cowpea />
+    <egrandis />
+    <fababean />
+    <FarmwisePasture>
+        <species>Perennial Ryegrass</species>
+        <nutrients></nutrients>
+        <fertility>0.75</fertility>
+        <max_rtdep description="Maximum rooting depth (mm)">250.0</max_rtdep>
+        <lagged_day_t description="lagged_day_t (oC)">-999.9</lagged_day_t>
+        <phenology>1.005</phenology>
+        <flower_len description="flower_len (d)">0.0</flower_len>
+        <flower_time description="flower_time (d)">0.0</flower_time>
+        <senc_index description="senc_index (d)">0.0</senc_index>
+        <dorm_index description="dorm_index (d)">0.0</dorm_index>
+        <dorm_t description="dorm_t (oc)">-999.9</dorm_t>
+        <FarmwisePastureGreen name="Green">
+           <status>established</status>
+           <rt_dep description="rt_dep (mm)">100.0</rt_dep>
+           <estab_index>0.0</estab_index>
+           <stress_index>0.0</stress_index>
+           <stem_reloc description="stem_reloc (kg/ha)">0.0</stem_reloc>
+           <frosts>0</frosts>
+  
+           <FarmwisePastureGreenHerbage name="Herbage1">
+              <dmd description="dmd (kg/kg)">0.825</dmd>
+              <weight description="weight (kg/ha)">8000.0</weight>
+              <n_conc description="n_conc (kg/kg)"></n_conc>
+              <p_conc description="p_conc (kg/kg)"></p_conc>
+              <s_conc description="s_conc (kg/kg)"></s_conc>
+              <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
+              <root_wt description="root_wt (kg/ha)">3600.0</root_wt>
+           </FarmwisePastureGreenHerbage>
+  
+           <FarmwisePastureGreenHerbage name="Herbage2">
+              <dmd description="dmd (kg/kg)">0.825</dmd>
+              <weight description="weight (kg/ha)">1000.0</weight>
+              <n_conc description="n_conc (kg/kg)"></n_conc>
+              <p_conc description="p_conc (kg/kg)"></p_conc>
+              <s_conc description="s_conc (kg/kg)"></s_conc>
+              <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
+              <root_wt description="root_wt (kg/ha)">0.0</root_wt>
+           </FarmwisePastureGreenHerbage>
+        </FarmwisePastureGreen>
+        <FarmwisePastureDry name="Dry1">
+           <status>dead</status>
+           <FarmwisePastureDryHerbage name="Herbage1">
+              <dmd description="dmd (kg/kg)">0.65</dmd>
+              <weight description="weight (kg/ha)">500.0</weight>
+              <n_conc description="n_conc (kg/kg)"></n_conc>
+              <p_conc description="p_conc (kg/kg)"></p_conc>
+              <s_conc description="s_conc (kg/kg)"></s_conc>
+              <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
+           </FarmwisePastureDryHerbage>
+           <FarmwisePastureDryHerbage name="Herbage2">
+              <dmd description="dmd (kg/kg)">0.425</dmd>
+              <weight description="weight (kg/ha)">100.0</weight>
+              <n_conc description="n_conc (kg/kg)"></n_conc>
+              <p_conc description="p_conc (kg/kg)"></p_conc>
+              <s_conc description="s_conc (kg/kg)"></s_conc>
+              <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
+           </FarmwisePastureDryHerbage>
+        </FarmwisePastureDry>
+        <FarmwisePastureDry name="Dry2">
+           <status>litter</status>
+           <FarmwisePastureDryHerbage name="Herbage1">
+              <dmd description="dmd (kg/kg)">0.651</dmd>
+              <weight description="weight (kg/ha)">233.0</weight>
+              <n_conc description="n_conc (kg/kg)"></n_conc>
+              <p_conc description="p_conc (kg/kg)"></p_conc>
+              <s_conc description="s_conc (kg/kg)"></s_conc>
+              <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
+           </FarmwisePastureDryHerbage>
+           <FarmwisePastureDryHerbage name="Herbage2">
+              <dmd description="dmd (kg/kg)">0.0</dmd>
+              <weight description="weight (kg/ha)">0.0</weight>
+              <n_conc description="n_conc (kg/kg)"></n_conc>
+              <p_conc description="p_conc (kg/kg)"></p_conc>
+              <s_conc description="s_conc (kg/kg)"></s_conc>
+              <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
+           </FarmwisePastureDryHerbage>
+        </FarmwisePastureDry>
+        <FarmwisePastureSeeds name="Seeds">
+           <soft_unripe description="soft_unripe (kg/ha)"></soft_unripe>
+           <soft_ripe description="soft_ripe (kg/ha)"></soft_ripe>
+           <hard_unripe description="hard_unripe (kg/ha)"></hard_unripe>
+           <hard_ripe description="hard_ripe (kg/ha)"></hard_ripe>
+        </FarmwisePastureSeeds>
+       <seed_dorm_time description="seed_dorm_time (d)">0.0</seed_dorm_time>
+       <germ_index description="germ_index (d)">0.0</germ_index>
+    </FarmwisePasture>
+    <fieldpea />
+    <lablab />
+    <lucerne />
+    <lupin />
+    <maize />
+    <mucuna />
+    <mungbean />
+    <navybean />
+    <peanut />
+    <pigeonp />
+    <slurp name="slurp">
+      <type name="type">wheat</type>
+      <lai name="LAI">6.0</lai>
+      <laid name="LAId">0.5</laid>
+      <Kg name="Kg">0.5</Kg>
+      <Kd name="Kd">0.4</Kd>
+      <height name="height">1000.</height>
+      <Frgr name="Frgr">1.0</Frgr>
+    </slurp>
+    <sorghum />
+    <soybean />
+    <stylo />
+    <sugar />
+    <sunflower />
+    <SweetCorn />
+    <SweetSorghum />
+    <weed />
+    <wheat />
+    <ozcot />
+    <rice name="rice">
+      <estab>transplant</estab>
+      <sbdur>50</sbdur>
+      <nplh>10</nplh>
+      <nh>2</nh>
+      <nplsb>100</nplsb>
+      <nplds>180</nplds>
+    </rice>
+    <vinelogic name="vinelogic">
+     <data name="data"><![CDATA[*MODEL INPUT FILE            I     1    19     1     8
+*FILES
+MODEL          VInes950.exe
+FILEX
+FILEA
+FILET
+SPECIES
+ECOTYPE
+CULTIVAR       VInes950.CUL
+PESTS          VInes950.PST
+SOILS          SOIL.SOL
+WEATHER        MILD9501.wth
+OUTPUT         MILD95TEST
+*SIMULATION CONTROL
+&SwitchData
+INyrs=1
+Rep=1
+Isimi='S'
+Iyrsim=95001
+TitSim='GENERALISED SIMULATION RUN'
+IswWat = 'Y'
+ISWNIT='N'
+ISWSALT='Y'
+ISWPHO='N'
+ISWPOT='N'
+ISWDIS='N'
+MEWTH='M'
+MESIC='M'
+MELI='E'
+MEEVP='R'
+MEINF='S'
+MEPHO='C'
+IPLTI='R'
+IIRRI='A'
+IFERI='N'
+IRESI='N'
+IHARI='G'
+IOX='N'
+IDETO='Y'
+IDETS='Y'
+FROP = 1
+IDETG='Y'
+IDETC='N'
+IDETW='Y'
+IDETN='Y'
+IDETP='Y'
+IDETD='N'
+IDETL='Y'
+/
+!AUTOMATIC MANAGEM
+               94155 94200   40.  100.   30.   40.   10.
+                70.0  50.0 100.0     6 IR003   -99 1.00
+                 30.   50.   25. FE001 GS000
+                100.     1   20.
+                   0 94365  100.    0.
+*EXP.DETAILS
+               Mildura  - 1995 Cabernet Franc Tall  trellis  Row by vine 330*240cm
+*TREATMENTS
+  11 0 0
+*CULTIVARS
+   VI IB0013 PINOT NOIR
+*FIELDS
+&Fielddata
+Cslope=' 1.0'
+/
+*INITIAL CONDITIONS
+      VI 94001 1200.  -99.  1.00  1.00     0
+      2  0.237    .0    .0   .0
+      7  0.237    .0    .0   .0
+     15  0.237    .0    .0   .0
+     26  0.289    .0    .0   .0
+     40  0.289    .0    .0   .0
+     57  0.289    .0    .0   .0
+     77  0.288    .0    .0   .0
+    100  0.300    .0    .0   .0
+    125  0.300    .0    .0   .0
+    150  0.352    .0    .0   .0
+    200  0.352    .0    .0   .0
+    250  0.352    .0    .0   .0
+    325  0.352    .0    .0   .0
+    400  0.352    .0    .0   .0
+    500  0.352    .0    .0   .0
+
+*PLANTING DETAILS
+       0     0   0.0   0.0                0.    0.   0.0    0.    0.   0.0   0.0
+*VINEYARD
+&VinexData
+VineMstart=95001
+InCritVD= 30
+VineRowspc =3.3
+InterVineDist =2.4
+TrellisHt =2.
+TrellisWd =1.2
+BudnoVine =190.
+TrunkDiam = -99
+VineAge =12.0
+PruningSys='SPUR'
+TrellisSys='MINIM'
+CordonNum = -99
+CaneNum = -99
+Prunewt = .0
+VineResv =  .1
+TrelTrunWr = -99
+CanRetrnDate = -99
+NewtrellsWid = -99
+NewTrellsHgt = -99
+FruitThinDate = -99
+FruitRemPct = -99
+FruitEsSw = -99
+BunchNOvine = .0
+BerryBunch = .0
+/
+*HYDROLOGY
+&HydrolData
+TruDepWt =  2
+PiezInitial =  1.5
+BotBoundFlux = 0.001
+PiezoType = 'FIXED'
+WtType = 'FLOAT'
+URzSoilEc =    .5
+LRzSoilEc =    .5
+GroundWaterEc =  4
+Drained=.True.
+TileDepth = 1.8
+/
+*IRRIGATION
+    1.00  70.0  50.0 100.0     6 IR003   -99   0.2
+
+&IrrigData
+IrAutoDefMethod='SWDRIVEN'
+IrType=' 1'
+Iron(1)=.T.,.T.,.T.,.T.,.T.
+IrManDepth(1)= 57, 57, 57, 57, 57
+IrWaterEc(1)= .2, .2, .2, .2, .2
+IrCritSw(1)= 50, 50, 50, 50, 50
+IrRefillPer(1)= 100, 100, 100, 100, 100
+IrRetnPeriod(1)= 7, 7, 7, 7, 7
+IrStageCap(1)= 1000, 1000, 1000, 1000, 1000
+IrCumNetET(1)=0.0,0.0,0.0,0.0,0.0
+IrETIrrAmt(1)=0.0,0.0,0.0,0.0,0.0
+/
+*FERTILIZERS
+*RESIDUES
+*ENVIRONMENT
+*HARVEST
+   95074     7   -99   -99  -99.
+*SOIL
+*CS00390002  SCS         CLLO    151 UNKNOWN
+ MERBEIN     AUSTRALIA    -34.000  142.000 COOMEALLA ADJ LOAM
+ BN     0.13   9.3  0.20    76  1.00  1.00 IB001 IB001 IB001         5.0   5.0  20.0  150
+    2. A     0.109 0.237 0.376  1.00   20.0  1.48  1.20  16.7  44.0   2.1   -99   8.6 -99.0 -99.0   1.0
+    7. A     0.109 0.237 0.376  1.00   20.0  1.48  1.20  16.7  44.0   2.1   -99   8.6 -99.0 -99.0   1.0
+   15. A     0.109 0.237 0.376  1.00   20.0  1.48  1.20  16.7  44.0   2.1   -99   8.6 -99.0 -99.0   1.0
+   26. B     0.163 0.289 0.370  0.75    5.0  1.50  1.00  19.9  39.0   2.3   -99   9.0 -99.0 -99.0   0.8
+   40. B     0.163 0.289 0.370  0.75    5.0  1.50  1.00  19.9  39.0   2.3   -99   9.0 -99.0 -99.0   0.8
+   57. B     0.163 0.289 0.370  0.75    5.0  1.50  1.00  19.9  39.0   2.3   -99   9.0 -99.0 -99.0   0.8
+   77. B1    0.166 0.288 0.353  0.35    3.0  1.55  0.90  16.1  33.0   3.2   -99   9.1 -99.0 -99.0   0.4
+  100. B2    0.182 0.300 0.352  0.20    1.0  1.55  0.40  17.7  31.0   3.8   -99   9.1 -99.0 -99.0   0.4
+  125. B2    0.182 0.300 0.352  0.20    1.0  1.55  0.40  17.7  31.0   3.8   -99   9.1 -99.0 -99.0   0.4
+  150. BC    0.230 0.352 0.364  0.10    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
+  200. BC    0.230 0.352 0.364  0.00    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
+  250. BC    0.230 0.352 0.364  0.00    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
+  325. BC    0.230 0.352 0.364  0.00    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
+  400. BC    0.230 0.352 0.364  0.00    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
+  500. BC    0.230 0.352 0.364  0.00    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
+
+     2    .0    .0    .0    .0
+     7    .0    .0    .0    .0
+    15    .0    .0    .0    .0
+    26    .0    .0    .0    .0
+    40    .0    .0    .0    .0
+    57    .0    .0    .0    .0
+    77    .0    .0    .0    .0
+   100    .0    .0    .0    .0
+   125    .0    .0    .0    .0
+   150    .0    .0    .0    .0
+   200    .0    .0    .0    .0
+   250    .0    .0    .0    .0
+   325    .0    .0    .0    .0
+   400    .0    .0    .0    .0
+   500    .0    .0    .0    .0
+
+*CULTIVAR
+IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  0.60  1.80   1.0
+*ROOTSTOCK
+00000 VineLogic Rsk      5.    5.    5.    1.7  0.12   9.1 ]]></data>
+	<instance>1</instance>
+  </vinelogic>
   </folder>
-  <folder name="shared">
-  </folder>
-  <clock name="clock">
+
+  <clock name="Clock">
     <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1988</start_date>
     <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1988</end_date>
   </clock>
-  <outputfile name="outputfile">
+  <outputfile name="Outputfile">
     <filename name="filename">sample.out</filename>
     <outputfiledescription name="My Variables">
       <variables>
@@ -67,10 +348,10 @@
       </events>
     </outputfiledescription>
   </outputfile>
-  <summaryfile name="summaryfile">
+  <summaryfile name="Summaryfile">
     <filename name="filename">sample.sum</filename>
   </summaryfile>
-  <metfile name="metfile">
+  <metfile name="Metfile">
     <filename name="filename">%apsuite\apsim\met\sample\dalby.met</filename>
     <climatechange>
       <maxtmodifier description="Change in maximum temperature in degrees celsius">0.0</maxtmodifier>
@@ -80,9 +361,11 @@
       <co2 description="Atmospheric C02 concentration (ppm)">350</co2>
     </climatechange>
   </metfile>
-  <soi name="soi">
-    <filename>%apsuite\soi\phases.soi</filename>
-  </soi>
+  <soilwatkludge name="soilwatkludge">
+    <mwcon>1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0</mwcon>
+    <max_pond>100</max_pond>
+  </soilwatkludge>
+  <folder name="Management">
   <manager name="Manager">
     <rule name="Sow using a variable rule">
       <condition name="start_of_day"><![CDATA[
@@ -506,6 +789,52 @@
        <condition name="post"></condition>
        <condition name="exit"></condition>
      </rule>
+     <rule name="Debugger">
+       <condition name="init"><![CDATA[package require Tk
+wm withdraw .
+
+package require tkcon
+tkcon show 
+tkcon title "Apsim Debugging Console"
+puts "Commands:"
+puts " 'c'       - Continue"   
+puts " 's <n>'   - Step n days (default 1)"   
+puts " 'p <what>'- Print apsim variable"   
+puts " 'b <cond>'- Set break condition"   
+set steps 1   
+update
+
+# A 4 command debugger:
+proc c {}      {uplevel #0 set steps -1}  ;# Continue
+proc s {{n 1}} {uplevel #0 set steps $n}  ;# Step n days
+proc p {var}   {apsimGet $var}            ;# print apsim variable
+proc b {cond}  {global Conds; lappend Conds $cond} ;# set break condition
+set Conds {}
+
+# Link an apsim variable
+proc link {apsimName tclName} {
+   global $tclName; set $tclName {}
+   trace variable $tclName r "getLinked $apsimName"
+   trace variable $tclName w "setLinked $apsimName"
+}
+proc getLinked {a n1 n2 op} {uplevel #0 set $n1 [apsimGet $a]}
+proc setLinked {a n1 n2 op} {apsimSet $a $n1}
+
+]]></condition>
+        <condition name="prepare" />
+        <condition name="process">update
+foreach cond $Conds {
+  if {[expr $cond]} { 
+    set steps 1
+  }
+}
+
+incr steps -1
+if {$steps == 0} {tkwait variable steps}
+        </condition>
+        <condition name="post" />
+        <condition name="exit" />
+      </rule>
    </tclmanager>
    <farmmanager name="Farm Manager">
      <rule name="Farm logic">
@@ -526,7 +855,7 @@
      </rule>
    </paddockmanager>
   </folder>
-  <logic name="logic">
+  <logic name="Logic">
     <script name="init">
     </script>
     <script name="startofday">
@@ -534,398 +863,135 @@
     <script name="endofday">
     </script>
   </logic>
-  <fertiliser name="fertiliser" />
-  <irrigation name="Irrigation">
-    <property name="automatic_irrigation" type="text" description="switch">on</property>
-    <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
-    <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
-    <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
-  </irrigation>
-  <phos name="Phosphorus"/>
-  <log name="log">
+  <log name="Log">
     <debugoutput name="debugoutput">on</debugoutput>
     <filename name="filename">log.txt</filename>
   </log>
-  <micromet name="micromet">
-    <soilalbedo name="soilalbedo">0.23</soilalbedo>
-    <a_interception name="a_interception">0.0</a_interception>
-    <b_interception name="b_interception">0.0</b_interception>
-    <c_interception name="c_interception">0.0</c_interception>
-    <d_interception name="d_interception">0.0</d_interception>
-  </micromet>
-  <slurp name="slurp">
-    <type name="type">wheat</type>
-    <lai name="LAI">6.0</lai>
-    <laid name="LAId">0.5</laid>
-    <Kg name="Kg">0.5</Kg>
-    <Kd name="Kd">0.4</Kd>
-    <height name="height">1000.</height>
-    <Frgr name="Frgr">1.0</Frgr>
-  </slurp>
-
-  <folder name="crops">
-    <barley />
-    <bambatsi />
-    <broccoli />
-    <canola />
-    <chickpea />
-    <cowpea />
-    <egrandis />
-    <fababean />
-    <fieldpea />
-    <lablab />
-    <lucerne />
-    <lupin />
-    <maize />
-    <mucuna />
-    <mungbean />
-    <navybean />
-    <peanut />
-    <pigeonp />
-    <sorghum />
-    <soybean />
-    <stylo />
-    <sugar />
-    <sunflower />
-    <SweetCorn />
-    <SweetSorghum />
-    <weed />
-    <wheat />
-    <ozcot />
-    <rice name="rice">
-      <estab>transplant</estab>
-      <sbdur>50</sbdur>
-      <nplh>10</nplh>
-      <nh>2</nh>
-      <nplsb>100</nplsb>
-      <nplds>180</nplds>
-    </rice>
+  <soi name="soi">
+    <filename>%apsuite\soi\phases.soi</filename>
+  </soi>
   </folder>
-  <StockScienceConverter name="StockScienceConverter" />
-  <stock name="sheep">
-    <type name="type">sheep</type>
-    <breed name="breed">Medium Merino</breed>
-    <srw name="srw">50.0</srw>
-    <male_breed name="male_breed">Medium Merino</male_breed>
-    <male_srw name="male_srw">50.0</male_srw>
-    <conception1 name="conception1">0.8</conception1>
-    <conception2 name="conception2">0.15</conception2>
-    <conception3 name="conception3">0</conception3>
-    <death_rate name="death_rate">0.02</death_rate>
-    <ref_fleece_wt name="ref_fleece_wt">4.5</ref_fleece_wt>
-    <max_fibre_diam name="max_fibre_diam">20.0</max_fibre_diam>
-    <fleece_yield name="fleece_yield">0.7</fleece_yield>
-    <peak_milk name="peak_milk">25.0</peak_milk>
-    <group name="sheep group">
-      <number>120</number>
-      <sex>wether</sex>
-      <age>730.0</age>
-      <weight>50.0</weight>
-      <max_prev_wt>50.0</max_prev_wt>
-      <fleece_wt>6.0</fleece_wt>
-      <fibre_diam>20.0</fibre_diam>
-      <pregnant>0</pregnant>
-      <lactating>0</lactating>
-      <no_young>0</no_young>
-      <birth_cs>0.0</birth_cs>
-      <lamb_wt>0.0</lamb_wt>
-      <lamb_fleece_wt>0.0</lamb_fleece_wt>
-      <paddock>paddock_1</paddock>
-      <tag>0</tag>
-      <priority>0</priority>
-    </group>
-  </stock>
-  <stock name="cattle">
-    <type name="type">cattle</type>
-    <breed name="breed" description="Name of the animal breed" type="list" listvalues="angus, ayrshire, beef shorthorn, brahman, brahman x british, brown swiss, charolais, charolais x british, charolais x friesian, charolais x holstein, chianina, dairy shorthorn, friesian, friesian x british, guernsey, hereford, holstein, holstein x british, jersey, limousin, sahiwal, simmental, south devon">Angus</breed>
-    <death_rate name="death_rate" description="Base rate of animal mortality (/year)">0.02</death_rate>
-    <group name="cattle group">
-      <number>0</number>
-    </group>
-  </stock>
-  <surfaceom name="surface organic matter">
+  <folder name="Water">
+    <irrigation name="Irrigation">
+      <property name="automatic_irrigation" type="text" description="switch">on</property>
+      <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+      <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
+      <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+    </irrigation>
+    <bore name="bore">
+      <max_available_water>100</max_available_water>
+      <init_available_water>50</init_available_water>
+      <max_pump>10</max_pump>
+      <min_volume>2</min_volume>
+      <annual_allocation>100</annual_allocation>
+      <allocation_renewal_day>180</allocation_renewal_day>
+      <init_salt_conc>704.0</init_salt_conc>
+    </bore>
+    <channel name="channel">
+      <max_available_water>100</max_available_water>
+      <init_available_water>50</init_available_water>
+      <max_pump>10</max_pump>
+      <min_volume>2</min_volume>
+      <annual_allocation>100</annual_allocation>
+      <allocation_renewal_day>180</allocation_renewal_day>
+      <init_salt_conc>704.0</init_salt_conc>
+    </channel>
+    <dam name="dam">
+      <source_type>dam_gully</source_type>
+      <max_available_water>100</max_available_water>
+      <max_area>5</max_area>
+      <init_available_water>50</init_available_water>
+      <max_pump>10</max_pump>
+      <min_volume>2</min_volume>
+      <permeability>0.00007</permeability>
+      <seal_thickness>0.5</seal_thickness>
+      <receive_catchment_runoff>no</receive_catchment_runoff>
+      <receive_crop_runoff>no</receive_crop_runoff>
+      <init_salt_conc>704.0</init_salt_conc>
+      <receive_catchment_runoff>no</receive_catchment_runoff>
+      <catchment_area>50.0</catchment_area>
+      <catchment_runoff_factor>0.5</catchment_runoff_factor>
+      <receive_crop_runoff>yes</receive_crop_runoff>
+      <runoff_salt_conc>700.0</runoff_salt_conc>
+      <rainfall_salt_conc>20.0</rainfall_salt_conc>
+    </dam>
+  </folder>
+
+  <surfaceom name="Surface Organic Matter">
     <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
     <type description="Organic Matter type">wheat</type>
     <mass description="Initial surface residue (kg/ha)">1000.</mass>
     <cnr description="C:N ratio of initial residue">80.0</cnr>
     <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
   </surfaceom>
-  <vinelogic name="vinelogic">
-    <data name="data"><![CDATA[*MODEL INPUT FILE            I     1    19     1     8
-*FILES
-MODEL          VInes950.exe
-FILEX
-FILEA
-FILET
-SPECIES
-ECOTYPE
-CULTIVAR       VInes950.CUL
-PESTS          VInes950.PST
-SOILS          SOIL.SOL
-WEATHER        MILD9501.wth
-OUTPUT         MILD95TEST
-*SIMULATION CONTROL
-&SwitchData
-INyrs=1
-Rep=1
-Isimi='S'
-Iyrsim=95001
-TitSim='GENERALISED SIMULATION RUN'
-IswWat = 'Y'
-ISWNIT='N'
-ISWSALT='Y'
-ISWPHO='N'
-ISWPOT='N'
-ISWDIS='N'
-MEWTH='M'
-MESIC='M'
-MELI='E'
-MEEVP='R'
-MEINF='S'
-MEPHO='C'
-IPLTI='R'
-IIRRI='A'
-IFERI='N'
-IRESI='N'
-IHARI='G'
-IOX='N'
-IDETO='Y'
-IDETS='Y'
-FROP = 1
-IDETG='Y'
-IDETC='N'
-IDETW='Y'
-IDETN='Y'
-IDETP='Y'
-IDETD='N'
-IDETL='Y'
-/
-!AUTOMATIC MANAGEM
-               94155 94200   40.  100.   30.   40.   10.
-                70.0  50.0 100.0     6 IR003   -99 1.00
-                 30.   50.   25. FE001 GS000
-                100.     1   20.
-                   0 94365  100.    0.
-*EXP.DETAILS
-               Mildura  - 1995 Cabernet Franc Tall  trellis  Row by vine 330*240cm
-*TREATMENTS
-  11 0 0
-*CULTIVARS
-   VI IB0013 PINOT NOIR
-*FIELDS
-&Fielddata
-Cslope=' 1.0'
-/
-*INITIAL CONDITIONS
-      VI 94001 1200.  -99.  1.00  1.00     0
-      2  0.237    .0    .0   .0
-      7  0.237    .0    .0   .0
-     15  0.237    .0    .0   .0
-     26  0.289    .0    .0   .0
-     40  0.289    .0    .0   .0
-     57  0.289    .0    .0   .0
-     77  0.288    .0    .0   .0
-    100  0.300    .0    .0   .0
-    125  0.300    .0    .0   .0
-    150  0.352    .0    .0   .0
-    200  0.352    .0    .0   .0
-    250  0.352    .0    .0   .0
-    325  0.352    .0    .0   .0
-    400  0.352    .0    .0   .0
-    500  0.352    .0    .0   .0
+  <fertiliser name="Fertiliser" />
+  <phos name="Phosphorus"/>
+  <solute name="solute">
+    <solute_names>salt</solute_names>
+    <salt>491 62 1490 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000</salt>
+  </solute>
+  <erosion name="Erosion">
+   <model name="model">freebairn</model>
+   <slope name="slope">6.5</slope>
+   <slope_length name="slope_length">60.0</slope_length>
+   <k_factor name="k_factor">0.4</k_factor>
+   <p_factor name="p_factor">1.0</p_factor>
+   <bed_depth name="bed_depth">1900</bed_depth>
+   <profile_reduction name="profile_reduction">off</profile_reduction>
+   <profile_layer_merge name="profile_layer_merge">0.05</profile_layer_merge>
+   <minimum_depth name="minimum_depth">100.0</minimum_depth>
+  </erosion>
 
-*PLANTING DETAILS
-       0     0   0.0   0.0                0.    0.   0.0    0.    0.   0.0   0.0
-*VINEYARD
-&VinexData
-VineMstart=95001
-InCritVD= 30
-VineRowspc =3.3
-InterVineDist =2.4
-TrellisHt =2.
-TrellisWd =1.2
-BudnoVine =190.
-TrunkDiam = -99
-VineAge =12.0
-PruningSys='SPUR'
-TrellisSys='MINIM'
-CordonNum = -99
-CaneNum = -99
-Prunewt = .0
-VineResv =  .1
-TrelTrunWr = -99
-CanRetrnDate = -99
-NewtrellsWid = -99
-NewTrellsHgt = -99
-FruitThinDate = -99
-FruitRemPct = -99
-FruitEsSw = -99
-BunchNOvine = .0
-BerryBunch = .0
-/
-*HYDROLOGY
-&HydrolData
-TruDepWt =  2
-PiezInitial =  1.5
-BotBoundFlux = 0.001
-PiezoType = 'FIXED'
-WtType = 'FLOAT'
-URzSoilEc =    .5
-LRzSoilEc =    .5
-GroundWaterEc =  4
-Drained=.True.
-TileDepth = 1.8
-/
-*IRRIGATION
-    1.00  70.0  50.0 100.0     6 IR003   -99   0.2
-
-&IrrigData
-IrAutoDefMethod='SWDRIVEN'
-IrType=' 1'
-Iron(1)=.T.,.T.,.T.,.T.,.T.
-IrManDepth(1)= 57, 57, 57, 57, 57
-IrWaterEc(1)= .2, .2, .2, .2, .2
-IrCritSw(1)= 50, 50, 50, 50, 50
-IrRefillPer(1)= 100, 100, 100, 100, 100
-IrRetnPeriod(1)= 7, 7, 7, 7, 7
-IrStageCap(1)= 1000, 1000, 1000, 1000, 1000
-IrCumNetET(1)=0.0,0.0,0.0,0.0,0.0
-IrETIrrAmt(1)=0.0,0.0,0.0,0.0,0.0
-/
-*FERTILIZERS
-*RESIDUES
-*ENVIRONMENT
-*HARVEST
-   95074     7   -99   -99  -99.
-*SOIL
-*CS00390002  SCS         CLLO    151 UNKNOWN
- MERBEIN     AUSTRALIA    -34.000  142.000 COOMEALLA ADJ LOAM
- BN     0.13   9.3  0.20    76  1.00  1.00 IB001 IB001 IB001         5.0   5.0  20.0  150
-    2. A     0.109 0.237 0.376  1.00   20.0  1.48  1.20  16.7  44.0   2.1   -99   8.6 -99.0 -99.0   1.0
-    7. A     0.109 0.237 0.376  1.00   20.0  1.48  1.20  16.7  44.0   2.1   -99   8.6 -99.0 -99.0   1.0
-   15. A     0.109 0.237 0.376  1.00   20.0  1.48  1.20  16.7  44.0   2.1   -99   8.6 -99.0 -99.0   1.0
-   26. B     0.163 0.289 0.370  0.75    5.0  1.50  1.00  19.9  39.0   2.3   -99   9.0 -99.0 -99.0   0.8
-   40. B     0.163 0.289 0.370  0.75    5.0  1.50  1.00  19.9  39.0   2.3   -99   9.0 -99.0 -99.0   0.8
-   57. B     0.163 0.289 0.370  0.75    5.0  1.50  1.00  19.9  39.0   2.3   -99   9.0 -99.0 -99.0   0.8
-   77. B1    0.166 0.288 0.353  0.35    3.0  1.55  0.90  16.1  33.0   3.2   -99   9.1 -99.0 -99.0   0.4
-  100. B2    0.182 0.300 0.352  0.20    1.0  1.55  0.40  17.7  31.0   3.8   -99   9.1 -99.0 -99.0   0.4
-  125. B2    0.182 0.300 0.352  0.20    1.0  1.55  0.40  17.7  31.0   3.8   -99   9.1 -99.0 -99.0   0.4
-  150. BC    0.230 0.352 0.364  0.10    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
-  200. BC    0.230 0.352 0.364  0.00    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
-  250. BC    0.230 0.352 0.364  0.00    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
-  325. BC    0.230 0.352 0.364  0.00    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
-  400. BC    0.230 0.352 0.364  0.00    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
-  500. BC    0.230 0.352 0.364  0.00    0.1  1.52  0.40  31.0  29.0   2.4   -99   8.9 -99.0 -99.0   0.2
-
-     2    .0    .0    .0    .0
-     7    .0    .0    .0    .0
-    15    .0    .0    .0    .0
-    26    .0    .0    .0    .0
-    40    .0    .0    .0    .0
-    57    .0    .0    .0    .0
-    77    .0    .0    .0    .0
-   100    .0    .0    .0    .0
-   125    .0    .0    .0    .0
-   150    .0    .0    .0    .0
-   200    .0    .0    .0    .0
-   250    .0    .0    .0    .0
-   325    .0    .0    .0    .0
-   400    .0    .0    .0    .0
-   500    .0    .0    .0    .0
-
-*CULTIVAR
-IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  0.60  1.80   1.0
-*ROOTSTOCK
-00000 VineLogic Rsk      5.    5.    5.    1.7  0.12   9.1 ]]></data>
-	<instance>1</instance>
-  </vinelogic>
-
-   <FarmwisePasture>
-      <species>Perennial Ryegrass</species>
-      <nutrients></nutrients>
-      <fertility>0.75</fertility>
-      <max_rtdep description="Maximum rooting depth (mm)">250.0</max_rtdep>
-      <lagged_day_t description="lagged_day_t (oC)">-999.9</lagged_day_t>
-      <phenology>1.005</phenology>
-      <flower_len description="flower_len (d)">0.0</flower_len>
-      <flower_time description="flower_time (d)">0.0</flower_time>
-      <senc_index description="senc_index (d)">0.0</senc_index>
-      <dorm_index description="dorm_index (d)">0.0</dorm_index>
-      <dorm_t description="dorm_t (oc)">-999.9</dorm_t>
-      <FarmwisePastureGreen name="Green">
-         <status>established</status>
-         <rt_dep description="rt_dep (mm)">100.0</rt_dep>
-         <estab_index>0.0</estab_index>
-         <stress_index>0.0</stress_index>
-         <stem_reloc description="stem_reloc (kg/ha)">0.0</stem_reloc>
-         <frosts>0</frosts>
-
-         <FarmwisePastureGreenHerbage name="Herbage1">
-            <dmd description="dmd (kg/kg)">0.825</dmd>
-            <weight description="weight (kg/ha)">8000.0</weight>
-            <n_conc description="n_conc (kg/kg)"></n_conc>
-            <p_conc description="p_conc (kg/kg)"></p_conc>
-            <s_conc description="s_conc (kg/kg)"></s_conc>
-            <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
-            <root_wt description="root_wt (kg/ha)">3600.0</root_wt>
-         </FarmwisePastureGreenHerbage>
-
-         <FarmwisePastureGreenHerbage name="Herbage2">
-            <dmd description="dmd (kg/kg)">0.825</dmd>
-            <weight description="weight (kg/ha)">1000.0</weight>
-            <n_conc description="n_conc (kg/kg)"></n_conc>
-            <p_conc description="p_conc (kg/kg)"></p_conc>
-            <s_conc description="s_conc (kg/kg)"></s_conc>
-            <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
-            <root_wt description="root_wt (kg/ha)">0.0</root_wt>
-         </FarmwisePastureGreenHerbage>
-      </FarmwisePastureGreen>
-      <FarmwisePastureDry name="Dry1">
-         <status>dead</status>
-         <FarmwisePastureDryHerbage name="Herbage1">
-            <dmd description="dmd (kg/kg)">0.65</dmd>
-            <weight description="weight (kg/ha)">500.0</weight>
-            <n_conc description="n_conc (kg/kg)"></n_conc>
-            <p_conc description="p_conc (kg/kg)"></p_conc>
-            <s_conc description="s_conc (kg/kg)"></s_conc>
-            <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
-         </FarmwisePastureDryHerbage>
-         <FarmwisePastureDryHerbage name="Herbage2">
-            <dmd description="dmd (kg/kg)">0.425</dmd>
-            <weight description="weight (kg/ha)">100.0</weight>
-            <n_conc description="n_conc (kg/kg)"></n_conc>
-            <p_conc description="p_conc (kg/kg)"></p_conc>
-            <s_conc description="s_conc (kg/kg)"></s_conc>
-            <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
-         </FarmwisePastureDryHerbage>
-      </FarmwisePastureDry>
-      <FarmwisePastureDry name="Dry2">
-         <status>litter</status>
-         <FarmwisePastureDryHerbage name="Herbage1">
-            <dmd description="dmd (kg/kg)">0.651</dmd>
-            <weight description="weight (kg/ha)">233.0</weight>
-            <n_conc description="n_conc (kg/kg)"></n_conc>
-            <p_conc description="p_conc (kg/kg)"></p_conc>
-            <s_conc description="s_conc (kg/kg)"></s_conc>
-            <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
-         </FarmwisePastureDryHerbage>
-         <FarmwisePastureDryHerbage name="Herbage2">
-            <dmd description="dmd (kg/kg)">0.0</dmd>
-            <weight description="weight (kg/ha)">0.0</weight>
-            <n_conc description="n_conc (kg/kg)"></n_conc>
-            <p_conc description="p_conc (kg/kg)"></p_conc>
-            <s_conc description="s_conc (kg/kg)"></s_conc>
-            <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
-         </FarmwisePastureDryHerbage>
-      </FarmwisePastureDry>
-      <FarmwisePastureSeeds name="Seeds">
-         <soft_unripe description="soft_unripe (kg/ha)"></soft_unripe>
-         <soft_ripe description="soft_ripe (kg/ha)"></soft_ripe>
-         <hard_unripe description="hard_unripe (kg/ha)"></hard_unripe>
-         <hard_ripe description="hard_ripe (kg/ha)"></hard_ripe>
-      </FarmwisePastureSeeds>
-      <seed_dorm_time description="seed_dorm_time (d)">0.0</seed_dorm_time>
-      <germ_index description="germ_index (d)">0.0</germ_index>
-   </FarmwisePasture>
+  <micromet name="Micromet">
+    <soilalbedo name="soilalbedo">0.23</soilalbedo>
+    <a_interception name="a_interception">0.0</a_interception>
+    <b_interception name="b_interception">0.0</b_interception>
+    <c_interception name="c_interception">0.0</c_interception>
+    <d_interception name="d_interception">0.0</d_interception>
+  </micromet>
+  <folder name="Animals">
+    <StockScienceConverter name="StockScienceConverter" />
+    <stock name="sheep">
+      <type name="type">sheep</type>
+      <breed name="breed">Medium Merino</breed>
+      <srw name="srw">50.0</srw>
+      <male_breed name="male_breed">Medium Merino</male_breed>
+      <male_srw name="male_srw">50.0</male_srw>
+      <conception1 name="conception1">0.8</conception1>
+      <conception2 name="conception2">0.15</conception2>
+      <conception3 name="conception3">0</conception3>
+      <death_rate name="death_rate">0.02</death_rate>
+      <ref_fleece_wt name="ref_fleece_wt">4.5</ref_fleece_wt>
+      <max_fibre_diam name="max_fibre_diam">20.0</max_fibre_diam>
+      <fleece_yield name="fleece_yield">0.7</fleece_yield>
+      <peak_milk name="peak_milk">25.0</peak_milk>
+      <group name="sheep group">
+        <number>120</number>
+        <sex>wether</sex>
+        <age>730.0</age>
+        <weight>50.0</weight>
+        <max_prev_wt>50.0</max_prev_wt>
+        <fleece_wt>6.0</fleece_wt>
+        <fibre_diam>20.0</fibre_diam>
+        <pregnant>0</pregnant>
+        <lactating>0</lactating>
+        <no_young>0</no_young>
+        <birth_cs>0.0</birth_cs>
+        <lamb_wt>0.0</lamb_wt>
+        <lamb_fleece_wt>0.0</lamb_fleece_wt>
+        <paddock>paddock_1</paddock>
+        <tag>0</tag>
+        <priority>0</priority>
+      </group>
+    </stock>
+    <stock name="cattle">
+      <type name="type">cattle</type>
+      <breed name="breed" description="Name of the animal breed" type="list" listvalues="angus, ayrshire, beef shorthorn, brahman, brahman x british, brown swiss, charolais, charolais x british, charolais x friesian, charolais x holstein, chianina, dairy shorthorn, friesian, friesian x british, guernsey, hereford, holstein, holstein x british, jersey, limousin, sahiwal, simmental, south devon">Angus</breed>
+      <death_rate name="death_rate" description="Base rate of animal mortality (/year)">0.02</death_rate>
+      <group name="cattle group">
+        <number>0</number>
+      </group>
+    </stock>
+  </folder>  
 
 </folder>
