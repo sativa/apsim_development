@@ -5,6 +5,9 @@ using System.Text;
 using VBGeneral;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Xml;
+using System.Xml.Xsl;
+using System.Xml.XPath;
 namespace CSGeneral
 	{
 
@@ -43,22 +46,13 @@ namespace CSGeneral
 			AssemblyBuilder myAssemblyBuilder = currentDomain.DefineDynamicAssembly	(myAssemblyName, AssemblyBuilderAccess.Run);
 			ModuleBuilder moduleBuilder = myAssemblyBuilder.DefineDynamicModule("TempModule");
 			MethodBuilder method;
-			if (moduleName == "stock")
-				method = moduleBuilder.DefinePInvokeMethod("getDescription", DllFileName, 
-				                                 MethodAttributes.Public | MethodAttributes.Static | MethodAttributes.PinvokeImpl,
-															CallingConventions.Standard,
-															typeof(void),
-															new Type[] { typeof(StringBuilder) },
-															CallingConvention.StdCall,
-															CharSet.Ansi);
-			else
-				method = moduleBuilder.DefinePInvokeMethod("getDescription", DllFileName, 
-				                                 MethodAttributes.Public | MethodAttributes.Static | MethodAttributes.PinvokeImpl,
-															CallingConventions.Standard,
-															typeof(void),
-															new Type[] { typeof(string), typeof(StringBuilder) },
-															CallingConvention.StdCall,
-															CharSet.Ansi);
+			method = moduleBuilder.DefinePInvokeMethod("getDescription", DllFileName, 
+				                                MethodAttributes.Public | MethodAttributes.Static | MethodAttributes.PinvokeImpl,
+														CallingConventions.Standard,
+														typeof(void),
+														new Type[] { typeof(string), typeof(StringBuilder) },
+														CallingConvention.StdCall,
+														CharSet.Ansi);
 			method.SetImplementationFlags( MethodImplAttributes.PreserveSig |
 			method.GetMethodImplementationFlags() );
 			moduleBuilder.CreateGlobalFunctions();
@@ -73,29 +67,34 @@ namespace CSGeneral
 				}
 			initScript += "   </initdata>\r\n";
 			initScript += "</component>";
-			
+
+			// Get the xsl transform ready.
+			APSIMSettings Settings = new APSIMSettings();
+			string ProtocolToVariablesXSLFileName = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "ProtocolToVariablesFile");
+			System.Xml.Xsl.XslTransform xslt = new System.Xml.Xsl.XslTransform();  
+			xslt.Load(ProtocolToVariablesXSLFileName);
+
+			// Call the DLL
 			StringBuilder description = new StringBuilder(100000);
 			object[] parameters;
-			if (moduleName == "stock")
-				parameters = new object[] {description};
-			else
-				parameters = new object[] {initScript, description};
-
+			parameters = new object[] {initScript, description};
 			MethodInfo mi = moduleBuilder.GetMethod( "getDescription" );
-
 			string CurrentDirectory = Directory.GetCurrentDirectory();
 			Directory.SetCurrentDirectory(APSIMSettings.ApsimDirectory() + "\\bin");		
 			mi.Invoke(null, parameters);
 			Directory.SetCurrentDirectory(CurrentDirectory);		
 
-			APSIMSettings Settings = new APSIMSettings();
-			string ProtocolToVariablesXSLFileName = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "ProtocolToVariablesFile");
+			// Transform the xml returned from the dll with our xsl.
+			StringReader ContentsReader = new StringReader(description.ToString());
+			XPathDocument XmlData = new XPathDocument(ContentsReader);
+			StringWriter SWriter = new StringWriter();
+			XmlTextWriter Writer = new XmlTextWriter(SWriter);
+			xslt.Transform(XmlData, null, Writer, null);
+			Writer.Close();
 
-			StreamReader In = new StreamReader(ProtocolToVariablesXSLFileName);
-			string xml = CSUtility.ApplyStyleSheet(description.ToString(), In.ReadToEnd());
 			return "<?xml version=\"1.0\"?>\r\n"
 				       + "<?xml-stylesheet type=\"text/xsl\" href=\"../docs/shared/Variables.xsl\"?>\r\n"
-				       + xml;
+				       + SWriter.ToString();
 			}
 
 
