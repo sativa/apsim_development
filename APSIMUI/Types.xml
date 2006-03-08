@@ -792,6 +792,9 @@
       <SmallIcon>Images\question_and_answer16.png</SmallIcon>
       <drops>
          <drop name="manager"/>
+         <drop name="tclmanager"/>
+         <drop name="farmmanager"/>
+         <drop name="paddockmanager"/>
          <drop name="StockScienceConverter"/>
          <drop name="barley"/>
          <drop name="canola"/>
@@ -938,8 +941,10 @@
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/erosion/docs/erosion_science.htm</Documentation>
       <LargeIcon>Images\cubes32.png</LargeIcon>
-      <SmallIcon>Images\cubes16.png</SmallIcon>
+      <SmallIcon>Images\earth2.png</SmallIcon>
       <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
