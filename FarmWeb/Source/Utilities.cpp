@@ -106,17 +106,12 @@ void saveDatePicker(TTIWDatePicker* datePicker,
    string value = datePicker->Date.FormatString("yyyy-mm-dd").c_str();
    data->setProperty(userName, paddockName, dataName, value);
    }
-// -------------------------------------------
-// create a job xml file and return it's name
-// -------------------------------------------
-string createJobXML(TWebSession* webSession, Data* data, const string& userName,
-                    const string& reportDescription)
-   {
-   string DateTimeStamp = TDateTime::CurrentDateTime().FormatString("dd mmm yyyy(hnnam/pm)").c_str();
-   string GIFFileName = DateTimeStamp + " " + reportDescription + ".gif";
-   string userEmail = data->getUserEmail(userName);
 
-   // work out how many simulations are in control file.
+//---------------------------------------------------------------------------
+// work out how many simulations are in control file.
+//---------------------------------------------------------------------------
+int countSimulationsForUser(TWebSession* webSession, const string& userName)
+   {
    string conFileName = webSession->getFilesDir() + "\\" + userName + ".con";
    char buffer[100];
    GetPrivateProfileString(NULL, NULL, NULL, buffer, sizeof(buffer), conFileName.c_str());
@@ -128,44 +123,53 @@ string createJobXML(TWebSession* webSession, Data* data, const string& userName,
       ptr++;
       count++;
       }
+   return count;
+   }
 
-   string xml = "<job owner=\"[USERNAME]\">\r\n"
-                "   <localcommand>\r\n"
-                "      <commandline>\"c:\\program files\\apsim42\\bin\\apsrun.exe\" /createsim \"[USERNAME].con\"</commandline>\r\n"
-                "   </localcommand>\r\n"
-                "   <cluster>\r\n";
-   if (count > 1)
+// -------------------------------------------
+// create a job xml file and return it's name
+// -------------------------------------------
+string createJobXML(TWebSession* webSession, Data* data, const string& userName,
+                    const string& reportDescription)
+   {
+   string DateTimeStamp = TDateTime::CurrentDateTime().FormatString("dd mmm yyyy(hnnam/pm)").c_str();
+   string GIFFileName = DateTimeStamp + " " + reportDescription + ".gif";
+   string userEmail = data->getUserEmail(userName);
+
+   string xml = "<job owner=\"[USERNAME]\">\n"
+                "   <localcommand>\n"
+                "      <commandline>\"c:\\program files\\apsim42\\bin\\apsrun.exe\" /createsim \"[USERNAME].con\"</commandline>\n"
+                "   </localcommand>\n"
+                "   <cluster>\n";
+
+   int count = countSimulationsForUser(webSession, userName);
+   for (int i = 1; i <= count; i++)
       {
-      for (int i = 1; i <= count; i++)
-         {
-         string IAsString = string(IntToStr(i).c_str());
-         xml += "      <commandline>job.bat [USERNAME]" + IAsString + ".sim " + IAsString + "</commandline>\r\n";
-         }
+      string IAsString = string(IntToStr(i).c_str());
+      xml += "      <commandline>\"[USERNAME]" + IAsString + ".bat\"</commandline>\n";
       }
-   else
-      xml += "      <commandline>job.bat [USERNAME].sim 1</commandline>\r\n";
 
-   xml += "   </cluster>\r\n"
-          "   <localcommand>\r\n"
-          "	     <commandline>\"c:\\program files\\apsim42\\bin\\apsimreport.exe\" \"[USERNAME].report\" \"" + GIFFileName + "\"</commandline>\r\n"
-          "   </localcommand>\r\n"
-          "   <ftp>\r\n"
-          "	     <from>" + GIFFileName + "</from>\r\n"
-          "      <tosite>www.apsim.info</tosite>\r\n"
-          "      <loginname>vs27262</loginname>\r\n"
-          "      <loginpassword>Thor19216805</loginpassword>\r\n"
-          "      <tofolder>/apsim/farmweb/data/files/[USERNAME]</tofolder>\r\n"
-          "	  </ftp>\r\n"
-          "	  <email>\r\n"
-          "	     <to>" + userEmail + "</to>\r\n"
-          "		  <subject>Automated reply from Afloman</subject>\r\n"
-          "		  <body>Your report has been generated and stored on your web page.</body>\r\n"
-          "	  </email>\r\n"
-          "	  <archive>\r\n"
-          "		  <to>[USERNAME]\\[USERNAME].zip</to>\r\n"
-          "		  <description>" + reportDescription + ", Afloman</description>\r\n"
-          "   </archive>\r\n"
-          "</job>\r\n";
+   xml += "   </cluster>\n"
+          "   <localcommand>\n"
+          "	     <commandline>\"c:\\program files\\apsim42\\bin\\apsimreport.exe\" \"[USERNAME].report\" \"" + GIFFileName + "\"</commandline>\n"
+          "   </localcommand>\n"
+          "   <ftp>\n"
+          "	     <from>" + GIFFileName + "</from>\n"
+          "      <tosite>www.apsim.info</tosite>\n"
+          "      <loginname>vs27262</loginname>\n"
+          "      <loginpassword>Thor19216805</loginpassword>\n"
+          "      <tofolder>/apsim/farmweb/data/files/[USERNAME]</tofolder>\n"
+          "	  </ftp>\n"
+          "	  <email>\n"
+          "	     <to>" + userEmail + "</to>\n"
+          "		  <subject>Automated reply from Afloman</subject>\n"
+          "		  <body>Your report has been generated and stored on your web page.</body>\n"
+          "	  </email>\n"
+          "	  <archive>\n"
+          "		  <to>[USERNAME]\\[USERNAME].zip</to>\n"
+          "		  <description>" + reportDescription + ", Afloman</description>\n"
+          "   </archive>\n"
+          "</job>\n";
    replaceAll(xml, "[USERNAME]", userName);
 
    // write file.
@@ -174,21 +178,24 @@ string createJobXML(TWebSession* webSession, Data* data, const string& userName,
    out << xml;
    return xmlFileName;
    }
-// ----------------------------
-// Create a job._bat file
-// ----------------------------
-string createJobBat(TWebSession* webSession)
+// ----------------------------------
+// Create a series of job._bat files
+// ----------------------------------
+void createJobBat(TWebSession* webSession, const string& userName, vector<string>& filesCreated)
    {
-   // write file.
-   string batFileName = webSession->getFilesDir() + "\\job._bat";
-   if (!FileExists(batFileName.c_str()))
+   int count = countSimulationsForUser(webSession, userName);
+   for (int i = 1; i <= count; i++)
       {
+      string IAsString = string(IntToStr(i).c_str());
+      string batFileName = webSession->getFilesDir() + "\\" + userName + IAsString + "._bat";
       ofstream out(batFileName.c_str());
-      out << "\"c:\\program files\\apsim42\\bin\\apsim.exe\" %1" << endl;
-      out << "echo Finished > Run%2.finished" << endl;
+      if (count == 1)
+         out << "\"c:\\program files\\apsim42\\bin\\apsim.exe\" \"" << userName << ".sim\"" << endl;
+      else
+         out << "\"c:\\program files\\apsim42\\bin\\apsim.exe\" \"" << userName << IAsString << ".sim\"" << endl;
+      out << "echo Finished > Run" << IAsString << ".finished" << endl;
+      filesCreated.push_back(batFileName);
       }
-   return batFileName;
-
    }
 //---------------------------------------------------------------------------
 // Send an email requesting a report.
@@ -198,7 +205,7 @@ void sendEmail(TWebSession* webSession,
                const string& userName,
                const string& paddockName,
                const string& reportDescription,
-               const vector<string>& files,
+               vector<string>& files,
                const vector<string>& toEmailAddresses)
    {
    string emailScriptFileName = webSession->getFilesDir() + "\\" + userName + "Mail.asp";
@@ -231,7 +238,7 @@ void sendEmail(TWebSession* webSession,
        "</HTML>\n";
 
    files.push_back(createJobXML(webSession, data, userName, reportDescription));
-   files.push_back(createJobBat(webSession));
+   createJobBat(webSession, userName, files);
 
    // replace the $ATTACHMENTS$ macro with a list of attachments.
    string attachmentsString;

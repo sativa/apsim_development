@@ -967,49 +967,49 @@ void PlantHerbage::readHerbageModuleParameters ( void )
       msg << " - reading  herbage parameters for module '" << c.herbageModuleName.c_str() << "'" << endl << ends;
       system->writeString (msg.str());
 
-    system->readParameter (c.herbageModuleName.c_str(), "dmdValue", c.dmdValue, c.numDmdPools, 0.0, 1.0);
+    system->readParameter (section_name, "dmdValue", c.dmdValue, c.numDmdPools, 0.0, 1.0);
 
-    system->readParameter (c.herbageModuleName.c_str(), "p_conc_green_stem_default", c.pConcGreenStemDefault, 0.0, 1.0);
-    system->readParameter (c.herbageModuleName.c_str(), "p_conc_green_leaf_default", c.pConcGreenLeafDefault, 0.0, 1.0);
-    system->readParameter (c.herbageModuleName.c_str(), "p_conc_senesced_stem_default", c.pConcSenescedStemDefault, 0.0, 1.0);
-    system->readParameter (c.herbageModuleName.c_str(), "p_conc_senesced_leaf_default", c.pConcSenescedLeafDefault, 0.0, 1.0);
-    system->readParameter (c.herbageModuleName.c_str(), "p_conc_dead_stem_default", c.pConcDeadStemDefault, 0.0, 1.0);
-    system->readParameter (c.herbageModuleName.c_str(), "p_conc_dead_leaf_default", c.pConcDeadLeafDefault, 0.0, 1.0);
+    system->readParameter (section_name, "p_conc_green_stem_default", c.pConcGreenStemDefault, 0.0, 1.0);
+    system->readParameter (section_name, "p_conc_green_leaf_default", c.pConcGreenLeafDefault, 0.0, 1.0);
+    system->readParameter (section_name, "p_conc_senesced_stem_default", c.pConcSenescedStemDefault, 0.0, 1.0);
+    system->readParameter (section_name, "p_conc_senesced_leaf_default", c.pConcSenescedLeafDefault, 0.0, 1.0);
+    system->readParameter (section_name, "p_conc_dead_stem_default", c.pConcDeadStemDefault, 0.0, 1.0);
+    system->readParameter (section_name, "p_conc_dead_leaf_default", c.pConcDeadLeafDefault, 0.0, 1.0);
 
-    system->readParameter (c.herbageModuleName.c_str(), "ash_alk_green_stem_default", c.AshAlkGreenStemDefault, 0.0, 500.0);
-    system->readParameter (c.herbageModuleName.c_str(), "ash_alk_green_leaf_default", c.AshAlkGreenLeafDefault, 0.0, 500.0);
-    system->readParameter (c.herbageModuleName.c_str(), "ash_alk_senesced_stem_default", c.AshAlkSenescedStemDefault, 0.0, 500.0);
-    system->readParameter (c.herbageModuleName.c_str(), "ash_alk_senesced_leaf_default", c.AshAlkSenescedLeafDefault, 0.0, 500.0);
-    system->readParameter (c.herbageModuleName.c_str(), "ash_alk_dead_stem_default", c.AshAlkDeadStemDefault, 0.0, 500.0);
-    system->readParameter (c.herbageModuleName.c_str(), "ash_alk_dead_leaf_default", c.AshAlkDeadLeafDefault, 0.0, 500.0);
+    system->readParameter (section_name, "ash_alk_green_stem_default", c.AshAlkGreenStemDefault, 0.0, 500.0);
+    system->readParameter (section_name, "ash_alk_green_leaf_default", c.AshAlkGreenLeafDefault, 0.0, 500.0);
+    system->readParameter (section_name, "ash_alk_senesced_stem_default", c.AshAlkSenescedStemDefault, 0.0, 500.0);
+    system->readParameter (section_name, "ash_alk_senesced_leaf_default", c.AshAlkSenescedLeafDefault, 0.0, 500.0);
+    system->readParameter (section_name, "ash_alk_dead_stem_default", c.AshAlkDeadStemDefault, 0.0, 500.0);
+    system->readParameter (section_name, "ash_alk_dead_leaf_default", c.AshAlkDeadLeafDefault, 0.0, 500.0);
 
-    system->readParameter (c.herbageModuleName.c_str(), "ns_ratio_green_stem_default", c.NSRatioGreenStemDefault, 0.0, 30.0);
-    system->readParameter (c.herbageModuleName.c_str(), "ns_ratio_green_leaf_default", c.NSRatioGreenLeafDefault, 0.0, 30.0);
-    system->readParameter (c.herbageModuleName.c_str(), "ns_ratio_senesced_stem_default", c.NSRatioSenescedStemDefault, 0.0, 30.0);
-    system->readParameter (c.herbageModuleName.c_str(), "ns_ratio_senesced_leaf_default", c.NSRatioSenescedLeafDefault, 0.0, 30.0);
-    system->readParameter (c.herbageModuleName.c_str(), "ns_ratio_dead_stem_default", c.NSRatioDeadStemDefault, 0.0, 30.0);
-    system->readParameter (c.herbageModuleName.c_str(), "ns_ratio_dead_leaf_default", c.NSRatioDeadLeafDefault, 0.0, 30.0);
+    system->readParameter (section_name, "ns_ratio_green_stem_default", c.NSRatioGreenStemDefault, 0.0, 30.0);
+    system->readParameter (section_name, "ns_ratio_green_leaf_default", c.NSRatioGreenLeafDefault, 0.0, 30.0);
+    system->readParameter (section_name, "ns_ratio_senesced_stem_default", c.NSRatioSenescedStemDefault, 0.0, 30.0);
+    system->readParameter (section_name, "ns_ratio_senesced_leaf_default", c.NSRatioSenescedLeafDefault, 0.0, 30.0);
+    system->readParameter (section_name, "ns_ratio_dead_stem_default", c.NSRatioDeadStemDefault, 0.0, 30.0);
+    system->readParameter (section_name, "ns_ratio_dead_leaf_default", c.NSRatioDeadLeafDefault, 0.0, 30.0);
 
-    system->readParameter (c.herbageModuleName.c_str(), "np_ratio_green_stem_default", c.NPRatioGreenStemDefault, 0.0, 10.0);
-    system->readParameter (c.herbageModuleName.c_str(), "np_ratio_green_leaf_default", c.NPRatioGreenLeafDefault, 0.0, 10.0);
-    system->readParameter (c.herbageModuleName.c_str(), "np_ratio_senesced_stem_default", c.NPRatioSenescedStemDefault, 0.0, 10.0);
-    system->readParameter (c.herbageModuleName.c_str(), "np_ratio_senesced_leaf_default", c.NPRatioSenescedLeafDefault, 0.0, 10.0);
-    system->readParameter (c.herbageModuleName.c_str(), "np_ratio_dead_stem_default", c.NPRatioDeadStemDefault, 0.0, 10.0);
-    system->readParameter (c.herbageModuleName.c_str(), "np_ratio_dead_leaf_default", c.NPRatioDeadLeafDefault, 0.0, 10.0);
+    system->readParameter (section_name, "np_ratio_green_stem_default", c.NPRatioGreenStemDefault, 0.0, 10.0);
+    system->readParameter (section_name, "np_ratio_green_leaf_default", c.NPRatioGreenLeafDefault, 0.0, 10.0);
+    system->readParameter (section_name, "np_ratio_senesced_stem_default", c.NPRatioSenescedStemDefault, 0.0, 10.0);
+    system->readParameter (section_name, "np_ratio_senesced_leaf_default", c.NPRatioSenescedLeafDefault, 0.0, 10.0);
+    system->readParameter (section_name, "np_ratio_dead_stem_default", c.NPRatioDeadStemDefault, 0.0, 10.0);
+    system->readParameter (section_name, "np_ratio_dead_leaf_default", c.NPRatioDeadLeafDefault, 0.0, 10.0);
 
     int numClasses = 3;
-    system->readParameter (c.herbageModuleName.c_str(), "dmd_green_leaf", c.dmdGreenLeaf, numClasses, 0.0, 1.0);
-    system->readParameter (c.herbageModuleName.c_str(), "dmd_green_stem", c.dmdGreenStem, numClasses, 0.0, 1.0);
-    system->readParameter (c.herbageModuleName.c_str(), "dmd_senesced_leaf", c.dmdSenescedLeaf, numClasses, 0.0, 1.0);
-    system->readParameter (c.herbageModuleName.c_str(), "dmd_senesced_stem", c.dmdSenescedStem, numClasses, 0.0, 1.0);
-    system->readParameter (c.herbageModuleName.c_str(), "dmd_dead_leaf", c.dmdDeadLeaf, numClasses, 0.0, 1.0);
-    system->readParameter (c.herbageModuleName.c_str(), "dmd_dead_stem", c.dmdDeadStem, numClasses, 0.0, 1.0);
+    system->readParameter (section_name, "dmd_green_leaf", c.dmdGreenLeaf, numClasses, 0.0, 1.0);
+    system->readParameter (section_name, "dmd_green_stem", c.dmdGreenStem, numClasses, 0.0, 1.0);
+    system->readParameter (section_name, "dmd_senesced_leaf", c.dmdSenescedLeaf, numClasses, 0.0, 1.0);
+    system->readParameter (section_name, "dmd_senesced_stem", c.dmdSenescedStem, numClasses, 0.0, 1.0);
+    system->readParameter (section_name, "dmd_dead_leaf", c.dmdDeadLeaf, numClasses, 0.0, 1.0);
+    system->readParameter (section_name, "dmd_dead_stem", c.dmdDeadStem, numClasses, 0.0, 1.0);
 
-    system->readParameter (c.herbageModuleName.c_str(), "KQ5Leaf", c.KQ5Leaf, 0.0, 1.0);
-    system->readParameter (c.herbageModuleName.c_str(), "KQ5Stem", c.KQ5Stem, 0.0, 1.0);
-    system->readParameter (c.herbageModuleName.c_str(), "KQ4", c.KQ4, 0.0, 1000.0);
+    system->readParameter (section_name, "KQ5Leaf", c.KQ5Leaf, 0.0, 1.0);
+    system->readParameter (section_name, "KQ5Stem", c.KQ5Stem, 0.0, 1.0);
+    system->readParameter (section_name, "KQ4", c.KQ4, 0.0, 1000.0);
 
-    system->readParameter (c.herbageModuleName.c_str(), "cp_n_ratio", c.cpNRatio, 0.0, 10.0);
+    system->readParameter (section_name, "cp_n_ratio", c.cpNRatio, 0.0, 10.0);
 
    const int MAX = 0;
    const int AVG = 1;
