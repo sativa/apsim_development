@@ -8,7 +8,7 @@
    <area name="paddock">
      <registrations name="global" />
    </area>
-  </folder> 
+  </folder>
   <folder name="Crops">
     <barley />
     <bambatsi />
@@ -37,7 +37,7 @@
            <stress_index>0.0</stress_index>
            <stem_reloc description="stem_reloc (kg/ha)">0.0</stem_reloc>
            <frosts>0</frosts>
-  
+
            <FarmwisePastureGreenHerbage name="Herbage1">
               <dmd description="dmd (kg/kg)">0.825</dmd>
               <weight description="weight (kg/ha)">8000.0</weight>
@@ -47,7 +47,7 @@
               <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
               <root_wt description="root_wt (kg/ha)">3600.0</root_wt>
            </FarmwisePastureGreenHerbage>
-  
+
            <FarmwisePastureGreenHerbage name="Herbage2">
               <dmd description="dmd (kg/kg)">0.825</dmd>
               <weight description="weight (kg/ha)">1000.0</weight>
@@ -779,6 +779,21 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
         <property name="crop20" value="nil" type="crop" description="Enter 20th crop : " />
       </category>
     </rule>
+    <rule name="Buy stock on a fixed date">
+      <condition name="start_of_day"><![CDATA[
+        if (today = date('[date]') then
+           [stockmodule] buystock number = [number] (-), sex = [sex], age = [age] (months), weight = [weight] (kg)
+         endif
+               ]]></condition>
+      <category name="Buy properties">
+        <property name="stockmodule" value="cattle" type="modulename" description="Enter name of stock converter module : " />
+        <property name="date" value="1-jan" type="text" description="Enter sowing date (dd-mmm) : " />
+        <property name="number" value="5" type="text" description="Enter number of stock to buy : " />
+        <property name="sex" value="steer" type="list" listvalues="cow,cows,heifer,heifers,steer,steers,bull,bulls" description="Select sex of animals : " />
+        <property name="age" value="12" type="text" description="Enter age of animals (months) : " />
+        <property name="weight" value="250" type="text" description="Enter weight of animals (kg) : " />
+      </category>
+    </rule>
   </manager>
   <folder name="Tcl">
    <tclmanager name="TCL Manager (standalone)">
@@ -794,14 +809,14 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
 wm withdraw .
 
 package require tkcon
-tkcon show 
+tkcon show
 tkcon title "Apsim Debugging Console"
 puts "Commands:"
-puts " 'c'       - Continue"   
-puts " 's <n>'   - Step n days (default 1)"   
-puts " 'p <what>'- Print apsim variable"   
-puts " 'b <cond>'- Set break condition"   
-set steps 1   
+puts " 'c'       - Continue"
+puts " 's <n>'   - Step n days (default 1)"
+puts " 'p <what>'- Print apsim variable"
+puts " 'b <cond>'- Set break condition"
+set steps 1
 update
 
 # A 4 command debugger:
@@ -824,7 +839,7 @@ proc setLinked {a n1 n2 op} {apsimSet $a $n1}
         <condition name="prepare" />
         <condition name="process">update
 foreach cond $Conds {
-  if {[expr $cond]} { 
+  if {[expr $cond]} {
     set steps 1
   }
 }
@@ -950,48 +965,123 @@ if {$steps == 0} {tkwait variable steps}
     <d_interception name="d_interception">0.0</d_interception>
   </micromet>
   <folder name="Animals">
-    <StockScienceConverter name="StockScienceConverter" />
-    <stock name="sheep">
-      <type name="type">sheep</type>
-      <breed name="breed">Medium Merino</breed>
-      <srw name="srw">50.0</srw>
-      <male_breed name="male_breed">Medium Merino</male_breed>
-      <male_srw name="male_srw">50.0</male_srw>
-      <conception1 name="conception1">0.8</conception1>
-      <conception2 name="conception2">0.15</conception2>
-      <conception3 name="conception3">0</conception3>
-      <death_rate name="death_rate">0.02</death_rate>
-      <ref_fleece_wt name="ref_fleece_wt">4.5</ref_fleece_wt>
-      <max_fibre_diam name="max_fibre_diam">20.0</max_fibre_diam>
-      <fleece_yield name="fleece_yield">0.7</fleece_yield>
-      <peak_milk name="peak_milk">25.0</peak_milk>
-      <group name="sheep group">
-        <number>120</number>
-        <sex>wether</sex>
-        <age>730.0</age>
-        <weight>50.0</weight>
-        <max_prev_wt>50.0</max_prev_wt>
-        <fleece_wt>6.0</fleece_wt>
-        <fibre_diam>20.0</fibre_diam>
-        <pregnant>0</pregnant>
-        <lactating>0</lactating>
-        <no_young>0</no_young>
-        <birth_cs>0.0</birth_cs>
-        <lamb_wt>0.0</lamb_wt>
-        <lamb_fleece_wt>0.0</lamb_fleece_wt>
-        <paddock>paddock_1</paddock>
-        <tag>0</tag>
-        <priority>0</priority>
-      </group>
+    <StockScienceConverter>
+      <herbage_module_name>lablab</herbage_module_name>
+      <debug type="list" listvalues="on,off">off</debug>
+      <conversion_model>herbage</conversion_model>
+      <herbage_model>plant</herbage_model>
+
+      <dmdValue>0.8 0.7 0.6 0.5 0.4 0.3</dmdValue>
+
+      <p_conc_green_leaf_default>0.004</p_conc_green_leaf_default>
+      <p_conc_green_stem_default>0.003</p_conc_green_stem_default>
+      <p_conc_senesced_leaf_default>0.004</p_conc_senesced_leaf_default>
+      <p_conc_senesced_stem_default>0.003</p_conc_senesced_stem_default>
+      <p_conc_dead_leaf_default>0.004</p_conc_dead_leaf_default>
+      <p_conc_dead_stem_default>0.003</p_conc_dead_stem_default>
+
+      <ash_alk_green_leaf_default>254.0</ash_alk_green_leaf_default>
+      <ash_alk_green_stem_default>96.0</ash_alk_green_stem_default>
+      <ash_alk_senesced_leaf_default>254.0</ash_alk_senesced_leaf_default>
+      <ash_alk_senesced_stem_default>96.0</ash_alk_senesced_stem_default>
+      <ash_alk_dead_leaf_default>254.0</ash_alk_dead_leaf_default>
+      <ash_alk_dead_stem_default>96.0</ash_alk_dead_stem_default>
+
+      <ns_ratio_green_leaf_default>19.0</ns_ratio_green_leaf_default>
+      <ns_ratio_green_stem_default>11.0</ns_ratio_green_stem_default>
+      <ns_ratio_senesced_leaf_default>19.0</ns_ratio_senesced_leaf_default>
+      <ns_ratio_senesced_stem_default>11.0</ns_ratio_senesced_stem_default>
+      <ns_ratio_dead_leaf_default>19.0</ns_ratio_dead_leaf_default>
+      <ns_ratio_dead_stem_default>11.0</ns_ratio_dead_stem_default>
+
+      <np_ratio_green_leaf_default>8.0</np_ratio_green_leaf_default>
+      <np_ratio_green_stem_default>8.0</np_ratio_green_stem_default>
+      <np_ratio_senesced_leaf_default>8.0</np_ratio_senesced_leaf_default>
+      <np_ratio_senesced_stem_default>8.0</np_ratio_senesced_stem_default>
+      <np_ratio_dead_leaf_default>8.0</np_ratio_dead_leaf_default>
+      <np_ratio_dead_stem_default>8.0</np_ratio_dead_stem_default>
+
+      <dmd_green_leaf>0.80 0.65 0.60</dmd_green_leaf>
+      <dmd_green_stem>0.60 0.55 0.50</dmd_green_stem>
+      <dmd_senesced_leaf>0.60 0.50 0.40</dmd_senesced_leaf>
+      <dmd_senesced_stem>0.50 0.35 0.30</dmd_senesced_stem>
+      <dmd_dead_leaf>0.40 0.40 0.40</dmd_dead_leaf>
+      <dmd_dead_stem>0.30 0.30 0.30</dmd_dead_stem>
+
+      <KQ5Leaf>0.008</KQ5Leaf>
+      <KQ5Stem>0.004</KQ5Stem>
+      <KQ4>200</KQ4>
+
+      <cp_n_ratio>6.25</cp_n_ratio>
+    </StockScienceConverter>
+    <stock>
+       <stockgenotype name="Medium Merino Genotype">
+         <genotypename>Medium Merino</genotypename>
+         <dam_breed></dam_breed>
+         <sire_breed></sire_breed>
+         <generation>0</generation>
+         <srw>50.0</srw>
+         <conception1>0.8</conception1>
+         <conception2>0.15</conception2>
+         <death_rate>0.02</death_rate>
+         <ref_fleece_wt>4.5</ref_fleece_wt>
+         <max_fibre_diam>19.0</max_fibre_diam>
+         <fleece_yield>0.7</fleece_yield>
+         <peak_milk>25.0</peak_milk>
+       </stockgenotype>
+       <stockgenotype name="Angus Genotype">
+         <genotypename>Angus</genotypename>
+         <dam_breed></dam_breed>
+         <sire_breed></sire_breed>
+         <generation>0</generation>
+         <srw>520.0</srw>
+         <conception1>0.8</conception1>
+         <conception2>0.15</conception2>
+         <death_rate>0.01</death_rate>
+         <ref_fleece_wt>4.5</ref_fleece_wt>
+         <max_fibre_diam>19.0</max_fibre_diam>
+         <fleece_yield>0.7</fleece_yield>
+         <peak_milk>25.0</peak_milk>
+       </stockgenotype>
+       <sheep>
+         <genotypename>Medium Merino</genotypename>
+         <number>120</number>
+         <sex type="list" listvalues="ewe,ewes,wether,wethers,ram,rams,crypto,cryptos">wether</sex>
+         <age>730.0</age>
+         <weight>50.0</weight>
+         <max_prev_wt>50.0</max_prev_wt>
+         <fleece_wt>6.0</fleece_wt>
+         <fibre_diam>20.0</fibre_diam>
+         <mated_to></mated_to>
+         <pregnant>0</pregnant>
+         <lactating>0</lactating>
+         <no_young>0</no_young>
+         <birth_cs>0.0</birth_cs>
+         <lamb_wt>0.0</lamb_wt>
+         <lamb_fleece_wt>0.0</lamb_fleece_wt>
+         <paddock></paddock>
+         <tag>0</tag>
+         <priority>0</priority>
+       </sheep>
+       <cattle>
+         <genotypename>Angus</genotypename>
+         <number>120</number>
+         <sex type="list" listvalues="cow,cows,heifer,heifers,steer,steers,bull,bulls">steer</sex>
+         <age>730.0</age>
+         <weight>50.0</weight>
+         <max_prev_wt>50.0</max_prev_wt>
+         <mated_to></mated_to>
+         <pregnant>0</pregnant>
+         <lactating>0</lactating>
+         <no_foetuses>0</no_foetuses>
+         <no_suckling>0</no_suckling>
+         <birth_cs>0.0</birth_cs>
+         <calf_wt>0.0</calf_wt>
+         <paddock></paddock>
+         <tag>0</tag>
+         <priority>0</priority>
+       </cattle>
     </stock>
-    <stock name="cattle">
-      <type name="type">cattle</type>
-      <breed name="breed" description="Name of the animal breed" type="list" listvalues="angus, ayrshire, beef shorthorn, brahman, brahman x british, brown swiss, charolais, charolais x british, charolais x friesian, charolais x holstein, chianina, dairy shorthorn, friesian, friesian x british, guernsey, hereford, holstein, holstein x british, jersey, limousin, sahiwal, simmental, south devon">Angus</breed>
-      <death_rate name="death_rate" description="Base rate of animal mortality (/year)">0.02</death_rate>
-      <group name="cattle group">
-        <number>0</number>
-      </group>
-    </stock>
-  </folder>  
+  </folder>
 
 </folder>
