@@ -42,6 +42,9 @@ void PlantPart::initialize(void)
    dltDetNSenesced = 0.0;
    dltDetNDead = 0.0;
    nConc = 0.0;
+   nDemand = 0.0;
+   dltNSenesced = 0.0;
+   dltDetNSenesced = 0.0;
 
    // phosphorus
    pGreen = 0.0;

@@ -64,7 +64,7 @@ void OOPlant::doRegistrations(void)
    setupGetVar("plants", plantDensity, "plants/m2", "Plant density");
    setupGetVar("tiller_no", ftn, "tillers/plant", "No of tillers on main stem");
    setupGetVar("tiller_no_fertile", ftn, "tillers/plant", "No of tillers that produce a head");
-   setupGetVar("vpd", vpd, "", "Vapour pressure density");
+   setupGetVar("vpd", vpd, "", "Vapour pressure deficit");
    setupGetVar("transp_eff", transpEff, "g/m2", "Transpiration efficiency");
 #undef setupGetVar
 
@@ -163,10 +163,9 @@ void OOPlant::doKillCrop(unsigned &, unsigned &, protocol::Variant &v)
       setStatus(dead);
       char line[80];
       sprintf(line,"Crop kill. Standing above-ground dm = %7.1f kg/ha",
-         biomass->getAboveGroundBiomass() * gm2kg /sm2ha);
+         biomass->getAboveGroundBiomass());
       plantInterface->writeString(line);
       }
-      /* TODO : deand and senesced bio to be added here */
    }
 //------------------------------------------------------------------------------------------------
 //-----------------   Field a NewMet event
@@ -234,8 +233,7 @@ void OOPlant::doHarvest(unsigned &, unsigned &, protocol::Variant &v)     // Fie
    plantInterface->publish (id, outgoingApsimVariant);
 
    grain->Harvest();
-   biomass->Harvest();
-   //plant_harvest (v);             // harvest crop - turn into residue
+   biomass->Update();
    }
 //------------------------------------------------------------------------------------------------
 //-----------------   end run
@@ -243,7 +241,6 @@ void OOPlant::doHarvest(unsigned &, unsigned &, protocol::Variant &v)     // Fie
 void OOPlant::doEndRun(unsigned &, unsigned &, protocol::Variant &/*v*/)  // Field a end run event
   {
   plantInterface->writeString("End Run");
-  //plant_zero_variables ();
   }
 //------------------------------------------------------------------------------------------------
 /*
@@ -322,6 +319,9 @@ void OOPlant::doEndCrop(unsigned &, unsigned &,protocol::Variant &v)     // Fiel
 
    roots->incorporateResidue();
    biomass->incorporateResidue();
+   for(unsigned i=0;i < PlantParts.size();i++) PlantParts[i]->initialize ();
+   biomass->Harvest();
+   biomass->Update();
 
    }
 //------------------------------------------------------------------------------------------------

@@ -190,7 +190,7 @@ void Roots::updateVars(void)
 
    dmGreen += dltDmGreen - dltDmSenesced;
    dmSenesced += dltDmSenesced;
-   nGreen  += dltNGreen  + dltNSenesced;
+   nGreen  += dltNGreen  - dltNSenesced;
    nSenesced += dltNSenesced;
    nConc = divide(nGreen,dmGreen,0);
 
@@ -364,6 +364,9 @@ void Roots::incorporateResidue(void)
       pIncorp.push_back(p * divide(rootLength[layer],rootLengthSum,0.0));
       }
 
+   float dmInc = sumVector(dmIncorp);
+   float nInc = sumVector(nIncorp);
+   float pInc = sumVector(pIncorp);
    unsigned int id = plantInterface->addRegistration(RegistrationType::event,"incorp_fom", "", "", "");
 
    protocol::ApsimVariant outgoingApsimVariant(plantInterface);

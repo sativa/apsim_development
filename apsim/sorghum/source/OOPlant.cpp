@@ -462,7 +462,7 @@ void OOPlant::killCrop(void)
       msg = msg + ftoa(AGBiomass, 2).c_str();
       msg = msg + " (kg/ha)";
    plantInterface->writeString (msg.c_str());
-   for(unsigned i=0;i < PlantComponents.size();i++) PlantComponents[i]->initialize ();
+//   for(unsigned i=0;i < PlantComponents.size();i++) PlantComponents[i]->initialize ();
 
    }
 //------------------------------------------------------------------------------------------------

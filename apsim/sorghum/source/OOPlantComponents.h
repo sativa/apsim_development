@@ -36,7 +36,6 @@ class PlantPart : public PlantComponent
    private:
 
    protected:
-   void initialize(void);
 
    // variables
    float stage;
@@ -96,6 +95,7 @@ class PlantPart : public PlantComponent
 
    public:
    PlantPart();
+   void initialize(void);
    virtual void phenologyEvent(int) = 0;
    virtual float calcNDemand(void) = 0;
    virtual float calcPDemand(void) = 0;
