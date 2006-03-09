@@ -46,7 +46,7 @@ void Nitrogen::doRegistrations(void)
    setupGetVar("biomass_n", nBiomass, "g/m2", "N above ground biomass including grain");
    setupGetVar("stover_n", nStover, "g/m2", "N above ground biomass excluding grain");
    setupGetVar("green_biomass_n", nGreenBiomass, "g/m2", "N in live above ground biomass including grain");
-   setupGetVar("n_cum_uptake", nUptakeTotal, "g/m2", "Nitrogen stress factor for photosynthesis");
+   setupGetVar("n_cum_uptake", nUptakeTotal, "g/m2", "Cumulative N Uptake");
    setupGetVar("n_Plant", nPlant, "g/m2", "Total Nitrogen in the plant including roots");
 
 #undef setupGetVar
@@ -112,11 +112,6 @@ void Nitrogen::initialize(void)
       dltNDetached.push_back(0.0);
       dltNDetachedDead.push_back(0.0);
       }
-
-//      massFlowSupply.push_back(0.0);
-//      diffusionSupply.push_back(0.0);
-//      fixationSupply.push_back(0.0);
-//      dltNo3.push_back(0.0);
 
    }
 //------------------------------------------------------------------------------------------------
@@ -202,7 +197,7 @@ void Nitrogen::doNewProfile(protocol::Variant &v /* message */)
 //------------------------------------------------------------------------------------------------
 void Nitrogen::process(void)
    {
-   getOtherVariables ();    
+   getOtherVariables ();
    supply();          // potential N in g/m2 from mass flow and diffusion
    demand();
    uptake();
@@ -224,12 +219,7 @@ void Nitrogen::updateVars(void)
 
    phenoStress = (1.0/0.7) * SLN * 1.25 - (3.0/7.0);
    phenoStress = bound(phenoStress,0.0,1.0);
-//   if(plant->phenology->currentStage() < endJuv)expansionStress = 1;
-//   else expansionStress = 1 - ((1.2 - Min(SLN,1.2)));
 
-//   expansionStress = Max(expansionStress,0.0);
-
-//   photoStress = (2.0/(1.0 + exp(-6.05*(SLN-0.41)))-1.0);    // correct
    photoStress = (2.0/(1.0 + exp(-6.05*(SLN-0.41)))-1.0);
    photoStress = Max(photoStress,0.0);
 
@@ -244,13 +234,13 @@ void Nitrogen::updateVars(void)
       {
       nGreen[i] = plant->PlantParts[i]->getNGreen();
       dltNGreen[i] = plant->PlantParts[i]->getDltNGreen();
-      dltNRetrans[i] = plant->PlantParts[i]->getNGreen();
+      dltNRetrans[i] = plant->PlantParts[i]->getDltNRetranslocate();
       nSenesced[i] = plant->PlantParts[i]->getNSenesced();
       nDead[i] = plant->PlantParts[i]->getNDead();
       dltNDetached[i] = plant->PlantParts[i]->getDltDetNSenesced();
       dltNDetachedDead[i] = plant->PlantParts[i]->getDltDetNDead();
-      //      nGreen += plant->PlantParts[i]->getNGreen();
       }
+
    rootDepth = plant->roots->getRootDepth();
    currentLayer = findIndex(rootDepth, dLayer);
 
@@ -263,6 +253,8 @@ void Nitrogen::updateVars(void)
    nBiomass = nGreenBiomass + sumVector(nSenesced) - plant->roots->getNSenesced();
    nStover = nBiomass - plant->grain->getNGreen() - plant->grain->getNSenesced();
    nUptakeTotal += actualTotal;
+   actualMassFlow = 0.0;
+   actualDiffusion = 0.0;
    }
 //------------------------------------------------------------------------------------------------
 //------- calculate nitrogen supply potential from mass flow diffusion and fixation
@@ -462,8 +454,10 @@ void Nitrogen::partition(void)
    // first rachis
    float toRachis = Min(rachisDemand,rachisRatio * nAvailable);
    plant->rachis->partitionN(toRachis);
+   nAvailable -= toRachis;
    // rest to stem
-   float toStem = Min(stemDemand,(1-rachisRatio) * nAvailable);
+//   float toStem = Min(stemDemand,(1-rachisRatio) * nAvailable);
+   float toStem = Max(nAvailable,0.0);
    plant->stem->partitionN(toStem);
 
    // get the grain N demand
