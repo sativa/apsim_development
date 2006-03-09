@@ -405,13 +405,49 @@ namespace CSGeneral
 					{
 					// get a list of all possible predicted crops.
 					string SoilNameNoSpaces = Order.Replace(" ", "");
+					double[] SoilDepthCentre = this.CumThicknessMidPoints;
+				
 					foreach (APSIMData PredSoil in  PredLLCoeff.get_Children(null))
 						if (PredSoil.Name.ToLower() == SoilNameNoSpaces.ToLower())
-							foreach (string Crop in PredSoil.ChildList(null))
-								if (!CropExists(Crop))
-									PredCrops.Add(Crop);
+							foreach (string CropName in PredSoil.ChildList(null))
+								if (!CropExists(CropName))
+									{
+									double[] a = null;
+									double[] b = null;
+									double[] CoeffDepthCentre = null;
+									PredictedCoeffs(CropName, ref a, ref b, ref CoeffDepthCentre);
+									if (SoilDepthCentre[SoilDepthCentre.Length-1] <= CoeffDepthCentre[CoeffDepthCentre.Length-1])
+										PredCrops.Add(CropName);
+									}
 					}
 				return PredCrops;
+				}
+			}
+
+		private void PredictedCoeffs(string CropName, ref double[] a, ref double[] b, ref double[] CoeffDepthCentre)
+			{
+			// Get all coefficients and convert to double arrays.
+			StringCollection AStrings = new StringCollection();
+			StringCollection BStrings = new StringCollection();
+			StringCollection LayerCentreStrings = new StringCollection();
+			string SoilNameNoSpaces = Order.Replace(" ", "");
+			foreach (APSIMData Layer in PredLLCoeff.Child(SoilNameNoSpaces).Child(CropName).get_Children("layer"))
+				{
+				AStrings.Add(Layer.get_ChildValue("a"));
+				BStrings.Add(Layer.get_ChildValue("b"));
+				LayerCentreStrings.Add(Layer.get_ChildValue("LayerCentre"));
+				}
+
+			if (AStrings.Count == 0 || AStrings.Count != BStrings.Count || AStrings.Count != LayerCentreStrings.Count)
+				throw new Exception("Invalid predicted LL coeffs found for soil: " + Order + " and crop: " + CropName);
+			a = new double[AStrings.Count];
+			b = new double[BStrings.Count];
+			CoeffDepthCentre = new double[LayerCentreStrings.Count];
+			for (int i = 0; i != AStrings.Count; i++)
+				{
+				a[i] = Convert.ToDouble(AStrings[i]);
+				b[i] = Convert.ToDouble(BStrings[i]);
+				CoeffDepthCentre[i] = Convert.ToDouble(LayerCentreStrings[i]);
 				}
 			}
 
@@ -419,29 +455,10 @@ namespace CSGeneral
 			{
 			if (Crops.Length > 0 && OpenPredLLCoeffFile())
 				{
-				// Get all coefficients and convert to double arrays.
-				StringCollection AStrings = new StringCollection();
-				StringCollection BStrings = new StringCollection();
-				StringCollection LayerCentreStrings = new StringCollection();
-				string SoilNameNoSpaces = Order.Replace(" ", "");
-				foreach (APSIMData Layer in PredLLCoeff.Child(SoilNameNoSpaces).Child(CropName).get_Children("layer"))
-					{
-					AStrings.Add(Layer.get_ChildValue("a"));
-					BStrings.Add(Layer.get_ChildValue("b"));
-					LayerCentreStrings.Add(Layer.get_ChildValue("LayerCentre"));
-					}
-
-				if (AStrings.Count == 0 || AStrings.Count != BStrings.Count || AStrings.Count != LayerCentreStrings.Count)
-					throw new Exception("Invalid predicted LL coeffs found for soil: " + Order + " and crop: " + CropName);
-				double[] a = new double[AStrings.Count];
-				double[] b = new double[BStrings.Count];
-				double[] CoeffDepthCentre = new double[LayerCentreStrings.Count];
-				for (int i = 0; i != AStrings.Count; i++)
-					{
-					a[i] = Convert.ToDouble(AStrings[i]);
-					b[i] = Convert.ToDouble(BStrings[i]);
-					CoeffDepthCentre[i] = Convert.ToDouble(LayerCentreStrings[i]);
-					}
+				double[] a = null;
+				double[] b = null;
+				double[] CoeffDepthCentre = null;
+				PredictedCoeffs(CropName, ref a, ref b, ref CoeffDepthCentre);
 
 				// Get some soil numbers we're going to need.
 				double[] SoilDepthCentre = this.CumThicknessMidPoints;
@@ -454,12 +471,16 @@ namespace CSGeneral
 					if (SoilDepthCentre[SoilDepthCentre.Length-1] <= CoeffDepthCentre[CoeffDepthCentre.Length-1])
 						{
 						double[] PredLL = new double[SoilDepthCentre.Length];
-						for (int i = 0; i != a.Length; i++)
+						for (int i = 0; i != SoilDepthCentre.Length; i++)
 							{
 							bool DidInterpolate = false;
 							double A = MathUtility.LinearInterpReal(SoilDepthCentre[i], CoeffDepthCentre, a, ref DidInterpolate);
 							double B = MathUtility.LinearInterpReal(SoilDepthCentre[i], CoeffDepthCentre, b, ref DidInterpolate);
 							PredLL[i] = SoilDUL[i] * (A + B * SoilDUL[i]) / 100.0;
+
+							// Bound the predicted LL values.
+							PredLL[i] = Math.Max(PredLL[i], this.LL15[i]);
+							PredLL[i] = Math.Min(PredLL[i], this.DUL[i]);
 
 							// make the top 2 layers the same as the first measured crop LL
 							if (i == 0 || i == 1)

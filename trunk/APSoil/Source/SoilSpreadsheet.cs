@@ -20,34 +20,39 @@ namespace APSoil
 			// Import all files
 			Cursor.Current = Cursors.WaitCursor;
 
-			string InitialSelection = Apsoil.SelectedPaths[0];
-
 			DataTable Table = ExcelHelper.GetDataFromSheet(FileName, "SoilData");
-
 			StringCollection NewSelections = new StringCollection();
+			string NewXml = "";
 			int Row = 0;
             while (Row < Table.Rows.Count)
-				{
-				Apsoil.AddXMLToSelected(CreateSoilFromSpreadsheet(Table, ref Row).Data.XML);
-				NewSelections.Add(Apsoil.SelectedPaths[0]);
-				StringCollection Selections = new StringCollection();
-				Selections.Add(InitialSelection);
-				Apsoil.SelectedPaths = Selections;
-				}
-			if (NewSelections.Count > 0)
-				Apsoil.SelectedPaths = NewSelections;
+				NewXml += CreateSoilXmlFromSpreadsheet(Table, ref Row);
+			Apsoil.AddXMLToSelected(NewXml);
 			
 			Cursor.Current = Cursors.Default;
 			}
 
 		static public void ExportToFile(string FileName, APSIMData Soils)
 			{
+			Cursor.Current = Cursors.WaitCursor;
+
 			// export the specified soils to the specified XLS file.
 			DataTable Table = new DataTable("SoilData");
 			int Row = 0;
-			foreach (APSIMData Data in Soils.get_Children("soil"))
-				CreateTableFromSoil(new Soil(Data), Table, ref Row);
+			CreateTableFromData(Soils, Table, ref Row);
 			ExcelHelper.SendDataToSheet(FileName, "SoilData", Table);			
+			
+			Cursor.Current = Cursors.Default;
+			}
+
+		static private void CreateTableFromData(APSIMData Data, DataTable Table, ref int Row)
+			{
+			if (Data.Type.ToLower() == "soils" || Data.Type.ToLower() == "folder")
+				{
+				foreach (APSIMData Child in Data.get_Children(null))
+					CreateTableFromData(Child, Table, ref Row); // recursion
+				}
+			else if (Data.Type.ToLower() == "soil")
+				CreateTableFromSoil(new Soil(Data), Table, ref Row);
 			}
 
 
@@ -121,7 +126,7 @@ namespace APSoil
 			}
 
 
-		static private Soil CreateSoilFromSpreadsheet(DataTable Table, ref int Row)
+		static private string CreateSoilXmlFromSpreadsheet(DataTable Table, ref int Row)
 			{
 			// Create a new soil from the the specified table.
 			// At end of this method, row will be pointing to the next
@@ -221,7 +226,7 @@ namespace APSoil
 				}
 
 			Row += NumLayers;
-			return NewSoil;
+			return NewSoil.Data.XML;
 			}
 
 		static private string GetStringValue(DataTable Table, string FieldName, int Row)

@@ -158,6 +158,7 @@ namespace CSGeneral
 			this.Grid.ContextMenu = this.WaterMenu;
 			this.Grid.Dock = System.Windows.Forms.DockStyle.Top;
 			this.Grid.EditModeReplace = true;
+			this.Grid.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded;
 			this.Grid.Location = new System.Drawing.Point(0, 64);
 			this.Grid.Name = "Grid";
 			this.Grid.Sheets.AddRange(new FarPoint.Win.Spread.SheetView[] {
@@ -166,13 +167,12 @@ namespace CSGeneral
 																			  this.SoilProfile,
 																			  this.APSIM,
 																			  this.Phosphorus});
-			this.Grid.Size = new System.Drawing.Size(1049, 292);
+			this.Grid.Size = new System.Drawing.Size(1145, 292);
 			this.Grid.TabIndex = 12;
 			this.Grid.TabStrip.ButtonPolicy = FarPoint.Win.Spread.TabStripButtonPolicy.AsNeeded;
 			this.Grid.TabStripPolicy = FarPoint.Win.Spread.TabStripPolicy.Always;
-			this.Grid.TabStripRatio = 0.547256097560976;
+			this.Grid.TabStripRatio = 0.417256097560976;
 			this.Grid.SetViewportLeftColumn(0, 1);
-			this.Grid.SetActiveViewport(0, -1);
 			this.Grid.SetViewportLeftColumn(1, 0, 6);
 			this.Grid.SetActiveViewport(1, 0, -1);
 			this.Grid.ActiveSheetIndex = 1;
@@ -562,7 +562,7 @@ namespace CSGeneral
 			this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.splitter1.Location = new System.Drawing.Point(0, 356);
 			this.splitter1.Name = "splitter1";
-			this.splitter1.Size = new System.Drawing.Size(1049, 3);
+			this.splitter1.Size = new System.Drawing.Size(1145, 3);
 			this.splitter1.TabIndex = 13;
 			this.splitter1.TabStop = false;
 			// 
@@ -573,7 +573,7 @@ namespace CSGeneral
 			this.WaterChartControl.Location = new System.Drawing.Point(0, 359);
 			this.WaterChartControl.Name = "WaterChartControl";
 			this.WaterChartControl.ShowSoilWaterLine = false;
-			this.WaterChartControl.Size = new System.Drawing.Size(1049, 152);
+			this.WaterChartControl.Size = new System.Drawing.Size(1145, 342);
 			this.WaterChartControl.TabIndex = 14;
 			// 
 			// PrintForm
@@ -615,7 +615,7 @@ namespace CSGeneral
 			this.UnitPanel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.UnitPanel.Location = new System.Drawing.Point(0, 40);
 			this.UnitPanel.Name = "UnitPanel";
-			this.UnitPanel.Size = new System.Drawing.Size(1049, 24);
+			this.UnitPanel.Size = new System.Drawing.Size(1145, 24);
 			this.UnitPanel.TabIndex = 15;
 			// 
 			// label1
@@ -654,7 +654,7 @@ namespace CSGeneral
 			this.Controls.Add(this.Grid);
 			this.Controls.Add(this.UnitPanel);
 			this.Name = "SoilUI";
-			this.Size = new System.Drawing.Size(1049, 511);
+			this.Size = new System.Drawing.Size(1145, 701);
 			this.Controls.SetChildIndex(this.UnitPanel, 0);
 			this.Controls.SetChildIndex(this.Grid, 0);
 			this.Controls.SetChildIndex(this.splitter1, 0);

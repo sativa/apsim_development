@@ -1252,7 +1252,7 @@ namespace APSoil
 			if (Apsoil.SelectedData.Count >= 1)
 				{
 				APSIMData FirstSoil = (APSIMData) Apsoil.SelectedData[0];
-				ExportSoilsDialog.FileName = FirstSoil.Name + ".par";
+				ExportSoilsDialog.FileName = FirstSoil.Name + ".soils";
 				}
 
 			// User has clicked on Export selected soils to another .soils file.
@@ -1281,7 +1281,7 @@ namespace APSoil
 			if (Apsoil.SelectedData.Count >= 1)
 				{
 				APSIMData FirstSoil = (APSIMData) Apsoil.SelectedData[0];
-				ExportSpreadsheetDialog.FileName = FirstSoil.Name + ".par";
+				ExportSpreadsheetDialog.FileName = FirstSoil.Name + ".xls";
 				}
 
 			// User has clicked on export selected file to spreadsheet

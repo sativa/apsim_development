@@ -106,7 +106,17 @@ namespace CSGeneral
 				if (Table.Rows[Row][ColumnName].ToString() == "")
 					Values[Index] = MathUtility.MissingValue;
 				else
-					Values[Index] = Convert.ToDouble(Table.Rows[Row][ColumnName]);
+					{
+					try
+						{
+						Values[Index] = Convert.ToDouble(Table.Rows[Row][ColumnName]);
+						}
+					catch (Exception)
+						{
+						throw new Exception("Invalid number found: " + Table.Rows[Row][ColumnName].ToString() +
+											". Row: " + Row.ToString() + ". Column name: " + ColumnName);
+						}
+					}
 				Index++;
 				}
 			return Values;
