@@ -1,37 +1,11 @@
-#include <general\pch.h>
-#include <vcl.h>
-#include <boost/function.hpp>
-#pragma hdrstop
-
-#include <math.h>
-#include <string>
-#include <strstream>
-#include <iomanip.h>
-
-#include <general/string_functions.h>
-#include <general/stl_functions.h>
-#include <ApsimShared/FStringExt.h>
-#include <ComponentInterface/MessageDataExt.h>
-#include <ComponentInterface/ApsimVariant.h>
-
-#include <ComponentInterface/Component.h>
-#include <ComponentInterface/DataTypes.h>
 #include "HerbageBase.h"
+#include "Conversion.h"
 
-
-#pragma package(smart_init)
 using namespace std;
 
 
 #define singleArrayTypeDDML \
    "<type  array=\"T\" kind=\"single\"/>"
-
-      const float kg2g = 1000.0 ;
-      const float ha2sm = 10000.0 ;
-      const float g2kg = 1.0/kg2g ;
-      const float sm2ha = 1.0/ha2sm ;
-      const float cmol2mol = 1.0/100.0 ;
-      const float mm2m = 1.0/1000.0;
 
 //      const float dmdValue[numDmdPools] = {0.8, 0.7, 0.6, 0.5, 0.4, 0.3};
 
@@ -310,7 +284,7 @@ void HerbageBase::dmdClass (float dmdMax, float dmdMin, float &dmdClassMax, floa
    for (int dmdClassNum = 0; dmdClassNum < cNumDmdPools; dmdClassNum++)
    {           // Assume dmdValue in descending order
       dmdClassMax = dmdClassNum;
-      if (abs(dmdMax - cDmdValue[dmdClassNum]) < errorMargin)
+      if (fabs(dmdMax - cDmdValue[dmdClassNum]) < errorMargin)
       {
          exit;
       }
@@ -319,7 +293,7 @@ void HerbageBase::dmdClass (float dmdMax, float dmdMin, float &dmdClassMax, floa
    for (int dmdClassNum = 0; dmdClassNum < cNumDmdPools; dmdClassNum++)
    {           // Assume dmdValue in descending order
       dmdClassMin = dmdClassNum;
-      if (abs(dmdMin - cDmdValue[dmdClassNum]) < errorMargin)
+      if (fabs(dmdMin - cDmdValue[dmdClassNum]) < errorMargin)
       {
          exit;
       }
@@ -380,7 +354,7 @@ void HerbageBase::readParameters ( void )
 
     cHerbageModuleName = system->readParameter (section_name, "herbage_module_name");
     cDebug = system->readParameter (section_name, "debug");
-    system->readParameter (cHerbageModuleName.c_str(), "dmdValue", cDmdValue, cNumDmdPools, 0.0, 1.0);
+    system->readParameter (section_name, "dmdValue", cDmdValue, cNumDmdPools, 0.0, 1.0);
 
       ostrstream msg;
       msg << "Herbage module name = " << cHerbageModuleName << endl

@@ -1,10 +1,9 @@
 //---------------------------------------------------------------------------
-#ifndef HerbageConverterH
-#define HerbageConverterH
+#ifndef HerbageConverter_H
+#define HerbageConverter_H
 #include <ComponentInterface\Component.h>
 #include <string>
 #include <vector>
-#include "PlantPool.h"
 #include "PlantHerbage.h"
 #include "ConverterBase.h"
 
@@ -41,7 +40,7 @@ class HerbageConverter : public ConverterBase
       unsigned removeCropBiomassID;
       bool plant2StockSent;
 
-      protocol::Component *system;
+////      protocol::Component *system;
       protocol::plant2stockType feed;
       protocol::remove_herbageType grazed;
 

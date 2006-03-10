@@ -1,23 +1,5 @@
-#include <general\pch.h>
-#include <vcl.h>
-#include <boost/function.hpp>
-#pragma hdrstop
-
-#include <math.h>
-#include <string>
-#include <strstream>
-#include <iomanip.h>
-
-#include <general/string_functions.h>
-#include <general/stl_functions.h>
-#include <ApsimShared/FStringExt.h>
-#include <ComponentInterface/MessageDataExt.h>
-#include <ComponentInterface/ApsimVariant.h>
-
-#include <ComponentInterface/Component.h>
-#include <ComponentInterface/DataTypes.h>
 #include "PlantHerbage.h"
-
+#include "Conversion.h"
 
 #pragma package(smart_init)
 using namespace std;
@@ -42,13 +24,6 @@ using namespace std;
 // number of plant parts
 // const int  max_part = 6 ; // NB. implies for (i=0; i < max_part; max_part++) usage
 
-      const float kg2g = 1000.0 ;
-      const float ha2sm = 10000.0 ;
-      const float g2kg = 1.0/kg2g ;
-      const float sm2ha = 1.0/ha2sm ;
-      const float cmol2mol = 1.0/100.0 ;
-      const float mm2m = 1.0/1000.0;
-
 //      const float dmdValue[numDmdPools] = {0.8, 0.7, 0.6, 0.5, 0.4, 0.3};
 
       inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
@@ -57,27 +32,10 @@ using namespace std;
 // ------------------------------------------------------------------
 // constructor
 // ------------------------------------------------------------------
-PlantHerbage::PlantHerbage(protocol::Component *s)
+PlantHerbage::PlantHerbage(protocol::Component *s) : HerbageBase(s)
    {
-      system = s;
+////      system = s;
    }
-// ------------------------------------------------------------------
-// Destructor
-// ------------------------------------------------------------------
-PlantHerbage::~PlantHerbage(void)
-   {
-   }
-// ------------------------------------------------------------------
-// Init1 phase.
-// ------------------------------------------------------------------
-void PlantHerbage::doInit1(const FString& sdml)
-   {
-//   protocol::Component::doInit1(sdml);
-
-//   dmFeedOnOfferID = system->addRegistration(RegistrationType::respondToGet, "dm_feed_on_offer", singleArrayTypeDDML);
-//   dmFeedRemovedID = system->addRegistration(RegistrationType::respondToGet, "dm_feed_removed", singleArrayTypeDDML);
-
-  }
 // ------------------------------------------------------------------
 // Init2 phase.
 // ------------------------------------------------------------------
@@ -90,49 +48,80 @@ void PlantHerbage::doInit2(void)
 //     init ();           // Site specific init
 //     get_other_variables (); // sw etc..
    }
+
+void PlantHerbage::doDigestibility(void)
+{
+      getVariables();
+
+      calcDmdDecline();
+
+      if (dm.total() > 0.0)
+      {
+
+// distribute herbage
+
+
+      calcDmdDistribution(dmdFraction, dQ);
+////      calcDmdDistributionB(dmdFraction, dQ);
+
+      for (int pool = 0; pool < cNumDmdPools; pool++)
+      {
+         if (cDebug == "on")
+         {
+            ostrstream msgFraction;
+            msgFraction << endl << "Herbage dmd distribution, pool " << pool+1 << ":-" << endl;
+            msgFraction << dmdFraction[pool] << ends;
+            system->writeString (msgFraction.str());
+         }
+
+
+      } // end of Pools loop
+   }
+}
+
 // ------------------------------------------------------------------
 // Runtime Registrations.
 // ------------------------------------------------------------------
 void PlantHerbage::doRunTimeReg(void)
    {
-   dmGreenID = system->addRegistration(RegistrationType::get, "dm_green", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
-   dmGreenDeltaID = system->addRegistration(RegistrationType::get, "dlt_dm_green", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
-   dmGreenRetransDeltaID = system->addRegistration(RegistrationType::get, "dlt_dm_green_retrans", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
-   nGreenID = system->addRegistration(RegistrationType::get, "n_green", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
-   pGreenID = system->addRegistration(RegistrationType::get, "p_green", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
+   HerbageBase::doRunTimeReg();
 
-   dmSenescedID = system->addRegistration(RegistrationType::get, "dm_senesced", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
-   dmSenescedDeltaID = system->addRegistration(RegistrationType::get, "dlt_dm_senesced", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
-   dmSenescedDetachedDeltaID = system->addRegistration(RegistrationType::get, "dlt_dm_detached", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
-   nSenescedID = system->addRegistration(RegistrationType::get, "n_senesced", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
-   pSenescedID = system->addRegistration(RegistrationType::get, "p_senesced", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
+   dmGreenID = system->addRegistration(RegistrationType::get, "dm_green", singleArrayTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+   dmGreenDeltaID = system->addRegistration(RegistrationType::get, "dlt_dm_green", singleArrayTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+   dmGreenRetransDeltaID = system->addRegistration(RegistrationType::get, "dlt_dm_green_retrans", singleArrayTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+   nGreenID = system->addRegistration(RegistrationType::get, "n_green", singleArrayTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+   pGreenID = system->addRegistration(RegistrationType::get, "p_green", singleArrayTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
 
-   dmDeadID = system->addRegistration(RegistrationType::get, "dm_dead", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
-   dmGreenDeadDeltaID = system->addRegistration(RegistrationType::get, "dlt_dm_green_dead", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
-   dmSenescedDeadDeltaID = system->addRegistration(RegistrationType::get, "dlt_dm_senesced_dead", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
-   dmDeadDetachedDeltaID = system->addRegistration(RegistrationType::get, "dlt_dm_dead_detached", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
-   nDeadID = system->addRegistration(RegistrationType::get, "n_dead", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
-   pDeadID = system->addRegistration(RegistrationType::get, "p_dead", singleArrayTypeDDML,"", c.herbageModuleName.c_str());   // parameter crop name=lablab
+   dmSenescedID = system->addRegistration(RegistrationType::get, "dm_senesced", singleArrayTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+   dmSenescedDeltaID = system->addRegistration(RegistrationType::get, "dlt_dm_senesced", singleArrayTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+   dmSenescedDetachedDeltaID = system->addRegistration(RegistrationType::get, "dlt_dm_detached", singleArrayTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+   nSenescedID = system->addRegistration(RegistrationType::get, "n_senesced", singleArrayTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+   pSenescedID = system->addRegistration(RegistrationType::get, "p_senesced", singleArrayTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
 
-   heightID = system->addRegistration(RegistrationType::get, "height", singleTypeDDML,"", c.herbageModuleName.c_str());
-   thermalTimeID = system->addRegistration(RegistrationType::get, "tt_tot()", singleTypeDDML,"", c.herbageModuleName.c_str());
-   thermalTimeBGID = system->addRegistration(RegistrationType::get, "tt_tot(1-2)", singleArrayTypeDDML,"", c.herbageModuleName.c_str());
+   dmDeadID = system->addRegistration(RegistrationType::get, "dm_dead", singleArrayTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+   dmGreenDeadDeltaID = system->addRegistration(RegistrationType::get, "dlt_dm_green_dead", singleArrayTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+   dmSenescedDeadDeltaID = system->addRegistration(RegistrationType::get, "dlt_dm_senesced_dead", singleArrayTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+   dmDeadDetachedDeltaID = system->addRegistration(RegistrationType::get, "dlt_dm_dead_detached", singleArrayTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+   nDeadID = system->addRegistration(RegistrationType::get, "n_dead", singleArrayTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+   pDeadID = system->addRegistration(RegistrationType::get, "p_dead", singleArrayTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
 
-   removeCropBiomassID = system->addRegistration(RegistrationType::event, "remove_crop_biomass", removeCropDmTypeDDML,"", c.herbageModuleName.c_str());
+   heightID = system->addRegistration(RegistrationType::get, "height", singleTypeDDML,"", cHerbageModuleName.c_str());
+   thermalTimeID = system->addRegistration(RegistrationType::get, "tt_tot()", singleTypeDDML,"", herbageModuleName().c_str());
+   thermalTimeBGID = system->addRegistration(RegistrationType::get, "tt_tot(1-2)", singleArrayTypeDDML,"", herbageModuleName().c_str());
+
    }
 // ------------------------------------------------------------------
 // Event handler.
 // ------------------------------------------------------------------
-void PlantHerbage::doGrazed(protocol::remove_herbageType grazed)
+void PlantHerbage::doDmdPoolsToHerbageParts(protocol::remove_herbageType &grazed, protocol::removeCropDmType &crop)
 {
-      for (int pool = 0; pool < c.numDmdPools; pool++)
+      for (int pool = 0; pool < numDmdPools(); pool++)
       {
          PlantPool poolDm = dm * dmdFraction[pool];
          float dmTot = poolDm.total();
          partFraction[pool] = poolDm / dmTot;
       }
 
-      protocol::removeCropDmType crop;
       protocol::dmType dm;
       crop.dm.erase(crop.dm.begin(), crop.dm.end());
       dm.dlt.erase(dm.dlt.begin(), dm.dlt.end());
@@ -141,12 +130,12 @@ void PlantHerbage::doGrazed(protocol::remove_herbageType grazed)
       dm.pool = "green";
       dm.part.push_back("leaf");
       float dmPart = 0.0;
-      for (int pool = 0; pool < c.numDmdPools; pool++) dmPart += grazed.herbage[pool]*partFraction[pool].green.leaf;
+      for (int pool = 0; pool < numDmdPools(); pool++) dmPart += grazed.herbage[pool]*partFraction[pool].green.leaf;
       dm.dlt.push_back(dmPart * kg2g / ha2sm);
 
       dm.part.push_back("stem");
       dmPart = 0.0;
-      for (int pool = 0; pool < c.numDmdPools; pool++) dmPart += grazed.herbage[pool]*partFraction[pool].green.stem;
+      for (int pool = 0; pool < numDmdPools(); pool++) dmPart += grazed.herbage[pool]*partFraction[pool].green.stem;
       dm.dlt.push_back(dmPart * kg2g / ha2sm);
 
       crop.dm.push_back(dm);
@@ -156,12 +145,12 @@ void PlantHerbage::doGrazed(protocol::remove_herbageType grazed)
       dm.pool = "senesced";
       dm.part.push_back("leaf");
       dmPart = 0.0;
-      for (int pool = 0; pool < c.numDmdPools; pool++) dmPart += grazed.herbage[pool]*partFraction[pool].senesced.leaf;
+      for (int pool = 0; pool < numDmdPools(); pool++) dmPart += grazed.herbage[pool]*partFraction[pool].senesced.leaf;
       dm.dlt.push_back(dmPart * kg2g / ha2sm);
 
       dm.part.push_back("stem");
       dmPart = 0.0;
-      for (int pool = 0; pool < c.numDmdPools; pool++) dmPart += grazed.herbage[pool]*partFraction[pool].senesced.stem;
+      for (int pool = 0; pool < numDmdPools(); pool++) dmPart += grazed.herbage[pool]*partFraction[pool].senesced.stem;
       dm.dlt.push_back(dmPart * kg2g / ha2sm);
 
       crop.dm.push_back(dm);
@@ -171,50 +160,17 @@ void PlantHerbage::doGrazed(protocol::remove_herbageType grazed)
       dm.pool = "dead";
       dm.part.push_back("leaf");
       dmPart = 0.0;
-      for (int pool = 0; pool < c.numDmdPools; pool++) dmPart += grazed.herbage[pool]*partFraction[pool].dead.leaf;
+      for (int pool = 0; pool < numDmdPools(); pool++) dmPart += grazed.herbage[pool]*partFraction[pool].dead.leaf;
       dm.dlt.push_back(dmPart * kg2g / ha2sm);
 
       dm.part.push_back("stem");
       dmPart = 0.0;
-      for (int pool = 0; pool < c.numDmdPools; pool++) dmPart += grazed.herbage[pool]*partFraction[pool].dead.stem;
+      for (int pool = 0; pool < numDmdPools(); pool++) dmPart += grazed.herbage[pool]*partFraction[pool].dead.stem;
       dm.dlt.push_back(dmPart * kg2g / ha2sm);
 
       crop.dm.push_back(dm);
       dm.dlt.erase(dm.dlt.begin(), dm.dlt.end());
       dm.part.erase(dm.part.begin(), dm.part.end());
-
-      float dmTotal = 0.0;
-      for (unsigned int pool=0; pool < crop.dm.size(); pool++)
-      {
-         for (unsigned int part = 0; part < crop.dm[pool].part.size(); part++)
-         {
-            dmTotal +=  crop.dm[pool].dlt[part];
-         }
-      }
-
-      if (c.debug == "on")
-      {
-         ostrstream msg;
-         msg << endl << "Remove herbage plant parts:-" << endl;
-
-         for (unsigned int pool=0; pool < crop.dm.size(); pool++)
-         {
-            for (unsigned int part = 0; part < crop.dm[pool].part.size(); part++)
-            {
-               msg << "   dm " << crop.dm[pool].pool << " " << crop.dm[pool].part[part] << " = " << crop.dm[pool].dlt[part] << " (g/m2)" << endl;
-            }
-         }
-
-         msg << endl << "   dm total = " << dmTotal << " (g/m2)" << endl << ends;
-
-         system->writeString (msg.str());
-
-      }
-
-      if (dmTotal > 1.0e-6)
-      {
-         publish (removeCropBiomassID, crop);
-      }
 
 }
 
@@ -404,7 +360,7 @@ void PlantHerbage::getThermalTime(float &thermalTime)
          }
 }
 
-void PlantHerbage::getVariables(PlantPool &dm, PlantPool &N, PlantPool &P, float &height, float &thermalTime)
+void PlantHerbage::getVariables(void)
 {
          // Get dm GREEN                                  // get part names: crop type (residue) or plant parts (leaf, stem etc).
       PlantPartType dmGreen;                              // get type names: standing,lying or green, senesced, dead
@@ -504,7 +460,7 @@ void PlantHerbage::getVariables(PlantPool &dm, PlantPool &N, PlantPool &P, float
 }
 
 
-void PlantHerbage::calcDmdDecline(const float &thermalTime, PlantPool &dQ)
+void PlantHerbage::calcDmdDecline(void)
 {
 
    const float ADJ = 1.1;
@@ -546,34 +502,34 @@ void PlantHerbage::calcDmdDistribution(PlantPool dmdFraction[], PlantPool dQ)
       float fraction[maxDmdPools];
 
 // get GREEN Leaf dmd fractions
-      for (int pool = 0; pool < c.numDmdPools; pool++) fraction[pool] = 0.0;
+      for (int pool = 0; pool < numDmdPools(); pool++) fraction[pool] = 0.0;
       proportion (dmdDeclined.green.leaf, dmdMax.green.leaf, dmdMin.green.leaf, fraction);
-      for (int pool = 0; pool < c.numDmdPools; pool++) dmdFraction[pool].green.leaf = fraction[pool];
+      for (int pool = 0; pool < numDmdPools(); pool++) dmdFraction[pool].green.leaf = fraction[pool];
 
 // get GREEN stem dmd fractions
-      for (int pool = 0; pool < c.numDmdPools; pool++) fraction[pool] = 0.0;
+      for (int pool = 0; pool < numDmdPools(); pool++) fraction[pool] = 0.0;
       proportion (dmdDeclined.green.stem, dmdMax.green.stem, dmdMin.green.stem, fraction);
-      for (int pool = 0; pool < c.numDmdPools; pool++) dmdFraction[pool].green.stem = fraction[pool];
+      for (int pool = 0; pool < numDmdPools(); pool++) dmdFraction[pool].green.stem = fraction[pool];
 
 // get SENESCED Leaf dmd fractions
-      for (int pool = 0; pool < c.numDmdPools; pool++) fraction[pool] = 0.0;
+      for (int pool = 0; pool < numDmdPools(); pool++) fraction[pool] = 0.0;
       proportion (dmdDeclined.senesced.leaf, dmdMax.senesced.leaf, dmdMin.senesced.leaf, fraction);
-      for (int pool = 0; pool < c.numDmdPools; pool++) dmdFraction[pool].senesced.leaf = fraction[pool];
+      for (int pool = 0; pool < numDmdPools(); pool++) dmdFraction[pool].senesced.leaf = fraction[pool];
 
 // get SENESCED stem dmd fractions
-      for (int pool = 0; pool < c.numDmdPools; pool++) fraction[pool] = 0.0;
+      for (int pool = 0; pool < numDmdPools(); pool++) fraction[pool] = 0.0;
       proportion (dmdDeclined.senesced.stem, dmdMax.senesced.stem, dmdMin.senesced.stem, fraction);
-      for (int pool = 0; pool < c.numDmdPools; pool++) dmdFraction[pool].senesced.stem = fraction[pool];
+      for (int pool = 0; pool < numDmdPools(); pool++) dmdFraction[pool].senesced.stem = fraction[pool];
 
 // get DEAD Leaf dmd fractions
-      for (int pool = 0; pool < c.numDmdPools; pool++) fraction[pool] = 0.0;
+      for (int pool = 0; pool < numDmdPools(); pool++) fraction[pool] = 0.0;
       proportion (dmdDeclined.dead.leaf, dmdMax.dead.leaf, dmdMin.dead.leaf, fraction);
-      for (int pool = 0; pool < c.numDmdPools; pool++) dmdFraction[pool].dead.leaf = fraction[pool];
+      for (int pool = 0; pool < numDmdPools(); pool++) dmdFraction[pool].dead.leaf = fraction[pool];
 
 // get DEAD Stem dmd fractions
-      for (int pool = 0; pool < c.numDmdPools; pool++) fraction[pool] = 0.0;
+      for (int pool = 0; pool < numDmdPools(); pool++) fraction[pool] = 0.0;
       proportion (dmdDeclined.dead.stem, dmdMax.dead.stem, dmdMin.dead.stem, fraction);
-      for (int pool = 0; pool < c.numDmdPools; pool++) dmdFraction[pool].dead.stem = fraction[pool];
+      for (int pool = 0; pool < numDmdPools(); pool++) dmdFraction[pool].dead.stem = fraction[pool];
 }
 
 void PlantHerbage::calcDmdDistributionB(PlantPool dmdFraction[], PlantPool dQ)
@@ -584,247 +540,30 @@ void PlantHerbage::calcDmdDistributionB(PlantPool dmdFraction[], PlantPool dQ)
 
 // get GREEN Leaf dmd fractions
       dmdFraction[0].green.leaf = 1.0;
-      c.dmdValue[0] = dmdDeclined.green.leaf;
+      cDmdValue[0] = dmdDeclined.green.leaf;
 
 // get GREEN stem dmd fractions
       dmdFraction[1].green.stem = 1.0;
-      c.dmdValue[1] = dmdDeclined.green.stem;
+      cDmdValue[1] = dmdDeclined.green.stem;
 
 // get SENESCED Leaf dmd fractions
       dmdFraction[2].senesced.leaf = 1.0;
-      c.dmdValue[2] = dmdDeclined.senesced.leaf;
+      cDmdValue[2] = dmdDeclined.senesced.leaf;
 
 // get SENESCED stem dmd fractions
       dmdFraction[3].senesced.stem = 1.0;
-      c.dmdValue[3] = dmdDeclined.senesced.stem;
+      cDmdValue[3] = dmdDeclined.senesced.stem;
 
 // get DEAD Leaf dmd fractions
       dmdFraction[4].dead.leaf = 1.0;
-      c.dmdValue[4] = dmdDeclined.dead.leaf;
+      cDmdValue[4] = dmdDeclined.dead.leaf;
 
 // get DEAD Stem dmd fractions
       dmdFraction[5].dead.stem = 1.0;
-      c.dmdValue[5] = dmdDeclined.dead.stem;
+      cDmdValue[5] = dmdDeclined.dead.stem;
 }
 
 
-//===========================================================================
-void PlantHerbage::proportion (float dmdAvg, float dmdMax, float dmdMin, float dmdFraction[])
-//===========================================================================
-
-//Definition
-//Assumptions
-//Parameters
-
-{
-   //Constant Values
-
-   const float MAXDMD = c.dmdValue[0];
-   const float MINDMD = c.dmdValue[c.numDmdPools-1];
-//   const float MAXDMD = 0.8;
-//   const float MINDMD = 0.3;
-   const float errorMargin = 1.0e-5;
-   const float roundingMargin = 1.0e-2;
-
-   //Local Varialbes
-
-   //Implementation
-
-   // Check that dmds are legal
-
-   if (dmdAvg > dmdMax + errorMargin)
-   {  ostrstream msg;
-      msg << endl << "Average digestibility > Maximum digestibility:-" << endl
-          << "   Average      = " <<  dmdAvg << endl
-          << "   Maximum      = " <<  dmdMax << endl  << ends;
-      throw std::runtime_error(msg.str());
-   }
-   if (dmdAvg < dmdMin - errorMargin)
-   {  ostrstream msg;
-      msg << endl << "Average digestibility < Minimum digestibility:-" << endl
-          << "   Average      = " <<  dmdAvg << endl
-          << "   Minimum      = " <<  dmdMin << endl  << ends;
-      throw std::runtime_error(msg.str());
-   }
-   if (dmdMin > dmdAvg + errorMargin)
-   {  ostrstream msg;
-      msg << endl << "Minimum digestibility > Average digestibility:-" << endl
-          << "   Minimum      = " <<  dmdMin << endl
-          << "   Average      = " <<  dmdAvg << endl  << ends;
-      throw std::runtime_error(msg.str());
-   }
-   if (dmdMin < MINDMD - errorMargin)
-   {  ostrstream msg;
-      msg << endl << "Minimum digestibility < Lower Limit:-" << endl
-          << "   Minimum      = " <<  dmdMin << endl
-          << "   Lower Limit  = " <<  MINDMD << endl  << ends;
-      throw std::runtime_error(msg.str());
-   }
-   if (dmdMax > MAXDMD + errorMargin)
-   {  ostrstream msg;
-      msg << endl << "Maximum digestibility > Upper Limit:-" << endl
-          << "   Maximum      = " <<  dmdMax << endl
-          << "   Upper Limit  = " <<  MAXDMD << endl  << ends;
-      throw std::runtime_error(msg.str());
-   }
-   if (dmdMax < dmdAvg - errorMargin)
-   {  ostrstream msg;
-      msg << endl << "Maximum digestibility < Average digestibility:-" << endl
-          << "   Maximum      = " <<  dmdMax << endl
-          << "   Average      = " <<  dmdAvg << endl  << ends;
-      throw std::runtime_error(msg.str());
-   }
-
-
-   float x = (dmdAvg - dmdMin) / (dmdMax - dmdMin);
-   int startDmd = (MAXDMD - dmdMax)*10.0 + errorMargin;
-   int endDmd = (MAXDMD - dmdMin)*10.0 + errorMargin;
-   int numPools = (endDmd - startDmd) + 1;
-
-   switch (numPools)
-   {
-      case 1:
-         {
-            dmdFraction[startDmd] = 1.0;
-         }
-         break;
-      case 2:
-         {
-            dmdFraction[startDmd] = x;
-            dmdFraction[startDmd+1] = 1.0-x;
-         }
-         break;
-      case 3:
-         {
-            dmdFraction[startDmd] = pow(x, 2);
-            dmdFraction[startDmd+1] = 2.0 * x * (1.0-x);
-            dmdFraction[startDmd+2] = pow(1.0-x, 2);
-         }
-         break;
-      case 4:
-         {
-            dmdFraction[startDmd] = pow(x, 3);
-            dmdFraction[startDmd+1] = 3.0 * pow(x, 2) * (1.0-x);
-            dmdFraction[startDmd+2] = 3.0 * x * pow(1.0-x, 2);
-            dmdFraction[startDmd+3] = pow(1.0-x, 3);
-         }
-         break;
-      case 5:
-         {
-            dmdFraction[startDmd] = pow(x, 4);
-            dmdFraction[startDmd+1] = 4.0 * pow(x, 3) * (1.0-x);
-            dmdFraction[startDmd+2] = 6.0 * pow(x, 2) * pow(1.0-x, 2);
-            dmdFraction[startDmd+3] = 4.0 * x * pow(1.0-x,3);
-            dmdFraction[startDmd+4] = pow(1.0-x, 4);
-         }
-         break;
-      default:
-         throw std::runtime_error("Too many digestibility classes");
-
-   }
-   for (int pool = 0; pool < numPools; pool ++)
-   {
-      if (dmdFraction[startDmd + pool] < roundingMargin)
-      {
-         dmdFraction[startDmd+pool+1] += dmdFraction[startDmd+pool];
-         dmdFraction[startDmd+pool] = 0.0;
-      }
-   }
-}
-
-//===========================================================================
-void PlantHerbage::dmdClass (float dmdMax, float dmdMin, float &dmdClassMax, float &dmdClassMin)
-//===========================================================================
-
-//Definition
-//Assumptions
-//Parameters
-
-{
-   //Constant Values
-
-   const float MAXDMD = c.dmdValue[0];
-   const float MINDMD = c.dmdValue[c.numDmdPools-1];
-   const float errorMargin = 1.0e-5;
-
-   //Local Varialbes
-
-   //Implementation
-
-   // Check that dmds are legal
-
-   if (dmdMin < MINDMD - errorMargin)
-   {  ostrstream msg;
-      msg << endl << "Minimum digestibility < Lower Limit:-" << endl
-          << "   Minimum      = " <<  dmdMin << endl
-          << "   Lower Limit  = " <<  MINDMD << endl  << ends;
-      throw std::runtime_error(msg.str());
-   }
-
-   if (dmdMax > MAXDMD + errorMargin)
-   {  ostrstream msg;
-      msg << endl << "Maximum digestibility > Upper Limit:-" << endl
-          << "   Maximum      = " <<  dmdMax << endl
-          << "   Upper Limit  = " <<  MAXDMD << endl  << ends;
-      throw std::runtime_error(msg.str());
-   }
-
-   if (dmdMax < dmdMin - errorMargin)
-   {  ostrstream msg;
-      msg << endl << "Minimum digestibility > Maximum digestibility:-" << endl
-          << "   Minimum      = " <<  dmdMin << endl
-          << "   Maximum      = " <<  MINDMD << endl  << ends;
-      throw std::runtime_error(msg.str());
-   }
-
-   for (int dmdClassNum = 0; dmdClassNum < c.numDmdPools; dmdClassNum++)
-   {           // Assume dmdValue in descending order
-      dmdClassMax = dmdClassNum;
-      if (abs(dmdMax - c.dmdValue[dmdClassNum]) < errorMargin)
-      {
-         exit;
-      }
-   }
-
-   for (int dmdClassNum = 0; dmdClassNum < c.numDmdPools; dmdClassNum++)
-   {           // Assume dmdValue in descending order
-      dmdClassMin = dmdClassNum;
-      if (abs(dmdMin - c.dmdValue[dmdClassNum]) < errorMargin)
-      {
-         exit;
-      }
-   }
-}
-
-void PlantHerbage::doDigestibility(void)
-{
-      getVariables(dm, N, P, height, thermalTime);
-
-      calcDmdDecline(thermalTime, dQ);
-
-      if (dm.total() > 0.0)
-      {
-
-// distribute herbage
-
-
-////      calcDmdDistribution(dmdFraction, dQ);
-      calcDmdDistributionB(dmdFraction, dQ);
-
-      for (int pool = 0; pool < c.numDmdPools; pool++)
-      {
-         if (c.debug == "on")
-         {
-            ostrstream msgFraction;
-            msgFraction << endl << "Herbage dmd distribution, pool " << pool+1 << ":-" << endl;
-            msgFraction << dmdFraction[pool] << ends;
-            system->writeString (msgFraction.str());
-         }
-
-
-      } // end of Pools loop
-   }
-}
    // REST
 float PlantHerbage::dmTotal ( void )
 {
@@ -876,36 +615,6 @@ float PlantHerbage::sConc ( int pool )
       return sConc;
 }
 
-float PlantHerbage::hHeight ( void )
-{
-      return height;
-}
-
-float PlantHerbage::bD ( void )
-{
-//         float bd = divide(herbage.dm *kg2g/ha2sm, height*mm2m, 0.0);
-      float bd = divide(dm.total() *kg2g/ha2sm, hHeight()*mm2m, 0.0);
-      return bd;
-}
-
-float PlantHerbage::heightRatio ( int pool )
-{
-//         if (pool==4) herbage.height_ratio = heightRatio.senesced.leaf + heightRatio.senesced.stem;   //   herbage.height_ratio = 0.0006;
-//         herbage.height_ratio = heightRatio.green.leaf;   //   herbage.height_ratio = 0.0006;
-
-      return  divide(100.0, 0.03*bD(), 0.0);
-}
-
-float PlantHerbage::dmdValue ( int pool )
-{
-      return c.dmdValue[pool];
-}
-
-float PlantHerbage::protDg ( int pool )
-{
-      return c.dmdValue[pool] + 0.1;
-}
-
 float PlantHerbage::proportionGreen ( void )
 {
          float dm_green = dm.green.stem + dm.green.leaf;
@@ -924,34 +633,6 @@ float PlantHerbage::selectionFactor ( void )
    return 0.0; // ??
 }
 
-int PlantHerbage::numDmdPools ( void )
-{
-   return c.numDmdPools; // ??
-}
-
-void PlantHerbage::readParameters ( void )
-{
-
-//+  Constant Values
-    const char*  my_name = "readParameters" ;
-    const char*  section_name = "parameters" ;
-
-//+  Local Variables
-    int   numvals;                                // number of values returned
-
-//- Implementation Section ----------------------------------
-
-    system->writeString (" - reading parameters");
-
-    c.herbageModuleName = system->readParameter (section_name, "herbage_module_name");
-    c.debug = system->readParameter (section_name, "debug");
-
-      ostrstream msg;
-      msg << "Herbage module name = " << c.herbageModuleName << endl
-          << "Debug = " << c.debug << ends;
-      system->writeString (msg.str());
-}
-
 void PlantHerbage::readHerbageModuleParameters ( void )
 {
 
@@ -964,10 +645,9 @@ void PlantHerbage::readHerbageModuleParameters ( void )
 
 //- Implementation Section ----------------------------------
       ostrstream msg;
-      msg << " - reading  herbage parameters for module '" << c.herbageModuleName.c_str() << "'" << endl << ends;
+      msg << " - reading  herbage parameters for module '" << herbageModuleName().c_str() << "'" << endl << ends;
       system->writeString (msg.str());
 
-    system->readParameter (section_name, "dmdValue", c.dmdValue, c.numDmdPools, 0.0, 1.0);
 
     system->readParameter (section_name, "p_conc_green_stem_default", c.pConcGreenStemDefault, 0.0, 1.0);
     system->readParameter (section_name, "p_conc_green_leaf_default", c.pConcGreenLeafDefault, 0.0, 1.0);

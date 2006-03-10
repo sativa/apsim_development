@@ -1,25 +1,7 @@
-#include <general\pch.h>
-#include <vcl.h>
-#include <boost/function.hpp>
-#pragma hdrstop
 
-#include <math.h>
-#include <string>
-#include <strstream>
-#include <iomanip.h>
-
-#include <general/string_functions.h>
-#include <general/stl_functions.h>
-#include <ApsimShared/FStringExt.h>
-#include <ComponentInterface/MessageDataExt.h>
-#include <ComponentInterface/ApsimVariant.h>
-
-#include <ComponentInterface/Component.h>
-#include <ComponentInterface/DataTypes.h>
 #include "HerbageConverter.h"
+#include "Conversion.h"
 
-
-#pragma package(smart_init)
 using namespace std;
 
 
@@ -28,13 +10,6 @@ using namespace std;
 
 // number of plant parts
 // const int  max_part = 6 ; // NB. implies for (i=0; i < max_part; max_part++) usage
-
-      const float kg2g = 1000.0 ;
-      const float ha2sm = 10000.0 ;
-      const float g2kg = 1.0/kg2g ;
-      const float sm2ha = 1.0/ha2sm ;
-      const float cmol2mol = 1.0/100.0 ;
-      const float mm2m = 1.0/1000.0;
 
 //      const float dmdValue[numDmdPools] = {0.8, 0.7, 0.6, 0.5, 0.4, 0.3};
 
@@ -46,13 +21,14 @@ using namespace std;
 // ------------------------------------------------------------------
 HerbageConverter::HerbageConverter(protocol::Component *s) : ConverterBase(s)
    {
-      system = s;
+////      system = s;
    }
 // ------------------------------------------------------------------
 // Destructor
 // ------------------------------------------------------------------
 HerbageConverter::~HerbageConverter(void)
    {
+    if (conversion) delete conversion;
    }
 // ------------------------------------------------------------------
 // Init1 phase.

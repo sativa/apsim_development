@@ -1,8 +1,23 @@
 //---------------------------------------------------------------------------
-#ifndef ConverterBaseH
-#define ConverterBaseH
-#include <ComponentInterface\Component.h>
+#ifndef ConverterBase_H
+#define ConverterBase_H
+
+#pragma hdrstop
+
+#include <math.h>
 #include <string>
+#include <strstream>
+#include <iomanip.h>
+
+#include <general/string_functions.h>
+#include <general/stl_functions.h>
+#include <ApsimShared/FStringExt.h>
+#include <ComponentInterface/MessageDataExt.h>
+#include <ComponentInterface/ApsimVariant.h>
+
+#include <ComponentInterface/Component.h>
+#include <ComponentInterface/DataTypes.h>
+#include <ComponentInterface\Component.h>
 #include <vector>
 
 // ------------------------------------------------------------------
@@ -16,7 +31,7 @@ class ConverterBase : public protocol::Component
       virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData) = 0;
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant) = 0;
 
-   private:
+   protected:
       protocol::Component *system;
 
    };

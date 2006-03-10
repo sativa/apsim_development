@@ -1,11 +1,5 @@
-<Simulation executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll">
-   <title>lablab SAMPLE Simulation</title>
-   <component name="Log" executable="%apsuite\apsim\log\lib\log.dll">
-      <initdata>
-         <logfile>debug.xml</logfile>
-         <debug_output>on</debug_output>
-      </initdata>
-   </component>
+<Simulation name="Stock" executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll">
+   <title>stock lablab SAMPLE Simulation</title>
    <component name="SummaryFile" executable="%apsuite\apsim\SummaryFile\lib\SummaryFile.dll">
       <initdata>
          <summaryfile>lablab.sum</summaryfile>
@@ -18,11 +12,72 @@
          <end_date>30/4/1989</end_date>
       </initdata>
    </component>
+   <component name="Met" executable="%apsuite\apsim\Input\lib\Input.dll">
+      <initdata>
+         <filename>%apsuite\apsim\met\sample\dalby.met</filename>
+      </initdata>
+   </component>
+  <system name="paddock" executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll">
+    <registrations>
+      <event name="summaryFileWrite" type="null" />
+      <event name="error" type="string" />
+      <event name="NotifyTermination" type="string" />
+      <event name="gimme_water" type="string" />
+      <respondToEvent name="tick" type="time" />
+      <respondToEvent name="newmet" type="newmet" />
+      <respondToEvent name="prepare" type="prepare" />
+      <respondToEvent name="process" type="process" />
+      <respondToEvent name="post" type="post" />
+      <respondToEvent name="do_stock" type="post" />
+      <respondToEvent name="end_week" type="null" />
+      <respondToEvent name="end_month" type="null" />
+      <respondToEvent name="end_year" type="null" />
+      <respondToEvent name="water_supplied" type="null" />
+      <respondToEvent name="irrigate" type="null" />
+      <respondToEvent name="sow" type="null" />
+      <respondToEvent name="fertilize" type="null" />
+      <respondToEvent name="tillage" type="null" />
+      <get name="today" type="integer4" />
+      <get name="day" type="integer4" />
+      <get name="year" type="integer4" />
+      <get name="dd/mm/yyyy" type="string" />
+      <get name="dd/mmm/yyyy" type="string" />
+      <get name="day_length" type="single" />
+      <get name="time" type="time" />
+      <get name="rain" type="single" />
+      <get name="radn" type="single" />
+      <get name="maxt" type="single" />
+      <get name="mint" type="single" />
+      <get name="latitude" type="single" />
+      <get name="tav" type="single" />
+      <get name="amp" type="single" />
+      <get name="co2" type="single" />
+      <get name="title" type="string" />
+      <get name="components" type="string" />
+      <respondToGet name="streamflow" type="single" />
+      <respondToGet name="root_sw_uptake_vol" type="single" />
+      <respondToGet name="root_sw_supply_vol" type="single" />
+      <respondToGet name="sw_dep" array="T" type="single" />
+      <respondToGet name="ll15_dep" array="T" type="single" />
+      <respondToGet name="dul_dep" array="T" type="single" />
+      <respondToGet name="sat_dep" array="T" type="single" />
+      <respondToGet name="sw" array="T" type="single" />
+      <respondToGet name="lai" array="F" type="single" />
+      <respondToGet name="istage" array="F" type="integer4" />
+      <respondToSet name="root_sw_demand_vol" type="single" />
+    </registrations>
+   <component name="Log" executable="%apsuite\apsim\log\lib\log.dll">
+      <initdata>
+         <logfile>debug.xml</logfile>
+         <debug_output>off</debug_output>
+      </initdata>
+   </component>
    <component name="report" executable="%apsuite\apsim\report\lib\report.dll">
       <initdata>
+        <outputfrequency>post </outputfrequency>
          <outputfile>lablab.out</outputfile>
-         <variable>clock.dd/mm/yyyy as Date</variable>
-         <variable>met.rain as rain</variable>
+         <variable>dd/mm/yyyy as Date</variable>
+         <variable>rain as rain</variable>
          <variable>lablab.das</variable>
          <variable>lablab.stage</variable>
          <variable>lablab.lai</variable>
@@ -49,18 +104,17 @@
          <variable>cattlelablab.dm_feed_removed()</variable>
       </initdata>
    </component>
-   <component name="Met" executable="%apsuite\apsim\Input\lib\Input.dll">
+    <component name="PaddockArea" executable="%apsuite\apsim\manager\lib\manager.dll">
+      <executable>%apsuite\apsim\manager\lib\manager.dll</executable>
       <initdata>
-         <filename>%apsuite\apsim\met\sample\dalby.met</filename>
+        <rule name="init" condition="init">area = 1
+</rule>
+        <rule name="end_of_day" condition="end_of_day" />
+        <rule name="start_of_day" condition="start_of_day" />
       </initdata>
-   </component>
+    </component>
    <component name="manager" executable="%apsuite\apsim\manager\lib\manager.dll">
       <initdata>
-         <rule name="sample.init" condition="init">
-            <![CDATA[
-            area=100.0
-            ]]>
-         </rule>
          <rule name="sample.start_of_day" condition="start_of_day">
             <![CDATA[
             if day = 280 and year = 1988 then
@@ -68,16 +122,11 @@
             endif
 
             if day = 330 and year = 1988 then
-               cattle buystock number = 5 (-), sex = steer, age = 12 (months), weight = 250.0 (kg)
+               cattle buystock number = 20 (-), genotype = angus, sex = steer, age = 12 (months), weight = 250.0 (kg)
             endif
 
             if lablab.stage_name = 'harvest_ripe' or lablab.plant_status = 'dead' then
             endif
-            ]]>
-         </rule>
-         <rule name="sample.end_of_day" condition="end_of_day">
-            <![CDATA[
-            report do_output
             ]]>
          </rule>
       </initdata>
@@ -134,48 +183,34 @@
    </component>
    <component name="stock" executable="C:\Program Files\FarmWise\stock.dll">
     <initdata>
-       <![CDATA[
-           <initsection>
-             <init name="published_events" array="T">
-             </init>
-             <init name="driver_connections" array="T">
-             </init>
-                 <init name="breed" kind="string">
-                   <val>Angus</val>
-                 </init>
-                 <init name="srw" kind="double" unit="kg">
-                   <val>520.0</val>
-                 </init>
-                 <init name="death_rate" kind="double" unit="/y">
-                   <val>0.01</val>
-                 </init>
-                 <init name="cattle" array="T">
-                   <element>
-                     <field name="number" kind="integer4">
-                       <val>00</val>
-                     </field>
-                     <field name="sex" kind="string">
-                       <val>steer</val>
-                     </field>
-                     <field name="age" kind="double" unit="d">
-                       <val>365.0</val>
-                     </field>
-                     <field name="weight" kind="double" unit="kg">
-                       <val>200.0</val>
-                     </field>
-                   </element>
-             </init>
-          </initsection>
-       ]]>
+        <initsection>
+          <init name="genotypes" array="T">
+            <element>
+              <field name="name" kind="string">
+                <val>angus</val>
+              </field>
+            </element>
+          </init>
+          <init name="cattle" array="T">
+            <element>
+              <field name="name" kind="string">
+                <val>angus</val>
+              </field>
+              <field name="number" kind="integer4">
+                <val>0</val>
+              </field>
+            </element>
+          </init>
+          <init name="sheep" array="T" />
+       </initsection>
      </initdata>
    </component>
    <component name="cattlelablab" executable="%apsuite\apsim\stock\lib\StockScienceConverter.dll">
       <initdata>
          <herbage_module_name>lablab</herbage_module_name>
-         <debug>on</debug>
+        <debug type="list" listvalues="on,off">on</debug>
          <conversion_model>herbage</conversion_model>
          <herbage_model>plant</herbage_model>
-         <lablab name="standard">
             <dmdValue>0.8 0.7 0.6 0.5 0.4 0.3</dmdValue>
 
             <p_conc_green_leaf_default>0.004</p_conc_green_leaf_default>
@@ -218,7 +253,6 @@
             <KQ4>200</KQ4>
 
             <cp_n_ratio>6.25</cp_n_ratio>
-         </lablab>
       </initdata>
    </component>
     <component name="cattle" executable="%apsuite\apsim\stock\lib\StockScienceConverter.dll">
@@ -227,7 +261,8 @@
          <conversion_model>nonherbage</conversion_model>
       </initdata>
    </component>
-   <component name="sysbal" executable="%apsuite\apsim\sysbal\lib\sysbal.dll">
+  <component name="sysbal" executable="%apsuite\apsim\sysbal\lib\sysbal.dll">
       <initdata/>
    </component>
+  </system>
 </Simulation>
