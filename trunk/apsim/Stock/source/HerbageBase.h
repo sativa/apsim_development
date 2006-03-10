@@ -1,9 +1,30 @@
 //---------------------------------------------------------------------------
-#ifndef HerbageBaseH
-#define HerbageBaseH
+#ifndef HerbageBase_H
+#define HerbageBase_H
+
 #include <ComponentInterface\Component.h>
 #include <string>
 #include <vector>
+#include <general\pch.h>
+#include <vcl.h>
+#include <boost/function.hpp>
+#pragma hdrstop
+
+#include <math.h>
+#include <strstream>
+#include <iomanip.h>
+
+#include <general/string_functions.h>
+#include <general/stl_functions.h>
+#include <ApsimShared/FStringExt.h>
+#include <ComponentInterface/MessageDataExt.h>
+#include <ComponentInterface/ApsimVariant.h>
+
+#include <ComponentInterface/Component.h>
+#include <ComponentInterface/DataTypes.h>
+
+#pragma package(smart_init)
+
 #include "PlantPool.h"
 
 #define min(A,B) ((A)<(B)?(A):(B))
@@ -12,7 +33,6 @@
 
 std::string ftoa(double Float, char *fmtwidth=".2");
 std::string itoa(int value, int width);
-
 
       const int maxDmdPools = 6;
 
@@ -58,7 +78,7 @@ class HerbageBase : public protocol::Component
       string herbageModuleName(void);
       string debug();
 
-//   private:
+   protected:
       protocol::Component *system;
       float divide (float dividend, float divisor, float default_value);
 

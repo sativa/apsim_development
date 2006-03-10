@@ -1,11 +1,6 @@
 //---------------------------------------------------------------------------
 #ifndef NonHerbageConverterH
 #define NonHerbageConverterH
-#include <ComponentInterface\Component.h>
-#include <string>
-#include <vector>
-#include "PlantPool.h"
-#include "PlantHerbage.h"
 #include "ConverterBase.h"
 
 #define min(A,B) ((A)<(B)?(A):(B))
@@ -61,7 +56,7 @@ class NonHerbageConverter : public ConverterBase
       unsigned sellID;
       unsigned addManureID;
 
-      protocol::Component *system;
+////      protocol::Component *system;
       protocol::add_excretaType excreted;
 
       struct

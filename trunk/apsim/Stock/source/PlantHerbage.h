@@ -1,37 +1,19 @@
 //---------------------------------------------------------------------------
 #ifndef PlantHerbageH
 #define PlantHerbageH
-#include <ComponentInterface\Component.h>
-#include <string>
-#include <vector>
+#include "HerbageBase.h"
 #include "PlantPool.h"
 
-#define min(A,B) ((A)<(B)?(A):(B))
-#define max(A,B) ((A)>(B)?(A):(B))
-// Maximum number of layers in soil
-
-std::string ftoa(double Float, char *fmtwidth=".2");
-std::string itoa(int value, int width);
-
-
-      const int maxDmdPools = 6;
 
 // ------------------------------------------------------------------
-// TRACKER component for APSIM.
-// eg of parameter file specification:
-//    sum(rain)[1jan-31dec]
-//    sum(rain)[sow-harvest]
-//    sum(rain)[3]
-// ------------------------------------------------------------------
-class PlantHerbage : public protocol::Component
+class PlantHerbage : public HerbageBase
    {
    public:
       PlantHerbage(protocol::Component *system);
-      ~PlantHerbage(void);
-      virtual void doInit1(const FString& sdml);
-      virtual void doInit2(void);
-//      virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
-      virtual void doGrazed(protocol::remove_herbageType grazed);
+      void doInit2(void);
+//      void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
+      void doDmdPoolsToHerbageParts(protocol::remove_herbageType &grazed, protocol::removeCropDmType &crop);
+      void doDigestibility (void);
 
       void doRunTimeReg(void);
       void sendFeedRemoved(protocol::QueryValueData& queryData);
@@ -41,34 +23,24 @@ class PlantHerbage : public protocol::Component
       void getPDead(PlantPartType &pDead, PlantPool &dm);
       void getHeight(float &height);
       void getThermalTime(float &thermalTime);
-      void getVariables(PlantPool &dm, PlantPool &N, PlantPool &P, float &height, float &thermalTime);
-      void readParameters ( void );
+      void getVariables(void);
       void readHerbageModuleParameters ( void );
       void calcDmdDistribution(PlantPool dmdFraction[], PlantPool dQ);
       void calcDmdDistributionB(PlantPool dmdFraction[], PlantPool dQ);
-      void calcDmdDecline(const float &thermalTime, PlantPool &dQ);
       void calcDmdClass(PlantPool &dmdClassMax, PlantPool &dmdClassMin);
-      void proportion (float dmdAvg, float dmdMax, float dmdMin, float dmdFraction[]);
-      void dmdClass (float dmdMax, float dmdMin, float &dmdClassMax, float &dmdClassMin);
+      void calcDmdDecline(void);
       float dmTotal(void);
       float dmTot(int pool);
       float cpConc(int pool);
       float pConc(int pool);
       float ashAlk(int pool);
       float sConc(int pool);
-      float hHeight(void);
-      float heightRatio(int pool);
-      float bD(void);
-      float dmdValue(int pool);
-      float protDg(int pool);
       float proportionGreen(void);
       float proportionLegume(void);
       float selectionFactor ( void );
-      int numDmdPools ( void );
-      void doDigestibility (void);
 
    private:
-      protocol::Component *system;
+////      protocol::Component *system;
       float divide (float dividend, float divisor, float default_value);
 
       unsigned removeHerbageID;
@@ -96,30 +68,8 @@ class PlantHerbage : public protocol::Component
       unsigned dmFeedRemovedID;
       unsigned removeCropBiomassID;
 
-//      protocol::plant2stockType feed;
-//      protocol::remove_herbageType grazed;
-
-      PlantPool dmdFraction[maxDmdPools];
-      PlantPool dmdPoolDm[maxDmdPools];
-      PlantPool partFraction[maxDmdPools];
-      PlantPool dmdMax;
-      PlantPool dmdAvg;
-      PlantPool dmdMin;
-
-      PlantPool dmdClassMax;
-      PlantPool dmdClassMin;
-
-      PlantPool dm;
-      PlantPool N;
-      PlantPool P;
-      PlantPool dQ;
-      float  height;
-      float  thermalTime;
-
       struct
       {
-         string herbageModuleName;
-         string debug;
 
          float dmdValue[maxDmdPools];
          int   numDmdPools;

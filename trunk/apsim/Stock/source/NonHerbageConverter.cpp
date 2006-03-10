@@ -1,21 +1,3 @@
-#include <general\pch.h>
-#include <vcl.h>
-#include <boost/function.hpp>
-#pragma hdrstop
-
-#include <math.h>
-#include <string>
-#include <strstream>
-#include <iomanip.h>
-
-#include <general/string_functions.h>
-#include <general/stl_functions.h>
-#include <ApsimShared/FStringExt.h>
-#include <ComponentInterface/MessageDataExt.h>
-#include <ComponentInterface/ApsimVariant.h>
-
-#include <ComponentInterface/Component.h>
-#include <ComponentInterface/DataTypes.h>
 #include "NonHerbageConverter.h"
 
 
@@ -32,7 +14,7 @@ using namespace std;
 // ------------------------------------------------------------------
 NonHerbageConverter::NonHerbageConverter(protocol::Component *s) : ConverterBase(s)
    {
-      system = s;
+////      system = s;
    }
 // ------------------------------------------------------------------
 // Destructor
@@ -147,9 +129,18 @@ void NonHerbageConverter::stockBuy (protocol::Variant &v/*(INPUT) message varian
          system->writeString (msg.str());
     }
     else
-    {
          buystock.number = 0;
+
+    if (incomingApsimVariant.get("genotype", protocol::DTstring, false, valuestr) == true)
+    {
+         buystock.genotype = valuestr;
+
+         ostrstream msg;
+         msg << "   genotype = " << valuestr << " (-)" << ends;
+         system->writeString (msg.str());
     }
+    else
+         buystock.genotype = "";
 
     if (incomingApsimVariant.get("sex", protocol::DTstring, false, valuestr) == true)
     {
@@ -160,9 +151,7 @@ void NonHerbageConverter::stockBuy (protocol::Variant &v/*(INPUT) message varian
          system->writeString (msg.str());
     }
     else
-    {
          buystock.sex = "";
-    }
 
     if (incomingApsimVariant.get("age", protocol::DTdouble, false, value) == true)
     {
@@ -173,11 +162,9 @@ void NonHerbageConverter::stockBuy (protocol::Variant &v/*(INPUT) message varian
          system->writeString (msg.str());
     }
     else
-    {
          buystock.age = 0.0;
-    }
 
-   if (incomingApsimVariant.get("weight", protocol::DTdouble, false, value) == true)
+    if (incomingApsimVariant.get("weight", protocol::DTdouble, false, value) == true)
     {
          buystock.weight = value;
 
@@ -187,9 +174,7 @@ void NonHerbageConverter::stockBuy (protocol::Variant &v/*(INPUT) message varian
 
     }
     else
-    {
          buystock.weight = 0.0;
-    }
 
     if (incomingApsimVariant.get("fleece_wt", protocol::DTdouble, false, value) == true)
     {
@@ -200,54 +185,48 @@ void NonHerbageConverter::stockBuy (protocol::Variant &v/*(INPUT) message varian
          system->writeString (msg.str());
     }
     else
-    {
          buystock.fleece_wt = 0.0;
+
+    if (incomingApsimVariant.get("cond_score", protocol::DTdouble, false, value) == true)
+    {
+         buystock.cond_score = value;
+
+         ostrstream msg;
+         msg << "   cond_score = "  << value << " ()" << ends;
+         system->writeString (msg.str());
     }
+    else
+         buystock.cond_score = 0.0;
+
+    if (incomingApsimVariant.get("mated_to", protocol::DTstring, false, valuestr) == true)
+         buystock.mated_to = valuestr;
+    else
+         buystock.mated_to = "";
 
     if (incomingApsimVariant.get("pregnant", protocol::DTint4, false, value4) == true)
-    {
          buystock.pregnant = value4;
-    }
     else
-    {
          buystock.pregnant = 0;
-    }
 
     if (incomingApsimVariant.get("lactating", protocol::DTint4, false, value4) == true)
-   {
          buystock.lactating = value4;
-    }
     else
-    {
          buystock.lactating = 0;
-    }
 
     if (incomingApsimVariant.get("no_young", protocol::DTint4, false, value4) == true)
-    {
          buystock.no_young = value4;
-    }
     else
-    {
          buystock.no_young = 0;
-    }
 
     if (incomingApsimVariant.get("young_wt", protocol::DTdouble, false, value) == true)
-    {
          buystock.young_wt = value;
-    }
     else
-    {
          buystock.young_wt = 0.0;
-    }
 
     if (incomingApsimVariant.get("young_fleece_wt", protocol::DTdouble, false, value) == true)
-    {
          buystock.young_fleece_wt = value;
-    }
     else
-    {
          buystock.young_fleece_wt = 0.0;
-    }
 
     system->publish (buyID, buystock);
 }
