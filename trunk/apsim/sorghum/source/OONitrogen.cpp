@@ -569,5 +569,5 @@ void Nitrogen::Summary(void)
    summaryLine(plantInterface,"total N content    (kg/ha) =  %8.3f \t senesced N content (kg/ha) = %8.3f",
             nBiomass * 10.0,sumVector(nSenesced) * 10.0);
    summaryLine(plantInterface,"green N content    (kg/ha) =  %8.3f \t dead N content     (kg/ha) = %8.3f",
-            sumVector(nGreen) * 10.0, sumVector(nDead) * 10.0);
+            sumVector(nGreen) * 10.0 - plant->grain->getNGreen() * 10.0, sumVector(nDead) * 10.0);
    }

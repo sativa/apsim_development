@@ -134,6 +134,9 @@ class PlantPart : public PlantComponent
    virtual float getPSenesced(void){return pSenesced;};
    virtual float getPDead(void){return pDead;};
    virtual float getPDemand(void){return pDemand;};
+   virtual float getDltPGreen(void){return dltPGreen;};
+   virtual float getDltPRetrans(void){return dltPRetranslocate;};
+
 
    virtual void setPRetrans(float P){dltPRetranslocate = P;}
 

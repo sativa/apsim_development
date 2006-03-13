@@ -234,6 +234,8 @@ void OOPlant::doHarvest(unsigned &, unsigned &, protocol::Variant &v)     // Fie
 
    grain->Harvest();
    biomass->Update();
+
+
    }
 //------------------------------------------------------------------------------------------------
 //-----------------   end run
