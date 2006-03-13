@@ -61,8 +61,8 @@ void PlantHerbage::doDigestibility(void)
 // distribute herbage
 
 
-      calcDmdDistribution(dmdFraction, dQ);
-////      calcDmdDistributionB(dmdFraction, dQ);
+////      calcDmdDistribution(dmdFraction, dQ);
+      calcDmdDistributionB(dmdFraction, dQ);
 
       for (int pool = 0; pool < cNumDmdPools; pool++)
       {
