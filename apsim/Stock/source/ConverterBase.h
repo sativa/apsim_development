@@ -6,7 +6,7 @@
 
 #include <math.h>
 #include <string>
-#include <strstream>
+#include <sstream>
 #include <iomanip.h>
 
 #include <general/string_functions.h>
