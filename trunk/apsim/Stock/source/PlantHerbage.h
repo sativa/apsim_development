@@ -10,6 +10,7 @@ class PlantHerbage : public HerbageBase
    {
    public:
       PlantHerbage(protocol::Component *system);
+      ~PlantHerbage(void);
       void doInit2(void);
 //      void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
       void doDmdPoolsToHerbageParts(protocol::remove_herbageType &grazed, protocol::removeCropDmType &crop);

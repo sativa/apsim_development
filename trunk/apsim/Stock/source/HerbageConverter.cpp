@@ -103,10 +103,12 @@ void HerbageConverter::respondToEvent(unsigned int& fromID, unsigned int& eventI
       {
          if (grazed.herbage[dmdPool] > feed.herbage[dmdPool].dm)
          {
-            ostrstream msg;
+            ostringstream msg;
             msg << "Attempting to remove more herbage from dmd pool " << dmdPool+1 << " (dmd " << feed.herbage[dmdPool].dmd << ")" << " than available:-" << endl;
             msg << "Removing " << grazed.herbage[dmdPool] << " (kg/ha) from " << feed.herbage[dmdPool].dm << " (kg/ha) available." << ends;
-            throw std::runtime_error (msg.str());
+            cerr << msg;
+            exit(1);
+ //           throw std::runtime_error (msg.str());
          }
       }
 
