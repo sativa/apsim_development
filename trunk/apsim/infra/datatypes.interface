@@ -1737,6 +1737,54 @@
 
 !   !!!!! STOCK  types  !!!!!!!!!!!!!!!!!!!!!!
 
+      <type name="faeces" array="T">
+         <element>
+            <field name="weight"  unit="kg/d"  kind="double"/>
+            <field name="n"       unit="kg/d"  kind="double"/>
+            <field name="p"       unit="kg/d"  kind="double"/>
+            <field name="s"       unit="kg/d"  kind="double"/>
+            <field name="ash_alk" unit="mol/d" kind="double"/>
+         </element>
+      </type>
+
+      <type name = "faeces_inorg" array="T">
+         <element>
+            <field name="n"  unit="kg/d"  kind="double"/>
+            <field name="p"  unit="kg/d"  kind="double"/>
+            <field name="s"  unit="kg/d"  kind="double"/>
+         </element>
+      </type>
+
+      <type name = "intake" array="T">
+         <element>
+            <field name="weight"  unit="kg/d"  kind="double"/>
+            <field name="n"       unit="kg/d"  kind="double"/>
+            <field name="p"       unit="kg/d"  kind="double"/>
+            <field name="s"       unit="kg/d"  kind="double"/>
+            <field name="ash_alk" unit="mol/d" kind="double"/>
+         </element>
+      </type>
+
+      <type name = "past_intake" array="T">
+         <element>
+            <field name="weight"  unit="kg/d"  kind="double"/>
+            <field name="n"       unit="kg/d"  kind="double"/>
+            <field name="p"       unit="kg/d"  kind="double"/>
+            <field name="s"       unit="kg/d"  kind="double"/>
+            <field name="ash_alk" unit="mol/d" kind="double"/>
+         </element>
+      </type>
+
+      <type name = "supp_intake" array="T">
+         <element>
+            <field name="weight"  unit="kg/d"  kind="double"/>
+            <field name="n"       unit="kg/d"  kind="double"/>
+            <field name="p"       unit="kg/d"  kind="double"/>
+            <field name="s"       unit="kg/d"  kind="double"/>
+            <field name="ash_alk" unit="mol/d" kind="double"/>
+         </element>
+      </type>
+
       <type name = "add_excreta">
          <type name="faeces_om">
                <field name="weight"  unit="kg/ha"  kind="double"/>
@@ -1757,6 +1805,18 @@
                <field name="so4"     unit="kg/ha"  kind="double"/>
                <field name="ash_alk" unit="mol/ha" kind="double"/>
          </type>
+      </type>
+
+      <type name="remove_herbage">
+         <field name="herbage" unit="kg/ha" kind="double" array="T" />
+         <field name="seed" unit="kg/ha" kind="double" array="T" />
+      </type>
+
+      <type name="supp_eaten" array="T">
+         <element>
+            <field name="paddock"      unit=""       kind="string"/>
+            <field name="eaten"        unit="kg"     kind="double"/>
+         </element>
       </type>
 
       <type name="plant2stock">
@@ -1790,17 +1850,15 @@
         <field name = "seed_class"  unit="-" kind="integer4" array="T"/>
       </type>
 
-      <type name="remove_herbage">
-         <field name="herbage" unit="kg/ha" kind="double" array="T" />
-         <field name="seed" unit="kg/ha" kind="double" array="T" />
-      </type>
-
       <type name="buystock">
+         <field name="genotype"         unit=""        kind="string"/>
          <field name="number"           unit=""        kind="integer4"/>
          <field name="sex"              unit=""        kind="string"/>
          <field name="age"              unit="months"  kind="double"/>
          <field name="weight"           unit="kg"      kind="double"/>
          <field name="fleece_wt"        unit="kg"      kind="double"/>
+         <field name="cond_score"       unit=""        kind="double"/>
+         <field name="mated_to"         unit=""        kind="string"/>
          <field name="pregnant"         unit=""        kind="integer4"/>
          <field name="lactating"        unit=""        kind="integer4"/>
          <field name="no_young"         unit=""        kind="integer4"/>
@@ -1810,6 +1868,49 @@
 
       <type name="sellstock">
          <field name="group"         unit=""        kind="integer4"/>
+         <field name="number"        unit=""        kind="integer4"/>
+      </type>
+
+      <type name="castratestock">
+         <field name="group"         unit=""        kind="integer4"/>
+         <field name="number"        unit=""        kind="integer4"/>
+      </type>
+
+      <type name="dryoffstock">
+         <field name="group"         unit=""        kind="integer4"/>
+         <field name="number"        unit=""        kind="integer4"/>
+      </type>
+
+      <type name="joinstock">
+         <field name="group"         unit=""        kind="integer4"/>
+         <field name="mate_to"       unit=""        kind="string"/>
+         <field name="mate_days"     unit="d"       kind="integer4"/>
+      </type>
+
+      <type name="movestock">
+         <field name="group"         unit=""        kind="integer4"/>
+         <field name="paddock"       unit=""        kind="string"/>
+      </type>
+
+      <type name="shearstock">
+         <field name="group"         unit=""        kind="integer4"/>
+         <field name="sub_group"     unit=""        kind="string"/>
+      </type>
+
+      <type name="splitstock">
+         <field name="group"         unit=""        kind="integer4"/>
+         <field name="type"          unit=""        kind="string"/>
+         <field name="value"         unit=""        kind="double"/>
+      </type>
+
+      <type name="tagstock">
+         <field name="group"         unit=""        kind="integer4"/>
+         <field name="value"        unit=""        kind="integer4"/>
+      </type>
+
+      <type name="weanstock">
+         <field name="group"         unit=""        kind="integer4"/>
+         <field name="sex"           unit=""        kind="string"/>
          <field name="number"        unit=""        kind="integer4"/>
       </type>
 
