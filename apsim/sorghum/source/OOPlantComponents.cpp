@@ -51,6 +51,10 @@ void PlantPart::initialize(void)
    pDemand = 0.0;
    pDead = 0.0;
    pSenesced = 0.0;
+   dltPGreen = 0.0;
+   dltPSenesced = 0.0;
+   dltPDetached = 0.0;
+   dltPRetranslocate = 0.0;
    }
 
 //---------------------------------------------------------------------------
@@ -102,7 +106,7 @@ void PlantPart::calcDltPDetached(void)
 //---------------------------------------------------------------------------
 void PlantPart::updateP(void)
    {
-   pGreen = pGreen + dltPGreen - dltPSenesced;
+   pGreen = pGreen + dltPGreen - dltPSenesced + dltPRetranslocate;
    pSenesced = pSenesced + dltPSenesced - dltPDetached;
    pConc = divide(pGreen,dmGreen,0);
 

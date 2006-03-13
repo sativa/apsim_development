@@ -95,7 +95,7 @@ class Leaf : public PlantPart
    float dltSlaiLight;
    float dltSlaiWater;
    float dltSlaiFrost;
-   float dltDmSenesced;
+//   float dltDmSenesced;
    vector<float> laiEquilibLight;
    vector<float> laiEquilibWater;
    float dltSlaiN;

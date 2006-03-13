@@ -37,18 +37,19 @@ Phosphorus::~Phosphorus()
 void Phosphorus::doRegistrations(void)
    {
 #define setupGetVar plantInterface->addGettableVar
-   setupGetVar("p_demand", totalDemand, "g/m2", "Today's total crop P demand");
+//   setupGetVar("p_demand", totalDemand, "g/m2", "Today's total crop P demand");
 
    setupGetVar("pfact_pheno", phenoStress, "", "Phosphorus stress factor for phenology");
 //   setupGetVar("pfact_expan", expansionStress, "", "Phosphorus stress factor for leaf expansion");
    setupGetVar("pfact_expansion", expansionStress, "", "Phosphorus stress factor for leaf expansion");
    setupGetVar("pfact_photo", photoStress, "", "Phosphorus stress factor for photosynthesis");
    setupGetVar("pfact_grain", grainStress, "", "Phosphorus stress factor for grain");
+   setupGetVar("p_total_uptake", pUptakeTotal, "g/m2", "Today's P uptake");
+
 /*   setupGetVar("n_sd_ratio", supplyDemandRatio, "", "Phosphorus supply/demand ratio");
    setupGetVar("n_supply_soil", nSupply, "g/m2", "Today's total N supply from soil profile");
    setupGetVar("n_massflow_uptake", actualMassFlow, "g/m2", "Today's N uptake by massflow from soil profile");
    setupGetVar("n_diffusion_uptake", actualDiffusion, "g/m2", "Today's N uptake by diffusion from soil profile");
-   setupGetVar("n_total_uptake", actualTotal, "g/m2", "Today's N uptake by mass flow and diffusion");
    setupGetVar("diffusion_supply_tot", sumDiffSupply, "g/m2", "Accumulative total of crop N supply by diffusion");
    setupGetVar("biomass_n", nBiomass, "g/m2", "N above ground biomass including grain");
    setupGetVar("stover_n", nStover, "g/m2", "N above ground biomass excluding grain");
@@ -68,7 +69,7 @@ void Phosphorus::doRegistrations(void)
                     &Phosphorus::getPDead, "g/m2", "P content of dead plant parts");
 
    setupGetFunction(plantInterface,"p_demand", protocol::DTsingle, true,
-                    &Phosphorus::getPDemand, "g/m2", "P demand of plant parts");
+                    &Phosphorus::getPDemand, "kg/ha", "P demand of plant parts");
 
    setupGetFunction(plantInterface, "dlt_p_green", protocol::DTsingle, true,
                     &Phosphorus::getDltPGreen, "g/m2", "Daily P increase in live plant parts");
@@ -136,11 +137,6 @@ void Phosphorus::initialize(void)
       pDemand.push_back(0.0);
       }
 
-//      massFlowSupply.push_back(0.0);
-//      diffusionSupply.push_back(0.0);
-//      fixationSupply.push_back(0.0);
-//      dltNo3.push_back(0.0);
-
    }
 //------------------------------------------------------------------------------------------------
 //----------- read Phosphorus parameters
@@ -176,37 +172,16 @@ void Phosphorus::getOtherVariables (void)
 //------------------------------------------------------------------------------------------------
 void Phosphorus::setOtherVariables (void)
    {
-   /*
-   std::vector<float> dltNo3Values;
-   for(int i=0;i < nLayers;i++)dltNo3Values.push_back(0.0);
+/*
+   std::vector<float> dltPValues;
+   for(int i=0;i < nLayers;i++)dltPValues.push_back(0.0);
 
-   for(unsigned i=0;i < dltNo3.size();i++)
+   for(unsigned i=0;i < dltP.size();i++)
       {
       dltNo3Values[i] = dltNo3[i] * gm2kg /sm2ha;
       }
    plantInterface->setVariable(dltNo3ID, dltNo3Values);
-   */
-   }
-//------------------------------------------------------------------------------------------------
-//------- React to a newProfile message
-//------------------------------------------------------------------------------------------------
-void Phosphorus::doNewProfile(protocol::Variant &v /* message */)
-   {
-   /*
-   protocol::ApsimVariant av(plantInterface);
-   av.aliasTo(v.getMessageData());
-
-   protocol::vector<float> temp;
-   av.get("dlayer",   protocol::DTsingle, true, temp);
-   convertVector(temp,dLayer);
-
-   // dlayer may be changed from its last setting due to erosion
-   profileDepth = sumVector(dLayer);      // depth of soil profile (mm)
-   nLayers = dLayer.size();
-*/
-   /* TODO : Insert new root profile and llDep code for change in profile due to erosion */
-   /* TODO : Check validity of ll,dul etc as in crop_check_sw */
-   /* TODO : why does this not include no3 */
+        */
    }
 //------------------------------------------------------------------------------------------------
 //----------- perform daily phosphorus dynamics  ---------------------------------------------------
@@ -224,8 +199,8 @@ void Phosphorus::process(void)
    partition();
    senescence();
    detachment();
-   updateP();
    retranslocate();
+   updateP();
    }
 //------------------------------------------------------------------------------------------------
 void Phosphorus::calcStress(void)
@@ -271,12 +246,22 @@ void Phosphorus::updateVars(void)
    for(unsigned i=0;i < plant->PlantParts.size();i++)
       {
       pGreen[i] = plant->PlantParts[i]->getPGreen();
-      pDemand[i] = plant->PlantParts[i]->getPDemand();
+      pDemand[i] = plant->PlantParts[i]->getPDemand() * 10;
       pSenesced[i] = plant->PlantParts[i]->getPSenesced();
+      dltPGreen[i] = plant->PlantParts[i]->getDltPGreen();
+      dltPRetrans[i] = plant->PlantParts[i]->getDltPRetrans();
+      pDead[i] = plant->PlantParts[i]->getPDead();
+//      dltPDead[i] = plant->PlantParts[i]->getDltPDead();
+//      dltPDetached[i] = plant->PlantParts[i]->getDltPDetached();
+//      dltPDetachedDead[i] = plant->PlantParts[i]->getDltPDetachedDead();
 
       }
-   pBiomass = sumVector(pGreen);
-   pStover = pBiomass - plant->grain->getPGreen() - plant->roots->getPGreen();
+
+
+   pPlant = sumVector(pGreen) + sumVector(pSenesced);
+   pGreenBiomass = sumVector(pGreen) - plant->roots->getPGreen();
+   pBiomass = pGreenBiomass + sumVector(pSenesced) - plant->roots->getPSenesced();
+   pStover = pBiomass - plant->grain->getPGreen() - plant->grain->getPSenesced();
 
    }
 //------------------------------------------------------------------------------------------------
@@ -294,8 +279,9 @@ void Phosphorus::demand(void)
    totalDemand = 0;
    for(unsigned i=0;i < plant->PlantParts.size();i++)
       {
-      totalDemand += plant->PlantParts[i]->calcPDemand();
+      pDemand[i] = plant->PlantParts[i]->calcPDemand() * 10;
       }
+   totalDemand = sumVector(pDemand);
    }
 //------------------------------------------------------------------------------------------------
 //------- calculate phosphorus uptake
@@ -305,13 +291,16 @@ void Phosphorus::uptake(void)
    {
    vector<float> layeredUptake;
 
+   float dumP = sumVector(pDemand);
+   
    if (!plantInterface->getVariable(uptakeID, layeredUptake, 0.0, 10000.0, true))
       {
       // we have no P uptake - set to demand
       pUptakeTotal = totalDemand * kg2gm/ha2sm;
       }
-   else pUptakeTotal = sumVector(layeredUptake);
-}
+   else
+      pUptakeTotal = sumVector(layeredUptake);
+   }
 //------------------------------------------------------------------------------------------------
 //------- partition Phosphorus
 //------------------------------------------------------------------------------------------------
@@ -374,13 +363,18 @@ void Phosphorus::retranslocate(void)
          }
       }
    // retranslocate
-   float fraction = bound(divide(sumVector(demand),sumVector(supply),0.0),0.0,1.0);
 
    for(unsigned i=0;i < plant->PlantParts.size();i++)
       if(plantParts[i] == 's')
+         {
+         float fraction = bound(divide(sumVector(demand),sumVector(supply),0.0),0.0,1.0);
          plant->PlantParts[i]->setPRetrans(-supply[i]*fraction);
+         }
       else
+         {
+         float fraction = bound(divide(sumVector(supply),sumVector(demand),0.0),0.0,1.0);
          plant->PlantParts[i]->setPRetrans(demand[i]*fraction);
+         }
    }
 
 //------------------------------------------------------------------------------------------------
@@ -450,12 +444,34 @@ void Phosphorus::getPDead(protocol::Component *system, protocol::QueryValueData 
 //------------------------------------------------------------------------------------------------
 void Phosphorus::Summary(void)
    {
+   float f = sumVector(pGreen);
    summaryLine(plantInterface,"grain P percent            =  %8.3f \t grain P uptake     (kg/ha) = %8.3f",
             plant->grain->getPConc() * 100,plant->grain->getPGreen() * 10.0);
    summaryLine(plantInterface,"total P content    (kg/ha) =  %8.3f \t senesced P content (kg/ha) = %8.3f",
             pBiomass * 10.0,sumVector(pSenesced) * 10.0);
    summaryLine(plantInterface,"green P content    (kg/ha) =  %8.3f \t dead P content     (kg/ha) = %8.3f",
-            sumVector(pGreen) * 10.0,sumVector(pDead) * 10.0);
+            sumVector(pGreen) * 10.0 - plant->grain->getPGreen() * 10.0, sumVector(pDead) * 10.0);
+   }
+//------------------------------------------------------------------------------------------------
+//------- React to a newProfile message
+//------------------------------------------------------------------------------------------------
+void Phosphorus::doNewProfile(protocol::Variant &v /* message */)
+   {
+   /*
+   protocol::ApsimVariant av(plantInterface);
+   av.aliasTo(v.getMessageData());
+
+   protocol::vector<float> temp;
+   av.get("dlayer",   protocol::DTsingle, true, temp);
+   convertVector(temp,dLayer);
+
+   // dlayer may be changed from its last setting due to erosion
+   profileDepth = sumVector(dLayer);      // depth of soil profile (mm)
+   nLayers = dLayer.size();
+*/
+   /* TODO : Insert new root profile and llDep code for change in profile due to erosion */
+   /* TODO : Check validity of ll,dul etc as in crop_check_sw */
+   /* TODO : why does this not include no3 */
    }
 //------------------------------------------------------------------------------------------------
 
