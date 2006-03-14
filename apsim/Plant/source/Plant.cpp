@@ -797,13 +797,13 @@ void Plant::doPrepare(unsigned &, unsigned &, protocol::Variant &)
   plant_zero_daily_variables ();
   zero_daily_p_variables();
 
+  plant_get_other_variables ();     // request and receive variables from owner-modules
   if (g.plant_status == out)
      {
      plant_zero_variables ();
      }
   else
      {
-     plant_get_other_variables ();     // request and receive variables from owner-modules
      plant_prepare ();                 // do crop preparation
      }
   }
