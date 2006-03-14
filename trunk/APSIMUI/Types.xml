@@ -364,6 +364,7 @@
          <variable name="nit_tot" description="Total soil Nitrogen - total (kg/ha)"/>
          <variable name="dnit" array="T" description="denitrification - layered (kg/ha)"/>
          <variable name="dlt_n_min" array="T" description="N mineralised - layered (kg/ha)"/>
+         <variable name="st" array="T" description="Soil temperature - layered (oC)"/>
       </variables>
       <variables name="Water variables" module="soilwat2">
          <variable name="dlayer" array="T" description="Depth - layered (mm)"/>
