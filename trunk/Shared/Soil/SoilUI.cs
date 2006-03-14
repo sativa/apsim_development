@@ -83,6 +83,7 @@ namespace CSGeneral
 			this.components = new System.ComponentModel.Container();
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(SoilUI));
 			FarPoint.Win.Spread.CellType.ComboBoxCellType comboBoxCellType1 = new FarPoint.Win.Spread.CellType.ComboBoxCellType();
+			FarPoint.Win.Spread.CellType.TextCellType textCellType1 = new FarPoint.Win.Spread.CellType.TextCellType();
 			FarPoint.Win.BevelBorder bevelBorder1 = new FarPoint.Win.BevelBorder(FarPoint.Win.BevelBorderType.Raised);
 			FarPoint.Win.BevelBorder bevelBorder2 = new FarPoint.Win.BevelBorder(FarPoint.Win.BevelBorderType.Raised);
 			FarPoint.Win.Spread.CellType.NumberCellType numberCellType1 = new FarPoint.Win.Spread.CellType.NumberCellType();
@@ -107,10 +108,10 @@ namespace CSGeneral
 			FarPoint.Win.Spread.CellType.NumberCellType numberCellType20 = new FarPoint.Win.Spread.CellType.NumberCellType();
 			FarPoint.Win.Spread.CellType.NumberCellType numberCellType21 = new FarPoint.Win.Spread.CellType.NumberCellType();
 			FarPoint.Win.Spread.CellType.NumberCellType numberCellType22 = new FarPoint.Win.Spread.CellType.NumberCellType();
-			FarPoint.Win.Spread.CellType.TextCellType textCellType1 = new FarPoint.Win.Spread.CellType.TextCellType();
 			FarPoint.Win.Spread.CellType.TextCellType textCellType2 = new FarPoint.Win.Spread.CellType.TextCellType();
 			FarPoint.Win.Spread.CellType.TextCellType textCellType3 = new FarPoint.Win.Spread.CellType.TextCellType();
 			FarPoint.Win.Spread.CellType.TextCellType textCellType4 = new FarPoint.Win.Spread.CellType.TextCellType();
+			FarPoint.Win.Spread.CellType.TextCellType textCellType5 = new FarPoint.Win.Spread.CellType.TextCellType();
 			this.ButtonImageList = new System.Windows.Forms.ImageList(this.components);
 			this.fontDialog1 = new System.Windows.Forms.FontDialog();
 			this.Grid = new FarPoint.Win.Spread.FpSpread();
@@ -235,6 +236,8 @@ namespace CSGeneral
 			this.General.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1;
 			this.General.ColumnCount = 2;
 			this.General.RowCount = 10;
+			this.General.ActiveColumnIndex = 1;
+			this.General.ActiveRowIndex = 9;
 			this.General.Cells.Get(0, 0).ParseFormatString = "G";
 			this.General.Cells.Get(0, 0).Text = "Region: ";
 			this.General.Cells.Get(1, 0).ParseFormatString = "G";
@@ -261,6 +264,11 @@ namespace CSGeneral
 			this.General.Cells.Get(8, 0).Text = "Natural Vegetation: ";
 			this.General.Cells.Get(9, 0).ParseFormatString = "G";
 			this.General.Cells.Get(9, 0).Text = "Comments: ";
+			textCellType1.ButtonAlign = FarPoint.Win.ButtonAlign.Right;
+			textCellType1.DropDownButton = false;
+			textCellType1.Multiline = true;
+			textCellType1.WordWrap = true;
+			this.General.Cells.Get(9, 1).CellType = textCellType1;
 			this.General.ColumnHeader.Visible = false;
 			this.General.Columns.Get(0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.General.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
@@ -531,25 +539,25 @@ namespace CSGeneral
 			this.Phosphorus.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
 			this.Phosphorus.Columns.Get(0).Label = "(cm)";
 			this.Phosphorus.Columns.Get(0).Width = 70F;
-			textCellType1.ButtonAlign = FarPoint.Win.ButtonAlign.Right;
-			textCellType1.DropDownButton = false;
-			this.Phosphorus.Columns.Get(1).CellType = textCellType1;
+			textCellType2.ButtonAlign = FarPoint.Win.ButtonAlign.Right;
+			textCellType2.DropDownButton = false;
+			this.Phosphorus.Columns.Get(1).CellType = textCellType2;
 			this.Phosphorus.Columns.Get(1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
 			this.Phosphorus.Columns.Get(1).Label = "(mg/kg)";
 			this.Phosphorus.Columns.Get(1).Width = 71F;
-			textCellType2.ButtonAlign = FarPoint.Win.ButtonAlign.Right;
-			textCellType2.DropDownButton = false;
-			this.Phosphorus.Columns.Get(2).CellType = textCellType2;
-			this.Phosphorus.Columns.Get(2).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
-			this.Phosphorus.Columns.Get(2).Label = "(kg/ha)";
 			textCellType3.ButtonAlign = FarPoint.Win.ButtonAlign.Right;
 			textCellType3.DropDownButton = false;
-			this.Phosphorus.Columns.Get(3).CellType = textCellType3;
-			this.Phosphorus.Columns.Get(3).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
-			this.Phosphorus.Columns.Get(3).Label = "(kg/ha)";
+			this.Phosphorus.Columns.Get(2).CellType = textCellType3;
+			this.Phosphorus.Columns.Get(2).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
+			this.Phosphorus.Columns.Get(2).Label = "(kg/ha)";
 			textCellType4.ButtonAlign = FarPoint.Win.ButtonAlign.Right;
 			textCellType4.DropDownButton = false;
-			this.Phosphorus.Columns.Get(4).CellType = textCellType4;
+			this.Phosphorus.Columns.Get(3).CellType = textCellType4;
+			this.Phosphorus.Columns.Get(3).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
+			this.Phosphorus.Columns.Get(3).Label = "(kg/ha)";
+			textCellType5.ButtonAlign = FarPoint.Win.ButtonAlign.Right;
+			textCellType5.DropDownButton = false;
+			this.Phosphorus.Columns.Get(4).CellType = textCellType5;
 			this.Phosphorus.Columns.Get(4).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
 			this.Phosphorus.RowHeader.Columns.Default.Resizable = false;
 			this.Phosphorus.Rows.Get(14).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
@@ -741,11 +749,11 @@ namespace CSGeneral
 			General.Cells[2, 1].Value = MySoil.Name;
 			General.Cells[3, 1].Value = MySoil.Order;
 			General.Cells[4, 1].Value = MySoil.NearestTown;
-			General.Cells[5, 1].Value = MySoil.Comment;
-			General.Cells[6, 1].Value = MySoil.GPS;
-			General.Cells[7, 1].Value = MySoil.GPSDatum;
-			General.Cells[8, 1].Value = MySoil.MapId;
-			General.Cells[9, 1].Value = MySoil.NaturalVegetation;
+			General.Cells[5, 1].Value = MySoil.GPS;
+			General.Cells[6, 1].Value = MySoil.GPSDatum;
+			General.Cells[7, 1].Value = MySoil.MapId;
+			General.Cells[8, 1].Value = MySoil.NaturalVegetation;
+			General.Cells[9, 1].Value = MySoil.Comment;
 			UserChange = true;
 			//GeneralGrid.Columns[1].Width = GeneralGrid.DisplayRectangle.Width - GeneralGrid.Columns[0].Width;
 			}
@@ -760,11 +768,11 @@ namespace CSGeneral
 			MySoil.Site = GridUtils.GetCellAsString(General, 1, 1);
 			MySoil.Order = GridUtils.GetCellAsString(General, 1, 3); 
 			MySoil.NearestTown = GridUtils.GetCellAsString(General, 1, 4);
-			MySoil.Comment = GridUtils.GetCellAsString(General, 1, 5);
-			MySoil.GPS = GridUtils.GetCellAsString(General, 1, 6);
-			MySoil.GPSDatum = GridUtils.GetCellAsString(General, 1, 7);
-			MySoil.MapId = GridUtils.GetCellAsString(General, 1, 8);
-			MySoil.NaturalVegetation = GridUtils.GetCellAsString(General, 1, 9);
+			MySoil.GPS = GridUtils.GetCellAsString(General, 1, 5);
+			MySoil.GPSDatum = GridUtils.GetCellAsString(General, 1, 6);
+			MySoil.MapId = GridUtils.GetCellAsString(General, 1, 7);
+			MySoil.NaturalVegetation = GridUtils.GetCellAsString(General, 1, 8);
+			MySoil.Comment = GridUtils.GetCellAsString(General, 1, 9);
 			}
 
 
