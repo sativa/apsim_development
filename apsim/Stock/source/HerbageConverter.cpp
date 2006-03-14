@@ -90,7 +90,7 @@ void HerbageConverter::respondToEvent(unsigned int& fromID, unsigned int& eventI
 
          for (unsigned int pool = 0; pool < feed.herbage.size(); pool++)
          {
-            msg1 << "   dm pool " << pool+1 << " (" << feed.herbage[pool].dmd << ") = " << grazed.herbage[pool] << " (kg/ha)" << endl;
+            msg1 << "   dm pool " << (pool+1) << " (" << feed.herbage[pool].dmd << ") = " << grazed.herbage[pool] << " (kg/ha)" << endl;
             dmTotal1 +=  grazed.herbage[pool];
          }
 
@@ -103,12 +103,15 @@ void HerbageConverter::respondToEvent(unsigned int& fromID, unsigned int& eventI
       {
          if (grazed.herbage[dmdPool] > feed.herbage[dmdPool].dm)
          {
-            ostringstream msg;
-            msg << "Attempting to remove more herbage from dmd pool " << dmdPool+1 << " (dmd " << feed.herbage[dmdPool].dmd << ")" << " than available:-" << endl;
+//            ostringstream msg;     //FIXME!! Coding to avoid stack being wiped out.
+            ostrstream msg;
+            msg << "              !!!!! FATAL ERROR !!!!!" << endl;
+            msg << "Attempting to remove more herbage from dmd pool " << (dmdPool+1) << " (dmd " << feed.herbage[dmdPool].dmd << ")" << " than available:-" << endl;
             msg << "Removing " << grazed.herbage[dmdPool] << " (kg/ha) from " << feed.herbage[dmdPool].dm << " (kg/ha) available." << ends;
+            system->writeString (msg.str());
             cerr << msg;
             exit(1);
- //           throw std::runtime_error (msg.str());
+//            throw std::runtime_error (msg.str());
          }
       }
 
@@ -148,7 +151,7 @@ void HerbageConverter::sendFeedOnOffer(protocol::QueryValueData& queryData)
       int num_parts = feed.herbage.size();
       if (num_parts > 0)
       {
-         for (unsigned i = 0; i != num_parts; i++)
+         for (int i = 0; i != num_parts; i++)
          {
             dmFeedOnOffer[i] = feed.herbage[i].dm;
          }
@@ -166,7 +169,7 @@ void HerbageConverter::sendFeedRemoved(protocol::QueryValueData& queryData)
       int num_parts = grazed.herbage.size();
       if (num_parts > 0)
       {
-         for (unsigned i = 0; i != num_parts; i++)
+         for (int i = 0; i != num_parts; i++)
          {
             dmFeedRemoved[i] = grazed.herbage[i];
          }
@@ -212,7 +215,7 @@ void HerbageConverter::sendPlant2Stock(protocol::QueryValueData& queryData)
             if (c.debug == "on")
             {
                ostrstream msg;
-               msg << endl << "Herbage on offer, pool " << pool+1 << ":-" << endl
+               msg << endl << "Herbage on offer, pool " << (pool+1) << ":-" << endl
                    << "   dm           = " <<              herbage.dm <<      " (kg/ha)" << endl
                    << "   dmd          = " <<              herbage.dmd <<     " (-)" <<     endl
                    << "   cp_conc      = " <<              herbage.cp_conc << " (kg/kg)" << endl
@@ -262,13 +265,8 @@ void HerbageConverter::sendPlant2Stock(protocol::QueryValueData& queryData)
 
 void HerbageConverter::readParameters ( void )
 {
-
 //+  Constant Values
-    const char*  my_name = "readParameters" ;
     const char*  section_name = "parameters" ;
-
-//+  Local Variables
-    int   numvals;                                // number of values returned
 
 //- Implementation Section ----------------------------------
 

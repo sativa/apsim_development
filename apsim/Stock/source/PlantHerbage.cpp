@@ -223,7 +223,7 @@ void PlantHerbage::getPGreen(PlantPartType &pGreen, PlantPool &dm)
                else
                {
                   pGreen.stem = c.pConcGreenStemDefault * dm.green.stem;  // parameter for default P contents
-                  pGreen.leaf = c.pConcGreenStemDefault * dm.green.leaf;
+                  pGreen.leaf = c.pConcGreenLeafDefault * dm.green.leaf;
                }
             }
             else
