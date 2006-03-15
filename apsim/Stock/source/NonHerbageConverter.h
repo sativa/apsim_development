@@ -62,6 +62,8 @@ class NonHerbageConverter : public ConverterBase
       struct
       {
          string debug;
+         float fractionFaecesAdded;
+         float fractionUrineAdded;
       } c;
 
    };

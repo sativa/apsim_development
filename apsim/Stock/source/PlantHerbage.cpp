@@ -67,17 +67,17 @@ void PlantHerbage::doDigestibility(void)
 // distribute herbage
 
 
-////      calcDmdDistribution(dmdFraction, dQ);
-      calcDmdDistributionB(dmdFraction, dQ);
+      calcDmdDistribution(dmdFraction, dQ);
+////      calcDmdDistributionB(dmdFraction, dQ);
 
       for (int pool = 0; pool < cNumDmdPools; pool++)
       {
          if (cDebug == "on")
          {
-            ostrstream msgFraction;
+            ostringstream msgFraction;
             msgFraction << endl << "Herbage dmd distribution, pool " << pool+1 << ":-" << endl;
             msgFraction << dmdFraction[pool] << ends;
-            system->writeString (msgFraction.str());
+            system->writeString (msgFraction.str().c_str());
          }
 
 
@@ -650,9 +650,9 @@ void PlantHerbage::readHerbageModuleParameters ( void )
     int   numvals;                                // number of values returned
 
 //- Implementation Section ----------------------------------
-      ostrstream msg;
+      ostringstream msg;
       msg << " - reading  herbage parameters for module '" << herbageModuleName().c_str() << "'" << endl << ends;
-      system->writeString (msg.str());
+      system->writeString (msg.str().c_str());
 
 
     system->readParameter (section_name, "p_conc_green_stem_default", c.pConcGreenStemDefault, 0.0, 1.0);

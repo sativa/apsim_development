@@ -62,7 +62,7 @@ void NonHerbageConverter::respondToEvent(unsigned int& fromID, unsigned int& eve
    if (eventID == addExcretaID)
    {
       variant.unpack(excreted);
-      ostrstream msg1;
+      ostringstream msg1;
       if (c.debug == "on")
       {
          msg1 << endl << "Excretion:-" << endl;
@@ -85,7 +85,7 @@ void NonHerbageConverter::respondToEvent(unsigned int& fromID, unsigned int& eve
 
          msg1 << ends;
 
-         system->writeString (msg1.str());
+         system->writeString (msg1.str().c_str());
       }
 
       const string omName = "manure";
@@ -123,10 +123,10 @@ void NonHerbageConverter::stockBuy (protocol::Variant &v/*(INPUT) message varian
     {
          buystock.number = value4;
 
-         ostrstream msg;
+         ostringstream msg;
          msg << "Buy stock :-" << endl
              << "   number = " << setw(10) << value4 << " (-)" << ends;
-         system->writeString (msg.str());
+         system->writeString (msg.str().c_str());
     }
     else
          buystock.number = 0;
@@ -135,9 +135,9 @@ void NonHerbageConverter::stockBuy (protocol::Variant &v/*(INPUT) message varian
     {
          buystock.genotype = valuestr;
 
-         ostrstream msg;
+         ostringstream msg;
          msg << "   genotype = " << valuestr << " (-)" << ends;
-         system->writeString (msg.str());
+         system->writeString (msg.str().c_str());
     }
     else
          buystock.genotype = "";
@@ -146,9 +146,9 @@ void NonHerbageConverter::stockBuy (protocol::Variant &v/*(INPUT) message varian
     {
          buystock.sex = valuestr;
 
-         ostrstream msg;
+         ostringstream msg;
          msg << "   sex = " << valuestr << " (-)" << ends;
-         system->writeString (msg.str());
+         system->writeString (msg.str().c_str());
     }
     else
          buystock.sex = "";
@@ -157,9 +157,9 @@ void NonHerbageConverter::stockBuy (protocol::Variant &v/*(INPUT) message varian
     {
          buystock.age = value;
 
-         ostrstream msg;
+         ostringstream msg;
          msg << "   age = "  << value << " (months)" << ends;
-         system->writeString (msg.str());
+         system->writeString (msg.str().c_str());
     }
     else
          buystock.age = 0.0;
@@ -168,9 +168,9 @@ void NonHerbageConverter::stockBuy (protocol::Variant &v/*(INPUT) message varian
     {
          buystock.weight = value;
 
-         ostrstream msg;
+         ostringstream msg;
          msg << "   weight = "  << value << " (kg)" << ends;
-         system->writeString (msg.str());
+         system->writeString (msg.str().c_str());
 
     }
     else
@@ -180,9 +180,9 @@ void NonHerbageConverter::stockBuy (protocol::Variant &v/*(INPUT) message varian
     {
          buystock.fleece_wt = value;
 
-         ostrstream msg;
+         ostringstream msg;
          msg << "   fleece_wt = "  << value << " (kg)" << ends;
-         system->writeString (msg.str());
+         system->writeString (msg.str().c_str());
     }
     else
          buystock.fleece_wt = 0.0;
@@ -191,9 +191,9 @@ void NonHerbageConverter::stockBuy (protocol::Variant &v/*(INPUT) message varian
     {
          buystock.cond_score = value;
 
-         ostrstream msg;
+         ostringstream msg;
          msg << "   cond_score = "  << value << " ()" << ends;
-         system->writeString (msg.str());
+         system->writeString (msg.str().c_str());
     }
     else
          buystock.cond_score = 0.0;
@@ -244,10 +244,10 @@ void NonHerbageConverter::stockSell (protocol::Variant &v/*(INPUT) message varia
     {
          sellstock.number = value4;
 
-         ostrstream msg;
+         ostringstream msg;
          msg << "Sell stock :-" << endl
              << "   number = " << setw(10) << value4 << " (-)" << ends;
-         system->writeString (msg.str());
+         system->writeString (msg.str().c_str());
     }
     else
     {
@@ -258,9 +258,9 @@ void NonHerbageConverter::stockSell (protocol::Variant &v/*(INPUT) message varia
     {
          sellstock.group = value4;
 
-         ostrstream msg;
+         ostringstream msg;
          msg << " Group = " << setw(10) << value4 << " (-)" << ends;
-         system->writeString (msg.str());
+         system->writeString (msg.str().c_str());
     }
     else
     {
@@ -276,11 +276,11 @@ void NonHerbageConverter::sendAddSurfaceOMEvent (const string& omName, const str
     outgoingApsimVariant.store("name", protocol::DTstring, false, FString(omName.c_str()));
     outgoingApsimVariant.store("type", protocol::DTstring, false, FString(omType.c_str()));
 
-    outgoingApsimVariant.store("mass", protocol::DTdouble, false, faecesOM.weight);
-    outgoingApsimVariant.store("n", protocol::DTdouble, false, faecesOM.n);
-    outgoingApsimVariant.store("p", protocol::DTdouble, false, faecesOM.p);
-    outgoingApsimVariant.store("s", protocol::DTdouble, false, faecesOM.s);
-    outgoingApsimVariant.store("ash_alk", protocol::DTdouble, false, faecesOM.ash_alk);
+    outgoingApsimVariant.store("mass", protocol::DTdouble, false, faecesOM.weight * c.fractionFaecesAdded);
+    outgoingApsimVariant.store("n", protocol::DTdouble, false, faecesOM.n * c.fractionFaecesAdded);
+    outgoingApsimVariant.store("p", protocol::DTdouble, false, faecesOM.p * c.fractionFaecesAdded);
+    outgoingApsimVariant.store("s", protocol::DTdouble, false, faecesOM.s * c.fractionFaecesAdded);
+    outgoingApsimVariant.store("ash_alk", protocol::DTdouble, false, faecesOM.ash_alk * c.fractionFaecesAdded);
 
     system->publish (addManureID, outgoingApsimVariant);
     return;
@@ -298,7 +298,7 @@ void NonHerbageConverter::addUrine (protocol::urineType urine)
     num_layers = values.size();
 
     for (layer = 0; layer != num_layers; layer++) {urea[layer] = 0.0;}
-    urea[0] = urine.urea;
+    urea[0] = urine.urea * c.fractionUrineAdded;
     protocol::vector<float> ureaValues(urea, urea+num_layers);
     system->setVariable (dltUreaID, ureaValues);
 
@@ -308,7 +308,7 @@ void NonHerbageConverter::addUrine (protocol::urineType urine)
        num_layers = values.size();
 
        for (layer = 0; layer != num_layers; layer++) {labileP[layer] = 0.0;}
-       labileP[0] = urine.pox;
+       labileP[0] = urine.pox * c.fractionUrineAdded;
        protocol::vector<float> labilePValues(labileP, labileP+num_layers);
        system->setVariable (dltLabilePID, labilePValues);
     }
@@ -350,7 +350,6 @@ void NonHerbageConverter::readParameters ( void )
 {
 
 //+  Constant Values
-    const char*  my_name = "readParameters" ;
     const char*  section_name = "parameters" ;
 
 //+  Local Variables
@@ -361,8 +360,12 @@ void NonHerbageConverter::readParameters ( void )
     system->writeString (" - non-herbage converter reading parameters");
 
     c.debug = system->readParameter (section_name, "debug");
+    system->readParameter (section_name, "fraction_faeces_added", c.fractionFaecesAdded, 0.0, 1.0);
+    system->readParameter (section_name, "fraction_urine_added", c.fractionUrineAdded, 0.0, 1.0);
 
-      ostrstream msg;
+      ostringstream msg;
+      msg << "Fraction_faeces_added = " << c.fractionFaecesAdded << endl;
+      msg << "Fraction_urine_added = " << c.fractionUrineAdded << endl;
       msg << "Debug = " << c.debug << ends;
-      system->writeString (msg.str());
+      system->writeString (msg.str().c_str());
 }

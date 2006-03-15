@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include "PlantHerbage.h"
+#include "ResidueHerbage.h"
 #include "ConverterBase.h"
 
 #define min(A,B) ((A)<(B)?(A):(B))
@@ -17,7 +18,7 @@ class HerbageConverter : public ConverterBase
    {
    public:
       HerbageConverter(protocol::Component *system);
-      ~HerbageConverter(void);
+      virtual ~HerbageConverter(void);
       virtual void doInit1(const FString& sdml);
       virtual void doInit2(void);
       virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);

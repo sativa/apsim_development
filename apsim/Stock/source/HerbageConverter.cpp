@@ -48,10 +48,8 @@ void HerbageConverter::doInit1(const FString& sdml)
        throw std::invalid_argument("The parameter 'herbage_model'\nisn't in your ini file.\n\nGet one.\n");
     else if (herbage_model == "plant")
        conversion = new PlantHerbage(system);
-//    else if (scratch == "surfaceom")
-//       herbage = new ResidueHerbage();
-//    else if (scratch == "other")
-//       herbage = new NonHerbage();
+    else if (herbage_model == "surfaceom")
+       conversion = new ResidueHerbage(system);
     else
        throw std::invalid_argument("Unknown herbage model '" + herbage_model + "'");
 
@@ -62,9 +60,9 @@ void HerbageConverter::doInit1(const FString& sdml)
 // ------------------------------------------------------------------
 void HerbageConverter::doInit2(void)
    {
-         ostrstream msg;
+         ostringstream msg;
          msg << "Herbage model:- " << herbage_model << endl << ends;
-         system->writeString (msg.str());
+         system->writeString (msg.str().c_str());
 
       plant2StockSent = false;
       readParameters (); // Read constants
@@ -84,7 +82,7 @@ void HerbageConverter::respondToEvent(unsigned int& fromID, unsigned int& eventI
       variant.unpack(grazed);
       if (c.debug == "on")
       {
-         ostrstream msg1;
+         ostringstream msg1;
          msg1 << endl << "Remove herbage dmd pools:-" << endl;
          float dmTotal1 = 0.0;
 
@@ -96,19 +94,19 @@ void HerbageConverter::respondToEvent(unsigned int& fromID, unsigned int& eventI
 
          msg1 << endl << "   dm total = " << dmTotal1 << " (kg/ha)" << endl << ends;
 
-         system->writeString (msg1.str());
+         system->writeString (msg1.str().c_str());
       }
 
       for (unsigned int dmdPool = 0; dmdPool < grazed.herbage.size(); dmdPool++)
       {
          if (grazed.herbage[dmdPool] > feed.herbage[dmdPool].dm)
          {
-//            ostringstream msg;     //FIXME!! Coding to avoid stack being wiped out.
-            ostrstream msg;
+            ostringstream msg;     //FIXME!! Coding to avoid stack being wiped out.
             msg << "              !!!!! FATAL ERROR !!!!!" << endl;
             msg << "Attempting to remove more herbage from dmd pool " << (dmdPool+1) << " (dmd " << feed.herbage[dmdPool].dmd << ")" << " than available:-" << endl;
-            msg << "Removing " << grazed.herbage[dmdPool] << " (kg/ha) from " << feed.herbage[dmdPool].dm << " (kg/ha) available." << ends;
-            system->writeString (msg.str());
+            msg << "Removing " << grazed.herbage[dmdPool] << " (kg/ha) from " << feed.herbage[dmdPool].dm << " (kg/ha) available." << endl;
+            msg << "Stock Science Converter Component Exiting" << endl << ends;
+            system->writeString (msg.str().c_str());
             cerr << msg;
             exit(1);
 //            throw std::runtime_error (msg.str());
@@ -214,7 +212,7 @@ void HerbageConverter::sendPlant2Stock(protocol::QueryValueData& queryData)
          {
             if (c.debug == "on")
             {
-               ostrstream msg;
+               ostringstream msg;
                msg << endl << "Herbage on offer, pool " << (pool+1) << ":-" << endl
                    << "   dm           = " <<              herbage.dm <<      " (kg/ha)" << endl
                    << "   dmd          = " <<              herbage.dmd <<     " (-)" <<     endl
@@ -227,7 +225,7 @@ void HerbageConverter::sendPlant2Stock(protocol::QueryValueData& queryData)
                    << "   dm total     = " <<              conversion->dmTotal() *kg2g/ha2sm << " (g/m2)" << endl
                    << "   height       = " <<              conversion->hHeight()*mm2m << " (m)" << endl
                    << "   height_ratio = " <<              herbage.height_ratio << " (-)" << ends;
-               system->writeString (msg.str());
+               system->writeString (msg.str().c_str());
             }
          }
       } // end of Pools loop
@@ -274,9 +272,9 @@ void HerbageConverter::readParameters ( void )
 
     c.debug = system->readParameter (section_name, "debug");
 
-      ostrstream msg;
+      ostringstream msg;
       msg << "Debug = " << c.debug << ends;
-      system->writeString (msg.str());
+      system->writeString (msg.str().c_str());
 }
 
 

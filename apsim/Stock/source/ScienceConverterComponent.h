@@ -29,7 +29,7 @@ class ScienceConverterComponent : public protocol::Component
    {
    public:
       ScienceConverterComponent(void);
-      ~ScienceConverterComponent(void);
+      virtual ~ScienceConverterComponent(void);
       virtual void doInit1(const FString& sdml);
       virtual void doInit2(void);
       virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
@@ -39,6 +39,7 @@ class ScienceConverterComponent : public protocol::Component
 
       ConverterBase *conversion;
       string conversion_model;
+      unsigned endRunID;
    };
 
 //class PlantPoolTypeC

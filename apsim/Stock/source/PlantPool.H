@@ -18,13 +18,13 @@ class PlantPartType
    friend ostream &operator<<(ostream &, const PlantPartType &);
    public:
       PlantPartType();
+      virtual ~PlantPartType();							// destructor
       PlantPartType(float leafInit, float stemInit);
 	PlantPartType(const PlantPartType &PlantPartType); 						// copy constructor
 	const PlantPartType &operator=(const PlantPartType &other);		// Assigment operator
 
       PlantPartType operator- (const PlantPartType &y) const;  // Command
       PlantPartType operator+ (const PlantPartType &y) const;  // Command
-      virtual ~PlantPartType();							// destructor
 
       float leaf;
       float stem;
@@ -38,6 +38,7 @@ class PlantPool
 	public:												// member functions
 		PlantPool();			// default constructor
             PlantPool(float greenLeaf, float greenStem, float senescedLeaf, float senescedStem, float deadLeaf, float deadStem);
+		virtual ~PlantPool();							// destructor
 		PlantPool(const PlantPool &PlantPool); 						// copy constructor
 		const PlantPool &operator=(const PlantPool &other);		// Assigment operator
 
@@ -56,7 +57,6 @@ class PlantPool
 
 		virtual void display(ostream &os = cout) const;	// display function
 
-		virtual ~PlantPool();							// destructor
 
 
          PlantPartType green;
