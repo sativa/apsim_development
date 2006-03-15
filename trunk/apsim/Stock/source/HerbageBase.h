@@ -41,7 +41,7 @@ class HerbageBase : public protocol::Component
    {
    public:
       HerbageBase(protocol::Component *system);
-      ~HerbageBase(void);
+      virtual ~HerbageBase(void);
       virtual void doInit1(const FString& sdml);
       virtual void doInit2(void);
 //      virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);

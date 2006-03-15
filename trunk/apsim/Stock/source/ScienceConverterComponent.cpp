@@ -56,6 +56,7 @@ ScienceConverterComponent::~ScienceConverterComponent(void)
 void ScienceConverterComponent::doInit1(const FString& sdml)
    {
    protocol::Component::doInit1(sdml);
+   endRunID = addRegistration(RegistrationType::respondToEvent, "end_run", stringTypeDDML);
 
     conversion_model = readParameter ("constants", "conversion_model");
 
@@ -77,9 +78,9 @@ void ScienceConverterComponent::doInit1(const FString& sdml)
 // ------------------------------------------------------------------
 void ScienceConverterComponent::doInit2(void)
    {
-      ostrstream msg;
+      ostringstream msg;
       msg << "Conversion model:- " << conversion_model << endl << ends;
-      writeString (msg.str());
+      writeString (msg.str().c_str());
 
     conversion->doInit2();
    }
@@ -89,6 +90,13 @@ void ScienceConverterComponent::doInit2(void)
 // ------------------------------------------------------------------
 void ScienceConverterComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant)
 {
+   if (eventID == endRunID)  //FIXME!! Coding to avoid stack being wiped out.
+   {
+            ostringstream msg;
+            msg << "Stock Science Converter Component Exiting" << endl << ends;
+            cerr << msg;
+            exit(1);
+   }
     conversion->respondToEvent(fromID, eventID, variant);
 
 }

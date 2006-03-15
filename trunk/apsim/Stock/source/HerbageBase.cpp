@@ -88,7 +88,7 @@ void HerbageBase::doGrazed(protocol::remove_herbageType &grazed)
 
       if (cDebug == "on")
       {
-         ostrstream msg;
+         ostringstream msg;
          msg << endl << "Remove herbage plant parts:-" << endl;
 
          for (unsigned int pool=0; pool < crop.dm.size(); pool++)
@@ -101,7 +101,7 @@ void HerbageBase::doGrazed(protocol::remove_herbageType &grazed)
 
          msg << endl << "   dm total = " << dmTotal << " (g/m2)" << endl << ends;
 
-         system->writeString (msg.str());
+         system->writeString (msg.str().c_str());
 
       }
 
@@ -137,46 +137,46 @@ void HerbageBase::proportion (float dmdAvg, float dmdMax, float dmdMin, float dm
    // Check that dmds are legal
 
    if (dmdAvg > dmdMax + errorMargin)
-   {  ostrstream msg;
+   {  ostringstream msg;
       msg << endl << "Average digestibility > Maximum digestibility:-" << endl
           << "   Average      = " <<  dmdAvg << endl
           << "   Maximum      = " <<  dmdMax << endl  << ends;
-      throw std::runtime_error(msg.str());
+      throw std::runtime_error(msg.str().c_str());
    }
    if (dmdAvg < dmdMin - errorMargin)
-   {  ostrstream msg;
+   {  ostringstream msg;
       msg << endl << "Average digestibility < Minimum digestibility:-" << endl
           << "   Average      = " <<  dmdAvg << endl
           << "   Minimum      = " <<  dmdMin << endl  << ends;
-      throw std::runtime_error(msg.str());
+      throw std::runtime_error(msg.str().c_str());
    }
    if (dmdMin > dmdAvg + errorMargin)
-   {  ostrstream msg;
+   {  ostringstream msg;
       msg << endl << "Minimum digestibility > Average digestibility:-" << endl
           << "   Minimum      = " <<  dmdMin << endl
           << "   Average      = " <<  dmdAvg << endl  << ends;
-      throw std::runtime_error(msg.str());
+      throw std::runtime_error(msg.str().c_str());
    }
    if (dmdMin < MINDMD - errorMargin)
-   {  ostrstream msg;
+   {  ostringstream msg;
       msg << endl << "Minimum digestibility < Lower Limit:-" << endl
           << "   Minimum      = " <<  dmdMin << endl
           << "   Lower Limit  = " <<  MINDMD << endl  << ends;
-      throw std::runtime_error(msg.str());
+      throw std::runtime_error(msg.str().c_str());
    }
    if (dmdMax > MAXDMD + errorMargin)
-   {  ostrstream msg;
+   {  ostringstream msg;
       msg << endl << "Maximum digestibility > Upper Limit:-" << endl
           << "   Maximum      = " <<  dmdMax << endl
           << "   Upper Limit  = " <<  MAXDMD << endl  << ends;
-      throw std::runtime_error(msg.str());
+      throw std::runtime_error(msg.str().c_str());
    }
    if (dmdMax < dmdAvg - errorMargin)
-   {  ostrstream msg;
+   {  ostringstream msg;
       msg << endl << "Maximum digestibility < Average digestibility:-" << endl
           << "   Maximum      = " <<  dmdMax << endl
           << "   Average      = " <<  dmdAvg << endl  << ends;
-      throw std::runtime_error(msg.str());
+      throw std::runtime_error(msg.str().c_str());
    }
 
 
@@ -258,27 +258,27 @@ void HerbageBase::dmdClass (float dmdMax, float dmdMin, float &dmdClassMax, floa
    // Check that dmds are legal
 
    if (dmdMin < MINDMD - errorMargin)
-   {  ostrstream msg;
+   {  ostringstream msg;
       msg << endl << "Minimum digestibility < Lower Limit:-" << endl
           << "   Minimum      = " <<  dmdMin << endl
           << "   Lower Limit  = " <<  MINDMD << endl  << ends;
-      throw std::runtime_error(msg.str());
+      throw std::runtime_error(msg.str().c_str());
    }
 
    if (dmdMax > MAXDMD + errorMargin)
-   {  ostrstream msg;
+   {  ostringstream msg;
       msg << endl << "Maximum digestibility > Upper Limit:-" << endl
           << "   Maximum      = " <<  dmdMax << endl
           << "   Upper Limit  = " <<  MAXDMD << endl  << ends;
-      throw std::runtime_error(msg.str());
+      throw std::runtime_error(msg.str().c_str());
    }
 
    if (dmdMax < dmdMin - errorMargin)
-   {  ostrstream msg;
+   {  ostringstream msg;
       msg << endl << "Minimum digestibility > Maximum digestibility:-" << endl
           << "   Minimum      = " <<  dmdMin << endl
           << "   Maximum      = " <<  MINDMD << endl  << ends;
-      throw std::runtime_error(msg.str());
+      throw std::runtime_error(msg.str().c_str());
    }
 
    for (int dmdClassNum = 0; dmdClassNum < cNumDmdPools; dmdClassNum++)
@@ -286,7 +286,7 @@ void HerbageBase::dmdClass (float dmdMax, float dmdMin, float &dmdClassMax, floa
       dmdClassMax = dmdClassNum;
       if (fabs(dmdMax - cDmdValue[dmdClassNum]) < errorMargin)
       {
-         exit;
+         break;
       }
    }
 
@@ -295,7 +295,7 @@ void HerbageBase::dmdClass (float dmdMax, float dmdMin, float &dmdClassMax, floa
       dmdClassMin = dmdClassNum;
       if (fabs(dmdMin - cDmdValue[dmdClassNum]) < errorMargin)
       {
-         exit;
+         break;
       }
    }
 }
@@ -342,11 +342,7 @@ void HerbageBase::readParameters ( void )
 {
 
 //+  Constant Values
-    const char*  my_name = "readParameters" ;
     const char*  section_name = "parameters" ;
-
-//+  Local Variables
-    int   numvals;                                // number of values returned
 
 //- Implementation Section ----------------------------------
 
@@ -356,10 +352,10 @@ void HerbageBase::readParameters ( void )
     cDebug = system->readParameter (section_name, "debug");
     system->readParameter (section_name, "dmdValue", cDmdValue, cNumDmdPools, 0.0, 1.0);
 
-      ostrstream msg;
+      ostringstream msg;
       msg << "Herbage module name = " << cHerbageModuleName << endl
           << "Debug = " << cDebug << ends;
-      system->writeString (msg.str());
+      system->writeString (msg.str().c_str());
 }
 
 //===========================================================================
