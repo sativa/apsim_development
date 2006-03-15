@@ -140,7 +140,7 @@ Public Class GenericUI
     Private Sub Grid_CellChanged(ByVal sender As Object, ByVal e As FarPoint.Win.Spread.SheetViewEventArgs) Handles Grid.CellChanged
         If Not InRefresh Then
             Dim Prop As APSIMData = Controller.Data.Children()(e.Row)
-            Prop.Value = Grid.Cells(e.Row, e.Column).Value
+            Prop.Value = Grid.Cells(e.Row, e.Column).Text
         End If
     End Sub
 End Class
