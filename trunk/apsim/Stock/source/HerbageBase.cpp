@@ -338,6 +338,14 @@ int HerbageBase::numDmdPools ( void )
    return cNumDmdPools; // ??
 }
 
+void HerbageBase::doDigestibility (void)
+{
+}
+
+void HerbageBase::getThermalTime(float &thermalTime)
+{
+}
+
 void HerbageBase::readParameters ( void )
 {
 

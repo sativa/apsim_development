@@ -12,7 +12,7 @@ BCB = $(MAKEDIR)\..
 PROJECT=..\lib\StockScienceConverter.dll
 
 OBJFILES=StockScienceConverter.obj ScienceConverterComponent.obj PlantPool.obj \
-ConverterBase.obj HerbageBase.obj HerbageConverter.obj HerbageConverter.obj NonHerbageConverter.obj \
+ConverterBase.obj HerbageBase.obj HerbageConverter.obj NonHerbageConverter.obj \
 PlantHerbage.obj ResidueHerbage.obj \
  ..\..\..\Shared\ComponentInterface\EntryPoints.obj
 
