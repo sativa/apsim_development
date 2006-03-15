@@ -233,6 +233,8 @@
      Conversion model:- nonherbage
      
       - non-herbage converter reading parameters
+     Fraction_faeces_added = 0.5
+     Fraction_urine_added = 0.5
      Debug = on
 ------- Start of simulation  --------------------------------------------------
 1 October 1988(Day of year=275), cattle: 
@@ -1230,7 +1232,7 @@
         height_ratio = 11.2061 (-)
      
      Herbage on offer, pool 4:-
-        dm           = 2.49336 (kg/ha)
+        dm           = 2.49337 (kg/ha)
         dmd          = 0.5 (-)
         cp_conc      = 0.309886 (kg/kg)
         p_conc       = 0.00619772 (kg/kg)
@@ -2429,7 +2431,7 @@
         height_ratio = 6.30801 (-)
      
      Herbage on offer, pool 4:-
-        dm           = 45.8162 (kg/ha)
+        dm           = 45.8163 (kg/ha)
         dmd          = 0.5 (-)
         cp_conc      = 0.298164 (kg/kg)
         p_conc       = 0.00596328 (kg/kg)
@@ -3855,7 +3857,7 @@
         dmd          = 0.8 (-)
         cp_conc      = 0.394596 (kg/kg)
         p_conc       = 0.00789192 (kg/kg)
-        s_conc       = 0.00332292 (kg/kg)
+        s_conc       = 0.00332291 (kg/kg)
         ash_alk      = 2.54 (mol/kg)
         prot_dg      = 0.9 (kg/kg)
         bd           = 507.483 (g/m^3)
@@ -4245,7 +4247,7 @@
         height_ratio = 6.94911 (-)
      
      Herbage on offer, pool 5:-
-        dm           = 32.514 (kg/ha)
+        dm           = 32.5141 (kg/ha)
         dmd          = 0.4 (-)
         cp_conc      = 0.0625 (kg/kg)
         p_conc       = 0.00125 (kg/kg)
@@ -4406,7 +4408,7 @@
         dm           = 278.081 (kg/ha)
         dmd          = 0.5 (-)
         cp_conc      = 0.274695 (kg/kg)
-        p_conc       = 0.00549389 (kg/kg)
+        p_conc       = 0.0054939 (kg/kg)
         s_conc       = 0.00389328 (kg/kg)
         ash_alk      = 1.38217 (mol/kg)
         prot_dg      = 0.6 (kg/kg)
@@ -4579,7 +4581,7 @@
         cp_conc      = 0.268905 (kg/kg)
         p_conc       = 0.00537809 (kg/kg)
         s_conc       = 0.00380694 (kg/kg)
-        ash_alk      = 1.39092 (mol/kg)
+        ash_alk      = 1.39093 (mol/kg)
         prot_dg      = 0.6 (kg/kg)
         bd           = 487.592 (g/m^3)
         dm total     = 125.676 (g/m2)
@@ -4747,7 +4749,7 @@
      Herbage on offer, pool 4:-
         dm           = 342.057 (kg/ha)
         dmd          = 0.5 (-)
-        cp_conc      = 0.270646 (kg/kg)
+        cp_conc      = 0.270647 (kg/kg)
         p_conc       = 0.00541293 (kg/kg)
         s_conc       = 0.00382794 (kg/kg)
         ash_alk      = 1.40882 (mol/kg)
@@ -5577,7 +5579,7 @@
         dm           = 410.734 (kg/ha)
         dmd          = 0.7 (-)
         cp_conc      = 0.385502 (kg/kg)
-        p_conc       = 0.00771003 (kg/kg)
+        p_conc       = 0.00771004 (kg/kg)
         s_conc       = 0.00324633 (kg/kg)
         ash_alk      = 2.54 (mol/kg)
         prot_dg      = 0.8 (kg/kg)
@@ -5613,7 +5615,7 @@
         height_ratio = 7.3834 (-)
      
      Herbage on offer, pool 5:-
-        dm           = 69.6924 (kg/ha)
+        dm           = 69.6925 (kg/ha)
         dmd          = 0.4 (-)
         cp_conc      = 0.0625 (kg/kg)
         p_conc       = 0.00125 (kg/kg)
@@ -5942,7 +5944,7 @@
         height_ratio = 7.3553 (-)
      
      Herbage on offer, pool 4:-
-        dm           = 557.315 (kg/ha)
+        dm           = 557.316 (kg/ha)
         dmd          = 0.5 (-)
         cp_conc      = 0.261104 (kg/kg)
         p_conc       = 0.00522209 (kg/kg)
@@ -6297,7 +6299,7 @@
         height_ratio = 7.28849 (-)
      
      Herbage on offer, pool 5:-
-        dm           = 98.1804 (kg/ha)
+        dm           = 98.1805 (kg/ha)
         dmd          = 0.4 (-)
         cp_conc      = 0.0625 (kg/kg)
         p_conc       = 0.00125 (kg/kg)
@@ -6446,7 +6448,7 @@
         dmd          = 0.6 (-)
         cp_conc      = 0.335979 (kg/kg)
         p_conc       = 0.00671959 (kg/kg)
-        s_conc       = 0.00314685 (kg/kg)
+        s_conc       = 0.00314684 (kg/kg)
         ash_alk      = 2.31822 (mol/kg)
         prot_dg      = 0.7 (kg/kg)
         bd           = 451.762 (g/m^3)
@@ -6455,7 +6457,7 @@
         height_ratio = 7.37852 (-)
      
      Herbage on offer, pool 4:-
-        dm           = 669.511 (kg/ha)
+        dm           = 669.512 (kg/ha)
         dmd          = 0.5 (-)
         cp_conc      = 0.270534 (kg/kg)
         p_conc       = 0.00541069 (kg/kg)
@@ -6670,12 +6672,8 @@
      
         dm total = 173.623 (kg/ha)
      
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM  Fatal  Error
-                      -------------------
+                   !!!!! FATAL ERROR !!!!!
      Attempting to remove more herbage from dmd pool 1 (dmd 0.8) than available:-
      Removing 51.1046 (kg/ha) from 35.063 (kg/ha) available.
-     Component name: cattlelablab
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
+     Stock Science Converter Component Exiting
      

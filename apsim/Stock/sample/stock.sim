@@ -189,6 +189,15 @@
               <field name="name" kind="string">
                 <val>angus</val>
               </field>
+              <field name="dam_breed" kind="string">
+                <val>angus</val>
+              </field>
+              <field name="sire_breed" kind="string">
+                <val>angus</val>
+              </field>
+              <field name="death_rate" kind="double" unit="/y">
+                <val>0.01</val>
+              </field>
             </element>
           </init>
           <init name="cattle" array="T">
@@ -258,6 +267,8 @@
     <component name="cattle" executable="%apsuite\apsim\stock\lib\StockScienceConverter.dll">
       <initdata>
          <debug>on</debug>
+         <fraction_faeces_added>0.5</fraction_faeces_added>
+         <fraction_urine_added>0.5</fraction_urine_added>
          <conversion_model>nonherbage</conversion_model>
       </initdata>
    </component>
