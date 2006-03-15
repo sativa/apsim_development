@@ -86,6 +86,8 @@ void __fastcall TMainForm::EditReportActionExecute(TObject *Sender)
       edit(true);
       }
    DataPreviewForm->Visible = false;
+   TabControl->TabHeight = 0;  // auto size.
+   TabControl->TabWidth = 0;
    }
 //---------------------------------------------------------------------------
 // User wants to edit the data.
