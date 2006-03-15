@@ -45,7 +45,7 @@ class HerbageConverter : public ConverterBase
       protocol::plant2stockType feed;
       protocol::remove_herbageType grazed;
 
-      PlantHerbage *conversion;
+      HerbageBase *conversion;
 
       PlantPool dmdPoolDm[maxDmdPools];
       PlantPool partFraction[maxDmdPools];

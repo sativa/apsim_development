@@ -234,7 +234,6 @@ void NonHerbageConverter::stockBuy (protocol::Variant &v/*(INPUT) message varian
 void NonHerbageConverter::stockSell (protocol::Variant &v/*(INPUT) message variant*/)
 {
     int      value4;
-    double   value;
     protocol::sellstockType sellstock;
 
     protocol::ApsimVariant incomingApsimVariant(this);
@@ -351,9 +350,6 @@ void NonHerbageConverter::readParameters ( void )
 
 //+  Constant Values
     const char*  section_name = "parameters" ;
-
-//+  Local Variables
-    int   numvals;                                // number of values returned
 
 //- Implementation Section ----------------------------------
 

@@ -7,7 +7,7 @@
     <OBJFILES value="StockScienceConverter.obj ScienceConverterComponent.obj 
       ..\..\..\Shared\ComponentInterface\EntryPoints.obj PlantPool.obj 
       PlantHerbage.obj HerbageConverter.obj NonHerbageConverter.obj 
-      ConverterBase.obj HerbageBase.obj"/>
+      ConverterBase.obj HerbageBase.obj ResidueHerbage.obj"/>
     <RESFILES value="StockScienceConverter.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -35,7 +35,7 @@
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -vGc -vGt -vGd -Od -w -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c -tWM"/>
+    <CFLAG1 value="-WD -Od -w -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c -tWM"/>
     <PFLAGS value="-$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
     <AFLAGS value="/mx /w2 /zi"/>
@@ -45,7 +45,7 @@
   <LINKER>
     <ALLOBJ value="c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
-    <ALLLIB value="cg32.lib $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
@@ -64,6 +64,7 @@
       <FILE FILENAME="NonHerbageConverter.cpp" FORMNAME="" UNITNAME="NonHerbageConverter.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ConverterBase.cpp" FORMNAME="" UNITNAME="ConverterBase" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="HerbageBase.cpp" FORMNAME="" UNITNAME="HerbageBase" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ResidueHerbage.cpp" FORMNAME="" UNITNAME="ResidueHerbage" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -146,7 +147,7 @@ RemoteDebug=0
 [Compiler]
 ShowInfoMsgs=1
 LinkDebugVcl=0
-LinkCGLIB=1
+LinkCGLIB=0
 
 [Linker]
 LibPrefix=

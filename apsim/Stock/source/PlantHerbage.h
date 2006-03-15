@@ -17,7 +17,6 @@ class PlantHerbage : public HerbageBase
       void doDigestibility (void);
 
       void doRunTimeReg(void);
-      void sendFeedRemoved(protocol::QueryValueData& queryData);
       void getParts(PlantPartType &parts, unsigned partsID);
       void getPGreen(PlantPartType &pGreen, PlantPool &dm);
       void getPSenesced(PlantPartType &pSenesced, PlantPool &dm);

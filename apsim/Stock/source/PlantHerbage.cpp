@@ -75,7 +75,7 @@ void PlantHerbage::doDigestibility(void)
          if (cDebug == "on")
          {
             ostringstream msgFraction;
-            msgFraction << endl << "Herbage dmd distribution, pool " << pool+1 << ":-" << endl;
+            msgFraction << endl << "Herbage dmd distribution, pool " << (pool+1) << ":-" << endl;
             msgFraction << dmdFraction[pool] << ends;
             system->writeString (msgFraction.str().c_str());
          }
@@ -349,7 +349,7 @@ void PlantHerbage::getThermalTime(float &thermalTime)
             bool ok = variant->unpack(thermalTimeBG);
             if (ok)
             {
-               for (int stage = 0; stage < thermalTimeBG.size(); stage++)
+               for (unsigned int stage = 0; stage < thermalTimeBG.size(); stage++)
                {
                   thermalTime -= thermalTimeBG[stage];
                }
@@ -542,8 +542,6 @@ void PlantHerbage::calcDmdDistributionB(PlantPool dmdFraction[], PlantPool dQ)
 {
       PlantPool dmdDeclined = dmdMax - dQ;
 
-      float fraction[maxDmdPools];
-
 // get GREEN Leaf dmd fractions
       dmdFraction[0].green.leaf = 1.0;
       cDmdValue[0] = dmdDeclined.green.leaf;
@@ -643,11 +641,7 @@ void PlantHerbage::readHerbageModuleParameters ( void )
 {
 
 //+  Constant Values
-    const char*  my_name = "readHerbageModuleParameters" ;
     const char*  section_name = "parameters" ;
-
-//+  Local Variables
-    int   numvals;                                // number of values returned
 
 //- Implementation Section ----------------------------------
       ostringstream msg;
