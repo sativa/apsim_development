@@ -602,43 +602,52 @@ void Report::refreshLinkedComponents(void)
    }
 
 //---------------------------------------------------------------------------
-// Export the current page to the specified file.
+// Export all pages to the specified file.
 //---------------------------------------------------------------------------
-void Report::exportCurrentToFile(const std::string& fileName)
+void Report::exportCurrentToFile(const std::string& fileNameBase)
    {
-   if (currentPage != NULL)
+   for (vector<Quickrpt::TQuickRep*>::iterator page = pages.begin(); page != pages.end(); page++)
       {
-      setZoom(100);            
+      string fileName = fileNameBase;
+      if (pages.size() > 1)
+         {
+         Path p(fileName);
+         fileName = p.Get_directory() + "\\" + p.Get_name_without_ext();
+         int pageNumber = page - pages.begin() + 1;
+         fileName += "[page" + itoa(pageNumber) + "]";
+         fileName += p.Get_extension();
+         }
+      setZoom(100);
       try
          {
          if (ExtractFileExt(fileName.c_str()) == ".bmp")
-            ExportToBMP(currentPage, fileName.c_str(), false, true);
+            ExportToBMP(*page, fileName.c_str(), false, true);
          else if (ExtractFileExt(fileName.c_str()) == ".jpg")
             {
             gtQRJPEGSettings->PixelFormat = pf8bit;
-            ExportToJPEG(currentPage, fileName.c_str(), false, false);
+            ExportToJPEG(*page, fileName.c_str(), false, false);
             }
          else if (ExtractFileExt(fileName.c_str()) == ".html")
             {
             gtQRHTMLSettings->ExportImageFormat = ifGIF;
-            ExportToHTML(currentPage, fileName.c_str(), false, false);
+            ExportToHTML(*page, fileName.c_str(), false, false);
             }
          else if (ExtractFileExt(fileName.c_str()) == ".pdf")
-            ExportToPDF(currentPage, fileName.c_str(), false, false);
+            ExportToPDF(*page, fileName.c_str(), false, false);
          else if (ExtractFileExt(fileName.c_str()) == ".gif")
             {
             gtQRGIFSettings->PixelFormat = pf8bit;
-            ExportToGIF(currentPage, fileName.c_str(), false, true);
+            ExportToGIF(*page, fileName.c_str(), false, true);
             }
          else if (ExtractFileExt(fileName.c_str()) == ".rtf")
             {
             gtQRRTFSettings->ExportImageFormat = ifBMP;
-            ExportToRTF(currentPage, fileName.c_str(), false, false);
+            ExportToRTF(*page, fileName.c_str(), false, false);
             }
          else if (ExtractFileExt(fileName.c_str()) == ".wmf")
-            ExportToWMF(currentPage, fileName.c_str(), false, false);
+            ExportToWMF(*page, fileName.c_str(), false, false);
          else if (ExtractFileExt(fileName.c_str()) == ".emf")
-            ExportToEMF(currentPage, fileName.c_str(), false, false);
+            ExportToEMF(*page, fileName.c_str(), false, false);
 
          AnsiString tempFilePath = ExtractFileDir(fileName.c_str());
          if (tempFilePath != "")
