@@ -71,12 +71,14 @@ Public Class OutputFileExport
     Friend WithEvents HeadingLabel As System.Windows.Forms.Label
     Friend WithEvents OutputFileListbox As System.Windows.Forms.CheckedListBox
     Friend WithEvents CancelBtn As System.Windows.Forms.Button
+    Friend WithEvents UnselectButton As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(OutputFileExport))
         Me.HeadingLabel = New System.Windows.Forms.Label
         Me.OutputFileListbox = New System.Windows.Forms.CheckedListBox
         Me.OKButton = New System.Windows.Forms.Button
         Me.ButtonPanel = New System.Windows.Forms.Panel
+        Me.UnselectButton = New System.Windows.Forms.Button
         Me.CancelBtn = New System.Windows.Forms.Button
         Me.ButtonPanel.SuspendLayout()
         Me.SuspendLayout()
@@ -100,6 +102,7 @@ Public Class OutputFileExport
         Me.OutputFileListbox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.OutputFileListbox.CheckOnClick = True
         Me.OutputFileListbox.Location = New System.Drawing.Point(8, 48)
         Me.OutputFileListbox.Name = "OutputFileListbox"
         Me.OutputFileListbox.Size = New System.Drawing.Size(456, 214)
@@ -117,6 +120,7 @@ Public Class OutputFileExport
         '
         'ButtonPanel
         '
+        Me.ButtonPanel.Controls.Add(Me.UnselectButton)
         Me.ButtonPanel.Controls.Add(Me.CancelBtn)
         Me.ButtonPanel.Controls.Add(Me.OKButton)
         Me.ButtonPanel.Dock = System.Windows.Forms.DockStyle.Bottom
@@ -124,6 +128,15 @@ Public Class OutputFileExport
         Me.ButtonPanel.Name = "ButtonPanel"
         Me.ButtonPanel.Size = New System.Drawing.Size(472, 64)
         Me.ButtonPanel.TabIndex = 2
+        '
+        'UnselectButton
+        '
+        Me.UnselectButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.UnselectButton.Location = New System.Drawing.Point(8, 16)
+        Me.UnselectButton.Name = "UnselectButton"
+        Me.UnselectButton.Size = New System.Drawing.Size(88, 32)
+        Me.UnselectButton.TabIndex = 2
+        Me.UnselectButton.Text = "Unselect all"
         '
         'CancelBtn
         '
@@ -164,5 +177,11 @@ Public Class OutputFileExport
         Next
 
 
+    End Sub
+
+    Private Sub UnselectButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UnselectButton.Click
+        For i As Integer = 0 To Me.OutputFileListbox.Items.Count - 1
+            Me.OutputFileListbox.SetItemChecked(i, False)
+        Next
     End Sub
 End Class
