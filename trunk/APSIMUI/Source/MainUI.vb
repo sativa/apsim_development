@@ -927,6 +927,9 @@ Public Class MainUI
 
                 ' Get the image attribute from the root node of the loaded xml file
                 Dim image As String = apsimData.Attribute("image")
+                If image.IndexOf(":") = -1 Then
+                    image = APSIMSettings.ApsimDirectory() + "\ApsimUI\" + image
+                End If
 
                 Dim item As New Windows.Forms.ToolBarButton(FileName)
                 item.Tag = "User Defined"
@@ -940,7 +943,7 @@ Public Class MainUI
 
                     'Otherwise use the default image in the images directory under the APSIMUI root.
                 Else
-                    Dim alternateImage As String = System.IO.Directory.GetParent(Environment.CurrentDirectory).FullName & "\ApsimUI\Images\toolbox.png"
+                    Dim alternateImage As String = APSIMSettings.ApsimDirectory() + "\ApsimUI\Images\toolbox.png"
 
                     If System.IO.File.Exists(alternateImage) Then
                         Me.ToolBoxToolBar.ImageList.Images.Add(New System.Drawing.Bitmap(alternateImage))
