@@ -1,0 +1,8 @@
+version = 5
+[apsim.test1]
+module = clock    frm1.par [test] %apsuite\apsim\clock\clock.ini[standard]
+module = report   frm1.par [test]
+module = Input(Met)      %apsuite\apsim\met\sample\dalby.met [weather]
+module = manager  frm1.par [test]
+module = frmrpt   frm1.par [test]
+module = Summaryfile  frm1.par[test]

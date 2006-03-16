@@ -1,0 +1,79 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APSoil", "APSoil.csproj", "{8F0C3EA4-5362-4C5B-9050-6307417E58A8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C} = {D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}
+		{8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4} = {8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4}
+		{416A3885-FD38-46D0-BE42-54AA33D146B7} = {416A3885-FD38-46D0-BE42-54AA33D146B7}
+		{4E5222B2-546F-40D8-A637-A987605BCCCC} = {4E5222B2-546F-40D8-A637-A987605BCCCC}
+		{6FAC5AE5-F7B4-4C02-B0D4-B992E0F96CAA} = {6FAC5AE5-F7B4-4C02-B0D4-B992E0F96CAA}
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "VBGeneral", "..\..\Shared\vbgeneral\VBGeneral.vbproj", "{8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSGeneral", "..\..\Shared\c#general\CSGeneral.csproj", "{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4} = {8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soil", "..\..\Shared\Soil\Soil.csproj", "{6FAC5AE5-F7B4-4C02-B0D4-B992E0F96CAA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C} = {D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}
+		{8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4} = {8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelUtility", "..\..\Shared\Excel\ExcelUtility.csproj", "{4E5222B2-546F-40D8-A637-A987605BCCCC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C} = {D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}
+		{8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4} = {8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChangeTool", "..\..\Shared\ChangeTool\ChangeTool.csproj", "{416A3885-FD38-46D0-BE42-54AA33D146B7}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoilPicker", "SoilPicker\SoilPicker.csproj", "{28369BC7-0857-4429-BB47-840E41AC15A9}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{8F0C3EA4-5362-4C5B-9050-6307417E58A8}.Debug.ActiveCfg = Debug|.NET
+		{8F0C3EA4-5362-4C5B-9050-6307417E58A8}.Debug.Build.0 = Debug|.NET
+		{8F0C3EA4-5362-4C5B-9050-6307417E58A8}.Release.ActiveCfg = Release|.NET
+		{8F0C3EA4-5362-4C5B-9050-6307417E58A8}.Release.Build.0 = Release|.NET
+		{8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4}.Debug.ActiveCfg = Debug|.NET
+		{8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4}.Debug.Build.0 = Debug|.NET
+		{8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4}.Release.ActiveCfg = Release|.NET
+		{8ED54A72-30F3-4713-91BB-D5CAE9B0CAA4}.Release.Build.0 = Release|.NET
+		{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}.Debug.ActiveCfg = Debug|.NET
+		{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}.Debug.Build.0 = Debug|.NET
+		{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}.Release.ActiveCfg = Release|.NET
+		{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}.Release.Build.0 = Release|.NET
+		{6FAC5AE5-F7B4-4C02-B0D4-B992E0F96CAA}.Debug.ActiveCfg = Debug|.NET
+		{6FAC5AE5-F7B4-4C02-B0D4-B992E0F96CAA}.Debug.Build.0 = Debug|.NET
+		{6FAC5AE5-F7B4-4C02-B0D4-B992E0F96CAA}.Release.ActiveCfg = Release|.NET
+		{6FAC5AE5-F7B4-4C02-B0D4-B992E0F96CAA}.Release.Build.0 = Release|.NET
+		{4E5222B2-546F-40D8-A637-A987605BCCCC}.Debug.ActiveCfg = Debug|.NET
+		{4E5222B2-546F-40D8-A637-A987605BCCCC}.Debug.Build.0 = Debug|.NET
+		{4E5222B2-546F-40D8-A637-A987605BCCCC}.Release.ActiveCfg = Release|.NET
+		{4E5222B2-546F-40D8-A637-A987605BCCCC}.Release.Build.0 = Release|.NET
+		{416A3885-FD38-46D0-BE42-54AA33D146B7}.Debug.ActiveCfg = Debug|.NET
+		{416A3885-FD38-46D0-BE42-54AA33D146B7}.Debug.Build.0 = Debug|.NET
+		{416A3885-FD38-46D0-BE42-54AA33D146B7}.Release.ActiveCfg = Release|.NET
+		{416A3885-FD38-46D0-BE42-54AA33D146B7}.Release.Build.0 = Release|.NET
+		{28369BC7-0857-4429-BB47-840E41AC15A9}.Debug.ActiveCfg = Debug|.NET
+		{28369BC7-0857-4429-BB47-840E41AC15A9}.Debug.Build.0 = Debug|.NET
+		{28369BC7-0857-4429-BB47-840E41AC15A9}.Release.ActiveCfg = Release|.NET
+		{28369BC7-0857-4429-BB47-840E41AC15A9}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

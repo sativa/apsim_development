@@ -1,0 +1,11 @@
+version = 5
+[apsim.sample_input]  
+
+title=Met Sample Simulation
+module = clock input.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report input.par [sample]
+module = input(met) %apsuite\apsim\met\sample\dalby.met[weather]
+module = input (input1) input1.dat [test]
+module = input (sparse) sparse.dat [test]
+module = manager input.par [sample]
+module = SummaryFile  input.par[sample]

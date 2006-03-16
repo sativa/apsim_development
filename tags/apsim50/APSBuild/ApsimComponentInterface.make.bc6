@@ -1,0 +1,4 @@
+# statically linked components of the engine interface
+STATICLINKEDOBJECTS=\
+$(APSROOT)/shared/ComponentInterface/ComponentInterface.imp \
+$(APSROOT)/shared/ComponentInterface/SimpleWrapper.obj

@@ -1,0 +1,875 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>APSIM Module Description</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="../../../docs/shared/docstyle.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<p class="Title1"><strong>APSIM Module Description </strong></p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><strong>Storage: </strong> $source$ </p>
+<p class="Normal"><strong>Revision: </strong> $revision$ </p>
+<ul>
+  <li class="Normal">Audience level for the description is someone like me (Val V) who doesn't know too much about modelling, but is interested enough to read the document and skip the equations that I don't yet understand, and get a good idea of the science and scope of the module. </li>
+  <li class="Normal">It is anticipated that a companion to this document will be a pseudocode description of the actual code as implemented in the module. The two documents together should provide sufficient information for most people's needs, except perhaps a module developer who may be working on this particular module. </li>
+  <li class="Normal">While you are working on this document please keep in mind that it is part of a simulation environment that has the potential to contain many crop and environment modules. Please give some thought to this big picture. </li>
+  <li class="Normal">Think carefully about any assumptions that may flavour your work. What you believe is “fact” others may see as assumptions. </li>
+  <li class="Normal">When creating this document do not ignore obvious sources of information that are readily available, eg. the module txt files produced by APSDOC, the ini file descriptions that Perry Poulton has generated, the Soilwat, Soiln and residue files for examples of graphs. </li>
+</ul>
+<p class="Title2"><strong><em>SoilpH Module Scope </em></strong></p>
+<p class="Normal">The externally visible functionality of the module is to make available information about changes in pH and Al to crops in a simulation. </p>
+<p class="Normal">In order to achieve this functionality the module will require input values from APSIM modules that deal with the N cycle acidification and C cycle acidification. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2"><strong><em>Nitrogen cycle. </em></strong></p>
+<p class="Normal">In any closed system there will be no acidification, however cropping systems are open systems. An expression of the model includes reference states, whose charges are irrelevant, ie in the context of the model they are neutral. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Reactions within the soil will produce either an acid or an alkali product. Removal of nitrates by leaching leaves hydrogen ions in the soil layer - acidification, whereas removal of ammonium ions by leaching removes hydrogen ions in the soil layer - alkalisation. The leaching is calculated for each layer as soil water flows down through the layers. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">In practical terms, this means that the module needs to keep a running balance of what is added to and taken from the soil. For example, adding a nitrate fertiliser has an alkalisation effect (binds to hydrogen ions, effectively removing them from the soil equation) whereas adding ammonia fertiliser has an acidification effect (frees hydrogen ions into the soil). Nitrate-based fertilisers are uncommon in Australian agriculture. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Based on the above, knowledge of the various fertiliser forms must be available to the module; this requirement is met by (fertiliz.ini). </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Fertilisers are applied to the topsoil (layer 1) and the rate at which the fertiliser is applied (kg/ha) is converted to a “charge” value. Some of the fertiliser is taken by the plant, and this must be tracked for use in the balance equation, while the rest is leached through the layers. Module calculates the hydrogen charge inputs and outputs for each layer. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Since nwheat is the only current crop module that accounts for ammonium ions, it will be a good choice for sensitivity analysis on the errors that might be expected from other crop modules in which it is assumed that all nitrogen is taken up as nitrate and for predictive capability. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">The existing application SPAM takes, as a parameter, an estimate of the annual rate of acidification and distributes it throughout the soil layers. However, the new module will calculate the acidification value and use SPAM formulae for the distribution. Currently, soilwat does the nitrogen distribution but will not distribute pH, ie pH distribution will not be via the transport mechanism modelled in soilwat. Different minerals move at different rates within the soil, some like carbonate move very slowly, thus adding lime may improve the topsoil but not the subsoil in the short term. Models need to account for the differential rates of movement of solutes within the soil layers. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2"><strong><em>Carbon cycle </em></strong></p>
+<p class="Normal">Models account for organic acids that are removed by harvesting. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">The grain of a crop is alkaline, and every crop has a reference value, its ash alkalinity (in cmol/kg). Burning off a crop material burns of nitrogen leaving more of the positively charged cations such as calcium, magnesium etc. than negatively charged anions such as P and S. Plants create organic anions ( - particles) to maintain their internal pH. The net effect can be tracked and measured using the ash alkalinity value. For example a crop with an ash alkalinity of 6 cmol/kg, if we remove 3t/ha of grain the total anions removed is (3x1000) x 6 = 18000 cmol/ha removed. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">One issue that needs to be addressed the availability of the appropriate ash alkalinity values of crop components (grain, straw, leaf). Since these are an attribute of the crop, they should be made available as constant (calibration) values for the crop. The alternative solution is to include an ash alkalinity look-up table for the SoilAcid module to access (possibly within its own .ini file). This solution does not align well with the current APSIM philosophy of module, self-containment. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">The other aspect of the carbon cycle is the addition of organic matter, for example residue, that is created on the spot. This affects the soil organic matter and thus the cation exchange capacity (that is equivalent to its exchange acidity). A formula is required for the addition of both fresh and humic matter to the soil. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Fresh plant material has a plant pH of about 6.5. Its final pH, after degradation, is that of oxalic acid, 1.5. The pH changes along a gradient, the function of that includes a value A plus the pH. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">In fresh matter, A is variable whereas pH is constant. In humic matter, A is set constant at 32 and the pH is variable (32 x [pH top layer - 1.5]). </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">The increase in the two organic matter fractions that SoilAcid uses are available as deltas from the residue module. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2"><strong><em>Tracking acid rain </em></strong></p>
+<p class="Normal">In Australia, there is little interest in the topic of acid rain, however this is not the case in the northern hemisphere, and given the increasing global nature of simulation environments it is important that it be considered in this new module. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Currently no module tracks the pH of rain, and that information is not available in standard climate files. However, the pH of unpolluted rain is in the range of 5.6 - 5.2 and has the potential to affect soil pH and the rate of transport of solutes though the profile. The current APSIM modules are implicitly calibrated with unpolluted (ie acidic rain) on alkaline soils. SPAM includes functionality to handle acid rain. This will be included in the new module, but the prototype will be parameterised with an average rain pH. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2"><strong><em>Feeback loop for buffering effects on pH </em></strong></p>
+<p class="Normal">Buffering affects the proportion of H + ions that, when added to a soil, change its acidity. For example in a poorly buffered soil (eg sand that has a low cation exchange capacity) the addition of x H + ions will cause the acidity to move by an equivalent x. However, in a highly buffered soil the acidity will move by x-n. Some attributes of a soil that can affect this: </p>
+<ol>
+  <li class="Normal">total cation exchange capacity</li>
+  <li class="Normal"> organic matter </li>
+  <li class="Normal">presence of aluminium - as soil becomes more acid the proportion of Al increases, with a consequent increase in buffering but total cation exchange capacity diminished with a corresponding decrease in buffering. Eventually the level of Al prevents any further increase in soil acidity. </li>
+</ol>
+<p class="Normal">These three factors change over time. The feedback loop accounts for the effects on soil, over time, as conditions change. The currently implemented version of SPAM does not have Al but it has been included in a later model </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2"><strong><em>Effects of Manganese </em></strong></p>
+<p class="Normal">The effects of manganese events are seasonal, short-lived and leave the soil in the same buffered/acidic state as before the event, their effects on the soil are negligible relative to the long-term effects that are to be studied (ie 20 year studies). This module does not include manganese modelling. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2"><strong><em>General </em></strong></p>
+<p class="Normal">Both pH and Al have the potential to affect a crop, too much Al and the crop is poisoned. </p>
+<p class="Normal">Different ways of measuring pH. Most general method in Australia is in Calcium Chloride (a buffered solution which is useful for diagnostic purposes) however in Qld it is usually measured as pH in water, which is accurate for modelling root growth but less useful for diagnostic purposes. The type if initial pH (water or CalCl) needs to be known to the SoilAcid module and if type = water, a conversion to CalCl done. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2"><strong><em>Citations </em></strong></p>
+<ul>
+  <li>“Soil Acidification, its Measurement and the processes involved”, K.R. Helyar and W.M. Porter, 1989, Academic Press Australia. </li>
+  <li> “Soil acidification under some tropical agricultural systems”, P.W. Moody and R.L. Aitken, 1997, Aust. J. Soil Res. </li>
+  <li> “Predicting Lime induced Changed in Soil pH from exchangeable aluminium, Soil pH, Total exchangeable Cations and Organic Carbon Values measured on Unlimed Soils.”, Z.Hochman, G.J. Crocker and E.B. Dettman, 1995, Aust. J. Soil Res. </li>
+  <li> “Changes in Effective Cation Exchange Capacity and Exchangeable Aluminium with Soil pH in Lime amended Field Soils”, Z.Hochman, D.C.Edmeades and E.White., 1992, Aust. J. Soil Res. </li>
+  <li> “Climatic and Edaphic Constraints to the Persistence of Legumes in Pastures”, Z.Hochman and K.R.Helyar. </li>
+  <li> “The Problem of Acidity in Temperate Area Soils and its Management”, Z.Hochman, J.P. Brennan and K.R.Helyar. </li>
+</ul>
+<p class="Title2"><strong><em>SoilpH Module History </em></strong></p>
+<p class="Normal">SPAM is currently implemented in CSMP. The implementation contains a single macro HORIZN that ‘groups' calculations containing references to vectors of layer parameters. The macro group plus the remaining calculations are invoked once per time step. The SPAM code also includes model constant parameters and parameters for the soil profile vectors. Additional input information for a model run can be extracted from the HORIZN macro instantiations contained in the code. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Implementations of the definitive, reference version of SPAM are available in both standard FORTRAN 77 and Borland Delphi languages.<br>
+</p>
+<p class="Title2"><strong><em>SoilpH Module Parameterisation </em></strong></p>
+<p class="Normal"><strong>____________________________________________________________________________ </strong></p>
+<table cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="164" valign="top"><p class="Normal"><strong>Parameter </strong></p></td>
+    <td width="57" valign="top"><p class="Normal"><strong>(S)calar or each (L)ayer </strong></p></td>
+    <td width="104" valign="top"><p class="Normal"><strong>Units </strong></p></td>
+    <td width="94" valign="top"><p class="Normal"><strong>Range </strong></p></td>
+    <td width="197" valign="top"><p class="Normal"><strong>Description </strong></p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">report_additions </p></td>
+    <td width="57" valign="top"><p class="Normal">S </p></td>
+    <td width="104" valign="top"></td>
+    <td width="94" valign="top"><p class="Normal">‘yes' or ‘no' </p></td>
+    <td width="197" valign="top"><p class="Normal">Flag for reporting residue tracking changes </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">ph_rain </p></td>
+    <td width="57" valign="top"><p class="Normal">S </p></td>
+    <td width="104" valign="top"></td>
+    <td width="94" valign="top"><p class="Normal">2 to 10 </p></td>
+    <td width="197" valign="top"><p class="Normal">the pH of the rainfall. </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">phbc_method </p></td>
+    <td width="57" valign="top"><p class="Normal">S </p></td>
+    <td width="104" valign="top"></td>
+    <td width="94" valign="top"><p class="Normal">Short string </p></td>
+    <td width="197" valign="top"><p class="Normal">Method for calculating PHBC </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">lime_pool_init </p></td>
+    <td width="57" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">kg/ha </p></td>
+    <td width="94" valign="top"><p class="Normal">0 to 100 </p></td>
+    <td width="197" valign="top"><p class="Normal">initial lime pool (mol/ha). </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">phca_initial </p></td>
+    <td width="57" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"></td>
+    <td width="94" valign="top"><p class="Normal">3.8 to 8.0 </p></td>
+    <td width="197" valign="top"><p class="Normal">initial pH of layer. </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">phbc </p></td>
+    <td width="57" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">Kmol/ha/100mm/ph_unit </p></td>
+    <td width="94" valign="top"><p class="Normal">0 to 100 </p></td>
+    <td width="197" valign="top"><p class="Normal">PHBC of layer </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">co2_pressure_soil </p></td>
+    <td width="57" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">atmospheres </p></td>
+    <td width="94" valign="top"><p class="Normal">0.0001 to 0.001 </p></td>
+    <td width="197" valign="top"><p class="Normal">Soil air CO 2 partial pressure in the layer </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">al_conc_init </p></td>
+    <td width="57" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">(cmol/kg) </p></td>
+    <td width="94" valign="top"><p class="Normal">0 to 1,000 </p></td>
+    <td width="197" valign="top"><p class="Normal">initial concentration of Al. </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">pal_phca_slope </p></td>
+    <td width="57" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">‘()' </p></td>
+    <td width="94" valign="top"><p class="Normal">0 to 3 </p></td>
+    <td width="197" valign="top"><p class="Normal">slope of log ionic conc of labile al vs pH . </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">pal_phca_intercept </p></td>
+    <td width="57" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">‘()' </p></td>
+    <td width="94" valign="top"><p class="Normal">-5 to 0 </p></td>
+    <td width="197" valign="top"><p class="Normal">intercept of log ionic conc of labile al vs pH . </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">sals_supplied_use_flag </p></td>
+    <td width="57" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"></td>
+    <td width="94" valign="top"><p class="Normal">true or false </p></td>
+    <td width="197" valign="top"><p class="Normal">Use the one supplied by the user. </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">sals_supplied </p></td>
+    <td width="57" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">cmol/kg </p></td>
+    <td width="94" valign="top"><p class="Normal">4 to 200 </p></td>
+    <td width="197" valign="top"><p class="Normal">slope of Al verses H + . </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">ecec_init </p></td>
+    <td width="57" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">(cmol/kg) </p></td>
+    <td width="94" valign="top"><p class="Normal">0 to 1,000 </p></td>
+    <td width="197" valign="top"><p class="Normal">initial effective cation exchange capacity. </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">ca_avail </p></td>
+    <td width="57" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"></td>
+    <td width="94" valign="top"><p class="Normal">0 to 1 </p></td>
+    <td width="197" valign="top"><p class="Normal">is Ca available in this layer. </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">mg_avail </p></td>
+    <td width="57" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"></td>
+    <td width="94" valign="top"><p class="Normal">0 to 1 </p></td>
+    <td width="197" valign="top"><p class="Normal">is Mg available in this layer. </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">k_avail </p></td>
+    <td width="57" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"></td>
+    <td width="94" valign="top"><p class="Normal">0 to 1 </p></td>
+    <td width="197" valign="top"><p class="Normal">is K available in this layer. </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">na_avail </p></td>
+    <td width="57" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"></td>
+    <td width="94" valign="top"><p class="Normal">0 to 1 </p></td>
+    <td width="197" valign="top"><p class="Normal">is Na available in this layer. </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">p_avail </p></td>
+    <td width="57" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"></td>
+    <td width="94" valign="top"><p class="Normal">0 to 1 </p></td>
+    <td width="197" valign="top"><p class="Normal">is P available in this layer. </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">s_avail </p></td>
+    <td width="57" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"></td>
+    <td width="94" valign="top"><p class="Normal">0 to 1 </p></td>
+    <td width="197" valign="top"><p class="Normal">is S available in this layer. </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">cl_avail </p></td>
+    <td width="57" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"></td>
+    <td width="94" valign="top"><p class="Normal">0 to 1 </p></td>
+    <td width="197" valign="top"><p class="Normal">is Cl available in this layer. * </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">ca_dm_percent </p></td>
+    <td width="57" valign="top"><p class="Normal">S </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/kg </p></td>
+    <td width="94" valign="top"><p class="Normal">0 to 1 </p></td>
+    <td width="197" valign="top"><p class="Normal">plant uptake of Ca mol H + equiv / kg dm </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">mg_dm_percent </p></td>
+    <td width="57" valign="top"><p class="Normal">S </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/kg </p></td>
+    <td width="94" valign="top"><p class="Normal">0 to 1 </p></td>
+    <td width="197" valign="top"><p class="Normal">plant uptake of Mg mol H + equiv / kg dm </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">k_dm_percent </p></td>
+    <td width="57" valign="top"><p class="Normal">S </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/kg </p></td>
+    <td width="94" valign="top"><p class="Normal">0 to 1 </p></td>
+    <td width="197" valign="top"><p class="Normal">plant uptake of K mol H + equiv / kg dm </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">na_dm_percent </p></td>
+    <td width="57" valign="top"><p class="Normal">S </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/kg </p></td>
+    <td width="94" valign="top"><p class="Normal">0 to 1 </p></td>
+    <td width="197" valign="top"><p class="Normal">plant uptake of Na mol H + equiv / kg dm </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">p_dm_percent </p></td>
+    <td width="57" valign="top"><p class="Normal">S </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/kg </p></td>
+    <td width="94" valign="top"><p class="Normal">0 to 1 </p></td>
+    <td width="197" valign="top"><p class="Normal">plant uptake of P mol H + equiv / kg dm </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">s_dm_percent </p></td>
+    <td width="57" valign="top"><p class="Normal">S </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/kg </p></td>
+    <td width="94" valign="top"><p class="Normal">0 to 1 </p></td>
+    <td width="197" valign="top"><p class="Normal">plant uptake of S mol H + equiv / kg dm </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">cl_dm_percent </p></td>
+    <td width="57" valign="top"><p class="Normal">S </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/kg </p></td>
+    <td width="94" valign="top"><p class="Normal">0 to 1 </p></td>
+    <td width="197" valign="top"><p class="Normal">plant uptake of Cl mol H + equiv / kg dm </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">hum_acid_slope </p></td>
+    <td width="57" valign="top"><p class="Normal">S </p></td>
+    <td width="104" valign="top"><p class="Normal">cmol/kg </p></td>
+    <td width="94" valign="top"><p class="Normal">5 to 100 </p></td>
+    <td width="197" valign="top"><p class="Normal">slope coeff for humic acids </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">hum_acid_phca_offset </p></td>
+    <td width="57" valign="top"><p class="Normal">S </p></td>
+    <td width="104" valign="top"><p class="Normal">cmol/kg </p></td>
+    <td width="94" valign="top"><p class="Normal">0.5 to 2.5 </p></td>
+    <td width="197" valign="top"><p class="Normal">slope offset for humic acids (no units) </p></td>
+  </tr>
+</table>
+<p class="Normal">&nbsp;</p>
+<p class="Title2"><strong><em>SoilpH Module Calibration Constants </em></strong></p>
+<p class="Normal"><strong>____________________________________________________________________________ </strong></p>
+<table cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="164" valign="top"><p class="Normal"><strong>Constant </strong></p></td>
+    <td width="57" valign="top"><p class="Normal"><strong>(S)calar or (A)rray </strong></p></td>
+    <td width="104" valign="top"><p class="Normal"><strong>Units </strong></p></td>
+    <td width="123" valign="top"><p class="Normal"><strong>Range </strong></p></td>
+    <td width="168" valign="top"><p class="Normal"><strong>Description </strong></p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">co2_pressure_atm </p></td>
+    <td width="57" valign="top"><p class="Normal">S </p></td>
+    <td width="104" valign="top"><p class="Normal">atmospheres </p></td>
+    <td width="123" valign="top"><p class="Normal">0.0001 to 0.001 </p></td>
+    <td width="168" valign="top"><p class="Normal">Atmospheric CO 2 partial pressure </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">wr_coef </p></td>
+    <td width="57" valign="top"><p class="Normal">S </p></td>
+    <td width="104" valign="top"><p class="Normal">mm </p></td>
+    <td width="123" valign="top"><p class="Normal">0 to 20,000 </p></td>
+    <td width="168" valign="top"><p class="Normal">root weighting coefficient for root length density factor. </p>
+        <p class="Normal">Depth at which root weighting is 1.8% of top. </p>
+        <p class="Normal">Used when RLV is not available </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">lime_sol_tbl_phca </p></td>
+    <td width="57" valign="top"><p class="Normal">A </p></td>
+    <td width="104" valign="top"><p class="Normal">ph_units </p></td>
+    <td width="123" valign="top"><p class="Normal">2 to 10 </p></td>
+    <td width="168" valign="top"><p class="Normal">pH Ca values – Lime solubility table. </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">lime_sol_tbl_lime </p></td>
+    <td width="57" valign="top"><p class="Normal">A </p></td>
+    <td width="104" valign="top"><p class="Normal">g/litre </p></td>
+    <td width="123" valign="top"><p class="Normal">0 to 2 </p></td>
+    <td width="168" valign="top"><p class="Normal">Solubility of CaCO 3 – Lime solubility table. </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">hum_acid_slope </p></td>
+    <td width="57" valign="top"><p class="Normal">S </p></td>
+    <td width="104" valign="top"><p class="Normal">cmol/kg </p></td>
+    <td width="123" valign="top"><p class="Normal">5.0 to 100.0 </p></td>
+    <td width="168" valign="top"><p class="Normal">slope of titration curve for soil orgainic matter. </p>
+        <p class="Normal">cereal straw = 7, humic acids = 83, soil = 32 (Helyar &amp; Porter) </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">hum_acid_phca_offset </p></td>
+    <td width="57" valign="top"><p class="Normal">S </p></td>
+    <td width="104" valign="top"><p class="Normal">cmol/kg </p></td>
+    <td width="123" valign="top"><p class="Normal">0.5 to 2.5 </p></td>
+    <td width="168" valign="top"><p class="Normal">slope offset for humic acids </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">phca2ph_tbl_phca </p></td>
+    <td width="57" valign="top"><p class="Normal">A </p></td>
+    <td width="104" valign="top"><p class="Normal">ph_units </p></td>
+    <td width="123" valign="top"><p class="Normal">3 to 10 </p></td>
+    <td width="168" valign="top"><p class="Normal">pH Ca -Table to convert pH Ca to pH water </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">phca2ph_tbl_ph </p></td>
+    <td width="57" valign="top"><p class="Normal">A </p></td>
+    <td width="104" valign="top"><p class="Normal">ph_units </p></td>
+    <td width="123" valign="top"><p class="Normal">3 to 10 </p></td>
+    <td width="168" valign="top"><p class="Normal">pH water -Table to convert pH Ca to pH water </p></td>
+  </tr>
+</table>
+<p class="Normal">&nbsp;</p>
+<p class="Title2"><strong><em>SoilpH Module Ash Alkalinity Loss </em></strong></p>
+<p class="Normal"><strong>____________________________________________________________________________ </strong></p>
+<table cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="164" valign="top"><p class="Normal"><strong>Variable </strong></p></td>
+    <td width="57" valign="top"><p class="Normal"><strong>(S)calar </strong></p></td>
+    <td width="104" valign="top"><p class="Normal"><strong>Units </strong></p></td>
+    <td width="123" valign="top"><p class="Normal"><strong>Range </strong></p></td>
+    <td width="168" valign="top"><p class="Normal"><strong>Description </strong></p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">action_type </p></td>
+    <td width="57" valign="top"><p class="Normal">S </p></td>
+    <td width="104" valign="top"></td>
+    <td width="123" valign="top"></td>
+    <td width="168" valign="top"><p class="Normal">Type of residue removal action in table of fraction of ash alkalinity of residue lost when an action such as burn or tillage takes place </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">ash_alk_loss_fract </p></td>
+    <td width="57" valign="top"><p class="Normal">S </p></td>
+    <td width="104" valign="top"></td>
+    <td width="123" valign="top"><p class="Normal">0 to 1 </p></td>
+    <td width="168" valign="top"><p class="Normal">Fraction of ash alkalinity of residue lost in table of fraction of ash alkalinity of residue lost when an action such as burn or tillage takes place </p></td>
+  </tr>
+</table>
+<p class="Normal">&nbsp;</p>
+<p class="Title2"><strong><em>SoilpH Module Crop component ash alkalinity </em></strong></p>
+<p class="Normal"><strong>____________________________________________________________________________ </strong></p>
+<table cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="164" valign="top"><p class="Normal"><strong>Name </strong></p></td>
+    <td width="57" valign="top"><p class="Normal"><strong>(A)rray </strong></p></td>
+    <td width="104" valign="top"><p class="Normal"><strong>Units </strong></p></td>
+    <td width="123" valign="top"><p class="Normal"><strong>Range </strong></p></td>
+    <td width="168" valign="top"><p class="Normal"><strong>Description </strong></p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">name_dm_type </p></td>
+    <td width="57" valign="top"><p class="Normal">A </p></td>
+    <td width="104" valign="top"></td>
+    <td width="123" valign="top"><p class="Normal">Short string </p></td>
+    <td width="168" valign="top"><p class="Normal">Name of dry-matter type of crop component </p></td>
+  </tr>
+  <tr>
+    <td width="164" valign="top"><p class="Normal">ash_alkalinity </p></td>
+    <td width="57" valign="top"><p class="Normal">A </p></td>
+    <td width="104" valign="top"><p class="Normal">CMol/Kg </p></td>
+    <td width="123" valign="top"><p class="Normal">0 to 100 </p></td>
+    <td width="168" valign="top"><p class="Normal">Ash alkalinity of component </p></td>
+  </tr>
+</table>
+<p class="Normal"><br>
+<strong class="Title2"><em>SoilpH Module Outputs </em></strong></p>
+<p class="Normal">The following variables are made available from the module:- </p>
+<p class="Normal">&nbsp;</p>
+<table cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="148" valign="top"><p class="Normal"><strong>Apsim name </strong></p></td>
+    <td width="76" valign="top"><p class="Normal"><strong>(S)calar or for each (L)ayer </strong></p></td>
+    <td width="104" valign="top"><p class="Normal"><strong>Units </strong></p></td>
+    <td width="288" valign="top"><p class="Normal"><strong>Description </strong></p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">h_equiv_infiltration </p></td>
+    <td width="76" valign="top"><p class="Normal">S </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/ha </p></td>
+    <td width="288" valign="top"><p class="Normal">H + ion equivalents into the top layer </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">phbc </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">Kmol/ha/100mm/ph_unit </p></td>
+    <td width="288" valign="top"><p class="Normal">pH buffer capacity of the soil </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">dlt_phca </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">pH unit </p></td>
+    <td width="288" valign="top"><p class="Normal">change in value of pH Ca during last timestep </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">phca_old </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">pH unit </p></td>
+    <td width="288" valign="top"><p class="Normal">old pH Ca for the soil layer </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">phca </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">pH unit </p></td>
+    <td width="288" valign="top"><p class="Normal">pH Ca of soil </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">ph </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">pH unit </p></td>
+    <td width="288" valign="top"><p class="Normal">pH of soil </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">lime_pool </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/ha </p></td>
+    <td width="288" valign="top"><p class="Normal">lime pool equivalent </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">caco3 </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">Kg/Ha </p></td>
+    <td width="288" valign="top"><p class="Normal">lime pool </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">dlt_lime_pool </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/ha </p></td>
+    <td width="288" valign="top"><p class="Normal">change in lime pool equivalent </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">dlt_caco3 </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">Kg/Ha </p></td>
+    <td width="288" valign="top"><p class="Normal">change in lime pool </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">h_equiv_mass_flow </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/ha </p></td>
+    <td width="288" valign="top"><p class="Normal">H + flow out of each layer into next layer </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">h_equiv_flow_net </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/ha </p></td>
+    <td width="288" valign="top"><p class="Normal">H + flow in from layer above - flow out into next layer. </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">dlt_acid_n_cycle </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/ha </p></td>
+    <td width="288" valign="top"><p class="Normal">Change in acid due to the nitrogen cycle. </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">dlt_lime_dissl </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/ha </p></td>
+    <td width="288" valign="top"><p class="Normal">Lime dissolved this timestep </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">ash_alk_wt_incorp </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/ha </p></td>
+    <td width="288" valign="top"><p class="Normal">ash alkalinity * dry matter weight of residue decomposed or incorporated by tillage. </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">dlt_acid_org_c_cycle </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/ha </p></td>
+    <td width="288" valign="top"><p class="Normal">Change in acid due to change in organic c. </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">acid_excretion_root </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/ha </p></td>
+    <td width="288" valign="top"><p class="Normal">Root excretion of acid. </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">tec </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">cmol/kg </p></td>
+    <td width="288" valign="top"><p class="Normal">total exchange capacity </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">al_exchangable </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">cmol/kg </p></td>
+    <td width="288" valign="top"><p class="Normal">concentration of exchangeable Al. </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">nh4_uptake_equiv </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/ha </p></td>
+    <td width="288" valign="top"><p class="Normal">uptake H + equivalent of NH 4 + </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">no3_uptake_equiv </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/ha </p></td>
+    <td width="288" valign="top"><p class="Normal">uptake H + equivalent of NO 3 - </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">ca_uptake_equiv </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/ha </p></td>
+    <td width="288" valign="top"><p class="Normal">uptake H + equivalent of Ca </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">mg_uptake_equiv </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/ha </p></td>
+    <td width="288" valign="top"><p class="Normal">uptake H + equivalent of Mg </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">k_uptake_equiv </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/ha </p></td>
+    <td width="288" valign="top"><p class="Normal">uptake H + equivalent of K </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">na_uptake_equiv </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/ha </p></td>
+    <td width="288" valign="top"><p class="Normal">uptake H + equivalent of Na </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">p_uptake_equiv </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/ha </p></td>
+    <td width="288" valign="top"><p class="Normal">uptake H + equivalent of P </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">s_uptake_equiv </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/ha </p></td>
+    <td width="288" valign="top"><p class="Normal">uptake H + equivalent of S </p></td>
+  </tr>
+  <tr>
+    <td width="148" valign="top"><p class="Normal">cl_uptake_equiv </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="104" valign="top"><p class="Normal">mol/ha </p></td>
+    <td width="288" valign="top"><p class="Normal">uptake H + equivalent of Cl </p></td>
+  </tr>
+</table>
+<p class="Normal"><br>
+<strong class="Title2"><em>SoilpH Module Dependencies </em></strong></p>
+<ul>
+  <li>dlt_caco3. The fertiliz module is the one that applies lime to the soil. </li>
+  <li>dlt_OM is obtained from the SoilN2 module. </li>
+  <li>hum_c, fom_c and biom_c are obtained from the soiln module in order to obtain the fraction of organic carbon. </li>
+  <li>crop_type, no3_uptake, nh4_uptake, rlv and root_length. These variables are obtained from each crop in order to know the uptakes of NO 3 - , NH 4 + , and estimate the uptakes of P, S Mg, Cl, K, Na, and Ca. Currently, the only crops that supplies these are Nwheat, Sugar and crops derived from Legume. </li>
+  <li>Infiltration and flow_water. These are obtained from the water movement module soilwat2 or Apswim, in order to know how much water is moving between each layer. </li>
+  <li> dlayer. This is obtained from the water movement module soilwat2. </li>
+</ul>
+<table cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="196" valign="top"><p class="Normal"><strong>Variable </strong></p></td>
+    <td width="76" valign="top"><p class="Normal"><strong>(S)calar, (L)ayer, or (P)art </strong></p></td>
+    <td width="98" valign="top"><p class="Normal"><strong>Units </strong></p></td>
+    <td width="110" valign="top"><p class="Normal"><strong>Range </strong></p></td>
+    <td width="137" valign="top"><p class="Normal"><strong>Description </strong></p></td>
+  </tr>
+  <tr>
+    <td width="616" colspan="5" valign="top"><h3 class="Normal">ACTION_init &amp; ACTION_process </h3></td>
+  </tr>
+  <tr>
+    <td width="196" valign="top"><p class="Normal">dlayer </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="98" valign="top"><p class="Normal">mm </p></td>
+    <td width="110" valign="top"><p class="Normal">1.0 to 1000.0 </p></td>
+    <td width="137" valign="top"><p class="Normal">thickness of the soil layer (cm). </p></td>
+  </tr>
+  <tr>
+    <td width="616" colspan="5" valign="top"><h3 class="Normal">ACTION_process </h3></td>
+  </tr>
+  <tr>
+    <td width="196" valign="top"><p class="Normal">infiltration </p></td>
+    <td width="76" valign="top"><p class="Normal">S </p></td>
+    <td width="98" valign="top"><p class="Normal">mm </p></td>
+    <td width="110" valign="top"><p class="Normal">0.0 to 1e3 </p></td>
+    <td width="137" valign="top"><p class="Normal">rain infiltrating into top layer (mm). </p></td>
+  </tr>
+  <tr>
+    <td width="196" valign="top"><p class="Normal">Flow_water </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="98" valign="top"><p class="Normal">mm </p></td>
+    <td width="110" valign="top"><p class="Normal">-1000 to 1000 </p></td>
+    <td width="137" valign="top"><p class="Normal">net water movment between each layer (mm). </p></td>
+  </tr>
+  <tr>
+    <td width="196" valign="top"><p class="Normal">oc% </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="98" valign="top"><p class="Normal">% </p></td>
+    <td width="110" valign="top"><p class="Normal">0.0 to 100.0 </p></td>
+    <td width="137" valign="top"><p class="Normal">percentage of of org_c in a layer (%). </p></td>
+  </tr>
+  <tr>
+    <td width="196" valign="top"><p class="Normal">crop_type </p></td>
+    <td width="76" valign="top"><p class="Normal">S </p></td>
+    <td width="98" valign="top"></td>
+    <td width="110" valign="top"><p class="Normal">short string </p></td>
+    <td width="137" valign="top"><p class="Normal">type of each crop </p></td>
+  </tr>
+  <tr>
+    <td width="196" valign="top"><p class="Normal">no3_uptake </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="98" valign="top"><p class="Normal">kg/ha </p></td>
+    <td width="110" valign="top"><p class="Normal">-1000 to 1000 </p></td>
+    <td width="137" valign="top"><p class="Normal">NO 3 - taken up by crops today </p></td>
+  </tr>
+  <tr>
+    <td width="196" valign="top"><p class="Normal">nh4_uptake </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="98" valign="top"><p class="Normal">kg/ha </p></td>
+    <td width="110" valign="top"><p class="Normal">-1000 to 1000 </p></td>
+    <td width="137" valign="top"><p class="Normal">NH 4 + taken up by crops today </p></td>
+  </tr>
+  <tr>
+    <td width="616" colspan="5" valign="top"><p align="center" class="Normal"><strong>EVENT_C_Balance </strong></p></td>
+  </tr>
+  <tr>
+    <td width="196" valign="top"><p class="Normal">DATA_dlt_OM </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="98" valign="top"><p class="Normal">kg/ha </p></td>
+    <td width="110" valign="top"><p class="Normal">-1000 to 1000 </p></td>
+    <td width="137" valign="top"><p class="Normal">change in soil organic matter (kg/ha). </p></td>
+  </tr>
+  <tr>
+    <td width="616" colspan="5" valign="top"><p align="center" class="Normal"><strong>EVENT_N_Balance </strong></p></td>
+  </tr>
+  <tr>
+    <td width="196" valign="top"><p class="Normal">DATA_nh4_transform_net </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="98" valign="top"><p class="Normal">kg/ha </p></td>
+    <td width="110" valign="top"><p class="Normal">-100.0 to 100.0 </p></td>
+    <td width="137" valign="top"><p class="Normal">NH 4 + transformed today. </p></td>
+  </tr>
+  <tr>
+    <td width="196" valign="top"><p class="Normal">DATA_no3_transform_net </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="98" valign="top"><p class="Normal">kg/ha </p></td>
+    <td width="110" valign="top"><p class="Normal">-100.0 to 100.0 </p></td>
+    <td width="137" valign="top"><p class="Normal">NO 3 - transformed today. </p></td>
+  </tr>
+  <tr>
+    <td width="616" colspan="5" valign="top"><p align="center" class="Normal"><strong>EVENT_Residue_added </strong></p></td>
+  </tr>
+  <tr>
+    <td width="196" valign="top"><p class="Normal">DATA_residue_type </p></td>
+    <td width="76" valign="top"><p class="Normal">S </p></td>
+    <td width="98" valign="top"></td>
+    <td width="110" valign="top"><p class="Normal">Short string </p></td>
+    <td width="137" valign="top"><p class="Normal">Crop type of residue </p></td>
+  </tr>
+  <tr>
+    <td width="196" valign="top"><p class="Normal">DATA_dlt_residue_wt </p></td>
+    <td width="76" valign="top"><p class="Normal">S </p></td>
+    <td width="98" valign="top"><p class="Normal">Kg/ha </p></td>
+    <td width="110" valign="top"><p class="Normal">0.0 to 100000.0 </p></td>
+    <td width="137" valign="top"><p class="Normal">Weight of residue added </p></td>
+  </tr>
+  <tr>
+    <td width="196" valign="top"><p class="Normal">DATA_dm_type </p></td>
+    <td width="76" valign="top"><p class="Normal">S </p></td>
+    <td width="98" valign="top"></td>
+    <td width="110" valign="top"><p class="Normal">Short string </p></td>
+    <td width="137" valign="top"><p class="Normal">Dry-matter type of residue added </p></td>
+  </tr>
+  <tr>
+    <td width="616" colspan="5" valign="top"><p align="center" class="Normal"><strong>EVENT_Residue_removed </strong></p></td>
+  </tr>
+  <tr>
+    <td width="196" valign="top"><p class="Normal">DATA_residue_removed_action </p></td>
+    <td width="76" valign="top"><p class="Normal">S </p></td>
+    <td width="98" valign="top"></td>
+    <td width="110" valign="top"><p class="Normal">Short string </p></td>
+    <td width="137" valign="top"><p class="Normal">Action used to remove residue </p></td>
+  </tr>
+  <tr>
+    <td width="196" valign="top"><p class="Normal">DATA_dlt_residue_fraction </p></td>
+    <td width="76" valign="top"><p class="Normal">S </p></td>
+    <td width="98" valign="top"></td>
+    <td width="110" valign="top"><p class="Normal">0.0 to 1.0 </p></td>
+    <td width="137" valign="top"><p class="Normal">Fraction of residue removed </p></td>
+  </tr>
+  <tr>
+    <td width="196" valign="top"><p class="Normal">DATA_residue_incorp_fraction </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="98" valign="top"></td>
+    <td width="110" valign="top"><p class="Normal">0.0 to 1.0 </p></td>
+    <td width="137" valign="top"><p class="Normal">Fraction of residue incorporated into each layer </p></td>
+  </tr>
+  <tr>
+    <td width="616" colspan="5" valign="top"><h3 class="Normal">EVENT_Crop_Chopped </h3></td>
+  </tr>
+  <tr>
+    <td width="196" valign="top"><p class="Normal">DATA_crop_type </p></td>
+    <td width="76" valign="top"><p class="Normal">S </p></td>
+    <td width="98" valign="top"></td>
+    <td width="110" valign="top"><p class="Normal">Short string </p></td>
+    <td width="137" valign="top"><p class="Normal">Type of crop </p></td>
+  </tr>
+  <tr>
+    <td width="196" valign="top"><p class="Normal">DATA_dm_type </p></td>
+    <td width="76" valign="top"><p class="Normal">P </p></td>
+    <td width="98" valign="top"></td>
+    <td width="110" valign="top"><p class="Normal">Short string </p></td>
+    <td width="137" valign="top"><p class="Normal">Dry-matter types of crop </p></td>
+  </tr>
+  <tr>
+    <td width="196" valign="top"><p class="Normal">DATA_dlt_crop_dm </p></td>
+    <td width="76" valign="top"><p class="Normal">P </p></td>
+    <td width="98" valign="top"><p class="Normal">Kg/ha </p></td>
+    <td width="110" valign="top"><p class="Normal">0.0 to 100000.0 </p></td>
+    <td width="137" valign="top"><p class="Normal">Dry-weights of dry-matter types </p></td>
+  </tr>
+  <tr>
+    <td width="196" valign="top"><p class="Normal">DATA_sender </p></td>
+    <td width="76" valign="top"><p class="Normal">S </p></td>
+    <td width="98" valign="top"></td>
+    <td width="110" valign="top"><p class="Normal">Short string </p></td>
+    <td width="137" valign="top"><p class="Normal">Name of crop module </p></td>
+  </tr>
+  <tr>
+    <td width="196" valign="top"><p class="Normal">rlv </p></td>
+    <td width="76" valign="top"><p class="Normal">L </p></td>
+    <td width="98" valign="top"><p class="Normal">mm/mm^3 </p></td>
+    <td width="110" valign="top"><p class="Normal">0.0 to 1,000,000 </p></td>
+    <td width="137" valign="top"><p class="Normal">root length volume </p></td>
+  </tr>
+  <tr>
+    <td width="196" valign="top"><p class="Normal">Root_depth </p></td>
+    <td width="76" valign="top"><p class="Normal">S </p></td>
+    <td width="98" valign="top"><p class="Normal">mm </p></td>
+    <td width="110" valign="top"><p class="Normal">0 to 20,000 </p></td>
+    <td width="137" valign="top"><p class="Normal">Depth of roots </p></td>
+  </tr>
+</table>
+<p class="Normal">&nbsp;</p>
+<p class="Title2"><strong><em>SoilpH Module Special Considerations </em></strong></p>
+<p class="Normal"><em>any notes on known bugs, ordering/sequencing requirements etc. </em></p>
+<p class="Normal"><em>Known deficiences in terms of functionality that users or other modellers may assume is ‘naturally' included. Especially in terms of potential interactions with crops and environment. </em></p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2"><strong><em>SoilpH Module Validation </em></strong></p>
+<p class="Normal"><em>Description of scope of environment for which the module has been calibrated and validated. Scenarios that include sites, seasons, dates etc. Opinions for potential for extrapolation beyond this scope/environment. </em></p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2"><strong><em>SoilpH Module Validation Examples </em></strong></p>
+<p class="Normal"><em>Graphs of validation work. </em></p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2"><strong><em>File availability </em></strong></p>
+<p class="Normal"><em>Notes on availability of data and control files for interested parties to use with this module. Could include references to sets of files, predicted and observed data, simulation results etc. </em></p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2"><strong><em>SoilpH Module Working Group </em></strong></p>
+<p class="Normal">Zvi Hochman is the leader. Proposed members of the group are Brian Keating, Merv Probert, Kirsten Verburg and Keith Hellyer, </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2"><strong><em>Appendix 1 </em></strong></p>
+<p class="Normal">SoilpH Model </p>
+<p class="Normal"><img width="694" height="913" src="soil_ph_clip_image001.gif"><br>
+</p>
+<p class="Normal"><br>
+</p>
+<p class="Title2"><strong><em>Configuration Details </em></strong></p>
+<p class="Normal"><strong>Owner </strong>ValVeraart <strong>Modified by </strong>John Hargreaves </p>
+<p class="Normal"><strong>Date created </strong>7 Sept 1998 </p>
+<p class="Normal"><strong>Current version </strong>0.2 </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><strong>Version history </strong></p>
+<table cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="79" valign="top"><p class="Normal"><strong>Date </strong></p></td>
+    <td width="78" valign="top"><p class="Normal"><strong>Version </strong></p></td>
+    <td width="411" valign="top"><p class="Normal"><strong>Details </strong></p></td>
+  </tr>
+  <tr>
+    <td width="79" valign="top"><p class="Normal">07/09/98 </p></td>
+    <td width="78" valign="top"><p class="Normal">0.1 </p></td>
+    <td width="411" valign="top"><p class="Normal">First draft </p></td>
+  </tr>
+  <tr>
+    <td width="79" valign="top"><p class="Normal">10/11/99 </p></td>
+    <td width="78" valign="top"><p class="Normal">0.2 </p></td>
+    <td width="411" valign="top"><p class="Normal">Second Draft </p></td>
+  </tr>
+  <tr>
+    <td width="79" valign="top"></td>
+    <td width="78" valign="top"></td>
+    <td width="411" valign="top"></td>
+  </tr>
+  <tr>
+    <td width="79" valign="top"></td>
+    <td width="78" valign="top"></td>
+    <td width="411" valign="top"></td>
+  </tr>
+  <tr>
+    <td width="79" valign="top"></td>
+    <td width="78" valign="top"></td>
+    <td width="411" valign="top"></td>
+  </tr>
+  <tr>
+    <td width="79" valign="top"></td>
+    <td width="78" valign="top"></td>
+    <td width="411" valign="top"></td>
+  </tr>
+</table>
+<p class="Normal">&nbsp;</p>
+<p class="Normal"><strong>Storage </strong></p>
+<p class="Normal">Network: </p>
+<p class="Normal">Web: </p>
+<p class="Normal">Development: e:\work\reports\SoilpH\ Soil_p.doc </p>
+<p class="Normal">Archive: </p>
+</body>
+</html>

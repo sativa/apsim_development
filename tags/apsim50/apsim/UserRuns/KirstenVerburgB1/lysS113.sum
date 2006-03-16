@@ -1,0 +1,1123 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+     Version                = 5.0
+     Title                  = south lysimeter
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\accum\lib\accum.dll
+     Component DLL          = c:\development\apsim\canopy\lib\canopy.dll
+     Component DLL          = c:\development\apsim\operatns\lib\operatns.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\apswim\lib\apswim.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\solute\lib\solute.dll
+     Component DLL          = c:\development\apsim\plant\lib\plant.dll
+     Component DLL          = c:\development\apsim\plant\lib\plant.dll
+     Component DLL          = c:\development\apsim\plant\lib\plant.dll
+     Component DLL          = c:\development\apsim\plant\lib\plant.dll
+     Component DLL          = c:\development\apsim\plant\lib\plant.dll
+     Component DLL          = c:\development\apsim\plant\lib\plant.dll
+     Component DLL          = c:\development\apsim\plant\lib\plant.dll
+     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        do_stock
+        post
+     Simulation start date = 15/12/1992
+     Simulation end date   = 11/07/2002
+     Time step =           = 1440 (mins)
+
+------- report1 Initialisation ------------------------------------------------
+     Output variables:
+        clock.year
+        clock.month
+        clock.day
+        clock.day_of_month as day_month
+        manager.period
+        apswim.sw
+        soiln2.no3(1-15)
+        soiln2.nh4(1-15)
+        manager.no3_025
+        manager.no3_2590
+        manager.nh4_025
+        manager.nh4_2590
+        manager.sw_dep_025
+        manager.sw_dep_2590
+        manager.sw_dep_90180
+        manager.no3_030
+        manager.no3_3080
+        manager.nh4_030
+        manager.nh4_3080
+        manager.sw_dep_030
+        manager.sw_dep_3080
+        tracker1.sum@met_rain as rain
+        tracker1.sum@manager_T as T
+        tracker1.sum@manager_ET as ET
+        apswim.sw_dep as swdep
+        tracker1.sum@apswim_es as es
+        tracker1.sum@apswim_runoff as runoff
+        tracker1.sum@apswim_drain as drain
+        tracker1.sum@apswim_eo as eo
+        apswim.h
+        tracker1.sum@manager_drain_25 as drain_25
+        tracker1.sum@manager_drain_90 as drain_90
+        tracker1.sum@manager_drain180 as drain_180
+        manager.cum_rain
+        manager.cum_ET
+        manager.cum_E
+        manager.cum_T
+        manager.cum_drain_25 as cdrain_25
+        manager.cum_drain_90 as cdrain_90
+        manager.cum_drain180 as cdrain180
+        manager.cum_drain
+        soiln2.no3()
+        soiln2.nh4()
+        soiln2.nit_tot()
+        tracker1.sum@apswim_leach_no3 as leach_no3
+        manager.cum_leach_25 as cleach_25
+        manager.cum_leach_90 as cleach_90
+        soiln2.urea()
+        soiln2.biom_n()
+        soiln2.fom_n()
+        soiln2.hum_n()
+        tracker1.sum@soiln2_dnit[]
+        tracker1.sum@soiln2_dlt_n_min[]
+        surfaceom.surfaceom_n
+        surfaceom.surfaceom_wt
+        surfaceom.surfaceom_cover
+        tracker1.sum@lucerne_dlt_n_fixed as L_dlt_n_fixed
+        tracker1.sum@lupin_dlt_n_fixed as P_dlt_n_fixed
+        wheat.biomass_n as W_biomass_n
+        wheat.groot_n as W_root_n
+        lucerne.biomass_n as L_biomass_n
+        lucerne.root_n as L_root_n
+        canola.biomass_n as C_biomass_n
+        canola.root_n as C_root_n
+        lupin.biomass_n as P_biomass_n
+        lupin.root_n as P_root_n
+        manager.cum_nmin010
+        manager.cum_nmin1020
+        manager.cum_nmin2030
+        manager.no3_010
+        manager.nh4_010
+        manager.fom_n_010
+        manager.biom_n_010
+        manager.hum_n_010
+        apswim.conc_water_no3(4) as no3_sol_20
+        apswim.conc_water_no3(5) as no3_sol_30
+        apswim.conc_water_no3(7) as no3_sol_50
+        apswim.conc_water_no3(9) as no3_sol_90
+        manager.cumnetdrain120
+     
+     Output file = lysS113.out
+     Format = csv
+
+------- report2 Initialisation ------------------------------------------------
+     Output variables:
+        clock.year
+        clock.month
+        clock.day
+        clock.day_of_month as day_month
+        manager.period
+        tracker2.sum@met_rain as rain
+        tracker2.sum@wheat_ep as W_ep
+        tracker2.sum@lucerne_ep as L_ep
+        tracker2.sum@canola_ep as C_ep
+        tracker2.sum@lupin_ep as P_ep
+        tracker2.sum@manager_T as T
+        tracker2.sum@manager_ET as ET
+        tracker2.sum@weed1_ep as weed1_ep
+        tracker2.sum@weed2_ep as weed2_ep
+        tracker2.sum@apswim_es as es
+        tracker2.sum@apswim_runoff as runoff
+        tracker2.sum@apswim_drain as drain
+        tracker2.sum@apswim_eo as eo
+        apswim.h
+        tracker2.sum@apswim_eos as eos
+        manager.netdrain120
+        wheat.zadok_stage as W_zadok
+        canola.stage as C_stage
+        lucerne.stage as L_stage
+        weed1.lai as wd1_lai
+        weed2.lai as wd2_lai
+        lucerne.green_biomass_wt as L_gbiomass
+        lupin.stage as P_Stage
+        apswim.sw
+        wheat.swdef_photo
+        wheat.nfact_photo
+     
+     Output file = dlysS113.out
+     Format = normal
+
+------- report3 Initialisation ------------------------------------------------
+     Output variables:
+        clock.year
+        clock.month
+        clock.day
+        clock.day_of_month as day_month
+        tracker3.avg@wheat_swdef_photo as W_swdef
+        tracker3.avg@wheat_nfact_photo as W_nfact
+        wheat.root_depth as W_root_depth
+        wheat.lai as W_lai
+        wheat.sla as W_sla
+        wheat.biomass_wt as W_biomass
+        wheat.root_wt as W_root_wt
+        wheat.leaf_wt as W_leaf_wt
+        wheat.dleaf_wt as W_dleaf_wt
+        wheat.stem_wt as W_stem_wt
+        wheat.stover_wt as stover_wt
+        wheat.grain_wt as W_grain_wt
+        wheat.biomass_n as W_biomass_n
+        wheat.groot_n as W_root_n
+        wheat.gleaf_n as W_leaf_n
+        wheat.dleaf_n as W_dleaf_n
+        wheat.stem_n as W_stem_n
+        wheat.stover_n as W_stover_n
+        wheat.grain_n as W_grain_n
+        wheat.flowering_date as W_flowering
+        wheat.maturity_date as W_maturity
+        wheat.zadok_stage as W_zadok
+        wheat.green_biomass_wt as W_gbiomass
+        wheat.green_biomass_n as W_gbiomass_n
+        tracker3.avg@lucerne_swdef_photo as L_swdef
+        tracker3.avg@lucerne_nfact_photo as L_nfact
+        lucerne.root_depth as L_root_depth
+        lucerne.lai as L_lai
+        lucerne.height as L_height
+        lucerne.biomass_wt as L_biomass
+        lucerne.green_biomass_wt as L_gbiomass
+        lucerne.biomass_n as L_biomass_n
+        lucerne.green_biomass_n as L_gbiomass_n
+        lucerne.root_wt as L_root_wt
+        lucerne.root_n as L_root_n
+        tracker3.sum@lucerne_dlt_n_fixed as L_dlt_n_fixed
+        tracker3.avg@canola_swdef_photo as C_swdef
+        tracker3.avg@canola_nfact_photo as C_nfact
+        canola.root_depth as C_root_depth
+        canola.lai as C_lai
+        canola.pai as C_pai
+        canola.biomass_wt as C_biomass
+        canola.root_wt as C_root_wt
+        canola.leaf_wt as C_leaf_wt
+        canola.stem_wt as C_stem_wt
+        canola.pod_wt as C_pod_wt
+        canola.grain_wt as C_grain_wt
+        canola.biomass_n as C_biomass_n
+        canola.root_n as C_root_n
+        canola.leaf_n as C_leaf_n
+        canola.stem_n as C_stem_n
+        canola.pod_n as C_pod_n
+        canola.grain_n as C_grain_n
+        canola.flowering_date as C_flowering
+        canola.maturity_date as C_maturity
+        canola.stage as C_stage
+        canola.green_biomass_wt as C_gbiomass
+        canola.green_biomass_n as C_gbiomass_n
+        tracker3.avg@lupin_swdef_photo as P_swdef
+        tracker3.avg@lupin_nfact_photo as P_nfact
+        lupin.root_depth as P_root_depth
+        lupin.lai as P_lai
+        lupin.pai as P_pai
+        lupin.biomass_wt as P_biomass
+        lupin.root_wt as P_root_wt
+        lupin.leaf_wt as P_leaf_wt
+        lupin.stem_wt as P_stem_wt
+        lupin.pod_wt as P_pod_wt
+        lupin.grain_wt as P_grain_wt
+        lupin.biomass_n as P_biomass_n
+        lupin.root_n as P_root_n
+        lupin.leaf_n as P_leaf_n
+        lupin.stem_n as P_stem_n
+        lupin.pod_n as P_pod_n
+        lupin.grain_n as P_grain_n
+        lupin.flowering_date as P_flowering
+        lupin.maturity_date as P_maturity
+        lupin.stage as P_stage
+        lupin.green_biomass_wt as P_gbiomass
+        lupin.green_biomass_n as P_gbiomass_n
+        tracker3.sum@lupin_dlt_n_fixed as P_dlt_n_fixed
+     
+     Output file = lyscrS113.out
+     Format = normal
+
+------- report4 Initialisation ------------------------------------------------
+     Output variables:
+        clock.year
+        clock.month
+        clock.day
+        clock.day_of_month as day_month
+        wheat.rlv(1-15) as W_rlv
+        wheat.root_depth as W_root_depth
+        wheat.root_wt as W_root_wt
+        wheat.groot_n as W_root_n
+        canola.rlv(1-15) as C_rlv
+        canola.root_depth as C_root_depth
+        canola.root_wt as C_root_wt
+        canola.root_n as C_root_n
+        lucerne.rlv as L_rlv
+        lucerne.root_depth as L_root_depth
+        lucerne.root_wt as L_root_wt
+        lucerne.root_n as L_root_n
+        lupin.rlv(1-16) as P_rlv
+        lupin.root_depth as P_root_depth
+        lupin.root_wt as P_root_wt
+        lupin.root_n as P_root_n
+        wheat.stage as W_stage
+        wheat.das as W_das
+        wheat.biomass_wt as W_biomass
+        wheat.green_biomass_wt as W_gbiomass
+        canola.stage as C_stage
+        canola.biomass_Wt as C_biomass
+        canola.green_biomass_wt as C_gbiomass
+        lupin.stage as P_stage
+        lupin.biomass_wt as P_biomass
+        lupin.green_biomass_wt as P_gbiomass
+     
+     Output file = lysrtS113.out
+     Format = normal
+
+------- report5 Initialisation ------------------------------------------------
+     Output variables:
+        clock.year
+        clock.month
+        clock.day
+        clock.day_of_month as day_month
+        surfaceom.surfaceom_cover
+        surfaceom.surfaceom_wt
+        weed1.cover_green as wd1_cover
+        weed1.cover_tot as wd1_cover_tot
+        weed1.lai as wd1_lai
+        weed1.stage as wd1_stage
+        weed1.biomass_wt as wd1_biomass
+        weed1.green_biomass_wt as wd1_gbiomass
+        tracker5.avg@weed1_nfact_photo as wd1_nfact
+        tracker5.avg@weed1_swdef_photo as wd1_swdef
+        weed1.rlv(1-10) as wd1_rlv
+        tracker5.sum@weed1_sw_uptake[1-10] as wd1_ep
+        weed1.height as wd1_height
+        weed1.root_depth as wd1_root_depth
+        weed1.root_wt as wd1_root_wt
+        weed1.root_n as wd1_root_n
+        weed2.cover_green as wd2_cover
+        weed2.cover_tot as wd2_cover_tot
+        weed2.lai as wd2_lai
+        weed2.stage as wd2_stage
+        weed2.biomass_wt as wd2_biomass
+        weed2.green_biomass_wt as wd2_gbiomass
+        tracker5.avg@weed2_nfact_photo as wd2_nfact
+        tracker5.avg@weed2_swdef_photo as wd2_swdef
+        weed2.rlv(1-10) as wd2_rlv
+        tracker5.sum@weed2_sw_uptake[1-10] as wd2_ep
+        weed2.height as wd2_height
+        weed2.root_depth as wd2_root_depth
+        weed2.root_wt as wd2_root_wt
+        weed2.root_n as wd2_root_n
+        apswim.sw
+     
+     Output file = lyswdS113.out
+     Format = normal
+
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: csu7a.met
+
+------- accum Initialisation --------------------------------------------------
+     Initialising
+
+------- canopy Initialisation -------------------------------------------------
+      Initialising
+      Module rotation for intercropping :
+     weed1                           weed2                           weed3                           lucerne                         wheat
+
+------- operatns Initialisation -----------------------------------------------
+     Operations Schedule
+     ===================
+       350 1992  Prepare      soiln2 add_roots dlt_fom_wt =  10 50 200 350 500 700 500 400 450 400 250 100 0 0 0 0 0 0 (kg/ha), dlt_fom_cnr = 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 ()
+       350 1992  Prepare      weed2 sow cultivar = early, plants = 20 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
+        90 1993  Prepare      weed2 end_crop
+       158 1993  Prepare      wheat sow plants = 210, sowing_depth = 40, cultivar = janzJL
+       159 1993  Prepare      fertiliz apply amount = 2.25 (kg/ha), type = nh4_n, depth = 60 (mm)
+       187 1993  Prepare      fertiliz apply amount = 20.7 (kg/ha), type = nh4_n, depth = 10 (mm)
+       202 1993  Prepare      report4 do_end_day_output
+       223 1993  Prepare      report4 do_end_day_output
+       237 1993  Prepare      report4 do_end_day_output
+       252 1993  Prepare      fertiliz apply amount = 41.4 (kg/ha), type = urea_n (), depth = 10 (mm)
+       265 1993  Prepare      report4 do_end_day_output
+       293 1993  Prepare      report4 do_end_day_output
+       330 1993  Prepare      report4 do_end_day_output
+       344 1993  Prepare      wheat harvest
+       344 1993  Prepare      wheat kill_crop
+       344 1993  Prepare      wheat end_crop
+       345 1993  Prepare      surfaceom tillage type = burn_95 ()
+        42 1994  Prepare      weed1 sow cultivar = early, plants = 20 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
+        67 1994  Prepare      weed2 sow cultivar = early, plants = 20 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
+       102 1994  Prepare      report4 do_end_day_output
+       103 1994  Prepare      weed1 end_crop
+       103 1994  Prepare      weed2 end_crop
+       161 1994  Prepare      lucerne sow cultivar = hunter_river, plants = 100 (/m2), sowing_depth = 30 (mm)
+        12 1995  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 5
+       101 1995  Prepare      lucerne harvest height = 50 (mm), remove = 0.95
+       102 1995  Prepare      lucerne harvest
+       102 1995  Prepare      lucerne end_crop
+       163 1995  Prepare      report4 do_end_day_output
+       235 1995  Prepare      lucerne sow cultivar = hunter_river, plants = 100 (/m2), sowing_depth = 30 (mm)
+       235 1995  Prepare      irrigate apply amount = 11.6 (mm), time = 16:30 (hh:mm), duration = 10 (min)
+       242 1995  Prepare      irrigate apply amount = 5.4 (mm), time = 13:30 (hh:mm), duration = 10 (min)
+       276 1995  Prepare      report4 do_end_day_output
+       298 1995  Prepare      report4 do_end_day_output
+       338 1995  Prepare      report4 do_end_day_output
+        23 1996  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 300
+       268 1996  Prepare      report4 do_end_day_output
+       269 1996  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 300
+       318 1996  Prepare      irrigate apply amount = 195.5 (mm), time = 10:30 (hh:mm), duration = 282 (min)
+       323 1996  Prepare      report4 do_end_day_output
+       339 1996  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 150
+        64 1997  Prepare      report4 do_end_day_output
+       170 1997  Prepare      report4 do_end_day_output
+       176 1997  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 50
+       260 1997  Prepare      report4 do_end_day_output
+       261 1997  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 50
+       289 1997  Prepare      lucerne harvest height = 50 (mm), plants = 10
+        55 1998  Prepare      lucerne harvest height = 50 (mm)
+        55 1998  Prepare      lucerne end_crop
+       124 1998  Prepare      canola sow plants = 38 (/m2), crop_class = triazine, row_spacing = 180, sowing_depth = 20, cultivar = Karoo
+       124 1998  Prepare      fertiliz apply amount = 23.4 (kg/ha), type = nh4_n, depth = 40 (mm)
+       151 1998  Prepare      report4 do_end_day_output
+       168 1998  Prepare      report4 do_end_day_output
+       220 1998  Prepare      report4 do_end_day_output
+       245 1998  Prepare      report4 do_end_day_output
+       262 1998  Prepare      report4 do_end_day_output
+       309 1998  Prepare      report4 do_end_day_output
+       310 1998  Prepare      canola harvest
+       310 1998  Prepare      canola end_crop
+       311 1998  Prepare      surfaceom tillage type = burn_95 ()
+       135 1999  Prepare      report4 do_end_day_output
+       141 1999  Prepare      wheat sow plants = 120 (/m2), sowing_depth = 40, cultivar = janz
+       141 1999  Prepare      fertiliz apply amount = 21.6 (kg/ha), type = nh4_n, depth = 60 (mm)
+       149 1999  Prepare      report4 do_end_day_output
+       209 1999  Prepare      report4 do_end_day_output
+       244 1999  Prepare      report4 do_end_day_output
+       267 1999  Prepare      report4 do_end_day_output
+       283 1999  Prepare      report4 do_end_day_output
+       290 1999  Prepare      report4 do_end_day_output
+       329 1999  Prepare      report4 do_end_day_output
+       343 1999  Prepare      wheat harvest
+       343 1999  Prepare      wheat kill_crop
+       343 1999  Prepare      wheat end_crop
+       344 1999  Prepare      surfaceom tillage type = burn_95 ()
+        26 2000  Prepare      weed2 sow cultivar = early, plants = 20 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
+        60 2000  Prepare      weed2 end_crop
+       112 2000  Prepare      report4 do_end_day_output
+       131 2000  Prepare      lupin sow plants = 48 (/m2), cultivar = merrit, sowing_depth = 40
+       131 2000  Prepare      fertiliz apply amount = 14.4 (kg/ha), type = nh4_n, depth = 60 (mm)
+       136 2000  Prepare      report4 do_end_day_output
+       199 2000  Prepare      report4 do_end_day_output
+       240 2000  Prepare      report4 do_end_day_output
+       244 2000  Prepare      report4 do_end_day_output
+       281 2000  Prepare      report4 do_end_day_output
+       324 2000  Prepare      report4 do_end_day_output
+       327 2000  Prepare      report4 do_end_day_output
+       348 2000  Prepare      lupin harvest
+       348 2000  Prepare      lupin end_crop
+       349 2000  Prepare      surfaceom tillage type = burn_95 ()
+        36 2001  Prepare      weed2 sow cultivar = early, plants = 20 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
+       130 2001  Prepare      weed2 end_crop
+       154 2001  Prepare      fertiliz apply amount = 25 (kg/ha), type = nh4_n, depth = 10 (mm)
+       169 2001  Prepare      wheat sow plants = 120 (/m2), sowing_depth = 40, cultivar = H45JL
+       169 2001  Prepare      fertiliz apply amount = 17.1 (kg/ha), type = nh4_n, depth = 10 (mm)
+       214 2001  Prepare      irrigate apply amount = 12.8 (mm), time = 16:30 (hh:mm), duration = 10 (min)
+       248 2001  Prepare      fertiliz apply amount = 50 (kg/ha), type = nh4no3 (), depth = 10 (mm)
+       339 2001  Prepare      wheat harvest
+       339 2001  Prepare      wheat kill_crop
+       339 2001  Prepare      wheat end_crop
+       339 2001  Prepare      surfaceom tillage type = burn_95 ()
+        35 2002  Prepare      wheat sow plants = 51 (/m2), sowing_depth = 40, cultivar = H45JL
+        35 2002  Prepare      weed2 sow cultivar = early, plants = 80 (/m2), crop_class = winter_dicot, sowing_depth = 40 (mm)
+        46 2002  Prepare      weed3 sow cultivar = early, plants = 29 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
+       153 2002  Prepare      wheat harvest
+       153 2002  Prepare      wheat kill_crop
+       153 2002  Prepare      wheat end_crop
+       153 2002  Prepare      weed2 end_crop
+       153 2002  Prepare      weed3 end_crop
+       154 2002  Prepare      surfaceom tillage type = burn_95 ()
+       154 2002  Prepare      wheat sow plants = 141 (/m2), sowing_depth = 40, cultivar = Janz
+
+------- fertiliz Initialisation -----------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- irrigate Initialisation -----------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                      Irrigation parameters
+          -----------------------------------------------
+           Irrigation Schedule (Disabled)
+           Automatic Irrigation Application (Disabled)
+           critical fraction of available soil water =  0.00
+           depth for calculating available soil water =       0.00
+           Irrigation Allocation Budget (Disabled)
+          -----------------------------------------------
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- end_of_day
+     drain180     = apswim.flow(18)
+     leach180     = apswim.flow_no3(18)
+     cum_drain180 = cum_drain180 + apswim.flow(18)
+     cum_leach180 = cum_leach180 + apswim.flow_no3(18)
+     sw_dep_90180 = (0.5 * sw_dep(11)) + sw_dep(12) + sw_dep(13) + sw_dep(14) + sw_dep(15) + sw_dep(16) + sw_dep(17) + sw_dep(18)
+     t            = weed1.ep + lucerne.ep + canola.ep + lupin.ep + wheat.ep + weed2.ep + weed3.ep
+     et           = apswim.es + t
+     sw_dep_120    = sw_dep(1) + sw_dep(2) + sw_dep(3) + sw_dep(4)+ sw_dep(5) + sw_dep(6) + sw_dep(7) + sw_dep(8) + sw_dep(9) + sw_dep(10) + sw_dep(11) + sw_dep(12)
+     netdrain120    = (met.rain + irrigate.irrigation) - et - (sw_dep_120 - oldsw_dep_120)
+     oldsw_dep_120  = sw_dep_120
+     cumnetdrain120 = cumnetdrain120 + netdrain120
+     cum_rain     = cum_rain + met.rain + irrigate.irrigation
+     
+     SECTION:- init
+     period       = 1
+     et           = 0
+     t            = 0
+     drain_25     = 0
+     drain_90     = 0
+     drain180     = 0
+     leach_25     = 0
+     leach_90     = 0
+     leach180     = 0
+     cum_rain     = 0
+     cum_et       = 0
+     cum_e        = 0
+     cum_t        = 0
+     cum_drain_25 = 0
+     cum_drain_90 = 0
+     cum_drain180 = 0
+     cum_drain    = 0
+     cum_leach_25 = 0
+     cum_leach_90 = 0
+     cum_leach180 = 0
+     netdrain120   = 0
+     cumnetdrain120 = 0
+     oldsw_dep_120  = 0
+     sw_dep_120    = 0
+     no3_025      = 0
+     no3_2590     = 0
+     nh4_025      = 0
+     nh4_2590     = 0
+     sw_dep_025   = 0
+     sw_dep_2590  = 0
+     sw_dep_90180 = 0
+     no3_030      = 0
+     no3_3080     = 0
+     nh4_030      = 0
+     nh4_3080     = 0
+     sw_dep_030   = 0
+     sw_dep_3080  = 0
+     cum_nmin010  = 0
+     cum_nmin1020 = 0
+     cum_nmin2030 = 0
+     sw_dep_010   = 0
+     nh4_010      = 0
+     no3_010      = 0
+     fom_n_010    = 0
+     biom_n_010   = 0
+     hum_n_010    = 0
+     print_flag   = 0
+     zero_flag    = 0
+     crop_in      = 0
+     cult         = 0
+     
+     SECTION:- start_of_day
+     if (lucerne.crop_class = 'plant') then
+        reduce_status = 0
+     endif
+     if (lucerne.crop_class = 'regrowth' and day = 90 and reduce_status = 0) then
+        lucerne reduce
+        reduce_status = 1
+     endif
+     if (day = 182 and lucerne.crop_class = 'reduced') then
+        lucerne spring
+        reduce_status = 0
+     endif
+     if (year = 1993 and (day = 127 or day = 343)) then
+        zero_flag = 1
+     endif
+     if (year = 1994 and (day = 138 or day = 348)) then
+        zero_flag = 1
+     endif
+     if (year = 1995 and (day = 102 or day = 300)) then
+        zero_flag = 1
+     endif
+     if (year = 1996 and (day = 110 or day = 338)) then
+        zero_flag = 1
+     endif
+     if (year = 1997 and (day = 113 or day = 315)) then
+        zero_flag = 1
+     endif
+     if (year = 1998 and (day = 98 or day = 309)) then
+        zero_flag = 1
+     endif
+     if (year = 1999 and (day = 140 or day = 343)) then
+        zero_flag = 1
+     endif
+     if (year = 2000 and (day = 104 or day = 347))  then
+        zero_flag = 1
+     endif
+     if (year = 2001 and (day = 101 or day = 339))  then
+        zero_flag = 1
+     endif
+     if (year = 2002 and (day = 130)) then
+        zero_flag = 1
+     endif
+     if (zero_flag = 1) then
+        period = period + 1
+        cum_rain     = 0
+        cum_et       = 0
+        cum_e        = 0
+        cum_t        = 0
+        cum_drain_25 = 0
+        cum_drain_90 = 0
+        cum_drain180 = 0
+        cum_drain    = 0
+        cum_leach_25 = 0
+        cum_leach_90 = 0
+        cum_leach180 = 0
+        zero_flag    = 0
+        cumnetdrain120 = 0
+     endif
+     if ((year = 1993 and day = 121) or
+         (year = 1994 and day = 145) or
+         (year = 1995 and day = 129) or
+         (year = 1996 and day = 22) or
+         (year = 1997 and day = 8)) then
+        cum_nmin010  = 0
+        cum_nmin1020 = 0
+        cum_nmin2030 = 0
+     endif
+     
+     SECTION:- end_of_day
+     t            = weed1.ep + lucerne.ep + canola.ep + lupin.ep + wheat.ep + weed2.ep + weed3.ep
+     et           = apswim.es + t
+     drain_25     = apswim.flow(6)
+     drain_90     = 0.5* apswim.flow(10)+ 0.5* apswim.flow(11)
+     leach_25     = apswim.flow_no3(6)
+     leach_90     = 0.5* apswim.flow_no3(10)+ 0.5* apswim.flow_no3(11)
+     cum_e        = cum_e + apswim.es
+     cum_t        = cum_t + t
+     cum_et       = cum_et + et
+     cum_drain_25 = cum_drain_25 + drain_25
+     cum_drain_90 = cum_drain_90 + drain_90
+     cum_drain    = cum_drain + apswim.drain
+     cum_leach_25 = cum_leach_25 + leach_25
+     cum_leach_90 = cum_leach_90 + leach_90
+     no3_025      = no3(1) + no3(2) + no3(3) + no3(4) + no3(5) + no3(6)
+     no3_2590     = no3(7) + no3(8) + no3(9) + no3(10) + (0.5 * no3(11))
+     nh4_025      = nh4(1) + nh4(2) + nh4(3) + nh4(4) + nh4(5) + nh4(6)
+     nh4_2590     = nh4(7) + nh4(8) + nh4(9) + nh4(10) + (0.5 * nh4(11))
+     sw_dep_025   = sw_dep(1) + sw_dep(2) + sw_dep(3) + sw_dep(4) + sw_dep(5) + sw_dep(6)
+     sw_dep_2590  = sw_dep(6) + sw_dep(7) + sw_dep(8) + sw_dep(9) + (0.5 * sw_dep(11))
+     no3_030      = no3(1) + no3(2) + no3(3) + no3(4) + no3(5) + no3(6) + (0.5 * no3(7))
+     no3_3080     = (0.5 * no3(7)) + no3(8) + no3(9) + no3(10)
+     nh4_030      = nh4(1) + nh4(2) + nh4(3) + nh4(4) + nh4(5) + nh4(6) + (0.5 * nh4(7))
+     nh4_3080     = (0.5 * nh4(7)) + nh4(8) + nh4(9) + nh4(10)
+     sw_dep_030   = sw_dep(1) + sw_dep(2) + sw_dep(3) + sw_dep(4) + sw_dep(5) + sw_dep(6) + (0.5 * sw_dep(7))
+     sw_dep_3080  = (0.5 * sw_dep(7)) + sw_dep(8) + sw_dep(9) + sw_dep(10)
+     cum_nmin010  = cum_nmin010 + dlt_n_min(1) + dlt_n_min(2) + dlt_n_min(3) + dlt_n_min(4) + (dlt_n_min(5) / 3)
+     cum_nmin1020 = cum_nmin1020 + (dlt_n_min(5) / 3) + (dlt_n_min(6) / 2)
+     cum_nmin2030 = cum_nmin2030 + (dlt_n_min(6) / 2) + (dlt_n_min(7) / 2)
+     sw_dep_010   = sw_dep(1) + sw_dep(2) + sw_dep(3) + sw_dep(4) + (0.5 * sw_dep(5))
+     no3_010      = no3(1) + no3(2) + no3(3) + no3(4) + (no3(5) / 3)
+     nh4_010      = nh4(1) + nh4(2) + nh4(3) + nh4(4) + (nh4(5) / 3)
+     fom_n_010    = fom_n(1) + fom_n(2) + fom_n(3) + fom_n(4) + (fom_n(5) / 3)
+     biom_n_010   = biom_n(1) + biom_n(2) + biom_n(3) + biom_n(4) + (biom_n(5) / 3)
+     hum_n_010    = hum_n(1) + hum_n(2) + hum_n(3) + hum_n(4) + (hum_n(5) / 3)
+     if (year = 1993 and (day = 62 or day = 90 or day = 91 or day = 104 or day = 105 or day = 110 or day = 126 or day = 127)) then
+        print_flag = 1
+     endif
+     if (year = 1993 and (day = 140 or day = 158 or day = 159 or day = 167 or day = 193 or day = 209 or day = 216 or day = 218)) then
+        print_flag = 1
+     endif
+     if (year = 1993 and (day = 223 or day = 237 or day = 252 or day = 265 or day = 285 or day = 299 or day = 312 or day = 329)) then
+        print_flag = 1
+     endif
+     if (year = 1993 and (day = 342 or day = 343 or day = 344)) then
+        print_flag = 1
+     endif
+     if (year = 1994 and (day = 21 or day = 103 or day = 118 or day = 137 or day = 138 or day = 145 or day = 166 or day = 207)) then
+        print_flag = 1
+     endif
+     if (year = 1994 and (day = 217 or day = 222 or day = 230 or day = 250 or day = 279 or day = 312 or day = 347 or day = 348)) then
+        print_flag = 1
+     endif
+     if (year = 1995 and (day = 31 or day = 32 or day = 45 or day = 101 or day = 102 or day = 119 or day = 120 or day = 129)) then
+        print_flag = 1
+     endif
+     if (year = 1995 and (day = 154 or day = 158 or day = 159 or day = 181 or day = 214 or day = 249 or day = 283 or day = 298)) then
+        print_flag = 1
+     endif
+     if (year = 1995 and (day = 299 or day = 300 or day = 326)) then
+        print_flag = 1
+     endif
+     if (year = 1996 and (day = 22 or day = 23 or day = 65 or day = 93 or day = 109 or day = 110 or day = 135 or day = 163)) then
+        print_flag = 1
+     endif
+     if (year = 1996 and (day = 171 or day = 172 or day = 191 or day = 227 or day = 261 or day = 268 or day = 269 or day = 289)) then
+        print_flag = 1
+     endif
+     if (year = 1996 and (day = 318 or day = 337 or day = 338 or day = 339 or day = 345)) then
+        print_flag = 1
+     endif
+     if (year = 1997 and (day = 8 or day = 64 or day = 65 or day = 112 or day = 113 or day = 163 or day = 170 or day = 171)) then
+        print_flag = 1
+     endif
+     if (year = 1997 and (day = 175 or day = 176 or day = 260 or day = 261 or day = 288 or day = 289 or day = 300 or day = 314)) then
+        print_flag = 1
+     endif
+     if (year = 1997 and (day = 315 or day = 344)) then
+        print_flag = 1
+     endif
+     if (year = 1998 and (day = 54 or day = 55 or day = 97 or day = 98 or day = 119 or day = 124 or day = 169 or day = 238)) then
+        print_flag = 1
+     endif
+     if (year = 1998 and (day = 267 or day = 286 or day = 308 or day = 309 or day = 310 or day = 344)) then
+        print_flag = 1
+     endif
+     if (year = 1999 and (day = 34 or day = 83 or day = 139 or day = 140 or day = 141 or day = 167 or day = 196 or day = 209)) then
+        print_flag = 1
+     endif
+     if (year = 1999 and (day = 237 or day = 258 or day = 266 or day = 288 or day = 307 or day = 323 or day = 341 or day = 342)) then
+        print_flag = 1
+     endif
+     if (year = 1999 and (day = 343 or day = 347)) then
+        print_flag = 1
+     endif
+     if (year = 2000 and (day = 11 or day = 42 or day = 68 or day = 94 or day = 103 or day = 104 or day = 110 or day = 128)) then
+        print_flag = 1
+     endif
+     if (year = 2000 and (day = 131 or day = 153 or day = 165 or day = 194 or day = 215 or day = 242 or day = 255 or day = 271)) then
+        print_flag = 1
+     endif
+     if (year = 2000 and (day = 297 or day = 325 or day = 346 or day = 347 or day = 348 or day = 253)) then
+        print_flag = 1
+     endif
+     if (year = 2001 and (day = 23 or day = 51 or day = 85 or day = 100 or day = 101 or day = 117 or day = 120 or day = 162)) then
+        print_flag = 1
+     endif
+     if (year = 2001 and (day = 177 or day = 204 or day = 205 or day = 233 or day = 268 or day = 276 or day = 296 or day = 327 or day = 338)) then
+        print_flag = 1
+     endif
+     if (year = 2001 and (day = 339 or day = 344 or day = 348)) then
+        print_flag = 1
+     endif
+     if (year = 2002 and (day = 9 or day = 43 or day = 80 or day = 120 or day = 129)) then
+        print_flag = 1
+     endif
+     if ((print_flag = 1) or (report1.days_since_last_report = 14)) then
+        report1 do_end_day_output
+        report3 do_end_day_output
+        print_flag = 0
+     endif
+     report2 do_end_day_output
+     if ((date_within('1-nov,1-jun') and (lucerne.plant_status = 'out')) then
+        report5 do_end_day_output
+     endif
+     END of rules
+     
+     Manager creating a new local real variable : period =     1.00000000000000
+     Manager creating a new local real variable : et =     0.00000000000000
+     Manager creating a new local real variable : t =     0.00000000000000
+     Manager creating a new local real variable : drain_25 =     0.00000000000000
+     Manager creating a new local real variable : drain_90 =     0.00000000000000
+     Manager creating a new local real variable : drain180 =     0.00000000000000
+     Manager creating a new local real variable : leach_25 =     0.00000000000000
+     Manager creating a new local real variable : leach_90 =     0.00000000000000
+     Manager creating a new local real variable : leach180 =     0.00000000000000
+     Manager creating a new local real variable : cum_rain =     0.00000000000000
+     Manager creating a new local real variable : cum_et =     0.00000000000000
+     Manager creating a new local real variable : cum_e =     0.00000000000000
+     Manager creating a new local real variable : cum_t =     0.00000000000000
+     Manager creating a new local real variable : cum_drain_25 =     0.00000000000000
+     Manager creating a new local real variable : cum_drain_90 =     0.00000000000000
+     Manager creating a new local real variable : cum_drain180 =     0.00000000000000
+     Manager creating a new local real variable : cum_drain =     0.00000000000000
+     Manager creating a new local real variable : cum_leach_25 =     0.00000000000000
+     Manager creating a new local real variable : cum_leach_90 =     0.00000000000000
+     Manager creating a new local real variable : cum_leach180 =     0.00000000000000
+     Manager creating a new local real variable : netdrain120 =     0.00000000000000
+     Manager creating a new local real variable : cumnetdrain120 =     0.00000000000000
+     Manager creating a new local real variable : oldsw_dep_120 =     0.00000000000000
+     Manager creating a new local real variable : sw_dep_120 =     0.00000000000000
+     Manager creating a new local real variable : no3_025 =     0.00000000000000
+     Manager creating a new local real variable : no3_2590 =     0.00000000000000
+     Manager creating a new local real variable : nh4_025 =     0.00000000000000
+     Manager creating a new local real variable : nh4_2590 =     0.00000000000000
+     Manager creating a new local real variable : sw_dep_025 =     0.00000000000000
+     Manager creating a new local real variable : sw_dep_2590 =     0.00000000000000
+     Manager creating a new local real variable : sw_dep_90180 =     0.00000000000000
+     Manager creating a new local real variable : no3_030 =     0.00000000000000
+     Manager creating a new local real variable : no3_3080 =     0.00000000000000
+     Manager creating a new local real variable : nh4_030 =     0.00000000000000
+     Manager creating a new local real variable : nh4_3080 =     0.00000000000000
+     Manager creating a new local real variable : sw_dep_030 =     0.00000000000000
+     Manager creating a new local real variable : sw_dep_3080 =     0.00000000000000
+     Manager creating a new local real variable : cum_nmin010 =     0.00000000000000
+     Manager creating a new local real variable : cum_nmin1020 =     0.00000000000000
+     Manager creating a new local real variable : cum_nmin2030 =     0.00000000000000
+     Manager creating a new local real variable : sw_dep_010 =     0.00000000000000
+     Manager creating a new local real variable : nh4_010 =     0.00000000000000
+     Manager creating a new local real variable : no3_010 =     0.00000000000000
+     Manager creating a new local real variable : fom_n_010 =     0.00000000000000
+     Manager creating a new local real variable : biom_n_010 =     0.00000000000000
+     Manager creating a new local real variable : hum_n_010 =     0.00000000000000
+     Manager creating a new local real variable : print_flag =     0.00000000000000
+     Manager creating a new local real variable : zero_flag =     0.00000000000000
+     Manager creating a new local real variable : crop_in =     0.00000000000000
+     Manager creating a new local real variable : cult =     0.00000000000000
+
+------- apswim Initialisation -------------------------------------------------
+     Initialising
+     
+     
+           APSIM soil profile
+           ------------------
+     
+     
+           ---------------------------------------
+           dlayer   BD   SW     LL15   DUL   SAT
+           ---------------------------------------
+             5.0  1.48  0.120  0.111  0.287  0.350
+            10.0  1.48  0.130  0.111  0.287  0.350
+            20.0  1.48  0.140  0.111  0.287  0.350
+            40.0  1.48  0.150  0.111  0.287  0.350
+            75.0  1.49  0.190  0.124  0.276  0.342
+           100.0  1.50  0.200  0.148  0.254  0.325
+           100.0  1.42  0.210  0.148  0.254  0.325
+           100.0  1.37  0.240  0.167  0.282  0.358
+           150.0  1.42  0.260  0.182  0.290  0.354
+           200.0  1.53  0.280  0.214  0.307  0.345
+           200.0  1.63  0.290  0.241  0.312  0.338
+           200.0  1.67  0.315  0.261  0.315  0.340
+           200.0  1.62  0.325  0.271  0.325  0.350
+           150.0  1.63  0.334  0.283  0.334  0.360
+           100.0  1.63  0.334  0.283  0.334  0.360
+            75.0  1.63  0.334  0.283  0.334  0.360
+            50.0  1.63  0.334  0.283  0.334  0.360
+            25.0  1.63  0.334  0.283  0.334  0.360
+     
+     
+           APSWIM soil profile
+           -------------------
+     
+     
+          -------------------------------------------------
+           depth   Soil Type     Theta    Psi        Ks
+           ------------------------------------------------
+             0.0  soil1         0.1200000    -10.168      1.042
+            10.0  -             0.1300000     -6.640      1.042
+            20.0  -             0.1400000     -4.468      1.042
+            50.0  soil1         0.1500000     -3.090      1.042
+           100.0  -             0.1900000     -0.983      1.042
+           200.0  soil2         0.2000000     -0.895      1.042
+           300.0  soil2a        0.2100000     -0.570      1.042
+           400.0  soil3         0.2400000     -0.464     16.667
+           500.0  -             0.2600000     -0.326      9.946
+           700.0  soil4         0.2800000     -0.359      3.542
+           900.0  soil5         0.2900000     -0.417      0.833
+          1100.0  soil6         0.3150000     -0.099      0.146
+          1300.0  soil7         0.3250000     -0.100      0.146
+          1500.0  soil8         0.3340000     -0.098      0.146
+          1600.0  soil8         0.3340000     -0.098      0.146
+          1700.0  soil8         0.3340000     -0.098      0.146
+          1750.0  soil8         0.3340000     -0.098      0.146
+          1800.0  soil8         0.3340000     -0.098      0.146
+     
+     
+           Soil Moisture Characteristics
+           -----------------------------
+     
+     
+                                  nodes(0-6)
+     
+            g%psi   |        0          1          2          3          4          5          6
+          --------------------------------------------------------------------------------------
+           -15.00 |    0.11150    0.11150    0.11150    0.11150    0.12358    0.14774    0.14774
+            -1.00 |    0.18541    0.18541    0.18541    0.18541    0.18948    0.19763    0.19763
+            -0.10 |    0.28697    0.28697    0.28697    0.28697    0.27583    0.25357    0.25357
+            -0.01 |    0.34917    0.34917    0.34917    0.34917    0.33905    0.31879    0.31879
+     
+     
+           Soil Hydraulic Conductivity
+           ---------------------------
+     
+     
+                                  nodes(0-6)
+     
+            g%psi   |        0          1          2          3          4          5          6
+          --------------------------------------------------------------------------------------
+           -15.00 |    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+            -1.00 |    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+            -0.10 |    0.01180    0.01180    0.01180    0.01180    0.00184    0.00004    0.00004
+            -0.01 |    0.98784    0.98784    0.98784    0.98784    0.77482    0.47669    0.47669
+     
+     
+           Swim calculation parameters
+           ---------------------------
+           p%dtmin p%dtmax   p%ersoil   p%ernode    p%errex p%dppl p%dpnl max_water_increment
+           --------------------------------------------------------------------
+     
+            0.0   1.0 .100E-05 .100E-05 .100E-03 2.00 1.00        0.100
+     
+     
+     
+     
+          Bypass flow is INactive
+          Total ponding (no runoff)
+          top boundary condition = infinite conductance
+          bottom boundary condition = free drainage
+     
+     
+     
+     
+          vapour conductivity = on
+          Rainfall Source: apsim
+     
+     
+          Evaporation Source: sum_demands
+     
+     
+     
+     
+     
+
+------- SurfaceOM Initialisation ----------------------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat     wheat          540.0   216.0     3.1     0.0   0.237     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.2
+     
+
+------- soiln2 Initialisation -------------------------------------------------
+     
+        - Reading Constants
+     
+        - Reading Parameters
+     
+     
+     
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     5.80  1.42    0.07    0.00    0.00
+             2     5.70  1.40    0.15    0.00    0.00
+             3     5.60  1.30    0.30    0.00    0.00
+             4     5.40  1.20    0.59    0.00    0.00
+             5     4.80  0.80    1.12    0.00    0.00
+             6     5.10  0.50    1.50    0.00    0.00
+             7     5.20  0.40    1.42    0.00    0.00
+             8     5.40  0.30    1.23    0.00    0.00
+             9     5.60  0.30    1.71    0.00    0.00
+            10     5.80  0.20    2.14    0.00    0.00
+            11     5.80  0.10    1.96    0.00    0.00
+            12     5.80  0.08    1.67    0.00    0.00
+            13     5.80  0.06    1.62    0.00    0.00
+            14     5.80  0.06    1.22    0.00    0.00
+            15     5.80  0.06    0.81    0.00    0.00
+            16     5.80  0.06    0.61    0.00    0.00
+            17     5.80  0.06    0.41    0.00    0.00
+            18     5.80  0.06    0.20    0.00    0.00
+          ------------------------------------------------
+           Totals               18.73    0.03    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1        993.7    71.0    57.1     7.1     0.0     0.0
+             2       1961.8   140.1   110.2    13.8     0.0     0.0
+             3       3679.4   262.8   168.6    21.1     0.0     0.0
+             4       6858.1   489.9   245.9    30.7     0.0     0.0
+             5       8712.2   622.3   207.8    26.0     0.0     0.0
+             6       7455.9   532.6    44.1     5.5     0.0     0.0
+             7       5654.8   403.9    25.2     3.1     0.0     0.0
+             8       4097.8   292.7    12.2     1.5     0.0     0.0
+             9       6389.1   456.4    15.9     2.0     0.0     0.0
+            10       6107.9   436.3    12.1     1.5     0.0     0.0
+            11       3255.2   232.5     4.8     0.6     0.0     0.0
+            12       2669.4   190.7     2.6     0.3     0.0     0.0
+            13       1943.0   138.8     1.0     0.1     0.0     0.0
+            14       1466.3   104.7     0.7     0.1     0.0     0.0
+            15        977.5    69.8     0.5     0.1     0.0     0.0
+            16        733.1    52.4     0.4     0.0     0.0     0.0
+            17        488.8    34.9     0.2     0.0     0.0     0.0
+            18        244.4    17.5     0.1     0.0     0.0     0.0
+          ---------------------------------------------------------
+           Totals   63688.3  4549.2   909.5   113.7     0.0     0.0
+          ---------------------------------------------------------
+
+------- solute Initialisation -------------------------------------------------
+     Initialising
+     
+        - Reading Constants
+
+------- canola Initialisation -------------------------------------------------
+     phenology model: TTT
+
+------- lucerne Initialisation ------------------------------------------------
+     phenology model: TTT
+
+------- lupin Initialisation --------------------------------------------------
+     phenology model: TTT
+
+------- weed1 Initialisation --------------------------------------------------
+     phenology model: Wheat
+
+------- weed2 Initialisation --------------------------------------------------
+     phenology model: Wheat
+
+------- weed3 Initialisation --------------------------------------------------
+     phenology model: Wheat
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     LL parameter doesn't match soil profile?
+     Component name: weed3
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+
+------- wheat Initialisation --------------------------------------------------
+     phenology model: Wheat
+
+------- tracker1 Initialisation -----------------------------------------------
+     Tracker variables:
+        sum of met.rain on process from report1.reported to now as sum@met_rain
+        sum of manager.T on process from report1.reported to now as sum@manager_T
+        sum of manager.ET on process from report1.reported to now as sum@manager_ET
+        sum of apswim.es on process from report1.reported to now as sum@apswim_es
+        sum of apswim.runoff on process from report1.reported to now as sum@apswim_runoff
+        sum of apswim.drain on process from report1.reported to now as sum@apswim_drain
+        sum of apswim.eo on process from report1.reported to now as sum@apswim_eo
+        sum of manager.drain_25 on process from report1.reported to now as sum@manager_drain_25
+        sum of manager.drain_90 on process from report1.reported to now as sum@manager_drain_90
+        sum of manager.drain180 on process from report1.reported to now as sum@manager_drain180
+        sum of apswim.leach_no3 on process from report1.reported to now as sum@apswim_leach_no3
+        sum of soiln2.dnit() on process from report1.reported to now as sum@soiln2_dnit[]
+        sum of soiln2.dlt_n_min() on process from report1.reported to now as sum@soiln2_dlt_n_min[]
+        sum of lucerne.dlt_n_fixed on process from report1.reported to now as sum@lucerne_dlt_n_fixed
+        sum of lupin.dlt_n_fixed on process from report1.reported to now as sum@lupin_dlt_n_fixed
+
+------- tracker2 Initialisation -----------------------------------------------
+     Tracker variables:
+        sum of met.rain on process from report2.reported to now as sum@met_rain
+        sum of wheat.ep on process from report2.reported to now as sum@wheat_ep
+        sum of lucerne.ep on process from report2.reported to now as sum@lucerne_ep
+        sum of canola.ep on process from report2.reported to now as sum@canola_ep
+        sum of lupin.ep on process from report2.reported to now as sum@lupin_ep
+        sum of manager.T on process from report2.reported to now as sum@manager_T
+        sum of manager.ET on process from report2.reported to now as sum@manager_ET
+        sum of weed1.ep on process from report2.reported to now as sum@weed1_ep
+        sum of weed2.ep on process from report2.reported to now as sum@weed2_ep
+        sum of apswim.es on process from report2.reported to now as sum@apswim_es
+        sum of apswim.runoff on process from report2.reported to now as sum@apswim_runoff
+        sum of apswim.drain on process from report2.reported to now as sum@apswim_drain
+        sum of apswim.eo on process from report2.reported to now as sum@apswim_eo
+        sum of apswim.eos on process from report2.reported to now as sum@apswim_eos
+
+------- tracker3 Initialisation -----------------------------------------------
+     Tracker variables:
+        average of wheat.swdef_photo on process from report3.reported to now as avg@wheat_swdef_photo
+        average of wheat.nfact_photo on process from report3.reported to now as avg@wheat_nfact_photo
+        average of lucerne.swdef_photo on process from report3.reported to now as avg@lucerne_swdef_photo
+        average of lucerne.nfact_photo on process from report3.reported to now as avg@lucerne_nfact_photo
+        sum of lucerne.dlt_n_fixed on process from report3.reported to now as sum@lucerne_dlt_n_fixed
+        average of canola.swdef_photo on process from report3.reported to now as avg@canola_swdef_photo
+        average of canola.nfact_photo on process from report3.reported to now as avg@canola_nfact_photo
+        average of lupin.swdef_photo on process from report3.reported to now as avg@lupin_swdef_photo
+        average of lupin.nfact_photo on process from report3.reported to now as avg@lupin_nfact_photo
+        sum of lupin.dlt_n_fixed on process from report3.reported to now as sum@lupin_dlt_n_fixed
+
+------- tracker5 Initialisation -----------------------------------------------
+     Tracker variables:
+        average of weed1.nfact_photo on process from report5.reported to now as avg@weed1_nfact_photo
+        average of weed1.swdef_photo on process from report5.reported to now as avg@weed1_swdef_photo
+        sum of weed1.sw_uptake(1-10) on process from report5.reported to now as sum@weed1_sw_uptake[1-10]
+        average of weed2.nfact_photo on process from report5.reported to now as avg@weed2_nfact_photo
+        average of weed2.swdef_photo on process from report5.reported to now as avg@weed2_swdef_photo
+        sum of weed2.sw_uptake(1-10) on process from report5.reported to now as sum@weed2_sw_uptake[1-10]
+------- Start of simulation  --------------------------------------------------
+15 December 1992(Day of year=350), operatns: 
+      Sending add_roots message to soiln2
+      Sending sow message to weed2
+15 December 1992(Day of year=350), weed2: 
+     Crop Sow
+      - reading constants for winter_grass(weed)
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Cannot find a parameter in any of the files/sections
+     specified in the control file.
+     Parameter name = stem_n_init_conc
+     Component name: weed2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     

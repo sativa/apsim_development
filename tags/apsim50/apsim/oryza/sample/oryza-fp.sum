@@ -1,0 +1,168 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+     Version                = 5.0
+     Title                  = oryza Sample Simulation - potential
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\eo\lib\eo.dll
+     Component DLL          = c:\development\apsim\oryza\lib\oryza.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        do_stock
+        post
+     Simulation start date =  1/01/1992
+     Simulation end date   = 31/12/1992
+     Time step =           = 1440 (mins)
+
+------- report Initialisation -------------------------------------------------
+     Output variables:
+        clock.year
+        clock.day
+        oryza.plant_status
+        oryza.crop_type
+        oryza.cropsta
+        oryza.dae
+        oryza.dvs
+        oryza.dvr
+        oryza.hu
+        oryza.lrstrs
+        oryza.ldstrs
+        oryza.lestrs
+        oryza.pcew
+        oryza.tnsoil
+        oryza.nflv
+        oryza.fnlv
+        oryza.nacr
+        oryza.ancr
+        oryza.anso
+        oryza.anlv
+        oryza.rnstrs
+        oryza.wagt
+        oryza.wso
+        oryza.wst
+        oryza.wlvg
+        oryza.wlvd
+        oryza.dtga
+        oryza.gcr
+        oryza.rlai
+        oryza.ssga
+        oryza.zrt
+        oryza.eff
+        oryza.etd
+        oryza.etrd
+        oryza.etae
+        oryza.trc
+     
+     Output file = oryza-fp.out
+     Format = normal
+
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\development\apsim\MET\SAMPLE\LosBanos.met
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- start_of_day
+     if (day = 4) then
+       oryza sow cultivar = ir72, establishment_section = transplanted
+     endif
+     if (day = 165) then
+       oryza sow cultivar = ir72, establishment_section = transplanted
+     endif
+     
+     SECTION:- end_of_day
+     if (oryza.plant_status = 'dead') then
+       oryza end_crop
+     endif
+     report do_output
+     END of rules
+     
+
+------- eo Initialisation -----------------------------------------------------
+     Initialising:
+     
+        - Reading Eo Parameters
+     
+     
+     
+                      Eo Parameters
+          -------------------------------------------------------------------
+        Vpd Factor  Albedo  Max albedo  Z0soil  Dflt_Wind  Dflt_Pa Dflt_instrum_ht
+            (-)       (-)       (-)       (mm)   (km/day)   (hpa)      (mm)
+          -------------------------------------------------------------------
+           0.75      0.13      0.23     3.000     60.00   1000.00   2000.00
+     
+      instrum_disp instrum_z0  extn_cf  plant_method wind_day_fr  adj_fact  wind_mlt
+           (mm)      (mm)       (-)                     (-)         (-)      (-)
+          -------------------------------------------------------------------------
+          37.00      4.00      0.80 eo_penman_d_x_cover   0.66      1.00      1.00
+          -------------------------------------------------------------------------
+     
+     
+     
+          Default instrument height used =      2000. (mm)
+          Source of VPD is mint
+          Default atmospheric pressure used =   1000.0 (mb)
+
+------- oryza Initialisation --------------------------------------------------
+        - Initialising
+     Non - limiting Soil Water conditions
+     Non - limiting Soil Nitrogen conditions
+     Eo taken from eo.eo_transp
+------- Start of simulation  --------------------------------------------------
+4 January 1992(Day of year=4), manager: 
+     Manager sending message :- oryza sow  cultivar = ir72, establishment_section = transplanted
+4 January 1992(Day of year=4), oryza: 
+        - Reading Parameters
+        - Reading Cultivar Parameters
+        - Reading Establishment Parameters
+22 April 1992(Day of year=113), oryza: 
+     Maturity
+22 April 1992(Day of year=113), manager: 
+     Manager sending message :- oryza end_crop
+22 April 1992(Day of year=113), oryza: 
+         Crop ended. Rough Rice Yield (dw) =  8881.2 (kg/ha)
+                             straw residue =  8043.9 (kg/ha)
+                             straw N       =     0.0 (kg/ha)
+                             root residue  =  1473.8 (kg/ha)
+                             root N        =     0.0 (kg/ha)
+     Non - limiting Soil Water conditions
+     Non - limiting Soil Nitrogen conditions
+     Eo taken from eo.eo_transp
+13 June 1992(Day of year=165), manager: 
+     Manager sending message :- oryza sow  cultivar = ir72, establishment_section = transplanted
+13 June 1992(Day of year=165), oryza: 
+        - Reading Parameters
+        - Reading Cultivar Parameters
+        - Reading Establishment Parameters
+24 September 1992(Day of year=268), oryza: 
+     Maturity
+24 September 1992(Day of year=268), manager: 
+     Manager sending message :- oryza end_crop
+24 September 1992(Day of year=268), oryza: 
+         Crop ended. Rough Rice Yield (dw) =  6243.1 (kg/ha)
+                             straw residue =  5866.0 (kg/ha)
+                             straw N       =     0.0 (kg/ha)
+                             root residue  =  1161.2 (kg/ha)
+                             root N        =     0.0 (kg/ha)
+     Non - limiting Soil Water conditions
+     Non - limiting Soil Nitrogen conditions
+     Eo taken from eo.eo_transp
+31 December 1992(Day of year=366), clock: 
+     Simulation is terminating due to end criteria being met.

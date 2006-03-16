@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="frmrpt">
+   <registrations>
+      <read name="handle" type="handleType" readable="T"/>
+      <read name="form_file" type="form_fileType" readable="T"/>
+      <read name="out_file" type="out_fileType" readable="T"/>
+      <read name="escape_char" type="escape_charType" readable="T"/>
+      <read name="report_days" type="report_daysType" readable="T"/>
+      <read name="report_start" type="report_startType" readable="T"/>
+      <respondToEventReg name="sysinit" type="null"/>
+      <respondToEventReg name="end_run" type="null"/>
+      <respondToEventReg name="do_output" type="null"/>
+      <respondToEventReg name="clear" type="null"/>
+      <respondToEventReg name="process" type="null"/>
+   </registrations>
+</component>

@@ -1,0 +1,33 @@
+# (Borlandish) Makefile for apsim accum module
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+
+# Platform specific defns
+!include $(APSROOT)\APSBuild\platform.make
+
+# Fortran compiler defns
+!include $(APSROOT)\APSBuild\fortran.make
+
+# The statically linked components of the engine interface
+!include $(APSROOT)\APSBuild\ApsimComponentInterface.make
+
+# Main target
+source: ..\lib\accum.dll
+..\lib\accum.dll: Registrations.obj accum.obj $(STATICLINKEDOBJECTS)
+	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
+	$(ECHO) $(F90FLAGS) >> linker.tmp
+	$(ECHO) $(F90LIBS) >> linker.tmp
+	$(LF95) accum.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\accum.dll @linker.tmp
+	#$(RM) linker.tmp
+
+accum.obj: accum.for
+Registrations.obj: Registrations.f90
+
+Registrations.f90: ..\accum.interface 
+	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\accum.interface
+
+clean:
+	$(RM) ..\lib\accum.dll Registrations.obj Registrations.f90 accum.obj accum.imp

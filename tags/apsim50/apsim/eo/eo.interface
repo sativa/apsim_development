@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="eo">
+   <registrations>
+      <respondToGetReg name="eo_pm" type="eo_pm"/>
+      <respondToGetReg name="eo_penman" type="eo_penman"/>
+      <respondToGetReg name="eo_penman_d" type="eo_penman_d"/>
+      <respondToGetReg name="eo_transp" type="eo_transp"/>
+      <respondToGetReg name="eo_pm_x_cover" type="eo_pm_x_cover"/>
+      <respondToGetReg name="eo_penman_x_cover" type="eo_penman_x_cover"/>
+      <respondToGetReg name="eo_pm_x_kfunction" type="eo_pm_x_kfunction"/>
+      <respondToGetReg name="eo_radn_x_kfunction" type="eo_radn_x_kfunction"/>
+      <respondToGetSetReg name="eo_plant" type="eo_plant"/>
+      <respondToGetReg name="eo_soil" type="eo_soil"/>
+      <respondToGetReg name="eo_priestly_taylor" type="eo_priestly_taylor"/>
+      <respondToGetReg name="eo_ritchie" type="eo_ritchie"/>
+      <respondToGetReg name="eo_vpd" type="eo_vpd"/>
+      <respondToGetReg name="canopy_height" type="canopy_height"/>
+      <respondToGetReg name="wind_ms_multiplier_height" type="wind_ms_multiplier_height"/>
+      <respondToGetReg name="wind_ms_reference" type="wind_ms_reference"/>
+      <respondToGetReg name="wind_adj" type="wind_adj"/>
+      <respondToGetReg name="n_hrs" type="n_hrs"/>
+      <respondToGetReg name="radn_net" type="radn_net"/>
+      <respondToGetReg name="da" type="da"/>
+      <respondToGetReg name="ra" type="ra"/>
+      <respondToGetReg name="rc" type="rc"/>
+      <respondToGetReg name="epsilon" type="epsilon"/>
+      <respondToGetReg name="eo_daylength" type="eo_daylength"/>
+      <read name="vpd_fac" type="vpd_fac" readable="T"/>
+      <read name="albedo" type="albedo" readable="T"/>
+      <read name="max_albedo" type="max_albedo" readable="T"/>
+      <read name="z0soil" type="z0soil" readable="T"/>
+      <read name="default_wind" type="default_wind" readable="T"/>
+      <read name="default_pa" type="default_pa" readable="T"/>
+      <read name="default_instrum_height" type="default_instrum_height" readable="T"/>
+      <read name="disp_instrum" type="disp_instrum" readable="T"/>
+      <read name="z0_instrum" type="z0_instrum" readable="T"/>
+      <read name="extinct_coef" type="extinct_coef" readable="T"/>
+      <read name="eo_plant_method" type="eo_plant_method" readable="T"/>
+      <read name="wind_day_fraction" type="wind_day_fraction" readable="T"/>
+      <read name="adjustment_factor" type="adjustment_factor" readable="T"/>
+      <read name="wind_multiplier" type="wind_multiplier" readable="T"/>
+      <read name="reference_height" type="reference_height" readable="T"/>
+      <read name="reference_height_base" type="reference_height_base" readable="T"/>
+      <read name="zc_conversion" type="zc_conversion" readable="T"/>
+      <read name="multiplier_height" type="multiplier_height" readable="T"/>
+      <read name="rsmin_canopy" type="rsmin_canopy" readable="T"/>
+      <read name="radn_crit" type="radn_crit" readable="T"/>
+      <read name="vpd_crit" type="vpd_crit" readable="T"/>
+      <read name="lai_crit" type="lai_crit" readable="T"/>
+      <read name="rc_method" type="rc_method" readable="T"/>
+      <read name="rc" type="rc" readable="T"/>
+      <read name="pen_mon_ub" type="pen_mon_ub" readable="T"/>
+      <read name="default_wind_day_fraction" type="default_wind_day_fraction" readable="T"/>
+      <read name="ra_ub" type="ra_ub" readable="T"/>
+      <read name="alt_photo_radn" type="alt_photo_radn" readable="T"/>
+      <read name="wind_hrs" type="wind_hrs" readable="T"/>
+      <read name="wind_min" type="wind_min" readable="T"/>
+      <read name="soil_heat_flux" type="soil_heat_flux" readable="T"/>
+      <read name="penman_fU2_coef_a" type="penman_fU2_coef_a" readable="T"/>
+      <read name="penman_fU2_coef_b" type="penman_fU2_coef_b" readable="T"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <getVariableReg name="latitude" type="latitude"/>
+      <getVariableReg name="instrum_height" type="instrum_height"/>
+      <getVariableReg name="vpd" type="vpd"/>
+      <getVariableReg name="rh" type="rh"/>
+      <getVariableReg name="mint" type="mint"/>
+      <getVariableReg name="pa" type="pa"/>
+      <getVariableReg name="wind" type="wind"/>
+      <getVariableReg name="lai" type="lai"/>
+      <getVariableReg name="fr_intc_radn" type="fr_intc_radn"/>
+      <getVariableReg name="day" type="day"/>
+      <getVariableReg name="year" type="year"/>
+      <getVariableReg name="maxt" type="maxt"/>
+      <getVariableReg name="radn" type="radn"/>
+      <getVariableReg name="canopy_height" type="canopy_height"/>
+      <getVariableReg name="cover_green" type="cover_green"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="process" type="process"/>
+   </registrations>
+</component>

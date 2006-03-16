@@ -1,0 +1,105 @@
+<html>
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<title>APSIM 4.0</title>
+<link href="./docstyle.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<p class="Title1">APSIM<sup><b>5.0</b></sup> release notes</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">17<sup>th</sup> March 2006</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">APSFront</p>
+
+<p class="Title2">&nbsp;</p>
+
+<p class="Normal">APSFront has now been removed from the APSIM release and it's 
+development has discontinued. It is recommended that all users migrate to the 
+APSIM user interface. Introductory training workshops are held every six months 
+and show how to use the new user interface to create and run simulations. 
+Alternatively, the same exercises and material can be accessed at
+<a href="http://www.apsim.info/apsim/Training/Index.htm">
+http://www.apsim.info/apsim/Training/Index.htm</a>. These exercises are self 
+paced and assume no knowledge of the APSIM user interface.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Sorghum</p>
+
+<p class="Title2">&nbsp;</p>
+
+<p class="Normal">A new Sorghum module makes it's debut in this release. No 
+changes are required to the control / parameter files to use this new module.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Run-time speed.</p>
+
+<p class="Title2">&nbsp;</p>
+
+<p class="Normal">Some work has been done on APSIM to improve it's runtime 
+speed. While APSIM 5 is almost twice as quick as the previous version 4.2, the 
+chart below shows that there is still much to be done to improve APSIM's speed.</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Title2">&nbsp;</p>
+
+<p class="Title2">
+<img border="0" src="runtime%20speed%205.gif" width="753" height="621"></p>
+
+<p class="Normal">This chart shows the amount of time, in seconds, that it took 
+for APSIM to run a 50 year continuous wheat simulation on the same hardware i.e. 
+the changes to runtime speed are due to software and not improved hardware speed 
+over the years.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Apsim user interface</p>
+
+<ul>
+  <li>
+<p class="Normal">Support for complex rotations has been added, similar to the 
+way APSFront did rotations.</p>
+  </li>
+  <li>
+<p class="Normal">Grid cell handling has been improved so that 
+cut/copy/paste/delete works in the same way as Microsoft Excel.</p>
+  </li>
+  <li>
+<p class="Normal">A new memo/comment facility has been added so that users can 
+add comments to their simulation.</p>
+  </li>
+  <li>
+<p class="Normal">A new tracker capability has been added so that APSIM 
+variables can be summarised e.g. average weekly/monthly rainfall, runoff etc.</p>
+  </li>
+  <li>
+<p class="Normal">A new erosion capability has been added.</p>
+  </li>
+  <li>
+<p class="Normal">Increased stability and a new look.</p>
+  </li>
+</ul>
+<p class="Title2">Apsoil</p>
+
+<ul>
+  <li>
+  <p class="Normal">Improved soil importing and exporting to and from 
+  spreadsheet and .par files has been implemented.</li>
+  <li>
+  <p class="Normal">A new look keeping it in line with the Apsim user interface 
+  has been added.</li>
+</ul>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Screen</p>
+
+<p class="Title2">&nbsp;</p>
+
+<p class="Normal">The screen module no longer exists. All control files will be 
+automatically modified to remove the reference to screen. e.g. lines like the 
+following will be deleted.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;&nbsp;&nbsp; module = screen&nbsp;&nbsp; test.par 
+[screen]</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">&nbsp;</p>
+  
+</body>
+
+</html>

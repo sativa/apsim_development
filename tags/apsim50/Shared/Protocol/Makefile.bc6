@@ -1,0 +1,50 @@
+# (Borlandish) Makefile for apsim Protocol module
+
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+CC=$(BCB)/Bin/bcc32.exe
+LD=$(BCB)/Bin/ilink32.exe
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:/progra~1/apsim33
+#APSROOT=c:\development
+
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
+TARGET = ..\..\Bin\Protocol.dll
+OBJECTS = Protocol.obj transport.obj Computation.obj
+RESFILES = Protocol.res
+LIBFILES = $(APSROOT)\Shared\general\general.lib $(APSROOT)\Shared\general\general_vcl.lib $(APSROOT)\Shared\ApsimShared\ApsimShared.lib
+
+USERDEFINES =
+SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared
+LIBPATH = $(SYSLIBPATH)
+
+ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib sysinit.obj $(OBJECTS)
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cp32mti.lib
+
+# ---------------------------------------------------------------------------
+CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
+WARNINGS = -w-par
+LFLAGS = -l. -D"" -aa -Tpd -x -Gn -Gi
+
+$(TARGET): $(OBJECTS)
+	$(LD) @&&!
+$(LFLAGS) -L$(LIBPATH) +
+$(ALLOBJ), +
+$(TARGET),, +
+$(ALLLIB), +
+$(DEFFILE), +
+$(ALLRES)
+
+!
+
+.cpp.obj:
+    $(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+clean:
+	$(RM) $(OBJECTS) $(TARGET)

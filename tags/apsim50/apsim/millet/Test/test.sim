@@ -1,0 +1,2073 @@
+<?xml version="1.0"?>
+<simulation executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll" version="4.3">
+   <title>Test sowing next day after out</title>
+   <component name="SummaryFile" executable = "c:\development\apsim\SummaryFile\lib\SummaryFile.dll">
+      <initdata>
+         <summaryfile>test3.sum</summaryfile>
+      </initdata>
+   </component>
+   <component name="Screen" executable = "c:\development\apsim\Screen\lib\Screen.dll">
+      <initdata>
+         <screen_output>off</screen_output>
+      </initdata>
+   </component>
+   <component name="clock" executable = "c:\development\apsim\clock\lib\clock.dll">
+      <initdata>
+         <start_date>1/1/1988</start_date>
+         <end_date>26/12/1988</end_date>
+         <timestep_events>prepare process do_stock post</timestep_events>
+      </initdata>
+   </component>
+   <component name="report" executable = "c:\development\apsim\report\lib\report.dll">
+      <initdata>
+         <outputfile>test3.out</outputfile>
+         <variable>clock.day</variable>
+         <variable>clock.year</variable>
+         <variable>millet.lai</variable>
+         <variable>millet.biomass</variable>
+         <variable>millet.green_biomass</variable>
+      </initdata>
+   </component>
+   <component name="met" executable = "c:\development\apsim\input\lib\input.dll">
+      <initdata>
+         <filename>c:\development\apsim\met\sample\dalby.met</filename>
+      </initdata>
+   </component>
+   <component name="canopy" executable = "c:\development\apsim\canopy\lib\canopy.dll">
+      <initdata>
+         <intercrop>millet millet1 millet2 millet3 millet4 millet5</intercrop>
+      </initdata>
+   </component>
+   <component name="manager" executable = "c:\development\apsim\manager\lib\manager.dll">
+      <initdata>
+         <rule name="test3.start_of_day" condition="start_of_day">
+            <![CDATA[
+            if harvest = 1 then
+               millet sow plants =  7.5, sowing_depth = 30, cultivar = wrajpop
+               harvest = 2
+            endif
+            if millet.stage_name = 'harvest_ripe' or millet.plant_status = 'dead' then
+               millet harvest
+               millet1 harvest
+               millet2 harvest
+               millet3 harvest
+               millet4 harvest
+               millet5 harvest
+               millet end_crop
+               millet1 end_crop
+               millet2 end_crop
+               millet3 end_crop
+               millet4 end_crop
+               millet5 end_crop
+               harvest = 1
+            endif
+            ]]>
+            </rule>
+         <rule name="all.init" condition="init">
+            <![CDATA[
+            harvest = 0
+            ]]>
+            </rule>
+         <rule name="all.start_of_day" condition="start_of_day">
+            <![CDATA[
+            if day = 166 and year  = 1988 then
+               millet sow plants =  7.5, sowing_depth = 30, cultivar = wrajpop
+            endif
+            ]]>
+            </rule>
+         <rule name="all.end_of_day" condition="end_of_day">
+            <![CDATA[
+            report do_end_day_output
+            ]]>
+            </rule>
+      </initdata>
+   </component>
+   <component name="soilwat2" executable = "c:\development\apsim\soilwat2\lib\soilwat2.dll">
+      <initdata>
+         <insoil>2.0 ()</insoil>
+         <diffus_const>88. ()</diffus_const>
+         <diffus_slope>35.4  ()</diffus_slope>
+         <cn2_bare>80 ()</cn2_bare>
+         <cn_red>20</cn_red>
+         <cn_cov>.8</cn_cov>
+         <salb>0.13  ()</salb>
+         <cona>2.5  ()</cona>
+         <u>4 (mm)</u>
+         <dlayer>150  150  300  300  300  300  300</dlayer>
+         <sat>.500 .509 .510 .505 .490 .480 .480</sat>
+         <dul>.450 .459  .45 .44  .42  .41  .41</dul>
+         <sw>.280 .364  .43 .43  .40  .41  .41</sw>
+         <ll15>.230 .240 .240 .250 .260 .270 .280</ll15>
+         <air_dry>.10 .20 .20 .20 .20 .20 .20</air_dry>
+         <swcon>0.2  0.2  0.2  0.2  0.2  0.2  0.2</swcon>
+         <bd>1.30 1.30 1.29 1.31 1.35 1.36 1.36</bd>
+         <min_crit_temp>5.0 (oC)</min_crit_temp>
+         <max_crit_temp>35.0 (oC)</max_crit_temp>
+         <max_albedo>0.23 ()</max_albedo>
+         <A_to_evap_fact>0.44</A_to_evap_fact>
+         <canopy_eos_coef>1.7</canopy_eos_coef>
+         <sw_top_crit>0.9 ()</sw_top_crit>
+         <sumes1_max>100.0 (mm)</sumes1_max>
+         <sumes2_max>25.0 (mm)</sumes2_max>
+         <solute_flow_eff>1.0 ()</solute_flow_eff>
+         <solute_flux_eff>1.0 ()</solute_flux_eff>
+         <gravity_gradient>0.00002 ()</gravity_gradient>
+         <specific_bd>2.65 (g/cc)</specific_bd>
+         <hydrol_effective_depth>450 (mm)</hydrol_effective_depth>
+         <mobile_solutes>no3 urea cl br org_n org_c_pool1 org_c_pool2 org_c_pool3</mobile_solutes>
+         <immobile_solutes>nh4</immobile_solutes>
+         <canopy_fact>1.0  1.0  0.0  0.0  ()</canopy_fact>
+         <canopy_fact_height>0  600  1800 30000 (mm)</canopy_fact_height>
+         <canopy_fact_default>0.5 ()</canopy_fact_default>
+         <act_evap_method>ritchie</act_evap_method>
+         <tillage>
+            <chisel>0.0           0.</chisel>
+            <disc>0.0           0.</disc>
+            <planter>0.0           0.</planter>
+            <burn>0.0           0.</burn>
+         </tillage>
+      </initdata>
+   </component>
+   <component name="SurfaceOM" executable = "c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll">
+      <initdata>
+         <mass>2000. (kg/ha)</mass>
+         <cnr>30.0 ()</cnr>
+         <type>mungbean</type>
+         <name>mungbean</name>
+         <crit_residue_wt>2000</crit_residue_wt>
+         <opt_temp>20</opt_temp>
+         <cum_eos_max>20</cum_eos_max>
+         <cnrf_coeff>0.277</cnrf_coeff>
+         <cnrf_optcn>25.0</cnrf_optcn>
+         <c_fract>0.4 ()</c_fract>
+         <leach_rain_tot>25.0</leach_rain_tot>
+         <min_rain_to_leach>10.0</min_rain_to_leach>
+         <crit_min_surfom_orgC>0.004 (kg/ha)</crit_min_surfom_orgC>
+         <default_cpr>0.0 ()</default_cpr>
+         <default_standing_fraction>0.0</default_standing_fraction>
+         <base_type>
+            <fom_type>inert</fom_type>
+            <fraction_C>0.4</fraction_C>
+            <po4ppm>0.0</po4ppm>
+            <nh4ppm>0.0</nh4ppm>
+            <no3ppm>0.0</no3ppm>
+            <specific_area>0.0005</specific_area>
+            <cf_contrib>1</cf_contrib>
+            <pot_decomp_rate>0.1</pot_decomp_rate>
+            <fr_c>0.2 0.7 0.1</fr_c>
+            <fr_n>0.2 0.7 0.1</fr_n>
+            <fr_p>0.2 0.7 0.1</fr_p>
+         </base_type>
+         <inert>
+            <derived_from>base_type</derived_from>
+            <fom_type>inert</fom_type>
+            <pot_decomp_rate>0.0</pot_decomp_rate>
+         </inert>
+         <manure>
+            <fom_type>manure</fom_type>
+            <fraction_C>0.08</fraction_C>
+            <pot_decomp_rate>0.1</pot_decomp_rate>
+            <fr_c>0.3 0.3 0.4</fr_c>
+            <fr_n>0.3 0.3 0.4</fr_n>
+            <fr_p>0.3 0.3 0.4</fr_p>
+            <po4ppm>10.0</po4ppm>
+            <nh4ppm>10.0</nh4ppm>
+            <no3ppm>10.0</no3ppm>
+            <specific_area>0.0001</specific_area>
+            <cf_contrib>1</cf_contrib>
+         </manure>
+         <fym>
+            <fom_type>fym</fom_type>
+            <fraction_C>0.08</fraction_C>
+            <pot_decomp_rate>0.1</pot_decomp_rate>
+            <fr_c>0.3 0.3 0.4</fr_c>
+            <fr_n>0.3 0.3 0.4</fr_n>
+            <fr_p>0.3 0.3 0.4</fr_p>
+            <po4ppm>40.0</po4ppm>
+            <nh4ppm>10.0</nh4ppm>
+            <no3ppm>10.0</no3ppm>
+            <specific_area>0.0001</specific_area>
+            <cf_contrib>1</cf_contrib>
+         </fym>
+         <bambatsi>
+            <derived_from>base_type</derived_from>
+            <fom_type>bambatsi</fom_type>
+            <specific_area>0.0005</specific_area>
+         </bambatsi>
+         <camaldulensis>
+            <derived_from>base_type</derived_from>
+            <fom_type>camaldulensis</fom_type>
+            <specific_area>0.0002</specific_area>
+         </camaldulensis>
+         <canola>
+            <derived_from>base_type</derived_from>
+            <fom_type>canola</fom_type>
+            <specific_area>0.0002</specific_area>
+         </canola>
+         <chickpea>
+            <derived_from>base_type</derived_from>
+            <fom_type>chickpea</fom_type>
+            <specific_area>0.0002</specific_area>
+         </chickpea>
+         <cowpea>
+            <derived_from>base_type</derived_from>
+            <fom_type>cowpea</fom_type>
+            <specific_area>0.0002</specific_area>
+         </cowpea>
+         <danthonia>
+            <derived_from>base_type</derived_from>
+            <fom_type>danthonia</fom_type>
+            <specific_area>0.0005</specific_area>
+         </danthonia>
+         <globulus>
+            <derived_from>base_type</derived_from>
+            <fom_type>globulus</fom_type>
+            <specific_area>0.0002</specific_area>
+         </globulus>
+         <grandis>
+            <derived_from>base_type</derived_from>
+            <fom_type>grandis</fom_type>
+            <specific_area>0.0002</specific_area>
+         </grandis>
+         <fababean>
+            <derived_from>base_type</derived_from>
+            <fom_type>fababean</fom_type>
+            <specific_area>0.0002</specific_area>
+         </fababean>
+         <fieldpea>
+            <derived_from>base_type</derived_from>
+            <fom_type>fieldpea</fom_type>
+            <specific_area>0.0002</specific_area>
+         </fieldpea>
+         <grass>
+            <derived_from>base_type</derived_from>
+            <fom_type>grass</fom_type>
+            <specific_area>0.0004</specific_area>
+         </grass>
+         <lablab>
+            <derived_from>base_type</derived_from>
+            <fom_type>lablab</fom_type>
+            <specific_area>0.0002</specific_area>
+         </lablab>
+         <lucerne>
+            <derived_from>base_type</derived_from>
+            <fom_type>lucerne</fom_type>
+            <specific_area>0.0002</specific_area>
+         </lucerne>
+         <lupin>
+            <derived_from>base_type</derived_from>
+            <fom_type>lupin</fom_type>
+            <specific_area>0.0002</specific_area>
+         </lupin>
+         <maize>
+            <derived_from>base_type</derived_from>
+            <fom_type>maize</fom_type>
+            <specific_area>0.0004</specific_area>
+         </maize>
+         <millet>
+            <derived_from>base_type</derived_from>
+            <fom_type>millet</fom_type>
+            <specific_area>0.0004</specific_area>
+         </millet>
+         <mucuna>
+            <derived_from>base_type</derived_from>
+            <fom_type>mucuna</fom_type>
+            <specific_area>0.0002</specific_area>
+         </mucuna>
+         <mungbean>
+            <derived_from>base_type</derived_from>
+            <fom_type>mungbean</fom_type>
+            <specific_area>0.0002</specific_area>
+         </mungbean>
+         <navybean>
+            <derived_from>base_type</derived_from>
+            <fom_type>navybean</fom_type>
+            <specific_area>0.0002</specific_area>
+         </navybean>
+         <cotton>
+            <derived_from>base_type</derived_from>
+            <fom_type>cotton</fom_type>
+            <specific_area>0.0002</specific_area>
+         </cotton>
+         <orobanche>
+            <derived_from>base_type</derived_from>
+            <fom_type>orobanche</fom_type>
+            <specific_area>0.0002</specific_area>
+         </orobanche>
+         <peanut>
+            <derived_from>base_type</derived_from>
+            <fom_type>peanut</fom_type>
+            <specific_area>0.0002</specific_area>
+         </peanut>
+         <pigeonpea>
+            <derived_from>base_type</derived_from>
+            <fom_type>pigeonpea</fom_type>
+            <specific_area>0.0002</specific_area>
+         </pigeonpea>
+         <rice>
+            <derived_from>base_type</derived_from>
+            <fom_type>rice</fom_type>
+            <specific_area>0.0005</specific_area>
+         </rice>
+         <soybean>
+            <derived_from>base_type</derived_from>
+            <fom_type>soybean</fom_type>
+            <specific_area>0.0002</specific_area>
+         </soybean>
+         <sorghum>
+            <derived_from>base_type</derived_from>
+            <fom_type>sorghum</fom_type>
+            <specific_area>0.0004</specific_area>
+         </sorghum>
+         <stylo>
+            <derived_from>base_type</derived_from>
+            <fom_type>stylo</fom_type>
+            <specific_area>0.0002</specific_area>
+         </stylo>
+         <sugar>
+            <derived_from>base_type</derived_from>
+            <fom_type>sugar</fom_type>
+            <specific_area>0.0007</specific_area>
+         </sugar>
+         <sunflower>
+            <derived_from>base_type</derived_from>
+            <fom_type>sunflower</fom_type>
+            <specific_area>0.0002</specific_area>
+         </sunflower>
+         <sweetsorghum>
+            <derived_from>base_type</derived_from>
+            <fom_type>sweetsorghum</fom_type>
+            <specific_area>0.0004</specific_area>
+         </sweetsorghum>
+         <weed>
+            <derived_from>base_type</derived_from>
+            <fom_type>weed</fom_type>
+            <specific_area>0.0004</specific_area>
+         </weed>
+         <wheat>
+            <derived_from>base_type</derived_from>
+            <fom_type>wheat</fom_type>
+            <specific_area>0.0005</specific_area>
+         </wheat>
+         <tillage>
+            <chisel>0.5           100.</chisel>
+            <disc>0.5           200.</disc>
+            <planter>0.1            50.</planter>
+            <burn>1.0             0.</burn>
+            <bw_chisel>1.0           100.</bw_chisel>
+            <herbinc>0.1            50.</herbinc>
+            <burn_95>.95            0.</burn_95>
+            <graze>0.75            0.</graze>
+            <scarifier>0.30          100.</scarifier>
+            <pits>0.5           100.</pits>
+            <rip>0.3           300.</rip>
+            <blade>0.30          100.</blade>
+            <sweep>0.30          100.</sweep>
+            <Cool_burn>0.7             0.</Cool_burn>
+            <burn_90>0.9             0.</burn_90>
+            <tine>1.0           100.</tine>
+            <default>1.0             1.</default>
+            <decomp>1.0           200.</decomp>
+            <hoe>1.0           100.</hoe>
+         </tillage>
+      </initdata>
+   </component>
+   <component name="soiln2" executable = "c:\development\apsim\soiln2\lib\soiln2.dll">
+      <initdata>
+         <amp>15.0</amp>
+         <tav>20.0</tav>
+         <root_cn>20.</root_cn>
+         <root_wt>1000.</root_wt>
+         <soil_cn>14.5</soil_cn>
+         <oc>1.00 0.84 0.77 0.65 0.54 0.48 0.43 (%)</oc>
+         <ph>8.20 8.50 8.60 8.60 7.40 5.30 5.00 ()</ph>
+         <fbiom>.035 .025 .015 0.01 0.01 0.01 0.01 ()</fbiom>
+         <finert>0.30 0.50 0.60 0.75 0.90 0.99 0.99 ()</finert>
+         <no3ppm>9.2  7.6  4.9  2.7  1.5  1.8  1.4 (ppm)</no3ppm>
+         <nh4ppm>0.30 0.30 0.30 0.30 0.30 0.50 0.50 (ppm)</nh4ppm>
+         <ureappm>0  0    0    0    0    0    0    (ppm)</ureappm>
+         <enr_a_coeff>7.4 ()</enr_a_coeff>
+         <enr_b_coeff>0.2</enr_b_coeff>
+         <profile_reduction>off</profile_reduction>
+         <cnrf_coeff>0.693</cnrf_coeff>
+         <cnrf_optcn>25.0</cnrf_optcn>
+         <ef_biom>0.4</ef_biom>
+         <ef_fom>0.4</ef_fom>
+         <ef_hum>0.4</ef_hum>
+         <ef_res>0.4</ef_res>
+         <fom_min>0.5</fom_min>
+         <fr_biom_biom>0.6</fr_biom_biom>
+         <fr_fom_biom>0.9</fr_fom_biom>
+         <fr_res_biom>0.9</fr_res_biom>
+         <fom_type>default manure  goose_poo  hippo</fom_type>
+         <fr_carb>0.2      0.3      0.3        0.2</fr_carb>
+         <fr_cell>0.7      0.3     0.3        0.2</fr_cell>
+         <fr_lign>0.1      0.4     0.4        0.6</fr_lign>
+         <oc2om_factor>1.7</oc2om_factor>
+         <mcn>8.0</mcn>
+         <opt_temp>32.0</opt_temp>
+         <rd_biom>0.0081</rd_biom>
+         <rd_carb>0.2</rd_carb>
+         <rd_cell>0.05</rd_cell>
+         <rd_lign>0.0095</rd_lign>
+         <rd_hum>0.00015</rd_hum>
+         <nh4ppm_min>0.0</nh4ppm_min>
+         <no3ppm_min>0.0</no3ppm_min>
+         <min_depth>100.</min_depth>
+         <wfmin_index>0.0 0.5 1.0 2.0</wfmin_index>
+         <wfmin_values>0.0 1.0 1.0 0.5</wfmin_values>
+         <wfnit_index>0.0 .25 1.0 2.0</wfnit_index>
+         <wfnit_values>0.0 1.0 1.0 0.0</wfnit_values>
+         <nitrification_pot>40.0 (ppm)</nitrification_pot>
+         <nh4_at_half_pot>90 (ppm)</nh4_at_half_pot>
+         <pHf_nit_pH>4.5 6.0 8.0 9.0</pHf_nit_pH>
+         <pHf_nit_values>0.0 1.0 1.0 0.0</pHf_nit_values>
+         <dnit_rate_coeff>0.0006</dnit_rate_coeff>
+         <dnit_wf_power>1</dnit_wf_power>
+      </initdata>
+   </component>
+   <component name="millet" executable = "c:\development\apsim\millet\lib\millet.dll">
+      <initdata>
+         <uptake_source>calc</uptake_source>
+         <ll>0.230   0.240   0.240   0.250   0.260   0.270   0.280</ll>
+         <kl>0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()</kl>
+         <xf>1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()</xf>
+         <crop_type>millet</crop_type>
+         <stage_names>sowing germination emergence end_of_juvenile floral_initiation flag_leaf flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</stage_names>
+         <stage_code>1   2   3    4    5     6     7      8     9    10    11    12  ()</stage_code>
+         <rue>0   0  1.86 1.86 1.86  1.86  1.86    1.4   1.4   1.4   0     0  (g/MJ)</rue>
+         <root_depth_rate>0   0  20.0 20.0 20.0  20.0  20.0    0.0   0.0   0.0   0     0  (mm/d)</root_depth_rate>
+         <ratio_root_shoot>0  0   1    1    0.33  0.33  0.087  0     0     0     0     0  (0-1)</ratio_root_shoot>
+         <frac_dm_to_leaf>0   0  0.67 0.67 0.67  0     0       0     0     0     0     0  (0-1)</frac_dm_to_leaf>
+         <N_fix_rate>0   0    0   0     0     0     0      0      0    0     0     0  (gN/gDM)</N_fix_rate>
+         <transp_eff_cf>0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 (kpa)</transp_eff_cf>
+         <row_spacing_default>0.75        (m)</row_spacing_default>
+         <x_row_spacing>0.20   0.75   1.50  (m)</x_row_spacing>
+         <y_extinct_coef>0.79   0.61   0.37  ()</y_extinct_coef>
+         <y_extinct_coef_dead>0.10   0.10   0.10  ()</y_extinct_coef_dead>
+         <root_extinction>3.0       ()</root_extinction>
+         <leaf_no_crit>10.0      ()</leaf_no_crit>
+         <tt_emerg_limit>150.0     (oCd)</tt_emerg_limit>
+         <days_germ_limit>40.0      (days)</days_germ_limit>
+         <swdf_pheno_limit>20.0      ()</swdf_pheno_limit>
+         <swdf_photo_limit>2.1       ()</swdf_photo_limit>
+         <swdf_photo_rate>0.01      ()</swdf_photo_rate>
+         <initial_root_depth>110.0     (mm)</initial_root_depth>
+         <initial_tpla>200.0     (mm^2/plant)</initial_tpla>
+         <tpla_min>0.0 ()</tpla_min>
+         <x_lai>0.0  2.0 5.0  (mm2/mm2)</x_lai>
+         <y_sla_max>65000 65000 45000  (mm2/g)</y_sla_max>
+         <x_lai_ratio>0.0   0.0 ()</x_lai_ratio>
+         <y_leaf_no_frac>1.0   1.0 ()</y_leaf_no_frac>
+         <height_max>3000.0    (mm)</height_max>
+         <height_stem_slope>300.0     (mm/g/stem)</height_stem_slope>
+         <head_grain_no_max_ub>10000.0   (/head)</head_grain_no_max_ub>
+         <grain_gth_rate_ub>5.0      (mg/d)</grain_gth_rate_ub>
+         <tt_emerg_to_endjuv_ub>500.0     (oCd)</tt_emerg_to_endjuv_ub>
+         <pp_endjuv_to_init_ub>500.0     (oCd/h)</pp_endjuv_to_init_ub>
+         <tt_flower_to_maturity_ub>1000.0  (oCd)</tt_flower_to_maturity_ub>
+         <tt_maturity_to_ripe_ub>1000.0    (oCd)</tt_maturity_to_ripe_ub>
+         <tt_flower_to_start_grain_ub>1000.0 (oCd)</tt_flower_to_start_grain_ub>
+         <tt_flag_to_flower_ub>1000.0    (oCd)</tt_flag_to_flower_ub>
+         <svp_fract>0.75      (0-1)</svp_fract>
+         <head_grain_no_crit>0.0     ()</head_grain_no_crit>
+         <barren_crit>0.0       (0-1)</barren_crit>
+         <pesw_germ>0.0       (mm/mm)</pesw_germ>
+         <fasw_emerg>0.0  1.0</fasw_emerg>
+         <rel_emerg_rate>1.0  1.0</rel_emerg_rate>
+         <grain_n_conc_min>0.0007    ()</grain_n_conc_min>
+         <seed_wt_min>0.004     (g/seed)</seed_wt_min>
+         <growth_rate_min>0.10      (g/plant)</growth_rate_min>
+         <growth_rate_crit>1.0       (g/plant)</growth_rate_crit>
+         <leaf_no_at_emerg>0.5       ()</leaf_no_at_emerg>
+         <no3_diffn_const>2.0       (days)</no3_diffn_const>
+         <n_supply_preference>active</n_supply_preference>
+         <shoot_lag>10.7      (oCd)</shoot_lag>
+         <shoot_rate>1.17      (oCd/mm)</shoot_rate>
+         <photoperiod_base>12.9      (h)</photoperiod_base>
+         <photoperiod_crit>24.0      (h)</photoperiod_crit>
+         <leaf_app_rate1>62.0      (oCd)</leaf_app_rate1>
+         <leaf_app_rate2>36.4     (oCd)</leaf_app_rate2>
+         <leaf_no_rate_change>2.0       ()</leaf_no_rate_change>
+         <dm_leaf_init>0.0030  (g/plant)</dm_leaf_init>
+         <dm_root_init>0.0060    (g/plant)</dm_root_init>
+         <dm_stem_init>0.0010    (g/plant)</dm_stem_init>
+         <ll_ub>1000.0    (mm/mm)</ll_ub>
+         <kl_ub>1.0       ()</kl_ub>
+         <leaf_init_rate>27.2      (oCd)</leaf_init_rate>
+         <leaf_no_seed>4.0       ()</leaf_no_seed>
+         <leaf_no_min>5.0      ()</leaf_no_min>
+         <leaf_no_max>40.0      ()</leaf_no_max>
+         <leaf_no_diff>0.0      ()</leaf_no_diff>
+         <stem_trans_frac>0.15      (0-1)</stem_trans_frac>
+         <leaf_trans_frac>0.50      (0-1)</leaf_trans_frac>
+         <minsw>0.00001   (mm/mm)</minsw>
+         <swdf_grain_min>0.45      (0-1)</swdf_grain_min>
+         <hi_min>0.0       (g/g)</hi_min>
+         <sw_fac_max>1.125     ()</sw_fac_max>
+         <temp_fac_min>0.69      ()</temp_fac_min>
+         <sfac_slope>0.125     ()</sfac_slope>
+         <tfac_slope>0.0125    ()</tfac_slope>
+         <leaf_no_dead_const>-3.7575   ()</leaf_no_dead_const>
+         <leaf_no_dead_slope>0.0167     ()</leaf_no_dead_slope>
+         <leaf_no_dead_slope1>0.0167    ()</leaf_no_dead_slope1>
+         <leaf_no_dead_slope2>0.0120    ()</leaf_no_dead_slope2>
+         <latitude_ub>90        (oL)</latitude_ub>
+         <latitude_lb>-90       (oL)</latitude_lb>
+         <maxt_ub>58        (oC)</maxt_ub>
+         <maxt_lb>0         (oC)</maxt_lb>
+         <mint_ub>40        (oC)</mint_ub>
+         <mint_lb>-10       (oC)</mint_lb>
+         <radn_ub>40        (MJ/m^2)</radn_ub>
+         <radn_lb>0.5       (MJ/m^2)</radn_lb>
+         <dlayer_ub>1000      (mm)</dlayer_ub>
+         <dlayer_lb>0         (mm)</dlayer_lb>
+         <dul_dep_ub>1000      (mm)</dul_dep_ub>
+         <dul_dep_lb>0         (mm)</dul_dep_lb>
+         <sw_dep_ub>1000      (mm)</sw_dep_ub>
+         <sw_dep_lb>0         (mm)</sw_dep_lb>
+         <no3_ub>10000     (kg/ha)</no3_ub>
+         <no3_lb>0         (kg/ha)</no3_lb>
+         <no3_min_ub>10000     (kg/ha)</no3_min_ub>
+         <no3_min_lb>0         (kg/ha)</no3_min_lb>
+         <grn_water_cont>0.155     (g/g)</grn_water_cont>
+         <sla_min>8000      (mm^2/g)</sla_min>
+         <partition_rate_leaf>0.0182    ()</partition_rate_leaf>
+         <frac_leaf_pre_flower>0.00      (0-1)</frac_leaf_pre_flower>
+         <frac_leaf_post_flower>0.00      (0-1)</frac_leaf_post_flower>
+         <frac_stem2flower>0.19      (0-1)</frac_stem2flower>
+         <frac_flower2grain>0.00      (0-1)</frac_flower2grain>
+         <htstress_coeff>0.0       ()</htstress_coeff>
+         <dm_root_sen_frac>0.0       (0-1)</dm_root_sen_frac>
+         <dm_leaf_sen_frac>1.0       (0-1)</dm_leaf_sen_frac>
+         <dead_detach_frac>0    0    0      0     0    (0-1)</dead_detach_frac>
+         <sen_detach_frac>1    0    0      0     0   ()</sen_detach_frac>
+         <dm_leaf_detach_frac>0                           ()</dm_leaf_detach_frac>
+         <leaf_no_correction>1.45      ()</leaf_no_correction>
+         <leaf_size_average>0.0       (mm^2)</leaf_size_average>
+         <leaf_size_endjuv>0.0       (mm^2)</leaf_size_endjuv>
+         <x0_const>3.58      ()</x0_const>
+         <x0_slope>0.61      ()</x0_slope>
+         <a_const>0.00955   ()</a_const>
+         <a_slope1>0.0608    ()</a_slope1>
+         <a_slope2>-0.1293    ()</a_slope2>
+         <b_const>0.00144   ()</b_const>
+         <b_slope1>0.0025    ()</b_slope1>
+         <b_slope2>-0.1100    ()</b_slope2>
+         <tiller_no_pot>5            ()</tiller_no_pot>
+         <tiller_appearance>tt</tiller_appearance>
+         <x_tiller_no_next>1     2    ()</x_tiller_no_next>
+         <y_tiller_tt>150    34.4 (oCd)</y_tiller_tt>
+         <tiller_appearance_slope>0.0   ()</tiller_appearance_slope>
+         <photo_tiller_crit>24.0      (h)</photo_tiller_crit>
+         <dm_tiller_crit>5.0         (g/plant)</dm_tiller_crit>
+         <lai_sen_light>7.0       (m^2/m^2)</lai_sen_light>
+         <sen_light_slope>0.008     ()</sen_light_slope>
+         <x_temp_senescence>0.0  6.0  (oC)</x_temp_senescence>
+         <y_senescence_fac>1    0    (0-1)</y_senescence_fac>
+         <sen_rate_water>0.05      ()</sen_rate_water>
+         <twilight>-2.2      (degrees)</twilight>
+         <temp_grain_crit_stress>50.0      (oC)</temp_grain_crit_stress>
+         <x_stage_code>3       4      5     6      8      10    ()</x_stage_code>
+         <y_n_conc_min_leaf>0.025   0.025  0.021 0.010  0.008  0.007 ()</y_n_conc_min_leaf>
+         <y_n_conc_crit_leaf>0.063   0.063  0.042 0.030  0.016  0.016 ()</y_n_conc_crit_leaf>
+         <y_n_conc_max_leaf>0.070   0.070  0.050 0.035  0.028  0.025 ()</y_n_conc_max_leaf>
+         <y_n_conc_min_stem>0.025   0.025  0.004 0.003  0.002  0.002 ()</y_n_conc_min_stem>
+         <y_n_conc_crit_stem>0.060   0.060  0.025 0.010  0.006  0.003 ()</y_n_conc_crit_stem>
+         <y_n_conc_max_stem>0.070   0.070  0.040 0.025  0.015  0.015 ()</y_n_conc_max_stem>
+         <y_n_conc_min_flower>0.025   0.025  0.021 0.010  0.008  0.007 ()</y_n_conc_min_flower>
+         <y_n_conc_crit_flower>0.063   0.063  0.042 0.020  0.016  0.016 ()</y_n_conc_crit_flower>
+         <y_n_conc_max_flower>0.070   0.070  0.050 0.040  0.028  0.025 ()</y_n_conc_max_flower>
+         <n_conc_crit_grain>0.015                                  ()</n_conc_crit_grain>
+         <n_conc_max_grain>0.015                                  ()</n_conc_max_grain>
+         <n_conc_min_grain>0.007                                  ()</n_conc_min_grain>
+         <n_conc_crit_root>0.01060                                ()</n_conc_crit_root>
+         <n_conc_max_root>0.01060                                ()</n_conc_max_root>
+         <n_conc_min_root>0.00795                                ()</n_conc_min_root>
+         <n_leaf_init_conc>0.044     (g/g)</n_leaf_init_conc>
+         <n_root_init_conc>0.022     (g/g)</n_root_init_conc>
+         <n_stem_init_conc>0.044     (g/g)</n_stem_init_conc>
+         <n_leaf_sen_conc>0.001     (g/g)</n_leaf_sen_conc>
+         <n_root_sen_conc>0.001     (g/g)</n_root_sen_conc>
+         <N_fact_photo>1.25     ()</N_fact_photo>
+         <N_fact_pheno>10.0     ()</N_fact_pheno>
+         <p_stage_code>3       4      5      7      8      10     ()</p_stage_code>
+         <p_conc_max>0.005   0.004  0.003  0.0015  0.0015  0.0020 ()</p_conc_max>
+         <p_conc_min>0.003   0.002  0.0015 0.0007 0.0007 0.0007  ()</p_conc_min>
+         <k_pfact_photo>2.0</k_pfact_photo>
+         <k_pfact_pheno>10</k_pfact_pheno>
+         <k_pfact_expansion>20</k_pfact_expansion>
+         <k_pfact_grain>4</k_pfact_grain>
+         <p_uptake_factor>1.5</p_uptake_factor>
+         <x_ave_temp>8.0  20.0  35.0  50.0  (oC)</x_ave_temp>
+         <y_stress_photo>0.0   1.0   1.0   0.0  (0-1)</y_stress_photo>
+         <x_temp_grain>3.7  30.0  56.3        (oC)</x_temp_grain>
+         <y_grain_rate>0.0   1.0   0.0        (0-1)</y_grain_rate>
+         <x_temp>10.0  33.0  47.0      (oC)</x_temp>
+         <y_tt>0.0  23.0   0.0       (oC)</y_tt>
+         <x_weighted_temp>55.0  60.0             (oC)</x_weighted_temp>
+         <y_plant_death>0.0   1.0             (0-1)</y_plant_death>
+         <x_sw_demand_ratio>0.1  1.1               ()</x_sw_demand_ratio>
+         <y_swdef_leaf>0.0  1.0               (0-1)</y_swdef_leaf>
+         <x_sw_avail_ratio>0.0  0.16              ()</x_sw_avail_ratio>
+         <y_swdef_pheno>0.0  1.0               (0-1)</y_swdef_pheno>
+         <x_sw_ratio>0.0  0.25              ()</x_sw_ratio>
+         <y_sw_fac_root>0.0  1.0               (0-1)</y_sw_fac_root>
+         <x_sw_avail_fix>0.0  0.0               ()</x_sw_avail_fix>
+         <y_swdef_fix>0.0  1.0               (0-1)</y_swdef_fix>
+         <bj104>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>3300.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.61   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>239.4    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>66.1    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>-12390.0   ()</y0_const>
+            <y0_slope>1710.0   ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </bj104>
+         <rcbic911>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>3300.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.61   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>239.4   (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>47.4    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>3200.0      ()</y0_const>
+            <y0_slope>1270.0      ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </rcbic911>
+         <wrajpop>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>2600.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.46   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>239.4    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>61.0    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>-8350.0     ()</y0_const>
+            <y0_slope>1430.0     ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </wrajpop>
+         <hhb67>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>2600.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.61   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>199.4    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>77.8    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>7280.0      ()</y0_const>
+            <y0_slope>330.0      ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </hhb67>
+         <mh179>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>3000.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.46   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>225.0    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>186.0    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>608.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>225.0    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>90.0    (oCd)</tt_maturity_to_ripe>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </mh179>
+      </initdata>
+   </component>
+   <component name="millet1" executable = "c:\development\apsim\millet\lib\millet.dll">
+      <initdata>
+         <uptake_source>calc</uptake_source>
+         <ll>0.230   0.240   0.240   0.250   0.260   0.270   0.280</ll>
+         <kl>0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()</kl>
+         <xf>1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()</xf>
+         <crop_type>millet</crop_type>
+         <stage_names>sowing germination emergence end_of_juvenile floral_initiation flag_leaf flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</stage_names>
+         <stage_code>1   2   3    4    5     6     7      8     9    10    11    12  ()</stage_code>
+         <rue>0   0  2.17 2.17 2.17  2.17  2.17    1.6   1.6   1.6   0     0  (g/MJ)</rue>
+         <root_depth_rate>0   0  20.0 20.0 20.0  20.0  20.0    0.0   0.0   0.0   0     0  (mm/d)</root_depth_rate>
+         <ratio_root_shoot>0  0   1    1    0.33  0.33  0.087  0     0     0     0     0  (0-1)</ratio_root_shoot>
+         <frac_dm_to_leaf>0   0  0.67 0.67 0.67  0     0       0     0     0     0     0  (0-1)</frac_dm_to_leaf>
+         <N_fix_rate>0   0    0   0     0     0     0      0      0    0     0     0  (gN/gDM)</N_fix_rate>
+         <transp_eff_cf>0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 (kpa)</transp_eff_cf>
+         <row_spacing_default>0.75        (m)</row_spacing_default>
+         <x_row_spacing>0.20   0.75   1.50  (m)</x_row_spacing>
+         <y_extinct_coef>0.56   0.45   0.29  ()</y_extinct_coef>
+         <y_extinct_coef_dead>0.10   0.10   0.10  ()</y_extinct_coef_dead>
+         <root_extinction>3.0       ()</root_extinction>
+         <leaf_no_crit>10.0      ()</leaf_no_crit>
+         <tt_emerg_limit>150.0     (oCd)</tt_emerg_limit>
+         <days_germ_limit>40.0      (days)</days_germ_limit>
+         <swdf_pheno_limit>20.0      ()</swdf_pheno_limit>
+         <swdf_photo_limit>2.1       ()</swdf_photo_limit>
+         <swdf_photo_rate>0.01      ()</swdf_photo_rate>
+         <initial_root_depth>110.0     (mm)</initial_root_depth>
+         <initial_tpla>200.0     (mm^2/plant)</initial_tpla>
+         <tpla_min>0.0 ()</tpla_min>
+         <x_lai>0.0  2.0 5.0  (mm2/mm2)</x_lai>
+         <y_sla_max>65000 65000 45000  (mm2/g)</y_sla_max>
+         <x_lai_ratio>0.0   0.0 ()</x_lai_ratio>
+         <y_leaf_no_frac>1.0   1.0 ()</y_leaf_no_frac>
+         <height_max>3000.0    (mm)</height_max>
+         <height_stem_slope>300.0     (mm/g/stem)</height_stem_slope>
+         <head_grain_no_max_ub>10000.0   (/head)</head_grain_no_max_ub>
+         <grain_gth_rate_ub>5.0      (mg/d)</grain_gth_rate_ub>
+         <tt_emerg_to_endjuv_ub>500.0     (oCd)</tt_emerg_to_endjuv_ub>
+         <pp_endjuv_to_init_ub>500.0     (oCd/h)</pp_endjuv_to_init_ub>
+         <tt_flower_to_maturity_ub>1000.0  (oCd)</tt_flower_to_maturity_ub>
+         <tt_maturity_to_ripe_ub>1000.0    (oCd)</tt_maturity_to_ripe_ub>
+         <tt_flower_to_start_grain_ub>1000.0 (oCd)</tt_flower_to_start_grain_ub>
+         <tt_flag_to_flower_ub>1000.0    (oCd)</tt_flag_to_flower_ub>
+         <svp_fract>0.75      (0-1)</svp_fract>
+         <head_grain_no_crit>0.0     ()</head_grain_no_crit>
+         <barren_crit>0.0       (0-1)</barren_crit>
+         <pesw_germ>0.0       (mm/mm)</pesw_germ>
+         <fasw_emerg>0.0  1.0</fasw_emerg>
+         <rel_emerg_rate>1.0  1.0</rel_emerg_rate>
+         <grain_n_conc_min>0.0007    ()</grain_n_conc_min>
+         <seed_wt_min>0.004     (g/seed)</seed_wt_min>
+         <growth_rate_min>0.10      (g/plant)</growth_rate_min>
+         <growth_rate_crit>1.0       (g/plant)</growth_rate_crit>
+         <leaf_no_at_emerg>0.5       ()</leaf_no_at_emerg>
+         <no3_diffn_const>2.0       (days)</no3_diffn_const>
+         <n_supply_preference>active</n_supply_preference>
+         <shoot_lag>10.7      (oCd)</shoot_lag>
+         <shoot_rate>1.17      (oCd/mm)</shoot_rate>
+         <photoperiod_base>12.9      (h)</photoperiod_base>
+         <photoperiod_crit>24.0      (h)</photoperiod_crit>
+         <leaf_app_rate1>62.0      (oCd)</leaf_app_rate1>
+         <leaf_app_rate2>36.4      (oCd)</leaf_app_rate2>
+         <leaf_no_rate_change>2.0       ()</leaf_no_rate_change>
+         <dm_leaf_init>0.0030  (g/plant)</dm_leaf_init>
+         <dm_root_init>0.0060    (g/plant)</dm_root_init>
+         <dm_stem_init>0.0010    (g/plant)</dm_stem_init>
+         <ll_ub>1000.0    (mm/mm)</ll_ub>
+         <kl_ub>1.0       ()</kl_ub>
+         <leaf_init_rate>27.2      (oCd)</leaf_init_rate>
+         <leaf_no_seed>4.0       ()</leaf_no_seed>
+         <leaf_no_min>5.0      ()</leaf_no_min>
+         <leaf_no_max>40.0      ()</leaf_no_max>
+         <leaf_no_diff>4.0      ()</leaf_no_diff>
+         <stem_trans_frac>0.15      (0-1)</stem_trans_frac>
+         <leaf_trans_frac>0.50      (0-1)</leaf_trans_frac>
+         <minsw>0.00001   (mm/mm)</minsw>
+         <swdf_grain_min>0.45      (0-1)</swdf_grain_min>
+         <hi_min>0.0       (g/g)</hi_min>
+         <sw_fac_max>1.125     ()</sw_fac_max>
+         <temp_fac_min>0.69      ()</temp_fac_min>
+         <sfac_slope>0.125     ()</sfac_slope>
+         <tfac_slope>0.0125    ()</tfac_slope>
+         <leaf_no_dead_const>-5.01     ()</leaf_no_dead_const>
+         <leaf_no_dead_slope>0.0167    ()</leaf_no_dead_slope>
+         <leaf_no_dead_slope1>0.0167    ()</leaf_no_dead_slope1>
+         <leaf_no_dead_slope2>0.0120    ()</leaf_no_dead_slope2>
+         <latitude_ub>90        (oL)</latitude_ub>
+         <latitude_lb>-90       (oL)</latitude_lb>
+         <maxt_ub>58        (oC)</maxt_ub>
+         <maxt_lb>0         (oC)</maxt_lb>
+         <mint_ub>40        (oC)</mint_ub>
+         <mint_lb>-10       (oC)</mint_lb>
+         <radn_ub>40        (MJ/m^2)</radn_ub>
+         <radn_lb>0.5       (MJ/m^2)</radn_lb>
+         <dlayer_ub>1000      (mm)</dlayer_ub>
+         <dlayer_lb>0         (mm)</dlayer_lb>
+         <dul_dep_ub>1000      (mm)</dul_dep_ub>
+         <dul_dep_lb>0         (mm)</dul_dep_lb>
+         <sw_dep_ub>1000      (mm)</sw_dep_ub>
+         <sw_dep_lb>0         (mm)</sw_dep_lb>
+         <no3_ub>10000     (kg/ha)</no3_ub>
+         <no3_lb>0         (kg/ha)</no3_lb>
+         <no3_min_ub>10000     (kg/ha)</no3_min_ub>
+         <no3_min_lb>0         (kg/ha)</no3_min_lb>
+         <grn_water_cont>0.155     (g/g)</grn_water_cont>
+         <sla_min>8000      (mm^2/g)</sla_min>
+         <partition_rate_leaf>0.182    ()</partition_rate_leaf>
+         <frac_leaf_pre_flower>0.00      (0-1)</frac_leaf_pre_flower>
+         <frac_leaf_post_flower>0.00      (0-1)</frac_leaf_post_flower>
+         <frac_stem2flower>0.19      (0-1)</frac_stem2flower>
+         <frac_flower2grain>0.00      (0-1)</frac_flower2grain>
+         <htstress_coeff>0.0       ()</htstress_coeff>
+         <dm_root_sen_frac>0.0       (0-1)</dm_root_sen_frac>
+         <dm_leaf_sen_frac>1.0       (0-1)</dm_leaf_sen_frac>
+         <dead_detach_frac>0    0    0      0     0    (0-1)</dead_detach_frac>
+         <sen_detach_frac>1    0    0      0     0   ()</sen_detach_frac>
+         <dm_leaf_detach_frac>0                           ()</dm_leaf_detach_frac>
+         <leaf_no_correction>1.45       ()</leaf_no_correction>
+         <leaf_size_average>0.0       (mm^2)</leaf_size_average>
+         <leaf_size_endjuv>0.0       (mm^2)</leaf_size_endjuv>
+         <x0_const>2.18     ()</x0_const>
+         <x0_slope>0.58     ()</x0_slope>
+         <a_const>0.02491  ()</a_const>
+         <a_slope1>0.1714   ()</a_slope1>
+         <a_slope2>-0.2431   ()</a_slope2>
+         <b_const>0.00335  ()</b_const>
+         <b_slope1>0.0061   ()</b_slope1>
+         <b_slope2>-0.1706   ()</b_slope2>
+         <tiller_no_pot>0            ()</tiller_no_pot>
+         <tiller_appearance>tt</tiller_appearance>
+         <x_tiller_no_next>1     2    ()</x_tiller_no_next>
+         <y_tiller_tt>150    34.4 (oCd)</y_tiller_tt>
+         <tiller_appearance_slope>0.0   ()</tiller_appearance_slope>
+         <photo_tiller_crit>24.0      (h)</photo_tiller_crit>
+         <dm_tiller_crit>5.0         (g/plant)</dm_tiller_crit>
+         <lai_sen_light>7.0       (m^2/m^2)</lai_sen_light>
+         <sen_light_slope>0.008     ()</sen_light_slope>
+         <x_temp_senescence>0.0  6.0  (oC)</x_temp_senescence>
+         <y_senescence_fac>1    0    (0-1)</y_senescence_fac>
+         <sen_rate_water>0.05      ()</sen_rate_water>
+         <twilight>-2.2      (degrees)</twilight>
+         <temp_grain_crit_stress>50.0      (oC)</temp_grain_crit_stress>
+         <x_stage_code>3       4      5     6      8      10    ()</x_stage_code>
+         <y_n_conc_min_leaf>0.025   0.025  0.021 0.010  0.008  0.007 ()</y_n_conc_min_leaf>
+         <y_n_conc_crit_leaf>0.063   0.063  0.042 0.030  0.016  0.016 ()</y_n_conc_crit_leaf>
+         <y_n_conc_max_leaf>0.070   0.070  0.050 0.035  0.028  0.025 ()</y_n_conc_max_leaf>
+         <y_n_conc_min_stem>0.025   0.025  0.004 0.003  0.002  0.002 ()</y_n_conc_min_stem>
+         <y_n_conc_crit_stem>0.060   0.060  0.025 0.010  0.006  0.003 ()</y_n_conc_crit_stem>
+         <y_n_conc_max_stem>0.070   0.070  0.040 0.025  0.015  0.015 ()</y_n_conc_max_stem>
+         <y_n_conc_min_flower>0.025   0.025  0.021 0.010  0.008  0.007 ()</y_n_conc_min_flower>
+         <y_n_conc_crit_flower>0.063   0.063  0.042 0.020  0.016  0.016 ()</y_n_conc_crit_flower>
+         <y_n_conc_max_flower>0.070   0.070  0.050 0.040  0.028  0.025 ()</y_n_conc_max_flower>
+         <n_conc_crit_grain>0.015                                  ()</n_conc_crit_grain>
+         <n_conc_max_grain>0.015                                  ()</n_conc_max_grain>
+         <n_conc_min_grain>0.007                                  ()</n_conc_min_grain>
+         <n_conc_crit_root>0.01060                                ()</n_conc_crit_root>
+         <n_conc_max_root>0.01060                                ()</n_conc_max_root>
+         <n_conc_min_root>0.00795                                ()</n_conc_min_root>
+         <n_leaf_init_conc>0.044     (g/g)</n_leaf_init_conc>
+         <n_root_init_conc>0.022     (g/g)</n_root_init_conc>
+         <n_stem_init_conc>0.044     (g/g)</n_stem_init_conc>
+         <n_leaf_sen_conc>0.001     (g/g)</n_leaf_sen_conc>
+         <n_root_sen_conc>0.001     (g/g)</n_root_sen_conc>
+         <N_fact_photo>1.25     ()</N_fact_photo>
+         <N_fact_pheno>10.0     ()</N_fact_pheno>
+         <p_stage_code>3       4      5      7      8      10     ()</p_stage_code>
+         <p_conc_max>0.005   0.004  0.003  0.0015  0.0015  0.0020 ()</p_conc_max>
+         <p_conc_min>0.003   0.002  0.0015 0.0007 0.0007 0.0007  ()</p_conc_min>
+         <k_pfact_photo>2.0</k_pfact_photo>
+         <k_pfact_pheno>10</k_pfact_pheno>
+         <k_pfact_expansion>20</k_pfact_expansion>
+         <k_pfact_grain>4</k_pfact_grain>
+         <p_uptake_factor>1.5</p_uptake_factor>
+         <x_ave_temp>8.0  20.0  35.0  50.0  (oC)</x_ave_temp>
+         <y_stress_photo>0.0   1.0   1.0   0.0  (0-1)</y_stress_photo>
+         <x_temp_grain>3.7  30.0  56.3        (oC)</x_temp_grain>
+         <y_grain_rate>0.0   1.0   0.0        (0-1)</y_grain_rate>
+         <x_temp>10.0  33.0  47.0      (oC)</x_temp>
+         <y_tt>0.0  23.0   0.0       (oC)</y_tt>
+         <x_weighted_temp>55.0  60.0             (oC)</x_weighted_temp>
+         <y_plant_death>0.0   1.0             (0-1)</y_plant_death>
+         <x_sw_demand_ratio>0.1  1.1               ()</x_sw_demand_ratio>
+         <y_swdef_leaf>0.0  1.0               (0-1)</y_swdef_leaf>
+         <x_sw_avail_ratio>0.0  0.16              ()</x_sw_avail_ratio>
+         <y_swdef_pheno>0.0  1.0               (0-1)</y_swdef_pheno>
+         <x_sw_ratio>0.0  0.25              ()</x_sw_ratio>
+         <y_sw_fac_root>0.0  1.0               (0-1)</y_sw_fac_root>
+         <x_sw_avail_fix>0.0  0.0               ()</x_sw_avail_fix>
+         <y_swdef_fix>0.0  1.0               (0-1)</y_swdef_fix>
+         <bj104>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>2900.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.61   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>139.4  (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>66.1    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>510.0      ()</y0_const>
+            <y0_slope>1320.0      ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </bj104>
+         <rcbic911>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>2900.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.61   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>139.4    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>47.4    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>1810.0      ()</y0_const>
+            <y0_slope>1820.0      ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </rcbic911>
+         <wrajpop>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>2200.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.46   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>139.4    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>61.0    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>2100.0      ()</y0_const>
+            <y0_slope>1150.0      ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </wrajpop>
+         <hhb67>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>2200.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.61   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>99.4    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>77.8    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>3480.0      ()</y0_const>
+            <y0_slope>740.0      ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </hhb67>
+         <mh179>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>3000.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.46   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>128.5    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>186.0    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>608.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>225.0    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>90.0    (oCd)</tt_maturity_to_ripe>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </mh179>
+      </initdata>
+   </component>
+   <component name="millet2" executable = "c:\development\apsim\millet\lib\millet.dll">
+      <initdata>
+         <uptake_source>calc</uptake_source>
+         <ll>0.230   0.240   0.240   0.250   0.260   0.270   0.280</ll>
+         <kl>0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()</kl>
+         <xf>1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()</xf>
+         <crop_type>millet</crop_type>
+         <stage_names>sowing germination emergence end_of_juvenile floral_initiation flag_leaf flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</stage_names>
+         <stage_code>1   2   3    4    5     6     7      8     9    10    11    12  ()</stage_code>
+         <rue>0   0  2.17 2.17 2.17  2.17  2.17    1.6   1.6   1.6   0     0  (g/MJ)</rue>
+         <root_depth_rate>0   0  20.0 20.0 20.0  20.0  20.0    0.0   0.0   0.0   0     0  (mm/d)</root_depth_rate>
+         <ratio_root_shoot>0  0   1    1    0.33  0.33  0.087  0     0     0     0     0  (0-1)</ratio_root_shoot>
+         <frac_dm_to_leaf>0   0  0.67 0.67 0.67  0     0       0     0     0     0     0  (0-1)</frac_dm_to_leaf>
+         <N_fix_rate>0   0    0   0     0     0     0      0      0    0     0     0  (gN/gDM)</N_fix_rate>
+         <transp_eff_cf>0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 (kpa)</transp_eff_cf>
+         <row_spacing_default>0.75        (m)</row_spacing_default>
+         <x_row_spacing>0.20   0.75   1.50  (m)</x_row_spacing>
+         <y_extinct_coef>0.56   0.45   0.29  ()</y_extinct_coef>
+         <y_extinct_coef_dead>0.10   0.10   0.10  ()</y_extinct_coef_dead>
+         <root_extinction>3.0       ()</root_extinction>
+         <leaf_no_crit>10.0      ()</leaf_no_crit>
+         <tt_emerg_limit>150.0     (oCd)</tt_emerg_limit>
+         <days_germ_limit>40.0      (days)</days_germ_limit>
+         <swdf_pheno_limit>20.0      ()</swdf_pheno_limit>
+         <swdf_photo_limit>2.1       ()</swdf_photo_limit>
+         <swdf_photo_rate>0.01      ()</swdf_photo_rate>
+         <initial_root_depth>110.0     (mm)</initial_root_depth>
+         <initial_tpla>200.0     (mm^2/plant)</initial_tpla>
+         <tpla_min>0.0 ()</tpla_min>
+         <x_lai>0.0  2.0 5.0  (mm2/mm2)</x_lai>
+         <y_sla_max>65000 65000 45000  (mm2/g)</y_sla_max>
+         <x_lai_ratio>0.0   0.0 ()</x_lai_ratio>
+         <y_leaf_no_frac>1.0   1.0 ()</y_leaf_no_frac>
+         <height_max>3000.0    (mm)</height_max>
+         <height_stem_slope>300.0     (mm/g/stem)</height_stem_slope>
+         <head_grain_no_max_ub>10000.0   (/head)</head_grain_no_max_ub>
+         <grain_gth_rate_ub>5.0      (mg/d)</grain_gth_rate_ub>
+         <tt_emerg_to_endjuv_ub>500.0     (oCd)</tt_emerg_to_endjuv_ub>
+         <pp_endjuv_to_init_ub>500.0     (oCd/h)</pp_endjuv_to_init_ub>
+         <tt_flower_to_maturity_ub>1000.0  (oCd)</tt_flower_to_maturity_ub>
+         <tt_maturity_to_ripe_ub>1000.0    (oCd)</tt_maturity_to_ripe_ub>
+         <tt_flower_to_start_grain_ub>1000.0 (oCd)</tt_flower_to_start_grain_ub>
+         <tt_flag_to_flower_ub>1000.0    (oCd)</tt_flag_to_flower_ub>
+         <svp_fract>0.75      (0-1)</svp_fract>
+         <head_grain_no_crit>0.0     ()</head_grain_no_crit>
+         <barren_crit>0.0       (0-1)</barren_crit>
+         <pesw_germ>0.0       (mm/mm)</pesw_germ>
+         <fasw_emerg>0.0  1.0</fasw_emerg>
+         <rel_emerg_rate>1.0  1.0</rel_emerg_rate>
+         <grain_n_conc_min>0.0007    ()</grain_n_conc_min>
+         <seed_wt_min>0.004     (g/seed)</seed_wt_min>
+         <growth_rate_min>0.10      (g/plant)</growth_rate_min>
+         <growth_rate_crit>1.0       (g/plant)</growth_rate_crit>
+         <leaf_no_at_emerg>0.5       ()</leaf_no_at_emerg>
+         <no3_diffn_const>2.0       (days)</no3_diffn_const>
+         <n_supply_preference>active</n_supply_preference>
+         <shoot_lag>10.7      (oCd)</shoot_lag>
+         <shoot_rate>1.17      (oCd/mm)</shoot_rate>
+         <photoperiod_base>12.9      (h)</photoperiod_base>
+         <photoperiod_crit>24.0      (h)</photoperiod_crit>
+         <leaf_app_rate1>62.0      (oCd)</leaf_app_rate1>
+         <leaf_app_rate2>36.4      (oCd)</leaf_app_rate2>
+         <leaf_no_rate_change>2.0       ()</leaf_no_rate_change>
+         <dm_leaf_init>0.0030  (g/plant)</dm_leaf_init>
+         <dm_root_init>0.0060    (g/plant)</dm_root_init>
+         <dm_stem_init>0.0010    (g/plant)</dm_stem_init>
+         <ll_ub>1000.0    (mm/mm)</ll_ub>
+         <kl_ub>1.0       ()</kl_ub>
+         <leaf_init_rate>27.2      (oCd)</leaf_init_rate>
+         <leaf_no_seed>4.0       ()</leaf_no_seed>
+         <leaf_no_min>5.0      ()</leaf_no_min>
+         <leaf_no_max>40.0      ()</leaf_no_max>
+         <leaf_no_diff>5.0      ()</leaf_no_diff>
+         <stem_trans_frac>0.15      (0-1)</stem_trans_frac>
+         <leaf_trans_frac>0.50      (0-1)</leaf_trans_frac>
+         <minsw>0.00001   (mm/mm)</minsw>
+         <swdf_grain_min>0.45      (0-1)</swdf_grain_min>
+         <hi_min>0.0       (g/g)</hi_min>
+         <sw_fac_max>1.125     ()</sw_fac_max>
+         <temp_fac_min>0.69      ()</temp_fac_min>
+         <sfac_slope>0.125     ()</sfac_slope>
+         <tfac_slope>0.0125    ()</tfac_slope>
+         <leaf_no_dead_const>-5.01     ()</leaf_no_dead_const>
+         <leaf_no_dead_slope>0.0167    ()</leaf_no_dead_slope>
+         <leaf_no_dead_slope1>0.0167    ()</leaf_no_dead_slope1>
+         <leaf_no_dead_slope2>0.0120    ()</leaf_no_dead_slope2>
+         <latitude_ub>90        (oL)</latitude_ub>
+         <latitude_lb>-90       (oL)</latitude_lb>
+         <maxt_ub>58        (oC)</maxt_ub>
+         <maxt_lb>0         (oC)</maxt_lb>
+         <mint_ub>40        (oC)</mint_ub>
+         <mint_lb>-10       (oC)</mint_lb>
+         <radn_ub>40        (MJ/m^2)</radn_ub>
+         <radn_lb>0.5       (MJ/m^2)</radn_lb>
+         <dlayer_ub>1000      (mm)</dlayer_ub>
+         <dlayer_lb>0         (mm)</dlayer_lb>
+         <dul_dep_ub>1000      (mm)</dul_dep_ub>
+         <dul_dep_lb>0         (mm)</dul_dep_lb>
+         <sw_dep_ub>1000      (mm)</sw_dep_ub>
+         <sw_dep_lb>0         (mm)</sw_dep_lb>
+         <no3_ub>10000     (kg/ha)</no3_ub>
+         <no3_lb>0         (kg/ha)</no3_lb>
+         <no3_min_ub>10000     (kg/ha)</no3_min_ub>
+         <no3_min_lb>0         (kg/ha)</no3_min_lb>
+         <grn_water_cont>0.155     (g/g)</grn_water_cont>
+         <sla_min>8000      (mm^2/g)</sla_min>
+         <partition_rate_leaf>0.182    ()</partition_rate_leaf>
+         <frac_leaf_pre_flower>0.00      (0-1)</frac_leaf_pre_flower>
+         <frac_leaf_post_flower>0.00      (0-1)</frac_leaf_post_flower>
+         <frac_stem2flower>0.19      (0-1)</frac_stem2flower>
+         <frac_flower2grain>0.00      (0-1)</frac_flower2grain>
+         <htstress_coeff>0.0       ()</htstress_coeff>
+         <dm_root_sen_frac>0.0       (0-1)</dm_root_sen_frac>
+         <dm_leaf_sen_frac>1.0       (0-1)</dm_leaf_sen_frac>
+         <dead_detach_frac>0    0    0      0     0    (0-1)</dead_detach_frac>
+         <sen_detach_frac>1    0    0      0     0   ()</sen_detach_frac>
+         <dm_leaf_detach_frac>0                           ()</dm_leaf_detach_frac>
+         <leaf_no_correction>1.45       ()</leaf_no_correction>
+         <leaf_size_average>0.0       (mm^2)</leaf_size_average>
+         <leaf_size_endjuv>0.0       (mm^2)</leaf_size_endjuv>
+         <x0_const>1.81     ()</x0_const>
+         <x0_slope>0.57     ()</x0_slope>
+         <a_const>0.01715  ()</a_const>
+         <a_slope1>0.1479   ()</a_slope1>
+         <a_slope2>-0.2447   ()</a_slope2>
+         <b_const>0.00287  ()</b_const>
+         <b_slope1>0.0059   ()</b_slope1>
+         <b_slope2>-0.1861   ()</b_slope2>
+         <tiller_no_pot>0            ()</tiller_no_pot>
+         <tiller_appearance>tt</tiller_appearance>
+         <x_tiller_no_next>1     2    ()</x_tiller_no_next>
+         <y_tiller_tt>150    34.4 (oCd)</y_tiller_tt>
+         <tiller_appearance_slope>0.0   ()</tiller_appearance_slope>
+         <photo_tiller_crit>24.0      (h)</photo_tiller_crit>
+         <dm_tiller_crit>5.0         (g/plant)</dm_tiller_crit>
+         <lai_sen_light>7.0       (m^2/m^2)</lai_sen_light>
+         <sen_light_slope>0.008     ()</sen_light_slope>
+         <x_temp_senescence>0.0  6.0  (oC)</x_temp_senescence>
+         <y_senescence_fac>1    0    (0-1)</y_senescence_fac>
+         <sen_rate_water>0.05      ()</sen_rate_water>
+         <twilight>-2.2      (degrees)</twilight>
+         <temp_grain_crit_stress>50.0      (oC)</temp_grain_crit_stress>
+         <x_stage_code>3       4      5     6      8      10    ()</x_stage_code>
+         <y_n_conc_min_leaf>0.025   0.025  0.021 0.010  0.008  0.007 ()</y_n_conc_min_leaf>
+         <y_n_conc_crit_leaf>0.063   0.063  0.042 0.030  0.016  0.016 ()</y_n_conc_crit_leaf>
+         <y_n_conc_max_leaf>0.070   0.070  0.050 0.035  0.028  0.025 ()</y_n_conc_max_leaf>
+         <y_n_conc_min_stem>0.025   0.025  0.004 0.003  0.002  0.002 ()</y_n_conc_min_stem>
+         <y_n_conc_crit_stem>0.060   0.060  0.025 0.010  0.006  0.003 ()</y_n_conc_crit_stem>
+         <y_n_conc_max_stem>0.070   0.070  0.040 0.025  0.015  0.015 ()</y_n_conc_max_stem>
+         <y_n_conc_min_flower>0.025   0.025  0.021 0.010  0.008  0.007 ()</y_n_conc_min_flower>
+         <y_n_conc_crit_flower>0.063   0.063  0.042 0.020  0.016  0.016 ()</y_n_conc_crit_flower>
+         <y_n_conc_max_flower>0.070   0.070  0.050 0.040  0.028  0.025 ()</y_n_conc_max_flower>
+         <n_conc_crit_grain>0.015                                  ()</n_conc_crit_grain>
+         <n_conc_max_grain>0.015                                  ()</n_conc_max_grain>
+         <n_conc_min_grain>0.007                                  ()</n_conc_min_grain>
+         <n_conc_crit_root>0.01060                                ()</n_conc_crit_root>
+         <n_conc_max_root>0.01060                                ()</n_conc_max_root>
+         <n_conc_min_root>0.00795                                ()</n_conc_min_root>
+         <n_leaf_init_conc>0.044     (g/g)</n_leaf_init_conc>
+         <n_root_init_conc>0.022     (g/g)</n_root_init_conc>
+         <n_stem_init_conc>0.044     (g/g)</n_stem_init_conc>
+         <n_leaf_sen_conc>0.001     (g/g)</n_leaf_sen_conc>
+         <n_root_sen_conc>0.001     (g/g)</n_root_sen_conc>
+         <N_fact_photo>1.25     ()</N_fact_photo>
+         <N_fact_pheno>10.0     ()</N_fact_pheno>
+         <p_stage_code>3       4      5      7      8      10     ()</p_stage_code>
+         <p_conc_max>0.005   0.004  0.003  0.0015  0.0015  0.0020 ()</p_conc_max>
+         <p_conc_min>0.003   0.002  0.0015 0.0007 0.0007 0.0007  ()</p_conc_min>
+         <k_pfact_photo>2.0</k_pfact_photo>
+         <k_pfact_pheno>10</k_pfact_pheno>
+         <k_pfact_expansion>20</k_pfact_expansion>
+         <k_pfact_grain>4</k_pfact_grain>
+         <p_uptake_factor>1.5</p_uptake_factor>
+         <x_ave_temp>8.0  20.0  35.0  50.0  (oC)</x_ave_temp>
+         <y_stress_photo>0.0   1.0   1.0   0.0  (0-1)</y_stress_photo>
+         <x_temp_grain>3.7  30.0  56.3        (oC)</x_temp_grain>
+         <y_grain_rate>0.0   1.0   0.0        (0-1)</y_grain_rate>
+         <x_temp>10.0  33.0  47.0      (oC)</x_temp>
+         <y_tt>0.0  23.0   0.0       (oC)</y_tt>
+         <x_weighted_temp>55.0  60.0             (oC)</x_weighted_temp>
+         <y_plant_death>0.0   1.0             (0-1)</y_plant_death>
+         <x_sw_demand_ratio>0.1  1.1               ()</x_sw_demand_ratio>
+         <y_swdef_leaf>0.0  1.0               (0-1)</y_swdef_leaf>
+         <x_sw_avail_ratio>0.0  0.16              ()</x_sw_avail_ratio>
+         <y_swdef_pheno>0.0  1.0               (0-1)</y_swdef_pheno>
+         <x_sw_ratio>0.0  0.25              ()</x_sw_ratio>
+         <y_sw_fac_root>0.0  1.0               (0-1)</y_sw_fac_root>
+         <x_sw_avail_fix>0.0  0.0               ()</x_sw_avail_fix>
+         <y_swdef_fix>0.0  1.0               (0-1)</y_swdef_fix>
+         <bj104>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>2900.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.61   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>129.4    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>66.1    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>510.0      ()</y0_const>
+            <y0_slope>1320.0      ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </bj104>
+         <rcbic911>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>2900.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.61   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>129.4    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>47.4    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>1810.0      ()</y0_const>
+            <y0_slope>1820.0      ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </rcbic911>
+         <wrajpop>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>2200.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.46   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>129.4    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>61.0    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>2100.0      ()</y0_const>
+            <y0_slope>1150.0      ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </wrajpop>
+         <hhb67>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>2200.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.61   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>89.4    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>77.8    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>3480.0      ()</y0_const>
+            <y0_slope>740.0      ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </hhb67>
+         <mh179>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>3000.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.46   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>118.5    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>186.0    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>608.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>225.0    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>90.0    (oCd)</tt_maturity_to_ripe>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </mh179>
+      </initdata>
+   </component>
+   <component name="millet3" executable = "c:\development\apsim\millet\lib\millet.dll">
+      <initdata>
+         <uptake_source>calc</uptake_source>
+         <ll>0.230   0.240   0.240   0.250   0.260   0.270   0.280</ll>
+         <kl>0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()</kl>
+         <xf>1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()</xf>
+         <crop_type>millet</crop_type>
+         <stage_names>sowing germination emergence end_of_juvenile floral_initiation flag_leaf flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</stage_names>
+         <stage_code>1   2   3    4    5     6     7      8     9    10    11    12  ()</stage_code>
+         <rue>0   0  2.17 2.17 2.17  2.17  2.17    1.6   1.6   1.6   0     0  (g/MJ)</rue>
+         <root_depth_rate>0   0  20.0 20.0 20.0  20.0  20.0    0.0   0.0   0.0   0     0  (mm/d)</root_depth_rate>
+         <ratio_root_shoot>0  0   1    1    0.33  0.33  0.087  0     0     0     0     0  (0-1)</ratio_root_shoot>
+         <frac_dm_to_leaf>0   0  0.67 0.67 0.67  0     0       0     0     0     0     0  (0-1)</frac_dm_to_leaf>
+         <N_fix_rate>0   0    0   0     0     0     0      0      0    0     0     0  (gN/gDM)</N_fix_rate>
+         <transp_eff_cf>0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 (kpa)</transp_eff_cf>
+         <row_spacing_default>0.75        (m)</row_spacing_default>
+         <x_row_spacing>0.20   0.75   1.50  (m)</x_row_spacing>
+         <y_extinct_coef>0.56   0.45   0.29  ()</y_extinct_coef>
+         <y_extinct_coef_dead>0.10   0.10   0.10  ()</y_extinct_coef_dead>
+         <root_extinction>3.0       ()</root_extinction>
+         <leaf_no_crit>10.0      ()</leaf_no_crit>
+         <tt_emerg_limit>150.0     (oCd)</tt_emerg_limit>
+         <days_germ_limit>40.0      (days)</days_germ_limit>
+         <swdf_pheno_limit>20.0      ()</swdf_pheno_limit>
+         <swdf_photo_limit>2.1       ()</swdf_photo_limit>
+         <swdf_photo_rate>0.01      ()</swdf_photo_rate>
+         <initial_root_depth>110.0     (mm)</initial_root_depth>
+         <initial_tpla>200.0     (mm^2/plant)</initial_tpla>
+         <tpla_min>0.0 ()</tpla_min>
+         <x_lai>0.0  2.0 5.0  (mm2/mm2)</x_lai>
+         <y_sla_max>65000 65000 45000  (mm2/g)</y_sla_max>
+         <x_lai_ratio>0.0   0.0 ()</x_lai_ratio>
+         <y_leaf_no_frac>1.0   1.0 ()</y_leaf_no_frac>
+         <height_max>3000.0    (mm)</height_max>
+         <height_stem_slope>300.0     (mm/g/stem)</height_stem_slope>
+         <head_grain_no_max_ub>10000.0   (/head)</head_grain_no_max_ub>
+         <grain_gth_rate_ub>5.0      (mg/d)</grain_gth_rate_ub>
+         <tt_emerg_to_endjuv_ub>500.0     (oCd)</tt_emerg_to_endjuv_ub>
+         <pp_endjuv_to_init_ub>500.0     (oCd/h)</pp_endjuv_to_init_ub>
+         <tt_flower_to_maturity_ub>1000.0  (oCd)</tt_flower_to_maturity_ub>
+         <tt_maturity_to_ripe_ub>1000.0    (oCd)</tt_maturity_to_ripe_ub>
+         <tt_flower_to_start_grain_ub>1000.0 (oCd)</tt_flower_to_start_grain_ub>
+         <tt_flag_to_flower_ub>1000.0    (oCd)</tt_flag_to_flower_ub>
+         <svp_fract>0.75      (0-1)</svp_fract>
+         <head_grain_no_crit>0.0     ()</head_grain_no_crit>
+         <barren_crit>0.0       (0-1)</barren_crit>
+         <pesw_germ>0.0       (mm/mm)</pesw_germ>
+         <fasw_emerg>0.0  1.0</fasw_emerg>
+         <rel_emerg_rate>1.0  1.0</rel_emerg_rate>
+         <grain_n_conc_min>0.0007    ()</grain_n_conc_min>
+         <seed_wt_min>0.004     (g/seed)</seed_wt_min>
+         <growth_rate_min>0.10      (g/plant)</growth_rate_min>
+         <growth_rate_crit>1.0       (g/plant)</growth_rate_crit>
+         <leaf_no_at_emerg>0.5       ()</leaf_no_at_emerg>
+         <no3_diffn_const>2.0       (days)</no3_diffn_const>
+         <n_supply_preference>active</n_supply_preference>
+         <shoot_lag>10.7      (oCd)</shoot_lag>
+         <shoot_rate>1.17      (oCd/mm)</shoot_rate>
+         <photoperiod_base>12.9      (h)</photoperiod_base>
+         <photoperiod_crit>24.0      (h)</photoperiod_crit>
+         <leaf_app_rate1>62.0      (oCd)</leaf_app_rate1>
+         <leaf_app_rate2>36.4      (oCd)</leaf_app_rate2>
+         <leaf_no_rate_change>2.0       ()</leaf_no_rate_change>
+         <dm_leaf_init>0.0030  (g/plant)</dm_leaf_init>
+         <dm_root_init>0.0060    (g/plant)</dm_root_init>
+         <dm_stem_init>0.0010    (g/plant)</dm_stem_init>
+         <ll_ub>1000.0    (mm/mm)</ll_ub>
+         <kl_ub>1.0       ()</kl_ub>
+         <leaf_init_rate>27.2      (oCd)</leaf_init_rate>
+         <leaf_no_seed>4.0       ()</leaf_no_seed>
+         <leaf_no_min>5.0      ()</leaf_no_min>
+         <leaf_no_max>40.0      ()</leaf_no_max>
+         <leaf_no_diff>6.0      ()</leaf_no_diff>
+         <stem_trans_frac>0.15      (0-1)</stem_trans_frac>
+         <leaf_trans_frac>0.50      (0-1)</leaf_trans_frac>
+         <minsw>0.00001   (mm/mm)</minsw>
+         <swdf_grain_min>0.45      (0-1)</swdf_grain_min>
+         <hi_min>0.0       (g/g)</hi_min>
+         <sw_fac_max>1.125     ()</sw_fac_max>
+         <temp_fac_min>0.69      ()</temp_fac_min>
+         <sfac_slope>0.125     ()</sfac_slope>
+         <tfac_slope>0.0125    ()</tfac_slope>
+         <leaf_no_dead_const>-5.01     ()</leaf_no_dead_const>
+         <leaf_no_dead_slope>0.0167    ()</leaf_no_dead_slope>
+         <leaf_no_dead_slope1>0.0167    ()</leaf_no_dead_slope1>
+         <leaf_no_dead_slope2>0.0120    ()</leaf_no_dead_slope2>
+         <latitude_ub>90        (oL)</latitude_ub>
+         <latitude_lb>-90       (oL)</latitude_lb>
+         <maxt_ub>58        (oC)</maxt_ub>
+         <maxt_lb>0         (oC)</maxt_lb>
+         <mint_ub>40        (oC)</mint_ub>
+         <mint_lb>-10       (oC)</mint_lb>
+         <radn_ub>40        (MJ/m^2)</radn_ub>
+         <radn_lb>0.5       (MJ/m^2)</radn_lb>
+         <dlayer_ub>1000      (mm)</dlayer_ub>
+         <dlayer_lb>0         (mm)</dlayer_lb>
+         <dul_dep_ub>1000      (mm)</dul_dep_ub>
+         <dul_dep_lb>0         (mm)</dul_dep_lb>
+         <sw_dep_ub>1000      (mm)</sw_dep_ub>
+         <sw_dep_lb>0         (mm)</sw_dep_lb>
+         <no3_ub>10000     (kg/ha)</no3_ub>
+         <no3_lb>0         (kg/ha)</no3_lb>
+         <no3_min_ub>10000     (kg/ha)</no3_min_ub>
+         <no3_min_lb>0         (kg/ha)</no3_min_lb>
+         <grn_water_cont>0.155     (g/g)</grn_water_cont>
+         <sla_min>8000      (mm^2/g)</sla_min>
+         <partition_rate_leaf>0.182    ()</partition_rate_leaf>
+         <frac_leaf_pre_flower>0.00      (0-1)</frac_leaf_pre_flower>
+         <frac_leaf_post_flower>0.00      (0-1)</frac_leaf_post_flower>
+         <frac_stem2flower>0.19      (0-1)</frac_stem2flower>
+         <frac_flower2grain>0.00      (0-1)</frac_flower2grain>
+         <htstress_coeff>0.0       ()</htstress_coeff>
+         <dm_root_sen_frac>0.0       (0-1)</dm_root_sen_frac>
+         <dm_leaf_sen_frac>1.0       (0-1)</dm_leaf_sen_frac>
+         <dead_detach_frac>0    0    0      0     0    (0-1)</dead_detach_frac>
+         <sen_detach_frac>1    0    0      0     0   ()</sen_detach_frac>
+         <dm_leaf_detach_frac>0                           ()</dm_leaf_detach_frac>
+         <leaf_no_correction>1.45       ()</leaf_no_correction>
+         <leaf_size_average>0.0       (mm^2)</leaf_size_average>
+         <leaf_size_endjuv>0.0       (mm^2)</leaf_size_endjuv>
+         <x0_const>2.22     ()</x0_const>
+         <x0_slope>0.51     ()</x0_slope>
+         <a_const>0.00321  ()</a_const>
+         <a_slope1>0.0806   ()</a_slope1>
+         <a_slope2>-0.2060   ()</a_slope2>
+         <b_const>0.00058  ()</b_const>
+         <b_slope1>0.0011   ()</b_slope1>
+         <b_slope2>-0.1394   ()</b_slope2>
+         <tiller_no_pot>0            ()</tiller_no_pot>
+         <tiller_appearance>tt</tiller_appearance>
+         <x_tiller_no_next>1     2    ()</x_tiller_no_next>
+         <y_tiller_tt>150    34.4 (oCd)</y_tiller_tt>
+         <tiller_appearance_slope>0.0   ()</tiller_appearance_slope>
+         <photo_tiller_crit>24.0      (h)</photo_tiller_crit>
+         <dm_tiller_crit>5.0         (g/plant)</dm_tiller_crit>
+         <lai_sen_light>7.0       (m^2/m^2)</lai_sen_light>
+         <sen_light_slope>0.008     ()</sen_light_slope>
+         <x_temp_senescence>0.0  6.0  (oC)</x_temp_senescence>
+         <y_senescence_fac>1    0    (0-1)</y_senescence_fac>
+         <sen_rate_water>0.05      ()</sen_rate_water>
+         <twilight>-2.2      (degrees)</twilight>
+         <temp_grain_crit_stress>50.0      (oC)</temp_grain_crit_stress>
+         <x_stage_code>3       4      5     6      8      10    ()</x_stage_code>
+         <y_n_conc_min_leaf>0.025   0.025  0.021 0.010  0.008  0.007 ()</y_n_conc_min_leaf>
+         <y_n_conc_crit_leaf>0.063   0.063  0.042 0.030  0.016  0.016 ()</y_n_conc_crit_leaf>
+         <y_n_conc_max_leaf>0.070   0.070  0.050 0.035  0.028  0.025 ()</y_n_conc_max_leaf>
+         <y_n_conc_min_stem>0.025   0.025  0.004 0.003  0.002  0.002 ()</y_n_conc_min_stem>
+         <y_n_conc_crit_stem>0.060   0.060  0.025 0.010  0.006  0.003 ()</y_n_conc_crit_stem>
+         <y_n_conc_max_stem>0.070   0.070  0.040 0.025  0.015  0.015 ()</y_n_conc_max_stem>
+         <y_n_conc_min_flower>0.025   0.025  0.021 0.010  0.008  0.007 ()</y_n_conc_min_flower>
+         <y_n_conc_crit_flower>0.063   0.063  0.042 0.020  0.016  0.016 ()</y_n_conc_crit_flower>
+         <y_n_conc_max_flower>0.070   0.070  0.050 0.040  0.028  0.025 ()</y_n_conc_max_flower>
+         <n_conc_crit_grain>0.015                                  ()</n_conc_crit_grain>
+         <n_conc_max_grain>0.015                                  ()</n_conc_max_grain>
+         <n_conc_min_grain>0.007                                  ()</n_conc_min_grain>
+         <n_conc_crit_root>0.01060                                ()</n_conc_crit_root>
+         <n_conc_max_root>0.01060                                ()</n_conc_max_root>
+         <n_conc_min_root>0.00795                                ()</n_conc_min_root>
+         <n_leaf_init_conc>0.044     (g/g)</n_leaf_init_conc>
+         <n_root_init_conc>0.022     (g/g)</n_root_init_conc>
+         <n_stem_init_conc>0.044     (g/g)</n_stem_init_conc>
+         <n_leaf_sen_conc>0.001     (g/g)</n_leaf_sen_conc>
+         <n_root_sen_conc>0.001     (g/g)</n_root_sen_conc>
+         <N_fact_photo>1.25     ()</N_fact_photo>
+         <N_fact_pheno>10.0     ()</N_fact_pheno>
+         <p_stage_code>3       4      5      7      8      10     ()</p_stage_code>
+         <p_conc_max>0.005   0.004  0.003  0.0015  0.0015  0.0020 ()</p_conc_max>
+         <p_conc_min>0.003   0.002  0.0015 0.0007 0.0007 0.0007  ()</p_conc_min>
+         <k_pfact_photo>2.0</k_pfact_photo>
+         <k_pfact_pheno>10</k_pfact_pheno>
+         <k_pfact_expansion>20</k_pfact_expansion>
+         <k_pfact_grain>4</k_pfact_grain>
+         <p_uptake_factor>1.5</p_uptake_factor>
+         <x_ave_temp>8.0  20.0  35.0  50.0  (oC)</x_ave_temp>
+         <y_stress_photo>0.0   1.0   1.0   0.0  (0-1)</y_stress_photo>
+         <x_temp_grain>3.7  30.0  56.3        (oC)</x_temp_grain>
+         <y_grain_rate>0.0   1.0   0.0        (0-1)</y_grain_rate>
+         <x_temp>10.0  33.0  47.0      (oC)</x_temp>
+         <y_tt>0.0  23.0   0.0       (oC)</y_tt>
+         <x_weighted_temp>55.0  60.0             (oC)</x_weighted_temp>
+         <y_plant_death>0.0   1.0             (0-1)</y_plant_death>
+         <x_sw_demand_ratio>0.1  1.1               ()</x_sw_demand_ratio>
+         <y_swdef_leaf>0.0  1.0               (0-1)</y_swdef_leaf>
+         <x_sw_avail_ratio>0.0  0.16              ()</x_sw_avail_ratio>
+         <y_swdef_pheno>0.0  1.0               (0-1)</y_swdef_pheno>
+         <x_sw_ratio>0.0  0.25              ()</x_sw_ratio>
+         <y_sw_fac_root>0.0  1.0               (0-1)</y_sw_fac_root>
+         <x_sw_avail_fix>0.0  0.0               ()</x_sw_avail_fix>
+         <y_swdef_fix>0.0  1.0               (0-1)</y_swdef_fix>
+         <bj104>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>2900.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.61   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>119.4    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>66.1    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>510.0      ()</y0_const>
+            <y0_slope>1320.0      ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </bj104>
+         <rcbic911>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>2900.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.61   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>119.4    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>47.4    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>1810.0      ()</y0_const>
+            <y0_slope>1820.0      ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </rcbic911>
+         <wrajpop>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>2200.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.46   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>119.4    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>61.0    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>2100.0      ()</y0_const>
+            <y0_slope>1150.0      ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </wrajpop>
+         <hhb67>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>2200.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.61   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>79.4    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>77.8    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>3480.0      ()</y0_const>
+            <y0_slope>740.0      ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </hhb67>
+         <mh179>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>3000.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.46   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>108.5    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>186.0    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>608.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>225.0    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>90.0    (oCd)</tt_maturity_to_ripe>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </mh179>
+      </initdata>
+   </component>
+   <component name="millet4" executable = "c:\development\apsim\millet\lib\millet.dll">
+      <initdata>
+         <uptake_source>calc</uptake_source>
+         <ll>0.230   0.240   0.240   0.250   0.260   0.270   0.280</ll>
+         <kl>0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()</kl>
+         <xf>1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()</xf>
+         <crop_type>millet</crop_type>
+         <stage_names>sowing germination emergence end_of_juvenile floral_initiation flag_leaf flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</stage_names>
+         <stage_code>1   2   3    4    5     6     7      8     9    10    11    12  ()</stage_code>
+         <rue>0   0  2.17 2.17 2.17  2.17  2.17    1.6   1.6   1.6   0     0  (g/MJ)</rue>
+         <root_depth_rate>0   0  20.0 20.0 20.0  20.0  20.0    0.0   0.0   0.0   0     0  (mm/d)</root_depth_rate>
+         <ratio_root_shoot>0  0   1    1    0.33  0.33  0.087  0     0     0     0     0  (0-1)</ratio_root_shoot>
+         <frac_dm_to_leaf>0   0  0.67 0.67 0.67  0     0       0     0     0     0     0  (0-1)</frac_dm_to_leaf>
+         <N_fix_rate>0   0    0   0     0     0     0      0      0    0     0     0  (gN/gDM)</N_fix_rate>
+         <transp_eff_cf>0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 (kpa)</transp_eff_cf>
+         <row_spacing_default>0.75        (m)</row_spacing_default>
+         <x_row_spacing>0.20   0.75   1.50  (m)</x_row_spacing>
+         <y_extinct_coef>0.56   0.45   0.29  ()</y_extinct_coef>
+         <y_extinct_coef_dead>0.10   0.10   0.10  ()</y_extinct_coef_dead>
+         <root_extinction>3.0       ()</root_extinction>
+         <leaf_no_crit>10.0      ()</leaf_no_crit>
+         <tt_emerg_limit>150.0     (oCd)</tt_emerg_limit>
+         <days_germ_limit>40.0      (days)</days_germ_limit>
+         <swdf_pheno_limit>20.0      ()</swdf_pheno_limit>
+         <swdf_photo_limit>2.1       ()</swdf_photo_limit>
+         <swdf_photo_rate>0.01      ()</swdf_photo_rate>
+         <initial_root_depth>110.0     (mm)</initial_root_depth>
+         <initial_tpla>200.0     (mm^2/plant)</initial_tpla>
+         <tpla_min>0.0 ()</tpla_min>
+         <x_lai>0.0  2.0 5.0  (mm2/mm2)</x_lai>
+         <y_sla_max>65000 65000 45000  (mm2/g)</y_sla_max>
+         <x_lai_ratio>0.0   0.0 ()</x_lai_ratio>
+         <y_leaf_no_frac>1.0   1.0 ()</y_leaf_no_frac>
+         <height_max>3000.0    (mm)</height_max>
+         <height_stem_slope>300.0     (mm/g/stem)</height_stem_slope>
+         <head_grain_no_max_ub>10000.0   (/head)</head_grain_no_max_ub>
+         <grain_gth_rate_ub>5.0      (mg/d)</grain_gth_rate_ub>
+         <tt_emerg_to_endjuv_ub>500.0     (oCd)</tt_emerg_to_endjuv_ub>
+         <pp_endjuv_to_init_ub>500.0     (oCd/h)</pp_endjuv_to_init_ub>
+         <tt_flower_to_maturity_ub>1000.0  (oCd)</tt_flower_to_maturity_ub>
+         <tt_maturity_to_ripe_ub>1000.0    (oCd)</tt_maturity_to_ripe_ub>
+         <tt_flower_to_start_grain_ub>1000.0 (oCd)</tt_flower_to_start_grain_ub>
+         <tt_flag_to_flower_ub>1000.0    (oCd)</tt_flag_to_flower_ub>
+         <svp_fract>0.75      (0-1)</svp_fract>
+         <head_grain_no_crit>0.0     ()</head_grain_no_crit>
+         <barren_crit>0.0       (0-1)</barren_crit>
+         <pesw_germ>0.0       (mm/mm)</pesw_germ>
+         <fasw_emerg>0.0  1.0</fasw_emerg>
+         <rel_emerg_rate>1.0  1.0</rel_emerg_rate>
+         <grain_n_conc_min>0.0007    ()</grain_n_conc_min>
+         <seed_wt_min>0.004     (g/seed)</seed_wt_min>
+         <growth_rate_min>0.10      (g/plant)</growth_rate_min>
+         <growth_rate_crit>1.0       (g/plant)</growth_rate_crit>
+         <leaf_no_at_emerg>0.5       ()</leaf_no_at_emerg>
+         <no3_diffn_const>2.0       (days)</no3_diffn_const>
+         <n_supply_preference>active</n_supply_preference>
+         <shoot_lag>10.7      (oCd)</shoot_lag>
+         <shoot_rate>1.17      (oCd/mm)</shoot_rate>
+         <photoperiod_base>12.9      (h)</photoperiod_base>
+         <photoperiod_crit>24.0      (h)</photoperiod_crit>
+         <leaf_app_rate1>62.0      (oCd)</leaf_app_rate1>
+         <leaf_app_rate2>36.4      (oCd)</leaf_app_rate2>
+         <leaf_no_rate_change>2.0       ()</leaf_no_rate_change>
+         <dm_leaf_init>0.0030  (g/plant)</dm_leaf_init>
+         <dm_root_init>0.0060    (g/plant)</dm_root_init>
+         <dm_stem_init>0.0010    (g/plant)</dm_stem_init>
+         <ll_ub>1000.0    (mm/mm)</ll_ub>
+         <kl_ub>1.0       ()</kl_ub>
+         <leaf_init_rate>27.2      (oCd)</leaf_init_rate>
+         <leaf_no_seed>4.0       ()</leaf_no_seed>
+         <leaf_no_min>5.0      ()</leaf_no_min>
+         <leaf_no_max>40.0      ()</leaf_no_max>
+         <leaf_no_diff>6.5      ()</leaf_no_diff>
+         <stem_trans_frac>0.15      (0-1)</stem_trans_frac>
+         <leaf_trans_frac>0.50      (0-1)</leaf_trans_frac>
+         <minsw>0.00001   (mm/mm)</minsw>
+         <swdf_grain_min>0.45      (0-1)</swdf_grain_min>
+         <hi_min>0.0       (g/g)</hi_min>
+         <sw_fac_max>1.125     ()</sw_fac_max>
+         <temp_fac_min>0.69      ()</temp_fac_min>
+         <sfac_slope>0.125     ()</sfac_slope>
+         <tfac_slope>0.0125    ()</tfac_slope>
+         <leaf_no_dead_const>-5.01     ()</leaf_no_dead_const>
+         <leaf_no_dead_slope>0.0167    ()</leaf_no_dead_slope>
+         <leaf_no_dead_slope1>0.0167    ()</leaf_no_dead_slope1>
+         <leaf_no_dead_slope2>0.0120    ()</leaf_no_dead_slope2>
+         <latitude_ub>90        (oL)</latitude_ub>
+         <latitude_lb>-90       (oL)</latitude_lb>
+         <maxt_ub>58        (oC)</maxt_ub>
+         <maxt_lb>0         (oC)</maxt_lb>
+         <mint_ub>40        (oC)</mint_ub>
+         <mint_lb>-10       (oC)</mint_lb>
+         <radn_ub>40        (MJ/m^2)</radn_ub>
+         <radn_lb>0.5       (MJ/m^2)</radn_lb>
+         <dlayer_ub>1000      (mm)</dlayer_ub>
+         <dlayer_lb>0         (mm)</dlayer_lb>
+         <dul_dep_ub>1000      (mm)</dul_dep_ub>
+         <dul_dep_lb>0         (mm)</dul_dep_lb>
+         <sw_dep_ub>1000      (mm)</sw_dep_ub>
+         <sw_dep_lb>0         (mm)</sw_dep_lb>
+         <no3_ub>10000     (kg/ha)</no3_ub>
+         <no3_lb>0         (kg/ha)</no3_lb>
+         <no3_min_ub>10000     (kg/ha)</no3_min_ub>
+         <no3_min_lb>0         (kg/ha)</no3_min_lb>
+         <grn_water_cont>0.155     (g/g)</grn_water_cont>
+         <sla_min>8000      (mm^2/g)</sla_min>
+         <partition_rate_leaf>0.182    ()</partition_rate_leaf>
+         <frac_leaf_pre_flower>0.00      (0-1)</frac_leaf_pre_flower>
+         <frac_leaf_post_flower>0.00      (0-1)</frac_leaf_post_flower>
+         <frac_stem2flower>0.19      (0-1)</frac_stem2flower>
+         <frac_flower2grain>0.00      (0-1)</frac_flower2grain>
+         <htstress_coeff>0.0       ()</htstress_coeff>
+         <dm_root_sen_frac>0.0       (0-1)</dm_root_sen_frac>
+         <dm_leaf_sen_frac>1.0       (0-1)</dm_leaf_sen_frac>
+         <dead_detach_frac>0    0    0      0     0    (0-1)</dead_detach_frac>
+         <sen_detach_frac>1    0    0      0     0   ()</sen_detach_frac>
+         <dm_leaf_detach_frac>0                           ()</dm_leaf_detach_frac>
+         <leaf_no_correction>1.45       ()</leaf_no_correction>
+         <leaf_size_average>0.0       (mm^2)</leaf_size_average>
+         <leaf_size_endjuv>0.0       (mm^2)</leaf_size_endjuv>
+         <x0_const>2.09     ()</x0_const>
+         <x0_slope>0.49     ()</x0_slope>
+         <a_const>0.00792  ()</a_const>
+         <a_slope1>0.2431   ()</a_slope1>
+         <a_slope2>-0.4411   ()</a_slope2>
+         <b_const>-0.00013  ()</b_const>
+         <b_slope1>0.0003   ()</b_slope1>
+         <b_slope2>-0.1578   ()</b_slope2>
+         <tiller_no_pot>0            ()</tiller_no_pot>
+         <tiller_appearance>tt</tiller_appearance>
+         <x_tiller_no_next>1     2    ()</x_tiller_no_next>
+         <y_tiller_tt>150    34.4 (oCd)</y_tiller_tt>
+         <tiller_appearance_slope>0.0   ()</tiller_appearance_slope>
+         <photo_tiller_crit>24.0      (h)</photo_tiller_crit>
+         <dm_tiller_crit>5.0         (g/plant)</dm_tiller_crit>
+         <lai_sen_light>7.0       (m^2/m^2)</lai_sen_light>
+         <sen_light_slope>0.008     ()</sen_light_slope>
+         <x_temp_senescence>0.0  6.0  (oC)</x_temp_senescence>
+         <y_senescence_fac>1    0    (0-1)</y_senescence_fac>
+         <sen_rate_water>0.05      ()</sen_rate_water>
+         <twilight>-2.2      (degrees)</twilight>
+         <temp_grain_crit_stress>50.0      (oC)</temp_grain_crit_stress>
+         <x_stage_code>3       4      5     6      8      10    ()</x_stage_code>
+         <y_n_conc_min_leaf>0.025   0.025  0.021 0.010  0.008  0.007 ()</y_n_conc_min_leaf>
+         <y_n_conc_crit_leaf>0.063   0.063  0.042 0.030  0.016  0.016 ()</y_n_conc_crit_leaf>
+         <y_n_conc_max_leaf>0.070   0.070  0.050 0.035  0.028  0.025 ()</y_n_conc_max_leaf>
+         <y_n_conc_min_stem>0.025   0.025  0.004 0.003  0.002  0.002 ()</y_n_conc_min_stem>
+         <y_n_conc_crit_stem>0.060   0.060  0.025 0.010  0.006  0.003 ()</y_n_conc_crit_stem>
+         <y_n_conc_max_stem>0.070   0.070  0.040 0.025  0.015  0.015 ()</y_n_conc_max_stem>
+         <y_n_conc_min_flower>0.025   0.025  0.021 0.010  0.008  0.007 ()</y_n_conc_min_flower>
+         <y_n_conc_crit_flower>0.063   0.063  0.042 0.020  0.016  0.016 ()</y_n_conc_crit_flower>
+         <y_n_conc_max_flower>0.070   0.070  0.050 0.040  0.028  0.025 ()</y_n_conc_max_flower>
+         <n_conc_crit_grain>0.015                                  ()</n_conc_crit_grain>
+         <n_conc_max_grain>0.015                                  ()</n_conc_max_grain>
+         <n_conc_min_grain>0.007                                  ()</n_conc_min_grain>
+         <n_conc_crit_root>0.01060                                ()</n_conc_crit_root>
+         <n_conc_max_root>0.01060                                ()</n_conc_max_root>
+         <n_conc_min_root>0.00795                                ()</n_conc_min_root>
+         <n_leaf_init_conc>0.044     (g/g)</n_leaf_init_conc>
+         <n_root_init_conc>0.022     (g/g)</n_root_init_conc>
+         <n_stem_init_conc>0.044     (g/g)</n_stem_init_conc>
+         <n_leaf_sen_conc>0.001     (g/g)</n_leaf_sen_conc>
+         <n_root_sen_conc>0.001     (g/g)</n_root_sen_conc>
+         <N_fact_photo>1.25     ()</N_fact_photo>
+         <N_fact_pheno>10.0     ()</N_fact_pheno>
+         <p_stage_code>3       4      5      7      8      10     ()</p_stage_code>
+         <p_conc_max>0.005   0.004  0.003  0.0015  0.0015  0.0020 ()</p_conc_max>
+         <p_conc_min>0.003   0.002  0.0015 0.0007 0.0007 0.0007  ()</p_conc_min>
+         <k_pfact_photo>2.0</k_pfact_photo>
+         <k_pfact_pheno>10</k_pfact_pheno>
+         <k_pfact_expansion>20</k_pfact_expansion>
+         <k_pfact_grain>4</k_pfact_grain>
+         <p_uptake_factor>1.5</p_uptake_factor>
+         <x_ave_temp>8.0  20.0  35.0  50.0  (oC)</x_ave_temp>
+         <y_stress_photo>0.0   1.0   1.0   0.0  (0-1)</y_stress_photo>
+         <x_temp_grain>3.7  30.0  56.3        (oC)</x_temp_grain>
+         <y_grain_rate>0.0   1.0   0.0        (0-1)</y_grain_rate>
+         <x_temp>10.0  33.0  47.0      (oC)</x_temp>
+         <y_tt>0.0  23.0   0.0       (oC)</y_tt>
+         <x_weighted_temp>55.0  60.0             (oC)</x_weighted_temp>
+         <y_plant_death>0.0   1.0             (0-1)</y_plant_death>
+         <x_sw_demand_ratio>0.1  1.1               ()</x_sw_demand_ratio>
+         <y_swdef_leaf>0.0  1.0               (0-1)</y_swdef_leaf>
+         <x_sw_avail_ratio>0.0  0.16              ()</x_sw_avail_ratio>
+         <y_swdef_pheno>0.0  1.0               (0-1)</y_swdef_pheno>
+         <x_sw_ratio>0.0  0.25              ()</x_sw_ratio>
+         <y_sw_fac_root>0.0  1.0               (0-1)</y_sw_fac_root>
+         <x_sw_avail_fix>0.0  0.0               ()</x_sw_avail_fix>
+         <y_swdef_fix>0.0  1.0               (0-1)</y_swdef_fix>
+         <bj104>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>2900.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.61   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>109.4    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>66.1    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>510.0      ()</y0_const>
+            <y0_slope>1320.0      ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </bj104>
+         <rcbic911>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>2900.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.61   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>109.4    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>47.4    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>1810.0      ()</y0_const>
+            <y0_slope>1820.0      ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </rcbic911>
+         <wrajpop>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>2200.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.46   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>109.4    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>61.0    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>2100.0      ()</y0_const>
+            <y0_slope>1150.0      ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </wrajpop>
+         <hhb67>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>2200.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.61   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>69.4    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>77.8    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>3480.0      ()</y0_const>
+            <y0_slope>740.0      ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </hhb67>
+         <mh179>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>3000.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.46   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>98.5    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>186.0    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>608.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>225.0    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>90.0    (oCd)</tt_maturity_to_ripe>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </mh179>
+      </initdata>
+   </component>
+   <component name="millet5" executable = "c:\development\apsim\millet\lib\millet.dll">
+      <initdata>
+         <uptake_source>calc</uptake_source>
+         <ll>0.230   0.240   0.240   0.250   0.260   0.270   0.280</ll>
+         <kl>0.120   0.120   0.120   0.100   0.060   0.055   0.030  ()</kl>
+         <xf>1.00    1.00    1.00    1.00    1.00    1.00    1.00   ()</xf>
+         <crop_type>millet</crop_type>
+         <stage_names>sowing germination emergence end_of_juvenile floral_initiation flag_leaf flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</stage_names>
+         <stage_code>1   2   3    4    5     6     7      8     9    10    11    12  ()</stage_code>
+         <rue>0   0  2.17 2.17 2.17  2.17  2.17    1.6   1.6   1.6   0     0  (g/MJ)</rue>
+         <root_depth_rate>0   0  20.0 20.0 20.0  20.0  20.0    0.0   0.0   0.0   0     0  (mm/d)</root_depth_rate>
+         <ratio_root_shoot>0  0   1    1    0.33  0.33  0.087  0     0     0     0     0  (0-1)</ratio_root_shoot>
+         <frac_dm_to_leaf>0   0  0.67 0.67 0.67  0     0       0     0     0     0     0  (0-1)</frac_dm_to_leaf>
+         <N_fix_rate>0   0    0   0     0     0     0      0      0    0     0     0  (gN/gDM)</N_fix_rate>
+         <transp_eff_cf>0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 (kpa)</transp_eff_cf>
+         <row_spacing_default>0.75        (m)</row_spacing_default>
+         <x_row_spacing>0.20   0.75   1.50  (m)</x_row_spacing>
+         <y_extinct_coef>0.56   0.45   0.29  ()</y_extinct_coef>
+         <y_extinct_coef_dead>0.10   0.10   0.10  ()</y_extinct_coef_dead>
+         <root_extinction>3.0       ()</root_extinction>
+         <leaf_no_crit>10.0      ()</leaf_no_crit>
+         <tt_emerg_limit>150.0     (oCd)</tt_emerg_limit>
+         <days_germ_limit>40.0      (days)</days_germ_limit>
+         <swdf_pheno_limit>20.0      ()</swdf_pheno_limit>
+         <swdf_photo_limit>2.1       ()</swdf_photo_limit>
+         <swdf_photo_rate>0.01      ()</swdf_photo_rate>
+         <initial_root_depth>110.0     (mm)</initial_root_depth>
+         <initial_tpla>200.0     (mm^2/plant)</initial_tpla>
+         <tpla_min>0.0 ()</tpla_min>
+         <x_lai>0.0  2.0 5.0  (mm2/mm2)</x_lai>
+         <y_sla_max>65000 65000 45000  (mm2/g)</y_sla_max>
+         <x_lai_ratio>0.0   0.0 ()</x_lai_ratio>
+         <y_leaf_no_frac>1.0   1.0 ()</y_leaf_no_frac>
+         <height_max>3000.0    (mm)</height_max>
+         <height_stem_slope>300.0     (mm/g/stem)</height_stem_slope>
+         <head_grain_no_max_ub>10000.0   (/head)</head_grain_no_max_ub>
+         <grain_gth_rate_ub>5.0      (mg/d)</grain_gth_rate_ub>
+         <tt_emerg_to_endjuv_ub>500.0     (oCd)</tt_emerg_to_endjuv_ub>
+         <pp_endjuv_to_init_ub>500.0     (oCd/h)</pp_endjuv_to_init_ub>
+         <tt_flower_to_maturity_ub>1000.0  (oCd)</tt_flower_to_maturity_ub>
+         <tt_maturity_to_ripe_ub>1000.0    (oCd)</tt_maturity_to_ripe_ub>
+         <tt_flower_to_start_grain_ub>1000.0 (oCd)</tt_flower_to_start_grain_ub>
+         <tt_flag_to_flower_ub>1000.0    (oCd)</tt_flag_to_flower_ub>
+         <svp_fract>0.75      (0-1)</svp_fract>
+         <head_grain_no_crit>0.0     ()</head_grain_no_crit>
+         <barren_crit>0.0       (0-1)</barren_crit>
+         <pesw_germ>0.0       (mm/mm)</pesw_germ>
+         <fasw_emerg>0.0  1.0</fasw_emerg>
+         <rel_emerg_rate>1.0  1.0</rel_emerg_rate>
+         <grain_n_conc_min>0.0007    ()</grain_n_conc_min>
+         <seed_wt_min>0.004     (g/seed)</seed_wt_min>
+         <growth_rate_min>0.10      (g/plant)</growth_rate_min>
+         <growth_rate_crit>1.0       (g/plant)</growth_rate_crit>
+         <leaf_no_at_emerg>0.5       ()</leaf_no_at_emerg>
+         <no3_diffn_const>2.0       (days)</no3_diffn_const>
+         <n_supply_preference>active</n_supply_preference>
+         <shoot_lag>10.7      (oCd)</shoot_lag>
+         <shoot_rate>1.17      (oCd/mm)</shoot_rate>
+         <photoperiod_base>12.9      (h)</photoperiod_base>
+         <photoperiod_crit>24.0      (h)</photoperiod_crit>
+         <leaf_app_rate1>62.0      (oCd)</leaf_app_rate1>
+         <leaf_app_rate2>36.4      (oCd)</leaf_app_rate2>
+         <leaf_no_rate_change>2.0       ()</leaf_no_rate_change>
+         <dm_leaf_init>0.0030  (g/plant)</dm_leaf_init>
+         <dm_root_init>0.0060    (g/plant)</dm_root_init>
+         <dm_stem_init>0.0010    (g/plant)</dm_stem_init>
+         <ll_ub>1000.0    (mm/mm)</ll_ub>
+         <kl_ub>1.0       ()</kl_ub>
+         <leaf_init_rate>27.2      (oCd)</leaf_init_rate>
+         <leaf_no_seed>4.0       ()</leaf_no_seed>
+         <leaf_no_min>5.0      ()</leaf_no_min>
+         <leaf_no_max>40.0      ()</leaf_no_max>
+         <leaf_no_diff>7.0      ()</leaf_no_diff>
+         <stem_trans_frac>0.15      (0-1)</stem_trans_frac>
+         <leaf_trans_frac>0.50      (0-1)</leaf_trans_frac>
+         <minsw>0.00001   (mm/mm)</minsw>
+         <swdf_grain_min>0.45      (0-1)</swdf_grain_min>
+         <hi_min>0.0       (g/g)</hi_min>
+         <sw_fac_max>1.125     ()</sw_fac_max>
+         <temp_fac_min>0.69      ()</temp_fac_min>
+         <sfac_slope>0.125     ()</sfac_slope>
+         <tfac_slope>0.0125    ()</tfac_slope>
+         <leaf_no_dead_const>-5.01     ()</leaf_no_dead_const>
+         <leaf_no_dead_slope>0.0167    ()</leaf_no_dead_slope>
+         <leaf_no_dead_slope1>0.0167    ()</leaf_no_dead_slope1>
+         <leaf_no_dead_slope2>0.0120    ()</leaf_no_dead_slope2>
+         <latitude_ub>90        (oL)</latitude_ub>
+         <latitude_lb>-90       (oL)</latitude_lb>
+         <maxt_ub>58        (oC)</maxt_ub>
+         <maxt_lb>0         (oC)</maxt_lb>
+         <mint_ub>40        (oC)</mint_ub>
+         <mint_lb>-10       (oC)</mint_lb>
+         <radn_ub>40        (MJ/m^2)</radn_ub>
+         <radn_lb>0.5       (MJ/m^2)</radn_lb>
+         <dlayer_ub>1000      (mm)</dlayer_ub>
+         <dlayer_lb>0         (mm)</dlayer_lb>
+         <dul_dep_ub>1000      (mm)</dul_dep_ub>
+         <dul_dep_lb>0         (mm)</dul_dep_lb>
+         <sw_dep_ub>1000      (mm)</sw_dep_ub>
+         <sw_dep_lb>0         (mm)</sw_dep_lb>
+         <no3_ub>10000     (kg/ha)</no3_ub>
+         <no3_lb>0         (kg/ha)</no3_lb>
+         <no3_min_ub>10000     (kg/ha)</no3_min_ub>
+         <no3_min_lb>0         (kg/ha)</no3_min_lb>
+         <grn_water_cont>0.155     (g/g)</grn_water_cont>
+         <sla_min>8000      (mm^2/g)</sla_min>
+         <partition_rate_leaf>0.182    ()</partition_rate_leaf>
+         <frac_leaf_pre_flower>0.00      (0-1)</frac_leaf_pre_flower>
+         <frac_leaf_post_flower>0.00      (0-1)</frac_leaf_post_flower>
+         <frac_stem2flower>0.19      (0-1)</frac_stem2flower>
+         <frac_flower2grain>0.00      (0-1)</frac_flower2grain>
+         <htstress_coeff>0.0       ()</htstress_coeff>
+         <dm_root_sen_frac>0.0       (0-1)</dm_root_sen_frac>
+         <dm_leaf_sen_frac>1.0       (0-1)</dm_leaf_sen_frac>
+         <dead_detach_frac>0    0    0      0     0    (0-1)</dead_detach_frac>
+         <sen_detach_frac>1    0    0      0     0   ()</sen_detach_frac>
+         <dm_leaf_detach_frac>0                           ()</dm_leaf_detach_frac>
+         <leaf_no_correction>1.45       ()</leaf_no_correction>
+         <leaf_size_average>0.0       (mm^2)</leaf_size_average>
+         <leaf_size_endjuv>0.0       (mm^2)</leaf_size_endjuv>
+         <x0_const>1.72     ()</x0_const>
+         <x0_slope>0.47     ()</x0_slope>
+         <a_const>0.02004  ()</a_const>
+         <a_slope1>546.56     ()</a_slope1>
+         <a_slope2>-660.90     ()</a_slope2>
+         <b_const>-0.00045  ()</b_const>
+         <b_slope1>-0.0002   ()</b_slope1>
+         <b_slope2>-0.1518   ()</b_slope2>
+         <tiller_no_pot>0            ()</tiller_no_pot>
+         <tiller_appearance>tt</tiller_appearance>
+         <x_tiller_no_next>1     2    ()</x_tiller_no_next>
+         <y_tiller_tt>150    34.4 (oCd)</y_tiller_tt>
+         <tiller_appearance_slope>0.0   ()</tiller_appearance_slope>
+         <photo_tiller_crit>24.0      (h)</photo_tiller_crit>
+         <dm_tiller_crit>5.0         (g/plant)</dm_tiller_crit>
+         <lai_sen_light>7.0       (m^2/m^2)</lai_sen_light>
+         <sen_light_slope>0.008     ()</sen_light_slope>
+         <x_temp_senescence>0.0  6.0  (oC)</x_temp_senescence>
+         <y_senescence_fac>1    0    (0-1)</y_senescence_fac>
+         <sen_rate_water>0.05      ()</sen_rate_water>
+         <twilight>-2.2      (degrees)</twilight>
+         <temp_grain_crit_stress>50.0      (oC)</temp_grain_crit_stress>
+         <x_stage_code>3       4      5     6      8      10    ()</x_stage_code>
+         <y_n_conc_min_leaf>0.025   0.025  0.021 0.010  0.008  0.007 ()</y_n_conc_min_leaf>
+         <y_n_conc_crit_leaf>0.063   0.063  0.042 0.030  0.016  0.016 ()</y_n_conc_crit_leaf>
+         <y_n_conc_max_leaf>0.070   0.070  0.050 0.035  0.028  0.025 ()</y_n_conc_max_leaf>
+         <y_n_conc_min_stem>0.025   0.025  0.004 0.003  0.002  0.002 ()</y_n_conc_min_stem>
+         <y_n_conc_crit_stem>0.060   0.060  0.025 0.010  0.006  0.003 ()</y_n_conc_crit_stem>
+         <y_n_conc_max_stem>0.070   0.070  0.040 0.025  0.015  0.015 ()</y_n_conc_max_stem>
+         <y_n_conc_min_flower>0.025   0.025  0.021 0.010  0.008  0.007 ()</y_n_conc_min_flower>
+         <y_n_conc_crit_flower>0.063   0.063  0.042 0.020  0.016  0.016 ()</y_n_conc_crit_flower>
+         <y_n_conc_max_flower>0.070   0.070  0.050 0.040  0.028  0.025 ()</y_n_conc_max_flower>
+         <n_conc_crit_grain>0.015                                  ()</n_conc_crit_grain>
+         <n_conc_max_grain>0.015                                  ()</n_conc_max_grain>
+         <n_conc_min_grain>0.007                                  ()</n_conc_min_grain>
+         <n_conc_crit_root>0.01060                                ()</n_conc_crit_root>
+         <n_conc_max_root>0.01060                                ()</n_conc_max_root>
+         <n_conc_min_root>0.00795                                ()</n_conc_min_root>
+         <n_leaf_init_conc>0.044     (g/g)</n_leaf_init_conc>
+         <n_root_init_conc>0.022     (g/g)</n_root_init_conc>
+         <n_stem_init_conc>0.044     (g/g)</n_stem_init_conc>
+         <n_leaf_sen_conc>0.001     (g/g)</n_leaf_sen_conc>
+         <n_root_sen_conc>0.001     (g/g)</n_root_sen_conc>
+         <N_fact_photo>1.25     ()</N_fact_photo>
+         <N_fact_pheno>10.0     ()</N_fact_pheno>
+         <p_stage_code>3       4      5      7      8      10     ()</p_stage_code>
+         <p_conc_max>0.005   0.004  0.003  0.0015  0.0015  0.0020 ()</p_conc_max>
+         <p_conc_min>0.003   0.002  0.0015 0.0007 0.0007 0.0007  ()</p_conc_min>
+         <k_pfact_photo>2.0</k_pfact_photo>
+         <k_pfact_pheno>10</k_pfact_pheno>
+         <k_pfact_expansion>20</k_pfact_expansion>
+         <k_pfact_grain>4</k_pfact_grain>
+         <p_uptake_factor>1.5</p_uptake_factor>
+         <x_ave_temp>8.0  20.0  35.0  50.0  (oC)</x_ave_temp>
+         <y_stress_photo>0.0   1.0   1.0   0.0  (0-1)</y_stress_photo>
+         <x_temp_grain>3.7  30.0  56.3        (oC)</x_temp_grain>
+         <y_grain_rate>0.0   1.0   0.0        (0-1)</y_grain_rate>
+         <x_temp>10.0  33.0  47.0      (oC)</x_temp>
+         <y_tt>0.0  23.0   0.0       (oC)</y_tt>
+         <x_weighted_temp>55.0  60.0             (oC)</x_weighted_temp>
+         <y_plant_death>0.0   1.0             (0-1)</y_plant_death>
+         <x_sw_demand_ratio>0.1  1.1               ()</x_sw_demand_ratio>
+         <y_swdef_leaf>0.0  1.0               (0-1)</y_swdef_leaf>
+         <x_sw_avail_ratio>0.0  0.16              ()</x_sw_avail_ratio>
+         <y_swdef_pheno>0.0  1.0               (0-1)</y_swdef_pheno>
+         <x_sw_ratio>0.0  0.25              ()</x_sw_ratio>
+         <y_sw_fac_root>0.0  1.0               (0-1)</y_sw_fac_root>
+         <x_sw_avail_fix>0.0  0.0               ()</x_sw_avail_fix>
+         <y_swdef_fix>0.0  1.0               (0-1)</y_swdef_fix>
+         <bj104>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>2900.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.61   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>99.4    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>66.1    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>510.0      ()</y0_const>
+            <y0_slope>1320.0      ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </bj104>
+         <rcbic911>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>2900.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.61   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>99.4    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>47.4    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>1810.0      ()</y0_const>
+            <y0_slope>1820.0      ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </rcbic911>
+         <wrajpop>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>2200.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.46   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>99.4    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>61.0    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>2100.0      ()</y0_const>
+            <y0_slope>1150.0      ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </wrajpop>
+         <hhb67>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>2200.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.61   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>59.4    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>112.4    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>457.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>77.8    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>1      (oCd)</tt_maturity_to_ripe>
+            <y0_const>3480.0      ()</y0_const>
+            <y0_slope>740.0      ()</y0_slope>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </hhb67>
+         <mh179>
+            <hi_incr>0.0    (1/days)</hi_incr>
+            <hi_max_pot>0.55   ()</hi_max_pot>
+            <head_grain_no_max>3000.0    (grains/head)</head_grain_no_max>
+            <grain_gth_rate>0.46   (mg/grain/d)</grain_gth_rate>
+            <tt_emerg_to_endjuv>88.5    (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>17      (d)</est_days_emerg_to_init>
+            <pp_endjuv_to_init>186.0    (oCd/h)</pp_endjuv_to_init>
+            <tt_flower_to_maturity>608.0    (oCd)</tt_flower_to_maturity>
+            <tt_flag_to_flower>225.0    (oCd)</tt_flag_to_flower>
+            <tt_flower_to_start_grain>80.0    (oCd)</tt_flower_to_start_grain>
+            <tt_maturity_to_ripe>90.0    (oCd)</tt_maturity_to_ripe>
+            <x_stem_wt>0  10  (g/stem)</x_stem_wt>
+            <y_height>0  3000 (mm)</y_height>
+         </mh179>
+      </initdata>
+   </component>
+</simulation>

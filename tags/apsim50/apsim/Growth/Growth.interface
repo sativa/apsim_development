@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="forest">
+   <registrations>
+      <respondToEventReg name="create" type="create"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="cut" type="cut"/>
+      <respondToEventReg name="thin" type="thin"/>
+      <respondToEventReg name="establish" type="establish"/>
+      <respondToEventReg name="kill" type="kill"/>
+      <respondToEventReg name="change_class" type="change_class"/>
+      <eventReg name="new_pot_growth" type="new_pot_growth"/>
+      <eventReg name="new_canopy" type="new_canopy"/>
+      <eventReg name="new_crop" type="new_crop"/>
+      <EventReg name="incorp_fom" type="incorp_fom"/>
+      <EventReg name="crop_chopped" type="crop_chopped"/>
+      <eventReg name="killing" type="null"/>
+      <eventReg name="thinning" type="null"/>
+      <eventReg name="cutting" type="null"/>
+      <eventReg name="establishing" type="null"/>
+      <respondToEventReg name="tick" type="tick"/>
+      <respondToEventReg name="newmet" type="newmet"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="process" type="process"/>
+      <respondToEventReg name="canopy_energy_balance" type="canopy_energy_balance"/>
+      <respondToEventReg name="canopy_water_balance" type="canopy_water_balance"/>
+   </registrations>
+</component>

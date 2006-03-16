@@ -1,0 +1,10 @@
+[Dependencies]
+Dependency = %licensed_source(fertiliz)
+
+[Contents]
+Registrations.f90 = Registrations.f90
+fertiliz.for = fertiliz.for
+
+[APSBuild]
+binary = ..\lib\fertiliz.dll
+compilerfile=release.compile

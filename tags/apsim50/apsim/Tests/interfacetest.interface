@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="accum">
+   <registrations>
+      <respondToEventReg name="process" type="null"/>
+      <respondToEventReg name="post" type="null"/>
+      <getVariableReg name="single" type="single" autoregister="F"/>
+      <respondToGetReg name="single" type="single" autoregister="F"/>
+   </registrations>
+</component>

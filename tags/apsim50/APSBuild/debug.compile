@@ -1,0 +1,28 @@
+[Instructions]
+import   = %apsuite\apsim\infra\lib\ApsimEngine.imp
+include  = %apsuite\apsim\cropmod\source
+module   = %apsuite\apsim\infra\source
+module   = %apsuite\apsim\croptemp\source
+module   = %apsuite\apsim\cropmod\source
+program  = %apsuite\bin\createComponentInterfaceSource.exe
+
+library  = %apsuite\apsim\infra\lib\apsinfra.lib
+library  = %apsuite\apsim\croptemp\lib\croptemp.lib
+
+libraryPath = %apsuite\apsbuild
+object   = %apsuite\shared\ComponentInterface\FORTRANComponent.obj
+object   = %apsuite\shared\ComponentInterface\Component.obj
+object   = %apsuite\shared\ComponentInterface\TypeConverter.obj
+object   = %apsuite\shared\ComponentInterface\ProtocolVector.obj
+object   = %apsuite\shared\ComponentInterface\Message.obj
+object   = %apsuite\shared\ComponentInterface\MessageData.obj
+object   = %apsuite\shared\ComponentInterface\Type.obj
+object   = %apsuite\shared\ComponentInterface\Variant.obj
+object   = %apsuite\shared\ComponentInterface\Variants.obj
+object   = %apsuite\shared\ComponentInterface\Registrations.obj
+object   = %apsuite\shared\ComponentInterface\RegistrationItem.obj
+object   = %apsuite\shared\ComponentInterface\ArraySpecifier.obj  
+object   = %apsuite\shared\ComponentInterface\DataTypes.obj
+
+compile=@lf95 -c "%fi" -winconsole -dll -tp -nco -o0 -pca -nsav -stchk -trace -nchk -nin -ml bd -staticlink -g @compiler.rsp
+link=@lf95 @%rf -exe %ex -winconsole -dll -tp -nco -o0 -pca -nsav -stchk -trace -nchk -nin -ml bd -staticlink -g @linker.rsp

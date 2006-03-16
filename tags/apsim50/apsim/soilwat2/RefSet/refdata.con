@@ -1,0 +1,25 @@
+version = 5
+
+! Basic run:
+[apsim.swat0.control]
+title =  soilwat2 reference dataset
+
+! Test calibrators options - External Eo, runoff.
+module = clock    refdata.par [swat] %apsuite\apsim\clock\clock.ini[standard]
+module = report   refdata.par [swat]     refdata.par [standard]
+module = Input(Met)      GMTR.MET [weather]
+module = soilwat2 refdata.par [swat]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = manager  refdata.par [swat]
+module = summaryfile refdata.par [swat]
+module = irrigate
+
+
+[apsim.swat1.control]
+title =  soilwat2 reference dataset (calibrators)
+module = clock    refdata.par [swat] %apsuite\apsim\clock\clock.ini[standard]
+module = report   refdata.par [swat]     refdata.par [calibrators]
+module = Input(Met)      GMTR.MET [weather]
+module = soilwat2 refdata.par [swat]     refdata.par [calibrators]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = manager  refdata.par [swat]
+module = summaryfile refdata.par [calibrators]
+module = irrigate

@@ -1,0 +1,10 @@
+[Dependencies]
+Dependency = %licensed_source(frmrpt)
+
+[Contents]
+Registrations.f90 = Registrations.f90
+frmrpt.for = frmrpt.for
+
+[APSBuild]
+binary = ..\lib\frmrpt.dll
+compilerfile=release.compile

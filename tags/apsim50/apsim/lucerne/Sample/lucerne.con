@@ -1,0 +1,12 @@
+version = 5
+[APSIM.sample_lucerne]
+title=lucerne Sample Simulation
+module = clock      lucerne.par[sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report     lucerne.par[sample]
+module = input(met)        %apsuite\apsim\met\sample\dalby.met[weather]
+module = manager    lucerne.par[sample]
+module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]    %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]        %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = plant(lucerne)    lucerne.par[sample] %apsuite\apsim\lucerne\lucerne.ini[standard]
+module = SummaryFile  lucerne.par[sample]

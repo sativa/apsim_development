@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="parasite">
+   <registrations>
+      <read name="parasite_type" type="parasite_type" readable="T"/>
+      <read name="host_names" type="host_names" readable="T"/>
+      <read name="host_stage_invasion" type="host_stage_invasion" readable="T"/>
+      <read name="temp_min" type="temp_min" readable="T"/>
+      <read name="temp_opt" type="temp_opt" readable="T"/>
+      <read name="temp_max" type="temp_max" readable="T"/>
+      <read name="stage_names" type="stage_names" readable="T"/>
+      <read name="stage_code" type="stage_code" readable="T"/>
+      <read name="switch_stage" type="switch_stage" readable="T"/>
+      <read name="x_temp" type="x_temp" readable="T"/>
+      <read name="y_tt" type="y_tt" readable="T"/>
+      <read name="effective_depth" type="effective_depth" readable="T"/>
+      <read name="x_seed_density" type="x_seed_density" readable="T"/>
+      <read name="y_pot_population" type="y_pot_population" readable="T"/>
+      <read name="x_host_area" type="x_host_area" readable="T"/>
+      <read name="y_pot_population_modifier" type="y_pot_population_modifier" readable="T"/>
+      <read name="x_tt_since_start_active" type="x_tt_since_start_active" readable="T"/>
+      <read name="y_active_population" type="y_active_population" readable="T"/>
+      <read name="x_pot_growth_temp" type="x_pot_growth_temp" readable="T"/>
+      <read name="y_pot_growth_rate" type="y_pot_growth_rate" readable="T"/>
+
+      <respondToGetReg name="stage" type="stage" readable="T"/>
+      <respondToGetReg name="stage_name" type="stage_name" readable="T"/>
+      <respondToGetReg name="stage_code" type="stage_code" readable="T"/>
+      <respondToGetReg name="daa" type="daa" readable="T"/>
+      <respondToGetReg name="class" type="class" readable="T"/>
+      <respondToGetReg name="tt_attach" type="tt_attach" readable="T"/>
+      <respondToGetReg name="attach_area" type="attach_area" readable="T"/>
+      <respondToGetReg name="population" type="population" readable="T"/>
+      <respondToGetReg name="parasite_c_demand" type="parasite_c_demand" readable="T"/>
+      <respondToGetReg name="dlt_dm_pot" type="dlt_dm_pot" readable="T"/>
+      <respondToGetReg name="parasite_c_gain" type="parasite_c_gain" readable="T"/>
+      <respondToGetReg name="dlt_host_c_supply" type="dlt_host_c_supply" readable="T"/>
+      <respondToGetReg name="biomass_pot" type="biomass_pot" readable="T"/>
+      <respondToGetReg name="biomass_pot_wt" type="biomass_pot_wt" readable="T"/>
+      <respondToGetReg name="biomass" type="biomass" readable="T"/>
+      <respondToGetReg name="biomass_wt" type="biomass_wt" readable="T"/>
+      <respondToGetReg name="biomass_class" type="biomass_class" readable="T"/>
+      <respondToGetReg name="host_tt_sum" type="host_tt_sum" readable="T"/>
+      <respondToGetReg name="soil_temp" type="soil_temp" readable="T"/>
+
+      <respondToEventReg name="kill_parasite" type="kill_parasite"/>
+      <respondToEventReg name="create" type="create"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="sow" type="sow"/>
+      <respondToEventReg name="harvest" type="harvest"/>
+      <respondToEventReg name="end_run" type="end_run"/>
+      <respondToEventReg name="start" type="start"/>
+      <respondToEventReg name="end" type="end"/>
+      <respondToEventReg name="finish" type="finish"/>
+      <respondToEventReg name="herbicide" type="herbicide"/>
+      <respondToEventReg name="weeding" type="weeding"/>
+      <respondToEventReg name="kill" type="kill"/>
+
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="process" type="process"/>
+      <respondToEventReg name="post" type="post"/>
+      <respondToEventReg name="tick" type="time"/>
+      <respondToEventReg name="newmet" type="newmet"/>
+      <respondToEventReg name="new_profile" type="new_profile"/>
+
+      <eventReg name="add_surfaceom" type="add_surfom"/>
+   </registrations>
+</component>

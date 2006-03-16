@@ -1,0 +1,13 @@
+version = 5
+[apsim.sample_micromet]
+title=Micromet Sample Simulation
+module = clock    micromet.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   micromet.par [sample]
+module = input(met)  %apsuite\apsim\MET\SAMPLE\DALBY.MET [weather]
+module = micromet micromet.par [sample] ..\micromet.ini[standard]
+module = manager  micromet.par [sample]
+module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth] %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = slurp(grass)   micromet.par [sample]
+module = slurp(tree)    micromet.par [sample]
+module = SummaryFile  micromet.par[sample]
+!module = Log  micromet.par[sample]

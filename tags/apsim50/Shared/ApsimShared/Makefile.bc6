@@ -1,0 +1,65 @@
+# (Borlandish) Makefile for apsim shared routines
+
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+CC=$(BCB)\Bin\bcc32.exe
+LINKER=$(BCB)\Bin\ilink32.exe
+IMPDEF=$(BCB)\Bin\impdef.exe
+
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
+TARGET = $(APSROOT)\Bin\ApsimShared.dll
+OBJECTS = ApsimShared.obj ApsimComponentData.obj ApsimControlFile.obj \
+ApsimDirectories.obj ApsimRunFile.obj \
+ApsimServiceData.obj ApsimSettings.obj ApsimSimulationFile.obj \
+ApsimSystemData.obj ApsimVersion.obj TAboutForm.obj TSplashForm.obj \
+ApsimForms.obj ApsimDataFile.obj ApsimDataTypesFile.obj \
+ApsimDataTypeData.obj ApsimRegistrationData.obj ControlFileConverter.obj \
+TMoveParametersForm.obj SimCreator.obj SimCreatorSection.obj ApsimMacroFile.obj FString.obj FStringExt.obj
+
+RESFILES = ApsimShared.res
+USERDEFINES =
+SYSDEFINES = NO_STRICT;_RTLDLL;USEPACKAGES
+INCLUDEPATH = $(SYSINCLUDES);$(BCB)\Components;$(BCB)\Components\tms;$(BCB)\components\boost;$(APSROOT)\Shared
+LIBPATH =  $(SYSLIBPATH);$(BCB)\Components\tms;$(BCB)\components\Boost\libs\regex\build\bcb6
+RESDEPEN = $(RESFILES) TAboutForm.dfm TSplashForm.dfm TMoveParametersForm.dfm
+LIBFILES = $(SYSLIBS) $(APSROOT)\Shared\general\general.lib \
+    $(APSROOT)\Shared\general\general_vcl.lib \
+    $(BCB)\Components\Boost\libs\filesystem\filesystem.lib \
+    $(BCB)\Components\Boost\libs\date_time\date_time.lib \
+    $(BCB)\Components\LibXml2\win32\LibXml2.lib
+
+
+LIBRARIES =  TMSC6.lib
+PACKAGES = vcl.bpi rtl.bpi
+
+# ---------------------------------------------------------------------------
+CFLAG1 = $(SYSCFLAGS) -tWM -DBOOST_REGEX_STATIC_LINK
+WARNINGS = -w-par
+LFLAGS = -l. -D"" -aa -Tpd -x -Gn -Gi
+
+ALLOBJ = c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJECTS)
+ALLRES = $(RESFILES)
+ALLLIB = $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib
+
+$(TARGET): $(OBJECTS) $(RESDEPEN) $(DEFFILE)
+	$(LINKER) @&&!
+$(LFLAGS) -L$(LIBPATH) +
+$(ALLOBJ), +
+$(TARGET),, +
+$(ALLLIB), +
+$(DEFFILE), +
+$(ALLRES)
+!
+	$(IMPDEF) ApsimShared.def $(TARGET)
+	$(APSROOT)\Tools\def2imp\def2imp.exe ApsimShared.def ApsimShared.imp
+
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+clean:
+	$(RM) $(OBJECTS) $(TARGET)
+

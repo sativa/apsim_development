@@ -1,0 +1,46 @@
+[all.report.parameters]
+!APSIM_progress_form = on ! off
+
+! report parameters for excel
+                                                  
+
+variable = clock.year
+variable = clock.day
+variable = chickpea.das
+variable = manager.tt_since_emerg
+variable = chickpea.stage
+variable = chickpea.lai
+variable = chickpea.biomass_wt
+variable = chickpea.grain_wt as grain_wt
+variable = chickpea.leaf_wt
+variable = chickpea.stem_wt
+variable = chickpea.biomass_n
+variable = chickpea.grain_n
+variable = chickpea.root_depth
+variable = chickpea.stem_n
+variable = chickpea.cep
+variable = soilwat2.sw(1-10)
+variable = soiln2.no3ppm(1-6)
+variable = soiln2.nh4ppm(1-6)
+variable = chickpea.n_conc_leaf
+variable = chickpea.n_conc_stem
+variable = chickpea.n_conc_grain
+
+!----------------------------------------------------------------------------------
+[g2w1_00.report.parameters]
+Outputfile   =g2_00_w1.out
+
+
+[g2w0_00.report.parameters]
+Outputfile   =g2_00_w0.out
+
+
+!----------------------------------------------------------------------------------
+[g2rf_99.report.parameters]
+Outputfile   =g2_99_w0.out
+[g2w1_00.SummaryFile.parameters]
+summaryfile = g2_00_w1.sum
+[g2w0_00.SummaryFile.parameters]
+summaryfile = g2_00_w0.sum
+[g2rf_99.SummaryFile.parameters]
+summaryfile = g2_99_w0.sum

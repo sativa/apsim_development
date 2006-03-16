@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="soilt">
+   <registrations>
+      <respondToGetReg name="soil_temp" type="soil_temp"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="end_run" type="end_run"/>
+      <getVariableReg name="tav" type="tav"/>
+      <getVariableReg name="bd" type="bd"/>
+      <getVariableReg name="sw" type="sw"/>
+      <getVariableReg name="dlayer" type="dlayer"/>
+      <getVariableReg name="maxt" type="maxt"/>
+      <getVariableReg name="mint" type="mint"/>
+      <getVariableReg name="es" type="es"/>
+      <getVariableReg name="residue_cover" type="residue_cover"/>
+      <getVariableReg name="cover_green" type="cover_green"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="process" type="process"/>
+      <respondToEventReg name="post" type="post"/>
+   </registrations>
+</component>

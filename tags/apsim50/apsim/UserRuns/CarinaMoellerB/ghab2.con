@@ -1,0 +1,48 @@
+
+
+version = 5
+[apsim.g2w1]
+title = Ghab2_W1_9900
+module = clock     ghab2.man [9900] %apsuite\apsim\clock\clock.ini[standard]
+module = report    reportCP.par [all]    reportCP.par [g2w1_00]
+module = input(met)       telhadya.met [weather]
+module = manager   ghab2.man  [g200]     ghab2.man [all]
+module = irrigate  ghab2.man  [water]
+module = soilwat2  THsoil.par [telhadya] THsoil.par [b2] THsoil.par [inig2w1]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = SurfaceOM   THsoil.par [b2cp00] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2    THsoil.par [telhadya]  THsoil.par [b2cp00]   %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = plant(chickpea)  chickpea.par [standard]  THsoil.par [B2]  %apsuite\apsim\chickpea\chickpea.ini [standard]
+module = SummaryFile   reportCP.par[g2w1_00]
+
+
+[apsim.g2w0] 
+title = Ghab2_W0_9900
+module = clock     ghab2.man [9900] %apsuite\apsim\clock\clock.ini[standard]
+module = report    reportCP.par [all]   reportCP.par [g2w0_00]
+module = input(met)       telhadya.met [weather]
+module = manager   ghab2.man  [g200]     ghab2.man [all]
+module = soilwat2  THsoil.par [telhadya]   THsoil.par [b2] THsoil.par [inig2w0]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = SurfaceOM   THsoil.par [b2cp00] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2    THsoil.par [telhadya]  THsoil.par [b2cp00]   %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = plant(chickpea)  chickpea.par [standard] THsoil.par [B2] %apsuite\apsim\chickpea\chickpea.ini [standard]
+module = SummaryFile   reportCP.par[g2w0_00]
+
+
+
+[apsim.g2rf_9899]
+title = Ghab2_9899
+module = clock     ghab2.man [9899] %apsuite\apsim\clock\clock.ini[standard]
+module = report    reportCP.par [all]    reportCP.par [g2rf_99]
+module = input(met)       telhadya.met [weather]
+module = manager   ghab2.man  [g299]     ghab2.man [all]
+module = soilwat2  THsoil.par [telhadya]   THsoil.par [b7]  THsoil.par [inig2]  %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = SurfaceOM   THsoil.par [b7cp99] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2    THsoil.par [telhadya]  THsoil.par [b7cp99] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = plant(chickpea)  chickpea.par [standard]  THsoil.par [B7]  %apsuite\apsim\chickpea\chickpea.ini [standard]
+module = SummaryFile   reportCP.par[g2rf_99]
+
+
+
+
+
+

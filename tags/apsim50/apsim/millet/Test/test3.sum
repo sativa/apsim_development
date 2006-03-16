@@ -1,0 +1,1592 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+     Version                = 5.0
+     Title                  = Test sowing next day after out
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\canopy\lib\canopy.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        do_stock
+        post
+     Simulation start date =  1/01/1988
+     Simulation end date   = 26/12/1988
+     Time step =           = 1440 (mins)
+
+------- report Initialisation -------------------------------------------------
+     Output variables:
+        clock.day
+        clock.year
+        millet.lai
+        millet.biomass
+        millet.green_biomass
+     
+     Output file = test3.out
+     Format = normal
+
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
+
+------- canopy Initialisation -------------------------------------------------
+      Initialising
+      Module rotation for intercropping :
+     millet                          millet1                         millet2                         millet3                         millet4                         millet5
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- start_of_day
+     if harvest = 1 then
+        millet sow plants =  7.5, sowing_depth = 30, cultivar = wrajpop
+        harvest = 2
+     endif
+     if millet.stage_name = 'harvest_ripe' or millet.plant_status = 'dead' then
+        millet harvest
+        millet1 harvest
+        millet2 harvest
+        millet3 harvest
+        millet4 harvest
+        millet5 harvest
+        millet end_crop
+        millet1 end_crop
+        millet2 end_crop
+        millet3 end_crop
+        millet4 end_crop
+        millet5 end_crop
+        harvest = 1
+     endif
+     
+     SECTION:- init
+     harvest = 0
+     
+     SECTION:- start_of_day
+     if day = 166 and year  = 1988 then
+        millet sow plants =  7.5, sowing_depth = 30, cultivar = wrajpop
+     endif
+     
+     SECTION:- end_of_day
+     report do_end_day_output
+     END of rules
+     
+     Manager creating a new local real variable : harvest =     0.00000000000000
+
+------- soilwat2 Initialisation -----------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.100  0.230  0.450  0.500  0.280  1.300  0.762  0.200
+          150.-  300.  0.200  0.240  0.459  0.509  0.364  1.300  0.190  0.200
+          300.-  600.  0.200  0.240  0.450  0.510  0.430  1.290  0.048  0.200
+          600.-  900.  0.200  0.250  0.440  0.505  0.430  1.310  0.000  0.200
+          900.- 1200.  0.200  0.260  0.420  0.490  0.400  1.350  0.000  0.200
+         1200.- 1500.  0.200  0.270  0.410  0.480  0.410  1.360  0.000  0.200
+         1500.- 1800.  0.200  0.280  0.410  0.480  0.410  1.360  0.000  0.200
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      34.50       7.50      33.00       7.50
+          150.-  300.      36.00      18.60      32.85       7.50
+          300.-  600.      72.00      57.00      63.00      18.00
+          600.-  900.      75.00      54.00      57.00      19.50
+          900.- 1200.      78.00      42.00      48.00      21.00
+         1200.- 1500.      81.00      42.00      42.00      21.00
+         1500.- 1800.      84.00      39.00      39.00      21.00
+          ---------------------------------------------------------
+               Totals     460.50     260.10     314.85     115.50
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   2.00        0.13       88.00       35.40
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              80.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            4.00 (mm^0.5)
+            CONA:                     2.50 ()
+           Eo from priestly-taylor
+
+------- SurfaceOM Initialisation ----------------------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          mungbean  mungbean      2000.0   800.0    26.7     0.0   0.330     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.3
+     
+
+------- soiln2 Initialisation -------------------------------------------------
+     
+        - Reading Constants
+     
+        - Reading Parameters
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     8.20  1.00   17.94    0.58    0.00
+             2     8.50  0.84   14.82    0.58    0.00
+             3     8.60  0.77   18.96    1.16    0.00
+             4     8.60  0.65   10.61    1.18    0.00
+             5     7.40  0.54    6.07    1.22    0.00
+             6     5.30  0.48    7.34    2.04    0.00
+             7     5.00  0.43    5.71    2.04    0.00
+          ------------------------------------------------
+           Totals               81.46    8.81    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      19038.4  1313.0   461.6    57.7   138.9     6.9
+             2      16180.2  1115.9   199.8    25.0   108.1     5.4
+             3      29622.8  2043.0   176.2    22.0    65.6     3.3
+             4      25481.8  1757.4    63.2     7.9    39.8     2.0
+             5      21848.3  1506.8    21.7     2.7    24.1     1.2
+             6      19582.1  1350.5     1.9     0.2    14.6     0.7
+             7      17542.3  1209.8     1.7     0.2     8.9     0.4
+          ---------------------------------------------------------
+           Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
+          ---------------------------------------------------------
+
+------- millet Initialisation -------------------------------------------------
+      Initialising:
+     
+         - Reading constants
+
+------- millet1 Initialisation ------------------------------------------------
+      Initialising:
+     
+         - Reading constants
+
+------- millet2 Initialisation ------------------------------------------------
+      Initialising:
+     
+         - Reading constants
+
+------- millet3 Initialisation ------------------------------------------------
+      Initialising:
+     
+         - Reading constants
+
+------- millet4 Initialisation ------------------------------------------------
+      Initialising:
+     
+         - Reading constants
+
+------- millet5 Initialisation ------------------------------------------------
+      Initialising:
+     
+         - Reading constants
+------- Start of simulation  --------------------------------------------------
+14 June 1988(Day of year=166), manager: 
+     Manager sending message :- millet sow  plants = 7.5, sowing_depth = 30, cultivar = wrajpop
+14 June 1988(Day of year=166), millet: 
+     Sow
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m^2     m     Name
+         ------------------------------------------------
+            166   30.0    7.5    0.8 wrajpop
+         ------------------------------------------------
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar                 = wrajpop
+         est_days_emerg_to_init  =      17
+         tt_emerg_to_endjuv       =   239.4
+         pp_endjuv_to_initp       =   112.4
+         tt_flower_to_maturity    =   457.0
+         head_grain_no_max        =  2600.0
+         grain_gth_rate           =     0.5
+         tt_flag_to_flower        =    61.0
+         tt_flower_to_start_grain =    80.0
+         tt_maturity_to_ripe      =     1.0
+         x_stem_wt                =     0.0   10.0
+         y_height                 =     0.0 3000.0
+         ------------------------------------------------
+     
+     
+     
+     
+        - Reading root profile parameters
+     Uptake of NO3 and water calculated by millet
+     
+     
+     
+     
+     
+     
+     
+                         Root Profile
+         ------------------------------------------------
+           Layer      Kl      Lower Exploration
+           Depth              limit   Factor
+           (mm)       ()     (mm/mm)    ()
+         ------------------------------------------------
+          150.000    0.120    0.230    1.000
+          150.000    0.120    0.240    1.000
+          300.000    0.120    0.240    1.000
+          300.000    0.100    0.250    1.000
+          300.000    0.060    0.260    1.000
+          300.000    0.055    0.270    1.000
+          300.000    0.030    0.280    1.000
+          ------------------------------------------------
+     
+     
+     
+15 June 1988(Day of year=167), millet: 
+      stage    2.0 germination
+26 June 1988(Day of year=178), millet: 
+      stage    3.0 emergence
+                          biomass =          0.3000000E-01   lai =    0.1500000E-02
+                          stover N conc =    4.400000       extractable sw =    30.76590
+1 August 1988(Day of year=214), millet1: 
+     Initiate
+     
+     
+     
+                      Crop Initiate Data
+         ------------------------------------------------
+        Initiate   Axes   DM      N   Spacing Cultivar
+         Day no    m^2 g/plant g/plant   m      Name
+         ------------------------------------------------
+            214    7.5    0.0    0.0    0.8 wrajpop
+         ------------------------------------------------
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar                 = wrajpop
+         est_days_emerg_to_init  =      17
+         tt_emerg_to_endjuv       =   139.4
+         pp_endjuv_to_initp       =   112.4
+         tt_flower_to_maturity    =   457.0
+         head_grain_no_max        =  2200.0
+         grain_gth_rate           =     0.5
+         tt_flag_to_flower        =    61.0
+         tt_flower_to_start_grain =    80.0
+         tt_maturity_to_ripe      =     1.0
+         x_stem_wt                =     0.0   10.0
+         y_height                 =     0.0 3000.0
+         ------------------------------------------------
+     
+     
+     
+     
+        - Reading root profile parameters
+     Uptake of NO3 and water calculated by millet
+     
+     
+     
+     
+     
+     
+     
+                         Root Profile
+         ------------------------------------------------
+           Layer      Kl      Lower Exploration
+           Depth              limit   Factor
+           (mm)       ()     (mm/mm)    ()
+         ------------------------------------------------
+          150.000    0.120    0.230    1.000
+          150.000    0.120    0.240    1.000
+          300.000    0.120    0.240    1.000
+          300.000    0.100    0.250    1.000
+          300.000    0.060    0.260    1.000
+          300.000    0.055    0.270    1.000
+          300.000    0.030    0.280    1.000
+          ------------------------------------------------
+     
+     
+     
+3 August 1988(Day of year=216), millet1: 
+      stage    3.0 emergence
+                          biomass =          0.7500000E-02   lai =    0.1500000E-02
+                          stover N conc =    4.400000       extractable sw =    31.17674
+9 August 1988(Day of year=222), millet2: 
+     Initiate
+     
+     
+     
+                      Crop Initiate Data
+         ------------------------------------------------
+        Initiate   Axes   DM      N   Spacing Cultivar
+         Day no    m^2 g/plant g/plant   m      Name
+         ------------------------------------------------
+            222    7.5    0.0    0.0    0.8 wrajpop
+         ------------------------------------------------
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar                 = wrajpop
+         est_days_emerg_to_init  =      17
+         tt_emerg_to_endjuv       =   129.4
+         pp_endjuv_to_initp       =   112.4
+         tt_flower_to_maturity    =   457.0
+         head_grain_no_max        =  2200.0
+         grain_gth_rate           =     0.5
+         tt_flag_to_flower        =    61.0
+         tt_flower_to_start_grain =    80.0
+         tt_maturity_to_ripe      =     1.0
+         x_stem_wt                =     0.0   10.0
+         y_height                 =     0.0 3000.0
+         ------------------------------------------------
+     
+     
+     
+     
+        - Reading root profile parameters
+     Uptake of NO3 and water calculated by millet
+     
+     
+     
+     
+     
+     
+     
+                         Root Profile
+         ------------------------------------------------
+           Layer      Kl      Lower Exploration
+           Depth              limit   Factor
+           (mm)       ()     (mm/mm)    ()
+         ------------------------------------------------
+          150.000    0.120    0.230    1.000
+          150.000    0.120    0.240    1.000
+          300.000    0.120    0.240    1.000
+          300.000    0.100    0.250    1.000
+          300.000    0.060    0.260    1.000
+          300.000    0.055    0.270    1.000
+          300.000    0.030    0.280    1.000
+          ------------------------------------------------
+     
+     
+     
+12 August 1988(Day of year=225), millet2: 
+      stage    3.0 emergence
+                          biomass =          0.7500000E-02   lai =    0.1450000E-02
+                          stover N conc =    4.400000       extractable sw =    30.50885
+17 August 1988(Day of year=230), millet3: 
+     Initiate
+     
+     
+     
+                      Crop Initiate Data
+         ------------------------------------------------
+        Initiate   Axes   DM      N   Spacing Cultivar
+         Day no    m^2 g/plant g/plant   m      Name
+         ------------------------------------------------
+            230    7.5    0.0    0.0    0.8 wrajpop
+         ------------------------------------------------
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar                 = wrajpop
+         est_days_emerg_to_init  =      17
+         tt_emerg_to_endjuv       =   119.4
+         pp_endjuv_to_initp       =   112.4
+         tt_flower_to_maturity    =   457.0
+         head_grain_no_max        =  2200.0
+         grain_gth_rate           =     0.5
+         tt_flag_to_flower        =    61.0
+         tt_flower_to_start_grain =    80.0
+         tt_maturity_to_ripe      =     1.0
+         x_stem_wt                =     0.0   10.0
+         y_height                 =     0.0 3000.0
+         ------------------------------------------------
+     
+     
+     
+     
+        - Reading root profile parameters
+     Uptake of NO3 and water calculated by millet
+     
+     
+     
+     
+     
+     
+     
+                         Root Profile
+         ------------------------------------------------
+           Layer      Kl      Lower Exploration
+           Depth              limit   Factor
+           (mm)       ()     (mm/mm)    ()
+         ------------------------------------------------
+          150.000    0.120    0.230    1.000
+          150.000    0.120    0.240    1.000
+          300.000    0.120    0.240    1.000
+          300.000    0.100    0.250    1.000
+          300.000    0.060    0.260    1.000
+          300.000    0.055    0.270    1.000
+          300.000    0.030    0.280    1.000
+          ------------------------------------------------
+     
+     
+     
+19 August 1988(Day of year=232), millet3: 
+      stage    3.0 emergence
+                          biomass =          0.7500000E-02   lai =    0.1500000E-02
+                          stover N conc =    4.400000       extractable sw =    30.10112
+20 August 1988(Day of year=233), millet: 
+      stage    4.0 end_of_juvenile
+                          biomass =          0.3731443       lai =    0.1775886E-03
+                          stover N conc =    11.21994       extractable sw =    266.5521
+21 August 1988(Day of year=234), millet4: 
+     Initiate
+     
+     
+     
+                      Crop Initiate Data
+         ------------------------------------------------
+        Initiate   Axes   DM      N   Spacing Cultivar
+         Day no    m^2 g/plant g/plant   m      Name
+         ------------------------------------------------
+            234    7.5    0.0    0.0    0.8 wrajpop
+         ------------------------------------------------
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar                 = wrajpop
+         est_days_emerg_to_init  =      17
+         tt_emerg_to_endjuv       =   109.4
+         pp_endjuv_to_initp       =   112.4
+         tt_flower_to_maturity    =   457.0
+         head_grain_no_max        =  2200.0
+         grain_gth_rate           =     0.5
+         tt_flag_to_flower        =    61.0
+         tt_flower_to_start_grain =    80.0
+         tt_maturity_to_ripe      =     1.0
+         x_stem_wt                =     0.0   10.0
+         y_height                 =     0.0 3000.0
+         ------------------------------------------------
+     
+     
+     
+     
+        - Reading root profile parameters
+     Uptake of NO3 and water calculated by millet
+     
+     
+     
+     
+     
+     
+     
+                         Root Profile
+         ------------------------------------------------
+           Layer      Kl      Lower Exploration
+           Depth              limit   Factor
+           (mm)       ()     (mm/mm)    ()
+         ------------------------------------------------
+          150.000    0.120    0.230    1.000
+          150.000    0.120    0.240    1.000
+          300.000    0.120    0.240    1.000
+          300.000    0.100    0.250    1.000
+          300.000    0.060    0.260    1.000
+          300.000    0.055    0.270    1.000
+          300.000    0.030    0.280    1.000
+          ------------------------------------------------
+     
+     
+     
+21 August 1988(Day of year=234), millet: 
+      stage    5.0 floral_initiation
+                          biomass =          0.3764498       lai =    0.3215444E-03
+                          stover N conc =    10.93906       extractable sw =    266.2572
+22 August 1988(Day of year=235), millet4: 
+      stage    3.0 emergence
+                          biomass =          0.7500000E-02   lai =    0.1500000E-02
+                          stover N conc =    4.400000       extractable sw =    29.89986
+27 August 1988(Day of year=240), millet5: 
+     Initiate
+     
+     
+     
+                      Crop Initiate Data
+         ------------------------------------------------
+        Initiate   Axes   DM      N   Spacing Cultivar
+         Day no    m^2 g/plant g/plant   m      Name
+         ------------------------------------------------
+            240    7.5    0.0    0.0    0.8 wrajpop
+         ------------------------------------------------
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar                 = wrajpop
+         est_days_emerg_to_init  =      17
+         tt_emerg_to_endjuv       =    99.4
+         pp_endjuv_to_initp       =   112.4
+         tt_flower_to_maturity    =   457.0
+         head_grain_no_max        =  2200.0
+         grain_gth_rate           =     0.5
+         tt_flag_to_flower        =    61.0
+         tt_flower_to_start_grain =    80.0
+         tt_maturity_to_ripe      =     1.0
+         x_stem_wt                =     0.0   10.0
+         y_height                 =     0.0 3000.0
+         ------------------------------------------------
+     
+     
+     
+     
+        - Reading root profile parameters
+     Uptake of NO3 and water calculated by millet
+     
+     
+     
+     
+     
+     
+     
+                         Root Profile
+         ------------------------------------------------
+           Layer      Kl      Lower Exploration
+           Depth              limit   Factor
+           (mm)       ()     (mm/mm)    ()
+         ------------------------------------------------
+          150.000    0.120    0.230    1.000
+          150.000    0.120    0.240    1.000
+          300.000    0.120    0.240    1.000
+          300.000    0.100    0.250    1.000
+          300.000    0.060    0.260    1.000
+          300.000    0.055    0.270    1.000
+          300.000    0.030    0.280    1.000
+          ------------------------------------------------
+     
+     
+     
+29 August 1988(Day of year=242), millet1: 
+      stage    4.0 end_of_juvenile
+                          biomass =          0.6819941E-01   lai =    0.5676172E-03
+                          stover N conc =    11.29576       extractable sw =    189.6679
+30 August 1988(Day of year=243), millet5: 
+      stage    3.0 emergence
+                          biomass =          0.7500000E-02   lai =    0.1000000E-02
+                          stover N conc =    4.400000       extractable sw =    32.98385
+30 August 1988(Day of year=243), millet1: 
+      stage    5.0 floral_initiation
+                          biomass =          0.7211509E-01   lai =    0.5489397E-03
+                          stover N conc =    11.08482       extractable sw =    188.3355
+3 September 1988(Day of year=247), millet2: 
+      stage    4.0 end_of_juvenile
+                          biomass =           3.215325       lai =    0.5322818E-01
+                          stover N conc =    5.527048       extractable sw =    126.4978
+4 September 1988(Day of year=248), millet2: 
+      stage    5.0 floral_initiation
+                          biomass =           3.960114       lai =    0.6765429E-01
+                          stover N conc =    5.232010       extractable sw =    125.7452
+6 September 1988(Day of year=250), millet3: 
+      stage    4.0 end_of_juvenile
+                          biomass =           1.786739       lai =    0.4614563E-01
+                          stover N conc =    5.388656       extractable sw =    124.5557
+7 September 1988(Day of year=251), millet3: 
+      stage    5.0 floral_initiation
+                          biomass =           2.154179       lai =    0.5592168E-01
+                          stover N conc =    5.440505       extractable sw =    130.2121
+8 September 1988(Day of year=252), millet4: 
+      stage    4.0 end_of_juvenile
+                          biomass =           1.710887       lai =    0.4667293E-01
+                          stover N conc =    5.416037       extractable sw =    127.1823
+9 September 1988(Day of year=253), millet4: 
+      stage    5.0 floral_initiation
+                          biomass =           2.173052       lai =    0.5540831E-01
+                          stover N conc =    5.530011       extractable sw =    126.2049
+12 September 1988(Day of year=256), millet5: 
+      stage    4.0 end_of_juvenile
+                          biomass =           1.504193       lai =    0.4677089E-01
+                          stover N conc =    5.216208       extractable sw =    135.0570
+13 September 1988(Day of year=257), millet5: 
+      stage    5.0 floral_initiation
+                          biomass =           2.016315       lai =    0.5929363E-01
+                          stover N conc =    5.256833       extractable sw =    142.9021
+2 October 1988(Day of year=276), millet: 
+      stage    6.0 flag_leaf
+                          biomass =           69.85962       lai =    0.3823380
+                          stover N conc =    1.410246       extractable sw =    268.0851
+3 October 1988(Day of year=277), millet1: 
+      stage    6.0 flag_leaf
+                          biomass =           25.48073       lai =    0.2587448
+                          stover N conc =    1.479061       extractable sw =    221.1289
+3 October 1988(Day of year=277), millet2: 
+      stage    6.0 flag_leaf
+                          biomass =           125.1201       lai =    0.4948539
+                          stover N conc =    1.613672       extractable sw =    178.7664
+3 October 1988(Day of year=277), millet3: 
+      stage    6.0 flag_leaf
+                          biomass =           72.38186       lai =    0.4323955
+                          stover N conc =    1.669583       extractable sw =    176.0742
+4 October 1988(Day of year=278), millet4: 
+      stage    6.0 flag_leaf
+                          biomass =           59.32692       lai =    0.4141560
+                          stover N conc =    1.645548       extractable sw =    166.9084
+6 October 1988(Day of year=280), millet5: 
+      stage    6.0 flag_leaf
+                          biomass =           43.58585       lai =    0.3851457
+                          stover N conc =    1.688971       extractable sw =    109.0983
+6 October 1988(Day of year=280), millet: 
+      stage    7.0 flowering
+                          biomass =           96.72850       lai =    0.3823380
+                          stover N conc =    1.220565       extractable sw =    230.4685
+7 October 1988(Day of year=281), millet1: 
+      stage    7.0 flowering
+                          biomass =           33.36935       lai =    0.2587448
+                          stover N conc =    1.271062       extractable sw =    183.0217
+7 October 1988(Day of year=281), millet2: 
+      stage    7.0 flowering
+                          biomass =           164.4403       lai =    0.4948539
+                          stover N conc =    1.364175       extractable sw =    182.5629
+7 October 1988(Day of year=281), millet3: 
+      stage    7.0 flowering
+                          biomass =           95.23264       lai =    0.4323955
+                          stover N conc =    1.402231       extractable sw =    139.6239
+8 October 1988(Day of year=282), millet4: 
+      stage    7.0 flowering
+                          biomass =           77.07896       lai =    0.4141560
+                          stover N conc =    1.387325       extractable sw =    133.5112
+10 October 1988(Day of year=284), millet5: 
+      stage    7.0 flowering
+                          biomass =           56.58922       lai =    0.3851457
+                          stover N conc =    1.426731       extractable sw =    124.0860
+13 October 1988(Day of year=287), millet: 
+      stage    8.0 start_grain_fill
+                          biomass =           140.6366       lai =    0.3823380
+                          stover N conc =   0.9551691       extractable sw =    182.9326
+14 October 1988(Day of year=288), millet1: 
+      stage    8.0 start_grain_fill
+                          biomass =           46.24343       lai =    0.2587448
+                          stover N conc =    1.009414       extractable sw =    172.8133
+14 October 1988(Day of year=288), millet2: 
+      stage    8.0 start_grain_fill
+                          biomass =           229.3740       lai =    0.4948539
+                          stover N conc =    1.079788       extractable sw =    134.7522
+14 October 1988(Day of year=288), millet3: 
+      stage    8.0 start_grain_fill
+                          biomass =           132.9354       lai =    0.4323955
+                          stover N conc =    1.109983       extractable sw =    131.9070
+14 October 1988(Day of year=288), millet4: 
+      stage    8.0 start_grain_fill
+                          biomass =           102.7830       lai =    0.4141560
+                          stover N conc =    1.136877       extractable sw =    93.95435
+16 October 1988(Day of year=290), millet5: 
+      stage    8.0 start_grain_fill
+                          biomass =           76.50243       lai =    0.3559671
+                          stover N conc =    1.175937       extractable sw =    81.00093
+8 November 1988(Day of year=313), millet: 
+      stage    9.0 end_grain_fill
+                          biomass =           274.9743       lai =    0.2429459
+                          stover N conc =   0.7629800       extractable sw =    35.14586
+9 November 1988(Day of year=314), millet1: 
+      stage    9.0 end_grain_fill
+                          biomass =           88.64972       lai =    0.1214094
+                          stover N conc =   0.7249284       extractable sw =    33.70855
+9 November 1988(Day of year=314), millet2: 
+      stage    9.0 end_grain_fill
+                          biomass =           361.0738       lai =    0.1638284
+                          stover N conc =   0.8479696       extractable sw =    10.40681
+9 November 1988(Day of year=314), millet3: 
+      stage    9.0 end_grain_fill
+                          biomass =           206.1439       lai =    0.1157203
+                          stover N conc =   0.9002806       extractable sw =    10.05681
+10 November 1988(Day of year=315), millet4: 
+      stage    9.0 end_grain_fill
+                          biomass =           158.4979       lai =    0.8142941E-01
+                          stover N conc =   0.9297508       extractable sw =   0.5829849
+10 November 1988(Day of year=315), millet: 
+      stage   10.0 maturity
+                          biomass =           283.5648       lai =    0.2141467
+                          stover N conc =   0.7451163       extractable sw =    31.19530
+11 November 1988(Day of year=316), millet3: 
+      stage   10.0 maturity
+                          biomass =           206.8372       lai =    0.8782217E-01
+                          stover N conc =   0.9021441       extractable sw =    8.396912
+11 November 1988(Day of year=316), millet4: 
+      stage   10.0 maturity
+                          biomass =           158.6205       lai =    0.6924151E-01
+                          stover N conc =   0.9314519       extractable sw =   0.4709167
+11 November 1988(Day of year=316), millet: 
+      stage   11.0 harvest_ripe
+                          biomass =           283.5648       lai =    0.1500010E-02
+                          stover N conc =   0.7570308       extractable sw =    29.73963
+11 November 1988(Day of year=316), millet1: 
+      stage   10.0 maturity
+                          biomass =           91.14600       lai =    0.9790771E-01
+                          stover N conc =   0.7105210       extractable sw =    29.73963
+11 November 1988(Day of year=316), millet2: 
+      stage   10.0 maturity
+                          biomass =           363.5978       lai =    0.1349907
+                          stover N conc =   0.8460422       extractable sw =    8.081696
+12 November 1988(Day of year=317), manager: 
+     Manager sending message :- millet harvest
+12 November 1988(Day of year=317), millet: 
+     
+     
+     
+      flowering day  =  280                  stover (kg/ha) =    2139.9
+      maturity day        =  315             grain yield (kg/ha) =     695.7
+      grain % water content   =   15.5       grain yield wet (kg/ha) =     823.3
+      grain wt (g) =     0.009               grains/m^2   =  8006.991
+      grains/head =1067.6                    maximum lai = 0.382
+      total above ground biomass (kg/ha) =    2835.6
+      live above ground biomass (kg/ha) =    2835.6
+      green above ground biomass (kg/ha) =    2731.7
+      senesced above ground biomass (kg/ha) =     104.0
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =  15.0
+      grain N percent =      1.49            total N content (kg/ha) =     20.78
+      grain N uptake (kg/ha) =     10.37     senesced N content (kg/ha) =      0.10
+      green N content (kg/ha) =     10.31    dead N content (kg/ha) =      0.00
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0109845
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0169937
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0012277
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0475068
+     
+     
+     
+      stress indices for flag_leaf
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0059659   nitrogen stress 2 =       0.0000000
+12 November 1988(Day of year=317), manager: 
+     Manager sending message :- millet1 harvest
+12 November 1988(Day of year=317), millet1: 
+     
+     
+     
+      flowering day  =  281                  stover (kg/ha) =     742.7
+      maturity day        =  316             grain yield (kg/ha) =     168.7
+      grain % water content   =   15.5       grain yield wet (kg/ha) =     199.7
+      grain wt (g) =     0.009               grains/m^2   =  1961.914
+      grains/head = 261.6                    maximum lai = 0.259
+      total above ground biomass (kg/ha) =     911.5
+      live above ground biomass (kg/ha) =     911.5
+      green above ground biomass (kg/ha) =     882.7
+      senesced above ground biomass (kg/ha) =      28.8
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =  11.0
+      grain N percent =      1.50            total N content (kg/ha) =      6.30
+      grain N uptake (kg/ha) =      2.53     senesced N content (kg/ha) =      0.03
+      green N content (kg/ha) =      3.74    dead N content (kg/ha) =      0.00
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0738975
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0816995
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0021640
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0658244
+     
+     
+     
+      stress indices for flag_leaf
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+12 November 1988(Day of year=317), manager: 
+     Manager sending message :- millet2 harvest
+12 November 1988(Day of year=317), millet2: 
+     
+     
+     
+      flowering day  =  281                  stover (kg/ha) =    2949.5
+      maturity day        =  316             grain yield (kg/ha) =     686.4
+      grain % water content   =   15.5       grain yield wet (kg/ha) =     812.4
+      grain wt (g) =     0.008               grains/m^2   =  8551.572
+      grains/head =1140.2                    maximum lai = 0.495
+      total above ground biomass (kg/ha) =    3636.0
+      live above ground biomass (kg/ha) =    3636.0
+      green above ground biomass (kg/ha) =    3397.2
+      senesced above ground biomass (kg/ha) =     238.8
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =  10.0
+      grain N percent =      1.47            total N content (kg/ha) =     28.98
+      grain N uptake (kg/ha) =     10.08     senesced N content (kg/ha) =      0.24
+      green N content (kg/ha) =     18.66    dead N content (kg/ha) =      0.00
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0827760
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1572316
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1070428
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0333191
+     
+     
+     
+      stress indices for flag_leaf
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.1223158   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.1582469   nitrogen stress 2 =       0.0000000
+12 November 1988(Day of year=317), manager: 
+     Manager sending message :- millet3 harvest
+12 November 1988(Day of year=317), millet3: 
+     
+     
+     
+      flowering day  =  281                  stover (kg/ha) =    1592.1
+      maturity day        =  316             grain yield (kg/ha) =     476.2
+      grain % water content   =   15.5       grain yield wet (kg/ha) =     563.6
+      grain wt (g) =     0.008               grains/m^2   =  6068.035
+      grains/head = 809.1                    maximum lai = 0.432
+      total above ground biomass (kg/ha) =    2068.4
+      live above ground biomass (kg/ha) =    2068.4
+      green above ground biomass (kg/ha) =    1909.9
+      senesced above ground biomass (kg/ha) =     158.5
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =   9.0
+      grain N percent =      1.40            total N content (kg/ha) =     17.39
+      grain N uptake (kg/ha) =      6.68     senesced N content (kg/ha) =      0.16
+      green N content (kg/ha) =     10.55    dead N content (kg/ha) =      0.00
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.1297792
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.1958809
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0208599
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.2166879
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0392049
+     
+     
+     
+      stress indices for flag_leaf
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.1705347   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.2081589   nitrogen stress 2 =       0.0000000
+12 November 1988(Day of year=317), manager: 
+     Manager sending message :- millet4 harvest
+12 November 1988(Day of year=317), millet4: 
+     
+     
+     
+      flowering day  =  282                  stover (kg/ha) =    1188.9
+      maturity day        =  316             grain yield (kg/ha) =     397.3
+      grain % water content   =   15.5       grain yield wet (kg/ha) =     470.1
+      grain wt (g) =     0.008               grains/m^2   =  5023.456
+      grains/head = 669.8                    maximum lai = 0.414
+      total above ground biomass (kg/ha) =    1586.2
+      live above ground biomass (kg/ha) =    1586.2
+      green above ground biomass (kg/ha) =    1453.1
+      senesced above ground biomass (kg/ha) =     133.1
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =   8.5
+      grain N percent =      1.34            total N content (kg/ha) =     13.67
+      grain N uptake (kg/ha) =      5.33     senesced N content (kg/ha) =      0.13
+      green N content (kg/ha) =      8.20    dead N content (kg/ha) =      0.00
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.1473568
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.2213682
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0164688
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.2131750
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0319307
+     
+     
+     
+      stress indices for flag_leaf
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.2088722   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.2467903   nitrogen stress 2 =       0.0000000
+12 November 1988(Day of year=317), manager: 
+     Manager sending message :- millet5 harvest
+12 November 1988(Day of year=317), millet5: 
+     
+     
+     
+      flowering day  =  284                  stover (kg/ha) =     819.4
+      maturity day        =    0             grain yield (kg/ha) =     293.0
+      grain % water content   =   15.5       grain yield wet (kg/ha) =     346.7
+      grain wt (g) =     0.008               grains/m^2   =  3890.999
+      grains/head = 518.8                    maximum lai = 0.385
+      total above ground biomass (kg/ha) =    1112.4
+      live above ground biomass (kg/ha) =    1112.4
+      green above ground biomass (kg/ha) =    1004.8
+      senesced above ground biomass (kg/ha) =     107.6
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =   8.0
+      grain N percent =      1.25            total N content (kg/ha) =     10.08
+      grain N uptake (kg/ha) =      3.65     senesced N content (kg/ha) =      0.11
+      green N content (kg/ha) =      6.32    dead N content (kg/ha) =      0.00
+     
+     
+     
+      stress indices for emergence
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.1785374
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.3420532
+     
+     
+     
+      stress indices for end_of_juvenile
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0909570
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.2727656
+     
+     
+     
+      stress indices for floral_initiation
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0364468
+     
+     
+     
+      stress indices for flag_leaf
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for flowering
+      water stress 1 =       0.0000000   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.0000000   nitrogen stress 2 =       0.0000000
+     
+     
+     
+      stress indices for start_grain_fill
+      water stress 1 =       0.2715209   nitrogen stress 1 =       0.0000000
+      water stress 2 =       0.3162006   nitrogen stress 2 =       0.0000000
+12 November 1988(Day of year=317), manager: 
+     Manager sending message :- millet end_crop
+12 November 1988(Day of year=317), millet: 
+         ended. Yield (dw) =     0.0
+                                               straw residue = 2139.9 kg/ha
+                                               straw N =   10.4 kg/ha
+                                               root residue =  339.0 kg/ha
+                                               root N =    3.6 kg/ha
+12 November 1988(Day of year=317), manager: 
+     Manager sending message :- millet1 end_crop
+12 November 1988(Day of year=317), millet1: 
+         ended. Yield (dw) =     0.0
+                                               straw residue =  742.7 kg/ha
+                                               straw N =    3.8 kg/ha
+                                               root residue =  115.6 kg/ha
+                                               root N =    1.2 kg/ha
+12 November 1988(Day of year=317), manager: 
+     Manager sending message :- millet2 end_crop
+12 November 1988(Day of year=317), millet2: 
+         ended. Yield (dw) =     0.0
+                                               straw residue = 2949.5 kg/ha
+                                               straw N =   18.9 kg/ha
+                                               root residue =  590.0 kg/ha
+                                               root N =    6.3 kg/ha
+12 November 1988(Day of year=317), manager: 
+     Manager sending message :- millet3 end_crop
+12 November 1988(Day of year=317), millet3: 
+         ended. Yield (dw) =     0.0
+                                               straw residue = 1592.1 kg/ha
+                                               straw N =   10.7 kg/ha
+                                               root residue =  341.2 kg/ha
+                                               root N =    3.6 kg/ha
+12 November 1988(Day of year=317), manager: 
+     Manager sending message :- millet4 end_crop
+12 November 1988(Day of year=317), millet4: 
+         ended. Yield (dw) =     0.0
+                                               straw residue = 1188.9 kg/ha
+                                               straw N =    8.3 kg/ha
+                                               root residue =  275.1 kg/ha
+                                               root N =    2.9 kg/ha
+12 November 1988(Day of year=317), manager: 
+     Manager sending message :- millet5 end_crop
+12 November 1988(Day of year=317), millet5: 
+         ended. Yield (dw) =     0.0
+                                               straw residue =  819.4 kg/ha
+                                               straw N =    6.4 kg/ha
+                                               root residue =  203.8 kg/ha
+                                               root N =    2.2 kg/ha
+13 November 1988(Day of year=318), manager: 
+     Manager sending message :- millet sow  plants = 7.5, sowing_depth = 30, cultivar = wrajpop
+13 November 1988(Day of year=318), millet: 
+     Sow
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m^2     m     Name
+         ------------------------------------------------
+            318   30.0    7.5    0.8 wrajpop
+         ------------------------------------------------
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar                 = wrajpop
+         est_days_emerg_to_init  =      17
+         tt_emerg_to_endjuv       =   239.4
+         pp_endjuv_to_initp       =   112.4
+         tt_flower_to_maturity    =   457.0
+         head_grain_no_max        =  2600.0
+         grain_gth_rate           =     0.5
+         tt_flag_to_flower        =    61.0
+         tt_flower_to_start_grain =    80.0
+         tt_maturity_to_ripe      =     1.0
+         x_stem_wt                =     0.0   10.0
+         y_height                 =     0.0 3000.0
+         ------------------------------------------------
+     
+     
+     
+     
+        - Reading root profile parameters
+     Uptake of NO3 and water calculated by millet
+     
+     
+     
+     
+     
+     
+     
+                         Root Profile
+         ------------------------------------------------
+           Layer      Kl      Lower Exploration
+           Depth              limit   Factor
+           (mm)       ()     (mm/mm)    ()
+         ------------------------------------------------
+          150.000    0.120    0.230    1.000
+          150.000    0.120    0.240    1.000
+          300.000    0.120    0.240    1.000
+          300.000    0.100    0.250    1.000
+          300.000    0.060    0.260    1.000
+          300.000    0.055    0.270    1.000
+          300.000    0.030    0.280    1.000
+          ------------------------------------------------
+     
+     
+     
+16 November 1988(Day of year=321), millet: 
+      stage    2.0 germination
+20 November 1988(Day of year=325), millet: 
+      stage    3.0 emergence
+                          biomass =          0.3000000E-01   lai =    0.1500000E-02
+                          stover N conc =    4.400000       extractable sw =    7.819786
+3 December 1988(Day of year=338), millet1: 
+     Initiate
+     
+     
+     
+                      Crop Initiate Data
+         ------------------------------------------------
+        Initiate   Axes   DM      N   Spacing Cultivar
+         Day no    m^2 g/plant g/plant   m      Name
+         ------------------------------------------------
+            338    7.5    0.0    0.0    0.8 wrajpop
+         ------------------------------------------------
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar                 = wrajpop
+         est_days_emerg_to_init  =      17
+         tt_emerg_to_endjuv       =   139.4
+         pp_endjuv_to_initp       =   112.4
+         tt_flower_to_maturity    =   457.0
+         head_grain_no_max        =  2200.0
+         grain_gth_rate           =     0.5
+         tt_flag_to_flower        =    61.0
+         tt_flower_to_start_grain =    80.0
+         tt_maturity_to_ripe      =     1.0
+         x_stem_wt                =     0.0   10.0
+         y_height                 =     0.0 3000.0
+         ------------------------------------------------
+     
+     
+     
+     
+        - Reading root profile parameters
+     Uptake of NO3 and water calculated by millet
+     
+     
+     
+     
+     
+     
+     
+                         Root Profile
+         ------------------------------------------------
+           Layer      Kl      Lower Exploration
+           Depth              limit   Factor
+           (mm)       ()     (mm/mm)    ()
+         ------------------------------------------------
+          150.000    0.120    0.230    1.000
+          150.000    0.120    0.240    1.000
+          300.000    0.120    0.240    1.000
+          300.000    0.100    0.250    1.000
+          300.000    0.060    0.260    1.000
+          300.000    0.055    0.270    1.000
+          300.000    0.030    0.280    1.000
+          ------------------------------------------------
+     
+     
+     
+4 December 1988(Day of year=339), millet1: 
+      stage    3.0 emergence
+                          biomass =          0.7500000E-02   lai =    0.1500000E-02
+                          stover N conc =    4.400000       extractable sw =    4.651009
+8 December 1988(Day of year=343), millet2: 
+     Initiate
+     
+     
+     
+                      Crop Initiate Data
+         ------------------------------------------------
+        Initiate   Axes   DM      N   Spacing Cultivar
+         Day no    m^2 g/plant g/plant   m      Name
+         ------------------------------------------------
+            343    7.5    0.0    0.0    0.8 wrajpop
+         ------------------------------------------------
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar                 = wrajpop
+         est_days_emerg_to_init  =      17
+         tt_emerg_to_endjuv       =   129.4
+         pp_endjuv_to_initp       =   112.4
+         tt_flower_to_maturity    =   457.0
+         head_grain_no_max        =  2200.0
+         grain_gth_rate           =     0.5
+         tt_flag_to_flower        =    61.0
+         tt_flower_to_start_grain =    80.0
+         tt_maturity_to_ripe      =     1.0
+         x_stem_wt                =     0.0   10.0
+         y_height                 =     0.0 3000.0
+         ------------------------------------------------
+     
+     
+     
+     
+        - Reading root profile parameters
+     Uptake of NO3 and water calculated by millet
+     
+     
+     
+     
+     
+     
+     
+                         Root Profile
+         ------------------------------------------------
+           Layer      Kl      Lower Exploration
+           Depth              limit   Factor
+           (mm)       ()     (mm/mm)    ()
+         ------------------------------------------------
+          150.000    0.120    0.230    1.000
+          150.000    0.120    0.240    1.000
+          300.000    0.120    0.240    1.000
+          300.000    0.100    0.250    1.000
+          300.000    0.060    0.260    1.000
+          300.000    0.055    0.270    1.000
+          300.000    0.030    0.280    1.000
+          ------------------------------------------------
+     
+     
+     
+      stage    3.0 emergence
+                          biomass =           2.721249       lai =    0.1500000E-02
+                          stover N conc =   0.1212678E-01   extractable sw =    6.527458
+10 December 1988(Day of year=345), millet3: 
+     Initiate
+     
+     
+     
+                      Crop Initiate Data
+         ------------------------------------------------
+        Initiate   Axes   DM      N   Spacing Cultivar
+         Day no    m^2 g/plant g/plant   m      Name
+         ------------------------------------------------
+            345    7.5    0.0    0.0    0.8 wrajpop
+         ------------------------------------------------
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar                 = wrajpop
+         est_days_emerg_to_init  =      17
+         tt_emerg_to_endjuv       =   119.4
+         pp_endjuv_to_initp       =   112.4
+         tt_flower_to_maturity    =   457.0
+         head_grain_no_max        =  2200.0
+         grain_gth_rate           =     0.5
+         tt_flag_to_flower        =    61.0
+         tt_flower_to_start_grain =    80.0
+         tt_maturity_to_ripe      =     1.0
+         x_stem_wt                =     0.0   10.0
+         y_height                 =     0.0 3000.0
+         ------------------------------------------------
+     
+     
+     
+     
+        - Reading root profile parameters
+     Uptake of NO3 and water calculated by millet
+     
+     
+     
+     
+     
+     
+     
+                         Root Profile
+         ------------------------------------------------
+           Layer      Kl      Lower Exploration
+           Depth              limit   Factor
+           (mm)       ()     (mm/mm)    ()
+         ------------------------------------------------
+          150.000    0.120    0.230    1.000
+          150.000    0.120    0.240    1.000
+          300.000    0.120    0.240    1.000
+          300.000    0.100    0.250    1.000
+          300.000    0.060    0.260    1.000
+          300.000    0.055    0.270    1.000
+          300.000    0.030    0.280    1.000
+          ------------------------------------------------
+     
+     
+     
+11 December 1988(Day of year=346), millet3: 
+      stage    3.0 emergence
+                          biomass =          0.7500000E-02   lai =    0.1500000E-02
+                          stover N conc =    4.400000       extractable sw =    24.25819
+11 December 1988(Day of year=346), millet: 
+      stage    4.0 end_of_juvenile
+                          biomass =           1.276280       lai =    0.3780530E-01
+                          stover N conc =    3.922360       extractable sw =    46.25166
+12 December 1988(Day of year=347), millet4: 
+     Initiate
+     
+     
+     
+                      Crop Initiate Data
+         ------------------------------------------------
+        Initiate   Axes   DM      N   Spacing Cultivar
+         Day no    m^2 g/plant g/plant   m      Name
+         ------------------------------------------------
+            347    7.5    0.0    0.0    0.8 wrajpop
+         ------------------------------------------------
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar                 = wrajpop
+         est_days_emerg_to_init  =      17
+         tt_emerg_to_endjuv       =   109.4
+         pp_endjuv_to_initp       =   112.4
+         tt_flower_to_maturity    =   457.0
+         head_grain_no_max        =  2200.0
+         grain_gth_rate           =     0.5
+         tt_flag_to_flower        =    61.0
+         tt_flower_to_start_grain =    80.0
+         tt_maturity_to_ripe      =     1.0
+         x_stem_wt                =     0.0   10.0
+         y_height                 =     0.0 3000.0
+         ------------------------------------------------
+     
+     
+     
+     
+        - Reading root profile parameters
+     Uptake of NO3 and water calculated by millet
+     
+     
+     
+     
+     
+     
+     
+                         Root Profile
+         ------------------------------------------------
+           Layer      Kl      Lower Exploration
+           Depth              limit   Factor
+           (mm)       ()     (mm/mm)    ()
+         ------------------------------------------------
+          150.000    0.120    0.230    1.000
+          150.000    0.120    0.240    1.000
+          300.000    0.120    0.240    1.000
+          300.000    0.100    0.250    1.000
+          300.000    0.060    0.260    1.000
+          300.000    0.055    0.270    1.000
+          300.000    0.030    0.280    1.000
+          ------------------------------------------------
+     
+     
+     
+13 December 1988(Day of year=348), millet4: 
+      stage    3.0 emergence
+                          biomass =          0.7500000E-02   lai =    0.1500000E-02
+                          stover N conc =    4.400000       extractable sw =    30.26656
+15 December 1988(Day of year=350), millet5: 
+     Initiate
+     
+     
+     
+                      Crop Initiate Data
+         ------------------------------------------------
+        Initiate   Axes   DM      N   Spacing Cultivar
+         Day no    m^2 g/plant g/plant   m      Name
+         ------------------------------------------------
+            350    7.5    0.0    0.0    0.8 wrajpop
+         ------------------------------------------------
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar                 = wrajpop
+         est_days_emerg_to_init  =      17
+         tt_emerg_to_endjuv       =    99.4
+         pp_endjuv_to_initp       =   112.4
+         tt_flower_to_maturity    =   457.0
+         head_grain_no_max        =  2200.0
+         grain_gth_rate           =     0.5
+         tt_flag_to_flower        =    61.0
+         tt_flower_to_start_grain =    80.0
+         tt_maturity_to_ripe      =     1.0
+         x_stem_wt                =     0.0   10.0
+         y_height                 =     0.0 3000.0
+         ------------------------------------------------
+     
+     
+     
+     
+        - Reading root profile parameters
+     Uptake of NO3 and water calculated by millet
+     
+     
+     
+     
+     
+     
+     
+                         Root Profile
+         ------------------------------------------------
+           Layer      Kl      Lower Exploration
+           Depth              limit   Factor
+           (mm)       ()     (mm/mm)    ()
+         ------------------------------------------------
+          150.000    0.120    0.230    1.000
+          150.000    0.120    0.240    1.000
+          300.000    0.120    0.240    1.000
+          300.000    0.100    0.250    1.000
+          300.000    0.060    0.260    1.000
+          300.000    0.055    0.270    1.000
+          300.000    0.030    0.280    1.000
+          ------------------------------------------------
+     
+     
+     
+16 December 1988(Day of year=351), millet5: 
+      stage    3.0 emergence
+                          biomass =          0.7500000E-02   lai =    0.1500000E-02
+                          stover N conc =    4.400000       extractable sw =    24.88983
+19 December 1988(Day of year=354), millet1: 
+      stage    4.0 end_of_juvenile
+                          biomass =           1.736026       lai =    0.5247735E-01
+                          stover N conc =    3.669946       extractable sw =    85.29817
+21 December 1988(Day of year=356), millet3: 
+      stage    4.0 end_of_juvenile
+                          biomass =          0.4510523       lai =    0.2081670E-01
+                          stover N conc =    2.859489       extractable sw =    81.85286
+21 December 1988(Day of year=356), millet: 
+      stage    5.0 floral_initiation
+                          biomass =           9.736087       lai =    0.2311581
+                          stover N conc =    2.017012       extractable sw =    81.83101
+22 December 1988(Day of year=357), millet4: 
+      stage    4.0 end_of_juvenile
+                          biomass =          0.2982934       lai =    0.1416405E-01
+                          stover N conc =    3.128772       extractable sw =    44.34558
+23 December 1988(Day of year=358), millet5: 
+      stage    4.0 end_of_juvenile
+                          biomass =          0.1911400       lai =    0.9497522E-02
+                          stover N conc =    3.508347       extractable sw =    42.03099
+26 December 1988(Day of year=361), clock: 
+     Simulation is terminating due to end criteria being met.

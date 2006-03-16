@@ -1,0 +1,9 @@
+# (Borlandish) Makefile for apsim infrastructure module
+
+all: source
+
+source:
+	cd source
+	$(APSMAKE) source
+   cd ../engine
+	$(APSMAKE) engine
