@@ -169,7 +169,7 @@ Public Class FileUI
 
 
     Private Sub OnActivate(ByVal sender As Object, ByVal e As EventArgs)
-        If FileDateTime <> File.GetLastWriteTime(FullFileName) Then
+        If File.Exists(FullFileName) AndAlso FileDateTime <> File.GetLastWriteTime(FullFileName) Then
             Refresh()
         End If
     End Sub
