@@ -46,10 +46,13 @@
       <respondToEventReg name="reset" type="reset"/>
       <respondToEventReg name="create" type="create"/>
       <respondToEventReg name="sum_report" type="sum_report"/>
+      <respondToEventReg name="remove_surfaceOM" type="SurfaceOrganicMatter"/>
       <eventReg name="PotentialResidueDecompositionCalculated" type="SurfaceOrganicMatterDecomp"/>
+      <eventReg name="SurfaceOrganicMatterState" type="SurfaceOrganicMatter"/>
       <eventReg name="FreshOrganicMatterIncorporated" type="FPoolProfileLayer"/>
       <eventReg name="residue_added" type="residue_added"/>
       <eventReg name="residue_removed" type="residue_removed"/>
+      <eventReg name="surfaceOM_removed" type="surfaceOM_removed"/>
       <eventReg name="decomposed" type="decomposed"/>
       <respondToEventReg name="tick" type="tick"/>
       <respondToEventReg name="newmet" type="newmet"/>
