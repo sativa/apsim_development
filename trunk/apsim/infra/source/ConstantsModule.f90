@@ -468,6 +468,42 @@ module ConstantsModule
       parameter (DATA_residue_incorp_fraction = 'residue_incorp_fract')
 
 ! ====================================================================
+!      SURFACEOM REMOVED EVENT
+! ====================================================================
+
+!   Short description:
+!      To notify all interested modules of the removal of residue from the
+!        residue pool, other than by fraction.
+
+!   Notes:
+
+!   Changes:
+!      230999 jngh
+
+! ----------------------- Declaration section ------------------------
+
+!   Global variables
+!      none
+
+!   Event Name
+
+      character EVENT_SurfaceOM_removed*(*)
+      parameter (EVENT_SurfaceOM_removed='surfaceom_removed')
+
+!   Event Data
+
+      character DATA_SurfaceOM_type *(*)
+      parameter (DATA_SurfaceOM_type = 'surfaceom_type')
+      character DATA_SurfaceOM_dm_type *(*)
+      parameter (DATA_SurfaceOM_dm_type = 'dm_type')
+      character DATA_dlt_SurfaceOM_wt *(*)
+      parameter (DATA_dlt_SurfaceOM_wt = 'dlt_surfaceom_wt')
+      character DATA_SurfaceOM_dlt_dm_n *(*)
+      parameter (DATA_SurfaceOM_dlt_dm_n = 'dlt_dm_n')
+      character DATA_SurfaceOM_dlt_dm_p *(*)
+      parameter (DATA_SurfaceOM_dlt_dm_p = 'dlt_dm_p')
+
+! ====================================================================
 !      Crop Chopped EVENT
 ! ====================================================================
 
