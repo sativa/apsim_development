@@ -70,6 +70,7 @@ module SurfaceOMModule
       sequence
       real       standing_fraction(max_residues) ! standing fraction array
       character  report_additions*5
+      character  report_removals*5
    end type SurfaceOMParameters
 !     ================================================================
    type SurfaceOMConstants
@@ -157,6 +158,7 @@ subroutine surfom_zero_all_globals ()
 
       ! Parameters
    p%report_additions    = blank
+   p%report_removals    = blank
 
       ! Constants
 
@@ -252,6 +254,7 @@ subroutine surfom_zero_variables ()
 
    g%phosphorus_aware = .false.
    p%report_additions = 'no'
+   p%report_removals = 'no'
 
 
    call pop_routine (my_name)
@@ -414,6 +417,12 @@ subroutine surfom_read_param ()
    call read_char_var_optional (section_name, 'report_additions', '()', p%report_additions, numvals1)
    if (numvals1.eq.0) then
       p%report_additions = 'no'
+   else
+   endif
+
+   call read_char_var_optional (section_name, 'report_removals', '()', p%report_removals, numvals1)
+   if (numvals1.eq.0) then
+      p%report_removals = 'no'
    else
    endif
 
@@ -961,6 +970,157 @@ end subroutine
    return
 end subroutine
 
+! ====================================================================
+ subroutine respond2get_SurfaceOrganicMatter ()
+! ====================================================================
+   Use infrastructure
+   implicit none
+
+!+  Purpose
+!     send current status.
+
+!+  Local Variables
+   type (SurfaceOrganicMatterType), dimension(max_residues)::SOM
+   character err_string*100
+   integer    pool
+   integer   residue
+
+!+  Constant Values
+   character*(*) myname               ! name of current procedure
+   parameter (myname = 'respond2get_SurfaceOrganicMatter')
+
+!- Implementation Section ----------------------------------
+   call push_routine (myname)
+
+
+   do residue = 1, g%num_surfom
+       SOM(residue)%name = g%SurfOM(residue)%name
+       SOM(residue)%OrganicMatterType = g%SurfOM(residue)%OrganicMatterType
+       SOM(residue)%PotDecompRate = g%SurfOM(residue)%PotDecompRate
+       SOM(residue)%no3 = g%SurfOM(residue)%no3
+       SOM(residue)%nh4 = g%SurfOM(residue)%nh4
+       SOM(residue)%po4 = g%SurfOM(residue)%po4
+
+       do pool = 1, 3
+
+          SOM(residue)%StandingFraction(pool)%amount = g%SurfOM(residue)%Standing(pool)%amount
+          SOM(residue)%StandingFraction(pool)%C = g%SurfOM(residue)%Standing(pool)%C
+          SOM(residue)%StandingFraction(pool)%N = g%SurfOM(residue)%Standing(pool)%N
+          SOM(residue)%StandingFraction(pool)%P = g%SurfOM(residue)%Standing(pool)%P
+          SOM(residue)%StandingFraction(pool)%AshAlk = g%SurfOM(residue)%Standing(pool)%AshAlk
+
+          SOM(residue)%LyingFraction(pool)%amount = g%SurfOM(residue)%Lying(pool)%amount
+          SOM(residue)%LyingFraction(pool)%C = g%SurfOM(residue)%Lying(pool)%C
+          SOM(residue)%LyingFraction(pool)%N = g%SurfOM(residue)%Lying(pool)%N
+          SOM(residue)%LyingFraction(pool)%P = g%SurfOM(residue)%Lying(pool)%P
+          SOM(residue)%LyingFraction(pool)%AshAlk = g%SurfOM(residue)%Lying(pool)%AshAlk
+       end do
+
+   end do
+
+   call publish_SurfaceOrganicMatter(id%SurfaceOrganicMatterState, SOM, g%num_surfom)
+
+   call pop_routine (myname)
+   return
+end subroutine
+
+!================================================================
+subroutine surfom_remove_surfom (variant)
+!================================================================
+   Use Infrastructure
+   implicit none
+
+!+  Purpose
+!   Calculates surfom removal as a result of remove_surfom message
+
+!+  Sub-Program Arguments
+   integer, intent(in) :: variant
+
+!+  Constant Values
+   character*(*) my_name               ! name of current procedure
+   parameter (my_name = 'surfom_remove_surfom')
+!
+!+  Local Variables
+   character  Err_string*300         ! Error message string
+   integer    SOMNo                 ! specific system number for this residue name
+   integer    som_index             ! index into SOM
+   integer    pool
+
+   type (SurfaceOrganicMatterType), dimension(max_residues)::SOM
+!- Implementation Section ----------------------------------
+
+   call push_routine (my_name)
+
+   call unpack_SurfaceOrganicMatter(variant, SOM, g%num_surfom)
+
+   do som_index = 1, g%num_surfom
+
+      ! Determine which residue pool corresponds to this index in the array
+      SOMNo = surfom_number(SOM(som_index)%name)
+
+      if (SOMNo.eq.0) then
+         ! This is an unknown type - error
+
+      else
+         ! This type already exists
+
+!         g%SurfOM(SOMNo) = g%SurfOM(SOMNo) - g%SOM(SOMNo)
+
+!           Check if too much removed ?
+         do pool = 1,3
+            g%SurfOM(SOMNo)%Lying(pool)%amount = g%SurfOM(SOMNo)%Lying(pool)%amount - SOM(SOMNo)%LyingFraction(pool)%amount
+            g%SurfOM(SOMNo)%Lying(pool)%C      = g%SurfOM(SOMNo)%Lying(pool)%C      - SOM(SOMNo)%LyingFraction(pool)%C
+            g%SurfOM(SOMNo)%Lying(pool)%N      = g%SurfOM(SOMNo)%Lying(pool)%N      - SOM(SOMNo)%LyingFraction(pool)%N
+            g%SurfOM(SOMNo)%Lying(pool)%P      = g%SurfOM(SOMNo)%Lying(pool)%P      - SOM(SOMNo)%LyingFraction(pool)%P
+            g%SurfOM(SOMNo)%Lying(pool)%AshAlk = 0.0
+
+            g%SurfOM(SOMNo)%Standing(pool)%amount = g%SurfOM(SOMNo)%Standing(pool)%amount - SOM(SOMNo)%StandingFraction(pool)%amount
+            g%SurfOM(SOMNo)%Standing(pool)%C      = g%SurfOM(SOMNo)%Standing(pool)%C      - SOM(SOMNo)%StandingFraction(pool)%C
+            g%SurfOM(SOMNo)%Standing(pool)%N      = g%SurfOM(SOMNo)%Standing(pool)%N      - SOM(SOMNo)%StandingFraction(pool)%N
+            g%SurfOM(SOMNo)%Standing(pool)%P      = g%SurfOM(SOMNo)%Standing(pool)%P      - SOM(SOMNo)%StandingFraction(pool)%P
+            g%SurfOM(SOMNo)%Standing(pool)%AshAlk = 0.0
+         end do
+
+
+
+         g%SurfOM(SOMNo)%no3 = g%SurfOM(SOMNo)%no3 - SOM(SOMNo)%no3
+         g%SurfOM(SOMNo)%nh4 = g%SurfOM(SOMNo)%nh4 - SOM(SOMNo)%nh4
+         g%SurfOM(SOMNo)%po4 = g%SurfOM(SOMNo)%po4 - SOM(SOMNo)%po4
+
+      endif
+
+      ! Report Removals
+      if (p%report_removals.eq.'yes') then
+         Write (Err_string,*)   &
+              'Removed SurfaceOM', New_Line   &
+             ,'    SurfaceOM name         = ', trim(SOM(SOMNo)%name),    New_Line   &
+             ,'    SurfaceOM Type         = ', trim(SOM(SOMNo)%OrganicMatterType), New_Line   &
+             ,'    Amount Removed (kg/ha): ',  New_Line                                           &
+             ,'           Lying: ', New_Line                                                      &
+             ,'                 Amount = ', sum(SOM(SOMNo)%LyingFraction(1:MaxFr)%amount), New_Line     &
+             ,'                 N      = ', sum(SOM(SOMNo)%LyingFraction(1:MaxFr)%N), New_Line     &
+             ,'                 P      = ', sum(SOM(SOMNo)%LyingFraction(1:MaxFr)%P), New_Line     &
+             ,'           Standing: ', New_Line                                                   &
+             ,'                 Amount = ', sum(SOM(SOMNo)%StandingFraction(1:MaxFr)%amount), New_Line  &
+             ,'                 N      = ', sum(SOM(SOMNo)%StandingFraction(1:MaxFr)%N), New_Line  &
+             ,'                 P      = ', sum(SOM(SOMNo)%StandingFraction(1:MaxFr)%P), New_Line
+         call Write_string (Err_string)
+      else
+         ! The user has asked for no reports for removals of surfom
+         ! in the summary file.
+      endif
+
+      call surfom_Send_SOM_removed_Event (SOM(SOMNo)%OrganicMatterType   &
+                                          , SOM(SOMNo)%OrganicMatterType   &
+                                          , sum(SOM(SOMNo)%LyingFraction(1:MaxFr)%amount) + sum(SOM(SOMNo)%StandingFraction(1:MaxFr)%amount)   &
+                                          , sum(SOM(SOMNo)%LyingFraction(1:MaxFr)%N) + sum(SOM(SOMNo)%StandingFraction(1:MaxFr)%N)   &
+                                          , sum(SOM(SOMNo)%LyingFraction(1:MaxFr)%P) + sum(SOM(SOMNo)%StandingFraction(1:MaxFr)%P))
+   enddo
+
+   call pop_routine (my_name)
+   return
+end subroutine
+
 
 ! ====================================================================
  subroutine surfom_ONirrigated ()
@@ -1360,9 +1520,9 @@ subroutine surfom_incorp (action_type, F_incorp, Tillage_depth)
 
    end do
 
-      g%SurfOM(:)%no3 = g%SurfOM(:)%no3 * (1-F_incorp)
-      g%SurfOM(:)%nh4 = g%SurfOM(:)%nh4 * (1-F_incorp)
-      g%SurfOM(:)%po4 = g%SurfOM(:)%po4 * (1-F_incorp)
+   g%SurfOM(:)%no3 = g%SurfOM(:)%no3 * (1-F_incorp)
+   g%SurfOM(:)%nh4 = g%SurfOM(:)%nh4 * (1-F_incorp)
+   g%SurfOM(:)%po4 = g%SurfOM(:)%po4 * (1-F_incorp)
 
    call pop_routine (my_name)
    return
@@ -1893,6 +2053,10 @@ subroutine surfom_Send_my_variable (Variable_name)
 
       call respond2get_real_var (variable_name, '(0-1)', g%leaching_fr)
 
+   else if (Variable_name .eq. 'surface_organic_matter') then
+
+      call respond2get_SurfaceOrganicMatter ()
+
    else
       call Message_unused ()
 
@@ -2262,6 +2426,45 @@ subroutine residue2_Send_Res_removed_Event(residue_removed_action, dlt_residue_f
 end subroutine
 
 
+! ====================================================================
+subroutine surfom_Send_SOM_removed_Event(residue_type, dm_type, dlt_residue_wt, dlt_residue_N_wt, dlt_residue_P_wt)
+
+! ====================================================================
+   Use Infrastructure
+   implicit none
+
+!+  Sub-Program Arguments
+   character residue_type*(*)      ! (INPUT)
+   character dm_type*(*)           ! (INPUT)
+   real      dlt_residue_wt        ! (INPUT)
+   real      dlt_residue_N_wt      ! (INPUT)
+   real      dlt_residue_P_wt      ! (INPUT)
+
+!+  Purpose
+!     Notify other modules of residue added to residue pool.
+
+!+  Constant Values
+   character*(*) myname               ! name of current procedure
+   parameter (myname = 'surfom_Send_SOM_removed_Event')
+
+!- Implementation Section ----------------------------------
+   call push_routine (myname)
+
+   call new_postbox ()
+
+   call post_char_var   (DATA_SurfaceOM_type,'()', residue_type)
+   call post_char_var   (DATA_SurfaceOM_dm_type,'()', dm_type)
+   call post_real_var   (DATA_dlt_SurfaceOM_wt,'(kg/ha)', dlt_residue_wt)
+   call post_real_var   (DATA_SurfaceOM_dlt_dm_n,'(kg/ha)', dlt_residue_N_wt)
+   call post_real_var   (DATA_SurfaceOM_dlt_dm_p,'(kg/ha)', dlt_residue_P_wt)
+   call event_send (EVENT_surfaceOM_removed)
+
+   call delete_postbox ()
+
+   call pop_routine (myname)
+   return
+end subroutine
+
 ! ================================================================
 subroutine surfom_Sum_Report ()
 ! ================================================================
@@ -2477,6 +2680,8 @@ subroutine respondToEvent(fromID, eventID, variant)
       call surfom_ONnewmet(variant)
    elseif (eventID .eq.id%ActualResidueDecompositionCalculated) then
       call surfom_decompose_surfom(variant)
+   elseif (eventID .eq.id%remove_surfaceOM) then
+      call surfom_remove_surfom(variant)
    endif
    return
 end subroutine respondToEvent
