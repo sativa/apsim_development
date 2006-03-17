@@ -1060,6 +1060,8 @@ subroutine surfom_remove_surfom (variant)
 
       if (SOMNo.eq.0) then
          ! This is an unknown type - error
+         write (Err_string, *)'Attempting to remove Surface Organic Matter from unknown ' &
+                             , SOM(som_index)%name, ' Surface Organic Matter name.'
 
       else
          ! This type already exists
@@ -1068,17 +1070,38 @@ subroutine surfom_remove_surfom (variant)
 
 !           Check if too much removed ?
          do pool = 1,3
-            g%SurfOM(SOMNo)%Lying(pool)%amount = g%SurfOM(SOMNo)%Lying(pool)%amount - SOM(SOMNo)%LyingFraction(pool)%amount
+            if (g%SurfOM(SOMNo)%Lying(pool)%amount .ge. SOM(SOMNo)%LyingFraction(pool)%amount) then
+               g%SurfOM(SOMNo)%Lying(pool)%amount = g%SurfOM(SOMNo)%Lying(pool)%amount - SOM(SOMNo)%LyingFraction(pool)%amount
+            else
+               write (Err_string, *)'Attempting to remove more dm from ' &
+                                   , SOM(som_index)%name, ' lying Surface Organic Matter pool ', pool &
+                                   , ' than available', New_Line   &
+                                   , 'Removing ', SOM(SOMNo)%LyingFraction(pool)%amount,' (kg/ha) '   &
+                                   , 'from ', g%SurfOM(SOMNo)%Lying(pool)%amount, ' (kg/ha) available.'
+               call fatal_error (Err_internal, Err_string)
+            endif
+
             g%SurfOM(SOMNo)%Lying(pool)%C      = g%SurfOM(SOMNo)%Lying(pool)%C      - SOM(SOMNo)%LyingFraction(pool)%C
             g%SurfOM(SOMNo)%Lying(pool)%N      = g%SurfOM(SOMNo)%Lying(pool)%N      - SOM(SOMNo)%LyingFraction(pool)%N
             g%SurfOM(SOMNo)%Lying(pool)%P      = g%SurfOM(SOMNo)%Lying(pool)%P      - SOM(SOMNo)%LyingFraction(pool)%P
-            g%SurfOM(SOMNo)%Lying(pool)%AshAlk = 0.0
+            g%SurfOM(SOMNo)%Lying(pool)%AshAlk = g%SurfOM(SOMNo)%Lying(pool)%AshAlk - SOM(SOMNo)%LyingFraction(pool)%AshAlk
 
-            g%SurfOM(SOMNo)%Standing(pool)%amount = g%SurfOM(SOMNo)%Standing(pool)%amount - SOM(SOMNo)%StandingFraction(pool)%amount
+            if (g%SurfOM(SOMNo)%Standing(pool)%amount .ge. SOM(SOMNo)%StandingFraction(pool)%amount) then
+               g%SurfOM(SOMNo)%Standing(pool)%amount = g%SurfOM(SOMNo)%Standing(pool)%amount - SOM(SOMNo)%StandingFraction(pool)%amount
+            else
+               write (Err_string, *)'Attempting to remove more dm from ' &
+                                   , SOM(som_index)%name, ' standing Surface Organic Matter pool ', pool &
+                                   , ' than available', New_Line   &
+                                   , 'Removing ', SOM(SOMNo)%LyingFraction(pool)%amount,' (kg/ha) '   &
+                                   , 'from ', g%SurfOM(SOMNo)%Lying(pool)%amount, ' (kg/ha) available.'
+               call fatal_error (Err_internal, Err_string)
+            endif
+
             g%SurfOM(SOMNo)%Standing(pool)%C      = g%SurfOM(SOMNo)%Standing(pool)%C      - SOM(SOMNo)%StandingFraction(pool)%C
             g%SurfOM(SOMNo)%Standing(pool)%N      = g%SurfOM(SOMNo)%Standing(pool)%N      - SOM(SOMNo)%StandingFraction(pool)%N
             g%SurfOM(SOMNo)%Standing(pool)%P      = g%SurfOM(SOMNo)%Standing(pool)%P      - SOM(SOMNo)%StandingFraction(pool)%P
-            g%SurfOM(SOMNo)%Standing(pool)%AshAlk = 0.0
+            g%SurfOM(SOMNo)%Standing(pool)%AshAlk = g%SurfOM(SOMNo)%Standing(pool)%AshAlk - SOM(SOMNo)%StandingFraction(pool)%AshAlk
+
          end do
 
 
@@ -1090,7 +1113,7 @@ subroutine surfom_remove_surfom (variant)
       endif
 
       ! Report Removals
-      if (p%report_removals.eq.'yes') then
+      if (p%report_removals .eq.'yes') then
          Write (Err_string,*)   &
               'Removed SurfaceOM', New_Line   &
              ,'    SurfaceOM name         = ', trim(SOM(SOMNo)%name),    New_Line   &
