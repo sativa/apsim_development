@@ -17,5 +17,4 @@ module = plant(ryegras2) soils.par[sand]                                  ryegra
 module = canopy           sow_rule.par[all]
 module = accum            sow_rule.par[all]
 module = SummaryFile   sow_rule.par [rd1000_timeA]
-module = log
 
