@@ -294,7 +294,9 @@ void __fastcall TRunForm::OnRunNotifyEvent(const std::string& simFileName)
 
    ProgressBar->Step = 1;
    ProgressBar->Min = 0;
-   ProgressBar->Max = simEndJDay - simStartJDay;
+   int length = simEndJDay - simStartJDay;
+   ProgressBar->Max = (length < 0) ? 0 : length;
+   
    ProgressBar->Position = 0;
 
    StartDateLabel->Caption = sdat.getValue().c_str();
@@ -339,7 +341,10 @@ void __fastcall TRunForm::OnStdoutEvent(const string& text)
          // 'Date' lines. Update 'indicator' dials
          CurrentDateLabel->Caption = DateString.c_str();
          currentDate.Read(DateString.c_str());
-         ProgressBar->Position = currentDate.Get_jday() - simStartJDay;
+         int currpos = currentDate.Get_jday() - simStartJDay;
+         currpos = (currpos < ProgressBar->Min) ? ProgressBar->Min : currpos;
+         currpos = (currpos > ProgressBar->Max) ? ProgressBar->Max : currpos;
+         ProgressBar->Position = currpos;
          }
       else if (line != "" || st.hasMoreTokens())
          addLine(line);
