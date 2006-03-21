@@ -21,13 +21,6 @@
 #include "MealPart.h"
 using namespace std;
 
-void fruitMealPart::doInit (PlantComponent *systemInterface, PlantPhenology *plantPhenology)
-// ====================================================================
-{
-   parentPlant = systemInterface;
-   phenology = plantPhenology;
-}
-
 void fruitMealPart::doDMDemand (float dm_demand)
 //     ===========================================================
 {
@@ -40,7 +33,7 @@ float fruitMealPart::nDemand2(void)
    return l_bound(NDemand - dlt.n_senesced_retrans - dlt.n_green, 0.0);
 }
 
-void fruitMealPart::doNRetranslocate(float dltN, float grain_n_demand)
+void fruitMealPart::doNRetranslocate(float dltN, float /*grain_n_demand*/)
 //     ===========================================================
 {
     dlt.n_retrans = dltN;
@@ -54,7 +47,7 @@ void fruitMealPart::update(void)
    plantPart::updateP();
 }
 
-void fruitMealPart::onHarvest(float /* cutting_height */, float remove_fr,
+void fruitMealPart::onHarvest(float /* cutting_height */, float /*remove_fr*/,
                               vector<string> &dm_type,
                               vector<float> &dlt_crop_dm,
                               vector<float> &dlt_dm_n,

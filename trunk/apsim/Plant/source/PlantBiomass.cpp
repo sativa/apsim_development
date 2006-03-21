@@ -162,7 +162,7 @@ void cproc_dm_senescence1 (const int num_part,           //(INPUT)  number of pl
    }
 
 //============================================================================
-void cproc_dm_retranslocate1 (commsInterface *iface,
+void cproc_dm_retranslocate1 (plantInterface *iface,
                               float g_current_stage,         //(INPUT)  current phenological stage
                               int start_grnfil,              //(INPUT)
                               int end_grnfil,                //(INPUT)
@@ -493,8 +493,8 @@ void cproc_rue_n_gradients(int   day,                  // !day of the year
 	float SCAT;       // leaf light scattering coefficient
 	float A;          // Asymptote of Pmax - SLN response curve
 	float TIME;       // time of day expressed as fraction of daylength
-	float SOLAR;      // extraterrestrial global radiation (MJ/m2/day)
-	float RATIO;      // radiation attenuation factor for atmosphere; 0.75 if sunny
+//	float SOLAR;      // extraterrestrial global radiation (MJ/m2/day)
+//	float RATIO;      // radiation attenuation factor for atmosphere; 0.75 if sunny
 	float DAYL;       // daylength (hours)
 	float LAT;        // latitude (degrees); negative for south
    float SOLARDEC;   // solar declination
@@ -536,7 +536,7 @@ void cproc_rue_n_gradients(int   day,                  // !day of the year
 //        90
 	   for(II = 0; II < 6; II++)
          {
-         RATIO = 0.25 + 0.1 * float (II - 1);
+//         RATIO = 0.25 + 0.1 * float (II - 1);
 //
 //  	Reduce ratio by 60% for inside a glasshouse
 //
@@ -569,14 +569,14 @@ void cproc_rue_n_gradients(int   day,                  // !day of the year
 	            NEWLAT = (PI / 180) * LAT;
 	            SOLARDEC = (PI / 180) * 23.45 * sin(double((2 * PI * (284 + day) / 365)));
 	            DAYL = acos(-1 * tan(NEWLAT) * tan(SOLARDEC));
-	            SOLAR = 24 * 3600 * 1360 * (DAYL * sin(NEWLAT) * sin(SOLARDEC) +
-                     cos(NEWLAT) * cos(SOLARDEC) * sin(DAYL)) / (PI * 1000000);
+//	            SOLAR = 24 * 3600 * 1360 * (DAYL * sin(NEWLAT) * sin(SOLARDEC) +
+//                     cos(NEWLAT) * cos(SOLARDEC) * sin(DAYL)) / (PI * 1000000);
 	            DAYL = (180 / PI) * (2.0 / 15.0) * DAYL;
 	            ALPHA = sin(NEWLAT) * sin(SOLARDEC) + cos(NEWLAT) * cos(SOLARDEC) *
                           cos((PI / 12) * DAYL * (TIME - 0.5));
 	            ALPHA = asin(ALPHA);
 //	            ALPHA1 = ALPHA * 180 / PI;
-	            SOLAR1 = RATIO * SOLAR;
+//	            SOLAR1 = RATIO * SOLAR;
 
                SOLAR1 = radiation; //ew - use the actual daily radation for the calculation
 

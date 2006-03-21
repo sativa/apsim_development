@@ -652,6 +652,7 @@ void genericLeafPart::update(void)
 // Transfer dead leaf areas
 void genericLeafPart::update2(float dying_fract_plants)
 {
+    plantPart::update2(dying_fract_plants);
     // transfer plant leaf area
     gLAI +=  dltLAI - dltSLAI;
     gSLAI += dltSLAI - dltSLAI_detached;

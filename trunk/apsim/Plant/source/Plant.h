@@ -1,17 +1,20 @@
 #ifndef PLANT_H_
 #define PLANT_H_
 
+class ApsimVariant;
 class PlantComponent;
 class PlantPhenology;
-class ApsimVariant;
 class plantPart;
 class plantStemPart;
 class plantLeafPart;
+class plantRootPart;
 class PlantFruit;
 class plantThing;
 class eventObserver;
 class Plant;
 class ReproStruct;
+#include "PlantInterface.h"
+#include "Environment.h"
 
 typedef bool (Plant::*ptr2setFn) (protocol::QuerySetValueData&);
 
@@ -41,26 +44,13 @@ const int  grain_conc = 3 ;
 // N fixation flag
 const int  fixation = 4 ;
 
-//   Short description:
-//      indices of plant part names
-const int  root = 0 ;
-//const int  leaf = 1 ;
-//const int  stem = 2 ;
-//const int  pod  = 1 ;
-//const int  meal = 2 ; // excludes oil component
-//const int  oil  = 3 ; // seed oil
-// number of plant parts
-const int  max_part = 1 ; // NB. implies for (i=0; i < max_part; max_part++) usage
-
-//typedef enum {pw_C3, pw_C4, pw_UNDEF} photosynthetic_pathway_t;
-
 
 //   This class performs crop crop growth
 //     simulates root, leaf, head, stem and grain development. Water and
 //     nitrogen uptake, photosynhesis, and leaf and root senescense.
-class Plant : public plantInterface {
+class Plant : public plantInterface, public IPlant {
 private:
-   PlantComponent *parent;                                // for interface calls to system
+   PlantComponent *parent;                   // for interface calls to system
    friend class plantPartHack;
    stageSubject   stageObservers;            // A collection of state variable observers, reset at each new stage
    stageSubject   otherObservers;            // Another collection of state variable observers
@@ -70,6 +60,7 @@ private:
    vector <plantPart *> myStoverParts;
    plantStemPart  *stemPart;
    plantLeafPart  *leafPart;
+   plantRootPart  *rootPart;
    ReproStruct    *reproStruct;
    PlantPhenology *phenology;
    PlantFruit     *fruitPart;
@@ -148,15 +139,18 @@ private:
    float sumSoilNDemand(void) ;
    float nDemand(void) ;
    float nCapacity(void) ;
+   void doRegistrations(protocol::Component *) ;
+   void doIDs(void) ;
 
 public:
    Plant(PlantComponent *P);
    ~Plant();
-   void initialise(void) ;
-   void doIDs(void) ;
+
    void doInit1(protocol::Component *);
-   void doRegistrations(protocol::Component *) ;
-   bool setVariable(unsigned id, protocol::QuerySetValueData& qd) ;
+   void doInit2(protocol::Component *);
+   void onApsimGetQuery(protocol::ApsimGetQueryData&);
+   bool respondToSet(unsigned int &id, protocol::QuerySetValueData& qd) ;
+
    void doPrepare(unsigned &, unsigned &, protocol::Variant &) ;
    void doProcess(unsigned &, unsigned &, protocol::Variant &) ;
    void doSow(unsigned &, unsigned &, protocol::Variant &v) ;
@@ -170,10 +164,14 @@ public:
    void doTick(unsigned &, unsigned &, protocol::Variant &v) ;
    void doNewMet(unsigned &, unsigned &, protocol::Variant &v) ;
    void doNewProfile(unsigned &, unsigned &, protocol::Variant &v) ;
+
    void registerClassActions(void);
-   void onApsimGetQuery(protocol::ApsimGetQueryData&);
    void sendStageMessage(const char *what);
    void doPlantEvent(const string &);
+
+   void writeString (const char *line);
+   void warningError (const char *msg);
+
    void plant_co2_modifier_rue(void);
    void plant_co2_modifier_te(void);
    void plant_co2_modifier_n_conc(void);
@@ -186,7 +184,6 @@ public:
    void plant_temp_stress (int option/* (INPUT) option number*/);
    void plant_oxdef_stress (int option /* (INPUT) option number */);
    void plant_bio_water (int option  /* (INPUT) option number */);
-   void plant_bio_init (int option);
    void plant_retrans_init (int option);
    void plant_detachment (int option /* (INPUT) option number */);
    void plant_plant_death (int option /* (INPUT) option number*/);
@@ -254,10 +251,7 @@ public:
    void plant_leaf_death (int   option/*(INPUT) option number*/);
    void plant_leaf_area_sen (int   option/*(INPUT) option number*/);
    void plant_cleanup ();
-   void plant_update(float  c_n_conc_crit_root
-                     ,float  c_n_conc_max_root
-                     ,float  c_n_conc_min_root
-                     ,float  g_row_spacing
+   void plant_update(float  g_row_spacing
                      ,float  g_skip_row_fac
                      ,float  g_skip_plant_fac
                      ,float *c_x_row_spacing
@@ -269,17 +263,7 @@ public:
                      ,float  *g_cover_green
                      ,float  *g_cover_sen
                      ,float  g_dlt_plants
-                     ,float  g_dlt_root_depth
-                     ,float *g_n_conc_crit
-                     ,float *g_n_conc_max
-                     ,float *g_n_conc_min
-                     ,float *g_plants
-                     ,float *g_root_depth
-                     ,float *g_dlt_root_length_dead
-                     ,float *g_root_length_dead
-                     ,float *g_root_length
-                     ,float *g_dlt_root_length
-                     ,float *g_dlt_root_length_senesced) ;
+                     ,float *g_plants) ;
    void plant_check_bounds(float  g_cover_dead
                            ,float  g_cover_green
                            ,float  g_cover_sen
@@ -296,7 +280,6 @@ public:
                      ,float  *g_n_demand_tot
                      ,float  *g_n_uptake_stover_tot
                      ,float  *g_n_uptake_tot
-                     ,float  *g_dlt_n_green
                      ,float  *g_n_fix_uptake
                      ,float  *g_n_fixed_tops
                      ,float  *g_root_depth
@@ -312,9 +295,7 @@ public:
                            ,float  dlt_n_root
                            ,float  dlt_p_root
                            ,float  *root_length)               ;
-   void plant_dm_init (float  c_dm_root_init
-                       ,float  g_plants
-                       ,float  *dm_green);
+   void plant_dm_init (void);
 
    void plant_root_depth (int option /* (INPUT) option number*/);
    void plant_water_supply (int option /* (INPUT) option number*/);
@@ -324,10 +305,7 @@ public:
    void plant_light_supply_partition (int option /*(INPUT) option number*/);
    void plant_bio_rue (int option    /*(INPUT) option number*/);
    void plant_transpiration_eff (int option /*(INPUT) option number*/);
-   void plant_sen_root_length (int option /*(INPUT) option number*/);
-   void plant_root_depth_init (int option /*(INPUT) option number*/);
    void plant_root_length_growth (int option /*(INPUT) option number*/);
-   void plant_root_length_init (int option /*(INPUT) option number*/);
    void plant_water_supply_partition(float sw_demand
                                      , float swDemandVeg
                                      , float swSupply
@@ -345,13 +323,7 @@ public:
                                float mint,                //!daily min temp (C)
                                float *modifier);          //!modifier (-)
 
-   void plant_n_conc_limits (float  c_n_conc_crit_root
-                             ,float  c_n_conc_max_root
-                             ,float  c_n_conc_min_root
-                             ,float  g_co2_modifier_n_conc
-                             ,float  *n_conc_crit
-                             ,float  *n_conc_max
-                             ,float  *n_conc_min) ;
+   void plant_n_conc_limits (float  g_co2_modifier_n_conc) ;
 
    void legnew_n_partition
       (float  *g_dlayer
@@ -366,8 +338,7 @@ public:
                               , float c_ratio_root_shoot
                               , double g_dlt_dm
                               , float dm_yield_demand_fruit
-                              , double *dlt_dm_fruit
-                              , float *g_dlt_dm_green);
+                              , double *dlt_dm_fruit);
 
    void legnew_dm_partition2 (float  g_current_stage
                               , float  *c_x_stage_no_partition
@@ -376,8 +347,7 @@ public:
                               , float *c_y_ratio_root_shoot
                               , double g_dlt_dm
                               , float dm_yield_demand_fruit
-                              , double *dlt_dm_fruit
-                              , float *dlt_dm_green);
+                              , double *dlt_dm_fruit);
 
    void Plant::legnew_dm_retranslocate
       (vector<plantPart *> &allParts        // (INPUT) all parts of plant
@@ -388,21 +358,10 @@ public:
 
    void legnew_n_retranslocate(float g_grain_n_demand);
 
-   void plant_N_senescence (int num_part                  //(INPUT) number of plant part
-                            ,float *c_n_sen_conc          //(INPUT)  N concentration of senesced materia  (g/m^2)
-                            ,float* g_dlt_dm_senesced     // (INPUT)  plant biomass senescence (g/m^2)
-                            ,float* g_n_green             //(INPUT) nitrogen in plant material (g/m^2)
-                            ,float* g_dm_green            // (INPUT) plant material (g/m^2)
-                            ,float* g_n_demand            //
-                            ,float* dlt_n_senesced_trans  // (OUTPUT)  plant N senescence (g/m^2)
-                            ,float* dlt_n_senesced_retrans //
-                            ,float* dlt_n_senesced);      //  (OUTPUT) actual nitrogen senesced
-                                                          //    from plant parts (g/m^2)
-
+   void plant_N_senescence (void);
    void plant_root_incorp (float dlt_dm_root,
                            float dlt_n_root, float dlt_p_root, float *g_dlayer, float *g_root_length, float g_root_depth,
                            const char *c_crop_type);
-   void plant_soil_n_demand1 (float *);
    void plant_process ( void );
    void plant_dead (void);
    void plant_harvest (protocol::Variant &v/*(INPUT) message variant*/);
@@ -463,26 +422,6 @@ public:
                                float uptake_lbound,              //(INPUT) uptake lower limit
                                float uptake_ubound,              //(INPUT) uptake upper limit
                                float *uptake_array);             //(OUTPUT) crop uptake array
-
-
-
-   //JNGH Implement?void legnew_dm_part_demands(float c_frac_pod              // (INPUT)  fraction of remaining dm allocated to pod
-   //JNGH Implement?                          , float g_grain_energy          // multiplier of grain weight to account f
-   //JNGH Implement?                          , float c_grain_oil_conc        // (INPUT)  grain dm demand (g/m^2)
-   //JNGH Implement?                          , float g_dlt_dm_grain_demand   // multiplier of grain weight to account f
-   //JNGH Implement?                          , float *dm_oil_conv_demand      // assimilate demand for reproductive parts (g/m^2)
-   //JNGH Implement?                          , float *dlt_dm_demand_meal      // assimilate demand for reproductive parts (g/m^2)
-   //JNGH Implement?                          , float *dlt_dm_demand_oil       // assimilate demand for reproductive parts (g/m^2)
-   //JNGH Implement?                          , float *dlt_dm_demand_pod );     // assimilate demand for conversion to oil (g/m^2)
-   //JNGH Implement?
-   //JNGH implement? void legnew_dm_distribute(int max_part
-   //JNGH implement?                         , float *dm_remaining          // interim dm pool for partitioning
-   //JNGH implement?                         , float dlt_dm_demand_meal    // assimilate demand for reproductive parts (g/m^2)
-   //JNGH implement?                         , float dlt_dm_demand_oil     // assimilate demand for reproductive parts (g/m^2)
-   //JNGH implement?                         , float dlt_dm_demand_pod     // assimilate demand for reproductive parts (g/m^2)
-   //JNGH implement?                         , float dm_oil_conv_demand    // assimilate demand for conversion to oil (g/m^2)
-   //JNGH implement?                         , float dlt_dm_oil_conv       // (OUTPUT) actual biomass used in conversion to oil (g/m2)
-   //JNGH implement?                         , float *dlt_dm_green);       // (OUTPUT) actual biomass partitioned
 
    void plant_get_site_characteristics ();
    bool set_plant_crop_class(protocol::QuerySetValueData&v);
@@ -666,7 +605,7 @@ public:
 
    bool on_day_of(const string &what) ;
    bool inPhase(const string &what) ;
-   int  getDayOfYear(void) {return (g.day_of_year);};
+   int  getDayOfYear(void) {return (Environment.day_of_year);};
 
    // To transfer to Fruit class
    void plant_bio_distribute (void);
@@ -693,6 +632,8 @@ public:
    void  PlantP_retrans (vector<plantPart*>&);
    void  PlantP_detachment (vector<plantPart*>&);
    float PlantP_Pfact (vector<plantPart *>&);
+
+   const environment_t *getEnvironment(void) {return &Environment;};
 
 private:
    /* system interface: */
@@ -746,6 +687,8 @@ private:
       vector<float> sw_dep;
       vector<float> bd;
    };
+   environment_t Environment;
+
    //     ================================================================
    //       plant Globals
    //     ================================================================
@@ -775,13 +718,7 @@ private:
       float skip_plant;                                 // skip plant (0, 1, 2)
       float skip_row_fac;                               // skip row factor
       float skip_plant_fac;                             // skip plant factor
-      int   year;                                       // year
-      int   day_of_year;                                // day of year
       float fr_intc_radn;                               // fraction of radiation intercepted by canopy
-      float latitude;                                   // latitude (degrees, negative for southern hemisphere)
-      float radn;                                       // solar radiation (Mj/m^2/day)
-      float mint;                                       // minimum air temperature (oC)
-      float maxt;                                       // maximum air temperature (oC)
       float soil_temp[366+1];                           // soil surface temperature (oC)
       float eo;                                         // potential evapotranspiration (mm)
       factorObserver cnd_photo;                         // cumulative nitrogen stress type 1
@@ -794,8 +731,6 @@ private:
       float canopy_width;                               // canopy height (mm)
       float plants;                                     // Plant density (plants/m^2)
       float dlt_plants;                                 // change in Plant density (plants/m^2)
-      float dlt_root_depth;                             // increase in root depth (mm)
-      float root_depth;                                 // depth of roots (mm)
       float cover_green;                                // fraction of radiation reaching the
                                                         // canopy that is intercepted by the
                                                         // green leaves of the canopy (0-1)
@@ -824,20 +759,8 @@ private:
       double dlt_dm_supply_to_fruit;                    // dry matter supplied to fruit from assimilate (g/m^2)
       float dlt_dm_yield_demand_fruit;                  // dry matter demand by fruit (g/m^2)
       float dlt_dm_retrans_to_fruit;                    // dry matter retranslocated to fruit (g/m^2)
-      float dlt_dm_green[max_part];                     // plant biomass growth (g/m^2)
-      float dlt_dm_senesced[max_part];                  // plant biomass senescence (g/m^2)
-      float dlt_dm_detached[max_part];                  // plant biomass detached (g/m^2)
-      float dlt_dm_green_dead[max_part];                // plant biomass to dead population(g/m^2)
-      float dlt_dm_senesced_dead[max_part];             // plant biomass to dead population(g/m^2)
-      float dlt_dm_dead_detached[max_part];             // plant biomass detached from dead plant (g/m^2)
-      float dlt_dm_green_retrans[max_part];             // plant biomass retranslocated (g/m^2)
-                                                        //      stateObserver dm_stress_max;                      // sum of maximum daily stress on dm production per phase
-                                                        //      float dlt_dm_stress_max;                          // maximum daily stress on dm production (0-1)
+      float dlt_dm_oil_conv_retranslocate;              // retranslocated plant biomass used in conversion to oil for (g/m^2)
       float dlt_dm_grain_demand;                        // grain dm demand (g/m^2)
-      float dm_green_demand[max_part];                  // biomass demand of the plant parts (g/m^2)
-      float dm_dead[max_part];                          // dry wt of dead plants (g/m^2)
-      float dm_green[max_part];                         // live plant dry weight (biomass) (g/m^2)
-      float dm_senesced[max_part];                      // senesced plant dry wt (g/m^2)
       float radn_int;                                   // radn intercepted by leaves (mj/m^2)
       float radnIntGreenFruit;                          // radn intercepted by fruit (mj/m^2)
       float transp_eff;                                 // transpiration efficiency (g dm/m^2/mm water)
@@ -850,24 +773,8 @@ private:
       float leaf_no_final;                              // total number of leaves the plant produces
       float lai_equilib_light[366+1];                   // lai threshold for light senescence
       float lai_equilib_water[366+1];                   // lai threshold for water senescence
-      float n_demand [max_part];                        // critical plant nitrogen demand (g/m^2)
-      float soil_n_demand[max_part];
       float grain_n_demand;                             // grain n demand from soil OR retrans
       float grain_n_supply;                             // grain n supply from soil OR retrans
-      float n_max [max_part];                           // maximum plant nitrogen demand (g/m^2)
-      float dlt_n_green[max_part];                      // actual N uptake into plant (g/m^2)
-      float dlt_n_senesced[max_part];                   // actual N loss with senesced plant (g/m^2)
-      float dlt_n_senesced_retrans[max_part];
-      float dlt_n_senesced_trans[max_part];
-      float dlt_n_detached[max_part];                   // actual N loss with detached plant (g/m^2)
-      float dlt_n_dead[max_part];                       // actual N loss with dead plant (g/m^2)
-      float dlt_n_green_dead[max_part];                 // plant N to dead population(g/m^2)
-      float dlt_n_senesced_dead[max_part];              // plant N to dead population(g/m^2)
-      float dlt_n_dead_detached[max_part];              // actual N loss with detached dead plant (g/m^2)
-      float n_dead[max_part];                           // plant N content of dead plants (g N/m^2)
-      float n_green[max_part];                          // plant nitrogen content (g N/m^2)
-      float n_senesced[max_part];                       // plant N content of senesced plant (g N/m^2)
-      float dlt_n_retrans[max_part];                    // nitrogen retranslocated out from parts to grain (g/m^2)
       float dlt_no3gsm[max_layer];                      // actual NO3 uptake from soil (g/m^2)
       float no3gsm [max_layer];                         // nitrate nitrogen in layer L (g N/m^2)
       float no3gsm_min[max_layer];                      // minimum allowable NO3 in soil (g/m^2)
@@ -883,10 +790,6 @@ private:
       float no3gsm_uptake_pot[max_layer];
       float n_fix_uptake;                               // N fixation actual (g/m^2)
       float n_fixed_tops;                               // cum. fixed N in tops
-      float n_conc_crit[max_part];                      // critical N concentration (g N/g biomass)
-      float n_conc_max[max_part];                       // maximum N concentration (g N/g biomass)
-      float n_conc_min[max_part];                       // minimum N concentration (g N/g biomass)
-      float dm_plant_min[max_part];                     // minimum weight of each plant part (g/plant)
       float dlayer [max_layer];                         // thickness of soil layer I (mm)
       float dlt_sw_dep[max_layer];                      // water uptake in each layer (mm water)
       float ll15_dep[max_layer];
@@ -903,7 +806,6 @@ private:
       float sw_avail[max_layer];                        // actual extractable soil water (mm)
       float sw_supply [max_layer];                      // potential water to take up (supply)
                                                         // from current soil water (mm)
-      int   num_layers;                                 // number of layers in profile ()
       float transpiration_tot;                          // cumulative transpiration (mm)
       float n_uptake_tot;                               // cumulative total N uptake (g/m^2)
       float n_demand_tot;                               // sum of N demand since last output (g/m^2)
@@ -911,11 +813,6 @@ private:
       float n_conc_crit_stover_tot;                     // sum of tops critical N concentration (g N/g biomass)
       float n_uptake_stover_tot;                        // sum of tops N uptake (g N/m^2)
       float lai_max;                                    // maximum lai - occurs at flowering
-      float dlt_root_length_dead[max_layer];            // root length (mm/mm^2)
-      float root_length[max_layer];                     // root length (mm/mm^2)
-      float root_length_dead[max_layer];                // root length of dead population (mm/mm^2)
-      float dlt_root_length[max_layer];                 // root length growth (mm/mm^2)
-      float dlt_root_length_senesced[max_layer];        // root length senescence (mm/mm^2)
       float ext_n_demand;
       float ext_sw_demand;                              // Note: currently unused - use sw_demand
       float grain_energy;                               // multiplier of grain weight to account
@@ -931,16 +828,6 @@ private:
       float       dlt_dm_parasite;         // parasite biomass growth [g/m^2]
 
       // Phosphorous
-      float p_green[max_part];
-      float p_sen[max_part];
-      float p_dead[max_part];
-      float dlt_p_green[max_part];
-      float dlt_p_sen[max_part];
-      float dlt_p_det[max_part];
-      float dlt_p_dead_det[max_part];
-      float dlt_p_retrans[max_part];
-      float dlt_p_dead[max_part];
-      float p_demand[max_part];
       float pfact_photo;
       float pfact_expansion;
       float pfact_pheno;
@@ -971,11 +858,9 @@ private:
       float kl[max_layer];                              // root length density factor for water
       float ll_dep[max_layer];                          // lower limit of plant-extractable
                                                         // soil water for soil layer L (mm)
-      float xf[max_layer];                              // root exploration factor (0-1)
       string  uptake_source;                            // source of uptake information
       float eo_crop_factor;                             // Crop factor for sw demand applied to Eo
 
-      float     root_distribution_pattern;    // root dist patt for root_growth_option == 2
       float minTempGrnFill;
       int   daysDelayGrnFill;
    } p; // Parameters
@@ -1008,8 +893,6 @@ private:
       string default_crop_class;                         // crop class
       vector<string> part_names;                         // names of plant parts
       string n_supply_preference;                        // preference of n supply
-      float x_sw_ratio [max_table];
-      float y_sw_fac_root [max_table];
       float x_ws_root [max_table];
       float y_ws_root_fac [max_table];
       float x_sw_demand_ratio [max_table];
@@ -1021,7 +904,6 @@ private:
       float oxdef_photo [max_table];
       float oxdef_photo_rtfr[max_table];
       int   num_oxdef_photo;
-      int   num_sw_ratio;
       int   num_ws_root;
       int   num_sw_demand_ratio;
       int   num_sw_avail_ratio;
@@ -1029,19 +911,17 @@ private:
       float twilight;                                   // twilight in angular distance between
                                                         // sunset and end of twilight - altitude
                                                         // of sun. (deg)
-      float n_conc_crit_root;                           // critical N concentration of root (g N/g biomass)
-      float n_conc_max_root;                            // maximum N concentration of root (g N/g biomass)
-      float n_conc_min_root;                            // minimum N concentration of root (g N/g biomass)
-      float x_stage_code[max_table];                    // stage table for N concentrations (g N/g biomass)
-      float y_n_conc_crit_leaf[max_table];              // critical N concentration of leaf (g N/g biomass)
-      float y_n_conc_max_leaf[max_table];               // maximum N concentration of leaf (g N/g biomass)
-      float y_n_conc_min_leaf[max_table];               // minimum N concentration of leaf (g N/g biomass)
+//      float n_conc_crit_root;                           // critical N concentration of root (g N/g biomass)
+//      float n_conc_max_root;                            // maximum N concentration of root (g N/g biomass)
+//      float n_conc_min_root;                            // minimum N concentration of root (g N/g biomass)
+//      float x_stage_code[max_table];                    // stage table for N concentrations (g N/g biomass)
+//      float y_n_conc_crit_leaf[max_table];              // critical N concentration of leaf (g N/g biomass)
+//      float y_n_conc_max_leaf[max_table];               // maximum N concentration of leaf (g N/g biomass)
+//      float y_n_conc_min_leaf[max_table];               // minimum N concentration of leaf (g N/g biomass)
       float n_fact_photo;                               // multipler for N deficit effect on photosynthesis
       float n_fact_pheno;                               // multipler for N deficit effect on phenology
       float n_fact_expansion;
       float n_retrans_fraction;
-      float n_init_conc[max_part];                      // initial N concentration (gN/gdm)
-      float n_sen_conc[max_part];                       // N concentration of senescedmaterial (gN/gdm)
       int   num_n_conc_stage;                           // no of values in stage table
       float x_row_spacing[max_table];
       float y_extinct_coef[max_table];
@@ -1065,7 +945,6 @@ private:
                                                         // partly fails (unitless)
       float swdf_photo_rate;                            // rate of plant reduction with
                                                         // photosynthesis water stress
-      float initial_root_depth;                         // initial depth of roots (mm)
       float svp_fract;                                  // fraction of distance between svp at
                                                         // min temp and svp at max temp where
                                                         // average svp during transpiration
@@ -1090,7 +969,6 @@ private:
                                                         // it wasn't depleted between time steps
       float n_fix_rate[max_table];                      // potential rate of N fixation (g N fixed
                                                         // per g above ground biomass
-      float dm_init [max_part];                         // initial dm (g/plant)
       float leaf_init_rate;                             // growing degree days to initiate each le
                                                         // primordium until fl_initling (deg day)
       float leaf_no_seed;                               // number of leaf primordia present in
@@ -1098,11 +976,6 @@ private:
       float **x_dm_sen_frac;
       float **y_dm_sen_frac;
       int   *num_dm_sen_frac;
-
-      float dead_detach_frac[max_part];                 // fraction of dead plant parts
-                                                        // detaching each day (0-1)
-      float sen_detach_frac[max_part];                  // fraction of dead plant parts
-                                                        // detaching each day (0-1)
 
       float swdf_grain_min;                             // minimum of water stress factor
       float hi_min;                                     // minimum harvest index (g grain/
@@ -1186,17 +1059,9 @@ private:
       float row_spacing_default;
       float skip_row_default;                           //Default skip row ()
       float skip_plant_default;                         //Default skip plant ()
-      float specific_root_length;                       // as name suggests (mm/g)
       float root_die_back_fr;                           // fraction of roots dying at harvest
-      float x_plant_rld [max_table];
-      float y_rel_root_rate [max_table];
-      int   num_plant_rld;
       vector<string> class_action;
       vector<string> class_change;
-
-      float x_temp_root_advance[max_table];
-      float y_rel_root_advance[max_table];
-      int   num_temp_root_advance;
 
       float eo_crop_factor_default;                     // Default Crop factor for sw demand applied to Eo
       float n_deficit_uptake_fraction;
@@ -1219,16 +1084,8 @@ private:
       photosynthetic_pathway_t photosynthetic_pathway;
       string     remove_biomass_report;
 
-      bool    p_stress_determinants[max_part];           //         character stress_determinants(max_part)*32
-      bool    p_yield_parts[max_part];                   //         character yield_parts(max_part)*32
-      bool    p_retrans_parts[max_part];                 //         character retrans_parts(max_part)*32
-
       float x_p_stage_code [max_table];
       int   num_x_p_stage_code;
-      float y_p_conc_max [max_part][max_table];
-      float y_p_conc_min [max_part][max_table];
-      float y_p_conc_sen [max_part][max_table];
-      float p_conc_init [max_part];
       float pfact_photo_slope;
       float pfact_expansion_slope;
       float pfact_pheno_slope;
@@ -1236,8 +1093,6 @@ private:
 
    }  c;   // Constants
 
-   void setupHacks(vector<plantPart *> &parts);
-   void deleteHacks(vector<plantPart *> &parts);
 };  // Plant
 
 #endif //PLANT_H_

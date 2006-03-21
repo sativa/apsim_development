@@ -22,13 +22,6 @@
 #include "OilPart.h"
 using namespace std;
 
-void fruitOilPart::doInit (PlantComponent *systemInterface, PlantPhenology *plantPhenology)
-   // ====================================================================
-{
-   parentPlant = systemInterface;
-   phenology = plantPhenology;
-}
-
 void fruitOilPart::doRegistrations(protocol::Component *system)
    //===========================================================================
 {
@@ -64,7 +57,7 @@ void fruitOilPart::update(void)
    plantPart::updateP();
 }
 
-void fruitOilPart::onHarvest(float /* cutting_height */, float remove_fr,
+void fruitOilPart::onHarvest(float /* cutting_height */, float /*remove_fr*/,
                              vector<string> &dm_type,
                              vector<float> &dlt_crop_dm,
                              vector<float> &dlt_dm_n,
@@ -146,7 +139,7 @@ void fruitOilPart::doBioGrainOil (void)    // for seed energy content (>= 1.0)
    //       Calculate grain oil factors
 
    gGrain_energy = 1.0 + cGrain_oil_conc * (cCarbo_oil_conv_ratio - 1.0);
-   bound_check_real_var (parentPlant, gGrain_energy, 1.0, 2.0, "grain_energy");
+   bound_check_real_var (plant, gGrain_energy, 1.0, 2.0, "grain_energy");
 }
 
 float fruitOilPart::energyAdjustHI (float harvestIndex)

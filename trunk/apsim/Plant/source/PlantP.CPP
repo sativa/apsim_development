@@ -70,31 +70,9 @@ void Plant::zero_p_variables ()
 
       // Globals
       // =======
-      fill_real_array (g.p_green, 0.0, max_part);
-      fill_real_array (g.p_sen, 0.0, max_part);
-      fill_real_array (g.p_dead, 0.0, max_part);
-      fill_real_array (g.dlt_p_green, 0.0, max_part);
-      fill_real_array (g.dlt_p_dead, 0.0, max_part);
-      fill_real_array (g.dlt_p_sen, 0.0, max_part);
-      fill_real_array (g.dlt_p_det, 0.0, max_part);
-      fill_real_array (g.dlt_p_dead_det, 0.0, max_part);
-      fill_real_array (g.dlt_p_retrans, 0.0, max_part);
-      fill_real_array (g.p_demand, 0.0, max_part);
-
 
       // Constants
       // =========
-      fill_real_array (c.x_p_stage_code, 0.0, max_part);
-
-      for (int part = 0; part < max_part; part++)
-      {
-         c.p_stress_determinants[part] = false;
-         c.p_yield_parts[part] = false;
-         c.p_retrans_parts[part] = false;
-         fill_real_array (c.y_p_conc_max[part], 0.0, max_table);
-         fill_real_array (c.y_p_conc_min[part], 0.0, max_table);
-         fill_real_array (c.y_p_conc_sen[part], 0.0, max_table);
-      }
       g.pfact_photo        = 1.0;
       g.pfact_expansion    = 1.0;
       g.pfact_pheno        = 1.0;
@@ -120,102 +98,21 @@ void Plant::read_p_constants (PlantComponent *systemInterface)
 //       Read all module constants.
 
 //+  Constant Values
-    const char*  my_name = "PlantP_read_constants";
     const char*  section_name = "constants" ;
 
 //+  Local Variables
-    float  temp[max_table];
-    string scratch;
-    vector<string> parts;
-    vector<string>::iterator part;
-//- Implementation Section ----------------------------------
-
-    push_routine (my_name);
-
-    Split_string(systemInterface->readParameter (section_name, "stress_determinants"), " ", parts);
-    // Find each part and mark it..
-    for (part = parts.begin(); part != parts.end(); part++)
-       {
-       vector<string>::iterator cpart = find(c.part_names.begin(),
-                                             c.part_names.end(), *part);
-       if (cpart != c.part_names.end())
-          {
-          int ipart = cpart - c.part_names.begin();
-          c.p_stress_determinants[ipart] = true;
-          }
-       }
-
-    Split_string(systemInterface->readParameter (section_name, "yield_parts"), " ", parts);
-    for (part = parts.begin(); part != parts.end(); part++)
-       {
-       vector<string>::iterator cpart = find(c.part_names.begin(),
-                                             c.part_names.end(), *part);
-       if (cpart != c.part_names.end())
-          {
-          int ipart = cpart - c.part_names.begin();
-          c.p_yield_parts[ipart] = true;
-          }
-       }
-
-    Split_string(systemInterface->readParameter (section_name, "retrans_parts"), " ", parts);
-    for (part = parts.begin(); part != parts.end(); part++)
-       {
-       vector<string>::iterator cpart = find(c.part_names.begin(),
-                                             c.part_names.end(), *part);
-       if (cpart != c.part_names.end())
-          {
-          int ipart = cpart - c.part_names.begin();
-          c.p_retrans_parts[ipart] = true;
-          }
-       }
-
     systemInterface->readParameter (section_name, "pfact_photo_slope",    /*"()",   */ c.pfact_photo_slope    , 0.0, 100.0);
     systemInterface->readParameter (section_name, "pfact_expansion_slope",/*"()",   */ c.pfact_expansion_slope, 0.0, 100.0);
     systemInterface->readParameter (section_name, "pfact_pheno_slope",    /*"()",   */ c.pfact_pheno_slope    , 0.0, 100.0);
     systemInterface->readParameter (section_name, "pfact_grain_slope",    /*"()",   */ c.pfact_grain_slope    , 0.0, 100.0);
-
-    systemInterface->readParameter (section_name, "x_p_stage_code", /*"()",*/ c.x_p_stage_code, c.num_x_p_stage_code, 0.0, 12.0);
-    for (int ipart = 0; ipart < max_part; ipart++)
-       {
-       string keyword ="y_p_conc_max_" + c.part_names[ipart];
-       systemInterface->readParameter (section_name, keyword, /*"(g/g)",*/ temp, c.num_x_p_stage_code, 0.0, 1.0);
-
-       for (int i=0; i < c.num_x_p_stage_code; i++)
-       {
-          c.y_p_conc_max[ipart][i] = temp[i];
-       }
-
-       keyword = "y_p_conc_sen_" + c.part_names[ipart];
-       systemInterface->readParameter (section_name, keyword, /*"(g/g)", */temp, c.num_x_p_stage_code, 0.0, 1.0);
-
-       for (int i=0; i < c.num_x_p_stage_code; i++)
-       {
-          c.y_p_conc_sen[ipart][i] = temp[i];
-       }
-
-       keyword = "y_p_conc_min_" + c.part_names[ipart];
-       systemInterface->readParameter (section_name, keyword, /*"(g/g)",*/ temp, c.num_x_p_stage_code, 0.0, 1.0);
-
-       for (int i=0; i < c.num_x_p_stage_code; i++)
-       {
-          c.y_p_conc_min[ipart][i] = temp[i];
-       }
-   }
-    string keyword = "p_conc_init_root";
-    systemInterface->readParameter (section_name, keyword, /*"(g/g)",*/ c.p_conc_init[root], 0.0, 1.0);
-
-   pop_routine  (my_name);
 }
 
 void Plant::prepare_p(void)
 {
    if (g.phosphorus_aware == true)
       {
-      vector<plantPart*> allParts;
-      setupHacks(allParts);
-      PlantP_demand(allParts);
-      PlantP_Stress(allParts);
-      deleteHacks(allParts);
+      PlantP_demand(myParts);
+      PlantP_Stress(myParts);
       }
 }
 
@@ -239,17 +136,14 @@ void Plant::detachment_p(void)
 
       if (g.phosphorus_aware == true)
       {
-         vector<plantPart*> allParts;
          vector<plantPart*>::iterator part;
-         setupHacks(allParts);
 
-         PlantP_detachment (allParts);
+         PlantP_detachment (myParts);
 
-         for (part = allParts.begin(); part != allParts.end(); part++)
+         for (part = myParts.begin(); part != myParts.end(); part++)
          {
             (*part)->updatePDet();
          }
-         deleteHacks(allParts);
       }
       pop_routine (my_name);
 }
@@ -346,14 +240,6 @@ void Plant::zero_daily_p_variables ()
 
 //- Implementation Section ----------------------------------
       push_routine (my_name);
-
-      fill_real_array (g.dlt_p_green, 0.0, max_part);
-      fill_real_array (g.dlt_p_dead, 0.0, max_part);
-      fill_real_array (g.dlt_p_sen, 0.0, max_part);
-      fill_real_array (g.dlt_p_det, 0.0, max_part);
-      fill_real_array (g.dlt_p_dead_det, 0.0, max_part);
-      fill_real_array (g.dlt_p_retrans, 0.0, max_part);
-      fill_real_array (g.p_demand, 0.0, max_part);
 
       pop_routine (my_name);
 }
@@ -579,10 +465,7 @@ void Plant::plant_p_retrans(void)
 {
    if (g.phosphorus_aware == true)
       {
-      vector<plantPart*> allParts;
-      setupHacks(allParts);
-      PlantP_retrans (allParts);
-      deleteHacks(allParts);
+      PlantP_retrans (myParts);
       }
 }
 
@@ -751,6 +634,7 @@ void Plant::summary_p (void)
 //	cout << endl << "PlantP test finished" << endl;
 //	return 0;
 //}
+
 
 
 

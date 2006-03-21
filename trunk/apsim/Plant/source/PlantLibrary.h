@@ -8,7 +8,7 @@
 
 using namespace std;
 
-class commsInterface;
+class plantInterface;
 
 #define min(A,B) ((A)<(B)?(A):(B))
 #define max(A,B) ((A)>(B)?(A):(B))
@@ -244,7 +244,7 @@ void cproc_dm_senescence1 (const int num_part,           //(INPUT)  number of pl
                            float *g_dlt_dm_green_retrans,  // (INPUT)  plant biomass retranslocat
                            float *dlt_dm_senesced);         // (OUTPUT) actual biomass senesced from plant parts (g/m^2)
 
-void cproc_dm_retranslocate1 (commsInterface *iface,
+void cproc_dm_retranslocate1 (plantInterface *iface,
                               float g_current_stage,         //(INPUT)  current phenological stage
                               int start_grnfil,              //(INPUT)
                               int end_grnfil,                //(INPUT)
@@ -692,26 +692,26 @@ void plant_leaf_removal_top (float *leaf_area
 //---------------------------------------------------------------------------
 
 
-float crop_failure_germination(commsInterface *,
+float crop_failure_germination(plantInterface *,
                               int days_germ_limit,   // (INPUT)  maximum days allowed after sowing for germination to take place (days)
                               int daysInStage,        // (Input) days we have spent in current stage
                               float plants);         // (INPUT)  Plant density (plants/m^2)
 
-float crop_failure_emergence(commsInterface *,
+float crop_failure_emergence(plantInterface *,
                             float tt_emerg_limit,    // (INPUT)  maximum degree days allowed for emergence to take place (deg day)
                              float ttInStage,         // (INPUT)  the sum of growing degree days for a phenological stage (oC d)
                              float plants);           // (INPUT)  Plant density (plants/m^2)
 
-float crop_failure_leaf_sen (commsInterface *
+float crop_failure_leaf_sen (plantInterface *
                             ,float g_lai              // (INPUT)  live plant green lai
                             ,float g_plants);           // (INPUT)  Plant density (plants/m^2)
 
-float crop_failure_phen_delay (commsInterface *
+float crop_failure_phen_delay (plantInterface *
                               ,float c_swdf_pheno_limit          // (INPUT)  critical cumulative phenology water stress above which the crop fails (unitless)
                               ,float cswd_pheno                 // (INPUT)  cumulative water stress type 3
                               ,float g_plants);                    // (INPUT)  Plant density (plants/m^2)
 
-void crop_death_drought (commsInterface *,
+void crop_death_drought (plantInterface *,
                          int  emerg,                // (INPUT) emergence stage
                          int  flag_leaf,            // (INPUT) flag leaf stage
                          int  plant_end,            // (INPUT) maximum plant stage
@@ -724,7 +724,7 @@ void crop_death_drought (commsInterface *,
                          float  g_plants,           // (INPUT) plant density (plants/m2)
                          float *dlt_plants);         // (OUTPUT)daily plant death (plants/m2)
 
-void crop_death_seedling_hightemp (commsInterface *,
+void crop_death_seedling_hightemp (plantInterface *,
                                    int days_after_emerg,           // (INPUT) days after emergence
                                    int g_year,                     // (INPUT) year
                                    int g_day_of_year,              // (INPUT) day of year
@@ -1230,7 +1230,7 @@ void cproc_root_length_growth_new (
 
 
 void cproc_root_length_senescence1(float  C_specific_root_length,    //(INPUT)  length of root per unit wt (m
-                                   float *G_dlayer,                  //(INPUT)  thickness of soil layer I (mm)
+                                   const vector<float> &dlayer,    //(INPUT)  thickness of soil layer I (mm)
                                    float  G_dlt_root_dm_senesced,    //(INPUT)  plant biomass senescence  (g/m^2)
                                    float *G_root_length,             //(INPUT)
                                    float  G_root_depth,              //(INPUT)  depth of roots (mm)
@@ -1451,7 +1451,7 @@ void crop_oxdef_photo1(int   C_num_oxdef_photo,    //  (INPUT)
                        float G_root_depth,        //  (INPUT)  depth of roots (mm)
                        float *oxdef_photo);        //  (OUTPUT)
 
-void cproc_sw_supply1 (commsInterface *,
+void cproc_sw_supply1 (plantInterface *,
                        float C_sw_lb,              //(INPUT)
                        float *G_dlayer,            //(INPUT)
                        float *P_ll_dep,            //(INPUT)
@@ -1509,7 +1509,7 @@ void cproc_bio_water1(int   num_layer,      //(INPUT)  number of layers in profi
                       float *dlt_dm_pot_te); //(OUTPUT) potential dry matter production
                                             //         by transpiration (g/m^2)
 
-void crop_check_sw(commsInterface *,
+void crop_check_sw(plantInterface *,
                    float minsw,    // (INPUT)  lowest acceptable value for ll
                    float *dlayer,   // (INPUT)  thickness of soil layer I (mm)
                    float *dul_dep,  // (INPUT)  drained upper limit soil water content for soil layer L (mm water)
@@ -1536,21 +1536,21 @@ double divide (double dividend, double divisor, double default_value);
 float l_bound (float var, float lower);
 float u_bound (float var, float upper);
 
-void bound_check_real_array (commsInterface *,
+void bound_check_real_array (plantInterface *,
                              float *array,// (INPUT) array to be checked
                              int    array_size,    // (INPUT) array size_of
                              float  lower_bound,// (INPUT) lower bound of values
                              float  upper_bound,// (INPUT) upper bound of values
                              const char *array_name);// (INPUT) key string of array
-void bound_check_integer_array (commsInterface *,
+void bound_check_integer_array (plantInterface *,
                              int *array,// (INPUT) array to be checked
                              int    array_size,    // (INPUT) array size_of
                              int  lower_bound,// (INPUT) lower bound of values
                              int  upper_bound,// (INPUT) upper bound of values
                              const char *array_name);// (INPUT) key string of array
 
-void bound_check_real_var (commsInterface *,float value, float lower, float upper, const char *vname);
-void bound_check_integer_var (commsInterface *, int value, int lower, int upper, const char *vname);
+void bound_check_real_var (plantInterface *,float value, float lower, float upper, const char *vname);
+void bound_check_integer_var (plantInterface *, int value, int lower, int upper, const char *vname);
 
 float bound(float var, float lower, float upper);
 
@@ -1564,6 +1564,15 @@ template <class T> T sum(vector<T> v) {
    T result = 0.0;
    for (unsigned int i = 0; i < v.size();  i++) result += v[i];
    return result;
+};
+template <class T> T sum(vector<T> v, unsigned int n) {
+   T result = 0.0;
+   for (unsigned int i = 0; i < v.size() && i < n;  i++) result += v[i];
+   return result;
+};
+
+template <class T> void setTo(vector<T> v, T value) {
+   for (unsigned int i = 0; i < v.size(); i++) v[i] = value;
 };
 
 float sum_real_array (float *var, int nelem);
@@ -1598,6 +1607,7 @@ float linear_interp_real (float x, float *x_cord, float *y_cord, int num_cord);
 bool stage_is_between (int start, int finish, float current_stage);
 
 int find_layer_no(float depth, float *dlayr, int num_layers);
+int find_layer_no(float depth, const std::vector<float> &dlayr);
 
 bool on_day_of (int stage_no, float current_stage);
 

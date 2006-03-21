@@ -44,7 +44,7 @@ void CropPhenology::onSow(unsigned &, unsigned &, protocol::Variant &v)
    incomingApsimVariant.aliasTo(v.getMessageData());
    if (incomingApsimVariant.get("sowing_depth", protocol::DTsingle, false, sowing_depth) == false)
       throw std::invalid_argument("sowing_depth not specified");
-   bound_check_real_var(parentPlant, sowing_depth, 0.0, 100.0, "sowing_depth");
+   bound_check_real_var(plant, sowing_depth, 0.0, 100.0, "sowing_depth");
    currentStage = 1.0;
    das = 0;
    setupTTTargets();

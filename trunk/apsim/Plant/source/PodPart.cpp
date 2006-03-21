@@ -13,13 +13,6 @@ void fruitPodPart::doRegistrations(protocol::Component *system)
 
 }
 
-void fruitPodPart::doInit (PlantComponent *systemInterface, PlantPhenology *plantPhenology)
-   // ====================================================================
-{
-   parentPlant = systemInterface;
-   phenology = plantPhenology;
-}
-
 void fruitPodPart::update(void)
 //=======================================================================================
 {

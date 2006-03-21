@@ -391,11 +391,11 @@ void PlantFruit::doNPartition(float nSupply, float n_demand_sum, float n_capacit
    float dlt_n_green_sum = dltNGreen();
    if (!reals_are_equal(dlt_n_green_sum - dlt.n_green, 0.0))
       {
-      string msg ="Grain dlt_n_green mass balance is off: dlt_n_green_sum ="
-                  + ftoa(dlt_n_green_sum, ".6")
-                  + " vs nSupply ="
-                  + ftoa(dlt.n_green, ".6");
-      parentPlant->warningError(msg.c_str());
+      string msg ="Fruit dlt_n_green mass balance is off: dlt_n_green_sum ="
+         + ftoa(dlt_n_green_sum, ".6")
+         + " vs nSupply ="
+         + ftoa(nSupply, ".6");
+      plant->warningError(msg.c_str());
       }
 }
 
@@ -1001,19 +1001,6 @@ void PlantFruit::refreshStates(void)
       }
 }
 
-void PlantFruit::doInit (PlantComponent *systemInterface, PlantPhenology *plantPhenology)
-   // ====================================================================
-{
-   parentPlant = systemInterface;
-   phenology = plantPhenology;
-
-   for (vector<plantPart *>::iterator part = myParts.begin();
-        part != myParts.end();
-        part++)
-      (*part)->doInit (systemInterface, plantPhenology);
-
-}
-
 void PlantFruit::doInit1 ()
    // ====================================================================
 {
@@ -1360,7 +1347,7 @@ void PlantFruit::doDmPartition(float DMAvail, float DMDemandTotal)
                    + ftoa(dlt_dm_green_tot, ".6")
                    + " vs "
                    + ftoa(DMAvail, ".6");
-        parentPlant->warningError(msg.c_str());
+        plant->warningError(msg.c_str());
    }
 
    dltDmGreen();      // update fruit dlt.dm_green
@@ -1419,7 +1406,7 @@ void PlantFruit::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTota
                    + ftoa(dlt_dm_green_tot, ".6")
                    + " vs "
                    + ftoa(DMAvail, ".6");
-        parentPlant->warningError(msg.c_str());
+        plant->warningError(msg.c_str());
    }
 }
 
