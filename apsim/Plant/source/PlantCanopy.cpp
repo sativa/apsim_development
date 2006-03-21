@@ -7,7 +7,7 @@
 
 
 //===========================================================================
-void crop_lai_equilib_water (commsInterface *iface,
+void crop_lai_equilib_water (plantInterface *iface,
                              int    day_of_year,         // (INPUT) day of year
                              int    year,                // (INPUT) year
                              float  extinction_coef,     // (INPUT) radiation extinction coefficient

@@ -208,6 +208,46 @@ void crop_root_sw_avail_factor(int  num_sw_ratio,                 // (INPUT)
    *sw_avail_factor = linear_interp_real (fasw, x_sw_ratio, y_sw_fac_root, num_sw_ratio);
    }
 
+//========================================================================
+void crop_root_dist(float *G_dlayer,          //(INPUT)  thickness of soil layer I (mm)
+                    float *G_root_length,     //(INPUT)                                
+                    float G_root_depth,       //(INPUT)  depth of roots (mm)           
+                    float *root_array,        //(OUTPUT) array to contain distributed material             
+                    float root_sum)           //(INPUT) Material to be distributed                   
+//=========================================================================
+/*  Purpose
+*       Distribute root material over profile based upon root
+*       length distribution.
+*
+*  Mission Statement
+*   Distribute %5 over the profile according to root distribution
+*
+*  Changes
+*     <insert here>
+*/
+   {
+   //  Local Variables
+   int layer;                    // layer number ()
+   int deepest_layer;            // deepest layer in which the
+                                    // roots are growing
+   float root_length_sum;        // sum of root distribution array
+   // Implementation Section ----------------------------------
+
+   // distribute roots over profile to root_depth
+
+   fill_real_array (root_array, 0.0, max_layer);
+
+   deepest_layer = find_layer_no (G_root_depth, G_dlayer, max_layer);
+
+   root_length_sum = sum_real_array (G_root_length, deepest_layer+1);
+
+   for (layer = 0; layer <= deepest_layer; layer++)
+      {
+      root_array[layer] = root_sum * divide (G_root_length[layer],
+                                             root_length_sum, 0.0);
+      }
+   }
+
 //============================================================================
 void crop_root_depth_increase2(float current_stage,             //(INPUT)  current phenological stage
                                float *c_root_depth_rate,         //(INPUT)  root growth rate potential (mm
@@ -259,94 +299,6 @@ void crop_root_depth_increase2(float current_stage,             //(INPUT)  curre
 
    *dlt_root_depth = u_bound(*dlt_root_depth, root_depth_max - root_depth);
    }
-//============================================================================
-void cproc_root_length_growth1(float  C_specific_root_length,      //   (INPUT) length of root per unit wt (mm
-                               float *G_dlayer,                    //   (INPUT)  thickness of soil layer I (mm)
-                               float  G_dlt_root_wt,               //   (INPUT)  plant root biomass growth (g/m
-                               float *G_dlt_root_length,           //   (OUTPUT) increase in root length (mm/mm
-                               float  G_dlt_root_depth,            //   (INPUT)  increase in root depth (mm)
-                               float  G_root_depth,                //   (INPUT)  depth of roots (mm)
-                               float *G_root_length,               //   (INPUT)
-                               float  G_plants,                    //   (INPUT)
-                               float *P_xf,                        //   (INPUT)  eXtension rate Factor (0-1)
-                               int    C_num_sw_ratio,              //   (INPUT)
-                               float *C_x_sw_ratio,                //   (INPUT)
-                               float *C_y_sw_fac_root,             //   (INPUT)
-                               float *C_x_plant_rld,               //   (INPUT)
-                               float *C_y_rel_root_rate,           //   (INPUT)
-                               int    C_num_plant_rld,             //   (INPUT)
-                               float *G_dul_dep,                   //   (INPUT)  drained upper limit soil water
-                               float *G_sw_dep,                    //   (INPUT)  soil water content of layer L
-                               float *P_ll_dep)                    //   (INPUT)  lower limit of plant-extractab
-
-//============================================================================
-
-/*  Purpose
-*   Calculate the increase in root length density in each rooted
-*   layer based upon soil hospitality, moisture and fraction of
-*   layer explored by roots.
-*
-*  Mission Statement
-*   Calculate the root length growth for each layer
-*
-*  Changes
-*   neilh - 13-06-1995 - Programmed and Specified
-*   neilh - 28-02-1997 - Made root factor constraint
-*
-*  Calls
-*
-*/
-   {
-   //  Local Variables
-   int deepest_layer;         // deepest rooted later
-   float dlt_length_tot;      // total root length increase (mm/m^2)
-   int layer;                 // simple layer counter variable
-   float rlv_factor_tot;      // total rooting factors across profile
-   float branching_factor;    //
-   float plant_rld;
-   float rld;
-   float temp;
-
-   // Implementation Section ----------------------------------
-
-   float *rlv_factor = new float[max_layer];  // relative rooting factor for a layer
-
-   fill_real_array (G_dlt_root_length, 0.0, max_layer);
-
-   temp = G_root_depth + G_dlt_root_depth;
-   deepest_layer = find_layer_no (temp, G_dlayer, max_layer);
-   rlv_factor_tot = 0.0;
-   for(layer = 0; layer <= deepest_layer; layer++)
-      {
-      rld = divide (G_root_length[layer], G_dlayer[layer], 0.0);
-
-      plant_rld = divide (rld, G_plants, 0.0);
-
-      branching_factor = linear_interp_real(plant_rld, C_x_plant_rld,
-                                            C_y_rel_root_rate, C_num_plant_rld);
-
-      rlv_factor[layer] = crop_sw_avail_fac(C_num_sw_ratio, C_x_sw_ratio,
-                                            C_y_sw_fac_root, G_dul_dep,
-                                            G_sw_dep, P_ll_dep, layer)
-               * branching_factor             // branching factor
-               * P_xf [layer]                 // growth factor
-               * divide(G_dlayer[layer]       // space weighting
-                      ,G_root_depth           //       factor
-                      ,0.0);
-
-      rlv_factor[layer] = l_bound(rlv_factor[layer], 1e-6);
-      rlv_factor_tot = rlv_factor_tot + rlv_factor[layer];
-      }
-   dlt_length_tot = G_dlt_root_wt/sm2smm * C_specific_root_length;
-   for(layer = 0; layer <= deepest_layer; layer++)
-      {
-      G_dlt_root_length [layer] = dlt_length_tot *
-                  divide (rlv_factor[layer], rlv_factor_tot, 0.0);
-      }
-
-   //Cleanup
-   delete [] rlv_factor;
-}
 
 float crop_sw_avail_fac(int   num_sw_ratio,             //(INPUT)
                         float *x_sw_ratio,              //(INPUT)
@@ -429,83 +381,6 @@ void cproc_root_length_init1 (float root_wt,
       }
 
 
-
-//========================================================================
-void crop_root_dist(float *G_dlayer,          //(INPUT)  thickness of soil layer I (mm)
-                    float *G_root_length,     //(INPUT)
-                    float G_root_depth,       //(INPUT)  depth of roots (mm)
-                    float *root_array,        //(OUTPUT) array to contain distributed material
-                    float root_sum)           //(INPUT) Material to be distributed
-//=========================================================================
-/*  Purpose
-*       Distribute root material over profile based upon root
-*       length distribution.
-*
-*  Mission Statement
-*   Distribute %5 over the profile according to root distribution
-*
-*  Changes
-*     <insert here>
-*/
-   {
-   //  Local Variables
-   int layer;                    // layer number ()
-   int deepest_layer;            // deepest layer in which the
-                                    // roots are growing
-   float root_length_sum;        // sum of root distribution array
-   // Implementation Section ----------------------------------
-
-   // distribute roots over profile to root_depth
-
-   fill_real_array (root_array, 0.0, max_layer);
-
-   deepest_layer = find_layer_no (G_root_depth, G_dlayer, max_layer);
-
-   root_length_sum = sum_real_array (G_root_length, deepest_layer+1);
-
-   for (layer = 0; layer <= deepest_layer; layer++)
-      {
-      root_array[layer] = root_sum * divide (G_root_length[layer],
-                                             root_length_sum, 0.0);
-      }
-   }
-//=============================================================================
-void cproc_root_length_senescence1(float  C_specific_root_length,    //(INPUT)  length of root per unit wt (m
-                                   float *G_dlayer,                  //(INPUT)  thickness of soil layer I (mm)
-                                   float  G_dlt_root_dm_senesced,    //(INPUT)  plant biomass senescence  (g/m^2)
-                                   float *G_root_length,             //(INPUT)
-                                   float  G_root_depth,              //(INPUT)  depth of roots (mm)
-                                   float *G_dlt_root_length_senesced)//(OUTPUT) root length lost from each layer (mm/mm^2)
-
-//=============================================================================
-
-/*  Purpose
-*     Calculate root length senescence based upon changes in senesced root
-*     biomass and the specific root length.
-*
-*  Mission Statement
-*     Calculate root length senescence
-*
-*  Notes
-*   nih - I know there is a simpler way of doing this but if we make the
-*         calculation of senescence rate more complex this aproach will
-*         automatically handle it.
-*
-*  Changes
-*   neilh - 14-06-1995 - Programmed and Specified
-*
-*/
-   {
-   //  Local Variables
-   float senesced_length;           // length of root to senesce (mm/m2)
-   // Implementation Section ----------------------------------
-   fill_real_array (G_dlt_root_length_senesced, 0.0, max_layer);
-
-   senesced_length = G_dlt_root_dm_senesced / sm2smm * C_specific_root_length;
-
-   crop_root_dist(G_dlayer,G_root_length, G_root_depth, G_dlt_root_length_senesced,
-                  senesced_length);
-   }
 
 //==========================================================================
 void crop_root_redistribute (float *root_length,       //  root length (mm/mm^2)
@@ -604,121 +479,6 @@ void crop_root_redistribute (float *root_length,       //  root length (mm/mm^2)
    delete []cum_root_length;
    }
 
-//+  Purpose
-//   Calculate the increase in root length density in each rooted
-//   layer based upon soil hospitality, moisture and fraction of
-//   layer explored by roots.
-
-//+  Mission Statement
-//   Calculate the root length growth for each layer
-void cproc_root_length_growth_new (
-     float  c_specific_root_length                 // (INPUT) length of root per unit wt (mm
-    ,float  p_root_distribution_pattern            // (INPUT) patter with depth
-    ,float *g_dlayer                               // (INPUT)  thickness of soil layer I (mm)
-    ,float  g_dlt_root_wt                          // (INPUT)  plant root biomass growth (g/m
-    ,float *g_dlt_root_length                      // (OUTPUT) increase in root length (mm/mm
-    ,float  g_dlt_root_depth                       // (INPUT)  increase in root depth (mm)
-    ,float  g_root_depth                           // (INPUT)  depth of roots (mm)
-    ,float *g_root_length                          // (INPUT)
-    ,float  g_plants                               // (INPUT)
-    ,float *p_xf                                   // (INPUT)  eXtension rate Factor (0-1)
-    ,int    c_num_sw_ratio                         // (INPUT)
-    ,float *c_x_sw_ratio                           // (INPUT)
-    ,float *c_y_sw_fac_root                        // (INPUT)
-    ,float *c_x_plant_rld                          // (INPUT)
-    ,float *c_y_rel_root_rate                      // (INPUT)
-    ,int    c_num_plant_rld                        // (INPUT)
-    ,float *g_dul_dep                              // (INPUT)  drained upper limit soil water
-    ,float *g_sw_dep                               // (INPUT)  soil water content of layer L
-    ,float *p_ll_dep)                               // (INPUT)  lower limit of plant-extractab
-    {
-     //+  Local Variables
-    int   deepest_layer;                          // deepest rooted later
-    float dlt_length_tot;                         // total root length increase (mm/m^2)
-    int   layer;                                  // simple layer counter variable
-    float *rlv_factor;                           // relative rooting factor for a layer
-    float rlv_factor_tot;                         // total rooting factors across profile
-    float branching_factor;                       //
-    float plant_rld;
-    float rld;
-    float root_length_tot;
-    float rwf;
-    float cum_layer_depth;
-    float cum_depth;
-    float *root_length_new;
-
-//- Implementation Section ----------------------------------
-    rlv_factor = new float [max_layer];
-    root_length_new = new float [max_layer];
-
-        fill_real_array (g_dlt_root_length, 0.0, max_layer);
-        fill_real_array (root_length_new, 0.0, max_layer);
-
-        deepest_layer = find_layer_no (g_root_depth+g_dlt_root_depth
-                                      , g_dlayer
-                                      , max_layer);
-
-        cum_layer_depth = sum_real_array(g_dlayer, deepest_layer);
-
-        rlv_factor_tot = 0.0;
-        cum_depth      = 0.0;
-
-        for (layer = 0; layer <= deepest_layer; layer++)
-           {
-           cum_depth = cum_depth + 0.5 * g_dlayer[layer];
-           rwf       = divide (cum_depth, cum_layer_depth, 0.0) ;
-           rwf       = pow((1.0 - rwf),p_root_distribution_pattern);
-
-           rld       = divide (g_root_length[layer], g_dlayer[layer], 0.0);
-
-           plant_rld = divide (rld, g_plants ,0.0);
-
-           branching_factor = linear_interp_real(plant_rld
-                                                ,c_x_plant_rld
-                                                ,c_y_rel_root_rate
-                                                ,c_num_plant_rld);
-
-           rlv_factor[layer] =
-                  crop_sw_avail_fac(c_num_sw_ratio
-                                    , c_x_sw_ratio
-                                    , c_y_sw_fac_root
-                                    , g_dul_dep
-                                    , g_sw_dep
-                                    , p_ll_dep
-                                    , layer)
-                * branching_factor
-                * p_xf [layer]
-                * divide(g_dlayer[layer], g_root_depth, 0.0);
-
-           rlv_factor[layer] = rlv_factor[layer] * rwf;
-
-           rlv_factor[layer] = l_bound(rlv_factor[layer],1e-6);
-           rlv_factor_tot = rlv_factor_tot + rlv_factor[layer];
-        }
-
-        dlt_length_tot = g_dlt_root_wt/sm2smm * c_specific_root_length;
-
-        root_length_tot= sum_real_array(g_root_length, max_layer);
-        root_length_tot= root_length_tot + dlt_length_tot;
-
-        for (layer = 0; layer <= deepest_layer; layer++)
-            {
-            root_length_new[layer] = root_length_tot
-                   * divide (rlv_factor[layer]
-                   ,rlv_factor_tot
-                   ,0.0);
-
-            g_dlt_root_length [layer] = root_length_new[layer] - g_root_length [layer];
-
-            g_dlt_root_length [layer] = dlt_length_tot
-                   * divide (rlv_factor[layer]
-                   ,rlv_factor_tot
-                   ,0.0);
-
-            }
-    delete [] rlv_factor;
-    delete [] root_length_new;
-    }
 //+  Purpose
 //       Return the increase in root depth (mm)
 

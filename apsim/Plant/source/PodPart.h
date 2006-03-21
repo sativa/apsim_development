@@ -6,7 +6,6 @@ class fruitPodPart : public plantPart {
   public:
    fruitPodPart(plantInterface *p, const string &name) : plantPart(p, name) {};
    ~fruitPodPart() {};
-   void doInit(PlantComponent *systemInterface, PlantPhenology *plantPhenology);
    void doRegistrations(protocol::Component *);
    void update(void);
    void onHarvest(float height, float remove_fr,
@@ -89,8 +88,6 @@ class fruitPodPart : public plantPart {
 
       Cover coverPod;
 
-      PlantComponent *parentPlant;
-      PlantPhenology *phenology;
 };
 
 #endif /* PodPartH */

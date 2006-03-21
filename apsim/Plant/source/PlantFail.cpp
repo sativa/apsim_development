@@ -7,7 +7,7 @@
 
 //---------------------------------------------------------------------------
 //===========================================================================
-float crop_failure_germination(commsInterface *iface,
+float crop_failure_germination(plantInterface *iface,
                               int days_germ_limit,    // (INPUT)  maximum days allowed after sowing for germination to take place (days) 
                               int daysInStage,        // (INPUT) number of days we have spent in this stage
                               float plants)           // (INPUT)  Plant density (plants/m^2)
@@ -36,7 +36,7 @@ float crop_failure_germination(commsInterface *iface,
 
 
 //=============================================================================
-float crop_failure_emergence(commsInterface *iface, 
+float crop_failure_emergence(plantInterface *iface, 
                             float tt_emerg_limit,    // (INPUT)  maximum degree days allowed for emergence to take place (deg day) 
                             float ttInStage,         // (INPUT)  the sum of growing degree days for this phenological stage (oC d)
                             float plants)            // (INPUT)  Plant density (plants/m^2)                                        
@@ -63,7 +63,7 @@ float crop_failure_emergence(commsInterface *iface,
 
 //+  Mission Statement
 //     Determine plant population death from leaf area senescing
-float crop_failure_leaf_sen (commsInterface *iface
+float crop_failure_leaf_sen (plantInterface *iface
                              ,float g_lai              // (INPUT)  live plant green lai
                              ,float g_plants)           // (INPUT)  Plant density (plants/m^2)
    {
@@ -87,7 +87,7 @@ float crop_failure_leaf_sen (commsInterface *iface
 //       290994 jngh specified and programmed
 //       110695 psc  added plant death from high soil temp
 //       100795 jngh moved plant_kill crop to end of routine
-float crop_failure_phen_delay (commsInterface *iface
+float crop_failure_phen_delay (plantInterface *iface
                               ,float c_swdf_pheno_limit          // (INPUT)  critical cumulative phenology water stress above which the crop fails (unitless)
                               ,float cswd_pheno                 // (INPUT)  cumulative water stress type 3
                               ,float g_plants)                    // (INPUT)  Plant density (plants/m^2)
@@ -103,7 +103,7 @@ float crop_failure_phen_delay (commsInterface *iface
 
 
 //===========================================================================
-void crop_death_drought (commsInterface *iface, 
+void crop_death_drought (plantInterface *iface, 
                          int  emerg,                // (INPUT) emergence stage                                                                                
                          int  flag_leaf,            // (INPUT) flag leaf stage                                                                                
                          int  plant_end,            // (INPUT) maximum plant stage                                                                            
@@ -159,7 +159,7 @@ void crop_death_drought (commsInterface *iface,
    }
 
 //==========================================================================
-void crop_death_seedling_hightemp (commsInterface *iface, 
+void crop_death_seedling_hightemp (plantInterface *iface, 
                                    int days_after_emerg,           // (INPUT) days after emergence                   
                                    int g_year,                     // (INPUT) year                                   
                                    int g_day_of_year,              // (INPUT) day of year                            

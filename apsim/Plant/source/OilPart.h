@@ -7,7 +7,6 @@ class fruitOilPart : public plantPart {
   public:
    fruitOilPart(plantInterface *p, const string &name) : plantPart(p, name) {};
    ~fruitOilPart() {};
-   void doInit(PlantComponent *systemInterface, PlantPhenology *plantPhenology);
    void doRegistrations(protocol::Component *);
    void update(void);
    void onHarvest(float height, float remove_fr,
@@ -44,10 +43,6 @@ class fruitOilPart : public plantPart {
    float dmOil_conv_retranslocate;
    float cCarbo_oil_conv_ratio;
    float gGrain_energy;                 // multiplier of grain weight to account for seed energy content
-
-      PlantComponent *parentPlant;
-      PlantPhenology *phenology;
-
 
 };
 

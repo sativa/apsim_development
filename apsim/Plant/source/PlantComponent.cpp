@@ -1,4 +1,3 @@
-//---------------------------------------------------------------------------
 #include <general/pch.h>
 #include <vcl.h>
 #include <boost/function.hpp>
@@ -18,103 +17,106 @@
 
 #include "PlantLibrary.h"
 #include "PlantComponent.h"
+#include "PlantInterface.h"
 #include "Plant.h"
 
 using namespace std;
 
-// ------------------------------------------------------------------
-// DLL entry point
-// ------------------------------------------------------------------
+extern "C" void __stdcall getDescriptionInternal(char* initScript, char* description);
+
 int WINAPI DllEntryPoint(HINSTANCE /*hinst*/, unsigned long /*reason*/, void*)
+//=======================================================================================
+// DLL entry point
    {
    return 1;
    }
 
-// ------------------------------------------------------------------
-//  Short description:
+extern "C" _export void __stdcall wrapperDLL(char* wrapperDll)
+//=======================================================================================
 //     Return a blank string when requested to indicate that we
 //     don't need a wrapper DLL.
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-extern "C" _export void __stdcall wrapperDLL(char* wrapperDll)
    {
    strcpy(wrapperDll, "");
    }
-extern "C" void __stdcall getDescriptionInternal(char* initScript,
-                                                 char* description);
-// ------------------------------------------------------------------
-// Return component description info.
-// ------------------------------------------------------------------
+
+
 extern "C" _export void __stdcall getDescription(char* initScript, char* description)
+//=======================================================================================
+// Return component description info.
    {
    getDescriptionInternal(initScript, description);
    }
-// ------------------------------------------------------------------
-// Create an instance of the Plant module
-// ------------------------------------------------------------------
+
 protocol::Component* createComponent(void)
+//=======================================================================================
+// Create an instance of the Plant module
    {
    return new PlantComponent;
    }
-// ------------------------------------------------------------------
-// Initialises the Plant component.
-// ------------------------------------------------------------------
+
 PlantComponent::PlantComponent()
+//=======================================================================================
+// Initialises the Plant component.
    {
-   plant = new Plant(this);
-   }
-// ------------------------------------------------------------------
-// Destructor
-// ------------------------------------------------------------------
-PlantComponent::~PlantComponent(void)
-   {
-   delete plant;
-   }
-// ------------------------------------------------------------------
-// Stage 1 initialisation.
-// ------------------------------------------------------------------
-void PlantComponent::doInit1(const FString& sdml)
-   {
-   protocol::Component::doInit1(sdml);
-   plant->doInit1(this);
-   plant->doRegistrations(this);
+   plant = NULL;
    }
 
-// ------------------------------------------------------------------
-// Stage 2 initialisation.
-// ------------------------------------------------------------------
+PlantComponent::~PlantComponent(void)
+//=======================================================================================
+// Destructor
+   {
+   if (plant) delete plant;
+   plant = NULL;
+   }
+
+void PlantComponent::doInit1(const FString& sdml)
+//=======================================================================================
+// Stage 1 initialisation.
+   {
+   protocol::Component::doInit1(sdml);
+
+   string crop_type = readParameter ("constants", "crop_type");
+   if (crop_type == "sorghum")
+     throw std::invalid_argument("Sorghum is not in generic plant framework yet..");
+   else
+     plant = new Plant(this);
+
+//   if (plant) delete plant; plant= NULL;
+   if (plant) plant->doInit1(this);
+   }
+
 void PlantComponent::doInit2(void)
+//=======================================================================================
+// Stage 2 initialisation.
    {
    protocol::Component::doInit2();
-   plant->initialise();
+   if (plant) plant->doInit2(this);
    }
 
 void PlantComponent::onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryData)
+//=======================================================================================
    {
-   plant->onApsimGetQuery(apsimGetQueryData);
+   if (plant) plant->onApsimGetQuery(apsimGetQueryData);
    }
 
-// ------------------------------------------------------------------
+bool PlantComponent::respondToSet(unsigned int& /*fromID*/, protocol::QuerySetValueData& setValueData)
+//=======================================================================================
 // Set the value of a variable for the specified
 // variable name.  If this module owns the variable and does
 // change it's value, return true.
-// ------------------------------------------------------------------
-bool PlantComponent::respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData)
    {
-   return (plant->setVariable(/*fromID, */setValueData.ID, setValueData));
+   if (plant) return (plant->respondToSet(/*fromID, */setValueData.ID, setValueData));
+   return false;
    }
 
 void PlantComponent::warningError (const char *msg)
-{
-  error(msg, false);
-}
+//=======================================================================================
+   {
+   protocol::Component::error(msg, false);
+   }
 
 void PlantComponent::writeString (const char *line)
-{
-  protocol::Component::writeString(FString(line));
-}
+//=======================================================================================
+   {
+   protocol::Component::writeString(FString(line));
+   }

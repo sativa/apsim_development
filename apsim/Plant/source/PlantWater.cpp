@@ -419,7 +419,7 @@ void crop_oxdef_photo1(int   C_num_oxdef_photo,    //  (INPUT)
 
 
 //============================================================================
-void cproc_sw_supply1 (commsInterface *iface,
+void cproc_sw_supply1 (plantInterface *iface,
                        float C_sw_lb,              //(INPUT)
                        float *G_dlayer,            //(INPUT)
                        float *P_ll_dep,            //(INPUT)
@@ -748,7 +748,7 @@ void plant_bio_water1(float sw_supply        //(INPUT)  potential water to take 
 }
 
 //=========================================================================
-void crop_check_sw(commsInterface *iface,
+void crop_check_sw(plantInterface *iface,
                    float minsw,    // (INPUT)  lowest acceptable value for ll
                    float *dlayer,   // (INPUT)  thickness of soil layer I (mm)
                    float *dul_dep,  // (INPUT)  drained upper limit soil water content for soil layer L (mm water)

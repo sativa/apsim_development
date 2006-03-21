@@ -171,9 +171,9 @@ class ahmadsLeafPart : public plantLeafPart {
    void readConstants (protocol::Component *, const string &) {};
    void readSpeciesParameters(protocol::Component *system, vector<string> &search_order) {};
    void onEmergence(void) {};
-   float getLeafNo(void) const {};
-   float senFract (void) const {};                           // fraction of canopy senescing
-   float dltDmCapacity(void) const {};                       // Maximum DM this part can take today
+   virtual float getLeafNo(void) const {return 0.0;};
+   virtual float senFract (void) const {return 1.0;};                // fraction of canopy senescing
+   virtual float dltDmCapacity(void) const {return 0.0;};            // Maximum DM this part can take today
 
    void potential (int option, float, float) {};
    void leaf_area_stressed(float) {};

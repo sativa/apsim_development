@@ -9,6 +9,7 @@
 #include <iomanip>
 #include <ComponentInterface/Component.h>
 #include "PlantComponent.h"
+#include "PlantInterface.h"
 #include "PlantLibrary.h"
 using namespace std;
 
@@ -447,7 +448,7 @@ float sum_real_array (float *var,  // INPUT array to be summed
    }
 
 //===========================================================================
-void bound_check_real_var (commsInterface *i,
+void bound_check_real_var (plantInterface *i,
                            float value,       // (IN) Value to be checked
                            float lower,       // (IN) Lower bound
                            float upper,       // (IN) Upper bound
@@ -489,7 +490,7 @@ void bound_check_real_var (commsInterface *i,
    }
 
 //===========================================================================
-void bound_check_integer_var (commsInterface *i,
+void bound_check_integer_var (plantInterface *i,
                               int value, int lower, int upper, const char *vname)
 //===========================================================================
 
@@ -798,7 +799,7 @@ void subtract_real_array (const float *amount,// (INPUT) amount to be removed
 
 
 // ================================================================
-void bound_check_real_array (commsInterface *i,
+void bound_check_real_array (plantInterface *i,
                              float *array,// (INPUT) array to be checked
                              int    array_size,    // (INPUT) array size_of
                              float  lower_bound,// (INPUT) lower bound of values
@@ -839,7 +840,7 @@ void bound_check_real_array (commsInterface *i,
 }
 
 // ================================================================
-void bound_check_integer_array (commsInterface *i,
+void bound_check_integer_array (plantInterface *i,
                              int *array,// (INPUT) array to be checked
                              int    array_size,    // (INPUT) array size_of
                              int  lower_bound,// (INPUT) lower bound of values

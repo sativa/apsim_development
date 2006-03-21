@@ -28,9 +28,7 @@ public:												// member functions
    //		PlantFruit(const PlantFruit &PlantFruit); 			// copy constructor
    const PlantFruit &operator=(const PlantFruit &other);		// Assigment operator
 
-   void doInit(PlantComponent *systemInterface, PlantPhenology *plantPhenology);
    void doInit1();
-
 
    void doRegistrations(protocol::Component *);
    void doTick(protocol::timeType &tick) ;
@@ -250,10 +248,6 @@ public:												// member functions
    ~PlantFruit();
 #endif
 
-
-   //      protected:
-   //         plantInterface *plant;                 // The plant we are attached to
-
 private:
    void refreshStates(void);
    float dmGreenStressDeterminant(void);
@@ -281,8 +275,6 @@ private:
 
    // The plant we hook into
    PlantComponent *parentPlant;
-   PlantPhenology *phenology;
-
 };
 
 #endif

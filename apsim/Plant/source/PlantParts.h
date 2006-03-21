@@ -153,9 +153,8 @@ class plantPart : public plantThing
          string name;                        // What we call ourselves
       } c;
 
-      PlantComponent *parentPlant;
-      PlantPhenology *phenology;
-
+//   PlantComponent *parentPlant;
+   //PlantPhenology *phenology;
 
    plantPart(plantInterface *p, const string &name)
      {
@@ -170,7 +169,6 @@ class plantPart : public plantThing
      };
    virtual ~plantPart() {};
 
-   virtual void doInit(PlantComponent *systemInterface, PlantPhenology *plantPhenology);
    virtual void zeroAllGlobals(void);
    virtual void zeroDeltas(void);
    virtual void zeroDltNSenescedTrans(void);
@@ -187,6 +185,7 @@ class plantPart : public plantThing
    virtual void prepare(void);
    //void process(void);
    virtual void update(void);
+   virtual void update2(float);
    virtual void updateDm(void);
    virtual void updateN(void);
    virtual void updateP(void);
@@ -343,6 +342,8 @@ class plantPart : public plantThing
    protected:
       plantInterface *plant;                 // The plant we are attached to
 
+      virtual void onSowing(void);
+      virtual void onGermination(void);
       virtual void onEmergence(void);
       virtual void onFlowering(void);
       virtual void onStartGrainFill(void);
@@ -357,26 +358,5 @@ class plantPart : public plantThing
 
 
 float critNFactor(vector<const plantPart *> &, float );
-
-class plantPartHack : public plantPart {
-  private:
-   Plant *myplant;
-   int   part;
-   void get(void);
-   void put(void);
- public:
-   plantPartHack(Plant *p, int ipart, const string &name) : plantPart((plantInterface *)p, name) {
-      part = ipart;
-      myplant = p;
-      get();
-   };
-   ~plantPartHack(){put();};
-   void onHarvest(float height, float remove_fr,
-                  vector<string> &dm_type,
-                  vector<float> &dlt_crop_dm,
-                  vector<float> &dlt_dm_n,
-                  vector<float> &dlt_dm_p,
-                  vector<float> &fraction_to_residue) {};
-};
 
 #endif /* PlantPartsH */

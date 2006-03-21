@@ -6,7 +6,6 @@ class fruitMealPart : public plantPart {
   public:
    fruitMealPart(plantInterface *p, const string &name) : plantPart(p, name) {};
    ~fruitMealPart() {};
-   void doInit(PlantComponent *systemInterface, PlantPhenology *plantPhenology);
    void update(void);
    void onHarvest(float height, float remove_fr,
                   vector<string> &dm_type,
@@ -24,8 +23,6 @@ class fruitMealPart : public plantPart {
    float nDemand2(void);
 
   private:
-      PlantComponent *parentPlant;
-      PlantPhenology *phenology;
 };
 
 #endif /* MealPartH */

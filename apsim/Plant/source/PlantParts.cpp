@@ -429,7 +429,14 @@ void plantPart::readCultivarParameters (protocol::Component *system, const strin
                 , ("x_" + c.name + "_wt").c_str() , "(g/plant)", 0.0, 1000.0
                 , "y_width", "(mm)", 0.0, 5000.0);
    }
-
+void plantPart::onSowing()
+//=======================================================================================
+   {
+   }
+void plantPart::onGermination()
+//=======================================================================================
+   {
+   }
 void plantPart::onEmergence()
 //=======================================================================================
    {
@@ -477,12 +484,6 @@ void plantPart::onKillStem(void)
 
    }
 
-void plantPart::doInit (PlantComponent *systemInterface, PlantPhenology *plantPhenology)
-// ====================================================================
-{
-   parentPlant = systemInterface;
-   phenology = plantPhenology;
-}
 
 void plantPart::doProcessBioDemand(void)
 //===========================================================================
@@ -536,6 +537,12 @@ void plantPart::update(void)
    Height += dlt.height;
    Width += dlt.width;
 // need to call updateN/DM/P from here sometime.  FIXME
+   }
+
+void plantPart::update2(float /*dying_fract_plants*/) 
+//=======================================================================================
+   {
+   /* nothing */
    }
 
 void plantPart::updateN(void)
@@ -1329,7 +1336,9 @@ void plantPart::onDayOf(const string &stage)
 void plantPart::onPlantEvent(const string &event)
 //=======================================================================================
    {
-   if (event == "emergence") onEmergence();
+   if (event == "sowing") onSowing();
+   else if (event == "germination") onGermination();
+   else if (event == "emergence") onEmergence();
    else if (event == "flowering") onFlowering();
    else if (event == "start_grain_fill") onStartGrainFill();
    }
@@ -1368,109 +1377,3 @@ void plantPart::get_dlt_p_detached(vector<float> &dlt_p_detached) {dlt_p_detache
 void plantPart::get_dlt_p_dead(vector<float> &dlt_p_dead) {dlt_p_dead.push_back(dlt.p_dead);}
 void plantPart::get_dlt_p_sen(vector<float> &dlt_p_sen) {dlt_p_sen.push_back(dlt.p_sen);}
 
-//-------------------Hacks-------------------------------
-void plantPartHack::get(void)
-//=======================================================================================
-   {
-   DMGreenDemand     = myplant->g.dm_green_demand[part];
-   DMDead             = myplant->g.dm_dead[part];
-   DMGreen            = myplant->g.dm_green[part];
-   DMSenesced         = myplant->g.dm_senesced[part];
-   NDemand            = myplant->g.n_demand[part];
-   SoilNDemand       = myplant->g.soil_n_demand[part];
-   NMax               = myplant->g.n_max[part];
-   NDead              = myplant->g.n_dead[part];
-   NGreen             = myplant->g.n_green[part];
-   NSenesced          = myplant->g.n_senesced[part];
-   Width               = myplant->g.canopy_width;
-   g.n_conc_crit         = myplant->g.n_conc_crit[part];
-   g.n_conc_max          = myplant->g.n_conc_max[part];
-   g.n_conc_min          = myplant->g.n_conc_min[part];
-   DMPlantMin        = myplant->g.dm_plant_min[part];
-   dlt.dm_green          = myplant->g.dlt_dm_green[part];
-   dlt.dm_senesced       = myplant->g.dlt_dm_senesced[part];
-   dlt.dm_detached       = myplant->g.dlt_dm_detached[part];
-   dlt.dm_dead_detached  = myplant->g.dlt_dm_dead_detached[part];
-   dlt.dm_green_retrans  = myplant->g.dlt_dm_green_retrans[part];
-   dlt.n_green           = myplant->g.dlt_n_green[part];
-   dlt.n_senesced        = myplant->g.dlt_n_senesced[part];
-   dlt.n_senesced_retrans= myplant->g.dlt_n_senesced_retrans[part];
-   dlt.n_senesced_trans  = myplant->g.dlt_n_senesced_trans[part];
-   dlt.n_detached        = myplant->g.dlt_n_detached[part];
-   dlt.n_dead            = myplant->g.dlt_n_dead[part];
-   dlt.n_dead_detached   = myplant->g.dlt_n_dead_detached[part];
-   dlt.n_retrans         = myplant->g.dlt_n_retrans[part];
-   dlt.height            = myplant->g.dlt_canopy_height;
-   dlt.width             = myplant->g.dlt_canopy_width;
-   PDead              = myplant->g.p_dead[part];
-   PGreen             = myplant->g.p_green[part];
-   PSen               = myplant->g.p_sen[part];
-   dlt.p_green           = myplant->g.dlt_p_green[part];
-   dlt.p_sen             = myplant->g.dlt_p_sen[part];
-   dlt.p_det             = myplant->g.dlt_p_det[part];
-   dlt.p_dead_det        = myplant->g.dlt_p_dead_det[part];
-   dlt.p_retrans         = myplant->g.dlt_p_retrans[part];
-   dlt.p_dead            = myplant->g.dlt_p_dead[part];
-   PDemand            = myplant->g.p_demand[part];
-
-   c.p_stress_determinant =myplant->c.p_stress_determinants[part];
-   c.p_yield_part    = myplant->c.p_yield_parts[part];
-   c.p_retrans_part  = myplant->c.p_retrans_parts[part];
-
-   c.p_init_conc         = myplant->c.p_conc_init[part];
-   c.num_x_p_stage_code  = myplant->c.num_x_p_stage_code;
-   c.num_x_p_stage_code  = myplant->c.num_x_p_stage_code;
-   for (int i = 0; i< myplant->c.num_x_p_stage_code; i++)
-      {
-   	c.x_p_stage_code[i] = myplant->c.x_p_stage_code[i];
-      c.y_p_conc_max [i]  = myplant->c.y_p_conc_max  [part][i];
-      c.y_p_conc_min [i]  = myplant->c.y_p_conc_min  [part][i];
-      c.y_p_conc_sen [i]  = myplant->c.y_p_conc_sen  [part][i];
-      }
-   }
-
-void plantPartHack::put(void)
-//=======================================================================================
-   {
-   myplant->g.dm_green_demand[part]  =            DMGreenDemand       ;
-   myplant->g.dm_dead[part]=                      DMDead               ;
-   myplant->g.dm_green[part]=                     DMGreen              ;
-   myplant->g.dm_senesced[part]=                  DMSenesced           ;
-   myplant->g.n_demand[part]=                     NDemand              ;
-   myplant->g.soil_n_demand[part]=                SoilNDemand         ;
-   myplant->g.n_max[part]=                        NMax                 ;
-   myplant->g.n_dead[part]=                       NDead                ;
-   myplant->g.n_green[part]=                      NGreen               ;
-   myplant->g.n_senesced[part]=                   NSenesced            ;
-   myplant->g.canopy_width=                        Width                ;
-   myplant->g.n_conc_crit[part]=                  g.n_conc_crit           ;
-   myplant->g.n_conc_max[part]=                   g.n_conc_max            ;
-   myplant->g.n_conc_min[part]=                   g.n_conc_min            ;
-   myplant->g.dm_plant_min[part]=                 DMPlantMin          ;
-   myplant->g.dlt_dm_green[part]=                 dlt.dm_green            ;
-   myplant->g.dlt_dm_senesced[part]=              dlt.dm_senesced         ;
-   myplant->g.dlt_dm_detached[part]=              dlt.dm_detached         ;
-   myplant->g.dlt_dm_dead_detached[part]=         dlt.dm_dead_detached    ;
-   myplant->g.dlt_dm_green_retrans[part]=         dlt.dm_green_retrans    ;
-   myplant->g.dlt_n_green[part]=                  dlt.n_green             ;
-   myplant->g.dlt_n_senesced[part]=               dlt.n_senesced          ;
-   myplant->g.dlt_n_senesced_retrans[part]=       dlt.n_senesced_retrans  ;
-   myplant->g.dlt_n_senesced_trans[part]=         dlt.n_senesced_trans    ;
-   myplant->g.dlt_n_detached[part]=               dlt.n_detached          ;
-   myplant->g.dlt_n_dead[part]=                   dlt.n_dead              ;
-   myplant->g.dlt_n_dead_detached[part]=          dlt.n_dead_detached     ;
-   myplant->g.dlt_n_retrans[part]=                dlt.n_retrans           ;
-
-   myplant->g.p_dead[part]=                       PDead                ;
-   myplant->g.p_green[part]=                      PGreen               ;
-   myplant->g.p_sen[part]=                        PSen            ;
-
-   myplant->g.dlt_p_green[part]                     =dlt.p_green;
-   myplant->g.dlt_p_sen[part]                       =dlt.p_sen;
-   myplant->g.dlt_p_det[part]                       =dlt.p_det;
-   myplant->g.dlt_p_dead_det[part]                  =dlt.p_dead_det;
-   myplant->g.dlt_p_retrans[part]                   =dlt.p_retrans;
-   myplant->g.dlt_p_dead[part]                      =dlt.p_dead;
-   myplant->g.p_demand[part]                        =PDemand;
-
-   }

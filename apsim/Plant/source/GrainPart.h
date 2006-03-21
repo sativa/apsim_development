@@ -25,7 +25,6 @@ public:												// member functions
    //		fruitGrainPart(const fruitGrainPart &fruitGrainPart); 			// copy constructor
    const fruitGrainPart &operator=(const fruitGrainPart &other);		// Assigment operator
 
-   void doInit(PlantComponent *systemInterface, PlantPhenology *plantPhenology);
    void doInit1();
 
    void doRegistrations(protocol::Component *);
@@ -332,14 +331,8 @@ private:
    float pMinTempGrnFill;
    int   pDaysDelayGrnFill;
 
-
-
    // The plant we hook into
-   //      Plant *plant;
-   PlantComponent *parentPlant;
-   PlantPhenology *phenology;
    stageSubject   otherObservers;            // Another collection of state variable observers
-
 };
 
 #endif

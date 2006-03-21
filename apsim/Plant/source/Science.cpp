@@ -224,6 +224,24 @@ int find_layer_no(float depth,      // depth in profile
    return get_cumulative_index_real(depth, dlayr, num_layers);
    }
 
+int find_layer_no(float depth, const vector<float> &dlayer )
+//===========================================================================
+   {
+   float progressive_sum = 0.0; //cumulative sum_of
+   unsigned int indx;                    //index count_of_real_vals
+
+   for(indx = 0; indx < dlayer.size(); indx++)
+      {
+      progressive_sum +=  dlayer[indx];
+      if(progressive_sum >= depth)
+         {
+         break;
+         }
+      }
+   if (indx==dlayer.size()) return (indx - 1); // last element in array
+   return indx;                                // index of
+   }
+
 //===========================================================================
 bool on_day_of (int stage_no, float current_stage/*, float *phsdur*/)
 //===========================================================================

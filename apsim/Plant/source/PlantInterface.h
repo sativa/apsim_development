@@ -4,27 +4,31 @@
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 
+// Forward definitions..
 typedef enum {pw_C3, pw_C4, pw_UNDEF} photosynthetic_pathway_t;
-
-// Class for communications - a sink for messages.
-class commsInterface
-  {
-  public:
-      virtual void writeString (const char *line) = 0;
-      virtual void warningError (const char *msg) = 0;
-  };
-
-
 namespace protocol {
   class Component;
+  class QuerySetValueData;
+  class ApsimGetQueryData;
+};
+class environment_t;
+
+// An abstract plant interface, as seen from protocol::Component (outside)
+class IPlant {
+ public: 
+   virtual void doInit1(protocol::Component *) = 0;
+   virtual void doInit2(protocol::Component *) = 0;
+   virtual bool respondToSet(unsigned int& /*fromID*/, protocol::QuerySetValueData& /*setValueData*/) = 0;
+   virtual void onApsimGetQuery(protocol::ApsimGetQueryData&) = 0;
 };
 
-// Abstact plant interface
+// Abstact plant interface, as seen from plant things (inside)
 class plantInterface {
    public:
-      virtual void doInit1(protocol::Component *) = 0;
-      virtual void doRegistrations(protocol::Component *) = 0;
-      virtual void initialise(void) = 0;
+      virtual void writeString (const char *line) = 0;
+      virtual void warningError (const char *msg) = 0;
+
+//      virtual void doRegistrations(protocol::Component *) = 0;
 
       virtual float getLeafNo (void) const = 0;           // Leaf number (leaves/m^2)
       virtual float getPlants (void) const = 0;           // Planting density (plants/m^2)
@@ -32,10 +36,8 @@ class plantInterface {
       virtual photosynthetic_pathway_t getPhotosynthetic_pathway(void) const = 0;              // CO2 level (ppm)
       virtual float getStageCode (void) const = 0;        // Phenological stage code AAACK DIE YOU BASTARD
       virtual float getStageNumber (void) const = 0;        // Phenological stage code AAACK DIE YOU BASTARD
-//      virtual float getRadnInterceptedPod(void) const = 0;
       virtual float getDltDMPotRueVeg(void) const = 0;
       virtual float getDmGreenVeg(void) const = 0;
-//      virtual float getDltDmVeg(void) const = 0;
       virtual float getWaterSupplyPod(void) const = 0;
       virtual float getDmTops(void) const = 0;
       virtual float getDltDm(void) const = 0;
@@ -61,6 +63,8 @@ class plantInterface {
       virtual void doPlantEvent(const string &) = 0;      // Something is asking the plant to do something
       virtual bool on_day_of(const string &) = 0;
       virtual bool inPhase(const string &) = 0;
+
+      virtual const environment_t *getEnvironment(void) = 0;
 };
 
 // Something that plugs into a plant
