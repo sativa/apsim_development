@@ -114,6 +114,11 @@ void plantRootPart::readSpeciesParameters(protocol::Component *system, vector<st
                    , specificRootLength
                    , 0.0, 1.0e6);
 
+    system->readParameter (sections
+                   ,"root_die_back_fr"//, "(0-1)"
+                   , rootDieBackFraction
+                   , 0.0, 0.99);
+
     rel_root_rate.search(system, sections,
                          "x_plant_rld", "()", 0.0, 0.1,
                          "y_rel_root_rate", "()", 0.001, 1.0);
@@ -152,6 +157,7 @@ void plantRootPart::onGermination(void)
    {
    plantPart::onGermination();
    root_depth = initialRootDepth;
+   DMPlantMin = 0.0;
    }
 
 void plantRootPart::onEmergence(void)
@@ -160,6 +166,7 @@ void plantRootPart::onEmergence(void)
 //     at emergence and specific root length.
    {
    plantPart::onEmergence();
+   DMPlantMin = 0.0;
 
    // initial root length (mm/mm^2)
    float initial_root_length = DMGreen / sm2smm * specificRootLength;
@@ -176,6 +183,14 @@ void plantRootPart::onEmergence(void)
                    root_proportion (layer);
       }
    }
+void plantRootPart::onFlowering(void)
+   {
+   DMPlantMin = 0.0; //explicit
+   }
+void plantRootPart::onStartGrainFill(void)
+   {
+   DMPlantMin = 0.0;
+   }
 
 void plantRootPart::onHarvest(float /*cutting_height*/, float remove_fr,
                               vector<string> &dm_type,
@@ -184,32 +199,28 @@ void plantRootPart::onHarvest(float /*cutting_height*/, float remove_fr,
                               vector<float> &dlt_dm_p,
                               vector<float> &fraction_to_residue)
 //=======================================================================================
-// Unlike above ground parts, no roots go to surface residue module.
    {
-   float fractToResidue = 0.0;
 
-   float dlt_dm_harvest = DMDead  + DMGreen  + DMSenesced ;
-   float dlt_n_harvest = NDead + NGreen + NSenesced ;
-   float dlt_p_harvest = PDead  + PGreen  + PSen ;
+   float dlt_dm_die = DMGreen * rootDieBackFraction;
+   DMGreen -= dlt_dm_die;
+   DMSenesced += dlt_dm_die;
 
-   DMDead = 0.0;
-   DMSenesced = 0.0;
-   DMGreen = 0.0;
+   float dlt_n_die = dlt_dm_die * c.n_sen_conc;
+   NGreen -= dlt_n_die;
+   NSenesced += dlt_n_die;
 
-   NDead = 0.0;
-   NSenesced = 0.0;
-   NGreen = 0.0;
+   float dlt_p_die = PGreen * rootDieBackFraction;
+   PGreen -= dlt_p_die;
+   PSen += dlt_p_die;
 
-   PDead = 0.0;
-   PSen = 0.0;
-   PGreen = 0.0;
-
+   // Unlike above ground parts, no roots go to surface residue module.
    dm_type.push_back(c.name);
-   fraction_to_residue.push_back(fractToResidue);
-   dlt_crop_dm.push_back(dlt_dm_harvest * gm2kg/sm2ha);
-   dlt_dm_n.push_back(dlt_n_harvest * gm2kg/sm2ha);
-   dlt_dm_p.push_back(dlt_p_harvest * gm2kg/sm2ha);
+   fraction_to_residue.push_back(0.0);
+   dlt_crop_dm.push_back(0.0);
+   dlt_dm_n.push_back(0.0);
+   dlt_dm_p.push_back(0.0);
 
+   // XXX?????? NO!!!!!!
    root_depth            = 0.0;
    fill_real_array (root_length , 0.0, max_layer);
    fill_real_array (root_length_dead, 0.0, max_layer);

@@ -27,6 +27,8 @@ class plantRootPart : public plantPart
       void onSowing(void);
       void onGermination(void);
       void onEmergence(void);
+      void onFlowering(void);
+      void onStartGrainFill(void);
       void onHarvest(float height, float remove_fr,
                      vector<string> &dm_type,
                      vector<float> &dlt_crop_dm,
@@ -67,6 +69,8 @@ class plantRootPart : public plantPart
 
       float initialRootDepth;                         // initial depth of roots (mm)
       float n_conc_min, n_conc_crit, n_conc_max;
+      float rootDieBackFraction;                      // fraction of roots dying at harvest or kill_stem
+
    protected:
    
       float specificRootLength;
