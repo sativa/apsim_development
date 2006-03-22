@@ -183,9 +183,10 @@ void plantRootPart::onEmergence(void)
                    root_proportion (layer);
       }
    }
+
 void plantRootPart::onFlowering(void)
    {
-   DMPlantMin = 0.0; //explicit
+   DMPlantMin = 0.0; //override default impl
    }
 void plantRootPart::onStartGrainFill(void)
    {
@@ -219,11 +220,6 @@ void plantRootPart::onHarvest(float /*cutting_height*/, float remove_fr,
    dlt_crop_dm.push_back(0.0);
    dlt_dm_n.push_back(0.0);
    dlt_dm_p.push_back(0.0);
-
-   // XXX?????? NO!!!!!!
-   root_depth            = 0.0;
-   fill_real_array (root_length , 0.0, max_layer);
-   fill_real_array (root_length_dead, 0.0, max_layer);
    }
 
 //+  Purpose
