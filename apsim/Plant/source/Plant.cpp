@@ -908,9 +908,16 @@ void Plant::plant_bio_retrans (void)
    supply_pools_by_veg.push_back(stemPart);
    supply_pools_by_veg.push_back(leafPart);
 
+   vector<plantPart *> allParts;
+   allParts.push_back(rootPart);
+   allParts.push_back(leafPart);
+   allParts.push_back(stemPart);
+   allParts.push_back(fruitPart);
+
    float dm_demand_differential = g.dlt_dm_yield_demand_fruit
                                 - g.dlt_dm_supply_to_fruit;
-   legnew_dm_retranslocate(myParts
+
+   legnew_dm_retranslocate(allParts
                            , supply_pools_by_veg
                            , dm_demand_differential
                            , g.plants
@@ -3102,23 +3109,12 @@ void Plant::plant_transpiration_eff (int option /*(INPUT) option number*/)
 
 
 
-//+  Purpose
-//       Initialise plant weights and plant weight minimums
-//       at required instances.
+void Plant::plant_dm_init (void) 
+//=======================================================================================
+// Set minimum part weights
+   {
 
-//+  Mission Statement
-//     Initialise plant weights and plant weight minimums at required instances.
-
-//+  Changes
-//     010994 jngh specified and programmed
-void Plant::plant_dm_init (void) {
-
-//- Implementation Section ----------------------------------
-
-// initialise plant weight
-// initialisations - set up dry matter for leaf, pod, grain
-// and root
-
+// Should plant event be called for all parts?
 //    doPlantEvent(phenology->stageName());
    if(phenology->on_day_of(phenology->stageName()))
        fruitPart->onDayOf(phenology->stageName());
@@ -3126,8 +3122,7 @@ void Plant::plant_dm_init (void) {
     vector<plantPart *>::iterator myPart;
     for (myPart = myParts.begin(); myPart != myParts.end(); myPart++)
        (*myPart)->doDmMin();
-
-   }                                                                                     // Should plant event be call for all parts?
+   } 
 
 void Plant::plant_n_conc_limits(float  g_co2_modifier_n_conc) 
 //=======================================================================================
@@ -3699,6 +3694,7 @@ void Plant::plant_process ( void )
         plant_bio_water (1);
         plant_bio_rue (1);
 
+        plant_dm_init();
         plant_bio_actual (1);
         fruitPart->doProcessBioDemand();
 
@@ -3986,16 +3982,26 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     const char*  my_name = "plant_harvest_update" ;
 
 //+  Local Variables
+    float dm_chopped;                             // dry matter added to chopped pool (kg/ha)
+    float n_chopped;                              // nitrogen added to chopped pool(kg/ha)
+    float p_chopped;                              // phosphorus added to chopped pool(g/m^2)
+    float dm_root_chopped;                             // dry matter added to chopped pool(kg/ha)
+    float n_root_chopped;                              // nitrogen added to chopped pool(kg/ha)
+    float p_root_chopped;                              // phosp added to chopped pool(kg/ha)
+    float dm_tops_chopped;                             // dry matter added to chopped pool(kg/ha)
+    float n_tops_chopped;                              // nitrogen added to chopped pool(kg/ha)
+    float p_tops_chopped;                              // phosp added to chopped pool(kg/ha)
+
     float dm_residue;                             // dry matter added to residue (kg/ha)
     float n_residue;                              // nitrogen added to residue (kg/ha)
+    float p_residue;                              // phosphorus added to residue (g/m^2)
     float dm_root_residue;                             // dry matter added to residue (kg/ha)
     float n_root_residue;                              // nitrogen added to residue (kg/ha)
     float p_root_residue;                              // phosp added to residue (kg/ha)
     float dm_tops_residue;                             // dry matter added to residue (kg/ha)
     float n_tops_residue;                              // nitrogen added to residue (kg/ha)
     float p_tops_residue;                              // phosp added to residue (kg/ha)
-    float p_residue;                              // phosphorus added to residue (g/m^2)
-//integer    leaf_no               ! currently expanding leaf no.
+
     float remove_fr;
     float height;                                 // cutting height
     float retain_fr_green;
@@ -4075,29 +4081,41 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
                                      , fraction_to_residue);
         }
 
-    dm_residue = 0.0;
-    for (unsigned int part=0; part < dm_type.size(); part++)
-     dm_residue += (dlt_crop_dm[part] * fraction_to_residue[part]);
+    dm_residue = 0.0; dm_root_residue = 0.0;
+    n_residue = 0.0; n_root_residue = 0.0;
+    p_residue = 0.0; p_root_residue = 0.0;
+    dm_chopped = 0.0; dm_root_chopped = 0.0;
+    n_chopped = 0.0; n_root_chopped = 0.0;
+    p_chopped = 0.0; p_root_chopped = 0.0;
 
-    n_residue = 0.0;
     for (unsigned int part=0; part < dm_type.size(); part++)
-      n_residue += (dlt_dm_n[part] * fraction_to_residue[part]);
+       {
+       dm_chopped += dlt_crop_dm[part];
+       n_chopped += dlt_dm_n[part];
+       p_chopped += dlt_dm_p[part];
+       dm_residue += dlt_crop_dm[part] * fraction_to_residue[part];
+       n_residue += dlt_dm_n[part] * fraction_to_residue[part];
+       p_residue += dlt_dm_p[part] * fraction_to_residue[part];
+       if (dm_type[part] == "root") 
+          {
+          dm_root_residue += dlt_crop_dm[part] * fraction_to_residue[part];
+          n_root_residue += dlt_dm_n[part] * fraction_to_residue[part];
+          p_root_residue += dlt_dm_p[part] * fraction_to_residue[part];
+          dm_root_chopped += dlt_crop_dm[part];
+          n_root_chopped += dlt_dm_n[part];
+          p_root_chopped += dlt_dm_p[part];
+          }
+       }
 
-    p_residue = 0.0;
-    for (unsigned int part=0; part < dm_type.size(); part++)
-      p_residue += (dlt_dm_p[part] * fraction_to_residue[part]);
-
-    int rootIndex = 0; // XX Potentially INCORRECT - relies on root being first part created.. XXXXXX
-    dm_root_residue = dlt_crop_dm[rootIndex] * fraction_to_residue[rootIndex];
-    n_root_residue = dlt_dm_n[rootIndex] * fraction_to_residue[rootIndex];
-    p_root_residue = dlt_dm_p[rootIndex] * fraction_to_residue[rootIndex];
+    dm_tops_chopped = dm_chopped - dm_root_chopped;
+    n_tops_chopped = n_chopped - n_root_chopped;
+    p_tops_chopped = p_chopped - p_root_chopped;
 
     dm_tops_residue = dm_residue - dm_root_residue;
     n_tops_residue = n_residue - n_root_residue;
     p_tops_residue = p_residue - p_root_residue;
 
     parent->writeString ("\nCrop harvested.");
-
     char  msg[400];
 
     parent->writeString ("    Organic matter from crop:-      Tops to surface residue      Roots to soil FOM");
@@ -4115,20 +4133,12 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
        }
     parent->writeString (" ");
 
-    float dm_chopped_tops = sum(dlt_crop_dm) - dlt_crop_dm[rootIndex];
-    float dm_chopped_root = dlt_crop_dm[rootIndex];
-    float dm_removed_tops = dm_chopped_tops - dm_tops_residue;
-    float dm_removed_root = dm_chopped_root - dm_root_residue;
-
-    float n_chopped_tops = sum(dlt_dm_n) - dlt_dm_n[rootIndex];
-    float n_chopped_root = dlt_dm_n[rootIndex];
-    float n_removed_tops = n_chopped_tops - n_tops_residue;
-    float n_removed_root = n_chopped_root - n_root_residue;
-
-    float p_chopped_tops = sum(dlt_dm_p) - dlt_dm_p[rootIndex];
-    float p_chopped_root = dlt_dm_p[rootIndex];
-    float p_removed_tops = p_chopped_tops - p_tops_residue;
-    float p_removed_root = p_chopped_root - p_root_residue;
+    float dm_removed_tops = dm_tops_chopped - dm_tops_residue;
+    float dm_removed_root = dm_root_chopped - dm_root_residue;
+    float n_removed_tops = n_tops_chopped - n_tops_residue;
+    float n_removed_root = n_root_chopped - n_root_residue;
+    float p_removed_tops = p_tops_chopped - p_tops_residue;
+    float p_removed_root = p_root_chopped - p_root_residue;
 
     parent->writeString ("    Organic matter removed from system:-      From Tops               From Roots");
 

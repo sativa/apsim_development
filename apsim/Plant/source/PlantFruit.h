@@ -97,6 +97,8 @@ public:												// member functions
 
    void doGrainNumber (void);
 
+   void onFlowering(void) {/*no need to propogate*/};
+   void onStartGrainFill(void) {/*no need to propogate*/};
    void onHarvest(float height, float remove_fr,
                   vector<string> &dm_type,
                   vector<float> &dlt_crop_dm,
