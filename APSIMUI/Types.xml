@@ -243,6 +243,7 @@
       <Documentation name="Science documentation">../apsim/met/docs/met_science.htm</Documentation>
       <LargeIcon>Images\thermometer32.png</LargeIcon>
       <SmallIcon>Images\thermometer16.png</SmallIcon>
+
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -256,6 +257,7 @@
          <variable name="radn" description="Solar Radiation (MJ/m2/day)"/>
       </variables>
       <ApsimToSim>
+         <recurse>yes</recurse>
          <type>component</type>
          <dll>%apsuite\apsim\input\lib\input.dll</dll>
       </ApsimToSim>
@@ -2528,7 +2530,8 @@
       <SmallIcon>Images\thermometer16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
-         <drop name="metfile"/>
+         <drop name="simulation"/>
+         <drop name="area"/>
          <drop name="folder"/>
      </drops>
 
@@ -2539,14 +2542,14 @@
          <dll>%apsuite\apsim\manager\lib\manager.dll</dll>
          <sim>
             <rule name="ccInit" condition="init">
-               co2 = [cc.co2]
+               co2 = [climatechange.co2]
             </rule>
             <rule name="ccPreNewMet" condition="prenewmet">
                !change met data to reflect climate change
-               met.maxt = met.maxt + [cc.maxtmodifier]
-               met.mint = met.mint + [cc.mintmodifier]
-               met.rain = met.rain * [cc.rainmodifier]
-               met.radn = met.radn * [cc.radiationmodifier]
+               met.maxt = met.maxt + [climatechange.maxtmodifier]
+               met.mint = met.mint + [climatechange.mintmodifier]
+               met.rain = met.rain * [climatechange.rainmodifier]
+               met.radn = met.radn * [climatechange.radiationmodifier]
             </rule>
          </sim>
       </ApsimToSim>
