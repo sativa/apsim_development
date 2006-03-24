@@ -107,8 +107,7 @@
     <component name="PaddockArea" executable="%apsuite\apsim\manager\lib\manager.dll">
       <executable>%apsuite\apsim\manager\lib\manager.dll</executable>
       <initdata>
-        <rule name="init" condition="init">area = 1
-</rule>
+        <rule name="init" condition="init" />
         <rule name="end_of_day" condition="end_of_day" />
         <rule name="start_of_day" condition="start_of_day" />
       </initdata>
