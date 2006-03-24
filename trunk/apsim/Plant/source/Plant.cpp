@@ -2509,12 +2509,13 @@ void Plant::plant_event(float *g_dlayer           // (INPUT)  thickness of soil 
     float n_green_conc_percent;                   // n% of tops less pod (incl grain)
 
     // Don't send an end crop to the system - otherwise all the other crops will stop too!
-    if (phenology->stageName() != "end_crop")
+    if (phenology->stageName() != "end_crop") 
+       {
+       for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
+          (*part)->onPlantEvent(phenology->stageName());
        sendStageMessage(phenology->stageName().c_str());
-
-    // Tell all the plant things what has happened too (should do this one day ??xx??)
-//    doPlantEvent(phenology->stageName());
-
+       }   
+       
     char msg[80];
     sprintf(msg, " stage %.1f %s"
               , phenology->stageNumber()
@@ -4263,62 +4264,9 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
         g.plants = temp;
         }
 
-    vector<plantPart *> someParts1;
-    //someParts.push_back(stemPart);
-    someParts1.push_back(fruitPart);
-    vector<plantPart *>::iterator part;
-
     // Update biomass and N pools.
-
-    // XX should be part->onKillStem(...); FIXME!
-    // Calculate Root Die Back
-    dlt_dm_sen = rootPart->DMGreen * c.root_die_back_fr;
-    rootPart->DMSenesced += dlt_dm_sen;
-    rootPart->DMGreen -= dlt_dm_sen;
-    dlt_n_sen =  rootPart->DMGreen * c.root_die_back_fr * rootPart->c.n_sen_conc;
-    rootPart->NSenesced += dlt_n_sen;
-    rootPart->NGreen -= dlt_n_sen;
-    dlt_p_sen =  rootPart->PGreen * c.root_die_back_fr;
-    rootPart->PSen += dlt_p_sen;
-    rootPart->PGreen -= dlt_p_sen;
-
-    for (part = myParts.begin(); part != myParts.end(); part++)
-        {
-        dm_init = (*part)->c.dm_init * g.plants;
-        n_init = dm_init * (*part)->c.n_init_conc;
-        p_init = dm_init * (*part)->c.p_init_conc;
-        (*part)->DMDead += (*part)->DMGreen + (*part)->DMSenesced - dm_init;
-        (*part)->DMDead = l_bound ((*part)->DMDead, 0.0);
-        (*part)->DMGreen = dm_init;
-        (*part)->DMSenesced = 0.0;
-
-        (*part)->NDead += (*part)->NGreen + (*part)->NSenesced - n_init;
-        (*part)->NDead = l_bound ((*part)->NDead, 0.0);
-        (*part)->NGreen = n_init;
-        (*part)->NSenesced = 0.0;
-
-        (*part)->PDead += (*part)->PGreen + (*part)->PSen - p_init;
-        (*part)->PDead = l_bound ((*part)->PDead, 0.0);
-        (*part)->PGreen = p_init;
-        (*part)->PSen = 0.0;
-        }
-
-    fruitPart->onKillStem();
-
-    for (part = someParts1.begin(); part != someParts1.end(); part++)        // somPaarts are pod, meal and oil - only place it is used.
-       {
-       (*part)->DMDead += (*part)->DMGreen + (*part)->DMSenesced;
-       (*part)->DMGreen = 0.0;
-       (*part)->DMSenesced = 0.0;
-
-       (*part)->NDead += (*part)->NGreen + (*part)->NSenesced;
-       (*part)->NGreen = 0.0;
-       (*part)->NSenesced = 0.0;
-
-       (*part)->PDead += (*part)->PGreen + (*part)->PSen;
-       (*part)->PGreen = 0.0;
-       (*part)->PSen = 0.0;
-       }
+    for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
+       (*part)->onKillStem();
 
     // transfer plant leaf area
     float deadLAI = leafPart->gTLAI_dead + leafPart->gLAI; // Save

@@ -940,15 +940,27 @@ void PlantFruit::onHarvest(float cutting_height, float remove_fr,
 }
 
 void PlantFruit::onKillStem(void)
-   // ====================================================================
-{
+// ====================================================================
+   {
    for (vector<plantPart *>::iterator part = myParts.begin();
         part != myParts.end();
         part++)
       (*part)->onKillStem();
 
    refreshStates();
-}
+
+   DMDead += DMGreen + DMSenesced;
+   DMGreen = 0.0;
+   DMSenesced = 0.0;
+
+   NDead += NGreen + NSenesced;
+   NGreen = 0.0;
+   NSenesced = 0.0;
+
+   PDead += PGreen + PSen;
+   PGreen = 0.0;
+   PSen = 0.0;
+   }
 
 void PlantFruit::onEndCrop(vector<string> &dm_type,
                            vector<float> &dlt_crop_dm,
