@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 #include <stdexcept>
+#include <iostream>
 
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
@@ -135,6 +136,9 @@ void plantRootPart::readSpeciesParameters(protocol::Component *system, vector<st
                          "stage_code_list", "()", 0.0, 100.0,
                          "root_depth_rate", "(mm/day)", 0.0, 1000.0);
 
+    ws_root_fac.search(system, sections,
+                         "x_ws_root", "()", 0.0, 1.0,
+                         "y_ws_root_fac", "()", 0.0, 1.0);
    }
 
 
@@ -185,10 +189,13 @@ void plantRootPart::onEmergence(void)
    }
 
 void plantRootPart::onFlowering(void)
+//=======================================================================================
    {
-   DMPlantMin = 0.0; //override default impl
+   DMPlantMin = 0.0; //override default implementation
    }
+
 void plantRootPart::onStartGrainFill(void)
+//=======================================================================================
    {
    DMPlantMin = 0.0;
    }
@@ -222,28 +229,78 @@ void plantRootPart::onHarvest(float /*cutting_height*/, float remove_fr,
    dlt_dm_p.push_back(0.0);
    }
 
-//+  Purpose
-//       Plant root distribution in the soil
-void rootGrowthOption1::plant_root_depth (void)
+
+void plantRootPart::onKillStem(void)
+//=======================================================================================
+   {
+   // Calculate Root Die Back
+   float dlt_dm_sen = DMGreen * rootDieBackFraction;
+   DMSenesced += dlt_dm_sen;
+   DMGreen -= dlt_dm_sen;
+
+   float dlt_n_sen =  DMGreen * rootDieBackFraction * c.n_sen_conc;
+   NSenesced += dlt_n_sen;
+   NGreen -= dlt_n_sen;
+
+   float dlt_p_sen =  PGreen * rootDieBackFraction;
+   PSen += dlt_p_sen;
+   PGreen -= dlt_p_sen;
+
+   plantPart::onKillStem();
+   }
+
+void plantRootPart::plant_root_depth (void)
+//=======================================================================================
+// Plant root distribution in the soil
+//   Was cproc_root_depth2
    {
    const environment_t *e = plant->getEnvironment();
-   int deepest_layer =e->find_layer_no (root_depth);
-   float sw_avail_fac = sw_fac_root.value(e->sw_avail_ratio(deepest_layer));
 
+   //Temperature factor
    float avg_temp = (e->mint + e->maxt)/2.0;
-
    float temp_factor = rel_root_advance.value(avg_temp);
+
+   //Water stress factor
+   float ws_factor = ws_root_fac.value (plant->getSwdefPhoto());
+
+   //Soil water availability factor
+   int deepest_layer = e->dlayer.size()-1;
+
+   //  the layer with root front
+   int layer = e->find_layer_no(root_depth);
+
+   float cum_depth = sum(e->dlayer, layer+1);
+   float rootdepth_in_layer = e->dlayer[layer] - (cum_depth - root_depth);
+
+   rootdepth_in_layer = bound (rootdepth_in_layer, 0.0, e->dlayer[layer]);
+
+   float weighting_factor = divide (rootdepth_in_layer, e->dlayer[layer], 0.0);
+
+   int next_layer = min(layer+1, deepest_layer);
+
+   float fasw1 = divide (e->sw_dep [layer] - e->ll_dep[layer],
+                         e->dul_dep[layer] - e->ll_dep[layer], 0.0);
+
+   float fasw2 = divide (e->sw_dep [next_layer] - e->ll_dep[next_layer],
+                         e->dul_dep[next_layer] - e->ll_dep[next_layer], 0.0);
+
+   fasw1 = min(1.0,max(0.0, fasw1));
+   fasw2 = min(1.0,max(0.0, fasw2));
+
+   float fasw = weighting_factor * fasw2 + (1.0 - weighting_factor) * fasw1;
+
+   float sw_avail_factor = sw_fac_root.value(fasw);
 
    // this equation allows soil water in the deepest
    // layer in which roots are growing
    // to affect the daily increase in rooting depth.
    int stage = (int)plant->getStageNumber();
    dltRootDepth  = root_depth_rate.value(stage) *
-                       sw_avail_fac *
-                         xf[deepest_layer] *
-                           temp_factor;
+                     temp_factor *
+                       min(ws_factor, sw_avail_factor) *
+                         xf[layer];
 
-   // XXX is this cap redundant?
+   // prevent roots partially entering layers where xf == 0
    for (deepest_layer = xf.size();
         deepest_layer >= 0 && xf[deepest_layer] <= 0.0;
         deepest_layer--)
@@ -255,51 +312,16 @@ void rootGrowthOption1::plant_root_depth (void)
    if (dltRootDepth < 0.0) throw std::runtime_error("negative root growth??") ;
    }
 
-void rootGrowthOption2::plant_root_depth ()
-   {
-//        cproc_root_depth2 ( phenology->stageNumber()
-//                           ,Environment.maxt
-//                           ,Environment.mint
-//                           ,g.swdef_photo
-//                           ,rootPart->root_depth
-//                           ,c.num_temp_root_advance
-//                           ,c.x_temp_root_advance
-//                           ,c.y_rel_root_advance
-//                           ,c.num_ws_root
-//                           ,c.x_ws_root
-//                           ,c.y_ws_root_fac
-//                           ,c.num_sw_ratio
-//                           ,c.x_sw_ratio
-//                           ,c.y_sw_fac_root
-//                           ,g.dlayer
-//                           ,g.dul_dep
-//                           ,g.sw_dep
-//                           ,p.ll_dep
-//                           ,c.root_depth_rate
-//                           ,p.xf
-//                           ,&g.dlt_root_depth);
-   throw std::runtime_error("root growth option 2 NYI - see pdev");
-   }
-
 void plantRootPart::update(void)
    {
    plantPart::update();
    root_depth += dltRootDepth;
 
-   //add_real_array (dltRootLength, root_length);
    for (int layer = 0; layer < plant->getEnvironment()->num_layers; layer++)
-      {
       root_length[layer] += dltRootLength[layer];
-      if (root_length[layer] < 0)
-        throw std::runtime_error("root dltRL " + itoa(layer) + " = " + ftoa(root_length[layer], ".2"));
-      }
-   //subtract_real_array (dltRootLengthSenesced, root_length);
+
    for (int layer = 0; layer < plant->getEnvironment()->num_layers; layer++)
-      {
       root_length[layer] -= dltRootLengthSenesced[layer];
-      if (root_length[layer] < 0)
-        throw std::runtime_error("root dltRLS " + itoa(layer) + " = " + ftoa(root_length[layer], ".2"));
-      }
    }
 
 void plantRootPart::update2(float dying_fract_plants)
@@ -548,6 +570,7 @@ void rootGrowthOption1::root_length_growth (void)
    int deepest_layer = env->find_layer_no (depth_today);
 
    vector<float> rlv_factor(env->num_layers);  // relative rooting factor for all layers
+
    rlv_factor_tot = 0.0;
    for(int layer = 0; layer <= deepest_layer; layer++)
       {
@@ -564,17 +587,15 @@ void rootGrowthOption1::root_length_growth (void)
                             root_depth, 0.0);                            //       factor
 
       rlv_factor[layer] = l_bound(rlv_factor[layer], 1e-6);
-      rlv_factor_tot = rlv_factor_tot + rlv_factor[layer];
+      rlv_factor_tot += rlv_factor[layer];
       }
 
    dlt_length_tot = dlt.dm_green/sm2smm * specificRootLength;
-   //if (dlt_length_tot < 0.0) throw std::runtime_error("negative root length_tot growth??") ;
 
    for(int layer = 0; layer <= deepest_layer; layer++)
       {
       dltRootLength[layer] = dlt_length_tot *
                               divide (rlv_factor[layer], rlv_factor_tot, 0.0);
-      //if (dltRootLength[layer] < 0.0) throw std::runtime_error("negative root length_layer growth??") ;
       }
                               
 }
@@ -656,12 +677,13 @@ void rootGrowthOption2::readSpeciesParameters(protocol::Component *system, vecto
    system->readParameter (sections, "root_distribution_pattern", 
                           rootDistributionPattern, 0.0, 100.0);
    }
+
 void plantRootPart::checkBounds(void)
    {
    if (root_depth < 0) throw std::runtime_error(c.name + " depth is negative! (" + ftoa(root_depth,".4") +")");
    for (int layer = 0; layer < plant->getEnvironment()->num_layers; layer++) 
       {
-      if (root_length[layer] < 0) throw std::runtime_error(c.name + " length is negative! (" + ftoa(root_length[layer],".4") +")");
-      if (root_length_dead[layer] < 0) throw std::runtime_error(c.name + " length dead is negative! (" + ftoa(root_length[layer],".4") +")");
+      if (root_length[layer] < 0) throw std::runtime_error(c.name + " length in layer " + itoa(layer) + " is negative! (" + ftoa(root_length[layer],".4") +")");
+      if (root_length_dead[layer] < 0) throw std::runtime_error(c.name + " length dead in layer " + itoa(layer) + " is negative! (" + ftoa(root_length[layer],".4") +")");
       }
    }

@@ -40,12 +40,13 @@ class plantRootPart : public plantPart
                      vector<float> &dlt_dm_n,
                      vector<float> &dlt_dm_p,
                      vector<float> &fraction_to_residue);
+      void onKillStem(void);
       void update();
       void update2(float);
       void checkBounds(void);
       void sen_length(void);
       virtual void root_length_growth (void) = 0;
-      virtual void plant_root_depth (void) = 0;
+      virtual void plant_root_depth (void);
 
       void collectDetachedForResidue(vector<string> &part_name
                                           , vector<float> &dm_residue
@@ -77,6 +78,7 @@ class plantRootPart : public plantPart
       interpolationFunction rel_root_rate;
       interpolationFunction sw_fac_root;
       interpolationFunction rel_root_advance; 
+      interpolationFunction ws_root_fac;
       lookupFunction root_depth_rate;
    };
 
@@ -85,7 +87,6 @@ class rootGrowthOption1 : public plantRootPart
  public:
    rootGrowthOption1(plantInterface *p, const string &name) : plantRootPart(p, name) {};
    void root_length_growth (void);
-   void plant_root_depth (void);
    };
 
 class rootGrowthOption2 : public plantRootPart 
@@ -96,7 +97,6 @@ class rootGrowthOption2 : public plantRootPart
    rootGrowthOption2(plantInterface *p, const string &name) : plantRootPart(p, name) {};
    void readSpeciesParameters(protocol::Component *system, vector<string> &sections);
    void root_length_growth (void);
-   void plant_root_depth (void);
    };
 
 plantRootPart* constructRootPart(plantInterface *p, const string &type, const string &name);
