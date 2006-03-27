@@ -2509,8 +2509,8 @@ void Plant::plant_event(float *g_dlayer           // (INPUT)  thickness of soil 
     // Don't send an end crop to the system - otherwise all the other crops will stop too!
     if (phenology->stageName() != "end_crop") 
        {
-       for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
-          (*part)->onPlantEvent(phenology->stageName());
+//       for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
+//          (*part)->onPlantEvent(phenology->stageName());
        sendStageMessage(phenology->stageName().c_str());
        }   
        
