@@ -292,15 +292,20 @@ void __fastcall TRunForm::OnRunNotifyEvent(const std::string& simFileName)
    d.Read (edat.getValue().c_str());
    simEndJDay = d.Get_jday();
 
-   ProgressBar->Step = 1;
-   ProgressBar->Min = 0;
-   int length = simEndJDay - simStartJDay;
-   ProgressBar->Max = (length < 0) ? 0 : length;
-   
-   ProgressBar->Position = 0;
+   if (simStartJDay == 0 || simEndJDay == 0)
+      ProgressBar->Visible = false;
+   else
+      {
+      ProgressBar->Step = 1;
+      ProgressBar->Min = 0;
+      int length = simEndJDay - simStartJDay;
+      ProgressBar->Max = (length < 0) ? 0 : length;
 
-   StartDateLabel->Caption = sdat.getValue().c_str();
-   EndDateLabel->Caption = edat.getValue().c_str();
+      ProgressBar->Position = 0;
+
+      StartDateLabel->Caption = sdat.getValue().c_str();
+      EndDateLabel->Caption = edat.getValue().c_str();
+      }
    }
 
 
@@ -341,10 +346,13 @@ void __fastcall TRunForm::OnStdoutEvent(const string& text)
          // 'Date' lines. Update 'indicator' dials
          CurrentDateLabel->Caption = DateString.c_str();
          currentDate.Read(DateString.c_str());
-         int currpos = currentDate.Get_jday() - simStartJDay;
-         currpos = (currpos < ProgressBar->Min) ? ProgressBar->Min : currpos;
-         currpos = (currpos > ProgressBar->Max) ? ProgressBar->Max : currpos;
-         ProgressBar->Position = currpos;
+         if (ProgressBar->Visible)
+            {
+            int currpos = currentDate.Get_jday() - simStartJDay;
+            currpos = (currpos < ProgressBar->Min) ? ProgressBar->Min : currpos;
+            currpos = (currpos > ProgressBar->Max) ? ProgressBar->Max : currpos;
+            ProgressBar->Position = currpos;
+            }
          }
       else if (line != "" || st.hasMoreTokens())
          addLine(line);
