@@ -2506,11 +2506,10 @@ void Plant::plant_event(float *g_dlayer           // (INPUT)  thickness of soil 
     float dm_green;                               // plant wt of tops (g/m^2) less pod
     float n_green_conc_percent;                   // n% of tops less pod (incl grain)
 
-    // Don't send an end crop to the system - otherwise all the other crops will stop too!
+    // Tell the system (ie everything outside of plant) about this event.
+    // NB. Don't send an "end_crop" to the system - otherwise all the other crops will stop too!
     if (phenology->stageName() != "end_crop") 
        {
-//       for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
-//          (*part)->onPlantEvent(phenology->stageName());
        sendStageMessage(phenology->stageName().c_str());
        }   
        
@@ -4204,6 +4203,8 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     if (g.plant_status == alive &&
         phenology->previousStageName() != phenology->stageName())
         {
+        for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
+           (*part)->onPlantEvent(phenology->stageName());
         plant_event (g.dlayer
                    , rootPart->root_depth
                    , g.sw_dep
@@ -4325,6 +4326,8 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     if (g.plant_status == alive &&
         phenology->previousStageName() != phenology->stageName())
         {
+        for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
+           (*part)->onPlantEvent(phenology->stageName());
         plant_event (g.dlayer
             , rootPart->root_depth
             , g.sw_dep
@@ -4660,6 +4663,8 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
     if (g.plant_status == alive &&
         phenology->previousStageName() != phenology->stageName())
         {
+        for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
+           (*part)->onPlantEvent(phenology->stageName());
         plant_event (g.dlayer
             , rootPart->root_depth
             , g.sw_dep
