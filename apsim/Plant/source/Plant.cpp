@@ -2165,9 +2165,6 @@ void Plant::plant_update(float  g_row_spacing                          // (INPUT
     someParts.push_back(leafPart);
     someParts.push_back(stemPart);
 
-    vector<plantPart *> rootParts;
-    rootParts.push_back(rootPart);
-
     vector<plantPart *>::iterator part;
 
 
@@ -2215,7 +2212,8 @@ void Plant::plant_update(float  g_row_spacing                          // (INPUT
     for (part = myParts.begin(); part != myParts.end(); part++)
        s += (*part)->dlt.n_senesced_retrans;
 
-    leafPart->NGreen -= s;                               // xxpdev ?? i dont understand this??? all retranslocate to leaf?
+    // xx what does this mean??
+    leafPart->NGreen -= s;
 
     for (part = someParts.begin(); part != someParts.end(); part++)
        {

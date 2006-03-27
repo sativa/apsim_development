@@ -208,7 +208,7 @@ void plantRootPart::onHarvest(float /*cutting_height*/, float remove_fr,
                               vector<float> &fraction_to_residue)
 //=======================================================================================
    {
-
+   // Push dead fraction into senesced pool
    float dlt_dm_die = DMGreen * rootDieBackFraction;
    DMGreen -= dlt_dm_die;
    DMSenesced += dlt_dm_die;
@@ -401,7 +401,7 @@ void plantRootPart::onEndCrop(vector<string> &dm_type,
 // Unlike above ground parts, no roots go to surface residue module.
    {
    plantPart::onEndCrop(dm_type, dlt_crop_dm, dlt_dm_n, dlt_dm_p, fraction_to_residue);
-   int end = fraction_to_residue.size()-1; 
+   int end = fraction_to_residue.size()-1;
    fraction_to_residue[end] = 0.0;
    }
 
@@ -680,10 +680,13 @@ void rootGrowthOption2::readSpeciesParameters(protocol::Component *system, vecto
 
 void plantRootPart::checkBounds(void)
    {
-   if (root_depth < 0) throw std::runtime_error(c.name + " depth is negative! (" + ftoa(root_depth,".4") +")");
-   for (int layer = 0; layer < plant->getEnvironment()->num_layers; layer++) 
+   if (root_depth < 0)
+     throw std::runtime_error(c.name + " depth is negative! (" + ftoa(root_depth,".4") +")");
+   for (int layer = 0; layer < plant->getEnvironment()->num_layers; layer++)
       {
-      if (root_length[layer] < 0) throw std::runtime_error(c.name + " length in layer " + itoa(layer) + " is negative! (" + ftoa(root_length[layer],".4") +")");
-      if (root_length_dead[layer] < 0) throw std::runtime_error(c.name + " length dead in layer " + itoa(layer) + " is negative! (" + ftoa(root_length[layer],".4") +")");
+      if (root_length[layer] < 0)
+         throw std::runtime_error(c.name + " length in layer " + itoa(layer+1) + " is negative! (" + ftoa(root_length[layer],".4") +")");
+      if (root_length_dead[layer] < 0)
+         throw std::runtime_error(c.name + " length dead in layer " + itoa(layer+1) + " is negative! (" + ftoa(root_length[layer],".4") +")");
       }
    }

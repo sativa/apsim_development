@@ -1560,18 +1560,18 @@ void fill_real_array (float *var, float value, int limit);
 void fill_integer_array (int *var, int value, int limit);
 
 int get_cumulative_index_real(float cum_sum, const float *array, int size_of);
-template <class T> T sum(vector<T> v) {
+template <class T> T sum(const vector<T> v) {
    T result = 0.0;
    for (unsigned int i = 0; i < v.size();  i++) result += v[i];
    return result;
 };
-template <class T> T sum(vector<T> v, unsigned int n) {
+template <class T> T sum(const vector<T> &v, unsigned int n) {
    T result = 0.0;
    for (unsigned int i = 0; i < v.size() && i < n;  i++) result += v[i];
    return result;
 };
 
-template <class T> void setTo(vector<T> v, T value) {
+template <class T> void setTo(vector<T> &v, T value) {
    for (unsigned int i = 0; i < v.size(); i++) v[i] = value;
 };
 
