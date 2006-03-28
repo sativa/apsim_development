@@ -1492,7 +1492,7 @@
 3 December 1993(Day of year=337), wheat: 
       stage 8.0 end_grain_fill
                      biomass =         742.82 (g/m^2)   lai          =   0.239 (m^2/m^2)
-                     stover N conc =     0.30 (%)    extractable sw =   89.11 (mm)
+                     stover N conc =     0.30 (%)    extractable sw =   89.12 (mm)
 4 December 1993(Day of year=338), wheat: 
       stage 9.0 maturity
                      biomass =         742.82 (g/m^2)   lai          =   0.219 (m^2/m^2)
@@ -1501,14 +1501,14 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.038798 vs n_uptake_sum =0.038802
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.038795 vs n_uptake_sum =0.038799
      Component name: wheat
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
       stage 10.0 harvest_ripe
                      biomass =         742.82 (g/m^2)   lai          =   0.001 (m^2/m^2)
-                     stover N conc =     0.32 (%)    extractable sw =   88.58 (mm)
+                     stover N conc =     0.32 (%)    extractable sw =   88.59 (mm)
 8 December 1993(Day of year=342), operatns: 
       Sending do_end_day_output message to report8
 8 December 1993(Day of year=342), manager: 
@@ -1520,7 +1520,7 @@
       flowering day          =  297                           stover (kg/ha)         =     5504.4
       maturity day           =  338                           grain yield (kg/ha)    =     1923.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2198.5
-      grain wt (g)           =    0.022                       grains/m^2             =   8570.369
+      grain wt (g)           =    0.022                       grains/m^2             =   8570.372
       grains/plant           =   40.8                         maximum lai            =      2.669
       total above ground biomass (kg/ha)    =     7428.2
       live above ground biomass (kg/ha)     =     7428.2
@@ -1553,7 +1553,7 @@
      
       stage 4.0 end_of_juvenile
                      biomass =           0.04 (g/m^2)   lai          =   0.042 (m^2/m^2)
-                     stover N conc =     0.49 (%)    extractable sw =   87.91 (mm)
+                     stover N conc =     0.49 (%)    extractable sw =   87.92 (mm)
 10 December 1993(Day of year=344), operatns: 
       Sending kill_crop message to wheat
 10 December 1993(Day of year=344), wheat: 
@@ -1696,23 +1696,23 @@
                      stover N conc =     4.53 (%)    extractable sw =   91.94 (mm)
 27 November 1994(Day of year=331), lucerne: 
       stage 5.0 floral_initiation
-                     biomass =         250.04 (g/m^2)   lai          =   1.611 (m^2/m^2)
-                     stover N conc =     4.55 (%)    extractable sw =   51.41 (mm)
+                     biomass =         250.03 (g/m^2)   lai          =   1.611 (m^2/m^2)
+                     stover N conc =     4.55 (%)    extractable sw =   51.42 (mm)
 10 December 1994(Day of year=344), lucerne: 
       stage 6.0 flowering
-                     biomass =         304.40 (g/m^2)   lai          =   1.879 (m^2/m^2)
-                     stover N conc =     3.75 (%)    extractable sw =   39.17 (mm)
+                     biomass =         304.36 (g/m^2)   lai          =   1.878 (m^2/m^2)
+                     stover N conc =     3.75 (%)    extractable sw =   39.19 (mm)
 14 December 1994(Day of year=348), operatns: 
       Sending do_end_day_output message to report7
 16 December 1994(Day of year=350), lucerne: 
       stage 7.0 start_grain_fill
-                     biomass =         305.21 (g/m^2)   lai          =   1.818 (m^2/m^2)
-                     stover N conc =     3.76 (%)    extractable sw =   32.93 (mm)
+                     biomass =         305.16 (g/m^2)   lai          =   1.818 (m^2/m^2)
+                     stover N conc =     3.76 (%)    extractable sw =   32.95 (mm)
 29 December 1994(Day of year=363), lucerne: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.012278
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.012270
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1721,7 +1721,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.009154
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.009149
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1730,7 +1730,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.007295
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.007293
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1739,7 +1739,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.006248
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.006247
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1766,7 +1766,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.007344
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.007343
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1775,7 +1775,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.035619
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.035635
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1784,7 +1784,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.028926
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.028939
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1793,7 +1793,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.018734
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.018701
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1802,7 +1802,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.012165
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.012151
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1811,7 +1811,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.009521
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.009515
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1820,7 +1820,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.010693
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.010688
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -1829,19 +1829,19 @@
       Sending harvest message to lucerne
 12 January 1995(Day of year=12), lucerne: 
      
-      flowering day          =  344                           stover (kg/ha)         =     2878.6
+      flowering day          =  344                           stover (kg/ha)         =     2878.0
       maturity day           =    0                           grain yield (kg/ha)    =        8.3
       grain % water content  =   15.5                         grain yield wet (kg/ha)=        9.8
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
-      grains/plant           =    0.0                         maximum lai            =      1.879
-      total above ground biomass (kg/ha)    =     2886.9
-      live above ground biomass (kg/ha)     =     2886.9
-      green above ground biomass (kg/ha)    =     2629.9
-      senesced above ground biomass (kg/ha) =      256.9
+      grains/plant           =    0.0                         maximum lai            =      1.878
+      total above ground biomass (kg/ha)    =     2886.3
+      live above ground biomass (kg/ha)     =     2886.3
+      green above ground biomass (kg/ha)    =     2629.3
+      senesced above ground biomass (kg/ha) =      257.0
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   40.3
       DM Root:Shoot ratio    =    0.463                       Harvest Index          =      0.003
-      Stover C:N ratio       =   11.016                       Root C:N ratio         =     15.181
+      Stover C:N ratio       =   11.014                       Root C:N ratio         =     15.180
       grain N percent        =       1.80                     total N content (kg/ha)=     104.67
       grain N uptake (kg/ha) =       0.15                     senesced N content (kg/ha)=    5.14
       green N content (kg/ha)=      99.38                     dead N content (kg/ha) =       0.00
@@ -1849,37 +1849,37 @@
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.179        0.291
          end_of_juvenile      to floral_initiation       0.057        0.032        0.011        0.021
-         floral_initiation    to flowering               0.447        0.229        0.000        0.000
-         flowering            to start_grain_fill        0.932        0.533        0.000        0.000
+         floral_initiation    to flowering               0.448        0.229        0.000        0.000
+         flowering            to start_grain_fill        0.932        0.532        0.000        0.000
      
       - reading constants for regrowth(lucerne)
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                125.02                    0.00
+                          DM (kg/ha) =                124.99                    0.00
                           N  (kg/ha) =                  4.52                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2383.72                    0.00
-                          N  (kg/ha) =                 86.07                    0.00
+                          DM (kg/ha) =               2383.19                    0.00
+                          N  (kg/ha) =                 86.06                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =          37.81 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     3.91 (%)    extractable sw =   40.07 (mm)
+                     stover N conc =     3.91 (%)    extractable sw =   40.11 (mm)
 28 January 1995(Day of year=28), lucerne: 
       stage 5.0 floral_initiation
                      biomass =          65.56 (g/m^2)   lai          =   0.111 (m^2/m^2)
-                     stover N conc =     5.24 (%)    extractable sw =   52.15 (mm)
+                     stover N conc =     5.24 (%)    extractable sw =   52.18 (mm)
 10 February 1995(Day of year=41), lucerne: 
       stage 6.0 flowering
-                     biomass =         114.54 (g/m^2)   lai          =   0.304 (m^2/m^2)
-                     stover N conc =     3.36 (%)    extractable sw =   83.98 (mm)
+                     biomass =         114.55 (g/m^2)   lai          =   0.304 (m^2/m^2)
+                     stover N conc =     3.36 (%)    extractable sw =   84.02 (mm)
 14 February 1995(Day of year=45), operatns: 
       Sending do_end_day_output message to report7
 15 February 1995(Day of year=46), lucerne: 
       stage 7.0 start_grain_fill
                      biomass =         129.81 (g/m^2)   lai          =   0.398 (m^2/m^2)
-                     stover N conc =     2.98 (%)    extractable sw =   73.18 (mm)
+                     stover N conc =     2.98 (%)    extractable sw =   73.23 (mm)
 31 March 1995(Day of year=90), manager: 
      Manager sending message :- lucerne reduce
 31 March 1995(Day of year=90), lucerne: 
@@ -1890,22 +1890,22 @@
       Sending harvest message to lucerne
 1 June 1995(Day of year=152), lucerne: 
      
-      flowering day          =   41                           stover (kg/ha)         =     1908.9
+      flowering day          =   41                           stover (kg/ha)         =     1909.1
       maturity day           =    0                           grain yield (kg/ha)    =       25.4
       grain % water content  =   15.5                         grain yield wet (kg/ha)=       30.1
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
-      grains/plant           =    0.0                         maximum lai            =      1.879
-      total above ground biomass (kg/ha)    =     1934.4
-      live above ground biomass (kg/ha)     =     1934.4
-      green above ground biomass (kg/ha)    =     1723.8
+      grains/plant           =    0.0                         maximum lai            =      1.878
+      total above ground biomass (kg/ha)    =     1934.5
+      live above ground biomass (kg/ha)     =     1934.5
+      green above ground biomass (kg/ha)    =     1723.9
       senesced above ground biomass (kg/ha) =      210.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   54.6
       DM Root:Shoot ratio    =    0.912                       Harvest Index          =      0.013
       Stover C:N ratio       =   16.820                       Root C:N ratio         =     16.000
-      grain N percent        =       1.80                     total N content (kg/ha)=      45.85
+      grain N percent        =       1.80                     total N content (kg/ha)=      45.86
       grain N uptake (kg/ha) =       0.46                     senesced N content (kg/ha)=    4.21
-      green N content (kg/ha)=      41.18                     dead N content (kg/ha) =       0.00
+      green N content (kg/ha)=      41.19                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          end_of_juvenile      to floral_initiation       0.000        0.000        0.077        0.108
@@ -1915,22 +1915,22 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               1599.11                    0.00
-                          N  (kg/ha) =                 38.15                    0.00
+                          DM (kg/ha) =               1599.24                    0.00
+                          N  (kg/ha) =                 38.16                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =                 25.45                    0.00
                           N  (kg/ha) =                  0.46                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =          30.98 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.38 (%)    extractable sw =  190.68 (mm)
+                     biomass =          30.99 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.38 (%)    extractable sw =  190.71 (mm)
 1 June 1995(Day of year=152), operatns: 
       Sending end_crop message to lucerne
 1 June 1995(Day of year=152), lucerne: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                309.83                 1764.16
+                          DM (kg/ha) =                309.86                 1764.16
                           N  (kg/ha) =                  7.24                   44.10
      
 2 June 1995(Day of year=153), operatns: 
@@ -2093,8 +2093,8 @@
       Sending do_end_day_output message to report4
 10 December 1995(Day of year=344), lucerne: 
       stage 7.0 start_grain_fill
-                     biomass =         647.22 (g/m^2)   lai          =   3.273 (m^2/m^2)
-                     stover N conc =     2.65 (%)    extractable sw =   44.50 (mm)
+                     biomass =         647.20 (g/m^2)   lai          =   3.273 (m^2/m^2)
+                     stover N conc =     2.65 (%)    extractable sw =   44.52 (mm)
 22 January 1996(Day of year=22), operatns: 
       Sending do_end_day_output message to report7
 5 March 1996(Day of year=65), operatns: 
@@ -2113,22 +2113,22 @@
       Sending harvest message to lucerne
 20 June 1996(Day of year=172), lucerne: 
      
-      flowering day          =  337                           stover (kg/ha)         =     2001.3
+      flowering day          =  337                           stover (kg/ha)         =     2000.8
       maturity day           =    0                           grain yield (kg/ha)    =      162.6
-      grain % water content  =   15.5                         grain yield wet (kg/ha)=      192.5
+      grain % water content  =   15.5                         grain yield wet (kg/ha)=      192.4
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      3.369
-      total above ground biomass (kg/ha)    =     2163.9
-      live above ground biomass (kg/ha)     =     2163.9
-      green above ground biomass (kg/ha)    =     1844.0
-      senesced above ground biomass (kg/ha) =      319.9
+      total above ground biomass (kg/ha)    =     2163.4
+      live above ground biomass (kg/ha)     =     2163.4
+      green above ground biomass (kg/ha)    =     1843.5
+      senesced above ground biomass (kg/ha) =      319.8
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   87.0
-      DM Root:Shoot ratio    =    1.745                       Harvest Index          =      0.075
+      DM Root:Shoot ratio    =    1.746                       Harvest Index          =      0.075
       Stover C:N ratio       =   17.124                       Root C:N ratio         =     15.255
-      grain N percent        =       1.80                     total N content (kg/ha)=      49.68
+      grain N percent        =       1.80                     total N content (kg/ha)=      49.66
       grain N uptake (kg/ha) =       2.93                     senesced N content (kg/ha)=    6.40
-      green N content (kg/ha)=      40.35                     dead N content (kg/ha) =       0.00
+      green N content (kg/ha)=      40.34                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          end_of_juvenile      to floral_initiation       0.000        0.000        0.021        0.044
@@ -2138,16 +2138,16 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                 82.17                    0.00
+                          DM (kg/ha) =                 82.15                    0.00
                           N  (kg/ha) =                  1.90                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1723.82                    0.00
-                          N  (kg/ha) =                 39.05                    0.00
+                          DM (kg/ha) =               1723.39                    0.00
+                          N  (kg/ha) =                 39.04                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =          35.79 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.53 (%)    extractable sw =   43.71 (mm)
+                     biomass =          35.78 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.53 (%)    extractable sw =   43.75 (mm)
 25 June 1996(Day of year=177), lucerne: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
@@ -2245,20 +2245,20 @@
       Sending do_end_day_output message to report7
 11 August 1996(Day of year=224), lucerne: 
       stage 5.0 floral_initiation
-                     biomass =         118.13 (g/m^2)   lai          =   1.107 (m^2/m^2)
-                     stover N conc =     4.37 (%)    extractable sw =  185.70 (mm)
+                     biomass =         118.12 (g/m^2)   lai          =   1.107 (m^2/m^2)
+                     stover N conc =     4.37 (%)    extractable sw =  185.74 (mm)
 14 August 1996(Day of year=227), operatns: 
       Sending do_end_day_output message to report7
 11 September 1996(Day of year=255), lucerne: 
       stage 6.0 flowering
                      biomass =         375.79 (g/m^2)   lai          =   2.619 (m^2/m^2)
-                     stover N conc =     2.74 (%)    extractable sw =  161.87 (mm)
+                     stover N conc =     2.74 (%)    extractable sw =  161.90 (mm)
 17 September 1996(Day of year=261), operatns: 
       Sending do_end_day_output message to report7
 23 September 1996(Day of year=267), lucerne: 
       stage 7.0 start_grain_fill
-                     biomass =         466.83 (g/m^2)   lai          =   2.851 (m^2/m^2)
-                     stover N conc =     2.53 (%)    extractable sw =  145.68 (mm)
+                     biomass =         466.83 (g/m^2)   lai          =   2.852 (m^2/m^2)
+                     stover N conc =     2.53 (%)    extractable sw =  145.71 (mm)
 24 September 1996(Day of year=268), operatns: 
       Sending do_end_day_output message to report4
 25 September 1996(Day of year=269), operatns: 
@@ -2270,8 +2270,8 @@
       grain % water content  =   15.5                         grain yield wet (kg/ha)=        1.1
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      3.369
-      total above ground biomass (kg/ha)    =     4724.1
-      live above ground biomass (kg/ha)     =     4724.1
+      total above ground biomass (kg/ha)    =     4724.0
+      live above ground biomass (kg/ha)     =     4724.0
       green above ground biomass (kg/ha)    =     4516.9
       senesced above ground biomass (kg/ha) =      207.2
       dead above ground biomass (kg/ha)     =        0.0
@@ -2294,76 +2294,76 @@
                           N  (kg/ha) =                  4.79                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               3617.21                    0.00
+                          DM (kg/ha) =               3617.17                    0.00
                           N  (kg/ha) =                 90.98                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =          91.66 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.44 (%)    extractable sw =  143.55 (mm)
+                     biomass =          91.65 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.44 (%)    extractable sw =  143.58 (mm)
 15 October 1996(Day of year=289), operatns: 
       Sending do_end_day_output message to report7
 24 October 1996(Day of year=298), lucerne: 
       stage 5.0 floral_initiation
                      biomass =         365.49 (g/m^2)   lai          =   1.678 (m^2/m^2)
-                     stover N conc =     4.39 (%)    extractable sw =  114.62 (mm)
+                     stover N conc =     4.39 (%)    extractable sw =  114.66 (mm)
 10 November 1996(Day of year=315), lucerne: 
       stage 6.0 flowering
-                     biomass =         660.77 (g/m^2)   lai          =   3.244 (m^2/m^2)
-                     stover N conc =     3.00 (%)    extractable sw =   65.08 (mm)
+                     biomass =         660.54 (g/m^2)   lai          =   3.245 (m^2/m^2)
+                     stover N conc =     3.00 (%)    extractable sw =   65.18 (mm)
 13 November 1996(Day of year=318), operatns: 
       Sending do_end_day_output message to report7
 18 November 1996(Day of year=323), operatns: 
       Sending do_end_day_output message to report4
 18 November 1996(Day of year=323), lucerne: 
       stage 7.0 start_grain_fill
-                     biomass =         709.79 (g/m^2)   lai          =   3.301 (m^2/m^2)
-                     stover N conc =     2.81 (%)    extractable sw =   54.97 (mm)
+                     biomass =         709.52 (g/m^2)   lai          =   3.301 (m^2/m^2)
+                     stover N conc =     2.81 (%)    extractable sw =   55.08 (mm)
 4 December 1996(Day of year=339), operatns: 
       Sending harvest message to lucerne
 4 December 1996(Day of year=339), lucerne: 
      
-      flowering day          =  315                           stover (kg/ha)         =     7274.5
+      flowering day          =  315                           stover (kg/ha)         =     7273.1
       maturity day           =    0                           grain yield (kg/ha)    =       12.1
       grain % water content  =   15.5                         grain yield wet (kg/ha)=       14.3
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      3.400
-      total above ground biomass (kg/ha)    =     7286.5
-      live above ground biomass (kg/ha)     =     7286.5
-      green above ground biomass (kg/ha)    =     6637.6
-      senesced above ground biomass (kg/ha) =      648.9
+      total above ground biomass (kg/ha)    =     7285.1
+      live above ground biomass (kg/ha)     =     7285.1
+      green above ground biomass (kg/ha)    =     6636.3
+      senesced above ground biomass (kg/ha) =      648.8
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   29.1
       DM Root:Shoot ratio    =    0.693                       Harvest Index          =      0.002
-      Stover C:N ratio       =   15.430                       Root C:N ratio         =     15.756
-      grain N percent        =       1.80                     total N content (kg/ha)=     188.80
+      Stover C:N ratio       =   15.432                       Root C:N ratio         =     15.756
+      grain N percent        =       1.80                     total N content (kg/ha)=     188.73
       grain N uptake (kg/ha) =       0.22                     senesced N content (kg/ha)=   12.98
-      green N content (kg/ha)=     175.60                     dead N content (kg/ha) =       0.00
+      green N content (kg/ha)=     175.54                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          end_of_juvenile      to floral_initiation       0.000        0.000        0.042        0.048
-         floral_initiation    to flowering               0.102        0.133        0.000        0.000
-         flowering            to start_grain_fill        0.319        0.302        0.000        0.000
+         floral_initiation    to flowering               0.103        0.132        0.000        0.000
+         flowering            to start_grain_fill        0.319        0.301        0.000        0.000
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                307.50                    0.00
+                          DM (kg/ha) =                307.43                    0.00
                           N  (kg/ha) =                  8.00                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               5854.52                    0.00
-                          N  (kg/ha) =                152.24                    0.00
+                          DM (kg/ha) =               5853.19                    0.00
+                          N  (kg/ha) =                152.18                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =         112.45 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.60 (%)    extractable sw =   29.13 (mm)
+                     stover N conc =     2.59 (%)    extractable sw =   29.17 (mm)
 10 December 1996(Day of year=345), operatns: 
       Sending do_end_day_output message to report7
 23 December 1996(Day of year=358), lucerne: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.004026
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.004023
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2372,7 +2372,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.003000
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.002998
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2381,19 +2381,19 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.023121
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.023113
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
       stage 5.0 floral_initiation
-                     biomass =         157.17 (g/m^2)   lai          =   0.572 (m^2/m^2)
-                     stover N conc =     4.77 (%)    extractable sw =   55.41 (mm)
+                     biomass =         157.20 (g/m^2)   lai          =   0.573 (m^2/m^2)
+                     stover N conc =     4.77 (%)    extractable sw =   55.43 (mm)
 2 January 1997(Day of year=2), lucerne: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.008880
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.008870
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2402,7 +2402,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.007210
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.007203
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2411,7 +2411,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.005771
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.005766
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2420,19 +2420,19 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.004460
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.004456
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
       stage 6.0 flowering
-                     biomass =         206.51 (g/m^2)   lai          =   0.789 (m^2/m^2)
-                     stover N conc =     3.87 (%)    extractable sw =   32.32 (mm)
+                     biomass =         206.52 (g/m^2)   lai          =   0.789 (m^2/m^2)
+                     stover N conc =     3.87 (%)    extractable sw =   32.36 (mm)
 7 January 1997(Day of year=7), lucerne: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.049708
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.049697
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2443,7 +2443,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.050878
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.050802
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2452,7 +2452,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.021097
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.021078
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2461,7 +2461,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.016789
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.016777
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2470,7 +2470,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.014317
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.014307
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2479,19 +2479,19 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.012235
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.012226
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
       stage 7.0 start_grain_fill
-                     biomass =         227.06 (g/m^2)   lai          =   0.874 (m^2/m^2)
-                     stover N conc =     3.49 (%)    extractable sw =   29.88 (mm)
+                     biomass =         227.04 (g/m^2)   lai          =   0.874 (m^2/m^2)
+                     stover N conc =     3.49 (%)    extractable sw =   29.93 (mm)
 13 January 1997(Day of year=13), lucerne: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.010136
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.010128
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2500,7 +2500,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.007888
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.007881
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2509,7 +2509,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.006174
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.006169
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2518,7 +2518,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.004752
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.004749
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2527,7 +2527,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.003561
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.003559
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2536,7 +2536,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.002619
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.002618
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2545,7 +2545,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001867
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001865
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2554,7 +2554,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001282
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001286
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2563,7 +2563,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001067
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001071
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2572,7 +2572,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000915
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000919
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2581,7 +2581,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000799
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000802
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2590,7 +2590,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000720
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000723
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2599,7 +2599,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000652
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000656
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2608,7 +2608,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000602
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000607
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2617,7 +2617,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.050276
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.050214
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2626,7 +2626,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.036744
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.036720
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2635,7 +2635,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.041775
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.041757
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2644,7 +2644,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.061448
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.061442
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2653,7 +2653,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.074150
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.074141
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2664,45 +2664,45 @@
       Sending harvest message to lucerne
 6 March 1997(Day of year=65), lucerne: 
      
-      flowering day          =    5                           stover (kg/ha)         =     2233.7
+      flowering day          =    5                           stover (kg/ha)         =     2234.0
       maturity day           =    0                           grain yield (kg/ha)    =       14.8
       grain % water content  =   15.5                         grain yield wet (kg/ha)=       17.5
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      3.400
-      total above ground biomass (kg/ha)    =     2248.5
-      live above ground biomass (kg/ha)     =     2248.5
-      green above ground biomass (kg/ha)    =     1637.9
+      total above ground biomass (kg/ha)    =     2248.8
+      live above ground biomass (kg/ha)     =     2248.8
+      green above ground biomass (kg/ha)    =     1638.2
       senesced above ground biomass (kg/ha) =      610.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   51.1
       DM Root:Shoot ratio    =    1.747                       Harvest Index          =      0.007
-      Stover C:N ratio       =   14.437                       Root C:N ratio         =     15.001
-      grain N percent        =       1.80                     total N content (kg/ha)=      62.15
+      Stover C:N ratio       =   14.437                       Root C:N ratio         =     15.002
+      grain N percent        =       1.80                     total N content (kg/ha)=      62.16
       grain N uptake (kg/ha) =       0.27                     senesced N content (kg/ha)=   12.21
-      green N content (kg/ha)=      49.68                     dead N content (kg/ha) =       0.00
+      green N content (kg/ha)=      49.69                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
-         end_of_juvenile      to floral_initiation       0.257        0.180        0.167        0.206
-         floral_initiation    to flowering               0.635        0.661        0.000        0.000
-         flowering            to start_grain_fill        0.619        0.777        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.257        0.180        0.167        0.205
+         floral_initiation    to flowering               0.636        0.661        0.000        0.000
+         flowering            to start_grain_fill        0.620        0.777        0.000        0.000
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                 88.29                    0.00
+                          DM (kg/ha) =                 88.30                    0.00
                           N  (kg/ha) =                  2.43                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1692.27                    0.00
-                          N  (kg/ha) =                 46.35                    0.00
+                          DM (kg/ha) =               1692.48                    0.00
+                          N  (kg/ha) =                 46.36                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =          46.80 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     3.19 (%)    extractable sw =   47.40 (mm)
+                     stover N conc =     3.19 (%)    extractable sw =   47.42 (mm)
 26 March 1997(Day of year=85), lucerne: 
       stage 5.0 floral_initiation
-                     biomass =         112.50 (g/m^2)   lai          =   0.593 (m^2/m^2)
-                     stover N conc =     4.68 (%)    extractable sw =   20.21 (mm)
+                     biomass =         112.52 (g/m^2)   lai          =   0.593 (m^2/m^2)
+                     stover N conc =     4.68 (%)    extractable sw =   20.23 (mm)
 31 March 1997(Day of year=90), manager: 
      Manager sending message :- lucerne reduce
 31 March 1997(Day of year=90), lucerne: 
@@ -2710,7 +2710,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.004459
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.004458
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2719,7 +2719,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.002889
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.002888
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2728,7 +2728,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001705
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001715
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2737,7 +2737,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001323
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001330
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2746,7 +2746,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001045
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001051
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2755,7 +2755,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000840
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000845
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2764,7 +2764,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000697
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000701
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2773,7 +2773,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000597
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000600
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2782,7 +2782,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000539
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000541
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2791,7 +2791,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000495
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000496
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2836,31 +2836,31 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000433
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000432
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
       stage 6.0 flowering
-                     biomass =         134.50 (g/m^2)   lai          =   0.905 (m^2/m^2)
-                     stover N conc =     3.90 (%)    extractable sw =   25.03 (mm)
+                     biomass =         134.53 (g/m^2)   lai          =   0.905 (m^2/m^2)
+                     stover N conc =     3.90 (%)    extractable sw =   25.05 (mm)
 22 April 1997(Day of year=112), lucerne: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000507
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000505
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
       stage 7.0 start_grain_fill
-                     biomass =         134.30 (g/m^2)   lai          =   0.884 (m^2/m^2)
-                     stover N conc =     3.85 (%)    extractable sw =   22.77 (mm)
+                     biomass =         134.31 (g/m^2)   lai          =   0.884 (m^2/m^2)
+                     stover N conc =     3.85 (%)    extractable sw =   22.79 (mm)
 23 April 1997(Day of year=113), lucerne: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000518
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000516
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2869,7 +2869,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000528
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000526
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2878,7 +2878,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000547
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000544
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2887,7 +2887,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000563
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000559
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2896,7 +2896,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000578
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000573
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2905,7 +2905,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000589
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000584
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2914,7 +2914,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000600
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000595
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2923,7 +2923,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000609
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000604
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2932,7 +2932,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000619
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000614
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2941,7 +2941,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000626
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000622
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2959,7 +2959,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.003872
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.003892
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2968,7 +2968,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.005394
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.005404
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2977,7 +2977,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.010415
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.010446
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2986,7 +2986,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000974
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000973
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -2995,7 +2995,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.008912
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.008904
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3004,7 +3004,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.011354
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.011345
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3013,7 +3013,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.013798
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.013790
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3022,7 +3022,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.016495
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.016488
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3031,7 +3031,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.015071
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.015065
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3040,7 +3040,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.016439
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.016438
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3049,7 +3049,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.013511
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.013514
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3058,7 +3058,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.009335
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.009338
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3067,7 +3067,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.003048
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.003046
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3076,7 +3076,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001272
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001271
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3094,7 +3094,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.002791
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.002789
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3103,7 +3103,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.006913
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.006910
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3112,7 +3112,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.006846
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.006844
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3121,7 +3121,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.003649
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.003648
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3130,7 +3130,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.005036
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.005035
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3139,7 +3139,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.010203
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.010199
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3148,7 +3148,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.002407
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.002406
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3157,7 +3157,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.007624
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.007622
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3166,7 +3166,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.006826
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.006825
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3175,7 +3175,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.007350
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.007349
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3184,7 +3184,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.005363
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.005362
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3193,7 +3193,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.006748
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.006747
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3202,7 +3202,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.007170
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.007169
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3211,7 +3211,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.006827
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.006826
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3220,7 +3220,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.006966
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.006965
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3229,7 +3229,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.010763
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.010761
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3238,7 +3238,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.010039
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.010038
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3256,7 +3256,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.007034
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.007033
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3265,7 +3265,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.008002
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.007993
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3274,7 +3274,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.006397
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.006384
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3283,7 +3283,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.003631
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.003623
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3292,7 +3292,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.003182
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.003169
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3303,7 +3303,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001959
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001946
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3314,7 +3314,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.006172
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.006170
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3323,41 +3323,41 @@
       Sending harvest message to lucerne
 20 June 1997(Day of year=171), lucerne: 
      
-      flowering day          =  104                           stover (kg/ha)         =     1165.6
+      flowering day          =  104                           stover (kg/ha)         =     1164.6
       maturity day           =    0                           grain yield (kg/ha)    =        9.9
       grain % water content  =   15.5                         grain yield wet (kg/ha)=       11.8
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      3.400
-      total above ground biomass (kg/ha)    =     1175.6
-      live above ground biomass (kg/ha)     =     1175.6
-      green above ground biomass (kg/ha)    =      658.3
-      senesced above ground biomass (kg/ha) =      517.3
+      total above ground biomass (kg/ha)    =     1174.5
+      live above ground biomass (kg/ha)     =     1174.5
+      green above ground biomass (kg/ha)    =      657.6
+      senesced above ground biomass (kg/ha) =      516.9
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   30.7
-      DM Root:Shoot ratio    =    2.328                       Harvest Index          =      0.008
-      Stover C:N ratio       =   12.833                       Root C:N ratio         =     12.978
-      grain N percent        =       1.80                     total N content (kg/ha)=      36.51
-      grain N uptake (kg/ha) =       0.18                     senesced N content (kg/ha)=   10.35
-      green N content (kg/ha)=      25.99                     dead N content (kg/ha) =       0.00
+      DM Root:Shoot ratio    =    2.330                       Harvest Index          =      0.008
+      Stover C:N ratio       =   12.820                       Root C:N ratio         =     12.974
+      grain N percent        =       1.80                     total N content (kg/ha)=      36.52
+      grain N uptake (kg/ha) =       0.18                     senesced N content (kg/ha)=   10.34
+      green N content (kg/ha)=      26.00                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          end_of_juvenile      to floral_initiation       0.079        0.095        0.059        0.084
          floral_initiation    to flowering               0.605        0.151        0.000        0.000
-         flowering            to start_grain_fill        0.622        0.009        0.000        0.000
+         flowering            to start_grain_fill        0.623        0.009        0.000        0.000
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                 42.52                    0.00
+                          DM (kg/ha) =                 42.47                    0.00
                           N  (kg/ha) =                  1.28                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                817.87                    0.00
+                          DM (kg/ha) =                816.94                    0.00
                           N  (kg/ha) =                 24.52                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =          31.52 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     4.53 (%)    extractable sw =   36.84 (mm)
+                     biomass =          31.51 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     4.54 (%)    extractable sw =   36.89 (mm)
 26 June 1997(Day of year=177), lucerne: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
@@ -3427,30 +3427,30 @@
 17 August 1997(Day of year=229), lucerne: 
       stage 5.0 floral_initiation
                      biomass =          64.46 (g/m^2)   lai          =   0.480 (m^2/m^2)
-                     stover N conc =     4.37 (%)    extractable sw =   59.97 (mm)
+                     stover N conc =     4.37 (%)    extractable sw =   60.03 (mm)
 17 September 1997(Day of year=260), operatns: 
       Sending do_end_day_output message to report4
 17 September 1997(Day of year=260), lucerne: 
       stage 6.0 flowering
-                     biomass =         253.91 (g/m^2)   lai          =   1.285 (m^2/m^2)
-                     stover N conc =     2.69 (%)    extractable sw =   44.00 (mm)
+                     biomass =         253.92 (g/m^2)   lai          =   1.285 (m^2/m^2)
+                     stover N conc =     2.69 (%)    extractable sw =   44.05 (mm)
 18 September 1997(Day of year=261), operatns: 
       Sending harvest message to lucerne
 18 September 1997(Day of year=261), lucerne: 
      
-      flowering day          =  260                           stover (kg/ha)         =     2539.1
+      flowering day          =  260                           stover (kg/ha)         =     2539.2
       maturity day           =    0                           grain yield (kg/ha)    =        0.0
       grain % water content  =   15.5                         grain yield wet (kg/ha)=        0.0
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      3.400
-      total above ground biomass (kg/ha)    =     2539.1
-      live above ground biomass (kg/ha)     =     2539.1
+      total above ground biomass (kg/ha)    =     2539.2
+      live above ground biomass (kg/ha)     =     2539.2
       green above ground biomass (kg/ha)    =     2472.5
       senesced above ground biomass (kg/ha) =       66.7
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   20.4
       DM Root:Shoot ratio    =    0.989                       Harvest Index          =      0.000
-      Stover C:N ratio       =   14.953                       Root C:N ratio         =     13.991
+      Stover C:N ratio       =   14.953                       Root C:N ratio         =     13.988
       grain N percent        =       0.00                     total N content (kg/ha)=      67.92
       grain N uptake (kg/ha) =       0.00                     senesced N content (kg/ha)=    1.33
       green N content (kg/ha)=      66.59                     dead N content (kg/ha) =       0.00
@@ -3462,16 +3462,16 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                103.50                    0.00
+                          DM (kg/ha) =                103.51                    0.00
                           N  (kg/ha) =                  2.80                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1966.59                    0.00
+                          DM (kg/ha) =               1966.60                    0.00
                           N  (kg/ha) =                 53.27                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =          46.91 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     2.54 (%)    extractable sw =   44.00 (mm)
+                     stover N conc =     2.54 (%)    extractable sw =   44.05 (mm)
 16 October 1997(Day of year=289), operatns: 
       Sending harvest message to lucerne
 16 October 1997(Day of year=289), lucerne: 
@@ -3487,8 +3487,8 @@
       senesced above ground biomass (kg/ha) =       11.7
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   11.6
-      DM Root:Shoot ratio    =    1.753                       Harvest Index          =      0.000
-      Stover C:N ratio       =    8.530                       Root C:N ratio         =     12.994
+      DM Root:Shoot ratio    =    1.752                       Harvest Index          =      0.000
+      Stover C:N ratio       =    8.530                       Root C:N ratio         =     12.991
       grain N percent        =       0.00                     total N content (kg/ha)=      57.61
       grain N uptake (kg/ha) =       0.00                     senesced N content (kg/ha)=    0.23
       green N content (kg/ha)=      57.38                     dead N content (kg/ha) =       0.00
@@ -3498,24 +3498,24 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                 46.12                    0.00
+                          DM (kg/ha) =                 46.13                    0.00
                           N  (kg/ha) =                  2.17                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =                876.34                    0.00
+                          DM (kg/ha) =                876.38                    0.00
                           N  (kg/ha) =                 41.17                    0.00
      
 27 October 1997(Day of year=300), operatns: 
       Sending do_end_day_output message to report7
 8 November 1997(Day of year=312), lucerne: 
       stage 5.0 floral_initiation
-                     biomass =         117.40 (g/m^2)   lai          =   0.502 (m^2/m^2)
-                     stover N conc =     4.73 (%)    extractable sw =   40.18 (mm)
+                     biomass =         117.39 (g/m^2)   lai          =   0.502 (m^2/m^2)
+                     stover N conc =     4.73 (%)    extractable sw =   40.24 (mm)
 10 November 1997(Day of year=314), lucerne: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.011841
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.011863
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3524,7 +3524,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.005168
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.005175
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3533,7 +3533,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.003965
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.003971
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3542,7 +3542,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000783
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000784
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3557,8 +3557,8 @@
      
      
       stage 6.0 flowering
-                     biomass =         151.09 (g/m^2)   lai          =   0.729 (m^2/m^2)
-                     stover N conc =     3.83 (%)    extractable sw =   28.54 (mm)
+                     biomass =         151.09 (g/m^2)   lai          =   0.730 (m^2/m^2)
+                     stover N conc =     3.83 (%)    extractable sw =   28.60 (mm)
 25 November 1997(Day of year=329), lucerne: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
@@ -3572,7 +3572,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000471
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000470
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3581,7 +3581,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000439
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000438
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3590,7 +3590,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000411
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000410
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3599,19 +3599,19 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000398
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000397
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
      
       stage 7.0 start_grain_fill
-                     biomass =         148.73 (g/m^2)   lai          =   0.697 (m^2/m^2)
-                     stover N conc =     3.89 (%)    extractable sw =   25.63 (mm)
+                     biomass =         148.73 (g/m^2)   lai          =   0.698 (m^2/m^2)
+                     stover N conc =     3.89 (%)    extractable sw =   25.70 (mm)
 30 November 1997(Day of year=334), lucerne: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000387
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000386
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3629,7 +3629,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000368
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000367
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3647,7 +3647,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000347
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000346
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3656,7 +3656,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000336
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000335
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3721,7 +3721,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000256
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000257
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3730,7 +3730,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000244
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000245
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3739,7 +3739,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.039133
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.039165
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3748,7 +3748,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.060508
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.060556
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3757,7 +3757,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.047849
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.047889
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3766,7 +3766,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.015680
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.015694
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3775,7 +3775,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.011237
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.011250
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3784,7 +3784,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.009088
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.009098
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3793,7 +3793,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.007397
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.007404
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3802,7 +3802,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.005438
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.005440
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3820,7 +3820,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.003293
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.003291
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3829,7 +3829,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.002487
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.002484
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3838,7 +3838,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001773
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001770
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3847,7 +3847,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001128
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001124
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3856,7 +3856,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000510
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000506
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3865,7 +3865,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000119
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000120
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3874,7 +3874,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000112
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000113
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3883,7 +3883,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000105
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000106
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3892,7 +3892,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000099
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000100
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3901,7 +3901,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000094
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000095
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3910,7 +3910,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000089
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000090
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3919,7 +3919,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000084
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000085
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3928,7 +3928,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000081
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000082
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3937,7 +3937,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000077
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000078
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3946,7 +3946,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000074
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000075
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3955,7 +3955,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000071
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000072
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3964,7 +3964,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001568
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001573
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3973,7 +3973,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.025521
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.025572
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3982,7 +3982,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.011979
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.011992
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -3991,7 +3991,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.031069
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.031095
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4000,7 +4000,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.012359
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.012373
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4009,7 +4009,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.009375
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.009388
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4018,7 +4018,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.007391
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.007401
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4027,7 +4027,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.005643
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.005649
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4036,7 +4036,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.003526
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.003527
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4045,7 +4045,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.002491
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.002492
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4054,7 +4054,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001856
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001855
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4063,7 +4063,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001321
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001319
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4072,7 +4072,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000856
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000854
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4081,7 +4081,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000419
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000417
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4108,7 +4108,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000402
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000403
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4117,7 +4117,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000099
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000100
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4216,7 +4216,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000035
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000036
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4234,7 +4234,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.029454
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.029498
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4243,7 +4243,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.014859
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.014885
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4252,7 +4252,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.043213
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.043289
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4261,7 +4261,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.040145
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.040107
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4270,7 +4270,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.018927
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.018929
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4288,7 +4288,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.012415
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.012413
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4297,7 +4297,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.010400
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.010397
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4306,7 +4306,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.006792
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.006786
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4315,7 +4315,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.005227
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.005220
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4324,7 +4324,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.003862
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.003856
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4333,7 +4333,7 @@
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001003
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.001005
      Component name: lucerne
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -4342,32 +4342,32 @@
       Sending harvest message to lucerne
 24 February 1998(Day of year=55), lucerne: 
      
-      flowering day          =  326                           stover (kg/ha)         =      777.4
+      flowering day          =  326                           stover (kg/ha)         =      778.3
       maturity day           =    0                           grain yield (kg/ha)    =       14.3
       grain % water content  =   15.5                         grain yield wet (kg/ha)=       16.9
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      3.400
-      total above ground biomass (kg/ha)    =      791.7
-      live above ground biomass (kg/ha)     =      791.7
-      green above ground biomass (kg/ha)    =      601.0
+      total above ground biomass (kg/ha)    =      792.6
+      live above ground biomass (kg/ha)     =      792.6
+      green above ground biomass (kg/ha)    =      601.9
       senesced above ground biomass (kg/ha) =      190.8
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   66.1
-      DM Root:Shoot ratio    =    2.108                       Harvest Index          =      0.018
-      Stover C:N ratio       =   10.032                       Root C:N ratio         =     12.815
+      DM Root:Shoot ratio    =    2.106                       Harvest Index          =      0.018
+      Stover C:N ratio       =   10.043                       Root C:N ratio         =     12.817
       grain N percent        =       1.80                     total N content (kg/ha)=      31.26
       grain N uptake (kg/ha) =       0.26                     senesced N content (kg/ha)=    3.82
-      green N content (kg/ha)=      27.18                     dead N content (kg/ha) =       0.00
+      green N content (kg/ha)=      27.19                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          end_of_juvenile      to floral_initiation       0.073        0.061        0.089        0.126
-         floral_initiation    to flowering               0.797        0.558        0.000        0.000
-         flowering            to start_grain_fill        1.088        0.989        0.000        0.000
+         floral_initiation    to flowering               0.797        0.557        0.000        0.000
+         flowering            to start_grain_fill        1.088        0.988        0.000        0.000
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                598.86                    0.00
+                          DM (kg/ha) =                599.55                    0.00
                           N  (kg/ha) =                 23.06                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -4375,15 +4375,15 @@
                           N  (kg/ha) =                  0.26                    0.00
      
       stage 4.0 end_of_juvenile
-                     biomass =          17.86 (g/m^2)   lai          =   0.000 (m^2/m^2)
-                     stover N conc =     5.30 (%)    extractable sw =   22.18 (mm)
+                     biomass =          17.88 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     5.29 (%)    extractable sw =   22.19 (mm)
 24 February 1998(Day of year=55), operatns: 
       Sending end_crop message to lucerne
 24 February 1998(Day of year=55), lucerne: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                178.59                 1668.82
-                          N  (kg/ha) =                  7.94                   52.09
+                          DM (kg/ha) =                178.79                 1669.43
+                          N  (kg/ha) =                  7.94                   52.10
      
 31 March 1998(Day of year=90), manager: 
      Manager sending message :- lucerne reduce
@@ -4519,8 +4519,8 @@
       Sending do_end_day_output message to report4
 9 September 1998(Day of year=252), canola: 
       stage 7.0 start_grain_fill
-                     biomass =         413.90 (g/m^2)   lai          =   1.979 (m^2/m^2)
-                     stover N conc =     1.52 (%)    extractable sw =   66.40 (mm)
+                     biomass =         413.84 (g/m^2)   lai          =   1.978 (m^2/m^2)
+                     stover N conc =     1.52 (%)    extractable sw =   66.41 (mm)
 19 September 1998(Day of year=262), operatns: 
       Sending do_end_day_output message to report4
 24 September 1998(Day of year=267), operatns: 
@@ -4533,61 +4533,61 @@
       Sending do_end_day_output message to report6
 4 November 1998(Day of year=308), canola: 
       stage 8.0 end_grain_fill
-                     biomass =         575.69 (g/m^2)   lai          =   1.149 (m^2/m^2)
-                     stover N conc =     0.57 (%)    extractable sw =   80.14 (mm)
+                     biomass =         575.66 (g/m^2)   lai          =   1.149 (m^2/m^2)
+                     stover N conc =     0.57 (%)    extractable sw =   80.15 (mm)
 5 November 1998(Day of year=309), operatns: 
       Sending do_end_day_output message to report4
 5 November 1998(Day of year=309), canola: 
       stage 9.0 maturity
-                     biomass =         590.89 (g/m^2)   lai          =   1.128 (m^2/m^2)
-                     stover N conc =     0.56 (%)    extractable sw =   70.92 (mm)
+                     biomass =         590.86 (g/m^2)   lai          =   1.128 (m^2/m^2)
+                     stover N conc =     0.56 (%)    extractable sw =   70.93 (mm)
 6 November 1998(Day of year=310), operatns: 
       Sending harvest message to canola
 6 November 1998(Day of year=310), canola: 
      
-      flowering day          =  233                           stover (kg/ha)         =     4181.8
-      maturity day           =  309                           grain yield (kg/ha)    =     1727.1
-      grain % water content  =    8.5                         grain yield wet (kg/ha)=     1887.5
+      flowering day          =  233                           stover (kg/ha)         =     4181.6
+      maturity day           =  309                           grain yield (kg/ha)    =     1727.0
+      grain % water content  =    8.5                         grain yield wet (kg/ha)=     1887.4
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      2.106
-      total above ground biomass (kg/ha)    =     5908.9
-      live above ground biomass (kg/ha)     =     5908.9
-      green above ground biomass (kg/ha)    =     5575.0
+      total above ground biomass (kg/ha)    =     5908.6
+      live above ground biomass (kg/ha)     =     5908.6
+      green above ground biomass (kg/ha)    =     5574.7
       senesced above ground biomass (kg/ha) =      333.8
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   32.7
       DM Root:Shoot ratio    =    0.295                       Harvest Index          =      0.292
-      Stover C:N ratio       =   67.708                       Root C:N ratio         =     68.393
+      Stover C:N ratio       =   67.702                       Root C:N ratio         =     68.387
       grain N percent        =       3.61                     total N content (kg/ha)=      87.06
-      grain N uptake (kg/ha) =      62.35                     senesced N content (kg/ha)=    3.35
+      grain N uptake (kg/ha) =      62.36                     senesced N content (kg/ha)=    3.35
       green N content (kg/ha)=      21.36                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.246
          end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.259
          floral_initiation    to flowering               0.000        0.000        0.000        0.222
-         flowering            to start_grain_fill        0.030        0.013        0.000        0.470
-         start_grain_fill     to end_grain_fill          0.000        0.000        0.763        0.890
+         flowering            to start_grain_fill        0.031        0.013        0.000        0.470
+         start_grain_fill     to end_grain_fill          0.000        0.000        0.762        0.890
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4170.40                    0.00
+                          DM (kg/ha) =               4170.17                    0.00
                           N  (kg/ha) =                 23.96                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1727.08                    0.00
-                          N  (kg/ha) =                 62.35                    0.00
+                          DM (kg/ha) =               1726.99                    0.00
+                          N  (kg/ha) =                 62.36                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           1.14 (g/m^2)   lai          =   0.002 (m^2/m^2)
-                     stover N conc =     6.50 (%)    extractable sw =   70.92 (mm)
+                     stover N conc =     6.50 (%)    extractable sw =   70.93 (mm)
 6 November 1998(Day of year=310), operatns: 
       Sending end_crop message to canola
 6 November 1998(Day of year=310), canola: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                 11.40                 1744.64
+                          DM (kg/ha) =                 11.40                 1744.52
                           N  (kg/ha) =                  0.74                   10.20
      
 6 November 1998(Day of year=310), operatns: 
@@ -4722,7 +4722,7 @@
       Sending do_end_day_output message to report4
 10 October 1999(Day of year=283), wheat: 
       stage 6.0 flowering
-                     biomass =        1276.95 (g/m^2)   lai          =   5.751 (m^2/m^2)
+                     biomass =        1276.92 (g/m^2)   lai          =   5.751 (m^2/m^2)
                      stover N conc =     1.13 (%)    extractable sw =   75.03 (mm)
 15 October 1999(Day of year=288), operatns: 
       Sending do_end_day_output message to report6
@@ -4730,45 +4730,45 @@
       Sending do_end_day_output message to report4
 17 October 1999(Day of year=290), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =        1444.44 (g/m^2)   lai          =   4.911 (m^2/m^2)
-                     stover N conc =     0.77 (%)    extractable sw =   46.78 (mm)
+                     biomass =        1444.41 (g/m^2)   lai          =   4.911 (m^2/m^2)
+                     stover N conc =     0.77 (%)    extractable sw =   46.79 (mm)
 3 November 1999(Day of year=307), operatns: 
       Sending do_end_day_output message to report6
 19 November 1999(Day of year=323), operatns: 
       Sending do_end_day_output message to report6
 22 November 1999(Day of year=326), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =        1785.07 (g/m^2)   lai          =   0.965 (m^2/m^2)
-                     stover N conc =     0.31 (%)    extractable sw =   53.14 (mm)
+                     biomass =        1785.23 (g/m^2)   lai          =   0.965 (m^2/m^2)
+                     stover N conc =     0.31 (%)    extractable sw =   53.13 (mm)
 25 November 1999(Day of year=329), operatns: 
       Sending do_end_day_output message to report4
 25 November 1999(Day of year=329), wheat: 
       stage 9.0 maturity
-                     biomass =        1785.64 (g/m^2)   lai          =   0.750 (m^2/m^2)
-                     stover N conc =     0.30 (%)    extractable sw =   49.27 (mm)
+                     biomass =        1785.80 (g/m^2)   lai          =   0.750 (m^2/m^2)
+                     stover N conc =     0.30 (%)    extractable sw =   49.26 (mm)
 26 November 1999(Day of year=330), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1785.64 (g/m^2)   lai          =   0.001 (m^2/m^2)
-                     stover N conc =     0.30 (%)    extractable sw =   48.69 (mm)
+                     biomass =        1785.80 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     stover N conc =     0.30 (%)    extractable sw =   48.68 (mm)
 8 December 1999(Day of year=342), operatns: 
       Sending harvest message to wheat
 8 December 1999(Day of year=342), wheat: 
      
-      flowering day          =  283                           stover (kg/ha)         =    11336.6
-      maturity day           =  329                           grain yield (kg/ha)    =     6519.8
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     7451.2
-      grain wt (g)           =    0.036                       grains/m^2             =  17924.721
+      flowering day          =  283                           stover (kg/ha)         =    11336.4
+      maturity day           =  329                           grain yield (kg/ha)    =     6521.6
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     7453.3
+      grain wt (g)           =    0.036                       grains/m^2             =  17924.234
       grains/plant           =   92.4                         maximum lai            =      7.432
-      total above ground biomass (kg/ha)    =    17856.4
-      live above ground biomass (kg/ha)     =    17856.4
-      green above ground biomass (kg/ha)    =    14401.3
+      total above ground biomass (kg/ha)    =    17858.0
+      live above ground biomass (kg/ha)     =    17858.0
+      green above ground biomass (kg/ha)    =    14402.9
       senesced above ground biomass (kg/ha) =     3455.1
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   41.2
       DM Root:Shoot ratio    =    0.141                       Harvest Index          =      0.365
-      Stover C:N ratio       =  100.279                       Root C:N ratio         =     29.749
-      grain N percent        =       1.81                     total N content (kg/ha)=     163.18
-      grain N uptake (kg/ha) =     117.96                     senesced N content (kg/ha)=   17.06
+      Stover C:N ratio       =  100.280                       Root C:N ratio         =     29.742
+      grain N percent        =       1.81                     total N content (kg/ha)=     163.20
+      grain N uptake (kg/ha) =     117.98                     senesced N content (kg/ha)=   17.06
       green N content (kg/ha)=      28.16                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
@@ -4776,21 +4776,21 @@
          end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.112
          floral_initiation    to flowering               0.008        0.093        0.000        0.188
          flowering            to start_grain_fill        0.000        0.154        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.008        0.083        0.541        0.683
+         start_grain_fill     to end_grain_fill          0.008        0.083        0.541        0.682
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               11336.18                    0.00
+                          DM (kg/ha) =               11335.96                    0.00
                           N  (kg/ha) =                 45.22                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               6519.79                    0.00
-                          N  (kg/ha) =                117.96                    0.00
+                          DM (kg/ha) =               6521.62                    0.00
+                          N  (kg/ha) =                117.98                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.04 (g/m^2)   lai          =   0.039 (m^2/m^2)
-                     stover N conc =     0.61 (%)    extractable sw =   45.82 (mm)
+                     stover N conc =     0.61 (%)    extractable sw =   45.81 (mm)
 8 December 1999(Day of year=342), operatns: 
       Sending kill_crop message to wheat
 8 December 1999(Day of year=342), wheat: 
@@ -4800,8 +4800,8 @@
 8 December 1999(Day of year=342), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.41                 2512.63
-                          N  (kg/ha) =                  0.00                   33.78
+                          DM (kg/ha) =                  0.41                 2512.59
+                          N  (kg/ha) =                  0.00                   33.79
      
 9 December 1999(Day of year=343), operatns: 
       Sending do_end_day_output message to report7
@@ -4980,7 +4980,7 @@
       Sending do_end_day_output message to report6
 20 November 2000(Day of year=325), lupin: 
       stage 8.0 end_grain_fill
-                     biomass =        1298.49 (g/m^2)   lai          =   0.858 (m^2/m^2)
+                     biomass =        1298.48 (g/m^2)   lai          =   0.858 (m^2/m^2)
                      stover N conc =     1.69 (%)    extractable sw =   42.16 (mm)
 22 November 2000(Day of year=327), operatns: 
       Sending do_end_day_output message to report4
@@ -5028,11 +5028,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               9902.42                    0.00
+                          DM (kg/ha) =               9902.41                    0.00
                           N  (kg/ha) =                128.11                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               3300.81                    0.00
+                          DM (kg/ha) =               3300.80                    0.00
                           N  (kg/ha) =                181.54                    0.00
      
 13 December 2000(Day of year=348), operatns: 
@@ -5160,7 +5160,7 @@
 1 September 2001(Day of year=244), wheat: 
       stage 5.0 floral_initiation
                      biomass =         249.35 (g/m^2)   lai          =   3.524 (m^2/m^2)
-                     stover N conc =     3.21 (%)    extractable sw =   59.69 (mm)
+                     stover N conc =     3.21 (%)    extractable sw =   59.70 (mm)
 5 September 2001(Day of year=248), operatns: 
       Sending apply message to fertiliz
 5 September 2001(Day of year=248), fertiliz: 
@@ -5173,27 +5173,27 @@
       Sending do_end_day_output message to report6
 13 October 2001(Day of year=286), wheat: 
       stage 6.0 flowering
-                     biomass =         776.78 (g/m^2)   lai          =   1.701 (m^2/m^2)
+                     biomass =         776.80 (g/m^2)   lai          =   1.701 (m^2/m^2)
                      stover N conc =     1.86 (%)    extractable sw =   34.40 (mm)
 22 October 2001(Day of year=295), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         867.39 (g/m^2)   lai          =   1.313 (m^2/m^2)
-                     stover N conc =     1.46 (%)    extractable sw =   18.61 (mm)
+                     biomass =         867.40 (g/m^2)   lai          =   1.313 (m^2/m^2)
+                     stover N conc =     1.46 (%)    extractable sw =   18.62 (mm)
 23 October 2001(Day of year=296), operatns: 
       Sending do_end_day_output message to report6
 23 November 2001(Day of year=327), operatns: 
       Sending do_end_day_output message to report6
 25 November 2001(Day of year=329), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =        1025.22 (g/m^2)   lai          =   0.212 (m^2/m^2)
-                     stover N conc =     0.99 (%)    extractable sw =   10.58 (mm)
+                     biomass =        1025.21 (g/m^2)   lai          =   0.212 (m^2/m^2)
+                     stover N conc =     0.99 (%)    extractable sw =   10.59 (mm)
 27 November 2001(Day of year=331), wheat: 
       stage 9.0 maturity
-                     biomass =        1025.37 (g/m^2)   lai          =   0.194 (m^2/m^2)
-                     stover N conc =     0.93 (%)    extractable sw =   10.40 (mm)
+                     biomass =        1025.36 (g/m^2)   lai          =   0.194 (m^2/m^2)
+                     stover N conc =     0.93 (%)    extractable sw =   10.41 (mm)
 28 November 2001(Day of year=332), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        1025.37 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     biomass =        1025.36 (g/m^2)   lai          =   0.001 (m^2/m^2)
                      stover N conc =     0.93 (%)    extractable sw =   10.41 (mm)
 4 December 2001(Day of year=338), operatns: 
       Sending do_end_day_output message to report7
@@ -5202,18 +5202,18 @@
 11 December 2001(Day of year=345), wheat: 
      
       flowering day          =  286                           stover (kg/ha)         =     6847.9
-      maturity day           =  331                           grain yield (kg/ha)    =     3405.8
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3892.4
-      grain wt (g)           =    0.030                       grains/m^2             =  11229.819
+      maturity day           =  331                           grain yield (kg/ha)    =     3405.7
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3892.2
+      grain wt (g)           =    0.030                       grains/m^2             =  11230.019
       grains/plant           =   93.6                         maximum lai            =      4.475
-      total above ground biomass (kg/ha)    =    10253.7
-      live above ground biomass (kg/ha)     =    10253.7
-      green above ground biomass (kg/ha)    =     8356.0
+      total above ground biomass (kg/ha)    =    10253.6
+      live above ground biomass (kg/ha)     =    10253.6
+      green above ground biomass (kg/ha)    =     8355.9
       senesced above ground biomass (kg/ha) =     1897.7
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   32.4
       DM Root:Shoot ratio    =    0.143                       Harvest Index          =      0.332
-      Stover C:N ratio       =   49.207                       Root C:N ratio         =     15.188
+      Stover C:N ratio       =   49.203                       Root C:N ratio         =     15.188
       grain N percent        =       2.54                     total N content (kg/ha)=     142.15
       grain N uptake (kg/ha) =      86.48                     senesced N content (kg/ha)=    9.49
       green N content (kg/ha)=      46.18                     dead N content (kg/ha) =       0.00
@@ -5222,22 +5222,22 @@
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
          end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.126
          floral_initiation    to flowering               0.226        0.260        0.000        0.001
-         flowering            to start_grain_fill        0.277        0.356        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.532        0.342        0.000        0.000
+         flowering            to start_grain_fill        0.278        0.356        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.533        0.341        0.000        0.000
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               6847.64                    0.00
-                          N  (kg/ha) =                 55.65                    0.00
+                          DM (kg/ha) =               6847.69                    0.00
+                          N  (kg/ha) =                 55.66                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               3405.83                    0.00
+                          DM (kg/ha) =               3405.70                    0.00
                           N  (kg/ha) =                 86.48                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.024 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =   10.47 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =   10.48 (mm)
 11 December 2001(Day of year=345), operatns: 
       Sending kill_crop message to wheat
 11 December 2001(Day of year=345), wheat: 
@@ -5247,7 +5247,7 @@
 11 December 2001(Day of year=345), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.24                 1466.56
+                          DM (kg/ha) =                  0.24                 1466.57
                           N  (kg/ha) =                  0.02                   38.62
      
 14 December 2001(Day of year=348), operatns: 
