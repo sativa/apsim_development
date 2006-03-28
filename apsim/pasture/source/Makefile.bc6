@@ -5,7 +5,7 @@ BCB = $(MAKEDIR)\..
 
 # APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
 #APSROOT=c:\progra~1\apsim33
-#APSROOT=c:\development
+#APSROOT=c:\data\Apsim\development
 !include $(APSROOT)\APSBuild\platform.make
 !include $(APSROOT)\APSBuild\cpp.make
 

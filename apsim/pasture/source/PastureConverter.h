@@ -24,7 +24,29 @@ class PastureConverter : public protocol::Component
 
    private:
       void readParameters ( void );
+      void sendSand (protocol::QueryValueData& queryData);
+      void sendVPD (protocol::QueryValueData& queryData);
+      float svp(float temp); //(INPUT)  fraction of distance between svp at mi
+      float vpd(float svp_fract, float maxt, float mint); //(INPUT)
+
       float divide (float dividend, float divisor, float default_value);
+
+////      void doRunTimeReg(void);
+////      void daylengthRelay (protocol::QueryValueData& queryData);
+
+      unsigned sandID;
+      unsigned vpdID;
+      unsigned maxtID;
+      unsigned mintID;
+
+      string cDebug;
+      int numLayers;
+      float pSandLayer[100];
+      float cSVPFract;
+//   vector <double> sandLayers;
+
+////      protocol::Component *system;
+////      protocol::add_excretaType excreted;
 
    };
 
