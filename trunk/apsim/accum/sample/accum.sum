@@ -1,0 +1,58 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+     Version                = 5.0
+     Title                  = Accum Sample Simulation
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\accum\lib\accum.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        do_stock
+        post
+     Simulation start date =  1/01/1988
+     Simulation end date   =  9/04/1988
+     Time step =           = 1440 (mins)
+
+------- report Initialisation -------------------------------------------------
+     Output variables:
+        clock.day
+        clock.year
+        accum.rain[3]
+     
+     Output file = accum.out
+     Format = normal
+
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\development\apsim\met\SAMPLE\DALBY.MET
+
+------- accum Initialisation --------------------------------------------------
+     Initialising
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- start_of_day
+     if (rain[3] >= 20) then
+        report do_output
+     endif
+     END of rules
+     
+------- Start of simulation  --------------------------------------------------
+9 April 1988(Day of year=100), clock: 
+     Simulation is terminating due to end criteria being met.
