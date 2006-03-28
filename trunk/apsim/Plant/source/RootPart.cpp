@@ -3,7 +3,6 @@
 #include <map>
 #include <string>
 #include <stdexcept>
-#include <iostream>
 
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
@@ -301,7 +300,7 @@ void plantRootPart::plant_root_depth (void)
                          xf[layer];
 
    // prevent roots partially entering layers where xf == 0
-   for (deepest_layer = xf.size();
+   for (deepest_layer = xf.size()-1;
         deepest_layer >= 0 && xf[deepest_layer] <= 0.0;
         deepest_layer--)
       ; /* nothing */
