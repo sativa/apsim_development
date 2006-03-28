@@ -1001,7 +1001,7 @@ end subroutine
        SOM(residue)%nh4 = g%SurfOM(residue)%nh4
        SOM(residue)%po4 = g%SurfOM(residue)%po4
 
-       do pool = 1, 3
+       do pool = 1, MaxFr
 
           SOM(residue)%StandingFraction(pool)%amount = g%SurfOM(residue)%Standing(pool)%amount
           SOM(residue)%StandingFraction(pool)%C = g%SurfOM(residue)%Standing(pool)%C
@@ -1069,7 +1069,7 @@ subroutine surfom_remove_surfom (variant)
 !         g%SurfOM(SOMNo) = g%SurfOM(SOMNo) - g%SOM(SOMNo)
 
 !           Check if too much removed ?
-         do pool = 1,3
+         do pool = 1, MaxFr
             if (g%SurfOM(SOMNo)%Lying(pool)%amount .ge. SOM(SOMNo)%LyingFraction(pool)%amount) then
                g%SurfOM(SOMNo)%Lying(pool)%amount = g%SurfOM(SOMNo)%Lying(pool)%amount - SOM(SOMNo)%LyingFraction(pool)%amount
             else
@@ -1524,7 +1524,7 @@ subroutine surfom_incorp (action_type, F_incorp, Tillage_depth)
    ! Now update globals.  They must be updated here because there is the possibility of
    ! more than one incorporation on any given day
 
-   do pool = 1,3
+   do pool = 1, MaxFr
 
       g%SurfOM(:)%Lying(pool)%amount =g%SurfOM(:)%Lying(pool)%amount * (1-F_incorp)
       g%SurfOM(:)%Standing(pool)%amount =g%SurfOM(:)%Standing(pool)%amount * (1-F_incorp)
