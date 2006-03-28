@@ -23,8 +23,8 @@
 using namespace std;
 
 
-#define singleArrayTypeDDML \
-   "<type  array=\"T\" kind=\"single\"/>"
+#define doubleArrayTypeDDML "<type  array=\"T\" kind=\"double\"/>"
+#define singleArrayTypeDDML "<type  array=\"T\" kind=\"single\"/>"
 
       const float kg2g = 1000.0 ;
       const float ha2sm = 10000.0 ;
@@ -57,12 +57,14 @@ extern "C" _export void __stdcall getDescription(char* initScript, char* descrip
 // Create an instance of the science converter module
 // ------------------------------------------------------------------
 protocol::Component* createComponent(void)
+//===========================================================================
    {
    return new PastureConverter;
    }
 // ------------------------------------------------------------------
 // constructor
 // ------------------------------------------------------------------
+//===========================================================================
 PastureConverter::PastureConverter(void)
    {
    }
@@ -70,19 +72,26 @@ PastureConverter::PastureConverter(void)
 // Destructor
 // ------------------------------------------------------------------
 PastureConverter::~PastureConverter(void)
+//===========================================================================
    {
    }
 // ------------------------------------------------------------------
 // Init1 phase.
 // ------------------------------------------------------------------
 void PastureConverter::doInit1(const FString& sdml)
+//===========================================================================
    {
    protocol::Component::doInit1(sdml);
+   sandID = addRegistration(RegistrationType::respondToGet, "sand", doubleArrayTypeDDML);
+   vpdID = addRegistration(RegistrationType::respondToGet, "vpd", singleTypeDDML);
+   maxtID = addRegistration(RegistrationType::get, "maxt", singleTypeDDML);
+   mintID = addRegistration(RegistrationType::get, "mint", singleTypeDDML);
    }
 // ------------------------------------------------------------------
 // Init2 phase.
 // ------------------------------------------------------------------
 void PastureConverter::doInit2(void)
+//===========================================================================
    {
    readParameters (); // Read constants
    }
@@ -91,24 +100,114 @@ void PastureConverter::doInit2(void)
 // Event handler.
 // ------------------------------------------------------------------
 void PastureConverter::respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant)
+//===========================================================================
    {
    }
 // ------------------------------------------------------------------
 // return a variable to caller.  Return true if we own variable.
 // ------------------------------------------------------------------
-void PastureConverter::respondToGet(unsigned int& fromID,
-                                             protocol::QueryValueData& queryData)
-   {
+void PastureConverter::respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData)
+//===========================================================================
+{
+     // sand_layer
+   if (queryData.ID == sandID) sendSand(queryData);
+   else if (queryData.ID == vpdID) sendVPD(queryData);
+
+   else
+   {   // don't respond to any other gets.
    }
+}
 
 void PastureConverter::readParameters ( void )
+//===========================================================================
    {
-   const char*  my_name = "readParameters" ;
+//   const char*  my_name = "readParameters" ;
    const char*  section_name = "parameters" ;
 
    writeString (" - reading parameters");
+
+    cDebug = readParameter (section_name, "debug");
+    readParameter (section_name, "sand", pSandLayer, numLayers, 0.0, 1.0);
+    readParameter (section_name,"svp_fract", cSVPFract, 0.0, 1.0);
+
+   ostringstream msg;
+   msg << "sand (kg/kg) = ";
+   for (int layer = 0; layer < numLayers; layer++)
+      msg << pSandLayer[layer] << " ";
+   msg << endl << ends;
+   writeString (msg.str().c_str());
    }
 
+void PastureConverter::sendSand (protocol::QueryValueData& queryData)
+//===========================================================================
+{
+   vector <double> sandLayers;
+   for (int layer = 0; layer != numLayers; layer++)
+      sandLayers.push_back(pSandLayer[layer]);
+
+      ostringstream msg;
+      msg << "send sand (kg/kg) = ";
+      for (int layer = 0; layer < numLayers; layer++)
+         msg << pSandLayer[layer] << " ";
+      msg << endl << ends;
+      writeString (msg.str().c_str());
+
+   sendVariable(queryData, sandLayers);
+}
+
+void PastureConverter::sendVPD (protocol::QueryValueData& queryData)
+//==========================================================================
+{
+      protocol::Variant* variantMaxT;
+      bool okMaxt = getVariable(maxtID, variantMaxT, true);
+      if (okMaxt)
+      {
+         protocol::Variant* variantMinT;
+         bool ok = getVariable(mintID, variantMinT, true);
+         if (ok)
+         {
+         float maxt;
+         bool ok = variantMaxT->unpack(maxt);  // what happens if this is not ok?
+         float mint;
+         ok = variantMinT->unpack(mint);  // what happens if this is not ok?
+         double VPD = vpd(cSVPFract, maxt, mint);
+
+         sendVariable(queryData, VPD);
+         }
+      }
+      else
+      {   // didn't get the day_length ID ok. Do nothing about it.
+      }
+}
+
+float PastureConverter::vpd(float cSVPFract, float maxt, float mint) //(INPUT)
+//==========================================================================
+{
+      float vpd = max (cSVPFract * ( svp(maxt) - svp(mint)), 0.01);
+      return vpd;
+}
+
+//==========================================================================
+float PastureConverter::svp(float temp) //(INPUT)  fraction of distance between svp at mi
+//==========================================================================
+/*  Purpose
+*
+*  Mission Statement
+*    function to get saturation vapour pressure for a given temperature in oC (kpa)
+*
+*  Changes
+*       21/5/2003 ad converted to BC++
+*
+*/
+   {
+      const double ES0 = 6.1078;            // Teten coefficients -SATURATION VAPOR PRESSURE (MB) OVER WATER AT 0C
+      const double TC_B = 17.269388;        // Teten coefficients
+      const double TC_C = 237.3;            // Teten coefficients
+      const float mb2kpa = 100.0/1000.0;    // convert pressure mbar to kpa 1000 mbar = 100 kpa
+
+   float val = ES0 * exp(TC_B * temp / (TC_C + temp)) * mb2kpa;
+   return val;
+   }
 
 //===========================================================================
 float PastureConverter::divide (float dividend, float divisor, float default_value)
