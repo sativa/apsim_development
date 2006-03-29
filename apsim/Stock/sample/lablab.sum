@@ -68,14 +68,18 @@
      Manager rules:
      
      SECTION:- init
-     area = 1
      
      SECTION:- end_of_day
      
      SECTION:- start_of_day
-     END of rules
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     No manager lines were found in any parameter file.
+     Component name: PaddockArea
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
-     Manager creating a new local real variable : area =     1.00000000000000
+     
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
@@ -328,7 +332,6 @@
      Crop Sow
       - reading constants for plant(lablab)
       - reading cultivar parameters
-      - reading fruit cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = highworth
