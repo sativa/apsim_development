@@ -246,8 +246,10 @@ public:												// member functions
    virtual float dlt_dm_detached(void);
    virtual float dlt_n_detached(void);
    virtual float dlt_p_det(void);
-   virtual float n_conc(void);
-   virtual float p_conc(void);
+   virtual float nConc(void);
+   virtual float nConcPercent(void);
+   virtual float pConc(void);
+   virtual float pConcPercent(void);
    virtual float n_conc_crit(void);
    virtual float n_conc_min(void);
    virtual float dlt_n_retrans(void);

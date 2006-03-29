@@ -24,14 +24,15 @@ class fruitPodPart : public plantPart {
    void doProcessBioDemand(void);
    void readSpeciesParameters (protocol::Component *, vector<string> &);
    void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
+   float dltDmRetranslocateSupply(float DemandDifferential);
 
    void zeroAllGlobals(void);
    void zeroDeltas(void);
    float interceptRadiation(float radiation);
-   float coverTotal(void) const;
-   float coverGreen(void) const;
-   float coverSen(void) const;
-   float coverDead(void) const;
+   float coverTotal(void)  ;
+   float coverGreen(void)  ;
+   float coverSen(void)  ;
+   float coverDead(void)  ;
    float calcCover (float canopy_fac);
    float dltDmPotTe(void);
    float dltDmPotRue(void);

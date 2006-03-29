@@ -22,6 +22,7 @@
 #include "TTTRatePhenology.h"
 #include "Plant.h"
 #include "PlantParts.h"
+#include "CompositePart.h"
 #include "LeafPart.h"
 #include "PlantFruit.h"
 #include "StemPart.h"
@@ -931,8 +932,11 @@ void Plant::plant_bio_distribute (void)
 {
 //       distribute biomass to fruit parts.
 
-   fruitPart->doDmPartition (g.dlt_dm_supply_to_fruit, g.dlt_dm_supply_to_fruit);
-   fruitPart->doDmRetranslocate (g.dlt_dm_retrans_to_fruit, g.dlt_dm_retrans_to_fruit);
+   fruitPart->doDmPartition (g.dlt_dm_supply_to_fruit, g.dlt_dm_yield_demand_fruit);
+
+   float dm_demand_differential = g.dlt_dm_yield_demand_fruit
+                                - g.dlt_dm_supply_to_fruit;
+   fruitPart->doDmRetranslocate (g.dlt_dm_retrans_to_fruit, dm_demand_differential);
 }
 
 

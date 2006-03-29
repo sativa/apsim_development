@@ -193,6 +193,132 @@ void plantPart::get_p_conc(protocol::Component *system, protocol::QueryValueData
    system->sendVariable(qd, p_conc);
    }
 
+
+float plantPart::dlt_dm_green(void)
+   //===========================================================================
+{
+   return dlt.dm_green;
+}
+
+float plantPart::dlt_n_green(void)
+   //===========================================================================
+{
+   return dlt.n_green;
+}
+
+
+float plantPart::dlt_p_green(void)
+   //===========================================================================
+{
+   return dlt.p_green;
+}
+
+
+float plantPart::dlt_dm_dead(void)
+   //===========================================================================
+{
+   return dlt.dm_dead;
+}
+
+
+float plantPart::dlt_n_dead(void)
+   //===========================================================================
+{
+   return dlt.n_dead;
+}
+
+
+float plantPart::dlt_p_dead(void)
+   //===========================================================================
+{
+   return dlt.p_dead;
+}
+
+
+float plantPart::dlt_dm_senesced(void)
+   //===========================================================================
+{
+   return dlt.dm_senesced;
+}
+
+
+float plantPart::dlt_n_senesced(void)
+   //===========================================================================
+{
+   return dlt.n_senesced;
+}
+
+
+float plantPart::dlt_p_sen(void)
+   //===========================================================================
+{
+   return dlt.p_sen;
+}
+
+
+float plantPart::dlt_dm_detached(void)
+   //===========================================================================
+{
+   return dlt.dm_detached;
+}
+
+
+float plantPart::dlt_n_detached(void)
+   //===========================================================================
+{
+   return dlt.n_detached;
+}
+
+
+float plantPart::dlt_p_det(void)
+   //===========================================================================
+{
+   return dlt.p_det;
+}
+
+
+float plantPart::n_conc_crit(void)
+   //===========================================================================
+{
+   return g.n_conc_crit;
+}
+
+
+float plantPart::n_conc_min(void)
+   //===========================================================================
+{
+   return g.n_conc_min;
+}
+
+
+float plantPart::dlt_n_retrans(void)
+   //===========================================================================
+{
+   return dlt.n_retrans;
+}
+
+
+float plantPart::dlt_n_senesced_retrans(void)
+   //===========================================================================
+{
+   return dlt.n_senesced_retrans;
+}
+
+
+float plantPart::dlt_n_senesced_trans(void)
+   //===========================================================================
+{
+   return dlt.n_senesced_trans;
+}
+
+
+float plantPart::dlt_dm_green_retrans(void)
+   //===========================================================================
+{
+   return dlt.dm_green_retrans;
+}
+
+
 void plantPart::zeroDltDmGreen(void)
 //=======================================================================================
    {
@@ -349,7 +475,7 @@ void plantPart::readConstants(protocol::Component *system, const string &section
        {
        c.num_x_p_stage_code = 0;
        c.p_init_conc = 0.0;
-       }  
+       }
     }
 
 void plantPart::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
@@ -539,7 +665,7 @@ void plantPart::update(void)
 // need to call updateN/DM/P from here sometime.  FIXME
    }
 
-void plantPart::update2(float /*dying_fract_plants*/) 
+void plantPart::update2(float /*dying_fract_plants*/)
 //=======================================================================================
    {
    /* nothing */
@@ -808,12 +934,13 @@ float plantPart::dmDemandDifferential(void)
 float plantPart::dltDmRetranslocateSupply(float DemandDifferential)
 //=======================================================================================
    {
-   float DMPartPot = DMGreen + dlt.dm_green_retrans;
-   float DMPartAvail = DMPartPot - DMPlantMin * plant->getPlants();
-   DMPartAvail = l_bound (DMPartAvail, 0.0);
-   float DltDmRetransPart = min (DemandDifferential, DMPartAvail);
-   dlt.dm_green_retrans = - DltDmRetransPart;
-   return DltDmRetransPart;
+//   float DMPartPot = DMGreen + dlt.dm_green_retrans;
+//   float DMPartAvail = DMPartPot - DMPlantMin * plant->getPlants();
+//   DMPartAvail = l_bound (DMPartAvail, 0.0);
+//   float DltDmRetransPart = min (DemandDifferential, DMPartAvail);
+//   dlt.dm_green_retrans = - DltDmRetransPart;
+//   return DltDmRetransPart;
+   return 0.0;
    }
 
 void plantPart::doDmMin(void)
@@ -1054,7 +1181,13 @@ float plantPart::dltDmGreenUptake(void)
    return (dlt.dm_green);
    }
 
-float plantPart::dltDmGreenRetrans(void)
+float plantPart::dltDmGreenRetrans(void)                                                   //remove
+//=======================================================================================  //remove
+   {                                                                                       //remove
+   return (dlt.dm_green_retrans);                                                          //remove
+   }                                                                                       //remove
+
+float plantPart::dltDmRetranslocate(void)
 //=======================================================================================
    {
    return (dlt.dm_green_retrans);
@@ -1170,9 +1303,16 @@ float plantPart::dltNSenescedRetrans(void) {return (dlt.n_senesced_retrans);}
 float plantPart::nDead(void) {return (NDead);}
 
 float plantPart::nConc(void)
+//=======================================================================================
    {
-   float n_conc = divide (NGreen, DMGreen, 0.0) * fract2pcnt;
+   float n_conc = divide (NGreen, DMGreen, 0.0);
    return n_conc;
+   }
+
+float plantPart::nConcPercent(void)
+//=======================================================================================
+   {
+   return nConc() * fract2pcnt;
    }
 
 float plantPart::dltNRetransOut(void)
@@ -1210,8 +1350,14 @@ float plantPart::pDead(void) {return (PDead);}
 float plantPart::pConc(void)
 //=======================================================================================
    {
-   float p_conc = divide (PGreen, DMGreen, 0.0) * fract2pcnt;
+   float p_conc = divide (PGreen, DMGreen, 0.0);
    return p_conc;
+   }
+
+float plantPart::pConcPercent(void)
+//=======================================================================================
+   {
+   return pConc() * fract2pcnt;
    }
 
 float plantPart::pRetransSupply(void)
@@ -1376,4 +1522,59 @@ void plantPart::get_p_sen(vector<float> &p_sen) {p_sen.push_back(PSen);}
 void plantPart::get_dlt_p_detached(vector<float> &dlt_p_detached) {dlt_p_detached.push_back(dlt.p_det);}
 void plantPart::get_dlt_p_dead(vector<float> &dlt_p_dead) {dlt_p_dead.push_back(dlt.p_dead);}
 void plantPart::get_dlt_p_sen(vector<float> &dlt_p_sen) {dlt_p_sen.push_back(dlt.p_sen);}
+
+   //needed to standardise interface for composite subclass
+
+float plantPart::calcCover (float canopy_fac){return 0;}                  // return pod cover   //FIXME
+float plantPart::coverDead(void) {return 0;}
+float plantPart::coverGreen(void) {return 0;}
+float plantPart::coverSen(void) {return 0;}
+float plantPart::coverTotal(void) {return 0;}
+float plantPart::dltDmGrainDemand(void) {return 0;}
+float plantPart::dltDmPotRue(void){return 0;}        //FIXME
+float plantPart::dltDmPotTe(void){return 0;}            //FIXME
+////float plantPart::dltDmRetranslocate(void){return 0;}
+float plantPart::dmDeadVegTotal(void){return 0;}
+float plantPart::dmGrainTotal(void){return 0;}
+float plantPart::dmGreenGrainTotal(void){return 0;}
+float plantPart::dmGreenVegTotal(void){return 0;}
+float plantPart::dmSenescedVegTotal(void){return 0;}
+float plantPart::dmVegTotal(void){return 0;}
+float plantPart::grainNConcPercent(void){return 0;}
+float plantPart::grainNo(void) {return 0;}
+float plantPart::grainWt(void) {return 0;}
+float plantPart::interceptRadiation(float radiation){return 0;}        //FIXME
+float plantPart::nConcGrain(void){return 0;}
+float plantPart::nDeadVegTotal(void){return 0;}
+float plantPart::nDemandGrain(void) {return 0;}
+float plantPart::nDemandGrain2(void){return 0;}
+float plantPart::nGrainTotal(void){return 0;}
+float plantPart::nGreenGrainTotal(void){return 0;}
+float plantPart::nGreenVegTotal(void){return 0;}
+float plantPart::nSenescedVegTotal(void){return 0;}
+float plantPart::nVegTotal(void){return 0;}
+float plantPart::pConcGrain(void){return 0;}
+float plantPart::pConcGrainTotal(void){return 0;}
+float plantPart::pDeadGrainTotal(void){return 0;}
+float plantPart::pDeadVegTotal(void){return 0;}
+float plantPart::pGrainTotal(void){return 0;}
+float plantPart::pGreenGrainTotal(void){return 0;}
+float plantPart::pGreenVegTotal(void){return 0;}
+float plantPart::pSenescedGrainTotal(void){return 0;}
+float plantPart::pSenescedVegTotal(void){return 0;}
+float plantPart::pVegTotal(void){return 0;}
+float plantPart::SWDemand(void){return 0;}                           //(OUTPUT) crop water demand (mm)               //FIXME
+void plantPart::calcDlt_pod_area (void){}   //FIXME
+void plantPart::doBioActual (void){}
+void plantPart::doDmDemand (float dlt_dm_supply_by_veg){}
+void plantPart::doDmPotRUE (double  radn_int_pod){}                      //FIXME   // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+void plantPart::doDmPotTE(void){}                                       //(OUTPUT) potential dry matter production by transpiration (g/m^2)//FIXME
+void plantPart::doGrainNumber (void){}
+void plantPart::doInit1(){}
+void plantPart::doNDemandGrain(float nfact_grain_conc, float swdef_expansion){}
+void plantPart::doNewMet(protocol::newmetType &newmet) {}
+void plantPart::doNInit (void){}
+void plantPart::doTECO2(void){}                                       // (OUTPUT) transpiration coefficient                         //FIXME
+void plantPart::doTick(protocol::timeType &tick) {}
+void plantPart::writeCultivarInfo (protocol::Component *){}
 

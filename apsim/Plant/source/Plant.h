@@ -4,6 +4,7 @@
 class ApsimVariant;
 class PlantComponent;
 class PlantPhenology;
+class CompositePart;
 class plantPart;
 class plantStemPart;
 class plantLeafPart;
