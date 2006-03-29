@@ -338,13 +338,13 @@ void CompositePart::get_Dlt_p_det(protocol::Component *system, protocol::QueryVa
 void CompositePart::get_n_conc(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
    {
-   system->sendVariable(qd, n_conc());
+   system->sendVariable(qd, nConcPercent());
    }
 
 void CompositePart::get_p_conc(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
    {
-   system->sendVariable(qd, p_conc());
+   system->sendVariable(qd, pConcPercent());          //FIXME this is inconsistent with get_n_conc
    }
 
 void CompositePart::get_n_conc_crit(protocol::Component *system, protocol::QueryValueData &qd)
@@ -521,7 +521,7 @@ float CompositePart::dlt_p_det(void)
 }
 
 
-float CompositePart::n_conc(void)                                                 //FIXME
+float CompositePart::nConc(void)                                                 //FIXME
    //===========================================================================
 {
    float sum = 0.0;
@@ -532,11 +532,17 @@ float CompositePart::n_conc(void)                                               
       sum += (*part)->nGreen();
       dmSum += (*part)->dmGreen();
    }
-   return divide (sum , dmSum , 0.0) * fract2pcnt;
+   return divide (sum , dmSum , 0.0);
+}
+
+float CompositePart::nConcPercent(void)                                                 //FIXME
+   //===========================================================================
+{
+   return nConc() * fract2pcnt;
 }
 
 
-float CompositePart::p_conc(void)                                                  //FIXME
+float CompositePart::pConc(void)                                                  //FIXME
    //===========================================================================
 {
    float sum = 0.0;
@@ -548,6 +554,12 @@ float CompositePart::p_conc(void)                                               
       dmSum += (*part)->dmGreen();
    }
    return divide (sum , dmSum , 0.0);
+}
+
+float CompositePart::pConcPercent(void)                                                  //FIXME
+   //===========================================================================
+{
+   return pConc() * fract2pcnt;
 }
 
 
@@ -941,7 +953,7 @@ void CompositePart::doNPartition(float nSupply, float n_demand_sum, float n_capa
                   + ftoa(dlt_n_green_sum, ".6")
                   + " vs nSupply ="
                   + ftoa(dlt.n_green, ".6");
-      parentPlant->warningError(msg.c_str());
+      plant->warningError(msg.c_str());
       }
 }
 
@@ -1914,7 +1926,7 @@ void CompositePart::doDmPartition(float DMAvail, float DMDemandTotal)
                    + ftoa(dlt_dm_green_tot, ".6")
                    + " vs "
                    + ftoa(dltDmGreen, ".6");
-        parentPlant->warningError(msg.c_str());
+        plant->warningError(msg.c_str());
    }
 }
 
@@ -1950,7 +1962,7 @@ void CompositePart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialT
                    + ftoa(dlt_dm_green_tot, ".6")
                    + " vs "
                    + ftoa(dlt_dm_green_retrans, ".6");
-        parentPlant->warningError(msg.c_str());
+        plant->warningError(msg.c_str());
    }
 }
 

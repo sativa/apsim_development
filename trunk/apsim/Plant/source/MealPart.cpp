@@ -21,7 +21,13 @@
 #include "MealPart.h"
 using namespace std;
 
-void fruitMealPart::doDMDemand (float dm_demand)
+void fruitMealPart::doDMDemand (float dm_demand)                    //remove
+//     ===========================================================  //remove
+{                                                                   //remove
+    DMGreenDemand = dm_demand;                                      //remove
+}                                                                   //remove
+
+void fruitMealPart::doDMDemandGrain (float dm_demand)
 //     ===========================================================
 {
     DMGreenDemand = dm_demand;

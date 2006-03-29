@@ -5,7 +5,7 @@ BCB = $(MAKEDIR)\..
 
 # APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
 #APSROOT=c:\progra~1\apsim33
-#APSROOT=c:\development
+#APSROOT=c:\data\Apsim\development
 !include $(APSROOT)\APSBuild\platform.make
 !include $(APSROOT)\APSBuild\cpp.make
 
@@ -15,7 +15,7 @@ OBJFILES=PlantComponent.obj Plant.obj PlantParts.obj PlantBiomass.obj PlantCanop
 PlantNitrogen.obj PlantPhenology.obj PlantRoot.obj PlantTemp.obj PlantUtility.obj PlantWater.obj Phase.obj CompositePhase.obj \
 Data.obj Science.obj Date.obj PlantComms.obj PlantP.obj PlantFruit.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj \
 WheatPhenology.obj Environment.obj TTTPhenology.obj CropPhenology.obj TTTRatePhenology.obj Observers.obj \
-LeafPart.obj StemPart.obj PodPart.obj MealPart.obj OilPart.obj GrainPart.obj \
+LeafPart.obj StemPart.obj PodPart.obj MealPart.obj OilPart.obj GrainPart.obj CompositePart.obj \
 FixedPhase.obj VernalPhase.obj BroccoliPhenology.obj MaizePhenology.obj RootPart.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
@@ -73,7 +73,9 @@ PlantTemp.obj: PlantTemp.cpp PlantLibrary.h
 PlantUtility.obj: PlantUtility.cpp PlantLibrary.h
 PlantWater.obj: PlantWater.cpp PlantLibrary.h
 PlantP.obj: PlantP.cpp
-PlantFruit.obj: PlantFruit.cpp PlantFruit.h
+PlantParts.obj: PlantParts.cpp PlantParts.h
+CompositePart.obj: CompositePart.cpp CompositePart.h PlantParts.h
+PlantFruit.obj: PlantFruit.cpp PlantFruit.h CompositePart.h
 Data.obj: Data.cpp PlantLibrary.h
 Date.obj: Date.cpp PlantLibrary.h
 Science.obj: Science.cpp PlantLibrary.h
@@ -91,7 +93,7 @@ StemPart.obj: StemPart.cpp StemPart.h
 PodPart.obj: PodPart.cpp PodPart.h
 MealPart.obj: MealPart.cpp MealPart.h
 OilPart.obj: OilPart.cpp OilPart.h
-GrainPart.obj: GrainPart.cpp GrainPart.h
+GrainPart.obj: GrainPart.cpp GrainPart.h CompositePart.h
 MaizePhenology.obj: MaizePhenology.cpp MaizePhenology.h
 BroccoliPhenology.obj: BroccoliPhenology.cpp BroccoliPhenology.h
 FixedPhase.obj: FixedPhase.cpp FixedPhase.h

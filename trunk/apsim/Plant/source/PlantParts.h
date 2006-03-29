@@ -153,9 +153,6 @@ class plantPart : public plantThing
          string name;                        // What we call ourselves
       } c;
 
-//   PlantComponent *parentPlant;
-   //PlantPhenology *phenology;
-
    plantPart(plantInterface *p, const string &name)
      {
      zeroAllGlobals();
@@ -232,7 +229,8 @@ class plantPart : public plantThing
    virtual float dltDmRetranslocateSupply(float DemandDifferential);
    virtual float dmGreen(void);
    virtual float dltDmGreen(void);
-   virtual float dltDmGreenRetrans(void);
+   virtual float dltDmGreenRetrans(void);      //remove
+   virtual float dltDmRetranslocate(void);
    virtual float dmGreenNew(void);
    virtual float dltDmGreenNew(void);
    virtual float dltDmGreenUptake(void);
@@ -253,6 +251,7 @@ class plantPart : public plantThing
    virtual float dltNSenescedRetrans(void);
    virtual float nDead(void);
    virtual float nConc(void);
+   virtual float nConcPercent(void);
    virtual float dltNRetransOut(void);
    virtual float dltNGreen(void);
 
@@ -263,6 +262,7 @@ class plantPart : public plantThing
    virtual float pSenesced(void);
    virtual float pDead(void);
    virtual float pConc(void);
+   virtual float pConcPercent(void);
 
    virtual float pMaxPot(void) ;
    virtual float pMinPot(void) ;
@@ -338,6 +338,79 @@ class plantPart : public plantThing
    virtual void get_dm_green(vector<float> &);
    virtual void get_n_demanded(vector<float> &);
    virtual void get_dm_plant_min(vector<float> &);
+
+   //needed to standardise interface for composite subclass
+
+   virtual float calcCover (float canopy_fac);                  // return pod cover   //FIXME
+   virtual float coverDead(void) ;
+   virtual float coverGreen(void) ;
+   virtual float coverSen(void) ;
+   virtual float coverTotal(void) ;
+   virtual float dltDmGrainDemand(void) ;
+   virtual float dltDmPotRue(void);        //FIXME
+   virtual float dltDmPotTe(void);            //FIXME
+   virtual float dmDeadVegTotal(void);
+   virtual float dmGrainTotal(void);
+   virtual float dmGreenGrainTotal(void);
+   virtual float dmGreenVegTotal(void);
+   virtual float dmSenescedVegTotal(void);
+   virtual float dmVegTotal(void);
+   virtual float grainNConcPercent(void);
+   virtual float grainNo(void) ;
+   virtual float grainWt(void) ;
+   virtual float interceptRadiation(float radiation);        //FIXME
+   virtual float nConcGrain(void);
+   virtual float nDeadVegTotal(void);
+   virtual float nDemandGrain(void) ;
+   virtual float nDemandGrain2(void);
+   virtual float nGrainTotal(void);
+   virtual float nGreenGrainTotal(void);
+   virtual float nGreenVegTotal(void);
+   virtual float nSenescedVegTotal(void);
+   virtual float nVegTotal(void);
+   virtual float pConcGrain(void);
+   virtual float pConcGrainTotal(void);
+   virtual float pDeadGrainTotal(void);
+   virtual float pDeadVegTotal(void);
+   virtual float pGrainTotal(void);
+   virtual float pGreenGrainTotal(void);
+   virtual float pGreenVegTotal(void);
+   virtual float pSenescedGrainTotal(void);
+   virtual float pSenescedVegTotal(void);
+   virtual float pVegTotal(void);
+   virtual float SWDemand(void);                           //(OUTPUT) crop water demand (mm)               //FIXME
+   virtual void calcDlt_pod_area (void);   //FIXME
+   virtual void doBioActual (void);
+   virtual void doDmDemand (float dlt_dm_supply_by_veg);
+   virtual void doDmPotRUE (double  radn_int_pod);                      //FIXME   // (OUTPUT) potential dry matter (carbohydrate) production (g/m^2)
+   virtual void doDmPotTE(void);                                       //(OUTPUT) potential dry matter production by transpiration (g/m^2)//FIXME
+   virtual void doGrainNumber (void);
+   virtual void doInit1();
+   virtual void doNDemandGrain(float nfact_grain_conc, float swdef_expansion);
+   virtual void doNewMet(protocol::newmetType &newmet) ;
+   virtual void doNInit (void);
+   virtual void doTECO2(void);                                       // (OUTPUT) transpiration coefficient                         //FIXME
+   virtual void doTick(protocol::timeType &tick) ;
+   virtual void writeCultivarInfo (protocol::Component *);
+
+   virtual float dlt_dm_green(void);
+   virtual float dlt_n_green(void);
+   virtual float dlt_p_green(void);
+   virtual float dlt_dm_dead(void);
+   virtual float dlt_n_dead(void);
+   virtual float dlt_p_dead(void);
+   virtual float dlt_dm_senesced(void);
+   virtual float dlt_n_senesced(void);
+   virtual float dlt_p_sen(void);
+   virtual float dlt_dm_detached(void);
+   virtual float dlt_n_detached(void);
+   virtual float dlt_p_det(void);
+   virtual float n_conc_crit(void);
+   virtual float n_conc_min(void);
+   virtual float dlt_n_retrans(void);
+   virtual float dlt_n_senesced_retrans(void);
+   virtual float dlt_n_senesced_trans(void);
+   virtual float dlt_dm_green_retrans(void);
 
    protected:
       plantInterface *plant;                 // The plant we are attached to

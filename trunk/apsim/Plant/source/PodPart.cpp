@@ -141,6 +141,17 @@ void fruitPodPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTo
    dlt.dm_green_retrans += DMAvail * divide (dmDemandDifferential(), DMDemandDifferentialTotal, 0.0);
    }
 
+float fruitPodPart::dltDmRetranslocateSupply(float DemandDifferential)
+//=======================================================================================
+   {
+   float DMPartPot = DMGreen + dlt.dm_green_retrans;
+   float DMPartAvail = DMPartPot - DMPlantMin * plant->getPlants();
+   DMPartAvail = l_bound (DMPartAvail, 0.0);
+   float DltDmRetransPart = min (DemandDifferential, DMPartAvail);
+   dlt.dm_green_retrans = - DltDmRetransPart;
+   return DltDmRetransPart;
+   }
+
 void fruitPodPart::zeroAllGlobals(void)
 //=======================================================================================
 {
@@ -246,25 +257,25 @@ void fruitPodPart::readSpeciesParameters(protocol::Component *system, vector<str
 }
 
 // Query
-float fruitPodPart::coverTotal(void) const
+float fruitPodPart::coverTotal(void)
 //=======================================================================================
 {
    return 1.0 - (1.0 - coverPod.green) * (1.0 - coverPod.sen) * (1.0 - coverPod.dead);
 }
 
-float fruitPodPart::coverGreen(void) const
+float fruitPodPart::coverGreen(void)
 //=======================================================================================
 {
    return coverPod.green;
 }
 
-float fruitPodPart::coverDead(void) const
+float fruitPodPart::coverDead(void)
 //=======================================================================================
 {
    return coverPod.dead;
 }
 
-float fruitPodPart::coverSen(void) const
+float fruitPodPart::coverSen(void)
 //=======================================================================================
 {
    return coverPod.sen;
