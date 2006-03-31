@@ -949,7 +949,7 @@ void CompositePart::doNPartition(float nSupply, float n_demand_sum, float n_capa
    float dlt_n_green_sum = dltNGreen();
    if (!reals_are_equal(dlt_n_green_sum - dlt.n_green, 0.0))
       {
-      string msg =c.name + " dlt_n_green mass balance is off: dlt_n_green_sum ="
+      string msg = c.name + " dlt_n_green mass balance is off: dlt_n_green_sum ="
                   + ftoa(dlt_n_green_sum, ".6")
                   + " vs nSupply ="
                   + ftoa(dlt.n_green, ".6");

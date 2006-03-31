@@ -25,6 +25,7 @@
 #include "CompositePart.h"
 #include "LeafPart.h"
 #include "PlantFruit.h"
+#include "FruitCohort.h"
 #include "StemPart.h"
 #include "LeafPart.h"
 #include "PodPart.h"
@@ -115,7 +116,8 @@ void Plant::doInit1(protocol::Component *s)
     myParts.push_back(stemPart);
     myStoverParts.push_back(stemPart);
 
-    fruitPart = new PlantFruit(this, "fruit");
+//    fruitPart = new PlantFruit(this, "fruit");      //FIXME reinstate this when Plant fruit fixed for cohorting
+    fruitPart = new FruitCohort(this, "fruit");       //FIXME remove this when Plant fruit fixed for cohorting
     myThings.push_back(fruitPart);
     myParts.push_back(fruitPart);
     myStoverParts.push_back(fruitPart);
@@ -152,7 +154,7 @@ void Plant::doInit2(protocol::Component *s)
    plant_init ();           // Site specific init
    plant_get_other_variables (); // sw etc..
    }
-   
+
 void Plant::doIDs(void)
    {
    // gets
@@ -1132,7 +1134,7 @@ void Plant::plant_detachment (int option /* (INPUT) option number */)
         for (vector<plantPart *>::iterator t = myParts.begin();
              t != myParts.end();
              t++)
-           {  
+           {
            (*t)->doDmDetachment();
            (*t)->doNDetachment();
            //(*t)->doPDetachment();
@@ -1792,16 +1794,16 @@ void Plant::plant_soil_nit_demand(int option)
 //=======================================================================================
 //      Find soil nitrogen demand.
    {
-   if (option == 1) 
+   if (option == 1)
       {
       for (vector<plantPart *>::iterator t = myParts.begin();
            t != myParts.end();
            t++)
          (*t)->doSoilNDemand();
       }
-   else 
+   else
       throw std::invalid_argument ("Invalid template option");
-         
+
    }
 
 void Plant::plant_nit_uptake (int option/* (INPUT) option number*/)
@@ -2512,11 +2514,11 @@ void Plant::plant_event(float *g_dlayer           // (INPUT)  thickness of soil 
 
     // Tell the system (ie everything outside of plant) about this event.
     // NB. Don't send an "end_crop" to the system - otherwise all the other crops will stop too!
-    if (phenology->stageName() != "end_crop") 
+    if (phenology->stageName() != "end_crop")
        {
        sendStageMessage(phenology->stageName().c_str());
-       }   
-       
+       }
+
     char msg[80];
     sprintf(msg, " stage %.1f %s"
               , phenology->stageNumber()
@@ -2588,25 +2590,25 @@ void Plant::plant_root_incorp (
               // DM
               crop_root_dist(g.dlayer, root_length, rootPart->root_depth, dlt_dm_incorp,
                              dlt_dm_root * gm2kg /sm2ha);
-     
+
               bound_check_real_array(this,dlt_dm_incorp, max_layer, 0.0, dlt_dm_root * gm2kg / sm2ha,
                                      "plant_root_incorp::dlt_dm_incorp");
               // Nitrogen
               crop_root_dist(g.dlayer, root_length, rootPart->root_depth, dlt_N_incorp,
                              dlt_n_root * gm2kg /sm2ha);
-     
+
               bound_check_real_array(this,dlt_N_incorp,  max_layer, 0.0, dlt_n_root * gm2kg / sm2ha,
                                      "plant_root_incorp::dlt_N_incorp");
-     
+
               // Phosporous
               crop_root_dist(g.dlayer, root_length, rootPart->root_depth, dlt_P_incorp,
                              dlt_p_root * gm2kg /sm2ha);
-     
+
               bound_check_real_array(this,dlt_P_incorp,  max_layer, 0.0, dlt_p_root * gm2kg / sm2ha,
                                      "plant_root_incorp::dlt_P_incorp");
-     
+
               deepest_layer = Environment.find_layer_no(rootPart->root_depth);
-     
+
               protocol::ApsimVariant outgoingApsimVariant(parent);
 
               outgoingApsimVariant.store("dlt_fom_type", protocol::DTstring, false, FString(c.crop_type.c_str()));
@@ -3111,7 +3113,7 @@ void Plant::plant_transpiration_eff (int option /*(INPUT) option number*/)
 
 
 
-void Plant::plant_dm_init (void) 
+void Plant::plant_dm_init (void)
 //=======================================================================================
 // Set minimum part weights
    {
@@ -3124,9 +3126,9 @@ void Plant::plant_dm_init (void)
     vector<plantPart *>::iterator myPart;
     for (myPart = myParts.begin(); myPart != myParts.end(); myPart++)
        (*myPart)->doDmMin();
-   } 
+   }
 
-void Plant::plant_n_conc_limits(float  g_co2_modifier_n_conc) 
+void Plant::plant_n_conc_limits(float  g_co2_modifier_n_conc)
 //=======================================================================================
 //+  Purpose
 //       Calculate the critical N concentration below which plant growth
@@ -3140,7 +3142,7 @@ void Plant::plant_n_conc_limits(float  g_co2_modifier_n_conc)
    // begins to affect plant growth.
    for (vector<plantPart *>::iterator t = myParts.begin();
         t != myParts.end();
-        t++) 
+        t++)
       {
       (*t)->doNConccentrationLimits();
       }
@@ -4061,7 +4063,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
     vector<float>  dlt_dm_n;
     vector<float>  dlt_dm_p;
 
-    // Update biomass and N pools.  
+    // Update biomass and N pools.
     // Calculate return of biomass to surface residues
     for (vector<plantPart *>::iterator t = myParts.begin();
          t != myParts.end();
@@ -4098,7 +4100,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
        dm_residue += dlt_crop_dm[part] * fraction_to_residue[part];
        n_residue += dlt_dm_n[part] * fraction_to_residue[part];
        p_residue += dlt_dm_p[part] * fraction_to_residue[part];
-       if (dm_type[part] == "root") 
+       if (dm_type[part] == "root")
           {
           dm_root_residue += dlt_crop_dm[part] * fraction_to_residue[part];
           n_root_residue += dlt_dm_n[part] * fraction_to_residue[part];
@@ -5811,7 +5813,7 @@ void Plant::plant_get_other_variables ()
 
     //Environment.num_layers = count_of_real_vals(g.dlayer, max_layer);
     //Environment.dlayer = vector<float>(g.dlayer, g.dlayer + Environment.num_layers);
-    
+
     Environment.sw_dep = vector<float>(g.sw_dep, g.sw_dep + Environment.num_layers);
     Environment.ll_dep = vector<float>(p.ll_dep, p.ll_dep + Environment.num_layers);
     Environment.dul_dep = vector<float>(g.dul_dep, g.dul_dep + Environment.num_layers);
@@ -7973,7 +7975,7 @@ float Plant::getDyingFractionPlants(void)
        dying_fract_plants = bound (dying_fract_plants, 0.0, 1.0);
        return dying_fract_plants;
    }
- 
+
 float Plant::getCo2ModifierRue(void) const {return g.co2_modifier_rue;}
 float Plant::getCo2ModifierTe(void) const {return g.co2_modifier_te;}
 float Plant::getCo2ModifierNConc(void) const {return g.co2_modifier_n_conc;}

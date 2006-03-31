@@ -10,6 +10,7 @@ class plantStemPart;
 class plantLeafPart;
 class plantRootPart;
 class PlantFruit;
+class FruitCohort;  //FIXME remove this when Plant fruit fixed for cohorting
 class plantThing;
 class eventObserver;
 class Plant;
@@ -64,7 +65,8 @@ private:
    plantRootPart  *rootPart;
    ReproStruct    *reproStruct;
    PlantPhenology *phenology;
-   PlantFruit     *fruitPart;
+//   PlantFruit     *fruitPart;           //FIXME reinstate this when Plant fruit fixed for cohorting
+   FruitCohort     *fruitPart;            //FIXME remove this when Plant fruit fixed for cohorting
 
    eventObserver *sowingEventObserver;     // Bookkeeper for Sowing events
    eventObserver *FIEventObserver;         // Bookkeeper for Floral Initiation events
