@@ -25,8 +25,9 @@ PlantFruit::PlantFruit(plantInterface *p, const string &name) : CompositePart(p,
 // destructor
 PlantFruit::~PlantFruit()
 {
-   if (podPart) delete podPart;
-   if (grainPart) delete grainPart;
+   vector <plantPart *>::iterator part;
+   for (part = myParts.begin(); part != myParts.end(); part++)
+      delete part;
 }
 
 ostream &operator<<(ostream &output, const PlantFruit /*&pool*/)
@@ -68,189 +69,13 @@ void PlantFruit::doRegistrations(protocol::Component *system)
 {
    CompositePart::doRegistrations(system);
 
-   system->addGettableVar("dlt_dm_fruit", gDlt_dm, "g/m^2", "Change in dry matter");
-   setupGetFunction(system, "head_wt", protocol::DTsingle, false,&PlantFruit::get_head_wt, "g/m^2", "Weight of heads");
-   setupGetFunction(system, "head_n", protocol::DTsingle, false,&PlantFruit::get_head_n, "g/m^2", "N in heads");
-   setupGetFunction(system, "head_p", protocol::DTsingle, false, &PlantFruit::get_head_p, "g/m^2","P in head");
+//   system->addGettableVar("dlt_dm_fruit", gDlt_dm, "g/m^2", "Change in dry matter");
+//   setupGetFunction(system, "head_wt", protocol::DTsingle, false,&PlantFruit::get_head_wt, "g/m^2", "Weight of heads");
+//   setupGetFunction(system, "head_n", protocol::DTsingle, false,&PlantFruit::get_head_n, "g/m^2", "N in heads");
+//   setupGetFunction(system, "head_p", protocol::DTsingle, false, &PlantFruit::get_head_p, "g/m^2","P in head");
 
    for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
       (*part)->doRegistrations(system);
-}
-
-
-
-float PlantFruit::dmGrainTotal(void)
-   //===========================================================================
-{
-   float dmTotal = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
-      dmTotal += (*part)->dmTotal();
-   return dmTotal;
-}
-
-float PlantFruit::dmVegTotal(void)
-   //===========================================================================
-{
-   float dmTotal = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      dmTotal += (*part)->dmTotal();
-   return dmTotal;
-}
-
-float PlantFruit::dmGreenGrainTotal(void)
-   //===========================================================================
-{
-   float dmTotal = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
-      dmTotal += (*part)->dmGreen();
-   return dmTotal;
-}
-
-float PlantFruit::dmGreenVegTotal(void)
-   //===========================================================================
-{
-   float dmTotal = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      dmTotal += (*part)->dmGreen();
-   return dmTotal;
-}
-
-float PlantFruit::dmSenescedVegTotal(void)
-   //===========================================================================
-{
-   float dmTotal = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      dmTotal += (*part)->dmSenesced();
-   return dmTotal;
-}
-
-
-float PlantFruit::dmDeadVegTotal(void)
-   //===========================================================================
-{
-   float dmTotal = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      dmTotal += (*part)->dmDead();
-   return dmTotal;
-}
-
-
-float PlantFruit::nGrainTotal(void)
-   //===========================================================================
-{
-   float nTotal = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
-      nTotal += (*part)->nTotal();
-   return nTotal;
-}
-
-float PlantFruit::nVegTotal(void)
-   //===========================================================================
-{
-   float nTotal = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      nTotal += (*part)->nTotal();
-   return nTotal;
-}
-
-float PlantFruit::nGreenGrainTotal(void)
-   //===========================================================================
-{
-   float nTotal = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
-      nTotal += (*part)->nGreen();
-   return nTotal;
-}
-
-float PlantFruit::nGreenVegTotal(void)
-   //===========================================================================
-{
-   float nTotal = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      nTotal += (*part)->nGreen();
-   return nTotal;
-}
-
-
-float PlantFruit::nSenescedVegTotal(void)
-   //===========================================================================
-{
-   float nTotal = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      nTotal += (*part)->nSenesced();
-   return nTotal;
-}
-
-
-float PlantFruit::nDeadVegTotal(void)
-   //===========================================================================
-{
-   float nTotal = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      nTotal += (*part)->nDead();
-   return nTotal;
-}
-
-
-float PlantFruit::nMaxPot(void)
-   //===========================================================================
-{
-   float nMaxPot = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      nMaxPot += (*part)->nMaxPot();
-   return nMaxPot;
-}
-
-float PlantFruit::nMax(void)
-   //===========================================================================
-{
-   NMax = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      NMax += (*part)->nMax();
-   return NMax;
-}
-
-float PlantFruit::nMinPot(void)
-   //===========================================================================
-{
-   float nMinPot = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      nMinPot += (*part)->nMinPot();
-   return nMinPot;
-}
-
-float PlantFruit::nDemandGrain2(void)                                             //remove  problem
-   //===========================================================================  //remove
-{                                                                                 //remove
-   return grainPart->nDemand2();                                                  //remove
-}                                                                                 //remove
-
-
-float PlantFruit::nCapacity(void)
-   //============================================================================
-{
-   NCapacity = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      {
-      NCapacity += (*part)->nCapacity();
-      }
-   return NCapacity;
 }
 
 void PlantFruit::doNPartition(float nSupply, float n_demand_sum, float n_capacity_sum)
@@ -276,173 +101,13 @@ void PlantFruit::doNPartition(float nSupply, float n_demand_sum, float n_capacit
       }
 }
 
-
-float PlantFruit::pGrainTotal(void)
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
-      pTotal += (*part)->pTotal();
-   return pTotal;
-}
-
-float PlantFruit::pVegTotal(void)
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      pTotal += (*part)->pTotal();
-   return pTotal;
-}
-
-float PlantFruit::pGreenGrainTotal(void)
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
-      pTotal += (*part)->pGreen();
-   return pTotal;
-}
-
-float PlantFruit::pDeadGrainTotal(void)
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
-      pTotal += (*part)->pDead();
-   return pTotal;
-}
-
-float PlantFruit::pGreenVegTotal(void)
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      pTotal += (*part)->pGreen();
-   return pTotal;
-}
-
-
-float PlantFruit::pSenescedGrainTotal(void)                                      //remove
-   //=========================================================================== //remove
-{                                                                                //remove
-   float pTotal = 0.0;                                                           //remove
-   vector<plantPart *>::iterator part;                                           //remove
-   for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)         //remove
-      pTotal += (*part)->pSenesced();                                            //remove
-   return pTotal;                                                                //remove
-}                                                                                //remove
-
-float PlantFruit::pSenescedVegTotal(void)
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      pTotal += (*part)->pSenesced();
-   return pTotal;
-}
-
-
-float PlantFruit::pDeadVegTotal(void)
-   //===========================================================================
-{
-   float pTotal = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      pTotal += (*part)->pDead();
-   return pTotal;
-}
-
-
-float PlantFruit::pConcGrain(void)                                               //remove
-   //=========================================================================== //remove
-{                                                                                //remove
-   return grainPart->pConcPercent();                                                    //remove
-}                                                                                //remove
-
-float PlantFruit::pConcGrainTotal(void)                                           //remove
-   //===========================================================================  //remove
-{                                                                                 //remove
-   return grainPart->pConcGrainTotal();                                           //remove
-}                                                                                 //remove
-
-float PlantFruit::pMaxPot(void)
-   //===========================================================================
-{
-   float pMaxPot = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      pMaxPot += (*part)->pMaxPot();
-   return pMaxPot;
-}
-
-float PlantFruit::pMinPot(void)
-   //===========================================================================
-{
-   float pMinPot = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      pMinPot += (*part)->pMinPot();
-   return pMinPot;
-}
-
-void PlantFruit::get_head_wt(protocol::Component *system, protocol::QueryValueData &qd)
-   //===========================================================================
-{
-   float headWt = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      headWt += (*part)->DMGreen;
-
-   system->sendVariable(qd, headWt);
-}
-
-void PlantFruit::get_head_n(protocol::Component *system, protocol::QueryValueData &qd)
-   //===========================================================================
-{
-   system->sendVariable(qd, nGreenGrainTotal() + nGreenVegTotal());
-}
-
-void PlantFruit::get_pod_n(protocol::Component *systemInterface, protocol::QueryValueData &qd)     //put in pod
-   //===========================================================================                      //put in pod
-{                                                                                                  //put in pod
-   systemInterface->sendVariable(qd, podPart->nGreen());   //()                                    //put in pod
-}                                                                                                  //put in pod
-                                                                                                   //put in pod
-void PlantFruit::get_pod_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)     //put in pod
-   //===========================================================================                      //put in pod
-{                                                                                                  //put in pod
-   systemInterface->sendVariable(qd, podPart->pGreen());   //()                                    //put in pod
-}                                                                                                  //put in pod
-
-void PlantFruit::get_head_p(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-   //===========================================================================
-{
-   systemInterface->sendVariable(qd, pGreenGrainTotal() + pGreenVegTotal());  //()
-}
-
-
-
-
 void PlantFruit::doInit1 ()
    // ====================================================================
 {
-   podPart = new fruitPodPart(plant, "pod");
-   myParts.push_back(podPart);
-   myVegParts.push_back(podPart);
-   supplyPools.push_back(podPart);
-
-   grainPart = new fruitGrainPart(plant, "grain");
-   myParts.push_back(grainPart);
-   myGrainParts.push_back(grainPart);
-
-   grainPart->doInit1();
+   myParts.push_back(new FruitCohort(plant, "cohort1"));
+   vector<plantPart *>::iterator myPart;                                           //remove
+   for (myPart = myParts.begin(); myPart != myParts.end(); myPart++)
+      (*myPart)->doInit1();
 
 }
 
@@ -458,13 +123,6 @@ void PlantFruit::doNSenescedRetrans(float navail, float n_demand_tot)           
       }                                                                            //remove
 }                                                                                  //remove
 
-
-//float PlantFruit::total()
-//{
-//
-//	return green.shell + green.meal + senesced.shell + senesced.meal + dead.shell + dead.meal;
-//}
-
 void PlantFruit::display(ostream &os) const
 {
    //	os << "PlantFruit:" << endl;
@@ -479,32 +137,6 @@ void PlantFruit::display(ostream &os) const
    //	os << "Dead meal: " << dead.meal << endl << endl;
    os << endl;
 }
-
-
-float PlantFruit::calcCover (float canopy_fac) {return  podPart->calcCover(canopy_fac);}    //remove problem
-
-float PlantFruit::grainNConcPercent(void) {return grainPart->nConcPercent();}     //remove problem
-
-void PlantFruit::doDmDemand ( float dlt_dm_veg_supply)
-   //===========================================================================
-{
-   //       (OUTPUT) assimilate demand for reproductive part (g/m^2)
-   // calculate demands of reproductive parts
-
-   float dm_grain_demand = grainPart->calcDmDemand();            //FIXME throughout - dm_grain_demand should be gDlt_dm_grain_demand. Leave asis for compatability
-   podPart->doDmDemand(dm_grain_demand, dlt_dm_veg_supply);      //FIXME this function needs to be handled in composite
-}
-
-float PlantFruit::availableRetranslocateN(void)
-   //============================================================================
-{
-   float nAvail = 0.0;
-   for (vector<plantPart *>::iterator part = supplyPools.begin(); part != supplyPools.end(); part++)
-      nAvail += (*part)->availableRetranslocateN();
-
-   return nAvail;
-}
-
 
 void PlantFruit::doNFixRetranslocate(float NFix, float NDemandDifferentialTotal)
 //=======================================================================================
@@ -536,144 +168,7 @@ void PlantFruit::doNRetranslocate( float N_supply, float g_grain_n_demand)
       (*part)->doNRetranslocate(N_supply, g_grain_n_demand);
 
    dlt.n_retrans = 0.0;
-   for (part = supplyPools.begin(); part != supplyPools.end(); part++)
+   for (part = myParts.begin(); part != myParts.end(); part++)
       dlt.n_retrans += (*part)->dlt.n_retrans;
 }
-
-void PlantFruit::doNDemand1(float dlt_dm             // (INPUT)  Whole plant the daily biomass production (g/m^2)
-                            , float dlt_dm_pot_rue)  // (INPUT)  Whole plant potential dry matter production (g/m^2)
-   //============================================================================
-   //     Return plant nitrogen demand for each plant component
-{
-   NDemand = 0.0;
-   NMax = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = supplyPools.begin(); part != supplyPools.end(); part++)
-      {
-      (*part)->doNDemand1(dlt_dm, dlt_dm_pot_rue);
-      NDemand += (*part)->nDemand();
-      NMax += (*part)->nMax();
-      }
-}
-
-void PlantFruit::doNDemand1Pot(float dlt_dm             // (INPUT)  Whole plant the daily biomass production (g/m^2)
-                               , float dlt_dm_pot_rue)  // (INPUT)  Whole plant potential dry matter production (g/m^2)
-   //============================================================================
-   //     Return plant nitrogen demand for each plant component
-{
-   NDemand = 0.0;
-   NMax = 0.0;
-   vector<plantPart *>::iterator part;
-   for (part = supplyPools.begin(); part != supplyPools.end(); part++)
-      {
-      (*part)->doNDemand1Pot(dlt_dm, dlt_dm_pot_rue);
-      NDemand += (*part)->nDemand();
-      NMax += (*part)->nMax();
-      }
-}
-
-
-
-//============================================================================
-
-#if TEST_PlantFruit							// build unit test?
-
-
-// PlantFruit class test harness
-
-// Tests default constructor, copy constructor, assignment operator and
-// each of the get and set functions.  Does not test the destructor.
-
-// Modification log
-// 6 Aug 97  J. Hargreaves    Initial implementation
-
-
-#ifndef PlantFruit_H
-#include "PlantFruit.h"
-#endif
-
-int main()
-{
-   cout << "PlantFruit test started" << endl;
-
-   PlantFruit p, *aPtr = &p;
-
-   //	cout << endl << "Test set and get functions:" << endl;
-   //	p.setValue(10.0, 2.0, 20.0, 3.0, 30.0, 4.0);
-   //	if (p.total() != 69.0)
-   //		cout << "setValue(10.0, 2.0, 20.0, 3.0, 30.0, 4.0) / Total() test FAILED"
-   //		<< endl;
-   //
-   //	cout << endl << "Test default constructor:" << endl;
-   //	PlantFruit q;                           						// run default constructor
-   //	if (q.total() != 0.0)
-   //		cout << "default constructor test FAILED" << endl;
-   //
-   //	cout << endl << "Test constructor:" << endl;
-   //	PlantFruit a(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);                           						// run default constructor
-   //	if (a.total() != 21.0)
-   //		cout << "constructor test FAILED" << endl;
-   //
-   //	cout << endl << "Test copy constructor:" << endl;
-   //	PlantFruit s = p;                       // run copy constructor
-   //	if (s.total() != p.total())
-   //      cout << "copy constructor test FAILED" << endl;
-   //
-   //	cout << endl << "Test assignment operator:" << endl;
-   //	s.setValue(50.0, 5.0, 60.0, 6.0, 70.0, 7.0); // change object
-   //
-   //	if (s.total() != p.total())
-   //	{
-   //		s = p;                          // run operator=
-   //		if (s.total() != p.total())
-   //			cout << "assignment operator test FAILED" << endl;
-   //	}
-   //	else
-   //		cout << "assignment operator test FAILED DIFFERENCE TEST" << endl;
-   //
-   //	cout << endl << "Test multiply operator:" << endl;
-   //	s.setValue(50.0, 5.0, 60.0, 6.0, 70.0, 7.0); // change object
-   //	PlantFruit k = p * s;
-   //	if (k.total() != 3856.0)
-   //		cout << "multiply operator test FAILED" << endl;
-   //
-   //	cout << endl << "Test simple multiply operator:" << endl;
-   //	s.setValue(50.0, 5.0, 60.0, 6.0, 70.0, 7.0); // change object
-   //	 k = s * 2.0;
-   //	if (k.total() != 396.0)
-   //		cout << "simple multiply operator test FAILED" << endl;
-   //
-   //	cout << endl << "Test divide operator:" << endl;
-   //	s.setValue(50.0, 5.0, 60.0, 6.0, 70.0, 7.0); // change object
-   //	 k = s/p;
-   //	if (k.total() < 16.58332 || k.total() > 16.58334)
-   //		cout << "divide operator test FAILED" << endl;
-   //
-   //	cout << endl << "Test simple divide operator:" << endl;
-   //	s.setValue(50.0, 5.0, 60.0, 6.0, 70.0, 7.0); // change object
-   //	 k = s / 2.0;
-   //	if (k.total() != 99.0)
-   //		cout << "simple divide operator test FAILED" << endl;
-   //
-   //	PlantFruit t;
-   //	t.setValue(50.0, 5.0, 60.0, 6.0, 70.0, 7.0); // change object
-   //	cout << endl << "Display PlantFruit t" << endl;
-   //	t.display();
-   //
-   //	PlantFruit x;
-   //	x.setValue(50.0, 5.0, 60.0, 6.0, 70.0, 7.0); // change object
-   //
-   //	cout << endl << "Display PlantFruit x - static binding" << endl;
-   //	x.display();
-   //
-   //	cout << endl << "Display PlantFruit x - dynamic binding" << endl;
-   //	PlantFruit *PlantFruitPtr = &x;
-   //	PlantFruitPtr->display();
-
-   cout << endl << "PlantFruit test finished" << endl;
-   return 0;
-}
-
-#endif
-
 

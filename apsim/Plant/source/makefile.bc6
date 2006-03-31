@@ -16,7 +16,7 @@ PlantNitrogen.obj PlantPhenology.obj PlantRoot.obj PlantTemp.obj PlantUtility.ob
 Data.obj Science.obj Date.obj PlantComms.obj PlantP.obj PlantFruit.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj \
 WheatPhenology.obj Environment.obj TTTPhenology.obj CropPhenology.obj TTTRatePhenology.obj Observers.obj \
 LeafPart.obj StemPart.obj PodPart.obj MealPart.obj OilPart.obj GrainPart.obj CompositePart.obj \
-FixedPhase.obj VernalPhase.obj BroccoliPhenology.obj MaizePhenology.obj RootPart.obj
+FixedPhase.obj VernalPhase.obj BroccoliPhenology.obj MaizePhenology.obj RootPart.obj FruitCohort.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
@@ -76,6 +76,7 @@ PlantP.obj: PlantP.cpp
 PlantParts.obj: PlantParts.cpp PlantParts.h
 CompositePart.obj: CompositePart.cpp CompositePart.h PlantParts.h
 PlantFruit.obj: PlantFruit.cpp PlantFruit.h CompositePart.h
+FruitCohort.obj: FruitCohort.cpp FruitCohort.h CompositePart.h
 Data.obj: Data.cpp PlantLibrary.h
 Date.obj: Date.cpp PlantLibrary.h
 Science.obj: Science.cpp PlantLibrary.h
