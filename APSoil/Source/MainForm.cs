@@ -1008,6 +1008,10 @@ namespace APSoil
 
 		private void MainForm_Load(object sender, System.EventArgs e)
 			{
+			SplashForm Splash = new SplashForm();
+			Splash.Setup(this.VersionString());
+			Splash.ShowDialog();
+
 			// Form has been loaded - set everything up
 		
 			Apsoil = new ApsoilController(".soils", "Soils files (*.soils)|*.soils|" + 
@@ -1216,11 +1220,6 @@ namespace APSoil
 			// User has clicked on export selected file to par
 			try
 				{
-				if (Apsoil.SelectedData.Count >= 1)
-					{
-					APSIMData FirstSoil = (APSIMData) Apsoil.SelectedData[0];
-					ParExportDialog.FileName = FirstSoil.Name + ".par";
-					}
 				if (ParExportDialog.ShowDialog() == DialogResult.OK)
 					{
 					File.Delete(ParExportDialog.FileName);
@@ -1249,12 +1248,6 @@ namespace APSoil
 
 		private void ExportToSoils()
 			{
-			if (Apsoil.SelectedData.Count >= 1)
-				{
-				APSIMData FirstSoil = (APSIMData) Apsoil.SelectedData[0];
-				ExportSoilsDialog.FileName = FirstSoil.Name + ".soils";
-				}
-
 			// User has clicked on Export selected soils to another .soils file.
 			if (ExportSoilsDialog.ShowDialog() == DialogResult.OK)	
 				{
@@ -1278,12 +1271,6 @@ namespace APSoil
 			}
 		private void ExportToSpreadsheet()
 			{
-			if (Apsoil.SelectedData.Count >= 1)
-				{
-				APSIMData FirstSoil = (APSIMData) Apsoil.SelectedData[0];
-				ExportSpreadsheetDialog.FileName = FirstSoil.Name + ".xls";
-				}
-
 			// User has clicked on export selected file to spreadsheet
 			try
 				{
@@ -1460,12 +1447,15 @@ namespace APSoil
 			{
 			Close();
 			}
-		private void HelpButton_Click(object sender, Xceed.SmartUI.SmartItemClickEventArgs e)
+		private string VersionString()
 			{
 			System.Version Version = Assembly.GetExecutingAssembly().GetName().Version;
-			string msg = "Version " + Version.Major.ToString() + "." + Version.Minor.ToString() + "\r\n";
-                    msg += "(Internal #: " + Version.Build.ToString() + "." + Version.Revision.ToString() + ")";
-  			MessageBox.Show(msg, "Apsoil version", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			return "Version " + Version.Major.ToString() + "." + Version.Minor.ToString()
+                    + " (" + Version.Build.ToString() + "." + Version.Revision.ToString() + ")";
+			}
+		private void HelpButton_Click(object sender, Xceed.SmartUI.SmartItemClickEventArgs e)
+			{
+  			MessageBox.Show(VersionString(), "Apsoil version", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 		private void SaveSmallButton_Click(object sender, Xceed.SmartUI.SmartItemClickEventArgs e)
 			{

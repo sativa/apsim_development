@@ -23,6 +23,7 @@
 #include <ComponentInterface/MessageDataExt.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/datatypes.h>
+#include <ComponentInterface\interfaces.h>
 
 // turn of the warnings about "Functions containing for are not expanded inline.
 #pragma warn -inl
@@ -145,6 +146,36 @@ class __declspec(dllexport) Component
    public:
       Component(void);
       virtual ~Component(void);
+
+      // ------------------------------------------------------------------------
+      // These new interface methods will eventually replace the old stuff below.
+      private:
+         class Registration
+            {
+            public:
+               Registration(const std::string& n, RegistrationType::Type t, IData& d)
+                  : name(n), type(t), data(d) { }
+//               Registration(const Registration& rhs)
+//                  : name(rhs.name), type(rhs.type), data(rhs.data) { }
+               std::string name;
+               RegistrationType::Type type;
+               IData& data;
+            };
+
+         typedef std::map<std::string, Component::Registration> Regs;
+         Regs regs;
+         unsigned nameToRegistrationID(const std::string& name,
+                                       const std::string& units,
+                                       RegistrationType::Type regType,
+                                       IData& data);
+
+      public:
+         void RegisterVariable(const std::string& name, const std::string& units, bool settable,
+                               int& data);
+
+      // ------------------------------------------------------------------------
+
+
 
       const char  *getName(void) {return name;};
       unsigned int getId(void) {return componentID;};

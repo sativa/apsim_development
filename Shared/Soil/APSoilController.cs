@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using System.IO;
 using VBGeneral;
 using CSGeneral;
 
@@ -53,7 +54,7 @@ namespace CSGeneral
 				return 2;
 			else if (ComponentName.ToLower() == "initnitrogen")
 				return 3;
-			else if (ComponentName.ToLower() == "folder")
+			else if (ComponentName.ToLower() == "folder" || ComponentName.ToLower() == "soils")
 				return 1;
 			else if (ComponentName.ToLower() == "sample")
 				return 4;
@@ -77,6 +78,24 @@ namespace CSGeneral
 
 			}
 
+
+		public override bool AllowFileOpenWrite(string FullFileName)
+			{
+			string FileName = Path.GetFileName(FullFileName).ToLower();
+			if (FileName.Substring(0, 6) == "apsru-" || FileName.Substring(0, 4) == "npd-" || FileName.Substring(0, 3) == "ap-")
+				{
+				if (InputDialog.InputBox("Enter password:", "This file is password protected", "") == "soilinfo")
+					return true;
+				else
+					{
+					MessageBox.Show("Password incorrect", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return false;
+					}
+
+				}
+			else
+				return true;
+			}
 		// -------------------------------------------------
 		// Return true if the specified component type can
 		// be added as a child to the specified parent type.

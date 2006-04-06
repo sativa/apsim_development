@@ -44,31 +44,62 @@ namespace CSGeneral
 			get {return GetStringValue("", "nearesttown");}
 			set {SetValue("", "nearesttown", value);}
 			}
+		public string DataSource
+			{
+			get {return GetStringValue("", "datasource");}
+			set {SetValue("", "DataSource", value);}
+			}
 		public string Comment
 			{
 			get {return GetStringValue("", "comment");}
 			set {SetValue("", "comment", value);}
-			}
-		public string GPS
-			{
-			get {return GetStringValue("", "gps");}
-			set {SetValue("", "gps", value);}
-			}
-		public string GPSDatum
-			{
-			get {return GetStringValue("", "gpsdatum");}
-			set {SetValue("", "gpsdatum", value);}
-			}
-		public string MapId
-			{
-			get {return GetStringValue("", "mapid");}
-			set {SetValue("", "mapid", value);}
 			}
 
 		public string NaturalVegetation
 			{
 			get {return GetStringValue("", "naturalvegetation");}
 			set {SetValue("", "naturalvegetation", value);}
+			}
+
+		public string AttachmentFileName
+			{	
+			get {return GetStringValue("attachment", "filename");}
+			set {
+				if (File.Exists(value))
+					{
+					SetValue("attachment", "filename", Path.GetFileName(value));
+			        FileStream fs = File.OpenRead(value);
+					int NumBytes = Convert.ToInt32(fs.Length);
+					byte[] buffer = new byte[NumBytes+1];
+					fs.Read(buffer, 0, NumBytes);
+					string Contents = Convert.ToBase64String(buffer);
+					SetValue("attachment", "bytes", Contents);
+					fs.Close();
+					fs = null;
+					}
+				else
+					SetValue("", "attachment", "");
+				}
+			}
+		public string Attachment
+			{
+			get {return GetStringValue("attachment", "bytes");}
+			}
+
+		public string CreateAttachment()
+			{
+			if (AttachmentFileName != "")
+				{
+				string TempFileName = Path.GetTempPath() + AttachmentFileName;
+		        FileStream fs = new FileStream(TempFileName, FileMode.Create);
+				byte[] buffer = Convert.FromBase64String(GetStringValue("attachment", "bytes"));
+				fs.Write(buffer, 0, buffer.Length);
+				fs.Close();
+				fs = null;
+				return TempFileName;
+				}
+			else
+				return "";
 			}
 
 		// ---------------------------------------
@@ -222,6 +253,11 @@ namespace CSGeneral
 			{
 			get {return getLayered("other", "cl");}
 			set {setLayered("other", "cl", value);}
+			}
+		public double[] Boron
+			{
+			get {return getLayered("other", "boron");}
+			set {setLayered("other", "boron", value);}
 			}
 		public double[] CEC
 			{
@@ -786,11 +822,11 @@ namespace CSGeneral
 				"<component name=\"[soil.name] Nitrogen\" executable=\"%apsuite\\apsim\\soiln2\\lib\\soiln2.dll\">\r\n" +
 				"   <initdata>\r\n" +
                 "      <include>%apsuite\\apsim\\soiln2\\soiln2.ini</include>\r\n" +
-                "      <root_cn>20.</root_cn>\r\n" +
-                "      <root_wt>1000.</root_wt>\r\n" +
-                "      <soil_cn>14.5</soil_cn>\r\n" +
-                "      <enr_a_coeff>7.4</enr_a_coeff>\r\n" +
-                "      <enr_b_coeff>0.2</enr_b_coeff>\r\n" +
+                "      <root_cn>[nitrogen.RootCN]</root_cn>\r\n" +
+                "      <root_wt>[nitrogen.RootWT]</root_wt>\r\n" +
+                "      <soil_cn>[nitrogen.SoilCN]</soil_cn>\r\n" +
+                "      <enr_a_coeff>[nitrogen.EnrACoeff]</enr_a_coeff>\r\n" +
+                "      <enr_b_coeff>[nitrogen.EnrBCoeff]</enr_b_coeff>\r\n" +
                 "      <profile_reduction>off</profile_reduction>\r\n" +
                 "      <oc>[foreach nitrogen.layer as l] [l.oc][endfor]</oc>\r\n" +
                 "      <ph>[foreach nitrogen.layer as l] [l.ph][endfor]</ph>\r\n" +

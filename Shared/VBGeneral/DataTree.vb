@@ -595,19 +595,18 @@ Public Class DataTree
         'Appears to be a bug in TreeView control
         If IsNothing(e.Label) Then
             e.CancelEdit = True
-            Exit Sub
-
-        End If
-
-        ' A tree view node label cannot be an empty string.  If it is then
-        ' cancel the edit.
-        If (Not e.Label.Equals("")) Then
-            UserChange = False
-            Controller.RenameSelected(e.Label)
-            UserChange = True
-
         Else
-            e.CancelEdit = True
+            ' A tree view node label cannot be an empty string.  If it is then
+            ' cancel the edit.
+            If (Not e.Label.Equals("")) Then
+                UserChange = False
+                Controller.RenameSelected(e.Label)
+                UserChange = True
+
+            Else
+                e.CancelEdit = True
+            End If
+
         End If
 
         TreeView.ContextMenu = Me.ContextMenu1

@@ -1011,8 +1011,21 @@ std::string Component::getDescription()
             {
             returnString += "   <event name=\"";
             returnString += reg->getName();
+            returnString += "\" kind=\"published\"/>\n";
+            }
+         else if (reg->getKind() == RegistrationType::respondToEvent)
+            {
+            returnString += "   <event name=\"";
+            returnString += reg->getName();
+            returnString += "\" kind=\"subscribed\"/>\n";
+            }
+         else if (reg->getKind() == RegistrationType::get)
+            {
+            returnString += "   <driver name=\"";
+            returnString += reg->getName();
             returnString += "\"/>\n";
             }
+
          }
       returnString += "\n</describecomp>\n";
       return returnString;
@@ -1022,4 +1035,52 @@ std::string Component::getDescription()
       MessageBox(NULL, err.what(), "Error", MB_ICONSTOP | MB_OK);
       return "";
       }
+   }
+
+
+
+void Component::RegisterVariable(const std::string& name, const std::string& units, bool settable,
+                                 int& data)
+   // ------------------------------------------------------------------------
+   // Register a variable with the system.
+   {
+   string ddml = "<type kind=\"int\" array=\"F\" units=\"" + units + "\"/>";
+   if (settable)
+      nameToRegistrationID(name, units, RegistrationType::respondToGet, Apsiminteger4(data));
+   else
+      nameToRegistrationID(name, units, RegistrationType::respondToGetSet, Apsiminteger4(data));
+   }
+
+unsigned Component::nameToRegistrationID(const std::string& name,
+                                         const std::string& units,
+                                         RegistrationType::Type regType,
+                                         IData& data)
+   // ------------------------------------------------------
+   // Return a registration id for the specified
+   // name. If name hasn't been registered then
+   // use the regType to send a message to our PM.
+   // ------------------------------------------------------
+   {
+   ostringstream regTypeString;
+   regTypeString << regType << ends;
+   string FullRegName = name + regTypeString.str();
+   Regs::iterator reg = regs.find(FullRegName);
+   if (reg == regs.end())
+      {
+      Registration* newRegistration = new Registration(name, regType, data);
+      regs.insert(make_pair(FullRegName, *newRegistration));
+      reg = regs.find(FullRegName);
+      unsigned newRegId = (unsigned) &(reg->second);
+
+      sendMessage(newRegisterMessage(componentID,
+                                     parentID,
+                                     regType,
+                                     newRegId,
+                                     0,
+                                     name.c_str(),
+                                     data.ddml()));
+      return newRegId;
+      }
+   else
+      return (unsigned) &(reg->second);
    }

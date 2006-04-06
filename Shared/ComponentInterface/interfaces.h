@@ -80,6 +80,14 @@ class ITransport
       virtual void setMessageHook(IMessageHook* hook) = 0;
    };
 
+class IData
+   {
+   public:
+      virtual ~IData() { }
+		virtual void pack(protocol::MessageData& message) = 0;
+		virtual void unpack(protocol::MessageData & message) = 0;
+		virtual const char* ddml() = 0;
+   };
 
 } // namespace protocol
 #endif

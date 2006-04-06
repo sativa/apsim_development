@@ -136,6 +136,9 @@ Public MustInherit Class BaseController
             IsReadOnly = False
         End If
     End Sub
+    Public Overridable Function AllowFileOpenWrite(ByVal FileName As String) As Boolean
+        Return True
+    End Function
     Public Sub FileOpen()
         If FileSaveAfterPrompt() Then
             Dim dialog As New OpenFileDialog
@@ -145,7 +148,8 @@ Public MustInherit Class BaseController
             End With
             Dim choice As DialogResult = dialog.ShowDialog
             If choice = DialogResult.OK Then
-                IsReadOnly = ((File.GetAttributes(dialog.FileName) And FileAttributes.ReadOnly) = FileAttributes.ReadOnly)
+                IsReadOnly = Not AllowFileOpenWrite(dialog.FileName)
+                IsReadOnly = IsReadOnly Or ((File.GetAttributes(dialog.FileName) And FileAttributes.ReadOnly) = FileAttributes.ReadOnly)
                 If IsReadOnly Then
                     MessageBox.Show("The file: " + dialog.FileName + " is readonly. All editing capability is disabled.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
@@ -368,12 +372,7 @@ Public MustInherit Class BaseController
 #Region "Data manipulation"
     Public ReadOnly Property AllowChanges() As Boolean
         Get
-            If FileName <> "" Then
-                Dim Name As String = Path.GetFileName(FileName).ToLower
-                Return Not IsReadOnly And Name <> "standardsoils.soils" And Name <> "apsrusoils.soils" And Name <> "standard.xml"
-            Else
-                Return False
-            End If
+            Return Not Me.IsReadOnly
         End Get
     End Property
 
@@ -439,15 +438,17 @@ Public MustInherit Class BaseController
         ' Rename the node, as specified by FullPath, to NewName
 
         If AllowRenameSelected() Then
-            Data.Name = NewName
-            If MySelectedData.Count = 1 Then
-                Dim PosDelimiter = MySelectedData(0).LastIndexOf("|")
-                If PosDelimiter = -1 Then
-                    MySelectedData(0) = NewName
-                Else
-                    MySelectedData(0) = MySelectedData(0).Substring(0, PosDelimiter + 1) + NewName
-                End If
+            Dim SelectedNodePath As String = MySelectedData(0)
+            Dim SelectedData As APSIMData = Data
+            MySelectedData.Clear()
+            SelectedData.Name = NewName
+            Dim PosDelimiter = SelectedNodePath.LastIndexOf("|")
+            If PosDelimiter = -1 Then
+                SelectedNodePath = NewName
+            Else
+                SelectedNodePath = SelectedNodePath.Substring(0, PosDelimiter + 1) + NewName
             End If
+            MySelectedData.Add(SelectedNodePath)
             RaiseEvent RenameEvent()
         End If
     End Sub
