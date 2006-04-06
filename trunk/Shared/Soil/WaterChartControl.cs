@@ -15,7 +15,6 @@ namespace CSGeneral
 		{
 		internal Xceed.Chart.ChartControl WaterChart;
 		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.CheckBox LineGraphCheck;
 		private System.Windows.Forms.CheckedListBox CropList;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Splitter splitter;
@@ -51,7 +50,6 @@ namespace CSGeneral
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(WaterChartControl));
 			this.WaterChart = new Xceed.Chart.ChartControl();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.LineGraphCheck = new System.Windows.Forms.CheckBox();
 			this.CropList = new System.Windows.Forms.CheckedListBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.splitter = new System.Windows.Forms.Splitter();
@@ -78,7 +76,6 @@ namespace CSGeneral
 			// 
 			// panel1
 			// 
-			this.panel1.Controls.Add(this.LineGraphCheck);
 			this.panel1.Controls.Add(this.CropList);
 			this.panel1.Controls.Add(this.label1);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
@@ -86,16 +83,6 @@ namespace CSGeneral
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(171, 600);
 			this.panel1.TabIndex = 22;
-			// 
-			// LineGraphCheck
-			// 
-			this.LineGraphCheck.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.LineGraphCheck.Location = new System.Drawing.Point(0, 576);
-			this.LineGraphCheck.Name = "LineGraphCheck";
-			this.LineGraphCheck.Size = new System.Drawing.Size(171, 24);
-			this.LineGraphCheck.TabIndex = 14;
-			this.LineGraphCheck.Text = "Line graph";
-			this.LineGraphCheck.CheckedChanged += new System.EventHandler(this.LineGraphCheck_CheckedChanged);
 			// 
 			// CropList
 			// 
@@ -185,8 +172,6 @@ namespace CSGeneral
 				if (SelectedCrops.Count == 0 && CropList.CheckedItems.Count == 0 && CropList.Items.Count > 0)
 					CropList.SetItemChecked(0, true);
                                                      
-				LineGraphCheck.Checked = (APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), 
-																"soil", "DepthChartWithLines") == "yes");
 				PopulateWaterChart(CropsToChart());
 				WaterChart.Legends[0].Data.OutlineHorizontalLinesProps.Width = 0;
 				WaterChart.Legends[0].Data.OutlineVerticalLinesProps.Width = 0;
@@ -201,12 +186,7 @@ namespace CSGeneral
 		// ---------------------------
 		private void PopulateWaterChart(StringCollection Crops)
 			{
-            if (LineGraphCheck.Checked)
-				PopulateWaterChartLines(WaterChart, MySoil, Crops, ShowSW);
-			else
-				PopulateWaterChartBlocky(WaterChart, MySoil, Crops, ShowSW);
-
-			WaterChart.Labels[0].Text = MySoil.Comment;
+			PopulateWaterChartLines(WaterChart, MySoil, Crops, ShowSW);
 			}								
 
 
@@ -372,19 +352,6 @@ namespace CSGeneral
 			Crops.CopyTo(values, 0);
 			APSIMSettings.INIWriteMultiple(APSIMSettings.ApsimIniFile(),
 										  "soil", "CropsOnGraph", values);
-			}
-
-		// ---------------------------------------
-		// Use has changed the lines checkbox.
-		// ---------------------------------------
-		private void LineGraphCheck_CheckedChanged(object sender, System.EventArgs e)
-			{
-			string CheckValue = "no";
-			if (LineGraphCheck.Checked)
-				CheckValue = "yes";
-			APSIMSettings.INIWrite(APSIMSettings.ApsimIniFile(), 
-									"soil", "DepthChartWithLines", CheckValue);
-			PopulateWaterChart(CropsToChart());
 			}
 
 
