@@ -54,7 +54,15 @@ class ComponentOrder
       vector<string> components;
    };
 
-
+// -------------------------------------------
+// Convert specified control file to a series
+// of sim files.
+// -------------------------------------------
+SimCreator::~SimCreator()
+   {
+   for (unsigned i = 0; i != convertedParFiles.size(); i++)
+      delete convertedParFiles[i];
+   }
 // -------------------------------------------
 // Convert specified control file to a series
 // of sim files.
@@ -182,6 +190,8 @@ void SimCreator::ConvertConModule(ApsimControlFile::ModuleInstance& moduleInstan
          writeNewFormat(sectionsToOutput, out);
       else
          writeOldFormat(sectionsToOutput, out);
+      for (unsigned i = 0; i != sectionsToOutput.size(); i++)
+         delete sectionsToOutput[i];
       }
 
    out << "      </initdata>\n";
@@ -226,7 +236,7 @@ void SimCreator::GetMatchingParFileSections(const std::string& instanceName,
                   done = true;
                   }
             if (!done)
-               outputSections.push_back(section);
+               outputSections.push_back(section->clone());
             }
          }
       }
