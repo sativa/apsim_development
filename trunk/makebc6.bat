@@ -1,6 +1,6 @@
 @echo off
 REM Set up the make system for borland CBuilder6/Lahey F95 compiler suite
-set APSROOT=c:\development
+set APSROOT=%CD%
 set APSMAKE=c:\PROGRA~1\Borland\CBUILD~1\Bin\make.exe -s -f makefile.bc6
 set FORROOT=C:\PROGRA~1\LF9556\bin
 
