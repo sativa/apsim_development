@@ -231,7 +231,11 @@ void ApsimComponentData::getProperties(const std::string& propertyType,
       XMLNode parentNode = getInitData();
       if (propertyType != "" && !Str_i_Eq(propertyType, "parameters") &&
           !Str_i_Eq(propertyType, "constants"))
-          parentNode = findNode(getInitData(), propertyType);
+          {
+          parentNode = findNodeWithName(getInitData(), propertyType);
+          if (!parentNode.isValid())
+             parentNode = findNode(getInitData(), propertyType);
+          }
 
       for (XMLNode::iterator propertyI = parentNode.begin();
                              propertyI != parentNode.end();
