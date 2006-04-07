@@ -355,7 +355,7 @@ void Coordinator::onRegisterMessage(unsigned int fromID, RegisterData& registerD
          regName.erase(0, posPeriod+1);
          }
 
-      Registration newReg(fromID, registerData.ID, regName, registerData.kind);
+      ::Registration newReg(fromID, registerData.ID, regName, registerData.kind);
       registrations.add(newReg, destID);
       }
    catch (const runtime_error& err)
@@ -547,7 +547,7 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
       name.erase(0, posPeriod);
       componentID = componentNameToID(name);
       }
-   std::vector<Registration> matches;
+   std::vector< ::Registration> matches;
 
    if (queryInfo.kind == respondToGetInfo)
       registrations.findMatching(componentId, name, RegistrationType::respondToGet, matches);
@@ -589,7 +589,7 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
                                        matches[i].name.c_str(),
                                        " ",
                                        queryInfo.kind));
-   }
+      }
 
 // ------------------------------------------------------------------
 // Handle the incoming requestSetValue message.
@@ -820,7 +820,7 @@ void Coordinator::reorderSubscriptions(::Registrations::Subscriptions& subs)
                if (s->componentId == componentOrders[o])
                   {
                   newSubs.push_back(*s);
-                  s = subsToMove.erase(s);
+                  subsToMove.erase(s);
                   break;
                   }
                }
@@ -848,7 +848,7 @@ void Coordinator::readAllRegistrations(void)
       unsigned regId = addRegistration(regType, reg->getName().c_str(),
                                        dataType.getTypeString().c_str());
 
-      registrations.add(Registration(parentID, regId, internalName, oppositeRegType));
+      registrations.add(::Registration(parentID, regId, internalName, oppositeRegType));
       }
    }
 // ------------------------------------------------------------------
@@ -927,7 +927,7 @@ void Coordinator::onApsimGetQuery(ApsimGetQueryData& apsimGetQueryData)
       if (childComponentID != INT_MAX)
          {
          string variableName = fqn.substr(posPeriod+1);
-         std::vector<Registration> matches;
+         std::vector< ::Registration> matches;
          registrations.findMatching(childComponentID, variableName, RegistrationType::respondToGet, matches);
          if (matches.size() == 0)
             pollComponentsForGetVariable(variableName, childComponentID);
@@ -939,7 +939,7 @@ void Coordinator::onApsimGetQuery(ApsimGetQueryData& apsimGetQueryData)
             unsigned parentRegId = addRegistration(RegistrationType::respondToGet,
                                                    fqn.c_str(),
                                                    "<type/>");
-            registrations.add(Registration(parentID, parentRegId, variableName, RegistrationType::get));
+            registrations.add(::Registration(parentID, parentRegId, variableName, RegistrationType::get));
             }
          }
       }
