@@ -375,3 +375,24 @@ unsigned findSubString(const std::string& st, const std::string& subString)
       return posChar - st.c_str();
    }
 
+// -----------------------------------------------------------
+// Find a matching bracket, allowing for nested brackets.
+// -----------------------------------------------------------
+unsigned matchBracket(const std::string& st, char openBracket, char closeBracket,
+                      unsigned startPos)
+   {
+   unsigned pos = startPos + 1;
+   bool matchCount = 1;
+   while (pos < st.length())
+      {
+      if (st[pos] == openBracket)
+         matchCount++;
+      else if (st[pos] == closeBracket)
+         matchCount--;
+      if (matchCount == 0)
+         return pos;
+      pos++;
+      }
+   return string::npos;
+   }
+

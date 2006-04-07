@@ -23,6 +23,7 @@ class TSOI : public TSEGTable
       bool fallingPhase;
       bool risingPhase;
       bool zeroPhase;
+      bool getSOIFromSource;
 
       AnsiString __fastcall getMonth(void);
       void __fastcall setMonth(AnsiString month);
@@ -32,6 +33,7 @@ class TSOI : public TSEGTable
       void __fastcall setFallingPhase(bool falling);
       void __fastcall setRisingPhase(bool rising);
       void __fastcall setZeroPhase(bool zero);
+      void __fastcall setGetSoiFromSource(bool getFromSource);
 
       virtual bool createFields(void) throw(std::runtime_error);
       virtual void storeRecords(void) throw(std::runtime_error);
@@ -56,5 +58,6 @@ class TSOI : public TSEGTable
       __property bool falling = {read=fallingPhase, write=setFallingPhase};
       __property bool rising = {read=risingPhase, write=setRisingPhase};
       __property bool zero = {read=zeroPhase, write=setZeroPhase};
+      __property bool GetSOIFromSource = {read=getSOIFromSource, write=setGetSoiFromSource};
    };
 #endif

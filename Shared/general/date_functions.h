@@ -3,6 +3,7 @@
 #define date_functionsH
 
 #include <boost\date_time\gregorian\gregorian.hpp>
+#include <stdexcept>
 
   //! Convert ymd to a standard string formatting policies
   template<class ymd_type, class format_type>
@@ -238,6 +239,16 @@ std::string getLongMonthString(unsigned month)
        "July", "August", "September", "October", "November", "December"};
    return months[month-1];
    }
+int longMonthToInt(const std::string& longMonthName)
+   {
+   for (int month = 1; month <= 12; month++)
+      {
+      if (Str_i_Eq(getLongMonthString(month), longMonthName))
+         return month;
+      }
+   throw std::runtime_error("Invalid month nane: " + longMonthName);
+   }
+
 unsigned day_of_year(boost::gregorian::date d)
    {
    return boost::gregorian::date_duration(d - boost::gregorian::date(d.year(), 1, 1)).days() + 1;

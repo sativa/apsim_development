@@ -33,6 +33,14 @@ void TSOIForm::setComponent(TComponent* component)
    FallingCheckBox->Checked = soi->falling;
    RisingCheckBox->Checked = soi->rising;
    ZeroCheckBox->Checked = soi->zero;
+   GetFromSourceCheckBox->Checked = soi->GetSOIFromSource;
+
+   MonthCombo->Enabled = !GetFromSourceCheckBox->Checked;
+   NegativeCheckBox->Enabled = !GetFromSourceCheckBox->Checked;
+   PositiveCheckBox->Enabled = !GetFromSourceCheckBox->Checked;
+   FallingCheckBox->Enabled = !GetFromSourceCheckBox->Checked;
+   RisingCheckBox->Enabled = !GetFromSourceCheckBox->Checked;
+   ZeroCheckBox->Enabled = !GetFromSourceCheckBox->Checked;
    }
 //---------------------------------------------------------------------------
 void __fastcall TSOIForm::MonthComboClick(TObject *Sender)
@@ -63,6 +71,12 @@ void __fastcall TSOIForm::RisingCheckBoxClick(TObject *Sender)
 void __fastcall TSOIForm::ZeroCheckBoxClick(TObject *Sender)
    {
    soi->zero = ZeroCheckBox->Checked;
+   }
+//---------------------------------------------------------------------------
+void __fastcall TSOIForm::GetFromSourceCheckBoxClick(TObject *Sender)
+   {
+   soi->GetSOIFromSource = GetFromSourceCheckBox->Checked;
+   setComponent(soi);
    }
 //---------------------------------------------------------------------------
 

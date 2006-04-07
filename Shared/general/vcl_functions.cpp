@@ -513,13 +513,19 @@ void saveComponent(ostream& out, TComponent* component)
 // of the specified property.  Only component owned by the specified owner
 // will be found.
 //---------------------------------------------------------------------------
-AnsiString resolveComponentPropertyMacro(TComponent* owner, AnsiString text, int recNo)
+AnsiString resolveComponentPropertyMacro(TComponent* owner, AnsiString st, int recNo)
    {
    AnsiString value;
 
-   StringTokenizer tokenizer(text.c_str(), ".");
-   string componentName = tokenizer.nextToken();
-   string propertyName = tokenizer.nextToken();
+   string componentName;
+   string propertyName;
+   string text = st.c_str();
+   unsigned posPeriod = text.find('.');
+   if (posPeriod != string::npos)
+      {
+      componentName = text.substr(0, posPeriod);
+      propertyName = text.substr(posPeriod+1);
+      }
 
    TComponent* component = getComponent<TComponent>(owner, componentName.c_str());
    if (component != NULL)
