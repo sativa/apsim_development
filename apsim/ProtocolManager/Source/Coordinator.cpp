@@ -581,15 +581,21 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
       }
 
    for (unsigned i = 0; i != matches.size(); i++)
+      {
+      string fqn = name;
+      fqn += ".";
+      fqn += matches[i].name;
+
       sendMessage(newReturnInfoMessage(componentID,
                                        fromID,
                                        messageID,
                                        matches[i].componentId,
                                        matches[i].id,
-                                       matches[i].name.c_str(),
+                                       fqn.c_str(),
                                        " ",
                                        queryInfo.kind));
       }
+   }
 
 // ------------------------------------------------------------------
 // Handle the incoming requestSetValue message.
