@@ -1,5 +1,5 @@
 @echo off
-set APSROOT=c:\development
+set APSROOT=%CD%
 
 rem --------- Compile apsimui
 cd %APSROOT%\apsimui\source
