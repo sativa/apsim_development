@@ -22,6 +22,7 @@ class SimCreatorSection
       virtual void append(const SimCreatorSection* section);
       virtual bool isEmpty() {return (xml == "");}
 
+      virtual ~SimCreatorSection() { }
       virtual SimCreatorSection* clone() = 0;
       virtual void open(const std::string& firstBit, const std::string secondBit,
                         const std::string& thirdBit) = 0;

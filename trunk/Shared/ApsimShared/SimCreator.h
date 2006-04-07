@@ -12,6 +12,7 @@ class __declspec(dllexport) SimCreator
    {
    public:
       SimCreator(bool NewFormat) : newFormat(NewFormat) { }
+      ~SimCreator();
 
       void ConToSim(const std::string& controlFileName,
                     const std::string& outputDirectory);
