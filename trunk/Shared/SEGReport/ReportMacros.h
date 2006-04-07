@@ -22,14 +22,7 @@ class ReportMacros
 
    private:
       std::vector<std::string> componentNames;
-
-      //---------------------------------------------------------------------------
-      // Evaluate the specified macro.
-      //---------------------------------------------------------------------------
-      std::string evaluateMacro(TComponent* owner,
-                                const std::string& macro,
-                                const std::string& argumentString);
-
+      std::string resolve(TComponent* owner, const std::string& text);
    };
 
 

@@ -9,10 +9,12 @@
 #include <fstream>
 #include <sstream>
 #include <general\string_functions.h>
+#include <general\date_functions.h>
 #include <general\db_functions.h>
 #include <general\path.h>
 #include <general\inifile.h>
 #include <ApsimShared\ApsimSettings.h>
+#include <ApsimShared\ApsimDirectories.h>
 
 using namespace std;
 #pragma package(smart_init)
@@ -34,6 +36,7 @@ __fastcall TSOI::TSOI(TComponent* owner)
    string fileName;
    settings.read("soi|soi file", fileName, true);
    soiFilename = fileName.c_str();
+   getSOIFromSource = false;
    }
 
 //---------------------------------------------------------------------------
@@ -141,6 +144,17 @@ void __fastcall TSOI::setZeroPhase(bool zer)
       }
    }
 //---------------------------------------------------------------------------
+// Set the 'GetSoiFromSource' property
+//---------------------------------------------------------------------------
+void __fastcall TSOI::setGetSoiFromSource(bool getFromSource)
+   {
+   if (getFromSource != getSOIFromSource)
+      {
+      getSOIFromSource = getFromSource;
+      forceRefresh();
+      }
+   }
+//---------------------------------------------------------------------------
 // Called by our base class to allow us to add any fielddefs we may want to.
 // The table will be closed (Active=false) when this routine is called.
 //---------------------------------------------------------------------------
@@ -170,6 +184,13 @@ void TSOI::storeRecords(void) throw(runtime_error)
       // get the sowing year field name
       string sowYearFieldName = getSowYearFieldName(source);
 
+      int month;
+      if (getSOIFromSource)
+         month = longMonthToInt(AnsiString(source->FieldValues["SoiMonth"]).c_str());
+
+      else
+         month = soiMonth;
+
       // loop through all records.
       source->First();
       while (!source->Eof)
@@ -177,7 +198,7 @@ void TSOI::storeRecords(void) throw(runtime_error)
          int year = source->FieldValues[sowYearFieldName.c_str()];
          unsigned phase;
          string phaseName;
-         getPhase(year, soiMonth, phase, phaseName);
+         getPhase(year, month, phase, phaseName);
          if (keepPhase(phase))
             {
             // add a new record that is identical to the current source record.
@@ -221,11 +242,13 @@ void TSOI::readSoiData(void) throw (runtime_error)
    phaseNames.erase(phaseNames.begin(), phaseNames.end());
    phases.erase(phases.begin(), phases.end());
 
-   if (!FileExists(soiFilename))
+   string fileName = soiFilename.c_str();
+   replaceAll(fileName, "%apsuite", getApsimDirectory());
+   if (!FileExists(fileName.c_str()))
       throw runtime_error("Cannot find soi data file: " + string(soiFilename.c_str()));
 
    // Read in all soi data.
-   ifstream in (soiFilename.c_str());
+   ifstream in (fileName.c_str());
    string line;
    static const char* defaultPhaseNamesString
       = "Unknown,Negative,Positive,Falling,Rising,Zero";
@@ -276,6 +299,23 @@ void TSOI::getPhase(unsigned year, unsigned month,
 // ------------------------------------------------------------------
 bool TSOI::keepPhase(unsigned phase)
    {
+   if (getSOIFromSource)
+      {
+      string currentPhase = AnsiString(source->FieldValues["SoiPhase"]).c_str();
+      if (Str_i_Eq(currentPhase, "negative") && phase == 1)
+         return true;
+      else if (Str_i_Eq(currentPhase, "posative") && phase == 2)
+         return true;
+      else if (Str_i_Eq(currentPhase, "falling") && phase == 3)
+         return true;
+      else if (Str_i_Eq(currentPhase, "rising") && phase == 4)
+         return true;
+      else if (Str_i_Eq(currentPhase, "zero") && phase == 5)
+         return true;
+      else
+         throw runtime_error("Unknown current phase name: " + currentPhase);
+      }
+
    if (negativePhase && phase == 1)
       return true;
    if (positivePhase && phase == 2)

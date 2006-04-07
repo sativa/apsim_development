@@ -12,22 +12,24 @@
       TShapeForm.obj TSoi.obj TSOIForm.obj TStats.obj TStatsForm.obj TText.obj 
       ComponentRegistration.obj ..\general\Excel.obj TWizardForm.obj 
       TXYGraphSeries.obj TXYGraph.obj TXYForm.obj TCumulative.obj TDiff.obj 
-      TDiffForm.obj"/>
+      TDiffForm.obj TXmlFileReader.obj TXmlFileReaderForm.obj"/>
     <RESFILES value="SEGReport.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TPropertyForm.dfm TTextForm.dfm TApsimFileReaderForm.dfm 
       TChartForm.dfm TExcelForm.dfm TFilterForm.dfm TImageForm.dfm 
       TProbabilityForm.dfm TREMSForm.dfm TShapeForm.dfm TSOIForm.dfm 
-      TStatsForm.dfm TWizardForm.dfm TXYForm.dfm"/>
+      TStatsForm.dfm TWizardForm.dfm TXYForm.dfm TXmlFileReaderForm.dfm"/>
     <LIBFILES value="..\general\general.lib ..\ApsimShared\ApsimShared.lib 
       &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib&quot; 
-      ..\general\general_vcl.lib &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib&quot;"/>
-    <LIBRARIES value="TeeImage7C6.lib gtCompressionC60.lib bcb2kaxserver.lib kbmMemC6Run.lib 
-      VclSmp.lib TMSC6.lib dcctc6.lib gtQRC60Pro.lib bdertl.lib"/>
+      ..\general\general_vcl.lib 
+      &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib&quot; 
+      &quot;C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\LibXML2.lib&quot;"/>
+    <LIBRARIES value="qrpt.lib TeeImage7C6.lib gtCompressionC60.lib bcb2kaxserver.lib 
+      kbmMemC6Run.lib VclSmp.lib TMSC6.lib dcctc6.lib gtQRC60Pro.lib bdertl.lib"/>
     <SPARELIBS value="vcl.lib rtl.lib vclx.lib dbrtl.lib bdertl.lib gtQRC60Pro.lib vcldb.lib 
       dcctc6.lib TMSC6.lib VclSmp.lib kbmMemC6Run.lib bcb2kaxserver.lib 
       Tee7C6.lib TeeDB7C6.lib TeeUI7C6.lib TeePro7C6.lib gtCompressionC60.lib 
-      TeeQR7C6.lib TeeImage7C6.lib qrpt60.lib"/>
+      TeeQR7C6.lib TeeImage7C6.lib qrpt60.lib qrpt.lib"/>
     <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi dbrtl.bpi adortl.bpi vcldb.bpi vcldbx.bpi 
       dsnap.bpi cds.bpi bdecds.bpi ibxpress.bpi visualclx.bpi visualdbclx.bpi 
       vclie.bpi xmlrtl.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi 
@@ -111,6 +113,9 @@
       <FILE FILENAME="TCumulative.cpp" FORMNAME="" UNITNAME="TCumulative" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TDiff.cpp" FORMNAME="" UNITNAME="TDiff" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TDiffForm.cpp" FORMNAME="" UNITNAME="TDiffForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TXmlFileReader.cpp" FORMNAME="" UNITNAME="TXmlFileReader" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TXmlFileReaderForm.cpp" FORMNAME="XmlFileReaderForm" UNITNAME="TXmlFileReaderForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\LibXML2.lib" FORMNAME="" UNITNAME="LibXML2.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

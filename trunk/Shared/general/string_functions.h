@@ -467,5 +467,10 @@ inline std::string doubleQuoted(const std::string& st)
 // ------------------------------------------------------------------
 unsigned findSubString(const std::string& st, const std::string& substring);
 
+// -----------------------------------------------------------
+// Find a matching bracket, allowing for nested brackets.
+// -----------------------------------------------------------
+unsigned matchBracket(const std::string& st, char openBracket, char closeBracket,
+                      unsigned startPos);
 #endif
 

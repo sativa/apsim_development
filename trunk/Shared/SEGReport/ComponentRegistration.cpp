@@ -6,6 +6,7 @@
 #include "ComponentRegistration.h"
 #include "TImageForm.h"
 #include "TApsimFileReaderForm.h"
+#include "TXmlFileReaderForm.h"
 #include "TSOIForm.h"
 #include "TChartForm.h"
 #include "TProbabilityForm.h"
@@ -41,7 +42,8 @@ void RegisterComponents(void)
                                   __classid(::TGraph),
                                   __classid(::TXYGraph)};
    RegisterComponents("Standard", standardClasses, 4);
-   TComponentClass dataClasses[9] = {__classid(TApsimFileReader),
+   TComponentClass dataClasses[10] = {__classid(TApsimFileReader),
+                                  __classid(TXmlFileReader),
                                   __classid(TSOI),
                                   __classid(TProbability),
                                   __classid(TREMS),
@@ -50,7 +52,7 @@ void RegisterComponents(void)
                                   __classid(TStats),
                                   __classid(TCumulative),
                                   __classid(TDiff)};
-   RegisterComponents("Data", dataClasses, 8);
+   RegisterComponents("Data", dataClasses, 9);
    }
 
 //---------------------------------------------------------------------------
@@ -69,6 +71,8 @@ TForm* createComponentUI(TComponent* component, TWinControl* parent,
       form = new TImageForm(parent);
    else if (component->ClassType() == __classid(TApsimFileReader))
       form = new TApsimFileReaderForm(parent);
+   else if (component->ClassType() == __classid(TXmlFileReader))
+      form = new TXmlFileReaderForm(parent);
    else if (component->ClassType() == __classid(TSOI))
       form = new TSOIForm(parent);
    else if (component->ClassType() == __classid(::TGraph))

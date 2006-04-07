@@ -635,10 +635,7 @@ void Report::exportCurrentToFile(const std::string& fileNameBase)
          else if (ExtractFileExt(fileName.c_str()) == ".pdf")
             ExportToPDF(*page, fileName.c_str(), false, false);
          else if (ExtractFileExt(fileName.c_str()) == ".gif")
-            {
-            gtQRGIFSettings->PixelFormat = pf8bit;
             ExportToGIF(*page, fileName.c_str(), false, true);
-            }
          else if (ExtractFileExt(fileName.c_str()) == ".rtf")
             {
             gtQRRTFSettings->ExportImageFormat = ifBMP;
