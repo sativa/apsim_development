@@ -6,9 +6,10 @@
 #include <general/TreeNodeIterator.h>
 #include <general/xml.h>
 
-#include <ComponentInterface/MessageData.h>
-#include <ComponentInterface/MessageDataExt.h>
-#include <ComponentInterface/Type.h>
+#include <ComponentInterface\MessageData.h>
+#include <ComponentInterface\MessageDataExt.h>
+#include <ComponentInterface\Type.h>
+#include <ComponentInterface\Interfaces.h>
 
 namespace protocol {
 
@@ -16,6 +17,27 @@ namespace protocol {
 #for_each type
 #define type.nameTypeDDML \
 type.cddml
+#if (type.name <> null)
+class Apsimtype.name : public IData
+   {
+   private:
+      type.ckind& value;
+   public:
+      Apsimtype.name(type.ckind& v) : value(v) { }
+	virtual void pack(protocol::MessageData& messageData)
+	   {
+      messageData << value;
+	   }
+	virtual void unpack(protocol::MessageData& messageData)
+	   {
+      messageData >> value;
+	   }
+	virtual const char* ddml()
+	   {
+	   return type.cddml;
+	   }
+   };
+#endif
 #endfor
 
 #for_each structure
