@@ -2,6 +2,7 @@
 #define InterfacesH
 
 //#include "IConfiguration.h"
+#include <ComponentInterface/MessageData.h>
 
 #include <string>
 
