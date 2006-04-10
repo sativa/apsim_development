@@ -105,6 +105,7 @@ class Roots : public PlantPart
    //Registration functions
    void getRootLength(protocol::Component *system, protocol::QueryValueData &qd);
    void getRLV(protocol::Component *system, protocol::QueryValueData &qd);
+   void getRP(protocol::Component *system, protocol::QueryValueData &qd);
 
    // phenology
    void phenologyEvent(int);

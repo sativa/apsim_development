@@ -37,6 +37,8 @@ void Roots::doRegistrations(void)
                     &Roots::getRootLength, "mm/mm2", "Root length");
    setupGetFunction(plantInterface,"rlv", protocol::DTsingle, true,
                     &Roots::getRLV, "mm/mm3", "Root length density in layers");
+   setupGetFunction(plantInterface,"root_proportion", protocol::DTsingle, true,
+                    &Roots::getRP, "0-1", "Root proportion in layers");
 
 
 #define setupGetVar plantInterface->addGettableVar
@@ -328,6 +330,18 @@ void Roots::getRootLength(protocol::Component *system, protocol::QueryValueData 
 void Roots::getRLV(protocol::Component *system, protocol::QueryValueData &qd)
    {
    system->sendVariable(qd, protocol::vector<float>(&rlvFactor[0], &rlvFactor[0]+ rlvFactor.size()));
+   }
+void Roots::getRP(protocol::Component *system, protocol::QueryValueData &qd)
+   {
+   protocol::vector<float> rp;
+
+   for (int layer = 0; layer < nLayers; layer++)
+      if (layer <= currentLayer)
+        rp.push_back(RootProportionInLayer(layer));
+      else 
+        rp.push_back(0.0);  
+
+   system->sendVariable(qd, rp);
    }
 //------------------------------------------------------------------------------------------------
 float Roots::calcPDemand(void)
