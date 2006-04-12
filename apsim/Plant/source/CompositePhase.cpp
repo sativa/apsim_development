@@ -32,6 +32,17 @@ float compositePhase::getTT(void) const
    return tt;
    }
 
+float compositePhase::getTTTarget(void) const
+//=======================================================================================
+   {
+   float tttarget = 0.0;
+   for (vector<pPhase *>::const_iterator phase = phases.begin(); phase !=  phases.end(); phase++)
+      tttarget += (*phase)->getTTTarget();
+
+   return tttarget;
+   }
+
+
 float compositePhase::getDays(void) const
 //=======================================================================================
    {

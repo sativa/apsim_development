@@ -94,6 +94,7 @@ class PlantPhenology : public plantThing {
    int   daysInPhase(const string &phaseName); //XX should be private
    int   daysInCurrentPhase(void);             //XX should be private
    float ttInPhase(const string &phaseName);   //XX should be private
+   float TTTargetInPhase(const string &phaseName);
    float ttInCurrentPhase(void);               //XX should be private
 
    float stageNumber(void) {return currentStage;};//XXX a bad thing

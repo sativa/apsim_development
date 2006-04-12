@@ -34,7 +34,7 @@
 #include "RootPart.h"
 #include "Observers.h"
 #include "ReproStruct.h"
-#include "MaizePhenology.h"
+#include "GenericPhenology.h"
 #include "BroccoliPhenology.h"
 
 using namespace std;
@@ -92,8 +92,8 @@ void Plant::doInit1(protocol::Component *s)
        phenology = new TTTPhenology(parent, this);
     else if (scratch == "tttrate")
        phenology = new TTTRatePhenology(parent, this);
-    else if (scratch == "maize")
-       phenology = new MaizePhenology(parent, this);
+    else if (scratch == "generic")
+       phenology = new GenericPhenology(parent, this);
     else if (scratch == "wheat")
        phenology = new WheatPhenology(parent, this);
     else if (scratch == "broccoli")

@@ -15,6 +15,7 @@ class compositePhase
       bool contains(const pPhase &p) const;
       bool isEmpty(void) const {return phases.size() == 0;};
       float getTT(void) const;
+      float getTTTarget(void) const;
       float getDays(void) const;
    };
 

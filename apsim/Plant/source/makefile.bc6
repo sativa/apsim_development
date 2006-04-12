@@ -16,7 +16,8 @@ PlantNitrogen.obj PlantPhenology.obj PlantRoot.obj PlantTemp.obj PlantUtility.ob
 Data.obj Science.obj Date.obj PlantComms.obj PlantP.obj PlantFruit.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj \
 WheatPhenology.obj Environment.obj TTTPhenology.obj CropPhenology.obj TTTRatePhenology.obj Observers.obj \
 LeafPart.obj StemPart.obj PodPart.obj MealPart.obj OilPart.obj GrainPart.obj CompositePart.obj \
-FixedPhase.obj VernalPhase.obj BroccoliPhenology.obj MaizePhenology.obj RootPart.obj FruitCohort.obj
+FixedPhase.obj VernalPhase.obj BroccoliPhenology.obj RootPart.obj FruitCohort.obj \
+GenericPhenology.obj PhotoPhase.obj EmergentPhase.obj LeafAppPhase.obj Output.obj OutputVariable.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
@@ -95,7 +96,12 @@ PodPart.obj: PodPart.cpp PodPart.h
 MealPart.obj: MealPart.cpp MealPart.h
 OilPart.obj: OilPart.cpp OilPart.h
 GrainPart.obj: GrainPart.cpp GrainPart.h CompositePart.h
-MaizePhenology.obj: MaizePhenology.cpp MaizePhenology.h
 BroccoliPhenology.obj: BroccoliPhenology.cpp BroccoliPhenology.h
 FixedPhase.obj: FixedPhase.cpp FixedPhase.h
 VernalPhase.obj: VernalPhase.cpp VernalPhase.h
+GenericPhenology.obj: GenericPhenology.cpp GenericPhenology.h
+PhotoPhase.obj: PhotoPhase.cpp PhotoPhase.h
+EmergentPhase.obj: EmergentPhase.cpp EmergentPhase.h
+LeafAppPhase.obj: LeafAppPhase.cpp LeafAppPhase.h
+Output.obj: Output.cpp Output.h
+OutputVariable.obj: OutputVariable.cpp OutputVariable.h

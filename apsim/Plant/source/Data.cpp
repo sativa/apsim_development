@@ -133,6 +133,47 @@ float interpolationFunction::value(float v)
    return y[sector-1] + slope * (v - x[sector - 1]);
    }
 
+
+// Return an integral for a linear interpolation function
+float interpolationFunction::integral(float v1, float v2)
+   {
+   if (x.size() == 0 || y.size() == 0)
+       throw std::runtime_error(string("Uninitialised call to interpolationFunction:") + xName + " and " + yName);
+
+   if (x.size() != y.size())
+       throw std::runtime_error(string("Mismatched vector size in ") + xName + " and " + yName);
+
+   // find which sector of the function that v1 falls in
+   unsigned sector1;
+   for(sector1 = 0;sector1 < x.size();sector1++)
+      if(v1 < x[sector1] || isEqual(v1,x[sector1]))break;
+   // find which sector of the function that v2 falls in
+   unsigned sector2;
+   for(sector2 = 0;sector2 < x.size();sector2++)
+      if(v2 < x[sector2] || isEqual(v2,x[sector2]))break;
+
+   float I = 0; // Integral value
+   unsigned s;
+   for (s = sector1;s <= sector2; s++)
+      {
+      float xstart;
+      if (s>0)
+         xstart = max(x[s-1],v1);
+      else
+         xstart = v1;
+
+      float xend;
+      if (s>x.size()-1)
+         xend = v2;
+      else
+         xend = min(x[s],v2);
+
+      I = I + (xend-xstart)*(value(xend)+value(xstart))/2.0;
+      }
+   return I;
+   }
+
+
 // Return a y value via table lookup
 float lookupFunction::value(float v)
    {
