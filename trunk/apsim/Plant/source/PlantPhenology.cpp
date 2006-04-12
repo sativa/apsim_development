@@ -14,6 +14,11 @@
 #include "Environment.h"
 #include "FixedPhase.h"
 #include "VernalPhase.h"
+#include "PhotoPhase.h"
+#include "EmergentPhase.h"
+#include "LeafAppPhase.h"
+#include "OutputVariable.h"
+#include "iostream.h"
 
 PlantPhenology::PlantPhenology(PlantComponent *s, plantInterface *p)
    {
@@ -52,6 +57,21 @@ void PlantPhenology::readConstants (protocol::Component *s, const string &sectio
          VernalPhase* vernal = new VernalPhase(phase_names[i]);
          phases.push_back(vernal);
          }
+      else if(phase_types[i]=="photo")
+         {
+         PhotoPhase* photo = new PhotoPhase(phase_names[i]);
+         phases.push_back(photo);
+         }
+      else if(phase_types[i]=="emergent")
+         {
+         EmergentPhase* emerg = new EmergentPhase(phase_names[i]);
+         phases.push_back(emerg);
+         }
+      else if(phase_types[i]=="leafapp")
+         {
+         LeafAppPhase* leafapp = new LeafAppPhase(phase_names[i]);
+         phases.push_back(leafapp);
+         }
       else
          {
          pPhase* newPhase = new FixedPhase(phase_names[i]);
@@ -85,11 +105,23 @@ void PlantPhenology::readConstants (protocol::Component *s, const string &sectio
       composites.insert(string2composite::value_type(*name,composite));
       }
 
-   // Register stage names as events (eg. flowering)
+
    for (unsigned i = 0; i != phases.size(); i++)
       {
+   // Register stage names as events (eg. flowering)
       s->addRegistration(RegistrationType::event, phases[i]->name().c_str(),
                          "", "", "");
+
+      std::vector <Output*> Outputs;
+      phases[i]->GetOutputs(Outputs);
+      for (unsigned o=0; o!=Outputs.size();o++)
+         {
+         OutputVariable *Variable = dynamic_cast<OutputVariable*> (Outputs[o]);
+         cout << Variable ;
+         parentPlant->addGettableVar(Outputs[o]->Name.c_str(), *((float*)Variable->Variable), Outputs[o]->Units.c_str(), Outputs[o]->Description.c_str());
+         delete Outputs[o];
+         }
+
       }
 };
 
@@ -206,7 +238,7 @@ float PlantPhenology::ttInPhase(const string &phaseName)
          pPhase *phase = find(phaseName);
          if (phase == NULL)
          {
-            throw std::runtime_error("unknown phase name2 " + phaseName);
+            throw std::runtime_error("unknown phase name " + phaseName);
          }
          else
          {
@@ -214,7 +246,28 @@ float PlantPhenology::ttInPhase(const string &phaseName)
    	   }
    	}
    }
-
+float PlantPhenology::TTTargetInPhase(const string &phaseName)
+   {
+      // See if it's a composite
+      compositePhase phaseGroup = composites[phaseName];
+      if (!phaseGroup.isEmpty())
+      {
+         return phaseGroup.getTTTarget();
+      }
+      else
+      {
+         // No, see if the stage is known at all to us
+         pPhase *phase = find(phaseName);
+         if (phase == NULL)
+         {
+            throw std::runtime_error("unknown phase name " + phaseName);
+         }
+         else
+         {
+   	      return phase->getTTTarget();
+   	   }
+   	}
+   }
 float PlantPhenology::ttInCurrentPhase(void)
    {
 	const pPhase *current = phases[currentStage];

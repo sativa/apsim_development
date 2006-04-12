@@ -3,6 +3,10 @@
 
 #include <string>
 #include "environment.h"
+#include "output.h"
+
+class PlantPhenology;
+
 // Terminology:
 // A "stage" is a point in time.
 // A "phase" is the period between two stages.
@@ -37,7 +41,10 @@ class pPhase
      virtual string description() const {return "";};
      virtual void readCultivarParameters(protocol::Component *s, const string & cultivar){};
      virtual void readSpeciesParameters (protocol::Component *, std::vector<string> &){};
-     virtual void updateTTTargets(const environment_t &e){};
+     virtual void updateTTTargets(PlantPhenology &parent, const environment_t &e){};
+     virtual void onSow(protocol::ApsimVariant incomingApsimVariant){};
+     virtual void setupTTTarget(void){};
+     virtual void GetOutputs(std::vector <Output*> &Outputs){};
    };
 
 bool operator == (const pPhase &a, const pPhase &b);

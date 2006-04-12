@@ -7,39 +7,57 @@
 #include "PlantLibrary.h"
 #include "PlantPhenology.h"
 #include "Environment.h"
+#include <iostream.h>
 
-void MaizePhenology::zeroAllGlobals(void)
+void GenericPhenology::zeroAllGlobals(void)
 //=======================================================================================
    {
    CropPhenology::zeroAllGlobals();
    }
 
 
-void MaizePhenology::readConstants (protocol::Component *s, const string &section)
+void GenericPhenology::readConstants (protocol::Component *s, const string &section)
 //=======================================================================================
    {
    CropPhenology::readConstants(s, section);
-   s->writeString("phenology model: TTT");
+   s->writeString("phenology model: Generic");
    }
 
-void MaizePhenology::setupTTTargets(void)
+void GenericPhenology::setupTTTargets(void)
 //=======================================================================================
 // static TT targets (called at sowing)
    {
+   for(unsigned i=0; i!= phases.size();i++)
+      {
+      phases[i]->setupTTTarget();
+      }
    }
 
-void MaizePhenology::readCultivarParameters(protocol::Component *s, const string & cultivar)
+void GenericPhenology::readCultivarParameters(protocol::Component *s, const string & cultivar)
 //=======================================================================================
    {
    CropPhenology::readCultivarParameters(s, cultivar);
-
    for(unsigned i=0; i!= phases.size();i++)
       {
       phases[i]->readCultivarParameters(s, cultivar);
       }
    }
 
-void MaizePhenology::readSpeciesParameters (protocol::Component *s, vector<string> &sections)
+void GenericPhenology::onSow(unsigned &, unsigned &, protocol::Variant &v)
+//=======================================================================================
+   {
+   protocol::ApsimVariant incomingApsimVariant(parentPlant);
+   incomingApsimVariant.aliasTo(v.getMessageData());
+
+   for(unsigned i=0; i!= phases.size();i++)
+      {
+      phases[i]->onSow(incomingApsimVariant);
+      }
+   setupTTTargets();
+   currentStage = 1.0;
+   das = 0;
+   }
+void GenericPhenology::readSpeciesParameters (protocol::Component *s, vector<string> &sections)
 //=======================================================================================
    {
    CropPhenology::readSpeciesParameters (s, sections);
@@ -49,7 +67,7 @@ void MaizePhenology::readSpeciesParameters (protocol::Component *s, vector<strin
       }
    }
 
-void MaizePhenology::writeCultivarInfo (PlantComponent *systemInterface)
+void GenericPhenology::writeCultivarInfo (PlantComponent *systemInterface)
 //=======================================================================================
    {
    string s;
@@ -57,17 +75,18 @@ void MaizePhenology::writeCultivarInfo (PlantComponent *systemInterface)
    for(unsigned i=0;i!=phases.size();i++)
       {
       //s += "   tt_"+phases[i]->name()+" = "+ftoa(phases[i]->getTTTarget(), "10.0") + " (dd)\n";
+      s += phases[i]->name() +"\n";
       s += phases[i]->description()+ " \n";
       }
    systemInterface->writeString (s.c_str());
    }
 
-float MaizePhenology::TT(const environment_t &e)
+float GenericPhenology::TT(const environment_t &e)
    {
    return linint_3hrly_temp (e.maxt, e.mint, &y_tt);
    }
 
-void MaizePhenology::process (const environment_t &e, const pheno_stress_t &ps)
+void GenericPhenology::process (const environment_t &e, const pheno_stress_t &ps)
 //=======================================================================================
 //     Use temperature, photoperiod and genetic characteristics
 //     to determine when the crop begins a new growth phase.
@@ -130,7 +149,7 @@ void MaizePhenology::process (const environment_t &e, const pheno_stress_t &ps)
    float p_index = currentStage;           //  (INPUT) current p_index no
    float dlt_index = dltStage;       //  (INPUT) increment in p_index no
 
-
+   {
    int current_index;           // current index number ()
    float fract_in_old;           // fraction of value in last index
    float index_devel;            // fraction_of of current index elapsed ()
@@ -165,21 +184,21 @@ void MaizePhenology::process (const environment_t &e, const pheno_stress_t &ps)
       {
       phases[current_index]->add(1.0, value);
       }
-
+   }
    if (phase_devel >= 1.0)
       currentStage = floor(currentStage + 1.0);
    else
       currentStage = new_stage;
 
    if ((unsigned int)currentStage >= phases.size() || currentStage < 0.0)
-     throw std::runtime_error("stage has gone wild in MaizePhenology::process()..");
+     throw std::runtime_error("stage has gone wild in GenericPhenology::process()..");
 
    if ((int)currentStage != (int)previousStage) plant->doPlantEvent(phases[(int)currentStage]->name());
 
    das++;
    }
 
-void MaizePhenology::onRemoveBiomass(float removeBiomPheno)
+void GenericPhenology::onRemoveBiomass(float removeBiomPheno)
 //=======================================================================================
    {
    if (initialOnBiomassRemove == true)
@@ -212,7 +231,9 @@ void MaizePhenology::onRemoveBiomass(float removeBiomPheno)
       {
       pPhase* phase = *rphase;
       if (phase->isEmpty())
+         {
          // Do nothing
+         }
       else
          {
          float ttCurrentPhase = phase->getTT();
@@ -237,14 +258,14 @@ void MaizePhenology::onRemoveBiomass(float removeBiomPheno)
 
    }
 
-void MaizePhenology::prepare (const environment_t &e)
+void GenericPhenology::prepare (const environment_t &e)
 //=======================================================================================
    {
    CropPhenology::prepare(e);
    photoperiod = e.daylength (twilight);
 
    for(unsigned i=0; i!= phases.size();i++)
-      phases[i]->updateTTTargets(e);
+      phases[i]->updateTTTargets(*this,e);
 
    }
 
