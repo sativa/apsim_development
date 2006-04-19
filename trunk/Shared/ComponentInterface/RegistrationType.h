@@ -10,7 +10,7 @@ class __declspec(dllexport) RegistrationType
    {
    public:
       enum Type {get=1,         respondToGet=2,
-                 set=8,         respondToSet=3,
+                 set=9,         respondToSet=3,
                  event=5,       respondToEvent=6,
                                 respondToGetSet=4,
                                 invalid=100};

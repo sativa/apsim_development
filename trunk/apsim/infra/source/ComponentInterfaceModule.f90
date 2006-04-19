@@ -16,7 +16,7 @@ module ComponentInterfaceModule
 
    integer, parameter :: getVariableReg = 1
    integer, parameter :: respondToGetReg = 2
-   integer, parameter :: setVariableReg = 8
+   integer, parameter :: setVariableReg = 9
    integer, parameter :: respondToSetReg = 3
    integer, parameter :: respondToGetSetReg = 4
    integer, parameter :: eventReg = 5
