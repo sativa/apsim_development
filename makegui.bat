@@ -13,11 +13,6 @@ cd %APSROOT%
 %APSROOT%\tools\segmake\segmake %APSROOT%\all.bpg
 
 
-rem --------- Build old HOWWET
-echo ------Compiling  %APSROOT%\Howwet\source >> %APSROOT%\gui.out
-cd %APSROOT%\howwet\source
-make -s -f howwet.mak >> %APSROOT%\gui.out
-
 rem --------- Restore path.
 cd %APSROOT%
 call p.bat
