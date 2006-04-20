@@ -8,7 +8,7 @@
       <filename name="filename">NZIrrigation.sum</filename>
     </summaryfile>
     <metfile name="met">
-      <filename name="filename">D:\development\apsim\SweetCorn\Validation\Lincoln9192.met</filename>
+      <filename name="filename">%apsuite\apsim\SweetCorn\Validation\Lincoln9192.met</filename>
     </metfile>
     <area name="FI">
       <registrations name="global" />
@@ -333,10 +333,6 @@
         </rule>
       </manager>
     </area>
-    <log name="log">
-      <debugoutput name="debugoutput">on</debugoutput>
-      <filename name="filename">log.txt</filename>
-    </log>
     <area name="FD">
       <registrations name="global" />
       <fertiliser name="fertiliser" />
