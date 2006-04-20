@@ -1437,6 +1437,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 *+ Local Variables
       logical Stored                   ! Was message stored in postbox properly?
       character Our_string*1000        ! Copy of string passed in.
+      character Variable*(1000)
       character Variable_name*(MAX_VARIABLE_NAME_SIZE)
                                        ! Our variable name
       character Units*100              ! Units
@@ -1451,15 +1452,11 @@ C     Last change:  P    25 Oct 2000    9:26 am
 *- Implementation Section ----------------------------------
 
       call push_routine(This_routine)
-      ! Do a quick check for an equals sign.
-
 
       ! Make copy of string passed in.
-
       call assign_string(Our_string, Data_string)
 
       ! Loop through each variable on data string and store in postbox.
-
 
 10    continue
       call Get_next_variable (Our_string, Variable_name,
@@ -1469,13 +1466,18 @@ C     Last change:  P    25 Oct 2000    9:26 am
          ! Found a variable all right.  Extract units and store variable.
 
          call Split_off_units(Variable_values, Units)
-
          !test if array and store in array and post char array
          ! otherwise store in variable and send as char var
-         call String_to_char_array(Variable_values
-     :                              , array
-     :                              , MAX_CHAR_ARRAY_SIZE
-     :                              , numvals)
+
+         numvals = 1
+         call Split_line_with_quotes(Variable_values, array(numvals),
+     :                               Variable_values, ' ')
+         do while (Variable_values .ne. ' ')
+            numvals = numvals + 1
+            call Split_line_with_quotes(Variable_values, array(numvals),
+     :                                  Variable_values, ' ')
+         enddo
+
          if (numvals > 1) then
             call Post_char_array (Variable_name
      :                              , units
@@ -1496,17 +1498,10 @@ C     Last change:  P    25 Oct 2000    9:26 am
 
          Stored = .true.
       endif
-
       Store_message_data = Stored
       call pop_routine(This_routine)
       return
       end function
-
-c      subroutine check_registration(Action)
-c      character Action*(*)
-c
-c      return
-c      end subroutine
 
 ! ====================================================================
 ! Replace all local variables names in the specified string with the
@@ -1545,17 +1540,6 @@ c      end subroutine
                   value = g%local_variable_values(localIndex)
                endif
             else
-               value = value(2:)
-               posQuote = index(value, '"')
-               if (posQuote <= 0) then
-                  posQuote = index(value, '''')
-               endif
-               if (posQuote <= 0) then
-                  call Fatal_error(ERR_user,
-     .             'Missing closing quote on action line in manager.')
-               else
-                  value(posQuote:) = ' '
-               endif
             endif
 
             ! append all the bits for the current key to a new string.
