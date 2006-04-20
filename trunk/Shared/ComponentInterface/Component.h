@@ -529,6 +529,7 @@ class __declspec(dllexport) Component
              string msg = string("Cannot find a parameter in any of the files/sections\n"
                                  "specified in the control file.\n"
                                  "Parameter name = ") + variableName;
+             msg += "\nSection name = " + sectionName;
              error(msg.c_str(), true);
              }
          return false;
@@ -579,6 +580,7 @@ class __declspec(dllexport) Component
              string msg = string("Cannot find a parameter in any of the files/sections\n"
                                  "specified in the control file.\n"
                                  "Parameter name = ") + variableName;
+             msg += "\nSection name = " + sectionName;
              error(msg.c_str(), true);
              }
          return false;
@@ -648,6 +650,8 @@ class __declspec(dllexport) Component
             std::string msg = string("Cannot find a parameter in any of the files/sections\n"
                                      "specified in the control file.\n"
                                      "Parameter name = ") + variableName;
+            for (unsigned i = 0; i != sections.size(); i++)
+                msg += "\nSection name = " + sections[i];
             error(msg.c_str(), true);
             }
          return false;
@@ -669,6 +673,8 @@ class __declspec(dllexport) Component
             std::string msg = string("Cannot find a parameter in any of the files/sections\n"
                                  "specified in the control file.\n"
                                  "Parameter name = ") + name;
+            for (unsigned i = 0; i != sects.size(); i++)
+                msg += "\nSection name = " + sects[i];
             error(msg.c_str(), true);
             }
          return false;
@@ -691,6 +697,8 @@ class __declspec(dllexport) Component
             string msg = string("Cannot find a parameter in any of the files/sections\n"
                                  "specified in the control file.\n"
                                  "Parameter name = ") + variableName;
+            for (unsigned i = 0; i != sections.size(); i++)
+                msg += "\nSection name = " + sections[i];
             error(msg.c_str(), true);
             }
          return false;

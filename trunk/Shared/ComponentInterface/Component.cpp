@@ -465,7 +465,7 @@ bool Component::readParameter
       {
       if (!optional)
          {
-         char msg[200];
+         char msg[600];
          strcpy(msg, "Cannot find a parameter in any of the files/sections\n"
                      "specified in the control file.\n"
                      "Parameter name = ");
