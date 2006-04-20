@@ -27,7 +27,7 @@ outputfrequency = post
 
 [Test2Manager.manager.end_of_day]
    if (day = 1) then
-      wheat sow cultivar = cultivar with spaces, plants = 120, sowing_depth = 30 (mm)
+      wheat sow cultivar = 'cultivar with spaces', plants = 120, sowing_depth = 30 (mm)
    endif
 
 [test2.wheat.parameters]
