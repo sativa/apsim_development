@@ -8,7 +8,7 @@
     <RESFILES value="ConToSim.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
-    <LIBFILES value="..\..\Shared\ApsimShared\ApsimShared.lib"/>
+    <LIBFILES value="..\..\Shared\ApsimShared\ApsimShared.lib ..\..\Shared\general\general.lib"/>
     <LIBRARIES value="TMSC6.lib"/>
     <SPARELIBS value="vcl.lib rtl.lib TMSC6.lib vclx.lib dbrtl.lib vcldb.lib"/>
     <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi adortl.bpi vcldb.bpi 
@@ -51,6 +51,7 @@
       <FILE FILENAME="ConToSim.bpf" FORMNAME="" UNITNAME="ConToSim" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ConToSim.cpp" FORMNAME="" UNITNAME="ConToSim" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -62,7 +63,7 @@ AutoIncBuild=1
 MajorVer=1
 MinorVer=0
 Release=0
-Build=2
+Build=3
 Debug=0
 PreRelease=0
 Special=0
@@ -74,7 +75,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=APSRU
 FileDescription=APSIM Report Viewer
-FileVersion=1.0.0.2
+FileVersion=1.0.0.3
 InternalName=
 LegalCopyright=
 LegalTrademarks=
@@ -135,7 +136,7 @@ Item0=.
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=&quot;D:\development\apsim\Wheat\Sensibility\wheat.con&quot; &quot;APSIM.Dalby 600mm&quot;
+RunParams=\development\apsim\Wheat\Sample\wheat.con
 Launcher=
 UseLauncher=0
 DebugCWD=
@@ -150,5 +151,10 @@ RemoteDebug=0
 ShowInfoMsgs=0
 LinkDebugVcl=0
 LinkCGLIB=0
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
   </IDEOPTIONS>
 </PROJECT>

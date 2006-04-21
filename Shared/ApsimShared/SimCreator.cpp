@@ -9,8 +9,8 @@
 #include <general\path.h>
 #include <general\stringtokenizer.h>
 #include <general\stl_functions.h>
-#include "ApsimSettings.h"
-#include "ApsimVersion.h"
+#include <ApsimShared/ApsimSettings.h>
+#include <ApsimShared/ApsimVersion.h>
 #include <dir.h>
 #pragma package(smart_init)
 
@@ -67,11 +67,10 @@ SimCreator::~SimCreator()
 // Convert specified control file to a series
 // of sim files.
 // -------------------------------------------
-void SimCreator::ConToSim(const std::string& controlFileName,
-                           const std::string& outputDirectory)
+void SimCreator::ConToSim(const std::string& controlFileName)
    {
    vector<string> emptySectionList;
-   ConToSimInternal(controlFileName, emptySectionList, outputDirectory);
+   ConToSimInternal(controlFileName, emptySectionList);
    }
 
 // -------------------------------------------
@@ -79,10 +78,9 @@ void SimCreator::ConToSim(const std::string& controlFileName,
 // of sim files.
 // -------------------------------------------
 void SimCreator::ConToSim(const std::string& controlFileName,
-                          vector<string>& sectionNames,
-                           const std::string& outputDirectory)
+                          vector<string>& sectionNames)
    {
-   ConToSimInternal(controlFileName, sectionNames, outputDirectory);
+   ConToSimInternal(controlFileName, sectionNames);
    }
 
 // -------------------------------------------
@@ -90,12 +88,11 @@ void SimCreator::ConToSim(const std::string& controlFileName,
 // of sim files.
 // -------------------------------------------
 void SimCreator::ConToSim(const std::string& controlFileName,
-                          const std::string& sectionName,
-                           const std::string& outputDirectory)
+                          const std::string& sectionName)
    {
    vector<string> sectionNames;
    sectionNames.push_back(sectionName);
-   ConToSimInternal(controlFileName, sectionNames, outputDirectory);
+   ConToSimInternal(controlFileName, sectionNames);
    }
 
 // -------------------------------------------
@@ -103,8 +100,7 @@ void SimCreator::ConToSim(const std::string& controlFileName,
 // of sim files.
 // -------------------------------------------
 void SimCreator::ConToSimInternal(const std::string& controlFileName,
-                                  const std::vector<std::string>& conSections,
-                                  const std::string& outputDirectory)
+                                  const std::vector<std::string>& conSections)
    {
    ApsimControlFile con(controlFileName);
    vector<string> sectionNames = conSections;
@@ -115,7 +111,8 @@ void SimCreator::ConToSimInternal(const std::string& controlFileName,
       int simNumber = 0;
       if (sectionNames.size() > 1)
          simNumber = s + 1;
-      chdir(Path(controlFileName.c_str()).Get_directory().c_str());
+      ControlFileDirectory = Path(controlFileName.c_str()).Get_directory();
+
       string simNumberString;
       if (simNumber > 0)
          {
@@ -123,16 +120,20 @@ void SimCreator::ConToSimInternal(const std::string& controlFileName,
          itoa(simNumber, buffer, 10);
          simNumberString = buffer;
          }
-      string simFileName;
-      if (outputDirectory == "")
-         simFileName = Path(controlFileName).Get_name_without_ext() + simNumberString + ".sim";
-      else
-         simFileName = outputDirectory + "\\" + Path(controlFileName).Get_name_without_ext() + simNumberString + ".sim";
+      string simFileName = Path(controlFileName).Get_name_without_ext() + simNumberString + ".sim";
       ofstream out(simFileName.c_str());
 
       out << "<?xml version=\"1.0\"?>\n";
       out << "<simulation executable=\"%apsuite\\apsim\\protocolmanager\\lib\\protocolmanager.dll\" version=\"" << getApsimVersion() <<  "\">\n";
-      out << "   <title>" << con.getTitle(sectionNames[s]) << "</title>\n";
+      out << "   <title>";
+      string Title = con.getTitle(sectionNames[s]);
+      bool UseCDATA = (Title.find_first_of("<>&") != string::npos);
+      if (UseCDATA)
+         out << "<![CDATA[";
+      out << Title;
+      if (UseCDATA)
+         out << "]]>";
+      out << "</title>\n";
 
       vector<ApsimControlFile::ModuleInstance> moduleInstances;
       con.getAllModuleInstances(sectionNames[s], moduleInstances);
@@ -203,12 +204,19 @@ void SimCreator::ConvertConModule(ApsimControlFile::ModuleInstance& moduleInstan
 // matching sections in the specified file.
 // --------------------------------------------
 void SimCreator::GetMatchingParFileSections(const std::string& instanceName,
-                                             const std::string& fileName,
+                                             const std::string& file,
                                              const std::string& sectionName,
                                              std::vector<SimCreatorSection*>& outputSections)
    {
-   if (fileName != "")
+   if (file != "")
       {
+      string fileName = file;
+      if (!Path(fileName).Exists())
+         {
+         Path FullPath(ControlFileDirectory);
+         FullPath.Append_path(file.c_str());
+         fileName = FullPath.Get_path();
+         }
       vector<ParFile*>::iterator i = find_if(convertedParFiles.begin(), convertedParFiles.end(),
                                             PEqualToFileName<ParFile>(fileName));
       if (i == convertedParFiles.end())

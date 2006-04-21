@@ -2,7 +2,7 @@
 
 #ifndef SimCreatorH
 #define SimCreatorH
-#include "ApsimControlFile.h"
+#include <ApsimShared\ApsimControlFile.h>
 
 #include "SimCreatorSection.h"
 //---------------------------------------------------------------------------
@@ -14,21 +14,19 @@ class __declspec(dllexport) SimCreator
       SimCreator(bool NewFormat) : newFormat(NewFormat) { }
       ~SimCreator();
 
-      void ConToSim(const std::string& controlFileName,
-                    const std::string& outputDirectory);
+      void ConToSim(const std::string& controlFileName);
 
       void ConToSim(const std::string& controlFileName,
-                    vector<string>& sectionNames,
-                    const std::string& outputDirectory);
+                    vector<string>& sectionNames);
 
       void ConToSim(const std::string& controlFileName,
-                    const std::string& sectionName,
-                    const std::string& outputDirectory);
+                    const std::string& sectionName);
 
       std::string convertIniToSim(const std::string& includeFileName);
 
    private:
       bool newFormat;
+      std::string ControlFileDirectory;
 
       // ------------------------------------------------------
       // Encapsulates a converted APSIM parameter file
@@ -56,8 +54,7 @@ class __declspec(dllexport) SimCreator
       std::vector<ParFile*> convertedParFiles;
 
       void ConToSimInternal(const std::string& controlFileName,
-                            const std::vector<std::string>& sectionNames,
-                            const std::string& outputDirectory);
+                            const std::vector<std::string>& sectionNames);
 
       // -------------------------------------------
       // Create a bit of .sim file (.xml format) for

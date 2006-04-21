@@ -18,9 +18,9 @@ OBJFILES = ConToSim.obj
 RESFILES = ConToSim.res
 MAINSOURCE = ConToSim.bpf
 RESDEPEN = $(RESFILES)
-LIBFILES = $(APSROOT)\Shared\ApsimShared\ApsimShared.lib
-IDLFILES = 
-IDLGENFILES = 
+LIBFILES = $(APSROOT)\Shared\ApsimShared\ApsimShared.lib $(APSROOT)\Shared\General\General.lib
+IDLFILES =
+IDLGENFILES =
 LIBRARIES = TMSC6.lib
 PACKAGES = vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi adortl.bpi vcldb.bpi \
     qrpt.bpi bdertl.bpi vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi ibxpress.bpi \
@@ -28,8 +28,8 @@ PACKAGES = vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi adortl.bpi vcldb.bpi \
     inetdbxpress.bpi inetdb.bpi nmfast.bpi bcbie.bpi soaprtl.bpi dclocx.bpi \
     dbexpress.bpi dbxcds.bpi bcb2kaxserver.bpi
 SPARELIBS = vcl.lib rtl.lib TMSC6.lib vclx.lib dbrtl.lib vcldb.lib
-DEFFILE = 
-OTHERFILES = 
+DEFFILE =
+OTHERFILES =
 # ---------------------------------------------------------------------------
 DEBUGLIBPATH = $(BCB)\lib\debug
 RELEASELIBPATH = $(BCB)\lib\release
@@ -46,9 +46,9 @@ PATHOBJ = .;$(LIBPATH)
 # ---------------------------------------------------------------------------
 CFLAG1 = -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWC \
     -tWM -c
-IDLCFLAGS = 
+IDLCFLAGS =
 PFLAGS = -$Y+ -$W -$O- -$A8 -v -JPHNE -M
-RFLAGS = 
+RFLAGS =
 AFLAGS = /mx /w2 /zi
 LFLAGS = -l. -D"" -ap -Tpe -x -Gn -v
 # ---------------------------------------------------------------------------
