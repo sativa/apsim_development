@@ -23,8 +23,9 @@ using namespace protocol;
 
 static const unsigned int MAX_NESTED_COMPLETES = 10;
 static const char* ERROR_TYPE = "<type name=\"error\">"
+                                   "<field name=\"fatal\" kind=\"boolean\"/>"
                                    "<field name=\"message\" kind=\"string\"/>"
-                                "</type>";
+                                   "</type>";
 
 static const char* SUMMARY_FILE_WRITE_TYPE = "<type name=\"SummaryFileWrite\">"
                                              "   <field name=\"componentName\" kind=\"string\"/>"
@@ -132,7 +133,14 @@ void Component::setup(const char *dllname,
 
 // ------------------------------------------------------------------
 void Component::messageToLogic(const Message* message)
-{
+   {
+   // We need to keep track of bits of the message because the FARMWI$E infrastructure
+   // doesn't guarantee that a message is still valid at the end of this method.
+   // eg. it deletes the Init1 message before we get to test the ack flag at the bottom.
+   bool ack = message->toAcknowledge;
+   unsigned fromID = message->from;
+   unsigned msgID = message->messageID;
+
 try {
    MessageData messageData(message);
    switch (message->messageType)
@@ -248,10 +256,8 @@ try {
       }
 
    // if acknowledgement is required, then give it.
-   if (message->toAcknowledge)
-      sendMessage(newCompleteMessage(componentID,
-                                     message->from,
-                                     message->messageID));
+   if (ack)
+      sendMessage(newCompleteMessage(componentID, fromID, msgID));
    }
 catch (const std::exception &e)
    {
