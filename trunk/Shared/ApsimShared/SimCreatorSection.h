@@ -3,6 +3,8 @@
 #ifndef SimCreatorSectionH
 #define SimCreatorSectionH
 
+#include <set>
+#include <string>
 // ---------------------------------------
 // Encapsulates a section from a par file
 // that has been converted to sim format

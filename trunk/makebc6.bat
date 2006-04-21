@@ -52,6 +52,11 @@ cd %APSROOT%\apsrun\source
 echo ------Compiling  %APSROOT%\apsrun\source\contosim >> %APSROOT%\build.out
 cmd /c c:\PROGRA~1\Borland\CBUILD~1\Bin\make.exe -s -f contosim.mak  >> %APSROOT%\build.out
 
+REM -------Build TestAPSRun
+cd %APSROOT%\apsrun\source\test
+echo ------Compiling  %APSROOT%\apsrun\source\test\TestAPSRun >> %APSROOT%\build.out
+cmd /c c:\PROGRA~1\Borland\CBUILD~1\Bin\make.exe -s -f TestAPSRun.mak  >> %APSROOT%\build.out
+
 REM -------Everything else..
 cd %APSROOT%\apsim
 echo ------Compiling  %APSROOT%\apsim >> %APSROOT%\build.out

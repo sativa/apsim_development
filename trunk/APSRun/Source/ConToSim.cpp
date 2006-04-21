@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
          throw runtime_error("No .con file specified on the command line");
 
       SimCreator simCreator(true);
-      simCreator.ConToSim(conFileName, simNames, "");
+      simCreator.ConToSim(conFileName, simNames);
       }
    catch (const std::runtime_error& err)
       {
