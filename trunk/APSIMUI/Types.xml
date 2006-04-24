@@ -905,6 +905,7 @@
          <drop name="lupin"/>
          <drop name="maize"/>
          <drop name="mucuna"/>
+         <drop name="horsegram"/>
          <drop name="mungbean"/>
          <drop name="navybean"/>
          <drop name="peanut"/>
@@ -1517,6 +1518,36 @@
          </calldll>
       </ApsimToSim>
    </mungbean>
+   <horsegram>
+      <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\mungbean.jpg</Image>
+      <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="horsegram science documentation">../apsim/horsegram/docs/horsegram_science.htm</Documentation>
+      <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables link="plant.xml"/>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
+         <ini>%apsuite\apsim\horsegram\horsegram.ini</ini>
+         <calldll>
+            <dll>%apsuite\bin\soil.dll</dll>
+            <class>CSGeneral.Soil</class>
+            <method>ExportCropToSim</method>
+            <ConstructorArgument>soil</ConstructorArgument>
+            <argument>horsegram</argument>
+         </calldll>
+      </ApsimToSim>
+   </horsegram>
    <navybean>
       <UItype>empty</UItype>
       <IsCrop>Yes</IsCrop>
