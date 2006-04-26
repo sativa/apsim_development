@@ -51,6 +51,31 @@ static const char* doubleArrayType =  "<type kind=\"double\" array=\"T\"/>";
 static const char* stringType =       "<type kind=\"string\"/>";
 static const char* stringArrayType =  "<type kind=\"string\" array=\"T\"/>";
 static const char* logicalType =      "<type kind=\"boolean\"/>";
+static const char* IncorpFOMType =    "<type name = \"IncorpFOM\">" \
+                                      "   <field name=\"dlt_fom_type_name\" kind=\"string\"/>" \
+                                      "   <field name=\"dlt_fom_type_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlt_fom_type_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlt_fom_type_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"dlt_fom_type_value\" kind=\"string\"/>" \
+
+                                      "   <field name=\"dlt_fom_wt_name\" kind=\"string\"/>" \
+                                      "   <field name=\"dlt_fom_wt_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlt_fom_wt_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlt_fom_wt_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"dlt_fom_wt_value\" kind=\"single\" array=\"T\"/>" \
+
+                                      "   <field name=\"dlt_fom_n_name\" kind=\"string\"/>" \
+                                      "   <field name=\"dlt_fom_n_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlt_fom_n_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlt_fom_n_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"dlt_fom_n_value\" kind=\"single\" array=\"T\"/>" \
+
+                                      "   <field name=\"dlt_fom_p_name\" kind=\"string\"/>" \
+                                      "   <field name=\"dlt_fom_p_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlt_fom_p_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlt_fom_p_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"dlt_fom_p_value\" kind=\"single\" array=\"T\"/>" \
+                                      "</type>";
 
 /////////////These might be redundancies??//////////
 void push_routine (const char *) {};
@@ -210,19 +235,19 @@ void Plant::doIDs(void)
 
    // events.
    id.crop_chopped = parent->addRegistration(RegistrationType::event,
-                                   "crop_chopped", "",
+                                   "crop_chopped", crop_choppedTypeDDML,
                                    "", "");
    id.incorp_fom = parent->addRegistration(RegistrationType::event,
-                                   "incorp_fom", "",
+                                   "incorp_fom", IncorpFOMType,
                                    "", "");
 
    // we want to send these events out
-   id.add_residue_p = parent->addRegistration(RegistrationType::event,
-                                    "add_residue_p", "",
-                                    "", "");
-   id.incorp_fom_p = parent->addRegistration(RegistrationType::event,
-                                    "incorp_fom_p", "",
-                                    "", "");
+//   id.add_residue_p = parent->addRegistration(RegistrationType::event,
+//                                    "add_residue_p", "",
+//                                    "", "");
+//   id.incorp_fom_p = parent->addRegistration(RegistrationType::event,
+//                                    "incorp_fom_p", "",
+//                                    "", "");
    // we will want this variable
    // ids.layered_p_uptake = systemInterface->addRegistration(RegistrationType::get,
    //                                "layered_p_uptake", floatType,
