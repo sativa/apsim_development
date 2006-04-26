@@ -152,6 +152,10 @@ Public Class ApsimUIController
                 Case "memo"
                     Return New APSIMUI.MemoUI
 
+                Case "tracker"
+                    Return New APSIMUI.TrackerUI
+
+
                 Case Else
                     Return New GenericUI
 

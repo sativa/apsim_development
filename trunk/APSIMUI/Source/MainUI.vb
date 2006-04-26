@@ -141,6 +141,8 @@ Public Class MainUI
     Friend WithEvents btnMaximise As System.Windows.Forms.Button
     Friend WithEvents WindowToolTip As System.Windows.Forms.ToolTip
     Friend WithEvents btnRestore As System.Windows.Forms.Button
+    Friend WithEvents ToolboxesToolBarHelp As System.Windows.Forms.ToolBar
+    Friend WithEvents ToolboxesToolbarHelpButton As System.Windows.Forms.ToolBarButton
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MainUI))
@@ -156,10 +158,6 @@ Public Class MainUI
         Me.ToolBoxSplitter = New System.Windows.Forms.Splitter
         Me.SimulationToolBarPanel = New System.Windows.Forms.Panel
         Me.Splitter7 = New System.Windows.Forms.Splitter
-        Me.HelpPanel = New System.Windows.Forms.Panel
-        Me.HelpToolBar = New System.Windows.Forms.ToolBar
-        Me.ApsimHelpButton = New System.Windows.Forms.ToolBarButton
-        Me.HelpLabel = New System.Windows.Forms.Label
         Me.Splitter2 = New System.Windows.Forms.Splitter
         Me.SimulationPanel1 = New System.Windows.Forms.Panel
         Me.SimulationToolBar1 = New System.Windows.Forms.ToolBar
@@ -172,9 +170,15 @@ Public Class MainUI
         Me.SimulationToolBar2 = New System.Windows.Forms.ToolBar
         Me.RunButton = New System.Windows.Forms.ToolBarButton
         Me.SimulationLabel2 = New System.Windows.Forms.Label
+        Me.HelpPanel = New System.Windows.Forms.Panel
+        Me.HelpToolBar = New System.Windows.Forms.ToolBar
+        Me.ApsimHelpButton = New System.Windows.Forms.ToolBarButton
+        Me.HelpLabel = New System.Windows.Forms.Label
         Me.ToolboxesToolbarPanel = New System.Windows.Forms.Panel
         Me.Splitter3 = New System.Windows.Forms.Splitter
         Me.Panel3 = New System.Windows.Forms.Panel
+        Me.ToolboxesToolBarHelp = New System.Windows.Forms.ToolBar
+        Me.ToolboxesToolbarHelpButton = New System.Windows.Forms.ToolBarButton
         Me.ToolBoxToolBar = New System.Windows.Forms.ToolBar
         Me.ManageToolBoxesButton = New System.Windows.Forms.ToolBarButton
         Me.ToolboxLabel = New System.Windows.Forms.Label
@@ -201,9 +205,9 @@ Public Class MainUI
         Me.ToolBoxPanel.SuspendLayout()
         Me.ToolBoxToolBarPanel.SuspendLayout()
         Me.SimulationToolBarPanel.SuspendLayout()
-        Me.HelpPanel.SuspendLayout()
         Me.SimulationPanel1.SuspendLayout()
         Me.SimulationPanel2.SuspendLayout()
+        Me.HelpPanel.SuspendLayout()
         Me.ToolboxesToolbarPanel.SuspendLayout()
         Me.Panel3.SuspendLayout()
         Me.SuspendLayout()
@@ -310,11 +314,11 @@ Public Class MainUI
         '
         Me.SimulationToolBarPanel.BackColor = System.Drawing.Color.LightSteelBlue
         Me.SimulationToolBarPanel.Controls.Add(Me.Splitter7)
-        Me.SimulationToolBarPanel.Controls.Add(Me.HelpPanel)
         Me.SimulationToolBarPanel.Controls.Add(Me.Splitter2)
         Me.SimulationToolBarPanel.Controls.Add(Me.SimulationPanel1)
         Me.SimulationToolBarPanel.Controls.Add(Me.Splitter1)
         Me.SimulationToolBarPanel.Controls.Add(Me.SimulationPanel2)
+        Me.SimulationToolBarPanel.Controls.Add(Me.HelpPanel)
         Me.SimulationToolBarPanel.Dock = System.Windows.Forms.DockStyle.Top
         Me.SimulationToolBarPanel.Location = New System.Drawing.Point(0, 26)
         Me.SimulationToolBarPanel.Name = "SimulationToolBarPanel"
@@ -330,50 +334,6 @@ Public Class MainUI
         Me.Splitter7.Size = New System.Drawing.Size(1, 71)
         Me.Splitter7.TabIndex = 27
         Me.Splitter7.TabStop = False
-        '
-        'HelpPanel
-        '
-        Me.HelpPanel.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.HelpPanel.BackColor = System.Drawing.Color.Transparent
-        Me.HelpPanel.Controls.Add(Me.HelpToolBar)
-        Me.HelpPanel.Controls.Add(Me.HelpLabel)
-        Me.HelpPanel.Location = New System.Drawing.Point(274, 0)
-        Me.HelpPanel.Name = "HelpPanel"
-        Me.HelpPanel.Size = New System.Drawing.Size(358, 71)
-        Me.HelpPanel.TabIndex = 26
-        '
-        'HelpToolBar
-        '
-        Me.HelpToolBar.Appearance = System.Windows.Forms.ToolBarAppearance.Flat
-        Me.HelpToolBar.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.ApsimHelpButton})
-        Me.HelpToolBar.Divider = False
-        Me.HelpToolBar.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.HelpToolBar.DropDownArrows = True
-        Me.HelpToolBar.ImageList = Me.ButtonImageList
-        Me.HelpToolBar.Location = New System.Drawing.Point(0, 20)
-        Me.HelpToolBar.Name = "HelpToolBar"
-        Me.HelpToolBar.ShowToolTips = True
-        Me.HelpToolBar.Size = New System.Drawing.Size(358, 48)
-        Me.HelpToolBar.TabIndex = 16
-        '
-        'ApsimHelpButton
-        '
-        Me.ApsimHelpButton.ImageIndex = 6
-        Me.ApsimHelpButton.Text = "&Help"
-        Me.ApsimHelpButton.ToolTipText = "Display the main help page"
-        '
-        'HelpLabel
-        '
-        Me.HelpLabel.BackColor = System.Drawing.Color.SteelBlue
-        Me.HelpLabel.Dock = System.Windows.Forms.DockStyle.Top
-        Me.HelpLabel.ForeColor = System.Drawing.Color.White
-        Me.HelpLabel.Location = New System.Drawing.Point(0, 0)
-        Me.HelpLabel.Name = "HelpLabel"
-        Me.HelpLabel.Size = New System.Drawing.Size(358, 20)
-        Me.HelpLabel.TabIndex = 15
-        Me.HelpLabel.Text = "Help"
-        Me.HelpLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Splitter2
         '
@@ -493,6 +453,50 @@ Public Class MainUI
         Me.SimulationLabel2.Text = "Simulation"
         Me.SimulationLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
+        'HelpPanel
+        '
+        Me.HelpPanel.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.HelpPanel.BackColor = System.Drawing.Color.Transparent
+        Me.HelpPanel.Controls.Add(Me.HelpToolBar)
+        Me.HelpPanel.Controls.Add(Me.HelpLabel)
+        Me.HelpPanel.Location = New System.Drawing.Point(272, 0)
+        Me.HelpPanel.Name = "HelpPanel"
+        Me.HelpPanel.Size = New System.Drawing.Size(358, 71)
+        Me.HelpPanel.TabIndex = 26
+        '
+        'HelpToolBar
+        '
+        Me.HelpToolBar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.HelpToolBar.Appearance = System.Windows.Forms.ToolBarAppearance.Flat
+        Me.HelpToolBar.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.ApsimHelpButton})
+        Me.HelpToolBar.Divider = False
+        Me.HelpToolBar.Dock = System.Windows.Forms.DockStyle.None
+        Me.HelpToolBar.DropDownArrows = True
+        Me.HelpToolBar.ImageList = Me.ButtonImageList
+        Me.HelpToolBar.Location = New System.Drawing.Point(312, 20)
+        Me.HelpToolBar.Name = "HelpToolBar"
+        Me.HelpToolBar.ShowToolTips = True
+        Me.HelpToolBar.Size = New System.Drawing.Size(72, 48)
+        Me.HelpToolBar.TabIndex = 16
+        '
+        'ApsimHelpButton
+        '
+        Me.ApsimHelpButton.ImageIndex = 6
+        Me.ApsimHelpButton.Text = "&Help"
+        Me.ApsimHelpButton.ToolTipText = "Display the main help page"
+        '
+        'HelpLabel
+        '
+        Me.HelpLabel.BackColor = System.Drawing.Color.SteelBlue
+        Me.HelpLabel.Dock = System.Windows.Forms.DockStyle.Top
+        Me.HelpLabel.ForeColor = System.Drawing.Color.White
+        Me.HelpLabel.Location = New System.Drawing.Point(0, 0)
+        Me.HelpLabel.Name = "HelpLabel"
+        Me.HelpLabel.Size = New System.Drawing.Size(358, 20)
+        Me.HelpLabel.TabIndex = 15
+        Me.HelpLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
         'ToolboxesToolbarPanel
         '
         Me.ToolboxesToolbarPanel.BackColor = System.Drawing.Color.LightSteelBlue
@@ -520,12 +524,34 @@ Public Class MainUI
         Me.Panel3.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Panel3.BackColor = System.Drawing.Color.Transparent
+        Me.Panel3.Controls.Add(Me.ToolboxesToolBarHelp)
         Me.Panel3.Controls.Add(Me.ToolBoxToolBar)
         Me.Panel3.Controls.Add(Me.ToolboxLabel)
         Me.Panel3.Location = New System.Drawing.Point(0, 0)
         Me.Panel3.Name = "Panel3"
         Me.Panel3.Size = New System.Drawing.Size(632, 71)
         Me.Panel3.TabIndex = 22
+        '
+        'ToolboxesToolBarHelp
+        '
+        Me.ToolboxesToolBarHelp.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ToolboxesToolBarHelp.Appearance = System.Windows.Forms.ToolBarAppearance.Flat
+        Me.ToolboxesToolBarHelp.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.ToolboxesToolbarHelpButton})
+        Me.ToolboxesToolBarHelp.Divider = False
+        Me.ToolboxesToolBarHelp.Dock = System.Windows.Forms.DockStyle.None
+        Me.ToolboxesToolBarHelp.DropDownArrows = True
+        Me.ToolboxesToolBarHelp.ImageList = Me.ButtonImageList
+        Me.ToolboxesToolBarHelp.Location = New System.Drawing.Point(584, 20)
+        Me.ToolboxesToolBarHelp.Name = "ToolboxesToolBarHelp"
+        Me.ToolboxesToolBarHelp.ShowToolTips = True
+        Me.ToolboxesToolBarHelp.Size = New System.Drawing.Size(48, 48)
+        Me.ToolboxesToolBarHelp.TabIndex = 17
+        '
+        'ToolboxesToolbarHelpButton
+        '
+        Me.ToolboxesToolbarHelpButton.ImageIndex = 6
+        Me.ToolboxesToolbarHelpButton.Text = "&Help"
+        Me.ToolboxesToolbarHelpButton.ToolTipText = "Display the main help page"
         '
         'ToolBoxToolBar
         '
@@ -661,9 +687,9 @@ Public Class MainUI
         Me.ToolBoxPanel.ResumeLayout(False)
         Me.ToolBoxToolBarPanel.ResumeLayout(False)
         Me.SimulationToolBarPanel.ResumeLayout(False)
-        Me.HelpPanel.ResumeLayout(False)
         Me.SimulationPanel1.ResumeLayout(False)
         Me.SimulationPanel2.ResumeLayout(False)
+        Me.HelpPanel.ResumeLayout(False)
         Me.ToolboxesToolbarPanel.ResumeLayout(False)
         Me.Panel3.ResumeLayout(False)
         Me.ResumeLayout(False)
@@ -684,6 +710,7 @@ Public Class MainUI
         AddHandler ApsimUI.DataChangedEvent, AddressOf SetFunctionality
         AddHandler ApsimUI.AddEvent, AddressOf OnAddEvent
         AddHandler ApsimUI.RenameEvent, AddressOf OnAddEvent
+        AddHandler ToolboxesToolBarHelp.ButtonClick, AddressOf ToolBar_ButtonClick
 
 
         ' Show the Simulation Explorer.
@@ -832,7 +859,7 @@ Public Class MainUI
             End Try
 
             'APSIM Help Button
-        ElseIf e.Button Is ApsimHelpButton Then
+        ElseIf e.Button Is ApsimHelpButton Or e.Button Is ToolboxesToolbarHelpButton Then
             Dim HelpURL As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "docfile")
             ApsimUI.ShowHelp(HelpURL)
 
@@ -927,10 +954,10 @@ Public Class MainUI
 
                 ' Get the image attribute from the root node of the loaded xml file
                 Dim image As String = apsimData.Attribute("image")
+
                 If image.IndexOf(":") = -1 Then
                     image = APSIMSettings.ApsimDirectory() + "\ApsimUI\" + image
                 End If
-
                 Dim item As New Windows.Forms.ToolBarButton(FileName)
                 item.Tag = "User Defined"
 
@@ -1087,12 +1114,14 @@ Public Class MainUI
 #Region "Top level menu bar"
     Private Sub MainButtonClick(ByVal sender As Object, ByVal e As Xceed.SmartUI.SmartItemClickEventArgs) Handles SimulationButton.Click, ToolboxButton.Click
         ' User has clicked a top level menu button
+
         For Each Item As SmartItem In MainToolBar.Items
             If Not Item Is e.Item AndAlso Not Item.Tag Is Nothing AndAlso Item.Tag.ToString() <> "up" Then
                 Item.Tag = "up"
                 Item.Refresh()
             End If
         Next
+
         e.Item.Tag = "down"
 
         SimulationToolBarPanel.Visible = SimulationButton.Tag.ToString() = "down"
@@ -1109,6 +1138,7 @@ Public Class MainUI
         End If
         e.SmartPaint.DrawString(e.Item.Text, ContentAlignment.MiddleCenter)
     End Sub
+
     Private Sub NewFileMenu_Click(ByVal sender As Object, ByVal e As Xceed.SmartUI.SmartItemClickEventArgs) Handles NewFileMenu.Click
         Dim NewData As APSIMData = ApsimUI.LetUserSelectNewDocument()
         If Not IsNothing(NewData) Then
@@ -1199,4 +1229,5 @@ Public Class MainUI
         Me.btnMaximise.Visible = True
         Me.btnRestore.Visible = False
     End Sub
+
 End Class

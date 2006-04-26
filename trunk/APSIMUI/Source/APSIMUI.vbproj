@@ -150,21 +150,6 @@
                     HintPath = "..\..\Bin\Interop.SHDocVw.dll"
                 />
                 <Reference
-                    Name = "ChangeTool"
-                    AssemblyName = "ChangeTool"
-                    HintPath = "..\..\Shared\ChangeTool\obj\Debug\ChangeTool.dll"
-                />
-                <Reference
-                    Name = "Soil"
-                    AssemblyName = "Soil"
-                    HintPath = "..\..\Shared\Soil\obj\Debug\Soil.dll"
-                />
-                <Reference
-                    Name = "VBMet"
-                    AssemblyName = "VBMet"
-                    HintPath = "..\..\Shared\VBMet\obj\Debug\VBMet.dll"
-                />
-                <Reference
                     Name = "FarPoint.Win.Spread"
                     AssemblyName = "FarPoint.Win.Spread"
                     HintPath = "..\..\..\..\..\Program Files\FarPoint Technologies\Spread.WinForms.v2\v2.0.1.0\bin\FarPoint.Win.Spread.dll"
@@ -176,9 +161,10 @@
                     HintPath = "..\..\Bin\FarPoint.Win.dll"
                 />
                 <Reference
-                    Name = "CSGeneral"
-                    AssemblyName = "CSGeneral"
-                    HintPath = "..\..\Shared\C#General\obj\Debug\CSGeneral.dll"
+                    Name = "Xceed.Chart.Utilities"
+                    AssemblyName = "Xceed.Chart.Utilities"
+                    HintPath = "..\..\..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.Utilities.Dll"
+                    AssemblyFolderKey = "hklm\xceed chart for .net and asp.net v3.0.100.0"
                 />
                 <Reference
                     Name = "VBGeneral"
@@ -186,10 +172,24 @@
                     HintPath = "..\..\Shared\VBGeneral\bin\VBGeneral.dll"
                 />
                 <Reference
-                    Name = "Xceed.Chart.Utilities"
-                    AssemblyName = "Xceed.Chart.Utilities"
-                    HintPath = "..\..\..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.Utilities.Dll"
-                    AssemblyFolderKey = "hklm\xceed chart for .net and asp.net v3.0.100.0"
+                    Name = "VBMet"
+                    AssemblyName = "VBMet"
+                    HintPath = "..\..\Shared\VBMet\bin\VBMet.dll"
+                />
+                <Reference
+                    Name = "CSGeneral"
+                    AssemblyName = "CSGeneral"
+                    HintPath = "..\..\Shared\C#General\obj\Debug\CSGeneral.dll"
+                />
+                <Reference
+                    Name = "ChangeTool"
+                    AssemblyName = "ChangeTool"
+                    HintPath = "..\..\Shared\ChangeTool\obj\Debug\ChangeTool.dll"
+                />
+                <Reference
+                    Name = "Soil"
+                    AssemblyName = "Soil"
+                    HintPath = "..\..\Shared\Soil\obj\Debug\Soil.dll"
                 />
             </References>
             <Imports>
@@ -293,6 +293,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "ListBoxDialog.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ListBoxDialog.resx"
+                    DependentUpon = "ListBoxDialog.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "LogicUI.vb"
                     SubType = "UserControl"
                     BuildAction = "Compile"
@@ -393,6 +403,26 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "OutputVariablesDataTree.vb"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "OutputVariablesDataTree.resx"
+                    DependentUpon = "OutputVariablesDataTree.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "OutputVariablesForm.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "OutputVariablesForm.resx"
+                    DependentUpon = "OutputVariablesForm.vb"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "ReportVariablesListView.vb"
                     SubType = "UserControl"
                     BuildAction = "Compile"
@@ -456,6 +486,16 @@
                     RelPath = "Toolboxes.vb"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TrackerSlider.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TrackerSlider.resx"
+                    DependentUpon = "TrackerSlider.vb"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "TrackerUI.vb"
