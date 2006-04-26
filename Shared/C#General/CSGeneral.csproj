@@ -132,6 +132,21 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "HyperTextLabel.cs"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "HyperTextLabel.resx"
+                    DependentUpon = "HyperTextLabel.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "HyperTextLink.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ListviewAPI.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

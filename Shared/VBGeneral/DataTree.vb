@@ -18,8 +18,10 @@ Public Class DataTree
     Private FirstNode As TreeNode
     Private UserChange As Boolean = True
     Delegate Sub NotifyEventHandler()
-    Public Event DoubleClickEvent As NotifyEventHandler
+    Delegate Sub OnDataTreeKeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
 
+    Public Event DoubleClickEvent As NotifyEventHandler
+    Public Event DataTreeKeyPress As OnDataTreeKeyPress
 
 
 #Region " Windows Form Designer generated code "
@@ -60,11 +62,14 @@ Public Class DataTree
     Friend WithEvents MoveUpMenuItem As System.Windows.Forms.MenuItem
     Friend WithEvents MoveDownMenuItem As System.Windows.Forms.MenuItem
     Friend WithEvents RenameMenuItem As System.Windows.Forms.MenuItem
+    Friend WithEvents TreeToolTip As System.Windows.Forms.ToolTip
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container
         Me.TreeView = New System.Windows.Forms.TreeView
         Me.ContextMenu1 = New System.Windows.Forms.ContextMenu
         Me.AddFolderMenuItem = New System.Windows.Forms.MenuItem
         Me.DeleteItemMenuItem = New System.Windows.Forms.MenuItem
+        Me.RenameMenuItem = New System.Windows.Forms.MenuItem
         Me.MenuItem1 = New System.Windows.Forms.MenuItem
         Me.CutMenuItem = New System.Windows.Forms.MenuItem
         Me.CopyMenuItem = New System.Windows.Forms.MenuItem
@@ -72,7 +77,7 @@ Public Class DataTree
         Me.MenuItem2 = New System.Windows.Forms.MenuItem
         Me.MoveUpMenuItem = New System.Windows.Forms.MenuItem
         Me.MoveDownMenuItem = New System.Windows.Forms.MenuItem
-        Me.RenameMenuItem = New System.Windows.Forms.MenuItem
+        Me.TreeToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.SuspendLayout()
         '
         'TreeView
@@ -88,7 +93,7 @@ Public Class DataTree
         Me.TreeView.Name = "TreeView"
         Me.TreeView.PathSeparator = "|"
         Me.TreeView.SelectedImageIndex = -1
-        Me.TreeView.Size = New System.Drawing.Size(705, 713)
+        Me.TreeView.Size = New System.Drawing.Size(958, 698)
         Me.TreeView.TabIndex = 0
         '
         'ContextMenu1
@@ -105,6 +110,11 @@ Public Class DataTree
         Me.DeleteItemMenuItem.Index = 1
         Me.DeleteItemMenuItem.Shortcut = System.Windows.Forms.Shortcut.Del
         Me.DeleteItemMenuItem.Text = "&Delete"
+        '
+        'RenameMenuItem
+        '
+        Me.RenameMenuItem.Index = 2
+        Me.RenameMenuItem.Text = "&Rename"
         '
         'MenuItem1
         '
@@ -146,17 +156,19 @@ Public Class DataTree
         Me.MoveDownMenuItem.ShowShortcut = False
         Me.MoveDownMenuItem.Text = "Move do&wn    Ctrl+Down"
         '
-        'RenameMenuItem
+        'TreeToolTip
         '
-        Me.RenameMenuItem.Index = 2
-        Me.RenameMenuItem.Text = "&Rename"
+        Me.TreeToolTip.AutomaticDelay = 1500
+        Me.TreeToolTip.AutoPopDelay = 5000
+        Me.TreeToolTip.InitialDelay = 1500
+        Me.TreeToolTip.ReshowDelay = 300
         '
         'DataTree
         '
         Me.AllowDrop = True
         Me.Controls.Add(Me.TreeView)
         Me.Name = "DataTree"
-        Me.Size = New System.Drawing.Size(705, 753)
+        Me.Size = New System.Drawing.Size(958, 738)
         Me.Controls.SetChildIndex(Me.TreeView, 0)
         Me.ResumeLayout(False)
 
@@ -348,6 +360,9 @@ Public Class DataTree
             Dim Control As Boolean = (ModifierKeys = Keys.Control)
             Dim Shift As Boolean = (ModifierKeys = Keys.Shift)
 
+            ' Reset the tooltip before moving on.
+            Me.TreeToolTip.Dispose()
+
             ' selecting the node twice while pressing CTRL ?
             Dim SelectedPaths As StringCollection = Controller.SelectedPaths()
             If Control And SelectedPaths.Contains(e.Node.FullPath) Then
@@ -359,6 +374,7 @@ Public Class DataTree
                 SelectedPaths.Remove(e.Node.FullPath)
                 Controller.SelectedPaths = SelectedPaths
                 PaintSelectedNodes()
+
                 Return
             End If
 
@@ -379,6 +395,8 @@ Public Class DataTree
             UserChange = False
             Dim Control As Boolean = (ModifierKeys = Keys.Control)
             Dim Shift As Boolean = (ModifierKeys = Keys.Shift)
+            Dim toolTipText As String
+
 
             Dim SelectedPaths As StringCollection = Controller.SelectedPaths()
             If Control Then
@@ -389,15 +407,17 @@ Public Class DataTree
                     SelectedPaths.Remove(e.Node.FullPath)
                 End If
                 PaintSelectedNodes()
+
             Else
                 ' SHIFT is pressed
                 If Shift Then
                     Dim MyQueue As New Queue
-
                     Dim UpperNode As TreeNode = FirstNode
                     Dim BottomNode As TreeNode = e.Node
+
                     ' case 1 : begin and end nodes are parent
                     Dim Parent As Boolean = IsParent(FirstNode, e.Node) ' is m_firstNode parent (direct or not) of e.Node
+
                     If Not Parent Then
                         Parent = IsParent(BottomNode, UpperNode)
                         If Parent Then ' swap nodes
@@ -407,17 +427,19 @@ Public Class DataTree
                             BottomNode = t
                         End If
                     End If
+
                     If Parent Then
                         Dim n As TreeNode = BottomNode
+
                         While Not n Is UpperNode.Parent
                             If Not SelectedPaths.Contains(n.FullPath) Then ' new node ?
                                 MyQueue.Enqueue(n)
                             End If
                             n = n.Parent
                         End While
+
                     Else
                         ' case 2 : nor the begin nor the end node are descendant one another
-
                         If (UpperNode.Parent Is Nothing And BottomNode.Parent Is Nothing) Or _
                            (Not IsNothing(UpperNode.Parent) And UpperNode.Parent.Nodes.Contains(BottomNode)) Then   ' are they siblings ?
                             Dim IndexUpper As Integer = UpperNode.Index
@@ -432,16 +454,17 @@ Public Class DataTree
                             End If
 
                             Dim n As TreeNode = UpperNode
-                            While IndexUpper <= IndexBottom
 
+                            While IndexUpper <= IndexBottom
                                 If Not SelectedPaths.Contains(n.FullPath) Then  ' new node ?
                                     MyQueue.Enqueue(n)
                                 End If
 
                                 n = n.NextNode
-
                                 IndexUpper = IndexUpper + 1
+
                             End While
+
                         Else
 
                             If Not SelectedPaths.Contains(UpperNode.FullPath) Then
@@ -468,8 +491,18 @@ Public Class DataTree
             End If
             Controller.SelectedPaths = SelectedPaths
             PaintSelectedNodes()
+
+            Try
+                Me.TreeToolTip.SetToolTip(Me.TreeView, Controller.Data.Attribute("description"))
+
+            Catch ex As System.Exception
+                ' Ignore all errors when trying to set the tree tooltip
+
+            End Try
+
             UserChange = True
         End If
+
     End Sub
 
 
@@ -529,6 +562,7 @@ Public Class DataTree
             Dim n As TreeNode = GetNodeFromPath(NodePath)
             n.BackColor = SystemColors.Highlight
             n.ForeColor = SystemColors.HighlightText
+
         Next
     End Sub
 
@@ -595,18 +629,19 @@ Public Class DataTree
         'Appears to be a bug in TreeView control
         If IsNothing(e.Label) Then
             e.CancelEdit = True
+            Exit Sub
+
+        End If
+
+        ' A tree view node label cannot be an empty string.  If it is then
+        ' cancel the edit.
+        If (Not e.Label.Equals("")) Then
+            UserChange = False
+            Controller.RenameSelected(e.Label)
+            UserChange = True
+
         Else
-            ' A tree view node label cannot be an empty string.  If it is then
-            ' cancel the edit.
-            If (Not e.Label.Equals("")) Then
-                UserChange = False
-                Controller.RenameSelected(e.Label)
-                UserChange = True
-
-            Else
-                e.CancelEdit = True
-            End If
-
+            e.CancelEdit = True
         End If
 
         TreeView.ContextMenu = Me.ContextMenu1
@@ -845,5 +880,9 @@ Public Class DataTree
 
     Private Sub TreeView_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles TreeView.DoubleClick
         RaiseEvent DoubleClickEvent()
+    End Sub
+
+    Private Sub TreeView_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TreeView.KeyPress
+        RaiseEvent DataTreeKeyPress(sender, e)
     End Sub
 End Class
