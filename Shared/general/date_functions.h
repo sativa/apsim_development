@@ -4,6 +4,7 @@
 
 #include <boost\date_time\gregorian\gregorian.hpp>
 #include <stdexcept>
+#include <general/string_functions.h>
 
   //! Convert ymd to a standard string formatting policies
   template<class ymd_type, class format_type>
@@ -12,13 +13,13 @@
   public:
     //! Convert ymd to a standard string formatting policies
     /*! This is standard code for handling date formatting with
-     *  year-month-day based date information.  This function 
+     *  year-month-day based date information.  This function
      *  uses the format_type to control whether the string will
      *  contain separator characters, and if so what the character
      *  will be.  In addtion, it can format the month as either
-     *  an integer or a string as controled by the formatting 
+     *  an integer or a string as controled by the formatting
      *  policy
-     */ 
+     */
     static std::string ymd_to_string(ymd_type ymd)
     {
       typedef typename ymd_type::month_type month_type;
