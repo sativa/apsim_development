@@ -11,15 +11,15 @@
 
      Version                = 5.0
      Title                  = Horsegram Sample Simulation
-     Component DLL          = d:\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = d:\development\apsim\clock\lib\clock.dll
-     Component DLL          = d:\development\apsim\report\lib\report.dll
-     Component DLL          = d:\development\apsim\input\lib\input.dll
-     Component DLL          = d:\development\apsim\manager\lib\manager.dll
-     Component DLL          = d:\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = d:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-     Component DLL          = d:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = d:\development\apsim\plant\lib\plant.dll
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\plant\lib\plant.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -44,7 +44,7 @@
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: d:\development\apsim\met\sample\dalby.met
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
 
 ------- manager Initialisation ------------------------------------------------
      Manager rules:
