@@ -11,12 +11,11 @@
 
      Version                = 5.0
      Title                  = NZIrrigation
-     Component DLL          = c:\program files\apsim43\apsim\log\lib\log.dll
-     Component DLL          = c:\program files\apsim43\apsim\summaryfile\lib\summaryfile.dll
-     Component DLL          = c:\program files\apsim43\apsim\clock\lib\clock.dll
-     Component DLL          = c:\program files\apsim43\apsim\input\lib\input.dll
-     Component DLL          = c:\program files\apsim43\apsim\protocolmanager\lib\protocolmanager.dll
-     Component DLL          = c:\program files\apsim43\apsim\protocolmanager\lib\protocolmanager.dll
+     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\protocolmanager\lib\protocolmanager.dll
+     Component DLL          = c:\development\apsim\protocolmanager\lib\protocolmanager.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -30,7 +29,7 @@
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: D:\development\apsim\SweetCorn\Validation\Lincoln9192.met
+     INPUT File name: c:\development\apsim\SweetCorn\Validation\Lincoln9192.met
 
 ------- outputfile Initialisation ---------------------------------------------
      Output frequency:
@@ -82,26 +81,26 @@
      Manager rules:
      
      SECTION:- end_of_day
-                if sweetcorn.stage_name = 'harvest_ripe' or sweetcorn.plant_status = 'dead' then
-       sweetcorn  harvest
-       sweetcorn  end_crop
-                endif
+            if sweetcorn.stage_name = 'harvest_ripe' or sweetcorn.plant_status = 'dead' then
+               sweetcorn  harvest
+               sweetcorn  end_crop
+            endif
      
      SECTION:- sweetcorn.sowing
-             fertiliser apply amount = 24 (kg/ha), depth = 50 (mm), type = no3_n
+         fertiliser apply amount = 24 (kg/ha), depth = 50 (mm), type = no3_n
      
      SECTION:- start_of_day
-           if (today = date('30-oct') then
-             sweetcorn sow plants =5.7, sowing_depth = 50, cultivar = challenger, row_spacing = 700
+       if (today = date('30-oct') then
+                     sweetcorn sow plants =5.7, sowing_depth = 50, cultivar = challenger, row_spacing = 700
+         endif
+     
+     SECTION:- start_of_day
+          if (today = date('20/11/0001') then
+             n_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+             if (n_topsoil < 1000) then
+                fertiliser apply amount = 200 (kg/ha), depth = 50 (mm), type = urea_n ()
              endif
-     
-     SECTION:- start_of_day
-              if (today = date('20/11/0001') then
-     n_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
-     if (n_topsoil < 1000) then
-        fertiliser apply amount = 200 (kg/ha), depth = 50 (mm), type = urea_n ()
-     endif
-              endif
+          endif
      END of rules
      
 
@@ -234,19 +233,19 @@
            Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
                     (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
           ---------------------------------------------------------
-             1      24122.9  1663.7   429.1    53.6   138.9     6.9
-             2      23990.4  1654.5   189.6    23.7   108.1     5.4
-             3      46033.7  3174.7    91.3    11.4    65.6     3.3
-             4      41868.5  2887.5    41.5     5.2    39.8     2.0
-             5      29166.6  2011.5    14.4     1.8    24.1     1.2
-             6      13763.2   949.2     6.8     0.9    14.6     0.7
-             7      10524.8   725.8     5.2     0.7     8.9     0.4
+             1      24122.9  1929.8   429.1    53.6    27.8     0.7
+             2      23990.4  1919.2   189.6    23.7    21.6     0.5
+             3      46033.7  3682.7    91.3    11.4    13.1     0.3
+             4      41868.5  3349.5    41.5     5.2     8.0     0.2
+             5      29166.6  2333.3    14.4     1.8     4.8     0.1
+             6      13763.2  1101.1     6.8     0.9     2.9     0.1
+             7      10524.8   842.0     5.2     0.7     1.8     0.0
           ---------------------------------------------------------
-           Totals  189470.0 13066.9   778.0    97.3   400.0    20.0
+           Totals  189470.0 15157.6   778.0    97.3    80.0     2.0
           ---------------------------------------------------------
 
 ------- SweetCorn Initialisation ----------------------------------------------
-     phenology model: TTT
+     phenology model: Generic
 
 ------- outputfile Initialisation ---------------------------------------------
      Output frequency:
@@ -298,26 +297,26 @@
      Manager rules:
      
      SECTION:- end_of_day
-                if sweetcorn.stage_name = 'harvest_ripe' or sweetcorn.plant_status = 'dead' then
-       sweetcorn  harvest
-       sweetcorn  end_crop
-                endif
+            if sweetcorn.stage_name = 'harvest_ripe' or sweetcorn.plant_status = 'dead' then
+               sweetcorn  harvest
+               sweetcorn  end_crop
+            endif
      
      SECTION:- sweetcorn.sowing
-             fertiliser apply amount = 24 (kg/ha), depth = 50 (mm), type = no3_n
+         fertiliser apply amount = 24 (kg/ha), depth = 50 (mm), type = no3_n
      
      SECTION:- start_of_day
-           if (today = date('30-oct') then
-             sweetcorn sow plants =5.7, sowing_depth = 50, cultivar = challenger, row_spacing = 700
+       if (today = date('30-oct') then
+                     sweetcorn sow plants =5.7, sowing_depth = 50, cultivar = challenger, row_spacing = 700
+         endif
+     
+     SECTION:- start_of_day
+          if (today = date('20/11/0001') then
+             n_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+             if (n_topsoil < 1000) then
+                fertiliser apply amount = 200 (kg/ha), depth = 50 (mm), type = urea_n ()
              endif
-     
-     SECTION:- start_of_day
-              if (today = date('20/11/0001') then
-     n_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
-     if (n_topsoil < 1000) then
-        fertiliser apply amount = 200 (kg/ha), depth = 50 (mm), type = urea_n ()
-     endif
-              endif
+          endif
      END of rules
      
 
@@ -450,42 +449,88 @@
            Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
                     (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
           ---------------------------------------------------------
-             1      24122.9  1663.7   429.1    53.6   138.9     6.9
-             2      23990.4  1654.5   189.6    23.7   108.1     5.4
-             3      46033.7  3174.7    91.3    11.4    65.6     3.3
-             4      41868.5  2887.5    41.5     5.2    39.8     2.0
-             5      29166.6  2011.5    14.4     1.8    24.1     1.2
-             6      13763.2   949.2     6.8     0.9    14.6     0.7
-             7      10524.8   725.8     5.2     0.7     8.9     0.4
+             1      24122.9  1929.8   429.1    53.6    27.8     0.7
+             2      23990.4  1919.2   189.6    23.7    21.6     0.5
+             3      46033.7  3682.7    91.3    11.4    13.1     0.3
+             4      41868.5  3349.5    41.5     5.2     8.0     0.2
+             5      29166.6  2333.3    14.4     1.8     4.8     0.1
+             6      13763.2  1101.1     6.8     0.9     2.9     0.1
+             7      10524.8   842.0     5.2     0.7     1.8     0.0
           ---------------------------------------------------------
-           Totals  189470.0 13066.9   778.0    97.3   400.0    20.0
+           Totals  189470.0 15157.6   778.0    97.3    80.0     2.0
           ---------------------------------------------------------
 
 ------- SweetCorn Initialisation ----------------------------------------------
-     phenology model: TTT
+     phenology model: Generic
 ------- Start of simulation  --------------------------------------------------
 30 October 1991(Day of year=303), LincolnCrop: 
      Manager sending message :- sweetcorn sow  plants = 5.7, sowing_depth = 50, cultivar = challenger, row_spacing = 700
 30 October 1991(Day of year=303), SweetCorn: 
      Crop Sow
       - reading constants for plant(sweetcorn)
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(6)
+     Condition : 0.00 <= 77439.30856 <= 60000.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(7)
+     Condition : 0.00 <= 78596.49147 <= 60000.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : x_temp_grainfill(3)
+     Condition : 0.00 <= 56.32 <= 40.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
       - reading cultivar parameters
-      - reading fruit cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = challenger
+     out
      
+     sowing
      
-        tt_germination =         33 (dd)
+     germination
+     shoot_lag =         15 (dd)
+     shoot_rate =          1 (dd/mm)
+     
+     emergence
         tt_emergence =        221 (dd)
-        tt_endjuv_to_fi =         75 (dd)
-        tt_fi_to_flag =        650 (dd)
+     endjuv_to_fi
+        x_pp_endjuv_to_fi          =    13.9    14.7 (h)
+        y_tt_endjuv_to_fi          =      75      75 (dd)
+     
+     fi_to_flag
+        Stage duration determined by leaf appearance rates
+     flag_to_flower
         tt_flag_to_flower =        101 (dd)
+     flowering
         tt_flowering =        170 (dd)
+     start_grain_fill
         tt_start_grain_fill =        800 (dd)
+     end_grain_fill
         tt_end_grain_fill =          5 (dd)
+     maturity
         tt_maturity =          1 (dd)
+     harvest_ripe
         tt_harvest_ripe =          1 (dd)
+     end_crop
      
      
         x_pp_hi_incr               =       1.00      24.00
@@ -534,23 +579,69 @@
 30 October 1991(Day of year=303), SweetCorn: 
      Crop Sow
       - reading constants for plant(sweetcorn)
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(6)
+     Condition : 0.00 <= 77439.30856 <= 60000.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(7)
+     Condition : 0.00 <= 78596.49147 <= 60000.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : x_temp_grainfill(3)
+     Condition : 0.00 <= 56.32 <= 40.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
       - reading cultivar parameters
-      - reading fruit cultivar parameters
       - reading grain cultivar parameters
          ------------------------------------------------
         cultivar                   = challenger
+     out
      
+     sowing
      
-        tt_germination =         33 (dd)
+     germination
+     shoot_lag =         15 (dd)
+     shoot_rate =          1 (dd/mm)
+     
+     emergence
         tt_emergence =        221 (dd)
-        tt_endjuv_to_fi =         75 (dd)
-        tt_fi_to_flag =        650 (dd)
+     endjuv_to_fi
+        x_pp_endjuv_to_fi          =    13.9    14.7 (h)
+        y_tt_endjuv_to_fi          =      75      75 (dd)
+     
+     fi_to_flag
+        Stage duration determined by leaf appearance rates
+     flag_to_flower
         tt_flag_to_flower =        101 (dd)
+     flowering
         tt_flowering =        170 (dd)
+     start_grain_fill
         tt_start_grain_fill =        800 (dd)
+     end_grain_fill
         tt_end_grain_fill =          5 (dd)
+     maturity
         tt_maturity =          1 (dd)
+     harvest_ripe
         tt_harvest_ripe =          1 (dd)
+     end_crop
      
      
         x_pp_hi_incr               =       1.00      24.00
@@ -597,27 +688,27 @@
 31 October 1991(Day of year=304), SweetCorn: 
       stage 2.0 germination
       stage 2.0 germination
-5 November 1991(Day of year=309), SweetCorn: 
+7 November 1991(Day of year=311), SweetCorn: 
       stage 3.0 emergence
-                     biomass =           0.11 (g/m^2)   lai          =   0.001 (m^2/m^2)
-                     stover N conc =     5.66 (%)    extractable sw =    9.49 (mm)
+                     biomass =           0.11 (g/m^2)   lai          =   0.002 (m^2/m^2)
+                     stover N conc =     4.50 (%)    extractable sw =    8.44 (mm)
       stage 3.0 emergence
-                     biomass =           0.11 (g/m^2)   lai          =   0.001 (m^2/m^2)
-                     stover N conc =     5.66 (%)    extractable sw =    9.49 (mm)
-10 December 1991(Day of year=344), SweetCorn: 
+                     biomass =           0.11 (g/m^2)   lai          =   0.002 (m^2/m^2)
+                     stover N conc =     4.50 (%)    extractable sw =    8.44 (mm)
+12 December 1991(Day of year=346), SweetCorn: 
       stage 4.0 endjuv_to_fi
-                     biomass =           6.81 (g/m^2)   lai          =   0.073 (m^2/m^2)
-                     stover N conc =     3.88 (%)    extractable sw =  131.17 (mm)
+                     biomass =           2.65 (g/m^2)   lai          =   0.028 (m^2/m^2)
+                     stover N conc =     3.67 (%)    extractable sw =  130.86 (mm)
       stage 4.0 endjuv_to_fi
-                     biomass =           6.81 (g/m^2)   lai          =   0.073 (m^2/m^2)
-                     stover N conc =     3.88 (%)    extractable sw =  131.17 (mm)
-21 December 1991(Day of year=355), SweetCorn: 
+                     biomass =           2.65 (g/m^2)   lai          =   0.028 (m^2/m^2)
+                     stover N conc =     3.67 (%)    extractable sw =  130.86 (mm)
+22 December 1991(Day of year=356), SweetCorn: 
       stage 5.0 fi_to_flag
-                     biomass =          17.20 (g/m^2)   lai          =   0.193 (m^2/m^2)
-                     stover N conc =     3.16 (%)    extractable sw =  172.68 (mm)
+                     biomass =           7.21 (g/m^2)   lai          =   0.075 (m^2/m^2)
+                     stover N conc =     3.04 (%)    extractable sw =  173.28 (mm)
       stage 5.0 fi_to_flag
-                     biomass =          17.20 (g/m^2)   lai          =   0.193 (m^2/m^2)
-                     stover N conc =     3.16 (%)    extractable sw =  172.68 (mm)
+                     biomass =           7.21 (g/m^2)   lai          =   0.075 (m^2/m^2)
+                     stover N conc =     3.04 (%)    extractable sw =  173.28 (mm)
 27 January 1992(Day of year=27), met: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM  Fatal  Error
