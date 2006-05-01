@@ -75,6 +75,12 @@
             <respondToEvent name="sow" type="null"/>
             <respondToEvent name="fertilize" type="null"/>
             <respondToEvent name="tillage" type="null"/>
+            <respondToEvent name="init_step" type="post" />
+            <respondToEvent name="do_pasture_water" type="post" />
+            <respondToEvent name="do_pasture_growth" type="post" />
+            <respondToEvent name="end_step" type="post" />
+            <respondToEvent name="remove_herbage" type="remove_herbage" />
+            <respondToEvent name="add_excreta" type="add_excreta" />
 
             <get name="today" type="integer4"/>
             <get name="day" type="integer4"/>
@@ -94,6 +100,7 @@
             <get name="title" type="string"/>
             <get name="components" type="string"/>
 
+            <respondToGet name="plant2stock" array="F" type="plant2stock" />
             <respondToGet name="streamflow" type="single"/>
             <respondToGet name="root_sw_uptake_vol" type="single"/>
             <respondToGet name="root_sw_supply_vol" type="single"/>
@@ -243,7 +250,6 @@
       <Documentation name="Science documentation">../apsim/met/docs/met_science.htm</Documentation>
       <LargeIcon>Images\thermometer32.png</LargeIcon>
       <SmallIcon>Images\thermometer16.png</SmallIcon>
-
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -257,7 +263,6 @@
          <variable name="radn" description="Solar Radiation (MJ/m2/day)"/>
       </variables>
       <ApsimToSim>
-         <recurse>yes</recurse>
          <type>component</type>
          <dll>%apsuite\apsim\input\lib\input.dll</dll>
       </ApsimToSim>
@@ -527,6 +532,7 @@
          <type>component</type>
          <dll>c:\program files\farmwise\stock.dll</dll>
          <sim>
+            <![CDATA[
             <initsection>
                <init name="genotypes" array="T">
                [foreach stock.StockGenotype as genotype]
@@ -686,6 +692,7 @@
                </init>
 
             </initsection>
+            ]]>
          </sim>
       </ApsimToSim>
    </stock>
@@ -696,9 +703,11 @@
       <SmallIcon>Images\stock16.bmp</SmallIcon>
       <drops>
          <drop name="stock"/>
+         <drop name="cattle"/>
+         <drop name="sheep"/>
      </drops>
    </StockGenotype>
-   <StockScienceConverter>
+   <StockHerbageConverter>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
@@ -719,6 +728,27 @@
          <dll>%apsuite\apsim\stock\lib\stockscienceconverter.dll</dll>
          <recurse>yes</recurse>
          <sim>
+            [StockHerbageConverter.innerxml]
+         </sim>
+      </ApsimToSim>
+   </StockHerbageConverter>
+   <StockScienceConverter>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <LargeIcon>Images\stock32.bmp</LargeIcon>
+      <SmallIcon>Images\stock16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+      </drops>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\stock\lib\stockscienceconverter.dll</dll>
+         <recurse>yes</recurse>
+         <sim>
             [StockScienceConverter.innerxml]
          </sim>
       </ApsimToSim>
@@ -731,6 +761,10 @@
       <SmallIcon>Images\cow16.bmp</SmallIcon>
       <drops>
          <drop name="stock"/>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
      </drops>
    </cattle>
    <sheep>
@@ -741,6 +775,10 @@
       <SmallIcon>Images\sheep16.bmp</SmallIcon>
       <drops>
          <drop name="stock"/>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
      </drops>
    </sheep>
    <outputfiledescription>
@@ -2297,18 +2335,9 @@
       <Documentation name="Science documentation">../apsim/tcllink/docs/tclink_science.htm</Documentation>
    </tcllink>
    <tracker>
-      <UItype>tracker</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
+      <UItype>generic</UItype>
+      <ShowInMainTree>No</ShowInMainTree>
       <Documentation name="Science documentation">../apsim/tracker/docs/tracker.htm</Documentation>
-      <LargeIcon>Images\satellite_dish32.png</LargeIcon>
-      <SmallIcon>Images\satellite_dish16.png</SmallIcon>
-      <drops>
-         <drop name="toolbox"/>
-         <drop name="simulation"/>
-         <drop name="folder"/>
-         <drop name="area"/>
-         <drop name="soil"/>
-     </drops>
    </tracker>
    <venlink>
       <UItype>generic</UItype>
@@ -2570,8 +2599,7 @@
       <SmallIcon>Images\thermometer16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
-         <drop name="simulation"/>
-         <drop name="area"/>
+         <drop name="metfile"/>
          <drop name="folder"/>
      </drops>
 
@@ -2582,14 +2610,14 @@
          <dll>%apsuite\apsim\manager\lib\manager.dll</dll>
          <sim>
             <rule name="ccInit" condition="init">
-               co2 = [climatechange.co2]
+               co2 = [cc.co2]
             </rule>
             <rule name="ccPreNewMet" condition="prenewmet">
                !change met data to reflect climate change
-               met.maxt = met.maxt + [climatechange.maxtmodifier]
-               met.mint = met.mint + [climatechange.mintmodifier]
-               met.rain = met.rain * [climatechange.rainmodifier]
-               met.radn = met.radn * [climatechange.radiationmodifier]
+               met.maxt = met.maxt + [cc.maxtmodifier]
+               met.mint = met.mint + [cc.mintmodifier]
+               met.rain = met.rain * [cc.rainmodifier]
+               met.radn = met.radn * [cc.radiationmodifier]
             </rule>
          </sim>
       </ApsimToSim>
@@ -2841,6 +2869,26 @@
          <drop name="FarmwisePastureDry"/>
      </drops>
    </FarmwisePastureDryHerbage>
+   <PastureScienceConverter>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <SmallIcon>Images\herbage_green.gif</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+      </drops>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\pasture\lib\pasturescienceconverter.dll</dll>
+         <recurse>yes</recurse>
+         <sim>
+            [PastureScienceConverter.innerxml]
+         </sim>
+      </ApsimToSim>
+   </PastureScienceConverter>
    <memo>
       <UItype>memo</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>

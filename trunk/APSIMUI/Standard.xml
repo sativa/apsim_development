@@ -19,6 +19,11 @@
     <egrandis />
     <fababean />
     <FarmwisePasture>
+       <PastureScienceConverter>
+         <debug type="list" listvalues="on,off">off</debug>
+         <sand>0.0 0.0 0.0 0.0 0.0 0.0 0.0</sand>
+         <svp_fract> 0.75</svp_fract>
+       </PastureScienceConverter>
         <species>Perennial Ryegrass</species>
         <nutrients></nutrients>
         <fertility>0.75</fertility>
@@ -105,6 +110,7 @@
        <seed_dorm_time description="seed_dorm_time (d)">0.0</seed_dorm_time>
        <germ_index description="germ_index (d)">0.0</germ_index>
     </FarmwisePasture>
+
     <fieldpea />
     <horsegram />
     <lablab />
@@ -354,7 +360,6 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
   </summaryfile>
   <metfile name="Metfile">
     <filename name="filename">%apsuite\apsim\met\sample\dalby.met</filename>
-  </metfile>
     <climatechange>
       <maxtmodifier description="Change in maximum temperature in degrees celsius">0.0</maxtmodifier>
       <mintmodifier description="Change in minimum temperature in degrees celsius">0.0</mintmodifier>
@@ -362,6 +367,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
       <radiationmodifier description="Relative change in radiation">1.0</radiationmodifier>
       <co2 description="Atmospheric C02 concentration (ppm)">350</co2>
     </climatechange>
+  </metfile>
   <soilwatkludge name="soilwatkludge">
     <mwcon>1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0</mwcon>
     <max_pond>100</max_pond>
@@ -780,23 +786,151 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
         <property name="crop20" value="nil" type="crop" description="Enter 20th crop : " />
       </category>
     </rule>
-    <rule name="Buy stock on a fixed date">
+    <rule name="Buy cattle on a fixed date">
+      <condition name="init"><![CDATA[
+            <![CDATA[
+               cattle_presence = 'off'
+            ]]>
+            </condition>
       <condition name="start_of_day"><![CDATA[
-        if (today = date('[date]') then
-           [stockmodule] buystock number = [number] (-), sex = [sex], age = [age] (months), weight = [weight] (kg)
+        if (today = date('[buy_date]') then
+           [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
+           cattle_presence = 'on'
          endif
                ]]></condition>
       <category name="Buy properties">
-        <property name="stockmodule" value="cattle" type="modulename" description="Enter name of stock converter module : " />
-        <property name="date" value="1-jan" type="text" description="Enter sowing date (dd-mmm) : " />
-        <property name="number" value="5" type="text" description="Enter number of stock to buy : " />
-        <property name="sex" value="steer" type="list" listvalues="cow,cows,heifer,heifers,steer,steers,bull,bulls" description="Select sex of animals : " />
-        <property name="age" value="12" type="text" description="Enter age of animals (months) : " />
-        <property name="weight" value="250" type="text" description="Enter weight of animals (kg) : " />
+        <property name="stockmodule" value="StockScienceConverter" type="modulename" description="Name of stock converter module : " />
+        <property name="genotype" value="Angus" type="list" listvalues="Angus,ayrshire,beef shorthorn,brahman,brahman x british,brown swiss,charolais,charolais x british,charolais x friesian,charolais x holstein,chianina,dairy shorthorn,fresian,fresian x british,guernsey,hereford,holstein,holstein x british,jersey,limousein,sahiwal,simmental,south devon" description="Select Genotype : " />
+        <property name="buy_date" value="1-jan" type="text" description="Date (dd-mmm) : " />
+        <property name="buy_number" value="5" type="text" description="Number of stock : " />
+        <property name="sex" value="steer" type="list" listvalues="cow,heifer,steer,bull" description="Select sex : " />
+        <property name="buy_age" value="12" type="text" description="Age (months) : " />
+        <property name="buy_weight" value="250" type="text" description="Weight (kg) : " />
+      </category>
+    </rule>
+    <rule name="Buy cattle on feed-on-offer">
+      <condition name="init"><![CDATA[
+            <![CDATA[
+               cattle_presence = 'off'
+            ]]>
+            </condition>
+      <condition name="start_of_day"><![CDATA[
+        if ([herbage_module].biomass >= [buy_feed_on_offer] AND cattle_presence = 'off') then
+           [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
+           cattle_presence = 'on'
+        endif
+               ]]></condition>
+      <category name="Buy properties">
+        <property name="stockmodule" value="StockScienceConverter" type="modulename" description="Name of stock converter module : " />
+        <property name="genotype" value="Angus" type="list" listvalues="Angus,ayrshire,beef shorthorn,brahman,brahman x british,brown swiss,charolais,charolais x british,charolais x friesian,charolais x holstein,chianina,dairy shorthorn,fresian,fresian x british,guernsey,hereford,holstein,holstein x british,jersey,limousein,sahiwal,simmental,south devon" description="Select Genotype : " />
+        <property name="herbage_module" value="lucerne" type="modulename" description="Module supplying herbage : " />
+        <property name="buy_feed_on_offer" value="1500.0" type="text" description="Feed on offer (kg/ha) : " />
+        <property name="buy_number" value="5" type="text" description="Number of stock : " />
+        <property name="sex" value="steer" type="list" listvalues="cow,heifer,steer,bull" description="Select sex : " />
+        <property name="buy_age" value="12" type="text" description="Age (months) : " />
+        <property name="buy_weight" value="250" type="text" description="Weight (kg) : " />
+      </category>
+    </rule>
+    <rule name="Sell cattle on a fixed date">
+      <condition name="start_of_day"><![CDATA[
+        if (today = date('[sell_date]' AND cattle_presence = 'on') then
+           [stockmodule] sellstock number = [sell_number] (-)
+           cattle_presence = 'off'
+        endif
+               ]]></condition>
+      <category name="Sell properties">
+        <property name="stockmodule" value="StockScienceConverter" type="modulename" description="Name of stock converter module : " />
+        <property name="sell_date" value="1-jan" type="text" description="Date (dd-mmm) : " />
+        <property name="sell_number" value="5" type="text" description="Number of stock : " />
+      </category>
+    </rule>
+    <rule name="Sell cattle on weight">
+      <condition name="start_of_day"><![CDATA[
+        if ((stock.weight >= [sell_on_weight_gain] OR stock.weight <= [sell_on_weight_loss]) AND cattle_presence = 'on') then
+           [stockmodule] sellstock number = [sell_number] (-)
+           cattle_presence = 'off'
+        endif
+               ]]></condition>
+      <category name="Sell properties">
+        <property name="stockmodule" value="StockScienceConverter" type="modulename" description="Name of stock converter module : " />
+        <property name="sell_on_weight_gain" value="350.0" type="text" description="Weight (gaining) : " />
+        <property name="sell_on_weight_loss" value="0.0" type="text" description="Weight (losing) : " />
+        <property name="sell_number" value="5" type="text" description="Number of stock : " />
+      </category>
+    </rule>
+    <rule name="Buy sheep on a fixed date">
+      <condition name="init"><![CDATA[
+            <![CDATA[
+               sheep_presence = 'off'
+            ]]>
+            </condition>
+      <condition name="start_of_day"><![CDATA[
+        if (today = date('[buy_date]') then
+           [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
+           sheep_presence = 'on'
+         endif
+               ]]></condition>
+      <category name="Buy properties">
+        <property name="stockmodule" value="StockScienceConverter" type="modulename" description="Name of stock converter module : " />
+        <property name="genotype" value="suffolk" type="list" listvalues="black face x white face,birder keucester, border leicester x merino,columbia,corriedale,delaine-merino,dorset x merino,dorset,finnsheep,hampshire,large merino,medium merino,small merino,polwarth,polypay,romney,ryeland,southdown,suffolk,targhee,texel,US corriedale,US romney,US southdown,US suffolk" description="Select Genotype : " />
+        <property name="buy_date" value="1-jan" type="text" description="Date (dd-mmm) : " />
+        <property name="buy_number" value="50" type="text" description="Number of stock : " />
+        <property name="sex" value="wether" type="list" listvalues="ewe,wether,ram,crypto" description="Select sex : " />
+        <property name="buy_age" value="12" type="text" description="Age (months) : " />
+        <property name="buy_weight" value="45" type="text" description="Weight (kg) : " />
+      </category>
+    </rule>
+    <rule name="Buy sheep on feed-on-offer">
+      <condition name="init"><![CDATA[
+            <![CDATA[
+               sheep_presence = 'off'
+            ]]>
+            </condition>
+      <condition name="start_of_day"><![CDATA[
+        if ([herbage_module].biomass >= [buy_feed_on_offer] AND sheep_presence = 'off') then
+           [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
+           sheep_presence = 'on'
+         endif
+               ]]></condition>
+      <category name="Buy properties">
+        <property name="stockmodule" value="StockScienceConverter" type="modulename" description="Name of stock converter module : " />
+        <property name="genotype" value="suffolk" type="list" listvalues="black face x white face,birder keucester, border leicester x merino,columbia,corriedale,delaine-merino,dorset x merino,dorset,finnsheep,hampshire,large merino,medium merino,small merino,polwarth,polypay,romney,ryeland,southdown,suffolk,targhee,texel,US corriedale,US romney,US southdown,US suffolk" description="Select Genotype : " />
+        <property name="herbage_module" value="lucerne" type="modulename" description="Module supplying herbage : " />
+        <property name="buy_feed_on_offer" value="1500.0" type="text" description="Feed on offer (kg/ha) : " />
+        <property name="buy_number" value="50" type="text" description="Number of stock : " />
+        <property name="sex" value="wether" type="list" listvalues="ewe,wether,ram,crypto" description="Select sex : " />
+        <property name="buy_age" value="12" type="text" description="Age (months) : " />
+        <property name="buy_weight" value="45" type="text" description="Weight (kg) : " />
+      </category>
+    </rule>
+    <rule name="Sell sheep on a fixed date">
+      <condition name="start_of_day"><![CDATA[
+        if (today = date('[sell_date]' AND sheep_presence = 'on') then
+           [stockmodule] sellstock number = [sell_number] (-)
+           sheep_presence = 'off'
+        endif
+               ]]></condition>
+      <category name="Sell properties">
+        <property name="stockmodule" value="StockScienceConverter" type="modulename" description="Name of stock converter module : " />
+        <property name="sell_date" value="1-jan" type="text" description="Date (dd-mmm) : " />
+        <property name="sell_number" value="50" type="text" description="Number of stock : " />
+      </category>
+    </rule>
+    <rule name="Sell sheep on weight">
+      <condition name="start_of_day"><![CDATA[
+        if ((stock.weight >= [sell_on_weight_gain] OR stock.weight <= [sell_on_weight_loss]) AND sheep_presence = 'on') then
+           [stockmodule] sellstock number = [sell_number] (-)
+           sheep_presence = 'off'
+        endif
+               ]]></condition>
+      <category name="Sell properties">
+        <property name="stockmodule" value="StockScienceConverter" type="modulename" description="Name of stock converter module : " />
+        <property name="sell_on_weight_gain" value="60.0" type="text" description="Weight (gaining) : " />
+        <property name="sell_on_weight_loss" value="0.0" type="text" description="Weight (losing) : " />
+        <property name="sell_number" value="50" type="text" description="Number of stock : " />
       </category>
     </rule>
   </manager>
-  <tracker></tracker>
   <folder name="Tcl">
    <tclmanager name="TCL Manager (standalone)">
      <rule name="Logic">
@@ -890,10 +1024,10 @@ if {$steps == 0} {tkwait variable steps}
   </folder>
   <folder name="Water">
     <irrigation name="Irrigation">
-      <automatic_irrigation type="text" description="switch">on</automatic_irrigation>
-      <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
-      <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
-      <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+      <property name="automatic_irrigation" type="text" description="switch">on</property>
+      <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+      <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
+      <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
     </irrigation>
     <bore name="bore">
       <max_available_water>100</max_available_water>
@@ -967,12 +1101,13 @@ if {$steps == 0} {tkwait variable steps}
     <d_interception name="d_interception">0.0</d_interception>
   </micromet>
   <folder name="Animals">
-    <StockScienceConverter>
-      <herbage_module_name>lablab</herbage_module_name>
+    <StockHerbageConverter>
       <debug type="list" listvalues="on,off">off</debug>
       <conversion_model>herbage</conversion_model>
       <herbage_model>plant</herbage_model>
+      <herbage_module_name>lablab</herbage_module_name>
 
+      <proportion_legume>1.0</proportion_legume>
       <dmdValue>0.8 0.7 0.6 0.5 0.4 0.3</dmdValue>
 
       <p_conc_green_leaf_default>0.004</p_conc_green_leaf_default>
@@ -1015,7 +1150,15 @@ if {$steps == 0} {tkwait variable steps}
       <KQ4>200</KQ4>
 
       <cp_n_ratio>6.25</cp_n_ratio>
+    </StockHerbageConverter>
+
+    <StockScienceConverter>
+      <debug type="list" listvalues="on,off">off</debug>
+      <conversion_model>nonherbage</conversion_model>
+      <fraction_faeces_added>0.5</fraction_faeces_added>
+      <fraction_urine_added>0.5</fraction_urine_added>
     </StockScienceConverter>
+
     <stock>
        <stockgenotype name="Medium Merino Genotype">
          <genotypename>Medium Merino</genotypename>
@@ -1048,7 +1191,7 @@ if {$steps == 0} {tkwait variable steps}
        <sheep>
          <genotypename>Medium Merino</genotypename>
          <number>120</number>
-         <sex type="list" listvalues="ewe,ewes,wether,wethers,ram,rams,crypto,cryptos">wether</sex>
+         <sex type="list" listvalues="ewe,wether,ram,crypto">wether</sex>
          <age>730.0</age>
          <weight>50.0</weight>
          <max_prev_wt>50.0</max_prev_wt>
@@ -1068,7 +1211,7 @@ if {$steps == 0} {tkwait variable steps}
        <cattle>
          <genotypename>Angus</genotypename>
          <number>120</number>
-         <sex type="list" listvalues="cow,cows,heifer,heifers,steer,steers,bull,bulls">steer</sex>
+         <sex type="list" listvalues="cow,heifer,steer,bull">steer</sex>
          <age>730.0</age>
          <weight>50.0</weight>
          <max_prev_wt>50.0</max_prev_wt>
