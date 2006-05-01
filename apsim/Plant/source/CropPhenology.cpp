@@ -63,6 +63,7 @@ void CropPhenology::onHarvest(unsigned &, unsigned &, protocol::Variant &)
    currentStage = stage_reduction_harvest[currentStage];
    for (unsigned int stage = currentStage; stage != phases.size(); stage++)
       phases[stage]->reset();
+   setupTTTargets();
    }
 
 void CropPhenology::onKillStem(unsigned &, unsigned &, protocol::Variant &)
@@ -72,6 +73,7 @@ void CropPhenology::onKillStem(unsigned &, unsigned &, protocol::Variant &)
    currentStage = stage_reduction_kill_stem[currentStage];
    for (unsigned int stage = (int)currentStage; stage != phases.size(); stage++)
       phases[stage]->reset();
+   setupTTTargets();
    }
 
 void CropPhenology::readSpeciesParameters(protocol::Component *s, vector<string> &sections)
@@ -135,4 +137,4 @@ bool CropPhenology::plant_germination(float pesw_germ,         // plant extracta
       }
    // no germination yet.
    return false;
-   }   
+   }
