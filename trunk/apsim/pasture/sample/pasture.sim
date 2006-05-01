@@ -78,6 +78,18 @@
          <outputfile>pasture.out</outputfile>
          <variable>dd/mm/yyyy as Date</variable>
          <variable>rain as rain</variable>
+         <variable>pasture.rwu()</variable>
+         <variable>soilwat2.sw_dep()</variable>
+         <variable>soiln2.no3()</variable>
+         <variable>soiln2.nh4()</variable>
+         <variable>soiln2.fom()</variable>
+         <variable>pasture.rwu</variable>
+         <variable>soilwat2.sw_dep</variable>
+         <variable>soiln2.no3</variable>
+         <variable>soiln2.nh4</variable>
+         <variable>soiln2.fom</variable>
+         <variable>pasture.cover_tot</variable>
+         <variable>pasture.residue_cover</variable>
       </initdata>
    </component>
     <component name="PaddockArea" executable="%apsuite\apsim\manager\lib\manager.dll">
@@ -143,8 +155,6 @@
          <debug>on</debug>
          <sand>0.0 0.0 0.0 0.0 0.0 0.0 0.0</sand>
          <svp_fract> 0.75</svp_fract>
-         <fraction_urine_added>0.5</fraction_urine_added>
-         <conversion_model>nonherbage</conversion_model>
       </initdata>
    </component>
 
