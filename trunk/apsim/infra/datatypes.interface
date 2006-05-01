@@ -1735,6 +1735,103 @@
       <type name="cover_tot_all" kind="single" unit="0-1" lower_bound="1" description="Cover_tot_call"/>
       <type name="cover_height_all" kind="single" unit="0-1" lower_bound="2000" description="Cover_height_all"/>
 
+!   !!!!! PASTURE  types  !!!!!!!!!!!!!!!!!!!!!!
+
+   <type name="pasturewaterdemand" description="Message sent to add crop water demand terms to water balance calculations.">
+      <field name="demands" array="T">
+         <element>
+            <field name="crop_ident" kind = "string" description="Cohort name + instance name"/>
+            <field name="crop_type" kind = "string"/>
+            <field name="rlv_layer">
+                <field name="layers" kind="double" units="mm" array = "T"/>
+                <field name="rlv" kind="double" units="mmmm^3" array = "T"/>
+            </field>
+            <field name="demand" kind="double" unit="mm"/>
+         </element>
+      </field>
+   </type>
+
+   <type name="pasturewatersupply">
+      <field name="supplies" array="T">
+         <element>
+            <field name="crop_ident" kind = "string" description="Cohort name + instance name"/>
+            <field name="layers" kind="double" unit="mm"  array = "T"/>
+            <field name="supply" kind="double" unit="mm"  array = "T"/>
+         </element>
+      </field>
+   </type>
+
+   <type name="pasturewateruptake">
+      <field name="water_uptake" array="T">
+         <element>
+            <field name="crop_ident" kind = "string" description="Cohort name + instance name"/>
+            <field name="layers" kind="double" unit="mm"  array = "T"/>
+            <field name="uptake" kind="double" unit="mm"  array = "T"/>
+         </element>
+      </field>
+   </type>
+
+   <type name="fom_added">
+      <field name="layers" unit="mm" kind="double" array="T" />
+      <field name="fom" array="T">
+         <element>
+            <field name="weight"  unit="kg/ha"  kind="double"/>
+            <field name="n"       unit="kg/ha"  kind="double"/>
+            <field name="p"       unit="kg/ha"  kind="double"/>
+            <field name="s"       unit="kg/ha"  kind="double"/>
+            <field name="ash_alk" unit="mol/ha" kind="double"/>
+         </element>
+      </field>
+   </type>
+
+   <type name="pasturenutrientuptake">
+      <field name="nutrient" kind="string"/>
+      <field name="layers" unit="mm" kind="double" array="T" />
+      <field name="uptake" unit="kg/ha" kind="double" array="T" />
+   </type>
+
+   <type name="pasturesow">
+      <field name="rate" unit="kg/ha" kind="double"/>
+   </type>
+
+   <type name="pasturekill">
+      <field name="propn_herbage" unit="-" kind="double"/>
+      <field name="propn_seeds" unit="-" kind="double"/>
+   </type>
+
+   <type name="pasturecultivate">
+      <field name="depth" unit="mm" kind="double"/>
+      <field name="propn_incorp" unit="-" kind="double"/>
+      <field name="propn_mixed" unit="-" kind="double"/>
+   </type>
+
+   <type name="pasturecut">
+      <field name="cut_height" unit="mm" kind="double"/>
+      <field name="gathered" unit="-" kind="double"/>
+      <field name="dmd_loss" unit="-" kind="double"/>
+      <field name="dm_content" unit="kg/kg" kind="double"/>
+   </type>
+
+   <type name="pastureoncut">
+      <field name="fresh_wt" unit="kg" kind="double"/>
+      <field name="dm_content" unit="kg/kg" kind="double"/>
+      <field name="dm" unit="-" kind="double"/>
+      <field name="cp_conc" unit="kg/kg" kind="double"/>
+      <field name="p_conc" unit="kg/kg" kind="double"/>
+      <field name="s_conc" unit="kg/kg" kind="double"/>
+      <field name="ash_alk" unit="mol/kg" kind="double"/>
+   </type>
+
+   <type name="pastureweather">
+      <field name="maxt" unit="oC" kind="double"/>
+      <field name="mint" unit="oC" kind="double"/>
+      <field name="rain" unit="mm/d" kind="double"/>
+      <field name="snow" unit="mm/d" kind="double"/>
+      <field name="radn" unit="MJ/m2/d" kind="double"/>
+      <field name="vpd" unit="kPa" kind="double"/>
+      <field name="wind" unit="m/s" kind="double"/>
+   </type>
+
 !   !!!!! STOCK  types  !!!!!!!!!!!!!!!!!!!!!!
 
       <type name="faeces" array="T">
