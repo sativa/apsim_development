@@ -11,6 +11,7 @@ class PlantHerbage : public HerbageBase
    public:
       PlantHerbage(protocol::Component *system);
       ~PlantHerbage(void);
+
       void doInit2(void);
 //      void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
       void doDmdPoolsToHerbageParts(protocol::remove_herbageType &grazed, protocol::removeCropDmType &crop);
@@ -25,6 +26,7 @@ class PlantHerbage : public HerbageBase
       void getThermalTime(float &thermalTime);
       void getVariables(void);
       void readHerbageModuleParameters ( void );
+
       void calcDmdDistribution(PlantPool dmdFraction[], PlantPool dQ);
       void calcDmdDistributionB(PlantPool dmdFraction[], PlantPool dQ);
       void calcDmdClass(PlantPool &dmdClassMax, PlantPool &dmdClassMin);
@@ -39,11 +41,57 @@ class PlantHerbage : public HerbageBase
       float proportionLegume(void);
       float selectionFactor ( void );
 
+         // Belongs to base class when implemented
+      void doInit1(const FString& sdml);
+      void doGrazed(protocol::remove_herbageType &grazed);
+
+      void readParameters ( void );
+      void proportion (float dmdAvg, float dmdMax, float dmdMin, float dmdFraction[]);
+      void dmdClass (float dmdMax, float dmdMin, float &dmdClassMax, float &dmdClassMin);
+      float hHeight(void);
+      float heightRatio(int pool);
+      float bD(void);
+      float dmdValue(int pool);
+      float protDg(int pool);
+      int numDmdPools ( void );
+      string herbageModuleName(void);
+      string debug();
+
+   protected:
+////      protocol::Component *system;
+
+      unsigned removeHerbageID;
+
+      unsigned dmFeedOnOfferID;
+      unsigned dmFeedRemovedID;
+      unsigned removeCropBiomassID;
+
+      PlantPool dmdFraction[maxDmdPools];
+      PlantPool dmdPoolDm[maxDmdPools];
+      PlantPool partFraction[maxDmdPools];
+      PlantPool dmdMax;
+      PlantPool dmdAvg;
+      PlantPool dmdMin;
+
+      PlantPool dmdClassMax;
+      PlantPool dmdClassMin;
+
+      PlantPool dm;
+      PlantPool N;
+      PlantPool P;
+      PlantPool dQ;
+      float  height;
+      float  thermalTime;
+
+         string cHerbageModuleName;
+         string cDebug;
+
+         float cDmdValue[maxDmdPools];
+         int   cNumDmdPools;
+
    private:
 ////      protocol::Component *system;
       float divide (float dividend, float divisor, float default_value);
-
-      unsigned removeHerbageID;
 
       unsigned dmGreenID;
       unsigned dmSenescedID;
@@ -64,9 +112,6 @@ class PlantHerbage : public HerbageBase
       unsigned heightID;
       unsigned thermalTimeID;
       unsigned thermalTimeBGID;
-      unsigned dmFeedOnOfferID;
-      unsigned dmFeedRemovedID;
-      unsigned removeCropBiomassID;
 
       struct
       {
@@ -110,6 +155,7 @@ class PlantHerbage : public HerbageBase
          float dmdDeadStem[3];
 
          float cpNRatio;
+         float proportionLegume;
 
          float KQ5Leaf;
          float KQ5Stem;

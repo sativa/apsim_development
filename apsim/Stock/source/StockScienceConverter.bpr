@@ -7,7 +7,7 @@
     <OBJFILES value="StockScienceConverter.obj ScienceConverterComponent.obj 
       ..\..\..\Shared\ComponentInterface\EntryPoints.obj PlantPool.obj 
       PlantHerbage.obj HerbageConverter.obj NonHerbageConverter.obj 
-      ConverterBase.obj HerbageBase.obj ResidueHerbage.obj"/>
+      ConverterBase.obj HerbageBase.obj ResidueHerbage.obj ResiduePool.obj"/>
     <RESFILES value="StockScienceConverter.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -65,6 +65,7 @@
       <FILE FILENAME="ConverterBase.cpp" FORMNAME="" UNITNAME="ConverterBase" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="HerbageBase.cpp" FORMNAME="" UNITNAME="HerbageBase" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ResidueHerbage.cpp" FORMNAME="" UNITNAME="ResidueHerbage" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ResiduePool.cpp" FORMNAME="" UNITNAME="ResiduePool" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -133,7 +134,7 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl;c:\data\Apsim\development\Shared\ComponentInterface\;c:\data\Apsim\development\apsim\SummaryFile\Source\
 
 [Parameters]
-RunParams=&quot;C:\data\Apsim\development\apsim\Stock\sample\stock.sim&quot;
+RunParams=&quot;C:\data\APS\apswork\apsim\Grain_Graze\APSIM_STOCK\APSIM\Stock\Sheep Pasture Simulation.sim&quot;
 Launcher=
 UseLauncher=0
 DebugCWD=

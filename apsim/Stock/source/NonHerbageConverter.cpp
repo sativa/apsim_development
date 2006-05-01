@@ -40,6 +40,9 @@ void NonHerbageConverter::doInit1(const FString& sdml)
    stockBuyID = system->addRegistration(RegistrationType::respondToEvent, "buystock", stringTypeDDML);
    buyID = system->addRegistration(RegistrationType::event, "buy", buystockTypeDDML);
 
+   stockMoveID = system->addRegistration(RegistrationType::respondToEvent, "movestock", stringTypeDDML);
+   moveID = system->addRegistration(RegistrationType::event, "move", movestockTypeDDML);
+
    stockSellID = system->addRegistration(RegistrationType::respondToEvent, "sellstock", stringTypeDDML);
    sellID = system->addRegistration(RegistrationType::event, "sell", sellstockTypeDDML);
 
@@ -101,6 +104,10 @@ void NonHerbageConverter::respondToEvent(unsigned int& fromID, unsigned int& eve
    else if (eventID == stockSellID)
    {
       stockSell(variant);
+   }
+   else if (eventID == stockMoveID)
+   {
+      stockMove(variant);
    }
    else
    {   // Don't respond to any other events.
@@ -267,6 +274,45 @@ void NonHerbageConverter::stockSell (protocol::Variant &v/*(INPUT) message varia
     }
 
     system->publish (sellID, sellstock);
+}
+
+void NonHerbageConverter::stockMove (protocol::Variant &v/*(INPUT) message variant*/)
+{
+    std::string  valuestr;
+    int      value4;
+    protocol::movestockType movestock;
+
+    protocol::ApsimVariant incomingApsimVariant(this);
+    incomingApsimVariant.aliasTo(v.getMessageData());
+
+    if (incomingApsimVariant.get("number", protocol::DTint4, false, value4) == true)
+    {
+         movestock.group = value4;
+
+         ostringstream msg;
+         msg << "Name stock :-" << endl
+             << "   Group = " << setw(10) << value4 << " (-)" << ends;
+         system->writeString (msg.str().c_str());
+    }
+    else
+    {
+         movestock.group = 0;
+    }
+
+    if (incomingApsimVariant.get("paddock", protocol::DTstring, false, valuestr) == true)
+    {
+         movestock.paddock = valuestr;
+
+         ostringstream msg;
+         msg << " Group = " << setw(10) << valuestr << " (-)" << ends;
+         system->writeString (msg.str().c_str());
+    }
+    else
+    {
+         movestock.paddock = "";
+    }
+
+    system->publish (moveID, movestock);
 }
 
 void NonHerbageConverter::sendAddSurfaceOMEvent (const string& omName, const string& omType, protocol::faeces_omType faecesOM)

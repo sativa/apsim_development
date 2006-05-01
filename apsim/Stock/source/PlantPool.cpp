@@ -16,6 +16,8 @@
 
 // default constructor
 // 	initialise data members.
+// ----------------------------- PlantPartType ---------------------------------
+
 PlantPartType::PlantPartType()  			 // member initialisation
 {
    leaf = 0.0;
@@ -104,7 +106,7 @@ PlantPartType PlantPartType::operator- (const PlantPartType &y) const
    return result;
    }
 
-
+// ----------------------------- PlantPool ---------------------------------
 
 // default constructor
 // 	initialise data members.
