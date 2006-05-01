@@ -167,12 +167,12 @@ void Plant::doInit1(protocol::Component *s)
     plant_zero_all_globals();
     zero_p_variables();
     doRegistrations(s);
-    doIDs();                 // Gather IDs for getVariable requests
    }
 
 // Init2. The rest of the system is here now..
 void Plant::doInit2(protocol::Component *s)
    {
+   doIDs();                 // Gather IDs for getVariable requests
    PlantP_set_phosphorus_aware(parent); // See whether a P module is plugged in
    plant_read_constants (); // Read constants
    plant_zero_variables (); // Zero global states
@@ -4522,6 +4522,8 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
     // Check sensibility of part deltas
     for (part = allParts.begin(); part != allParts.end(); part++)
     {
+      if ((*part)->name() == "leaf" || (*part)->name() == "stem")
+      {
         if ((*part)->dlt.dm_green > (*part)->DMGreen + error_margin)
         {
              ostrstream msg;
@@ -4546,6 +4548,7 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
         else
         { // no more checks
         }
+      }
     }
 
     // Update biomass and N pools.  Different types of plant pools are affected in different ways.
