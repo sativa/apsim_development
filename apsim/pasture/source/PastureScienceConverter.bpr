@@ -33,7 +33,7 @@
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -Od -w -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c -tWM"/>
+    <CFLAG1 value="-WD -Od -Q -w -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c -tWM"/>
     <PFLAGS value="-$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
     <AFLAGS value="/mx /w2 /zi"/>
@@ -125,7 +125,7 @@ Item2=..\lib
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=&quot;C:\data\Apsim\development\apsim\pasture\sample\pasture.sim&quot;
+RunParams=&quot;C:\data\APS\apswork\apsim\Grain_Graze\APSIM_STOCK\APSIM\Stock\Sheep Simulation.sim&quot;
 Launcher=
 UseLauncher=0
 DebugCWD=
