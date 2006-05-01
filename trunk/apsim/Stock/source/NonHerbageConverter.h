@@ -32,6 +32,7 @@ class NonHerbageConverter : public ConverterBase
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
       virtual void stockBuy (protocol::Variant &v/*(INPUT) message variant*/);
       virtual void stockSell (protocol::Variant &v/*(INPUT) message variant*/);
+      virtual void stockMove (protocol::Variant &v/*(INPUT) message variant*/);
 
    private:
       void doRunTimeReg(void);
@@ -52,8 +53,10 @@ class NonHerbageConverter : public ConverterBase
 
       unsigned stockBuyID;
       unsigned stockSellID;
+      unsigned stockMoveID;
       unsigned buyID;
       unsigned sellID;
+      unsigned moveID;
       unsigned addManureID;
 
 ////      protocol::Component *system;

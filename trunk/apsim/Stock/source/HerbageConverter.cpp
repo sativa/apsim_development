@@ -185,6 +185,19 @@ void HerbageConverter::sendPlant2Stock(protocol::QueryValueData& queryData)
 //      conversion->getVariables(dm, N, P, height, thermalTime);
 
       protocol::herbageType herbage;
+      protocol::seedType seed;
+
+      seed.dm = 0.0;         // kg/ha
+      seed.dmd = 0.0;        // kg/ha
+      seed.cp_conc = 0.0;    // (kg/ha)
+      seed.p_conc = 0.0;
+      seed.s_conc = 0.0;      //  kg/ha
+      seed.prot_dg = 0.0;     //  kg/ha
+      seed.ash_alk = 0.0;      //  mol/kg
+      seed.height_ratio = 0.0; //
+
+      int unripe = 0;
+      int ripe = 0;
 
       if (conversion->dmTotal() > 0.0)
       {
@@ -256,6 +269,10 @@ void HerbageConverter::sendPlant2Stock(protocol::QueryValueData& queryData)
          feed.legume = 0.0;
          feed.select_factor = 0.0;
       }
+         feed.seed.push_back(seed);
+         feed.seed_class.push_back(unripe);
+         feed.seed_class.push_back(ripe);
+
       // Now SEND feed off
       system->sendVariable(queryData, feed);
 }
