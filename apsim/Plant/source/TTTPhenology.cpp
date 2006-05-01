@@ -363,6 +363,8 @@ void TTTPhenology::onRemoveBiomass(float removeBiomPheno)
          if (ttRemaining > ttCurrentPhase)
          {
             phase->reset();
+            if (currentStage < 5.0)  //FIXME - hack to stop onEmergence being fired which initialises biomass parts
+               break;
             ttRemaining -= ttCurrentPhase;
             currentStage -= 1.0;
          }
