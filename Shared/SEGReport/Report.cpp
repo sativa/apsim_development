@@ -612,7 +612,9 @@ void Report::exportCurrentToFile(const std::string& fileNameBase)
       if (pages.size() > 1)
          {
          Path p(fileName);
-         fileName = p.Get_directory() + "\\" + p.Get_name_without_ext();
+         fileName = p.Get_name_without_ext();
+         if (p.Get_directory() != "")
+            fileName = p.Get_directory() + "\\" + fileName;
          int pageNumber = page - pages.begin() + 1;
          fileName += "[page" + itoa(pageNumber) + "]";
          fileName += p.Get_extension();
