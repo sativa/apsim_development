@@ -8,8 +8,9 @@ using System.Web.SessionState;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
+using System.Xml;
 
-namespace YieldProphet
+namespace YP2006
 {
 	/// <summary>
 	/// Summary description for wfGenerateSowingXVarietyReport.
@@ -18,8 +19,6 @@ namespace YieldProphet
 	{
 		protected System.Web.UI.WebControls.ImageButton btnSaveImg;
 		protected System.Web.UI.WebControls.ImageButton btnCancelImg;
-		protected System.Web.UI.WebControls.Button btnSave;
-		protected System.Web.UI.WebControls.LinkButton btnCancel;
 		protected System.Data.DataSet dsNitrogen;
 		protected System.Data.DataTable dtNitrogen;
 		protected System.Data.DataColumn dcID;
@@ -37,8 +36,6 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.Label lblVarietyTwo;
 		protected System.Web.UI.WebControls.Label lblVarietyThree;
 		protected System.Data.DataSet dsSowDate;
-		protected System.Data.DataTable dtSowDate;
-		protected System.Data.DataColumn dcSowDate;
 		protected Janus.Web.GridEX.GridEX grdSowDateOne;
 		protected System.Web.UI.WebControls.Label lblSowingDateOne;
 		protected Janus.Web.GridEX.GridEX grdSowDateTwo;
@@ -46,57 +43,89 @@ namespace YieldProphet
 		protected Janus.Web.GridEX.GridEX grdNitrogen;
 		protected System.Web.UI.WebControls.Label lblSowingDateTwo;
 		protected System.Web.UI.WebControls.Label lblSowingDateThree;
-		protected System.Web.UI.WebControls.Label lblPopulation;
-		protected System.Web.UI.WebControls.CheckBox chkAutoCalculateThree;
-		protected System.Web.UI.WebControls.Label lblTillerTwo;
-		protected System.Web.UI.WebControls.Label lblRowSpacingTwo;
-		protected System.Web.UI.WebControls.Label lblRowConfigurationTwo;
-		protected System.Web.UI.WebControls.TextBox edtTillerTwo;
-		protected System.Web.UI.WebControls.Button btnReCalculateTwo;
-		protected System.Web.UI.WebControls.TextBox edtRowSpacingTwo;
-		protected System.Web.UI.WebControls.Label lblRowSpacingUnitTwo;
-		protected System.Web.UI.WebControls.DropDownList cboRowConfigurationTwo;
-		protected System.Web.UI.WebControls.Label lblPopulationUnitTwo;
-		protected System.Web.UI.WebControls.TextBox edtPopulationTwo;
-		protected System.Web.UI.WebControls.Label Label1;
-		protected System.Web.UI.WebControls.TextBox edtPopulationThree;
-		protected System.Web.UI.WebControls.Label lblPopulationUnitThree;
-		protected System.Web.UI.WebControls.DropDownList cboRowConfigurationThree;
-		protected System.Web.UI.WebControls.Label lblRowSpacingUnitThree;
-		protected System.Web.UI.WebControls.TextBox edtRowSpacingThree;
-		protected System.Web.UI.WebControls.Button btnReCalculateThree;
-		protected System.Web.UI.WebControls.TextBox edtTillerThree;
-		protected System.Web.UI.WebControls.Label lblRowConfigurationThree;
-		protected System.Web.UI.WebControls.Label lblRowSpacingThree;
-		protected System.Web.UI.WebControls.Label lblTillerThree;
-		protected System.Web.UI.WebControls.CheckBox chkAutoCalculateTwo;
-		protected System.Web.UI.WebControls.Label Label7;
-		protected System.Web.UI.WebControls.TextBox edtPopulationOne;
-		protected System.Web.UI.WebControls.Label lblPopulationUnitOne;
-		protected System.Web.UI.WebControls.DropDownList cboRowConfigurationOne;
-		protected System.Web.UI.WebControls.Label lblRowSpacingUnitOne;
-		protected System.Web.UI.WebControls.TextBox edtRowSpacingOne;
-		protected System.Web.UI.WebControls.Button btnReCalculateOne;
-		protected System.Web.UI.WebControls.TextBox edtTillerOne;
-		protected System.Web.UI.WebControls.Label lblRowConfigurationOne;
-		protected System.Web.UI.WebControls.Label lblRowSpacingOne;
-		protected System.Web.UI.WebControls.Label lblTillerOne;
-		protected System.Web.UI.WebControls.CheckBox chkAutoCalculateOne;
 		protected System.Web.UI.WebControls.Label lblScenarioOne;
 		protected System.Web.UI.WebControls.Label lblScenarioTwo;
 		protected System.Web.UI.WebControls.Label lblScenarioThree;
-		protected System.Web.UI.WebControls.Label lblPopulationTwo;
-		protected System.Web.UI.WebControls.Label lblPopulationThree;
+		protected System.Web.UI.WebControls.Label lblPopulation;
+		protected System.Web.UI.WebControls.Panel pnlSorgumOne;
+		protected System.Web.UI.WebControls.Panel pnlCanolaOne;
+		protected System.Web.UI.WebControls.Label lblPopulationUnitOne;
+		protected System.Web.UI.WebControls.Label lblRowSpacingUnitOne;
+		protected System.Web.UI.WebControls.Button btnCalculateOne;
+		protected System.Web.UI.WebControls.CheckBox chkAutoCalculateOne;
+		protected System.Web.UI.WebControls.Label lblTillerOne;
+		protected System.Web.UI.WebControls.TextBox edtTillerOne;
+		protected System.Web.UI.WebControls.TextBox edtRowSpacingOne;
+		protected System.Web.UI.WebControls.Label lblRowSpacingOne;
+		protected System.Web.UI.WebControls.DropDownList cboRowConfigurationOne;
+		protected System.Web.UI.WebControls.Label lblRowConfigurationOne;
+		protected System.Web.UI.WebControls.TextBox edtPopulationOne;
+		protected System.Web.UI.WebControls.CheckBox chkTriazineOne;
+		protected System.Web.UI.WebControls.CheckBox chkTriazineTwo;
+		protected System.Web.UI.WebControls.Panel pnlCanolaTwo;
+		protected System.Web.UI.WebControls.CheckBox chkTriazineThree;
+		protected System.Web.UI.WebControls.Panel pnlCanolaThree;
+		protected System.Web.UI.WebControls.Label lblPopulationUnitTwo;
+		protected System.Web.UI.WebControls.Label lblRowSpacingUnitTwo;
+		protected System.Web.UI.WebControls.Button btnCalculateTwo;
+		protected System.Web.UI.WebControls.CheckBox chkAutoCalculateTwo;
+		protected System.Web.UI.WebControls.Label lblTillerTwo;
+		protected System.Web.UI.WebControls.TextBox edtTillerTwo;
+		protected System.Web.UI.WebControls.TextBox edtRowSpacingTwo;
+		protected System.Web.UI.WebControls.Label lblRowSpacingTwo;
+		protected System.Web.UI.WebControls.DropDownList cboRowConfigurationTwo;
+		protected System.Web.UI.WebControls.Label lblRowConfigurationTwo;
+		protected System.Web.UI.WebControls.TextBox edtPopulationTwo;
+		protected System.Web.UI.WebControls.Label Label6;
+		protected System.Web.UI.WebControls.Panel pnlSorgumTwo;
+		protected System.Web.UI.WebControls.Label lblPopulationUnitThree;
+		protected System.Web.UI.WebControls.Label lblRowSpacingUnitThree;
+		protected System.Web.UI.WebControls.Button btnCalculateThree;
+		protected System.Web.UI.WebControls.CheckBox chkAutoCalculateThree;
+		protected System.Web.UI.WebControls.Label lblTillerThree;
+		protected System.Web.UI.WebControls.TextBox edtTillerThree;
+		protected System.Web.UI.WebControls.Label lblRowSpacingThree;
+		protected System.Web.UI.WebControls.DropDownList cboRowConfigurationThree;
+		protected System.Web.UI.WebControls.Label lblRowConfigurationThree;
+		protected System.Web.UI.WebControls.Label Label12;
+		protected System.Web.UI.WebControls.Panel pnlSorgumThree;
 		protected System.Web.UI.WebControls.Label lblPopulationOne;
-		protected System.Web.UI.WebControls.Panel pnlDivideOne;
-		protected System.Web.UI.WebControls.Panel pnlDivideTwo;
-		protected System.Web.UI.WebControls.Panel pnlTop;
+		protected System.Web.UI.WebControls.Label lblPopulationThree;
+		protected System.Web.UI.WebControls.TextBox edtRowSpacingThree;
+		protected System.Web.UI.WebControls.TextBox edtPopulationThree;
+		protected System.Web.UI.WebControls.Label lblPopulationTwo;
+		protected System.Data.DataTable dtSowDateOne;
+		protected System.Data.DataColumn dcSowDateOne;
+		protected System.Data.DataTable dtSowDateTwo;
+		protected System.Data.DataTable dtSowDateThree;
+		protected System.Data.DataColumn dcSowDateTwo;
+		protected System.Data.DataColumn dcSowDateThree;
+		protected System.Web.UI.WebControls.LinkButton btnFavouriteReports;
+		protected System.Web.UI.WebControls.LinkButton btnNewReports;
+		protected System.Web.UI.WebControls.LinkButton btnReportsView;
+		protected System.Web.UI.WebControls.Panel pnlPaddock;
+		protected System.Web.UI.WebControls.Label lblHeading;
+		protected System.Web.UI.WebControls.LinkButton btnGrowersReports;
+		protected System.Web.UI.WebControls.LinkButton btnGrowersPaddocks;
+		protected System.Web.UI.WebControls.LinkButton btnManageReports;
+		protected System.Web.UI.WebControls.Label lblYieldProphet;
+		protected System.Web.UI.WebControls.CheckBox chkFavourite;
+		protected System.Web.UI.WebControls.Button btnCancel;
+		protected System.Web.UI.WebControls.Button btnGenerate;
+		protected System.Web.UI.WebControls.Panel pnlBottomBorder;
+		protected System.Web.UI.WebControls.Image imgBanner;
+		protected System.Web.UI.WebControls.LinkButton btnPersonalDetails;
+		protected System.Web.UI.WebControls.LinkButton btnManageItems;
+		protected System.Web.UI.WebControls.LinkButton btnMainMenu;
+		protected System.Web.UI.WebControls.Panel pnlNavigationMenu;
+
+		private static string szReportType = "Sowing X variety report";
 	
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
 		{
-			System.Globalization.DateTimeFormatInfo.CurrentInfo.ShortDatePattern = "dd/MM/yyyy";
+			System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-AU");
 			InitializeComponent();
 			base.OnInit(e);
 		}
@@ -113,38 +142,46 @@ namespace YieldProphet
 			this.dcApplicationDate = new System.Data.DataColumn();
 			this.dcRate = new System.Data.DataColumn();
 			this.dsSowDate = new System.Data.DataSet();
-			this.dtSowDate = new System.Data.DataTable();
-			this.dcSowDate = new System.Data.DataColumn();
+			this.dtSowDateOne = new System.Data.DataTable();
+			this.dcSowDateOne = new System.Data.DataColumn();
+			this.dtSowDateTwo = new System.Data.DataTable();
+			this.dcSowDateTwo = new System.Data.DataColumn();
+			this.dtSowDateThree = new System.Data.DataTable();
+			this.dcSowDateThree = new System.Data.DataColumn();
 			((System.ComponentModel.ISupportInitialize)(this.dsNitrogen)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dtNitrogen)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dsSowDate)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.dtSowDate)).BeginInit();
-			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-			this.btnCancelImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnCancelImg_Click);
-			this.btnSaveImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnSaveImg_Click);
-			this.grdNitrogen.UpdatingCell += new Janus.Web.GridEX.UpdatingCellEventHandler(this.grdNitrogen_UpdatingCell);
+			((System.ComponentModel.ISupportInitialize)(this.dtSowDateOne)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dtSowDateTwo)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dtSowDateThree)).BeginInit();
+			this.btnPersonalDetails.Click += new System.EventHandler(this.NavigationButtonClick);
+			this.btnManageReports.Click += new System.EventHandler(this.NavigationButtonClick);
+			this.btnManageItems.Click += new System.EventHandler(this.NavigationButtonClick);
+			this.btnGrowersPaddocks.Click += new System.EventHandler(this.NavigationButtonClick);
+			this.btnGrowersReports.Click += new System.EventHandler(this.NavigationButtonClick);
+			this.btnMainMenu.Click += new System.EventHandler(this.NavigationButtonClick);
+			this.btnReportsView.Click += new System.EventHandler(this.NavigationButtonClick);
+			this.btnNewReports.Click += new System.EventHandler(this.NavigationButtonClick);
+			this.btnFavouriteReports.Click += new System.EventHandler(this.NavigationButtonClick);
 			this.cboCrops.SelectedIndexChanged += new System.EventHandler(this.cboCrops_SelectedIndexChanged);
-			this.btnReCalculateTwo.Click += new System.EventHandler(this.btnReCalculateTwo_Click);
-			this.chkAutoCalculateTwo.CheckedChanged += new System.EventHandler(this.chkAutoCalculateTwo_CheckedChanged);
-			this.chkAutoCalculateThree.CheckedChanged += new System.EventHandler(this.chkAutoCalculateThree_CheckedChanged);
-			this.btnReCalculateThree.Click += new System.EventHandler(this.btnReCalculateThree_Click);
-			this.chkAutoCalculateOne.CheckedChanged += new System.EventHandler(this.chkAutoCalculateOne_CheckedChanged);
-			this.btnReCalculateOne.Click += new System.EventHandler(this.btnReCalculateOne_Click);
+			this.grdNitrogen.UpdatingCell += new Janus.Web.GridEX.UpdatingCellEventHandler(this.grdNitrogen_UpdatingCell);
+			this.btnCalculateOne.Click += new System.EventHandler(this.chkAutoCalculateOne_CheckedChanged);
+			this.btnGenerate.Click += new System.EventHandler(this.btnGenerate_Click);
+			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 			// 
 			// dsNitrogen
 			// 
 			this.dsNitrogen.DataSetName = "NewDataSet";
 			this.dsNitrogen.Locale = new System.Globalization.CultureInfo("en-AU");
 			this.dsNitrogen.Tables.AddRange(new System.Data.DataTable[] {
-																																		this.dtNitrogen});
+																			this.dtNitrogen});
 			// 
 			// dtNitrogen
 			// 
 			this.dtNitrogen.Columns.AddRange(new System.Data.DataColumn[] {
-																																			this.dcID,
-																																			this.dcApplicationDate,
-																																			this.dcRate});
+																			  this.dcID,
+																			  this.dcApplicationDate,
+																			  this.dcRate});
 			this.dtNitrogen.TableName = "Nitrogen";
 			// 
 			// dcID
@@ -165,23 +202,49 @@ namespace YieldProphet
 			this.dsSowDate.DataSetName = "NewDataSet";
 			this.dsSowDate.Locale = new System.Globalization.CultureInfo("en-AU");
 			this.dsSowDate.Tables.AddRange(new System.Data.DataTable[] {
-																																	 this.dtSowDate});
+																		   this.dtSowDateOne,
+																		   this.dtSowDateTwo,
+																		   this.dtSowDateThree});
 			// 
-			// dtSowDate
+			// dtSowDateOne
 			// 
-			this.dtSowDate.Columns.AddRange(new System.Data.DataColumn[] {
-																																		 this.dcSowDate});
-			this.dtSowDate.TableName = "SowDate";
+			this.dtSowDateOne.Columns.AddRange(new System.Data.DataColumn[] {
+																				this.dcSowDateOne});
+			this.dtSowDateOne.TableName = "SowDateOne";
 			// 
-			// dcSowDate
+			// dcSowDateOne
 			// 
-			this.dcSowDate.ColumnName = "SowDate";
-			this.dcSowDate.DataType = typeof(System.DateTime);
+			this.dcSowDateOne.ColumnName = "SowDate";
+			this.dcSowDateOne.DataType = typeof(System.DateTime);
+			// 
+			// dtSowDateTwo
+			// 
+			this.dtSowDateTwo.Columns.AddRange(new System.Data.DataColumn[] {
+																				this.dcSowDateTwo});
+			this.dtSowDateTwo.TableName = "SowDateTwo";
+			// 
+			// dcSowDateTwo
+			// 
+			this.dcSowDateTwo.ColumnName = "SowDate";
+			this.dcSowDateTwo.DataType = typeof(System.DateTime);
+			// 
+			// dtSowDateThree
+			// 
+			this.dtSowDateThree.Columns.AddRange(new System.Data.DataColumn[] {
+																				  this.dcSowDateThree});
+			this.dtSowDateThree.TableName = "SowDateThree";
+			// 
+			// dcSowDateThree
+			// 
+			this.dcSowDateThree.ColumnName = "SowDate";
+			this.dcSowDateThree.DataType = typeof(System.DateTime);
 			this.Load += new System.EventHandler(this.Page_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dsNitrogen)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dtNitrogen)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dsSowDate)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.dtSowDate)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dtSowDateOne)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dtSowDateTwo)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dtSowDateThree)).EndInit();
 
 		}
 		#endregion
@@ -192,57 +255,284 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		//
 		//-------------------------------------------------------------------------
-		private void FillForm()
+		private DataTable CreateTempCropStorage()
+		{
+			DataTable dtCrops = new DataTable("Crops");
+			dtCrops.Columns.Add("Crop");
+			dtCrops.Columns.Add("CultivarOne");
+			dtCrops.Columns.Add("CultivarTwo");
+			dtCrops.Columns.Add("CultivarThree");
+			dtCrops.Columns.Add("RowConfigurationOne");
+			dtCrops.Columns.Add("RowConfigurationTwo");
+			dtCrops.Columns.Add("RowConfigurationThree");
+			dtCrops.Rows.Add(dtCrops.NewRow());
+			return dtCrops;
+		}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void SetCropDropDowns(DataTable dtCrops)
+		{
+			if(dtCrops.Rows.Count > 0)
 			{
-			InitialiseGrids();
-			SetSowDate();
+				cboCrops.SelectedValue = dtCrops.Rows[0]["Crop"].ToString();
+				cboVarietyOne.SelectedValue = dtCrops.Rows[0]["CultivarOne"].ToString();
+				cboVarietyTwo.SelectedValue = dtCrops.Rows[0]["CultivarTwo"].ToString();
+				cboVarietyThree.SelectedValue = dtCrops.Rows[0]["CultivarThree"].ToString();
+				cboRowConfigurationOne.SelectedValue = dtCrops.Rows[0]["RowConfigurationOne"].ToString();
+				cboRowConfigurationTwo.SelectedValue = dtCrops.Rows[0]["RowConfigurationTwo"].ToString();
+				cboRowConfigurationThree.SelectedValue = dtCrops.Rows[0]["RowConfigurationThree"].ToString();
+			}
+		}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void StorePaddockSelection()
+		{
+			try
+			{
+				string szPreviousPage = Context.Handler.ToString();
+				ViewState["PreviousPage"] = szPreviousPage;
+
+				switch(szPreviousPage)
+				{
+					case "ASP.wfReportsGenerateConsultant_aspx":
+						FunctionsClass.StorePaddockSelectionConsultant(ViewState);
+						InitialiseEmptyForm();
+						break;
+
+					case "ASP.wfReportsGenerate_aspx":
+						FunctionsClass.StorePaddockSelectionGrower(ViewState);
+						InitialiseEmptyForm();
+						break;
+
+					case "ASP.wfReportsFavouritesConsultant_aspx":
+						FunctionsClass.StoreFavouriteSelectionConsultant(ViewState);
+						FillFromForFavouriteMode();
+						break;
+
+					case "ASP.wfReportsFavourites_aspx":
+						FunctionsClass.StoreFavouriteSelectionGrower(ViewState);
+						FillFromForFavouriteMode();
+						break;
+
+					default:
+						break;
+				}
+			}
+			catch(Exception E)
+			{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+			}
+		}	
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void InitialiseEmptyForm()
+		{
+			edtReportName.Text = "[PaddockName] "+ szReportType;
+			FunctionsClass.InitialiseApplicationGrid(dsNitrogen, 5, this);
+			SetSowDate(null, 0, grdSowDateOne);
+			SetSowDate(null, 1, grdSowDateTwo);
+			SetSowDate(null, 2, grdSowDateThree);
 			FillCropsCombo();
 			FillCultivarsCombo();
 			FillRowConfigurationCombo();
-			SetVisibilityOfSorgumComponents();
-			}
+			DisplayCropTypeComponents();
+		}
 		//-------------------------------------------------------------------------
-		//Stores the report type selection from the previous page in view state
-		//variables.
+		//
 		//-------------------------------------------------------------------------
-		private void StoreReportSelection()
+		private void FillFromForFavouriteMode()
+		{
+			edtReportName.Text = ((DataTable)ViewState["Paddocks"]).Rows[0]["ReportName"].ToString();
+			FillCropsCombo();
+			FillRowConfigurationCombo();
+			DataTable dtCrops = CreateTempCropStorage();
+			FillFormFromFavouriteXML(ref dtCrops);
+			FunctionsClass.InitialiseApplicationGrid(dsNitrogen, 5, this);	
+			FunctionsClass.SetToEditFavouriteMode(chkFavourite, btnGenerate);
+			SetCropDropDowns(dtCrops);	
+		}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void FillFormFromFavouriteXML(ref DataTable dtCrops)
+		{
+			DataTable dtNitrogenApps = DataAccessClass.GetPaddocksFertiliserApplications("Nitrogen", 
+				((DataTable)ViewState["Paddocks"]).Rows[0]["PaddockName"].ToString(), 
+				((DataTable)ViewState["Paddocks"]).Rows[0]["UserName"].ToString());
+
+			int iNitrogenLimit = dtNitrogenApps.Rows.Count;
+
+			string szFavouriteXML = DataAccessClass.GetFavouriteReport(FunctionsClass.GetActiveUserName(), 
+				((DataTable)ViewState["Paddocks"]).Rows[0]["UserName"].ToString(), 
+				((DataTable)ViewState["Paddocks"]).Rows[0]["PaddockName"].ToString(), 
+				((DataTable)ViewState["Paddocks"]).Rows[0]["ReportName"].ToString(),
+				((DataTable)ViewState["Paddocks"]).Rows[0]["ReportType"].ToString());
+
+
+			System.Xml.XmlDocument me = new XmlDocument();
+			// Create the XmlReader object.
+			XmlTextReader reader = new XmlTextReader(new System.IO.StringReader(szFavouriteXML));
+			me.Load(reader);
+			XmlNode xmlScenario = me.DocumentElement;
+			xmlScenario = xmlScenario.FirstChild;
+			int iScenarioCount = 0;
+			int iNitrogenCount = 0;
+
+			foreach(XmlNode xmlUpperChild in xmlScenario.ChildNodes)
 			{
-			try
+				if(xmlUpperChild.Name == "scenario")
 				{
-				wfEditPaddock EditPaddock = (wfEditPaddock) Context.Handler;
-				ViewState["ReportType"] = EditPaddock.ReturnReportType();
-				ViewState["EmailConParFiles"] = EditPaddock.ReturnEmailConParFiles();
-				edtReportName.Text = Session["SelectedPaddockName"].ToString() +" "+ ViewState["ReportType"].ToString();
+					iScenarioCount++;
+					iNitrogenCount = 0;
 				}
-			catch(Exception)
-				{}
-			}	
+
+				foreach(XmlNode xmlChildNode in xmlUpperChild.ChildNodes)
+				{	
+					switch(xmlChildNode.Name)
+					{
+						case "cultivar":
+							if(iScenarioCount == 1)
+							{
+								cboVarietyOne.SelectedValue = xmlChildNode.InnerText;
+								dtCrops.Rows[0]["CultivarOne"] = xmlChildNode.InnerText;
+							}
+							else if(iScenarioCount == 2)
+							{
+								cboVarietyTwo.SelectedValue = xmlChildNode.InnerText;
+								dtCrops.Rows[0]["CultivarTwo"] = xmlChildNode.InnerText;
+							}
+							else if(iScenarioCount == 3)
+							{
+								cboVarietyThree.SelectedValue = xmlChildNode.InnerText;
+								dtCrops.Rows[0]["CultivarThree"] = xmlChildNode.InnerText;
+							}
+							break;
+
+						case "crop":
+							if(iScenarioCount == 1)
+							{
+								cboCrops.SelectedValue = xmlChildNode.InnerText;
+								dtCrops.Rows[0]["Crop"] = xmlChildNode.InnerText;
+								FillCultivarsCombo();
+								DisplayCropTypeComponents();
+							}
+							break;
+
+						case "sowdate":
+							if(iScenarioCount == 1)
+							{
+								SetSowDate(xmlChildNode.InnerText, iScenarioCount-1, grdSowDateOne);
+							}
+							else if(iScenarioCount == 2)
+							{
+								SetSowDate(xmlChildNode.InnerText, iScenarioCount-1, grdSowDateTwo);
+							}
+							else if(iScenarioCount == 3)
+							{
+								SetSowDate(xmlChildNode.InnerText, iScenarioCount-1, grdSowDateThree);
+							}
+							break;
+
+						case "rowconfiguration":
+							if(iScenarioCount == 1)
+							{
+								cboRowConfigurationOne.SelectedValue = xmlChildNode.InnerText;
+								dtCrops.Rows[0]["RowConfigurationOne"] = xmlChildNode.InnerText;
+							}
+							else if(iScenarioCount == 2)
+							{
+								cboRowConfigurationTwo.SelectedValue = xmlChildNode.InnerText;
+								dtCrops.Rows[0]["RowConfigurationTwo"] = xmlChildNode.InnerText;
+							}
+							else if(iScenarioCount == 3)
+							{
+								cboRowConfigurationThree.SelectedValue = xmlChildNode.InnerText;
+								dtCrops.Rows[0]["RowConfigurationThree"] = xmlChildNode.InnerText;
+							}
+							break;
+
+						case "population":
+							if(iScenarioCount == 1)
+							{
+								edtPopulationOne.Text = xmlChildNode.InnerText;
+							}
+							else if(iScenarioCount == 2)
+							{
+								edtPopulationTwo.Text = xmlChildNode.InnerText;
+							}
+							else if(iScenarioCount == 3)
+							{
+								edtPopulationThree.Text = xmlChildNode.InnerText;
+							}
+							break;
+
+						case "ftn":
+							if(iScenarioCount == 1)
+							{
+								edtTillerOne.Text = xmlChildNode.InnerText;
+							}
+							else if(iScenarioCount == 2)
+							{
+								edtTillerTwo.Text = xmlChildNode.InnerText;
+							}
+							else if(iScenarioCount == 3)
+							{
+								edtTillerThree.Text = xmlChildNode.InnerText;
+							}
+							break;
+
+						case "rowspacing":
+							if(iScenarioCount == 1)
+							{
+								edtRowSpacingOne.Text = xmlChildNode.InnerText;
+							}
+							else if(iScenarioCount == 2)
+							{
+								edtRowSpacingTwo.Text = xmlChildNode.InnerText;
+							}
+							else if(iScenarioCount == 3)
+							{
+								edtRowSpacingThree.Text = xmlChildNode.InnerText;
+							}
+							break;
+
+						case "fertilise":
+							if(iScenarioCount == 1)
+							{
+								iNitrogenCount++;
+								if(iNitrogenCount > iNitrogenLimit)
+									FunctionsClass.AddNitrogenNodeToNitrogenDataSet(iScenarioCount-1, 
+										xmlChildNode, dsNitrogen);
+							}
+							break;
+					}
+				}
+			}
+		}
 		//-------------------------------------------------------------------------
 		//Set the date shown in the sow date grid
 		//-------------------------------------------------------------------------
-		private void SetSowDate()
-			{
+		private void SetSowDate(string szSowDate, int iTableNumber, 
+			Janus.Web.GridEX.GridEX grdSowDate)
+		{
 			DataRow drSowDate;
-			drSowDate = dsSowDate.Tables["SowDate"].NewRow();
-			drSowDate["SowDate"] = DateTime.Today;
-			dsSowDate.Tables["SowDate"].Rows.Add(drSowDate);
-			this.DataBind();
-			}
-		//-------------------------------------------------------------------------
-		//Intitialise the grids to contain 5 blank rows
-		//-------------------------------------------------------------------------
-		private void InitialiseGrids()
+			if(szSowDate != null && szSowDate != "")
 			{
-			DataRow drNitrogen;
-			int iMaxNumberOfRows = 5;
-			for(int iIndex = dsNitrogen.Tables["Nitrogen"].Rows.Count; iIndex < iMaxNumberOfRows; iIndex++)
-				{
-				drNitrogen = dsNitrogen.Tables["Nitrogen"].NewRow();
-				drNitrogen["ID"] = 0;	
-				dsNitrogen.Tables["Nitrogen"].Rows.Add(drNitrogen);
-				}
-			this.DataBind();
+				drSowDate = dsSowDate.Tables[iTableNumber].NewRow();
+				drSowDate["SowDate"] = DateTime.ParseExact(szSowDate, "dd/MM/yyyy", null);
+				dsSowDate.Tables[iTableNumber].Rows.Add(drSowDate);
 			}
+			else
+			{
+				drSowDate = dsSowDate.Tables[iTableNumber].NewRow();
+				drSowDate["SowDate"] = DateTime.Today;
+				dsSowDate.Tables[iTableNumber].Rows.Add(drSowDate);
+			}
+			grdSowDate.DataBind();
+		}
 		//-------------------------------------------------------------------------
 		//Gets all the crops the database and fills the crops combo box with them
 		//-------------------------------------------------------------------------
@@ -314,11 +604,13 @@ namespace YieldProphet
 			{
 			try
 				{
-				//Check that their is a report name
-				if(edtReportName.Text != "")
-					{
+				string szReportName = edtReportName.Text;
+				szReportName = szReportName.Trim();
+				//Check that there is a report name
+				if(szReportName != "")
+				{
 					//Check that the name of the report won't cause a problem when it is stored in the file system
-					if(InputValidationClass.IsInputAValidFileLocationString(edtReportName.Text) == true)
+					if(InputValidationClass.IsInputAValidFileLocationString(szReportName) == true)
 						{
 						//Check that a valid crop is selected
 						if(cboCrops.SelectedValue != "None" && cboVarietyOne.SelectedValue != "" &&
@@ -328,21 +620,16 @@ namespace YieldProphet
 								grdSowDateTwo.GetRow(0).Cells["SowDate"].Text != "" &&
 								grdSowDateThree.GetRow(0).Cells["SowDate"].Text != "")
 								{
-								DataTable dtPaddockDetails = 
-									DataAccessClass.GetDetailsOfPaddock(Session["SelectedPaddockName"].ToString(), 
-									FunctionsClass.GetActiveUserName());
-								if(dtPaddockDetails.Rows.Count > 0)
+								DataTable dtPaddocks = (DataTable)ViewState["Paddocks"];
+								string szNewReportName = "";
+								for(int iIndex = 0; iIndex < dtPaddocks.Rows.Count; iIndex++)
 									{
-									RunFTNCalculations();
-									string szCropType = dtPaddockDetails.Rows[0]["CropType"].ToString();
+									szNewReportName = szReportName.Replace("[PaddockName]", dtPaddocks.Rows[iIndex]["PaddockName"].ToString());
+									InputValidationClass.ReplaceInvalidFileLocationCharacters(ref szNewReportName);
+									RunFTNCalculations(dtPaddocks.Rows[iIndex]["UserName"].ToString(), dtPaddocks.Rows[iIndex]["PaddockName"].ToString());
 									//Generate a data table that stores the values particular to the Sow X Variety report
-									DataTable dtOtherValues = 
-										ReportClass.CreateSowingXVarietyReportOtherValues(ReturnScenarioDataTable(grdNitrogen), 
-										cboVarietyOne.SelectedValue, (DateTime.ParseExact(grdSowDateOne.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"), 
-										cboVarietyTwo.SelectedValue, (DateTime.ParseExact(grdSowDateTwo.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"), 
-										cboVarietyThree.SelectedValue, (DateTime.ParseExact(grdSowDateThree.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null)).ToString("yyyy-MM-dd"));
 									string szReportXML = 
-										ReportClass.PrepareSowingXVarietyXML(edtReportName.Text, ViewState["ReportType"].ToString(), cboVarietyOne.SelectedValue, 
+										ReportClass.PrepareSowingXVarietyXML(szNewReportName, szReportType, cboVarietyOne.SelectedValue, 
 										grdSowDateOne.GetRow(0).Cells["SowDate"].Text, cboVarietyTwo.SelectedValue, grdSowDateTwo.GetRow(0).Cells["SowDate"].Text, 
 										cboVarietyThree.SelectedValue, grdSowDateThree.GetRow(0).Cells["SowDate"].Text, cboCrops.SelectedValue, 
 										cboRowConfigurationOne.SelectedValue, InputValidationClass.ReturnTextBoxValueAsInteger(edtPopulationOne, 0), 
@@ -354,18 +641,29 @@ namespace YieldProphet
 										cboRowConfigurationThree.SelectedValue, InputValidationClass.ReturnTextBoxValueAsInteger(edtPopulationThree, 0), 
 										InputValidationClass.ReturnTextBoxValueAsDouble(edtTillerThree, 0), 
 										InputValidationClass.ReturnTextBoxValueAsDouble(edtRowSpacingThree, 0),
-										grdNitrogen);
-									//Generate the files needed to generate a report and then email these files to the ApsimRun machine
-									if(EmailClass.SendReportEmail(edtReportName.Text, cboCrops.SelectedValue, 
-										ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], szReportXML, dtOtherValues) == true)
+										grdNitrogen, dtPaddocks.Rows[iIndex]["UserName"].ToString(), 
+										dtPaddocks.Rows[iIndex]["PaddockName"].ToString());
+
+									if(chkFavourite.Checked == true)
 										{
-										Server.Transfer("wfReportGenerated.aspx");
+										DataAccessClass.SetFavouriteReport(FunctionsClass.GetActiveUserName(), dtPaddocks.Rows[iIndex]["UserName"].ToString(),
+											dtPaddocks.Rows[iIndex]["PaddockName"].ToString(), DateTime.Today.ToString("yyyy-MM-dd"), 
+											szReportType, szNewReportName, szReportXML);
 										}
-									else
-										throw new Exception("Error requesting report");
+									if(FunctionsClass.IsSendEmail(btnGenerate))
+										{
+										
+										//Generate the files needed to generate a report and then email these files to the ApsimRun machine
+										if(EmailClass.SendReportEmail(szNewReportName, cboCrops.SelectedValue, 
+											szReportType, szReportXML,  dtPaddocks.Rows[iIndex]["UserName"].ToString(),
+											dtPaddocks.Rows[iIndex]["PaddockName"].ToString()) == true)
+											{
+											}
+										else
+											throw new Exception("Error requesting report");
+										}
 									}
-								else
-									throw new Exception("Can not access crop type");
+									FunctionsClass.TransferAfterCompletion(btnGenerate);
 								}
 							else
 								throw new Exception("Please ensure all sowing date fields contain a date");
@@ -374,7 +672,7 @@ namespace YieldProphet
 							throw new Exception("Please select a crop type and variety type");
 						}
 					else
-						throw new Exception("Report Description contains invalid characters. Please remove any of the following characters \\\\ / : * \" ? \\' # < > |");
+						throw new Exception(InputValidationClass.ReturnInvalidLocationMessage("Report description"));
 					}
 				else
 					throw new Exception("Please enter a report name");
@@ -385,133 +683,90 @@ namespace YieldProphet
 				}
 			}
 		//-------------------------------------------------------------------------
-		//Returns the data from the selected grid in the form of a datatable
+		//
 		//-------------------------------------------------------------------------
-		private DataTable ReturnScenarioDataTable(Janus.Web.GridEX.GridEX grdSelectedGrid)
-			{
-			DataTable dtNitrogen = dsNitrogen.Tables["Nitrogen"].Copy();
-			DataRow drNitrogen;
-			try
-				{
-				Janus.Web.GridEX.GridEXRow grdRow;
-				for(int iIndex = 0; iIndex < grdSelectedGrid.RowCount; iIndex++)
-					{	
-					grdRow = grdSelectedGrid.GetRow(iIndex);
-					//If there is data in the dataTable then save it to the database
-					if(grdRow.Cells["ApplicationDate"].Value != null && grdRow.Cells["Rate"].Value != null)
-						{		
-						drNitrogen = dtNitrogen.NewRow();
-						drNitrogen["ApplicationDate"] = grdRow.Cells["ApplicationDate"].Text;
-						drNitrogen["Rate"] = grdRow.Cells["Rate"].Text;
-						dtNitrogen.Rows.Add(drNitrogen);
-						}
-					}
-				}
-			catch(Exception)
-				{
-				FunctionsClass.DisplayMessage(Page, "Error storing scenario data");
-				}
-			return dtNitrogen;
-			}
-		//-------------------------------------------------------------------------
-		//Sets the visibility of the triazine option depending on the crop selected
-		//-------------------------------------------------------------------------
-		private void SetVisibilityOfSorgumComponents()
+		private void DisplayCropTypeComponents()
 		{
-			bool bSorgumComponentVisibility = false;
-			if(cboCrops.SelectedValue == "Sorghum")
-				bSorgumComponentVisibility = true;
+			pnlSorgumOne.Visible = false;
+			pnlSorgumTwo.Visible = false;
+			pnlSorgumThree.Visible = false;
+			pnlCanolaOne.Visible = false;
+			pnlCanolaTwo.Visible = false;
+			pnlCanolaThree.Visible = false;
 
-			lblRowConfigurationOne.Visible = bSorgumComponentVisibility;
-			cboRowConfigurationOne.Visible = bSorgumComponentVisibility;
-			lblPopulationOne.Visible = bSorgumComponentVisibility;
-			edtPopulationOne.Visible = bSorgumComponentVisibility;
-			lblPopulationUnitOne.Visible = bSorgumComponentVisibility;
-			edtTillerOne.Visible = bSorgumComponentVisibility;
-			lblTillerOne.Visible = bSorgumComponentVisibility;
-			lblRowSpacingOne.Visible  = bSorgumComponentVisibility;
-			btnReCalculateOne.Visible = bSorgumComponentVisibility;
-			edtRowSpacingOne.Visible = bSorgumComponentVisibility;
-			lblRowSpacingUnitOne.Visible = bSorgumComponentVisibility;
-			chkAutoCalculateOne.Visible = bSorgumComponentVisibility;
+			switch(cboCrops.SelectedValue)
+			{
+				case "Sorghum":
+					pnlSorgumOne.Visible = true;
+					pnlSorgumTwo.Visible = true;
+					pnlSorgumThree.Visible = true;
+					break;
 
-			lblRowConfigurationTwo.Visible = bSorgumComponentVisibility;
-			cboRowConfigurationTwo.Visible = bSorgumComponentVisibility;
-			lblPopulationTwo.Visible = bSorgumComponentVisibility;
-			edtPopulationTwo.Visible = bSorgumComponentVisibility;
-			lblPopulationUnitTwo.Visible = bSorgumComponentVisibility;
-			edtTillerTwo.Visible = bSorgumComponentVisibility;
-			lblTillerTwo.Visible = bSorgumComponentVisibility;
-			lblRowSpacingTwo.Visible  = bSorgumComponentVisibility;
-			btnReCalculateTwo.Visible = bSorgumComponentVisibility;
-			edtRowSpacingTwo.Visible = bSorgumComponentVisibility;
-			lblRowSpacingUnitTwo.Visible = bSorgumComponentVisibility;
-			chkAutoCalculateTwo.Visible = bSorgumComponentVisibility;
+				case "Canola":
+					pnlCanolaOne.Visible = true;
+					pnlCanolaTwo.Visible = true;
+					pnlCanolaThree.Visible = true;
+					break;
 
-			lblRowConfigurationThree.Visible = bSorgumComponentVisibility;
-			cboRowConfigurationThree.Visible = bSorgumComponentVisibility;
-			lblPopulationThree.Visible = bSorgumComponentVisibility;
-			edtPopulationThree.Visible = bSorgumComponentVisibility;
-			lblPopulationUnitThree.Visible = bSorgumComponentVisibility;
-			edtTillerThree.Visible = bSorgumComponentVisibility;
-			lblTillerThree.Visible = bSorgumComponentVisibility;
-			lblRowSpacingThree.Visible  = bSorgumComponentVisibility;
-			btnReCalculateThree.Visible = bSorgumComponentVisibility;
-			edtRowSpacingThree.Visible = bSorgumComponentVisibility;
-			lblRowSpacingUnitThree.Visible = bSorgumComponentVisibility;
-			chkAutoCalculateThree.Visible = bSorgumComponentVisibility;
-
-			pnlDivideOne.Visible = bSorgumComponentVisibility;
-			pnlDivideTwo.Visible = bSorgumComponentVisibility;
-		}	
+				default:
+					pnlSorgumOne.Visible = false;
+					pnlSorgumTwo.Visible = false;
+					pnlSorgumThree.Visible = false;
+					pnlCanolaOne.Visible = false;
+					pnlCanolaTwo.Visible = false;
+					pnlCanolaThree.Visible = false;
+					break;
+			}
+		}
 		//-------------------------------------------------------------------------
 		//Checks to see if the auto calculate option is selected for each
 		//scenario and if it is runs the calculation to update the result
 		//-------------------------------------------------------------------------
-		private void RunFTNCalculations()
+		private void RunFTNCalculations(string szUserName, string szPaddockName)
 		{
 			if(chkAutoCalculateOne.Checked == true)
-				SetFertileTillerNumber(edtTillerOne, edtPopulationOne.Text, 
+				FunctionsClass.SetFertileTillerNumber(szUserName, szPaddockName, edtTillerOne, 
+					FunctionsClass.ReturnPopulationValue(edtPopulationOne), 
 					cboRowConfigurationOne.SelectedValue, 
 					DateTime.ParseExact(grdSowDateOne.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null));
 			if(chkAutoCalculateTwo.Checked == true)
-				SetFertileTillerNumber(edtTillerTwo, edtPopulationTwo.Text, 
+				FunctionsClass.SetFertileTillerNumber(szUserName, szPaddockName, edtTillerTwo, 
+					FunctionsClass.ReturnPopulationValue(edtPopulationTwo), 
 					cboRowConfigurationTwo.SelectedValue, 
 					DateTime.ParseExact(grdSowDateTwo.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null));
 			if(chkAutoCalculateThree.Checked == true)
-				SetFertileTillerNumber(edtTillerThree, edtPopulationThree.Text, 
+				FunctionsClass.SetFertileTillerNumber(szUserName, szPaddockName, edtTillerThree, 
+					FunctionsClass.ReturnPopulationValue(edtPopulationThree), 
 					cboRowConfigurationThree.SelectedValue, 
 					DateTime.ParseExact(grdSowDateThree.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null));
 		}
 		//-------------------------------------------------------------------------
-		//Calculates and displays the fertile Tiller number
+		//
 		//-------------------------------------------------------------------------
-		private void SetFertileTillerNumber(TextBox edtTiller, string szPopulation, 
-			string szRowConfiguration, DateTime dtSowingDate)
+		private void Cancel()
 		{
-			try
-			{
-				DataTable dtPaddockDetails = 
-					DataAccessClass.GetDetailsOfPaddock(Session["SelectedPaddockName"].ToString(), 
-					FunctionsClass.GetActiveUserName());
+			string szPreviousPage = ViewState["PreviousPage"].ToString();
 
-				if(dtPaddockDetails.Rows[0]["RegionType"].ToString() != null && 
-					dtPaddockDetails.Rows[0]["RegionType"].ToString() != "" && 
-					dtPaddockDetails.Rows[0]["RegionType"].ToString() != "None" &&
-					grdSowDateOne.GetRow(0).Cells["SowDate"].Text != "" &&
-					InputValidationClass.IsInputAPositiveInteger(szPopulation) == true)
-				{
-					edtTiller.Text = FunctionsClass.ReturnTillerNumber(szRowConfiguration, dtPaddockDetails.Rows[0]["RegionType"].ToString(),
-						dtSowingDate, Convert.ToInt32(szPopulation)).ToString();
-				}
-				else
-				{
-					throw new Exception("Please ensure that a valid region is selected and a valid population is entered");
-				}
-			}
-			catch(Exception E)
+			switch(szPreviousPage)
 			{
-				FunctionsClass.DisplayMessage(Page, E.Message);
+				case "ASP.wfReportsFavouritesConsultant_aspx":
+					Server.Transfer("wfReportsFavouritesConsultant.aspx");
+					break;
+
+				case "ASP.wfReportsFavourites_aspx":
+					Server.Transfer("wfReportsFavourites.aspx");
+					break;
+
+				case "ASP.wfReportsGenerateConsultant_aspx":
+					Server.Transfer("wfReportsGenerateConsultant.aspx");
+					break;
+
+				case "ASP.wfReportsGenerate_aspx":
+					Server.Transfer("wfReportsGenerate.aspx");
+					break;
+
+				default:
+					break;
 			}
 		}
 		//-------------------------------------------------------------------------
@@ -528,15 +783,18 @@ namespace YieldProphet
 			{
 			if(!IsPostBack)
 				{	
-				ViewState["ReportTypeID"] = "0";
-				ViewState["ReportType"] = "";
-				ViewState["EmailConParFiles"] = false;
+				//Checks to ensure that only valid users are permitted to view the page
 				FunctionsClass.CheckSession();
 				FunctionsClass.CheckForGrowerLevelPriviledges();
+				FunctionsClass.CheckForWritePriviledges();
+
+				StorePaddockSelection();
 				FunctionsClass.SetControlFocus("edtReportName", this);
-				FillForm();
-				StoreReportSelection();
-				btnSave.Style.Add("cursor", "hand");
+			
+				FunctionsClass.SetNavigationMenu(btnGrowersPaddocks, btnGrowersReports, 
+					btnManageItems, btnManageReports);
+				FunctionsClass.SetReportNavigationButtons(btnReportsView, btnNewReports, btnFavouriteReports);
+				FunctionsClass.SetDisplayBanner(imgBanner);
 				}
 			}
 		//-------------------------------------------------------------------------
@@ -547,42 +805,16 @@ namespace YieldProphet
 		private void cboCrops_SelectedIndexChanged(object sender, System.EventArgs e)
 			{
 			FillCultivarsCombo();
-			SetVisibilityOfSorgumComponents();
-			}
-		//-------------------------------------------------------------------------
-		//
-		//-------------------------------------------------------------------------
-		private void btnCancel_Click(object sender, System.EventArgs e)
-			{
-			Server.Transfer("wfEditPaddock.aspx");
-			}
-		//-------------------------------------------------------------------------
-		//
-		//-------------------------------------------------------------------------
-		private void btnCancelImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
-			{
-			Server.Transfer("wfEditPaddock.aspx");
-			}
-		//-------------------------------------------------------------------------
-		//
-		//-------------------------------------------------------------------------
-		private void btnSave_Click(object sender, System.EventArgs e)
-			{
-			GenerateReport();
-			}
-		//-------------------------------------------------------------------------
-		//
-		//-------------------------------------------------------------------------
-		private void btnSaveImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
-			{
-			GenerateReport();
+			DisplayCropTypeComponents();
 			}
 		//-------------------------------------------------------------------------
 		//
 		//-------------------------------------------------------------------------
 		private void btnReCalculateOne_Click(object sender, System.EventArgs e)
 			{
-			SetFertileTillerNumber(edtTillerOne, edtPopulationOne.Text, 
+			FunctionsClass.SetFertileTillerNumber(((DataTable)ViewState["Paddocks"]).Rows[0]["UserName"].ToString(), 
+				((DataTable)ViewState["Paddocks"]).Rows[0]["PaddockName"].ToString(), edtTillerOne, 
+				FunctionsClass.ReturnPopulationValue(edtPopulationOne), 
 				cboRowConfigurationOne.SelectedValue, 
 				DateTime.ParseExact(grdSowDateOne.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null));
 			}
@@ -591,7 +823,9 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void btnReCalculateTwo_Click(object sender, System.EventArgs e)
 			{
-			SetFertileTillerNumber(edtTillerTwo, edtPopulationTwo.Text, 
+			FunctionsClass.SetFertileTillerNumber(((DataTable)ViewState["Paddocks"]).Rows[0]["UserName"].ToString(), 
+				((DataTable)ViewState["Paddocks"]).Rows[0]["PaddockName"].ToString(), edtTillerTwo,
+				FunctionsClass.ReturnPopulationValue(edtPopulationTwo), 
 				cboRowConfigurationTwo.SelectedValue, 
 				DateTime.ParseExact(grdSowDateTwo.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null));
 			}
@@ -600,7 +834,9 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		private void btnReCalculateThree_Click(object sender, System.EventArgs e)
 			{
-			SetFertileTillerNumber(edtTillerThree, edtPopulationThree.Text, 
+			FunctionsClass.SetFertileTillerNumber(((DataTable)ViewState["Paddocks"]).Rows[0]["UserName"].ToString(), 
+				((DataTable)ViewState["Paddocks"]).Rows[0]["PaddockName"].ToString(), edtTillerThree, 
+				FunctionsClass.ReturnPopulationValue(edtPopulationThree), 
 				cboRowConfigurationThree.SelectedValue, 
 				DateTime.ParseExact(grdSowDateThree.GetRow(0).Cells["SowDate"].Text, "dd/MM/yyyy", null));
 			}
@@ -662,6 +898,27 @@ namespace YieldProphet
 					}
 				}
 			}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void NavigationButtonClick(object sender, System.EventArgs e)
+		{
+			Server.Transfer(((LinkButton)sender).CommandName);
+		}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void btnGenerate_Click(object sender, System.EventArgs e)
+		{
+			GenerateReport();
+		}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void btnCancel_Click(object sender, System.EventArgs e)
+		{
+			Cancel();
+		}
 		//-------------------------------------------------------------------------
 		#endregion
 

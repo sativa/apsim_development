@@ -1,6 +1,5 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Security;
 
 //
 // General Information about an assembly is controlled through the following 
@@ -28,8 +27,6 @@ using System.Security;
 // by using the '*' as shown below:
 
 [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyKeyFile(@"../../keypair.snk")] 
-[assembly:AllowPartiallyTrustedCallersAttribute()]
 
 //
 // In order to sign your assembly you must specify a key to use. Refer to the 
@@ -61,4 +58,5 @@ using System.Security;
 //       documentation for more information on this.
 //
 [assembly: AssemblyDelaySign(false)]
+[assembly: AssemblyKeyFile("")]
 [assembly: AssemblyKeyName("")]
