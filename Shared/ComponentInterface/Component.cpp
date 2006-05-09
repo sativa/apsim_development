@@ -307,7 +307,7 @@ void Component::doInit1(const FString& sdml)
                                SUMMARY_FILE_WRITE_TYPE);
    tickID = addRegistration(RegistrationType::respondToEvent,
                             "tick",
-                            STRING_TYPE);
+                            timeTypeDDML);
    sendTickToComponent = false;
    }
 
@@ -946,9 +946,10 @@ void varInfo::sendVariable(Component *systemInterface, QueryValueData& qd)
 
 unsigned int Component::addEvent(const char *systemName,
                                  RegistrationType type,
-                                 boost::function3<void, unsigned &, unsigned &, protocol::Variant &> ptr)
+                                 boost::function3<void, unsigned &, unsigned &, protocol::Variant &> ptr,
+                                 const char* DDML)
    {
-   unsigned int id = addRegistration(type, systemName, "", "");
+   unsigned int id = addRegistration(type, systemName, DDML);
    eventMap.insert(UInt2EventMap::value_type(id,ptr));
    return id;
    }

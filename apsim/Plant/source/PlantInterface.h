@@ -15,7 +15,7 @@ class environment_t;
 
 // An abstract plant interface, as seen from protocol::Component (outside)
 class IPlant {
- public: 
+ public:
    virtual void doInit1(protocol::Component *) = 0;
    virtual void doInit2(protocol::Component *) = 0;
    virtual bool respondToSet(unsigned int& /*fromID*/, protocol::QuerySetValueData& /*setValueData*/) = 0;
@@ -82,10 +82,10 @@ class plantThing {
 };
 
 
-#define setupEvent(s,name,type,address) {\
+#define setupEvent(s,name,type,address, DDML) {\
    boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;\
    fn = boost::bind(address, this, _1, _2, _3); \
-   s->addEvent(name, type, fn);\
+   s->addEvent(name, type, fn, DDML);\
    }
 
 #define setupGetFunction(s,name,type,length,address,units,desc) {\
