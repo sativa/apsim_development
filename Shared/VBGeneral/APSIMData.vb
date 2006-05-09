@@ -245,7 +245,7 @@ Public Class APSIMData
             RaiseEvent DataChanged()
         End Set
     End Property
-    ReadOnly Property InnerXML() As String
+    Property InnerXML() As String
         Get
             If Me.Attribute("shortcut") <> "" Then
                 Dim RemoteSource = "shared" + "|" + Me.Attribute("shortcut")
@@ -254,6 +254,9 @@ Public Class APSIMData
                 Return Node.InnerXml()
             End If
         End Get
+        Set(ByVal Value As String)
+            Node.InnerXml = Value
+        End Set
     End Property
 
     ' ----------------------------
