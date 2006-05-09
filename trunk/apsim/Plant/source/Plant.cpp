@@ -76,6 +76,46 @@ static const char* IncorpFOMType =    "<type name = \"IncorpFOM\">" \
                                       "   <field name=\"dlt_fom_p_isarray\" kind=\"boolean\"/>" \
                                       "   <field name=\"dlt_fom_p_value\" kind=\"single\" array=\"T\"/>" \
                                       "</type>";
+static const char* sowDDML =          "<type name = \"sow\">" \
+                                      "   <field name=\"crop_class_name\" kind=\"string\"/>" \
+                                      "   <field name=\"crop_class_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"crop_class_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"crop_class_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"crop_class_value\" kind=\"string\"/>" \
+
+                                      "   <field name=\"cultivar_name\" kind=\"string\"/>" \
+                                      "   <field name=\"cultivar_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"cultivar_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"cultivar_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"cultivar_value\" kind=\"string\"/>" \
+
+                                      "   <field name=\"plants_name\" kind=\"string\"/>" \
+                                      "   <field name=\"plants_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"plants_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"plants_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"plants_value\" kind=\"single\"/>" \
+
+                                      "   <field name=\"sowing_depth_name\" kind=\"string\"/>" \
+                                      "   <field name=\"sowing_depth_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"sowing_depth_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"sowing_depth_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"sowing_depth_value\" kind=\"single\"/>" \
+
+                                      "   <field name=\"row_spacing_name\" kind=\"string\"/>" \
+                                      "   <field name=\"row_spacing_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"row_spacing_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"row_spacing_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"row_spacing_value\" kind=\"single\"/>" \
+                                      "</type>";
+
+static const char* killStemDDML =     "<type name = \"KillStem\">" \
+                                      "   <field name=\"plants_name\" kind=\"string\"/>" \
+                                      "   <field name=\"plants_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"plants_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"plants_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"plants_value\" kind=\"single\"/>" \
+                                      "</type>";
+
 
 /////////////These might be redundancies??//////////
 void push_routine (const char *) {};
@@ -258,18 +298,18 @@ void Plant::doIDs(void)
 void Plant::doRegistrations(protocol::Component *system)
    {
    // Events
-   setupEvent(parent, "prepare",     RegistrationType::respondToEvent, &Plant::doPrepare);
-   setupEvent(parent, "process",     RegistrationType::respondToEvent, &Plant::doProcess);
-   setupEvent(parent, "tick",        RegistrationType::respondToEvent, &Plant::doTick);
-   setupEvent(parent, "newmet",      RegistrationType::respondToEvent, &Plant::doNewMet);
-   setupEvent(parent, "new_profile", RegistrationType::respondToEvent, &Plant::doNewProfile);
-   setupEvent(parent, "sow",         RegistrationType::respondToEvent, &Plant::doSow);
-   setupEvent(parent, "harvest",     RegistrationType::respondToEvent, &Plant::doHarvest);
-   setupEvent(parent, "end_crop",    RegistrationType::respondToEvent, &Plant::doEndCrop);
-   setupEvent(parent, "kill_crop",   RegistrationType::respondToEvent, &Plant::doKillCrop);
-   setupEvent(parent, "end_run",     RegistrationType::respondToEvent, &Plant::doEndRun);
-   setupEvent(parent, "kill_stem",   RegistrationType::respondToEvent, &Plant::doKillStem);
-   setupEvent(parent, "remove_crop_biomass",   RegistrationType::respondToEvent, &Plant::doRemoveCropBiomass);
+   setupEvent(parent, "prepare",     RegistrationType::respondToEvent, &Plant::doPrepare, nullTypeDDML);
+   setupEvent(parent, "process",     RegistrationType::respondToEvent, &Plant::doProcess, nullTypeDDML);
+   setupEvent(parent, "tick",        RegistrationType::respondToEvent, &Plant::doTick, timeTypeDDML);
+   setupEvent(parent, "newmet",      RegistrationType::respondToEvent, &Plant::doNewMet, newmetTypeDDML);
+   setupEvent(parent, "new_profile", RegistrationType::respondToEvent, &Plant::doNewProfile, newmetTypeDDML);
+   setupEvent(parent, "sow",         RegistrationType::respondToEvent, &Plant::doSow, sowDDML);
+   setupEvent(parent, "harvest",     RegistrationType::respondToEvent, &Plant::doHarvest, nullTypeDDML);
+   setupEvent(parent, "end_crop",    RegistrationType::respondToEvent, &Plant::doEndCrop, nullTypeDDML);
+   setupEvent(parent, "kill_crop",   RegistrationType::respondToEvent, &Plant::doKillCrop, nullTypeDDML);
+   setupEvent(parent, "end_run",     RegistrationType::respondToEvent, &Plant::doEndRun, nullTypeDDML);
+   setupEvent(parent, "kill_stem",   RegistrationType::respondToEvent, &Plant::doKillStem, killStemDDML);
+   setupEvent(parent, "remove_crop_biomass",   RegistrationType::respondToEvent, &Plant::doRemoveCropBiomass, removeCropDmTypeDDML);
 
 
    // Send My Variable
@@ -684,8 +724,8 @@ void Plant::doRegistrations(protocol::Component *system)
    id = system->addRegistration(RegistrationType::respondToSet, "crop_class", stringType);
    IDtoSetFn.insert(UInt2SetFnMap::value_type(id,&Plant::set_plant_crop_class));
 
-   system->addRegistration(RegistrationType::event, "sowing", "", "", "");
-   system->addRegistration(RegistrationType::event, "harvesting", "", "", "");
+   system->addRegistration(RegistrationType::event, "sowing", nullTypeDDML, "", "");
+   system->addRegistration(RegistrationType::event, "harvesting", nullTypeDDML, "", "");
 
    for (vector<plantThing *>::iterator t = myThings.begin();
         t != myThings.end();
@@ -6265,7 +6305,7 @@ void Plant::registerClassActions(void)
       unsigned int id;
       boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;
       fn = boost::bind(&Plant::doAutoClassChange, this, _1, _2, _3);
-      id = parent->addEvent(i->c_str(), RegistrationType::respondToEvent, fn);
+      id = parent->addEvent(i->c_str(), RegistrationType::respondToEvent, fn, "");
 
       IDtoAction.insert(UInt2StringMap::value_type(id,i->c_str()));
       //printf("registered '%s' as %d\n",i->c_str(),id);

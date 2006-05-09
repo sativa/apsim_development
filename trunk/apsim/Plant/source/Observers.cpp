@@ -33,7 +33,7 @@ void eventObserver::doRegistrations(protocol::Component *s)
    s->addGettableVar(varName2.c_str(), myDate,
                      "doy", desc2.c_str());
 
-   setupEvent(s, "tick", RegistrationType::respondToEvent, &eventObserver::onTick);
+   setupEvent(s, "tick", RegistrationType::respondToEvent, &eventObserver::onTick, timeTypeDDML);
    }
 
 void eventObserver::onTick(unsigned &, unsigned &, protocol::Variant &)
@@ -43,17 +43,17 @@ void eventObserver::onTick(unsigned &, unsigned &, protocol::Variant &)
 
 void eventObserver::onPlantEvent(const string &event)
    {
-   if (event == "sowing") 
+   if (event == "sowing")
       {
-      dasCounter = 1; 
-      } 
+      dasCounter = 1;
+      }
    if (event == myEvent)
       {
       myDate = myPlant->getDayOfYear();
       if (dasCounter >= 0) { myDas = dasCounter; }
       }
-   if (event == "end_crop") 
-      { 
+   if (event == "end_crop")
+      {
       myDas = 0;
       myDate = 0;
       dasCounter = -1;

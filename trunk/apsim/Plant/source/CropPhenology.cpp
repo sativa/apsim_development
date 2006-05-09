@@ -28,8 +28,8 @@ void CropPhenology::doRegistrations (protocol::Component *s)
    {
    PlantPhenology::doRegistrations(s);
 
-   setupEvent(parentPlant, "sow", RegistrationType::respondToEvent, &CropPhenology::onSow);
-   setupEvent(parentPlant, "end_crop", RegistrationType::respondToEvent, &CropPhenology::onEndCrop);
+   setupEvent(parentPlant, "sow", RegistrationType::respondToEvent, &CropPhenology::onSow, "<type/>");
+   setupEvent(parentPlant, "end_crop", RegistrationType::respondToEvent, &CropPhenology::onEndCrop, "<type/>");
 
    parentPlant->addGettableVar("das", das, "d", "Days after Sowing");
    parentPlant->addGettableVar("dlt_tt_phenol", dlt_tt_phenol,"dd", "Todays thermal time (incl. stress factors)");
