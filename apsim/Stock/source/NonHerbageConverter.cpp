@@ -38,7 +38,7 @@ void NonHerbageConverter::doInit1(const FString& sdml)
    addExcretaID = system->addRegistration(RegistrationType::respondToEvent, "add_excreta", add_excretaTypeDDML);
 
    stockBuyID = system->addRegistration(RegistrationType::respondToEvent, "buystock", stringTypeDDML);
-   buyID = system->addRegistration(RegistrationType::event, "buy", buystockTypeDDML);
+//   buyID = system->addRegistration(RegistrationType::event, "buy", buystockTypeDDML);
 
    stockMoveID = system->addRegistration(RegistrationType::respondToEvent, "movestock", stringTypeDDML);
    moveID = system->addRegistration(RegistrationType::event, "move", movestockTypeDDML);
@@ -404,10 +404,20 @@ void NonHerbageConverter::readParameters ( void )
     c.debug = system->readParameter (section_name, "debug");
     system->readParameter (section_name, "fraction_faeces_added", c.fractionFaecesAdded, 0.0, 1.0);
     system->readParameter (section_name, "fraction_urine_added", c.fractionUrineAdded, 0.0, 1.0);
+    string stockModuleName = system->readParameter (section_name, "stock_module");
 
       ostringstream msg;
+      msg << "Stock_module = " << stockModuleName << endl;
       msg << "Fraction_faeces_added = " << c.fractionFaecesAdded << endl;
       msg << "Fraction_urine_added = " << c.fractionUrineAdded << endl;
       msg << "Debug = " << c.debug << ends;
       system->writeString (msg.str().c_str());
+
+   string buy;
+   if (stockModuleName == "")
+      buy = "buy";
+   else
+      buy = stockModuleName + ".buy";
+   buyID = system->addRegistration(RegistrationType::event, buy.c_str(), buystockTypeDDML);
+
 }
