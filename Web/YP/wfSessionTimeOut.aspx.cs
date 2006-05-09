@@ -9,15 +9,17 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 
-namespace YieldProphet
+namespace YP2006
 	{
 	/// <summary>
 	/// Summary description for wfSessionTimeOut.
 	/// </summary>
 	public class wfSessionTimeOut : System.Web.UI.Page
 		{
-		protected System.Web.UI.WebControls.Label lblWarning;
 		protected System.Web.UI.WebControls.Label lblDetail;
+		protected System.Web.UI.WebControls.Label lblHeading;
+		protected System.Web.UI.WebControls.Label lblYieldProphet;
+		protected System.Web.UI.WebControls.Panel pnlBottomBorder;
 		protected System.Web.UI.WebControls.HyperLink hylLogin;
 
 
@@ -55,8 +57,10 @@ namespace YieldProphet
 			if(Session != null)
 				{
 				Session["UserName"] = "";
+				Session["AccessType"] = "";
 				Session["SelectedUserName"] = "";
 				Session["SelectedPaddockName"] = "";
+				Session["BannerImage"] = "";
 				}
 			}
 		//-------------------------------------------------------------------------

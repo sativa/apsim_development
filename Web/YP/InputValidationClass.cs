@@ -1,6 +1,6 @@
 using System;
 
-namespace YieldProphet
+namespace YP2006
 	{
 	/// <summary>
 	/// Summary description for InputValidationClass.
@@ -9,6 +9,7 @@ namespace YieldProphet
 		{
 		public InputValidationClass()
 			{}
+
 			
 		/*----------------------------ASCII TABLE----------------------------------
 		0 = 48
@@ -85,7 +86,6 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------	
 		public static bool IsInputAValidFileLocationString(string szInputString)
 			{
-			szInputString = szInputString.Replace("'", "''");
 			bool bValidLocationString = true;
 			for(int iIndex = 0; iIndex < szInputString.Length; iIndex++)
 				{
@@ -101,6 +101,30 @@ namespace YieldProphet
 					}
 				}
 			return bValidLocationString;			
+			}
+
+
+		public static void ReplaceInvalidFileLocationCharacters(ref string szInputString)
+		{
+			szInputString.Replace('/', '_');
+			szInputString.Replace('\\', '_');
+			szInputString.Replace(':', '_');
+			szInputString.Replace('*', '_');
+			szInputString.Replace('?', '_');
+			szInputString.Replace('"', '_');
+			szInputString.Replace('<', '_');
+			szInputString.Replace('>', '_');
+			szInputString.Replace('|', '_');
+			szInputString.Replace('\'', '_');
+			szInputString.Replace('#', '_');
+		}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		public static string ReturnInvalidLocationMessage(string szOffendingVariable)
+			{
+			string szInvalidFileLocationMessage = szOffendingVariable+" contains invalid characters. Please remove any of the following characters \\\\ / : * \" ? \\' # < > |";
+			return szInvalidFileLocationMessage;
 			}
 		//-------------------------------------------------------------------------
 		//Checks to see if the inputstring can be converted to a positive decimal

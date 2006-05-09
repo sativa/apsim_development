@@ -6,7 +6,7 @@ using System.Data;
 using System.IO;
 using System.Xml;
 
-namespace YieldProphet
+namespace YP2006
 	{
 	/// <summary>
 	/// Summary description for ImportClass.
@@ -48,6 +48,14 @@ namespace YieldProphet
 			HttpPostedFile hpfImportedFile = CheckForUploadedFiles(pgPageInfo, ref bErrors);
 			UploadImportedReportTemplate(hpfImportedFile, pgPageInfo, szTemplateName, ref bErrors);
 			}
+		//-------------------------------------------------------------------------
+		//Imports an image File
+		//-------------------------------------------------------------------------
+		public static void ImportBannerImage(Page pgPageInfo, ref bool bErrors)
+		{
+			HttpPostedFile hpfImportedFile = CheckForUploadedFiles(pgPageInfo, ref bErrors);
+			UploadImportedImage(hpfImportedFile, pgPageInfo, ref bErrors);
+		}
 		//-------------------------------------------------------------------------
 		//Checks to make sure that the a file has been selected for upload and
 		//that the file isn't not empty.  If both checks are passed then the file
@@ -346,6 +354,38 @@ namespace YieldProphet
 			szTemplateText = szTemplateText.Replace("\"", "#DQuote#");
 			return szTemplateText;
 			}
+		//-------------------------------------------------------------------------
+		//Checks to make sure that the cultivar file is in the correct format, and 
+		//if it is then upload the file.
+		//-------------------------------------------------------------------------
+		private static void UploadImportedImage(HttpPostedFile hpfImportedFile, 
+			Page pgPageInfo, ref bool bErrors)
+		{
+			try
+			{
+				//Checks to make sure that the file is an xml file
+				string szContentType = hpfImportedFile.ContentType;
+				if(szContentType == "image/pjpeg" || szContentType == "image/gif" || szContentType == "image/bmp")
+				{
+
+					string szFileName = hpfImportedFile.FileName.Substring(hpfImportedFile.FileName.LastIndexOf("\\")+1);
+					string szFullFname = pgPageInfo.Server.MapPath("BannerImages") +@"\" + szFileName;
+					DataAccessClass.InsertBannerImage(szFileName);
+					//Save the file in the server
+					hpfImportedFile.SaveAs(szFullFname); 
+				}
+				else
+				{
+					bErrors = true;
+					FunctionsClass.DisplayMessage(pgPageInfo,"Invalid file type");
+				}
+			}
+			catch(Exception E)
+			{
+				bErrors = true;
+				FunctionsClass.DisplayMessage(pgPageInfo, E.Message);
+			}
+		}
 		//-------------------------------------------------------------------------
 		}//END OF CLASS
 	}//END OF NAMESPACE

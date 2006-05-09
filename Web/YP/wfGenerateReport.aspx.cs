@@ -9,7 +9,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 
-namespace YieldProphet
+namespace YP2006
 	{
 	/// <summary>
 	/// Summary description for wfGenerateReport.
@@ -19,10 +19,26 @@ namespace YieldProphet
 		protected System.Web.UI.WebControls.ImageButton btnSaveImg;
 		protected System.Web.UI.WebControls.ImageButton btnCancelImg;
 		protected System.Web.UI.WebControls.LinkButton btnSave;
-		protected System.Web.UI.WebControls.LinkButton btnCancel;
-		protected System.Web.UI.WebControls.Panel pnlTop;
 		protected System.Web.UI.WebControls.Label lblReportName;
 		protected System.Web.UI.WebControls.TextBox edtReportName;
+		protected System.Web.UI.WebControls.LinkButton btnFavouriteReports;
+		protected System.Web.UI.WebControls.LinkButton btnNewReports;
+		protected System.Web.UI.WebControls.LinkButton btnReportsView;
+		protected System.Web.UI.WebControls.Panel pnlPaddock;
+		protected System.Web.UI.WebControls.Label lblHeading;
+		protected System.Web.UI.WebControls.LinkButton btnGrowersReports;
+		protected System.Web.UI.WebControls.LinkButton btnGrowersPaddocks;
+		protected System.Web.UI.WebControls.LinkButton btnManageReports;
+		protected System.Web.UI.WebControls.Label lblYieldProphet;
+		protected System.Web.UI.WebControls.CheckBox chkFavourite;
+		protected System.Web.UI.WebControls.Button btnCancel;
+		protected System.Web.UI.WebControls.Button btnGenerate;
+		protected System.Web.UI.WebControls.Panel pnlBottomBorder;
+		protected System.Web.UI.WebControls.Image imgBanner;
+		protected System.Web.UI.WebControls.LinkButton btnPersonalDetails;
+		protected System.Web.UI.WebControls.LinkButton btnManageItems;
+		protected System.Web.UI.WebControls.LinkButton btnMainMenu;
+		protected System.Web.UI.WebControls.Panel pnlNavigationMenu;
 		
 
 		#region Web Form Designer generated code
@@ -41,10 +57,17 @@ namespace YieldProphet
 		/// </summary>
 		private void InitializeComponent()
 		{    
+			this.btnPersonalDetails.Click += new System.EventHandler(this.NavigationButtonClick);
+			this.btnManageReports.Click += new System.EventHandler(this.NavigationButtonClick);
+			this.btnManageItems.Click += new System.EventHandler(this.NavigationButtonClick);
+			this.btnGrowersPaddocks.Click += new System.EventHandler(this.NavigationButtonClick);
+			this.btnGrowersReports.Click += new System.EventHandler(this.NavigationButtonClick);
+			this.btnMainMenu.Click += new System.EventHandler(this.NavigationButtonClick);
+			this.btnReportsView.Click += new System.EventHandler(this.NavigationButtonClick);
+			this.btnNewReports.Click += new System.EventHandler(this.NavigationButtonClick);
+			this.btnFavouriteReports.Click += new System.EventHandler(this.NavigationButtonClick);
+			this.btnGenerate.Click += new System.EventHandler(this.btnGenerate_Click);
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-			this.btnCancelImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnCancelImg_Click);
-			this.btnSaveImg.Click += new System.Web.UI.ImageClickEventHandler(this.btnSaveImg_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
@@ -53,56 +76,114 @@ namespace YieldProphet
 
 
 		#region Form Functions
+
 		//-------------------------------------------------------------------------
-		//Stores the report type selection from the previous page in view state
-		//variables.
+		//
 		//-------------------------------------------------------------------------
-		private void StoreReportSelection()
-			{
+		private void StorePaddockSelection()
+		{
 			try
+			{
+				
+				string szPreviousPage = Context.Handler.ToString();
+				ViewState["PreviousPage"] = szPreviousPage;
+
+				switch(szPreviousPage)
 				{
-				wfEditPaddock EditPaddock = (wfEditPaddock) Context.Handler;
-				ViewState["ReportType"] = EditPaddock.ReturnReportType();
-				ViewState["EmailConParFiles"] = EditPaddock.ReturnEmailConParFiles();
-				edtReportName.Text = Session["SelectedPaddockName"].ToString() +" "+ ViewState["ReportType"].ToString();
-				}
-			catch(Exception E)
-				{
-				FunctionsClass.DisplayMessage(Page, E.Message);
+					case "ASP.wfReportsGenerateConsultant_aspx":
+						FunctionsClass.StorePaddockSelectionConsultant(ViewState);
+						InitialiseEmptyForm();
+						break;
+
+					case "ASP.wfReportsGenerate_aspx":
+						FunctionsClass.StorePaddockSelectionGrower(ViewState);
+						InitialiseEmptyForm();
+						break;
+
+					case "ASP.wfReportsFavouritesConsultant_aspx":
+						FunctionsClass.StoreFavouriteSelectionConsultant(ViewState);
+						FillFromForFavouriteMode();
+						break;
+
+					case "ASP.wfReportsFavourites_aspx":
+						FunctionsClass.StoreFavouriteSelectionGrower(ViewState);	
+						FillFromForFavouriteMode();
+						break;
+
+					default:
+						break;
 				}
 			}
+			catch(Exception E)
+			{
+				FunctionsClass.DisplayMessage(Page, E.Message);
+			}
+		}	
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void InitialiseEmptyForm()
+		{
+			if(((DataTable)ViewState["Paddocks"]).Rows.Count > 0)
+			{
+				edtReportName.Text = "[PaddockName] "+ ((DataTable)ViewState["Paddocks"]).Rows[0]["ReportType"].ToString();
+			}
+		}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void FillFromForFavouriteMode()
+		{
+			edtReportName.Text = ((DataTable)ViewState["Paddocks"]).Rows[0]["ReportName"].ToString();
+			FunctionsClass.SetToEditFavouriteMode(chkFavourite, btnGenerate);
+		}
+
 		//-------------------------------------------------------------------------
 		//A report is generated and sent to the apsim run machine
 		//-------------------------------------------------------------------------
 		private void GenerateReport()
 			{
 			try
+				{	
+				string szReportName = edtReportName.Text;
+				szReportName = szReportName.Trim();
+				//Check that there is a report name
+				if(szReportName != "")
 				{
-				if(edtReportName.Text != "")
-					{
-					if(InputValidationClass.IsInputAValidFileLocationString(edtReportName.Text) == true)
+					//Check that the name of the report won't cause a problem when it is stored in the file system
+					if(InputValidationClass.IsInputAValidFileLocationString(szReportName) == true)
 						{
-						DataTable dtPaddockDetails = 
-							DataAccessClass.GetDetailsOfPaddock(Session["SelectedPaddockName"].ToString(), 
-							FunctionsClass.GetActiveUserName());
-						if(dtPaddockDetails.Rows.Count > 0)
+						DataTable dtPaddocks = (DataTable)ViewState["Paddocks"];
+						string szNewReportName = "";
+						for(int iIndex = 0; iIndex < dtPaddocks.Rows.Count; iIndex++)
 							{
-							string szCropType = dtPaddockDetails.Rows[0]["CropType"].ToString();
-							string szReportXML = 
-								ReportClass.PrepareBasicReportXML(edtReportName.Text, ViewState["ReportType"].ToString());
-							if(EmailClass.SendReportEmail(edtReportName.Text, szCropType, 
-								ViewState["ReportType"].ToString(), (bool)ViewState["EmailConParFiles"], szReportXML, null) == true)
-							{
-								Server.Transfer("wfReportGenerated.aspx");
+							szNewReportName = szReportName.Replace("[PaddockName]", dtPaddocks.Rows[iIndex]["PaddockName"].ToString());
+							InputValidationClass.ReplaceInvalidFileLocationCharacters(ref szNewReportName);
+							string szReportXML = ReportClass.PrepareBasicReportXML(szNewReportName, dtPaddocks.Rows[0]["ReportType"].ToString(), dtPaddocks.Rows[iIndex]["UserName"].ToString(), 
+										dtPaddocks.Rows[iIndex]["PaddockName"].ToString());
+
+							if(chkFavourite.Checked == true)
+								{
+								DataAccessClass.SetFavouriteReport(FunctionsClass.GetActiveUserName(), dtPaddocks.Rows[iIndex]["UserName"].ToString(),
+									dtPaddocks.Rows[iIndex]["PaddockName"].ToString(), DateTime.Today.ToString("yyyy-MM-dd"), 
+									dtPaddocks.Rows[0]["ReportType"].ToString(), szNewReportName, szReportXML);
+								}
+							if(FunctionsClass.IsSendEmail(btnGenerate))
+								{
+								if(EmailClass.SendReportEmail(szNewReportName, dtPaddocks.Rows[iIndex]["CropType"].ToString(), 
+									dtPaddocks.Rows[0]["ReportType"].ToString(), szReportXML,  dtPaddocks.Rows[iIndex]["UserName"].ToString(),
+									dtPaddocks.Rows[iIndex]["PaddockName"].ToString()) == true)
+									{
+									}
+								else
+									throw new Exception("Error requesting report");
+								}
 							}
-							else
-								throw new Exception("Error requesting report");
-							}
-						else
-							throw new Exception("Can not access crop type");
+
+							FunctionsClass.TransferAfterCompletion(btnGenerate);
 						}
 					else
-						throw new Exception("Report Description contains invalid characters. Please remove any of the following characters \\\\ / : * \" ? \\' # < > |");
+						throw new Exception(InputValidationClass.ReturnInvalidLocationMessage("Report description"));
 					}
 				else
 					throw new Exception("Please enter a report name");
@@ -112,6 +193,35 @@ namespace YieldProphet
 				FunctionsClass.DisplayMessage(Page, E.Message);
 				}
 			}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void Cancel()
+		{
+			string szPreviousPage = ViewState["PreviousPage"].ToString();
+
+			switch(szPreviousPage)
+			{
+				case "ASP.wfReportsFavouritesConsultant_aspx":
+					Server.Transfer("wfReportsFavouritesConsultant.aspx");
+					break;
+
+				case "ASP.wfReportsFavourites_aspx":
+					Server.Transfer("wfReportsFavourites.aspx");
+					break;
+
+				case "ASP.wfReportsGenerateConsultant_aspx":
+					Server.Transfer("wfReportsGenerateConsultant.aspx");
+					break;
+
+				case "ASP.wfReportsGenerate_aspx":
+					Server.Transfer("wfReportsGenerate.aspx");
+					break;
+
+				default:
+					break;
+			}
+		}
 		//-------------------------------------------------------------------------
 		#endregion
 
@@ -125,46 +235,41 @@ namespace YieldProphet
 			{
 			if (!IsPostBack)
 				{
-				//View state is used to store values over post back events
-				ViewState["ReportTypeID"] = "0";
-				ViewState["ReportType"] = "";
-				ViewState["EmailConParFiles"] = false;
+				//Checks to ensure that only valid users are permitted to view the page
 				FunctionsClass.CheckSession();
 				FunctionsClass.CheckForGrowerLevelPriviledges();
+				FunctionsClass.CheckForWritePriviledges();
+
 				FunctionsClass.SetControlFocus("edtReportName", this);
-				StoreReportSelection();
+				StorePaddockSelection();
+				
+				FunctionsClass.SetNavigationMenu(btnGrowersPaddocks, btnGrowersReports, 
+					btnManageItems, btnManageReports);
+				FunctionsClass.SetReportNavigationButtons(btnReportsView, btnNewReports, btnFavouriteReports);
+				FunctionsClass.SetDisplayBanner(imgBanner);
 				}
 			}
 		//-------------------------------------------------------------------------
-		//When a user presses the save button, the report email is sent
+		//
 		//-------------------------------------------------------------------------
-		private void btnSave_Click(object sender, System.EventArgs e)
-			{
+		private void NavigationButtonClick(object sender, System.EventArgs e)
+		{
+			Server.Transfer(((LinkButton)sender).CommandName);
+		}
+		//-------------------------------------------------------------------------
+		//
+		//-------------------------------------------------------------------------
+		private void btnGenerate_Click(object sender, System.EventArgs e)
+		{
 			GenerateReport();
-			}		
+		}
 		//-------------------------------------------------------------------------
-		//When a user presses the save image, the report email is sent
-		//-------------------------------------------------------------------------
-		private void btnSaveImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
-			{
-			GenerateReport();
-			}
-		//-------------------------------------------------------------------------
-		//When the user presses the cancel button, they are transferred back to the
-		//edit paddock page
+		//
 		//-------------------------------------------------------------------------
 		private void btnCancel_Click(object sender, System.EventArgs e)
-			{
-			Server.Transfer("wfEditPaddock.aspx");
-			}
-		//-------------------------------------------------------------------------
-		//When the user presses the cancel image, they are transferred back to the
-		//edit paddock page
-		//-------------------------------------------------------------------------
-		private void btnCancelImg_Click(object sender, System.Web.UI.ImageClickEventArgs e)
-			{
-			Server.Transfer("wfEditPaddock.aspx");
-			}
+		{
+			Cancel();
+		}
 		//-------------------------------------------------------------------------
 		#endregion
 

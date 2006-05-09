@@ -4,16 +4,16 @@ using System.Data.SqlClient;
 using System.Data.OleDb;
 using System.Web;
 using System.Collections.Specialized;
-using CSGeneral;
 using VBGeneral;
+using CSGeneral;
 
-namespace YieldProphet
+namespace YP2006
 	{
 	/// <summary>
 	/// Summary description for DataAccessClass..
 	/// </summary>
 	public class DataAccessClass
-		{	
+	{	
 		
 		#region Functions to access the database
 		//---------------------------------------------------------------------
@@ -21,32 +21,32 @@ namespace YieldProphet
 		//access the database
 		//---------------------------------------------------------------------
 		static private void ConnectToDatabase(ref OleDbConnection dbConnection, ref OleDbCommand dbCommand)
-			{
+		{
 			string szCurrentLocation = HttpContext.Current.Server.MapPath("/YP/")+"Data";
-			string szConnectionString = "Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Registry Path=;Jet OLEDB:Database Locking Mode=0;Jet OLEDB:Database Password=;Data Source=\""+szCurrentLocation+"\\yp2005.mdb\";Password=;Jet OLEDB:Engine Type=5;Jet OLEDB:Global Bulk Transactions=1;Provider=\"Microsoft.Jet.OLEDB.4.0\";Jet OLEDB:System database=;Jet OLEDB:SFP=False;Extended Properties=;Mode=Share Deny None;Jet OLEDB:New Database Password=;Jet OLEDB:Create System Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;User ID=Admin;Jet OLEDB:Encrypt Database=False";
+			string szConnectionString = "Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Registry Path=;Jet OLEDB:Database Locking Mode=0;Jet OLEDB:Database Password=;Data Source=\""+szCurrentLocation+"\\yp2006.mdb\";Password=;Jet OLEDB:Engine Type=5;Jet OLEDB:Global Bulk Transactions=1;Provider=\"Microsoft.Jet.OLEDB.4.0\";Jet OLEDB:System database=;Jet OLEDB:SFP=False;Extended Properties=;Mode=Share Deny None;Jet OLEDB:New Database Password=;Jet OLEDB:Create System Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;User ID=Admin;Jet OLEDB:Encrypt Database=False";
 			dbConnection = new OleDbConnection(szConnectionString);
 			dbConnection.Close();
 			dbConnection.Open();
 			dbCommand = dbConnection.CreateCommand();
-			}
+		}
 		//---------------------------------------------------------------------
 		//Initialises the connection object that will be used to
 		//access the database
 		//---------------------------------------------------------------------
 		static private void ConnectToDatabase(ref OleDbConnection dbConnection)
-			{
+		{
 			string szCurrentLocation = HttpContext.Current.Server.MapPath("/YP/")+"Data";
-			string szConnectionString = "Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Registry Path=;Jet OLEDB:Database Locking Mode=0;Jet OLEDB:Database Password=;Data Source=\""+szCurrentLocation+"\\yp2005.mdb\";Password=;Jet OLEDB:Engine Type=5;Jet OLEDB:Global Bulk Transactions=1;Provider=\"Microsoft.Jet.OLEDB.4.0\";Jet OLEDB:System database=;Jet OLEDB:SFP=False;Extended Properties=;Mode=Share Deny None;Jet OLEDB:New Database Password=;Jet OLEDB:Create System Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;User ID=Admin;Jet OLEDB:Encrypt Database=False";
+			string szConnectionString = "Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Registry Path=;Jet OLEDB:Database Locking Mode=0;Jet OLEDB:Database Password=;Data Source=\""+szCurrentLocation+"\\yp2006.mdb\";Password=;Jet OLEDB:Engine Type=5;Jet OLEDB:Global Bulk Transactions=1;Provider=\"Microsoft.Jet.OLEDB.4.0\";Jet OLEDB:System database=;Jet OLEDB:SFP=False;Extended Properties=;Mode=Share Deny None;Jet OLEDB:New Database Password=;Jet OLEDB:Create System Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;User ID=Admin;Jet OLEDB:Encrypt Database=False";
 			dbConnection = new OleDbConnection(szConnectionString);
 			dbConnection.Close();
 			dbConnection.Open();
-			}
+		}
 		//---------------------------------------------------------------------
 		//Returns a single value from the database given the sql statement
 		//and the field name to return
 		//---------------------------------------------------------------------
 		static private object ReturnSingleValueFromDB(string szFieldName, string szSQL)
-			{
+		{
 			OleDbConnection dbConnection = null;
 			OleDbCommand dbCommand = null;
 			ConnectToDatabase(ref dbConnection, ref dbCommand);
@@ -55,22 +55,22 @@ namespace YieldProphet
 			dbCommand.CommandText = szSQL;
 			OleDbDataReader dbDataReader = dbCommand.ExecuteReader();
 			if(dbDataReader.Read())
-				{
+			{
 				int iOrdinal = dbDataReader.GetOrdinal(szFieldName);
 				obResult = dbDataReader.GetValue(iOrdinal);
-				}
+			}
 			dbDataReader.Close();
 
 				
 			dbConnection.Close();
 			return obResult;
-			}
+		}
 		//---------------------------------------------------------------------
 		//Returns multiple values in the a DataTable format from the database 
 		//given the sql statement
 		//---------------------------------------------------------------------
 		static private DataTable ReturnMultipleValuesFromDB(string szSQL)
-			{
+		{
 			OleDbConnection dbConnection = null;
 			ConnectToDatabase(ref dbConnection);
 			DataTable dtQueryResults = new DataTable();
@@ -80,14 +80,14 @@ namespace YieldProphet
 
 			dbConnection.Close();
 			return dtQueryResults;
-			}
+		}
 		//---------------------------------------------------------------------
 		//Runs a passed in SQL string.
 		//NOTE: SQL string must not be a query as this function will not return
 		//any values
 		//---------------------------------------------------------------------
 		static public void RunSQLStatement(string szSQL)
-			{
+		{
 			OleDbConnection dbConnection = null;
 			OleDbCommand dbCommand = null;
 			ConnectToDatabase(ref dbConnection, ref dbCommand);
@@ -96,7 +96,32 @@ namespace YieldProphet
 			dbCommand.ExecuteNonQuery();
 
 			dbConnection.Close();
+		}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static private object RunSQLAndReturnLastInsertID(string szSQL)
+		{
+			OleDbConnection dbConnection = null;
+			OleDbCommand dbCommand = null;
+			ConnectToDatabase(ref dbConnection, ref dbCommand);
+			object obResult = new object();
+
+			dbCommand.CommandText = szSQL;
+			dbCommand.ExecuteNonQuery();
+
+			dbCommand.CommandText = "SELECT @@IDENTITY AS LastID";
+			OleDbDataReader dbDataReader = dbCommand.ExecuteReader();
+			if(dbDataReader.Read())
+			{
+				int iOrdinal = dbDataReader.GetOrdinal("LastID");
+				obResult = dbDataReader.GetValue(iOrdinal);
 			}
+			dbDataReader.Close();
+	
+			dbConnection.Close();
+			return obResult;
+		}
 		//---------------------------------------------------------------------	
 		#endregion
 
@@ -110,7 +135,7 @@ namespace YieldProphet
 		//The comparision is case sensitive (collate Latin1_General_CS_AS)
 		//---------------------------------------------------------------------
 		static public bool AuthenticateUser(string szUserName, string szPassword)
-			{
+		{
 			bool bAuthenticated = false;
 
 			string szSalt = GetSaltValueOfUser(szUserName);
@@ -121,17 +146,35 @@ namespace YieldProphet
 				"Pass = '"+FunctionsClass.EncryptPassword(szPassword, szSalt)+"' ";
 			int iNumberOfRecords = Convert.ToInt32(ReturnSingleValueFromDB("NumberOfRecords", szSQL).ToString());
 			if(iNumberOfRecords == 1)
-				{
+			{
 				bAuthenticated = true;
-				}
+			}
 
 			return bAuthenticated;
+		}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static public bool AuthenticateUserFromCookie(string szUserName, string szPassword)
+		{
+			bool bAuthenticated = false;
+
+			string szSQL = "SELECT COUNT (UserName) AS NumberOfRecords FROM Users "+
+				"WHERE UserName = '"+szUserName+"' AND "+
+				"(StrComp(UserName, '"+szUserName+"', 0)=False) AND "+
+				"Pass = '"+szPassword+"' ";
+			int iNumberOfRecords = Convert.ToInt32(ReturnSingleValueFromDB("NumberOfRecords", szSQL).ToString());
+			if(iNumberOfRecords == 1)
+			{
+				bAuthenticated = true;
 			}
+			return bAuthenticated;
+		}
 		//---------------------------------------------------------------------
 		//Takes a UserName and returns the access type of that user
 		//---------------------------------------------------------------------
 		static public string GetAccessTypeOfUser(string szUserName)
-			{
+		{
 			string szAccessType = "";
 
 			string szSQL = "SELECT Type FROM AccessTypes "+
@@ -140,86 +183,152 @@ namespace YieldProphet
 			szAccessType = ReturnSingleValueFromDB("Type", szSQL).ToString();
 		
 			return szAccessType;
+		}
+		//---------------------------------------------------------------------
+		//Takes a UserName and returns the name of that user
+		//---------------------------------------------------------------------
+		static public string GetNameOfUser(string szUserName)
+		{
+			string szName = "";
+
+			string szSQL = "SELECT Name FROM Users "+
+				"WHERE UserName = '"+szUserName+"'";
+			szName = ReturnSingleValueFromDB("Name", szSQL).ToString();
+		
+			return szName;
+		}
+		//---------------------------------------------------------------------
+		//Takes a UserName and returns the name of that user
+		//---------------------------------------------------------------------
+		static public bool IsUserReadOnly(string szUserName)
+		{
+			bool bIsUserReadOnly = true;
+
+			string szSQL = "SELECT ReadOnly FROM Users "+
+				"WHERE UserName = '"+szUserName+"'";
+			bIsUserReadOnly = Convert.ToBoolean(Convert.ToInt32(ReturnSingleValueFromDB("ReadOnly", szSQL).ToString()));
+		
+			return bIsUserReadOnly;
+		}
+		//---------------------------------------------------------------------
+		//Takes a UserName and returns the name of that user
+		//---------------------------------------------------------------------
+		static public bool IsConsultantReadOnly(string szUserName, string szConsultantName)
+		{
+			bool bIsConsultantReadOnly = true;
+			object objResult = new object();
+
+			string szSQL = "SELECT ConsultantUserMap.ReadOnly "+
+				"FROM Users AS Users_1 INNER JOIN "+
+				"(Users INNER JOIN ConsultantUserMap ON Users.ID = ConsultantUserMap.ConsultantID) "+
+				"ON Users_1.ID = ConsultantUserMap.UserID "+
+				"WHERE Users_1.UserName = '"+szUserName+"' "+
+				"AND Users.UserName = '"+szConsultantName+"'";
+			objResult = ReturnSingleValueFromDB("ReadOnly", szSQL).ToString();
+			//If this consultant isn't linked to this account then they will be an 
+			//administrator so return true
+			if(objResult.ToString() == "System.Object")
+			{
+				bIsConsultantReadOnly = false;
 			}
+			else
+			{
+				bIsConsultantReadOnly = Convert.ToBoolean(Convert.ToInt32(objResult));
+			}
+		
+			return bIsConsultantReadOnly;
+		}
 		//---------------------------------------------------------------------
 		//Takes a UserName and returns all the details of the user
 		//---------------------------------------------------------------------
 		static public DataTable GetDetailsOfUser(string szUserName)
-			{
+		{
 			DataTable dtResults;
-			string szSQL = "SELECT * FROM Users "+
-				"WHERE UserName = '"+szUserName+"'";
+			string szSQL = "SELECT Users.Name, Users.Email, Users.UserName, "+
+				"Users.ReadOnly, BannerImages.FileName AS BannerImageFileName, "+
+				"Pages.Name AS StartPageName, Users.Pass "+
+				"FROM Pages INNER JOIN (Users INNER JOIN (BannerImages INNER JOIN "+
+				"UsersSettings ON BannerImages.ID = UsersSettings.BannerImageID) ON Users.ID = UsersSettings.UserID) "+
+				"ON Pages.ID = UsersSettings.FirstPageID "+
+				"WHERE Users.UserName = '"+szUserName+"' ";
+
 			dtResults = ReturnMultipleValuesFromDB(szSQL);
 			return dtResults;
-			}
+		}
 		//---------------------------------------------------------------------
 		//Saves a new user to the database
 		//---------------------------------------------------------------------
 		static public void InsertUser(string szName, string szEmail, string szUserName,
-			string szPassword, string szAccessType, StringCollection scConsultants, 
-			StringCollection scUsersCrops)
-			{
+			string szPassword, string szAccessType, string szBannerImageFileName, string szPageName,
+			int iReadOnly, DataTable dtConsultants, StringCollection scUsersCrops)
+		{
 			string szSalt = FunctionsClass.CreateSalt();
 			int iAccessTypeID = ReturnAccessTypeID(szAccessType);
 
 			string szSQL = "INSERT INTO Users "+
-				"(Name, Email, UserName, Salt, Pass, AccessTypeID) VALUES "+
+				"(Name, Email, UserName, Salt, Pass, AccessTypeID, ReadOnly) VALUES "+
 				"('"+szName+"', '"+szEmail+"', '"+szUserName+"', '"+szSalt+"', '"+
-				FunctionsClass.EncryptPassword(szPassword, szSalt)+"', "+iAccessTypeID.ToString()+")";
+				FunctionsClass.EncryptPassword(szPassword, szSalt)+"', "+iAccessTypeID.ToString()+", "+
+				iReadOnly.ToString()+")";
 			RunSQLStatement(szSQL);
 
-			if(scConsultants != null)
+			InsertUsersSettings(szUserName, szBannerImageFileName, szPageName);
+
+			if(dtConsultants != null)
+			{
+				foreach(DataRow drConsultant in dtConsultants.Rows)
 				{
-				if(scConsultants.Count > 0)
-					{
-					for(int iIndex = 0; iIndex < scConsultants.Count; iIndex++)
-						{
-						InsertUserIntoConsultantUserMap(scConsultants[iIndex], szUserName);	
-						}
-					}
+					InsertUserIntoConsultantUserMap(drConsultant["UserName"].ToString(), 
+						Convert.ToBoolean(drConsultant["ReadOnly"].ToString()), 
+						Convert.ToBoolean(drConsultant["Email"].ToString()), szUserName);	
 				}
+			}
 			//Save the list of crops mapped to the user
 			if(scUsersCrops != null)
-				{
+			{
 				if(scUsersCrops.Count > 0)
-					{
+				{
 					for(int iIndex = 0; iIndex < scUsersCrops.Count; iIndex++)
-						{
+					{
 						InsertUserIntoUsersCrops(scUsersCrops[iIndex], szUserName);	
-						}
 					}
 				}
 			}
+		}
 		//---------------------------------------------------------------------
 		//updates an existing user in the database
 		//---------------------------------------------------------------------
 		static public void UpdateUser(string szName, string szEmail, 
 			string szNewUserName, string szPassword, string szUserName, 
-			string szAccessType, StringCollection scConsultants, 
-			StringCollection scUsersCrops)
-			{
+			string szAccessType, string szBannerImageFileName, string szPageName, 
+			int iReadOnly, DataTable dtConsultants, StringCollection scUsersCrops)
+		{
 			int iUserID = ReturnUserIDFromUserName(szUserName);
 			System.Text.StringBuilder sbSQL = new System.Text.StringBuilder();
 			sbSQL.Append("UPDATE Users SET ");
 			if(szName != null && szName != "")
-				{
+			{
 				sbSQL.Append("Name = '"+szName+"', ");
-				}
+			}
 			if(szEmail != null && szEmail != "")
-				{
+			{
 				sbSQL.Append("Email = '"+szEmail+"', ");
-				}
+			}
+			if(iReadOnly == 0 || iReadOnly == 1)
+			{
+				sbSQL.Append("ReadOnly = "+iReadOnly.ToString()+", ");
+			}
 			if(szAccessType != null && szAccessType != "")
-				{
+			{
 				int iAccessTypeID = ReturnAccessTypeID(szAccessType);
 				sbSQL.Append("AccessTypeID = "+iAccessTypeID.ToString()+", ");
-				}
+			}
 			if(szPassword != null && szPassword != "")
-				{
+			{
 				string szSalt = FunctionsClass.CreateSalt();
 				sbSQL.Append("Salt = '"+szSalt+"', ");
 				sbSQL.Append("Pass = '"+FunctionsClass.EncryptPassword(szPassword, szSalt)+"', ");
-				}
+			}
 			if(szNewUserName != null && szNewUserName != "")
 			{
 				sbSQL.Append("UserName = '"+szNewUserName+"', ");
@@ -234,37 +343,40 @@ namespace YieldProphet
 				szSQL = szSQL.Remove(iIndex, 1);
 			}
 			RunSQLStatement(szSQL);
-
+			if(szBannerImageFileName != null || szPageName != null)
+			{
+				UpdateUserSettings(szUserName, szBannerImageFileName, szPageName);
+			}
 			//Save the list of consultants mapped to the user
-			if(scConsultants != null)
-				{
-				if(scConsultants.Count > 0)
-					{
+			if(dtConsultants != null)
+			{
+				if(dtConsultants.Rows.Count > 0)
 					RemoveUserFromConsultantUserMap(szUserName);
-					for(iIndex = 0; iIndex < scConsultants.Count; iIndex++)
-						{
-						InsertUserIntoConsultantUserMap(scConsultants[iIndex], szUserName);	
-						}
-					}
+				foreach(DataRow drConsultant in dtConsultants.Rows)
+				{
+					InsertUserIntoConsultantUserMap(drConsultant["UserName"].ToString(), 
+						Convert.ToBoolean(drConsultant["ReadOnly"].ToString()), 
+						Convert.ToBoolean(drConsultant["Email"].ToString()), szUserName);	
 				}
+			}
 			//Save the list of crops mapped to the user
 			if(scUsersCrops != null)
-				{
+			{
 				if(scUsersCrops.Count > 0)
-					{
+				{
 					RemoveUserFromUsersCrops(szUserName);
 					for(iIndex = 0; iIndex < scUsersCrops.Count; iIndex++)
-						{
+					{
 						InsertUserIntoUsersCrops(scUsersCrops[iIndex], szUserName);	
-						}
 					}
 				}
 			}
+		}
 		//---------------------------------------------------------------------
 		//Takes a UserName and deletes that user from the database
 		//---------------------------------------------------------------------
 		static public void DeleteUser(string szUserName)
-			{
+		{
 			int iUserID = ReturnUserIDFromUserName(szUserName);
 
 			string szSQL = "DELETE FROM ConsultantUserMap "+
@@ -274,33 +386,33 @@ namespace YieldProphet
 
 			RemoveUserFromUsersCrops(szUserName);
 			DeleteUsersPaddocks(szUserName);
+			DeleteUsersSettings(szUserName);
 
 			szSQL = "DELETE FROM Users "+
 				"WHERE UserName = '"+szUserName+"'";
 			RunSQLStatement(szSQL);
 
-			}
+		}
 		//---------------------------------------------------------------------
 		//Returns all consultants from the database
 		//---------------------------------------------------------------------
 		static public DataTable GetAllConsultants()
-			{
+		{
 			DataTable dtResults;
 			string szSQL = "SELECT Users.Name, Users.UserName FROM Users "+
 				"INNER JOIN AccessTypes ON Users.AccessTypeID = AccessTypes.ID "+
 				"WHERE AccessTypes.Type = '"+FunctionsClass.szConsultant+"' OR "+
-				"AccessTypes.Type = '"+FunctionsClass.szVisitorConsultant+"' OR "+
 				"AccessTypes.Type = '"+FunctionsClass.szAdministrator+"' "+
 				"ORDER BY Users.Name";
 			dtResults = ReturnMultipleValuesFromDB(szSQL);
 			return dtResults;
-			}
+		}
 		//---------------------------------------------------------------------
 		//Get a list of all the users that belong to the the passed in Consultant's
 		//user name, if no username is passed in then all users are returned
 		//---------------------------------------------------------------------
 		static public DataTable GetUsersMappedToConsultant(string szUserName)
-			{
+		{
 			DataTable dtResults;
 			System.Text.StringBuilder sbSQL = new System.Text.StringBuilder();
 			sbSQL.Append("SELECT Users_1.Name AS Name, Users_1.UserName AS UserName, ");
@@ -312,20 +424,20 @@ namespace YieldProphet
 			sbSQL.Append("ON Users_1.ID = ConsultantUserMap.UserID) ");
 			sbSQL.Append("ON AccessTypes.ID = Users_1.AccessTypeID ");
 			if(szUserName != null && szUserName != "")
-				{
+			{
 				sbSQL.Append("WHERE Users.UserName='"+szUserName+"' ");
-				}
+			}
 			sbSQL.Append("ORDER BY Users_1.Name, Users.Name");
 			dtResults = ReturnMultipleValuesFromDB(sbSQL.ToString());
 			return dtResults;
-			}
+		}
 		//---------------------------------------------------------------------
 		//Get a list of all the users that do not belong to the the passed in Consultant's
 		//user name, if no username is passed in then all users that do not
 		//have consultants are returned
 		//---------------------------------------------------------------------
 		static public DataTable GetUsersNotMappedToConsultant(string szUserName)
-			{
+		{
 			DataTable dtResults;
 			System.Text.StringBuilder sbSQL = new System.Text.StringBuilder();
 			sbSQL.Append("SELECT Users.Name AS Name, Users.ID AS ID, ");
@@ -334,20 +446,21 @@ namespace YieldProphet
 			sbSQL.Append("ON Users.AccessTypeID = AccessTypes.ID ");
 			sbSQL.Append("WHERE Users.ID NOT IN  (SELECT UserID FROM ConsultantUserMap) ");
 			if(szUserName != null && szUserName != "")
-				{
+			{
 				sbSQL.Append("AND Users.UserName='"+szUserName+"'");
-				}
+			}
 			sbSQL.Append("ORDER BY Users.Name");
 			dtResults = ReturnMultipleValuesFromDB(sbSQL.ToString());
 			return dtResults;
-			}
+		}
 		//---------------------------------------------------------------------
 		//Gets all the consultants linked to the user
 		//---------------------------------------------------------------------
 		static public DataTable GetUsersConsultants(string szUserName)
-			{
+		{
 			DataTable dtResults;
-			string szSQL = "SELECT Users.UserName, Users.Name "+
+			string szSQL = "SELECT Users.UserName, Users.Name, "+
+				"ConsultantUserMap.ReadOnly, ConsultantUserMap.Email "+
 				"FROM Users AS Users_1 INNER JOIN "+
 				"(Users INNER JOIN ConsultantUserMap ON Users.ID = ConsultantUserMap.ConsultantID) "+
 				"ON Users_1.ID = ConsultantUserMap.UserID "+
@@ -355,12 +468,12 @@ namespace YieldProphet
 
 			dtResults = ReturnMultipleValuesFromDB(szSQL);
 			return dtResults;
-			}
+		}
 		//---------------------------------------------------------------------
 		//Gets all the crops linked to the user
 		//---------------------------------------------------------------------
 		static public DataTable GetUsersCrops(string szUserName)
-			{
+		{
 			DataTable dtResults;
 			string szSQL = "SELECT CropTypes.Type "+
 				"FROM Users INNER JOIN (CropTypes INNER JOIN UsersCrops ON CropTypes.ID = UsersCrops.CropTypeID) "+
@@ -369,50 +482,52 @@ namespace YieldProphet
 
 			dtResults = ReturnMultipleValuesFromDB(szSQL);
 			return dtResults;
-			}
+		}
 		//---------------------------------------------------------------------
 		//Checks to see if the selected user name is in use or not
 		//Returns true if the username is available
 		//---------------------------------------------------------------------
 		static public bool IsUserNameAvailable(string szUserName)
-			{
+		{
 			int iNumberOfRecords = 0;
 			bool bAvailable = false;
 
 			string szSQL = "SELECT COUNT(ID) AS NumberOfRecords FROM Users "+
-			"WHERE UserName ='"+szUserName+"'";
+				"WHERE UserName ='"+szUserName+"'";
 			iNumberOfRecords = Convert.ToInt32(ReturnSingleValueFromDB("NumberOfRecords", szSQL).ToString());
 			if(iNumberOfRecords == 0)
-				{
+			{
 				bAvailable = true;
-				}
+			}
 
 			return bAvailable;
-			}
+		}
 		//---------------------------------------------------------------------
 		//Takes a user name and deletes all the paddocks linked to the user
 		//---------------------------------------------------------------------
 		static private void DeleteUsersPaddocks(string szUserName)
-			{
+		{
 			DataTable dtPaddocks = GetPaddocksOfUser(szUserName);
 			foreach(DataRow drPaddock in dtPaddocks.Rows)
-				{
+			{
 				DeletePaddock(drPaddock["Name"].ToString(), szUserName);
-				}
-			}	
+			}
+		}	
 		//---------------------------------------------------------------------
 		//
 		//---------------------------------------------------------------------
-		static private void InsertUserIntoConsultantUserMap(string szConsultantUserName, string szUserName)
-			{
+		static private void InsertUserIntoConsultantUserMap(string szConsultantUserName, 
+			bool bReadOnly, bool bEmail, string szUserName)
+		{
 			int iUserID = ReturnUserIDFromUserName(szUserName);
 			int iConsultantID = ReturnUserIDFromUserName(szConsultantUserName);
 
 			string szSQL = "INSERT INTO ConsultantUserMap "+
-				"(ConsultantID, UserID) VALUES "+
-				"("+iConsultantID.ToString()+", "+iUserID.ToString()+")";
+				"(ConsultantID, UserID, ReadOnly, Email) VALUES "+
+				"("+iConsultantID.ToString()+", "+iUserID.ToString()+", "+
+				Convert.ToInt32(bReadOnly)+", "+Convert.ToInt32(bEmail)+")";
 			RunSQLStatement(szSQL);
-			}
+		}
 		//---------------------------------------------------------------------
 		//
 		//---------------------------------------------------------------------
@@ -450,7 +565,7 @@ namespace YieldProphet
 		//Takes a username and returns the salt value of that user
 		//---------------------------------------------------------------------
 		static private string GetSaltValueOfUser(string szUserName)
-			{
+		{
 			string szSalt = "";
 
 			string szSQL = "SELECT Salt FROM Users "+
@@ -458,12 +573,12 @@ namespace YieldProphet
 			szSalt = ReturnSingleValueFromDB("Salt", szSQL).ToString();
 
 			return szSalt;
-			}
+		}
 		//---------------------------------------------------------------------
 		//Takes a user's username and returns their UserID
 		//---------------------------------------------------------------------
 		static private int ReturnUserIDFromUserName(string szUserName)
-			{
+		{
 			int iUserID = 0;
 
 			string szSQL = "SELECT ID FROM Users "+
@@ -471,21 +586,77 @@ namespace YieldProphet
 			iUserID = Convert.ToInt32(ReturnSingleValueFromDB("ID", szSQL).ToString());
 
 			return iUserID;
-			}
-		//---------------------------------------------------------------------
-		//Takes a users's name and returns their UserID
-		//---------------------------------------------------------------------
-		static private int ReturnUserIDFromName(string szName)
-		{
-			int iUserID = 0;
-
-			string szSQL = "SELECT ID FROM Users "+
-				"WHERE Name = '"+szName+"'";
-			iUserID = Convert.ToInt32(ReturnSingleValueFromDB("ID", szSQL).ToString());
-
-			return iUserID;
 		}
 		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static private void DeleteUserPaddocksMap(string szUserName, string szPaddockName)
+		{
+			int iPaddockID = ReturnPaddockID(szPaddockName, szUserName);
+			int iUserID = ReturnUserIDFromUserName(szUserName);
+			
+			string szSQL = "DELETE FROM UsersPaddocks "+
+				"WHERE PaddockID = "+iPaddockID.ToString()+" "+
+				"AND UserID = "+iUserID.ToString();
+			RunSQLStatement(szSQL);
+		}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static private void DeleteUsersSettings(string szUserName)
+		{
+			int iUserID = ReturnUserIDFromUserName(szUserName);
+			
+			string szSQL = "DELETE FROM UsersSettings "+
+				"WHERE UserID = "+iUserID.ToString();
+			RunSQLStatement(szSQL);
+		}
+		//---------------------------------------------------------------------
+		#endregion
+
+
+
+		#region Functions to Manipulate Settings()
+		
+		private static void UpdateUserSettings(string szUserName, string szBannerImageFileName, 
+			string szFirstPage)
+		{
+			int iUserID = ReturnUserIDFromUserName(szUserName);
+			System.Text.StringBuilder sbSQL = new System.Text.StringBuilder();
+			sbSQL.Append("UPDATE UsersSettings SET ");
+			if(szBannerImageFileName != null && szBannerImageFileName != "")
+			{
+				int iBannerImageID = ReturnBannerImageID(szBannerImageFileName);
+				sbSQL.Append("BannerImageID = "+iBannerImageID.ToString()+", ");
+			}
+			if(szFirstPage != null && szFirstPage != "")
+			{
+				int iFirstPageID = ReturnPageID(szFirstPage);
+				sbSQL.Append("FirstPageID = "+iFirstPageID.ToString()+", ");
+			}
+			sbSQL.Append("WHERE UserID = "+iUserID.ToString());
+			string szSQL = sbSQL.ToString();
+			//Removes last , if it exists
+			int iIndex = szSQL.LastIndexOf(",");
+			if (iIndex > 0)
+			{
+				szSQL = szSQL.Remove(iIndex, 1);
+			}
+			RunSQLStatement(szSQL);
+		}
+
+		private static void InsertUsersSettings(string szUserName, string szBannerImageFileName, 
+			string szFirstPage)
+		{
+			int iUserName = ReturnUserIDFromUserName(szUserName);
+			int iBannerImageID = ReturnBannerImageID(szBannerImageFileName);
+			int iFirstPageID = ReturnPageID(szFirstPage);
+			string szSQL = "INSERT INTO UsersSettings "+
+				"(UserID, BannerImageID, FirstPageID) VALUES "+
+				"("+iUserName.ToString()+", "+iBannerImageID.ToString()+", "+
+				iFirstPageID.ToString()+")";
+			RunSQLStatement(szSQL);
+		}
 		#endregion
 
 
@@ -538,13 +709,12 @@ namespace YieldProphet
 				"LinkedRainfallPaddock.Name AS LinkedRainfallPaddockName, Paddocks.Triazine, "+
 				"Paddocks.RootingDepth, Paddocks.Population, Paddocks.TillerNumber, Paddocks.RowSpacing, "+
 				"Paddocks.AutoFTN, Paddocks.UseEC "+
-				"FROM Regions INNER JOIN (CropTypes INNER JOIN (Paddocks AS LinkedRainfallPaddock RIGHT JOIN "+
-				"(RowConfigurationTypes INNER JOIN (Soils INNER JOIN (CultivarTypes INNER JOIN (Users INNER JOIN "+
-				"(MetStations INNER JOIN Paddocks ON MetStations.ID = Paddocks.MetStationID) ON Users.ID = Paddocks.UserID) "+
-				"ON CultivarTypes.ID = Paddocks.CultivarTypeID) ON Soils.ID = Paddocks.SoilID) "+
-				"ON RowConfigurationTypes.ID = Paddocks.RowConfigurationTypeID) "+
-				"ON LinkedRainfallPaddock.ID = Paddocks.LinkedTemporalPaddockID) "+
-				"ON CropTypes.ID = CultivarTypes.CropTypeID) ON Regions.ID = MetStations.RegionID "+
+				"FROM (((((((Users INNER JOIN (Paddocks INNER JOIN UsersPaddocks ON Paddocks.ID = UsersPaddocks.PaddockID) "+
+				"ON Users.ID = UsersPaddocks.UserID) INNER JOIN MetStations ON Paddocks.MetStationID = MetStations.ID) "+
+				"INNER JOIN Regions ON MetStations.RegionID = Regions.ID) INNER JOIN CultivarTypes ON Paddocks.CultivarTypeID = CultivarTypes.ID) "+
+				"INNER JOIN CropTypes ON CultivarTypes.CropTypeID = CropTypes.ID) INNER JOIN Soils ON Paddocks.SoilID = Soils.ID) "+
+				"INNER JOIN RowConfigurationTypes ON Paddocks.RowConfigurationTypeID = RowConfigurationTypes.ID) "+
+				"LEFT JOIN Paddocks AS LinkedRainfallPaddock ON Paddocks.LinkedTemporalPaddockID = LinkedRainfallPaddock.ID "+ 
 				"WHERE Paddocks.Name = '"+szPaddockName+"' AND Users.UserName ='"+szUserName+"'";
 			dtResults = ReturnMultipleValuesFromDB(szSQL);
 
@@ -558,10 +728,11 @@ namespace YieldProphet
 			DataTable dtResults = new DataTable();
 			dtResults.Columns.Add("Name");
 
-			if(IsPaddockATemporalMaster(szPaddockName, szUserName) == false)
+			if(szPaddockName == "" || IsPaddockATemporalMaster(szPaddockName, szUserName) == false)
 				{
 				string szSQL = "SELECT Paddocks.Name FROM Paddocks "+
-					"INNER JOIN Users ON Paddocks.UserID = Users.ID "+
+					"INNER JOIN (UsersPaddocks INNER JOIN Users ON UsersPaddocks.UserID = Users.ID) "+
+					"ON Paddocks.ID = UsersPaddocks.PaddockID "+
 					"WHERE Paddocks.Name <> '"+szPaddockName+"' "+
 					"AND Users.UserName = '"+szUserName+"' "+
 					"AND LinkedTemporalPaddockID = 0";
@@ -573,23 +744,24 @@ namespace YieldProphet
 		//---------------------------------------------------------------------
 		//Saves a new paddock to the database
 		//---------------------------------------------------------------------
-		static public void InsertPaddock(string szName, string szSowDate, 
-			string szCultivarType, int iTriazine, string szRowConfigurationType, 
-			int iPopulation, double dRowSpacing, string szUserName)
+		static public void InsertPaddock(string szMetStaionName, int iDefaultRainfall, 
+			string szLinkedTemporalPaddockName, string szStartOfGrowingSeason, 
+			string szPaddockName, string szUserName)
 			{
 			int iUserID = ReturnUserIDFromUserName(szUserName);
-			int iCultivarTypeID = ReturnCultivarTypeID(szCultivarType);
-			int iRowConfigurationTypeID = 1;
-			if(szRowConfigurationType != "")
+			int iMetStationID = ReturnMetStationID(szMetStaionName);
+			int iLinkedTemporalPaddockID = 0;
+			if(szLinkedTemporalPaddockName != "NONE")
 			{
-				iRowConfigurationTypeID = ReturnRowConfigurationTypeID(szRowConfigurationType);
+				iLinkedTemporalPaddockID = ReturnPaddockID(szLinkedTemporalPaddockName, szUserName);
 			}
 
 			string szSQL = "INSERT INTO Paddocks "+
-				"(Name, SowDate, CultivarTypeID, Triazine, RowConfigurationTypeID, Population, RowSpacing, UserID) VALUES "+
-				"('"+szName+"', '"+szSowDate+"', "+iCultivarTypeID.ToString()+", "+iTriazine.ToString()+", "+
-				iRowConfigurationTypeID.ToString()+", "+iPopulation.ToString()+", "+dRowSpacing.ToString()+", "+iUserID.ToString()+")";
-			RunSQLStatement(szSQL);
+				"(Name, StartOfGrowingSeasonDate, DefaultRainfall, LinkedTemporalPaddockID, MetStationID) VALUES "+
+				"('"+szPaddockName+"', '"+szStartOfGrowingSeason+"', "+iDefaultRainfall.ToString()+", "+iLinkedTemporalPaddockID.ToString()+", "+
+				iMetStationID.ToString()+")";
+			int iPaddockID =  Convert.ToInt32(RunSQLAndReturnLastInsertID(szSQL));
+			InsertIntoUsersPaddocks(szUserName, iPaddockID);
 			}
 		//---------------------------------------------------------------------
 		//updates an existing paddock cropping details in the database
@@ -692,13 +864,12 @@ namespace YieldProphet
 		//-------------------------------------------------------------------------
 		static public void ResetPaddock(string szPaddockName, string szNewPaddockName, string szUserName)
 			{
-			int iUserID = ReturnUserIDFromUserName(szUserName);
+			int iPaddockID = ReturnPaddockID(szPaddockName, szUserName);
 			string szSQL = "UPDATE Paddocks SET "+
 				"Name = '"+szNewPaddockName+"', "+
 				"SowDate = '', "+
 				"CultivarTypeID = 1 "+
-				"WHERE Name = '"+szPaddockName+"' "+
-				"AND UserID = "+iUserID.ToString();
+				"WHERE ID = "+iPaddockID.ToString();
 			RunSQLStatement(szSQL);
 			}
 		//---------------------------------------------------------------------
@@ -707,10 +878,13 @@ namespace YieldProphet
 		static public DataTable GetPaddocksOfUser(string szUserName)
 			{
 			DataTable dtResults;
-			string szSQL = "SELECT Paddocks.Name FROM Paddocks "+
-				"INNER JOIN Users ON Paddocks.UserID = Users.ID "+
+			string szSQL = "SELECT Paddocks.Name, CropTypes.Type AS CropType "+
+				"FROM (CropTypes INNER JOIN CultivarTypes ON CropTypes.ID = CultivarTypes.CropTypeID) "+
+				"INNER JOIN (Users INNER JOIN (Paddocks INNER JOIN UsersPaddocks ON Paddocks.ID = UsersPaddocks.PaddockID) "+
+				"ON Users.ID = UsersPaddocks.UserID) ON CultivarTypes.ID = Paddocks.CultivarTypeID "+
 				"WHERE Users.UserName = '"+szUserName+"' "+
 				"ORDER BY Paddocks.Name";
+
 			dtResults = ReturnMultipleValuesFromDB(szSQL);
 			return dtResults;
 			}
@@ -724,7 +898,8 @@ namespace YieldProphet
 			bool bAvailable = false;
 
 			string szSQL = "SELECT COUNT(Paddocks.ID) AS NumberOfRecords FROM Paddocks "+
-				"INNER JOIN Users ON Paddocks.UserID = Users.ID "+
+				"INNER JOIN (UsersPaddocks INNER JOIN Users ON UsersPaddocks.UserID = Users.ID) "+
+				"ON Paddocks.ID = UsersPaddocks.PaddockID "+
 				"WHERE Users.UserName ='"+szUserName+"' "+
 				"AND Paddocks.Name = '"+szPaddockName+"'";
 			iNumberOfRecords = Convert.ToInt32(ReturnSingleValueFromDB("NumberOfRecords", szSQL).ToString());
@@ -751,6 +926,7 @@ namespace YieldProphet
 			DeletePaddocksTemporalEvents(iPaddockID);
 			DeletePaddocksFertiliserApplications(iPaddockID);
 			DeletePaddocksIrrigationApplications(iPaddockID);
+			DeleteUserPaddocksMap(szPaddockName, szUserName);
 			}
 		//---------------------------------------------------------------------
 		//
@@ -760,7 +936,8 @@ namespace YieldProphet
 			int iPaddockID = 0;
 
 			string szSQL = "SELECT Paddocks.ID FROM Paddocks "+
-				"INNER JOIN Users ON Paddocks.UserID = Users.ID "+
+				"INNER JOIN (UsersPaddocks INNER JOIN Users ON UsersPaddocks.UserID = Users.ID) "+
+				"ON Paddocks.ID = UsersPaddocks.PaddockID "+
 				"WHERE Users.UserName = '"+szUserName+"' "+
 				"AND Paddocks.Name = '"+szPaddockName+"'";
 			iPaddockID = Convert.ToInt32(ReturnSingleValueFromDB("ID", szSQL).ToString());
@@ -787,6 +964,19 @@ namespace YieldProphet
 
 			return bPaddockTemporalMaster;
 			}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static private void InsertIntoUsersPaddocks(string szUserName, 
+			int iPaddockID)
+		{
+			int iUserID = ReturnUserIDFromUserName(szUserName);
+
+			string szSQL = "INSERT INTO UsersPaddocks "+
+				"(PaddockID, UserID) VALUES "+
+				"("+iPaddockID.ToString()+", "+iUserID.ToString()+")";
+			RunSQLStatement(szSQL);
+		}
 		//-------------------------------------------------------------------------
 
 		
@@ -901,13 +1091,10 @@ namespace YieldProphet
 		//---------------------------------------------------------------------
 		static public DataTable GetPaddocksUsingSoil(string szRegion, string szSoilName)
 		{
-			string szSQL = "SELECT Users.Name, Paddocks.Name FROM Users, Paddocks, MetStations, Regions, Soils" +
-				           " WHERE Paddocks.SoilID = Soils.ID" +
-				           "   AND MetStations.ID = Paddocks.MetStationID" +
-				           "   AND Regions.ID = MetStations.RegionID" +
-				           "   AND Users.ID = Paddocks.UserID" +
-				           "   AND Soils.Name = '"+szSoilName+"'" +
-				           "   AND Regions.Type = '"+szRegion+"'";
+			string szSQL = "SELECT Users.Name, Paddocks.Name FROM Users INNER JOIN "+
+				"(UsersPaddocks INNER JOIN (Paddocks INNER JOIN (Regions INNER JOIN Soils ON Regions.ID = Soils.RegionID) "+
+				"ON Paddocks.SoilID = Soils.ID) ON UsersPaddocks.PaddockID = Paddocks.ID) ON Users.ID = UsersPaddocks.UserID "+
+				"WHERE Soils.Name = '"+szSoilName+"' AND Regions.Type = '"+szRegion+"'";
 			DataTable dtResults = ReturnMultipleValuesFromDB(szSQL);
 			return dtResults;
 		}
@@ -1075,6 +1262,95 @@ namespace YieldProphet
 		#endregion
 
 
+		
+		#region Functions to manipulate banner image Information
+		//-------------------------------------------------------------------------
+		//Inserts a new banner image location into the database
+		//-------------------------------------------------------------------------
+		static public void InsertBannerImage(string szFileName)
+		{
+			string szSQL = "INSERT INTO BannerImages "+
+				"(FileName) VALUES ('"+szFileName+"')";
+			RunSQLStatement(szSQL);
+		}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static public DataTable GetAllBannerImages()
+		{
+			DataTable dtResults;
+			string szSQL = "SELECT FileName FROM BannerImages";
+			dtResults = ReturnMultipleValuesFromDB(szSQL);
+			return dtResults;
+		}
+		//---------------------------------------------------------------------
+		//Returns the ID for the specified banner image
+		//---------------------------------------------------------------------
+		static private int ReturnBannerImageID(string szFileName)
+		{
+			int iBannerIMageID = 0;
+
+			string szSQL = "SELECT ID FROM BannerImages "+
+				"WHERE FileName = '"+szFileName+"'";
+			iBannerIMageID = Convert.ToInt32(ReturnSingleValueFromDB("ID", szSQL).ToString());
+
+			return iBannerIMageID;
+		}
+		//-------------------------------------------------------------------------
+		#endregion
+
+
+		#region Functions to manipulate page information
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static public DataTable GetAllPages()
+		{
+			DataTable dtResults;
+			string szSQL = "SELECT Pages.Name, Pages.DisplayName FROM Pages";
+			dtResults = ReturnMultipleValuesFromDB(szSQL);
+			return dtResults;
+		}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static public DataTable GetAllValidStartPages()
+		{
+			DataTable dtResults;
+			string szSQL = "SELECT Pages.Name, Pages.DisplayName FROM Pages "+
+				"WHERE Pages.ValidStartPage = 1";
+			dtResults = ReturnMultipleValuesFromDB(szSQL);
+			return dtResults;
+		}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static public DataTable GetAllValidStartPagesForAccessType(string szAccessType)
+		{
+			DataTable dtResults;
+			int iAccessTypeID = ReturnAccessTypeID(szAccessType);
+			string szSQL = "SELECT Pages.Name, Pages.DisplayName FROM Pages "+
+				"WHERE Pages.AccessTypeID >= "+iAccessTypeID.ToString()+ " "+
+				"AND Pages.ValidStartPage = 1";
+			dtResults = ReturnMultipleValuesFromDB(szSQL);
+			return dtResults;
+		}
+		//---------------------------------------------------------------------
+		//Returns the ID for the specified banner image
+		//---------------------------------------------------------------------
+		static private int ReturnPageID(string szName)
+		{
+			int iPageID = 0;
+
+			string szSQL = "SELECT ID FROM Pages "+
+				"WHERE Name = '"+szName+"'";
+			iPageID = Convert.ToInt32(ReturnSingleValueFromDB("ID", szSQL).ToString());
+
+			return iPageID;
+		}
+		//-------------------------------------------------------------------------
+		#endregion
+
 
 		#region Functions to manipulate Crop and Cultivar Information
 
@@ -1178,9 +1454,10 @@ namespace YieldProphet
 		{
 			DataTable dtResults;
 			string szSQL = "SELECT FertiliserApplication.Rate, FertiliserApplication.ApplicationDate "+
-				"FROM Users INNER JOIN (Paddocks INNER JOIN (FertiliserTypes INNER JOIN FertiliserApplication "+
-				"ON FertiliserTypes.ID = FertiliserApplication.FertiliserTypeID) "+
-				"ON Paddocks.ID = FertiliserApplication.PaddockID) ON Users.ID = Paddocks.UserID "+
+				"FROM Users INNER JOIN (UsersPaddocks INNER JOIN (Paddocks INNER JOIN "+
+				"(FertiliserTypes INNER JOIN FertiliserApplication ON FertiliserTypes.ID = FertiliserApplication.FertiliserTypeID)"+
+				"ON Paddocks.ID = FertiliserApplication.PaddockID) ON UsersPaddocks.PaddockID = Paddocks.ID)"+
+				"ON Users.ID = UsersPaddocks.UserID "+
 				"WHERE FertiliserTypes.Type = '"+szFertiliserType+"' "+
 				"AND Paddocks.Name ='"+szPaddockName+"' "+
 				"AND Users.UserName='"+szUserName+"'";
@@ -1252,11 +1529,13 @@ namespace YieldProphet
 			DataTable dtResults;
 			string szSQL = "SELECT IrrigationApplication.Amount, IrrigationApplication.ApplicationDate, "+
 				"IrrigationApplication.Efficency FROM Users INNER JOIN "+
-				"(Paddocks INNER JOIN  IrrigationApplication "+
-				"ON Paddocks.ID = IrrigationApplication.PaddockID) ON Users.ID = Paddocks.UserID "+
+				"(UsersPaddocks INNER JOIN (Paddocks INNER JOIN  IrrigationApplication "+
+				"ON Paddocks.ID = IrrigationApplication.PaddockID) "+
+				"ON UsersPaddocks.PaddockID = Paddocks.ID) ON Users.ID = UsersPaddocks.UserID "+
 				"WHERE Paddocks.Name ='"+szPaddockName+"' "+
 				"AND Users.UserName='"+szUserName+"'";
 			dtResults = ReturnMultipleValuesFromDB(szSQL);
+
 			return dtResults;
 		}
 		//---------------------------------------------------------------------
@@ -1315,7 +1594,8 @@ namespace YieldProphet
 			DataTable dtResults;
 
 			string szSQL = "SELECT SoilSamples.SampleDate, SoilSamples.Data FROM SoilSampleTypes "+
-				"INNER JOIN ((Users INNER JOIN Paddocks ON Users.ID = Paddocks.UserID) "+
+				"INNER JOIN (((Users INNER JOIN UsersPaddocks ON Users.ID = UsersPaddocks.UserID) "+
+				"INNER JOIN Paddocks ON UsersPaddocks.PaddockID = Paddocks.ID) "+
 				"INNER JOIN SoilSamples ON Paddocks.ID = SoilSamples.PaddockID) "+
 				"ON SoilSampleTypes.ID = SoilSamples.SoilSampleTypeID "+
 				"WHERE Paddocks.Name = '"+szPaddockName+"' "+
@@ -1365,7 +1645,8 @@ namespace YieldProphet
 			int iNumberOfSoilSamples = 0;
 
 			string szSQL = "SELECT COUNT(SoilSamples.ID) AS NumberOfSoilSamples FROM SoilSampleTypes "+
-				"INNER JOIN ((Users INNER JOIN Paddocks ON Users.ID = Paddocks.UserID) "+
+				"INNER JOIN (((Users INNER JOIN UsersPaddocks ON Users.ID = UsersPaddocks.UserID) "+
+				"INNER JOIN Paddocks ON UsersPaddocks.PaddockID = Paddocks.ID) "+
 				"INNER JOIN SoilSamples ON Paddocks.ID = SoilSamples.PaddockID) "+
 				"ON SoilSampleTypes.ID = SoilSamples.SoilSampleTypeID "+
 				"WHERE Paddocks.Name = '"+szPaddockName+"' "+
@@ -1413,7 +1694,8 @@ namespace YieldProphet
 		{	
 			DataTable dtResults;
 			string szSQL = "SELECT TemporalEvents.EventDate, TemporalEvents.EventValue FROM TemporalEventTypes "+
-				"INNER JOIN ((Users INNER JOIN Paddocks ON Users.ID = Paddocks.UserID) "+
+				"INNER JOIN (((Users INNER JOIN UsersPaddocks ON Users.ID = UsersPaddocks.UserID) "+
+				"INNER JOIN Paddocks ON UsersPaddocks.PaddockID = Paddocks.ID) "+
 				"INNER JOIN TemporalEvents ON Paddocks.ID = TemporalEvents.PaddockID) "+
 				"ON TemporalEventTypes.ID = TemporalEvents.TemporalEventTypeID "+
 				"WHERE Users.UserName = '"+szUserName+"' AND Paddocks.Name = '"+szPaddockName+"' AND TemporalEventTypes.Type = '"+szTemporalEventType+"' "+
@@ -1430,7 +1712,8 @@ namespace YieldProphet
 			double dTotalTemporalEventValues = 0;
 
 			string szSQL = "SELECT SUM(EventValue) AS TotalValues FROM TemporalEventTypes "+
-				"INNER JOIN ((Users INNER JOIN Paddocks ON Users.ID = Paddocks.UserID) "+
+				"INNER JOIN (((Users INNER JOIN UsersPaddocks ON Users.ID = UsersPaddocks.UserID) "+
+				"INNER JOIN Paddocks ON UsersPaddocks.PaddockID = Paddocks.ID) "+
 				"INNER JOIN TemporalEvents ON Paddocks.ID = TemporalEvents.PaddockID) "+
 				"ON TemporalEventTypes.ID = TemporalEvents.TemporalEventTypeID "+
 				"WHERE Users.UserName = '"+szUserName+"' AND Paddocks.Name = '"+szPaddockName+"' AND TemporalEventTypes.Type = '"+szTemporalEventType+"' "+
@@ -1698,6 +1981,21 @@ namespace YieldProphet
 		//---------------------------------------------------------------------
 		//
 		//---------------------------------------------------------------------
+		static public bool IsReportCropComboValid(string szCropType, string szReportType)
+		{
+			bool IsReportCropComboValid = false;
+			string szSQL = "SELECT COUNT(ReportTemplateMap.ID) AS IsValid FROM (ReportTypes "+
+				"INNER JOIN ReportTemplateMap ON ReportTypes.ID = ReportTemplateMap.ReportTypeID) "+
+				"INNER JOIN CropTypes ON "+
+				"ReportTemplateMap.CropTypeID = CropTypes.ID "+
+				"WHERE CropTypes.Type = '"+szCropType+"' "+
+				"AND ReportTypes.Type = '"+szReportType+"'";
+			IsReportCropComboValid = Convert.ToBoolean(Convert.ToInt32(ReturnSingleValueFromDB("IsValid", szSQL).ToString()));
+			return IsReportCropComboValid;
+		}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
 		static public DataTable GetAllReportTypes()
 		{
 			DataTable dtResults;
@@ -1868,6 +2166,153 @@ namespace YieldProphet
 				"WHERE CropTypeID = "+iCropTypeID.ToString()+" "+
 				"AND ReportTypeID = "+iReportTypeID.ToString();
 			RunSQLStatement(szSQL);
+		}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static public void SetFavouriteReport(string szUserNameOfCurrentUser, string szUserNameOfPaddock,
+			string szPaddockName, string szDate, string szReportType, string szReportName, string szData)
+		{
+			int iNumberOfFavouriteReports = ReturnNumberOfFavouriteReports(szUserNameOfCurrentUser, 
+				szUserNameOfPaddock, szPaddockName, szReportName, szReportType);
+			if(iNumberOfFavouriteReports == 0)
+			{
+				InsertFavouriteReport(szUserNameOfCurrentUser, szUserNameOfPaddock, szPaddockName, 
+					szDate, szReportType, szReportName, szData);
+			}
+			else
+			{
+				UpdateFavouriteReport(szUserNameOfCurrentUser, szUserNameOfPaddock, szPaddockName, 
+					szDate, szReportType, szReportName, szData);
+			}	
+		}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static private void InsertFavouriteReport(string szUserNameOfCurrentUser, string szUserNameOfPaddock,
+			string szPaddockName, string szDate, string szReportType, string szReportName, string szData)
+		{
+			int iReportTypeID = ReturnReportTypeID(szReportType);
+			int iUserIDOfCurrentUser = ReturnUserIDFromUserName(szUserNameOfCurrentUser);
+			int iPaddockID = ReturnPaddockID(szPaddockName, szUserNameOfPaddock);
+
+			string szSQL = "INSERT INTO ReportFavourites "+
+				"(UserID, ReportTypeID, ReportName, PaddockID, DateLastModified, Data) VALUES "+
+				"("+iUserIDOfCurrentUser.ToString()+", "+iReportTypeID.ToString()+", '"+
+				szReportName+"', "+iPaddockID.ToString()+", '"+szDate+"', '"+szData+"')";
+			RunSQLStatement(szSQL);
+		}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static private void UpdateFavouriteReport(string szUserNameOfCurrentUser, string szUserNameOfPaddock,
+			string szPaddockName, string szDate, string szReportType, string szReportName, string szData)
+		{
+			int iReportTypeID = ReturnReportTypeID(szReportType);
+			int iUserIDOfCurrentUser = ReturnUserIDFromUserName(szUserNameOfCurrentUser);
+			int iPaddockID = ReturnPaddockID(szPaddockName, szUserNameOfPaddock);
+
+			string szSQL = "UPDATE ReportFavourites SET "+
+				"ReportName = '"+szReportName+"', DateLastModified = '"+szDate+"', "+
+				"Data = '"+szData+"' "+
+				"WHERE UserID = "+iUserIDOfCurrentUser.ToString()+" "+
+				"AND ReportTypeID = "+iReportTypeID.ToString()+" "+
+				"AND PaddockID = "+iPaddockID.ToString();
+				
+			RunSQLStatement(szSQL);
+		}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static public void DeleteFavouriteReport(string szUserNameOfCurrentUser, string szUserNameOfPaddock,
+			string szPaddockName, string szDate, string szReportType, string szReportName)
+		{
+			int iReportTypeID = ReturnReportTypeID(szReportType);
+			int iUserIDOfCurrentUser = ReturnUserIDFromUserName(szUserNameOfCurrentUser);
+			int iPaddockID = ReturnPaddockID(szPaddockName, szUserNameOfPaddock);
+
+			string szSQL = "DELETE FROM ReportFavourites "+
+				"WHERE UserID = "+iUserIDOfCurrentUser.ToString()+" "+
+				"AND ReportTypeID = "+iReportTypeID.ToString()+" "+
+				"AND ReportName = '"+szReportName.ToString()+"' "+
+				"AND PaddockID = "+iPaddockID.ToString();
+				
+			RunSQLStatement(szSQL);
+		}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static public DataTable GetAllFavouriteReportsOfUser(string szUserName)
+		{
+			DataTable dtResults;
+
+			string szSQL = "SELECT ReportFavourites.ReportName, ReportFavourites.DateLastModified, "+
+				"Users.UserName, Users.Name AS UsersName, Paddocks.Name As PaddockName, ReportTypes.Type "+
+				"AS ReportType, CropTypes.Type AS CropType FROM ((((((ReportFavourites "+
+				"INNER JOIN UsersPaddocks ON ReportFavourites.PaddockID = UsersPaddocks.PaddockID) "+
+				"INNER JOIN Users ON UsersPaddocks.UserID = Users.ID) "+
+				"INNER JOIN Paddocks ON UsersPaddocks.PaddockID = Paddocks.ID) "+
+				"INNER JOIN CultivarTypes ON Paddocks.CultivarTypeID = CultivarTypes.ID) "+
+				"INNER JOIN CropTypes ON CultivarTypes.CropTypeID = CropTypes.ID) "+
+				"INNER JOIN Users AS ConsultantUsers ON ReportFavourites.UserID = ConsultantUsers.ID) "+
+				"INNER JOIN ReportTypes ON ReportFavourites.ReportTypeID = ReportTypes.ID "+
+				"WHERE ConsultantUsers.UserName = '"+szUserName+"'";
+
+			dtResults = ReturnMultipleValuesFromDB(szSQL);
+			return dtResults;
+		}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static public string GetFavouriteReport(string szUserNameOfCurrentUser, 
+			string szUserNameOfPaddock, string szPaddockName,
+			string szReportName, string szReportType)
+		{
+			string szFavouriteXML = "";
+
+			string szSQL = "SELECT ReportFavourites.Data FROM ((((ReportFavourites "+
+				"INNER JOIN UsersPaddocks ON ReportFavourites.PaddockID = UsersPaddocks.PaddockID) "+
+				"INNER JOIN Users ON UsersPaddocks.UserID = Users.ID) "+
+				"INNER JOIN Paddocks ON UsersPaddocks.PaddockID = Paddocks.ID) "+
+				"INNER JOIN Users AS ConsultantUsers ON ReportFavourites.UserID = ConsultantUsers.ID) "+
+				"INNER JOIN ReportTypes ON ReportFavourites.ReportTypeID = ReportTypes.ID "+
+				"WHERE ConsultantUsers.UserName = '"+szUserNameOfCurrentUser+"' "+
+				"AND Users.UserName = '"+szUserNameOfPaddock+"' "+
+				"AND Paddocks.Name = '"+szPaddockName+"' "+
+				"AND ReportFavourites.ReportName = '"+szReportName+"' "+
+				"AND ReportTypes.Type = '"+szReportType+"'";
+
+			szFavouriteXML = ReturnSingleValueFromDB("Data", szSQL).ToString();
+			if(szFavouriteXML == "System.Object")
+			{
+				szFavouriteXML = "";
+			}
+			return szFavouriteXML;
+		}
+		//---------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------
+		static private int ReturnNumberOfFavouriteReports(string szUserNameOfCurrentUser, 
+			string szUserNameOfPaddock, string szPaddockName, string szReportName, 
+			string szReportType)
+		{
+			int iNumberOfFavouriteReports = 0;
+
+			string szSQL = "SELECT COUNT(ReportFavourites.ID) AS NumberOfFavouriteReports FROM ((((ReportFavourites "+
+				"INNER JOIN UsersPaddocks ON ReportFavourites.PaddockID = UsersPaddocks.PaddockID) "+
+				"INNER JOIN Users ON UsersPaddocks.UserID = Users.ID) "+
+				"INNER JOIN Paddocks ON UsersPaddocks.PaddockID = Paddocks.ID) "+
+				"INNER JOIN Users AS ConsultantUsers ON ReportFavourites.UserID = ConsultantUsers.ID) "+
+				"INNER JOIN ReportTypes ON ReportFavourites.ReportTypeID = ReportTypes.ID "+
+				"WHERE ConsultantUsers.UserName = '"+szUserNameOfCurrentUser+"' "+
+				"AND Users.UserName = '"+szUserNameOfPaddock+"' "+
+				"AND Paddocks.Name = '"+szPaddockName+"' "+
+				"AND ReportFavourites.ReportName = '"+szReportName+"' "+
+				"AND ReportTypes.Type = '"+szReportType+"'";
+
+			iNumberOfFavouriteReports = Convert.ToInt32(ReturnSingleValueFromDB("NumberOfFavouriteReports", szSQL).ToString());
+
+			return iNumberOfFavouriteReports;
 		}
 		//---------------------------------------------------------------------
 		//

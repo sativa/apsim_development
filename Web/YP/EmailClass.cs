@@ -6,7 +6,7 @@ using System.Data;
 
 using System.Collections.Specialized;
 
-namespace YieldProphet
+namespace YP2006
 	{
 	/// <summary>
 	/// Summary description for EmailClass.
@@ -45,10 +45,11 @@ namespace YieldProphet
 			try
 				{
 				SmtpMail.Send(mmEmailToSend);
+				bSent = true;
 				}
-			catch (Exception)
-				{ }
-			bSent = true;
+			catch (Exception E)
+				{throw E;}
+			
 
 			return bSent;
 			}
@@ -56,13 +57,12 @@ namespace YieldProphet
 		//Prepares the email text for an email that will be sent to the apsim run
 		//machine.
 		//-------------------------------------------------------------------------
-		private static string PrepareReportEmailBody(string szReportName)
+		private static string PrepareReportEmailBody(string szReportName, string szUserName, string szPaddockName)
 			{
 			string szBody = "";
 			
 			DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(HttpContext.Current.Session["UserName"].ToString());
 			string szUserEmail = dtUsersDetails.Rows[0]["Email"].ToString();
-			string szPaddockName = HttpContext.Current.Session["SelectedPaddockName"].ToString();
 			string szApplicationName = HttpContext.Current.Request.ApplicationPath;
 			//Remove the starting / character
 			//EG: /YieldProphet becomes YieldProphet
@@ -84,9 +84,9 @@ namespace YieldProphet
 			iLengthOfNewString = szApplicationFTP.IndexOf("/");
 			szApplicationFTP = szApplicationFTP.Remove(iLengthOfNewString, (szApplicationFTP.Length - iLengthOfNewString));
 			//Sets the directory to be that of the user
-			string szReportDirectory = "YP/Reports/"+FunctionsClass.GetActiveUserName()+"/"+DateTime.Today.Year.ToString();
+			string szReportDirectory = "YP/Reports/"+szUserName+"/"+DateTime.Today.Year.ToString();
 			
-			szBody = "username="+FunctionsClass.GetActiveUserName()+"~~\r\n"+
+			szBody = "username="+szUserName+"~~\r\n"+
 				"paddockname="+szPaddockName+"~~\r\n"+
 				"useremail="+szUserEmail+"~~\r\n"+
 				"applicationname="+szApplicationName+"~~\r\n"+
@@ -102,7 +102,7 @@ namespace YieldProphet
 		//(IE: Climate report)
 		//-------------------------------------------------------------------------
 		public static bool SendReportEmail(string szReportName,	string szCropType, 
-			string szReportType, bool bEmailConParFiles, string szReportXML, DataTable dtOtherValues)
+			string szReportType, string szReportXML, string szUserName, string szPaddockName)
 			{
 			bool bReportSent = false;
 			System.Collections.Specialized.NameValueCollection settings = 
@@ -111,34 +111,44 @@ namespace YieldProphet
 			string szSendEmailTo = Convert.ToString(settings["ReportEmailAddressTo"]);
 			string szRecieveEmailFrom = Convert.ToString(settings["ReportEmailAddressFrom"]);
 			string szSubject = Convert.ToString(settings["ReportEmailSubject"]);
-			string szBody = PrepareReportEmailBody(szReportName);
+			string szBody = PrepareReportEmailBody(szReportName, szUserName, szPaddockName);
 			StringCollection scAttachments = new StringCollection();
 
+			//Ensure that the directory exists for the report to be sent back to
+			if(ReportClass.DoesUsersReportDirectoryExisit(szUserName, DateTime.Today.Year) == false)
+			{
+				ReportClass.CreateUsersReportDirectory(szUserName.ToString(), DateTime.Today.Year); 
+			}
+
+			//Generates the report files
 			scAttachments = ReportClass.PrepareReportFiles(szReportType, szCropType, 
-				szReportName, szReportXML, dtOtherValues);
+				szReportName, szReportXML, szUserName, szPaddockName);
 
 			//Makes sure that all the files have been generated for the report
-			int iNumberOfFilesNeededForReport = 5;
-			if(scAttachments.Count == iNumberOfFilesNeededForReport)
+			//int iNumberOfFilesNeededForReport = 6;
+			//if(scAttachments.Count == iNumberOfFilesNeededForReport)
+			//{
+			if(SendEmail(szSendEmailTo, szRecieveEmailFrom, szSubject, szBody, 
+				scAttachments, MailPriority.High))
 				{
-				if(SendEmail(szSendEmailTo, szRecieveEmailFrom, szSubject, szBody, 
-					scAttachments, MailPriority.High))
-					{
-					bReportSent = true;
-					}
-				//Short term fix for Peter Mckenzie
+				bReportSent = true;
+				}
+				//Email consultants to let them know that a report request has been made
 				DataTable dtConsultants = DataAccessClass.GetUsersConsultants(HttpContext.Current.Session["UserName"].ToString());
-				foreach(DataRow drConsultant in dtConsultants.Rows)
+			foreach(DataRow drConsultant in dtConsultants.Rows)
+				{
+				if(Convert.ToBoolean(Convert.ToInt32(drConsultant["Email"])) == true)
 					{
-					if(drConsultant["Name"].ToString() == "Peter McKenzie")
+					DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(HttpContext.Current.Session["UserName"].ToString());
+					DataTable dtConsultantDetails = DataAccessClass.GetDetailsOfUser(drConsultant["UserName"].ToString());
+					if(dtConsultantDetails.Rows.Count > 0 && dtUsersDetails.Rows.Count > 0)
 						{
-						DataTable dtUsersDetails = DataAccessClass.GetDetailsOfUser(HttpContext.Current.Session["UserName"].ToString());
-						SendEmail("pmckenzie.agvance@bigpond.com", "Apsimrun@csiro.au", "Automated reply from YP", 
+						SendEmail(dtConsultantDetails.Rows[0]["Email"].ToString(), "Apsimrun@csiro.au", "Automated reply from YP", 
 							dtUsersDetails.Rows[0]["Name"].ToString() +" has requested a report", null, MailPriority.Normal);
-							break;
 						}
 					}
 				}
+				//}
 			return bReportSent;
 			}
 		//-------------------------------------------------------------------------
