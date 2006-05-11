@@ -27,6 +27,7 @@ class PastureConverter : public protocol::Component
       void sendSand (protocol::QueryValueData& queryData);
       void sendVPD (protocol::QueryValueData& queryData);
       void sendWeather (protocol::QueryValueData& queryData);
+      void sendSWLayer (protocol::QueryValueData& queryData);
       void sendNH4 (protocol::QueryValueData& queryData);
       void sendNO3 (protocol::QueryValueData& queryData);
       float svp(float temp); //(INPUT)  fraction of distance between svp at mi
@@ -66,7 +67,9 @@ class PastureConverter : public protocol::Component
       unsigned cropwatersupplyID;
       unsigned cropwaterdemandID;
       unsigned ll15DepthID;
+      unsigned swID;
       unsigned swDepthID;
+      unsigned swLayerID;
       unsigned dltSWDepthID;
       unsigned dltNO3ID;
       unsigned dltNH4ID;
@@ -77,6 +80,7 @@ class PastureConverter : public protocol::Component
       unsigned cultivateID;
       unsigned sowID;
       unsigned sowPastureID;
+      unsigned dlayerID;
       unsigned nh4ppmID;
       unsigned nh4_ppmID;
       unsigned no3ppmID;
