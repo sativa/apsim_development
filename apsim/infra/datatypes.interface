@@ -1737,6 +1737,11 @@
 
 !   !!!!! PASTURE  types  !!!!!!!!!!!!!!!!!!!!!!
 
+   <type name="soillayers">
+      <field name="layers" kind="double" unit="mm"  array = "T"/>
+      <field name="value" kind="double" unit="mm"  array = "T"/>
+   </type>
+
    <type name="pasturewaterdemand" description="Message sent to add crop water demand terms to water balance calculations.">
       <field name="demands" array="T">
          <element>
@@ -2025,6 +2030,25 @@
          <field name="dm_type" kind="string" array="T"/>
          <field name="dlt_residue_dm" kind="single" array="T"/>
       </type>
+
+!   !!!!! SUPPLEMENT  types  !!!!!!!!!!!!!!!!!!!!!!
+
+   <type name="supplementbuy">
+      <field name="supplement" kind="string" unit="-"/>
+      <field name="amount" kind="double" unit="kg"/>
+   </type>
+
+   <type name="supplementfeed">
+      <field name="supplement" kind="string" unit="-"/>
+      <field name="amount" kind="double" unit="kg"/>
+      <field name="paddock" kind="string" unit="-"/>
+   </type>
+
+   <type name="supplementmix">
+      <field name="src_store" kind="string" unit="-"/>
+      <field name="amount" kind="double" unit="kg"/>
+      <field name="dest_store" kind="string" unit="-"/>
+   </type>
 
 </types>
 
