@@ -84,12 +84,14 @@ void PastureConverter::doInit1(const FString& sdml)
    protocol::Component::doInit1(sdml);
    sandID = addRegistration(RegistrationType::respondToGet, "sand", doubleArrayTypeDDML);
    vpdID = addRegistration(RegistrationType::respondToGet, "vpd", singleTypeDDML);
+   swLayerID = addRegistration(RegistrationType::respondToGet, "sw_layer", soillayersTypeDDML);
    maxtID = addRegistration(RegistrationType::get, "maxt", singleTypeDDML);
    mintID = addRegistration(RegistrationType::get, "mint", singleTypeDDML);
    rainID = addRegistration(RegistrationType::get, "rain", singleTypeDDML);
    radnID = addRegistration(RegistrationType::get, "radn", singleTypeDDML);
    windID = addRegistration(RegistrationType::get, "wind", singleTypeDDML);
    weatherID = addRegistration(RegistrationType::respondToGet, "weather", pastureweatherTypeDDML);
+   dlayerID = addRegistration(RegistrationType::get, "dlayer", singleArrayTypeDDML);
    nh4ppmID = addRegistration(RegistrationType::get, "nh4ppm", singleArrayTypeDDML);
    no3ppmID = addRegistration(RegistrationType::get, "no3ppm", singleArrayTypeDDML);
    nh4_ppmID = addRegistration(RegistrationType::respondToGet, "nh4_ppm", doubleArrayTypeDDML);
@@ -114,6 +116,7 @@ void PastureConverter::doInit1(const FString& sdml)
    cropwatersupplyID = addRegistration(RegistrationType::event, "cropwatersupply", pasturewatersupplyTypeDDML);
    incorpFOMID = addRegistration(RegistrationType::event, "incorp_fom", "");
    swDepthID = addRegistration(RegistrationType::get, "sw_dep", singleArrayTypeDDML);
+   swID = addRegistration(RegistrationType::get, "sw", singleArrayTypeDDML);
    ll15DepthID = addRegistration(RegistrationType::get, "ll15_dep", singleArrayTypeDDML);
    dltSWDepthID = addRegistration(RegistrationType::set,"dlt_sw_dep", singleArrayTypeDDML);
    dltNO3ID = addRegistration(RegistrationType::set,"dlt_no3", singleArrayTypeDDML);
@@ -143,8 +146,8 @@ void PastureConverter::respondToEvent(unsigned int& fromID, unsigned int& eventI
       doProcess(fromID, eventID, variant);
    else if (eventID == postID)
       doPost(fromID, eventID, variant);
-   else if (eventID == cropwaterdemandID)
-      doCropWaterUptake(fromID, eventID, variant);
+//   else if (eventID == cropwaterdemandID)
+//      doCropWaterUptake(fromID, eventID, variant);
    else if (eventID == onUptakeID)
       doCropNutrientUptake(fromID, eventID, variant);
    else if (eventID == fomAddedID)
@@ -244,6 +247,10 @@ void PastureConverter::doCropNutrientUptake(unsigned int& fromID, unsigned int& 
 void PastureConverter::doCropWaterUptake(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant)
 //===========================================================================
 {
+   // get demand by plant
+   // get supply in each layer (sw_dep - ll_15) = esw
+   // satisify demand proportionately to rlv in each layer down to root depth
+
    protocol::pasturewaterdemandType waterDemand;
 
    variant.unpack(waterDemand);
@@ -354,7 +361,7 @@ void PastureConverter::doCropWaterUptake(unsigned int& fromID, unsigned int& eve
       }
 
 
-     publish (cropwatersupplyID, waterUptake);
+//     publish (cropwatersupplyID, waterUptake);
 
      protocol::vector<float> dltSWDepth;
      for (unsigned int layer = 0; layer < numLayers; layer++)  //FIXME to remove water from soilwat?
@@ -363,7 +370,7 @@ void PastureConverter::doCropWaterUptake(unsigned int& fromID, unsigned int& eve
          dltSWDepth.push_back(dltSWDep);
      }
 
-     setVariable(dltSWDepthID, dltSWDepth);
+//     setVariable(dltSWDepthID, dltSWDepth);
 
 
 }
@@ -445,6 +452,7 @@ void PastureConverter::respondToGet(unsigned int& fromID, protocol::QueryValueDa
    else if (queryData.ID == nh4_ppmID) sendNH4(queryData);
    else if (queryData.ID == no3_ppmID) sendNO3(queryData);
    else if (queryData.ID == weatherID) sendWeather(queryData);
+   else if (queryData.ID == swLayerID) sendSWLayer(queryData);
 
    else
    {   // don't respond to any other gets.
@@ -544,6 +552,40 @@ void PastureConverter::sendNO3 (protocol::QueryValueData& queryData)
       }
       else
       {   // didn't get the no3ppm ID ok. Do nothing about it.
+      }
+}
+
+void PastureConverter::sendSWLayer (protocol::QueryValueData& queryData)
+//==========================================================================
+{
+      protocol::Variant* variantDLayer;
+      bool okDLayer = getVariable(dlayerID, variantDLayer, true);
+      if (okDLayer)
+      {
+         vector <float> dlayer;
+         bool ok = variantDLayer->unpack(dlayer);  // what happens if this is not ok?
+
+         protocol::Variant* variantsw;
+         bool oksw = getVariable(swID, variantsw, true);
+         if (oksw)
+         {
+            vector <float> sw;
+            bool ok = variantsw->unpack(sw);  // what happens if this is not ok?
+            protocol::soillayersType sw_depth;
+            for (unsigned int layer = 0; layer < sw.size(); layer++)
+            {
+               sw_depth.layers.push_back(static_cast<double>(dlayer[layer]));
+               sw_depth.value.push_back(static_cast<double>(sw[layer]));
+            }
+            sendVariable(queryData, sw_depth);
+
+         }
+         else
+         {   // didn't get the sw_depth ID ok. Do nothing about it.
+         }
+      }
+      else
+      {   // didn't get the dlayer ID ok. Do nothing about it.
       }
 }
 
