@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <tcl.h>
 #include <tk.h>
+#include <stdexcept>
 
 extern "C" void TclWinInit(HINSTANCE);
 extern "C" void TkWinXCleanup(HINSTANCE);
@@ -21,9 +22,17 @@ Tcl_Interp *NewInterp (Tcl_Interp *topLevel, ClientData cd, const char *interpNa
    Tcl_Interp *interp;
    if (topLevel == NULL) {
       interp = Tcl_CreateInterp();
+      if (interp == NULL) { throw std::runtime_error("CreateInterp failed");}
    } else {
-      interp = Tcl_CreateSlave(topLevel, interpName, 0);
-   }   
+      if ((interp = Tcl_CreateSlave(topLevel, interpName, 0))== NULL) { 
+         char msg[1024];
+         strcpy(msg,"CreateSlave '");
+         strcat(msg,interpName);
+         strcat(msg,"' failed.");
+         strcat(msg, topLevel->result);
+         throw std::runtime_error(msg);
+      }
+   }
    Tcl_Preserve((ClientData) interp);
    Tcl_InitMemory(interp);
 
@@ -56,7 +65,6 @@ Tcl_Interp *NewInterp (Tcl_Interp *topLevel, ClientData cd, const char *interpNa
 
 void StartTcl (const char *dllName)
    {
-
    const char *q=dllName;
    char *p= GlobalDllName; 
    while (*q != '\0') {

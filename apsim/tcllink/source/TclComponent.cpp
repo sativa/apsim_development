@@ -295,6 +295,7 @@ int TclComponent::apsimGet(Tcl_Interp *interp, const string &varname)
              /* notreached */
             }
 
+      	case DTboolean:                       /* 4 byte integer */
       	case DTint4:                          /* 4 byte integer */
       	   {
             variant->setTypeConverter( NULL ); /* undo the typeconverter created above */
