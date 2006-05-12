@@ -3,10 +3,10 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.06.00"/>
-    <PROJECT value="..\lib\tcllink.dll"/>
+    <PROJECT value="..\lib\TclLink.dll"/>
     <OBJFILES value="TclLink.obj TclXtras.obj TclComponent.obj 
       ..\..\..\Shared\ComponentInterface\EntryPoints.obj"/>
-    <RESFILES value="tcllink.res"/>
+    <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
     <LIBFILES value="tcl8.4.11\Release\tcl84.lib tk8.4.11\Release\tk84.lib 
@@ -30,15 +30,15 @@
     <LINKER value="ilink32"/>
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
-    <MAINSOURCE value="tcllink.bpf"/>
+    <MAINSOURCE value="tcllink.cpp"/>
     <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\Boost;..\..\..\Shared;.\tcl8.4.11\generic;.\tk8.4.11\generic;.\tk8.4.11\xlib"/>
     <LIBPATH value="$(BCB)\Lib;$(BCB)\lib\obj;$(BCB)\lib.\tk8.4.11\Release"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -vGc -vGt -vGd -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- 
-      -k -y -v -vi- -tWD -tWM -c"/>
+    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- 
+      -tWD -tWM -c"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
     <AFLAGS value="/mx /w2 /zd"/>
@@ -48,12 +48,10 @@
   <LINKER>
     <ALLOBJ value="c0d32.obj $(PACKAGES) $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
-    <ALLLIB value="cg32.lib $(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
-      <FILE FILENAME="tcllink.res" FORMNAME="" UNITNAME="tcllink.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="tcllink.bpf" FORMNAME="" UNITNAME="tcllink" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TclLink.cpp" FORMNAME="" UNITNAME="TclLink" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TclXtras.cpp" FORMNAME="" UNITNAME="TclXtras.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TclComponent.cpp" FORMNAME="" UNITNAME="TclComponent.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
@@ -97,6 +95,8 @@ Comments=
 
 [Excluded Packages]
 c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
+C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Bin\DclTeePro7C6.bpl=TeeChart Pro 7 Components
+C:\Program Files\Borland\CBuilder6\Components\TeeChart\CBuilder6\Bin\DclTQR7C6.bpl=TeeChart 7 for QuickReport
 
 [HistoryLists\hlIncludePath]
 Count=8
@@ -132,7 +132,7 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=d:\development\apsim\tcllink\sample\tcllink.sim
+RunParams=&quot;D:\Documents and Settings\devoilp\My Documents\work\Paddocks\Moonggoo-devel.sim&quot;
 Launcher=
 UseLauncher=0
 DebugCWD=
@@ -146,7 +146,7 @@ RemoteDebug=0
 [Compiler]
 ShowInfoMsgs=0
 LinkDebugVcl=0
-LinkCGLIB=1
+LinkCGLIB=0
 
 [Linker]
 LibPrefix=
