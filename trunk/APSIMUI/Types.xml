@@ -1091,6 +1091,22 @@
          <variable name="sed_conc" description="Sediment concentration (g/l)"/>
          <variable name="bed_depth" description="Depth to bedrock (mm)"/>
       </variables>
+     <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\erosion\lib\erosion.dll</dll>
+         <ini>%apsuite\apsim\erosion\erosion.ini</ini>
+         <sim>
+          <model>[erosion.model]</model>
+          <slope>[erosion.slope]</slope>
+          <slope_length>[erosion.slope_length]</slope_length>
+          <bed_depth>[erosion.bed_depth]</bed_depth>
+          <profile_reduction>[erosion.profile_reduction]</profile_reduction>
+          <profile_layer_merge>[erosion.profile_layer_merge]</profile_layer_merge>
+          <minimum_depth>[erosion.minimum_depth]</minimum_depth>
+          <k_factor>[erosion.k_factor]</k_factor>
+          <p_factor>[erosion.p_factor]</p_factor>
+         </sim>
+      </ApsimToSim>
    </erosion>
    <grasp>
       <UItype>generic</UItype>
