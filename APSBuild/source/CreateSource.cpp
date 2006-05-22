@@ -48,7 +48,7 @@ std::string ddmlKindToDotNet(const std::string& kind)
    else if (Str_i_Eq(kind, "char"))
       return "Char";
    else if (Str_i_Eq(kind, "string"))
-      return "String*";
+      return "String^";
    else
       return kind;   
    }

@@ -1,233 +1,220 @@
-<VisualStudioProject>
-    <CSHARP
-        ProjectType = "Local"
-        ProductVersion = "7.10.3077"
-        SchemaVersion = "2.0"
-        ProjectGuid = "{8F0C3EA4-5362-4C5B-9050-6307417E58A8}"
-    >
-        <Build>
-            <Settings
-                ApplicationIcon = "App.ico"
-                AssemblyKeyContainerName = ""
-                AssemblyName = "APSoil"
-                AssemblyOriginatorKeyFile = ""
-                DefaultClientScript = "JScript"
-                DefaultHTMLPageLayout = "Grid"
-                DefaultTargetSchema = "IE50"
-                DelaySign = "false"
-                OutputType = "WinExe"
-                PreBuildEvent = ""
-                PostBuildEvent = ""
-                RootNamespace = "APSoil"
-                RunPostBuildEvent = "OnBuildSuccess"
-                StartupObject = ""
-            >
-                <Config
-                    Name = "Debug"
-                    AllowUnsafeBlocks = "false"
-                    BaseAddress = "285212672"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = "DEBUG;TRACE"
-                    DocumentationFile = ""
-                    DebugSymbols = "true"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "false"
-                    NoStdLib = "false"
-                    NoWarn = ""
-                    Optimize = "false"
-                    OutputPath = "..\..\Bin\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
-                    WarningLevel = "4"
-                />
-                <Config
-                    Name = "Release"
-                    AllowUnsafeBlocks = "false"
-                    BaseAddress = "285212672"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = "TRACE"
-                    DocumentationFile = ""
-                    DebugSymbols = "false"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "false"
-                    NoStdLib = "false"
-                    NoWarn = ""
-                    Optimize = "true"
-                    OutputPath = "bin\Release\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
-                    WarningLevel = "4"
-                />
-            </Settings>
-            <References>
-                <Reference
-                    Name = "System"
-                    AssemblyName = "System"
-                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.dll"
-                />
-                <Reference
-                    Name = "System.Data"
-                    AssemblyName = "System.Data"
-                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
-                />
-                <Reference
-                    Name = "System.Drawing"
-                    AssemblyName = "System.Drawing"
-                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Drawing.dll"
-                />
-                <Reference
-                    Name = "System.Windows.Forms"
-                    AssemblyName = "System.Windows.Forms"
-                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Windows.Forms.dll"
-                />
-                <Reference
-                    Name = "System.XML"
-                    AssemblyName = "System.Xml"
-                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
-                />
-                <Reference
-                    Name = "Xceed.Chart"
-                    AssemblyName = "Xceed.Chart"
-                    HintPath = "C:\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.dll"
-                    AssemblyFolderKey = "hklm\xceed chart for .net and asp.net v3.0.100.0"
-                />
-                <Reference
-                    Name = "Xceed.SmartUI"
-                    AssemblyName = "Xceed.SmartUI"
-                    HintPath = "C:\Program Files\Xceed Components\Xceed SmartUI for .NET 3.1\Bin\v3.1.123.0\Xceed.SmartUI.dll"
-                    AssemblyFolderKey = "hklm\xceed smartui for .net v3.1.123.0"
-                />
-                <Reference
-                    Name = "Microsoft.Office.Core"
-                    Guid = "{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}"
-                    VersionMajor = "2"
-                    VersionMinor = "2"
-                    Lcid = "0"
-                    WrapperTool = "primary"
-                />
-                <Reference
-                    Name = "VBGeneral"
-                    AssemblyName = "VBGeneral"
-                    HintPath = "..\..\Shared\VBGeneral\bin\VBGeneral.dll"
-                    Private = "True"
-                />
-                <Reference
-                    Name = "CSGeneral"
-                    AssemblyName = "CSGeneral"
-                    HintPath = "..\..\Shared\C#General\obj\Debug\CSGeneral.dll"
-                    Private = "True"
-                />
-                <Reference
-                    Name = "ExcelUtility"
-                    AssemblyName = "ExcelUtility"
-                    HintPath = "..\..\Shared\Excel\obj\Debug\ExcelUtility.dll"
-                    Private = "True"
-                />
-                <Reference
-                    Name = "Interop.VBIDE"
-                    AssemblyName = "Interop.VBIDE"
-                    HintPath = "..\..\Bin\Interop.VBIDE.dll"
-                />
-                <Reference
-                    Name = "Interop.Excel"
-                    AssemblyName = "Interop.Excel"
-                    HintPath = "..\..\Bin\Interop.Excel.dll"
-                />
-                <Reference
-                    Name = "ChangeTool"
-                    AssemblyName = "ChangeTool"
-                    HintPath = "..\..\Shared\ChangeTool\obj\Debug\ChangeTool.dll"
-                    Private = "True"
-                />
-                <Reference
-                    Name = "Soil"
-                    AssemblyName = "Soil"
-                    HintPath = "..\..\Shared\Soil\obj\Debug\Soil.dll"
-                    Private = "True"
-                />
-                <Reference
-                    Name = "Xceed.SmartUI.Controls"
-                    AssemblyName = "Xceed.SmartUI.Controls"
-                    HintPath = "C:\Program Files\Xceed Components\Xceed SmartUI for .NET 3.1\Bin\v3.1.123.0\Xceed.SmartUI.Controls.dll"
-                    AssemblyFolderKey = "hklm\xceed smartui for .net v3.1.123.0"
-                />
-                <Reference
-                    Name = "Xceed.SmartUI.UIStyle"
-                    AssemblyName = "Xceed.SmartUI.UIStyle"
-                    HintPath = "C:\Program Files\Xceed Components\Xceed SmartUI for .NET 3.1\Bin\v3.1.123.0\Xceed.SmartUI.UIStyle.dll"
-                    AssemblyFolderKey = "hklm\xceed smartui for .net v3.1.123.0"
-                />
-                <Reference
-                    Name = "TMGDevelopment.PrintForm"
-                    AssemblyName = "TMGDevelopment.PrintForm"
-                    HintPath = "c:\Program Files\TMG Development Ltd\PrintForm Printing Component\bin\TMGDevelopment.PrintForm.dll"
-                    AssemblyFolderKey = "hklm\dn\tmgdevelopment.printform"
-                />
-                <Reference
-                    Name = "TMGDevelopment.Shared"
-                    AssemblyName = "TMGDevelopment.Shared"
-                    HintPath = "c:\Program Files\Common Files\TMG Development Ltd\Shared\1.0.0.3\TMGDevelopment.Shared.dll"
-                    AssemblyFolderKey = "hklm\dn\tmgdevelopment.shared v1.0.0.3"
-                />
-            </References>
-        </Build>
-        <Files>
-            <Include>
-                <File
-                    RelPath = "App.ico"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "AssemblyInfo.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ErrorMessageForm.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ErrorMessageForm.resx"
-                    DependentUpon = "ErrorMessageForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "MainForm.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "MainForm.resx"
-                    DependentUpon = "MainForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "ParFileImporter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SoilSpreadsheet.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SplashForm.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SplashForm.resx"
-                    DependentUpon = "SplashForm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-            </Include>
-        </Files>
-    </CSHARP>
-</VisualStudioProject>
-
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8F0C3EA4-5362-4C5B-9050-6307417E58A8}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>App.ico</ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>APSoil</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>APSoil</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>..\..\Bin\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Interop.Excel">
+      <Name>Interop.Excel</Name>
+      <HintPath>..\..\Bin\Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.VBIDE">
+      <Name>Interop.VBIDE</Name>
+      <HintPath>..\..\Bin\Interop.VBIDE.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="TMGDevelopment.PrintForm">
+      <Name>TMGDevelopment.PrintForm</Name>
+      <HintPath>c:\Program Files\TMG Development Ltd\PrintForm Printing Component\bin\TMGDevelopment.PrintForm.dll</HintPath>
+      <AssemblyFolderKey>hklm\dn\tmgdevelopment.printform</AssemblyFolderKey>
+    </Reference>
+    <Reference Include="TMGDevelopment.Shared">
+      <Name>TMGDevelopment.Shared</Name>
+      <HintPath>c:\Program Files\Common Files\TMG Development Ltd\Shared\1.0.0.3\TMGDevelopment.Shared.dll</HintPath>
+      <AssemblyFolderKey>hklm\dn\tmgdevelopment.shared v1.0.0.3</AssemblyFolderKey>
+    </Reference>
+    <Reference Include="Xceed.Chart">
+      <Name>Xceed.Chart</Name>
+      <HintPath>C:\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.dll</HintPath>
+      <AssemblyFolderKey>hklm\xceed chart for .net and asp.net v3.0.100.0</AssemblyFolderKey>
+    </Reference>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.ico" />
+    <None Include="Resources\document.png" />
+    <None Include="Resources\par_file.png" />
+    <None Include="Resources\excel.png" />
+    <Content Include="Resources\shovel.png" />
+    <None Include="Resources\w2_file.png" />
+    <None Include="Resources\shovel_new.png" />
+    <None Include="Resources\box_new.png" />
+    <None Include="Resources\folder_new.png" />
+    <None Include="Resources\export2.png" />
+    <None Include="Resources\import1.png" />
+    <None Include="Resources\add.png" />
+    <None Include="Resources\sort_ascending.png" />
+    <None Include="Resources\check2.png" />
+    <None Include="Resources\printer.png" />
+    <None Include="Resources\help21.png" />
+    <None Include="Resources\paste1.png" />
+    <None Include="Resources\copy1.png" />
+    <None Include="Resources\cut1.png" />
+    <None Include="Resources\disk_blue_window1.png" />
+    <None Include="Resources\disk_blue1.png" />
+    <None Include="Resources\folder_document1.png" />
+    <None Include="Resources\folder_window.png" />
+    <None Include="Resources\document_new1.png" />
+    <None Include="Resources\help2.png" />
+    <None Include="Resources\disk_blue_window.png" />
+    <None Include="Resources\folder_document.png" />
+    <None Include="Resources\paste.png" />
+    <None Include="Resources\copy.png" />
+    <None Include="Resources\cut.png" />
+    <None Include="Resources\disk_blue.png" />
+    <None Include="Resources\document_new.png" />
+    <Compile Include="ErrorMessageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ParFileImporter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SoilSpreadsheet.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SplashForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <EmbeddedResource Include="ErrorMessageForm.resx">
+      <DependentUpon>ErrorMessageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SplashForm.resx">
+      <DependentUpon>SplashForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\C#General\CSGeneral.csproj">
+      <Project>{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}</Project>
+      <Name>CSGeneral</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\ChangeTool\ChangeTool.csproj">
+      <Project>{416A3885-FD38-46D0-BE42-54AA33D146B7}</Project>
+      <Name>ChangeTool</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Excel\ExcelUtility.csproj">
+      <Project>{4E5222B2-546F-40D8-A637-A987605BCCCC}</Project>
+      <Name>ExcelUtility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Soil\Soil.csproj">
+      <Project>{6FAC5AE5-F7B4-4C02-B0D4-B992E0F96CAA}</Project>
+      <Name>Soil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\VBGeneral\VBGeneral.vbproj">
+      <Project>{F1F780B2-4762-48B6-B0D7-A68C57DDB347}</Project>
+      <Name>VBGeneral</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

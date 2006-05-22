@@ -144,13 +144,19 @@ Public Class FileUI
             Else
                 FileContentsBox.Text = "<File doesn't exist>"
             End If
-            If Not IsNothing(Parent) Then
-                Dim F As Form = Parent.Parent.Parent
-                AddHandler F.Activated, AddressOf OnActivate
-            End If
-
-            BrowseToolBar.Visible = (Controller.Data.Type.ToLower() <> "outputfile" And Controller.Data.Type.ToLower() <> "summaryfile")
+            Dim C As Control = Parent
+            While Not IsNothing(C)
+                If C.Name = "MainUI" Then
+                    Dim F As Form = C
+                    AddHandler F.Activated, AddressOf OnActivate
+                    Exit While
+                Else
+                    C = C.Parent
+                End If
+            End While
         End If
+
+        BrowseToolBar.Visible = (Controller.Data.Type.ToLower() <> "outputfile" And Controller.Data.Type.ToLower() <> "summaryfile")
     End Sub
 
 

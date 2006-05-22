@@ -167,16 +167,11 @@ Public Class OutputFileExport
 #End Region
 
     Private Sub OKButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OKButton.Click
-
-        Dim i As Integer
-
         Me.m_SelectedFileCollection.Clear()
 
         For Each checkedIndex As Integer In Me.OutputFileListbox.CheckedIndices
             Me.SelectedOutputFiles.Add(Me.OutputFileCollection(checkedIndex))
         Next
-
-
     End Sub
 
     Private Sub UnselectButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UnselectButton.Click

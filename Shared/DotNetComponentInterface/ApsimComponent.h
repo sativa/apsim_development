@@ -10,24 +10,24 @@
 using namespace System::Reflection;
 
 namespace ComponentInterface {
-public __gc class ApsimComponent
+public ref class ApsimComponent
 	{
 	private:
 		ComponentComms* comms;
-		Assembly* MyAssembly;
+		Assembly^ MyAssembly;
 	
 		// -------------------------------------------
 		// Look for all properties and register them.		
 		// -------------------------------------------
 		void RegisterAllProperties()
 			{
-			Type* Types[] = MyAssembly->GetTypes();
-			for (int t = 0; t != Types->Count; t++)
+			array<Type^>^ Types = MyAssembly->GetTypes();
+			for (int t = 0; t != Types->Length; t++)
 				{
 				if (Types[t]->BaseType->Name->CompareTo("ApsimComponent") == 0)
 					{
-					PropertyInfo* Properties[] = Types[t]->GetProperties(static_cast<BindingFlags>(BindingFlags::Public | BindingFlags::Instance));
-					for (int p = 0; p != Properties->Count; p++)
+					array<PropertyInfo^>^ Properties = Types[t]->GetProperties(static_cast<BindingFlags>(BindingFlags::Public | BindingFlags::Instance));
+					for (int p = 0; p != Properties->Length; p++)
 						{
 						ComponentComms::ReadWriteType ReadWrite;
 						if (Properties[p]->CanRead && Properties[p]->CanWrite)
@@ -37,13 +37,13 @@ public __gc class ApsimComponent
 						else
 							ReadWrite = ComponentComms::write;
 
-						String* units = "";
-						String* name = Properties[p]->Name;
-						Object* myAttributes[] = Properties[p]->GetCustomAttributes(true);
+						String^ units = "";
+						String^ name = Properties[p]->Name;
+						array<Object^>^ myAttributes = Properties[p]->GetCustomAttributes(true);
 						for (int i = 0; i != myAttributes->Length; i++)
 							{
-							Attribute* Attr = dynamic_cast<Attribute*> (myAttributes[i]);
-							String* Str = Attr->ToString();
+							Attribute^ Attr = dynamic_cast<Attribute^> (myAttributes[i]);
+							String^ Str = Attr->ToString();
 							int PosDelimiter = Str->IndexOf("|");
 							if (PosDelimiter != -1)
 								{
@@ -56,7 +56,7 @@ public __gc class ApsimComponent
 						if (myAttributes->Length > 0)
 							{
 							IData* data = NULL;
-							String* MemberType = Properties[p]->get_PropertyType()->Name;
+							String^ MemberType = Properties[p]->PropertyType->Name;
 							if (MemberType->CompareTo("Single") == 0)
 								data = new WrapMemberInfo<ApsimSingle, PropertyInfo>(Properties[p], this, stringToStdString(units));
 							else if (MemberType->CompareTo("Double") == 0)
@@ -64,7 +64,7 @@ public __gc class ApsimComponent
 							else if (MemberType->CompareTo("Int32") == 0)
 								data = new WrapMemberInfo<ApsimInteger4, PropertyInfo>(Properties[p], this, stringToStdString(units));
 							else if (MemberType->CompareTo("String[]") == 0)
-								data = new WrapMemberInfo<ApsimArray<ApsimString, String*>, PropertyInfo>(Properties[p], this, stringToStdString(units));
+								data = new WrapMemberInfo<ApsimArray<ApsimString, String^>, PropertyInfo>(Properties[p], this, stringToStdString(units));
 							else if (MemberType->CompareTo("Int32[]") == 0)
 								data = new WrapMemberInfo<ApsimArray<ApsimInteger4, Int32>, PropertyInfo>(Properties[p], this, stringToStdString(units));
 							else if (MemberType->CompareTo("Single[]") == 0)
@@ -86,23 +86,23 @@ public __gc class ApsimComponent
 		// -------------------------------------------
 		void RegisterAllFields()
 			{
-			Type* Types[] = MyAssembly->GetTypes();
-			for (int t = 0; t != Types->Count; t++)
+			array<Type^>^ Types = MyAssembly->GetTypes();
+			for (int t = 0; t != Types->Length; t++)
 				{
 				if (Types[t]->BaseType->Name->CompareTo("ApsimComponent") == 0)
 					{
-					FieldInfo* Properties[] = Types[t]->GetFields(static_cast<BindingFlags>(BindingFlags::Public | BindingFlags::Instance));
-					for (int p = 0; p != Properties->Count; p++)
+					array<FieldInfo^>^ Properties = Types[t]->GetFields(static_cast<BindingFlags>(BindingFlags::Public | BindingFlags::Instance));
+					for (int p = 0; p != Properties->Length; p++)
 						{
-						ComponentComms::ReadWriteType ReadWrite = ComponentComms::ReadWriteType::read;
-						String* units = "";
-						String* name = Properties[p]->Name;
+						ComponentComms::ReadWriteType ReadWrite = ComponentComms::read;
+						String^ units = "";
+						String^ name = Properties[p]->Name;
 						
-						Object* myAttributes[] = Properties[p]->GetCustomAttributes(true);
+						array<Object^>^ myAttributes = Properties[p]->GetCustomAttributes(true);
 						for (int i = 0; i != myAttributes->Length; i++)
 							{
-							Attribute* Attr = dynamic_cast<Attribute*> (myAttributes[i]);
-							String* Str = Attr->ToString();
+							Attribute^ Attr = dynamic_cast<Attribute^> (myAttributes[i]);
+							String^ Str = Attr->ToString();
 							int PosDelimiter = Str->IndexOf("|");
 							if (PosDelimiter != -1)
 								{
@@ -113,20 +113,20 @@ public __gc class ApsimComponent
 								PosDelimiter = units->IndexOf("|");
 								if (PosDelimiter != -1)
 									{
-									String* ReadWriteString = units->Substring(PosDelimiter+1);
+									String^ ReadWriteString = units->Substring(PosDelimiter+1);
 									units = units->Substring(0, PosDelimiter);
 									if (ReadWriteString->CompareTo("Read") == 0)
-										ReadWrite = ComponentComms::ReadWriteType::read;
+										ReadWrite = ComponentComms::read;
 									else if (ReadWriteString->CompareTo("Write") == 0)
-										ReadWrite = ComponentComms::ReadWriteType::write;
+										ReadWrite = ComponentComms::write;
 									else	
-										ReadWrite = ComponentComms::ReadWriteType::readWrite;
+										ReadWrite = ComponentComms::readWrite;
 									}
 								}
 							if (name->Length > 0)
 								{
 								IData* data = NULL;
-								String* MemberType = Properties[p]->get_FieldType()->Name;
+								String^ MemberType = Properties[p]->FieldType->Name;
 								if (MemberType->CompareTo("Single") == 0)
 									data = new WrapMemberInfo<ApsimSingle, FieldInfo>(Properties[p], this, stringToStdString(units));
 								else if (MemberType->CompareTo("Double") == 0)
@@ -136,7 +136,7 @@ public __gc class ApsimComponent
 								else if (MemberType->CompareTo("String") == 0)
 									data = new WrapMemberInfo<ApsimString, FieldInfo>(Properties[p], this, stringToStdString(units));
 								else if (MemberType->CompareTo("String[]") == 0)
-									data = new WrapMemberInfo<ApsimArray<ApsimString, String*>, FieldInfo>(Properties[p], this, stringToStdString(units));
+									data = new WrapMemberInfo<ApsimArray<ApsimString, String^>, FieldInfo>(Properties[p], this, stringToStdString(units));
 								else if (MemberType->CompareTo("Int32[]") == 0)
 									data = new WrapMemberInfo<ApsimArray<ApsimInteger4, Int32>, FieldInfo>(Properties[p], this, stringToStdString(units));
 								else if (MemberType->CompareTo("Single[]") == 0)
@@ -158,20 +158,20 @@ public __gc class ApsimComponent
 		// -------------------------------------------
 		void RegisterAllEventHandlers()
 			{
-			Type* Types[] = MyAssembly->GetTypes();
-			for (int t = 0; t != Types->Count; t++)
+			array<Type^>^ Types = MyAssembly->GetTypes();
+			for (int t = 0; t != Types->Length; t++)
 				{
 				if (Types[t]->BaseType->Name->CompareTo("ApsimComponent") == 0)
 					{
-					MethodInfo* Methods[] = Types[t]->GetMethods(static_cast<BindingFlags>(BindingFlags::Public | BindingFlags::Instance));
-					for (int m = 0; m != Methods->Count; m++)
+					array<MethodInfo^>^ Methods = Types[t]->GetMethods(static_cast<BindingFlags>(BindingFlags::Public | BindingFlags::Instance));
+					for (int m = 0; m != Methods->Length; m++)
 						{
-						Object* myAttributes[] = Methods[m]->GetCustomAttributes(true);
+						array<Object^>^ myAttributes = Methods[m]->GetCustomAttributes(true);
 						for (int i = 0; i != myAttributes->Length; i++)
 							{
-							Attribute* Attr = dynamic_cast<Attribute*> (myAttributes[i]);
-						    String* EventName = Attr->ToString();
-							ParameterInfo*  pars[] = Methods[m]->GetParameters();
+							Attribute^ Attr = dynamic_cast<Attribute^> (myAttributes[i]);
+						    String^ EventName = Attr->ToString();
+							array<ParameterInfo^>^ pars = Methods[m]->GetParameters();
 							if (pars->Length == 1)
 								{
 								IEventData* data = new WrapMethodInfo<MethodInfo> (Methods[m], this);
@@ -186,16 +186,16 @@ public __gc class ApsimComponent
 				
 		
 	protected:
-		String* Name;
-		VBGeneral::APSIMData* Data;
-		ApsimEvents* events;
-		ApsimProperties* properties;		
+		String^ Name;
+		VBGeneral::APSIMData^ Data;
+		ApsimEvents^ events;
+		ApsimProperties^ properties;		
 		
 		// ---------------------------------------
 		// Notify system of a warning.
 		// Errors should be thrown.
 		// ---------------------------------------
-		void warning(String* msg) 
+		void warning(String^ msg) 
 			{ 
 			comms->warning(stringToStdString(msg));
 			}
@@ -203,7 +203,7 @@ public __gc class ApsimComponent
 		// ---------------------
 		// Write to summary file
 		// ---------------------
-		void writeToSummary(String* line) 
+		void writeToSummary(String^ line) 
 			{ 
 			comms->writeToSummary(stringToStdString(line));
 			}
@@ -222,13 +222,13 @@ public __gc class ApsimComponent
 		// --------------------------------
 		// Called by componentinterface
 		// --------------------------------
-		void Setup(ComponentComms* componentComms, String* N, String* SDML)
+		void Setup(ComponentComms* componentComms, String^ N, String^ SDML)
 			{
 			comms = componentComms;
-			events = new ApsimEvents(componentComms);
-			properties = new ApsimProperties(componentComms);
+			events = gcnew ApsimEvents(componentComms);
+			properties = gcnew ApsimProperties(componentComms);
 			Name = N;
-			Data = new VBGeneral::APSIMData(SDML);
+			Data = gcnew VBGeneral::APSIMData(SDML);
 			RegisterAllProperties();
 			RegisterAllFields();
 			RegisterAllEventHandlers();
@@ -238,7 +238,7 @@ public __gc class ApsimComponent
 		// --------------------------------
 		// Called by componentinterface
 		// --------------------------------
-		void SetAssembly(Assembly* assembly)
+		void SetAssembly(Assembly^ assembly)
 			{
 			MyAssembly = assembly;
 			}
@@ -259,6 +259,6 @@ public __gc class ApsimComponent
 // Create an instance of the component
 // -----------------------------------
 
-ApsimComponent* createInstanceOfComponent(const std::string& dllFileName);
+ApsimComponent^ createInstanceOfComponent(const std::string& dllFileName);
 	
 };

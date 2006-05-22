@@ -12,8 +12,7 @@ Public Class HelpAboutForm
 
         'Add any initialization after the InitializeComponent() call
 
-        Dim inifile As New APSIMSettings
-        VersionLabel.Text = "APSIM Version: " + inifile.ApsimVersion
+        VersionLabel.Text = "APSIM Version: " + APSIMSettings.ApsimVersion
     End Sub
 
     'Form overrides dispose to clean up the component list.

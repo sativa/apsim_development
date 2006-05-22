@@ -78,7 +78,7 @@ Public Class APSIMSettings
         sData = Space$(5000) ' allocate some room 
         n = GetPrivateProfileSection(SectionName, sData, sData.Length, INIPath)
         Dim Values As String() = sData.Split(ControlChars.NullChar) ' change embedded NULLs to pipe chars
-        Dim ReturnString As String
+        Dim ReturnString As String = ""
         For Each Line As String In Values
             If ReturnString <> "" Then
                 ReturnString = ReturnString + vbCrLf

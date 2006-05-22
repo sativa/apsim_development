@@ -1,4 +1,3 @@
-Imports VBGeneral
 Imports System.Xml
 Imports System.Collections.Specialized
 Imports System.Windows.Forms
@@ -269,7 +268,7 @@ Public Class DataTree
         TreeView.ImageList = Controller.SmallImageList
 
         ' Display a wait cursor while the TreeNodes are being created.
-        Cursor.Current = Cursors.WaitCursor
+        Windows.Forms.Cursor.Current = Cursors.WaitCursor
 
         ' Suppress repainting the TreeView until all the objects have been created.
         TreeView.BeginUpdate()
@@ -281,7 +280,7 @@ Public Class DataTree
         TreeView.EndUpdate()
 
         ' Display a wait cursor while the TreeNodes are being created.
-        Cursor.Current = Cursors.Default
+        Windows.Forms.Cursor.Current = Cursors.Default
 
     End Sub
 
@@ -324,7 +323,7 @@ Public Class DataTree
         childnode.SelectedImageIndex = ImageIndex
 
         If shortcut <> "" Then
-            childnode.ForeColor = System.Drawing.Color.Blue
+            childnode.Text = "Shared: " + childnode.Text
         End If
         Return childnode
     End Function
@@ -395,8 +394,6 @@ Public Class DataTree
             UserChange = False
             Dim Control As Boolean = (ModifierKeys = Keys.Control)
             Dim Shift As Boolean = (ModifierKeys = Keys.Shift)
-            Dim toolTipText As String
-
 
             Dim SelectedPaths As StringCollection = Controller.SelectedPaths()
             If Control Then
@@ -562,7 +559,9 @@ Public Class DataTree
             Dim n As TreeNode = GetNodeFromPath(NodePath)
             n.BackColor = SystemColors.Highlight
             n.ForeColor = SystemColors.HighlightText
-
+            If n.Text.IndexOf("Shared:") = 0 Then
+                n.ForeColor = Color.BlueViolet
+            End If
         Next
     End Sub
 
@@ -660,9 +659,25 @@ Public Class DataTree
 
         If Controller.SelectedData.Count > 0 Then
 
-            Dim FullXML As String
+            Dim FullXML As String = ""
             For Each Data As APSIMData In Controller.SelectedData
-                FullXML = FullXML + Data.XML
+                ' If Data is in shared then only drag a shortcut. Otherwise drag the full
+                ' XML.
+                Dim P As APSIMData = Data.Parent
+                Dim IsShared As Boolean = False
+                While Not IsNothing(P)
+                    If P.Name.ToLower = "shared" Then
+                        IsShared = True
+                        Exit While
+                    Else
+                        P = P.Parent
+                    End If
+                End While
+                If IsShared Then
+                    FullXML = FullXML + "<" + Data.Type + " shortcut=""" + Data.Name + """/>"
+                Else
+                    FullXML = FullXML + Data.XML
+                End If
             Next
             Dim AllowedEffects As DragDropEffects
             If Controller.AllowChanges() Then
@@ -766,7 +781,7 @@ Public Class DataTree
         Dim DestinationNode As TreeNode
         pt = New Point(e.X, e.Y)
         DestinationNode = CType(sender, TreeView).GetNodeAt(pt)
-        If e.Button = MouseButtons.Right And Not IsNothing(DestinationNode) Then
+        If e.Button = Windows.Forms.MouseButtons.Right And Not IsNothing(DestinationNode) Then
             If Controller.SelectedPaths.IndexOf(DestinationNode.FullPath) = -1 Then
                 TreeView.SelectedNode = DestinationNode
             End If

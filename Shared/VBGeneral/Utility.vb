@@ -8,6 +8,7 @@ Public Class Utility
             CStringToVBString = Cstring.Substring(0, Cstring.IndexOf(NullChar))
         Catch e As System.Exception
             MsgBox("Error converting string types", MsgBoxStyle.Critical)
+            Return ""
         End Try
     End Function
 

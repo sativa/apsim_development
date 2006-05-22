@@ -99,7 +99,7 @@ namespace ExcelUtility
 
 				// ok now we want send all data to sheet.
 				ExcelApp.SheetsInNewWorkbook = 1;
-				WorkSheet.Activate();
+				//WorkSheet.Activate();
 				SetTitleRow(WorkSheet, 0, Table);
 
 				for (int Row = 0; Row != Table.Rows.Count; Row++)

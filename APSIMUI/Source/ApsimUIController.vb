@@ -147,6 +147,7 @@ Public Class ApsimUIController
                     Return New InitNitrogenUI
 
                 Case "startup"
+
                     Return New StartupUI
 
                 Case "memo"
@@ -230,7 +231,6 @@ Public Class ApsimUIController
         For Each APSimType As APSIMData In TypesData.Children
             ' load large icon
             Dim FileName As String = LargeIconFileName(APSimType.Type)
-            Dim ImageIndex As Integer
             If FileName <> "" And File.Exists(FileName) Then
                 Dim LargeBitmap As New Bitmap(LargeIconFileName(APSimType.Type))
                 _LargeImageList.Images.Add(LargeBitmap)
@@ -258,7 +258,7 @@ Public Class ApsimUIController
     ' Return type info for all child components for the specified APSIMData
     ' -----------------------------------------------------------------
     Public Function GetOutputFileDescription(ByRef Data As APSIMData, ByVal ComponentType As String, ByVal InstanceName As String) As String
-        Dim ReturnString As String
+        Dim ReturnString As String = ""
 
 
         For Each VariablesInfo As APSIMData In Data.Children("variables")
@@ -367,7 +367,7 @@ Public Class ApsimUIController
     ' -----------------------------------------------------------------
     ' Return an image filename for the specified type.
     ' -----------------------------------------------------------------
-    Public Function ImageFileForType(ByVal GivenType As String)
+    Public Function ImageFileForType(ByVal GivenType As String) As String
         Return TypesData.Child(GivenType).Child("Image").Value
     End Function
 
@@ -375,7 +375,7 @@ Public Class ApsimUIController
     ' -----------------------------------------------------------------
     ' Return documentation url for the specified type.
     ' -----------------------------------------------------------------
-    Public Function DocumentationForType(ByVal GivenType As String)
+    Public Function DocumentationForType(ByVal GivenType As String) As String
         Return TypesData.Child(GivenType).Child("Documentation").Value
     End Function
 
@@ -383,7 +383,7 @@ Public Class ApsimUIController
     ' -----------------------------------------------------------------
     ' Return description for the specified type.
     ' -----------------------------------------------------------------
-    Public Function DescriptionForType(ByVal GivenType As String)
+    Public Function DescriptionForType(ByVal GivenType As String) As String
         Return TypesData.Child(GivenType).Child("Description").Value
     End Function
 
@@ -419,7 +419,6 @@ Public Class ApsimUIController
             If NewDocForm.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
                 Dim newsim As New APSIMData("simulations", "untitled")
                 newsim.Add(NewDocForm.Selection)
-                newsim.Add(New APSIMData("shared", "shared"))
                 Dim Data As APSIMData = NewDocForm.Selection
                 NewDocForm.Close()
                 Return newsim
@@ -455,7 +454,7 @@ Public Class ApsimUIController
     Private Sub CheckOutputFile(ByVal OutputFile As APSIMData)
         SetOutputSummaryFileName(OutputFile)
 
-        Dim OutputFileDescription As APSIMData
+        Dim OutputFileDescription As APSIMData = Nothing
         For Each Child As APSIMData In OutputFile.Children
             If Child.Type.ToLower() = "outputfiledescription" Then
                 OutputFileDescription = Child
@@ -611,5 +610,31 @@ Public Class ApsimUIController
         Dim ReturnValues(Values.Count - 1) As String
         Values.CopyTo(ReturnValues, 0)
         Return ReturnValues
+    End Function
+
+    Public Function GetOutputFilesUnder(ByVal Data As APSIMData) As StringCollection
+        ' ------------------------------------------------------------
+        'return an array of output filenames under the specified data.
+        ' ------------------------------------------------------------
+        Dim OutputFiles As New StringCollection
+
+        For Each Child As APSIMData In Data.Children
+            ' If child node is an "area", "simulation" or "simulations" then node is not a leaf
+            ' and a recursive call is made
+            If Child.Type.ToLower() = "area" Or Child.Type.ToLower() = "simulation" Or Child.Type.ToLower() = "simulations" Then
+                For Each OutputFile As String In GetOutputFilesUnder(Child)
+                    OutputFiles.Add(OutputFile)
+                Next
+
+            ElseIf Child.Type.ToLower() = "outputfile" Then
+                Dim FullFileName As String = Child.ChildValue("filename")
+                If FileName <> "" Then
+                    FullFileName = Path.Combine(Path.GetDirectoryName(FileName), FullFileName)
+                End If
+                OutputFiles.Add(FullFileName)
+            End If
+        Next
+
+        Return OutputFiles
     End Function
 End Class

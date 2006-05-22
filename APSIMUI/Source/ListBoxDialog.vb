@@ -76,13 +76,13 @@ Public Class ListBoxDialog
 
     Private Sub ListBoxDialog_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles MyBase.KeyPress, ListView.KeyPress
         If Asc(e.KeyChar) = Keys.Escape Then
-            DialogResult = DialogResult.Cancel
+            DialogResult = Windows.Forms.DialogResult.Cancel
 
         End If
 
     End Sub
 
     Private Sub ListView_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles ListView.DoubleClick
-        Me.DialogResult = DialogResult.OK
+        Me.DialogResult = Windows.Forms.DialogResult.OK
     End Sub
 End Class

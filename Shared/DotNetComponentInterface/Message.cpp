@@ -48,6 +48,7 @@ Message::~Message(void)
 // ----------------
 Message::Message(char* dataBytes, int messageType, int msgID)
 	{
+	weOwnData = false;
   	int null = 0;
 	data = dataBytes;
 

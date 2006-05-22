@@ -131,7 +131,7 @@ Public Class Slurp
         Dim EventData As New NewCrop
         EventData.crop_type = CropType
         EventData.sender = Me.Name
-        Events.Publish("new_crop", EventData)
+        events.Publish("new_crop", EventData)
     End Sub
     Private Sub DoNewCanopyEvent()
         Dim EventData As New NewCanopy
@@ -248,7 +248,7 @@ Public Class Slurp
     Private Function CalcSWSupply() As Single()
         Dim SWSupply(dlayer.Length - 1) As Single
         Dim SWdep() As Single
-        Properties.Get("sw_dep", SWdep)
+        properties.Get("sw_dep", SWdep)
 
         For layer As Integer = 0 To dlayer.Length - 1
             SWSupply(layer) = Max(0.0, kl(layer) * (SWdep(layer) - ll(layer) * (dlayer(layer))))

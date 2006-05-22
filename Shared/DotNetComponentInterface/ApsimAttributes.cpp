@@ -5,42 +5,42 @@ using namespace ComponentInterface;
 
 
 [AttributeUsage(AttributeTargets::Property)]
-public __gc class ApsimProperty : public System::Attribute
+public ref class ApsimProperty : public System::Attribute
 	{
 	private:
-		String* MyName;
-		String* MyUnits;
+		String^ MyName;
+		String^ MyUnits;
 		
 	public:
-		ApsimProperty(String* Name, String* Units) : MyName(Name), MyUnits(Units) { }
+		ApsimProperty(String^ Name, String^ Units) : MyName(Name), MyUnits(Units) { }
 
-		virtual String* ToString() {return MyName->Concat(MyName, "|", MyUnits);}
+		virtual String^ ToString() override {return MyName->Concat(MyName, "|", MyUnits);}
 
 	};
 
 
 [AttributeUsage(AttributeTargets::Method)]
-public __gc class ApsimEvent : public System::Attribute
+public ref class ApsimEvent : public System::Attribute
 	{
 	private:
-		String* MyName;
+		String^ MyName;
 		
 	public:
-		ApsimEvent(String* Name) : MyName(Name) { }
+		ApsimEvent(String^ Name) : MyName(Name) { }
 
-		virtual String* ToString() {return MyName;}
+		virtual String^ ToString() override {return MyName;}
 
 	};
 
 
 [AttributeUsage(AttributeTargets::Field, AllowMultiple = true)]
-public __gc class ApsimVariable : public System::Attribute
+public ref class ApsimVariable : public System::Attribute
 	{
 	private:
-		String* St;
+		String^ St;
 		
 	public:
-		ApsimVariable(String* Name, String* Units, ApsimProperties::ReadWriteType ReadWrite) 
+		ApsimVariable(String^ Name, String^ Units, ApsimProperties::ReadWriteType ReadWrite) 
 			{ 
 			St = String::Concat(Name, "|", Units, "|");
 			if (ReadWrite == ApsimProperties::ReadWriteType::Read)
@@ -51,7 +51,7 @@ public __gc class ApsimVariable : public System::Attribute
 				St = String::Concat(St, "ReadWrite");
 			}
 
-		virtual String* ToString() 
+		virtual String^ ToString() override 
 			{
 			return St;
 			}

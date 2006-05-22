@@ -71,7 +71,7 @@ namespace CSGeneral
 			// Get the xsl transform ready.
 			APSIMSettings Settings = new APSIMSettings();
 			string ProtocolToVariablesXSLFileName = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "ProtocolToVariablesFile");
-			System.Xml.Xsl.XslTransform xslt = new System.Xml.Xsl.XslTransform();  
+            System.Xml.Xsl.XslCompiledTransform xslt = new System.Xml.Xsl.XslCompiledTransform();  
 			xslt.Load(ProtocolToVariablesXSLFileName);
 
 			// Call the DLL
@@ -89,7 +89,7 @@ namespace CSGeneral
 			XPathDocument XmlData = new XPathDocument(ContentsReader);
 			StringWriter SWriter = new StringWriter();
 			XmlTextWriter Writer = new XmlTextWriter(SWriter);
-			xslt.Transform(XmlData, null, Writer, null);
+			xslt.Transform(XmlData, Writer);
 			Writer.Close();
 
 			return "<?xml version=\"1.0\"?>\r\n"

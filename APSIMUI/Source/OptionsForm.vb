@@ -181,7 +181,7 @@ Public Class OptionsForm
     ' User is wanting to create a new toolbox.
     ' ------------------------------------------------
     Private Sub NewButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewButton.Click
-        If SaveFileDialog.ShowDialog() = DialogResult.OK Then
+        If SaveFileDialog.ShowDialog() = Windows.Forms.DialogResult.OK Then
             Dim toolboxes As New Toolboxes
             toolboxes.CreateNew(SaveFileDialog.FileName)
             ToolBoxListBox.Items.Add(SaveFileDialog.FileName)
@@ -194,7 +194,7 @@ Public Class OptionsForm
     ' --------------------------------------
     Private Sub AddButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AddButton.Click
         Try
-            If OpenFileDialog.ShowDialog() = DialogResult.OK Then
+            If OpenFileDialog.ShowDialog() = Windows.Forms.DialogResult.OK Then
                 ToolBoxListBox.Items.Add(OpenFileDialog.FileName)
             Else
                 ' User cancelled file open operation

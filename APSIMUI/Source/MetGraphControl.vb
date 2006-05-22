@@ -6,7 +6,7 @@ Imports CSGeneral
 Imports VBMet
 Imports Xceed.Chart.Core
 Imports Xceed.Chart.Standard
-Imports Xceed.SmartUI.Controls.OutlookShortcutBar
+Imports Xceed.Chart.GraphicsCore
 Imports System.Drawing
 
 Public Class MetGraphControl
@@ -17,6 +17,16 @@ Public Class MetGraphControl
     Private EndDate As DateTime
     Private GraphType As String
     Private FileName As String
+    Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer
+    Friend WithEvents ToolStrip As System.Windows.Forms.ToolStrip
+    Friend WithEvents RawDataButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents RainfallButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents MonthlyRainfallButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents RadiationButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents TemperatureButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
     Private CurrentShortCut As Shortcut
 
 #Region " Windows Form Designer generated code "
@@ -42,155 +52,44 @@ Public Class MetGraphControl
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.
     'Do not modify it using the code editor.
-    Friend WithEvents ImageList As System.Windows.Forms.ImageList
-    Friend WithEvents PageSetupDialog1 As System.Windows.Forms.PageSetupDialog
-    Friend WithEvents RainfallGroup As Xceed.SmartUI.Controls.OutlookShortcutBar.Group
-    Friend WithEvents DailyRain As Xceed.SmartUI.Controls.OutlookShortcutBar.Shortcut
-    Friend WithEvents OutlookBar As Xceed.SmartUI.Controls.OutlookShortcutBar.SmartOutlookShortcutBar
-    Friend WithEvents TemperatureGroup As Xceed.SmartUI.Controls.OutlookShortcutBar.Group
-    Friend WithEvents DailyTemperature As Xceed.SmartUI.Controls.OutlookShortcutBar.Shortcut
-    Friend WithEvents RadiationGroup As Xceed.SmartUI.Controls.OutlookShortcutBar.Group
-    Friend WithEvents HumidityGroup As Xceed.SmartUI.Controls.OutlookShortcutBar.Group
-    Friend WithEvents DailyVP As Xceed.SmartUI.Controls.OutlookShortcutBar.Shortcut
-    Friend WithEvents DailyVPD As Xceed.SmartUI.Controls.OutlookShortcutBar.Shortcut
-    Friend WithEvents DailyRadiation As Xceed.SmartUI.Controls.OutlookShortcutBar.Shortcut
-    Friend WithEvents MonthlyRainfall As Xceed.SmartUI.Controls.OutlookShortcutBar.Shortcut
-    Friend WithEvents FrostRisk As Xceed.SmartUI.Controls.OutlookShortcutBar.Shortcut
     Friend WithEvents ChartHelper As VBGeneral.ChartHelper
-    Friend WithEvents Group1 As Xceed.SmartUI.Controls.OutlookShortcutBar.Group
-    Friend WithEvents Contents As Xceed.SmartUI.Controls.OutlookShortcutBar.Shortcut
     Friend WithEvents ChartBox As Xceed.Chart.ChartControl
     Friend WithEvents YearBox As System.Windows.Forms.NumericUpDown
     Friend WithEvents ChartPanel As System.Windows.Forms.Panel
     Friend WithEvents ContentsBox As System.Windows.Forms.RichTextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MetGraphControl))
-        Me.ImageList = New System.Windows.Forms.ImageList(Me.components)
-        Me.PageSetupDialog1 = New System.Windows.Forms.PageSetupDialog
-        Me.OutlookBar = New Xceed.SmartUI.Controls.OutlookShortcutBar.SmartOutlookShortcutBar(Me.components)
-        Me.Group1 = New Xceed.SmartUI.Controls.OutlookShortcutBar.Group("MetData")
-        Me.Contents = New Xceed.SmartUI.Controls.OutlookShortcutBar.Shortcut("RawData")
-        Me.RainfallGroup = New Xceed.SmartUI.Controls.OutlookShortcutBar.Group("Rainfall charts")
-        Me.DailyRain = New Xceed.SmartUI.Controls.OutlookShortcutBar.Shortcut("Rainfall Chart", 2)
-        Me.MonthlyRainfall = New Xceed.SmartUI.Controls.OutlookShortcutBar.Shortcut("Monthly Rainfall Chart", 2)
-        Me.TemperatureGroup = New Xceed.SmartUI.Controls.OutlookShortcutBar.Group("Temperature charts")
-        Me.DailyTemperature = New Xceed.SmartUI.Controls.OutlookShortcutBar.Shortcut("Temperature Chart", 1)
-        Me.FrostRisk = New Xceed.SmartUI.Controls.OutlookShortcutBar.Shortcut("Frost Risk", 1)
-        Me.RadiationGroup = New Xceed.SmartUI.Controls.OutlookShortcutBar.Group("Radiation charts")
-        Me.DailyRadiation = New Xceed.SmartUI.Controls.OutlookShortcutBar.Shortcut("DailyRadiation", 3)
-        Me.HumidityGroup = New Xceed.SmartUI.Controls.OutlookShortcutBar.Group("Humidity charts")
-        Me.DailyVP = New Xceed.SmartUI.Controls.OutlookShortcutBar.Shortcut("DailyVP", 0)
-        Me.DailyVPD = New Xceed.SmartUI.Controls.OutlookShortcutBar.Shortcut("DailyVPD", 0)
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MetGraphControl))
         Me.ChartPanel = New System.Windows.Forms.Panel
         Me.YearBox = New System.Windows.Forms.NumericUpDown
         Me.ChartBox = New Xceed.Chart.ChartControl
         Me.ChartHelper = New VBGeneral.ChartHelper
         Me.ContentsBox = New System.Windows.Forms.RichTextBox
+        Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer
+        Me.ToolStrip = New System.Windows.Forms.ToolStrip
+        Me.RawDataButton = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
+        Me.RainfallButton = New System.Windows.Forms.ToolStripButton
+        Me.MonthlyRainfallButton = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
+        Me.TemperatureButton = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
+        Me.RadiationButton = New System.Windows.Forms.ToolStripButton
         Me.ChartPanel.SuspendLayout()
         CType(Me.YearBox, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ToolStripContainer1.ContentPanel.SuspendLayout()
+        Me.ToolStripContainer1.LeftToolStripPanel.SuspendLayout()
+        Me.ToolStripContainer1.SuspendLayout()
+        Me.ToolStrip.SuspendLayout()
         Me.SuspendLayout()
-        '
-        'ImageList
-        '
-        Me.ImageList.ImageSize = New System.Drawing.Size(32, 32)
-        Me.ImageList.ImageStream = CType(resources.GetObject("ImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.ImageList.TransparentColor = System.Drawing.Color.Transparent
-        '
-        'OutlookBar
-        '
-        Me.OutlookBar.Items.AddRange(New Object() {Me.Group1, Me.RainfallGroup, Me.TemperatureGroup, Me.RadiationGroup, Me.HumidityGroup})
-        Me.OutlookBar.Location = New System.Drawing.Point(0, 40)
-        Me.OutlookBar.Name = "OutlookBar"
-        Me.OutlookBar.Size = New System.Drawing.Size(128, 456)
-        Me.OutlookBar.TabIndex = 1
-        Me.OutlookBar.Text = "OutlookBar"
-        '
-        'Group1
-        '
-        Me.Group1.Expanded = True
-        Me.Group1.Items.AddRange(New Object() {Me.Contents})
-        Me.Group1.Text = "MetData"
-        Me.Group1.TextPosition = Xceed.SmartUI.Controls.OutlookShortcutBar.TextPosition.Bottom
-        '
-        'Contents
-        '
-        Me.Contents.Image = CType(resources.GetObject("Contents.Image"), System.Drawing.Image)
-        Me.Contents.Text = "RawData"
-        '
-        'RainfallGroup
-        '
-        Me.RainfallGroup.Items.AddRange(New Object() {Me.DailyRain, Me.MonthlyRainfall})
-        Me.RainfallGroup.ItemsImageList = Me.ImageList
-        Me.RainfallGroup.Text = "Rainfall charts"
-        Me.RainfallGroup.TextPosition = Xceed.SmartUI.Controls.OutlookShortcutBar.TextPosition.Bottom
-        '
-        'DailyRain
-        '
-        Me.DailyRain.ImageIndex = 2
-        Me.DailyRain.Text = "Rainfall Chart"
-        '
-        'MonthlyRainfall
-        '
-        Me.MonthlyRainfall.ImageIndex = 2
-        Me.MonthlyRainfall.Text = "Monthly Rainfall Chart"
-        '
-        'TemperatureGroup
-        '
-        Me.TemperatureGroup.Items.AddRange(New Object() {Me.DailyTemperature, Me.FrostRisk})
-        Me.TemperatureGroup.ItemsImageList = Me.ImageList
-        Me.TemperatureGroup.Text = "Temperature charts"
-        Me.TemperatureGroup.TextPosition = Xceed.SmartUI.Controls.OutlookShortcutBar.TextPosition.Bottom
-        '
-        'DailyTemperature
-        '
-        Me.DailyTemperature.ImageIndex = 1
-        Me.DailyTemperature.Text = "Temperature Chart"
-        '
-        'FrostRisk
-        '
-        Me.FrostRisk.Enabled = False
-        Me.FrostRisk.ImageIndex = 1
-        Me.FrostRisk.Text = "Frost Risk"
-        '
-        'RadiationGroup
-        '
-        Me.RadiationGroup.Items.AddRange(New Object() {Me.DailyRadiation})
-        Me.RadiationGroup.ItemsImageList = Me.ImageList
-        Me.RadiationGroup.Text = "Radiation charts"
-        Me.RadiationGroup.TextPosition = Xceed.SmartUI.Controls.OutlookShortcutBar.TextPosition.Bottom
-        '
-        'DailyRadiation
-        '
-        Me.DailyRadiation.ImageIndex = 3
-        Me.DailyRadiation.Text = "DailyRadiation"
-        '
-        'HumidityGroup
-        '
-        Me.HumidityGroup.Items.AddRange(New Object() {Me.DailyVP, Me.DailyVPD})
-        Me.HumidityGroup.ItemsImageList = Me.ImageList
-        Me.HumidityGroup.Text = "Humidity charts"
-        Me.HumidityGroup.TextPosition = Xceed.SmartUI.Controls.OutlookShortcutBar.TextPosition.Bottom
-        '
-        'DailyVP
-        '
-        Me.DailyVP.Enabled = False
-        Me.DailyVP.ImageIndex = 0
-        Me.DailyVP.Text = "DailyVP"
-        '
-        'DailyVPD
-        '
-        Me.DailyVPD.Enabled = False
-        Me.DailyVPD.ImageIndex = 0
-        Me.DailyVPD.Text = "DailyVPD"
         '
         'ChartPanel
         '
-        Me.ChartPanel.Controls.Add(Me.YearBox)
         Me.ChartPanel.Controls.Add(Me.ChartBox)
-        Me.ChartPanel.Location = New System.Drawing.Point(160, 304)
+        Me.ChartPanel.Controls.Add(Me.YearBox)
+        Me.ChartPanel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.ChartPanel.Location = New System.Drawing.Point(0, 0)
         Me.ChartPanel.Name = "ChartPanel"
-        Me.ChartPanel.Size = New System.Drawing.Size(464, 192)
+        Me.ChartPanel.Size = New System.Drawing.Size(601, 677)
         Me.ChartPanel.TabIndex = 5
         Me.ChartPanel.Visible = False
         '
@@ -199,7 +98,7 @@ Public Class MetGraphControl
         Me.YearBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.YearBox.CausesValidation = False
         Me.YearBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.YearBox.Location = New System.Drawing.Point(8, 120)
+        Me.YearBox.Location = New System.Drawing.Point(16, 18)
         Me.YearBox.Maximum = New Decimal(New Integer() {2000, 0, 0, 0})
         Me.YearBox.Minimum = New Decimal(New Integer() {1900, 0, 0, 0})
         Me.YearBox.Name = "YearBox"
@@ -209,50 +108,153 @@ Public Class MetGraphControl
         '
         'ChartBox
         '
-        Me.ChartBox.AutoScrollMargin = New System.Drawing.Size(0, 0)
-        Me.ChartBox.AutoScrollMinSize = New System.Drawing.Size(0, 0)
-        Me.ChartBox.BackColor = System.Drawing.SystemColors.ActiveBorder
+        Me.ChartBox.BackColor = System.Drawing.SystemColors.Control
         Me.ChartBox.Background = CType(resources.GetObject("ChartBox.Background"), Xceed.Chart.Standard.Background)
         Me.ChartBox.Charts = CType(resources.GetObject("ChartBox.Charts"), Xceed.Chart.Core.ChartCollection)
-        Me.ChartBox.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ChartBox.InteractivityOperations = CType(resources.GetObject("ChartBox.InteractivityOperations"), Xceed.Chart.Standard.InteractivityOperationsCollection)
+        Me.ChartBox.InteractivityOperations = CType(resources.GetObject("ChartBox.InteractivityOperations"), Xceed.Chart.Core.InteractivityOperationsCollection)
         Me.ChartBox.Labels = CType(resources.GetObject("ChartBox.Labels"), Xceed.Chart.Standard.ChartLabelCollection)
         Me.ChartBox.Legends = CType(resources.GetObject("ChartBox.Legends"), Xceed.Chart.Core.LegendCollection)
-        Me.ChartBox.Location = New System.Drawing.Point(0, 0)
+        Me.ChartBox.Location = New System.Drawing.Point(16, 258)
         Me.ChartBox.Name = "ChartBox"
         Me.ChartBox.Settings = CType(resources.GetObject("ChartBox.Settings"), Xceed.Chart.Core.Settings)
-        Me.ChartBox.Size = New System.Drawing.Size(464, 192)
-        Me.ChartBox.TabIndex = 10
+        Me.ChartBox.Size = New System.Drawing.Size(541, 393)
+        Me.ChartBox.TabIndex = 12
         Me.ChartBox.Watermarks = CType(resources.GetObject("ChartBox.Watermarks"), Xceed.Chart.Standard.WatermarkCollection)
         '
         'ChartHelper
         '
         Me.ChartHelper.Chart = Me.ChartBox
         Me.ChartHelper.DataTable = Nothing
-        'Me.ChartHelper.Grid = Nothing
         '
         'ContentsBox
         '
         Me.ContentsBox.Font = New System.Drawing.Font("Courier New", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ContentsBox.Location = New System.Drawing.Point(152, 40)
+        Me.ContentsBox.Location = New System.Drawing.Point(0, 0)
         Me.ContentsBox.Name = "ContentsBox"
-        Me.ContentsBox.Size = New System.Drawing.Size(472, 240)
+        Me.ContentsBox.Size = New System.Drawing.Size(557, 240)
         Me.ContentsBox.TabIndex = 8
         Me.ContentsBox.Text = ""
-        Me.ContentsBox.Visible = False
+        '
+        'ToolStripContainer1
+        '
+        Me.ToolStripContainer1.BottomToolStripPanelVisible = False
+        '
+        'ToolStripContainer1.ContentPanel
+        '
+        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.ContentsBox)
+        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.ChartPanel)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(601, 677)
+        Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        '
+        'ToolStripContainer1.LeftToolStripPanel
+        '
+        Me.ToolStripContainer1.LeftToolStripPanel.Controls.Add(Me.ToolStrip)
+        Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 40)
+        Me.ToolStripContainer1.Name = "ToolStripContainer1"
+        Me.ToolStripContainer1.RightToolStripPanelVisible = False
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(734, 677)
+        Me.ToolStripContainer1.TabIndex = 9
+        Me.ToolStripContainer1.Text = "ToolStripContainer1"
+        Me.ToolStripContainer1.TopToolStripPanelVisible = False
+        '
+        'ToolStrip
+        '
+        Me.ToolStrip.Dock = System.Windows.Forms.DockStyle.None
+        Me.ToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RawDataButton, Me.ToolStripSeparator1, Me.RainfallButton, Me.MonthlyRainfallButton, Me.ToolStripSeparator2, Me.TemperatureButton, Me.ToolStripSeparator3, Me.RadiationButton})
+        Me.ToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow
+        Me.ToolStrip.Location = New System.Drawing.Point(0, 3)
+        Me.ToolStrip.Name = "ToolStrip"
+        Me.ToolStrip.Size = New System.Drawing.Size(133, 264)
+        Me.ToolStrip.TabIndex = 0
+        Me.ToolStrip.Text = "ToolStrip1"
+        '
+        'RawDataButton
+        '
+        Me.RawDataButton.Checked = True
+        Me.RawDataButton.CheckOnClick = True
+        Me.RawDataButton.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.RawDataButton.Image = Global.APSIMUI.My.Resources.Resources.text
+        Me.RawDataButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.RawDataButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.RawDataButton.Name = "RawDataButton"
+        Me.RawDataButton.Size = New System.Drawing.Size(131, 44)
+        Me.RawDataButton.Text = "Raw data"
+        Me.RawDataButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(131, 6)
+        '
+        'RainfallButton
+        '
+        Me.RainfallButton.CheckOnClick = True
+        Me.RainfallButton.Image = Global.APSIMUI.My.Resources.Resources.drink_blue
+        Me.RainfallButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.RainfallButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.RainfallButton.Name = "RainfallButton"
+        Me.RainfallButton.Size = New System.Drawing.Size(131, 44)
+        Me.RainfallButton.Text = "Rainfall chart"
+        Me.RainfallButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'MonthlyRainfallButton
+        '
+        Me.MonthlyRainfallButton.CheckOnClick = True
+        Me.MonthlyRainfallButton.Image = Global.APSIMUI.My.Resources.Resources.drink_blue
+        Me.MonthlyRainfallButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.MonthlyRainfallButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.MonthlyRainfallButton.Name = "MonthlyRainfallButton"
+        Me.MonthlyRainfallButton.Size = New System.Drawing.Size(131, 44)
+        Me.MonthlyRainfallButton.Text = "Monthly rainfall chart"
+        Me.MonthlyRainfallButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(131, 6)
+        '
+        'TemperatureButton
+        '
+        Me.TemperatureButton.CheckOnClick = True
+        Me.TemperatureButton.Image = Global.APSIMUI.My.Resources.Resources.thermometer
+        Me.TemperatureButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.TemperatureButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.TemperatureButton.Name = "TemperatureButton"
+        Me.TemperatureButton.Size = New System.Drawing.Size(131, 44)
+        Me.TemperatureButton.Text = "Temperature chart"
+        Me.TemperatureButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'ToolStripSeparator3
+        '
+        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(131, 6)
+        '
+        'RadiationButton
+        '
+        Me.RadiationButton.CheckOnClick = True
+        Me.RadiationButton.Image = Global.APSIMUI.My.Resources.Resources.sunglasses
+        Me.RadiationButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.RadiationButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.RadiationButton.Name = "RadiationButton"
+        Me.RadiationButton.Size = New System.Drawing.Size(131, 44)
+        Me.RadiationButton.Text = "Radiation chart"
+        Me.RadiationButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'MetGraphControl
         '
-        Me.Controls.Add(Me.ChartPanel)
-        Me.Controls.Add(Me.ContentsBox)
-        Me.Controls.Add(Me.OutlookBar)
+        Me.Controls.Add(Me.ToolStripContainer1)
         Me.Name = "MetGraphControl"
-        Me.Size = New System.Drawing.Size(665, 482)
-        Me.Controls.SetChildIndex(Me.OutlookBar, 0)
-        Me.Controls.SetChildIndex(Me.ContentsBox, 0)
-        Me.Controls.SetChildIndex(Me.ChartPanel, 0)
+        Me.Size = New System.Drawing.Size(734, 717)
+        Me.Controls.SetChildIndex(Me.ToolStripContainer1, 0)
         Me.ChartPanel.ResumeLayout(False)
         CType(Me.YearBox, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ToolStripContainer1.ContentPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.LeftToolStripPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.LeftToolStripPanel.PerformLayout()
+        Me.ToolStripContainer1.ResumeLayout(False)
+        Me.ToolStripContainer1.PerformLayout()
+        Me.ToolStrip.ResumeLayout(False)
+        Me.ToolStrip.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -271,12 +273,11 @@ Public Class MetGraphControl
             YearBox.Maximum = EndDate.Year
         End If
         Controller.Data.ChildValue("filename") = FileName
-        CurrentShortCut = Contents
-        PopulateGraph()
+        Refresh()
     End Sub
-    Public Sub PopulateGraph()
+    Public Overrides Sub Refresh()
         If File.Exists(FileName) Then
-            ContentsBox.Visible = CurrentShortCut Is Contents
+            ContentsBox.Visible = RawDataButton.Checked
             ChartPanel.Visible = Not ContentsBox.Visible
 
             If ChartPanel.Visible Then
@@ -287,13 +288,13 @@ Public Class MetGraphControl
                 Dim LastRow As DataRow = Metfile.Data.Rows(Metfile.Data.Rows.Count - 1)
                 Dim DateColumn As DataColumn = Metfile.Data.Columns("Date")
 
-                If CurrentShortCut Is DailyRain Then
+                If RainfallButton.Checked Then
                     DoRainfallChart()
-                ElseIf CurrentShortCut Is DailyRadiation Then
+                ElseIf RadiationButton.Checked Then
                     DoRadiationChart()
-                ElseIf CurrentShortCut Is DailyTemperature Then
+                ElseIf TemperatureButton.Checked Then
                     DoTemperatureChart()
-                ElseIf CurrentShortCut Is MonthlyRainfall Then
+                ElseIf MonthlyRainfallButton.Checked Then
                     DoMonthlyRainfallChart()
                 End If
             Else
@@ -302,13 +303,24 @@ Public Class MetGraphControl
             End If
         End If
     End Sub
-    Private Sub ChartButtonClick(ByVal sender As System.Object, ByVal e As Xceed.SmartUI.SmartItemClickEventArgs) Handles DailyRain.Click, DailyRadiation.Click, DailyTemperature.Click, DailyVP.Click, DailyVPD.Click, MonthlyRainfall.Click, Contents.Click
-        CurrentShortCut = e.Item
-        PopulateGraph()
+
+    Private Sub RawDataButton_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RawDataButton.CheckedChanged, RainfallButton.CheckedChanged, MonthlyRainfallButton.CheckedChanged, TemperatureButton.CheckedChanged, RadiationButton.CheckedChanged
+        Dim ButtonThatWasClicked As ToolStripButton = sender
+        If ButtonThatWasClicked.Checked Then
+            For Each Item As ToolStripItem In ToolStrip.Items
+                If Item.GetType().ToString = "System.Windows.Forms.ToolStripButton" Then
+                    Dim Button As ToolStripButton = Item
+                    If Not Button Is ButtonThatWasClicked Then
+                        Button.Checked = False
+                    End If
+                End If
+            Next
+            Refresh()
+        End If
     End Sub
 
     Private Sub YearBox_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles YearBox.ValueChanged
-        PopulateGraph()
+        Refresh()
     End Sub
 
 #Region "Chart drawing methods"
@@ -316,7 +328,7 @@ Public Class MetGraphControl
         ChartHelper.Clear()
         ChartHelper.DataTable = ReadAnnualDataTable()
         ChartHelper.CreateChartSeriesFromDataTable("Rainfall", "date", "rain", False, _
-            Drawing.Color.Blue, 1, Xceed.Chart.Standard.LinePattern.Solid, _
+            Drawing.Color.Blue, 1, LinePattern.Solid, _
             Xceed.Chart.Core.StandardAxis.PrimaryX, Xceed.Chart.Core.StandardAxis.PrimaryY)
         ChartBox.Refresh()
     End Sub
@@ -496,6 +508,5 @@ Public Class MetGraphControl
         Return Metfile.Data
 
     End Function
-
 
 End Class

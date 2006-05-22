@@ -8,7 +8,6 @@ Imports System.IO.Path
 Imports VBGeneral
 Imports CSGeneral
 Imports ChangeTool
-Imports Xceed.SmartUI
 
 Public Class MainUI
     Inherits System.Windows.Forms.Form
@@ -29,6 +28,27 @@ Public Class MainUI
     Private Toolbox As ApsimUIController
     Private SimulationExplorer As ExplorerUI
     Private ToolboxExplorer As ExplorerUI
+    Friend WithEvents SimulationContainer As System.Windows.Forms.ToolStripContainer
+    Friend WithEvents SimulationToolStrip As System.Windows.Forms.ToolStrip
+    Friend WithEvents RunButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripSeparator5 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents GraphButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ApsimOutlookButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ExcelButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolBoxesToolStrip As System.Windows.Forms.ToolStrip
+    Friend WithEvents ManageToolboxesButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolboxSplitter As System.Windows.Forms.Splitter
+    Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents NewButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents OpenButton As System.Windows.Forms.ToolStripSplitButton
+    Friend WithEvents SaveButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents SaveAsButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents CutButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents CopyButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents PasteButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents HelpContentsButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
     Private ToolBoxSplitterPoint As Integer
 
 #Region "Constructor / Destructor / Main"
@@ -45,11 +65,10 @@ Public Class MainUI
         MyBase.New()
 
         Dim splash As New SplashScreenForm
-        splash.VersionText = "Version " & New VBGeneral.APSIMSettings().ApsimVersion
+        splash.VersionText = "Version " & APSIMSettings.ApsimVersion
         splash.Show()
 
         Xceed.Chart.Licenser.LicenseKey = "CHT30-YTL57-0UXLJ-145A"
-        Xceed.SmartUI.Licenser.LicenseKey = "SUN31-9TL57-SUXL5-F4BA"
 
         Application.DoEvents()
 
@@ -67,6 +86,7 @@ Public Class MainUI
         Catch ex As System.Exception
             Me.WindowState = FormWindowState.Maximized
         End Try
+        splash.Close()
 
     End Sub
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
@@ -87,204 +107,80 @@ Public Class MainUI
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.
     'Do not modify it using the code editor.
-    Friend WithEvents ButtonImageList As System.Windows.Forms.ImageList
-    Friend WithEvents toolBoxContextMenu As System.Windows.Forms.ContextMenu
-    Friend WithEvents ToolBoxSplitter As System.Windows.Forms.Splitter
-    Friend WithEvents SimulationToolBarPanel As System.Windows.Forms.Panel
-    Friend WithEvents Splitter1 As System.Windows.Forms.Splitter
-    Friend WithEvents SimulationPanel2 As System.Windows.Forms.Panel
-    Friend WithEvents SimulationToolBar2 As System.Windows.Forms.ToolBar
-    Friend WithEvents SimulationLabel2 As System.Windows.Forms.Label
-    Friend WithEvents Splitter2 As System.Windows.Forms.Splitter
-    Friend WithEvents SimulationPanel1 As System.Windows.Forms.Panel
-    Friend WithEvents SimulationToolBar1 As System.Windows.Forms.ToolBar
-    Friend WithEvents SimulationLabel1 As System.Windows.Forms.Label
-    Friend WithEvents RunButton As System.Windows.Forms.ToolBarButton
-    Friend WithEvents GraphButton As System.Windows.Forms.ToolBarButton
-    Friend WithEvents ApsimOutlookButton As System.Windows.Forms.ToolBarButton
-    Friend WithEvents ToolboxesToolbarPanel As System.Windows.Forms.Panel
-    Friend WithEvents Panel3 As System.Windows.Forms.Panel
-    Friend WithEvents ToolboxLabel As System.Windows.Forms.Label
-    Friend WithEvents Splitter3 As System.Windows.Forms.Splitter
-    Friend WithEvents HelpPanel As System.Windows.Forms.Panel
-    Friend WithEvents HelpToolBar As System.Windows.Forms.ToolBar
-    Friend WithEvents HelpLabel As System.Windows.Forms.Label
-    Friend WithEvents Splitter7 As System.Windows.Forms.Splitter
-    Friend WithEvents ManageToolBoxesButton As System.Windows.Forms.ToolBarButton
-    Friend WithEvents ApsimHelpButton As System.Windows.Forms.ToolBarButton
-    Friend WithEvents ToolBoxToolBar As System.Windows.Forms.ToolBar
-    Friend WithEvents HelpImageList As System.Windows.Forms.ImageList
     Friend WithEvents ToolBoxPanel As System.Windows.Forms.Panel
     Friend WithEvents ToolBoxPanelToolBar As System.Windows.Forms.ToolBar
     Friend WithEvents ToolBoxToolBarPanel As System.Windows.Forms.Panel
-    Friend WithEvents FileMenu As Xceed.SmartUI.Controls.ToolBar.MenuTool
-    Friend WithEvents NewFileMenu As Xceed.SmartUI.Controls.MenuBar.MenuItem
-    Friend WithEvents OpenFileMenu As Xceed.SmartUI.Controls.MenuBar.MenuItem
-    Friend WithEvents SaveFileMenu As Xceed.SmartUI.Controls.MenuBar.MenuItem
-    Friend WithEvents SaveAsMenu As Xceed.SmartUI.Controls.MenuBar.MenuItem
-    Friend WithEvents separatorMenuItem1 As Xceed.SmartUI.Controls.MenuBar.SeparatorMenuItem
-    Friend WithEvents ExitMenu As Xceed.SmartUI.Controls.MenuBar.MenuItem
-    Friend WithEvents separatorTool2 As Xceed.SmartUI.Controls.ToolBar.SeparatorTool
-    Friend WithEvents SaveSmallButton As Xceed.SmartUI.Controls.ToolBar.Tool
-    Friend WithEvents CutSmallButton As Xceed.SmartUI.Controls.ToolBar.Tool
-    Friend WithEvents CopySmallButton As Xceed.SmartUI.Controls.ToolBar.Tool
-    Friend WithEvents PasteSmallButton As Xceed.SmartUI.Controls.ToolBar.Tool
-    Friend WithEvents separatorTool1 As Xceed.SmartUI.Controls.ToolBar.SeparatorTool
-    Friend WithEvents SimulationButton As Xceed.SmartUI.Controls.ToolBar.Tool
-    Friend WithEvents SmallImages As System.Windows.Forms.ImageList
-    Friend WithEvents MainToolBar As Xceed.SmartUI.Controls.ToolBar.SmartToolBar
-    Friend WithEvents ToolboxButton As Xceed.SmartUI.Controls.ToolBar.Tool
-    Friend WithEvents ExcelToolBarButton As System.Windows.Forms.ToolBarButton
-    Friend WithEvents PrintDialog1 As System.Windows.Forms.PrintDialog
-    Friend WithEvents RecentSimulationsMenu As Xceed.SmartUI.Controls.MenuBar.PopupMenuItem
-    Friend WithEvents btnClose As System.Windows.Forms.Button
-    Friend WithEvents btnMaximise As System.Windows.Forms.Button
-    Friend WithEvents WindowToolTip As System.Windows.Forms.ToolTip
-    Friend WithEvents btnRestore As System.Windows.Forms.Button
-    Friend WithEvents ToolboxesToolBarHelp As System.Windows.Forms.ToolBar
-    Friend WithEvents ToolboxesToolbarHelpButton As System.Windows.Forms.ToolBarButton
+    Friend WithEvents ToolboxButtonClose As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MainUI))
-        Me.toolBoxContextMenu = New System.Windows.Forms.ContextMenu
-        Me.ButtonImageList = New System.Windows.Forms.ImageList(Me.components)
-        Me.HelpImageList = New System.Windows.Forms.ImageList(Me.components)
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainUI))
         Me.ToolBoxPanel = New System.Windows.Forms.Panel
         Me.ToolBoxToolBarPanel = New System.Windows.Forms.Panel
-        Me.btnMaximise = New System.Windows.Forms.Button
-        Me.btnRestore = New System.Windows.Forms.Button
-        Me.btnClose = New System.Windows.Forms.Button
+        Me.ToolboxButtonClose = New System.Windows.Forms.Button
         Me.ToolBoxPanelToolBar = New System.Windows.Forms.ToolBar
-        Me.ToolBoxSplitter = New System.Windows.Forms.Splitter
-        Me.SimulationToolBarPanel = New System.Windows.Forms.Panel
-        Me.Splitter7 = New System.Windows.Forms.Splitter
-        Me.Splitter2 = New System.Windows.Forms.Splitter
-        Me.SimulationPanel1 = New System.Windows.Forms.Panel
-        Me.SimulationToolBar1 = New System.Windows.Forms.ToolBar
-        Me.GraphButton = New System.Windows.Forms.ToolBarButton
-        Me.ApsimOutlookButton = New System.Windows.Forms.ToolBarButton
-        Me.ExcelToolBarButton = New System.Windows.Forms.ToolBarButton
-        Me.SimulationLabel1 = New System.Windows.Forms.Label
-        Me.Splitter1 = New System.Windows.Forms.Splitter
-        Me.SimulationPanel2 = New System.Windows.Forms.Panel
-        Me.SimulationToolBar2 = New System.Windows.Forms.ToolBar
-        Me.RunButton = New System.Windows.Forms.ToolBarButton
-        Me.SimulationLabel2 = New System.Windows.Forms.Label
-        Me.HelpPanel = New System.Windows.Forms.Panel
-        Me.HelpToolBar = New System.Windows.Forms.ToolBar
-        Me.ApsimHelpButton = New System.Windows.Forms.ToolBarButton
-        Me.HelpLabel = New System.Windows.Forms.Label
-        Me.ToolboxesToolbarPanel = New System.Windows.Forms.Panel
-        Me.Splitter3 = New System.Windows.Forms.Splitter
-        Me.Panel3 = New System.Windows.Forms.Panel
-        Me.ToolboxesToolBarHelp = New System.Windows.Forms.ToolBar
-        Me.ToolboxesToolbarHelpButton = New System.Windows.Forms.ToolBarButton
-        Me.ToolBoxToolBar = New System.Windows.Forms.ToolBar
-        Me.ManageToolBoxesButton = New System.Windows.Forms.ToolBarButton
-        Me.ToolboxLabel = New System.Windows.Forms.Label
-        Me.MainToolBar = New Xceed.SmartUI.Controls.ToolBar.SmartToolBar(Me.components)
-        Me.FileMenu = New Xceed.SmartUI.Controls.ToolBar.MenuTool("&File")
-        Me.NewFileMenu = New Xceed.SmartUI.Controls.MenuBar.MenuItem("&New file", 5)
-        Me.OpenFileMenu = New Xceed.SmartUI.Controls.MenuBar.MenuItem("&Open file ...", 6)
-        Me.SaveFileMenu = New Xceed.SmartUI.Controls.MenuBar.MenuItem("&Save file", 7)
-        Me.SaveAsMenu = New Xceed.SmartUI.Controls.MenuBar.MenuItem("Save &As file ...", 8)
-        Me.RecentSimulationsMenu = New Xceed.SmartUI.Controls.MenuBar.PopupMenuItem("Recent Simulations", 14)
-        Me.separatorMenuItem1 = New Xceed.SmartUI.Controls.MenuBar.SeparatorMenuItem
-        Me.ExitMenu = New Xceed.SmartUI.Controls.MenuBar.MenuItem("E&xit", 15)
-        Me.separatorTool2 = New Xceed.SmartUI.Controls.ToolBar.SeparatorTool
-        Me.SaveSmallButton = New Xceed.SmartUI.Controls.ToolBar.Tool(7)
-        Me.CutSmallButton = New Xceed.SmartUI.Controls.ToolBar.Tool(9)
-        Me.CopySmallButton = New Xceed.SmartUI.Controls.ToolBar.Tool(10)
-        Me.PasteSmallButton = New Xceed.SmartUI.Controls.ToolBar.Tool(11)
-        Me.separatorTool1 = New Xceed.SmartUI.Controls.ToolBar.SeparatorTool
-        Me.SimulationButton = New Xceed.SmartUI.Controls.ToolBar.Tool("&Simulation")
-        Me.ToolboxButton = New Xceed.SmartUI.Controls.ToolBar.Tool("&Toolboxes")
-        Me.SmallImages = New System.Windows.Forms.ImageList(Me.components)
-        Me.PrintDialog1 = New System.Windows.Forms.PrintDialog
-        Me.WindowToolTip = New System.Windows.Forms.ToolTip(Me.components)
+        Me.SimulationContainer = New System.Windows.Forms.ToolStripContainer
+        Me.ToolboxSplitter = New System.Windows.Forms.Splitter
+        Me.ToolBoxesToolStrip = New System.Windows.Forms.ToolStrip
+        Me.ManageToolboxesButton = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
+        Me.SimulationToolStrip = New System.Windows.Forms.ToolStrip
+        Me.NewButton = New System.Windows.Forms.ToolStripButton
+        Me.OpenButton = New System.Windows.Forms.ToolStripSplitButton
+        Me.SaveButton = New System.Windows.Forms.ToolStripButton
+        Me.SaveAsButton = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
+        Me.CutButton = New System.Windows.Forms.ToolStripButton
+        Me.CopyButton = New System.Windows.Forms.ToolStripButton
+        Me.PasteButton = New System.Windows.Forms.ToolStripButton
+        Me.HelpContentsButton = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
+        Me.RunButton = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator
+        Me.GraphButton = New System.Windows.Forms.ToolStripButton
+        Me.ApsimOutlookButton = New System.Windows.Forms.ToolStripButton
+        Me.ExcelButton = New System.Windows.Forms.ToolStripButton
         Me.ToolBoxPanel.SuspendLayout()
         Me.ToolBoxToolBarPanel.SuspendLayout()
-        Me.SimulationToolBarPanel.SuspendLayout()
-        Me.SimulationPanel1.SuspendLayout()
-        Me.SimulationPanel2.SuspendLayout()
-        Me.HelpPanel.SuspendLayout()
-        Me.ToolboxesToolbarPanel.SuspendLayout()
-        Me.Panel3.SuspendLayout()
+        Me.SimulationContainer.ContentPanel.SuspendLayout()
+        Me.SimulationContainer.RightToolStripPanel.SuspendLayout()
+        Me.SimulationContainer.TopToolStripPanel.SuspendLayout()
+        Me.SimulationContainer.SuspendLayout()
+        Me.ToolBoxesToolStrip.SuspendLayout()
+        Me.SimulationToolStrip.SuspendLayout()
         Me.SuspendLayout()
-        '
-        'ButtonImageList
-        '
-        Me.ButtonImageList.ImageSize = New System.Drawing.Size(24, 24)
-        Me.ButtonImageList.ImageStream = CType(resources.GetObject("ButtonImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.ButtonImageList.TransparentColor = System.Drawing.SystemColors.Control
-        '
-        'HelpImageList
-        '
-        Me.HelpImageList.ImageSize = New System.Drawing.Size(16, 16)
-        Me.HelpImageList.ImageStream = CType(resources.GetObject("HelpImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.HelpImageList.TransparentColor = System.Drawing.Color.Transparent
         '
         'ToolBoxPanel
         '
         Me.ToolBoxPanel.Controls.Add(Me.ToolBoxToolBarPanel)
         Me.ToolBoxPanel.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.ToolBoxPanel.Location = New System.Drawing.Point(0, 442)
+        Me.ToolBoxPanel.Location = New System.Drawing.Point(0, 395)
         Me.ToolBoxPanel.Name = "ToolBoxPanel"
-        Me.ToolBoxPanel.Size = New System.Drawing.Size(632, 104)
+        Me.ToolBoxPanel.Size = New System.Drawing.Size(647, 104)
         Me.ToolBoxPanel.TabIndex = 12
         Me.ToolBoxPanel.Visible = False
         '
         'ToolBoxToolBarPanel
         '
         Me.ToolBoxToolBarPanel.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.ToolBoxToolBarPanel.Controls.Add(Me.btnMaximise)
-        Me.ToolBoxToolBarPanel.Controls.Add(Me.btnRestore)
-        Me.ToolBoxToolBarPanel.Controls.Add(Me.btnClose)
+        Me.ToolBoxToolBarPanel.Controls.Add(Me.ToolboxButtonClose)
         Me.ToolBoxToolBarPanel.Controls.Add(Me.ToolBoxPanelToolBar)
         Me.ToolBoxToolBarPanel.Dock = System.Windows.Forms.DockStyle.Top
         Me.ToolBoxToolBarPanel.Location = New System.Drawing.Point(0, 0)
         Me.ToolBoxToolBarPanel.Name = "ToolBoxToolBarPanel"
-        Me.ToolBoxToolBarPanel.Size = New System.Drawing.Size(632, 32)
+        Me.ToolBoxToolBarPanel.Size = New System.Drawing.Size(647, 32)
         Me.ToolBoxToolBarPanel.TabIndex = 19
         '
-        'btnMaximise
+        'ToolboxButtonClose
         '
-        Me.btnMaximise.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnMaximise.BackColor = System.Drawing.Color.Transparent
-        Me.btnMaximise.BackgroundImage = CType(resources.GetObject("btnMaximise.BackgroundImage"), System.Drawing.Image)
-        Me.btnMaximise.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnMaximise.Location = New System.Drawing.Point(576, 3)
-        Me.btnMaximise.Name = "btnMaximise"
-        Me.btnMaximise.Size = New System.Drawing.Size(24, 24)
-        Me.btnMaximise.TabIndex = 21
-        Me.btnMaximise.TabStop = False
-        Me.WindowToolTip.SetToolTip(Me.btnMaximise, "Maximise")
-        '
-        'btnRestore
-        '
-        Me.btnRestore.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnRestore.BackColor = System.Drawing.Color.Transparent
-        Me.btnRestore.BackgroundImage = CType(resources.GetObject("btnRestore.BackgroundImage"), System.Drawing.Image)
-        Me.btnRestore.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnRestore.Location = New System.Drawing.Point(576, 3)
-        Me.btnRestore.Name = "btnRestore"
-        Me.btnRestore.Size = New System.Drawing.Size(24, 24)
-        Me.btnRestore.TabIndex = 22
-        Me.btnRestore.TabStop = False
-        Me.WindowToolTip.SetToolTip(Me.btnRestore, "Restore")
-        '
-        'btnClose
-        '
-        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.BackColor = System.Drawing.Color.Transparent
-        Me.btnClose.BackgroundImage = CType(resources.GetObject("btnClose.BackgroundImage"), System.Drawing.Image)
-        Me.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnClose.Location = New System.Drawing.Point(603, 3)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(24, 24)
-        Me.btnClose.TabIndex = 20
-        Me.btnClose.TabStop = False
-        Me.WindowToolTip.SetToolTip(Me.btnClose, "Close")
+        Me.ToolboxButtonClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ToolboxButtonClose.BackColor = System.Drawing.Color.Transparent
+        Me.ToolboxButtonClose.BackgroundImage = CType(resources.GetObject("ToolboxButtonClose.BackgroundImage"), System.Drawing.Image)
+        Me.ToolboxButtonClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ToolboxButtonClose.Location = New System.Drawing.Point(618, 3)
+        Me.ToolboxButtonClose.Name = "ToolboxButtonClose"
+        Me.ToolboxButtonClose.Size = New System.Drawing.Size(24, 24)
+        Me.ToolboxButtonClose.TabIndex = 20
+        Me.ToolboxButtonClose.TabStop = False
+        Me.ToolboxButtonClose.UseVisualStyleBackColor = False
         '
         'ToolBoxPanelToolBar
         '
@@ -292,393 +188,221 @@ Public Class MainUI
         Me.ToolBoxPanelToolBar.Divider = False
         Me.ToolBoxPanelToolBar.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolBoxPanelToolBar.DropDownArrows = True
-        Me.ToolBoxPanelToolBar.ImageList = Me.ButtonImageList
         Me.ToolBoxPanelToolBar.Location = New System.Drawing.Point(0, 0)
         Me.ToolBoxPanelToolBar.Name = "ToolBoxPanelToolBar"
         Me.ToolBoxPanelToolBar.ShowToolTips = True
-        Me.ToolBoxPanelToolBar.Size = New System.Drawing.Size(632, 26)
+        Me.ToolBoxPanelToolBar.Size = New System.Drawing.Size(647, 26)
         Me.ToolBoxPanelToolBar.TabIndex = 17
         Me.ToolBoxPanelToolBar.TextAlign = System.Windows.Forms.ToolBarTextAlign.Right
         '
-        'ToolBoxSplitter
+        'SimulationContainer
         '
-        Me.ToolBoxSplitter.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.ToolBoxSplitter.Location = New System.Drawing.Point(0, 438)
-        Me.ToolBoxSplitter.Name = "ToolBoxSplitter"
-        Me.ToolBoxSplitter.Size = New System.Drawing.Size(632, 4)
-        Me.ToolBoxSplitter.TabIndex = 13
-        Me.ToolBoxSplitter.TabStop = False
-        Me.ToolBoxSplitter.Visible = False
+        Me.SimulationContainer.BottomToolStripPanelVisible = False
         '
-        'SimulationToolBarPanel
+        'SimulationContainer.ContentPanel
         '
-        Me.SimulationToolBarPanel.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.SimulationToolBarPanel.Controls.Add(Me.Splitter7)
-        Me.SimulationToolBarPanel.Controls.Add(Me.Splitter2)
-        Me.SimulationToolBarPanel.Controls.Add(Me.SimulationPanel1)
-        Me.SimulationToolBarPanel.Controls.Add(Me.Splitter1)
-        Me.SimulationToolBarPanel.Controls.Add(Me.SimulationPanel2)
-        Me.SimulationToolBarPanel.Controls.Add(Me.HelpPanel)
-        Me.SimulationToolBarPanel.Dock = System.Windows.Forms.DockStyle.Top
-        Me.SimulationToolBarPanel.Location = New System.Drawing.Point(0, 26)
-        Me.SimulationToolBarPanel.Name = "SimulationToolBarPanel"
-        Me.SimulationToolBarPanel.Size = New System.Drawing.Size(632, 71)
-        Me.SimulationToolBarPanel.TabIndex = 19
+        Me.SimulationContainer.ContentPanel.AutoScroll = True
+        Me.SimulationContainer.ContentPanel.Controls.Add(Me.ToolboxSplitter)
+        Me.SimulationContainer.ContentPanel.Controls.Add(Me.ToolBoxPanel)
+        Me.SimulationContainer.ContentPanel.Size = New System.Drawing.Size(647, 499)
+        Me.SimulationContainer.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SimulationContainer.Location = New System.Drawing.Point(0, 0)
+        Me.SimulationContainer.Name = "SimulationContainer"
         '
-        'Splitter7
+        'SimulationContainer.RightToolStripPanel
         '
-        Me.Splitter7.BackColor = System.Drawing.Color.LightGray
-        Me.Splitter7.Enabled = False
-        Me.Splitter7.Location = New System.Drawing.Point(274, 0)
-        Me.Splitter7.Name = "Splitter7"
-        Me.Splitter7.Size = New System.Drawing.Size(1, 71)
-        Me.Splitter7.TabIndex = 27
-        Me.Splitter7.TabStop = False
+        Me.SimulationContainer.RightToolStripPanel.Controls.Add(Me.ToolBoxesToolStrip)
+        Me.SimulationContainer.Size = New System.Drawing.Size(705, 546)
+        Me.SimulationContainer.TabIndex = 4
+        Me.SimulationContainer.Text = "ToolStripContainer1"
         '
-        'Splitter2
+        'SimulationContainer.TopToolStripPanel
         '
-        Me.Splitter2.BackColor = System.Drawing.Color.LightGray
-        Me.Splitter2.Enabled = False
-        Me.Splitter2.Location = New System.Drawing.Point(273, 0)
-        Me.Splitter2.Name = "Splitter2"
-        Me.Splitter2.Size = New System.Drawing.Size(1, 71)
-        Me.Splitter2.TabIndex = 21
-        Me.Splitter2.TabStop = False
+        Me.SimulationContainer.TopToolStripPanel.Controls.Add(Me.SimulationToolStrip)
         '
-        'SimulationPanel1
+        'ToolboxSplitter
         '
-        Me.SimulationPanel1.BackColor = System.Drawing.Color.Transparent
-        Me.SimulationPanel1.Controls.Add(Me.SimulationToolBar1)
-        Me.SimulationPanel1.Controls.Add(Me.SimulationLabel1)
-        Me.SimulationPanel1.Dock = System.Windows.Forms.DockStyle.Left
-        Me.SimulationPanel1.Location = New System.Drawing.Point(65, 0)
-        Me.SimulationPanel1.Name = "SimulationPanel1"
-        Me.SimulationPanel1.Size = New System.Drawing.Size(208, 71)
-        Me.SimulationPanel1.TabIndex = 20
+        Me.ToolboxSplitter.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.ToolboxSplitter.Location = New System.Drawing.Point(0, 392)
+        Me.ToolboxSplitter.Name = "ToolboxSplitter"
+        Me.ToolboxSplitter.Size = New System.Drawing.Size(647, 3)
+        Me.ToolboxSplitter.TabIndex = 25
+        Me.ToolboxSplitter.TabStop = False
         '
-        'SimulationToolBar1
+        'ToolBoxesToolStrip
         '
-        Me.SimulationToolBar1.Appearance = System.Windows.Forms.ToolBarAppearance.Flat
-        Me.SimulationToolBar1.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.GraphButton, Me.ApsimOutlookButton, Me.ExcelToolBarButton})
-        Me.SimulationToolBar1.Divider = False
-        Me.SimulationToolBar1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SimulationToolBar1.DropDownArrows = True
-        Me.SimulationToolBar1.ImageList = Me.ButtonImageList
-        Me.SimulationToolBar1.Location = New System.Drawing.Point(0, 20)
-        Me.SimulationToolBar1.Name = "SimulationToolBar1"
-        Me.SimulationToolBar1.ShowToolTips = True
-        Me.SimulationToolBar1.Size = New System.Drawing.Size(208, 48)
-        Me.SimulationToolBar1.TabIndex = 16
+        Me.ToolBoxesToolStrip.Dock = System.Windows.Forms.DockStyle.None
+        Me.ToolBoxesToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ManageToolboxesButton, Me.ToolStripSeparator2})
+        Me.ToolBoxesToolStrip.Location = New System.Drawing.Point(0, 3)
+        Me.ToolBoxesToolStrip.Name = "ToolBoxesToolStrip"
+        Me.ToolBoxesToolStrip.Size = New System.Drawing.Size(58, 64)
+        Me.ToolBoxesToolStrip.TabIndex = 1
         '
-        'GraphButton
+        'ManageToolboxesButton
         '
-        Me.GraphButton.ImageIndex = 15
-        Me.GraphButton.Text = "&Graph"
-        Me.GraphButton.ToolTipText = "Graph simulation output files"
+        Me.ManageToolboxesButton.Image = Global.APSIMUI.My.Resources.Resources.toolbox_add_delete
+        Me.ManageToolboxesButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.ManageToolboxesButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ManageToolboxesButton.Name = "ManageToolboxesButton"
+        Me.ManageToolboxesButton.Size = New System.Drawing.Size(56, 44)
+        Me.ManageToolboxesButton.Text = "&Manage"
+        Me.ManageToolboxesButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
-        'ApsimOutlookButton
+        'ToolStripSeparator2
         '
-        Me.ApsimOutlookButton.ImageIndex = 16
-        Me.ApsimOutlookButton.Text = "&ApsimOutlook"
-        Me.ApsimOutlookButton.ToolTipText = "Graph output files using ApsimOutlook"
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(56, 6)
         '
-        'ExcelToolBarButton
+        'SimulationToolStrip
         '
-        Me.ExcelToolBarButton.ImageIndex = 23
-        Me.ExcelToolBarButton.Text = "&Excel"
-        Me.ExcelToolBarButton.ToolTipText = "Export output file to Excel."
+        Me.SimulationToolStrip.Dock = System.Windows.Forms.DockStyle.None
+        Me.SimulationToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewButton, Me.OpenButton, Me.SaveButton, Me.SaveAsButton, Me.ToolStripSeparator3, Me.CutButton, Me.CopyButton, Me.PasteButton, Me.HelpContentsButton, Me.ToolStripSeparator1, Me.RunButton, Me.ToolStripSeparator5, Me.GraphButton, Me.ApsimOutlookButton, Me.ExcelButton})
+        Me.SimulationToolStrip.Location = New System.Drawing.Point(3, 0)
+        Me.SimulationToolStrip.Name = "SimulationToolStrip"
+        Me.SimulationToolStrip.Size = New System.Drawing.Size(685, 47)
+        Me.SimulationToolStrip.TabIndex = 1
         '
-        'SimulationLabel1
+        'NewButton
         '
-        Me.SimulationLabel1.BackColor = System.Drawing.Color.SteelBlue
-        Me.SimulationLabel1.Dock = System.Windows.Forms.DockStyle.Top
-        Me.SimulationLabel1.ForeColor = System.Drawing.Color.White
-        Me.SimulationLabel1.Location = New System.Drawing.Point(0, 0)
-        Me.SimulationLabel1.Name = "SimulationLabel1"
-        Me.SimulationLabel1.Size = New System.Drawing.Size(208, 20)
-        Me.SimulationLabel1.TabIndex = 15
-        Me.SimulationLabel1.Text = "Output File Export"
-        Me.SimulationLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.NewButton.Image = Global.APSIMUI.My.Resources.Resources.document_new1
+        Me.NewButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.NewButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.NewButton.Name = "NewButton"
+        Me.NewButton.Size = New System.Drawing.Size(49, 44)
+        Me.NewButton.Text = "&New..."
+        Me.NewButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
-        'Splitter1
+        'OpenButton
         '
-        Me.Splitter1.BackColor = System.Drawing.Color.LightGray
-        Me.Splitter1.Enabled = False
-        Me.Splitter1.Location = New System.Drawing.Point(64, 0)
-        Me.Splitter1.Name = "Splitter1"
-        Me.Splitter1.Size = New System.Drawing.Size(1, 71)
-        Me.Splitter1.TabIndex = 23
-        Me.Splitter1.TabStop = False
+        Me.OpenButton.Image = Global.APSIMUI.My.Resources.Resources.folder_document1
+        Me.OpenButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.OpenButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.OpenButton.Name = "OpenButton"
+        Me.OpenButton.Size = New System.Drawing.Size(66, 44)
+        Me.OpenButton.Text = "&Open..."
+        Me.OpenButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
-        'SimulationPanel2
+        'SaveButton
         '
-        Me.SimulationPanel2.BackColor = System.Drawing.Color.Transparent
-        Me.SimulationPanel2.Controls.Add(Me.SimulationToolBar2)
-        Me.SimulationPanel2.Controls.Add(Me.SimulationLabel2)
-        Me.SimulationPanel2.Dock = System.Windows.Forms.DockStyle.Left
-        Me.SimulationPanel2.Location = New System.Drawing.Point(0, 0)
-        Me.SimulationPanel2.Name = "SimulationPanel2"
-        Me.SimulationPanel2.Size = New System.Drawing.Size(64, 71)
-        Me.SimulationPanel2.TabIndex = 22
+        Me.SaveButton.Image = Global.APSIMUI.My.Resources.Resources.disk_blue1
+        Me.SaveButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.SaveButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.SaveButton.Name = "SaveButton"
+        Me.SaveButton.Size = New System.Drawing.Size(40, 44)
+        Me.SaveButton.Text = "&Save"
+        Me.SaveButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
-        'SimulationToolBar2
+        'SaveAsButton
         '
-        Me.SimulationToolBar2.Appearance = System.Windows.Forms.ToolBarAppearance.Flat
-        Me.SimulationToolBar2.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.RunButton})
-        Me.SimulationToolBar2.Divider = False
-        Me.SimulationToolBar2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SimulationToolBar2.DropDownArrows = True
-        Me.SimulationToolBar2.ImageList = Me.ButtonImageList
-        Me.SimulationToolBar2.Location = New System.Drawing.Point(0, 20)
-        Me.SimulationToolBar2.Name = "SimulationToolBar2"
-        Me.SimulationToolBar2.ShowToolTips = True
-        Me.SimulationToolBar2.Size = New System.Drawing.Size(64, 48)
-        Me.SimulationToolBar2.TabIndex = 16
+        Me.SaveAsButton.Image = Global.APSIMUI.My.Resources.Resources.disk_blue_window1
+        Me.SaveAsButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.SaveAsButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.SaveAsButton.Name = "SaveAsButton"
+        Me.SaveAsButton.Size = New System.Drawing.Size(69, 44)
+        Me.SaveAsButton.Text = "Save &as..."
+        Me.SaveAsButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'ToolStripSeparator3
+        '
+        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 47)
+        '
+        'CutButton
+        '
+        Me.CutButton.Image = Global.APSIMUI.My.Resources.Resources.cut1
+        Me.CutButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.CutButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.CutButton.Name = "CutButton"
+        Me.CutButton.Size = New System.Drawing.Size(31, 44)
+        Me.CutButton.Text = "&Cut"
+        Me.CutButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'CopyButton
+        '
+        Me.CopyButton.Image = Global.APSIMUI.My.Resources.Resources.copy1
+        Me.CopyButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.CopyButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.CopyButton.Name = "CopyButton"
+        Me.CopyButton.Size = New System.Drawing.Size(40, 44)
+        Me.CopyButton.Text = "Co&py"
+        Me.CopyButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'PasteButton
+        '
+        Me.PasteButton.Image = Global.APSIMUI.My.Resources.Resources.paste1
+        Me.PasteButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.PasteButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.PasteButton.Name = "PasteButton"
+        Me.PasteButton.Size = New System.Drawing.Size(43, 44)
+        Me.PasteButton.Text = "&Paste"
+        Me.PasteButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'HelpContentsButton
+        '
+        Me.HelpContentsButton.Image = Global.APSIMUI.My.Resources.Resources.help21
+        Me.HelpContentsButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.HelpContentsButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.HelpContentsButton.Name = "HelpContentsButton"
+        Me.HelpContentsButton.Size = New System.Drawing.Size(37, 44)
+        Me.HelpContentsButton.Text = "&Help"
+        Me.HelpContentsButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 47)
         '
         'RunButton
         '
-        Me.RunButton.ImageIndex = 14
+        Me.RunButton.AutoSize = False
+        Me.RunButton.Image = Global.APSIMUI.My.Resources.Resources.media_play
+        Me.RunButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.RunButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.RunButton.Name = "RunButton"
+        Me.RunButton.Size = New System.Drawing.Size(68, 44)
         Me.RunButton.Text = "&Run"
-        Me.RunButton.ToolTipText = "Run APSIM"
+        Me.RunButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
-        'SimulationLabel2
+        'ToolStripSeparator5
         '
-        Me.SimulationLabel2.BackColor = System.Drawing.Color.SteelBlue
-        Me.SimulationLabel2.Dock = System.Windows.Forms.DockStyle.Top
-        Me.SimulationLabel2.ForeColor = System.Drawing.Color.White
-        Me.SimulationLabel2.Location = New System.Drawing.Point(0, 0)
-        Me.SimulationLabel2.Name = "SimulationLabel2"
-        Me.SimulationLabel2.Size = New System.Drawing.Size(64, 20)
-        Me.SimulationLabel2.TabIndex = 15
-        Me.SimulationLabel2.Text = "Simulation"
-        Me.SimulationLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(6, 47)
         '
-        'HelpPanel
+        'GraphButton
         '
-        Me.HelpPanel.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.HelpPanel.BackColor = System.Drawing.Color.Transparent
-        Me.HelpPanel.Controls.Add(Me.HelpToolBar)
-        Me.HelpPanel.Controls.Add(Me.HelpLabel)
-        Me.HelpPanel.Location = New System.Drawing.Point(272, 0)
-        Me.HelpPanel.Name = "HelpPanel"
-        Me.HelpPanel.Size = New System.Drawing.Size(358, 71)
-        Me.HelpPanel.TabIndex = 26
+        Me.GraphButton.Image = Global.APSIMUI.My.Resources.Resources.chart
+        Me.GraphButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.GraphButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.GraphButton.Name = "GraphButton"
+        Me.GraphButton.Size = New System.Drawing.Size(46, 44)
+        Me.GraphButton.Text = "&Graph"
+        Me.GraphButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
-        'HelpToolBar
+        'ApsimOutlookButton
         '
-        Me.HelpToolBar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.HelpToolBar.Appearance = System.Windows.Forms.ToolBarAppearance.Flat
-        Me.HelpToolBar.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.ApsimHelpButton})
-        Me.HelpToolBar.Divider = False
-        Me.HelpToolBar.Dock = System.Windows.Forms.DockStyle.None
-        Me.HelpToolBar.DropDownArrows = True
-        Me.HelpToolBar.ImageList = Me.ButtonImageList
-        Me.HelpToolBar.Location = New System.Drawing.Point(312, 20)
-        Me.HelpToolBar.Name = "HelpToolBar"
-        Me.HelpToolBar.ShowToolTips = True
-        Me.HelpToolBar.Size = New System.Drawing.Size(72, 48)
-        Me.HelpToolBar.TabIndex = 16
+        Me.ApsimOutlookButton.Image = Global.APSIMUI.My.Resources.Resources.boxplot
+        Me.ApsimOutlookButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.ApsimOutlookButton.ImageTransparentColor = System.Drawing.SystemColors.ControlLight
+        Me.ApsimOutlookButton.Name = "ApsimOutlookButton"
+        Me.ApsimOutlookButton.Size = New System.Drawing.Size(94, 44)
+        Me.ApsimOutlookButton.Text = "Apsim Outlook"
+        Me.ApsimOutlookButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
-        'ApsimHelpButton
+        'ExcelButton
         '
-        Me.ApsimHelpButton.ImageIndex = 6
-        Me.ApsimHelpButton.Text = "&Help"
-        Me.ApsimHelpButton.ToolTipText = "Display the main help page"
-        '
-        'HelpLabel
-        '
-        Me.HelpLabel.BackColor = System.Drawing.Color.SteelBlue
-        Me.HelpLabel.Dock = System.Windows.Forms.DockStyle.Top
-        Me.HelpLabel.ForeColor = System.Drawing.Color.White
-        Me.HelpLabel.Location = New System.Drawing.Point(0, 0)
-        Me.HelpLabel.Name = "HelpLabel"
-        Me.HelpLabel.Size = New System.Drawing.Size(358, 20)
-        Me.HelpLabel.TabIndex = 15
-        Me.HelpLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'ToolboxesToolbarPanel
-        '
-        Me.ToolboxesToolbarPanel.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.ToolboxesToolbarPanel.Controls.Add(Me.Splitter3)
-        Me.ToolboxesToolbarPanel.Controls.Add(Me.Panel3)
-        Me.ToolboxesToolbarPanel.Dock = System.Windows.Forms.DockStyle.Top
-        Me.ToolboxesToolbarPanel.Location = New System.Drawing.Point(0, 97)
-        Me.ToolboxesToolbarPanel.Name = "ToolboxesToolbarPanel"
-        Me.ToolboxesToolbarPanel.Size = New System.Drawing.Size(632, 71)
-        Me.ToolboxesToolbarPanel.TabIndex = 20
-        Me.ToolboxesToolbarPanel.Visible = False
-        '
-        'Splitter3
-        '
-        Me.Splitter3.BackColor = System.Drawing.Color.LightGray
-        Me.Splitter3.Enabled = False
-        Me.Splitter3.Location = New System.Drawing.Point(0, 0)
-        Me.Splitter3.Name = "Splitter3"
-        Me.Splitter3.Size = New System.Drawing.Size(1, 71)
-        Me.Splitter3.TabIndex = 21
-        Me.Splitter3.TabStop = False
-        '
-        'Panel3
-        '
-        Me.Panel3.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Panel3.BackColor = System.Drawing.Color.Transparent
-        Me.Panel3.Controls.Add(Me.ToolboxesToolBarHelp)
-        Me.Panel3.Controls.Add(Me.ToolBoxToolBar)
-        Me.Panel3.Controls.Add(Me.ToolboxLabel)
-        Me.Panel3.Location = New System.Drawing.Point(0, 0)
-        Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(632, 71)
-        Me.Panel3.TabIndex = 22
-        '
-        'ToolboxesToolBarHelp
-        '
-        Me.ToolboxesToolBarHelp.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ToolboxesToolBarHelp.Appearance = System.Windows.Forms.ToolBarAppearance.Flat
-        Me.ToolboxesToolBarHelp.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.ToolboxesToolbarHelpButton})
-        Me.ToolboxesToolBarHelp.Divider = False
-        Me.ToolboxesToolBarHelp.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolboxesToolBarHelp.DropDownArrows = True
-        Me.ToolboxesToolBarHelp.ImageList = Me.ButtonImageList
-        Me.ToolboxesToolBarHelp.Location = New System.Drawing.Point(584, 20)
-        Me.ToolboxesToolBarHelp.Name = "ToolboxesToolBarHelp"
-        Me.ToolboxesToolBarHelp.ShowToolTips = True
-        Me.ToolboxesToolBarHelp.Size = New System.Drawing.Size(48, 48)
-        Me.ToolboxesToolBarHelp.TabIndex = 17
-        '
-        'ToolboxesToolbarHelpButton
-        '
-        Me.ToolboxesToolbarHelpButton.ImageIndex = 6
-        Me.ToolboxesToolbarHelpButton.Text = "&Help"
-        Me.ToolboxesToolbarHelpButton.ToolTipText = "Display the main help page"
-        '
-        'ToolBoxToolBar
-        '
-        Me.ToolBoxToolBar.Appearance = System.Windows.Forms.ToolBarAppearance.Flat
-        Me.ToolBoxToolBar.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.ManageToolBoxesButton})
-        Me.ToolBoxToolBar.Divider = False
-        Me.ToolBoxToolBar.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ToolBoxToolBar.DropDownArrows = True
-        Me.ToolBoxToolBar.ImageList = Me.ButtonImageList
-        Me.ToolBoxToolBar.Location = New System.Drawing.Point(0, 20)
-        Me.ToolBoxToolBar.Name = "ToolBoxToolBar"
-        Me.ToolBoxToolBar.ShowToolTips = True
-        Me.ToolBoxToolBar.Size = New System.Drawing.Size(632, 48)
-        Me.ToolBoxToolBar.TabIndex = 16
-        '
-        'ManageToolBoxesButton
-        '
-        Me.ManageToolBoxesButton.ImageIndex = 20
-        Me.ManageToolBoxesButton.Text = "&Manage toolboxes"
-        Me.ManageToolBoxesButton.ToolTipText = "Add or remove toolboxes from APSIM"
-        '
-        'ToolboxLabel
-        '
-        Me.ToolboxLabel.BackColor = System.Drawing.Color.SteelBlue
-        Me.ToolboxLabel.Dock = System.Windows.Forms.DockStyle.Top
-        Me.ToolboxLabel.ForeColor = System.Drawing.Color.White
-        Me.ToolboxLabel.Location = New System.Drawing.Point(0, 0)
-        Me.ToolboxLabel.Name = "ToolboxLabel"
-        Me.ToolboxLabel.Size = New System.Drawing.Size(632, 20)
-        Me.ToolboxLabel.TabIndex = 15
-        Me.ToolboxLabel.Text = "Toolbox"
-        Me.ToolboxLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'MainToolBar
-        '
-        Me.MainToolBar.BackColor = System.Drawing.Color.Gainsboro
-        Me.MainToolBar.Cursor = System.Windows.Forms.Cursors.Default
-        Me.MainToolBar.Items.AddRange(New Object() {Me.FileMenu, Me.separatorTool2, Me.SaveSmallButton, Me.CutSmallButton, Me.CopySmallButton, Me.PasteSmallButton, Me.separatorTool1, Me.SimulationButton, Me.ToolboxButton})
-        Me.MainToolBar.ItemsImageList = Me.SmallImages
-        Me.MainToolBar.Location = New System.Drawing.Point(0, 0)
-        Me.MainToolBar.Name = "MainToolBar"
-        Me.MainToolBar.Size = New System.Drawing.Size(632, 26)
-        Me.MainToolBar.TabIndex = 23
-        Me.MainToolBar.Text = "MainToolBar"
-        '
-        'FileMenu
-        '
-        Me.FileMenu.Items.AddRange(New Object() {Me.NewFileMenu, Me.OpenFileMenu, Me.SaveFileMenu, Me.SaveAsMenu, Me.RecentSimulationsMenu, Me.separatorMenuItem1, Me.ExitMenu})
-        Me.FileMenu.Text = "&File"
-        '
-        'NewFileMenu
-        '
-        Me.NewFileMenu.ImageIndex = 5
-        Me.NewFileMenu.Text = "&New file"
-        '
-        'OpenFileMenu
-        '
-        Me.OpenFileMenu.ImageIndex = 6
-        Me.OpenFileMenu.Text = "&Open file ..."
-        '
-        'SaveFileMenu
-        '
-        Me.SaveFileMenu.ImageIndex = 7
-        Me.SaveFileMenu.Text = "&Save file"
-        '
-        'SaveAsMenu
-        '
-        Me.SaveAsMenu.ImageIndex = 8
-        Me.SaveAsMenu.Text = "Save &As file ..."
-        '
-        'RecentSimulationsMenu
-        '
-        Me.RecentSimulationsMenu.ImageIndex = 14
-        Me.RecentSimulationsMenu.Text = "Recent Simulations"
-        '
-        'ExitMenu
-        '
-        Me.ExitMenu.ImageIndex = 15
-        Me.ExitMenu.Text = "E&xit"
-        '
-        'SaveSmallButton
-        '
-        Me.SaveSmallButton.ImageIndex = 7
-        Me.SaveSmallButton.ToolTipText = "Save current file"
-        '
-        'CutSmallButton
-        '
-        Me.CutSmallButton.ImageIndex = 9
-        Me.CutSmallButton.ToolTipText = "Cut the selected items to the clipboard"
-        '
-        'CopySmallButton
-        '
-        Me.CopySmallButton.ImageIndex = 10
-        Me.CopySmallButton.ToolTipText = "Copy the selected items to the clipboard"
-        '
-        'PasteSmallButton
-        '
-        Me.PasteSmallButton.ImageIndex = 11
-        Me.PasteSmallButton.ToolTipText = "Paste clipboard contents into file"
-        '
-        'SimulationButton
-        '
-        Me.SimulationButton.Tag = "down"
-        Me.SimulationButton.Text = "&Simulation"
-        Me.SimulationButton.TextWidth = 70
-        '
-        'ToolboxButton
-        '
-        Me.ToolboxButton.Tag = "up"
-        Me.ToolboxButton.Text = "&Toolboxes"
-        Me.ToolboxButton.TextWidth = 70
-        '
-        'SmallImages
-        '
-        Me.SmallImages.ImageSize = New System.Drawing.Size(16, 16)
-        Me.SmallImages.ImageStream = CType(resources.GetObject("SmallImages.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.SmallImages.TransparentColor = System.Drawing.Color.Transparent
+        Me.ExcelButton.Image = Global.APSIMUI.My.Resources.Resources.excel
+        Me.ExcelButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.ExcelButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ExcelButton.Name = "ExcelButton"
+        Me.ExcelButton.Size = New System.Drawing.Size(41, 44)
+        Me.ExcelButton.Text = "E&xcel"
+        Me.ExcelButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'MainUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-        Me.ClientSize = New System.Drawing.Size(632, 546)
-        Me.Controls.Add(Me.ToolBoxSplitter)
-        Me.Controls.Add(Me.ToolBoxPanel)
-        Me.Controls.Add(Me.ToolboxesToolbarPanel)
-        Me.Controls.Add(Me.SimulationToolBarPanel)
-        Me.Controls.Add(Me.MainToolBar)
+        Me.ClientSize = New System.Drawing.Size(705, 546)
+        Me.Controls.Add(Me.SimulationContainer)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.Name = "MainUI"
@@ -686,12 +410,18 @@ Public Class MainUI
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.ToolBoxPanel.ResumeLayout(False)
         Me.ToolBoxToolBarPanel.ResumeLayout(False)
-        Me.SimulationToolBarPanel.ResumeLayout(False)
-        Me.SimulationPanel1.ResumeLayout(False)
-        Me.SimulationPanel2.ResumeLayout(False)
-        Me.HelpPanel.ResumeLayout(False)
-        Me.ToolboxesToolbarPanel.ResumeLayout(False)
-        Me.Panel3.ResumeLayout(False)
+        Me.ToolBoxToolBarPanel.PerformLayout()
+        Me.SimulationContainer.ContentPanel.ResumeLayout(False)
+        Me.SimulationContainer.RightToolStripPanel.ResumeLayout(False)
+        Me.SimulationContainer.RightToolStripPanel.PerformLayout()
+        Me.SimulationContainer.TopToolStripPanel.ResumeLayout(False)
+        Me.SimulationContainer.TopToolStripPanel.PerformLayout()
+        Me.SimulationContainer.ResumeLayout(False)
+        Me.SimulationContainer.PerformLayout()
+        Me.ToolBoxesToolStrip.ResumeLayout(False)
+        Me.ToolBoxesToolStrip.PerformLayout()
+        Me.SimulationToolStrip.ResumeLayout(False)
+        Me.SimulationToolStrip.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -710,16 +440,13 @@ Public Class MainUI
         AddHandler ApsimUI.DataChangedEvent, AddressOf SetFunctionality
         AddHandler ApsimUI.AddEvent, AddressOf OnAddEvent
         AddHandler ApsimUI.RenameEvent, AddressOf OnAddEvent
-        AddHandler ToolboxesToolBarHelp.ButtonClick, AddressOf ToolBar_ButtonClick
-
 
         ' Show the Simulation Explorer.
         SimulationExplorer = New ExplorerUI(Me, ApsimUI)
         SimulationExplorer.Dock = DockStyle.Fill
-        SimulationExplorer.Parent = Me
+        SimulationExplorer.Parent = SimulationContainer.ContentPanel
         SimulationExplorer.Visible = True
         SimulationExplorer.BringToFront()
-
         SimulationExplorer.ShowUI(New APSIMData("startup", ""))
 
         ' Setup but don't show the Toolbox Explorer.
@@ -733,7 +460,7 @@ Public Class MainUI
         ToolboxExplorer.Parent = ToolBoxPanel
         ToolboxExplorer.Visible = True
         ToolboxExplorer.BringToFront()
-        ToolBoxSplitter.BringToFront()
+        ToolboxSplitter.BringToFront()
 
         ' Load a default file if one was specified on the command line.
         Dim separators As String = " "
@@ -753,13 +480,11 @@ Public Class MainUI
         End If
 
         CreateRecentFileListMenu()
-
-        ConstructToolBoxToolBar()
+        PopulateToolBoxStrip()
         SetFunctionality()
     End Sub
 
 #End Region
-
 #Region "Application level methods"
 
     Private Sub OnNewDataEvent()
@@ -784,22 +509,18 @@ Public Class MainUI
         Dim FileNames() As String = ApsimUI.GetFrequentList()
 
         For Each str As String In FileNames
-            Dim newItem As New Xceed.SmartUI.Controls.MenuBar.MenuItem(str)
-            newItem.ImageIndex = Me.RecentSimulationsMenu.ImageIndex
-
-            AddHandler newItem.Click, AddressOf OpenSimulation
-
-            Me.RecentSimulationsMenu.Items.Add(newItem)
-
+            Dim NewItem As New System.Windows.Forms.ToolStripMenuItem
+            NewItem.Text = str
+            AddHandler NewItem.Click, AddressOf OpenSimulation
+            OpenButton.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {NewItem})
         Next
 
     End Sub
 
-    Private Sub OpenSimulation(ByVal sender As Object, ByVal e As Xceed.SmartUI.SmartItemClickEventArgs)
+    Private Sub OpenSimulation(ByVal sender As Object, ByVal e As EventArgs)
         'Open the simulation provided by the recent simulations menu item
-
-        ApsimUI.FileOpen(e.Item.Text)
-
+        Dim MenuItem As ToolStripMenuItem = sender
+        ApsimUI.FileOpen(MenuItem.Text)
     End Sub
 
 
@@ -810,16 +531,16 @@ Public Class MainUI
         ' consistant state.
         Dim SomethingInTree As Boolean = Not IsNothing(ApsimUI.AllData) AndAlso ApsimUI.AllData.ChildList.Count > 0
 
-        CutSmallButton.Enabled = ApsimUI.AllowCut
-        CopySmallButton.Enabled = ApsimUI.AllowCopy
-        PasteSmallButton.Enabled = ApsimUI.AllowPaste
+        CutButton.Enabled = ApsimUI.AllowCut
+        CopyButton.Enabled = ApsimUI.AllowCopy
+        PasteButton.Enabled = ApsimUI.AllowPaste
 
         RunButton.Enabled = SomethingInTree
 
         GraphButton.Enabled = SomethingInTree
         ApsimOutlookButton.Enabled = SomethingInTree
 
-        Me.ExcelToolBarButton.Enabled = SomethingInTree
+        Me.ExcelButton.Enabled = SomethingInTree
 
     End Sub
 
@@ -842,215 +563,109 @@ Public Class MainUI
             End If
         End If
     End Sub
-
-    Private Sub ToolBar_ButtonClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolBarButtonClickEventArgs) Handles SimulationToolBar1.ButtonClick, SimulationToolBar2.ButtonClick, HelpToolBar.ButtonClick, ToolBoxToolBar.ButtonClick
-        'Catch which button on the toolboar the user clicked.
-        'Please Note: To catch user defined toolbox button events its code is in the 'else'
-        'section of the parent 'if' statement.  an 'exit sub' statement must be added to all
-        'preceeding if statements.
-
-        'Run button
-        If e.Button Is RunButton Then
-            Try
-                RunSimulations()
-            Catch fnf As System.IO.FileNotFoundException
-                MessageBox.Show(fnf.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-
-            End Try
-
-            'APSIM Help Button
-        ElseIf e.Button Is ApsimHelpButton Or e.Button Is ToolboxesToolbarHelpButton Then
-            Dim HelpURL As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "docfile")
-            ApsimUI.ShowHelp(HelpURL)
-
-        ElseIf e.Button Is ManageToolBoxesButton Then
-            Dim Form As New OptionsForm
-            Form.ShowDialog(Me)
-            ConstructToolBoxToolBar()
-
-            'The Output File Export buttons (Excel, Graph and APSIM Outlook)
-        ElseIf e.Button Is ExcelToolBarButton Or _
-                            e.Button Is GraphButton Or _
-                            e.Button Is ApsimOutlookButton Then
-
-            Dim arrFiles As StringCollection = GetAllOutputFiles(ApsimUI.AllData)
-
-
-            'Only show export screen if more than one output file
-            If arrFiles.Count > 1 Then
-                Dim frmOutput As New OutputFileExport(arrFiles)
-
-                ' Quit routine if user chose "Cancel" or did not select any output files from the dialog
-                ' box list
-                If frmOutput.ShowDialog(Me) = DialogResult.Cancel Or frmOutput.SelectedOutputFiles.Count <= 0 Then
-                    Exit Sub
-
-                End If
-
-                arrFiles = frmOutput.SelectedOutputFiles
-
-            End If
-
-            Dim OutputFileList As String = ComposeOutputFileCommandLineArgs(arrFiles)
-
-            Select Case e.Button.Text
-
-                Case ExcelToolBarButton.Text
-                    Me.excelFiles(OutputFileList)
-
-                Case GraphButton.Text
-                    Me.apsvisFiles(OutputFileList)
-
-                Case Me.ApsimOutlookButton.Text
-                    Me.apsimoutlookFiles(OutputFileList)
-
-            End Select
-
-            ' User has selected a user defined toolbox button on the toolboxes toolbar (read it again slowly :-)
-        ElseIf e.Button.Tag = "User Defined" Then
-            ShowToolBoxWindow(e.Button.Text)
-
+#End Region
+#Region "Main button bar"
+    Private Sub OnNewFileClick(ByVal sender As Object, ByVal e As EventArgs) Handles NewButton.Click
+        Dim NewData As APSIMData = ApsimUI.LetUserSelectNewDocument()
+        If Not IsNothing(NewData) Then
+            ApsimUI.FileNew(NewData)
         End If
-
     End Sub
 
+    Private Sub OnOpenFileClick(ByVal sender As Object, ByVal e As EventArgs) Handles OpenButton.Click
+        ApsimUI.FileOpen()
+    End Sub
 
-    Private Function ComposeOutputFileCommandLineArgs(ByVal OutputFiles As System.Collections.Specialized.StringCollection) As String
-        'formats a collection of output file paths into a single comma delimited string
+    Private Sub OnSaveFileClick(ByVal sender As Object, ByVal e As EventArgs) Handles SaveButton.Click
+        ApsimUI.FileSave()
+    End Sub
 
-        Dim returnString As String
+    Private Sub OnSaveAsClick(ByVal sender As Object, ByVal e As EventArgs) Handles SaveAsButton.Click
+        ApsimUI.FileSaveAs()
+    End Sub
 
-        For Each str As String In OutputFiles
-            returnString += "," & str
+    Private Sub ONCutClick(ByVal sender As Object, ByVal e As EventArgs) Handles CutButton.Click
+        ApsimUI.Cut()
+    End Sub
 
-        Next
+    Private Sub OnCopyClick(ByVal sender As Object, ByVal e As EventArgs) Handles CopyButton.Click
+        ApsimUI.Copy()
+    End Sub
 
-        Return returnString.Remove(0, 1)
+    Private Sub OnPasteClick(ByVal sender As Object, ByVal e As EventArgs) Handles PasteButton.Click
+        ApsimUI.Paste()
+    End Sub
 
-    End Function
-#End Region
+    Private Sub OnHelpClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HelpContentsButton.Click
+        Dim HelpURL As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "docfile")
+        ApsimUI.ShowHelp(HelpURL)
+    End Sub
 
-#Region "Toolbox methods"
-
-    Private Sub ConstructToolBoxToolBar()
-        'Create a toolbar button for each toolbox.
-
-        'Remove user defined buttons first
-        For Each button As Windows.Forms.ToolBarButton In GetUserDefinedButtons(Me.ToolBoxToolBar.Buttons)
-            Me.ToolBoxToolBar.Buttons.Remove(button)
-
-        Next
-
-        'then reset the list of user defined toolboxes.
+    Private Sub OnRunClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RunButton.Click
+        ' ---------------------------------------------------------------
+        ' Go run APSIM.
+        ' ---------------------------------------------------------------
         Try
-            Dim toolboxes As New Toolboxes
-
-            ' Loop through each of the known toolboxes
-            For Each FileName As String In toolboxes.Names
-                Dim apsimData As New VBGeneral.APSIMData
-                Dim toolBoxPath As String = toolboxes.NameToFileName(FileName)
-
-                apsimData.LoadFromFile(toolBoxPath)
-
-                ' Get the image attribute from the root node of the loaded xml file
-                Dim image As String = apsimData.Attribute("image")
-
-                If image.IndexOf(":") = -1 Then
-                    image = APSIMSettings.ApsimDirectory() + "\ApsimUI\" + image
-                End If
-                Dim item As New Windows.Forms.ToolBarButton(FileName)
-                item.Tag = "User Defined"
-
-                ' If a predefined image has been given then attempt to add it.  
-                If System.IO.File.Exists(image) Then
-                    Me.ToolBoxToolBar.ImageList.Images.Add( _
-                        New System.Drawing.Bitmap(image))
-
-                    item.ImageIndex = Me.ToolBoxToolBar.ImageList.Images.Count() - 1
-
-                    'Otherwise use the default image in the images directory under the APSIMUI root.
-                Else
-                    Dim alternateImage As String = APSIMSettings.ApsimDirectory() + "\ApsimUI\Images\toolbox.png"
-
-                    If System.IO.File.Exists(alternateImage) Then
-                        Me.ToolBoxToolBar.ImageList.Images.Add(New System.Drawing.Bitmap(alternateImage))
-                        item.ImageIndex = Me.ToolBoxToolBar.ImageList.Images.Count() - 1
-                    End If
-
-                End If
-
-                Me.ToolBoxToolBar.Buttons.Add(item)
-
-            Next
-
-        Catch e As System.Exception
-            MsgBox(e.Message, MsgBoxStyle.Critical, "Error building tool box menus")
+            RunSimulations()
+        Catch fnf As System.IO.FileNotFoundException
+            MessageBox.Show(fnf.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
-
     End Sub
 
-    Private Function GetUserDefinedButtons(ByVal buttonArray As Windows.Forms.ToolBar.ToolBarButtonCollection) As _
-                            System.Collections.ArrayList
-        'Iterates through given button array finding those with the tag of "User Defined"
+    Private Sub OnGraphClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GraphButton.Click
+        ' ---------------------------------------------------------------
+        ' Send output files to APSVis
+        ' ---------------------------------------------------------------
+        apsvisFiles(GetCSVListOfOutputFiles())
+    End Sub
 
-        Dim userDefinedButtons As New System.Collections.ArrayList
+    Private Sub OnApsimOutlookClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ApsimOutlookButton.Click
+        ' ---------------------------------------------------------------
+        ' Send output files to ApsimOutlook
+        ' ---------------------------------------------------------------
+        apsimoutlookFiles(GetCSVListOfOutputFiles())
+    End Sub
 
-        For Each button As Windows.Forms.ToolBarButton In buttonArray
-            If button.Tag = "User Defined" Then userDefinedButtons.Add(button)
+    Private Sub OnExcelClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExcelButton.Click
+        ' ---------------------------------------------------------------
+        ' Send output files to Excel
+        ' ---------------------------------------------------------------
+        excelFiles(GetCSVListOfOutputFiles())
+    End Sub
 
-        Next
+    Private Function GetCSVListOfOutputFiles() As String
+        ' ---------------------------------------------------------------
+        ' Return to caller a list of all output files that the user has 
+        ' selected to export. Returns "" if user hits cancel.
+        ' ---------------------------------------------------------------
+        Dim OutputFiles As StringCollection = ApsimUI.GetOutputFilesUnder(ApsimUI.AllData)
 
-        Return userDefinedButtons
-
+        'Only show export screen if more than one output file
+        If OutputFiles.Count = 1 Then
+            Return OutputFiles(0)
+        Else
+            Dim ExportForm As New OutputFileExport(OutputFiles)
+            If ExportForm.ShowDialog() = Windows.Forms.DialogResult.Cancel Then
+                Return ""
+            Else
+                Dim ReturnString As String = ""
+                For Each St As String In ExportForm.SelectedOutputFiles
+                    ReturnString += "," & St
+                Next
+                Return ReturnString
+            End If
+        End If
     End Function
-    Private Sub ShowToolBoxWindow(ByVal ToolBoxName As String)
-        'Display the given ToolBoxName in the toolbox panel at
 
-        Dim inifile As New APSIMSettings
-        ToolBoxPanel.Height = Val(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "toolboxheight"))
-        ToolBoxPanel.Height = ToolBoxPanel.Height - 1
-        ToolBoxPanel.Height = ToolBoxPanel.Height + 1
-
-        ToolBoxSplitter.Visible = True
-        ToolBoxPanel.Visible = True
-        Me.ToolBoxSplitterPoint = ToolBoxSplitter.SplitPosition
-
-        Dim toolboxes As New Toolboxes
-        Dim filename As String = toolboxes.NameToFileName(ToolBoxName)
-        ToolboxExplorer.ExpandAll = False
-        Toolbox.FileOpen(filename)
-    End Sub
-
-    Private Sub HideToolBoxWindow()
-
-        If Toolbox.AllowFileSave Then
-            Toolbox.FileSave()
-        End If
-
-        ToolBoxPanel.Visible = False
-        ToolBoxSplitter.Visible = ToolBoxPanel.Visible
-    End Sub
-
-    Private Sub OnToolBoxClick(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        ShowToolBoxWindow(sender.text)
-    End Sub
-
-    Private Sub ToolBoxSplitter_LocationChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolBoxSplitter.LocationChanged
-        If ToolBoxPanel.Visible Then
-            Dim inifile As New APSIMSettings
-            APSIMSettings.INIWrite(APSIMSettings.ApsimIniFile(), "apsimui", "toolboxheight", Str(ToolBoxPanel.Height))
-        End If
-    End Sub
-
-#End Region
-#Region "Run simulation"
     Private Sub RunSimulations()
-        ' Do a save.
+        ' ---------------------------------------------------------------
+        ' Save the simulation and then do an APSIM run.
+        ' ---------------------------------------------------------------
         If ApsimUI.FileSave() Then
             ' kill old apsim processes
             Dim AllProcesses As Process() = Process.GetProcesses()
             For Each proc As Process In AllProcesses
-                If Path.GetFileName(proc.ProcessName) = "apsim" Then
+                If Path.GetFileName(proc.ProcessName) = "apsrun" Then
                     proc.Kill()
                 End If
             Next
@@ -1063,171 +678,125 @@ Public Class MainUI
             Else
                 Throw New System.IO.FileNotFoundException("The file '" & ApsRunFileName & "' could not be found.")
             End If
-
-
         End If
     End Sub
-#End Region
-#Region "Graphing methods"
-
-    'return a StringCollection of all the output files currently in APSIM Project
-    Private Function GetAllOutputFiles(ByVal Data As APSIMData) As StringCollection
-
-        Dim OutputFileCollection As New StringCollection
-
-        'loop through each node in the tree
-        For Each Child As APSIMData In Data.Children
-
-            ' If child node is an "area", "simulation" or "simulations" then node is not a leaf
-            ' and a recursive call is made
-            If Child.Type.ToLower() = "area" Or Child.Type.ToLower() = "simulation" Or Child.Type.ToLower() = "simulations" Then
-
-                'On a recursive call, repopulate the string collection object with those
-                'output file paths already found.
-                For Each str As String In GetAllOutputFiles(Child)   ' recursion
-                    OutputFileCollection.Add(str)
-
-                Next
-
-
-                ' If leaf is an "Outputfile" type then check its path, making it absolute if neccesary
-                ' adding it to the string collection object
-            ElseIf Child.Type.ToLower() = "outputfile" Then
-                Dim FullFileName As String = Child.ChildValue("filename")
-
-                If ApsimUI.FileName <> "" Then
-                    FullFileName = Path.Combine(Path.GetDirectoryName(ApsimUI.FileName), FullFileName)
-
-                End If
-
-                OutputFileCollection.Add(FullFileName)
-
-            End If
-
-        Next
-
-        Return OutputFileCollection
-
-    End Function
 
 #End Region
-#Region "Top level menu bar"
-    Private Sub MainButtonClick(ByVal sender As Object, ByVal e As Xceed.SmartUI.SmartItemClickEventArgs) Handles SimulationButton.Click, ToolboxButton.Click
-        ' User has clicked a top level menu button
+#Region "Toolbox button bar"
 
-        For Each Item As SmartItem In MainToolBar.Items
-            If Not Item Is e.Item AndAlso Not Item.Tag Is Nothing AndAlso Item.Tag.ToString() <> "up" Then
-                Item.Tag = "up"
-                Item.Refresh()
-            End If
-        Next
-
-        e.Item.Tag = "down"
-
-        SimulationToolBarPanel.Visible = SimulationButton.Tag.ToString() = "down"
-        ToolboxesToolbarPanel.Visible = ToolboxButton.Tag.ToString() = "down"
-
+    Private Sub ManageToolboxesButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ManageToolboxesButton.Click
+        ' ---------------------------------------------------------------
+        ' User wants to manage toolboxes.
+        ' ---------------------------------------------------------------
+        Dim Form As New OptionsForm
+        Form.ShowDialog(Me)
+        PopulateToolBoxStrip()
     End Sub
 
-    Private Sub MainButtonPaint(ByVal sender As Object, ByVal e As Xceed.SmartUI.SmartItemPaintEventArgs) Handles SimulationButton.Paint, ToolboxButton.Paint
+    Private Sub PopulateToolBoxStrip()
+        ' ---------------------------------------------------------------
+        ' Populate the toolbox strip with buttons for each toolbox.
+        ' ---------------------------------------------------------------
 
-        If e.Item.Tag.ToString() = "down" Then
-            e.SmartPaint.DrawThemePart(Xceed.SmartUI.UIStyle.ThemePart.ToolDown, e.Bounds)
+        'Remove existing buttons first.
+        Dim NumButtons As Integer = ToolBoxesToolStrip.Items.Count
+        For I As Integer = 2 To NumButtons - 1
+            Dim Button As ToolStripButton = ToolBoxesToolStrip.Items(2)
+            ToolBoxesToolStrip.Items.Remove(Button)
+        Next
+
+        Dim toolboxes As New Toolboxes
+
+        ' Loop through each of the known toolboxes
+        For Each FileName As String In toolboxes.Names
+            Dim apsimData As New VBGeneral.APSIMData
+            Dim toolBoxPath As String = toolboxes.NameToFileName(FileName)
+
+            apsimData.LoadFromFile(toolBoxPath)
+
+            ' Get the image attribute from the root node of the loaded xml file
+            Dim ImageFileName As String = apsimData.Attribute("image")
+
+            If ImageFileName.IndexOf(":") = -1 Then
+                ImageFileName = APSIMSettings.ApsimDirectory() + "\ApsimUI\" + ImageFileName
+            End If
+
+            ' If a predefined image has been given then attempt to add it.  
+            If Not System.IO.File.Exists(ImageFileName) Then
+                ImageFileName = APSIMSettings.ApsimDirectory() + "\ApsimUI\Images\toolbox.png"
+            End If
+
+            Dim NewItem As New ToolStripButton(FileName, New System.Drawing.Bitmap(ImageFileName))
+            NewItem.TextImageRelation = TextImageRelation.ImageAboveText
+            NewItem.ImageScaling = ToolStripItemImageScaling.None
+            NewItem.CheckOnClick = True
+            AddHandler NewItem.Click, AddressOf OnToolBoxClick
+            ToolBoxesToolStrip.Items.Add(NewItem)
+        Next
+    End Sub
+
+    Private Sub OnToolBoxClick(ByVal Sender As Object, ByVal e As System.EventArgs)
+        ' ---------------------------------------------------------------
+        ' Display the given ToolBoxName in the toolbox panel at
+        ' ---------------------------------------------------------------
+        Dim ButtonThatWasClicked As ToolStripButton = Sender
+        If Not ButtonThatWasClicked.Checked Then
+            HideToolBoxWindow(ButtonThatWasClicked, e)
         Else
-            e.SmartPaint.FillRectangle(e.Item.ParentSmartControl.BackColor, e.Bounds)
+            ' Turn off the checked status of all toolbox buttons - except the one
+            ' that was just clicked.
+            For i As Integer = 2 To ToolBoxesToolStrip.Items.Count - 1
+                Dim Button As ToolStripButton = ToolBoxesToolStrip.Items(i)
+                If Not Button Is ButtonThatWasClicked Then
+                    Button.Checked = False
+                End If
+            Next
+
+            Dim inifile As New APSIMSettings
+            ToolBoxPanel.Height = Val(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "toolboxheight"))
+            ToolBoxPanel.Height = ToolBoxPanel.Height - 1
+            ToolBoxPanel.Height = ToolBoxPanel.Height + 1
+
+            ToolboxSplitter.Visible = True
+            ToolBoxPanel.Visible = True
+            Me.ToolBoxSplitterPoint = ToolboxSplitter.SplitPosition
+
+            Dim toolboxes As New Toolboxes
+            Dim filename As String = toolboxes.NameToFileName(Sender.ToString)
+            ToolboxExplorer.ExpandAll = False
+            Toolbox.FileOpen(filename)
         End If
-        e.SmartPaint.DrawString(e.Item.Text, ContentAlignment.MiddleCenter)
     End Sub
 
-    Private Sub NewFileMenu_Click(ByVal sender As Object, ByVal e As Xceed.SmartUI.SmartItemClickEventArgs) Handles NewFileMenu.Click
-        Dim NewData As APSIMData = ApsimUI.LetUserSelectNewDocument()
-        If Not IsNothing(NewData) Then
-            ApsimUI.FileNew(NewData)
+    Private Sub HideToolBoxWindow(ByVal Sender As Object, ByVal e As EventArgs) Handles ToolboxButtonClose.Click
+        ' ---------------------------------------------------------------
+        ' Hide the toolbox window.
+        ' ---------------------------------------------------------------
+
+        ' Turn off the checked status of all toolbox buttons.
+        For i As Integer = 2 To ToolBoxesToolStrip.Items.Count - 1
+            Dim Button As ToolStripButton = ToolBoxesToolStrip.Items(i)
+            Button.Checked = False
+        Next
+
+        If Toolbox.AllowFileSave Then
+            Toolbox.FileSave()
+        End If
+
+        ToolBoxPanel.Visible = False
+        ToolboxSplitter.Visible = ToolBoxPanel.Visible
+    End Sub
+
+    Private Sub ToolBoxSplitter_LocationChanged(ByVal sender As Object, ByVal e As SplitterEventArgs) Handles ToolboxSplitter.SplitterMoved
+        ' ---------------------------------------------------------------
+        ' Whenever the user moves the toolbox splitter, save the position
+        ' ---------------------------------------------------------------
+        If ToolBoxPanel.Visible Then
+            Dim inifile As New APSIMSettings
+            APSIMSettings.INIWrite(APSIMSettings.ApsimIniFile(), "apsimui", "toolboxheight", Str(ToolBoxPanel.Height))
         End If
     End Sub
 
-    Private Sub OpenFileMenu_Click(ByVal sender As Object, ByVal e As Xceed.SmartUI.SmartItemClickEventArgs) Handles OpenFileMenu.Click
-        ApsimUI.FileOpen()
-    End Sub
-
-    Private Sub SaveFileMenu_Click(ByVal sender As Object, ByVal e As Xceed.SmartUI.SmartItemClickEventArgs) Handles SaveFileMenu.Click
-        ApsimUI.FileSave()
-    End Sub
-
-    Private Sub SaveAsMenu_Click(ByVal sender As Object, ByVal e As Xceed.SmartUI.SmartItemClickEventArgs) Handles SaveAsMenu.Click
-        ApsimUI.FileSaveAs()
-    End Sub
-
-    Private Sub ExitMenu_Click(ByVal sender As Object, ByVal e As Xceed.SmartUI.SmartItemClickEventArgs) Handles ExitMenu.Click
-        Close()
-    End Sub
-    Private Sub SaveSmallButton_Click(ByVal sender As Object, ByVal e As Xceed.SmartUI.SmartItemClickEventArgs) Handles SaveSmallButton.Click
-        ApsimUI.FileSave()
-    End Sub
-    Private Sub CutSmallButton_Click(ByVal sender As Object, ByVal e As Xceed.SmartUI.SmartItemClickEventArgs) Handles CutSmallButton.Click
-        ApsimUI.Cut()
-    End Sub
-
-    Private Sub CopySmallButton_Click(ByVal sender As Object, ByVal e As Xceed.SmartUI.SmartItemClickEventArgs) Handles CopySmallButton.Click
-        ApsimUI.Copy()
-    End Sub
-
-    Private Sub PasteSmallButton_Click(ByVal sender As Object, ByVal e As Xceed.SmartUI.SmartItemClickEventArgs) Handles PasteSmallButton.Click
-        ApsimUI.Paste()
-    End Sub
 #End Region
-
-    Protected Overrides Function ProcessDialogKey(ByVal keyData As System.Windows.Forms.Keys) As Boolean
-        Dim Button As ToolBarButton = ApsimUI.ProcessDialogKey(Me, keyData)
-        If Not Button Is Nothing Then
-            ToolBar_ButtonClick(Nothing, New ToolBarButtonClickEventArgs(Button))
-            Return True
-        End If
-    End Function
-
-    Private Sub FileExportExcelMenu_Click(ByVal sender As System.Object, ByVal e As Xceed.SmartUI.SmartItemClickEventArgs)
-        Dim clickEvent As New System.Windows.Forms.ToolBarButtonClickEventArgs(Me.ExcelToolBarButton)
-        Me.ToolBar_ButtonClick(Me.ExcelToolBarButton, clickEvent)
-
-    End Sub
-
-    Private Sub btnClose_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles btnClose.Paint
-        ControlPaint.DrawBorder(e.Graphics, e.ClipRectangle, Me.ToolboxesToolbarPanel.BackColor, ButtonBorderStyle.Solid)
-    End Sub
-
-    Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
-        HideToolBoxWindow()
-    End Sub
-
-    Private Sub btnMaximise_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles btnMaximise.Paint
-        ControlPaint.DrawBorder(e.Graphics, e.ClipRectangle, Me.ToolboxesToolbarPanel.BackColor, ButtonBorderStyle.Solid)
-    End Sub
-
-    Private Sub btnMaximise_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMaximise.Click
-
-        Me.ToolBoxSplitterPoint = Me.ToolBoxSplitter.SplitPosition
-        Me.ToolBoxSplitter.SplitPosition = _
-            Me.ToolBoxToolBarPanel.Top + Me.ToolBoxToolBarPanel.Width + Me.ToolBoxSplitter.MinSize
-        Me.btnMaximise.Visible = False
-        Me.btnRestore.Visible = True
-
-    End Sub
-
-    Private Sub btnRestore_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles btnRestore.Paint
-        ControlPaint.DrawBorder(e.Graphics, e.ClipRectangle, Me.ToolboxesToolbarPanel.BackColor, ButtonBorderStyle.Solid)
-    End Sub
-
-    Private Sub btnRestore_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnRestore.Click
-
-        If Me.ToolBoxSplitter.SplitPosition = Me.ToolBoxSplitterPoint Then
-            Me.ToolBoxSplitterPoint = Me.ToolBoxSplitter.SplitPosition - 10
-
-        End If
-
-        Me.ToolBoxSplitter.SplitPosition = Me.ToolBoxSplitterPoint
-        Me.ToolBoxSplitterPoint = -1
-        Me.btnMaximise.Visible = True
-        Me.btnRestore.Visible = False
-    End Sub
 
 End Class

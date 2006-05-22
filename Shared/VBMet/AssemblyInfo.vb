@@ -8,11 +8,11 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("")> 
+<Assembly: AssemblyTitle("VBMet")> 
 <Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("")> 
-<Assembly: AssemblyCopyright("")> 
+<Assembly: AssemblyCompany("APSRU")> 
+<Assembly: AssemblyProduct("VBMet")> 
+<Assembly: AssemblyCopyright("Copyright © APSRU 2006")> 
 <Assembly: AssemblyTrademark("")> 
 <Assembly: CLSCompliant(True)> 
 
@@ -29,4 +29,7 @@ Imports System.Runtime.InteropServices
 ' You can specify all the values or you can default the Build and Revision Numbers 
 ' by using the '*' as shown below:
 
-<Assembly: AssemblyVersion("2.0")> 
+<Assembly: AssemblyVersion("3.0")> 
+
+<Assembly: AssemblyFileVersionAttribute("3.0")> 
+<Assembly: ComVisibleAttribute(False)> 

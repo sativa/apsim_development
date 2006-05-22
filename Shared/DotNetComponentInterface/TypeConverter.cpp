@@ -12,7 +12,7 @@ void ConvertArray(ApsimArray<InternalT1, ExternalT1>& SourceData, ApsimArray<Int
 	
 	}
 
-void TypeConverter::unpack(Message& message, const string& SourceDDML, IData* DestData)
+void ComponentInterface::TypeConverter::unpack(Message& message, const string& SourceDDML, IData* DestData)
 	{
 	bool SourceIsArray, DestIsArray;
 	string SourceKind, DestKind;
@@ -33,7 +33,7 @@ void TypeConverter::unpack(Message& message, const string& SourceDDML, IData* De
 		else if (SourceKind == "double")
 			DestData->SetValue(&ApsimArray<ApsimDouble, Double>(message));
 		else if (SourceKind == "string")
-			DestData->SetValue(&ApsimArray<ApsimString, String*>(message));
+			DestData->SetValue(&ApsimArray<ApsimString, String^>(message));
 		else if (SourceKind == "boolean")
 			DestData->SetValue(&ApsimArray<ApsimBoolean, Boolean>(message));
 		else 
@@ -44,20 +44,20 @@ void TypeConverter::unpack(Message& message, const string& SourceDDML, IData* De
 		if (SourceIsArray)
 			ThrowConvertError(SourceKind, SourceIsArray, DestKind, DestIsArray);
 		else if (SourceKind == "integer4")
-			DestData->SetValue(__box(ApsimInteger4(message).value()));
+			DestData->SetValue(ApsimInteger4(message).value());
 		else if (SourceKind == "single")
-			DestData->SetValue(__box(ApsimSingle(message).value()));
+			DestData->SetValue(ApsimSingle(message).value());
 		else if (SourceKind == "double")
-			DestData->SetValue(__box(ApsimDouble(message).value()));
+			DestData->SetValue(ApsimDouble(message).value());
 		else if (SourceKind == "string")
-			DestData->SetValue(new String(ApsimString(message).value()));
+			DestData->SetValue(gcnew String(ApsimString(message).value()));
 		else if (SourceKind == "boolean")
-			DestData->SetValue(__box(ApsimBoolean(message).value()));
+			DestData->SetValue(ApsimBoolean(message).value());
 		}
 	}
 	
 
-void TypeConverter::GetKindAndArray(const std::string& DataType, 
+void ComponentInterface::TypeConverter::GetKindAndArray(const std::string& DataType, 
 									std::string& Kind, bool& IsArray)
 	{	
 	IsArray = (DataType.find("array=\"T\"") != string::npos);
@@ -69,13 +69,13 @@ void TypeConverter::GetKindAndArray(const std::string& DataType,
 		if (PosQuote == string::npos)
 			{
 			string msg = "Invalid data type string: " + DataType;
-			throw new Exception(msg.c_str());
+			throw gcnew Exception(gcnew String(msg.c_str()));
 			}
 		Kind.erase(PosQuote);
 		}
 	}
 	
-void TypeConverter::ThrowConvertError(const std::string& SourceKind, bool SourceIsArray, 
+void ComponentInterface::TypeConverter::ThrowConvertError(const std::string& SourceKind, bool SourceIsArray, 
 										const std::string& DestKind, bool DestIsArray)
 	{
 	string SourceType = SourceKind;
@@ -86,7 +86,7 @@ void TypeConverter::ThrowConvertError(const std::string& SourceKind, bool Source
 		DestType += " array";
 		
 	string msg = "Cannot convert from: " + SourceType + " to: " + DestType;
-	throw new Exception(msg.c_str());
+	throw gcnew Exception(gcnew String(msg.c_str()));
 	
 	}
 										

@@ -16,12 +16,12 @@ class ApsimInteger4 : public IData
 	public:
 		ApsimInteger4() : Data(0) { }
 		ApsimInteger4(int value) : Data(value) { }
-		ApsimInteger4(Int32* value) : Data(*value) { }
-		ApsimInteger4(Object* value) {Data = Convert::ToInt32(value);}
+		ApsimInteger4(Int32^ value) : Data(*value) { }
+		ApsimInteger4(Object^ value) {Data = Convert::ToInt32(value);}
 		ApsimInteger4(Message& message) {unpack(message);}
 		int value() {return Data;}
-		Object* AsObject() {return __box(Data);}
-		void SetValue(gcroot<Object*> Value) {Data = Convert::ToInt32(Value);}
+		Object^ AsObject() {return Data;}
+		void SetValue(gcroot<Object^> Value) {Data = Convert::ToInt32(Value);}
 		void pack(Message& message) 
 			{
 			*(int*)message.dataStream() = Data; 
@@ -48,14 +48,16 @@ class ApsimString : public IData
 	public:
 		ApsimString() { }
 		ApsimString(const std::string& st) : Data(st) { }
-		ApsimString(String* v) {Data = stringToStdString(v);}
-		ApsimString(Object* v) {Data = stringToStdString(dynamic_cast<String*> (v));}
+		ApsimString(String^ v) {Data = stringToStdString(v);}
+		ApsimString(Object^ v) {Data = stringToStdString(dynamic_cast<String^> (v));}
 		ApsimString(Message& message) {unpack(message);}
 		
-		const char* value() {return Data.c_str();}
-		Object* AsObject() {return new String(Data.c_str());}
-		void SetValue(gcroot<Object*> Value) {Data = stringToStdString(Convert::ToString(Value));}
+		String^ value() {return gcnew String(Data.c_str());}
+		const char* CValue() {return Data.c_str();}
+		Object^ AsObject() {return gcnew String(Data.c_str());}
+		void SetValue(gcroot<Object^> Value) {Data = stringToStdString(Convert::ToString(Value));}
 		
+		#pragma warning(disable : 4996)
 		void pack(Message& message) 
 			{
 			ApsimInteger4(Data.length()).pack(message);
@@ -89,14 +91,14 @@ class ApsimSingle : public IData
 	public:
 		ApsimSingle() : Data(0) { }
 		ApsimSingle(float value) : Data(value) { }
-		ApsimSingle(Single* value) : Data(*value) { }
-		ApsimSingle(Object* value) {Data = Convert::ToSingle(value);}
+		ApsimSingle(Single^ value) : Data(*value) { }
+		ApsimSingle(Object^ value) {Data = Convert::ToSingle(value);}
 		ApsimSingle(Message& message) {unpack(message);}
 		
 		float value() {return Data;}
-		Object* AsObject() {return __box(Data);}
+		Object^ AsObject() {return Data;}
 
-		void SetValue(gcroot<Object*> Value) {Data = Convert::ToSingle(Value);}
+		void SetValue(gcroot<Object^> Value) {Data = Convert::ToSingle(Value);}
 		
 		
 		void pack(Message& message) 
@@ -123,13 +125,13 @@ class ApsimDouble : public IData
 	public:
 		ApsimDouble() : Data(0) { }
 		ApsimDouble(double value) : Data(value) { }
-		ApsimDouble(Double* value) : Data(*value) { }
-		ApsimDouble(Object* value){Data = Convert::ToDouble(value);}
+		ApsimDouble(Double^ value) : Data(*value) { }
+		ApsimDouble(Object^ value){Data = Convert::ToDouble(value);}
 		ApsimDouble(Message& message) {unpack(message);}
 		
 		double value() {return Data;}
-		Object* AsObject() {return __box(Data);}
-		void SetValue(gcroot<Object*> Value) {Data = Convert::ToDouble(Value);}
+		Object^ AsObject() {return Data;}
+		void SetValue(gcroot<Object^> Value) {Data = Convert::ToDouble(Value);}
 		void pack(Message& message) 
 			{
 			*(double*)message.dataStream() = Data; 
@@ -154,13 +156,13 @@ class ApsimBoolean : public IData
 	public:
 		ApsimBoolean() : Data(0) { }
 		ApsimBoolean(bool value) : Data(value) { }
-		ApsimBoolean(Boolean* value) : Data(*value) { }
-		ApsimBoolean(Object* value){Data = Convert::ToBoolean(value);}
+		ApsimBoolean(Boolean^ value) : Data(*value) { }
+		ApsimBoolean(Object^ value){Data = Convert::ToBoolean(value);}
 		ApsimBoolean(Message& message) {unpack(message);}
 		
 		bool value() {return Data;}
-		Object* AsObject() {return __box(Data);}
-		void SetValue(gcroot<Object*> Value) {Data = Convert::ToBoolean(Value);}
+		Object^ AsObject() {return Data;}
+		void SetValue(gcroot<Object^> Value) {Data = Convert::ToBoolean(Value);}
 		void pack(Message& message) 
 			{
 			*(bool*)message.dataStream() = Data; 
@@ -195,21 +197,21 @@ class ApsimArray : public IData
 			delete Data;
 			Data = new InternalT[Count];
 			for (int i = 0; i != Count; i++)
-				Data[i].SetValue((*FromData)[i]->AsObject());
+				Data[i].SetValue((*FromData)[i].AsObject());
 			}		
 	public:
 		ApsimArray() : Data(NULL) { }
 		~ApsimArray() {delete Data;}
-		ApsimArray(Object* Values)
+		ApsimArray(Object^ Values)
 			{
-			ExternalT Vals __gc[] = __try_cast<ExternalT __gc[]> (Convert::ChangeType(Values, __typeof(ExternalT __gc[])));
+			array<ExternalT>^ Vals = safe_cast<array<ExternalT> > (Convert::ChangeType(Values, array<ExternalT>::typeid));
 			Count = Vals->Length;
 			Data = new InternalT[Count];
 			for (int i = 0; i != Count; i++)
 				Data[i] = InternalT(Vals[i]);
 			
 			}
-		ApsimArray(ExternalT* Values) 
+		ApsimArray(array<ExternalT>^ Values) 
 			{ 
 			Count = Values->Length;
 			Data = new InternalT[Count];
@@ -221,22 +223,23 @@ class ApsimArray : public IData
 			unpack(message);
 			}
 			
-		ExternalT value() __gc[] 
+		array<ExternalT>^ value()
 			{
-			ExternalT Vals __gc[] = new ExternalT __gc[Count];
+			array<ExternalT>^ Vals = gcnew array<ExternalT>(Count);
 			for (int i = 0; i != Count; i++)
 				Vals[i] = Data[i].value();			
 			return Vals;
 			}
-		InternalT* operator[](int Index)
+
+		InternalT operator[](int Index)
 			{
 			if (Index >= Count)
-				throw new Exception("Invalid index found in ApsimArray");
-			return &Data[Index];
+				throw gcnew Exception("Invalid index found in ApsimArray");
+			return Data[Index].value();
 			}
 			
-		Object* AsObject() {return value();}
-		virtual void SetValue(gcroot<Object*> Value) {throw new Exception("Cannot convert an object to an array");}
+		Object^ AsObject() {return value();}
+		virtual void SetValue(gcroot<Object^> Value) {throw gcnew Exception("Cannot convert an object to an array");}
 		
 		int Length() {return Count;}
 		
@@ -244,7 +247,7 @@ class ApsimArray : public IData
 		void SetValue(ApsimArray<ApsimInteger4, Int32>* FromData) {SetValue<ApsimInteger4, Int32>(FromData);}
 		void SetValue(ApsimArray<ApsimSingle, Single>* FromData)  {SetValue<ApsimSingle, Single>(FromData);}
 		void SetValue(ApsimArray<ApsimDouble, Double>* FromData)  {SetValue<ApsimDouble, Double>(FromData);}
-		void SetValue(ApsimArray<ApsimString, String*>* FromData) {SetValue<ApsimString, String*>(FromData);}
+		void SetValue(ApsimArray<ApsimString, String^>* FromData) {SetValue<ApsimString, String^>(FromData);}
 		void SetValue(ApsimArray<ApsimBoolean, Boolean>* FromData){SetValue<ApsimBoolean, Boolean>(FromData);}
 	
 		void pack(Message& message)
@@ -276,38 +279,37 @@ class ApsimArray : public IData
 	};
 
 
-inline Object* GetValueFromMember(Reflection::PropertyInfo* Property, Object* ComponentInstance)
-	{return Property->GetValue(ComponentInstance, NULL);}
-inline Object* GetValueFromMember(Reflection::FieldInfo* Field, Object* ComponentInstance)
+inline Object^ GetValueFromMember(Reflection::PropertyInfo^ Property, Object^ ComponentInstance)
+	{return Property->GetValue(ComponentInstance, nullptr);}
+inline Object^ GetValueFromMember(Reflection::FieldInfo^ Field, Object^ ComponentInstance)
 	{return Field->GetValue(ComponentInstance);}
-inline Object* GetValueFromMember(Reflection::MethodInfo* Method, Object* ComponentInstance)
-	{throw new Exception("Cannot get a value from an event handler");}
+inline Object^ GetValueFromMember(Reflection::MethodInfo^ Method, Object^ ComponentInstance)
+	{throw gcnew Exception("Cannot get a value from an event handler");}
 	
-inline void SetValueInMember(Reflection::PropertyInfo* Property, Object* ComponentInstance, Object* Value)
-	{Property->SetValue(ComponentInstance, Value, NULL);}
-inline void SetValueInMember(Reflection::FieldInfo* Field, Object* ComponentInstance, Object* Value)
+inline void SetValueInMember(Reflection::PropertyInfo^ Property, Object^ ComponentInstance, Object^ Value)
+	{Property->SetValue(ComponentInstance, Value, nullptr);}
+inline void SetValueInMember(Reflection::FieldInfo^ Field, Object^ ComponentInstance, Object^ Value)
 	{Field->SetValue(ComponentInstance, Value);}
-inline void SetValueInMember(Reflection::MethodInfo* Method, Object* ComponentInstance, Object* Value)
+inline void SetValueInMember(Reflection::MethodInfo^ Method, Object^ ComponentInstance, Object^ Value)
 	{
-	Object* Params __gc[] = new Object*[1];
-	Params[0] = Value;
+	array<Object^>^ Params = {Value};
 	Method->Invoke(ComponentInstance, Params);
 	}
 template <class T, class IT>
 class WrapMemberInfo : public IEventData
    {
    private:
-      gcroot<IT*> Member;
-      gcroot<Object*> ComponentInstance;
+      gcroot<IT^> Member;
+      gcroot<Object^> ComponentInstance;
       T Dummy;
 	  std::string TypeString;
 	  std::string Units;
    public:
-      WrapMemberInfo(IT* member, Object* ComponentInst, const std::string& units) 
+      WrapMemberInfo(IT^ member, Object^ ComponentInst, const std::string& units) 
          : Member(member), ComponentInstance(ComponentInst), Units(units)
          { }
 
-	  void SetValue(gcroot<Object*> Value)
+	  void SetValue(Object^ Value)
 		{
 		T value;
 		value.SetValue(Value);
@@ -339,19 +341,19 @@ template <class IT>
 class WrapMethodInfo : public IEventData
    {
    private:
-      gcroot<IT*> Member;
-      gcroot<Object*> ComponentInstance;
-      gcroot<IManagedData*> Dummy;
+      gcroot<IT^> Member;
+      gcroot<Object^> ComponentInstance;
+      gcroot<IManagedData^> Dummy;
    public:
-      WrapMethodInfo(IT* member, Object* ComponentInst) 
+      WrapMethodInfo(IT^ member, Object^ ComponentInst) 
          : Member(member), ComponentInstance(ComponentInst)
          { 
-         Dummy = dynamic_cast<IManagedData*> (Activator::CreateInstance(Member->GetParameters()[0]->ParameterType));
+         Dummy = static_cast<IManagedData^> (Activator::CreateInstance(Member->GetParameters()[0]->ParameterType));
          }
             
       void pack(Message& message)
          {
-         throw new Exception("Cannot pack a method");
+         throw gcnew Exception("Cannot pack a method");
 		 }
       void unpack(Message& message)
          {
@@ -399,12 +401,12 @@ template <class InternalT, class ExternalT>
 class WrapVariableAlias : public IData
    {
    private:								 
-      ExternalT __gc& Variable  ;
+      gcroot<ExternalT> Variable  ;
       InternalT* Dummy;
 	  std::string TypeString;
 	  std::string Units;
    public:
-      WrapVariableAlias(ExternalT __gc& v, const std::string& units) : Variable(v), Units(units) 
+      WrapVariableAlias(ExternalT& v, const std::string& units) : Variable(v), Units(units) 
 		{Dummy = new InternalT;}
       ~WrapVariableAlias() {delete Dummy;}
       void pack(Message& message)

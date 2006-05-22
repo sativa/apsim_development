@@ -8,18 +8,19 @@ using CSGeneral;
 using VBGeneral;
 using Xceed.Chart.Standard;
 using Xceed.Chart.Core;
+using Xceed.Chart.GraphicsCore;
 
 namespace CSGeneral
 	{
 	public class WaterChartControl : System.Windows.Forms.UserControl
 		{
-		internal Xceed.Chart.ChartControl WaterChart;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.CheckedListBox CropList;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Splitter splitter;
 		private System.ComponentModel.Container components = null;
 		private Soil MySoil;
+        public Xceed.Chart.ChartControl WaterChart;
 		private bool ShowSW = false;
 
 		public WaterChartControl()
@@ -47,81 +48,80 @@ namespace CSGeneral
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(WaterChartControl));
-			this.WaterChart = new Xceed.Chart.ChartControl();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.CropList = new System.Windows.Forms.CheckedListBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.splitter = new System.Windows.Forms.Splitter();
-			this.panel1.SuspendLayout();
-			this.SuspendLayout();
-			// 
-			// WaterChart
-			// 
-			this.WaterChart.AutoScrollMargin = new System.Drawing.Size(0, 0);
-			this.WaterChart.AutoScrollMinSize = new System.Drawing.Size(0, 0);
-			this.WaterChart.BackColor = System.Drawing.SystemColors.ActiveBorder;
-			this.WaterChart.Background = ((Xceed.Chart.Standard.Background)(resources.GetObject("WaterChart.Background")));
-			this.WaterChart.Charts = ((Xceed.Chart.Core.ChartCollection)(resources.GetObject("WaterChart.Charts")));
-			this.WaterChart.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.WaterChart.InteractivityOperations = ((Xceed.Chart.Standard.InteractivityOperationsCollection)(resources.GetObject("WaterChart.InteractivityOperations")));
-			this.WaterChart.Labels = ((Xceed.Chart.Standard.ChartLabelCollection)(resources.GetObject("WaterChart.Labels")));
-			this.WaterChart.Legends = ((Xceed.Chart.Core.LegendCollection)(resources.GetObject("WaterChart.Legends")));
-			this.WaterChart.Location = new System.Drawing.Point(0, 0);
-			this.WaterChart.Name = "WaterChart";
-			this.WaterChart.Settings = ((Xceed.Chart.Core.Settings)(resources.GetObject("WaterChart.Settings")));
-			this.WaterChart.Size = new System.Drawing.Size(474, 600);
-			this.WaterChart.TabIndex = 21;
-			this.WaterChart.Watermarks = ((Xceed.Chart.Standard.WatermarkCollection)(resources.GetObject("WaterChart.Watermarks")));
-			// 
-			// panel1
-			// 
-			this.panel1.Controls.Add(this.CropList);
-			this.panel1.Controls.Add(this.label1);
-			this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-			this.panel1.Location = new System.Drawing.Point(477, 0);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(171, 600);
-			this.panel1.TabIndex = 22;
-			// 
-			// CropList
-			// 
-			this.CropList.CheckOnClick = true;
-			this.CropList.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.CropList.Location = new System.Drawing.Point(0, 24);
-			this.CropList.Name = "CropList";
-			this.CropList.Size = new System.Drawing.Size(171, 574);
-			this.CropList.TabIndex = 12;
-			this.CropList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.CropList_ItemCheck);
-			// 
-			// label1
-			// 
-			this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.label1.Location = new System.Drawing.Point(0, 0);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(171, 24);
-			this.label1.TabIndex = 13;
-			this.label1.Text = "Crops LL\'s to show on graph";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// splitter
-			// 
-			this.splitter.Dock = System.Windows.Forms.DockStyle.Right;
-			this.splitter.Location = new System.Drawing.Point(474, 0);
-			this.splitter.Name = "splitter";
-			this.splitter.Size = new System.Drawing.Size(3, 600);
-			this.splitter.TabIndex = 23;
-			this.splitter.TabStop = false;
-			// 
-			// WaterChartControl
-			// 
-			this.Controls.Add(this.WaterChart);
-			this.Controls.Add(this.splitter);
-			this.Controls.Add(this.panel1);
-			this.Name = "WaterChartControl";
-			this.Size = new System.Drawing.Size(648, 600);
-			this.panel1.ResumeLayout(false);
-			this.ResumeLayout(false);
+        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WaterChartControl));
+        this.panel1 = new System.Windows.Forms.Panel();
+        this.CropList = new System.Windows.Forms.CheckedListBox();
+        this.label1 = new System.Windows.Forms.Label();
+        this.splitter = new System.Windows.Forms.Splitter();
+        this.WaterChart = new Xceed.Chart.ChartControl();
+        this.panel1.SuspendLayout();
+        this.SuspendLayout();
+        // 
+        // panel1
+        // 
+        this.panel1.Controls.Add(this.CropList);
+        this.panel1.Controls.Add(this.label1);
+        this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
+        this.panel1.Location = new System.Drawing.Point(477, 0);
+        this.panel1.Name = "panel1";
+        this.panel1.Size = new System.Drawing.Size(171, 600);
+        this.panel1.TabIndex = 22;
+        // 
+        // CropList
+        // 
+        this.CropList.CheckOnClick = true;
+        this.CropList.Dock = System.Windows.Forms.DockStyle.Fill;
+        this.CropList.Location = new System.Drawing.Point(0, 24);
+        this.CropList.Name = "CropList";
+        this.CropList.Size = new System.Drawing.Size(171, 574);
+        this.CropList.TabIndex = 12;
+        this.CropList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.CropList_ItemCheck);
+        // 
+        // label1
+        // 
+        this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+        this.label1.Location = new System.Drawing.Point(0, 0);
+        this.label1.Name = "label1";
+        this.label1.Size = new System.Drawing.Size(171, 24);
+        this.label1.TabIndex = 13;
+        this.label1.Text = "Crops LL\'s to show on graph";
+        this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+        // 
+        // splitter
+        // 
+        this.splitter.Dock = System.Windows.Forms.DockStyle.Right;
+        this.splitter.Location = new System.Drawing.Point(474, 0);
+        this.splitter.Name = "splitter";
+        this.splitter.Size = new System.Drawing.Size(3, 600);
+        this.splitter.TabIndex = 23;
+        this.splitter.TabStop = false;
+        // 
+        // WaterChart
+        // 
+        this.WaterChart.BackColor = System.Drawing.SystemColors.Control;
+        this.WaterChart.Background = ((Xceed.Chart.Standard.Background)(resources.GetObject("WaterChart.Background")));
+        this.WaterChart.Charts = ((Xceed.Chart.Core.ChartCollection)(resources.GetObject("WaterChart.Charts")));
+        this.WaterChart.Dock = System.Windows.Forms.DockStyle.Fill;
+        this.WaterChart.InteractivityOperations = ((Xceed.Chart.Core.InteractivityOperationsCollection)(resources.GetObject("WaterChart.InteractivityOperations")));
+        this.WaterChart.Labels = ((Xceed.Chart.Standard.ChartLabelCollection)(resources.GetObject("WaterChart.Labels")));
+        this.WaterChart.Legends = ((Xceed.Chart.Core.LegendCollection)(resources.GetObject("WaterChart.Legends")));
+        this.WaterChart.Location = new System.Drawing.Point(0, 0);
+        this.WaterChart.Name = "WaterChart";
+        this.WaterChart.Settings = ((Xceed.Chart.Core.Settings)(resources.GetObject("WaterChart.Settings")));
+        this.WaterChart.Size = new System.Drawing.Size(474, 600);
+        this.WaterChart.TabIndex = 24;
+        this.WaterChart.Text = "chartControl1";
+        this.WaterChart.Watermarks = ((Xceed.Chart.Standard.WatermarkCollection)(resources.GetObject("WaterChart.Watermarks")));
+        // 
+        // WaterChartControl
+        // 
+        this.Controls.Add(this.WaterChart);
+        this.Controls.Add(this.splitter);
+        this.Controls.Add(this.panel1);
+        this.Name = "WaterChartControl";
+        this.Size = new System.Drawing.Size(648, 600);
+        this.panel1.ResumeLayout(false);
+        this.ResumeLayout(false);
 
 		}
 		#endregion
