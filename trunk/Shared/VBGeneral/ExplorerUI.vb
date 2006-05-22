@@ -1,14 +1,13 @@
 Imports System.Windows.Forms
 Imports System.Collections.Specialized
 Imports System.IO
-Imports VBGeneral
 Public Class ExplorerUI
     Inherits BaseView
     Private MyCurrentUI As BaseView
     Private MyParentForm As Form
     Private MyApplicationName As String
     Private CurrentUIType As String = ""
-    
+
 
 #Region " Windows Form Designer generated code "
 
@@ -52,12 +51,12 @@ Public Class ExplorerUI
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.
     'Do not modify it using the code editor.
-    Friend WithEvents Splitter1 As System.Windows.Forms.Splitter
+    Friend WithEvents Splitter As System.Windows.Forms.Splitter
     Friend WithEvents UIPanel As System.Windows.Forms.Panel
-    Friend WithEvents DataTree As VBGeneral.DataTree
+    Friend WithEvents DataTree As DataTree
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.DataTree = New VBGeneral.DataTree
-        Me.Splitter1 = New System.Windows.Forms.Splitter
+        Me.Splitter = New System.Windows.Forms.Splitter
         Me.UIPanel = New System.Windows.Forms.Panel
         Me.SuspendLayout()
         '
@@ -71,35 +70,35 @@ Public Class ExplorerUI
         Me.DataTree.HelpText = ""
         Me.DataTree.Location = New System.Drawing.Point(0, 40)
         Me.DataTree.Name = "DataTree"
-        Me.DataTree.Size = New System.Drawing.Size(256, 594)
+        Me.DataTree.Size = New System.Drawing.Size(256, 760)
         Me.DataTree.Sorted = False
         Me.DataTree.TabIndex = 3
         '
-        'Splitter1
+        'Splitter
         '
-        Me.Splitter1.Location = New System.Drawing.Point(256, 40)
-        Me.Splitter1.Name = "Splitter1"
-        Me.Splitter1.Size = New System.Drawing.Size(5, 594)
-        Me.Splitter1.TabIndex = 4
-        Me.Splitter1.TabStop = False
+        Me.Splitter.Location = New System.Drawing.Point(256, 40)
+        Me.Splitter.Name = "Splitter"
+        Me.Splitter.Size = New System.Drawing.Size(5, 760)
+        Me.Splitter.TabIndex = 4
+        Me.Splitter.TabStop = False
         '
         'UIPanel
         '
         Me.UIPanel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UIPanel.Location = New System.Drawing.Point(261, 40)
         Me.UIPanel.Name = "UIPanel"
-        Me.UIPanel.Size = New System.Drawing.Size(651, 594)
+        Me.UIPanel.Size = New System.Drawing.Size(469, 760)
         Me.UIPanel.TabIndex = 5
         '
         'ExplorerUI
         '
         Me.Controls.Add(Me.UIPanel)
-        Me.Controls.Add(Me.Splitter1)
+        Me.Controls.Add(Me.Splitter)
         Me.Controls.Add(Me.DataTree)
         Me.Name = "ExplorerUI"
-        Me.Size = New System.Drawing.Size(912, 634)
+        Me.Size = New System.Drawing.Size(730, 800)
         Me.Controls.SetChildIndex(Me.DataTree, 0)
-        Me.Controls.SetChildIndex(Me.Splitter1, 0)
+        Me.Controls.SetChildIndex(Me.Splitter, 0)
         Me.Controls.SetChildIndex(Me.UIPanel, 0)
         Me.ResumeLayout(False)
 
@@ -150,7 +149,8 @@ Public Class ExplorerUI
         Else
             MyCurrentUI = Nothing
         End If
-
+        DataTree.Visible = Data.Type.ToLower() <> "startup"
+        Splitter.Visible = DataTree.Visible
     End Sub
 
 

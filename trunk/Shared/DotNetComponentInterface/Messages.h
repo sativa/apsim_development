@@ -54,7 +54,7 @@ class ReplyValue
       void unpack(Message& message)
          {
          queryID = ApsimInteger4(message).value();
-         type = ApsimString(message).value();
+         type = ApsimString(message).CValue();
          }
 
    };
@@ -77,7 +77,7 @@ class ReturnValue
          {
          compID = ApsimInteger4(message).value();
          id = ApsimInteger4(message).value();
-         type = ApsimString(message).value();
+         type = ApsimString(message).CValue();
          }
 
    };
@@ -97,8 +97,8 @@ class Init1
          }
       void unpack(Message& message)
          {
-         sdml = ApsimString(message).value();
-         fqn = ApsimString(message).value();
+         sdml = ApsimString(message).CValue();
+         fqn = ApsimString(message).CValue();
          inStartup = ApsimBoolean(message).value();
          }
 
@@ -122,7 +122,7 @@ class Event
          {
          id = ApsimInteger4(message).value();
          publishedBy = ApsimInteger4(message).value();
-         type = ApsimString(message).value();
+         type = ApsimString(message).CValue();
          }
 
    };
@@ -149,8 +149,8 @@ class Register
          kind = ApsimInteger4(message).value();
          id = ApsimInteger4(message).value();
          destID = ApsimInteger4(message).value();
-         name = ApsimString(message).value();
-         type = ApsimString(message).value();
+         name = ApsimString(message).CValue();
+         type = ApsimString(message).CValue();
          }
 
    };
@@ -170,7 +170,7 @@ class PublishEvent
       void unpack(Message& message)
          {
          id = ApsimInteger4(message).value();
-         type = ApsimString(message).value();
+         type = ApsimString(message).CValue();
          }
 
    };
@@ -188,7 +188,7 @@ class QueryInfo
          }
       void unpack(Message& message)
          {
-         name = ApsimString(message).value();
+         name = ApsimString(message).CValue();
          kind = ApsimInteger4(message).value();
          }
 
@@ -209,7 +209,7 @@ class RequestSetValue
       void unpack(Message& message)
          {
          id = ApsimInteger4(message).value();
-         type = ApsimString(message).value();
+         type = ApsimString(message).CValue();
          }
 
    };
@@ -235,7 +235,7 @@ class QuerySetValue
          id = ApsimInteger4(message).value();
          replyToID = ApsimInteger4(message).value();
          replyID = ApsimInteger4(message).value();
-         type = ApsimString(message).value();
+         type = ApsimString(message).CValue();
          }
 
    };
@@ -283,8 +283,8 @@ class ReturnInfo
          queryID = ApsimInteger4(message).value();
          compID = ApsimInteger4(message).value();
          id = ApsimInteger4(message).value();
-         name = ApsimString(message).value();
-         type = ApsimString(message).value();
+         name = ApsimString(message).CValue();
+         type = ApsimString(message).CValue();
          kind = ApsimInteger4(message).value();
          }
 

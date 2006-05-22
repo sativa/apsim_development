@@ -43,6 +43,7 @@ Public Class ReportVariablesListView
     Friend WithEvents VariablesList As FarPoint.Win.Spread.SheetView
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
+        Dim TipAppearance1 As FarPoint.Win.Spread.TipAppearance = New FarPoint.Win.Spread.TipAppearance
         Dim ComboBoxCellType1 As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
         Me.GridPopupMenu = New System.Windows.Forms.ContextMenu
         Me.DeleteRowMenu = New System.Windows.Forms.MenuItem
@@ -75,13 +76,20 @@ Public Class ReportVariablesListView
         '
         'FpSpread
         '
+        Me.FpSpread.AccessibleDescription = "FpSpread, Sheet1, Row 0, Column 0, "
         Me.FpSpread.AllowDrop = True
         Me.FpSpread.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.FpSpread.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded
         Me.FpSpread.Location = New System.Drawing.Point(0, 40)
         Me.FpSpread.Name = "FpSpread"
         Me.FpSpread.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.VariablesList})
-        Me.FpSpread.Size = New System.Drawing.Size(730, 442)
+        Me.FpSpread.Size = New System.Drawing.Size(734, 677)
         Me.FpSpread.TabIndex = 3
+        TipAppearance1.BackColor = System.Drawing.SystemColors.Info
+        TipAppearance1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        TipAppearance1.ForeColor = System.Drawing.SystemColors.InfoText
+        Me.FpSpread.TextTipAppearance = TipAppearance1
+        Me.FpSpread.VerticalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded
         '
         'VariablesList
         '
@@ -89,11 +97,12 @@ Public Class ReportVariablesListView
         'Formulas and custom names must be loaded with R1C1 reference style
         Me.VariablesList.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1
         Me.VariablesList.ColumnCount = 5
-        Me.VariablesList.ColumnHeader.Cells.Get(0, 0).Text = "Name"
-        Me.VariablesList.ColumnHeader.Cells.Get(0, 1).Text = "Module"
-        Me.VariablesList.ColumnHeader.Cells.Get(0, 2).Text = "Alias"
-        Me.VariablesList.ColumnHeader.Cells.Get(0, 3).Text = "Array Operation"
-        Me.VariablesList.ColumnHeader.Cells.Get(0, 4).Text = "Description"
+        Me.VariablesList.AutoUpdateNotes = True
+        Me.VariablesList.ColumnHeader.Cells.Get(0, 0).Value = "Name"
+        Me.VariablesList.ColumnHeader.Cells.Get(0, 1).Value = "Module"
+        Me.VariablesList.ColumnHeader.Cells.Get(0, 2).Value = "Alias"
+        Me.VariablesList.ColumnHeader.Cells.Get(0, 3).Value = "Array Operation"
+        Me.VariablesList.ColumnHeader.Cells.Get(0, 4).Value = "Description"
         Me.VariablesList.Columns.Get(0).Label = "Name"
         Me.VariablesList.Columns.Get(0).Width = 101.0!
         Me.VariablesList.Columns.Get(1).Label = "Module"
@@ -116,7 +125,7 @@ Public Class ReportVariablesListView
         '
         Me.Controls.Add(Me.FpSpread)
         Me.Name = "ReportVariablesListView"
-        Me.Size = New System.Drawing.Size(730, 482)
+        Me.Size = New System.Drawing.Size(734, 717)
         Me.Controls.SetChildIndex(Me.FpSpread, 0)
         CType(Me.FpSpread, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.VariablesList, System.ComponentModel.ISupportInitialize).EndInit()

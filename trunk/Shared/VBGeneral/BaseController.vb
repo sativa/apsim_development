@@ -128,7 +128,7 @@ Public MustInherit Class BaseController
         End If
     End Sub
     Public Sub FileNew(ByVal FileName As String)
-        Dim FileData As APSIMData
+        Dim FileData As New APSIMData
         If FileData.LoadFromFile(FileName) Then
             MyFileName = "Untitled" + MyDefaultExtension
             DirtyData = True
@@ -353,7 +353,7 @@ Public MustInherit Class BaseController
     End Sub
     Public Sub Copy()
         If AllowCopy Then
-            Dim Contents As String
+            Dim Contents As String = ""
             For Each DataPath As String In MySelectedData
                 Contents = Contents + GetDataForFullPath(DataPath).XML + "\r\n"
             Next
@@ -442,7 +442,7 @@ Public MustInherit Class BaseController
             Dim SelectedData As APSIMData = Data
             MySelectedData.Clear()
             SelectedData.Name = NewName
-            Dim PosDelimiter = SelectedNodePath.LastIndexOf("|")
+            Dim PosDelimiter As String = SelectedNodePath.LastIndexOf("|")
             If PosDelimiter = -1 Then
                 SelectedNodePath = NewName
             Else
@@ -524,7 +524,7 @@ Public MustInherit Class BaseController
     Private ReadOnly Property AllSelectedNodesAreSiblings() As Boolean
         Get
             If MySelectedData.Count > 0 Then
-                Dim Path As String
+                Dim Path As String = ""
                 For Each FullPath As String In MySelectedData
                     Dim PosDelimiter As Integer = FullPath.LastIndexOf("|")
                     If PosDelimiter <> -1 Then

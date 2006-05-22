@@ -1,255 +1,334 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.10"
+	Version="8.00"
 	Name="DotNetComponentInterface"
-	ProjectGUID="{1079E802-4A96-491B-BF17-067AAFB011B3}"
-	RootNamespace="ComponentInterface"
-	Keyword="ManagedCProj">
+	ProjectGUID="{29628A0A-C648-4696-BB7A-04AAE8433305}"
+	RootNamespace="DotNetComponentInterface2"
+	Keyword="ManagedCProj"
+	>
 	<Platforms>
 		<Platform
-			Name="Win32"/>
+			Name="Win32"
+		/>
 	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\bin"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			CharacterSet="2"
-			ManagedExtensions="TRUE">
+			CharacterSet="1"
+			ManagedExtensions="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/Zl"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\;&quot;C:\Program Files\Borland\CBuilder6\Components\Boost&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG"
-				MinimalRebuild="FALSE"
-				BasicRuntimeChecks="0"
-				RuntimeLibrary="2"
+				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				DebugInformationFormat="3"/>
+				DebugInformationFormat="3"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				AdditionalDependencies="mscoree.lib msvcrt.lib"
-				OutputFile="$(OutDir)\$(ProjectName).dll"
+				AdditionalDependencies="$(NoInherit)"
 				LinkIncremental="2"
 				ModuleDefinitionFile="exports.def"
-				ForceSymbolReferences="__DllMainCRTStartup@12"
-				GenerateDebugInformation="TRUE"
-				AssemblyDebug="1"/>
+				GenerateDebugInformation="true"
+				AssemblyDebug="1"
+				TargetMachine="1"
+			/>
 			<Tool
-				Name="VCMIDLTool"/>
+				Name="VCALinkTool"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCManifestTool"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCXDCMakeTool"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCBscMakeTool"
+			/>
 			<Tool
-				Name="VCResourceCompilerTool"/>
+				Name="VCFxCopTool"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCAppVerifierTool"
+			/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"/>
+				Name="VCWebDeploymentTool"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
-			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
-			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			CharacterSet="2"
-			ManagedExtensions="TRUE">
+			CharacterSet="1"
+			ManagedExtensions="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/Zl"
 				PreprocessorDefinitions="WIN32;NDEBUG"
-				MinimalRebuild="FALSE"
-				RuntimeLibrary="0"
-				UsePrecompiledHeader="3"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="2"
 				WarningLevel="3"
-				DebugInformationFormat="3"/>
+				DebugInformationFormat="3"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="nochkclr.obj mscoree.lib"
-				OutputFile="$(OutDir)\$(ProjectName).dll"
+				AdditionalDependencies="$(NoInherit)"
 				LinkIncremental="1"
-				ModuleDefinitionFile="exports.def"
-				GenerateDebugInformation="TRUE"/>
+				GenerateDebugInformation="true"
+				TargetMachine="1"
+			/>
 			<Tool
-				Name="VCMIDLTool"/>
+				Name="VCALinkTool"
+			/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCManifestTool"
+			/>
 			<Tool
-				Name="VCPreBuildEventTool"/>
+				Name="VCXDCMakeTool"
+			/>
 			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCBscMakeTool"
+			/>
 			<Tool
-				Name="VCResourceCompilerTool"/>
+				Name="VCFxCopTool"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCAppVerifierTool"
+			/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"/>
+				Name="VCWebDeploymentTool"
+			/>
 			<Tool
-				Name="VCWebDeploymentTool"/>
-			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
-			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 	</Configurations>
 	<References>
 		<AssemblyReference
-			RelativePath="mscorlib.dll"/>
+			RelativePath="System.dll"
+			AssemblyName="System, Version=2.0.0.0, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
+		/>
 		<AssemblyReference
-			RelativePath="System.dll"/>
+			RelativePath="System.Data.dll"
+			AssemblyName="System.Data, Version=2.0.0.0, PublicKeyToken=b77a5c561934e089, processorArchitecture=x86"
+		/>
 		<AssemblyReference
-			RelativePath="System.Data.dll"/>
+			RelativePath="System.XML.dll"
+			AssemblyName="System.Xml, Version=2.0.0.0, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
+		/>
 		<AssemblyReference
-			RelativePath="{ReferencesPath}\System.Windows.Forms.dll"/>
+			RelativePath="System.Drawing.dll"
+			AssemblyName="System.Drawing, Version=2.0.0.0, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+		/>
+		<AssemblyReference
+			RelativePath="System.Windows.Forms.dll"
+			AssemblyName="System.Windows.Forms, Version=2.0.0.0, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
+		/>
 	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
-			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
 			<File
-				RelativePath=".\ApsimAttributes.cpp">
+				RelativePath="..\DotNetComponentInterface\ApsimAttributes.cpp"
+				>
 			</File>
 			<File
-				RelativePath=".\AssemblyInfo.cpp">
+				RelativePath="..\DotNetComponentInterface\AssemblyInfo.cpp"
+				>
 			</File>
 			<File
-				RelativePath=".\Component.cpp">
+				RelativePath="..\DotNetComponentInterface\Component.cpp"
+				>
 			</File>
 			<File
-				RelativePath=".\ComponentInterface.cpp">
+				RelativePath="..\DotNetComponentInterface\ComponentInterface.cpp"
+				>
 			</File>
 			<File
-				RelativePath=".\EntryPoints.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalUsingDirectories="$(outdir)"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalUsingDirectories="$(outdir)"/>
-				</FileConfiguration>
+				RelativePath=".\DotNetComponentInterface.cpp"
+				>
 			</File>
 			<File
-				RelativePath=".\exports.def">
+				RelativePath="..\DotNetComponentInterface\EntryPoints.cpp"
+				>
 			</File>
 			<File
-				RelativePath=".\Message.cpp">
+				RelativePath="..\DotNetComponentInterface\exports.def"
+				>
 			</File>
 			<File
-				RelativePath=".\MessageFactory.cpp">
+				RelativePath="..\DotNetComponentInterface\Message.cpp"
+				>
 			</File>
 			<File
-				RelativePath=".\Stdafx.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"/>
-				</FileConfiguration>
+				RelativePath="..\DotNetComponentInterface\MessageFactory.cpp"
+				>
 			</File>
 			<File
-				RelativePath="..\general\stristr.cpp">
+				RelativePath="..\DotNetComponentInterface\Stdafx.cpp"
+				>
 			</File>
 			<File
-				RelativePath=".\TypeConverter.cpp">
+				RelativePath="..\general\stristr.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\DotNetComponentInterface\TypeConverter.cpp"
+				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
 			<File
-				RelativePath=".\ApsimComponent.h">
+				RelativePath="..\DotNetComponentInterface\ApsimComponent.h"
+				>
 			</File>
 			<File
-				RelativePath=".\ApsimEvents.h">
+				RelativePath="..\DotNetComponentInterface\ApsimEvents.h"
+				>
 			</File>
 			<File
-				RelativePath=".\ApsimProperties.h">
+				RelativePath="..\DotNetComponentInterface\ApsimProperties.h"
+				>
 			</File>
 			<File
-				RelativePath=".\ComponentInterface.h">
+				RelativePath="..\DotNetComponentInterface\ComponentInterface.h"
+				>
 			</File>
 			<File
-				RelativePath=".\datatypes.h">
+				RelativePath="..\DotNetComponentInterface\datatypes.h"
+				>
 			</File>
 			<File
-				RelativePath=".\Interfaces.h">
+				RelativePath=".\DotNetComponentInterface.h"
+				>
 			</File>
 			<File
-				RelativePath=".\Message.h">
+				RelativePath="..\DotNetComponentInterface\Interfaces.h"
+				>
 			</File>
 			<File
-				RelativePath=".\MessageData.h">
+				RelativePath="..\DotNetComponentInterface\Message.h"
+				>
 			</File>
 			<File
-				RelativePath=".\MessageFactory.h">
+				RelativePath="..\DotNetComponentInterface\MessageData.h"
+				>
 			</File>
 			<File
-				RelativePath=".\Messages.h">
+				RelativePath="..\DotNetComponentInterface\MessageFactory.h"
+				>
 			</File>
 			<File
-				RelativePath=".\MessageType.h">
+				RelativePath="..\DotNetComponentInterface\Messages.h"
+				>
 			</File>
 			<File
-				RelativePath=".\RegisteredEvents.h">
+				RelativePath="..\DotNetComponentInterface\MessageType.h"
+				>
 			</File>
 			<File
-				RelativePath=".\resource.h">
+				RelativePath="..\DotNetComponentInterface\RegisteredEvents.h"
+				>
 			</File>
 			<File
-				RelativePath=".\Stdafx.h">
+				RelativePath="..\DotNetComponentInterface\resource.h"
+				>
 			</File>
 			<File
-				RelativePath=".\TypeConverter.h">
+				RelativePath="..\DotNetComponentInterface\Stdafx.h"
+				>
 			</File>
 			<File
-				RelativePath=".\Utility.h">
+				RelativePath="..\DotNetComponentInterface\TypeConverter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\DotNetComponentInterface\Utility.h"
+				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}">
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			>
 			<File
-				RelativePath=".\app.ico">
+				RelativePath=".\app.ico"
+				>
 			</File>
 			<File
-				RelativePath=".\app.rc">
+				RelativePath=".\app.rc"
+				>
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\ReadMe.txt">
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

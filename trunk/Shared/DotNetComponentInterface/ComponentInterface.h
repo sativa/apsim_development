@@ -9,7 +9,7 @@
 using namespace System;
 
 namespace ComponentInterface {
-public __gc class ApsimComponent;
+ref class ApsimComponent;
 // ---------------------------------------------------
 // This class implements the Common Modelling Protocol
 // allowing components to be hooked into APSIM.
@@ -19,7 +19,7 @@ class ComponentComms
 	public:
 		typedef  void  (__stdcall *CallbackType)(const unsigned *callbackArg, char *message);	
 		
-		void createInstance(ApsimComponent* component,
+		void createInstance(ApsimComponent^ component,
 							const char* dllFileName,
 							unsigned compID,
 							unsigned parentID,
@@ -27,8 +27,8 @@ class ComponentComms
 							CallbackType callback);
 		
 		
-		void deleteInstance(ApsimComponent* component);
-		void messageToLogic(ApsimComponent* component, char* message);
+		void deleteInstance(ApsimComponent^ component);
+		void messageToLogic(ApsimComponent^ component, char* message);
 							
 							
 		// ------------------------------------------------------
@@ -103,11 +103,11 @@ class ComponentComms
 
 		
 		void error(const std::string& errorMessage, bool isFatal);
-		void onInit1Message(ApsimComponent* component, Message& message);
-		void onInit2Message(ApsimComponent* component, Message& message);
-		void onQueryValueMessage(ApsimComponent* component, Message& message);
-		void onQuerySetValueMessage(ApsimComponent* component, Message& message);
-		void onEventMessage(ApsimComponent* component, Message& message);
+		void onInit1Message(ApsimComponent^ component, Message& message);
+		void onInit2Message(ApsimComponent^ component, Message& message);
+		void onQueryValueMessage(ApsimComponent^ component, Message& message);
+		void onQuerySetValueMessage(ApsimComponent^ component, Message& message);
+		void onEventMessage(ApsimComponent^ component, Message& message);
 		
 		enum QueryType			{	component=8};
 		unsigned nameToRegistrationID(const std::string& name,

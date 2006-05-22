@@ -42,7 +42,7 @@ Public Class StartupUI
     Friend WithEvents BannerPicture As System.Windows.Forms.PictureBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(StartupUI))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(StartupUI))
         Me.Label1 = New System.Windows.Forms.Label
         Me.Label2 = New System.Windows.Forms.Label
         Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
@@ -53,6 +53,7 @@ Public Class StartupUI
         Me.OpenButton = New System.Windows.Forms.Button
         Me.BannerPicture = New System.Windows.Forms.PictureBox
         Me.SavedFilesPanel.SuspendLayout()
+        CType(Me.BannerPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Label1
@@ -71,15 +72,15 @@ Public Class StartupUI
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.Location = New System.Drawing.Point(136, 96)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(164, 18)
+        Me.Label2.Size = New System.Drawing.Size(166, 16)
         Me.Label2.TabIndex = 3
         Me.Label2.Text = "What would you like to do?"
         '
         'ImageList1
         '
-        Me.ImageList1.ImageSize = New System.Drawing.Size(16, 16)
         Me.ImageList1.ImageStream = CType(resources.GetObject("ImageList1.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.ImageList1.TransparentColor = System.Drawing.Color.Transparent
+        Me.ImageList1.Images.SetKeyName(0, "")
         '
         'SavedFilesPanel
         '
@@ -99,6 +100,7 @@ Public Class StartupUI
         Me.SimulationList.Size = New System.Drawing.Size(488, 272)
         Me.SimulationList.SmallImageList = Me.ImageList1
         Me.SimulationList.TabIndex = 11
+        Me.SimulationList.UseCompatibleStateImageBehavior = False
         Me.SimulationList.View = System.Windows.Forms.View.List
         '
         'Label4
@@ -108,7 +110,7 @@ Public Class StartupUI
         Me.Label4.ForeColor = System.Drawing.SystemColors.ControlText
         Me.Label4.Location = New System.Drawing.Point(0, 8)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(280, 18)
+        Me.Label4.Size = New System.Drawing.Size(284, 16)
         Me.Label4.TabIndex = 10
         Me.Label4.Text = "Open a previous simulation by double clicking."
         '
@@ -140,7 +142,7 @@ Public Class StartupUI
         Me.BannerPicture.Dock = System.Windows.Forms.DockStyle.Left
         Me.BannerPicture.Location = New System.Drawing.Point(0, 40)
         Me.BannerPicture.Name = "BannerPicture"
-        Me.BannerPicture.Size = New System.Drawing.Size(64, 448)
+        Me.BannerPicture.Size = New System.Drawing.Size(64, 697)
         Me.BannerPicture.TabIndex = 13
         Me.BannerPicture.TabStop = False
         '
@@ -154,7 +156,7 @@ Public Class StartupUI
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
         Me.Name = "StartupUI"
-        Me.Size = New System.Drawing.Size(590, 485)
+        Me.Size = New System.Drawing.Size(730, 737)
         Me.Controls.SetChildIndex(Me.Label1, 0)
         Me.Controls.SetChildIndex(Me.Label2, 0)
         Me.Controls.SetChildIndex(Me.SavedFilesPanel, 0)
@@ -162,7 +164,10 @@ Public Class StartupUI
         Me.Controls.SetChildIndex(Me.OpenButton, 0)
         Me.Controls.SetChildIndex(Me.BannerPicture, 0)
         Me.SavedFilesPanel.ResumeLayout(False)
+        Me.SavedFilesPanel.PerformLayout()
+        CType(Me.BannerPicture, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 

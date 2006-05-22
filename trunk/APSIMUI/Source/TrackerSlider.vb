@@ -118,7 +118,7 @@ Public Class TrackerSlider
 
     Private Sub TrackerSlider_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles MyBase.KeyPress
         If Asc(e.KeyChar) = Keys.Escape Then
-            DialogResult = DialogResult.Cancel
+            DialogResult = Windows.Forms.DialogResult.Cancel
 
         End If
     End Sub
@@ -126,11 +126,11 @@ Public Class TrackerSlider
 
 
     Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnCancel.Click
-        Me.DialogResult = DialogResult.Cancel
+        Me.DialogResult = Windows.Forms.DialogResult.Cancel
     End Sub
 
     Private Sub btnOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOK.Click
-        DialogResult = DialogResult.OK
+        DialogResult = Windows.Forms.DialogResult.OK
     End Sub
 
     Private Sub TrackerNumber_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TrackerNumber.ValueChanged

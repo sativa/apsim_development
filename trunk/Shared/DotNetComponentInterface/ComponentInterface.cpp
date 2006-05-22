@@ -2,7 +2,7 @@
 
 #include "stdafx.h"
 
-#using <VBGeneral.dll>
+#using "..\VBGeneral\obj\debug\VBGeneral.dll"
 #include "ComponentInterface.h"
 #include "Message.h"
 #include "MessageType.h"
@@ -13,7 +13,7 @@
 #include "RegisteredEvents.h"
 #include "ApsimComponent.h"
 #include "TypeConverter.h"
-#include <general\stristr.h>
+#include "../general/stristr.h"
 #include <string.h>
 #include <sstream>
 
@@ -38,7 +38,7 @@ public:
 // -------------------------------
 // The createInstance entry point
 // -------------------------------
-void ComponentComms::createInstance(ApsimComponent* component,
+void ComponentComms::createInstance(ApsimComponent^ component,
 										const char* dllFileName,
 										unsigned ourID,
 										unsigned parentID,
@@ -56,7 +56,7 @@ void ComponentComms::createInstance(ApsimComponent* component,
 // ---------------------------------
 // The deleteInstance entry point
 // ---------------------------------
-void ComponentComms::deleteInstance(ApsimComponent* component)
+void ComponentComms::deleteInstance(ApsimComponent^ component)
 	{
 	
 	
@@ -66,7 +66,7 @@ void ComponentComms::deleteInstance(ApsimComponent* component)
 // ------------------------------
 // The messageToLogic entry point
 // ------------------------------
-void ComponentComms::messageToLogic(ApsimComponent* component,
+void ComponentComms::messageToLogic(ApsimComponent^ component,
 										char* messageBytes)
 	{
 	try
@@ -92,7 +92,7 @@ void ComponentComms::messageToLogic(ApsimComponent* component,
 		{
 		error(err.what(), true);
 		}
-	catch (System::Exception* err)
+	catch (System::Exception^ err)
 		{
 		error(stringToStdString(err->Message), true);
 		}
@@ -188,7 +188,7 @@ void ComponentComms::clearMessages()
 // -----------------------------
 // Handler for the Init1 message
 // -----------------------------
-void ComponentComms::onInit1Message(ApsimComponent* component, Message& message)
+void ComponentComms::onInit1Message(ApsimComponent^ component, Message& message)
 	{	
 	Init1 init1;
 	init1.unpack(message);
@@ -208,14 +208,14 @@ void ComponentComms::onInit1Message(ApsimComponent* component, Message& message)
 	posCloseInitData += strlen("</initdata>");
 	string sdml;
 	sdml.assign(posOpenInitData, posCloseInitData-posOpenInitData);
-	component->Setup(this, name.c_str(), sdml.c_str());
+	component->Setup(this, gcnew String(name.c_str()), gcnew String(sdml.c_str()));
 	component->Init1();
 	}
 	
 // -----------------------------
 // Handler for the Init2 message
 // -----------------------------
-void ComponentComms::onInit2Message(ApsimComponent* component, Message& message)
+void ComponentComms::onInit2Message(ApsimComponent^ component, Message& message)
 	{
 	component->Init2();	
 	}
@@ -238,9 +238,9 @@ void ComponentComms::error(const string& errorMessage, bool isFatal)
 	msg += "Component name: " + name + "\n";
 	msg += "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n";
 
-	Error* error = new Error;
-	error->msg = msg.c_str();
-	publish("error", WrapManaged<Error*>(error));
+	Error^ error = gcnew Error;
+	error->msg = gcnew String(msg.c_str());
+	publish("error", WrapManaged<Error^>(error));
 	if (isFatal)
 		{
 		terminateSimulation();
@@ -274,10 +274,10 @@ void ComponentComms::sendMessage(Message& message, unsigned toID, bool ack)
 // ---------------------
 void ComponentComms::writeToSummary(const string& line)
 	{
-	SummaryFileWrite* summaryFileWrite = new SummaryFileWrite;
-	summaryFileWrite->componentName = name.c_str();
-	summaryFileWrite->lines = line.c_str();
-	publish("summaryFileWrite", WrapManaged<SummaryFileWrite*>(summaryFileWrite));
+	SummaryFileWrite^ summaryFileWrite = gcnew SummaryFileWrite;
+	summaryFileWrite->componentName = gcnew String(name.c_str());
+	summaryFileWrite->lines = gcnew String(line.c_str());
+	publish("summaryFileWrite", WrapManaged<SummaryFileWrite^>(summaryFileWrite));
 	}
 	
 // ---------------------
@@ -401,7 +401,7 @@ void ComponentComms::registerProperty(const std::string& propertyName,
 // Another component has asked for one of our variables.
 // Return the value to caller by sending a replyValue message.
 // ---------------------------------------------------------		
-void ComponentComms::onQueryValueMessage(ApsimComponent* component, Message& message)
+void ComponentComms::onQueryValueMessage(ApsimComponent^ component, Message& message)
 	{
 	QueryValue queryValue;
 	queryValue.unpack(message);
@@ -419,7 +419,7 @@ void ComponentComms::onQueryValueMessage(ApsimComponent* component, Message& mes
 // Another component wants to change one  of our variables.
 // Return the true/false to caller by sending a notifySetValueSuccess message.
 // ---------------------------------------------------------		
-void ComponentComms::onQuerySetValueMessage(ApsimComponent* component, Message& message)
+void ComponentComms::onQuerySetValueMessage(ApsimComponent^ component, Message& message)
 	{
 	QuerySetValue querySetValue;
 	querySetValue.unpack(message);
@@ -456,7 +456,7 @@ void ComponentComms::registerEventHandler(const std::string& eventName, IEventDa
 // ---------------------------------------------------------		
 // Respond to an incoming event.
 // ---------------------------------------------------------		
-void ComponentComms::onEventMessage(ApsimComponent* component, Message& message)
+void ComponentComms::onEventMessage(ApsimComponent^ component, Message& message)
 	{
 	Event event;
 	event.unpack(message);

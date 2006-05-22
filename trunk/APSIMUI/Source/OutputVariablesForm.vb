@@ -123,7 +123,7 @@ Public Class OutputVariablesForm
 
         End If
 
-        Me.DialogResult = DialogResult.OK
+        Me.DialogResult = Windows.Forms.DialogResult.OK
 
     End Sub
 

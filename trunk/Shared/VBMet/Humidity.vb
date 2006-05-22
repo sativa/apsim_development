@@ -1,11 +1,11 @@
 Imports System.Math
 Public Module Humidity
 
-    Public Const P = 101000.0# 'atmospheric pressure (Pa)
-    Public Const Ma = 28.966   'molecular weight of dry air (g/mole)
-    Public Const Cp = 1.01     'specific heat of air (J/g/K)
-    Public Const R = 8.3143    'Gas constand (J/mole/K)
-    Public Const L = 2440      'Latent heat of vaporisation (J/g)
+    Public Const P As Single = 101000.0# 'atmospheric pressure (Pa)
+    Public Const Ma As Single = 28.966   'molecular weight of dry air (g/mole)
+    Public Const Cp As Single = 1.01     'specific heat of air (J/g/K)
+    Public Const R As Single = 8.3143    'Gas constand (J/mole/K)
+    Public Const L As Single = 2440      'Latent heat of vaporisation (J/g)
 
     Function RelHum(ByVal Ta As Single, ByVal Tw As Single) As Single
         ' Relative Humidity - unitless

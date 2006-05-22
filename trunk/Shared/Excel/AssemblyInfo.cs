@@ -1,17 +1,18 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 //
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly: AssemblyTitle("")]
+[assembly: AssemblyTitle("Excel")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCompany("APSRU")]
+[assembly: AssemblyProduct("Excel")]
+[assembly: AssemblyCopyright("Copyright © APSRU 2006")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 
@@ -26,7 +27,7 @@ using System.Runtime.CompilerServices;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 
-[assembly: AssemblyVersion("2.0")]
+[assembly: AssemblyVersion("3.0")]
 
 //
 // In order to sign your assembly you must specify a key to use. Refer to the 
@@ -56,3 +57,6 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyFile("")]
 [assembly: AssemblyKeyName("")]
+[assembly: AssemblyFileVersionAttribute("3.0")]
+[assembly: ComVisibleAttribute(false)]
+[assembly: GuidAttribute("0EDE48F7-7725-4ff7-9ED8-3818D1DE52D0")]

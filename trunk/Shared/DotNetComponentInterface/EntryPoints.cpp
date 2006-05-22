@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 
 #using <mscorlib.dll>
-#using <VBGeneral.dll>
+#using "../VbGeneral/bin/debug/VBGeneral.dll"
 #include <string>
 #include <vector>
 #include "Interfaces.h"
@@ -10,29 +10,37 @@
 using namespace ComponentInterface;
 using namespace std;   
    
-__gc class Instances
+ref class Instances
 	{
 	public:
-		static ApsimComponent* createNewInstance(const char* dllFileName) 
+		static ApsimComponent^ createNewInstance(const char* dllFileName) 
 			{
-			components[numComponents] = createInstanceOfComponent(dllFileName);
+			ApsimComponent^ Component = createInstanceOfComponent(dllFileName);
+			if (numComponents == 0)
+				c0 = Component;
+			else
+				c1 = Component;
 			numComponents++;
-			return components[numComponents-1];
+			return Component;
 			}
-		static ApsimComponent* at(unsigned index)
+		static ApsimComponent^ at(unsigned index)
 			{
-			return components[index];
+			if (index == 0)
+				return c0;
+			else
+				return c1;
 			}
 		
 		static unsigned count() {return numComponents;}
 	
-	private:
-		static ApsimComponent __pin * components[] = new ApsimComponent* [50];
+	//private:
+		static ApsimComponent^ c0;
+		static ApsimComponent^ c1;
+		//static array<ApsimComponent^>^ components;
 		static unsigned numComponents = 0;
 			
 	};
 vector<ComponentComms*> componentInterfaces;
-	
    
 // ------------------------------------------------------------------
 // Simple stub to be linked with fortran dlls. This will cause
@@ -74,11 +82,12 @@ void __stdcall createInstance
     const unsigned int* callbackArg,
     ComponentComms::CallbackType callback)
     {
-    ApsimComponent __pin* component = Instances::createNewInstance(dllFileName);
+	ApsimComponent^ c = Instances::createNewInstance(dllFileName);
+    pin_ptr<ApsimComponent^> component = &c;
     *instanceNumber = Instances::count()-1;
 	
 	componentInterfaces.push_back(new ComponentComms);
-    componentInterfaces[*instanceNumber]->createInstance(component, dllFileName, *compID, *parentID, 
+    componentInterfaces[*instanceNumber]->createInstance(*component, dllFileName, *compID, *parentID, 
 														 callbackArg, callback);
 	}
 // ------------------------------------------------------------------
@@ -87,8 +96,9 @@ void __stdcall createInstance
 extern "C" __declspec( dllexport )
 void __stdcall deleteInstance (unsigned* instanceNumber)
    {
-   ApsimComponent __pin* component = Instances::at(*instanceNumber);
-   componentInterfaces[*instanceNumber]->deleteInstance(component);
+   ApsimComponent^ c = Instances::at(*instanceNumber);
+   pin_ptr<ApsimComponent^> component = &c;
+   componentInterfaces[*instanceNumber]->deleteInstance(*component);
    }
 // ------------------------------------------------------------------
 // All messages to component go through here.
@@ -96,8 +106,9 @@ void __stdcall deleteInstance (unsigned* instanceNumber)
 extern "C" __declspec( dllexport )
 void __stdcall messageToLogic (unsigned* instanceNumber, char* message, bool* processed)
    {
-   ApsimComponent __pin* component = Instances::at(*instanceNumber);
-   componentInterfaces[*instanceNumber]->messageToLogic(component, message);
+   ApsimComponent^ c = Instances::at(*instanceNumber);
+   pin_ptr<ApsimComponent^> component = &c;
+   componentInterfaces[*instanceNumber]->messageToLogic(*component, message);
    *processed = true;
    }
 

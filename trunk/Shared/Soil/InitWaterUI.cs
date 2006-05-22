@@ -67,284 +67,286 @@ namespace CSGeneral
 		/// </summary>
 		private void InitializeComponent()
 		{
-			FarPoint.Win.Spread.CellType.NumberCellType numberCellType1 = new FarPoint.Win.Spread.CellType.NumberCellType();
-			FarPoint.Win.Spread.CellType.NumberCellType numberCellType2 = new FarPoint.Win.Spread.CellType.NumberCellType();
-			FarPoint.Win.Spread.CellType.NumberCellType numberCellType3 = new FarPoint.Win.Spread.CellType.NumberCellType();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.Grid = new FarPoint.Win.Spread.FpSpread();
-			this.WaterGrid = new FarPoint.Win.Spread.SheetView();
-			this.LayeredRadio = new System.Windows.Forms.RadioButton();
-			this.GroupBox = new System.Windows.Forms.GroupBox();
-			this.DepthWetSoilPanel = new System.Windows.Forms.Panel();
-			this.Label3 = new System.Windows.Forms.Label();
-			this.DepthEdit = new System.Windows.Forms.TextBox();
-			this.PercentPanel = new System.Windows.Forms.Panel();
-			this.EvenlyDistributedRadio = new System.Windows.Forms.RadioButton();
-			this.FilledFromTopRadio = new System.Windows.Forms.RadioButton();
-			this.Label2 = new System.Windows.Forms.Label();
-			this.PAWCEdit = new System.Windows.Forms.TextBox();
-			this.Label1 = new System.Windows.Forms.Label();
-			this.PercentEdit = new System.Windows.Forms.NumericUpDown();
-			this.DepthWetSoilRadio = new System.Windows.Forms.RadioButton();
-			this.PercentRadio = new System.Windows.Forms.RadioButton();
-			this.splitter1 = new System.Windows.Forms.Splitter();
-			this.WaterChartControl = new CSGeneral.WaterChartControl();
-			this.panel1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.WaterGrid)).BeginInit();
-			this.GroupBox.SuspendLayout();
-			this.DepthWetSoilPanel.SuspendLayout();
-			this.PercentPanel.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.PercentEdit)).BeginInit();
-			this.SuspendLayout();
-			// 
-			// panel1
-			// 
-			this.panel1.Controls.Add(this.Grid);
-			this.panel1.Controls.Add(this.LayeredRadio);
-			this.panel1.Controls.Add(this.GroupBox);
-			this.panel1.Controls.Add(this.DepthWetSoilRadio);
-			this.panel1.Controls.Add(this.PercentRadio);
-			this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-			this.panel1.Location = new System.Drawing.Point(0, 40);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(296, 718);
-			this.panel1.TabIndex = 2;
-			// 
-			// Grid
-			// 
-			this.Grid.BackColor = System.Drawing.SystemColors.Control;
-			this.Grid.EditModeReplace = true;
-			this.Grid.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded;
-			this.Grid.Location = new System.Drawing.Point(16, 224);
-			this.Grid.Name = "Grid";
-			this.Grid.Sheets.AddRange(new FarPoint.Win.Spread.SheetView[] {
-																			  this.WaterGrid});
-			this.Grid.Size = new System.Drawing.Size(272, 280);
-			this.Grid.TabIndex = 30;
-			this.Grid.VerticalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded;
-			// 
-			// WaterGrid
-			// 
-			this.WaterGrid.Reset();
-			// Formulas and custom names must be loaded with R1C1 reference style
-			this.WaterGrid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1;
-			this.WaterGrid.ColumnCount = 4;
-			this.WaterGrid.ColumnHeader.RowCount = 2;
-			this.WaterGrid.ColumnHeader.Cells.Get(0, 0).Text = "Depth";
-			this.WaterGrid.ColumnHeader.Cells.Get(0, 1).Text = "LL15";
-			this.WaterGrid.ColumnHeader.Cells.Get(0, 2).Text = "DUL";
-			this.WaterGrid.ColumnHeader.Cells.Get(0, 3).Text = "SW";
-			this.WaterGrid.ColumnHeader.Cells.Get(1, 0).Text = "(cm)";
-			this.WaterGrid.ColumnHeader.Cells.Get(1, 1).Text = "(%)";
-			this.WaterGrid.ColumnHeader.Cells.Get(1, 2).Text = "(%)";
-			this.WaterGrid.ColumnHeader.Cells.Get(1, 3).Text = "(%)";
-			this.WaterGrid.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
-			this.WaterGrid.Columns.Get(0).Label = "(cm)";
-			this.WaterGrid.Columns.Get(0).Locked = true;
-			numberCellType1.ButtonAlign = FarPoint.Win.ButtonAlign.Right;
-			numberCellType1.DecimalPlaces = 2;
-			numberCellType1.DropDownButton = false;
-			this.WaterGrid.Columns.Get(1).CellType = numberCellType1;
-			this.WaterGrid.Columns.Get(1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
-			this.WaterGrid.Columns.Get(1).Label = "(%)";
-			this.WaterGrid.Columns.Get(1).Locked = true;
-			numberCellType2.ButtonAlign = FarPoint.Win.ButtonAlign.Right;
-			numberCellType2.DecimalPlaces = 2;
-			numberCellType2.DropDownButton = false;
-			this.WaterGrid.Columns.Get(2).CellType = numberCellType2;
-			this.WaterGrid.Columns.Get(2).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
-			this.WaterGrid.Columns.Get(2).Label = "(%)";
-			this.WaterGrid.Columns.Get(2).Locked = true;
-			numberCellType3.ButtonAlign = FarPoint.Win.ButtonAlign.Right;
-			numberCellType3.DecimalPlaces = 2;
-			numberCellType3.DropDownButton = false;
-			this.WaterGrid.Columns.Get(3).CellType = numberCellType3;
-			this.WaterGrid.Columns.Get(3).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
-			this.WaterGrid.Columns.Get(3).Label = "(%)";
-			this.WaterGrid.DefaultStyle.BackColor = System.Drawing.Color.White;
-			this.WaterGrid.DefaultStyle.Parent = "DataAreaDefault";
-			this.WaterGrid.RowHeader.Columns.Default.Resizable = false;
-			this.WaterGrid.RowHeader.Visible = false;
-			this.WaterGrid.SheetName = "Sheet1";
-			this.WaterGrid.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.WaterGrid_CellChanged);
-			this.WaterGrid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
-			// 
-			// LayeredRadio
-			// 
-			this.LayeredRadio.Location = new System.Drawing.Point(8, 56);
-			this.LayeredRadio.Name = "LayeredRadio";
-			this.LayeredRadio.Size = new System.Drawing.Size(293, 21);
-			this.LayeredRadio.TabIndex = 28;
-			this.LayeredRadio.Text = "Specify water as layered values";
-			this.LayeredRadio.CheckedChanged += new System.EventHandler(this.LayeredRadio_CheckedChanged);
-			// 
-			// GroupBox
-			// 
-			this.GroupBox.Controls.Add(this.PercentPanel);
-			this.GroupBox.Location = new System.Drawing.Point(8, 80);
-			this.GroupBox.Name = "GroupBox";
-			this.GroupBox.Size = new System.Drawing.Size(272, 118);
-			this.GroupBox.TabIndex = 27;
-			this.GroupBox.TabStop = false;
-			this.GroupBox.Text = "Properties";
-			// 
-			// DepthWetSoilPanel
-			// 
-			this.DepthWetSoilPanel.Controls.Add(this.Label3);
-			this.DepthWetSoilPanel.Controls.Add(this.DepthEdit);
-			this.DepthWetSoilPanel.Location = new System.Drawing.Point(8, 0);
-			this.DepthWetSoilPanel.Name = "DepthWetSoilPanel";
-			this.DepthWetSoilPanel.Size = new System.Drawing.Size(200, 34);
-			this.DepthWetSoilPanel.TabIndex = 16;
-			// 
-			// Label3
-			// 
-			this.Label3.AutoSize = true;
-			this.Label3.Location = new System.Drawing.Point(67, 7);
-			this.Label3.Name = "Label3";
-			this.Label3.Size = new System.Drawing.Size(39, 16);
-			this.Label3.TabIndex = 14;
-			this.Label3.Text = "cm soil";
-			// 
-			// DepthEdit
-			// 
-			this.DepthEdit.Location = new System.Drawing.Point(7, 7);
-			this.DepthEdit.Name = "DepthEdit";
-			this.DepthEdit.Size = new System.Drawing.Size(53, 20);
-			this.DepthEdit.TabIndex = 13;
-			this.DepthEdit.Text = "";
-			this.DepthEdit.TextChanged += new System.EventHandler(this.DepthEdit_TextChanged);
-			// 
-			// PercentPanel
-			// 
-			this.PercentPanel.Controls.Add(this.EvenlyDistributedRadio);
-			this.PercentPanel.Controls.Add(this.FilledFromTopRadio);
-			this.PercentPanel.Controls.Add(this.Label2);
-			this.PercentPanel.Controls.Add(this.PAWCEdit);
-			this.PercentPanel.Controls.Add(this.Label1);
-			this.PercentPanel.Controls.Add(this.PercentEdit);
-			this.PercentPanel.Controls.Add(this.DepthWetSoilPanel);
-			this.PercentPanel.Location = new System.Drawing.Point(8, 21);
-			this.PercentPanel.Name = "PercentPanel";
-			this.PercentPanel.Size = new System.Drawing.Size(256, 67);
-			this.PercentPanel.TabIndex = 15;
-			// 
-			// EvenlyDistributedRadio
-			// 
-			this.EvenlyDistributedRadio.Location = new System.Drawing.Point(136, 40);
-			this.EvenlyDistributedRadio.Name = "EvenlyDistributedRadio";
-			this.EvenlyDistributedRadio.Size = new System.Drawing.Size(113, 20);
-			this.EvenlyDistributedRadio.TabIndex = 16;
-			this.EvenlyDistributedRadio.Text = "Evenly distributed";
-			this.EvenlyDistributedRadio.CheckedChanged += new System.EventHandler(this.DistributionRadioChanged);
-			// 
-			// FilledFromTopRadio
-			// 
-			this.FilledFromTopRadio.Checked = true;
-			this.FilledFromTopRadio.Location = new System.Drawing.Point(13, 42);
-			this.FilledFromTopRadio.Name = "FilledFromTopRadio";
-			this.FilledFromTopRadio.Size = new System.Drawing.Size(127, 20);
-			this.FilledFromTopRadio.TabIndex = 15;
-			this.FilledFromTopRadio.TabStop = true;
-			this.FilledFromTopRadio.Text = "Filled from top";
-			this.FilledFromTopRadio.CheckedChanged += new System.EventHandler(this.DistributionRadioChanged);
-			// 
-			// Label2
-			// 
-			this.Label2.AutoSize = true;
-			this.Label2.Location = new System.Drawing.Point(167, 10);
-			this.Label2.Name = "Label2";
-			this.Label2.Size = new System.Drawing.Size(54, 16);
-			this.Label2.TabIndex = 14;
-			this.Label2.Text = "mm water";
-			// 
-			// PAWCEdit
-			// 
-			this.PAWCEdit.Location = new System.Drawing.Point(107, 7);
-			this.PAWCEdit.Name = "PAWCEdit";
-			this.PAWCEdit.Size = new System.Drawing.Size(53, 20);
-			this.PAWCEdit.TabIndex = 13;
-			this.PAWCEdit.Text = "";
-			this.PAWCEdit.TextChanged += new System.EventHandler(this.PAWCEdit_TextChanged);
-			// 
-			// Label1
-			// 
-			this.Label1.AutoSize = true;
-			this.Label1.Location = new System.Drawing.Point(67, 10);
-			this.Label1.Name = "Label1";
-			this.Label1.Size = new System.Drawing.Size(14, 16);
-			this.Label1.TabIndex = 12;
-			this.Label1.Text = "%";
-			// 
-			// PercentEdit
-			// 
-			this.PercentEdit.Location = new System.Drawing.Point(13, 7);
-			this.PercentEdit.Name = "PercentEdit";
-			this.PercentEdit.Size = new System.Drawing.Size(47, 20);
-			this.PercentEdit.TabIndex = 11;
-			this.PercentEdit.Value = new System.Decimal(new int[] {
-																	  100,
-																	  0,
-																	  0,
-																	  0});
-			this.PercentEdit.KeyUp += new System.Windows.Forms.KeyEventHandler(this.PercentEdit_KeyUp);
-			this.PercentEdit.ValueChanged += new System.EventHandler(this.PercentEdit_ValueChanged);
-			// 
-			// DepthWetSoilRadio
-			// 
-			this.DepthWetSoilRadio.Location = new System.Drawing.Point(8, 32);
-			this.DepthWetSoilRadio.Name = "DepthWetSoilRadio";
-			this.DepthWetSoilRadio.Size = new System.Drawing.Size(293, 20);
-			this.DepthWetSoilRadio.TabIndex = 26;
-			this.DepthWetSoilRadio.Text = "Specify water as a depth of wet soil";
-			this.DepthWetSoilRadio.CheckedChanged += new System.EventHandler(this.DepthWetSoilRadio_CheckedChanged);
-			// 
-			// PercentRadio
-			// 
-			this.PercentRadio.Location = new System.Drawing.Point(8, 8);
-			this.PercentRadio.Name = "PercentRadio";
-			this.PercentRadio.Size = new System.Drawing.Size(300, 21);
-			this.PercentRadio.TabIndex = 25;
-			this.PercentRadio.Text = "Specify a fraction of maximum available water";
-			this.PercentRadio.CheckedChanged += new System.EventHandler(this.PercentRadio_CheckedChanged);
-			// 
-			// splitter1
-			// 
-			this.splitter1.Location = new System.Drawing.Point(296, 40);
-			this.splitter1.Name = "splitter1";
-			this.splitter1.Size = new System.Drawing.Size(3, 718);
-			this.splitter1.TabIndex = 21;
-			this.splitter1.TabStop = false;
-			// 
-			// WaterChartControl
-			// 
-			this.WaterChartControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.WaterChartControl.LinkedSoil = null;
-			this.WaterChartControl.Location = new System.Drawing.Point(299, 40);
-			this.WaterChartControl.Name = "WaterChartControl";
-			this.WaterChartControl.ShowSoilWaterLine = false;
-			this.WaterChartControl.Size = new System.Drawing.Size(464, 718);
-			this.WaterChartControl.TabIndex = 22;
-			// 
-			// InitWaterUI
-			// 
-			this.ClientSize = new System.Drawing.Size(763, 758);
-			this.Controls.Add(this.WaterChartControl);
-			this.Controls.Add(this.splitter1);
-			this.Controls.Add(this.panel1);
-			this.Name = "InitWaterUI";
-			this.Controls.SetChildIndex(this.panel1, 0);
-			this.Controls.SetChildIndex(this.splitter1, 0);
-			this.Controls.SetChildIndex(this.WaterChartControl, 0);
-			this.panel1.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.WaterGrid)).EndInit();
-			this.GroupBox.ResumeLayout(false);
-			this.DepthWetSoilPanel.ResumeLayout(false);
-			this.PercentPanel.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.PercentEdit)).EndInit();
-			this.ResumeLayout(false);
+        FarPoint.Win.Spread.TipAppearance tipAppearance1 = new FarPoint.Win.Spread.TipAppearance();
+        FarPoint.Win.Spread.CellType.NumberCellType numberCellType1 = new FarPoint.Win.Spread.CellType.NumberCellType();
+        FarPoint.Win.Spread.CellType.NumberCellType numberCellType2 = new FarPoint.Win.Spread.CellType.NumberCellType();
+        FarPoint.Win.Spread.CellType.NumberCellType numberCellType3 = new FarPoint.Win.Spread.CellType.NumberCellType();
+        this.panel1 = new System.Windows.Forms.Panel();
+        this.Grid = new FarPoint.Win.Spread.FpSpread();
+        this.WaterGrid = new FarPoint.Win.Spread.SheetView();
+        this.LayeredRadio = new System.Windows.Forms.RadioButton();
+        this.GroupBox = new System.Windows.Forms.GroupBox();
+        this.PercentPanel = new System.Windows.Forms.Panel();
+        this.EvenlyDistributedRadio = new System.Windows.Forms.RadioButton();
+        this.FilledFromTopRadio = new System.Windows.Forms.RadioButton();
+        this.Label2 = new System.Windows.Forms.Label();
+        this.PAWCEdit = new System.Windows.Forms.TextBox();
+        this.Label1 = new System.Windows.Forms.Label();
+        this.PercentEdit = new System.Windows.Forms.NumericUpDown();
+        this.DepthWetSoilPanel = new System.Windows.Forms.Panel();
+        this.Label3 = new System.Windows.Forms.Label();
+        this.DepthEdit = new System.Windows.Forms.TextBox();
+        this.DepthWetSoilRadio = new System.Windows.Forms.RadioButton();
+        this.PercentRadio = new System.Windows.Forms.RadioButton();
+        this.splitter1 = new System.Windows.Forms.Splitter();
+        this.WaterChartControl = new CSGeneral.WaterChartControl();
+        this.panel1.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)(this.WaterGrid)).BeginInit();
+        this.GroupBox.SuspendLayout();
+        this.PercentPanel.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)(this.PercentEdit)).BeginInit();
+        this.DepthWetSoilPanel.SuspendLayout();
+        this.SuspendLayout();
+        // 
+        // panel1
+        // 
+        this.panel1.Controls.Add(this.Grid);
+        this.panel1.Controls.Add(this.LayeredRadio);
+        this.panel1.Controls.Add(this.GroupBox);
+        this.panel1.Controls.Add(this.DepthWetSoilRadio);
+        this.panel1.Controls.Add(this.PercentRadio);
+        this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
+        this.panel1.Location = new System.Drawing.Point(0, 40);
+        this.panel1.Name = "panel1";
+        this.panel1.Size = new System.Drawing.Size(296, 677);
+        this.panel1.TabIndex = 2;
+        // 
+        // Grid
+        // 
+        this.Grid.AccessibleDescription = "";
+        this.Grid.BackColor = System.Drawing.SystemColors.Control;
+        this.Grid.EditModeReplace = true;
+        this.Grid.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded;
+        this.Grid.Location = new System.Drawing.Point(16, 224);
+        this.Grid.Name = "Grid";
+        this.Grid.Sheets.AddRange(new FarPoint.Win.Spread.SheetView[] {
+            this.WaterGrid});
+        this.Grid.Size = new System.Drawing.Size(272, 280);
+        this.Grid.TabIndex = 30;
+        tipAppearance1.BackColor = System.Drawing.SystemColors.Info;
+        tipAppearance1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        tipAppearance1.ForeColor = System.Drawing.SystemColors.InfoText;
+        this.Grid.TextTipAppearance = tipAppearance1;
+        this.Grid.VerticalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded;
+        // 
+        // WaterGrid
+        // 
+        this.WaterGrid.Reset();
+        // Formulas and custom names must be loaded with R1C1 reference style
+        this.WaterGrid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1;
+        this.WaterGrid.ColumnCount = 4;
+        this.WaterGrid.ColumnHeader.RowCount = 2;
+        this.WaterGrid.AutoUpdateNotes = true;
+        this.WaterGrid.ColumnHeader.Cells.Get(0, 0).Value = "Depth";
+        this.WaterGrid.ColumnHeader.Cells.Get(0, 1).Value = "LL15";
+        this.WaterGrid.ColumnHeader.Cells.Get(0, 2).Value = "DUL";
+        this.WaterGrid.ColumnHeader.Cells.Get(0, 3).Value = "SW";
+        this.WaterGrid.ColumnHeader.Cells.Get(1, 0).Value = "(cm)";
+        this.WaterGrid.ColumnHeader.Cells.Get(1, 1).Value = "(%)";
+        this.WaterGrid.ColumnHeader.Cells.Get(1, 2).Value = "(%)";
+        this.WaterGrid.ColumnHeader.Cells.Get(1, 3).Value = "(%)";
+        this.WaterGrid.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
+        this.WaterGrid.Columns.Get(0).Label = "(cm)";
+        this.WaterGrid.Columns.Get(0).Locked = true;
+        numberCellType1.DecimalPlaces = 2;
+        this.WaterGrid.Columns.Get(1).CellType = numberCellType1;
+        this.WaterGrid.Columns.Get(1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
+        this.WaterGrid.Columns.Get(1).Label = "(%)";
+        this.WaterGrid.Columns.Get(1).Locked = true;
+        numberCellType2.DecimalPlaces = 2;
+        this.WaterGrid.Columns.Get(2).CellType = numberCellType2;
+        this.WaterGrid.Columns.Get(2).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
+        this.WaterGrid.Columns.Get(2).Label = "(%)";
+        this.WaterGrid.Columns.Get(2).Locked = true;
+        numberCellType3.DecimalPlaces = 2;
+        this.WaterGrid.Columns.Get(3).CellType = numberCellType3;
+        this.WaterGrid.Columns.Get(3).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
+        this.WaterGrid.Columns.Get(3).Label = "(%)";
+        this.WaterGrid.DefaultStyle.BackColor = System.Drawing.Color.White;
+        this.WaterGrid.DefaultStyle.Locked = false;
+        this.WaterGrid.DefaultStyle.Parent = "DataAreaDefault";
+        this.WaterGrid.RowHeader.Columns.Default.Resizable = false;
+        this.WaterGrid.RowHeader.Visible = false;
+        this.WaterGrid.SheetName = "Sheet1";
+        this.WaterGrid.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.WaterGrid_CellChanged);
+        this.WaterGrid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
+        // 
+        // LayeredRadio
+        // 
+        this.LayeredRadio.Location = new System.Drawing.Point(8, 56);
+        this.LayeredRadio.Name = "LayeredRadio";
+        this.LayeredRadio.Size = new System.Drawing.Size(293, 21);
+        this.LayeredRadio.TabIndex = 28;
+        this.LayeredRadio.Text = "Specify water as layered values";
+        this.LayeredRadio.CheckedChanged += new System.EventHandler(this.LayeredRadio_CheckedChanged);
+        // 
+        // GroupBox
+        // 
+        this.GroupBox.Controls.Add(this.PercentPanel);
+        this.GroupBox.Location = new System.Drawing.Point(8, 80);
+        this.GroupBox.Name = "GroupBox";
+        this.GroupBox.Size = new System.Drawing.Size(272, 118);
+        this.GroupBox.TabIndex = 27;
+        this.GroupBox.TabStop = false;
+        this.GroupBox.Text = "Properties";
+        // 
+        // PercentPanel
+        // 
+        this.PercentPanel.Controls.Add(this.EvenlyDistributedRadio);
+        this.PercentPanel.Controls.Add(this.FilledFromTopRadio);
+        this.PercentPanel.Controls.Add(this.Label2);
+        this.PercentPanel.Controls.Add(this.PAWCEdit);
+        this.PercentPanel.Controls.Add(this.Label1);
+        this.PercentPanel.Controls.Add(this.PercentEdit);
+        this.PercentPanel.Controls.Add(this.DepthWetSoilPanel);
+        this.PercentPanel.Location = new System.Drawing.Point(8, 21);
+        this.PercentPanel.Name = "PercentPanel";
+        this.PercentPanel.Size = new System.Drawing.Size(256, 67);
+        this.PercentPanel.TabIndex = 15;
+        // 
+        // EvenlyDistributedRadio
+        // 
+        this.EvenlyDistributedRadio.Location = new System.Drawing.Point(136, 40);
+        this.EvenlyDistributedRadio.Name = "EvenlyDistributedRadio";
+        this.EvenlyDistributedRadio.Size = new System.Drawing.Size(113, 20);
+        this.EvenlyDistributedRadio.TabIndex = 16;
+        this.EvenlyDistributedRadio.Text = "Evenly distributed";
+        this.EvenlyDistributedRadio.CheckedChanged += new System.EventHandler(this.DistributionRadioChanged);
+        // 
+        // FilledFromTopRadio
+        // 
+        this.FilledFromTopRadio.Checked = true;
+        this.FilledFromTopRadio.Location = new System.Drawing.Point(13, 42);
+        this.FilledFromTopRadio.Name = "FilledFromTopRadio";
+        this.FilledFromTopRadio.Size = new System.Drawing.Size(127, 20);
+        this.FilledFromTopRadio.TabIndex = 15;
+        this.FilledFromTopRadio.TabStop = true;
+        this.FilledFromTopRadio.Text = "Filled from top";
+        this.FilledFromTopRadio.CheckedChanged += new System.EventHandler(this.DistributionRadioChanged);
+        // 
+        // Label2
+        // 
+        this.Label2.AutoSize = true;
+        this.Label2.Location = new System.Drawing.Point(167, 10);
+        this.Label2.Name = "Label2";
+        this.Label2.Size = new System.Drawing.Size(52, 13);
+        this.Label2.TabIndex = 14;
+        this.Label2.Text = "mm water";
+        // 
+        // PAWCEdit
+        // 
+        this.PAWCEdit.Location = new System.Drawing.Point(107, 7);
+        this.PAWCEdit.Name = "PAWCEdit";
+        this.PAWCEdit.Size = new System.Drawing.Size(53, 20);
+        this.PAWCEdit.TabIndex = 13;
+        this.PAWCEdit.TextChanged += new System.EventHandler(this.PAWCEdit_TextChanged);
+        // 
+        // Label1
+        // 
+        this.Label1.AutoSize = true;
+        this.Label1.Location = new System.Drawing.Point(67, 10);
+        this.Label1.Name = "Label1";
+        this.Label1.Size = new System.Drawing.Size(15, 13);
+        this.Label1.TabIndex = 12;
+        this.Label1.Text = "%";
+        // 
+        // PercentEdit
+        // 
+        this.PercentEdit.Location = new System.Drawing.Point(13, 7);
+        this.PercentEdit.Name = "PercentEdit";
+        this.PercentEdit.Size = new System.Drawing.Size(47, 20);
+        this.PercentEdit.TabIndex = 11;
+        this.PercentEdit.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+        this.PercentEdit.ValueChanged += new System.EventHandler(this.PercentEdit_ValueChanged);
+        this.PercentEdit.KeyUp += new System.Windows.Forms.KeyEventHandler(this.PercentEdit_KeyUp);
+        // 
+        // DepthWetSoilPanel
+        // 
+        this.DepthWetSoilPanel.Controls.Add(this.Label3);
+        this.DepthWetSoilPanel.Controls.Add(this.DepthEdit);
+        this.DepthWetSoilPanel.Location = new System.Drawing.Point(8, 0);
+        this.DepthWetSoilPanel.Name = "DepthWetSoilPanel";
+        this.DepthWetSoilPanel.Size = new System.Drawing.Size(200, 34);
+        this.DepthWetSoilPanel.TabIndex = 16;
+        // 
+        // Label3
+        // 
+        this.Label3.AutoSize = true;
+        this.Label3.Location = new System.Drawing.Point(67, 7);
+        this.Label3.Name = "Label3";
+        this.Label3.Size = new System.Drawing.Size(39, 13);
+        this.Label3.TabIndex = 14;
+        this.Label3.Text = "cm soil";
+        // 
+        // DepthEdit
+        // 
+        this.DepthEdit.Location = new System.Drawing.Point(7, 7);
+        this.DepthEdit.Name = "DepthEdit";
+        this.DepthEdit.Size = new System.Drawing.Size(53, 20);
+        this.DepthEdit.TabIndex = 13;
+        this.DepthEdit.TextChanged += new System.EventHandler(this.DepthEdit_TextChanged);
+        // 
+        // DepthWetSoilRadio
+        // 
+        this.DepthWetSoilRadio.Location = new System.Drawing.Point(8, 32);
+        this.DepthWetSoilRadio.Name = "DepthWetSoilRadio";
+        this.DepthWetSoilRadio.Size = new System.Drawing.Size(293, 20);
+        this.DepthWetSoilRadio.TabIndex = 26;
+        this.DepthWetSoilRadio.Text = "Specify water as a depth of wet soil";
+        this.DepthWetSoilRadio.CheckedChanged += new System.EventHandler(this.DepthWetSoilRadio_CheckedChanged);
+        // 
+        // PercentRadio
+        // 
+        this.PercentRadio.Location = new System.Drawing.Point(8, 8);
+        this.PercentRadio.Name = "PercentRadio";
+        this.PercentRadio.Size = new System.Drawing.Size(300, 21);
+        this.PercentRadio.TabIndex = 25;
+        this.PercentRadio.Text = "Specify a fraction of maximum available water";
+        this.PercentRadio.CheckedChanged += new System.EventHandler(this.PercentRadio_CheckedChanged);
+        // 
+        // splitter1
+        // 
+        this.splitter1.Location = new System.Drawing.Point(296, 40);
+        this.splitter1.Name = "splitter1";
+        this.splitter1.Size = new System.Drawing.Size(3, 677);
+        this.splitter1.TabIndex = 21;
+        this.splitter1.TabStop = false;
+        // 
+        // WaterChartControl
+        // 
+        this.WaterChartControl.Dock = System.Windows.Forms.DockStyle.Fill;
+        this.WaterChartControl.LinkedSoil = null;
+        this.WaterChartControl.Location = new System.Drawing.Point(299, 40);
+        this.WaterChartControl.Name = "WaterChartControl";
+        this.WaterChartControl.ShowSoilWaterLine = false;
+        this.WaterChartControl.Size = new System.Drawing.Size(444, 677);
+        this.WaterChartControl.TabIndex = 22;
+        // 
+        // InitWaterUI
+        // 
+        this.Controls.Add(this.WaterChartControl);
+        this.Controls.Add(this.splitter1);
+        this.Controls.Add(this.panel1);
+        this.Name = "InitWaterUI";
+        this.Size = new System.Drawing.Size(743, 717);
+        this.Controls.SetChildIndex(this.panel1, 0);
+        this.Controls.SetChildIndex(this.splitter1, 0);
+        this.Controls.SetChildIndex(this.WaterChartControl, 0);
+        this.panel1.ResumeLayout(false);
+        ((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
+        ((System.ComponentModel.ISupportInitialize)(this.WaterGrid)).EndInit();
+        this.GroupBox.ResumeLayout(false);
+        this.PercentPanel.ResumeLayout(false);
+        this.PercentPanel.PerformLayout();
+        ((System.ComponentModel.ISupportInitialize)(this.PercentEdit)).EndInit();
+        this.DepthWetSoilPanel.ResumeLayout(false);
+        this.DepthWetSoilPanel.PerformLayout();
+        this.ResumeLayout(false);
 
 		}
 		#endregion

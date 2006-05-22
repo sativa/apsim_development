@@ -88,7 +88,7 @@ namespace test
 				"[endfile]\r\n";
 
 			Macro macro = new Macro();
-			macro.Go(new APSIMData(Values), Template, "");
+			macro.Go(new APSIMData(Values), Template);
 			StreamReader i = new StreamReader("test.txt");
 			string Result = i.ReadToEnd();
 			Assert.AreEqual(Result, 

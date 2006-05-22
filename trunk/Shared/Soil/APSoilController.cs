@@ -217,6 +217,23 @@ namespace CSGeneral
 				AddXMLToSelected("<sample name=\"NewSample\"/>");
 			}
 
+        public void CheckAllSoils(APSIMData Data, ref string ErrorMessage)
+            {
+            // Check all soils and return an error message string
+            foreach (APSIMData Child in Data.get_Children(null))
+                {
+                if (Child.Type.ToLower() == "folder" || Child.Type.ToLower() == "soils")
+                    CheckAllSoils(Child, ref ErrorMessage);
+                else if (Child.Type.ToLower() == "soil")
+                    {
+                    Soil ThisSoil = new Soil(Child);
+                    string Errors = ThisSoil.CheckForErrors();
+                    if (Errors != "")
+                        ErrorMessage += "\r\n" + ThisSoil.Name + "\r\n" + StringManip.IndentText(Errors, 6);
+                    }
+                }
+            }
+
 		}
 	}
 

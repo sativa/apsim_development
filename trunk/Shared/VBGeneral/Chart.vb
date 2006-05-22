@@ -1,7 +1,7 @@
-
-Imports System.Drawing
 Imports Xceed.Chart
 Imports Xceed.Chart.Core
+Imports Xceed.Chart.GraphicsCore
+Imports System.Drawing
 
 ' -----------------------------------------------
 ' This component provides a simpler interface
@@ -9,7 +9,7 @@ Imports Xceed.Chart.Core
 ' -----------------------------------------------
 Public Class ChartHelper
     Inherits System.ComponentModel.Component
-    Private _Chart As ChartControl
+    Private _Chart As Xceed.Chart.ChartControl
     Private _DataTable As DataTable
 
     ' ---------------
@@ -59,12 +59,12 @@ Public Class ChartHelper
     ' ----------------------------------------------
     Public Function CreateChartSeries(ByVal SeriesName As String, _
                                                 ByVal Markers As Boolean, ByVal SeriesColour As Color, _
-                                                ByVal Width As Integer, ByVal LinePattern As Xceed.Chart.Standard.LinePattern, _
+                                                ByVal Width As Integer, ByVal LinePattern As LinePattern, _
                                                 ByVal LinkedXAxis As StandardAxis, ByVal LinkedYAxis As StandardAxis) As LineSeries
         If Not IsNothing(_Chart) Then
 
             ' create the series.
-            Dim NewSeries As LineSeries = _Chart.Charts(0).Series.Add(SeriesType.Line)
+            Dim NewSeries As LineSeries = CType(_Chart.Charts(0).Series.Add(SeriesType.Line), LineSeries)
             NewSeries.DataLabels.Mode = DataLabelsMode.None
             NewSeries.LineFillEffect.Color = SeriesColour
             NewSeries.Name = SeriesName
@@ -83,6 +83,8 @@ Public Class ChartHelper
             End If
 
             Return NewSeries
+        Else
+            Return Nothing
         End If
     End Function
 
@@ -95,7 +97,7 @@ Public Class ChartHelper
             Series.AddXY(y(Index), X(Index))
         Next
         Series.UseXValues = True
-        _Chart.Charts(0).Axis(Xceed.Chart.Core.StandardAxis.PrimaryX).ValueFormat.Format = Xceed.Chart.Utilities.ValueFormat.Default
+        _Chart.Charts(0).Axis(Xceed.Chart.Core.StandardAxis.PrimaryX).ValueFormatting.Format = Xceed.Chart.Utilities.ValueFormat.Default
     End Sub
     Private Sub PopulateChartSeries(ByVal Series As LineSeries, ByVal X() As Date, ByVal y() As Double)
         If X.Length <> y.Length Then
@@ -107,7 +109,7 @@ Public Class ChartHelper
         Next
         Series.UseXValues = True
 
-        _Chart.Charts(0).Axis(Xceed.Chart.Core.StandardAxis.PrimaryX).ValueFormat.Format = Xceed.Chart.Utilities.ValueFormat.Date
+        _Chart.Charts(0).Axis(Xceed.Chart.Core.StandardAxis.PrimaryX).ValueFormatting.Format = Xceed.Chart.Utilities.ValueFormat.Date
         With _Chart.Charts(0).Axis(Xceed.Chart.Core.StandardAxis.PrimaryX).DateTimeScale
             .MajorTickMode = Xceed.Chart.Core.MajorTickModeDateTime.Months
             .AutoMin = True
@@ -121,7 +123,7 @@ Public Class ChartHelper
     ' ----------------------------------------------
     Public Sub CreateChartSeriesFromDataTable(ByVal SeriesName As String, ByVal XColumn As String, ByVal YColumn As String, _
                                                                 ByVal Markers As Boolean, ByVal SeriesColour As Color, _
-                                                                ByVal Width As Integer, ByVal LinePattern As Xceed.Chart.Standard.LinePattern, _
+                                                                ByVal Width As Integer, ByVal LinePattern As LinePattern, _
                                                                 ByVal LinkedXAxis As StandardAxis, ByVal LinkedYAxis As StandardAxis)
 
         If Not IsNothing(_Chart) And Not IsNothing(_DataTable) Then
@@ -132,8 +134,8 @@ Public Class ChartHelper
 
             Dim i As Integer = 0
             For Each row As System.Data.DataRow In _DataTable.Rows
-                X(i) = row(XColumn)
-                Y(i) = row(YColumn)
+                X(i) = CDate(row(XColumn))
+                Y(i) = CDbl(row(YColumn))
                 i = i + 1
             Next
 
@@ -152,7 +154,7 @@ Public Class ChartHelper
     ' ----------------------------------------------
     Public Sub CreateChartSeriesFromArray(ByVal SeriesName As String, ByVal X() As Double, ByVal Y() As Double, _
                                                                 ByVal Markers As Boolean, ByVal SeriesColour As Color, _
-                                                                ByVal Width As Integer, ByVal LinePattern As Xceed.Chart.Standard.LinePattern, _
+                                                                ByVal Width As Integer, ByVal LinePattern As LinePattern, _
                                                                 ByVal LinkedXAxis As StandardAxis, ByVal LinkedYAxis As StandardAxis)
 
 

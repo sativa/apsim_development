@@ -221,7 +221,7 @@ Public Class TrackerUI
             .ShowInTaskbar = False
             .StartPosition = FormStartPosition.Manual
             .ControlBox = False
-            .Location = Cursor.Position
+            .Location = Windows.Forms.Cursor.Position
             .Width = 300
             .Top += 10
 
@@ -229,7 +229,11 @@ Public Class TrackerUI
 
         End With
 
-        If aDialogBox.ShowDialog(Me) = DialogResult.OK Then Return aDialogBox.Value.Trim.Replace(" ", "_")
+        If aDialogBox.ShowDialog(Me) = DialogResult.OK Then
+            Return aDialogBox.Value.Trim.Replace(" ", "_")
+        Else
+            Return ""
+        End If
 
     End Function
 
@@ -241,7 +245,7 @@ Public Class TrackerUI
         With NumberSlider
             .TrackerNumber.Minimum = 1
             .TrackerNumber.Maximum = 50
-            .Location = Cursor.Position
+            .Location = Windows.Forms.Cursor.Position
             .Top += 10
             .TrackerNumber.Value = StartValue
 
@@ -259,12 +263,17 @@ Public Class TrackerUI
         Dim VariableTree As New OutputVariablesForm(Me.Controller, TreeType)
 
         With VariableTree
-            .Location = Cursor.Position
+            .Location = Windows.Forms.Cursor.Position
             .Top += 10
 
         End With
 
-        If VariableTree.ShowDialog() = DialogResult.OK Then Return VariableTree.VariableName
+        If VariableTree.ShowDialog() = DialogResult.OK Then
+            Return VariableTree.VariableName
+        Else
+            Return ""
+        End If
+
 
     End Function
 
@@ -287,12 +296,17 @@ Public Class TrackerUI
 
         End With
 
-        alistbox.Location = Cursor.Position
+        alistbox.Location = Windows.Forms.Cursor.Position
         alistbox.Size = New System.Drawing.Size(112, 150)
 
         alistbox.Top += 10
 
-        If alistbox.ShowDialog(Me) = DialogResult.OK Then Return alistbox.ListView.SelectedItems(0).Text
+        If alistbox.ShowDialog(Me) = DialogResult.OK Then
+            Return alistbox.ListView.SelectedItems(0).Text
+        Else
+            Return ""
+        End If
+
 
     End Function
 
@@ -316,7 +330,7 @@ Public Class TrackerUI
 
         Dim strReturnValue As String = ""
         Dim strErrorMessage As String = ""
-        Dim EventName2Link As CSGeneral.HyperTextLink
+        Dim EventName2Link As CSGeneral.HyperTextLink = Nothing
 
 
         For Each link As CSGeneral.HyperTextLink In Me.TextBuilder.HyperTextCollection
@@ -382,7 +396,7 @@ Public Class TrackerUI
 
     End Function
 
-    Private Function UserHasSetLink(ByVal linkText As String, ByVal linkData As String)
+    Private Function UserHasSetLink(ByVal linkText As String, ByVal linkData As String) As String
 
         Return Not linkText.ToUpper = linkData.ToUpper
     End Function

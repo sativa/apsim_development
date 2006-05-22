@@ -43,6 +43,7 @@ Public Class RuleUI
     Friend WithEvents FpSpread1 As FarPoint.Win.Spread.FpSpread
     Friend WithEvents PropertyGrid As FarPoint.Win.Spread.SheetView
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+        Dim TipAppearance1 As FarPoint.Win.Spread.TipAppearance = New FarPoint.Win.Spread.TipAppearance
         Me.TabControl1 = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
         Me.FpSpread1 = New FarPoint.Win.Spread.FpSpread
@@ -60,7 +61,7 @@ Public Class RuleUI
         Me.TabControl1.Location = New System.Drawing.Point(0, 40)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(726, 733)
+        Me.TabControl1.Size = New System.Drawing.Size(734, 677)
         Me.TabControl1.TabIndex = 3
         '
         'TabPage1
@@ -68,19 +69,26 @@ Public Class RuleUI
         Me.TabPage1.Controls.Add(Me.FpSpread1)
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Size = New System.Drawing.Size(718, 707)
+        Me.TabPage1.Size = New System.Drawing.Size(726, 651)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Properties"
         '
         'FpSpread1
         '
+        Me.FpSpread1.AccessibleDescription = "FpSpread1, Sheet1, Row 0, Column 0, "
         Me.FpSpread1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FpSpread1.EditModeReplace = True
+        Me.FpSpread1.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded
         Me.FpSpread1.Location = New System.Drawing.Point(0, 0)
         Me.FpSpread1.Name = "FpSpread1"
         Me.FpSpread1.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.PropertyGrid})
-        Me.FpSpread1.Size = New System.Drawing.Size(718, 707)
+        Me.FpSpread1.Size = New System.Drawing.Size(726, 651)
         Me.FpSpread1.TabIndex = 0
+        TipAppearance1.BackColor = System.Drawing.SystemColors.Info
+        TipAppearance1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        TipAppearance1.ForeColor = System.Drawing.SystemColors.InfoText
+        Me.FpSpread1.TextTipAppearance = TipAppearance1
+        Me.FpSpread1.VerticalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded
         '
         'PropertyGrid
         '
@@ -88,6 +96,7 @@ Public Class RuleUI
         'Formulas and custom names must be loaded with R1C1 reference style
         Me.PropertyGrid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1
         Me.PropertyGrid.ColumnCount = 4
+        Me.PropertyGrid.AutoUpdateNotes = True
         Me.PropertyGrid.ColumnHeader.Visible = False
         Me.PropertyGrid.Columns.Get(0).Width = 298.0!
         Me.PropertyGrid.Columns.Get(1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Left
@@ -103,7 +112,7 @@ Public Class RuleUI
         '
         Me.Controls.Add(Me.TabControl1)
         Me.Name = "RuleUI"
-        Me.Size = New System.Drawing.Size(726, 773)
+        Me.Size = New System.Drawing.Size(734, 717)
         Me.Controls.SetChildIndex(Me.TabControl1, 0)
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
@@ -240,14 +249,14 @@ Public Class RuleUI
     End Sub
 
 
-    Private Function IsValidDate(ByVal aDate As String)
+    Private Function IsValidDate(ByVal aDate As String) As Boolean
         'Checks if the given date is valid against an Australian Culture
 
         Dim systemDateInfo As System.Globalization.DateTimeFormatInfo = New System.Globalization.CultureInfo("en-AU").DateTimeFormat()
         Dim blnIsValid As Boolean = True
 
         Try
-            Date.Parse(aDate).Parse(aDate, systemDateInfo)
+            Date.Parse(aDate, systemDateInfo)
 
         Catch fe As System.FormatException
             MessageBox.Show(fe.Message, "Invalid Date", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -284,7 +293,7 @@ Public Class RuleUI
         Dim CropPropertyName As String = CultivarProp.Attribute("croppropertyname")
 
         ' Locate the crop property name to get the instance name of the crop.
-        Dim InstanceName As String
+        Dim InstanceName As String = ""
         For Each Category As APSIMData In Controller.Data.Children("category")
             For Each Prop As APSIMData In Category.Children("property")
                 If Prop.Attribute("name").ToLower = CropPropertyName Then

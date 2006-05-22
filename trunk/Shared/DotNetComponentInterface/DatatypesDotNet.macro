@@ -13,46 +13,46 @@ namespace ComponentInterface {
 #for_each structure
 //-------------------- structure.name type
 #if (structure.array = T)
-[DefaultMemberAttribute(S"value")]
+[DefaultMemberAttribute("value")]
 #endif
-public __gc class structure.name : public IManagedData #if (structure.array = T), public IEnumerable#endif
+public ref class structure.name : public IManagedData #if (structure.array = T), public IEnumerable#endif
 
    {
    public:
-      __delegate void EventHandler(structure.name* handler);
-      EventHandler* handler;
+      delegate void EventHandler(structure.name^ handler);
+      EventHandler^ handler;
 
       #if (structure.array = T)
-      structure.name() : values(NULL) { }
-      structure.name(int numElements) : values(new Type*[numElements]) { }
-      __gc struct Type
+      structure.name() : values(nullptr) { }
+      structure.name(int numElements) : values(gcnew array<Type^>(numElements)) { }
+      ref struct Type
          {
       #endif
          #for_each structure.field
          #if (field.ctype = std::string)
-         String* field.name;
+         String^ field.name;
          #elseif (field.isStructure = T)
-         field.ctype* field.name;
+         field.ctype^ field.name;
          #else
          field.ctype field.name;
          #endif
          #endfor
       #if (structure.array = T)
          };
-      __property Type* get_value(int index) { return values[index]; }
-      __property void set_value(int index, Type* value) { values[index] = value; }
-      __property int get_Count() { return values->Count; }
-      virtual IEnumerator* GetEnumerator() {return values->GetEnumerator();}
+      property Type^ value[int] { Type^ get(int index) {return values[index];}
+                                  void set(int index, Type^ value) {values[index] = value;} }
+      property int Count { int get() {return values->Length;} }
+      virtual IEnumerator^ GetEnumerator() {return values->GetEnumerator();}
 
       #else
       structure.name() { }
       #endif
 
-      void pack(Message& message)
+      virtual void pack(Message& message) override
          {
          #if (structure.array = T)
-         ApsimInteger4(values->Count).pack(message);
-         for (int i = 0; i != values->Count; i++)
+         ApsimInteger4(values->Length).pack(message);
+         for (int i = 0; i != values->Length; i++)
             {
             #for_each structure.field
             #if (field.isStructure = T)
@@ -72,17 +72,19 @@ public __gc class structure.name : public IManagedData #if (structure.array = T)
          #endfor
          #endif
          }
-      void unpack(Message& message)
+      virtual void unpack(Message& message) override
          {
          #if (structure.array = T)
          int count = ApsimInteger4(message).value();
-         values = new Type*[count];
-         for (int i = 0; i != values->Count; i++)
+         values = gcnew array<Type^>(count);
+         for (int i = 0; i != values->Length; i++)
             {
-            values[i] = new Type;
+            values[i] = gcnew Type;
             #for_each structure.field
             #if (field.isStructure = T)
             values[i]->field.name->unpack(message);
+            #elseif (field.ctype = std::string)
+            values[i]->field.name = gcnew String(Apsimfield.KKind(message).value());
             #elseif (field.ctype <> char*)
             values[i]->field.name = Apsimfield.KKind(message).value();
             #endif
@@ -91,8 +93,10 @@ public __gc class structure.name : public IManagedData #if (structure.array = T)
          #else
          #for_each structure.field
          #if (field.isStructure = T)
-         field.name = new ComponentInterface::field.ctype;
+         field.name = gcnew ComponentInterface::field.ctype;
          field.name->unpack(message);
+         #elseif (field.ctype = std::string)
+         field.name = gcnew String(Apsimfield.KKind(message).value());
          #elseif (field.ctype <> char*)
          field.name = Apsimfield.KKind(message).value();
          #endif
@@ -100,12 +104,12 @@ public __gc class structure.name : public IManagedData #if (structure.array = T)
          #endif
          }
       #if (structure.message <> T)
-      const char* ddml()
+      virtual const char* ddml() override
          {
          return
 structure.dotnetddml;
          }
-   virtual void invokeEvent(Message& message)
+   virtual void invokeEvent(Message& message) override
       {
       handler(this);
       }
@@ -113,7 +117,8 @@ structure.dotnetddml;
       #endif
    #if (structure.array = T)
    private:
-      Type* values[];
+      array<Type^>^ values;
+
    #endif
    };
 #endfor
@@ -128,7 +133,7 @@ structure.dotnetddml;
 #include "utility.h"
 
 namespace ComponentInterface {
-public  __gc class ApsimEvents
+public ref class ApsimEvents
    {
    private:
       ComponentComms* comms;
@@ -139,20 +144,20 @@ public  __gc class ApsimEvents
       // -----------------
       // event.name
       // -----------------
-      void RegisterHandler(String* eventName, event.type::EventHandler* handler)
+      void RegisterHandler(String^ eventName, event.type::EventHandler^ handler)
          {
-         event.type* event = new event.type;
+         event.type^ event = gcnew event.type;
          event->handler = handler;
-         IEventData* Data = new WrapManaged<event.type*>(event);
+         IEventData* Data = new WrapManaged<event.type^>(event);
          comms->registerEventHandler(stringToStdString(eventName), Data);
          }
 
       // -----------------
       // event.name
       // -----------------
-      void Publish(String* eventName, event.type* data)
+      void Publish(String^ eventName, event.type^ data)
          {
-         IEventData* Data = new WrapManaged<event.type*>(data);
+         IEventData* Data = new WrapManaged<event.type^>(data);
          comms->publishEvent(stringToStdString(eventName), Data);
          }
 
@@ -174,64 +179,77 @@ namespace ComponentInterface {
 #for_each type
 
 
-public __gc class type.nameFunction : public IManagedData
+public ref class type.nameFunction : public IManagedData
    {
    private:
       Apsimtype.KKind* Dummy;
 
    public:
-      __delegate type.dotnetkind Handler() type.dotnetarraybits;
-      Handler* handler;
+      delegate type.dotnetkind Handler();
+      Handler^ handler;
       type.nameFunction(){Dummy = new Apsimtype.KKind;}
       ~type.nameFunction() {delete Dummy;}
-      void pack(Message& message)
+      virtual void pack(Message& message) override
          {
          Apsimtype.KKind(handler->Invoke()).pack(message);
          }
-      const char* ddml()
+      virtual const char* ddml() override
          {
          return Dummy->ddml();
          }
-      void unpack(Message& message) {throw new Exception("Cannot unpack a type.kindFunction");}
-      virtual void invokeEvent(Message& message) {throw new Exception("Cannot unpack a calcFunction");}
+      virtual void unpack(Message& message) override {throw gcnew Exception("Cannot unpack a type.kindFunction");}
+      virtual void invokeEvent(Message& message) override {throw gcnew Exception("Cannot unpack a calcFunction");}
    };
 #endfor
 
 
-public  __gc class ApsimProperties
+public  ref class ApsimProperties
    {
    private:
       ComponentComms* comms;
    public:
-      __value enum ReadWriteType {Read=1, ReadWrite=2, Write=3};
+      enum class ReadWriteType {Read=1, ReadWrite=2, Write=3};
 
       ApsimProperties(ComponentComms* _comms) : comms(_comms) { }
 
 #for_each type
-      void Get(String* PropertyName, type.dotnetkind (*Data) type.dotnetarraybits)
+      #if (type.array = T)
+      void Get(String^ PropertyName, array<type.dotnetkind>^% Data)
          {
-         #if (type.array = T)
          ApsimArray<Apsimtype.KKind, type.dotnetkind> Value;
-         #else
-         Apsimtype.KKind Value;
-         #endif
          comms->getProperty(stringToStdString(PropertyName), "", Value);
-         *Data = Value.value();
-         }
-      bool Set(String* PropertyName, type.dotnetkind Data type.dotnetarraybits)
+      #else
+      void Get(String^ PropertyName, type.dotnetkind Data)
          {
-         #if (type.array = T)
+         Apsimtype.KKind Value;
+         comms->getProperty(stringToStdString(PropertyName), "", Value);
+      #endif
+      #if (type.ckind = std::string)
+         Data = gcnew String(Value.value());
+      #elseif (type.array = T)
+		   Data = Value.value();
+      #else
+         Data = Value.value();
+      #endif
+         }
+      #if (type.array = T)
+      bool Set(String^ PropertyName, array<type.dotnetkind>^ Data)
+         {
          ApsimArray<Apsimtype.KKind, type.dotnetkind> Value(Data);
-         #else
-         Apsimtype.KKind Value(Data);
-         #endif
          return comms->setProperty(stringToStdString(PropertyName), "", Value);
          }
+      #else
+      bool Set(String^ PropertyName, type.dotnetkind Data type.dotnetarraybits)
+         {
+         Apsimtype.KKind Value(Data);
+         return comms->setProperty(stringToStdString(PropertyName), "", Value);
+         }
+      #endif
       /*
       #if (type.array = T)
-      void Register(String* PropertyName, String* Units, ApsimProperties::ReadWriteType ReadWrite, type.dotnetkind (*Data) type.dotnetarraybits)
+      void Register(String^ PropertyName, String^ Units, ApsimProperties::ReadWriteType ReadWrite, type.dotnetkind (*Data) type.dotnetarraybits)
       #else
-      void Register(String* PropertyName, String* Units, ApsimProperties::ReadWriteType ReadWrite, type.dotnetkind& Data type.dotnetarraybits)
+      void Register(String^ PropertyName, String^ Units, ApsimProperties::ReadWriteType ReadWrite, type.dotnetkind& Data type.dotnetarraybits)
       #endif
          {
          std::string units = stringToStdString(Units);
@@ -243,16 +261,15 @@ public  __gc class ApsimProperties
          #endif
          comms->registerProperty(stringToStdString(PropertyName), units, ReadWrite, wrapper);
          }*/
-      void RegisterHandler(String* PropertyName, String* Units, type.nameFunction::Handler* handler)
+      void RegisterHandler(String^ PropertyName, String^ Units, type.nameFunction::Handler^ handler)
          {
-         type.nameFunction* data = new type.nameFunction;
+         type.nameFunction^ data = gcnew type.nameFunction;
          data->handler = handler;
-         IEventData* UnmanagedData = new WrapManaged<type.nameFunction*>(data);
-         comms->registerProperty(stringToStdString(PropertyName), stringToStdString(Units), Read, UnmanagedData);
+         IEventData* UnmanagedData = new WrapManaged<type.nameFunction^>(data);
+         comms->registerProperty(stringToStdString(PropertyName), stringToStdString(Units), ComponentComms::read, UnmanagedData);
          }
 #endfor
 
    };
 };
 #endfile
-      
