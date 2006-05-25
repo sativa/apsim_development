@@ -60,7 +60,7 @@ cmd /c c:\PROGRA~1\Borland\CBUILD~1\Bin\make.exe -s -f TestAPSRun.mak  >> %APSRO
 REM -------Everything else..
 cd %APSROOT%\apsim
 echo ------Compiling  %APSROOT%\apsim >> %APSROOT%\build.out
-cmd /c %APSMAKE%  >> %APSROOT%\build.out
+call makefile.bat >> %APSROOT%\build.out
 
 cd %APSROOT%
 
