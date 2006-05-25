@@ -95,6 +95,7 @@ void InputComponent::doInit1(const FString& sdml)
       newmetID = addRegistration(RegistrationType::event, "newmet", newmetTypeDDML);
       hasDataTodayID = addRegistration(RegistrationType::respondToGet, "hasDataToday", hasDataTodayTypeDDML);
       getDataMethodID = addRegistration(RegistrationType::respondToEvent, "getData", getDataDDML);
+      haveReadTodaysDataID = addRegistration(RegistrationType::event, "HaveReadTodaysData", nullTypeDDML);
 
       iAmMet = (stricmp(name, "met") == 0);
       if (iAmMet)
@@ -276,6 +277,8 @@ void InputComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID,
       variant.unpack(tick);
       todaysDate = date(tick.startday);
       fileDate = advanceToTodaysData();
+      int dummy = 0;
+      publish(haveReadTodaysDataID, dummy);
       if (fileDate != todaysDate && !allowSparseData)
          {
          string msg = "Cannot find data in INPUT file for date ";
