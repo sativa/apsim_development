@@ -235,7 +235,7 @@ Public Class MainUI
         Me.ToolBoxesToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ManageToolboxesButton, Me.ToolStripSeparator2})
         Me.ToolBoxesToolStrip.Location = New System.Drawing.Point(0, 3)
         Me.ToolBoxesToolStrip.Name = "ToolBoxesToolStrip"
-        Me.ToolBoxesToolStrip.Size = New System.Drawing.Size(58, 64)
+        Me.ToolBoxesToolStrip.Size = New System.Drawing.Size(58, 100)
         Me.ToolBoxesToolStrip.TabIndex = 1
         '
         'ManageToolboxesButton
@@ -259,12 +259,12 @@ Public Class MainUI
         Me.SimulationToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewButton, Me.OpenButton, Me.SaveButton, Me.SaveAsButton, Me.ToolStripSeparator3, Me.CutButton, Me.CopyButton, Me.PasteButton, Me.HelpContentsButton, Me.ToolStripSeparator1, Me.RunButton, Me.ToolStripSeparator5, Me.GraphButton, Me.ApsimOutlookButton, Me.ExcelButton})
         Me.SimulationToolStrip.Location = New System.Drawing.Point(3, 0)
         Me.SimulationToolStrip.Name = "SimulationToolStrip"
-        Me.SimulationToolStrip.Size = New System.Drawing.Size(685, 47)
+        Me.SimulationToolStrip.Size = New System.Drawing.Size(654, 47)
         Me.SimulationToolStrip.TabIndex = 1
         '
         'NewButton
         '
-        Me.NewButton.Image = Global.APSIMUI.My.Resources.Resources.document_new1
+        Me.NewButton.Image = CType(resources.GetObject("NewButton.Image"), System.Drawing.Image)
         Me.NewButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.NewButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.NewButton.Name = "NewButton"
@@ -274,7 +274,7 @@ Public Class MainUI
         '
         'OpenButton
         '
-        Me.OpenButton.Image = Global.APSIMUI.My.Resources.Resources.folder_document1
+        Me.OpenButton.Image = Global.APSIMUI.My.Resources.Resources.folder_document
         Me.OpenButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.OpenButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.OpenButton.Name = "OpenButton"
@@ -284,7 +284,7 @@ Public Class MainUI
         '
         'SaveButton
         '
-        Me.SaveButton.Image = Global.APSIMUI.My.Resources.Resources.disk_blue1
+        Me.SaveButton.Image = Global.APSIMUI.My.Resources.Resources.disk_blue
         Me.SaveButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.SaveButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.SaveButton.Name = "SaveButton"
@@ -294,7 +294,7 @@ Public Class MainUI
         '
         'SaveAsButton
         '
-        Me.SaveAsButton.Image = Global.APSIMUI.My.Resources.Resources.disk_blue_window1
+        Me.SaveAsButton.Image = Global.APSIMUI.My.Resources.Resources.disk_blue_window
         Me.SaveAsButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.SaveAsButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.SaveAsButton.Name = "SaveAsButton"
@@ -309,7 +309,7 @@ Public Class MainUI
         '
         'CutButton
         '
-        Me.CutButton.Image = Global.APSIMUI.My.Resources.Resources.cut1
+        Me.CutButton.Image = Global.APSIMUI.My.Resources.Resources.cut
         Me.CutButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.CutButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.CutButton.Name = "CutButton"
@@ -319,7 +319,7 @@ Public Class MainUI
         '
         'CopyButton
         '
-        Me.CopyButton.Image = Global.APSIMUI.My.Resources.Resources.copy1
+        Me.CopyButton.Image = Global.APSIMUI.My.Resources.Resources.copy
         Me.CopyButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.CopyButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.CopyButton.Name = "CopyButton"
@@ -329,7 +329,7 @@ Public Class MainUI
         '
         'PasteButton
         '
-        Me.PasteButton.Image = Global.APSIMUI.My.Resources.Resources.paste1
+        Me.PasteButton.Image = Global.APSIMUI.My.Resources.Resources.paste
         Me.PasteButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.PasteButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.PasteButton.Name = "PasteButton"
@@ -339,7 +339,7 @@ Public Class MainUI
         '
         'HelpContentsButton
         '
-        Me.HelpContentsButton.Image = Global.APSIMUI.My.Resources.Resources.help21
+        Me.HelpContentsButton.Image = Global.APSIMUI.My.Resources.Resources.help2
         Me.HelpContentsButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.HelpContentsButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.HelpContentsButton.Name = "HelpContentsButton"
