@@ -38,16 +38,16 @@ void OOPlant::doRegistrations(void)
    unsigned id;
       // Events
 
-   setupEvent(plantInterface,"prepare",     RegistrationType::respondToEvent, &OOPlant::doPrepare);
-   setupEvent(plantInterface,"process",     RegistrationType::respondToEvent, &OOPlant::doProcess);
-   setupEvent(plantInterface,"tick",        RegistrationType::respondToEvent, &OOPlant::doTick);
-   setupEvent(plantInterface,"newmet",      RegistrationType::respondToEvent, &OOPlant::doNewMet);
-   setupEvent(plantInterface,"new_profile", RegistrationType::respondToEvent, &OOPlant::doNewProfile);
-   setupEvent(plantInterface,"sow",         RegistrationType::respondToEvent, &OOPlant::sowCrop);
-   setupEvent(plantInterface,"harvest",     RegistrationType::respondToEvent, &OOPlant::doHarvest);
-   setupEvent(plantInterface,"end_crop",    RegistrationType::respondToEvent, &OOPlant::doEndCrop);
-   setupEvent(plantInterface,"kill_crop",   RegistrationType::respondToEvent, &OOPlant::doKillCrop);
-   setupEvent(plantInterface,"end_run",     RegistrationType::respondToEvent, &OOPlant::doEndRun);
+   setupEvent(plantInterface,"prepare",     RegistrationType::respondToEvent, &OOPlant::doPrepare, "");
+   setupEvent(plantInterface,"process",     RegistrationType::respondToEvent, &OOPlant::doProcess, "");
+   setupEvent(plantInterface,"tick",        RegistrationType::respondToEvent, &OOPlant::doTick, "");
+   setupEvent(plantInterface,"newmet",      RegistrationType::respondToEvent, &OOPlant::doNewMet, "");
+   setupEvent(plantInterface,"new_profile", RegistrationType::respondToEvent, &OOPlant::doNewProfile, "");
+   setupEvent(plantInterface,"sow",         RegistrationType::respondToEvent, &OOPlant::sowCrop, "");
+   setupEvent(plantInterface,"harvest",     RegistrationType::respondToEvent, &OOPlant::doHarvest, "");
+   setupEvent(plantInterface,"end_crop",    RegistrationType::respondToEvent, &OOPlant::doEndCrop, "");
+   setupEvent(plantInterface,"kill_crop",   RegistrationType::respondToEvent, &OOPlant::doKillCrop, "");
+   setupEvent(plantInterface,"end_run",     RegistrationType::respondToEvent, &OOPlant::doEndRun, "");
 
 
    // --------------------------------------------------------------------------------------------
@@ -88,7 +88,7 @@ void OOPlant::doRegistrations(void)
 //                                                            "crop_chopped", "","", "");
 //   incorpFomID   = plantInterface->addRegistration(RegistrationType::event,
 //                                                            "incorp_fom", "","", "");
-  
+
    }
 /*//------------------------------------------------------------------------------------------------
 //--------  add an entry to the variable map
@@ -115,7 +115,7 @@ void OOPlant::mapVar(unsigned id,string name, void *ptr,int dType)
 //------------------------------------------------------------------------------------------------
 void OOPlant::doPrepare(unsigned &, unsigned &, protocol::Variant &)
    {
-   if (plantStatus == out) 
+   if (plantStatus == out)
       {
       // reset variables
       initialize();
