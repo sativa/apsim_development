@@ -1194,6 +1194,35 @@
          </calldll>
       </ApsimToSim>
    </broccoli>
+   <butterflypea>
+      <UItype>empty</UItype>
+      <IsCrop>Yes</IsCrop>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\ApsimUI\Graphics\butterflypea.jpg</Image>
+      <Description>NOTE: Prototype only.  This module is not to be used in model applications.  Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
+      <Documentation name="Generic plant" >../apsim/plant/docs/plant_science.htm</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <variables link="plant.xml"/>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
+         <ini>%apsuite\apsim\butterflypea\butterflypea.ini</ini>
+         <calldll>
+            <dll>%apsuite\bin\soil.dll</dll>
+            <class>CSGeneral.Soil</class>
+            <method>ExportCropToSim</method>
+            <ConstructorArgument>soil</ConstructorArgument>
+            <argument>butterflypea</argument>
+         </calldll>
+      </ApsimToSim>
+   </butterflypea>
    <canola>
       <UItype>empty</UItype>
       <IsCrop>Yes</IsCrop>
