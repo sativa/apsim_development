@@ -17,10 +17,10 @@
 #include "OOBiomass.h"
 //#include "o_GenePhenology.h"
 
-#define setupEvent(s,name,type,address) {\
+#define setupEvent(s,name,type,address,ddml) {\
    boost::function3<void, unsigned &, unsigned &, protocol::Variant &> fn;\
    fn = boost::bind(address, this, _1, _2, _3); \
-   s->addEvent(name, type, fn);\
+   s->addEvent(name, type, fn,ddml);\
    }
 
 #define setupGetFunction(s,name,type,length,address,units,desc) {\
@@ -187,7 +187,7 @@ class OOPlant
    void doKillCrop(unsigned &, unsigned &, protocol::Variant &v);
 
    void onApsimGetQuery(protocol::ApsimGetQueryData&);
-   
+
    bool setVariable(unsigned id, protocol::QuerySetValueData& qd);
  //  void getVariable(protocol::QueryValueData& qd);
  //  void mapVar(unsigned id,string name,void *ptr,int dType);
@@ -199,7 +199,7 @@ class OOPlant
    void death(void);
    void detachment(void);
    void cleanup(void);
-   
+
    float transpEfficiency(void);
    float svp(float temp);
 
