@@ -32,6 +32,7 @@ class InputComponent : public protocol::Component
       unsigned startDateStringID;
       unsigned endDateStringID;
       unsigned hasDataTodayID;
+      unsigned haveReadTodaysDataID;
       boost::gregorian::date todaysDate;
       boost::gregorian::date fileDate;
       boost::gregorian::date startDate;
