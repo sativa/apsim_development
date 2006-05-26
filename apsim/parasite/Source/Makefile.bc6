@@ -24,10 +24,10 @@ source: ..\lib\parasite.dll
 	$(RM) linker.tmp
    
 parasite.obj: parasite.for
-	$(ECHO) $(F90FLAGS) > compiler.tmp
+	$(ECHO) -c $(F90FLAGS) > compiler.tmp
 	$(ECHO) $(F90CROPINCLUDES) >> compiler.tmp
 	$(ECHO) $(F90CROPMODS) >> compiler.tmp
-	$(LF95) -c parasite.for @compiler.tmp
+	$(LF95) parasite.for @compiler.tmp
 	$(RM) compiler.tmp
 
 Registrations.obj: Registrations.f90

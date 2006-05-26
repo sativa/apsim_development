@@ -24,10 +24,10 @@ source: ..\lib\millet.dll
 	$(RM) linker.tmp
    
 mil_main.obj: mil_main.for mill_opt.for millet.for
-	$(ECHO) $(F90FLAGS) > compiler.tmp
+	$(ECHO) -c $(F90FLAGS) > compiler.tmp
 	$(ECHO) $(F90CROPINCLUDES) >> compiler.tmp
 	$(ECHO) $(F90CROPMODS) >> compiler.tmp
-	$(LF95) -c mil_main.for @compiler.tmp
+	$(LF95) mil_main.for @compiler.tmp
 	$(RM) compiler.tmp
 
 Registrations.obj: Registrations.f90
