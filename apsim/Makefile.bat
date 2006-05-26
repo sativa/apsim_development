@@ -2,6 +2,10 @@ cd %APSROOT%\apsim\infra\source
 echo ------Compiling %CD%
 %APSMAKE%
 
+cd %APSROOT%\apsim\infra\engine
+echo ------Compiling %CD%
+%APSMAKE%
+
 cd %APSROOT%\apsim\croptemp\source
 echo ------Compiling %CD%
 %APSMAKE%
