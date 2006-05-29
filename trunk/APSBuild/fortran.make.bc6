@@ -1,8 +1,8 @@
 
 # May need to define the full path to these (usually c:\lf9556\bin), but
 # the lahey installation adds it to your path anyway.
-LFLM=lm.exe
-LF95=lf95.exe
+LFLM=$(FORROOT)\lm.exe
+LF95=$(FORROOT)\lf95.exe
 
 F90FLAGS=-winconsole -dll -tp -nco -o0 -pca -nsav -stchk -trace -nchk -nin -ml bd -staticlink
 F90LIBFLAGS=-winconsole -tp -nco -o0 -pca -nsav -stchk -trace -nchk -nin -ml bd -staticlink
