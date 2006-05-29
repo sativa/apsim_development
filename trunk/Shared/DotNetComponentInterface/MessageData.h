@@ -220,6 +220,7 @@ class ApsimArray : public IData
 			}
 		ApsimArray(Message& message) 
 			{ 
+			Data = NULL;
 			unpack(message);
 			}
 			
