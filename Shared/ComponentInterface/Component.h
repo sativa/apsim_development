@@ -257,7 +257,7 @@ class __declspec(dllexport) Component
          {
          sendMessage(newReplyValueMessage(componentID,
                                           parentID,
-                                          queryValueData.ID,
+                                          currentMsgID,
                                           getRegistrationType(queryValueData.ID),
                                           value));
          }
@@ -357,6 +357,7 @@ class __declspec(dllexport) Component
       protocol::timeType tick;
       bool sendTickToComponent;
       bool haveWritenToStdOutToday;
+      unsigned currentMsgID;
 
 
       UInt2InfoMap getVarMap;                  // List of variables we can send to system
