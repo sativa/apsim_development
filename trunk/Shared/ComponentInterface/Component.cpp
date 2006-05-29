@@ -140,6 +140,7 @@ void Component::messageToLogic(const Message* message)
    bool ack = message->toAcknowledge;
    unsigned fromID = message->from;
    unsigned msgID = message->messageID;
+   currentMsgID = msgID;
 
 try {
    MessageData messageData(message);
