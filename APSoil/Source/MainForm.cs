@@ -8,7 +8,7 @@ using System.IO;
 using VBGeneral;
 using CSGeneral;
 using ChangeTool;
-using System.Reflection;
+using System.Reflection; 
 
 namespace APSoil
 	{
@@ -155,11 +155,11 @@ namespace APSoil
         // ToolStripContainer.ContentPanel
         // 
         this.ToolStripContainer.ContentPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-        this.ToolStripContainer.ContentPanel.Size = new System.Drawing.Size(784, 531);
+        this.ToolStripContainer.ContentPanel.Size = new System.Drawing.Size(852, 531);
         this.ToolStripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
         this.ToolStripContainer.Location = new System.Drawing.Point(0, 0);
         this.ToolStripContainer.Name = "ToolStripContainer";
-        this.ToolStripContainer.Size = new System.Drawing.Size(784, 578);
+        this.ToolStripContainer.Size = new System.Drawing.Size(852, 578);
         this.ToolStripContainer.TabIndex = 0;
         this.ToolStripContainer.Text = "toolStripContainer1";
         // 
@@ -190,7 +190,7 @@ namespace APSoil
             this.SortButton});
         this.toolStrip1.Location = new System.Drawing.Point(3, 0);
         this.toolStrip1.Name = "toolStrip1";
-        this.toolStrip1.Size = new System.Drawing.Size(771, 47);
+        this.toolStrip1.Size = new System.Drawing.Size(802, 47);
         this.toolStrip1.TabIndex = 0;
         // 
         // NewButton
@@ -316,7 +316,7 @@ namespace APSoil
         this.InsertButton.Size = new System.Drawing.Size(54, 44);
         this.InsertButton.Text = "Insert";
         this.InsertButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-        this.InsertButton.ToolTipText = "Version number";
+        this.InsertButton.ToolTipText = "Insert a blank folder, soil or sample";
         // 
         // InsertNewFolder
         // 
@@ -324,6 +324,7 @@ namespace APSoil
         this.InsertNewFolder.Name = "InsertNewFolder";
         this.InsertNewFolder.Size = new System.Drawing.Size(159, 22);
         this.InsertNewFolder.Text = "New folder";
+        this.InsertNewFolder.ToolTipText = "Create a new folder";
         this.InsertNewFolder.Click += new System.EventHandler(this.OnInsertNewFolderClick);
         // 
         // InsertNewSoil
@@ -332,6 +333,7 @@ namespace APSoil
         this.InsertNewSoil.Name = "InsertNewSoil";
         this.InsertNewSoil.Size = new System.Drawing.Size(159, 22);
         this.InsertNewSoil.Text = "New soil";
+        this.InsertNewSoil.ToolTipText = "Create a new empty soil";
         this.InsertNewSoil.Click += new System.EventHandler(this.OnInsertNewSoilClick);
         // 
         // InsertNewSample
@@ -340,6 +342,7 @@ namespace APSoil
         this.InsertNewSample.Name = "InsertNewSample";
         this.InsertNewSample.Size = new System.Drawing.Size(159, 22);
         this.InsertNewSample.Text = "New sample";
+        this.InsertNewSample.ToolTipText = "Create a new empty sample";
         this.InsertNewSample.Click += new System.EventHandler(this.OnInsertNewSampleClick);
         // 
         // ImportButton
@@ -356,7 +359,7 @@ namespace APSoil
         this.ImportButton.Size = new System.Drawing.Size(59, 44);
         this.ImportButton.Text = "Import";
         this.ImportButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-        this.ImportButton.ToolTipText = "Version number";
+        this.ImportButton.ToolTipText = "Import soils from another file";
         // 
         // ImportSoilsFile
         // 
@@ -364,6 +367,7 @@ namespace APSoil
         this.ImportSoilsFile.Name = "ImportSoilsFile";
         this.ImportSoilsFile.Size = new System.Drawing.Size(221, 22);
         this.ImportSoilsFile.Text = "From another .soils file";
+        this.ImportSoilsFile.ToolTipText = "Import soils from another soils database";
         this.ImportSoilsFile.Click += new System.EventHandler(this.OnImportSoilsClick);
         // 
         // ImportParFile
@@ -372,6 +376,7 @@ namespace APSoil
         this.ImportParFile.Name = "ImportParFile";
         this.ImportParFile.Size = new System.Drawing.Size(221, 22);
         this.ImportParFile.Text = "From a .par file";
+        this.ImportParFile.ToolTipText = "Import soils from an APSIM .par file";
         this.ImportParFile.Click += new System.EventHandler(this.OnImportParClick);
         // 
         // ImportSpreadsheet
@@ -380,6 +385,7 @@ namespace APSoil
         this.ImportSpreadsheet.Name = "ImportSpreadsheet";
         this.ImportSpreadsheet.Size = new System.Drawing.Size(221, 22);
         this.ImportSpreadsheet.Text = "From a spreadsheet";
+        this.ImportSpreadsheet.ToolTipText = "Import soils from an Excel spreadsheet";
         this.ImportSpreadsheet.Click += new System.EventHandler(this.OnImportSpreadsheetClick);
         // 
         // ImportW2File
@@ -388,6 +394,7 @@ namespace APSoil
         this.ImportW2File.Name = "ImportW2File";
         this.ImportW2File.Size = new System.Drawing.Size(221, 22);
         this.ImportW2File.Text = "From .&w2 / .n2";
+        this.ImportW2File.ToolTipText = "Import soils from a old APSFront database directory";
         this.ImportW2File.Click += new System.EventHandler(this.OnImportW2Click);
         // 
         // ExportButton
@@ -403,7 +410,7 @@ namespace APSoil
         this.ExportButton.Size = new System.Drawing.Size(57, 44);
         this.ExportButton.Text = "Export";
         this.ExportButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-        this.ExportButton.ToolTipText = "Version number";
+        this.ExportButton.ToolTipText = "Export soils to another file";
         // 
         // ExportSoilsFile
         // 
@@ -411,6 +418,7 @@ namespace APSoil
         this.ExportSoilsFile.Name = "ExportSoilsFile";
         this.ExportSoilsFile.Size = new System.Drawing.Size(206, 22);
         this.ExportSoilsFile.Text = "To &another .soils file";
+        this.ExportSoilsFile.ToolTipText = "Export soils to another soils database";
         this.ExportSoilsFile.Click += new System.EventHandler(this.OnExportSoilsClick);
         // 
         // ExportParFile
@@ -419,6 +427,7 @@ namespace APSoil
         this.ExportParFile.Name = "ExportParFile";
         this.ExportParFile.Size = new System.Drawing.Size(206, 22);
         this.ExportParFile.Text = "To a .&par file";
+        this.ExportParFile.ToolTipText = "Export selected soils to an APSIM .par file";
         this.ExportParFile.Click += new System.EventHandler(this.OnExportParClick);
         // 
         // ExportSpreadsheet
@@ -427,6 +436,7 @@ namespace APSoil
         this.ExportSpreadsheet.Name = "ExportSpreadsheet";
         this.ExportSpreadsheet.Size = new System.Drawing.Size(206, 22);
         this.ExportSpreadsheet.Text = "To a &spreadsheet";
+        this.ExportSpreadsheet.ToolTipText = "Export soils to an Excel spreadsheet";
         this.ExportSpreadsheet.Click += new System.EventHandler(this.OnExportSpreadsheetClick);
         // 
         // toolStripSeparator3
@@ -444,7 +454,7 @@ namespace APSoil
         this.CheckSoilsButton.Size = new System.Drawing.Size(75, 44);
         this.CheckSoilsButton.Text = "Check soils";
         this.CheckSoilsButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-        this.CheckSoilsButton.ToolTipText = "Version number";
+        this.CheckSoilsButton.ToolTipText = "Check soils to see if they\'ll run in APSIM";
         this.CheckSoilsButton.Click += new System.EventHandler(this.OnCheckSoilsClick);
         // 
         // SortButton
@@ -456,7 +466,7 @@ namespace APSoil
         this.SortButton.Size = new System.Drawing.Size(65, 44);
         this.SortButton.Text = "Sort soils";
         this.SortButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-        this.SortButton.ToolTipText = "Version number";
+        this.SortButton.ToolTipText = "Sort the soils into alphabetical order";
         this.SortButton.Click += new System.EventHandler(this.OnSortSoilsClick);
         // 
         // ImportSpreadsheetDialog
@@ -525,7 +535,7 @@ namespace APSoil
         // 
         this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
         this.CausesValidation = false;
-        this.ClientSize = new System.Drawing.Size(784, 578);
+        this.ClientSize = new System.Drawing.Size(852, 578);
         this.Controls.Add(this.ToolStripContainer);
         this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
         this.KeyPreview = true;
