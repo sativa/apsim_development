@@ -27,6 +27,8 @@ namespace APSoil
             while (Row < Table.Rows.Count)
 				{
 				string SoilPath = GetStringValue(Table, "SoilPath", Row);
+                if (SoilPath == "")
+                    SoilPath = "\\Soils";
 				string NewXml = CreateSoilXmlFromSpreadsheet(Table, ref Row);
 				APSIMData ParentNode;
 				if (SoilPath != "")
