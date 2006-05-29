@@ -100,7 +100,8 @@ std::string ddmlToCPP(const ApsimDataTypeData& dataType,
       st += ">\" " + lineDelimiter + "\n";
    else
       {
-      st += " kind=\\\"" + dataType.getKind() + "\\\"";
+      if (dataType.getKind() != "")
+         st += " kind=\\\"" + dataType.getKind() + "\\\"";
       st += "/>\"\n";
       return st;
       }
@@ -317,10 +318,13 @@ void processField(const ApsimDataTypeData& dataType, XMLNode& node)
       // add field to a new macro.
       XMLNode child = node.appendChild("type", true);
       child.setAttribute("name", lowerName);
-      child.setAttribute("kind", dataType.getKind());
-      child.setAttribute("KKind", t);
-      child.setAttribute("ckind", ddmlKindToCPP(dataType.getKind()));
-      child.setAttribute("dotnetkind", ddmlKindToDotNet(dataType.getKind()));
+      if (dataType.getKind() != "")
+         {
+         child.setAttribute("kind", dataType.getKind());
+         child.setAttribute("KKind", t);
+         child.setAttribute("ckind", ddmlKindToCPP(dataType.getKind()));
+         child.setAttribute("dotnetkind", ddmlKindToDotNet(dataType.getKind()));
+         }
       if (dataType.isArray())
          {
          child.setAttribute("array", "T");

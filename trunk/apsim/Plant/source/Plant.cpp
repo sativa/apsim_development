@@ -41,7 +41,7 @@ using namespace std;
 
 Plant *currentInstance = NULL;
 
-static const char* nullType =         "<type\>";
+static const char* nullType =         "<type/>";
 static const char* integerType =      "<type kind=\"integer4\"/>";
 static const char* integerArrayType = "<type kind=\"integer4\" array=\"T\"/>";
 static const char* floatType =        "<type kind=\"single\"/>";
@@ -115,6 +115,45 @@ static const char* killStemDDML =     "<type name = \"KillStem\">" \
                                       "   <field name=\"plants_isarray\" kind=\"boolean\"/>" \
                                       "   <field name=\"plants_value\" kind=\"single\"/>" \
                                       "</type>";
+
+static const char* new_profileDDML =  "<type name = \"NewProfile\">" \
+                                      "   <field name=\"dlayer_name\" kind=\"string\"/>" \
+                                      "   <field name=\"dlayer_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlayer_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlayer_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"dlayer_value\" kind=\"single\" array=\"T\"/>" \
+
+                                      "   <field name=\"ll15_dep_name\" kind=\"string\"/>" \
+                                      "   <field name=\"ll15_dep_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"ll15_dep_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"ll15_dep_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"ll15_dep_value\" kind=\"single\" array=\"T\"/>" \
+
+                                      "   <field name=\"dul_dep_name\" kind=\"string\"/>" \
+                                      "   <field name=\"dul_dep_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dul_dep_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dul_dep_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"dul_dep_value\" kind=\"single\" array=\"T\"/>" \
+
+                                      "   <field name=\"sat_dep_name\" kind=\"string\"/>" \
+                                      "   <field name=\"sat_dep_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"sat_dep_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"sat_dep_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"sat_dep_value\" kind=\"single\" array=\"T\"/>" \
+
+                                      "   <field name=\"sw_dep_name\" kind=\"string\"/>" \
+                                      "   <field name=\"sw_dep_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"sw_dep_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"sw_dep_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"sw_dep_value\" kind=\"single\" array=\"T\"/>" \
+
+                                      "   <field name=\"bd_name\" kind=\"string\"/>" \
+                                      "   <field name=\"bd_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"bd_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"bd_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"bd_value\" kind=\"single\" array=\"T\"/>" \
+                                      "</type>";
+
 
 
 /////////////These might be redundancies??//////////
@@ -302,7 +341,7 @@ void Plant::doRegistrations(protocol::Component *system)
    setupEvent(parent, "process",     RegistrationType::respondToEvent, &Plant::doProcess, nullTypeDDML);
    setupEvent(parent, "tick",        RegistrationType::respondToEvent, &Plant::doTick, timeTypeDDML);
    setupEvent(parent, "newmet",      RegistrationType::respondToEvent, &Plant::doNewMet, newmetTypeDDML);
-   setupEvent(parent, "new_profile", RegistrationType::respondToEvent, &Plant::doNewProfile, newmetTypeDDML);
+   setupEvent(parent, "new_profile", RegistrationType::respondToEvent, &Plant::doNewProfile, new_profileDDML);
    setupEvent(parent, "sow",         RegistrationType::respondToEvent, &Plant::doSow, sowDDML);
    setupEvent(parent, "harvest",     RegistrationType::respondToEvent, &Plant::doHarvest, nullTypeDDML);
    setupEvent(parent, "end_crop",    RegistrationType::respondToEvent, &Plant::doEndCrop, nullTypeDDML);
@@ -776,7 +815,7 @@ bool Plant::respondToSet(unsigned int &id, protocol::QuerySetValueData& qd)
 void Plant::sendStageMessage(const char *what)
   {
   unsigned int id = parent->addRegistration(RegistrationType::event,
-                                            what, "",
+                                            what, "<type/>",
                                             "", "");
   protocol::ApsimVariant outgoingApsimVariant(parent);
   parent->publish (id, outgoingApsimVariant);
