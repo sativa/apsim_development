@@ -3,7 +3,7 @@
 
    !!!! BUILT-IN types !!!!!
 
-   <type name="null" builtin="T"/>
+   <type name="null" kind="" builtin="T"/>
    <type name="integer4" kind="integer4" builtin="T"/>
    <type name="single" kind="single" builtin="T"/>
    <type name="double" kind="double" builtin="T"/>
@@ -1776,6 +1776,18 @@
       </field>
    </type>
 
+   <type name="waterinfo">
+      <field name="water_info" array="T">
+         <element>
+            <field name="crop_ident" kind = "string" description="sub-population name"/>
+            <field name="params" kind="double" unit="mm"  array = "T"/>
+            <field name="demand" kind="double" unit="mm"/>
+            <field name="layers" kind="double" unit="mm"  array = "T"/>
+            <field name="rlv" kind="double" unit="mm/mm^3"  array = "T"/>
+            <field name="root_radius" kind="double" unit="mm"  array = "T"/>
+         </element>
+      </field>
+   </type>
    <type name="fom_added">
       <field name="layers" unit="mm" kind="double" array="T" />
       <field name="fom" array="T">
