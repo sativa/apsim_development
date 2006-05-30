@@ -48,6 +48,9 @@ void NonHerbageConverter::doInit1(const FString& sdml)
 
    addManureID = system->addRegistration(RegistrationType::event, "add_surfaceom", "", "", "");
 
+
+   intakeGetID = system->addRegistration(RegistrationType::get, "intake", intakeTypeDDML);
+   intakeSendID = system->addRegistration(RegistrationType::respondToGet, "intakestock", singleTypeDDML);
    }
 // ------------------------------------------------------------------
 // Init2 phase.
@@ -243,6 +246,9 @@ void NonHerbageConverter::stockSell (protocol::Variant &v/*(INPUT) message varia
     int      value4;
     protocol::sellstockType sellstock;
 
+    ostringstream msg;
+    msg << "Sell stock :-" << endl;
+
     protocol::ApsimVariant incomingApsimVariant(this);
     incomingApsimVariant.aliasTo(v.getMessageData());
 
@@ -250,10 +256,7 @@ void NonHerbageConverter::stockSell (protocol::Variant &v/*(INPUT) message varia
     {
          sellstock.number = value4;
 
-         ostringstream msg;
-         msg << "Sell stock :-" << endl
-             << "   number = " << setw(10) << value4 << " (-)" << ends;
-         system->writeString (msg.str().c_str());
+         msg << "   number = " << setw(10) << value4 << " (-)" << endl;
     }
     else
     {
@@ -264,14 +267,14 @@ void NonHerbageConverter::stockSell (protocol::Variant &v/*(INPUT) message varia
     {
          sellstock.group = value4;
 
-         ostringstream msg;
-         msg << " Group = " << setw(10) << value4 << " (-)" << ends;
-         system->writeString (msg.str().c_str());
+         msg << " Group = " << setw(10) << value4 << " (-)" << endl;
     }
     else
     {
          sellstock.group = 0;
     }
+    msg << ends;
+    system->writeString (msg.str().c_str());
 
     system->publish (sellID, sellstock);
 }
@@ -282,17 +285,17 @@ void NonHerbageConverter::stockMove (protocol::Variant &v/*(INPUT) message varia
     int      value4;
     protocol::movestockType movestock;
 
+    ostringstream msg;
+    msg << "Name stock :-" << endl;
+
     protocol::ApsimVariant incomingApsimVariant(this);
     incomingApsimVariant.aliasTo(v.getMessageData());
 
-    if (incomingApsimVariant.get("number", protocol::DTint4, false, value4) == true)
+    if (incomingApsimVariant.get("group", protocol::DTint4, false, value4) == true)
     {
          movestock.group = value4;
 
-         ostringstream msg;
-         msg << "Name stock :-" << endl
-             << "   Group = " << setw(10) << value4 << " (-)" << ends;
-         system->writeString (msg.str().c_str());
+         msg << "   Group = " << setw(10) << value4 << " (-)" << endl;
     }
     else
     {
@@ -302,15 +305,14 @@ void NonHerbageConverter::stockMove (protocol::Variant &v/*(INPUT) message varia
     if (incomingApsimVariant.get("paddock", protocol::DTstring, false, valuestr) == true)
     {
          movestock.paddock = valuestr;
-
-         ostringstream msg;
-         msg << " Group = " << setw(10) << valuestr << " (-)" << ends;
-         system->writeString (msg.str().c_str());
+         msg << " paddock = " << setw(10) << valuestr << " (-)" << endl;
     }
     else
     {
          movestock.paddock = "";
     }
+    msg << ends;
+    system->writeString (msg.str().c_str());
 
     system->publish (moveID, movestock);
 }
@@ -369,6 +371,7 @@ void NonHerbageConverter::respondToGet(unsigned int& fromID,
 {
    // Daylength
    if (queryData.ID == dayLengthID) daylengthRelay(queryData);
+   else if (queryData.ID == intakeSendID) intakeRelay(queryData);
 
    else
    {   // don't respond to any other gets.
@@ -387,6 +390,23 @@ void NonHerbageConverter::daylengthRelay (protocol::QueryValueData& queryData)
       }
       else
       {   // didn't get the day_length ID ok. Do nothing about it.
+      }
+}
+
+
+void NonHerbageConverter::intakeRelay (protocol::QueryValueData& queryData)
+{
+      protocol::Variant* variant;
+      bool ok = system->getVariable(intakeGetID, variant, true);
+      if (ok)
+      {
+         protocol::intakeType intake[1];
+         bool ok = variant->unpack(intake);  // what happens if this is not ok?
+         float weight = static_cast<float>(intake[0].weight);
+         system->sendVariable(queryData, weight);
+      }
+      else
+      {   // didn't get the intake ID ok. Do nothing about it.
       }
 }
 
