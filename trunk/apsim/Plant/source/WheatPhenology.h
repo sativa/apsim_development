@@ -36,7 +36,7 @@ class WheatPhenology : public CropPhenology {
 
    void process(const environment_t &e, const pheno_stress_t &ps);
 
-   void onRemoveBiomass(float removeBiomPheno){};
+//   void onRemoveBiomass(float removeBiomPheno){};
 
    float get_dlt_tt(void) {return dlt_tt;};                          // XX remove when leaves are finished
 
