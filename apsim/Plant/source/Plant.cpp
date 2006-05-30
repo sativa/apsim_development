@@ -154,6 +154,43 @@ static const char* new_profileDDML =  "<type name = \"NewProfile\">" \
                                       "   <field name=\"bd_value\" kind=\"single\" array=\"T\"/>" \
                                       "</type>";
 
+static const char* cropChoppedDDML =  "<type name = \"CropChopped\">" \
+                                      "   <field name=\"croptype_name\" kind=\"string\"/>" \
+                                      "   <field name=\"croptype_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"croptype_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"croptype_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"croptype_value\" kind=\"string\"/>" \
+
+                                      "   <field name=\"dm_type_name\" kind=\"string\"/>" \
+                                      "   <field name=\"dm_type_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dm_type_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dm_type_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"dm_type_value\" kind=\"string\" array=\"T\"/>" \
+
+                                      "   <field name=\"dlt_crop_dm_name\" kind=\"string\"/>" \
+                                      "   <field name=\"dlt_crop_dm_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlt_crop_dm_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlt_crop_dm_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"dlt_crop_dm_value\" kind=\"single\" array=\"T\"/>" \
+
+                                      "   <field name=\"dlt_dm_n_name\" kind=\"string\"/>" \
+                                      "   <field name=\"dlt_dm_n_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlt_dm_n_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlt_dm_n_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"dlt_dm_n_value\" kind=\"single\" array=\"T\"/>" \
+
+                                      "   <field name=\"dlt_dm_p_name\" kind=\"string\"/>" \
+                                      "   <field name=\"dlt_dm_p_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlt_dm_p_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlt_dm_p_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"dlt_dm_p_value\" kind=\"single\" array=\"T\"/>" \
+
+                                      "   <field name=\"fraction_to_residue_name\" kind=\"string\"/>" \
+                                      "   <field name=\"fraction_to_residue_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"fraction_to_residue_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"fraction_to_residue_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"fraction_to_residue_value\" kind=\"single\" array=\"T\"/>" \
+                                      "</type>";
 
 
 /////////////These might be redundancies??//////////
@@ -314,7 +351,7 @@ void Plant::doIDs(void)
 
    // events.
    id.crop_chopped = parent->addRegistration(RegistrationType::event,
-                                   "crop_chopped", crop_choppedTypeDDML,
+                                   "crop_chopped", cropChoppedDDML,
                                    "", "");
    id.incorp_fom = parent->addRegistration(RegistrationType::event,
                                    "incorp_fom", IncorpFOMType,
