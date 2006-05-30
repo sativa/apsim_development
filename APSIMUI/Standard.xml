@@ -633,7 +633,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
         <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
       </category>
       <category name="Fertiliser application details">
-        <property name="fertmodule" value="" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
+        <property name="fertmodule" value="fertiliser" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
         <property name="fert_amount_sow" value="150" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
         <property name="fert_type_sow" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
       </category>
@@ -884,7 +884,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
       </category>
     </rule>
     <rule name="Buy cattle on a fixed date">
-      <condition name="init"><![CDATA[
+      <condition name="init">
             <![CDATA[
                cattle_presence = 'off'
             ]]>
@@ -906,7 +906,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
       </category>
     </rule>
     <rule name="Buy cattle on feed-on-offer">
-      <condition name="init"><![CDATA[
+      <condition name="init">
             <![CDATA[
                cattle_presence = 'off'
             ]]>
@@ -930,7 +930,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
     </rule>
     <rule name="Sell cattle on a fixed date">
       <condition name="start_of_day"><![CDATA[
-        if (today = date('[sell_date]' AND cattle_presence = 'on') then
+        if (today = date('[sell_date]') AND cattle_presence = 'on') then
            [stockmodule] sellstock number = [sell_number] (-)
            cattle_presence = 'off'
         endif
@@ -956,7 +956,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
       </category>
     </rule>
     <rule name="Buy sheep on a fixed date">
-      <condition name="init"><![CDATA[
+      <condition name="init">
             <![CDATA[
                sheep_presence = 'off'
             ]]>
@@ -978,7 +978,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
       </category>
     </rule>
     <rule name="Buy sheep on feed-on-offer">
-      <condition name="init"><![CDATA[
+      <condition name="init">
             <![CDATA[
                sheep_presence = 'off'
             ]]>
@@ -1002,7 +1002,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
     </rule>
     <rule name="Sell sheep on a fixed date">
       <condition name="start_of_day"><![CDATA[
-        if (today = date('[sell_date]' AND sheep_presence = 'on') then
+        if (today = date('[sell_date]') AND sheep_presence = 'on') then
            [stockmodule] sellstock number = [sell_number] (-)
            sheep_presence = 'off'
         endif
@@ -1025,6 +1025,256 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
         <property name="sell_on_weight_gain" value="60.0" type="text" description="Weight (gaining) : " />
         <property name="sell_on_weight_loss" value="0.0" type="text" description="Weight (losing) : " />
         <property name="sell_number" value="50" type="text" description="Number of stock : " />
+      </category>
+    </rule>
+    <rule name="Buy supplement on a fixed date">
+      <condition name="start_of_day"><![CDATA[
+        if (today = date('[buy_date]') then
+           [supplementmodule] buysupplement supplement = [buy_name] (-), amount = [buy_amount] (kg)
+         endif
+               ]]></condition>
+      <category name="Buy properties">
+        <property name="supplementmodule" value="SupplementScienceConverter" type="modulename" description="Name of supplement converter module : " />
+        <property name="buy_date" value="1-jan" type="text" description="Date (dd-mmm) : " />
+        <property name="buy_name" value="wheat" type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : " />
+        <property name="buy_amount" value="1000" type="text" description="Fresh weight of supplement to purchase (kg) : " />
+      </category>
+    </rule>
+    <rule name="Mix supplement on a fixed date">
+      <condition name="start_of_day"><![CDATA[
+        if (today = date('[mix_date]') then
+           [supplementmodule] mixsupplement src_store = [src_store_name] (-), amount = [mix_amount] (kg), dest_store = [dest_store_name] (-)
+         endif
+               ]]></condition>
+      <category name="Mix properties">
+        <property name="supplementmodule" value="SupplementScienceConverter" type="modulename" description="Name of supplement converter module : " />
+        <property name="mix_date" value="1-jan" type="text" description="Date (dd-mmm) : " />
+        <property name="src_store_name" value="wheat" type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the source supplement store. : " />
+        <property name="dest_store_name" value="wheat" type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the destination store. : " />
+        <property name="mix_amount" value="1000" type="text" description="Fresh weight of supplement to transfer. (kg) : " />
+      </category>
+    </rule>
+    <rule name="Feed supplement in a fixed date window">
+      <condition name="start_of_day"><![CDATA[
+        if (date_within('[feed_start_date], [feed_end_date]') = 1) then
+           [supplementmodule] feedsupplement supplement = [feed_name] (-), amount = [feed_amount] (kg)
+         endif
+               ]]></condition>
+      <category name="Feed properties">
+        <property name="supplementmodule" value="SupplementScienceConverter" type="modulename" description="Name of supplement converter module : " />
+        <property name="feed_start_date" value="1-jan" type="text" description="Date (dd-mmm) : " />
+        <property name="feed_end_date" value="1-jan" type="text" description="Date (dd-mmm) : " />
+        <property name="feed_name" value="wheat" type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : " />
+        <property name="feed_amount" value="1000" type="text" description="Fresh weight of supplement to purchase (kg) : " />
+      </category>
+    </rule>
+    <rule name="Feed supplement on animal condition">
+      <condition name="init">
+            <![CDATA[
+         FALSE = 0
+         TRUE = 1
+         feeding = FALSE
+         feed_rate = 0.0     ! Rate of feeding in kg FW/day
+         feed_rate_factor = 0.2
+         est_lag_days = 10.0 / feed_rate_factor
+         initial_feed_rate = 0.0
+
+            ]]>
+            </condition>
+      <condition name="start_of_day"><![CDATA[
+            dlt_cond_score = cond_score_all - yest_cond_score_all
+            yest_cond_score_all = cond_score_all
+            if (feeding = TRUE AND cond_score_all = 0.0) then
+               feeding = FALSE
+            endif
+
+            if ((feeding = FALSE) AND (cond_score_all < [crit_cs]) AND (dlt_cond_score < 0.0)) then
+               feeding = TRUE
+               feed_rate = initial_feed_rate
+            else
+               ! leave feeding as is
+            endif
+
+            if (feeding = TRUE) then
+               feed_rate = feed_rate - feed_rate_factor * (cond_score_all + dlt_cond_score*est_lag_days - [crit_cs])
+               if (feed_rate > [max_feed_rate]) then
+                  feed_rate = [max_feed_rate]
+               elseif (feed_rate < 0.0) then
+                  feed_rate = 0.0
+               endif
+               if (feed_rate > 0) then
+                   feed_amount = feed_rate * number_all
+                   [supplementmodule] feedsupplement  supplement = [feed_name], amount = feed_amount
+               else
+                  feed_rate = 0.0
+               endif
+            else
+               feed_rate = 0.0
+            endif
+
+               ]]></condition>
+      <category name="Feed properties">
+        <property name="supplementmodule" value="SupplementScienceConverter" type="modulename" description="Name of supplement converter module : " />
+        <property name="crit_cs" value="1.0" type="text" description="Critical condition score. 1.0 is sensible for dry stock : " />
+        <property name="max_feed_rate" value="1.0" type="text" description="Maximum rate of feeding in kg FW/day; 1.0 is sensible for sheep : " />
+        <property name="feed_name" value="wheat" type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : " />
+      </category>
+    </rule>
+    <rule name="Feed supplement on animal condition loss">
+      <condition name="init">
+            <![CDATA[
+         FALSE = 0
+         TRUE = 1
+         feeding = FALSE
+         feed_rate = 0.0     ! Rate of feeding in kg FW/day
+         crit_cs = 0.0
+         feed_rate_factor = 0.2
+         est_lag_days = 10.0 / feed_rate_factor
+         initial_feed_rate = 0.0
+            ]]>
+            </condition>
+      <condition name="start_of_day"><![CDATA[
+         dlt_cond_score = cond_score_all - yest_cond_score_all
+         yest_cond_score_all = cond_score_all
+            if (feeding = TRUE AND cond_score_all = 0.0) then
+               crit_cs = 0.0
+               feeding = FALSE
+            endif
+
+            if (dlt_cond_score[[days]] < [crit_condition_change] AND crit_cs <= 0.0) then
+               crit_cs = cond_score_all
+            endif
+            if ((feeding = FALSE) AND (cond_score_all < crit_cs)) then
+               feeding = TRUE
+               feed_rate = initial_feed_rate
+            else
+               ! leave feeding as is
+            endif
+
+            if (feeding = TRUE) then
+               feed_rate = feed_rate - feed_rate_factor * (cond_score_all + dlt_cond_score*est_lag_days - crit_cs)
+               if (feed_rate > [max_feed_rate]) then
+                  feed_rate = [max_feed_rate]
+               elseif (feed_rate < 0.0) then
+                  feed_rate = 0.0
+               endif
+               if (feed_rate > 0) then
+                   feed_amount = feed_rate * number_all
+                   [supplementmodule] feedsupplement  supplement = [feed_name], amount = feed_amount
+               else
+                  feed_rate = 0.0
+               endif
+            else
+               feed_rate = 0.0
+            endif
+
+               ]]></condition>
+      <category name="Feed properties">
+        <property name="supplementmodule" value="SupplementScienceConverter" type="modulename" description="Name of supplement converter module : " />
+        <property name="days" value="5" type="text" description="Number of days to sum condition change : " />
+        <property name="crit_condition_change" value="0.0" type="text" description="Critical condition change needed to start feeding (kg/head) : " />
+        <property name="max_feed_rate" value="1.0" type="text" description="Maximum rate of feeding in kg FW/day; 1.0 is sensible for sheep : " />
+        <property name="feed_name" value="wheat" type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : " />
+      </category>
+    </rule>
+    <rule name="Feed supplement on animal weight loss">
+      <condition name="init">
+            <![CDATA[
+         FALSE = 0
+         TRUE = 1
+         feeding = FALSE
+         feed_rate = 0.0     ! Rate of feeding in kg FW/day
+         crit_wt = 0.0
+         feed_rate_factor = 0.5
+         est_lag_days = 10.0 / feed_rate_factor
+         initial_feed_rate = 0.1
+            ]]>
+            </condition>
+      <condition name="start_of_day"><![CDATA[
+            if (feeding = TRUE AND cond_score_all = 0.0) then
+               crit_wt = 0.0
+               feeding = FALSE
+            endif
+
+            if (wt_change_all[[days]] < [crit_wt_change] AND crit_wt <= 0.0) then
+               crit_wt = weight_all
+            endif
+            if ((feeding = FALSE) AND (weight_all < crit_wt)) then
+               feeding = TRUE
+               feed_rate = initial_feed_rate
+            else
+               ! leave feeding as is
+            endif
+
+            if (feeding = TRUE) then
+               feed_rate = feed_rate - feed_rate_factor * (weight_all + wt_change_all*est_lag_days - crit_wt)
+               if (feed_rate > [max_feed_rate]) then
+                  feed_rate = [max_feed_rate]
+               elseif (feed_rate < 0.0) then
+                  feed_rate = 0.0
+               endif
+               if (feed_rate > 0) then
+                   feed_amount = feed_rate * number_all
+                   [supplementmodule] feedsupplement  supplement = [feed_name], amount = feed_amount
+               else
+                  feed_rate = 0.0
+               endif
+            else
+               feed_rate = 0.0
+            endif
+
+               ]]></condition>
+      <category name="Feed properties">
+        <property name="supplementmodule" value="SupplementScienceConverter" type="modulename" description="Name of supplement converter module : " />
+        <property name="days" value="5" type="text" description="Number of days to sum weight change : " />
+        <property name="crit_weight_change" value="0.0" type="text" description="Critical weight change needed to start feeding (kg/head) : " />
+        <property name="max_feed_rate" value="1.0" type="text" description="Maximum rate of feeding in kg FW/day; 1.0 is sensible for sheep : " />
+        <property name="feed_name" value="wheat" type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : " />
+      </category>
+    </rule>
+    <rule name="Feed supplement to reach a target weight">
+      <condition name="init">
+            <![CDATA[
+         feed_rate = 0.0     ! Rate of feeding in kg FW/day
+
+            ]]>
+            </condition>
+      <condition name="start_of_day"><![CDATA[
+            if (date_within('[date_start_feed], [date_end_feed]') = 1) then
+               days_left = date('[date_end_feed]') - date('[date_start_feed]')
+               if (days_left < 0.0) then
+                  days_left = days_left + 365.0
+               endif
+               if (days_left > 0) then
+                  dwt_reqd = ([target_wt] - stock.weight_all) / days_left
+
+                  feed_rate = feed_rate + (2.0 * (dwt_reqd - wt_change_all))
+                  if (feed_rate > [max_feed_rate]) then
+                     feed_rate = [max_feed_rate]
+                  elseif (feed_rate < 0.0) then
+                     feed_rate = 0.0
+                  endif
+
+                  if (feed_rate > 0) then
+                     if (today = date('[date_start_feed]') then
+                        feed_rate = feed_rate * 0.5
+                     endif
+                      feed_amount = feed_rate * number_all
+                      [supplementmodule] feedsupplement  supplement = [feed_name], amount = feed_amount
+                  else
+                     feed_rate = 0.0
+                  endif
+               endif
+            endif
+
+               ]]></condition>
+      <category name="Feed properties">
+        <property name="supplementmodule" value="SupplementScienceConverter" type="modulename" description="Name of supplement converter module : " />
+        <property name="date_start_feed" value="1-jan" type="text" description="date to begin feeding (dd-mmm) : " />
+        <property name="date_end_feed" value="1-jan" type="text" description="date to end feeding (dd-mmm) : " />
+        <property name="target_wt" value="1.0" type="text" description="Target weight per head to finish (kg) : " />
+        <property name="max_feed_rate" value="1.0" type="text" description="Maximum rate of feeding in kg FW/day; 1.0 is sensible for sheep : " />
+        <property name="feed_name" value="wheat" type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : " />
       </category>
     </rule>
   </manager>
@@ -1111,6 +1361,9 @@ if {$steps == 0} {tkwait variable steps}
     <script name="endofday">
     </script>
   </logic>
+  <accum name="accum">
+     <variable name = "variable">variable</variable>
+  </accum>
   <log name="Log">
     <debugoutput name="debugoutput">on</debugoutput>
     <filename name="filename">log.txt</filename>
@@ -1202,7 +1455,7 @@ if {$steps == 0} {tkwait variable steps}
       <debug type="list" listvalues="on,off">off</debug>
       <conversion_model>herbage</conversion_model>
       <herbage_model>plant</herbage_model>
-      <herbage_module_name>lablab</herbage_module_name>
+      <herbage_module_name type="modulename">lablab</herbage_module_name>
 
       <proportion_legume>1.0</proportion_legume>
       <dmdValue>0.8 0.7 0.6 0.5 0.4 0.3</dmdValue>
@@ -1251,6 +1504,7 @@ if {$steps == 0} {tkwait variable steps}
 
     <StockScienceConverter>
       <debug type="list" listvalues="on,off">off</debug>
+      <stock_module type="modulename">stock</stock_module>
       <conversion_model>nonherbage</conversion_model>
       <fraction_faeces_added>0.5</fraction_faeces_added>
       <fraction_urine_added>0.5</fraction_urine_added>
@@ -1324,6 +1578,29 @@ if {$steps == 0} {tkwait variable steps}
          <priority>0</priority>
        </cattle>
     </stock>
+    <supplement>
+      <spoilage_time>0.0</spoilage_time>
+       <supplementstore name="Wheat Store">
+           <name>wheat</name>
+           <stored>10000000</stored>
+           <roughage>false</roughage>
+           <dm_content>0.89</dm_content>
+           <dmd>0.9</dmd>
+           <me_content>13.8</me_content>
+           <cp_conc>0.14</cp_conc>
+           <prot_dg>0.92</prot_dg>
+           <p_conc>0.0038</p_conc>
+           <s_conc>0.0014</s_conc>
+           <ee_conc>0.02</ee_conc>
+           <adip2cp>0.02</adip2cp>
+           <ash_alk>0.18</ash_alk>
+           <max_passage>0.0</max_passage>
+       </supplementstore>
+    </supplement>
+    <SupplementScienceConverter>
+      <debug type="list" listvalues="on,off">off</debug>
+      <supplement_module type="modulename" >supplement</supplement_module>
+     </SupplementScienceConverter>
   </folder>
 
 </folder>
