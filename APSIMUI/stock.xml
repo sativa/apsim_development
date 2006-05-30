@@ -1,0 +1,239 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../docs/shared/Variables.xsl"?>
+<component name="">
+   <variables>
+      <variable name="name" description="Fully-qualified name of the component." array="" units="" />
+      <variable name="type" description="Value is Stock" array="" units="" />
+      <variable name="version" description="Value is 1.0" array="" units="" />
+      <variable name="author" description="Value is CSIRO Plant Industry" array="" units="" />
+      <variable name="active" description="Denotes whether or not the component is active." array="" units="" />
+      <variable name="state" description="SDML description of the current state." array="" units="" />
+      <variable name="published_events" description="" array="T" units="" />
+      <variable name="subscribed_events" description="" array="T" units="" />
+      <variable name="driver_connections" description="" array="T" units="" />
+      <variable name="param_file" description="" array="" units="" />
+      <variable name="genotypes" description="" array="T" units="" />
+      <variable name="sheep" description="" array="T" units="" />
+      <variable name="cattle" description="" array="T" units="" />
+      <variable name="age" description="Age of animals." array="T" units="" />
+      <variable name="age_all" description="" array="" units="" />
+      <variable name="age_months" description="Age of animals, in months." array="T" units="" />
+      <variable name="age_months_all" description="" array="" units="" />
+      <variable name="age_months_tag" description="" array="T" units="" />
+      <variable name="age_months_yng" description="" array="T" units="" />
+      <variable name="age_months_yng_all" description="" array="" units="" />
+      <variable name="age_months_yng_tag" description="" array="T" units="" />
+      <variable name="age_tag" description="" array="T" units="" />
+      <variable name="age_yng" description="" array="T" units="" />
+      <variable name="age_yng_all" description="" array="" units="" />
+      <variable name="age_yng_tag" description="" array="T" units="" />
+      <variable name="base_wt" description="Fleece-free, conceptus-free weight." array="T" units="" />
+      <variable name="base_wt_all" description="" array="" units="" />
+      <variable name="base_wt_tag" description="" array="T" units="" />
+      <variable name="base_wt_yng" description="" array="T" units="" />
+      <variable name="base_wt_yng_all" description="" array="" units="" />
+      <variable name="base_wt_yng_tag" description="" array="T" units="" />
+      <variable name="birth_cs" description="Condition score at last parturition; zero if lactating=0" array="T" units="" />
+      <variable name="birth_cs_all" description="" array="" units="" />
+      <variable name="birth_cs_tag" description="" array="T" units="" />
+      <variable name="c_fleece_wt" description="Current clean fleece weight." array="T" units="" />
+      <variable name="c_fleece_wt_all" description="" array="" units="" />
+      <variable name="c_fleece_wt_tag" description="" array="T" units="" />
+      <variable name="c_fleece_wt_yng" description="" array="T" units="" />
+      <variable name="c_fleece_wt_yng_all" description="" array="" units="" />
+      <variable name="c_fleece_wt_yng_tag" description="" array="T" units="" />
+      <variable name="cfleece_growth" description="Growth rate of clean fleece." array="T" units="" />
+      <variable name="cfleece_growth_all" description="" array="" units="" />
+      <variable name="cfleece_growth_tag" description="" array="T" units="" />
+      <variable name="cfleece_growth_yng" description="" array="T" units="" />
+      <variable name="cfleece_growth_yng_all" description="" array="" units="" />
+      <variable name="cfleece_growth_yng_tag" description="" array="T" units="" />
+      <variable name="cond_score" description="Condition score of animals (1-5 scale)." array="T" units="" />
+      <variable name="cond_score_all" description="" array="" units="" />
+      <variable name="cond_score_tag" description="" array="T" units="" />
+      <variable name="cond_score_yng" description="" array="T" units="" />
+      <variable name="cond_score_yng_all" description="" array="" units="" />
+      <variable name="cond_score_yng_tag" description="" array="T" units="" />
+      <variable name="cp_intake" description="Crude protein intake per head." array="T" units="" />
+      <variable name="cp_intake_all" description="" array="" units="" />
+      <variable name="cp_intake_tag" description="" array="T" units="" />
+      <variable name="cp_intake_yng" description="" array="T" units="" />
+      <variable name="cp_intake_yng_all" description="" array="" units="" />
+      <variable name="cp_intake_yng_tag" description="" array="T" units="" />
+      <variable name="dse" description="Dry sheep equivalents, based on potential intake." array="T" units="" />
+      <variable name="dse_all" description="" array="" units="" />
+      <variable name="dse_tag" description="" array="T" units="" />
+      <variable name="dse_yng" description="" array="T" units="" />
+      <variable name="dse_yng_all" description="" array="" units="" />
+      <variable name="dse_yng_tag" description="" array="T" units="" />
+      <variable name="faeces" description="" array="T" units="" />
+      <variable name="faeces_all" description="" array="" units="" />
+      <variable name="faeces_inorg" description="" array="T" units="" />
+      <variable name="faeces_inorg_all" description="" array="" units="" />
+      <variable name="faeces_inorg_tag" description="" array="T" units="" />
+      <variable name="faeces_inorg_yng" description="" array="T" units="" />
+      <variable name="faeces_inorg_yng_all" description="" array="" units="" />
+      <variable name="faeces_inorg_yng_tag" description="" array="T" units="" />
+      <variable name="faeces_tag" description="" array="T" units="" />
+      <variable name="faeces_yng" description="" array="T" units="" />
+      <variable name="faeces_yng_all" description="" array="" units="" />
+      <variable name="faeces_yng_tag" description="" array="T" units="" />
+      <variable name="fibre_diam" description="Fibre diameter of the current days wool growth." array="T" units="" />
+      <variable name="fibre_diam_all" description="" array="" units="" />
+      <variable name="fibre_diam_tag" description="" array="T" units="" />
+      <variable name="fibre_diam_yng" description="" array="T" units="" />
+      <variable name="fibre_diam_yng_all" description="" array="" units="" />
+      <variable name="fibre_diam_yng_tag" description="" array="T" units="" />
+      <variable name="fibre_growth_diam" description="Fibre diameter of the current days wool growth." array="T" units="" />
+      <variable name="fibre_growth_diam_all" description="" array="" units="" />
+      <variable name="fibre_growth_diam_tag" description="" array="T" units="" />
+      <variable name="fibre_growth_diam_yng" description="" array="T" units="" />
+      <variable name="fibre_growth_diam_yng_all" description="" array="" units="" />
+      <variable name="fibre_growth_diam_yng_tag" description="" array="T" units="" />
+      <variable name="fleece_wt" description="Current greasy fleece weight." array="T" units="" />
+      <variable name="fleece_wt_all" description="" array="" units="" />
+      <variable name="fleece_wt_tag" description="" array="T" units="" />
+      <variable name="fleece_wt_yng" description="" array="T" units="" />
+      <variable name="fleece_wt_yng_all" description="" array="" units="" />
+      <variable name="fleece_wt_yng_tag" description="" array="T" units="" />
+      <variable name="intake" description="" array="T" units="" />
+      <variable name="intake_all" description="" array="" units="" />
+      <variable name="intake_tag" description="" array="T" units="" />
+      <variable name="intake_yng" description="" array="T" units="" />
+      <variable name="intake_yng_all" description="" array="" units="" />
+      <variable name="intake_yng_tag" description="" array="T" units="" />
+      <variable name="lactating" description="If the animals are lactating, the number of days since birth of the lamb or calf; zero otherwise." array="T" units="" />
+      <variable name="lactating_all" description="" array="" units="" />
+      <variable name="lactating_tag" description="" array="T" units="" />
+      <variable name="max_prev_wt" description="Maximum previous basal weight (fleece-free, conceptus-free) attained by each animal group." array="T" units="" />
+      <variable name="max_prev_wt_all" description="" array="" units="" />
+      <variable name="max_prev_wt_tag" description="" array="T" units="" />
+      <variable name="max_prev_wt_yng" description="" array="T" units="" />
+      <variable name="max_prev_wt_yng_all" description="" array="" units="" />
+      <variable name="max_prev_wt_yng_tag" description="" array="T" units="" />
+      <variable name="me_intake" description="Intake per head of metabolizable energy." array="T" units="" />
+      <variable name="me_intake_all" description="" array="" units="" />
+      <variable name="me_intake_tag" description="" array="T" units="" />
+      <variable name="me_intake_yng" description="" array="T" units="" />
+      <variable name="me_intake_yng_all" description="" array="" units="" />
+      <variable name="me_intake_yng_tag" description="" array="T" units="" />
+      <variable name="milk_me" description="Metabolizable energy produced in milk (per head) by each animal group" array="T" units="" />
+      <variable name="milk_me_all" description="" array="" units="" />
+      <variable name="milk_me_tag" description="" array="T" units="" />
+      <variable name="milk_wt" description="Weight of milk produced per head, on a 4% fat-corrected basis." array="T" units="" />
+      <variable name="milk_wt_all" description="" array="" units="" />
+      <variable name="milk_wt_tag" description="" array="T" units="" />
+      <variable name="no_female" description="Number of female animals in each animal group." array="T" units="" />
+      <variable name="no_female_all" description="" array="" units="" />
+      <variable name="no_female_tag" description="" array="T" units="" />
+      <variable name="no_female_yng" description="" array="T" units="" />
+      <variable name="no_female_yng_all" description="" array="" units="" />
+      <variable name="no_female_yng_tag" description="" array="T" units="" />
+      <variable name="no_foetuses" description="Number of foetuses per head in each animal group." array="T" units="" />
+      <variable name="no_foetuses_all" description="" array="" units="" />
+      <variable name="no_foetuses_tag" description="" array="T" units="" />
+      <variable name="no_groups" description="" array="" units="" />
+      <variable name="no_male" description="Number of animal groups." array="T" units="" />
+      <variable name="no_male_all" description="" array="" units="" />
+      <variable name="no_male_tag" description="" array="T" units="" />
+      <variable name="no_male_yng" description="" array="T" units="" />
+      <variable name="no_male_yng_all" description="" array="" units="" />
+      <variable name="no_male_yng_tag" description="" array="T" units="" />
+      <variable name="no_suckling" description="Number of unweaned lambs or calves per head in each animal group." array="T" units="" />
+      <variable name="no_suckling_all" description="" array="" units="" />
+      <variable name="no_suckling_tag" description="" array="T" units="" />
+      <variable name="number" description="Number of animals in each animal group." array="T" units="" />
+      <variable name="number_all" description="" array="" units="" />
+      <variable name="number_tag" description="" array="T" units="" />
+      <variable name="number_yng" description="" array="T" units="" />
+      <variable name="number_yng_all" description="" array="" units="" />
+      <variable name="number_yng_tag" description="" array="T" units="" />
+      <variable name="paddock" description="Paddock occupied by each animal group." array="T" units="" />
+      <variable name="past_intake" description="" array="T" units="" />
+      <variable name="past_intake_all" description="" array="" units="" />
+      <variable name="past_intake_tag" description="" array="T" units="" />
+      <variable name="past_intake_yng" description="" array="T" units="" />
+      <variable name="past_intake_yng_all" description="" array="" units="" />
+      <variable name="past_intake_yng_tag" description="" array="T" units="" />
+      <variable name="pregnant" description="If the animals are pregnant, the number of days since conception; zero otherwise." array="T" units="" />
+      <variable name="pregnant_all" description="" array="" units="" />
+      <variable name="pregnant_tag" description="" array="T" units="" />
+      <variable name="priority" description="Priority score assigned to each animal group; used in drafting." array="T" units="" />
+      <variable name="retained_n" description="Nitrogen retained within the animals, on a per-head basis." array="T" units="" />
+      <variable name="retained_n_all" description="" array="" units="" />
+      <variable name="retained_n_tag" description="" array="T" units="" />
+      <variable name="retained_n_yng" description="" array="T" units="" />
+      <variable name="retained_n_yng_all" description="" array="" units="" />
+      <variable name="retained_n_yng_tag" description="" array="T" units="" />
+      <variable name="retained_p" description="Phosphorus retained within the animals, on a per-head basis." array="T" units="" />
+      <variable name="retained_p_all" description="" array="" units="" />
+      <variable name="retained_p_tag" description="" array="T" units="" />
+      <variable name="retained_p_yng" description="" array="T" units="" />
+      <variable name="retained_p_yng_all" description="" array="" units="" />
+      <variable name="retained_p_yng_tag" description="" array="T" units="" />
+      <variable name="retained_s" description="Sulphur retained within the animals, on a per-head basis." array="T" units="" />
+      <variable name="retained_s_all" description="" array="" units="" />
+      <variable name="retained_s_tag" description="" array="T" units="" />
+      <variable name="retained_s_yng" description="" array="T" units="" />
+      <variable name="retained_s_yng_all" description="" array="" units="" />
+      <variable name="retained_s_yng_tag" description="" array="T" units="" />
+      <variable name="sex" description="See the sex field of the sheep and cattle initialisation variables.  Returns heifer for cows under two years of age." array="T" units="" />
+      <variable name="supp_eaten" description="" array="T" units="" />
+      <variable name="supp_intake" description="" array="T" units="" />
+      <variable name="supp_intake_all" description="" array="" units="" />
+      <variable name="supp_intake_tag" description="" array="T" units="" />
+      <variable name="supp_intake_yng" description="" array="T" units="" />
+      <variable name="supp_intake_yng_all" description="" array="" units="" />
+      <variable name="supp_intake_yng_tag" description="" array="T" units="" />
+      <variable name="tag_no" description="Tag value assigned to each animal group." array="T" units="" />
+      <variable name="trampling" description="Mass of grazers per unit area. The value returned depends on the requesting component." array="" units="kg/ha" />
+      <variable name="urine_n" description="Urinary nitrogen output per head." array="T" units="" />
+      <variable name="urine_n_all" description="" array="" units="" />
+      <variable name="urine_n_tag" description="" array="T" units="" />
+      <variable name="urine_n_yng" description="" array="T" units="" />
+      <variable name="urine_n_yng_all" description="" array="" units="" />
+      <variable name="urine_n_yng_tag" description="" array="T" units="" />
+      <variable name="urine_p" description="Urinary phosphorus output per head." array="T" units="" />
+      <variable name="urine_p_all" description="" array="" units="" />
+      <variable name="urine_p_tag" description="" array="T" units="" />
+      <variable name="urine_p_yng" description="" array="T" units="" />
+      <variable name="urine_p_yng_all" description="" array="" units="" />
+      <variable name="urine_p_yng_tag" description="" array="T" units="" />
+      <variable name="urine_s" description="Urinary sulphur output per head." array="T" units="" />
+      <variable name="urine_s_all" description="" array="" units="" />
+      <variable name="urine_s_tag" description="" array="T" units="" />
+      <variable name="urine_s_yng" description="" array="T" units="" />
+      <variable name="urine_s_yng_all" description="" array="" units="" />
+      <variable name="urine_s_yng_tag" description="" array="T" units="" />
+      <variable name="weight" description="Average live weight of each animal group." array="T" units="" />
+      <variable name="weight_all" description="" array="" units="" />
+      <variable name="weight_tag" description="" array="T" units="" />
+      <variable name="weight_yng" description="" array="T" units="" />
+      <variable name="weight_yng_all" description="" array="" units="" />
+      <variable name="weight_yng_tag" description="" array="T" units="" />
+      <variable name="wt_change" description="Rate of change of base weight of each animal group." array="T" units="" />
+      <variable name="wt_change_all" description="" array="" units="" />
+      <variable name="wt_change_tag" description="" array="T" units="" />
+      <variable name="wt_change_yng" description="" array="T" units="" />
+      <variable name="wt_change_yng_all" description="" array="" units="" />
+      <variable name="wt_change_yng_tag" description="" array="T" units="" />
+   </variables>
+   <events>
+      <event name="error" description="" />
+      <event name="on_init2" description="" />
+      <event name="do_stock" description="Computes development, intake, growth and reproduction of all animals." />
+      <event name="buy" description="Causes a given number and type of animals to enter the simulation." />
+      <event name="castrate" description="Converts ram lambs to wether lambs, or bull calves to steers.  " />
+      <event name="draft" description="Assigns paddocks to animals in such a way that animal groups with the lowest tag values are placed in the paddocks with the best pasture. " />
+      <event name="dryoff" description="Ends lactation in cows that have already had their calves weaned.  " />
+      <event name="join" description="Commences mating of a particular group of animals.  " />
+      <event name="move" description="Changes the paddock to which an animal group is assigned." />
+      <event name="prioritise" description="" />
+      <event name="sell" description="Removes animals from the simulation." />
+      <event name="shear" description="Shears sheep. " />
+      <event name="sort" description="Rearranges the list of animal groups in ascending order of tag value. " />
+      <event name="split" description="Creates two or more animal groups from the nominated group.  " />
+      <event name="tag" description="Sets the tag value for an animal group." />
+      <event name="wean" description="Weans some or all of the lambs or calves from an animal group. " />
+   </events>
+</component>
