@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../docs/shared/Variables.xsl"?>
+<component name="">
+   <variables>
+      <variable name="name" description="Fully-qualified name of the component" units=""/>
+      <variable name="type" description="Value is Pasture" units=""/>
+      <variable name="version" description="Value is 1.0" units="Value is 1.0"/>
+      <variable name="author" description="Value is CSIRO Plant Industry" units=""/>
+      <variable name="active" description="Denotes whether or not the component is active" units=""/>
+      <variable name="state" description="SDML description of the current state" units=""/>
+      <variable name="published_events" description="" array="T" />
+      <variable name="subscribed_events" description="" array="T" />
+      <variable name="driver_connections" description="" array="T"/>
+      <variable name="param_file" description=""/>
+      <variable name="species" description=""/>
+      <variable name="nutrients" description=""/>
+      <variable name="fertility" description="" units="-"/>
+      <variable name="layers" description="" units="mm" array="T"/>
+      <variable name="max_rtdep" description="" units="mm"/>
+      <variable name="lagged_day_t" description="" units="oC"/>
+      <variable name="phenology" description="" units="-"/>
+      <variable name="flower_len" description="" units="d"/>
+      <variable name="flower_time" description="" units="d"/>
+      <variable name="senc_index" description="" units="d"/>
+      <variable name="dorm_index" description="" units="d"/>
+      <variable name="dorm_t" description="" units="oC"/>
+      <variable name="extinct_coeff" description="" units="-" array="T"/>
+      <variable name="green" description="" array="T" />
+      <variable name="dry" description="" array="T"  />
+      <variable name="seeds" description="" />
+      <variable name="seed_dorm_time" description="" units="d"/>
+      <variable name="germ_index" description="" units="d"/>
+      <variable name="assimilation" description="Gross assimilation rate." units="kghad"/>
+      <variable name="avail_cp" description="Average crude protein content of herbage available for grazing." units="gg"/>
+      <variable name="avail_dm" description="Total dry weight of herbage available for grazing." units="kgha"/>
+      <variable name="avail_dm_q" description="Dry weight of herbage available for grazing in each digestibility class." units="kgha" array="T"/>
+      <variable name="avail_dmd" description="Average DM digestibility of herbage available for grazing." units="gg"/>
+      <variable name="avail_dry" description="Weight of dry (standing dead+litter) herbage available for grazing." units="kgha"/>
+      <variable name="avail_green" description="Weight of green (seedling+established+senescing) herbage available for grazing." units="kgha"/>
+      <variable name="cover_green" description="Green cover." units="-"/>
+      <variable name="cover_tot" description="Total cover." units="-"/>
+      <variable name="dai" description="Dead area index." units="m^2m^2"/>
+      <variable name="dead_cp" description="Average crude protein content of standing dead herbage." units="gg"/>
+      <variable name="dead_dm" description="Total dry weight of standing dead herbage." units="kgha"/>
+      <variable name="dead_dm_q" description="Dry weight of standing dead herbage in each digestibility class." units="kgha" array="T"/>
+      <variable name="dead_dmd" description="Average DM digestibility of standing dead herbage." units="gg"/>
+      <variable name="dead_n" description="Average nitrogen content of standing dead herbage." units="gg"/>
+      <variable name="dead_p" description="Average phosphorus content of standing dead herbage." units="gg"/>
+      <variable name="dead_s" description="Average sulphur content of standing dead herbage." units="gg"/>
+      <variable name="dry_cp" description="Average crude protein content of dry herbage (standing dead+litter)." units="gg"/>
+      <variable name="dry_dm" description="Total dry weight of dry herbage." units="kgha"/>
+      <variable name="dry_dm_q" description="Dry weight of dry herbage in each digestibility class." units="kgha" array="T"/>
+      <variable name="dry_dmd" description="Average DM digestibility of dry herbage." units="gg"/>
+      <variable name="dry_n" description="Average nitrogen content of dry herbage." units="gg"/>
+      <variable name="dry_p" description="Average phosphorus content of dry herbage." units="gg"/>
+      <variable name="dry_s" description="Total dry weight of effective roots." units="gg"/>
+      <variable name="eff_root_dm" description="Dry weight of effective roots in each soil layer." units="kgha"/>
+      <variable name="eff_root_dm_dep" description="Weighted average value of the establishment index for seedlings." units="kgha" array="T"/>
+      <variable name="est_index" description="Total dry weight of herbage of established plants." units="-"/>
+      <variable name="estab_cp" description="Dry weight of herbage of established plants in each digestibility class." units="gg"/>
+      <variable name="estab_dm" description="Average DM digestibility of herbage of established plants." units="kgha"/>
+      <variable name="estab_dm_q" description="Average nitrogen content of herbage of established plants." units="kgha" array="T"/>
+      <variable name="estab_dmd" description="Average sulphur content of herbage of established plants." units="gg"/>
+      <variable name="estab_n" description="Average nitrogen content of herbage of established plants." units="gg"/>
+      <variable name="estab_p" description="Average phosphorus content of herbage of established plants." units="gg"/>
+      <variable name="estab_s" description="Average sulphur content of herbage of established plants." units="gg"/>
+      <variable name="gai" description="Green area index." units="m^2m^2"/>
+      <variable name="glf_gai" description="Light interception growth-limiting factor." units="-"/>
+      <variable name="glf_nitr" description="Nitrogen growth-limiting factor." units="-"/>
+      <variable name="glf_nutr" description="Nutrient growth-limiting factor." units="-"/>
+      <variable name="glf_phos" description="Phosphorus growth-limiting factor." units="-"/>
+      <variable name="glf_sm" description="Soil moisture growth-limiting factor." units="-"/>
+      <variable name="glf_sulf" description="Sulphur growth-limiting factor." units="-"/>
+      <variable name="glf_tmp" description="Temperature growth-limiting factor." units="-"/>
+      <variable name="glf_vpd" description="VPD growth-limiting factor." units="-"/>
+      <variable name="glf_wl" description="Waterlogging growth-limiting factor." units="-"/>
+      <variable name="green_bd" description="" units="kgm^3"/>
+      <variable name="green_cp" description="Average crude protein content of green herbage (seedlings+established+senescing)." units="gg"/>
+      <variable name="green_dm" description="Total dry weight of green herbage." units="kgha"/>
+      <variable name="green_dm_q" description="Dry weight of green herbage in each digestibility class." units="kgha" array="T"/>
+      <variable name="green_dmd" description="Average DM digestibility of green herbage." units="gg"/>
+      <variable name="green_n" description="Average nitrogen content of green herbage." units="gg"/>
+      <variable name="green_p" description="Average phosphorus content of green herbage." units="gg"/>
+      <variable name="green_s" description="Average sulphur content of green herbage." units="gg"/>
+      <variable name="growth" description="Daily shoot growth rate." units="kghad"/>
+      <variable name="height" description="Average height of the pasture." units="mm"/>
+      <variable name="leaf_cp" description="Average crude protein content of all leaves." units="gg"/>
+      <variable name="leaf_dm" description="Total dry weight of all leaves." units="kgha"/>
+      <variable name="leaf_dm_q" description="Dry weight of all leaves in each digestibility class." units="kgha" array="T"/>
+      <variable name="leaf_dmd" description="Average DM digestibility of all leaves." units="gg"/>
+      <variable name="leaf_n" description="Average nitrogen content of all leaves." units="gg"/>
+      <variable name="leaf_p" description="Average phosphorus content of all leaves." units="gg"/>
+      <variable name="leaf_s" description="Average sulphur content of all leaves." units="gg"/>
+      <variable name="litter_cp" description="Average crude protein content of litter." units="gg"/>
+      <variable name="litter_dm" description="Total dry weight of litter." units="kgha"/>
+      <variable name="litter_dm_q" description="Dry weight of herbage of litter in each digestibility class." units="kgha" array="T"/>
+      <variable name="litter_dmd" description="Average DM digestibility of litter." units="gg"/>
+      <variable name="litter_n" description="Average nitrogen content of litter." units="gg"/>
+      <variable name="litter_p" description="Average phosphorus content of litter." units="gg"/>
+      <variable name="litter_s" description="Average sulphur content of litter." units="gg"/>
+      <variable name="n_fixed" description="Nitrogen fixation rate." units="kghad"/>
+      <variable name="npp" description="Net primary productivity of the population." units="kghad"/>
+      <variable name="residue_cover" description="Cover of standing dead and litter." units="-"/>
+      <variable name="respiration" description="Respiration rate, in dry weight equivalent terms." units="kghad"/>
+      <variable name="rlv" description="Length density of effective roots in each soil layer." units="mmmm^3" array="T"/>
+      <variable name="root_dm" description="Total dry weight of all roots." units="kgha"/>
+      <variable name="root_dm_dep" description="Dry weight of all roots in each soil layer." units="kgha" array="T"/>
+      <variable name="root_n" description="Average nitrogen content of all roots." units="gg"/>
+      <variable name="root_p" description="Average phosphorus content of all roots." units="gg"/>
+      <variable name="root_radius" description="Average radius of all roots." units="mm"/>
+      <variable name="root_s" description="Average sulphur content of all roots." units="gg"/>
+      <variable name="rtdep" description="Current depth of the rooting front." units="mm"/>
+      <variable name="rwu" description="Actual water uptake by all plants in this population from each soil layer." units="mm" array="T"/>
+      <variable name="seed_cp" description="Average crude protein content of seeds." units="gg"/>
+      <variable name="seed_dm" description="Total dry weight of seeds in all soil layers." units="kgha"/>
+      <variable name="seed_n" description="Average nitrogen content of seeds." units="gg"/>
+      <variable name="seed_p" description="Average phosphorus content of seeds." units="gg"/>
+      <variable name="seed_s" description="Average sulphur content of seeds." units="gg"/>
+      <variable name="seedl_cp" description="Average crude protein content of seedlings." units="gg"/>
+      <variable name="seedl_dm" description="Total dry weight of seedlings." units="kgha"/>
+      <variable name="seedl_dm_q" description="Dry weight of herbage of seedlings in each digestibility class." units="kgha" array="T"/>
+      <variable name="seedl_dmd" description="Average DM digestibility of seedlings." units="gg"/>
+      <variable name="seedl_n" description="Average nitrogen content of seedlings." units="gg"/>
+      <variable name="seedl_p" description="Average phosphorus content of seedlings." units="gg"/>
+      <variable name="seedl_s" description="Average sulphur content of seedlings." units="gg"/>
+      <variable name="senc_cp" description="Average crude protein content of herbage of senescing plants." units="gg"/>
+      <variable name="senc_dm" description="Total dry weight of herbage of senescing plants." units="kgha"/>
+      <variable name="senc_dm_q" description="Dry weight of herbage of senescing plants in each digestibility class." units="kgha" array="T"/>
+      <variable name="senc_dmd" description="Average DM digestibility of herbage of senescing plants." units="gg"/>
+      <variable name="senc_n" description="Average nitrogen content of herbage of senescing plants." units="gg"/>
+      <variable name="senc_p" description="Average phosphorus content of herbage of senescing plants." units="gg"/>
+      <variable name="senc_s" description="Average sulphur content of herbage of senescing plants." units="gg"/>
+      <variable name="shoot_cp" description="Average crude protein content of all herbage." units="gg"/>
+      <variable name="shoot_dm" description="Total dry weight of all herbage." units="kgha"/>
+      <variable name="shoot_dm_q" description="Dry weight of all herbage in each digestibility class." units="kgha" array="T"/>
+      <variable name="shoot_dmd" description="Average DM digestibility of all herbage." units="gg"/>
+      <variable name="shoot_n" description="Average nitrogen content of all herbage." units="gg"/>
+      <variable name="shoot_npp" description="Net primary productivity of shoots." units="kghad"/>
+      <variable name="shoot_p" description="Average phosphorus content of all herbage." units="gg"/>
+      <variable name="shoot_s" description="Average sulphur content of all herbage." units="gg"/>
+      <variable name="stem_cp" description="Average crude protein content of all stems." units="gg"/>
+      <variable name="stem_dm" description="Total dry weight of all stems." units="kgha"/>
+      <variable name="stem_dm_q" description="Dry weight of all stems in each digestibility class." units="kgha" array="T"/>
+      <variable name="stem_dmd" description="Average DM digestibility of all stems." units="gg"/>
+      <variable name="stem_n" description="Average nitrogen content of all stems." units="gg"/>
+      <variable name="stem_p" description="Average phosphorus content of all stems." units="gg"/>
+      <variable name="stem_s" description="Average sulphur content of all stems." units="gg"/>
+      <variable name="stress_index" description="Weighted average value of the seedling stress index." units="-"/>
+      <variable name="uptake_nh4" description="Ammonium-N uptake from each soil layer" units="kghad" array="T"/>
+      <variable name="uptake_no3" description="Nitrate-N uptake from each soil layer" units="kghad" array="T"/>
+      <variable name="uptake_pox" description="Phosphate-P uptake from each soil layer" units="kghad" array="T"/>
+      <variable name="uptake_so4" description="Sulphate-S uptake from each soil layer" units="kghad" array="T"/>
+   </variables>
+   <events>
+      <variable name="init_step" description="Zeroes various cumulated quantities (e.g. herbage removal). Acquires the green mass, green area index and cover of other plants and computes totals for the field."/>
+      <variable name="do_pasture_water" description="Computes demand for soil water."/>
+      <variable name="prewaterbalance" description="Computes water demand and transmits it via a cropwaterdemand event. "/>
+      <variable name="cropwatersupply" description="Informs the component of the rate of water uptake by all plants of the species. "/>
+      <variable name="do_pasture_growth" description="Computes rates of development, growth and digestibility change of the species. Updates phenology state variables."/>
+      <variable name="end_step" description="Obtains and computes removal of herbage by livestock. Obtains and adds residue inputs from other plant models. Updates remaining state variables."/>
+      <variable name="remove_herbage" description="Removes plant shoots and seeds. " />
+      <variable name="residue_added" description="Adds standing dead or litter." />
+      <variable name="sow" description="Adds a given amount of seed of the species. "/>
+      <variable name="spraytop" description="This event causes the pasture to mimic the effects of spraying with glyphosate."/>
+      <variable name="cultivate" description="Kills the nominated proportion of the sward and incorporates the newly-dead material, along with the nominated proportion of dead, litter and seeds, into the soil."/>
+      <variable name="cut" description="Removes all herbage down to a nominated threshold and makes it available for storage as hay."/>
+      <variable name="kill" description="Kills the nominated proportions of herbage (including roots) and seeds. "/>
+   </events>
+</component>
