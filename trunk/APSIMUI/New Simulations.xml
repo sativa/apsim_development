@@ -12,8 +12,11 @@
     </metfile>
     <area name="paddock">
       <registrations name="global" />
+      <manager name="Manager">
+      </manager>
     </area>
   </simulation>
+  <shared name="shared" />
   <simulation name="Continuous Wheat Simulation">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1940</start_date>

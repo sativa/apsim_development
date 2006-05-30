@@ -466,6 +466,27 @@
          <drop name="folder"/>
      </drops>
    </swimsoil>
+   <accum>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/accum/docs/accum_science.htm</Documentation>
+      <LargeIcon>Images\debug32.png</LargeIcon>
+      <SmallIcon>Images\debug16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\accum\lib\accum.dll</dll>
+         <sim>
+            <accum_variables>[accum.variable]</accum_variables>
+         </sim>
+      </ApsimToSim>
+   </accum>
    <log>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
@@ -933,6 +954,8 @@
          <drop name="farmmanager"/>
          <drop name="paddockmanager"/>
          <drop name="StockScienceConverter"/>
+         <drop name="PastureScienceConverter"/>
+         <drop name="SupplementScienceConverter"/>
          <drop name="barley"/>
          <drop name="canola"/>
          <drop name="chickpea"/>
@@ -947,6 +970,7 @@
          <drop name="horsegram"/>
          <drop name="mungbean"/>
          <drop name="navybean"/>
+         <drop name="pasture"/>
          <drop name="peanut"/>
          <drop name="pigeonp"/>
          <drop name="sorghum"/>
@@ -2971,6 +2995,112 @@
          </sim>
       </ApsimToSim>
    </PastureScienceConverter>
+   <supplement>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Component description">../apsim/supplement/docs/supplement Component Description.htm</Documentation>
+      <Documentation name="Component drivers">../apsim/supplement/docs/supplement Component Drivers.htm</Documentation>
+      <LargeIcon>Images\supplement32.bmp</LargeIcon>
+      <SmallIcon>Images\supplement16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+     <variables link="supplement.xml"/>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>c:\program files\farmwise\supplement.dll</dll>
+         <sim>
+            <![CDATA[
+             <init name="spoilage_time" kind="double" unit="d">
+               <val>[spoilage_time]</val>
+             </init>
+               <init name="stores" array="T">
+               [foreach supplement.supplementStore as store]
+               <element>
+                 <field name="name" kind="string">
+                   <val>[store.name]</val>
+                 </field>
+                 <field name="stored" kind="double" unit="kg">
+                   <val>[store.stored]</val>
+                 </field>
+                 <field name="roughage" kind="boolean">
+                   <val>[store.roughage]</val>
+                 </field>
+                 <field name="dm_content" kind="double" unit="kg/kg">
+                   <val>[store.dm_content]</val>
+                 </field>
+                 <field name="dmd" kind="double">
+                   <val>[store.dmd]</val>
+                 </field>
+                 <field name="me_content" kind="double" unit="MJ/kg">
+                   <val>[store.me_content]</val>
+                 </field>
+                 <field name="cp_conc" kind="double" unit="kg/kg">
+                   <val>[store.cp_conc]</val>
+                 </field>
+                 <field name="prot_dg" kind="double" unit="kg/kg">
+                   <val>[store.prot_dg]</val>
+                 </field>
+                 <field name="p_conc" kind="double" unit="kg/kg">
+                   <val>[store.p_conc]</val>
+                 </field>
+                 <field name="s_conc" kind="double" unit="kg/kg">
+                   <val>[store.s_conc]</val>
+                 </field>
+                 <field name="ee_conc" kind="double" unit="kg/kg">
+                   <val>[store.ee_conc]</val>
+                 </field>
+                 <field name="adip2cp" kind="double" unit="kg/kg">
+                   <val>[store.adip2cp]</val>
+                 </field>
+                 <field name="ash_alk" kind="double" unit="mol/kg">
+                   <val>[store.ash_alk]</val>
+                 </field>
+                 <field name="max_passage" kind="double" unit="kg/kg">
+                   <val>[store.max_passage]</val>
+                 </field>
+               </element>
+               [endfor]
+             </init>
+           </initsection>
+
+            ]]>
+         </sim>
+      </ApsimToSim>
+   </supplement>
+   <supplementStore>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <SmallIcon>Images\supplement16.bmp</SmallIcon>
+      <drops>
+         <drop name="supplement"/>
+     </drops>
+   </supplementStore>
+   <SupplementScienceConverter>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <SmallIcon>Images\herbage_green.gif</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+      </drops>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\supplement\lib\supplementscienceconverter.dll</dll>
+         <recurse>yes</recurse>
+         <sim>
+            [SupplementScienceConverter.innerxml]
+         </sim>
+      </ApsimToSim>
+   </SupplementScienceConverter>
    <memo>
       <UItype>memo</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
