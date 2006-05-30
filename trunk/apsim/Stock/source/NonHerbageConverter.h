@@ -37,6 +37,7 @@ class NonHerbageConverter : public ConverterBase
    private:
       void doRunTimeReg(void);
       void daylengthRelay (protocol::QueryValueData& queryData);
+      void intakeRelay (protocol::QueryValueData& queryData);
       void sendAddSurfaceOMEvent (const string& omName, const string& omType, protocol::faeces_omType faecesOM);
       void addUrine (protocol::urineType urine);
       void readParameters ( void );
@@ -58,6 +59,9 @@ class NonHerbageConverter : public ConverterBase
       unsigned sellID;
       unsigned moveID;
       unsigned addManureID;
+
+      unsigned intakeSendID;
+      unsigned intakeGetID;
 
 ////      protocol::Component *system;
       protocol::add_excretaType excreted;
