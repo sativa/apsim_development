@@ -110,7 +110,7 @@ void PlantPhenology::readConstants (protocol::Component *s, const string &sectio
       {
    // Register stage names as events (eg. flowering)
       s->addRegistration(RegistrationType::event, phases[i]->name().c_str(),
-                         "", "", "");
+                         nullTypeDDML, "", "");
 
       std::vector <Output*> Outputs;
       phases[i]->GetOutputs(Outputs);
