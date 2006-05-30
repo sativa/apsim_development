@@ -39,6 +39,7 @@ class PastureConverter : public protocol::Component
       void doCropNutrientUptake(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
       void doAddFOM(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
       void dosowPasture(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
+      void doNewProfile(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
 
       float divide (float dividend, float divisor, float default_value);
 
@@ -66,6 +67,8 @@ class PastureConverter : public protocol::Component
       unsigned incorpFOMID;
       unsigned cropwatersupplyID;
       unsigned cropwaterdemandID;
+      unsigned rtDepID;
+      unsigned waterInfoID;
       unsigned ll15DepthID;
       unsigned swID;
       unsigned swDepthID;
@@ -86,11 +89,21 @@ class PastureConverter : public protocol::Component
       unsigned no3ppmID;
       unsigned no3_ppmID;
       unsigned weatherID;
+      unsigned newProfileID;
 
       string cDebug;
       int numLayers;
       vector <float> pSandLayer;
 //      float pSandLayer[100];
+
+      float dlayer [max_layer];                         // thickness of soil layer I (mm)
+      float dlt_sw_dep[max_layer];                      // water uptake in each layer (mm water)
+      float ll15_dep[max_layer];
+      float dul_dep [max_layer];                        // drained upper limit soil water content for soil layer L (mm water)
+      float sat_dep[max_layer];
+      float bd[max_layer];
+      float sw_dep [max_layer];                         // soil water content of layer L (mm)
+
       float cSVPFract;
       protocol::pasturewatersupplyType waterSupply;
 
