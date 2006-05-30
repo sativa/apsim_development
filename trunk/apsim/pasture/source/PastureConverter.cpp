@@ -112,10 +112,13 @@ void PastureConverter::doInit1(const FString& sdml)
    endStepID = addRegistration(RegistrationType::event, "end_step", "");
    onUptakeID = addRegistration(RegistrationType::respondToEvent, "on_uptake", pasturenutrientuptakeTypeDDML);
    fomAddedID = addRegistration(RegistrationType::respondToEvent, "fom_added", fom_addedTypeDDML);
+   newProfileID = addRegistration(RegistrationType::respondToEvent, "new_profile", new_profileTypeDDML);
    cropwaterdemandID = addRegistration(RegistrationType::respondToEvent, "cropwaterdemand", pasturewaterdemandTypeDDML);
    cropwatersupplyID = addRegistration(RegistrationType::event, "cropwatersupply", pasturewatersupplyTypeDDML);
    incorpFOMID = addRegistration(RegistrationType::event, "incorp_fom", "");
    swDepthID = addRegistration(RegistrationType::get, "sw_dep", singleArrayTypeDDML);
+   waterInfoID = addRegistration(RegistrationType::get, "water_info", waterinfoTypeDDML);
+   rtDepID = addRegistration(RegistrationType::get, "rtdep", singleTypeDDML);
    swID = addRegistration(RegistrationType::get, "sw", singleArrayTypeDDML);
    ll15DepthID = addRegistration(RegistrationType::get, "ll15_dep", singleArrayTypeDDML);
    dltSWDepthID = addRegistration(RegistrationType::set,"dlt_sw_dep", singleArrayTypeDDML);
@@ -146,14 +149,16 @@ void PastureConverter::respondToEvent(unsigned int& fromID, unsigned int& eventI
       doProcess(fromID, eventID, variant);
    else if (eventID == postID)
       doPost(fromID, eventID, variant);
-//   else if (eventID == cropwaterdemandID)
-//      doCropWaterUptake(fromID, eventID, variant);
+   else if (eventID == cropwaterdemandID)
+      doCropWaterUptake(fromID, eventID, variant);
    else if (eventID == onUptakeID)
       doCropNutrientUptake(fromID, eventID, variant);
    else if (eventID == fomAddedID)
       doAddFOM(fromID, eventID, variant);
    else if (eventID == sowPastureID)
       dosowPasture(fromID, eventID, variant);
+   else if (eventID == newProfileID)
+      doNewProfile(fromID, eventID, variant);
    else
    {} //not interested an other events
 
@@ -204,6 +209,35 @@ void PastureConverter::dosowPasture(unsigned int& fromID, unsigned int& eventID,
      pastureSow.rate = 0.0;
 
    publish (sowID, pastureSow);
+}
+// ------------------------------------------------------------------
+void PastureConverter::doNewProfile(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant)
+//===========================================================================
+{
+    protocol::ApsimVariant av(this);
+    av.aliasTo(variant.getMessageData());
+    protocol::vector<float> scratch;
+    av.get("dlayer", protocol::DTsingle, true, scratch);
+
+    vector<float> dlayer;
+    for (unsigned layer = 0; layer != scratch.size(); layer++)
+       {
+       dlayer.push_back(scratch[layer]);
+       }
+
+    int num_layers = scratch.size();
+
+    av.get("ll15_dep", protocol::DTsingle, true, scratch);
+    for (unsigned layer = 0; layer != scratch.size(); layer++) { ll15_dep[layer] = scratch[layer]; }
+    av.get("dul_dep", protocol::DTsingle, true, scratch);
+    for (unsigned layer = 0; layer != scratch.size(); layer++) { dul_dep[layer] = scratch[layer]; }
+    av.get("sat_dep", protocol::DTsingle, true, scratch);
+    for (unsigned layer = 0; layer != scratch.size(); layer++) { sat_dep[layer] = scratch[layer]; }
+    av.get("sw_dep", protocol::DTsingle, true, scratch);
+    for (unsigned layer = 0; layer != scratch.size(); layer++) { sw_dep[layer] = scratch[layer]; }
+    av.get("bd", protocol::DTsingle, true, scratch);
+    for (unsigned layer = 0; layer != scratch.size(); layer++) { bd[layer] = scratch[layer]; }
+
 }
 // ------------------------------------------------------------------
 void PastureConverter::doCropNutrientUptake(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant)
@@ -313,6 +347,17 @@ void PastureConverter::doCropWaterUptake(unsigned int& fromID, unsigned int& eve
       else
       {
          throw std::runtime_error("Couldn't get variable ll15_dep");
+      }
+
+      float rtDep;
+      protocol::Variant* rootDepth;
+      bool okRtDep = getVariable(maxtID, rootDepth, true);
+      if (okRtDep)
+      {
+         bool ok = rootDepth->unpack(rtDep);  // what happens if this is not ok?
+      }
+      else
+      {   // didn't get the rtDep ID ok. Do nothing about it.
       }
 
       int numLayers = ll15Depth.size();
