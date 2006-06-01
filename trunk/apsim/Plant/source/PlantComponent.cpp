@@ -47,6 +47,17 @@ extern "C" _export void __stdcall getDescription(char* initScript, char* descrip
    getDescriptionInternal(initScript, description);
    }
 
+extern "C" _export void __stdcall getDescriptionLength(char* initScript, int* length)
+//=======================================================================================
+// Return component description info.
+   {
+   char* buffer = new char[100000];
+   getDescriptionInternal(initScript, buffer);
+   *length = strlen(buffer);
+   delete [] buffer;
+   }
+
+
 protocol::Component* createComponent(void)
 //=======================================================================================
 // Create an instance of the Plant module
