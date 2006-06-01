@@ -604,6 +604,7 @@ public:
    void get_p_conc_stover(protocol::Component *, protocol::QueryValueData &qd);
    void get_p_conc_leaf(protocol::Component *, protocol::QueryValueData &qd);
    void get_p_uptake_stover(protocol::Component *, protocol::QueryValueData &qd);
+   void get_ll_dep(protocol::Component *systemInterface, protocol::QueryValueData &qd);
    void get_ll(protocol::Component *systemInterface, protocol::QueryValueData &qd);
 
    bool on_day_of(const string &what) ;
