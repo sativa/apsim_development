@@ -789,8 +789,12 @@ void Plant::doRegistrations(protocol::Component *system)
                     "%","P in stover");
 
    setupGetFunction(parent, "ll_dep", protocol::DTsingle, true,
-                    &Plant::get_ll,
+                    &Plant::get_ll_dep,
                     "mm","Crop lower limit");
+
+   setupGetFunction(parent, "ll", protocol::DTsingle, true,
+                    &Plant::get_ll,
+                    "%vol","Crop lower limit");
 
 #undef setupGetVar
 #undef setupGetFunction
@@ -8021,13 +8025,22 @@ void Plant::get_dlt_p_sen(protocol::Component *systemInterface, protocol::QueryV
    systemInterface->sendVariable(qd, dlt_p_sen);
 }
 
-void Plant::get_ll(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+void Plant::get_ll_dep(protocol::Component *systemInterface, protocol::QueryValueData &qd)
    {
    vector<float> ll_dep;
    int num_layers = count_of_real_vals (p.ll_dep, max_layer);
    for(int layer = 0; layer <= num_layers; layer++)
       ll_dep.push_back(p.ll_dep[layer]);
    systemInterface->sendVariable(qd, ll_dep);
+}
+
+void Plant::get_ll(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+   {
+   vector<float> ll;
+   int num_layers = count_of_real_vals (p.ll_dep, max_layer);
+   for(int layer = 0; layer <= num_layers; layer++)
+      ll.push_back(p.ll_dep[layer] / g.dlayer[layer]);
+   systemInterface->sendVariable(qd, ll);
 }
 
 
