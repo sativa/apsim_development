@@ -1,0 +1,212 @@
+
+[sample.report.parameters]
+outputfile  =millet.out
+
+variable = clock.day
+variable = clock.year
+variable = sw_dep()
+variable = manager.biomass_total
+variable = manager.yield_total
+variable = millet.lai     as mainstem_lai
+variable = millet.biomass as mainstem_biomass
+variable = millet.yield   as mainstem_yield
+variable = millet1.lai     as tiller1_lai
+variable = millet1.biomass as tiller1_biomass
+variable = millet1.yield   as tiller1_yield
+variable = millet2.lai     as tiller2_lai
+variable = millet2.biomass as tiller2_biomass
+variable = millet2.yield   as tiller2_yield
+variable = millet3.lai     as tiller3_lai
+variable = millet3.biomass as tiller3_biomass
+variable = millet3.yield   as tiller3_yield
+variable = millet4.lai     as tiller4_lai
+variable = millet4.biomass as tiller4_biomass
+variable = millet4.yield   as tiller4_yield
+variable = millet5.lai     as tiller5_lai
+variable = millet5.biomass as tiller5_biomass
+variable = millet5.yield   as tiller5_yield
+
+[sample.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=1/1/1988
+end_date=30/12/1988
+
+[sample.surfaceom.parameters]
+
+name =            manure       lucerne
+type =            manure       lucerne
+mass =             2000        4000
+cnr  =             200          50
+standing_fraction = .1          .2
+
+
+[sample.millet.parameters]
+
+   !layer    1    2    3    4    5    6    7
+ll =      .230 .240 .240 .250 .260 .270 .280   ! lower limit mm water/mm soil
+kl =      0.12 0.12 0.12 0.11 0.06 0.05 0.03   ! Water Extraction parameter (0-1)
+xf =      1.00 1.00 1.00 1.00 1.00 1.00 1.00   ()   ! Root Exploration factor (0-1)
+
+[sample.millet1.parameters]
+
+   !layer    1    2    3    4    5    6    7
+ll =      .230 .240 .240 .250 .260 .270 .280   ! lower limit mm water/mm soil
+kl =      0.12 0.12 0.12 0.11 0.06 0.05 0.03   ! Water Extraction parameter (0-1)
+xf =      1.00 1.00 1.00 1.00 1.00 1.00 1.00   ()   ! Root Exploration factor (0-1)
+
+[sample.millet2.parameters]
+
+   !layer    1    2    3    4    5    6    7
+ll =      .230 .240 .240 .250 .260 .270 .280   ! lower limit mm water/mm soil
+kl =      0.12 0.12 0.12 0.11 0.06 0.05 0.03   ! Water Extraction parameter (0-1)
+xf =      1.00 1.00 1.00 1.00 1.00 1.00 1.00   ()   ! Root Exploration factor (0-1)
+
+[sample.millet3.parameters]
+
+   !layer    1    2    3    4    5    6    7
+ll =      .230 .240 .240 .250 .260 .270 .280   ! lower limit mm water/mm soil
+kl =      0.12 0.12 0.12 0.11 0.06 0.05 0.03   ! Water Extraction parameter (0-1)
+xf =      1.00 1.00 1.00 1.00 1.00 1.00 1.00   ()   ! Root Exploration factor (0-1)
+
+[sample.millet4.parameters]
+
+   !layer    1    2    3    4    5    6    7
+ll =      .230 .240 .240 .250 .260 .270 .280   ! lower limit mm water/mm soil
+kl =      0.12 0.12 0.12 0.11 0.06 0.05 0.03   ! Water Extraction parameter (0-1)
+xf =      1.00 1.00 1.00 1.00 1.00 1.00 1.00   ()   ! Root Exploration factor (0-1)
+
+[sample.millet5.parameters]
+
+   !layer    1    2    3    4    5    6    7
+ll =      .230 .240 .240 .250 .260 .270 .280   ! lower limit mm water/mm soil
+kl =      0.12 0.12 0.12 0.11 0.06 0.05 0.03   ! Water Extraction parameter (0-1)
+xf =      1.00 1.00 1.00 1.00 1.00 1.00 1.00   ()   ! Root Exploration factor (0-1)
+
+[sample.canopy.parameters]
+
+intercrop =  millet millet1 millet2 millet3 millet4 millet5
+
+[sample.SummaryFile.parameters]
+summaryfile=millet.sum
+
+[sample.manager.init]
+   tiller0_finished = 0
+   tiller1_finished = 0
+   tiller2_finished = 0
+   tiller3_finished = 0
+   tiller4_finished = 0
+   tiller5_finished = 0
+
+[sample.manager.start_of_day]
+
+! MAIZE SOWING AND HARVEST ************
+ if day = 10 and year = 1988 then
+      millet sow plants =  9.0 (plants/m2), sowing_depth = 40 (mm), cultivar = wrajpop
+   endif
+
+[sample.manager.end_of_day]
+
+yield_total = millet.yield + millet1.yield + millet2.yield + millet3.yield + millet4.yield + millet5.yield
+biomass_total = millet.biomass + millet1.biomass + millet2.biomass + millet3.biomass + millet4.biomass + millet5.biomass
+
+! daily output
+   report do_output
+
+if (millet.stage_name = 'initiate' or millet.stage_name = 'emergence') then
+    tiller0_finished = 1
+endif
+if (millet1.stage_name = 'initiate' or millet1.stage_name = 'emergence') then
+    tiller1_finished = 1
+endif
+if (millet2.stage_name = 'initiate' or millet2.stage_name = 'emergence') then
+    tiller2_finished = 1
+endif
+if (millet3.stage_name = 'initiate' or millet3.stage_name = 'emergence') then
+    tiller3_finished = 1
+endif
+if (millet4.stage_name = 'initiate' or millet4.stage_name = 'emergence') then
+    tiller4_finished = 1
+endif
+if (millet5.stage_name = 'initiate' or millet5.stage_name = 'emergence') then
+    tiller5_finished = 1
+endif
+
+     if (millet.stage_name = 'harvest_ripe' and millet.plant_status = 'alive') or
+        (millet.stage_name = 'end_crop' and millet.plant_status = 'dead') or
+        (tiller0_finished = 1 and millet.plant_status = 'out')   then
+
+     millet harvest
+     millet kill_crop
+     millet end_crop
+     surfaceom tillage type = burn
+     tiller0_finished = 2
+     endif
+
+     if (millet1.stage_name = 'harvest_ripe' and millet1.plant_status = 'alive') or
+        (millet1.stage_name = 'end_crop' and millet1.plant_status = 'dead') or
+        (tiller1_finished = 1 and millet1.plant_status = 'out')  then
+
+     millet1 harvest
+     millet1 kill_crop
+     millet1 end_crop
+     surfaceom tillage type = burn
+     tiller1_finished = 2
+     endif
+
+     if (millet2.stage_name = 'harvest_ripe' and millet2.plant_status = 'alive') or
+        (millet2.stage_name = 'end_crop' and millet2.plant_status = 'dead') or
+        (tiller2_finished = 1 and millet2.plant_status = 'out')  then
+
+     millet2 harvest
+     millet2 kill_crop
+     millet2 end_crop
+     surfaceom tillage type = burn
+     tiller2_finished = 2
+     endif
+
+     if (millet3.stage_name = 'harvest_ripe' and millet3.plant_status = 'alive') or
+        (millet3.stage_name = 'end_crop' and millet3.plant_status = 'dead') or
+        (tiller3_finished = 1 and millet3.plant_status = 'out')  then
+
+     millet3 harvest
+     millet3 kill_crop
+     millet3 end_crop
+     surfaceom tillage type = burn
+     tiller3_finished = 2
+     endif
+
+     if (millet4.stage_name = 'harvest_ripe' and millet4.plant_status = 'alive') or
+        (millet4.stage_name = 'end_crop' and millet4.plant_status = 'dead') or
+        (tiller4_finished = 1 and millet4.plant_status = 'out')  then
+
+     millet4 harvest
+     millet4 kill_crop
+     millet4 end_crop
+     surfaceom tillage type = burn
+     tiller4_finished = 2
+     endif
+
+     if (millet5.stage_name = 'harvest_ripe' and millet5.plant_status = 'alive') or
+        (millet5.stage_name = 'end_crop' and millet5.plant_status = 'dead') or
+        (tiller5_finished = 1 and millet5.plant_status = 'out')  then
+
+     millet5 harvest
+     millet5 kill_crop
+     millet5 end_crop
+     surfaceom tillage type = burn
+     tiller5_finished = 2
+     endif
+
+
+if (tiller0_finished = 2 and tiller1_finished = 2 and tiller2_finished = 2) and
+   (tiller3_finished = 2 and tiller4_finished = 2 and tiller5_finished = 2) then
+   crop_in = 0
+   tiller0_finished = 0
+   tiller1_finished = 0
+   tiller2_finished = 0
+   tiller3_finished = 0
+   tiller4_finished = 0
+   tiller5_finished = 0
+endif
+
+
