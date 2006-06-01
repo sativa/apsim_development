@@ -101,6 +101,8 @@ class ApsimVariant
       bool findVariable(const FString& variableName)
          {
          reset();
+         if (!messageData.isValid())
+            return false;
 
          FString varName;
          unsigned numBytes;
