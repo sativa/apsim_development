@@ -428,7 +428,7 @@
          <variable name="es" description="Evaporation (mm)"/>
          <variable name="eo" description="Potential evapotranspiration (mm)"/>
          <variable name="eos" description="potential evaporation (mm)"/>
-         <variable name="total_cover" description="Total crop cover"/>
+         <variable name="cover_surface_runoff" description="Total crop &amp; surface residue cover"/>
          <variable name="runoff" description="Runoff (mm)"/>
          <variable name="drain" description="Drainage (mm)"/>
          <variable name="flow_water" array="T" description="Water flow from each layer - layered(mm)"/>
