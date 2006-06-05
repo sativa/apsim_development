@@ -56,27 +56,28 @@ Public Class LogicUI
         Me.TabControl.Controls.Add(Me.StartOfDayTab)
         Me.TabControl.Controls.Add(Me.EndOfDayTab)
         Me.TabControl.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControl.Location = New System.Drawing.Point(0, 0)
+        Me.TabControl.Location = New System.Drawing.Point(0, 40)
         Me.TabControl.Name = "TabControl"
         Me.TabControl.SelectedIndex = 0
-        Me.TabControl.Size = New System.Drawing.Size(940, 668)
+        Me.TabControl.Size = New System.Drawing.Size(688, 552)
         Me.TabControl.TabIndex = 0
         '
         'InitTab
         '
         Me.InitTab.Controls.Add(Me.InitTextBox)
-        Me.InitTab.Location = New System.Drawing.Point(4, 25)
+        Me.InitTab.Location = New System.Drawing.Point(4, 22)
         Me.InitTab.Name = "InitTab"
-        Me.InitTab.Size = New System.Drawing.Size(932, 639)
+        Me.InitTab.Size = New System.Drawing.Size(680, 526)
         Me.InitTab.TabIndex = 0
         Me.InitTab.Text = "Initialisation"
         '
         'InitTextBox
         '
         Me.InitTextBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.InitTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.InitTextBox.Location = New System.Drawing.Point(0, 0)
         Me.InitTextBox.Name = "InitTextBox"
-        Me.InitTextBox.Size = New System.Drawing.Size(932, 639)
+        Me.InitTextBox.Size = New System.Drawing.Size(680, 526)
         Me.InitTextBox.TabIndex = 0
         Me.InitTextBox.Text = ""
         Me.InitTextBox.WordWrap = False
@@ -84,18 +85,19 @@ Public Class LogicUI
         'StartOfDayTab
         '
         Me.StartOfDayTab.Controls.Add(Me.StartOfDayTextBox)
-        Me.StartOfDayTab.Location = New System.Drawing.Point(4, 25)
+        Me.StartOfDayTab.Location = New System.Drawing.Point(4, 22)
         Me.StartOfDayTab.Name = "StartOfDayTab"
-        Me.StartOfDayTab.Size = New System.Drawing.Size(1278, 784)
+        Me.StartOfDayTab.Size = New System.Drawing.Size(680, 526)
         Me.StartOfDayTab.TabIndex = 1
         Me.StartOfDayTab.Text = "Start Of Day"
         '
         'StartOfDayTextBox
         '
         Me.StartOfDayTextBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.StartOfDayTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.StartOfDayTextBox.Location = New System.Drawing.Point(0, 0)
         Me.StartOfDayTextBox.Name = "StartOfDayTextBox"
-        Me.StartOfDayTextBox.Size = New System.Drawing.Size(1278, 784)
+        Me.StartOfDayTextBox.Size = New System.Drawing.Size(680, 526)
         Me.StartOfDayTextBox.TabIndex = 1
         Me.StartOfDayTextBox.Text = ""
         Me.StartOfDayTextBox.WordWrap = False
@@ -103,27 +105,28 @@ Public Class LogicUI
         'EndOfDayTab
         '
         Me.EndOfDayTab.Controls.Add(Me.EndOfDayTextBox)
-        Me.EndOfDayTab.Location = New System.Drawing.Point(4, 25)
+        Me.EndOfDayTab.Location = New System.Drawing.Point(4, 22)
         Me.EndOfDayTab.Name = "EndOfDayTab"
-        Me.EndOfDayTab.Size = New System.Drawing.Size(1278, 784)
+        Me.EndOfDayTab.Size = New System.Drawing.Size(680, 526)
         Me.EndOfDayTab.TabIndex = 2
         Me.EndOfDayTab.Text = "End Of Day"
         '
         'EndOfDayTextBox
         '
         Me.EndOfDayTextBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.EndOfDayTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.EndOfDayTextBox.Location = New System.Drawing.Point(0, 0)
         Me.EndOfDayTextBox.Name = "EndOfDayTextBox"
-        Me.EndOfDayTextBox.Size = New System.Drawing.Size(1278, 784)
+        Me.EndOfDayTextBox.Size = New System.Drawing.Size(680, 526)
         Me.EndOfDayTextBox.TabIndex = 2
         Me.EndOfDayTextBox.Text = ""
         Me.EndOfDayTextBox.WordWrap = False
         '
         'LogicUI
         '
-        Me.ClientSize = New System.Drawing.Size(940, 668)
         Me.Controls.Add(Me.TabControl)
         Me.Name = "LogicUI"
+        Me.Size = New System.Drawing.Size(688, 592)
         Me.Controls.SetChildIndex(Me.TabControl, 0)
         Me.TabControl.ResumeLayout(False)
         Me.InitTab.ResumeLayout(False)
