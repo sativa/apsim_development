@@ -102,6 +102,10 @@ cd %APSROOT%\apsim\ozcot\source
 echo ------Compiling %CD%
 %APSMAKE%
 
+cd %APSROOT%\apsim\pasture\source
+echo ------Compiling %CD%
+%APSMAKE%
+
 cd %APSROOT%\apsim\parasite\source
 echo ------Compiling %CD%
 %APSMAKE%
@@ -167,6 +171,10 @@ echo ------Compiling %CD%
 %APSMAKE%
 
 cd %APSROOT%\apsim\SummaryFile\source
+echo ------Compiling %CD%
+%APSMAKE%
+
+cd %APSROOT%\apsim\supplement\source
 echo ------Compiling %CD%
 %APSMAKE%
 
