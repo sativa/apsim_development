@@ -132,19 +132,19 @@ namespace CSGeneral
         this.CheckSoilMenuItem = new System.Windows.Forms.MenuItem();
         this.menuItem1 = new System.Windows.Forms.MenuItem();
         this.PrintMenuItem = new System.Windows.Forms.MenuItem();
+        this.splitter1 = new System.Windows.Forms.Splitter();
+        this.PrintForm = new TMGDevelopment.Windows.Forms.PrintForm(this.components);
+        this.PrintPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
+        this.printDocument1 = new System.Drawing.Printing.PrintDocument();
+        this.printDialog1 = new System.Windows.Forms.PrintDialog();
+        this.OpenAttachmentDialog = new System.Windows.Forms.OpenFileDialog();
+        this.WaterChartControl = new CSGeneral.WaterChartControl();
         this.General = new FarPoint.Win.Spread.SheetView();
         this.Water = new FarPoint.Win.Spread.SheetView();
         this.SoilProfile = new FarPoint.Win.Spread.SheetView();
         this.APSIM = new FarPoint.Win.Spread.SheetView();
         this.Phosphorus = new FarPoint.Win.Spread.SheetView();
         this.PhotoAttachSheet = new FarPoint.Win.Spread.SheetView();
-        this.splitter1 = new System.Windows.Forms.Splitter();
-        this.WaterChartControl = new CSGeneral.WaterChartControl();
-        this.PrintForm = new TMGDevelopment.Windows.Forms.PrintForm(this.components);
-        this.PrintPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
-        this.printDocument1 = new System.Drawing.Printing.PrintDocument();
-        this.printDialog1 = new System.Windows.Forms.PrintDialog();
-        this.OpenAttachmentDialog = new System.Windows.Forms.OpenFileDialog();
         ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.General)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.Water)).BeginInit();
@@ -164,7 +164,7 @@ namespace CSGeneral
         // 
         // Grid
         // 
-        this.Grid.AccessibleDescription = "Grid, Water, Row 0, Column 0, ";
+        this.Grid.AccessibleDescription = "Grid, Photo/Attach, Row 1, Column 0, ";
         this.Grid.AllowDragDrop = true;
         this.Grid.ContextMenu = this.WaterMenu;
         this.Grid.Dock = System.Windows.Forms.DockStyle.Top;
@@ -179,7 +179,7 @@ namespace CSGeneral
             this.APSIM,
             this.Phosphorus,
             this.PhotoAttachSheet});
-        this.Grid.Size = new System.Drawing.Size(743, 292);
+        this.Grid.Size = new System.Drawing.Size(1023, 292);
         this.Grid.TabIndex = 12;
         this.Grid.TabStrip.ButtonPolicy = FarPoint.Win.Spread.TabStripButtonPolicy.AsNeeded;
         this.Grid.TabStripPolicy = FarPoint.Win.Spread.TabStripPolicy.Always;
@@ -189,6 +189,7 @@ namespace CSGeneral
         tipAppearance1.ForeColor = System.Drawing.SystemColors.InfoText;
         this.Grid.TextTipAppearance = tipAppearance1;
         this.Grid.ButtonClicked += new FarPoint.Win.Spread.EditorNotifyEventHandler(this.Grid_ButtonClicked);
+        this.Grid.CellClick += new FarPoint.Win.Spread.CellClickEventHandler(this.Grid_CellClick);
         this.Grid.SetViewportLeftColumn(0, 1);
         this.Grid.SetViewportLeftColumn(1, 0, 6);
         this.Grid.SetActiveViewport(1, 0, -1);
@@ -245,6 +246,58 @@ namespace CSGeneral
         this.PrintMenuItem.Text = "&Print";
         this.PrintMenuItem.Click += new System.EventHandler(this.PrintClick);
         // 
+        // splitter1
+        // 
+        this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
+        this.splitter1.Location = new System.Drawing.Point(0, 332);
+        this.splitter1.Name = "splitter1";
+        this.splitter1.Size = new System.Drawing.Size(1023, 3);
+        this.splitter1.TabIndex = 13;
+        this.splitter1.TabStop = false;
+        // 
+        // PrintForm
+        // 
+        this.PrintForm.AutoFit = TMGDevelopment.Windows.Forms.PageElement.Body;
+        this.PrintForm.BodyContainer = this;
+        this.PrintForm.CenterStyle = TMGDevelopment.Windows.Forms.CenterStyle.None;
+        this.PrintForm.PreDraw += new TMGDevelopment.Windows.Forms.PreDrawEventHandler(this.printForm1_PreDraw);
+        // 
+        // PrintPreviewDialog
+        // 
+        this.PrintPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
+        this.PrintPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+        this.PrintPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
+        this.PrintPreviewDialog.Document = this.printDocument1;
+        this.PrintPreviewDialog.Enabled = true;
+        this.PrintPreviewDialog.Icon = ((System.Drawing.Icon)(resources.GetObject("PrintPreviewDialog.Icon")));
+        this.PrintPreviewDialog.Name = "PrintPreviewDialog";
+        this.PrintPreviewDialog.Visible = false;
+        // 
+        // printDocument1
+        // 
+        this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
+        this.printDocument1.QueryPageSettings += new System.Drawing.Printing.QueryPageSettingsEventHandler(this.printDocument1_QueryPageSettings);
+        this.printDocument1.BeginPrint += new System.Drawing.Printing.PrintEventHandler(this.printDocument1_BeginPrint);
+        // 
+        // printDialog1
+        // 
+        this.printDialog1.Document = this.printDocument1;
+        // 
+        // OpenAttachmentDialog
+        // 
+        this.OpenAttachmentDialog.Filter = "All files|*.*";
+        this.OpenAttachmentDialog.RestoreDirectory = true;
+        // 
+        // WaterChartControl
+        // 
+        this.WaterChartControl.Dock = System.Windows.Forms.DockStyle.Fill;
+        this.WaterChartControl.LinkedSoil = null;
+        this.WaterChartControl.Location = new System.Drawing.Point(0, 335);
+        this.WaterChartControl.Name = "WaterChartControl";
+        this.WaterChartControl.ShowSoilWaterLine = false;
+        this.WaterChartControl.Size = new System.Drawing.Size(1023, 374);
+        this.WaterChartControl.TabIndex = 14;
+        // 
         // General
         // 
         this.General.Reset();
@@ -255,24 +308,16 @@ namespace CSGeneral
         this.General.ActiveColumnIndex = 1;
         this.General.ActiveRowIndex = 3;
         this.General.AutoUpdateNotes = true;
-        this.General.Cells.Get(0, 0).ParseFormatString = "G";
         this.General.Cells.Get(0, 0).Value = "Region: ";
-        this.General.Cells.Get(1, 0).ParseFormatString = "G";
         this.General.Cells.Get(1, 0).Value = "Site: ";
-        this.General.Cells.Get(2, 0).ParseFormatString = "G";
         this.General.Cells.Get(2, 0).Value = "Name: ";
         this.General.Cells.Get(2, 1).Locked = true;
-        this.General.Cells.Get(3, 0).ParseFormatString = "G";
         this.General.Cells.Get(3, 0).Value = "Order / SubOrder: ";
-        this.General.Cells.Get(4, 0).ParseFormatString = "G";
         this.General.Cells.Get(4, 0).Value = "Nearest Town: ";
-        this.General.Cells.Get(5, 0).ParseFormatString = "G";
         this.General.Cells.Get(5, 0).Value = "Natural Vegetation: ";
-        this.General.Cells.Get(6, 0).ParseFormatString = "G";
         this.General.Cells.Get(6, 0).Value = "Data source: ";
         textCellType1.WordWrap = true;
         this.General.Cells.Get(6, 1).CellType = textCellType1;
-        this.General.Cells.Get(7, 0).ParseFormatString = "G";
         this.General.Cells.Get(7, 0).Value = "Comments: ";
         textCellType2.Multiline = true;
         textCellType2.WordWrap = true;
@@ -343,6 +388,7 @@ namespace CSGeneral
         this.Water.Columns.Get(5).Label = "(%vol)";
         this.Water.Columns.Get(5).Width = 49F;
         this.Water.FrozenColumnCount = 6;
+        this.Water.FrozenTrailingRowCount = 1;
         this.Water.RowHeader.Columns.Default.Resizable = false;
         this.Water.RowHeader.Visible = false;
         this.Water.SheetName = "Water";
@@ -436,53 +482,35 @@ namespace CSGeneral
         this.APSIM.AutoUpdateNotes = true;
         this.APSIM.Cells.Get(0, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
         this.APSIM.Cells.Get(0, 0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
-        this.APSIM.Cells.Get(0, 0).ParseFormatString = "G";
         this.APSIM.Cells.Get(0, 0).Value = "Evaporation";
         this.APSIM.Cells.Get(0, 1).Locked = true;
         this.APSIM.Cells.Get(1, 0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
-        this.APSIM.Cells.Get(1, 0).ParseFormatString = "G";
         this.APSIM.Cells.Get(1, 0).Value = "U";
         this.APSIM.Cells.Get(2, 0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
-        this.APSIM.Cells.Get(2, 0).ParseFormatString = "G";
         this.APSIM.Cells.Get(2, 0).Value = "Cona";
         this.APSIM.Cells.Get(3, 0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
-        this.APSIM.Cells.Get(3, 0).ParseFormatString = "G";
         this.APSIM.Cells.Get(3, 0).Value = "Salb";
         this.APSIM.Cells.Get(4, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.APSIM.Cells.Get(4, 0).ParseFormatString = "G";
         this.APSIM.Cells.Get(4, 0).Value = "Unsaturated Flow";
         this.APSIM.Cells.Get(4, 1).Locked = true;
-        this.APSIM.Cells.Get(5, 0).ParseFormatString = "G";
         this.APSIM.Cells.Get(5, 0).Value = "DiffusConst";
-        this.APSIM.Cells.Get(6, 0).ParseFormatString = "G";
         this.APSIM.Cells.Get(6, 0).Value = "DiffusSlope";
         this.APSIM.Cells.Get(7, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.APSIM.Cells.Get(7, 0).ParseFormatString = "G";
         this.APSIM.Cells.Get(7, 0).Value = "Runoff";
         this.APSIM.Cells.Get(7, 1).Locked = true;
-        this.APSIM.Cells.Get(8, 0).ParseFormatString = "G";
         this.APSIM.Cells.Get(8, 0).Value = "CN2Bare";
-        this.APSIM.Cells.Get(9, 0).ParseFormatString = "G";
         this.APSIM.Cells.Get(9, 0).Value = "CNRed";
-        this.APSIM.Cells.Get(10, 0).ParseFormatString = "G";
         this.APSIM.Cells.Get(10, 0).Value = "CNCov";
         this.APSIM.Cells.Get(11, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.APSIM.Cells.Get(11, 0).ParseFormatString = "G";
         this.APSIM.Cells.Get(11, 0).Value = "Organic Matter";
         this.APSIM.Cells.Get(11, 1).Locked = true;
-        this.APSIM.Cells.Get(12, 0).ParseFormatString = "G";
         this.APSIM.Cells.Get(12, 0).Value = "RootCN";
-        this.APSIM.Cells.Get(13, 0).ParseFormatString = "G";
         this.APSIM.Cells.Get(13, 0).Value = "RootWt";
-        this.APSIM.Cells.Get(14, 0).ParseFormatString = "G";
         this.APSIM.Cells.Get(14, 0).Value = "SoilCN";
         this.APSIM.Cells.Get(15, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.APSIM.Cells.Get(15, 0).ParseFormatString = "G";
         this.APSIM.Cells.Get(15, 0).Value = "Erosion";
         this.APSIM.Cells.Get(15, 1).Locked = true;
-        this.APSIM.Cells.Get(16, 0).ParseFormatString = "G";
         this.APSIM.Cells.Get(16, 0).Value = "EnrACoeff";
-        this.APSIM.Cells.Get(17, 0).ParseFormatString = "G";
         this.APSIM.Cells.Get(17, 0).Value = "EnrBCoeff";
         this.APSIM.ColumnHeader.Visible = false;
         this.APSIM.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
@@ -574,65 +602,13 @@ namespace CSGeneral
         this.PhotoAttachSheet.VerticalGridLine = new FarPoint.Win.Spread.GridLine(FarPoint.Win.Spread.GridLineType.Flat, System.Drawing.Color.LightGray, System.Drawing.SystemColors.ControlLightLight, System.Drawing.SystemColors.ControlDark, 0);
         this.PhotoAttachSheet.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
         // 
-        // splitter1
-        // 
-        this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
-        this.splitter1.Location = new System.Drawing.Point(0, 332);
-        this.splitter1.Name = "splitter1";
-        this.splitter1.Size = new System.Drawing.Size(743, 3);
-        this.splitter1.TabIndex = 13;
-        this.splitter1.TabStop = false;
-        // 
-        // WaterChartControl
-        // 
-        this.WaterChartControl.Dock = System.Windows.Forms.DockStyle.Fill;
-        this.WaterChartControl.LinkedSoil = null;
-        this.WaterChartControl.Location = new System.Drawing.Point(0, 335);
-        this.WaterChartControl.Name = "WaterChartControl";
-        this.WaterChartControl.ShowSoilWaterLine = false;
-        this.WaterChartControl.Size = new System.Drawing.Size(743, 382);
-        this.WaterChartControl.TabIndex = 14;
-        // 
-        // PrintForm
-        // 
-        this.PrintForm.AutoFit = TMGDevelopment.Windows.Forms.PageElement.Body;
-        this.PrintForm.BodyContainer = this;
-        this.PrintForm.CenterStyle = TMGDevelopment.Windows.Forms.CenterStyle.None;
-        this.PrintForm.PreDraw += new TMGDevelopment.Windows.Forms.PreDrawEventHandler(this.printForm1_PreDraw);
-        // 
-        // PrintPreviewDialog
-        // 
-        this.PrintPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
-        this.PrintPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
-        this.PrintPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
-        this.PrintPreviewDialog.Document = this.printDocument1;
-        this.PrintPreviewDialog.Enabled = true;
-        this.PrintPreviewDialog.Icon = ((System.Drawing.Icon)(resources.GetObject("PrintPreviewDialog.Icon")));
-        this.PrintPreviewDialog.Name = "PrintPreviewDialog";
-        this.PrintPreviewDialog.Visible = false;
-        // 
-        // printDocument1
-        // 
-        this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
-        this.printDocument1.QueryPageSettings += new System.Drawing.Printing.QueryPageSettingsEventHandler(this.printDocument1_QueryPageSettings);
-        this.printDocument1.BeginPrint += new System.Drawing.Printing.PrintEventHandler(this.printDocument1_BeginPrint);
-        // 
-        // printDialog1
-        // 
-        this.printDialog1.Document = this.printDocument1;
-        // 
-        // OpenAttachmentDialog
-        // 
-        this.OpenAttachmentDialog.Filter = "All files|*.*";
-        this.OpenAttachmentDialog.RestoreDirectory = true;
-        // 
         // SoilUI
         // 
         this.Controls.Add(this.WaterChartControl);
         this.Controls.Add(this.splitter1);
         this.Controls.Add(this.Grid);
         this.Name = "SoilUI";
-        this.Size = new System.Drawing.Size(743, 717);
+        this.Size = new System.Drawing.Size(1023, 709);
         this.Controls.SetChildIndex(this.Grid, 0);
         this.Controls.SetChildIndex(this.splitter1, 0);
         this.Controls.SetChildIndex(this.WaterChartControl, 0);
@@ -766,7 +742,7 @@ namespace CSGeneral
 		private void PopulateWaterGrid()
 			{
 			UserChange = false;
-			Water.RowCount = 1;
+            Water.ClearRange(0, 0, Water.RowCount, Water.ColumnCount, false);
 			GridUtils.SetColumnAsStrings(Water, 0, MySoil.DepthStrings);
 			GridUtils.SetColumnAsDoubles(Water, 1, MySoil.BD);
 			string WaterUnits;
@@ -1387,17 +1363,6 @@ namespace CSGeneral
 			e.PageSettings.Margins.Bottom = 50;
 			}
 
-		private void VolGravChecked(object sender, System.EventArgs e)
-			{
-			if (UserChange)
-				{
-				UserChange = false;
-				SaveWaterGrid();
-				PopulateWaterGrid();
-				UserChange = true;
-				}
-			}
-
 		private void AddCropMenuItem_Click_1(object sender, System.EventArgs e)
 			{
 			ApsoilController Apsoil = Controller as ApsoilController;
@@ -1452,6 +1417,11 @@ namespace CSGeneral
 				System.Diagnostics.Process.Start(AttachmentFileName);
 				}
 			}
+
+        private void Grid_CellClick(object sender, CellClickEventArgs e)
+            {
+
+            }
 
 	
 		}
