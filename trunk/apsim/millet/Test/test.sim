@@ -1,14 +1,9 @@
 <?xml version="1.0"?>
-<simulation executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll" version="4.3">
+<simulation executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll" version="5.1">
    <title>Test sowing next day after out</title>
    <component name="SummaryFile" executable = "c:\development\apsim\SummaryFile\lib\SummaryFile.dll">
       <initdata>
          <summaryfile>test3.sum</summaryfile>
-      </initdata>
-   </component>
-   <component name="Screen" executable = "c:\development\apsim\Screen\lib\Screen.dll">
-      <initdata>
-         <screen_output>off</screen_output>
       </initdata>
    </component>
    <component name="clock" executable = "c:\development\apsim\clock\lib\clock.dll">
@@ -194,6 +189,16 @@
             <fom_type>bambatsi</fom_type>
             <specific_area>0.0005</specific_area>
          </bambatsi>
+         <barley>
+            <derived_from>base_type</derived_from>
+            <fom_type>barley</fom_type>
+            <specific_area>0.0005</specific_area>
+         </barley>
+         <broccoli>
+            <derived_from>base_type</derived_from>
+            <fom_type>broccoli</fom_type>
+            <specific_area>0.0004</specific_area>
+         </broccoli>
          <camaldulensis>
             <derived_from>base_type</derived_from>
             <fom_type>camaldulensis</fom_type>
@@ -279,6 +284,11 @@
             <fom_type>mungbean</fom_type>
             <specific_area>0.0002</specific_area>
          </mungbean>
+         <horsegram>
+            <derived_from>base_type</derived_from>
+            <fom_type>horsegram</fom_type>
+            <specific_area>0.0002</specific_area>
+         </horsegram>
          <navybean>
             <derived_from>base_type</derived_from>
             <fom_type>navybean</fom_type>
