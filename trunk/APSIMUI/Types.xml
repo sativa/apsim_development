@@ -291,6 +291,44 @@
          </sim>
       </ApsimToSim>
    </logic>
+   <operations>
+      <UItype>operations</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/operatns/docs/operatns_science.htm</Documentation>
+      <LargeIcon>Images\gears32.png</LargeIcon>
+      <SmallIcon>Images\gears16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\operatns\lib\operatns.dll</dll>
+         <sim>
+            <rule name="start_of_day" condition="start_of_day">
+               <![CDATA[
+               [foreach operations.operation]
+               [if [operation.condition] = start_of_day]
+               [operation.date] [operation.action]
+               [endif]
+               [endfor]
+               ]]>
+            </rule>
+            <rule name="end_of_day" condition="end_of_day">
+               <![CDATA[
+               [foreach operations.operation]
+               [if [operation.condition] = end_of_day]
+               [operation.date] [operation.action]
+               [endif]
+               [endfor]
+               ]]>
+            </rule>
+         </sim>
+      </ApsimToSim>
+   </operations>
    <irrigation>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>

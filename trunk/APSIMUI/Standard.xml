@@ -535,7 +535,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
         <property name="remove" value="0.95" type="text" description="Fraction of maerial removed leaving the system (balance to residue): " />
         <property name="killdate" value="15-nov" type="text" description="date lucerne is to be removed : " />
       </category>
-      
+
       <condition name="start_of_day"><![CDATA[
        if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
@@ -543,20 +543,20 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
        endif
 
 ]]></condition>
-      <condition name="end_of_day"><![CDATA[         
+      <condition name="end_of_day"><![CDATA[
                 if [crop].stage_name = 'flowering'  then
              [crop]  harvest height = [harvest_ht]
         endif
         if today= date('[killdate]') and [crop].plant_status <>'out' then
              if ( [crop]LeyYears > 0 ) then
-                   [crop]LeyYears = [crop]LeyYears - 1 
-             else          
-                        [crop] end_crop                 
+                   [crop]LeyYears = [crop]LeyYears - 1
+             else
+                        [crop] end_crop
              endif
         endif
 ]]></condition>
     </rule>
-    
+
     <rule name="Lucerne Ley variable sow harvest at flowering">
       <category name="Sowing criteria">
         <property name="date1" value="15-may" type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : " />
@@ -581,7 +581,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
         <property name="remove" value="0.95" type="text" description="Fraction of maerial removed leaving the system (balance to residue): " />
         <property name="killdate" value="15-nov" type="text" description="date lucerne is to be removed : " />
       </category>
-      
+
       <condition name="start_of_day"><![CDATA[
        if (paddock_is_fallow() = 1 and FallowIn <> 'yes' and (NextCrop = 0 or NextCrop = '[crop]')) then
          if (date_within('[date1], [date2]') = 1) then
@@ -589,7 +589,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
                 ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
                ChooseNextCrop = 'yes'   ! for rotations
                [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
-               [crop]LeyYears = [leyyears]! for the length of the lucerne ley 
+               [crop]LeyYears = [leyyears]! for the length of the lucerne ley
             endif
             if today = date('[date2]') then
                ChooseNextCrop = 'yes'
@@ -598,15 +598,15 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
       endif
 
 ]]></condition>
-      <condition name="end_of_day"><![CDATA[         
+      <condition name="end_of_day"><![CDATA[
                 if [crop].stage_name = 'flowering'  then
              [crop]  harvest height = [harvest_ht]
         endif
         if today= date('[killdate]') and [crop].plant_status <>'out' then
              if ( [crop]LeyYears > 0 ) then
-                   [crop]LeyYears = [crop]LeyYears - 1 
-             else          
-                        [crop] end_crop                 
+                   [crop]LeyYears = [crop]LeyYears - 1
+             else
+                        [crop] end_crop
              endif
         endif
 ]]></condition>
@@ -1361,6 +1361,7 @@ if {$steps == 0} {tkwait variable steps}
     <script name="endofday">
     </script>
   </logic>
+  <operations/>
   <accum name="accum">
      <variable name = "variable">variable</variable>
   </accum>

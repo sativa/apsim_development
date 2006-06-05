@@ -211,6 +211,12 @@
     <Compile Include="NewDocumentForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="OperationsUI.Designer.vb">
+      <DependentUpon>OperationsUI.vb</DependentUpon>
+    </Compile>
+    <Compile Include="OperationsUI.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="OptionsForm.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -311,6 +317,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NewDocumentForm.resx">
       <DependentUpon>NewDocumentForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OperationsUI.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>OperationsUI.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OptionsForm.resx">
       <DependentUpon>OptionsForm.vb</DependentUpon>
