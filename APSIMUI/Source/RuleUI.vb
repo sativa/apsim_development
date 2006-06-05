@@ -61,7 +61,7 @@ Public Class RuleUI
         Me.TabControl1.Location = New System.Drawing.Point(0, 40)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(734, 677)
+        Me.TabControl1.Size = New System.Drawing.Size(688, 160)
         Me.TabControl1.TabIndex = 3
         '
         'TabPage1
@@ -69,7 +69,7 @@ Public Class RuleUI
         Me.TabPage1.Controls.Add(Me.FpSpread1)
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Size = New System.Drawing.Size(726, 651)
+        Me.TabPage1.Size = New System.Drawing.Size(680, 134)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Properties"
         '
@@ -82,7 +82,7 @@ Public Class RuleUI
         Me.FpSpread1.Location = New System.Drawing.Point(0, 0)
         Me.FpSpread1.Name = "FpSpread1"
         Me.FpSpread1.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.PropertyGrid})
-        Me.FpSpread1.Size = New System.Drawing.Size(726, 651)
+        Me.FpSpread1.Size = New System.Drawing.Size(680, 134)
         Me.FpSpread1.TabIndex = 0
         TipAppearance1.BackColor = System.Drawing.SystemColors.Info
         TipAppearance1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -112,7 +112,7 @@ Public Class RuleUI
         '
         Me.Controls.Add(Me.TabControl1)
         Me.Name = "RuleUI"
-        Me.Size = New System.Drawing.Size(734, 717)
+        Me.Size = New System.Drawing.Size(688, 200)
         Me.Controls.SetChildIndex(Me.TabControl1, 0)
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
@@ -161,6 +161,7 @@ Public Class RuleUI
             Dim page As New TabPage(Condition.Name)
             Dim ScriptBox As New RichTextBox
             ScriptBox.Text = Condition.Value
+            ScriptBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
             page.Controls.Add(ScriptBox)
             ScriptBox.Dock = DockStyle.Fill
             TabControl1.TabPages.Add(page)
