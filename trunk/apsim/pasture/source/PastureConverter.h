@@ -41,7 +41,28 @@ class PastureConverter : public protocol::Component
       void dosowPasture(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
       void doNewProfile(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
 
+      float sum_real_array (float *var, int nelem);
+      int find_layer_no(float depth, const std::vector<float> &dlayr);
+      int find_layer_no(float depth, float *dlayr, int num_layers);
+      void fill_real_array (float *var, float value, int limit);
       float divide (float dividend, float divisor, float default_value);
+      float root_proportion (int    layer              // (INPUT) layer to look at
+                            , float *dlayr              // (INPUT) array of layer depths
+                            , float  root_depth);         // (INPUT) depth of roots
+      void pasture_sw_supply(int  num_layer        // (INPUT)  number of layers in profile
+                         , float *dlayer          // (INPUT)  thickness of soil layer I (mm)
+                         , float root_depth       // (INPUT)  depth of roots (mm)
+                         , float *sw_dep          // (INPUT)  soil water content of layer L (mm)
+                         , float *kl              // (INPUT)  root length density factor for water
+                         , float *ll_dep          // (INPUT)  lower limit of plant-extractable soi
+                         , float *sw_supply);       // (OUTPUT) potential crop water uptake from each layer (mm) (supply to roots)
+
+      void pasture_sw_uptake1(int  num_layer        //  (INPUT)  number of layers in profile
+                           , float *dlayer          //  (INPUT)  thickness of soil layer I (mm)
+                           , float sw_demand       //  (INPUT)  total crop demand for water (mm)
+                           , float *sw_supply       //  (INPUT)  potential water to take up (supply)
+                           , float *dlt_sw_dep);      //  (OUTPUT) root water uptake (mm)
+
 
 ////      void doRunTimeReg(void);
 ////      void daylengthRelay (protocol::QueryValueData& queryData);
@@ -98,7 +119,10 @@ class PastureConverter : public protocol::Component
 
       float dlayer [max_layer];                         // thickness of soil layer I (mm)
       float dlt_sw_dep[max_layer];                      // water uptake in each layer (mm water)
+      float ll_dep[max_layer];
+      float ll[max_layer];
       float ll15_dep[max_layer];
+      float kl[max_layer];
       float dul_dep [max_layer];                        // drained upper limit soil water content for soil layer L (mm water)
       float sat_dep[max_layer];
       float bd[max_layer];
