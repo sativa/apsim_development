@@ -179,6 +179,12 @@ bool readArray(PlantInterface *P,string section,string variable,string units,
    Split_string(valueString, " ", splitValues);
 
    int numValues = splitValues.size();
+   if (numValues == 0 && !optional)
+      {
+      string msg = "Cannot find an array\n Parameter name = " + string(variable);
+      throw std::runtime_error(msg.c_str());
+      }
+
    values.clear();
    float temp;
    for (int v = 0; v < numValues; v++)
