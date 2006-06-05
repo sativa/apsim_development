@@ -38,18 +38,34 @@ Public Class MetUI
     Friend WithEvents btnBrowse As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(MetUI))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MetUI))
         Me.ImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
-        Me.MetGraphControl1 = New APSIMUI.MetGraphControl
         Me.btnBrowse = New System.Windows.Forms.Button
+        Me.MetGraphControl1 = New APSIMUI.MetGraphControl
         Me.SuspendLayout()
         '
         'ImageList
         '
-        Me.ImageList.ImageSize = New System.Drawing.Size(24, 24)
         Me.ImageList.ImageStream = CType(resources.GetObject("ImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.ImageList.TransparentColor = System.Drawing.Color.Transparent
+        Me.ImageList.Images.SetKeyName(0, "")
+        '
+        'btnBrowse
+        '
+        Me.btnBrowse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnBrowse.BackColor = System.Drawing.SystemColors.Info
+        Me.btnBrowse.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.btnBrowse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btnBrowse.ImageIndex = 0
+        Me.btnBrowse.ImageList = Me.ImageList
+        Me.btnBrowse.Location = New System.Drawing.Point(582, 5)
+        Me.btnBrowse.Name = "btnBrowse"
+        Me.btnBrowse.Size = New System.Drawing.Size(88, 29)
+        Me.btnBrowse.TabIndex = 13
+        Me.btnBrowse.Text = "Browse ..."
+        Me.btnBrowse.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btnBrowse.UseVisualStyleBackColor = False
         '
         'MetGraphControl1
         '
@@ -60,30 +76,15 @@ Public Class MetUI
         Me.MetGraphControl1.HelpText = ""
         Me.MetGraphControl1.Location = New System.Drawing.Point(0, 40)
         Me.MetGraphControl1.Name = "MetGraphControl1"
-        Me.MetGraphControl1.Size = New System.Drawing.Size(922, 658)
+        Me.MetGraphControl1.Size = New System.Drawing.Size(688, 120)
         Me.MetGraphControl1.TabIndex = 8
-        '
-        'btnBrowse
-        '
-        Me.btnBrowse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnBrowse.BackColor = System.Drawing.SystemColors.Info
-        Me.btnBrowse.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btnBrowse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnBrowse.ImageIndex = 0
-        Me.btnBrowse.ImageList = Me.ImageList
-        Me.btnBrowse.Location = New System.Drawing.Point(816, 5)
-        Me.btnBrowse.Name = "btnBrowse"
-        Me.btnBrowse.Size = New System.Drawing.Size(88, 29)
-        Me.btnBrowse.TabIndex = 13
-        Me.btnBrowse.Text = "Browse ..."
-        Me.btnBrowse.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'MetUI
         '
         Me.Controls.Add(Me.btnBrowse)
         Me.Controls.Add(Me.MetGraphControl1)
         Me.Name = "MetUI"
-        Me.Size = New System.Drawing.Size(922, 698)
+        Me.Size = New System.Drawing.Size(688, 160)
         Me.Controls.SetChildIndex(Me.MetGraphControl1, 0)
         Me.Controls.SetChildIndex(Me.btnBrowse, 0)
         Me.ResumeLayout(False)
