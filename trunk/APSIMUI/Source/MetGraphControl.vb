@@ -60,8 +60,8 @@ Public Class MetGraphControl
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MetGraphControl))
         Me.ChartPanel = New System.Windows.Forms.Panel
-        Me.YearBox = New System.Windows.Forms.NumericUpDown
         Me.ChartBox = New Xceed.Chart.ChartControl
+        Me.YearBox = New System.Windows.Forms.NumericUpDown
         Me.ChartHelper = New VBGeneral.ChartHelper
         Me.ContentsBox = New System.Windows.Forms.RichTextBox
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer
@@ -89,9 +89,27 @@ Public Class MetGraphControl
         Me.ChartPanel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ChartPanel.Location = New System.Drawing.Point(0, 0)
         Me.ChartPanel.Name = "ChartPanel"
-        Me.ChartPanel.Size = New System.Drawing.Size(601, 677)
+        Me.ChartPanel.Size = New System.Drawing.Size(575, 469)
         Me.ChartPanel.TabIndex = 5
         Me.ChartPanel.Visible = False
+        '
+        'ChartBox
+        '
+        Me.ChartBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ChartBox.BackColor = System.Drawing.SystemColors.Control
+        Me.ChartBox.Background = CType(resources.GetObject("ChartBox.Background"), Xceed.Chart.Standard.Background)
+        Me.ChartBox.Charts = CType(resources.GetObject("ChartBox.Charts"), Xceed.Chart.Core.ChartCollection)
+        Me.ChartBox.InteractivityOperations = CType(resources.GetObject("ChartBox.InteractivityOperations"), Xceed.Chart.Core.InteractivityOperationsCollection)
+        Me.ChartBox.Labels = CType(resources.GetObject("ChartBox.Labels"), Xceed.Chart.Standard.ChartLabelCollection)
+        Me.ChartBox.Legends = CType(resources.GetObject("ChartBox.Legends"), Xceed.Chart.Core.LegendCollection)
+        Me.ChartBox.Location = New System.Drawing.Point(0, 45)
+        Me.ChartBox.Name = "ChartBox"
+        Me.ChartBox.Settings = CType(resources.GetObject("ChartBox.Settings"), Xceed.Chart.Core.Settings)
+        Me.ChartBox.Size = New System.Drawing.Size(575, 421)
+        Me.ChartBox.TabIndex = 12
+        Me.ChartBox.Watermarks = CType(resources.GetObject("ChartBox.Watermarks"), Xceed.Chart.Standard.WatermarkCollection)
         '
         'YearBox
         '
@@ -106,21 +124,6 @@ Public Class MetGraphControl
         Me.YearBox.TabIndex = 11
         Me.YearBox.Value = New Decimal(New Integer() {1900, 0, 0, 0})
         '
-        'ChartBox
-        '
-        Me.ChartBox.BackColor = System.Drawing.SystemColors.Control
-        Me.ChartBox.Background = CType(resources.GetObject("ChartBox.Background"), Xceed.Chart.Standard.Background)
-        Me.ChartBox.Charts = CType(resources.GetObject("ChartBox.Charts"), Xceed.Chart.Core.ChartCollection)
-        Me.ChartBox.InteractivityOperations = CType(resources.GetObject("ChartBox.InteractivityOperations"), Xceed.Chart.Core.InteractivityOperationsCollection)
-        Me.ChartBox.Labels = CType(resources.GetObject("ChartBox.Labels"), Xceed.Chart.Standard.ChartLabelCollection)
-        Me.ChartBox.Legends = CType(resources.GetObject("ChartBox.Legends"), Xceed.Chart.Core.LegendCollection)
-        Me.ChartBox.Location = New System.Drawing.Point(16, 258)
-        Me.ChartBox.Name = "ChartBox"
-        Me.ChartBox.Settings = CType(resources.GetObject("ChartBox.Settings"), Xceed.Chart.Core.Settings)
-        Me.ChartBox.Size = New System.Drawing.Size(541, 393)
-        Me.ChartBox.TabIndex = 12
-        Me.ChartBox.Watermarks = CType(resources.GetObject("ChartBox.Watermarks"), Xceed.Chart.Standard.WatermarkCollection)
-        '
         'ChartHelper
         '
         Me.ChartHelper.Chart = Me.ChartBox
@@ -131,9 +134,11 @@ Public Class MetGraphControl
         Me.ContentsBox.Font = New System.Drawing.Font("Courier New", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ContentsBox.Location = New System.Drawing.Point(0, 0)
         Me.ContentsBox.Name = "ContentsBox"
+        Me.ContentsBox.ReadOnly = True
         Me.ContentsBox.Size = New System.Drawing.Size(557, 240)
         Me.ContentsBox.TabIndex = 8
         Me.ContentsBox.Text = ""
+        Me.ContentsBox.WordWrap = False
         '
         'ToolStripContainer1
         '
@@ -141,9 +146,9 @@ Public Class MetGraphControl
         '
         'ToolStripContainer1.ContentPanel
         '
-        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.ContentsBox)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.ChartPanel)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(601, 677)
+        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.ContentsBox)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(575, 469)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         '
         'ToolStripContainer1.LeftToolStripPanel
@@ -152,7 +157,7 @@ Public Class MetGraphControl
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 40)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
         Me.ToolStripContainer1.RightToolStripPanelVisible = False
-        Me.ToolStripContainer1.Size = New System.Drawing.Size(734, 677)
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(688, 469)
         Me.ToolStripContainer1.TabIndex = 9
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
         Me.ToolStripContainer1.TopToolStripPanelVisible = False
@@ -164,7 +169,7 @@ Public Class MetGraphControl
         Me.ToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow
         Me.ToolStrip.Location = New System.Drawing.Point(0, 3)
         Me.ToolStrip.Name = "ToolStrip"
-        Me.ToolStrip.Size = New System.Drawing.Size(133, 264)
+        Me.ToolStrip.Size = New System.Drawing.Size(113, 283)
         Me.ToolStrip.TabIndex = 0
         Me.ToolStrip.Text = "ToolStrip1"
         '
@@ -177,14 +182,14 @@ Public Class MetGraphControl
         Me.RawDataButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.RawDataButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.RawDataButton.Name = "RawDataButton"
-        Me.RawDataButton.Size = New System.Drawing.Size(131, 44)
+        Me.RawDataButton.Size = New System.Drawing.Size(111, 41)
         Me.RawDataButton.Text = "Raw data"
         Me.RawDataButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(131, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(111, 6)
         '
         'RainfallButton
         '
@@ -193,7 +198,7 @@ Public Class MetGraphControl
         Me.RainfallButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.RainfallButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.RainfallButton.Name = "RainfallButton"
-        Me.RainfallButton.Size = New System.Drawing.Size(131, 44)
+        Me.RainfallButton.Size = New System.Drawing.Size(111, 41)
         Me.RainfallButton.Text = "Rainfall chart"
         Me.RainfallButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -204,14 +209,14 @@ Public Class MetGraphControl
         Me.MonthlyRainfallButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.MonthlyRainfallButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.MonthlyRainfallButton.Name = "MonthlyRainfallButton"
-        Me.MonthlyRainfallButton.Size = New System.Drawing.Size(131, 44)
+        Me.MonthlyRainfallButton.Size = New System.Drawing.Size(111, 41)
         Me.MonthlyRainfallButton.Text = "Monthly rainfall chart"
         Me.MonthlyRainfallButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(131, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(111, 6)
         '
         'TemperatureButton
         '
@@ -220,14 +225,14 @@ Public Class MetGraphControl
         Me.TemperatureButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.TemperatureButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.TemperatureButton.Name = "TemperatureButton"
-        Me.TemperatureButton.Size = New System.Drawing.Size(131, 44)
+        Me.TemperatureButton.Size = New System.Drawing.Size(111, 41)
         Me.TemperatureButton.Text = "Temperature chart"
         Me.TemperatureButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
         'ToolStripSeparator3
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(131, 6)
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(111, 6)
         '
         'RadiationButton
         '
@@ -236,7 +241,7 @@ Public Class MetGraphControl
         Me.RadiationButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.RadiationButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.RadiationButton.Name = "RadiationButton"
-        Me.RadiationButton.Size = New System.Drawing.Size(131, 44)
+        Me.RadiationButton.Size = New System.Drawing.Size(111, 41)
         Me.RadiationButton.Text = "Radiation chart"
         Me.RadiationButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -244,7 +249,7 @@ Public Class MetGraphControl
         '
         Me.Controls.Add(Me.ToolStripContainer1)
         Me.Name = "MetGraphControl"
-        Me.Size = New System.Drawing.Size(734, 717)
+        Me.Size = New System.Drawing.Size(688, 509)
         Me.Controls.SetChildIndex(Me.ToolStripContainer1, 0)
         Me.ChartPanel.ResumeLayout(False)
         CType(Me.YearBox, System.ComponentModel.ISupportInitialize).EndInit()
@@ -509,4 +514,11 @@ Public Class MetGraphControl
 
     End Function
 
+    Private Sub RainfallButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RainfallButton.Click
+
+    End Sub
+
+    Private Sub RawDataButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RawDataButton.Click
+
+    End Sub
 End Class
