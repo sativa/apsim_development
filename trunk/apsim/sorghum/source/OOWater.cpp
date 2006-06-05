@@ -94,6 +94,7 @@ void Water::readParams (string cultivar)
    swExpansionTable.read(plantInterface,sections,"x_sw_demand_ratio","y_swdef_leaf");
 
    readArray (plantInterface,sections,"ll",ll);
+   if (ll.size() == 0) throw std::runtime_error("No Crop Lower Limit (ll) found");
    llDep.clear();
    eswCap.clear();
    for(int layer = 0; layer < nLayers; layer++)
@@ -103,7 +104,9 @@ void Water::readParams (string cultivar)
       }
 
    readArray (plantInterface,sections, "kl", kl);
+   if (kl.size() == 0) throw std::runtime_error("No Crop water uptake rate (kl) found");
    readArray (plantInterface,sections, "xf", xf);
+   if (xf.size() == 0) throw std::runtime_error("No Crop Exploration Factor (xf) found");
 
     // report
    plantInterface->writeString ("");
