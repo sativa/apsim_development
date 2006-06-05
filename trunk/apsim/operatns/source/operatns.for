@@ -17,10 +17,6 @@
 ! ----------------------- Declaration section ------------------------
 
 !   Constant values
-                             !
-      integer    numfiles
-      parameter (numfiles = 10)
-
       integer    record_length
       parameter (record_length = 500)
 
@@ -38,16 +34,13 @@
 
       type OperatnsGlobals
          sequence
-         integer    today
-         integer    thisyear
-         integer    oplun
-         integer    last_record
-         integer    op_days(max_ops)
-         integer    op_years(max_ops)
+         double precision   today
+         character    op_date(max_ops)*15
          integer    op_phase(max_ops)
-         integer    op_order(max_ops)
-         integer    op_pointer
+         character  op_text(max_ops)*(record_length)
          character phase_name(3)*10
+         integer last_record
+
       end type OperatnsGlobals
 
       ! instance variables.
@@ -144,27 +137,15 @@
       parameter (my_name = 'operatns_init')
 
 *+  Local Variables
-      integer    iostatus             ! flag for success of opening file
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
-      g%oplun = 57
-      open (unit=g%oplun, file='operatns.tmp', form='formatted',
-     :     access='direct', recl= record_length, iostat=iostatus
-     :     , status = 'SCRATCH')
-
-      if (iostatus.eq.0) then
-         call operatns_read_section ('start_of_day',prepare_phase)
-         call operatns_read_section ('parameters',prepare_phase)
-         call operatns_read_section ('process',process_phase)
-         call operatns_read_section ('end_of_day',post_phase)
-         call operatns_sort_data ()
-         call operatns_list ()
-
-      else
-         call fatal_error (Err_User, 'Cannot open scratch file.')
-      endif
+      call operatns_read_section ('start_of_day',prepare_phase)
+      call operatns_read_section ('parameters',prepare_phase)
+      call operatns_read_section ('process',process_phase)
+      call operatns_read_section ('end_of_day',post_phase)
+      call operatns_list ()
 
       call pop_routine (my_name)
       return
@@ -182,9 +163,6 @@
 *      Close operatns module
 
 *+  Changes
-*     dph 10/5/99 removed version and presence reports c186
-*     dph 15/12/00 added properties back in.
-*     dph 18/1/01  changed properties to parameters - mistake
 
 *+  Calls
 
@@ -193,12 +171,10 @@
       parameter (my_name = 'operatns_EndRun')
 
 *+  Local Variables
-      integer    iostatus             ! flag for success of opening file
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
-      close (unit=g%oplun, status = 'DELETE')
 
       call pop_routine (my_name)
       return
@@ -225,13 +201,9 @@
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
-      g%last_record = 0
-      g%op_pointer = 1
-
-      call fill_integer_array (g%op_days, 0, max_ops)
-      call fill_integer_array (g%op_years, 0, max_ops)
-      call fill_integer_array (g%op_order, 0, max_ops)
-      call fill_integer_array (g%op_phase, 0, max_ops)
+      g%op_date(1:max_ops) = ' '
+      g%op_text(1:max_ops) = ' '
+      g%op_phase(1:max_ops) = 0
 
       g%phase_name(prepare_phase) = 'Prepare'
       g%phase_name(process_phase) = 'Process'
@@ -265,23 +237,8 @@
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
-      call Get_integer_var (
-     :      unknown_module  ! Module that responds (Not Used)
-     :    , 'year'          ! Variable Name
-     :    , '()'            ! Units                (Not Used)
-     :    , g%thisyear      ! Variable
-     :    , numvals         ! Number of values returned
-     :    , min_year            ! Lower Limit for bound checking
-     :    , max_year)           ! Upper Limit for bound checking
-
-      call Get_integer_var (
-     :      unknown_module  ! Module that responds (Not Used)
-     :    , 'day'           ! Variable Name
-     :    , '()'            ! Units                (Not Used)
-     :    , g%today         ! Variable
-     :    , numvals         ! Number of values returned
-     :    , 0               ! Lower Limit for bound checking
-     :    , 366)            ! Upper Limit for bound checking
+      call get_double_var(unknown_module, 'today', '(day)',
+     .                     g%today, numvals, 0.0d0, 3660000000.0d0)
 
       call pop_routine (my_name)
       return
@@ -308,9 +265,6 @@
 *+  Local Variables
       integer    counter
       character  line*(record_Length+80)
-      character  record*(record_length)
-      integer    recno
-      integer    iostatus
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -319,18 +273,10 @@
       call write_string ('===================')
 
       do 100 counter = 1, g%last_record
-         recno = g%op_order(counter)
-         read (g%oplun, '(A)', rec=recno, iostat=iostatus) Record
-         if (iostatus .ne. 0) then
-            call Fatal_error(ERR_user, 'Error reading operations data')
-            goto 1000
-         else
-         endif
-         write(Line,'(2i5,2x,a,2x,a)')
-     :                    g%op_days(recno)
-     :                   ,g%op_years(recno)
-     :                   ,g%phase_name(g%op_phase(recno))
-     :                   ,Record
+         write(Line,'(a10,2x,a,2x,a)')
+     :                    trim(g%op_date(counter))
+     :                   ,g%phase_name(g%op_phase(counter))
+     :                   ,g%op_text(counter)
          call write_string (Line)
   100 continue
  1000 continue
@@ -388,7 +334,7 @@
        CHARACTER condition*(MAX_CONDITION_SIZE)
                                        ! condition of each rule
        integer rule_index
-      integer iostatus 
+      integer iostatus
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -423,17 +369,8 @@
                   if (g%last_record .lt. max_ops) then
                      g%last_record = g%last_record + 1
                      call operatns_extract_date (line
-     :                            , g%op_days(g%last_record)
-     :                            , g%op_years(g%last_record))
-                     write (g%oplun, '(A)', rec=g%last_record, 
-     :                      iostat=iostatus) line
-                     if (iostatus .ne. 0) then
-                        call Fatal_error(ERR_user, 
-     :                             'Error writing operations data')
-                        goto 200
-                     else
-                     endif
-                     g%op_order(g%last_record) = g%last_record
+     :                            , g%op_date(g%last_record))
+                     g%op_text(g%last_record) = line
                      g%op_phase(g%last_record) = phase_no
 
                   else
@@ -453,142 +390,75 @@
 
 
 
-*     ===========================================================
-      subroutine operatns_sort_data ()
-*     ===========================================================
-      Use infrastructure
-      implicit none
-
-*+  Purpose
-*   This subroutine uses a simple shell sort algorithm to sort
-*   the pointers to the data in the scratch file into
-*   chronological order
-
-*+  Changes
-*    050895 - NIH - created from operatns_sort_file to include sorting
-*                   of data into phases.
-*    060201 - DSG - reoved the shell sort and replaced with a bubble
-*                   sort (reference d-415)
-
-*+  Constant Values
-      character*(*) my_name            ! name of current procedure
-      parameter (my_name = 'operatns_sort_data_pointers')
-
-*+  Local Variables
-      integer    day1
-      integer    day2
-      integer    phase1
-      integer    phase2
-      integer    temp
-      integer    year1
-      integer    year2
-      integer    recno
-      integer    i
-
-*- Implementation Section ----------------------------------
-      call push_routine (my_name)
-
-        do 250 i = 1, g%last_record
-            do 200 recno = 1, (g%last_record-1)
-
-               day1 = g%op_days(g%op_order(recno))
-               day2 = g%op_days(g%op_order(recno+1))
-               year1 = g%op_years(g%op_order(recno))
-               year2 = g%op_years(g%op_order(recno+1))
-               phase1 = g%op_phase(g%op_order(recno))
-               phase2 = g%op_phase(g%op_order(recno+1))
-
-
-               if (((day1.gt.day2) .and. (year1.eq.year2))
-     :                            .or.
-     :                      (year1.gt.year2))
-     :                            then
-
-         ! These records need to be swapped to be in chronological order
-                  temp = g%op_order(recno+1)
-                  g%op_order(recno+1) = g%op_order(recno)
-                  g%op_order(recno) = temp
-
-
-               else if (((day1.eq.day2) .and. (year1.eq.year2))
-     :                            .and.
-     :                      (phase1.gt.phase2))
-     :                            then
-         ! These records need to be swapped to be in phase order
-                  temp = g%op_order(recno+1)
-                  g%op_order(recno+1) = g%op_order(recno)
-                  g%op_order(recno) = temp
-
-
-               else
-               endif
-  200       continue
-  250       continue
-
-
- ! finished sorting
-
-      call pop_routine (my_name)
-      return
-      end subroutine
-
 
 *     ===========================================================
-      subroutine operatns_extract_date (record, day, year)
+      subroutine operatns_extract_date (record, date_string)
 *     ===========================================================
       Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
       character  record*(*)            ! record from file
-      integer    day                   ! day of year from record
-      integer    year                  ! year from record
+      character  date_string*(*)              ! Date from record
 
 *+  Purpose
-*      Reads day and year from a record.  These can be in any order.
+*      Reads dates from a record.  This can be in multiple formats.
 
-*+  Changes
-*   5-7-94 NIH specified and programmed
-*   5-8-95 NIH change name from operatns_Record_date and change code
-*              to extract/remove the date out of the string
 
 *+  Constant Values
       character*(*) my_name            ! name of current procedure
-      parameter (my_name = 'operatns_record_date')
+      parameter (my_name = 'operatns_extract_date')
 
 *+  Local Variables
-      integer    dayflag
-      character  day_string*20
       integer    tempinteger           ! temp number
       integer    yearflag
       character  year_string*20
+      character  first_word*20
+      character  second_word*20
+      integer  first_number
+      integer  second_number
+      integer  iost1,iost2
+      integer  dmy(3)
+      integer  year
+      integer  day
+      character daystring*10
+      character monthstring*10
+      double precision jday
+      integer          numvals
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
-      call get_next_word (record, day_String)
-      call string_to_integer_var (day_string, day, dayflag)
+      call get_next_word (record, first_word)
+      call String_to_jday (first_word,JDay,numvals,g%Today)
 
-      call get_next_word (record, year_string)
-      call string_to_integer_var (year_string, year, yearflag)
+      if (jday.eq.0) then
+         read(first_word,*,iostat=iost1) first_number
 
-      if ((dayflag.ne.1) .or. (yearflag.ne.1)) then
-         call warning_error (Err_User,
-     :               'trouble with date format in file')
-         day = 0
-         year = 0
+         call get_next_word (record, second_word)
+         read(second_word,*,iostat=iost2) second_number
 
-      else
-         if (day .gt. 366) then
+         if ((iost1.eq.0).and.(iost2.eq.0)) then
+            if (first_number .gt. 366) then
                ! it must be year in first column - swap values
-            tempinteger = year
-            year = day
-            day = tempinteger
+               year = first_number
+               day = second_number
+            else
+               year = second_number
+               day = first_number
+            endif
+            call day_of_year_to_date (day,year,dmy)
+            write(date_string,'(i0,''/'',i0,''/'',i4)')
+     :         dmy(1),dmy(2),dmy(3)
 
          else
             ! assume day in first column
+            date_string = '1/1/01'
+            call warning_error (Err_User,
+     :                         'trouble with date format in file')
          endif
-
+      else
+         date_string = first_word
       endif
 
       call pop_routine (my_name)
@@ -609,14 +479,6 @@
 *+  Purpose
 *      Perform actions for current day.
 
-*+  Changes
-*     010495 jngh if 'set' action found, then use call to set array.
-*     040595 jngh removed above changes
-*     050895 nih  created from operatns_process
-*                 now schedules operations for a given phase.
-*     011195 jngh changed message_send to Action_send subroutine
-*     14/2/96 DPH added calls to new_postbox, delete_postbox
-
 *+  Calls
 
 *+  Constant Values
@@ -629,40 +491,26 @@
       character  destination*15
       character  Line*(Record_Length)
       character  Value*(Record_length)
-      integer    NextDay
-      integer    NextPhase
-      integer    NextYear
-      integer    recno
       character  Variable_name*32
       integer    modNameID
       character  msg*500
       integer regID
-      integer iostatus
+      double precision jday
+      integer          numvals
+      integer          counter
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
 
-  100 continue
+      do 100 counter = 1, g%last_record
 
-      If (g%op_pointer .le. g%last_record) then
+         call String_to_jday (g%op_Date(counter),JDay,numvals,g%Today)
 
-         recno = g%op_order(g%op_pointer)
-         nextday = g%op_days(recno)
-         nextyear = g%op_years(recno)
-         nextphase = g%op_phase(recno)
+         if ((jday .eq. g%today)
+     :       .and. (g%op_phase(counter).eq. Phase_no)) then
 
-         if ((nextday .eq. g%today)
-     :       .and. (nextyear.eq. g%thisyear)
-     :       .and. (nextphase.eq. Phase_no)) then
+            line = g%op_text(counter)
 
-            read (g%oplun, '(A)', rec=recno, iostat=iostatus) Line
-            if (iostatus .ne. 0) then
-               write (msg, '(a)' )
-     :         'Error reading operations data'
-               call Fatal_error(ERR_user, msg)
-               goto 1000
-            else
-            endif
                ! extract components from string
             call get_next_word (Line, Destination)
             call get_next_word (Line, Action)
@@ -730,39 +578,10 @@
                endif
                call Delete_postbox ()
             endif
-
-            g%op_pointer = g%op_pointer + 1
-            goto 100
-
-         else if (((g%today .gt. nextday).and.(nextyear.eq.g%thisyear))
-     :                                 .or.
-     :                            g%thisyear.gt.nextyear) then
-
-               ! we are actually past this operation date
-               ! - try to catch up
-
-            g%op_pointer = g%op_pointer + 1
-
-            goto 100
-
-         else if (((g%today .eq. nextday).and.(nextyear.eq.g%thisyear))
-     :                                 .and.
-     :                            Phase_no.gt.NextPhase) then
-            ! It is the right day but we are past this phase so try
-            ! and find a later record that is for this phase.
-
-            g%op_pointer = g%op_pointer + 1
-
-            goto 100
-
          else
-            ! do nothing today - try again tomorrow.
-
          endif
-      else
-         ! we are at the end of the operations file
-      endif
-1000  continue
+  100 continue
+
       call pop_routine (my_name)
       return
       end subroutine
@@ -930,10 +749,6 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
-
-!      print*,'Operatns'
-!      print*,'action=[',trim(action),']'
-!      print*,'data=[',trim(Data_String),']'
 
       if (Action.eq.ACTION_Init) then
          call operatns_Get_Other_Variables ()
