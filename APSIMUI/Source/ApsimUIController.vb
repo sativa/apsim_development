@@ -156,6 +156,8 @@ Public Class ApsimUIController
                 Case "tracker"
                     Return New APSIMUI.TrackerUI
 
+                Case "operations"
+                    Return New APSIMUI.OperationsUI
 
                 Case Else
                     Return New GenericUI
