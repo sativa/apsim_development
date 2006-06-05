@@ -219,24 +219,25 @@ void PastureConverter::doNewProfile(unsigned int& fromID, unsigned int& eventID,
     protocol::vector<float> scratch;
     av.get("dlayer", protocol::DTsingle, true, scratch);
 
-    vector<float> dlayer;
-    for (unsigned layer = 0; layer != scratch.size(); layer++)
-       {
-       dlayer.push_back(scratch[layer]);
-       }
-
     int num_layers = scratch.size();
 
+//    vector<float> dlayer;
+    for (unsigned layer = 0; layer != scratch.size(); layer++)
+       {
+//       dlayer.push_back(scratch[layer]);
+         dlayer[layer] = scratch[layer];
+       }
+
     av.get("ll15_dep", protocol::DTsingle, true, scratch);
-    for (unsigned layer = 0; layer != scratch.size(); layer++) { ll15_dep[layer] = scratch[layer]; }
+    for (unsigned layer = 0; layer != num_layers; layer++) { ll15_dep[layer] = scratch[layer]; }
     av.get("dul_dep", protocol::DTsingle, true, scratch);
-    for (unsigned layer = 0; layer != scratch.size(); layer++) { dul_dep[layer] = scratch[layer]; }
+    for (unsigned layer = 0; layer != num_layers; layer++) { dul_dep[layer] = scratch[layer]; }
     av.get("sat_dep", protocol::DTsingle, true, scratch);
-    for (unsigned layer = 0; layer != scratch.size(); layer++) { sat_dep[layer] = scratch[layer]; }
+    for (unsigned layer = 0; layer != num_layers; layer++) { sat_dep[layer] = scratch[layer]; }
     av.get("sw_dep", protocol::DTsingle, true, scratch);
-    for (unsigned layer = 0; layer != scratch.size(); layer++) { sw_dep[layer] = scratch[layer]; }
+    for (unsigned layer = 0; layer != num_layers; layer++) { sw_dep[layer] = scratch[layer]; }
     av.get("bd", protocol::DTsingle, true, scratch);
-    for (unsigned layer = 0; layer != scratch.size(); layer++) { bd[layer] = scratch[layer]; }
+    for (unsigned layer = 0; layer != num_layers; layer++) { bd[layer] = scratch[layer]; }
 
 }
 // ------------------------------------------------------------------
@@ -308,7 +309,6 @@ void PastureConverter::doCropWaterUptake(unsigned int& fromID, unsigned int& eve
 
       protocol::Variant* variantGet;
       vector <float> swDepth;
-      vector <float> ll15Depth;
 
       bool ok = getVariable(swDepthID, variantGet, true);
       if (ok)
@@ -330,28 +330,10 @@ void PastureConverter::doCropWaterUptake(unsigned int& fromID, unsigned int& eve
          throw std::runtime_error("Couldn't get variable sw_dep");
       }
 
-      ok = getVariable(ll15DepthID, variantGet, true);
-      if (ok)
-      {
-//         vector <float> ll15Depth;
-         bool ok = variantGet->unpack(ll15Depth);
-         if (ok && ll15Depth.size() >= 1)
-         {
-               // ok
-         }
-         else
-         {
-            throw std::runtime_error("Couldn't unpack ll15_dep");
-         }
-      }
-      else
-      {
-         throw std::runtime_error("Couldn't get variable ll15_dep");
-      }
 
       float rtDep;
       protocol::Variant* rootDepth;
-      bool okRtDep = getVariable(maxtID, rootDepth, true);
+      bool okRtDep = getVariable(rtDepID, rootDepth, true);
       if (okRtDep)
       {
          bool ok = rootDepth->unpack(rtDep);  // what happens if this is not ok?
@@ -360,44 +342,58 @@ void PastureConverter::doCropWaterUptake(unsigned int& fromID, unsigned int& eve
       {   // didn't get the rtDep ID ok. Do nothing about it.
       }
 
-      int numLayers = ll15Depth.size();
+      for (unsigned layer = 0; layer != max_layer; layer++)
+      {
+         ll_dep[layer] = dlayer[layer] * ll[layer];
+         sw_dep[layer] = swDepth[layer];
+      }
+
+      float swSupply[max_layer];
+      float dltSWDepth[max_layer];
+
+      fill_real_array (swSupply, 0.0, max_layer);
+      fill_real_array (dltSWDepth, 0.0, max_layer);
+
+      pasture_sw_supply (max_layer, dlayer, rtDep, sw_dep, kl, ll_dep, swSupply);
 
       protocol::pasturewatersupplyType waterUptake;
       protocol::suppliesType supply;
       float demand_tot = 0.0;
       float rlv_tot = 0.0;
-      for (unsigned int subpopulation = 0; subpopulation < waterDemand.demands.size(); subpopulation++)
-      {
-         demand_tot += waterDemand.demands[subpopulation].demand;
-         for (unsigned int layer = 0; layer < waterDemand.demands[subpopulation].rlv_layer.layers.size(); layer++)
-            rlv_tot += waterDemand.demands[subpopulation].rlv_layer.rlv[layer];
-      }
-      if (rlv_tot <= 0.0)
-         rlv_tot = 1.0;
+      int num_layers = 0;
 
       ostrstream msg2;
       if (cDebug == "on")
          msg2 << endl << "Water supply:-" << endl;
       float supplyTotal = 0.0;
 
+
       for (unsigned int subpopulation = 0; subpopulation < waterDemand.demands.size(); subpopulation++)
       {
          supply.crop_ident = waterDemand.demands[subpopulation].crop_ident;
          msg2 << "   sub-population " << subpopulation+1 << "(" << supply.crop_ident << ")" << endl;
 
-         for (unsigned int layer = 0; layer < waterDemand.demands[subpopulation].rlv_layer.layers.size(); layer++)
+         int deepest_layer = waterDemand.demands[subpopulation].rlv_layer.layers.size();
+         num_layers = max(num_layers, deepest_layer);
+         pasture_sw_uptake1 (deepest_layer, dlayer, waterDemand.demands[subpopulation].demand, swSupply, dlt_sw_dep);
+
+         supply.supply.clear();
+         for (unsigned int layer = 0; layer < deepest_layer; layer++)
          {
-            supply.layers.push_back(waterDemand.demands[subpopulation].rlv_layer.layers[layer]);
-            double wSupply =  (waterDemand.demands[subpopulation].rlv_layer.rlv[layer] / rlv_tot) * demand_tot;
+            swSupply[layer] += dlt_sw_dep[layer];
+            dltSWDepth[layer] += dlt_sw_dep[layer];
+
+            supply.layers.push_back(dlayer[layer]);
+            double wSupply =  -1.0 * dlt_sw_dep[layer];
             supply.supply.push_back(wSupply);
 
             if (cDebug == "on")
                msg2 << "   Layer (" << layer << ") = " << wSupply  << " (mm)" << " RLV = " << waterDemand.demands[subpopulation].rlv_layer.rlv[layer] << " Thickness = " << waterDemand.demands[subpopulation].rlv_layer.layers[layer] << endl;
             supplyTotal +=  wSupply;
-
          }
          waterUptake.supplies.push_back(supply);
       }
+
       if (cDebug == "on")
       {
          msg2 << "   Supply total = " << supplyTotal << " (mm)" << endl << ends;
@@ -406,18 +402,11 @@ void PastureConverter::doCropWaterUptake(unsigned int& fromID, unsigned int& eve
       }
 
 
-//     publish (cropwatersupplyID, waterUptake);
-
-     protocol::vector<float> dltSWDepth;
-     for (unsigned int layer = 0; layer < numLayers; layer++)  //FIXME to remove water from soilwat?
-     {
-         float dltSWDep = -supply.supply[layer];
-         dltSWDepth.push_back(dltSWDep);
-     }
-
-//     setVariable(dltSWDepthID, dltSWDepth);
+     publish (cropwatersupplyID, waterUptake);
 
 
+     protocol::vector<float> dltSWDepthValues(dltSWDepth, dltSWDepth+num_layers);
+     setVariable(dltSWDepthID, dltSWDepthValues);
 }
 
 // ------------------------------------------------------------------
@@ -523,6 +512,18 @@ void PastureConverter::readParameters ( void )
    msg << "sand (kg/kg) = ";
    for (unsigned int layer = 0; layer < pSandLayer.size(); layer++)
       msg << pSandLayer[layer] << " ";
+   msg << endl;
+
+   readParameter (section_name, "ll", ll, numLayers, 0.0, 1.0);
+   msg << "ll (mm/mm) = ";
+   for (unsigned int layer = 0; layer < numLayers; layer++)
+      msg << ll[layer] << " ";
+   msg << endl;
+
+   readParameter (section_name, "kl", kl, numLayers, 0.0, 1.0);
+   msg << "kl (0-1) = ";
+   for (unsigned int layer = 0; layer < numLayers; layer++)
+      msg << kl[layer] << " ";
    msg << endl << ends;
    writeString (msg.str().c_str());
    }
@@ -733,6 +734,235 @@ float PastureConverter::svp(float temp) //(INPUT)  fraction of distance between 
 
    float val = ES0 * exp(TC_B * temp / (TC_C + temp)) * mb2kpa;
    return val;
+   }
+
+//===========================================================================
+void PastureConverter::fill_real_array (float *var  //(OUTPUT) array to set
+                                       , float value //(IN) scalar value to set array to
+                                       , int limit)   //(IN) number of elements
+//===========================================================================
+
+/*Purpose
+ *   sets real array var to value up to level limit
+ */
+
+   {
+   for (int indx = 0; indx < limit; indx++)
+      {
+      var[indx] = value;
+      }
+   }
+
+//===========================================================================
+int PastureConverter::find_layer_no(float depth, const vector<float> &dlayer )
+//===========================================================================
+   {
+   float progressive_sum = 0.0; //cumulative sum_of
+   unsigned int indx;                    //index count_of_real_vals
+
+   for(indx = 0; indx < dlayer.size(); indx++)
+      {
+      progressive_sum +=  dlayer[indx];
+      if(progressive_sum >= depth)
+         {
+         break;
+         }
+      }
+   if (indx==dlayer.size()) return (indx - 1); // last element in array
+   return indx;                                // index of
+   }
+
+//===========================================================================
+int PastureConverter::find_layer_no(float cum_sum   //sum_of to be found
+                                   , float *array    //array to be searched
+                                   , int size_of)     // size of the array
+//===========================================================================
+
+/*Purpose
+ *   Find the first element of an array where a given value
+ *   is contained with the cumulative sum_of of the elements.
+ *   If sum_of is not reached by the end of the array, then it
+ *   is ok to set it to the last element. This will take
+ *   account of the case of the number of levels being 0.
+ *Definition
+ *   Returns ndx where ndx is the smallest value in the range
+ *   1.."size_of" such that the sum of "array"(j), j=1..ndx is
+ *   greater than or equal to "cum_sum".  If there is no such
+ *   value of ndx, then "size_of" will be returned.
+ */
+
+   {
+   float progressive_sum = 0.0; //cumulative sum_of
+   int indx;                    //index count_of_real_vals
+
+   for(indx = 0; indx < size_of; indx++)
+      {
+      progressive_sum = progressive_sum + array[indx];
+      if(progressive_sum >= cum_sum)
+         {
+         break;
+         }
+      }
+   if (indx==size_of) return (indx - 1); // last element in array
+   return indx;                          // index of
+   }
+
+//===========================================================================
+float PastureConverter::root_proportion (int    layer              // (INPUT) layer to look at
+                      , float *dlayr              // (INPUT) array of layer depths
+                      , float  root_depth)         // (INPUT) depth of roots
+//===========================================================================
+
+ /* Purpose
+ *       returns the proportion of layer that has roots in it (0-1).
+ *
+ *  Definition
+ *     Each element of "dlayr" holds the height of  the
+ *     corresponding soil layer.  The height of the top layer is
+ *     held in "dlayr"(1), and the rest follow in sequence down
+ *     into the soil profile.  Given a root depth of "root_depth",
+ *     this function will return the proportion of "dlayr"("layer")
+ *     which has roots in it  (a value in the range 0..1).
+ *
+ * Changes
+ *     21/5/2003 ad converted to BC++
+ *     010994 jngh specified and programmed
+ *     230698 jngh corrected to allow for layers below root zone
+ *
+ */
+   {
+   float depth_to_layer_bottom = sum_real_array (dlayr, layer+1);              // depth to bottom of layer (mm)
+   float depth_to_layer_top = depth_to_layer_bottom - dlayr[layer];            // depth to top of layer (mm)
+   float depth_to_root  = min(depth_to_layer_bottom, root_depth);              // depth to root in layer (mm)
+   float depth_of_root_in_layer = max(0.0, depth_to_root-depth_to_layer_top);  // depth of root within layer (mm)
+
+   return (divide (depth_of_root_in_layer, dlayr[layer], 0.0));
+   }
+
+//===========================================================================
+float PastureConverter::sum_real_array (float *var,  // INPUT array to be summed
+                      int nelem)   // number of elements
+//===========================================================================
+
+/*Definition
+ *   Returns sum of all "limit" elements of array "var"[0:limit].
+ */
+
+   {
+   float total = 0.0; // summary result
+
+   for (int i = 0; i < nelem; i++)
+      {
+      total = total + var[i];
+      }
+   return total;
+   }
+
+//=========================================================================
+void PastureConverter::pasture_sw_supply(int   num_layer        // (INPUT)  number of layers in profile
+                                        , float *dlayer          // (INPUT)  thickness of soil layer I (mm)
+                                        , float root_depth       // (INPUT)  depth of roots (mm)
+                                        , float *sw_dep          // (INPUT)  soil water content of layer L (mm)
+                                        , float *kl              // (INPUT)  root length density factor for water
+                                        , float *ll_dep          // (INPUT)  lower limit of plant-extractable soi
+                                        , float *sw_supply)       // (OUTPUT) potential crop water uptake from each layer (mm) (supply to roots)
+//=========================================================================
+
+/*  Purpose
+*       Return potential water uptake from each layer of the soil profile
+*       by the crop (mm water). This represents the maximum amount in each
+*       layer regardless of lateral root distribution but takes account of
+*       root depth in bottom layer.
+*
+*  Mission Statement
+*   Calculate today's soil water supply
+*
+*  Notes
+*      This code still allows water above dul to be taken - cnh
+*
+*  Changes
+*       21/5/2003 ad converted to BC++
+*       010994 jngh specified and programmed - adapted from barley
+*       970216 slw generalised to avoid common blocks, added num_layer
+*/
+   {
+   //  Local Variables
+   int deepest_layer;      // index of deepest layer in which the roots are growing
+   float sw_avail;         // water available (mm)
+   // Implementation Section ----------------------------------
+
+   // get potential uptake
+
+   fill_real_array (sw_supply, 0.0, num_layer);
+
+   deepest_layer = find_layer_no (root_depth, dlayer, num_layer);
+   for(int i = 0; i <= deepest_layer; i++)
+      {
+      sw_avail = (sw_dep[i] - ll_dep[i]);
+      sw_supply[i] = sw_avail * kl[i];
+      sw_supply[i] = max (sw_supply[i], 0.0);
+      }
+   //now adjust bottom layer for depth of root
+   sw_supply[deepest_layer] = sw_supply[deepest_layer] * root_proportion(deepest_layer, dlayer, root_depth);
+   }
+
+//==========================================================================
+void PastureConverter::pasture_sw_uptake1(int   deepest_layer        //  (INPUT)  number of rooting layers in profile
+                                          , float *dlayer          //  (INPUT)  thickness of soil layer I (mm)
+                                          , float sw_demand       //  (INPUT)  total crop demand for water (mm)
+                                          , float *sw_supply       //  (INPUT)  potential water to take up (supply)
+                                          , float *dlt_sw_dep)      //  (OUTPUT) root water uptake (mm)
+//==========================================================================
+/*  Purpose
+*       Returns actual water uptake from each layer of the soil
+*       profile by the crop (mm).
+*
+*  Mission Statement
+*   Calculate the crop uptake of soil water
+*
+*  Changes
+*       21/5/2003 ad converted to BC++
+*       200498 nih created from crop_sw_uptake0
+*/
+   {
+   //  Local Variables
+   int layer;              // layer number of profile ()
+   float sw_supply_sum;    // total potential over profile (mm)
+   // Implementation Section ----------------------------------
+
+   //find total root water potential uptake as sum of all layers
+
+   sw_supply_sum = sum_real_array (sw_supply, deepest_layer+1);
+
+   if ((sw_supply_sum < 0.0) || (sw_demand  < 0.0))
+      {
+      //we have no uptake - there is no demand or potential
+      fill_real_array (dlt_sw_dep, 0.0, max_layer);
+      }
+   else
+      {
+      // get actual uptake
+      fill_real_array (dlt_sw_dep, 0.0, max_layer);
+      if (sw_demand < sw_supply_sum)
+         {
+         // demand is less than what roots could take up.
+         // water is non-limiting.
+         // distribute demand proportionately in all layers.
+         for(layer = 0; layer <= deepest_layer; layer++)
+            {
+            dlt_sw_dep[layer] = -1 * divide (sw_supply[layer], sw_supply_sum, 0.0) * sw_demand;
+            }
+         }
+      else
+         {
+         // water is limiting - not enough to meet demand so take
+         // what is available (potential)
+         for(layer = 0; layer <= deepest_layer; layer++)
+            {
+            dlt_sw_dep[layer] = -1 * sw_supply[layer];
+            }
+         }
+      }
    }
 
 //===========================================================================
