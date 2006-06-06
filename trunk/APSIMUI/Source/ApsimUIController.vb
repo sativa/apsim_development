@@ -431,19 +431,41 @@ Public Class ApsimUIController
         Return Nothing
     End Function
 
+    Private Sub UpdateShortCutLinks(ByVal Data As APSIMData, ByVal OldDataPath As String, ByVal NewData As APSIMData)
+        ' -----------------------------------------------------------
+        ' If necessary, update the shortcut for the specified data to 
+        ' point to the NewData
+        ' -----------------------------------------------------------
+        Dim PosDelimiter As String = OldDataPath.LastIndexOf("|")
+        Dim OldShortCutName As String
+        If PosDelimiter = -1 Then
+            Return
+        End If
+        OldShortCutName = OldDataPath.Substring(PosDelimiter + 1)
+        If Data.Attribute("shortcut") = OldShortCutName Then
+            Data.SetAttribute("shortcut", NewData.Name)
+            Dim DataPath As String = GetFullPathForData(Data)
+            DataPath = DataPath.Substring(0, DataPath.LastIndexOf("|") + 1) + "Shared: " + OldShortCutName
+            DataHasBeenAdded(DataPath, Data)
+        End If
+    End Sub
 
-    ' --------------------------------------------------------
-    ' Recursive routine to check and fix missing module names
-    ' from output variables.
-    ' --------------------------------------------------------
-    Public Sub CheckAllComponents(ByVal Data As APSIMData)
+    Public Sub CheckAllComponents(ByVal Data As APSIMData, ByVal OldDataPath As String, ByVal NewData As APSIMData)
+        ' --------------------------------------------------------
+        ' Recursive routine to check and fix missing module names
+        ' from output variables and look for 
+        ' --------------------------------------------------------
         For Each Child As APSIMData In Data.Children
-            If Child.Type.ToLower() = "area" Or Child.Type.ToLower() = "simulation" Then
-                CheckAllComponents(Child)  ' recursion
+            Dim ChildType As String = Child.Type.ToLower()
+            If ChildType = "area" Or Child.Type.ToLower() = "simulation" _
+               Or ChildType = "outputfile" Or ChildType = "manager" Or ChildType = "soil" Then
+                CheckAllComponents(Child, OldDataPath, NewData)  ' recursion
             ElseIf Child.Type.ToLower() = "outputfile" Then
                 CheckOutputFile(Child)
             ElseIf Child.Type.ToLower() = "summaryfile" Then
                 SetOutputSummaryFileName(Child)
+            ElseIf Child.Attribute("shortcut") <> "" Then
+                UpdateShortCutLinks(Child, OldDataPath, NewData)
             End If
         Next
     End Sub

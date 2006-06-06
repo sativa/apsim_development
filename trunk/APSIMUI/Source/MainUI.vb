@@ -434,10 +434,9 @@ Public Class MainUI
                                             "All files (*.*)|*.*", _
                                         "apsimui")
         AddHandler ApsimUI.NewDataEvent, AddressOf OnNewDataEvent
-        AddHandler ApsimUI.SelectionChangedEvent, AddressOf SetFunctionality
+        AddHandler ApsimUI.SelectionChangedEvent, AddressOf OnSelectionChanged
         AddHandler ApsimUI.DataChangedEvent, AddressOf SetFunctionality
-        AddHandler ApsimUI.AddEvent, AddressOf OnAddEvent
-        AddHandler ApsimUI.RenameEvent, AddressOf OnAddEvent
+        AddHandler ApsimUI.NodeChangedEvent, AddressOf OnNodeChanged
 
         ' Show the Simulation Explorer.
         SimulationExplorer = New ExplorerUI(Me, ApsimUI)
@@ -485,21 +484,24 @@ Public Class MainUI
 #End Region
 #Region "Application level methods"
 
+
+    Private Sub OnSelectionChanged(ByVal OldSelections As StringCollection, ByVal NewSelections As StringCollection)
+        SetFunctionality()
+    End Sub
+
     Private Sub OnNewDataEvent()
         ' New data has entered the system.
         ' This is usually caused by FileNew,
         ' FileOpen etc.        APSIMChangeTool.Upgrade(ApsimUI.Data)
-        OnAddEvent()
+        OnNodeChanged(ApsimUI.AllData.Name, ApsimUI.AllData)
         SetFunctionality()
-
     End Sub
 
-    Private Sub OnAddEvent()
+    Private Sub OnNodeChanged(ByVal OldNodePath As String, ByVal NewNodeData As APSIMData)
         ' Called when the tree view control is alterted
-        ApsimUI.CheckAllComponents(ApsimUI.AllData)
+        ApsimUI.CheckAllComponents(ApsimUI.AllData, OldNodePath, NewNodeData)
 
     End Sub
-
 
     Private Sub CreateRecentFileListMenu()
         'Creates a list of recent files under the 'File' menu

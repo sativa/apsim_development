@@ -187,10 +187,7 @@ Public Class DataTree
         Set(ByVal Value As BaseController)
             MyBase.Controller = Value
             If Not IsNothing(Value) Then
-                AddHandler Controller.AddEvent, AddressOf Refresh
-                AddHandler Controller.DeleteEvent, AddressOf Refresh
-                AddHandler Controller.RenameEvent, AddressOf Refresh
-                AddHandler Controller.SelectionChangingEvent, AddressOf OnSelectionChanging
+                AddHandler Controller.NodeChangedEvent, AddressOf OnNodeChanged
                 AddHandler Controller.SelectionChangedEvent, AddressOf OnSelectionChanged
             End If
         End Set
@@ -239,94 +236,87 @@ Public Class DataTree
     End Property
 
 
-    ' ----------------------------------------------
-    ' Override the base fill method and populate
-    ' ourselves.
-    ' ----------------------------------------------
     Overrides Sub Refresh()
+        ' ----------------------------------------------
+        ' Override the base refresh method and populate
+        ' ourselves.
+        ' ----------------------------------------------
         If Not IsNothing(Controller) AndAlso Not Controller.AllData Is Nothing AndAlso UserChange Then
             HelpText = ""
-            TreeView.BeginUpdate()
-            TreeView.Nodes.Clear()
-            AddNode(Controller.AllData, Nothing)
-            Dim RootNode As TreeNode = TreeView.Nodes(0)
-            PopulateTree(Controller.AllData, RootNode)
+            TreeView.ImageList = Controller.SmallImageList
+            If TreeView.Nodes.Count = 0 Then
+                TreeView.Nodes.Add(Controller.AllData.Name)
+            End If
+            RefreshNodeAndChildren(TreeView.Nodes(0), Controller.AllData)
             TreeView.Sorted = IsSorted
             If ExpandAllNodes Then
                 TreeView.ExpandAll()
+            Else
+                TreeView.Nodes(0).Expand()
             End If
-            RootNode.Expand()
-            TreeView.EndUpdate()
         End If
     End Sub
 
-    ' ----------------------------------------------
-    ' Populate the tree using the specified data.
-    ' ParentNode can be nothing
-    ' ----------------------------------------------
-    Private Sub PopulateTree(ByVal Data As APSIMData, ByRef ParentNode As TreeNode)
+    Private Sub RefreshNodeAndChildren(ByVal Node As TreeNode, ByVal Data As APSIMData)
+        ' ------------------------------------------------------------
+        ' Refresh the specified TreeNode using the specified APSIMData
+        ' plus all the child nodes.
+        ' ------------------------------------------------------------
         TreeView.ImageList = Controller.SmallImageList
-
-        ' Display a wait cursor while the TreeNodes are being created.
         Windows.Forms.Cursor.Current = Cursors.WaitCursor
-
-        ' Suppress repainting the TreeView until all the objects have been created.
         TreeView.BeginUpdate()
 
-        DisplayNode(Data, ParentNode, 0)
-        TreeView.Sorted = IsSorted
+        RecursivelyRefreshNodeAndChildren(Node, Data)
 
-        ' Begin repainting the TreeView.
+        If Controller.SelectedPaths.Count >= 1 Then
+            UserChange = False
+            TreeView.SelectedNode = GetNodeFromPath(Controller.SelectedPaths(0))
+            UserChange = True
+        End If
+
         TreeView.EndUpdate()
-
-        ' Display a wait cursor while the TreeNodes are being created.
         Windows.Forms.Cursor.Current = Cursors.Default
-
     End Sub
 
-    ' ---------------------------------------
-    ' Recursively display a node and its
-    ' child nodes in the tree.
-    ' ---------------------------------------
-    Private Sub DisplayNode(ByVal Data As APSIMData, ByRef ParentNode As TreeNode, ByRef NumLevels As Integer)
-        Try
-            For Each child As APSIMData In Data.Children
-                If NumLevels < MaxNumLevels And (ShowAllComponents Or Controller.IsComponentVisible(child.Type)) Then
-                    Dim childnode As TreeNode = AddNode(child, ParentNode)
-                    DisplayNode(child, childnode, NumLevels + 1)
+    Private Sub RecursivelyRefreshNodeAndChildren(ByVal Node As TreeNode, ByVal Data As APSIMData)
+        ' ---------------------------------------
+        ' Recursively refresh a node and its
+        ' child nodes in the tree.
+        ' ---------------------------------------
+
+        RefreshNode(Node, Data)
+
+        ' Go refresh all children.
+        Dim ChildIndex As Integer = 0
+        For Each Child As APSIMData In Data.Children
+            If ShowAllComponents OrElse Controller.IsComponentVisible(Child.Type) Then
+                Dim ChildTreeNode As TreeNode
+                If ChildIndex < Node.Nodes.Count Then
+                    ChildTreeNode = Node.Nodes(ChildIndex)
+                Else
+                    ChildTreeNode = Node.Nodes.Add(Child.Name)
                 End If
-            Next
-
-
-        Catch e As System.Exception
-            MsgBox("Error building tree for : " + Data.Name + vbCrLf + vbCrLf + e.Message, MsgBoxStyle.Critical, "Error building simulation tree")
-        End Try
-
+                RecursivelyRefreshNodeAndChildren(ChildTreeNode, Child)
+                ChildIndex = ChildIndex + 1
+            End If
+        Next
+        While Node.Nodes.Count > ChildIndex
+            Node.Nodes.Remove(Node.Nodes(Node.Nodes.Count - 1))
+        End While
     End Sub
 
-    ' -----------------------------------------------
-    ' Add the specified node to the specified parent.
-    ' -----------------------------------------------
-    Private Function AddNode(ByVal NodeData As APSIMData, ByVal ParentNode As TreeNode) As TreeNode
-        TreeView.ImageList = Controller.SmallImageList
-        Dim type As String = NodeData.Type
-        Dim shortcut As String = NodeData.Attribute("shortcut")
-        Dim ImageIndex As Integer = Controller.SmallImageIndex(NodeData.Type)
-        Dim childnode As TreeNode
-        If ParentNode Is Nothing Then
-            childnode = TreeView.Nodes.Add(NodeData.Name)
-        Else
-            childnode = ParentNode.Nodes.Add(NodeData.Name)
-        End If
+    Private Sub RefreshNode(ByVal Node As TreeNode, ByVal Data As APSIMData)
+        ' -----------------------------------------------
+        ' Set all the properties of the specified node.
+        ' -----------------------------------------------
+        Node.Text = Data.Name
+        Dim ImageIndex As Integer = Controller.SmallImageIndex(Data.Type)
+        Node.ImageIndex = ImageIndex
+        Node.SelectedImageIndex = ImageIndex
 
-        childnode.ImageIndex = ImageIndex
-        childnode.SelectedImageIndex = ImageIndex
-
-        If shortcut <> "" Then
-            childnode.Text = "Shared: " + childnode.Text
-        End If
-        Return childnode
-    End Function
+        Dim Selected As Boolean = Controller.SelectedPaths.IndexOf(BaseController.GetFullPathForData(Data)) >= 0
+        PaintNode(Node, Selected)
+    End Sub
 
     ' -------------------------
     ' Sorted property
@@ -369,11 +359,8 @@ Public Class DataTree
                 e.Cancel = True
 
                 ' update nodes
-                RemovePaintFromNodes()
                 SelectedPaths.Remove(e.Node.FullPath)
                 Controller.SelectedPaths = SelectedPaths
-                PaintSelectedNodes()
-
                 Return
             End If
 
@@ -400,10 +387,8 @@ Public Class DataTree
                 If Not SelectedPaths.Contains(e.Node.FullPath) Then ' new node ?
                     SelectedPaths.Add(e.Node.FullPath)
                 Else  ' not new, remove it from the collection
-                    RemovePaintFromNodes()
                     SelectedPaths.Remove(e.Node.FullPath)
                 End If
-                PaintSelectedNodes()
 
             Else
                 ' SHIFT is pressed
@@ -480,14 +465,12 @@ Public Class DataTree
                 Else
                     ' in the case of a simple click, just add this item
                     If SelectedPaths.Count > 0 Then
-                        RemovePaintFromNodes()
                         SelectedPaths.Clear()
                     End If
                     SelectedPaths.Add(e.Node.FullPath)
                 End If
             End If
             Controller.SelectedPaths = SelectedPaths
-            PaintSelectedNodes()
 
             Try
                 Me.TreeToolTip.SetToolTip(Me.TreeView, Controller.Data.Attribute("description"))
@@ -502,6 +485,10 @@ Public Class DataTree
 
     End Sub
 
+
+    Private Sub OnNodeChanged(ByVal DataFullPath As String, ByVal Data As APSIMData)
+        RefreshNodeAndChildren(GetNodeFromPath(DataFullPath), Data)
+    End Sub
 
     ' --------------------------------------------------
     ' Returns a tree node given a fullly delimited path.
@@ -549,22 +536,33 @@ Public Class DataTree
     End Function
 
 
-    ' ---------------------------------------------
-    ' Code from TreeViewMS component.
-    ' Paint all selected nodes in highlight colour.
-    ' ---------------------------------------------
-    Private Sub PaintSelectedNodes()
-        Dim SelectedPaths As StringCollection = Controller.SelectedPaths()
-        For Each NodePath As String In SelectedPaths
-            Dim n As TreeNode = GetNodeFromPath(NodePath)
-            n.BackColor = SystemColors.Highlight
-            n.ForeColor = SystemColors.HighlightText
-            If n.Text.IndexOf("Shared:") = 0 Then
-                n.ForeColor = Color.BlueViolet
-            End If
+    Private Sub PaintNodes(ByVal NodePaths As StringCollection, ByVal Selected As Boolean)
+        ' ------------------------------------------------------------------
+        ' Paint all specified nodes in highlight colour if "Selected" = true
+        ' or as normal nodes otherwise.
+        ' ------------------------------------------------------------------
+        If Selected And NodePaths.Count >= 1 Then
+            UserChange = False
+            TreeView.SelectedNode = GetNodeFromPath(NodePaths(0))
+            UserChange = True
+        End If
+
+        For Each NodePath As String In NodePaths
+            PaintNode(GetNodeFromPath(NodePath), Selected)
         Next
     End Sub
 
+    Private Sub PaintNode(ByVal n As TreeNode, ByVal Selected As Boolean)
+        n.ForeColor = TreeView.ForeColor
+        n.BackColor = TreeView.BackColor
+        If Selected Then
+            n.BackColor = SystemColors.Highlight
+            n.ForeColor = SystemColors.HighlightText
+        End If
+        If n.Text.IndexOf("Shared:") = 0 Then
+            n.ForeColor = Color.Blue
+        End If
+    End Sub
 
     ' ---------------------------------------------
     ' Code from TreeViewMS component.
@@ -585,27 +583,6 @@ Public Class DataTree
         Return Found
     End Function
 
-
-    ' ---------------------------------------------
-    ' Code from TreeViewMS component.
-    ' Removes the highlighting from all selected nodes.
-    ' ---------------------------------------------
-    Private Sub RemovePaintFromNodes()
-        Dim SelectedPaths As StringCollection = Controller.SelectedPaths()
-
-        If SelectedPaths.Count = 0 Then
-            Return
-        End If
-
-        Dim n0 As TreeNode = GetNodeFromPath(SelectedPaths(0))
-        Dim back As Color = n0.TreeView.BackColor
-        Dim fore As Color = n0.TreeView.ForeColor
-        For Each NodePath As String In SelectedPaths
-            Dim n As TreeNode = GetNodeFromPath(NodePath)
-            n.BackColor = back
-            n.ForeColor = fore
-        Next
-    End Sub
 
     ' ---------------------------------------
     ' Do we allow the rename of the node?
@@ -635,10 +612,7 @@ Public Class DataTree
         ' A tree view node label cannot be an empty string.  If it is then
         ' cancel the edit.
         If (Not e.Label.Equals("")) Then
-            UserChange = False
             Controller.RenameSelected(e.Label)
-            UserChange = True
-
         Else
             e.CancelEdit = True
         End If
@@ -788,32 +762,13 @@ Public Class DataTree
         End If
     End Sub
 
-    ' --------------------------------------------------------------------
-    ' Selection is about to change - remove paint from all selected nodes.
-    ' --------------------------------------------------------------------
-    Private Sub OnSelectionChanging()
-        If UserChange Then
-            UserChange = False
-            RemovePaintFromNodes()
-            UserChange = True
-        End If
-    End Sub
+    Private Sub OnSelectionChanged(ByVal OldSelections As StringCollection, ByVal NewSelections As StringCollection)
+        ' ----------------------------------------
+        ' Selection has changed - update tree.
+        ' ----------------------------------------
 
-
-    ' ----------------------------------------
-    ' Selection has changed - update tree.
-    ' ----------------------------------------
-    Private Sub OnSelectionChanged()
-        If UserChange Then
-            UserChange = False
-            Dim Selections As StringCollection = Controller.SelectedPaths()
-            If Selections.Count > 0 Then
-                TreeView.SelectedNode = GetNodeFromPath(Selections(0))
-                PaintSelectedNodes()
-            End If
-            UserChange = True
-        End If
-
+        PaintNodes(OldSelections, False)
+        PaintNodes(NewSelections, True)
     End Sub
 
 
