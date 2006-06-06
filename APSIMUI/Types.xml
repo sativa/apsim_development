@@ -186,6 +186,23 @@
          <ini>%apsuite\apsim\clock\clock.ini</ini>
       </ApsimToSim>
    </clock>
+   <FarmwiseSequencerConverter>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <LargeIcon>Images\document_edit32.png</LargeIcon>
+      <SmallIcon>Images\document_edit16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll</dll>
+         <ini>%apsuite\apsim\FarmwiseSequencer\FarmwiseSequencer.ini</ini>
+      </ApsimToSim>
+   </FarmwiseSequencerConverter>
    <summaryfile>
       <UItype>file</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
