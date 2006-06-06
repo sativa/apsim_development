@@ -1076,6 +1076,11 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
+     <bounds>
+        <bound name = "mass" min="0.0"/>
+        <bound name = "standing_fraction" min="0.0" max="1.0"/>
+        <bound name = "cnr" min="0.0"/>
+     </bounds>
       <variables>
          <variable name="surfaceom_wt" description="Total mass of all surface organic materials"/>
          <variable name="surfaceom_c" description="Total mass of all surface organic carbon"/>
