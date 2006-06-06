@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <components name="components">
    <wheat>
+      <class    name="plant"/>
       <cultivar name="annuello"/>
       <cultivar name="arrino"/>
       <cultivar name="Arrivato"/>
@@ -96,8 +97,10 @@
       <cultivar name="seedling"/>
    </bambatsi>
    <canola>
-      <cultivar name="canola_triazine_tol"/>
-      <cultivar name="canola_winter"/>
+      <class    name="plant"/>
+      <class    name="plant"/>
+      <class    name="winter"/>
+      <class    name="triazine"/>
       <cultivar name="PacN145"/>
       <cultivar name="monty"/>
       <cultivar name="JL1"/>
@@ -126,6 +129,7 @@
       <cultivar name="french_winter"/>
    </canola>
    <chickpea>
+      <class    name="plant"/>
       <cultivar name="amethyst"/>
       <cultivar name="cpi56288"/>
       <cultivar name="dooen"/>
@@ -134,6 +138,7 @@
       <cultivar name="cpi56566"/>
    </chickpea>
    <cowpea>
+      <class    name="plant"/>
       <cultivar name="banjo"/>
       <cultivar name="red_caloona"/>
       <cultivar name="CPI28215"/>
@@ -143,10 +148,12 @@
       <cultivar name="seedling"/>
    </egrandis>
    <fababean>
+      <class    name="plant"/>
       <cultivar name="fiord"/>
       <cultivar name="ILB1814"/>
    </fababean>
    <fieldpea>
+      <class    name="plant"/>
       <cultivar name="parvie"/>
       <cultivar name="excel"/>
       <cultivar name="parafield"/>
@@ -154,11 +161,13 @@
       <cultivar name="mutka"/>
    </fieldpea>
    <lablab>
+      <class    name="plant"/>
       <cultivar name="lablab_small_leaf_perennial"/>
       <cultivar name="endurance"/>
       <cultivar name="highworth"/>
    </lablab>
    <lucerne>
+      <class    name="plant"/>
       <cultivar name="lucerne_regrowth"/>
       <cultivar name="dormancy"/>
       <cultivar name="lucerne_delayed"/>
@@ -173,6 +182,7 @@
       <cultivar name="Longdong"/>
    </lucerne>
    <lupin>
+      <class    name="plant"/>
       <cultivar name="belara_testHIincr"/>
       <cultivar name="belara"/>
       <cultivar name="kalya"/>
@@ -185,6 +195,7 @@
       <cultivar name="short"/>
    </lupin>
    <maize>
+      <class    name="plant"/>
       <cultivar name="katumani"/>
       <cultivar name="makueni"/>
       <cultivar name="dekalb_xl82"/>
@@ -216,6 +227,7 @@
       <cultivar name="Zhongdan2"/>
    </maize>
    <millet>
+      <class    name="plant"/>
       <cultivar name="bj104"/>
       <cultivar name="rcbic911"/>
       <cultivar name="wrajpop"/>
@@ -223,9 +235,11 @@
       <cultivar name="mh179"/>
    </millet>
    <mucuna>
+      <class    name="plant"/>
       <cultivar name="mucuna_gen"/>
    </mucuna>
    <mungbean>
+      <class    name="plant"/>
       <cultivar name="berken"/>
       <cultivar name="king"/>
       <cultivar name="satin"/>
@@ -237,6 +251,7 @@
       <cultivar name="delta"/>
    </mungbean>
    <navybean>
+      <class    name="plant"/>
       <cultivar name="rainbird"/>
       <cultivar name="rb_long"/>
       <cultivar name="rb_short"/>
@@ -245,9 +260,11 @@
       <cultivar name="caucaya"/>
    </navybean>
    <oryza>
+      <class    name="plant"/>
       <cultivar name="IR72"/>
    </oryza>
    <ozcot>
+      <class    name="plant"/>
       <cultivar name="CS50"/>
       <cultivar name="CS6S"/>
       <cultivar name="CS8S"/>
@@ -270,6 +287,7 @@
       <cultivar name="V15"/>
    </ozcot>
    <peanut>
+      <class    name="plant"/>
       <cultivar name="early_bunch"/>
       <cultivar name="mccubbin"/>
       <cultivar name="chico"/>
@@ -283,12 +301,14 @@
       <cultivar name="SO95"/>
    </peanut>
    <pigeonp>
+      <class    name="plant"/>
       <cultivar name="long_duration"/>
       <cultivar name="medium_duration"/>
       <cultivar name="short_duration"/>
       <cultivar name="extrashort_duration"/>
    </pigeonp>
    <sorghum>
+      <class    name="plant"/>
       <cultivar name="early   "/>
       <cultivar name="medium  "/>
       <cultivar name="late    "/>
@@ -305,6 +325,7 @@
       <cultivar name="CSH13R"/>
    </sorghum>
    <soybean>
+      <class    name="plant"/>
       <cultivar name="promiscuous_nodulator"/>
       <cultivar name="davis"/>
       <cultivar name="buchanan"/>
@@ -317,11 +338,11 @@
       <cultivar name="harvest12"/>
    </soybean>
    <stylo>
+      <class    name="plant"/>
       <cultivar name="stylo.verano"/>
    </stylo>
    <sugar>
-      <cultivar name="plant_crop"/>
-      <cultivar name="ratoon_crop"/>
+      <class    name="plant"/>
       <cultivar name="q117"/>
       <cultivar name="q117_ratoon"/>
       <cultivar name="q117_fum"/>
@@ -360,6 +381,7 @@
       <cultivar name="q124_ratoon"/>
    </sugar>
    <sunflower>
+      <class    name="plant"/>
       <cultivar name="Quick"/>
       <cultivar name="Medium"/>
       <cultivar name="Slow"/>
@@ -381,12 +403,15 @@
       <cultivar name="Suncross42"/>
    </sunflower>
    <sweetcorn>
+   <class    name="plant"/>
       <cultivar name="h5"/>
    </sweetcorn>
    <sweetsorghum>
+      <class    name="plant"/>
       <cultivar name="sugargraze"/>
    </sweetsorghum>
    <weed>
+      <class    name="plant"/>
       <cultivar name="annual"/>
       <cultivar name="perennial"/>
       <cultivar name="determinate"/>
@@ -405,6 +430,7 @@
       <cultivar name="late   "/>
    </weed>
    <barley>
+      <class    name="plant"/>
       <cultivar name="schooner"/>
       <cultivar name="skiff"/>
       <cultivar name="franklin"/>
@@ -419,10 +445,12 @@
       <cultivar name="keel"/>
    </barley>
    <horsegram>
+      <class    name="plant"/>
       <cultivar name="co1"/>
       <cultivar name="paiyur"/>
    </horsegram>
-   <butterflypea> 
+   <butterflypea>
+      <class    name="plant"/>
       <cultivar name="milgarra"/>
    </butterflypea>
 </components>

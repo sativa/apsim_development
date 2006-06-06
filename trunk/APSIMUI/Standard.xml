@@ -385,7 +385,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
             if (rain[[rainnumdays]] >= [raincrit] AND esw >= [esw_amount]) OR
                 ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
                ChooseNextCrop = 'yes'   ! for rotations
-               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], crop_class = [class]
             endif
             if today = date('[date2]') then
                ChooseNextCrop = 'yes'
@@ -406,6 +406,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
         <property name="density" value="100" type="text" description="Enter sowing density  (plants/m2) : " />
         <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
         <property name="cultivar" value="hartog" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+        <property name="class" value="plant" type="classes" croppropertyname="crop" description="Enter crop growth class : " />
         <property name="row_spacing" value="250" type="text" description="Enter row spacing (mm) : " />
       </category>
     </rule>
@@ -445,7 +446,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
     <rule name="Sow on a fixed date">
       <condition name="start_of_day"><![CDATA[
         if (today = date('[date]') then
-              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], crop_class = [class]
          endif
                ]]></condition>
       <category name="Sowing criteria">
@@ -456,6 +457,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
         <property name="density" value="10" type="text" description="Enter sowing density  (plants/m2) : " />
         <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
         <property name="cultivar" value="" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+        <property name="class" value="plant" type="classes" croppropertyname="crop" description="Enter crop growth class : " />
         <property name="row_spacing" value="500" type="text" description="Enter row spacing (mm) : " />
       </category>
     </rule>
@@ -527,6 +529,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
         <property name="density" value="200" type="text" description="Enter sowing density  (plants/m2) : " />
         <property name="depth" value="20" type="text" description="Enter sowing depth  (mm) : " />
         <property name="cultivar" value="" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+        <property name="class" value="plant" type="classes" croppropertyname="crop" description="Enter crop growth class : " />
         <property name="row_spacing" value="250" type="text" description="Enter row spacing (mm) : " />
       </category>
       <category name="Number of years">
@@ -540,7 +543,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
 
       <condition name="start_of_day"><![CDATA[
        if (today = date('[date]') then
-              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], crop_class = [class]
               [crop]LeyYears = [leyyears]
        endif
 
@@ -573,6 +576,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
         <property name="density" value="200" type="text" description="Enter sowing density  (plants/m2) : " />
         <property name="depth" value="20" type="text" description="Enter sowing depth  (mm) : " />
         <property name="cultivar" value="" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+        <property name="class" value="plant" type="classes" croppropertyname="crop" description="Enter crop growth class : " />
         <property name="row_spacing" value="250" type="text" description="Enter row spacing (mm) : " />
       </category>
       <category name="Number of years">
@@ -590,7 +594,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
             if (rain[[rainnumdays]] >= [raincrit] AND esw >= [esw_amount]) OR
                 ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
                ChooseNextCrop = 'yes'   ! for rotations
-               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], crop_class = [class]
                [crop]LeyYears = [leyyears]! for the length of the lucerne ley
             endif
             if today = date('[date2]') then

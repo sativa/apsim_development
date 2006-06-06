@@ -59,7 +59,7 @@ Public Class LogicUI
         Me.TabControl.Location = New System.Drawing.Point(0, 40)
         Me.TabControl.Name = "TabControl"
         Me.TabControl.SelectedIndex = 0
-        Me.TabControl.Size = New System.Drawing.Size(688, 552)
+        Me.TabControl.Size = New System.Drawing.Size(1020, 552)
         Me.TabControl.TabIndex = 0
         '
         'InitTab
@@ -67,7 +67,7 @@ Public Class LogicUI
         Me.InitTab.Controls.Add(Me.InitTextBox)
         Me.InitTab.Location = New System.Drawing.Point(4, 22)
         Me.InitTab.Name = "InitTab"
-        Me.InitTab.Size = New System.Drawing.Size(680, 526)
+        Me.InitTab.Size = New System.Drawing.Size(1012, 526)
         Me.InitTab.TabIndex = 0
         Me.InitTab.Text = "Initialisation"
         '
@@ -77,7 +77,7 @@ Public Class LogicUI
         Me.InitTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.InitTextBox.Location = New System.Drawing.Point(0, 0)
         Me.InitTextBox.Name = "InitTextBox"
-        Me.InitTextBox.Size = New System.Drawing.Size(680, 526)
+        Me.InitTextBox.Size = New System.Drawing.Size(1012, 526)
         Me.InitTextBox.TabIndex = 0
         Me.InitTextBox.Text = ""
         Me.InitTextBox.WordWrap = False
@@ -126,7 +126,7 @@ Public Class LogicUI
         '
         Me.Controls.Add(Me.TabControl)
         Me.Name = "LogicUI"
-        Me.Size = New System.Drawing.Size(688, 592)
+        Me.Size = New System.Drawing.Size(1020, 592)
         Me.Controls.SetChildIndex(Me.TabControl, 0)
         Me.TabControl.ResumeLayout(False)
         Me.InitTab.ResumeLayout(False)
