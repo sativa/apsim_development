@@ -188,6 +188,13 @@ Public Class RuleUI
             PropertyGrid.Cells(Row, 2).Value = Data.Attribute("name")
             PropertyGrid.Cells(Row, 3).Value = Prop.Name
             ApsimUI.SetCellType(PropertyGrid, Row, 1, Prop)
+            If TypeOf (PropertyGrid.Cells(Row, 1).CellType) Is FarPoint.Win.Spread.CellType.ComboBoxCellType Then
+                Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = PropertyGrid.Cells(Row, 1).CellType
+
+                If Trim(PropertyGrid.Cells(Row, 1).Value) = "" And Combo.Items.Length > 0 Then
+                    PropertyGrid.Cells(Row, 1).Value = Combo.Items(0)
+                End If
+            End If
             Row = Row + 1
         Next
     End Sub
