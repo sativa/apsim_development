@@ -885,6 +885,9 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
         <property name="crop20" value="nil" type="crop" description="Enter 20th crop : " />
       </category>
     </rule>
+  </manager>
+  <folder name="Stock">
+  <manager name="Cattle">
     <rule name="Buy cattle on a fixed date">
       <condition name="init">
             <![CDATA[
@@ -957,6 +960,8 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
         <property name="sell_number" value="5" type="text" description="Number of stock : " />
       </category>
     </rule>
+  </manager>
+  <manager name="Sheep">
     <rule name="Buy sheep on a fixed date">
       <condition name="init">
             <![CDATA[
@@ -1029,6 +1034,8 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
         <property name="sell_number" value="50" type="text" description="Number of stock : " />
       </category>
     </rule>
+  </manager>
+  <manager name="Supplement">
     <rule name="Buy supplement on a fixed date">
       <condition name="start_of_day"><![CDATA[
         if (today = date('[buy_date]') then
@@ -1280,6 +1287,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
       </category>
     </rule>
   </manager>
+  </folder>
   <folder name="Tcl">
    <tclmanager name="TCL Manager (standalone)">
      <rule name="Logic">
