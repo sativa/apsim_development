@@ -29,7 +29,6 @@ Public Class ExplorerUI
         AddHandler Controller.SelectionChangingEvent, AddressOf OnSelectionChanging
         AddHandler Controller.SelectionChangedEvent, AddressOf OnSelectionChanged
         AddHandler Controller.NewDataEvent, AddressOf OnNewDataEvent
-        AddHandler Controller.RenameEvent, AddressOf OnRename
         AddHandler Controller.BeforeSaveEvent, AddressOf OnBeforeSave
         MyHelpLabel.Visible = False
     End Sub
@@ -182,7 +181,6 @@ Public Class ExplorerUI
         End If
     End Sub
 
-
     ' -----------------------------------------------------
     ' User is selecting a new node - save current UI
     ' -----------------------------------------------------
@@ -207,7 +205,7 @@ Public Class ExplorerUI
     ' -----------------------------------------------------
     ' User has selected a node - update user interface
     ' -----------------------------------------------------
-    Public Sub OnSelectionChanged()
+    Public Sub OnSelectionChanged(ByVal OldSelections As StringCollection, ByVal NewSelections As StringCollection)
         If Controller.SelectedPaths.Count = 1 Then
             ShowUI(Controller.Data)
         Else
@@ -227,7 +225,7 @@ Public Class ExplorerUI
     ' -----------------------------------------------
     ' The data structure has changed - refresh the ui
     ' -----------------------------------------------
-    Public Sub OnRename()
+    Public Sub OnRename(ByVal OldNodeName As String, ByVal NewNodeName As String)
         If Not IsNothing(MyCurrentUI) Then
             If Not MyCurrentUI.Controller Is Controller Then
                 MyCurrentUI.Controller.AllData = Controller.Data

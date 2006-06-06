@@ -17,14 +17,15 @@ Public MustInherit Class BaseController
     Private IsReadOnly As Boolean
 
     Delegate Sub NotifyEventHandler()
+    Delegate Sub NodeChangedEventHandler(ByVal OldNodeName As String, ByVal Node As APSIMData)
+    Delegate Sub SelectionChangedHandler(ByVal OldSelections As StringCollection, ByVal NewSelections As StringCollection)
+    Delegate Sub NotifyRenameHandler(ByVal OldNodePath As String, ByVal NewNodePath As String)
     Public Event NewDataEvent As NotifyEventHandler
     Public Event DataChangedEvent As NotifyEventHandler
-    Public Event AddEvent As NotifyEventHandler
-    Public Event DeleteEvent As NotifyEventHandler
-    Public Event RenameEvent As NotifyEventHandler
+    Public Event NodeChangedEvent As NodeChangedEventHandler
     Public Event BeforeSaveEvent As NotifyEventHandler
     Public Event SelectionChangingEvent As NotifyEventHandler
-    Public Event SelectionChangedEvent As NotifyEventHandler
+    Public Event SelectionChangedEvent As SelectionChangedHandler
     Public Event ReadonlyEvent As NotifyEventHandler
 
     Sub New(ByVal DefaultExtension As String, _
@@ -69,18 +70,12 @@ Public MustInherit Class BaseController
         Set(ByVal Value As APSIMData)
             MyData = Value
 
-            ' remove any selections now that we have new data.
-            If MySelectedData.Count > 0 Then
-                MySelectedData.Clear()
-            End If
-            RaiseEvent SelectionChangedEvent()
-
             RaiseEvent NewDataEvent()
             AddHandler MyData.DataChanged, AddressOf OnDataChanged
 
-            MySelectedData.Add(MyData.Name)
-            RaiseEvent SelectionChangedEvent()
-
+            Dim NewSelections As New StringCollection
+            NewSelections.Add(MyData.Name)
+            SelectedPaths = NewSelections
         End Set
     End Property
     Private Sub OnDataChanged()
@@ -269,9 +264,13 @@ Public MustInherit Class BaseController
             Return ReturnValues
         End Get
         Set(ByVal Paths As StringCollection)
+            Dim OldSelections As New StringCollection
+            For Each Selection As String In MySelectedData
+                OldSelections.Add(Selection)
+            Next
             RaiseEvent SelectionChangingEvent()
             MySelectedData = Paths
-            RaiseEvent SelectionChangedEvent()
+            RaiseEvent SelectionChangedEvent(OldSelections, MySelectedData)
         End Set
     End Property
     Public ReadOnly Property SelectedData() As ArrayList
@@ -378,7 +377,8 @@ Public MustInherit Class BaseController
 
     Public Function AllowRenameSelected() As Boolean
         ' Do we allow the node, as specified by FullPath, to be renamed?
-        Return AllowChanges() AndAlso MySelectedData.Count = 1 AndAlso Data.Name.ToLower() <> "shared"
+        Return AllowChanges() AndAlso MySelectedData.Count = 1 AndAlso Data.Name.ToLower() <> "shared" _
+               AndAlso MySelectedData(0).IndexOf("Shared:") = -1
     End Function
     Public ReadOnly Property AllowDeleteSelected() As Boolean
         Get
@@ -438,18 +438,19 @@ Public MustInherit Class BaseController
         ' Rename the node, as specified by FullPath, to NewName
 
         If AllowRenameSelected() Then
-            Dim SelectedNodePath As String = MySelectedData(0)
+            Dim OldNodePath As String = MySelectedData(0)
             Dim SelectedData As APSIMData = Data
             MySelectedData.Clear()
             SelectedData.Name = NewName
-            Dim PosDelimiter As String = SelectedNodePath.LastIndexOf("|")
+            Dim NewNodePath As String = OldNodePath
+            Dim PosDelimiter As String = NewNodePath.LastIndexOf("|")
             If PosDelimiter = -1 Then
-                SelectedNodePath = NewName
+                NewNodePath = NewName
             Else
-                SelectedNodePath = SelectedNodePath.Substring(0, PosDelimiter + 1) + NewName
+                NewNodePath = NewNodePath.Substring(0, PosDelimiter + 1) + NewName
             End If
-            MySelectedData.Add(SelectedNodePath)
-            RaiseEvent RenameEvent()
+            MySelectedData.Add(NewNodePath)
+            RaiseEvent NodeChangedEvent(OldNodePath, Data)
         End If
     End Sub
     Public Sub AddXMLToSelected(ByVal XML As String)
@@ -457,32 +458,33 @@ Public MustInherit Class BaseController
         If MySelectedData.Count = 1 Then
             Dim ParentData As APSIMData = Data
             Dim NewData As New APSIMData("<dummy>" + XML + "</dummy>")
-            MySelectedData.Clear()
+            Dim NewSelections As New StringCollection
             For Each Child As APSIMData In NewData.Children
                 Dim NewChildData As APSIMData = ParentData.Add(Child)
-                MySelectedData.Add(GetFullPathForData(NewChildData))
+                NewSelections.Add(GetFullPathForData(NewChildData))
             Next
-            RaiseEvent AddEvent()
-            RaiseEvent SelectionChangedEvent()
-
+            RaiseEvent NodeChangedEvent(GetFullPathForData(ParentData), ParentData)
+            SelectedPaths = NewSelections
         End If
     End Sub
     Public Sub Delete(ByVal FullPaths As StringCollection)
         If Me.AllowDeleteSelected Then
-            ' Delete all nodes as specified by FulllPaths
-            Dim HaveModifiedSelections As Boolean = False
+            Dim NewSelections As New StringCollection
+            For Each Selection As String In MySelectedData
+                If FullPaths.IndexOf(Selection) = -1 Then
+                    NewSelections.Add(Selection)
+                End If
+            Next
+            SelectedPaths = NewSelections
+
+            ' Delete all nodes as specified by FullPaths
+            Dim ParentData As APSIMData = Nothing
             For Each FullPath As String In FullPaths
                 Dim DataToDelete As APSIMData = GetDataForFullPath(FullPath)
-                If MySelectedData.IndexOf(FullPath) <> -1 Then
-                    MySelectedData.Remove(FullPath)
-                    HaveModifiedSelections = True
-                End If
+                ParentData = DataToDelete.Parent
                 DataToDelete.Parent.Delete(DataToDelete.Name)
             Next
-            RaiseEvent DeleteEvent()
-            If HaveModifiedSelections Then
-                RaiseEvent SelectionChangedEvent()
-            End If
+            RaiseEvent NodeChangedEvent(GetFullPathForData(ParentData), ParentData)
         End If
     End Sub
     Public Sub MoveSelectedUp()
@@ -495,8 +497,7 @@ Public MustInherit Class BaseController
                 Dim PosDelimiter As Integer = MySelectedData(i).LastIndexOf("|")
                 ParentData.MoveUp(MySelectedData(i).Substring(PosDelimiter + 1), "")
             Next
-            RaiseEvent AddEvent()
-            RaiseEvent SelectionChangedEvent()
+            RaiseEvent NodeChangedEvent(GetFullPathForData(ParentData), ParentData)
         End If
     End Sub
     Public Sub MoveSelectedDown()
@@ -509,8 +510,7 @@ Public MustInherit Class BaseController
                 Dim PosDelimiter As Integer = MySelectedData(i).LastIndexOf("|")
                 ParentData.MoveDown(MySelectedData(i).Substring(PosDelimiter + 1), "")
             Next
-            RaiseEvent AddEvent()
-            RaiseEvent SelectionChangedEvent()
+            RaiseEvent NodeChangedEvent(GetFullPathForData(ParentData), ParentData)
         End If
     End Sub
 
@@ -544,13 +544,13 @@ Public MustInherit Class BaseController
         End Get
     End Property
 
-    Public Sub DataHasBeenAdded()
-        RaiseEvent AddEvent()
+    Public Sub DataHasBeenAdded(ByVal OldDataPath As String, ByVal Node As APSIMData)
+        RaiseEvent NodeChangedEvent(OldDataPath, Node)
     End Sub
 
-    Public Sub DataHasBeenDeleted()
-        RaiseEvent DeleteEvent()
-    End Sub
+    'Public Sub DataHasBeenDeleted()
+    '    RaiseEvent DeleteEvent()
+    'End Sub
 
 #End Region
 

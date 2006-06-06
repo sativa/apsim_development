@@ -384,11 +384,17 @@ Public Class APSIMData
     End Function
     Property Name() As String
         Get
-            Dim AttributeNode As XmlNode = Node.Attributes.GetNamedItem("name")
-            If AttributeNode Is Nothing Then
-                Return Node.Name
+            If Me.Attribute("shortcut") <> "" Then
+                Dim RemoteSource As String = "shared" + "|" + Me.Attribute("shortcut")
+                Dim ShortCutNode As APSIMData = New APSIMData(Node.OwnerDocument.DocumentElement, DataChangedEvent).FindChild(RemoteSource, "|")
+                Return "Shared: " + ShortCutNode.Name
             Else
-                Return AttributeNode.Value
+                Dim AttributeNode As XmlNode = Node.Attributes.GetNamedItem("name")
+                If AttributeNode Is Nothing Then
+                    Return Node.Name
+                Else
+                    Return AttributeNode.Value
+                End If
             End If
         End Get
         Set(ByVal Value As String)
