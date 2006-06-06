@@ -42,6 +42,10 @@ cd %APSROOT%\apsim\erosion\source
 echo ------Compiling %CD%
 %APSMAKE%
 
+cd %APSROOT%\apsim\farmwisesequencer\source
+echo ------Compiling %CD%
+%APSMAKE%
+
 cd %APSROOT%\apsim\fertiliz\source
 echo ------Compiling %CD%
 %APSMAKE%
