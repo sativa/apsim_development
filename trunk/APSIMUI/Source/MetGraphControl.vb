@@ -89,7 +89,7 @@ Public Class MetGraphControl
         Me.ChartPanel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ChartPanel.Location = New System.Drawing.Point(0, 0)
         Me.ChartPanel.Name = "ChartPanel"
-        Me.ChartPanel.Size = New System.Drawing.Size(575, 469)
+        Me.ChartPanel.Size = New System.Drawing.Size(907, 469)
         Me.ChartPanel.TabIndex = 5
         Me.ChartPanel.Visible = False
         '
@@ -107,7 +107,7 @@ Public Class MetGraphControl
         Me.ChartBox.Location = New System.Drawing.Point(0, 45)
         Me.ChartBox.Name = "ChartBox"
         Me.ChartBox.Settings = CType(resources.GetObject("ChartBox.Settings"), Xceed.Chart.Core.Settings)
-        Me.ChartBox.Size = New System.Drawing.Size(575, 421)
+        Me.ChartBox.Size = New System.Drawing.Size(907, 421)
         Me.ChartBox.TabIndex = 12
         Me.ChartBox.Watermarks = CType(resources.GetObject("ChartBox.Watermarks"), Xceed.Chart.Standard.WatermarkCollection)
         '
@@ -148,7 +148,7 @@ Public Class MetGraphControl
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.ChartPanel)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.ContentsBox)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(575, 469)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(907, 469)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         '
         'ToolStripContainer1.LeftToolStripPanel
@@ -157,7 +157,7 @@ Public Class MetGraphControl
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 40)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
         Me.ToolStripContainer1.RightToolStripPanelVisible = False
-        Me.ToolStripContainer1.Size = New System.Drawing.Size(688, 469)
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(1020, 469)
         Me.ToolStripContainer1.TabIndex = 9
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
         Me.ToolStripContainer1.TopToolStripPanelVisible = False
@@ -169,7 +169,7 @@ Public Class MetGraphControl
         Me.ToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow
         Me.ToolStrip.Location = New System.Drawing.Point(0, 3)
         Me.ToolStrip.Name = "ToolStrip"
-        Me.ToolStrip.Size = New System.Drawing.Size(113, 283)
+        Me.ToolStrip.Size = New System.Drawing.Size(113, 249)
         Me.ToolStrip.TabIndex = 0
         Me.ToolStrip.Text = "ToolStrip1"
         '
@@ -249,7 +249,7 @@ Public Class MetGraphControl
         '
         Me.Controls.Add(Me.ToolStripContainer1)
         Me.Name = "MetGraphControl"
-        Me.Size = New System.Drawing.Size(688, 509)
+        Me.Size = New System.Drawing.Size(1020, 509)
         Me.Controls.SetChildIndex(Me.ToolStripContainer1, 0)
         Me.ChartPanel.ResumeLayout(False)
         CType(Me.YearBox, System.ComponentModel.ISupportInitialize).EndInit()
@@ -332,13 +332,13 @@ Public Class MetGraphControl
     Private Sub DoRainfallChart()
         ChartHelper.Clear()
         ChartHelper.DataTable = ReadAnnualDataTable()
-        ChartHelper.CreateChartSeriesFromDataTable("Rainfall", "date", "rain", False, _
+        ChartHelper.CreateBarChartSeriesFromDataTable("Rainfall", "date", "rain", False, _
             Drawing.Color.Blue, 1, LinePattern.Solid, _
             Xceed.Chart.Core.StandardAxis.PrimaryX, Xceed.Chart.Core.StandardAxis.PrimaryY)
         ChartBox.Refresh()
     End Sub
     Private Sub DoMonthlyRainfallChart()
-        Dim r(11) As Double
+        Dim r(12) As Double
         Dim e(11) As Double
 
         Dim DailyData As New DataTable
@@ -353,22 +353,29 @@ Public Class MetGraphControl
         For Each row As DataRow In DailyData.Rows
             Dim ThisDay As Date = row(DateColumn)
             If Not IsNothing(RainColumn) Then
-                r(ThisDay.Month - 1) = r(ThisDay.Month - 1) + row(RainColumn)
+                r(ThisDay.Month) = r(ThisDay.Month) + row(RainColumn)
             End If
             If Not IsNothing(EvapColumn) Then
                 e(ThisDay.Month - 1) = e(ThisDay.Month - 1) + row(EvapColumn)
             End If
         Next
+
+        ChartHelper.Clear()
+        Dim rainmonth(12) As Double
+        For i As Integer = 1 To 13
+            rainmonth(i - 1) = i
+        Next
+
+        ChartHelper.CreateBarChartSeriesFromArray("Rainfall", rainmonth, r, False, _
+                Color.Blue, 1, LinePattern.Solid, _
+                StandardAxis.PrimaryX, StandardAxis.PrimaryY)
+
         Dim month(11) As Double
         For i As Integer = 1 To 12
             month(i - 1) = i
         Next
 
-        ChartHelper.Clear()
-        ChartHelper.CreateChartSeriesFromArray("Rainfall", month, r, False, _
-                Color.Blue, 1, LinePattern.Solid, _
-                StandardAxis.PrimaryX, StandardAxis.PrimaryY)
-        ChartHelper.CreateChartSeriesFromArray("Evaporation", month, e, False, _
+        ChartHelper.CreateChartSeriesFromArray("Evaporation", Month, e, False, _
                 Color.Red, 1, LinePattern.Solid, _
                 StandardAxis.PrimaryX, StandardAxis.PrimaryY)
         ChartBox.Refresh()
@@ -514,11 +521,4 @@ Public Class MetGraphControl
 
     End Function
 
-    Private Sub RainfallButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RainfallButton.Click
-
-    End Sub
-
-    Private Sub RawDataButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RawDataButton.Click
-
-    End Sub
 End Class
