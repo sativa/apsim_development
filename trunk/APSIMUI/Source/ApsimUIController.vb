@@ -389,6 +389,36 @@ Public Class ApsimUIController
         Return TypesData.Child(GivenType).Child("Description").Value
     End Function
 
+    ' -----------------------------------------------------------------
+    ' Return list of parameter bounds for a given type
+    ' -----------------------------------------------------------------
+    Public Function CheckParameterBound(ByVal GivenType As String, ByVal parameter As String, ByVal value As String) As String
+        Dim result As String = ""
+
+        Dim bounds As APSIMData = TypesData.Child(GivenType).Child("bounds")
+        If Not IsNothing(bounds) Then
+            Dim bound As APSIMData = bounds.Child(parameter)
+            If Not IsNothing(bound) Then
+                Dim max As String = bound.Attribute("max")
+                If max <> "" Then
+                    If CType(value, Single) > CType(max, Single) Then
+                        result = "Value is greater than recommended upper value of " + Str(max)
+                    End If
+                End If
+                Dim min As String = bound.Attribute("min")
+                If min <> "" Then
+                    If CType(value, Single) < CType(min, Single) Then
+                        result = "Value is less than recommended lowest value of " + Str(min)
+                    End If
+                End If
+
+            Else
+                result = ""
+            End If
+        End If
+        Return result
+
+    End Function
 
     ' ---------------------------------------
     ' Show some help file as specified by url

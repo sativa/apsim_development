@@ -138,17 +138,15 @@ Public Class GenericUI
 
     End Sub
 
-
-    Private Sub Grid_CurrentCellChanged1(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        If Me.Visible Then
-            Controller.Data.DataTable = Grid.DataSource
-        End If
-    End Sub
-
     Private Sub Grid_CellChanged(ByVal sender As Object, ByVal e As FarPoint.Win.Spread.SheetViewEventArgs) Handles Grid.CellChanged
         If Not InRefresh Then
             Dim Prop As APSIMData = Controller.Data.Children()(e.Row)
             Prop.Value = Grid.Cells(e.Row, e.Column).Value
+            Dim UIManager As ApsimUIController = Controller
+            Dim msg As String = UIManager.CheckParameterBound(Controller.Data.Type, Prop.Name, Prop.Value)
+            If msg <> "" Then
+                MsgBox(msg, MsgBoxStyle.Exclamation, "User Error")
+            End If
         End If
     End Sub
 
