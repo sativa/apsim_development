@@ -61,9 +61,7 @@ Public Class DataTree
     Friend WithEvents MoveUpMenuItem As System.Windows.Forms.MenuItem
     Friend WithEvents MoveDownMenuItem As System.Windows.Forms.MenuItem
     Friend WithEvents RenameMenuItem As System.Windows.Forms.MenuItem
-    Friend WithEvents TreeToolTip As System.Windows.Forms.ToolTip
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
         Me.TreeView = New System.Windows.Forms.TreeView
         Me.ContextMenu1 = New System.Windows.Forms.ContextMenu
         Me.AddFolderMenuItem = New System.Windows.Forms.MenuItem
@@ -76,7 +74,6 @@ Public Class DataTree
         Me.MenuItem2 = New System.Windows.Forms.MenuItem
         Me.MoveUpMenuItem = New System.Windows.Forms.MenuItem
         Me.MoveDownMenuItem = New System.Windows.Forms.MenuItem
-        Me.TreeToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.SuspendLayout()
         '
         'TreeView
@@ -86,13 +83,12 @@ Public Class DataTree
         Me.TreeView.ContextMenu = Me.ContextMenu1
         Me.TreeView.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TreeView.HideSelection = False
-        Me.TreeView.ImageIndex = -1
         Me.TreeView.LabelEdit = True
         Me.TreeView.Location = New System.Drawing.Point(0, 40)
         Me.TreeView.Name = "TreeView"
         Me.TreeView.PathSeparator = "|"
-        Me.TreeView.SelectedImageIndex = -1
-        Me.TreeView.Size = New System.Drawing.Size(958, 698)
+        Me.TreeView.ShowNodeToolTips = True
+        Me.TreeView.Size = New System.Drawing.Size(843, 549)
         Me.TreeView.TabIndex = 0
         '
         'ContextMenu1
@@ -155,19 +151,12 @@ Public Class DataTree
         Me.MoveDownMenuItem.ShowShortcut = False
         Me.MoveDownMenuItem.Text = "Move do&wn    Ctrl+Down"
         '
-        'TreeToolTip
-        '
-        Me.TreeToolTip.AutomaticDelay = 1500
-        Me.TreeToolTip.AutoPopDelay = 5000
-        Me.TreeToolTip.InitialDelay = 1500
-        Me.TreeToolTip.ReshowDelay = 300
-        '
         'DataTree
         '
         Me.AllowDrop = True
         Me.Controls.Add(Me.TreeView)
         Me.Name = "DataTree"
-        Me.Size = New System.Drawing.Size(958, 738)
+        Me.Size = New System.Drawing.Size(843, 589)
         Me.Controls.SetChildIndex(Me.TreeView, 0)
         Me.ResumeLayout(False)
 
@@ -313,6 +302,9 @@ Public Class DataTree
         Dim ImageIndex As Integer = Controller.SmallImageIndex(Data.Type)
         Node.ImageIndex = ImageIndex
         Node.SelectedImageIndex = ImageIndex
+        If Data.Attribute("description") <> "" Then
+            Node.ToolTipText = Data.Attribute("description")
+        End If
 
         Dim Selected As Boolean = Controller.SelectedPaths.IndexOf(BaseController.GetFullPathForData(Data)) >= 0
         PaintNode(Node, Selected)
@@ -348,9 +340,6 @@ Public Class DataTree
         If UserChange Then
             Dim Control As Boolean = (ModifierKeys = Keys.Control)
             Dim Shift As Boolean = (ModifierKeys = Keys.Shift)
-
-            ' Reset the tooltip before moving on.
-            Me.TreeToolTip.Dispose()
 
             ' selecting the node twice while pressing CTRL ?
             Dim SelectedPaths As StringCollection = Controller.SelectedPaths()
@@ -471,14 +460,6 @@ Public Class DataTree
                 End If
             End If
             Controller.SelectedPaths = SelectedPaths
-
-            Try
-                Me.TreeToolTip.SetToolTip(Me.TreeView, Controller.Data.Attribute("description"))
-
-            Catch ex As System.Exception
-                ' Ignore all errors when trying to set the tree tooltip
-
-            End Try
 
             UserChange = True
         End If
