@@ -152,6 +152,8 @@ Public Class LogicUI
         Dim text As String = Replace(InitTextBox.Text, vbCrLf, "[cr]")
         If text = Nothing Then
             text = ""
+        ElseIf Not text.StartsWith(" ") Then
+            text = " " + text
         End If
         Controller.Data.Child("init").Value = text
     End Sub
@@ -159,6 +161,8 @@ Public Class LogicUI
         Dim text As String = Replace(StartOfDayTextBox.Text, vbCrLf, "[cr]")
         If text = Nothing Then
             text = ""
+        ElseIf Not text.StartsWith(" ") Then
+            text = " " + text
         End If
         Controller.Data.Child("startofday").Value = text
     End Sub
@@ -166,6 +170,8 @@ Public Class LogicUI
         Dim text As String = Replace(EndOfDayTextBox.Text, vbCrLf, "[cr]")
         If text = Nothing Then
             text = ""
+        ElseIf Not text.StartsWith(" ") Then
+            text = " " + text
         End If
         Controller.Data.Child("endofday").Value = text
     End Sub
