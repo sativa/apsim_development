@@ -570,6 +570,12 @@ Public Class ApsimUIController
             CultivarCombo.Editable = True
             Grid.Cells(row, col).CellType = CultivarCombo
 
+        ElseIf Prop.Attribute("type") = "classes" Then
+            Dim CultivarCombo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
+            CultivarCombo.Items = GetMatchingModuleNames(Prop)
+            CultivarCombo.Editable = True
+            Grid.Cells(row, col).CellType = CultivarCombo
+
         End If
     End Sub
 

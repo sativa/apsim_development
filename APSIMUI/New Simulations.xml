@@ -38,7 +38,7 @@
             if (rain[[rainnumdays]] >= [raincrit] AND esw >= [esw_amount]) OR
                 ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
                ChooseNextCrop = 'yes'   ! for rotations
-               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], crop_class = [class]
             endif
             if today = date('[date2]') then
                ChooseNextCrop = 'yes'
@@ -59,6 +59,7 @@
             <property name="density" value="100" type="text" description="Enter sowing density  (plants/m2) : " />
             <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
             <property name="cultivar" value="hartog" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="class" value="plant" type="classes" croppropertyname="crop" description="Enter crop growth class : " />
             <property name="row_spacing" value="250" type="text" description="Enter row spacing (mm) : " />
           </category>
         </rule>
@@ -856,7 +857,7 @@
             if (rain[[rainnumdays]] >= [raincrit] AND esw >= [esw_amount]) OR
                 ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
                ChooseNextCrop = 'yes'   ! for rotations
-               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], crop_class = [class]
             endif
             if today = date('[date2]') then
                ChooseNextCrop = 'yes'
@@ -877,6 +878,7 @@
             <property name="density" value="100" type="text" description="Enter sowing density  (plants/m2) : " />
             <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
             <property name="cultivar" value="hartog" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="class" value="plant" type="classes" croppropertyname="crop" description="Enter crop growth class : " />
             <property name="row_spacing" value="250" type="text" description="Enter row spacing (mm) : " />
           </category>
         </rule>
@@ -3860,7 +3862,7 @@
             if (rain[[rainnumdays]] >= [raincrit] AND esw >= [esw_amount]) OR
                 ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
                ChooseNextCrop = 'yes'   ! for rotations
-               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], crop_class = [class]
             endif
             if today = date('[date2]') then
                ChooseNextCrop = 'yes'
@@ -3881,6 +3883,7 @@
             <property name="density" value="25" type="text" description="Enter sowing density  (plants/m2) : " />
             <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
             <property name="cultivar" value="amethyst" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="class" value="plant" type="classes" croppropertyname="crop" description="Enter crop growth class : " />
             <property name="row_spacing" value="500" type="text" description="Enter row spacing (mm) : " />
           </category>
         </rule>
@@ -3891,7 +3894,7 @@
             if (rain[[rainnumdays]] >= [raincrit] AND esw >= [esw_amount]) OR
                 ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
                ChooseNextCrop = 'yes'   ! for rotations
-               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], crop_class = [class]
             endif
             if today = date('[date2]') then
                ChooseNextCrop = 'yes'
@@ -3912,6 +3915,7 @@
             <property name="density" value="100" type="text" description="Enter sowing density  (plants/m2) : " />
             <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
             <property name="cultivar" value="hartog" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="class" value="plant" type="classes" croppropertyname="crop" description="Enter crop growth class : " />
             <property name="row_spacing" value="250" type="text" description="Enter row spacing (mm) : " />
           </category>
         </rule>

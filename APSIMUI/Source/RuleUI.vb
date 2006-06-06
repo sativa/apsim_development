@@ -61,7 +61,7 @@ Public Class RuleUI
         Me.TabControl1.Location = New System.Drawing.Point(0, 40)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(688, 160)
+        Me.TabControl1.Size = New System.Drawing.Size(1020, 469)
         Me.TabControl1.TabIndex = 3
         '
         'TabPage1
@@ -69,7 +69,7 @@ Public Class RuleUI
         Me.TabPage1.Controls.Add(Me.FpSpread1)
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Size = New System.Drawing.Size(680, 134)
+        Me.TabPage1.Size = New System.Drawing.Size(1012, 443)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Properties"
         '
@@ -82,7 +82,7 @@ Public Class RuleUI
         Me.FpSpread1.Location = New System.Drawing.Point(0, 0)
         Me.FpSpread1.Name = "FpSpread1"
         Me.FpSpread1.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.PropertyGrid})
-        Me.FpSpread1.Size = New System.Drawing.Size(680, 134)
+        Me.FpSpread1.Size = New System.Drawing.Size(1012, 443)
         Me.FpSpread1.TabIndex = 0
         TipAppearance1.BackColor = System.Drawing.SystemColors.Info
         TipAppearance1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -112,7 +112,7 @@ Public Class RuleUI
         '
         Me.Controls.Add(Me.TabControl1)
         Me.Name = "RuleUI"
-        Me.Size = New System.Drawing.Size(688, 200)
+        Me.Size = New System.Drawing.Size(1020, 509)
         Me.Controls.SetChildIndex(Me.TabControl1, 0)
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
@@ -151,7 +151,7 @@ Public Class RuleUI
             AddPropertiesToGrid(Category, Row)
         Next
         PropertyGrid.RowCount = Row
-        UpdateAllCultivarDropDowns()
+        UpdateAllCropDropDowns()
 
         ' Create a tab for each condition.
         While TabControl1.TabPages.Count > 1
@@ -242,7 +242,7 @@ Public Class RuleUI
 
             Else
                 Prop.SetAttribute("value", PropertyGrid.Cells(e.Row, 1).Value)
-                If PropertyGrid.Cells(e.Row, 3).Value = "crop" Then UpdateAllCultivarDropDowns()
+                If PropertyGrid.Cells(e.Row, 3).Value = "crop" Then UpdateAllCropDropDowns()
             End If
 
         End If
@@ -270,7 +270,7 @@ Public Class RuleUI
     ' ----------------------------------
     ' Update any cultivar drop downs.
     ' ----------------------------------
-    Sub UpdateAllCultivarDropDowns()
+    Sub UpdateAllCropDropDowns()
         Dim Row As Integer = 0
         For Each Category As APSIMData In Controller.Data.Children("category")
             If PropertyGrid.Rows(Row).Locked Then
@@ -278,7 +278,9 @@ Public Class RuleUI
             End If
             For Each Prop As APSIMData In Category.Children("property")
                 If Prop.Attribute("type") = "cultivars" Then
-                    PopulateCultivarDropDown(Prop, PropertyGrid.Cells(Row, 1).CellType)
+                    PopulateDropDown("cultivar", Prop, PropertyGrid.Cells(Row, 1).CellType)
+                ElseIf Prop.Attribute("type") = "classes" Then
+                    PopulateDropDown("class", Prop, PropertyGrid.Cells(Row, 1).CellType)
                 End If
                 Row = Row + 1
             Next
@@ -289,9 +291,9 @@ Public Class RuleUI
     ' ------------------------------------------------------------------
     ' Populate a cultivar combo box
     ' ------------------------------------------------------------------
-    Sub PopulateCultivarDropDown(ByVal CultivarProp As APSIMData, ByVal Combo As CellType.ComboBoxCellType)
+    Sub PopulateDropDown(ByVal PropType As String, ByVal CropProp As APSIMData, ByVal Combo As CellType.ComboBoxCellType)
         Dim Values As New StringCollection
-        Dim CropPropertyName As String = CultivarProp.Attribute("croppropertyname")
+        Dim CropPropertyName As String = CropProp.Attribute("croppropertyname")
 
         ' Locate the crop property name to get the instance name of the crop.
         Dim InstanceName As String = ""
@@ -307,7 +309,7 @@ Public Class RuleUI
         If InstanceName <> "" Then
             Dim Crop As APSIMData = Cultivars.Child(InstanceName)
             If Not IsNothing(Crop) Then
-                Values = Crop.ChildList
+                Values = Crop.ChildList(PropType)
             End If
         End If
 
