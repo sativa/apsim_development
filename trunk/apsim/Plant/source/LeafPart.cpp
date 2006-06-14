@@ -317,39 +317,8 @@ void genericLeafPart::onHarvest(float /* cutting_height */, float remove_fr,
                               vector<float> &dlt_dm_p,
                               vector<float> &fraction_to_residue)
 {
-    float retain_fr_green, retain_fr_sen, retain_fr_dead;
-
-    float dm_init = u_bound(plantPart::c.dm_init * plant->getPlants(), plantPart::DMGreen);
-    float n_init = u_bound(dm_init * plantPart::c.n_init_conc, plantPart::NGreen);
-    float p_init = u_bound(dm_init * plantPart::c.p_init_conc, plantPart::PGreen);
-
-    retain_fr_green = divide(dm_init, DMGreen, 0.0);
-    retain_fr_sen  = 0.0;
-    retain_fr_dead = 0.0;
-
-    float dlt_dm_harvest = DMDead + DMGreen + DMSenesced - dm_init;
-    float dlt_n_harvest = NDead + NGreen + NSenesced - n_init;
-    float dlt_p_harvest = PDead + PGreen + PSen - p_init;
-
-    DMDead *= retain_fr_dead;
-    DMSenesced *= retain_fr_sen;
-    DMGreen *= retain_fr_green;
-
-    NDead *= retain_fr_dead;
-    NSenesced *= retain_fr_sen;
-    NGreen = n_init;
-
-    PDead *= retain_fr_dead;
-    PSen *= retain_fr_sen;
-    PGreen = p_init;
-
-    initialiseAreas();
-
-    dm_type.push_back(c.name);
-    fraction_to_residue.push_back(1.0 - remove_fr);
-    dlt_crop_dm.push_back(dlt_dm_harvest * gm2kg/sm2ha);
-    dlt_dm_n.push_back(dlt_n_harvest * gm2kg/sm2ha);
-    dlt_dm_p.push_back(dlt_p_harvest * gm2kg/sm2ha);
+   onHarvest_GenericAboveGroundPart(remove_fr, dm_type, dlt_crop_dm, dlt_dm_n, dlt_dm_p, fraction_to_residue);
+   initialiseAreas();
 }
 
 // Sanity checks
@@ -647,16 +616,13 @@ void genericLeafPart::update(void)
             }
         }
     gNodeNo += dltNodeNo;
-}
 
-// Transfer dead leaf areas
-void genericLeafPart::update2(float dying_fract_plants)
-{
-    plantPart::update2(dying_fract_plants);
     // transfer plant leaf area
     gLAI +=  dltLAI - dltSLAI;
     gSLAI += dltSLAI - dltSLAI_detached;
 
+    // Transfer dead leaf areas
+    float dying_fract_plants = plant->getDyingFractionPlants();
     float dlt_lai_dead  = gLAI  * dying_fract_plants;
     float dlt_slai_dead = gSLAI * dying_fract_plants;
     gLAI -=  dlt_lai_dead;

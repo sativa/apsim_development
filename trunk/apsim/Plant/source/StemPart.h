@@ -13,6 +13,7 @@ class plantStemPart : public plantPart
                      vector<float> &dlt_dm_n,
                      vector<float> &dlt_dm_p,
                      vector<float> &fraction_to_residue);
+      void update(void);
    };
 
 #endif /* StemPartH */

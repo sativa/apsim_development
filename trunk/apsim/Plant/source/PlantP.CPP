@@ -45,7 +45,6 @@ using namespace std;
 #include "PlantPhenology.h"
 
 
-static const char* floatType =        "<type kind=\"single\"/>";
 static const char* floatArrayType =   "<type kind=\"single\" array=\"T\"/>";
 
 /////////////These might be redundancies??//////////
@@ -117,37 +116,6 @@ void Plant::prepare_p(void)
       }
 }
 
-// ====================================================================
-void Plant::detachment_p(void)
-{
-//+  Purpose
-//     <insert here>
-
-//+  Changes
-//
-
-//+  Constant Values
-      const char*  my_name = "detachment_p";
-
-//+  Local Variables
-
-
-//- Implementation Section ----------------------------------
-      push_routine (my_name);
-
-      if (g.phosphorus_aware == true)
-      {
-         vector<plantPart*>::iterator part;
-
-         PlantP_detachment (myParts);
-
-         for (part = myParts.begin(); part != myParts.end(); part++)
-         {
-            (*part)->updatePDet();
-         }
-      }
-      pop_routine (my_name);
-}
 
 // ===============================
 void Plant::PlantP_partition (vector<plantPart*>&parts)
@@ -201,28 +169,6 @@ void Plant::PlantP_senescence (vector<plantPart*>&parts)
              t != parts.end();
              t++)
            (*t)->doPSenescence();
-}
-
-// ====================================================================
-void Plant::PlantP_detachment (vector<plantPart*>&parts)
-{
-//+  Purpose
-
-//+  Changes
-
-//+  Constant Values
-      const char*  my_name = "PlantP_detachment";
-
-//+  Local Variables
-      vector<plantPart*>::iterator part;
-
-//- Implementation Section ----------------------------------
-      push_routine (my_name);
-
-      for (part = parts.begin(); part != parts.end(); part++)
-         (*part)->doPDetachment();
-
-      pop_routine (my_name);
 }
 
 
@@ -635,6 +581,7 @@ void Plant::summary_p (void)
 //	cout << endl << "PlantP test finished" << endl;
 //	return 0;
 //}
+
 
 
 

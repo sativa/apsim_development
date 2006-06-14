@@ -51,31 +51,6 @@ static const char* doubleArrayType =  "<type kind=\"double\" array=\"T\"/>";
 static const char* stringType =       "<type kind=\"string\"/>";
 static const char* stringArrayType =  "<type kind=\"string\" array=\"T\"/>";
 static const char* logicalType =      "<type kind=\"boolean\"/>";
-static const char* IncorpFOMType =    "<type name = \"IncorpFOM\">" \
-                                      "   <field name=\"dlt_fom_type_name\" kind=\"string\"/>" \
-                                      "   <field name=\"dlt_fom_type_numbytes\" kind=\"integer4\"/>" \
-                                      "   <field name=\"dlt_fom_type_code\" kind=\"integer4\"/>" \
-                                      "   <field name=\"dlt_fom_type_isarray\" kind=\"boolean\"/>" \
-                                      "   <field name=\"dlt_fom_type_value\" kind=\"string\"/>" \
-
-                                      "   <field name=\"dlt_fom_wt_name\" kind=\"string\"/>" \
-                                      "   <field name=\"dlt_fom_wt_numbytes\" kind=\"integer4\"/>" \
-                                      "   <field name=\"dlt_fom_wt_code\" kind=\"integer4\"/>" \
-                                      "   <field name=\"dlt_fom_wt_isarray\" kind=\"boolean\"/>" \
-                                      "   <field name=\"dlt_fom_wt_value\" kind=\"single\" array=\"T\"/>" \
-
-                                      "   <field name=\"dlt_fom_n_name\" kind=\"string\"/>" \
-                                      "   <field name=\"dlt_fom_n_numbytes\" kind=\"integer4\"/>" \
-                                      "   <field name=\"dlt_fom_n_code\" kind=\"integer4\"/>" \
-                                      "   <field name=\"dlt_fom_n_isarray\" kind=\"boolean\"/>" \
-                                      "   <field name=\"dlt_fom_n_value\" kind=\"single\" array=\"T\"/>" \
-
-                                      "   <field name=\"dlt_fom_p_name\" kind=\"string\"/>" \
-                                      "   <field name=\"dlt_fom_p_numbytes\" kind=\"integer4\"/>" \
-                                      "   <field name=\"dlt_fom_p_code\" kind=\"integer4\"/>" \
-                                      "   <field name=\"dlt_fom_p_isarray\" kind=\"boolean\"/>" \
-                                      "   <field name=\"dlt_fom_p_value\" kind=\"single\" array=\"T\"/>" \
-                                      "</type>";
 static const char* sowDDML =          "<type name = \"sow\">" \
                                       "   <field name=\"crop_class_name\" kind=\"string\"/>" \
                                       "   <field name=\"crop_class_numbytes\" kind=\"integer4\"/>" \
@@ -287,7 +262,7 @@ void Plant::doInit1(protocol::Component *s)
    }
 
 // Init2. The rest of the system is here now..
-void Plant::doInit2(protocol::Component *s)
+void Plant::doInit2(protocol::Component *)
    {
    PlantP_set_phosphorus_aware(parent); // See whether a P module is plugged in
    plant_read_constants (); // Read constants
@@ -353,21 +328,6 @@ void Plant::doIDs(void)
    id.crop_chopped = parent->addRegistration(RegistrationType::event,
                                    "crop_chopped", cropChoppedDDML,
                                    "", "");
-   id.incorp_fom = parent->addRegistration(RegistrationType::event,
-                                   "incorp_fom", IncorpFOMType,
-                                   "", "");
-
-   // we want to send these events out
-//   id.add_residue_p = parent->addRegistration(RegistrationType::event,
-//                                    "add_residue_p", "",
-//                                    "", "");
-//   id.incorp_fom_p = parent->addRegistration(RegistrationType::event,
-//                                    "incorp_fom_p", "",
-//                                    "", "");
-   // we will want this variable
-   // ids.layered_p_uptake = systemInterface->addRegistration(RegistrationType::get,
-   //                                "layered_p_uptake", floatType,
-   //                                "", "");
    }
 
 // Register Methods, Events,
@@ -907,7 +867,7 @@ void Plant::doHarvest(unsigned &, unsigned &, protocol::Variant &v)
   }
 
 // Field a End crop event
-void Plant::doEndCrop(unsigned &, unsigned &, protocol::Variant &v)
+void Plant::doEndCrop(unsigned &, unsigned &, protocol::Variant &)
   {
   plant_end_crop ();            //end crop - turn into residue
 //  plant_zero_variables ();
@@ -938,7 +898,7 @@ void Plant::doRemoveCropBiomass(unsigned &, unsigned &, protocol::Variant &v)
    }
 
 // Field a class change event
-void Plant::doAutoClassChange(unsigned &/*fromId*/, unsigned &eventId, protocol::Variant &v)
+void Plant::doAutoClassChange(unsigned &/*fromId*/, unsigned &eventId, protocol::Variant &)
   {
   string ps = IDtoAction[eventId];
   plant_auto_class_change(ps.c_str());
@@ -1282,7 +1242,7 @@ void Plant::plant_detachment (int option /* (INPUT) option number */)
            {
            (*t)->doDmDetachment();
            (*t)->doNDetachment();
-           //(*t)->doPDetachment();
+           if (g.phosphorus_aware == true) (*t)->doPDetachment();
            }
         }
     else
@@ -1290,7 +1250,6 @@ void Plant::plant_detachment (int option /* (INPUT) option number */)
         throw std::invalid_argument ("invalid template option in detachment");
         }
 
-    detachment_p();
     }
 
 
@@ -2295,64 +2254,15 @@ void Plant::plant_update(float  g_row_spacing                          // (INPUT
     const char*  my_name = "plant_update" ;
 
 //+  Local Variables
-    double dying_fract_plants;                    // fraction op population dying (0-1)
-//    int   layer;                                  // layer index number
     float canopy_fac;
 
 //- Implementation Section ----------------------------------
     push_routine (my_name);
 
-// Note.
-// Accumulate is used to add a value into a specified array element.
-// If a specified increment of the element indicates a new element
-// is started, the value is distributed proportionately between the
-// two elements of the array
-
-// Add is used to add the elements of one array into the corresponding
-// elements of another array.
-
-    vector<plantPart *> someParts;
-    someParts.push_back(rootPart);
-    someParts.push_back(leafPart);
-    someParts.push_back(stemPart);
-
-    vector<plantPart *>::iterator part;
-
-
-// The following table describes the transfer of material that should
-// take place
-//                        POOLS
-//                 green senesced  dead
-// dlt_green         +                     (incoming only)
-// dlt_retrans       +-
-// dlt_senesced      -      +
-// dlt_dead          -      -       +
-// dlt_detached             -       -      (outgoing only)
-
-    dying_fract_plants = getDyingFractionPlants();
-
-    //Hmmm. Don't quite know where this should be.. For now, it doesn't do much (height)..
-    for (vector<plantPart *>::iterator t = myParts.begin();
-         t != myParts.end();
-         t++)
-       (*t)->update();
-
-    // transfer N & P
-    for (part = someParts.begin(); part != someParts.end(); part++)
-       {
-       (*part)->NDead -= (*part)->dlt.n_dead_detached;
-       (*part)->NGreen += (*part)->dlt.n_green;
-       (*part)->NGreen += (*part)->dlt.n_retrans;
-       (*part)->NGreen -= (*part)->dlt.n_senesced;
-       (*part)->NSenesced += (*part)->dlt.n_senesced;
-       if (g.phosphorus_aware)
-           {
-           (*part)->PGreen += (*part)->dlt.p_green;
-           (*part)->PGreen += (*part)->dlt.p_retrans;
-           (*part)->PGreen -= (*part)->dlt.p_sen;
-           (*part)->PGreen = l_bound((*part)->PGreen, 0.0);  // Can occur at total leaf senescence. FIXME! XXXX
-           }
-       }
+    for (vector<plantPart *>::iterator part = myParts.begin();
+         part != myParts.end();
+         part++)
+       (*part)->update();
 
     // Let me register my surprise at how this is done on the next few lines
     // - why intrinsically limit processes to leaf etc right here!!! - NIH
@@ -2360,62 +2270,11 @@ void Plant::plant_update(float  g_row_spacing                          // (INPUT
     stemPart->NGreen += leafPart->dlt.n_senesced_trans;
 
     float s = 0.0;
-    for (part = myParts.begin(); part != myParts.end(); part++)
+    for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
        s += (*part)->dlt.n_senesced_retrans;
 
     // xx what does this mean??
     leafPart->NGreen -= s;
-
-    for (part = someParts.begin(); part != someParts.end(); part++)
-       {
-       (*part)->NGreen += (*part)->dlt.n_senesced_retrans;
-       (*part)->NSenesced -= (*part)->dlt.n_detached;
-       (*part)->NGreen = l_bound((*part)->NGreen, 0.0);   // Can occur at total leaf senescence. FIXME! XXXX
-       }
-
-    for (part = someParts.begin(); part != someParts.end(); part++)
-       {
-       (*part)->dlt.n_green_dead = (*part)->NGreen * dying_fract_plants;
-       (*part)->NGreen -= (*part)->dlt.n_green_dead;
-       (*part)->NDead += (*part)->dlt.n_green_dead;
-
-       (*part)->dlt.n_senesced_dead = (*part)->NSenesced * dying_fract_plants;
-       (*part)->NSenesced -= (*part)->dlt.n_senesced_dead;
-       (*part)->NDead += (*part)->dlt.n_senesced_dead;
-
-       (*part)->DMDead -= (*part)->dlt.dm_dead_detached;
-
-       (*part)->DMGreen += (*part)->dlt.dm_green;
-       (*part)->DMGreen += (*part)->dlt.dm_green_retrans;
-       (*part)->DMGreen -= (*part)->dlt.dm_senesced;
-
-       (*part)->DMSenesced += (*part)->dlt.dm_senesced;
-       (*part)->DMSenesced -= (*part)->dlt.dm_detached;
-
-       (*part)->dlt.dm_green_dead = (*part)->DMGreen * dying_fract_plants;
-       (*part)->DMGreen -=  (*part)->dlt.dm_green_dead;
-       (*part)->DMDead += (*part)->dlt.dm_green_dead;
-
-       (*part)->dlt.dm_senesced_dead = (*part)->DMSenesced * dying_fract_plants;
-       (*part)->DMSenesced -= (*part)->dlt.dm_senesced_dead;
-       (*part)->DMDead += (*part)->dlt.dm_senesced_dead;
-
-       if (g.phosphorus_aware)
-           {
-           float dlt_p_green_dead = (*part)->PGreen * dying_fract_plants;
-           (*part)->PGreen -= dlt_p_green_dead;
-           (*part)->PDead += dlt_p_green_dead;
-
-           float dlt_p_senesced_dead = (*part)->PSen * dying_fract_plants;
-           (*part)->PSen  -= dlt_p_senesced_dead;
-           (*part)->PDead += dlt_p_senesced_dead;
-           }
-       }
-
-    for (vector<plantPart *>::iterator t = myParts.begin();
-         t != myParts.end();
-         t++)
-       (*t)->update2(dying_fract_plants);
 
     if (*g_canopy_width > 0.0)
         {
@@ -2698,86 +2557,6 @@ void Plant::plant_event(float *g_dlayer           // (INPUT)  thickness of soil 
     }
 
 
-//+  Purpose
-//       Add root residue to root residue pool
-
-//+  Mission Statement
-//     Add root residue to root residue pool
-
-//+  Changes
-//       220794 jngh specified and programmed
-//       170895 jngh changed message send to message pass to module
-//       220696 jngh changed to post_ construct
-//       081100 dph  added eventInterface parameter to call to crop_root_incorp
-void Plant::plant_root_incorp (
-     float  dlt_dm_root                  // (INPUT) new root residue dm (g/m^2)
-    ,float  dlt_n_root                   // (INPUT) new root residue N (g/m^2)
-    ,float  dlt_p_root                   // (INPUT) new root residue P (g/m^2)
-    ,float  *root_length) {              // (INPUT) root length of root residue (mm/mm^2)
-
-//+  Constant Values
-    const char*  my_name = "plant_root_incorp" ;
-
-//+  Local Variables
-
-//- Implementation Section ----------------------------------
-
-    push_routine (my_name);
-
-    if (dlt_dm_root>0.0)
-        {
-        int deepest_layer;         // deepest layer in which the roots are growing
-        float *dlt_dm_incorp = new float[max_layer]; // root residue (kg/ha)
-        float *dlt_N_incorp = new float[max_layer];  // root residue N (kg/ha)
-        float *dlt_P_incorp = new float[max_layer];  // root residue P (kg/ha)
-        if (dlt_dm_root > 0.0)
-              {
-              // DM
-              crop_root_dist(g.dlayer, root_length, rootPart->root_depth, dlt_dm_incorp,
-                             dlt_dm_root * gm2kg /sm2ha);
-
-              bound_check_real_array(this,dlt_dm_incorp, max_layer, 0.0, dlt_dm_root * gm2kg / sm2ha,
-                                     "plant_root_incorp::dlt_dm_incorp");
-              // Nitrogen
-              crop_root_dist(g.dlayer, root_length, rootPart->root_depth, dlt_N_incorp,
-                             dlt_n_root * gm2kg /sm2ha);
-
-              bound_check_real_array(this,dlt_N_incorp,  max_layer, 0.0, dlt_n_root * gm2kg / sm2ha,
-                                     "plant_root_incorp::dlt_N_incorp");
-
-              // Phosporous
-              crop_root_dist(g.dlayer, root_length, rootPart->root_depth, dlt_P_incorp,
-                             dlt_p_root * gm2kg /sm2ha);
-
-              bound_check_real_array(this,dlt_P_incorp,  max_layer, 0.0, dlt_p_root * gm2kg / sm2ha,
-                                     "plant_root_incorp::dlt_P_incorp");
-
-              deepest_layer = Environment.find_layer_no(rootPart->root_depth);
-
-              protocol::ApsimVariant outgoingApsimVariant(parent);
-
-              outgoingApsimVariant.store("dlt_fom_type", protocol::DTstring, false, FString(c.crop_type.c_str()));
-              outgoingApsimVariant.store("dlt_fom_wt", protocol::DTsingle, true,
-                                         protocol::vector<float>(dlt_dm_incorp, dlt_dm_incorp+deepest_layer+1));
-              outgoingApsimVariant.store("dlt_fom_n", protocol::DTsingle, true,
-                                         protocol::vector<float>(dlt_N_incorp, dlt_N_incorp+deepest_layer+1));
-              outgoingApsimVariant.store("dlt_fom_p", protocol::DTsingle, true,
-                                         protocol::vector<float>(dlt_P_incorp, dlt_P_incorp+deepest_layer+1));
-              parent->publish (id.incorp_fom, outgoingApsimVariant);
-              }
-         delete []  dlt_dm_incorp;
-         delete []  dlt_N_incorp;
-         delete []  dlt_P_incorp;
-
-        }
-    else
-        {
-// no roots to incorporate
-        }
-
-    pop_routine (my_name);
-    return;
-    }
 
 
 
@@ -4153,14 +3932,8 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
 
     float remove_fr;
     float height;                                 // cutting height
-    float retain_fr_green;
-    float retain_fr_sen;
-    float retain_fr_dead;
     float canopy_fac;
     float temp;
-    float chop_fr_green;                      // fraction chopped (0-1)
-    float chop_fr_sen;                      // fraction chopped (0-1)
-    float chop_fr_dead;                      // fraction chopped (0-1)
     float dlt_dm_harvest;                         // dry matter harvested (g/m^2)
     float dlt_n_harvest;                          // N content of dm harvested (g/m^2)
     float dlt_p_harvest;                          // N content of dm harvested (kg/ha)
@@ -4221,14 +3994,12 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
                         fraction_to_residue);
 
     if (sum(dlt_crop_dm) > 0.0)
-        {
         plant_send_crop_chopped_event (c.crop_type
                                      , dm_type
                                      , dlt_crop_dm
                                      , dlt_dm_n
                                      , dlt_dm_p
                                      , fraction_to_residue);
-        }
 
     dm_residue = 0.0; dm_root_residue = 0.0;
     n_residue = 0.0; n_root_residue = 0.0;
@@ -4388,12 +4159,7 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     const char*  my_name = "plant_kill_stem_update" ;
 
 //+  Local Variables
-    float dm_init;
-    float n_init, p_init;
     float temp;
-    float dlt_dm_sen;                             // dry matter sened (g/m^2)
-    float dlt_n_sen;                              // N content of dm senesced (g/m^2)
-    float dlt_p_sen;                              // P content of dm senesced (g/m^2)
     float canopy_fac;
     float cover_pod;
 
@@ -4959,8 +4725,6 @@ void Plant::plant_zero_all_globals (void)
       g.n_conc_crit_stover_tot = 0.0;
       g.n_uptake_stover_tot = 0.0;
       g.lai_max = 0.0;
-      fill_real_array (rootPart->root_length, 0.0, max_layer);
-      fill_real_array (rootPart->root_length_dead, 0.0, max_layer);
       g.ext_n_demand = 0.0;
       g.ext_sw_demand = 0.0;
 
@@ -5552,7 +5316,7 @@ void Plant::plant_read_root_params ()
     const char*  section_name = "parameters" ;
 
     //+  Local Variables
-    vector<float> ll ;                           // lower limit of plant-extractable
+    vector<float> ll ;   // lower limit of plant-extractable
                                                  // soil water for soil layer l
                                                  // (mm water/mm soil)
     float dep_tot, esw_tot;                      // total depth of soil & ll
@@ -5583,7 +5347,7 @@ void Plant::plant_read_root_params ()
           p.ll_dep[layer] = ll[layer]*g.dlayer[layer];
 
        if ((int)ll.size() != Environment.num_layers)
-          parent->warningError ("LL parameter doesn't match soil profile?");
+          throw std::runtime_error ("Size of LL array doesn't match soil profile.");
        }
     else
        {
@@ -5604,7 +5368,7 @@ void Plant::plant_read_root_params ()
                , p.kl, num_kls
                , 0.0, c.kl_ub);
     if (num_kls != Environment.num_layers)
-       parent->warningError ("KL parameter doesn't match soil profile?");
+       throw std::runtime_error  ("Size of KL array doesn't match soil profile.");
 
     rootPart->readRootParameters(parent, section_name);
 
@@ -5683,21 +5447,15 @@ void Plant::plant_end_crop ()
         sprintf (msg, "Crop ended. Yield (dw) = %7.1f  (kg/ha)", yield);
         parent->writeString (msg);
 
-        // now do post harvest processes
-        dm_root = rootPart->DMGreen + rootPart->DMSenesced;
-        n_root  = rootPart->NGreen + rootPart->NSenesced;
-        p_root  = rootPart->PGreen + rootPart->PSen;
-        plant_root_incorp (dm_root, n_root, p_root, rootPart->root_length);
-        plant_root_incorp (rootPart->DMDead, rootPart->NDead , rootPart->PDead, rootPart->root_length_dead);
-
+        // now do post harvest processes        
         // put stover and any remaining grain into surface residue
         dm_residue =topsTot();
         n_residue =topsNTot();
         p_residue =topsPTot();
 
-        dm_root = rootPart->DMGreen+ rootPart->DMDead + rootPart->DMSenesced;
-        n_root  = rootPart->NGreen + rootPart->NDead + rootPart->NSenesced;
-        p_root  = rootPart->PGreen + rootPart->PDead + rootPart->PSen;
+        dm_root = rootPart->dmGreen()+ rootPart->dmDead() + rootPart->dmSenesced();
+        n_root  = rootPart->nGreen() + rootPart->nDead() + rootPart->nSenesced();
+        p_root  = rootPart->pGreen() + rootPart->pDead() + rootPart->pSenesced();
 
        if (dm_residue > 0.0)
           {
@@ -5756,7 +5514,6 @@ void Plant::plant_end_crop ()
         }
 
     pop_routine (my_name);
-    return;
     }
 
 
@@ -6076,55 +5833,38 @@ void Plant::plant_set_other_variables ()
 
 void Plant::plant_update_other_variables (void)
 //=======================================================================================
-//       Update other modules states
+//  Update other modules states
     {
     vector<string> part_name;
-    vector<float> fraction_to_residue;           // fraction sent to residue (0-1)
     vector<float> dm_residue;                   // change in dry matter of crop (kg/ha)
     vector<float> dm_n;                      // N content of changeed dry matter (kg/ha)
     vector<float> dm_p;                      // P content of changeed dry matter (kg/ha)
-
-    int   layer;
-    float root_length[max_layer];
+    vector<float> fraction_to_residue;       // fraction of DM sent to surface residues
 
     // dispose of detached material from senesced parts in the live population
     for (vector<plantPart *>::iterator t = myParts.begin();
          t != myParts.end();
          t++)
-       (*t)->collectDetachedForResidue(part_name
-                                      , dm_residue
-                                      , dm_n
-                                      , dm_p
-                                      , fraction_to_residue);
+       (*t)->collectDetachedForResidue(part_name,
+                                       dm_residue,
+                                       dm_n,
+                                       dm_p,
+                                       fraction_to_residue);
 
     if (sum(dm_residue) > 0.0)
-          {
-          plant_send_crop_chopped_event ( c.crop_type
-                                         , part_name
-                                         , dm_residue
-                                         , dm_n
-                                         , dm_p
-                                         , fraction_to_residue);
-          }
-
-    // put live population roots into root residue
-    // correct root length for change in root length in update
-    for (layer = 0; layer < max_layer; layer++)
-        {
-        root_length[layer] = rootPart->root_length[layer] + rootPart->dltRootLengthDead[layer];
-        }
-
-    plant_root_incorp (rootPart->dlt.dm_detached,
-                       rootPart->dlt.n_detached,
-                       rootPart->dlt.p_det,
-                       root_length);
+       plant_send_crop_chopped_event (c.crop_type,
+                                      part_name,
+                                      dm_residue,
+                                      dm_n,
+                                      dm_p,
+                                      fraction_to_residue);
 
     // now dispose of dead population detachments
     dm_residue.clear();
     dm_n.clear();
     dm_p.clear();
     fraction_to_residue.clear();
-
+    
     for (vector<plantPart *>::iterator t = myParts.begin();
          t != myParts.end();
          t++)
@@ -6144,17 +5884,7 @@ void Plant::plant_update_other_variables (void)
                                      fraction_to_residue);
        }
 
-    // correct root length for change in root length in update
-    for (layer = 0; layer < max_layer; layer++)
-        {
-        root_length[layer] = rootPart->root_length_dead[layer] - rootPart->dltRootLengthDead[layer];
-        }
-
-    plant_root_incorp (rootPart->dlt.dm_dead_detached,
-                       rootPart->dlt.n_dead_detached,
-                       rootPart->dlt.p_dead_det,
-                       root_length);
-
+    rootPart->updateOthers();       
     }
 
 
@@ -7060,9 +6790,8 @@ void Plant::plant_send_crop_chopped_event (const string&  crop_type             
                                            ,vector<float>  &dlt_crop_dm         // (INPUT) residue weight (kg/ha)
                                            ,vector<float>  &dlt_dm_n            // (INPUT) residue N weight (kg/ha)
                                            ,vector<float>  &dlt_dm_p            // (INPUT) residue P weight (kg/ha)
-                                           ,vector<float>  &fraction_to_residue)// (INPUT) residue fraction to residue (0-1)
+                                           ,vector<float>  &fraction_to_residue) // (INPUT) fraction going to residue
 {
-
 //+  Constant Values
     const char*  myname = "plant_send_crop_chopped_event" ;
 //- Implementation Section ----------------------------------
@@ -8044,72 +7773,6 @@ void Plant::get_ll(protocol::Component *systemInterface, protocol::QueryValueDat
 }
 
 
-///////////////
-/*  Purpose
-*       Calculate and provide root matter incorporation information
-*       to the APSIM messaging system.
-*
-*  Mission Statement
-*   Pass root material to the soil modules (based on root length distribution)
-*/
-void Plant::plant_root_incorp (float dlt_dm_root,        //(INPUT) new root residue dm (g/m^2)
-                               float dlt_N_root,         //(INPUT) new root residue N (g/m^2)
-                               float dlt_P_root,         //(INPUT) new root residue P (g/m^2)
-                               float *g_dlayer,           //(INPUT) layer thicknesses (mm)
-                               float *g_root_length,      //(INPUT) layered root length (mm)
-                               float g_root_depth,       //(INPUT) root depth (mm)
-                               const char *c_crop_type)   //(INPUT) crop type
-   {
-   int deepest_layer;         // deepest layer in which the roots are growing
-   float *dlt_dm_incorp = new float[max_layer]; // root residue (kg/ha)
-   float *dlt_N_incorp = new float[max_layer];  // root residue N (kg/ha)
-   float *dlt_P_incorp = new float[max_layer];  // root residue P (kg/ha)
-   if (dlt_dm_root > 0.0)
-         {
-         // DM
-         crop_root_dist(g_dlayer, g_root_length, g_root_depth, dlt_dm_incorp,
-                        dlt_dm_root * gm2kg /sm2ha);
-
-         bound_check_real_array(this,dlt_dm_incorp, max_layer, 0.0, dlt_dm_root * gm2kg / sm2ha,
-                                "plant_root_incorp2::dlt_dm_incorp");
-         // Nitrogen
-         crop_root_dist(g_dlayer, g_root_length, g_root_depth, dlt_N_incorp,
-                        dlt_N_root * gm2kg /sm2ha);
-
-         bound_check_real_array(this,dlt_N_incorp,  max_layer, 0.0, dlt_N_root * gm2kg / sm2ha,
-                                "plant_root_incorp2::dlt_N_incorp");
-
-         // Phosporous
-         crop_root_dist(g_dlayer, g_root_length, g_root_depth, dlt_P_incorp,
-                        dlt_P_root * gm2kg /sm2ha);
-
-         bound_check_real_array(this,dlt_P_incorp,  max_layer, 0.0, dlt_P_root * gm2kg / sm2ha,
-                                "plant_root_incorp2::dlt_P_incorp");
-
-         deepest_layer = find_layer_no(g_root_depth, g_dlayer, max_layer);
-#ifdef PROTOCOL_WORKS_PROPERLY
-         struct incorp_fom_type;
-         ...
-#else
-         protocol::ApsimVariant outgoingApsimVariant(parent);
-         outgoingApsimVariant.store("dlt_fom_type", protocol::DTstring, false,
-                                    FString(c_crop_type));
-         outgoingApsimVariant.store("dlt_fom_wt", protocol::DTsingle, true,
-                                    protocol::vector<float>(dlt_dm_incorp, dlt_dm_incorp+deepest_layer+1));
-         outgoingApsimVariant.store("dlt_fom_n", protocol::DTsingle, true,
-                                    protocol::vector<float>(dlt_N_incorp, dlt_N_incorp+deepest_layer+1));
-         outgoingApsimVariant.store("dlt_fom_p", protocol::DTsingle, true,
-                                    protocol::vector<float>(dlt_P_incorp, dlt_P_incorp+deepest_layer+1));
-         parent->publish (id.incorp_fom, outgoingApsimVariant);
-#endif
-         }
-    delete []  dlt_dm_incorp;
-    delete []  dlt_N_incorp;
-    delete []  dlt_P_incorp;
-}
-
-
-
 float Plant::getStageCode(void) const {return phenology->stageCode();}
 float Plant::getStageNumber(void) const {return phenology->stageNumber();}
 float Plant::getPlants(void) const {return g.plants;}
@@ -8407,3 +8070,5 @@ void Plant::writeString (const char *line) {parent->writeString(line);};
 void Plant::warningError (const char *msg) {parent->warningError(msg);};
 
 
+const std::string & Plant::getCropType(void) {return c.crop_type;};
+protocol::Component *Plant::getComponent(void) {return parent;};

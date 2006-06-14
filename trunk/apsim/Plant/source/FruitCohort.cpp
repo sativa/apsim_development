@@ -1,33 +1,49 @@
-
 // Modification log
 // 6 Aug 97 J. Hargreaves  Implementation
 
-#define YES 1
-#define NO 0
-#define TEST_FruitCohort NO					// build unit test?
 #include "FruitCohort.h"
 
-
 using namespace std;
-
-void push_routine (const char *) {};
-void pop_routine (const char *) {};
-
-inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
 
 // default constructor
 // 	initialise data members.
 FruitCohort::FruitCohort(plantInterface *p, const string &name) : CompositePart(p, name)
 {
-   //    zeroAllGlobals();
 }
 
 // destructor
 FruitCohort::~FruitCohort()
+   // ====================================================================
 {
-   if (podPart) delete podPart;
-   if (grainPart) delete grainPart;
+   for (vector<plantPart *>::iterator part = myParts.begin();
+        part != myParts.end();
+        part++)
+      delete (*part);
 }
+
+void FruitCohort::doInit1 ()
+   // ====================================================================
+{
+   zeroAllGlobals(); zeroDeltas();
+   podPart = new fruitPodPart(plant, "pod");
+   myParts.push_back(podPart);
+   myVegParts.push_back(podPart);
+   supplyPools.push_back(podPart);
+   podPart->doInit1();
+
+   grainPart = new fruitGrainPart(plant, "grain");
+   myParts.push_back(grainPart);
+   myGrainParts.push_back(grainPart);
+   grainPart->doInit1();
+}
+void FruitCohort::checkBounds (void)
+{
+   for (vector<plantPart *>::iterator part = myParts.begin();
+        part != myParts.end();
+        part++)
+      (*part)->checkBounds();
+}
+
 
 ostream &operator<<(ostream &output, const FruitCohort /*&pool*/)
 {
@@ -45,14 +61,6 @@ ostream &operator<<(ostream &output, const FruitCohort /*&pool*/)
    output << endl;
    return output;
 }
-
-// copy constructor
-//	copy data members of object
-//FruitCohort::FruitCohort(const FruitCohort &FruitCohort)
-////===========================================================================
-//{
-//	throw std::invalid_argument("Copy constructor NI for FruitCohort");
-//}
 
 
 // Assigment operator
@@ -398,7 +406,7 @@ void FruitCohort::get_head_wt(protocol::Component *system, protocol::QueryValueD
    float headWt = 0.0;
    vector<plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      headWt += (*part)->DMGreen;
+      headWt += (*part)->dmGreen();
 
    system->sendVariable(qd, headWt);
 }
@@ -429,22 +437,6 @@ void FruitCohort::get_head_p(protocol::Component *systemInterface, protocol::Que
 
 
 
-
-void FruitCohort::doInit1 ()
-   // ====================================================================
-{
-   podPart = new fruitPodPart(plant, "pod");
-   myParts.push_back(podPart);
-   myVegParts.push_back(podPart);
-   supplyPools.push_back(podPart);
-
-   grainPart = new fruitGrainPart(plant, "grain");
-   myParts.push_back(grainPart);
-   myGrainParts.push_back(grainPart);
-
-   grainPart->doInit1();
-
-}
 
 void FruitCohort::doNSenescedRetrans(float navail, float n_demand_tot)              //remove  problem
    //===========================================================================   //remove
@@ -571,109 +563,3 @@ void FruitCohort::doNDemand1Pot(float dlt_dm             // (INPUT)  Whole plant
       NMax += (*part)->nMax();
       }
 }
-
-
-
-//============================================================================
-
-#if TEST_FruitCohort							// build unit test?
-
-
-// FruitCohort class test harness
-
-// Tests default constructor, copy constructor, assignment operator and
-// each of the get and set functions.  Does not test the destructor.
-
-// Modification log
-// 6 Aug 97  J. Hargreaves    Initial implementation
-
-
-#ifndef FruitCohort_H
-#include "FruitCohort.h"
-#endif
-
-int main()
-{
-   cout << "FruitCohort test started" << endl;
-
-   FruitCohort p, *aPtr = &p;
-
-   //	cout << endl << "Test set and get functions:" << endl;
-   //	p.setValue(10.0, 2.0, 20.0, 3.0, 30.0, 4.0);
-   //	if (p.total() != 69.0)
-   //		cout << "setValue(10.0, 2.0, 20.0, 3.0, 30.0, 4.0) / Total() test FAILED"
-   //		<< endl;
-   //
-   //	cout << endl << "Test default constructor:" << endl;
-   //	FruitCohort q;                           						// run default constructor
-   //	if (q.total() != 0.0)
-   //		cout << "default constructor test FAILED" << endl;
-   //
-   //	cout << endl << "Test constructor:" << endl;
-   //	FruitCohort a(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);                           						// run default constructor
-   //	if (a.total() != 21.0)
-   //		cout << "constructor test FAILED" << endl;
-   //
-   //	cout << endl << "Test copy constructor:" << endl;
-   //	FruitCohort s = p;                       // run copy constructor
-   //	if (s.total() != p.total())
-   //      cout << "copy constructor test FAILED" << endl;
-   //
-   //	cout << endl << "Test assignment operator:" << endl;
-   //	s.setValue(50.0, 5.0, 60.0, 6.0, 70.0, 7.0); // change object
-   //
-   //	if (s.total() != p.total())
-   //	{
-   //		s = p;                          // run operator=
-   //		if (s.total() != p.total())
-   //			cout << "assignment operator test FAILED" << endl;
-   //	}
-   //	else
-   //		cout << "assignment operator test FAILED DIFFERENCE TEST" << endl;
-   //
-   //	cout << endl << "Test multiply operator:" << endl;
-   //	s.setValue(50.0, 5.0, 60.0, 6.0, 70.0, 7.0); // change object
-   //	FruitCohort k = p * s;
-   //	if (k.total() != 3856.0)
-   //		cout << "multiply operator test FAILED" << endl;
-   //
-   //	cout << endl << "Test simple multiply operator:" << endl;
-   //	s.setValue(50.0, 5.0, 60.0, 6.0, 70.0, 7.0); // change object
-   //	 k = s * 2.0;
-   //	if (k.total() != 396.0)
-   //		cout << "simple multiply operator test FAILED" << endl;
-   //
-   //	cout << endl << "Test divide operator:" << endl;
-   //	s.setValue(50.0, 5.0, 60.0, 6.0, 70.0, 7.0); // change object
-   //	 k = s/p;
-   //	if (k.total() < 16.58332 || k.total() > 16.58334)
-   //		cout << "divide operator test FAILED" << endl;
-   //
-   //	cout << endl << "Test simple divide operator:" << endl;
-   //	s.setValue(50.0, 5.0, 60.0, 6.0, 70.0, 7.0); // change object
-   //	 k = s / 2.0;
-   //	if (k.total() != 99.0)
-   //		cout << "simple divide operator test FAILED" << endl;
-   //
-   //	FruitCohort t;
-   //	t.setValue(50.0, 5.0, 60.0, 6.0, 70.0, 7.0); // change object
-   //	cout << endl << "Display FruitCohort t" << endl;
-   //	t.display();
-   //
-   //	FruitCohort x;
-   //	x.setValue(50.0, 5.0, 60.0, 6.0, 70.0, 7.0); // change object
-   //
-   //	cout << endl << "Display FruitCohort x - static binding" << endl;
-   //	x.display();
-   //
-   //	cout << endl << "Display FruitCohort x - dynamic binding" << endl;
-   //	FruitCohort *FruitCohortPtr = &x;
-   //	FruitCohortPtr->display();
-
-   cout << endl << "FruitCohort test finished" << endl;
-   return 0;
-}
-
-#endif
-
-

@@ -24,6 +24,32 @@
 #include "RootPart.h"
 using namespace std;
 
+static const char* IncorpFOMType =    "<type name = \"IncorpFOM\">" \
+                                      "   <field name=\"dlt_fom_type_name\" kind=\"string\"/>" \
+                                      "   <field name=\"dlt_fom_type_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlt_fom_type_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlt_fom_type_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"dlt_fom_type_value\" kind=\"string\"/>" \
+
+                                      "   <field name=\"dlt_fom_wt_name\" kind=\"string\"/>" \
+                                      "   <field name=\"dlt_fom_wt_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlt_fom_wt_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlt_fom_wt_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"dlt_fom_wt_value\" kind=\"single\" array=\"T\"/>" \
+
+                                      "   <field name=\"dlt_fom_n_name\" kind=\"string\"/>" \
+                                      "   <field name=\"dlt_fom_n_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlt_fom_n_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlt_fom_n_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"dlt_fom_n_value\" kind=\"single\" array=\"T\"/>" \
+
+                                      "   <field name=\"dlt_fom_p_name\" kind=\"string\"/>" \
+                                      "   <field name=\"dlt_fom_p_numbytes\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlt_fom_p_code\" kind=\"integer4\"/>" \
+                                      "   <field name=\"dlt_fom_p_isarray\" kind=\"boolean\"/>" \
+                                      "   <field name=\"dlt_fom_p_value\" kind=\"single\" array=\"T\"/>" \
+                                      "</type>";
+
 plantRootPart* constructRootPart(plantInterface *p, const string &type, const string &name) 
    {
    if (type == "Jones+RitchieGrowthPattern")
@@ -72,6 +98,9 @@ void plantRootPart::doRegistrations(protocol::Component *system)
    setupGetFunction(system, "rld", protocol::DTsingle, true,
                     &plantRootPart::get_rlv, "mm/mm^3", "Root length density");
 
+   incorp_fom_ID = plant->getComponent()->addRegistration(RegistrationType::event,
+                                                          "incorp_fom", IncorpFOMType,
+                                                          "", "");
    }
 
 // Read Constants
@@ -145,7 +174,7 @@ void plantRootPart::readRootParameters(protocol::Component *system, const char *
    {
    system->readParameter (section_name, "xf", xf, 0.0, 1.0);
    if (xf.size() != (unsigned) plant->getEnvironment()->num_layers)
-      system->writeString ("Warning!!\nXF parameter doesn't match soil profile?");
+       throw std::runtime_error ("Size of XF array doesn't match soil profile.");
    }
 
 void plantRootPart::onSowing(void)
@@ -172,7 +201,7 @@ void plantRootPart::onEmergence(void)
    DMPlantMin = 0.0;
 
    // initial root length (mm/mm^2)
-   float initial_root_length = DMGreen / sm2smm * specificRootLength;
+   float initial_root_length = dmGreen() / sm2smm * specificRootLength;
 
    // initial root length density (mm/mm^3)
    float rld = divide (initial_root_length, root_depth, 0.0);
@@ -321,17 +350,13 @@ void plantRootPart::update(void)
 
    for (int layer = 0; layer < plant->getEnvironment()->num_layers; layer++)
       root_length[layer] -= dltRootLengthSenesced[layer];
-   }
 
-void plantRootPart::update2(float dying_fract_plants)
-   {
     // Note that movement and detachment of C is already done, just
     // need to maintain relationship between length and mass
     // Note that this is not entirely accurate.  It links live root
     // weight with root length and so thereafter dead(and detaching)
     // root is assumed to have the same distribution as live roots.
-    plantPart::update2(dying_fract_plants);
-
+    float dying_fract_plants = plant->getDyingFractionPlants();
     for (int layer = 0; layer < plant->getEnvironment()->num_layers; layer++)
         {
         dltRootLengthDead[layer] = root_length[layer] * dying_fract_plants;
@@ -365,43 +390,133 @@ void plantRootPart::root_dist(float root_sum, vector<float> &root_array)        
                            divide (root_length[layer], root_length_sum, 0.0);
    }
 
+void plantRootPart::root_dist_dead(float root_sum, vector<float> &root_array)      //(INPUT) Material to be distributed
+//=========================================================================
+//  Purpose
+//       Distribute root material over profile based upon dead root
+//       length distribution.
+//
+   {
+   // distribute roots over profile to root_depth
+   int deepest_layer = plant->getEnvironment()->find_layer_no (root_depth);
+   float root_length_sum = sum_real_array (root_length_dead, deepest_layer+1);
+   for (int layer = 0; layer <= deepest_layer; layer++)
+      root_array[layer] = root_sum *
+                           divide (root_length_dead[layer], root_length_sum, 0.0);
+   }
+
 void plantRootPart::collectDetachedForResidue(vector<string> &part_name
                               , vector<float> &dm_residue
                               , vector<float> &dm_n
                               , vector<float> &dm_p
-                              , vector<float> &fraction_to_residue)
+                              , vector<float> &fract_to_residue)
 //=======================================================================================
-// Unlike above ground parts, no roots go to surface residue module.
+// Unlike above ground parts, no roots go to surface residue module. 
    {
-   plantPart::collectDetachedForResidue(part_name, dm_residue, dm_n, dm_p, fraction_to_residue);
-   int end = fraction_to_residue.size()-1;
-   fraction_to_residue[end] = 0.0;
    }
    
 void plantRootPart::collectDeadDetachedForResidue(vector<string> &part_name
                               , vector<float> &dm_residue
                               , vector<float> &dm_n
                               , vector<float> &dm_p
-                              , vector<float> &fraction_to_residue)
+                              , vector<float> &fract_to_residue)
 //=======================================================================================
-// Unlike above ground parts, no roots go to surface residue module.
+// Unlike above ground parts, no roots go to surface residue module. 
    {
-   plantPart::collectDeadDetachedForResidue(part_name, dm_residue, dm_n, dm_p, fraction_to_residue);
-   int end = fraction_to_residue.size()-1; 
-   fraction_to_residue[end] = 0.0;
    }
    
-void plantRootPart::onEndCrop(vector<string> &dm_type,
-                          vector<float> &dlt_crop_dm,
-                          vector<float> &dlt_dm_n,
-                          vector<float> &dlt_dm_p,
-                          vector<float> &fraction_to_residue)
+void plantRootPart::onEndCrop(vector<string> &/*dm_type*/,
+                          vector<float> &/*dlt_crop_dm*/,
+                          vector<float> &/*dlt_dm_n*/,
+                          vector<float> &/*dlt_dm_p*/,
+                          vector<float> &/*fraction_to_residue*/)
 //=======================================================================================
-// Unlike above ground parts, no roots go to surface residue module.
+// Unlike above ground parts, no roots go to surface residue module. Send our DM to FOM pool.
    {
-   plantPart::onEndCrop(dm_type, dlt_crop_dm, dlt_dm_n, dlt_dm_p, fraction_to_residue);
-   int end = fraction_to_residue.size()-1;
-   fraction_to_residue[end] = 0.0;
+   root_incorp (dmGreen() + dmSenesced(), nGreen() + nSenesced(), pGreen() + pSenesced());
+   root_incorp_dead (dmDead(), nDead(), pDead());
+   }
+
+void plantRootPart::updateOthers(void) 
+//=======================================================================================
+// dispose of detached material from dead & senesced roots into FOM pool
+   {
+   root_incorp (dlt.dm_detached,
+                dlt.n_detached,
+                dlt.p_det);
+
+   root_incorp_dead (dlt.dm_dead_detached,
+                     dlt.n_dead_detached,
+                     dlt.p_dead_det);
+   }
+
+
+void plantRootPart::root_incorp (float  dlt_dm_root,                  // (INPUT) root residue dm (g/m^2)
+                                 float  dlt_N_root,                   // (INPUT) root residue N (g/m^2)
+                                 float  dlt_P_root)                   // (INPUT) root residue P (g/m^2)
+   //=======================================================================================
+   //       Add root DM, N & P to FOM pool
+   {
+   if (dlt_dm_root>0.0)
+      {
+      vector<float> dlt_dm_incorp(plant->getEnvironment()->num_layers); // root residue (kg/ha)
+      vector<float> dlt_N_incorp(plant->getEnvironment()->num_layers);  // root residue N (kg/ha)
+      vector<float> dlt_P_incorp(plant->getEnvironment()->num_layers);  // root residue P (kg/ha)
+
+      // DM
+      root_dist(dlt_dm_root * gm2kg /sm2ha, dlt_dm_incorp);
+
+      // Nitrogen
+      root_dist(dlt_N_root * gm2kg /sm2ha, dlt_N_incorp);
+
+      // Phosporous
+      root_dist(dlt_P_root * gm2kg /sm2ha, dlt_P_incorp);
+
+      protocol::ApsimVariant outgoingApsimVariant(plant->getComponent());
+      outgoingApsimVariant.store("dlt_fom_type", protocol::DTstring, false, FString(plant->getCropType().c_str()));
+      outgoingApsimVariant.store("dlt_fom_wt", protocol::DTsingle, true, dlt_dm_incorp);
+      outgoingApsimVariant.store("dlt_fom_n", protocol::DTsingle, true, dlt_N_incorp);
+      outgoingApsimVariant.store("dlt_fom_p", protocol::DTsingle, true, dlt_P_incorp);
+      plant->getComponent()->publish (incorp_fom_ID, outgoingApsimVariant);
+      }
+   else
+      {
+      // no roots to incorporate
+      }
+   }
+
+void plantRootPart::root_incorp_dead (float  dlt_dm_root,                  // (INPUT) root residue dm (g/m^2)
+                                      float  dlt_N_root,                   // (INPUT) root residue N (g/m^2)
+                                      float  dlt_P_root)                   // (INPUT) root residue P (g/m^2)
+   //=======================================================================================
+   //       Add root DM, N & P to FOM pool
+   {
+   if (dlt_dm_root>0.0)
+      {
+      vector<float> dlt_dm_incorp(plant->getEnvironment()->num_layers); // root residue (kg/ha)
+      vector<float> dlt_N_incorp(plant->getEnvironment()->num_layers);  // root residue N (kg/ha)
+      vector<float> dlt_P_incorp(plant->getEnvironment()->num_layers);  // root residue P (kg/ha)
+
+      // DM
+      root_dist_dead(dlt_dm_root * gm2kg /sm2ha, dlt_dm_incorp);
+
+      // Nitrogen
+      root_dist_dead(dlt_N_root * gm2kg /sm2ha, dlt_N_incorp);
+
+      // Phosporous
+      root_dist_dead(dlt_P_root * gm2kg /sm2ha, dlt_P_incorp);
+
+      protocol::ApsimVariant outgoingApsimVariant(plant->getComponent());
+      outgoingApsimVariant.store("dlt_fom_type", protocol::DTstring, false, FString(plant->getCropType().c_str()));
+      outgoingApsimVariant.store("dlt_fom_wt", protocol::DTsingle, true, dlt_dm_incorp);
+      outgoingApsimVariant.store("dlt_fom_n", protocol::DTsingle, true, dlt_N_incorp);
+      outgoingApsimVariant.store("dlt_fom_p", protocol::DTsingle, true, dlt_P_incorp);
+      plant->getComponent()->publish (incorp_fom_ID, outgoingApsimVariant);
+      }
+   else
+      {
+      // no roots to incorporate
+      }
    }
 
 

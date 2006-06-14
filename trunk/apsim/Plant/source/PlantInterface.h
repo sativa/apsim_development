@@ -65,6 +65,8 @@ class plantInterface {
       virtual bool inPhase(const string &) = 0;
 
       virtual const environment_t *getEnvironment(void) = 0;
+      virtual const string & getCropType(void) = 0;
+      virtual protocol::Component *getComponent(void) = 0;
 };
 
 // Something that plugs into a plant

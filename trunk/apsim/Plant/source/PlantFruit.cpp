@@ -19,7 +19,6 @@ inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
 // 	initialise data members.
 PlantFruit::PlantFruit(plantInterface *p, const string &name) : CompositePart(p, name)
 {
-   //    zeroAllGlobals();
 }
 
 // destructor
@@ -27,7 +26,7 @@ PlantFruit::~PlantFruit()
 {
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      delete part;
+      delete (*part);
 }
 
 ostream &operator<<(ostream &output, const PlantFruit /*&pool*/)
@@ -103,12 +102,11 @@ void PlantFruit::doNPartition(float nSupply, float n_demand_sum, float n_capacit
 
 void PlantFruit::doInit1 ()
    // ====================================================================
-{
-   myParts.push_back(new FruitCohort(plant, "cohort1"));
-   vector<plantPart *>::iterator myPart;                                           //remove
-   for (myPart = myParts.begin(); myPart != myParts.end(); myPart++)
+{  
+   plantPart *c1 = new FruitCohort(plant, "cohort1");
+   myParts.push_back(c1);
+   for (vector<plantPart *>::iterator myPart = myParts.begin(); myPart != myParts.end(); myPart++)
       (*myPart)->doInit1();
-
 }
 
 void PlantFruit::doNSenescedRetrans(float navail, float n_demand_tot)              //remove  problem

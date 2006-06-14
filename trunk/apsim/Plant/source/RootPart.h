@@ -42,7 +42,7 @@ class plantRootPart : public plantPart
                      vector<float> &fraction_to_residue);
       void onKillStem(void);
       void update();
-      void update2(float);
+      void updateOthers();
       void checkBounds(void);
       void sen_length(void);
       virtual void root_length_growth (void) = 0;
@@ -52,12 +52,12 @@ class plantRootPart : public plantPart
                                           , vector<float> &dm_residue
                                           , vector<float> &dm_n
                                           , vector<float> &dm_p
-                                          , vector<float> &fraction_to_residue);
+                                          , vector<float> &fract);
       void collectDeadDetachedForResidue(vector<string> &part_name
                                           , vector<float> &dm_dead_detached
                                           , vector<float> &n_dead_detached
                                           , vector<float> &p_dead_detached
-                                          , vector<float> &fraction_to_residue);
+                                          , vector<float> &fract);
       void doNConccentrationLimits(void);
       void redistribute(const vector<float> &, const vector<float> &, float);
    private:
@@ -67,10 +67,15 @@ class plantRootPart : public plantPart
 
       float root_proportion(int layer);                                    
       void root_dist(float root_sum, vector<float> &root_array);
+      void root_dist_dead(float root_sum, vector<float> &root_array);
+      void root_incorp (float  dlt_dm_root, float dlt_n_root, float dlt_p_root);
+      void root_incorp_dead (float  dlt_dm_root, float dlt_n_root, float dlt_p_root);
 
       float initialRootDepth;                         // initial depth of roots (mm)
       float n_conc_min, n_conc_crit, n_conc_max;
       float rootDieBackFraction;                      // fraction of roots dying at harvest or kill_stem
+
+      unsigned int incorp_fom_ID;
 
    protected:
    

@@ -2,24 +2,15 @@
 // Modification log
 // 6 Aug 97 J. Hargreaves  Implementation
 
-#define YES 1
-#define NO 0
-#define TEST_CompositePart NO					// build unit test?
 #include "CompositePart.h"
 
 
 using namespace std;
 
-void push_routine (const char *) {};
-void pop_routine (const char *) {};
-
-inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
-
 // default constructor
 // 	initialise data members.
 CompositePart::CompositePart(plantInterface *p, const string &name) : plantPart(p, name)
 {
-   //    zeroAllGlobals();
 }
 
 // destructor
@@ -722,11 +713,11 @@ float CompositePart::dltDmDetached(void)
 float CompositePart::dmSenesced(void)
    //===========================================================================
 {
-   DMSenesced = 0.0;
+   float result = 0.0;
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      DMSenesced += (*part)->dmSenesced();
-   return DMSenesced;
+      result += (*part)->dmSenesced();
+   return result;
 }
 
 float CompositePart::dmDeadVegTotal(void)
@@ -742,11 +733,11 @@ float CompositePart::dmDeadVegTotal(void)
 float CompositePart::dmDead(void)
    //===========================================================================
 {
-   DMDead = 0.0;
+   float result = 0.0;
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      DMDead += (*part)->dmDead();
-   return DMDead;
+      result += (*part)->dmDead();
+   return result;
 }
 
 float CompositePart::nTotal(void)
@@ -799,14 +790,14 @@ float CompositePart::nGreenVegTotal(void)
    return nTotal;
 }
 
-float CompositePart::nGreen(void)
+float CompositePart::nGreen(void) const
    //===========================================================================
 {
-   NGreen = 0.0;
-   vector <plantPart *>::iterator part;
+   float result = 0.0;
+   vector <plantPart * const>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      NGreen += (*part)->nGreen();
-   return NGreen;
+      result += (*part)->nGreen();
+   return result;
 }
 
 float CompositePart::nSenescedVegTotal(void)
@@ -822,11 +813,11 @@ float CompositePart::nSenescedVegTotal(void)
 float CompositePart::nSenesced(void)
    //===========================================================================
 {
-   NSenesced = 0.0;
+   float result = 0.0;
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      NSenesced += (*part)->nSenesced();
-   return NSenesced;
+      result += (*part)->nSenesced();
+   return result;
 }
 
 float CompositePart::nDeadVegTotal(void)
@@ -842,11 +833,11 @@ float CompositePart::nDeadVegTotal(void)
 float CompositePart::nDead(void)
    //===========================================================================
 {
-   NDead = 0.0;
+   float result = 0.0;
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      NDead += (*part)->nDead();
-   return NDead;
+      result += (*part)->nDead();
+   return result;
 }
 
 float CompositePart::nMaxPot(void)
@@ -862,11 +853,11 @@ float CompositePart::nMaxPot(void)
 float CompositePart::nMax(void)
    //===========================================================================
 {
-   NMax = 0.0;
+   float result = 0.0;
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      NMax += (*part)->nMax();                                      //FIXME Is this a conc?
-   return NMax;
+      result += (*part)->nMax();                                      //FIXME Is this a conc?
+   return result;
 }
 
 float CompositePart::nMinPot(void)
@@ -1547,11 +1538,11 @@ void CompositePart::readSpeciesParameters(protocol::Component *system, vector<st
       (*part)->readSpeciesParameters(system, sections);
 }
 
-float CompositePart::dmGreen(void)
+float CompositePart::dmGreen(void) const
    //===========================================================================
 {
    float DMGreen = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart * const>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       DMGreen +=(*part)->dmGreen();
    return DMGreen;
@@ -2126,10 +2117,12 @@ void CompositePart::doNDetachment(void)
 
 void CompositePart::doPDemand(void)     // (INPUT)  Whole plant potential dry matter production (g/m^2)
    //============================================================================
-{
+{  
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
+      {
       (*part)->doPDemand();
+      }
 }
 
 void CompositePart::doPSenescence(void)
@@ -2244,9 +2237,11 @@ float CompositePart::nRetransDemand(void)
 void CompositePart::doPPartition(float p_uptake, float total_p_demand)
    //============================================================================
 {
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->doPPartition(p_uptake, total_p_demand);              //FIXME - divy up?
+   float myP = p_uptake * divide(pDemand(), total_p_demand,  0.0); // Amount of P for this composite part
+   for (vector <plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
+      {
+      (*part)->doPPartition(myP, pDemand());
+      }
 }
 
 void CompositePart::doPRetranslocate(float total_p_supply, float total_p_demand)
@@ -2263,14 +2258,6 @@ void CompositePart::doPDetachment(void)
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       (*part)->doPDetachment();
-}
-
-void CompositePart::updatePDet(void)
-   //============================================================================
-{
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->updatePDet();
 }
 
 void CompositePart::doPInit(void)

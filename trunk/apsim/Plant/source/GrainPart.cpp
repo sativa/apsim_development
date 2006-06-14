@@ -618,60 +618,9 @@ void fruitGrainPart::update(void)
    for (part = myParts.begin(); part != myParts.end(); part++)
       (*part)->update();
 
-
-   // Update N                                                             //remove??
-                                                                           //remove??
-   NGreen = 0.0;                                                           //remove??
-   NSenesced = 0.0;                                                        //remove??
-   NDead = 0.0;                                                            //remove??
-   dlt.n_senesced_dead = 0.0;                                              //remove??
-   dlt.n_green_dead = 0.0;                                                 //remove??
-                                                                           //remove??
-   for (part = myParts.begin(); part != myParts.end(); part++)             //remove??
-      {                                                                    //remove??
-      NGreen += (*part)->nGreen();                                         //remove??
-      NSenesced += (*part)->nSenesced();                                   //remove??
-      NDead += (*part)->nDead();                                           //remove??
-      dlt.n_senesced_dead += (*part)->dlt.n_senesced_dead;                 //remove??
-      dlt.n_green_dead += (*part)->dlt.n_green_dead;                       //remove??
-      }                                                                    //remove??
-                                                                           //remove??
-   // Update DM                                                            //remove??
-                                                                           //remove??
-   DMGreen = 0.0;                                                          //remove??
-   DMSenesced = 0.0;                                                       //remove??
-   DMDead = 0.0;                                                           //remove??
-   dlt.dm_senesced_dead = 0.0;                                             //remove??
-   dlt.dm_green_dead = 0.0;                                                //remove??
-   for (part = myParts.begin(); part != myParts.end(); part++)             //remove??
-      {                                                                    //remove??
-      DMGreen += (*part)->dmGreen();                                       //remove??
-      DMSenesced += (*part)->dmSenesced();                                 //remove??
-      DMDead += (*part)->dmDead();                                         //remove??
-      dlt.dm_senesced_dead += (*part)->dlt.dm_senesced_dead;               //remove??
-      dlt.dm_green_dead += (*part)->dlt.dm_green_dead;                     //remove??
-      }                                                                    //remove??
-                                                                           //remove??
-                                                                           //remove??
-   // Update P                                                             //remove??
-                                                                           //remove??
-   PGreen = 0.0;                                                           //remove??
-   PSen = 0.0;                                                             //remove??
-   PDead = 0.0;                                                            //remove??
-   //        dlt.p_senesced_dead = 0.0;                                    //remove??
-   //        dlt.p_green_dead = 0.0;                                       //remove??
-   for (part = myParts.begin(); part != myParts.end(); part++)             //remove??
-      {                                                                    //remove??
-      PGreen += (*part)->pGreen();                                         //remove??
-      PSen += (*part)->pSenesced();                                        //remove??
-      PDead += (*part)->pDead();                                           //remove??
-      //           dlt.p_senesced_dead += (*part)->dlt.p_senesced_dead;    //remove??
-      //           dlt.p_green_dead += (*part)->dlt.p_green_dead;          //remove??
-      }                                                                    //remove??
    // transfer plant grain no.
    float dlt_grain_no_lost  = gGrain_no * plant->getDyingFractionPlants();
    gGrain_no -= dlt_grain_no_lost;
-
 
    if (plant->inPhase("hi_stress_sensitive")) gDm_stress_max.update();
 }
@@ -875,7 +824,7 @@ void fruitGrainPart::doNDemandGrain1(float nfact_grain_conc      //   (INPUT)
                 * mealPart->g.n_conc_max;
 
    gN_grain_demand = u_bound (gN_grain_demand
-                              , n_potential - mealPart->NGreen);
+                              , n_potential - mealPart->nGreen());
 
 }
 

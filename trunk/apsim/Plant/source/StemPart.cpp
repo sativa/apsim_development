@@ -50,17 +50,17 @@ void plantStemPart::onHarvest(float cutting_height, float remove_fr,
    float chop_fr_dead = (1.0 - retain_fr_dead);
    float chop_fr_sen = (1.0 - retain_fr_sen);
 
-   float dlt_dm_harvest = DMDead * chop_fr_dead
-                        + DMGreen * chop_fr_green
-                        + DMSenesced * chop_fr_sen;
+   float dlt_dm_harvest = dmDead() * chop_fr_dead
+                        + dmGreen() * chop_fr_green
+                        + dmSenesced() * chop_fr_sen;
 
-   float dlt_n_harvest = NDead * chop_fr_dead
-                       + NGreen * chop_fr_green
-                       + NSenesced * chop_fr_sen;
+   float dlt_n_harvest = nDead() * chop_fr_dead
+                       + nGreen() * chop_fr_green
+                       + nSenesced() * chop_fr_sen;
 
-   float dlt_p_harvest = PDead * chop_fr_dead
-                       + PGreen * chop_fr_green
-                       + PSen * chop_fr_sen;
+   float dlt_p_harvest = pDead() * chop_fr_dead
+                       + pGreen() * chop_fr_green
+                       + pSenesced() * chop_fr_sen;
 
    DMDead *= retain_fr_dead;
    DMSenesced *= retain_fr_sen;
@@ -83,3 +83,7 @@ void plantStemPart::onHarvest(float cutting_height, float remove_fr,
    dlt_dm_p.push_back(dlt_p_harvest * gm2kg/sm2ha);
    }
 
+void plantStemPart::update(void)
+{
+    plantPart::update();
+}

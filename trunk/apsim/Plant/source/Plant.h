@@ -175,6 +175,9 @@ public:
    void writeString (const char *line);
    void warningError (const char *msg);
 
+   const std::string & getCropType(void) ;
+   protocol::Component *getComponent(void) ;
+   
    void plant_co2_modifier_rue(void);
    void plant_co2_modifier_te(void);
    void plant_co2_modifier_n_conc(void);
@@ -293,11 +296,6 @@ public:
                     ,float *g_sw_dep
                     ,float *p_ll_dep);
 
-   void plant_root_incorp (
-                           float  dlt_dm_root
-                           ,float  dlt_n_root
-                           ,float  dlt_p_root
-                           ,float  *root_length)               ;
    void plant_dm_init (void);
 
    void plant_root_depth (int option /* (INPUT) option number*/);
@@ -352,19 +350,15 @@ public:
                               , float dm_yield_demand_fruit
                               , double *dlt_dm_fruit);
 
-   void Plant::legnew_dm_retranslocate
-      (vector<plantPart *> &allParts        // (INPUT) all parts of plant
-       ,vector<plantPart *> &supply_pools   // (INPUT)
-       ,float  g_dm_demand_differential     // (INPUT)  grain dm demand (g/m^2)
-       ,float  g_plants                     // (INPUT)  Plant density (plants/m^2)
-       ,float  *dlt_dm_retrans_to_fruit);   // (OUTPUT) dm retranslocated to fruit (g/m^2)
+   void legnew_dm_retranslocate (vector<plantPart *> &allParts        // (INPUT) all parts of plant
+                                 ,vector<plantPart *> &supply_pools   // (INPUT)
+                                 ,float  g_dm_demand_differential     // (INPUT)  grain dm demand (g/m^2)
+                                 ,float  g_plants                     // (INPUT)  Plant density (plants/m^2)
+                                 ,float  *dlt_dm_retrans_to_fruit);   // (OUTPUT) dm retranslocated to fruit (g/m^2)
 
    void legnew_n_retranslocate(float g_grain_n_demand);
 
    void plant_N_senescence (void);
-   void plant_root_incorp (float dlt_dm_root,
-                           float dlt_n_root, float dlt_p_root, float *g_dlayer, float *g_root_length, float g_root_depth,
-                           const char *c_crop_type);
    void plant_process ( void );
    void plant_dead (void);
    void plant_harvest (protocol::Variant &v/*(INPUT) message variant*/);
@@ -402,7 +396,8 @@ public:
                                        ,vector<float>  &dlt_crop_dm           // (INPUT) residue weight (kg/ha)
                                        ,vector<float>  &dlt_dm_n              // (INPUT) residue N weight (kg/ha)
                                        ,vector<float>  &dlt_dm_p              // (INPUT) residue P weight (kg/ha)
-                                       ,vector<float>  &fraction_to_residue); // (INPUT) residue fraction to residue (0-1)
+                                       ,vector<float>  &fraction_to_residue);
+                                       
    void plant_n_demand( int max_part                                          // (INPUT)
                        , int *demand_parts                                    // (INPUT)
                        , int num_demand_parts                                 // (INPUT)
@@ -625,7 +620,6 @@ public:
    bool removeBiomassReport(void) const {return c.remove_biomass_report == "on";};
    void prepare_p(void);
    void plant_p_retrans (void);
-   void detachment_p(void);
    void summary_p (void);
 
    void  PlantP_demand (vector<plantPart *>&);
@@ -634,7 +628,7 @@ public:
    void  PlantP_partition (vector<plantPart*>&);
    void  PlantP_senescence (vector<plantPart*>&);
    void  PlantP_retrans (vector<plantPart*>&);
-   void  PlantP_detachment (vector<plantPart*>&);
+
    float PlantP_Pfact (vector<plantPart *>&);
 
    const environment_t *getEnvironment(void) {return &Environment;};
@@ -673,8 +667,6 @@ private:
 
       // events.
       unsigned int crop_chopped;
-      unsigned int incorp_fom;
-      unsigned int incorp_fom_p;
    } id;
    struct crop_chopped {
       string crop_type;

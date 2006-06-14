@@ -33,7 +33,6 @@ class plantLeafPart : public plantPart {
    virtual void leaf_area_sen (float, float) =0;
    virtual void detachment (void) =0;
    virtual void update (void) = 0;
-   virtual void update2(float dying_fract_plants) =0;
 
    virtual void remove_detachment (float dlt_slai_detached, float dlt_lai_removed ) =0;
 
@@ -94,7 +93,6 @@ class genericLeafPart : public plantLeafPart {
    void leaf_area_sen (float, float);
    void detachment (void);
    void update (void) ;
-   void update2(float dying_fract_plants);
 
    void remove_detachment (float dlt_slai_detached, float dlt_lai_removed );
    //void onRemoveBiomass(float );
@@ -182,7 +180,6 @@ class ahmadsLeafPart : public plantLeafPart {
    void leaf_area_sen (float, float) {};
    void detachment (void) {};
    void update (void) {};
-   void update2(float dying_fract_plants) {};
 
    void remove_detachment (float dlt_slai_detached, float dlt_lai_removed ) {};
 
