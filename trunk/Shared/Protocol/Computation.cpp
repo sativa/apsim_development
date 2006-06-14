@@ -188,7 +188,7 @@ bool Computation::loadComponent(const std::string& filename,
 
       if (componentInterface != "")
          {
-         Path cwd = Path::getCurrentFolder();
+         char *cwd = getcwd(NULL, MAX_PATH);
 
          // This is a wrapped dll - it has no "entry points". Load the wrapper.
          FreeLibrary(handle);
@@ -216,7 +216,8 @@ bool Computation::loadComponent(const std::string& filename,
             LocalFree( lpMsgBuf );
             throw runtime_error(errorMessage);
             }
-         cwd.Change_directory();
+         chdir(cwd);
+         free(cwd);
          }
       else
          {
