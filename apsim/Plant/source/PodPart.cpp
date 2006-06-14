@@ -17,9 +17,6 @@ void fruitPodPart::update(void)
 //=======================================================================================
 {
    plantPart::update();
-   plantPart::updateDm();
-   plantPart::updateN();
-   plantPart::updateP();
    gPai += gDlt_pai;
 }
 
@@ -31,37 +28,7 @@ void fruitPodPart::onHarvest(float /* cutting_height */, float remove_fr,
                              vector<float> &fraction_to_residue)
 //=======================================================================================
 {
-   float fractToResidue = 1.0 - remove_fr;
-
-   float dm_init = u_bound (plantPart::c.dm_init * plant->getPlants(), plantPart::DMGreen);
-   float n_init  = u_bound (             dm_init * plantPart::c.n_init_conc, plantPart::NGreen);
-   float p_init  = u_bound (             dm_init * plantPart::c.p_init_conc, plantPart::PGreen);
-
-   float retain_fr_green = divide(dm_init, DMGreen, 0.0);
-   float retain_fr_dead  = 0.0;
-   float retain_fr_sen   = 0.0;
-
-   float dlt_dm_harvest = DMDead + DMGreen + DMSenesced - dm_init;
-   float dlt_n_harvest  = NDead  + NGreen  + NSenesced  - n_init;
-   float dlt_p_harvest  = PDead  + PGreen  + PSen       - p_init;
-
-   DMDead     *= retain_fr_dead;
-   DMSenesced *= retain_fr_sen;
-   DMGreen    *= retain_fr_green;
-
-   NDead     *= retain_fr_dead;
-   NSenesced *= retain_fr_sen;
-   NGreen    = n_init;
-
-   PDead  *= retain_fr_dead;
-   PSen   *= retain_fr_sen;
-   PGreen  = p_init;
-
-   dm_type.push_back(c.name);
-   fraction_to_residue.push_back(fractToResidue);
-   dlt_crop_dm.push_back (dlt_dm_harvest * gm2kg/sm2ha);
-   dlt_dm_n.push_back    (dlt_n_harvest  * gm2kg/sm2ha);
-   dlt_dm_p.push_back    (dlt_p_harvest  * gm2kg/sm2ha);
+   onHarvest_GenericAboveGroundPart(remove_fr, dm_type, dlt_crop_dm, dlt_dm_n, dlt_dm_p, fraction_to_residue);
 }
 
 void fruitPodPart::onKillStem(void)

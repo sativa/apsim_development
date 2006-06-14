@@ -111,12 +111,12 @@ public:												// member functions
                                           , vector<float> &dm_residue
                                           , vector<float> &dm_n
                                           , vector<float> &dm_p
-                                          , vector<float> &fraction_to_residue);
+                                          , vector<float> &fract);
    virtual void collectDeadDetachedForResidue(vector<string> &part_name
                                               , vector<float> &dm_dead_detached
                                               , vector<float> &n_dead_detached
                                               , vector<float> &p_dead_detached
-                                              , vector<float> &fraction_to_residue);
+                                              , vector<float> &fract);
 
    virtual void update(void);
    virtual void doNConccentrationLimits(void);
@@ -147,7 +147,7 @@ public:												// member functions
    virtual float dmGrainTotal(void);
    virtual float dmVegTotal(void);
    virtual float dmGreenGrainTotal(void);
-   virtual float dmGreen(void);
+   virtual float dmGreen(void) const;
    virtual float dmGreenVegTotal(void);
    virtual float dmSenescedVegTotal(void);
    virtual float dmSenesced(void);
@@ -162,7 +162,7 @@ public:												// member functions
    virtual float nVegTotal(void);
    virtual float nGreenGrainTotal(void);
    virtual float nGreenVegTotal(void);
-   virtual float nGreen(void);
+   virtual float nGreen(void) const;
    virtual float nSenescedVegTotal(void);
    virtual float nSenesced(void);
    virtual float nDeadVegTotal(void);
@@ -198,7 +198,6 @@ public:												// member functions
    virtual float pConcGrainTotal(void);
    virtual float pMaxPot(void);
    virtual float pMinPot(void);
-   virtual void  updatePDet(void);
 
    virtual float pDemand(void);
    virtual float pRetransSupply(void);

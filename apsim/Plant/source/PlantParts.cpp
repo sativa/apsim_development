@@ -366,6 +366,8 @@ void plantPart::zeroDeltas(void)
    dlt.dm_dead = 0.0;
    dlt.dm_dead_detached = 0.0;
    dlt.dm_green_retrans = 0.0;
+   dlt.dm_green_dead = 0.0;
+   dlt.dm_senesced_dead = 0.0;
 
    dlt.n_green = 0.0;
    dlt.n_senesced = 0.0;
@@ -375,6 +377,8 @@ void plantPart::zeroDeltas(void)
    dlt.n_dead = 0.0;
    dlt.n_dead_detached = 0.0;
    dlt.n_retrans = 0.0;
+   dlt.n_green_dead = 0.0;
+   dlt.n_senesced_dead = 0.0;
 
    dlt.p_green = 0.0;
    dlt.p_sen = 0.0;
@@ -657,25 +661,32 @@ void plantPart::prepare(void)
    zeroDeltas();
    }
 
+// Note.
+// The following table describes the transfer of material that should
+// take place
+//                        POOLS
+//                 green senesced  dead
+// dlt_green         +                     (incoming only)
+// dlt_retrans       +-
+// dlt_senesced      -      +
+// dlt_dead          -      -       +
+// dlt_detached             -       -      (outgoing only)
+//
+// Each pool is treated in the same manner.
 void plantPart::update(void)
 //=======================================================================================
    {
+   updateDm();
+   updateN();
+   updateP();
+
    Height += dlt.height;
    Width += dlt.width;
-// need to call updateN/DM/P from here sometime.  FIXME
-   }
-
-void plantPart::update2(float /*dying_fract_plants*/)
-//=======================================================================================
-   {
-   /* nothing */
    }
 
 void plantPart::updateN(void)
 //=======================================================================================
    {
-   // Update N
-   float dying_fract_plants = plant->getDyingFractionPlants();
    // transfer N
    NDead -= dlt.n_dead_detached;
 
@@ -688,6 +699,7 @@ void plantPart::updateN(void)
    NSenesced -= dlt.n_detached;
    NGreen = l_bound(NGreen, 0.0);   // Can occur at total leaf senescence. FIXME! XXXX
 
+   float dying_fract_plants = plant->getDyingFractionPlants();
    dlt.n_green_dead = NGreen * dying_fract_plants;
    NGreen -= dlt.n_green_dead;
    NDead += dlt.n_green_dead;
@@ -695,14 +707,11 @@ void plantPart::updateN(void)
    dlt.n_senesced_dead = NSenesced * dying_fract_plants;
    NSenesced -= dlt.n_senesced_dead;
    NDead += dlt.n_senesced_dead;
-
    }
 
 void plantPart::updateDm(void)
 //=======================================================================================
    {
-
-   float dying_fract_plants = plant->getDyingFractionPlants();
    // Update DM
    DMDead -= dlt.dm_dead_detached;
 
@@ -713,6 +722,7 @@ void plantPart::updateDm(void)
    DMSenesced += dlt.dm_senesced;
    DMSenesced -= dlt.dm_detached;
 
+   float dying_fract_plants = plant->getDyingFractionPlants();
    dlt.dm_green_dead = DMGreen * dying_fract_plants;
    DMGreen -=  dlt.dm_green_dead;
    DMDead += dlt.dm_green_dead;
@@ -720,7 +730,6 @@ void plantPart::updateDm(void)
    dlt.dm_senesced_dead = DMSenesced * dying_fract_plants;
    DMSenesced -= dlt.dm_senesced_dead;
    DMDead += dlt.dm_senesced_dead;
-
    }
 
 void plantPart::updateP(void)
@@ -728,10 +737,8 @@ void plantPart::updateP(void)
    {
    if (plant->phosphorusAware())
       {
-      float dying_fract_plants = plant->getDyingFractionPlants();
       // Update P
       PDead -= dlt.p_dead_det;
-
       PGreen += dlt.p_green;
       PGreen += dlt.p_retrans;
       PGreen -= dlt.p_sen;
@@ -740,7 +747,7 @@ void plantPart::updateP(void)
       PSen += dlt.p_sen;
       PSen -= dlt.p_det;
 
-
+      float dying_fract_plants = plant->getDyingFractionPlants();
       dlt.p_green_dead = PGreen * dying_fract_plants;
       PGreen -= dlt.p_green_dead;
       PDead += dlt.p_green_dead;
@@ -1039,14 +1046,6 @@ void plantPart::doPDetachment(void)
    dlt.p_dead_det = PDead * dead_detach_frac;
    }
 
-void plantPart::updatePDet(void)
-//=======================================================================================
-   {
-   PSen +=  dlt.p_sen;
-   PSen -=  dlt.p_det;
-   PDead -= dlt.p_dead_det;
-   }
-
 
 float critNFactor(vector<const plantPart *> &parts, float multiplier)
 //=======================================================================================
@@ -1062,8 +1061,8 @@ float critNFactor(vector<const plantPart *> &parts, float multiplier)
    float dm = 0.0, N = 0.0;
    for (part = parts.begin(); part != parts.end(); part++)
       {
-      dm += (*part)->DMGreen;
-      N += (*part)->NGreen;
+      dm += (*part)->dmGreen();
+      N += (*part)->nGreen();
       }
 
    if (dm > 0.0)
@@ -1073,14 +1072,14 @@ float critNFactor(vector<const plantPart *> &parts, float multiplier)
       // calculate critical N concentrations
       float N_crit = 0.0;
       for (part = parts.begin(); part != parts.end(); part++)
-          N_crit += (*part)->g.n_conc_crit * (*part)->DMGreen;
+          N_crit += (*part)->g.n_conc_crit * (*part)->dmGreen();
 
       float N_conc_crit = divide (N_crit, dm, 0.0);
 
       // calculate minimum N concentrations
       float N_min = 0.0;
       for (part = parts.begin(); part != parts.end(); part++)
-         N_min += (*part)->g.n_conc_min * (*part)->DMGreen;
+         N_min += (*part)->g.n_conc_min * (*part)->dmGreen();
 
       float N_conc_min = divide (N_min, dm, 0.0);
 
@@ -1113,6 +1112,48 @@ void plantPart::onEndCrop(vector<string> &dm_type,
    }
 
 
+void plantPart::onHarvest_GenericAboveGroundPart( float remove_fr,
+                             vector<string> &dm_type,
+                             vector<float> &dlt_crop_dm,
+                             vector<float> &dlt_dm_n,
+                             vector<float> &dlt_dm_p,
+                             vector<float> &fraction_to_residue)
+//=======================================================================================
+// Generic harvest method for above ground parts that lose all dm to residue (eg leaf & stem, not grain..)
+{
+   float fractToResidue = 1.0 - remove_fr;
+
+   float dm_init = u_bound (c.dm_init * plant->getPlants(), dmGreen());
+   float n_init  = u_bound (  dm_init * plantPart::c.n_init_conc, nGreen());
+   float p_init  = u_bound (  dm_init * plantPart::c.p_init_conc, pGreen());
+
+   float retain_fr_green = divide(dm_init, dmGreen(), 0.0);
+   float retain_fr_dead  = 0.0;
+   float retain_fr_sen   = 0.0;
+
+   float dlt_dm_harvest = dmDead() + dmGreen() + dmSenesced() - dm_init;
+   float dlt_n_harvest  = nDead()  + nGreen()  + nSenesced()  - n_init;
+   float dlt_p_harvest  = pDead()  + pGreen()  + pSenesced() - p_init;
+
+   DMDead     *= retain_fr_dead;
+   DMSenesced *= retain_fr_sen;
+   DMGreen    *= retain_fr_green;
+
+   NDead     *= retain_fr_dead;
+   NSenesced *= retain_fr_sen;
+   NGreen    = n_init;
+
+   PDead  *= retain_fr_dead;
+   PSen   *= retain_fr_sen;
+   PGreen  = p_init;
+
+   dm_type.push_back(c.name);
+   fraction_to_residue.push_back(fractToResidue);
+   dlt_crop_dm.push_back (dlt_dm_harvest * gm2kg/sm2ha);
+   dlt_dm_n.push_back    (dlt_n_harvest  * gm2kg/sm2ha);
+   dlt_dm_p.push_back    (dlt_p_harvest  * gm2kg/sm2ha);
+}
+
 float plantPart::availableRetranslocateN(void)
 //=======================================================================================
 //    Calculate N available for transfer to grain (g/m^2)
@@ -1134,7 +1175,7 @@ void plantPart::collectDetachedForResidue(vector<string> &part_name
    dm_residue.push_back(dlt.dm_detached * gm2kg/sm2ha);
    dm_n.push_back(dlt.n_detached * gm2kg/sm2ha);
    dm_p.push_back(dlt.p_det * gm2kg/sm2ha);
-   fraction_to_residue.push_back(1.0);
+   fraction_to_residue.push_back(1.0);   
    }
 
 void plantPart::collectDeadDetachedForResidue(vector<string> &part_name
@@ -1163,7 +1204,7 @@ float plantPart::dmGreenDemand(void)
    return (DMGreenDemand);
    }
 
-float plantPart::dmGreen(void)
+float plantPart::dmGreen(void) const
 //=======================================================================================
    {
    return (DMGreen);
@@ -1297,7 +1338,7 @@ void plantPart::doNPartition(float nSupply, float n_demand_sum, float n_capacity
 
 float plantPart::pDemand(void) {return (PDemand);}
 float plantPart::nTotal(void) {return (nGreen() + nSenesced() + nDead());}
-float plantPart::nGreen(void) {return (NGreen);}
+float plantPart::nGreen(void) const {return (NGreen);}
 float plantPart::nSenesced(void) {return (NSenesced);}
 float plantPart::dltNSenescedRetrans(void) {return (dlt.n_senesced_retrans);}
 float plantPart::nDead(void) {return (NDead);}
@@ -1418,23 +1459,23 @@ float plantPart::dmRetransDemand(void)
 void plantPart::doPPartition(float p_uptake, float total_p_demand)
 //=======================================================================================
    {
-   dlt.p_green = p_uptake * divide(PDemand, total_p_demand, 0.0);
+   dlt.p_green = p_uptake * divide(pDemand(), total_p_demand, 0.0);
    }
 
 void plantPart::doPRetranslocate(float total_p_supply, float total_p_demand)
 //=======================================================================================
    {
-   float p_supply = pRetransSupply();
-   float p_demand = pRetransDemand();
+   double p_supply = pRetransSupply();
+   double p_demand = pRetransDemand();
    if (p_supply > 0.0)
       {
-      float fraction = divide(total_p_demand, total_p_supply, 0.0);
+      double fraction = divide(total_p_demand, total_p_supply, 0.0);
       fraction = bound(fraction, 0.0, 1.0);
       dlt.p_retrans = - p_supply * fraction;
       }
    else if (p_demand > 0.0)
       {
-      float fraction = divide(total_p_supply, total_p_demand, 0.0);
+      double fraction = divide(total_p_supply, total_p_demand, 0.0);
       fraction = bound(fraction, 0.0, 1.0);
       dlt.p_retrans = p_demand * fraction;
       }

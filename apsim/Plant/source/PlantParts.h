@@ -41,6 +41,7 @@ class plantPart : public plantThing
          float p_conc_min;                   // minimum P concentration (g N/g biomass)
 
       } g;
+protected:      
          float DMPlantMin;                 // minimum weight of each plant part (g/plant)
          float Height;                     // The height of this part (mm)
          float Width;                      // The width of this part (mm)
@@ -54,6 +55,7 @@ class plantPart : public plantThing
          float DMSenesced;                  // senesced plant dry wt (g/m^2)
          float DMDead;                      // dry wt of dead plants (g/m^2)
 
+public:      
 
       // deltas
       struct {
@@ -182,7 +184,6 @@ class plantPart : public plantThing
    virtual void prepare(void);
    //void process(void);
    virtual void update(void);
-   virtual void update2(float);
    virtual void updateDm(void);
    virtual void updateN(void);
    virtual void updateP(void);
@@ -212,22 +213,21 @@ class plantPart : public plantThing
    virtual void doPSenescence(void);
    virtual void zeroDltDmGreen(void);
    virtual void zeroDltDmGreenRetrans(void);
-
    virtual void collectDetachedForResidue(vector<string> &part_name
                                           , vector<float> &dm_residue
                                           , vector<float> &dm_n
                                           , vector<float> &dm_p
-                                          , vector<float> &fraction_to_residue);
+                                          , vector<float> &fract);
    virtual void collectDeadDetachedForResidue(vector<string> &part_name
                                           , vector<float> &dm_dead_detached
                                           , vector<float> &n_dead_detached
                                           , vector<float> &p_dead_detached
-                                          , vector<float> &fraction_to_residue);
+                                          , vector<float> &fract);
    virtual float dmTotal(void);
    virtual float dmGreenDemand(void);
    virtual float dmDemandDifferential(void);
    virtual float dltDmRetranslocateSupply(float DemandDifferential);
-   virtual float dmGreen(void);
+   virtual float dmGreen(void) const;
    virtual float dltDmGreen(void);
    virtual float dltDmGreenRetrans(void);      //remove
    virtual float dltDmRetranslocate(void);
@@ -246,7 +246,7 @@ class plantPart : public plantThing
    virtual float pMaxPotStressDeterminant(void);
    virtual float pMinPotStressDeterminant(void);
    virtual float nTotal(void);
-   virtual float nGreen(void);
+   virtual float nGreen(void) const;
    virtual float nSenesced(void);
    virtual float dltNSenescedRetrans(void);
    virtual float nDead(void);
@@ -266,7 +266,6 @@ class plantPart : public plantThing
 
    virtual float pMaxPot(void) ;
    virtual float pMinPot(void) ;
-   virtual void updatePDet(void) ;
 
    virtual float soilNDemand(void);
    virtual float nDemand(void);
@@ -291,6 +290,13 @@ class plantPart : public plantThing
                           vector<float> &dlt_dm_n,
                           vector<float> &dlt_dm_p,
                           vector<float> &fraction_to_residue) = 0;
+
+   virtual void onHarvest_GenericAboveGroundPart(float remove_fr,
+                          vector<string> &dm_type,
+                          vector<float> &dlt_crop_dm,
+                          vector<float> &dlt_dm_n,
+                          vector<float> &dlt_dm_p,
+                          vector<float> &fraction_to_residue);
 
    virtual void onEndCrop(vector<string> &dm_type,
                   vector<float> &dlt_crop_dm,

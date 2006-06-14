@@ -6,7 +6,6 @@ class fruitMealPart : public plantPart {
   public:
    fruitMealPart(plantInterface *p, const string &name) : plantPart(p, name) {};
    ~fruitMealPart() {};
-   void update(void);
    void onHarvest(float height, float remove_fr,
                   vector<string> &dm_type,
                   vector<float> &dlt_crop_dm,
