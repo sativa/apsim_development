@@ -913,25 +913,23 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
-      <ApsimToSim>
+     <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\tcllink\lib\tcllink.dll</dll>
          <sim>
             <master>yes</master>
-               [foreach tclmanager.rule as rule]
-               [foreach rule.condition as condition]
-               <rule name="[rule.name] - [condition.name]" condition="[condition.name]">
-           <![CDATA[
+            [foreach tclmanager.rule as rule]
+            [foreach rule.condition as condition]
+            <rule name="[rule.name] - [condition.name]" condition="[condition.name]">
                [condition.innerxml]
                [foreach rule.category as category]
                [category.xml]
                [endfor]
-            ]]>
-               </rule>
-               [endfor]
-               [endfor]
+            </rule>
+            [endfor]
+            [endfor]
          </sim>
-      </ApsimToSim>
+     </ApsimToSim>
    </tclmanager>
    <farmmanager>
       <UItype>area</UItype>
@@ -953,12 +951,10 @@
                [foreach farmmanager.rule as rule]
                [foreach rule.condition as condition]
                <rule name="[rule.name] - [condition.name]" condition="[condition.name]">
-           <![CDATA[
                [condition.innerxml]
                [foreach rule.category as category]
                [category.xml]
                [endfor]
-            ]]>
                </rule>
                [endfor]
                [endfor]
@@ -985,12 +981,10 @@
                [foreach paddockmanager.rule as rule]
                [foreach rule.condition as condition]
                <rule name="[rule.name] - [condition.name]" condition="[condition.name]">
-           <![CDATA[
                [condition.innerxml]
                [foreach rule.category as category]
                [category.xml]
                [endfor]
-            ]]>
                </rule>
                [endfor]
                [endfor]
