@@ -139,6 +139,10 @@ module SoilPModule
       real         ub_banded_p         ! upper bound for banded P (kg/ha)
       real         lb_rock_p           ! lower bound for rock P (kg/ha)
       real         ub_rock_p           ! upper bound for rock P (kg/ha)
+      real         lb_fom_p           ! lower bound for fom P (kg/ha)
+      real         ub_fom_p           ! upper bound for fom P (kg/ha)
+      real         lb_fom_cp           ! lower bound for fom P (kg/ha)
+      real         ub_fom_cp           ! upper bound for fom P (kg/ha)
 
       real         fr_carb             ! fom fraction in carbon pool
       real         fr_cell             ! fom fraction in cellulose pool
@@ -657,6 +661,11 @@ subroutine soilp_read_constants ()
    call read_real_var (section_name,'lb_rock_p','(kg/ha)',c%lb_rock_p,numvals,0.0,100.0)
 
    call read_real_var (section_name,'ub_rock_p','(kg/ha)',c%ub_rock_p,numvals,0.0,1000.0)
+
+   call read_real_var (section_name,'lb_fom_p','(kg/ha)',c%lb_fom_p,numvals,0.0,100.0)
+   call read_real_var (section_name,'ub_fom_p','(kg/ha)',c%ub_fom_p,numvals,0.0,1000.0)
+   call read_real_var (section_name,'lb_fom_cp','(kg/ha)',c%lb_fom_cp,numvals,0.0,100.0)
+   call read_real_var (section_name,'ub_fom_cp','(kg/ha)',c%ub_fom_cp,numvals,0.0,1000.0)
 
 
    call pop_routine (myname)
@@ -1508,10 +1517,12 @@ subroutine soilp_bound_check (num_layers)
 
 !+  Mission Statement
 !      Check P pools
-
+   
 !+  Constant Values
    character*(*) myname           ! name of current procedure
    parameter (myname = 'soilp_bound_check')
+!+  Local Variables
+   integer layer                    ! layer counter
 
 !- Implementation Section ----------------------------------
    call push_routine (myname)
@@ -1523,6 +1534,18 @@ subroutine soilp_bound_check (num_layers)
    call bound_check_real_array (g%rock_p,c%lb_rock_p, c%ub_rock_p,'g%rock_p', num_layers)
 
    call bound_check_real_array (g%unavail_p,c%lb_unavail_p, c%ub_unavail_p,'g%unavail_p', num_layers)
+
+   do layer = 1, num_layers
+!      call bound_check_real_var (g%fom_p_pool(1,layer), c%lb_fom_p, c%ub_fom_p,'g%fom_p_pool(1)')
+!      call bound_check_real_var (g%fom_p_pool(2,layer), c%lb_fom_p, c%ub_fom_p,'g%fom_p_pool(2)')
+!      call bound_check_real_var (g%fom_p_pool(3,layer), c%lb_fom_p, c%ub_fom_p,'g%fom_p_pool(3)')
+      call bound_check_real_var (g%fom_p(layer), c%lb_fom_p, c%ub_fom_p,'g%fom_p()')
+
+!      call bound_check_real_var (g%fom_cp_pool(1,layer), c%lb_fom_cp, c%ub_fom_cp,'g%fom_cp_pool(1)')
+!      call bound_check_real_var (g%fom_cp_pool(2,layer), c%lb_fom_cp, c%ub_fom_cp,'g%fom_cp_pool(2)')
+!      call bound_check_real_var (g%fom_cp_pool(3,layer), c%lb_fom_cp, c%ub_fom_cp,'g%fom_cp_pool(3)')
+      call bound_check_real_var (g%fom_cp(layer), c%lb_fom_cp, c%ub_fom_cp,'g%fom_cp()')
+   end do
 
    call pop_routine (myname)
    return
@@ -2075,7 +2098,7 @@ subroutine soilp_incorp_residues ()
       g%labile_p(layer) = g%labile_p(layer) + dlt_labile_p(layer)
    end do
 
-   call soilp_bound_check (numval_p)
+   call soilp_bound_check (num_layers)
 
    call pop_routine (myname)
    return
@@ -2247,7 +2270,7 @@ subroutine soilp_incorp_residue_P ()
       g%labile_p(layer) = g%labile_p(layer) + dlt_labile_p(layer)
    end do
 
-   call soilp_bound_check (numval_p)
+   call soilp_bound_check (count_of_real_vals(g%dlayer,max_layer))
 
    call pop_routine (myname)
    return
@@ -2343,16 +2366,8 @@ subroutine Main (Action, Data_string)
    else if (Action.eq.ACTION_Till) then
       call soilp_tillage ()
 
-!   now responds to 'FreshOrganicMatterIncorporated'
-!   else if (Action.eq.ACTION_incorp_fom) then
-!      call soilp_incorp_residues ()
-!
-   else if (Action.eq.ACTION_incorp_fom_p) then
+   else if (Action.eq.ACTION_incorp_fom) then
       call soilp_incorp_residue_p ()
-
-!   now responds to 'ActualResidueDecompositionCalculated'
-!   else if (Action.eq.ACTION_Decomposed) then
-!      call soilp_min_residues ()
 
    else
       ! Don't use message
