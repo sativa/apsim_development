@@ -386,7 +386,7 @@ void Roots::incorporateResidue(void)
    protocol::ApsimVariant outgoingApsimVariant(plantInterface);
    outgoingApsimVariant.store("dlt_fom_type", protocol::DTstring, false,
                                     FString(plant->getCropType().c_str()));
-   outgoingApsimVariant. store("dlt_fom_wt", protocol::DTsingle, true,dmIncorp);
+   outgoingApsimVariant.store("dlt_fom_wt", protocol::DTsingle, true,dmIncorp);
    outgoingApsimVariant.store("dlt_fom_n", protocol::DTsingle, true,nIncorp);
    outgoingApsimVariant.store("dlt_fom_p", protocol::DTsingle, true,pIncorp);
    plantInterface->publish (id, outgoingApsimVariant);
