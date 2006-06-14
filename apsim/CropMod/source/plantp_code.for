@@ -1536,17 +1536,14 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
       call New_postbox ()
 
+      call post_char_var ('dlt_fom_type=','()', c%crop_type)
+
       call post_real_array ('dlt_fom_p'
      :                   ,'(kg/ha)'
      :                   , dlt_fom_P
      :                   , num_layers)
 
-       call event_send(ACTION_incorp_fom_p)
-
-!      call EI_BroadcastAction     (EventInterface
-!     :                            ,ACTION_incorp_fom_p
-!     :                            ,Blank
-!     :                            )
+      call event_send(ACTION_incorp_fom)
 
       call Delete_postbox ()
 
