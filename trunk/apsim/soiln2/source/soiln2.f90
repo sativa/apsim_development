@@ -2177,71 +2177,46 @@ subroutine soiln2_incorp_fom ()
       if (numvals_n.eq.0) then
          dlt_fom_cnr_incorp(:) = 0.0
          call collect_real_array_optional ('dlt_fom_cnr', max_layer, '()', dlt_fom_cnr_incorp, numval_cnr, 0.0, 10000.0)
-
-
          do layer = 1, numval_cnr
             dlt_fom_n_incorp(layer) = divide (dlt_fom_incorp(layer)* C_in_fom, dlt_fom_cnr_incorp(layer), 0.0)
          end do
       else
       endif
-
-
-      if (numvals_n .eq.0 .and. numval_cnr.eq.0) then
-         call fill_real_array (dlt_fom_incorp, 0.0, max_layer)
-         call fill_real_array (dlt_fom_n_incorp, 0.0, max_layer)
-
-         err_string = 'FOM weight or FOM CN ratio not specified.'
-         call warning_error (err_user, err_string)
-      else
-         ! all ok
-      endif
-
-          !dsg  now convert the dlt_fom_incorp and the dlt_fom_n_incorp arrays to two dimensions
-          !     to include fraction information
-
-      do layer = 1, numvals
-
-         dlt_fom_c_pool1(layer)=dlt_fom_incorp(layer)*c%fr_fom(1,g%fom_type)* C_in_fom
-
-         dlt_fom_c_pool2(layer)=dlt_fom_incorp(layer)*c%fr_fom(2,g%fom_type)* C_in_fom
-
-         dlt_fom_c_pool3(layer)=dlt_fom_incorp(layer)*c%fr_fom(3,g%fom_type)* C_in_fom
-
-         dlt_fom_n_pool1(layer)=dlt_fom_n_incorp(layer)*c%fr_fom(1,g%fom_type)
-
-         dlt_fom_n_pool2(layer)=dlt_fom_n_incorp(layer)*c%fr_fom(2,g%fom_type)
-
-         dlt_fom_n_pool3(layer)=dlt_fom_n_incorp(layer)*c%fr_fom(3,g%fom_type)
-
-     end do
    else
    endif
 
-   !dsg   NOW INCREMENT THE POOLS
-
-   do layer = 1, numvals
-
-      g%fom_c_pool(1,layer) = g%fom_c_pool(1,layer)+ dlt_fom_c_pool1(layer)
-      g%fom_c_pool(2,layer) = g%fom_c_pool(2,layer)+ dlt_fom_c_pool2(layer)
-
-      g%fom_c_pool(3,layer) = g%fom_c_pool(3,layer)+ dlt_fom_c_pool3(layer)
-
-
-      g%fom_n_pool(1,layer) = g%fom_n_pool(1,layer)+ dlt_fom_n_pool1(layer)
-      g%fom_n_pool(2,layer) = g%fom_n_pool(2,layer)+ dlt_fom_n_pool2(layer)
-
-      g%fom_n_pool(3,layer) = g%fom_n_pool(3,layer)+ dlt_fom_n_pool3(layer)
-
-
-      !dsg    add up fom_n in each layer by adding up each of the pools
-      g%fom_n(layer) = g%fom_n_pool(1,layer)+ g%fom_n_pool(2,layer)+ g%fom_n_pool(3,layer)
-
-   end do
-
-
-      ! now stuff the inorganic into profile
-   call soiln2_incorp_min_N ()
-
+   if (numvals_n .eq.0 .and. numval_cnr.eq.0) then
+      ! Not our FOM (probably P) - do nothing
+   else
+      !dsg  now convert the dlt_fom_incorp and the dlt_fom_n_incorp arrays to two dimensions
+      !     to include fraction information
+      do layer = 1, numvals
+         dlt_fom_c_pool1(layer)=dlt_fom_incorp(layer)*c%fr_fom(1,g%fom_type)* C_in_fom
+         dlt_fom_c_pool2(layer)=dlt_fom_incorp(layer)*c%fr_fom(2,g%fom_type)* C_in_fom
+         dlt_fom_c_pool3(layer)=dlt_fom_incorp(layer)*c%fr_fom(3,g%fom_type)* C_in_fom
+         dlt_fom_n_pool1(layer)=dlt_fom_n_incorp(layer)*c%fr_fom(1,g%fom_type)
+         dlt_fom_n_pool2(layer)=dlt_fom_n_incorp(layer)*c%fr_fom(2,g%fom_type)
+         dlt_fom_n_pool3(layer)=dlt_fom_n_incorp(layer)*c%fr_fom(3,g%fom_type)
+     end do
+   
+     !dsg   NOW INCREMENT THE POOLS
+     do layer = 1, numvals
+        g%fom_c_pool(1,layer) = g%fom_c_pool(1,layer)+ dlt_fom_c_pool1(layer)
+        g%fom_c_pool(2,layer) = g%fom_c_pool(2,layer)+ dlt_fom_c_pool2(layer)
+        g%fom_c_pool(3,layer) = g%fom_c_pool(3,layer)+ dlt_fom_c_pool3(layer)
+     
+        g%fom_n_pool(1,layer) = g%fom_n_pool(1,layer)+ dlt_fom_n_pool1(layer)
+        g%fom_n_pool(2,layer) = g%fom_n_pool(2,layer)+ dlt_fom_n_pool2(layer)
+        g%fom_n_pool(3,layer) = g%fom_n_pool(3,layer)+ dlt_fom_n_pool3(layer)
+     
+        !dsg    add up fom_n in each layer by adding up each of the pools
+        g%fom_n(layer) = g%fom_n_pool(1,layer)+ g%fom_n_pool(2,layer)+ g%fom_n_pool(3,layer)
+     end do
+     
+        ! now stuff the inorganic into profile
+     call soiln2_incorp_min_N ()
+   endif
+   
    call pop_routine (my_name)
    return
 end subroutine
