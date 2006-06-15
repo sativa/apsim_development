@@ -11,33 +11,28 @@
 
      Version                = 5.1
      Title                  = Millet Sample Simulation
-     Component DLL          = c:\data\apsim\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\data\apsim\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\data\apsim\development\apsim\report\lib\report.dll
-     Component DLL          = c:\data\apsim\development\apsim\input\lib\input.dll
-     Component DLL          = c:\data\apsim\development\apsim\canopy\lib\canopy.dll
-     Component DLL          = c:\data\apsim\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\data\apsim\development\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\data\apsim\development\apsim\SurfaceOM\lib\SurfaceOM.dll
-     Component DLL          = c:\data\apsim\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\data\apsim\development\apsim\millet\lib\millet.dll
-     Component DLL          = c:\data\apsim\development\apsim\millet\lib\millet.dll
-     Component DLL          = c:\data\apsim\development\apsim\millet\lib\millet.dll
-     Component DLL          = c:\data\apsim\development\apsim\millet\lib\millet.dll
-     Component DLL          = c:\data\apsim\development\apsim\millet\lib\millet.dll
-     Component DLL          = c:\data\apsim\development\apsim\millet\lib\millet.dll
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\canopy\lib\canopy.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
+     Component DLL          = c:\development\apsim\millet\lib\millet.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
-        init_step
         prepare
-        do_pasture_water
         process
-        prewaterbalance
-        do_pasture_growth
         do_stock
         post
-        end_step
      Simulation start date =  1/01/1988
      Simulation end date   = 30/12/1988
      Time step =           = 1440 (mins)
@@ -73,7 +68,7 @@
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\data\apsim\development\apsim\MET\SAMPLE\DALBY.MET
+     INPUT File name: c:\development\apsim\MET\SAMPLE\DALBY.MET
 
 ------- canopy Initialisation -------------------------------------------------
       Initialising
