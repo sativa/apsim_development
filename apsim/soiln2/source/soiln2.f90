@@ -2090,9 +2090,6 @@ subroutine soiln2_incorp_fom ()
    parameter (my_name = 'soiln2_incorp_fom')
 
 !+  Local Variables
-   character  err_string*120         ! Error message string
-   integer    i                     ! counter
-   integer    fract                 ! g%fom_c_pool fractions
    integer    layer                 ! layer number in loop ()
    character  dlt_fom_type*80       ! type of fom
    real       dlt_fom_incorp(max_layer) ! wt of incorporated material kg/ha
@@ -2113,8 +2110,8 @@ subroutine soiln2_incorp_fom ()
    integer    numvals_n1            ! number of values read from file
    integer    numvals_n2            ! number of values read from file
    integer    numvals_n3            ! number of values read from file
-   integer    numvals_n              ! number of values read from file
-   integer    numval_cnr            ! number of values read from file
+   integer    numvals_n             ! number of values read from file
+   integer    numvals_cnr           ! number of values read from file
 
 !- Implementation Section ----------------------------------
 
@@ -2142,65 +2139,13 @@ subroutine soiln2_incorp_fom ()
    numvals = numvals1 + numvals2 + numvals3
    numvals_n = numvals_n1 + numvals_n2 + numvals_n3
 
-!dsg  if the above arrays are sent, then we don't need anything else.
-!     ie. go straight to the pool incrementing section
-!     if, however, the above two arrays are not sent then we must partition the C
-!     and N into fractions in each layer.  We will do this by assuming that the CN ratios
-!     of all fractions are equal
+   if(numvals .ne. 0 .and. numvals_n .ne. 0) then
 
-
-
-
-
-   if(numvals .eq. 0 .and. numvals_n .eq. 0) then
-
-      dlt_fom_type = ' '
-      call collect_char_var_optional ('dlt_fom_type', '()', dlt_fom_type, numvals)
-
-      g%fom_type = Find_string_in_array (dlt_fom_type, g%fom_types, g%num_fom_types)
-      if (g%fom_type.le.0) then
-         ! fom type not found - use default
-         g%fom_type = 1
-         err_string = '     Default FOM fraction values used'
-         !call write_string (err_string)
-
-      else
-      endif
-
-      dlt_fom_incorp(:) = 0.0
-      call collect_real_array_optional ('dlt_fom_wt', max_layer, '(kg/ha)', dlt_fom_incorp, numvals, -100000.0, 100000.0)
-
-      dlt_fom_n_incorp(:) = 0.0
-      call collect_real_array_optional ('dlt_fom_n', max_layer, '(kg/ha)', dlt_fom_n_incorp, numvals_n, -10000.0, 10000.0)
-
-
-      if (numvals_n.eq.0) then
-         dlt_fom_cnr_incorp(:) = 0.0
-         call collect_real_array_optional ('dlt_fom_cnr', max_layer, '()', dlt_fom_cnr_incorp, numval_cnr, 0.0, 10000.0)
-         do layer = 1, numval_cnr
-            dlt_fom_n_incorp(layer) = divide (dlt_fom_incorp(layer)* C_in_fom, dlt_fom_cnr_incorp(layer), 0.0)
-         end do
-      else
-      endif
-   else
-   endif
-
-   if (numvals_n .eq.0 .and. numval_cnr.eq.0) then
-      ! Not our FOM (probably P) - do nothing
-   else
+      !dsg  if the above arrays are sent, then we don't need anything else.
+      !     ie. go straight to the pool incrementing section
       !dsg  now convert the dlt_fom_incorp and the dlt_fom_n_incorp arrays to two dimensions
       !     to include fraction information
-      do layer = 1, numvals
-         dlt_fom_c_pool1(layer)=dlt_fom_incorp(layer)*c%fr_fom(1,g%fom_type)* C_in_fom
-         dlt_fom_c_pool2(layer)=dlt_fom_incorp(layer)*c%fr_fom(2,g%fom_type)* C_in_fom
-         dlt_fom_c_pool3(layer)=dlt_fom_incorp(layer)*c%fr_fom(3,g%fom_type)* C_in_fom
-         dlt_fom_n_pool1(layer)=dlt_fom_n_incorp(layer)*c%fr_fom(1,g%fom_type)
-         dlt_fom_n_pool2(layer)=dlt_fom_n_incorp(layer)*c%fr_fom(2,g%fom_type)
-         dlt_fom_n_pool3(layer)=dlt_fom_n_incorp(layer)*c%fr_fom(3,g%fom_type)
-     end do
-   
-     !dsg   NOW INCREMENT THE POOLS
-     do layer = 1, numvals
+     do layer = 1, numvals_n
         g%fom_c_pool(1,layer) = g%fom_c_pool(1,layer)+ dlt_fom_c_pool1(layer)
         g%fom_c_pool(2,layer) = g%fom_c_pool(2,layer)+ dlt_fom_c_pool2(layer)
         g%fom_c_pool(3,layer) = g%fom_c_pool(3,layer)+ dlt_fom_c_pool3(layer)
@@ -2212,11 +2157,69 @@ subroutine soiln2_incorp_fom ()
         !dsg    add up fom_n in each layer by adding up each of the pools
         g%fom_n(layer) = g%fom_n_pool(1,layer)+ g%fom_n_pool(2,layer)+ g%fom_n_pool(3,layer)
      end do
-     
-        ! now stuff the inorganic into profile
-     call soiln2_incorp_min_N ()
+   else
+
+      !     if, however, the above two arrays are not sent then we must partition the C
+      !     and N into fractions in each layer.  We will do this by assuming that the CN ratios
+      !     of all fractions are equal
+      dlt_fom_incorp(:) = 0.0
+      call collect_real_array_optional ('dlt_fom_wt', max_layer, '(kg/ha)', dlt_fom_incorp, numvals, -100000.0, 100000.0)
+
+      dlt_fom_n_incorp(:) = 0.0
+      call collect_real_array_optional ('dlt_fom_n', max_layer, '(kg/ha)', dlt_fom_n_incorp, numvals_n, -10000.0, 10000.0)
+
+      if (numvals_n.eq.0) then
+         dlt_fom_cnr_incorp(:) = 0.0
+         call collect_real_array_optional ('dlt_fom_cnr', max_layer, '()', dlt_fom_cnr_incorp, numvals_cnr, 0.0, 10000.0)
+         do layer = 1, numvals_cnr
+            dlt_fom_n_incorp(layer) = divide (dlt_fom_incorp(layer)* C_in_fom, dlt_fom_cnr_incorp(layer), 0.0)
+         end do
+         numvals_n = numvals_cnr
+      else
+      endif
+
+      if (numvals_n .eq. 0) then
+         ! Not our FOM (probably P) - do nothing
+      else
+         dlt_fom_type = ' '
+         call collect_char_var_optional ('dlt_fom_type', '()', dlt_fom_type, numvals)
+      
+         g%fom_type = Find_string_in_array (dlt_fom_type, g%fom_types, g%num_fom_types)
+         if (g%fom_type.le.0) then
+            ! fom type not found - use default
+            g%fom_type = 1
+         else
+         endif
+         !dsg  now convert the dlt_fom_incorp and the dlt_fom_n_incorp arrays to two dimensions
+         !     to include fraction information
+         do layer = 1, numvals_n
+            dlt_fom_c_pool1(layer)=dlt_fom_incorp(layer)*c%fr_fom(1,g%fom_type)* C_in_fom
+            dlt_fom_c_pool2(layer)=dlt_fom_incorp(layer)*c%fr_fom(2,g%fom_type)* C_in_fom
+            dlt_fom_c_pool3(layer)=dlt_fom_incorp(layer)*c%fr_fom(3,g%fom_type)* C_in_fom
+            dlt_fom_n_pool1(layer)=dlt_fom_n_incorp(layer)*c%fr_fom(1,g%fom_type)
+            dlt_fom_n_pool2(layer)=dlt_fom_n_incorp(layer)*c%fr_fom(2,g%fom_type)
+            dlt_fom_n_pool3(layer)=dlt_fom_n_incorp(layer)*c%fr_fom(3,g%fom_type)
+         end do
+   
+         !dsg   NOW INCREMENT THE POOLS
+         do layer = 1, numvals_n
+            g%fom_c_pool(1,layer) = g%fom_c_pool(1,layer)+ dlt_fom_c_pool1(layer)
+            g%fom_c_pool(2,layer) = g%fom_c_pool(2,layer)+ dlt_fom_c_pool2(layer)
+            g%fom_c_pool(3,layer) = g%fom_c_pool(3,layer)+ dlt_fom_c_pool3(layer)
+         
+            g%fom_n_pool(1,layer) = g%fom_n_pool(1,layer)+ dlt_fom_n_pool1(layer)
+            g%fom_n_pool(2,layer) = g%fom_n_pool(2,layer)+ dlt_fom_n_pool2(layer)
+            g%fom_n_pool(3,layer) = g%fom_n_pool(3,layer)+ dlt_fom_n_pool3(layer)
+         
+            !dsg    add up fom_n in each layer by adding up each of the pools
+            g%fom_n(layer) = g%fom_n_pool(1,layer)+ g%fom_n_pool(2,layer)+ g%fom_n_pool(3,layer)
+         end do
+      endif
    endif
    
+   ! now stuff any inorganic in this message into profile
+   call soiln2_incorp_min_N ()
+
    call pop_routine (my_name)
    return
 end subroutine
