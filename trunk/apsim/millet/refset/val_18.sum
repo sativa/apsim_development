@@ -78,37 +78,37 @@
 ------- operatns Initialisation -----------------------------------------------
      Operations Schedule
      ===================
-       180 1995  Prepare       soilwat2 set sw = 0.066   0.090   0.117   0.123   0.129   0.137   0.148
-       181 1995  Prepare       soiln2 set nh4ppm=   4.95    3.65    2.31    2.31    3.62    3.22    2.54
-       181 1995  Prepare       soiln2 set no3ppm=   10.23   5.64    2.31    2.31    1.32    1.29    1.10
-       187 1995  Prepare       fertiliz apply amount = 20 (kg/ha), depth=70(mm), type=no3_n
-       202 1995  Prepare       millet sow plants =  9.0, sowing_depth = 40, cultivar = wrajpop
-       209 1995  Prepare       soilwat2 set sw =   0.117   0.132   0.173   0.155   0.163   0.158   0.113
-       212 1995  Prepare       soilwat2 set sw =   0.157   0.142   0.174   0.149   0.151   0.152   0.134
-       215 1995  Prepare       soilwat2 set sw =   0.092   0.114   0.147   0.130   0.141   0.150   0.137
-       219 1995  Prepare       soilwat2 set sw =   0.091   0.108   0.135   0.120   0.131   0.141   0.138
-       221 1995  Prepare       soilwat2 set sw =   0.063   0.100   0.126   0.116   0.126   0.136   0.137
-       229 1995  Prepare       soilwat2 set sw =   0.076   0.089   0.108   0.107   0.115   0.126   0.133
-       236 1995  Prepare       soilwat2 set sw =   0.061   0.073   0.093   0.099   0.108   0.117   0.131
-       238 1995  Prepare       soilwat2 set sw =   0.115   0.130   0.131   0.100   0.103   0.113   0.128
-       241 1995  Prepare       soilwat2 set sw =   0.139   0.133   0.149   0.124   0.112   0.113   0.126
-       244 1995  Prepare       soilwat2 set sw =   0.083   0.111   0.134   0.121   0.118   0.115   0.125
-       251 1995  Prepare       soilwat2 set sw =   0.032   0.068   0.086   0.092   0.101   0.108   0.117
-       258 1995  Prepare       soilwat2 set sw =   0.011   0.057   0.063   0.068   0.072   0.090   0.105
-       265 1995  Prepare       soilwat2 set sw =   0.024   0.052   0.055   0.064   0.064   0.073   0.087
-       272 1995  Prepare       soilwat2 set sw =   0.020   0.050   0.054   0.060   0.061   0.070   0.078
-       279 1995  Prepare       soilwat2 set sw =   0.010   0.047   0.049   0.060   0.061   0.067   0.073
-       283 1995  Prepare       soiln2 set nh4ppm=   4.97    4.32    2.99    2.99    1.99    3.61    3.91
-       283 1995  Prepare       soiln2 set no3ppm=   3.31    1.33    1.33    1.33    1.66    1.63    0.98
-       286 1995  Prepare       soilwat2 set sw =   0.013   0.045   0.050   0.060   0.061   0.066   0.068
-       293 1995  Prepare       soilwat2 set sw =   0.017   0.046   0.047   0.060   0.059   0.066   0.066
-       300 1995  Prepare       soilwat2 set sw =   0.010   0.040   0.049   0.060   0.059   0.066   0.068
-       307 1995  Prepare       soilwat2 set sw =   0.017   0.044   0.050   0.060   0.059   0.065   0.067
-       314 1995  Prepare       soilwat2 set sw =   0.018   0.042   0.048   0.058   0.059   0.065   0.068
-       321 1995  Prepare       soilwat2 set sw =   0.012   0.040   0.047   0.058   0.060   0.067   0.066
-       328 1995  Prepare       soilwat2 set sw =   0.029   0.040   0.046   0.057   0.059   0.065   0.068
-       335 1995  Prepare       soilwat2 set sw =   0.019   0.042   0.044   0.056   0.056   0.066   0.067
-       342 1995  Prepare       soilwat2 set sw =   0.013   0.041   0.046   0.059   0.059   0.066   0.066
+      29/6/1995  Prepare       soilwat2 set sw = 0.066   0.090   0.117   0.123   0.129   0.137   0.148
+      21/7/1995  Prepare       millet sow plants =  9.0, sowing_depth = 40, cultivar = wrajpop
+      30/6/1995  Prepare       soiln2 set nh4ppm=   4.95    3.65    2.31    2.31    3.62    3.22    2.54
+      30/6/1995  Prepare       soiln2 set no3ppm=   10.23   5.64    2.31    2.31    1.32    1.29    1.10
+       6/7/1995  Prepare       fertiliz apply amount = 20 (kg/ha), depth=70(mm), type=no3_n
+      28/7/1995  Prepare       soilwat2 set sw =   0.117   0.132   0.173   0.155   0.163   0.158   0.113
+      31/7/1995  Prepare       soilwat2 set sw =   0.157   0.142   0.174   0.149   0.151   0.152   0.134
+       3/8/1995  Prepare       soilwat2 set sw =   0.092   0.114   0.147   0.130   0.141   0.150   0.137
+       7/8/1995  Prepare       soilwat2 set sw =   0.091   0.108   0.135   0.120   0.131   0.141   0.138
+       9/8/1995  Prepare       soilwat2 set sw =   0.063   0.100   0.126   0.116   0.126   0.136   0.137
+      17/8/1995  Prepare       soilwat2 set sw =   0.076   0.089   0.108   0.107   0.115   0.126   0.133
+      24/8/1995  Prepare       soilwat2 set sw =   0.061   0.073   0.093   0.099   0.108   0.117   0.131
+      26/8/1995  Prepare       soilwat2 set sw =   0.115   0.130   0.131   0.100   0.103   0.113   0.128
+      29/8/1995  Prepare       soilwat2 set sw =   0.139   0.133   0.149   0.124   0.112   0.113   0.126
+       1/9/1995  Prepare       soilwat2 set sw =   0.083   0.111   0.134   0.121   0.118   0.115   0.125
+       8/9/1995  Prepare       soilwat2 set sw =   0.032   0.068   0.086   0.092   0.101   0.108   0.117
+      15/9/1995  Prepare       soilwat2 set sw =   0.011   0.057   0.063   0.068   0.072   0.090   0.105
+      22/9/1995  Prepare       soilwat2 set sw =   0.024   0.052   0.055   0.064   0.064   0.073   0.087
+      29/9/1995  Prepare       soilwat2 set sw =   0.020   0.050   0.054   0.060   0.061   0.070   0.078
+      6/10/1995  Prepare       soilwat2 set sw =   0.010   0.047   0.049   0.060   0.061   0.067   0.073
+     10/10/1995  Prepare       soiln2 set nh4ppm=   4.97    4.32    2.99    2.99    1.99    3.61    3.91
+     10/10/1995  Prepare       soiln2 set no3ppm=   3.31    1.33    1.33    1.33    1.66    1.63    0.98
+     13/10/1995  Prepare       soilwat2 set sw =   0.013   0.045   0.050   0.060   0.061   0.066   0.068
+     20/10/1995  Prepare       soilwat2 set sw =   0.017   0.046   0.047   0.060   0.059   0.066   0.066
+     27/10/1995  Prepare       soilwat2 set sw =   0.010   0.040   0.049   0.060   0.059   0.066   0.068
+      3/11/1995  Prepare       soilwat2 set sw =   0.017   0.044   0.050   0.060   0.059   0.065   0.067
+     10/11/1995  Prepare       soilwat2 set sw =   0.018   0.042   0.048   0.058   0.059   0.065   0.068
+     17/11/1995  Prepare       soilwat2 set sw =   0.012   0.040   0.047   0.058   0.060   0.067   0.066
+     24/11/1995  Prepare       soilwat2 set sw =   0.029   0.040   0.046   0.057   0.059   0.065   0.068
+      1/12/1995  Prepare       soilwat2 set sw =   0.019   0.042   0.044   0.056   0.056   0.066   0.067
+      8/12/1995  Prepare       soilwat2 set sw =   0.013   0.041   0.046   0.059   0.059   0.066   0.066
 
 ------- fertiliz Initialisation -----------------------------------------------
       Initialising
