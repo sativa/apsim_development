@@ -697,7 +697,6 @@ void plantPart::updateN(void)
    NSenesced += dlt.n_senesced;
    NGreen += dlt.n_senesced_retrans;
    NSenesced -= dlt.n_detached;
-   NGreen = l_bound(NGreen, 0.0);   // Can occur at total leaf senescence. FIXME! XXXX
 
    float dying_fract_plants = plant->getDyingFractionPlants();
    dlt.n_green_dead = NGreen * dying_fract_plants;
@@ -707,6 +706,8 @@ void plantPart::updateN(void)
    dlt.n_senesced_dead = NSenesced * dying_fract_plants;
    NSenesced -= dlt.n_senesced_dead;
    NDead += dlt.n_senesced_dead;
+
+   NGreen = l_bound(NGreen, 0.0);   // Can occur at total leaf senescence. FIXME! XXXX
    }
 
 void plantPart::updateDm(void)
@@ -742,7 +743,6 @@ void plantPart::updateP(void)
       PGreen += dlt.p_green;
       PGreen += dlt.p_retrans;
       PGreen -= dlt.p_sen;
-      PGreen = l_bound(PGreen, 0.0);  // Can occur at total leaf senescence. FIXME! XXXX
 
       PSen += dlt.p_sen;
       PSen -= dlt.p_det;
@@ -755,6 +755,7 @@ void plantPart::updateP(void)
       dlt.p_senesced_dead = PSen * dying_fract_plants;
       PSen  -= dlt.p_senesced_dead;
       PDead += dlt.p_senesced_dead;
+      PGreen = l_bound(PGreen, 0.0);  // Can occur at total leaf senescence. FIXME! XXXX
       }
    }
 
