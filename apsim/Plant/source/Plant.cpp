@@ -2275,6 +2275,7 @@ void Plant::plant_update(float  g_row_spacing                          // (INPUT
 
     // xx what does this mean??
     leafPart->NGreen -= s;
+    leafPart->NGreen = l_bound(leafPart->NGreen, 0.0);   // Can occur at total leaf senescence. FIXME! XXXX
 
     if (*g_canopy_width > 0.0)
         {
