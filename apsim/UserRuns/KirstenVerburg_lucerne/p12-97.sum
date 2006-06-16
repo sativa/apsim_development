@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.0
+     Version                = 5.1
      Title                  = south plots
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\clock\lib\clock.dll
@@ -351,128 +351,128 @@
 ------- operatns Initialisation -----------------------------------------------
      Operations Schedule
      ===================
-       134 1997  Prepare      canola sow plants = 134 (/m2), crop_class = triazine, row_spacing = 175 (mm), sowing_depth = 20 (mm), cultivar = Karoo
-       134 1997  Prepare      fertiliz apply amount = 30 (kg/ha), type = nh4_n, depth = 60 (mm)
-       150 1997  Prepare      report7 do_end_day_output
-       163 1997  Prepare      report3 do_end_day_output
-       170 1997  Prepare      report7 do_end_day_output
-       218 1997  Prepare      fertiliz apply amount = 65 (kg/ha), type = urea_n (), depth = 10 (mm)
-       221 1997  Prepare      report7 do_end_day_output
-       250 1997  Prepare      report7 do_end_day_output
-       267 1997  Prepare      report7 do_end_day_output
-       300 1997  Prepare      report3 do_end_day_output
-       310 1997  Prepare      report7 do_end_day_output
-       311 1997  Prepare      canola harvest
-       311 1997  Prepare      canola end_crop
-       344 1997  Prepare      report3 do_end_day_output
-       111 1998  Prepare      weed sow cultivar = early, plants = 10 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
-       145 1998  Prepare      weed kill_crop
-       145 1998  Prepare      weed end_crop
-       150 1998  Prepare      wheat sow plants = 94, sowing_depth = 40, cultivar = janz
-       150 1998  Prepare      fertiliz apply amount = 26 (kg/ha), type = nh4_n, depth = 60 (mm)
-       159 1998  Prepare      report7 do_end_day_output
-       169 1998  Prepare      report3 do_end_day_output
-       189 1998  Prepare      fertiliz apply amount = 90 (kg/ha), type = urea_n (), depth = 10 (mm)
-       189 1998  Prepare      report7 do_end_day_output
-       238 1998  Prepare      report5 do_end_day_output
-       252 1998  Prepare      report7 do_end_day_output
-       267 1998  Prepare      report5 do_end_day_output
-       274 1998  Prepare      report7 do_end_day_output
-       280 1998  Prepare      report3 do_end_day_output
-       288 1998  Prepare      report5 do_end_day_output
-       294 1998  Prepare      report7 do_end_day_output
-       303 1998  Prepare      report7 do_end_day_output
-       308 1998  Prepare      report5 do_end_day_output
-       323 1998  Prepare      report6 do_end_day_output
-       337 1998  Prepare      report7 do_end_day_output
-       344 1998  Prepare      report5 do_end_day_output
-       345 1998  Prepare      wheat harvest
-       345 1998  Prepare      wheat kill_crop
-       345 1998  Prepare      wheat end_crop
-       349 1998  Prepare      weed sow cultivar = early, plants = 20 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
-       350 1998  Prepare      report3 do_end_day_output
-        35 1999  Prepare      report5 do_end_day_output
-        83 1999  Prepare      report5 do_end_day_output
-        85 1999  Prepare      weed harvest
-        85 1999  Prepare      weed end_crop
-        86 1999  Prepare      surfaceom tillage type = sweep
-        87 1999  Prepare      weed sow cultivar = early, plants = 20 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
-       151 1999  Prepare      weed end_crop
-       152 1999  Prepare      surfaceom tillage type = burn_95
-       175 1999  Prepare      report3 do_end_day_output
-       199 1999  Prepare      lucerne sow cultivar = trifecta, plants = 300 (/m2), sowing_depth = 30 (mm)
-       199 1999  Prepare      fertiliz apply amount = 20 (kg/ha), type = nh4_n, depth = 60 (mm)
-       210 1999  Prepare      report5 do_end_day_output
-       216 1999  Prepare      report7 do_end_day_output
-       237 1999  Prepare      report5 do_end_day_output
-       242 1999  Prepare      report7 do_end_day_output
-       258 1999  Prepare      report5 do_end_day_output
-       266 1999  Prepare      report3 do_end_day_output
-       286 1999  Prepare      report5 do_end_day_output
-       298 1999  Prepare      report7 do_end_day_output
-       307 1999  Prepare      report5 do_end_day_output
-       323 1999  Prepare      report5 do_end_day_output
-       342 1999  Prepare      report3 do_end_day_output
-       342 1999  Prepare      report6 do_end_day_output
-       343 1999  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 300
-       347 1999  Prepare      report5 do_end_day_output
-        11 2000  Prepare      report5 do_end_day_output
-        20 2000  Prepare      report7 do_end_day_output
-        21 2000  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 300
-        42 2000  Prepare      report5 do_end_day_output
-        67 2000  Prepare      report5 do_end_day_output
-        94 2000  Prepare      report5 do_end_day_output
-        97 2000  Prepare      report7 do_end_day_output
-        98 2000  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 300
-       110 2000  Prepare      report5 do_end_day_output
-       133 2000  Prepare      report5 do_end_day_output
-       153 2000  Prepare      report3 do_end_day_output
-       165 2000  Prepare      report5 do_end_day_output
-       194 2000  Prepare      report5 do_end_day_output
-       206 2000  Prepare      report7 do_end_day_output
-       207 2000  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 300
-       213 2000  Prepare      report5 do_end_day_output
-       242 2000  Prepare      report5 do_end_day_output
-       256 2000  Prepare      report3 do_end_day_output
-       269 2000  Prepare      report5 do_end_day_output
-       280 2000  Prepare      report7 do_end_day_output
-       297 2000  Prepare      report5 do_end_day_output
-       298 2000  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 300
-       327 2000  Prepare      report5 do_end_day_output
-       347 2000  Prepare      report3 do_end_day_output
-       347 2000  Prepare      report7 do_end_day_output
-       348 2000  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 300
-       353 2000  Prepare      report5 do_end_day_output
-        23 2001  Prepare      report5 do_end_day_output
-        51 2001  Prepare      report5 do_end_day_output
-        85 2001  Prepare      report5 do_end_day_output
-       117 2001  Prepare      report3 do_end_day_output
-       120 2001  Prepare      report5 do_end_day_output
-       120 2001  Prepare      report7 do_end_day_output
-       151 2001  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 300
-       178 2001  Prepare      report5 do_end_day_output
-       204 2001  Prepare      report5 do_end_day_output
-       234 2001  Prepare      report5 do_end_day_output
-       242 2001  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 300
-       268 2001  Prepare      report3 do_end_day_output
-       268 2001  Prepare      report5 do_end_day_output
-       284 2001  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 300
-       296 2001  Prepare      report5 do_end_day_output
-       327 2001  Prepare      report5 do_end_day_output
-       338 2001  Prepare      report3 do_end_day_output
-       348 2001  Prepare      report5 do_end_day_output
-       349 2001  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 300
-         9 2002  Prepare      report5 do_end_day_output
-        38 2002  Prepare      lucerne harvest height = 50 (mm), plants = 60
-        39 2002  Prepare      surfaceom tillage type = chisel()
-        43 2002  Prepare      report5 do_end_day_output
-        60 2002  Prepare      lucerne harvest height = 50 (mm), plants = 10
-        80 2002  Prepare      report5 do_end_day_output
-        89 2002  Prepare      lucerne harvest height = 50 (mm)
-        89 2002  Prepare      lucerne kill_crop
-        89 2002  Prepare      lucerne end_crop
-        90 2002  Prepare      surfaceom tillage type = chisel()
-       120 2002  Prepare      report5 do_end_day_output
+      14/5/1997  Prepare      canola sow plants = 134 (/m2), crop_class = triazine, row_spacing = 175 (mm), sowing_depth = 20 (mm), cultivar = Karoo
+      14/5/1997  Prepare      fertiliz apply amount = 30 (kg/ha), type = nh4_n, depth = 60 (mm)
+       6/8/1997  Prepare      fertiliz apply amount = 65 (kg/ha), type = urea_n (), depth = 10 (mm)
+      7/11/1997  Prepare      canola harvest
+      7/11/1997  Prepare      canola end_crop
+      21/4/1998  Prepare      weed sow cultivar = early, plants = 10 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
+      25/5/1998  Prepare      weed kill_crop
+      25/5/1998  Prepare      weed end_crop
+      30/5/1998  Prepare      wheat sow plants = 94, sowing_depth = 40, cultivar = janz
+      30/5/1998  Prepare      fertiliz apply amount = 26 (kg/ha), type = nh4_n, depth = 60 (mm)
+       8/7/1998  Prepare      fertiliz apply amount = 90 (kg/ha), type = urea_n (), depth = 10 (mm)
+     11/12/1998  Prepare      wheat harvest
+     11/12/1998  Prepare      wheat kill_crop
+     11/12/1998  Prepare      wheat end_crop
+     15/12/1998  Prepare      weed sow cultivar = early, plants = 20 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
+      26/3/1999  Prepare      weed harvest
+      26/3/1999  Prepare      weed end_crop
+      27/3/1999  Prepare      surfaceom tillage type = sweep
+      28/3/1999  Prepare      weed sow cultivar = early, plants = 20 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
+      31/5/1999  Prepare      weed end_crop
+       1/6/1999  Prepare      surfaceom tillage type = burn_95
+      18/7/1999  Prepare      lucerne sow cultivar = trifecta, plants = 300 (/m2), sowing_depth = 30 (mm)
+      18/7/1999  Prepare      fertiliz apply amount = 20 (kg/ha), type = nh4_n, depth = 60 (mm)
+      9/12/1999  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 300
+      21/1/2000  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 300
+       7/4/2000  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 300
+      25/7/2000  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 300
+     24/10/2000  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 300
+     13/12/2000  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 300
+      31/5/2001  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 300
+      30/8/2001  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 300
+     11/10/2001  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 300
+     15/12/2001  Prepare      lucerne harvest height = 50 (mm), remove = 0.95, plants = 300
+       7/2/2002  Prepare      lucerne harvest height = 50 (mm), plants = 60
+       8/2/2002  Prepare      surfaceom tillage type = chisel()
+       1/3/2002  Prepare      lucerne harvest height = 50 (mm), plants = 10
+      30/3/2002  Prepare      lucerne harvest height = 50 (mm)
+      30/3/2002  Prepare      lucerne kill_crop
+      30/3/2002  Prepare      lucerne end_crop
+      31/3/2002  Prepare      surfaceom tillage type = chisel()
+      12/6/1997  Prepare      report3 do_end_day_output
+     27/10/1997  Prepare      report3 do_end_day_output
+     10/12/1997  Prepare      report3 do_end_day_output
+      18/6/1998  Prepare      report3 do_end_day_output
+      7/10/1998  Prepare      report3 do_end_day_output
+     16/12/1998  Prepare      report3 do_end_day_output
+      24/6/1999  Prepare      report3 do_end_day_output
+      23/9/1999  Prepare      report3 do_end_day_output
+      8/12/1999  Prepare      report3 do_end_day_output
+       1/6/2000  Prepare      report3 do_end_day_output
+      12/9/2000  Prepare      report3 do_end_day_output
+     12/12/2000  Prepare      report3 do_end_day_output
+      27/4/2001  Prepare      report3 do_end_day_output
+      25/9/2001  Prepare      report3 do_end_day_output
+      4/12/2001  Prepare      report3 do_end_day_output
+      26/8/1998  Prepare      report5 do_end_day_output
+      24/9/1998  Prepare      report5 do_end_day_output
+     15/10/1998  Prepare      report5 do_end_day_output
+      4/11/1998  Prepare      report5 do_end_day_output
+     10/12/1998  Prepare      report5 do_end_day_output
+       4/2/1999  Prepare      report5 do_end_day_output
+      24/3/1999  Prepare      report5 do_end_day_output
+      29/7/1999  Prepare      report5 do_end_day_output
+      25/8/1999  Prepare      report5 do_end_day_output
+      15/9/1999  Prepare      report5 do_end_day_output
+     13/10/1999  Prepare      report5 do_end_day_output
+      3/11/1999  Prepare      report5 do_end_day_output
+     19/11/1999  Prepare      report5 do_end_day_output
+     13/12/1999  Prepare      report5 do_end_day_output
+      11/1/2000  Prepare      report5 do_end_day_output
+      11/2/2000  Prepare      report5 do_end_day_output
+       7/3/2000  Prepare      report5 do_end_day_output
+       3/4/2000  Prepare      report5 do_end_day_output
+      19/4/2000  Prepare      report5 do_end_day_output
+      12/5/2000  Prepare      report5 do_end_day_output
+      13/6/2000  Prepare      report5 do_end_day_output
+      12/7/2000  Prepare      report5 do_end_day_output
+      31/7/2000  Prepare      report5 do_end_day_output
+      29/8/2000  Prepare      report5 do_end_day_output
+      25/9/2000  Prepare      report5 do_end_day_output
+     23/10/2000  Prepare      report5 do_end_day_output
+     22/11/2000  Prepare      report5 do_end_day_output
+     18/12/2000  Prepare      report5 do_end_day_output
+      23/1/2001  Prepare      report5 do_end_day_output
+      20/2/2001  Prepare      report5 do_end_day_output
+      26/3/2001  Prepare      report5 do_end_day_output
+      30/4/2001  Prepare      report5 do_end_day_output
+      27/6/2001  Prepare      report5 do_end_day_output
+      23/7/2001  Prepare      report5 do_end_day_output
+      22/8/2001  Prepare      report5 do_end_day_output
+      25/9/2001  Prepare      report5 do_end_day_output
+     23/10/2001  Prepare      report5 do_end_day_output
+     23/11/2001  Prepare      report5 do_end_day_output
+     14/12/2001  Prepare      report5 do_end_day_output
+       9/1/2002  Prepare      report5 do_end_day_output
+      12/2/2002  Prepare      report5 do_end_day_output
+      21/3/2002  Prepare      report5 do_end_day_output
+      30/4/2002  Prepare      report5 do_end_day_output
+     19/11/1998  Prepare      report6 do_end_day_output
+      8/12/1999  Prepare      report6 do_end_day_output
+      30/5/1997  Prepare      report7 do_end_day_output
+      19/6/1997  Prepare      report7 do_end_day_output
+       9/8/1997  Prepare      report7 do_end_day_output
+       7/9/1997  Prepare      report7 do_end_day_output
+      24/9/1997  Prepare      report7 do_end_day_output
+      6/11/1997  Prepare      report7 do_end_day_output
+       8/6/1998  Prepare      report7 do_end_day_output
+       8/7/1998  Prepare      report7 do_end_day_output
+       9/9/1998  Prepare      report7 do_end_day_output
+      1/10/1998  Prepare      report7 do_end_day_output
+     21/10/1998  Prepare      report7 do_end_day_output
+     30/10/1998  Prepare      report7 do_end_day_output
+      3/12/1998  Prepare      report7 do_end_day_output
+       4/8/1999  Prepare      report7 do_end_day_output
+     25/10/1999  Prepare      report7 do_end_day_output
+      30/8/1999  Prepare      report7 do_end_day_output
+      20/1/2000  Prepare      report7 do_end_day_output
+       6/4/2000  Prepare      report7 do_end_day_output
+      24/7/2000  Prepare      report7 do_end_day_output
+      6/10/2000  Prepare      report7 do_end_day_output
+     12/12/2000  Prepare      report7 do_end_day_output
+      30/4/2001  Prepare      report7 do_end_day_output
 
 ------- fertiliz Initialisation -----------------------------------------------
       Initialising
@@ -1801,7 +1801,7 @@
 31 May 1999(Day of year=151), weed: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                437.85                  155.56
+                          DM (kg/ha) =                437.95                  155.59
                           N  (kg/ha) =                  5.85                    0.71
      
 1 June 1999(Day of year=152), operatns: 
@@ -1921,7 +1921,7 @@
       Sending do_end_day_output message to report7
 26 October 1999(Day of year=299), lucerne: 
       stage 4.0 end_of_juvenile
-                     biomass =          97.69 (g/m^2)   lai          =   1.715 (m^2/m^2)
+                     biomass =          97.71 (g/m^2)   lai          =   1.715 (m^2/m^2)
                      stover N conc =     3.83 (%)    extractable sw =  128.05 (mm)
 3 November 1999(Day of year=307), operatns: 
       Sending do_end_day_output message to report5
@@ -1929,11 +1929,11 @@
       Sending do_end_day_output message to report5
 22 November 1999(Day of year=326), lucerne: 
       stage 5.0 floral_initiation
-                     biomass =         394.37 (g/m^2)   lai          =   3.630 (m^2/m^2)
+                     biomass =         394.39 (g/m^2)   lai          =   3.630 (m^2/m^2)
                      stover N conc =     4.42 (%)    extractable sw =   81.08 (mm)
 5 December 1999(Day of year=339), lucerne: 
       stage 6.0 flowering
-                     biomass =         478.96 (g/m^2)   lai          =   3.786 (m^2/m^2)
+                     biomass =         478.97 (g/m^2)   lai          =   3.786 (m^2/m^2)
                      stover N conc =     3.70 (%)    extractable sw =   41.14 (mm)
 8 December 1999(Day of year=342), operatns: 
       Sending do_end_day_output message to report3
@@ -1942,15 +1942,15 @@
       Sending harvest message to lucerne
 9 December 1999(Day of year=343), lucerne: 
      
-      flowering day          =  339                           stover (kg/ha)         =     4713.9
+      flowering day          =  339                           stover (kg/ha)         =     4714.0
       maturity day           =    0                           grain yield (kg/ha)    =        0.0
       grain % water content  =   15.5                         grain yield wet (kg/ha)=        0.0
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      3.861
-      total above ground biomass (kg/ha)    =     4713.9
-      live above ground biomass (kg/ha)     =     4713.9
+      total above ground biomass (kg/ha)    =     4714.0
+      live above ground biomass (kg/ha)     =     4714.0
       green above ground biomass (kg/ha)    =     3962.4
-      senesced above ground biomass (kg/ha) =      751.5
+      senesced above ground biomass (kg/ha) =      751.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   32.0
       DM Root:Shoot ratio    =    0.387                       Harvest Index          =      0.000
@@ -1968,11 +1968,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                189.58                    0.00
+                          DM (kg/ha) =                189.59                    0.00
                           N  (kg/ha) =                  6.46                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               3602.11                    0.00
+                          DM (kg/ha) =               3602.18                    0.00
                           N  (kg/ha) =                122.75                    0.00
      
       stage 4.0 end_of_juvenile
@@ -2029,7 +2029,7 @@
                           N  (kg/ha) =                  4.87                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2765.14                    0.00
+                          DM (kg/ha) =               2765.16                    0.00
                           N  (kg/ha) =                 92.56                    0.00
      
       stage 4.0 end_of_juvenile
@@ -2088,11 +2088,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                 91.02                    0.00
+                          DM (kg/ha) =                 91.03                    0.00
                           N  (kg/ha) =                  2.18                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1741.22                    0.00
+                          DM (kg/ha) =               1741.23                    0.00
                           N  (kg/ha) =                 41.64                    0.00
      
       stage 4.0 end_of_juvenile
@@ -2117,7 +2117,7 @@
 21 June 2000(Day of year=173), lucerne: 
       stage 7.0 start_grain_fill
                      biomass =          71.64 (g/m^2)   lai          =   0.076 (m^2/m^2)
-                     stover N conc =     6.10 (%)    extractable sw =  112.51 (mm)
+                     stover N conc =     6.10 (%)    extractable sw =  112.50 (mm)
 12 July 2000(Day of year=194), operatns: 
       Sending do_end_day_output message to report5
 24 July 2000(Day of year=206), operatns: 
@@ -2414,7 +2414,7 @@
 1 October 2001(Day of year=274), lucerne: 
       stage 5.0 floral_initiation
                      biomass =          60.73 (g/m^2)   lai          =   0.343 (m^2/m^2)
-                     stover N conc =     5.08 (%)    extractable sw =   41.93 (mm)
+                     stover N conc =     5.08 (%)    extractable sw =   41.92 (mm)
 11 October 2001(Day of year=284), operatns: 
       Sending harvest message to lucerne
 11 October 2001(Day of year=284), lucerne: 
@@ -2505,7 +2505,7 @@
                           N  (kg/ha) =                  2.56                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1190.43                    0.00
+                          DM (kg/ha) =               1190.44                    0.00
                           N  (kg/ha) =                 48.73                    0.00
      
       stage 4.0 end_of_juvenile
