@@ -1,3 +1,4 @@
+!
 module SoilPModule
    use Registrations
 
@@ -55,9 +56,9 @@ module SoilPModule
                                        ! uptake for each layer of each crop (kg/ha)
       real      fom_p  (max_layer)
       real      fom_p_pool(nfract,max_layer) ! fresh organic P in each pool in each layer
-      real      dlt_fom_c_pool1(max_layer)        ! change in C in pool 1 in each layer
-      real      dlt_fom_c_pool2(max_layer)        ! change in C in pool 2 in each layer
-      real      dlt_fom_c_pool3(max_layer)        ! change in C in pool 3 in each layer
+      real      dlt_fom_P_pool1(max_layer)        ! change in p in pool 1 in each layer
+      real      dlt_fom_P_pool2(max_layer)        ! change in p in pool 2 in each layer
+      real      dlt_fom_P_pool3(max_layer)        ! change in p in pool 3 in each layer
       integer   num_fom_types          ! number of fom types, from soiln2
       real      biom_p (max_layer)
       real      hum_p  (max_layer)
@@ -70,8 +71,6 @@ module SoilPModule
       real      dlt_biom_c_hum (max_layer)
       real      dlt_biom_c_atm (max_layer)
 
-      real      fom_cp (max_layer)  ! c:p ratio of fom pool
-      real      fom_cp_pool(nfract,max_layer) ! c:p ratio in each pool in each layer
       real      p_decomp
 
       real      dul_dep  (max_layer)   ! drained upper limit soil water content
@@ -249,7 +248,6 @@ subroutine soilp_zero_variables ()
    g%rlv              = 0.0
    g%crop_p_demand    = 0.0
    g%uptake_p_crop    = 0.0
-   g%fom_cp           = 0.0
    g%p_decomp         = 0.0
 
    c%act_energy_loss_avail_p = 0.0
@@ -329,6 +327,7 @@ subroutine soilp_Send_my_variable (Variable_name)
     real   fom_p_pool1(max_layer)
     real   fom_p_pool2(max_layer)
     real   fom_p_pool3(max_layer)
+    real   fom_cp (max_layer)  ! c:p ratio of fom pool
 
 !- Implementation Section ----------------------------------
 
@@ -397,7 +396,8 @@ subroutine soilp_Send_my_variable (Variable_name)
 
    elseif (variable_name .eq. 'fom_cp') then
       num_layers = count_of_real_vals (g%dlayer, max_layer)
-      call respond2get_real_array (variable_name ,'()' , g%fom_cp , num_layers)
+      call soilp_currentFOMCPratio (fom_cp)
+      call respond2get_real_array (variable_name ,'()' , fom_cp , num_layers)
 
    else if (index(Variable_name,'uptake_p_').eq.1) then
       crpnum = position_in_char_array (Variable_name(10:), g%crop_names, max_crops)
@@ -726,12 +726,7 @@ subroutine soilp_get_other_variables ()
 
    call Get_real_array (unknown_module,'dlt_biom_c_atm',max_layer,'()',g%dlt_biom_c_atm,numvals,0.0,1000.)
 
-   call Get_real_array (unknown_module,'dlt_fom_c_pool1',max_layer,'()',g%dlt_fom_c_pool1,numvals,0.0,5000.)
-
-   call Get_real_array (unknown_module,'dlt_fom_c_pool2',max_layer,'()',g%dlt_fom_c_pool2,numvals,0.0,5000.)
-
-   call Get_real_array (unknown_module,'dlt_fom_c_pool3',max_layer,'()',g%dlt_fom_c_pool3,numvals,0.0,5000.)
-
+   call soilp_dlt_fom_p_pools ()
 
    call pop_routine (myname)
    return
@@ -1573,46 +1568,43 @@ subroutine soilp_get_other_init_variables ()
 !+  Local Variables
     integer numvals                 ! number of values returned
     integer layer                   ! layer counter
-    real    temp_c (max_layer)      ! temporary array
-    real    temp_c1 (max_layer)      ! temporary array
-    real    temp_c2 (max_layer)      ! temporary array
-    real    temp_c3 (max_layer)      ! temporary array
+    real    biom_c (max_layer)      ! temporary array
+    real    hum_c (max_layer)      ! temporary array
+    real    fom_c_pool1 (max_layer)      ! temporary array
+    real    fom_c_pool2 (max_layer)      ! temporary array
+    real    fom_c_pool3 (max_layer)      ! temporary array
     integer num_layers               ! number of soil layers
 !- Implementation Section ----------------------------------
 
    call push_routine (myname)
-   temp_c(:) = 0.0
-   temp_c1(:) = 0.0
-   temp_c2(:) = 0.0
-   temp_c3(:) = 0.0
+   biom_c(:) = 0.0
+   fom_c_pool1(:) = 0.0
+   fom_c_pool2(:) = 0.0
+   fom_c_pool3(:) = 0.0
 
-   call Get_real_array (unknown_module,'biom_c',max_layer,'()',temp_c,numvals,0.0,10000.0)
-
-   do layer = 1, max_layer
-      g%biom_p (layer) = temp_c (layer) / c%biom_cp
-   end do
-
-   call Get_real_array (unknown_module,'hum_c',max_layer,'()',temp_c,numvals,0.0,100000.0)
+   call Get_real_array (unknown_module,'biom_c',max_layer,'()',biom_c,numvals,0.0,10000.0)
 
    do layer = 1, max_layer
-      g%hum_p  (layer) = temp_c  (layer) / c%hum_cp
+      g%biom_p(layer) = biom_c(layer) / c%biom_cp
    end do
 
-   call Get_real_array (unknown_module,'fom_c_pool1',max_layer,'()',temp_c1,numvals,0.0,5000.0)
-   call Get_real_array (unknown_module,'fom_c_pool2',max_layer,'()',temp_c2,numvals,0.0,5000.0)
-   call Get_real_array (unknown_module,'fom_c_pool3',max_layer,'()',temp_c3,numvals,0.0,5000.0)
+   call Get_real_array (unknown_module,'hum_c',max_layer,'()',hum_c,numvals,0.0,100000.0)
+
+   do layer = 1, max_layer
+      g%hum_p(layer) = hum_c(layer) / c%hum_cp
+   end do
+
+   call Get_real_array (unknown_module,'fom_c_pool1',max_layer,'()',fom_c_pool1,numvals,0.0,5000.0)
+   call Get_real_array (unknown_module,'fom_c_pool2',max_layer,'()',fom_c_pool2,numvals,0.0,5000.0)
+   call Get_real_array (unknown_module,'fom_c_pool3',max_layer,'()',fom_c_pool3,numvals,0.0,5000.0)
 
    num_layers = count_of_real_vals (g%dlayer, max_layer)
 
    do layer = 1, num_layers
-      g%fom_p_pool(1,layer) = temp_c1(layer) / p%root_cp_pool(1)
-      g%fom_p_pool(2,layer) = temp_c2(layer) / p%root_cp_pool(2)
-      g%fom_p_pool(3,layer) = temp_c3(layer) / p%root_cp_pool(3)
+      g%fom_p_pool(1,layer) = fom_c_pool1(layer) / p%root_cp_pool(1)
+      g%fom_p_pool(2,layer) = fom_c_pool2(layer) / p%root_cp_pool(2)
+      g%fom_p_pool(3,layer) = fom_c_pool3(layer) / p%root_cp_pool(3)
 
-      g%fom_cp_pool(1,layer) = p%root_cp_pool(1)
-      g%fom_cp_pool(2,layer) = p%root_cp_pool(2)
-      g%fom_cp_pool(3,layer) = p%root_cp_pool(3)
-      g%fom_cp(layer) = divide((temp_c1(layer)+temp_c2(layer)+ temp_c3(layer)),(g%fom_p_pool(1,layer)+g%fom_p_pool(2,layer) + g%fom_p_pool(3,layer)),0.0)
    end do
 
    call pop_routine (myname)
@@ -1690,12 +1682,13 @@ subroutine soilp_min_fom ()
 !+  Local Variables
    integer layer                    ! layer counter
    integer num_layers
-   real    tot_fom_c_decomposed
    real    fom_p_decomposed
    real    min_p
    real    fom_p_decomp_pool1    !  fom P decomposed from pool1
    real    fom_p_decomp_pool2    !  fom P decomposed from pool2
    real    fom_p_decomp_pool3    !  fom P decomposed from pool3
+
+   real     fom_cp_pool(nfract, max_layer) ! c:p ratio in each pool in each layer
 
 !- Implementation Section ----------------------------------
    call push_routine (myname)
@@ -1704,14 +1697,11 @@ subroutine soilp_min_fom ()
 
    do layer = 1, num_layers
 
-      ! calculate total c decomposed from fom pool
-      tot_fom_c_decomposed = g%dlt_fom_c_atm (layer) +g%dlt_fom_c_biom (layer) +g%dlt_fom_c_hum (layer)
-
       ! calculate p decomposed from fom pool
-      fom_p_decomp_pool1 = g%dlt_fom_c_pool1(layer) /g%fom_cp_pool(1,layer)
-      fom_p_decomp_pool2 = g%dlt_fom_c_pool2(layer) /g%fom_cp_pool(2,layer)
-      fom_p_decomp_pool3 = g%dlt_fom_c_pool3(layer) /g%fom_cp_pool(3,layer)
-      fom_p_decomposed = fom_p_decomp_pool1 +fom_p_decomp_pool2 +fom_p_decomp_pool3
+      fom_p_decomp_pool1 = g%dlt_fom_p_pool1(layer)
+      fom_p_decomp_pool2 = g%dlt_fom_p_pool2(layer)
+      fom_p_decomp_pool3 = g%dlt_fom_p_pool3(layer)
+      fom_p_decomposed = fom_p_decomp_pool1 + fom_p_decomp_pool2 + fom_p_decomp_pool3
 
       ! calculate p mineralised from fom pool
       min_p = fom_p_decomposed -g%dlt_fom_c_biom (layer) / c%biom_cp -g%dlt_fom_c_hum (layer)  / c%hum_cp
@@ -1719,13 +1709,13 @@ subroutine soilp_min_fom ()
       ! bound_check (min_p, 0.0)
 
       ! update pools
-      g%fom_p_pool(1,layer) = g%fom_p_pool(1,layer) -fom_p_decomp_pool1
-      g%fom_p_pool(2,layer) = g%fom_p_pool(2,layer) -fom_p_decomp_pool2
-      g%fom_p_pool(3,layer) = g%fom_p_pool(3,layer) -fom_p_decomp_pool3
+      g%fom_p_pool(1,layer) = g%fom_p_pool(1,layer) - fom_p_decomp_pool1
+      g%fom_p_pool(2,layer) = g%fom_p_pool(2,layer) - fom_p_decomp_pool2
+      g%fom_p_pool(3,layer) = g%fom_p_pool(3,layer) - fom_p_decomp_pool3
 
-      g%fom_p(layer) = g%fom_p_pool(1,layer) + g%fom_p_pool(2,layer) +g%fom_p_pool(3,layer)
-      g%hum_p (layer) = g%hum_p (layer) +g%dlt_fom_c_hum (layer) / c%hum_cp
-      g%biom_p (layer) = g%biom_p (layer) +g%dlt_fom_c_biom (layer) / c%biom_cp
+      g%fom_p(layer) = g%fom_p_pool(1,layer) + g%fom_p_pool(2,layer) + g%fom_p_pool(3,layer)
+      g%hum_p (layer) = g%hum_p (layer) + g%dlt_fom_c_hum (layer) / c%hum_cp
+      g%biom_p (layer) = g%biom_p (layer) + g%dlt_fom_c_biom (layer) / c%biom_cp
       g%labile_p (layer) = g%labile_p (layer) + min_p
 
       if (g%labile_p (layer) .lt. 0.0) then
@@ -1896,9 +1886,6 @@ subroutine soilp_ONFreshOrganicMatterIncorporated(variant)
    character*200   message          !
    integer    layer                 ! layer number in loop ()
    integer    numvals               ! number of values read from file
-   real fom_c_pool1(max_layer)!   C in fom pool 1
-   real fom_c_pool2(max_layer)!   C in fom pool 2
-   real fom_c_pool3(max_layer)!   C in fom pool 3
 
    type (FPoolProfileLayerType), dimension(max_layer)::FPoolProfileLayer
 
@@ -1906,17 +1893,8 @@ subroutine soilp_ONFreshOrganicMatterIncorporated(variant)
 !- Implementation Section ----------------------------------
 
    call push_routine (my_name)
-   fom_c_pool1(1:max_layer) = 0.0
-   fom_c_pool2(1:max_layer) = 0.0
-   fom_c_pool3(1:max_layer) = 0.0
 
-   !dsg need to get g%fom_c_pools from soiln2 to calculate cp ratios
-   call Get_real_array (unknown_module,'fom_c_pool1',max_layer,'()',fom_c_pool1,numvals,0.0,5000.)
-   call Get_real_array (unknown_module,'fom_c_pool2',max_layer,'()',fom_c_pool2,numvals,0.0,5000.)
-   call Get_real_array (unknown_module,'fom_c_pool3',max_layer,'()',fom_c_pool3,numvals,0.0,5000.)
-
-
-   call unpack_FPoolProfileLayer(variant,FPoolProfileLayer,numvals)
+   call unpack_FPoolProfileLayer(variant, FPoolProfileLayer, numvals)
 
 
    !NOW INCREMENT THE POOLS with the unpacked deltas
@@ -1929,12 +1907,6 @@ subroutine soilp_ONFreshOrganicMatterIncorporated(variant)
       g%fom_p_pool(3,layer) = g%fom_p_pool(3,layer) +FPoolProfileLayer(layer)%fpool(3)%P
 
       g%fom_p (layer) = g%fom_p_pool(1,layer) + g%fom_p_pool(2,layer)+ g%fom_p_pool(3,layer)
-
-      g%fom_cp_pool(1,layer) =  divide(fom_c_pool1(layer),g%fom_p_pool(1,layer),0.0)
-      g%fom_cp_pool(2,layer) =  divide(fom_c_pool2(layer),g%fom_p_pool(2,layer),0.0)
-      g%fom_cp_pool(3,layer) =  divide(fom_c_pool3(layer),g%fom_p_pool(3,layer),0.0)
-
-      g%fom_cp(layer) = divide((fom_c_pool1(layer)+fom_c_pool2(layer) +fom_c_pool3(layer)),(g%fom_p_pool(1,layer)+g%fom_p_pool(2,layer) + g%fom_p_pool(3,layer)),0.0)
 
       g%labile_p(layer) = g%labile_p(layer) + FPoolProfileLayer(layer)%po4
 
@@ -1971,9 +1943,6 @@ subroutine soilp_incorp_residues ()
    real dlt_fom_p_incorp (max_layer)
    real dlt_fom_cpr_incorp (max_layer)
    real dlt_labile_p (max_layer)
-   real fom_c_pool1(max_layer)!   C in fom pool 1
-   real fom_c_pool2(max_layer)!   C in fom pool 2
-   real fom_c_pool3(max_layer)!   C in fom pool 3
    real dlt_fom_p_pool1(max_layer) ! change in p in pool1
    real dlt_fom_p_pool2(max_layer) ! change in p in pool2
    real dlt_fom_p_pool3(max_layer) ! change in p in pool3
@@ -1991,9 +1960,6 @@ subroutine soilp_incorp_residues ()
 
 !- Implementation Section ----------------------------------
    call push_routine (myname)
-   fom_c_pool1(1:max_layer) = 0.0
-   fom_c_pool2(1:max_layer) = 0.0
-   fom_c_pool3(1:max_layer) = 0.0
 
    dlt_fom_incorp(:) = 0.0
    dlt_fom_p_incorp(:) = 0.0
@@ -2069,10 +2035,6 @@ subroutine soilp_incorp_residues ()
    !dsg  end of big loop
   endif
 
-   !dsg need to get g%fom_c_pools from soiln2 to calculate cp ratios
-   call Get_real_array (unknown_module,'fom_c_pool1',max_layer,'()',fom_c_pool1,numvals,0.0,5000.)
-   call Get_real_array (unknown_module,'fom_c_pool2',max_layer,'()',fom_c_pool2,numvals,0.0,5000.)
-   call Get_real_array (unknown_module,'fom_c_pool3',max_layer,'()',fom_c_pool3,numvals,0.0,5000.)
    num_layers = count_of_real_vals(g%dlayer,max_layer)
 
    do layer = 1, num_layers
@@ -2082,12 +2044,6 @@ subroutine soilp_incorp_residues ()
       g%fom_p_pool(3,layer) = g%fom_p_pool(3,layer) +dlt_fom_p_pool3(layer)
 
       g%fom_p (layer) = g%fom_p_pool(1,layer) + g%fom_p_pool(2,layer)+ g%fom_p_pool(3,layer)
-
-      g%fom_cp_pool(1,layer) =  divide(fom_c_pool1(layer),g%fom_p_pool(1,layer),0.0)
-      g%fom_cp_pool(2,layer) =  divide(fom_c_pool2(layer),g%fom_p_pool(2,layer),0.0)
-      g%fom_cp_pool(3,layer) =  divide(fom_c_pool3(layer),g%fom_p_pool(3,layer),0.0)
-
-      g%fom_cp(layer) = divide((fom_c_pool1(layer)+fom_c_pool2(layer) +fom_c_pool3(layer)),(g%fom_p_pool(1,layer)+g%fom_p_pool(2,layer) + g%fom_p_pool(3,layer)),0.0)
    end do
 
 
@@ -2196,9 +2152,6 @@ subroutine soilp_incorp_residue_P ()
    character  err_string*80           ! Error message string
    real dlt_fom_p_incorp (max_layer)
    real dlt_labile_p (max_layer)
-   real fom_c_pool1(max_layer)!   C in fom pool 1
-   real fom_c_pool2(max_layer)!   C in fom pool 2
-   real fom_c_pool3(max_layer)!   C in fom pool 3
    real dlt_fom_p_pool1(max_layer) ! change in p in pool1
    real dlt_fom_p_pool2(max_layer) ! change in p in pool2
    real dlt_fom_p_pool3(max_layer) ! change in p in pool3
@@ -2214,9 +2167,6 @@ subroutine soilp_incorp_residue_P ()
 
 !- Implementation Section ----------------------------------
    call push_routine (myname)
-   fom_c_pool1(1:max_layer) = 0.0
-   fom_c_pool2(1:max_layer) = 0.0
-   fom_c_pool3(1:max_layer) = 0.0
 
    dlt_fom_p_incorp(:) = 0.0
    dlt_labile_p(:) = 0.0
@@ -2245,22 +2195,12 @@ subroutine soilp_incorp_residue_P ()
    endif
 
 
-   call Get_real_array (unknown_module,'fom_c_pool1',max_layer,'()',fom_c_pool1,numvals,0.0,5000.)
-   call Get_real_array (unknown_module,'fom_c_pool2',max_layer,'()',fom_c_pool2,numvals,0.0,5000.)
-   call Get_real_array (unknown_module,'fom_c_pool3',max_layer,'()',fom_c_pool3,numvals,0.0,5000.)
-
    do layer = 1, max_layer
       g%fom_p_pool(1,layer) = g%fom_p_pool(1,layer) +dlt_fom_p_pool1(layer)
       g%fom_p_pool(2,layer) = g%fom_p_pool(2,layer) +dlt_fom_p_pool2(layer)
       g%fom_p_pool(3,layer) = g%fom_p_pool(3,layer) +dlt_fom_p_pool3(layer)
 
       g%fom_p (layer) = g%fom_p_pool(1,layer) + g%fom_p_pool(2,layer)+ g%fom_p_pool(3,layer)
-
-      g%fom_cp_pool(1,layer) =  divide(fom_c_pool1(layer),g%fom_p_pool(1,layer),0.0)
-      g%fom_cp_pool(2,layer) =  divide(fom_c_pool2(layer),g%fom_p_pool(2,layer),0.0)
-      g%fom_cp_pool(3,layer) =  divide(fom_c_pool3(layer),g%fom_p_pool(3,layer),0.0)
-
-      g%fom_cp(layer) = divide((fom_c_pool1(layer)+fom_c_pool2(layer)+ fom_c_pool3(layer)),(g%fom_p_pool(1,layer)+g%fom_p_pool(2,layer) + g%fom_p_pool(3,layer)),0.0)
    end do
 
    ! now do mineral P
@@ -2275,6 +2215,158 @@ subroutine soilp_incorp_residue_P ()
    call pop_routine (myname)
    return
 end subroutine
+
+!     ===========================================================
+subroutine soilp_currentFOMpoolCPratio (fom_cp_pool)
+!     ===========================================================
+   Use Infrastructure
+   implicit none
+
+!+  Purpose
+!       Calculate the CP ratio of the FOM Pools
+
+!+  Sub-Program Arguments
+      real, intent(out) :: fom_cp_pool(nfract, max_layer) ! c:p ratio in each pool in each layer
+
+!+  Constant Values
+   character  my_name*(*)           ! name of subroutine
+   parameter (my_name = 'soilp_currentFOMpoolCPratio')
+
+!+  Local Variables
+   integer    layer                 ! layer number in loop ()
+   integer    fract               ! number of fractions
+   integer    numvals               ! number of values read from file
+   real fom_c_pool1(max_layer)!   C in fom pool 1
+   real fom_c_pool2(max_layer)!   C in fom pool 2
+   real fom_c_pool3(max_layer)!   C in fom pool 3
+
+!- Implementation Section ----------------------------------
+
+   call push_routine (my_name)
+
+   do layer = 1, max_layer
+      do fract = 1, nfract
+         fom_cp_pool(fract,layer) =  0.0
+      end do
+   end do
+
+   fom_c_pool1(1:max_layer) = 0.0
+   fom_c_pool2(1:max_layer) = 0.0
+   fom_c_pool3(1:max_layer) = 0.0
+
+   !dsg need to get g%fom_c_pools from soiln2 to calculate cp ratios
+   call Get_real_array (unknown_module, 'fom_c_pool1', max_layer, '()', fom_c_pool1, numvals, 0.0, 5000.0)
+   call Get_real_array (unknown_module, 'fom_c_pool2', max_layer, '()', fom_c_pool2, numvals, 0.0, 5000.0)
+   call Get_real_array (unknown_module, 'fom_c_pool3', max_layer, '()', fom_c_pool3, numvals, 0.0, 5000.0)
+
+   do layer = 1, numvals
+      fom_cp_pool(1,layer) =  divide(fom_c_pool1(layer), g%fom_p_pool(1,layer), 0.0)
+      fom_cp_pool(2,layer) =  divide(fom_c_pool2(layer), g%fom_p_pool(2,layer), 0.0)
+      fom_cp_pool(3,layer) =  divide(fom_c_pool3(layer), g%fom_p_pool(3,layer), 0.0)
+
+   end do
+
+  call pop_routine (my_name)
+  return
+end subroutine
+
+!     ===========================================================
+subroutine soilp_currentFOMCPratio (fom_cp)
+!     ===========================================================
+   Use Infrastructure
+   implicit none
+
+!+  Purpose
+!       Calculate the CP ratio of the FOM Pools
+
+!+  Sub-Program Arguments
+      real, intent(out) :: fom_cp(max_layer) ! c:p ratio in each layer
+
+!+  Constant Values
+   character  my_name*(*)           ! name of subroutine
+   parameter (my_name = 'soilp_currentFOMCPratio')
+
+!+  Local Variables
+   integer    layer                 ! layer number in loop ()
+   integer    fract               ! number of fractions
+   real     fom_cp_pool(nfract, max_layer) ! c:p ratio in each pool in each layer
+
+!- Implementation Section ----------------------------------
+   call push_routine (my_name)
+
+   call fill_real_array (fom_cp, 0.0, max_layer)
+   call soilp_currentFOMpoolCPratio (fom_cp_pool)
+
+   do layer = 1, max_layer
+      do fract = 1, nfract
+         fom_cp(layer) = fom_cp(layer) + fom_cp_pool(fract,layer)
+      end do
+   end do
+
+  call pop_routine (my_name)
+  return
+end subroutine
+
+! ====================================================================
+subroutine soilp_dlt_fom_p_pools ()
+! ====================================================================
+   Use infrastructure
+   implicit none
+
+!+  Purpose
+!      Calculate the delta for P in the FOM pools
+
+!+  Constant Values
+   character*(*) myname               ! name of current procedure
+   parameter (myname = 'soilp_dlt_fom_p_pools')
+
+!+  Local Variables
+   integer layer                    ! layer counter
+   integer num_layers
+   integer numvals
+   real    fom_p_decomposed
+   real    min_p
+   real    dlt_fom_c_pool1(max_layer)    !  fom P decomposed from pool1
+   real    dlt_fom_c_pool2(max_layer)    !  fom P decomposed from pool2
+   real    dlt_fom_c_pool3(max_layer)    !  fom P decomposed from pool3
+   real fom_c_pool1(max_layer)!   C in fom pool 1
+   real fom_c_pool2(max_layer)!   C in fom pool 2
+   real fom_c_pool3(max_layer)!   C in fom pool 3
+
+   real     fom_cp_pool(nfract, max_layer) ! c:p ratio in each pool in each layer
+
+!- Implementation Section ----------------------------------
+   call push_routine (myname)
+
+   num_layers = count_of_real_vals (g%dlayer , max_layer)
+
+   call Get_real_array (unknown_module, 'dlt_fom_c_pool1', max_layer, '()', dlt_fom_c_pool1, numvals, 0.0, 5000.0)
+   call Get_real_array (unknown_module, 'dlt_fom_c_pool2', max_layer, '()', dlt_fom_c_pool2, numvals, 0.0, 5000.0)
+   call Get_real_array (unknown_module, 'dlt_fom_c_pool3', max_layer, '()', dlt_fom_c_pool3, numvals, 0.0, 5000.0)
+
+   call Get_real_array (unknown_module, 'fom_c_pool1', max_layer, '()', fom_c_pool1, numvals, 0.0, 5000.0)
+   call Get_real_array (unknown_module, 'fom_c_pool2', max_layer, '()', fom_c_pool2, numvals, 0.0, 5000.0)
+   call Get_real_array (unknown_module, 'fom_c_pool3', max_layer, '()', fom_c_pool3, numvals, 0.0, 5000.0)
+
+   do layer = 1, numvals
+         ! the sign on the delta is incorrect, so need to add (rather than subtract) it here to get the FOM C before the delata change
+      fom_cp_pool(1,layer) =  divide(fom_c_pool1(layer) + dlt_fom_c_pool1(layer), g%fom_p_pool(1,layer), 0.0)
+      fom_cp_pool(2,layer) =  divide(fom_c_pool2(layer) + dlt_fom_c_pool2(layer), g%fom_p_pool(2,layer), 0.0)
+      fom_cp_pool(3,layer) =  divide(fom_c_pool3(layer) + dlt_fom_c_pool3(layer), g%fom_p_pool(3,layer), 0.0)
+
+   end do
+
+   do layer = 1, num_layers
+      ! calculate delta p in fom pool
+      g%dlt_fom_P_pool1(layer) = dlt_fom_c_pool1(layer) / fom_cp_pool(1,layer)
+      g%dlt_fom_P_pool2(layer) = dlt_fom_c_pool2(layer) / fom_cp_pool(2,layer)
+      g%dlt_fom_P_pool3(layer) = dlt_fom_c_pool3(layer) / fom_cp_pool(3,layer)
+   end do
+
+   call pop_routine (myname)
+   return
+end subroutine
+
 
 end module SoilPModule
 
