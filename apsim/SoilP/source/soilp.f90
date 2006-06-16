@@ -2227,10 +2227,10 @@ subroutine soilp_incorp_residue_P ()
    call collect_real_array_optional ('dlt_fom_p_pool1', max_layer, '(kg/ha)', dlt_fom_p_pool1, numvals1, -100000.0, 100000.0)
    call collect_real_array_optional ('dlt_fom_p_pool2', max_layer, '(kg/ha)', dlt_fom_p_pool2, numvals2, -100000.0, 100000.0)
    call collect_real_array_optional ('dlt_fom_p_pool3', max_layer, '(kg/ha)', dlt_fom_p_pool3, numvals3, -100000.0, 100000.0)
-   numvals = numvals1 + numvals2 + numvals3
+   numval_p = numvals1 + numvals2 + numvals3
 
-   if(numvals.eq.0) then
-      call collect_real_array ('dlt_fom_p', max_layer, '(kg/ha)', dlt_fom_p_incorp, numval_p, 0.0, 10000.0)
+   if(numval_p.eq.0) then
+      call collect_real_array_optional ('dlt_fom_p', max_layer, '(kg/ha)', dlt_fom_p_incorp, numval_p, 0.0, 10000.0)
       call Get_integer_var(unknown_module, 'num_fom_types', '()',  g%num_fom_types, numvals, 0, 100)
       call Get_real_var (unknown_module,'fr_carb','()',c%fr_carb,numvals,0.0,1000.)
       call Get_real_var (unknown_module,'fr_cell','()',c%fr_cell,numvals,0.0,1000.)
