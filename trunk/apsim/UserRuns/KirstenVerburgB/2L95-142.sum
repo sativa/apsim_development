@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.0
+     Version                = 5.1
      Title                  = 2 Years Lucerne Harvested 1995 plots
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\clock\lib\clock.dll
@@ -208,44 +208,44 @@
 ------- operatns Initialisation -----------------------------------------------
      Operations Schedule
      ===================
-       120 1993  Prepare      surfaceom tillage type = rip()
-       270 1993  Prepare      lucerne sow cultivar = trifecta, plants = 100 (/m2), sowing_depth = 40 (mm)
-        22 1994  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
-        85 1994  Prepare      lucerne harvest height = 50 (mm)
-        87 1994  Prepare      surfaceom tillage type = graze()
-       291 1994  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
-         6 1995  Prepare      lucerne harvest height = 50 (mm)
-         8 1995  Prepare      surfaceom tillage type = graze()
-        42 1995  Prepare      lucerne harvest height = 50 (mm)
-        44 1995  Prepare      surfaceom tillage type = graze()
-        90 1995  Prepare      lucerne harvest
-        90 1995  Prepare      lucerne end_crop
-       130 1995  Prepare      wheat sow plants = 200, sowing_depth = 40, cultivar = katunga
-       355 1995  Prepare      wheat harvest
-       355 1995  Prepare      wheat kill_crop
-       355 1995  Prepare      wheat end_crop
-       120 1996  Prepare      surfaceom tillage type = burn_95()
-       137 1996  Prepare      canola sow cultivar = oscar, plants = 81 (/m2), sowing_depth = 20 (mm)
-       343 1996  Prepare      canola harvest
-       343 1996  Prepare      canola end_crop
-       343 1996  Prepare      canola kill_crop
-       120 1997  Prepare      surfaceom tillage type = burn_95()
-       133 1997  Prepare      wheat sow plants = 199, sowing_depth = 40, cultivar = swift
-       345 1997  Prepare      wheat harvest
-       345 1997  Prepare      wheat kill_crop
-       345 1997  Prepare      wheat end_crop
-       110 1998  Prepare      surfaceom tillage type = burn_95()
-       121 1998  Prepare      lucerne sow cultivar = trifecta, plants = 200 (/m2), sowing_depth = 40 (mm)
-       287 1998  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
-       339 1998  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
-        65 1999  Prepare      lucerne harvest height = 50 (mm)
-        67 1999  Prepare      surfaceom tillage type = graze()
-       112 1999  Prepare      lucerne harvest height = 50 (mm)
-       114 1999  Prepare      surfaceom tillage type = graze()
-       218 1999  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
-       287 1999  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
-       344 1999  Prepare      lucerne harvest height = 50 (mm)
-       346 1999  Prepare      surfaceom tillage type = graze()
+      30/4/1993  Prepare      surfaceom tillage type = rip()
+      27/9/1993  Prepare      lucerne sow cultivar = trifecta, plants = 100 (/m2), sowing_depth = 40 (mm)
+      22/1/1994  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
+      26/3/1994  Prepare      lucerne harvest height = 50 (mm)
+      28/3/1994  Prepare      surfaceom tillage type = graze()
+     18/10/1994  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
+       6/1/1995  Prepare      lucerne harvest height = 50 (mm)
+       8/1/1995  Prepare      surfaceom tillage type = graze()
+      11/2/1995  Prepare      lucerne harvest height = 50 (mm)
+      13/2/1995  Prepare      surfaceom tillage type = graze()
+      31/3/1995  Prepare      lucerne harvest
+      31/3/1995  Prepare      lucerne end_crop
+      10/5/1995  Prepare      wheat sow plants = 200, sowing_depth = 40, cultivar = katunga
+     21/12/1995  Prepare      wheat harvest
+     21/12/1995  Prepare      wheat kill_crop
+     21/12/1995  Prepare      wheat end_crop
+      29/4/1996  Prepare      surfaceom tillage type = burn_95()
+      16/5/1996  Prepare      canola sow cultivar = oscar, plants = 81 (/m2), sowing_depth = 20 (mm)
+      8/12/1996  Prepare      canola harvest
+      8/12/1996  Prepare      canola end_crop
+      8/12/1996  Prepare      canola kill_crop
+      30/4/1997  Prepare      surfaceom tillage type = burn_95()
+      13/5/1997  Prepare      wheat sow plants = 199, sowing_depth = 40, cultivar = swift
+     11/12/1997  Prepare      wheat harvest
+     11/12/1997  Prepare      wheat kill_crop
+     11/12/1997  Prepare      wheat end_crop
+      20/4/1998  Prepare      surfaceom tillage type = burn_95()
+       1/5/1998  Prepare      lucerne sow cultivar = trifecta, plants = 200 (/m2), sowing_depth = 40 (mm)
+     14/10/1998  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
+      5/12/1998  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
+       6/3/1999  Prepare      lucerne harvest height = 50 (mm)
+       8/3/1999  Prepare      surfaceom tillage type = graze()
+      22/4/1999  Prepare      lucerne harvest height = 50 (mm)
+      24/4/1999  Prepare      surfaceom tillage type = graze()
+       6/8/1999  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
+     14/10/1999  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
+     10/12/1999  Prepare      lucerne harvest height = 50 (mm)
+     12/12/1999  Prepare      surfaceom tillage type = graze()
 
 ------- fertiliz Initialisation -----------------------------------------------
       Initialising

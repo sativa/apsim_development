@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<simulation executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll" version="5.0">
+<simulation executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll" version="5.1">
    <title>4 Years Lucerne Harvested 1997 plots</title>
    <component name="SummaryFile" executable = "c:\development\apsim\SummaryFile\lib\SummaryFile.dll">
       <initdata>
@@ -656,6 +656,11 @@
             <fom_type>barley</fom_type>
             <specific_area>0.0005</specific_area>
          </barley>
+         <broccoli>
+            <derived_from>base_type</derived_from>
+            <fom_type>broccoli</fom_type>
+            <specific_area>0.0004</specific_area>
+         </broccoli>
          <camaldulensis>
             <derived_from>base_type</derived_from>
             <fom_type>camaldulensis</fom_type>
@@ -741,6 +746,11 @@
             <fom_type>mungbean</fom_type>
             <specific_area>0.0002</specific_area>
          </mungbean>
+         <horsegram>
+            <derived_from>base_type</derived_from>
+            <fom_type>horsegram</fom_type>
+            <specific_area>0.0002</specific_area>
+         </horsegram>
          <navybean>
             <derived_from>base_type</derived_from>
             <fom_type>navybean</fom_type>
@@ -897,7 +907,6 @@
          <kl>0.08   0.08   0.04   0.04    0.02    0.02      0.01     0.01     0        0        0        0        0        0        0        0        0       0        0        0        0        0        0        0        0        0        0     ()</kl>
          <crop_type>canola</crop_type>
          <default_crop_class>plant</default_crop_class>
-         <part_names>root</part_names>
          <sw_ub>1.0</sw_ub>
          <sw_lb>0.0</sw_lb>
          <year_ub>2000      ()</year_ub>
@@ -961,7 +970,6 @@
             <n_stress_option>1</n_stress_option>
             <fruit_no_option>1</fruit_no_option>
             <parasite_option>1</parasite_option>
-            <root_growth_option>1</root_growth_option>
             <co2_default>350                      (ppm)</co2_default>
             <photosynthetic_pathway>C3            (C3, or C4)</photosynthetic_pathway>
             <x_co2_te_modifier>350              (ppm co2)</x_co2_te_modifier>
@@ -1002,7 +1010,7 @@
             <rue_pod>1.35  (g/MJ)</rue_pod>
             <x_ave_temp>0  10 22 30 (oC)</x_ave_temp>
             <y_stress_photo>0  1  1  0  ()</y_stress_photo>
-            <dm_init>0.2   (g/plant)</dm_init>
+            <root_dm_init>0.2   (g/plant)</root_dm_init>
             <leaf_dm_init>0.03 (g/plant)</leaf_dm_init>
             <stem_dm_init>0.0 (g/plant)</stem_dm_init>
             <pod_dm_init>0.0</pod_dm_init>
@@ -1013,6 +1021,7 @@
             <pod_trans_frac>0.30 ()</pod_trans_frac>
             <meal_trans_frac>0.00 ()</meal_trans_frac>
             <oil_trans_frac>0.00 ()</oil_trans_frac>
+            <root_trans_frac>0.00 ()</root_trans_frac>
             <ratio_root_shoot>0      0    1.0   1.0   1.00  0.33   0.087  0     0     0      0   (0-1)</ratio_root_shoot>
             <frac_leaf>0      0    0.90  0.70  0.40  0.0    0      0     0     0      0   (0-1)</frac_leaf>
             <frac_pod>0      0    0     0     0     0.60   0.2    0     0     0      0   (0-1)</frac_pod>
@@ -1087,13 +1096,13 @@
             <y_n_conc_min_oil>0.0     0.0     0.0         0.0    0.0    0.0    0.0   ()</y_n_conc_min_oil>
             <y_n_conc_crit_oil>0.0     0.0     0.0         0.0    0.0    0.0    0.0   ()</y_n_conc_crit_oil>
             <y_n_conc_max_oil>0.0     0.0     0.0         0.0    0.0    0.0    0.0   ()</y_n_conc_max_oil>
-            <n_init_conc>0.010</n_init_conc>
+            <root_n_init_conc>0.010</root_n_init_conc>
             <leaf_n_init_conc>0.065</leaf_n_init_conc>
             <stem_n_init_conc>0.040</stem_n_init_conc>
             <pod_n_init_conc>0.0</pod_n_init_conc>
             <meal_n_init_conc>0.0</meal_n_init_conc>
             <oil_n_init_conc>0.0</oil_n_init_conc>
-            <n_sen_conc>0.008</n_sen_conc>
+            <root_n_sen_conc>0.008</root_n_sen_conc>
             <leaf_n_sen_conc>0.015</leaf_n_sen_conc>
             <stem_n_sen_conc>0.000</stem_n_sen_conc>
             <pod_n_sen_conc>0.0</pod_n_sen_conc>
@@ -1122,8 +1131,8 @@
             <x_temp_senescence>-15.0 -5.0</x_temp_senescence>
             <y_senescence_fac>1    0</y_senescence_fac>
             <sen_rate_water>0.10 ()</sen_rate_water>
-            <dead_detach_frac>0  ()</dead_detach_frac>
-            <sen_detach_frac>1   ()</sen_detach_frac>
+            <root_dead_detach_frac>0  ()</root_dead_detach_frac>
+            <root_sen_detach_frac>1   ()</root_sen_detach_frac>
             <leaf_dead_detach_frac>0.0</leaf_dead_detach_frac>
             <leaf_sen_detach_frac>0.0</leaf_sen_detach_frac>
             <stem_dead_detach_frac>0.0</stem_dead_detach_frac>
@@ -1185,7 +1194,7 @@
             <y_tt_start_to_end_grain>700    700 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>50.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </PacN145>
          <monty>
@@ -1206,7 +1215,7 @@
             <y_tt_start_to_end_grain>700    700 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </monty>
          <JL1>
@@ -1227,7 +1236,7 @@
             <y_tt_start_to_end_grain>700    700 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </JL1>
          <mustard_397>
@@ -1248,7 +1257,7 @@
             <y_tt_start_to_end_grain>700    700 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </mustard_397>
          <Hyola42>
@@ -1269,7 +1278,7 @@
             <y_tt_start_to_end_grain>700    700 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </Hyola42>
          <Surpass400>
@@ -1290,7 +1299,7 @@
             <y_tt_start_to_end_grain>700    700 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </Surpass400>
          <rainbow>
@@ -1311,7 +1320,7 @@
             <y_tt_start_to_end_grain>700    700 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </rainbow>
          <Mystic>
@@ -1332,7 +1341,7 @@
             <y_tt_start_to_end_grain>700    700 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </Mystic>
          <Karoo>
@@ -1353,7 +1362,7 @@
             <y_tt_start_to_end_grain>700    700 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </Karoo>
          <narendra>
@@ -1374,7 +1383,7 @@
             <y_tt_start_to_end_grain>700    700 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </narendra>
          <Surpass600>
@@ -1395,7 +1404,7 @@
             <y_tt_start_to_end_grain>700    700 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </Surpass600>
          <geordie>
@@ -1416,7 +1425,7 @@
             <y_tt_start_to_end_grain>700    700 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </geordie>
          <oscar>
@@ -1437,7 +1446,7 @@
             <y_tt_start_to_end_grain>700    700 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </oscar>
          <marnoo>
@@ -1458,7 +1467,7 @@
             <y_tt_start_to_end_grain>700    700 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </marnoo>
          <eureka>
@@ -1479,7 +1488,7 @@
             <y_tt_start_to_end_grain>700    700 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </eureka>
          <taparoo>
@@ -1500,7 +1509,7 @@
             <y_tt_start_to_end_grain>700    700 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </taparoo>
          <charlton>
@@ -1521,7 +1530,7 @@
             <y_tt_start_to_end_grain>800    800 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </charlton>
          <Drum>
@@ -1542,7 +1551,7 @@
             <y_tt_start_to_end_grain>800    800 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </Drum>
          <clancy>
@@ -1563,7 +1572,7 @@
             <y_tt_start_to_end_grain>800    800 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </clancy>
          <pinnacle>
@@ -1584,7 +1593,7 @@
             <y_tt_start_to_end_grain>800    800 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </pinnacle>
          <dunkeld>
@@ -1605,7 +1614,7 @@
             <y_tt_start_to_end_grain>800    800 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </dunkeld>
          <late>
@@ -1626,7 +1635,7 @@
             <y_tt_start_to_end_grain>800    800 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </late>
          <mid>
@@ -1647,7 +1656,7 @@
             <y_tt_start_to_end_grain>700    700 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </mid>
          <early>
@@ -1668,7 +1677,7 @@
             <y_tt_start_to_end_grain>700    700 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>50.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </early>
          <mustard>
@@ -1689,7 +1698,7 @@
             <y_tt_start_to_end_grain>700    700 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </mustard>
          <french_winter>
@@ -1710,7 +1719,7 @@
             <y_tt_start_to_end_grain>1000   1000 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>1.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)C</y_height>
          </french_winter>
       </initdata>
@@ -1723,7 +1732,6 @@
          <xf>1.00   1.00   1.00   1.00    1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00    1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00     1.00  ()</xf>
          <crop_type>lucerne</crop_type>
          <default_crop_class>plant</default_crop_class>
-         <part_names>root</part_names>
          <leaf_part>generic_leaf</leaf_part>
          <sw_ub>1.0</sw_ub>
          <sw_lb>0.0</sw_lb>
@@ -1790,7 +1798,6 @@
             <n_stress_option>1</n_stress_option>
             <fruit_no_option>1</fruit_no_option>
             <parasite_option>1</parasite_option>
-            <root_growth_option>1</root_growth_option>
             <co2_default>350                      (ppm)</co2_default>
             <photosynthetic_pathway>C3            (C3, or C4)</photosynthetic_pathway>
             <x_co2_te_modifier>350              (ppm co2)</x_co2_te_modifier>
@@ -1810,6 +1817,8 @@
             <y_vernal_days>1  1  1  1</y_vernal_days>
             <x_temp>1.0  5.0  10  15  30  40        (oC)</x_temp>
             <y_tt>0.0  3.0  6.5 10  25  0.0</y_tt>
+            <x_removeBiomPheno>0.0  0.1   0.4  0.5  1.0       ()</x_removeBiomPheno>
+            <y_removeFractPheno>0.0  0.8  0.8  0.8  0.8       ()</y_removeFractPheno>
             <leaf_no_at_emerg>0.1</leaf_no_at_emerg>
             <x_node_no_app>0    0.99 1   20</x_node_no_app>
             <y_node_app_rate>51   51   51  51</y_node_app_rate>
@@ -1829,7 +1838,7 @@
             <rue_pod>0   (g/MJ)</rue_pod>
             <x_ave_temp>0.0  8.0 20.0 25.0  40.0 (oC)</x_ave_temp>
             <y_stress_photo>0.0  1.0  1.0  1.0   0.0  (0-1)</y_stress_photo>
-            <dm_init>0.002    (g/plant)</dm_init>
+            <root_dm_init>0.002    (g/plant)</root_dm_init>
             <leaf_dm_init>0.005 (g/plant)</leaf_dm_init>
             <stem_dm_init>0.0 (g/plant)</stem_dm_init>
             <pod_dm_init>0.0</pod_dm_init>
@@ -1840,6 +1849,7 @@
             <pod_trans_frac>0.30 ()</pod_trans_frac>
             <meal_trans_frac>0.00 ()</meal_trans_frac>
             <oil_trans_frac>0.00 ()</oil_trans_frac>
+            <root_trans_frac>0.00 ()</root_trans_frac>
             <ratio_root_shoot>0      0    1.0   0.25  0.40  0.60   1.00   0     0     0      0   (0-1)</ratio_root_shoot>
             <frac_leaf>0      0    0.45  0.45  0.45  0.12   0.20   0     0     0      0   (0-1)</frac_leaf>
             <frac_pod>0      0    0     0     0     0.09   0.10   0     0     0      0   (0-1)</frac_pod>
@@ -1914,13 +1924,13 @@
             <y_n_conc_min_oil>0.0      0.0     0.0      0.0    ()</y_n_conc_min_oil>
             <y_n_conc_crit_oil>0.0      0.0     0.0      0.0    ()</y_n_conc_crit_oil>
             <y_n_conc_max_oil>0.0      0.0     0.0      0.0    ()</y_n_conc_max_oil>
-            <n_init_conc>0.025</n_init_conc>
+            <root_n_init_conc>0.025</root_n_init_conc>
             <leaf_n_init_conc>0.060</leaf_n_init_conc>
             <stem_n_init_conc>0.060</stem_n_init_conc>
             <pod_n_init_conc>0.0</pod_n_init_conc>
             <meal_n_init_conc>0.0</meal_n_init_conc>
             <oil_n_init_conc>0.0</oil_n_init_conc>
-            <n_sen_conc>0.01</n_sen_conc>
+            <root_n_sen_conc>0.01</root_n_sen_conc>
             <leaf_n_sen_conc>0.02</leaf_n_sen_conc>
             <stem_n_sen_conc>0.02</stem_n_sen_conc>
             <pod_n_sen_conc>0.0</pod_n_sen_conc>
@@ -1949,8 +1959,8 @@
             <x_temp_senescence>-15.0  0.0</x_temp_senescence>
             <y_senescence_fac>1     0</y_senescence_fac>
             <sen_rate_water>0.01 ()</sen_rate_water>
-            <dead_detach_frac>0   ()</dead_detach_frac>
-            <sen_detach_frac>1   ()</sen_detach_frac>
+            <root_dead_detach_frac>0   ()</root_dead_detach_frac>
+            <root_sen_detach_frac>1   ()</root_sen_detach_frac>
             <leaf_dead_detach_frac>0    ()</leaf_dead_detach_frac>
             <leaf_sen_detach_frac>0.07 ()</leaf_sen_detach_frac>
             <stem_dead_detach_frac>0    ()</stem_dead_detach_frac>
@@ -2215,7 +2225,6 @@
          <kl>0.08   0.08   0.04   0.04    0.02    0.02      0.01     0.01     0        0        0        0        0        0        0        0        0       0        0        0        0        0        0        0        0        0        0     ()</kl>
          <crop_type>lupin</crop_type>
          <default_crop_class>plant</default_crop_class>
-         <part_names>root</part_names>
          <leaf_part>generic_leaf</leaf_part>
          <sw_ub>1.0</sw_ub>
          <sw_lb>0.0</sw_lb>
@@ -2277,7 +2286,6 @@
             <n_stress_option>1</n_stress_option>
             <fruit_no_option>1</fruit_no_option>
             <parasite_option>1</parasite_option>
-            <root_growth_option>1</root_growth_option>
             <co2_default>350                      (ppm)</co2_default>
             <photosynthetic_pathway>C3            (C3, or C4)</photosynthetic_pathway>
             <x_co2_te_modifier>350              (ppm co2)</x_co2_te_modifier>
@@ -2318,7 +2326,7 @@
             <rue_pod>0.0   (g/MJ)</rue_pod>
             <x_ave_temp>0.0  10.0  22.0  40.0 (oC)</x_ave_temp>
             <y_stress_photo>0.0   1.0   1.0   0.0  ()</y_stress_photo>
-            <dm_init>0.2   (g/plant)</dm_init>
+            <root_dm_init>0.2   (g/plant)</root_dm_init>
             <leaf_dm_init>0.2</leaf_dm_init>
             <stem_dm_init>0.0</stem_dm_init>
             <pod_dm_init>0.0</pod_dm_init>
@@ -2329,6 +2337,7 @@
             <pod_trans_frac>0.4</pod_trans_frac>
             <meal_trans_frac>0.00 ()</meal_trans_frac>
             <oil_trans_frac>0.00 ()</oil_trans_frac>
+            <root_trans_frac>0.00 ()</root_trans_frac>
             <ratio_root_shoot>0      0    1.0   1.0   1.00  0.33   0.087  0     0     0      0   (0-1)</ratio_root_shoot>
             <frac_leaf>0      0    0.50  0.50  0.50  0.40   0.20   0.05  0     0      0   (0-1)</frac_leaf>
             <frac_pod>0      0    0     0     0     0.10   1.0   1.0  0     0      0   (0-1)</frac_pod>
@@ -2403,13 +2412,13 @@
             <y_n_conc_min_oil>0.0     0.0    0.0     0.0      0.0    ()</y_n_conc_min_oil>
             <y_n_conc_crit_oil>0.0     0.0    0.0     0.0      0.0    ()</y_n_conc_crit_oil>
             <y_n_conc_max_oil>0.0     0.0    0.0     0.0      0.0    ()</y_n_conc_max_oil>
-            <n_init_conc>0.015</n_init_conc>
+            <root_n_init_conc>0.015</root_n_init_conc>
             <leaf_n_init_conc>0.06</leaf_n_init_conc>
             <stem_n_init_conc>0.06</stem_n_init_conc>
             <pod_n_init_conc>0.0</pod_n_init_conc>
             <meal_n_init_conc>0.0</meal_n_init_conc>
             <oil_n_init_conc>0.0</oil_n_init_conc>
-            <n_sen_conc>0.008</n_sen_conc>
+            <root_n_sen_conc>0.008</root_n_sen_conc>
             <leaf_n_sen_conc>0.005</leaf_n_sen_conc>
             <stem_n_sen_conc>0.0</stem_n_sen_conc>
             <pod_n_sen_conc>0.0</pod_n_sen_conc>
@@ -2438,8 +2447,8 @@
             <x_temp_senescence>-15.0 -5.0</x_temp_senescence>
             <y_senescence_fac>1    0</y_senescence_fac>
             <sen_rate_water>0.05 ()</sen_rate_water>
-            <dead_detach_frac>0  ()</dead_detach_frac>
-            <sen_detach_frac>1  ()</sen_detach_frac>
+            <root_dead_detach_frac>0  ()</root_dead_detach_frac>
+            <root_sen_detach_frac>1  ()</root_sen_detach_frac>
             <leaf_dead_detach_frac>0.0</leaf_dead_detach_frac>
             <leaf_sen_detach_frac>0.0</leaf_sen_detach_frac>
             <stem_dead_detach_frac>0.0</stem_dead_detach_frac>
@@ -2485,7 +2494,7 @@
             <y_tt_start_to_end_grain>450    450</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>50.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  8     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  8     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </belara_testHIincr>
          <belara>
@@ -2506,7 +2515,7 @@
             <y_tt_start_to_end_grain>450   450   (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>50.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  8     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  8     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </belara>
          <kalya>
@@ -2527,7 +2536,7 @@
             <y_tt_start_to_end_grain>450   450   (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>50.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  8     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  8     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </kalya>
          <merrit>
@@ -2548,7 +2557,7 @@
             <y_tt_start_to_end_grain>450    450</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>50.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  8     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  8     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </merrit>
          <myallie>
@@ -2569,7 +2578,7 @@
             <y_tt_start_to_end_grain>450   450   (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>50.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  8     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  8     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </myallie>
          <tallerac>
@@ -2590,7 +2599,7 @@
             <y_tt_start_to_end_grain>450   450   (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>50.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  8     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  8     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </tallerac>
          <tanjil>
@@ -2611,7 +2620,7 @@
             <y_tt_start_to_end_grain>450   450   (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>50.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  8     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  8     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </tanjil>
          <wodjil>
@@ -2632,7 +2641,7 @@
             <y_tt_start_to_end_grain>400    400  (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>50.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  8     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  8     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </wodjil>
          <gungurru>
@@ -2653,7 +2662,7 @@
             <y_tt_start_to_end_grain>500   500</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>50.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  8     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  8     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </gungurru>
          <short>
@@ -2674,7 +2683,7 @@
             <y_tt_start_to_end_grain>450   450   (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>50.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  8     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  8     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </short>
       </initdata>
@@ -2719,7 +2728,6 @@
          <p_conc_init_oil>0.0</p_conc_init_oil>
          <crop_type>weed</crop_type>
          <default_crop_class>plant</default_crop_class>
-         <part_names>root</part_names>
          <leaf_part>generic_leaf</leaf_part>
          <sw_ub>1.0</sw_ub>
          <sw_lb>0.0</sw_lb>
@@ -2785,7 +2793,6 @@
             <n_stress_option>1</n_stress_option>
             <fruit_no_option>1</fruit_no_option>
             <parasite_option>1</parasite_option>
-            <root_growth_option>1</root_growth_option>
             <co2_default>350                      (ppm)</co2_default>
             <photosynthetic_pathway>C3            (C3, or C4)</photosynthetic_pathway>
             <x_co2_te_modifier>350              (ppm co2)</x_co2_te_modifier>
@@ -2820,7 +2827,7 @@
             <extinct_coef_pod>0.8 ()</extinct_coef_pod>
             <spec_pod_area>10000 (mm^2/g)</spec_pod_area>
             <rue_pod>1.1 (g/MJ)</rue_pod>
-            <dm_init>0.06  (g/plant)</dm_init>
+            <root_dm_init>0.06  (g/plant)</root_dm_init>
             <leaf_dm_init>0.05</leaf_dm_init>
             <stem_dm_init>0.01</stem_dm_init>
             <pod_dm_init>0.0</pod_dm_init>
@@ -2831,6 +2838,7 @@
             <pod_trans_frac>0.00 ()</pod_trans_frac>
             <meal_trans_frac>0.00 ()</meal_trans_frac>
             <oil_trans_frac>0.00 ()</oil_trans_frac>
+            <root_trans_frac>0.00 ()</root_trans_frac>
             <frac_leaf>0.000 0.000 0.800 0.700 0.400 0.217 0.000 0.000 0.000 0.000 0.000</frac_leaf>
             <frac_pod>0.000 0.000 0.000 0.000 0.000 0.080 0.400 0.400 0.000 0.000 0.000</frac_pod>
             <sw_fac_max>1.125     ()</sw_fac_max>
@@ -2878,7 +2886,7 @@
             <N_fact_photo>1.5      ()</N_fact_photo>
             <N_fact_expansion>1.00</N_fact_expansion>
             <N_fact_pheno>50       ()</N_fact_pheno>
-            <n_sen_conc>0.0075   (g/g)</n_sen_conc>
+            <root_n_sen_conc>0.0075   (g/g)</root_n_sen_conc>
             <leaf_n_sen_conc>0.005</leaf_n_sen_conc>
             <stem_n_sen_conc>0</stem_n_sen_conc>
             <pod_n_sen_conc>0.0</pod_n_sen_conc>
@@ -2904,8 +2912,8 @@
             <lai_sen_light>4.0       (m^2/m^2)</lai_sen_light>
             <sen_light_slope>0.008     ()</sen_light_slope>
             <sen_rate_water>0.05        ()</sen_rate_water>
-            <dead_detach_frac>0      (0-1)</dead_detach_frac>
-            <sen_detach_frac>1      (0-1)</sen_detach_frac>
+            <root_dead_detach_frac>0      (0-1)</root_dead_detach_frac>
+            <root_sen_detach_frac>1      (0-1)</root_sen_detach_frac>
             <leaf_dead_detach_frac>0</leaf_dead_detach_frac>
             <leaf_sen_detach_frac>0</leaf_sen_detach_frac>
             <stem_dead_detach_frac>0</stem_dead_detach_frac>
@@ -2957,7 +2965,7 @@
          </C4>
          <non_legume>
             <N_fix_rate>0      0    0     .000 0.000 0.000 0.000  0.000 0.000 0.000   0  (gN/gDM)</N_fix_rate>
-            <n_init_conc>0.018   0     0 (g/g)</n_init_conc>
+            <root_n_init_conc>0.018   (g/g)</root_n_init_conc>
             <leaf_n_init_conc>0.060</leaf_n_init_conc>
             <stem_n_init_conc>0.060</stem_n_init_conc>
             <pod_n_init_conc>0.0</pod_n_init_conc>
@@ -2988,7 +2996,7 @@
          </non_legume>
          <legume>
             <N_fix_rate>0      0    0     .002 0.002 0.002 0.002  0.002 0.002 0.000   0  (gN/gDM)</N_fix_rate>
-            <n_init_conc>0.025  0     0 (g/g)</n_init_conc>
+            <root_n_init_conc>0.025  (g/g)</root_n_init_conc>
             <leaf_n_init_conc>0.06</leaf_n_init_conc>
             <stem_n_init_conc>0.06</stem_n_init_conc>
             <pod_n_init_conc>0.0</pod_n_init_conc>
@@ -3067,7 +3075,7 @@
             <y_tt_start_to_end_grain>380  380 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>55.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  3     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  3     (g/plant)</x_stem_wt>
             <y_height>0  800   (mm)</y_height>
          </early>
          <late>
@@ -3088,7 +3096,7 @@
             <y_tt_start_to_end_grain>580  580 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>60.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  3     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  3     (g/plant)</x_stem_wt>
             <y_height>0  800   (mm)</y_height>
          </late>
       </initdata>
@@ -3101,7 +3109,6 @@
          <xf>0.60   0.60   0.60   0.60    0.60    0.60      0.60     0.60     0        0        0        0        0        0        0        0        0       0        0        0        0        0        0        0        0        0        0     ()</xf>
          <crop_type>wheat</crop_type>
          <default_crop_class>plant</default_crop_class>
-         <part_names>root</part_names>
          <leaf_part>generic_leaf</leaf_part>
          <sw_ub>1.0</sw_ub>
          <sw_lb>0.0</sw_lb>
@@ -3178,7 +3185,6 @@
             <total_n_uptake_max>0.6 (g/m2)</total_n_uptake_max>
             <fruit_no_option>1</fruit_no_option>
             <parasite_option>1</parasite_option>
-            <root_growth_option>1</root_growth_option>
             <plant>wheat</plant>
             <class_action>harvest</class_action>
             <class_change>unchanged</class_change>
@@ -3192,7 +3198,7 @@
             <stage_code>1      2    3     4     5     6     7      8     9    10     11  ()</stage_code>
             <stage_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</stage_names>
             <stage_code_list>1      2    3     4     5     6     7      8     9    10     11  ()</stage_code_list>
-            <stage_stem_reduction_harvest>1      2    3     3     4     4     4      4     4     4     11  ()</stage_stem_reduction_harvest>
+            <stage_stem_reduction_harvest>1      2    3     4     4     4     4      4     4     4     11  ()</stage_stem_reduction_harvest>
             <stage_stem_reduction_kill_stem>1      2    3     3     4     4     4      4     4     4     11  ()</stage_stem_reduction_kill_stem>
             <pesw_germ>0.00 (mm/mm)</pesw_germ>
             <shoot_lag>40.0 (oCd)</shoot_lag>
@@ -3228,6 +3234,7 @@
             <x_ave_temp>0  10 25 35 (oC)</x_ave_temp>
             <y_stress_photo>0  1  1  0  ()</y_stress_photo>
             <dm_init>0.010     (g/plant)</dm_init>
+            <root_dm_init>0.010     (g/plant)</root_dm_init>
             <leaf_dm_init>0.003</leaf_dm_init>
             <stem_dm_init>0.0016</stem_dm_init>
             <pod_dm_init>0.0</pod_dm_init>
@@ -3238,6 +3245,7 @@
             <pod_trans_frac>0    ()</pod_trans_frac>
             <meal_trans_frac>0.00 ()</meal_trans_frac>
             <oil_trans_frac>0.00 ()</oil_trans_frac>
+            <root_trans_frac>0.00 ()</root_trans_frac>
             <x_stage_no_partition>1      2    3     4    4.9       5     5.4   6       6.9    7      8     9    10     11   ()</x_stage_no_partition>
             <y_ratio_root_shoot>0      0    1.0   1.0  0.3       0.30  0.30  0.08    0.01   0      0     0     0      0   (0-1)</y_ratio_root_shoot>
             <y_frac_leaf>0      0    0.6   0.6  0.6       0.42  0.0   0.0     0.0    0      0     0     0      0   (0-1)</y_frac_leaf>
@@ -3322,6 +3330,7 @@
             <y_n_conc_crit_oil>0.0     0.0     0.0    0.0    0.0    0.0   ()</y_n_conc_crit_oil>
             <y_n_conc_max_oil>0.0     0.0     0.0    0.0    0.0    0.0   ()</y_n_conc_max_oil>
             <n_init_conc>0.020</n_init_conc>
+            <root_n_init_conc>0.020</root_n_init_conc>
             <leaf_n_init_conc>0.063</leaf_n_init_conc>
             <stem_n_init_conc>0.050</stem_n_init_conc>
             <pod_n_init_conc>0.063</pod_n_init_conc>
@@ -3329,6 +3338,7 @@
             <oil_n_init_conc>0.0</oil_n_init_conc>
             <n_senescence_option>2</n_senescence_option>
             <n_sen_conc>0.005</n_sen_conc>
+            <root_n_sen_conc>0.005</root_n_sen_conc>
             <leaf_n_sen_conc>0.005</leaf_n_sen_conc>
             <stem_n_sen_conc>0.0025</stem_n_sen_conc>
             <pod_n_sen_conc>0.007</pod_n_sen_conc>
@@ -3360,6 +3370,8 @@
             <sen_rate_water>0.10 ()</sen_rate_water>
             <dead_detach_frac>0   ()</dead_detach_frac>
             <sen_detach_frac>1   ()</sen_detach_frac>
+            <root_dead_detach_frac>0   ()</root_dead_detach_frac>
+            <root_sen_detach_frac>1   ()</root_sen_detach_frac>
             <leaf_dead_detach_frac>0.0</leaf_dead_detach_frac>
             <leaf_sen_detach_frac>0.0</leaf_sen_detach_frac>
             <stem_dead_detach_frac>0.0</stem_dead_detach_frac>
@@ -3411,7 +3423,7 @@
             <y_tt_start_to_end_grain>580    580 (oCd)</y_tt_start_to_end_grain>
             <tt_end_grain_to_maturity>50.0   (oCd)</tt_end_grain_to_maturity>
             <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
-            <x_stem_wt>0  6     (g/m2)</x_stem_wt>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
             <y_height>0  1500   (mm)</y_height>
          </base_cultivar>
          <hartog>

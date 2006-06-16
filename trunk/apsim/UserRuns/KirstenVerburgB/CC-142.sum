@@ -212,52 +212,52 @@
 ------- operatns Initialisation -----------------------------------------------
      Operations Schedule
      ===================
-       120 1993  Prepare      surfaceom tillage type = rip()
-       146 1993  Prepare      wheat sow plants = 200, sowing_depth = 40, cultivar = katunga
-       345 1993  Prepare      wheat harvest
-       345 1993  Prepare      wheat kill_crop
-       345 1993  Prepare      wheat end_crop
-       348 1993  Prepare      wheat sow plants = 100, sowing_depth = 10, cultivar = katunga
-       119 1994  Prepare      wheat harvest
-       119 1994  Prepare      wheat kill_crop
-       119 1994  Prepare      wheat end_crop
-       120 1994  Prepare      surfaceom tillage type = burn_95()
-       177 1994  Prepare      lupin sow plants = 40, cultivar = gungurru, sowing_depth = 40
-       355 1994  Prepare      lupin harvest
-       355 1994  Prepare      lupin kill_crop
-       355 1994  Prepare      lupin end_crop
-       120 1995  Prepare      surfaceom tillage type = burn_95()
-       130 1995  Prepare      wheat sow plants = 200, sowing_depth = 40, cultivar = katunga
-       355 1995  Prepare      wheat harvest
-       355 1995  Prepare      wheat kill_crop
-       355 1995  Prepare      wheat end_crop
-       120 1996  Prepare      surfaceom tillage type = burn_95()
-       137 1996  Prepare      canola sow cultivar = oscar, plants = 88 (/m2), sowing_depth = 20 (mm)
-       343 1996  Prepare      canola harvest
-       343 1996  Prepare      canola end_crop
-       343 1996  Prepare      canola kill_crop
-       120 1997  Prepare      surfaceom tillage type = burn_95()
-       133 1997  Prepare      fertiliz apply amount = 10 (kg/ha), type = urea_n (), depth = 10 (mm)
-       133 1997  Prepare      wheat sow plants = 196, sowing_depth = 40, cultivar = swift
-       177 1997  Prepare      fertiliz apply amount = 40 (kg/ha), type = urea_n (), depth = 10 (mm)
-       345 1997  Prepare      wheat harvest
-       345 1997  Prepare      wheat kill_crop
-       345 1997  Prepare      wheat end_crop
-       110 1998  Prepare      surfaceom tillage type = burn_95()
-       120 1998  Prepare      wheat sow plants = 222, sowing_depth = 40, cultivar = goldmark
-       191 1998  Prepare      fertiliz apply amount = 50 (kg/ha), type = urea_n (), depth = 10 (mm)
-       316 1998  Prepare      weed sow cultivar = early, plants = 15 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
-       356 1998  Prepare      wheat harvest
-       356 1998  Prepare      wheat kill_crop
-       356 1998  Prepare      wheat end_crop
-       119 1999  Prepare      weed harvest
-       119 1999  Prepare      weed end_crop
-       120 1999  Prepare      surfaceom tillage type = burn_95()
-       145 1999  Prepare      fertiliz apply amount = 10 (kg/ha), type = urea_n (), depth = 10 (mm)
-       145 1999  Prepare      canola sow cultivar = pinnacle, crop_class = triazine, plants = 183 (/m2), sowing_depth = 20 (mm)
-       166 1999  Prepare      fertiliz apply amount = 50 (kg/ha), type = urea_n (), depth = 10 (mm)
-       341 1999  Prepare      canola harvest
-       341 1999  Prepare      canola end_crop
+      30/4/1993  Prepare      surfaceom tillage type = rip()
+      26/5/1993  Prepare      wheat sow plants = 200, sowing_depth = 40, cultivar = katunga
+     11/12/1993  Prepare      wheat harvest
+     11/12/1993  Prepare      wheat kill_crop
+     11/12/1993  Prepare      wheat end_crop
+     14/12/1993  Prepare      wheat sow plants = 100, sowing_depth = 10, cultivar = katunga
+      29/4/1994  Prepare      wheat harvest
+      29/4/1994  Prepare      wheat kill_crop
+      29/4/1994  Prepare      wheat end_crop
+      30/4/1994  Prepare      surfaceom tillage type = burn_95()
+      26/6/1994  Prepare      lupin sow plants = 40, cultivar = gungurru, sowing_depth = 40
+     21/12/1994  Prepare      lupin harvest
+     21/12/1994  Prepare      lupin kill_crop
+     21/12/1994  Prepare      lupin end_crop
+      30/4/1995  Prepare      surfaceom tillage type = burn_95()
+      10/5/1995  Prepare      wheat sow plants = 200, sowing_depth = 40, cultivar = katunga
+     21/12/1995  Prepare      wheat harvest
+     21/12/1995  Prepare      wheat kill_crop
+     21/12/1995  Prepare      wheat end_crop
+      29/4/1996  Prepare      surfaceom tillage type = burn_95()
+      16/5/1996  Prepare      canola sow cultivar = oscar, plants = 88 (/m2), sowing_depth = 20 (mm)
+      8/12/1996  Prepare      canola harvest
+      8/12/1996  Prepare      canola end_crop
+      8/12/1996  Prepare      canola kill_crop
+      30/4/1997  Prepare      surfaceom tillage type = burn_95()
+      13/5/1997  Prepare      fertiliz apply amount = 10 (kg/ha), type = urea_n (), depth = 10 (mm)
+      13/5/1997  Prepare      wheat sow plants = 196, sowing_depth = 40, cultivar = swift
+      26/6/1997  Prepare      fertiliz apply amount = 40 (kg/ha), type = urea_n (), depth = 10 (mm)
+     11/12/1997  Prepare      wheat harvest
+     11/12/1997  Prepare      wheat kill_crop
+     11/12/1997  Prepare      wheat end_crop
+      20/4/1998  Prepare      surfaceom tillage type = burn_95()
+      30/4/1998  Prepare      wheat sow plants = 222, sowing_depth = 40, cultivar = goldmark
+      10/7/1998  Prepare      fertiliz apply amount = 50 (kg/ha), type = urea_n (), depth = 10 (mm)
+     12/11/1998  Prepare      weed sow cultivar = early, plants = 15 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
+     22/12/1998  Prepare      wheat harvest
+     22/12/1998  Prepare      wheat kill_crop
+     22/12/1998  Prepare      wheat end_crop
+      29/4/1999  Prepare      weed harvest
+      29/4/1999  Prepare      weed end_crop
+      30/4/1999  Prepare      surfaceom tillage type = burn_95()
+      25/5/1999  Prepare      fertiliz apply amount = 10 (kg/ha), type = urea_n (), depth = 10 (mm)
+      25/5/1999  Prepare      canola sow cultivar = pinnacle, crop_class = triazine, plants = 183 (/m2), sowing_depth = 20 (mm)
+      15/6/1999  Prepare      fertiliz apply amount = 50 (kg/ha), type = urea_n (), depth = 10 (mm)
+      7/12/1999  Prepare      canola harvest
+      7/12/1999  Prepare      canola end_crop
 
 ------- fertiliz Initialisation -----------------------------------------------
       Initialising
@@ -2200,34 +2200,34 @@
                      stover N conc =     5.14 (%)    extractable sw =  162.06 (mm)
 20 September 1999(Day of year=263), canola: 
       stage 6.0 flowering
-                     biomass =         309.50 (g/m^2)   lai          =   4.047 (m^2/m^2)
-                     stover N conc =     3.15 (%)    extractable sw =  141.30 (mm)
+                     biomass =         309.54 (g/m^2)   lai          =   4.048 (m^2/m^2)
+                     stover N conc =     3.15 (%)    extractable sw =  141.29 (mm)
 5 October 1999(Day of year=278), canola: 
       stage 7.0 start_grain_fill
-                     biomass =         458.34 (g/m^2)   lai          =   2.854 (m^2/m^2)
-                     stover N conc =     2.29 (%)    extractable sw =  108.37 (mm)
+                     biomass =         458.38 (g/m^2)   lai          =   2.855 (m^2/m^2)
+                     stover N conc =     2.29 (%)    extractable sw =  108.36 (mm)
 6 December 1999(Day of year=340), canola: 
       stage 8.0 end_grain_fill
-                     biomass =         705.76 (g/m^2)   lai          =   0.456 (m^2/m^2)
-                     stover N conc =     0.49 (%)    extractable sw =   59.32 (mm)
+                     biomass =         705.81 (g/m^2)   lai          =   0.456 (m^2/m^2)
+                     stover N conc =     0.49 (%)    extractable sw =   59.31 (mm)
 7 December 1999(Day of year=341), operatns: 
       Sending harvest message to canola
 7 December 1999(Day of year=341), canola: 
      
-      flowering day          =  263                           stover (kg/ha)         =     4940.3
-      maturity day           =    0                           grain yield (kg/ha)    =     2117.3
-      grain % water content  =    8.5                         grain yield wet (kg/ha)=     2314.0
+      flowering day          =  263                           stover (kg/ha)         =     4940.7
+      maturity day           =    0                           grain yield (kg/ha)    =     2117.4
+      grain % water content  =    8.5                         grain yield wet (kg/ha)=     2314.1
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      4.049
-      total above ground biomass (kg/ha)    =     7057.6
-      live above ground biomass (kg/ha)     =     7057.6
-      green above ground biomass (kg/ha)    =     5562.1
-      senesced above ground biomass (kg/ha) =     1495.5
+      total above ground biomass (kg/ha)    =     7058.1
+      live above ground biomass (kg/ha)     =     7058.1
+      green above ground biomass (kg/ha)    =     5562.5
+      senesced above ground biomass (kg/ha) =     1495.6
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   25.7
       DM Root:Shoot ratio    =    0.356                       Harvest Index          =      0.300
-      Stover C:N ratio       =   53.974                       Root C:N ratio         =     71.181
-      grain N percent        =       3.88                     total N content (kg/ha)=     118.74
+      Stover C:N ratio       =   53.975                       Root C:N ratio         =     71.181
+      grain N percent        =       3.88                     total N content (kg/ha)=     118.75
       grain N uptake (kg/ha) =      82.13                     senesced N content (kg/ha)=   19.74
       green N content (kg/ha)=      16.88                     dead N content (kg/ha) =       0.00
      
@@ -2241,22 +2241,22 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4885.41                    0.00
+                          DM (kg/ha) =               4885.80                    0.00
                           N  (kg/ha) =                 35.29                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2117.28                    0.00
+                          DM (kg/ha) =               2117.44                    0.00
                           N  (kg/ha) =                 82.13                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           5.49 (g/m^2)   lai          =   0.009 (m^2/m^2)
-                     stover N conc =     2.42 (%)    extractable sw =   59.32 (mm)
+                     stover N conc =     2.42 (%)    extractable sw =   59.31 (mm)
 7 December 1999(Day of year=341), operatns: 
       Sending end_crop message to canola
 7 December 1999(Day of year=341), canola: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                 54.90                 2512.67
+                          DM (kg/ha) =                 54.90                 2512.94
                           N  (kg/ha) =                  1.33                   14.12
      
 31 December 1999(Day of year=365), clock: 
