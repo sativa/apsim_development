@@ -5449,7 +5449,8 @@ void Plant::plant_end_crop ()
         parent->writeString (msg);
 
         // now do post harvest processes        
-        // put stover and any remaining grain into surface residue
+        // put stover and any remaining grain into surface residue,
+        //     any roots to soil FOM pool
         dm_residue =topsTot();
         n_residue =topsNTot();
         p_residue =topsPTot();
@@ -5458,7 +5459,7 @@ void Plant::plant_end_crop ()
         n_root  = rootPart->nGreen() + rootPart->nDead() + rootPart->nSenesced();
         p_root  = rootPart->pGreen() + rootPart->pDead() + rootPart->pSenesced();
 
-       if (dm_residue > 0.0)
+       if (dm_residue + dm_root > 0.0)
           {
           // Build surface residues by part
           vector<string> part_name;
