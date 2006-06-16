@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.0
+     Version                = 5.1
      Title                  = 2 Years Lucerne Harvested 1996 plots
      Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\clock\lib\clock.dll
@@ -208,45 +208,45 @@
 ------- operatns Initialisation -----------------------------------------------
      Operations Schedule
      ===================
-       120 1993  Prepare      surfaceom tillage type = rip()
-       130 1994  Prepare      lucerne sow cultivar = trifecta, plants = 100 (/m2), sowing_depth = 40 (mm)
-       292 1994  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
-         6 1995  Prepare      lucerne harvest height = 50 (mm)
-         8 1995  Prepare      surfaceom tillage type = graze()
-        42 1995  Prepare      lucerne harvest height = 50 (mm)
-        44 1995  Prepare      surfaceom tillage type = graze()
-       235 1995  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
-       287 1995  Prepare      lucerne harvest height = 50 (mm), remove = 0.65, plants = 150
-       335 1995  Prepare      lucerne harvest height = 50 (mm), remove = 0.65, plants = 200
-        18 1996  Prepare      lucerne harvest height = 50 (mm)
-        20 1996  Prepare      surfaceom tillage type = graze()
-        74 1996  Prepare      lucerne harvest height = 50 (mm)
-        76 1996  Prepare      surfaceom tillage type = graze()
-        97 1996  Prepare      lucerne harvest
-        97 1996  Prepare      lucerne end_crop
-       135 1996  Prepare      surfaceom tillage type = disc()
-       156 1996  Prepare      canola sow cultivar = oscar, plants = 82 (/m2), sowing_depth = 20 (mm)
-       343 1996  Prepare      canola harvest
-       343 1996  Prepare      canola end_crop
-       343 1996  Prepare      canola kill_crop
-       120 1997  Prepare      surfaceom tillage type = burn_95()
-       133 1997  Prepare      wheat sow plants = 199, sowing_depth = 40, cultivar = swift
-       345 1997  Prepare      wheat harvest
-       345 1997  Prepare      wheat kill_crop
-       345 1997  Prepare      wheat end_crop
-       110 1998  Prepare      surfaceom tillage type = burn_95()
-       120 1998  Prepare      wheat sow plants = 250, sowing_depth = 40, cultivar = goldmark
-       316 1998  Prepare      weed sow cultivar = early, plants = 15 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
-       356 1998  Prepare      wheat harvest
-       356 1998  Prepare      wheat kill_crop
-       356 1998  Prepare      wheat end_crop
-       119 1999  Prepare      weed harvest
-       119 1999  Prepare      weed kill_crop
-       119 1999  Prepare      weed end_crop
-       120 1999  Prepare      surfaceom tillage type = burn_95()
-       145 1999  Prepare      canola sow cultivar = pinnacle, crop_class = triazine, plants = 205 (/m2), sowing_depth = 20 (mm)
-       341 1999  Prepare      canola harvest
-       341 1999  Prepare      canola end_crop
+      30/4/1993  Prepare      surfaceom tillage type = rip()
+      10/5/1994  Prepare      lucerne sow cultivar = trifecta, plants = 100 (/m2), sowing_depth = 40 (mm)
+     19/10/1994  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
+       6/1/1995  Prepare      lucerne harvest height = 50 (mm)
+       8/1/1995  Prepare      surfaceom tillage type = graze()
+      11/2/1995  Prepare      lucerne harvest height = 50 (mm)
+      13/2/1995  Prepare      surfaceom tillage type = graze()
+      23/8/1995  Prepare      lucerne harvest height = 50 (mm), remove = 0.65
+     14/10/1995  Prepare      lucerne harvest height = 50 (mm), remove = 0.65, plants = 150
+      1/12/1995  Prepare      lucerne harvest height = 50 (mm), remove = 0.65, plants = 200
+      18/1/1996  Prepare      lucerne harvest height = 50 (mm)
+      20/1/1996  Prepare      surfaceom tillage type = graze()
+      14/3/1996  Prepare      lucerne harvest height = 50 (mm)
+      16/3/1996  Prepare      surfaceom tillage type = graze()
+       6/4/1996  Prepare      lucerne harvest
+       6/4/1996  Prepare      lucerne end_crop
+      14/5/1996  Prepare      surfaceom tillage type = disc()
+       4/6/1996  Prepare      canola sow cultivar = oscar, plants = 82 (/m2), sowing_depth = 20 (mm)
+      8/12/1996  Prepare      canola harvest
+      8/12/1996  Prepare      canola end_crop
+      8/12/1996  Prepare      canola kill_crop
+      30/4/1997  Prepare      surfaceom tillage type = burn_95()
+      13/5/1997  Prepare      wheat sow plants = 199, sowing_depth = 40, cultivar = swift
+     11/12/1997  Prepare      wheat harvest
+     11/12/1997  Prepare      wheat kill_crop
+     11/12/1997  Prepare      wheat end_crop
+      20/4/1998  Prepare      surfaceom tillage type = burn_95()
+      30/4/1998  Prepare      wheat sow plants = 250, sowing_depth = 40, cultivar = goldmark
+     12/11/1998  Prepare      weed sow cultivar = early, plants = 15 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
+     22/12/1998  Prepare      wheat harvest
+     22/12/1998  Prepare      wheat kill_crop
+     22/12/1998  Prepare      wheat end_crop
+      29/4/1999  Prepare      weed harvest
+      29/4/1999  Prepare      weed kill_crop
+      29/4/1999  Prepare      weed end_crop
+      30/4/1999  Prepare      surfaceom tillage type = burn_95()
+      25/5/1999  Prepare      canola sow cultivar = pinnacle, crop_class = triazine, plants = 205 (/m2), sowing_depth = 20 (mm)
+      7/12/1999  Prepare      canola harvest
+      7/12/1999  Prepare      canola end_crop
 
 ------- fertiliz Initialisation -----------------------------------------------
       Initialising
@@ -1646,7 +1646,7 @@
       flowering day          =  293                           stover (kg/ha)         =     5639.6
       maturity day           =  333                           grain yield (kg/ha)    =     2105.5
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2406.3
-      grain wt (g)           =    0.021                       grains/m^2             =   9939.670
+      grain wt (g)           =    0.021                       grains/m^2             =   9939.671
       grains/plant           =   49.9                         maximum lai            =      2.738
       total above ground biomass (kg/ha)    =     7745.1
       live above ground biomass (kg/ha)     =     7745.1
@@ -1899,9 +1899,9 @@
 22 December 1998(Day of year=356), wheat: 
      
       flowering day          =  286                           stover (kg/ha)         =     5391.9
-      maturity day           =  334                           grain yield (kg/ha)    =     2358.4
+      maturity day           =  334                           grain yield (kg/ha)    =     2358.3
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2695.3
-      grain wt (g)           =    0.028                       grains/m^2             =   8393.565
+      grain wt (g)           =    0.028                       grains/m^2             =   8393.568
       grains/plant           =   33.6                         maximum lai            =      2.223
       total above ground biomass (kg/ha)    =     7750.2
       live above ground biomass (kg/ha)     =     7750.2
@@ -1925,7 +1925,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5391.37                    0.00
+                          DM (kg/ha) =               5391.38                    0.00
                           N  (kg/ha) =                 17.85                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
@@ -2127,57 +2127,57 @@
       - reading constants for regrowth(lucerne)
 28 August 1999(Day of year=240), canola: 
       stage 5.0 floral_initiation
-                     biomass =         115.17 (g/m^2)   lai          =   1.280 (m^2/m^2)
+                     biomass =         115.21 (g/m^2)   lai          =   1.280 (m^2/m^2)
                      stover N conc =     4.04 (%)    extractable sw =  167.85 (mm)
 20 September 1999(Day of year=263), canola: 
       stage 6.0 flowering
-                     biomass =         167.38 (g/m^2)   lai          =   1.971 (m^2/m^2)
+                     biomass =         167.43 (g/m^2)   lai          =   1.971 (m^2/m^2)
                      stover N conc =     3.13 (%)    extractable sw =  145.14 (mm)
 5 October 1999(Day of year=278), canola: 
       stage 7.0 start_grain_fill
-                     biomass =         301.94 (g/m^2)   lai          =   1.610 (m^2/m^2)
+                     biomass =         301.99 (g/m^2)   lai          =   1.610 (m^2/m^2)
                      stover N conc =     1.87 (%)    extractable sw =  112.82 (mm)
 6 December 1999(Day of year=340), canola: 
       stage 8.0 end_grain_fill
-                     biomass =         474.45 (g/m^2)   lai          =   0.260 (m^2/m^2)
+                     biomass =         474.51 (g/m^2)   lai          =   0.260 (m^2/m^2)
                      stover N conc =     0.63 (%)    extractable sw =   79.93 (mm)
 7 December 1999(Day of year=341), operatns: 
       Sending harvest message to canola
 7 December 1999(Day of year=341), canola: 
      
-      flowering day          =  263                           stover (kg/ha)         =     3321.1
-      maturity day           =    0                           grain yield (kg/ha)    =     1423.3
-      grain % water content  =    8.5                         grain yield wet (kg/ha)=     1555.6
+      flowering day          =  263                           stover (kg/ha)         =     3321.6
+      maturity day           =    0                           grain yield (kg/ha)    =     1423.5
+      grain % water content  =    8.5                         grain yield wet (kg/ha)=     1555.8
       grain wt (g)           =    0.000                       grains/m^2             =      0.000
       grains/plant           =    0.0                         maximum lai            =      1.971
-      total above ground biomass (kg/ha)    =     4744.5
-      live above ground biomass (kg/ha)     =     4744.5
-      green above ground biomass (kg/ha)    =     3869.0
-      senesced above ground biomass (kg/ha) =      875.5
+      total above ground biomass (kg/ha)    =     4745.1
+      live above ground biomass (kg/ha)     =     4745.1
+      green above ground biomass (kg/ha)    =     3869.4
+      senesced above ground biomass (kg/ha) =      875.8
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   25.7
       DM Root:Shoot ratio    =    0.324                       Harvest Index          =      0.300
-      Stover C:N ratio       =   51.200                       Root C:N ratio         =     69.756
-      grain N percent        =       3.59                     total N content (kg/ha)=      77.03
-      grain N uptake (kg/ha) =      51.08                     senesced N content (kg/ha)=   10.50
+      Stover C:N ratio       =   51.203                       Root C:N ratio         =     69.758
+      grain N percent        =       3.59                     total N content (kg/ha)=      77.04
+      grain N uptake (kg/ha) =      51.09                     senesced N content (kg/ha)=   10.51
       green N content (kg/ha)=      15.44                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.063
          end_of_juvenile      to floral_initiation       0.000        0.000        0.129        0.328
          floral_initiation    to flowering               0.000        0.000        0.816        0.931
-         flowering            to start_grain_fill        0.135        0.188        0.260        0.659
+         flowering            to start_grain_fill        0.136        0.189        0.260        0.659
          start_grain_fill     to end_grain_fill          0.055        0.068        0.740        0.869
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3259.63                    0.00
+                          DM (kg/ha) =               3260.10                    0.00
                           N  (kg/ha) =                 24.96                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1423.34                    0.00
-                          N  (kg/ha) =                 51.08                    0.00
+                          DM (kg/ha) =               1423.54                    0.00
+                          N  (kg/ha) =                 51.09                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           6.15 (g/m^2)   lai          =   0.010 (m^2/m^2)
@@ -2187,8 +2187,8 @@
 7 December 1999(Day of year=341), canola: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                 61.50                 1537.07
-                          N  (kg/ha) =                  0.99                    8.81
+                          DM (kg/ha) =                 61.50                 1537.35
+                          N  (kg/ha) =                  0.99                    8.82
      
 31 December 1999(Day of year=365), clock: 
      Simulation is terminating due to end criteria being met.
