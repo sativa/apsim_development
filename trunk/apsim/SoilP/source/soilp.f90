@@ -2217,7 +2217,7 @@ subroutine soilp_incorp_residue_P ()
 end subroutine
 
 !     ===========================================================
-subroutine soilp_currentFOMpoolCPratio (fom_cp_pool)
+subroutine soilp_currentFOMpoolCPratio (fom_cp_pool, fom_cp, fom_cp_tot)
 !     ===========================================================
    Use Infrastructure
    implicit none
@@ -2227,6 +2227,8 @@ subroutine soilp_currentFOMpoolCPratio (fom_cp_pool)
 
 !+  Sub-Program Arguments
       real, intent(out) :: fom_cp_pool(nfract, max_layer) ! c:p ratio in each pool in each layer
+      real, intent(out) :: fom_cp(max_layer) ! c:p ratio in each layer
+      real, intent(out) :: fom_cp_tot ! c:p ratio
 
 !+  Constant Values
    character  my_name*(*)           ! name of subroutine
@@ -2240,6 +2242,13 @@ subroutine soilp_currentFOMpoolCPratio (fom_cp_pool)
    real fom_c_pool2(max_layer)!   C in fom pool 2
    real fom_c_pool3(max_layer)!   C in fom pool 3
 
+   real fom_c_pool_tot
+   real fom_p_pool_tot
+
+   real fom_c_tot
+   real fom_p_tot
+   character*20 fom_cp_layer_name
+
 !- Implementation Section ----------------------------------
 
    call push_routine (my_name)
@@ -2248,7 +2257,11 @@ subroutine soilp_currentFOMpoolCPratio (fom_cp_pool)
       do fract = 1, nfract
          fom_cp_pool(fract,layer) =  0.0
       end do
+      fom_cp(layer) = 0.0
    end do
+   fom_cp_tot = 0.0
+   fom_c_tot = 0.0
+   fom_p_tot = 0.0
 
    fom_c_pool1(1:max_layer) = 0.0
    fom_c_pool2(1:max_layer) = 0.0
@@ -2263,8 +2276,15 @@ subroutine soilp_currentFOMpoolCPratio (fom_cp_pool)
       fom_cp_pool(1,layer) =  divide(fom_c_pool1(layer), g%fom_p_pool(1,layer), 0.0)
       fom_cp_pool(2,layer) =  divide(fom_c_pool2(layer), g%fom_p_pool(2,layer), 0.0)
       fom_cp_pool(3,layer) =  divide(fom_c_pool3(layer), g%fom_p_pool(3,layer), 0.0)
-
+      fom_c_pool_tot = fom_c_pool1(layer) + fom_c_pool2(layer) + fom_c_pool3(layer)
+      fom_p_pool_tot = g%fom_p_pool(1,layer) + g%fom_p_pool(2,layer) + g%fom_p_pool(3,layer)
+      fom_cp(layer) = divide(fom_c_pool_tot, fom_p_pool_tot, 0.0)
+      fom_c_tot = fom_c_tot + fom_c_pool_tot
+      fom_p_tot = fom_p_tot + fom_p_pool_tot
+      write (fom_cp_layer_name, *) 'fom_cp(', layer, ')'
+      call bound_check_real_var (fom_cp(layer), c%lb_fom_cp, c%ub_fom_cp, trim(fom_cp_layer_name))
    end do
+   fom_cp_tot = divide(fom_c_tot, fom_p_tot, 0.0)
 
   call pop_routine (my_name)
   return
@@ -2287,24 +2307,14 @@ subroutine soilp_currentFOMCPratio (fom_cp)
    parameter (my_name = 'soilp_currentFOMCPratio')
 
 !+  Local Variables
-   integer    layer                 ! layer number in loop ()
-   integer    fract               ! number of fractions
    real     fom_cp_pool(nfract, max_layer) ! c:p ratio in each pool in each layer
-   character*20 fom_cp_layer_name
+   real     fom_cp_tot ! c:p ratio
 
 !- Implementation Section ----------------------------------
    call push_routine (my_name)
 
    call fill_real_array (fom_cp, 0.0, max_layer)
-   call soilp_currentFOMpoolCPratio (fom_cp_pool)
-
-   do layer = 1, max_layer
-      do fract = 1, nfract
-         fom_cp(layer) = fom_cp(layer) + fom_cp_pool(fract,layer)
-      end do
-      write (fom_cp_layer_name, *) 'fom_cp(', layer, ')'
-      call bound_check_real_var (fom_cp(layer), c%lb_fom_cp, c%ub_fom_cp, trim(fom_cp_layer_name))
-   end do
+   call soilp_currentFOMpoolCPratio (fom_cp_pool, fom_cp, fom_cp_tot)
 
   call pop_routine (my_name)
   return
