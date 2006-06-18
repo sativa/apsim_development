@@ -1512,7 +1512,7 @@ subroutine soilp_bound_check (num_layers)
 
 !+  Mission Statement
 !      Check P pools
-   
+
 !+  Constant Values
    character*(*) myname           ! name of current procedure
    parameter (myname = 'soilp_bound_check')
@@ -1539,7 +1539,7 @@ subroutine soilp_bound_check (num_layers)
 !      call bound_check_real_var (g%fom_cp_pool(1,layer), c%lb_fom_cp, c%ub_fom_cp,'g%fom_cp_pool(1)')
 !      call bound_check_real_var (g%fom_cp_pool(2,layer), c%lb_fom_cp, c%ub_fom_cp,'g%fom_cp_pool(2)')
 !      call bound_check_real_var (g%fom_cp_pool(3,layer), c%lb_fom_cp, c%ub_fom_cp,'g%fom_cp_pool(3)')
-      call bound_check_real_var (g%fom_cp(layer), c%lb_fom_cp, c%ub_fom_cp,'g%fom_cp()')
+!      call bound_check_real_var (g%fom_cp(layer), c%lb_fom_cp, c%ub_fom_cp,'g%fom_cp()')
    end do
 
    call pop_routine (myname)
@@ -2290,6 +2290,7 @@ subroutine soilp_currentFOMCPratio (fom_cp)
    integer    layer                 ! layer number in loop ()
    integer    fract               ! number of fractions
    real     fom_cp_pool(nfract, max_layer) ! c:p ratio in each pool in each layer
+   character*20 fom_cp_layer_name
 
 !- Implementation Section ----------------------------------
    call push_routine (my_name)
@@ -2301,6 +2302,8 @@ subroutine soilp_currentFOMCPratio (fom_cp)
       do fract = 1, nfract
          fom_cp(layer) = fom_cp(layer) + fom_cp_pool(fract,layer)
       end do
+      write (fom_cp_layer_name, *) 'fom_cp(', layer, ')'
+      call bound_check_real_var (fom_cp(layer), c%lb_fom_cp, c%ub_fom_cp, trim(fom_cp_layer_name))
    end do
 
   call pop_routine (my_name)
