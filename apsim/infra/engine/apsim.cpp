@@ -1,8 +1,10 @@
 #include <stdio.h>
+#include <dir.h>
 #include <string>
 #include <fstream>
 #include <iostream>
 
+#include <general/path.h>
 #include <general/stl_functions.h>
 #include <general/TreeNodeIterator.h>
 #include <general/xml.h>
@@ -25,18 +27,22 @@ int main(int argc, char **argv) {
       Simulation simulation;
 
       if (argc == 2)
+         {
+         chdir(fileDirName(argv[1]).c_str());
          simulation.go(argv[1]);
-
+         }
       else
          {
          fprintf(stdout, "To run APSIM type : \n"
                             "   apsim sim_file_name\n\n"
                             "Where sim_file_name is the name of your simulation file (.SIM)");
+         return 1;
          }
       }
-   catch (const std::runtime_error& error)
+   catch (const exception& error)
       {
       fwrite(error.what(),strlen(error.what()), 1, stdout);
+      return 1;
       }
    return 0;
 }
