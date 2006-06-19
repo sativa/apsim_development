@@ -11,13 +11,9 @@
     <LIBFILES value="..\..\Shared\ApsimShared\ApsimShared.lib ..\..\Shared\general\general.lib 
       ..\..\Shared\general\general_vcl.lib 
       &quot;C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\LibXML2.lib&quot; &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib&quot;"/>
-    <LIBRARIES value="Tee7C6.lib VclSmp.lib TMSC6.lib"/>
+    <LIBRARIES value="Tee7C6.lib VclSmp.lib vcldb.lib dbrtl.lib vclx.lib TMSC6.lib rtl.lib vcl.lib"/>
     <SPARELIBS value="vcl.lib rtl.lib TMSC6.lib vclx.lib dbrtl.lib vcldb.lib VclSmp.lib Tee7C6.lib"/>
-    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi vcldb.bpi dbrtl.bpi bdertl.bpi 
-      vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi visualclx.bpi visualdbclx.bpi 
-      vclie.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi bcbie.bpi 
-      soaprtl.bpi dclocx.bpi dbexpress.bpi dbxcds.bpi qrpt.bpi ibxpress.bpi 
-      indy.bpi"/>
+    <PACKAGES value=""/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
@@ -26,10 +22,10 @@
     <RELEASELIBPATH value="$(BCB)\lib\release"/>
     <LINKER value="ilink32"/>
     <USERDEFINES value="_DEBUG"/>
-    <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
+    <SYSDEFINES value="_RTLDLL;NO_STRICT"/>
     <MAINSOURCE value="apsrun.cpp"/>
     <INCLUDEPATH value="&quot;C:\Program Files\Borland\CBuilder6\Projects&quot;;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;..\..\Shared"/>
-    <LIBPATH value="$(BCB)\Components\TeeChart\CBuilder6\Lib;&quot;C:\Program Files\Borland\CBuilder6\Projects&quot;;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms"/>
+    <LIBPATH value="$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -43,7 +39,7 @@
     <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
-    <ALLOBJ value="c0w32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
+    <ALLOBJ value="c0w32.obj Memmgr.Lib sysinit.obj $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
     <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
     <OTHERFILES value=""/>
@@ -92,11 +88,40 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
+c:\program files\borland\cbuilder6\Bin\dclstd60.bpl=Borland Standard Components
+c:\program files\borland\cbuilder6\Bin\dcl31w60.bpl=Delphi 1.0 Compatibility Components
+c:\program files\borland\cbuilder6\Bin\dclbcbsmp60.bpl=Borland Sample Controls Design Time Package
+c:\program files\borland\cbuilder6\Bin\dclado60.bpl=Borland ADO DB Components
+C:\Program Files\Borland\CBuilder6\Bin\dcldb60.bpl=Borland Database Components
+C:\WINDOWS\system32\ibevnt60.bpl=Borland Interbase Event Alerter Component
+c:\program files\borland\cbuilder6\Bin\dclbde60.bpl=Borland BDE DB Components
+C:\Program Files\Borland\CBuilder6\Bin\dbx60.bpl=Borland SQL Explorer UI Package
+c:\program files\borland\cbuilder6\Bin\dclcds60.bpl=Borland Base Cached ClientDataset Component
+C:\Program Files\Borland\CBuilder6\Bin\dclmid60.bpl=Borland MyBase DataAccess Components
+c:\program files\borland\cbuilder6\Bin\dclbdecds60.bpl=Borland Local BDE ClientDataset Components
+c:\program files\borland\cbuilder6\Bin\applet60.bpl=Borland Control Panel Applet Package
+c:\program files\borland\cbuilder6\Bin\dclsmpedit60.bpl=Borland Editor Script Enhancements
+c:\program files\borland\cbuilder6\Bin\dclib60.bpl=InterBase Data Access Components
+c:\program files\borland\cbuilder6\Bin\dclclxdb60.bpl=Borland CLX Database Components
+C:\Program Files\Borland\CBuilder6\Bin\dclclxstd60.bpl=Borland CLX Standard Components
+c:\program files\borland\cbuilder6\Bin\dclemacsedit60.bpl=Borland Editor Emacs Enhancements
+c:\program files\borland\cbuilder6\Bin\dclact60.bpl=Borland ActionBar Components
+c:\program files\borland\cbuilder6\Bin\idefilters60.bpl=IDE Filter for CPP32
+c:\program files\borland\cbuilder6\Bin\dclmlwiz60.bpl=Borland Markup Language Wizards
+c:\program files\borland\cbuilder6\Bin\dclnet60.bpl=Borland Internet Components
+c:\program files\borland\cbuilder6\Bin\DBWEBXPRT.BPL=Borland Web Wizard Package
+c:\program files\borland\cbuilder6\Bin\DCLNMF60.bpl=NetMasters Fastnet Tools
+c:\program files\borland\cbuilder6\Bin\bcbie60.bpl=Borland C++Builder Internet Explorer 5 Components Package
+c:\program files\borland\cbuilder6\Bin\dclsoap60.bpl=Borland SOAP Components
+c:\program files\borland\cbuilder6\Bin\dclocx60.bpl=Borland Sample Imported ActiveX Controls
+c:\program files\borland\cbuilder6\Bin\dcldbx60.bpl=Borland dbExpress Components
+c:\program files\borland\cbuilder6\Bin\dcldbxcds60.bpl=Borland Local DBX ClientDataset Components
+c:\program files\borland\cbuilder6\Bin\dclindy60.bpl=Internet Direct (Indy) for D6 Property and Component Editors
+c:\program files\borland\cbuilder6\Bin\bcb2kaxserver60.bpl=Borland C++Builder COM Server Components Sample Package
+c:\program files\borland\cbuilder6\Bin\dclqrt60.bpl=QuickReport Components
+c:\program files\borland\cbuilder6\Bin\dcltqr60.bpl=TeeChart for QuickReport Components
+C:\Program Files\Borland\CBuilder6\Bin\dcltee60.bpl=TeeChart Components
 c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
-D:\development\Bin\APSGeneral.bpl=APSGeneral
-D:\development\Bin\APSData.bpl=APSuite data components
-C:\Program Files\Borland\CBuilder6\Components\TeeChart\source\Sources\Compiled\BuilderC6\System\TeeImage7C6.bpl=TeeChart Pro Graphic Exporting formats
-C:\Program Files\Borland\CBuilder6\Components\MemTable\kbmMemC6Des.bpl=kbmMemC6Des
 
 [HistoryLists\hlIncludePath]
 Count=7
@@ -110,8 +135,8 @@ Item6=..\..\apsfront\source\TemplatePacks;..\..\..\APSRun\Source;$(BCB)\include;
 
 [HistoryLists\hlLibraryPath]
 Count=5
-Item0=$(BCB)\Components\TeeChart\CBuilder6\Lib;C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
-Item1=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item0=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item1=$(BCB)\Components\TeeChart\CBuilder6\Lib;C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
 Item2=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
 Item3=$(BCB)\lib\obj;$(BCB)\lib
 Item4=..\..\apsfront\source\TemplatePacks;..\..\..\APSRun\Source;$(BCB)\lib\obj;$(BCB)\lib

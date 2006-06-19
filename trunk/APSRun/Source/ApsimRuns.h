@@ -80,7 +80,7 @@ class ApsimRuns
       //---------------------------------------------------------------------------
       void addSimulationsFromApsimFile(const std::string& fileName);
 
-      void ApsExec(const char* Command_line, TApsimRunEvent msgEvent);
+      bool ApsExec(const char* Command_line, TApsimRunEvent msgEvent);
 
    };
 #endif

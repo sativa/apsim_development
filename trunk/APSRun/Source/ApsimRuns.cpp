@@ -3,10 +3,11 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include <general\TreeNodeIterator.h>
-#include <general\xml.h>
-#include <general\path.h>
-#include <general\exec.h>
+#include <dir.h>
+
+#include <general/TreeNodeIterator.h>
+#include <general/xml.h>
+#include <general/path.h>
 
 #include <ApsimShared\ApsimComponentData.h>
 #include <ApsimShared\ApsimServiceData.h>
@@ -42,8 +43,9 @@ void ApsimRuns::addSimulationsFromFile(const std::string& fileName)
    if (!FileExists(fileName.c_str()))
       throw runtime_error("Cannot find file: " + fileName);
 
-   string fileExtension = Path(fileName).Get_extension();
-   if (fileExtension == ".run")
+   string ext = fileExtension(fileName);
+
+   if (ext == ".run")
       {
       ApsimRunFile runFile(fileName);
       vector<string> runNames;
@@ -59,14 +61,14 @@ void ApsimRuns::addSimulationsFromFile(const std::string& fileName)
             addSimulationsFromConFile(fileName, conFileSections);
          }
       }
-   else if (fileExtension == ".con")
+   else if (ext == ".con")
       {
       vector<string> conFileSections;
       addSimulationsFromConFile(fileName, conFileSections);
       }
-   else if (fileExtension == ".sim")
-      addSimulation(fileName, Path(fileName).Get_name_without_ext());
-   else if (fileExtension == ".apsim")
+   else if (ext == ".sim")
+      addSimulation(fileName, fileRoot(fileName));
+   else if (ext == ".apsim")
       addSimulationsFromApsimFile(fileName);
    else
       throw runtime_error("Invalid simulation file: " + fileName);
@@ -118,64 +120,61 @@ void ApsimRuns::getFilesNeedingConversion(std::vector<std::string>& filesNeeding
    for (unsigned f = 0; f != fileNames.size(); f++)
       {
       string fileName = fileNames[f];
-      if (Path(fileName).Get_extension() == ".con"
+      if (fileExtension(fileName) == ".con"
           && ControlFileConverter::needsConversion(fileName))
          filesNeedingConversion.push_back(fileName);
       }
    }
-
 void ApsimRuns::runApsim(bool quiet,  TApsimRunEvent notifyEvent, TApsimRunEvent msgEvent)
    //---------------------------------------------------------------------------
    // Perform all Apsim runs.
    {
    for (unsigned f = 0; f != fileNames.size() && !stopApsim; f++)
       {
-      Path filePath(fileNames[f]);
       string simFileName = fileNames[f];
-      try
+      bool conversionOk = true;
+
+      // Convert file to .sim if necessary (i.e. if it's a .con or a .apsim)
+      if (fileExtension(simFileName) == ".con")
          {
-         // Convert file to .sim if necessary (i.e. if it's a .con or a .apsim
-         if (filePath.Get_extension() == ".con")
+         string newSimName = fileRoot(simFileName) + ".sim";
+         unlink(newSimName.c_str());
+         string commandLine = "\"" + getApsimDirectory() + "\\bin\\contosim.exe\" \""
+                            + simFileName + "\" \"" + simNames[f] + "\"";
+         if (!ApsExec(commandLine.c_str(), msgEvent))
             {
-            Path currentDir = Path::getCurrentFolder();
-            filePath.Change_directory();
-            string commandLine = "\"" + getApsimDirectory() + "\\bin\\contosim.exe\" \""
-                               + filePath.Get_name() + "\" \"" + simNames[f] + "\"";
-            Exec(commandLine.c_str(), SW_HIDE, true);
-            simFileName = filePath.Get_name_without_ext() + ".sim";
+            msgEvent(".con To .sim file conversion failed");
+            conversionOk = false;
             }
-         else if (filePath.Get_extension() == ".apsim")
-            {
-            Path currentDir = Path::getCurrentFolder();
-            filePath.Change_directory();
-            string commandLine = "\"" + getApsimDirectory() + "\\bin\\apsimtosim.exe\" \""
-                               + filePath.Get_name() + "\" \"" + simNames[f] + "\"";
-            Exec(commandLine.c_str(), SW_HIDE, true);
-            simFileName = simNames[f] + ".sim";
-            }
-
-         // go build a command line and pass it to ApsExec to do the real work.
-         if (FileExists(simFileName.c_str()))
-            {
-            string commandLine = "\"" + getApsimDirectory() + "\\bin\\apsim.exe\" ";
-            commandLine += "\"" + simFileName + "\"";
-
-            if (notifyEvent != NULL)
-               notifyEvent(simFileName);
-
-            ApsExec(commandLine.c_str(), msgEvent);
-            }
+         simFileName = newSimName;
          }
-      catch (const runtime_error& err)
+      else if (fileExtension(simFileName) == ".apsim")
          {
-         if (quiet)
+         string newSimName = fileRoot(simFileName) + ".sim";
+         unlink(newSimName.c_str());
+         string commandLine = "\"" + getApsimDirectory() + "\\bin\\apsimtosim.exe\" \""
+                            + simFileName + "\" \"" + simNames[f] + "\"";
+         if (!ApsExec(commandLine.c_str(), msgEvent))
             {
-            filePath.Set_extension(".log");
-            ofstream log(filePath.Get_path().c_str());
-            log << err.what();
+            msgEvent(".apsim to .sim file conversion failed");
+            conversionOk = false;
             }
-         else
-            ::MessageBox(NULL, err.what(), "Error", MB_ICONSTOP | MB_OK);
+         simFileName = simNames[f] + ".sim";
+         }
+
+      // go build a command line and pass it to ApsExec to do the real work.
+      if (conversionOk)
+         {
+         string commandLine = "\"" + getApsimDirectory() + "\\bin\\apsim.exe\" ";
+         commandLine += "\"" + simFileName + "\"";
+
+         if (notifyEvent != NULL)
+            notifyEvent(simFileName);
+
+         if (!ApsExec(commandLine.c_str(), msgEvent))
+            {
+            msgEvent("apsim simulation terminated with non-zero error code");
+            }
          }
       }
    }
@@ -189,19 +188,17 @@ void ApsimRuns::convertFiles()
 
    for (unsigned f = 0; f != fileNames.size(); f++)
       {
-      Path filePath(fileNames[f]);
       try
          {
-         if (filePath.Get_extension() == ".con")
+         if (fileExtension(fileNames[f]) == ".con")
             {
-            converter.convert(filePath.Get_path(),
+            converter.convert(fileNames[f],
                                (TControlFileConverterEvent)NULL);
             }
          }
       catch (const exception& err)
          {
-         filePath.Set_extension("log");
-         ofstream log(filePath.Get_path().c_str());
+         ofstream log((fileRoot(fileNames[f]) + ".log").c_str());
          log << err.what();
          }
       }
@@ -277,7 +274,7 @@ void ReadStdOut(HANDLE hChildStdoutRd, TApsimRunEvent msgEvent)
       }
    }
 
-void ApsimRuns::ApsExec(const char* Command_line, TApsimRunEvent msgEvent)
+bool ApsimRuns::ApsExec(const char* Command_line, TApsimRunEvent msgEvent)
    //------------------------------------------------------------------------------
    // Run a console process and capture stdout/err.
    {
@@ -329,6 +326,7 @@ void ApsimRuns::ApsExec(const char* Command_line, TApsimRunEvent msgEvent)
                        &ProcessInfo) )         // pointer to PROCESS_INF
       ThrowWindowsError();
 
+   unsigned long exitCode;
    while (1)
       {
       Application->ProcessMessages();
@@ -342,7 +340,7 @@ void ApsimRuns::ApsExec(const char* Command_line, TApsimRunEvent msgEvent)
          ReadStdOut(hChildStdoutRd, msgEvent);
 
       // See if the process has exited
-      unsigned long exitCode=0;
+      exitCode=0;
       if (!GetExitCodeProcess(ProcessInfo.hProcess, &exitCode))
          ThrowWindowsError();
 
@@ -358,5 +356,7 @@ void ApsimRuns::ApsExec(const char* Command_line, TApsimRunEvent msgEvent)
    if (!CloseHandle(hChildStdoutRd)) ThrowWindowsError();
    if (!CloseHandle(hChildStdoutWr)) ThrowWindowsError();
    if (!CloseHandle(hChildStdinRd)) ThrowWindowsError();
+
+   return (exitCode==0);
    }
 

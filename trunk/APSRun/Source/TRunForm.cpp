@@ -360,7 +360,9 @@ void __fastcall TRunForm::OnStdoutEvent(const string& text)
 
    if (!ErrorLabel->Visible)
       {
-      if (text.find("APSIM  Fatal") != string::npos)
+      if (text.find("APSIM  Fatal") != string::npos ||
+          text.find(".con To .sim file conversion failed") != string::npos ||
+          text.find(".apsim to .sim file conversion failed") != string::npos )
          ErrorLabel->Visible = true;
       else if (text.find("APSIM Warning") != string::npos)
          {
