@@ -98,50 +98,69 @@ namespace CSGeneral
 				}
 			}
 
-		
-		// ---------------------------------------
-		// Return a layered variable
-		// ---------------------------------------
-		protected double[] getLayered(string propertyType, string propertyName)
-			{
-			APSIMData PropertyData = Data;
-			if (propertyType != "")
+        protected string[] getLayeredAsStrings(string propertyType, string propertyName)
+            // ---------------------------------------
+            // Return a layered variable as strings
+            // ---------------------------------------
+            {
+            APSIMData PropertyData = Data;
+            if (propertyType != "")
                 PropertyData = Data.Child(propertyType);
-			if (PropertyData == null)
-				return new double[0];
-				
-			double[] values = new double[PropertyData.ChildList("layer").Count];
-			int index = 0;
-			foreach (APSIMData layer in PropertyData.get_Children("layer"))
+            if (PropertyData == null)
+                return new string[0];
+
+            string[] values = new string[PropertyData.ChildList("layer").Count];
+            int index = 0;
+            foreach (APSIMData layer in PropertyData.get_Children("layer"))
+                {
+                if (layer.Child(propertyName) == null)
+                    values[index] = "";
+                else if (layer.Child(propertyName).InnerXML == "" || layer.Child(propertyName).InnerXML == null)
+                    values[index] = "";
+                else
+                    values[index] = layer.Child(propertyName).InnerXML;
+                index++;
+                }
+            return values;
+            }
+
+		
+		protected double[] getLayered(string propertyType, string propertyName)
+            // ---------------------------------------
+            // Return a layered variable as doubles.
+            // ---------------------------------------
+            {
+            string[] StringValues = getLayeredAsStrings(propertyType, propertyName);
+			double[] values = new double[StringValues.Length];
+            int Index = 0;
+			foreach (string StringValue in StringValues)
 				{
-				if (layer.Child(propertyName) == null)
-					values[index] = MathUtility.MissingValue;
-				else if(layer.Child(propertyName).InnerXML == "" || layer.Child(propertyName).InnerXML == null)
-					values[index] = MathUtility.MissingValue;
+				if (StringValue == "")
+					values[Index] = MathUtility.MissingValue;
 				else
 					{
-					values[index] = Convert.ToDouble(layer.Child(propertyName).InnerXML);
-					if (values[index] < -100000 || values[index] > 100000)
-						values[index] = MathUtility.MissingValue;
+					values[Index] = Convert.ToDouble(StringValue);
+					if (values[Index] < -100000 || values[Index] > 100000)
+						values[Index] = MathUtility.MissingValue;
 					}
-				index++;
+                Index++;
 				}
 			return values;
 			}
 
 
-		//--------------------------------------------------------------------------
-		// Sets the values of the specified node
-		//--------------------------------------------------------------------------	
-		protected void setLayered(string ParentNodeType, string PropertyName, double[] Values)
-			{
-			setLayered(ParentNodeType, "", PropertyName, Values);
+		protected void setLayered(string ParentNodeType, string PropertyName, double[] Values, string Format)
+            //--------------------------------------------------------------------------
+            // Sets the values of the specified node
+            //--------------------------------------------------------------------------	
+            {
+			setLayered(ParentNodeType, "", PropertyName, Values, Format);
 			}
-		//--------------------------------------------------------------------------
-		// Sets the values of the specified node
-		//--------------------------------------------------------------------------	
-		protected void setLayered(string ParentNodeType, string ParentNodeName, string PropertyName, double[] Values)
-			{
+		protected void setLayeredAsStrings(string ParentNodeType, string ParentNodeName, string PropertyName, string[] Values)
+            //--------------------------------------------------------------------------
+            // Sets the values of the specified node as strings.
+            //--------------------------------------------------------------------------	
+            {
 			string NodeNameToLookFor = ParentNodeName;
 			if (ParentNodeName == "")
 				NodeNameToLookFor = ParentNodeType;
@@ -170,17 +189,35 @@ namespace CSGeneral
 					node.Delete(LayerNumber.ToString());
 				foreach (APSIMData layer in node.get_Children("layer"))
 					{
-					if (Values[iIndex] == MathUtility.MissingValue)
+					if (Values[iIndex] == "")
 						{
 						if (layer.Child(PropertyName) != null)
 							layer.Delete(PropertyName);
 						}
 					else
-						layer.set_ChildValue(PropertyName, Values[iIndex].ToString());
+						layer.set_ChildValue(PropertyName, Values[iIndex]);
 					iIndex++;
 					}
 				}
 			}
+
+        protected void setLayered(string ParentNodeType, string ParentNodeName, string PropertyName, double[] Values, string Format)
+            //--------------------------------------------------------------------------
+            // Sets the values of the specified node as doubles
+            //--------------------------------------------------------------------------	
+            {
+            string[] StringValues = new string[Values.Length];
+            int Index = 0;
+            foreach (double Value in Values)
+                {
+                if (Value == MathUtility.MissingValue)
+                    StringValues[Index] = "";
+                else
+                    StringValues[Index] = Values[Index].ToString(Format);
+                Index++;
+                }
+            setLayeredAsStrings(ParentNodeType, ParentNodeName, PropertyName, StringValues);
+            }
 
 
 		//-------------------------------------------------------------------------
@@ -189,7 +226,7 @@ namespace CSGeneral
 		public double[] Thickness
 			{
 			get {return getLayered("water", "thickness");}
-			set {setLayered("water", "thickness", value);}
+			set {setLayered("water", "thickness", value, "f0");}
 			}
 
 

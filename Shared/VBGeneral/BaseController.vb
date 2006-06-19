@@ -70,10 +70,13 @@ Public MustInherit Class BaseController
         Set(ByVal Value As APSIMData)
             MyData = Value
 
+            ' get rid of previous selections
+            Dim NewSelections As New StringCollection
+            SelectedPaths = NewSelections
+
             RaiseEvent NewDataEvent()
             AddHandler MyData.DataChanged, AddressOf OnDataChanged
 
-            Dim NewSelections As New StringCollection
             NewSelections.Add(MyData.Name)
             SelectedPaths = NewSelections
         End Set
@@ -100,8 +103,10 @@ Public MustInherit Class BaseController
             Return MyFileName
         End Get
         Set(ByVal newFileName As String)
-            Me.MyFileName = newFileName
-
+            If Me.MyFileName <> newFileName Then
+                Me.MyFileName = newFileName
+                RaiseEvent DataChangedEvent()
+            End If
         End Set
     End Property
     ReadOnly Property AllowFileSave() As Boolean
@@ -143,16 +148,17 @@ Public MustInherit Class BaseController
             End With
             Dim choice As DialogResult = dialog.ShowDialog
             If choice = DialogResult.OK Then
-                IsReadOnly = Not AllowFileOpenWrite(dialog.FileName)
-                IsReadOnly = IsReadOnly Or ((File.GetAttributes(dialog.FileName) And FileAttributes.ReadOnly) = FileAttributes.ReadOnly)
-                If IsReadOnly Then
-                    MessageBox.Show("The file: " + dialog.FileName + " is readonly. All editing capability is disabled.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                End If
                 FileOpen(dialog.FileName)
             End If
         End If
     End Sub
     Public Function FileOpen(ByVal FileName As String) As Boolean
+        IsReadOnly = Not AllowFileOpenWrite(FileName)
+        IsReadOnly = IsReadOnly Or ((File.GetAttributes(FileName) And FileAttributes.ReadOnly) = FileAttributes.ReadOnly)
+        If IsReadOnly Then
+            MessageBox.Show("The file: " + FileName + " is readonly. All editing capability is disabled.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End If
+
         Dim FileData As New APSIMData
         If FileData.LoadFromFile(FileName) Then
             MyFileName = FileName
@@ -177,6 +183,7 @@ Public MustInherit Class BaseController
             AllData.SaveToFile(MyFileName)
             AddFileToFrequentList(MyFileName)
             DirtyData = False
+            IsReadOnly = False
             Return True
         End If
     End Function
@@ -189,8 +196,11 @@ Public MustInherit Class BaseController
         End With
         Dim choice As DialogResult = dialog.ShowDialog
         If choice = DialogResult.OK Then
-            MyFileName = dialog.FileName
-            Return FileSave()
+            FileName = dialog.FileName
+            If FileSave() Then
+                IsReadOnly = False
+                Return True
+            End If
         Else
             ' User has cancelled - do nothing
             Return False
@@ -294,7 +304,7 @@ Public MustInherit Class BaseController
     Private Function GetDataForFullPath(ByVal FullPath As String) As APSIMData
         Dim PosDelimiter As Integer = FullPath.IndexOf("|")
         If PosDelimiter = -1 Then
-            If FullPath = AllData.Name Then
+            If FullPath.ToLower() = AllData.Name.ToLower() Then
                 Return AllData
             Else
                 Throw New System.Exception("Cannot find parent name in GetDataForFullPath. Invalid FullPath: " + FullPath)

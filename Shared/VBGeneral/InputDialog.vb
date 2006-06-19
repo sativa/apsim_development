@@ -122,11 +122,12 @@ Public Class InputDialog
 
     ' create an InputDialog window, and return the typed text
     Public Shared Function InputBox(ByVal prompt As String, _
-        ByVal title As String, ByVal defaultVal As String) As String
+        ByVal title As String, ByVal defaultVal As String, ByVal Password As Boolean) As String
         Dim dlg As New InputDialog
         dlg.Text = title
         dlg.Prompt = prompt
         dlg.Value = defaultVal
+        dlg.txtValue.UseSystemPasswordChar = Password
 
         If dlg.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
             Return dlg.Value

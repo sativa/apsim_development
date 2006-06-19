@@ -8,7 +8,8 @@ using System.IO;
 using VBGeneral;
 using CSGeneral;
 using ChangeTool;
-using System.Reflection; 
+using System.Reflection;
+using System.Collections.Specialized; 
 
 namespace APSoil
 	{
@@ -41,7 +42,6 @@ namespace APSoil
         private ToolStripButton NewButton;
         private ToolStripButton OpenButton;
         private ToolStripButton SaveButton;
-        private ToolStripButton PrintButton;
         private ToolStripButton CheckSoilsButton;
         private ToolStripButton SortButton;
         private ToolStripDropDownButton InsertButton;
@@ -111,7 +111,6 @@ namespace APSoil
         this.OpenButton = new System.Windows.Forms.ToolStripButton();
         this.SaveButton = new System.Windows.Forms.ToolStripButton();
         this.SaveAsButton = new System.Windows.Forms.ToolStripButton();
-        this.PrintButton = new System.Windows.Forms.ToolStripButton();
         this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
         this.CutButton = new System.Windows.Forms.ToolStripButton();
         this.CopyButton = new System.Windows.Forms.ToolStripButton();
@@ -175,7 +174,6 @@ namespace APSoil
             this.OpenButton,
             this.SaveButton,
             this.SaveAsButton,
-            this.PrintButton,
             this.toolStripSeparator1,
             this.CutButton,
             this.CopyButton,
@@ -190,7 +188,7 @@ namespace APSoil
             this.SortButton});
         this.toolStrip1.Location = new System.Drawing.Point(3, 0);
         this.toolStrip1.Name = "toolStrip1";
-        this.toolStrip1.Size = new System.Drawing.Size(802, 47);
+        this.toolStrip1.Size = new System.Drawing.Size(752, 47);
         this.toolStrip1.TabIndex = 0;
         // 
         // NewButton
@@ -236,17 +234,6 @@ namespace APSoil
         this.SaveAsButton.Text = "Save &as...";
         this.SaveAsButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.SaveAsButton.Click += new System.EventHandler(this.OnSaveAsClick);
-        // 
-        // PrintButton
-        // 
-        this.PrintButton.Image = global::APSoil.Properties.Resources.printer;
-        this.PrintButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-        this.PrintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        this.PrintButton.Name = "PrintButton";
-        this.PrintButton.Size = new System.Drawing.Size(50, 44);
-        this.PrintButton.Text = "Print...";
-        this.PrintButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-        this.PrintButton.Click += new System.EventHandler(this.OnPrintClick);
         // 
         // toolStripSeparator1
         // 
@@ -454,7 +441,7 @@ namespace APSoil
         this.CheckSoilsButton.Size = new System.Drawing.Size(75, 44);
         this.CheckSoilsButton.Text = "Check soils";
         this.CheckSoilsButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-        this.CheckSoilsButton.ToolTipText = "Check soils to see if they\'ll run in APSIM";
+        this.CheckSoilsButton.ToolTipText = "Check soils under selected node to see if they\'ll run in APSIM";
         this.CheckSoilsButton.Click += new System.EventHandler(this.OnCheckSoilsClick);
         // 
         // SortButton
@@ -575,7 +562,7 @@ namespace APSoil
 											"Apsoil",
 											SmallImages);
 			Apsoil.NewDataEvent += new ApsoilController.NotifyEventHandler(OnNewDataEvent);
-			Apsoil.SelectionChangedEvent += new ApsoilController.NotifyEventHandler(SetFunctionality);
+            Apsoil.SelectionChangedEvent += new ApsoilController.SelectionChangedHandler(OnSelectionChanged);
 			Apsoil.DataChangedEvent += new ApsoilController.NotifyEventHandler(SetFunctionality);
 
 			// Show the Simulation Explorer.
@@ -605,7 +592,10 @@ namespace APSoil
 			APSIMChangeTool.Upgrade(Apsoil.AllData);
 			SetFunctionality();
 			}
-
+        private void OnSelectionChanged(StringCollection OldSelections, StringCollection NewSelections)
+            {
+            SetFunctionality();
+            }
 		private void SetFunctionality()
 			{
 			// User has changed something e.g. selection / new data.
@@ -638,9 +628,9 @@ namespace APSoil
 			ImportW2File.Enabled = FolderIsSelected && Apsoil.AllowChanges;
 			ExportParFile.Enabled = OnlySoilsSelected;
 			ExportSoilsFile.Enabled = OnlySoilsSelected;
+            ExportSpreadsheet.Enabled = (Apsoil.SelectedPaths.Count >= 1);
 			CheckSoilsButton.Enabled = SomethingInTree;
 			SortButton.Enabled = SomethingInTree;
-			PrintButton.Enabled = (OnlySoilsSelected && Apsoil.SelectedData.Count == 1);
 			InsertNewFolder.Enabled = (Apsoil.AllowChanges && Apsoil.AllowInsertFolder);
 			InsertNewSoil.Enabled = (Apsoil.AllowChanges && Apsoil.AllowInsertSoil);
 			InsertNewSample.Enabled = (Apsoil.AllowChanges && Apsoil.AllowInsertSample);
@@ -658,7 +648,7 @@ namespace APSoil
 
         private void OnNewFileClick(object sender, EventArgs e)
 			{
-			APSIMData NewData = new APSIMData("soils", "");
+			APSIMData NewData = new APSIMData("folder", "soils");
 			Apsoil.FileNew(NewData);
 			}
 
@@ -677,11 +667,6 @@ namespace APSoil
 			Apsoil.FileSaveAs();
 			}
 
-
-        private void OnPrintClick(object sender, EventArgs e)
-            {
-            Apsoil.Print();
-            }
 
         private void OnCutClick(object sender, EventArgs e)
             {
@@ -856,11 +841,7 @@ namespace APSoil
                 {
                 if (ExportSpreadsheetDialog.ShowDialog() == DialogResult.OK)
                     {
-                    File.Delete(ExportSpreadsheetDialog.FileName);
-                    APSIMData SoilsToExport = new APSIMData("soils", "");
-                    foreach (APSIMData SelectedData in Apsoil.SelectedData)
-                        SoilsToExport.Add(SelectedData);
-                    SoilSpreadsheet.ExportToFile(ExportSpreadsheetDialog.FileName, SoilsToExport);
+                    SoilSpreadsheet.ExportToFile(ExportSpreadsheetDialog.FileName, Apsoil.SelectedData);
                     MessageBox.Show("Soils have been successfully exported to '" + ExportSpreadsheetDialog.FileName + "'",
                                     "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
@@ -876,7 +857,7 @@ namespace APSoil
             // User wants to check all soils for consistency
             Cursor.Current = Cursors.WaitCursor;
             string ErrorMessage = "";
-            Apsoil.CheckAllSoils(Apsoil.AllData, ref ErrorMessage);
+            Apsoil.CheckAllSoils(Apsoil.Data, ref ErrorMessage);
             if (ErrorMessage == "")
                 MessageBox.Show("All soils checked out ok. No problems were encountered",
                                 "No problems encountered", MessageBoxButtons.OK,

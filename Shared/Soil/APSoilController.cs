@@ -84,9 +84,12 @@ namespace CSGeneral
 			string FileName = Path.GetFileName(FullFileName).ToLower();
 			if (FileName.Substring(0, 6) == "apsru-" || FileName.Substring(0, 4) == "npd-" || FileName.Substring(0, 3) == "ap-")
 				{
-				if (InputDialog.InputBox("Enter password:", "This file is password protected", "") == "soilinfo")
-					return true;
-				else
+                string Password = InputDialog.InputBox("Enter password:", "This file is password protected", "", true);
+                if (Password == "soilinfo")
+                    return true;
+                else if (Password == "")
+                    return false;
+                else
 					{
 					MessageBox.Show("Password incorrect", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return false;
@@ -130,7 +133,7 @@ namespace CSGeneral
 
 		public void AddCrop()
 			{
-			string NewCropName = InputDialog.InputBox("Enter the name of the new crop:", "New crop", "");
+			string NewCropName = InputDialog.InputBox("Enter the name of the new crop:", "New crop", "", false);
 			if (NewCropName != "")
 				{
 				Soil MySoil = new Soil(SelectedData[0] as APSIMData);
@@ -141,7 +144,7 @@ namespace CSGeneral
 
 		public void DeleteCrop()
 			{
-			string CropNameToDelete = InputDialog.InputBox("Enter the name of the crop to delete:", "New crop", "");
+			string CropNameToDelete = InputDialog.InputBox("Enter the name of the crop to delete:", "New crop", "", false);
 			if (CropNameToDelete != "")
 				{
 				try
@@ -207,8 +210,11 @@ namespace CSGeneral
 
 		public void InsertSoil()
 			{
-			if (AllowInsertSoil)
-				AddXMLToSelected("<soil name=\"NewSoil\"/>");
+            if (AllowInsertSoil)
+                {
+                Soil NewSoil = new Soil(new APSIMData("soil", "NewSoil"));
+                AddXMLToSelected(NewSoil.Data.XML);
+                }
 			}
 
 		public void InsertSample()

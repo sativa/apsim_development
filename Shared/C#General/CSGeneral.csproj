@@ -137,6 +137,7 @@
     </Compile>
     <EmbeddedResource Include="HyperTextLabel.resx">
       <DependentUpon>HyperTextLabel.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MemoUI.resx">
       <DependentUpon>MemoUI.cs</DependentUpon>

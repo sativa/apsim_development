@@ -61,7 +61,7 @@ namespace ChangeTool
 			{
 			if (Data.Type.ToLower() == "soil")
 				{
-				Soil MySoil = new Soil(Data);
+                CSGeneral.Soil MySoil = new CSGeneral.Soil(Data);
 				double[] thickness = MySoil.Thickness;
 				MySoil.UpgradeToVersion2();
 				}
@@ -94,7 +94,7 @@ namespace ChangeTool
 			{
 			if (Data.Type.ToLower() == "soil")
 				{
-				Soil MySoil = new Soil(Data);
+                CSGeneral.Soil MySoil = new CSGeneral.Soil(Data);
 				MySoil.UpgradeToVersion3();
 				}
 			else if (Data.Type.ToLower() == "sample")
