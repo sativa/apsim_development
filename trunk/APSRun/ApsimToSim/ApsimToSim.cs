@@ -16,7 +16,7 @@ namespace ApsimToSim
 
 
 		[STAThread]
-		static void Main(string[] args)
+		static int Main(string[] args)
 			{
 			// Main entry point into application.
 			// Firstly parse all arguments.
@@ -36,12 +36,14 @@ namespace ApsimToSim
 			try
 				{
 				ApsimToSim SimCreator = new ApsimToSim();
-                SimCreator.ConvertApsimToSim(ApsimFileName, SimNames);
+            SimCreator.ConvertApsimToSim(ApsimFileName, SimNames);
 				}
 			catch (Exception err)
 				{
 				Console.WriteLine(err.Message);
+            return 1;
 				}
+			return 0;
 			}
 
 		private void ConvertApsimToSim(string ApsimFileName, StringCollection SimNames)
@@ -63,13 +65,13 @@ namespace ApsimToSim
 			foreach (string SimName in SimNames)
 				{
 				StringWriter Out = new StringWriter();
+
 				WriteSimForComponent(Data.Child(SimName), Out, 0);
 				Out.Close();
-				
 				string SortedContents = SortSim(Out.ToString());
 				
 				StreamWriter FileOut = new StreamWriter(SimName + ".sim");
-				FileOut.Write(SortedContents);
+            FileOut.Write(SortedContents);
 				FileOut.Close();
 				}
 			}
