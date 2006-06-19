@@ -72,7 +72,8 @@ void TFilter::storeRecords(void) throw(runtime_error)
       {
       if (source != NULL)
          {
-         source->Filter = filterString;
+         AnsiString FilterSt = macros.doReplacement(Owner->Owner, filterString);
+         source->Filter = FilterSt;
          source->Filtered = true;
          // loop through all records.
          source->First();

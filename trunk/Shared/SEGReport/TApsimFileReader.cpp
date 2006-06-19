@@ -145,8 +145,6 @@ void TApsimFileReader::storeRecords(void) throw(runtime_error)
          throw runtime_error(msg);
          }
       }
-
-   sortFields = getYearFieldName().c_str();
    }
 //---------------------------------------------------------------------------
 // read in the contents of the specified file into this TSEGTable.

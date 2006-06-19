@@ -7,12 +7,14 @@
 #include <vector>
 #include <string>
 #include <map>
+#include "ReportMacros.h"
 //---------------------------------------------------------------------------
 // derived from TSEGTable, this filters an existing dataset.
 //---------------------------------------------------------------------------
 class TFilter : public TSEGTable
    {
    private:
+      ReportMacros macros;
       AnsiString filterString;
       void __fastcall setFilter(AnsiString filter);
 

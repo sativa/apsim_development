@@ -1,8 +1,8 @@
 inherited ImageForm: TImageForm
   Caption = 'ImageForm'
   OldCreateOrder = True
-  PixelsPerInch = 120
-  TextHeight = 16
+  PixelsPerInch = 96
+  TextHeight = 13
   inherited AdvPanelGroup1: TAdvPanelGroup
     FullHeight = 18
     inherited AdvancedPanel: TAdvPanel
@@ -11,16 +11,16 @@ inherited ImageForm: TImageForm
     inherited PropertyPanel: TAdvPanel
       FullHeight = 297
       object FilenameLabel: TLabel
-        Left = 16
-        Top = 32
-        Width = 65
-        Height = 17
+        Left = 13
+        Top = 26
+        Width = 56
+        Height = 13
         Caption = 'Filename:'
       end
       object ImageFileEdit: TAdvEditBtn
-        Left = 16
-        Top = 56
-        Width = 178
+        Left = 13
+        Top = 46
+        Width = 145
         Height = 21
         AutoFocus = False
         EditAlign = eaLeft
@@ -74,6 +74,7 @@ inherited ImageForm: TImageForm
         TabOrder = 0
         Transparent = False
         Visible = True
+        OnExit = ImageFileEditExit
         ButtonWidth = 18
         Etched = False
         Glyph.Data = {
@@ -107,31 +108,40 @@ inherited ImageForm: TImageForm
         OnClickBtn = ImageFileEditClickBtn
       end
       object AutoSizeCheckBox: TCheckBox
-        Left = 16
-        Top = 96
-        Width = 119
-        Height = 21
+        Left = 13
+        Top = 118
+        Width = 97
+        Height = 17
         Caption = 'Autosize?'
         TabOrder = 1
         OnClick = AutoSizeCheckBoxClick
       end
       object CentreCheckBox: TCheckBox
-        Left = 16
-        Top = 128
-        Width = 119
-        Height = 20
+        Left = 13
+        Top = 144
+        Width = 97
+        Height = 16
         Caption = 'Centre?'
         TabOrder = 2
         OnClick = CentreCheckBoxClick
       end
       object StretchCheckBox: TCheckBox
-        Left = 16
-        Top = 160
-        Width = 119
-        Height = 21
+        Left = 13
+        Top = 170
+        Width = 97
+        Height = 17
         Caption = 'Stretch?'
         TabOrder = 3
         OnClick = StretchCheckBoxClick
+      end
+      object LinkCheckBox: TCheckBox
+        Left = 13
+        Top = 70
+        Width = 97
+        Height = 17
+        Caption = 'Save as link'
+        TabOrder = 4
+        OnClick = LinkCheckBoxClick
       end
     end
   end

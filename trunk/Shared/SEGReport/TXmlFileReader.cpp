@@ -142,8 +142,23 @@ void TXmlFileReader::readXmlNode(const XMLNode& node, const string& name)
    if (node.begin() == node.end())
       {
       // no children.
-      fieldNames.push_back(name);
-      fieldValues.push_back(node.getValue());
+      // make sure the name doesn't clash with an existing name.
+      string fieldName = name;
+      int index = 1;
+      while (find(fieldNames.begin(), fieldNames.end(), fieldName) != fieldNames.end())
+         {
+         unsigned posPeriod = fieldName.rfind('.');
+         if (posPeriod == string::npos)
+            posPeriod = fieldName.length();
+         index++;
+         fieldName = fieldName.insert(posPeriod, itoa(index));
+         }
+
+      fieldNames.push_back(fieldName);
+      string value = node.getValue();
+      if (value == "")
+         value = "?";
+      fieldValues.push_back(value);
       }
    else
       {

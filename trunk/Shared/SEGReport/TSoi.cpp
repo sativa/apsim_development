@@ -304,7 +304,7 @@ bool TSOI::keepPhase(unsigned phase)
       string currentPhase = AnsiString(source->FieldValues["SoiPhase"]).c_str();
       if (Str_i_Eq(currentPhase, "negative") && phase == 1)
          return true;
-      else if (Str_i_Eq(currentPhase, "posative") && phase == 2)
+      else if (Str_i_Eq(currentPhase, "positive") && phase == 2)
          return true;
       else if (Str_i_Eq(currentPhase, "falling") && phase == 3)
          return true;
@@ -312,8 +312,6 @@ bool TSOI::keepPhase(unsigned phase)
          return true;
       else if (Str_i_Eq(currentPhase, "zero") && phase == 5)
          return true;
-      else
-         throw runtime_error("Unknown current phase name: " + currentPhase);
       }
 
    if (negativePhase && phase == 1)

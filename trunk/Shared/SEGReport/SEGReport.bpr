@@ -7,18 +7,21 @@
     <OBJFILES value="SEGReport.obj Report.obj TPropertyForm.obj TTextForm.obj ReportMacros.obj 
       TApsimFileReader.obj TApsimFileReaderForm.obj TChartForm.obj 
       TDecileFunction.obj TExcel.obj TExcelForm.obj TFilter.obj TFilterForm.obj 
-      TGraph.obj TImage.obj TImageForm.obj TProbability.obj TProbabilityForm.obj 
-      TREMS.obj TREMSForm.obj TRotationAddIn.obj TSEGTable.obj TShape.obj 
-      TShapeForm.obj TSoi.obj TSOIForm.obj TStats.obj TStatsForm.obj TText.obj 
+      TGraph.obj TImage.obj TImageForm.obj TProbability.obj TREMS.obj 
+      TREMSForm.obj TRotationAddIn.obj TSEGTable.obj TShape.obj TShapeForm.obj 
+      TSoi.obj TSOIForm.obj TStats.obj TStatsForm.obj TText.obj 
       ComponentRegistration.obj ..\general\Excel.obj TWizardForm.obj 
       TXYGraphSeries.obj TXYGraph.obj TXYForm.obj TCumulative.obj TDiff.obj 
-      TDiffForm.obj TXmlFileReader.obj TXmlFileReaderForm.obj"/>
+      TDiffForm.obj TXmlFileReader.obj TXmlFileReaderForm.obj TRecFilter.obj 
+      TRecFilterForm.obj TDepth.obj TChartLine.obj TChartLineForm.obj 
+      TProbabilityForm.obj TFrequency.obj TFrequencyForm.obj"/>
     <RESFILES value="SEGReport.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TPropertyForm.dfm TTextForm.dfm TApsimFileReaderForm.dfm 
-      TChartForm.dfm TExcelForm.dfm TFilterForm.dfm TImageForm.dfm 
-      TProbabilityForm.dfm TREMSForm.dfm TShapeForm.dfm TSOIForm.dfm 
-      TStatsForm.dfm TWizardForm.dfm TXYForm.dfm TXmlFileReaderForm.dfm"/>
+      TChartForm.dfm TExcelForm.dfm TFilterForm.dfm TImageForm.dfm TREMSForm.dfm 
+      TShapeForm.dfm TSOIForm.dfm TStatsForm.dfm TWizardForm.dfm TXYForm.dfm 
+      TXmlFileReaderForm.dfm TRecFilterForm.dfm TChartLineForm.dfm 
+      TProbabilityForm.dfm TFrequencyForm.dfm"/>
     <LIBFILES value="..\general\general.lib ..\ApsimShared\ApsimShared.lib 
       &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib&quot; 
       ..\general\general_vcl.lib 
@@ -87,7 +90,6 @@
       <FILE FILENAME="TImage.cpp" FORMNAME="" UNITNAME="TImage.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TImageForm.cpp" FORMNAME="ImageForm" UNITNAME="TImageForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TProbability.cpp" FORMNAME="" UNITNAME="TProbability.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="TProbabilityForm.cpp" FORMNAME="ProbabilityForm" UNITNAME="TProbabilityForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TREMS.cpp" FORMNAME="" UNITNAME="TREMS.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TREMSForm.cpp" FORMNAME="REMSForm" UNITNAME="TREMSForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TRotationAddIn.cpp" FORMNAME="" UNITNAME="TRotationAddIn.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
@@ -116,6 +118,14 @@
       <FILE FILENAME="TXmlFileReader.cpp" FORMNAME="" UNITNAME="TXmlFileReader" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TXmlFileReaderForm.cpp" FORMNAME="XmlFileReaderForm" UNITNAME="TXmlFileReaderForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\LibXML2.lib" FORMNAME="" UNITNAME="LibXML2.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TRecFilter.cpp" FORMNAME="" UNITNAME="TRecFilter" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TRecFilterForm.cpp" FORMNAME="RecFilterForm" UNITNAME="TRecFilterForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TDepth.cpp" FORMNAME="" UNITNAME="TDepth" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TChartLine.cpp" FORMNAME="" UNITNAME="TChartLine" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TChartLineForm.cpp" FORMNAME="ChartLineForm" UNITNAME="TChartLineForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TProbabilityForm.cpp" FORMNAME="ProbabilityForm" UNITNAME="TProbabilityForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TFrequency.cpp" FORMNAME="" UNITNAME="TFrequency" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TFrequencyForm.cpp" FORMNAME="FrequencyForm" UNITNAME="TFrequencyForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

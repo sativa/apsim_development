@@ -88,6 +88,7 @@ void TProbability::storeRecords(void) throw(runtime_error)
             Append();
             FieldValues[fieldNameToAnalyse] = values[recordNum];
             FieldValues[PROBABILITY_FIELD_NAME] = probValues[recordNum];
+            Post();
             }
          ok = source->nextSeries();
          }

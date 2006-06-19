@@ -25,10 +25,13 @@ __published:	// IDE-managed Components
    TCheckBox *CentreCheckBox;
    TCheckBox *StretchCheckBox;
    TLabel *FilenameLabel;
+   TCheckBox *LinkCheckBox;
    void __fastcall AutoSizeCheckBoxClick(TObject *Sender);
    void __fastcall CentreCheckBoxClick(TObject *Sender);
    void __fastcall StretchCheckBoxClick(TObject *Sender);
    void __fastcall ImageFileEditClickBtn(TObject *Sender);
+   void __fastcall LinkCheckBoxClick(TObject *Sender);
+   void __fastcall ImageFileEditExit(TObject *Sender);
 private:	// User declarations
    ::TImage* image;
 
