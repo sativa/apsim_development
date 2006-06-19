@@ -12,7 +12,11 @@ namespace CSGeneral
 	public class Soil : SoilBase
 		{
 		private APSIMData PredLLCoeff = null;
-		public Soil(APSIMData data)	: base(data) {}
+		public Soil(APSIMData data)	: base(data) 
+            {
+            InitWater w = InitialWater;
+            InitNitrogen n = InitialNitrogen;
+            }
 
 		// -----------------------------------
 		// General soil descriptive properties
@@ -150,7 +154,7 @@ namespace CSGeneral
 			get {return GetLayeredAsVol("water", "ll15");}
 			set {
 				SetStoredWaterFormat(StoredWaterFormatType.VolumetricPercent);
-				setLayered("water", "ll15", value);
+				setLayered("water", "ll15", value, "f2");
 				}
 			}
 		public double[] LL15Grav
@@ -158,14 +162,14 @@ namespace CSGeneral
 			get {return GetLayeredAsGrav("water", "ll15");}
 			set {
 				SetStoredWaterFormat(StoredWaterFormatType.GravimetricPercent);
-				setLayered("water", "ll15", value);
+                setLayered("water", "ll15", value, "f2");
 				}
 			}
 		public double[] Airdry
 			{
 			get {return GetLayeredAsVol("water", "airdry");}
 			set {
-				setLayered("water", "airdry", value);
+                setLayered("water", "airdry", value, "f2");
 				SetStoredWaterFormat(StoredWaterFormatType.VolumetricPercent);
 				}
 			}
@@ -173,7 +177,7 @@ namespace CSGeneral
 			{
 			get {return GetLayeredAsGrav("water", "airdry");}
 			set {
-				setLayered("water", "airdry", value);
+                setLayered("water", "airdry", value, "f2");
 				SetStoredWaterFormat(StoredWaterFormatType.GravimetricPercent);
 				}
 			}
@@ -181,7 +185,7 @@ namespace CSGeneral
 			{
 			get {return GetLayeredAsVol("Water", "dul");}
 			set {
-				setLayered("Water", "dul", value);
+                setLayered("Water", "dul", value, "f2");
 				SetStoredWaterFormat(StoredWaterFormatType.VolumetricPercent);
 				}
 			}
@@ -189,7 +193,7 @@ namespace CSGeneral
 			{
 			get {return GetLayeredAsGrav("Water", "dul");}
 			set {
-				setLayered("Water", "dul", value);
+                setLayered("Water", "dul", value, "f2");
 				SetStoredWaterFormat(StoredWaterFormatType.GravimetricPercent);
 				}
 			}
@@ -197,7 +201,7 @@ namespace CSGeneral
 			{
 			get {return GetLayeredAsVol("water", "sat");}
 			set {
-				setLayered("Water", "sat", value);
+                setLayered("Water", "sat", value, "f2");
 				SetStoredWaterFormat(StoredWaterFormatType.VolumetricPercent);
 				}
 			}
@@ -205,124 +209,129 @@ namespace CSGeneral
 			{
 			get {return GetLayeredAsGrav("water", "sat");}
 			set {
-				setLayered("Water", "sat", value);
+                setLayered("Water", "sat", value, "f2");
 				SetStoredWaterFormat(StoredWaterFormatType.GravimetricPercent);
 				}
 			}
 		public double[] BD
 			{
 			get {return getLayered("Water", "bd");}
-			set {setLayered("Water", "bd", value);}
+            set { setLayered("Water", "bd", value, "f3"); }
 			}
 		public double[] SWCON
 			{
 			get {return getLayered("Water", "swcon");}
-			set {setLayered("Water", "swcon", value);}
+            set { setLayered("Water", "swcon", value, "f1"); }
 			}
 		public double[] MWCON
 			{
 			get {return getLayered("Water", "mwcon");}
-			set {setLayered("Water", "mwcon", value);}
+            set { setLayered("Water", "mwcon", value, "f2"); }
 			}
 		public double[] FBIOM
 			{
 			get {return getLayered("nitrogen", "fbiom");}
-			set {setLayered("nitrogen", "fbiom", value);}
+            set { setLayered("nitrogen", "fbiom", value, "f2"); }
 			}
 		public double[] FINERT
 			{
 			get {return getLayered("nitrogen", "finert");}
-			set {setLayered("nitrogen", "finert", value);}
+			set {setLayered("nitrogen", "finert", value, "f1");}
 			}
 		public double[] OC
 			{
 			get {return getLayered("nitrogen", "oc");}
-			set {setLayered("nitrogen", "oc", value);}
+            set { setLayered("nitrogen", "oc", value, "f2"); }
 			}
 		public double[] PH
 			{
 			get {return getLayered("nitrogen", "ph");}
-			set {setLayered("nitrogen", "ph", value);}
+            set { setLayered("nitrogen", "ph", value, "f1"); }
 			}
 		public double[] EC
 			{
 			get {return getLayered("other", "ec");}
-			set {setLayered("other", "ec", value);}
+            set { setLayered("other", "ec", value, "f1"); }
 			}
 		public double[] CL
 			{
 			get {return getLayered("other", "cl");}
-			set {setLayered("other", "cl", value);}
+            set { setLayered("other", "cl", value, "f1"); }
 			}
 		public double[] Boron
 			{
 			get {return getLayered("other", "boron");}
-			set {setLayered("other", "boron", value);}
+            set { setLayered("other", "boron", value, "f1"); }
 			}
 		public double[] CEC
 			{
 			get {return getLayered("other", "cec");}
-			set {setLayered("other", "cec", value);}
+            set { setLayered("other", "cec", value, "f1"); }
 			}
 		public double[] Ca
 			{
 			get {return getLayered("other", "ca");}
-			set {setLayered("other", "ca", value);}
+            set { setLayered("other", "ca", value, "f1"); }
 			}
 		public double[] Mg
 			{
 			get {return getLayered("other", "Mg");}
-			set {setLayered("other", "Mg", value);}
+            set { setLayered("other", "Mg", value, "f1"); }
 			}
 		public double[] Na
 			{
 			get {return getLayered("other", "Na");}
-			set {setLayered("other", "Na", value);}
+            set { setLayered("other", "Na", value, "f1"); }
 			}
 		public double[] K
 			{
 			get {return getLayered("other", "K");}
-			set {setLayered("other", "K", value);}
+            set { setLayered("other", "K", value, "f1"); }
 			}
 		public double[] ESP
 			{
 			get {return getLayered("other", "esp");}
-			set {setLayered("other", "esp", value);}
+            set { setLayered("other", "esp", value, "f1"); }
 			}
 		public double[] ParticleSizeSand
 			{
 			get {return getLayered("other", "ParticleSizeSand");}
-			set {setLayered("other", "ParticleSizeSand", value);}
+            set { setLayered("other", "ParticleSizeSand", value, "f1"); }
 			}
 		public double[] ParticleSizeSilt
 			{
 			get {return getLayered("other", "ParticleSizeSilt");}
-			set {setLayered("other", "ParticleSizeSilt", value);}
+            set { setLayered("other", "ParticleSizeSilt", value, "f1"); }
 			}
 		public double[] ParticleSizeClay
 			{
 			get {return getLayered("other", "ParticleSizeClay");}
-			set {setLayered("other", "ParticleSizeClay", value);}
+            set { setLayered("other", "ParticleSizeClay", value, "f1"); }
 			}
+        public string[] Texture
+            {
+            get { return getLayeredAsStrings("other", "texture"); }
+            set { setLayeredAsStrings("other", "", "texture", value); }
+            }
 		public double[] LabileP
 			{
 			get {return getLayered("Phosphorus", "LabileP");}
-			set {setLayered("Phosphorus", "LabileP", value);}
+            set { setLayered("Phosphorus", "LabileP", value, "f1"); }
 			}
 		public double[] BandedP
 			{
 			get {return getLayered("Phosphorus", "BandedP");}
-			set {setLayered("Phosphorus", "BandedP", value);}
+            set { setLayered("Phosphorus", "BandedP", value, "f1"); }
 			}
 		public double[] RockP
 			{
 			get {return getLayered("Phosphorus", "RockP");}
-			set {setLayered("Phosphorus", "RockP", value);}
+            set { setLayered("Phosphorus", "RockP", value, "f1"); }
 			}
 		public double[] Sorption
 			{
 			get {return getLayered("Phosphorus", "Sorption");}
-			set {setLayered("Phosphorus", "Sorption", value);}
+            set { setLayered("Phosphorus", "Sorption", value, "f1"); }
 			}
 
 
@@ -387,9 +396,9 @@ namespace CSGeneral
 		public void SetCrop(string CropName, double[] ll, double[] kl, double[] xf)
 			{
 			SetStoredWaterFormat(StoredWaterFormatType.VolumetricPercent);
-			setLayered("SoilCrop", CropName, "ll", ll);
-			setLayered("SoilCrop", CropName, "kl", kl);
-			setLayered("SoilCrop", CropName, "xf", xf);
+			setLayered("SoilCrop", CropName, "ll", ll, "f2");
+            setLayered("SoilCrop", CropName, "kl", kl, "f2");
+            setLayered("SoilCrop", CropName, "xf", xf, "f2");
 			}
 		public void SetCropGrav(string CropName, double[] ll, double[] kl, double[] xf)
 			{
@@ -918,7 +927,7 @@ namespace CSGeneral
 			{
 			get {
 				if (Data.Child("InitWater") == null)
-					Data.Add(new APSIMData("InitWater", ""));
+                    Data.Add(new APSIMData("<InitWater><PercentMethod><Percent>100</Percent><Distributed>filled from top</Distributed></PercentMethod></InitWater>"));
 				return new InitWater(this);
 				}
 			}
@@ -960,9 +969,9 @@ namespace CSGeneral
 				if (OldNH4 != null && OldNH4.Length > 0)
 					InitialNitrogen.NH4 = OldNH4;
 				}
-			setLayered("water", "sw", new double[0]);
-            setLayered("nitrogen", "no3", new double[0]);
-			setLayered("nitrogen", "nh4", new double[0]);
+            setLayered("water", "sw", new double[0], "f2");
+            setLayered("nitrogen", "no3", new double[0], "f3");
+            setLayered("nitrogen", "nh4", new double[0], "f3");
 
 			// Look for missing crop names.
 			foreach (string Crop in Crops)

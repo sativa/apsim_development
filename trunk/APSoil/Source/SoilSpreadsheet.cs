@@ -5,6 +5,8 @@ using System.Windows.Forms;
 using ExcelUtility;
 using CSGeneral;
 using VBGeneral;
+using System.IO;
+using System.Collections;
 
 namespace APSoil
 	{
@@ -19,53 +21,52 @@ namespace APSoil
 			{
 			// Import all files
 			Cursor.Current = Cursors.WaitCursor;
+            StringCollection TopNode = new StringCollection();
+            TopNode.Add("soils");
+            Apsoil.SelectedPaths = TopNode;
 
 			DataTable Table = ExcelHelper.GetDataFromSheet(FileName, "SoilData");
-			StringCollection NewSelections = new StringCollection();
-			APSIMData NewData = new APSIMData("folder", "Soils");
+            StringCollection NewXml = new StringCollection();
 			int Row = 0;
             while (Row < Table.Rows.Count)
-				{
-				string SoilPath = GetStringValue(Table, "SoilPath", Row);
-                if (SoilPath == "")
-                    SoilPath = "\\Soils";
-				string NewXml = CreateSoilXmlFromSpreadsheet(Table, ref Row);
-				APSIMData ParentNode;
-				if (SoilPath != "")
-					ParentNode = CreateNodeFromPath(NewData, SoilPath.Substring(1));
-				else
-					ParentNode = NewData;
-				ParentNode.Add(new APSIMData(NewXml));
+                NewXml.Add(CreateSoilXmlFromSpreadsheet(Table, ref Row));
+
+			StringCollection NewSelections = new StringCollection();
+            foreach (string Xml in NewXml)
+                {
+                APSIMData NewData = new APSIMData(Xml);
+				APSIMData NewNode = CreateNodeFromPath(Apsoil, Apsoil.AllData, NewData.Name);
+                NewSelections.Add(BaseController.GetFullPathForData(NewNode));
+                NewNode.InnerXML = NewData.InnerXML;
 				}
-			if (NewData.Name.ToLower() == Apsoil.Data.Name.ToLower())
-                Apsoil.AddXMLToSelected(NewData.InnerXML);
-			else
-				Apsoil.AddXMLToSelected(NewData.XML);
-			
+            Apsoil.SelectedPaths = NewSelections;			
 			Cursor.Current = Cursors.Default;
 			}
 
-		static public void ExportToFile(string FileName, APSIMData Soils)
+
+		static public void ExportToFile(string FileName, ArrayList Soils)
 			{
-			Cursor.Current = Cursors.WaitCursor;
-
-			// export the specified soils to the specified XLS file.
-			DataTable Table = new DataTable("SoilData");
-			int Row = 0;
-			CreateTableFromData(Soils, Table, "", ref Row);
-			ExcelHelper.SendDataToSheet(FileName, "SoilData", Table);			
-			
-			Cursor.Current = Cursors.Default;
-			}
+            Cursor.Current = Cursors.WaitCursor;
+            
+            File.Delete(FileName);
+            DataTable Table = new DataTable("SoilData");
+            int Row = 0;
+            foreach (APSIMData SelectedData in Soils)
+                CreateTableFromData(SelectedData, Table, ApsoilController.GetFullPathForData(SelectedData), ref Row);
+            ExcelHelper.SendDataToSheet(FileName, "SoilData", Table);
+            Cursor.Current = Cursors.Default;
+            }
 
 		static private void CreateTableFromData(APSIMData Data, DataTable Table, string ChildPath, ref int Row)
 			{
+            if (Data.Type.ToLower() == "soil")
+                CreateTableFromSoil(new Soil(Data), Table, ChildPath, ref Row);
+
 			foreach (APSIMData Child in Data.get_Children(null))
 				{
-				if (Child.Type.ToLower() == "soil")
-					CreateTableFromSoil(new Soil(Child), Table, ChildPath, ref Row);
-				else if (Child.Type.ToLower() == "soils" || Child.Type.ToLower() == "folder")
-					CreateTableFromData(Child, Table, ChildPath + "\\" + Child.Name, ref Row); // recursion
+				if (Child.Type.ToLower() == "soil" ||
+				    Child.Type.ToLower() == "soils" || Child.Type.ToLower() == "folder")
+					CreateTableFromData(Child, Table, ChildPath + "|" + Child.Name, ref Row); // recursion
 				}
 			}
 
@@ -73,8 +74,7 @@ namespace APSoil
 		static private void CreateTableFromSoil(Soil MySoil, DataTable Data, string ChildPath, ref int Row)
 			{
 			int NumLayers = MySoil.Thickness.Length;
-			DataTableUtility.AddValue(Data, "SoilPath", ChildPath, Row, NumLayers);
-			DataTableUtility.AddValue(Data, "Name", MySoil.Name, Row, NumLayers);
+			DataTableUtility.AddValue(Data, "Name", "\\" + ChildPath.Replace("|", "\\"), Row, NumLayers);
 			DataTableUtility.AddValue(Data, "Region", MySoil.Region, Row, NumLayers);
 			DataTableUtility.AddValue(Data, "Site", MySoil.Site, Row, NumLayers);
 			DataTableUtility.AddValue(Data, "Order", MySoil.Order, Row, NumLayers);
@@ -117,7 +117,8 @@ namespace APSoil
 					}
 				}
 
-			DataTableUtility.AddColumn(Data, "SWCON", MySoil.SWCON, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "Texture", MySoil.Texture, Row, NumLayers);
+            DataTableUtility.AddColumn(Data, "SWCON", MySoil.SWCON, Row, NumLayers);
 			DataTableUtility.AddColumn(Data, "MWCON", MySoil.MWCON, Row, NumLayers);
 			DataTableUtility.AddColumn(Data, "FBIOM", MySoil.FBIOM, Row, NumLayers);
 			DataTableUtility.AddColumn(Data, "FINERT", MySoil.FINERT, Row, NumLayers);
@@ -188,8 +189,9 @@ namespace APSoil
 			NewSoil.DUL = GetDoubleValues(Table, "DUL", NumLayers, Row);
 			NewSoil.SAT = GetDoubleValues(Table, "SAT", NumLayers, Row);
 			NewSoil.InitialWater.SetUsingLayered(GetDoubleValues(Table, "SW", NumLayers, Row));
-			
-			NewSoil.SWCON = GetDoubleValues(Table, "SWCON", NumLayers, Row);
+
+            NewSoil.Texture = GetStringValues(Table, "Texture", NumLayers, Row);
+            NewSoil.SWCON = GetDoubleValues(Table, "SWCON", NumLayers, Row);
 			NewSoil.MWCON = GetDoubleValues(Table, "MWCON", NumLayers, Row);
 			NewSoil.FBIOM = GetDoubleValues(Table, "FBIOM", NumLayers, Row);
 			NewSoil.FINERT = GetDoubleValues(Table, "FINERT", NumLayers, Row);
@@ -251,6 +253,14 @@ namespace APSoil
 				return "";
 			}
 
+        static private string[] GetStringValues(DataTable Table, string FieldName, int NumValues, int Row)
+            {
+            // Get string value from specified table for specified field.
+            if (Table.Columns.IndexOf(FieldName) != -1)
+                return DataTableUtility.GetColumnAsStrings(Table, FieldName, NumValues, Row);
+            else
+                return new string[0];
+            }
 		static private double GetDoubleValue(DataTable Table, string FieldName, int Row)
 			{
 			// Get string value from specified table for specified field.
@@ -270,10 +280,19 @@ namespace APSoil
 				return new double[0];
 			}
 
-		static private APSIMData CreateNodeFromPath(APSIMData NewData, string SoilPath)
+		static private APSIMData CreateNodeFromPath(ApsoilController Apsoil, APSIMData NewData, string SoilPath)
+            // ------------------------------------------------------
+            // The SoilPath name passed in is a full path to a node
+            // in the tree. e.g. \soils\Queensland\soilA
+            // This method returns that node if it exists or creates
+            // a new node and returns that.
+            // ------------------------------------------------------
 			{
 			bool rootNode = true;
 			int PosDelimiter;
+            if (SoilPath != "")
+                SoilPath = SoilPath.Substring(1);  // skip leading \ character.
+
 			while (SoilPath != "")
 				{
 				PosDelimiter = SoilPath.IndexOf('\\');
@@ -297,8 +316,15 @@ namespace APSoil
 				else
 					{
 					APSIMData Child = NewData.Child(PathNodeName);
-					if (Child == null)
-						Child = NewData.Add(new APSIMData("folder", PathNodeName));
+                    if (Child == null)
+                        {
+                        if (SoilPath == "")
+                            Child = NewData.Add(new APSIMData("soil", PathNodeName));
+                        else
+                            Child = NewData.Add(new APSIMData("folder", PathNodeName));
+                        Apsoil.DataHasBeenAdded(BaseController.GetFullPathForData(Child.Parent), Child.Parent);
+    
+                        }
 					NewData = Child;
 					}
 				}

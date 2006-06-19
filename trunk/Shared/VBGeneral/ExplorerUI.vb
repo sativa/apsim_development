@@ -144,6 +144,7 @@ Public Class ExplorerUI
             MyCurrentUI.Refresh()
             MyCurrentUI.Dock = DockStyle.Fill
             MyCurrentUI.Show()
+            Me.Visible = True
             CurrentUIType = Data.Type
         Else
             MyCurrentUI = Nothing

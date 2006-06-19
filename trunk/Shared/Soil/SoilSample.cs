@@ -49,7 +49,7 @@ namespace CSGeneral
 				double[] MissingValues = new double[Thickness.Length];
 				for (int i = 0; i != MissingValues.Length; i++)
 					MissingValues[i] = MathUtility.MissingValue;
-				setLayered("water", "sw", MissingValues);
+				setLayered("water", "sw", MissingValues, "f2");
 				Data.set_ChildValue("WaterFormat", "GravimetricWetDry");
 				}
 			else
@@ -57,8 +57,8 @@ namespace CSGeneral
 				double[] MissingValues = new double[Thickness.Length];
 				for (int i = 0; i != MissingValues.Length; i++)
 					MissingValues[i] = MathUtility.MissingValue;
-				setLayered("water", "wet", MissingValues);
-				setLayered("water", "dry", MissingValues);
+				setLayered("water", "wet", MissingValues, "f2");
+                setLayered("water", "dry", MissingValues, "f2");
 
 				if (WaterFormat == StoredWaterFormatType.GravimetricPercent)
 					Data.set_ChildValue("WaterFormat", "GravimetricPercent");
@@ -117,7 +117,7 @@ namespace CSGeneral
 			{
 			get {return GetLayeredAsVol("water", "sw");}
 			set {
-				setLayered("water", "sw", value);
+                setLayered("water", "sw", value, "f2");
 				SetStoredWaterFormat(StoredWaterFormatType.VolumetricPercent);
 				}                           				
 			}
@@ -125,7 +125,7 @@ namespace CSGeneral
 			{
 			get {return GetLayeredAsGrav("water", "sw");}
 			set {
-				setLayered("water", "sw", value);
+                setLayered("water", "sw", value, "f2");
 				SetStoredWaterFormat(StoredWaterFormatType.GravimetricPercent);
 				}                           				
 			}
@@ -133,7 +133,7 @@ namespace CSGeneral
 			{
 			get {return getLayered("water", "wet");}
 			set {
-				setLayered("water", "wet", value);
+                setLayered("water", "wet", value, "f2");
 				SetStoredWaterFormat(StoredWaterFormatType.GravimetricWetDry);
 				}                           				
 			}
@@ -141,7 +141,7 @@ namespace CSGeneral
 			{
 			get {return getLayered("water", "dry");}
 			set {
-				setLayered("water", "dry", value);
+                setLayered("water", "dry", value, "f2");
 				SetStoredWaterFormat(StoredWaterFormatType.GravimetricWetDry);
 				}                           				
 			}
@@ -149,33 +149,33 @@ namespace CSGeneral
 		public double[] NO3
 			{
 			get {return getLayered("nitrogen", "no3");}
-			set {setLayered("nitrogen", "no3", value);}
+			set {setLayered("nitrogen", "no3", value, "f3");}
 			}
 		public double[] NH4
 			{
 			get {return getLayered("nitrogen", "nh4");}
-			set {setLayered("nitrogen", "nh4", value);}
+            set { setLayered("nitrogen", "nh4", value, "f3"); }
 			}
 
 		public double[] OC
 			{
 			get {return getLayered("other", "oc");}
-			set {setLayered("nitrogen", "oc", value);}
+            set { setLayered("nitrogen", "oc", value, "f1"); }
 			}
 		public double[] PH
 			{
 			get {return getLayered("other", "ph");}
-			set {setLayered("nitrogen", "ph", value);}
+			set {setLayered("nitrogen", "ph", value, "f1");}
 			}
 		public double[] EC
 			{
 			get {return getLayered("other", "ec");}
-			set {setLayered("other", "ec", value);}
+            set { setLayered("other", "ec", value, "f1"); }
 			}
 		public double[] ESP
 			{
 			get {return getLayered("other", "esp");}
-			set {setLayered("other", "esp", value);}
+            set { setLayered("other", "esp", value, "f1"); }
 			}
 		#endregion
                     
@@ -449,21 +449,21 @@ namespace CSGeneral
 			double[] oc = getLayered("nitrogen", "oc");
 			if (oc.Length > 0)
 				{
-				setLayered("other", "oc", oc);    // moves to other
+                setLayered("other", "oc", oc, "f2");    // moves to other
 
 				for (int i = 0; i != oc.Length; i++)
 					oc[i] = MathUtility.MissingValue;
-				setLayered("nitrogen", "oc", oc); // deletes old values.
+                setLayered("nitrogen", "oc", oc, "f2"); // deletes old values.
 				}
 
 			double[] ph = getLayered("nitrogen", "ph");
 			if (ph.Length > 0)
 				{
-				setLayered("other", "ph", ph);    // moves to other
+                setLayered("other", "ph", ph, "f1");    // moves to other
 
 				for (int i = 0; i != ph.Length; i++)
 					ph[i] = MathUtility.MissingValue;
-				setLayered("nitrogen", "ph", ph); // deletes old values.
+                setLayered("nitrogen", "ph", ph, "f1"); // deletes old values.
 				}
 		
 			}

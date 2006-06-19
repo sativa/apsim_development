@@ -119,33 +119,30 @@ Public Class ChartHelper
     End Function
 
     Private Sub PopulateChartSeries(ByVal Series As LineSeries, ByVal X() As Double, ByVal y() As Double)
-        If X.Length <> y.Length Then
-            Throw New System.Exception("The number of x and y values doesn't match in routine: CreateChartSeriesFromGrid")
+        If X.Length = y.Length Then
+            ' Feed x and y values to new series.
+            For Index As Integer = 0 To X.Length - 1
+                Series.AddXY(y(Index), X(Index))
+            Next
+            Series.UseXValues = True
+            _Chart.Charts(0).Axis(Xceed.Chart.Core.StandardAxis.PrimaryX).ValueFormatting.Format = Xceed.Chart.Utilities.ValueFormat.Default
         End If
-        ' Feed x and y values to new series.
-        For Index As Integer = 0 To X.Length - 1
-            Series.AddXY(y(Index), X(Index))
-        Next
-        Series.UseXValues = True
-        _Chart.Charts(0).Axis(Xceed.Chart.Core.StandardAxis.PrimaryX).ValueFormatting.Format = Xceed.Chart.Utilities.ValueFormat.Default
     End Sub
     Private Sub PopulateChartSeries(ByVal Series As LineSeries, ByVal X() As Date, ByVal y() As Double)
-        If X.Length <> y.Length Then
-            Throw New System.Exception("The number of x and y values doesn't match in routine: CreateChartSeriesFromGrid")
+        If X.Length = y.Length Then
+            ' Feed x and y values to new series.
+            For Index As Integer = 0 To X.Length - 1
+                Series.AddXY(y(Index), X(Index).ToOADate)
+            Next
+            Series.UseXValues = True
+
+            _Chart.Charts(0).Axis(Xceed.Chart.Core.StandardAxis.PrimaryX).ValueFormatting.Format = Xceed.Chart.Utilities.ValueFormat.Date
+            With _Chart.Charts(0).Axis(Xceed.Chart.Core.StandardAxis.PrimaryX).DateTimeScale
+                .MajorTickMode = Xceed.Chart.Core.MajorTickModeDateTime.Months
+                .AutoMin = True
+                .AutoMax = True
+            End With
         End If
-        ' Feed x and y values to new series.
-        For Index As Integer = 0 To X.Length - 1
-            Series.AddXY(y(Index), X(Index).ToOADate)
-        Next
-        Series.UseXValues = True
-
-        _Chart.Charts(0).Axis(Xceed.Chart.Core.StandardAxis.PrimaryX).ValueFormatting.Format = Xceed.Chart.Utilities.ValueFormat.Date
-        With _Chart.Charts(0).Axis(Xceed.Chart.Core.StandardAxis.PrimaryX).DateTimeScale
-            .MajorTickMode = Xceed.Chart.Core.MajorTickModeDateTime.Months
-            .AutoMin = True
-            .AutoMax = True
-        End With
-
     End Sub
     Private Sub PopulateBarChartSeries(ByVal Series As BarSeries, ByVal X() As Double, ByVal y() As Double)
         If X.Length <> y.Length Then
@@ -200,12 +197,10 @@ Public Class ChartHelper
                 i = i + 1
             Next
 
-            If X.Length <> Y.Length Then
-                Throw New System.Exception("The number of x and y values doesn't match in routine: CreateChartSeriesFromGrid")
+            If X.Length = Y.Length Then
+                Dim NewSeries As LineSeries = CreateChartSeries(SeriesName, Markers, SeriesColour, Width, LinePattern, LinkedXAxis, LinkedYAxis)
+                PopulateChartSeries(NewSeries, X, Y)
             End If
-
-            Dim NewSeries As LineSeries = CreateChartSeries(SeriesName, Markers, SeriesColour, Width, LinePattern, LinkedXAxis, LinkedYAxis)
-            PopulateChartSeries(NewSeries, X, Y)
 
         End If
     End Sub
@@ -246,13 +241,10 @@ Public Class ChartHelper
                                                                 ByVal LinkedXAxis As StandardAxis, ByVal LinkedYAxis As StandardAxis)
 
 
-        If X.Length <> Y.Length Then
-            Throw New System.Exception("The number of x and y values doesn't match in routine: CreateChartSeriesFromGrid")
+        If X.Length = Y.Length Then
+            Dim NewSeries As LineSeries = CreateChartSeries(SeriesName, Markers, SeriesColour, Width, LinePattern, LinkedXAxis, LinkedYAxis)
+            PopulateChartSeries(NewSeries, X, Y)
         End If
-
-        Dim NewSeries As LineSeries = CreateChartSeries(SeriesName, Markers, SeriesColour, Width, LinePattern, LinkedXAxis, LinkedYAxis)
-        PopulateChartSeries(NewSeries, X, Y)
-
 
     End Sub
     Public Sub CreateBarChartSeriesFromArray(ByVal SeriesName As String, ByVal X() As Double, ByVal Y() As Double, _

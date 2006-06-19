@@ -27,12 +27,12 @@ namespace CSGeneral
 		public MethodType Method
 			{
 			get {
-				if (Data.Child("PercentMethod") != null)
-					return MethodType.Percent;
-				else if (Data.Child("DepthWetSoilMethod") != null)
-					return MethodType.DepthWetSoil;
-				else
-					return MethodType.Layered;
+                if (Data.ChildList("layer").Count > 0)
+                    return MethodType.Layered;
+                else if (Data.Child("DepthWetSoilMethod") != null)
+                    return MethodType.DepthWetSoil;
+			    else
+				    return MethodType.Percent;
 				}
 			}
 
@@ -158,7 +158,7 @@ namespace CSGeneral
 		public void SetUsingLayered(double[] sw)
 			{
 			Data.Clear();
-			setLayered("", "sw", sw);
+			setLayered("", "sw", sw, "f2");
 			}
 
 		}

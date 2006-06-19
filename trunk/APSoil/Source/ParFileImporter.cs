@@ -24,6 +24,7 @@ namespace APSoil
 			string[] Sections = APSIMSettings.INIReadAllSections(FileName);
 
             // import all water sections.
+            string XmlForAllSoils = "";
 			foreach (string Section in Sections)
 				{
 				if (GetStringValue(FileName, Section, "dlayer") != "")
@@ -39,11 +40,13 @@ namespace APSoil
 							ReadNitrogenSection(SoilName, FileName, NewSoil);
 							ReadCropSections(SoilName, FileName, NewSoil);
 							ReadPhosphorusSection(SoilName, FileName, NewSoil);
-							Apsoil.AddXMLToSelected(NewSoil.Data.XML);
+                            XmlForAllSoils += NewSoil.Data.XML;
 							}
 						}
 					}
 				}
+            if (XmlForAllSoils != "")
+                Apsoil.AddXMLToSelected(XmlForAllSoils);
 
 			Cursor.Current = Cursors.Default;
 			}
@@ -206,6 +209,7 @@ namespace APSoil
 			string Value = APSIMSettings.INIRead(FileName, SectionName, Key);
 			StringManip.SplitOffAfterDelimiter(ref Value, "!");
 			StringManip.SplitOffAfterDelimiter(ref Value, "(");
+            Value = Value.Replace("\t", "   ");
 			if (Value.StartsWith("$"))
 				Value = ResolveVariableMacro(FileName, Value);
 
@@ -247,6 +251,7 @@ namespace APSoil
 			string Value = APSIMSettings.INIRead(FileName, SectionName, Key);
 			StringManip.SplitOffAfterDelimiter(ref Value, "!");
 			StringManip.SplitOffAfterDelimiter(ref Value, "(");
+            Value = Value.Replace("\t", "   ");
 
 			if (Value == "")
 				return new double[0];

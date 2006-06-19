@@ -21,6 +21,7 @@ namespace CSGeneral
 		private System.ComponentModel.Container components = null;
 		private Soil MySoil;
         public Xceed.Chart.ChartControl WaterChart;
+        private System.ServiceProcess.ServiceController serviceController1;
 		private bool ShowSW = false;
 
 		public WaterChartControl()
@@ -54,6 +55,7 @@ namespace CSGeneral
         this.label1 = new System.Windows.Forms.Label();
         this.splitter = new System.Windows.Forms.Splitter();
         this.WaterChart = new Xceed.Chart.ChartControl();
+        this.serviceController1 = new System.ServiceProcess.ServiceController();
         this.panel1.SuspendLayout();
         this.SuspendLayout();
         // 
@@ -98,7 +100,7 @@ namespace CSGeneral
         // 
         // WaterChart
         // 
-        this.WaterChart.BackColor = System.Drawing.SystemColors.Control;
+        this.WaterChart.BackColor = System.Drawing.Color.White;
         this.WaterChart.Background = ((Xceed.Chart.Standard.Background)(resources.GetObject("WaterChart.Background")));
         this.WaterChart.Charts = ((Xceed.Chart.Core.ChartCollection)(resources.GetObject("WaterChart.Charts")));
         this.WaterChart.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -277,29 +279,30 @@ namespace CSGeneral
 			Helper.Chart = Chart;
 			Chart.Charts[0].Series.Clear();
 
-			Helper.CreateChartSeriesFromArray("SAT", 
-												MathUtility.Multiply_Value(MySoil.SAT, 100), MathUtility.Divide_Value(MySoil.CumThicknessMidPoints, 10), 
+            double[] CumThicknessMidPoints = MathUtility.Divide_Value(MySoil.CumThicknessMidPoints, 10);
+			Helper.CreateChartSeriesFromArray("SAT",
+                                                MathUtility.Multiply_Value(MySoil.SAT, 100), CumThicknessMidPoints, 
 												false, Color.Blue, 1, LinePattern.Dash,
 												StandardAxis.PrimaryX, StandardAxis.PrimaryY);
 
-			Helper.CreateChartSeriesFromArray("DUL", 
-												MathUtility.Multiply_Value(MySoil.DUL, 100), MathUtility.Divide_Value(MySoil.CumThicknessMidPoints, 10), 
+			Helper.CreateChartSeriesFromArray("DUL",
+                                                MathUtility.Multiply_Value(MySoil.DUL, 100), CumThicknessMidPoints, 
 												false, Color.Blue, 1, LinePattern.Solid,
 												StandardAxis.PrimaryX, StandardAxis.PrimaryY);
 
-			Helper.CreateChartSeriesFromArray("LL15", 
-												MathUtility.Multiply_Value(MySoil.LL15, 100), MathUtility.Divide_Value(MySoil.CumThicknessMidPoints, 10),
+			Helper.CreateChartSeriesFromArray("LL15",
+                                                MathUtility.Multiply_Value(MySoil.LL15, 100), CumThicknessMidPoints,
 												false, Color.Orange, 1, LinePattern.Solid,
 												StandardAxis.PrimaryX, StandardAxis.PrimaryY);
 
-			Helper.CreateChartSeriesFromArray("AirDry", 
-												MathUtility.Multiply_Value(MySoil.Airdry, 100), MathUtility.Divide_Value(MySoil.CumThicknessMidPoints, 10),
+			Helper.CreateChartSeriesFromArray("AirDry",
+                                                MathUtility.Multiply_Value(MySoil.Airdry, 100), CumThicknessMidPoints,
 												false, Color.Red, 1, LinePattern.Dash,
 												StandardAxis.PrimaryX, StandardAxis.PrimaryY);
 
 			if (ShowSW && MySoil.InitialWater.SW.Length > 0)
-				Helper.CreateChartSeriesFromArray("SW", 
-													MathUtility.Multiply_Value(MySoil.InitialWater.SW, 100), MathUtility.Divide_Value(MySoil.CumThicknessMidPoints, 10),
+				Helper.CreateChartSeriesFromArray("SW",
+                                                    MathUtility.Multiply_Value(MySoil.InitialWater.SW, 100), CumThicknessMidPoints,
 													false, Color.Aquamarine, 3, LinePattern.Solid,
 													StandardAxis.PrimaryX, StandardAxis.PrimaryY);
 			
@@ -310,14 +313,19 @@ namespace CSGeneral
 				string CropName = Crops[i];
 				string SeriesName = CropName + " CLL";
 
-				Helper.CreateChartSeriesFromArray(SeriesName, 
-													MathUtility.Multiply_Value(MySoil.LL(CropName), 100), MathUtility.Divide_Value(MySoil.CumThicknessMidPoints, 10),
+				Helper.CreateChartSeriesFromArray(SeriesName,
+                                                    MathUtility.Multiply_Value(MySoil.LL(CropName), 100), CumThicknessMidPoints,
 													false, Colours[ColourIndex], 3, LinePattern.Solid,
 													StandardAxis.PrimaryX, StandardAxis.PrimaryY);
 				ColourIndex++;
 				if (ColourIndex == Colours.Length) ColourIndex = 0;
 				}
 
+
+            double[] CumThickness = MathUtility.Divide_Value(MySoil.CumThickness, 10);
+            double BottomDepth = CumThickness[CumThickness.Length - 1];
+            Chart.Charts[0].Axes.GetAxis(0).NumericScale.AutoMax = false;
+            Chart.Charts[0].Axes.GetAxis(0).NumericScale.Max = BottomDepth;
 			Chart.Refresh();
 			}
 
