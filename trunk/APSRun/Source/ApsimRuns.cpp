@@ -45,8 +45,8 @@ void ApsimRuns::addSimulationsFromFile(const std::string& fileName)
 
    string ext = fileExtension(fileName);
    To_lower(ext);
-   
-   if (ext == ".run")
+
+   if (ext == "run")
       {
       ApsimRunFile runFile(fileName);
       vector<string> runNames;
@@ -62,14 +62,14 @@ void ApsimRuns::addSimulationsFromFile(const std::string& fileName)
             addSimulationsFromConFile(fileName, conFileSections);
          }
       }
-   else if (ext == ".con")
+   else if (ext == "con")
       {
       vector<string> conFileSections;
       addSimulationsFromConFile(fileName, conFileSections);
       }
-   else if (ext == ".sim")
+   else if (ext == "sim")
       addSimulation(fileName, fileRoot(fileName));
-   else if (ext == ".apsim")
+   else if (ext == "apsim")
       addSimulationsFromApsimFile(fileName);
    else
       throw runtime_error("Invalid simulation file: " + fileName);
@@ -121,7 +121,7 @@ void ApsimRuns::getFilesNeedingConversion(std::vector<std::string>& filesNeeding
    for (unsigned f = 0; f != fileNames.size(); f++)
       {
       string fileName = fileNames[f];
-      if (fileExtension(fileName) == ".con"
+      if (fileExtension(fileName) == "con"
           && ControlFileConverter::needsConversion(fileName))
          filesNeedingConversion.push_back(fileName);
       }
@@ -136,7 +136,7 @@ void ApsimRuns::runApsim(bool quiet,  TApsimRunEvent notifyEvent, TApsimRunEvent
       bool conversionOk = true;
 
       // Convert file to .sim if necessary (i.e. if it's a .con or a .apsim)
-      if (fileExtension(simFileName) == ".con")
+      if (fileExtension(simFileName) == "con")
          {
          string newSimName = fileRoot(simFileName) + ".sim";
          unlink(newSimName.c_str());
@@ -149,7 +149,7 @@ void ApsimRuns::runApsim(bool quiet,  TApsimRunEvent notifyEvent, TApsimRunEvent
             }
          simFileName = newSimName;
          }
-      else if (fileExtension(simFileName) == ".apsim")
+      else if (fileExtension(simFileName) == "apsim")
          {
          string newSimName = fileRoot(simFileName) + ".sim";
          unlink(newSimName.c_str());
@@ -191,7 +191,7 @@ void ApsimRuns::convertFiles()
       {
       try
          {
-         if (fileExtension(fileNames[f]) == ".con")
+         if (fileExtension(fileNames[f]) == "con")
             {
             converter.convert(fileNames[f],
                                (TControlFileConverterEvent)NULL);
