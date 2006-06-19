@@ -2495,9 +2495,16 @@
       <Documentation name="Science documentation">../apsim/tcllink/docs/tclink_science.htm</Documentation>
    </tcllink>
    <tracker>
-      <UItype>generic</UItype>
-      <ShowInMainTree>No</ShowInMainTree>
+      <UItype>tracker</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
       <Documentation name="Science documentation">../apsim/tracker/docs/tracker.htm</Documentation>
+      <LargeIcon>images\calculator32.png</LargeIcon>
+      <SmallIcon>images\calculator16.png</SmallIcon>
+      <drops>
+         <drop name="simulation"/>
+         <drop name="area"/>
+         <drop name="folder"/>
+      </drops>
    </tracker>
    <venlink>
       <UItype>generic</UItype>
