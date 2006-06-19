@@ -102,7 +102,11 @@ void SimCreator::ConToSim(const std::string& controlFileName,
 void SimCreator::ConToSimInternal(const std::string& controlFileName,
                                   const std::vector<std::string>& conSections)
    {
+   // change dir so relative paths work OK
+   chdir(fileDirName(controlFileName).c_str());
+
    ApsimControlFile con(controlFileName);
+
    vector<string> sectionNames = conSections;
    if (sectionNames.size() == 0)
       con.getAllSectionNames(sectionNames);
@@ -111,7 +115,6 @@ void SimCreator::ConToSimInternal(const std::string& controlFileName,
       int simNumber = 0;
       if (sectionNames.size() > 1)
          simNumber = s + 1;
-      ControlFileDirectory = Path(controlFileName.c_str()).Get_directory();
 
       string simNumberString;
       if (simNumber > 0)
@@ -120,7 +123,7 @@ void SimCreator::ConToSimInternal(const std::string& controlFileName,
          itoa(simNumber, buffer, 10);
          simNumberString = buffer;
          }
-      string simFileName = Path(controlFileName).Get_name_without_ext() + simNumberString + ".sim";
+      string simFileName = fileRoot(controlFileName) + simNumberString + ".sim";
       ofstream out(simFileName.c_str());
 
       out << "<?xml version=\"1.0\"?>\n";
@@ -211,17 +214,18 @@ void SimCreator::GetMatchingParFileSections(const std::string& instanceName,
    if (file != "")
       {
       string fileName = file;
-      if (!Path(fileName).Exists())
+      if (!fileExists(fileName))
          {
-         Path FullPath(ControlFileDirectory);
-         FullPath.Append_path(file.c_str());
-         fileName = FullPath.Get_path();
+         // Hmmmmm. Not sure if this is needed..???
+         char *cwd = getcwd(NULL, 1024);
+         fileName = string(cwd) + "/" + file;
+         free(cwd);
          }
       vector<ParFile*>::iterator i = find_if(convertedParFiles.begin(), convertedParFiles.end(),
                                             PEqualToFileName<ParFile>(fileName));
       if (i == convertedParFiles.end())
          {
-         if (!Path(fileName).Exists())
+         if (!fileExists(fileName))
             throw runtime_error("Cannot find file: " + fileName);
 
          convertedParFiles.push_back(ConvertParFile(fileName));
