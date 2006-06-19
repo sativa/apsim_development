@@ -118,6 +118,9 @@ Public Class MainUI
         Me.ToolboxButtonClose = New System.Windows.Forms.Button
         Me.ToolBoxPanelToolBar = New System.Windows.Forms.ToolBar
         Me.SimulationContainer = New System.Windows.Forms.ToolStripContainer
+        Me.ToolBoxesToolStrip = New System.Windows.Forms.ToolStrip
+        Me.ManageToolboxesButton = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolboxSplitter = New System.Windows.Forms.Splitter
         Me.SimulationToolStrip = New System.Windows.Forms.ToolStrip
         Me.NewButton = New System.Windows.Forms.ToolStripButton
@@ -135,24 +138,21 @@ Public Class MainUI
         Me.GraphButton = New System.Windows.Forms.ToolStripButton
         Me.ApsimOutlookButton = New System.Windows.Forms.ToolStripButton
         Me.ExcelButton = New System.Windows.Forms.ToolStripButton
-        Me.ToolBoxesToolStrip = New System.Windows.Forms.ToolStrip
-        Me.ManageToolboxesButton = New System.Windows.Forms.ToolStripButton
-        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolBoxPanel.SuspendLayout()
         Me.ToolBoxToolBarPanel.SuspendLayout()
         Me.SimulationContainer.BottomToolStripPanel.SuspendLayout()
         Me.SimulationContainer.ContentPanel.SuspendLayout()
         Me.SimulationContainer.TopToolStripPanel.SuspendLayout()
         Me.SimulationContainer.SuspendLayout()
-        Me.SimulationToolStrip.SuspendLayout()
         Me.ToolBoxesToolStrip.SuspendLayout()
+        Me.SimulationToolStrip.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolBoxPanel
         '
         Me.ToolBoxPanel.Controls.Add(Me.ToolBoxToolBarPanel)
         Me.ToolBoxPanel.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.ToolBoxPanel.Location = New System.Drawing.Point(0, 312)
+        Me.ToolBoxPanel.Location = New System.Drawing.Point(0, 337)
         Me.ToolBoxPanel.Name = "ToolBoxPanel"
         Me.ToolBoxPanel.Size = New System.Drawing.Size(705, 104)
         Me.ToolBoxPanel.TabIndex = 12
@@ -207,7 +207,7 @@ Public Class MainUI
         Me.SimulationContainer.ContentPanel.AutoScroll = True
         Me.SimulationContainer.ContentPanel.Controls.Add(Me.ToolboxSplitter)
         Me.SimulationContainer.ContentPanel.Controls.Add(Me.ToolBoxPanel)
-        Me.SimulationContainer.ContentPanel.Size = New System.Drawing.Size(705, 416)
+        Me.SimulationContainer.ContentPanel.Size = New System.Drawing.Size(705, 441)
         Me.SimulationContainer.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SimulationContainer.Location = New System.Drawing.Point(0, 0)
         Me.SimulationContainer.Name = "SimulationContainer"
@@ -219,10 +219,33 @@ Public Class MainUI
         '
         Me.SimulationContainer.TopToolStripPanel.Controls.Add(Me.SimulationToolStrip)
         '
+        'ToolBoxesToolStrip
+        '
+        Me.ToolBoxesToolStrip.Dock = System.Windows.Forms.DockStyle.None
+        Me.ToolBoxesToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ManageToolboxesButton, Me.ToolStripSeparator2})
+        Me.ToolBoxesToolStrip.Location = New System.Drawing.Point(3, 0)
+        Me.ToolBoxesToolStrip.Name = "ToolBoxesToolStrip"
+        Me.ToolBoxesToolStrip.Size = New System.Drawing.Size(130, 31)
+        Me.ToolBoxesToolStrip.TabIndex = 2
+        '
+        'ManageToolboxesButton
+        '
+        Me.ManageToolboxesButton.Image = Global.APSIMUI.My.Resources.Resources.toolbox_add_delete
+        Me.ManageToolboxesButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.ManageToolboxesButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ManageToolboxesButton.Name = "ManageToolboxesButton"
+        Me.ManageToolboxesButton.Size = New System.Drawing.Size(81, 28)
+        Me.ManageToolboxesButton.Text = "&Manage"
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 31)
+        '
         'ToolboxSplitter
         '
         Me.ToolboxSplitter.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.ToolboxSplitter.Location = New System.Drawing.Point(0, 309)
+        Me.ToolboxSplitter.Location = New System.Drawing.Point(0, 334)
         Me.ToolboxSplitter.Name = "ToolboxSplitter"
         Me.ToolboxSplitter.Size = New System.Drawing.Size(705, 3)
         Me.ToolboxSplitter.TabIndex = 25
@@ -373,29 +396,6 @@ Public Class MainUI
         Me.ExcelButton.Text = "E&xcel"
         Me.ExcelButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
-        'ToolBoxesToolStrip
-        '
-        Me.ToolBoxesToolStrip.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ToolBoxesToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ManageToolboxesButton, Me.ToolStripSeparator2})
-        Me.ToolBoxesToolStrip.Location = New System.Drawing.Point(3, 25)
-        Me.ToolBoxesToolStrip.Name = "ToolBoxesToolStrip"
-        Me.ToolBoxesToolStrip.Size = New System.Drawing.Size(99, 31)
-        Me.ToolBoxesToolStrip.TabIndex = 2
-        '
-        'ManageToolboxesButton
-        '
-        Me.ManageToolboxesButton.Image = Global.APSIMUI.My.Resources.Resources.toolbox_add_delete
-        Me.ManageToolboxesButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.ManageToolboxesButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ManageToolboxesButton.Name = "ManageToolboxesButton"
-        Me.ManageToolboxesButton.Size = New System.Drawing.Size(81, 28)
-        Me.ManageToolboxesButton.Text = "&Manage"
-        '
-        'ToolStripSeparator2
-        '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 47)
-        '
         'MainUI
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -416,10 +416,10 @@ Public Class MainUI
         Me.SimulationContainer.TopToolStripPanel.PerformLayout()
         Me.SimulationContainer.ResumeLayout(False)
         Me.SimulationContainer.PerformLayout()
-        Me.SimulationToolStrip.ResumeLayout(False)
-        Me.SimulationToolStrip.PerformLayout()
         Me.ToolBoxesToolStrip.ResumeLayout(False)
         Me.ToolBoxesToolStrip.PerformLayout()
+        Me.SimulationToolStrip.ResumeLayout(False)
+        Me.SimulationToolStrip.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -684,7 +684,7 @@ Public Class MainUI
 #End Region
 #Region "Toolbox button bar"
 
-    Private Sub ManageToolboxesButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub ManageToolboxesButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ManageToolboxesButton.Click
         ' ---------------------------------------------------------------
         ' User wants to manage toolboxes.
         ' ---------------------------------------------------------------
@@ -798,5 +798,6 @@ Public Class MainUI
     End Sub
 
 #End Region
+
 
 End Class
