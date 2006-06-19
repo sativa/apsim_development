@@ -30,6 +30,18 @@ Public Class ApsimUIController
         PopulateImageLists()
     End Sub
 
+    Public Overrides ReadOnly Property AllowChanges() As Boolean
+        Get
+            If IsNothing(FileName) Then
+                Return MyBase.AllowChanges()
+            Else
+                Dim FileNameNoPath As String = Path.GetFileName(FileName).ToLower()
+                Return MyBase.AllowChanges() AndAlso FileNameNoPath <> "apsru-australia-soils.soils" _
+                                             AndAlso FileNameNoPath <> "standard.xml" _
+                                             AndAlso FileNameNoPath <> "new simulations.xml"
+            End If
+        End Get
+    End Property
 
     ' ----------------------------------------------
     ' Property that returns a small icon imagelist
