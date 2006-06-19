@@ -379,7 +379,7 @@ Public MustInherit Class BaseController
 #End Region
 
 #Region "Data manipulation"
-    Public ReadOnly Property AllowChanges() As Boolean
+    Public Overridable ReadOnly Property AllowChanges() As Boolean
         Get
             Return Not Me.IsReadOnly
         End Get
