@@ -28,10 +28,13 @@ void Path_test::TestExists(){
     unlink(ff.c_str());
     mpath.Set_path(ff.c_str());
     BOOST_CHECK(!mpath.Exists());
+    BOOST_CHECK(!fileExists(ff));
+
     ofstream f(ff.c_str());
     f.close();
     mpath.Set_path(ff.c_str());
     BOOST_CHECK(mpath.Exists());
+    BOOST_CHECK(fileExists(ff));
     unlink(ff.c_str());
 }
 
@@ -182,11 +185,11 @@ void Path_test::TestSetDrive(){
 void Path_test::TestSetDirectory(){
     // 1. Absolute directory
     Path a;
-    a.Set_directory("c:\\sth");
+    a.Set_directory("\\sth");
     BOOST_CHECK_EQUAL(a.Get_name(), "");
     BOOST_CHECK_EQUAL(a.Get_name_without_ext(), "");
     BOOST_CHECK_EQUAL(a.Get_path(), "c:\\sth");
-    BOOST_CHECK_EQUAL(a.Get_full_path(), "d:c:\\sth");
+    BOOST_CHECK_EQUAL(a.Get_full_path(), "c:\\sth");
     BOOST_CHECK_EQUAL(a.Get_drive(), "");
 
     // 2. Relative directory
@@ -196,7 +199,7 @@ void Path_test::TestSetDirectory(){
     BOOST_CHECK_EQUAL(b.Get_name(), "");
     BOOST_CHECK_EQUAL(b.Get_name_without_ext(), "");
     BOOST_CHECK_EQUAL(b.Get_path(), "sth");
-    BOOST_CHECK_EQUAL(b.Get_full_path(), "d:sth");
+    BOOST_CHECK_EQUAL(b.Get_full_path(), "c:sth");
     BOOST_CHECK_EQUAL(b.Get_drive(), "");
 
     // 3. Set with ""
@@ -222,7 +225,7 @@ void Path_test::TestSetDirectory(){
     BOOST_CHECK_EQUAL(f.Get_name(), "");
     BOOST_CHECK_EQUAL(f.Get_name_without_ext(), "");
     BOOST_CHECK_EQUAL(f.Get_path(), " \\sth");
-    BOOST_CHECK_EQUAL(f.Get_full_path(), "d: \\sth");
+    BOOST_CHECK_EQUAL(f.Get_full_path(), "c: \\sth");
     BOOST_CHECK_EQUAL(f.Get_drive(), "");
 }
 
@@ -382,6 +385,49 @@ void Path_test::TestOperatorLessThan(){
     BOOST_CHECK(q1<q2);
 }
 
+void Path_test::TestfileExists(){
+    string ff="c:\\test.path";
+    unlink(ff.c_str());
+    BOOST_CHECK(!fileExists(ff));
+
+    ofstream f(ff.c_str());
+    f.close();
+    BOOST_CHECK(fileExists(ff));
+    unlink(ff.c_str());
+}
+
+
+void Path_test::TestfileExtension()
+{
+   BOOST_CHECK_EQUAL(fileExtension("a/b.c") , "c");
+   BOOST_CHECK_EQUAL(fileExtension("a.b.c") , "c");
+   BOOST_CHECK_EQUAL(fileExtension("a/b/c") , "");
+   BOOST_CHECK_EQUAL(fileExtension("a/b.c/d") , "");
+}
+
+void Path_test::TestfileTail()
+{
+   BOOST_CHECK_EQUAL(fileTail("a/b.c") , "b.c");
+   BOOST_CHECK_EQUAL(fileTail("a.b.c") , "a.b.c");
+   BOOST_CHECK_EQUAL(fileTail("a/b/c") , "c");
+   BOOST_CHECK_EQUAL(fileTail("a/b.c/d") , "d");
+}
+
+void Path_test::TestfileRoot()
+{
+   BOOST_CHECK_EQUAL(fileRoot("a/b.c") , "a/b");
+   BOOST_CHECK_EQUAL(fileRoot("a.b.c") , "a.b");
+   BOOST_CHECK_EQUAL(fileRoot("a/b/c") , "a/b/c");
+   BOOST_CHECK_EQUAL(fileRoot("a/b.c/d") , "a/b.c/d");
+}
+
+void Path_test::TestfileDirName()
+{
+   BOOST_CHECK_EQUAL(fileDirName("a/b.c") , "a");
+   BOOST_CHECK_EQUAL(fileDirName("a.b.c") , "a.b.c");
+   BOOST_CHECK_EQUAL(fileDirName("a/b/c") , "a/b");
+   BOOST_CHECK_EQUAL(fileDirName("a/b.c/d") , "a/b.c");
+}
 
 // Bugs found during test:
 // Append_path() - arg not used, path obj becomes CWD

@@ -33,6 +33,11 @@ public:
     void TestOperatorEqual();
     void TestOperatorLessThan();
     void TestAppendPath(){};
+    void TestfileExists();
+    void TestfileExtension();
+    void TestfileTail();
+    void TestfileRoot();
+    void TestfileDirName();
 };
 
 //---------------------------------------------------------------------------
@@ -57,5 +62,11 @@ public:
     add(BOOST_CLASS_TEST_CASE(&Path_test::TestOperatorEqual,instance));
     add(BOOST_CLASS_TEST_CASE(&Path_test::TestOperatorLessThan,instance));
     add(BOOST_CLASS_TEST_CASE(&Path_test::TestAppendPath,instance));
+    add(BOOST_CLASS_TEST_CASE(&Path_test::TestfileExists,instance));
+    add(BOOST_CLASS_TEST_CASE(&Path_test::TestfileExtension,instance));
+    add(BOOST_CLASS_TEST_CASE(&Path_test::TestfileTail,instance));
+    add(BOOST_CLASS_TEST_CASE(&Path_test::TestfileRoot,instance));
+    add(BOOST_CLASS_TEST_CASE(&Path_test::TestfileDirName,instance));
+
     }
 };

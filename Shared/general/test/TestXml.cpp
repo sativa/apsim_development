@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------
 #include "TestXml.h"
-#include <../xml.h>
+#include "../xml.h"
 using namespace boost::unit_test_framework;
 
 

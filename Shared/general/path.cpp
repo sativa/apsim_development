@@ -471,3 +471,71 @@ Path Path::getTempFolder(void)
    return returnPath;
    }
 
+std::string fileExtension(const std::string &filename) 
+   //---------------------------------------------------------------------------
+   // Return the extension (anything after final ".") of a filename.
+   {
+   string tail = fileTail(filename);
+   size_t pos = tail.rfind(".");
+   if (pos != string::npos)
+      return tail.substr(pos+1);
+   return "";
+   }
+std::string fileTail(const std::string &filename) 
+   //---------------------------------------------------------------------------
+   // Return the tail (anything after final "\") of a filename.
+   {
+   size_t pos = filename.rfind("/");
+   if (pos != string::npos)
+      return filename.substr(pos+1);
+
+   pos = filename.rfind("\\");
+   if (pos != string::npos)
+      return filename.substr(pos+1);
+
+   return filename;
+   }
+
+bool hasDirectories(const string &filename)
+   //---------------------------------------------------------------------------
+   // Return whether a filename has directories
+   {
+   if (filename.find("/") != string::npos || filename.find("\\") != string::npos) return 1;
+   return 0;
+   }
+std::string fileRoot(const std::string &filename) 
+   //---------------------------------------------------------------------------
+   // Return the root (all of the characters in "filename" up to but not including the last "." ).
+   {
+   string dir;
+   if (hasDirectories(filename))
+      dir = fileDirName(filename) + "/";
+   else 
+      dir = "";   
+
+   string tail =  fileTail(filename);
+   size_t pos = tail.rfind(".");
+   if (pos != string::npos)
+      return (dir + tail.substr(0,pos));
+   return (dir + tail);
+   }
+
+std::string fileDirName(const std::string &filename) 
+   //---------------------------------------------------------------------------
+   // Return the directory that this file lives in
+   {
+   size_t pos = filename.rfind("\\");
+   if (pos != string::npos)
+      return filename.substr(0,pos);
+   pos = filename.rfind("/");
+   if (pos != string::npos)
+      return filename.substr(0,pos);
+   return filename;
+   }
+   
+bool fileExists(const std::string &filename)
+   //---------------------------------------------------------------------------
+   // Return whether a file exists or not
+   {
+   return (access(filename.c_str(), 0) == 0);
+   }
