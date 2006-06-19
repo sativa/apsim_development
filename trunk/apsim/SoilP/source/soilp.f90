@@ -665,7 +665,7 @@ subroutine soilp_read_constants ()
    call read_real_var (section_name,'lb_fom_p','(kg/ha)',c%lb_fom_p,numvals,0.0,100.0)
    call read_real_var (section_name,'ub_fom_p','(kg/ha)',c%ub_fom_p,numvals,0.0,1000.0)
    call read_real_var (section_name,'lb_fom_cp','(kg/ha)',c%lb_fom_cp,numvals,0.0,100.0)
-   call read_real_var (section_name,'ub_fom_cp','(kg/ha)',c%ub_fom_cp,numvals,0.0,1000.0)
+   call read_real_var (section_name,'ub_fom_cp','(kg/ha)',c%ub_fom_cp,numvals,0.0,5000.0)
 
 
    call pop_routine (myname)
