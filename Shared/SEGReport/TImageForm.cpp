@@ -30,6 +30,8 @@ void TImageForm::setComponent(TComponent* component)
    StretchCheckBox->Checked = image->Stretch;
    NameEdit->Text = image->Name;
    image->Zoom = image->ParentReport->Zoom;
+   ImageFileEdit->Text = image->FileName;
+   LinkCheckBox->Checked = image->ImageAsLink;
    }
 //---------------------------------------------------------------------------
 void __fastcall TImageForm::AutoSizeCheckBoxClick(TObject *Sender)
@@ -54,9 +56,19 @@ void __fastcall TImageForm::ImageFileEditClickBtn(TObject *Sender)
    {
    if (OpenPictureDialog->Execute())
       {
-      image->Picture->LoadFromFile(OpenPictureDialog->FileName);
+      //image->FileName = OpenPictureDialog->FileName;
       ImageFileEdit->Text = OpenPictureDialog->FileName;
       }
+   }
+//---------------------------------------------------------------------------
+void __fastcall TImageForm::LinkCheckBoxClick(TObject *Sender)
+   {
+   image->ImageAsLink = LinkCheckBox->Checked;
+   }
+//---------------------------------------------------------------------------
+void __fastcall TImageForm::ImageFileEditExit(TObject *Sender)
+   {
+   image->FileName = ImageFileEdit->Text;
    }
 //---------------------------------------------------------------------------
 

@@ -2,8 +2,8 @@ inherited XYForm: TXYForm
   Width = 289
   Caption = 'XY Form'
   OldCreateOrder = True
-  PixelsPerInch = 120
-  TextHeight = 16
+  PixelsPerInch = 96
+  TextHeight = 13
   inherited AdvPanelGroup1: TAdvPanelGroup
     Width = 281
     FullHeight = 18
@@ -11,45 +11,45 @@ inherited XYForm: TXYForm
       Width = 265
       FullHeight = 310
       inherited NameEdit: TEdit
-        Width = 195
+        Width = 208
       end
       inherited SourceCombo: TComboBox
-        Width = 195
+        Width = 208
       end
       inherited SortFieldsEdit: TEdit
-        Width = 195
+        Width = 208
       end
       inherited GroupByEdit: TEdit
-        Width = 196
+        Width = 209
       end
     end
     inherited PropertyPanel: TAdvPanel
       Width = 265
       FullHeight = 297
       object Label1: TLabel
-        Left = 16
-        Top = 80
-        Width = 78
-        Height = 16
+        Left = 13
+        Top = 65
+        Width = 68
+        Height = 13
         Caption = 'Y variables:'
       end
       object Label4: TLabel
-        Left = 16
-        Top = 29
-        Width = 71
-        Height = 16
+        Left = 13
+        Top = 24
+        Width = 63
+        Height = 13
         Caption = 'X variable:'
       end
       object ChartPropertyLabel: TLabel
-        Left = 16
-        Top = 384
-        Width = 107
-        Height = 16
+        Left = 13
+        Top = 312
+        Width = 58
+        Height = 26
         Cursor = crHandPoint
         Caption = 'Chart properties'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlue
-        Font.Height = -13
+        Font.Height = -11
         Font.Name = 'Verdana'
         Font.Style = [fsUnderline]
         ParentFont = False
@@ -57,18 +57,18 @@ inherited XYForm: TXYForm
         OnClick = ChartPropertyLabelClick
       end
       object CumLabel: TLabel
-        Left = 210
-        Top = 29
-        Width = 34
-        Height = 16
+        Left = 171
+        Top = 24
+        Width = 32
+        Height = 13
         Anchors = [akTop, akRight]
         Caption = 'Cum:'
       end
       object YVariableList: TAdvColumnGrid
-        Left = 16
-        Top = 96
-        Width = 234
-        Height = 281
+        Left = 13
+        Top = 78
+        Width = 190
+        Height = 228
         Cursor = crDefault
         Anchors = [akLeft, akTop, akRight, akBottom]
         ColCount = 4
@@ -79,7 +79,7 @@ inherited XYForm: TXYForm
         FixedRows = 1
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -13
+        Font.Height = -11
         Font.Name = 'Tahoma'
         Font.Style = []
         GridLineWidth = 1
@@ -223,7 +223,7 @@ inherited XYForm: TXYForm
         OemConvert = False
         FixedFooters = 0
         FixedRightCols = 0
-        FixedColWidth = 120
+        FixedColWidth = 76
         FixedRowHeight = 21
         FixedFont.Charset = DEFAULT_CHARSET
         FixedFont.Color = clWindowText
@@ -286,7 +286,7 @@ inherited XYForm: TXYForm
             SpinMin = 0
             SpinStep = 1
             Tag = 0
-            Width = 120
+            Width = 76
           end
           item
             AutoMinSize = 0
@@ -422,27 +422,27 @@ inherited XYForm: TXYForm
         FilterDropDown.Height = 200
         FilterDropDown.Width = 200
         ColWidths = (
-          120
+          76
           38
           32
           39)
       end
       object XVariableList: TComboBox
-        Left = 16
-        Top = 48
-        Width = 190
-        Height = 24
+        Left = 13
+        Top = 39
+        Width = 154
+        Height = 21
         BevelKind = bkFlat
         Anchors = [akLeft, akTop, akRight]
-        ItemHeight = 16
+        ItemHeight = 13
         TabOrder = 1
         OnChange = XVariableListChange
       end
       object CumX: TCheckBox
-        Left = 217
-        Top = 48
-        Width = 25
-        Height = 17
+        Left = 176
+        Top = 39
+        Width = 21
+        Height = 14
         Anchors = [akTop, akRight]
         TabOrder = 2
         OnClick = CumXClick

@@ -1,30 +1,30 @@
 object PropertyForm: TPropertyForm
-  Left = 607
-  Top = 153
+  Left = 608
+  Top = 154
   Width = 310
   Height = 562
   Caption = 'PropertyForm'
   Color = clWindow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -14
+  Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
   OnShow = FormShow
-  PixelsPerInch = 120
-  TextHeight = 16
+  PixelsPerInch = 96
+  TextHeight = 13
   object AdvPanelGroup1: TAdvPanelGroup
     Left = 0
     Top = 0
     Width = 302
-    Height = 528
+    Height = 527
     Align = alClient
     BevelOuter = bvNone
     Color = clWhite
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -13
+    Font.Height = -11
     Font.Name = 'Verdana'
     Font.Style = []
     ParentFont = False
@@ -154,9 +154,9 @@ object PropertyForm: TPropertyForm
     FullHeight = 18
     object AdvancedPanel: TAdvPanel
       Left = 8
-      Top = 425
+      Top = 348
       Width = 286
-      Height = 25
+      Height = 21
       BevelOuter = bvNone
       BorderStyle = bsSingle
       Color = clInfoBk
@@ -220,45 +220,45 @@ object PropertyForm: TPropertyForm
       URLColor = clBlue
       DesignSize = (
         282
-        21)
+        17)
       FullHeight = 310
       object Label2: TLabel
-        Left = 8
-        Top = 24
-        Width = 42
-        Height = 16
+        Left = 7
+        Top = 20
+        Width = 38
+        Height = 13
         Caption = 'Name:'
         Visible = False
       end
       object SourceLabel: TLabel
-        Left = 8
-        Top = 80
-        Width = 52
-        Height = 16
+        Left = 7
+        Top = 65
+        Width = 45
+        Height = 13
         Caption = 'Source:'
         Visible = False
       end
       object SortFieldsLabel: TLabel
-        Left = 8
-        Top = 136
-        Width = 55
-        Height = 16
+        Left = 7
+        Top = 111
+        Width = 47
+        Height = 13
         Caption = 'Sort by:'
         Visible = False
       end
       object PivotLabel: TLabel
-        Left = 8
-        Top = 200
-        Width = 65
-        Height = 16
+        Left = 7
+        Top = 163
+        Width = 58
+        Height = 13
         Caption = 'Group by:'
         Visible = False
       end
       object NameEdit: TEdit
-        Left = 8
-        Top = 42
-        Width = 184
-        Height = 24
+        Left = 7
+        Top = 34
+        Width = 203
+        Height = 20
         Anchors = [akLeft, akTop, akRight]
         BevelKind = bkFlat
         BorderStyle = bsNone
@@ -267,22 +267,22 @@ object PropertyForm: TPropertyForm
         OnExit = NameEditExit
       end
       object SourceCombo: TComboBox
-        Left = 8
-        Top = 95
-        Width = 184
-        Height = 24
+        Left = 7
+        Top = 77
+        Width = 203
+        Height = 21
         BevelKind = bkSoft
         Anchors = [akLeft, akTop, akRight]
-        ItemHeight = 16
+        ItemHeight = 13
         TabOrder = 1
         Visible = False
         OnChange = SourceComboChange
       end
       object ToolbarCheckBox: TCheckBox
-        Left = 9
-        Top = 253
-        Width = 119
-        Height = 21
+        Left = 7
+        Top = 206
+        Width = 97
+        Height = 17
         Alignment = taLeftJustify
         Caption = 'On toolbar?'
         Ctl3D = True
@@ -292,10 +292,10 @@ object PropertyForm: TPropertyForm
         OnClick = ToolbarCheckBoxClick
       end
       object SortFieldsEdit: TEdit
-        Left = 8
-        Top = 154
-        Width = 184
-        Height = 26
+        Left = 7
+        Top = 125
+        Width = 203
+        Height = 21
         Anchors = [akLeft, akTop, akRight]
         BevelKind = bkSoft
         BorderStyle = bsNone
@@ -304,10 +304,10 @@ object PropertyForm: TPropertyForm
         OnExit = SortFieldsEditChange
       end
       object GroupByEdit: TEdit
-        Left = 7
-        Top = 218
-        Width = 185
-        Height = 26
+        Left = 6
+        Top = 177
+        Width = 204
+        Height = 21
         Anchors = [akLeft, akTop, akRight]
         BevelKind = bkSoft
         BorderStyle = bsNone
@@ -316,10 +316,10 @@ object PropertyForm: TPropertyForm
         OnExit = GroupByEditExit
       end
       object WizardCheckBox: TCheckBox
-        Left = 9
-        Top = 277
-        Width = 119
-        Height = 21
+        Left = 7
+        Top = 225
+        Width = 97
+        Height = 17
         Alignment = taLeftJustify
         Caption = 'In wizard?'
         Ctl3D = True
@@ -333,7 +333,7 @@ object PropertyForm: TPropertyForm
       Left = 8
       Top = 8
       Width = 286
-      Height = 409
+      Height = 332
       Color = clInfoBk
       TabOrder = 2
       UseDockManager = True

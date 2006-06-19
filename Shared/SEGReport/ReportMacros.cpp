@@ -37,11 +37,13 @@ string ReportMacros::resolve(TComponent* owner, const string& macro)
          string value;
          try
             {
-            if (macroName == "$property" && arguments.size() == 1)
+            if (macroName == "$property" && (arguments.size() == 1 || arguments.size() == 2))
                {
-               value = resolveComponentPropertyMacro(owner, arguments[0].c_str(), 0).c_str();
-               if (value == "")
-                  value = "?";
+               int recNo = 0;
+               if (arguments.size() == 2)
+                  recNo = StrToInt(arguments[1].c_str());
+               value = resolveComponentPropertyMacro(owner, arguments[0].c_str(), recNo).c_str();
+
                // get the referenced component name.
                unsigned posPeriod = arguments[0].find('.');
                componentNames.push_back(arguments[0].substr(0, posPeriod));
@@ -87,7 +89,7 @@ string ReportMacros::resolve(TComponent* owner, const string& macro)
             returnValue = "?";
             }
 
-         if (value != "")
+//         if (value != "")
             returnValue.replace(posMacro, posCloseBracket-posMacro+1, value);
          }
 

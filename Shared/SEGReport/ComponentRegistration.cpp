@@ -13,6 +13,7 @@
 #include "TREMSForm.h"
 #include "TExcelForm.h"
 #include "TFilterForm.h"
+#include "TRecFilterForm.h"
 #include "TStatsForm.h"
 #include "TeeEditPro.hpp"
 #include "TDecileFunction.h"
@@ -22,6 +23,9 @@
 #include "TCumulative.h"
 #include "TDiff.h"
 #include "TDiffForm.h"
+#include "TDepth.h"
+#include "TChartLineForm.h"
+#include "TFrequencyForm.h"
 //---------------------------------------------------------------------------
 #pragma resource "*.res"
 #pragma package(smart_init)
@@ -42,17 +46,21 @@ void RegisterComponents(void)
                                   __classid(::TGraph),
                                   __classid(::TXYGraph)};
    RegisterComponents("Standard", standardClasses, 4);
-   TComponentClass dataClasses[10] = {__classid(TApsimFileReader),
+   TComponentClass dataClasses[14] = {__classid(TApsimFileReader),
                                   __classid(TXmlFileReader),
                                   __classid(TSOI),
                                   __classid(TProbability),
+                                  __classid(TFrequency),
                                   __classid(TREMS),
                                   __classid(TExcel),
                                   __classid(::TFilter),
+                                  __classid(TRecFilter),
                                   __classid(TStats),
                                   __classid(TCumulative),
-                                  __classid(TDiff)};
-   RegisterComponents("Data", dataClasses, 9);
+                                  __classid(TDiff),
+                                  __classid(TDepth),
+                                  __classid(TChartLine)};
+   RegisterComponents("Data", dataClasses, 13);
    }
 
 //---------------------------------------------------------------------------
@@ -81,16 +89,22 @@ TForm* createComponentUI(TComponent* component, TWinControl* parent,
       form = new TXYForm(parent);
    else if (component->ClassType() == __classid(TProbability))
       form = new TProbabilityForm(parent);
+   else if (component->ClassType() == __classid(TFrequency))
+      form = new TFrequencyForm(parent);
    else if (component->ClassType() == __classid(TREMS))
       form = new TREMSForm(parent);
    else if (component->ClassType() == __classid(TExcel))
       form = new TExcelForm(parent);
    else if (component->ClassType() == __classid(::TFilter))
       form = new TFilterForm(parent);
+   else if (component->ClassType() == __classid(TRecFilter))
+      form = new TRecFilterForm(parent);
    else if (component->ClassType() == __classid(TStats))
       form = new TStatsForm(parent);
    else if (component->ClassType() == __classid(TDiff))
       form = new TDiffForm(parent);
+   else if (component->ClassType() == __classid(TChartLine))
+      form = new TChartLineForm(parent);
    else
       form = new TPropertyForm(parent);
 
