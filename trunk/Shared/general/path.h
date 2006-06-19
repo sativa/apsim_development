@@ -141,5 +141,16 @@ class remove_directory_ext_and_copy : private std::unary_function <std::string, 
          }
     };
 
+// Return the extension (anything after final ".") of a filename.
+std::string fileExtension(const std::string &filename);
+// Return the tail (anything after final "\") of a filename.
+std::string fileTail(const std::string &filename);
+// Return the root (all of the characters in "filename" up to but not including the last "." ).
+std::string fileRoot(const std::string &filename);
+// Return the directory that this file lives in
+std::string fileDirName(const std::string &filename);
+// Return whether a file exists or not
+bool fileExists(const std::string &filename);
+
 #endif
 
