@@ -26,7 +26,6 @@ class __declspec(dllexport) SimCreator
 
    private:
       bool newFormat;
-      std::string ControlFileDirectory;
 
       // ------------------------------------------------------
       // Encapsulates a converted APSIM parameter file
