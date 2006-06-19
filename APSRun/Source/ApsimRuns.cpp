@@ -44,7 +44,8 @@ void ApsimRuns::addSimulationsFromFile(const std::string& fileName)
       throw runtime_error("Cannot find file: " + fileName);
 
    string ext = fileExtension(fileName);
-
+   To_lower(ext);
+   
    if (ext == ".run")
       {
       ApsimRunFile runFile(fileName);
