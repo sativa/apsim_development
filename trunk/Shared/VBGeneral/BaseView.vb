@@ -37,6 +37,9 @@ Public Class BaseView
             End If
         End If
         MyBase.Dispose(disposing)
+        If Not IsNothing(MyController) Then
+            RemoveHandler MyController.NewDataEvent, AddressOf OnNewData
+        End If
     End Sub
 
     'Required by the Windows Form Designer
