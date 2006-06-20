@@ -47,9 +47,9 @@ echo ------Compiling  %APSROOT%\apsrun\source >> %APSROOT%\build.out
 cmd /c %APSMAKE%  >> %APSROOT%\build.out
 
 REM -------Build apsrun contosim
-cd %APSROOT%\apsrun\source
-echo ------Compiling  %APSROOT%\apsrun\source\contosim >> %APSROOT%\build.out
-cmd /c c:\PROGRA~1\Borland\CBUILD~1\Bin\make.exe -s -f contosim.mak  >> %APSROOT%\build.out
+cd %APSROOT%\apsrun\ConToSim
+echo ------Compiling  %APSROOT%\apsrun\contosim >> %APSROOT%\build.out
+cmd /c c:\PROGRA~1\Borland\CBUILD~1\Bin\make.exe -s -f makefile.bc6  >> %APSROOT%\build.out
 
 REM -------Build TestAPSRun
 cd %APSROOT%\apsrun\source\test
