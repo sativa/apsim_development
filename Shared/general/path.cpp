@@ -485,11 +485,7 @@ std::string fileTail(const std::string &filename)
    //---------------------------------------------------------------------------
    // Return the tail (anything after final "\") of a filename.
    {
-   size_t pos = filename.rfind("/");
-   if (pos != string::npos)
-      return filename.substr(pos+1);
-
-   pos = filename.rfind("\\");
+   size_t pos = filename.rfind("\\");
    if (pos != string::npos)
       return filename.substr(pos+1);
 
@@ -500,7 +496,7 @@ bool hasDirectories(const string &filename)
    //---------------------------------------------------------------------------
    // Return whether a filename has directories
    {
-   if (filename.find("/") != string::npos || filename.find("\\") != string::npos) return 1;
+   if (filename.find("\\") != string::npos) return 1;
    return 0;
    }
 std::string fileRoot(const std::string &filename) 
@@ -509,7 +505,7 @@ std::string fileRoot(const std::string &filename)
    {
    string dir;
    if (hasDirectories(filename))
-      dir = fileDirName(filename) + "/";
+      dir = fileDirName(filename) + "\\";
    else 
       dir = "";   
 
@@ -525,9 +521,6 @@ std::string fileDirName(const std::string &filename)
    // Return the directory that this file lives in
    {
    size_t pos = filename.rfind("\\");
-   if (pos != string::npos)
-      return filename.substr(0,pos);
-   pos = filename.rfind("/");
    if (pos != string::npos)
       return filename.substr(0,pos);
    return filename;
