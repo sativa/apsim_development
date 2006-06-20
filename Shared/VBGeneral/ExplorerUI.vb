@@ -162,7 +162,9 @@ Public Class ExplorerUI
             'Dont need to do anthing here
         Else
             UIPanel.Controls.Remove(MyCurrentUI)
+            MyCurrentUI.Dispose()
             MyCurrentUI = Nothing
+            UIPanel.Visible = True
         End If
     End Sub
 

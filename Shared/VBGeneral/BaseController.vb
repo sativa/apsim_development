@@ -68,11 +68,11 @@ Public MustInherit Class BaseController
             Return MyData
         End Get
         Set(ByVal Value As APSIMData)
-            MyData = Value
-
             ' get rid of previous selections
             Dim NewSelections As New StringCollection
             SelectedPaths = NewSelections
+
+            MyData = Value
 
             RaiseEvent NewDataEvent()
             AddHandler MyData.DataChanged, AddressOf OnDataChanged
