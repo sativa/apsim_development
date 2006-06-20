@@ -471,6 +471,18 @@ Path Path::getTempFolder(void)
    return returnPath;
    }
 
+std::string tolower (const std::string& str)
+   {
+   string result;
+   const char *s = str.c_str();
+   while (*s) 
+      { 
+      result += ::tolower(*s);
+      s++;
+      }
+   return result;
+   }
+
 std::string fileExtension(const std::string &filename) 
    //---------------------------------------------------------------------------
    // Return the extension (anything after final ".") of a filename.
@@ -480,6 +492,14 @@ std::string fileExtension(const std::string &filename)
    if (pos != string::npos)
       return tail.substr(pos+1);
    return "";
+   }
+bool fileExtensionEquals(const std::string &filename, const std::string &ext)
+   //---------------------------------------------------------------------------
+   // Return whether the extension is the same 
+   {
+   string myExt = tolower(fileExtension(filename));
+   string testExt = tolower(ext);
+   return(myExt == testExt);   
    }
 std::string fileTail(const std::string &filename) 
    //---------------------------------------------------------------------------
