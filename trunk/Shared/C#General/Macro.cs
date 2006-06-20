@@ -535,37 +535,41 @@ namespace CSGeneral
 			string rhs = s[2];
 			lhs.Trim();
 			rhs.Trim();
-			if (op == "=")
-				return StringManip.StringsAreEqual(lhs, rhs);
-			else if (op == "<>")
-				return !StringManip.StringsAreEqual(lhs, rhs);
-			else if (op.IndexOfAny(operators) == -1)
-				return (s.Count >= 1);
+            if (op == "=")
+                {
+                if (rhs == "\"\"")
+                    return (lhs.IndexOf('[') != -1 && lhs.IndexOf(']') != -1);
+                return StringManip.StringsAreEqual(lhs, rhs);
+                }
+            else if (op == "<>")
+                return !StringManip.StringsAreEqual(lhs, rhs);
+            else if (op.IndexOfAny(operators) == -1)
+                return (s.Count >= 1);
 
 
-			else
-				{
-				double lhsValue, rhsValue;
-				try
-					{
-					lhsValue = Convert.ToDouble(lhs);
-					rhsValue = Convert.ToDouble(rhs);
-					}
-				catch (Exception)
-					{
-					return false;
-					}
-				if (op == "<")
-					return (lhsValue < rhsValue);
-				else if (op == "<=")
-					return (lhsValue <= rhsValue);
-				else if (op == ">")
-					return (lhsValue > rhsValue);
-				else if (op == ">=")
-					return (lhsValue >= rhsValue);
-				else
-					throw new Exception("Unknown if macro operator: " + op);
-			}
+            else
+                {
+                double lhsValue, rhsValue;
+                try
+                    {
+                    lhsValue = Convert.ToDouble(lhs);
+                    rhsValue = Convert.ToDouble(rhs);
+                    }
+                catch (Exception)
+                    {
+                    return false;
+                    }
+                if (op == "<")
+                    return (lhsValue < rhsValue);
+                else if (op == "<=")
+                    return (lhsValue <= rhsValue);
+                else if (op == ">")
+                    return (lhsValue > rhsValue);
+                else if (op == ">=")
+                    return (lhsValue >= rhsValue);
+                else
+                    throw new Exception("Unknown if macro operator: " + op);
+                }
 
 		}
 		//---------------------------------------------------------------

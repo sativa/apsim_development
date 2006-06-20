@@ -251,6 +251,8 @@
             <variable>[var.module] Water.[var.variablename][var.arrayspec] as [var.name]</variable>
             [elseif "[var.VariableType]" = "Nitrogen"]
             <variable>[var.module] Nitrogen.[var.variablename][var.arrayspec] as [var.name]</variable>
+            [elseif "[var.module]" = ""]
+            <variable>[var.variablename][var.arrayspec] as [var.name]</variable>
             [else]
             <variable>[var.module].[var.variablename][var.arrayspec] as [var.name]</variable>
             [endif]
