@@ -139,7 +139,7 @@ void ApsimRuns::runApsim(bool quiet,  TApsimRunEvent notifyEvent, TApsimRunEvent
       if (fileExtension(simFileName) == "con")
          {
          string newSimName = fileRoot(simFileName) + ".sim";
-         unlink(newSimName.c_str());
+         if (fileExists(newSimName.c_str())) unlink(newSimName.c_str());
          string commandLine = "\"" + getApsimDirectory() + "\\bin\\contosim.exe\" \""
                             + simFileName + "\" \"" + simNames[f] + "\"";
          if (!ApsExec(commandLine.c_str(), msgEvent))
@@ -152,7 +152,7 @@ void ApsimRuns::runApsim(bool quiet,  TApsimRunEvent notifyEvent, TApsimRunEvent
       else if (fileExtension(simFileName) == "apsim")
          {
          string newSimName = fileRoot(simFileName) + ".sim";
-         unlink(newSimName.c_str());
+         if (fileExists(newSimName.c_str())) unlink(newSimName.c_str());
          string commandLine = "\"" + getApsimDirectory() + "\\bin\\apsimtosim.exe\" \""
                             + simFileName + "\" \"" + simNames[f] + "\"";
          if (!ApsExec(commandLine.c_str(), msgEvent))
