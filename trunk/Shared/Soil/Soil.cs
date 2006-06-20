@@ -221,7 +221,7 @@ namespace CSGeneral
 		public double[] SWCON
 			{
 			get {return getLayered("Water", "swcon");}
-            set { setLayered("Water", "swcon", value, "f1"); }
+            set { setLayered("Water", "swcon", value, "f2"); }
 			}
 		public double[] MWCON
 			{
