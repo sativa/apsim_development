@@ -10,7 +10,7 @@
       <initdata>
          <start_date>1/1/1993</start_date>
          <end_date>31/12/1999</end_date>
-         <timestep_events>prepare process do_stock post</timestep_events>
+         <timestep_events>prepare process post</timestep_events>
       </initdata>
    </component>
    <component name="report1" executable = "c:\development\apsim\report\lib\report.dll">
