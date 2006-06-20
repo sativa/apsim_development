@@ -385,9 +385,7 @@ Public Class APSIMData
     Property Name() As String
         Get
             If Me.Attribute("shortcut") <> "" Then
-                Dim RemoteSource As String = "shared" + "|" + Me.Attribute("shortcut")
-                Dim ShortCutNode As APSIMData = New APSIMData(Node.OwnerDocument.DocumentElement, DataChangedEvent).FindChild(RemoteSource, "|")
-                Return "Shared: " + ShortCutNode.Name
+                Return Me.Attribute("shortcut")
             Else
                 Dim AttributeNode As XmlNode = Node.Attributes.GetNamedItem("name")
                 If AttributeNode Is Nothing Then

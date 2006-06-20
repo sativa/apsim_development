@@ -301,7 +301,7 @@ Public MustInherit Class BaseController
             Return MySelectedData.Count > 0
         End Get
     End Property
-    Private Function GetDataForFullPath(ByVal FullPath As String) As APSIMData
+    Public Function GetDataForFullPath(ByVal FullPath As String) As APSIMData
         Dim PosDelimiter As Integer = FullPath.IndexOf("|")
         If PosDelimiter = -1 Then
             If FullPath.ToLower() = AllData.Name.ToLower() Then

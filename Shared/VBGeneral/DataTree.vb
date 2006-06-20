@@ -542,7 +542,10 @@ Public Class DataTree
             n.BackColor = SystemColors.Highlight
             n.ForeColor = SystemColors.HighlightText
         End If
-        If n.Text.IndexOf("Shared:") = 0 Then
+
+        ' Get the data for this node.
+        Dim NodeData As APSIMData = Controller.GetDataForFullPath(n.FullPath)
+        If NodeData.Attribute("shortcut") <> "" Then
             n.ForeColor = Color.Blue
         End If
     End Sub
