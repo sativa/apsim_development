@@ -5,6 +5,156 @@
 <link href="./docstyle.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<p class="Title1">APSIM<sup><b>5.1</b></sup> release notes</p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">21<sup>st</sup> June 2006</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">APSoil</p>
+
+<p class="Title2">&nbsp;</p>
+
+<p class="Normal">APSoil and the soil form in the APSIM User interface has 
+undergone numerous changes:</p>
+<ul>
+  <li>
+
+<p class="Normal">Texture column added in the Soil Profile tab - will import and 
+export this to/from spreadsheet.</p>
+  </li>
+  <li>
+
+<p class="Normal">The &quot;Check soils&quot; button will now check all soils under the 
+currently selected node in the tree rather than all soils.</p>
+  </li>
+  <li>
+
+<p class="Normal">If you modify DUL, then the PAWC columns are now auto updated.</p>
+  </li>
+  <li>
+
+<p class="Normal">You can export part of a database to a spreadsheet with path 
+info. NB: Path info is now part of the &quot;Name&quot; column in the spreadsheet rather 
+than a separate column.</p>
+  </li>
+  <li>
+
+<p class="Normal">Export some soils to see what I mean.</p>
+  </li>
+  <li>
+
+<p class="Normal">If you double click on a APSRU-????.soils file, APSoil will 
+now check the security and ask for a password if necessary. Didn't before.</p>
+  </li>
+  <li>
+
+<p class="Normal">Some bugs dealing with importing from some .par files have 
+been fixed. e.g. TAB characters are now tolerated.</p>
+  </li>
+  <li>
+
+<p class="Normal">Can now add and delete soil layers directly in APSoil - this 
+fixes Anthony's problem.</p>
+  </li>
+  <li>
+
+<p class="Normal">InitWater and InitNitrogen sometimes crashed APSoil after 
+importing from a .par file and spreadsheet</p>
+  </li>
+  <li>
+
+<p class="Normal">Two decimal places is now supported for SWCON</p>
+  </li>
+  <li>
+
+<p class="Normal">When importing values from EXCEL, the precision of those 
+numbers is truncated to what the user sees in the APSOIL grid. Previously, 
+APSoil was hiding unwanted precision which was causing APSIM problems.</p>
+  </li>
+</ul>
+<p class="Title2">Apsim user interface</p>
+
+<ul>
+  <li>
+  <p class="Normal">Look and feel has changed slightly to improve usability.</li>
+  <li>
+  <p class="Normal">The variables grid now handles a blank module name. e.g. you 
+  can specify that you want 'sw' as an output but don't need to provide a source 
+  module name for the variable.</li>
+  <li>
+  <p class="Normal">The &quot;Shared&quot; mechanism whereby you can share components 
+  between paddocks or simulations now works properly.</li>
+  <li>
+  <p class="Normal">The simulation tree no longer repeatedly expands itself when 
+  the user drags or modifies something.</li>
+  <li>
+  <p class="Normal">Updated sowing rules in the UI now allow users to select a 
+  crop growth stage.</li>
+  <li>
+  <p class="Normal">Climate change component now works properly.</li>
+  <li>
+  <p class="Normal">Font size in Logic and Rule boxes has been increased for 
+  readability.</li>
+  <li>
+  <p class="Normal">Added an Operations component.</li>
+  <li>
+  <p class="Normal">Added an Erosion component.</li>
+  <li>
+  <p class="Normal">New manager rules have been added: &quot;Lucerne ley fixed sow 
+  harvest at flowering&quot; and &quot;Lucerne ley variable sow harvest at flowering&quot;</li>
+  <li>
+  <p class="Normal">You can now have an if statement on the very first line of a 
+  logic component. Previously this would stop APSIM running.</li>
+</ul>
+<p class="Title2">APSIM Report</p>
+
+<p class="Title2">&nbsp;</p>
+
+<p class="Normal">New components: ChartLine, Depth, Frequency, RecFilter and 
+updated (more consistent) macros</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Plant</p>
+
+<ul>
+  <li>
+
+<p class="Normal">A defect whereby PLANT would leak P has been fixed.</p>
+  </li>
+  <li>
+
+<p class="Normal">The protein output has been fixed to be a percent.</p>
+  </li>
+  <li>
+
+<p class="Normal">Prevent phenology being wound back to stage 3 which 
+initialises plant parts\</p>
+  </li>
+</ul>
+<p class="Title2">Operatns</p>
+
+<p class="Title2">&nbsp;</p>
+
+<p class="Normal">Now handles dates in the form dd/mm/yyyy or dd-mmm as well as 
+the older year and day number.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Butterfly pea</p>
+
+<p class="Title2">&nbsp;&nbsp;&nbsp; </p>
+
+<p class="Normal">This is a new module for APSIM. It is still under development 
+and not recommended for general use.</p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Infrastructure</p>
+
+<p class="Title2">&nbsp;</p>
+
+<p class="Normal">The APSIM infrastructure is now more CMP (Common Modelling 
+Protocol) compliant meaning that APSIM modules now stand a much better chance of 
+running in CSIRO Plant Industry's FARMWI$E grazing framework and visa versa.</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Title2">&nbsp;</p>
+
 <p class="Title1">APSIM<sup><b>5.0</b></sup> release notes</p>
 <p class="Normal">&nbsp;</p>
 <p class="Normal">17<sup>th</sup> March 2006</p>
