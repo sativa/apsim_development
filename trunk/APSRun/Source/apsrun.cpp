@@ -50,7 +50,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
       }
    catch (Exception &exception)
       {
-      ::MessageBox(NULL, exception.Message.c_str(), "Error", MB_ICONSTOP | MB_OK);
+      ::MessageBox(NULL, exception.Message.c_str(), "Application Error", MB_ICONSTOP | MB_OK);
       }
    return 0;
    }
