@@ -486,9 +486,9 @@
       parameter (my_name = 'operatns_schedule')
 
 *+  Local Variables
-      character  Action*20
+      character  Action*200
       logical    Data_stored
-      character  destination*15
+      character  destination*100
       character  Line*(Record_Length)
       character  Value*(Record_length)
       character  Variable_name*32
@@ -512,8 +512,10 @@
             line = g%op_text(counter)
 
                ! extract components from string
-            call get_next_word (Line, Destination)
-            call get_next_word (Line, Action)
+            Line = adjustl(Line)
+            print *, 'Line=',Line
+            call split_line_with_quotes(Line, Destination, Line, Blank)
+            call split_line_with_quotes(Line, Action, Line, Blank)
             Line = adjustl(line)
             Line = Lower_case(Line)
             Action = adjustl(Action)
