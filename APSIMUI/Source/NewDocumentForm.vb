@@ -123,6 +123,7 @@ Public Class NewDocumentForm
         DataTree.Controller = ApsimUI
         DataTree.HelpText = "Select a new simulation"
         DataTree.Dock = DockStyle.None
+        DataTree.ExpandAll = False
         DataTree.Refresh()
     End Sub
 

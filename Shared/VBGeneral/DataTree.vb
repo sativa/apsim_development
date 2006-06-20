@@ -255,7 +255,7 @@ Public Class DataTree
         Windows.Forms.Cursor.Current = Cursors.WaitCursor
         TreeView.BeginUpdate()
 
-        RecursivelyRefreshNodeAndChildren(Node, Data)
+        RecursivelyRefreshNodeAndChildren(Node, Data, 0)
 
         If Controller.SelectedPaths.Count >= 1 Then
             UserChange = False
@@ -267,7 +267,7 @@ Public Class DataTree
         Windows.Forms.Cursor.Current = Cursors.Default
     End Sub
 
-    Private Sub RecursivelyRefreshNodeAndChildren(ByVal Node As TreeNode, ByVal Data As APSIMData)
+    Private Sub RecursivelyRefreshNodeAndChildren(ByVal Node As TreeNode, ByVal Data As APSIMData, ByVal Level As Integer)
         ' ---------------------------------------
         ' Recursively refresh a node and its
         ' child nodes in the tree.
@@ -276,22 +276,24 @@ Public Class DataTree
         RefreshNode(Node, Data)
 
         ' Go refresh all children.
-        Dim ChildIndex As Integer = 0
-        For Each Child As APSIMData In Data.Children
-            If ShowAllComponents OrElse Controller.IsComponentVisible(Child.Type) Then
-                Dim ChildTreeNode As TreeNode
-                If ChildIndex < Node.Nodes.Count Then
-                    ChildTreeNode = Node.Nodes(ChildIndex)
-                Else
-                    ChildTreeNode = Node.Nodes.Add(Child.Name)
+        If Level < MaxNumLevels Then
+            Dim ChildIndex As Integer = 0
+            For Each Child As APSIMData In Data.Children
+                If ShowAllComponents OrElse Controller.IsComponentVisible(Child.Type) Then
+                    Dim ChildTreeNode As TreeNode
+                    If ChildIndex < Node.Nodes.Count Then
+                        ChildTreeNode = Node.Nodes(ChildIndex)
+                    Else
+                        ChildTreeNode = Node.Nodes.Add(Child.Name)
+                    End If
+                    RecursivelyRefreshNodeAndChildren(ChildTreeNode, Child, Level + 1)
+                    ChildIndex = ChildIndex + 1
                 End If
-                RecursivelyRefreshNodeAndChildren(ChildTreeNode, Child)
-                ChildIndex = ChildIndex + 1
-            End If
-        Next
-        While Node.Nodes.Count > ChildIndex
-            Node.Nodes.Remove(Node.Nodes(Node.Nodes.Count - 1))
-        End While
+            Next
+            While Node.Nodes.Count > ChildIndex
+                Node.Nodes.Remove(Node.Nodes(Node.Nodes.Count - 1))
+            End While
+        End If
     End Sub
 
     Private Sub RefreshNode(ByVal Node As TreeNode, ByVal Data As APSIMData)
