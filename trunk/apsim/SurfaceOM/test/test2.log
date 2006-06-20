@@ -255,10 +255,6 @@
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="summaryFileWrite" type="type name='SummaryFileWrite'   field name='componentName' kind='string'   field name='lines' kind='string'   type">
             <message4 to="summaryfile" msgtype="Event" ack="false"/>
          </message3>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="event" name="do_stock" type="type kind=''"/>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="summaryFileWrite" type="type name='SummaryFileWrite'   field name='componentName' kind='string'   field name='lines' kind='string'   type">
-            <message4 to="summaryfile" msgtype="Event" ack="false"/>
-         </message3>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="summaryFileWrite" type="type name='SummaryFileWrite'   field name='componentName' kind='string'   field name='lines' kind='string'   type">
             <message4 to="summaryfile" msgtype="Event" ack="false"/>
          </message3>
@@ -1241,7 +1237,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="Register" ack="false" kind="event" name="report.do_output" type="type"/>
@@ -1708,7 +1703,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -2057,7 +2051,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -2406,7 +2399,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -2755,7 +2747,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -3104,7 +3095,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -3453,7 +3443,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -3804,7 +3793,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -4153,7 +4141,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -4517,7 +4504,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -4866,7 +4852,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -5215,7 +5200,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -5564,7 +5548,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -5913,7 +5896,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -6274,7 +6256,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -6623,7 +6604,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -6972,7 +6952,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -7321,7 +7300,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -7670,7 +7648,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -8028,7 +8005,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -8377,7 +8353,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -8728,7 +8703,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -9077,7 +9051,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -9426,7 +9399,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -9783,7 +9755,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -10132,7 +10103,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -10481,7 +10451,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -10830,7 +10799,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -11181,7 +11149,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
@@ -11530,7 +11497,6 @@
                </message5>
             </message4>
          </message3>
-         <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="do_stock" type="type kind=''"/>
          <message3 to="MasterPM" msgtype="PublishEvent" ack="false" regName="post" type="type kind=''">
             <message4 to="manager" msgtype="Event" ack="false">
                <message5 to="MasterPM" msgtype="PublishEvent" ack="false" regName="report.do_output" type="type">
