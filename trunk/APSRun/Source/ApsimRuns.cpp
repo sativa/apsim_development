@@ -175,7 +175,11 @@ void ApsimRuns::runApsim(bool quiet,  TApsimRunEvent notifyEvent, TApsimRunEvent
             conversionOk = true;
          simFileName = newSimName;
          }
-
+      else if (fileExtensionEquals(simFileName, "sim"))
+         {
+         // No conversion needed
+         conversionOk = true;
+         }
       // go build a command line and pass it to ApsExec to do the real work.
       if (conversionOk)
          {
