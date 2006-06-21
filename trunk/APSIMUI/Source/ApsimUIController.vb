@@ -365,9 +365,7 @@ Public Class ApsimUIController
 
             ' Now try and fix up the component name if possible.
             ComponentType = child.Attribute("ModuleType").ToLower()
-            If ComponentType = "" Then
-                ParentData.Delete(child.Name)
-            ElseIf ComponentIndex = -1 Then
+            If ComponentType <> "" Then
                 ComponentIndex = ComponentTypes.IndexOf(ComponentType)
                 If ComponentIndex = -1 Then
                     ParentData.Delete(child.Name)
