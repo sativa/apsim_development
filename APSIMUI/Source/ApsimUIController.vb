@@ -500,10 +500,11 @@ Public Class ApsimUIController
         For Each Child As APSIMData In Data.Children
             Dim ChildType As String = Child.Type.ToLower()
             If ChildType = "area" Or Child.Type.ToLower() = "simulation" _
-               Or ChildType = "outputfile" Or ChildType = "manager" Or ChildType = "soil" Then
+               Or ChildType = "manager" Or ChildType = "soil" Then
                 CheckAllComponents(Child, OldDataPath, NewData)  ' recursion
             ElseIf Child.Type.ToLower() = "outputfile" Then
                 CheckOutputFile(Child)
+                CheckAllComponents(Child, OldDataPath, NewData)  ' recursion
             ElseIf Child.Type.ToLower() = "summaryfile" Then
                 SetOutputSummaryFileName(Child)
             ElseIf Child.Attribute("shortcut") <> "" Then

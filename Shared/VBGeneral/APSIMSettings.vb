@@ -58,7 +58,7 @@ Public Class APSIMSettings
         ' primary version of call gets single value given all parameters
         Dim n As Int32
         Dim sData As String
-        sData = Space$(65536) ' allocate some room 
+        sData = Space$(32768) ' allocate some room 
         n = GetPrivateProfileString(SectionName, KeyName, DefaultValue, _
         sData, sData.Length, INIPath)
         If n > 0 Then ' return whatever it gave us

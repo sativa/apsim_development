@@ -48,6 +48,8 @@ namespace ApsimToSim
 
 		private void ConvertApsimToSim(string ApsimFileName, StringCollection SimNames)
 			{
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(ApsimFileName));
+
 			// convert the specified simulations in the specified apsim file name
 			// into a separate .sim file for each.
 			APSIMData Data = new APSIMData();
