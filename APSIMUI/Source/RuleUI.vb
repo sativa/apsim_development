@@ -192,7 +192,10 @@ Public Class RuleUI
                 Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = PropertyGrid.Cells(Row, 1).CellType
 
                 If Trim(PropertyGrid.Cells(Row, 1).Value) = "" And Combo.Items.Length > 0 Then
+                    ' This is so that the cellchanged event is acted upon in the handler below.
+                    InRefresh = False
                     PropertyGrid.Cells(Row, 1).Value = Combo.Items(0)
+                    InRefresh = True
                 End If
             End If
             Row = Row + 1
