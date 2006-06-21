@@ -133,10 +133,13 @@ void ApsimRuns::runApsim(bool quiet,  TApsimRunEvent notifyEvent, TApsimRunEvent
       bool conversionOk = false;
 
       // Convert file to .sim if necessary (i.e. if it's a .con or a .apsim)
+      // There's a subtle difference in the name of each simulation that the converter writes 
       if (fileExtensionEquals(simFileName, "con"))
          {
+         // Delete any old simfiles lying about
          string newSimName = fileRoot(simFileName) + ".sim";
          if (fileExists(newSimName.c_str())) unlink(newSimName.c_str());
+
          string commandLine = "\"" + getApsimDirectory() + "\\bin\\contosim.exe\" \""
                             + simFileName + "\" \"" + simNames[f] + "\"";
          if (!ApsExec(commandLine.c_str(), msgEvent))
@@ -150,8 +153,17 @@ void ApsimRuns::runApsim(bool quiet,  TApsimRunEvent notifyEvent, TApsimRunEvent
          }
       else if (fileExtensionEquals(simFileName, "apsim"))
          {
-         string newSimName = fileRoot(simFileName) + ".sim";
+         // A sim file is created for each "simulation name" in the apsim file
+         string newSimName;
+         string dir = fileDirName(simFileName);
+         if (dir == "")
+            newSimName = simNames[f] + ".sim";
+         else    
+            newSimName = dir + "\\" + simNames[f] + ".sim";
+
+         // Delete any old simfiles lying about
          if (fileExists(newSimName.c_str())) unlink(newSimName.c_str());
+
          string commandLine = "\"" + getApsimDirectory() + "\\bin\\apsimtosim.exe\" \""
                             + simFileName + "\" \"" + simNames[f] + "\"";
          if (!ApsExec(commandLine.c_str(), msgEvent))
@@ -161,7 +173,7 @@ void ApsimRuns::runApsim(bool quiet,  TApsimRunEvent notifyEvent, TApsimRunEvent
             }
          else 
             conversionOk = true;
-         simFileName = simNames[f] + ".sim";
+         simFileName = newSimName;
          }
 
       // go build a command line and pass it to ApsExec to do the real work.
