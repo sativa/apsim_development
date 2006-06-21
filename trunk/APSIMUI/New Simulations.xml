@@ -4463,8 +4463,8 @@
   <simulation name="Complex Rotations">
     <memo name="Readme">e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcZGVmZjBcZGVmbGFuZzMwODF7XGZvbnR0Ymx7XGYwXGZuaWxcZmNoYXJzZXQwIE1pY3Jvc29mdCBTYW5zIFNlcmlmO319DQpcdmlld2tpbmQ0XHVjMVxwYXJkXGYwXGZzMjkgVGhpcyBzaW11bGF0aW9uIGlzIGEgZGVtb25zdHJhdGlvbiBvZiB0b29scyBkZXZlbG9wZWQgYXMgcGFydCBvZiB0aGUgQ1FTRlMgcHJvamVjdCAtXGZzMjkgIHdoaWNoIGhhcyBiZWVuIGludmVzdGlnYXRpbmcgdGhlIHByb2JsZW0gb2Ygc2ltdWxhdGluZyByZXNvdXJjZSBtYW5hZ2VtZW50IGF0IGEgZmFybSBsZXZlbCAtIGllIHNpbXVsYXRpb24gb2YgcGFkZG9ja3MgYW5kIHRoZWlyIG1hbmFnZW1lbnQgd2l0aCBhcHNpbS4gQSBtYWpvciBvdXRjb21lIGhhcyBiZWVuIHRoZSB1c2Ugb2YgbGFuZ3VhZ2VzIHRoYXQgc3VwcG9ydCBjb21wbGV4IGRhdGEgc3RydWN0dXJlcyAmIHByb2NlZHVyZXMgdG8gbW9kZWwgZmFybSBkZWNpc2lvbiBtYWtpbmcuXHBhcg0KXGZzMjlccGFyDQpccGFyDQpUaGUgcm90YXRpb24gaXMgZGVzY3JpYmVkIGFzIGEgRGlyZWN0ZWQgR3JhcGggY29tcHJpc2VkIG9mIG5vZGVzICYgZWRnZXM6IFxwYXINCiAgLSB0aGUgc3RhdGUgb2YgdGhlIHBhZGRvY2sgaXMgYSBub2RlIG9uIHRoaXMgZ3JhcGggKGVnIGZhbGxvdywgY2hpY2twZWEgZXRjKSBccGFyDQogIC0gdGhlIGVkZ2VzIG9mIHRoZSBncmFwaCBoYXZlICJydWxlcyIsIHdoaWNoIGRldGVybWluZSBob3cgdGhlIHBhZGRvY2sgbW92ZXMgZnJvbSBzdGF0ZSB0byBzdGF0ZS5ccGFyDQpccGFyDQpFYWNoIGRheSwgdGhlIG1hbmFnZXIgZXZhbHVhdGVzIGFsbCBwYXRocyB0aGF0IGxlYWQgYXdheSBmcm9tIHRoZSBjdXJyZW50IHN0YXRlLiBFYWNoIHBhdGggaGFzIGEgc2V0IG9mIHJ1bGVzIHdoaWNoIGFyZSBldmFsdWF0ZWQ7IHRoZSAic2NvcmUiIGZvciB0aGF0IHBhdGhzIHRhcmdldCBub2RlIGlzIHRoZSBwcm9kdWN0IG9mIGFsbCBhc3NvY2lhdGVkIHJ1bGVzLiBUaGVzZSBydWxlcyBhcmUgdHlwaWNhbGx5IGJpbmFyeSB2YWx1ZXMsIGJ1dCBjYW4gYmUgYW55IHJlYWwgdmFsdWUuXHBhcg0KXHBhcg0KQSB0YWJsZSBvZiBkZWZhdWx0IHBhcmFtZXRlcnMgKGVnIGN1bHRpdmFyLCBmZXJ0aWxpc2VyIHJhdGVzIGV0YykgZm9yIGVhY2ggY3JvcCBpcyB1c2VkIHdoZW4gY2hhbmdpbmcgc3RhdGUuXHBhcg0KXHBhcg0KQSBzaW1wbGUgR1VJIHBvcHMgdXAgYXQgdGhlIGVuZCBvZiB0aGUgc2ltdWxhdGlvbiB0aGF0IHNob3dzIHRoZSBjcm9wcGluZyBoaXN0b3J5IGFuZCB0aGUgdmFsdWUgb2YgZXZhbHVhdGVkIHJ1bGVzIG9uIGFueSBkYXkuIENsaWNrIG9uIHRoZSBydWcgcGxvdCB0byBjaGFuZ2UgdGhlIGRheSwgYW5kIHVzZSB0aGUgYXJyb3cga2V5cyB0byBzdGVwIGJhY2t3YXJkL2ZvcndhcmQuXHBhcg0KXHBhcg0KfQ0K</memo>
     <clock name="clock">
-      <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1975</start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1990</end_date>
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1940</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1955</end_date>
     </clock>
     <summaryfile name="summaryfile">
       <filename name="filename">Rotation run.sum</filename>
@@ -5190,6 +5190,70 @@ canvasButton 100 100
             <ll>0.3</ll>
             <kl>0.02</kl>
             <xf>1</xf>
+          </layer>
+        </SoilCrop>
+        <SoilCrop name="sorghum">
+          <layer name="1">
+            <ll>0.25</ll>
+            <kl>0.10</kl>
+            <xf>1.00</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.28</ll>
+            <kl>0.10</kl>
+            <xf>1.00</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.33</ll>
+            <kl>0.08</kl>
+            <xf>1.00</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.24</ll>
+            <kl>0.06</kl>
+            <xf>1.00</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.32</ll>
+            <kl>0.04</kl>
+            <xf>1.00</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.30</ll>
+            <kl>0.02</kl>
+            <xf>1.00</xf>
+          </layer>
+        </SoilCrop>
+        <SoilCrop name="chickpea">
+          <layer name="1">
+            <ll>0.25</ll>
+            <kl>0.10</kl>
+            <xf>1.00</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.28</ll>
+            <kl>0.10</kl>
+            <xf>1.00</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.33</ll>
+            <kl>0.08</kl>
+            <xf>1.00</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.24</ll>
+            <kl>0.06</kl>
+            <xf>1.00</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.32</ll>
+            <kl>0.04</kl>
+            <xf>1.00</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.30</ll>
+            <kl>0.02</kl>
+            <xf>1.00</xf>
           </layer>
         </SoilCrop>
       </Soil>
