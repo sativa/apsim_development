@@ -332,7 +332,7 @@ Public Class ApsimUIController
         ComponentTypes.Clear()
         For Each Sibling As APSIMData In Component.Parent.Children
             ComponentNames.Add(Sibling.Name)
-            ComponentTypes.Add(Sibling.Type)
+            ComponentTypes.Add(Sibling.Type.ToLower())
         Next
     End Sub
 
@@ -364,7 +364,7 @@ Public Class ApsimUIController
             End If
 
             ' Now try and fix up the component name if possible.
-            ComponentType = child.Attribute("ModuleType")
+            ComponentType = child.Attribute("ModuleType").ToLower()
             If ComponentType = "" Then
                 ParentData.Delete(child.Name)
             ElseIf ComponentIndex = -1 Then
