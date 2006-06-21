@@ -71,6 +71,8 @@ void OOPlant::doRegistrations(void)
    setupGetFunction(plantInterface,"plant_status", protocol::DTstring, false,
                     &OOPlant::getPlantStatus, "", "Status of crop");
 
+   plantInterface->addRegistration(RegistrationType::event, "sowing", nullTypeDDML, "", "");
+   plantInterface->addRegistration(RegistrationType::event, "harvesting", nullTypeDDML, "", "");
 
 
    // --------------------------------------------------------------------------------------------
