@@ -1,0 +1,13 @@
+version = 5.1
+[apsim.sample_SurfaceOM]  
+
+title = SurfaceOM Sample Simulation
+module = clock    SurfaceOM.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   SurfaceOM.par [sample]
+module = input(met)      %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
+module = manager  SurfaceOM.par [sample]
+module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = surfaceom surfaceom.par [sample]     %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2   %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]     %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SummaryFile   SurfaceOM.par[sample]
+module = log SurfaceOM.par[sample]

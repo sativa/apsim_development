@@ -1,0 +1,10 @@
+version = 5.1
+[apsim.erosion.control]
+title=erosion Sample Simulation
+module = clock       erosion.par[sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report      erosion.par[sample]
+module = Input(Met)  %apsuite\apsim\met\sample\dalby.met[weather]
+module = manager     erosion.par[sample]
+module = soilwat2    %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]  %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = erosion     erosion.par[sample]
+module = summaryfile erosion.par[sample]

@@ -1,0 +1,21 @@
+version = 5.1
+[apsim.Sample]
+title=Sample Simulation
+screen_output=on
+module = clock           apswim.par [all]          %apsuite\apsim\clock\clock.ini[standard]
+module = report          apswim.par [all]
+module = Input(Met)      %apsuite\apsim\met\sample\Dalby.met [weather]
+module = canopy          apswim.par [all]
+module = manager         apswim.par [all]
+module = operatns        apswim.par [all]
+module = fertiliz                                    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = irrigate
+module = apswim    apswim.par [all] hyprops.par[hyprops]   %apsuite\apsim\apswim\apswim.ini [standard]
+module = soiln2          apswim.par [all]            %apsuite\apsim\soiln2\soiln2.ini     [standard]
+module = solute          apswim.par [all]            %apsuite\apsim\solute\solute.ini [standard]
+module = SurfaceOM   apswim.par [all] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = maize           apswim.par [all]            %apsuite\apsim\maize\maize.ini [standard]
+module = plant(cowpea)  apswim.par [all]            %apsuite\apsim\cowpea\cowpea.ini [standard]
+module = SummaryFile     apswim.par [all]
+
+

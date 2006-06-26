@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../docs/shared/Variables.xsl"?>
+<component name="">
+   <variables>
+      <variable name="name" description="Fully-qualified name of the component." array="" units="" />
+      <variable name="type" description="Value is Supplement" array="" units="" />
+      <variable name="version" description="Value is 1.0" array="" units="" />
+      <variable name="author" description="Value is CSIRO Plant Industry" array="" units="" />
+      <variable name="active" description="Denotes whether or not the component is active." array="" units="" />
+      <variable name="state" description="SDML description of the current state." array="" units="" />
+      <variable name="no_stores" description="Number of supplement stores" array="" units="" />
+      <variable name="no_paddocks" description="Number of paddocks recognised by the component interface" array="" units="" />
+      <variable name="padd_names" description="Name of each paddock recognised by the component interface" array="T" units="" />
+      <variable name="padd_amounts" description="Amount of supplement currently accessible to stock in each paddock recognised by the component instance" array="T" units="kg" />
+   </variables>
+   <events>
+      <event name="error" description="" />
+      <event name="on_init2" description="" />
+      <event name="end_step" description="Computes amount of feed eaten and removes it from the paddock." />
+      <event name="buy" description="Increases the amount of supplement in a store." />
+      <event name="feed" description="Transfers an amount of supplement from store to one of the paddocks.  " />
+      <event name="mix" description="Transfers an amount of supplement from one store into another. " />
+      <event name="on_conserve" description="Notifies the component that an amount of forage has been conserved.  " />
+   </events>
+</component>

@@ -1,0 +1,53 @@
+version = 5.1
+
+[apsim.Test1]
+
+title=APSwim Test 1
+module = clock    test1.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   test1.par [sample]
+module = input(met)      SAMPLE.MET [sample]
+module = manager  test1.par [sample]
+module = apswim   test1.par [sample]     %apsuite\apsim\apswim\apswim.ini [standard]
+module = solute   test1.par [sample]     %apsuite\apsim\solute\solute.ini [standard]
+module = SummaryFile  test1.par[sample]
+
+[apsim.Test2]
+
+title=APSwim Test 2
+module = clock    test2.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   test2.par [sample]
+module = input(met)      SAMPLE.MET [sample]
+module = manager  test2.par [sample]
+module = apswim   test2.par [sample]     %apsuite\apsim\apswim\apswim.ini [standard]
+module = solute   test2.par [sample]     %apsuite\apsim\solute\solute.ini [standard]
+module = SummaryFile  test2.par[sample]
+
+[apsim.Test3]
+!Test for low rlv affects on ep during early growth - it should throw warning messages.
+
+title=APSwim Test 3
+module = clock    test3.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   test3.par [sample]
+module = input(met)      Sample2.MET [sample]
+module = micromet test3.par [sample]     %apsuite\apsim\micromet\micromet.ini [standard]
+module = manager  test3.par [sample]
+module = apswim   test3.par [sample]     %apsuite\apsim\apswim\apswim.ini [standard]
+module = solute   test3.par [sample]     %apsuite\apsim\solute\solute.ini [standard]
+module = slurp    test3.par [sample]
+module = SummaryFile  test3.par[sample]
+
+[apsim.Test4]
+title=Sample Simulation
+module = clock           test4.par [sample]          %apsuite\apsim\clock\clock.ini[standard]
+module = report          test4.par [sample]
+module = Input(Met)      sample4.met [weather]
+module = manager         test4.par [sample]
+module = operatns        test4.par [sample]
+module = fertiliz                                    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = irrigate
+module = apswim    test4.par [sample]    %apsuite\apsim\apswim\apswim.ini [standard]
+module = soiln2          test4.par [sample]            %apsuite\apsim\soiln2\soiln2.ini     [standard]
+module = SurfaceOM   test4.par [sample] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = sorghum           test4.par [sample]            %apsuite\apsim\sorghum\sorghum.ini [standard]
+module = SummaryFile     test4.par [sample]
+!module = log

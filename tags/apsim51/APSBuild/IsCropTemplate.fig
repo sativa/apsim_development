@@ -1,0 +1,17 @@
+[instructions]
+import   = %apsuite\apsim\infra\lib\apsiminfra.imp
+import   = %apsuite\apsim\infra\lib\apsimengine.imp
+include  = %apsuite\apsim\infra
+include  = %apsuite\apsim\croptemp
+switches = %apsuite\apsbuild\switches.lf95
+object   = %apsuite\apsim\infra\source\data.obj
+object   = %apsuite\apsim\infra\source\datastr.obj
+object   = %apsuite\apsim\infra\source\date.obj
+object   = %apsuite\apsim\infra\source\error.obj
+object   = %apsuite\apsim\infra\source\event.obj
+object   = %apsuite\apsim\infra\source\intrface.obj
+object   = %apsuite\apsim\infra\source\main.obj
+;object   = %apsuite\apsim\infra\source\postbox.obj
+object   = %apsuite\apsim\infra\source\read.obj
+object   = %apsuite\apsim\infra\source\science.obj
+object   = %apsuite\apsim\infra\source\string.obj

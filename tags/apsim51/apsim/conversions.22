@@ -1,0 +1,104 @@
+[Moved parameters out of control file into parameter file]
+command=MoveParametersOutOfCon()
+
+[Converted CLOCK 'simulation_start_day' and 'simulation_start_year' to 'start_date']
+command=SetParameterValue(clock.simulation_start_day, "date(clock.simulation_start_day, clock.simulation_start_year)")
+command=RenameParameter(clock.simulation_start_day, start_date)
+command=DeleteParameter(clock.simulation_start_year)
+
+[Converted CLOCK 'simulation_end_day' and 'simulation_end_year' to 'end_date']
+command=SetParameterValue(clock.simulation_end_day, "date(clock.simulation_end_day, clock.simulation_end_year)")
+command=RenameParameter(clock.simulation_end_day, end_date)
+command=DeleteParameter(clock.simulation_end_year)
+
+[Converted CLOCK 'start_day' and 'start_year' to 'start_date']
+command=SetParameterValue(clock.start_day, "date(clock.start_day, clock.start_year)")
+command=RenameParameter(clock.start_day, start_date)
+command=DeleteParameter(clock.start_year)
+
+[Converted CLOCK 'end_day' and 'end_year' to 'end_date']
+command=SetParameterValue(clock.end_day, "date(clock.end_day, clock.end_year)")
+command=RenameParameter(clock.end_day, end_date)
+command=DeleteParameter(clock.end_year)
+
+[Changed 'Module = Met' to 'Module = Input(Met) in control file]
+command=ChangeInstantiation(met, input(met))
+
+[Removed '/overwrite' from REPORT's 'outputfile']
+command=RemoveReportOutputSwitch(outputfile)
+
+[Removed '/overwrite' from REPORT's 'summaryfile']
+command=RemoveReportOutputSwitch(summaryfile)
+
+[Moved 'title' parameter to control file.]
+command=MoveParameter(report.title,)
+
+[Moved 'summaryfile' parameter to the new SummaryFile module]
+command=MoveParameter(report.summaryfile, SummaryFile)
+
+[Moved 'debug_output' parameter to the new Log module]
+command=MoveParameter(report.debug_output, Log)
+command=SetParameterValue(log.logfile, %controlfilenamebase%.log)
+
+[Moved 'screen_output' parameter to the new screen module]
+command=SetParameterValue(Screen.screen_output, on)
+command=MoveParameter(report.screen_output, screen)
+
+[Converted REPORT variables to new format]
+command=NewFormatReportVariables()
+command=DeleteParameter(report.module_names)
+command=DeleteParameter(report.variable_names)
+command=DeleteParameter(report.variable_alias)
+command=DeleteParameter(report.units)
+
+[Converted sum@ or avg@ variables to use the new TRACKER module]
+command=RemoveSumAvgToTracker()
+
+[Converted 'module=canola' to 'module=legume(canola)']
+command=ChangeInstantiation(canola, legume(canola))
+
+[Converted 'module=chickpea' to 'module=legume(chickpea)']
+command=ChangeInstantiation(chickpea, legume(chickpea))
+
+[Converted 'module=cowpea' to 'module=legume(cowpea)']
+command=ChangeInstantiation(cowpea, legume(cowpea))
+
+[Converted 'module=fababean' to 'module=legume(fababean)']
+command=ChangeInstantiation(fababean, legume(fababean))
+
+[Converted 'module=lucerne' to 'module=legume(lucerne)']
+command=ChangeInstantiation(lucerne, legume(lucerne))
+
+[Converted 'module=lupin' to 'module=legume(lupin)']
+command=ChangeInstantiation(lupin, legume(lupin))
+
+[Converted 'module=mucuna' to 'module=legume(mucuna)']
+command=ChangeInstantiation(mucuna, legume(mucuna))
+
+[Converted 'module=mungbean' to 'module=legume(mungbean)']
+command=ChangeInstantiation(mungbean, legume(mungbean))
+
+[Converted 'module=navybean' to 'module=legume(navybean)']
+command=ChangeInstantiation(navybean, legume(navybean))
+
+[Converted 'module=peanut' to 'module=legume(peanut)']
+command=ChangeInstantiation(peanut, legume(peanut))
+
+[Converted 'module=pigeonp' to 'module=legume(pigeonp)']
+command=ChangeInstantiation(pigeonp, legume(pigeonp))
+
+[Converted 'module=soybean' to 'module=legume(soybean)']
+command=ChangeInstantiation(soybean, legume(soybean))
+
+[Converted 'module=stylo' to 'module=legume(stylo)']
+command=ChangeInstantiation(stylo, legume(stylo))
+
+[Converted 'module=weed' to 'module=legume(weed)']
+command=ChangeInstantiation(weed, legume(weed))
+
+[Converted 'module=sunflower' to 'module=cropmod(sunflower)']
+command=ChangeInstantiation(sunflower, cropmod(sunflower))
+
+[Converted 'module=wheat' to 'module=cropmod(wheat)']
+command=ChangeInstantiation(wheat, cropmod(wheat))
+

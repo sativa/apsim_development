@@ -1,0 +1,225 @@
+!******************* Report module ********************
+[WagCW.report.parameters]
+outputfile =WagCW.out
+
+!******************** Input module *******************
+[all.clock.parameters]
+start_date=1/1/1957
+end_date=1/5/1998
+
+!************** Accum module ****************
+[all.accum.parameters]
+
+! Accumulate rainfall for 10 days.
+! We can then use this variable in manager
+
+accum_variables = rain[10]
+
+!******************* Manager module *******************
+[all.manager.init]
+! Initialise
+fert_flag = 100
+mature_flag = 13
+crop_in = 0
+cum_drain_1 = 0
+
+[all.manager.start_of_day]
+if (start_month = 1) then
+   cum_drain_1 = 0
+endif
+
+if (today = date('1-may')) then
+   phase = phase + 1
+   if (phase = 7) then
+      phase = 1
+   endif
+endif
+
+[CW.manager.start_of_day]
+!if (today = date('31-mar')) then
+!  cool burn of previous wheat crop on 31 March 1993
+!   surfaceom tillage type = Cool_burn ()
+!endif
+
+if (today = date('15-apr')) then
+!  incorporation of ashes and unburnt straw on 15 April 1993
+   surfaceom tillage type = tine ()
+endif
+
+[all.manager.end_of_day]
+if (fert_flag <= 80) then
+   fert_flag = fert_flag -1
+   if (fert_flag = 0) then
+      fertiliz apply amount = 43 (kg/ha), type = urea_n, depth = 10 (mm)
+      fert_flag = 100
+   endif
+endif
+
+if (end_month = 1) then
+   report do_end_day_output
+endif
+
+[CW.manager.process]
+!esw set to 100 to avoid trigger - allows introduction of extractable sw as criterium
+!cjh not used by soilwat2 esw = 100
+! soil moisture index is based upon fraction of PAW for a given layer
+smi = (sw(1) - ll15(1))/(dul(1) - ll15(1))
+
+if (crop_in = 0) then
+   if (date_within('1-may, 31-jul') = 1) and (rain[10] >= 25) and (rain = 0) and (esw >= 0) and (smi >= 0.5) then
+      wheat sow plants = 100, depth = 40, cultivar = janz
+      surfaceom tillage type = planter ()
+      fertiliz apply amount = 17 (kg/ha), type = nh4_n, depth = 40 (mm)
+      fert_flag = 62
+      crop_in = 1
+      mature_flag = 13
+   elseif ( today = date('1-aug')) then
+      ! failed to plant
+   endif
+endif
+
+if (wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' ) then
+   mature_flag = mature_flag - 1
+   if (mature_flag = 0) then
+      wheat harvest
+      wheat end_crop
+      crop_in = 0
+   endif
+endif
+
+
+!******************** SoilWat module *******************
+[all.soilwat2.parameters]
+cona =                3.5   ()   ! stage 2 evap coef.
+diffus_const =        88.0    ()   ! coeffs for dbar
+diffus_slope =        35.0    ()   !     "
+u =                  5.0  (mm)   ! stage 1 soil evaporation coefficient (mm)
+cn2_bare =            75    ()   ! runoff curve number
+salb =                 0.13   ()   ! bare soil albedo
+cn_cov =               0.8 ()
+cn_red =               20   ()
+
+!Layers    0-10  10-20 20-30 30-50 50-70 70-90 90-120 120-150 150-200
+!layer     1     2     3     4     5     6     7      8       9
+dlayer =   100   100   100   200   200   200   300    300     500
+air_dry =  .05   .07   .14   .17   .22   .24   .24   .24      .24
+ll15 =     .15   .15   .15   .17   .22   .24   .24   .24      .24  ()   ! lower limit mm water/mm soil
+dul =      .27   .27   .30   .33   .38   .38   .36   .35      .35  ()   ! drained upper limit mm water/mm soil
+sat =      .4    .4    .4    .4    .42   .38   .38   .4       .4   ()   ! saturation mm water/mm soil
+bd =       1.38  1.55  1.55  1.37  1.41  1.64  1.64  1.49     1.49 ()   ! Bulk density
+swcon =    0.80  0.80  0.80  0.70  0.50  0.30  0.30  0.50     0.50 ()   ! whole-profile drainage rate coefficient
+sw =       .081  .158  .220  .255  .281  .290  .290  .290     .290 ()   ! vol  sw measured preplant
+
+insoil =  1.5
+
+[all.wheat.parameters]
+!Layers    0-10  10-20 20-30 30-50 50-70 70-90 90-120 120-150 150-200
+!layer     1     2     3     4     5     6     7      8       9
+!wr =       1     .8    .6    .4    .2    .1    .05    0       0
+!nem =      .4    .4    .4    .4    .4    .4    .4     .4     .4
+ll =       .15     .15     .15     .17     .22     .24     .27     .27     .27
+kl =       0.07    0.07    0.07    0.07    0.05    0.05    0.04    0.04    0.04  ()
+XF =       1.0     1.0     1.0     1.0     1.0     1.0     1.0     1.0     1.0   ()
+
+!******************** Residue2 module ********************
+[all.SurfaceOM.parameters]
+report_additions = yes
+mass = 970.
+cnr = 90.
+type = wheat
+
+name = wheat
+[all.soiln2.parameters]
+!Layers    0-10  10-20 20-30 30-50 50-70 70-90 90-120 120-150 150-200
+!layer     1     2     3     4     5     6     7      8       9
+ph  =      5.0   5.0   5.2   5.3   5.5   5.8   5.8    5.8     5.8
+no3ppm =   8.0   1.25  .9    .9    .55   .55   .55    .75     .75
+nh4ppm =   2.0   .7    .9    .9    .45   .3    .3     .3      .3
+uppm =     0     0     0     0     0     0     0      0       0
+fbiom =    0.04  0.025 0.02  0.015 0.01  0.01  0.01   0.01    0.01
+oc =       1.1   .5    .4    .35   .26   .15   .08    .06     .06
+finert =   0.05  .11   .14   .16   .22   .38   .7     .95     .95
+
+root_cn =               40       (C)   !initial root C:N (rough avg from mimic runs)
+root_wt =               500      (kg/ha)   !initial root weight
+soil_cn =               9        (kgC/kgN)   !soil initial C:N ratio
+amp =                   15.9     (C)   !air temperature amplitude
+tav =                   15.4     (C)   !average annual temperature
+enr_a_coeff =           7.4      ()   !only used in erosion simultion
+enr_b_coeff =           0.2      ()   !only used in erosion simultion
+profile_reduction =     off      ()   !only used in erosion simultion
+
+dmod =  1.0 ()   ! weighting factor to adjust the rate of humus mineralization
+               ! for soils in which organic matter is chemically or physically
+               ! protected.
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  soilph  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+[all.soilph.parameters]
+report_additions =yes
+
+! pHCa of rain water.
+ph_rain =     5.67  ()
+ionic_strength_rain = 0.001 ()  ! ionic strength of rain
+
+!phbc_method = parameters
+phbc_method = hochman
+
+
+!Layers              0-10   10-20   20-30  30-50  50-70  70-90  90-120 120-150 150-200
+!layer                1       2       3      4      5      6      7       8       9
+lime_pool_init    =   0       0       0      0      0      0      0       0       0 (Kg/Ha)  ! Initial lime pool (Kg/Ha) equivalent.
+ionic_strength_initial= 0.007 0.007   0.007  0.007  0.007  0.007  0.007   0.007   0.007  ()      ! Initial ionic strength of layer.
+phca_initial      =  5.0     5.0     5.2    5.3    5.5    5.8    5.8     5.8     5.8   ()    ! Initial pHCa of layer.
+phbc              = 20.42   22.5    16.5   14.38  12.69  10.3   10.3    10.3    10.3   (Kmol/ha/100mm/ph_unit)
+co2_pressure_soil = 0.0015  0.0015  0.0015 0.0015 0.0015 0.0015 0.0015 0.0015 0.0015 (atm)   ! Soil air CO2 partial pressure in the layer.
+al_conc_init      =   .07     .07     .03    .01   0.0    0.0    0.0     0.0     0.0 (cMol/Kg) ! Initial aluminium concentration. (cMol/Kg).
+pal_phca_slope    =  1.711   1.711   1.711  1.711  1.711  1.711  1.711   1.711   1.711 ()    ! User supplied slope of -log(labile Al) vs pHCa.
+pal_phca_intercept= -0.2758 -0.2758 -3.272 -2.416 -2.416 -2.416 -2.416  -2.416  -2.416 ()    ! User supplied intercept of -log(labile Al) vs pHCa.
+sals_supplied_use_flag =  true    true    true   true   true   true   true    true    true   ! User supplied Slope of extractable Al verses H. ().
+sals_supplied     = 23      23      23      23    23     23     23      23      23   ()
+ecec_init         =  6.7     4.7     4.7     5.9   5.9    7.2    7.2     7.2     7.2 ()      ! Initial Effective Cation Exchange Capacity. (cMol/Kg)
+ca_avail          =  1.0     1.0     1.0    1.0    1.0    1.0    1.0     1.0     1.0         ! Availability of elements in each layer.
+mg_avail          =  1.0     1.0     1.0    1.0    1.0    1.0    1.0     1.0     1.0
+k_avail           =  1.0     1.0     1.0    1.0    1.0    1.0    1.0     1.0     1.0
+na_avail          =  1.0     1.0     1.0    1.0    1.0    1.0    1.0     1.0     1.0
+p_avail           =  1.0     1.0     0.0    0.0    0.0    0.0    0.0     0.0     0.0
+s_avail           =  1.0     1.0     1.0    1.0    0.0    0.0    0.0     0.0     0.0
+cl_avail          =  1.0     1.0     1.0    1.0    1.0    1.0    1.0     1.0     1.0
+
+! Uptakes of each element in % dry matter of crop growth.
+ca_dm_percent =   0.18   (%)
+mg_dm_percent =   0.10   (%)
+k_dm_percent  =   0.60   (%)
+na_dm_percent =   0.04   (%)
+p_dm_percent  =   0.018  (%)
+s_dm_percent  =   0.018  (%)
+cl_dm_percent =   0.01   (%)
+
+
+[WagCW.SummaryFile.parameters]
+summaryfile = WagCW.sum
+[all.Screen.parameters]
+screen_output = off
+[all.tracker.parameters]
+variable = average of met.maxt on process from report.reported to now as avg@maxt
+variable = average of met.mint on process from report.reported to now as avg@mint
+variable = average of met.radn on process from report.reported to now as avg@radn
+variable = sum of met.rain on process from report.reported to now as sum@rain
+variable = sum of wheat.ep on process from report.reported to now as sum@ep()
+variable = sum of soilwat2.es on process from report.reported to now as sum@es
+variable = sum of soilwat2.runoff on process from report.reported to now as sum@runoff
+variable = sum of soilwat2.drain on process from report.reported to now as sum@drain
+variable = sum of soilwat2.eo on process from report.reported to now as sum@eo
+variable = sum of soilwat2.no3_leach on process from report.reported to now as sum@no3_leach
+variable = sum of soilwat2.nh4_leach on process from report.reported to now as sum@nh4_leach
+variable = sum of soilph.no3_uptake_equiv on process from report.reported to now as sum@no3_uptake_equiv
+variable = sum of soilph.nh4_uptake_equiv on process from report.reported to now as sum@nh4_uptake_equiv
+variable = sum of soiln2.dnit on process from report.reported to now as sum@dnit
+variable = sum of soiln2.dlt_n_min on process from report.reported to now as sum@dlt_n_min
+variable = sum of soilph.dlt_acid_n_cycle on process from report.reported to now as sum@dlt_acid_n_cycle
+variable = sum of soilph.acid_excretion_root on process from report.reported to now as sum@acid_excretion_root
+variable = sum of soilph.ash_alk_wt_incorp on process from report.reported to now as sum@ash_alk_wt_incorp
+variable = sum of soilph.dlt_acid_org_c_cycle on process from report.reported to now as sum@dlt_acid_org_c_cycle
+variable = sum of soilph.h_equiv_flow_net on process from report.reported to now as sum@h_equiv_flow_net

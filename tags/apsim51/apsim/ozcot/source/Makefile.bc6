@@ -1,0 +1,38 @@
+# (Borlandish) Makefile for apsim ozcot module
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+
+# Platform specific defns
+!include $(APSROOT)\APSBuild\platform.make
+
+# Fortran compiler defns
+!include $(APSROOT)\APSBuild\fortran.make
+
+# The statically linked components of the engine interface
+!include $(APSROOT)\APSBuild\ApsimComponentInterface.make
+
+# Main target
+source: ..\lib\ozcot.dll
+..\lib\ozcot.dll: Registrations.obj ozcot.obj $(STATICLINKEDOBJECTS) 
+	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
+	$(ECHO) $(F90FLAGS) >> linker.tmp
+	$(ECHO) $(F90CROPLIBS) >> linker.tmp
+	$(LF95) ozcot.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\ozcot.dll @linker.tmp
+	$(RM) linker.tmp
+   
+ozcot.obj: ozcot.for
+	$(ECHO) $(F90FLAGS) > compiler.tmp
+	$(ECHO) $(F90CROPINCLUDES) >> compiler.tmp
+	$(ECHO) $(F90CROPMODS) >> compiler.tmp
+	$(LF95) -c ozcot.for -o ozcot.obj @compiler.tmp
+	$(RM) compiler.tmp
+
+Registrations.obj: Registrations.f90
+Registrations.f90: ..\ozcot.interface 
+	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\ozcot.interface
+clean:
+	$(RM) ..\lib\ozcot.dll Registrations.obj Registrations.f90 ozcot.obj ozcot.imp
+

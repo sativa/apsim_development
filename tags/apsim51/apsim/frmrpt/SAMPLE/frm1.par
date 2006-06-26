@@ -1,0 +1,64 @@
+[test.report.parameters]
+
+outputfile =rpt.out
+variable = clock.day
+variable = clock.year
+variable = manager.ramp1
+variable = manager.ramp2
+variable = manager.wert
+variable = manager.fay
+
+[test.manager.init]
+ramp1 = 0
+ramp2 = 0
+wert = 500.67
+fay = 72
+
+
+[test.manager.start_of_day]
+ramp1 = ramp1 + 1
+ramp2 = ramp2 + 1
+if (ramp1 > 5)  then
+   ramp1 = 1
+endif
+
+
+[test.manager.process]
+
+if (ramp1 = 5) then
+   frmrpt do_output name=test2
+   report do_output
+endif
+
+if (ramp2 = 5) then
+   frmrpt clear name=test2
+   report do_output
+endif
+
+if (ramp2 = 10) then
+   frmrpt clear name=test2:ramp2
+   report do_output
+endif
+
+if (ramp2 = 15) then
+   frmrpt clear name=test2:manager.ramp2
+   report do_output
+endif
+
+
+[test.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=1/1/1988     ! dd/mm/yyyy
+end_date=21/1/1988     ! dd/mm/yyyy
+
+
+[test.frmrpt.parameters]
+handle =      test1     test2
+form_file =   test1.frm test2.frm
+out_file =    test1.out test2.out
+report_start =   1         0
+report_days =    3         0
+
+
+[test.summaryfile.parameters]
+summaryfile=rpt.sum

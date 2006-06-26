@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="surface">
+   <registrations>
+      <respondToGetReg name="rr" type="rr"/>
+      <respondToGetReg name="surf_cover" type="surf_cover"/>
+      <respondToGetReg name="g1" type="g1"/>
+      <respondToGetReg name="g0" type="g0"/>
+      <respondToGetReg name="grc" type="grc"/>
+      <read name="model_no" type="model_no" readable="T"/>
+      <read name="precip_const" type="precip_const" readable="T"/>
+      <read name="effpar" type="effpar" readable="T"/>
+      <read name="seal_decay_rate" type="seal_decay_rate" readable="T"/>
+      <respondToGetSetReg name="seal_decay_rate" type="seal_decay_rate" readable="T"/>
+      <read name="rr_decay_rate" type="rr_decay_rate" readable="T"/>
+      <respondToGetSetReg name="rr_decay_rate" type="rr_decay_rate" readable="T"/>
+      <read name="rr_max" type="rr_max" readable="T"/>
+      <respondToGetSetReg name="rr_max" type="rr_max" readable="T"/>
+      <read name="rr_min" type="rr_min" readable="T"/>
+      <respondToGetSetReg name="rr_min" type="rr_min" readable="T"/>
+      <respondToGetSetReg name="maximum_conductance" type="maximum_conductance"/>
+      <respondToGetSetReg name="minimum_conductance" type="minimum_conductance"/>
+      <respondToEventReg name="swim_timestep_preparation" type="swim_timestep_preparation"/>
+      <respondToEventReg name="pre_swim_timestep" type="pre_swim_timestep"/>
+      <respondToEventReg name="post_swim_timestep" type="post_swim_timestep"/>
+      <respondToEventReg name="tillage" type="tillage"/>
+      <getVariableReg name="year" type="year"/>
+      <getVariableReg name="day" type="day"/>
+      <getVariableReg name="dr" type="dr"/>
+      <getVariableReg name="dt" type="dt"/>
+      <setVariableReg name="scon" type="scon"/>
+      <getVariableReg name="scon_min" type="scon_min"/>
+      <getVariableReg name="scon_max" type="scon_max"/>
+   </registrations>
+</component>

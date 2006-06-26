@@ -1,0 +1,38 @@
+# (Borlandish) Makefile for apsim soiln2 module
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+
+# Platform specific defns
+!include $(APSROOT)\APSBuild\platform.make
+
+# Fortran compiler defns
+!include $(APSROOT)\APSBuild\fortran.make
+
+# The statically linked components of the engine interface
+!include $(APSROOT)\APSBuild\ApsimComponentInterface.make
+
+# Main target
+source: ..\lib\soiln2.dll
+..\lib\soiln2.dll: Registrations.obj soiln2.obj $(STATICLINKEDOBJECTS)
+	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
+	$(ECHO) $(F90FLAGS) >> linker.tmp
+	$(ECHO) $(F90LIBS) >> linker.tmp
+	$(LF95) soiln2.obj Registrations.obj  \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\soiln2.dll @linker.tmp
+	$(RM) linker.tmp
+
+soiln2.obj: soiln2.f90
+	$(ECHO) $(F90FLAGS) > compiler.tmp
+	$(ECHO) $(F90INCLUDES) >> compiler.tmp
+	$(ECHO) $(F90MODS) >> compiler.tmp
+	$(LF95) -c soiln2.f90 @compiler.tmp
+	$(RM) compiler.tmp
+
+Registrations.obj: Registrations.f90
+Registrations.f90: ..\soiln2.interface
+	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\soiln2.interface
+
+clean:
+	$(RM) ..\lib\soiln2.dll Registrations.obj Registrations.f90 soiln2.obj soiln2.imp

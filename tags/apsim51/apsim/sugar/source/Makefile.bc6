@@ -1,0 +1,41 @@
+# (Borlandish) Makefile for apsim sugar module
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+
+# Platform specific defns
+!include $(APSROOT)\APSBuild\platform.make
+
+# Fortran compiler defns
+!include $(APSROOT)\APSBuild\fortran.make
+
+# The statically linked components of the engine interface
+!include $(APSROOT)\APSBuild\ApsimComponentInterface.make
+
+# Main target
+source: ..\lib\sugar.dll
+
+..\lib\sugar.dll: Registrations.obj sgr_main.obj $(STATICLINKEDOBJECTS) 
+	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
+	$(ECHO) $(F90FLAGS) >> linker.tmp
+	$(ECHO) $(F90CROPLIBS) >> linker.tmp
+	$(LF95) sgr_main.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\sugar.dll @linker.tmp
+	$(RM) linker.tmp
+   
+sgr_main.obj: sgr_main.for
+	$(ECHO) -c $(F90FLAGS) > compiler.tmp
+	$(ECHO) $(F90CROPINCLUDES)>> compiler.tmp
+	$(ECHO) $(F90CROPMODS) >> compiler.tmp
+	$(LF95) sgr_main.for @compiler.tmp
+	$(RM) compiler.tmp
+
+Registrations.obj: Registrations.f90
+
+Registrations.f90: ..\sugar.interface 
+	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\sugar.interface
+
+clean:
+	$(RM) ..\lib\sugar.dll Registrations.obj Registrations.f90 sugar.obj sugar.imp
+

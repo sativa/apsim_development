@@ -1,0 +1,304 @@
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
+using CSGeneral;
+using VBGeneral;
+using Xceed.Chart.Standard;
+using Xceed.Chart.Core;
+using Xceed.Chart.GraphicsCore;
+
+
+namespace CSGeneral
+	{
+	public class InitNitrogenUI : VBGeneral.BaseView
+		{
+		private System.ComponentModel.IContainer components = null;
+		private System.Windows.Forms.Panel panel1;
+		private FarPoint.Win.Spread.FpSpread Grid;
+		private FarPoint.Win.Spread.SheetView NitrogenGrid;
+		private bool UserChange = true;
+		private InitNitrogen InitialNitrogen;
+		internal Xceed.Chart.ChartControl NitrogenChart;
+		private Soil SoilData;
+
+		#region Constructor / Destructor
+		public InitNitrogenUI()
+			{
+			InitializeComponent();
+			}
+
+		protected override void Dispose( bool disposing )
+			{
+			if( disposing )
+				{
+				if (components != null) 
+					{
+					components.Dispose();
+					}
+				}
+			base.Dispose( disposing );
+			}
+
+		#region Designer generated code
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InitNitrogenUI));
+            FarPoint.Win.Spread.TipAppearance tipAppearance1 = new FarPoint.Win.Spread.TipAppearance();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType1 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType2 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType3 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType4 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            this.NitrogenChart = new Xceed.Chart.ChartControl();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.Grid = new FarPoint.Win.Spread.FpSpread();
+            this.NitrogenGrid = new FarPoint.Win.Spread.SheetView();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NitrogenGrid)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // NitrogenChart
+            // 
+            this.NitrogenChart.BackColor = System.Drawing.SystemColors.Control;
+            this.NitrogenChart.Background = ((Xceed.Chart.Standard.Background)(resources.GetObject("NitrogenChart.Background")));
+            this.NitrogenChart.Charts = ((Xceed.Chart.Core.ChartCollection)(resources.GetObject("NitrogenChart.Charts")));
+            this.NitrogenChart.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.NitrogenChart.InteractivityOperations = ((Xceed.Chart.Core.InteractivityOperationsCollection)(resources.GetObject("NitrogenChart.InteractivityOperations")));
+            this.NitrogenChart.Labels = ((Xceed.Chart.Standard.ChartLabelCollection)(resources.GetObject("NitrogenChart.Labels")));
+            this.NitrogenChart.Legends = ((Xceed.Chart.Core.LegendCollection)(resources.GetObject("NitrogenChart.Legends")));
+            this.NitrogenChart.Location = new System.Drawing.Point(319, 0);
+            this.NitrogenChart.Name = "NitrogenChart";
+            this.NitrogenChart.Settings = ((Xceed.Chart.Core.Settings)(resources.GetObject("NitrogenChart.Settings")));
+            this.NitrogenChart.Size = new System.Drawing.Size(369, 273);
+            this.NitrogenChart.TabIndex = 2;
+            this.NitrogenChart.Watermarks = ((Xceed.Chart.Standard.WatermarkCollection)(resources.GetObject("NitrogenChart.Watermarks")));
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.NitrogenChart);
+            this.panel1.Controls.Add(this.Grid);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 40);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(688, 273);
+            this.panel1.TabIndex = 36;
+            // 
+            // Grid
+            // 
+            this.Grid.AccessibleDescription = "";
+            this.Grid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Grid.Dock = System.Windows.Forms.DockStyle.Left;
+            this.Grid.EditModeReplace = true;
+            this.Grid.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded;
+            this.Grid.Location = new System.Drawing.Point(0, 0);
+            this.Grid.Name = "Grid";
+            this.Grid.Sheets.AddRange(new FarPoint.Win.Spread.SheetView[] {
+            this.NitrogenGrid});
+            this.Grid.Size = new System.Drawing.Size(319, 273);
+            this.Grid.TabIndex = 36;
+            tipAppearance1.BackColor = System.Drawing.SystemColors.Info;
+            tipAppearance1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            tipAppearance1.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.Grid.TextTipAppearance = tipAppearance1;
+            this.Grid.VerticalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded;
+            this.Grid.CellClick += new FarPoint.Win.Spread.CellClickEventHandler(this.Grid_CellClick);
+            // 
+            // NitrogenGrid
+            // 
+            this.NitrogenGrid.Reset();
+            // Formulas and custom names must be loaded with R1C1 reference style
+            this.NitrogenGrid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1;
+            this.NitrogenGrid.ColumnCount = 5;
+            this.NitrogenGrid.ColumnHeader.RowCount = 2;
+            this.NitrogenGrid.AutoUpdateNotes = true;
+            this.NitrogenGrid.ColumnHeader.Cells.Get(0, 0).Value = "Depth";
+            this.NitrogenGrid.ColumnHeader.Cells.Get(0, 1).Value = "NO3";
+            this.NitrogenGrid.ColumnHeader.Cells.Get(0, 2).Value = "NH4";
+            this.NitrogenGrid.ColumnHeader.Cells.Get(0, 3).Value = "NO3";
+            this.NitrogenGrid.ColumnHeader.Cells.Get(0, 4).Value = "NH4";
+            this.NitrogenGrid.ColumnHeader.Cells.Get(1, 0).Value = "(cm)";
+            this.NitrogenGrid.ColumnHeader.Cells.Get(1, 1).Value = "(kg/ha)";
+            this.NitrogenGrid.ColumnHeader.Cells.Get(1, 2).Value = "(kg/ha)";
+            this.NitrogenGrid.ColumnHeader.Cells.Get(1, 3).Value = "(ppm)";
+            this.NitrogenGrid.ColumnHeader.Cells.Get(1, 4).Value = "(ppm)";
+            this.NitrogenGrid.Columns.Get(0).BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.NitrogenGrid.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
+            this.NitrogenGrid.Columns.Get(0).Label = "(cm)";
+            this.NitrogenGrid.Columns.Get(0).Locked = true;
+            numberCellType1.DecimalPlaces = 3;
+            this.NitrogenGrid.Columns.Get(1).CellType = numberCellType1;
+            this.NitrogenGrid.Columns.Get(1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
+            this.NitrogenGrid.Columns.Get(1).Label = "(kg/ha)";
+            numberCellType2.DecimalPlaces = 3;
+            this.NitrogenGrid.Columns.Get(2).CellType = numberCellType2;
+            this.NitrogenGrid.Columns.Get(2).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
+            this.NitrogenGrid.Columns.Get(2).Label = "(kg/ha)";
+            this.NitrogenGrid.Columns.Get(3).BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            numberCellType3.DecimalPlaces = 3;
+            this.NitrogenGrid.Columns.Get(3).CellType = numberCellType3;
+            this.NitrogenGrid.Columns.Get(3).Label = "(ppm)";
+            this.NitrogenGrid.Columns.Get(4).BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            numberCellType4.DecimalPlaces = 3;
+            this.NitrogenGrid.Columns.Get(4).CellType = numberCellType4;
+            this.NitrogenGrid.Columns.Get(4).Label = "(ppm)";
+            this.NitrogenGrid.RowHeader.Columns.Default.Resizable = false;
+            this.NitrogenGrid.RowHeader.Visible = false;
+            this.NitrogenGrid.SheetName = "Sheet1";
+            this.NitrogenGrid.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.NitrogenGrid_CellChanged);
+            this.NitrogenGrid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
+            // 
+            // InitNitrogenUI
+            // 
+            this.Controls.Add(this.panel1);
+            this.Name = "InitNitrogenUI";
+            this.Size = new System.Drawing.Size(688, 313);
+            this.Controls.SetChildIndex(this.panel1, 0);
+            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NitrogenGrid)).EndInit();
+            this.ResumeLayout(false);
+
+		}
+		#endregion
+		#endregion
+
+		override public void Refresh()
+			{
+			base.Refresh();
+
+			HelpText = "There are two ways of specifying initial soil nitrogen. You can either type a number for each layer (kg/ha or ppm) "
+					 + " or a total NO3 / NH4 number (kg/ha only) on the last row of the grid.";
+
+			SoilData = new Soil(Controller.Data.Parent);
+			InitialNitrogen = SoilData.InitialNitrogen;
+			FarPoint.Win.Spread.InputMap InputMap = Grid.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused); 
+			InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Delete, Keys.None), 
+							FarPoint.Win.Spread.SpreadActions.ClipboardCut); 
+			InputMap.Put(new FarPoint.Win.Spread.Keystroke(Keys.Enter, Keys.None), 
+							FarPoint.Win.Spread.SpreadActions.MoveToNextRow); 
+
+			PopulateGrid();
+			UpdateGraph();
+			NitrogenChart.Legends[0].Data.OutlineHorizontalLinesProps.Width = 0;
+			NitrogenChart.Legends[0].Data.OutlineVerticalLinesProps.Width = 0;
+			NitrogenChart.Legends[0].Data.VerticalLinesProps.Width = 0;
+			NitrogenChart.Legends[0].Data.HorizontalLinesProps.Width = 0;
+			}
+
+		private void PopulateGrid()
+			{
+			UserChange = false;
+			GridUtils.SetColumnAsStrings(NitrogenGrid, 0, SoilData.DepthStrings);
+			GridUtils.SetColumnAsDoubles(NitrogenGrid, 1, InitialNitrogen.NO3KgHa);
+			GridUtils.SetColumnAsDoubles(NitrogenGrid, 2, InitialNitrogen.NH4KgHa);
+			GridUtils.SetColumnAsDoubles(NitrogenGrid, 3, InitialNitrogen.NO3);
+			GridUtils.SetColumnAsDoubles(NitrogenGrid, 4, InitialNitrogen.NH4);
+			NitrogenGrid.RowCount = SoilData.DepthStrings.Length+1;
+
+			int SummaryRow = NitrogenGrid.RowCount-1;
+			NitrogenGrid.Cells[SummaryRow, 0].Value = "Totals:";
+			NitrogenGrid.Cells[SummaryRow, 1].Value = InitialNitrogen.TotalNO3KgHa;
+			NitrogenGrid.Cells[SummaryRow, 2].Value = InitialNitrogen.TotalNH4KgHa;
+			NitrogenGrid.Cells[SummaryRow, 0, SummaryRow, 2].BackColor = Color.Yellow;
+			NitrogenGrid.Cells[SummaryRow, 3, SummaryRow, 4].Locked = true;
+
+			UserChange = true;
+			}
+
+		private void NitrogenGrid_CellChanged(object sender, FarPoint.Win.Spread.SheetViewEventArgs e)
+			{
+			if (UserChange)
+				{
+				UserChange = false;
+				int SummaryRow = NitrogenGrid.RowCount-1;
+
+				if (e.Row == SummaryRow)
+					if (e.Column == 1)
+						{
+						// User changed total no3
+						InitialNitrogen.TotalNO3KgHa = Convert.ToDouble(NitrogenGrid.Cells[e.Row, e.Column].Value);
+						GridUtils.SetColumnAsDoubles(NitrogenGrid, 1, InitialNitrogen.NO3KgHa);
+						GridUtils.SetColumnAsDoubles(NitrogenGrid, 3, InitialNitrogen.NO3);
+						}
+					else
+						{
+						// User changed total nh4
+						InitialNitrogen.TotalNH4KgHa = Convert.ToDouble(NitrogenGrid.Cells[e.Row, e.Column].Value);
+						GridUtils.SetColumnAsDoubles(NitrogenGrid, 2, InitialNitrogen.NH4KgHa);
+						GridUtils.SetColumnAsDoubles(NitrogenGrid, 4, InitialNitrogen.NH4);
+						}
+				else if (e.Column == 1)
+					{
+					// user changed layered no3 (kg/ha)
+					double[] no3 = GridUtils.GetColumnAsDoubles(NitrogenGrid, 1, SoilData.Thickness.Length);
+					InitialNitrogen.NO3KgHa = no3;
+					NitrogenGrid.Cells[SummaryRow, 1].Value = InitialNitrogen.TotalNO3KgHa;
+					GridUtils.SetColumnAsDoubles(NitrogenGrid, 3, InitialNitrogen.NO3);
+					}
+				else if (e.Column == 2)
+					{
+					// user changed layered nh4 (kg/ha)
+					double[] nh4 = GridUtils.GetColumnAsDoubles(NitrogenGrid, 2, SoilData.Thickness.Length);
+					InitialNitrogen.NH4KgHa = nh4;
+					NitrogenGrid.Cells[SummaryRow, 2].Value = InitialNitrogen.TotalNH4KgHa;
+					GridUtils.SetColumnAsDoubles(NitrogenGrid, 4, InitialNitrogen.NH4);
+					}
+				else if (e.Column == 3)
+					{
+					// user changed layered no3 (ppm)
+					double[] no3 = GridUtils.GetColumnAsDoubles(NitrogenGrid, 3, SoilData.Thickness.Length);
+					InitialNitrogen.NO3 = no3;
+					GridUtils.SetColumnAsDoubles(NitrogenGrid, 1, InitialNitrogen.NO3KgHa);
+					NitrogenGrid.Cells[SummaryRow, 1].Value = InitialNitrogen.TotalNO3KgHa;
+					}
+				else if (e.Column == 4)
+					{
+					// user changed layered nh4 (ppm)
+					double[] nh4 = GridUtils.GetColumnAsDoubles(NitrogenGrid, 4, SoilData.Thickness.Length);
+					InitialNitrogen.NH4 = nh4;
+					GridUtils.SetColumnAsDoubles(NitrogenGrid, 2, InitialNitrogen.NH4KgHa);
+					NitrogenGrid.Cells[SummaryRow, 2].Value = InitialNitrogen.TotalNH4KgHa;
+					}
+				UpdateGraph();
+				UserChange = true;
+				}
+			}
+		
+		private void UpdateGraph()
+			{
+			ChartHelper Helper = new ChartHelper();
+			Helper.Chart = NitrogenChart;
+			NitrogenChart.Charts[0].Series.Clear();
+            
+            // Following lines were required to force depth plot look-and-feel
+            // when the it seemed to ignore the settings in the designer!! - NIH
+            NitrogenChart.Charts[0].Axis(StandardAxis.PrimaryY).Ruler.Inverted = true;
+            NitrogenChart.Charts[0].Axis(StandardAxis.PrimaryX).PredefinedPosition = AxisPredefinedPosition.FrontTop;
+            
+			Helper.CreateChartSeriesFromArray("NO3", 
+												InitialNitrogen.NO3KgHa, MathUtility.Divide_Value(SoilData.CumThicknessMidPoints, 10), 
+												false, Color.Green, 3, LinePattern.Solid,
+												StandardAxis.PrimaryX, StandardAxis.PrimaryY);
+
+			Helper.CreateChartSeriesFromArray("NH4", 
+												InitialNitrogen.NH4KgHa, MathUtility.Divide_Value(SoilData.CumThicknessMidPoints, 10), 
+												false, Color.Brown, 3, LinePattern.Solid,
+												StandardAxis.PrimaryX, StandardAxis.PrimaryY);
+			NitrogenChart.Refresh();
+			}
+
+        private void Grid_CellClick(object sender, FarPoint.Win.Spread.CellClickEventArgs e)
+        {
+
+        }
+
+
+	}
+}
+

@@ -1,0 +1,248 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+     Version                = 5.1
+     Title                  = Wheat_MER-86_DryN015 MER-86 29/5/1986 NRates=N015 Irrigation=Dryland
+     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\Input\lib\Input.dll
+     Component DLL          = c:\development\apsim\operatns\lib\operatns.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\plant\lib\plant.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+     Simulation start date =  1/05/1986
+     Simulation end date   = 30/11/1986
+     Time step =           = 1440 (mins)
+
+------- report Initialisation -------------------------------------------------
+     Output variables:
+        clock.dd/mm/yyyy as date
+        clock.day
+        clock.year
+        soilwat2.sw_dep
+        soiln2.no3()
+        soiln2.nh4()
+        wheat.lai
+        wheat.leaf_wt
+        wheat.stem_wt
+        wheat.grain_wt
+        wheat.head_wt
+        wheat.head_n
+        wheat.biomass_wt
+        wheat.biomass_n
+        wheat.sla
+        wheat.grain_no
+        wheat.tiller_no
+        wheat.root_wt
+        wheat.nfact_photo
+        wheat.nfact_expan
+        wheat.swdef_photo
+        wheat.swdef_expan
+        wheat.grain_n
+        wheat.flowering_date
+        wheat.maturity_date
+        wheat.root_depth
+        wheat.node_no
+        wheat.leaves_per_node
+        wheat.dm_senesced(2) as deadleaf_wt
+        wheat.stage
+        wheat.leaf_n
+        wheat.stem_n
+        wheat.grain_n
+        wheat.n_senesced(2) as deadleaf_n
+        wheat.n_conc_grain
+        wheat.sw_demand
+        wheat.ep
+        soilwat2.eo
+        wheat.no3gsm_uptake_pot()
+        wheat.n_demand
+        wheat.n_supply_soil
+        wheat.dlt_dm
+        wheat.dlt_dm_pot_rue
+        wheat.n_conc_stem
+        wheat.n_conc_crit_stem
+        wheat.n_conc_leaf
+        wheat.n_conc_crit_leaf
+        wheat.no3_swfac
+     
+     Output file = Wheat_MER-86_DryN015.out
+     Format = normal
+
+------- Met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: MER-86.met
+
+------- operatns Initialisation -----------------------------------------------
+     Operations Schedule
+     ===================
+      29/5/1986  Prepare      Wheat sow plants = 149 , sowing_depth = 30, row_spacing = 250, cultivar = Gutha
+      14/6/1986  Prepare      fertiliz apply amount = 15 (kg/ha), type = no3_n, depth = 10  (mm)
+
+------- fertiliz Initialisation -----------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- irrigate Initialisation -----------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                      Irrigation parameters
+          -----------------------------------------------
+           Irrigation Schedule (Disabled)
+           Automatic Irrigation Application (Disabled)
+           critical fraction of available soil water =  0.00
+           depth for calculating available soil water =       0.00
+           Irrigation Allocation Budget (Disabled)
+          -----------------------------------------------
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- end_of_day
+     report do_output
+     END of rules
+     
+
+------- soilwat2 Initialisation -----------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  100.  0.030  0.030  0.160  0.260  0.030  1.700  0.613  1.000
+          100.-  200.  0.030  0.030  0.210  0.260  0.030  1.750  0.243  1.000
+          200.-  300.  0.030  0.030  0.220  0.250  0.070  1.800  0.096  1.000
+          300.-  400.  0.040  0.050  0.230  0.240  0.100  1.850  0.038  1.000
+          400.-  500.  0.040  0.100  0.220  0.230  0.220  1.850  0.009  0.300
+          500.-  600.  0.040  0.120  0.220  0.220  0.220  1.850  0.000  1.000
+          600.-  700.  0.040  0.170  0.220  0.220  0.220  1.850  0.000  1.000
+          700.-  900.  0.040  0.170  0.220  0.230  0.220  1.850  0.000  1.000
+          900.- 1100.  0.040  0.170  0.220  0.230  0.210  1.850  0.000  1.000
+         1100.- 1300.  0.040  0.170  0.220  0.230  0.190  1.850  0.000  1.000
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  100.       3.00       0.00      13.00      10.00
+          100.-  200.       3.00       0.00      18.00       5.00
+          200.-  300.       3.00       4.00      19.00       3.00
+          300.-  400.       5.00       5.00      18.00       1.00
+          400.-  500.      10.00      12.00      12.00       1.00
+          500.-  600.      12.00      10.00      10.00       0.00
+          600.-  700.      17.00       5.00       5.00       0.00
+          700.-  900.      34.00      10.00      10.00       2.00
+          900.- 1100.      34.00       8.00      10.00       2.00
+         1100.- 1300.      34.00       4.00      10.00       2.00
+          ---------------------------------------------------------
+               Totals     155.00      58.00     125.00      26.00
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   2.00        0.13       88.00       35.00
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              60.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            6.00 (mm^0.5)
+            CONA:                     2.00 ()
+           Eo from priestly-taylor
+
+------- SurfaceOM Initialisation ----------------------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat     wheat          500.0   200.0     2.5     0.0   0.221     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.2
+     
+
+------- soiln2 Initialisation -------------------------------------------------
+     
+        - Reading Constants
+     
+        - Reading Parameters
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Cannot find a parameter in any of the files/sections
+     specified in the control file.
+     Parameter name = nh4ppm
+     Section name = parameters
+     Component name: soiln2
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     

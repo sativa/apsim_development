@@ -1,0 +1,11 @@
+[Dependencies]
+Dependency = %licensed_source(plant)
+
+[Contents]
+Registrations.f90 = Registrations.f90
+plant_main.for = plant_main.for
+
+
+[APSBuild]
+binary = ..\lib\plant.dll
+compilerfile = release.compile

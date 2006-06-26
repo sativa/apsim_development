@@ -1,0 +1,9 @@
+USEFORM("TGMForm.cpp", GMForm);
+USEFORM("TCropForm.cpp", CropForm);
+USEFORM("TSeedWeightForm.cpp", SeedWeightsForm);
+USEFORM("TWheatMatrixForm.cpp", WheatMatrixForm);
+//---------------------------------------------------------------------------
+This file is used by the project manager only and should be treated like the project file
+
+
+DllEntryPoint 

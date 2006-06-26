@@ -1,0 +1,11 @@
+version = 5.1
+[apsim.sorghum_sample]
+title=sorghum Sample Simulation
+module = clock    sorghum.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   sorghum.par [sample]
+module = Input(Met)      %apsuite\apsim\met\sample\dalby.met [weather]
+module = manager  sorghum.par [sample]
+module = soilwat2 %apsuite\apsim\soilwat2\soilwat2.ini [standard]   %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]
+module = soiln2   %apsuite\apsim\soiln2\soiln2.ini [standard]       %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]
+module = sorghum  sorghum.par [sample] %apsuite\apsim\sorghum\sorghum.ini [standard]
+module = summaryfile sorghum.par[sample]

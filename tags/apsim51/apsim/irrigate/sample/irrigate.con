@@ -1,0 +1,33 @@
+version = 5.1
+[apsim.sample_irrigate]  
+title=Irrigate Sample Simulation
+module = clock    irrigate.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   irrigate.par [sample]
+module = input(met)      %apsuite\apsim\MET\SAMPLE\DALBY.MET [weather]
+module = manager  irrigate.par [sample]
+module = irrigate irrigate.par [sample]
+module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = SummaryFile  irrigate.par[sample]
+
+
+[apsim.sample2_irrigate]  
+!  This sample illustrates the use of an allocation supplied in mm
+title=Irrigate Sample2 Simulation
+module = clock    irrigate.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   irrigate.par [sample2]
+module = input(met)      %apsuite\apsim\MET\SAMPLE\DALBY.MET [weather]
+module = manager  irrigate.par [sample]
+module = irrigate irrigate.par [sample2]
+module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = SummaryFile  irrigate.par[sample2]
+
+[apsim.sample3_irrigate]  
+!  This sample illustrates the use of an allocation in ML with associated application area in hectares
+title=Irrigate Sample3 Simulation
+module = clock    irrigate.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   irrigate.par [sample3]
+module = input(met)      %apsuite\apsim\MET\SAMPLE\DALBY.MET [weather]
+module = manager  irrigate.par [sample]
+module = irrigate irrigate.par [sample3]
+module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = SummaryFile  irrigate.par[sample3]

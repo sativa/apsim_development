@@ -1,0 +1,416 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1955D0F0-3C58-4D2C-B5F1-0A3131E41ECC}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>APSIM.ico</ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>APSIMUI</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>WinExe</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>Off</OptionStrict>
+    <RootNamespace>APSIMUI</RootNamespace>
+    <StartupObject>APSIMUI.MainUI</StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>WindowsFormsWithCustomSubMain</MyType>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>..\..\bin\</OutputPath>
+    <DocumentationFile>APSIMUI.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>APSIMUI.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AxInterop.SHDocVw">
+      <Name>AxInterop.SHDocVw</Name>
+      <HintPath>..\..\Bin\AxInterop.SHDocVw.dll</HintPath>
+    </Reference>
+    <Reference Include="FarPoint.Win.Spread, Version=2.5.2001.2005, Culture=neutral, PublicKeyToken=327c3516b1b18457, processorArchitecture=MSIL" />
+    <Reference Include="Interop.SHDocVw">
+      <Name>Interop.SHDocVw</Name>
+      <HintPath>..\..\Bin\Interop.SHDocVw.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic">
+      <Name>Microsoft.VisualBasic</Name>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Design">
+      <Name>System.Design</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap">
+      <Name>System.Runtime.Serialization.Formatters.Soap</Name>
+    </Reference>
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="Xceed.Chart">
+      <Name>Xceed.Chart</Name>
+      <HintPath>..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.dll</HintPath>
+      <AssemblyFolderKey>hklm\xceed chart for .net and asp.net v3.0.100.0</AssemblyFolderKey>
+    </Reference>
+    <Reference Include="Xceed.Chart.Core">
+      <Name>Xceed.Chart.Core</Name>
+      <HintPath>..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.Core.Dll</HintPath>
+      <AssemblyFolderKey>hklm\xceed chart for .net and asp.net v3.0.100.0</AssemblyFolderKey>
+    </Reference>
+    <Reference Include="Xceed.Chart.GraphicsCore, Version=4.0.100.0, Culture=neutral, PublicKeyToken=ba83ff368b7563c6" />
+    <Reference Include="Xceed.Chart.Standard">
+      <Name>Xceed.Chart.Standard</Name>
+      <HintPath>..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.Standard.Dll</HintPath>
+      <AssemblyFolderKey>hklm\xceed chart for .net and asp.net v3.0.100.0</AssemblyFolderKey>
+    </Reference>
+    <Reference Include="Xceed.Chart.Utilities">
+      <Name>Xceed.Chart.Utilities</Name>
+      <HintPath>..\..\..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.Utilities.Dll</HintPath>
+      <AssemblyFolderKey>hklm\xceed chart for .net and asp.net v3.0.100.0</AssemblyFolderKey>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="APSIM.ico" />
+    <None Include="Resources\cut.png" />
+    <None Include="Resources\copy.png" />
+    <None Include="Resources\paste.png" />
+    <None Include="Resources\help2.png" />
+    <None Include="Resources\media_play.png" />
+    <None Include="Resources\chart.png" />
+    <None Include="Resources\boxplot.bmp" />
+    <None Include="Resources\excel.bmp" />
+    <None Include="Resources\drink_blue.png" />
+    <None Include="Resources\add2.png" />
+    <None Include="Resources\delete2.png" />
+    <None Include="Resources\edit.png" />
+    <Content Include="Resources\Simulation.png" />
+    <None Include="Resources\text.png" />
+    <None Include="Resources\sunglasses.png" />
+    <Content Include="Resources\text_tree.png" />
+    <None Include="Resources\thermometer.png" />
+    <None Include="Resources\toolbox add delete.png" />
+    <None Include="Resources\toolbox.png" />
+    <None Include="Resources\windows.png" />
+    <None Include="Resources\disk_blue_window.png" />
+    <None Include="Resources\disk_blue.png" />
+    <None Include="Resources\folder_document.png" />
+    <None Include="Resources\document_new.png" />
+    <Compile Include="ApsimUIController.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AreaUI.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EmptyUI.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EventsListView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FileUI.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TrackerVariableForm.Designer.vb">
+      <DependentUpon>TrackerVariableForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TrackerVariableForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenericUI.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HelpAboutForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HypropsControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ListBoxDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LogicUI.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MainUI.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManagerUI.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MemoUI.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MetGraphControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MetUI.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="NewDocumentForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OperationsUI.Designer.vb">
+      <DependentUpon>OperationsUI.vb</DependentUpon>
+    </Compile>
+    <Compile Include="OperationsUI.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="OptionsForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OutputFileDescUI.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="OutputFileExport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OutputVariablesDataTree.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="OutputVariablesForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReportVariablesListView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RuleUI.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SimulationUI.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SplashScreenForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StartupUI.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SwimSoilUI.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Toolboxes.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TrackerSlider.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TrackerUI.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="VineLogicUI.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <EmbeddedResource Include="AreaUI.resx">
+      <DependentUpon>AreaUI.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EmptyUI.resx">
+      <DependentUpon>EmptyUI.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EventsListView.resx">
+      <DependentUpon>EventsListView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileUI.resx">
+      <DependentUpon>FileUI.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenericUI.resx">
+      <DependentUpon>GenericUI.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelpAboutForm.resx">
+      <DependentUpon>HelpAboutForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HypropsControl.resx">
+      <DependentUpon>HypropsControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="licenses.licx" />
+    <EmbeddedResource Include="ListBoxDialog.resx">
+      <DependentUpon>ListBoxDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LogicUI.resx">
+      <DependentUpon>LogicUI.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainUI.resx">
+      <DependentUpon>MainUI.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManagerUI.resx">
+      <DependentUpon>ManagerUI.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemoUI.resx">
+      <DependentUpon>MemoUI.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MetGraphControl.resx">
+      <DependentUpon>MetGraphControl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MetUI.resx">
+      <DependentUpon>MetUI.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <SubType>Designer</SubType>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewDocumentForm.resx">
+      <DependentUpon>NewDocumentForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OperationsUI.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>OperationsUI.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptionsForm.resx">
+      <DependentUpon>OptionsForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OutputFileDescUI.resx">
+      <DependentUpon>OutputFileDescUI.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OutputFileExport.resx">
+      <DependentUpon>OutputFileExport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OutputVariablesDataTree.resx">
+      <DependentUpon>OutputVariablesDataTree.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OutputVariablesForm.resx">
+      <DependentUpon>OutputVariablesForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReportVariablesListView.resx">
+      <DependentUpon>ReportVariablesListView.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RuleUI.resx">
+      <DependentUpon>RuleUI.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SimulationUI.resx">
+      <DependentUpon>SimulationUI.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SplashScreenForm.resx">
+      <DependentUpon>SplashScreenForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StartupUI.resx">
+      <DependentUpon>StartupUI.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SwimSoilUI.resx">
+      <DependentUpon>SwimSoilUI.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrackerSlider.resx">
+      <DependentUpon>TrackerSlider.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrackerUI.resx">
+      <DependentUpon>TrackerUI.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrackerVariableForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TrackerVariableForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VineLogicUI.resx">
+      <DependentUpon>VineLogicUI.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\C#General\CSGeneral.csproj">
+      <Project>{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}</Project>
+      <Name>CSGeneral</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\ChangeTool\ChangeTool.csproj">
+      <Project>{416A3885-FD38-46D0-BE42-54AA33D146B7}</Project>
+      <Name>ChangeTool</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Soil\Soil.csproj">
+      <Project>{6FAC5AE5-F7B4-4C02-B0D4-B992E0F96CAA}</Project>
+      <Name>Soil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\VBGeneral\VBGeneral.vbproj">
+      <Project>{F1F780B2-4762-48B6-B0D7-A68C57DDB347}</Project>
+      <Name>VBGeneral</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\VBMet\VBMet.vbproj">
+      <Project>{C922784D-0AF8-4CFD-878B-EC7D276F499F}</Project>
+      <Name>VBMet</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,49 @@
+//---------------------------------------------------------------------------
+#ifndef ScienceConverterComponent_H
+#define ScienceConverterComponent_H
+#include <general\pch.h>
+#include <vcl.h>
+#include <boost/function.hpp>
+#pragma hdrstop
+
+#include <math.h>
+#include <string>
+#include <strstream>
+#include <iomanip.h>
+
+#include <general/string_functions.h>
+#include <general/stl_functions.h>
+#include <ApsimShared/FStringExt.h>
+#include <ComponentInterface/MessageDataExt.h>
+#include <ComponentInterface/ApsimVariant.h>
+
+#include <ComponentInterface/Component.h>
+#include <ComponentInterface/DataTypes.h>
+#include <vector>
+
+#include "HerbageConverter.h"
+#include "NonHerbageConverter.h"
+
+// ------------------------------------------------------------------
+class ScienceConverterComponent : public protocol::Component
+   {
+   public:
+      ScienceConverterComponent(void);
+      virtual ~ScienceConverterComponent(void);
+      virtual void doInit1(const FString& sdml);
+      virtual void doInit2(void);
+      virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
+      virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
+
+   private:
+
+      ConverterBase *conversion;
+      string conversion_model;
+      unsigned endRunID;
+   };
+
+//class PlantPoolTypeC
+//{
+//}
+
+#endif

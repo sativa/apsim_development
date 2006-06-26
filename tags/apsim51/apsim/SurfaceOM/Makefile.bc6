@@ -1,0 +1,9 @@
+# (Borlandish) Makefile for apsim module
+MAKE=$(MAKEDIR)\make
+
+all: source
+
+source:
+	cd source
+	$(APSMAKE)  source
+

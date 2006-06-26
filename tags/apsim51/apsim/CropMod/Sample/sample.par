@@ -1,0 +1,105 @@
+!********************************************************************************
+! Clock
+[all.clock.parameters]
+start_date=1/1/1988  !!##30/10/1992     ! dd/mm/yyyy
+end_date=1/1/1990     ! dd/mm/yyyy
+
+!********************************************************************************
+! Irrigation application schedule
+[wheat.irrigate.parameters]
+manual_irrigation = on
+year   = 1988 1988 1988 1988 1988 1988 1988 1988 1988 1988 1988 1988 1988 ()   ! year for application date
+day    =  176  178  210  218  232  239  253  265  275  281  282  283  287 ()   ! day  for applicaiton date
+amount =   10   10   30   30   40   40   40   40   50   20   20   20   20 (mm) ! amount of irrigation applied
+automatic_irrigation = off
+crit_fr_asw = 0     (0-1) ! Critical fraction of available soil water to trigger irrigation
+asw_depth = 999     (mm)  ! Depth to use for available soil water calculations
+
+!********************************************************************************
+! Fertilizer application schedule
+[wheat.fertiliz.parameters]
+year   =  1988   1988         ! Year for application date
+day    =   167    217         ! Day for application date
+type   = no3_n  no3_n         ! Type of fertilizer to apply
+depth  =    50     50  (mm)   ! Depth of fertilizer application
+amount =    60     60  (kg/ha)! Amount of fertilizer applied
+
+[sample.wheat.parameters]
+uptake_source =    calc   ! calculate own uptakes.
+   !layer    1    2    3    4    5    6    7
+ll =       .230 .240 .240 .250 .260 .270 .280
+xf =        1.00 0.60  0.45 0.22 0.10 0.08 0.05  ! Root Exploration factor (0-1)
+kl =       0.06 0.06 0.06 0.06 0.06 0.06 0.02    ! Water Extraction parameter (0-1)
+
+
+!********************************************************************************
+! Fertilizer application schedule
+
+[sunflower.fertiliz.parameters]
+year   =  1992        ! Year for application date
+day    =   50         ! Day for application date
+type   = no3_n        ! Type of fertilizer to apply
+depth  =    50 (mm)   ! Depth of fertilizer application
+amount =   100 (kg/ha)! Amount of fertilizer applied
+
+
+[sample.sunflower.parameters]
+uptake_source =    calc   ! calculate own uptakes.
+   !layer    1    2    3    4    5    6    7
+ll =       .230 .240 .240 .250 .260 .270 .280
+xf =        1.00 0.60  0.45 0.22 0.10 0.08 0.05  ! Root Exploration factor (0-1)
+kl =       0.06 0.06 0.06 0.06 0.06 0.06 0.02    ! Water Extraction parameter (0-1)
+
+
+[sample.irrigate.parameters]
+
+!-------------------------------------------------------------------------
+! Maunal irrigation scheduling
+manual_irrigation = on
+
+year   = 1988 1988 1988 1988 ()   ! year for application date
+day    =   10   35   50   90 ()   ! day  for applicaiton date
+amount =   30   30   30   30 (mm) ! amount of irrigation applied
+
+
+!-------------------------------------------------------------------------
+! Automatic irrigation scheduling
+
+automatic_irrigation = off
+
+crit_fr_asw = 0     (0-1) ! Critical fraction of available soil water to trigger irrigation
+asw_depth = 999     (mm)  ! Depth to use for available soil water calculations
+
+
+
+!********************************************************************************
+! Fertilizer application schedule
+
+[sample.fertiliz.parameters]
+year   =  1988   1988         ! Year for application date
+day    =    10    80         ! Day for application date
+type   = no3_n  no3_n         ! Type of fertilizer to apply
+depth  =    50     50  (mm)   ! Depth of fertilizer application
+amount =    60     60  (kg/ha)! Amount of fertilizer applied
+
+[sample.cowpea.parameters]
+uptake_source =    calc   ! calculate own uptakes.
+   !layer    1    2    3    4    5    6    7
+ll =       .230 .240 .240 .250 .260 .270 .280
+xf =        1.00 0.60  0.45 0.22 0.10 0.08 0.05  ! Root Exploration factor (0-1)
+kl =       0.06 0.06 0.06 0.06 0.06 0.06 0.02    ! Water Extraction parameter (0-1)
+
+
+
+[intercropping.canopy.parameters]
+
+intercrop = sunflower cowpea
+
+[wheat.summaryfile.parameters]
+summaryfile = wheat.sum
+
+[sunflower.summaryfile.parameters]
+summaryfile=sunflower.sum
+
+[intercropping.summaryfile.parameters]
+summaryfile=intercropping.sum

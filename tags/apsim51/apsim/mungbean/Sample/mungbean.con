@@ -1,0 +1,12 @@
+version = 5.1
+[APSIM.sample_mungbean]
+title=mungbean Sample Simulation
+module = clock      mungbean.par[sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report     mungbean.par[sample]
+module = input(met)        %apsuite\apsim\met\sample\dalby.met[weather]
+module = manager    mungbean.par[sample]
+module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]  %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = plant(mungbean)   mungbean.par[sample] %apsuite\apsim\mungbean\mungbean.ini[standard]
+module = SummaryFile  mungbean.par[sample]

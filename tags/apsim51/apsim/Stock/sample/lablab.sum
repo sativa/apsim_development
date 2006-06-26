@@ -1,0 +1,6682 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+     Version                = 5.0
+     Title                  = stock lablab SAMPLE Simulation
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\Input\lib\Input.dll
+     Component DLL          = c:\development\apsim\protocolmanager\lib\protocolmanager.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        do_stock
+        post
+     Simulation start date =  1/10/1988
+     Simulation end date   = 30/04/1989
+     Time step =           = 1440 (mins)
+
+------- Met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
+
+------- report Initialisation -------------------------------------------------
+     Output frequency:
+        post
+     Output variables:
+        dd/mm/yyyy as Date
+        rain as rain
+        lablab.das
+        lablab.stage
+        lablab.lai
+        lablab.biomass
+        lablab.yield
+        lablab.root_depth
+        lablab.ep
+        lablab.height
+        lablab.dm_green(1) as dm_green_root
+        lablab.dm_green(3) as dm_green_stem
+        lablab.dm_green(2) as dm_green_leaf
+        lablab.dm_senesced(3) as dm_sen_stem
+        lablab.dm_senesced(2) as dm_sen_leaf
+        lablab.dm_dead()
+        stock.number
+        stock.sex
+        stock.age
+        stock.weight
+        stock.cond_score
+        stock.intake
+        stock.wt_change
+        stock.trampling
+        cattlelablab.dm_feed_on_offer()
+        cattlelablab.dm_feed_removed()
+     
+     Output file = lablab.out
+     Format = normal
+
+------- PaddockArea Initialisation --------------------------------------------
+     Manager rules:
+     
+     SECTION:- init
+     
+     SECTION:- end_of_day
+     
+     SECTION:- start_of_day
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     No manager lines were found in any parameter file.
+     Component name: PaddockArea
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- start_of_day
+     if day = 280 and year = 1988 then
+        lablab sow cultivar = highworth, plants = 10 (/m2), sowing_depth = 40 (mm)
+     endif
+     if day = 330 and year = 1988 then
+        cattle buystock number = 20 (-), genotype = angus, sex = steer, age = 12 (months), weight = 250.0 (kg)
+     endif
+     if lablab.stage_name = 'harvest_ripe' or lablab.plant_status = 'dead' then
+     endif
+     END of rules
+     
+
+------- soilwat2 Initialisation -----------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.100  0.230  0.450  0.500  0.280  1.300  0.762  0.200
+          150.-  300.  0.200  0.240  0.459  0.509  0.364  1.300  0.190  0.200
+          300.-  600.  0.200  0.240  0.450  0.510  0.430  1.290  0.048  0.200
+          600.-  900.  0.200  0.250  0.440  0.505  0.430  1.310  0.000  0.200
+          900.- 1200.  0.200  0.260  0.420  0.490  0.400  1.350  0.000  0.200
+         1200.- 1500.  0.200  0.270  0.410  0.480  0.410  1.360  0.000  0.200
+         1500.- 1800.  0.200  0.280  0.410  0.480  0.410  1.360  0.000  0.200
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      34.50       7.50      33.00       7.50
+          150.-  300.      36.00      18.60      32.85       7.50
+          300.-  600.      72.00      57.00      63.00      18.00
+          600.-  900.      75.00      54.00      57.00      19.50
+          900.- 1200.      78.00      42.00      48.00      21.00
+         1200.- 1500.      81.00      42.00      42.00      21.00
+         1500.- 1800.      84.00      39.00      39.00      21.00
+          ---------------------------------------------------------
+               Totals     460.50     260.10     314.85     115.50
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   2.00        0.13       88.00       35.40
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              80.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            4.00 (mm^0.5)
+            CONA:                     2.50 ()
+           Eo from priestly-taylor
+
+------- soiln2 Initialisation -------------------------------------------------
+     
+        - Reading Constants
+     
+        - Reading Parameters
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     8.20  1.00   17.94    0.58    0.00
+             2     8.50  0.84   14.82    0.58    0.00
+             3     8.60  0.77   18.96    1.16    0.00
+             4     8.60  0.65   10.61    1.18    0.00
+             5     7.40  0.54    6.07    1.22    0.00
+             6     5.30  0.48    7.34    2.04    0.00
+             7     5.00  0.43    5.71    2.04    0.00
+          ------------------------------------------------
+           Totals               81.46    8.81    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      19038.4  1313.0   461.6    57.7   138.9     6.9
+             2      16180.2  1115.9   199.8    25.0   108.1     5.4
+             3      29622.8  2043.0   176.2    22.0    65.6     3.3
+             4      25481.8  1757.4    63.2     7.9    39.8     2.0
+             5      21848.3  1506.8    21.7     2.7    24.1     1.2
+             6      19582.1  1350.5     1.9     0.2    14.6     0.7
+             7      17542.3  1209.8     1.7     0.2     8.9     0.4
+          ---------------------------------------------------------
+           Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
+          ---------------------------------------------------------
+
+------- lablab Initialisation -------------------------------------------------
+     phenology model: TTT
+
+------- cattlelablab Initialisation -------------------------------------------
+     Conversion model:- herbage
+     
+     Herbage model:- plant
+     
+      - herbage converter reading parameters
+     Debug = on
+      - conversion object reading parameters
+     Herbage module name = lablab
+     Debug = on
+      - reading  herbage parameters for module 'lablab'
+     
+
+------- cattle Initialisation -------------------------------------------------
+     Conversion model:- nonherbage
+     
+      - non-herbage converter reading parameters
+     Fraction_faeces_added = 0.5
+     Fraction_urine_added = 0.5
+     Debug = on
+------- Start of simulation  --------------------------------------------------
+1 October 1988(Day of year=275), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+2 October 1988(Day of year=276), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+3 October 1988(Day of year=277), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+4 October 1988(Day of year=278), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+5 October 1988(Day of year=279), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+6 October 1988(Day of year=280), manager: 
+     Manager sending message :- lablab sow  cultivar = highworth, plants = 10 (/m2), sowing_depth = 40 (mm)
+6 October 1988(Day of year=280), lablab: 
+     Crop Sow
+      - reading constants for plant(lablab)
+      - reading cultivar parameters
+      - reading grain cultivar parameters
+         ------------------------------------------------
+        cultivar                   = highworth
+        est_days_emerg_to_init     = 20 (days)
+        cum_vernal_days            =       0     100 (vd)
+        tt_emerg_to_endjuv         =     500     500 (dd)
+        x_pp_endjuv_to_init        =    13.3      18 (h)
+        y_tt_endjuv_to_init        =     600     600 (dd)
+        x_pp_init_to_flower        =       1      24 (h)
+        y_tt_init_to_flower        =      20      20 (dd)
+        x_pp_flower_to_start_grain =       1      24 (h)
+        y_tt_flower_to_start_grain =     100     100 (dd)
+        x_pp_start_to_end_grain    =       1      24 (h)
+        y_tt_start_to_end_grain    =     900     900 (dd)
+        tt_end_grain_to_maturity   =        400 (dd)
+        tt_maturity_to_ripe        =          5 (dd)
+        x_pp_hi_incr               =       1.00      24.00
+        y_hi_incr                  =     0.0300     0.0300
+        x_hi_max_pot_stress        =       0.00       1.00
+        y_hi_max_pot               =       0.20       0.20
+         ------------------------------------------------
+     
+     
+      - reading root profile parameters
+                        Root Profile
+         -----------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+         -----------------------------------------------
+         150.0     0.080          0.200       1.000
+         150.0     0.080          0.280       1.000
+         300.0     0.080          0.320       1.000
+         300.0     0.080          0.300       1.000
+         300.0     0.050          0.270       1.000
+         300.0     0.030          0.240       1.000
+         300.0     0.010          0.310       1.000
+         -----------------------------------------------
+         Extractable SW:   271mm in  1800mm total depth ( 15%).
+         Crop factor for bounding water use is set to 100.0 times eo.
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   row   plant name
+         ------------------------------------------------
+            280   40.0   10.0  500.0   0.0   0.0 highworth
+         ------------------------------------------------
+     
+6 October 1988(Day of year=280), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+7 October 1988(Day of year=281), lablab: 
+      stage 2.0 germination
+7 October 1988(Day of year=281), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+8 October 1988(Day of year=282), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+9 October 1988(Day of year=283), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+10 October 1988(Day of year=284), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+11 October 1988(Day of year=285), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+12 October 1988(Day of year=286), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+13 October 1988(Day of year=287), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+14 October 1988(Day of year=288), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+15 October 1988(Day of year=289), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+16 October 1988(Day of year=290), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+17 October 1988(Day of year=291), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+18 October 1988(Day of year=292), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+19 October 1988(Day of year=293), lablab: 
+      stage 3.0 emergence
+                     biomass =           7.00 (g/m^2)   lai          =   0.035 (m^2/m^2)
+                     stover N conc =     5.64 (%)    extractable sw =   40.85 (mm)
+19 October 1988(Day of year=293), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    1
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    1
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 30 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.40625 (kg/kg)
+        p_conc       = 0.008125 (kg/kg)
+        s_conc       = 0.00342105 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 218.75 (g/m^3)
+        dm total     = 7 (g/m2)
+        height       = 0.032 (m)
+        height_ratio = 15.2381 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 40 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.3125 (kg/kg)
+        p_conc       = 0.00625 (kg/kg)
+        s_conc       = 0.00454545 (kg/kg)
+        ash_alk      = 0.96 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 218.75 (g/m^3)
+        dm total     = 7 (g/m2)
+        height       = 0.032 (m)
+        height_ratio = 15.2381 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+19 October 1988(Day of year=293), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+19 October 1988(Day of year=293), sysbal: 
+      **** N balance - unaccounted gain (kg/ha) =  4.19003916
+      **** C balance - unaccounted gain (kg/ha) =  35.9963837
+      ****        equivalent DM as FOM  (kg/ha) =  89.9909592
+20 October 1988(Day of year=294), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    1
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    1
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 34.5103 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.405808 (kg/kg)
+        p_conc       = 0.00811615 (kg/kg)
+        s_conc       = 0.00341733 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 236.368 (g/m^3)
+        dm total     = 7.56379 (g/m2)
+        height       = 0.032 (m)
+        height_ratio = 14.1023 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 41.1276 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.312058 (kg/kg)
+        p_conc       = 0.00624115 (kg/kg)
+        s_conc       = 0.00453902 (kg/kg)
+        ash_alk      = 0.96 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 236.368 (g/m^3)
+        dm total     = 7.56379 (g/m2)
+        height       = 0.032 (m)
+        height_ratio = 14.1023 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+20 October 1988(Day of year=294), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+21 October 1988(Day of year=295), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    1
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    1
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 40.8585 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.405358 (kg/kg)
+        p_conc       = 0.00810716 (kg/kg)
+        s_conc       = 0.00341354 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 254.006 (g/m^3)
+        dm total     = 8.35731 (g/m2)
+        height       = 0.0329021 (m)
+        height_ratio = 13.1231 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 42.7146 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.311608 (kg/kg)
+        p_conc       = 0.00623216 (kg/kg)
+        s_conc       = 0.00453248 (kg/kg)
+        ash_alk      = 0.96 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 254.006 (g/m^3)
+        dm total     = 8.35731 (g/m2)
+        height       = 0.0329021 (m)
+        height_ratio = 13.1231 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+21 October 1988(Day of year=295), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+22 October 1988(Day of year=296), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    1
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    1
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 49.7066 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.404934 (kg/kg)
+        p_conc       = 0.00809868 (kg/kg)
+        s_conc       = 0.00340997 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 276.935 (g/m^3)
+        dm total     = 9.46333 (g/m2)
+        height       = 0.0341717 (m)
+        height_ratio = 12.0365 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 44.9267 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.311184 (kg/kg)
+        p_conc       = 0.00622368 (kg/kg)
+        s_conc       = 0.00452631 (kg/kg)
+        ash_alk      = 0.96 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 276.935 (g/m^3)
+        dm total     = 9.46333 (g/m2)
+        height       = 0.0341717 (m)
+        height_ratio = 12.0365 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+22 October 1988(Day of year=296), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+23 October 1988(Day of year=297), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    1
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.947377
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.0526226
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 59.5282 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.401052 (kg/kg)
+        p_conc       = 0.00802103 (kg/kg)
+        s_conc       = 0.00337728 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 297.458 (g/m^3)
+        dm total     = 10.691 (g/m2)
+        height       = 0.0359413 (m)
+        height_ratio = 11.2061 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 44.8887 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.309886 (kg/kg)
+        p_conc       = 0.00619772 (kg/kg)
+        s_conc       = 0.00450743 (kg/kg)
+        ash_alk      = 0.96 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 297.458 (g/m^3)
+        dm total     = 10.691 (g/m2)
+        height       = 0.0359413 (m)
+        height_ratio = 11.2061 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 2.49337 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.309886 (kg/kg)
+        p_conc       = 0.00619772 (kg/kg)
+        s_conc       = 0.00450743 (kg/kg)
+        ash_alk      = 0.96 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 297.458 (g/m^3)
+        dm total     = 10.691 (g/m2)
+        height       = 0.0359413 (m)
+        height_ratio = 11.2061 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+23 October 1988(Day of year=297), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+24 October 1988(Day of year=298), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    1
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.911323
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.0886768
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 69.3876 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.398773 (kg/kg)
+        p_conc       = 0.00797545 (kg/kg)
+        s_conc       = 0.00335809 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 314.556 (g/m^3)
+        dm total     = 11.9234 (g/m2)
+        height       = 0.0379056 (m)
+        height_ratio = 10.5969 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 45.4266 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.308788 (kg/kg)
+        p_conc       = 0.00617576 (kg/kg)
+        s_conc       = 0.00449146 (kg/kg)
+        ash_alk      = 0.96 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 314.556 (g/m^3)
+        dm total     = 11.9234 (g/m2)
+        height       = 0.0379056 (m)
+        height_ratio = 10.5969 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 4.42026 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.308788 (kg/kg)
+        p_conc       = 0.00617576 (kg/kg)
+        s_conc       = 0.00449146 (kg/kg)
+        ash_alk      = 0.96 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 314.556 (g/m^3)
+        dm total     = 11.9234 (g/m2)
+        height       = 0.0379056 (m)
+        height_ratio = 10.5969 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+24 October 1988(Day of year=298), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+25 October 1988(Day of year=299), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    1
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.872618
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.127382
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 86.2694 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.390958 (kg/kg)
+        p_conc       = 0.00781917 (kg/kg)
+        s_conc       = 0.00329228 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 351.92 (g/m^3)
+        dm total     = 14.0337 (g/m2)
+        height       = 0.0398775 (m)
+        height_ratio = 9.47186 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 47.1801 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.305926 (kg/kg)
+        p_conc       = 0.00611852 (kg/kg)
+        s_conc       = 0.00444983 (kg/kg)
+        ash_alk      = 0.96 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 351.92 (g/m^3)
+        dm total     = 14.0337 (g/m2)
+        height       = 0.0398775 (m)
+        height_ratio = 9.47186 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 6.88722 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.305926 (kg/kg)
+        p_conc       = 0.00611852 (kg/kg)
+        s_conc       = 0.00444983 (kg/kg)
+        ash_alk      = 0.96 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 351.92 (g/m^3)
+        dm total     = 14.0337 (g/m2)
+        height       = 0.0398775 (m)
+        height_ratio = 9.47186 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+25 October 1988(Day of year=299), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+26 October 1988(Day of year=300), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    1
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.833887
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.166113
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 111.161 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.381224 (kg/kg)
+        p_conc       = 0.00762448 (kg/kg)
+        s_conc       = 0.00321031 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 396.385 (g/m^3)
+        dm total     = 17.1452 (g/m2)
+        height       = 0.0432539 (m)
+        height_ratio = 8.40934 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 50.2753 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.301621 (kg/kg)
+        p_conc       = 0.00603242 (kg/kg)
+        s_conc       = 0.00438721 (kg/kg)
+        ash_alk      = 0.96 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 396.385 (g/m^3)
+        dm total     = 17.1452 (g/m2)
+        height       = 0.0432539 (m)
+        height_ratio = 8.40934 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 10.015 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.301621 (kg/kg)
+        p_conc       = 0.00603242 (kg/kg)
+        s_conc       = 0.00438721 (kg/kg)
+        ash_alk      = 0.96 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 396.385 (g/m^3)
+        dm total     = 17.1452 (g/m2)
+        height       = 0.0432539 (m)
+        height_ratio = 8.40934 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+26 October 1988(Day of year=300), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+27 October 1988(Day of year=301), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    1
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.793491
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.206509
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 146.816 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.375126 (kg/kg)
+        p_conc       = 0.00750252 (kg/kg)
+        s_conc       = 0.00315896 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 447.874 (g/m^3)
+        dm total     = 21.602 (g/m2)
+        height       = 0.0482323 (m)
+        height_ratio = 7.44257 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 54.9127 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.29771 (kg/kg)
+        p_conc       = 0.0059542 (kg/kg)
+        s_conc       = 0.00433033 (kg/kg)
+        ash_alk      = 0.96 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 447.874 (g/m^3)
+        dm total     = 21.602 (g/m2)
+        height       = 0.0482323 (m)
+        height_ratio = 7.44257 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 14.2912 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.29771 (kg/kg)
+        p_conc       = 0.0059542 (kg/kg)
+        s_conc       = 0.00433033 (kg/kg)
+        ash_alk      = 0.96 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 447.874 (g/m^3)
+        dm total     = 21.602 (g/m2)
+        height       = 0.0482323 (m)
+        height_ratio = 7.44257 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+27 October 1988(Day of year=301), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+28 October 1988(Day of year=302), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    1
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.757399
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.242601
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 192.793 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.379203 (kg/kg)
+        p_conc       = 0.00758405 (kg/kg)
+        s_conc       = 0.00319329 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 495.227 (g/m^3)
+        dm total     = 27.4174 (g/m2)
+        height       = 0.0553632 (m)
+        height_ratio = 6.73091 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 61.3605 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.299461 (kg/kg)
+        p_conc       = 0.00598921 (kg/kg)
+        s_conc       = 0.00435494 (kg/kg)
+        ash_alk      = 0.963511 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 495.227 (g/m^3)
+        dm total     = 27.4174 (g/m2)
+        height       = 0.0553632 (m)
+        height_ratio = 6.73091 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 19.8833 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.296731 (kg/kg)
+        p_conc       = 0.00593462 (kg/kg)
+        s_conc       = 0.00431084 (kg/kg)
+        ash_alk      = 0.98167 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 495.227 (g/m^3)
+        dm total     = 27.4174 (g/m2)
+        height       = 0.0553632 (m)
+        height_ratio = 6.73091 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 0.136353 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 495.227 (g/m^3)
+        dm total     = 27.4174 (g/m2)
+        height       = 0.0553632 (m)
+        height_ratio = 6.73091 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+28 October 1988(Day of year=302), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+29 October 1988(Day of year=303), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    1
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.722777
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.277223
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 230.32 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.402681 (kg/kg)
+        p_conc       = 0.00805362 (kg/kg)
+        s_conc       = 0.003391 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 502.872 (g/m^3)
+        dm total     = 32.5196 (g/m2)
+        height       = 0.0646678 (m)
+        height_ratio = 6.62859 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 66.7603 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.316506 (kg/kg)
+        p_conc       = 0.00633012 (kg/kg)
+        s_conc       = 0.00459822 (kg/kg)
+        ash_alk      = 0.982702 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 502.872 (g/m^3)
+        dm total     = 32.5196 (g/m2)
+        height       = 0.0646678 (m)
+        height_ratio = 6.62859 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 27.1567 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.302003 (kg/kg)
+        p_conc       = 0.00604005 (kg/kg)
+        s_conc       = 0.00436572 (kg/kg)
+        ash_alk      = 1.07162 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 502.872 (g/m^3)
+        dm total     = 32.5196 (g/m2)
+        height       = 0.0646678 (m)
+        height_ratio = 6.62859 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 0.959256 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 502.872 (g/m^3)
+        dm total     = 32.5196 (g/m2)
+        height       = 0.0646678 (m)
+        height_ratio = 6.62859 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+29 October 1988(Day of year=303), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+30 October 1988(Day of year=304), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    1
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.686952
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.313048
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 269.44 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.412513 (kg/kg)
+        p_conc       = 0.00825026 (kg/kg)
+        s_conc       = 0.00347379 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 520.625 (g/m^3)
+        dm total     = 37.9179 (g/m2)
+        height       = 0.0728314 (m)
+        height_ratio = 6.40256 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 71.9319 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.321823 (kg/kg)
+        p_conc       = 0.00643647 (kg/kg)
+        s_conc       = 0.00467055 (kg/kg)
+        ash_alk      = 1.0034 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 520.625 (g/m^3)
+        dm total     = 37.9179 (g/m2)
+        height       = 0.0728314 (m)
+        height_ratio = 6.40256 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 35.8309 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.299741 (kg/kg)
+        p_conc       = 0.00599483 (kg/kg)
+        s_conc       = 0.00431766 (kg/kg)
+        ash_alk      = 1.13424 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 520.625 (g/m^3)
+        dm total     = 37.9179 (g/m2)
+        height       = 0.0728314 (m)
+        height_ratio = 6.40256 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 1.97571 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 520.625 (g/m^3)
+        dm total     = 37.9179 (g/m2)
+        height       = 0.0728314 (m)
+        height_ratio = 6.40256 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+30 October 1988(Day of year=304), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+31 October 1988(Day of year=305), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    1
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.653161
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.346839
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 304.532 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.422605 (kg/kg)
+        p_conc       = 0.00845211 (kg/kg)
+        s_conc       = 0.00355878 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 528.429 (g/m^3)
+        dm total     = 43.0503 (g/m2)
+        height       = 0.0814686 (m)
+        height_ratio = 6.30801 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 76.6874 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.327643 (kg/kg)
+        p_conc       = 0.00655287 (kg/kg)
+        s_conc       = 0.00474842 (kg/kg)
+        ash_alk      = 1.03144 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 528.429 (g/m^3)
+        dm total     = 43.0503 (g/m2)
+        height       = 0.0814686 (m)
+        height_ratio = 6.30801 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 45.8163 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.298164 (kg/kg)
+        p_conc       = 0.00596328 (kg/kg)
+        s_conc       = 0.00427899 (kg/kg)
+        ash_alk      = 1.19917 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 528.429 (g/m^3)
+        dm total     = 43.0503 (g/m2)
+        height       = 0.0814686 (m)
+        height_ratio = 6.30801 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 3.46767 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 528.429 (g/m^3)
+        dm total     = 43.0503 (g/m2)
+        height       = 0.0814686 (m)
+        height_ratio = 6.30801 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+31 October 1988(Day of year=305), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+1 November 1988(Day of year=306), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    1
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.614598
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.385402
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 367.198 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.39886 (kg/kg)
+        p_conc       = 0.00797719 (kg/kg)
+        s_conc       = 0.00335882 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 568.935 (g/m^3)
+        dm total     = 51.0224 (g/m2)
+        height       = 0.0896805 (m)
+        height_ratio = 5.8589 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 82.4412 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.29977 (kg/kg)
+        p_conc       = 0.0059954 (kg/kg)
+        s_conc       = 0.0043429 (kg/kg)
+        ash_alk      = 1.03178 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 568.935 (g/m^3)
+        dm total     = 51.0224 (g/m2)
+        height       = 0.0896805 (m)
+        height_ratio = 5.8589 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 56.8392 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.278306 (kg/kg)
+        p_conc       = 0.00556612 (kg/kg)
+        s_conc       = 0.00399764 (kg/kg)
+        ash_alk      = 1.16822 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 568.935 (g/m^3)
+        dm total     = 51.0224 (g/m2)
+        height       = 0.0896805 (m)
+        height_ratio = 5.8589 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 3.74522 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 568.935 (g/m^3)
+        dm total     = 51.0224 (g/m2)
+        height       = 0.0896805 (m)
+        height_ratio = 5.8589 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+1 November 1988(Day of year=306), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+2 November 1988(Day of year=307), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    1
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.580765
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.419235
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 411.95 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.409552 (kg/kg)
+        p_conc       = 0.00819104 (kg/kg)
+        s_conc       = 0.00344886 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 562.137 (g/m^3)
+        dm total     = 57.5829 (g/m2)
+        height       = 0.102436 (m)
+        height_ratio = 5.92975 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 87.6626 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.313809 (kg/kg)
+        p_conc       = 0.00627619 (kg/kg)
+        s_conc       = 0.0045397 (kg/kg)
+        ash_alk      = 1.06234 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 562.137 (g/m^3)
+        dm total     = 57.5829 (g/m2)
+        height       = 0.102436 (m)
+        height_ratio = 5.92975 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 70.5383 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.287952 (kg/kg)
+        p_conc       = 0.00575904 (kg/kg)
+        s_conc       = 0.00412677 (kg/kg)
+        ash_alk      = 1.21438 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 562.137 (g/m^3)
+        dm total     = 57.5829 (g/m2)
+        height       = 0.102436 (m)
+        height_ratio = 5.92975 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 5.67837 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 562.137 (g/m^3)
+        dm total     = 57.5829 (g/m2)
+        height       = 0.102436 (m)
+        height_ratio = 5.92975 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+2 November 1988(Day of year=307), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+3 November 1988(Day of year=308), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    1
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.552844
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.447156
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 431.992 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.424986 (kg/kg)
+        p_conc       = 0.00849972 (kg/kg)
+        s_conc       = 0.00357883 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 553.981 (g/m^3)
+        dm total     = 62.5626 (g/m2)
+        height       = 0.112933 (m)
+        height_ratio = 6.01705 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 96.3992 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.337367 (kg/kg)
+        p_conc       = 0.00674734 (kg/kg)
+        s_conc       = 0.00487224 (kg/kg)
+        ash_alk      = 1.1041 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 553.981 (g/m^3)
+        dm total     = 62.5626 (g/m2)
+        height       = 0.112933 (m)
+        height_ratio = 6.01705 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 88.443 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.30482 (kg/kg)
+        p_conc       = 0.0060964 (kg/kg)
+        s_conc       = 0.00435765 (kg/kg)
+        ash_alk      = 1.27412 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 553.981 (g/m^3)
+        dm total     = 62.5626 (g/m2)
+        height       = 0.112933 (m)
+        height_ratio = 6.01705 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 8.79172 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 553.981 (g/m^3)
+        dm total     = 62.5626 (g/m2)
+        height       = 0.112933 (m)
+        height_ratio = 6.01705 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+3 November 1988(Day of year=308), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+4 November 1988(Day of year=309), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    1
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.523957
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.476043
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 459.846 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.432856 (kg/kg)
+        p_conc       = 0.00865712 (kg/kg)
+        s_conc       = 0.0036451 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 535.336 (g/m^3)
+        dm total     = 67.8664 (g/m2)
+        height       = 0.126774 (m)
+        height_ratio = 6.22662 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 101.613 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.328757 (kg/kg)
+        p_conc       = 0.00657513 (kg/kg)
+        s_conc       = 0.00473709 (kg/kg)
+        ash_alk      = 1.14501 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 535.336 (g/m^3)
+        dm total     = 67.8664 (g/m2)
+        height       = 0.126774 (m)
+        height_ratio = 6.22662 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 105.307 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.295921 (kg/kg)
+        p_conc       = 0.00591842 (kg/kg)
+        s_conc       = 0.00421781 (kg/kg)
+        ash_alk      = 1.31705 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 535.336 (g/m^3)
+        dm total     = 67.8664 (g/m2)
+        height       = 0.126774 (m)
+        height_ratio = 6.22662 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 11.8986 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 535.336 (g/m^3)
+        dm total     = 67.8664 (g/m2)
+        height       = 0.126774 (m)
+        height_ratio = 6.22662 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+4 November 1988(Day of year=309), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+5 November 1988(Day of year=310), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    1
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.497122
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.502878
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 479.686 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.437351 (kg/kg)
+        p_conc       = 0.00874701 (kg/kg)
+        s_conc       = 0.00368295 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 531.222 (g/m^3)
+        dm total     = 72.7663 (g/m2)
+        height       = 0.136979 (m)
+        height_ratio = 6.27484 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 107.942 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.326326 (kg/kg)
+        p_conc       = 0.00652651 (kg/kg)
+        s_conc       = 0.00469155 (kg/kg)
+        ash_alk      = 1.18705 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 531.222 (g/m^3)
+        dm total     = 72.7663 (g/m2)
+        height       = 0.136979 (m)
+        height_ratio = 6.27484 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 124.523 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.293842 (kg/kg)
+        p_conc       = 0.00587685 (kg/kg)
+        s_conc       = 0.00417871 (kg/kg)
+        ash_alk      = 1.35363 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 531.222 (g/m^3)
+        dm total     = 72.7663 (g/m2)
+        height       = 0.136979 (m)
+        height_ratio = 6.27484 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 15.5114 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 531.222 (g/m^3)
+        dm total     = 72.7663 (g/m2)
+        height       = 0.136979 (m)
+        height_ratio = 6.27484 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+5 November 1988(Day of year=310), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+6 November 1988(Day of year=311), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    1
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.480985
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.519015
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 512.263 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.409538 (kg/kg)
+        p_conc       = 0.00819076 (kg/kg)
+        s_conc       = 0.00344874 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 516.579 (g/m^3)
+        dm total     = 76.8384 (g/m2)
+        height       = 0.148745 (m)
+        height_ratio = 6.45271 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 108.859 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.313363 (kg/kg)
+        p_conc       = 0.00626725 (kg/kg)
+        s_conc       = 0.00450346 (kg/kg)
+        ash_alk      = 1.18514 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 516.579 (g/m^3)
+        dm total     = 76.8384 (g/m2)
+        height       = 0.148745 (m)
+        height_ratio = 6.45271 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 131.751 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.286163 (kg/kg)
+        p_conc       = 0.00572326 (kg/kg)
+        s_conc       = 0.00407224 (kg/kg)
+        ash_alk      = 1.33204 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 516.579 (g/m^3)
+        dm total     = 76.8384 (g/m2)
+        height       = 0.148745 (m)
+        height_ratio = 6.45271 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 15.5114 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 516.579 (g/m^3)
+        dm total     = 76.8384 (g/m2)
+        height       = 0.148745 (m)
+        height_ratio = 6.45271 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+6 November 1988(Day of year=311), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+7 November 1988(Day of year=312), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    0.953229
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0.0462108
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.46565
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0.000560053
+        Green stem:    0.53435
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 555.092 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.394646 (kg/kg)
+        p_conc       = 0.00789293 (kg/kg)
+        s_conc       = 0.00332334 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 551.31 (g/m^3)
+        dm total     = 85.5965 (g/m2)
+        height       = 0.15526 (m)
+        height_ratio = 6.0462 (-)
+     
+     Herbage on offer, pool 2:-
+        dm           = 26.9098 (kg/ha)
+        dmd          = 0.7 (-)
+        cp_conc      = 0.394646 (kg/kg)
+        p_conc       = 0.00789293 (kg/kg)
+        s_conc       = 0.00332334 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.8 (kg/kg)
+        bd           = 551.31 (g/m^3)
+        dm total     = 85.5965 (g/m2)
+        height       = 0.15526 (m)
+        height_ratio = 6.0462 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 114.039 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.289862 (kg/kg)
+        p_conc       = 0.00579724 (kg/kg)
+        s_conc       = 0.00416411 (kg/kg)
+        ash_alk      = 1.17491 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 551.31 (g/m^3)
+        dm total     = 85.5965 (g/m2)
+        height       = 0.15526 (m)
+        height_ratio = 6.0462 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 144.413 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.269281 (kg/kg)
+        p_conc       = 0.00538561 (kg/kg)
+        s_conc       = 0.00382912 (kg/kg)
+        ash_alk      = 1.30298 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 551.31 (g/m^3)
+        dm total     = 85.5965 (g/m2)
+        height       = 0.15526 (m)
+        height_ratio = 6.0462 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 15.5114 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 551.31 (g/m^3)
+        dm total     = 85.5965 (g/m2)
+        height       = 0.15526 (m)
+        height_ratio = 6.0462 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+7 November 1988(Day of year=312), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+8 November 1988(Day of year=313), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    0.828698
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0.163261
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.449635
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0.008041
+        Green stem:    0.550365
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 518.262 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.389841 (kg/kg)
+        p_conc       = 0.00779681 (kg/kg)
+        s_conc       = 0.00328287 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 556.338 (g/m^3)
+        dm total     = 94.1729 (g/m2)
+        height       = 0.169273 (m)
+        height_ratio = 5.99157 (-)
+     
+     Herbage on offer, pool 2:-
+        dm           = 102.103 (kg/ha)
+        dmd          = 0.7 (-)
+        cp_conc      = 0.389841 (kg/kg)
+        p_conc       = 0.00779681 (kg/kg)
+        s_conc       = 0.00328287 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.8 (kg/kg)
+        bd           = 556.338 (g/m^3)
+        dm total     = 94.1729 (g/m2)
+        height       = 0.169273 (m)
+        height_ratio = 5.99157 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 128.041 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.280838 (kg/kg)
+        p_conc       = 0.00561675 (kg/kg)
+        s_conc       = 0.00403177 (kg/kg)
+        ash_alk      = 1.17934 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 556.338 (g/m^3)
+        dm total     = 94.1729 (g/m2)
+        height       = 0.169273 (m)
+        height_ratio = 5.99157 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 175.548 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.266805 (kg/kg)
+        p_conc       = 0.0053361 (kg/kg)
+        s_conc       = 0.00373489 (kg/kg)
+        ash_alk      = 1.32523 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 556.338 (g/m^3)
+        dm total     = 94.1729 (g/m2)
+        height       = 0.169273 (m)
+        height_ratio = 5.99157 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 17.7753 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 556.338 (g/m^3)
+        dm total     = 94.1729 (g/m2)
+        height       = 0.169273 (m)
+        height_ratio = 5.99157 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+8 November 1988(Day of year=313), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+9 November 1988(Day of year=314), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    0.696939
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0.27578
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0.0272816
+        Green stem:    0.430586
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.569414
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 440.267 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.394596 (kg/kg)
+        p_conc       = 0.00789192 (kg/kg)
+        s_conc       = 0.00332291 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 507.483 (g/m^3)
+        dm total     = 99.5619 (g/m2)
+        height       = 0.196188 (m)
+        height_ratio = 6.56836 (-)
+     
+     Herbage on offer, pool 2:-
+        dm           = 174.214 (kg/ha)
+        dmd          = 0.7 (-)
+        cp_conc      = 0.394596 (kg/kg)
+        p_conc       = 0.00789192 (kg/kg)
+        s_conc       = 0.00332292 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.8 (kg/kg)
+        bd           = 507.483 (g/m^3)
+        dm total     = 99.5619 (g/m2)
+        height       = 0.196188 (m)
+        height_ratio = 6.56836 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 157.346 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.304395 (kg/kg)
+        p_conc       = 0.0060879 (kg/kg)
+        s_conc       = 0.00410703 (kg/kg)
+        ash_alk      = 1.36354 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 507.483 (g/m^3)
+        dm total     = 99.5619 (g/m2)
+        height       = 0.196188 (m)
+        height_ratio = 6.56836 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 200.839 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.275428 (kg/kg)
+        p_conc       = 0.00550856 (kg/kg)
+        s_conc       = 0.00391873 (kg/kg)
+        ash_alk      = 1.32114 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 507.483 (g/m^3)
+        dm total     = 99.5619 (g/m2)
+        height       = 0.196188 (m)
+        height_ratio = 6.56836 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 22.9526 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 507.483 (g/m^3)
+        dm total     = 99.5619 (g/m2)
+        height       = 0.196188 (m)
+        height_ratio = 6.56836 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+9 November 1988(Day of year=314), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+10 November 1988(Day of year=315), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    0.566597
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0.372259
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0.0611443
+        Green stem:    0.408865
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.591136
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 367.74 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.398751 (kg/kg)
+        p_conc       = 0.00797501 (kg/kg)
+        s_conc       = 0.0033579 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 483.288 (g/m^3)
+        dm total     = 105.199 (g/m2)
+        height       = 0.217675 (m)
+        height_ratio = 6.8972 (-)
+     
+     Herbage on offer, pool 2:-
+        dm           = 241.608 (kg/ha)
+        dmd          = 0.7 (-)
+        cp_conc      = 0.398751 (kg/kg)
+        p_conc       = 0.00797501 (kg/kg)
+        s_conc       = 0.0033579 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.8 (kg/kg)
+        bd           = 483.288 (g/m^3)
+        dm total     = 105.199 (g/m2)
+        height       = 0.217675 (m)
+        height_ratio = 6.8972 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 186.677 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.315557 (kg/kg)
+        p_conc       = 0.00631114 (kg/kg)
+        s_conc       = 0.00401344 (kg/kg)
+        ash_alk      = 1.53249 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 483.288 (g/m^3)
+        dm total     = 105.199 (g/m2)
+        height       = 0.217675 (m)
+        height_ratio = 6.8972 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 228.014 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.277428 (kg/kg)
+        p_conc       = 0.00554856 (kg/kg)
+        s_conc       = 0.00394145 (kg/kg)
+        ash_alk      = 1.34743 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 483.288 (g/m^3)
+        dm total     = 105.199 (g/m2)
+        height       = 0.217675 (m)
+        height_ratio = 6.8972 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 27.9554 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 483.288 (g/m^3)
+        dm total     = 105.199 (g/m2)
+        height       = 0.217675 (m)
+        height_ratio = 6.8972 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+10 November 1988(Day of year=315), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+11 November 1988(Day of year=316), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    0.455736
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0.438693
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0.105572
+        Green stem:    0.387203
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.612797
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 310.824 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.396788 (kg/kg)
+        p_conc       = 0.00793577 (kg/kg)
+        s_conc       = 0.00334138 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 479.677 (g/m^3)
+        dm total     = 111.723 (g/m2)
+        height       = 0.232912 (m)
+        height_ratio = 6.94911 (-)
+     
+     Herbage on offer, pool 2:-
+        dm           = 299.2 (kg/ha)
+        dmd          = 0.7 (-)
+        cp_conc      = 0.396788 (kg/kg)
+        p_conc       = 0.00793577 (kg/kg)
+        s_conc       = 0.00334138 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.8 (kg/kg)
+        bd           = 479.677 (g/m^3)
+        dm total     = 111.723 (g/m2)
+        height       = 0.232912 (m)
+        height_ratio = 6.94911 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 222.669 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.323896 (kg/kg)
+        p_conc       = 0.00647793 (kg/kg)
+        s_conc       = 0.00386953 (kg/kg)
+        ash_alk      = 1.70162 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 479.677 (g/m^3)
+        dm total     = 111.723 (g/m2)
+        height       = 0.232912 (m)
+        height_ratio = 6.94911 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 252.019 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.276862 (kg/kg)
+        p_conc       = 0.00553724 (kg/kg)
+        s_conc       = 0.00392831 (kg/kg)
+        ash_alk      = 1.36768 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 479.677 (g/m^3)
+        dm total     = 111.723 (g/m2)
+        height       = 0.232912 (m)
+        height_ratio = 6.94911 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 32.5141 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 479.677 (g/m^3)
+        dm total     = 111.723 (g/m2)
+        height       = 0.232912 (m)
+        height_ratio = 6.94911 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+11 November 1988(Day of year=316), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+12 November 1988(Day of year=317), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    0.369856
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0.476604
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0.15354
+        Green stem:    0.36751
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.63249
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 265.081 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.392725 (kg/kg)
+        p_conc       = 0.0078545 (kg/kg)
+        s_conc       = 0.00330716 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 486.453 (g/m^3)
+        dm total     = 118.75 (g/m2)
+        height       = 0.244115 (m)
+        height_ratio = 6.85232 (-)
+     
+     Herbage on offer, pool 2:-
+        dm           = 341.589 (kg/ha)
+        dmd          = 0.7 (-)
+        cp_conc      = 0.392725 (kg/kg)
+        p_conc       = 0.0078545 (kg/kg)
+        s_conc       = 0.00330716 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.8 (kg/kg)
+        bd           = 486.453 (g/m^3)
+        dm total     = 118.75 (g/m2)
+        height       = 0.244115 (m)
+        height_ratio = 6.85232 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 265.602 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.328408 (kg/kg)
+        p_conc       = 0.00656817 (kg/kg)
+        s_conc       = 0.00372678 (kg/kg)
+        ash_alk      = 1.83563 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 486.453 (g/m^3)
+        dm total     = 118.75 (g/m2)
+        height       = 0.244115 (m)
+        height_ratio = 6.85232 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 278.081 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.274695 (kg/kg)
+        p_conc       = 0.0054939 (kg/kg)
+        s_conc       = 0.00389328 (kg/kg)
+        ash_alk      = 1.38217 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 486.453 (g/m^3)
+        dm total     = 118.75 (g/m2)
+        height       = 0.244115 (m)
+        height_ratio = 6.85232 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 37.151 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 486.453 (g/m^3)
+        dm total     = 118.75 (g/m2)
+        height       = 0.244115 (m)
+        height_ratio = 6.85232 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+12 November 1988(Day of year=317), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+13 November 1988(Day of year=318), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    0.30893
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0.49377
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0.197301
+        Green stem:    0.351338
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.648662
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 228.904 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.391944 (kg/kg)
+        p_conc       = 0.00783887 (kg/kg)
+        s_conc       = 0.00330058 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 487.592 (g/m^3)
+        dm total     = 125.676 (g/m2)
+        height       = 0.257748 (m)
+        height_ratio = 6.83632 (-)
+     
+     Herbage on offer, pool 2:-
+        dm           = 365.863 (kg/ha)
+        dmd          = 0.7 (-)
+        cp_conc      = 0.391944 (kg/kg)
+        p_conc       = 0.00783887 (kg/kg)
+        s_conc       = 0.00330058 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.8 (kg/kg)
+        bd           = 487.592 (g/m^3)
+        dm total     = 125.676 (g/m2)
+        height       = 0.257748 (m)
+        height_ratio = 6.83632 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 310.305 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.329209 (kg/kg)
+        p_conc       = 0.00658418 (kg/kg)
+        s_conc       = 0.00360554 (kg/kg)
+        ash_alk      = 1.91927 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 487.592 (g/m^3)
+        dm total     = 125.676 (g/m2)
+        height       = 0.257748 (m)
+        height_ratio = 6.83632 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 309.484 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.268905 (kg/kg)
+        p_conc       = 0.00537809 (kg/kg)
+        s_conc       = 0.00380694 (kg/kg)
+        ash_alk      = 1.39093 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 487.592 (g/m^3)
+        dm total     = 125.676 (g/m2)
+        height       = 0.257748 (m)
+        height_ratio = 6.83632 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 42.2039 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 487.592 (g/m^3)
+        dm total     = 125.676 (g/m2)
+        height       = 0.257748 (m)
+        height_ratio = 6.83632 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+13 November 1988(Day of year=318), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+14 November 1988(Day of year=319), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    0.254536
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0.499959
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0.245505
+        Green stem:    0.334732
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.665268
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 189.993 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.395659 (kg/kg)
+        p_conc       = 0.00791318 (kg/kg)
+        s_conc       = 0.00333187 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 471.515 (g/m^3)
+        dm total     = 130.887 (g/m2)
+        height       = 0.277588 (m)
+        height_ratio = 7.06942 (-)
+     
+     Herbage on offer, pool 2:-
+        dm           = 373.183 (kg/ha)
+        dmd          = 0.7 (-)
+        cp_conc      = 0.395659 (kg/kg)
+        p_conc       = 0.00791318 (kg/kg)
+        s_conc       = 0.00333187 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.8 (kg/kg)
+        bd           = 471.515 (g/m^3)
+        dm total     = 130.887 (g/m2)
+        height       = 0.277588 (m)
+        height_ratio = 7.06942 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 355.052 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.335348 (kg/kg)
+        p_conc       = 0.00670697 (kg/kg)
+        s_conc       = 0.00357476 (kg/kg)
+        ash_alk      = 1.99168 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 471.515 (g/m^3)
+        dm total     = 130.887 (g/m2)
+        height       = 0.277588 (m)
+        height_ratio = 7.06942 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 342.057 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.270647 (kg/kg)
+        p_conc       = 0.00541293 (kg/kg)
+        s_conc       = 0.00382794 (kg/kg)
+        ash_alk      = 1.40882 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 471.515 (g/m^3)
+        dm total     = 130.887 (g/m2)
+        height       = 0.277588 (m)
+        height_ratio = 7.06942 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 48.5833 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 471.515 (g/m^3)
+        dm total     = 130.887 (g/m2)
+        height       = 0.277588 (m)
+        height_ratio = 7.06942 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+14 November 1988(Day of year=319), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+15 November 1988(Day of year=320), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    0.205088
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0.495557
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0.299355
+        Green stem:    0.317136
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.682864
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 155.135 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.397917 (kg/kg)
+        p_conc       = 0.00795833 (kg/kg)
+        s_conc       = 0.00335088 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 462.955 (g/m^3)
+        dm total     = 136.334 (g/m2)
+        height       = 0.294486 (m)
+        height_ratio = 7.20012 (-)
+     
+     Herbage on offer, pool 2:-
+        dm           = 374.855 (kg/ha)
+        dmd          = 0.7 (-)
+        cp_conc      = 0.397917 (kg/kg)
+        p_conc       = 0.00795833 (kg/kg)
+        s_conc       = 0.00335088 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.8 (kg/kg)
+        bd           = 462.955 (g/m^3)
+        dm total     = 136.334 (g/m2)
+        height       = 0.294486 (m)
+        height_ratio = 7.20012 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 404.143 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.340206 (kg/kg)
+        p_conc       = 0.00680413 (kg/kg)
+        s_conc       = 0.00353091 (kg/kg)
+        ash_alk      = 2.06031 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 462.955 (g/m^3)
+        dm total     = 136.334 (g/m2)
+        height       = 0.294486 (m)
+        height_ratio = 7.20012 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 374.204 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.271266 (kg/kg)
+        p_conc       = 0.00542531 (kg/kg)
+        s_conc       = 0.00383316 (kg/kg)
+        ash_alk      = 1.42447 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 462.955 (g/m^3)
+        dm total     = 136.334 (g/m2)
+        height       = 0.294486 (m)
+        height_ratio = 7.20012 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 55.0026 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 462.955 (g/m^3)
+        dm total     = 136.334 (g/m2)
+        height       = 0.294486 (m)
+        height_ratio = 7.20012 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+15 November 1988(Day of year=320), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+16 November 1988(Day of year=321), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    0.185423
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0.490369
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0.324207
+        Green stem:    0.309244
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.690756
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 151.468 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.392461 (kg/kg)
+        p_conc       = 0.00784922 (kg/kg)
+        s_conc       = 0.00330494 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 464.883 (g/m^3)
+        dm total     = 143.89 (g/m2)
+        height       = 0.309518 (m)
+        height_ratio = 7.17026 (-)
+     
+     Herbage on offer, pool 2:-
+        dm           = 400.573 (kg/ha)
+        dmd          = 0.7 (-)
+        cp_conc      = 0.392461 (kg/kg)
+        p_conc       = 0.00784922 (kg/kg)
+        s_conc       = 0.00330494 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.8 (kg/kg)
+        bd           = 464.883 (g/m^3)
+        dm total     = 143.89 (g/m2)
+        height       = 0.309518 (m)
+        height_ratio = 7.17026 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 444.16 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.338239 (kg/kg)
+        p_conc       = 0.00676478 (kg/kg)
+        s_conc       = 0.00343926 (kg/kg)
+        ash_alk      = 2.09776 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 464.883 (g/m^3)
+        dm total     = 143.89 (g/m2)
+        height       = 0.309518 (m)
+        height_ratio = 7.17026 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 387.696 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.264646 (kg/kg)
+        p_conc       = 0.00529293 (kg/kg)
+        s_conc       = 0.00374079 (kg/kg)
+        ash_alk      = 1.40831 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 464.883 (g/m^3)
+        dm total     = 143.89 (g/m2)
+        height       = 0.309518 (m)
+        height_ratio = 7.17026 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 55.0026 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 464.883 (g/m^3)
+        dm total     = 143.89 (g/m2)
+        height       = 0.309518 (m)
+        height_ratio = 7.17026 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+16 November 1988(Day of year=321), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+17 November 1988(Day of year=322), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    0.166451
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0.483066
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0.350483
+        Green stem:    0.301011
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.698989
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 149.015 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.382744 (kg/kg)
+        p_conc       = 0.00765488 (kg/kg)
+        s_conc       = 0.00322311 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 481.859 (g/m^3)
+        dm total     = 154.97 (g/m2)
+        height       = 0.321608 (m)
+        height_ratio = 6.91765 (-)
+     
+     Herbage on offer, pool 2:-
+        dm           = 432.464 (kg/ha)
+        dmd          = 0.7 (-)
+        cp_conc      = 0.382744 (kg/kg)
+        p_conc       = 0.00765488 (kg/kg)
+        s_conc       = 0.00322311 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.8 (kg/kg)
+        bd           = 481.859 (g/m^3)
+        dm total     = 154.97 (g/m2)
+        height       = 0.321608 (m)
+        height_ratio = 6.91765 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 499.54 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.330806 (kg/kg)
+        p_conc       = 0.00661613 (kg/kg)
+        s_conc       = 0.00329722 (kg/kg)
+        ash_alk      = 2.12643 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 481.859 (g/m^3)
+        dm total     = 154.97 (g/m2)
+        height       = 0.321608 (m)
+        height_ratio = 6.91765 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 413.663 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.25082 (kg/kg)
+        p_conc       = 0.0050164 (kg/kg)
+        s_conc       = 0.00354648 (kg/kg)
+        ash_alk      = 1.38025 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 481.859 (g/m^3)
+        dm total     = 154.97 (g/m2)
+        height       = 0.321608 (m)
+        height_ratio = 6.91765 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 55.0139 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 481.859 (g/m^3)
+        dm total     = 154.97 (g/m2)
+        height       = 0.321608 (m)
+        height_ratio = 6.91765 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+17 November 1988(Day of year=322), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+18 November 1988(Day of year=323), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    0.14026
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0.468506
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0.391233
+        Green stem:    0.288399
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.711601
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 128.158 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.381982 (kg/kg)
+        p_conc       = 0.00763965 (kg/kg)
+        s_conc       = 0.00321669 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 468.089 (g/m^3)
+        dm total     = 162.668 (g/m2)
+        height       = 0.347514 (m)
+        height_ratio = 7.12115 (-)
+     
+     Herbage on offer, pool 2:-
+        dm           = 428.082 (kg/ha)
+        dmd          = 0.7 (-)
+        cp_conc      = 0.381982 (kg/kg)
+        p_conc       = 0.00763965 (kg/kg)
+        s_conc       = 0.00321669 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.8 (kg/kg)
+        bd           = 468.089 (g/m^3)
+        dm total     = 162.668 (g/m2)
+        height       = 0.347514 (m)
+        height_ratio = 7.12115 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 553.628 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.332587 (kg/kg)
+        p_conc       = 0.00665174 (kg/kg)
+        s_conc       = 0.00328447 (kg/kg)
+        ash_alk      = 2.15607 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 468.089 (g/m^3)
+        dm total     = 162.668 (g/m2)
+        height       = 0.347514 (m)
+        height_ratio = 7.12115 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 455.185 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.253961 (kg/kg)
+        p_conc       = 0.00507922 (kg/kg)
+        s_conc       = 0.00359034 (kg/kg)
+        ash_alk      = 1.3878 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 468.089 (g/m^3)
+        dm total     = 162.668 (g/m2)
+        height       = 0.347514 (m)
+        height_ratio = 7.12115 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 61.623 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 468.089 (g/m^3)
+        dm total     = 162.668 (g/m2)
+        height       = 0.347514 (m)
+        height_ratio = 7.12115 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+18 November 1988(Day of year=323), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+19 November 1988(Day of year=324), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    0.116125
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0.449292
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0.434583
+        Green stem:    0.275101
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.724899
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 106.159 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.385502 (kg/kg)
+        p_conc       = 0.00771003 (kg/kg)
+        s_conc       = 0.00324633 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 451.463 (g/m^3)
+        dm total     = 168.474 (g/m2)
+        height       = 0.373174 (m)
+        height_ratio = 7.3834 (-)
+     
+     Herbage on offer, pool 2:-
+        dm           = 410.734 (kg/ha)
+        dmd          = 0.7 (-)
+        cp_conc      = 0.385502 (kg/kg)
+        p_conc       = 0.00771004 (kg/kg)
+        s_conc       = 0.00324633 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.8 (kg/kg)
+        bd           = 451.463 (g/m^3)
+        dm total     = 168.474 (g/m2)
+        height       = 0.373174 (m)
+        height_ratio = 7.3834 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 602.273 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.337246 (kg/kg)
+        p_conc       = 0.00674491 (kg/kg)
+        s_conc       = 0.00330369 (kg/kg)
+        ash_alk      = 2.18507 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 451.463 (g/m^3)
+        dm total     = 168.474 (g/m2)
+        height       = 0.373174 (m)
+        height_ratio = 7.3834 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 495.886 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.259893 (kg/kg)
+        p_conc       = 0.00519786 (kg/kg)
+        s_conc       = 0.00367267 (kg/kg)
+        ash_alk      = 1.40411 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 451.463 (g/m^3)
+        dm total     = 168.474 (g/m2)
+        height       = 0.373174 (m)
+        height_ratio = 7.3834 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 69.6925 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 451.463 (g/m^3)
+        dm total     = 168.474 (g/m2)
+        height       = 0.373174 (m)
+        height_ratio = 7.3834 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+19 November 1988(Day of year=324), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+20 November 1988(Day of year=325), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    0.0974623
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0.429454
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0.473083
+        Green stem:    0.263312
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.736688
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 95.2786 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.373606 (kg/kg)
+        p_conc       = 0.00747212 (kg/kg)
+        s_conc       = 0.00314615 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 453.611 (g/m^3)
+        dm total     = 178.467 (g/m2)
+        height       = 0.393436 (m)
+        height_ratio = 7.34844 (-)
+     
+     Herbage on offer, pool 2:-
+        dm           = 419.832 (kg/ha)
+        dmd          = 0.7 (-)
+        cp_conc      = 0.373606 (kg/kg)
+        p_conc       = 0.00747212 (kg/kg)
+        s_conc       = 0.00314615 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.8 (kg/kg)
+        bd           = 453.611 (g/m^3)
+        dm total     = 178.467 (g/m2)
+        height       = 0.393436 (m)
+        height_ratio = 7.34844 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 671.065 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.331495 (kg/kg)
+        p_conc       = 0.00662991 (kg/kg)
+        s_conc       = 0.00320272 (kg/kg)
+        ash_alk      = 2.22272 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 453.611 (g/m^3)
+        dm total     = 178.467 (g/m2)
+        height       = 0.393436 (m)
+        height_ratio = 7.34844 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 524.669 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.257839 (kg/kg)
+        p_conc       = 0.00515677 (kg/kg)
+        s_conc       = 0.00364266 (kg/kg)
+        ash_alk      = 1.40463 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 453.611 (g/m^3)
+        dm total     = 178.467 (g/m2)
+        height       = 0.393436 (m)
+        height_ratio = 7.34844 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 73.8235 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 453.611 (g/m^3)
+        dm total     = 178.467 (g/m2)
+        height       = 0.393436 (m)
+        height_ratio = 7.34844 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+20 November 1988(Day of year=325), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+21 November 1988(Day of year=326), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    0.0780209
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0.402603
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0.519376
+        Green stem:    0.249066
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.750934
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 78.3937 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.370798 (kg/kg)
+        p_conc       = 0.00741595 (kg/kg)
+        s_conc       = 0.00312251 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 453.188 (g/m^3)
+        dm total     = 185.546 (g/m2)
+        height       = 0.409424 (m)
+        height_ratio = 7.3553 (-)
+     
+     Herbage on offer, pool 2:-
+        dm           = 404.526 (kg/ha)
+        dmd          = 0.7 (-)
+        cp_conc      = 0.370798 (kg/kg)
+        p_conc       = 0.00741595 (kg/kg)
+        s_conc       = 0.00312251 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.8 (kg/kg)
+        bd           = 453.188 (g/m^3)
+        dm total     = 185.546 (g/m2)
+        height       = 0.409424 (m)
+        height_ratio = 7.3553 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 734.036 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.331695 (kg/kg)
+        p_conc       = 0.0066339 (kg/kg)
+        s_conc       = 0.00316783 (kg/kg)
+        ash_alk      = 2.25804 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 453.188 (g/m^3)
+        dm total     = 185.546 (g/m2)
+        height       = 0.409424 (m)
+        height_ratio = 7.3553 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 557.316 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.261104 (kg/kg)
+        p_conc       = 0.00522209 (kg/kg)
+        s_conc       = 0.00368636 (kg/kg)
+        ash_alk      = 1.42033 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 453.188 (g/m^3)
+        dm total     = 185.546 (g/m2)
+        height       = 0.409424 (m)
+        height_ratio = 7.3553 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 81.1856 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 453.188 (g/m^3)
+        dm total     = 185.546 (g/m2)
+        height       = 0.409424 (m)
+        height_ratio = 7.3553 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+21 November 1988(Day of year=326), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+22 November 1988(Day of year=327), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    0.0620453
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0.374087
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0.563867
+        Green stem:    0.2352
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.7648
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 64.1169 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.367455 (kg/kg)
+        p_conc       = 0.00734911 (kg/kg)
+        s_conc       = 0.00309436 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 457.991 (g/m^3)
+        dm total     = 192.7 (g/m2)
+        height       = 0.42075 (m)
+        height_ratio = 7.27816 (-)
+     
+     Herbage on offer, pool 2:-
+        dm           = 386.577 (kg/ha)
+        dmd          = 0.7 (-)
+        cp_conc      = 0.367455 (kg/kg)
+        p_conc       = 0.00734911 (kg/kg)
+        s_conc       = 0.00309436 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.8 (kg/kg)
+        bd           = 457.991 (g/m^3)
+        dm total     = 192.7 (g/m2)
+        height       = 0.42075 (m)
+        height_ratio = 7.27816 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 798.101 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.330923 (kg/kg)
+        p_conc       = 0.00661846 (kg/kg)
+        s_conc       = 0.003128 (kg/kg)
+        ash_alk      = 2.28845 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 457.991 (g/m^3)
+        dm total     = 192.7 (g/m2)
+        height       = 0.42075 (m)
+        height_ratio = 7.27816 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 589.862 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.263893 (kg/kg)
+        p_conc       = 0.00527785 (kg/kg)
+        s_conc       = 0.00372379 (kg/kg)
+        ash_alk      = 1.43326 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 457.991 (g/m^3)
+        dm total     = 192.7 (g/m2)
+        height       = 0.42075 (m)
+        height_ratio = 7.27816 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 88.3412 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 457.991 (g/m^3)
+        dm total     = 192.7 (g/m2)
+        height       = 0.42075 (m)
+        height_ratio = 7.27816 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+22 November 1988(Day of year=327), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+23 November 1988(Day of year=328), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    0.0514063
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0.350646
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0.597947
+        Green stem:    0.224396
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.775604
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 52.585 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.372533 (kg/kg)
+        p_conc       = 0.00745067 (kg/kg)
+        s_conc       = 0.00313712 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 457.342 (g/m^3)
+        dm total     = 197.662 (g/m2)
+        height       = 0.432196 (m)
+        height_ratio = 7.28849 (-)
+     
+     Herbage on offer, pool 2:-
+        dm           = 358.687 (kg/ha)
+        dmd          = 0.7 (-)
+        cp_conc      = 0.372533 (kg/kg)
+        p_conc       = 0.00745067 (kg/kg)
+        s_conc       = 0.00313712 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.8 (kg/kg)
+        bd           = 457.342 (g/m^3)
+        dm total     = 197.662 (g/m2)
+        height       = 0.432196 (m)
+        height_ratio = 7.28849 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 835.717 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.333994 (kg/kg)
+        p_conc       = 0.00667987 (kg/kg)
+        s_conc       = 0.00314327 (kg/kg)
+        ash_alk      = 2.30202 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 457.342 (g/m^3)
+        dm total     = 197.662 (g/m2)
+        height       = 0.432196 (m)
+        height_ratio = 7.28849 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 631.448 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.266439 (kg/kg)
+        p_conc       = 0.00532877 (kg/kg)
+        s_conc       = 0.00375644 (kg/kg)
+        ash_alk      = 1.45133 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 457.342 (g/m^3)
+        dm total     = 197.662 (g/m2)
+        height       = 0.432196 (m)
+        height_ratio = 7.28849 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 98.1805 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 457.342 (g/m^3)
+        dm total     = 197.662 (g/m2)
+        height       = 0.432196 (m)
+        height_ratio = 7.28849 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+23 November 1988(Day of year=328), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+24 November 1988(Day of year=329), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    0.0418285
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0.325383
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0.632788
+        Green stem:    0.213122
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.786878
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 42.6355 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.375332 (kg/kg)
+        p_conc       = 0.00750663 (kg/kg)
+        s_conc       = 0.00316069 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 451.762 (g/m^3)
+        dm total     = 202.738 (g/m2)
+        height       = 0.448772 (m)
+        height_ratio = 7.37852 (-)
+     
+     Herbage on offer, pool 2:-
+        dm           = 331.661 (kg/ha)
+        dmd          = 0.7 (-)
+        cp_conc      = 0.375332 (kg/kg)
+        p_conc       = 0.00750663 (kg/kg)
+        s_conc       = 0.00316069 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.8 (kg/kg)
+        bd           = 451.762 (g/m^3)
+        dm total     = 202.738 (g/m2)
+        height       = 0.448772 (m)
+        height_ratio = 7.37852 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 875.747 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.335979 (kg/kg)
+        p_conc       = 0.00671959 (kg/kg)
+        s_conc       = 0.00314684 (kg/kg)
+        ash_alk      = 2.31822 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 451.762 (g/m^3)
+        dm total     = 202.738 (g/m2)
+        height       = 0.448772 (m)
+        height_ratio = 7.37852 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 669.512 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.270534 (kg/kg)
+        p_conc       = 0.00541069 (kg/kg)
+        s_conc       = 0.00381175 (kg/kg)
+        ash_alk      = 1.46892 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 451.762 (g/m^3)
+        dm total     = 202.738 (g/m2)
+        height       = 0.448772 (m)
+        height_ratio = 7.37852 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 107.825 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 451.762 (g/m^3)
+        dm total     = 202.738 (g/m2)
+        height       = 0.448772 (m)
+        height_ratio = 7.37852 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 0 (kg/ha)
+        dm pool 2 (0.7) = 0 (kg/ha)
+        dm pool 3 (0.6) = 0 (kg/ha)
+        dm pool 4 (0.5) = 0 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 0 (kg/ha)
+     
+     
+     Remove herbage plant parts:-
+        dm green leaf = 0 (g/m2)
+        dm green stem = 0 (g/m2)
+        dm senesced leaf = 0 (g/m2)
+        dm senesced stem = 0 (g/m2)
+        dm dead leaf = 0 (g/m2)
+        dm dead stem = 0 (g/m2)
+     
+        dm total = 0 (g/m2)
+     
+24 November 1988(Day of year=329), cattle: 
+     
+     Excretion:-
+        faeces om  (weight) =  0 (kg/ha)
+        faeces om  (n) =       0 (kg/ha)
+        faeces om  (p) =       0 (kg/ha)
+        faeces om  (s) =       0 (kg/ha)
+        faeces om  (ash_alk) = 0 (mol/ha)
+        faeces inorg  (n) = 0 (kg/ha)
+        faeces inorg  (p) = 0 (kg/ha)
+        faeces inorg  (s) = 0 (kg/ha)
+        urine  (volume) =  0 (m3/ha)
+        urine  (urea) =    0 (kg/ha)
+        urine  (pox) =     0 (kg/ha)
+        urine  (so4) =     0 (kg/ha)
+        urine  (ash_alk) = 0 (mol/ha)
+     
+25 November 1988(Day of year=330), manager: 
+     Manager sending message :- cattle buystock  number = 20 (-), genotype = angus, sex = steer, age = 12 (months), weight = 250.0 (kg)
+25 November 1988(Day of year=330), cattle: 
+     Buy stock :-
+        number =         20 (-)
+        genotype = angus (-)
+        sex = steer (-)
+        age = 12 (months)
+        weight = 250 (kg)
+25 November 1988(Day of year=330), cattlelablab: 
+     
+     Herbage dmd distribution, pool 1:-
+     PlantPool:
+        Green leaf:    0.0341385
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 2:-
+     PlantPool:
+        Green leaf:    0.301255
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 3:-
+     PlantPool:
+        Green leaf:    0.664606
+        Green stem:    0.202569
+        Senesced leaf: 0.25
+        Senesced stem: 0
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 4:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0.797431
+        Senesced leaf: 0.5
+        Senesced stem: 0.0625
+        Dead leaf:     0
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 5:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0.25
+        Senesced stem: 0.375
+        Dead leaf:     1
+        Dead stem:     0
+     
+     
+     
+     Herbage dmd distribution, pool 6:-
+     PlantPool:
+        Green leaf:    0
+        Green stem:    0
+        Senesced leaf: 0
+        Senesced stem: 0.5625
+        Dead leaf:     0
+        Dead stem:     1
+     
+     
+     
+     Herbage on offer, pool 1:-
+        dm           = 35.063 (kg/ha)
+        dmd          = 0.8 (-)
+        cp_conc      = 0.374692 (kg/kg)
+        p_conc       = 0.00749383 (kg/kg)
+        s_conc       = 0.0031553 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.9 (kg/kg)
+        bd           = 451.566 (g/m^3)
+        dm total     = 208.367 (g/m2)
+        height       = 0.461431 (m)
+        height_ratio = 7.38171 (-)
+     
+     Herbage on offer, pool 2:-
+        dm           = 309.413 (kg/ha)
+        dmd          = 0.7 (-)
+        cp_conc      = 0.374692 (kg/kg)
+        p_conc       = 0.00749383 (kg/kg)
+        s_conc       = 0.0031553 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.8 (kg/kg)
+        bd           = 451.566 (g/m^3)
+        dm total     = 208.367 (g/m2)
+        height       = 0.461431 (m)
+        height_ratio = 7.38171 (-)
+     
+     Herbage on offer, pool 3:-
+        dm           = 918.833 (kg/ha)
+        dmd          = 0.6 (-)
+        cp_conc      = 0.335819 (kg/kg)
+        p_conc       = 0.00671638 (kg/kg)
+        s_conc       = 0.00313111 (kg/kg)
+        ash_alk      = 2.33497 (mol/kg)
+        prot_dg      = 0.7 (kg/kg)
+        bd           = 451.566 (g/m^3)
+        dm total     = 208.367 (g/m2)
+        height       = 0.461431 (m)
+        height_ratio = 7.38171 (-)
+     
+     Herbage on offer, pool 4:-
+        dm           = 703.361 (kg/ha)
+        dmd          = 0.5 (-)
+        cp_conc      = 0.275353 (kg/kg)
+        p_conc       = 0.00550705 (kg/kg)
+        s_conc       = 0.00387779 (kg/kg)
+        ash_alk      = 1.48563 (mol/kg)
+        prot_dg      = 0.6 (kg/kg)
+        bd           = 451.566 (g/m^3)
+        dm total     = 208.367 (g/m2)
+        height       = 0.461431 (m)
+        height_ratio = 7.38171 (-)
+     
+     Herbage on offer, pool 5:-
+        dm           = 116.996 (kg/ha)
+        dmd          = 0.4 (-)
+        cp_conc      = 0.0625 (kg/kg)
+        p_conc       = 0.00125 (kg/kg)
+        s_conc       = 0.000526316 (kg/kg)
+        ash_alk      = 2.54 (mol/kg)
+        prot_dg      = 0.5 (kg/kg)
+        bd           = 451.566 (g/m^3)
+        dm total     = 208.367 (g/m2)
+        height       = 0.461431 (m)
+        height_ratio = 7.38171 (-)
+     
+     Remove herbage dmd pools:-
+        dm pool 1 (0.8) = 51.1046 (kg/ha)
+        dm pool 2 (0.7) = 107.592 (kg/ha)
+        dm pool 3 (0.6) = 14.8667 (kg/ha)
+        dm pool 4 (0.5) = 0.0603135 (kg/ha)
+        dm pool 5 (0.4) = 0 (kg/ha)
+        dm pool 6 (0.3) = 0 (kg/ha)
+     
+        dm total = 173.623 (kg/ha)
+     
+                   !!!!! FATAL ERROR !!!!!
+     Attempting to remove more herbage from dmd pool 1 (dmd 0.8) than available:-
+     Removing 51.1046 (kg/ha) from 35.063 (kg/ha) available.
+     Stock Science Converter Component Exiting
+     

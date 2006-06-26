@@ -1,0 +1,297 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="plant">
+   <registrations>
+      <respondToGetReg name="plant_status" type="plant_status"/>
+      <respondToGetReg name="dlt_stage" type="dlt_stage"/>
+      <respondToGetReg name="stage" type="stage"/>
+      <respondToGetReg name="stage_code" type="stage_code"/>
+      <respondToGetReg name="stage_name" type="stage_name"/>
+      <respondToGetReg name="crop_" type="crop_type"/>
+      <respondToGetReg name="crop_class" type="crop_class"/>
+      <respondToGetReg name="dlt_tt" type="dlt_tt"/>
+      <respondToGetReg name="phase_tt" type="phase_tt"/>
+      <respondToGetReg name="tt_tot" type="tt_tot"/>
+      <respondToGetReg name="days_tot" type="days_tot"/>
+      <respondToGetReg name="cum_vernal_days" type="cum_vernal_days"/>
+      <respondToGetReg name="flowering_date" type="flowering_date"/>
+      <respondToGetReg name="maturity" type="maturity"/>
+      <respondToGetReg name="flowering_das" type="flowering_das"/>
+      <respondToGetReg name="maturity_das" type="maturity_das"/>
+      <respondToGetReg name="leaf_no" type="leaf_no"/>
+      <respondToGetReg name="node_no" type="node_no"/>
+      <respondToGetReg name="dlt_leaf_no" type="dlt_leaf_no"/>
+      <respondToGetReg name="dlt_node_no" type="dlt_node_no"/>
+      <respondToGetReg name="leaf_no_dead" type="leaf_no_dead"/>
+      <respondToGetReg name="leaf_area" type="leaf_area"/>
+      <respondToGetReg name="height" type="height"/>
+      <respondToGetReg name="root_depth" type="root_depth"/>
+      <respondToGetReg name="plants" type="plants"/>
+      <respondToGetReg name="cover_green" type="cover_green"/>
+      <respondToGetReg name="cover_tot" type="cover_tot"/>
+      <respondToGetReg name="lai_sum" type="lai_sum"/>
+      <respondToGetReg name="tlai" type="tlai"/>
+      <respondToGetReg name="slai" type="slai"/>
+      <respondToGetReg name="lai" type="lai"/>
+      <respondToGetReg name="tlai_dead" type="tlai_dead"/>
+      <respondToGetReg name="pai" type="pai"/>
+      <respondToGetReg name="root_wt" type="root_wt"/>
+      <respondToGetReg name="leaf_wt" type="leaf_wt"/>
+      <respondToGetReg name="stem_wt" type="stem_wt"/>
+      <respondToGetReg name="pod_wt" type="pod_wt"/>
+      <respondToGetReg name="grain_wt" type="grain_wt"/>
+      <respondToGetReg name="meal_wt" type="meal_wt"/>
+      <respondToGetReg name="oil_wt" type="oil_wt"/>
+      <respondToGetReg name="dm_green" type="dm_green"/>
+      <respondToGetReg name="dm_senesced" type="dm_senesced"/>
+      <respondToGetReg name="dm_dead" type="dm_dead"/>
+      <respondToGetReg name="yield" type="yield"/>
+      <respondToGetReg name="biomass" type="biomass"/>
+      <respondToGetReg name="green_biomass" type="green_biomass"/>
+      <respondToGetReg name="biomass_wt" type="biomass_wt"/>
+      <respondToGetReg name="green_biomass_wt" type="green_biomass_wt"/>
+      <respondToGetReg name="dlt_dm" type="dlt_dm"/>
+      <respondToGetReg name="dlt_dm_grain_demand" type="dlt_dm_grain_demand"/>
+      <respondToGetReg name="dlt_dm_green" type="dlt_dm_green"/>
+      <respondToGetReg name="dlt_dm_green_retrans" type="dlt_dm_green_retrans"/>
+      <respondToGetReg name="dlt_dm_detached" type="dlt_dm_detached"/>
+      <respondToGetReg name="dlt_dm_dead_detached" type="dlt_dm_dead_detached"/>
+      <respondToGetReg name="grain_oil_conc" type="grain_oil_conc"/>
+      <respondToGetSetReg name="dlt_dm_oil_conv" type="dlt_dm_oil_conv"/>
+      <respondToGetReg name="dlt_dm_oil_conv_retrans" type="dlt_dm_oil_conv_retrans"/>
+      <respondToGetReg name="biomass_n" type="biomass_n"/>
+      <respondToGetReg name="green_biomass_n" type="green_biomass_n"/>
+      <respondToGetReg name="grain_n" type="grain_n"/>
+      <respondToGetReg name="leaf_n" type="leaf_n"/>
+      <respondToGetReg name="stem_n" type="stem_n"/>
+      <respondToGetReg name="root_n" type="root_n"/>
+      <respondToGetReg name="pod_n" type="pod_n"/>
+      <respondToGetReg name="n_senesced" type="n_senesced"/>
+      <respondToGetReg name="n_dead" type="n_dead"/>
+      <respondToGetReg name="dlt_n_green" type="dlt_n_green"/>
+      <respondToGetReg name="dlt_n_retrans" type="dlt_n_retrans"/>
+      <respondToGetReg name="dlt_n_detached" type="dlt_n_detached"/>
+      <respondToGetReg name="dlt_n_dead_detached" type="dlt_n_dead_detached"/>
+      <respondToGetReg name="swdef_pheno" type="swdef_pheno"/>
+      <respondToGetReg name="swdef_photo" type="swdef_photo"/>
+      <respondToGetReg name="swdef_expan" type="swdef_expan"/>
+      <respondToGetReg name="swdef_fixation" type="swdef_fixation"/>
+      <respondToGetReg name="oxdef_photo" type="oxdef_photo"/>
+      <respondToGetReg name="ep" type="ep"/>
+      <respondToGetReg name="cep" type="cep"/>
+      <respondToGetReg name="sw_supply" type="sw_supply"/>
+      <respondToGetReg name="esw_layr" type="esw_layr"/>
+      <respondToGetReg name="das" type="das"/>
+      <respondToGetReg name="n_conc_stover" type="n_conc_stover"/>
+      <respondToGetReg name="n_conc_leaf" type="n_conc_leaf"/>
+      <respondToGetReg name="n_conc_stem" type="n_conc_stem"/>
+      <respondToGetReg name="n_conc_grain" type="n_conc_grain"/>
+      <respondToGetReg name="n_conc_meal" type="n_conc_meal"/>
+      <respondToGetReg name="n_conc_crit" type="n_conc_crit"/>
+      <respondToGetReg name="n_conc_min" type="n_conc_min"/>
+      <respondToGetReg name="n_uptake_stover" type="n_uptake_stover"/>
+      <respondToGetReg name="no3_tot" type="no3_tot"/>
+      <respondToGetReg name="n_demand" type="n_demand"/>
+      <respondToGetReg name="n_supply_soil" type="n_supply_soil"/>
+      <respondToGetReg name="dlt_n_fixed_pot" type="dlt_n_fixed_pot"/>
+      <respondToGetReg name="dlt_n_fixed" type="dlt_n_fixed"/>
+      <respondToGetReg name="n_fixed_tops" type="n_fixed_tops"/>
+      <respondToGetReg name="nfact_photo" type="nfact_photo"/>
+      <respondToGetReg name="nfact_grain" type="nfact_grain"/>
+      <respondToGetReg name="nfact_grain_tot" type="nfact_grain_tot"/>
+      <respondToGetReg name="rlv" type="rlv"/>
+      <respondToGetReg name="no3_demand" type="no3_demand"/>
+      <respondToGetReg name="sw_demand" type="sw_demand"/>
+      <respondToGetReg name="root_length" type="root_length"/>
+      <read name="class_action" type="class_action" readable="T"/>
+      <read name="class_change" type="class_change" readable="T"/>
+      <read name="stage_names" type="stage_names" readable="T"/>
+      <read name="stage_code" type="stage_code" readable="T"/>
+      <read name="rue" type="rue" readable="T"/>
+      <read name="root_depth_rate" type="root_depth_rate" readable="T"/>
+      <read name="ratio_root_shoot" type="ratio_root_shoot" readable="T"/>
+      <read name="n_fix_rate" type="n_fix_rate" readable="T"/>
+      <read name="transp_eff_cf" type="transp_eff_cf" readable="T"/>
+      <read name="frac_leaf" type="frac_leaf" readable="T"/>
+      <read name="frac_pod" type="frac_pod" readable="T"/>
+      <read name="row_spacing_default" type="row_spacing_default" readable="T"/>
+      <read name="x_row_spacing" type="x_row_spacing" readable="T"/>
+      <read name="y_extinct_coef" type="y_extinct_coef" readable="T"/>
+      <read name="y_extinct_coef_dead" type="y_extinct_coef_dead" readable="T"/>
+      <read name="extinct_coef_pod" type="extinct_coef_pod" readable="T"/>
+      <read name="spec_pod_area" type="spec_pod_area" readable="T"/>
+      <read name="rue_pod" type="rue_pod" readable="T"/>
+      <read name="leaf_no_crit" type="leaf_no_crit" readable="T"/>
+      <read name="tt_emerg_limit" type="tt_emerg_limit" readable="T"/>
+      <read name="days_germ_limit" type="days_germ_limit" readable="T"/>
+      <read name="swdf_pheno_limit" type="swdf_pheno_limit" readable="T"/>
+      <read name="swdf_photo_limit" type="swdf_photo_limit" readable="T"/>
+      <read name="swdf_photo_rate" type="swdf_photo_rate" readable="T"/>
+      <read name="initial_root_depth" type="initial_root_depth" readable="T"/>
+      <read name="specific_root_length" type="specific_root_length" readable="T"/>
+      <read name="root_die_back_fr" type="root_die_back_fr" readable="T"/>
+      <read name="x_plant_rld" type="x_plant_rld" readable="T"/>
+      <read name="y_rel_root_rate" type="y_rel_root_rate" readable="T"/>
+      <read name="initial_tpla" type="initial_tpla" readable="T"/>
+      <read name="min_tpla" type="min_tpla" readable="T"/>
+      <read name="x_lai" type="x_lai" readable="T"/>
+      <read name="y_sla_max" type="y_sla_max" readable="T"/>
+      <read name="x_lai_ratio" type="x_lai_ratio" readable="T"/>
+      <read name="y_leaf_no_frac" type="y_leaf_no_frac" readable="T"/>
+      <read name="tt_emerg_to_endjuv_ub" type="tt_emerg_to_endjuv_ub" readable="T"/>
+      <read name="tt_maturity_to_ripe_ub" type="tt_maturity_to_ripe_ub" readable="T"/>
+      <read name="svp_fract" type="svp_fract" readable="T"/>
+      <read name="pesw_germ" type="pesw_germ" readable="T"/>
+      <read name="fasw_emerg" type="fasw_emerg" readable="T"/>
+      <read name="rel_emerg_rate" type="rel_emerg_rate" readable="T"/>
+      <read name="leaf_no_at_emerg" type="leaf_no_at_emerg" readable="T"/>
+      <read name="no3_diffn_const" type="no3_diffn_const" readable="T"/>
+      <read name="n_supply_preference" type="n_supply_preference" readable="T"/>
+      <read name="shoot_lag" type="shoot_lag" readable="T"/>
+      <read name="shoot_rate" type="shoot_rate" readable="T"/>
+      <read name="x_node_no_app" type="x_node_no_app" readable="T"/>
+      <read name="y_node_app_rate" type="y_node_app_rate" readable="T"/>
+      <read name="x_node_no_leaf" type="x_node_no_leaf" readable="T"/>
+      <read name="y_leaves_per_node" type="y_leaves_per_node" readable="T"/>
+      <read name="dm_init" type="dm_init" readable="T"/>
+      <read name="kl_ub" type="kl_ub" readable="T"/>
+      <read name="stem_trans_frac" type="stem_trans_frac" readable="T"/>
+      <read name="pod_trans_frac" type="pod_trans_frac" readable="T"/>
+      <read name="leaf_trans_frac" type="leaf_trans_frac" readable="T"/>
+      <read name="sw_fac_max" type="sw_fac_max" readable="T"/>
+      <read name="temp_fac_min" type="temp_fac_min" readable="T"/>
+      <read name="sfac_slope" type="sfac_slope" readable="T"/>
+      <read name="tfac_slope" type="tfac_slope" readable="T"/>
+      <read name="fr_lf_sen_rate" type="fr_lf_sen_rate" readable="T"/>
+      <read name="node_sen_rate" type="node_sen_rate" readable="T"/>
+      <read name="grn_water_cont" type="grn_water_cont" readable="T"/>
+      <read name="sla_min" type="sla_min" readable="T"/>
+      <read name="carbo_oil_conv_ratio" type="carbo_oil_conv_ratio" readable="T"/>
+      <read name="dead_detach_frac" type="dead_detach_frac" readable="T"/>
+      <read name="sen_detach_frac" type="sen_detach_frac" readable="T"/>
+      <read name="x_node_no" type="x_node_no" readable="T"/>
+      <read name="y_leaf_size" type="y_leaf_size" readable="T"/>
+      <read name="node_no_correction" type="node_no_correction" readable="T"/>
+      <read name="lai_sen_light" type="lai_sen_light" readable="T"/>
+      <read name="sen_light_slope" type="sen_light_slope" readable="T"/>
+      <read name="x_temp_senescence" type="x_temp_senescence" readable="T"/>
+      <read name="y_senescence_fac" type="y_senescence_fac" readable="T"/>
+      <read name="sen_rate_water" type="sen_rate_water" readable="T"/>
+      <read name="twilight" type="twilight" readable="T"/>
+      <read name="x_stage_code" type="x_stage_code" readable="T"/>
+      <read name="y_n_conc_crit_leaf" type="y_n_conc_crit_leaf" readable="T"/>
+      <read name="y_n_conc_max_leaf" type="y_n_conc_max_leaf" readable="T"/>
+      <read name="y_n_conc_min_leaf" type="y_n_conc_min_leaf" readable="T"/>
+      <read name="y_n_conc_crit_stem" type="y_n_conc_crit_stem" readable="T"/>
+      <read name="y_n_conc_max_stem" type="y_n_conc_max_stem" readable="T"/>
+      <read name="y_n_conc_min_stem" type="y_n_conc_min_stem" readable="T"/>
+      <read name="y_n_conc_crit_pod" type="y_n_conc_crit_pod" readable="T"/>
+      <read name="y_n_conc_max_pod" type="y_n_conc_max_pod" readable="T"/>
+      <read name="y_n_conc_min_pod" type="y_n_conc_min_pod" readable="T"/>
+      <read name="n_conc_crit_grain" type="n_conc_crit_grain" readable="T"/>
+      <read name="n_conc_max_grain" type="n_conc_max_grain" readable="T"/>
+      <read name="n_conc_min_grain" type="n_conc_min_grain" readable="T"/>
+      <read name="n_conc_crit_root" type="n_conc_crit_root" readable="T"/>
+      <read name="n_conc_max_root" type="n_conc_max_root" readable="T"/>
+      <read name="n_conc_min_root" type="n_conc_min_root" readable="T"/>
+      <read name="n_init_conc" type="n_init_conc" readable="T"/>
+      <read name="n_sen_conc" type="n_sen_conc" readable="T"/>
+      <read name="N_fact_photo" type="N_fact_photo" readable="T"/>
+      <read name="N_fact_pheno" type="N_fact_pheno" readable="T"/>
+      <read name="N_fact_expansion" type="N_fact_expansion" readable="T"/>
+      <read name="x_ave_temp" type="x_ave_temp" readable="T"/>
+      <read name="y_stress_photo" type="y_stress_photo" readable="T"/>
+      <read name="x_temp" type="x_temp" readable="T"/>
+      <read name="y_tt" type="y_tt" readable="T"/>
+      <read name="x_vernal_temp" type="x_vernal_temp" readable="T"/>
+      <read name="y_vernal_days" type="y_vernal_days" readable="T"/>
+      <read name="x_temp_root_advance" type="x_temp_root_advance" readable="T"/>
+      <read name="y_rel_root_advance" type="y_rel_root_advance" readable="T"/>
+      <read name="x_weighted_temp" type="x_weighted_temp" readable="T"/>
+      <read name="y_plant_death" type="y_plant_death" readable="T"/>
+      <read name="x_sw_demand_ratio" type="x_sw_demand_ratio" readable="T"/>
+      <read name="y_swdef_leaf" type="y_swdef_leaf" readable="T"/>
+      <read name="x_sw_avail_ratio" type="x_sw_avail_ratio" readable="T"/>
+      <read name="y_swdef_pheno" type="y_swdef_pheno" readable="T"/>
+      <read name="x_sw_ratio" type="x_sw_ratio" readable="T"/>
+      <read name="y_sw_fac_root" type="y_sw_fac_root" readable="T"/>
+      <read name="x_ws_root" type="x_ws_root" readable="T"/>
+      <read name="y_ws_root_fac" type="y_ws_root_fac" readable="T"/>
+      <read name="x_sw_avail_fix" type="x_sw_avail_fix" readable="T"/>
+      <read name="y_swdef_fix" type="y_swdef_fix" readable="T"/>
+      <read name="oxdef_photo_rtfr" type="oxdef_photo_rtfr" readable="T"/>
+      <read name="oxdef_photo" type="oxdef_photo" readable="T"/>
+      <read name="fr_height_cut" type="fr_height_cut" readable="T"/>
+      <read name="fr_stem_remain" type="fr_stem_remain" readable="T"/>
+      <read name="x_pp_hi_incr" type="x_pp_hi_incr" readable="T"/>
+      <read name="y_hi_incr" type="y_hi_incr" readable="T"/>
+      <read name="x_hi_max_pot_stress" type="x_hi_max_pot_stress" readable="T"/>
+      <read name="y_hi_max_pot" type="y_hi_max_pot" readable="T"/>
+      <read name="cum_vernal_days" type="cum_vernal_days" readable="T"/>
+      <read name="tt_emerg_to_endjuv" type="tt_emerg_to_endjuv" readable="T"/>
+      <read name="est_days_emerg_to_init" type="est_days_emerg_to_init" readable="T"/>
+      <read name="x_pp_endjuv_to_init" type="x_pp_endjuv_to_init" readable="T"/>
+      <read name="y_tt_endjuv_to_init" type="y_tt_endjuv_to_init" readable="T"/>
+      <read name="x_pp_init_to_flower" type="x_pp_init_to_flower" readable="T"/>
+      <read name="y_tt_init_to_flower" type="y_tt_init_to_flower" readable="T"/>
+      <read name="x_pp_flower_to_start_grain" type="x_pp_flower_to_start_grain" readable="T"/>
+      <read name="y_tt_flower_to_start_grain" type="y_tt_flower_to_start_grain" readable="T"/>
+      <read name="tt_end_grain_to_maturity" type="tt_end_grain_to_maturity" readable="T"/>
+      <read name="tt_maturity_to_ripe" type="tt_maturity_to_ripe" readable="T"/>
+      <read name="x_stem_wt" type="x_stem_wt" readable="T"/>
+      <read name="y_height" type="y_height" readable="T"/>
+      <read name="uptake_source" type="uptake_source" readable="T"/>
+      <read name="ll" type="ll" readable="T"/>
+      <read name="kl" type="kl" readable="T"/>
+      <read name="xf" type="xf" readable="T"/>
+      <read name="crop_" type="crop_type" readable="T"/>
+      <read name="default_crop_class" type="default_crop_class" readable="T"/>
+      <read name="part_names" type="part_names" readable="T"/>
+      <read name="sw_ub" type="sw_ub" readable="T"/>
+      <read name="sw_ub" type="sw_ub" readable="T"/>
+      <read name="latitude_ub" type="latitude_ub" readable="T"/>
+      <read name="latitude_lb" type="latitude_lb" readable="T"/>
+      <read name="maxt_ub" type="maxt_ub" readable="T"/>
+      <read name="maxt_lb" type="maxt_lb" readable="T"/>
+      <read name="mint_ub" type="mint_ub" readable="T"/>
+      <read name="mint_lb" type="mint_lb" readable="T"/>
+      <read name="radn_ub" type="radn_ub" readable="T"/>
+      <read name="radn_lb" type="radn_lb" readable="T"/>
+      <read name="dlayer_ub" type="dlayer_ub" readable="T"/>
+      <read name="dlayer_lb" type="dlayer_lb" readable="T"/>
+      <read name="sw_dep_ub" type="sw_dep_ub" readable="T"/>
+      <read name="sw_dep_lb" type="sw_dep_lb" readable="T"/>
+      <read name="no3_ub" type="no3_ub" readable="T"/>
+      <read name="no3_lb" type="no3_lb" readable="T"/>
+      <read name="no3_min_ub" type="no3_min_ub" readable="T"/>
+      <read name="no3_min_lb" type="no3_min_lb" readable="T"/>
+      <respondToEventReg name="create" type="create"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="sow" type="sow"/>
+      <respondToEventReg name="harvest" type="harvest"/>
+      <respondToEventReg name="end_crop" type="end_crop"/>
+      <respondToEventReg name="kill_crop" type="kill_crop"/>
+      <respondToEventReg name="end_run" type="end_run"/>
+      <respondToEventReg name="reduce" type="reduce"/>
+      <respondToEventReg name="spray" type="spray"/>
+      <respondToEventReg name="delay" type="delay"/>
+      <respondToEventReg name="spring" type="spring"/>
+      <respondToEventReg name="dormancy" type="dormancy"/>
+      <respondToEventReg name="kill_stem" type="kill_stem"/>
+      <respondToEventReg name="plant_remove_biomass" type="removeCropDm"/>
+      <eventReg name="crop_chopped" type="crop_chopped"/>
+      <getVariableReg name="sw_dep" type="sw_dep"/>
+      <getVariableReg name="no3" type="no3"/>
+      <getVariableReg name="no3_min" type="no3_min"/>
+      <getVariableReg name="latitude" type="latitude"/>
+      <setVariableReg name="dlt_no3" type="dlt_no3"/>
+      <setVariableReg name="dlt_sw_dep" type="dlt_sw_dep"/>
+      <EventReg name="incorp_fom" type="incorp_fom"/>
+      <respondToEventReg name="tick" type="tick"/>
+      <respondToEventReg name="newmet" type="newmet"/>
+      <respondToEventReg name="new_profile" type="new_profile"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="process" type="process"/>
+   </registrations>
+</component>

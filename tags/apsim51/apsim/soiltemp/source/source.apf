@@ -1,0 +1,10 @@
+[Dependencies]
+Dependency = %licensed_source(soiltemp)
+
+[Contents]
+Registrations.f90 = Registrations.f90
+soiltemp.for = soiltemp.for
+
+[APSBuild]
+binary = ..\lib\soiltemp.dll
+compilerfile=release.compile

@@ -1,0 +1,719 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+     Version                = 5.1
+     Title                  = NZIrrigation
+     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\protocolmanager\lib\protocolmanager.dll
+     Component DLL          = c:\development\apsim\protocolmanager\lib\protocolmanager.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+     Simulation start date = 30/10/1991
+     Simulation end date   = 31/12/1992
+     Time step =           = 1440 (mins)
+
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\development\apsim\SweetCorn\Validation\Lincoln9192.met
+
+------- outputfile Initialisation ---------------------------------------------
+     Output frequency:
+        post
+     Output variables:
+        dd/mm/yyyy  as Date
+        SweetCorn.zadok_stage  as zadok_stage
+        SweetCorn.lai  as lai
+        SweetCorn.leaf_wt  as leaf_wt
+        SweetCorn.stem_wt  as stem_wt
+        SweetCorn.head_wt  as head_wt
+        SweetCorn.biomass_wt  as biomass_wt
+     
+     Output file = NZIrrigation FI.out
+     Format = normal
+
+------- accum Initialisation --------------------------------------------------
+     Initialising
+
+------- fertiliser Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- Irrigation Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                      Irrigation parameters
+          -----------------------------------------------
+           Irrigation Schedule (Disabled)
+           Automatic Irrigation Application (Disabled)
+           critical fraction of available soil water =  0.00
+           depth for calculating available soil water =       0.00
+           Irrigation Allocation Budget (Disabled)
+          -----------------------------------------------
+
+------- LincolnCrop Initialisation --------------------------------------------
+     Manager rules:
+     
+     SECTION:- end_of_day
+            if sweetcorn.stage_name = 'harvest_ripe' or sweetcorn.plant_status = 'dead' then
+               sweetcorn  harvest
+               sweetcorn  end_crop
+            endif
+     
+     SECTION:- sweetcorn.sowing
+         fertiliser apply amount = 24 (kg/ha), depth = 50 (mm), type = no3_n
+     
+     SECTION:- start_of_day
+       if (today = date('30-oct') then
+                     sweetcorn sow plants =5.7, sowing_depth = 50, cultivar = challenger, row_spacing = 700
+         endif
+     
+     SECTION:- start_of_day
+          if (today = date('20/11/0001') then
+             n_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+             if (n_topsoil < 1000) then
+                fertiliser apply amount = 200 (kg/ha), depth = 50 (mm), type = urea_n ()
+             endif
+          endif
+     END of rules
+     
+
+------- Lincoln Water Initialisation ------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.130  0.260  0.410  0.470  0.410  1.320  0.762  0.300
+          150.-  300.  0.234  0.260  0.430  0.480  0.430  1.300  0.190  0.300
+          300.-  600.  0.260  0.260  0.460  0.510  0.460  1.230  0.048  0.300
+          600.-  900.  0.260  0.260  0.440  0.490  0.440  1.270  0.000  0.300
+          900.- 1200.  0.250  0.250  0.400  0.450  0.400  1.370  0.000  0.300
+         1200.- 1500.  0.280  0.280  0.410  0.460  0.329  1.350  0.000  0.300
+         1500.- 1800.  0.310  0.310  0.380  0.460  0.310  1.350  0.000  0.300
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      39.00      22.50      22.50       9.00
+          150.-  300.      39.00      25.50      25.50       7.50
+          300.-  600.      78.00      60.00      60.00      15.00
+          600.-  900.      78.00      54.00      54.00      15.00
+          900.- 1200.      75.00      45.00      45.00      15.00
+         1200.- 1500.      84.00      14.70      39.00      15.00
+         1500.- 1800.      93.00       0.00      21.00      24.00
+          ---------------------------------------------------------
+               Totals     486.00     221.70     267.00     100.50
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   0.00        0.13       40.00       16.00
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              73.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            6.00 (mm^0.5)
+            CONA:                     3.50 ()
+           Eo from priestly-taylor
+
+------- surface organic matter Initialisation ---------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat     wheat           10.0     4.0     0.1     0.0   0.005     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.0
+     
+
+------- Lincoln Nitrogen Initialisation ---------------------------------------
+     
+        - Reading Constants
+     
+        - Reading Parameters
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     7.00  1.24   12.86    1.20    0.00
+             2     7.00  1.24    4.09    0.20    0.00
+             3     7.00  1.25    7.74    0.37    0.00
+             4     7.00  1.10    6.47    0.38    0.00
+             5     7.00  0.71    6.98    0.42    0.00
+             6     7.00  0.34    6.88    0.41    0.00
+             7     7.00  0.26    6.88    0.41    0.00
+          ------------------------------------------------
+           Totals               51.89    3.39    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      24122.9  1929.8   429.1    53.6    27.8     0.7
+             2      23990.4  1919.2   189.6    23.7    21.6     0.5
+             3      46033.7  3682.7    91.3    11.4    13.1     0.3
+             4      41868.5  3349.5    41.5     5.2     8.0     0.2
+             5      29166.6  2333.3    14.4     1.8     4.8     0.1
+             6      13763.2  1101.1     6.8     0.9     2.9     0.1
+             7      10524.8   842.0     5.2     0.7     1.8     0.0
+          ---------------------------------------------------------
+           Totals  189470.0 15157.6   778.0    97.3    80.0     2.0
+          ---------------------------------------------------------
+
+------- SweetCorn Initialisation ----------------------------------------------
+     phenology model: Generic
+
+------- outputfile Initialisation ---------------------------------------------
+     Output frequency:
+        post
+     Output variables:
+        dd/mm/yyyy  as Date
+        SweetCorn.zadok_stage  as zadok_stage
+        SweetCorn.lai  as lai
+        SweetCorn.leaf_wt  as leaf_wt
+        SweetCorn.stem_wt  as stem_wt
+        SweetCorn.head_wt  as head_wt
+        SweetCorn.biomass_wt  as biomass_wt
+     
+     Output file = NZIrrigation FD.out
+     Format = normal
+
+------- accum Initialisation --------------------------------------------------
+     Initialising
+
+------- fertiliser Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- Irrigation Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                      Irrigation parameters
+          -----------------------------------------------
+           Irrigation Schedule (Disabled)
+           Automatic Irrigation Application (Disabled)
+           critical fraction of available soil water =  0.00
+           depth for calculating available soil water =       0.00
+           Irrigation Allocation Budget (Disabled)
+          -----------------------------------------------
+
+------- LincolnCrop Initialisation --------------------------------------------
+     Manager rules:
+     
+     SECTION:- end_of_day
+            if sweetcorn.stage_name = 'harvest_ripe' or sweetcorn.plant_status = 'dead' then
+               sweetcorn  harvest
+               sweetcorn  end_crop
+            endif
+     
+     SECTION:- sweetcorn.sowing
+         fertiliser apply amount = 24 (kg/ha), depth = 50 (mm), type = no3_n
+     
+     SECTION:- start_of_day
+       if (today = date('30-oct') then
+                     sweetcorn sow plants =5.7, sowing_depth = 50, cultivar = challenger, row_spacing = 700
+         endif
+     
+     SECTION:- start_of_day
+          if (today = date('20/11/0001') then
+             n_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+             if (n_topsoil < 1000) then
+                fertiliser apply amount = 200 (kg/ha), depth = 50 (mm), type = urea_n ()
+             endif
+          endif
+     END of rules
+     
+
+------- Lincoln Water Initialisation ------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.130  0.260  0.410  0.470  0.410  1.320  0.762  0.300
+          150.-  300.  0.234  0.260  0.430  0.480  0.430  1.300  0.190  0.300
+          300.-  600.  0.260  0.260  0.460  0.510  0.460  1.230  0.048  0.300
+          600.-  900.  0.260  0.260  0.440  0.490  0.440  1.270  0.000  0.300
+          900.- 1200.  0.250  0.250  0.400  0.450  0.400  1.370  0.000  0.300
+         1200.- 1500.  0.280  0.280  0.410  0.460  0.329  1.350  0.000  0.300
+         1500.- 1800.  0.310  0.310  0.380  0.460  0.310  1.350  0.000  0.300
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      39.00      22.50      22.50       9.00
+          150.-  300.      39.00      25.50      25.50       7.50
+          300.-  600.      78.00      60.00      60.00      15.00
+          600.-  900.      78.00      54.00      54.00      15.00
+          900.- 1200.      75.00      45.00      45.00      15.00
+         1200.- 1500.      84.00      14.70      39.00      15.00
+         1500.- 1800.      93.00       0.00      21.00      24.00
+          ---------------------------------------------------------
+               Totals     486.00     221.70     267.00     100.50
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   0.00        0.13       40.00       16.00
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              73.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            6.00 (mm^0.5)
+            CONA:                     3.50 ()
+           Eo from priestly-taylor
+
+------- surface organic matter Initialisation ---------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat     wheat           10.0     4.0     0.1     0.0   0.005     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.0
+     
+
+------- Lincoln Nitrogen Initialisation ---------------------------------------
+     
+        - Reading Constants
+     
+        - Reading Parameters
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     7.00  1.24   12.86    1.20    0.00
+             2     7.00  1.24    4.09    0.20    0.00
+             3     7.00  1.25    7.74    0.37    0.00
+             4     7.00  1.10    6.47    0.38    0.00
+             5     7.00  0.71    6.98    0.42    0.00
+             6     7.00  0.34    6.88    0.41    0.00
+             7     7.00  0.26    6.88    0.41    0.00
+          ------------------------------------------------
+           Totals               51.89    3.39    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      24122.9  1929.8   429.1    53.6    27.8     0.7
+             2      23990.4  1919.2   189.6    23.7    21.6     0.5
+             3      46033.7  3682.7    91.3    11.4    13.1     0.3
+             4      41868.5  3349.5    41.5     5.2     8.0     0.2
+             5      29166.6  2333.3    14.4     1.8     4.8     0.1
+             6      13763.2  1101.1     6.8     0.9     2.9     0.1
+             7      10524.8   842.0     5.2     0.7     1.8     0.0
+          ---------------------------------------------------------
+           Totals  189470.0 15157.6   778.0    97.3    80.0     2.0
+          ---------------------------------------------------------
+
+------- SweetCorn Initialisation ----------------------------------------------
+     phenology model: Generic
+------- Start of simulation  --------------------------------------------------
+30 October 1991(Day of year=303), LincolnCrop: 
+     Manager sending message :- sweetcorn sow  plants = 5.7, sowing_depth = 50, cultivar = challenger, row_spacing = 700
+30 October 1991(Day of year=303), SweetCorn: 
+     Crop Sow
+      - reading constants for plant(sweetcorn)
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(6)
+     Condition : 0.00 <= 77439.30856 <= 60000.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(7)
+     Condition : 0.00 <= 78596.49147 <= 60000.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : x_temp_grainfill(3)
+     Condition : 0.00 <= 56.32 <= 40.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+      - reading cultivar parameters
+      - reading grain cultivar parameters
+         ------------------------------------------------
+        cultivar                   = challenger
+     out
+     
+     sowing
+     
+     germination
+     shoot_lag =         15 (dd)
+     shoot_rate =          1 (dd/mm)
+     
+     emergence
+        tt_emergence =        221 (dd)
+     endjuv_to_fi
+        x_pp_endjuv_to_fi          =    13.9    14.7 (h)
+        y_tt_endjuv_to_fi          =      75      75 (dd)
+     
+     fi_to_flag
+        Stage duration determined by leaf appearance rates
+     flag_to_flower
+        tt_flag_to_flower =        101 (dd)
+     flowering
+        tt_flowering =        170 (dd)
+     start_grain_fill
+        tt_start_grain_fill =        800 (dd)
+     end_grain_fill
+        tt_end_grain_fill =          5 (dd)
+     maturity
+        tt_maturity =          1 (dd)
+     harvest_ripe
+        tt_harvest_ripe =          1 (dd)
+     end_crop
+     
+     
+        x_pp_hi_incr               =       1.00      24.00
+        y_hi_incr                  =     0.0130     0.0130
+        x_hi_max_pot_stress        =       0.00       1.00
+        y_hi_max_pot               =       0.50       0.50
+         ------------------------------------------------
+     
+     
+      - reading root profile parameters
+                        Root Profile
+         -----------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+         -----------------------------------------------
+         150.0     0.100          0.260       1.000
+         150.0     0.100          0.260       1.000
+         300.0     0.080          0.260       1.000
+         300.0     0.060          0.260       1.000
+         300.0     0.040          0.250       1.000
+         300.0     0.020          0.290       1.000
+         300.0     0.010          0.380       1.000
+         -----------------------------------------------
+         Extractable SW:   243mm in  1800mm total depth ( 14%).
+         Crop factor for bounding water use is set to 100.0 times eo.
+30 October 1991(Day of year=303), LincolnCrop: 
+     Manager sending message :- fertiliser apply  amount = 24 (kg/ha), depth = 50 (mm), type = no3_n
+30 October 1991(Day of year=303), fertiliser: 
+     
+        - Reading Fertiliser Type Parameters
+        24.00 of N as nitrate (no3_n)
+                                              added at depth   50.00 (layer   1)
+30 October 1991(Day of year=303), SweetCorn: 
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   row   plant name
+         ------------------------------------------------
+            303   50.0    5.7  700.0   0.0   0.0 challenger
+         ------------------------------------------------
+     
+30 October 1991(Day of year=303), LincolnCrop: 
+     Manager sending message :- sweetcorn sow  plants = 5.7, sowing_depth = 50, cultivar = challenger, row_spacing = 700
+30 October 1991(Day of year=303), SweetCorn: 
+     Crop Sow
+      - reading constants for plant(sweetcorn)
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(6)
+     Condition : 0.00 <= 77439.30856 <= 60000.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_size(7)
+     Condition : 0.00 <= 78596.49147 <= 60000.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : x_temp_grainfill(3)
+     Condition : 0.00 <= 56.32 <= 40.00
+     Component name: SweetCorn
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+      - reading cultivar parameters
+      - reading grain cultivar parameters
+         ------------------------------------------------
+        cultivar                   = challenger
+     out
+     
+     sowing
+     
+     germination
+     shoot_lag =         15 (dd)
+     shoot_rate =          1 (dd/mm)
+     
+     emergence
+        tt_emergence =        221 (dd)
+     endjuv_to_fi
+        x_pp_endjuv_to_fi          =    13.9    14.7 (h)
+        y_tt_endjuv_to_fi          =      75      75 (dd)
+     
+     fi_to_flag
+        Stage duration determined by leaf appearance rates
+     flag_to_flower
+        tt_flag_to_flower =        101 (dd)
+     flowering
+        tt_flowering =        170 (dd)
+     start_grain_fill
+        tt_start_grain_fill =        800 (dd)
+     end_grain_fill
+        tt_end_grain_fill =          5 (dd)
+     maturity
+        tt_maturity =          1 (dd)
+     harvest_ripe
+        tt_harvest_ripe =          1 (dd)
+     end_crop
+     
+     
+        x_pp_hi_incr               =       1.00      24.00
+        y_hi_incr                  =     0.0130     0.0130
+        x_hi_max_pot_stress        =       0.00       1.00
+        y_hi_max_pot               =       0.50       0.50
+         ------------------------------------------------
+     
+     
+      - reading root profile parameters
+                        Root Profile
+         -----------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+         -----------------------------------------------
+         150.0     0.100          0.260       1.000
+         150.0     0.100          0.260       1.000
+         300.0     0.080          0.260       1.000
+         300.0     0.060          0.260       1.000
+         300.0     0.040          0.250       1.000
+         300.0     0.020          0.290       1.000
+         300.0     0.010          0.380       1.000
+         -----------------------------------------------
+         Extractable SW:   243mm in  1800mm total depth ( 14%).
+         Crop factor for bounding water use is set to 100.0 times eo.
+30 October 1991(Day of year=303), LincolnCrop: 
+     Manager sending message :- fertiliser apply  amount = 24 (kg/ha), depth = 50 (mm), type = no3_n
+30 October 1991(Day of year=303), fertiliser: 
+     
+        - Reading Fertiliser Type Parameters
+        24.00 of N as nitrate (no3_n)
+                                              added at depth   50.00 (layer   1)
+30 October 1991(Day of year=303), SweetCorn: 
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   row   plant name
+         ------------------------------------------------
+            303   50.0    5.7  700.0   0.0   0.0 challenger
+         ------------------------------------------------
+     
+31 October 1991(Day of year=304), SweetCorn: 
+      stage 2.0 germination
+      stage 2.0 germination
+7 November 1991(Day of year=311), SweetCorn: 
+      stage 3.0 emergence
+                     biomass =           0.11 (g/m^2)   lai          =   0.002 (m^2/m^2)
+                     stover N conc =     4.50 (%)    extractable sw =    8.44 (mm)
+      stage 3.0 emergence
+                     biomass =           0.11 (g/m^2)   lai          =   0.002 (m^2/m^2)
+                     stover N conc =     4.50 (%)    extractable sw =    8.44 (mm)
+12 December 1991(Day of year=346), SweetCorn: 
+      stage 4.0 endjuv_to_fi
+                     biomass =           2.65 (g/m^2)   lai          =   0.028 (m^2/m^2)
+                     stover N conc =     3.67 (%)    extractable sw =  130.86 (mm)
+      stage 4.0 endjuv_to_fi
+                     biomass =           2.65 (g/m^2)   lai          =   0.028 (m^2/m^2)
+                     stover N conc =     3.67 (%)    extractable sw =  130.86 (mm)
+22 December 1991(Day of year=356), SweetCorn: 
+      stage 5.0 fi_to_flag
+                     biomass =           7.21 (g/m^2)   lai          =   0.075 (m^2/m^2)
+                     stover N conc =     3.04 (%)    extractable sw =  173.28 (mm)
+      stage 5.0 fi_to_flag
+                     biomass =           7.21 (g/m^2)   lai          =   0.075 (m^2/m^2)
+                     stover N conc =     3.04 (%)    extractable sw =  173.28 (mm)
+27 January 1992(Day of year=27), met: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM  Fatal  Error
+                      -------------------
+     Cannot find data in INPUT file for date 1992-Jan-27
+     Component name: met
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     

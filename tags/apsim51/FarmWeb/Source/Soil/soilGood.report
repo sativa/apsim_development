@@ -1,0 +1,270 @@
+Version = 2.0
+NumPages = 1
+object data: TForm
+  Left = 4
+  Top = 4
+  Align = alClient
+  BorderIcons = []
+  BorderStyle = bsNone
+  ClientHeight = 900
+  ClientWidth = 1309
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 120
+  TextHeight = 16
+  object data: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'Depth(cm)'
+        DataType = ftInteger
+      end
+      item
+        Name = 'BD(g/cc)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'SAT(%vol)'
+        DataType = ftInteger
+      end
+      item
+        Name = 'DUL(%vol)'
+        DataType = ftInteger
+      end
+      item
+        Name = 'LL15(%vol)'
+        DataType = ftInteger
+      end
+      item
+        Name = 'PAWC'
+        DataType = ftInteger
+      end
+      item
+        Name = 'Airdry(%vol)'
+        DataType = ftInteger
+      end
+      item
+        Name = 'cotton_LL(%vol)'
+        DataType = ftInteger
+      end
+      item
+        Name = 'cotton_KL'
+        DataType = ftFloat
+      end
+      item
+        Name = 'cotton_XF'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Series'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexFieldNames = 'Series'
+    IndexName = 'mainIndex'
+    IndexDefs = <
+      item
+        Name = 'mainIndex'
+        Fields = 'Series'
+      end>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    filenames.Strings = (
+      'soil.out')
+    Left = 80
+    Top = 35
+  end
+end
+object Page1: TQuickRep
+  Left = 158
+  Top = 0
+  Width = 992
+  Height = 1403
+  Frame.Color = clBlack
+  Frame.DrawTop = False
+  Frame.DrawBottom = False
+  Frame.DrawLeft = False
+  Frame.DrawRight = False
+  Frame.Style = psClear
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -17
+  Font.Name = 'Arial'
+  Font.Style = []
+  Functions.Strings = (
+    'PAGENUMBER'
+    'COLUMNNUMBER'
+    'REPORTTITLE')
+  Functions.DATA = (
+    '0'
+    '0'
+    #39#39)
+  Options = [FirstPageHeader, LastPageFooter]
+  Page.Columns = 1
+  Page.Orientation = poPortrait
+  Page.PaperSize = A4
+  Page.Ruler = False
+  Page.Values = (
+    0
+    2970
+    0
+    2100
+    0
+    0
+    0)
+  PrinterSettings.Copies = 1
+  PrinterSettings.Duplex = False
+  PrinterSettings.FirstPage = 0
+  PrinterSettings.LastPage = 0
+  PrinterSettings.OutputBin = Auto
+  PrintIfEmpty = True
+  SnapToGrid = True
+  Units = MM
+  Zoom = 100
+  object TitleBand1: TQRBand
+    Left = 0
+    Top = 0
+    Width = 992
+    Height = 1403
+    Frame.Color = clBlack
+    Frame.DrawTop = False
+    Frame.DrawBottom = False
+    Frame.DrawLeft = False
+    Frame.DrawRight = False
+    AlignToBottom = False
+    Color = clWhite
+    ForceNewColumn = False
+    ForceNewPage = False
+    Size.Values = (
+      2970
+      2099.73333333333)
+    BandType = rbTitle
+    object Graph1: TGraph
+      Left = 20
+      Top = 14
+      Width = 954
+      Height = 624
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        1320.8
+        42.3333333333333
+        29.6333333333333
+        2019.3)
+      title = ' '
+      leftAxisTitle = 'Depth (cm)'
+      topAxisTitle = 'Water (mm/mm)'
+      rightAxisTitle = ' '
+      bottomAxisTitle = ' '
+      footTitle = ' '
+      object QRDBChart1: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.Grid.Visible = False
+        BottomAxis.LabelsSeparation = 100
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.Grid.Visible = False
+        LeftAxis.Inverted = True
+        LeftAxis.LabelsFont.Height = -20
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        LeftAxis.Title.Caption = 'Depth (cm)'
+        LeftAxis.Title.Font.Height = -20
+        Legend.Alignment = laBottom
+        Legend.Font.Height = -20
+        Legend.Frame.Visible = False
+        Legend.LegendStyle = lsSeries
+        Legend.Shadow.Color = clWhite
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.ExactDateTime = False
+        TopAxis.Grid.Visible = False
+        TopAxis.Increment = 5
+        TopAxis.LabelsFont.Height = -20
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        TopAxis.Title.Caption = 'Water (mm/mm)'
+        TopAxis.Title.Font.Height = -20
+        View3D = False
+        object Series1: TLineSeries
+          HorizAxis = aTopAxis
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.data
+          SeriesColor = clRed
+          Title = 'LL15'
+          LinePen.Width = 3
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'll15(%vol)'
+          YValues.Name = 'Y'
+          YValues.ValueSource = 'depth(cm)'
+        end
+        object Series2: TLineSeries
+          HorizAxis = aTopAxis
+          Marks.ArrowLength = 8
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.data
+          SeriesColor = 16744448
+          Title = 'DUL'
+          LinePen.Width = 3
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'dul(%vol)'
+          YValues.Name = 'Y'
+          YValues.Order = loAscending
+          YValues.ValueSource = 'depth(cm)'
+        end
+      end
+    end
+  end
+end

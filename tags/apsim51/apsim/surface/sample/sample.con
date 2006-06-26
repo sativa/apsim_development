@@ -1,0 +1,11 @@
+version = 5.1
+[apsim.test]
+module = clock    sample.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report   sample.par [sample]
+module = input(met)      SAMPLE.MET [sample]
+module = manager  sample.par [sample]
+module = canopy
+module = apswim   sample.par [sample]     %apsuite\apsim\apswim\apswim.ini [standard]
+module = slurp    sample.par [sample]
+module = surface  sample.par [sample]
+module = SummaryFile  sample.par[sample]
