@@ -9,7 +9,7 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.0
+     Version                = 5.1
      Title                  = Sample Butterfly pea Simulation
      Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
      Component DLL          = c:\development\apsim\clock\lib\clock.dll
@@ -20,7 +20,6 @@
      Sequencer phases:
         prepare
         process
-        do_stock
         post
      Simulation start date =  1/01/1989
      Simulation end date   = 21/05/1989
@@ -49,7 +48,7 @@
         butterflypea.sw_stress_expan  as sw_stress_expan
         butterflypea.stage_name  as stage_name
      
-     Output file: Sample Butterfly pea Simulation.out
+     Output file = Sample Butterfly pea Simulation.out
      Format = normal
 
 ------- accum Initialisation --------------------------------------------------
