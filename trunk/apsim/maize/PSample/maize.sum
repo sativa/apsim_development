@@ -494,19 +494,19 @@
 19 January 1993(Day of year=19), maize: 
       stage    8.0 start_grain_fill
                           biomass =           1041.372       lai =     3.910510
-                          stover N conc =    1.326105       extractable sw =    151.2118
+                          stover N conc =    1.326104       extractable sw =    151.2118
 6 March 1993(Day of year=65), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           1317.070       lai =     1.622408
-                          stover N conc =    1.150644       extractable sw =    70.75682
+                          biomass =           1313.754       lai =     1.622408
+                          stover N conc =    1.153890       extractable sw =    71.61507
 7 March 1993(Day of year=66), maize: 
       stage   10.0 maturity
-                          biomass =           1317.531       lai =     1.569469
-                          stover N conc =    1.151199       extractable sw =    70.59495
+                          biomass =           1314.425       lai =     1.569469
+                          stover N conc =    1.154248       extractable sw =    71.40610
 8 March 1993(Day of year=67), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           1317.531       lai =    0.1008081E-01
-                          stover N conc =    1.181877       extractable sw =    70.43526
+                          biomass =           1314.425       lai =    0.1008081E-01
+                          stover N conc =    1.185153       extractable sw =    71.20392
 9 March 1993(Day of year=68), manager: 
      Manager sending message :- maize harvest
 9 March 1993(Day of year=68), maize: 
@@ -514,22 +514,22 @@
      
      
      flowering (DAS) =   71                                maturity (DAS)  =     128
-      flowering day  =    9                                 stover (kg/ha) =    8791.2
-      maturity day        =   66                            grain yield (kg/ha) =    4384.2
-      grain % water content   =   15.5                      grain yield wet (kg/ha) =    5188.3
-      grain wt (g) =     0.199                              grains/m^2   =  2204.925
-      grains/head = 220.5                                   maximum lai = 4.390
-      total above ground biomass (kg/ha) =   13175.3
-      live above ground biomass (kg/ha) =   13175.3
-      green above ground biomass (kg/ha) =   11542.8
+      flowering day  =    9                                 stover (kg/ha) =    8795.3
+      maturity day        =   66                            grain yield (kg/ha) =    4348.9
+      grain % water content   =   15.5                      grain yield wet (kg/ha) =    5146.7
+      grain wt (g) =     0.187                              grains/m^2   =  2326.181
+      grains/head = 232.6                                   maximum lai = 4.390
+      total above ground biomass (kg/ha) =   13144.2
+      live above ground biomass (kg/ha) =   13144.2
+      green above ground biomass (kg/ha) =   11511.7
       senesced above ground biomass (kg/ha) =    1632.6
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  19.4
-      grain N percent =      1.05                           total N content (kg/ha) =    144.58
-      grain N uptake (kg/ha) =     46.14                    senesced N content (kg/ha) =      8.16
-      green N content (kg/ha) =     90.28                   dead N content (kg/ha) =      0.00
-      grain P percent            =      0.15                total P content (kg/ha)    =      9.09
-      grain P uptake (kg/ha)     =      6.78                senesced P content (kg/ha) =      0.82
+      grain N percent =      1.07                           total N content (kg/ha) =    144.59
+      grain N uptake (kg/ha) =     46.75                    senesced N content (kg/ha) =      8.16
+      green N content (kg/ha) =     89.68                   dead N content (kg/ha) =      0.00
+      grain P percent            =      0.16                total P content (kg/ha)    =      9.11
+      grain P uptake (kg/ha)     =      6.79                senesced P content (kg/ha) =      0.82
       green P content (kg/ha)    =      1.50                dead P content (kg/ha)     =      0.00
      
      
@@ -539,21 +539,21 @@
          floral_initiation   to flag_leaf               0.000        0.000        0.002        0.099
          flag_leaf           to flowering               0.000        0.000        0.112        0.290
          flowering           to start_grain_fill        0.000        0.000        0.195        0.356
-         start_grain_fill    to end_grain_fill          0.000        0.000        0.139        0.233
+         start_grain_fill    to end_grain_fill          0.000        0.000        0.128        0.220
      
      Crop harvested.
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               4384.15                    0.00
-                          N  (kg/ha) =                 46.14                    0.00
+                          DM (kg/ha) =               4348.94                    0.00
+                          N  (kg/ha) =                 46.75                    0.00
      
 9 March 1993(Day of year=68), manager: 
      Manager sending message :- maize end_crop
 9 March 1993(Day of year=68), maize: 
          Crop ended. Yield (dw) =     0.0
          Organic matter from crop:-      Tops to surface residue     Roots to soil FOM
-                          DM (kg/ha) =               8791.16                 2461.77
-                          N  (kg/ha) =                 98.44                   19.73
-                          P  (kg/ha) =                 23.16                   17.46
+                          DM (kg/ha) =               8795.31                 2461.77
+                          N  (kg/ha) =                 97.85                   19.85
+                          P  (kg/ha) =                 23.17                   17.48
      
 1 May 1993(Day of year=121), manager: 
      Manager sending message :- surfaceom tillage  type = chisel
