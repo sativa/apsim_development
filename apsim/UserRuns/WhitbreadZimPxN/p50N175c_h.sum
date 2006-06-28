@@ -11,19 +11,19 @@
 
      Version                = 5.1
      Title                  = p50N175
-     Component DLL          = c:\program files\apsim51\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\program files\apsim51\apsim\clock\lib\clock.dll
-     Component DLL          = c:\program files\apsim51\apsim\report\lib\report.dll
-     Component DLL          = c:\program files\apsim51\apsim\input\lib\input.dll
-     Component DLL          = c:\program files\apsim51\apsim\accum\lib\accum.dll
-     Component DLL          = c:\program files\apsim51\apsim\fertiliz\lib\fertiliz.dll
-     Component DLL          = c:\program files\apsim51\apsim\manager\lib\manager.dll
-     Component DLL          = c:\program files\apsim51\apsim\soilwat2\lib\soilwat2.dll
-     Component DLL          = c:\program files\apsim51\apsim\SurfaceOM\lib\SurfaceOM.dll
-     Component DLL          = c:\program files\apsim51\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\program files\apsim51\apsim\soilp\lib\soilp.dll
-     Component DLL          = c:\program files\apsim51\apsim\maize\lib\maize.dll
-     Component DLL          = c:\program files\apsim51\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\accum\lib\accum.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\soilp\lib\soilp.dll
+     Component DLL          = c:\development\apsim\maize\lib\maize.dll
+     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -17182,19 +17182,19 @@
                           stover N conc =    2.116594       extractable sw =    39.47125
 1 February 1992(Day of year=32), maize: 
       stage    8.0 start_grain_fill
-                          biomass =           411.4430       lai =     1.447262
-                          stover N conc =    2.197922       extractable sw =    22.88763
+                          biomass =           411.4431       lai =     1.447262
+                          stover N conc =    2.197921       extractable sw =    22.88763
 6 March 1992(Day of year=66), maize: 
       stage    9.0 end_grain_fill
                           biomass =           468.2530       lai =    0.3641367
                           stover N conc =    2.051259       extractable sw =    8.920856
 7 March 1992(Day of year=67), maize: 
       stage   10.0 maturity
-                          biomass =           468.7580       lai =    0.3481865
+                          biomass =           468.7581       lai =    0.3481865
                           stover N conc =    2.050889       extractable sw =    8.737354
 8 March 1992(Day of year=68), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           468.7579       lai =    0.1595706E-02
+                          biomass =           468.7580       lai =    0.1595706E-02
                           stover N conc =    2.100437       extractable sw =    8.559147
 8 March 1992(Day of year=68), manager: 
      Manager sending message :- maize harvest
@@ -17206,8 +17206,8 @@
       flowering day  =   23                                 stover (kg/ha) =    3553.2
       maturity day        =   67                            grain yield (kg/ha) =    1134.4
       grain % water content   =   15.5                      grain yield wet (kg/ha) =    1342.4
-      grain wt (g) =     0.129                              grains/m^2   =   881.714
-      grains/head = 209.9                                   maximum lai = 2.083
+      grain wt (g) =     0.124                              grains/m^2   =   913.238
+      grains/head = 217.4                                   maximum lai = 2.083
       total above ground biomass (kg/ha) =    4687.6
       live above ground biomass (kg/ha) =    4687.6
       green above ground biomass (kg/ha) =    3891.1
@@ -17260,7 +17260,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9912241
+     Value:        0.9912239
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17271,7 +17271,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9991384
+     Value:        0.9991383
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17294,7 +17294,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9845254
+     Value:        0.9845253
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17305,7 +17305,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9985362
+     Value:        0.9985361
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17316,7 +17316,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9980912
+     Value:        0.9980911
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17328,7 +17328,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9789306
+     Value:        0.9789304
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17339,7 +17339,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9981198
+     Value:        0.9981197
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17367,7 +17367,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9743194
+     Value:        0.9743191
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17378,7 +17378,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9978561
+     Value:        0.9978560
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17401,7 +17401,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9705045
+     Value:        0.9705041
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17412,7 +17412,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9977157
+     Value:        0.9977154
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17435,7 +17435,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9673005
+     Value:        0.9673001
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17446,7 +17446,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9976779
+     Value:        0.9976775
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17469,7 +17469,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9643771
+     Value:        0.9643766
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17480,7 +17480,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9977608
+     Value:        0.9977604
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17503,7 +17503,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9623670
+     Value:        0.9623664
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17514,7 +17514,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9980364
+     Value:        0.9980360
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17537,7 +17537,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9604504
+     Value:        0.9604498
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17548,7 +17548,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9983578
+     Value:        0.9983572
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17559,7 +17559,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9960732
+     Value:        0.9960731
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17571,7 +17571,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9587069
+     Value:        0.9587063
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17582,7 +17582,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9987249
+     Value:        0.9987243
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17593,7 +17593,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9961466
+     Value:        0.9961464
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17605,7 +17605,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9571667
+     Value:        0.9571660
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17616,7 +17616,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9991767
+     Value:        0.9991760
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17627,7 +17627,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9962752
+     Value:        0.9962750
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17639,7 +17639,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9558885
+     Value:        0.9558877
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17650,7 +17650,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9997069
+     Value:        0.9997061
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17661,7 +17661,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9964634
+     Value:        0.9964632
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17673,7 +17673,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9548873
+     Value:        0.9548866
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17684,7 +17684,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9967007
+     Value:        0.9967005
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17696,7 +17696,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9541225
+     Value:        0.9541217
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17707,7 +17707,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9969895
+     Value:        0.9969893
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17719,7 +17719,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9535636
+     Value:        0.9535628
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17730,7 +17730,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9973337
+     Value:        0.9973334
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17742,7 +17742,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9531935
+     Value:        0.9531927
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17753,7 +17753,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9977354
+     Value:        0.9977351
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17765,7 +17765,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9530024
+     Value:        0.9530016
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17776,7 +17776,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9981978
+     Value:        0.9981974
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17788,7 +17788,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9529890
+     Value:        0.9529881
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17799,7 +17799,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9987283
+     Value:        0.9987279
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17811,7 +17811,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9531789
+     Value:        0.9531781
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17822,7 +17822,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9993566
+     Value:        0.9993563
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17834,7 +17834,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9536164
+     Value:        0.9536155
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17853,7 +17853,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9542178
+     Value:        0.9542169
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17865,7 +17865,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9550135
+     Value:        0.9550126
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17877,7 +17877,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9558935
+     Value:        0.9558925
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17889,7 +17889,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9567996
+     Value:        0.9567985
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17901,7 +17901,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9577602
+     Value:        0.9577590
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17913,7 +17913,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9588672
+     Value:        0.9588661
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17925,7 +17925,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9600900
+     Value:        0.9600888
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17937,7 +17937,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9614077
+     Value:        0.9614065
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17949,7 +17949,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9628452
+     Value:        0.9628440
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17961,7 +17961,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9644170
+     Value:        0.9644158
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18034,7 +18034,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9658977
+     Value:        0.9658965
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18053,7 +18053,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9671462
+     Value:        0.9671450
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18067,7 +18067,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9683030
+     Value:        0.9683018
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18079,7 +18079,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9694119
+     Value:        0.9694107
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18091,7 +18091,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9705027
+     Value:        0.9705015
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18107,7 +18107,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9716647
+     Value:        0.9716635
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18119,7 +18119,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9730783
+     Value:        0.9730771
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18131,7 +18131,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9747664
+     Value:        0.9747652
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18143,7 +18143,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9767877
+     Value:        0.9767866
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18155,7 +18155,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9791451
+     Value:        0.9791439
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18167,7 +18167,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9817829
+     Value:        0.9817817
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18179,7 +18179,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9845773
+     Value:        0.9845760
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18191,7 +18191,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9874585
+     Value:        0.9874572
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18203,7 +18203,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9902257
+     Value:        0.9902244
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18215,7 +18215,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9928176
+     Value:        0.9928164
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18227,7 +18227,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9952652
+     Value:        0.9952639
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18239,7 +18239,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9973917
+     Value:        0.9973904
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18251,7 +18251,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9994196
+     Value:        0.9994184
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18281,28 +18281,28 @@
                                               added at depth    5.00 (layer   1)
 9 February 1993(Day of year=40), maize: 
       stage    6.0 flag_leaf
-                          biomass =           359.2991       lai =     2.147585
+                          biomass =           359.2990       lai =     2.147583
                           stover N conc =    2.173760       extractable sw =    108.3288
 10 February 1993(Day of year=41), maize: 
       stage    7.0 flowering
-                          biomass =           382.0227       lai =     2.141454
+                          biomass =           382.0226       lai =     2.141453
                           stover N conc =    2.146410       extractable sw =    103.0289
 22 February 1993(Day of year=53), maize: 
       stage    8.0 start_grain_fill
-                          biomass =           616.3527       lai =     2.045528
+                          biomass =           616.3525       lai =     2.045527
                           stover N conc =    1.941404       extractable sw =    120.1401
 8 April 1993(Day of year=98), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           1061.177       lai =     1.348595
-                          stover N conc =    1.461056       extractable sw =    35.07918
+                          biomass =           1061.177       lai =     1.348594
+                          stover N conc =    1.461056       extractable sw =    35.07921
 9 April 1993(Day of year=99), maize: 
       stage   10.0 maturity
-                          biomass =           1061.221       lai =     1.325987
-                          stover N conc =    1.461720       extractable sw =    35.05851
+                          biomass =           1061.220       lai =     1.325986
+                          stover N conc =    1.461719       extractable sw =    35.05853
 10 April 1993(Day of year=100), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           1061.221       lai =    0.1595855E-02
-                          stover N conc =    1.506191       extractable sw =    35.04127
+                          biomass =           1061.220       lai =    0.1595497E-02
+                          stover N conc =    1.506191       extractable sw =    35.04129
 10 April 1993(Day of year=100), manager: 
      Manager sending message :- maize harvest
 10 April 1993(Day of year=100), maize: 
@@ -18447,14 +18447,14 @@
 18 November 1993(Day of year=322), maize: 
       stage    3.0 emergence
                           biomass =          0.8399999E-01   lai =    0.1596000E-02
-                          stover N conc =    4.400000       extractable sw =   0.3985748
+                          stover N conc =    4.400000       extractable sw =   0.3985786
 9 December 1993(Day of year=343), maize: 
       stage    4.0 end_of_juvenile
-                          biomass =           2.352929       lai =    0.2838393E-01
-                          stover N conc =    3.345220       extractable sw =    19.33019
+                          biomass =           2.352930       lai =    0.2838394E-01
+                          stover N conc =    3.345219       extractable sw =    19.33019
 11 December 1993(Day of year=345), maize: 
       stage    5.0 floral_initiation
-                          biomass =           3.228035       lai =    0.3755459E-01
+                          biomass =           3.228036       lai =    0.3755460E-01
                           stover N conc =    3.268575       extractable sw =    37.72844
 27 December 1993(Day of year=361), manager: 
      Manager sending message :- fertiliz apply  amount = 58.3, type = nh4no3, depth = 5
@@ -18472,28 +18472,28 @@
                                               added at depth    5.00 (layer   1)
 27 January 1994(Day of year=27), maize: 
       stage    6.0 flag_leaf
-                          biomass =           480.9172       lai =     2.468881
-                          stover N conc =    2.037497       extractable sw =    59.16772
+                          biomass =           480.9173       lai =     2.468881
+                          stover N conc =    2.037497       extractable sw =    59.16773
 28 January 1994(Day of year=28), maize: 
       stage    7.0 flowering
-                          biomass =           502.5013       lai =     2.465698
-                          stover N conc =    2.085114       extractable sw =    59.73839
+                          biomass =           502.5014       lai =     2.465698
+                          stover N conc =    2.085114       extractable sw =    59.73840
 10 February 1994(Day of year=41), maize: 
       stage    8.0 start_grain_fill
-                          biomass =           651.5864       lai =     1.783269
-                          stover N conc =    1.843358       extractable sw =    25.73075
+                          biomass =           651.5865       lai =     1.783269
+                          stover N conc =    1.843357       extractable sw =    25.73075
 25 March 1994(Day of year=84), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           750.1253       lai =    0.3250602
-                          stover N conc =    1.702722       extractable sw =    7.370823
+                          biomass =           750.1253       lai =    0.3257055
+                          stover N conc =    1.702637       extractable sw =    7.370823
 26 March 1994(Day of year=85), maize: 
       stage   10.0 maturity
-                          biomass =           750.6592       lai =    0.3125650
-                          stover N conc =    1.702184       extractable sw =    7.222664
+                          biomass =           750.6592       lai =    0.3131789
+                          stover N conc =    1.702101       extractable sw =    7.222664
 27 March 1994(Day of year=86), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           750.6592       lai =    0.1596093E-02
-                          stover N conc =    1.723014       extractable sw =    7.078541
+                          biomass =           750.6592       lai =    0.1596123E-02
+                          stover N conc =    1.722970       extractable sw =    7.078541
 27 March 1994(Day of year=86), manager: 
      Manager sending message :- maize harvest
 27 March 1994(Day of year=86), maize: 
@@ -18504,17 +18504,17 @@
       flowering day  =   28                                 stover (kg/ha) =    5525.2
       maturity day        =   85                            grain yield (kg/ha) =    1981.4
       grain % water content   =   15.5                      grain yield wet (kg/ha) =    2344.8
-      grain wt (g) =     0.173                              grains/m^2   =  1143.913
-      grains/head = 272.4                                   maximum lai = 2.478
+      grain wt (g) =     0.172                              grains/m^2   =  1153.588
+      grains/head = 274.7                                   maximum lai = 2.478
       total above ground biomass (kg/ha) =    7506.6
       live above ground biomass (kg/ha) =    7506.6
       green above ground biomass (kg/ha) =    6565.1
       senesced above ground biomass (kg/ha) =     941.5
       dead above ground biomass (kg/ha) =       0.0
       number of leaves =  18.6
-      grain N percent =      0.86                           total N content (kg/ha) =    117.83
-      grain N uptake (kg/ha) =     17.07                    senesced N content (kg/ha) =      4.71
-      green N content (kg/ha) =     96.05                   dead N content (kg/ha) =      0.00
+      grain N percent =      0.86                           total N content (kg/ha) =    117.82
+      grain N uptake (kg/ha) =     17.11                    senesced N content (kg/ha) =      4.71
+      green N content (kg/ha) =     96.01                   dead N content (kg/ha) =      0.00
       grain P percent            =      0.21                total P content (kg/ha)    =      5.47
       grain P uptake (kg/ha)     =      4.08                senesced P content (kg/ha) =      0.47
       green P content (kg/ha)    =      0.93                dead P content (kg/ha)     =      0.00
@@ -18531,7 +18531,7 @@
      Crop harvested.
          Organic matter removed from system:-      From Tops               From Roots
                           DM (kg/ha) =               1981.38                    0.00
-                          N  (kg/ha) =                 17.07                    0.00
+                          N  (kg/ha) =                 17.11                    0.00
      
 27 March 1994(Day of year=86), manager: 
      Manager sending message :- maize end_crop
@@ -18539,7 +18539,7 @@
          Crop ended. Yield (dw) =     0.0
          Organic matter from crop:-      Tops to surface residue     Roots to soil FOM
                           DM (kg/ha) =               5525.21                 1519.51
-                          N  (kg/ha) =                100.75                   16.14
+                          N  (kg/ha) =                100.72                   16.14
                           P  (kg/ha) =                 14.00                    9.37
      
 26 April 1994(Day of year=116), manager: 
@@ -18569,7 +18569,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9951957
+     Value:        0.9951988
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18580,7 +18580,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9930884
+     Value:        0.9930933
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18591,7 +18591,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9978693
+     Value:        0.9978756
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18614,7 +18614,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9905213
+     Value:        0.9905275
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18625,7 +18625,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9863106
+     Value:        0.9863203
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18636,7 +18636,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9957675
+     Value:        0.9957802
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18648,7 +18648,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9592143
+     Value:        0.9592142
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18659,7 +18659,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9862735
+     Value:        0.9862826
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18670,7 +18670,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9800774
+     Value:        0.9800915
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18681,7 +18681,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9938113
+     Value:        0.9938298
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18709,7 +18709,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9832110
+     Value:        0.9832222
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18720,7 +18720,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9754146
+     Value:        0.9754327
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18731,7 +18731,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9923720
+     Value:        0.9923951
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18754,7 +18754,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9807269
+     Value:        0.9807397
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18765,7 +18765,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9715928
+     Value:        0.9716141
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18776,7 +18776,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9911662
+     Value:        0.9911932
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18788,7 +18788,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9354479
+     Value:        0.9354480
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18799,7 +18799,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9785985
+     Value:        0.9786128
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18810,7 +18810,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9683368
+     Value:        0.9683608
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18821,7 +18821,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9901243
+     Value:        0.9901545
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18833,7 +18833,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9294102
+     Value:        0.9294103
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18844,7 +18844,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9765945
+     Value:        0.9766101
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18855,7 +18855,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9652591
+     Value:        0.9652856
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18866,7 +18866,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9891291
+     Value:        0.9891624
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18878,7 +18878,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9235024
+     Value:        0.9235026
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18889,7 +18889,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9746075
+     Value:        0.9746245
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18900,7 +18900,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9621685
+     Value:        0.9621976
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18911,7 +18911,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9881197
+     Value:        0.9881562
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18923,7 +18923,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9177578
+     Value:        0.9177580
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18934,7 +18934,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9726614
+     Value:        0.9726799
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18945,7 +18945,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9590916
+     Value:        0.9591233
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18956,7 +18956,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9871041
+     Value:        0.9871438
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18968,7 +18968,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9115280
+     Value:        0.9115283
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18979,7 +18979,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9705749
+     Value:        0.9705949
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18990,7 +18990,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9557388
+     Value:        0.9557733
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19001,7 +19001,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9860012
+     Value:        0.9860445
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19013,7 +19013,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9049559
+     Value:        0.9049562
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19024,7 +19024,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9684118
+     Value:        0.9684334
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19035,7 +19035,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9521786
+     Value:        0.9522160
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19046,7 +19046,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9848377
+     Value:        0.9848848
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19058,7 +19058,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8986683
+     Value:        0.8986688
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19069,7 +19069,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9663704
+     Value:        0.9663937
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19080,7 +19080,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9487112
+     Value:        0.9487516
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19091,7 +19091,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9837046
+     Value:        0.9837556
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19103,7 +19103,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8928187
+     Value:        0.8928192
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19114,7 +19114,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9645044
+     Value:        0.9645293
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19125,7 +19125,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9454177
+     Value:        0.9454609
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19136,7 +19136,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9826290
+     Value:        0.9826838
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19148,7 +19148,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8875204
+     Value:        0.8875209
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19159,7 +19159,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9628509
+     Value:        0.9628774
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19170,7 +19170,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9423631
+     Value:        0.9424090
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19181,7 +19181,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9816313
+     Value:        0.9816898
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19193,7 +19193,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8826257
+     Value:        0.8826262
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19204,7 +19204,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9613801
+     Value:        0.9614081
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19215,7 +19215,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9394777
+     Value:        0.9395261
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19226,7 +19226,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9806952
+     Value:        0.9807573
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19238,7 +19238,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8781781
+     Value:        0.8781787
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19249,7 +19249,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9601124
+     Value:        0.9601418
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19260,7 +19260,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9367877
+     Value:        0.9368386
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19271,7 +19271,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9798302
+     Value:        0.9798958
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19283,7 +19283,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8741819
+     Value:        0.8741825
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19294,7 +19294,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9590594
+     Value:        0.9590902
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19305,7 +19305,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9342991
+     Value:        0.9343525
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19316,7 +19316,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9790404
+     Value:        0.9791095
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19328,7 +19328,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8706438
+     Value:        0.8706445
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19339,7 +19339,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9582349
+     Value:        0.9582670
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19350,7 +19350,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9320183
+     Value:        0.9320740
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19361,7 +19361,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9783306
+     Value:        0.9784030
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19373,7 +19373,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8676022
+     Value:        0.8676029
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19384,7 +19384,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9576535
+     Value:        0.9576870
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19395,7 +19395,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9299732
+     Value:        0.9300311
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19406,7 +19406,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9777094
+     Value:        0.9777851
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19418,7 +19418,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8650706
+     Value:        0.8650714
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19429,7 +19429,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9573154
+     Value:        0.9573501
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19440,7 +19440,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9281828
+     Value:        0.9282426
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19451,7 +19451,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9771819
+     Value:        0.9772608
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19470,7 +19470,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8630530
+     Value:        0.8630539
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19481,7 +19481,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9571840
+     Value:        0.9572198
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19492,7 +19492,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9266769
+     Value:        0.9267386
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19503,7 +19503,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9767486
+     Value:        0.9768303
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19515,7 +19515,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8614647
+     Value:        0.8614656
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19526,7 +19526,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9572263
+     Value:        0.9572631
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19537,7 +19537,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9254202
+     Value:        0.9254836
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19548,7 +19548,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9763985
+     Value:        0.9764828
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19560,7 +19560,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8602306
+     Value:        0.8602316
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19571,7 +19571,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9574340
+     Value:        0.9574717
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19582,7 +19582,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9243698
+     Value:        0.9244347
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19593,7 +19593,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9761225
+     Value:        0.9762093
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19605,7 +19605,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8593152
+     Value:        0.8593161
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19616,7 +19616,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9578140
+     Value:        0.9578525
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19627,7 +19627,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9235017
+     Value:        0.9235681
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19638,7 +19638,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9759178
+     Value:        0.9760070
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19650,7 +19650,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8586923
+     Value:        0.8586933
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19661,7 +19661,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9583425
+     Value:        0.9583819
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19672,7 +19672,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9228120
+     Value:        0.9228796
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19683,7 +19683,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9757800
+     Value:        0.9758715
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19695,7 +19695,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8583405
+     Value:        0.8583415
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19706,7 +19706,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9590185
+     Value:        0.9590587
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19717,7 +19717,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9222881
+     Value:        0.9223570
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19728,7 +19728,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9757068
+     Value:        0.9758006
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19740,7 +19740,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8582566
+     Value:        0.8582576
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19751,7 +19751,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9598554
+     Value:        0.9598962
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19762,7 +19762,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9219248
+     Value:        0.9219949
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19773,7 +19773,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9756999
+     Value:        0.9757957
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19785,7 +19785,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8584438
+     Value:        0.8584448
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19796,7 +19796,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9608619
+     Value:        0.9609035
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19807,7 +19807,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9217228
+     Value:        0.9217941
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19818,7 +19818,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9757613
+     Value:        0.9758591
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19830,7 +19830,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8587125
+     Value:        0.8587134
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19841,7 +19841,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9618444
+     Value:        0.9618865
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19852,7 +19852,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9216290
+     Value:        0.9217012
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19863,7 +19863,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9758500
+     Value:        0.9759496
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19875,7 +19875,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8590056
+     Value:        0.8590065
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19886,7 +19886,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9627206
+     Value:        0.9627632
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19897,7 +19897,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9215963
+     Value:        0.9216693
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19908,7 +19908,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9759399
+     Value:        0.9760410
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19920,7 +19920,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8593962
+     Value:        0.8593971
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19931,7 +19931,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9635984
+     Value:        0.9636415
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19942,7 +19942,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9216306
+     Value:        0.9217044
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19953,7 +19953,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9760504
+     Value:        0.9761529
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19965,7 +19965,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8598978
+     Value:        0.8598987
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19976,7 +19976,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9645141
+     Value:        0.9645575
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19987,7 +19987,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9217321
+     Value:        0.9218066
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19998,7 +19998,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9761869
+     Value:        0.9762908
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20010,7 +20010,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8604769
+     Value:        0.8604777
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20021,7 +20021,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9654405
+     Value:        0.9654843
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20032,7 +20032,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9218872
+     Value:        0.9219624
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20043,7 +20043,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9763421
+     Value:        0.9764472
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20055,7 +20055,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8610995
+     Value:        0.8611004
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20066,7 +20066,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9663529
+     Value:        0.9663970
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20077,7 +20077,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9220812
+     Value:        0.9221570
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20088,7 +20088,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9765086
+     Value:        0.9766148
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20100,7 +20100,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8618090
+     Value:        0.8618098
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20111,7 +20111,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9673060
+     Value:        0.9673504
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20122,7 +20122,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9223276
+     Value:        0.9224039
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20133,7 +20133,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9766977
+     Value:        0.9768049
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20145,7 +20145,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8625579
+     Value:        0.8625588
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20156,7 +20156,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9682558
+     Value:        0.9683005
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20167,7 +20167,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9226077
+     Value:        0.9226846
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20178,7 +20178,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9768982
+     Value:        0.9770064
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20190,7 +20190,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8633907
+     Value:        0.8633916
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20201,7 +20201,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9692513
+     Value:        0.9692964
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20212,7 +20212,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9229374
+     Value:        0.9230148
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20223,7 +20223,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9771214
+     Value:        0.9772305
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20235,7 +20235,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8642251
+     Value:        0.8642260
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20246,7 +20246,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9702165
+     Value:        0.9702618
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20257,7 +20257,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9232835
+     Value:        0.9233613
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20268,7 +20268,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9773474
+     Value:        0.9774575
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20280,7 +20280,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8652871
+     Value:        0.8652879
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20291,7 +20291,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9713621
+     Value:        0.9714078
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20302,7 +20302,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9237365
+     Value:        0.9238148
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20313,7 +20313,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9776303
+     Value:        0.9777413
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20325,7 +20325,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8666309
+     Value:        0.8666317
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20336,7 +20336,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9727200
+     Value:        0.9727660
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20347,7 +20347,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9243224
+     Value:        0.9244013
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20358,7 +20358,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9779822
+     Value:        0.9780942
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20370,7 +20370,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8682897
+     Value:        0.8682905
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20381,7 +20381,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9743020
+     Value:        0.9743483
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20392,7 +20392,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9250582
+     Value:        0.9251376
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20403,7 +20403,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9784104
+     Value:        0.9785233
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20415,7 +20415,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8700987
+     Value:        0.8700995
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20426,7 +20426,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9759699
+     Value:        0.9760165
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20437,7 +20437,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9258763
+     Value:        0.9259562
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20448,7 +20448,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9788762
+     Value:        0.9789902
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20460,7 +20460,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8721311
+     Value:        0.8721319
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20471,7 +20471,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9777791
+     Value:        0.9778261
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20482,7 +20482,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9268084
+     Value:        0.9268888
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20493,7 +20493,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9793967
+     Value:        0.9795117
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20566,7 +20566,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8743162
+     Value:        0.8743170
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20577,7 +20577,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9796181
+     Value:        0.9796652
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20588,7 +20588,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9278772
+     Value:        0.9279581
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20599,7 +20599,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9799988
+     Value:        0.9801145
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20618,7 +20618,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8764908
+     Value:        0.8764916
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20629,7 +20629,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9814315
+     Value:        0.9814789
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20640,7 +20640,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9289533
+     Value:        0.9290345
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20651,7 +20651,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9805996
+     Value:        0.9807162
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20665,7 +20665,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8783657
+     Value:        0.8783665
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20676,7 +20676,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9830154
+     Value:        0.9830630
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20687,7 +20687,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9298814
+     Value:        0.9299628
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20698,7 +20698,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9811139
+     Value:        0.9812311
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20710,7 +20710,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8800003
+     Value:        0.8800011
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20721,7 +20721,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9844185
+     Value:        0.9844663
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20732,7 +20732,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9306974
+     Value:        0.9307791
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20743,7 +20743,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9815622
+     Value:        0.9816801
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20755,7 +20755,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8816106
+     Value:        0.8816114
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20766,7 +20766,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9858033
+     Value:        0.9858512
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20777,7 +20777,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9315088
+     Value:        0.9315907
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20788,7 +20788,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9820037
+     Value:        0.9821222
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20804,7 +20804,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8832598
+     Value:        0.8832606
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20815,7 +20815,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9872147
+     Value:        0.9872629
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20826,7 +20826,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9323476
+     Value:        0.9324299
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20837,7 +20837,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9824564
+     Value:        0.9825755
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20849,7 +20849,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8849500
+     Value:        0.8849508
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20860,7 +20860,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9886515
+     Value:        0.9886999
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20871,7 +20871,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9332157
+     Value:        0.9332982
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20882,7 +20882,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9829221
+     Value:        0.9830418
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20894,7 +20894,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8869296
+     Value:        0.8869305
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20905,7 +20905,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9902973
+     Value:        0.9903459
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20916,7 +20916,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9342285
+     Value:        0.9343114
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20927,7 +20927,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9834605
+     Value:        0.9835808
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20939,7 +20939,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8892640
+     Value:        0.8892648
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20950,7 +20950,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9921916
+     Value:        0.9922404
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20961,7 +20961,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9354172
+     Value:        0.9355003
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20972,7 +20972,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9840868
+     Value:        0.9842078
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20984,7 +20984,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8917692
+     Value:        0.8917700
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20995,7 +20995,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9941965
+     Value:        0.9942456
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21006,7 +21006,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9366973
+     Value:        0.9367808
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21017,7 +21017,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9847577
+     Value:        0.9848793
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21029,7 +21029,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8943446
+     Value:        0.8943453
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21040,7 +21040,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9962398
+     Value:        0.9962890
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21051,7 +21051,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9380225
+     Value:        0.9381062
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21062,7 +21062,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9854494
+     Value:        0.9855716
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21074,7 +21074,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8970150
+     Value:        0.8970158
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21085,7 +21085,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9983392
+     Value:        0.9983886
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21096,7 +21096,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9394041
+     Value:        0.9394881
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21107,7 +21107,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9861678
+     Value:        0.9862906
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21119,7 +21119,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.8998110
+     Value:        0.8998117
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21130,7 +21130,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9408567
+     Value:        0.9409408
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21141,7 +21141,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9869204
+     Value:        0.9870436
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21153,7 +21153,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9028049
+     Value:        0.9028056
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21164,7 +21164,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9424145
+     Value:        0.9424987
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21175,7 +21175,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9877241
+     Value:        0.9878479
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21187,7 +21187,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9059467
+     Value:        0.9059474
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21198,7 +21198,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9440542
+     Value:        0.9441387
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21209,7 +21209,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9885674
+     Value:        0.9886917
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21221,7 +21221,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9093004
+     Value:        0.9093012
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21232,7 +21232,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9458134
+     Value:        0.9458980
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21243,7 +21243,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9894704
+     Value:        0.9895953
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21255,7 +21255,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9127726
+     Value:        0.9127734
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21266,7 +21266,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9476415
+     Value:        0.9477262
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21277,7 +21277,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9904064
+     Value:        0.9905317
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21289,7 +21289,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9160498
+     Value:        0.9160506
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21300,7 +21300,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9493987
+     Value:        0.9494836
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21311,7 +21311,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9913083
+     Value:        0.9914342
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21323,7 +21323,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9188973
+     Value:        0.9188981
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21334,7 +21334,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9509724
+     Value:        0.9510574
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21345,7 +21345,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9921333
+     Value:        0.9922594
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21357,7 +21357,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9215840
+     Value:        0.9215847
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21368,7 +21368,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9524726
+     Value:        0.9525577
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21379,7 +21379,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9929202
+     Value:        0.9930466
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21391,7 +21391,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9242306
+     Value:        0.9242314
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21402,7 +21402,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9539238
+     Value:        0.9540089
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21413,7 +21413,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9936746
+     Value:        0.9938012
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21425,7 +21425,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9268338
+     Value:        0.9268346
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21436,7 +21436,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9553503
+     Value:        0.9554355
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21447,7 +21447,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9944100
+     Value:        0.9945368
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21459,7 +21459,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9297724
+     Value:        0.9297732
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21470,7 +21470,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9569559
+     Value:        0.9570411
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21481,7 +21481,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9952312
+     Value:        0.9953583
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21493,7 +21493,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9328299
+     Value:        0.9328306
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21504,7 +21504,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9586372
+     Value:        0.9587225
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21515,7 +21515,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9960889
+     Value:        0.9962163
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21527,7 +21527,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9359171
+     Value:        0.9359179
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21538,7 +21538,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9603482
+     Value:        0.9604337
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21549,7 +21549,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9969616
+     Value:        0.9970891
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21561,7 +21561,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9390156
+     Value:        0.9390163
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21572,7 +21572,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9620770
+     Value:        0.9621625
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21583,7 +21583,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9978435
+     Value:        0.9979713
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21591,15 +21591,15 @@
      
 4 January 1995(Day of year=4), maize: 
       stage    4.0 end_of_juvenile
-                          biomass =           2.118917       lai =    0.2494330E-01
-                          stover N conc =    3.448711       extractable sw =    17.56420
+                          biomass =           2.118911       lai =    0.2494319E-01
+                          stover N conc =    3.448699       extractable sw =    17.56420
 5 January 1995(Day of year=5), SurfaceOM: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9421861
+     Value:        0.9421868
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21610,7 +21610,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9638519
+     Value:        0.9639374
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21621,7 +21621,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9987487
+     Value:        0.9988767
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21633,7 +21633,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9452951
+     Value:        0.9452958
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21644,7 +21644,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9656045
+     Value:        0.9656900
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21655,7 +21655,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9996432
+     Value:        0.9997714
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21667,7 +21667,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9483716
+     Value:        0.9483724
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21678,7 +21678,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9673484
+     Value:        0.9674339
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21686,15 +21686,15 @@
      
 7 January 1995(Day of year=7), maize: 
       stage    5.0 floral_initiation
-                          biomass =           3.711262       lai =    0.3963300E-01
-                          stover N conc =    3.290887       extractable sw =    35.92107
+                          biomass =           3.711248       lai =    0.3963281E-01
+                          stover N conc =    3.290871       extractable sw =    35.92107
 8 January 1995(Day of year=8), SurfaceOM: 
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                       APSIM Warning Error
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9515559
+     Value:        0.9515566
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21705,7 +21705,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9691542
+     Value:        0.9692397
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21717,7 +21717,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9548965
+     Value:        0.9548972
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21728,7 +21728,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9710613
+     Value:        0.9711467
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21740,7 +21740,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9581475
+     Value:        0.9581482
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21751,7 +21751,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9729275
+     Value:        0.9730130
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21763,7 +21763,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9612107
+     Value:        0.9612114
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21774,7 +21774,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9747015
+     Value:        0.9747871
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21786,7 +21786,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9639806
+     Value:        0.9639813
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21797,7 +21797,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9763380
+     Value:        0.9764235
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21809,7 +21809,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9668774
+     Value:        0.9668781
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21820,7 +21820,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9780021
+     Value:        0.9780876
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21832,7 +21832,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9699028
+     Value:        0.9699035
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21843,7 +21843,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9797288
+     Value:        0.9798142
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21855,7 +21855,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9731927
+     Value:        0.9731934
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21866,7 +21866,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9816096
+     Value:        0.9816951
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21878,7 +21878,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9767947
+     Value:        0.9767954
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21889,7 +21889,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9836733
+     Value:        0.9837587
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21901,7 +21901,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9799639
+     Value:        0.9799646
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21912,7 +21912,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9855564
+     Value:        0.9856417
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21924,7 +21924,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9830641
+     Value:        0.9830648
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21935,7 +21935,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9874064
+     Value:        0.9874916
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21947,7 +21947,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9859232
+     Value:        0.9859239
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21958,7 +21958,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9891306
+     Value:        0.9892157
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21970,7 +21970,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9887498
+     Value:        0.9887505
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -21981,7 +21981,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9908029
+     Value:        0.9908880
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -22000,7 +22000,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9914472
+     Value:        0.9914479
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -22011,7 +22011,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9923995
+     Value:        0.9924845
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -22023,7 +22023,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9940323
+     Value:        0.9940330
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -22034,7 +22034,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9939488
+     Value:        0.9940339
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -22046,7 +22046,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9964680
+     Value:        0.9964687
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -22057,7 +22057,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9954342
+     Value:        0.9955192
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -22069,7 +22069,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9989135
+     Value:        0.9989142
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -22080,7 +22080,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9969806
+     Value:        0.9970655
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -22092,7 +22092,7 @@
                       -------------------
      Value of variable is out of bounds.
      Variable: labile_p
-     Value:        0.9985684
+     Value:        0.9986532
      Bounds:        1.0000000 to     1000.0000000
      Component name: SurfaceOM
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -22107,36 +22107,36 @@
                                               added at depth    5.00 (layer   1)
 26 February 1995(Day of year=57), maize: 
       stage    6.0 flag_leaf
-                          biomass =           324.1636       lai =     1.850227
-                          stover N conc =    2.185079       extractable sw =    83.61270
+                          biomass =           324.1638       lai =     1.850225
+                          stover N conc =    2.185076       extractable sw =    83.61269
 27 February 1995(Day of year=58), maize: 
       stage    7.0 flowering
-                          biomass =           339.8961       lai =     1.842242
-                          stover N conc =    2.168210       extractable sw =    80.66577
+                          biomass =           339.8962       lai =     1.842241
+                          stover N conc =    2.168207       extractable sw =    80.66576
 12 March 1995(Day of year=71), maize: 
       stage    8.0 start_grain_fill
-                          biomass =           545.2521       lai =     1.685902
-                          stover N conc =    1.971125       extractable sw =    39.93693
+                          biomass =           545.2522       lai =     1.685901
+                          stover N conc =    1.971122       extractable sw =    39.93695
 25 April 1995(Day of year=115), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           913.8154       lai =     1.236190
-                          stover N conc =    1.340593       extractable sw =    32.59137
+                          biomass =           913.8159       lai =     1.236189
+                          stover N conc =    1.340592       extractable sw =    32.59132
 26 April 1995(Day of year=116), maize: 
       stage   10.0 maturity
-                          biomass =           914.6321       lai =     1.229627
-                          stover N conc =    1.339595       extractable sw =    32.07236
+                          biomass =           914.6326       lai =     1.229626
+                          stover N conc =    1.339595       extractable sw =    32.07231
 27 April 1995(Day of year=117), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           914.6321       lai =    0.1595736E-02
-                          stover N conc =    1.386612       extractable sw =    31.75033
+                          biomass =           914.6326       lai =    0.1596212E-02
+                          stover N conc =    1.386612       extractable sw =    31.75027
 27 April 1995(Day of year=117), manager: 
      Manager sending message :- maize harvest
 27 April 1995(Day of year=117), maize: 
      
      
      
-     flowering (DAS) =   79                                maturity (DAS)  =     138
-      flowering day  =   58                                 stover (kg/ha) =    4743.1
+     flowering (DAS) =   80                                maturity (DAS)  =     138
+      flowering day  =   58                                 stover (kg/ha) =    4743.2
       maturity day        =  116                            grain yield (kg/ha) =    4403.2
       grain % water content   =   15.5                      grain yield wet (kg/ha) =    5210.9
       grain wt (g) =     0.307                              grains/m^2   =  1433.474
@@ -22165,7 +22165,7 @@
      
      Crop harvested.
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               4403.17                    0.00
+                          DM (kg/ha) =               4403.18                    0.00
                           N  (kg/ha) =                 60.44                    0.00
      
 27 April 1995(Day of year=117), manager: 
@@ -22276,12 +22276,12 @@
                           stover N conc =    4.400000       extractable sw =    2.378338
 19 December 1995(Day of year=353), maize: 
       stage    4.0 end_of_juvenile
-                          biomass =           1.917535       lai =    0.2990875E-01
-                          stover N conc =    3.427702       extractable sw =    16.74610
+                          biomass =           1.917535       lai =    0.2990874E-01
+                          stover N conc =    3.427701       extractable sw =    16.74610
 21 December 1995(Day of year=355), maize: 
       stage    5.0 floral_initiation
-                          biomass =           2.786003       lai =    0.4130057E-01
-                          stover N conc =    3.256166       extractable sw =    22.81167
+                          biomass =           2.786002       lai =    0.4130055E-01
+                          stover N conc =    3.256165       extractable sw =    22.81167
 2 January 1996(Day of year=2), manager: 
      Manager sending message :- fertiliz apply  amount = 58.3, type = nh4no3, depth = 5
 2 January 1996(Day of year=2), fertiliz: 
@@ -22298,35 +22298,35 @@
                                               added at depth    5.00 (layer   1)
 8 February 1996(Day of year=39), maize: 
       stage    6.0 flag_leaf
-                          biomass =           364.5521       lai =     1.961178
-                          stover N conc =    2.183584       extractable sw =    64.14536
+                          biomass =           364.5521       lai =     1.961176
+                          stover N conc =    2.183583       extractable sw =    64.14534
 9 February 1996(Day of year=40), maize: 
       stage    7.0 flowering
-                          biomass =           385.2938       lai =     1.954269
-                          stover N conc =    2.157971       extractable sw =    60.76243
+                          biomass =           385.2938       lai =     1.954267
+                          stover N conc =    2.157970       extractable sw =    60.76242
 20 February 1996(Day of year=51), maize: 
       stage    8.0 start_grain_fill
-                          biomass =           569.2327       lai =     1.855518
-                          stover N conc =    1.962368       extractable sw =    78.62695
+                          biomass =           569.2326       lai =     1.855516
+                          stover N conc =    1.962367       extractable sw =    78.62693
 30 March 1996(Day of year=90), maize: 
       stage    9.0 end_grain_fill
-                          biomass =           1089.255       lai =     1.286543
-                          stover N conc =    1.273446       extractable sw =    69.75238
+                          biomass =           1089.255       lai =     1.286541
+                          stover N conc =    1.273446       extractable sw =    69.75241
 31 March 1996(Day of year=91), maize: 
       stage   10.0 maturity
-                          biomass =           1102.660       lai =     1.265175
-                          stover N conc =    1.260333       extractable sw =    67.11174
+                          biomass =           1102.659       lai =     1.265174
+                          stover N conc =    1.260333       extractable sw =    67.11177
 1 April 1996(Day of year=92), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           1102.660       lai =    0.1595616E-02
-                          stover N conc =    1.295359       extractable sw =    64.75769
+                          biomass =           1102.659       lai =    0.1596332E-02
+                          stover N conc =    1.295359       extractable sw =    64.75772
 1 April 1996(Day of year=92), manager: 
      Manager sending message :- maize harvest
 1 April 1996(Day of year=92), maize: 
      
      
      
-     flowering (DAS) =   81                                maturity (DAS)  =     132
+     flowering (DAS) =   80                                maturity (DAS)  =     132
       flowering day  =   40                                 stover (kg/ha) =    6116.7
       maturity day        =   91                            grain yield (kg/ha) =    4909.9
       grain % water content   =   15.5                      grain yield wet (kg/ha) =    5810.6
@@ -22364,7 +22364,7 @@
 1 April 1996(Day of year=92), maize: 
          Crop ended. Yield (dw) =     0.0
          Organic matter from crop:-      Tops to surface residue     Roots to soil FOM
-                          DM (kg/ha) =               6116.66                 1223.20
+                          DM (kg/ha) =               6116.65                 1223.20
                           N  (kg/ha) =                 54.94                   13.03
                           P  (kg/ha) =                 14.62                   12.55
      
@@ -22472,7 +22472,7 @@
 23 December 1996(Day of year=358), maize: 
       stage    5.0 floral_initiation
                           biomass =           3.421493       lai =    0.3855702E-01
-                          stover N conc =    3.320081       extractable sw =    37.03159
+                          stover N conc =    3.320080       extractable sw =    37.03159
 10 January 1997(Day of year=10), manager: 
      Manager sending message :- fertiliz apply  amount = 58.3, type = nh4no3, depth = 5
 10 January 1997(Day of year=10), fertiliz: 
@@ -22658,12 +22658,12 @@
                           stover N conc =    4.400000       extractable sw =    3.001867
 21 December 1997(Day of year=355), maize: 
       stage    4.0 end_of_juvenile
-                          biomass =           2.584189       lai =    0.2650478E-01
+                          biomass =           2.584188       lai =    0.2650477E-01
                           stover N conc =    3.508137       extractable sw =    15.93645
 24 December 1997(Day of year=358), maize: 
       stage    5.0 floral_initiation
-                          biomass =           4.374791       lai =    0.3940369E-01
-                          stover N conc =    3.248227       extractable sw =    33.10937
+                          biomass =           4.374789       lai =    0.3940368E-01
+                          stover N conc =    3.248226       extractable sw =    33.10936
 9 January 1998(Day of year=9), manager: 
      Manager sending message :- fertiliz apply  amount = 58.3, type = nh4no3, depth = 5
 9 January 1998(Day of year=9), fertiliz: 
@@ -22689,19 +22689,19 @@
 26 February 1998(Day of year=57), maize: 
       stage    8.0 start_grain_fill
                           biomass =           881.0002       lai =     2.411720
-                          stover N conc =    1.605062       extractable sw =    35.49783
+                          stover N conc =    1.605061       extractable sw =    35.49783
 10 April 1998(Day of year=100), maize: 
       stage    9.0 end_grain_fill
                           biomass =           1522.415       lai =     1.813874
-                          stover N conc =    1.131165       extractable sw =    52.92478
+                          stover N conc =    1.131165       extractable sw =    52.92480
 11 April 1998(Day of year=101), maize: 
       stage   10.0 maturity
                           biomass =           1533.452       lai =     1.805122
-                          stover N conc =    1.123740       extractable sw =    51.63035
+                          stover N conc =    1.123740       extractable sw =    51.63037
 12 April 1998(Day of year=102), maize: 
       stage   11.0 harvest_ripe
-                          biomass =           1533.452       lai =    0.1595974E-02
-                          stover N conc =    1.154287       extractable sw =    50.06511
+                          biomass =           1533.452       lai =    0.1595497E-02
+                          stover N conc =    1.154287       extractable sw =    50.06512
 12 April 1998(Day of year=102), manager: 
      Manager sending message :- maize harvest
 12 April 1998(Day of year=102), maize: 
@@ -22712,7 +22712,7 @@
       flowering day  =   44                                 stover (kg/ha) =    9288.3
       maturity day        =  101                            grain yield (kg/ha) =    6046.2
       grain % water content   =   15.5                      grain yield wet (kg/ha) =    7155.3
-      grain wt (g) =     0.310                              grains/m^2   =  1947.738
+      grain wt (g) =     0.310                              grains/m^2   =  1947.739
       grains/head = 463.7                                   maximum lai = 2.635
       total above ground biomass (kg/ha) =   15334.5
       live above ground biomass (kg/ha) =   15334.5
@@ -22746,7 +22746,7 @@
 12 April 1998(Day of year=102), maize: 
          Crop ended. Yield (dw) =     0.0
          Organic matter from crop:-      Tops to surface residue     Roots to soil FOM
-                          DM (kg/ha) =               9288.32                 1854.02
+                          DM (kg/ha) =               9288.31                 1854.02
                           N  (kg/ha) =                 71.01                   19.51
                           P  (kg/ha) =                 22.14                   18.92
      
