@@ -63,6 +63,7 @@ class XMLNode
       XMLNode::iterator erase(XMLNode::iterator& nodeIterator);
 
       std::string write() const;
+      std::string innerXML();
 
    private:
       XMLDocument* parent;

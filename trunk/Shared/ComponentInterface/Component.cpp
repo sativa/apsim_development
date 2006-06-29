@@ -6,6 +6,7 @@
 
 #include <string>
 #include <iostream>
+#include <fstream>
 #include <boost/lexical_cast.hpp>
 
 #include <ApsimShared/FStringExt.h>
@@ -169,7 +170,7 @@ try {
                                  else
                                     respondToEvent(eventData.publishedByID, eventData.ID, eventData.params);
                                  break;}
-      case QueryValue:          {QueryValueData queryData;
+      case QueryValue:          {QueryValueData queryData(fromID);
                                  messageData >> queryData;
                                  onQueryValueMessage(message->from, queryData);
                                  break;}
@@ -635,13 +636,13 @@ void Component::onQueryValueMessage(unsigned int fromID,
    if (queryData.ID == nameID)
       sendVariable(queryData, FString(name));
    else if (queryData.ID == typeID)
-      sendVariable(queryData, FString("apsru"));
+      sendVariable(queryData, FString("APSRU"));
    else if (queryData.ID == versionID)
       sendVariable(queryData, FString("1.0"));
    else if (queryData.ID == authorID)
-      sendVariable(queryData, FString("apsru"));
+      sendVariable(queryData, FString("APSRU"));
    else if (queryData.ID == activeID)
-      sendVariable(queryData, 0);
+      sendVariable(queryData, 1);
    else if (queryData.ID == stateID)
       sendVariable(queryData, FString(""));
    else
@@ -1003,9 +1004,15 @@ std::string baseInfo::getXML()
 // Build the xml fragment that describes this variable and publish to system
 std::string Component::getDescription()
    {
+   std::string returnString;
    try
       {
-      std::string returnString = "<describecomp name=\"" + asString(name) + "\">\n";
+      returnString = "<describecomp name=\"" + asString(name) + "\">\n";
+
+      returnString += string("<executable>") + dllName + "</executable>\n";
+      returnString += string("<class>") + name + "</class>\n";
+      returnString += "<version>1.0</version>\n";
+      returnString += "<author>APSRU</author>\n";
       for (UInt2InfoMap::iterator var = getVarMap.begin();
                                   var != getVarMap.end();
                                   var++)
@@ -1019,23 +1026,52 @@ std::string Component::getDescription()
             {
             returnString += "   <event name=\"";
             returnString += reg->getName();
-            returnString += "\" kind=\"published\"/>\n";
+            returnString += "\" kind=\"published\">";
+            XMLDocument* doc = new XMLDocument(reg->getType(), XMLDocument::xmlContents);
+            returnString += doc->documentElement().innerXML();
+            delete doc;
+            returnString += "</event>\n";
             }
          else if (reg->getKind() == RegistrationType::respondToEvent)
             {
             returnString += "   <event name=\"";
             returnString += reg->getName();
-            returnString += "\" kind=\"subscribed\"/>\n";
+            returnString += "\" kind=\"subscribed\">";
+            XMLDocument* doc = new XMLDocument(reg->getType(), XMLDocument::xmlContents);
+            returnString += doc->documentElement().getValue();
+            delete doc;
+            returnString += "</event>\n";
             }
          else if (reg->getKind() == RegistrationType::get)
             {
             returnString += "   <driver name=\"";
             returnString += reg->getName();
-            returnString += "\"/>\n";
+            returnString += "\">\n";
+            returnString += reg->getType();
+            returnString += "</driver>\n";
             }
+         else if (reg->getKind() == RegistrationType::respondToGet)
+            {
+            returnString += "   <property name=\"";
+            returnString += reg->getName();
+            returnString += "\" access=\"read\" init=\"F\">\n";
+            returnString += reg->getType();
+            returnString += "</property>\n";
+            }
+         else if (reg->getKind() == RegistrationType::respondToSet)
+            {
+            returnString += "   <property name=\"";
+            returnString += reg->getName();
+            returnString += "\" access=\"write\" init=\"F\">\n";
+            returnString += reg->getType();
+            returnString += "</property>\n";
+            }
+
 
          }
       returnString += "\n</describecomp>\n";
+      std::ofstream out("d:\\tmp\\tempplant.xml");
+      out << returnString;
       return returnString;
       }
    catch (const std::exception& err)

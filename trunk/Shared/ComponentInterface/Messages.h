@@ -339,9 +339,12 @@ inline Message* newQuerySetValueMessage(unsigned int from,
 // ------------ QueryValue ------------
 struct QueryValueData
    {
+   unsigned fromID;
    unsigned int ID;
    unsigned int requestedByID;
+   QueryValueData(unsigned from) : fromID(from) { }
    };
+
 inline MessageData& operator>> (MessageData& messageData, QueryValueData& data)
    {
    messageData >> data.ID >> data.requestedByID;

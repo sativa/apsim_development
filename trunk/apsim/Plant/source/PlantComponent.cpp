@@ -51,7 +51,7 @@ extern "C" _export void __stdcall getDescriptionLength(char* initScript, int* le
 //=======================================================================================
 // Return component description info.
    {
-   char* buffer = new char[100000];
+   char* buffer = new char[500000];
    getDescriptionInternal(initScript, buffer);
    *length = strlen(buffer);
    delete [] buffer;
