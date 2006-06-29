@@ -1,5 +1,7 @@
+#include <general\pch.h>
 #include <vcl.h>
-
+#pragma hdrstop
+HINSTANCE instanceNumber;
 //---------------------------------------------------------------------------
 //   Important note about DLL memory management when your DLL uses the
 //   static version of the RunTime Library:
@@ -24,6 +26,7 @@
 #pragma argsused
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void* lpReserved)
    {
+   instanceNumber = hinst;
    return 1;
    }
 //---------------------------------------------------------------------------

@@ -4,10 +4,11 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="../../bin\ComponentInterface.dll"/>
-    <OBJFILES value="FORTRANComponentWrapper.obj Component.obj message.obj Type.obj 
-      TypeConverter.obj Variant.obj Variants.obj MessageData.obj 
-      ApsimVariant.obj ArraySpecifier.obj Registrations.obj RegistrationItem.obj 
-      ProtocolVector.obj datatypes.obj RegistrationType.obj EntryPoints.obj"/>
+    <OBJFILES value="ComponentInterface.obj FORTRANComponentWrapper.obj Component.obj 
+      message.obj Type.obj TypeConverter.obj Variant.obj Variants.obj 
+      MessageData.obj ApsimVariant.obj ArraySpecifier.obj Registrations.obj 
+      RegistrationItem.obj ProtocolVector.obj datatypes.obj RegistrationType.obj 
+      EntryPoints.obj"/>
     <RESFILES value="ComponentInterface.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -30,8 +31,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="ComponentInterface.bpf"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost"/>
-    <LIBPATH value="$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost"/>
+    <LIBPATH value="&quot;C:\Program Files\Borland\CBuilder6\Bin&quot;;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -53,6 +54,7 @@
   <FILELIST>
       <FILE FILENAME="ComponentInterface.res" FORMNAME="" UNITNAME="ComponentInterface.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ComponentInterface.bpf" FORMNAME="" UNITNAME="ComponentInterface" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ComponentInterface.cpp" FORMNAME="" UNITNAME="ComponentInterface" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="FORTRANComponentWrapper.cpp" FORMNAME="" UNITNAME="FORTRANComponentWrapper" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Component.cpp" FORMNAME="" UNITNAME="Component" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="message.cpp" FORMNAME="" UNITNAME="message" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
