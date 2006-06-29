@@ -61,7 +61,7 @@ namespace CSGeneral
 			string initScript= "<component name=\"" + instanceName + "\" executable=\"" + DllFileName + "\">\r\n   <initdata>\r\n";
 			if (File.Exists(IniFileName))
 				{
-				StringBuilder contents = new StringBuilder(100000);
+				StringBuilder contents = new StringBuilder(500000);
 				convertIniToSim(IniFileName, contents);	
 				initScript += contents.ToString();
 				}
@@ -75,7 +75,7 @@ namespace CSGeneral
 			xslt.Load(ProtocolToVariablesXSLFileName);
 
 			// Call the DLL
-			StringBuilder description = new StringBuilder(100000);
+            StringBuilder description = new StringBuilder(500000);
 			object[] parameters;
 			parameters = new object[] {initScript, description};
 			MethodInfo mi = moduleBuilder.GetMethod( "getDescription" );

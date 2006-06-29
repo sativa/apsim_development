@@ -256,7 +256,7 @@ class __declspec(dllexport) Component
                         const T& value)
          {
          sendMessage(newReplyValueMessage(componentID,
-                                          parentID,
+                                          queryValueData.fromID,
                                           currentMsgID,
                                           getRegistrationType(queryValueData.ID),
                                           value));

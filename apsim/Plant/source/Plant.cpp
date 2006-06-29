@@ -271,57 +271,66 @@ void Plant::doInit2(protocol::Component *)
    plant_get_other_variables (); // sw etc..
    }
 
+string addUnitsToDDML(const string& ddml, const string& units)
+   {
+   string returnString = ddml;
+   unsigned pos = returnString.find("/>");
+   if (pos != string::npos)
+      returnString = returnString.substr(0, pos) + " unit=\"" + units + "\"/>";
+   return returnString;
+   }
+
 void Plant::doIDs(void)
    {
    // gets
    id.eo = parent->addRegistration(RegistrationType::get,
-                                   "eo", floatType,
+                                   "eo", addUnitsToDDML(floatType, "mm").c_str(),
                                    "", "");
    id.sw_dep= parent->addRegistration(RegistrationType::get,
-                                   "sw_dep", floatArrayType,
+                                   "sw_dep", addUnitsToDDML(floatArrayType, "mm").c_str(),
                                    "", "");
    id.no3 = parent->addRegistration(RegistrationType::get,
-                                   "no3", floatArrayType,
+                                   "no3", addUnitsToDDML(floatArrayType, "kg/ha").c_str(),
                                    "", "");
    id.no3_min= parent->addRegistration(RegistrationType::get,
-                                   "no3_min", floatArrayType,
+                                   "no3_min", addUnitsToDDML(floatArrayType, "kg/ha").c_str(),
                                    "", "");
    id.nh4 = parent->addRegistration(RegistrationType::get,
-                                   "nh4", floatArrayType,
+                                   "nh4", addUnitsToDDML(floatArrayType, "kg/ha").c_str(),
                                    "", "");
    id.nh4_min= parent->addRegistration(RegistrationType::get,
-                                   "nh4_min", floatArrayType,
+                                   "nh4_min", addUnitsToDDML(floatArrayType, "kg/ha").c_str(),
                                    "", "");
    id.latitude = parent->addRegistration(RegistrationType::get,
-                                   "latitude", floatType,
+                                   "latitude", addUnitsToDDML(floatType, "oC").c_str(),
                                    "", "");
    id.parasite_c_demand = parent->addRegistration(RegistrationType::get,
-                                   "parasite_dm_demand", floatType,
+                                   "parasite_dm_demand", addUnitsToDDML(floatType, "g/m2").c_str(),
                                    "", "");
    id.parasite_sw_demand = parent->addRegistration(RegistrationType::get,
-                                   "parasite_sw_demand", floatType,
+                                   "parasite_sw_demand", addUnitsToDDML(floatType, "mm").c_str(),
                                    "", "");
    id.maxt_soil_surface = parent->addRegistration(RegistrationType::get,
-                                   "maxt_soil_surface", floatType,
+                                   "maxt_soil_surface", addUnitsToDDML(floatType, "degree Celsius").c_str(),
                                    "", "");
    id.co2 = parent->addRegistration(RegistrationType::get,
-                                    "co2", floatType,
+                                    "co2", addUnitsToDDML(floatType, "ppm").c_str(),
                                     "", "");
 
    string canopyName = string("fr_intc_radn_") + string(parent->getName());
    id.fr_intc_radn = parent->addRegistration(RegistrationType::get,
                                    canopyName.c_str(),
-                                   floatType,
+                                   addUnitsToDDML(floatType, "").c_str(),
                                    "", "");
    // sets
    id.dlt_no3 = parent->addRegistration(RegistrationType::set,
-                                   "dlt_no3", floatArrayType,
+                                   "dlt_no3", addUnitsToDDML(floatArrayType, "kg/ha").c_str(),
                                    "", "");
    id.dlt_nh4 = parent->addRegistration(RegistrationType::set,
-                                   "dlt_nh4", floatArrayType,
+                                   "dlt_nh4", addUnitsToDDML(floatArrayType, "kg/ha").c_str(),
                                    "", "");
    id.dlt_sw_dep = parent->addRegistration(RegistrationType::set,
-                                   "dlt_sw_dep", floatArrayType,
+                                   "dlt_sw_dep", addUnitsToDDML(floatArrayType, "mm").c_str(),
                                    "", "");
 
    // events.

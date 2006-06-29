@@ -278,7 +278,7 @@ string XMLNode::write() const
    string tempFileName = GetTempDir();
    unsigned int pid = getpid();
    tempFileName += "\\temp" + itoa(pid) + ".xml";
-   
+
    xmlOutputBuffer* buf = xmlOutputBufferCreateFilename(tempFileName.c_str(), NULL, false);
    xmlNodeDumpOutput(buf, node->doc, node, 0, 1, NULL);
    xmlOutputBufferClose(buf);
@@ -371,3 +371,10 @@ XMLNode findNodeWithName(XMLNode node, const std::string& fqn)
       return XMLNode();
    }
 
+string XMLNode::innerXML()
+   {
+   string returnString;
+   for (XMLNode::iterator i = begin(); i != end(); i++)
+      returnString += i->write();
+   return returnString;
+   }
