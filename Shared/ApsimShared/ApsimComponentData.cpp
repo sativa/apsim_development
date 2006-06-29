@@ -88,7 +88,16 @@ string ApsimComponentData::getName(void) const
 // ------------------------------------------------------------------
 string ApsimComponentData::getExecutableFileName(void) const
    {
-   return node.getAttribute("executable");
+   string executable = node.getAttribute("executable");
+   if (executable == "")
+      {
+      XMLNode::iterator execNode = find_if(node.begin(),
+                                           node.end(),
+                                           EqualToName<XMLNode>("executable"));
+      if (execNode != node.end())
+         executable = execNode->getValue();
+      }
+   return executable;
    }
 // ------------------------------------------------------------------
 // Return name of component to caller.

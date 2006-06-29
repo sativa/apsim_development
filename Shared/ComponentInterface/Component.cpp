@@ -33,6 +33,7 @@ static const char* SUMMARY_FILE_WRITE_TYPE = "<type name=\"SummaryFileWrite\">"
                                              "   <field name=\"lines\" kind=\"string\"/>"
                                              "</type>";
 
+extern HINSTANCE instanceNumber;
 Component* component;
 // ------------------------------------------------------------------
 //  Short description:
@@ -1013,12 +1014,12 @@ std::string Component::getDescription()
       returnString += string("<class>") + name + "</class>\n";
       returnString += "<version>1.0</version>\n";
       returnString += "<author>APSRU</author>\n";
-      for (UInt2InfoMap::iterator var = getVarMap.begin();
-                                  var != getVarMap.end();
-                                  var++)
-         {
-         returnString += var->second->getXML() + "\n";
-         }
+//      for (UInt2InfoMap::iterator var = getVarMap.begin();
+//                                  var != getVarMap.end();
+//                                  var++)
+//         {
+//         returnString += var->second->getXML() + "\n";
+//         }
       for (unsigned i = 0; i != registrations->size(); i++)
          {
          RegistrationItem* reg = registrations->get(i);
@@ -1038,7 +1039,7 @@ std::string Component::getDescription()
             returnString += reg->getName();
             returnString += "\" kind=\"subscribed\">";
             XMLDocument* doc = new XMLDocument(reg->getType(), XMLDocument::xmlContents);
-            returnString += doc->documentElement().getValue();
+            returnString += doc->documentElement().innerXML();
             delete doc;
             returnString += "</event>\n";
             }

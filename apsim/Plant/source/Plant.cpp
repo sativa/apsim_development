@@ -5457,7 +5457,7 @@ void Plant::plant_end_crop ()
         sprintf (msg, "Crop ended. Yield (dw) = %7.1f  (kg/ha)", yield);
         parent->writeString (msg);
 
-        // now do post harvest processes        
+        // now do post harvest processes
         // put stover and any remaining grain into surface residue,
         //     any roots to soil FOM pool
         dm_residue =topsTot();
@@ -5875,7 +5875,7 @@ void Plant::plant_update_other_variables (void)
     dm_n.clear();
     dm_p.clear();
     fraction_to_residue.clear();
-    
+
     for (vector<plantPart *>::iterator t = myParts.begin();
          t != myParts.end();
          t++)
@@ -5895,7 +5895,7 @@ void Plant::plant_update_other_variables (void)
                                      fraction_to_residue);
        }
 
-    rootPart->updateOthers();       
+    rootPart->updateOthers();
     }
 
 
