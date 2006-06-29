@@ -93,7 +93,6 @@ void TApsimFileReader::setReportDirectory(AnsiString reportDir)
 //---------------------------------------------------------------------------
 bool TApsimFileReader::createFields(void) throw(runtime_error)
    {
-   FieldDefs->Clear();
    titles.erase(titles.begin(), titles.end());
    for (int fileIndex = 0; fileIndex < files->Count; fileIndex++)
       {
@@ -119,30 +118,33 @@ bool TApsimFileReader::createFields(void) throw(runtime_error)
 //---------------------------------------------------------------------------
 void TApsimFileReader::storeRecords(void) throw(runtime_error)
    {
-   for (int fileIndex = 0; fileIndex < files->Count; fileIndex++)
+   if (titles.size() > 0)
       {
-      vector<string> factorNames, factorValues;
-      if (doInterpretTitles)
-         splitTitleIntoFactors(titles[fileIndex], factorNames, factorValues);
-      else
+      for (int fileIndex = 0; fileIndex < files->Count; fileIndex++)
          {
-         factorNames.push_back("title");
-         factorValues.push_back(titles[fileIndex]);
-         }
+         vector<string> factorNames, factorValues;
+         if (doInterpretTitles)
+            splitTitleIntoFactors(titles[fileIndex], factorNames, factorValues);
+         else
+            {
+            factorNames.push_back("title");
+            factorValues.push_back(titles[fileIndex]);
+            }
 
-      try
-         {
-         relativeToAbsoluteFiles();
-         readAndStoreRecords(files->Strings[fileIndex].c_str(),
-                             factorNames, factorValues);
-         absoluteToRelativeFiles();
-         }
-      catch (const runtime_error& error)
-         {
-         string msg = error.what();
-         msg += " File: ";
-         msg += files->Strings[fileIndex].c_str();
-         throw runtime_error(msg);
+         try
+            {
+            relativeToAbsoluteFiles();
+            readAndStoreRecords(files->Strings[fileIndex].c_str(),
+                                factorNames, factorValues);
+            absoluteToRelativeFiles();
+            }
+         catch (const runtime_error& error)
+            {
+            string msg = error.what();
+            msg += " File: ";
+            msg += files->Strings[fileIndex].c_str();
+            throw runtime_error(msg);
+            }
          }
       }
    }
@@ -157,23 +159,28 @@ void TApsimFileReader::readAndStoreFields(const string& filename) throw(runtime_
       vector<string> fieldNames;
       string title;
       readApsimHeader(in, fieldNames, title);
-      titles.push_back(title);
-
-      // split up title into factors and store as fields.
-      vector<string> factorNames, factorValues;
-      if (doInterpretTitles)
-         splitTitleIntoFactors(title, factorNames, factorValues);
-      else
+      if (title != "")
          {
-         factorNames.push_back("title");
-         factorValues.push_back(title);
-         }
-      if (factorNames.size() > 0 && factorNames[0] != "")
-         addDBFields(this, factorNames, factorValues);
+         FieldDefs->Clear();
 
-      vector<string> fieldValues;
-      if (readNextRecord(in, fieldValues))
-         addDBFields(this, fieldNames, fieldValues);
+         titles.push_back(title);
+
+         // split up title into factors and store as fields.
+         vector<string> factorNames, factorValues;
+         if (doInterpretTitles)
+            splitTitleIntoFactors(title, factorNames, factorValues);
+         else
+            {
+            factorNames.push_back("title");
+            factorValues.push_back(title);
+            }
+         if (factorNames.size() > 0 && factorNames[0] != "")
+            addDBFields(this, factorNames, factorValues);
+
+         vector<string> fieldValues;
+         if (readNextRecord(in, fieldValues))
+            addDBFields(this, fieldNames, fieldValues);
+         }
       }
    else
       throw runtime_error("Cannot find APSIM output file.");

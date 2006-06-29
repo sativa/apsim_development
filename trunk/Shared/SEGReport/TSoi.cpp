@@ -37,6 +37,7 @@ __fastcall TSOI::TSOI(TComponent* owner)
    settings.read("soi|soi file", fileName, true);
    soiFilename = fileName.c_str();
    getSOIFromSource = false;
+   allOtherYears = false;
    }
 
 //---------------------------------------------------------------------------
@@ -151,6 +152,17 @@ void __fastcall TSOI::setGetSoiFromSource(bool getFromSource)
    if (getFromSource != getSOIFromSource)
       {
       getSOIFromSource = getFromSource;
+      forceRefresh();
+      }
+   }
+//---------------------------------------------------------------------------
+// Set the 'AllOtherYears' property
+//---------------------------------------------------------------------------
+void __fastcall TSOI::setAllOtherYears(bool otherYears)
+   {
+   if (allOtherYears != otherYears)
+      {
+      allOtherYears = otherYears;
       forceRefresh();
       }
    }
@@ -299,32 +311,37 @@ void TSOI::getPhase(unsigned year, unsigned month,
 // ------------------------------------------------------------------
 bool TSOI::keepPhase(unsigned phase)
    {
+   bool keep = false;
+
    if (getSOIFromSource)
       {
       string currentPhase = AnsiString(source->FieldValues["SoiPhase"]).c_str();
       if (Str_i_Eq(currentPhase, "negative") && phase == 1)
-         return true;
+         keep = true;
       else if (Str_i_Eq(currentPhase, "positive") && phase == 2)
-         return true;
+         keep = true;
       else if (Str_i_Eq(currentPhase, "falling") && phase == 3)
-         return true;
+         keep = true;
       else if (Str_i_Eq(currentPhase, "rising") && phase == 4)
-         return true;
+         keep = true;
       else if (Str_i_Eq(currentPhase, "zero") && phase == 5)
-         return true;
+         keep = true;
       }
 
    if (negativePhase && phase == 1)
-      return true;
+      keep = true;
    if (positivePhase && phase == 2)
-      return true;
+      keep = true;
    if (fallingPhase && phase == 3)
-      return true;
+      keep = true;
    if (risingPhase && phase == 4)
-      return true;
+      keep = keep = true;
    if (zeroPhase && phase == 5)
-      return true;
-   return false;
+      keep = true;
+
+   if (allOtherYears)
+      keep = !keep;
+   return keep;
    }
 // ------------------------------------------------------------------
 // set one of our properties.

@@ -40,6 +40,7 @@ __fastcall TSEGTable::~TSEGTable()
 //---------------------------------------------------------------------------
 void __fastcall TSEGTable::Loaded(void)
    {
+//   this->DesignActivation = false;
    TkbmMemTable::Loaded();
    fixupSubReferences();
    }
@@ -84,7 +85,6 @@ void TSEGTable::forceRefresh(bool displayError)
       try
          {
          Active = false;
-         FieldDefs->Clear();
          IndexFieldNames = "";
          IndexDefs->Clear();
          if (createFields())
@@ -96,8 +96,11 @@ void TSEGTable::forceRefresh(bool displayError)
          // Sort records.
          if (sortFieldNames != "")
             {
-            SortFields = sortFieldNames;
-            Sort(TkbmMemTableCompareOptions());
+            if (sortFieldNames.Pos(";") > 0 || FieldDefs->IndexOf(sortFieldNames) != -1)
+               {
+               SortFields = sortFieldNames;
+               Sort(TkbmMemTableCompareOptions());
+               }
             }
 
          refreshLinkedComponents();
@@ -246,12 +249,14 @@ void TSEGTable::calcGroupByFilters(void)
 // ------------------------------------------------------------------
 bool TSEGTable::firstSeries(void)
    {
+   if (!Active)
+      return false;
    calcGroupByFilters();
    groupByFiltersI = groupByFilters.begin();
    if (groupByFiltersI == groupByFilters.end())
       {
       First();
-      return true;
+      return !Eof;
       }
    return nextSeries();
    }

@@ -40,8 +40,12 @@ bool TDepth::createFields(void) throw(runtime_error)
       discoverVariables(variableNames, numLayers);
       if (variableNames.size() > 0)
          addDBField(this, "Depth", "1.0");
+      else
+         addDBField(this, "Dummy", "?");
+
       for (unsigned v = 0; v != variableNames.size(); v++)
          addDBField(this, variableNames[v].c_str(), "1.0");
+
       return true;
       }
    return false;

@@ -99,16 +99,19 @@ void TChartLine::storeRecords(void) throw(runtime_error)
       bool ok = source->firstSeries();
       while (ok)
          {
-         Append();
-         FieldValues["Label"] = Label;
-         FieldValues[FieldName] = source->FieldValues[FieldName];
-         FieldValues["X"] = X1;
-         Post();
-         Append();
-         FieldValues["Label"] = Label;
-         FieldValues[FieldName] = source->FieldValues[FieldName];
-         FieldValues["X"] = X2;
-         Post();
+         if (source->FieldDefs->IndexOf(FieldName) != -1)
+            {
+            Append();
+            FieldValues["Label"] = Label;
+            FieldValues[FieldName] = source->FieldValues[FieldName];
+            FieldValues["X"] = X1;
+            Post();
+            Append();
+            FieldValues["Label"] = Label;
+            FieldValues[FieldName] = source->FieldValues[FieldName];
+            FieldValues["X"] = X2;
+            Post();
+            }
          ok = source->nextSeries();
          }
       source->cancelSeries();

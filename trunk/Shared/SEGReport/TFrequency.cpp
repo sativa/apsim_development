@@ -26,6 +26,7 @@ __fastcall TFrequency::TFrequency(TComponent* owner)
    {
    Labels = new TStringList;
    Filters = new TStringList;
+   Percent = false;
    }
 //---------------------------------------------------------------------------
 // destructor
@@ -34,6 +35,17 @@ __fastcall TFrequency::~TFrequency()
    {
    delete Labels;
    delete Filters;
+   }
+//---------------------------------------------------------------------------
+// set the 'Percent' property and refresh all data.
+//---------------------------------------------------------------------------
+void __fastcall TFrequency::setPercent(bool percent)
+   {
+   if (Percent != percent)
+      {
+      Percent = percent;
+      forceRefresh();
+      }
    }
 //---------------------------------------------------------------------------
 // set the 'Labels' property and refresh all data.
@@ -62,7 +74,10 @@ bool TFrequency::createFields(void) throw(runtime_error)
       if (source != NULL)
          {
          addDBField(this, "Label", "x");
-         addDBField(this, "Count", "1");
+         if (percent)
+            addDBField(this, "Percent", "1");
+         else
+            addDBField(this, "Count", "1");
          addGroupByFieldDefsFromSource();
          return true;
          }
@@ -87,6 +102,7 @@ void TFrequency::storeRecords(void) throw(runtime_error)
             AnsiString FilterSt = macros.doReplacement(Owner->Owner, Filters->Strings[i].c_str());
             if (FilterSt != "")
                {
+               int NumRecords = source->RecordCount;
                source->Filter = FilterSt;
                source->Filtered = true;
                // loop through all records.
@@ -95,7 +111,10 @@ void TFrequency::storeRecords(void) throw(runtime_error)
                   {
                   Append();
                   FieldValues["Label"] = Labels->Strings[i];
-                  FieldValues["Count"] = source->RecordCount;
+                  if (Percent)
+                     FieldValues["Percent"] = source->RecordCount * 1.0 / NumRecords * 100;
+                  else
+                     FieldValues["Count"] = source->RecordCount;
                   addGroupByValuesFromSource();
                   Post();
                   ok = source->nextSeries();

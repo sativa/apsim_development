@@ -17,8 +17,10 @@ class TFrequency : public TSEGTable
       ReportMacros macros;
       TStringList* Labels;
       TStringList* Filters;
+      bool Percent;
       void __fastcall setLabels(TStringList* Labels);
       void __fastcall setFilters(TStringList* Filters);
+      void __fastcall setPercent(bool percent);
 
       virtual bool createFields(void) throw(std::runtime_error);
       virtual void storeRecords(void) throw(std::runtime_error);
@@ -30,5 +32,6 @@ class TFrequency : public TSEGTable
    __published:
       __property TStringList* labels = {read=Labels, write=setLabels};
       __property TStringList* filters = {read=Filters, write=setFilters};
+      __property bool percent = {read=Percent, write=setPercent};
    };
 #endif

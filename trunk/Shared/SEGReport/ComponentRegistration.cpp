@@ -1,7 +1,8 @@
 //---------------------------------------------------------------------------
+#include "TKWTest.h"
+#pragma hdrstop
 #include <general\pch.h>
 #include <vcl.h>
-#pragma hdrstop
 
 #include "ComponentRegistration.h"
 #include "TImageForm.h"
@@ -26,6 +27,7 @@
 #include "TDepth.h"
 #include "TChartLineForm.h"
 #include "TFrequencyForm.h"
+#include "TKWTestForm.h"
 //---------------------------------------------------------------------------
 #pragma resource "*.res"
 #pragma package(smart_init)
@@ -46,7 +48,7 @@ void RegisterComponents(void)
                                   __classid(::TGraph),
                                   __classid(::TXYGraph)};
    RegisterComponents("Standard", standardClasses, 4);
-   TComponentClass dataClasses[14] = {__classid(TApsimFileReader),
+   TComponentClass dataClasses[15] = {__classid(TApsimFileReader),
                                   __classid(TXmlFileReader),
                                   __classid(TSOI),
                                   __classid(TProbability),
@@ -56,11 +58,12 @@ void RegisterComponents(void)
                                   __classid(::TFilter),
                                   __classid(TRecFilter),
                                   __classid(TStats),
+                                  __classid(TKWTest),
                                   __classid(TCumulative),
                                   __classid(TDiff),
                                   __classid(TDepth),
                                   __classid(TChartLine)};
-   RegisterComponents("Data", dataClasses, 13);
+   RegisterComponents("Data", dataClasses, 14);
    }
 
 //---------------------------------------------------------------------------
@@ -101,6 +104,8 @@ TForm* createComponentUI(TComponent* component, TWinControl* parent,
       form = new TRecFilterForm(parent);
    else if (component->ClassType() == __classid(TStats))
       form = new TStatsForm(parent);
+   else if (component->ClassType() == __classid(TKWTest))
+      form = new TKWTestForm(parent);
    else if (component->ClassType() == __classid(TDiff))
       form = new TDiffForm(parent);
    else if (component->ClassType() == __classid(TChartLine))

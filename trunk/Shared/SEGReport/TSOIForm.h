@@ -32,6 +32,8 @@ __published:	// IDE-managed Components
    TLabel *Label8;
    TCheckBox *GetFromSourceCheckBox;
    TLabel *Label1;
+   TLabel *Label3;
+   TCheckBox *AllOtherYearsCheckBox;
    void __fastcall NegativeCheckBoxClick(TObject *Sender);
    void __fastcall PositiveCheckBoxClick(TObject *Sender);
    void __fastcall FallingCheckBoxClick(TObject *Sender);
@@ -39,6 +41,7 @@ __published:	// IDE-managed Components
    void __fastcall ZeroCheckBoxClick(TObject *Sender);
    void __fastcall MonthComboClick(TObject *Sender);
    void __fastcall GetFromSourceCheckBoxClick(TObject *Sender);
+   void __fastcall AllOtherYearsCheckBoxClick(TObject *Sender);
 private:	// User declarations
    TSOI* soi;
 public:		// User declarations
