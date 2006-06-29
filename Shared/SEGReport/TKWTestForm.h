@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef TFrequencyFormH
-#define TFrequencyFormH
+#ifndef TKWTestFormH
+#define TKWTestFormH
 //---------------------------------------------------------------------------
 #include <Classes.hpp>
 #include <Controls.hpp>
@@ -14,25 +14,27 @@
 #include <ComCtrls.hpp>
 #include <Db.hpp>
 #include <Grids.hpp>
-#include "TFrequency.h"
+#include "TKWTest.h"
 #include <DB.hpp>
 #include "AdvPanel.hpp"
 #include <ExtCtrls.hpp>
 //---------------------------------------------------------------------------
-class TFrequencyForm : public TPropertyForm
-   {
-   __published:	// IDE-managed Components
-   TStringGrid *Grid;
-   TCheckBox *PercentCheckBox;
-   void __fastcall GridEditingDone(TObject *Sender);
-   void __fastcall PercentCheckBoxClick(TObject *Sender);
-   private:	// User declarations
-      TFrequency* frequency;
-   public:		// User declarations
-      __fastcall TFrequencyForm(TComponent* Owner);
-      virtual void setComponent(TComponent* component);
-   };
+class TKWTestForm : public TPropertyForm
+{
+__published:	// IDE-managed Components
+   TComboBox *FieldNameCombo;
+   TLabel *Label3;
+   TLabel *Label1;
+   TComboBox *Source2Combo;
+   void __fastcall FieldNameComboChange(TObject *Sender);
+   void __fastcall Source2ComboChange(TObject *Sender);
+private:	// User declarations
+   TKWTest* kwTest;
+public:		// User declarations
+   __fastcall TKWTestForm(TComponent* Owner);
+   virtual void setComponent(TComponent* component);
+};
 //---------------------------------------------------------------------------
-extern PACKAGE TFrequencyForm *FrequencyForm;
+extern PACKAGE TKWTestForm *KWTestForm;
 //---------------------------------------------------------------------------
 #endif

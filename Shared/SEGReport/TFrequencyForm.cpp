@@ -33,6 +33,7 @@ void TFrequencyForm::setComponent(TComponent* component)
       Grid->Cells[0][i+1] = frequency->labels->Strings[i];
       Grid->Cells[1][i+1] = frequency->filters->Strings[i];
       }
+   PercentCheckBox->Checked = frequency->percent;
    }
 //---------------------------------------------------------------------------
 void __fastcall TFrequencyForm::GridEditingDone(TObject *Sender)
@@ -51,6 +52,11 @@ void __fastcall TFrequencyForm::GridEditingDone(TObject *Sender)
    frequency->filters = Filters;
    delete Labels;
    delete Filters;
+   }
+//---------------------------------------------------------------------------
+void __fastcall TFrequencyForm::PercentCheckBoxClick(TObject *Sender)
+   {
+   frequency->percent = PercentCheckBox->Checked;
    }
 //---------------------------------------------------------------------------
 

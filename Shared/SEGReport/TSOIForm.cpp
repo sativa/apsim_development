@@ -34,6 +34,7 @@ void TSOIForm::setComponent(TComponent* component)
    RisingCheckBox->Checked = soi->rising;
    ZeroCheckBox->Checked = soi->zero;
    GetFromSourceCheckBox->Checked = soi->GetSOIFromSource;
+   AllOtherYearsCheckBox->Checked = soi->AllOtherYears;
 
    MonthCombo->Enabled = !GetFromSourceCheckBox->Checked;
    NegativeCheckBox->Enabled = !GetFromSourceCheckBox->Checked;
@@ -77,6 +78,11 @@ void __fastcall TSOIForm::GetFromSourceCheckBoxClick(TObject *Sender)
    {
    soi->GetSOIFromSource = GetFromSourceCheckBox->Checked;
    setComponent(soi);
+   }
+//---------------------------------------------------------------------------
+void __fastcall TSOIForm::AllOtherYearsCheckBoxClick(TObject *Sender)
+   {
+   soi->AllOtherYears = AllOtherYearsCheckBox->Checked;
    }
 //---------------------------------------------------------------------------
 

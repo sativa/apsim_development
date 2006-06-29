@@ -15,6 +15,7 @@ class TSOI : public TSEGTable
    private:
       AnsiString soiFilename;
       unsigned soiMonth;
+      bool allOtherYears;
       std::vector<std::string> phaseNames;
       typedef std::map<std::string, unsigned, std::less<std::string> > Phases;
       Phases phases;
@@ -33,6 +34,7 @@ class TSOI : public TSEGTable
       void __fastcall setFallingPhase(bool falling);
       void __fastcall setRisingPhase(bool rising);
       void __fastcall setZeroPhase(bool zero);
+      void __fastcall setAllOtherYears(bool allOtherYears);
       void __fastcall setGetSoiFromSource(bool getFromSource);
 
       virtual bool createFields(void) throw(std::runtime_error);
@@ -49,7 +51,7 @@ class TSOI : public TSEGTable
 
       virtual void setProperty(const std::string& propertyName,
                                const std::string& propertyValue);
-      
+
    __published:
       __property AnsiString month = {read=getMonth, write=setMonth};
       __property AnsiString filename = {read=soiFilename, write=setFilename};
@@ -59,5 +61,6 @@ class TSOI : public TSEGTable
       __property bool rising = {read=risingPhase, write=setRisingPhase};
       __property bool zero = {read=zeroPhase, write=setZeroPhase};
       __property bool GetSOIFromSource = {read=getSOIFromSource, write=setGetSoiFromSource};
+      __property bool AllOtherYears = {read=allOtherYears, write=setAllOtherYears};
    };
 #endif

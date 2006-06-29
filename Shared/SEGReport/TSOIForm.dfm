@@ -1,10 +1,17 @@
 inherited SOIForm: TSOIForm
-  Left = 1632
-  Top = 232
+  Left = 167
+  Top = 228
   Caption = 'SOIForm'
   OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
+  object Label3: TLabel [0]
+    Left = 34
+    Top = 303
+    Width = 79
+    Height = 13
+    Caption = 'from source data'
+  end
   inherited AdvPanelGroup1: TAdvPanelGroup
     FullHeight = 18
     inherited AdvancedPanel: TAdvPanel
@@ -21,7 +28,7 @@ inherited SOIForm: TSOIForm
       end
       object Label1: TLabel
         Left = 34
-        Top = 287
+        Top = 255
         Width = 98
         Height = 13
         Caption = 'from source data'
@@ -97,7 +104,7 @@ inherited SOIForm: TSOIForm
       end
       object GetFromSourceCheckBox: TCheckBox
         Left = 16
-        Top = 264
+        Top = 232
         Width = 257
         Height = 25
         Caption = 'Get SOI phase and month'
@@ -105,5 +112,14 @@ inherited SOIForm: TSOIForm
         OnClick = GetFromSourceCheckBoxClick
       end
     end
+  end
+  object AllOtherYearsCheckBox: TCheckBox
+    Left = 24
+    Top = 288
+    Width = 257
+    Height = 25
+    Caption = 'All other years'
+    TabOrder = 1
+    OnClick = AllOtherYearsCheckBoxClick
   end
 end

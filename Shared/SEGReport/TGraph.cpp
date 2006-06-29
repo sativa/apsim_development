@@ -197,7 +197,13 @@ void TGraph::refresh(void)
       createChartSeries();
       Chart->Refresh();
       for (int s = 0; s != Chart->SeriesCount(); s++)
-         Chart->Series[s]->CheckDataSource();
+         {
+         try {
+             Chart->Series[s]->CheckDataSource();
+             }
+         catch (...)
+            { }
+         }
       scaleAxis();
       replaceChartMacros();
       fixBottomAxisScaling();
