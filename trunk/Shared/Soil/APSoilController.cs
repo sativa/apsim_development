@@ -78,19 +78,6 @@ namespace CSGeneral
 
 			}
 
-    public override bool AllowChanges
-        {
-        get {
-            if (FileName == null)
-                return base.AllowChanges;
-            else
-                {
-                string FileNameNoPath = Path.GetFileName(FileName).ToLower();
-                return base.AllowChanges && FileNameNoPath != "apsru-australia-soils.soils";
-                }
-            }
-        }
-
 
 		public override bool AllowFileOpenWrite(string FullFileName)
 			{
