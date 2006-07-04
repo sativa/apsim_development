@@ -387,9 +387,6 @@ void Plant::doRegistrations(protocol::Component *system)
    parent->addGettableVar("lai_canopy_green",
                g.lai_canopy_green, "m^2/m^2", "Green lai");
 
-//   parent->addGettableVar("tlai_dead",
-//               g.tlai_dead, "m^2/m^2", "tlai dead");
-
    setupGetFunction(parent, "dm_green", protocol::DTsingle, true,
                     &Plant::get_dm_green, "g/m^2", "Weight of green material");
 
@@ -1320,7 +1317,7 @@ void Plant::plant_plant_death (int option /* (INPUT) option number*/)
 //        if (phenology->inPhase("leaf_senescence"))
         if (phenology->inPhase("above_ground"))
            g.dlt_plants_failure_leaf_sen =
-                  crop_failure_leaf_sen(this, leafPart->gLAI, g.plants);
+                  crop_failure_leaf_sen(this, leafPart->getLAI(), g.plants);
         else
            g.dlt_plants_failure_leaf_sen = 0.0;
 
@@ -2307,7 +2304,7 @@ void Plant::plant_update(float  g_row_spacing                          // (INPUT
                           ,c_y_extinct_coef
                           ,c_num_row_spacing
                           , canopy_fac
-                          ,leafPart->gLAI
+                          ,leafPart->getLAI()
                           ,&cover_green_leaf);
 
     float cover_pod = fruitPart->calcCover(canopy_fac);
@@ -2318,7 +2315,7 @@ void Plant::plant_update(float  g_row_spacing                          // (INPUT
                 ,c_y_extinct_coef_dead
                 ,c_num_row_spacing
                 , canopy_fac
-                ,leafPart->gSLAI
+                ,leafPart->getSLAI()
                 ,g_cover_sen);
 
     legnew_cover(g_row_spacing
@@ -2326,7 +2323,7 @@ void Plant::plant_update(float  g_row_spacing                          // (INPUT
                  ,c_y_extinct_coef_dead
                  ,c_num_row_spacing
                  , canopy_fac
-                 ,leafPart->gTLAI_dead
+                 ,leafPart->getTLAI_dead()
                  ,g_cover_dead);
 
     // plant stress observers
@@ -2488,7 +2485,7 @@ void Plant::plant_totals
 
         }
 
-    *g_lai_max = max (*g_lai_max, leafPart->gLAI);
+    *g_lai_max = max (*g_lai_max, leafPart->getLAI());
 // note - oil has no N, thus it is not included in calculations
 
     n_grain = fruitPart->nGrainTotal();
@@ -2561,7 +2558,7 @@ void Plant::plant_event(float *g_dlayer           // (INPUT)  thickness of soil 
             sprintf(msg,
 "                biomass =       %8.2f (g/m^2)   lai          = %7.3f (m^2/m^2)\n"
 "                stover N conc = %8.2f (%%)    extractable sw = %7.2f (mm)",
-                biomass, leafPart->gLAI, n_green_conc_percent, pesw_tot);
+                biomass, leafPart->getLAI(), n_green_conc_percent, pesw_tot);
             parent->writeString (msg);
             }
     }
@@ -4107,7 +4104,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
                           ,c.y_extinct_coef
                           ,c.num_row_spacing
                           , canopy_fac
-                          ,leafPart->gLAI
+                          ,leafPart->getLAI()
                           ,&cover_green_leaf);
 
     cover_pod = fruitPart->calcCover(canopy_fac);
@@ -4119,14 +4116,14 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
                   ,c.y_extinct_coef_dead
                   ,c.num_row_spacing
                   , canopy_fac
-                  ,leafPart->gSLAI
+                  ,leafPart->getSLAI()
                   ,&g.cover_sen);
     legnew_cover (g.row_spacing
                   ,c.x_row_spacing
                   ,c.y_extinct_coef_dead
                   ,c.num_row_spacing
                   , canopy_fac
-                  ,leafPart->gTLAI_dead
+                  ,leafPart->getTLAI_dead()
                   ,&g.cover_dead);
 
 // other plant states
@@ -4194,11 +4191,6 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
     for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
        (*part)->onKillStem();
 
-    // transfer plant leaf area
-    float deadLAI = leafPart->gTLAI_dead + leafPart->gLAI; // Save
-    leafPart->onEmergence();
-    leafPart->gTLAI_dead = deadLAI;
-
     // JNGH need to account for dead pai
     g.pai = 0.0;
 
@@ -4226,7 +4218,7 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
                           ,c.y_extinct_coef
                           ,c.num_row_spacing
                           , canopy_fac
-                          ,leafPart->gLAI
+                          ,leafPart->getLAI()
                           ,&cover_green_leaf);
 
     cover_pod = fruitPart->calcCover(canopy_fac);
@@ -4238,14 +4230,14 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
                   , c.y_extinct_coef_dead
                   , c.num_row_spacing
                   , canopy_fac
-                  , leafPart->gSLAI
+                  , leafPart->getSLAI()
                   , &g.cover_sen);
     legnew_cover (g.row_spacing
                   , c.x_row_spacing
                   , c.y_extinct_coef_dead
                   , c.num_row_spacing
                   , canopy_fac
-                  , leafPart->gTLAI_dead
+                  , leafPart->getTLAI_dead()
                   , &g.cover_dead);
 
     plant_n_conc_limits ( g.co2_modifier_n_conc )  ;                  // plant N concentr
@@ -4506,35 +4498,7 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
        parent->writeString (" ");
     }
 
-    // Initialise plant leaf area
-//    g.lai = c.initial_tpla * smm2sm * g.plants;
-//    g.slai = 0.0;
-//    g.tlai_dead = 0.0;
-
-    float chop_fr_green = divide(leafPart->dlt.dm_green, leafPart->DMGreen, 0.0);
-    float chop_fr_sen   = divide(leafPart->dlt.dm_senesced, leafPart->DMSenesced, 0.0);
-    float chop_fr_dead  = divide(leafPart->dlt.dm_dead, leafPart->DMDead, 0.0);
-
-    float dlt_lai = leafPart->gLAI * chop_fr_green;
-    float dlt_slai = leafPart->gSLAI * chop_fr_sen;
-    float dlt_tlai_dead = leafPart->gTLAI_dead * chop_fr_dead;
-
-    // keep leaf area above a minimum
-    float lai_init = leafPart->cInitialTPLA * smm2sm * g.plants;
-    float dlt_lai_max = leafPart->gLAI - lai_init;
-    dlt_lai = u_bound (dlt_lai, dlt_lai_max);
-
-    leafPart->gLAI -= dlt_lai;
-    leafPart->gSLAI -= dlt_slai;
-    leafPart->gTLAI_dead -= dlt_tlai_dead;
-    leafPart->remove_detachment (dlt_slai, dlt_lai);
-
-    // keep dm above a minimum
-    dm_init = leafPart->c.dm_init * g.plants;
-    leafPart->DMGreen = l_bound (leafPart->DMGreen, dm_init);
-
-    n_init = dm_init * leafPart->c.n_init_conc;
-    leafPart->NGreen = l_bound (leafPart->NGreen, n_init);
+    leafPart->remove_biomass_update();
 
     stemPart->Width *= (1.0 - divide(stemPart->dlt.dm_green, stemPart->DMGreen, 0.0));
     reproStruct->Width *= (1.0 - divide(reproStruct->dlt.dm_green, reproStruct->DMGreen, 0.0));
@@ -4560,7 +4524,7 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
                           ,c.y_extinct_coef
                           ,c.num_row_spacing
                           , canopy_fac
-                          ,leafPart->gLAI
+                          ,leafPart->getLAI()
                           ,&cover_green_leaf);
 
     cover_pod = fruitPart->calcCover(canopy_fac);
@@ -4572,14 +4536,14 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
                   ,c.y_extinct_coef_dead
                   ,c.num_row_spacing
                   , canopy_fac
-                  ,leafPart->gSLAI
+                  ,leafPart->getSLAI()
                   ,&g.cover_sen);
     legnew_cover (g.row_spacing
                   ,c.x_row_spacing
                   ,c.y_extinct_coef_dead
                   ,c.num_row_spacing
                   , canopy_fac
-                  ,leafPart->gTLAI_dead
+                  ,leafPart->getTLAI_dead()
                   ,&g.cover_dead);
 
     phenology->onRemoveBiomass(g.remove_biom_pheno);
