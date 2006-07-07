@@ -25,122 +25,127 @@
 #include "cohortingLeafPart.h"
 using namespace std;
 
-// Read Constants
+
 void cohortingLeafPart::readConstants (protocol::Component *system, const string &section)
-{
-    plantPart::readConstants(system, section);
-    // Nothing to do here..
-}
+//=======================================================================================
+// Read Constants
+   {
+   plantPart::readConstants(system, section);
+   // Nothing to do here..
+   }
 
-// Read species specific parameters
 void cohortingLeafPart::readSpeciesParameters (protocol::Component *system, vector<string> &search_order)
-{
-    plantPart::readSpeciesParameters(system, search_order);
-    system->readParameter (search_order
-                           ,"leaf_no_at_emerg"//, "()"
-                           , cLeafNumberAtEmerg
-                           , 0.0, 100.0);
+//=======================================================================================
+// Read species specific parameters
+   {
+   plantPart::readSpeciesParameters(system, search_order);
+   system->readParameter (search_order
+                          ,"leaf_no_at_emerg"//, "()"
+                          , cLeafNumberAtEmerg
+                          , 0.0, 100.0);
 
-    system->readParameter (search_order
-                   ,"initial_tpla"//, "(mm^2)"
-                   , cInitialTPLA
-                   , 0.0, 100000.0);
+   system->readParameter (search_order
+                  ,"initial_tpla"//, "(mm^2)"
+                  , cInitialTPLA
+                  , 0.0, 100000.0);
 
-    system->readParameter (search_order
-                   ,"min_tpla"//, "(mm^2)"
-                   , cMinTPLA
-                   , 0.0, 100000.0);
+   system->readParameter (search_order
+                  ,"min_tpla"//, "(mm^2)"
+                  , cMinTPLA
+                  , 0.0, 100000.0);
 
-    system->readParameter (search_order
-                   ,"sla_min"//, "(mm^2/g)"
-                   , cSLAMin
-                   , 0.0, 100000.0);
+   system->readParameter (search_order
+                  ,"sla_min"//, "(mm^2/g)"
+                  , cSLAMin
+                  , 0.0, 100000.0);
 
-    system->readParameter (search_order
-                     ,"sen_start_stage"//, "()"
-                     , cSenStartStage
-                     , 0.0, 100.0);
+   system->readParameter (search_order
+                    ,"sen_start_stage"//, "()"
+                    , cSenStartStage
+                    , 0.0, 100.0);
 
-    system->readParameter (search_order
-                    ,"fr_lf_sen_rate"//, "(/degday)"
-                    , cFrLeafSenRate
-                    , 0.0, 1.0);
+   system->readParameter (search_order
+                   ,"fr_lf_sen_rate"//, "(/degday)"
+                   , cFrLeafSenRate
+                   , 0.0, 1.0);
 
-    system->readParameter (search_order
-                    ,"node_sen_rate"//, "(degday)"
-                    , cNodeSenRate
-                    , 0.0, 1000.0);
+   system->readParameter (search_order
+                   ,"node_sen_rate"//, "(degday)"
+                   , cNodeSenRate
+                   , 0.0, 1000.0);
 
-    system->readParameter (search_order
-                   , "n_fact_lf_sen_rate"//, "(/degday)"
-                   , cNFactLeafSenRate
-                   , 0.0, 5.0);
+   system->readParameter (search_order
+                  , "n_fact_lf_sen_rate"//, "(/degday)"
+                  , cNFactLeafSenRate
+                  , 0.0, 5.0);
 
-    cSLAMax.search(system, search_order
-                   , "x_lai",  "(mm2/mm2)", 0.0, 15.0
-                   , "y_sla_max", "(mm2/g)", 0.0, 2.e5);
+   cSLAMax.search(system, search_order
+                  , "x_lai",  "(mm2/mm2)", 0.0, 15.0
+                  , "y_sla_max", "(mm2/g)", 0.0, 2.e5);
 
-    cLeafNoFrac.search(system, search_order
-                     ,"x_lai_ratio", "()", 0.0, 1.0
-                     ,"y_leaf_no_frac", "()", 0.0, 1.0);
+   cLeafNoFrac.search(system, search_order
+                    ,"x_lai_ratio", "()", 0.0, 1.0
+                    ,"y_leaf_no_frac", "()", 0.0, 1.0);
 
-    system->readParameter (search_order
-                   , "lai_sen_light"//, "(m^2/m^2)"
-                   , cLAISenLight
-                   , 3.0, 20.0);
+   system->readParameter (search_order
+                  , "lai_sen_light"//, "(m^2/m^2)"
+                  , cLAISenLight
+                  , 3.0, 20.0);
 
-    system->readParameter (search_order
-                   , "sen_light_slope"//, "()"
-                   , cSenLightSlope
-                   , 0.0, 100.0);
+   system->readParameter (search_order
+                  , "sen_light_slope"//, "()"
+                  , cSenLightSlope
+                  , 0.0, 100.0);
 
-    system->readParameter (search_order
-                   , "sen_rate_water"//, "()"
-                   , cSenRateWater
-                   , 0.0, 100.0);
+   system->readParameter (search_order
+                  , "sen_rate_water"//, "()"
+                  , cSenRateWater
+                  , 0.0, 100.0);
 
-    cSenescenceFac.search (system, search_order
-                     , "x_temp_senescence", "(oc)", -20.0, 20.0
-                     , "y_senescence_fac", "()", 0.0, 1.0);
+   cSenescenceFac.search (system, search_order
+                    , "x_temp_senescence", "(oc)", -20.0, 20.0
+                    , "y_senescence_fac", "()", 0.0, 1.0);
 
-    cLeafSize.search(system, search_order
-                        , "x_node_no",  "()", 0.0, 100.0
-                        , "y_leaf_size", "(mm2)", 0.0, 60000.0);
+   cLeafSize.search(system, search_order
+                       , "x_node_no",  "()", 0.0, 100.0
+                       , "y_leaf_size", "(mm2)", 0.0, 60000.0);
 
-    cNodeAppRate.search(system, search_order
-                        , "x_node_no_app",  "()", 0.0, 200.0
-                        , "y_node_app_rate", "()", 0.0, 400.0);
+   cNodeAppRate.search(system, search_order
+                       , "x_node_no_app",  "()", 0.0, 200.0
+                       , "y_node_app_rate", "()", 0.0, 400.0);
 
-    cLeavesPerNode.search(system, search_order
-                        , "x_node_no_leaf",  "()", 0.0, 200.0
-                        , "y_leaves_per_node", "()", 0.0, 50.0);
-
-
-    cGrowthPeriod.search(system, search_order,
-                         "x_leaf_cohort", "(cohort)", 0, 50.0,
-                         "y_leaf_growth_period", "(oC)", 0.0, 2000.0);
-
-    cLagPeriod.search(system, search_order,
-                         "x_leaf_cohort", "(cohort)", 0, 50.0,
-                         "y_leaf_lag_period", "(oC)", 0.0, 2000.0);
-
-    cSenescingPeriod.search(system, search_order,
-                         "x_leaf_cohort", "(cohort)", 0, 50.0,
-                         "y_leaf_sen_period", "(oC)", 0.0, 2000.0);
+   cLeavesPerNode.search(system, search_order
+                       , "x_node_no_leaf",  "()", 0.0, 200.0
+                       , "y_leaves_per_node", "()", 0.0, 50.0);
 
 
-    cAreaPot.search(system, search_order,
-                         "x_leaf_cohort", "(cohort)", 0, 50.0,
-                         "y_leaf_area_pot", "(mm^2)", 0.0, 2000000.0);
+   cGrowthPeriod.search(system, search_order,
+                        "x_leaf_cohort", "(cohort)", 0, 50.0,
+                        "y_leaf_growth_period", "(oC)", 0.0, 2000.0);
 
-}
+   cLagPeriod.search(system, search_order,
+                        "x_leaf_cohort", "(cohort)", 0, 50.0,
+                        "y_leaf_lag_period", "(oC)", 0.0, 2000.0);
 
-// Connect our bits to the system
+   cSenescingPeriod.search(system, search_order,
+                        "x_leaf_cohort", "(cohort)", 0, 50.0,
+                        "y_leaf_sen_period", "(oC)", 0.0, 2000.0);
+
+
+   cAreaPot.search(system, search_order,
+                        "x_leaf_cohort", "(cohort)", 0, 50.0,
+                        "y_leaf_area_pot", "(mm^2)", 0.0, 2000000.0);
+
+   }
+
+
 void cohortingLeafPart::doRegistrations(protocol::Component *system)
-{
+//=======================================================================================
+// Connect our bits to the system
+   {
    plantPart::doRegistrations(system);
    setupGetFunction(system, "node_no", protocol::DTsingle, false,
-                    &cohortingLeafPart::get_node_no, "tillers/plant", "Number of tillers per plant");
+                    &cohortingLeafPart::get_node_no, "/plant", "Number of main stem nodes");
 
    setupGetFunction(system, "leaf_no", protocol::DTsingle, true,
                     &cohortingLeafPart::get_leaf_no, "mm^2/plant", "Number of leaves in each cohort");
@@ -176,7 +181,7 @@ void cohortingLeafPart::doRegistrations(protocol::Component *system)
 
    system->addGettableVar("dlt_tiller_no", dltNodeNo, "tillers/m2", "Change in number of tillers");
 
-   system->addGettableVar("dlt_node_no", dltNodeNo, "tillers/m2", "Change in number of tillers");
+   system->addGettableVar("dlt_node_no", dltNodeNo, "/m2", "Change in number of main stem nodes");
 
    system->addGettableVar("tlai_dead", gTLAI_dead, "m^2/m^2", "tlai dead");
 
@@ -191,78 +196,91 @@ void cohortingLeafPart::doRegistrations(protocol::Component *system)
    system->addGettableVar("dlt_slai_water", dltSLAI_water, "m^2/m^2", "Change in lai via water stress");
 
    system->addGettableVar("dlt_slai_frost", dltSLAI_frost, "m^2/m^2", "Change in lai via low temperature");
-}
+   }
 
 void cohortingLeafPart::get_tlai(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
 {
     float tlai = getLAI() + getSLAI();
     system->sendVariable(qd, tlai);
 }
 
 void cohortingLeafPart::get_lai_sum(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
 {
     float lai_sum = getLAI() + getSLAI() + gTLAI_dead;
     system->sendVariable(qd, lai_sum);
 }
 
 void cohortingLeafPart::get_leaf_no(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
 {
    system->sendVariable(qd, gLeafNo);
 }
 
 void cohortingLeafPart::get_node_no(protocol::Component *system, protocol::QueryValueData &qd)
-{  
-   if (gNodeNo > 0) 
+//=======================================================================================
+{
+   if (gNodeNo > 0)
       system->sendVariable(qd, (float)(1.0 + gNodeNo));
-   else    
+   else
       system->sendVariable(qd, (float)(0.0));
 }
 
 void cohortingLeafPart::get_dlt_slai_age(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
 {
    system->sendVariable(qd, sum(dltSLA_age) * plant->getPlants() * smm2sm);
 }
 
 float cohortingLeafPart::getLeafNo(void) const
+//=======================================================================================
 {
    return (sum(gLeafNo));
 }
 
 void cohortingLeafPart::get_leaf_area_tot(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
 {
    system->sendVariable(qd, sum(gLeafArea));
 }
 
 void cohortingLeafPart::get_leaf_area(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
 {
-   system->sendVariable(qd, gLeafArea); 
+   system->sendVariable(qd, gLeafArea);
 }
 
 void cohortingLeafPart::get_leaf_age(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
 {
-   system->sendVariable(qd, gLeafAge); 
+   system->sendVariable(qd, gLeafAge);
 }
 
 void cohortingLeafPart::get_leaf_area_index(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
 {
-   system->sendVariable(qd, getLAI()); 
+   system->sendVariable(qd, getLAI());
 }
 
 void cohortingLeafPart::get_sen_leaf_area_index(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
 {
-   system->sendVariable(qd, getSLAI()); 
+   system->sendVariable(qd, getSLAI());
 }
 
 void cohortingLeafPart::get_dlt_slai(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
 {
    float dltSLAI = max(max(max(sum(dltSLA_age) * plant->getPlants() * smm2sm,
-                               dltSLAI_light), 
-                               dltSLAI_water), 
+                               dltSLAI_light),
+                               dltSLAI_water),
                                dltSLAI_frost);
-   system->sendVariable(qd, dltSLAI); 
+   system->sendVariable(qd, dltSLAI);
 }
 
 void cohortingLeafPart::zeroDeltas(void)
+//=======================================================================================
 // Clean out yesterday's rate calculations
 {
    plantPart::zeroDeltas();
@@ -282,6 +300,7 @@ void cohortingLeafPart::zeroDeltas(void)
 }
 
 void cohortingLeafPart::zeroAllGlobals(void)
+//=======================================================================================
 // Initialise all constants & parameters
 {
    plantPart::zeroAllGlobals();
@@ -292,7 +311,7 @@ void cohortingLeafPart::zeroAllGlobals(void)
    cSenLightSlope = 0.0;
    //cGrowthPeriod.clear();
    //cAreaPot.clear();
-   
+
    gTLAI_dead = 0.0;
    gLeafAge.clear();
    gLeafArea.clear();
@@ -306,6 +325,7 @@ void cohortingLeafPart::zeroAllGlobals(void)
 }
 
 void cohortingLeafPart::onEmergence(void)
+//=======================================================================================
 // Leaf, Node number and area initialisation
    {
    plantPart::onEmergence();
@@ -313,6 +333,7 @@ void cohortingLeafPart::onEmergence(void)
    }
 
 void cohortingLeafPart::onKillStem(void)
+//=======================================================================================
 // transfer plant leaf area to dead pool
    {
    plantPart::onKillStem();
@@ -322,6 +343,7 @@ void cohortingLeafPart::onKillStem(void)
    }
 
 void cohortingLeafPart::initialiseAreas(void)
+//=======================================================================================
 // Initialise leaf areas to a newly emerged state.
    {
    gNodeNo = 0.0;
@@ -343,9 +365,9 @@ void cohortingLeafPart::initialiseAreas(void)
       gLeafNo.push_back(cLeafNumberAtEmerg);
       dltSLA_age.push_back(0.0);
 
-      if (tpla > cAreaPot[cohort]) 
+      if (tpla > cAreaPot[cohort])
          gNodeNo += 1.0;
-      else 
+      else
          gNodeNo += divide(tpla, cAreaPot[cohort], 0.0);
 
       tpla -= cAreaPot[cohort];
@@ -359,6 +381,7 @@ void cohortingLeafPart::onHarvest(float /* cutting_height */, float remove_fr,
                               vector<float> &dlt_dm_n,
                               vector<float> &dlt_dm_p,
                               vector<float> &fraction_to_residue)
+//=======================================================================================
 // Harvest event
 {
    onHarvest_GenericAboveGroundPart(remove_fr, dm_type, dlt_crop_dm, dlt_dm_n, dlt_dm_p, fraction_to_residue);
@@ -366,24 +389,26 @@ void cohortingLeafPart::onHarvest(float /* cutting_height */, float remove_fr,
 }
 
 void cohortingLeafPart::checkBounds(void)
+//=======================================================================================
 // Sanity checks
 {
    plantPart::checkBounds();
    if (gTLAI_dead < 0.0) throw std::runtime_error(c.name + " gTLAI_dead is negative! (" + ftoa(gTLAI_dead,".6") + ")");
    if (gNodeNo < 0) throw std::runtime_error(c.name + " node number is negative! (" + ftoa(gNodeNo,".6") + ")");
 
-   for (unsigned int cohort = 0; cohort != gLeafArea.size(); cohort++) 
+   for (unsigned int cohort = 0; cohort != gLeafArea.size(); cohort++)
       {
-      if (gLeafArea[cohort] < 0.0) 
+      if (gLeafArea[cohort] < 0.0)
          throw std::runtime_error(c.name + " LA cohort is negative! (" + ftoa(gLeafArea[cohort],".6") + ")");
-      if (gLeafAreaSen[cohort] < 0.0) 
+      if (gLeafAreaSen[cohort] < 0.0)
          throw std::runtime_error(c.name + " LA Senesced cohort is negative! (" + ftoa(gLeafAreaSen[cohort],".6") + ")");
-      if (gLeafNo[cohort] < 0) 
+      if (gLeafNo[cohort] < 0)
          throw std::runtime_error(c.name + " leaf number is negative! (" + ftoa(gLeafNo[cohort],".6") + ")");
       }
 }
 
 void cohortingLeafPart::actual(void)
+//=======================================================================================
 // Plant is telling us to calculate deltas from potential and stresses
    {
    this->leaf_area_actual ();
@@ -391,6 +416,7 @@ void cohortingLeafPart::actual(void)
    }
 
 void cohortingLeafPart::leaf_area_actual(void)
+//=======================================================================================
 //   Simulate actual crop leaf area development - checks that leaf area
 //   development matches D_m production via a maximum specific leaf area
 //   for the daily increase in LAI. SLA_max changes as a function of LAI.
@@ -403,6 +429,7 @@ void cohortingLeafPart::leaf_area_actual(void)
 }
 
 void cohortingLeafPart::leaf_no_actual (void)
+//=======================================================================================
 //   Simulate actual leaf & tiller number increase as limited by dry matter production.
    {
    //ratio of actual to potential lai
@@ -416,6 +443,7 @@ void cohortingLeafPart::leaf_no_actual (void)
 
 
 void cohortingLeafPart::leaf_death (float  g_nfact_expansion, float  g_dlt_tt)
+//=======================================================================================
 //     Calculate the fractional death of oldest green leaf.
    {
 #if 0
@@ -473,6 +501,7 @@ void cohortingLeafPart::leaf_death (float  g_nfact_expansion, float  g_dlt_tt)
 void cohortingLeafPart::potential (int leaf_no_pot_option, /* (INPUT) option number*/
                                    float stressFactor,     /* (INPUT) stress factor */
                                    float dlt_tt)           /* (INPUT) Thermal Time */
+//=======================================================================================
 // Plant is telling us to calculate potentials
    {
    dltTT = dlt_tt; //Yuck..  XXXXXXXXXXX
@@ -483,6 +512,7 @@ void cohortingLeafPart::potential (int leaf_no_pot_option, /* (INPUT) option num
    }
 
 void cohortingLeafPart::leaf_no_pot (float stressFactor, float dlt_tt)
+//=======================================================================================
 //     Calculate leaf number development
     {
     bool tillering = plant->inPhase("tiller_formation");
@@ -508,18 +538,20 @@ void cohortingLeafPart::leaf_no_pot (float stressFactor, float dlt_tt)
     }
 
 void cohortingLeafPart::leaf_area_potential (float tt)
+//=======================================================================================
 //  Calculate the potential increase in leaf area development (mm^2)
    {
    float areaPot = 0.0;
-   for (unsigned int cohort = 0; cohort != gLeafArea.size(); cohort++) 
+   for (unsigned int cohort = 0; cohort != gLeafArea.size(); cohort++)
       {
-      if (cGrowthPeriod[cohort] - gLeafAge[cohort] > 0.0) 
+      if (cGrowthPeriod[cohort] - gLeafAge[cohort] > 0.0)
          areaPot += cAreaPot[cohort] * u_bound(divide(tt, cGrowthPeriod[cohort], 0.0), 1.0);
       }
    dltLAI_pot =  areaPot * smm2sm * plant->getPlants();
    }
 
 void cohortingLeafPart::leaf_area_stressed (float stressFactor)
+//=======================================================================================
 //   Calculate the biomass non-limiting leaf area development from the
 //   potential daily increase in lai and stress factors (water & nitrogen)
    {
@@ -527,6 +559,7 @@ void cohortingLeafPart::leaf_area_stressed (float stressFactor)
    }
 
 void cohortingLeafPart::detachment (void)
+//=======================================================================================
    {
    cproc_lai_detachment1 (c.sen_detach_frac
                                , getSLAI()
@@ -554,21 +587,22 @@ void cohortingLeafPart::detachment (void)
   }
 
 void cohortingLeafPart::leaf_area_sen(float swdef_photo , float mint)
+//=======================================================================================
 //   Calculate todays leaf area senescence
 {
     float plants = plant->getPlants();
-    
+
     // Age senescence for each cohort
-    for (unsigned int cohort = 0; cohort != gLeafArea.size(); cohort++) 
+    for (unsigned int cohort = 0; cohort != gLeafArea.size(); cohort++)
        if (gLeafAge[cohort] > (cGrowthPeriod[cohort] + cLagPeriod[cohort]) &&
-           gLeafAge[cohort] < (cGrowthPeriod[cohort] + cLagPeriod[cohort] + cSenescingPeriod[cohort])) 
+           gLeafAge[cohort] < (cGrowthPeriod[cohort] + cLagPeriod[cohort] + cSenescingPeriod[cohort]))
           {
           float qq = (cAreaPot[cohort]*dltTT)/cSenescingPeriod[cohort];
           if (qq > cAreaPot[cohort])
              dltSLA_age[cohort] = cAreaPot[cohort];
-          else 
+          else
              dltSLA_age[cohort] = qq;
-          } 
+          }
 
     dltSLAI_light = crop_leaf_area_sen_light1 (cLAISenLight, cSenLightSlope, getLAI(), plants, cMinTPLA);
 
@@ -588,6 +622,7 @@ void cohortingLeafPart::leaf_area_sen(float swdef_photo , float mint)
 
 // Update state variables
 void cohortingLeafPart::update(void)
+//=======================================================================================
 {
    unsigned int cohort;
    plantPart::update();
@@ -708,6 +743,7 @@ void cohortingLeafPart::update(void)
 
 // Remove detachment from leaf area record
 void cohortingLeafPart::remove_detachment (float dlt_slai_detached, float dlt_lai_removed )
+//=======================================================================================
     {
 #if 0
 // XXX broken
@@ -758,6 +794,7 @@ void cohortingLeafPart::remove_detachment (float dlt_slai_detached, float dlt_la
 }
 
 void cohortingLeafPart::remove_biomass_update(void)
+//=======================================================================================
 // Initialise plant leaf area from deltas
     {
 #if 0
@@ -790,10 +827,11 @@ void cohortingLeafPart::remove_biomass_update(void)
 }
 
 float cohortingLeafPart::senFract (void) const
+//=======================================================================================
    {
    float dltSLAI = max(max(max(sum(dltSLA_age) * plant->getPlants() * smm2sm,
-                               dltSLAI_light), 
-                               dltSLAI_water), 
+                               dltSLAI_light),
+                               dltSLAI_water),
                                dltSLAI_frost);
 
    return(divide (dltSLAI, getLAI() + dltLAI, 0.0));             // fraction of canopy senescing
