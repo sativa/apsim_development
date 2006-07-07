@@ -767,8 +767,6 @@ private:
       float dlt_pai;
 
       float leaf_no_final;                              // total number of leaves the plant produces
-      float lai_equilib_light[366+1];                   // lai threshold for light senescence
-      float lai_equilib_water[366+1];                   // lai threshold for water senescence
       float grain_n_demand;                             // grain n demand from soil OR retrans
       float grain_n_supply;                             // grain n supply from soil OR retrans
       float dlt_no3gsm[max_layer];                      // actual NO3 uptake from soil (g/m^2)
