@@ -4660,8 +4660,6 @@ void Plant::plant_zero_all_globals (void)
       g.transp_eff = 0.0;
       g.lai_canopy_green = 0.0;
       g.leaf_no_final = 0.0;
-      fill_real_array (g.lai_equilib_light, 0.0, 366+1);
-      fill_real_array (g.lai_equilib_water, 0.0, 366+1);
       fill_real_array (g.dlt_no3gsm, 0.0, max_layer);
       fill_real_array (g.dlt_nh4gsm, 0.0, max_layer);
       fill_real_array (g.no3gsm , 0.0, max_layer);
@@ -4881,8 +4879,6 @@ void Plant::plant_zero_variables (void)
         t++)
        (*t)->zeroAllGlobals();
 
-    fill_real_array (g.lai_equilib_light, 0.0, 366);
-    fill_real_array (g.lai_equilib_water, 0.0, 366);
     fill_real_array (g.soil_temp , 0.0, 366);
 
 //    fill_real_array (p.ll_dep , 0.0, max_layer);

@@ -17,7 +17,8 @@ Data.obj Science.obj Date.obj PlantComms.obj PlantP.obj PlantFruit.obj ..\..\..\
 WheatPhenology.obj Environment.obj TTTPhenology.obj CropPhenology.obj TTTRatePhenology.obj Observers.obj \
 LeafPart.obj StemPart.obj PodPart.obj MealPart.obj OilPart.obj GrainPart.obj CompositePart.obj \
 FixedPhase.obj VernalPhase.obj BroccoliPhenology.obj RootPart.obj FruitCohort.obj \
-GenericPhenology.obj PhotoPhase.obj EmergentPhase.obj LeafAppPhase.obj Output.obj OutputVariable.obj
+GenericPhenology.obj PhotoPhase.obj EmergentPhase.obj LeafAppPhase.obj Output.obj OutputVariable.obj \
+genericLeafPart.obj cohortingLeafPart.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
