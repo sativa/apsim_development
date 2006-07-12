@@ -26,7 +26,7 @@ class fruitPodPart : public plantPart {
    void readConstants (protocol::Component *, const string &);
    void readSpeciesParameters (protocol::Component *, vector<string> &);
    void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
-   float dltDmRetranslocateSupply(float DemandDifferential) const;
+   float dltDmRetranslocateSupply(float DemandDifferential) ;
 
    void zeroAllGlobals(void);
    void zeroDeltas(void);

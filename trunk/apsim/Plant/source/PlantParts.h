@@ -226,7 +226,7 @@ public:
    virtual float dmTotal(void) const;
    virtual float dmGreenDemand(void) const;
    virtual float dmDemandDifferential(void) const;
-   virtual float dltDmRetranslocateSupply(float DemandDifferential) const;
+   virtual float dltDmRetranslocateSupply(float DemandDifferential) ;
    virtual float dmGreen(void) const;
    virtual float dltDmGreen(void) const;
    virtual float dltDmGreenRetrans(void) const;      //remove

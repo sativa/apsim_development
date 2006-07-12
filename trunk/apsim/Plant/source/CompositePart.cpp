@@ -1570,7 +1570,7 @@ float CompositePart::dltDmGreenUptake(void) const
    return dltDmUptake;
 }
 
-float CompositePart::dltDmRetranslocateSupply(float demand_differential) const
+float CompositePart::dltDmRetranslocateSupply(float demand_differential) 
    //===========================================================================
 {
    float dlt_dm_green_retrans = 0.0;
@@ -1944,7 +1944,7 @@ void CompositePart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialT
    for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)      //FIXME later
        {
        (*part)->doDmRetranslocate (dlt_dm_green_retrans_tot, dm_demand_differential);
-       dlt.dm_green_retrans += (*part)->dlt.dm_green_retrans;
+       dlt.dm_green_retrans = (*part)->dlt.dm_green_retrans;
        }
    // do mass balance check
    float dlt_dm_green_tot = dltDmGreenRetransUptake ();
