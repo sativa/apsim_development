@@ -4451,7 +4451,6 @@ void Plant::plant_zero_all_globals (void)
       g.dlt_dm = 0.0;
       g.dlt_dm_pot_rue = 0.0;
       g.dlt_dm_pot_te = 0.0;
-      //xxxg.dltDmPotRueFruit = 0.0;
       g.dlt_dm_retrans_to_fruit = 0.0;
       g.dlt_dm_parasite  =  0.0;
       g.dlt_dm_parasite_demand = 0.0;
@@ -4567,7 +4566,6 @@ void Plant::plant_zero_all_globals (void)
       c.spla_slope = 0.0;
       c.sen_threshold = 0.0;
       c.grn_water_cont = 0.0;
-      //xxxc.partition_rate_leaf = 0.0;
       c.leaf_trans_frac = 0.0;
       c.htstress_coeff = 0.0;
       c.temp_grain_crit_stress = 0.0;
@@ -6109,22 +6107,6 @@ void Plant::plant_read_species_const ()
                         , "n_retrans_option"//, "()"
                         , c.n_retrans_option
                         , 1, 2);
-     if (c.n_retrans_option==1)
-         {
-         //Nothing..
-         }
-     else
-         {
-         parent->readParameter (search_order
-                        , "n_retrans_fraction"//, "()"
-                        , c.n_retrans_fraction
-                        , 0.0, 1.0);
-
-         parent->readParameter (search_order
-                        , "n_deficit_uptake_fraction"//, "()"
-                        , c.n_deficit_uptake_fraction
-                        , 0.0, 1.0);
-         }
 
     //    plant_event
     parent->readParameter (search_order

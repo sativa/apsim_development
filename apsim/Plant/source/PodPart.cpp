@@ -125,14 +125,14 @@ void fruitPodPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTo
    dlt.dm_green_retrans += DMAvail * divide (dmDemandDifferential(), DMDemandDifferentialTotal, 0.0);
    }
 
-float fruitPodPart::dltDmRetranslocateSupply(float DemandDifferential) const
+float fruitPodPart::dltDmRetranslocateSupply(float DemandDifferential) 
 //=======================================================================================
    {
    float DMPartPot = DMGreen + dlt.dm_green_retrans;
    float DMPartAvail = DMPartPot - DMPlantMin * plant->getPlants();
    DMPartAvail = l_bound (DMPartAvail, 0.0);
    float DltDmRetransPart = min (DemandDifferential, DMPartAvail);
-//XXX   dlt.dm_green_retrans = - DltDmRetransPart;
+   dlt.dm_green_retrans = - DltDmRetransPart;          //XXXX this is a bad thing..
    return DltDmRetransPart;
    }
 

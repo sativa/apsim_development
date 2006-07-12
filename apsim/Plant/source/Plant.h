@@ -400,20 +400,6 @@ public:
                                        ,vector<float>  &dlt_dm_p              // (INPUT) residue P weight (kg/ha)
                                        ,vector<float>  &fraction_to_residue);
                                        
-   void plant_n_demand( int max_part                                          // (INPUT)
-                       , int *demand_parts                                    // (INPUT)
-                       , int num_demand_parts                                 // (INPUT)
-                       , float g_dlt_dm                                       // (INPUT)  the daily biomass production (
-                       , float *g_dlt_dm_green                                // (INPUT)  plant biomass growth (g/m^2)
-                       , float g_dlt_dm_pot_rue                               // (INPUT)  potential dry matter productio
-                       , float *g_dm_green                                    // (INPUT)  live plant dry weight (biomass
-                       , float *g_n_conc_crit                                 // (INPUT)  critical N concentration (g N/
-                       , float *g_n_conc_max                                  // (INPUT)  maximum N concentration (g N/g
-                       , float *g_n_green                                     // (INPUT)  plant nitrogen content (g N/m^
-                       , float c_n_deficit_uptake_fraction                    //
-                       , float *n_demand                                      // (OUTPUT) critical plant nitrogen demand  (g/m^2)
-                       , float *n_max);                                       // (OUTPUT) max plant nitrogen demand  (g/m^2)
-
 
    void plant_get_ext_uptakes (const char *uptake_source,        //(INPUT) uptake flag
                                const char *crop_type,            //(INPUT) crop type name
@@ -750,14 +736,8 @@ private:
                                                         // optimum water and nitrogen and
                                                         // temperature stress conditions (g/m^2)
       float dlt_dm_pot_te;                              // the potential daily biomass production from te (g/m^2)
-      //float dltDmPotRueFruit;                           // potential dry matter production of fruit with
-      //xxxunused                                                  // optimum water and nitrogen and
-      //                                                  // temperature stress conditions (g/m^2)
-      //float dltDmPotTeFruit;                            // the potential daily biomass production of fruit from te (g/m^2)
-      //float dlt_dm_yield_demand_fruit;                  // dry matter demand by fruit (g/m^2)
       float dlt_dm_retrans_to_fruit;                    // dry matter retranslocated to fruit (g/m^2)
-      //float dlt_dm_oil_conv_retranslocate;              // retranslocated plant biomass used in conversion to oil for (g/m^2)
-      //float dlt_dm_grain_demand;                        // grain dm demand (g/m^2)
+
       float radn_int;                                   // radn intercepted by leaves (mj/m^2)
       float radnIntGreenFruit;                          // radn intercepted by fruit (mj/m^2)
       float transp_eff;                                 // transpiration efficiency (g dm/m^2/mm water)
@@ -915,7 +895,6 @@ private:
       float n_fact_photo;                               // multipler for N deficit effect on photosynthesis
       float n_fact_pheno;                               // multipler for N deficit effect on phenology
       float n_fact_expansion;
-      float n_retrans_fraction;
       int   num_n_conc_stage;                           // no of values in stage table
       float x_row_spacing[max_table];
       float y_extinct_coef[max_table];
@@ -1052,7 +1031,6 @@ private:
       vector<string> class_change;
 
       float eo_crop_factor_default;                     // Default Crop factor for sw demand applied to Eo
-      float n_deficit_uptake_fraction;
       float total_n_uptake_max;
 
       int        root_growth_option;

@@ -707,7 +707,7 @@ void plantPart::updateN(void)
    NSenesced -= dlt.n_senesced_dead;
    NDead += dlt.n_senesced_dead;
 
-   NGreen = l_bound(NGreen, 0.0);   // Can occur at total leaf senescence. FIXME! XXXX
+   NGreen = l_bound(NGreen, 0.0);   // Can occur at total leaf senescence. 
    }
 
 void plantPart::updateDm(void)
@@ -755,7 +755,7 @@ void plantPart::updateP(void)
       dlt.p_senesced_dead = PSen * dying_fract_plants;
       PSen  -= dlt.p_senesced_dead;
       PDead += dlt.p_senesced_dead;
-      PGreen = l_bound(PGreen, 0.0);  // Can occur at total leaf senescence. FIXME! XXXX
+      PGreen = l_bound(PGreen, 0.0);  // Can occur at total leaf senescence. 
       }
    }
 
@@ -939,7 +939,7 @@ float plantPart::dmDemandDifferential(void) const
    return l_bound(dmGreenDemand() - dltDmGreenUptake(), 0.0);
    }
 
-float plantPart::dltDmRetranslocateSupply(float DemandDifferential) const
+float plantPart::dltDmRetranslocateSupply(float DemandDifferential) 
 //=======================================================================================
    {
 //   float DMPartPot = DMGreen + dlt.dm_green_retrans;
