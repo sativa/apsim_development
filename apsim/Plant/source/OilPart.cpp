@@ -131,19 +131,19 @@ float fruitOilPart::calcDmDemand (float dmDemand)
    return divide (dmDemand, gGrain_energy, 0.0);
 }
 
-float fruitOilPart::dltDmGreenUptake(void)
+float fruitOilPart::dltDmGreenUptake(void) const
 //=======================================================================================
    {
    return (dlt.dm_green + gDlt_dm_oil_conv);
    }
 
-float fruitOilPart::dltDmGreenRetransUptake(void)
+float fruitOilPart::dltDmGreenRetransUptake(void) const
 //=======================================================================================
    {
    return (dlt.dm_green_retrans + dmOil_conv_retranslocate);
    }
 
-void fruitOilPart::doDMDemand (float dlt_dm_grain_demand)                                                   //remove
+void fruitOilPart::doDMDemand (float dlt_dm_grain_demand)                                                    //remove
 //     ===========================================================                                          //remove
 {                                                                                                           //remove
     float dltDmOil = divide (dlt_dm_grain_demand, gGrain_energy, 0.0) * cGrain_oil_conc;                    //remove
@@ -175,7 +175,7 @@ void fruitOilPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTo
    dmOil_conv_retranslocate = dltDM - dlt.dm_green_retrans;
    }
 
-float fruitOilPart::dmDemandDifferential(void)
+float fruitOilPart::dmDemandDifferential(void) const
 //=======================================================================================
    {
    return dmGreenDemand() - dltDmGreenUptake();

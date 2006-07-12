@@ -25,13 +25,14 @@ void FruitCohort::doInit1 ()
    // ====================================================================
 {
    zeroAllGlobals(); zeroDeltas();
-   podPart = new fruitPodPart(plant, "pod");
+   grainPart = new fruitGrainPart(plant, "grain");
+   podPart = new fruitPodPart(plant, grainPart, "pod");
+
    myParts.push_back(podPart);
    myVegParts.push_back(podPart);
    supplyPools.push_back(podPart);
    podPart->doInit1();
 
-   grainPart = new fruitGrainPart(plant, "grain");
    myParts.push_back(grainPart);
    myGrainParts.push_back(grainPart);
    grainPart->doInit1();
@@ -480,11 +481,10 @@ float FruitCohort::grainNConcPercent(void) {return grainPart->nConcPercent();}  
 void FruitCohort::doDmDemand ( float dlt_dm_veg_supply)
    //===========================================================================
 {
+   doProcessBioDemand();
    //       (OUTPUT) assimilate demand for reproductive part (g/m^2)
    // calculate demands of reproductive parts
-
-   float dm_grain_demand = grainPart->calcDmDemand();            //FIXME throughout - dm_grain_demand should be gDlt_dm_grain_demand. Leave asis for compatability
-   podPart->doDmDemand(dm_grain_demand, dlt_dm_veg_supply);      //FIXME this function needs to be handled in composite
+   podPart->doDmDemand(dlt_dm_veg_supply);
 }
 
 float FruitCohort::availableRetranslocateN(void)

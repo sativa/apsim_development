@@ -933,13 +933,13 @@ void plantPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal
    dlt.dm_green_retrans = DMAvail * divide (dmDemandDifferential(), DMDemandDifferentialTotal, 0.0);
    }
 
-float plantPart::dmDemandDifferential(void)
+float plantPart::dmDemandDifferential(void) const
 //=======================================================================================
    {
    return l_bound(dmGreenDemand() - dltDmGreenUptake(), 0.0);
    }
 
-float plantPart::dltDmRetranslocateSupply(float DemandDifferential)
+float plantPart::dltDmRetranslocateSupply(float DemandDifferential) const
 //=======================================================================================
    {
 //   float DMPartPot = DMGreen + dlt.dm_green_retrans;
@@ -1193,13 +1193,13 @@ void plantPart::collectDeadDetachedForResidue(vector<string> &part_name
    fraction_to_residue.push_back(1.0);
    }
 
-float plantPart::dmTotal(void)
+float plantPart::dmTotal(void) const
 //=======================================================================================
    {
    return (dmGreen() + dmSenesced() + dmDead());
    }
 
-float plantPart::dmGreenDemand(void)
+float plantPart::dmGreenDemand(void) const
 //=======================================================================================
    {
    return (DMGreenDemand);
@@ -1211,61 +1211,61 @@ float plantPart::dmGreen(void) const
    return (DMGreen);
    }
 
-float plantPart::dltDmGreen(void)
+float plantPart::dltDmGreen(void) const
 //=======================================================================================
    {
    return (dlt.dm_green);
    }
 
-float plantPart::dltDmGreenUptake(void)
+float plantPart::dltDmGreenUptake(void) const
 //=======================================================================================
    {
    return (dlt.dm_green);
    }
 
-float plantPart::dltDmGreenRetrans(void)                                                   //remove
+float plantPart::dltDmGreenRetrans(void) const                                                   //remove
 //=======================================================================================  //remove
    {                                                                                       //remove
    return (dlt.dm_green_retrans);                                                          //remove
    }                                                                                       //remove
 
-float plantPart::dltDmRetranslocate(void)
+float plantPart::dltDmRetranslocate(void) const
 //=======================================================================================
    {
    return (dlt.dm_green_retrans);
    }
 
-float plantPart::dltDmGreenRetransUptake(void)
+float plantPart::dltDmGreenRetransUptake(void) const
 //=======================================================================================
    {
    return (dlt.dm_green_retrans);
    }
 
-float plantPart::dmGreenNew(void)
+float plantPart::dmGreenNew(void) const
 //=======================================================================================
    {
    return (DMGreen + dlt.dm_green + dlt.dm_green_retrans);
    }
 
-float plantPart::dltDmGreenNew(void)
+float plantPart::dltDmGreenNew(void) const
 //=======================================================================================
    {
    return (dlt.dm_green + dlt.dm_green_retrans);
    }
 
-float plantPart::dltDmDetached(void)
+float plantPart::dltDmDetached(void) const
 //=======================================================================================
    {
    return (dlt.dm_detached);
    }
 
-float plantPart::dmSenesced(void)
+float plantPart::dmSenesced(void) const
 //=======================================================================================
    {
    return (DMSenesced);
    }
 
-float plantPart::dmDead(void)
+float plantPart::dmDead(void) const
 //=======================================================================================
    {
    return (DMDead);
@@ -1420,7 +1420,7 @@ float plantPart::nRetransSupply(void)
    return 0.0;
    }
 
-float plantPart::dmRetransSupply(void)
+float plantPart::dmRetransSupply(void) const
 //=======================================================================================
    {
 //    if (c.retrans_part)
@@ -1447,7 +1447,7 @@ float plantPart::nRetransDemand(void)
    return 0.0;
    }
 
-float plantPart::dmRetransDemand(void)
+float plantPart::dmRetransDemand(void) const
 //=======================================================================================
    {
 //    if (c.yield_part)
@@ -1572,7 +1572,7 @@ float plantPart::coverDead(void) {return 0;}
 float plantPart::coverGreen(void) {return 0;}
 float plantPart::coverSen(void) {return 0;}
 float plantPart::coverTotal(void) {return 0;}
-float plantPart::dltDmGrainDemand(void) {return 0;}
+float plantPart::dltDmGrainDemand(void) const {return 0;}
 float plantPart::dltDmPotRue(void){return 0;}        //FIXME
 float plantPart::dltDmPotTe(void){return 0;}            //FIXME
 ////float plantPart::dltDmRetranslocate(void){return 0;}

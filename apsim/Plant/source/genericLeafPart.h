@@ -44,7 +44,7 @@ class genericLeafPart : public plantLeafPart {
    float getLeafNo(void) const;
    float senFract (void) const
      { return(divide (dltSLAI, gLAI + dltLAI, 0.0)); };             // fraction of canopy senescing
-   float dltDmCapacity(void) const 
+   float dmGreenDemand(void) const 
      { return(divide (dltLAI_stressed, cSLAMin * smm2sm, 0.0));};   // Maximum DM this part can take today
 
    void potential (int option, float, float);

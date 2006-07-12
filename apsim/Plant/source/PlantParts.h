@@ -223,23 +223,23 @@ public:
                                           , vector<float> &n_dead_detached
                                           , vector<float> &p_dead_detached
                                           , vector<float> &fract);
-   virtual float dmTotal(void);
-   virtual float dmGreenDemand(void);
-   virtual float dmDemandDifferential(void);
-   virtual float dltDmRetranslocateSupply(float DemandDifferential);
+   virtual float dmTotal(void) const;
+   virtual float dmGreenDemand(void) const;
+   virtual float dmDemandDifferential(void) const;
+   virtual float dltDmRetranslocateSupply(float DemandDifferential) const;
    virtual float dmGreen(void) const;
-   virtual float dltDmGreen(void);
-   virtual float dltDmGreenRetrans(void);      //remove
-   virtual float dltDmRetranslocate(void);
-   virtual float dmGreenNew(void);
-   virtual float dltDmGreenNew(void);
-   virtual float dltDmGreenUptake(void);
-   virtual float dltDmGreenRetransUptake(void);
-   virtual float dltDmDetached(void);
-   virtual float dmSenesced(void);
-   virtual float dmDead(void);
-   virtual float dmRetransSupply(void);
-   virtual float dmRetransDemand(void);
+   virtual float dltDmGreen(void) const;
+   virtual float dltDmGreenRetrans(void) const;      //remove
+   virtual float dltDmRetranslocate(void) const;
+   virtual float dmGreenNew(void) const;
+   virtual float dltDmGreenNew(void) const;
+   virtual float dltDmGreenUptake(void) const;
+   virtual float dltDmGreenRetransUptake(void) const;
+   virtual float dltDmDetached(void) const;
+   virtual float dmSenesced(void) const;
+   virtual float dmDead(void) const;
+   virtual float dmRetransSupply(void) const;
+   virtual float dmRetransDemand(void) const;
 
    virtual float dmGreenStressDeterminant(void);
    virtual float pGreenStressDeterminant(void);
@@ -352,7 +352,7 @@ public:
    virtual float coverGreen(void) ;
    virtual float coverSen(void) ;
    virtual float coverTotal(void) ;
-   virtual float dltDmGrainDemand(void) ;
+   virtual float dltDmGrainDemand(void) const;
    virtual float dltDmPotRue(void);        //FIXME
    virtual float dltDmPotTe(void);            //FIXME
    virtual float dmDeadVegTotal(void);

@@ -15,6 +15,8 @@ class plantThing;
 class eventObserver;
 class Plant;
 class ReproStruct;
+class Arbitrator;
+
 #include "PlantInterface.h"
 #include "Environment.h"
 
@@ -72,7 +74,8 @@ private:
    eventObserver *FIEventObserver;         // Bookkeeper for Floral Initiation events
    eventObserver *floweringEventObserver;  // Bookkeeper for flowering events
    eventObserver *maturityEventObserver;   // Bookkeeper for maturity events
-
+   Arbitrator    *arbitrator;
+   
    float plantGreen(void) const;
    float plantSenesced(void) const;
    float plantDead(void) const;
@@ -184,7 +187,6 @@ public:
    void plant_vpd (float c_svp_fract, float g_maxt, float g_min);
 
    void plant_bio_actual (int option /* (INPUT) option number*/);
-   void plant_bio_partition (int option /* (INPUT) option number */);
    void plant_bio_retrans (void);
    void plant_water_stress (int option /* (INPUT) option number */);
    void plant_temp_stress (int option/* (INPUT) option number*/);
@@ -748,15 +750,14 @@ private:
                                                         // optimum water and nitrogen and
                                                         // temperature stress conditions (g/m^2)
       float dlt_dm_pot_te;                              // the potential daily biomass production from te (g/m^2)
-      float dltDmPotRueFruit;                           // potential dry matter production of fruit with
-                                                        // optimum water and nitrogen and
-                                                        // temperature stress conditions (g/m^2)
-      float dltDmPotTeFruit;                            // the potential daily biomass production of fruit from te (g/m^2)
-      double dlt_dm_supply_to_fruit;                    // dry matter supplied to fruit from assimilate (g/m^2)
-      float dlt_dm_yield_demand_fruit;                  // dry matter demand by fruit (g/m^2)
+      //float dltDmPotRueFruit;                           // potential dry matter production of fruit with
+      //xxxunused                                                  // optimum water and nitrogen and
+      //                                                  // temperature stress conditions (g/m^2)
+      //float dltDmPotTeFruit;                            // the potential daily biomass production of fruit from te (g/m^2)
+      //float dlt_dm_yield_demand_fruit;                  // dry matter demand by fruit (g/m^2)
       float dlt_dm_retrans_to_fruit;                    // dry matter retranslocated to fruit (g/m^2)
-      float dlt_dm_oil_conv_retranslocate;              // retranslocated plant biomass used in conversion to oil for (g/m^2)
-      float dlt_dm_grain_demand;                        // grain dm demand (g/m^2)
+      //float dlt_dm_oil_conv_retranslocate;              // retranslocated plant biomass used in conversion to oil for (g/m^2)
+      //float dlt_dm_grain_demand;                        // grain dm demand (g/m^2)
       float radn_int;                                   // radn intercepted by leaves (mj/m^2)
       float radnIntGreenFruit;                          // radn intercepted by fruit (mj/m^2)
       float transp_eff;                                 // transpiration efficiency (g dm/m^2/mm water)
@@ -868,7 +869,6 @@ private:
       int   grain_n_option;
       int   n_uptake_option;
       int   leaf_no_pot_option;
-      int   partition_option;
       int   n_retrans_option;
       int   n_stress_option;
       int   n_senescence_option;
@@ -984,18 +984,12 @@ private:
       float sen_threshold;                              // supply:demand ratio for onset of
                                                         // water senescence
       float grn_water_cont;                             // water content of grain g/g
-      float partition_rate_leaf;                        // rate coefficient of sigmoidal
-                                                        // function between leaf partition
-                                                        // fraction and internode no**2 (0-1)
+//xxremove
+//      float partition_rate_leaf;                        // rate coefficient of sigmoidal
+//                                                        // function between leaf partition
+//                                                        // fraction and internode no**2 (0-1)
 
-      float frac_leaf[max_table];                       // fraction of remaining dm allocated to leaves
-      float ratio_root_shoot[max_table];                // root:shoot ratio of new dm ()
 
-      float x_stage_no_partition[max_table];
-      float y_frac_leaf[max_table];                     // fraction of remaining dm allocated to leaves
-      float y_ratio_root_shoot[max_table];              // root:shoot ratio of new dm ()
-
-      int   num_stage_no_partition;
       float leaf_trans_frac;                            // fraction of leaf used in translocat
                                                         // to grain
                                                         // to grain

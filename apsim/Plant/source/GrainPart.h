@@ -82,7 +82,7 @@ public:												// member functions
    float nDemandGrain(void);
 
    float dltDmDemand(void);
-   float dltDmGrainDemand(void);
+   float dltDmGrainDemand(void) const;
 
    float grainWt(void);
    float nDemand2(void);
