@@ -28,7 +28,7 @@ class cohortingLeafPart : public plantLeafPart {
    float getTLAI_dead(void) const {return gTLAI_dead;};
    float getLeafNo(void) const;
    float senFract (void) const;
-   float dltDmCapacity(void) const 
+   float dmGreenDemand(void) const 
      { return(divide (dltLAI_stressed, cSLAMin * smm2sm, 0.0));};   // Maximum DM this part can take today
 
    void potential (int option, float, float);

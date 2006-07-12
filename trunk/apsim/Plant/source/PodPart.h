@@ -2,9 +2,10 @@
 #define PodPartH
 #include "PlantParts.h"
 
+class fruitGrainPart;
 class fruitPodPart : public plantPart {
   public:
-   fruitPodPart(plantInterface *p, const string &name) : plantPart(p, name) {};
+   fruitPodPart(plantInterface *p, fruitGrainPart *g, const string &name) ;
    ~fruitPodPart() {};
    void doRegistrations(protocol::Component *);
    void update(void);
@@ -20,11 +21,12 @@ class fruitPodPart : public plantPart {
    void onFlowering(void);
    void onStartGrainFill(void);
    void doDmMin(void);
-   void doDmDemand(float dm_grain_demand, float  dlt_dm_supply);
+   void doDmDemand(float  dlt_dm_supply);
    void doProcessBioDemand(void);
+   void readConstants (protocol::Component *, const string &);
    void readSpeciesParameters (protocol::Component *, vector<string> &);
    void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
-   float dltDmRetranslocateSupply(float DemandDifferential);
+   float dltDmRetranslocateSupply(float DemandDifferential) const;
 
    void zeroAllGlobals(void);
    void zeroDeltas(void);
@@ -47,8 +49,8 @@ class fruitPodPart : public plantPart {
    private:
       float fracPod(void);
       float fracPod1(void);
-      void doDmDemand1(float dm_grain_demand, float  dlt_dm_supply);
-      void doDmDemand2(float dm_grain_demand, float  dlt_dm_supply);
+      void doDmDemand1(float  dlt_dm_supply);
+      void doDmDemand2(float  dlt_dm_supply);
 
       float gDlt_dm;
       float gDlt_dm_pot_rue;
@@ -88,7 +90,7 @@ class fruitPodPart : public plantPart {
       };
 
       Cover coverPod;
-
+      fruitGrainPart *myGrain;                           // The grain we encapsulate
 };
 
 #endif /* PodPartH */

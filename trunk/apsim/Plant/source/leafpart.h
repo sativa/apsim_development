@@ -27,7 +27,7 @@ class plantLeafPart : public plantPart {
    virtual float getTLAI_dead(void) const = 0;                       //
    virtual float getLeafNo(void) const = 0;                          // The number of leaves 
    virtual float senFract (void) const = 0;                          // Fraction of canopy senescing today
-   virtual float dltDmCapacity(void) const =0;                       // Maximum DM this part can take today
+   virtual float dmGreenDemand(void) const =0;                       // Maximum DM this part can take today
 
    virtual void potential (int option, float, float) =0;             // Calculate potentials
    virtual void leaf_area_stressed(float) =0;                        // the leaf area development from the

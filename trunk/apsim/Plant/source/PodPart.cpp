@@ -1,6 +1,18 @@
+#include "CompositePart.h"
+#include "GrainPart.h"
 #include "PodPart.h"
 using namespace std;
 
+fruitPodPart::fruitPodPart(plantInterface *p, fruitGrainPart *g, const string &name) : plantPart(p, name)
+   {
+   myGrain = g;
+   fill_real_array (cTransp_eff_cf, 0.0, max_table);
+   fill_real_array (cX_co2_te_modifier, 0.0, max_table);
+   fill_real_array (cY_co2_te_modifier, 0.0, max_table);
+   cPartition_option = 0;
+   cNum_co2_te_modifier = 0;
+   }
+   
 void fruitPodPart::doRegistrations(protocol::Component *system)
 //=======================================================================================
 {
@@ -67,34 +79,39 @@ void fruitPodPart::doDmMin(void)
    DMPlantMin = max (dm_plant * (1.0 - c.trans_frac), DMPlantMin);
 }
 
-void fruitPodPart::doDmDemand(float dm_grain_demand, float dlt_dm_supply)
+
+void fruitPodPart::doDmDemand(float dlt_dm_supply)
 //=======================================================================================
 {
    if (cPartition_option == 1)
-      doDmDemand1(dm_grain_demand, dlt_dm_supply);
+      doDmDemand1(dlt_dm_supply);
    else if (cPartition_option == 2)
-      doDmDemand2(dm_grain_demand, dlt_dm_supply);
+      doDmDemand2(dlt_dm_supply);
    else
       throw std::invalid_argument("invalid template option in fruitPodPart::doDmDemand");
 }
 
-void fruitPodPart::doDmDemand1(float dm_grain_demand, float dlt_dm_supply)
+void fruitPodPart::doDmDemand1(float dlt_dm_supply)
 //=======================================================================================
 {
    float dlt_dm_supply_by_pod = 0.0;  // FIXME
    dlt_dm_supply += dlt_dm_supply_by_pod;
-
+   
+   float dm_grain_demand = myGrain->calcDmDemand();
+   
    if (dm_grain_demand > 0.0)
       DMGreenDemand = dm_grain_demand * fracPod1() - dlt_dm_supply_by_pod;
    else
       DMGreenDemand = dlt_dm_supply * fracPod1() - dlt_dm_supply_by_pod;
 }
 
-void fruitPodPart::doDmDemand2(float dm_grain_demand, float dlt_dm_supply)
+void fruitPodPart::doDmDemand2(float dlt_dm_supply)
 //=======================================================================================
 {
    float dlt_dm_supply_by_pod = 0.0;  // FIXME
    dlt_dm_supply += dlt_dm_supply_by_pod;
+
+   float dm_grain_demand = myGrain->calcDmDemand();
 
    if (dm_grain_demand > 0.0)
       DMGreenDemand = dm_grain_demand * fracPod() - dlt_dm_supply_by_pod;
@@ -108,14 +125,14 @@ void fruitPodPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTo
    dlt.dm_green_retrans += DMAvail * divide (dmDemandDifferential(), DMDemandDifferentialTotal, 0.0);
    }
 
-float fruitPodPart::dltDmRetranslocateSupply(float DemandDifferential)
+float fruitPodPart::dltDmRetranslocateSupply(float DemandDifferential) const
 //=======================================================================================
    {
    float DMPartPot = DMGreen + dlt.dm_green_retrans;
    float DMPartAvail = DMPartPot - DMPlantMin * plant->getPlants();
    DMPartAvail = l_bound (DMPartAvail, 0.0);
    float DltDmRetransPart = min (DemandDifferential, DMPartAvail);
-   dlt.dm_green_retrans = - DltDmRetransPart;
+//XXX   dlt.dm_green_retrans = - DltDmRetransPart;
    return DltDmRetransPart;
    }
 
@@ -123,16 +140,11 @@ void fruitPodPart::zeroAllGlobals(void)
 //=======================================================================================
 {
    plantPart::zeroAllGlobals();
-
    coverPod.green = 0.0;
    coverPod.sen   = 0.0;
    coverPod.dead  = 0.0;
    gTranspEff = 0.0;
    gPai = 0.0;
-   fill_real_array (cTransp_eff_cf, 0.0, max_table);
-   fill_real_array (cX_co2_te_modifier, 0.0, max_table);
-   fill_real_array (cY_co2_te_modifier, 0.0, max_table);
-   cNum_co2_te_modifier = 0;
 }
 
 void fruitPodPart::zeroDeltas(void)
@@ -147,17 +159,17 @@ void fruitPodPart::zeroDeltas(void)
 }
 
 
+void fruitPodPart::readConstants (protocol::Component *system, const string &section)
+   {
+   plantPart::readConstants(system, section);
+   }
+
 void fruitPodPart::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
 //=======================================================================================
 {
    plantPart::readSpeciesParameters(system, sections);
 
    int   numvals;                                // number of values returned
-
-    system->readParameter (sections,
-                       "partition_option"//, "()"
-                      , cPartition_option
-                      , 1, 3);
 
    system->readParameter (sections,
                           "transp_eff_cf"//, "(kpa)"
@@ -196,11 +208,10 @@ void fruitPodPart::readSpeciesParameters(protocol::Component *system, vector<str
                           , cSvp_fract
                           , 0.0, 1.0);
 
-   int cPartition_option = 0;
    system->readParameter (sections,
-                          "partition_option"//, "()"
-                          , cPartition_option
-                          , 1, 3);
+                       "partition_option"//, "()"
+                      , cPartition_option
+                      , 1, 3);
 
    if (cPartition_option==1 )
       system->readParameter (sections
@@ -221,6 +232,8 @@ void fruitPodPart::readSpeciesParameters(protocol::Component *system, vector<str
                              , cY_frac_pod, numvals
                              , 0.0, 2.0);
       }
+   else
+      throw std::invalid_argument("invalid template option in fruitPodPart::readSpeciesParameters");
 }
 
 // Query

@@ -36,6 +36,7 @@
 #include "ReproStruct.h"
 #include "GenericPhenology.h"
 #include "BroccoliPhenology.h"
+#include "arbitrator.h"
 
 using namespace std;
 
@@ -242,6 +243,9 @@ void Plant::doInit1(protocol::Component *s)
     reproStruct = new ReproStruct(this, "bruce");
     //myThings.push_back(reproStruct);
     //myParts.push_back(reproStruct);
+
+    arbitrator = constructArbitrator(this, "");       // Make a null arbitrator until we call readSpecies...
+    myThings.push_back(arbitrator);
 
     sowingEventObserver = new eventObserver("sowing", this);
     myThings.push_back(sowingEventObserver);
@@ -968,51 +972,6 @@ void Plant::plant_bio_actual (int option /* (INPUT) option number*/)
 
 
 
-//+  Purpose
-//       Partition biomass.
-
-//+  Mission Statement
-//     Calculate biomass partitioning
-
-//+  Changes
-//      250894 jngh specified and programmed
-void Plant::plant_bio_partition (int option /* (INPUT) option number */)
-    {
-    const char*  my_name = "plant_bio_partition" ;
-    push_routine (my_name);
-
-    double dlt_dm_supply_by_veg = g.dlt_dm;
-    fruitPart->doDmDemand (dlt_dm_supply_by_veg);
-    g.dlt_dm_yield_demand_fruit = fruitPart->dmGreenDemand ();
-
-    if (option == 1)
-       {
-        legnew_dm_partition1 (c.frac_leaf[(int)phenology->stageNumber()-1]
-                              , c.ratio_root_shoot[(int)phenology->stageNumber()-1]
-                              , dlt_dm_supply_by_veg
-                              , g.dlt_dm_yield_demand_fruit
-                              , &g.dlt_dm_supply_to_fruit);
-
-       }
-    else if (option == 2)
-       {
-        legnew_dm_partition2 (phenology->stageNumber()
-                               , c.x_stage_no_partition
-                               , c.y_frac_leaf
-                               , c.num_stage_no_partition
-                               , c.y_ratio_root_shoot
-                               , dlt_dm_supply_by_veg
-                               , g.dlt_dm_yield_demand_fruit
-                               , &g.dlt_dm_supply_to_fruit);
-        }
-    else
-        {
-        throw std::invalid_argument("invalid template option in plant_bio_partition");
-        }
-
-    pop_routine (my_name);
-    return;
-    }
 
 void Plant::plant_bio_retrans (void)
 //=======================================================================================
@@ -1028,8 +987,8 @@ void Plant::plant_bio_retrans (void)
    allParts.push_back(stemPart);
    allParts.push_back(fruitPart);
 
-   float dm_demand_differential = g.dlt_dm_yield_demand_fruit
-                                - g.dlt_dm_supply_to_fruit;
+   float dm_demand_differential = fruitPart->dmGreenDemand ()
+                                - fruitPart->dlt.dm_green;
 
    legnew_dm_retranslocate(allParts
                            , supply_pools_by_veg
@@ -1045,10 +1004,10 @@ void Plant::plant_bio_distribute (void)
 {
 //       distribute biomass to fruit parts.
 
-   fruitPart->doDmPartition (g.dlt_dm_supply_to_fruit, g.dlt_dm_yield_demand_fruit);
+   fruitPart->doDmPartition (fruitPart->dlt.dm_green, fruitPart->dmGreenDemand ());
 
-   float dm_demand_differential = g.dlt_dm_yield_demand_fruit
-                                - g.dlt_dm_supply_to_fruit;
+   float dm_demand_differential = fruitPart->dmGreenDemand ()
+                                - fruitPart->dlt.dm_green;
    fruitPart->doDmRetranslocate (g.dlt_dm_retrans_to_fruit, dm_demand_differential);
 }
 
@@ -3154,169 +3113,6 @@ void Plant::legnew_n_partition
     }
 
 
-//+  Purpose
-//       Partitions new dm (assimilate) between plant components (g/m^2)
-
-//+  Mission Statement
-//     Partitions new biomass between plant components
-
-//+  Changes
-//       010994 jngh specified and programmed
-//       250495 psc  modified dlt_dm_green(grain) to account for barren heads
-//       180597 mjr  modified to account for partitioning to leaf during grainfil
-//                     and partitioning to energy pool
-void Plant::legnew_dm_partition1( float  c_frac_leaf                   // (INPUT)  fraction of remaining dm allocated to leaf
-                                     , float  c_ratio_root_shoot            // (INPUT)  root:shoot ratio of new dm ()
-                                     , double  g_dlt_dm                      // (INPUT)  the daily biomass production (
-                                     , float g_dlt_dm_yield_demand
-                                     , double *dlt_dm_fruit)                  // (OUTPUT) actual biomass partitioned to plant parts (g/m^2)
-{
-
-//+  Local Variables
-    double dlt_dm_green_tot;                       // total of partitioned dm (g/m^2)
-    double dlt_dm_leaf_max;                        // max increase in leaf dm (g/m^2)
-    double dm_remaining;                           // interim dm pool for partitioning
-
-//- Implementation Section ----------------------------------
-
-         // Root must be satisfied. The roots don't take any of the
-         // carbohydrate produced - that is for tops only.  Here we assume
-         // that enough extra was produced to meet demand. Thus the root
-         // growth is not removed from the carbo produced by the model.
-
-          // first we zero all plant component deltas
-    for (vector<plantPart *>::iterator t = myParts.begin();
-         t != myParts.end();
-         t++)
-       (*t)->zeroDltDmGreen();
-
-    // now we get the root delta for all stages - partition scheme
-    // specified in coeff file
-    rootPart->dlt.dm_green = c_ratio_root_shoot * g_dlt_dm;
-
-         // now distribute the assimilate to plant parts
-    if (g_dlt_dm_yield_demand >= g_dlt_dm)
-        {
-        // reproductive demand exceeds supply - distribute assimilate to those parts only
-        *dlt_dm_fruit = g_dlt_dm;
-        }
-    else
-        {
-        // more assimilate than needed for reproductive parts
-        // distribute to all parts
-
-        // satisfy reproductive demands
-        // distribute remainder to vegetative parts
-        *dlt_dm_fruit = g_dlt_dm_yield_demand;
-        dm_remaining = g_dlt_dm - g_dlt_dm_yield_demand;
-        leafPart->dlt.dm_green = c_frac_leaf * dm_remaining;
-
-            // limit the delta leaf area to maximum
-        dlt_dm_leaf_max = leafPart->dltDmCapacity();
-        leafPart->dlt.dm_green = u_bound (leafPart->dlt.dm_green, dlt_dm_leaf_max);
-
-        dm_remaining -= leafPart->dlt.dm_green;
-        // everything else to stem
-        stemPart->dlt.dm_green = dm_remaining;
-        }
-
-         // do mass balance check - roots are not included
-    dlt_dm_green_tot = topsDltDmGreen() + *dlt_dm_fruit;
-
-    if (!reals_are_equal(dlt_dm_green_tot, g_dlt_dm, 1.0E-4))  // XX this is probably too much slop - try doubles XX
-    {
-         string msg = "dlt_dm_green_tot mass balance is off: "
-                    + ftoa(dlt_dm_green_tot, ".6")
-                    + " vs "
-                    + ftoa(g_dlt_dm, ".6");
-      parent->warningError(msg.c_str());
-    }
-}
-
-void Plant::legnew_dm_partition2 (float  g_current_stage
-                                        , float  *c_x_stage_no_partition
-                                        , float  *c_y_frac_leaf
-                                        , int    c_num_stage_no_partition
-                                        , float *c_y_ratio_root_shoot
-                                        , double g_dlt_dm
-                                        , float g_dlt_dm_yield_demand
-                                        , double *dlt_dm_fruit)
-{
-
-//+  Local Variables
-    double dlt_dm_green_tot;                       // total of partitioned dm (g/m^2)
-    double dlt_dm_leaf_max;                        // max increase in leaf dm (g/m^2)
-    double dm_remaining;                           // interim dm pool for partitioning
-
-//- Implementation Section ----------------------------------
-
-// Interpolate leaf and pod fractions
-    float frac_leaf = linear_interp_real(g_current_stage
-                                   ,c_x_stage_no_partition
-                                   ,c_y_frac_leaf
-                                   ,c_num_stage_no_partition);
-
-    float ratio_root_shoot = linear_interp_real(g_current_stage
-                                          ,c_x_stage_no_partition
-                                          ,c_y_ratio_root_shoot
-                                          ,c_num_stage_no_partition);
-
-         // Root must be satisfied. The roots don't take any of the
-         // carbohydrate produced - that is for tops only.  Here we assume
-         // that enough extra was produced to meet demand. Thus the root
-         // growth is not removed from the carbo produced by the model.
-
-          // first we zero all plant component deltas
-    for (vector<plantPart *>::iterator t = myParts.begin();
-         t != myParts.end();
-         t++)
-       (*t)->dlt.dm_green = 0.0;
-       fruitPart->zeroDltDmGreen();
-
-    // now we get the root delta for all stages - partition scheme
-    // specified in coeff file
-    rootPart->dlt.dm_green = ratio_root_shoot * g_dlt_dm;
-
-         // now distribute the assimilate to plant parts
-    if (g_dlt_dm_yield_demand >= g_dlt_dm)
-        {
-        // reproductive demand exceeds supply - distribute assimilate to those parts only
-        *dlt_dm_fruit = g_dlt_dm;
-        }
-    else
-        {
-        // more assimilate than needed for reproductive parts
-        // distribute to all parts
-
-        // satisfy reproductive demands
-        *dlt_dm_fruit = g_dlt_dm_yield_demand;
-
-        // distribute remainder to vegetative parts
-        dm_remaining = g_dlt_dm - g_dlt_dm_yield_demand;
-        leafPart->dlt.dm_green = frac_leaf * dm_remaining;
-
-        // limit the delta leaf area to maximum
-        dlt_dm_leaf_max = leafPart->dltDmCapacity();
-        leafPart->dlt.dm_green = u_bound (leafPart->dlt.dm_green, dlt_dm_leaf_max);
-
-        dm_remaining -= leafPart->dlt.dm_green;
-        // everything else to stem
-        stemPart->dlt.dm_green = dm_remaining;
-        }
-
-         // do mass balance check - roots are not included
-    dlt_dm_green_tot = topsDltDmGreen() + *dlt_dm_fruit;
-
-    if (!reals_are_equal(dlt_dm_green_tot, g_dlt_dm, 1.0E-4))  // XX this is probably too much slop - try doubles XX
-    {
-         string msg = "dlt_dm_green_tot mass balance is off: "
-                    + ftoa(dlt_dm_green_tot, ".6")
-                    + " vs "
-                    + ftoa(g_dlt_dm, ".6");
-      parent->warningError(msg.c_str());
-    }
-}
-
 
 //     ===========================================================
 void Plant::legnew_dm_retranslocate
@@ -3630,11 +3426,18 @@ void Plant::plant_process ( void )
         plant_bio_rue (1);
 
         plant_dm_init();
-        plant_bio_actual (1);
-        fruitPart->doProcessBioDemand();
 
-        plant_bio_partition (c.partition_option);
-//        plant_retrans_init(1);
+        // Calculate DM supply (dlt_dm)
+        plant_bio_actual (1);
+
+        // Now calculate DM demands
+        for (vector<plantPart *>::iterator t = myParts.begin();
+             t != myParts.end();
+             t++)
+            (*t)->doDmDemand (g.dlt_dm);
+        
+        arbitrator->partitionDM(g.dlt_dm, rootPart, leafPart, stemPart, fruitPart);
+
         plant_bio_retrans ();
         plant_bio_distribute ();  // for fruit class - process bio distribute
 
@@ -4648,9 +4451,7 @@ void Plant::plant_zero_all_globals (void)
       g.dlt_dm = 0.0;
       g.dlt_dm_pot_rue = 0.0;
       g.dlt_dm_pot_te = 0.0;
-      g.dltDmPotRueFruit = 0.0;
-      g.dlt_dm_supply_to_fruit = 0.0;
-      g.dlt_dm_yield_demand_fruit = 0.0;
+      //xxxg.dltDmPotRueFruit = 0.0;
       g.dlt_dm_retrans_to_fruit = 0.0;
       g.dlt_dm_parasite  =  0.0;
       g.dlt_dm_parasite_demand = 0.0;
@@ -4709,7 +4510,6 @@ void Plant::plant_zero_all_globals (void)
       //       plant Constants
       c.n_uptake_option = 0;
       c.leaf_no_pot_option = 0;
-      c.partition_option = 0;
 
       c.no3_uptake_max = 0.0;
       c.no3_conc_half_max = 0.0;
@@ -4767,13 +4567,7 @@ void Plant::plant_zero_all_globals (void)
       c.spla_slope = 0.0;
       c.sen_threshold = 0.0;
       c.grn_water_cont = 0.0;
-      c.partition_rate_leaf = 0.0;
-      fill_real_array (c.frac_leaf,0.0,max_table);
-      fill_real_array (c.ratio_root_shoot, 0.0, max_table);
-      fill_real_array (c.x_stage_no_partition, 0.0, max_table);
-      fill_real_array (c.y_frac_leaf, 0.0, max_table);
-      fill_real_array (c.y_ratio_root_shoot, 0.0, max_table);
-      c.num_stage_no_partition = 0;
+      //xxxc.partition_rate_leaf = 0.0;
       c.leaf_trans_frac = 0.0;
       c.htstress_coeff = 0.0;
       c.temp_grain_crit_stress = 0.0;
@@ -6128,13 +5922,17 @@ void Plant::plant_read_species_const ()
 
     scratch = parent->readParameter (search_order, "class_change");
     Split_string(scratch, " ", c.class_change);
+ 
+    // Kill off last arbitrator, and get a new one
+    myThings.erase(remove(myThings.begin(), myThings.end(), arbitrator),myThings.end());
+    if (arbitrator) delete arbitrator;
+    arbitrator = constructArbitrator(this, parent->readParameter (search_order, "partition_option"));
+    myThings.push_back(arbitrator);
 
-   for (vector<plantThing *>::iterator t = myThings.begin();
+    for (vector<plantThing *>::iterator t = myThings.begin();
         t != myThings.end();
         t++)
       (*t)->readSpeciesParameters(parent, search_order);
-
-
 
     c.rue.search(parent, search_order,
                  "x_stage_rue", "()", 0.0, 1000.0,
@@ -6149,60 +5947,6 @@ void Plant::plant_read_species_const ()
                       "transp_eff_cf"//, "(kpa)"
                      , c.transp_eff_cf, numvals
                      , 0.0, 1.0);
-
-    parent->readParameter (search_order,
-                       "partition_option"//, "()"
-                      , c.partition_option
-                      , 1, 3);
-
-    if (c.partition_option==1 )
-        {
-        parent->readParameter (search_order
-                         ,"frac_leaf"//,  "()"
-                         , c.frac_leaf, numvals
-                         , 0.0, 1.0);
-
-        parent->readParameter (search_order
-                         ,"ratio_root_shoot"//, "()"
-                         , c.ratio_root_shoot, numvals
-                         , 0.0, 1000.0);
-
-        }
-    else if (c.partition_option==2)
-        {
-        parent->readParameter (search_order
-                         ,"x_stage_no_partition"//, "()"
-                         , c.x_stage_no_partition
-                         , c.num_stage_no_partition
-                         , 0.0, 20.0);
-
-        parent->readParameter (search_order
-                         ,"y_frac_leaf"//,  "()"
-                         , c.y_frac_leaf, numvals
-                         , 0.0, 1.0);
-        parent->readParameter (search_order
-                         ,"y_ratio_root_shoot"//, "()"
-                         , c.y_ratio_root_shoot, numvals
-                         , 0.0, 1000.0);
-        }
-    else if (c.partition_option==3)
-        {
-        parent->readParameter (search_order
-                         ,"x_stage_no_partition"//,  "()"
-                         , c.x_stage_no_partition
-                         , c.num_stage_no_partition
-                         , 0.0, 20.0);
-
-        parent->readParameter (search_order
-                         ,"y_frac_leaf"//, "()"
-                         , c.y_frac_leaf, numvals
-                         , 0.0, 1.0);
-        parent->readParameter (search_order
-                         ,"y_ratio_root_shoot"//, "()"
-                         , c.y_ratio_root_shoot, numvals
-                         , 0.0, 1000.0);
-
-        }
 
     parent->readParameter (search_order
                    ,"row_spacing_default"//, "(mm)"

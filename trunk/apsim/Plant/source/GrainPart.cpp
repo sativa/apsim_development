@@ -652,7 +652,7 @@ float fruitGrainPart::nDemandGrain(void) {return gN_grain_demand;}
 float fruitGrainPart::nConcPercent(void) {return divide (nTotal(), dmTotal(), 0.0) * fract2pcnt;}   //redmove
 float fruitGrainPart::grainNConcPercent(void) {return divide (nTotal(), dmTotal(), 0.0) * fract2pcnt;}
 float fruitGrainPart::dltDmDemand(void) {return gDlt_dm_grain_demand;}                               //remove
-float fruitGrainPart::dltDmGrainDemand(void) {return gDlt_dm_grain_demand;}
+float fruitGrainPart::dltDmGrainDemand(void) const {return gDlt_dm_grain_demand;}
 
 float fruitGrainPart::meanT (void) {return 0.5 * (gMaxt + gMint);}
 

@@ -132,30 +132,30 @@ public:												// member functions
    virtual float grainNConcPercent(void);
    virtual float nDemandGrain(void) ;
 
-   virtual float dltDmGrainDemand(void) ;
-   virtual float dltDmRetranslocate(void);
-   virtual float dltDmRetranslocateSupply(float demand_differential);
-   virtual float dltDmGreen(void);
-   virtual float dltDmGreenUptake(void);
+   virtual float dltDmGrainDemand(void) const;
+   virtual float dltDmRetranslocate(void) const;
+   virtual float dltDmRetranslocateSupply(float demand_differential) const;
+   virtual float dltDmGreen(void) const;
+   virtual float dltDmGreenUptake(void) const;
    virtual float dltDmPotTe(void);            //FIXME
    virtual float dltDmPotRue(void);        //FIXME
-   virtual float dltDmGreenRetransUptake(void);
-   virtual float dltDmDetached(void);
+   virtual float dltDmGreenRetransUptake(void) const;
+   virtual float dltDmDetached(void) const;
 
-   virtual float dmGreenDemand(void);
-   virtual float dmTotal(void);
-   virtual float dmGrainTotal(void);
+   virtual float dmGreenDemand(void) const;     
+   virtual float dmTotal(void) const;
+   virtual float dmGrainTotal(void) ;
    virtual float dmVegTotal(void);
    virtual float dmGreenGrainTotal(void);
    virtual float dmGreen(void) const;
    virtual float dmGreenVegTotal(void);
    virtual float dmSenescedVegTotal(void);
-   virtual float dmSenesced(void);
+   virtual float dmSenesced(void) const;
    virtual float dmDeadVegTotal(void);
-   virtual float dmDead(void);
+   virtual float dmDead(void) const;
    virtual float grainWt(void);
-   virtual float dmRetransSupply(void);
-   virtual float dmRetransDemand(void);
+   virtual float dmRetransSupply(void) const;
+   virtual float dmRetransDemand(void) const;
 
    virtual float nTotal(void);
    virtual float nGrainTotal(void);
@@ -219,7 +219,7 @@ public:												// member functions
    virtual void doDmDemand (float dlt_dm_supply_by_veg);
    virtual void doDmPartition(float DMAvail, float DMDemandTotal);
    virtual void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
-   virtual float dmDemandDifferential(void);
+   virtual float dmDemandDifferential(void) const;
    virtual float nDemandDifferential(void);
    virtual void doNFixRetranslocate(float NFix, float NDemandDifferentialTotal);
    virtual void doBioActual (void);

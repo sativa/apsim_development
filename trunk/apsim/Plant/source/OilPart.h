@@ -25,13 +25,13 @@ class fruitOilPart : public plantPart {
    float energyAdjustHI(float harvestIndex) ;
    float energyAdjustDM(float DM) ;
    float calcDmDemand(float dmDemand) ;
-   void doDMDemand(float dlt_dm_grain_demand);       //remove
+   void doDMDemand(float dlt_dm_grain_demand) ;       //remove
    void doDMDemandGrain(float dlt_dm_grain_demand);
    void doDmPartition(float DMAvail, float DMDemandTotal);
    void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
-   float dltDmGreenUptake(void);
-   float dltDmGreenRetransUptake(void);
-   float dmDemandDifferential(void);
+   float dltDmGreenUptake(void) const;
+   float dltDmGreenRetransUptake(void) const;
+   float dmDemandDifferential(void) const;
 
    void doBioGrainOil (void);
 
