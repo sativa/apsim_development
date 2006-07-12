@@ -374,6 +374,12 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\irrigate\lib\irrigate.dll</dll>
+         <sim>
+            <automatic_irrigation>[irrigation.automatic_irrigation]</automatic_irrigation>
+            <crit_fr_asw>[irrigation.crit_fr_asw]</crit_fr_asw>
+            <asw_depth>[irrigation.asw_depth]</asw_depth>
+            <irrigation_efficiency>[irrigation.irrigation_efficiency]</irrigation_efficiency>
+         </sim>
       </ApsimToSim>
    </irrigation>
    <fertiliser>
