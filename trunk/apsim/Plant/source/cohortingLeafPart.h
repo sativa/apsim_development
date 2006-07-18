@@ -2,7 +2,7 @@
 #define cohortingLeafPartH
 
 class cohortingLeafPart : public plantLeafPart {
-  public: 
+  public:
    cohortingLeafPart(plantInterface *p, const string &name) : plantLeafPart(p, name) {};
    ~cohortingLeafPart() {};
    void onHarvest(float height, float remove_fr,
@@ -21,19 +21,19 @@ class cohortingLeafPart : public plantLeafPart {
    void onEmergence(void);
    void onKillStem(void);
 
-   float getLAI(void) const 
+   float getLAI(void) const
      { return sum(gLeafArea) * plant->getPlants() * smm2sm; };
-   float getSLAI(void) const 
+   float getSLAI(void) const
      { return sum(gLeafAreaSen) * plant->getPlants() * smm2sm; };
    float getTLAI_dead(void) const {return gTLAI_dead;};
    float getLeafNo(void) const;
    float senFract (void) const;
-   float dmGreenDemand(void) const 
+   float dmGreenDemand(void) const
      { return(divide (dltLAI_stressed, cSLAMin * smm2sm, 0.0));};   // Maximum DM this part can take today
 
    void potential (int option, float, float);
    void leaf_area_stressed(float);
-   void actual(void);   
+   void actual(void);
 
    void leaf_death (float nfact_expansion, float  dlt_tt);
    void leaf_area_sen (float, float);
@@ -42,7 +42,7 @@ class cohortingLeafPart : public plantLeafPart {
 
    void remove_biomass_update(void);
    void remove_detachment (float dlt_slai_detached, float dlt_lai_removed );
- 
+
   private:
    void get_tlai(protocol::Component *system, protocol::QueryValueData &qd);
    void get_lai_sum(protocol::Component *system, protocol::QueryValueData &qd);
@@ -69,8 +69,8 @@ class cohortingLeafPart : public plantLeafPart {
    vector<float> gLeafAreaSen;                        // senesced leaf area of each cohort (mm^2)
    vector<float> gLeafAge;                            // age (TT) of each cohort (oC^d)
    float gLeavesPerNode;
-   
-   float cInitialTPLA;                                // initial plant leaf area (mm^2) 
+
+   float cInitialTPLA;                                // initial plant leaf area (mm^2)
    float cLeafNumberAtEmerg;                          // leaf number at emergence ()
    float cFrLeafSenRate;                              // rate of leaf senescence
    float cSenStartStage;                              // Phenological stage when leaves start senescing
@@ -89,19 +89,24 @@ class cohortingLeafPart : public plantLeafPart {
                                                       // stress during photosynthesis
                                                       // to leaf senesense rate
 
-   lookupFunction cGrowthPeriod;                      // Growth period of each leaf cohort (oC)
-   lookupFunction cLagPeriod;                         // Stable period of each leaf cohort (oC)
-   lookupFunction cSenescingPeriod;                   // Senescence period of each leaf cohort (oC)
-   lookupFunction cAreaPot;                            // max leaf area of each leaf cohort (mm^2)
-   
+//   lookupFunction cGrowthPeriod;                      // Growth period of each leaf cohort (oC)
+//   lookupFunction cLagPeriod;                         // Stable period of each leaf cohort (oC)
+//   lookupFunction cSenescingPeriod;                   // Senescence period of each leaf cohort (oC)
+//   lookupFunction cAreaPot;                            // max leaf area of each leaf cohort (mm^2)
+
+   interpolationFunction cGrowthPeriod;                      // Growth period of each leaf cohort (oC)
+   interpolationFunction cLagPeriod;                         // Stable period of each leaf cohort (oC)
+   interpolationFunction cSenescingPeriod;                   // Senescence period of each leaf cohort (oC)
+   interpolationFunction cAreaPot;                            // max leaf area of each leaf cohort (mm^2)
+
    interpolationFunction cNodeAppRate;
    interpolationFunction cLeavesPerNode;
    interpolationFunction cLeafSize;
    interpolationFunction cSLAMax;
    interpolationFunction cLeafNoFrac;
-   interpolationFunction cSenescenceFac;              // temperature senescence table (oC) 
+   interpolationFunction cSenescenceFac;              // temperature senescence table (oC)
 
-   float dltLAI;                                      // area of leaf 
+   float dltLAI;                                      // area of leaf
    float dltLAI_pot;                                  // potential change in live plant lai
    float dltLAI_stressed;                             // potential change in lai allowing for stress
    float dltTLAI_dead;                                // plant lai change in dead plant
@@ -112,7 +117,7 @@ class cohortingLeafPart : public plantLeafPart {
    float dltSLAI_water;                               // senesced lai from water
    float dltSLAI_frost;                               // senesced lai from frost
    float dltTT;
-   
+
    float dltLeafNoSen;                               // fraction of oldest green leaf senesced ()
    float dltLeafNo;                                // actual fraction of oldest leaf expanding ()
    float dltNodeNo;                                // actual fraction of oldest node expanding ()

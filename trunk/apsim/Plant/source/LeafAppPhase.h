@@ -24,6 +24,7 @@ class LeafAppPhase : public pPhase
       LeafAppPhase(const string& stage_name) : pPhase (stage_name){};
       void updateTTTargets(PlantPhenology &parent, const environment_t &e);
       virtual string description() const;
+      virtual void reset();
       void GetOutputs(std::vector <Output*> &Outputs);
    };
 

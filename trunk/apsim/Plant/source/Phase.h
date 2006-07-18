@@ -33,7 +33,7 @@ class pPhase
      float getTT(void) const       {return tt;};
      float getTTTarget(void) const {return target;};
      float getDays(void) const     {return days;};
-     void  reset(void)             {tt = target = days = 0.0; empty = true;};
+     virtual void  reset(void)             {tt = target = days = 0.0; empty = true;};
      void  update(void)            {empty = false;};
      bool  isFirstDay(void) const  {return empty == true;};
      bool  isEmpty(void) const {return empty;};

@@ -222,7 +222,7 @@ void cohortingLeafPart::get_node_no(protocol::Component *system, protocol::Query
 //=======================================================================================
 {
    if (gNodeNo > 0)
-      system->sendVariable(qd, (float)(1.0 + gNodeNo));
+      system->sendVariable(qd, (float)(gNodeNo));
    else
       system->sendVariable(qd, (float)(0.0));
 }
@@ -518,7 +518,7 @@ void cohortingLeafPart::leaf_no_pot (float stressFactor, float dlt_tt)
     bool tillering = plant->inPhase("tiller_formation");
     if (tillering)
        {
-       float node_app_rate = cNodeAppRate[1.0 + gNodeNo];
+       float node_app_rate = cNodeAppRate[gNodeNo];
        dltNodeNo = divide (dlt_tt, node_app_rate, 0.0);
        }
     else
@@ -527,9 +527,9 @@ void cohortingLeafPart::leaf_no_pot (float stressFactor, float dlt_tt)
     dltLeafNoPot = 0.0;
     if (tillering)
         {
-        float leaves_per_node_now = cLeavesPerNode[gNodeNo + 1.0];
+        float leaves_per_node_now = cLeavesPerNode[gNodeNo];
         gLeavesPerNode = min(gLeavesPerNode, leaves_per_node_now);
-        float dlt_leaves_per_node = cLeavesPerNode[1.0 + gNodeNo + dltNodeNo] - leaves_per_node_now;
+        float dlt_leaves_per_node = cLeavesPerNode[gNodeNo + dltNodeNo] - leaves_per_node_now;
 
         gLeavesPerNode +=  dlt_leaves_per_node * stressFactor;
 

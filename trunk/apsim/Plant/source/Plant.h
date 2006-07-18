@@ -71,11 +71,12 @@ private:
    FruitCohort     *fruitPart;            //FIXME remove this when Plant fruit fixed for cohorting
 
    eventObserver *sowingEventObserver;     // Bookkeeper for Sowing events
+   eventObserver *emergenceEventObserver;  // Bookkeeper for Emergence events
    eventObserver *FIEventObserver;         // Bookkeeper for Floral Initiation events
    eventObserver *floweringEventObserver;  // Bookkeeper for flowering events
    eventObserver *maturityEventObserver;   // Bookkeeper for maturity events
    Arbitrator    *arbitrator;
-   
+
    float plantGreen(void) const;
    float plantSenesced(void) const;
    float plantDead(void) const;
@@ -180,7 +181,7 @@ public:
 
    const std::string & getCropType(void) ;
    protocol::Component *getComponent(void) ;
-   
+
    void plant_co2_modifier_rue(void);
    void plant_co2_modifier_te(void);
    void plant_co2_modifier_n_conc(void);
@@ -399,7 +400,7 @@ public:
                                        ,vector<float>  &dlt_dm_n              // (INPUT) residue N weight (kg/ha)
                                        ,vector<float>  &dlt_dm_p              // (INPUT) residue P weight (kg/ha)
                                        ,vector<float>  &fraction_to_residue);
-                                       
+
 
    void plant_get_ext_uptakes (const char *uptake_source,        //(INPUT) uptake flag
                                const char *crop_type,            //(INPUT) crop type name
