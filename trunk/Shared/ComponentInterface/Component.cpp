@@ -1129,3 +1129,18 @@ unsigned Component::nameToRegistrationID(const std::string& name,
    else
       return (unsigned) &(reg->second);
    }
+
+void Component::removeGettableVar(const char *systemName)
+// remove a variable from our list of variables
+   {
+   //newend = getVarMap.remove_if(....??XXX
+   //getVarMap.erase(newend, getVarMap.end());
+   bool found = 1;
+   while (found) 
+      {
+      UInt2InfoMap::iterator i;
+      for (i = getVarMap.begin();i != getVarMap.end();i++) 
+         if ((*i).second->name() == systemName) getVarMap.erase(i);  // and should probably deleteReg too..??
+      if (i == getVarMap.end()) found = 0;
+      }   
+   }

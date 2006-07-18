@@ -72,6 +72,7 @@ class __declspec(dllexport) baseInfo {
    ~baseInfo() {};
    virtual void sendVariable(Component *, QueryValueData&) = 0;
    virtual std::string getXML();
+   std::string name(void) {return myName;};
 };
 
 // ------------------------------------------------------------------
@@ -768,6 +769,9 @@ class __declspec(dllexport) Component
            {
            throw "vector addGettableVar not yet implemented";
            };
+
+      void removeGettableVar(const char *systemName);
+
 
       // Add a procedure to be called when events occur
       unsigned int addEvent(const char *systemName,
