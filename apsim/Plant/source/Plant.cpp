@@ -5925,9 +5925,11 @@ void Plant::plant_read_species_const ()
     Split_string(scratch, " ", c.class_change);
 
     // Kill off last arbitrator, and get a new one
+    arbitrator->undoRegistrations(parent);
     myThings.erase(remove(myThings.begin(), myThings.end(), arbitrator),myThings.end());
-    if (arbitrator) delete arbitrator;
+    delete arbitrator;
     arbitrator = constructArbitrator(this, parent->readParameter (search_order, "partition_option"));
+    arbitrator->doRegistrations(parent);
     myThings.push_back(arbitrator);
 
     for (vector<plantThing *>::iterator t = myThings.begin();

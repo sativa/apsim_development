@@ -355,6 +355,7 @@ public:
    virtual float dltDmGrainDemand(void) const;
    virtual float dltDmPotRue(void);        //FIXME
    virtual float dltDmPotTe(void);            //FIXME
+   virtual float dltLeafAreaPot(void) {throw std::runtime_error("plantPart::dltLeafAreaPot() called");}; 
    virtual float dmDeadVegTotal(void);
    virtual float dmGrainTotal(void);
    virtual float dmGreenGrainTotal(void);
@@ -432,6 +433,7 @@ public:
       void get_n_conc_crit(protocol::Component *, protocol::QueryValueData &);
       void get_n_conc_min(protocol::Component *, protocol::QueryValueData &);
       void get_p_conc(protocol::Component *, protocol::QueryValueData &);
+      void get_dm_green_demand(protocol::Component *system, protocol::QueryValueData &qd);
 
 };
 

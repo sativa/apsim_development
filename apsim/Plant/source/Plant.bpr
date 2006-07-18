@@ -15,7 +15,8 @@
       BroccoliPhenology.obj OilPart.obj PodPart.obj StemPart.obj MealPart.obj 
       GrainPart.obj CompositePart.obj RootPart.obj OutputVariable.obj 
       PhotoPhase.obj EmergentPhase.obj FruitCohort.obj GenericPhenology.obj 
-      LeafAppPhase.obj Output.obj genericLeafPart.obj cohortingLeafPart.obj"/>
+      LeafAppPhase.obj Output.obj genericLeafPart.obj cohortingLeafPart.obj 
+      arbitrator.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <DEFFILE value=""/>
@@ -44,7 +45,7 @@
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -Od -w -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c -tWM"/>
+    <CFLAG1 value="-WD -vGc -vGt -vGd -Od -w -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c -tWM"/>
     <PFLAGS value="-$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
     <AFLAGS value="/mx /w2 /zi"/>
@@ -54,7 +55,7 @@
   <LINKER>
     <ALLOBJ value="c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
-    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <ALLLIB value="cg32.lib $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
@@ -108,6 +109,7 @@
       <FILE FILENAME="Output.cpp" FORMNAME="" UNITNAME="Output.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="genericLeafPart.cpp" FORMNAME="" UNITNAME="genericLeafPart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="cohortingLeafPart.cpp" FORMNAME="" UNITNAME="cohortingLeafPart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="arbitrator.cpp" FORMNAME="" UNITNAME="arbitrator" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -209,7 +211,7 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl;c:\data\Apsim\development\Shared\ComponentInterface\;c:\data\Apsim\development\apsim\SummaryFile\Source\
 
 [Parameters]
-RunParams=&quot;C:\development\apsim\wheat\sample\wheat-~1.sim&quot;
+RunParams=&quot;C:\Documents and Settings\devoilp\My Documents\spam\GreenBelt1997.sim&quot;
 Launcher=
 UseLauncher=0
 DebugCWD=
@@ -223,7 +225,7 @@ RemoteDebug=0
 [Compiler]
 ShowInfoMsgs=1
 LinkDebugVcl=0
-LinkCGLIB=0
+LinkCGLIB=1
 
 [Linker]
 LibPrefix=

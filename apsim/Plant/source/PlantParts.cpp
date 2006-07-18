@@ -165,6 +165,11 @@ void plantPart::doRegistrations(protocol::Component *system)
    desc9 = "DM retranslocated to/from " + c.name;
    system->addGettableVar(varName9.c_str(),
                dlt.dm_green_retrans, "g/m^2", desc9.c_str());
+
+   varName9 = "dm_demand_" + c.name;
+   desc9 = "DM demand of " + c.name;
+   setupGetFunction(system, varName9.c_str(), protocol::DTsingle, false,
+                    &plantPart::get_dm_green_demand, "g/m^2", desc9.c_str());
    }
 
 void plantPart::get_n_conc(protocol::Component *system, protocol::QueryValueData &qd)
@@ -191,6 +196,12 @@ void plantPart::get_p_conc(protocol::Component *system, protocol::QueryValueData
    {
    float p_conc = divide (PGreen, DMGreen, 0.0) * fract2pcnt;
    system->sendVariable(qd, p_conc);
+   }
+
+void plantPart::get_dm_green_demand(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
+   {
+   system->sendVariable(qd, dmGreenDemand());
    }
 
 

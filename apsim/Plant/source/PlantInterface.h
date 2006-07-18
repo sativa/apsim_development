@@ -16,6 +16,7 @@ class environment_t;
 // An abstract plant interface, as seen from protocol::Component (outside)
 class IPlant {
  public:
+   virtual ~IPlant() {};
    virtual void doInit1(protocol::Component *) = 0;
    virtual void doInit2(protocol::Component *) = 0;
    virtual bool respondToSet(unsigned int& /*fromID*/, protocol::QuerySetValueData& /*setValueData*/) = 0;
