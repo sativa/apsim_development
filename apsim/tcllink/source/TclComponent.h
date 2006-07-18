@@ -26,9 +26,12 @@ class TclComponent : public protocol::Component
       void addRegistration(const string &name) ;
       void sendMessage(const char *moduleName, const char *actionName,
                        protocol::ApsimVariant &outgoingApsimVariant);
+      unsigned int registerEvent(string &eventName, string &script);
+      void unRegisterEvent(unsigned int id);
+      
    private:
 
-      typedef std::map<unsigned, std::string> UInt2StringMap;
+      typedef std::multimap<unsigned, std::string, std::less<unsigned> >   UInt2StringMap;
       UInt2StringMap rules;
       string     terminationRule;
       Tcl_Interp *Interp;
