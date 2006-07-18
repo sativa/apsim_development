@@ -250,6 +250,9 @@ void Plant::doInit1(protocol::Component *s)
     sowingEventObserver = new eventObserver("sowing", this);
     myThings.push_back(sowingEventObserver);
 
+    emergenceEventObserver = new eventObserver("emergence", this);
+    myThings.push_back(emergenceEventObserver);
+
     FIEventObserver = new eventObserver("floral_initiation", this);
     myThings.push_back(FIEventObserver);
 
@@ -3435,7 +3438,7 @@ void Plant::plant_process ( void )
              t != myParts.end();
              t++)
             (*t)->doDmDemand (g.dlt_dm);
-        
+
         arbitrator->partitionDM(g.dlt_dm, rootPart, leafPart, stemPart, fruitPart);
 
         plant_bio_retrans ();
@@ -5920,7 +5923,7 @@ void Plant::plant_read_species_const ()
 
     scratch = parent->readParameter (search_order, "class_change");
     Split_string(scratch, " ", c.class_change);
- 
+
     // Kill off last arbitrator, and get a new one
     myThings.erase(remove(myThings.begin(), myThings.end(), arbitrator),myThings.end());
     if (arbitrator) delete arbitrator;

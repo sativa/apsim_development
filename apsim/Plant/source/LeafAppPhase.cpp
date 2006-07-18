@@ -16,6 +16,13 @@
 
 #include <iostream.h>
 
+void LeafAppPhase::reset()
+//=======================================================================================
+   {
+   pPhase::reset();
+   final_leaf_no = 0.0;
+   }
+
 void LeafAppPhase::GetOutputs(std::vector <Output*> &Outputs)
 //=======================================================================================
    {

@@ -11,8 +11,25 @@
 #include "PlantComponent.h"
 #include "PlantLibrary.h"
 #include "VernalPhase.h"
+#include "iostream.h"
+
+void VernalPhase::reset()
+//=======================================================================================
+   {
+   pPhase::reset();
+   cumvd = 0.0;
+   dlt_cumvd = 0.0;
+   }
+
+void VernalPhase::GetOutputs(std::vector <Output*> &Outputs)
+//=======================================================================================
+   {
+   pPhase::GetOutputs(Outputs);
+   OutputVariable *CumVDVariable = new OutputVariable("cumvd","","Cumulative Vernal Days",cumvd);
+   Outputs.push_back(CumVDVariable);
 
 
+   }
 void VernalPhase::readCultivarParameters(protocol::Component *s, const string & cultivar)
 //=======================================================================================
    {
@@ -40,7 +57,8 @@ void VernalPhase::readSpeciesParameters (protocol::Component *s, vector<string> 
 void VernalPhase::updateTTTargets(PlantPhenology &parent, const environment_t &e)
 //=======================================================================================
    {
-   dlt_cumvd = vernal_days.value((e.maxt + e.mint)*0.5);
+   //dlt_cumvd = vernal_days.value((e.maxt + e.mint)*0.5);
+   dlt_cumvd = linint_3hrly_temp (e.maxt, e.mint, &vernal_days);
    cumvd = cumvd + dlt_cumvd;
    target = vernal_tt.value(cumvd);
    }
@@ -49,4 +67,5 @@ string VernalPhase::description() const
 //=======================================================================================
    {
    return vernal_tt.description();
-   } 
+   }
+
