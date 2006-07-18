@@ -46,6 +46,7 @@ class genericLeafPart : public plantLeafPart {
      { return(divide (dltSLAI, gLAI + dltLAI, 0.0)); };             // fraction of canopy senescing
    float dmGreenDemand(void) const 
      { return(divide (dltLAI_stressed, cSLAMin * smm2sm, 0.0));};   // Maximum DM this part can take today
+   float dltLeafAreaPot(void) {return (divide(dltLAI_stressed, plant->getPlants(), 0.0) * sm2smm);};
 
    void potential (int option, float, float);
    void leaf_area_stressed(float);

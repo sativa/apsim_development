@@ -10,7 +10,7 @@ class PlantComponent : public protocol::Component
    {
    private:
       IPlant     *plant;                     // The plant model
-      
+
    public:
       PlantComponent(void);
       ~PlantComponent(void);

@@ -207,20 +207,19 @@ void fruitPodPart::readSpeciesParameters(protocol::Component *system, vector<str
                           ,"svp_fract"//, "()"
                           , cSvp_fract
                           , 0.0, 1.0);
+   string partition_option = system->readParameter (sections, "partition_option");
 
-   system->readParameter (sections,
-                       "partition_option"//, "()"
-                      , cPartition_option
-                      , 1, 3);
-
-   if (cPartition_option==1 )
+   if (partition_option == "1")
+      {
+      cPartition_option=1;
       system->readParameter (sections
                              ,"frac_pod"//, "()"
                              , cFrac_pod, numvals
                              , 0.0, 2.0);
-
-   else if (cPartition_option==2)
+      }
+   else if (partition_option == "2" || partition_option == "allometric")
       {
+      cPartition_option=2;
       system->readParameter (sections
                              ,"x_stage_no_partition"//, "()"
                              , cX_stage_no_partition
