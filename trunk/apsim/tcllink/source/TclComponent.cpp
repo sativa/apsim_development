@@ -24,6 +24,7 @@ extern void StopTcl(Tcl_Interp *);
 static int initialisationState = 0;
 static Tcl_Interp *TopLevelInterp = NULL;
 
+#define nullDDML       "<type/>"
 #define intString      "<type kind=\"integer4\" array=\"F\"/>"
 #define intStringArray "<type kind=\"integer4\" array=\"T\"/>"
 #define fltString      "<type kind=\"single\" array=\"F\"/>"
@@ -37,6 +38,7 @@ int apsimGetProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
 int apsimSetProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
 int apsimRegisterGetSetProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
 int apsimSendEventProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
+int apsimRegisterEvent(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[]);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -165,17 +167,23 @@ void TclComponent::doInit2(void)
 // ------------------------------------------------------------------
 void TclComponent::respondToEvent(unsigned int& /*fromID*/, unsigned int& eventID, protocol::Variant& /*variant*/)
    {
-   string rule = rules[eventID];
-   if (!rule.empty())
-       {
-       //char buf[80]; sprintf(buf, "this=%x\nInterp=%x\nrule=%s", this, Interp, rule.c_str());
-       //MessageBox(0,  buf, "respond", MB_ICONSTOP);
-       int result = Tcl_Eval(Interp, rule.c_str());
-       if (result != TCL_OK)
-           {
+   UInt2StringMap::iterator ip, ip1, ip2;
+
+   ip1 = rules.lower_bound(eventID);
+   ip2 = rules.upper_bound(eventID);
+
+   for (ip = ip1; ip != ip2; ip++)
+     {
+     string rule = ip->second;
+     if (!rule.empty())
+        {
+        //char buf[80]; sprintf(buf, "this=%x\nInterp=%x\nrule=%s", this, Interp, rule.c_str());
+        //MessageBox(0,  buf, "respond", MB_ICONSTOP);
+        int result = Tcl_Eval(Interp, rule.c_str());
+        if (result != TCL_OK)
            error(Tcl_GetStringResult(Interp), true);
-           }
-       }
+        }
+     }  
    }
 // ------------------------------------------------------------------
 // Return a variable to caller.
@@ -643,3 +651,47 @@ int apsimWriteToSummaryFileProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl
    component->writeString(FString(message));
    return TCL_OK;
 }
+
+int apsimRegisterEvent(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[])
+{
+   TclComponent *component = (TclComponent *) cd;
+   if (objc != 3)
+         {
+         Tcl_SetResult(interp, "Wrong num args: apsimRegisterEvent <eventName> <script>", NULL);
+         return TCL_ERROR;
+         }
+   string eventName = string(Tcl_GetStringFromObj(objv[1], NULL));
+   string script = string(Tcl_GetStringFromObj(objv[2], NULL));
+   
+   unsigned int id = component->registerEvent(eventName, script);
+   Tcl_SetObjResult(interp, Tcl_NewIntObj((int) id));
+   return TCL_OK;
+}
+
+int apsimUnRegisterEvent(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[])
+{
+   TclComponent *component = (TclComponent *) cd;
+   if (objc != 2)
+         {
+         Tcl_SetResult(interp, "Wrong num args: apsimUnRegisterEvent <id>", NULL);
+         return TCL_ERROR;
+         }
+   unsigned int id = Tcl_GetIntFromObj(interp, objv[1], NULL);
+   
+   component->unRegisterEvent(id);
+   return TCL_OK;
+}
+
+unsigned int TclComponent::registerEvent(string &eventName, string &script)
+   {
+   unsigned id = protocol::Component::addRegistration(RegistrationType::respondToEvent, eventName.c_str(), "");
+   rules.insert(UInt2StringMap::value_type(id, script));
+
+   if (eventName == string("exit")) {terminationRule.append(script);}
+   return id;
+   }
+
+void TclComponent::unRegisterEvent(unsigned int id) 
+   {
+   throw("TclComponent::unRegisterEvent not implemented");
+   }
