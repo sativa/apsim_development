@@ -331,3 +331,78 @@ module dataTypesInterface
 end module dataTypesInterface
 
 #endfile
+##################################################
+#file ../../apsim/tcllink/lib/apsimDatatypes.tcl
+;# Automatically generated - do not edit
+
+proc unpack_Variant {data} {
+   binary scan $data ii result(id) result(publishedByID)  ;# id, publishedByID 
+   set data [string range $data 8 end]
+
+   binary scan $data i nchar                              ;# typeXML
+   if {$nchar > 0} {
+     set result(typeXML) [string range $data 4 [expr 4+$nchar-1]]
+     set data [string range $data [expr 4+$nchar] end]
+   }
+   
+   set ok [expr [string bytelength $data] > 0]
+   while {$ok} {
+      binary scan $data i nchar
+      if {$nchar > 0} {
+         ;##//messageData << variableName << protocol::memorySize(value)+5 << typeCode << isArray << value; 
+         set name [string range $data 4 [expr 4+$nchar-1]]         ;# Name
+         set data [string range $data [expr 4+$nchar] end]
+         binary scan $data iic nchar5 typeCode isArray             ;# type & array flag
+         set data [string range $data 9 end]
+         if {$typeCode == 8} {
+            binary scan $data i nchar                              ;# string value
+            set value [string range $data 4 [expr 4+$nchar-1]]
+            set data [string range $data [expr 4+$nchar] end]
+         } elseif {$typeCode == 2} {
+            binary scan $data i value                              ;# integer
+            set data [string range $data 4 end]
+         } elseif {$typeCode == 4} {
+            binary scan $data f value                              ;# float
+            set data [string range $data 4 end]
+         } elseif {$typeCode == 5} {
+            binary scan $data d value                              ;# double
+            set data [string range $data 8 end]
+         } else {
+            ;#set value "<undef>"
+            error "Unhandled variant typecode $typeCode"
+         }  
+         set result($name) $value
+         set ok [expr [string bytelength $data] > 0]
+      } else {
+         set ok 0
+      }
+   }
+   return [array get result]
+}
+
+#for_each structure
+proc unpack_structure.nameType {data} {
+   #for_each structure.field
+   #if (field.array = T)
+   binary scan $data i n ; set data [string range $data 4 end]
+   #else
+   set n 1 
+   #endif
+   #if (field.ctype = double)
+   binary scan $data d$n result(field.name); set data [string range $data [expr 8*$n] end]
+   #elseif (field.ctype = int)
+   binary scan $data i$n result(field.name); set data [string range $data [expr 4*$n] end]
+   #elseif (field.ctype = float)
+   binary scan $data f$n result(field.name); set data [string range $data [expr 4*$n] end]
+   #elseif (field.ctype = std::string)
+   binary scan $data i n ; set data [string range $data 4 end]
+   binary scan $data a$n result(field.name) ; set data [string range $data $n end]
+   #else
+   error "unimplemented field.ctype"
+   #endif
+   #endfor
+   if {[string bytelength #data] != 0} {puts "Warning: extra bits left over in unpack_structure.nameType"}
+   return [array get result]
+}
+#endfor 
+#endfile
