@@ -8,7 +8,8 @@
 // ------------------------------------------------------------------
 struct ApsimGetQueryData;
 
-class TclComponent : public protocol::Component
+class TclComponent : public protocol::Component,
+                     public protocol::IMessageHook
    {
    public:
       TclComponent(void);
@@ -28,6 +29,7 @@ class TclComponent : public protocol::Component
                        protocol::ApsimVariant &outgoingApsimVariant);
       unsigned int registerEvent(string &eventName, string &script);
       void unRegisterEvent(unsigned int id);
+      void catchMessages(string &command);
       
    private:
 
@@ -35,5 +37,8 @@ class TclComponent : public protocol::Component
       UInt2StringMap rules;
       string     terminationRule;
       Tcl_Interp *Interp;
+
+      void callback(const std::string& toName, const protocol::Message* message);
+      std::string messageCallbackCommand;
    };
 #endif

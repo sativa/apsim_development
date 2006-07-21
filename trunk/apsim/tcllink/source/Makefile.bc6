@@ -41,6 +41,7 @@ OBJFILES = TclLink.obj TclComponent.obj TclXtras.obj ..\..\..\Shared\ComponentIn
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
     $(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
     $(APSROOT)\Shared\general\general.lib \
+	 $(APSROOT)\Shared\Protocol\Protocol.lib \
     $(TCLROOT)\tcl$(VER).lib $(TKROOT)\tk$(VER).lib 
 
 PACKAGES = rtl.bpi vcl.bpi vclx.bpi vcljpg.bpi ibsmp.bpi dbrtl.bpi vcldb.bpi \

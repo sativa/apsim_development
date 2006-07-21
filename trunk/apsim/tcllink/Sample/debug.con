@@ -1,0 +1,13 @@
+[apsim.dbg]
+title = Simple Debugger
+module = clock            %apsuite\apsim\wheat\sample\wheat.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = input(met)       %apsuite\apsim\met\sample\dalby.met [weather]
+module = report           %apsuite\apsim\wheat\sample\wheat.par [sample]
+module = manager         %apsuite\apsim\wheat\sample\wheat.par [sample]
+module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]    %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
+module = plant(wheat)    %apsuite\apsim\wheat\sample\wheat.par [sample] %apsuite\apsim\wheat\wheat.ini [standard]
+
+module = TclLink          tcllink.par [dbg]
+module = SummaryFile      %apsuite\apsim\wheat\sample\wheat.par [sample]
+

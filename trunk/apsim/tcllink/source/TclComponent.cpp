@@ -10,6 +10,7 @@
 #include <ComponentInterface/MessageDataExt.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/Messages.h>
+#include <Protocol/transport.h>
 
 #include <tcl.h>
 #include "TclComponent.h"
@@ -34,11 +35,25 @@ static Tcl_Interp *TopLevelInterp = NULL;
 #define strString      "<type kind=\"string\" array=\"F\"/>"
 #define strStringArray "<type kind=\"string\" array=\"T\"/>"
 
+static const char* messageNames[45] =
+     {"ActivateComponent", "AddComponent", "Checkpoint", "Commence",
+      "Complete", "DeactivateComponent", "DeleteComponent", "Deregister",
+      "Event", "GetValue", "Init1", "Init2",
+      "NotifyAboutToDelete", "NotifyRegistrationChange", "NotifySetValueSuccess",
+      "NotifyTermination", "PauseSimulation", "PublishEvent", "QueryInfo",
+      "QuerySetValue", "QueryValue", "Register", "ReinstateCheckpoint",
+      "ReplySetValueSuccess", "ReplyValue",
+      "RequestComponentID", "RequestSetValue", "ResumeSimulation",
+      "ReturnComponentID", "ReturnInfo", "ReturnValue",
+      "TerminateSimulation", "<unused>", "<unused>", "<unused>", "<unused>", "<unused>", "<unused>", "<unused>",
+      "ApsimGetQuery", "ApsimSetQuery", "ApsimChangeOrder"};
+
 int apsimGetProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
 int apsimSetProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
 int apsimRegisterGetSetProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
 int apsimSendEventProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
 int apsimRegisterEvent(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[]);
+int apsimCatchMessages(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[]);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -682,6 +697,20 @@ int apsimUnRegisterEvent(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * 
    return TCL_OK;
 }
 
+int apsimCatchMessages(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[])
+{
+   TclComponent *component = (TclComponent *) cd;
+   if (objc != 2)
+         {
+         Tcl_SetResult(interp, "Wrong num args: apsimCatchMessages <command>", NULL);
+         return TCL_ERROR;
+         }
+   string command = string(Tcl_GetStringFromObj(objv[1], NULL));
+   
+   component->catchMessages(command);
+   return TCL_OK;
+}
+
 unsigned int TclComponent::registerEvent(string &eventName, string &script)
    {
    unsigned id = protocol::Component::addRegistration(RegistrationType::respondToEvent, eventName.c_str(), "");
@@ -694,4 +723,99 @@ unsigned int TclComponent::registerEvent(string &eventName, string &script)
 void TclComponent::unRegisterEvent(unsigned int id) 
    {
    throw("TclComponent::unRegisterEvent not implemented");
+   }
+
+void TclComponent::catchMessages(string &command)
+   {
+   messageCallbackCommand = command;
+   if (command == "")
+      setMessageHook(NULL);
+   else
+      setMessageHook(this);
+   }
+
+void TclComponent::callback(const std::string& toName, const protocol::Message* message)
+   {
+   if (messageCallbackCommand != "") 
+      {
+      int ncmd = 1;
+      Tcl_Obj **cmd = (Tcl_Obj**)malloc(20*sizeof(Tcl_Obj*));
+      cmd[0] = Tcl_NewStringObj(messageCallbackCommand.c_str(), -1);
+
+      if (toName != "")
+         {
+         cmd[ncmd] = Tcl_NewListObj(0, NULL);
+         Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj("toName",-1));
+         Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj(toName.c_str(),-1));
+         ncmd++;
+         } 
+
+      if (message != NULL) 
+         {
+         cmd[ncmd] = Tcl_NewListObj(0, NULL);
+         Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj("from",-1));
+         Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewIntObj(message->from));
+         ncmd++;
+
+         cmd[ncmd] = Tcl_NewListObj(0, NULL);
+         Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj("to",-1));
+         Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewIntObj(message->to));
+         ncmd++;
+
+         cmd[ncmd] = Tcl_NewListObj(0, NULL);
+         Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj("id",-1));
+         Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewIntObj(message->messageID));
+         ncmd++;
+
+         if (message->messageType >= 45) {throw "messageType oob in TclComponent::callback";}
+         if (message->messageType > 0) 
+            {
+            cmd[ncmd] = Tcl_NewListObj(0, NULL);
+            Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj("type",-1));
+            Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj(messageNames[message->messageType-1],-1));
+            ncmd++;
+            }
+    
+         switch(message->messageType)
+            {
+            case protocol::Event:
+               {
+               protocol::MessageData messageData(message->dataPtr, message->nDataBytes);
+               protocol::EventData eventData;
+               messageData >> eventData;
+               cmd[ncmd] = Tcl_NewListObj(0, NULL);
+               Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj("name",-1));
+               Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj(getRegistrationName(eventData.ID),-1));
+               ncmd++;
+               break;
+               }
+            case protocol::GetValue:
+               {
+               protocol::MessageData messageData(message->dataPtr, message->nDataBytes);
+               protocol::GetValueData getValueData;
+               messageData >> getValueData;
+               cmd[ncmd] = Tcl_NewListObj(0, NULL);
+               Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj("name",-1));
+               Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj(getRegistrationName(getValueData.ID),-1));
+               ncmd++;
+               break;
+               }
+            }
+
+         cmd[ncmd] = Tcl_NewListObj(0, NULL);
+         Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj("data",-1));
+         Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewByteArrayObj(message->dataPtr,message->nDataBytes));
+         ncmd++;
+         }
+
+      int res = Tcl_EvalObjv(Interp, ncmd, cmd, TCL_EVAL_GLOBAL);
+
+      if (res != TCL_OK) 
+         fprintf(stdout, "messageHook error, result=%s\n", Tcl_GetStringResult(Interp));
+
+      //for (int obj = 0; obj < ncmd; obj++)
+      //  Tcl_DecrRefCount(cmd[obj]);
+
+      free(cmd);
+      }
    }
