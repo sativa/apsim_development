@@ -52,6 +52,7 @@ class cohortingLeafPart : public plantLeafPart {
    void get_leaf_area_index(protocol::Component *system, protocol::QueryValueData &qd);
    void get_sen_leaf_area_index(protocol::Component *system, protocol::QueryValueData &qd);
    void get_leaf_area(protocol::Component *system, protocol::QueryValueData &qd);
+   void get_leaf_area_max(protocol::Component *system, protocol::QueryValueData &qd);
    void get_leaf_age(protocol::Component *system, protocol::QueryValueData &qd);
    void get_leaf_area_tot(protocol::Component *system, protocol::QueryValueData &qd);
    void get_dlt_slai(protocol::Component *system, protocol::QueryValueData &qd);
@@ -67,6 +68,7 @@ class cohortingLeafPart : public plantLeafPart {
    float gNodeNo;                                     // number of nodes ()
    vector<float> gLeafNo;                             // number of leaves in each cohort
    vector<float> gLeafArea;                           // leaf area of each cohort (mm^2)
+   vector<float> gLeafAreaMax;                        // Maxiumum leaf area of each cohort (mm^2)
    vector<float> gLeafAreaSen;                        // senesced leaf area of each cohort (mm^2)
    vector<float> gLeafAge;                            // age (TT) of each cohort (oC^d)
    float gLeavesPerNode;
