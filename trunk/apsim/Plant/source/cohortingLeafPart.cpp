@@ -153,6 +153,9 @@ void cohortingLeafPart::doRegistrations(protocol::Component *system)
    setupGetFunction(system, "leaf_area", protocol::DTsingle, true,
                     &cohortingLeafPart::get_leaf_area, "mm^2/plant", "Leaf area for each leaf cohort");
 
+   setupGetFunction(system, "leaf_area_max", protocol::DTsingle, true,
+                    &cohortingLeafPart::get_leaf_area_max, "mm^2/plant", "Maximum Leaf area for each leaf cohort");
+
    setupGetFunction(system, "leaf_area_tot", protocol::DTsingle, false,
                     &cohortingLeafPart::get_leaf_area_tot, "mm^2/plant", "Total plant leaf area");
 
@@ -251,6 +254,12 @@ void cohortingLeafPart::get_leaf_area(protocol::Component *system, protocol::Que
    system->sendVariable(qd, gLeafArea);
 }
 
+void cohortingLeafPart::get_leaf_area_max(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
+{
+   system->sendVariable(qd, gLeafAreaMax);
+}
+
 void cohortingLeafPart::get_leaf_age(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
 {
@@ -315,6 +324,7 @@ void cohortingLeafPart::zeroAllGlobals(void)
    gTLAI_dead = 0.0;
    gLeafAge.clear();
    gLeafArea.clear();
+   gLeafAreaMax.clear();
    gLeafAreaSen.clear();
    dltSLA_age.clear();
    gLeafNo.clear();
@@ -349,6 +359,7 @@ void cohortingLeafPart::initialiseAreas(void)
    gNodeNo = 0.0;
 
    gLeafArea.clear();
+   gLeafAreaMax.clear();
    gLeafAreaSen.clear();
    gLeafAge.clear();
    gLeafNo.clear();
@@ -360,6 +371,7 @@ void cohortingLeafPart::initialiseAreas(void)
    for (unsigned int cohort = 0; tpla > 0.0; cohort++)
       {
       gLeafArea.push_back(min(tpla, cAreaPot[cohort]));
+      gLeafAreaMax.push_back(min(tpla, cAreaPot[cohort]));
       gLeafAreaSen.push_back(0.0);
       gLeafAge.push_back(0.0);
       gLeafNo.push_back(cLeafNumberAtEmerg);
@@ -597,9 +609,9 @@ void cohortingLeafPart::leaf_area_sen(float swdef_photo , float mint)
        if (gLeafAge[cohort] > (cGrowthPeriod[cohort] + cLagPeriod[cohort]) &&
            gLeafAge[cohort] < (cGrowthPeriod[cohort] + cLagPeriod[cohort] + cSenescingPeriod[cohort]))
           {
-          float qq = (cAreaPot[cohort]*dltTT)/cSenescingPeriod[cohort];
-          if (qq > cAreaPot[cohort])
-             dltSLA_age[cohort] = cAreaPot[cohort];
+          float qq = (gLeafAreaMax[cohort]*dltTT)/cSenescingPeriod[cohort];
+          if (qq > gLeafAreaMax[cohort])
+             dltSLA_age[cohort] = gLeafAreaMax[cohort];
           else
              dltSLA_age[cohort] = qq;
           }
@@ -630,6 +642,7 @@ void cohortingLeafPart::update(void)
    if (((int)gNodeNo) != ((int)(gNodeNo + dltNodeNo))) {
       // Initiate a new cohort
       gLeafArea.push_back(0.0);
+      gLeafAreaMax.push_back(0.0);
       gLeafAreaSen.push_back(0.0);
       gLeafAge.push_back(0.0);
       gLeafNo.push_back(0.0);
@@ -739,6 +752,15 @@ void cohortingLeafPart::update(void)
 
        // Transfer dead leaf areas
        gTLAI_dead +=  dltLAI_dead + dltSLAI_dead - dltTLAI_dead_detached;
+
+       // Keep track of maximum size of each cohort
+       for (cohort = 0; cohort != gLeafArea.size(); cohort++)
+          {
+          if(gLeafArea[cohort] > gLeafAreaMax[cohort])
+             {
+             gLeafAreaMax[cohort] = gLeafArea[cohort];
+             }
+          }
 }
 
 // Remove detachment from leaf area record
