@@ -1,4 +1,3 @@
-
 [all.clock.parameters]
 ! Start and end date of run (day number of year and year)
 start_date=1/1/1988
@@ -13,6 +12,9 @@ variable = manager.test
 [all.manager.init]
 test = 0
 
+[all.manager.process]
+report do_output
+
 [all.SummaryFile.parameters]
 summaryfile = tcllink.sum
 
@@ -20,12 +22,11 @@ summaryfile = tcllink.sum
 debug_output = on
 logfile = tcllink.log
 
-[all.Screen.parameters]
-screen_output = on
-
+! Shows the get/set interface
 [all.tcllink.process]
 apsimSet manager.test [apsimGet clock.day]
 
+! A simple debugger
 [dbg.tcllink.init]
 package require Tk
 wm withdraw .
@@ -57,7 +58,6 @@ proc link {apsimName tclName} {
 proc getLinked {a n1 n2 op} {uplevel #0 set $n1 [apsimGet $a]}
 proc setLinked {a n1 n2 op} {apsimSet $a $n1}
 
-
 [dbg.tcllink.process]
 update
 foreach cond $Conds {
@@ -65,7 +65,76 @@ foreach cond $Conds {
     set steps 1
   }
 }
-
 incr steps -1
 if {$steps == 0} {tkwait variable steps}
+
+
+[catchEvent.tcllink.init]
+# Demonstrates catching events at the "event" level
+
+# Initialisation. delete output file if present.
+file delete catchEvent.out 
+
+# The event handler procedure
+proc eventHandler {args} {
+    set fp [open catchEvent.out a]
+    puts $fp "got event"
+    puts $fp "args = $args"
+    close $fp
+}
+
+# Set the handler(s)
+apsimRegisterEvent sowing "eventHandler sowing"
+apsimRegisterEvent harvesting "eventHandler harvesting"
+
+
+[catchEvent2.tcllink.init]
+# Demonstrates catching events at the "message" level
+
+# Initialisation. delete output file if present and get library functions.
+file delete catchEvent2.out 
+source [file dirname $tcl_library]/apsimDatatypes.tcl
+
+# A message hook. Look for "sow" messages and write out their payload.
+proc spy {args} {
+  foreach arg $args {array set z $arg}
+  # Is this a sow message?
+  if {[info exists z(name)] && $z(name) == "sow"} {
+     set fp [open catchEvent2.out a]
+     puts $fp "caught sow event"
+     # unpack the data structure that came with this message
+     foreach {name value} [unpack_Variant $z(data)] {
+       puts $fp "\"$name\",\"$value\""
+     }
+     close $fp
+  }
+}
+
+# Set the hook
+apsimCatchMessages spy
+
+[profileMessages.tcllink.init]
+# Build a profile of messages we deal with. Store messages in an array, and write out on exit.
+
+proc spy {args} {
+  foreach arg $args {array set z $arg}
+  if {[info exists z(type)]} {
+    set type $z(type)
+    global typesSeen
+    if {[info exists typesSeen($type)]} {
+       incr typesSeen($type)
+    } else {
+       set typesSeen($type) 1
+    }
+  }
+}
+apsimCatchMessages spy
+
+[profileMessages.tcllink.exit]
+
+set fp [open profileMessages.out w]
+foreach {name value} [array get typesSeen] {
+   puts $fp "$name:  $value"
+}
+close $fp
 
