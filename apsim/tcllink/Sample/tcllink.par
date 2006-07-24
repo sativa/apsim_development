@@ -104,7 +104,9 @@ proc spy {args} {
      puts $fp "caught sow event"
      # unpack the data structure that came with this message
      foreach {name value} [unpack_Variant $z(data)] {
-       puts $fp "\"$name\",\"$value\""
+       if {"id" != "$name"} { ;# message id is usually a (random) memory location - ignore it for day to day testing
+         puts $fp "\"$name\",\"$value\""
+       }  
      }
      close $fp
   }
