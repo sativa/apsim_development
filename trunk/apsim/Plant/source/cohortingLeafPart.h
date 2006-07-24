@@ -48,6 +48,8 @@ class cohortingLeafPart : public plantLeafPart {
    void get_tlai(protocol::Component *system, protocol::QueryValueData &qd);
    void get_lai_sum(protocol::Component *system, protocol::QueryValueData &qd);
    void get_node_no(protocol::Component *system, protocol::QueryValueData &qd);
+   void get_node_no_sen(protocol::Component *system, protocol::QueryValueData &qd);
+   void get_node_no_fx(protocol::Component *system, protocol::QueryValueData &qd);
    void get_leaf_no(protocol::Component *system, protocol::QueryValueData &qd);
    void get_leaf_area_index(protocol::Component *system, protocol::QueryValueData &qd);
    void get_sen_leaf_area_index(protocol::Component *system, protocol::QueryValueData &qd);
