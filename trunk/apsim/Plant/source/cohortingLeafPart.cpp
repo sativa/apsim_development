@@ -185,6 +185,8 @@ void cohortingLeafPart::doRegistrations(protocol::Component *system)
 
    system->addGettableVar("dlt_lai_stressed", dltLAI_stressed, "m^2/m^2", "Potential change in lai allowing for stress");
 
+   system->addGettableVar("dlt_lai_carbon", dltLAI_carbon, "m^2/m^2", "Potential change in lai allowing for growth");
+
    system->addGettableVar("dlt_leaf_no", dltLeafNo, "leaves/m2", "Change in number of leaves");
 
    system->addGettableVar("dlt_leaf_no_pot", dltLeafNoPot, "m^2/m^2", "Potential Leaf no");
@@ -232,7 +234,7 @@ void cohortingLeafPart::get_node_no(protocol::Component *system, protocol::Query
 //=======================================================================================
 {
    if (gNodeNo > 0)
-      system->sendVariable(qd, (float)(gNodeNo));
+      system->sendVariable(qd, (float)((int)gNodeNo));
    else
       system->sendVariable(qd, (float)(0.0));
 }
@@ -273,7 +275,7 @@ void cohortingLeafPart::get_node_no_fx(protocol::Component *system, protocol::Qu
          if (gLeafAge[cohort]>cGrowthPeriod[cohort+1] && gLeafAge[cohort+1]<=cGrowthPeriod[cohort+1+1])
             {
             // This is the expanded node
-            node_no_fx = cohort+1+divide(gLeafAge[cohort+1],cGrowthPeriod[cohort+1+1],0.0);
+            node_no_fx = cohort+1; //+divide(gLeafAge[cohort+1],cGrowthPeriod[cohort+1+1],0.0);
             break;
             }
          }
@@ -346,6 +348,7 @@ void cohortingLeafPart::zeroDeltas(void)
    dltLAI = 0.0;
    dltLAI_pot = 0.0;
    dltLAI_stressed = 0.0;
+   dltLAI_carbon = 0.0;
    dltTLAI_dead = 0.0;
    dltTLAI_dead_detached = 0.0;
    dltSLAI_detached = 0.0;
@@ -377,6 +380,7 @@ void cohortingLeafPart::zeroAllGlobals(void)
    gLeafAreaMax.clear();
    gLeafAreaSen.clear();
    dltSLA_age.clear();
+   gDltLeafAreaPot.clear();
    gLeafNo.clear();
    gLeavesPerNode = 0.0;
 
@@ -409,6 +413,7 @@ void cohortingLeafPart::initialiseAreas(void)
    gNodeNo = 0.0;
 
    gLeafArea.clear();
+   gDltLeafAreaPot.clear();
    gLeafAreaMax.clear();
    gLeafAreaSen.clear();
    gLeafAge.clear();
@@ -424,6 +429,7 @@ void cohortingLeafPart::initialiseAreas(void)
       gLeafAreaMax.push_back(min(tpla, cAreaPot[cohort+1]));
       gLeafAreaSen.push_back(0.0);
       gLeafAge.push_back(0.0);
+      gDltLeafAreaPot.push_back(0.0);
       gLeafNo.push_back(cLeafNumberAtEmerg);
       dltSLA_age.push_back(0.0);
 
@@ -485,7 +491,7 @@ void cohortingLeafPart::leaf_area_actual(void)
 {
    float sla_max = cSLAMax[getLAI()];                      //calculated daily max spec leaf area
 
-   float dltLAI_carbon = dlt.dm_green * sla_max * smm2sm;  //maximum daily increase in leaf area
+   dltLAI_carbon = dlt.dm_green * sla_max * smm2sm;  //maximum daily increase in leaf area
                                                            //index from carbon supply
    //cout <<  dltLAI_carbon, dltLAI_stressed;
 //    char  msg[200];                               // message
@@ -559,13 +565,13 @@ void cohortingLeafPart::leaf_area_potential (float tt)
 //=======================================================================================
 //  Calculate the potential increase in leaf area development (mm^2)
    {
-   float areaPot = 0.0;
    for (unsigned int cohort = 0; cohort != gLeafArea.size(); cohort++)
       {
       if (cGrowthPeriod[cohort+1] - gLeafAge[cohort] > 0.0)
-         areaPot += cAreaPot[cohort+1] * u_bound(divide(tt, cGrowthPeriod[cohort+1], 0.0), 1.0);
+         gDltLeafAreaPot[cohort] = cAreaPot[cohort+1] * u_bound(divide(tt, cGrowthPeriod[cohort+1], 0.0), 1.0);
       }
-   dltLAI_pot =  areaPot * smm2sm * plant->getPlants();
+
+   dltLAI_pot =  sum(gDltLeafAreaPot) * smm2sm * plant->getPlants();
    }
 
 void cohortingLeafPart::leaf_area_stressed (float stressFactor)
@@ -651,6 +657,7 @@ void cohortingLeafPart::update(void)
    if (((int)gNodeNo) != ((int)(gNodeNo + dltNodeNo))) {
       // Initiate a new cohort
       gLeafArea.push_back(0.0);
+      gDltLeafAreaPot.push_back(0.0);
       gLeafAreaMax.push_back(0.0);
       gLeafAreaSen.push_back(0.0);
       gLeafAge.push_back(0.0);
@@ -669,19 +676,13 @@ void cohortingLeafPart::update(void)
     // Partition new LAI to cohorts
     if (dltLeafArea > 0.0)
        {
-       float areaPot = 0.0;
-       for (cohort = 0; cohort != gLeafArea.size(); cohort++)
-          {
-          if (gLeafAge[cohort] < cGrowthPeriod[cohort+1])
-             areaPot += cAreaPot[cohort+1] * u_bound(divide(dltTT, cGrowthPeriod[cohort+1], 0.0), 1.0);
-          }
+
        for (cohort = 0; cohort != gLeafArea.size(); cohort++)
           {
           float fract = 0.0;
-          if (gLeafAge[cohort] < cGrowthPeriod[cohort+1])
+          if ((gLeafAge[cohort]- dltTT) < cGrowthPeriod[cohort+1])
              {
-             float dA = cAreaPot[cohort+1] * u_bound(divide(dltTT, cGrowthPeriod[cohort+1], 0.0), 1.0);
-             fract = divide(dA, areaPot, 0.0);
+             fract = divide(gDltLeafAreaPot[cohort], sum(gDltLeafAreaPot), 0.0);
              }
           gLeafArea[cohort] += fract * dltLeafArea;
           }
