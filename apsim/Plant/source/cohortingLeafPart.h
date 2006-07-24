@@ -73,6 +73,7 @@ class cohortingLeafPart : public plantLeafPart {
    vector<float> gLeafAreaMax;                        // Maxiumum leaf area of each cohort (mm^2)
    vector<float> gLeafAreaSen;                        // senesced leaf area of each cohort (mm^2)
    vector<float> gLeafAge;                            // age (TT) of each cohort (oC^d)
+   vector<float> gDltLeafAreaPot;                     // Pot daily increase in leaf area
    float gLeavesPerNode;
 
    float cInitialTPLA;                                // initial plant leaf area (mm^2)
@@ -114,6 +115,7 @@ class cohortingLeafPart : public plantLeafPart {
    float dltLAI;                                      // area of leaf
    float dltLAI_pot;                                  // potential change in live plant lai
    float dltLAI_stressed;                             // potential change in lai allowing for stress
+   float dltLAI_carbon;                               // potential change in lai allowing for growth
    float dltTLAI_dead;                                // plant lai change in dead plant
    float dltTLAI_dead_detached;                       // plant lai detached from dead plant
    float dltSLAI_detached;                            // senesced lai detached
