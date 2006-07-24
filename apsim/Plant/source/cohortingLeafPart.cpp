@@ -23,6 +23,7 @@
 #include "PlantParts.h"
 #include "LeafPart.h"
 #include "cohortingLeafPart.h"
+#include "iostream.h"
 using namespace std;
 
 
@@ -147,6 +148,12 @@ void cohortingLeafPart::doRegistrations(protocol::Component *system)
    setupGetFunction(system, "node_no", protocol::DTsingle, false,
                     &cohortingLeafPart::get_node_no, "/plant", "Number of main stem nodes");
 
+   setupGetFunction(system, "node_no_sen", protocol::DTsingle, false,
+                    &cohortingLeafPart::get_node_no_sen, "/plant", "Number of main stem nodes senesced");
+
+   setupGetFunction(system, "node_no_fx", protocol::DTsingle, false,
+                    &cohortingLeafPart::get_node_no_fx, "/plant", "Number of main stem nodes senesced");
+
    setupGetFunction(system, "leaf_no", protocol::DTsingle, true,
                     &cohortingLeafPart::get_leaf_no, "mm^2/plant", "Number of leaves in each cohort");
 
@@ -230,6 +237,49 @@ void cohortingLeafPart::get_node_no(protocol::Component *system, protocol::Query
       system->sendVariable(qd, (float)(0.0));
 }
 
+void cohortingLeafPart::get_node_no_sen(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
+{
+   float node_no_sen = 0.0;
+
+   if (gNodeNo == 0)
+      node_no_sen = 0.0;
+
+   else
+      for (unsigned int cohort = 1; cohort != gLeafArea.size(); cohort++)
+         {
+         if (reals_are_equal(gLeafArea[cohort-1], 0.0, 1.0E-4)&&gLeafArea[cohort]>0.0)
+            {
+            // This is the senescing node
+            node_no_sen = cohort-1+1+divide(gLeafAreaSen[cohort],gLeafArea[cohort]+gLeafAreaSen[cohort],0.0);
+            break;
+            }
+         }
+
+   system->sendVariable(qd, node_no_sen);
+}
+
+void cohortingLeafPart::get_node_no_fx(protocol::Component *system, protocol::QueryValueData &qd)
+//=======================================================================================
+{
+   float node_no_fx = gNodeNo;
+
+   if (gNodeNo == 0)
+      node_no_fx = 0.0;
+
+   else
+      for (unsigned int cohort = 0; cohort != gLeafArea.size()-1; cohort++)
+         {
+         if (gLeafAge[cohort]>cGrowthPeriod[cohort+1] && gLeafAge[cohort+1]<=cGrowthPeriod[cohort+1+1])
+            {
+            // This is the expanded node
+            node_no_fx = cohort+1+divide(gLeafAge[cohort+1],cGrowthPeriod[cohort+1+1],0.0);
+            break;
+            }
+         }
+
+   system->sendVariable(qd, node_no_fx);
+}
 void cohortingLeafPart::get_dlt_slai_age(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
 {
@@ -370,19 +420,19 @@ void cohortingLeafPart::initialiseAreas(void)
    // Fill cohorts until no more area available
    for (unsigned int cohort = 0; tpla > 0.0; cohort++)
       {
-      gLeafArea.push_back(min(tpla, cAreaPot[cohort]));
-      gLeafAreaMax.push_back(min(tpla, cAreaPot[cohort]));
+      gLeafArea.push_back(min(tpla, cAreaPot[cohort+1]));
+      gLeafAreaMax.push_back(min(tpla, cAreaPot[cohort+1]));
       gLeafAreaSen.push_back(0.0);
       gLeafAge.push_back(0.0);
       gLeafNo.push_back(cLeafNumberAtEmerg);
       dltSLA_age.push_back(0.0);
 
-      if (tpla > cAreaPot[cohort])
+      if (tpla > cAreaPot[cohort+1])
          gNodeNo += 1.0;
       else
-         gNodeNo += divide(tpla, cAreaPot[cohort], 0.0);
+         gNodeNo += divide(tpla, cAreaPot[cohort+1], 0.0);
 
-      tpla -= cAreaPot[cohort];
+      tpla -= cAreaPot[cohort+1];
       }
    gTLAI_dead = 0.0;
    }
@@ -437,6 +487,11 @@ void cohortingLeafPart::leaf_area_actual(void)
 
    float dltLAI_carbon = dlt.dm_green * sla_max * smm2sm;  //maximum daily increase in leaf area
                                                            //index from carbon supply
+   //cout <<  dltLAI_carbon, dltLAI_stressed;
+//    char  msg[200];                               // message
+//       sprintf (msg, "%10.6f%10.6f%10.6f",dltLAI_carbon, dltLAI_stressed,dltLAI_pot);
+//    plant->writeString (msg);
+
    dltLAI = min(dltLAI_carbon, dltLAI_stressed);
 }
 
@@ -458,56 +513,7 @@ void cohortingLeafPart::leaf_death (float  g_nfact_expansion, float  g_dlt_tt)
 //=======================================================================================
 //     Calculate the fractional death of oldest green leaf.
    {
-#if 0
-// XXX broken
-   float leaf_no_now;                            // total number of leaves yesterday
-   float leaf_no_sen_now;                       // total number of dead leaves yesterday
-   float leaf_death_rate;                        // thermal time for senescence of another leaf (oCd)
-   float leaf_per_node;                          // no. of leaves senescing per node
-   float tpla_now;                               //
-   float max_sleaf_no_now;                       // max number of senesced leaves allowable
-   float max_sen_area;                           // max area that can be senesced
-   float node_sen_rate;
-
-   leaf_no_now = gLeafNo;
-
-   leaf_per_node = leaf_no_now * cFrLeafSenRate;
-
-   node_sen_rate = divide( cNodeSenRate
-                          , 1.0 + cNFactLeafSenRate * (1.0 - g_nfact_expansion)
-                          , 0.0);
-
-   leaf_death_rate = divide (node_sen_rate, leaf_per_node, 0.0);
-
-   if (plant->inPhase("harvest_ripe"))
-       {
-       // Constrain leaf death to remaining leaves
-       //cnh do we really want to do this?;  XXXX
-       leaf_no_sen_now = sum_real_array (gLeafNoSen,max_node);
-       dltLeafNoSen = l_bound (leaf_no_now - leaf_no_sen_now, 0.0);
-       }
-   else if (plant->getStageNumber() > cSenStartStage
-       /*XXXX should be phenology->inPhase("leaf_senescence") !!!!!*/)
-       {
-       dltLeafNoSen = divide (g_dlt_tt, leaf_death_rate, 0.0);
-
-       // Ensure minimum leaf area remains
-       tpla_now = sum(gLeafArea);
-       max_sen_area = l_bound (tpla_now - cMinTPLA, 0.0);
-       max_sleaf_no_now = legnew_leaf_no_from_area (gLeafArea
-                                                    , gLeafNo
-                                                    , max_node
-                                                    , max_sen_area);
-
-       // Constrain leaf death to remaining leaves
-       leaf_no_sen_now = sum_real_array (gLeafNoSen, max_node);
-       dltLeafNoSen = u_bound (dltLeafNoSen, max_sleaf_no_now - leaf_no_sen_now);
-       }
-   else
-       {
-       dltLeafNoSen = 0.0;
-       }
-#endif
+//XXX Fix me
    }
 
 void cohortingLeafPart::potential (int leaf_no_pot_option, /* (INPUT) option number*/
@@ -530,7 +536,7 @@ void cohortingLeafPart::leaf_no_pot (float stressFactor, float dlt_tt)
     bool tillering = plant->inPhase("tiller_formation");
     if (tillering)
        {
-       float node_app_rate = cNodeAppRate[gNodeNo];
+       float node_app_rate = cNodeAppRate[(int)gNodeNo+1];
        dltNodeNo = divide (dlt_tt, node_app_rate, 0.0);
        }
     else
@@ -539,9 +545,9 @@ void cohortingLeafPart::leaf_no_pot (float stressFactor, float dlt_tt)
     dltLeafNoPot = 0.0;
     if (tillering)
         {
-        float leaves_per_node_now = cLeavesPerNode[gNodeNo];
+        float leaves_per_node_now = cLeavesPerNode[(int)gNodeNo+1];
         gLeavesPerNode = min(gLeavesPerNode, leaves_per_node_now);
-        float dlt_leaves_per_node = cLeavesPerNode[gNodeNo + dltNodeNo] - leaves_per_node_now;
+        float dlt_leaves_per_node = cLeavesPerNode[(int)(gNodeNo + dltNodeNo)+1] - leaves_per_node_now;
 
         gLeavesPerNode +=  dlt_leaves_per_node * stressFactor;
 
@@ -556,8 +562,8 @@ void cohortingLeafPart::leaf_area_potential (float tt)
    float areaPot = 0.0;
    for (unsigned int cohort = 0; cohort != gLeafArea.size(); cohort++)
       {
-      if (cGrowthPeriod[cohort] - gLeafAge[cohort] > 0.0)
-         areaPot += cAreaPot[cohort] * u_bound(divide(tt, cGrowthPeriod[cohort], 0.0), 1.0);
+      if (cGrowthPeriod[cohort+1] - gLeafAge[cohort] > 0.0)
+         areaPot += cAreaPot[cohort+1] * u_bound(divide(tt, cGrowthPeriod[cohort+1], 0.0), 1.0);
       }
    dltLAI_pot =  areaPot * smm2sm * plant->getPlants();
    }
@@ -584,14 +590,14 @@ void cohortingLeafPart::detachment (void)
 
    for (unsigned int cohort = 0; cohort != gLeafArea.size(); cohort++) 
       {
-      if(area_detached > gLeafArea[cohort])
+      if(area_detached > gLeafAreaSen[cohort])
         {
-        area_detached -= gLeafArea[cohort];
-        gLeafArea[cohort] = 0.0;
+        area_detached -= gLeafAreaSen[cohort];
+        gLeafAreaSen[cohort] = 0.0;
         }
       else
         {
-        gLeafArea[cohort] -= area_detached;
+        gLeafAreaSen[cohort] -= area_detached;
         break;
         }
       }
@@ -606,14 +612,17 @@ void cohortingLeafPart::leaf_area_sen(float swdef_photo , float mint)
 
     // Age senescence for each cohort
     for (unsigned int cohort = 0; cohort != gLeafArea.size(); cohort++)
-       if (gLeafAge[cohort] > (cGrowthPeriod[cohort] + cLagPeriod[cohort]) &&
-           gLeafAge[cohort] < (cGrowthPeriod[cohort] + cLagPeriod[cohort] + cSenescingPeriod[cohort]))
+       if (gLeafAge[cohort] > (cGrowthPeriod[cohort+1] + cLagPeriod[cohort+1]) &&
+           gLeafAge[cohort] < (cGrowthPeriod[cohort+1] + cLagPeriod[cohort+1] + cSenescingPeriod[cohort+1]))
           {
-          float qq = (gLeafAreaMax[cohort]*dltTT)/cSenescingPeriod[cohort];
-          if (qq > gLeafAreaMax[cohort])
-             dltSLA_age[cohort] = gLeafAreaMax[cohort];
-          else
-             dltSLA_age[cohort] = qq;
+//          float qq = (gLeafAreaMax[cohort]*dltTT)/cSenescingPeriod[cohort];
+//          if (qq > gLeafAreaMax[cohort])
+//             dltSLA_age[cohort] = gLeafAreaMax[cohort];
+//          else
+//             dltSLA_age[cohort] = qq;
+          float tt_remaining = max(0.0,cGrowthPeriod[cohort+1] + cLagPeriod[cohort+1] + cSenescingPeriod[cohort+1] - gLeafAge[cohort]);
+          float senfr = min(1.0,divide(dltTT,tt_remaining,0.0));
+          dltSLA_age[cohort] = gLeafArea[cohort]*senfr;
           }
 
     dltSLAI_light = crop_leaf_area_sen_light1 (cLAISenLight, cSenLightSlope, getLAI(), plants, cMinTPLA);
@@ -663,15 +672,15 @@ void cohortingLeafPart::update(void)
        float areaPot = 0.0;
        for (cohort = 0; cohort != gLeafArea.size(); cohort++)
           {
-          if (gLeafAge[cohort] < cGrowthPeriod[cohort])
-             areaPot += cAreaPot[cohort] * u_bound(divide(dltTT, cGrowthPeriod[cohort], 0.0), 1.0);
+          if (gLeafAge[cohort] < cGrowthPeriod[cohort+1])
+             areaPot += cAreaPot[cohort+1] * u_bound(divide(dltTT, cGrowthPeriod[cohort+1], 0.0), 1.0);
           }
        for (cohort = 0; cohort != gLeafArea.size(); cohort++)
           {
           float fract = 0.0;
-          if (gLeafAge[cohort] < cGrowthPeriod[cohort])
+          if (gLeafAge[cohort] < cGrowthPeriod[cohort+1])
              {
-             float dA = cAreaPot[cohort] * u_bound(divide(dltTT, cGrowthPeriod[cohort], 0.0), 1.0);
+             float dA = cAreaPot[cohort+1] * u_bound(divide(dltTT, cGrowthPeriod[cohort+1], 0.0), 1.0);
              fract = divide(dA, areaPot, 0.0);
              }
           gLeafArea[cohort] += fract * dltLeafArea;
@@ -766,87 +775,16 @@ void cohortingLeafPart::update(void)
 // Remove detachment from leaf area record
 void cohortingLeafPart::remove_detachment (float dlt_slai_detached, float dlt_lai_removed )
 //=======================================================================================
-    {
-#if 0
-// XXX broken
-    // Remove detachment from leaf area record from bottom upwards
-    float area_detached = dlt_slai_detached / plant->getPlants() * sm2smm;  // (mm2/plant)
+   {
 
-    for (int node = 0; node < max_node; node++)
-      {
-      if(area_detached > gLeafArea[node])
-        {
-        area_detached = area_detached - gLeafArea[node];
-        gLeafArea[node] = 0.0;
-        }
-      else
-        {
-        gLeafArea[node] = gLeafArea[node] - area_detached;
-        break;
-        }
-      }
-
-    // Remove detachment from leaf area record from top downwards
-    float area_removed = dlt_lai_removed / plant->getPlants() * sm2smm;  // (mm2/plant)
-
-    for (int node = (int)gNodeNo; node >= 0 ; node--)
-    {
-      if(area_removed > gLeafArea[node])
-      {
-        area_removed = area_removed - gLeafArea[node];
-        gLeafArea[node] = 0.0;
-      }
-      else
-      {
-        gLeafArea[node] = gLeafArea[node] - area_removed;
-        break;
-      }
    }
-
-   // calc new node number
-   for (int node = max_node - 1; node >= 0; node--)
-      {
-      if (!reals_are_equal(gLeafArea[node], 0.0, 1.0E-4))    // Slop?
-         {
-         gNodeNo = (float)node;  //FIXME - need adjustment for leafs remaining in for this node
-         break;
-         }
-      }
-#endif
-}
 
 void cohortingLeafPart::remove_biomass_update(void)
 //=======================================================================================
 // Initialise plant leaf area from deltas
     {
-#if 0
-// XXX broken
-    float chop_fr_green = divide(dlt.dm_green, DMGreen, 0.0);
-    float chop_fr_sen   = divide(dlt.dm_senesced, DMSenesced, 0.0);
-    float chop_fr_dead  = divide(dlt.dm_dead, DMDead, 0.0);
 
-    float dlt_lai = getLAI() * chop_fr_green;
-    float dlt_slai = gSLAI * chop_fr_sen;
-    float dlt_tlai_dead = gTLAI_dead * chop_fr_dead;
-
-    // keep leaf area above a minimum
-    float lai_init = cInitialTPLA * smm2sm * plant->getPlants();
-    float dlt_lai_max = gLAI - lai_init;
-    dlt_lai = u_bound (dlt_lai, dlt_lai_max);
-
-    gLAI -= dlt_lai;
-    gSLAI -= dlt_slai;
-    gTLAI_dead -= dlt_tlai_dead;
-    remove_detachment (dlt_slai, dlt_lai);
-
-    // keep dm above a minimum
-    float dm_init = c.dm_init * plant->getPlants();
-    DMGreen = l_bound (DMGreen, dm_init);
-
-    float n_init = dm_init * c.n_init_conc;
-    NGreen = l_bound (NGreen, n_init);
-#endif
-}
+    }
 
 float cohortingLeafPart::senFract (void) const
 //=======================================================================================
