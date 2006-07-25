@@ -220,7 +220,7 @@ void SimCreatorSectionNew::writeToOut(ostream& out)
 // ------------------------------------------------------------------
 void SimCreatorSectionNew::convertLine(const std::string& line)
    {
-   if (stristr(line.c_str(), "table ") != NULL && line.find('=') == string::npos)
+   if (!isManagerSection && stristr(line.c_str(), "table ") != NULL && line.find('=') == string::npos)
       {
       inTable = true;
       vector<string> tableWords;
@@ -233,7 +233,7 @@ void SimCreatorSectionNew::convertLine(const std::string& line)
       tableHeaders.erase(tableHeaders.begin(), tableHeaders.end());
       tableUnits.erase(tableUnits.begin(), tableUnits.end());
       }
-   else if (waitingForTableHeader)
+   else if (!isManagerSection && waitingForTableHeader)
       {
       if (tableHeaders.size() == 0)
          splitIntoValues(line, " ", tableHeaders);
@@ -245,7 +245,7 @@ void SimCreatorSectionNew::convertLine(const std::string& line)
          waitingForTableHeader = false;
          }
       }
-   else if (inTable && stristr(line.c_str(), "end table") == NULL)
+   else if (!isManagerSection && inTable && stristr(line.c_str(), "end table") == NULL)
       {
       vector<string> tableValues;
       splitIntoValues(line, " ", tableValues);
@@ -256,7 +256,7 @@ void SimCreatorSectionNew::convertLine(const std::string& line)
          xml += "               <" + tableHeaders[i] + " units=\"" + tableUnits[i] + "\">" + tableValues[i] + "</" + tableHeaders[i] + ">\n";
       xml += "            </" + tableHeaders[0] + ">\n";
       }
-   else if (inTable)
+   else if (!isManagerSection && inTable)
       {
       xml += "         </table>\n";
       inTable = false;
