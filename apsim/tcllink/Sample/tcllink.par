@@ -22,12 +22,12 @@ summaryfile = tcllink.sum
 debug_output = on
 logfile = tcllink.log
 
-! Shows the get/set interface
 [all.tcllink.process]
+# Shows the get/set interface
 apsimSet manager.test [apsimGet clock.day]
 
-! A simple debugger
 [dbg.tcllink.init]
+# A 4 command debugger:
 package require Tk
 wm withdraw .
 
@@ -42,7 +42,6 @@ puts " 'b <cond>'- Set break condition"
 set steps 1
 update
 
-# A 4 command debugger:
 proc c {}      {uplevel #0 set steps -1}  ;# Continue
 proc s {{n 1}} {uplevel #0 set steps $n}  ;# Step n days
 proc p {var}   {apsimGet $var}            ;# print apsim variable
