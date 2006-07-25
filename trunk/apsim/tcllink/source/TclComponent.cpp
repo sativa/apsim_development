@@ -171,7 +171,7 @@ void TclComponent::doInit2(void)
       int result = Tcl_Eval(Interp, initRule.c_str());
       if (result != TCL_OK)
           {
-          error(Tcl_GetStringResult(Interp), true);
+          throw std::runtime_error(string(Tcl_GetStringResult(Interp), true));
           }
       }
       //char buf[80]; sprintf(buf, "this=%x", this);
@@ -196,7 +196,7 @@ void TclComponent::respondToEvent(unsigned int& /*fromID*/, unsigned int& eventI
         //MessageBox(0,  buf, "respond", MB_ICONSTOP);
         int result = Tcl_Eval(Interp, rule.c_str());
         if (result != TCL_OK)
-           error(Tcl_GetStringResult(Interp), true);
+           throw std::runtime_error(string(Tcl_GetStringResult(Interp), true));
         }
      }  
    }
@@ -208,9 +208,24 @@ void TclComponent::respondToGet(unsigned int& /*fromID*/, protocol::QueryValueDa
    const char *variable = getRegistrationName(queryData.ID);
    if (variable != NULL) 
       {
-      const char *result = Tcl_GetVar(Interp, variable, TCL_GLOBAL_ONLY);
-      if (result != NULL)
-         sendVariable(queryData, FString(result));
+      if (strchr(variable, '(') == NULL) 
+         {
+         // A scalar variable
+         const char *result = Tcl_GetVar(Interp, variable, TCL_GLOBAL_ONLY);
+         if (result != NULL)
+           sendVariable(queryData, FString(result));
+         }
+      else 
+         {
+         // An array variable
+         std::vector<string> nv;
+         Split_string (variable, "()", nv);
+         if (nv.size() != 2) {throw std::runtime_error("can't grok array variable called " + string(variable));}
+
+         const char *result = Tcl_GetVar2(Interp, nv[0].c_str(), nv[1].c_str(), TCL_GLOBAL_ONLY);
+         if (result != NULL)
+           sendVariable(queryData, FString(result));
+         }
       }
    }
 // ------------------------------------------------------------------
