@@ -175,6 +175,8 @@
      if end_week = 1 then
         report do_output
      endif
+     
+     SECTION:- start_of_day
      END of rules
      
 
