@@ -561,11 +561,12 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
       if (Is_numerical(name.c_str()))
          {
          childID = atoi(name.c_str());
-         name = components[childID]->getName();
+         if (components[childID] != NULL)
+            name = components[childID]->getName();
          }
       else
          childID = componentNameToID(name);
-      if (childID == INT_MAX)
+      if (components[childID] == NULL)
          return;
       string fqn = name;
       fqn += ".";
