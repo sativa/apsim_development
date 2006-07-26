@@ -13,6 +13,7 @@
 #include <Protocol/transport.h>
 
 #include <tcl.h>
+#include <tclInt.h>
 #include "TclComponent.h"
 
 using namespace std;
@@ -180,7 +181,7 @@ void TclComponent::doInit2(void)
 // ------------------------------------------------------------------
 // Look for messages.
 // ------------------------------------------------------------------
-void TclComponent::respondToEvent(unsigned int& /*fromID*/, unsigned int& eventID, protocol::Variant& /*variant*/)
+void TclComponent::respondToEvent(unsigned int& /*fromID*/, unsigned int& eventID, protocol::Variant &variant)
    {
    UInt2StringMap::iterator ip, ip1, ip2;
 
@@ -192,8 +193,11 @@ void TclComponent::respondToEvent(unsigned int& /*fromID*/, unsigned int& eventI
      string rule = ip->second;
      if (!rule.empty())
         {
-        //char buf[80]; sprintf(buf, "this=%x\nInterp=%x\nrule=%s", this, Interp, rule.c_str());
-        //MessageBox(0,  buf, "respond", MB_ICONSTOP);
+        // Set the global variable "incomingApsimVariant" to the variant's binary data
+        const MessageData message = variant.getMessageData();
+        Tcl_ObjSetVar2(Interp, Tcl_NewStringObj("incomingApsimVariant",-1), NULL, 
+                       Tcl_NewByteArrayObj( message.start(), message.totalBytes()), TCL_GLOBAL_ONLY);
+
         int result = Tcl_Eval(Interp, rule.c_str());
         if (result != TCL_OK)
            throw std::runtime_error(string(Tcl_GetStringResult(Interp), true));
@@ -213,7 +217,7 @@ void TclComponent::respondToGet(unsigned int& /*fromID*/, protocol::QueryValueDa
          // A scalar variable
          const char *result = Tcl_GetVar(Interp, variable, TCL_GLOBAL_ONLY);
          if (result != NULL)
-           sendVariable(queryData, FString(result));
+            sendVariable(queryData, FString(result));
          }
       else 
          {
@@ -224,7 +228,7 @@ void TclComponent::respondToGet(unsigned int& /*fromID*/, protocol::QueryValueDa
 
          const char *result = Tcl_GetVar2(Interp, nv[0].c_str(), nv[1].c_str(), TCL_GLOBAL_ONLY);
          if (result != NULL)
-           sendVariable(queryData, FString(result));
+            sendVariable(queryData, FString(result));
          }
       }
    }
@@ -235,15 +239,16 @@ void TclComponent::onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryDat
    {
    if (Interp != NULL) 
       {
-      string variable = asString(apsimGetQueryData.name);
-      if (variable.length() > 0) {
-         const char *result = Tcl_GetVar(Interp, variable.c_str(), TCL_GLOBAL_ONLY);
-         if (result != NULL)
-            {
+      std::vector<string> vs;
+      Split_string (asString(apsimGetQueryData.name), "()", vs);
+      const char *varName = vs[0].c_str();
+      Var *varPtr = TclVarTraceExists(Interp, varName);
+      if ((varPtr != NULL) && !TclIsVarUndefined(varPtr)) 
+         {
             // It exists, so register it as rw..
-            protocol::Component::addRegistration(RegistrationType::respondToGetSet, variable.c_str(), strString);
-                    // XX should register type info properly here XX
-            }
+            protocol::Component::addRegistration(RegistrationType::respondToGetSet, asString(apsimGetQueryData.name).c_str(), strString);
+            // XX should register type info properly here XX
+            
          }
       }
    }   
