@@ -336,6 +336,42 @@ end module dataTypesInterface
 ;# Automatically generated - do not edit
 
 proc unpack_Variant {data} {
+   array set result {}
+   set ok [expr [string bytelength $data] > 0]
+   while {$ok} {
+      binary scan $data i nchar
+      if {$nchar > 0} {
+         set name [string range $data 4 [expr 4+$nchar-1]]         ;# Name
+         set data [string range $data [expr 4+$nchar] end]
+         binary scan $data iic nchar5 typeCode isArray             ;# type & array flag
+         set data [string range $data 9 end]
+         if {$typeCode == 8} {
+            binary scan $data i nchar                              ;# string value
+            set value [string range $data 4 [expr 4+$nchar-1]]
+            set data [string range $data [expr 4+$nchar] end]
+         } elseif {$typeCode == 2} {
+            binary scan $data i value                              ;# integer
+            set data [string range $data 4 end]
+         } elseif {$typeCode == 4} {
+            binary scan $data f value                              ;# float
+            set data [string range $data 4 end]
+         } elseif {$typeCode == 5} {
+            binary scan $data d value                              ;# double
+            set data [string range $data 8 end]
+         } else {
+            ;#set value "<undef>"
+            error "Unhandled variant typecode $typeCode"
+         }  
+         set result($name) $value
+         set ok [expr [string bytelength $data] > 0]
+      } else {
+         set ok 0
+      }
+   }
+   return [array get result]
+}
+
+proc unpack_MessageData {data} {
    binary scan $data ii result(id) result(publishedByID)  ;# id, publishedByID 
    set data [string range $data 8 end]
 
