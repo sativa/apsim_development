@@ -150,6 +150,8 @@
      if maize.das = 1 or maize.das = 42 then
            fertiliz apply amount = 0, type = nh4no3, depth = 5
          endif
+     
+     SECTION:- start_of_day
      END of rules
      
      Manager creating a new local real variable : crop_flag =     0.00000000000000

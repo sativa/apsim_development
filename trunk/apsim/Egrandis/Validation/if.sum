@@ -576,6 +576,8 @@
      endif
      
      SECTION:- start_of_day
+     
+     SECTION:- start_of_day
      if day = 1 and year = 1994 then
         automatic_irrigation = 'off'
      endif
