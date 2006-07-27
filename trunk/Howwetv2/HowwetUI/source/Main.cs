@@ -29,19 +29,30 @@ namespace APSRU.Howwet
             {
             InitializeComponent();
             }
-       
+        #region init
+
         private SimulationIn simulationObject;
         private HowwetUtility util;
         public MetData metObject;
         int rowCount = 0;
+        private double soilPAWCSum = 0;
        
         DateTime[] date;
         DataTable dt;
         double[] esw,rainfall, som, runoff, evaporation, soilWaterTopLayer, no3Total, maxTemp, soilLoss;
         Xceed.Chart.Core.Chart chart;
         BarSeries rainBar;
-   
+
+        #endregion
+
+        #region Startup
+
         private void Main_Load(object sender, EventArgs e)
+            {
+            resetFormValues();
+            }
+        
+        private void resetFormValues()
             {
             util = new HowwetUtility();
             simulationObject = new SimulationIn(util.ReadTemplateFile());
@@ -51,168 +62,231 @@ namespace APSRU.Howwet
             slope.Text = simulationObject.ErosionSlope;
             slopeLength.Text = simulationObject.ErosionSlopeLength;
             erodibilty.Text = simulationObject.ErosionErodibilty;
-           // bedDepth.Text = simulationObject.ErosionBedDepth;
+            // bedDepth.Text = simulationObject.ErosionBedDepth;
             typeName.Text = simulationObject.SOMType;
             mass.Text = simulationObject.SOMMass;
-           // cnRatio.Text = simulationObject.SOMCNRatio;
+            // cnRatio.Text = simulationObject.SOMCNRatio;
             this.Text = simulationObject.FileName;
-            
+            soilFileName.Text = "<Select a Soil file>";
+
             //setup chart defaults
             chart = chartControl1.Charts[0];
             chart.View.SetPredefinedProjection(PredefinedProjection.Orthogonal);
             chart.MarginMode = MarginMode.Stretch;
-            chart.Margins = new RectangleF(10, 10, 80, 80); 
+            chart.Margins = new RectangleF(10, 10, 80, 80);
             //chart.Axis(StandardAxis.PrimaryX).ScaleMode = AxisScaleMode.DateTime;
             Axis axis = chart.Axis(StandardAxis.PrimaryX);
             axis.DateTimeScale.MajorTickMode = MajorTickModeDateTime.Months;
             axis.DateTimeScale.MonthsStep = 3;
             rainBar = (BarSeries)chart.Series.Add(SeriesType.Bar);
-          //  area.UseXValues = true;
+            //  area.UseXValues = true;
             rainBar.Name = "Rainfall";
             rainBar.DataLabels.Mode = DataLabelsMode.None;
             rainBar.Values.ValueFormatting.Format = ValueFormat.CustomNumber;
             rainBar.Values.ValueFormatting.CustomFormat = "0.0";
-          //  bar.AreaBorder.Color = Color.DarkBlue;
+            //  bar.AreaBorder.Color = Color.DarkBlue;
             rainBar.Appearance.FillMode = AppearanceFillMode.Series;
-          //  bar.AreaFillEffect.SetSolidColor(Color.Aqua);
+            //  bar.AreaFillEffect.SetSolidColor(Color.Aqua);
             rainBar.Values.EmptyDataPoints.ValueMode = EmptyDataPointsValueMode.Skip;
-                 
-            
             }
+        #endregion
 
-        
+        #region Tool Strip events
 
-        
-
-        public void ShowMessages(CustomException err)
+        private void RunButton_Click(object sender, EventArgs e)
             {
-            bool isDebug = true;
-            String displayString = "";
-            if (isDebug)
-                {//show all info
-                IEnumerator errorList = (IEnumerator)err.getErrors().GetEnumerator();
-                while (errorList.MoveNext())
-                    {
-                    CustomError error = (CustomError)errorList.Current;
-                    displayString = displayString+"Err #:"+error.ErrorNumber +"\n Pub Mess:"+error.PublicMessage;
-                    }
-                }
-            else
-                {//only show last public message
-                IEnumerator errorList=(IEnumerator)err.getErrors().GetEnumerator();
-                errorList.MoveNext();
-                CustomError firstError=(CustomError)errorList.Current;
-                displayString = firstError.PublicMessage;
-                }
-                MessageBox.Show(displayString,"caption",MessageBoxButtons.OK,MessageBoxIcon.Error);
-            }
-
-        
-
-        private bool SaveAllData()
-            {
-            Boolean saved = false;
-            //write form values
-           
-            if (simulationObject.FileName == "untitled")
+            if (saveAllData())
                 {
-                SaveFileDialog saveDialog = new SaveFileDialog();
-                saveDialog.Filter="APSIM files (*.apsim)|*.apsim";
-                //saveDialog.ShowDialog();
-                
-                try
+                //check if apsrun is already running
+                Process[] processes = Process.GetProcesses();
+                foreach (Process proc in processes)
                     {
-                    if (saveDialog.ShowDialog() == DialogResult.OK)
+                    if (Path.GetFileName(proc.ProcessName) == "apsrun")
                         {
-                        simulationObject.FileName = saveDialog.FileName;
-
-                        simulationObject.OutputFileName = simulationObject.FileName.Substring(0, simulationObject.FileName.IndexOf(".apsim") - 1) + ".out";
-                        simulationObject.SummaryFileName = simulationObject.FileName.Substring(0, simulationObject.FileName.IndexOf(".apsim") - 1) + ".sum";
-
-                        APSIMData t = new APSIMData();
-                        t = simulationObject.Data;
-                        t.SaveToFile(simulationObject.OutputFileName);
-                        t.SaveToFile(simulationObject.FileName);
-                        this.Text = simulationObject.FileName;
-                        saved = true;
+                        proc.Kill();
                         }
                     }
-                catch (Exception e)
+
+                //run apsun
+                //String ApsRunFileName = Path.GetDirectoryName(Application.ExecutablePath) + "\\apsrun.exe";
+                String ApsRunFileName = "c:\\Program Files\\APSIM51\\bin\\apsrun.exe";
+                try
                     {
-                    MessageBox.Show("Message " + e.Message + " Source " + e.Source);
+                    if (File.Exists(ApsRunFileName))
+                        {
+                        Process.Start(ApsRunFileName, "" + simulationObject.FileName + "");
+                        }
                     }
+                catch (FileNotFoundException e1)
+                    {
+                    MessageBox.Show(e1.Message);
+                    }
+                }
+            }
+
+        private void ReportButton_Click_1(object sender, EventArgs e)
+            {
+            //TODO change path to a application variable
+            String path = "C:\\Development\\Howwetv2\\HowwetUI\\source";
+            System.Diagnostics.Process.Start("IExplore.exe", path + "\\HowwetReport.xml");
+            }
+
+        private void openToolStripButton_Click(object sender, EventArgs e)
+            {
+            OpenFileDialog openDialog = new OpenFileDialog();
+            openDialog.Title = "Browse for Howwet File";
+            openDialog.Filter = "Howwet files (*.hwt)|*.hwt";
+            openDialog.ShowDialog();
+            if (!(openDialog.FileName == ""))
+                {
+                APSIMData appsimDataObject = new APSIMData();
+                appsimDataObject.LoadFromFile(openDialog.FileName);
+                simulationObject.Data = appsimDataObject;
+                }
+            }
+
+        private void saveToolStripButton_Click(object sender, EventArgs e)
+            {
+            APSIMData appsimDataObject = new APSIMData();
+            appsimDataObject = simulationObject.Data;
+            if (simulationObject.FileName == "untitled")
+                {
+                saveAs();
                 }
             else
                 {
-                APSIMData t = new APSIMData();
-                t = simulationObject.Data;
-                t.SaveToFile(simulationObject.OutputFileName);
-                t.SaveToFile(simulationObject.FileName);
-                this.Text = simulationObject.FileName;
-                saved = true;
+                String fileName = simulationObject.FileName.Substring(0, simulationObject.FileName.IndexOf(".apsim") - 1) + ".hwt";
+                appsimDataObject.SaveToFile(fileName);
+
                 }
-            return saved;
-            }
-            
-       private void displayRainfallChart()
-            {
-            timer1.Interval = 200;
-            timer1.Start();
-            chartControl1.Refresh();
-            chartControl1.Visible = true;
             }
 
-        private void btnBrowse_Click(object sender, EventArgs e)
+        private void saveAsToolStripButton_Click(object sender, EventArgs e)
             {
-            OpenFileDialog fdlg = new OpenFileDialog();
-            fdlg.Title = "Browse for Soil File";
-            fdlg.Filter = "Soils files (*.soils)|*.soils";
-            fdlg.ShowDialog();
-            if (!(fdlg.FileName == ""))
+            saveAs();
+            }
+
+        private void saveAs()
+            {
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.Title = "Save Howwet File";
+            saveDialog.Filter = "Howwet files (*.hwt)|*.hwt";
+            if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
-                soilsFilename.Text = fdlg.FileName;
+                String howwetFile = saveDialog.FileName;
+                APSIMData dataObject = new APSIMData();
+                dataObject = simulationObject.Data;
+                dataObject.SaveToFile(howwetFile);
+                }
+            }
+
+
+                #endregion
+
+        #region Events Inputside of Form
+
+        private void browseSoilFileButton_Click(object sender, EventArgs e)
+            {
+            OpenFileDialog openDialog = new OpenFileDialog();
+            openDialog.Title = "Browse for Soil File";
+            openDialog.Filter = "Soils files (*.soils)|*.soils";
+            openDialog.ShowDialog();
+            if (!(openDialog.FileName == ""))
+                {
+                //openDialog.InitialDirectory=
+                FileInfo fileInfo = new FileInfo(openDialog.FileName);
+                soilFileName.Text = fileInfo.Name;
+                soilsList.Items.Clear();
+
                 soilsList.Items.Add("<Select a Soil>");
-                StringCollection soilCollection = util.GetListOfSoils(fdlg.FileName);
+                StringCollection soilCollection = util.GetListOfSoils(openDialog.FileName);
                 foreach (String soil in soilCollection)
                     {
                     soilsList.Items.Add(soil);
                     }
+                this.soilsList.SelectedValueChanged -= new System.EventHandler(this.soilsList_SelectedValueChanged);
+                soilsList.SelectedIndex = 0;
+                this.soilsList.SelectedValueChanged += new System.EventHandler(this.soilsList_SelectedValueChanged);
+
                 }
-
-            // soilsList.SelectedIndex = 0;
             }
-
-        private void lstSoils_SelectedIndexChanged(object sender, EventArgs e)
+        
+        private void selectSoilButton_Click(object sender, EventArgs e)
             {
-            APSIMData selectedSoil = new APSIMData();
-            selectedSoil = util.GetSoil((String)soilsList.SelectedItem);
-            //add soil to simulation object
-            simulationObject.AddSoil(selectedSoil);
-            //get the details of the soil
-            Soil soilObject = new Soil(selectedSoil);
-            
-           // Double[] soilPawc = soilObject.PAWC();
-           // double soilPAWCSum = 0;
-           // foreach (double layer in soilPawc)
-           //     {
-           //     soilPAWCSum = soilPAWCSum + layer;
-           //     }
-
-            String[] layers = soilObject.DepthStrings;
-            ocDepthLabel.Text = layers[0];//top layer string
-            organicCarbonContent.Text = soilObject.OC.GetValue(0).ToString();
-            
-            initialWater.Text = simulationObject.SoilWaterCapacity.ToString();
-            initialSoilWaterPercent.Value = 100;
-          //  String[] corps= soilObject.Crops;
-         //   IEnumerator corpList=new IEnumerator corps.GetEnumerator();
-         //   while(corpList.MoveNext)
-         //       {
-                
-         //       }
+            SoilSelection soilForm = new SoilSelection();
+            soilForm.Show();
             }
 
-        private void btnBrowseMet_Click(object sender, EventArgs e)
+        private void soilsList_SelectedValueChanged(object sender, System.EventArgs e)
+            {
+            if (!((String)soilsList.SelectedItem == "<Select a Soil>"))
+                {
+                APSIMData selectedSoil = new APSIMData();
+                selectedSoil = util.GetSoil((String)soilsList.SelectedItem);
+                //add soil to simulation object
+                simulationObject.AddSoil(selectedSoil);
+                proposedCropList.Items.Clear();
+                String[] crops = simulationObject.Soil.Crops;
+                proposedCropList.Items.Add("<Select a Crop>");
+                for (int i = 0; i < crops.Length; i++)
+                    {
+                    proposedCropList.Items.Add(crops[i]);
+                    }
+                this.proposedCropList.SelectedValueChanged -= new System.EventHandler(this.proposedCropList_SelectedValueChanged);
+                proposedCropList.SelectedIndex = 0;
+                this.proposedCropList.SelectedValueChanged += new System.EventHandler(this.proposedCropList_SelectedValueChanged);
+                
+                organicCarbonContent.Text = simulationObject.Soil.OC.GetValue(0).ToString();
+                }
+            }
+
+        void proposedCropList_SelectedValueChanged(object sender, System.EventArgs e)
+            {
+            if (!((String)proposedCropList.SelectedItem == "<Select a Crop>"))
+                {
+                String selectedCrop=(String)proposedCropList.SelectedItem;
+                //TODO not right ask Dean, crop should be added to paddock level
+                simulationObject.Soil.AddCrop(selectedCrop); 
+                //sum water layers for crop
+                double soilPAWCSum = 0;
+                double soilDepthSum = 0;
+                int count = 0;
+                double[] thicknessEachLayer = simulationObject.Soil.Thickness;
+                foreach (double layer in simulationObject.Soil.PAWC(selectedCrop))
+                    {
+                    soilDepthSum = soilDepthSum + thicknessEachLayer[count++];
+                    soilPAWCSum = soilPAWCSum + layer;
+                    }
+                this.soilPAWCSum = soilPAWCSum;
+                String[] layers = simulationObject.Soil.DepthStrings;
+                ocDepthLabel.Text = layers[0];//top layer string
+                soilDepth.Text = soilDepthSum.ToString();
+
+                initialWater.Text = soilPAWCSum.ToString();
+                initialSoilWaterPercent.Value = 100;
+                }
+            }
+
+        void soilDepth_TextChanged(object sender, System.EventArgs e)
+            {//update the XF value
+            
+            }
+
+        void initialSoilWaterPercent_ValueChanged(object sender, System.EventArgs e)
+            {
+            decimal newValue = (Convert.ToDecimal(this.soilPAWCSum) * initialSoilWaterPercent.Value) / 100;
+            initialWater.Text = newValue.ToString();
+            }
+
+        void initialWater_TextChanged(object sender, System.EventArgs e)
+            {
+            double newValue = (Convert.ToDouble(initialWater.Text) / this.soilPAWCSum) * 100;
+
+            initialSoilWaterPercent.Value = Convert.ToDecimal(newValue);
+
+            }
+
+        private void browseMetButton_Click(object sender, EventArgs e)
             {
             //Select a met file
             OpenFileDialog fdlg = new OpenFileDialog();
@@ -243,48 +317,25 @@ namespace APSRU.Howwet
                     }
                 catch (CustomException err)
                     {
-                    ShowMessages(err);
+                    showMessages(err);
                     }
                 }
             }
 
-        private void ShowAPSIMFileButton_Click(object sender, EventArgs e)
+        private void editRainfallButton_Click(object sender, EventArgs e)
             {
-            APSIMData test = new APSIMData();
-            test = simulationObject.Data;
-            MessageBox.Show(test.XML);
-            }
-
-        private void RunSimButton_Click(object sender, EventArgs e)
-            {
-            if (SaveAllData())
+            if (!(this.metObject.FileName == ""))
                 {
-                //check if apsrun is already running
-                Process[] processes = Process.GetProcesses();
-                foreach (Process proc in processes)
-                    {
-                    if (Path.GetFileName(proc.ProcessName) == "apsrun")
-                        {
-                        proc.Kill();
-                        }
-                    }
-
-                //run apsun
-                //String ApsRunFileName = Path.GetDirectoryName(Application.ExecutablePath) + "\\apsrun.exe";
-                String ApsRunFileName = "c:\\Program Files\\APSIM51\\bin\\apsrun.exe";
-                try
-                    {
-                    if (File.Exists(ApsRunFileName))
-                        {
-                        Process.Start(ApsRunFileName, "" + simulationObject.FileName + "");
-                        }
-                    }
-                catch (FileNotFoundException e1)
-                    {
-                    MessageBox.Show(e1.Message);
-                    }
+                RainfallEditor form = new RainfallEditor();
+                form.displayData(this.metObject);
+                form.Show();
+                }
+            else
+                {
+                MessageBox.Show("Please select a Met file to edit");
                 }
             }
+       
         private void StartDatePicker_ValueChanged(object sender, EventArgs e)
             {
             simulationObject.StartDate = StartDatePicker.Value.ToShortDateString();
@@ -293,6 +344,17 @@ namespace APSRU.Howwet
         private void EndDatePicker_ValueChanged(object sender, EventArgs e)
             {
             simulationObject.EndDate = EndDatePicker.Value.ToShortDateString();
+            }
+
+        #endregion
+
+        #region Events Outputside of Form
+
+        private void showAPSIMFileButton_Click(object sender, EventArgs e)
+            {
+            APSIMData test = new APSIMData();
+            test = simulationObject.Data;
+            MessageBox.Show(test.XML);
             }
 
         private void tabControl1_Click(object sender, EventArgs e)
@@ -308,21 +370,6 @@ namespace APSRU.Howwet
                         break;
                     }
             }
-
-        private void EditRainfallButton_Click(object sender, EventArgs e)
-            {
-            if (!(this.metObject.FileName == ""))
-                {
-                RainfallEditor form = new RainfallEditor();
-                form.displayData(this.metObject);
-                form.Show();
-                }
-            else
-                {
-                MessageBox.Show("Please select a Met file to edit");
-                }
-            }
-       
 
         private void button2_Click(object sender, EventArgs e)
             {
@@ -390,26 +437,94 @@ namespace APSRU.Howwet
                 timer1.Stop();
                 }
             }
+        #endregion
 
-        private void ReportButton_Click(object sender, EventArgs e)
+        #region General Functions
+
+        private void showMessages(CustomException err)
             {
-            //TODO change path to a application variable
-            String path="C:\\Documents and Settings\\gra518\\My Documents\\Visual Studio 2005\\Projects\\HowWetTest\\HowWetTest";
-            System.Diagnostics.Process.Start("IExplore.exe",path+"\\HowwetReport.xml");
+            bool isDebug = true;
+            String displayString = "";
+            if (isDebug)
+                {//show all info
+                IEnumerator errorList = (IEnumerator)err.getErrors().GetEnumerator();
+                while (errorList.MoveNext())
+                    {
+                    CustomError error = (CustomError)errorList.Current;
+                    displayString = displayString + "Err #:" + error.ErrorNumber + "\n Pub Mess:" + error.PublicMessage;
+                    }
+                }
+            else
+                {//only show last public message
+                IEnumerator errorList = (IEnumerator)err.getErrors().GetEnumerator();
+                errorList.MoveNext();
+                CustomError firstError = (CustomError)errorList.Current;
+                displayString = firstError.PublicMessage;
+                }
+            MessageBox.Show(displayString, "caption", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-        void initialSoilWaterPercent_ValueChanged(object sender, System.EventArgs e)
+        private bool saveAllData()
             {
-            decimal newValue=(Convert.ToDecimal(simulationObject.SoilWaterCapacity) * initialSoilWaterPercent.Value)/ 100;
-            initialWater.Text = newValue.ToString();
+            Boolean saved = false;
+            //write form values
+
+            if (simulationObject.FileName == "untitled")
+                {
+                SaveFileDialog saveDialog = new SaveFileDialog();
+                saveDialog.Filter = "APSIM files (*.apsim)|*.apsim";
+                //saveDialog.ShowDialog();
+
+                try
+                    {
+                    if (saveDialog.ShowDialog() == DialogResult.OK)
+                        {
+                        simulationObject.FileName = saveDialog.FileName;
+
+                        simulationObject.OutputFileName = simulationObject.FileName.Substring(0, simulationObject.FileName.IndexOf(".apsim") - 1) + ".out";
+                        simulationObject.SummaryFileName = simulationObject.FileName.Substring(0, simulationObject.FileName.IndexOf(".apsim") - 1) + ".sum";
+
+                        APSIMData t = new APSIMData();
+                        t = simulationObject.Data;
+                        t.SaveToFile(simulationObject.OutputFileName);
+                        t.SaveToFile(simulationObject.FileName);
+                        this.Text = simulationObject.FileName;
+                        saved = true;
+                        }
+                    }
+                catch (Exception e)
+                    {
+                    MessageBox.Show("Message " + e.Message + " Source " + e.Source);
+                    }
+                }
+            else
+                {
+                APSIMData t = new APSIMData();
+                t = simulationObject.Data;
+                t.SaveToFile(simulationObject.OutputFileName);
+                t.SaveToFile(simulationObject.FileName);
+                this.Text = simulationObject.FileName;
+                saved = true;
+                }
+            return saved;
             }
 
-        void initialWater_TextChanged(object sender, System.EventArgs e)
+        private void displayRainfallChart()
             {
-            double newValue = (Convert.ToDouble(initialWater.Text) / simulationObject.SoilWaterCapacity) * 100;
+            timer1.Interval = 200;
+            timer1.Start();
+            chartControl1.Refresh();
+            chartControl1.Visible = true;
+            }
 
-            initialSoilWaterPercent.Value = Convert.ToDecimal(newValue);
+        #endregion
+
+
+
+        private void typeName_SelectedIndexChanged(object sender, EventArgs e)
+            {
 
             }
+     
         }
     }

@@ -35,19 +35,17 @@ namespace APSRU.Howwet
             // 
             this.treeView1.Location = new System.Drawing.Point(12, 12);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(199, 196);
-            this.treeView1.TabIndex = 0;
-            
-            this.treeView1.Click += new System.EventHandler(this.treeView1_Click);
+            this.treeView1.Size = new System.Drawing.Size(202, 242);
+            this.treeView1.TabIndex = 1;
             // 
-            // Test
+            // SoilSelection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(292, 266);
+            this.ClientSize = new System.Drawing.Size(221, 266);
             this.Controls.Add(this.treeView1);
-            this.Name = "Test";
-            this.Text = "Test";
+            this.Name = "SoilSelection";
+            this.Text = "Select Soil";
             this.ResumeLayout(false);
 
             }
@@ -55,6 +53,7 @@ namespace APSRU.Howwet
         #endregion
 
         private System.Windows.Forms.TreeView treeView1;
+
 
         }
     }
