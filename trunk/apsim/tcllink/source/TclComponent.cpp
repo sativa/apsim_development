@@ -172,7 +172,7 @@ void TclComponent::doInit2(void)
       int result = Tcl_Eval(Interp, initRule.c_str());
       if (result != TCL_OK)
           {
-          throw std::runtime_error(string(Tcl_GetStringResult(Interp), true));
+          throw std::runtime_error(string(Tcl_GetStringResult(Interp)));
           }
       }
       //char buf[80]; sprintf(buf, "this=%x", this);
@@ -200,7 +200,7 @@ void TclComponent::respondToEvent(unsigned int& /*fromID*/, unsigned int& eventI
 
         int result = Tcl_Eval(Interp, rule.c_str());
         if (result != TCL_OK)
-           throw std::runtime_error(string(Tcl_GetStringResult(Interp), true));
+           throw std::runtime_error(string(Tcl_GetStringResult(Interp)));
         }
      }  
    }
