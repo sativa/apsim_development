@@ -12,7 +12,6 @@ namespace APSRU.Model.Howwet
         {
         private APSIMData myData;
         private String fileName;
-        private double soilWaterCapacity=0;
         private Soil newSoil;
       
         public SimulationIn(APSIMData data)
@@ -23,6 +22,7 @@ namespace APSRU.Model.Howwet
         public APSIMData Data
             {
             get { return myData; }
+            set { myData = value; }
             }
         public void AddSoil(APSIMData selectedSoil)
             {
@@ -43,11 +43,6 @@ namespace APSRU.Model.Howwet
                     paddockNode.Add(selectedSoil);
                     }
                 newSoil = new Soil(selectedSoil);
-                //sum water layers
-                foreach (double layer in newSoil.PAWC())
-                    {
-                    soilWaterCapacity = soilWaterCapacity + layer;
-                    }
                 }
             catch (Exception e)
                 {
@@ -65,11 +60,6 @@ namespace APSRU.Model.Howwet
             get{return fileName;}
             }
 
-        public double SoilWaterCapacity
-            {
-            get { return soilWaterCapacity; }
-            }
-
         public String StartDate
             {
             set
@@ -83,7 +73,7 @@ namespace APSRU.Model.Howwet
                 return clockNode.get_ChildValue("start_date"); 
                 }
             }
-
+       
         public String EndDate
             {
             set
@@ -95,6 +85,21 @@ namespace APSRU.Model.Howwet
                 {
                 APSIMData clockNode = myData.FindChild("HowWet|clock", '|');
                 return clockNode.get_ChildValue("end_date"); 
+                }
+            }
+
+        //ToDo
+        public String Crop
+            {
+            set
+                {
+                APSIMData soilCropNode = myData.FindChild("HowWet|paddock", '|');
+                soilCropNode.set_ChildValue("end_date", value);
+                }
+            get
+                {
+                APSIMData soilCropNode = myData.FindChild("HowWet|paddock", '|');
+                return soilCropNode.get_ChildValue("end_date");
                 }
             }
 
