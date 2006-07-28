@@ -566,8 +566,9 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
          }
       else
          childID = componentNameToID(name);
-      if (components[childID] == NULL)
-         return;
+
+      if (childID == INT_MAX || components[childID] == NULL) return; // XX Yuck!!
+
       string fqn = name;
       fqn += ".";
       fqn += components[childID]->getName();
