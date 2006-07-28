@@ -184,6 +184,20 @@ module = plant(Wheat)   %apsuite\apsim\common files\Birchip.par[birchip] %apsuit
 module = Tracker    Wheat.par[sensibility]
 module = SummaryFile  Wheat.par[Birchip300]
 
+[APSIM.Birchip 300mm HighN]
+title=Birchip 300mm wet soil
+module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
+module = report     Wheat.par[sensibility] Wheat.par[Birchip300HighN]
+module = input(met)        %apsuite\apsim\common files\Birchip.met[weather]
+module = manager    Wheat.par[sensibility] Wheat.par[hartog] Wheat.par[mid_may]  Wheat.par[N060] Wheat.par[SplitN040]
+module = fertiliz   %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = soilwat2   %apsuite\apsim\common files\Birchip.par[Birchip] %apsuite\apsim\common files\Birchip.par[300mm] %apsuite\apsim\soilwat2\soilwat2.ini[standard]
+module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = soiln2     %apsuite\apsim\common files\Birchip.par[birchip]      %apsuite\apsim\soiln2\soiln2.ini[standard]
+module = plant(Wheat)   %apsuite\apsim\common files\Birchip.par[birchip] %apsuite\apsim\Wheat\Wheat.ini[standard]
+module = Tracker    Wheat.par[sensibility]
+module = SummaryFile  Wheat.par[Birchip300HighN]
+
 [APSIM.Warra 600mm Low N]
 title=Warra 600mm wet soil Low N
 module = clock      Wheat.par[sensibility] %apsuite\apsim\clock\clock.ini[standard]
