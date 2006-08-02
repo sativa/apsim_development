@@ -1,0 +1,959 @@
+Version = 3.0
+NumPages = 1
+object data: TForm
+  Left = 4
+  Top = 4
+  Align = alClient
+  BorderIcons = []
+  BorderStyle = bsNone
+  ClientHeight = 833
+  ClientWidth = 1264
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Early: TREMS
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'experiment'
+        Attributes = [faRequired]
+        DataType = ftString
+        Size = 50
+      end
+      item
+        Name = 'treatment'
+        Attributes = [faRequired]
+        DataType = ftString
+        Size = 50
+      end
+      item
+        Name = 'TreatmentID'
+        DataType = ftInteger
+      end
+      item
+        Name = 'Date'
+        DataType = ftDateTime
+      end
+      item
+        Name = 'Biomass_N'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Biomass_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'DeadLeaf_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'DeadLeaf_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Grain_no'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Grain_Protein'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Grain_size'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Head_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Head_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'LAI'
+        DataType = ftFloat
+      end
+      item
+        Name = 'leaf_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Leaf_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sla'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Stem_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Stem_wt'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortFields = 'Date'
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'Graph2.afterDataRefresh'
+      'Graph1.afterDataRefresh')
+    sortFields = 'Date'
+    filename = 'D:\development\apsim\Wheat\Validation\Wheat.mdb'
+    experiment = 'Beverly90'
+    treatment = 'N060 101 25/05/1990 '
+    datasource = 'Crop'
+    Left = 137
+    Top = 43
+  end
+  object Late: TREMS
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'experiment'
+        Attributes = [faRequired]
+        DataType = ftString
+        Size = 50
+      end
+      item
+        Name = 'treatment'
+        Attributes = [faRequired]
+        DataType = ftString
+        Size = 50
+      end
+      item
+        Name = 'TreatmentID'
+        DataType = ftInteger
+      end
+      item
+        Name = 'Date'
+        DataType = ftDateTime
+      end
+      item
+        Name = 'Biomass_N'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Biomass_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'DeadLeaf_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'DeadLeaf_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Grain_no'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Grain_Protein'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Grain_size'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Head_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Head_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'LAI'
+        DataType = ftFloat
+      end
+      item
+        Name = 'leaf_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Leaf_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sla'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Stem_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Stem_wt'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortFields = 'Date'
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'Graph2.afterDataRefresh'
+      'Graph1.afterDataRefresh')
+    sortFields = 'Date'
+    filename = 'D:\development\apsim\Wheat\Validation\Wheat.mdb'
+    experiment = 'Beverly90'
+    treatment = 'N060 102 14/06/1990 '
+    datasource = 'Crop'
+    Left = 200
+    Top = 51
+  end
+  object EarlyPre: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'title'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'Date'
+        DataType = ftDate
+      end
+      item
+        Name = 'day'
+        DataType = ftFloat
+      end
+      item
+        Name = 'year'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_protein'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_size'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sw_dep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'head_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'leaf_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'head_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'leaf_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stem_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_no'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_conc_grain'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'Graph2.afterDataRefresh'
+      'Graph1.afterDataRefresh')
+    filenames.Strings = (
+      'Wheat_Beverly90_Early.out')
+    Left = 134
+    Top = 175
+  end
+  object LatePre: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'title'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'Date'
+        DataType = ftDate
+      end
+      item
+        Name = 'day'
+        DataType = ftFloat
+      end
+      item
+        Name = 'year'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_protein'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_size'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sw_dep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'head_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'leaf_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'head_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'leaf_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stem_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_no'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_conc_grain'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'Graph2.afterDataRefresh'
+      'Graph1.afterDataRefresh')
+    filenames.Strings = (
+      'Wheat_Beverly90_Late.out')
+    Left = 216
+    Top = 184
+  end
+end
+object Page1: TQuickRep
+  Left = 320
+  Top = 161
+  Width = 397
+  Height = 561
+  Frame.Color = clBlack
+  Frame.DrawTop = False
+  Frame.DrawBottom = False
+  Frame.DrawLeft = False
+  Frame.DrawRight = False
+  Frame.Style = psClear
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Arial'
+  Font.Style = []
+  Functions.Strings = (
+    'PAGENUMBER'
+    'COLUMNNUMBER'
+    'REPORTTITLE')
+  Functions.DATA = (
+    '0'
+    '0'
+    #39#39)
+  Options = [FirstPageHeader, LastPageFooter]
+  Page.Columns = 1
+  Page.Orientation = poPortrait
+  Page.PaperSize = A4
+  Page.Ruler = False
+  Page.Values = (
+    0
+    2970
+    0
+    2100
+    0
+    0
+    0)
+  PrinterSettings.Copies = 1
+  PrinterSettings.Duplex = False
+  PrinterSettings.FirstPage = 0
+  PrinterSettings.LastPage = 0
+  PrinterSettings.OutputBin = Auto
+  PrintIfEmpty = True
+  SnapToGrid = True
+  Units = MM
+  Zoom = 50
+  object TitleBand1: TQRBand
+    Left = 0
+    Top = 0
+    Width = 397
+    Height = 561
+    Frame.Color = clBlack
+    Frame.DrawTop = False
+    Frame.DrawBottom = False
+    Frame.DrawLeft = False
+    Frame.DrawRight = False
+    AlignToBottom = False
+    Color = clWhite
+    ForceNewColumn = False
+    ForceNewPage = False
+    Size.Values = (
+      2970
+      2100.79166666667)
+    BandType = rbTitle
+    object Text1: TText
+      Left = 38
+      Top = 19
+      Width = 101
+      Height = 19
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        100.541666666667
+        201.083333333333
+        100.541666666667
+        534.458333333333)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -32
+      Font.Name = 'Arial'
+      Font.Style = []
+      Lines.Strings = (
+        'Beverley 1990')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = 'Beverley 1990'#13#10
+      FontSize = 24
+    end
+    object Graph1: TGraph
+      Left = 40
+      Top = 59
+      Width = 315
+      Height = 218
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        1153.58333333333
+        211.666666666667
+        312.208333333333
+        1666.875)
+      title = ' '
+      subTitle = ' '
+      leftAxisTitle = ' '
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = ' '
+      footTitle = ' '
+      seriesTitle1 = ' '
+      seriesTitle2 = ' '
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
+      object QRDBChart1: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMaximum = False
+        BottomAxis.AutomaticMinimum = False
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.Grid.Visible = False
+        BottomAxis.LabelsSeparation = 100
+        BottomAxis.Maximum = 33208
+        BottomAxis.Minimum = 33025
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.Grid.Visible = False
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        Legend.CustomPosition = True
+        Legend.Left = 100
+        Legend.LegendStyle = lsSeries
+        Legend.ResizeChart = False
+        Legend.Top = 10
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object Series1: TPointSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.Early
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.DateTime = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Date'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'LAI'
+        end
+        object Series2: TPointSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.Late
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.DateTime = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Date'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'lAI'
+        end
+        object Series5: TLineSeries
+          Depth = 0
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.EarlyPre
+          SeriesColor = clRed
+          ShowInLegend = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.DateTime = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Date'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'lai'
+        end
+        object Series6: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.LatePre
+          SeriesColor = clGreen
+          ShowInLegend = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.DateTime = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Date'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'lai'
+        end
+      end
+    end
+    object Graph2: TGraph
+      Left = 40
+      Top = 291
+      Width = 315
+      Height = 218
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        1153.58333333333
+        211.666666666667
+        1539.875
+        1666.875)
+      title = ' '
+      subTitle = ' '
+      leftAxisTitle = ' '
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = ' '
+      footTitle = ' '
+      seriesTitle1 = ' '
+      seriesTitle2 = ' '
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
+      object QRDBChart2: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMaximum = False
+        BottomAxis.AutomaticMinimum = False
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.Grid.Visible = False
+        BottomAxis.LabelsSeparation = 100
+        BottomAxis.Maximum = 33208
+        BottomAxis.Minimum = 33025
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.Grid.Visible = False
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        Legend.CustomPosition = True
+        Legend.Left = 100
+        Legend.LegendStyle = lsSeries
+        Legend.ResizeChart = False
+        Legend.Top = 10
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object PointSeries1: TPointSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.Early
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.DateTime = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Date'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'Biomass_wt'
+        end
+        object PointSeries2: TPointSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.Late
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.DateTime = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Date'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'Biomass_wt'
+        end
+        object Series3: TPointSeries
+          Depth = 0
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.Early
+          ShowInLegend = False
+          ClickableLine = False
+          Pointer.Brush.Color = clRed
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.DateTime = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Date'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'grain_wt'
+        end
+        object Series4: TPointSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.Late
+          ShowInLegend = False
+          ClickableLine = False
+          Pointer.Brush.Color = clGreen
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.DateTime = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Date'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'grain_wt'
+        end
+        object Series7: TLineSeries
+          Depth = 0
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.EarlyPre
+          SeriesColor = clRed
+          ShowInLegend = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.DateTime = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Date'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'biomass_wt'
+        end
+        object Series8: TLineSeries
+          Depth = 0
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.LatePre
+          SeriesColor = clGreen
+          ShowInLegend = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.DateTime = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Date'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'biomass_wt'
+        end
+        object Series9: TLineSeries
+          Depth = 0
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.EarlyPre
+          SeriesColor = clRed
+          ShowInLegend = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.DateTime = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Date'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'grain_wt'
+        end
+        object Series10: TLineSeries
+          Depth = 0
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.LatePre
+          SeriesColor = clGreen
+          ShowInLegend = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.DateTime = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Date'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'grain_wt'
+        end
+      end
+    end
+  end
+end
