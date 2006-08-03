@@ -1,0 +1,264 @@
+
+! ---------------------------
+! Sections common to all runs
+! ---------------------------
+
+[common.clock.parameters]
+start_date=1/1/2005
+end_date=31/12/2005       
+       
+[common.Screen.parameters]
+   screen_output=off
+
+[common.surfaceom.parameters]
+   mass = 1000 (kg/ha) ! Initial surface residue
+   cnr = 80            ! C:N ration of initial residue
+   type = wheat        ! Type if initial residue
+   name = wheat
+
+[common.met.parameters]
+   station_number = 8230
+
+[common.tracker.parameters]
+   ! Seasonal variables.
+   variable = sum of rain on post from StartSeason to harvesting as gsr
+   variable = sum of fertilizer on post from StartSeason to harvesting as NApplied
+   variable = sum of irrigation on post from StartSeason to harvesting as IrrApplied
+
+   ! In-crop variables.
+   variable = sum of met.rain on post from sowing to harvesting as InCropRain
+   variable = sum of es on post from sowing to harvesting as InCropES
+   variable = sum of eo on post from sowing to harvesting as InCropEO
+   variable = sum of runoff on post from sowing to harvesting as InCropRunoff
+   variable = sum of drain on post from sowing to harvesting as InCropDrain
+   variable = sum of dlt_n_min() on post from sowing to harvesting as InCropDltNMin
+   variable = sum of leach_no3 on post from sowing to harvesting as InCropLeachNo3
+   variable = sum of no3_uptake on post from sowing to harvesting as InCropNo3Uptake
+   variable = sum of nh4_uptake on post from sowing to harvesting as InCropNh4Uptake
+
+   ! Sowing variables
+   variable = value of Manager.Water on sowing as SowESW
+   variable = value of No3() on sowing as SowNo3
+   
+  
+! -------------------
+! scenario1
+! -------------------
+
+[scenario1.summary.parameters]
+   Outputfile = scenario1Summary.out
+   variable = dd/mm/yyyy as date
+   variable = met_end_date_string
+   variable = wet_yield
+   variable = grain_protein
+   variable = grain_n
+   variable = manager.Water as ESW
+   variable = no3()
+   variable = nh4()
+   variable = gm
+   variable = sw_stress_expan
+   variable = sw_stress_photo
+   variable = n_stress_expan
+   variable = n_stress_photo
+   variable = zadok_stage
+   variable = Zadok30Das
+   variable = Zadok60Das
+   variable = Zadok70Das
+   variable = Zadok90Das
+   variable = flowering_das
+   variable = maturity_das
+   variable = root_depth
+   variable = gsr as SeasonalRain
+   variable = IrrApplied as SeasonalIrrigation
+   variable = NApplied as SeasonalFertiliser
+   variable = SowESW
+   variable = SowNo3
+   variable = InCropRain
+   variable = InCropES
+   variable = InCropEO
+   variable = InCropRunoff
+   variable = InCropDrain
+   variable = InCropDltNMin
+   variable = InCropLeachNo3
+   variable = InCropNo3Uptake
+   variable = InCropNh4Uptake
+
+[scenario1.report.parameters]
+   Outputfile = scenario1.out
+   variable = manager.sow_year
+   variable = clock.dd/mm/yyyy as date
+   variable = clock.day
+   variable = met.met_end_date_string
+   variable = manager.phase
+   variable = manager.wet_yield
+   variable = gsr
+   variable = InCropRain
+   variable = manager.Water
+   variable = soiln2.no3() as Nitrogen
+   variable = IrrApplied
+   variable = NApplied
+   variable = manager.gm
+   variable = Wheat.das
+   variable = Wheat.sw_stress_expan
+   variable = Wheat.n_stress_expan
+   variable = Wheat.flowering_date
+   variable = Wheat.maturity_date
+   variable = Wheat.root_depth
+   variable = Wheat.zadok_stage
+   variable = Wheat.grain_protein
+   variable = manager.oil_conc
+
+[scenario1.SummaryFile.parameters]
+   Summaryfile = scenario1.sum
+
+[scenario1.manager.init]
+   MoistureContent = 12   !%
+   population = 100
+
+   gm = 0.0
+   costs = 0.0
+   num_n_applications = 0
+   base_price = 0
+   min_protein = 0
+   protein_incr = 0
+   n_cost = 0
+   n_appl_cost = 0
+
+[scenario1.manager.start_of_day]
+   phase = 'none'
+
+   ! Sow the crop.
+   if (today = date('18-May')) then
+      surfaceom tillage type = planter, f_incorp = 0.1 (), tillage_depth = 50
+      Wheat sow cultivar = Arrino, plants = population (plants/m2), sowing_depth = 30
+      phase = 'sowing'
+      sow_year = year
+      Zadok30Das = 0
+      Zadok60Das = 0
+      Zadok70Das = 0
+      Zadok90Das = 0
+      report do_end_day_output
+   endif
+
+   ! Harvest the crop.
+   HarvestToday = 'no'
+   if (Wheat.plant_status = 'dead' or Wheat.stage_name = 'harvest_ripe') then
+      HarvestToday = 'yes'
+   endif
+   if (HarvestToday = 'yes') then
+
+
+      wet_yield = Wheat.yield / (1 - MoistureContent/100) / 1000
+      cropprotein = Wheat.grain_protein
+      if (cropprotein > 14) then
+         cropprotein = 14
+      endif
+      price = base_price + (cropprotein - min_protein) * 2 * protein_incr
+      costs = n_cost * NApplied + n_appl_cost * num_n_applications
+      gm = price * wet_yield - costs
+
+      phase = 'harvest'
+      report do_output
+      if (today > date('01/04/2005')) then
+         summary do_output
+      endif
+      Wheat harvest
+      Wheat kill_crop
+      Wheat end_crop
+      surfaceom tillage type = burn
+   endif
+
+   ! Do canola specific stuff.
+
+   ! Reset measured soilwater on a known date
+   if (today = date('05-May')
+       or (today = date('18-May') and date('18/05/2005') < date('05/05/2005'))) then
+      soilwat2 reset
+      soiln2 reset
+      surfaceom reset
+   endif
+
+   ! Modify evap for winter or summer
+   if day > 90 and day < 273 then
+      soilwat2.cona = 2.0
+      soilwat2.u = 2.0
+   else
+      soilwat2.cona = 3.5
+      soilwat2.u = 4.0
+   endif
+   
+   ! Generate an event for start of growing season.
+   if (today = date('01/04/2005')) then
+      act_mods StartSeason
+   endif
+   
+   if (today > date('01/04/2005')) then
+      ! Set the phase to today when necessary.
+      if (today = simulation_end_date) then
+         phase = 'today'
+         if (das > 0) then
+            summary do_end_day_output
+         endif
+      endif
+   endif
+   
+   ! Tell thisyear to do an output if we are incrop.
+   if (today >= date('18/05/2005')) then
+      thisyear do_end_day_output
+   endif
+   
+   ! Keep track of when important zadok stages occur.
+   if (zadok_stage >= 30 and Zadok30Das = 0) then
+      Zadok30Das = das
+   elseif (zadok_stage >= 60 and Zadok60Das = 0) then
+      Zadok60Das = das
+   elseif (zadok_stage >= 70 and Zadok70Das = 0) then
+      Zadok70Das = das
+   elseif (zadok_stage >= 90 and Zadok90Das = 0) then
+      Zadok90Das = das
+   endif
+   
+
+   ! Fertilise the crop.
+   if (today = date('18-May')) then
+      fertiliz apply amount = 23 (kg/ha), depth = 20 (mm), type = no3_n
+   endif
+
+   ! Irrigate the crop.
+                                                    
+[scenario1.manager.end_of_day]
+   Water = esw_layer() + esw_layr()
+
+! ---------------------------
+! This year's crop sections
+! ---------------------------
+[ThisYear.ThisYear.parameters]
+   Outputfile = ThisYear.out
+   variable = manager.sow_year
+   variable = clock.dd/mm/yyyy as date
+   variable = clock.day
+   variable = met.met_end_date_string
+   variable = manager.phase
+   variable = manager.wet_yield
+   variable = gsr
+   variable = InCropRain
+   variable = manager.Water
+   variable = soiln2.no3() as Nitrogen
+   variable = IrrApplied
+   variable = NApplied
+   variable = manager.gm
+   variable = Wheat.das
+   variable = Wheat.sw_stress_expan
+   variable = Wheat.sw_stress_photo
+   variable = Wheat.n_stress_expan
+   variable = Wheat.n_stress_photo
+   variable = Wheat.flowering_date
+   variable = Wheat.maturity_date
+   variable = Wheat.root_depth
+   variable = Wheat.zadok_stage
+   variable = Wheat.grain_protein
+  
+
+
+
+
