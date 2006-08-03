@@ -1,0 +1,48 @@
+[soil.soilwat2.parameters]
+   diffus_const = 88    ! coeffs for unsaturated water flow
+   diffus_slope = 35
+   cn2_bare     = 73    ! bare soil runoff curve number
+   cn_red       = 20    ! potetial reduction in curve number due to residue
+   cn_cov       = 0.8   ! cover for maximum reduction in curve number
+   salb         = 0.13  ! bare soil albedo
+   cona         = 2   ! stage 2 evap coef.
+   u            = 2     ! stage 1 soil evaporation coefficient (mm)
+
+   dlayer  =  100.000  100.000  200.000  200.000  300.000  300.000  300.000   ! layer thickness mm soil
+   air_dry =    0.040    0.060    0.110    0.145    0.150    0.150    0.150   ! air dry mm water/mm soil
+   ll15    =    0.110    0.110    0.140    0.170    0.170    0.170    0.170   ! lower limit mm water/mm soil
+   dul     =    0.250    0.220    0.290    0.360    0.360    0.360    0.360   ! drained upper limit mm water/mm soil
+   sat     =    0.413    0.385    0.404    0.423    0.404    0.385    0.395   ! saturation mm water/mm soil
+   sw      =    0.241    0.209    0.209    0.209    0.192    0.240    0.290   ! starting soil water mm water/mm soil
+   swcon   =    0.600    0.500    0.500    0.400    0.300    0.300    0.300   ! drainage coefficient
+   bd      =    1.450    1.550    1.500    1.450    1.500    1.550    1.550   ! bulk density gm dry soil/cc moist soil
+
+[soil.wheat.parameters]
+   ll      =      0.110      0.110      0.140      0.170      0.192      0.220      0.270
+   kl      =      0.060      0.060      0.040      0.040      0.030      0.020      0.020
+   xf      =      1.000      1.000      1.000      1.000      1.000      1.000      1.000
+
+[soil.soiln2.parameters]
+   root_cn      = 45     ! C:N ratio of initial root residues
+   root_wt      = 1500   ! root residues as biomass (kg/ha)
+   soil_cn      = 12.5   ! C:N ratio of soil
+   enr_a_coeff  = 7.4
+   enr_b_coeff  = 0.2
+   profile_reduction =  off
+
+   oc      =      1.710      0.800      0.400      0.200      0.100      0.100      0.100   ! Soil Organic Carbon
+   ph      =      5.300      5.200      6.000      6.000      6.700      9.000      9.000   ! pH of soil
+   fbiom   =      0.025      0.022      0.017      0.012      0.010      0.010      0.010   ! Organic C Biomass Fraction
+   finert  =      0.357      0.510      0.682      0.830      0.926      0.950      0.950   ! Inert Organic C Fraction
+   no3ppm  =      14.000      15.000      19.667      20.345      9.000      1.000      1.000   ! Nitrate Concentration
+   nh4ppm  =      10.000      5.000      2.950      3.052      2.000      0.100      0.100   ! Ammonium Concentration
+
+[soil.soilp.parameters]
+   residue_cp         =  [phosphorus.residuecp]   () !c:p ratio of residues at initialisation
+   root_cp            =  [phosphorus.rootcp]      () !c:p ratio of roots at initialisation
+   rate_dissol_rock_P =  [phosphorus.RateDissolRock] (/yr)   !rate at which rock P source becomes available
+
+   labile_P  =     [layer.labilep.3]    [layer.labilep.3]    [layer.labilep.3]    [layer.labilep.3]    [layer.labilep.3]    [layer.labilep.3]    [layer.labilep.3]   (mg/kg)
+   banded_P  =     [layer.bandedP.3]    [layer.bandedP.3]    [layer.bandedP.3]    [layer.bandedP.3]    [layer.bandedP.3]    [layer.bandedP.3]    [layer.bandedP.3]   (kg/ha) ! banded p content for each layer
+   rock_P    =     [layer.rockP.3]    [layer.rockP.3]    [layer.rockP.3]    [layer.rockP.3]    [layer.rockP.3]    [layer.rockP.3]    [layer.rockP.3]   (kg/ha)   !rock p content for each layer ie no water soluble
+   sorption  =  [layer.sorption.3]  [layer.sorption.3]  [layer.sorption.3]  [layer.sorption.3]  [layer.sorption.3]  [layer.sorption.3]  [layer.sorption.3]   ()   !P sorbed at 0.2ppm
