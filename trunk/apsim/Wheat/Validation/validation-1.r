@@ -37,9 +37,10 @@ report <- function(outDir, obs,pred,Groups,Crop,expName,tName) {
       }   
       ylims <- range(y,finite=T)
       if (sum(is.finite(ylims)) == 2) {
-        fname <- paste(expName,tName,length(fnames),"png",sep=".")
+        fname <- paste(tName,length(fnames),"png",sep=".")
         fnames <- c(fnames, fname)
-        png(file=paste(outDir, fname, sep="/"), bg=rgb(243,243,243,max=255), width=350, height=350)
+        dir.create(paste(outDir, expName, sep="/"))
+        png(file=paste(outDir, expName, fname, sep="/"), bg=rgb(243,243,243,max=255), width=350, height=350)
         plot(NA, xlim=xlims, ylim=ylims, cex.axis=.8, ylab="", xaxt="n", xlab="")
         axis.Date(1,c(pred$date,obs$date))
         for (series in unlist(group)) {
@@ -129,10 +130,11 @@ for (e in 1:dim(experiments)[1]) {
     names(obs) <- tolower(names(obs))
     images<-report(outDir, obs, pred, groups, Crop, expName, tName)
 
-    fname<-paste(Crop, expName, tName, "html", sep=".")
-    cat(file=mhtml, "<a href=\"", fname, "\">", append=T, sep="")
+    fname<-paste( Crop, tName, ".html", sep="")
+    cat(file=mhtml, "<a href=\"", expName, "/", fname, "\">", append=T, sep="")
     cat(file=mhtml, Crop, expName, tName,  "</a><br>\n", append=T)
-    fhtml<-file(paste(outDir, fname,sep="/"),open="w")
+    dir.create(paste(outDir, expName, sep="/"))
+    fhtml<-file(paste(outDir, expName, fname, sep="/"),open="w")
     cat (file=fhtml,"<html><head>")
     cat (file=fhtml,"<link href=\"../../../docs/shared/docstyle.css\" rel=\"stylesheet\" type=\"text/css\">", append=T)
     cat (file=fhtml,"<title>", Crop, expName, tName, "</title>\n", append=T)
@@ -145,7 +147,7 @@ for (e in 1:dim(experiments)[1]) {
       r<-r+1
     }
     cat (file=fhtml,"</tr></table><hr>", append=T)
-    cat (file=fhtml,"<p class=\"Title2\"><a href=\"validation.html\">Up</a></p>", append=T)
+    cat (file=fhtml,"<p class=\"Title2\"><a href=\"../validation.html\">Up</a></p>", append=T)
     sysinfo<-Sys.info()
     cat (file=fhtml,"<p class=\"Code\">", Sys.info()[7], "<br>",  Sys.info()[4], "<br>", date(), "</p>", append=T)
     cat (file=fhtml,"</body></html>\n", append=T)
