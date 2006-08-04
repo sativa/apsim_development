@@ -2,27 +2,28 @@
   <folder name="shared">
     <outputfiledescription name="DailyVariables">
       <variables>
-        <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec=" " description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-        <variable name="day" variablename="day" module="global" arrayspec=" " description="Day of Year" ModuleType="registrations" />
-        <variable name="year" variablename="year" module="global" arrayspec=" " description="Year" ModuleType="registrations" />
-        <variable name="biomass" variablename="biomass" module="wheat" arrayspec=" " description="Biomass" ModuleType="wheat" />
-        <variable name="yield" variablename="yield" module="wheat" arrayspec=" " description="Yield" ModuleType="wheat" />
-        <variable name="grain_protein" variablename="grain_protein" module="wheat" arrayspec=" " description="grain protein content" ModuleType="wheat" />
-        <variable name="grain_size" variablename="grain_size" module="wheat" arrayspec=" " description="Size of each grain" ModuleType="wheat" />
-        <variable name="sw_dep" variablename="sw_dep" arrayspec="()" description="Soil water - layered (mm)" array="T" />
-        <variable name="biomass_wt" variablename="biomass_wt" module="wheat" arrayspec=" " description="Biomass weight" ModuleType="wheat" />
-        <variable name="biomass_n" variablename="biomass_n" module="wheat" arrayspec=" " description="N in total biomass" ModuleType="wheat" />
-        <variable name="lai" variablename="lai" module="wheat" arrayspec=" " description="Leaf area index" ModuleType="wheat" />
-        <variable name="head_wt" variablename="head_wt" module="wheat" arrayspec=" " description="Weight of heads" ModuleType="wheat" />
-        <variable name="grain_wt" variablename="grain_wt" module="wheat" arrayspec=" " description="Weight of grain" ModuleType="wheat" />
-        <variable name="leaf_wt" variablename="leaf_wt" module="wheat" arrayspec=" " description="Weight of leaf" ModuleType="wheat" />
-        <variable name="head_n" variablename="head_n" module="wheat" arrayspec=" " description="N in heads" ModuleType="wheat" />
-        <variable name="grain_n" variablename="grain_n" module="wheat" arrayspec=" " description="N in grain" ModuleType="wheat" />
-        <variable name="leaf_n" variablename="leaf_n" module="wheat" arrayspec=" " description="N in leaf" ModuleType="wheat" />
-        <variable name="stem_n" variablename="stem_n" module="wheat" arrayspec=" " description="N in stem" ModuleType="wheat" />
-        <variable name="stem_wt" variablename="stem_wt" module="wheat" arrayspec=" " description="Weight of stem" ModuleType="wheat" />
-        <variable name="grain_no" variablename="grain_no" module="wheat" arrayspec=" " description="Grain number" ModuleType="wheat" />
-        <variable name="n_conc_grain" variablename="n_conc_grain" module="wheat" arrayspec=" " description="N concentration in grain" ModuleType="wheat" />
+        <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec=" " description="Date (dd/mm/yyyy)" />
+        <variable name="day" variablename="day" module="global" arrayspec=" " description="Day of Year" />
+        <variable name="year" variablename="year" module="global" arrayspec=" " description="Year" />
+        <variable name="stage_name" variablename="stage_name" module="wheat" arrayspec=" " description="Plant stage name" />
+        <variable name="biomass" variablename="biomass" module="wheat" arrayspec=" " description="Biomass" />
+        <variable name="yield" variablename="yield" module="wheat" arrayspec=" " description="Yield" />
+        <variable name="grain_protein" variablename="grain_protein" module="wheat" arrayspec=" " description="grain protein content" />
+        <variable name="grain_size" variablename="grain_size" module="wheat" arrayspec=" " description="Size of each grain" array="T" />
+        <variable name="sw_dep" variablename="sw_dep" arrayspec=" " description="Soil water - layered (mm)" />
+        <variable name="biomass_wt" variablename="biomass_wt" module="wheat" arrayspec=" " description="Biomass weight" />
+        <variable name="biomass_n" variablename="biomass_n" module="wheat" arrayspec=" " description="N in total biomass" />
+        <variable name="lai" variablename="lai" module="wheat" arrayspec=" " description="Leaf area index" />
+        <variable name="head_wt" variablename="head_wt" module="wheat" arrayspec=" " description="Weight of heads" />
+        <variable name="grain_wt" variablename="grain_wt" module="wheat" arrayspec=" " description="Weight of grain" />
+        <variable name="leaf_wt" variablename="leaf_wt" module="wheat" arrayspec=" " description="Weight of leaf" />
+        <variable name="head_n" variablename="head_n" module="wheat" arrayspec=" " description="N in heads" />
+        <variable name="grain_n" variablename="grain_n" module="wheat" arrayspec=" " description="N in grain" />
+        <variable name="leaf_n" variablename="leaf_n" module="wheat" arrayspec=" " description="N in leaf" />
+        <variable name="stem_n" variablename="stem_n" module="wheat" arrayspec=" " description="N in stem" />
+        <variable name="stem_wt" variablename="stem_wt" module="wheat" arrayspec=" " description="Weight of stem" />
+        <variable name="grain_no" variablename="grain_no" module="wheat" arrayspec=" " description="Grain number" />
+        <variable name="n_conc_grain" variablename="n_conc_grain" module="wheat" arrayspec=" " description="N concentration in grain" />
       </variables>
       <events>
         <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
