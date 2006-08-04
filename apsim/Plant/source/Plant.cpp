@@ -299,14 +299,8 @@ void Plant::doIDs(void)
    id.no3 = parent->addRegistration(RegistrationType::get,
                                    "no3", addUnitsToDDML(floatArrayType, "kg/ha").c_str(),
                                    "", "");
-   id.no3_min= parent->addRegistration(RegistrationType::get,
-                                   "no3_min", addUnitsToDDML(floatArrayType, "kg/ha").c_str(),
-                                   "", "");
    id.nh4 = parent->addRegistration(RegistrationType::get,
                                    "nh4", addUnitsToDDML(floatArrayType, "kg/ha").c_str(),
-                                   "", "");
-   id.nh4_min= parent->addRegistration(RegistrationType::get,
-                                   "nh4_min", addUnitsToDDML(floatArrayType, "kg/ha").c_str(),
                                    "", "");
    id.latitude = parent->addRegistration(RegistrationType::get,
                                    "latitude", addUnitsToDDML(floatType, "oC").c_str(),
@@ -1717,11 +1711,13 @@ void Plant::plant_nit_supply (int option /* (INPUT) option number*/)
     if (option == 1)
         {
         biomass = topsGreen() + g.dlt_dm;
-
+        float no3gsm_min[max_layer];   // minimum allowable NO3 in soil (g/m^2)
+        fill_real_array (no3gsm_min, 0.0, max_layer);
+        
         cproc_n_supply1 (g.dlayer
                          , g.dlt_sw_dep
                          , g.no3gsm
-                         , g.no3gsm_min
+                         , no3gsm_min
                          , rootPart->root_depth
                          , g.sw_dep
                          , g.no3gsm_mflow_avail
@@ -1737,10 +1733,12 @@ void Plant::plant_nit_supply (int option /* (INPUT) option number*/)
     else if (option == 2)
         {
         biomass = topsGreen() + g.dlt_dm;
-
+        float no3gsm_min[max_layer];   // minimum allowable NO3 in soil (g/m^2)
+        fill_real_array (no3gsm_min, 0.0, max_layer);
+        
         cproc_n_supply3 (g.dlayer
                          , g.no3gsm
-                         , g.no3gsm_min
+                         , no3gsm_min
                          , g.no3gsm_uptake_pot
                          , rootPart->root_depth
                          , rootPart->root_length
@@ -1760,14 +1758,18 @@ void Plant::plant_nit_supply (int option /* (INPUT) option number*/)
      else if (option == 3)
         {
         biomass = topsGreen()  + g.dlt_dm;
-
+        float no3gsm_min[max_layer];   // minimum allowable NO3 in soil (g/m^2)
+        fill_real_array (no3gsm_min, 0.0, max_layer);
+        float nh4gsm_min[max_layer];   // minimum allowable NH4 in soil (g/m^2)
+        fill_real_array (nh4gsm_min, 0.0, max_layer);
+        
         cproc_n_supply4 (g.dlayer
                              , g.bd
                              , g.no3gsm
-                             , g.no3gsm_min
+                             , no3gsm_min
                              , g.no3gsm_uptake_pot
                              , g.nh4gsm
-                             , g.nh4gsm_min
+                             , nh4gsm_min
                              , g.nh4gsm_uptake_pot
                              , rootPart->root_depth
                              , c.n_stress_start_stage
@@ -4466,9 +4468,7 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (g.dlt_no3gsm, 0.0, max_layer);
       fill_real_array (g.dlt_nh4gsm, 0.0, max_layer);
       fill_real_array (g.no3gsm , 0.0, max_layer);
-      fill_real_array (g.no3gsm_min, 0.0, max_layer);
       fill_real_array (g.nh4gsm , 0.0, max_layer);
-      fill_real_array (g.nh4gsm_min, 0.0, max_layer);
 
       g.grain_n_supply = 0.0;
       g.n_fix_pot = 0.0;
@@ -4590,12 +4590,8 @@ void Plant::plant_zero_all_globals (void)
       c.sw_lb = 0.0;
       c.no3_ub = 0.0;
       c.no3_lb = 0.0;
-      c.no3_min_ub = 0.0;
-      c.no3_min_lb = 0.0;
       c.nh4_ub = 0.0;
       c.nh4_lb = 0.0;
-      c.nh4_min_ub = 0.0;
-      c.nh4_min_lb = 0.0;
       c.leaf_no_min = 0.0;
       c.leaf_no_max = 0.0;
       c.latitude_ub = 0.0;
@@ -5452,13 +5448,6 @@ void Plant::plant_get_other_variables ()
        }
 
     values.clear();
-    parent->getVariable(id.no3_min, values, c.no3_min_lb, c.no3_min_ub, true);
-    for (int i = 0; i < Environment.num_layers; i++)
-       {
-       g.no3gsm_min[i] = values[i] * kg2gm /ha2sm;
-       }
-
-    values.clear();
     if (!parent->getVariable(id.nh4, values, c.nh4_lb, c.nh4_ub, true))
         {
         // we have no N supply - make non-limiting.
@@ -5468,13 +5457,6 @@ void Plant::plant_get_other_variables ()
     for (int i = 0; i < Environment.num_layers; i++)
        {
        g.nh4gsm[i] = values[i] * kg2gm /ha2sm;
-       }
-
-    values.clear();
-    parent->getVariable(id.nh4_min, values, c.nh4_min_lb, c.nh4_min_ub, true);
-    for (int i = 0; i < Environment.num_layers; i++)
-       {
-       g.nh4gsm_min[i] = values[i] * kg2gm /ha2sm;
        }
 
     if (!parent->getVariable(id.co2, g.co2, 0.0, 1500.0, true))
@@ -5774,16 +5756,6 @@ void Plant::plant_read_constants ( void )
     , 0.0, 100000.0);
 
     parent->readParameter (section_name
-    , "no3_min_ub"//, "(kg/ha)"
-    , c.no3_min_ub
-    , 0.0, 100000.0);
-
-    parent->readParameter (section_name
-    , "no3_min_lb"//, "(kg/ha)"
-    , c.no3_min_lb
-    , 0.0, 100000.0);
-
-    parent->readParameter (section_name
     , "nh4_ub"//, "(kg/ha)"
     , c.nh4_ub
     , 0.0, 100000.0);
@@ -5791,16 +5763,6 @@ void Plant::plant_read_constants ( void )
     parent->readParameter (section_name
     , "nh4_lb"//, "(kg/ha)"
     , c.nh4_lb
-    , 0.0, 100000.0);
-
-    parent->readParameter (section_name
-    , "nh4_min_ub"//, "(kg/ha)"
-    , c.nh4_min_ub
-    , 0.0, 100000.0);
-
-    parent->readParameter (section_name
-    , "nh4_min_lb"//, "(kg/ha)"
-    , c.nh4_min_lb
     , 0.0, 100000.0);
 
     for (vector<plantThing *>::iterator t = myThings.begin();
