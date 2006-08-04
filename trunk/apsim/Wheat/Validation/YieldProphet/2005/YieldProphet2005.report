@@ -1,0 +1,440 @@
+Version = 3.0
+NumPages = 1
+object data: TForm
+  Left = 4
+  Top = 4
+  Align = alClient
+  BorderIcons = []
+  BorderStyle = bsNone
+  ClientHeight = 756
+  ClientWidth = 1062
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Predicted: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'title'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'date'
+        DataType = ftDate
+      end
+      item
+        Name = 'met_end_date_string'
+        DataType = ftDate
+      end
+      item
+        Name = 'wet_yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_protein'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'ESW'
+        DataType = ftFloat
+      end
+      item
+        Name = 'no3()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nh4()'
+        DataType = ftFloat
+      end
+      item
+        Name = 'gm'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sw_stress_expan'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sw_stress_photo'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_stress_expan'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_stress_photo'
+        DataType = ftFloat
+      end
+      item
+        Name = 'zadok_stage'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Zadok30Das'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Zadok60Das'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Zadok70Das'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Zadok90Das'
+        DataType = ftFloat
+      end
+      item
+        Name = 'flowering_das'
+        DataType = ftFloat
+      end
+      item
+        Name = 'maturity_das'
+        DataType = ftFloat
+      end
+      item
+        Name = 'root_depth'
+        DataType = ftFloat
+      end
+      item
+        Name = 'SeasonalRain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'SeasonalIrrigation'
+        DataType = ftFloat
+      end
+      item
+        Name = 'SeasonalFertiliser'
+        DataType = ftFloat
+      end
+      item
+        Name = 'SowESW'
+        DataType = ftFloat
+      end
+      item
+        Name = 'SowNo3'
+        DataType = ftFloat
+      end
+      item
+        Name = 'InCropRain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'InCropES'
+        DataType = ftFloat
+      end
+      item
+        Name = 'InCropEO'
+        DataType = ftFloat
+      end
+      item
+        Name = 'InCropRunoff'
+        DataType = ftFloat
+      end
+      item
+        Name = 'InCropDrain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'InCropDltNMin'
+        DataType = ftFloat
+      end
+      item
+        Name = 'InCropLeachNo3'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    Filter = 'title = '#39'"A & R Weidemann-Wep 20"'#39
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    filenames.Strings = (
+      'A and R Weidemann-Gardies\scenario1Summary.out'
+      'A and R Weidemann-Wep 20\scenario1Summary.out'
+      'ashton-Byculla\scenario1Summary.out'
+      'ashton-Condamine\scenario1Summary.out'
+      'bardell-1\scenario1Summary.out'
+      'black-Cecilvale C\scenario1Summary.out'
+      'black-Karmel\scenario1Summary.out'
+      'bmcalpine-Deep Sand\scenario1Summary.out'
+      'bmcalpine-Medium Gravel\scenario1Summary.out'
+      'bmcalpine-Red Clay\scenario1Summary.out'
+      'boyd-Chamberlain SF Control\scenario1Summary.out'
+      'Brad Martin-Pad 16\scenario1Summary.out'
+      'Brad Martin-Pad 23\scenario1Summary.out'
+      'brindal-Breakaway\scenario1Summary.out'
+      'bryant-Bryant\scenario1Summary.out'
+      'butcher-R175 Gary\scenario1Summary.out'
+      'C and J Kelly-Acklands\scenario1Summary.out'
+      'C and J Kelly-Jacks\scenario1Summary.out'
+      'Cameron Warne-Arnolds West 1\scenario1Summary.out'
+      'Cameron Warne-Lowry East\scenario1Summary.out'
+      'Cameron Warne-Paddock 13\scenario1Summary.out'
+      'cobram-Katamatite\scenario1Summary.out'
+      'cobram-Miepol\scenario1Summary.out'
+      'cobram-Picola\scenario1Summary.out'
+      'cronin-Devon 1\scenario1Summary.out'
+      'cronin-Joandre\scenario1Summary.out'
+      'cronin-Verbeena 111\scenario1Summary.out'
+      'cropfacts-Keith OT\scenario1Summary.out'
+      'cropfacts-Trevor J\scenario1Summary.out'
+      'David Smith-11 n cnr\scenario1Summary.out'
+      'David Smith-24 stoney\scenario1Summary.out'
+      'de grussa-E1\scenario1Summary.out'
+      'delahunty-Gregorys nth\scenario1Summary.out'
+      'delahunty-Hudson 4\scenario1Summary.out'
+      'delmenico-MD-6\scenario1Summary.out'
+      'delmenico-P-5\scenario1Summary.out'
+      'delmenico-Pryors\scenario1Summary.out'
+      'djheitman-#18\scenario1Summary.out'
+      'fels-fels\scenario1Summary.out'
+      'fischer-P8\scenario1Summary.out'
+      'forward-Gas Pipe\scenario1Summary.out'
+      'G and B Hunt-14\scenario1Summary.out'
+      'G and B Hunt-9\scenario1Summary.out'
+      'Gavin Sait-Maher\scenario1Summary.out'
+      'Gavin Sait-McConnell\scenario1Summary.out'
+      'Gavin Sait-Pattersons\scenario1Summary.out'
+      'gillam-Parkfield\scenario1Summary.out'
+      'graham-House\scenario1Summary.out'
+      'hanns-Lazrus`s\scenario1Summary.out'
+      'hart-Hart Fieldsite Wheat N\scenario1Summary.out'
+      'hewitt-Hewitt 7\scenario1Summary.out'
+      'holmes-Newtons\scenario1Summary.out'
+      'Ian McClelland-Bishes\scenario1Summary.out'
+      'Ian McClelland-McKenzie N\scenario1Summary.out'
+      'ihyde-MTS - Heavy\scenario1Summary.out'
+      'ihyde-MTS Light\scenario1Summary.out'
+      'Jamie Simpson-CW\scenario1Summary.out'
+      'Jim Egan-High EC\scenario1Summary.out'
+      'Jim Egan-Low EC\scenario1Summary.out'
+      'John Ferrier-4 Lockwoods\scenario1Summary.out'
+      'John Ferrier-53 Davids\scenario1Summary.out'
+      'John Ferrier-54 North\scenario1Summary.out'
+      'Jon Whykes-P34 Flat\scenario1Summary.out'
+      'Jon Whykes-P34 Rise\scenario1Summary.out'
+      'kaylock-R Road\scenario1Summary.out'
+      'kelly-Keets\scenario1Summary.out'
+      'lush-B\scenario1Summary.out'
+      'lush-Huttons\scenario1Summary.out'
+      'Malcolm Knight-Dingwall\scenario1Summary.out'
+      'Malcolm Knight-Sams\scenario1Summary.out'
+      'mannes-Barry Baker\scenario1Summary.out'
+      'mannes-Max Hood\scenario1Summary.out'
+      'mccallum-5 South\scenario1Summary.out'
+      'mcclelland-Hoggs\scenario1Summary.out'
+      'mcclelland-Hospital\scenario1Summary.out'
+      'mcclelland-Mudges\scenario1Summary.out'
+      'mcleod-James Cola\scenario1Summary.out'
+      'mcleod-Langs\scenario1Summary.out'
+      'mctaggart-South Hill\scenario1Summary.out'
+      'moorfield-Hayshed\scenario1Summary.out'
+      'moorfield-North Hill\scenario1Summary.out'
+      'moorfield-Pepers 8\scenario1Summary.out'
+      'moorfield-Quarry\scenario1Summary.out'
+      'moorfield-Stubble\scenario1Summary.out'
+      'nankivell-Nankivell\scenario1Summary.out'
+      'oster-A\scenario1Summary.out'
+      'oster-N\scenario1Summary.out'
+      'pearse-15A\scenario1Summary.out'
+      'Peter Taylor-Jims Black\scenario1Summary.out'
+      'petering-MFF\scenario1Summary.out'
+      'petering-Rup\scenario1Summary.out'
+      'R and J Postlethwaite-Entrance paddock\scenario1Summary.out'
+      'R and J Postlethwaite-Robs South River\scenario1Summary.out'
+      'sanders-B9\scenario1Summary.out'
+      'sargent-BP3\scenario1Summary.out'
+      'shirley-Dry\scenario1Summary.out'
+      'shirley-Pivot 5\scenario1Summary.out'
+      'spencer-Mitchells West\scenario1Summary.out'
+      'Stuart McQueen-18 Flat\scenario1Summary.out'
+      'Stuart McQueen-18 Hill\scenario1Summary.out'
+      'Stuart McQueen-22\scenario1Summary.out'
+      'Stuart McQueen-7\scenario1Summary.out'
+      'teasdale-Dunlops 200\scenario1Summary.out'
+      'Tony Gregson-School\scenario1Summary.out'
+      'Tony Gregson-Teds North\scenario1Summary.out')
+    Left = 119
+    Top = 105
+  end
+  object Observed: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'title'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'wet_yield'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    filenames.Strings = (
+      'Observed.txt')
+    interpretTitles = True
+    Left = 136
+    Top = 239
+  end
+  object PredObs1: TPredObs
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'title'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'Predwet_yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Obswet_yield'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    predData = Predicted
+    obsData = Observed
+    keyFields.Strings = (
+      'title')
+    Left = 336
+    Top = 144
+  end
+end
+object Page1: TQuickRep
+  Left = 332
+  Top = 97
+  Width = 397
+  Height = 561
+  Frame.Color = clBlack
+  Frame.DrawTop = False
+  Frame.DrawBottom = False
+  Frame.DrawLeft = False
+  Frame.DrawRight = False
+  Frame.Style = psClear
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Arial'
+  Font.Style = []
+  Functions.Strings = (
+    'PAGENUMBER'
+    'COLUMNNUMBER'
+    'REPORTTITLE')
+  Functions.DATA = (
+    '0'
+    '0'
+    #39#39)
+  Options = [FirstPageHeader, LastPageFooter]
+  Page.Columns = 1
+  Page.Orientation = poPortrait
+  Page.PaperSize = A4
+  Page.Ruler = False
+  Page.Values = (
+    0
+    2970
+    0
+    2100
+    0
+    0
+    0)
+  PrinterSettings.Copies = 1
+  PrinterSettings.Duplex = False
+  PrinterSettings.FirstPage = 0
+  PrinterSettings.LastPage = 0
+  PrinterSettings.OutputBin = Auto
+  PrintIfEmpty = True
+  SnapToGrid = True
+  Units = MM
+  Zoom = 50
+  object TitleBand1: TQRBand
+    Left = 0
+    Top = 0
+    Width = 397
+    Height = 561
+    Frame.Color = clBlack
+    Frame.DrawTop = False
+    Frame.DrawBottom = False
+    Frame.DrawLeft = False
+    Frame.DrawRight = False
+    AlignToBottom = False
+    Color = clWhite
+    ForceNewColumn = False
+    ForceNewPage = False
+    Size.Values = (
+      2970
+      2100.79166666667)
+    BandType = rbTitle
+  end
+end
