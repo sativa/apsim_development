@@ -140,10 +140,10 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh'
       'Graph2.afterDataRefresh'
       'Graph3.afterDataRefresh'
-      'Graph4.afterDataRefresh')
+      'Graph4.afterDataRefresh'
+      'Graph1.afterDataRefresh')
     filenames.Strings = (
       'Observed\aps6.txt')
     Left = 213
@@ -173,6 +173,15 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'zadok_stage'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
         Name = 'biomass'
         DataType = ftFloat
       end
@@ -181,15 +190,7 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end
-      item
         Name = 'grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep'
         DataType = ftFloat
       end
       item
@@ -241,7 +242,15 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'sw_dep'
+        DataType = ftFloat
+      end
+      item
         Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_protein'
         DataType = ftFloat
       end>
     IndexDefs = <>
@@ -298,6 +307,15 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'zadok_stage'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
         Name = 'biomass'
         DataType = ftFloat
       end
@@ -306,15 +324,7 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end
-      item
         Name = 'grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep'
         DataType = ftFloat
       end
       item
@@ -366,7 +376,15 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'sw_dep'
+        DataType = ftFloat
+      end
+      item
         Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_protein'
         DataType = ftFloat
       end>
     IndexDefs = <>
@@ -389,17 +407,17 @@ object data: TForm
     LocaleID = 1024
     source = PreAll
     subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh'
       'Graph2.afterDataRefresh'
       'Graph3.afterDataRefresh'
-      'Graph4.afterDataRefresh')
+      'Graph4.afterDataRefresh'
+      'Graph1.afterDataRefresh')
     filter = 'day = 306'
     Left = 284
     Top = 228
   end
 end
 object Page1: TQuickRep
-  Left = 318
+  Left = 209
   Top = 0
   Width = 635
   Height = 898
@@ -507,10 +525,13 @@ object Page1: TQuickRep
         LeftAxis.MinorTicks.Visible = False
         LeftAxis.TickLength = 7
         Legend.CustomPosition = True
-        Legend.Left = 240
+        Legend.Font.Height = -16
+        Legend.Frame.Visible = False
+        Legend.Left = 55
         Legend.LegendStyle = lsSeries
         Legend.ResizeChart = False
-        Legend.Top = 10
+        Legend.Shadow.Color = clWhite
+        Legend.Top = 25
         RightAxis.AxisValuesFormat = '###0.###'
         RightAxis.Grid.Visible = False
         RightAxis.LabelsSeparation = 100
@@ -534,15 +555,20 @@ object Page1: TQuickRep
           YValues.Order = loNone
           YValues.ValueSource = 'grain_wt'
         end
-        object Series2: TBarSeries
+        object Series2: TLineSeries
           Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 20
           Marks.Visible = False
           DataSource = data.Pre
+          SeriesColor = clGreen
           Title = 'Predicted'
-          Gradient.Direction = gdTopBottom
+          LinePen.Width = 5
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
           XValues.Name = 'X'
           XValues.Order = loAscending
-          YValues.Name = 'Bar'
+          YValues.Name = 'Y'
           YValues.Order = loNone
           YValues.ValueSource = 'grain_wt'
         end
@@ -817,8 +843,9 @@ object Page1: TQuickRep
         TopAxis.MinorTicks.Visible = False
         TopAxis.TickLength = 7
         View3D = False
-        object Series3: TPointSeries
+        object Series3: TLineSeries
           Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 0
           Marks.Visible = False
           DataSource = data.Obs
           ClickableLine = False
@@ -832,8 +859,9 @@ object Page1: TQuickRep
           YValues.Order = loNone
           YValues.ValueSource = 'n_conc_grain'
         end
-        object Series4: TPointSeries
+        object Series4: TLineSeries
           Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 0
           Marks.Visible = False
           DataSource = data.Pre
           ClickableLine = False

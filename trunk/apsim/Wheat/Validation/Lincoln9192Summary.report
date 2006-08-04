@@ -80,10 +80,10 @@ object data: TForm
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
       'Graph5.afterDataRefresh'
-      'Graph1.afterDataRefresh'
       'Graph2.afterDataRefresh'
       'Graph4.afterDataRefresh'
-      'Graph3.afterDataRefresh')
+      'Graph3.afterDataRefresh'
+      'Graph1.afterDataRefresh')
     filenames.Strings = (
       'Observed\Lincoln.txt')
     Left = 181
@@ -101,7 +101,7 @@ object data: TForm
         Size = 200
       end
       item
-        Name = 'date'
+        Name = 'Date'
         DataType = ftDate
       end
       item
@@ -113,39 +113,24 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'sw_dep()'
+        Name = 'zadok_stage'
         DataType = ftFloat
       end
       item
-        Name = 'no3()'
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'biomass'
         DataType = ftFloat
       end
       item
-        Name = 'nh4()'
+        Name = 'yield'
         DataType = ftFloat
       end
       item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
+        Name = 'grain_size'
         DataType = ftFloat
       end
       item
@@ -157,69 +142,27 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'sla'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'grain_no'
+        Name = 'lai'
         DataType = ftFloat
       end
       item
-        Name = 'tiller_no'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'root_wt'
+        Name = 'head_wt'
         DataType = ftFloat
       end
       item
-        Name = 'nfact_photo'
+        Name = 'grain_wt'
         DataType = ftFloat
       end
       item
-        Name = 'nfact_expan'
+        Name = 'leaf_wt'
         DataType = ftFloat
       end
       item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
+        Name = 'head_n'
         DataType = ftFloat
       end
       item
         Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'maturity_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'root_depth'
-        DataType = ftFloat
-      end
-      item
-        Name = 'node_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaves_per_node'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage'
         DataType = ftFloat
       end
       item
@@ -231,59 +174,19 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'deadleaf_n'
+        Name = 'stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_no'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sw_dep'
         DataType = ftFloat
       end
       item
         Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3gsm_uptake_pot()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_supply_soil'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm_pot_rue'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_leaf'
         DataType = ftFloat
       end
       item
@@ -333,7 +236,7 @@ object data: TForm
         Size = 200
       end
       item
-        Name = 'date'
+        Name = 'Date'
         DataType = ftDate
       end
       item
@@ -345,39 +248,24 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'sw_dep()'
+        Name = 'zadok_stage'
         DataType = ftFloat
       end
       item
-        Name = 'no3()'
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'biomass'
         DataType = ftFloat
       end
       item
-        Name = 'nh4()'
+        Name = 'yield'
         DataType = ftFloat
       end
       item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
+        Name = 'grain_size'
         DataType = ftFloat
       end
       item
@@ -389,69 +277,27 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'sla'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'grain_no'
+        Name = 'lai'
         DataType = ftFloat
       end
       item
-        Name = 'tiller_no'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'root_wt'
+        Name = 'head_wt'
         DataType = ftFloat
       end
       item
-        Name = 'nfact_photo'
+        Name = 'grain_wt'
         DataType = ftFloat
       end
       item
-        Name = 'nfact_expan'
+        Name = 'leaf_wt'
         DataType = ftFloat
       end
       item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
+        Name = 'head_n'
         DataType = ftFloat
       end
       item
         Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'maturity_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'root_depth'
-        DataType = ftFloat
-      end
-      item
-        Name = 'node_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaves_per_node'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage'
         DataType = ftFloat
       end
       item
@@ -463,59 +309,19 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'deadleaf_n'
+        Name = 'stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_no'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sw_dep'
         DataType = ftFloat
       end
       item
         Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3gsm_uptake_pot()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_supply_soil'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm_pot_rue'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_leaf'
         DataType = ftFloat
       end
       item
@@ -543,18 +349,18 @@ object data: TForm
     source = PreAll
     subscriptionComponentNames.Strings = (
       'Graph5.afterDataRefresh'
-      'Graph1.afterDataRefresh'
       'Graph2.afterDataRefresh'
       'Graph4.afterDataRefresh'
-      'Graph3.afterDataRefresh')
+      'Graph3.afterDataRefresh'
+      'Graph1.afterDataRefresh')
     filter = 'day = 26'
     Left = 232
     Top = 208
   end
 end
 object TQuickRep
-  Left = 257
-  Top = 108
+  Left = 283
+  Top = 125
   Width = 490
   Height = 634
   Frame.Color = clBlack
@@ -682,10 +488,10 @@ object TQuickRep
           Marks.Visible = False
           DataSource = data.ObsHarvest
           Title = 'Observed'
+          XLabelsSource = 'Plot'
           Gradient.Direction = gdTopBottom
           XValues.Name = 'X'
           XValues.Order = loAscending
-          XValues.ValueSource = 'Plot'
           YValues.Name = 'Bar'
           YValues.Order = loNone
           YValues.ValueSource = 'yield'
@@ -738,9 +544,14 @@ object TQuickRep
         Width = 1
         Height = 1
         BackWall.Visible = False
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMaximum = False
+        BottomAxis.AutomaticMinimum = False
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.Grid.Visible = False
         BottomAxis.LabelsSeparation = 100
+        BottomAxis.Maximum = 33
+        BottomAxis.Minimum = -29
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         LeftAxis.AxisValuesFormat = '###0.###'
@@ -824,9 +635,14 @@ object TQuickRep
         Width = 1
         Height = 1
         BackWall.Visible = False
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMaximum = False
+        BottomAxis.AutomaticMinimum = False
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.Grid.Visible = False
         BottomAxis.LabelsSeparation = 100
+        BottomAxis.Maximum = 1005
+        BottomAxis.Minimum = 336
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         BottomAxis.Title.Caption = 'Grain Yield'
@@ -948,9 +764,14 @@ object TQuickRep
         Width = 1
         Height = 1
         BackWall.Visible = False
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMaximum = False
+        BottomAxis.AutomaticMinimum = False
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.Grid.Visible = False
         BottomAxis.LabelsSeparation = 100
+        BottomAxis.Maximum = 33
+        BottomAxis.Minimum = -29
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         LeftAxis.AxisValuesFormat = '###0.###'
@@ -999,33 +820,6 @@ object TQuickRep
           YValues.ValueSource = 'grain_protein'
         end
       end
-    end
-    object Text2: TText
-      Left = 93
-      Top = 537
-      Width = 119
-      Height = 10
-      Frame.Color = clBlack
-      Frame.DrawTop = False
-      Frame.DrawBottom = False
-      Frame.DrawLeft = False
-      Frame.DrawRight = False
-      Size.Values = (
-        44.0972222222222
-        410.104166666667
-        2368.02083333333
-        524.756944444444)
-      Alignment = taLeftJustify
-      AlignToBand = False
-      AutoSize = True
-      AutoStretch = False
-      Color = clWhite
-      Lines.Strings = (
-        'Need to put Obs vs Pre down here')
-      Transparent = False
-      WordWrap = True
-      text = 'Need to put Obs vs Pre down here'#13#10
-      FontSize = 10
     end
   end
 end
