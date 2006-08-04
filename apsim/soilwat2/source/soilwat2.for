@@ -94,7 +94,7 @@
          real    radn                                 ! solar radiation (mj/m^2/day)
          real    mint                                 ! minimum air temperature (oC)
          real    maxt                                 ! maximum air temperature (oC)
-         real    cover_surface_extra                  ! extra surface cover (0-1)
+!         real    cover_surface_extra                  ! extra surface cover (0-1)
          real    cover_surface_runoff                 ! effective total cover (0-1)
          real    cover_tot(max_crops)                 ! total canopy cover of crops (0-1)
          real    cover_green(max_crops)               ! green canopy cover of crops (0-1)
@@ -3739,12 +3739,12 @@ c     he should have. Any ideas? Perhaps
 
 cnh It seems that this is never used - and usually it is never provided anyway!!
 cjngh DMS requested that this facility be retained! That's why it was implemented.
-      call get_real_var_optional (unknown_module
-     :                           , 'cover_surface_extra'
-     :                           , '()'
-     :                           , g%cover_surface_extra
-     :                           , numvals
-     :                           , 0.0, 1.0)
+c      call get_real_var_optional (unknown_module
+c     :                           , 'cover_surface_extra'
+c     :                           , '()'
+c     :                           , g%cover_surface_extra
+c     :                           , numvals
+c     :                           , 0.0, 1.0)
 
              ! Get green cover of each crop
              ! g%cover_green is all canopys green
@@ -4780,7 +4780,7 @@ c dsg 070302 added runon
 
 * ====================================================================
 * Globals
-         g%cover_surface_extra = 0.0          ! extra surface cover (0-1)
+c         g%cover_surface_extra = 0.0          ! extra surface cover (0-1)
          g%cover_surface_runoff = 0.0         ! effective total cover (0-1)
          g%cover_tot(:) = 0.0                 ! total canopy cover of crops (0-1)
          g%cover_green(:) = 0.0               ! green canopy cover of crops (0-1)
