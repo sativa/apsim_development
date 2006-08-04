@@ -300,7 +300,11 @@
 
       call push_routine (my_name)
 
-                          ! potential: sevap + transpiration:
+      call soilwat2_zero_daily_variables ()
+      call soilwat2_get_crop_variables ()
+      call soilwat2_get_environ_variables ()
+               
+      ! potential: sevap + transpiration:
       call soilwat2_pot_evapotranspiration (g%eo)
       g%real_eo = g%eo  ! store for reporting
 
@@ -6778,10 +6782,7 @@ c dsg 150302  saturated layer = layer, layer above not over dul
          call soilwat2_send_my_variable (Data_string)
 
       else if (action.eq.ACTION_prepare) then
-         call soilwat2_zero_daily_variables ()
-               ! request and receive variables from owner-modules
-         call soilwat2_get_other_variables ()
-               ! do soil water balance
+
          call soilwat2_prepare ()
 
       else if (action.eq.ACTION_process) then
