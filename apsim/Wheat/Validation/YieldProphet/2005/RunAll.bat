@@ -1,1 +1,1 @@
-for /R %%f in (*.con) do ..\..\..\..\..\bin\apsrun.exe /auto  %%f 
+for /R %%f in (*.con) do ..\..\..\..\..\bin\apsrun.exe /auto  "%%f"
