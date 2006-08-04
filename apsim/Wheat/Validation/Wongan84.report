@@ -131,8 +131,8 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     sortFields = 'Date'
     filename = 'D:\development\apsim\Wheat\Validation\Wheat.mdb'
     experiment = 'Wongan84'
@@ -255,8 +255,8 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     sortFields = 'Date'
     filename = 'D:\development\apsim\Wheat\Validation\Wheat.mdb'
     experiment = 'Wongan84'
@@ -379,8 +379,8 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     sortFields = 'Date'
     filename = 'D:\development\apsim\Wheat\Validation\Wheat.mdb'
     experiment = 'Wongan84'
@@ -503,8 +503,8 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     sortFields = 'Date'
     filename = 'D:\development\apsim\Wheat\Validation\Wheat.mdb'
     experiment = 'Wongan84'
@@ -568,8 +568,8 @@ object data: TForm
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
       'Graph5.afterDataRefresh'
-      'Graph4.afterDataRefresh'
-      'Graph3.afterDataRefresh')
+      'Graph3.afterDataRefresh'
+      'Graph4.afterDataRefresh')
     filenames.Strings = (
       'Observed\Wongan84.txt')
     Left = 430
@@ -599,6 +599,15 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'zadok_stage'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
         Name = 'biomass'
         DataType = ftFloat
       end
@@ -607,15 +616,7 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end
-      item
         Name = 'grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep'
         DataType = ftFloat
       end
       item
@@ -667,7 +668,15 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'sw_dep'
+        DataType = ftFloat
+      end
+      item
         Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_protein'
         DataType = ftFloat
       end>
     IndexDefs = <>
@@ -689,8 +698,8 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     filenames.Strings = (
       'Wheat_Wongan84_N000.out')
     Left = 136
@@ -720,6 +729,15 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'zadok_stage'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
         Name = 'biomass'
         DataType = ftFloat
       end
@@ -728,15 +746,7 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end
-      item
         Name = 'grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep'
         DataType = ftFloat
       end
       item
@@ -788,7 +798,15 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'sw_dep'
+        DataType = ftFloat
+      end
+      item
         Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_protein'
         DataType = ftFloat
       end>
     IndexDefs = <>
@@ -810,8 +828,8 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     filenames.Strings = (
       'Wheat_Wongan84_N050.out')
     Left = 212
@@ -841,6 +859,15 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'zadok_stage'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
         Name = 'biomass'
         DataType = ftFloat
       end
@@ -849,15 +876,7 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end
-      item
         Name = 'grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep'
         DataType = ftFloat
       end
       item
@@ -909,7 +928,15 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'sw_dep'
+        DataType = ftFloat
+      end
+      item
         Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_protein'
         DataType = ftFloat
       end>
     IndexDefs = <>
@@ -931,8 +958,8 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     filenames.Strings = (
       'Wheat_Wongan84_N300.out')
     Left = 271
@@ -962,6 +989,15 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'zadok_stage'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
         Name = 'biomass'
         DataType = ftFloat
       end
@@ -970,15 +1006,7 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end
-      item
         Name = 'grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep'
         DataType = ftFloat
       end
       item
@@ -1030,7 +1058,15 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'sw_dep'
+        DataType = ftFloat
+      end
+      item
         Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_protein'
         DataType = ftFloat
       end>
     IndexDefs = <>
@@ -1052,8 +1088,8 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     filenames.Strings = (
       'Wheat_Wongan84_N325.out')
     Left = 350
@@ -1083,6 +1119,15 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'zadok_stage'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
         Name = 'biomass'
         DataType = ftFloat
       end
@@ -1091,15 +1136,7 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end
-      item
         Name = 'grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep'
         DataType = ftFloat
       end
       item
@@ -1151,7 +1188,15 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'sw_dep'
+        DataType = ftFloat
+      end
+      item
         Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_protein'
         DataType = ftFloat
       end>
     IndexDefs = <>
@@ -1206,6 +1251,15 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'zadok_stage'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
         Name = 'biomass'
         DataType = ftFloat
       end
@@ -1214,15 +1268,7 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end
-      item
         Name = 'grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep'
         DataType = ftFloat
       end
       item
@@ -1274,7 +1320,15 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'sw_dep'
+        DataType = ftFloat
+      end
+      item
         Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_protein'
         DataType = ftFloat
       end>
     IndexDefs = <>
@@ -1298,16 +1352,16 @@ object data: TForm
     source = Allpre
     subscriptionComponentNames.Strings = (
       'Graph5.afterDataRefresh'
-      'Graph4.afterDataRefresh'
-      'Graph3.afterDataRefresh')
+      'Graph3.afterDataRefresh'
+      'Graph4.afterDataRefresh')
     filter = 'day = 318'
     Left = 520
     Top = 312
   end
 end
 object Page1: TQuickRep
-  Left = 246
-  Top = 32
+  Left = 250
+  Top = 49
   Width = 556
   Height = 786
   Frame.Color = clBlack
@@ -1440,8 +1494,10 @@ object Page1: TQuickRep
         BottomAxis.AutomaticMaximum = False
         BottomAxis.AutomaticMinimum = False
         BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.DateTimeFormat = 'd/MMM'
         BottomAxis.Grid.Visible = False
-        BottomAxis.LabelsSeparation = 100
+        BottomAxis.LabelsFont.Height = -16
+        BottomAxis.LabelsSeparation = 0
         BottomAxis.Maximum = 31017
         BottomAxis.Minimum = 30864
         BottomAxis.MinorTicks.Visible = False
@@ -1649,8 +1705,10 @@ object Page1: TQuickRep
         BottomAxis.AutomaticMaximum = False
         BottomAxis.AutomaticMinimum = False
         BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.DateTimeFormat = 'd/MMM'
         BottomAxis.Grid.Visible = False
-        BottomAxis.LabelsSeparation = 100
+        BottomAxis.LabelsFont.Height = -16
+        BottomAxis.LabelsSeparation = 0
         BottomAxis.Maximum = 31017
         BottomAxis.Minimum = 30864
         BottomAxis.MinorTicks.Visible = False
@@ -1862,6 +1920,7 @@ object Page1: TQuickRep
         BottomAxis.LabelsFont.Height = -13
         BottomAxis.LabelsSeparation = 100
         BottomAxis.Maximum = 300
+        BottomAxis.Minimum = 100
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         BottomAxis.Title.Caption = 'Grain Yield (g/m2)'
@@ -1893,8 +1952,9 @@ object Page1: TQuickRep
         TopAxis.MinorTicks.Visible = False
         TopAxis.TickLength = 7
         View3D = False
-        object Series5: TPointSeries
+        object Series5: TLineSeries
           Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 0
           Marks.Visible = False
           DataSource = data.ObsHarvest
           Title = 'Observed'
@@ -1909,8 +1969,9 @@ object Page1: TQuickRep
           YValues.Order = loNone
           YValues.ValueSource = 'Protein'
         end
-        object Series15: TPointSeries
+        object Series15: TLineSeries
           Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 0
           Marks.Visible = False
           DataSource = data.FinalPre
           Title = 'Predicted'
@@ -2004,6 +2065,7 @@ object Page1: TQuickRep
           YValues.ValueSource = 'Grain_wt'
         end
         object Series16: TBarSeries
+          BarPen.Color = clGreen
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
           DataSource = data.FinalPre

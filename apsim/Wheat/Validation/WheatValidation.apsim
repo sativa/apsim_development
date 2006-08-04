@@ -5,12 +5,11 @@
         <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec=" " description="Date (dd/mm/yyyy)" />
         <variable name="day" variablename="day" module="global" arrayspec=" " description="Day of Year" />
         <variable name="year" variablename="year" module="global" arrayspec=" " description="Year" />
-        <variable name="stage_name" variablename="stage_name" module="wheat" arrayspec=" " description="Plant stage name" />
+        <variable name="zadok_stage" variablename="zadok_stage" module="wheat" arrayspec=" " description="Plant stage code" />
+        <variable name="stage_name" variablename="stage_name" module="wheat" arrayspec=" " description="Biomass" />
         <variable name="biomass" variablename="biomass" module="wheat" arrayspec=" " description="Biomass" />
         <variable name="yield" variablename="yield" module="wheat" arrayspec=" " description="Yield" />
-        <variable name="grain_protein" variablename="grain_protein" module="wheat" arrayspec=" " description="grain protein content" />
-        <variable name="grain_size" variablename="grain_size" module="wheat" arrayspec=" " description="Size of each grain" array="T" />
-        <variable name="sw_dep" variablename="sw_dep" arrayspec=" " description="Soil water - layered (mm)" />
+        <variable name="grain_size" variablename="grain_size" module="wheat" arrayspec=" " description="Size of each grain" />
         <variable name="biomass_wt" variablename="biomass_wt" module="wheat" arrayspec=" " description="Biomass weight" />
         <variable name="biomass_n" variablename="biomass_n" module="wheat" arrayspec=" " description="N in total biomass" />
         <variable name="lai" variablename="lai" module="wheat" arrayspec=" " description="Leaf area index" />
@@ -23,7 +22,9 @@
         <variable name="stem_n" variablename="stem_n" module="wheat" arrayspec=" " description="N in stem" />
         <variable name="stem_wt" variablename="stem_wt" module="wheat" arrayspec=" " description="Weight of stem" />
         <variable name="grain_no" variablename="grain_no" module="wheat" arrayspec=" " description="Grain number" />
+        <variable name="sw_dep" variablename="sw_dep" arrayspec="()" description="Soil water - layered (mm)" array="T" />
         <variable name="n_conc_grain" variablename="n_conc_grain" module="wheat" arrayspec=" " description="N concentration in grain" />
+        <variable name="grain_protein" variablename="grain_protein" module="wheat" arrayspec=" " description="grain protein content" />
       </variables>
       <events>
         <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />

@@ -897,7 +897,7 @@ object data: TForm
         Size = 200
       end
       item
-        Name = 'date'
+        Name = 'Date'
         DataType = ftDate
       end
       item
@@ -909,39 +909,24 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'sw_dep'
+        Name = 'zadok_stage'
         DataType = ftFloat
       end
       item
-        Name = 'no3()'
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'biomass'
         DataType = ftFloat
       end
       item
-        Name = 'nh4()'
+        Name = 'yield'
         DataType = ftFloat
       end
       item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
+        Name = 'grain_size'
         DataType = ftFloat
       end
       item
@@ -953,69 +938,27 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'sla'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'grain_no'
+        Name = 'lai'
         DataType = ftFloat
       end
       item
-        Name = 'tiller_no'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'root_wt'
+        Name = 'head_wt'
         DataType = ftFloat
       end
       item
-        Name = 'nfact_photo'
+        Name = 'grain_wt'
         DataType = ftFloat
       end
       item
-        Name = 'nfact_expan'
+        Name = 'leaf_wt'
         DataType = ftFloat
       end
       item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
+        Name = 'head_n'
         DataType = ftFloat
       end
       item
         Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'maturity_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'root_depth'
-        DataType = ftFloat
-      end
-      item
-        Name = 'node_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaves_per_node'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage'
         DataType = ftFloat
       end
       item
@@ -1027,59 +970,19 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'deadleaf_n'
+        Name = 'stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_no'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sw_dep'
         DataType = ftFloat
       end
       item
         Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3gsm_uptake_pot()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_supply_soil'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm_pot_rue'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_leaf'
         DataType = ftFloat
       end
       item
@@ -1125,7 +1028,7 @@ object data: TForm
         Size = 200
       end
       item
-        Name = 'date'
+        Name = 'Date'
         DataType = ftDate
       end
       item
@@ -1137,39 +1040,24 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'sw_dep'
+        Name = 'zadok_stage'
         DataType = ftFloat
       end
       item
-        Name = 'no3()'
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'biomass'
         DataType = ftFloat
       end
       item
-        Name = 'nh4()'
+        Name = 'yield'
         DataType = ftFloat
       end
       item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
+        Name = 'grain_size'
         DataType = ftFloat
       end
       item
@@ -1181,69 +1069,27 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'sla'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'grain_no'
+        Name = 'lai'
         DataType = ftFloat
       end
       item
-        Name = 'tiller_no'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'root_wt'
+        Name = 'head_wt'
         DataType = ftFloat
       end
       item
-        Name = 'nfact_photo'
+        Name = 'grain_wt'
         DataType = ftFloat
       end
       item
-        Name = 'nfact_expan'
+        Name = 'leaf_wt'
         DataType = ftFloat
       end
       item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
+        Name = 'head_n'
         DataType = ftFloat
       end
       item
         Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'maturity_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'root_depth'
-        DataType = ftFloat
-      end
-      item
-        Name = 'node_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaves_per_node'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage'
         DataType = ftFloat
       end
       item
@@ -1255,59 +1101,19 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'deadleaf_n'
+        Name = 'stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_no'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sw_dep'
         DataType = ftFloat
       end
       item
         Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3gsm_uptake_pot()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_supply_soil'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm_pot_rue'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_leaf'
         DataType = ftFloat
       end
       item
@@ -1353,7 +1159,7 @@ object data: TForm
         Size = 200
       end
       item
-        Name = 'date'
+        Name = 'Date'
         DataType = ftDate
       end
       item
@@ -1365,39 +1171,24 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'sw_dep'
+        Name = 'zadok_stage'
         DataType = ftFloat
       end
       item
-        Name = 'no3()'
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'biomass'
         DataType = ftFloat
       end
       item
-        Name = 'nh4()'
+        Name = 'yield'
         DataType = ftFloat
       end
       item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
+        Name = 'grain_size'
         DataType = ftFloat
       end
       item
@@ -1409,69 +1200,27 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'sla'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'grain_no'
+        Name = 'lai'
         DataType = ftFloat
       end
       item
-        Name = 'tiller_no'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'root_wt'
+        Name = 'head_wt'
         DataType = ftFloat
       end
       item
-        Name = 'nfact_photo'
+        Name = 'grain_wt'
         DataType = ftFloat
       end
       item
-        Name = 'nfact_expan'
+        Name = 'leaf_wt'
         DataType = ftFloat
       end
       item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
+        Name = 'head_n'
         DataType = ftFloat
       end
       item
         Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'maturity_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'root_depth'
-        DataType = ftFloat
-      end
-      item
-        Name = 'node_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaves_per_node'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage'
         DataType = ftFloat
       end
       item
@@ -1483,59 +1232,19 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'deadleaf_n'
+        Name = 'stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_no'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sw_dep'
         DataType = ftFloat
       end
       item
         Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3gsm_uptake_pot()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_supply_soil'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm_pot_rue'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_leaf'
         DataType = ftFloat
       end
       item
@@ -1581,7 +1290,7 @@ object data: TForm
         Size = 200
       end
       item
-        Name = 'date'
+        Name = 'Date'
         DataType = ftDate
       end
       item
@@ -1593,39 +1302,24 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'sw_dep'
+        Name = 'zadok_stage'
         DataType = ftFloat
       end
       item
-        Name = 'no3()'
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'biomass'
         DataType = ftFloat
       end
       item
-        Name = 'nh4()'
+        Name = 'yield'
         DataType = ftFloat
       end
       item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
+        Name = 'grain_size'
         DataType = ftFloat
       end
       item
@@ -1637,69 +1331,27 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'sla'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'grain_no'
+        Name = 'lai'
         DataType = ftFloat
       end
       item
-        Name = 'tiller_no'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'root_wt'
+        Name = 'head_wt'
         DataType = ftFloat
       end
       item
-        Name = 'nfact_photo'
+        Name = 'grain_wt'
         DataType = ftFloat
       end
       item
-        Name = 'nfact_expan'
+        Name = 'leaf_wt'
         DataType = ftFloat
       end
       item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
+        Name = 'head_n'
         DataType = ftFloat
       end
       item
         Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'maturity_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'root_depth'
-        DataType = ftFloat
-      end
-      item
-        Name = 'node_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaves_per_node'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage'
         DataType = ftFloat
       end
       item
@@ -1711,59 +1363,19 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'deadleaf_n'
+        Name = 'stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_no'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sw_dep'
         DataType = ftFloat
       end
       item
         Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3gsm_uptake_pot()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_supply_soil'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm_pot_rue'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_leaf'
         DataType = ftFloat
       end
       item
@@ -1809,7 +1421,7 @@ object data: TForm
         Size = 200
       end
       item
-        Name = 'date'
+        Name = 'Date'
         DataType = ftDate
       end
       item
@@ -1821,39 +1433,24 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'sw_dep'
+        Name = 'zadok_stage'
         DataType = ftFloat
       end
       item
-        Name = 'no3()'
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'biomass'
         DataType = ftFloat
       end
       item
-        Name = 'nh4()'
+        Name = 'yield'
         DataType = ftFloat
       end
       item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
+        Name = 'grain_size'
         DataType = ftFloat
       end
       item
@@ -1865,69 +1462,27 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'sla'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'grain_no'
+        Name = 'lai'
         DataType = ftFloat
       end
       item
-        Name = 'tiller_no'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'root_wt'
+        Name = 'head_wt'
         DataType = ftFloat
       end
       item
-        Name = 'nfact_photo'
+        Name = 'grain_wt'
         DataType = ftFloat
       end
       item
-        Name = 'nfact_expan'
+        Name = 'leaf_wt'
         DataType = ftFloat
       end
       item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
+        Name = 'head_n'
         DataType = ftFloat
       end
       item
         Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'maturity_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'root_depth'
-        DataType = ftFloat
-      end
-      item
-        Name = 'node_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaves_per_node'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage'
         DataType = ftFloat
       end
       item
@@ -1939,59 +1494,19 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'deadleaf_n'
+        Name = 'stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_no'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sw_dep'
         DataType = ftFloat
       end
       item
         Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3gsm_uptake_pot()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_supply_soil'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm_pot_rue'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_leaf'
         DataType = ftFloat
       end
       item
@@ -2037,7 +1552,7 @@ object data: TForm
         Size = 200
       end
       item
-        Name = 'date'
+        Name = 'Date'
         DataType = ftDate
       end
       item
@@ -2049,39 +1564,24 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'sw_dep'
+        Name = 'zadok_stage'
         DataType = ftFloat
       end
       item
-        Name = 'no3()'
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'biomass'
         DataType = ftFloat
       end
       item
-        Name = 'nh4()'
+        Name = 'yield'
         DataType = ftFloat
       end
       item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
+        Name = 'grain_size'
         DataType = ftFloat
       end
       item
@@ -2093,69 +1593,27 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'sla'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'grain_no'
+        Name = 'lai'
         DataType = ftFloat
       end
       item
-        Name = 'tiller_no'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'root_wt'
+        Name = 'head_wt'
         DataType = ftFloat
       end
       item
-        Name = 'nfact_photo'
+        Name = 'grain_wt'
         DataType = ftFloat
       end
       item
-        Name = 'nfact_expan'
+        Name = 'leaf_wt'
         DataType = ftFloat
       end
       item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
+        Name = 'head_n'
         DataType = ftFloat
       end
       item
         Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'maturity_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'root_depth'
-        DataType = ftFloat
-      end
-      item
-        Name = 'node_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaves_per_node'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage'
         DataType = ftFloat
       end
       item
@@ -2167,59 +1625,19 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'deadleaf_n'
+        Name = 'stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_no'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sw_dep'
         DataType = ftFloat
       end
       item
         Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3gsm_uptake_pot()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_supply_soil'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm_pot_rue'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_leaf'
         DataType = ftFloat
       end
       item
@@ -2265,7 +1683,7 @@ object data: TForm
         Size = 200
       end
       item
-        Name = 'date'
+        Name = 'Date'
         DataType = ftDate
       end
       item
@@ -2277,39 +1695,24 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'sw_dep'
+        Name = 'zadok_stage'
         DataType = ftFloat
       end
       item
-        Name = 'no3()'
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'biomass'
         DataType = ftFloat
       end
       item
-        Name = 'nh4()'
+        Name = 'yield'
         DataType = ftFloat
       end
       item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
+        Name = 'grain_size'
         DataType = ftFloat
       end
       item
@@ -2321,69 +1724,27 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'sla'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'grain_no'
+        Name = 'lai'
         DataType = ftFloat
       end
       item
-        Name = 'tiller_no'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'root_wt'
+        Name = 'head_wt'
         DataType = ftFloat
       end
       item
-        Name = 'nfact_photo'
+        Name = 'grain_wt'
         DataType = ftFloat
       end
       item
-        Name = 'nfact_expan'
+        Name = 'leaf_wt'
         DataType = ftFloat
       end
       item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
+        Name = 'head_n'
         DataType = ftFloat
       end
       item
         Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'maturity_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'root_depth'
-        DataType = ftFloat
-      end
-      item
-        Name = 'node_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaves_per_node'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage'
         DataType = ftFloat
       end
       item
@@ -2395,59 +1756,19 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'deadleaf_n'
+        Name = 'stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_no'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sw_dep'
         DataType = ftFloat
       end
       item
         Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3gsm_uptake_pot()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_supply_soil'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm_pot_rue'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_leaf'
         DataType = ftFloat
       end
       item
@@ -2522,7 +1843,7 @@ object data: TForm
         Size = 200
       end
       item
-        Name = 'date'
+        Name = 'Date'
         DataType = ftDate
       end
       item
@@ -2534,39 +1855,24 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'sw_dep'
+        Name = 'zadok_stage'
         DataType = ftFloat
       end
       item
-        Name = 'no3()'
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'biomass'
         DataType = ftFloat
       end
       item
-        Name = 'nh4()'
+        Name = 'yield'
         DataType = ftFloat
       end
       item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
+        Name = 'grain_size'
         DataType = ftFloat
       end
       item
@@ -2578,69 +1884,27 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'sla'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'grain_no'
+        Name = 'lai'
         DataType = ftFloat
       end
       item
-        Name = 'tiller_no'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'root_wt'
+        Name = 'head_wt'
         DataType = ftFloat
       end
       item
-        Name = 'nfact_photo'
+        Name = 'grain_wt'
         DataType = ftFloat
       end
       item
-        Name = 'nfact_expan'
+        Name = 'leaf_wt'
         DataType = ftFloat
       end
       item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
+        Name = 'head_n'
         DataType = ftFloat
       end
       item
         Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'maturity_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'root_depth'
-        DataType = ftFloat
-      end
-      item
-        Name = 'node_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaves_per_node'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage'
         DataType = ftFloat
       end
       item
@@ -2652,59 +1916,19 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'deadleaf_n'
+        Name = 'stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_no'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sw_dep'
         DataType = ftFloat
       end
       item
         Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3gsm_uptake_pot()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_supply_soil'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm_pot_rue'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_leaf'
         DataType = ftFloat
       end
       item
@@ -2754,7 +1978,7 @@ object data: TForm
         Size = 200
       end
       item
-        Name = 'date'
+        Name = 'Date'
         DataType = ftDate
       end
       item
@@ -2766,39 +1990,24 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'sw_dep'
+        Name = 'zadok_stage'
         DataType = ftFloat
       end
       item
-        Name = 'no3()'
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'biomass'
         DataType = ftFloat
       end
       item
-        Name = 'nh4()'
+        Name = 'yield'
         DataType = ftFloat
       end
       item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
+        Name = 'grain_size'
         DataType = ftFloat
       end
       item
@@ -2810,69 +2019,27 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'sla'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'grain_no'
+        Name = 'lai'
         DataType = ftFloat
       end
       item
-        Name = 'tiller_no'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'root_wt'
+        Name = 'head_wt'
         DataType = ftFloat
       end
       item
-        Name = 'nfact_photo'
+        Name = 'grain_wt'
         DataType = ftFloat
       end
       item
-        Name = 'nfact_expan'
+        Name = 'leaf_wt'
         DataType = ftFloat
       end
       item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
+        Name = 'head_n'
         DataType = ftFloat
       end
       item
         Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'maturity_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'root_depth'
-        DataType = ftFloat
-      end
-      item
-        Name = 'node_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaves_per_node'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage'
         DataType = ftFloat
       end
       item
@@ -2884,59 +2051,19 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'deadleaf_n'
+        Name = 'stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_no'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sw_dep'
         DataType = ftFloat
       end
       item
         Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3gsm_uptake_pot()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_supply_soil'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm_pot_rue'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_leaf'
         DataType = ftFloat
       end
       item
@@ -3105,8 +2232,8 @@ object data: TForm
   end
 end
 object Page1: TQuickRep
-  Left = 202
-  Top = 32
+  Left = 354
+  Top = 30
   Width = 556
   Height = 786
   Frame.Color = clBlack
