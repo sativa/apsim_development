@@ -60,7 +60,7 @@ proc setLinked {a n1 n2 op} {apsimSet $a $n1}
 [dbg.tcllink.process]
 update
 foreach cond $Conds {
-  if {[expr $cond]} { 
+  if {[expr $cond]} {
     set steps 1
   }
 }
@@ -72,7 +72,7 @@ if {$steps == 0} {tkwait variable steps}
 # Demonstrates catching events at the "event" level
 
 # Initialisation. delete output file if present.
-file delete catchEvent.out 
+file delete catchEvent.out
 
 # The event handler procedure
 proc eventHandler {args} {
@@ -91,7 +91,7 @@ apsimRegisterEvent harvesting "eventHandler harvesting"
 # Demonstrates catching events at the "message" level
 
 # Initialisation. delete output file if present and get library functions.
-file delete catchEvent2.out 
+file delete catchEvent2.out
 source [file dirname $tcl_library]/apsimDatatypes.tcl
 
 # A message hook. Look for "sow" messages and write out their payload.
@@ -105,7 +105,7 @@ proc spy {args} {
      foreach {name value} [unpack_MessageData $z(data)] {
        if {"id" != "$name"} { ;# message id is usually a (random) memory location - ignore it for day to day testing
          puts $fp "\"$name\",\"$value\""
-       }  
+       }
      }
      close $fp
   }
@@ -139,3 +139,27 @@ foreach {name value} [array get typesSeen] {
 }
 close $fp
 
+[profilePlant.tcllink.init]
+# Build a profile of messages we deal with. Store messages in an array, and write out on exit.
+
+proc spy {args} {
+  foreach arg $args {array set z $arg}
+  if {[info exists z(type)]} {
+    set type $z(type)
+    global typesSeen
+    if {[info exists typesSeen($type)]} {
+       incr typesSeen($type)
+    } else {
+       set typesSeen($type) 1
+    }
+  }
+}
+apsimCatchMessages spy
+
+[profilePlant.tcllink.exit]
+
+set fp [open profilePlant.out w]
+foreach {name value} [array get typesSeen] {
+   puts $fp "$name:  $value"
+}
+close $fp

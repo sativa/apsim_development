@@ -1,4 +1,4 @@
-version = 5.1
+version = 5
 [apsim.tcllink]
 title = Test Tcl library
 
@@ -54,4 +54,16 @@ module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_eart
 module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
 module = sorghum         %apsuite\apsim\sorghum\sample\sorghum.par [sample] %apsuite\apsim\sorghum\sorghum.ini [standard]
 module = TclLink         tcllink.par [profileMessages]
+module = SummaryFile     %apsuite\apsim\sorghum\sample\sorghum.par [sample]
+
+[apsim.profilePlant]
+title = test
+module = clock           %apsuite\apsim\wheat\sample\wheat.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = input(met)      %apsuite\apsim\met\sample\dalby.met [weather]
+module = report          %apsuite\apsim\wheat\sample\wheat.par [sample]
+module = manager         %apsuite\apsim\wheat\sample\wheat.par [sample]
+module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]    %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
+module = plant(wheat)         %apsuite\apsim\wheat\sample\wheat.par [sample] %apsuite\apsim\wheat\wheat.ini [standard]
+module = TclLink         tcllink.par [profilePlant]
 module = SummaryFile     %apsuite\apsim\sorghum\sample\sorghum.par [sample]
