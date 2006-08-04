@@ -106,8 +106,6 @@
          real    sumes2                               ! cumulative soil evaporation in stage 2 (mm)
          real    t                                    ! time after 2nd-stage soil evaporation
                                                       ! begins (d)
-         real    solute_min(max_solute,max_layer)     ! minimum allowable solute
-                                                      ! in soil (kg/ha)
          real    solute (max_solute, max_layer)       ! solute in each layer (kg/ha)
          real    dlt_solute (max_solute, max_layer)   ! change in solute each in
                                                       ! layer (kg n/ha)
@@ -3863,29 +3861,6 @@ c     :                           , 0.0, 1.0)
                g%solute(solnum,layer) = temp_solute(layer)
  3200       continue
 
-            ! reinitialise tempory array
-            call fill_real_array (temp_solute, 0.0, max_layer)
-
-            ! Ask for solute info from APSIM system
-            ! - NOTE if it does not exist in the system then
-            ! the default of zero will be used.
-            min_name = string_concat(g%solute_names(solnum),'_min')
-
-            call get_real_array_optional
-     :                       (g%solute_owners(solnum)
-     :                       ,min_name
-     :                       , max_layer
-     :                       , '(kg/ha)'
-     :                       , temp_solute
-     :                       , numvals
-     :                       , 0.0
-     :                       , 1000.0)
-
-            ! assign temp array to our global array
-            do 3300 layer=1,max_layer
-               g%solute_min(solnum,layer) = temp_solute(layer)
- 3300       continue
-
  3400    continue
 
       call pop_routine (my_name)
@@ -4790,8 +4765,6 @@ c         g%cover_surface_extra = 0.0          ! extra surface cover (0-1)
          g%sumes2 = 0.0                       ! cumulative soil evaporation in stage 2 (mm)
          g%t = 0.0                            ! time after 2nd-stage soil evaporation
                                               ! begins (d)
-         g%solute_min(:,:) = 0.0              ! minimum allowable solute
-                                              ! in soil (kg/ha)
          g%solute (:, :) = 0.0                ! solute in each layer (kg/ha)
          g%dlt_solute (:, :) = 0.0            ! change in solute each in
                                               ! layer (kg n/ha)
@@ -5072,7 +5045,6 @@ c         g%crop_module(:) = ' '               ! list of modules
       ! initialise all solute information
 
       g%solute (:, :) = 0.0
-      g%solute_min (:, :) = 0.0
       g%solute_leach(:, :) = 0.0
       g%solute_up (:, :) = 0.0
       g%dlt_solute (:, :) = 0.0
@@ -5084,8 +5056,7 @@ c         g%crop_module(:) = ' '               ! list of modules
 
 *     ===========================================================
       subroutine soilwat2_solute_flux (solute_out
-     :                                , solute_kg
-     :                                , solute_min)
+     :                                , solute_kg)
 *     ===========================================================
       Use Infrastructure
       implicit none
@@ -5093,8 +5064,6 @@ c         g%crop_module(:) = ' '               ! list of modules
 *+  Sub-Program Arguments
       real       solute_out(*)         ! (output) solute leaching out of
                                        !    each layer (kg/ha)
-      real       solute_min(*)         ! (input) minimum solute allowed
-                                       !     (kg/ha)
       real       solute_kg(*)          ! (input) solute in each layer
                                        !    (kg/ha)
 
@@ -5163,7 +5132,7 @@ c         g%crop_module(:) = ' '               ! list of modules
 
              ! don't allow the n to be reduced below a minimum level
 
-         out_max = l_bound (solute_kg_layer - solute_min(layer), 0.0)
+         out_max = l_bound (solute_kg_layer, 0.0)
          out_solute = bound (out_solute, 0.0, out_max)
 
              ! keep the leaching and set the input for the next layer
@@ -5179,7 +5148,7 @@ c         g%crop_module(:) = ' '               ! list of modules
 
 
 *     ===========================================================
-      subroutine soilwat2_solute_flow (solute_up, solute_kg, solute_min)
+      subroutine soilwat2_solute_flow (solute_up, solute_kg)
 *     ===========================================================
       Use Infrastructure
       implicit none
@@ -5189,8 +5158,6 @@ c         g%crop_module(:) = ' '               ! list of modules
                                        !    into each layer (kg/ha)
       real       solute_kg (*)         ! (input/output) solute in each
                                        !    layer (kg/ha)
-      real       solute_min(*)         ! (input) minimum solute allowed
-                                       !     (kg/ha)
 
 *+  Purpose
 *       movement of solute in response to differences in
@@ -5291,7 +5258,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
 
             out_solute = bound (out_solute
      :                         , 0.0
-     :                         , solute_kg_layer - solute_min(layer))
+     :                         , solute_kg_layer)
 
          endif
 
@@ -5349,7 +5316,7 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
             out_solute = round_to_zero (out_solute)
             out_solute = bound (out_solute
      :                         , 0.0
-     :                         , solute_kg_layer - solute_min(layer))
+     :                         , solute_kg_layer)
 
          endif
          solute_down(layer) = out_solute
@@ -5993,8 +5960,6 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       real       leach (max_layer)     ! amount of a solute leached from
                                        ! each soil layer (kg/ha)
       real       temp_solute(max_layer)! temp array for solute content(kg/ha)
-      real       temp_solute_min (max_layer)! temp array for minimum solute
-                                       ! content (kg/ha)
       real       temp_dlt_solute(max_layer) ! temp array of changes in
                                        ! solute concentration (kg/ha)
 
@@ -6014,13 +5979,12 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
             do 1100 layer = 1, num_layers
                temp_solute(layer) = g%solute(solnum, layer)
                leach(layer) = 0.0
-               temp_solute_min(layer) = g%solute_min(solnum,layer)
                temp_dlt_solute(layer) = g%dlt_solute(solnum,layer)
  1100       continue
 
             call soilwat2_solute_flux (leach
-     :                                 , temp_solute
-     :                                 , temp_solute_min)
+     :                                 , temp_solute)
+
             call move_down_real (leach, temp_solute, num_layers)
             call move_down_real (leach, temp_dlt_solute, num_layers)
 
@@ -6067,8 +6031,6 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
       integer    num_layers            ! number of layers
       integer    solnum                ! solute number counter variable
       real       temp_solute(max_layer)! temp array for solute content(kg/ha)
-      real       temp_solute_min (max_layer)! temp array for minimum solute
-                                       ! content (kg/ha)
       real       temp_dlt_solute(max_layer) ! temp array of changes in
                                        ! solute concentration (kg/ha)
 
@@ -6089,13 +6051,12 @@ cjh            out_solute = solute_kg_layer*divide (out_w, water, 0.0) *0.5
             do 2100 layer = 1, max_layer
                temp_solute(layer) = g%solute(solnum, layer)
                leach(layer) = 0.0
-               temp_solute_min(layer) = g%solute_min(solnum,layer)
                temp_dlt_solute(layer) = g%dlt_solute(solnum,layer)
  2100       continue
 
             call soilwat2_solute_flow (leach
-     :                                , temp_solute
-     :                                , temp_solute_min)
+     :                                , temp_solute)
+
             call move_up_real (leach, temp_solute, num_layers)
             call move_up_real (leach, temp_dlt_solute, num_layers)
 
