@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=moorfield-Pepers 8;growername=Robert Moorfield;paddockname=Pepers 8;reportname=Agronomic report;ResetDate=29/06/2005;InitialConditionsPaw=8.10;SowDay=14/06/2005;Cultivar=Janz;stationname=Lockhart Bowling Club;rowconfiguration=Solid;population=0
+   title = moorfield-Pepers 8
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=kaylock-R Front ;growername=DD Kaylock and Co;paddockname=R Front ;reportname=Agronomic report;ResetDate=25/03/2005;InitialConditionsPaw=118.50;SowDay=05/05/2005;Cultivar=Chara;stationname=Swan Hill Post Office;rowconfiguration=Solid;population=0
+   title = kaylock-R Front 
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

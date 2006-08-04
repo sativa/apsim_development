@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=cobram-Picola;growername=Cobram DPI Topcrop;paddockname=Picola;reportname=Agronomic report;ResetDate=28/04/2005;InitialConditionsPaw=0.00;SowDay=15/06/2005;Cultivar=Chara;stationname=Picola;rowconfiguration=Solid;population=0
+   title = cobram-Picola
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

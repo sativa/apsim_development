@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=mctaggart-South Hill;growername=Rob and Sally McTaggart;paddockname=South Hill;reportname=Agronomic report;ResetDate=05/05/2005;InitialConditionsPaw=0.00;SowDay=30/05/2005;Cultivar=Westonia;stationname=South Holmwood;rowconfiguration=Solid;population=0
+   title = mctaggart-South Hill
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=Jon Whykes-P34 Rise;growername=Jon Whykes;paddockname=P34 Rise;reportname=Agronomic report;ResetDate=02/04/2005;InitialConditionsPaw=0.00;SowDay=10/07/2005;Cultivar=Yitpi;stationname=Charlton Post Office;rowconfiguration=Solid;population=0
+   title = Jon Whykes-P34 Rise
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

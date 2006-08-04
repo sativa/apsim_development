@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=ashton-Byculla;growername=Bill Ashton;paddockname=Byculla;reportname=Agronomic report;ResetDate=06/07/2005;InitialConditionsPaw=129.21;SowDay=08/07/2005;Cultivar=Lang;stationname=Pittsworth Yandilla Street;rowconfiguration=Solid;population=0
+   title = ashton-Byculla
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

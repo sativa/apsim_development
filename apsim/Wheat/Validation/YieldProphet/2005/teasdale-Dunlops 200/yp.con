@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=teasdale-Dunlops 200;growername=Peter Teasdale;paddockname=Dunlops 200;reportname=Agronomic report;ResetDate=01/04/2005;InitialConditionsPaw=14.93;SowDay=24/06/2005;Cultivar=Rosella;stationname=Rupanyup (Post Office);rowconfiguration=Solid;population=0
+   title = teasdale-Dunlops 200
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=mcleod-James Cola;growername=Geoff and Jenny McCleod;paddockname=James Cola;reportname=Agronomic report;ResetDate=24/04/2005;InitialConditionsPaw=0.00;SowDay=22/06/2005;Cultivar=Diamondbird;stationname=Finley Post Office;rowconfiguration=Solid;population=0
+   title = mcleod-James Cola
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

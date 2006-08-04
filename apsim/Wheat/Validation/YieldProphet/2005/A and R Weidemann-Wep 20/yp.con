@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=A & R Weidemann-Wep 20;growername=A and R Weidemann;paddockname=Wep 20;reportname=Agronomic report;ResetDate=01/04/2005;InitialConditionsPaw=0.00;SowDay=28/06/2005;Cultivar=Yitpi;stationname=Rupanyup (Post Office);rowconfiguration=Solid;population=0
+   title = A & R Weidemann-Wep 20
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

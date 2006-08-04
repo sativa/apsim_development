@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=black-Karmel;growername=Jim Peter and Laurie Black;paddockname=Karmel;reportname=Agronomic report;ResetDate=12/07/2005;InitialConditionsPaw=54.00;SowDay=07/07/2005;Cultivar=Lang;stationname=Brookstead Post Office ;rowconfiguration=Solid;population=0
+   title = black-Karmel
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

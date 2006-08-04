@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=graham-House;growername=Rory Graham;paddockname=House;reportname=Agronomic report;ResetDate=27/04/2005;InitialConditionsPaw=2.00;SowDay=17/05/2005;Cultivar=Wyalkatchem;stationname=Salmon Gums Research Station;rowconfiguration=Solid;population=0
+   title = graham-House
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

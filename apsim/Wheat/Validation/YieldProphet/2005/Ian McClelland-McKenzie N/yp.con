@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=Ian McClelland-McKenzie N;growername=Ian McClelland;paddockname=McKenzie N;reportname=Agronomic report;ResetDate=09/05/2005;InitialConditionsPaw=0.00;SowDay=18/06/2005;Cultivar=Yitpi;stationname=Birchip Post Office;rowconfiguration=Solid;population=0
+   title = Ian McClelland-McKenzie N
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]
