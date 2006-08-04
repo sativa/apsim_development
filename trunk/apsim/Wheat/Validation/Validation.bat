@@ -7,4 +7,8 @@ rem c:\progra~1\rems\rems.exe wheat.mdb crop.tem met.tem validation
 ..\..\..\bin\apsrun.exe /auto  \development\apsim\wheat\validation\wheatvalidation.apsim  
 
 c:\progra~1\R\rw2010\bin\Rterm.exe --slave < validation-1.r
+
+cd \yieldprophet\2005
+call runall.bat
+
 popd
