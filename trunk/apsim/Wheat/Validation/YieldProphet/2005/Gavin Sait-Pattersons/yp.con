@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=Gavin Sait-Pattersons;growername=Gavin Sait;paddockname=Pattersons;reportname=Agronomic report;ResetDate=02/04/2005;InitialConditionsPaw=0.00;SowDay=09/06/2005;Cultivar=Pugsley;stationname=Charlton Post Office;rowconfiguration=Solid;population=0
+   title = Gavin Sait-Pattersons
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

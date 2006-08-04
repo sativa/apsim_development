@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=delahunty-Gregorys nth;growername=Andy Delahunty;paddockname=Gregorys nth;reportname=Agronomic report;ResetDate=02/03/2005;InitialConditionsPaw=33.00;SowDay=05/06/2005;Cultivar=Goroke;stationname=Longerenong;rowconfiguration=Solid;population=0
+   title = delahunty-Gregorys nth
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

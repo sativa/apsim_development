@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=Jim Egan-Moderate EC ;growername=Jim Egan;paddockname=Moderate EC ;reportname=Agronomic report;ResetDate=20/05/2005;InitialConditionsPaw=0.00;SowDay=28/06/2005;Cultivar=Pugsley;stationname=Minnipa Agricultural Centre;rowconfiguration=Solid;population=0
+   title = Jim Egan-Moderate EC 
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=shirley-Dry;growername=Dick Shirley;paddockname=Dry;reportname=Agronomic report;ResetDate=24/04/2005;InitialConditionsPaw=13.84;SowDay=24/06/2005;Cultivar=Chara;stationname=Wakool (Murray Irrigation);rowconfiguration=Solid;population=0
+   title = shirley-Dry
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

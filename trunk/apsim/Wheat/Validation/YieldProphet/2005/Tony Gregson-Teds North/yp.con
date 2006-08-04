@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=Tony Gregson-Teds North;growername=Tony Gregson;paddockname=Teds North;reportname=Agronomic report;ResetDate=01/04/2005;InitialConditionsPaw=20.00;SowDay=26/06/2005;Cultivar=Yitpi;stationname=Warracknabeal (Ailsa);rowconfiguration=Solid;population=0
+   title = Tony Gregson-Teds North
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

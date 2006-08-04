@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=C & J Kelly-Acklands;growername=C & J Kelly;paddockname=Acklands;reportname=Agronomic report;ResetDate=24/02/2005;InitialConditionsPaw=0.00;SowDay=04/07/2005;Cultivar=Yitpi;stationname=Woomelang (Post Office);rowconfiguration=Solid;population=0
+   title = C & J Kelly-Acklands
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

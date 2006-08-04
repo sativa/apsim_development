@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=delmenico-P-5;growername=Ian Delmenico;paddockname=P-5;reportname=Agronomic report;ResetDate=01/04/2005;InitialConditionsPaw=0.00;SowDay=10/05/2005;Cultivar=Chara;stationname=Swan Hill Post Office;rowconfiguration=Solid;population=0
+   title = delmenico-P-5
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

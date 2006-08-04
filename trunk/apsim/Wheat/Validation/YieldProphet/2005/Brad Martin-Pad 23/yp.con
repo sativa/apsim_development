@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=Brad Martin-Pad 23;growername=Brad Martin;paddockname=Pad 23;reportname=Agronomic report;ResetDate=25/04/2005;InitialConditionsPaw=20.31;SowDay=28/06/2005;Cultivar=Silverstar;stationname=Beulah (Post Office);rowconfiguration=Solid;population=0
+   title = Brad Martin-Pad 23
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

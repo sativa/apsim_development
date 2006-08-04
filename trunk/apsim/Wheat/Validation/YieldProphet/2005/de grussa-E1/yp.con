@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=de grussa-E1;growername=Colin de Grussa;paddockname=E1;reportname=Agronomic report;ResetDate=17/05/2005;InitialConditionsPaw=6.00;SowDay=30/05/2005;Cultivar=Saphire;stationname=Esperance Downs Research Station;rowconfiguration=Solid;population=0
+   title = de grussa-E1
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

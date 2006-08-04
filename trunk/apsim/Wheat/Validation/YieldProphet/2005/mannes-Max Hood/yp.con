@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=mannes-Max Hood;growername=Anton Mannes;paddockname=Max Hood;reportname=Agronomic report;ResetDate=11/04/2005;InitialConditionsPaw=0.00;SowDay=15/06/2005;Cultivar=Mitre;stationname=Rupanyup (Post Office);rowconfiguration=Solid;population=0
+   title = mannes-Max Hood
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=Jamie Simpson-CW;growername=Jamie Simpson;paddockname=CW;reportname=Agronomic report;ResetDate=17/03/2005;InitialConditionsPaw=23.85;SowDay=24/06/2005;Cultivar=Yitpi;stationname=Berriwillock;rowconfiguration=Solid;population=0
+   title = Jamie Simpson-CW
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

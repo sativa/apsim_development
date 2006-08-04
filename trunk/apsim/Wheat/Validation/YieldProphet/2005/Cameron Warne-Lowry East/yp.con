@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=Cameron Warne-Lowry East;growername=Cameron Warne;paddockname=Lowry East;reportname=Agronomic report;ResetDate=20/04/2005;InitialConditionsPaw=7.47;SowDay=08/06/2005;Cultivar=Yitpi;stationname=Culgoa (Post Office);rowconfiguration=Solid;population=0
+   title = Cameron Warne-Lowry East
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

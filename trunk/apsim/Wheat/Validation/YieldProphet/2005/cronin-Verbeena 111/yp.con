@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=cronin-Verbeena 111;growername=Jim Cronin;paddockname=Verbeena 111;reportname=Agronomic report;ResetDate=01/05/2005;InitialConditionsPaw=0.00;SowDay=15/06/2005;Cultivar=Chara;stationname=Temora A.R.S.;rowconfiguration=Solid;population=0
+   title = cronin-Verbeena 111
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]

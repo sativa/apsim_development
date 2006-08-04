@@ -1,6 +1,6 @@
-version = 4.2
+version = 5.2
 [scenario1]
-   title = key=mcclelland-Mudges;growername=Robert and Michael McClelland;paddockname=Mudges;reportname=Agronomic report;ResetDate=25/05/2005;InitialConditionsPaw=4.78;SowDay=30/05/2005;Cultivar=Clf-jnz;stationname=Sea Lake (Post Office);rowconfiguration=Solid;population=0
+   title = mcclelland-Mudges
 
    module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
    module = report                yp.par[scenario1]
