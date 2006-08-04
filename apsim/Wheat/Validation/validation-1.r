@@ -1,11 +1,11 @@
-# Validation runs #1. 
+# Validation runs #1.
 # Produce 1 page for each treatment. Just predicted & observed data.
 
 library(RODBC)
 
 # The "latest" runs (ie your development tree)
 #indir<-"//build_machine/build_machine/development/apsim/Wheat/Validation"
-indir<-"c:/development/apsim/Wheat/Validation"
+indir<-"d:/development/apsim/Wheat/Validation"
 
 # Where to write output
 #outDir<-"."
@@ -22,9 +22,17 @@ groups<-list(c("biomass_wt", "grain_wt", "head_wt"),
              c("stage"),
              c("swdef_photo", "swdef_expan"),
              c("nfact_pheno", "nfact_expan"))
+headings<-list(c("Biomass"),
+             c("Partitioning"),
+             c("Canopy"),
+             c("Biomass_N"),
+             c("N_Partitioning"),
+             c("Phenology"),
+             c("WaterStress"),
+             c("NitrogenStress"))
 
-            
-report <- function(outDir, obs,pred,Groups,Crop,expName,tName) {
+
+report <- function(outDir, obs,pred,Groups,Headings, Crop,expName,tName) {
    fnames <- vector()
    colours <- c("red", "blue", "green")
    obs$date <- as.Date(obs$date,"%d/%m/%Y")
@@ -34,29 +42,31 @@ report <- function(outDir, obs,pred,Groups,Crop,expName,tName) {
       y <- vector()
       for (series in unlist(group)) {
          y <- c(y,pred[[series]],obs[[series]])
-      }   
+      }
       ylims <- range(y,finite=T)
       if (sum(is.finite(ylims)) == 2) {
-        fname <- paste(tName,length(fnames),"png",sep=".")
+        fname <- paste(Headings[length(fnames)+1],"png",sep=".")
         fnames <- c(fnames, fname)
-        dir.create(paste(outDir, expName, sep="/"))
-        png(file=paste(outDir, expName, fname, sep="/"), bg=rgb(243,243,243,max=255), width=350, height=350)
+        dir.create(paste(outDir, "graphs", sep="/"))
+        dir.create(paste(outDir, "graphs", expName, sep="/"))
+        dir.create(paste(outDir, "graphs", expName, tName, sep="/"))
+        png(file=paste(outDir, "graphs", expName, tName, fname, sep="/"), bg=rgb(243,243,243,max=255), width=350, height=350)
         plot(NA, xlim=xlims, ylim=ylims, cex.axis=.8, ylab="", xaxt="n", xlab="")
         axis.Date(1,c(pred$date,obs$date))
         for (series in unlist(group)) {
            colour <- colours[match(series,unlist(group))]
-  
+
            if (sum(!is.na(pred[[series]])) > 0) {
               matplot(pred$date,pred[[series]],type="l",col=colour,add=T)
            }
            if (sum(!is.na(obs[[series]])) > 0) {
               points(obs$date,obs[[series]],pch=15,col=colour)
-           }          
+           }
         }
         legend(xlims[1],ylims[2],unlist(group),col=colours,pch=15)
         dev.off()
      }
-   }  
+   }
    return(fnames)
 }
 
@@ -118,7 +128,7 @@ for (e in 1:dim(experiments)[1]) {
     allTreatments<-append(allTreatments, paste(expName, "_", tName, sep=""))
 
     pred<-read.apsim(paste(indir, "/", Crop, "_", expName, "_", tName, ".out", sep=""))
-    
+
     obs<-sqlQuery(db,paste(
          "TRANSFORM Avg(PlotData.Value) AS AvgOfValue \
           SELECT Plots.TreatmentID, PlotData.Date \
@@ -128,7 +138,7 @@ for (e in 1:dim(experiments)[1]) {
           GROUP BY Plots.TreatmentID, PlotData.Date \
           ORDER BY PlotData.Date PIVOT Traits.Trait;"));
     names(obs) <- tolower(names(obs))
-    images<-report(outDir, obs, pred, groups, Crop, expName, tName)
+    images<-report(outDir, obs, pred, groups, headings, Crop, expName, tName)
 
     fname<-paste( Crop, tName, ".html", sep="")
     cat(file=mhtml, "<a href=\"", expName, "/", fname, "\">", append=T, sep="")
@@ -143,7 +153,7 @@ for (e in 1:dim(experiments)[1]) {
     r<-1
     for (image in images) {
       if (r%%4 == 0) {cat(file=fhtml,"</tr>\n<tr>", append=T); r<-1}
-      cat(file=fhtml,"<td><img src=\"", image, "\"></td>\n", sep="", append=T) 
+      cat(file=fhtml,"<td><img src=\"", image, "\"></td>\n", sep="", append=T)
       r<-r+1
     }
     cat (file=fhtml,"</tr></table><hr>", append=T)
@@ -152,7 +162,7 @@ for (e in 1:dim(experiments)[1]) {
     cat (file=fhtml,"<p class=\"Code\">", Sys.info()[7], "<br>",  Sys.info()[4], "<br>", date(), "</p>", append=T)
     cat (file=fhtml,"</body></html>\n", append=T)
     close(fhtml)
-  } 
-} 
+  }
+}
 cat(file=mhtml, "</p></body></html>\n", append=T)
 close(mhtml)
