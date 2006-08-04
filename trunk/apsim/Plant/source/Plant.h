@@ -636,9 +636,7 @@ private:
       unsigned int fr_intc_radn;
       unsigned int sw_dep;
       unsigned int no3;
-      unsigned int no3_min;
       unsigned int nh4;
-      unsigned int nh4_min;
 
       unsigned int latitude;
       unsigned int parasite_c_demand;
@@ -753,12 +751,10 @@ private:
       float grain_n_supply;                             // grain n supply from soil OR retrans
       float dlt_no3gsm[max_layer];                      // actual NO3 uptake from soil (g/m^2)
       float no3gsm [max_layer];                         // nitrate nitrogen in layer L (g N/m^2)
-      float no3gsm_min[max_layer];                      // minimum allowable NO3 in soil (g/m^2)
       float no3gsm_diffn_pot[max_layer];                // potential NO3 (supply) from soil (g/m^2), by diffusion
       float no3gsm_mflow_avail[max_layer];              // potential NO3 (supply) from soil (g/m^2) by mass flow
       float dlt_nh4gsm[max_layer];                      // actual NH4 uptake from soil (g/m^2)
       float nh4gsm [max_layer];                         // nitrate nitrogen in layer L (g N/m^2)
-      float nh4gsm_min[max_layer];                      // minimum allowable NH4 in soil (g/m^2)
       float nh4gsm_diffn_pot[max_layer];                // potential NH4 (supply) from soil (g/m^2), by diffusion
       float nh4gsm_mflow_avail[max_layer];              // potential NH4 (supply) from soil (g/m^2) by mass flow
       float nh4gsm_uptake_pot[max_layer];
@@ -1006,12 +1002,8 @@ private:
       float sw_lb;                                      // lower limit of soilwater depth (mm/mm)
       float no3_ub;                                     // upper limit of soil NO3 (kg/ha)
       float no3_lb;                                     // lower limit of soil NO3 (kg/ha)
-      float no3_min_ub;                                 // upper limit of minimum soil NO3 (kg/ha)
-      float no3_min_lb;                                 // lower limit of minimum soil NO3 (kg/ha)
       float nh4_ub;                                     // upper limit of soil NH4 (kg/ha)
       float nh4_lb;                                     // lower limit of soil NH4 (kg/ha)
-      float nh4_min_ub;                                 // upper limit of minimum soil NH4 (kg/ha)
-      float nh4_min_lb;                                 // lower limit of minimum soil NH4 (kg/ha)
       float leaf_no_min;                                // lower limit of leaf number ()
       float leaf_no_max;                                // upper limit of leaf number ()
       float latitude_ub;                                // upper limit of latitude for model (oL)
