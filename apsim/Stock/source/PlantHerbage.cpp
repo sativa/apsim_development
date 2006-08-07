@@ -128,7 +128,7 @@ void PlantHerbage::doRunTimeReg(void)
    thermalTimeID = system->addRegistration(RegistrationType::get, "tt_tot()", singleTypeDDML,"", herbageModuleName().c_str());
    thermalTimeBGID = system->addRegistration(RegistrationType::get, "tt_tot(1-2)", singleArrayTypeDDML,"", herbageModuleName().c_str());
 
-    removeCropBiomassID = system->addRegistration(RegistrationType::event, "remove_crop_biomass", removeCropDmTypeDDML,"", cHerbageModuleName.c_str());
+    removeCropBiomassID = system->addRegistration(RegistrationType::event, "remove_crop_biomass", DDML(protocol::removeCropDmType()).c_str(),"", cHerbageModuleName.c_str());
   }
 
 

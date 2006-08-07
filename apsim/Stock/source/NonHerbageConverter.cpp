@@ -44,15 +44,15 @@ void NonHerbageConverter::doInit1(const FString& sdml)
 //   buyID = system->addRegistration(RegistrationType::event, "buy", buystockTypeDDML);
 
    stockMoveID = system->addRegistration(RegistrationType::respondToEvent, "movestock", stringTypeDDML);
-   moveID = system->addRegistration(RegistrationType::event, "move", movestockTypeDDML);
+   moveID = system->addRegistration(RegistrationType::event, "move", DDML(protocol::movestockType()).c_str());
 
    stockSellID = system->addRegistration(RegistrationType::respondToEvent, "sellstock", stringTypeDDML);
    sellID = system->addRegistration(RegistrationType::event, "sell", protocol::DDML(protocol::sellstockType()).c_str());
 
    addManureID = system->addRegistration(RegistrationType::event, "add_surfaceom", "", "", "");
 
-
-   intakeGetID = system->addRegistration(RegistrationType::get, "intake", intakeTypeDDML);
+   std::vector<protocol::intakeType> dummy;
+   intakeGetID = system->addRegistration(RegistrationType::get, "intake", protocol::DDML(dummy).c_str());
    intakeSendID = system->addRegistration(RegistrationType::respondToGet, "intakestock", singleTypeDDML);
    }
 // ------------------------------------------------------------------
@@ -441,6 +441,6 @@ void NonHerbageConverter::readParameters ( void )
       buy = "buy";
    else
       buy = stockModuleName + ".buy";
-   buyID = system->addRegistration(RegistrationType::event, buy.c_str(), buystockTypeDDML);
+   buyID = system->addRegistration(RegistrationType::event, buy.c_str(), DDML(protocol::buystockType()).c_str());
 
 }
