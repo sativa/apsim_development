@@ -29,6 +29,8 @@ outputfile  =Walgett1500.out
 
 [Birchip300.report.parameters]
 outputfile  =Birchip300.out
+[Birchip300HighN.report.parameters]
+outputfile  =Birchip300HighN.out
 
 [Mingenew300Sand.report.parameters]
 outputfile  =Mingenew300Sand.out
@@ -274,11 +276,11 @@ summaryfile=Walgett750.sum
 [Walgett1500.SummaryFile.parameters]
 summaryfile=Walgett1500.sum
 
+[Birchip300.SummaryFile.parameters]
+summaryfile=Birchip300.sum
 [Birchip300HighN.SummaryFile.parameters]
 summaryfile=Birchip300HighN.sum
 
-[Birchip300.SummaryFile.parameters]
-summaryfile=Birchip300.sum
 [Mingenew300Sand.SummaryFile.parameters]
 summaryfile=Mingenew300Sand.sum
 [Mingenew300RedSCL.SummaryFile.parameters]
