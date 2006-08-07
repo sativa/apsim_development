@@ -61,7 +61,7 @@ inline protocol::MessageData& operator>>(protocol::MessageData& messageData, str
    return messageData;
    }
 #if (structure.Array = T)
-std::string DDML(const vector<structure.nameType>& value)
+std::string DDML(const std::vector<structure.nameType>& value)
 #else
 std::string DDML(const structure.nameType& value)
 #endif

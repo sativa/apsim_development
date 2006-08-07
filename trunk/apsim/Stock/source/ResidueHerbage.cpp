@@ -396,7 +396,7 @@ string ResidueHerbage::debug(void)
 // ------------------------------------------------------------------
 void ResidueHerbage::doRunTimeReg(void)
    {
-   surfaceOMID = system->addRegistration(RegistrationType::get, "surface_organic_matter", SurfaceOrganicMatterTypeDDML,"", herbageModuleName().c_str());   // parameter crop name=lablab
+   surfaceOMID = system->addRegistration(RegistrationType::get, "surface_organic_matter", DDML(protocol::SurfaceOrganicMatterType()).c_str(),"", herbageModuleName().c_str());   // parameter crop name=lablab
 
 //   heightID = system->addRegistration(RegistrationType::get, "height", singleTypeDDML,"", cHerbageModuleName.c_str());
    }
