@@ -1,4 +1,4 @@
-#ifndef PLANT_H_
+ #ifndef PLANT_H_
 #define PLANT_H_
 
 class ApsimVariant;
