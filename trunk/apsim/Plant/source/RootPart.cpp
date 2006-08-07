@@ -50,7 +50,7 @@ static const char* IncorpFOMType =    "<type name = \"IncorpFOM\">" \
                                       "   <field name=\"dlt_fom_p_value\" kind=\"single\" array=\"T\"/>" \
                                       "</type>";
 
-plantRootPart* constructRootPart(plantInterface *p, const string &type, const string &name) 
+plantRootPart* constructRootPart(plantInterface *p, const string &type, const string &name)
    {
    if (type == "Jones+RitchieGrowthPattern")
      return new rootGrowthOption2(p, name);
@@ -66,6 +66,31 @@ void plantRootPart::zeroAllGlobals(void)
    fill_real_array (root_length , 0.0, max_layer);
    fill_real_array (root_length_dead, 0.0, max_layer);
    n_conc_min = n_conc_crit = n_conc_max = 0.0;
+
+   num_sw_avail_ratio = 0;
+   fill_real_array (x_sw_avail_ratio , 0.0, max_table);
+   fill_real_array (y_swdef_pheno , 0.0, max_table);
+
+      fill_real_array (x_sw_avail_ratio_flower, 0.0, max_table);
+      fill_real_array (y_swdef_pheno_flower, 0.0, max_table);
+      num_sw_avail_ratio_flower = 0;
+
+      fill_real_array (x_sw_avail_ratio_grainfill, 0.0, max_table);
+      fill_real_array (y_swdef_pheno_grainfill, 0.0, max_table);
+      num_sw_avail_ratio_grainfill = 0;
+
+      num_sw_demand_ratio = 0;
+      fill_real_array (x_sw_demand_ratio , 0.0, max_table);
+      fill_real_array (y_swdef_leaf , 0.0, max_table);
+
+      num_sw_avail_fix = 0;
+      fill_real_array (x_sw_avail_fix , 0.0, max_table);
+      fill_real_array (y_swdef_fix , 0.0, max_table);
+
+      fill_real_array (oxdef_photo , 0.0, max_table);
+      fill_real_array (oxdef_photo_rtfr, 0.0, max_table);
+      num_oxdef_photo = 0;
+
    }
 
 void plantRootPart::zeroDeltas(void)
@@ -107,7 +132,7 @@ void plantRootPart::doRegistrations(protocol::Component *system)
 void plantRootPart::readConstants (protocol::Component *system, const string &section)
 {
     plantPart::readConstants(system, section);
-    // Nothing to do here..
+
 }
 
 void plantRootPart::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
@@ -167,6 +192,68 @@ void plantRootPart::readSpeciesParameters(protocol::Component *system, vector<st
     ws_root_fac.search(system, sections,
                          "x_ws_root", "()", 0.0, 1.0,
                          "y_ws_root_fac", "()", 0.0, 1.0);
+
+    system->readParameter (sections
+                     , "x_sw_avail_ratio"//, "()"
+                     , x_sw_avail_ratio, num_sw_avail_ratio
+                     , 0.0, 100.0);
+
+    system->readParameter (sections
+                     , "y_swdef_pheno"//, "()"
+                     , y_swdef_pheno, num_sw_avail_ratio
+                     , 0.0, 100.0);
+
+    system->readParameter (sections
+                     , "x_sw_avail_ratio_flower"//, "()"
+                     , x_sw_avail_ratio_flower, num_sw_avail_ratio_flower
+                     , 0.0, 1.0);
+
+    system->readParameter (sections
+                     , "y_swdef_pheno_flower"//, "()"
+                     , y_swdef_pheno_flower, num_sw_avail_ratio_flower
+                     , 0.0, 5.0);
+
+    system->readParameter (sections
+                     , "x_sw_avail_ratio_grainfill"//, "()"
+                     , x_sw_avail_ratio_grainfill, num_sw_avail_ratio_grainfill
+                     , 0.0, 1.0);
+
+    system->readParameter (sections
+                     , "y_swdef_pheno_grainfill"//, "()"
+                     , y_swdef_pheno_grainfill, num_sw_avail_ratio_grainfill
+                     , 0.0, 5.0);
+
+    system->readParameter (sections
+                     , "x_sw_demand_ratio"//, "()"
+                     , x_sw_demand_ratio, num_sw_demand_ratio
+                     , 0.0, 100.0);
+
+    system->readParameter (sections
+                     , "y_swdef_leaf"//, "()"
+                     , y_swdef_leaf, num_sw_demand_ratio
+                     , 0.0, 100.0);
+
+    system->readParameter (sections
+                     , "x_sw_avail_fix"//,  "()"
+                     , x_sw_avail_fix, num_sw_avail_fix
+                     , 0.0, 100.0);
+
+    system->readParameter (sections
+                     , "y_swdef_fix"//, "()"
+                     , y_swdef_fix, num_sw_avail_fix
+                     , 0.0, 100.0);
+
+    system->readParameter (sections
+                     , "oxdef_photo_rtfr"//, "()"
+                     , oxdef_photo_rtfr, num_oxdef_photo
+                     , 0.0, 1.0);
+
+    system->readParameter (sections
+                     , "oxdef_photo"//, "()"
+                     , oxdef_photo, num_oxdef_photo
+                     , 0.0, 1.0);
+
+
    }
 
 
@@ -335,7 +422,7 @@ void plantRootPart::plant_root_depth (void)
       ; /* nothing */
 
    float root_depth_max = sum (e->dlayer, deepest_layer+1);
-   dltRootDepth = u_bound ( dltRootDepth, root_depth_max - root_depth); 
+   dltRootDepth = u_bound ( dltRootDepth, root_depth_max - root_depth);
 
    if (dltRootDepth < 0.0) throw std::runtime_error("negative root growth??") ;
    }
@@ -411,20 +498,20 @@ void plantRootPart::collectDetachedForResidue(vector<string> &part_name
                               , vector<float> &dm_p
                               , vector<float> &fract_to_residue)
 //=======================================================================================
-// Unlike above ground parts, no roots go to surface residue module. 
+// Unlike above ground parts, no roots go to surface residue module.
    {
    }
-   
+
 void plantRootPart::collectDeadDetachedForResidue(vector<string> &part_name
                               , vector<float> &dm_residue
                               , vector<float> &dm_n
                               , vector<float> &dm_p
                               , vector<float> &fract_to_residue)
 //=======================================================================================
-// Unlike above ground parts, no roots go to surface residue module. 
+// Unlike above ground parts, no roots go to surface residue module.
    {
    }
-   
+
 void plantRootPart::onEndCrop(vector<string> &/*dm_type*/,
                           vector<float> &/*dlt_crop_dm*/,
                           vector<float> &/*dlt_dm_n*/,
@@ -437,7 +524,7 @@ void plantRootPart::onEndCrop(vector<string> &/*dm_type*/,
    root_incorp_dead (dmDead(), nDead(), pDead());
    }
 
-void plantRootPart::updateOthers(void) 
+void plantRootPart::updateOthers(void)
 //=======================================================================================
 // dispose of detached material from dead & senesced roots into FOM pool
    {
@@ -640,7 +727,7 @@ void plantRootPart::redistribute(const vector<float> &dlayer_old,        //  old
    delete []cum_root_depth;
    delete []cum_root_length;
    }
-   
+
 void plantRootPart::get_root_length(protocol::Component *system, protocol::QueryValueData &qd)
 {
     int num_layers = plant->getEnvironment()->num_layers;
@@ -711,7 +798,7 @@ void rootGrowthOption1::root_length_growth (void)
       dltRootLength[layer] = dlt_length_tot *
                               divide (rlv_factor[layer], rlv_factor_tot, 0.0);
       }
-                              
+
 }
 
 void rootGrowthOption2::root_length_growth (void)
@@ -788,7 +875,7 @@ void rootGrowthOption2::root_length_growth (void)
 void rootGrowthOption2::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
    {
    plantRootPart::readSpeciesParameters(system, sections);
-   system->readParameter (sections, "root_distribution_pattern", 
+   system->readParameter (sections, "root_distribution_pattern",
                           rootDistributionPattern, 0.0, 100.0);
    }
 
@@ -804,3 +891,69 @@ void plantRootPart::checkBounds(void)
          throw std::runtime_error(c.name + " length dead in layer " + itoa(layer+1) + " is negative! (" + ftoa(root_length[layer],".4") +")");
       }
    }
+
+void plantRootPart::plant_water_stress (
+                                       float dlayer [],
+                                       float sw_demand,
+                                       float sw_supply[],
+                                       float dlt_sw_dep[],
+                                       float& swdef_photo,
+                                       float sw_avail[],
+                                       float sw_avail_pot[],
+                                       float& swdef_pheno,
+                                       float& swdef_pheno_flower,
+                                       float& swdef_pheno_grainfill,
+                                       float& swdef_expansion,
+                                       float& swdef_fixation )
+//     ===========================================================
+//         Get current water stress factors (0-1)
+    {
+        crop_swdef_photo(max_layer, dlayer, root_depth,
+                             sw_demand, dlt_sw_dep, &swdef_photo);
+
+        crop_swdef_pheno(num_sw_avail_ratio,
+                         x_sw_avail_ratio, y_swdef_pheno, max_layer,dlayer,
+                         root_depth, sw_avail, sw_avail_pot, &swdef_pheno);
+
+        crop_swdef_pheno(num_sw_avail_ratio_flower,
+                         x_sw_avail_ratio_flower, y_swdef_pheno_flower, max_layer,dlayer,
+                         root_depth, sw_avail, sw_avail_pot,
+                         &swdef_pheno_flower);
+
+        crop_swdef_pheno(num_sw_avail_ratio_grainfill,
+                         x_sw_avail_ratio_grainfill, y_swdef_pheno_grainfill, max_layer, dlayer,
+                         root_depth, sw_avail, sw_avail_pot,
+                         &swdef_pheno_grainfill);
+
+        crop_swdef_expansion(num_sw_demand_ratio,
+                             x_sw_demand_ratio, y_swdef_leaf, max_layer, dlayer,
+                             root_depth, sw_demand, sw_supply, &swdef_expansion);
+
+        crop_swdef_fixation(num_sw_avail_fix,
+                            x_sw_avail_fix, y_swdef_fix, max_layer, dlayer,
+                            root_depth, sw_avail, sw_avail_pot,
+                            &swdef_fixation);
+
+    }
+
+float plantRootPart::oxdef_stress (
+                                 float ll15_dep[],
+                                 float sat_dep[],
+                                 float sw_dep[],
+                                 float dlayer[])
+    {
+        float stress;
+
+        crop_oxdef_photo1(  num_oxdef_photo
+                          , oxdef_photo
+                          , oxdef_photo_rtfr
+                          , ll15_dep
+                          , sat_dep
+                          , sw_dep
+                          , dlayer
+                          , root_length
+                          , root_depth
+                          , &stress);
+        return stress;
+
+    }

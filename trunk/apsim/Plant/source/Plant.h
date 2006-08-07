@@ -866,19 +866,7 @@ private:
       string n_supply_preference;                        // preference of n supply
       float x_ws_root [max_table];
       float y_ws_root_fac [max_table];
-      float x_sw_demand_ratio [max_table];
-      float y_swdef_leaf [max_table];
-      float x_sw_avail_ratio [max_table];
-      float y_swdef_pheno [max_table];
-      float x_sw_avail_fix [max_table];
-      float y_swdef_fix [max_table];
-      float oxdef_photo [max_table];
-      float oxdef_photo_rtfr[max_table];
-      int   num_oxdef_photo;
       int   num_ws_root;
-      int   num_sw_demand_ratio;
-      int   num_sw_avail_ratio;
-      int   num_sw_avail_fix;
       float twilight;                                   // twilight in angular distance between
                                                         // sunset and end of twilight - altitude
                                                         // of sun. (deg)
@@ -1028,12 +1016,6 @@ private:
 
       int        root_growth_option;
 
-      float      x_sw_avail_ratio_flower[max_table];
-      float      y_swdef_pheno_flower [max_table];
-      float      x_sw_avail_ratio_grainfill [max_table];
-      float      y_swdef_pheno_grainfill [max_table];
-      int        num_sw_avail_ratio_flower;
-      int        num_sw_avail_ratio_grainfill;
 
       float      co2_default;
       float      x_co2_te_modifier[max_table], y_co2_te_modifier[max_table];

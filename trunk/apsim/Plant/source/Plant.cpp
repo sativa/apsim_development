@@ -1010,75 +1010,29 @@ void Plant::plant_bio_distribute (void)
 
 
 
-//+  Purpose
-//         Get current water stress factors (0-1)
 
-//+  Mission Statement
-//     Calulates the current water stress factors
 
-//+  Changes
-//     010994 jngh specified and programmed
-//     250297 slw split up into separate stress factors
 void Plant::plant_water_stress (int option /* (INPUT) option number */)
+//     ===========================================================
+//         Get current water stress factors (0-1)
     {
-//+  Constant Values
     const char*  my_name = "plant_water_stress" ;
-
-//+  Local Variables
-
-//- Implementation Section ----------------------------------
 
     push_routine (my_name);
 
-    if (option == 1)
-        {
-
-        crop_swdef_photo( max_layer, g.dlayer, rootPart->root_depth,
-                             g.sw_demand, g.dlt_sw_dep, &g.swdef_photo);
-        crop_swdef_pheno(c.num_sw_avail_ratio,
-                         c.x_sw_avail_ratio, c.y_swdef_pheno, max_layer, g.dlayer,
-                         rootPart->root_depth, g.sw_avail, g.sw_avail_pot, &g.swdef_pheno);
-        crop_swdef_expansion(c.num_sw_demand_ratio,
-                             c.x_sw_demand_ratio, c.y_swdef_leaf, max_layer, g.dlayer,
-                             rootPart->root_depth, g.sw_demand, g.sw_supply, &g.swdef_expansion);
-        crop_swdef_fixation(c.num_sw_avail_fix,
-                            c.x_sw_avail_fix, c.y_swdef_fix, max_layer, g.dlayer,
-                            rootPart->root_depth, g.sw_avail, g.sw_avail_pot,
-                            &g.swdef_fixation);
-
-        }
-    else if (option == 2)
-        {
-        crop_swdef_photo(max_layer, g.dlayer, rootPart->root_depth,
-                             g.sw_demand, g.dlt_sw_dep, &g.swdef_photo);
-
-        crop_swdef_pheno(c.num_sw_avail_ratio,
-                         c.x_sw_avail_ratio, c.y_swdef_pheno, max_layer,g.dlayer,
-                         rootPart->root_depth, g.sw_avail, g.sw_avail_pot, &g.swdef_pheno);
-
-        crop_swdef_pheno(c.num_sw_avail_ratio_flower,
-                         c.x_sw_avail_ratio_flower, c.y_swdef_pheno_flower, max_layer,g.dlayer,
-                         rootPart->root_depth, g.sw_avail, g.sw_avail_pot,
-                         &g.swdef_pheno_flower);
-
-        crop_swdef_pheno(c.num_sw_avail_ratio_grainfill,
-                         c.x_sw_avail_ratio_grainfill, c.y_swdef_pheno_grainfill, max_layer, g.dlayer,
-                         rootPart->root_depth, g.sw_avail, g.sw_avail_pot,
-                         &g.swdef_pheno_grainfill);
-
-        crop_swdef_expansion(c.num_sw_demand_ratio,
-                             c.x_sw_demand_ratio, c.y_swdef_leaf, max_layer, g.dlayer,
-                             rootPart->root_depth, g.sw_demand, g.sw_supply, &g.swdef_expansion);
-        crop_swdef_fixation(c.num_sw_avail_fix,
-                            c.x_sw_avail_fix, c.y_swdef_fix, max_layer, g.dlayer,
-                            rootPart->root_depth, g.sw_avail, g.sw_avail_pot,
-                            &g.swdef_fixation);
-
-        }
-    else
-        {
-        throw std::invalid_argument ("invalid template option plant_water_stress");
-        }
+         rootPart->plant_water_stress (
+                                       g.dlayer,
+                                       g.sw_demand,
+                                       g.sw_supply,
+                                       g.dlt_sw_dep,
+                                       g.swdef_photo,
+                                       g.sw_avail,
+                                       g.sw_avail_pot,
+                                       g.swdef_pheno,
+                                       g.swdef_pheno_flower,
+                                       g.swdef_pheno_grainfill,
+                                       g.swdef_expansion,
+                                       g.swdef_fixation );
 
     pop_routine (my_name);
     }
@@ -1138,18 +1092,7 @@ void Plant::plant_oxdef_stress (int option /* (INPUT) option number */)
 
     if (option == 1)
         {
-        crop_oxdef_photo1(  c.num_oxdef_photo
-                          , c.oxdef_photo
-                          , c.oxdef_photo_rtfr
-                          , g.ll15_dep
-                          , g.sat_dep
-                          , g.sw_dep
-                          , g.dlayer
-                          , rootPart->root_length
-                          , rootPart->root_depth
-                          , &g.oxdef_photo);
-
-
+        g.oxdef_photo = rootPart->oxdef_stress (g.ll15_dep, g.sat_dep, g.sw_dep, g.dlayer);
         }
     else
         {
@@ -1713,7 +1656,7 @@ void Plant::plant_nit_supply (int option /* (INPUT) option number*/)
         biomass = topsGreen() + g.dlt_dm;
         float no3gsm_min[max_layer];   // minimum allowable NO3 in soil (g/m^2)
         fill_real_array (no3gsm_min, 0.0, max_layer);
-        
+
         cproc_n_supply1 (g.dlayer
                          , g.dlt_sw_dep
                          , g.no3gsm
@@ -1735,7 +1678,7 @@ void Plant::plant_nit_supply (int option /* (INPUT) option number*/)
         biomass = topsGreen() + g.dlt_dm;
         float no3gsm_min[max_layer];   // minimum allowable NO3 in soil (g/m^2)
         fill_real_array (no3gsm_min, 0.0, max_layer);
-        
+
         cproc_n_supply3 (g.dlayer
                          , g.no3gsm
                          , no3gsm_min
@@ -1762,7 +1705,7 @@ void Plant::plant_nit_supply (int option /* (INPUT) option number*/)
         fill_real_array (no3gsm_min, 0.0, max_layer);
         float nh4gsm_min[max_layer];   // minimum allowable NH4 in soil (g/m^2)
         fill_real_array (nh4gsm_min, 0.0, max_layer);
-        
+
         cproc_n_supply4 (g.dlayer
                              , g.bd
                              , g.no3gsm
@@ -4523,19 +4466,7 @@ void Plant::plant_zero_all_globals (void)
       c.n_supply_preference = "";
       fill_real_array (c.x_ws_root , 0.0, max_table);
       fill_real_array (c.y_ws_root_fac , 0.0, max_table);
-      fill_real_array (c.x_sw_demand_ratio , 0.0, max_table);
-      fill_real_array (c.y_swdef_leaf , 0.0, max_table);
-      fill_real_array (c.x_sw_avail_ratio , 0.0, max_table);
-      fill_real_array (c.y_swdef_pheno , 0.0, max_table);
-      fill_real_array (c.x_sw_avail_fix , 0.0, max_table);
-      fill_real_array (c.y_swdef_fix , 0.0, max_table);
-      fill_real_array (c.oxdef_photo , 0.0, max_table);
-      fill_real_array (c.oxdef_photo_rtfr, 0.0, max_table);
-      c.num_oxdef_photo = 0;
       c.num_ws_root = 0;
-      c.num_sw_demand_ratio = 0;
-      c.num_sw_avail_ratio = 0;
-      c.num_sw_avail_fix = 0;
 
 
       c.n_fact_photo = 0.0;
@@ -4617,14 +4548,6 @@ void Plant::plant_zero_all_globals (void)
       g.dlt_sw_parasite_demand = 0.0;
       g.dm_parasite_retranslocate = 0.0;
       g.dlt_dm_parasite = 0.0;
-
-      fill_real_array (c.x_sw_avail_ratio_flower, 0.0, max_table);
-      fill_real_array (c.y_swdef_pheno_flower, 0.0, max_table);
-      c.num_sw_avail_ratio_flower = 0;
-
-      fill_real_array (c.x_sw_avail_ratio_grainfill, 0.0, max_table);
-      fill_real_array (c.y_swdef_pheno_grainfill, 0.0, max_table);
-      c.num_sw_avail_ratio_grainfill = 0;
 
       fill_real_array (c.x_co2_te_modifier, 0.0, max_table);
       fill_real_array (c.y_co2_te_modifier, 0.0, max_table);
@@ -6147,25 +6070,6 @@ void Plant::plant_read_species_const ()
                      , 0.0, 100.0);
 
     //    plant_swdef
-    parent->readParameter (search_order
-                     , "x_sw_demand_ratio"//, "()"
-                     , c.x_sw_demand_ratio, c.num_sw_demand_ratio
-                     , 0.0, 100.0);
-
-    parent->readParameter (search_order
-                     , "y_swdef_leaf"//, "()"
-                     , c.y_swdef_leaf, c.num_sw_demand_ratio
-                     , 0.0, 100.0);
-
-    parent->readParameter (search_order
-                     , "x_sw_avail_ratio"//, "()"
-                     , c.x_sw_avail_ratio, c.num_sw_avail_ratio
-                     , 0.0, 100.0);
-
-    parent->readParameter (search_order
-                     , "y_swdef_pheno"//, "()"
-                     , c.y_swdef_pheno, c.num_sw_avail_ratio
-                     , 0.0, 100.0);
 
     parent->readParameter (search_order
                      , "x_ws_root"//,  "()"
@@ -6177,45 +6081,6 @@ void Plant::plant_read_species_const ()
                      , c.y_ws_root_fac, c.num_ws_root
                      , 0.0, 1.0);
 
-    parent->readParameter (search_order
-                     , "x_sw_avail_fix"//,  "()"
-                     , c.x_sw_avail_fix, c.num_sw_avail_fix
-                     , 0.0, 100.0);
-
-    parent->readParameter (search_order
-                     , "y_swdef_fix"//, "()"
-                     , c.y_swdef_fix, c.num_sw_avail_fix
-                     , 0.0, 100.0);
-
-    parent->readParameter (search_order
-                     , "oxdef_photo_rtfr"//, "()"
-                     , c.oxdef_photo_rtfr, c.num_oxdef_photo
-                     , 0.0, 1.0);
-
-    parent->readParameter (search_order
-                     , "oxdef_photo"//, "()"
-                     , c.oxdef_photo, c.num_oxdef_photo
-                     , 0.0, 1.0);
-
-    parent->readParameter (search_order
-                     , "x_sw_avail_ratio_flower"//, "()"
-                     , c.x_sw_avail_ratio_flower, c.num_sw_avail_ratio_flower
-                     , 0.0, 1.0);
-
-    parent->readParameter (search_order
-                     , "y_swdef_pheno_flower"//, "()"
-                     , c.y_swdef_pheno_flower, c.num_sw_avail_ratio_flower
-                     , 0.0, 5.0);
-
-    parent->readParameter (search_order
-                     , "x_sw_avail_ratio_grainfill"//, "()"
-                     , c.x_sw_avail_ratio_grainfill, c.num_sw_avail_ratio_grainfill
-                     , 0.0, 1.0);
-
-    parent->readParameter (search_order
-                     , "y_swdef_pheno_grainfill"//, "()"
-                     , c.y_swdef_pheno_grainfill, c.num_sw_avail_ratio_grainfill
-                     , 0.0, 5.0);
 
     parent->readParameter (search_order
                      , "co2_default"//, "()"
