@@ -3,6 +3,7 @@
 #define FStringExtH
 
 #include <ApsimShared/FString.h>
-std::string asString(const FString& st);
+#include <general/platform.h>
+std::string EXPORT STDCALL asString(const FString& st);
 
 #endif

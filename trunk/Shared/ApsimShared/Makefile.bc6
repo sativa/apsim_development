@@ -18,7 +18,7 @@ ApsimServiceData.obj ApsimSettings.obj ApsimSimulationFile.obj \
 ApsimSystemData.obj ApsimVersion.obj TAboutForm.obj TSplashForm.obj \
 ApsimForms.obj ApsimDataFile.obj ApsimDataTypesFile.obj \
 ApsimDataTypeData.obj ApsimRegistrationData.obj ControlFileConverter.obj \
-TMoveParametersForm.obj SimCreator.obj SimCreatorSection.obj ApsimMacroFile.obj FString.obj FStringExt.obj
+TMoveParametersForm.obj SimCreator.obj SimCreatorSection.obj ApsimMacroFile.obj FString.obj FStringExt.obj Phi_functions.obj
 
 RESFILES = ApsimShared.res
 USERDEFINES =
@@ -31,7 +31,6 @@ LIBFILES = $(SYSLIBS) $(APSROOT)\Shared\general\general.lib \
     $(BCB)\Components\Boost\libs\filesystem\filesystem.lib \
     $(BCB)\Components\Boost\libs\date_time\date_time.lib \
     $(BCB)\Components\LibXml2\win32\LibXml2.lib
-
 
 LIBRARIES =  TMSC6.lib
 PACKAGES = vcl.bpi rtl.bpi
@@ -54,7 +53,7 @@ $(ALLLIB), +
 $(DEFFILE), +
 $(ALLRES)
 !
-	$(IMPDEF) ApsimShared.def $(TARGET)
+	$(IMPDEF) ApsimShared.def ..\..\bin\ApsimShared.dll
 	$(APSROOT)\Tools\def2imp\def2imp.exe ApsimShared.def ApsimShared.imp
 
 .cpp.obj:

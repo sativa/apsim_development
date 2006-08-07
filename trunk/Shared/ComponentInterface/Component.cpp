@@ -1,5 +1,4 @@
 //---------------------------------------------------------------------------
-#include <windows.h>
 #pragma hdrstop
 #include <stdexcept>
 #include <limits.h>
@@ -17,7 +16,6 @@
 #include "ProtocolVector.h"
 #include "Component.h"
 
-#define FARPROC void*
 using namespace protocol;
 
 #define min(a, b)  (((a) < (b)) ? (a) : (b))
@@ -33,7 +31,6 @@ static const char* SUMMARY_FILE_WRITE_TYPE = "<type name=\"SummaryFileWrite\">"
                                              "   <field name=\"lines\" kind=\"string\"/>"
                                              "</type>";
 
-extern HINSTANCE instanceNumber;
 Component* component;
 // ------------------------------------------------------------------
 //  Short description:
@@ -52,6 +49,7 @@ Component::Component(void)
    componentData = NULL;
    name = NULL;
    beforeInit2 = true;
+   tick.startday = 0;
    initMessages();
    component = this;
    haveWritenToStdOutToday = false;
@@ -76,9 +74,15 @@ Component::~Component(void)
    if (componentData != NULL)
       deleteApsimComponentData(componentData);
 
+   // delete all registrations.
+   for (NameToRegMap::iterator Reg = RegNames.begin();
+                         Reg != RegNames.end();
+                         Reg++)
+      delete Reg->second;
    delete [] name;
    clearReturnInfos();
    if (dllName) delete [] dllName;
+   delete registrations;
    }
 
 // -----------------------------------------------------------------
@@ -111,7 +115,7 @@ void Component::setup(const char *dllname,
                       const unsigned int componentid,
                       const unsigned int parentid,
                       const unsigned int* callbackarg,
-                      void* messagecallback)
+                      CallbackType messagecallback)
    {
    if (dllName) delete [] dllName;
    dllName = new char [strlen(dllname)+1];
@@ -120,7 +124,7 @@ void Component::setup(const char *dllname,
    parentID = parentid;
    componentID = componentid;
    callbackArg = callbackarg;
-   (void*)messageCallback = messagecallback;
+   messageCallback = (void STDCALL (*)(const unsigned int*, protocol::Message*))messagecallback;
    name = NULL;
    }
 
@@ -310,7 +314,7 @@ void Component::doInit1(const FString& sdml)
                                SUMMARY_FILE_WRITE_TYPE);
    tickID = addRegistration(RegistrationType::respondToEvent,
                             "tick",
-                            timeTypeDDML);
+                            DDML(timeType()).c_str());
    sendTickToComponent = false;
    }
 
@@ -435,7 +439,20 @@ void Component::deleteRegistration(RegistrationType kind,
 void Component::respondToGet(unsigned int& /*fromID*/, QueryValueData& queryData)
    {
    baseInfo *v = getVarMap[queryData.ID];
-   if (v) v->sendVariable(this, queryData);
+   if (v)
+      v->sendVariable(this, queryData);
+   else
+      {
+      RegItem* Reg = (RegItem*) queryData.ID;
+      string type = Reg->DDML;
+      Message* msg = constructMessage(ReplyValue, componentID, parentID, false,
+                                      memorySize(queryData.ID) + memorySize(type) + Reg->Data->Size());
+      MessageData messageData(msg);
+      messageData << queryData.ID;
+      messageData << type;
+      Reg->Data->Pack(messageData);
+      sendMessage(msg);
+      }
    }
 
 void Component::respondToEvent(unsigned int& fromID, unsigned int& eventID, Variant& variant)
@@ -451,6 +468,12 @@ void Component::respondToEvent(unsigned int& fromID, unsigned int& eventID, Vari
      pf = ipf->second;
      (pf)(fromID, eventID, variant);
      }
+  pair<IDToRegMap::iterator, IDToRegMap::iterator> Range = RegIDs.equal_range(eventID);
+  for (IDToRegMap::iterator i = Range.first; i != Range.second; i++)
+      {
+      RegItem* Reg = i->second;
+      Reg->Data->Unpack(variant.getMessageData());
+      }
   }
 // ------------------------------------------------------------------
 //  Short description:
@@ -677,10 +700,9 @@ bool Component::componentIDToName(unsigned int compID, FString& name)
    {
    clearReturnInfos();
 
-   char idString[100];
-   itoa(compID, idString, 10);
+   string idString = itoa(compID);
 
-   sendMessage(newQueryInfoMessage(componentID, parentID, idString, componentInfo));
+   sendMessage(newQueryInfoMessage(componentID, parentID, idString.c_str(), componentInfo));
    if (returnInfos.size() == 1)
       {
       ReturnInfoData* returnInfo = returnInfos[0];
@@ -701,6 +723,15 @@ bool Component::componentIDToName(unsigned int compID, FString& name)
 void Component::onQuerySetValueMessage(unsigned fromID, QuerySetValueData& querySetData)
    {
    bool ok = respondToSet(fromID, querySetData);
+   if (!ok)
+	   {
+      IDToRegMap::iterator i = RegIDs.find(querySetData.ID);
+      if (i != RegIDs.end())
+         {
+         RegItem* Reg = i->second;
+         Reg->Data->Unpack(querySetData.variant.getMessageData());
+         }
+      }
    sendMessage(newNotifySetValueSuccessMessage
                   (componentID,
                    querySetData.replyToID,
@@ -860,7 +891,7 @@ void Component::onCompleteMessage(CompleteData& completeData)
       char buffer[200];
       strcpy(buffer, "Invalid complete message.  Was waiting for a complete\n");
       strcat(buffer, "message with ID=");
-      itoa(completeIDs[completeIDs.size()-1], &buffer[strlen(buffer)], 10);
+      strcat(buffer, itoa(completeIDs[completeIDs.size()-1]).c_str());
       error(buffer, true);
       completeFound = false;
       }
@@ -1077,57 +1108,130 @@ std::string Component::getDescription()
       }
    catch (const std::exception& err)
       {
-      MessageBox(NULL, err.what(), "Error", MB_ICONSTOP | MB_OK);
-      return "";
+	  throw runtime_error(err.what());
       }
    }
 
 
 
-void Component::RegisterVariable(const std::string& name, const std::string& units, bool settable,
-                                 int& data)
+void Component::ExportReadOnlyVariable(const std::string& Name, const std::string& Units,
+                                       const std::string& Description,
+                                       VariableRef Data)
    // ------------------------------------------------------------------------
    // Register a variable with the system.
    {
-   string ddml = "<type kind=\"int\" array=\"F\" units=\"" + units + "\"/>";
-   if (settable)
-      nameToRegistrationID(name, units, RegistrationType::respondToGet, Apsiminteger4(data));
-   else
-      nameToRegistrationID(name, units, RegistrationType::respondToGetSet, Apsiminteger4(data));
+   if (nameToRegistrationID(Name, RegistrationType::respondToGet) == 0)
+      RegisterWithPM(Name, Units, Description, RegistrationType::respondToGet, Data.Clone());
+   }
+
+void Component::ExportReadWriteVariable(const std::string& Name, const std::string& Units,
+                                        const std::string& Description,
+                                        VariableRef Data)
+   // ------------------------------------------------------------------------
+   // Register a variable with the system.
+   {
+   if (nameToRegistrationID(Name, RegistrationType::respondToGet) == 0)
+      RegisterWithPM(Name, Units, Description, RegistrationType::respondToGetSet, Data.Clone());
+   }
+
+void Component::ExportReadOnlyVariable(const std::string& Name, const std::string& Units,
+                                       const std::string& Description,
+                                       const FunctionReturningValue::Function& Func)
+   // ------------------------------------------------------------------------
+   // Register a variable with the system using a getter function.
+   {
+   if (nameToRegistrationID(Name, RegistrationType::respondToGet) == 0)
+      {
+      FunctionReturningValue* F = new FunctionReturningValue(Func);
+      F->SetName(Name);
+      RegisterWithPM(Name, Units, Description, RegistrationType::respondToGet, F);
+      }
+   }
+
+void Component::ExportReadWriteVariable(const std::string& Name, const std::string& Units,
+                             const std::string& Description,
+                             const FunctionReturningValue::Function& GetterFunction,
+                             const INamedData& SetterFunction)
+   // ------------------------------------------------------------------------
+   // Register a variable with the system using a getter & setter function.
+   {
+   ExportReadOnlyVariable(Name, Units, Description, GetterFunction);
+   if (nameToRegistrationID(Name, RegistrationType::respondToSet) == 0)
+      {
+      SetterFunction.SetName(Name);
+      RegisterWithPM(Name, Units, Description, RegistrationType::respondToSet, SetterFunction.Clone());
+      }
+   }
+
+void Component::SubscribeToEvent(const std::string& Name, const INamedData& EventHandlerFunction)
+   // ------------------------------------------------------------------------
+   // Subscribe to an event.
+   {
+   EventHandlerFunction.SetName(Name);
+   RegisterWithPM(Name, "", "", RegistrationType::respondToEvent, EventHandlerFunction.Clone());
+   }
+
+
+void AddAttributeToXML(string& XML, const string& Attribute)
+   // -------------------------------------------------------------
+   // Add an attribute (e.g. units="g/m2") to the end of an
+   // xml string (e.g. "<type name="biomass"/>)
+   {
+   unsigned PosEnd = XML.rfind("/>");
+   if (PosEnd == string::npos)
+      throw runtime_error("Invalid XML string: " + XML);
+
+   XML.insert(PosEnd, " " + Attribute);
+   }
+
+void Component::RegisterWithPM(const string& Name, const string& Units,
+                               const std::string& Description,
+                               RegistrationType::Type regType,
+                               IData* Data)
+   // ------------------------------------------------------------------
+   // Register something with our PM given the specified information.
+   // ------------------------------------------------------------------
+   {
+   // Create and setup a new registration object.
+   RegItem* NewRegistration = new RegItem;
+   NewRegistration->DDML = Data->DDML();
+   NewRegistration->Data = Data;
+   if (Units != "")
+      AddAttributeToXML(NewRegistration->DDML, "units=\"" + Units + "\"");
+   if (Description != "")
+      AddAttributeToXML(NewRegistration->DDML, "description=\"" + Description + "\"");
+
+   // Add new object to our map.
+   string FullRegName = Name + itoa(regType);
+   unsigned NewID = (unsigned) NewRegistration;
+   RegNames.insert(make_pair(FullRegName, NewRegistration));
+   RegIDs.insert(make_pair(NewID, NewRegistration));
+
+   // send register message to PM.
+   sendMessage(newRegisterMessage(componentID,
+                                  parentID,
+                                  regType,
+                                  NewID,
+                                  0,
+                                  Name.c_str(),
+                                  NewRegistration->DDML.c_str()));
    }
 
 unsigned Component::nameToRegistrationID(const std::string& name,
-                                         const std::string& units,
-                                         RegistrationType::Type regType,
-                                         IData& data)
+                                         RegistrationType::Type regType)
    // ------------------------------------------------------
    // Return a registration id for the specified
-   // name. If name hasn't been registered then
-   // use the regType to send a message to our PM.
+   // name.
    // ------------------------------------------------------
    {
    ostringstream regTypeString;
    regTypeString << regType << ends;
    string FullRegName = name + regTypeString.str();
-   Regs::iterator reg = regs.find(FullRegName);
-   if (reg == regs.end())
-      {
-      Registration* newRegistration = new Registration(name, regType, data);
-      regs.insert(make_pair(FullRegName, *newRegistration));
-      reg = regs.find(FullRegName);
-      unsigned newRegId = (unsigned) &(reg->second);
-
-      sendMessage(newRegisterMessage(componentID,
-                                     parentID,
-                                     regType,
-                                     newRegId,
-                                     0,
-                                     name.c_str(),
-                                     data.ddml()));
-      return newRegId;
-      }
+   NameToRegMap::iterator reg = RegNames.find(FullRegName);
+   if (reg == RegNames.end())
+      return 0;
    else
-      return (unsigned) &(reg->second);
+      return (unsigned) reg->second;
    }
 
 void Component::removeGettableVar(const char *systemName)

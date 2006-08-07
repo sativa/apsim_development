@@ -10,6 +10,5 @@ module Infrastructure
    use ConvertModule
    use ReadModule
    use DataTypes
-   use DataTypesInterface         
+   use DataTypesInterface
 end module Infrastructure
-                                              

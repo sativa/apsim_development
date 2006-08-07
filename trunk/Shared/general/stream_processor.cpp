@@ -1,8 +1,10 @@
 //---------------------------------------------------------------------------
 #include <stdlib.h>
-#include <general\stream_processor.h>
-#include <general\stream_functions.h>
-#include <sstream.h>
+#include <general/stream_processor.h>
+#include <general/stream_functions.h>
+#include <sstream>
+
+using namespace std;
 
 static const int MAX_DEFINE_NAME_SIZE = 50;
 static const int MAX_LINE_SIZE = 1000;
@@ -34,20 +36,20 @@ Line_processor::Line_processor ()
 //    DPH 8/10/97
 
 // ------------------------------------------------------------------
-bool Line_processor::Replace_macros (string& Line)
+bool Line_processor::Replace_macros (std::string& Line)
    {
    // search for a macro character.
 
    size_t Macro_pos = Line.find (Macro_char);
-   while (Macro_pos != string::npos)
+   while (Macro_pos != std::string::npos)
       {
       // get macro name from line
-      istringstream Word_stream (&Line[Macro_pos]);
-      string Macro_name;
+      std::istringstream Word_stream (&Line[Macro_pos]);
+      std::string Macro_name;
       Read_token(Word_stream, "", " ,\n\'()[]-+/*.", Macro_name);
 
       // get a value for the macro.
-      string Macro_value;
+      std::string Macro_value;
       bool Found = Get_macro_value (Macro_name.c_str(), Macro_value);
 
       // replace macro name with macro value.
@@ -93,7 +95,7 @@ void Stream_processor::Go (istream& In_stream,
    In_stream.clear();
 
    char Line[MAX_LINE_SIZE];
-   string Line_st;
+   std::string Line_st;
 
    while (!In_stream.eof())
       {

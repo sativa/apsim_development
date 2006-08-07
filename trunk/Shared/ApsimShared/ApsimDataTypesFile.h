@@ -2,12 +2,13 @@
 
 #ifndef ApsimDataTypesFileH
 #define ApsimDataTypesFileH
+#include <general/platform.h>
 
-class ApsimDataTypeData;
+class EXPORT ApsimDataTypeData;
 //---------------------------------------------------------------------------
 // This class encapsulates the apsim types database ie. (apsim\datatypes.interface)
 //---------------------------------------------------------------------------
-class __declspec(dllexport) ApsimDataTypesFile
+class EXPORT ApsimDataTypesFile
    {
    public:
       ApsimDataTypesFile(void);

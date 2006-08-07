@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 #ifndef transportH
 #define transportH
-#include <ComponentInterface\interfaces.h>
+#include <ComponentInterface/interfaces.h>
 #include <vector>
 
 namespace protocol {
@@ -23,7 +23,7 @@ class Message;
 //    dph 10/5/2001
 
 // ------------------------------------------------------------------
-class __declspec(dllexport) Transport : public ITransport
+class Transport : public ITransport
    {
    public:
       Transport(void) : messageHook(NULL) {}
@@ -44,7 +44,7 @@ class __declspec(dllexport) Transport : public ITransport
 
    };
 
-void _export setMessageHook(IMessageHook* hook);
+void setMessageHook(IMessageHook* hook);
 
 } // namespace protocol
 #endif

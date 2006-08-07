@@ -1,14 +1,15 @@
 //---------------------------------------------------------------------------
-#ifndef STL functionsH
-#define STL functionsH
+#ifndef STL_functionsH 
+#define STL_functionsH
+
 
 #include <functional>
-#include <general\string_functions.h>
-#include <general\stristr.h>
+#include <general/string_functions.h>
+#include <general/stristr.h>
+#include <boost/lexical_cast.hpp>
+
 using namespace std;
 
-// turn of the warnings about "Functions containing for are not expanded inline.
-#pragma warn -inl
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -272,7 +273,7 @@ class Find_by_name_predicate
 
       bool operator () (T& arg)
          {
-         return (strcmpi(arg.Get_name().c_str(), Name.c_str()) == 0);
+         return (Str_i_Eq(arg.Get_name(), Name));
          };
    };
 
@@ -288,7 +289,7 @@ class Find_by_filename_predicate
 
       bool operator () (T& arg)
          {
-         return (strcmpi(arg.Get_filename().c_str(), File_name.c_str()) == 0);
+         return (Str_i_Eq(arg.Get_filename(), File_name));
          };
    };
 
@@ -336,7 +337,7 @@ class PEqualToName
          : name(n) {}
 
       bool operator () (T* arg)
-         {return (stricmp(arg->getName().c_str(), name.c_str()) == 0);};
+      {return (Str_i_Eq(arg->getName(), name));};
    };
 template <class T>
 class EqualToName
@@ -348,7 +349,7 @@ class EqualToName
          : name(n) {}
 
       bool operator () (T& arg)
-         {return (stricmp(arg.getName().c_str(), name.c_str()) == 0);};
+         {return (Str_i_Eq(arg.getName(), name));};
    };
 template <class T>
 class PEqualToFileName
@@ -360,7 +361,7 @@ class PEqualToFileName
          : filename(fn) {}
 
       bool operator () (T* arg)
-         {return (stricmp(arg->getFilename().c_str(), filename.c_str()) == 0);};
+         {return (Str_i_Eq(arg->getFilename(), filename));};
    };
 class PartialStringComparison
    {
@@ -399,7 +400,7 @@ class EqualToFileName
          : filename(fn) {}
 
       bool operator () (T& arg)
-         {return (stricmp(arg.getFilename().c_str(), filename.c_str()) == 0);};
+         {return (Str_i_Eq(arg.getFilename(), filename));};
    };
 
 template <class CT, class T>
@@ -509,7 +510,7 @@ class FilterContainer
          : subStrings(substrings), matchingFiles(matchingfiles) { }
       void operator() (const string& st)
          {
-         for (CT::const_iterator i = subStrings.begin(); i != subStrings.end(); i++)
+         for (typename CT::const_iterator i = subStrings.begin(); i != subStrings.end(); i++)
             {
             if (stristr(st.c_str(), i->c_str()) != NULL &&
                 find(matchingFiles.begin(), matchingFiles.end(), st) == matchingFiles.end())
@@ -649,16 +650,16 @@ void StringToContainer (const string& Numbers,
    container.erase (container.begin(), container.end());
    std::vector<std::string> string_container;
    splitIntoValues(Numbers, " ", string_container);
-   for (std::vector<std::string>::iterator st = string_container.begin();
-                               st != string_container.end();
-                               st++)
+   std::vector<std::string>::iterator st;
+   for (st = string_container.begin();
+        st != string_container.end();
+        st++)
       {
-      container.push_back(boost::lexical_cast<T>(st));
+      T val;
+      val = boost::lexical_cast<T> (*st); 
+      container.push_back(val);
       }
    }
 
-
-// restore the warnings about "Functions containing for are not expanded inline.
-#pragma warn .inl
 
 #endif

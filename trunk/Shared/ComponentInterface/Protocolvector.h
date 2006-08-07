@@ -126,7 +126,7 @@ template <class T>
 inline MessageData& operator>>(MessageData& messageData, vector<T>& values)
    {
    unsigned int numValues;
-   messageData >> (int) numValues;
+   messageData >> numValues;
    values.empty();
    for (unsigned int i = 0; i < numValues; i++)
       {

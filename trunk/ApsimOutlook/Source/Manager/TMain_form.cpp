@@ -8,6 +8,7 @@
 #include "TBatch_import_form.h"
 #include <general\io_functions.h>
 #include <general\vcl_functions.h>
+#include <dir.h>
 //---------------------------------------------------------------------
 #pragma link "Grids"
 #pragma resource "*.dfm"

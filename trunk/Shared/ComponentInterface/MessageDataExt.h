@@ -1,6 +1,7 @@
 #ifndef MessageDataExtH
 #define MessageDataExtH
 
+#include <iostream>
 #include "MessageData.h"
 #include <string>
 #include <vector>
@@ -13,8 +14,8 @@ namespace protocol {
 // STRING specialisations
 inline MessageData& operator>>(MessageData& messageData, std::string& value)
    {
-   unsigned int numChars;
-   messageData >> (int)numChars;
+   int numChars;
+   messageData >> numChars;
    value = std::string(messageData.ptr(), numChars);
    messageData.movePtrBy(numChars);
    return messageData;
@@ -44,7 +45,7 @@ inline MessageData& operator>>(MessageData& messageData, std::vector<T>& values)
    {
    values.erase(values.begin(), values.end());
    unsigned int numValues;
-   messageData >> (int) numValues;
+   messageData >> numValues;
    for (unsigned int i = 0; i < numValues; i++)
       {
       T value;

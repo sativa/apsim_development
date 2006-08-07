@@ -2,7 +2,7 @@
 #ifndef date_functionsH
 #define date_functionsH
 
-#include <boost\date_time\gregorian\gregorian.hpp>
+#include <boost/date_time/gregorian/gregorian.hpp>
 #include <stdexcept>
 #include <general/string_functions.h>
 

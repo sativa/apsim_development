@@ -2,9 +2,10 @@
 #define MessagesH
 
 #include "message.h"
-#include "variant.h"
+#include "Variant.h"
 #include "ProtocolVector.h"
 #include "RegistrationType.h"
+#include <ApsimShared/FStringExt.h>
 namespace protocol {
 
 // --------------- RegistrationType streaming ------------
@@ -187,6 +188,7 @@ struct Init1Data
 inline MessageData& operator>> (MessageData& messageData, Init1Data& data)
    {
    messageData >> data.sdml >> data.fqn >> data.inStartup;
+   std::string a = asString(data.sdml);
    return messageData;
    }
 inline Message* newInit1Message(unsigned int from,

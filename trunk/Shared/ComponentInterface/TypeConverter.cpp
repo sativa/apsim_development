@@ -1,4 +1,3 @@
-#include <windows.h>
 #pragma hdrstop
 
 #include <limits.h>
@@ -8,8 +7,8 @@
 #include <stdexcept>
 #include "TypeConverter.h"
 
-// turn of the warnings about "Functions containing for are not expanded inline.
-#pragma warn -inl
+#include <general/string_functions.h>
+
 
 using namespace std;
 using namespace protocol;
@@ -90,7 +89,7 @@ class Int4FromSingle : public TypeConverter
          {
          float value;
          messageData >> value;
-         int result = value;
+         int result = (int) value;
 
          bufferMessageData << result;
          }
@@ -107,9 +106,9 @@ class StringFromInt4 : public TypeConverter
          {
          int value;
          messageData >> value;
-         char result[100];
-         itoa(value, result, 10);
-         bufferMessageData << FString(result, strlen(result), CString);
+         string result;
+         result = itoa(value);
+         bufferMessageData << FString(result.c_str(), result.length(), CString);
          }
       virtual TypeConverter* clone(void)
          {
@@ -389,7 +388,7 @@ static TypeConverter* scalarConversionMatrix[9][9] =  {
 //  Changes:
 //    DPH 7/6/2001
 // ------------------------------------------------------------------
-bool _export protocol::getTypeConverter(const FString& name,
+bool protocol::getTypeConverter(const FString& name,
                                 const Type& sourceType,
                                 const Type& destType,
                                 TypeConverter*& converter)
@@ -404,7 +403,7 @@ bool _export protocol::getTypeConverter(const FString& name,
 // Return a data type converter if possible or NULL if none
 // available.
 // ------------------------------------------------------------------
-bool _export protocol::getTypeConverter(const FString& name,
+bool protocol::getTypeConverter(const FString& name,
                                 protocol::DataTypeCode sourceTypeCode,
                                 protocol::DataTypeCode destTypeCode,
                                 bool isSourceArray,
@@ -485,6 +484,4 @@ bool _export protocol::getTypeConverter(const FString& name,
    return true;
    }
 
-// restore the warnings about "Functions containing for are not expanded inline.
-#pragma warn .inl
 

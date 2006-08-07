@@ -90,7 +90,7 @@
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
-     
+
       ok = component_name_to_id('apswim', g%SWIM_id)
       if (ok) then
          call surface_get_other_variables ()
@@ -106,8 +106,9 @@
 
          g%rr = p%rr_max
       else
-         call error('Cannot find APSWIM in simulation.  The surface'
-     .              // new_line 
+         call fortran_error(
+     .              'Cannot find APSWIM in simulation.  The surface'
+     .              // new_line
      .              // 'module needs APSWIM to function', .true.)
       endif
 
@@ -951,7 +952,7 @@ cnh but is more sensible at low rainfall intensities.
       subroutine alloc_dealloc_instance(doAllocate)
 !     ===========================================================
       use SurfaceModule
-      implicit none  
+      implicit none
       ml_external alloc_dealloc_instance
 
 !+  Sub-Program Arguments
@@ -1067,10 +1068,10 @@ c         call surface_surface ()
       Use infrastructure
       implicit none
       ml_external respondToEvent
-      
+
       integer, intent(in) :: fromID
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
-      
+
       return
       end subroutine respondToEvent

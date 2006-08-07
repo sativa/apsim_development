@@ -1,13 +1,13 @@
 //---------------------------------------------------------------------------
-#include <general\pch.h>
-#include <vcl.h>
+#include <general/pch.h>
 #pragma hdrstop
 
+#include <stdexcept>
 #include "Registrations.h"
-#include <general\stl_functions.h>
-#include <general\string_functions.h>
-#include <boost\lexical_cast.hpp>
-#include <boost\bind.hpp>
+#include <general/stl_functions.h>
+#include <general/string_functions.h>
+#include <boost/lexical_cast.hpp>
+#include <boost/bind.hpp>
 
 #pragma package(smart_init)
 using namespace std;

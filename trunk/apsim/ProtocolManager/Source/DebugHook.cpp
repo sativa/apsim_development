@@ -1,9 +1,12 @@
-#include <general\pch.h>
-#include <vcl.h>
+#include <general/pch.h>
 #pragma hdrstop
 
-#include "DebugHook.h"
+#ifdef __WIN32__
+#include <vcl.h>
 #include <windows.h>
+#endif
+
+#include "DebugHook.h"
 
 void DebugException(void)
    {

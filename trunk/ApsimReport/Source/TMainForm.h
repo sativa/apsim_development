@@ -16,6 +16,7 @@
 #include <FileCtrl.hpp>
 #include "MRUFList.hpp"
 #include <ExtCtrls.hpp>
+#include <general\xml.h>
 #include <SEGReport\report.h>
 //---------------------------------------------------------------------------
 class TMainForm : public TForm

@@ -81,7 +81,7 @@ void SummaryFileComponent::doInit1(const FString& sdml)
    static const char* stringDDML = "<type kind=\"string\"\\>";
    static const char* stringArrayDDML = "<type kind=\"string\" array=\"T\"\\>";
    summaryFileWriteID = addRegistration(RegistrationType::respondToEvent, "summaryFileWrite", "");
-   tickID = addRegistration(RegistrationType::respondToEvent, "tick", timeTypeDDML);
+   tickID = addRegistration(RegistrationType::respondToEvent, "tick", DDML(timeType()).c_str());
    prepareID = addRegistration(RegistrationType::respondToEvent, "prepare", "");
    externalErrorID = addRegistration(RegistrationType::respondToEvent, "error", "");
    summaryFileID = addRegistration(RegistrationType::respondToGet, "summaryFile", stringDDML);
@@ -89,21 +89,16 @@ void SummaryFileComponent::doInit1(const FString& sdml)
    componentsID = addRegistration(RegistrationType::get, "components", stringArrayDDML);
 
    // read in and open our file. Extra care taken during init1.
-   try {
-       fileName = readParameter("parameters", "summaryfile");
+   fileName = readParameter("parameters", "summaryfile");
 
-       out.open(fileName.c_str());
-       if (!out)
-          {
-          string msg = "Cannot open summary file: " + fileName;
-          throw std::runtime_error(msg);
-          }
+   out.open(fileName.c_str());
+   if (!out)
+      {
+      string msg = "Cannot open summary file: " + fileName;
+      throw std::runtime_error(msg);
+      }
 
-       writeBanner();
-   } catch (const std::exception &e)
-       {
-       ::MessageBox(NULL, e.what(), "Error", MB_ICONSTOP | MB_OK);
-       }
+   writeBanner();
    }
 // ------------------------------------------------------------------
 // do INIT2 stuff.

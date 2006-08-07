@@ -12,6 +12,7 @@
 #include <general/stl_functions.h>
 #include <general/TreeNodeIterator.h>
 #include <general/xml.h>
+#include <general/platform.h>
 
 #include <ApsimShared/ApsimComponentData.h>
 #include <ApsimShared/FApsimComponentData.h>
@@ -23,10 +24,11 @@
 #include <ComponentInterface/MessageDataExt.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/datatypes.h>
-#include <ComponentInterface\interfaces.h>
-
-// turn of the warnings about "Functions containing for are not expanded inline.
-#pragma warn -inl
+#include <ComponentInterface/Variable.h>
+#include <ComponentInterface/VariableRef.h>
+#include <ComponentInterface/FunctionReturningValue.h>
+#include <ComponentInterface/FunctionTakingValue.h>
+#include <ComponentInterface/interfaces.h>
 
 namespace protocol {
 
@@ -37,11 +39,11 @@ class Registrations;
 class Variants;
 class QueryValueData;
 
-extern "C" _export void __stdcall messageToLogic (unsigned* instanceNumber,
+extern "C" void EXPORT STDCALL messageToLogic (unsigned* instanceNumber,
                                                   Message* message,
                                                   bool* processed);
-typedef _stdcall void (CallbackType)(const unsigned int *compInst, Message *message);
-extern "C" void __stdcall createInstance(const char* dllFileName,
+typedef EXPORT STDCALL void (CallbackType)(const unsigned int *compInst, Message *message);
+extern "C" void EXPORT STDCALL createInstance(const char* dllFileName,
                                          const unsigned int* compID,
                                          const unsigned int* parentID,
                                          unsigned int* instanceNumber,
@@ -55,7 +57,7 @@ void callCallback(const unsigned int* callbackArg,
 // Abstract class to send variables to the rest of the system
 // via sendVariable()
 // ------------------------------------------------------------------
-class __declspec(dllexport) baseInfo {
+class EXPORT baseInfo {
   protected:
    bool                   myIsArray;
    int                    myLength;
@@ -80,7 +82,7 @@ class __declspec(dllexport) baseInfo {
 // to memory region of scalar or array object, and knows how to send this
 // to the system via sendVariable when asked.
 // ------------------------------------------------------------------
-class __declspec(dllexport) varInfo : public baseInfo {
+class EXPORT varInfo : public baseInfo {
   private:
    void *myPtr;
   public:
@@ -97,7 +99,7 @@ class __declspec(dllexport) varInfo : public baseInfo {
    void sendVariable(Component *, QueryValueData&);
 
   };
-class __declspec(dllexport) stringInfo : public baseInfo {
+class EXPORT stringInfo : public baseInfo {
   private:
    std::string *myPtr;
   public:
@@ -115,7 +117,7 @@ class __declspec(dllexport) stringInfo : public baseInfo {
 };
 
 // Same as above, but stores pointers to function calls, not memory regions.
-class __declspec(dllexport) fnInfo : public baseInfo {
+class EXPORT fnInfo : public baseInfo {
   private:
     boost::function2<void, Component *, QueryValueData &> myFn;
   public:
@@ -142,37 +144,54 @@ typedef std::multimap<unsigned, pfcall, std::less<unsigned> >   UInt2EventMap;
 // ------------------------------------------------------------------
 // Manages a single instance of an APSIM Component
 // ------------------------------------------------------------------
-class __declspec(dllexport) Component
+class EXPORT Component
    {
    public:
       Component(void);
       virtual ~Component(void);
 
       // ------------------------------------------------------------------------
-      // These new interface methods will eventually replace the old stuff below.
+      // New component interface stuff.
       private:
-         class Registration
+         struct RegItem
             {
-            public:
-               Registration(const std::string& n, RegistrationType::Type t, IData& d)
-                  : name(n), type(t), data(d) { }
-//               Registration(const Registration& rhs)
-//                  : name(rhs.name), type(rhs.type), data(rhs.data) { }
-               std::string name;
-               RegistrationType::Type type;
-               IData& data;
+            ~RegItem() {delete Data;}
+            std::string DDML;
+            IData* Data;
             };
-
-         typedef std::map<std::string, Component::Registration> Regs;
-         Regs regs;
+         typedef std::multimap<std::string, RegItem*> NameToRegMap;
+         typedef std::multimap<unsigned, RegItem*> IDToRegMap;
+         NameToRegMap RegNames;
+         IDToRegMap RegIDs;
          unsigned nameToRegistrationID(const std::string& name,
-                                       const std::string& units,
-                                       RegistrationType::Type regType,
-                                       IData& data);
+                                       RegistrationType::Type regType);
+         void RegisterWithPM(const std::string& Name, const string& Units,
+                             const std::string& Description,
+                             RegistrationType::Type regType,
+                             IData* Data);
 
       public:
-         void RegisterVariable(const std::string& name, const std::string& units, bool settable,
-                               int& data);
+         void ExportReadOnlyVariable(const std::string& Name, const std::string& Units,
+                                     const std::string& Description,
+                                     VariableRef Variable);
+
+         #define Getter(address) FunctionReturningValue::Function(boost::bind(address, this, _1))
+         #define Setter(address, T) FunctionTakingValue<T>(boost::bind(address, this, _1, _2))
+         #define EventHandler(address, T) FunctionTakingValue<T>(boost::bind(address, this, _1, _2))
+
+         void ExportReadOnlyVariable(const std::string& Name, const std::string& Units,
+                                     const std::string& Description,
+                                     const FunctionReturningValue::Function& GetterFunction);
+
+         void ExportReadWriteVariable(const std::string& Name, const std::string& Units,
+                                      const std::string& Description,
+                                      VariableRef Variable);
+
+         void ExportReadWriteVariable(const std::string& Name, const std::string& Units,
+                                      const std::string& Description,
+                                      const FunctionReturningValue::Function& GetterFunction,
+                                      const INamedData& SetterFunction);
+         void SubscribeToEvent(const std::string& Name, const INamedData& EventHandlerFunction);
 
       // ------------------------------------------------------------------------
 
@@ -285,6 +304,12 @@ class __declspec(dllexport) Component
       virtual void notifyTermination(void) { }
       virtual void messageToLogic(const Message* message);
 
+      // Put here so that unit tests can call it.
+      void setup(const char *dllname,
+                 const unsigned int componentid,
+                 const unsigned int parentid,
+                 const unsigned int* callbackarg,
+                 void* messagecallback);
    protected:
       char         *dllName;
       unsigned int componentID;
@@ -371,17 +396,17 @@ class __declspec(dllexport) Component
                  const unsigned int componentid,
                  const unsigned int parentid,
                  const unsigned int* callbackarg,
-                 void* messagecallback);
+                 CallbackType messagecallback);
       void storeName(const FString& fqn, const FString& sdml);
 
       void clearReturnInfos(void);
       void waitForComplete(void);
 
-      friend TypeConverter;
-      friend void __stdcall messageToLogic (unsigned* instanceNumber,
+      friend class TypeConverter;
+      friend void EXPORT STDCALL messageToLogic (unsigned* instanceNumber,
                                             Message* message,
                                             bool* processed);
-      friend void __stdcall createInstance(const char* dllFileName,
+      friend void EXPORT STDCALL createInstance(const char* dllFileName,
                                            const unsigned int* compID,
                                            const unsigned int* parentID,
                                            unsigned int* instanceNumber,
@@ -783,8 +808,5 @@ class __declspec(dllexport) Component
 } // end namespace protocol
 
 protocol::Component* createComponent(void);
-
-// restore the warnings about "Functions containing for are not expanded inline.
-#pragma warn .inl
 
 #endif

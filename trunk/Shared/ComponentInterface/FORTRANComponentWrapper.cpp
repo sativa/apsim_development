@@ -2,14 +2,18 @@
 // Wrapper dll for fortran routines.
 // Keeps pointers to fortran entry points (Main(), do_init1() etc..
 // and calls them when reqd.
-#include <windows.h>
 #pragma hdrstop
+#ifndef __WIN32__
+   #include <dlfcn.h>
+#else
+   #include <windows.h>  // for LoadLibrary
+#endif
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "Component.h"
 #include "FORTRANComponentWrapper.h"
-#include "variants.h"
+#include "Variants.h"
 #include "datatypes.h"
 
 // turn of the warnings about "Functions containing for are not expanded inline.
@@ -24,7 +28,7 @@ FortranWrapper* FortranWrapper::currentInstance = NULL;
 // constructor
 // ------------------------------------------------------------------
 FortranWrapper::FortranWrapper(void)
-   : outgoingApsimVariant(this), incomingApsimVariant(this), queryData(-1)
+   : outgoingApsimVariant(this), incomingApsimVariant(this), queryData((unsigned)-1)
    {
    // nothing
    }
@@ -35,10 +39,23 @@ FortranWrapper::~FortranWrapper(void)
    {
    // get FORTRAN to release memory blocks.
    const unsigned int doAllocate = false;
+   const char *dlError;
    swapInstanceIn();
    alloc_dealloc_instance(&doAllocate);
 
-   if (libraryHandle) FreeLibrary(libraryHandle);
+   if (libraryHandle)
+   {
+#ifdef __WIN32__
+      FreeLibrary(libraryHandle);
+#else
+      int return_code;
+      return_code = dlclose(libraryHandle);
+      if ( return_code ) {
+	dlError = dlerror();
+	throw runtime_error(dlError);
+      }
+#endif
+   }
    }
 
 void FortranWrapper::setup(void)
@@ -60,8 +77,18 @@ void FortranWrapper::setupFortranDll(void)
    my_Main = NULL;
    my_alloc_dealloc_instance = NULL;
    my_respondToEvent = NULL;
-   if ((libraryHandle = LoadLibrary(this->dllName)) != NULL)
+   const char *dlError = NULL;
+
+#ifdef __WIN32__
+   libraryHandle = LoadLibrary(this->dllName);
+#else
+   libraryHandle = dlopen(this->dllName, RTLD_NOW | RTLD_LOCAL);
+   dlError = dlerror();
+#endif
+
+   if (libraryHandle != NULL || dlError)
       {
+#ifdef __WIN32__
       my_Main = (Main_t*) GetProcAddress(libraryHandle, "Main");
       my_alloc_dealloc_instance = (alloc_dealloc_instance_t*) GetProcAddress(libraryHandle, "alloc_dealloc_instance");
       //my_do_init1 = GetProcAddress(handle, "");
@@ -72,6 +99,11 @@ void FortranWrapper::setupFortranDll(void)
       //my_respondToSet = GetProcAddress(handle, "");
       my_respondToEvent = (respondToEvent_t*) GetProcAddress(libraryHandle, "respondToEvent");
       //my_respondToMethod = GetProcAddress(handle, "");
+#else
+      my_Main = (Main_t*) dlsym(libraryHandle, "Main");
+      my_alloc_dealloc_instance = (alloc_dealloc_instance_t*) dlsym(libraryHandle, "alloc_dealloc_instance");
+      my_respondToEvent = (respondToEvent_t*) dlsym(libraryHandle, "respondToEvent");
+#endif
       }
    }
 // ------------------------------------------------------------------
@@ -84,7 +116,11 @@ void FortranWrapper::setupInstancePointers(void)
 
    if (libraryHandle != NULL)
       {
+#ifdef __WIN32__
       getInstance_t *proc = (getInstance_t *) GetProcAddress(libraryHandle, "getInstance");
+#else
+      getInstance_t *proc = (getInstance_t *) dlsym(libraryHandle, "getInstance");
+#endif
       if (proc != NULL)
          {
          (*proc) (&instance);
@@ -316,7 +352,7 @@ protocol::Component* createComponent(void)
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) unsigned  __stdcall _export add_registration
+extern "C" unsigned  EXPORT STDCALL add_registration
    (RegistrationType* kind, const char* name, const char* type,
     const char* alias, const char* componentNameOrID,
     unsigned nameLength, unsigned typeLength, unsigned aliasLength,
@@ -339,8 +375,8 @@ extern "C" __declspec(dllexport) unsigned  __stdcall _export add_registration
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall error(const char* msg, unsigned int* isFatal,
-                                unsigned int msgLength)
+extern "C" void EXPORT STDCALL fortran_error(const char* msg, unsigned int* isFatal,
+                                      unsigned int msgLength)
    {
    FortranWrapper::currentInstance->error
       (FString(msg, msgLength, FORString), *isFatal);
@@ -355,7 +391,7 @@ extern "C" __declspec(dllexport) void __stdcall error(const char* msg, unsigned 
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall terminate_simulation(void)
+extern "C" void EXPORT STDCALL terminate_simulation(void)
    {
    FortranWrapper::currentInstance->terminateSimulation();
    }
@@ -370,7 +406,7 @@ extern "C" __declspec(dllexport) void __stdcall terminate_simulation(void)
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) unsigned __stdcall get_variables
+extern "C" unsigned EXPORT STDCALL get_variables
    (unsigned int* registrationID, protocol::Variants** values)
    {
    return FortranWrapper::currentInstance->getVariables
@@ -387,7 +423,7 @@ extern "C" __declspec(dllexport) unsigned __stdcall get_variables
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall write_string(const char* msg, unsigned int msgLength)
+extern "C" void EXPORT STDCALL write_string(const char* msg, unsigned int msgLength)
    {
    FortranWrapper::currentInstance->writeString(FString(msg, msgLength, FORString));
    }
@@ -402,7 +438,7 @@ extern "C" __declspec(dllexport) void __stdcall write_string(const char* msg, un
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall send_message(protocol::Message* message)
+extern "C" void EXPORT STDCALL send_message(protocol::Message* message)
    {
    FortranWrapper::currentInstance->send_message(message);
    }
@@ -417,7 +453,7 @@ extern "C" __declspec(dllexport) void __stdcall send_message(protocol::Message* 
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) unsigned  __stdcall get_componentID(void)
+extern "C" unsigned EXPORT STDCALL get_componentID(void)
    {
    return FortranWrapper::currentInstance->get_componentID();
    }
@@ -432,7 +468,7 @@ extern "C" __declspec(dllexport) unsigned  __stdcall get_componentID(void)
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) unsigned  __stdcall get_parentID(void)
+extern "C" unsigned  EXPORT STDCALL get_parentID(void)
    {
    return FortranWrapper::currentInstance->get_parentID();
    }
@@ -447,7 +483,7 @@ extern "C" __declspec(dllexport) unsigned  __stdcall get_parentID(void)
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) unsigned  __stdcall get_componentData(void)
+extern "C" unsigned  EXPORT STDCALL get_componentData(void)
    {
    return FortranWrapper::currentInstance->get_componentData();
    }
@@ -462,7 +498,7 @@ extern "C" __declspec(dllexport) unsigned  __stdcall get_componentData(void)
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void  __stdcall get_name(char* name, unsigned nameLength)
+extern "C" void  EXPORT STDCALL get_name(char* name, unsigned nameLength)
    {
    FortranWrapper::currentInstance->get_name(name, nameLength);
    }
@@ -477,7 +513,7 @@ extern "C" __declspec(dllexport) void  __stdcall get_name(char* name, unsigned n
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall push_routine(const char* routineName,
+extern "C" void EXPORT STDCALL push_routine(const char* routineName,
                                        unsigned int routineNameLength)
    {
    }
@@ -491,7 +527,7 @@ extern "C" __declspec(dllexport) void __stdcall push_routine(const char* routine
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall pop_routine(const char* routineName,
+extern "C" void EXPORT STDCALL pop_routine(const char* routineName,
                                        unsigned int routineNameLength)
    {
 
@@ -508,7 +544,7 @@ extern "C" __declspec(dllexport) void __stdcall pop_routine(const char* routineN
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) bool __stdcall strings_equal(const char* st1, const char* st2,
+extern "C" bool EXPORT STDCALL strings_equal(const char* st1, const char* st2,
                                         unsigned st1Length, unsigned st2Length)
    {
    return (FString(st1, st1Length, FORString) == FString(st2, st2Length, FORString));
@@ -522,11 +558,12 @@ extern "C" __declspec(dllexport) bool __stdcall strings_equal(const char* st1, c
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall get_registration_type_string
+extern "C" void EXPORT STDCALL get_registration_type_string
    (unsigned int* variableID, char* typeString, unsigned typeStringLength)
    {
+   FString F(typeString, typeStringLength, FORString);
    FortranWrapper::currentInstance->get_registration_type_string
-      (*variableID, FString(typeString, typeStringLength, FORString));
+      (*variableID, F);
    }
 
 // ------------------------------------------------------------------
@@ -537,11 +574,12 @@ extern "C" __declspec(dllexport) void __stdcall get_registration_type_string
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall get_registration_name
+extern "C" void EXPORT STDCALL get_registration_name
    (unsigned int* variableID, char* nameString, unsigned nameStringLength)
    {
+   FString F(nameString, nameStringLength, FORString);
    FortranWrapper::currentInstance->get_registration_name
-      (*variableID, FString(nameString, nameStringLength, FORString));
+      (*variableID, F);
    }
 
 // ------------------------------------------------------------------
@@ -552,7 +590,7 @@ extern "C" __declspec(dllexport) void __stdcall get_registration_name
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) unsigned __stdcall get_setVariableSuccess(void)
+extern "C" unsigned EXPORT STDCALL get_setVariableSuccess(void)
    {
    return FortranWrapper::currentInstance->get_set_variable_success();
    }
@@ -564,7 +602,7 @@ extern "C" __declspec(dllexport) unsigned __stdcall get_setVariableSuccess(void)
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall set_variable_error(unsigned int* regID)
+extern "C" void EXPORT STDCALL set_variable_error(unsigned int* regID)
    {
    FortranWrapper::currentInstance->set_variable_error(*regID);
    }
@@ -578,7 +616,7 @@ extern "C" __declspec(dllexport) void __stdcall set_variable_error(unsigned int*
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall message_unused(void)
+extern "C" void EXPORT STDCALL message_unused(void)
    {
    FortranWrapper::currentInstance->message_unused();
    }
@@ -586,7 +624,7 @@ extern "C" __declspec(dllexport) void __stdcall message_unused(void)
 // ------------------------------------------------------------------
 // Module is returning the value of a variable to the system.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall respond2get_integer_var
+extern "C" void EXPORT STDCALL respond2get_integer_var
    (const char* variableName, const char* units, const int* value,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -597,7 +635,7 @@ extern "C" __declspec(dllexport) void __stdcall respond2get_integer_var
 // ------------------------------------------------------------------
 // Module is returning the value of a variable to the system.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall respond2get_integer_array
+extern "C" void EXPORT STDCALL respond2get_integer_array
    (const char* variableName, const char* units, int* value, unsigned* numvals,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -609,7 +647,7 @@ extern "C" __declspec(dllexport) void __stdcall respond2get_integer_array
 // ------------------------------------------------------------------
 // Module is returning the value of a variable to the system.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall respond2get_real_var
+extern "C" void EXPORT STDCALL respond2get_real_var
    (const char* variableName, const char* units, float* value,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -620,7 +658,7 @@ extern "C" __declspec(dllexport) void __stdcall respond2get_real_var
 // ------------------------------------------------------------------
 // Module is returning the value of a variable to the system.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall respond2get_real_array
+extern "C" void EXPORT STDCALL respond2get_real_array
    (const char* variableName, const char* units, float* value, unsigned* numvals,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -632,7 +670,7 @@ extern "C" __declspec(dllexport) void __stdcall respond2get_real_array
 // ------------------------------------------------------------------
 // Module is returning the value of a variable to the system.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall respond2get_double_var
+extern "C" void EXPORT STDCALL respond2get_double_var
    (const char* variableName, const char* units, double* value,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -643,7 +681,7 @@ extern "C" __declspec(dllexport) void __stdcall respond2get_double_var
 // ------------------------------------------------------------------
 // Module is returning the value of a variable to the system.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall respond2get_double_array
+extern "C" void EXPORT STDCALL respond2get_double_array
    (const char* variableName, const char* units, double* value, unsigned* numvals,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -655,7 +693,7 @@ extern "C" __declspec(dllexport) void __stdcall respond2get_double_array
 // ------------------------------------------------------------------
 // Module is returning the value of a variable to the system.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall respond2get_logical_var
+extern "C" void EXPORT STDCALL respond2get_logical_var
    (const char* variableName, const char* units, int* value,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -667,7 +705,7 @@ extern "C" __declspec(dllexport) void __stdcall respond2get_logical_var
 // ------------------------------------------------------------------
 // Module is returning the value of a variable to the system.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall respond2get_char_var
+extern "C" void EXPORT STDCALL respond2get_char_var
    (const char* variableName, const char* units, const char* value,
     unsigned variableNameLength, unsigned unitsLength, unsigned valueLength)
    {
@@ -678,7 +716,7 @@ extern "C" __declspec(dllexport) void __stdcall respond2get_char_var
 // ------------------------------------------------------------------
 // Module is returning the value of a variable to the system.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall respond2get_char_array
+extern "C" void EXPORT STDCALL respond2get_char_array
    (const char* variableName, const char* units, char* value, unsigned* numvals,
     unsigned variableNameLength, unsigned unitsLength, unsigned valueLength)
    {
@@ -690,11 +728,11 @@ extern "C" __declspec(dllexport) void __stdcall respond2get_char_array
 // ------------------------------------------------------------------
 // Module is returning the value of a variable to the system.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall respond2get_time_var
+extern "C" void EXPORT STDCALL respond2get_time_var
    (const char* variableName, const char* units, const protocol::timeType* value,
     unsigned variableNameLength, unsigned unitsLength)
    {
-   string timeDDML = timeTypeDDML;
+   string timeDDML = DDML(protocol::timeType());
    FortranWrapper::currentInstance->respond2var
       (FString(variableName, variableNameLength, FORString),
        FString(units, unitsLength, FORString), timeDDML.c_str(), *value);
@@ -741,7 +779,7 @@ void boundCheckDoubleArray(double* values, unsigned numvals, double lower, doubl
 // ------------------------------------------------------------------
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall get_integer_var
+extern "C" void EXPORT STDCALL get_integer_var
    (unsigned* componentID, const char* variableName, const char* units,
     int* value, unsigned* numvals, int* lower, int* upper,
     unsigned variableNameLength, unsigned unitsLength)
@@ -756,7 +794,7 @@ extern "C" __declspec(dllexport) void __stdcall get_integer_var
 // ------------------------------------------------------------------
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall get_integer_vars
+extern "C" void EXPORT STDCALL get_integer_vars
    (unsigned* requestNo, const char* variableName, const char* units,
     int* value, unsigned* numvals, int* lower, int* upper,
     unsigned variableNameLength, unsigned unitsLength)
@@ -772,7 +810,7 @@ extern "C" __declspec(dllexport) void __stdcall get_integer_vars
 // ------------------------------------------------------------------
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall get_real_var
+extern "C" void EXPORT STDCALL get_real_var
    (unsigned* componentID, const char* variableName, const char* units,
     float* value, unsigned* numvals, float* lower, float* upper,
     unsigned variableNameLength, unsigned unitsLength)
@@ -787,7 +825,7 @@ extern "C" __declspec(dllexport) void __stdcall get_real_var
 // ------------------------------------------------------------------
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall get_real_array
+extern "C" void EXPORT STDCALL get_real_array
    (unsigned* componentID, const char* variableName, unsigned* arraySize, const char* units,
     float* value, unsigned* numvals, float* lower, float* upper,
     unsigned variableNameLength, unsigned unitsLength)
@@ -809,7 +847,7 @@ extern "C" __declspec(dllexport) void __stdcall get_real_array
 // ------------------------------------------------------------------
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall get_real_array_optional
+extern "C" void EXPORT STDCALL get_real_array_optional
    (unsigned* componentID, const char* variableName, unsigned* arraySize, const char* units,
     float* value, unsigned* numvals, float* lower, float* upper,
     unsigned variableNameLength, unsigned unitsLength)
@@ -831,7 +869,7 @@ extern "C" __declspec(dllexport) void __stdcall get_real_array_optional
 // ------------------------------------------------------------------
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall get_real_arrays
+extern "C" void EXPORT STDCALL get_real_arrays
    (unsigned* requestNo, const char* variableName, unsigned* arraySize, const char* units,
     float* value, unsigned* numvals, float* lower, float* upper,
     unsigned variableNameLength, unsigned unitsLength)
@@ -853,7 +891,7 @@ extern "C" __declspec(dllexport) void __stdcall get_real_arrays
 // ------------------------------------------------------------------
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall get_real_var_optional
+extern "C" void EXPORT STDCALL get_real_var_optional
    (unsigned* componentID, const char* variableName, const char* units,
     float* value, unsigned* numvals, float* lower, float* upper,
     unsigned variableNameLength, unsigned unitsLength)
@@ -868,7 +906,7 @@ extern "C" __declspec(dllexport) void __stdcall get_real_var_optional
 // ------------------------------------------------------------------
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall get_real_vars
+extern "C" void EXPORT STDCALL get_real_vars
    (unsigned* requestNo, const char* variableName, const char* units,
     float* value, unsigned* numvals, float* lower, float* upper,
     unsigned variableNameLength, unsigned unitsLength)
@@ -883,7 +921,7 @@ extern "C" __declspec(dllexport) void __stdcall get_real_vars
 // ------------------------------------------------------------------
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall get_double_var
+extern "C" void EXPORT STDCALL get_double_var
    (unsigned* componentID, const char* variableName, const char* units,
     double* value, unsigned* numvals, double* lower, double* upper,
     unsigned variableNameLength, unsigned unitsLength)
@@ -898,7 +936,7 @@ extern "C" __declspec(dllexport) void __stdcall get_double_var
 // ------------------------------------------------------------------
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall get_double_var_optional
+extern "C" void EXPORT STDCALL get_double_var_optional
    (unsigned* componentID, const char* variableName, const char* units,
     double* value, unsigned* numvals, double* lower, double* upper,
     unsigned variableNameLength, unsigned unitsLength)
@@ -913,7 +951,7 @@ extern "C" __declspec(dllexport) void __stdcall get_double_var_optional
 // ------------------------------------------------------------------
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall get_double_vars
+extern "C" void EXPORT STDCALL get_double_vars
    (unsigned* requestNo, const char* variableName, const char* units,
     double* value, unsigned* numvals, double* lower, double* upper,
     unsigned variableNameLength, unsigned unitsLength)
@@ -928,7 +966,7 @@ extern "C" __declspec(dllexport) void __stdcall get_double_vars
 // ------------------------------------------------------------------
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall get_double_array
+extern "C" void EXPORT STDCALL get_double_array
    (unsigned* componentID, const char* variableName, unsigned* arraySize, const char* units,
     double* value, unsigned* numvals, double* lower, double* upper,
     unsigned variableNameLength, unsigned unitsLength)
@@ -950,7 +988,7 @@ extern "C" __declspec(dllexport) void __stdcall get_double_array
 // ------------------------------------------------------------------
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall get_char_var
+extern "C" void EXPORT STDCALL get_char_var
    (unsigned* componentID, const char* variableName, const char* units,
     char* value, unsigned* numvals,
     unsigned variableNameLength, unsigned unitsLength,
@@ -962,12 +1000,12 @@ extern "C" __declspec(dllexport) void __stdcall get_char_var
        valueString, *numvals);
    FString(value, valueLength, FORString) = valueString;
    if (*numvals == 0)
-      strnset(value, ' ', valueLength);
+      memset((char*)value, ' ', valueLength);
    }
 // ------------------------------------------------------------------
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall get_char_var_optional
+extern "C" void EXPORT STDCALL get_char_var_optional
    (unsigned* componentID, const char* variableName, const char* units,
     char* value, unsigned* numvals,
     unsigned variableNameLength, unsigned unitsLength, unsigned valueLength)
@@ -978,12 +1016,12 @@ extern "C" __declspec(dllexport) void __stdcall get_char_var_optional
        valueString, *numvals, true);
    FString(value, valueLength, FORString) = valueString;
    if (*numvals == 0)
-      strnset((char*) value, ' ', valueLength);
+      memset((char*)value, ' ', valueLength);
    }
 // ------------------------------------------------------------------
 // Module is requesting the value of a variable from another module.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall get_char_vars
+extern "C" void EXPORT STDCALL get_char_vars
    (unsigned* requestNo, const char* variableName, const char* units,
     char* value, unsigned* numvals,
     unsigned variableNameLength, unsigned unitsLength, unsigned valueLength)
@@ -994,12 +1032,12 @@ extern "C" __declspec(dllexport) void __stdcall get_char_vars
        valueString, *numvals);
    FString(value, valueLength, FORString) = valueString;
    if (*numvals == 0)
-      strnset(value, ' ', valueLength);
+      memset((char*)value, ' ', valueLength);
    }
 // ------------------------------------------------------------------
 // Module wants to set the value of a variable in another module.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall set_real_var(unsigned* componentID, const char* variableName,
+extern "C" void EXPORT STDCALL set_real_var(unsigned* componentID, const char* variableName,
                                        const char* units, const float* value,
                                        unsigned variableNameLength,
                                        unsigned unitsLength )
@@ -1011,7 +1049,7 @@ extern "C" __declspec(dllexport) void __stdcall set_real_var(unsigned* component
 // ------------------------------------------------------------------
 // Module wants to set the value of a variable in another module.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall set_real_array(unsigned* componentID, const char* variableName,
+extern "C" void EXPORT STDCALL set_real_array(unsigned* componentID, const char* variableName,
                                          const char* units, float* value, unsigned* numvals,
                                          unsigned variableNameLength,
                                          unsigned unitsLength)
@@ -1023,7 +1061,7 @@ extern "C" __declspec(dllexport) void __stdcall set_real_array(unsigned* compone
 // ------------------------------------------------------------------
 // Module wants to set the value of a variable in another module.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall set_double_var(unsigned* componentID, const char* variableName,
+extern "C" void EXPORT STDCALL set_double_var(unsigned* componentID, const char* variableName,
                                          const char* units, const double* value,
                                          unsigned variableNameLength,
                                          unsigned unitsLength )
@@ -1035,7 +1073,7 @@ extern "C" __declspec(dllexport) void __stdcall set_double_var(unsigned* compone
 // ------------------------------------------------------------------
 // Module wants to set the value of a variable in another module.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall set_double_array(unsigned* componentID, const char* variableName,
+extern "C" void EXPORT STDCALL set_double_array(unsigned* componentID, const char* variableName,
                                            const char* units, double* value, unsigned* numvals,
                                            unsigned variableNameLength,
                                            unsigned unitsLength)
@@ -1047,7 +1085,7 @@ extern "C" __declspec(dllexport) void __stdcall set_double_array(unsigned* compo
 // ------------------------------------------------------------------
 // Module wants to set the value of a variable in another module.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall set_char_var(unsigned* componentID, const char* variableName,
+extern "C" void EXPORT STDCALL set_char_var(unsigned* componentID, const char* variableName,
                                        const char* units, const char* value,
                                        unsigned variableNameLength,
                                        unsigned unitsLength, unsigned valueLength)
@@ -1059,7 +1097,7 @@ extern "C" __declspec(dllexport) void __stdcall set_char_var(unsigned* component
 // ------------------------------------------------------------------
 // Module wants to set the value of a variable in another module.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall set_char_array(unsigned* componentID, const char* variableName,
+extern "C" void EXPORT STDCALL set_char_array(unsigned* componentID, const char* variableName,
                                          const char* units, char* value, unsigned* numvals,
                                          unsigned variableNameLength, unsigned unitsLength,
                                          unsigned valueLength)
@@ -1071,27 +1109,27 @@ extern "C" __declspec(dllexport) void __stdcall set_char_array(unsigned* compone
 // ------------------------------------------------------------------
 // Module is requesting a new postbox.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall new_postbox( )
+extern "C" void EXPORT STDCALL new_postbox( )
    {
    FortranWrapper::currentInstance->new_postbox();
    }
 // ------------------------------------------------------------------
 // Module is requesting to delete the postbox.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall delete_postbox( )
+extern "C" void EXPORT STDCALL delete_postbox( )
    {
    }
 // ------------------------------------------------------------------
 // Module wants to send an event.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall event_send(const char* eventName, unsigned eventNameLength)
+extern "C" void EXPORT STDCALL event_send(const char* eventName, unsigned eventNameLength)
    {
    FortranWrapper::currentInstance->event_send(FString(eventName, eventNameLength, FORString));
    }
 // ------------------------------------------------------------------
 // Module wants to send an event
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall event_send_directed(const char* moduleName, const char* eventName,
+extern "C" void EXPORT STDCALL event_send_directed(const char* moduleName, const char* eventName,
                                       unsigned moduleNameLength, unsigned eventNameLength)
    {
    FortranWrapper::currentInstance->event_send
@@ -1100,7 +1138,7 @@ extern "C" __declspec(dllexport) void __stdcall event_send_directed(const char* 
 // ------------------------------------------------------------------
 // Module is posting a value into a variant.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall post_integer_var
+extern "C" void EXPORT STDCALL post_integer_var
    (const char* variableName, const char* units, int* value,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -1110,7 +1148,7 @@ extern "C" __declspec(dllexport) void __stdcall post_integer_var
 // ------------------------------------------------------------------
 // Module is posting a value into a variant.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall post_real_var
+extern "C" void EXPORT STDCALL post_real_var
    (const char* variableName, const char* units, float* value,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -1120,7 +1158,7 @@ extern "C" __declspec(dllexport) void __stdcall post_real_var
 // ------------------------------------------------------------------
 // Module is posting a value into a variant.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall post_real_array
+extern "C" void EXPORT STDCALL post_real_array
    (const char* variableName, const char* units, float* value, unsigned* numvals,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -1131,7 +1169,7 @@ extern "C" __declspec(dllexport) void __stdcall post_real_array
 // ------------------------------------------------------------------
 // Module is posting a value into a variant.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall post_double_var
+extern "C" void EXPORT STDCALL post_double_var
    (const char* variableName, const char* units, double* value,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -1141,7 +1179,7 @@ extern "C" __declspec(dllexport) void __stdcall post_double_var
 // ------------------------------------------------------------------
 // Module is posting a value into a variant.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall post_double_array
+extern "C" void EXPORT STDCALL post_double_array
    (const char* variableName, const char* units, double* value, unsigned* numvals,
     unsigned variableNameLength, unsigned unitsLength)
    {
@@ -1152,7 +1190,7 @@ extern "C" __declspec(dllexport) void __stdcall post_double_array
 // ------------------------------------------------------------------
 // Module is posting a string into a variant.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall post_char_var
+extern "C" void EXPORT STDCALL post_char_var
    (const char* variableName, const char* units, const char* value,
     unsigned variableNameLength, unsigned unitsLength, unsigned valueLength)
    {
@@ -1163,7 +1201,7 @@ extern "C" __declspec(dllexport) void __stdcall post_char_var
 // ------------------------------------------------------------------
 // Module is posting a string array into a variant.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall post_char_array
+extern "C" void EXPORT STDCALL post_char_array
    (const char* variableName, const char* units, char* value, unsigned* numvals,
     unsigned variableNameLength, unsigned unitsLength, unsigned valueLength)
    {
@@ -1175,7 +1213,7 @@ extern "C" __declspec(dllexport) void __stdcall post_char_array
 // ------------------------------------------------------------------
 // Module is getting a value from a variant.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall collect_char_var
+extern "C" void EXPORT STDCALL collect_char_var
    (const char* variableName, const char* units, char* value, unsigned* numvals,
     unsigned variableNameLength, unsigned unitsLength, unsigned valueLength)
    {
@@ -1188,7 +1226,7 @@ extern "C" __declspec(dllexport) void __stdcall collect_char_var
 // ------------------------------------------------------------------
 // Module is getting a value from a variant.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall collect_char_var_optional
+extern "C" void EXPORT STDCALL collect_char_var_optional
    (const char* variableName, const char* units, char* value, unsigned* numvals,
     unsigned variableNameLength, unsigned unitsLength, unsigned valueLength)
    {
@@ -1201,7 +1239,7 @@ extern "C" __declspec(dllexport) void __stdcall collect_char_var_optional
 // ------------------------------------------------------------------
 // Module is getting a value from a variant.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall collect_char_array
+extern "C" void EXPORT STDCALL collect_char_array
    (const char* variableName, unsigned* arraySize, char* units, char* value, unsigned* numvals,
     unsigned variableNameLength, unsigned unitsLength, unsigned valueLength)
    {
@@ -1214,7 +1252,7 @@ extern "C" __declspec(dllexport) void __stdcall collect_char_array
 // ------------------------------------------------------------------
 // Module is getting a value from a variant.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall collect_char_array_optional
+extern "C" void EXPORT STDCALL collect_char_array_optional
    (const char* variableName, unsigned* arraySize, char* units, char* value, unsigned* numvals,
     unsigned variableNameLength, unsigned unitsLength, unsigned valueLength)
    {
@@ -1228,7 +1266,7 @@ extern "C" __declspec(dllexport) void __stdcall collect_char_array_optional
 // ------------------------------------------------------------------
 // Module is getting a value from a variant.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall collect_real_var
+extern "C" void EXPORT STDCALL collect_real_var
    (const char* variableName, const char* units, float* value, unsigned* numvals,
     float* lower, float* upper,
     unsigned variableNameLength, unsigned unitsLength)
@@ -1241,7 +1279,7 @@ extern "C" __declspec(dllexport) void __stdcall collect_real_var
 // ------------------------------------------------------------------
 // Module is getting a value from a variant.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall collect_real_var_optional
+extern "C" void EXPORT STDCALL collect_real_var_optional
    (const char* variableName, const char* units, float* value, unsigned* numvals,
     float* lower, float* upper,
     unsigned variableNameLength, unsigned unitsLength)
@@ -1255,7 +1293,7 @@ extern "C" __declspec(dllexport) void __stdcall collect_real_var_optional
 // ------------------------------------------------------------------
 // Module is getting a value from a variant.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall collect_real_array
+extern "C" void EXPORT STDCALL collect_real_array
    (const char* variableName, unsigned* arraySize, const char* units, float* value, unsigned* numvals,
     float* lower, float* upper,
     unsigned variableNameLength, unsigned unitsLength)
@@ -1271,7 +1309,7 @@ extern "C" __declspec(dllexport) void __stdcall collect_real_array
 // ------------------------------------------------------------------
 // Module is getting a value from a variant.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall collect_real_array_optional
+extern "C" void EXPORT STDCALL collect_real_array_optional
    (const char* variableName, unsigned* arraySize, const char* units, float* value, unsigned* numvals,
     float* lower, float* upper,
     unsigned variableNameLength, unsigned unitsLength)
@@ -1287,7 +1325,7 @@ extern "C" __declspec(dllexport) void __stdcall collect_real_array_optional
 // ------------------------------------------------------------------
 // Module is getting a value from a variant.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall collect_integer_var
+extern "C" void EXPORT STDCALL collect_integer_var
    (const char* variableName, const char* units, int* value, unsigned* numvals,
     int* lower, int* upper,
     unsigned variableNameLength, unsigned unitsLength)
@@ -1300,7 +1338,7 @@ extern "C" __declspec(dllexport) void __stdcall collect_integer_var
 // ------------------------------------------------------------------
 // Module is getting a value from a variant.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall collect_integer_var_optional
+extern "C" void EXPORT STDCALL collect_integer_var_optional
    (const char* variableName, const char* units, int* value, unsigned* numvals,
     int* lower, int* upper,
     unsigned variableNameLength, unsigned unitsLength)
@@ -1313,7 +1351,7 @@ extern "C" __declspec(dllexport) void __stdcall collect_integer_var_optional
 // ------------------------------------------------------------------
 // Module is getting a value from a variant.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall collect_double_var
+extern "C" void EXPORT STDCALL collect_double_var
    (const char* variableName, const char* units, double* value, unsigned* numvals,
     double* lower, double* upper,
     unsigned variableNameLength, unsigned unitsLength)
@@ -1326,7 +1364,7 @@ extern "C" __declspec(dllexport) void __stdcall collect_double_var
 // ------------------------------------------------------------------
 // Module is getting a value from a variant.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall collect_double_var_optional
+extern "C" void EXPORT STDCALL collect_double_var_optional
    (const char* variableName, const char* units, double* value, unsigned* numvals,
     double* lower, double* upper,
     unsigned variableNameLength, unsigned unitsLength)
@@ -1339,7 +1377,7 @@ extern "C" __declspec(dllexport) void __stdcall collect_double_var_optional
 // ------------------------------------------------------------------
 // Module is getting a value from a variant.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall collect_double_array
+extern "C" void EXPORT STDCALL collect_double_array
    (const char* variableName, unsigned* arraySize, const char* units, double* value, unsigned* numvals,
     double* lower, double* upper,
     unsigned variableNameLength, unsigned unitsLength)
@@ -1370,7 +1408,7 @@ void stripBlanks(FString& str)
 // ------------------------------------------------------------------
 // Store the specified string into the 'postbox'
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) unsigned __stdcall store_in_postbox(const char* str, unsigned strLength)
+extern "C" unsigned EXPORT STDCALL store_in_postbox(const char* str, unsigned strLength)
    {
    FString line(str, strLength, FORString);
 
@@ -1410,14 +1448,14 @@ extern "C" __declspec(dllexport) unsigned __stdcall store_in_postbox(const char*
 // ------------------------------------------------------------------
 // return the posting module to caller.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) int __stdcall get_posting_module(void)
+extern "C" int EXPORT STDCALL get_posting_module(void)
    {
    return FortranWrapper::currentInstance->getFromID();
    }
 // ------------------------------------------------------------------
 // return the posting module to caller.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) unsigned __stdcall component_id_to_name(unsigned* id, char* name,
+extern "C" unsigned EXPORT STDCALL component_id_to_name(unsigned* id, char* name,
                                                    unsigned nameLength)
    {
    FString nameString;
@@ -1429,7 +1467,7 @@ extern "C" __declspec(dllexport) unsigned __stdcall component_id_to_name(unsigne
 // ------------------------------------------------------------------
 // return the posting module to caller.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) unsigned __stdcall component_name_to_id(char* name, unsigned* id,
+extern "C" unsigned EXPORT STDCALL component_name_to_id(char* name, unsigned* id,
                                                    unsigned nameLength)
    {
    return FortranWrapper::currentInstance->componentNameToID
@@ -1438,7 +1476,7 @@ extern "C" __declspec(dllexport) unsigned __stdcall component_name_to_id(char* n
 // ------------------------------------------------------------------
 // Module is reading a string from a file.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) int __stdcall read_parameter
+extern "C" int EXPORT STDCALL read_parameter
    (const char* parameterName, const char* sectionName, char* value, int* optional,
     unsigned parameterNameLength, unsigned sectionNameLength, unsigned valueLength)
    {
@@ -1452,14 +1490,14 @@ extern "C" __declspec(dllexport) int __stdcall read_parameter
 
    else
       {
-      strnset(value, ' ', valueLength);
+      memset((char*)value, ' ', valueLength);
       return false;
       }
    }
 // ------------------------------------------------------------------
 // Change the component order.
 // ------------------------------------------------------------------
-extern "C" __declspec(dllexport) void __stdcall change_component_order
+extern "C" void EXPORT STDCALL change_component_order
    (char* moduleList, unsigned* numModules,
     unsigned moduleListLength)
    {

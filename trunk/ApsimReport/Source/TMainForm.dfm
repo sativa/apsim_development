@@ -17,8 +17,8 @@ object MainForm: TMainForm
   Scaled = False
   OnClose = FormClose
   OnShow = FormShow
-  PixelsPerInch = 120
-  TextHeight = 16
+  PixelsPerInch = 96
+  TextHeight = 13
   object LeftSplitter: TSplitter
     Left = 0
     Top = 72
@@ -61,7 +61,7 @@ object MainForm: TMainForm
       Align = alNone
       AutoSize = True
       ButtonHeight = 30
-      ButtonWidth = 91
+      ButtonWidth = 78
       Caption = 'Standard'
       DragKind = dkDock
       DragMode = dmAutomatic
@@ -80,28 +80,28 @@ object MainForm: TMainForm
         Action = NewAction
       end
       object ToolButton2: TToolButton
-        Left = 91
+        Left = 78
         Top = 0
         Action = OpenAction
       end
       object ToolButton3: TToolButton
-        Left = 182
+        Left = 156
         Top = 0
         Action = SaveAction
       end
       object ToolButton7: TToolButton
-        Left = 273
+        Left = 234
         Top = 0
         Action = PrintAction
       end
       object ToolButton4: TToolButton
-        Left = 364
+        Left = 312
         Top = 0
         Hint = 'Refresh the report'
         Action = RefreshAction
       end
       object ToolButton12: TToolButton
-        Left = 455
+        Left = 390
         Top = 0
         Width = 8
         Caption = 'ToolButton12'
@@ -109,7 +109,7 @@ object MainForm: TMainForm
         Style = tbsSeparator
       end
       object ZoomEdit: TEdit
-        Left = 463
+        Left = 398
         Top = 0
         Width = 41
         Height = 30
@@ -122,7 +122,7 @@ object MainForm: TMainForm
         OnKeyDown = ZoomEditKeyDown
       end
       object ZoomUpDown: TUpDown
-        Left = 504
+        Left = 439
         Top = 0
         Width = 16
         Height = 30
@@ -135,13 +135,13 @@ object MainForm: TMainForm
         Wrap = False
       end
       object ToolButton11: TToolButton
-        Left = 520
+        Left = 455
         Top = 0
         Action = EditReportAction
         Style = tbsCheck
       end
       object ToolButton9: TToolButton
-        Left = 611
+        Left = 533
         Top = 0
         Action = EditDataAction
         Caption = '&Data'

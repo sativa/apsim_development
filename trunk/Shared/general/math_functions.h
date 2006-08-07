@@ -3,8 +3,11 @@
 
 #include <vector>
 #include <string>
-#include <algorith>
+#include <algorithm>
 #include <functional>
+#include <general/string_functions.h>
+
+#include <stdexcept>
 // ------------------------------------------------------------------
 //  Short description:
 //    cycle through a number series from 1 to Max_number.
@@ -49,8 +52,8 @@ struct Regr_stats
 // ------------------------------------------------------------------
 void calcRegressionStats (const std::vector<double>& x, const std::vector<double>& y,
                           Regr_stats& stats);
-#include <boost\lexical_cast.hpp>
-#include <general\string_functions.h>  // ftoa()
+#include <boost/lexical_cast.hpp>
+#include <general/string_functions.h>  // ftoa()
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -69,8 +72,8 @@ double multiply_accumulate (container& container1, container& container2)
    {
    double Total = 0;
 
-   container::iterator iterator1 = container1.begin();
-   container::iterator iterator2 = container2.begin();
+   typename container::iterator iterator1 = container1.begin();
+   typename container::iterator iterator2 = container2.begin();
    while (iterator1 != container1.end() &&
           iterator2 != container2.end())
       {
@@ -97,8 +100,8 @@ container add (container& container1, container& container2)
    {
    container return_container;
 
-   container::iterator iterator1 = container1.begin();
-   container::iterator iterator2 = container2.begin();
+   typename container::iterator iterator1 = container1.begin();
+   typename container::iterator iterator2 = container2.begin();
    while (iterator1 != container1.end() &&
           iterator2 != container2.end())
       {
@@ -124,8 +127,8 @@ container subtract (container& container1, container& container2)
    {
    container return_container;
 
-   container::iterator iterator1 = container1.begin();
-   container::iterator iterator2 = container2.begin();
+   typename container::iterator iterator1 = container1.begin();
+   typename container::iterator iterator2 = container2.begin();
    while (iterator1 != container1.end() &&
           iterator2 != container2.end())
       {
@@ -150,12 +153,12 @@ template < class c1, class c2 >
 c1 multiply (const c1& container1, const c2& container2)
    {
    if (container1.size() != container2.size())
-       throw runtime_error("Cannot multiply 2 containers of numbers. Different number of values in each container.");
+     throw std::runtime_error("Cannot multiply 2 containers of numbers. Different number of values in each container.");
 
    c1 return_container;
 
-   c1::const_iterator iterator1 = container1.begin();
-   c2::const_iterator iterator2 = container2.begin();
+   typename c1::const_iterator iterator1 = container1.begin();
+   typename c2::const_iterator iterator2 = container2.begin();
    while (iterator1 != container1.end() &&
           iterator2 != container2.end())
       {
@@ -180,11 +183,11 @@ template < class c1, class c2 >
 c1 divide (const c1& container1, const c2& container2)
    {
    if (container1.size() != container2.size())
-      throw runtime_error("Cannot divide 2 containers of numbers. Different number of values in each container.");
+     throw std::runtime_error("Cannot divide 2 containers of numbers. Different number of values in each container.");
    c1 return_container;
 
-   c1::const_iterator iterator1 = container1.begin();
-   c2::const_iterator iterator2 = container2.begin();
+   typename c1::const_iterator iterator1 = container1.begin();
+   typename c2::const_iterator iterator2 = container2.begin();
    while (iterator1 != container1.end() &&
           iterator2 != container2.end())
       {
@@ -211,7 +214,7 @@ c1 divide (const c1& container1, const c2& container2)
 template < class container_type, class value_type >
 void add_value (container_type& container1, value_type value)
    {
-   container_type::iterator iterator1 = container1.begin();
+   typename container_type::iterator iterator1 = container1.begin();
    while (iterator1 != container1.end())
       {
       *iterator1 += value;
@@ -232,7 +235,7 @@ void add_value (container_type& container1, value_type value)
 template < class container_type, class value_type >
 void subtract_value (container_type& container1, value_type value)
    {
-   container_type::iterator iterator1 = container1.begin();
+   typename container_type::iterator iterator1 = container1.begin();
    while (iterator1 != container1.end())
       {
       *iterator1 -= value;
@@ -254,7 +257,7 @@ template < class container_type, class value_type >
 container_type multiply_value (const container_type& container1, value_type value)
    {
    container_type values;
-   container_type::const_iterator iterator1 = container1.begin();
+   typename container_type::const_iterator iterator1 = container1.begin();
    while (iterator1 != container1.end())
       {
       values.push_back(*iterator1 * value);
@@ -277,7 +280,7 @@ template < class container_type, class value_type >
 container_type divide_value (const container_type& container1, value_type value)
    {
    container_type values;
-   container_type::const_iterator iterator1 = container1.begin();
+   typename container_type::const_iterator iterator1 = container1.begin();
    while (iterator1 != container1.end())
       {
       values.push_back(*iterator1 / value);
@@ -429,7 +432,7 @@ void StringContainerToDoubleContainer (const container1& StringContainer,
                                        container2& DoubleContainer)
    {
    DoubleContainer.erase(DoubleContainer.begin(), DoubleContainer.end());
-   for (container1::const_iterator i = StringContainer.begin();
+   for (typename container1::const_iterator i = StringContainer.begin();
                                    i != StringContainer.end();
                                    i++)
       DoubleContainer.push_back ( atof( (*i).c_str() ));
@@ -448,7 +451,7 @@ void StringContainerToIntegerContainer (const container1& StringContainer,
                                         container2& IntegerContainer)
    {
    IntegerContainer.erase(IntegerContainer.begin(), IntegerContainer.end());
-   for (container1::const_iterator i = StringContainer.begin();
+   for (typename container1::const_iterator i = StringContainer.begin();
                                    i != StringContainer.end();
                                    i++)
       IntegerContainer.push_back ( atoi( (*i).c_str() ));
@@ -467,7 +470,7 @@ void DoubleContainerToStringContainer (const container1& DoubleContainer,
                                        container2& StringContainer)
    {
    StringContainer.erase(StringContainer.begin(), StringContainer.end());
-   for (container1::const_iterator i = DoubleContainer.begin();
+   for (typename container1::const_iterator i = DoubleContainer.begin();
                                    i != DoubleContainer.end();
                                    i++)
       StringContainer.push_back (ftoa(*i, 3));
@@ -484,18 +487,16 @@ void IntegerContainerToStringContainer (const container1& IntegerContainer,
                                         container2& StringContainer)
    {
    StringContainer.erase(StringContainer.begin(), StringContainer.end());
-   for (container1::const_iterator i = IntegerContainer.begin();
+   for (typename container1::const_iterator i = IntegerContainer.begin();
                                    i != IntegerContainer.end();
                                    i++)
       {
-      char buffer[100];
-      itoa(*i, buffer, 10);
-      StringContainer.push_back(buffer);
+      StringContainer.push_back(itoa(*i));
       }
    }
 
-typedef std::vector<double> OptimParams;
-typedef double __fastcall (__closure *TOptimEvent)(const OptimParams& params);
+//typedef std::vector<double> OptimParams;
+//typedef double __fastcall (__closure *TOptimEvent)(const OptimParams& params);
 
 //---------------------------------------------------------------------------
 // Return true if value is missing.
@@ -518,6 +519,7 @@ bool isMissingValue(const T& value)
 //  Short description:
 //    SIMPLEX method of optimisation.
 // ------------------------------------------------------------------
+/* crw commented
 void Minim (std::vector<double>& param,
             std::vector<double>& step,
             double& FUNC,
@@ -526,7 +528,7 @@ void Minim (std::vector<double>& param,
             int NLOOP,
             int& IFAULT,
             TOptimEvent f);
-
+*/
 #endif
 
 

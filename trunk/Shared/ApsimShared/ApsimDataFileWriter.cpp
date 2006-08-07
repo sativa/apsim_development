@@ -1,10 +1,10 @@
 //---------------------------------------------------------------------------
-#include <general\pch.h>
+#include <general/pch.h>
 #pragma hdrstop
 
 #include "ApsimDataFileWriter.h"
 #include <iomanip>
-#include <boost\lexical_cast.hpp>
+#include <boost/lexical_cast.hpp>
 using namespace std;
 using namespace boost;
 using namespace boost::gregorian;

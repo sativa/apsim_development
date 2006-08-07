@@ -1,8 +1,9 @@
-#include <windows.h>
 #pragma hdrstop
 
-#include "Message.h"
-#include "Alloc.h"
+#include "message.h"
+#include <stdio.h>
+#include <stdexcept>
+#include <general/platform.h>
 
 using namespace std;
 namespace protocol {
@@ -11,7 +12,7 @@ static int runningMessageID = 0;
 
 static const unsigned MAX_NUM_MESSAGES = 20;
 static const unsigned MAX_MESSAGE_SIZE = 5000;
-Message* messages[MAX_NUM_MESSAGES]
+static Message* messages[MAX_NUM_MESSAGES]
    = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
 static unsigned nextFreeMessage = 0;
 // ------------------------------------------------------------------
@@ -66,7 +67,7 @@ void deleteMessages(void)
 //    dph 14/5/2001
 
 // ------------------------------------------------------------------
-Message* _export constructMessage(MessageType messageType,
+Message* EXPORT constructMessage(MessageType messageType,
                                   unsigned int fromID,
                                   unsigned int toID,
                                   bool acknowledgementRequired,
@@ -75,9 +76,7 @@ Message* _export constructMessage(MessageType messageType,
    Message* message;
    if (nextFreeMessage > MAX_NUM_MESSAGES)
       {
-      ::MessageBox(NULL, "Internal error: Too many messages sent from component.",
-                   "Error", MB_ICONSTOP | MB_OK);
-      return NULL;
+      throw runtime_error("Internal error: Too many messages sent from component.");
       }
    else if (numDataBytes > MAX_MESSAGE_SIZE - sizeof(Message))
       message = (Message*) new char[sizeof(Message) + numDataBytes];
@@ -85,7 +84,7 @@ Message* _export constructMessage(MessageType messageType,
    else
       {
       message = messages[nextFreeMessage];
-      ++nextFreeMessage;
+      nextFreeMessage++;
       }
 
    message->version       = 256;
@@ -103,7 +102,7 @@ Message* _export constructMessage(MessageType messageType,
    return message;
    }
 
-void _export deleteMessage(Message* message)
+void EXPORT deleteMessage(Message* message)
    {
    if (message->nDataBytes > MAX_MESSAGE_SIZE - sizeof(Message))
       delete [] message;
@@ -122,8 +121,9 @@ void _export deleteMessage(Message* message)
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" unsigned  __stdcall get_componentID(void);
-extern "C" unsigned  __stdcall construct_message
+#ifdef __WIN32__
+extern "C" unsigned  STDCALL get_componentID(void);
+extern "C" unsigned  STDCALL construct_message
    (protocol::MessageType* messageType, unsigned int* to, unsigned* ack, unsigned* dataSize)
    {
    return (unsigned) constructMessage(*messageType,
@@ -133,3 +133,4 @@ extern "C" unsigned  __stdcall construct_message
                                       *dataSize);
    }
 
+#endif

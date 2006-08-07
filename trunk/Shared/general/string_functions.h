@@ -6,7 +6,9 @@
 #include <vector>
 #include <algorithm>
 #include <functional>
-#include <strstream>
+#include <sstream>
+
+#include <iterator>
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -98,7 +100,7 @@ template <class container>
 void Build_string (container& words, const char* separators, std::string& text)
    {
    text = "";
-   for (container ::iterator Iter = words.begin();
+   for (typename container::iterator Iter = words.begin();
                                Iter != words.end();
                                Iter++)
       {
@@ -209,7 +211,8 @@ void To_lower (std::string& St);
 template <class StringContainer>
 void Strings_to_lower (StringContainer& words)
    {
-   for (StringContainer ::iterator Iter = words.begin();
+   typename StringContainer::iterator Iter;
+   for (Iter = words.begin();
                                    Iter != words.end();
                                    Iter++)
       {
@@ -234,7 +237,8 @@ int Locate_string (const char* Search_string, StringContainer& words)
    {
    bool Found = false;
    int indx = -1;
-   for (StringContainer ::iterator Iter = words.begin();
+   typename StringContainer::iterator Iter;
+   for (Iter = words.begin();
                                    Iter != words.end() && !Found;
                                    Iter++)
       {
@@ -326,19 +330,19 @@ void Double_container_2_string (container_type& container,
                                 std::string& Numbers,
                                 int precision)
    {
-   ostrstream number_stream;
-   number_stream.setf(ios::fixed, ios::floatfield);
+   std::ostringstream number_stream;  
+   number_stream.setf(std::ios::fixed, std::ios::floatfield);
    number_stream.precision (precision);
 
    std::list<std::string> string_container;
-   for (container_type::iterator Iter = container.begin();
-                                 Iter != container.end();
-                                 Iter++)
+   typename container_type::iterator Iter;
+   for (Iter = container.begin();
+        Iter != container.end();
+        Iter++)
       number_stream << *Iter << ' ';
 
-   number_stream << ends;
+   number_stream << std::ends;
    Numbers = number_stream.str();
-   delete number_stream.str();
    }
 // ------------------------------------------------------------------
 // Function that takes a string of numbers and returns a
@@ -352,7 +356,7 @@ void String_2_integer_container(const std::string& St, container_type& values)
    std::vector<std::string> string_container;
    splitIntoValues(St, " ", string_container);
    for (unsigned i = 0; i != string_container.size(); i++)
-      values.push_back (atoi(string_container[i].c_str());
+     values.push_back (atoi(string_container[i].c_str()));
    }
 // ------------------------------------------------------------------
 //  Short description:
@@ -449,7 +453,6 @@ void getKeyNameValueUnits(const std::string& line,
 // ------------------------------------------------------------------
 // single quote the string passed in.
 // ------------------------------------------------------------------
-#pragma warn -inl
 inline std::string singleQuoted(const std::string& st)
    {
    return "'" + st + "'";
@@ -461,7 +464,6 @@ inline std::string doubleQuoted(const std::string& st)
    {
    return "\"" + st + "\"";
    }
-#pragma warn .inl
 // ------------------------------------------------------------------
 // Locate a substring within a string - case insensitive.
 // ------------------------------------------------------------------

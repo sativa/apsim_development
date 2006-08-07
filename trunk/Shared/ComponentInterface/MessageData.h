@@ -3,13 +3,17 @@
 #define MessageDataH
 
 #include "message.h"
-#include <windows.h> // THis is a bit heavy-handed for just a few type sizes??
-
+#include <string>
+#ifdef __WIN32__
+   #include <mem.h>
+#endif
 class FString;
 class FStrings;
 
 namespace protocol {
 
+typedef unsigned char byte;
+typedef wchar_t WCHAR;
 inline unsigned int memorySize(const bool& value)
    {
    return 1;
@@ -230,7 +234,7 @@ class MessageData
    MessageData& operator>>(MessageData& messageData, FString& value);
    MessageData& operator<<(MessageData& messageData, const FString& value);
    unsigned int memorySize(const FString& value);
-   
+
    MessageData& operator>> (MessageData& messageData, FStrings& strings);
    MessageData& operator<< (MessageData& messageData, const FStrings& strings);
    unsigned int memorySize(const FStrings& strings);

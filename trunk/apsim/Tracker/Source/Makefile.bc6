@@ -20,7 +20,7 @@ LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(BCB)\Components\Boost\libs\date_time\date_time.lib
 
 USERDEFINES =
-SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
+SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES;_NO_VCL
 INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface
 LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface
 

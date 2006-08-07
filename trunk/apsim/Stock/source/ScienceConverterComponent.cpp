@@ -56,7 +56,7 @@ ScienceConverterComponent::~ScienceConverterComponent(void)
 void ScienceConverterComponent::doInit1(const FString& sdml)
    {
    protocol::Component::doInit1(sdml);
-   endRunID = addRegistration(RegistrationType::respondToEvent, "end_run", stringTypeDDML);
+   endRunID = addRegistration(RegistrationType::respondToEvent, "end_run", protocol::DDML("").c_str());
 
     conversion_model = readParameter ("constants", "conversion_model");
 

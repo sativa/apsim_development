@@ -1,0 +1,57 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for APSIM MET module
+#-----------------------------------------------------------------------
+#=======================================================================
+
+LIB=	../lib/libTracker.so
+
+SRC=	TrackerComponent.cpp	\
+	TrackerVariable.cpp
+
+OBJ=    $(SRC:.cpp=.o) $(APSROOT)/Shared/ComponentInterface/EntryPoints.o
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+CC=		/usr/bin/gcc
+CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
+		-I$(APSROOT)/Shared				\
+		-I$(APSROOT)/Shared/ComponentInterface		\
+		-Wno-deprecated 				\
+		-fpermissive -fPIC -D_NO_VCL
+
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS=	-L/usr/lib		\
+		-L$(APSROOT)/lib
+
+LIBS=		-lComponentInterface	\
+		-lprotocol		\
+		-lApsimShared		\
+		-lgeneral		\
+		-lboost_filesystem 	\
+		-lxml2			\
+		-lc
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB)
+
+$(LIB):	$(OBJ)
+	$(CC) -shared -o $(LIB) $(OBJ) $(LDFLAGS) $(LIBS)
+
+FORCE:
+
+clean:
+	rm -f *.o *.mod
+
+clobber:	clean
+	rm -r $(LIB)
+
+%.o:	%.cpp
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+

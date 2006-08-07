@@ -2,6 +2,7 @@
 
 #ifndef ApsimDataTypeDataH
 #define ApsimDataTypeDataH
+#include <general/platform.h>
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -12,7 +13,7 @@
 //  Changes:
 //    DPH 19/11/2001
 // ------------------------------------------------------------------
-class __declspec(dllexport) ApsimDataTypeData
+class EXPORT ApsimDataTypeData
    {
    public:
       ApsimDataTypeData(XMLNode &n) : node(n) { }

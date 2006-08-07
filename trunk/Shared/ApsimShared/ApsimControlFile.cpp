@@ -1,5 +1,3 @@
-#include <vcl.h>
-
 #include <set>
 #include <vector>
 #include <string>
@@ -16,13 +14,14 @@
 #include <general/TreeNodeIterator.h>
 #include <general/xml.h>
 
+#include <boost/bind.hpp>
 #include <boost/regex.hpp>
-
 #include "ApsimDirectories.h"
 #include "ApsimDataTypesFile.h"
 
 #include "ApsimControlFile.h"
 
+#include "phi_functions.h"
 using namespace std;
 using namespace boost;
 
@@ -49,10 +48,6 @@ struct ParamFile
          Path dllPath(moduleName);
          moduleName = dllPath.Get_name_without_ext();
          dllFileName = dllPath.Get_path();
-         }
-      else if (moduleName.find(".dll") != string::npos)
-         {
-         dllFileName = GetCurrentDir().c_str() + string("\\") + moduleName;
          }
       else
          {
@@ -512,7 +507,7 @@ void ApsimControlFile::setParameterValues(const string& sectionName,
                                           const vector<string>& parameterValues) throw(std::runtime_error)
    {
    if (instanceName == "")
-      ShowMessage("shouldn't be here");
+      throw runtime_error("shouldn't be here in ApsimControlFile::setParameterValues");
 
    else
       {
@@ -639,7 +634,7 @@ int ApsimControlFile::getVersionNumber(const std::string& fileName)
       {
       string version = getKeyValue(line, "version");
       if (version != "")
-         return StrToFloat(version.c_str())*10;
+         return (int) atof(version.c_str())*10;
       }
    return 21; // assumes if no version number then it is version 2.1
    }
@@ -677,21 +672,19 @@ void ApsimControlFile::setVersionNumber(const std::string& fileName,
 // ------------------------------------------------------------------
 IniFile* ApsimControlFile::getParFile(const std::string& parFileName, bool checkNonExistant) const
    {
-   Path(ini->getFileName()).Change_directory();
-   string filePath = ExpandFileName(parFileName.c_str()).c_str();
    for (unsigned i = 0; i != openedParFiles.size(); i++)
       {
-      if (Str_i_Eq(openedParFiles[i]->getFileName(), filePath))
+      if (Str_i_Eq(openedParFiles[i]->getFileName(), ini->getFileName()))
          return openedParFiles[i];
       }
-   if (checkNonExistant && !Path(filePath).Exists())
+   if (checkNonExistant && !Path(ini->getFileName()).Exists())
       throw runtime_error("The control file has referenced a non-existant file.\n"
-                          "File = " + filePath);
+                          "File = " + ini->getFileName());
 
-   if (Path(filePath).Get_extension() != ".met" &&
-       Path(filePath).Get_extension() != ".soi")
+   if (Path(ini->getFileName()).Get_extension() != ".met" &&
+       Path(ini->getFileName()).Get_extension() != ".soi")
       {
-      IniFile* par = new IniFile(filePath, true);
+      IniFile* par = new IniFile(ini->getFileName(), true);
       openedParFiles.push_back(par);
       return par;
       }
@@ -873,7 +866,7 @@ bool ApsimControlFile::renameParameter(const std::string& sectionName,
    {
    bool modified = false;
    RenameParameter rename(oldParameterName, newParameterName, modified);
-   enumerateParameters(sectionName, moduleName, false, rename.callback);
+   enumerateParameters(sectionName, moduleName, false, boost::bind(&RenameParameter::callback, &rename, _1, _2));
    return modified;
    }
 // ------------------------------------------------------------------
@@ -901,7 +894,7 @@ bool ApsimControlFile::deleteParameter(const std::string& sectionName,
    {
    vector<string> values;
    DeleteParameter deleteParam(parameterName, values);
-   enumerateParameters(sectionName, moduleName, false, deleteParam.callback);
+   enumerateParameters(sectionName, moduleName, false, boost::bind(&DeleteParameter::callback, &deleteParam, _1, _2));
    return (values.size() > 0);
    }
 // ------------------------------------------------------------------
@@ -923,7 +916,7 @@ bool ApsimControlFile::moveParameter(const std::string& sectionName,
       {
       vector<string> values;
       DeleteParameter deleteParam(parameterName, values);
-      enumerateParameters(sectionName, moduleName, false, deleteParam.callback);
+      enumerateParameters(sectionName, moduleName, false, boost::bind(&DeleteParameter::callback, &deleteParam, _1, _2));
       if (values.size() > 0)
          {
          if (destModuleName == "")
@@ -1041,7 +1034,7 @@ bool ApsimControlFile::moveParametersOutOfCon(const std::string& section,
 void ApsimControlFile::enumerateParameters(const std::string& section,
                                            const std::string& moduleName,
                                            bool includeConstants,
-                                           ParamCallbackEvent callback)
+                                           boost::function2<void, IniFile*, const std::string&> callback)
    {
    vector<ParamFile> paramFiles;
    getParameterFilesForModule(ini, section, moduleName, paramFiles, includeConstants);
@@ -1066,7 +1059,7 @@ void ApsimControlFile::enumerateParameters(const std::string& section,
 void ApsimControlFile::enumerateParametersForInstance(const std::string& section,
                                                       const std::string& instanceName,
                                                       bool constantsOnly,
-                                                      ParamCallbackEvent callback)
+                                                      boost::function2<void, IniFile*, const std::string&> callback)
    {
    vector<ParamFile> paramFiles;
    getParameterFilesForInstance(ini, section, instanceName, paramFiles, constantsOnly);
@@ -1254,7 +1247,7 @@ bool ApsimControlFile::deleteModule(const std::string& section,
    for(vector<string>::iterator line = lines.begin();
                                 line != lines.end();
                                 line++)
-      {                                                   
+      {
       bool keepModuleLine = true;
       unsigned posStartModuleName =line->find_first_not_of(' ');
       if (posStartModuleName != string::npos)
@@ -1323,7 +1316,7 @@ bool ApsimControlFile::searchReplace(const std::string& section,
 bool ApsimControlFile::enumerateManagerActionLines
                                 (const std::string& section,
                                  const std::string& managerAction,
-                                 ManagerActionCallback callback)
+                                 boost::function2<void, ManagerActionParameters& , bool& > callback)
    {
    bool someWereModified = false;
 
@@ -1355,7 +1348,11 @@ bool ApsimControlFile::enumerateManagerActionLines
          // go find all occurrances of action lines and call callback for each.
          boost::regex e(actionValues[0] + "[[:space:]]+" + actionValues[1]);
          boost::match_results<std::string::const_iterator> what;
+         #ifdef __WIN32__
          unsigned int flags = boost::match_default;
+         #else
+         regex_constants::_match_flags flags = boost::match_default;
+         #endif
          string::const_iterator startPos = lowerContents.begin();
          string::const_iterator endPos = lowerContents.end();
          while(regex_search(startPos, endPos, what, e, flags))

@@ -1,17 +1,16 @@
 //---------------------------------------------------------------------------
-#include <general\pch.h>
-#include <vcl.h>
+#include <general/pch.h>
 #pragma hdrstop
 
 #include "TrackerVariable.h"
-#include <ComponentInterface\Component.h>
-#include <general\stringtokenizer.h>
-#include <general\string_functions.h>
+#include <ComponentInterface/Component.h>
+#include <general/StringTokenizer.h>
+#include <general/string_functions.h>
 #include <numeric>
-#include <ApsimShared\FStringExt.h>
-#include <ComponentInterface\MessageDataExt.h>
-#include <boost\date_time\gregorian\gregorian.hpp>
-#include <general\date_functions.h>
+#include <ApsimShared/FStringExt.h>
+#include <ComponentInterface/MessageDataExt.h>
+#include <boost/date_time/gregorian/gregorian.hpp>
+#include <general/date_functions.h>
 
 #pragma package(smart_init)
 using namespace std;
@@ -133,7 +132,7 @@ void TrackerVariable::parseLast(StringTokenizer& tokenizer)
    string number = tokenizer.nextToken();
    if (!Is_numerical(number.c_str()))
       throw runtime_error("Expected a number following a 'last' keyword.");
-   last = StrToInt(number.c_str());
+   last = atoi(number.c_str());
    }
 // ------------------------------------------------------------------
 // Parse an 'as' section

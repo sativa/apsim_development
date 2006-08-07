@@ -7,7 +7,10 @@ using namespace std;
 
 #define singleArrayTypeDDML \
    "<type  array=\"T\" kind=\"single\"/>"
-
+#define singleTypeDDML \
+   "<type  kind=\"single\"/>"
+#define stringTypeDDML \
+   "<type  kind=\"string\"/>"
 
 // ------------------------------------------------------------------
 // constructor
@@ -35,7 +38,7 @@ void NonHerbageConverter::doInit1(const FString& sdml)
    dltLabilePID = system->addRegistration(RegistrationType::set, "dlt_labile_p", singleArrayTypeDDML);
 
    dayLengthID = system->addRegistration(RegistrationType::respondToGet, "dayLength", singleTypeDDML);
-   addExcretaID = system->addRegistration(RegistrationType::respondToEvent, "add_excreta", add_excretaTypeDDML);
+   addExcretaID = system->addRegistration(RegistrationType::respondToEvent, "add_excreta", protocol::DDML(protocol::add_excretaType()).c_str());
 
    stockBuyID = system->addRegistration(RegistrationType::respondToEvent, "buystock", stringTypeDDML);
 //   buyID = system->addRegistration(RegistrationType::event, "buy", buystockTypeDDML);
@@ -44,7 +47,7 @@ void NonHerbageConverter::doInit1(const FString& sdml)
    moveID = system->addRegistration(RegistrationType::event, "move", movestockTypeDDML);
 
    stockSellID = system->addRegistration(RegistrationType::respondToEvent, "sellstock", stringTypeDDML);
-   sellID = system->addRegistration(RegistrationType::event, "sell", sellstockTypeDDML);
+   sellID = system->addRegistration(RegistrationType::event, "sell", protocol::DDML(protocol::sellstockType()).c_str());
 
    addManureID = system->addRegistration(RegistrationType::event, "add_surfaceom", "", "", "");
 

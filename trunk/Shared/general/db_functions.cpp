@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-#include <general\pch.h>
+#include <general/pch.h>
 #include <vcl.h>
 #pragma hdrstop
 
@@ -8,6 +8,7 @@
 #include "math_functions.h"
 #include <adodb.hpp>
 
+#include <stdexcept>
 #pragma package(smart_init)
 using namespace std;
 
@@ -44,23 +45,23 @@ void addDBField(TDataSet* dataset,
       TFieldDef *fieldDef = dataset->FieldDefs->AddFieldDef();
       fieldDef->Name = fieldName.c_str();
 
-      if (Is_numerical(fieldValue.c_str()))
-         fieldDef->DataType = ftFloat;
-
-      else
+      try
          {
-         try
+         if (Is_numerical(fieldValue.c_str()))
+            fieldDef->DataType = ftFloat;
+
+         else
             {
             // the constructor below will throw if fieldValue is not
             // a date.
             TDateTime(fieldValue.c_str(), TDateTime::Date);
             fieldDef->DataType = ftDate;
             }
-         catch (...)
-            {
-            fieldDef->DataType = ftString;
-            fieldDef->Size = 200;
-            }
+         }
+      catch (...)
+         {
+         fieldDef->DataType = ftString;
+         fieldDef->Size = 200;
          }
       }
    }

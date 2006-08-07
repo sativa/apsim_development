@@ -3,12 +3,14 @@
 
    !!!! BUILT-IN types !!!!!
 
-   <type name="null" kind="" builtin="T"/>
-   <type name="integer4" kind="integer4" builtin="T"/>
-   <type name="single" kind="single" builtin="T"/>
-   <type name="double" kind="double" builtin="T"/>
-   <type name="double_array" kind="double" array="T" builtin="T"/>
-   <type name="string" kind="string" builtin="T"/>
+   <type name="Boolean" kind="boolean" builtin="T"/>
+   <type name="BooleanArray" kind="boolean" array="T" builtin="T"/>
+   <type name="Integer4" kind="integer4" builtin="T"/>
+   <type name="Single" kind="single" builtin="T"/>
+   <type name="SingleArray" kind="single" array="T" builtin="T"/>
+   <type name="Double" kind="double" builtin="T"/>
+   <type name="DoubleArray" kind="double" array="T" builtin="T"/>
+   <type name="String" kind="string" builtin="T"/>
    <type name="Layered" description="Layered soil data">
       <field name="layer" kind="double" array="T"/>
       <field name="value" kind="double" array="T"/>
@@ -1734,8 +1736,6 @@
       <type name="minimum_conductance" kind="single" unit="" lower_bound="0" upper_bound="2000" description="Minimum_conductance"/>
       <type name="cover_tot_all" kind="single" unit="0-1" lower_bound="1" description="Cover_tot_call"/>
       <type name="cover_height_all" kind="single" unit="0-1" lower_bound="2000" description="Cover_height_all"/>
-
-!   !!!!! PASTURE  types  !!!!!!!!!!!!!!!!!!!!!!
 
    <type name="soillayers">
       <field name="layers" kind="double" unit="mm"  array = "T"/>

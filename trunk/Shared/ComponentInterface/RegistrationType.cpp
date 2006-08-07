@@ -1,5 +1,5 @@
 #include "RegistrationType.h"
-#include <general\string_functions.h>
+#include <general/string_functions.h>
 
 #include <stdexcept>
 using namespace std;

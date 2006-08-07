@@ -1,0 +1,80 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for ComponentInterface Module
+#-----------------------------------------------------------------------
+#=======================================================================
+
+LIB=	libComponentInterface.so
+
+SRC=	Component.cpp			\
+	message.cpp			\
+	MessageData.cpp			\
+	ArraySpecifier.cpp		\
+	ProtocolVector.cpp		\
+	RegistrationType.cpp		\
+	Variant.cpp			\
+	Variants.cpp			\
+	Type.cpp			\
+	TypeConverter.cpp		\
+	ApsimVariant.cpp		\
+	Registrations.cpp		\
+	RegistrationItem.cpp
+
+OBJ=	$(SRC:.cpp=.o)
+
+OBJ2=	FORTRANComponentWrapper.o	\
+	EntryPoints.o			\
+	SimpleWrapper.o			\
+	datatypes.o
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+CC=		/usr/bin/gcc
+CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
+		-I$(APSROOT)/Shared				\
+		-Wno-deprecated -fpermissive -fPIC
+
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+
+LDFLAGS=	-L/usr/lib		\
+		-L$(APSROOT)/lib
+
+LIBS=		-lprotocol		\
+		-lApsimShared		\
+		-lgeneral		\
+		-lxml2 			\
+		-lboost_filesystem 	\
+		-lboost_date_time 	\
+		-lc
+
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB) FortranInterface
+
+lib: $(LIB)
+
+FortranInterface: $(OBJ2)
+
+$(LIB):	$(OBJ)
+	$(CC) -shared -lc -o $(LIB) $(OBJ) $(LDFLAGS) $(LIBS)
+
+FORCE:
+
+clean:
+	rm -f *.o *.mod
+
+clobber:	clean
+	rm -r $(LIB)
+
+install: all
+	cp $(LIB) $(APSROOT)/lib
+
+%.o:	%.cpp
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+

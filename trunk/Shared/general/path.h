@@ -1,7 +1,7 @@
 #ifndef PATH_H
 #define PATH_H
 
-#include <general\string_functions.h>
+#include <general/string_functions.h>
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -21,7 +21,7 @@
 
 // ------------------------------------------------------------------
 class Path
-	{
+{
    private:
       std::string Drive;
       std::string Directory;
@@ -30,16 +30,15 @@ class Path
    public:
       Path(void) {};
       Path(const std::string& File_path) {Set_path(File_path);};
-      int operator== (const Path& From) const {return From.Get_full_path() ==
-                                                      this->Get_full_path();};
-      int operator< (const Path& From) const {return From.Get_full_path() >
-                                                      this->Get_full_path();};
+      static const char dirDelim; //either '\' or '/' based on OS
+      int operator== (const Path& From) const {return From.Get_full_path() == this->Get_full_path();};
+      int operator< (const Path& From) const {return From.Get_full_path() > this->Get_full_path();};
 
       std::string Get_drive(void);
-		std::string Get_directory(void);
-		std::string Get_name(void);
+      std::string Get_directory(void);
+      std::string Get_name(void);
       std::string Get_name_without_ext(void);
-		std::string Get_extension(void);
+      std::string Get_extension(void);
       std::string Get_path(void);
       std::string Get_full_path (void) const;              // always returns a full absolute path.
 
@@ -58,7 +57,7 @@ class Path
 
       static Path getCurrentFolder(void);
       static Path getTempFolder(void);
-	};
+};
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -153,6 +152,5 @@ std::string fileRoot(const std::string &filename);
 std::string fileDirName(const std::string &filename);
 // Return whether a file exists or not
 bool fileExists(const std::string &filename);
-
 #endif
 

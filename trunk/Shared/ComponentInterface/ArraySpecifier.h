@@ -4,7 +4,7 @@
 #define ArraySpecifierH
 
 #include "Type.h"
-#include "Protocolvector.h"
+#include "ProtocolVector.h"
 #include <stdexcept>
 namespace protocol {
 
@@ -21,7 +21,7 @@ namespace protocol {
 //    name(2:4) - return elements 2 to 4 of array.
 //    sum(name(2-5)) - sum elements 2 to 5.
 //---------------------------------------------------------------------------
-class __declspec(dllexport) ArraySpecifier
+class EXPORT ArraySpecifier
    {
    public:
       ArraySpecifier(unsigned num);

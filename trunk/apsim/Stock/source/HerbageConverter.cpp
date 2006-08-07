@@ -4,7 +4,6 @@
 
 using namespace std;
 
-
 #define singleArrayTypeDDML \
    "<type  array=\"T\" kind=\"single\"/>"
 
@@ -35,9 +34,9 @@ HerbageConverter::~HerbageConverter(void)
 // ------------------------------------------------------------------
 void HerbageConverter::doInit1(const FString& sdml)
    {
-   tramplingID = system->addRegistration(RegistrationType::get, "trampling", singleTypeDDML);
-   plant2stockID = system->addRegistration(RegistrationType::respondToGet, "plant2stock", plant2stockTypeDDML);
-   removeHerbageID = system->addRegistration(RegistrationType::respondToEvent, "remove_herbage", remove_herbageTypeDDML);
+   tramplingID = system->addRegistration(RegistrationType::get, "trampling", protocol::DDML(int(1)).c_str());
+   plant2stockID = system->addRegistration(RegistrationType::respondToGet, "plant2stock", protocol::DDML(protocol::plant2stockType()).c_str());
+   removeHerbageID = system->addRegistration(RegistrationType::respondToEvent, "remove_herbage", DDML(protocol::remove_herbageType()).c_str());
 
    dmFeedOnOfferID = system->addRegistration(RegistrationType::respondToGet, "dm_feed_on_offer", singleArrayTypeDDML);
    dmFeedRemovedID = system->addRegistration(RegistrationType::respondToGet, "dm_feed_removed", singleArrayTypeDDML);

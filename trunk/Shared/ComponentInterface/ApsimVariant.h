@@ -5,6 +5,8 @@
 #include "Type.h"
 #include "Variant.h"
 
+#include <stdexcept>
+
 // turn of the warnings about "Functions containing for are not expanded inline.
 #pragma warn -inl
 
@@ -46,7 +48,7 @@ class ApsimVariant
             char msg[100];
             strcpy(msg, "Too many items stored in variant/postbox.  Variable name: ");
             strncat(msg, variableName.f_str(), variableName.length());
-            ::MessageBox(NULL, msg, "", MB_OK);
+     	    throw std::runtime_error(msg);
             }
 
          }
@@ -101,9 +103,9 @@ class ApsimVariant
       bool findVariable(const FString& variableName)
          {
          reset();
+
          if (!messageData.isValid())
             return false;
-
          FString varName;
          unsigned numBytes;
          messageData >> varName >> numBytes;

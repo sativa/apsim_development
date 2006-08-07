@@ -1,12 +1,13 @@
 //---------------------------------------------------------------------------
 #ifndef ApsimServiceDataH
 #define ApsimServiceDataH
+#include <general/platform.h>
 
 // ------------------------------------------------------------------
 // This class encapsulates the data in a service section of
 // an APSIM simulation file(.SIM).
 // ------------------------------------------------------------------
-class __declspec(dllexport) ApsimServiceData
+class EXPORT ApsimServiceData
    {
    public:
       ApsimServiceData(const XMLNode& n);

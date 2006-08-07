@@ -54,7 +54,7 @@ void PatchInputComponent::doInit1(const FString& sdml)
    InputComponent::doInit1(sdml);
 
    haveReadPatchData = false;
-   preNewmetID = addRegistration(RegistrationType::respondToEvent, "preNewmet", newmetTypeDDML);
+   preNewmetID = addRegistration(RegistrationType::respondToEvent, "preNewmet", DDML(protocol::newmetType()).c_str());
    ApsimDataFile::iterator i = find(data.constantsBegin(),
                                     data.constantsEnd(),
                                     "patch_all_years");

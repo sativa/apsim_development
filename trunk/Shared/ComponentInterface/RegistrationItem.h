@@ -4,7 +4,7 @@
 #include "Variants.h"
 #include "ArraySpecifier.h"
 #include "Messages.h"
-#include <ApsimShared\fstring.h>
+#include <ApsimShared/FString.h>
 
 namespace protocol {
 

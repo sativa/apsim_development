@@ -7,6 +7,7 @@
 #include "PlantLibrary.h"
 #include "PlantPhenology.h"
 #include "Environment.h"
+#include <sstream>
 
 void BroccoliPhenology::zeroAllGlobals(void)
 //=======================================================================================
@@ -295,7 +296,7 @@ void BroccoliPhenology::onRemoveBiomass(float removeBiomPheno)
    float removeFractPheno = y_removeFractPheno[removeBiomPheno];
    float removeTTPheno = ttCritical * removeFractPheno;
 
-   ostrstream msg;
+   ostringstream msg;
    msg << "Phenology change:-" << endl;
    msg << "    Fraction DM removed  = " << removeBiomPheno << endl;
    msg << "    Fraction TT removed  = " << removeFractPheno << endl;
@@ -331,7 +332,7 @@ void BroccoliPhenology::onRemoveBiomass(float removeBiomPheno)
    msg << "New Above ground TT = " << ttInPhase("above_ground") << endl << ends;
 
    if (plant->removeBiomassReport())
-      parentPlant->writeString (msg.str());
+      parentPlant->writeString (msg.str().c_str());
 
 }
 

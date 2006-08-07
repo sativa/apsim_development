@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 #include <stdexcept>
+#include <sstream>
 
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
@@ -272,7 +273,7 @@ void genericLeafPart::onKillStem(void)
    // transfer plant leaf area
    {
    plantPart::onKillStem();
-   float deadLAI = gTLAI_dead + gLAI; 
+   float deadLAI = gTLAI_dead + gLAI;
    onEmergence();
    gTLAI_dead = deadLAI;
    }
@@ -333,7 +334,7 @@ void genericLeafPart::checkBounds(void)
 
    if (! reals_are_equal (leaf_area_tot, gLAI + gSLAI, tolerance_lai))
      {
-     ostrstream msg;
+     ostringstream msg;
      msg << "Total leaf area doesn't match LAI. LAI = ";
      msg <<  leaf_area_tot << ". Lai total = " <<  (gLAI + gSLAI) << ends;
      throw std::runtime_error (msg.str());

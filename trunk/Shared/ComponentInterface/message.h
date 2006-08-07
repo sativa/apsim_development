@@ -1,8 +1,6 @@
 //---------------------------------------------------------------------------
 #ifndef MessageH
 #define MessageH
-#include <mem.h>
-
 namespace protocol
    {
 

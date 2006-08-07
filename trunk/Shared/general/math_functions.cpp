@@ -7,7 +7,13 @@
 #include <values.h>
 #include <strstream>
 #include <iomanip>
+
+#ifndef __WIN32__
+   #include <ext/algorithm>
+#endif
+
 using namespace std;
+
 // ------------------------------------------------------------------
 //  Short description:
 //    cycle through a number series from 1 to Max_number.
@@ -236,7 +242,7 @@ void Calculate_prob_dist(vector<double>& X,
       Prob_values.push_back( (x-0.5)/X.size()*100 );
 
    if (Prob_exceed)
-      std::reverse(Prob_values.begin(), Prob_values.end());
+     std::reverse(Prob_values.begin(), Prob_values.end());
    }
 
 // ------------------------------------------------------------------
@@ -277,7 +283,7 @@ double Calculate_percentile(vector<double>& X,
 
    // if user wants a prob exceedence then we need to flip the percentile around.
    if (Prob_exceed)
-      Percentile = 50 - (Percentile - 50); 
+      Percentile = 50 - (Percentile - 50);
 
    vector<double> Prob_values;
    Calculate_prob_dist(X, false, Prob_values);
@@ -328,11 +334,11 @@ void Calculate_freq_dist(vector<double>& Values,
    for (unsigned int interval = 0; interval < Start_values.size(); interval++)
       {
       double Start_of_interval = Start_values[interval];
-      double End_of_interval = End_values[interval]; 
+      double End_of_interval = End_values[interval];
 
       range<double> Range(Start_of_interval, End_of_interval);
       int count = 0;
-      std::count_if (Values.begin(), Values.end(), Range, count);
+      count_if (Values.begin(), Values.end(), Range, count);
       Frequency_numbers.push_back (count);
 
       // create a label for this interval.
@@ -366,8 +372,8 @@ void Round_using_magnitude (double& Value, bool Round_up)
    {
    if (fabs(Value) > 0)
       {
-      int Magnitude = log10(fabs(Value));
-      int Nearest = pow(10, Magnitude);
+      int Magnitude = (int)log10(fabs(Value));
+      int Nearest = (int)pow(10, Magnitude);
       Round_to_nearest (Value, Nearest, Round_up);
       }
    }
@@ -493,6 +499,7 @@ void CopyParamsToVector(double source[], vector<double>& dest)
 //    DPH 7/7/1996
 
 // ------------------------------------------------------------------
+/* crw commented
 void Minim (vector<double>& param,
             vector<double>& step,
             double& FUNC,
@@ -796,3 +803,5 @@ L450:  if(fabs(SAVEMN-HMEAN)>=STOPCR) goto L440;
       return;
 
    }
+
+*/

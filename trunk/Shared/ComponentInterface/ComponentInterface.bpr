@@ -136,11 +136,11 @@ Item1=../../bin
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=plant wheat \development\apsimui\plant.xml
+RunParams=d:\development\apsim\wheat\sample\wheat.sim
 Launcher=
 UseLauncher=0
 DebugCWD=
-HostApplication=d:\development\bin\getcomponentdescription.exe
+HostApplication=d:\development\bin\apsim.exe
 RemoteHost=
 RemotePath=
 RemoteLauncher=

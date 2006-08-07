@@ -12,6 +12,9 @@
 #include "ApsimSystemData.h"
 #include "ApsimServiceData.h"
 #include "ApsimSimulationFile.h"
+
+#include <stdexcept>
+
 using namespace std;
 // ------------------------------------------------------------------
 // Constructor

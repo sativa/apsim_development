@@ -6,8 +6,9 @@
 
 #include <general/string_functions.h>
 #include <general/date_class.h>
+#include <general/platform.h>
 
-#include <ApsimShared/fstringext.h>
+#include <ApsimShared/FStringExt.h>
 #include <ApsimShared/ApsimDataFile.h>
 
 #include <ComponentInterface/Component.h>
@@ -41,16 +42,16 @@ static const char* hasDataTodayTypeDDML =
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" _export void __stdcall wrapperDLL(char* wrapperDll)
+extern "C" EXPORT void STDCALL wrapperDLL(char* wrapperDll)
    {
    strcpy(wrapperDll, "");
    }
-extern "C" void __stdcall getDescriptionInternal(char* initScript,
+extern "C" void STDCALL getDescriptionInternal(char* initScript,
                                                  char* description);
 // ------------------------------------------------------------------
 // Return component description info.
 // ------------------------------------------------------------------
-extern "C" _export void __stdcall getDescription(char* initScript, char* description)
+extern "C" EXPORT void STDCALL getDescription(char* initScript, char* description)
    {
    getDescriptionInternal(initScript, description);
    }
@@ -90,14 +91,14 @@ void InputComponent::doInit1(const FString& sdml)
       static const char* stringDDML = "<type kind=\"string\"/>";
 
       // register a few things.
-      tickID = addRegistration(RegistrationType::respondToEvent, "tick", timeTypeDDML);
-      preNewmetID = addRegistration(RegistrationType::event, "preNewmet", newmetTypeDDML);
-      newmetID = addRegistration(RegistrationType::event, "newmet", newmetTypeDDML);
+      tickID = addRegistration(RegistrationType::respondToEvent, "tick", DDML(protocol::timeType()).c_str());
+      preNewmetID = addRegistration(RegistrationType::event, "preNewmet", DDML(protocol::newmetType()).c_str());
+      newmetID = addRegistration(RegistrationType::event, "newmet", DDML(protocol::newmetType()).c_str());
       hasDataTodayID = addRegistration(RegistrationType::respondToGet, "hasDataToday", hasDataTodayTypeDDML);
       getDataMethodID = addRegistration(RegistrationType::respondToEvent, "getData", getDataDDML);
       haveReadTodaysDataID = addRegistration(RegistrationType::event, "HaveReadTodaysData", nullTypeDDML);
 
-      iAmMet = (stricmp(name, "met") == 0);
+      iAmMet = (Str_i_Cmp(name, "met") == 0);
       if (iAmMet)
          daylengthID = addRegistration(RegistrationType::respondToGet, "day_length", dayLengthType);
       else

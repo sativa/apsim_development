@@ -33,11 +33,9 @@
       !Report the initialisation process
       call Write_string (' Initialising, '// CropMod_Version ())
 
+      g%num_parts = 0
       !Read the crop type and sub-module switches
       call Read_Module_Switches()
-
-!      PRINT *,"crop type is ", c%crop_type
-!      PRINT *
 
 
       !Read the crop specific constants

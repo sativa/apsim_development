@@ -2,8 +2,8 @@
 #ifndef xmlH
 #define xmlH
 #include <string>
-#include <general\TreeNodeIterator.h>
-#include <general\stl_functions.h>
+#include <general/TreeNodeIterator.h>
+#include <general/stl_functions.h>
 
 class XMLNode;
 struct _xmlNode;
@@ -58,20 +58,27 @@ class XMLNode
       void setAttribute(const std::string& attributeName,
                         const std::string& attributeValue);
       void setValue(const std::string& value);
+      void setValueAsCData(const std::string& value);
       XMLNode appendChild(const std::string& nodeName, bool alwaysAppend = false);
       XMLNode appendChild(XMLNode childNode, bool alwaysAppend = false);
       XMLNode::iterator erase(XMLNode::iterator& nodeIterator);
 
       std::string write() const;
       std::string innerXML();
+   bool operator==(const XMLNode& rhs) const
+      {
+      return node == rhs.node;
+      }
+   bool operator!=(const XMLNode& rhs) const
+      {
+      return node != rhs.node;
+      }
+   XMLNode getNextSibling(void) const;
 
    private:
       XMLDocument* parent;
       _xmlNode* node;
 
-      XMLNode getNextSibling(void) const;
-
-   friend iterator;  // needed so that TreeNodeIterator can get to getNextSibling.
    };
 
 //---------------------------------------------------------------------------
@@ -90,8 +97,8 @@ class NodeEquals
          : nodeName(nodename), nameAttribute(nameattribute) {}
 
       bool operator () (T& arg)
-         {return (strcmpi(arg.getName().c_str(), nodeName.c_str()) == 0 &&
-                  strcmpi(arg.getAttribute("name").c_str(), nameAttribute.c_str()) == 0);};
+         {return (Str_i_Eq(arg.getName(), nodeName) &&
+                  Str_i_Eq(arg.getAttribute("name"), nameAttribute));};
    };
 //---------------------------------------------------------------------------
 // Handy predicate that can help find a node that has the specified name
@@ -206,7 +213,7 @@ class AttributeEquals
          : attributeName(attributename), attributeValue(attributevalue) {}
 
       bool operator () (T& arg)
-         {return (strcmpi(arg.getAttribute(attributeName).c_str(), attributeValue.c_str()) == 0);};
+      {return (Str_i_Eq(arg.getAttribute(attributeName), attributeValue));};
    };
 // ------------------------------------------------------------------
 // Handy function that returns a node given a fully qualified name

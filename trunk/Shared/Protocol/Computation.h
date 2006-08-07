@@ -1,12 +1,13 @@
 //---------------------------------------------------------------------------
 #ifndef computationH
 #define computationH
-#include <ComponentInterface\interfaces.h>
+#include <ComponentInterface/interfaces.h>
 #include <stdexcept>
 
+#include <general/platform.h>
 
 namespace protocol {
-typedef _stdcall void (CallbackType)(const unsigned int *compInst, Message *message);
+typedef EXPORT STDCALL void (CallbackType)(const unsigned int *compInst, Message *message);
 // ------------------------------------------------------------------
 //  Short description:
 //    Encapsulates a component "computation".  A computation is a
@@ -20,7 +21,7 @@ typedef _stdcall void (CallbackType)(const unsigned int *compInst, Message *mess
 //    dph 12/7/2001 modified to make protocol compliant 1.0
 
 // ------------------------------------------------------------------
-class __declspec(dllexport) Computation : public IComputation
+class EXPORT Computation : public IComputation
    {
    public:
       Computation(const std::string& name,
@@ -52,15 +53,15 @@ class __declspec(dllexport) Computation : public IComputation
       virtual void deleteInstance(void) const;
       void * loadDLL(const std::string& filename) throw(std::runtime_error);
 
-      void _stdcall (*createInstanceProc)(const char* dllFileName,
+      void EXPORT STDCALL (*createInstanceProc)(const char* dllFileName,
                                           const unsigned int* componentID,
                                           const unsigned int* parentID,
                                           const int* anInstanceNo,
                                           const int* callbackArg,
                                           CallbackType* callback);
 
-      void _stdcall (*deleteInstanceProc)(const int* anInstanceNo);
-      void _stdcall (*messageToLogicProc)(const int* anInstanceNo,
+      void EXPORT STDCALL (*deleteInstanceProc)(const int* anInstanceNo);
+      void EXPORT STDCALL (*messageToLogicProc)(const int* anInstanceNo,
                                           const Message* messageHeader,
                                           bool* bProcessed);
       bool loadComponent(const std::string& filename,

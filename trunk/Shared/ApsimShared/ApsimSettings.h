@@ -1,6 +1,7 @@
 //---------------------------------------------------------------------------
 #ifndef ApsimSettingsH
 #define ApsimSettingsH
+#include <general/platform.h>
 
 class IniFile;
 // ------------------------------------------------------------------
@@ -9,7 +10,7 @@ class IniFile;
 // Keys can be hierarchical and are in the format:
 //           section1|section2|...|name
 // ------------------------------------------------------------------
-class __declspec(dllexport) ApsimSettings
+class EXPORT ApsimSettings
     {
     public:
       ApsimSettings(void);

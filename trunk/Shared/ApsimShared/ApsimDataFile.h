@@ -1,7 +1,8 @@
 //---------------------------------------------------------------------------
 #ifndef ApsimDataFileH
 #define ApsimDataFileH
-
+#include <general/platform.h>
+#include <general/string_functions.h>
 //---------------------------------------------------------------------------
 // This class a single 'value' whether it be a constant or a value for
 // a specific date. NB A 'value' can have multiple values ie an array.
@@ -22,7 +23,7 @@ struct Value
    std::string getName(void) {return name;}
    std::string getValue(void) {return values[0];}
    bool operator== (const std::string& rhsName)
-      {return (strcmpi(name.c_str(), rhsName.c_str()) == 0);}
+     {return (Str_i_Eq(name, rhsName));}
    };
 
 //---------------------------------------------------------------------------
@@ -53,7 +54,7 @@ struct Value
 //     year and day columns where day is day of year
 //     date column in the ISO 8601 extended format: YYYY-MM-DD
 //---------------------------------------------------------------------------
-class __declspec(dllexport) ApsimDataFile
+class EXPORT ApsimDataFile
    {
    public:
       typedef std::vector<Value> Values;

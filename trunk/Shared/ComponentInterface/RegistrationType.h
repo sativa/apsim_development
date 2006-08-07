@@ -1,12 +1,13 @@
 //---------------------------------------------------------------------------
 #ifndef RegistrationTypeH
 #define RegistrationTypeH
+#include <general/platform.h>
 
 #include <string>
 //---------------------------------------------------------------------------
 // Encapsulates a registration type.
 //---------------------------------------------------------------------------
-class __declspec(dllexport) RegistrationType
+class EXPORT RegistrationType
    {
    public:
       enum Type {get=1,         respondToGet=2,

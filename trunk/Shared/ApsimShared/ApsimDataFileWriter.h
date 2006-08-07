@@ -4,7 +4,7 @@
 #include <map>
 #include <vector>
 #include <fstream>
-#include <boost\date_time\gregorian\gregorian.hpp>
+#include <boost/date_time/gregorian/gregorian.hpp>
 #include "ApsimDataFile.h" // to pull in Value
 //---------------------------------------------------------------------------
 // This class encapsulates all writing to an APSIM data file.

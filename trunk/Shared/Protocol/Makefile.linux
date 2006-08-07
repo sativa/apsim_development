@@ -1,0 +1,65 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for Protocol module   
+#-----------------------------------------------------------------------
+#=======================================================================
+
+LIB=	libprotocol.so
+
+SRC=	transport.cpp	\
+	Computation.cpp
+
+OBJ=	$(SRC:.cpp=.o)
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+CC=		/usr/bin/gcc
+CPPFLAGS=	-I/usr/include/boost -I$(APSROOT)/Shared 	\
+		-I/usr/include/libxml2				\
+		-Wno-deprecated -fpermissive -fPIC
+
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS=	-L/usr/lib		\
+		-L$(APSROOT)/lib
+
+LIBS=		-lApsimShared		\
+		-lgeneral		\
+		-lxml2 			\
+		-lboost_filesystem 	\
+		-lboost_date_time 	\
+		-lc
+
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB)
+
+$(LIB):	$(OBJ)
+	$(CC) -shared -o $(LIB) $(OBJ) $(LDFLAGS) $(LIBS)
+
+FORCE:
+
+clean:
+	rm -f *.o *.mod
+
+clobber:	clean
+	rm -r $(LIB)
+
+install: all
+	cp $(LIB) $(APSROOT)/lib
+
+
+%.o:	%.cpp
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+
+
+
+
+
+
+

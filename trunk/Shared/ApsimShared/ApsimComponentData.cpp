@@ -14,6 +14,7 @@
 #include "ApsimComponentData.h"
 #include "ApsimSystemData.h"
 
+#include <general/platform.h>
 // ------------------------------------------------------------------
 // constructor
 // ------------------------------------------------------------------
@@ -515,29 +516,29 @@ void ApsimComponentData::replaceAllMacros(XMLNode::iterator rulesNode, string& c
 // ------------------------------------------------------------------
 // constructor
 // ------------------------------------------------------------------
-extern "C" unsigned _export __stdcall newApsimComponentData
+extern "C" unsigned EXPORT STDCALL newApsimComponentData
    (const char* xml, unsigned xmlLength)
    {
    string xmlString(xml, xmlLength);
    return (unsigned) new ApsimComponentData(xmlString);
    }
-extern "C" void _export __stdcall deleteApsimComponentData
+extern "C" void EXPORT STDCALL deleteApsimComponentData
    (ApsimComponentData* componentData)
    {
    delete componentData;
    }
-extern "C" bool _export __stdcall ApsimComponentData_getProperty
+extern "C" bool EXPORT STDCALL ApsimComponentData_getProperty
    (ApsimComponentData* componentData,
     const FString& propertyType,
     const FString& name,
     FString& value)
    {
    string lowerValue = componentData->getProperty(asString(propertyType), asString(name));
-   strlwr((char*)lowerValue.c_str());
+   To_lower(lowerValue);
    value = lowerValue.c_str();
    return (value.length() > 0);
    }
-extern "C" void _export __stdcall ApsimComponentData_getRuleNames
+extern "C" void EXPORT STDCALL ApsimComponentData_getRuleNames
    (ApsimComponentData** componentData,
     char* names,
     unsigned* maxNumNames,
@@ -551,7 +552,7 @@ extern "C" void _export __stdcall ApsimComponentData_getRuleNames
    }
 vector<string> ruleLines;
 string ruleCondition;
-extern "C" void _export __stdcall ApsimComponentData_loadRule
+extern "C" void EXPORT STDCALL ApsimComponentData_loadRule
    (ApsimComponentData** componentData,
     const char* name,
     unsigned nameLength)
@@ -562,12 +563,12 @@ extern "C" void _export __stdcall ApsimComponentData_loadRule
                              contents);
    Split_string(contents, "\n", ruleLines);
    }
-extern "C" unsigned _export __stdcall ApsimComponentData_getNumRuleLines
+extern "C" unsigned EXPORT STDCALL ApsimComponentData_getNumRuleLines
    (void)
    {
    return ruleLines.size();
    }
-extern "C" void _export __stdcall ApsimComponentData_getRuleLine
+extern "C" void EXPORT STDCALL ApsimComponentData_getRuleLine
    (unsigned* lineNumber,
     char* line,
     unsigned lineLength)
@@ -575,7 +576,7 @@ extern "C" void _export __stdcall ApsimComponentData_getRuleLine
    FString l(line, lineLength, FORString);
    l = ruleLines[*lineNumber].c_str();
    }
-extern "C" void _export __stdcall ApsimComponentData_getRuleCondition
+extern "C" void EXPORT STDCALL ApsimComponentData_getRuleCondition
    (char* condition,
     unsigned conditionLength)
    {

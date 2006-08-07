@@ -4,14 +4,15 @@
 #include <string>
 #include <general/string_functions.h>
 #include <general/stl_functions.h>
-#include <general/inifile.h>
-
+#include <general/IniFile.h>
+#include <general/platform.h>
 #include <boost/filesystem/operations.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/date_time/period.hpp>
 #include <boost/date_time/date_parsing.hpp>
 #include <boost/date_time/gregorian/gregorian.hpp>
 
-#include "fstring.h"
+#include "FString.h"
 #include "ApsimDataFile.h"
 
 using namespace std;
@@ -236,7 +237,7 @@ bool ApsimDataFile::readNextRecord() throw(runtime_error)
 // Look at the columns names to see if we sufficient columns to
 // build a date.
 // ------------------------------------------------------------------
-void ApsimDataFile::lookForDateField(void) 
+void ApsimDataFile::lookForDateField(void)
    {
    yearI = temporalData.end();
    monthI = temporalData.end();
@@ -273,7 +274,7 @@ void ApsimDataFile::lookForDateField(void)
 // ------------------------------------------------------------------
 // return the date on the current record.
 // ------------------------------------------------------------------
-gregorian::date ApsimDataFile::getDate(void) 
+gregorian::date ApsimDataFile::getDate(void)
    {
    if (!haveFoundDate)
       lookForDateField();
@@ -319,7 +320,7 @@ bool ApsimDataFile::eof(void)
 
 // ------------------------------------------------------------------
 // ------------------------------------------------------------------
-extern "C" unsigned _export __stdcall newApsimDataFile
+extern "C" unsigned EXPORT STDCALL newApsimDataFile
    (const char* filename, unsigned filenameLength)
    {
    string fileName(filename, filenameLength);
@@ -327,12 +328,12 @@ extern "C" unsigned _export __stdcall newApsimDataFile
    dataFile->open(fileName);
    return (unsigned) dataFile;
    }
-extern "C" void _export __stdcall deleteApsimDataFile
+extern "C" void EXPORT STDCALL deleteApsimDataFile
    (ApsimDataFile** dataFile)
    {
    delete (*dataFile);
    }
-extern "C" unsigned _export __stdcall ApsimDataFile_getFieldValue
+extern "C" unsigned EXPORT STDCALL ApsimDataFile_getFieldValue
    (ApsimDataFile** dataFile, unsigned* fieldIndex, char* value, unsigned valueLength)
    {
    try
@@ -348,7 +349,7 @@ extern "C" unsigned _export __stdcall ApsimDataFile_getFieldValue
       return false;
       }
    }
-extern "C" unsigned _export __stdcall ApsimDataFile_next
+extern "C" unsigned EXPORT STDCALL ApsimDataFile_next
    (ApsimDataFile** dataFile)
    {
    try

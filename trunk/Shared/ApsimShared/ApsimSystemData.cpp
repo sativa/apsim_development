@@ -6,6 +6,7 @@
 #include "ApsimComponentData.h"
 #include "ApsimSystemData.h"
 
+#include <stdexcept>
 
 // ------------------------------------------------------------------
 // constructor

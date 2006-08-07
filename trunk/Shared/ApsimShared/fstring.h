@@ -2,6 +2,10 @@
 #ifndef FStringH
 #define FStringH
 
+#include <stdexcept>
+#ifdef __WIN32__
+   #include <mem.h>
+#endif
 enum StringType {CString, FORString};
 
 // ------------------------------------------------------------------
@@ -17,7 +21,7 @@ enum StringType {CString, FORString};
 class FString
    {
    public:
-      static const unsigned npos = -1;
+      static const unsigned npos = (unsigned) -1;
 
       // default constructor that doesn't alias to anything.
       FString(void)
@@ -86,8 +90,15 @@ class FString
          return text;
          }
       bool operator== (const FString& rhs) const
-         {return (length() == rhs.length() &&
-                  strncmpi(f_str(), rhs.f_str(), length()) == 0);}
+         {
+	     #if __WIN32__
+         return (length() == rhs.length() &&
+                 strncmpi(f_str(), rhs.f_str(), length()) == 0);
+		 #else
+		 return (length() == rhs.length() &&
+                 strncasecmp(f_str(), rhs.f_str(), length()) == 0);
+         #endif
+         }
       bool operator!= (const FString& rhs) const
          {return !(*this == rhs);}
       char operator[] (unsigned index) {return text[index];}
@@ -174,7 +185,7 @@ class FString
          if (canModify)
             {
             strncpy(&text[pos], &text[pos+nchars], realLen-(pos+nchars));
-            strnset(&text[realLen-nchars], ' ', nchars);
+	        memset(&text[realLen-nchars], ' ', nchars);
             realLen -= nchars;
             }
          else
@@ -258,7 +269,7 @@ class FStrings
          numElements = 0;
          if (strings.size() > maxNumElements)
             throw std::runtime_error("Too many strings for FORTRAN string array");
-         for (CT::const_iterator i = strings.begin();
+         for (typename CT::const_iterator i = strings.begin();
                                  i != strings.end();
                                  i++)
             {

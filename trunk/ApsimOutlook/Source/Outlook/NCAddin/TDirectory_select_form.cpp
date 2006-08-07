@@ -8,6 +8,7 @@
 #include <general\vcl_functions.h>
 #include <general\io_functions.h>
 #include <general\stl_functions.h>
+#include <dir.h>
 static const char* DATASETS_SECTION = "Outlook Datasets";
 static const char* DEFAULT_DATASET_KEY = "Outlook Default Datasets|Dataset";
 static const char* DEFAULT_SUBSET_KEY = "Outlook Default Datasets|Subset";

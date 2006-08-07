@@ -1,13 +1,15 @@
 //---------------------------------------------------------------------------
 #include <stdlib.h>
 #include <fstream>
-#include "Macro.h"
-#include <general\TreeNodeIterator.h>
-#include <general\xml.h>
-#include <general\string_functions.h>
-#include <general\io_functions.h>
-#include <general\stl_functions.h>
-#include <general\stringtokenizer.h>
+#include "macro.h"
+#include <general/TreeNodeIterator.h>
+#include <general/xml.h>
+#include <general/string_functions.h>
+#include <general/io_functions.h>
+#include <general/stl_functions.h>
+#include <general/StringTokenizer.h>
+
+#include <stdexcept>
 
 using namespace std;
 // ------------------------------------------------------------------
@@ -33,10 +35,9 @@ string replaceMacros(const string& originalContents,
    unsigned counter = 0;
    for (XMLNode::iterator i = node.begin(); i != node.end(); i++)
       {
-      char buf[40];
       counter++;
       stringToReplace = parentName + ".counter";
-      replaceAll(contents, stringToReplace, itoa(counter,buf,10));
+      replaceAll(contents, stringToReplace, itoa(counter));
 
       stringToReplace = parentName + "." + i->getName();
       replaceAll(contents, stringToReplace, i->getValue());
@@ -278,8 +279,7 @@ void Macro::replaceGlobalCounter(string& contents) const
          }
       else
          {
-         char buf[40];
-         contents.replace(posCounter, strlen("global.counter"), itoa(globalCounter,buf,10));
+         contents.replace(posCounter, strlen("global.counter"), itoa(globalCounter));
          }
       posGlobalCounter = stristr(contents.c_str(), "global.counter");
       }

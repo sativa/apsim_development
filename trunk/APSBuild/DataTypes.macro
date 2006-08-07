@@ -6,44 +6,32 @@
 #include <general/TreeNodeIterator.h>
 #include <general/xml.h>
 
-#include <ComponentInterface\MessageData.h>
-#include <ComponentInterface\MessageDataExt.h>
-#include <ComponentInterface\Type.h>
-#include <ComponentInterface\Interfaces.h>
+#include <ComponentInterface/MessageData.h>
+#include <ComponentInterface/MessageDataExt.h>
+#include <ComponentInterface/Type.h>
+#include <ComponentInterface/Interfaces.h>
 
 namespace protocol {
 
 //-------------------- Built in types
+
+#define nullTypeDDML "<type/>"
 #for_each type
-#define type.nameTypeDDML \
-type.cddml
-#if (type.name <> null)
-class Apsimtype.name : public IData
-   {
-   private:
-      type.ckind& value;
-   public:
-      Apsimtype.name(type.ckind& v) : value(v) { }
-	virtual void pack(protocol::MessageData& messageData)
-	   {
-      messageData << value;
-	   }
-	virtual void unpack(protocol::MessageData& messageData)
-	   {
-      messageData >> value;
-	   }
-	virtual const char* ddml()
+
+#if (type.Array = T)
+	std::string DDML(const std::vector<type.ckind>& value)
+#else
+   std::string DDML(const type.ckind& value)
+#endif
 	   {
 	   return type.cddml;
 	   }
-   };
-#endif
+
 #endfor
 
 #for_each structure
 //-------------------- structure.nameType
-#define structure.nameTypeDDML \
-structure.cddml
+
 struct structure.nameType
    {
    #for_each structure.field
@@ -72,6 +60,14 @@ inline protocol::MessageData& operator>>(protocol::MessageData& messageData, str
    #endfor
    return messageData;
    }
+#if (structure.Array = T)
+std::string DDML(const vector<structure.nameType>& value)
+#else
+std::string DDML(const structure.nameType& value)
+#endif
+   {
+   return structure.cddml;
+   }
 inline unsigned int memorySize(const structure.nameType& data)
    {
    return 0
@@ -95,18 +91,18 @@ void Initstructure.name(std::vector<structure.nameType>& values, const std::stri
 #include <general/stl_functions.h>
 #include <general/TreeNodeIterator.h>
 #include <general/xml.h>
+#include <general/platform.h>
 
-#include "DataTypes.h"
+#include "Messages.h"
+#include "datatypes.h"
 #include "Component.h"
 #include "FORTRANComponentWrapper.h"
 const unsigned max_array_size = 100;
 
-// turn off the warnings about "Functions containing for are not expanded inline.
-#pragma warn -inl
-
-extern "C" __declspec(dllexport) void __stdcall publish_null(unsigned* id)
+extern "C" void EXPORT STDCALL publish_null(unsigned* id)
    {
-   FortranWrapper::currentInstance->publish(*id, protocol::NoData());
+   protocol::NoData pd;
+   FortranWrapper::currentInstance->publish(*id, pd);
    }
 
 #for_each structure
@@ -214,32 +210,29 @@ void Initstructure.name(std::vector<structure.nameType>& values, const std::stri
    #endif
 }; // namespace protocol
    #if (structure.array = T)
-extern "C" __declspec(dllexport) void __stdcall publish_structure.name(unsigned* id, const protocol::Fstructure.nameType data[], unsigned* numValues)
+extern "C" void EXPORT STDCALL publish_structure.name(unsigned* id, const protocol::Fstructure.nameType data[], unsigned* numValues)
    {
    FortranWrapper::currentInstance->publishArray(*id, data, *numValues);
    }
    #else
-extern "C" __declspec(dllexport) void __stdcall publish_structure.name(unsigned* id, const protocol::Fstructure.nameType* data)
+extern "C" void EXPORT STDCALL publish_structure.name(unsigned* id, const protocol::Fstructure.nameType* data)
    {
    FortranWrapper::currentInstance->publish(*id, *data);
    }
    #endif
    #if (structure.array = T)
-extern "C" __declspec(dllexport) void __stdcall unpack_structure.name(protocol::Variant* variant, protocol::Fstructure.nameType data[], unsigned* numValues)
+extern "C" void EXPORT STDCALL unpack_structure.name(protocol::Variant* variant, protocol::Fstructure.nameType data[], unsigned* numValues)
    {
    variant->unpackArray(data, *numValues);
    }
    #else
-extern "C" __declspec(dllexport) void __stdcall unpack_structure.name(protocol::Variant* variant, protocol::Fstructure.nameType* data)
+extern "C" void EXPORT STDCALL unpack_structure.name(protocol::Variant* variant, protocol::Fstructure.nameType* data)
    {
    variant->unpack(*data);
    }
    #endif
 
 #endfor
-
-// restore the warnings about "Functions containing for are not expanded inline.
-#pragma warn .inl
 
 #endfile
 ##################################################
@@ -248,6 +241,7 @@ module dataTypes
    integer, parameter :: max_array_size = 100
 
    !-------------------- Built in types
+   character(len=*), parameter :: nullTypeDDML = '<type/>'
 #for_each type
    character(len=*), parameter :: type.nameTypeDDML = &
 type.forddml
@@ -361,7 +355,7 @@ proc unpack_Variant {data} {
          } else {
             ;#set value "<undef>"
             error "Unhandled variant typecode $typeCode"
-         }  
+         }
          set result($name) $value
          set ok [expr [string bytelength $data] > 0]
       } else {
@@ -372,7 +366,7 @@ proc unpack_Variant {data} {
 }
 
 proc unpack_MessageData {data} {
-   binary scan $data ii result(id) result(publishedByID)  ;# id, publishedByID 
+   binary scan $data ii result(id) result(publishedByID)  ;# id, publishedByID
    set data [string range $data 8 end]
 
    binary scan $data i nchar                              ;# typeXML
@@ -380,12 +374,12 @@ proc unpack_MessageData {data} {
      set result(typeXML) [string range $data 4 [expr 4+$nchar-1]]
      set data [string range $data [expr 4+$nchar] end]
    }
-   
+
    set ok [expr [string bytelength $data] > 0]
    while {$ok} {
       binary scan $data i nchar
       if {$nchar > 0} {
-         ;##//messageData << variableName << protocol::memorySize(value)+5 << typeCode << isArray << value; 
+         ;##//messageData << variableName << protocol::memorySize(value)+5 << typeCode << isArray << value;
          set name [string range $data 4 [expr 4+$nchar-1]]         ;# Name
          set data [string range $data [expr 4+$nchar] end]
          binary scan $data iic nchar5 typeCode isArray             ;# type & array flag
@@ -406,7 +400,7 @@ proc unpack_MessageData {data} {
          } else {
             ;#set value "<undef>"
             error "Unhandled variant typecode $typeCode"
-         }  
+         }
          set result($name) $value
          set ok [expr [string bytelength $data] > 0]
       } else {
@@ -422,7 +416,7 @@ proc unpack_structure.nameType {data} {
    #if (field.array = T)
    binary scan $data i n ; set data [string range $data 4 end]
    #else
-   set n 1 
+   set n 1
    #endif
    #if (field.ctype = double)
    binary scan $data d$n result(field.name); set data [string range $data [expr 8*$n] end]
@@ -440,5 +434,5 @@ proc unpack_structure.nameType {data} {
    if {[string bytelength #data] != 0} {puts "Warning: extra bits left over in unpack_structure.nameType"}
    return [array get result]
 }
-#endfor 
+#endfor
 #endfile

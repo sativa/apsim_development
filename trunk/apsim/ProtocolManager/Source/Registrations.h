@@ -4,7 +4,7 @@
 
 #include <set>
 #include <vector>
-#include <ComponentInterface\RegistrationType.h>
+#include <ComponentInterface/RegistrationType.h>
 
 class RegistrationsInternal;
 
@@ -61,7 +61,7 @@ class Registrations
       //---------------------------------------------------------------------------
       // Return the id of a registration given a name.
       //---------------------------------------------------------------------------
-      unsigned find(unsigned componentId, const string& regName, RegistrationType type);
+      unsigned find(unsigned componentId, const std::string& regName, RegistrationType type);
 
       //---------------------------------------------------------------------------
       // Get the destination id of registration.

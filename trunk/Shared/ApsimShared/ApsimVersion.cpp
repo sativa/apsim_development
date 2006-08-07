@@ -1,14 +1,15 @@
 #include <string>
 #include <vector>
 #include <stdexcept>
-#include <general/inifile.h>
+#include <general/IniFile.h>
+#include <general/platform.h>
 #include "ApsimDirectories.h"
 #include "ApsimVersion.h"
 
 //---------------------------------------------------------------------------
 // Return the APSIM version number
 //---------------------------------------------------------------------------
-std::string _export getApsimVersion(void)
+std::string EXPORT getApsimVersion(void)
    {
    IniFile ini(getApsimDirectory() + "/apsim.ini");
    std::string versionString;

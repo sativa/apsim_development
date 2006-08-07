@@ -2,13 +2,16 @@
 
 #ifndef SimCreatorH
 #define SimCreatorH
-#include <ApsimShared\ApsimControlFile.h>
+#include "ApsimControlFile.h"
 
 #include "SimCreatorSection.h"
+#include <vector>
+#include <string>
+#include <general/platform.h>
 //---------------------------------------------------------------------------
 // This class creates SIM files given a control file.
 //---------------------------------------------------------------------------
-class __declspec(dllexport) SimCreator
+class EXPORT SimCreator
    {
    public:
       SimCreator(bool NewFormat) : newFormat(NewFormat) { }
@@ -17,7 +20,7 @@ class __declspec(dllexport) SimCreator
       void ConToSim(const std::string& controlFileName);
 
       void ConToSim(const std::string& controlFileName,
-                    vector<string>& sectionNames);
+                    std::vector<std::string>& sectionNames);
 
       void ConToSim(const std::string& controlFileName,
                     const std::string& sectionName);

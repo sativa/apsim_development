@@ -39,11 +39,11 @@ struct TreeNodeIterator
       }
    bool operator==(const TreeNodeIterator& rhs) const
       {
-      return node.node == rhs.node.node;
+      return node == rhs.node;
       }
    bool operator!=(const TreeNodeIterator& rhs) const
       {
-      return node.node != rhs.node.node;
+      return node != rhs.node;
       }
 
    private:
