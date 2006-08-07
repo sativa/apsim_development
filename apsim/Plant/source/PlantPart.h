@@ -29,7 +29,7 @@
 class plantPart : public plantThing
    {
    friend class Plant;
-   public:
+protected:
       // (global) state variables
       struct {
 
@@ -39,7 +39,6 @@ class plantPart : public plantThing
          float p_conc_sen;                  // critical P concentration (g N/g biomass)
          float p_conc_max;                   // maximum P concentration (g N/g biomass)
          float p_conc_min;                   // minimum P concentration (g N/g biomass)
-
       } g;
 protected:      
          float DMPlantMin;                 // minimum weight of each plant part (g/plant)
@@ -275,7 +274,8 @@ public:
    virtual float nRetransSupply(void);
    virtual float nRetransDemand(void);
    virtual float nDemandDifferential(void);
-
+   virtual float nMin(void) const {return g.n_conc_min * dmGreen();};
+   virtual float nCrit(void) const {return g.n_conc_crit * dmGreen();};
    virtual float pDemand(void);
    virtual float pRetransSupply(void);
    virtual float pRetransDemand(void);

@@ -1,6 +1,6 @@
 #ifndef PodPartH
 #define PodPartH
-#include "PlantParts.h"
+#include "PlantPart.h"
 
 class fruitGrainPart;
 class fruitPodPart : public plantPart {

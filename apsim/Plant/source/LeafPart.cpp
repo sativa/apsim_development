@@ -8,7 +8,7 @@
 #include "PlantInterface.h"
 #include "PlantLibrary.h"
 #include "Plant.h"
-#include "PlantParts.h"
+#include "PlantPart.h"
 #include "LeafPart.h"
 #include "genericLeafPart.h"
 #include "cohortingLeafPart.h"

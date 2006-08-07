@@ -1,5 +1,5 @@
 
-#include "PlantParts.h"
+#include "PlantPart.h"
 using namespace std;
 
 
@@ -1084,14 +1084,14 @@ float critNFactor(vector<const plantPart *> &parts, float multiplier)
       // calculate critical N concentrations
       float N_crit = 0.0;
       for (part = parts.begin(); part != parts.end(); part++)
-          N_crit += (*part)->g.n_conc_crit * (*part)->dmGreen();
+          N_crit += (*part)->nCrit();
 
       float N_conc_crit = divide (N_crit, dm, 0.0);
 
       // calculate minimum N concentrations
       float N_min = 0.0;
       for (part = parts.begin(); part != parts.end(); part++)
-         N_min += (*part)->g.n_conc_min * (*part)->dmGreen();
+         N_min += (*part)->nMin(); 
 
       float N_conc_min = divide (N_min, dm, 0.0);
 

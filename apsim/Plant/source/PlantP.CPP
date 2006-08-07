@@ -39,7 +39,7 @@ using namespace std;
 #include "PlantLibrary.h"
 #include "PlantComponent.h"
 #include "Plant.h"
-#include "PlantParts.h"
+#include "PlantPart.h"
 #include "CompositePart.h"
 #include "PlantFruit.h"
 #include "Phenology/PlantPhenology.h"

@@ -810,8 +810,7 @@ void fruitGrainPart::doNDemandGrain1(float nfact_grain_conc      //   (INPUT)
    float   n_potential;           // maximum grain N demand (g/m^2)
 
    gN_grain_demand = mealPart->dltDmGreenNew()
-                     * dltNGrainConc(mealPart
-                                     , cSfac_slope
+                     * dltNGrainConc(cSfac_slope
                                      , cSw_fac_max
                                      , cTemp_fac_min
                                      , cTfac_slope
@@ -820,12 +819,9 @@ void fruitGrainPart::doNDemandGrain1(float nfact_grain_conc      //   (INPUT)
                                      , swdef_expansion);
 
 
-   n_potential  = mealPart->dmGreenNew()
-                * mealPart->g.n_conc_max;
+   
 
-   gN_grain_demand = u_bound (gN_grain_demand
-                              , n_potential - mealPart->nGreen());
-
+   gN_grain_demand = u_bound (gN_grain_demand, mealPart->nCapacity());
 }
 
 void fruitGrainPart::doNDemandGrain2 (void)
@@ -869,8 +865,7 @@ void fruitGrainPart::doNDemandGrain2 (void)
    pop_routine (my_name);
 }
 
-float fruitGrainPart::dltNGrainConc(plantPart *grainPart
-                                    , float sfac_slope      //(INPUT)  soil water stress factor slope
+float fruitGrainPart::dltNGrainConc(float sfac_slope      //(INPUT)  soil water stress factor slope
                                     , float sw_fac_max      //(INPUT)  soil water stress factor maximum
                                     , float temp_fac_min    //(INPUT)  temperature stress factor minimum optimum temp
                                     , float tfac_slope      //(INPUT)  temperature stress factor slope
@@ -907,7 +902,7 @@ float fruitGrainPart::dltNGrainConc(plantPart *grainPart
    N_grain_sw_fac = sw_fac_max - sfac_slope * swdef_expansion ;
 
    // N stress reduces grain N concentration below critical
-   N_conc_pot = grainPart->g.n_conc_min + (grainPart->g.n_conc_crit - grainPart->g.n_conc_min) * nfact_grain_conc;
+   N_conc_pot = mealPart->N_conc_pot(nfact_grain_conc);
 
    // Temperature and water stresses can decrease/increase grain
    // N concentration
@@ -957,7 +952,6 @@ void fruitGrainPart::doNConcGrainLimits (void)
    //       of sat, dul and ll.
 
    //+  Local Variables
-   float dm_meal;                                // meal mass (g/m2)
    float dm_grain;                               // grain mass (g/m2)
    float n_crit_grain;                           // critial mass of grain N (g/m2)
    float n_max_grain;                            // maximum mass of grain N (g/m2)
@@ -975,10 +969,7 @@ void fruitGrainPart::doNConcGrainLimits (void)
       n_max_grain = cN_conc_max_grain * dm_grain;
       n_min_grain = cN_conc_min_grain * dm_grain;
 
-      dm_meal = mealPart->dmGreenNew();
-      mealPart->g.n_conc_crit = divide (n_crit_grain, dm_meal, 0.0);   //fixme - should these be moved to mealpart?
-      mealPart->g.n_conc_max = divide (n_max_grain, dm_meal, 0.0);
-      mealPart->g.n_conc_min = divide (n_min_grain, dm_meal, 0.0);
+      mealPart->doNConcGrainLimits(n_min_grain, n_crit_grain, n_max_grain); 
       }
 }
 void fruitGrainPart::doNRetranslocate( float N_supply, float grain_n_demand)

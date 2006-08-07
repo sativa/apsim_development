@@ -124,8 +124,7 @@ private:
    float grainNumber (float stem_dm
                       ,float pGrains_per_gram_stem);
 
-   float dltNGrainConc(plantPart *fruitGrainPart
-                       , float sfac_slope      //(INPUT)  soil water stress factor slope
+   float dltNGrainConc(float sfac_slope      //(INPUT)  soil water stress factor slope
                        , float sw_fac_max      //(INPUT)  soil water stress factor maximum
                        , float temp_fac_min    //(INPUT)  temperature stress factor minimum optimum temp
                        , float tfac_slope      //(INPUT)  temperature stress factor slope
