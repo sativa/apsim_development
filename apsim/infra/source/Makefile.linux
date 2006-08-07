@@ -1,0 +1,57 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for APSIM infrastructure module
+#-----------------------------------------------------------------------
+#=======================================================================
+
+LIB=	../lib/libapsinfra.a
+
+SRC=	ProtocolModule.f90	\
+	datatypes.f90		\
+	datatypesinterface.f90	\
+	ComponentInterfaceModule.f90	\
+	ConvertModule.f90	\
+	ConstantsModule.f90	\
+	error.f90		\
+	string.f90		\
+	data.f90		\
+	datastr.f90		\
+	date.f90		\
+	science.f90		\
+	read.f90		\
+	Infrastructure.f90
+
+OBJ=	$(SRC:.f90=.o)
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+FC=		lf95
+CPPFLAGS=	-I. -I/usr/local/APSIM/apsim/infra/source
+FFLAGS=		--tp -nco --o0 --pca -nsav -stchk -trace -nchk -nin	\
+		--ml cdecl --staticlink
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB)
+
+$(LIB):	$(LIB)($(OBJ))
+
+FORCE:
+
+clean:
+	rm -f *.o *.mod
+
+clobber:	clean
+	rm -r $(LIB)
+
+%.o:	%.f90
+	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
+
+
+
+
+
+
+

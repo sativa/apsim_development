@@ -1,7 +1,6 @@
-#include <windows.h>
 #pragma hdrstop
 
-#include <stdexcept.h>
+#include <stdexcept>
 #include "Type.h"
 using namespace protocol;
 
@@ -41,7 +40,7 @@ void Type::setAttribute(const char* attributeName, const char* value)
          char buffer[200];
          strcpy(buffer, "Invalid type string : ");
          strncat(buffer, type.f_str(), type.length());
-         ::MessageBox(NULL, buffer, "Error", MB_ICONSTOP | MB_OK);
+         throw std::runtime_error(buffer);
          }
       else
          {

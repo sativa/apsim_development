@@ -4,7 +4,7 @@
 
       contains
 
-      include 'cropmodcomms.for'
+      include 'CropModComms.for'
       include 'cropmodtree.for'
       include 'maize.for'
       include 'process.for'

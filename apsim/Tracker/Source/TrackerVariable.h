@@ -2,7 +2,7 @@
 #ifndef TrackerVariableH
 #define TrackerVariableH
 #include <string>
-#include <general\stringtokenizer.h>
+#include <general/StringTokenizer.h>
 namespace protocol
    {
    class Component;
@@ -52,7 +52,7 @@ class TrackerVariable
       bool inWindow;
       bool isArray;
       int count;
-      vector<vector<float> > values;
+      std::vector<std::vector<float> > values;
 
       void parse(const std::string& fullName);
       void parseStat(StringTokenizer& tokenizer);
@@ -63,7 +63,7 @@ class TrackerVariable
       void doSample(void);
       void onStartPeriod(void);
       void onEndPeriod(void);
-      void getCurrentValues(vector<float>& values);
+      void getCurrentValues(std::vector<float>& values);
 
    };
 #endif

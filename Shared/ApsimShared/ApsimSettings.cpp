@@ -1,15 +1,20 @@
-#include <vcl.h>
+#include <stdexcept>
 
 #include <string>
 #include <vector>
 #include <sstream>
 
 #include <boost/lexical_cast.hpp>
-#include <general/inifile.h>
+#include <general/IniFile.h>
 #include <general/path.h>
+#include <general/platform.h>
 
 #include "ApsimSettings.h"
 #include "ApsimDirectories.h"
+
+#ifdef __WIN32__
+   #include <windows.h>
+#endif
 
 using namespace std;
 using namespace boost;
@@ -87,7 +92,7 @@ void ApsimSettings::read(const string& key, bool& value) const
    string stringValue;
    read(key, stringValue);
    if (stringValue == "")
-      throw runtime_error("Cannot find value for key: " + key);
+     throw runtime_error("Cannot find value for key: " + key);
    value = Str_i_Eq(stringValue, "yes");
    }
 // ------------------------------------------------------------------
@@ -209,7 +214,7 @@ void ApsimSettings::deleteKey(const std::string& key)
    original->deleteKey(getSection(key), getKey(key));
    }
 
-extern "C" void _export __stdcall SettingsRead(const char* key,
+extern "C" void EXPORT STDCALL SettingsRead(const char* key,
                                                char* values,
                                                int replaceMacros)
    {
@@ -224,10 +229,12 @@ extern "C" void _export __stdcall SettingsRead(const char* key,
       }
    catch (const exception& err)
       {
-      ShowMessage(err.what());
+      #ifdef __WIN32__
+      ::MessageBox(NULL, err.what(), "Error", MB_ICONSTOP | MB_OK);
+      #endif
       }
    }
-extern "C" void _export __stdcall SettingsWrite(const char* key,
+extern "C" void EXPORT STDCALL SettingsWrite(const char* key,
                                                 const char* values)
    {
    try
@@ -239,7 +246,9 @@ extern "C" void _export __stdcall SettingsWrite(const char* key,
       }
    catch (const exception& err)
       {
-      ShowMessage(err.what());
+      #ifdef __WIN32__
+      ::MessageBox(NULL, err.what(), "Error", MB_ICONSTOP | MB_OK);
+      #endif
       }
    }
 

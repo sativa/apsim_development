@@ -3,11 +3,13 @@
 
 class FString;
 
-extern "C" ApsimComponentData* __stdcall newApsimComponentData(const char* xml,
-                                                    unsigned xmlLength);
-extern "C" void __stdcall deleteApsimComponentData(ApsimComponentData* componentData);
+#include <general/platform.h>
 
-extern "C" bool __stdcall ApsimComponentData_getProperty
+extern "C" ApsimComponentData* EXPORT STDCALL newApsimComponentData(const char* xml,
+                                                    unsigned xmlLength);
+extern "C" void EXPORT STDCALL deleteApsimComponentData(ApsimComponentData* componentData);
+
+extern "C" bool EXPORT STDCALL ApsimComponentData_getProperty
    (ApsimComponentData* componentData,
     const FString& propertyType,
     const FString& name,

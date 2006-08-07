@@ -1,12 +1,13 @@
 //---------------------------------------------------------------------------
 #ifndef ApsimSystemDataH
 #define ApsimSystemDataH
+#include <general/platform.h>
 
 // ------------------------------------------------------------------
 // This class encapsulates the data in a component section of
 // an APSIM simulation file(.SIM).
 // ------------------------------------------------------------------
-class __declspec(dllexport) ApsimSystemData
+class EXPORT ApsimSystemData
    {
    public:
       ApsimSystemData(const XMLNode& n);

@@ -5,13 +5,15 @@
 #include <stdexcept>
 #include <vector>
 #include <string>
+#include <boost/function.hpp>
+#include <general/platform.h>
 class IniFile;
 // ------------------------------------------------------------------
 // This class encapsulates an apsim control file.  It provides several
 // methods to extract information from the control file and associated
 // parameter files.
 // ------------------------------------------------------------------
-class __declspec(dllexport) ApsimControlFile
+class EXPORT ApsimControlFile
    {
    public:
       ApsimControlFile(const std::string& controlFilename);
@@ -47,7 +49,7 @@ class __declspec(dllexport) ApsimControlFile
       // ------------------------------------------------------------------
       std::string getIniFileForInstance(const std::string& section,
                                         const std::string& instanceName) const;
-                                   
+
       // ------------------------------------------------------------------
       // return a list of output/summary filenames
       // ------------------------------------------------------------------
@@ -183,16 +185,17 @@ class __declspec(dllexport) ApsimControlFile
       // ------------------------------------------------------------------
       // Enumerate all parameter sections for the specified module name.
       // ------------------------------------------------------------------
-      typedef void (__closure *ParamCallbackEvent)
-         (IniFile* par, const std::string& section);
+//      typedef boost::function2<void, IniFile*, const std::string&> ParamCallbackEvent;
+//      typedef void (__closure *ParamCallbackEvent)
+//         (IniFile* par, const std::string& section);
       void enumerateParameters(const std::string& section,
                                const std::string& moduleName,
                                bool includeConstants,
-                               ParamCallbackEvent callback);
+                               boost::function2<void, IniFile*, const std::string&> callback);
       void enumerateParametersForInstance(const std::string& section,
-                                                 const std::string& instanceName,
-                                                 bool constantsOnly,
-                                                 ParamCallbackEvent callback);
+                                          const std::string& instanceName,
+                                          bool constantsOnly,
+                                          boost::function2<void, IniFile*, const std::string&> callback);
       // ------------------------------------------------------------------
       // Add a parameter file reference to all instances of the
       // specified module. Return true if the con file was modified.
@@ -234,10 +237,10 @@ class __declspec(dllexport) ApsimControlFile
          };
       typedef std::vector<ManagerActionParameter> ManagerActionParameters;
 
-      typedef void (__closure *ManagerActionCallback)(ManagerActionParameters& parameters, bool& modified);
+      //typedef void (__closure *ManagerActionCallback)(ManagerActionParameters& parameters, bool& modified);
       bool enumerateManagerActionLines(const std::string& section,
                                        const std::string& managerAction,
-                                       ManagerActionCallback callback);
+                                       boost::function2<void, ManagerActionParameters& , bool& > callback);
 
    private:
       IniFile* ini;

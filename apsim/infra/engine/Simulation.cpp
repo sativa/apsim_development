@@ -1,12 +1,9 @@
 //---------------------------------------------------------------------------
-#include <general\pch.h>
-#include <vcl.h>
 #pragma hdrstop
 
-#include <io.h>
-#include <dir.h>
 #include <sstream>
 #include <fstream>
+#include <iostream>
 
 #include <general/stl_functions.h>
 #include <general/TreeNodeIterator.h>
@@ -17,12 +14,14 @@
 #include <ApsimShared/ApsimSystemData.h>
 #include <ApsimShared/ApsimServiceData.h>
 #include <ApsimShared/ApsimSimulationFile.h>
-#include <ApsimShared/SimCreator.h>
+#ifdef __WIN32__
+   #include <ApsimShared/SimCreator.h>
+#endif
 #include <ApsimShared/ApsimDirectories.h>
 
 #include <ComponentInterface/interfaces.h>
 #include <ComponentInterface/MessageDataExt.h>
-#include <ComponentInterface/messages.h>
+#include <ComponentInterface/Messages.h>
 
 #include <Protocol/Transport.h>
 #include <Protocol/Computation.h>
@@ -76,7 +75,7 @@ void Simulation::go(const string& simFilename)
    // remove existing log file.
    Path logPath(simFilename);
    logPath.Set_extension(".log");
-   if (access(logPath.Get_path().c_str(), 0) == 0)
+   if (logPath.Exists())
      unlink(logPath.Get_path().c_str());
 
    try
@@ -225,6 +224,7 @@ void Simulation::resolveIncludes(string& sdml)
    replaceAll(sdml, "%apsuite", getApsimDirectory());
 
    unsigned posInclude = sdml.find("<include>");
+#ifdef __WIN32__
    while (posInclude != string::npos)
       {
       unsigned posFileName = posInclude + strlen("<include>");
@@ -233,7 +233,7 @@ void Simulation::resolveIncludes(string& sdml)
          throw runtime_error("Cannot find </include> tag");
       string includeFileName = sdml.substr(posFileName, posEndFileName-posFileName);
 
-      if (!FileExists(includeFileName.c_str()))
+      if (!Path(includeFileName).Exists())
          throw runtime_error("Cannot find include file: " + includeFileName);
       string contents;
       if (includeFileName.find(".ini") != string::npos)
@@ -254,5 +254,6 @@ void Simulation::resolveIncludes(string& sdml)
 
       posInclude = sdml.find("<include>");
       }
+#endif
    }
 

@@ -3,6 +3,7 @@
 #include <ComponentInterface/dataTypes.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/MessageDataExt.h>
+#include <sstream>
 #include "PlantComponent.h"
 #include "PlantLibrary.h"
 #include "PlantPhenology.h"
@@ -345,7 +346,7 @@ void TTTPhenology::onRemoveBiomass(float removeBiomPheno)
    float removeFractPheno = y_removeFractPheno[removeBiomPheno];
    float removeTTPheno = ttCritical * removeFractPheno;
 
-   ostrstream msg;
+   ostringstream msg;
    msg << "Phenology change:-" << endl;
    msg << "    Fraction DM removed  = " << removeBiomPheno << endl;
    msg << "    Fraction TT removed  = " << removeFractPheno << endl;
@@ -382,7 +383,7 @@ void TTTPhenology::onRemoveBiomass(float removeBiomPheno)
    }
    msg << "New Above ground TT = " << ttInPhase("above_ground") << endl << ends;
    if (plant->removeBiomassReport())
-      parentPlant->writeString (msg.str());
+      parentPlant->writeString (msg.str().c_str());
 
 }
 

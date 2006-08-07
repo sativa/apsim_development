@@ -1,8 +1,12 @@
+#ifdef __WIN32__
+   #include <vcl.h>    // Gets around linker error: Unresolved external 'System::__linkproc__ __fastcall HandleFinally()' referenced from C:\PROGRAM FILES\BORLAND\CBUILDER6\LIB\OBJ\SYSINIT.OBJ
+#endif
 #include <stdio.h>
 #include <dir.h>
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <stdexcept>
 
 #include <general/path.h>
 #include <general/stl_functions.h>
@@ -47,3 +51,9 @@ int main(int argc, char **argv) {
    return 0;
 }
 //---------------------------------------------------------------------------
+// This is needed for LINUX compatibility. ProtocolManager seems to look for
+// this during link.
+extern "C" unsigned get_componentID(void)
+   {
+   return 0;
+   }

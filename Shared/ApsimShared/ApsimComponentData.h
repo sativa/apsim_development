@@ -2,16 +2,18 @@
 #ifndef ApsimComponentDataH
 #define ApsimComponentDataH
 
+#include <general/platform.h>
+#include <general/xml.h>
 class ApsimSystemData;
 class ApsimRegistrationData;
 class ApsimDataTypeData;
 class ApsimDataTypesFile;
-class XMLNode;
+
 // ------------------------------------------------------------------
 // This class encapsulates the data in a component section of
 // an APSIM simulation file(.SIM).
 // ------------------------------------------------------------------
-class __declspec(dllexport) ApsimComponentData
+class EXPORT ApsimComponentData
    {
    public:
       ApsimComponentData(void);
@@ -87,6 +89,6 @@ class __declspec(dllexport) ApsimComponentData
                                 const std::vector<std::string>& names,
                                 const std::vector<std::string>& values) const;
 
-      friend ApsimSystemData;  // so that ApsimSystemData::appendChild can get to node.
+      friend class ApsimSystemData;  // so that ApsimSystemData::appendChild can get to node.
    };
 #endif

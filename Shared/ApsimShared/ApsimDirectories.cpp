@@ -1,5 +1,4 @@
 //---------------------------------------------------------------------------
-#include <vcl.h>
 
 #include <string>
 #include <stdexcept>
@@ -12,16 +11,22 @@
 #include "FString.h"
 #include "FStringExt.h"
 #include "ApsimDirectories.h"
+#include <general/platform.h>
 
 using namespace std;
+#ifdef __WIN32__
+#include <vcl.h>
 extern HINSTANCE hInstance;
+#endif
+
 // ------------------------------------------------------------------
 // This routine provides a way for APSIM applications to get the
 // home directory.  Will throw a runtime error if the current
 // Application is not in the apsim directory structure.
 // ------------------------------------------------------------------
-string _export getApsimDirectory(void) throw(runtime_error)
+string EXPORT getApsimDirectory(void) throw(runtime_error)
    {
+   #ifdef __WIN32__
    char moduleFileName[MAX_PATH];
    GetModuleFileName(hInstance, moduleFileName, sizeof moduleFileName);
    Path path(moduleFileName);
@@ -32,6 +37,9 @@ string _export getApsimDirectory(void) throw(runtime_error)
       return Path(moduleFileName).Get_directory();
    else
       return path.Get_directory();
+   #else
+     return "/usr/local/APSIM";
+   #endif
    }
 
 // ------------------------------------------------------------------
@@ -39,36 +47,23 @@ string _export getApsimDirectory(void) throw(runtime_error)
 // home directory.  Will throw a runtime error if the current
 // Application is not in the apsim directory structure.
 // ------------------------------------------------------------------
-std::string _export getAppHomeDirectory(void) throw(std::runtime_error)
+
+std::string EXPORT getAppHomeDirectory(void) throw(std::runtime_error)
    {
+   #ifdef __WIN32__
    string apsimDir = getApsimDirectory();
    string apsimIni = apsimDir + "\\apsim.ini";
-   if (FileExists(apsimIni.c_str()))
+   if (Path(apsimIni.c_str()).Exists())
       {
       string applicationName = Path(Application->ExeName.c_str()).Get_name_without_ext();
       return apsimDir + "\\" + applicationName;
       }
    else
       return apsimDir;
+   #else
+      throw runtime_error("Not implemented");
+   #endif
    }
 
-// ------------------------------------------------------------------
-// This routine provides a way for APSIM applications to get the
-// home directory.  Will throw a runtime error if the current
-// Application is not in the apsim directory structure.
-// Currently called by DEMO.
-// ------------------------------------------------------------------
-extern "C" void _export __stdcall getApsuiteDirectory
-   (const char* directory, unsigned directoryLength)
-   {
-   try
-      {
-      string dir = getApsimDirectory();
-      FString(directory, directoryLength, FORString) = dir.c_str();
-      }
-   catch (const runtime_error& err)
-      {
-      ::MessageBox(NULL, err.what(), "Error", MB_ICONSTOP | MB_OK);
-      }
-   }
+
 

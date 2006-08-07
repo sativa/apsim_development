@@ -1,0 +1,78 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for ApsimShared module
+#-----------------------------------------------------------------------
+#=======================================================================
+
+LIB=	libApsimShared.so
+
+SRC=	phi_functions.cpp	\
+	ApsimSimulationFile.cpp	\
+	ApsimDataTypesFile.cpp	\
+	ApsimDataTypeData.cpp	\
+	ApsimRegistrationData.cpp	\
+	ApsimMacroFile.cpp	\
+	FString.cpp		\
+	FStringExt.cpp		\
+	ApsimComponentData.cpp	\
+	ApsimSystemData.cpp	\
+	ApsimServiceData.cpp	\
+	ApsimDataFile.cpp	\
+	SimCreator.cpp		\
+	ApsimControlFile.cpp \
+	ApsimVersion.cpp \
+	ApsimSettings.cpp \
+	SimCreatorSection.cpp \
+	ApsimDirectories.cpp
+
+#	ApsimShared.cpp		\
+#	ApsimRunFile.cpp	\
+#	TAboutForm.cpp		\
+#	TSplashForm.cpp		\
+#	ApsimForms.cpp		\
+#	ControlFileConverter.cpp	\
+#	TMoveParametersForm.cpp		\
+
+OBJ=	$(SRC:.cpp=.o)
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+CC=		   /usr/bin/gcc
+CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
+		      -I$(APSROOT)/Shared 				\
+		      -Wno-deprecated -fpermissive -fPIC
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS=	-L/usr/lib 		\
+		   -L$(APSROOT)/lib
+
+LIBS=		-lgeneral		\
+		   -lxml2 			\
+		   -lboost_filesystem 	\
+		   -lboost_date_time 	\
+		   -lc
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB)
+
+$(LIB):	$(OBJ)
+	$(CC) -shared -o $(LIB) $(OBJ) $(LDFLAGS) $(LIBS)
+
+FORCE:
+
+clean:
+	rm -f *.o *.mod
+
+clobber:	clean
+	rm -r $(LIB)
+
+install: all
+	cp $(LIB) $(APSROOT)/lib
+
+%.o:	%.cpp
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<

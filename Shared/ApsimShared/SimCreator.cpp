@@ -1,17 +1,19 @@
 //---------------------------------------------------------------------------
-#include <general\pch.h>
-#include <vcl.h>
+#include <general/pch.h>
 #pragma hdrstop
 
 #include "SimCreator.h"
 #include <fstream>
 #include <sstream>
-#include <general\path.h>
-#include <general\stringtokenizer.h>
-#include <general\stl_functions.h>
-#include <ApsimShared/ApsimSettings.h>
-#include <ApsimShared/ApsimVersion.h>
-#include <dir.h>
+#include <general/path.h>
+#include <general/StringTokenizer.h>
+#include <general/stl_functions.h>
+#include <general/platform.h>
+#include "ApsimSettings.h"
+#include "ApsimVersion.h"
+#ifdef __WIN32__
+   #include <dir.h>
+#endif
 #pragma package(smart_init)
 
 
@@ -118,11 +120,8 @@ void SimCreator::ConToSimInternal(const std::string& controlFileName,
 
       string simNumberString;
       if (simNumber > 0)
-         {
-         char buffer[10];
-         itoa(simNumber, buffer, 10);
-         simNumberString = buffer;
-         }
+         simNumberString = itoa(simNumber);
+
       string simFileName = fileRoot(controlFileName) + simNumberString + ".sim";
       ofstream out(simFileName.c_str());
 
@@ -225,7 +224,7 @@ void SimCreator::GetMatchingParFileSections(const std::string& instanceName,
                                             PEqualToFileName<ParFile>(fileName));
       if (i == convertedParFiles.end())
          {
-         if (!fileExists(fileName))
+         if (!Path(fileName).Exists())
             throw runtime_error("Cannot find file: " + fileName);
 
          convertedParFiles.push_back(ConvertParFile(fileName));
@@ -349,7 +348,7 @@ std::string SimCreator::convertIniToSim(const std::string& includeFileName)
 // to a sim file format. Return the converted contents as a string.
 // Called by GetComponentDescription (a .NET executable)
 //---------------------------------------------------------------------------
-extern "C" void _export __stdcall convertIniToSim(const char* fileName, char* contents)
+extern "C" void EXPORT STDCALL convertIniToSim(const char* fileName, char* contents)
    {
    SimCreator simCreator(true);
    string xml = simCreator.convertIniToSim(fileName);

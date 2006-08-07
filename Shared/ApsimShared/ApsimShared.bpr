@@ -13,7 +13,7 @@
       TMoveParametersForm.obj ApsimMacroFile.obj FStringExt.obj SimCreator.obj 
       SimCreatorSection.obj"/>
     <RESFILES value="ApsimShared.res"/>
-    <DEFFILE value=""/>
+    <DEFFILE value="ApsimShared.def"/>
     <RESDEPEN value="$(RESFILES) TAboutForm.dfm TSplashForm.dfm TMoveParametersForm.dfm"/>
     <LIBFILES value="..\general\general.lib 
       &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\filesystem\filesystem.lib&quot; 
@@ -88,6 +88,7 @@
       <FILE FILENAME="FStringExt.cpp" FORMNAME="" UNITNAME="FStringExt" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="SimCreator.cpp" FORMNAME="" UNITNAME="SimCreator" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="SimCreatorSection.cpp" FORMNAME="" UNITNAME="SimCreatorSection" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ApsimShared.def" FORMNAME="" UNITNAME="ApsimShared.def" CONTAINERID="DefTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

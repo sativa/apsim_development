@@ -1,9 +1,15 @@
 #include "io_functions.h"
 
-#include <windows.h>
+#ifdef __WIN32__
+	#include <windows.h>
+	#include <io.h>
+	#include <dir.h>
+#else
+	#include <sys/io.h>
+#endif
+
 #include <stdlib.h>
 #include <sys/stat.h>
-#include <io.h>
 #include <general/path.h>
 #include <general/stristr.h>
 #include <iostream>
@@ -56,6 +62,7 @@ std::string GetTempDir(void)
 // ------------------------------------------------------------------
 // Return a list of files/directories to caller.
 // ------------------------------------------------------------------
+#ifdef __WIN32__
 void getDirectoryListing(const std::string& directoryName,
                          const std::string& extension,
                          std::vector<std::string>& dirList,
@@ -90,7 +97,7 @@ void getDirectoryListing(const std::string& directoryName,
       done = findnext (&ffblk);
       }
    }
-
+#endif
 
 // ------------------------------------------------------------------
 // Remove invalid file name characters from the specified string e.g. / \ | *

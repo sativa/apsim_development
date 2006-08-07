@@ -1,6 +1,5 @@
 #define  INC_VCLDB_HEADERS
 #define  INC_VCLEXT_HEADERS
-#include <windows.h>
 #include <string>
 #include <vector>
 #include <map>

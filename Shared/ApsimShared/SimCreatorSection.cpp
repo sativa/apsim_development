@@ -1,13 +1,15 @@
 //---------------------------------------------------------------------------
-#include <general\pch.h>
-#include <vcl.h>
+#include <general/pch.h>
 #pragma hdrstop
 
 #include "SimCreatorSection.h"
-#include <general\string_functions.h>
-#include <general\stristr.h>
+#include <general/string_functions.h>
+#include <general/stristr.h>
 
 #pragma package(smart_init)
+
+#include <stdexcept>
+using namespace std;
 
 // ------------------------------------------------------------------
 // Append the specified section to this one.

@@ -1,8 +1,8 @@
 #ifndef TypeH
 #define TypeH
 #include "MessageData.h"
-#include <ApsimShared\fstring.h>
-
+#include <ApsimShared/FString.h>
+#include <general/platform.h>
 namespace protocol {
 
 enum DataTypeCode  {DTint1 = 0,
@@ -36,7 +36,7 @@ enum DataTypeCode  {DTint1 = 0,
 // is passed in then the type is read-only and cannot be
 // modified.
 // ------------------------------------------------------------------
-class __declspec(dllexport) Type
+class EXPORT Type
    {
    public:
       Type(void) : code(DTunknown) { };

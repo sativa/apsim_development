@@ -1,0 +1,69 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for APSIM crop template library
+#-----------------------------------------------------------------------
+#=======================================================================
+
+LIB=	../lib/libcroptemp.a
+
+SRC=	crp_util.f90		\
+	crp_biom.f90		\
+	crp_cnpy.f90		\
+	crp_root.f90		\
+	crp_comm.f90		\
+	crp_fail.f90		\
+	crp_nitn.f90		\
+	crp_phen.f90		\
+	crp_temp.f90		\
+	crp_watr.f90		\
+	CropLibrary.f90
+
+OBJ=	$(SRC:.f90=.o)
+
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+FC=		lf95
+CPPFLAGS=	-I$(APSROOT)/apsim/infra/source
+FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
+		--ml cdecl --staticlink
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS=	-L$(APSROOT)/apsim/infra/lib	 \
+		-L/usr/lib
+
+LIBS=		-lapsinfra
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB)
+
+$(LIB):	$(LIB)($(OBJ))
+
+FORCE:
+
+clean:
+	rm -f *.o *.mod
+
+clobber:	clean
+	rm -r $(LIB)
+
+install: all
+	cp $(LIB) $(APSROOT)/lib
+
+%.o:	%.for
+	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
+
+%.o:	%.f90
+	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
+
+
+
+
+
+
+

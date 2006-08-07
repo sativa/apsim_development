@@ -4,8 +4,6 @@
 
 #include <string>
 #include <vector>
-#include <dir.h>
-
 std::string ExpandFileName(const char *);
 bool FileExists (const std::string &);
 bool DirectoryExists (const std::string &d);
@@ -26,7 +24,7 @@ std::string GetTempDir(void);
 void getDirectoryListing(const std::string& directoryName,
                          const std::string& extension,
                          std::vector<std::string>& dirList,
-                         unsigned int attribute = FA_NORMAL,
+                         unsigned int attribute,
                          bool fullPath = false);
 
 // ------------------------------------------------------------------

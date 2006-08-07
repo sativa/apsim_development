@@ -4,9 +4,11 @@
 #include <sstream>
 #include <iomanip>
 
-#include <general\string_functions.h>
-#include <tchar.h>
+#include <general/string_functions.h>
 #include "stristr.h"
+
+#include <cctype>
+#include <stdexcept>
 
 using namespace std;
 // ------------------------------------------------------------------
@@ -41,15 +43,10 @@ void stripLeadingTrailing(string& text, const string& separators)
 // ------------------------------------------------------------------
 void Strip (char* text, const char* separators)
    {
-   if (text[0] != 0)
-      {
-      char* Pos1 = _tcsspnp(text, separators);
-      char* Pos2 = strchr(Pos1, *separators);
-      if (Pos2 != NULL)
-         *Pos2 = 0;
-      if (Pos1 != NULL && Pos1 != text)
-         strcpy (text, Pos1);
-      }
+   string s;
+   s = text;
+   stripLeadingTrailing(s, separators);
+   strcpy(text, s.c_str());
    }
 
 // ------------------------------------------------------------------
@@ -122,11 +119,8 @@ bool Is_numerical (const char* Text)
 // ------------------------------------------------------------------
 void To_lower (string& St)
    {
-   char* buffer = new char[St.length() + 1];
-   strcpy(buffer, St.c_str());
-   strlwr(buffer);
-   St = buffer;
-   delete [] buffer;
+   std::transform(St.begin(), St.end(), St.begin(), ::tolower);
+
    }
 
 // ------------------------------------------------------------------
@@ -141,11 +135,7 @@ void To_lower (string& St)
 // ------------------------------------------------------------------
 void To_upper (string& St)
    {
-   char* buffer = new char[St.length() + 1];
-   strcpy(buffer, St.c_str());
-   strupr(buffer);
-   St = buffer;
-   delete [] buffer;
+   std::transform(St.begin(), St.end(), St.begin(), ::toupper);
    }
 
 // ------------------------------------------------------------------
@@ -237,6 +227,10 @@ string ftoa(double Float, int Num_decplaces)
    return buf.str();
    }
 
+// ------------------------------------------------------------------
+//  Short description:
+//     convert a Integer to a string.
+// ------------------------------------------------------------------
 string itoa(int intValue)
    {
    ostringstream buf;
@@ -255,8 +249,13 @@ string itoa(int intValue)
 
 // ------------------------------------------------------------------
 int Str_i_Cmp(const string &a, const string &b)
-{	return stricmp(a.c_str(),b.c_str());
-}
+   {
+   #ifdef __WIN32__
+      return stricmp(a.c_str(),b.c_str());
+   #else
+      return strcasecmp(a.c_str(),b.c_str());
+   #endif
+   }
 
 
 // ------------------------------------------------------------------
@@ -348,7 +347,7 @@ void Replace_all_chars (char* St, char Char_to_replace, char Replacement_char)
             stripLeadingTrailing(units, " ");
             value = value.substr(0,posBracket);
             }
-         else 
+         else
             {
             units = "";
             }
@@ -382,7 +381,7 @@ unsigned matchBracket(const std::string& st, char openBracket, char closeBracket
                       unsigned startPos)
    {
    unsigned pos = startPos + 1;
-   bool matchCount = 1;
+   int matchCount = 1;
    while (pos < st.length())
       {
       if (st[pos] == openBracket)

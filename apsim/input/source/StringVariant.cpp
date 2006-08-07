@@ -77,8 +77,8 @@ void StringVariant::setVariable(QuerySetValueData& setValueData)
                          break;}
       case Integer:      {int integerValue;
                          setValueData.variant.unpack(integerValue);
-                         char buffer[40];
-                         itoa(integerValue, buffer, 10);
+                         std::string buffer;
+                         buffer = itoa(integerValue);
                          value->values.push_back(buffer);
                          break;}
       case String:       {string st;
@@ -184,7 +184,7 @@ void StringVariant::setTemporalValue(Value* v)
    value = v;
    }
 
-std::string StringVariant::getName(void) 
+std::string StringVariant::getName(void)
    {
    return value->name;
    }

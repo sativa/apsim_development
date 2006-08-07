@@ -5210,7 +5210,7 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
             variable_name = 'uptake_'//trim(p%solute_names(solnum))
      :                       //'_'//trim(g%crop_names(vegnum))
             id = Add_Registration (respondToGetSetReg, Variable_name,
-     :                       double_arrayTypeDDML, ' ', ' ')
+     :                       DoubleArrayTypeDDML, ' ', ' ')
 
          end do
       end do
@@ -5261,7 +5261,7 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
      :           //' kind="double" units=""/>'
             variable_name = 'exco_'//trim(p%solute_names(solnum))
             id = Add_Registration (respondToGetSetReg, Variable_name,
-     :                       double_arrayTypeDDML, ' ', ' ')
+     :                       DoubleArrayTypeDDML, ' ', ' ')
 
             DDML = '<type name="solute_dis" array="T"'
      :           //' kind="double" units=""/>'

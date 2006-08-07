@@ -38,35 +38,35 @@ bool ApsimDataTypeData::isStructure(void) const
 // ------------------------------------------------------------------
 bool ApsimDataTypeData::isArray(void) const
    {
-   return (strcmpi(node.getAttribute("array").c_str(), "T") == 0);
+     return (Str_i_Eq(node.getAttribute("array"), "T"));
    }
 // ------------------------------------------------------------------
 // Return true if data type is a built in type
 // ------------------------------------------------------------------
 bool ApsimDataTypeData::isBuiltIn(void) const
    {
-   return (strcmpi(node.getAttribute("builtin").c_str(), "T") == 0);
+     return (Str_i_Eq(node.getAttribute("builtin"), "T"));
    }
 // ------------------------------------------------------------------
 // Return true if data type is a message
 // ------------------------------------------------------------------
 bool ApsimDataTypeData::isMessage(void) const
    {
-   return (strcmpi(node.getAttribute("message").c_str(), "T") == 0);
+   return (Str_i_Eq(node.getAttribute("message"), "T"));
    }
 // ------------------------------------------------------------------
 // Return true if data type is an array element
 // ------------------------------------------------------------------
 bool ApsimDataTypeData::isArrayElement(void) const
    {
-   return (strcmpi(node.getName().c_str(), "element") == 0);
+   return (Str_i_Eq(node.getName(), "element"));
    }
 // ------------------------------------------------------------------
 // Return true if data type is an array element
 // ------------------------------------------------------------------
 bool ApsimDataTypeData::isEvent(void) const
    {
-   return (strcmpi(node.getName().c_str(), "event") == 0);
+   return (Str_i_Eq(node.getName(), "event"));
    }
 
 // ------------------------------------------------------------------

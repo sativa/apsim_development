@@ -1,6 +1,8 @@
 #include <stdlib.h>
-#include <dir.h>
-#include <windows.h>
+#ifdef __WIN32__
+   #include <dir.h>
+   #include <windows.h> // needed for CopyFile
+#endif
 #include <general/string_functions.h>
 #include <general/stl_functions.h>
 #include <general/path.h>
@@ -36,18 +38,12 @@ IniFile::~IniFile(void)
    {
    }
 // ------------------------------------------------------------------
-// Set the file name of the ini file.
+// Set the file name of the ini file. If the filename is relative
+// then it is assumed to be relative to the current working directory.
 // ------------------------------------------------------------------
 void IniFile::setFileName(const string& file)
    {
    fileName = file;
-   if (fileName.find('\\') == string::npos)
-      {
-      char buf[MAX_PATH];
-      getcwd(buf, MAX_PATH);
-      string fullPath = string(buf) + "\\" + fileName;
-      fileName = fullPath;
-      }
    parse();
    }
 // ------------------------------------------------------------------
@@ -489,8 +485,10 @@ bool IniFile::renameKey(const std::string& section,
 // ------------------------------------------------------------------
 // Perform a backup if we haven't already done so.
 // ------------------------------------------------------------------
+
 void IniFile::doBackup()
    {
+   #ifdef __WIN32__
    if (!haveDoneBackup)
       {
       Path bakFile(fileName);
@@ -500,5 +498,6 @@ void IniFile::doBackup()
       CopyFile(fileName.c_str(), bakFile.Get_path().c_str(), false);
       haveDoneBackup = true;
       }
+   #endif
    }
 

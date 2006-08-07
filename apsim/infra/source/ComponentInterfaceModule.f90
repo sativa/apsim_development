@@ -34,11 +34,11 @@ module ComponentInterfaceModule
 
       end function add_registration
 
-      subroutine error(msg, isFatal)
-      ml_external error
+      subroutine fortran_error(msg, isFatal)
+      ml_external fortran_error
       character (len=*), intent(in) :: msg
       logical          , intent(in) :: isFatal
-      end subroutine error
+      end subroutine fortran_error
 
       subroutine terminate_simulation()
       ml_external terminate_simulation

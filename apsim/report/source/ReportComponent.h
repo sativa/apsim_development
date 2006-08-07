@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 #ifndef ReportComponentH
 #define ReportComponentH
-#include <ComponentInterface\Component.h>
+#include <ComponentInterface/Component.h>
 #include <string>
 #include <vector>
 class Field

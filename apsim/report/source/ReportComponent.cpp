@@ -1,17 +1,18 @@
-#include <general\pch.h>
-#include <vcl.h>
+#include <general/pch.h>
 #pragma hdrstop
 
-#include <ComponentInterface\MessageDataExt.h>
-#include "ReportComponent.h"
-#include <ApsimShared\FStringExt.h>
-#include <ApsimShared\ApsimComponentData.h>
-#include <general\math_functions.h>
-#include <general\stl_functions.h>
-#include <general\date_class.h>
-#include <general\StringTokenizer.h>
+#include <ComponentInterface/MessageDataExt.h>
+#include <ApsimShared/FStringExt.h>
+#include <ApsimShared/ApsimComponentData.h>
+#include <general/math_functions.h>
+#include <general/stl_functions.h>
+#include <general/string_functions.h>
+#include <general/date_class.h>
+#include <general/StringTokenizer.h>
 #include <sstream>
-#include <variant.h>
+#include <Variant.h>
+
+#include "ReportComponent.h"
 #pragma package(smart_init)
 using namespace std;
 using namespace protocol;
@@ -200,7 +201,7 @@ void Field::writeHeadings(ostream& headingOut, ostream& unitOut)
       for (unsigned int v = 0; v < values.size(); v++)
          {
          string arrayVariableName = baseName + "(";
-         arrayVariableName += IntToStr(arrayIndex++).c_str();
+         arrayVariableName += itoa(arrayIndex++);
          arrayVariableName += ")";
          if (CSVFormat && v != 0)
             {
@@ -313,16 +314,16 @@ void Field::calcFieldWidth(protocol::Variant* variant, bool ok)
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" _export void __stdcall wrapperDLL(char* wrapperDll)
+extern "C" EXPORT void STDCALL wrapperDLL(char* wrapperDll)
    {
    strcpy(wrapperDll, "");
    }
-extern "C" void __stdcall getDescriptionInternal(char* initScript,
+extern "C" void STDCALL getDescriptionInternal(char* initScript,
                                                  char* description);
 // ------------------------------------------------------------------
 // Return component description info.
 // ------------------------------------------------------------------
-extern "C" _export void __stdcall getDescription(char* initScript, char* description)
+extern "C" EXPORT void STDCALL getDescription(char* initScript, char* description)
    {
    getDescriptionInternal(initScript, description);
    }
@@ -559,7 +560,8 @@ void ReportComponent::WriteLineOfOutput(void)
    out << endl;
 
    DaysSinceLastReport = 0;
-   publish(reportedID, "");
+   std::string T;
+   publish(reportedID, T);
    }
 
 // ------------------------------------------------------------------

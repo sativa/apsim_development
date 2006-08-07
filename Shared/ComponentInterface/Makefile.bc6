@@ -11,7 +11,7 @@ OBJECTS = ComponentInterface.obj Component.obj \
       message.obj Type.obj TypeConverter.obj variant.obj Variants.obj \
       MessageData.obj ApsimVariant.obj ArraySpecifier.obj Registrations.obj \
       RegistrationItem.obj ProtocolVector.obj RegistrationType.obj \
-      EntryPoints.obj
+      EntryPoints.obj Variable.obj VariableRef.obj
 
 WRAPPEROBJECTS = $(OBJECTS) datatypes.obj FORTRANComponentWrapper.obj
 
@@ -25,7 +25,6 @@ LIBFILES = $(SYSLIBS) \
    $(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
    $(APSROOT)\Shared\general\general.lib \
    $(BCB)\Components\LibXml2\win32\LibXml2.lib
-
 
 source: datatypes.h ComponentInterface.dll SimpleWrapper.obj
 
@@ -72,7 +71,7 @@ $(ALLRES)
 
 # NB. Assumption here that we are always working within the development tree. NB.
 # Datatypes.
-datatypes.obj: datatypes.h datatypes.cpp 
+datatypes.obj: datatypes.h datatypes.cpp
 datatypes.cpp datatypes.h:  $(APSROOT)\apsim\infra\datatypes.interface $(APSROOT)\APSBuild\datatypes.macro $(APSROOT)\Bin\CreateDataTypesSource.exe
 	cd $(APSROOT)\Bin
 	$(APSROOT)\Bin\CreateDataTypesSource.exe $(APSROOT)\apsim\infra\datatypes.interface $(APSROOT)\APSBuild\datatypes.macro
@@ -81,4 +80,3 @@ datatypes.cpp datatypes.h:  $(APSROOT)\apsim\infra\datatypes.interface $(APSROOT
 
 clean:
 	$(RM) ComponentInterface.lib $(OBJECTS) datatypes.cpp datatypes.h FORTRANComponentWrapper.obj ComponentInterface.obj
-	

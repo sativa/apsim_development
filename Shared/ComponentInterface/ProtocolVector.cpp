@@ -1,8 +1,9 @@
-#include <windows.h>
 #pragma hdrstop
 
 #include "ProtocolVector.h"
-
+#include <general/string_functions.h>
+#include <general/platform.h>
+#include <stdexcept>
 namespace protocol {
 // ------------------------------------------------------------------
 //  Short description:
@@ -14,13 +15,13 @@ namespace protocol {
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-void _export tooManyError(unsigned int maxCount)
+void EXPORT tooManyError(unsigned int maxCount)
    {
    char st[500];
    strcpy(st, "Internal Error - Too many items have been inserted in the \n");
    strcat(st, "component interface vector.  Maximum number of items: ");
-   itoa(maxCount, &st[strlen(st)], 10);
-   ::MessageBox(NULL, st, "Internal error", MB_ICONSTOP | MB_OK);
+   strcat(st, itoa(maxCount).c_str());
+   throw std::runtime_error(st);
    }
 
 // ------------------------------------------------------------------
@@ -33,15 +34,11 @@ void _export tooManyError(unsigned int maxCount)
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-void _export rangeError(unsigned int index, unsigned int maxCount)
+void EXPORT rangeError(unsigned int index, unsigned int maxCount)
    {
    char st[500];
    strcpy(st, "Internal Error - Invalid item index passed into \n");
    strcat(st, "component interface vector. \n");
-   strcat(st, "Index: ");
-   itoa(index, &st[strlen(st)], 10);
-   strcat(st, " Maximum number of items: ");
-   itoa(maxCount, &st[strlen(st)], 10);
-   ::MessageBox(NULL, st, "Internal error", MB_ICONSTOP | MB_OK);
+   throw std::runtime_error(st);
    }
 } // namespace protocol

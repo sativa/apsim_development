@@ -1,5 +1,4 @@
 //---------------------------------------------------------------------------
-#include <windows.h>
 #pragma hdrstop
 #include <stdexcept>
 #include "RegistrationItem.h"

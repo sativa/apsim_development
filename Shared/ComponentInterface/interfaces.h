@@ -4,6 +4,7 @@
 //#include "IConfiguration.h"
 #include <ComponentInterface/MessageData.h>
 
+#include <stdexcept>
 #include <string>
 
 namespace protocol {
@@ -83,12 +84,28 @@ class ITransport
 
 class IData
    {
+   // -----------------------------------------------------------
+   // This interface describes the necessary methods for any data
+   // that can be transported from one module to another in APSIM
+   // -----------------------------------------------------------
    public:
       virtual ~IData() { }
-		virtual void pack(protocol::MessageData& message) = 0;
-		virtual void unpack(protocol::MessageData & message) = 0;
-		virtual const char* ddml() = 0;
+      virtual IData* Clone() const = 0;
+		virtual void Pack(protocol::MessageData& message) = 0;
+		virtual void Unpack(protocol::MessageData & message) = 0;
+		virtual std::string DDML() = 0;
+      virtual unsigned Size() = 0;
    };
+
+class INamedData : public IData
+   {
+   // -----------------------------------------------------------
+   // This interface encapsulates a named piece of data.
+   // -----------------------------------------------------------
+   public:
+      virtual void SetName(const std::string& Name) = 0;
+   };
+
 
 } // namespace protocol
 #endif

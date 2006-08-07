@@ -6,7 +6,7 @@
 // turn of the warnings about "Functions containing for are not expanded inline.
 #pragma warn -inl
 
-static const char* nullType = "<type\>";
+static const char* nullType = "<type/>";
 static const char* integerType = "<type kind=\"integer4\"/>";
 static const char* integerArrayType = "<type kind=\"integer4\" array=\"T\"/>";
 static const char* realType = "<type kind=\"single\"/>";
@@ -17,16 +17,16 @@ static const char* stringType = "<type kind=\"string\"/>";
 static const char* stringArrayType = "<type kind=\"string\" array=\"T\"/>";
 static const char* logicalType = "<type kind=\"boolean\"/>";
 
-typedef _stdcall void (Main_t)(const char* action, const char* data, unsigned actionLength, unsigned dataLength);
-typedef _stdcall void (alloc_dealloc_instance_t)(const unsigned int* doAllocate);
-//typedef _stdcall void (do_init1_t)(const char* sdml, unsigned int sdmlLength);
-//typedef _stdcall void (do_init2_t)(void);
-//typedef _stdcall void (do_commence_t)(void);
-//typedef _stdcall void (notify_termination_t)(void);
-//typedef _stdcall void (respondToGet_t)(unsigned int& fromID, protocol::QueryValueData* queryData);
-//typedef _stdcall unsigned (respondToSet_t)(unsigned int& fromID, unsigned int& variableID, protocol::Variant** variant);
-typedef _stdcall void (respondToEvent_t)(unsigned int& fromID, unsigned int& eventID, protocol::Variant* variant);
-//typedef _stdcall void (respondToMethod_t)(unsigned int& fromID, unsigned int& methodID, protocol::Variant** variant);
+typedef EXPORT STDCALL void (Main_t)(const char* action, const char* data, unsigned actionLength, unsigned dataLength);
+typedef EXPORT STDCALL void (alloc_dealloc_instance_t)(const unsigned int* doAllocate);
+//typedef EXPORT STDCALL void (do_init1_t)(const char* sdml, unsigned int sdmlLength);
+//typedef EXPORT STDCALL void (do_init2_t)(void);
+//typedef EXPORT STDCALL void (do_commence_t)(void);
+//typedef EXPORT STDCALL void (notify_termination_t)(void);
+//typedef EXPORT STDCALL void (respondToGet_t)(unsigned int& fromID, protocol::QueryValueData* queryData);
+//typedef EXPORT STDCALL unsigned (respondToSet_t)(unsigned int& fromID, unsigned int& variableID, protocol::Variant** variant);
+typedef EXPORT STDCALL void (respondToEvent_t)(unsigned int& fromID, unsigned int& eventID, protocol::Variant* variant);
+//typedef EXPORT STDCALL void (respondToMethod_t)(unsigned int& fromID, unsigned int& methodID, protocol::Variant** variant);
 
 // Declarations from the FORTRAN side.
 struct Instance
@@ -51,7 +51,7 @@ struct Instance
    unsigned int dummy10;
    };
 
-typedef _stdcall void (getInstance_t) (Instance **);
+typedef EXPORT STDCALL void (getInstance_t) (Instance **);
 
 class FortranWrapper : public protocol::Component
    {
@@ -113,11 +113,11 @@ class FortranWrapper : public protocol::Component
          else
             {
             FString alias;
-            char componentIDSt[20];
-            itoa(componentID, componentIDSt, 10);
+            string componentIDSt;
+            componentIDSt = itoa(componentID);
             regId = FortranWrapper::currentInstance->addRegistration
                (RegistrationType::get, variableName, dataTypeString,
-                alias, FString(componentIDSt));
+                alias, FString(componentIDSt.c_str()));
             }
 
          protocol::Variant* variant;
@@ -193,17 +193,17 @@ class FortranWrapper : public protocol::Component
       void set_var(unsigned componentID, const FString& variableName,
                    const FString& dataTypeString, const T& value)
          {
-         char componentIDString[20];
+         string componentIDString;
          if (componentID == 0)
-            componentIDString[0] = 0;
+            componentIDString = "0";
          else
-            itoa(componentID, componentIDString, 10);
+            componentIDString = itoa(componentID);
          FString alias;
          unsigned variableID = addRegistration(RegistrationType::set,
                                                variableName,
                                                dataTypeString,
                                                alias,
-                                               FString(componentIDString));
+                                               FString(componentIDString.c_str()));
          setVariable(variableID, value);
          }
       void new_postbox(void)

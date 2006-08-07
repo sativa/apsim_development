@@ -1,8 +1,8 @@
-#include <windows.h>
 #pragma hdrstop
 
 #include <stdexcept>
 #include "Variants.h"
+#include <general/platform.h>
 using namespace protocol;
 
 // ------------------------------------------------------------------
@@ -13,7 +13,7 @@ using namespace protocol;
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" unsigned __stdcall variants_size(const Variants& variants)
+extern "C" unsigned EXPORT STDCALL variants_size(const Variants& variants)
    {
    return variants.size();
    }

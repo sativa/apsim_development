@@ -7,6 +7,7 @@
 #include <general\io_functions.h>
 #include <general\vcl_functions.h>
 #include <ApsimShared\ApsimSettings.h>
+#include <dir.h>
 
 using namespace std;
 //---------------------------------------------------------------------------

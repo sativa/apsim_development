@@ -1,5 +1,3 @@
-#include <vcl.h>
-
 #include <vector>
 #include <map>
 #include <string>
@@ -7,14 +5,15 @@
 #include <stdexcept>
 #include <iosfwd.h>
 
-#include <general\stringTokenizer.h>
-#include <general\string_functions.h>
-#include <general\path.h>
-#include <general\date_class.h>
-#include <general\inifile.h>
-#include <general\stristr.h>
+#include <general/stringTokenizer.h>
+#include <general/string_functions.h>
+#include <general/path.h>
+#include <general/date_class.h>
+#include <general/inifile.h>
+#include <general/stristr.h>
 
-#include <boost\lexical_cast.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/bind.hpp>
 
 #include "ApsimControlFile.h"
 #include "ApsimVersion.h"
@@ -473,7 +472,8 @@ bool ControlFileConverter::executeRemoveReportOutputSwitch(const string& argumen
    {
    bool modified = false;
    RemoveReportSwitch removeSwitch(arguments, modified);
-   con->enumerateParameters(conSection, "report", false, removeSwitch.callback);
+   con->enumerateParameters(conSection, "report", false,
+                            boost::bind(&RemoveReportSwitch::callback, &removeSwitch, _1, _2));
    return modified;
    }
 //---------------------------------------------------------------------------
@@ -570,7 +570,8 @@ bool ControlFileConverter::executeNewFormatReportVariables(const std::string& ar
    {
    bool modified = false;
    FormatReportVariables formatReportVariables(modified);
-   con->enumerateParameters(conSection, "report", false, formatReportVariables.callback);
+   con->enumerateParameters(conSection, "report", false,
+                            boost::bind(&FormatReportVariables::callback, &formatReportVariables, _1, _2));
    return modified;
    }
 //---------------------------------------------------------------------------
@@ -693,7 +694,7 @@ bool ControlFileConverter::executeRemoveSumAvgToTracker(const std::string& argum
    {
    bool modified = false;
    RemoveSumAvg removeSumAvg(con, conSection, modified);
-   con->enumerateParameters(conSection, "report", false, removeSumAvg.callback);
+   con->enumerateParameters(conSection, "report", false, boost::bind(&RemoveSumAvg::callback, &removeSumAvg, _1, _2));
    return modified;
    }
 //---------------------------------------------------------------------------
@@ -943,7 +944,8 @@ bool ControlFileConverter::executeSetManagerActionParameter(const string& argume
    managerActionOper = tokenizer.nextToken();
    managerActionValue2 = tokenizer.nextToken();
 
-   return con->enumerateManagerActionLines(conSection, args[0], SetManagerActionCallback);
+   return con->enumerateManagerActionLines(conSection, args[0],
+                                           boost::bind(&ControlFileConverter::SetManagerActionCallback, this, _1, _2));
    }
 //---------------------------------------------------------------------------
 // Callback for SetmanagerActionParameter.
@@ -981,7 +983,8 @@ bool ControlFileConverter::executeDeleteManagerActionParameter(const string& arg
 
    managerActionValue1 = args[1];
 
-   return con->enumerateManagerActionLines(conSection, args[0], DeleteManagerActionCallback);
+   return con->enumerateManagerActionLines(conSection, args[0],
+                                           boost::bind(&ControlFileConverter::DeleteManagerActionCallback, this, _1, _2));
    }
 //---------------------------------------------------------------------------
 // Callback for DeleteManagerActionParameter.

@@ -2,16 +2,17 @@
 #include <fstream>
 #include <sstream>
 
+#include <general/TreeNodeIterator.h>
+#include <general/stl_functions.h>
+
+#include <general/stl_functions.h>
+#include <general/string_functions.h>
+#include <general/io_functions.h>
+#include <libxml/parser.h>
+#include <libxml/tree.h>
+#ifdef __WIN32__
 #include <process.h>
-
-#include <general\TreeNodeIterator.h>
-#include <general\stl_functions.h>
-
-#include <general\stl_functions.h>
-#include <general\string_functions.h>
-#include <general\io_functions.h>
-#include <libxml\parser.h>
-#include <libxml\tree.h>
+#endif
 
 #include "xml.h"
 //---------------------------------------------------------------------------
@@ -20,7 +21,7 @@
 XMLDocument::XMLDocument(const std::string& rootNode, RootName rootName)
    {
    doc = xmlNewDoc(BAD_CAST "1.0");
-   xmlDocSetRootElement(doc, xmlNewNode(NULL, rootNode.c_str()));
+   xmlDocSetRootElement(doc, xmlNewNode(NULL, (xmlChar *)rootNode.c_str()));
    dirty = true;
    }
 //---------------------------------------------------------------------------
@@ -64,7 +65,7 @@ void XMLDocument::write(const std::string& fileName)
    dirty = false;
    }
 
-bool XMLDocument::isValid(void) 
+bool XMLDocument::isValid(void)
    {
    return (documentElement().isValid());
    }
@@ -132,7 +133,7 @@ string XMLNode::getAttribute(const std::string& attributeName) const
    string returnString;
    if (node != NULL)
       {
-      xmlChar* st = xmlGetProp(node, attributeName.c_str());
+	xmlChar* st = xmlGetProp(node, (xmlChar *)attributeName.c_str());
       if (st != NULL)
          returnString = (char*) st;
       xmlFree(st);
@@ -160,10 +161,17 @@ std::string XMLNode::getValue(void) const
 void XMLNode::setAttribute(const string& attributeName,
                            const string& attributeValue)
    {
-   if (node != NULL && attributeValue != "")
+   if (node != NULL)
       {
-      xmlSetProp(node, attributeName.c_str(), attributeValue.c_str());
-      parent->setDirty(true);
+      if (attributeValue != "")
+         {
+         xmlSetProp(node, (xmlChar *)attributeName.c_str(), (xmlChar *)attributeValue.c_str());
+         parent->setDirty(true);
+         }
+      else
+         {
+         xmlUnsetProp(node, (xmlChar *)attributeName.c_str());
+         }
       }
    }
 // ------------------------------------------------------------------
@@ -172,12 +180,18 @@ void XMLNode::setAttribute(const string& attributeName,
 void XMLNode::setValue(const std::string& value)
    {
    if (value.find_first_of("&<>") != string::npos)
-      {
-      xmlNode* cdata = xmlNewCDataBlock(node->doc, value.c_str(), value.length());
-      xmlAddChild(node, cdata);
-      }
+      setValueAsCData(value);
    else
-      xmlNodeSetContent(node, value.c_str());
+      xmlNodeSetContent(node, (xmlChar *)value.c_str());
+   parent->setDirty(true);
+   }
+// ------------------------------------------------------------------
+// Set the value of this node.
+// ------------------------------------------------------------------
+void XMLNode::setValueAsCData(const std::string& value)
+   {
+   xmlNode* cdata = xmlNewCDataBlock(node->doc, (xmlChar *)value.c_str(), value.length());
+   xmlAddChild(node, cdata);
    parent->setDirty(true);
    }
 // ------------------------------------------------------------------
@@ -194,7 +208,7 @@ XMLNode XMLNode::appendChild(const std::string& nodeName, bool alwaysAppend)
       if (i != end())
          return *i;
       }
-   xmlNode* newChild = xmlNewChild(node, NULL, nodeName.c_str(), "");
+   xmlNode* newChild = xmlNewChild(node, NULL, (xmlChar *)nodeName.c_str(), (xmlChar *)"");
    parent->setDirty(true);
    return XMLNode(parent, newChild);
    }
@@ -238,7 +252,7 @@ XMLNode::iterator XMLNode::erase(XMLNode::iterator& child)
 // Returns NULL if non found.
 // ------------------------------------------------------------------
 xmlNode* findFirstValidNode(xmlNode* node)
-   {              
+   {
    while (node != NULL && node->type == XML_TEXT_NODE)
        node = node->next;
    return node;
@@ -275,9 +289,13 @@ XMLNode::iterator XMLNode::end() const
 //---------------------------------------------------------------------------
 string XMLNode::write() const
    {
+#ifdef __WIN32__
    string tempFileName = GetTempDir();
    unsigned int pid = getpid();
    tempFileName += "\\temp" + itoa(pid) + ".xml";
+#else
+   string tempFileName = "/tmp/apsim." + itoa(random()) + ".xml";
+#endif
 
    xmlOutputBuffer* buf = xmlOutputBufferCreateFilename(tempFileName.c_str(), NULL, false);
    xmlNodeDumpOutput(buf, node->doc, node, 0, 1, NULL);

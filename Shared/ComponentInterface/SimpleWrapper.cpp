@@ -1,8 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <windows.h>
-
+#include <general/platform.h>
 
 struct Instance
    {
@@ -32,24 +31,28 @@ extern Instance instancepointers_;
 // Simple stub to be linked with fortran dlls. This will cause
 // Computation::loadComponent(computation.cpp) to firstly load
 // the fortran wrapper, followed by the fortran after.
-extern "C" _export void __stdcall wrapperDLL(char* wrapperDll)
+extern "C" void EXPORT STDCALL wrapperDLL(char* wrapperDll)
    {
+#ifdef __WIN32__
    strcpy(wrapperDll, "ComponentInterface.dll");
+#else
+   strcpy(wrapperDll, "");
+#endif
    }
 
 // Accessor to instance pointers
-extern "C" _export void __stdcall getInstance(Instance ** p)
+extern "C" void EXPORT STDCALL getInstance(Instance ** p)
    {
    *p = &instancepointers_;
    }
 
 
-extern "C" void __stdcall getDescriptionInternal(char* initScript,
+extern "C" void EXPORT STDCALL getDescriptionInternal(char* initScript,
                                                  char* description);
 // ------------------------------------------------------------------
 // Return component description info.
 // ------------------------------------------------------------------
-extern "C" _export void __stdcall getDescription(char* initScript, char* description)
+extern "C" void EXPORT STDCALL getDescription(char* initScript, char* description)
    {
    getDescriptionInternal(initScript, description);
    }

@@ -8,14 +8,13 @@
 #include <general/TreeNodeIterator.h>
 #include <general/xml.h>
 #include <general/macro.h>
-
+#include <general/platform.h>
 using namespace std;
 
 // ------------------------------------------------------------------
 // provide an entry point for .net and other languages.
 // ------------------------------------------------------------------
-extern "C" void __stdcall __declspec(dllexport)
-doMacroTransform(const char* xmlFileName,
+extern "C" void EXPORT STDCALL doMacroTransform(const char* xmlFileName,
                  const char* macroFileName,
                  const char* outputDirectory)
    {
@@ -28,5 +27,7 @@ doMacroTransform(const char* xmlFileName,
    vector<string> filesGenerated;
    macro.go(doc.documentElement(), contents.str(), filesGenerated, outputDirectory);
    }
+
+
 
  

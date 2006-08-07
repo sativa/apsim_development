@@ -6,6 +6,7 @@
 #include <list>
 #include <vector>
 #include <stdexcept>
+#include <sstream>
 
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
@@ -346,8 +347,8 @@ void Plant::doRegistrations(protocol::Component *system)
    // Events
    setupEvent(parent, "prepare",     RegistrationType::respondToEvent, &Plant::doPrepare, nullTypeDDML);
    setupEvent(parent, "process",     RegistrationType::respondToEvent, &Plant::doProcess, nullTypeDDML);
-   setupEvent(parent, "tick",        RegistrationType::respondToEvent, &Plant::doTick, timeTypeDDML);
-   setupEvent(parent, "newmet",      RegistrationType::respondToEvent, &Plant::doNewMet, newmetTypeDDML);
+   setupEvent(parent, "tick",        RegistrationType::respondToEvent, &Plant::doTick, DDML(protocol::timeType()).c_str());
+   setupEvent(parent, "newmet",      RegistrationType::respondToEvent, &Plant::doNewMet, DDML(protocol::newmetType()).c_str());
    setupEvent(parent, "new_profile", RegistrationType::respondToEvent, &Plant::doNewProfile, new_profileDDML);
    setupEvent(parent, "sow",         RegistrationType::respondToEvent, &Plant::doSow, sowDDML);
    setupEvent(parent, "harvest",     RegistrationType::respondToEvent, &Plant::doHarvest, nullTypeDDML);
@@ -355,7 +356,7 @@ void Plant::doRegistrations(protocol::Component *system)
    setupEvent(parent, "kill_crop",   RegistrationType::respondToEvent, &Plant::doKillCrop, nullTypeDDML);
    setupEvent(parent, "end_run",     RegistrationType::respondToEvent, &Plant::doEndRun, nullTypeDDML);
    setupEvent(parent, "kill_stem",   RegistrationType::respondToEvent, &Plant::doKillStem, killStemDDML);
-   setupEvent(parent, "remove_crop_biomass",   RegistrationType::respondToEvent, &Plant::doRemoveCropBiomass, removeCropDmTypeDDML);
+   setupEvent(parent, "remove_crop_biomass",   RegistrationType::respondToEvent, &Plant::doRemoveCropBiomass, DDML(protocol::removeCropDmType()).c_str());
 
 
    // Send My Variable
@@ -4066,7 +4067,7 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
 
     if (c.remove_biomass_report == "on")
     {
-       ostrstream msg;
+       ostringstream msg;
        msg << "Remove Crop Biomass:-" << endl;
        float dmTotal = 0.0;
 
@@ -4080,7 +4081,7 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
        }
        msg << endl << "   dm total = " << dmTotal << " (kg/ha)" << endl << ends;
 
-       parent->writeString (msg.str());
+       parent->writeString (msg.str().c_str());
     }
 
     // Unpack the DmRemoved structure
@@ -4117,7 +4118,7 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
 
     if (c.remove_biomass_report == "on")
     {
-       ostrstream msg1;
+       ostringstream msg1;
        msg1 << "Remove Crop Biomass 2:-" << endl;
        float dmTotal1 = 0.0;
 
@@ -4135,9 +4136,9 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
 
        msg1 << endl << "   dm total = " << dmTotal1 << " (g/m2)" << endl << ends;
 
-       parent->writeString (msg1.str());
+       parent->writeString (msg1.str().c_str());
 
-       ostrstream msg2;
+       ostringstream msg2;
        msg2 << "Crop Biomass Available:-" << endl;
        float dmTotal2 = 0.0;
 
@@ -4155,7 +4156,7 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
 
        msg2 << endl << "   dm total = " << dmTotal2 << " (g/m2)" << endl << ends;
 
-       parent->writeString (msg2.str());
+       parent->writeString (msg2.str().c_str());
     }
 
     // Check sensibility of part deltas
@@ -4165,24 +4166,24 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
       {
         if ((*part)->dlt.dm_green > (*part)->DMGreen + error_margin)
         {
-             ostrstream msg;
+             ostringstream msg;
              msg << "Attempting to remove more green " << (*part)->name() << " biomass than available:-" << endl;
              msg << "Removing " << (*part)->dlt.dm_green << " (g/m2) from " << (*part)->DMGreen << " (g/m2) available." << ends;
-             throw std::runtime_error (msg.str());
+             throw std::runtime_error (msg.str().c_str());
         }
         else if ((*part)->dlt.dm_senesced > (*part)->DMSenesced + error_margin)
         {
-             ostrstream msg;
+             ostringstream msg;
              msg << "Attempting to remove more senesced " << (*part)->name() << " biomass than available:-" << endl;
              msg << "Removing " << (*part)->dlt.dm_senesced << " (g/m2) from " << (*part)->DMSenesced << " (g/m2) available." << ends;
-             throw std::runtime_error (msg.str());
+             throw std::runtime_error (msg.str().c_str());
         }
         else if ((*part)->dlt.dm_dead > (*part)->DMDead + error_margin)
         {
-             ostrstream msg;
+             ostringstream msg;
              msg << "Attempting to remove more dead " << (*part)->name() << " biomass than available:-" << endl;
              msg << "Removing " << (*part)->dlt.dm_dead << " (g/m2) from " <<(*part)->DMDead << " (g/m2) available." << ends;
-             throw std::runtime_error (msg.str());
+             throw std::runtime_error (msg.str().c_str());
         }
         else
         { // no more checks
@@ -4897,7 +4898,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
 
          else
          {
-            ostrstream msg;
+            ostringstream msg;
             msg << g.module_name << " was taken out today by \"end_crop\" action -" << endl;
             msg << " Unable to accept \"sow\" action until the next day." << endl << ends;
             throw std::runtime_error (msg.str());
@@ -4905,10 +4906,10 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
     }
     else
     {
-         ostrstream msg;
+         ostringstream msg;
          msg << g.module_name << " is still in the ground -" << endl;
          msg << " Unable to sow until it is taken out by \"end_crop\" action." << endl << ends;
-         throw std::runtime_error (msg.str());
+         throw std::runtime_error (msg.str().c_str());
 
 //        string m = string(g.module_name + " is still in the ground -\n unable to sow until it is\n taken out by \"end_crop\" action.");
 //        throw std::runtime_error (m.c_str());

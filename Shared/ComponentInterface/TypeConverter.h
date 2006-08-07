@@ -3,7 +3,7 @@
 #define TypeConverterH
 #include "MessageData.h"
 #include "Type.h"
-
+#include <general/platform.h>
 namespace protocol {
 class Component;
 
@@ -15,7 +15,7 @@ class Component;
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-class __declspec(dllexport) TypeConverter
+class TypeConverter
    {
    protected:
       MessageData& bufferMessageData;
@@ -49,7 +49,7 @@ class __declspec(dllexport) TypeConverter
 //  Changes:
 //    DPH 7/6/2001
 // ------------------------------------------------------------------
-bool getTypeConverter(const FString& name,
+bool EXPORT getTypeConverter(const FString& name,
                       const Type& sourceType,
                       const Type& destType,
                       TypeConverter*& converter);
@@ -58,7 +58,7 @@ bool getTypeConverter(const FString& name,
 // Return a data type converter if possible or NULL if none
 // available.
 // ------------------------------------------------------------------
-bool protocol::getTypeConverter(const FString& name,
+bool EXPORT getTypeConverter(const FString& name,
                                 protocol::DataTypeCode sourceTypeCode,
                                 protocol::DataTypeCode destTypeCode,
                                 bool isSourceArray,

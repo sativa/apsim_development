@@ -1066,7 +1066,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
          else
             str = 'Cannot find APSIM variable: '
      .             // Trim(variable_name)
-            call error(str, .true.)
+            call fortran_error(str, .true.)
             Variable_value = ' '
          endif
 
@@ -1206,7 +1206,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .           'New value: ',
      .           Trim(Variable_value)
 
-                 call error(str, .true.)
+                 call fortran_error(str, .true.)
                else
                   ! ok
                endif
@@ -1228,7 +1228,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .           'New value: ',
      .           Trim(Variable_value)
 
-                 call error(str, .true.)
+                 call fortran_error(str, .true.)
                endif
             endif
             call assign_string (

@@ -1,5 +1,4 @@
-#include <general\pch.h>
-#include <vcl.h>
+#include <general/pch.h>
 #pragma hdrstop
 
 #include <assert.h>
@@ -35,7 +34,7 @@ using namespace protocol;
 // ------------------------------------------------------------------
 // Return a blank string when requested to indicate that we don't need a wrapper DLL.
 // ------------------------------------------------------------------
-extern "C" _export void __stdcall wrapperDLL(char* wrapperDll)
+extern "C" EXPORT void STDCALL wrapperDLL(char* wrapperDll)
    {
    strcpy(wrapperDll, "");
    }
@@ -106,7 +105,7 @@ void Coordinator::doInit1(const FString& sdml)
       {
       Component::doInit1(sdml);
 
-      string sdmlString(sdml.f_str(), sdml.length());
+      string sdmlString = string(sdml.f_str(), sdml.length());
       ApsimSimulationFile simulationData(sdmlString, true);
 
       title = simulationData.getTitle();
@@ -828,7 +827,7 @@ void Coordinator::reorderSubscriptions(::Registrations::Subscriptions& subs)
                if (s->componentId == componentOrders[o])
                   {
                   newSubs.push_back(*s);
-                  subsToMove.erase(s);
+                  s = subsToMove.erase(s);
                   break;
                   }
                }

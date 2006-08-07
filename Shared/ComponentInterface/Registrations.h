@@ -3,10 +3,10 @@
 #define RegistrationsH
 
 #include "Type.h"
-#include "Protocolvector.h"
+#include "ProtocolVector.h"
 #include "Messages.h"
 #include "RegistrationItem.h"
-#include <ApsimShared\fstring.h>
+#include <ApsimShared/FString.h>
 namespace protocol {
 //---------------------------------------------------------------------------
 // This class keeps track of all registrations for this component.

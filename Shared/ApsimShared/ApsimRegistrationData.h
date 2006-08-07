@@ -1,12 +1,14 @@
 //---------------------------------------------------------------------------
 #ifndef ApsimRegistrationDataH
 #define ApsimRegistrationDataH
+#include <general/xml.h>
+#include <general/platform.h>
 
 // ------------------------------------------------------------------
 // This class encapsulates a single component registration from an
 // interface file.
 // ------------------------------------------------------------------
-class __declspec(dllexport) ApsimRegistrationData
+class EXPORT ApsimRegistrationData
    {
    public:
       ApsimRegistrationData(XMLNode &n) : node(n) { }
@@ -23,4 +25,4 @@ class __declspec(dllexport) ApsimRegistrationData
    };
 #endif
 
- 
+

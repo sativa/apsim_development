@@ -2,12 +2,14 @@
 #include <time.h>
 #include <sstream>
 
-#include <general\date_class.h>
-#include <general\stream_functions.h>
-#include <general\string_functions.h>
+#include <general/date_class.h>
+#include <general/stream_functions.h>
+#include <general/string_functions.h>
 
 #define NO_YEAR  2200
 #define NO_YEAR_STRING "2200"
+
+using namespace std;
 
 static const char *Month_str[12] =
    {"January", "February", "March", "April", "May", "June",

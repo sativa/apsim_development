@@ -73,10 +73,10 @@ class SimCreatorSectionNew : public SimCreatorSection
    {
    private:
       bool inTable;
-      string tableName;
+      std::string tableName;
       bool waitingForTableHeader;
-      vector<string> tableHeaders;
-      vector<string> tableUnits;
+      std::vector<std::string> tableHeaders;
+      std::vector<std::string> tableUnits;
    public:
       SimCreatorSectionNew() : inTable(false), waitingForTableHeader(false) { }
       virtual SimCreatorSection* clone()

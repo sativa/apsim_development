@@ -1,8 +1,11 @@
 #include <stdlib.h>
 
 #include "Transport.h"
-#include <ComponentInterface\Interfaces.h>
-#include <ComponentInterface\Message.h>
+#include <ComponentInterface/interfaces.h>
+#include <ComponentInterface/message.h>
+
+#include <ComponentInterface/MessageDataExt.h>
+#include <general/platform.h>
 using namespace protocol;
 
 namespace protocol {
@@ -12,7 +15,7 @@ Transport transport;    // singleton global transport layer.
 // ------------------------------------------------------------------
 // Return the singleton global transport layer.
 // ------------------------------------------------------------------
-Transport& Transport::getTransport(void)
+Transport& EXPORT Transport::getTransport(void)
    {
    return transport;
    }
@@ -52,6 +55,7 @@ void Transport::addComponent(unsigned int id,
 // ------------------------------------------------------------------
 void Transport::deliverMessage(Message* message)
    {
+
    if (messageHook != NULL)
       messageHook->callback(addressBookNames[message->to], message);
 
@@ -59,7 +63,10 @@ void Transport::deliverMessage(Message* message)
 
    if (messageHook != NULL)
       messageHook->callback("", NULL);
+
    }
+
+
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -72,7 +79,7 @@ void Transport::deliverMessage(Message* message)
 
 // ------------------------------------------------------------------
 namespace protocol {
-void _export setMessageHook(IMessageHook* hook)
+void EXPORT setMessageHook(IMessageHook* hook)
    {
    transport.setMessageHook(hook);
    }

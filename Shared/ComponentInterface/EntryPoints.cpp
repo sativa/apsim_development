@@ -2,12 +2,13 @@
 #include <string>
 
 #include <ComponentInterface/Component.h>
+#include <general/platform.h>
 
 namespace protocol {
 // ------------------------------------------------------------------
 // The PM is instructing us to create an instance of all our data.
 // ------------------------------------------------------------------
-extern "C" _export void __stdcall createInstance
+extern "C" void EXPORT STDCALL createInstance
    (const char* dllFileName,
     const unsigned int* compID,
     const unsigned int* parentID,
@@ -15,21 +16,22 @@ extern "C" _export void __stdcall createInstance
     const unsigned int* callbackArg,
     protocol::CallbackType* callback)
    {
-   protocol::Component* component = ::createComponent();
-   component->setup(dllFileName, *compID, *parentID, callbackArg, (FARPROC)callback);
+   protocol::Component* component;
+   component = ::createComponent();
+   component->setup(dllFileName, *compID, *parentID, callbackArg, callback);
    *instanceNumber = (unsigned) component;
    }
 // ------------------------------------------------------------------
 // The PM is instructing us to delete an instance of our data.
 // ------------------------------------------------------------------
-extern "C" _export void __stdcall deleteInstance (unsigned* instanceNumber)
+extern "C" void EXPORT STDCALL deleteInstance (unsigned* instanceNumber)
    {
    delete (protocol::Component*) *instanceNumber;
    }
 // ------------------------------------------------------------------
 // All messages to component go through here.
 // ------------------------------------------------------------------
-extern "C" _export void __stdcall messageToLogic (unsigned* instanceNumber,
+extern "C" void EXPORT STDCALL messageToLogic (unsigned* instanceNumber,
                                                   Message* message,
                                                   bool* processed)
    {
@@ -40,7 +42,7 @@ extern "C" _export void __stdcall messageToLogic (unsigned* instanceNumber,
 // ------------------------------------------------------------------
 // Return component description info.
 // ------------------------------------------------------------------
-extern "C" _export void __stdcall getDescriptionInternal(char* initScript,
+extern "C" void EXPORT STDCALL getDescriptionInternal(char* initScript,
                                                          char* description)
    {
    ApsimComponentData componentData(initScript);

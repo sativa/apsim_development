@@ -7,6 +7,8 @@ using namespace std;
 
 #define singleArrayTypeDDML \
    "<type  array=\"T\" kind=\"single\"/>"
+#define singleTypeDDML \
+   "<type  kind=\"single\"/>"
 
       const int  CARBOHYDRATE = 0 ;
       const int  CELLULOSE = 1 ;

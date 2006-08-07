@@ -2,36 +2,38 @@
 #include <string.h>
 #include <stdexcept>
 
-#include <ApsimShared/fstring.h>
-
+#include <ApsimShared/FString.h>
+#include <general/platform.h>
 #include "MessageData.h"
 #include "message.h"
 #include "ProtocolVector.h"
 
+#include "MessageDataExt.h"
+using namespace std;
 namespace protocol {
 
 // FSTRING specialisations
-MessageData& _export operator>>(MessageData& messageData, FString& value)
+MessageData& EXPORT operator>>(MessageData& messageData, FString& value)
    {
-   unsigned int numChars;
-   messageData >> (int)numChars;
+   int numChars;
+   messageData >> numChars;
    value.aliasTo(messageData.ptr(), numChars);
    messageData.movePtrBy(numChars);
    return messageData;
    };
-MessageData& _export operator<<(MessageData& messageData, const FString& value)
+MessageData& EXPORT operator<<(MessageData& messageData, const FString& value)
    {
    messageData << (int)value.length();
    messageData.copyFrom(value.f_str(), value.length());
    return messageData;
    }
-unsigned int _export memorySize(const FString& value)
+unsigned int EXPORT memorySize(const FString& value)
    {
    return value.length() + sizeof(int);
    }
 
 // FSTRINGS specialisations
-MessageData& _export operator>> (MessageData& messageData, FStrings& strings)
+MessageData& EXPORT operator>> (MessageData& messageData, FStrings& strings)
    {
    unsigned numElements;
    messageData >> numElements;
@@ -43,7 +45,7 @@ MessageData& _export operator>> (MessageData& messageData, FStrings& strings)
       }
    return messageData;
    }
-MessageData& _export operator<< (MessageData& messageData, const FStrings& strings)
+MessageData& EXPORT operator<< (MessageData& messageData, const FStrings& strings)
    {
    messageData << strings.getNumElements();
    for (unsigned int i = 0; i < strings.getNumElements(); i++)
@@ -51,7 +53,7 @@ MessageData& _export operator<< (MessageData& messageData, const FStrings& strin
 
    return messageData;
    }
-unsigned int _export memorySize(const FStrings& strings)
+unsigned int EXPORT memorySize(const FStrings& strings)
    {
    unsigned size = 4;
    for (unsigned int i = 0; i < strings.getNumElements(); i++)

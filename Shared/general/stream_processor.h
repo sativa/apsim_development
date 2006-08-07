@@ -25,7 +25,7 @@ class Line_processor
       Line_processor(void);
       virtual bool Replace_macros (std::string& Line);
 
-   friend Stream_processor;
+   friend class Stream_processor;
    };
 
 // ------------------------------------------------------------------

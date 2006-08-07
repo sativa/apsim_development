@@ -1,10 +1,9 @@
-#include <general\pch.h>
-#include <vcl.h>
+#include <general/pch.h>
 #pragma hdrstop
 
 #include "ComponentAlias.h"
-#include <Protocol\computation.h>
-#include <general\stristr.h>
+#include <Protocol/Computation.h>
+#include <general/stristr.h>
 
 using namespace std;
 using namespace protocol;

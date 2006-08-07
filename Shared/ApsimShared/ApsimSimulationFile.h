@@ -1,12 +1,13 @@
 //---------------------------------------------------------------------------
 #ifndef ApsimSimulationFileH
 #define ApsimSimulationFileH
+#include <general/platform.h>
 
 class XMLDocument;
 // ------------------------------------------------------------------
 // This class encapsulates an APSIM simulation file (.SIM)
 // ------------------------------------------------------------------
-class __declspec(dllexport) ApsimSimulationFile
+class EXPORT ApsimSimulationFile
    {
    public:
       ApsimSimulationFile(void);
