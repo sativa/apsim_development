@@ -42,7 +42,7 @@ using namespace std;
 #include "PlantParts.h"
 #include "CompositePart.h"
 #include "PlantFruit.h"
-#include "PlantPhenology.h"
+#include "Phenology/PlantPhenology.h"
 
 
 static const char* floatArrayType =   "<type kind=\"single\" array=\"T\"/>";
