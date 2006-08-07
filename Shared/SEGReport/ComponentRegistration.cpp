@@ -28,6 +28,8 @@
 #include "TChartLineForm.h"
 #include "TFrequencyForm.h"
 #include "TKWTestForm.h"
+#include "TPredObsForm.h"
+#include "TRegrForm.h"
 //---------------------------------------------------------------------------
 #pragma resource "*.res"
 #pragma package(smart_init)
@@ -48,7 +50,7 @@ void RegisterComponents(void)
                                   __classid(::TGraph),
                                   __classid(::TXYGraph)};
    RegisterComponents("Standard", standardClasses, 4);
-   TComponentClass dataClasses[15] = {__classid(TApsimFileReader),
+   TComponentClass dataClasses[17] = {__classid(TApsimFileReader),
                                   __classid(TXmlFileReader),
                                   __classid(TSOI),
                                   __classid(TProbability),
@@ -62,8 +64,10 @@ void RegisterComponents(void)
                                   __classid(TCumulative),
                                   __classid(TDiff),
                                   __classid(TDepth),
-                                  __classid(TChartLine)};
-   RegisterComponents("Data", dataClasses, 14);
+                                  __classid(TChartLine),
+                                  __classid(TPredObs),
+                                  __classid(TRegr)};
+   RegisterComponents("Data", dataClasses, 16);
    }
 
 //---------------------------------------------------------------------------
@@ -110,6 +114,10 @@ TForm* createComponentUI(TComponent* component, TWinControl* parent,
       form = new TDiffForm(parent);
    else if (component->ClassType() == __classid(TChartLine))
       form = new TChartLineForm(parent);
+   else if (component->ClassType() == __classid(TPredObs))
+      form = new TPredObsForm(parent);
+   else if (component->ClassType() == __classid(TRegr))
+      form = new TRegrForm(parent);
    else
       form = new TPropertyForm(parent);
 

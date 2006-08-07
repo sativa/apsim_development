@@ -15,14 +15,15 @@
       TDiffForm.obj TXmlFileReader.obj TXmlFileReaderForm.obj TRecFilter.obj 
       TRecFilterForm.obj TDepth.obj TChartLine.obj TChartLineForm.obj 
       TProbabilityForm.obj TFrequency.obj TFrequencyForm.obj TKWTest.obj 
-      TKWTestForm.obj"/>
+      TKWTestForm.obj TPredObs.obj TPredObsForm.obj TRegr.obj TRegrForm.obj"/>
     <RESFILES value="SEGReport.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) TPropertyForm.dfm TTextForm.dfm TApsimFileReaderForm.dfm 
       TChartForm.dfm TExcelForm.dfm TFilterForm.dfm TImageForm.dfm TREMSForm.dfm 
       TShapeForm.dfm TSOIForm.dfm TStatsForm.dfm TWizardForm.dfm TXYForm.dfm 
       TXmlFileReaderForm.dfm TRecFilterForm.dfm TChartLineForm.dfm 
-      TProbabilityForm.dfm TFrequencyForm.dfm TKWTestForm.dfm"/>
+      TProbabilityForm.dfm TFrequencyForm.dfm TKWTestForm.dfm TPredObsForm.dfm 
+      TRegrForm.dfm"/>
     <LIBFILES value="..\general\general.lib ..\ApsimShared\ApsimShared.lib 
       &quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\date_time\date_time.lib&quot; 
       ..\general\general_vcl.lib 
@@ -130,6 +131,10 @@
       <FILE FILENAME="TKWTest.cpp" FORMNAME="" UNITNAME="TKWTest" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TKWTestForm.cpp" FORMNAME="KWTestForm" UNITNAME="TKWTestForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\goose-0.0.11\src\Goose.lib" FORMNAME="" UNITNAME="Goose.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TPredObs.cpp" FORMNAME="" UNITNAME="TPredObs" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TPredObsForm.cpp" FORMNAME="PredObsForm" UNITNAME="TPredObsForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TRegr.cpp" FORMNAME="" UNITNAME="TRegr" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TRegrForm.cpp" FORMNAME="RegrForm" UNITNAME="TRegrForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

@@ -13,6 +13,7 @@
 #include <general\string_functions.h>
 #include <general\path.h>
 #include <general\io_functions.h>
+#include <dir.h>
 
 using namespace std;
 #pragma package(smart_init)
@@ -253,7 +254,15 @@ bool TApsimFileReader::readNextRecord(istream& in,
    string line;
    if (getline(in, line) && line.length() > 0)
       {
-      Split_string(line, " ", fieldValues);
+      SplitStringHonouringQuotes(line, " ", fieldValues);
+
+      // get rid of missing values - assume a * is a missing value.
+      for (unsigned i = 0; i != fieldValues.size(); i++)
+         {
+         if (fieldValues[i] == "*")
+            fieldValues[i] = "";
+         }
+
       return true;
       }
    else
