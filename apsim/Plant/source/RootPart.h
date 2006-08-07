@@ -7,14 +7,14 @@ class plantRootPart : public plantPart
    public:
       float root_depth;                                 // depth of roots (mm)
       float root_length[max_layer];                     // root length (mm/mm^2)
-      float root_length_dead[max_layer];                // root length of dead population (mm/mm^2)      
+      float root_length_dead[max_layer];                // root length of dead population (mm/mm^2)
 
       float dltRootDepth;                               // increase in root depth (mm)
       vector<float> dltRootLength;
       vector<float> dltRootLengthDead;
       vector<float> dltRootLengthSenesced;
       vector<float> xf;                                 // root exploration factor (0-1)
-            
+
       plantRootPart(plantInterface *p, const string &name) : plantPart(p, name) {};
       ~plantRootPart() {};
 
@@ -60,12 +60,33 @@ class plantRootPart : public plantPart
                                           , vector<float> &fract);
       void doNConccentrationLimits(void);
       void redistribute(const vector<float> &, const vector<float> &, float);
+
+void plantRootPart::plant_water_stress (
+                                       float dlayer [],
+                                       float sw_demand,
+                                       float sw_supply[],
+                                       float dlt_sw_dep[],
+                                       float& swdef_photo,
+                                       float sw_avail[],
+                                       float sw_avail_pot[],
+                                       float& swdef_pheno,
+                                       float& swdef_pheno_flower,
+                                       float& swdef_pheno_grainfill,
+                                       float& swdef_expansion,
+                                       float& swdef_fixation );
+
+float plantRootPart::oxdef_stress (
+                                 float ll15_dep[],
+                                 float sat_dep[],
+                                 float sw_dep[],
+                                 float dlayer[]);
+
    private:
       void get_rlv(protocol::Component *system, protocol::QueryValueData &qd);
       void get_root_length(protocol::Component *system, protocol::QueryValueData &qd);
       void get_root_length_dead(protocol::Component *system, protocol::QueryValueData &qd);
 
-      float root_proportion(int layer);                                    
+      float root_proportion(int layer);
       void root_dist(float root_sum, vector<float> &root_array);
       void root_dist_dead(float root_sum, vector<float> &root_array);
       void root_incorp (float  dlt_dm_root, float dlt_n_root, float dlt_p_root);
@@ -77,28 +98,52 @@ class plantRootPart : public plantPart
 
       unsigned int incorp_fom_ID;
 
+      int   num_sw_avail_ratio;
+      float x_sw_avail_ratio [max_table];
+      float y_swdef_pheno [max_table];
+
+      int        num_sw_avail_ratio_flower;
+      float      x_sw_avail_ratio_flower[max_table];
+      float      y_swdef_pheno_flower [max_table];
+
+      int        num_sw_avail_ratio_grainfill;
+      float      x_sw_avail_ratio_grainfill [max_table];
+      float      y_swdef_pheno_grainfill [max_table];
+
+      int   num_sw_demand_ratio;
+      float x_sw_demand_ratio [max_table];
+      float y_swdef_leaf [max_table];
+
+      int   num_sw_avail_fix;
+      float x_sw_avail_fix [max_table];
+      float y_swdef_fix [max_table];
+
+      float oxdef_photo [max_table];
+      float oxdef_photo_rtfr[max_table];
+      int   num_oxdef_photo;
+
    protected:
-   
+
       float specificRootLength;
       interpolationFunction rel_root_rate;
       interpolationFunction sw_fac_root;
-      interpolationFunction rel_root_advance; 
+      interpolationFunction rel_root_advance;
       interpolationFunction ws_root_fac;
       lookupFunction root_depth_rate;
    };
 
-class rootGrowthOption1 : public plantRootPart 
+class rootGrowthOption1 : public plantRootPart
    {
  public:
    rootGrowthOption1(plantInterface *p, const string &name) : plantRootPart(p, name) {};
    void root_length_growth (void);
    };
 
-class rootGrowthOption2 : public plantRootPart 
+class rootGrowthOption2 : public plantRootPart
    {
  private:
    float rootDistributionPattern;
- public:  
+ public:
    rootGrowthOption2(plantInterface *p, const string &name) : plantRootPart(p, name) {};
    void readSpeciesParameters(protocol::Component *system, vector<string> &sections);
    void root_length_growth (void);
