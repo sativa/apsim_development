@@ -97,3 +97,23 @@ void fruitMealPart::onStartGrainFill(void)
 {  // do nothing
 }
 
+void fruitMealPart::doNConcGrainLimits(float n_min_grain, float n_crit_grain, float n_max_grain)
+{
+   float dm_meal;                                // meal mass (g/m2)
+   dm_meal = dmGreenNew();
+   g.n_conc_crit = divide (n_crit_grain, dm_meal, 0.0);
+   g.n_conc_max = divide (n_max_grain, dm_meal, 0.0);
+   g.n_conc_min = divide (n_min_grain, dm_meal, 0.0);
+   
+}
+
+float fruitMealPart::nCapacity(void)
+{
+   float n_potential  = dmGreenNew() * g.n_conc_max; 
+   return (n_potential - nGreen());
+}
+
+float fruitMealPart::N_conc_pot(float nfact_grain_conc) 
+{
+   return (g.n_conc_min + (g.n_conc_crit - g.n_conc_min) * nfact_grain_conc);
+}

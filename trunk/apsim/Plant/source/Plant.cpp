@@ -21,7 +21,7 @@
 #include "Phenology/TTTPhenology.h"
 #include "Phenology/TTTRatePhenology.h"
 #include "Plant.h"
-#include "PlantParts.h"
+#include "PlantPart.h"
 #include "CompositePart.h"
 #include "LeafPart.h"
 #include "PlantFruit.h"

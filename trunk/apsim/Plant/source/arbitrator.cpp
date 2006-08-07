@@ -7,7 +7,7 @@
 #include "PlantComponent.h"
 #include "PlantLibrary.h"
 #include "Plant.h"
-#include "PlantParts.h"
+#include "PlantPart.h"
 #include "leafPart.h"
 #include "Arbitrator.h"
 
@@ -297,8 +297,12 @@ void allometricArbitrator::partitionDM(float dlt_dm,
                               ratio_stem_leaf[plant->getStageNumber()] *
                                   plant->getPlants();                                    // g/m^2
         float dltLeafPot = l_bound(dm_remaining - dltStemPot, 0.0);                      // g/m^2
-
-        SLAcalc = divide(dltLeafAreaPot, dltLeafPot / plant->getPlants(), 0.0);          // mm^2/g
+        
+        if (dltLeafPot > 0.0) 
+           // Stem:Leaf ratio is valid
+           SLAcalc = divide(dltLeafAreaPot, dltLeafPot / plant->getPlants(), 0.0);       // mm^2/g
+        else 
+           SLAcalc = SLAmax + 1.0;
 
         //fprintf(stdout,"ratio = %f, dltLeafAreaPot=%f, dlt_dm=%f, dltStemPot=%f dltLeafPot=%f SLAcalc=%f\n",ratio_stem_leaf[plant->getStageNumber()], dltLeafAreaPot,dlt_dm, dltStemPot, dltLeafPot, SLAcalc);       
 

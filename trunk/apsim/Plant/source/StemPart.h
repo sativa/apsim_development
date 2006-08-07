@@ -1,6 +1,6 @@
 #ifndef StemPartH
 #define StemPartH
-#include "PlantParts.h"
+#include "PlantPart.h"
 
 class plantStemPart : public plantPart
    {

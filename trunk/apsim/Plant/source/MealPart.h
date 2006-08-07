@@ -1,6 +1,6 @@
 #ifndef MealPartH
 #define MealPartH
-#include "PlantParts.h"
+#include "PlantPart.h"
 
 class fruitMealPart : public plantPart {
   public:
@@ -21,7 +21,9 @@ class fruitMealPart : public plantPart {
    void doDMDemandGrain(float dm_demand);
    void doNRetranslocate( float dltN, float grain_n_demand);
    float nDemand2(void);
-
+   void doNConcGrainLimits(float n_min_grain, float n_crit_grain, float n_max_grain);
+   float nCapacity(void);
+   float N_conc_pot(float);
   private:
 };
 

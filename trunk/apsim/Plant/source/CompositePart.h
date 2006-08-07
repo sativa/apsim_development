@@ -13,7 +13,7 @@
 #include <iostream.h>
 #endif
 
-#include "plantparts.h"
+#include "PlantPart.h"
 
 class CompositePart : public plantPart
 {

@@ -20,7 +20,7 @@
 #include "PlantInterface.h"
 #include "PlantLibrary.h"
 #include "Plant.h"
-#include "PlantParts.h"
+#include "PlantPart.h"
 #include "RootPart.h"
 using namespace std;
 

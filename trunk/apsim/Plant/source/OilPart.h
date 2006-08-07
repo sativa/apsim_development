@@ -1,6 +1,6 @@
 #ifndef OilPartH
 #define OilPartH
-#include "PlantParts.h"
+#include "PlantPart.h"
 
 
 class fruitOilPart : public plantPart {
