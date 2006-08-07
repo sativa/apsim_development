@@ -25,6 +25,7 @@ using namespace std;
 
 #define doubleArrayTypeDDML "<type  array=\"T\" kind=\"double\"/>"
 #define singleArrayTypeDDML "<type  array=\"T\" kind=\"single\"/>"
+#define singleTypeDDML "<type  kind=\"single\"/>"
 
       const float kg2g = 1000.0 ;
       const float ha2sm = 10000.0 ;
