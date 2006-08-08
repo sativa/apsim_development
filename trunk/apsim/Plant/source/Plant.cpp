@@ -25,7 +25,6 @@
 #include "PlantPart.h"
 #include "CompositePart.h"
 #include "LeafPart.h"
-#include "PlantFruit.h"
 #include "FruitCohort.h"
 #include "StemPart.h"
 #include "LeafPart.h"

@@ -821,7 +821,7 @@ void fruitGrainPart::doNDemandGrain1(float nfact_grain_conc      //   (INPUT)
 
    
 
-   gN_grain_demand = u_bound (gN_grain_demand, mealPart->nCapacity());
+   gN_grain_demand = u_bound (gN_grain_demand, mealPart->nCapacity2());
 }
 
 void fruitGrainPart::doNDemandGrain2 (void)
