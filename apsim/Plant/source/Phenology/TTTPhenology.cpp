@@ -198,7 +198,7 @@ float TTTPhenology::TT(const environment_t &e)
 //     to determine when the crop begins a new growth phase.
 //     The initial daily thermal time and height are also set.
 
-void TTTPhenology::process (const environment_t &e, const pheno_stress_t &ps)
+void TTTPhenology::process (const environment_t &e, const pheno_stress_t &ps, float fasw_seed, float pesw_seed)
    {
    float phase_devel, new_stage;
 
@@ -214,7 +214,7 @@ void TTTPhenology::process (const environment_t &e, const pheno_stress_t &ps)
          {
          phase_devel = 0.999;
          }
-      else if ( plant_germination(pesw_germ, sowing_depth, e) )
+      else if ( plant_germination(pesw_germ, sowing_depth, pesw_seed) )
          {
       	phase_devel =  1.999;
          }
@@ -224,10 +224,6 @@ void TTTPhenology::process (const environment_t &e, const pheno_stress_t &ps)
 
    else if (inPhase("germination"))
       {
-      int layer_no_seed = e.find_layer_no (sowing_depth);
-      float fasw_seed = divide (e.sw_dep[layer_no_seed] - e.ll_dep[layer_no_seed],
-                                e.dul_dep[layer_no_seed] - e.ll_dep[layer_no_seed], 0.0);
-      fasw_seed = bound (fasw_seed, 0.0, 1.0);
 
       dlt_tt_phenol = dlt_tt * rel_emerg_rate[fasw_seed];
       const pPhase *current = phases[currentStage];
