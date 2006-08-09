@@ -37,6 +37,7 @@
 #include "Phenology/GenericPhenology.h"
 #include "Phenology/BroccoliPhenology.h"
 #include "arbitrator.h"
+#include "PlantUtility.h"
 
 using namespace std;
 
@@ -202,6 +203,8 @@ Plant::~Plant()
 // Init1. Set up plant structure
 void Plant::doInit1(protocol::Component *s)
     {
+   plant_zero_variables (); // Zero global states
+
     string scratch = s->readParameter ("constants", "phenology_model");
     if (scratch == "")
        throw std::invalid_argument("The parameter 'phenology_model'\nisn't in your ini file.\n\nGet one.\n");
@@ -273,29 +276,21 @@ void Plant::doInit2(protocol::Component *)
    {
    PlantP_set_phosphorus_aware(parent); // See whether a P module is plugged in
    plant_read_constants (); // Read constants
-   plant_zero_variables (); // Zero global states
    plant_init ();           // Site specific init
    plant_get_other_variables (); // sw etc..
    }
 
-string addUnitsToDDML(const string& ddml, const string& units)
-   {
-   string returnString = ddml;
-   unsigned pos = returnString.find("/>");
-   if (pos != string::npos)
-      returnString = returnString.substr(0, pos) + " unit=\"" + units + "\"/>";
-   return returnString;
-   }
+
 
 void Plant::doIDs(void)
    {
    // gets
+   rootPart->DoIDs(parent);
+
    id.eo = parent->addRegistration(RegistrationType::get,
                                    "eo", addUnitsToDDML(floatType, "mm").c_str(),
                                    "", "");
-   id.sw_dep= parent->addRegistration(RegistrationType::get,
-                                   "sw_dep", addUnitsToDDML(floatArrayType, "mm").c_str(),
-                                   "", "");
+
    id.no3 = parent->addRegistration(RegistrationType::get,
                                    "no3", addUnitsToDDML(floatArrayType, "kg/ha").c_str(),
                                    "", "");
@@ -330,9 +325,7 @@ void Plant::doIDs(void)
    id.dlt_nh4 = parent->addRegistration(RegistrationType::set,
                                    "dlt_nh4", addUnitsToDDML(floatArrayType, "kg/ha").c_str(),
                                    "", "");
-   id.dlt_sw_dep = parent->addRegistration(RegistrationType::set,
-                                   "dlt_sw_dep", addUnitsToDDML(floatArrayType, "mm").c_str(),
-                                   "", "");
+
 
    // events.
    id.crop_chopped = parent->addRegistration(RegistrationType::event,
@@ -529,24 +522,10 @@ void Plant::doRegistrations(protocol::Component *system)
    parent->addGettableVar("transp_eff",
                g.transp_eff, "g/m2/mm", "Transpiration Efficiency");
 
-   setupGetFunction(parent, "ep", protocol::DTsingle, false,
-                    &Plant::get_ep, "mm", "Plant water uptake");
-
-   setupGetFunction(parent, "sw_uptake", protocol::DTsingle, true,
-                    &Plant::get_sw_uptake, "mm", "Plant water uptake per layer");
-
    setupGetFunction(parent, "cep", protocol::DTsingle, false,
                     &Plant::get_cep,
                     "mm", "Cumulative plant water uptake");
 
-   setupGetFunction(parent, "sw_supply", protocol::DTsingle, false,
-                    &Plant::get_sw_supply, "mm", "Soil water supply");
-
-   setupGetFunction(parent, "sw_supply_layr", protocol::DTsingle, true,
-                    &Plant::get_sw_supply_layr, "mm", "Soil water supply");
-
-   setupGetFunction(parent, "esw_layr", protocol::DTsingle, true,
-                    &Plant::get_esw_layr, "mm", "Extractable soil water");
 
    setupGetFunction(parent, "n_conc_stover", protocol::DTsingle, false,
                     &Plant::get_n_conc_stover, "%", "N concentration in stover");
@@ -560,10 +539,6 @@ void Plant::doRegistrations(protocol::Component *system)
    setupGetFunction(parent, "n_uptake_stover", protocol::DTsingle, false,
                     &Plant::get_n_uptake_stover,
                     "g/m^2", "N taken up by agp");
-
-   setupGetFunction(parent, "no3_tot", protocol::DTsingle, false,
-                    &Plant::get_no3_tot,
-                    "g/m^2", "NO3 available to plants");
 
    setupGetFunction(parent, "n_demand", protocol::DTsingle, false,
                     &Plant::get_n_demand,
@@ -643,13 +618,7 @@ void Plant::doRegistrations(protocol::Component *system)
                     &Plant::get_no3_swfac,
                     "???", "Work this out...>>");
 
-   setupGetFunction(parent, "no3_uptake", protocol::DTsingle, true,
-                    &Plant::get_no3_uptake,
-                    "kg/ha","NO3 uptake");
 
-   setupGetFunction(parent, "nh4_uptake", protocol::DTsingle, true,
-                    &Plant::get_nh4_uptake,
-                    "kg/ha","NH4 uptake");
 
    setupGetFunction(parent, "parasite_dm_supply", protocol::DTsingle, false,
                      &Plant::get_parasite_c_gain,
@@ -754,14 +723,6 @@ void Plant::doRegistrations(protocol::Component *system)
    setupGetFunction(parent, "p_uptake_stover", protocol::DTsingle, false,
                     &Plant::get_p_uptake_stover,
                     "%","P in stover");
-
-   setupGetFunction(parent, "ll_dep", protocol::DTsingle, true,
-                    &Plant::get_ll_dep,
-                    "mm","Crop lower limit");
-
-   setupGetFunction(parent, "ll", protocol::DTsingle, true,
-                    &Plant::get_ll,
-                    "%vol","Crop lower limit");
 
 #undef setupGetVar
 #undef setupGetFunction
@@ -937,34 +898,12 @@ void Plant::doNewMet(unsigned &, unsigned &, protocol::Variant &v)
   }
 
 
-//////////////////////////////Translated code starts here///////////////////
-//+  Purpose
+void Plant::plant_bio_actual (int option /* (INPUT) option number*/)
+//=======================================================================================
 //       Takes the minimum of biomass production limited by radiation and
 //       biomass production limited by water.
-
-//+  Mission Statement
-//     Takes the minimum of biomass production limited by radiation and
-//     biomass production limited by water.
-
-//+  Changes
-//      250894 jngh specified and programmed
-void Plant::plant_bio_actual (int option /* (INPUT) option number*/)
     {
-    const char*  my_name = "plant_bio_actual" ;
-    push_routine (my_name);
-
-    if (option == 1)
-        {
-        // use whichever is limiting
         g.dlt_dm = min (g.dlt_dm_pot_rue, g.dlt_dm_pot_te);
-        }
-    else
-        {
-        throw std::invalid_argument("invalid template option in plant_bio_actual");
-        }
-
-    pop_routine (my_name);
-    return;
     }
 
 
@@ -995,150 +934,61 @@ void Plant::plant_bio_retrans (void)
    }
 
 
-//     ===========================================================
+
 void Plant::plant_bio_distribute (void)
 //     ===========================================================
-{
 //       distribute biomass to fruit parts.
-
+   {
    fruitPart->doDmPartition (fruitPart->dlt.dm_green, fruitPart->dmGreenDemand ());
 
    float dm_demand_differential = fruitPart->dmGreenDemand ()
                                 - fruitPart->dlt.dm_green;
    fruitPart->doDmRetranslocate (g.dlt_dm_retrans_to_fruit, dm_demand_differential);
-}
+   }
 
 
 
 
 
-void Plant::plant_water_stress (int option /* (INPUT) option number */)
+void Plant::plant_water_stress (void)
 //     ===========================================================
 //         Get current water stress factors (0-1)
     {
-    const char*  my_name = "plant_water_stress" ;
-
-    push_routine (my_name);
-
-         rootPart->plant_water_stress (
-                                       g.dlayer,
-                                       g.sw_demand,
-                                       g.sw_supply,
-                                       g.dlt_sw_dep,
-                                       g.swdef_photo,
-                                       g.sw_avail,
-                                       g.sw_avail_pot,
-                                       g.swdef_pheno,
-                                       g.swdef_pheno_flower,
-                                       g.swdef_pheno_grainfill,
-                                       g.swdef_expansion,
-                                       g.swdef_fixation );
-
-    pop_routine (my_name);
+    rootPart->plant_water_stress (g.sw_demand,
+                                  g.swdef_photo,
+                                  g.swdef_pheno,
+                                  g.swdef_pheno_flower,
+                                  g.swdef_pheno_grainfill,
+                                  g.swdef_expansion,
+                                  g.swdef_fixation );
     }
 
 
-//+  Purpose
+void Plant::plant_temp_stress (void)
+//     ===========================================================
 //         Get current temperature stress factors (0-1)
-
-//+  Mission Statement
-//         Gets the current Temperature stress factors
-
-//+  Changes
-//     010994 jngh specified and programmed
-void Plant::plant_temp_stress (int option/* (INPUT) option number*/)
     {
-    const char*  my_name = "plant_temp_stress" ;
-
-    push_routine (my_name);
-
-    if (option == 1)
-        {
         crop_temperature_stress_photo(c.num_ave_temp,
                                       c.x_ave_temp, c.y_stress_photo,
                                       Environment.maxt, Environment.mint, &g.temp_stress_photo);
-
-        }
-    else
-        {
-        throw std::invalid_argument ("invalid template option in temp_stress");
-        }
-
-    pop_routine (my_name);
-    return;
     }
 
 
-
-
-//+  Purpose
-//         Get current oxygen deficit stress factors (0-1)
-
-//+  Mission Statement
-//     Calculate today's oxygen deficit stress factor
-
-//+  Changes
-//     181197 nih specified and programmed
-void Plant::plant_oxdef_stress (int option /* (INPUT) option number */)
-    {
-
-
-//+  Constant Values
-    const char*  my_name = "plant_oxdef_stress" ;
-
-//- Implementation Section ----------------------------------
-
-    push_routine (my_name);
-
-    if (option == 1)
-        {
-        g.oxdef_photo = rootPart->oxdef_stress (g.ll15_dep, g.sat_dep, g.sw_dep, g.dlayer);
-        }
-    else
-        {
-        throw std::invalid_argument ("invalid template option in oxdef_stress");
-        }
-
-    pop_routine (my_name);
-    return;
-    }
-
-
-//+  Purpose
-//       bio transpiration efficiency
-
-//+  Mission Statement
+void Plant::plant_bio_water (void)
+//     ===========================================================
 //     Calculate biomass transpiration efficiency
-
-//+  Changes
-//      5/9/96 dph
-void Plant::plant_bio_water (int option /* (INPUT) option number */)
     {
-    const char*  my_name = "plant_bio_water" ;
-    push_routine (my_name);
-
-    if (option == 1)
-        {
-        float dltDmPotTeVeg = 0.0;
-        fruitPart->doDmPotTE ();
-        plant_bio_water1 (g.swSupplyVeg, g.transp_eff, &dltDmPotTeVeg);
-        g.dlt_dm_pot_te = dltDmPotTeVeg + fruitPart->dltDmPotTe();
-
-        }
-    else
-        {
-        throw std::invalid_argument ("invalid template option in bio_water");
-        }
-    pop_routine (my_name);
-    return;
+    float dltDmPotTeVeg = 0.0;
+    fruitPart->doDmPotTE ();
+    plant_bio_water1 (g.swSupplyVeg, g.transp_eff, &dltDmPotTeVeg);
+    g.dlt_dm_pot_te = dltDmPotTeVeg + fruitPart->dltDmPotTe();
     }
 
 
-void Plant::plant_detachment (int option /* (INPUT) option number */)
+void Plant::plant_detachment (void)
+//     ===========================================================
 //       Simulate plant detachment.
     {
-    if (option == 1)
-        {
         leafPart->detachment();
 
         for (vector<plantPart *>::iterator t = myParts.begin();
@@ -1149,25 +999,11 @@ void Plant::plant_detachment (int option /* (INPUT) option number */)
            (*t)->doNDetachment();
            if (g.phosphorus_aware == true) (*t)->doPDetachment();
            }
-        }
-    else
-        {
-        throw std::invalid_argument ("invalid template option in detachment");
-        }
-
     }
 
-
-
-//+  Purpose
+void Plant::plant_plant_death (int option /* (INPUT) option number*/)
 //      Determine plant death in crop
 
-//+  Mission Statement
-//     Determine plant death of crop
-
-//+  Changes
-//       290994 jngh specified and programmed
-void Plant::plant_plant_death (int option /* (INPUT) option number*/)
     {
 //+  Constant Values
     const char*  my_name = "plant_plant_death" ;
@@ -1314,10 +1150,7 @@ float Plant::plant_death_seedling
 //+  Mission Statement
 //     Determine plant death from drought
 
-//+  Changes
-//       290994 jngh specified and programmed
-//       110695 psc  added plant death from high soil temp
-//       100795 jngh moved plant_kill crop to end of routine
+
 float Plant::plant_death_drought
     (
      float  c_leaf_no_crit              // (INPUT)  critical number of leaves belo
@@ -1569,64 +1402,6 @@ void Plant::plant_kill_crop (status_t *g_plant_status)
 
 
 
-//+  Purpose
-//         Calculate increase in pod area
-
-//+  Mission Statement
-//     Calculate increase in pod area
-
-//+  Changes
-//     280199 nih specified and programmed
-void Plant::plant_pod_area (int option /* (INPUT) option number*/)     // FIXME - remove this when fruit becomes proper class
-    {
-//+  Constant Values
-    const char*  my_name = "plant_pod_area" ;
-
-//- Implementation Section ----------------------------------
-
-    push_routine (my_name);
-
-    if (option == 1)
-           {
-        fruitPart->calcDlt_pod_area ();
-        }
-    else
-        {
-        throw std::invalid_argument ("invalid template option");
-        }
-
-    pop_routine (my_name);
-    return;
-    }
-
-//+  Purpose
-//       Initialise plant nitrogen.
-
-//+  Mission Statement
-//     Initialise plant nitrogen
-
-//+  Changes
-//      250894 jngh specified and programmed
-void Plant::plant_nit_init (int option /* (INPUT) option number*/)
-    {
-//+  Constant Values
-    const char*  my_name = "plant_nit_init" ;
-
-//- Implementation Section ----------------------------------
-    push_routine (my_name);
-
-    if (option == 1)
-        {
-        fruitPart->doNInit();
-        }
-    else
-        {
-        throw std::invalid_argument ("invalid template option");
-        }
-
-    pop_routine (my_name);
-    return;
-    }
 
 
 
@@ -1657,14 +1432,14 @@ void Plant::plant_nit_supply (int option /* (INPUT) option number*/)
         float no3gsm_min[max_layer];   // minimum allowable NO3 in soil (g/m^2)
         fill_real_array (no3gsm_min, 0.0, max_layer);
 
-        cproc_n_supply1 (g.dlayer
-                         , g.dlt_sw_dep
-                         , g.no3gsm
+        cproc_n_supply1 (rootPart->dlayer
+                         , rootPart->dlt_sw_dep
+                         , rootPart->no3gsm
                          , no3gsm_min
                          , rootPart->root_depth
-                         , g.sw_dep
+                         , rootPart->sw_dep
                          , g.no3gsm_mflow_avail
-                         , g.sw_avail
+                         , rootPart->sw_avail
                          , g.no3gsm_diffn_pot
                          , phenology->stageNumber()
                          , c.n_fix_rate
@@ -1679,19 +1454,19 @@ void Plant::plant_nit_supply (int option /* (INPUT) option number*/)
         float no3gsm_min[max_layer];   // minimum allowable NO3 in soil (g/m^2)
         fill_real_array (no3gsm_min, 0.0, max_layer);
 
-        cproc_n_supply3 (g.dlayer
-                         , g.no3gsm
+        cproc_n_supply3 (rootPart->dlayer
+                         , rootPart->no3gsm
                          , no3gsm_min
                          , g.no3gsm_uptake_pot
                          , rootPart->root_depth
                          , rootPart->root_length
-                         , g.bd
+                         , rootPart->bd
                          , c.n_stress_start_stage
                          , c.total_n_uptake_max
                          , c.no3_uptake_max
                          , c.no3_conc_half_max
-                         , g.sw_avail_pot
-                         , g.sw_avail
+                         , rootPart->sw_avail_pot
+                         , rootPart->sw_avail
                          , phenology->stageNumber()
                          , c.n_fix_rate
                          , biomass
@@ -1706,12 +1481,12 @@ void Plant::plant_nit_supply (int option /* (INPUT) option number*/)
         float nh4gsm_min[max_layer];   // minimum allowable NH4 in soil (g/m^2)
         fill_real_array (nh4gsm_min, 0.0, max_layer);
 
-        cproc_n_supply4 (g.dlayer
-                             , g.bd
-                             , g.no3gsm
+        cproc_n_supply4 (rootPart->dlayer
+                             , rootPart->bd
+                             , rootPart->no3gsm
                              , no3gsm_min
                              , g.no3gsm_uptake_pot
-                             , g.nh4gsm
+                             , rootPart->nh4gsm
                              , nh4gsm_min
                              , g.nh4gsm_uptake_pot
                              , rootPart->root_depth
@@ -1721,8 +1496,8 @@ void Plant::plant_nit_supply (int option /* (INPUT) option number*/)
                              , c.knh4
                              , c.nh4ppm_min
                              , c.total_n_uptake_max
-                             , g.sw_avail_pot
-                             , g.sw_avail
+                             , rootPart->sw_avail_pot
+                             , rootPart->sw_avail
                              , phenology->stageNumber()
                              , c.n_fix_rate
                              , biomass
@@ -1773,12 +1548,9 @@ void Plant::plant_nit_retrans (int option/* (INPUT) option number*/)
     return;
     }
 
-//  Purpose
-//      Find grain nitrogen demand.
-//
-//  Mission Statement
-//    Get the grain nitrogen demand
 void Plant::doNDemandGrain (void)
+//=======================================================================================
+//      Find grain nitrogen demand.
 {
    fruitPart->doNDemandGrain(g.nfact_grain_conc, g.swdef_expansion);
 }
@@ -1807,44 +1579,38 @@ void Plant::plant_nit_demand (int option /* (INPUT) option number*/)
         }
     }
 
-void Plant::plant_soil_nit_demand(int option)
+void Plant::plant_soil_nit_demand()
 //=======================================================================================
 //      Find soil nitrogen demand.
    {
-   if (option == 1)
-      {
       for (vector<plantPart *>::iterator t = myParts.begin();
            t != myParts.end();
            t++)
          (*t)->doSoilNDemand();
-      }
-   else
-      throw std::invalid_argument ("Invalid template option");
-
    }
 
 void Plant::plant_nit_uptake (int option/* (INPUT) option number*/)
 //=======================================================================================
 //       Find nitrogen uptake.
     {
-    if (Str_i_Eq(p.uptake_source, "apsim"))
+    if (Str_i_Eq(rootPart->uptake_source, "apsim"))
         {
         // NIH - note that I use a -ve conversion
         // factor FOR NOW to make it a delta.
-        plant_get_ext_uptakes(p.uptake_source.c_str()
+        plant_get_ext_uptakes(rootPart->uptake_source.c_str()
                              ,c.crop_type.c_str()
                              ,"no3"
                              ,-kg2gm/ha2sm
                              ,0.0
                              ,100.0
-                             ,g.dlt_no3gsm);
+                             ,rootPart->dlt_no3gsm);
 
 
         }
     else if (option == 1)
         {
         cproc_n_uptake1(c.no3_diffn_const
-                       , g.dlayer
+                       , rootPart->dlayer
                        , g.no3gsm_diffn_pot
                        , g.no3gsm_mflow_avail
                        , g.n_fix_pot
@@ -1852,11 +1618,11 @@ void Plant::plant_nit_uptake (int option/* (INPUT) option number*/)
                        , nDemand()
                        , sumNMax()
                        , rootPart->root_depth
-                       , g.dlt_no3gsm);
+                       , rootPart->dlt_no3gsm);
         }
     else if ((option == 2) || (option == 3))
         {
-        cproc_n_uptake3(g.dlayer
+        cproc_n_uptake3(rootPart->dlayer
                         , g.no3gsm_uptake_pot
                         , g.nh4gsm_uptake_pot
                         , g.n_fix_pot
@@ -1864,8 +1630,8 @@ void Plant::plant_nit_uptake (int option/* (INPUT) option number*/)
                         , sumSoilNDemand()
                         , sumNMax()
                         , rootPart->root_depth
-                        , g.dlt_no3gsm
-                        , g.dlt_nh4gsm);
+                        , rootPart->dlt_no3gsm
+                        , rootPart->dlt_nh4gsm);
         }
     else
         {
@@ -1874,39 +1640,24 @@ void Plant::plant_nit_uptake (int option/* (INPUT) option number*/)
     }
 
 
-//+  Purpose
-//       Find nitrogen partitioning.
-
-//+  Mission Statement
+void Plant::plant_nit_partition ()
+//=======================================================================================
 //     Calculate the nitrogen and phosporous partitioning in the plant
-
-//+  Changes
-//      250894 jngh specified and programmed
-void Plant::plant_nit_partition (int option /* (INPUT) option number*/)
     {
-    if (option == 1)
-        {
-
-        legnew_n_partition(g.dlayer
-                           , g.dlt_no3gsm
-                           , g.dlt_nh4gsm
-                           , g.n_fix_pot
-                           , rootPart->root_depth
-                           , &g.n_fix_uptake
-                           , myParts);
-        }
-    else
-        {
-        throw std::invalid_argument ("invalid template option");
-        }
+    legnew_n_partition(rootPart->dlayer
+                      , rootPart->dlt_no3gsm
+                      , rootPart->dlt_nh4gsm
+                      , g.n_fix_pot
+                      , rootPart->root_depth
+                      , &g.n_fix_uptake
+                      , myParts);
 
     if (g.phosphorus_aware)
-    {
+       {
        PlantP_partition(myParts);
+       }
     }
 
-
-    }
 //+  Purpose
 //         Get current Nitrogen stress factors (0-1)
 
@@ -2089,12 +1840,12 @@ void Plant::plant_cleanup ()
     plant_check_bounds(g.cover_dead
                        , g.cover_green
                        , g.cover_sen
-                       , g.dlayer
+                       , rootPart->dlayer
                        , g.plants
                        , rootPart->root_depth);
 
-    plant_totals( g.dlayer
-                , g.dlt_sw_dep
+    plant_totals( rootPart->dlayer
+                , rootPart->dlt_sw_dep
                 , &g.lai_max
                 , &g.n_conc_act_stover_tot
                 , &g.n_conc_crit_stover_tot
@@ -2111,10 +1862,7 @@ void Plant::plant_cleanup ()
     if (g.plant_status == alive &&
         phenology->previousStageName() != phenology->stageName())
         {
-        plant_event (g.dlayer
-                    , rootPart->root_depth
-                    , g.sw_dep
-                    , p.ll_dep);
+        plant_event ();
         if (phenology->inPhase("stress_reporting")) {
             float si1 = divide (g.cswd_photo.getSum(),
                                 phenology->daysInPhase(phenology->previousStageName()), 0.0);
@@ -2415,10 +2163,7 @@ void Plant::plant_totals
 
 //+  Changes
 //     010994 jngh specified and programmed
-void Plant::plant_event(float *g_dlayer           // (INPUT)  thickness of soil layer I (mm)
-    ,float  g_root_depth                  // (INPUT)  depth of roots (mm)
-    ,float *g_sw_dep                      // (INPUT)  soil water content of layer L
-    ,float *p_ll_dep)          // (INPUT)  lower limit of plant-extractab
+void Plant::plant_event()
     {
 //+  Local Variables
     float biomass;                                // total above ground plant wt (g/m^2)
@@ -2451,10 +2196,10 @@ void Plant::plant_event(float *g_dlayer           // (INPUT)  thickness of soil 
 
     n_green_conc_percent = divide (n_green, dm_green, 0.0) * fract2pcnt;
 
-    deepest_layer = find_layer_no (g_root_depth, g_dlayer, max_layer);
+    deepest_layer = find_layer_no (rootPart->root_depth, rootPart->dlayer, max_layer);
     for (layer = 0; layer <= deepest_layer; layer++)
        {
-       pesw[layer] = g_sw_dep[layer] - p_ll_dep[layer];
+       pesw[layer] = rootPart->sw_dep[layer] - rootPart->ll_dep[layer];
        pesw[layer] = l_bound (pesw[layer], 0.0);
        }
     pesw_tot = sum_real_array (pesw, deepest_layer+1);
@@ -2473,42 +2218,11 @@ void Plant::plant_event(float *g_dlayer           // (INPUT)  thickness of soil 
 
 
 
-
-//+  Purpose
-//       Plant water supply
-
-//+  Mission Statement
-//     Plant water supply
-
-//+  Changes
-//      250894 jngh specified and programmed
 void Plant::plant_water_supply (int option /* (INPUT) option number*/)
+//       Plant water supply
     {
-    const char*  my_name = "plant_water_supply" ;
+     rootPart->CalcWaterSupply();
 
-    push_routine (my_name);
-
-    if (option == 1)
-        {
-        cproc_sw_supply1 (this
-                          ,c.sw_lb
-                          ,g.dlayer
-                          ,p.ll_dep
-                          ,g.dul_dep
-                          ,g.sw_dep
-                          ,rootPart->root_depth
-                          ,p.kl
-                          ,g.sw_avail
-                          ,g.sw_avail_pot
-                          ,g.sw_supply);
-        }
-    else
-        {
-        throw std::invalid_argument ("invalid template option");
-        }
-
-    pop_routine (my_name);
-    return;
     }
 
 
@@ -2585,9 +2299,9 @@ void Plant::plant_water_uptake (int option /*(INPUT) option number*/)
 
     push_routine (my_name);
 
-    if (Str_i_Eq(p.uptake_source,"apsim"))
+    if (Str_i_Eq(rootPart->uptake_source,"apsim"))
         {
-        plant_get_ext_uptakes(p.uptake_source.c_str()
+        plant_get_ext_uptakes(rootPart->uptake_source.c_str()
                              ,c.crop_type.c_str()
                              ,"water"
                              ,1.0
@@ -2595,14 +2309,14 @@ void Plant::plant_water_uptake (int option /*(INPUT) option number*/)
                              ,100.0
                              ,ext_sw_supply);
 
-        for (layer = 0; layer < Environment.num_layers; layer++)
+        for (layer = 0; layer < rootPart->num_layers; layer++)
            {
-           g.dlt_sw_dep[layer] = -ext_sw_supply[layer];
+           rootPart->dlt_sw_dep[layer] = -ext_sw_supply[layer];
            }
         }
     else if (option == 1)
         {
-        cproc_sw_uptake1(max_layer, g.dlayer, rootPart->root_depth, g.sw_demand, g.sw_supply, g.dlt_sw_dep);
+        rootPart->doWaterUptake(g.sw_demand);
         }
     else
         {
@@ -2635,7 +2349,7 @@ void Plant::plant_water_distribute (int option /*(INPUT) option number*/)
     if (option == 1)
     {
       float swDemandVeg = g.sw_demand - g.swDemandTEFruit;
-      float swSupply = - sum_real_array(g.dlt_sw_dep, max_layer);
+      float swSupply = - sum_real_array(rootPart->dlt_sw_dep, max_layer);
 
       plant_water_supply_partition (g.sw_demand
                                   , swDemandVeg
@@ -3344,8 +3058,8 @@ void Plant::plant_process ( void )
     if (g.plant_status == alive)
         {
         plant_water_uptake (1);
-        plant_water_stress (2);
-        plant_oxdef_stress (1);
+        plant_water_stress ();
+        g.oxdef_photo = rootPart->oxdef_stress ();
 
         phenology->prepare (Environment);
 
@@ -3356,7 +3070,14 @@ void Plant::plant_process ( void )
         ps.swdef_grainfill = g.swdef_pheno_grainfill;
         ps.remove_biom_pheno = g.remove_biom_pheno;
 
-        phenology->process (Environment, ps);
+        int layer_no_seed = rootPart->find_layer_no (g.sowing_depth);
+        float fasw_seed = divide (rootPart->sw_dep[layer_no_seed] - rootPart->ll_dep[layer_no_seed],
+                                rootPart->dul_dep[layer_no_seed] - rootPart->ll_dep[layer_no_seed], 0.0);
+         fasw_seed = bound (fasw_seed, 0.0, 1.0);
+        float pesw_seed = divide (rootPart->sw_dep[layer_no_seed] - rootPart->ll_dep[layer_no_seed],
+                       rootPart->dlayer[layer_no_seed], 0.0);
+
+        phenology->process (Environment, ps, fasw_seed, pesw_seed);
 
         for (vector<plantPart *>::iterator t = myParts.begin();
              t != myParts.end();
@@ -3370,7 +3091,7 @@ void Plant::plant_process ( void )
         leafPart->leaf_area_stressed (min(g.swdef_expansion, min(g.nfact_expansion, g.pfact_expansion)));
 
         plant_water_distribute (1);
-        plant_bio_water (1);
+        plant_bio_water ();
         plant_bio_rue (1);
 
         plant_dm_init();
@@ -3390,7 +3111,7 @@ void Plant::plant_process ( void )
         plant_bio_distribute ();  // for fruit class - process bio distribute
 
         leafPart->actual ();
-        plant_pod_area (1);
+        fruitPart->calcDlt_pod_area ();
 
         rootPart->root_length_growth();
 
@@ -3400,7 +3121,7 @@ void Plant::plant_process ( void )
         plant_sen_bio (c.dm_senescence_option);
         rootPart->sen_length();
 
-        plant_nit_init (1);
+        fruitPart->doNInit();
         doNDemandGrain();
 
         plant_nit_supply (c.n_uptake_option);
@@ -3418,9 +3139,9 @@ void Plant::plant_process ( void )
            }
 
         plant_sen_nit (c.n_senescence_option);
-        plant_soil_nit_demand (1);
+        plant_soil_nit_demand ();
         plant_nit_uptake (c.n_uptake_option);     // allows preference of N source
-        plant_nit_partition (1);                  // allows output of n fixed
+        plant_nit_partition ();                  // allows output of n fixed
         if (c.n_retrans_option==2)
            {
            // this option requires soil uptake to satisfy grain n before
@@ -3448,11 +3169,11 @@ void Plant::plant_process ( void )
         // crop is alive
         }
 
-    plant_detachment (1);
+    plant_detachment ();
 
     plant_cleanup();
 
-    plant_water_stress (2);
+    plant_water_stress ();
     plant_nit_stress (c.n_stress_option);
 
     pop_routine (my_name);
@@ -3885,10 +3606,7 @@ void Plant::plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments
         {
         for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
            (*part)->onPlantEvent(phenology->stageName());
-        plant_event (g.dlayer
-                   , rootPart->root_depth
-                   , g.sw_dep
-                   , p.ll_dep);
+        plant_event ();
         stageObservers.reset();
         otherObservers.reset();
         }
@@ -3998,10 +3716,7 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
         {
         for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
            (*part)->onPlantEvent(phenology->stageName());
-        plant_event (g.dlayer
-            , rootPart->root_depth
-            , g.sw_dep
-            , p.ll_dep );
+        plant_event ();
         stageObservers.reset();
         otherObservers.reset();
         }
@@ -4310,10 +4025,7 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
         {
         for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
            (*part)->onPlantEvent(phenology->stageName());
-        plant_event (g.dlayer
-            , rootPart->root_depth
-            , g.sw_dep
-            , p.ll_dep );
+        plant_event ();
         stageObservers.reset();
         otherObservers.reset();
         }
@@ -4385,7 +4097,6 @@ void Plant::plant_zero_all_globals (void)
       g.canopy_width = 0.0;
       g.plants = 0.0;
       g.dlt_plants = 0.0;
-      rootPart->root_depth = 0.0;
       g.cover_green = 0.0;
       g.cover_sen = 0.0;
       g.cover_dead = 0.0;
@@ -4408,10 +4119,7 @@ void Plant::plant_zero_all_globals (void)
       g.transp_eff = 0.0;
       g.lai_canopy_green = 0.0;
       g.leaf_no_final = 0.0;
-      fill_real_array (g.dlt_no3gsm, 0.0, max_layer);
-      fill_real_array (g.dlt_nh4gsm, 0.0, max_layer);
-      fill_real_array (g.no3gsm , 0.0, max_layer);
-      fill_real_array (g.nh4gsm , 0.0, max_layer);
+
 
       g.grain_n_supply = 0.0;
       g.n_fix_pot = 0.0;
@@ -4419,22 +4127,14 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (g.nh4gsm_uptake_pot, 0.0, max_layer);
       g.n_fix_uptake = 0.0;
       g.n_fixed_tops = 0.0;
-      fill_real_array (g.dlayer , 0.0, max_layer);
-      fill_real_array (g.dlt_sw_dep, 0.0, max_layer);
-      fill_real_array (g.ll15_dep, 0.0, max_layer);
-      fill_real_array (g.dul_dep , 0.0, max_layer);
-      fill_real_array (g.sat_dep, 0.0, max_layer);
-      fill_real_array (g.bd, 0.0, max_layer);
-      fill_real_array (g.sw_dep , 0.0, max_layer);
-      Environment.num_layers = 0;
+
+
       g.sw_demand = 0.0;
       g.sw_demand_te = 0.0;
       g.swDemandTEFruit = 0.0;
       g.swSupplyFruit   = 0.0;
       g.swSupplyVeg   = 0.0;
-      fill_real_array (g.sw_avail_pot, 0.0, max_layer);
-      fill_real_array (g.sw_avail, 0.0, max_layer);
-      fill_real_array (g.sw_supply , 0.0, max_layer);
+
 
       g.transpiration_tot = 0.0;
       g.n_uptake_tot = 0.0;
@@ -4446,10 +4146,8 @@ void Plant::plant_zero_all_globals (void)
       g.ext_n_demand = 0.0;
       g.ext_sw_demand = 0.0;
 
-      fill_real_array (p.kl, 0.0, max_layer);
-      fill_real_array (p.ll_dep, 0.0, max_layer);
 
-      p.uptake_source = "";
+
       p.eo_crop_factor = 0.0;
 
       //       plant Constants
@@ -4514,11 +4212,7 @@ void Plant::plant_zero_all_globals (void)
       c.num_factors = 0;
       c.num_temp_other = 0;
       c.num_weighted_temp = 0;
-      c.kl_ub = 0.0;
-      c.sw_dep_ub = 0.0;
-      c.sw_dep_lb = 0.0;
-      c.sw_ub = 0.0;
-      c.sw_lb = 0.0;
+
       c.no3_ub = 0.0;
       c.no3_lb = 0.0;
       c.nh4_ub = 0.0;
@@ -4670,14 +4364,11 @@ void Plant::plant_zero_daily_variables ()
         t++)
        (*t)->zeroDeltas();
 
-    fill_real_array (g.dlt_no3gsm , 0.0, max_layer);
-    fill_real_array (g.dlt_nh4gsm , 0.0, max_layer);
-    fill_real_array (g.dlt_sw_dep , 0.0, max_layer);
+
+
     g.grain_n_supply = 0.0;
 
-    fill_real_array (g.sw_avail , 0.0, max_layer);
-    fill_real_array (g.sw_avail_pot , 0.0, max_layer);
-    fill_real_array (g.sw_supply , 0.0, max_layer);
+
 
     fill_real_array (g.no3gsm_uptake_pot, 0.0, max_layer);
     fill_real_array (g.nh4gsm_uptake_pot, 0.0, max_layer);
@@ -4745,26 +4436,33 @@ void Plant::plant_init (void)
     vector<float> ll;
     if (parent->readParameter ("parameters"
                               , "ll"//, "()"
-                              , ll, 0.0, c.sw_ub, true))
+                              , ll, 0.0, rootPart->sw_ub, true))
        {
        for (unsigned int layer = 0; layer != ll.size(); layer++)
-          p.ll_dep[layer] = ll[layer]*g.dlayer[layer];
+          rootPart->ll_dep[layer] = ll[layer]*rootPart->dlayer[layer];
 
-       if ((int)ll.size() != Environment.num_layers)
+       if ((int)ll.size() != rootPart->num_layers)
+          {
+          char  msg[200];                               // output string
+          sprintf (msg, "%7d %7d", rootPart->num_layers, ll.size());
+          parent->writeString (msg);
           parent->warningError ("LL parameter doesn't match soil profile?");
+          }
        }
     else
        {
        unsigned int id = parent->addRegistration(RegistrationType::get,
                                                  "ll15", floatArrayType,
                                                  "", "");
-       parent->getVariable(id, ll, 0.0, c.sw_ub, true);
+       parent->getVariable(id, ll, 0.0, rootPart->sw_ub, true);
        if (ll.size() == 0)
           throw std::runtime_error("No Crop Lower Limit found");
 
-       for (unsigned int i=0; i< ll.size(); i++) p.ll_dep[i] = ll[i]*g.dlayer[i];
+       for (unsigned int i=0; i< ll.size(); i++) rootPart->ll_dep[i] = ll[i]*rootPart->dlayer[i];
        parent->writeString ("   Using externally supplied Lower Limit (ll15)");
        }
+
+//    rootPart->readRootParameters(parent, "parameters");
 
     doPInit(parent);
     }
@@ -4789,7 +4487,6 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
 //+  Local Variables
     char  msg[200];                               // output string
     FString  dummy;                               // dummy variable
-    float  sowing_depth;                          // sowing depth for reporting
 
 //- Implementation Section ----------------------------------
 
@@ -4845,11 +4542,11 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
                }
            bound_check_real_var(this,g.plants, 0.0, 1000.0, "plants");
 
-           if (incomingApsimVariant.get("sowing_depth", protocol::DTsingle, false, sowing_depth) == false)
+           if (incomingApsimVariant.get("sowing_depth", protocol::DTsingle, false, g.sowing_depth) == false)
                {
                throw std::invalid_argument("sowing_depth not specified");
                }
-           bound_check_real_var(this,sowing_depth, 10.0, 200.0, "sowing_depth");
+           bound_check_real_var(this,g.sowing_depth, 10.0, 200.0, "sowing_depth");
 
            if (incomingApsimVariant.get("row_spacing", protocol::DTsingle, false, g.row_spacing) == false)
                {
@@ -4886,7 +4583,7 @@ void Plant::plant_start_crop (protocol::Variant &v/*(INPUT) message arguments*/)
            parent->writeString ("    ------------------------------------------------");
 
            sprintf(msg, "   %7d%7.1f%7.1f%7.1f%6.1f%6.1f %s"
-                  , Environment.day_of_year, sowing_depth
+                  , Environment.day_of_year, g.sowing_depth
                   , g.plants, g.row_spacing
                   , g.skip_row, g.skip_plant, g.cultivar.c_str());
            parent->writeString (msg);
@@ -4998,15 +4695,7 @@ void Plant::plant_read_root_params ()
 //  Get root profile parameters
     {
     const char*  section_name = "parameters" ;
-
-    //+  Local Variables
-    vector<float> ll ;   // lower limit of plant-extractable
-                                                 // soil water for soil layer l
-                                                 // (mm water/mm soil)
-    float dep_tot, esw_tot;                      // total depth of soil & ll
     char  msg[200];
-
-    parent->writeString (" - reading root profile parameters");
 
     //       cproc_sw_demand_bound
     if (parent->readParameter (section_name
@@ -5017,72 +4706,8 @@ void Plant::plant_read_root_params ()
         p.eo_crop_factor = c.eo_crop_factor_default;
         }
 
-    p.uptake_source = parent->readParameter (section_name, "uptake_source");
-    if (p.uptake_source == "")
-        {
-        p.uptake_source = "calc";
-        }
-
-    if (parent->readParameter (section_name
-                              , "ll"//, "()"
-                              , ll, 0.0, c.sw_ub, true))
-       {
-       for (unsigned int layer = 0; layer != ll.size(); layer++)
-          p.ll_dep[layer] = ll[layer]*g.dlayer[layer];
-
-       if ((int)ll.size() != Environment.num_layers)
-          throw std::runtime_error ("Size of LL array doesn't match soil profile.");
-       }
-    else
-       {
-       unsigned int id = parent->addRegistration(RegistrationType::get,
-                                                 "ll15", floatArrayType,
-                                                 "", "");
-       parent->getVariable(id, ll, 0.0, c.sw_ub, true);
-       if (ll.size() == 0)
-          throw std::runtime_error("No Crop Lower Limit found");
-
-       for (unsigned int i=0; i< ll.size(); i++) p.ll_dep[i] = ll[i]*g.dlayer[i];
-       parent->writeString ("   Using externally supplied Lower Limit (ll15)");
-       }
-
-    int num_kls = 0;
-    parent->readParameter (section_name
-               , "kl"//, "()"
-               , p.kl, num_kls
-               , 0.0, c.kl_ub);
-    if (num_kls != Environment.num_layers)
-       throw std::runtime_error  ("Size of KL array doesn't match soil profile.");
-
     rootPart->readRootParameters(parent, section_name);
 
-    // report
-    parent->writeString ("                   Root Profile");
-    parent->writeString ("    -----------------------------------------------");
-    parent->writeString ("     Layer       Kl           Lower    Exploration");
-    parent->writeString ("     Depth     Factor         Limit      Factor  ");
-    parent->writeString ("     (mm)         ()        (mm/mm)       (0-1)");
-    parent->writeString ("    -----------------------------------------------");
-
-    dep_tot = esw_tot = 0.0;
-    for (int layer = 0; layer < Environment.num_layers; layer++)
-       {
-       sprintf (msg, "%9.1f%10.3f%15.3f%12.3f"
-          , g.dlayer[layer]
-          , p.kl[layer]
-          , ll[layer]
-          , rootPart->xf[layer]);
-       parent->writeString (msg);
-       dep_tot += g.dlayer[layer];
-       esw_tot += g.dul_dep[layer] - p.ll_dep[layer];
-       }
-    parent->writeString ("    -----------------------------------------------");
-    sprintf (msg
-          , "    Extractable SW: %5.0fmm in %5.0fmm total depth (%3.0f%%)."
-          , esw_tot
-          , dep_tot
-          , fract2pcnt * divide(esw_tot, dep_tot, 0.0));
-    parent->writeString (msg);
 
     sprintf (msg, "%s%5.1f%s"
         ,"    Crop factor for bounding water use is set to "
@@ -5351,35 +4976,32 @@ void Plant::plant_get_other_variables ()
     // Soilwat2
     parent->getVariable(id.eo, g.eo, 0.0, 20.0);
 
-    values.clear();
-    parent->getVariable(id.sw_dep, values, c.sw_dep_lb, c.sw_dep_ub);
-    for (unsigned int i=0; i< values.size(); i++) {
-    	g.sw_dep[i] = values[i];
-    }
+    rootPart->getOtherVariables(parent);
+
     //assert (values.size() == Environment.num_layers);
 
     values.clear();
     if (!parent->getVariable(id.no3, values, c.no3_lb, c.no3_ub, true))
         {
         // we have no N supply - make non-limiting.
-        for (int i = 0; i < Environment.num_layers; i++)
+        for (int i = 0; i < rootPart->num_layers; i++)
            values.push_back(10000.0);
         }
-    for (int i = 0; i < Environment.num_layers; i++)
+    for (int i = 0; i < rootPart->num_layers; i++)
        {
-       g.no3gsm[i] = values[i] * kg2gm /ha2sm;
+       rootPart->no3gsm[i] = values[i] * kg2gm /ha2sm;
        }
 
     values.clear();
     if (!parent->getVariable(id.nh4, values, c.nh4_lb, c.nh4_ub, true))
         {
         // we have no N supply - make non-limiting.
-        for (int i = 0; i < Environment.num_layers; i++)
+        for (int i = 0; i < rootPart->num_layers; i++)
            values.push_back(10000.0);
         }
-    for (int i = 0; i < Environment.num_layers; i++)
+    for (int i = 0; i < rootPart->num_layers; i++)
        {
-       g.nh4gsm[i] = values[i] * kg2gm /ha2sm;
+       rootPart->nh4gsm[i] = values[i] * kg2gm /ha2sm;
        }
 
     if (!parent->getVariable(id.co2, g.co2, 0.0, 1500.0, true))
@@ -5390,9 +5012,6 @@ void Plant::plant_get_other_variables ()
     //Environment.num_layers = count_of_real_vals(g.dlayer, max_layer);
     //Environment.dlayer = vector<float>(g.dlayer, g.dlayer + Environment.num_layers);
 
-    Environment.sw_dep = vector<float>(g.sw_dep, g.sw_dep + Environment.num_layers);
-    Environment.ll_dep = vector<float>(p.ll_dep, p.ll_dep + Environment.num_layers);
-    Environment.dul_dep = vector<float>(g.dul_dep, g.dul_dep + Environment.num_layers);
     pop_routine (my_name);
     }
 
@@ -5475,22 +5094,21 @@ void Plant::plant_set_other_variables ()
 
     plant_update_other_variables ();
 
-    if (Str_i_Eq(p.uptake_source, "calc"))
+    if (Str_i_Eq(rootPart->uptake_source, "calc"))
         {
         //!!! perhaps we should get number of layers at init and keep it
-        num_layers = Environment.num_layers;
+        num_layers = rootPart->num_layers;
 
-        for (layer = 0; layer< num_layers;layer++) {scratch[layer] = g.dlt_no3gsm[layer] * gm2kg /sm2ha;}
+        for (layer = 0; layer< num_layers;layer++) {scratch[layer] = rootPart->dlt_no3gsm[layer] * gm2kg /sm2ha;}
         protocol::vector<float> dlt_no3_values(scratch, scratch+num_layers);
         parent->setVariable(id.dlt_no3, dlt_no3_values);
 
-        for (layer = 0; layer< num_layers;layer++) {scratch[layer] = g.dlt_nh4gsm[layer] * gm2kg /sm2ha;}
+        for (layer = 0; layer< num_layers;layer++) {scratch[layer] = rootPart->dlt_nh4gsm[layer] * gm2kg /sm2ha;}
         protocol::vector<float> dlt_nh4_values(scratch, scratch+num_layers);
         parent->setVariable(id.dlt_nh4, dlt_nh4_values);
 
-        for (layer = 0; layer< num_layers;layer++) {scratch[layer] = g.dlt_sw_dep[layer];}
-        protocol::vector<float> dlt_sw_dep_values(scratch, scratch+num_layers);
-        parent->setVariable(id.dlt_sw_dep, dlt_sw_dep_values);
+        rootPart->UpdateOtherVariables(parent);
+
         }
     else
         {
@@ -5594,15 +5212,7 @@ void Plant::plant_read_constants ( void )
     //string scratch = parent->readParameter (section_name, "part_names");
     //Split_string(scratch, " ", c.part_names);
 
-    parent->readParameter (section_name
-    , "sw_ub"//, "(mm/mm)"
-    , c.sw_ub
-    , 0.0, 1.0);
 
-    parent->readParameter (section_name
-    , "sw_lb"//, "(mm/mm)"
-    , c.sw_lb
-    , 0.0, 1.0);
 
 //    plant_get_other_variables
 
@@ -5658,15 +5268,7 @@ void Plant::plant_read_constants ( void )
     , 0.0, 10000.0);
 
 // 8th block
-    parent->readParameter (section_name
-    , "sw_dep_ub"//, "(mm)"
-    , c.sw_dep_ub
-    , 0.0, 10000.0);
 
-    parent->readParameter (section_name
-    , "sw_dep_lb"//, "(mm)"
-    , c.sw_dep_lb
-    , 0.0, 10000.0);
 
     parent->readParameter (section_name
     , "no3_ub"//, "(kg/ha)"
@@ -5730,7 +5332,7 @@ void Plant::plant_prepare (void)
        (*t)->prepare();
 
     plant_nit_stress (c.n_stress_option);
-    plant_temp_stress (1);
+    plant_temp_stress ();
     plant_light_supply_partition (1);
     plant_bio_rue (1);
     plant_transpiration_eff (1);
@@ -5987,11 +5589,7 @@ void Plant::plant_read_species_const ()
                       , c.leaf_no_pot_option
                       , 1, 2);
 
-     //    plant_get_root_params
-    parent->readParameter (search_order
-                   ,"kl_ub"//, "()"
-                   , c.kl_ub
-                   , 0.0, 1000.0);
+
 
      parent->readParameter (search_order
                         , "n_retrans_option"//, "()"
@@ -6395,58 +5993,9 @@ void Plant::doNewProfile(unsigned &, unsigned &, protocol::Variant &v /* (INPUT)
 //- Implementation Section ----------------------------------
     push_routine (myname);
 
-#ifdef PROTOCOL_WORKS_PROPERLY
-    protocol::new_profileType profile;
-    v.unpack(profile);
-    for (unsigned layer = 0; layer != profile.dlayer.size(); layer++)
-       {
-       dlayer[layer] = profile.dlayer[layer];
-       g.ll15_dep[layer] = profile.ll15_dep[layer];
-       g.dul_dep[layer] = profile.dul_dep[layer];
-       g.sat_dep[layer] = profile.sat_dep[layer];
-       g.sw_dep[layer] = profile.sw_dep[layer];
-       g.bd[layer] = profile.bd[layer];
-       }
-#else
-    protocol::ApsimVariant av(parent);
-    av.aliasTo(v.getMessageData());
-    protocol::vector<float> scratch;
-    av.get("dlayer", protocol::DTsingle, true, scratch);
 
-    vector<float> previousLayers = Environment.dlayer;                     // Save copy for later
-    Environment.dlayer.clear();
-    for (unsigned layer = 0; layer != scratch.size(); layer++)
-       {
-       g.dlayer[layer] = scratch[layer];
-       Environment.dlayer.push_back(scratch[layer]);
-       }
-    Environment.num_layers = scratch.size();
+rootPart->doNewProfile(v);
 
-    av.get("ll15_dep", protocol::DTsingle, true, scratch);
-    for (unsigned layer = 0; layer != scratch.size(); layer++) { g.ll15_dep[layer] = scratch[layer]; }
-    av.get("dul_dep", protocol::DTsingle, true, scratch);
-    for (unsigned layer = 0; layer != scratch.size(); layer++) { g.dul_dep[layer] = scratch[layer]; }
-    av.get("sat_dep", protocol::DTsingle, true, scratch);
-    for (unsigned layer = 0; layer != scratch.size(); layer++) { g.sat_dep[layer] = scratch[layer]; }
-    av.get("sw_dep", protocol::DTsingle, true, scratch);
-    for (unsigned layer = 0; layer != scratch.size(); layer++) { g.sw_dep[layer] = scratch[layer]; }
-    av.get("bd", protocol::DTsingle, true, scratch);
-    for (unsigned layer = 0; layer != scratch.size(); layer++) { g.bd[layer] = scratch[layer]; }
-
-#endif
-    // dlayer may be changed from its last setting due to erosion
-    profile_depth = sum(Environment.dlayer);
-    if (rootPart->root_depth > profile_depth)
-        {
-        rootPart->redistribute( previousLayers,  Environment.dlayer, profile_depth);
-        }
-
-    // NIH - don't like changing parameter value here.
-    for (unsigned layer = 0; layer < Environment.dlayer.size(); layer++)
-       {
-       p.ll_dep[layer] = divide (p.ll_dep[layer], Environment.dlayer[layer], 0.0)
-                              * Environment.dlayer[layer];
-       }
 
     pop_routine (myname);
     return;
@@ -6597,59 +6146,14 @@ void Plant::get_green_biomass_n(protocol::Component *system, protocol::QueryValu
 
 
 
-void Plant::get_ep(protocol::Component *system, protocol::QueryValueData &qd)
-{
-    float sum = 0.0;
-    int num_layers = Environment.num_layers;
-    for (int layer = 0; layer < num_layers; layer++)
-        {
-        sum = sum + fabs(g.dlt_sw_dep[layer]);
-        }
-    system->sendVariable(qd, sum);
-}
-
-void Plant::get_sw_uptake(protocol::Component *system, protocol::QueryValueData &qd)
-{
-    float rwu[max_layer];
-    int num_layers = Environment.num_layers;
-    for (int layer = 0; layer < num_layers; layer++)
-        {
-        rwu[layer] = fabs(g.dlt_sw_dep[layer]);
-        }
-    system->sendVariable(qd, protocol::vector<float>(rwu, rwu+num_layers));
-}
-
-
-
 void Plant::get_cep(protocol::Component *system, protocol::QueryValueData &qd)
 {
     system->sendVariable(qd, (float)fabs(g.transpiration_tot));
 }
 
 
-void Plant::get_sw_supply(protocol::Component *system, protocol::QueryValueData &qd)
-{
-    int deepest_layer = Environment.find_layer_no (rootPart->root_depth);
-    float sw_supply_sum = sum_real_array (g.sw_supply, deepest_layer+1);
-    system->sendVariable(qd, sw_supply_sum);
-}
 
-void Plant::get_sw_supply_layr(protocol::Component *system, protocol::QueryValueData &qd)
-{
-    int num_layers = Environment.num_layers;
-    system->sendVariable(qd, protocol::vector<float>(g.sw_supply, g.sw_supply+num_layers));
-}
 
-void Plant::get_esw_layr(protocol::Component *system, protocol::QueryValueData &qd)
-{
-    float esw_layr[max_layer];
-    int num_layers = Environment.num_layers;
-    for (int layer = 0; layer < num_layers; layer++)
-       {
-       esw_layr[layer] = l_bound (g.sw_dep[layer] - p.ll_dep[layer], 0.0);
-       }
-    system->sendVariable(qd, protocol::vector<float>(esw_layr,esw_layr+num_layers));
-}
 
 // plant nitrogen
 void Plant::get_n_conc_stover(protocol::Component *system, protocol::QueryValueData &qd)
@@ -6683,14 +6187,6 @@ void Plant::get_n_uptake_stover(protocol::Component *system, protocol::QueryValu
 }
 
 
-void Plant::get_no3_tot(protocol::Component *system, protocol::QueryValueData &qd)
-{
-    int deepest_layer = Environment.find_layer_no (rootPart->root_depth);
-    float no3gsm_tot = sum_real_array (g.no3gsm, deepest_layer+1);
-    system->sendVariable(qd, no3gsm_tot);
-}
-
-
 void Plant::get_n_demand(protocol::Component *system, protocol::QueryValueData &qd)
 {
     float n_demand = nDemand();
@@ -6710,9 +6206,9 @@ void Plant::get_n_demanded(protocol::Component *systemInterface, protocol::Query
 
 void Plant::get_n_supply_soil(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    int deepest_layer = Environment.find_layer_no (rootPart->root_depth);
-    float n_uptake_sum = sum_real_array (g.dlt_no3gsm, deepest_layer+1)
-                       +  sum_real_array (g.dlt_nh4gsm, deepest_layer+1);
+    int deepest_layer = rootPart->find_layer_no (rootPart->root_depth);
+    float n_uptake_sum = sum_real_array (rootPart->dlt_no3gsm, deepest_layer+1)
+                       +  sum_real_array (rootPart->dlt_nh4gsm, deepest_layer+1);
     if (n_uptake_sum > 0)
        n_uptake_sum = - n_uptake_sum;
     else if (n_uptake_sum < 0)
@@ -6749,50 +6245,30 @@ void Plant::get_sw_demand_te(protocol::Component *system, protocol::QueryValueDa
 
 void Plant::get_no3gsm_uptake_pot(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    int num_layers = Environment.num_layers;
+    int num_layers = rootPart->num_layers;
     system->sendVariable(qd, protocol::vector<float>(g.no3gsm_uptake_pot, g.no3gsm_uptake_pot+num_layers));
 }
 
 void Plant::get_nh4gsm_uptake_pot(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    int num_layers = Environment.num_layers;
+    int num_layers = rootPart->num_layers;
     system->sendVariable(qd, protocol::vector<float>(g.nh4gsm_uptake_pot, g.nh4gsm_uptake_pot+num_layers));
 }
 
 void Plant::get_no3_swfac(protocol::Component *system, protocol::QueryValueData &qd)
 {
     float swfac[max_layer];
-    int num_layers = Environment.num_layers;
+    int num_layers = rootPart->num_layers;
     for (int layer=0; layer < num_layers; layer++)
         {
-        swfac[layer] = pow(divide(g.sw_avail[layer],g.sw_avail_pot[layer],0.0), 2);
+        swfac[layer] = pow(divide(rootPart->sw_avail[layer],rootPart->sw_avail_pot[layer],0.0), 2);
         swfac[layer] = bound(swfac[layer],0.0,1.0);
         }
 
     system->sendVariable(qd, protocol::vector<float>(swfac, swfac+num_layers));
 }
 
-void Plant::get_no3_uptake(protocol::Component *system, protocol::QueryValueData &qd)
-{
-    float no3_uptake[max_layer];
-    fill_real_array(no3_uptake,0.0, max_layer);
-    int num_layers = Environment.num_layers;
-    for (int layer = 0; layer <= num_layers; layer++) {
-       no3_uptake[layer] =  g.dlt_no3gsm[layer] * gm2kg/sm2ha;
-    }
-    system->sendVariable(qd, protocol::vector<float>(no3_uptake, no3_uptake+num_layers));
-}
 
-void Plant::get_nh4_uptake(protocol::Component *system, protocol::QueryValueData &qd)
-{
-    float nh4_uptake[max_layer];
-    fill_real_array(nh4_uptake,0.0, max_layer);
-    int num_layers = Environment.num_layers;
-    for (int layer = 0; layer <= num_layers; layer++) {
-       nh4_uptake[layer] =  g.dlt_nh4gsm[layer] * gm2kg/sm2ha;
-    }
-    system->sendVariable(qd, protocol::vector<float>(nh4_uptake, nh4_uptake+num_layers));
-}
 
 void Plant::get_swstress_pheno(protocol::Component *systemInterface, protocol::QueryValueData &qd)
 {
@@ -7283,23 +6759,7 @@ void Plant::get_dlt_p_sen(protocol::Component *systemInterface, protocol::QueryV
    systemInterface->sendVariable(qd, dlt_p_sen);
 }
 
-void Plant::get_ll_dep(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-   {
-   vector<float> ll_dep;
-   int num_layers = count_of_real_vals (p.ll_dep, max_layer);
-   for(int layer = 0; layer <= num_layers; layer++)
-      ll_dep.push_back(p.ll_dep[layer]);
-   systemInterface->sendVariable(qd, ll_dep);
-}
 
-void Plant::get_ll(protocol::Component *systemInterface, protocol::QueryValueData &qd)
-   {
-   vector<float> ll;
-   int num_layers = count_of_real_vals (p.ll_dep, max_layer);
-   for(int layer = 0; layer <= num_layers; layer++)
-      ll.push_back(p.ll_dep[layer] / g.dlayer[layer]);
-   systemInterface->sendVariable(qd, ll);
-}
 
 
 float Plant::getStageCode(void) const {return phenology->stageCode();}
