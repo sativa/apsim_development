@@ -87,7 +87,7 @@ float GenericPhenology::TT(const environment_t &e)
    return linint_3hrly_temp (e.maxt, e.mint, &y_tt);
    }
 
-void GenericPhenology::process (const environment_t &e, const pheno_stress_t &ps)
+void GenericPhenology::process (const environment_t &e, const pheno_stress_t &ps,float fasw_seed, float pesw_seed)
 //=======================================================================================
 //     Use temperature, photoperiod and genetic characteristics
 //     to determine when the crop begins a new growth phase.
@@ -108,7 +108,7 @@ void GenericPhenology::process (const environment_t &e, const pheno_stress_t &ps
          {
          phase_devel = 0.999;
          }
-      else if ( plant_germination(pesw_germ, sowing_depth, e) )
+      else if ( plant_germination(pesw_germ, sowing_depth, pesw_seed) )
          {
       	phase_devel =  1.999;
          }
@@ -116,11 +116,6 @@ void GenericPhenology::process (const environment_t &e, const pheno_stress_t &ps
       }
    else if (inPhase("germination"))
       {
-      int layer_no_seed = e.find_layer_no (sowing_depth);
-      float fasw_seed = divide (e.sw_dep[layer_no_seed] - e.ll_dep[layer_no_seed],
-                                e.dul_dep[layer_no_seed] - e.ll_dep[layer_no_seed], 0.0);
-      fasw_seed = bound (fasw_seed, 0.0, 1.0);
-
       dlt_tt_phenol = dlt_tt * rel_emerg_rate[fasw_seed];
       const pPhase *current = phases[currentStage];
       float a =  current->getTT() + dlt_tt_phenol;
