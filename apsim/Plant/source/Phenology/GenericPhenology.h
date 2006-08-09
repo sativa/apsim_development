@@ -12,7 +12,7 @@ class GenericPhenology : public CropPhenology
    public:
       GenericPhenology(PlantComponent *s, plantInterface *p) : CropPhenology(s, p) {};
       void prepare(const environment_t &e);
-      void process(const environment_t &e, const pheno_stress_t &ps);
+      void process(const environment_t &e, const pheno_stress_t &ps, float fasw_seed, float pesw_seed);
       void readConstants (protocol::Component *, const string &);
       void readSpeciesParameters (protocol::Component *, std::vector<string> &);
       void readCultivarParameters (protocol::Component *, const string &);
