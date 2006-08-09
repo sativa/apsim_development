@@ -259,6 +259,7 @@ bool TApsimFileReader::readNextRecord(istream& in,
       // get rid of missing values - assume a * is a missing value.
       for (unsigned i = 0; i != fieldValues.size(); i++)
          {
+         replaceAll(fieldValues[i], "\"", "");
          if (fieldValues[i] == "*")
             fieldValues[i] = "";
          }
