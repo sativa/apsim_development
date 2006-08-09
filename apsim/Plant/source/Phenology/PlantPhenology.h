@@ -84,7 +84,7 @@ class PlantPhenology : public plantThing {
    virtual void readCultivarParameters (protocol::Component *, const string &) {}; // read cv parameters from sowing line
 
    virtual void prepare(const environment_t &sw);
-   virtual void process(const environment_t &, const pheno_stress_t &) = 0;
+   virtual void process(const environment_t &, const pheno_stress_t &, float fasw_seed, float pesw_seed) = 0;
    virtual void update(void);
 
    bool on_day_of(const string &);
