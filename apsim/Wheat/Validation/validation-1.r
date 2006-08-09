@@ -21,7 +21,7 @@ groups<-list(c("biomass_wt", "grain_wt", "head_wt"),
              c("leaf_n", "stem_n"),
              c("stage"),
              c("swdef_photo", "swdef_expan"),
-             c("nfact_pheno", "nfact_expan"))
+             c("nfact_photo", "nfact_expan"))
 headings<-list(c("Biomass"),
              c("Partitioning"),
              c("Canopy"),
