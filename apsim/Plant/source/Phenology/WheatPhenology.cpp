@@ -163,7 +163,7 @@ void WheatPhenology::writeCultivarInfo (PlantComponent *systemInterface)
 // via the dltStage calculation in stage_devel(), or
 // via thermal time accumulation
 
-void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
+void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps, float fasw_seed, float pesw_seed)
    {
    float phase_devel, new_stage;
 
@@ -179,7 +179,7 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
          {
          phase_devel = 0.999;
          }
-      else if ( plant_germination(pesw_germ, sowing_depth, sw) )
+      else if ( plant_germination(pesw_germ, sowing_depth, pesw_seed) )
          {
          phase_devel = 1.999;
          }
@@ -191,11 +191,6 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps)
       }
    else if (inPhase("germination"))
       {
-      int layer_no_seed = sw.find_layer_no (sowing_depth);
-      float fasw_seed = divide (sw.sw_dep[layer_no_seed] - sw.ll_dep[layer_no_seed],
-                                sw.dul_dep[layer_no_seed] - sw.ll_dep[layer_no_seed], 0.0);
-      fasw_seed = bound (fasw_seed, 0.0, 1.0);
-
       dlt_tt_phenol = dlt_tt *
                        min(vern_eff, photop_eff) *
                        rel_emerg_rate[fasw_seed];
