@@ -25,6 +25,10 @@
         <variable name="sw_dep" variablename="sw_dep" arrayspec="()" description="Soil water - layered (mm)" array="T" />
         <variable name="n_conc_grain" variablename="n_conc_grain" module="wheat" arrayspec=" " description="N concentration in grain" />
         <variable name="grain_protein" variablename="grain_protein" module="wheat" arrayspec=" " description="grain protein content" />
+        <variable name="swdef_photo" variablename="swdef_photo" module="wheat" arrayspec=" " description="Soil water deficit in photosynthesis" />
+        <variable name="swdef_expan" variablename="swdef_expan" module="wheat" arrayspec=" " description="Soil water deficit in leaf expansion" />
+        <variable name="nfact_photo" variablename="nfact_photo" module="wheat" arrayspec=" " description="N factor for photosynthesis" />
+        <variable name="nfact_expan" variablename="nfact_expan" module="wheat" arrayspec=" " description="N factor for leaf expansion" />
       </variables>
       <events>
         <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
@@ -5948,6 +5952,23 @@
         </script>
         <script name="endofday" />
       </logic>
+      <operations>
+        <operation condition="start_of_day">
+          <date>3-Jun-1993</date>
+          <action>stubble add_surfaceom name = lucerne, type = lucerne (), mass = 3560.0 (), N = 108.8 ()</action>
+        </operation>
+        <operation condition="start_of_day" name="operation{2}">
+          <date>3-Jun-1993</date>
+          <action> stubble tillage type = default</action>
+        </operation>
+      </operations>
+      <surfaceom name="Stubble">
+        <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
+        <type description="Organic Matter type">wheat</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">120</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
     </area>
   </simulation>
   <simulation name="Wheat_APS14_LucN040">
@@ -6092,6 +6113,23 @@
         </script>
         <script name="endofday" />
       </logic>
+      <surfaceom name="Stubble">
+        <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
+        <type description="Organic Matter type">wheat</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">120</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+      <operations>
+        <operation condition="start_of_day">
+          <date>3-Jun-1993</date>
+          <action>stubble add_surfaceom name = lucerne, type = lucerne (), mass = 3560.0 (), N = 108.8 ()</action>
+        </operation>
+        <operation condition="start_of_day" name="operation{2}">
+          <date>3-Jun-1993</date>
+          <action> stubble tillage type = default</action>
+        </operation>
+      </operations>
     </area>
   </simulation>
   <simulation name="Wheat_APS14_LucN080">
@@ -6236,6 +6274,23 @@
         </script>
         <script name="endofday" />
       </logic>
+      <surfaceom name="Stubble">
+        <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
+        <type description="Organic Matter type">wheat</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">120</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+      <operations>
+        <operation condition="start_of_day">
+          <date>3-Jun-1993</date>
+          <action>stubble add_surfaceom name = lucerne, type = lucerne (), mass = 3560.0 (), N = 108.8 ()</action>
+        </operation>
+        <operation condition="start_of_day" name="operation{2}">
+          <date>3-Jun-1993</date>
+          <action> stubble tillage type = default</action>
+        </operation>
+      </operations>
     </area>
   </simulation>
   <simulation name="Wheat_APS14_LucN200">
@@ -6386,6 +6441,23 @@
         </script>
         <script name="endofday" />
       </logic>
+      <surfaceom name="Stubble">
+        <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
+        <type description="Organic Matter type">wheat</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">120</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+      <operations>
+        <operation condition="start_of_day">
+          <date>3-Jun-1993</date>
+          <action>stubble add_surfaceom name = lucerne, type = lucerne (), mass = 3560.0 (), N = 108.8 ()</action>
+        </operation>
+        <operation condition="start_of_day" name="operation{2}">
+          <date>3-Jun-1993</date>
+          <action> stubble tillage type = default</action>
+        </operation>
+      </operations>
     </area>
   </simulation>
   <simulation name="Wheat_APS14_StrawN000">
@@ -6530,6 +6602,23 @@
         </script>
         <script name="endofday" />
       </logic>
+      <surfaceom name="Stubble">
+        <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
+        <type description="Organic Matter type">wheat</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">120</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+      <operations>
+        <operation condition="start_of_day">
+          <date>3-Jun-1993</date>
+          <action>stubble add_surfaceom name = barley, type = barley (), mass = 3584.0 (), N = 28.8 ()</action>
+        </operation>
+        <operation condition="start_of_day" name="operation{2}">
+          <date>3-Jun-1993</date>
+          <action> stubble tillage type = default</action>
+        </operation>
+      </operations>
     </area>
   </simulation>
   <simulation name="Wheat_APS14_StrawN040">
@@ -6674,6 +6763,23 @@
         </script>
         <script name="endofday" />
       </logic>
+      <surfaceom name="Stubble">
+        <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
+        <type description="Organic Matter type">wheat</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">120</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+      <operations>
+        <operation condition="start_of_day">
+          <date>3-Jun-1993</date>
+          <action>stubble add_surfaceom name = barley, type = barley (), mass = 3584.0 (), N = 28.8 ()</action>
+        </operation>
+        <operation condition="start_of_day" name="operation{2}">
+          <date>3-Jun-1993</date>
+          <action> stubble tillage type = default</action>
+        </operation>
+      </operations>
     </area>
   </simulation>
   <simulation name="Wheat_APS14_StrawN080">
@@ -6818,6 +6924,23 @@
         </script>
         <script name="endofday" />
       </logic>
+      <surfaceom name="Stubble">
+        <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
+        <type description="Organic Matter type">wheat</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">120</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+      <operations>
+        <operation condition="start_of_day">
+          <date>3-Jun-1993</date>
+          <action>stubble add_surfaceom name = barley, type = barley (), mass = 3584.0 (), N = 28.8 ()</action>
+        </operation>
+        <operation condition="start_of_day" name="operation{2}">
+          <date>3-Jun-1993</date>
+          <action> stubble tillage type = default</action>
+        </operation>
+      </operations>
     </area>
   </simulation>
   <simulation name="Wheat_APS14_StrawN200">
@@ -6968,6 +7091,23 @@
         </script>
         <script name="endofday" />
       </logic>
+      <surfaceom name="Stubble">
+        <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
+        <type description="Organic Matter type">wheat</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">120</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+      <operations>
+        <operation condition="start_of_day">
+          <date>3-Jun-1993</date>
+          <action>stubble add_surfaceom name = barley, type = barley (), mass = 3584.0 (), N = 28.8 ()</action>
+        </operation>
+        <operation condition="start_of_day" name="operation{2}">
+          <date>3-Jun-1993</date>
+          <action> stubble tillage type = default</action>
+        </operation>
+      </operations>
     </area>
   </simulation>
   <simulation name="Wheat_MER-86_DryN015">
