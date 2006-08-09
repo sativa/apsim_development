@@ -18,7 +18,7 @@ class CropPhenology : public PlantPhenology
        virtual void onHarvest(unsigned &, unsigned &, protocol::Variant &);
        virtual void readSpeciesParameters(protocol::Component *s, vector<string> &sections);
        virtual void update(void);
-       virtual bool plant_germination(float pesw_germ, float sowing_depth, const environment_t &sw);
+       virtual bool plant_germination(float pesw_germ, float sowing_depth, float pesw_seed);
        int   das;
 
        // Rates
