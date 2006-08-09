@@ -114,20 +114,10 @@ void CropPhenology::update(void)
 
 bool CropPhenology::plant_germination(float pesw_germ,         // plant extractable soil water required for germination
                                       float sowing_depth,      // depth of seed (mm)
-                                      const environment_t &sw) // soil water structure
+                                      float pesw_seed) // soil water structure
 //=======================================================================================
 //    Determine whether seed germinates based on soil water availability
    {
-
-   // determine if soil water content is sufficient to allow germination.
-   int layer_no_seed = sw.find_layer_no (sowing_depth);
-
-   float pesw_seed;              // plant extractable soil water in
-                                 // seedling layer available for
-                                 // germination ( mm/mm)
-   pesw_seed = divide (sw.sw_dep[layer_no_seed] - sw.ll_dep[layer_no_seed],
-                       sw.dlayer[layer_no_seed], 0.0);
-
    // Soil water content of the seeded layer must be > the
    // lower limit to be adequate for germination.
    if (pesw_seed > pesw_germ)
