@@ -8,10 +8,10 @@
 #include "Plantlibrary.h"
 
 //===========================================================================
-void crop_pool_fraction_delta (const int num_part,   // (INPUT)  number of plant parts                
-                               float *fraction,      // (INPUT)  fraction of pools to detach          
-                               float *pool,          // (INPUT)  plant pool for detachment (g/m^2)    
-                               float *dlt_pool)      // (OUTPUT) change in plant pool                 
+void crop_pool_fraction_delta (const int num_part,   // (INPUT)  number of plant parts
+                               float *fraction,      // (INPUT)  fraction of pools to detach
+                               float *pool,          // (INPUT)  plant pool for detachment (g/m^2)
+                               float *dlt_pool)      // (OUTPUT) change in plant pool
 //===========================================================================
 /*  Purpose
 *      Multiply plant pool array by a part fraction array.
@@ -247,3 +247,11 @@ string itoa(int value, int width)
    return(string(buf));
    }
 
+string addUnitsToDDML(const string& ddml, const string& units)
+   {
+   string returnString = ddml;
+   unsigned pos = returnString.find("/>");
+   if (pos != string::npos)
+      returnString = returnString.substr(0, pos) + " unit=\"" + units + "\"/>";
+   return returnString;
+   }
