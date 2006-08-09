@@ -147,11 +147,12 @@ void TXmlFileReader::readXmlNode(const XMLNode& node, const string& name)
       int index = 1;
       while (find(fieldNames.begin(), fieldNames.end(), fieldName) != fieldNames.end())
          {
+         fieldName = name;
          unsigned posPeriod = fieldName.rfind('.');
          if (posPeriod == string::npos)
             posPeriod = fieldName.length();
          index++;
-         fieldName = fieldName.insert(posPeriod, itoa(index));
+         fieldName.insert(posPeriod, itoa(index));
          }
 
       fieldNames.push_back(fieldName);
