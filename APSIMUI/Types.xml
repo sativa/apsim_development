@@ -56,7 +56,7 @@
       <ApsimToSim>
          <type>registrations</type>
          <sim>
-            <event name="summaryFileWrite" type="null"/>
+            <event name="summaryFileWrite" type="string"/>
             <event name="error" type="string"/>
             <event name="NotifyTermination" type="string"/>
             <event name="gimme_water" type="string"/>
@@ -67,14 +67,14 @@
             <respondToEvent name="process" type="process"/>
             <respondToEvent name="post" type="post"/>
             <respondToEvent name="do_stock" type="post"/>
-            <respondToEvent name="end_week" type="null"/>
-            <respondToEvent name="end_month" type="null"/>
-            <respondToEvent name="end_year" type="null"/>
-            <respondToEvent name="water_supplied" type="null"/>
-            <respondToEvent name="irrigate" type="null"/>
-            <respondToEvent name="sow" type="null"/>
-            <respondToEvent name="fertilize" type="null"/>
-            <respondToEvent name="tillage" type="null"/>
+            <respondToEvent name="end_week" type="string"/>
+            <respondToEvent name="end_month" type="string"/>
+            <respondToEvent name="end_year" type="string"/>
+            <respondToEvent name="water_supplied" type="string"/>
+            <respondToEvent name="irrigate" type="string"/>
+            <respondToEvent name="sow" type="string"/>
+            <respondToEvent name="fertilize" type="string"/>
+            <respondToEvent name="tillage" type="string"/>
             <respondToEvent name="init_step" type="post" />
             <respondToEvent name="do_pasture_water" type="post" />
             <respondToEvent name="do_pasture_growth" type="post" />
