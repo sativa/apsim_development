@@ -8,9 +8,9 @@
 
 //==========================================================================
 void accumulate (float value,             //  (INPUT) value to add to array
-                 float *array,            //  (INPUT/OUTPUT) array to split    
-                 float p_index,           //  (INPUT) current p_index no       
-                 float dlt_index)         //  (INPUT) increment in p_index no  
+                 float *array,            //  (INPUT/OUTPUT) array to split
+                 float p_index,           //  (INPUT) current p_index no
+                 float dlt_index)         //  (INPUT) increment in p_index no
 //==========================================================================
 /* Purpose
 *     Accumulates a value in an array, at the specified index.
@@ -79,8 +79,8 @@ void accumulate (float value,             //  (INPUT) value to add to array
    }
 
 //===========================================================================
-float stage_no_of (float stage_code,           //(INPUT) stage code to look up     
-                   float *stage_code_list,     //(INPUT) list of stage codes       
+float stage_no_of (float stage_code,           //(INPUT) stage code to look up
+                   float *stage_code_list,     //(INPUT) list of stage codes
                    int   list_size)            //(INPUT) size_of of stage code list
 //===========================================================================
 /* Purpose
