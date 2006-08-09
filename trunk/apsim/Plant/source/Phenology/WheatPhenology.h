@@ -34,7 +34,7 @@ class WheatPhenology : public CropPhenology {
    void readCultivarParameters (protocol::Component *, const string &);  // read cv parameters from sowing line
    void writeCultivarInfo (PlantComponent *);
 
-   void process(const environment_t &e, const pheno_stress_t &ps);
+   void process(const environment_t &e, const pheno_stress_t &ps, float fasw_seed, float pesw_seed);
 
 //   void onRemoveBiomass(float removeBiomPheno){};
 
