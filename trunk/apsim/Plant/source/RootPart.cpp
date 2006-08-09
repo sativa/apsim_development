@@ -22,6 +22,8 @@
 #include "Plant.h"
 #include "PlantPart.h"
 #include "RootPart.h"
+#include "PlantUtility.h"
+
 using namespace std;
 
 static const char* IncorpFOMType =    "<type name = \"IncorpFOM\">" \
@@ -50,6 +52,8 @@ static const char* IncorpFOMType =    "<type name = \"IncorpFOM\">" \
                                       "   <field name=\"dlt_fom_p_value\" kind=\"single\" array=\"T\"/>" \
                                       "</type>";
 
+static const char* floatArrayType =   "<type kind=\"single\" array=\"T\"/>";
+
 plantRootPart* constructRootPart(plantInterface *p, const string &type, const string &name)
    {
    if (type == "Jones+RitchieGrowthPattern")
@@ -58,11 +62,13 @@ plantRootPart* constructRootPart(plantInterface *p, const string &type, const st
    return new rootGrowthOption1(p, name);
    }
 
+
 void plantRootPart::zeroAllGlobals(void)
 //=======================================================================================
    {
    plantPart::zeroAllGlobals();
    root_depth            = 0.0;
+
    fill_real_array (root_length , 0.0, max_layer);
    fill_real_array (root_length_dead, 0.0, max_layer);
    n_conc_min = n_conc_crit = n_conc_max = 0.0;
@@ -91,6 +97,40 @@ void plantRootPart::zeroAllGlobals(void)
       fill_real_array (oxdef_photo_rtfr, 0.0, max_table);
       num_oxdef_photo = 0;
 
+      fill_real_array (kl, 0.0, max_layer);
+      kl_ub = 0.0;
+
+      sw_lb = 0.0;
+      sw_ub = 0.0;
+
+
+
+      fill_real_array (sw_avail_pot, 0.0, max_layer);
+      fill_real_array (sw_avail, 0.0, max_layer);
+      fill_real_array (sw_supply , 0.0, max_layer);
+      fill_real_array (dlt_sw_dep, 0.0, max_layer);
+      fill_real_array (no3gsm , 0.0, max_layer);
+      fill_real_array (nh4gsm , 0.0, max_layer);
+      fill_real_array (dlt_no3gsm, 0.0, max_layer);
+      fill_real_array (dlt_nh4gsm, 0.0, max_layer);
+
+      uptake_source = "";
+
+   }
+
+void plantRootPart::zeroSoil(void)
+   {
+      fill_real_array (dlayer , 0.0, max_layer);
+      fill_real_array (ll15_dep , 0.0, max_layer);
+      fill_real_array (dul_dep , 0.0, max_layer);
+      fill_real_array (sat_dep , 0.0, max_layer);
+      fill_real_array (bd , 0.0, max_layer);
+      fill_real_array (sw_dep , 0.0, max_layer);
+      fill_real_array (ll_dep, 0.0, max_layer);
+      num_layers = 0;
+      sw_dep_ub = 0.0;
+      sw_dep_lb = 0.0;
+
    }
 
 void plantRootPart::zeroDeltas(void)
@@ -101,6 +141,14 @@ void plantRootPart::zeroDeltas(void)
    setTo(dltRootLength, (float)0.0);
    setTo(dltRootLengthSenesced, (float)0.0);
    setTo(dltRootLengthDead, (float)0.0);
+
+   fill_real_array (sw_avail , 0.0, max_layer);
+   fill_real_array (sw_avail_pot , 0.0, max_layer);
+   fill_real_array (sw_supply , 0.0, max_layer);
+   fill_real_array (dlt_sw_dep , 0.0, max_layer);
+    fill_real_array (dlt_no3gsm , 0.0, max_layer);
+    fill_real_array (dlt_nh4gsm , 0.0, max_layer);
+
    }
 
 void plantRootPart::doRegistrations(protocol::Component *system)
@@ -133,12 +181,19 @@ void plantRootPart::readConstants (protocol::Component *system, const string &se
 {
     plantPart::readConstants(system, section);
 
+    system->readParameter (section,"sw_ub", sw_ub, 0.0, 1.0);
+    system->readParameter (section, "sw_lb", sw_lb, 0.0, 1.0);
+    system->readParameter (section, "sw_dep_ub", sw_dep_ub, 0.0, 10000.0);
+    system->readParameter (section, "sw_dep_lb", sw_dep_lb, 0.0, 10000.0);
 }
 
 void plantRootPart::readSpeciesParameters(protocol::Component *system, vector<string> &sections)
 //=======================================================================================
     {
     plantPart::readSpeciesParameters(system, sections);
+
+    system->readParameter (sections,"kl_ub",kl_ub, 0.0, 1.0);
+
     system->readParameter (sections,
                            "specific_root_length",//, "(mm/g)"
                             specificRootLength,
@@ -259,14 +314,83 @@ void plantRootPart::readSpeciesParameters(protocol::Component *system, vector<st
 
 void plantRootPart::readRootParameters(protocol::Component *system, const char *section_name)
    {
+    vector<float> ll ;   // lower limit of plant-extractable
+                         // soil water for soil layer l
+                         // (mm water/mm soil)
+    float dep_tot, esw_tot;                      // total depth of soil & ll
+    char  msg[200];
+
+    system->writeString (" - reading root profile parameters");
+
+    if (system->readParameter (section_name, "ll", ll, 0.0, sw_ub, true))
+       {
+       for (unsigned int layer = 0; layer != ll.size(); layer++)
+          ll_dep[layer] = ll[layer]*dlayer[layer];
+
+       if ((int)ll.size() != num_layers)
+          throw std::runtime_error ("Size of LL array doesn't match soil profile.");
+       }
+    else
+       {
+       unsigned int id = system->addRegistration(RegistrationType::get,
+                                                 "ll15", floatArrayType,
+                                                 "", "");
+       system->getVariable(id, ll, 0.0, sw_ub, true);
+       if (ll.size() == 0)
+          throw std::runtime_error("No Crop Lower Limit found");
+
+       for (unsigned int i=0; i< ll.size(); i++) ll_dep[i] = ll[i]*dlayer[i];
+       system->writeString ("   Using externally supplied Lower Limit (ll15)");
+       }
+
    system->readParameter (section_name, "xf", xf, 0.0, 1.0);
-   if (xf.size() != (unsigned) plant->getEnvironment()->num_layers)
+   if (xf.size() != (unsigned) num_layers)
        throw std::runtime_error ("Size of XF array doesn't match soil profile.");
+
+    int num_kls = 0;
+    system->readParameter (section_name, "kl", kl, num_kls, 0.0, kl_ub);
+    if (num_kls != num_layers)
+       throw std::runtime_error  ("Size of KL array doesn't match soil profile.");
+
+
+    uptake_source = system->readParameter (section_name, "uptake_source");
+    if (uptake_source == "")uptake_source = "calc";
+
+
+    // report
+    system->writeString ("                   Root Profile");
+    system->writeString ("    -----------------------------------------------");
+    system->writeString ("     Layer       Kl           Lower    Exploration");
+    system->writeString ("     Depth     Factor         Limit      Factor  ");
+    system->writeString ("     (mm)         ()        (mm/mm)       (0-1)");
+    system->writeString ("    -----------------------------------------------");
+
+    dep_tot = esw_tot = 0.0;
+    for (int layer = 0; layer < num_layers; layer++)
+       {
+       sprintf (msg, "%9.1f%10.3f%15.3f%12.3f"
+          , dlayer[layer]
+          , kl[layer]
+          , divide(ll_dep[layer],dlayer[layer],0.0)
+          , xf[layer]);
+       system->writeString (msg);
+       dep_tot += dlayer[layer];
+       esw_tot += dul_dep[layer] - ll_dep[layer];
+       }
+    system->writeString ("    -----------------------------------------------");
+    sprintf (msg
+          , "    Extractable SW: %5.0fmm in %5.0fmm total depth (%3.0f%%)."
+          , esw_tot
+          , dep_tot
+          , fract2pcnt * divide(esw_tot, dep_tot, 0.0));
+    system->writeString (msg);
+
+
    }
 
 void plantRootPart::onSowing(void)
    {
-   int n = plant->getEnvironment()->num_layers;
+   int n = num_layers;
    dltRootLength.clear(); dltRootLength.resize(n);
    dltRootLengthDead.clear(); dltRootLengthDead.resize(n);
    dltRootLengthSenesced.clear(); dltRootLengthSenesced.resize(n);
@@ -293,12 +417,11 @@ void plantRootPart::onEmergence(void)
    // initial root length density (mm/mm^3)
    float rld = divide (initial_root_length, root_depth, 0.0);
 
-   int deepest_layer = plant->getEnvironment()->find_layer_no (root_depth);
+   int deepest_layer = find_layer_no (root_depth);
 
    for (int layer = 0; layer <= deepest_layer; layer++)
       {
-      root_length[layer] = rld *
-              plant->getEnvironment()->dlayer[layer] *
+      root_length[layer] = rld *dlayer[layer] *
                    root_proportion (layer);
       }
    }
@@ -370,7 +493,6 @@ void plantRootPart::plant_root_depth (void)
 //   Was cproc_root_depth2
    {
    const environment_t *e = plant->getEnvironment();
-
    //Temperature factor
    float avg_temp = (e->mint + e->maxt)/2.0;
    float temp_factor = rel_root_advance.value(avg_temp);
@@ -379,25 +501,25 @@ void plantRootPart::plant_root_depth (void)
    float ws_factor = ws_root_fac.value (plant->getSwdefPhoto());
 
    //Soil water availability factor
-   int deepest_layer = e->dlayer.size()-1;
+   int deepest_layer = num_layers-1;
 
    //  the layer with root front
-   int layer = e->find_layer_no(root_depth);
+   int layer = find_layer_no(root_depth);
 
-   float cum_depth = sum(e->dlayer, layer+1);
-   float rootdepth_in_layer = e->dlayer[layer] - (cum_depth - root_depth);
+   float cum_depth = sum_real_array(dlayer, layer+1);
+   float rootdepth_in_layer = dlayer[layer] - (cum_depth - root_depth);
 
-   rootdepth_in_layer = bound (rootdepth_in_layer, 0.0, e->dlayer[layer]);
+   rootdepth_in_layer = bound (rootdepth_in_layer, 0.0, dlayer[layer]);
 
-   float weighting_factor = divide (rootdepth_in_layer, e->dlayer[layer], 0.0);
+   float weighting_factor = divide (rootdepth_in_layer, dlayer[layer], 0.0);
 
    int next_layer = min(layer+1, deepest_layer);
 
-   float fasw1 = divide (e->sw_dep [layer] - e->ll_dep[layer],
-                         e->dul_dep[layer] - e->ll_dep[layer], 0.0);
+   float fasw1 = divide (sw_dep [layer] - ll_dep[layer],
+                         dul_dep[layer] - ll_dep[layer], 0.0);
 
-   float fasw2 = divide (e->sw_dep [next_layer] - e->ll_dep[next_layer],
-                         e->dul_dep[next_layer] - e->ll_dep[next_layer], 0.0);
+   float fasw2 = divide (sw_dep [next_layer] - ll_dep[next_layer],
+                         dul_dep[next_layer] - ll_dep[next_layer], 0.0);
 
    fasw1 = min(1.0,max(0.0, fasw1));
    fasw2 = min(1.0,max(0.0, fasw2));
@@ -421,7 +543,7 @@ void plantRootPart::plant_root_depth (void)
         deepest_layer--)
       ; /* nothing */
 
-   float root_depth_max = sum (e->dlayer, deepest_layer+1);
+   float root_depth_max = sum_real_array (dlayer, deepest_layer+1);
    dltRootDepth = u_bound ( dltRootDepth, root_depth_max - root_depth);
 
    if (dltRootDepth < 0.0) throw std::runtime_error("negative root growth??") ;
@@ -432,10 +554,10 @@ void plantRootPart::update(void)
    plantPart::update();
    root_depth += dltRootDepth;
 
-   for (int layer = 0; layer < plant->getEnvironment()->num_layers; layer++)
+   for (int layer = 0; layer < num_layers; layer++)
       root_length[layer] += dltRootLength[layer];
 
-   for (int layer = 0; layer < plant->getEnvironment()->num_layers; layer++)
+   for (int layer = 0; layer < num_layers; layer++)
       root_length[layer] -= dltRootLengthSenesced[layer];
 
     // Note that movement and detachment of C is already done, just
@@ -444,7 +566,7 @@ void plantRootPart::update(void)
     // weight with root length and so thereafter dead(and detaching)
     // root is assumed to have the same distribution as live roots.
     float dying_fract_plants = plant->getDyingFractionPlants();
-    for (int layer = 0; layer < plant->getEnvironment()->num_layers; layer++)
+    for (int layer = 0; layer < num_layers; layer++)
         {
         dltRootLengthDead[layer] = root_length[layer] * dying_fract_plants;
         root_length[layer] -= dltRootLengthDead[layer];
@@ -470,7 +592,7 @@ void plantRootPart::root_dist(float root_sum, vector<float> &root_array)        
 //
    {
    // distribute roots over profile to root_depth
-   int deepest_layer = plant->getEnvironment()->find_layer_no (root_depth);
+   int deepest_layer = find_layer_no (root_depth);
    float root_length_sum = sum_real_array (root_length, deepest_layer+1);
    for (int layer = 0; layer <= deepest_layer; layer++)
       root_array[layer] = root_sum *
@@ -485,7 +607,7 @@ void plantRootPart::root_dist_dead(float root_sum, vector<float> &root_array)   
 //
    {
    // distribute roots over profile to root_depth
-   int deepest_layer = plant->getEnvironment()->find_layer_no (root_depth);
+   int deepest_layer = find_layer_no (root_depth);
    float root_length_sum = sum_real_array (root_length_dead, deepest_layer+1);
    for (int layer = 0; layer <= deepest_layer; layer++)
       root_array[layer] = root_sum *
@@ -546,9 +668,9 @@ void plantRootPart::root_incorp (float  dlt_dm_root,                  // (INPUT)
    {
    if (dlt_dm_root>0.0)
       {
-      vector<float> dlt_dm_incorp(plant->getEnvironment()->num_layers); // root residue (kg/ha)
-      vector<float> dlt_N_incorp(plant->getEnvironment()->num_layers);  // root residue N (kg/ha)
-      vector<float> dlt_P_incorp(plant->getEnvironment()->num_layers);  // root residue P (kg/ha)
+      vector<float> dlt_dm_incorp(num_layers); // root residue (kg/ha)
+      vector<float> dlt_N_incorp(num_layers);  // root residue N (kg/ha)
+      vector<float> dlt_P_incorp(num_layers);  // root residue P (kg/ha)
 
       // DM
       root_dist(dlt_dm_root * gm2kg /sm2ha, dlt_dm_incorp);
@@ -580,9 +702,9 @@ void plantRootPart::root_incorp_dead (float  dlt_dm_root,                  // (I
    {
    if (dlt_dm_root>0.0)
       {
-      vector<float> dlt_dm_incorp(plant->getEnvironment()->num_layers); // root residue (kg/ha)
-      vector<float> dlt_N_incorp(plant->getEnvironment()->num_layers);  // root residue N (kg/ha)
-      vector<float> dlt_P_incorp(plant->getEnvironment()->num_layers);  // root residue P (kg/ha)
+      vector<float> dlt_dm_incorp(num_layers); // root residue (kg/ha)
+      vector<float> dlt_N_incorp(num_layers);  // root residue N (kg/ha)
+      vector<float> dlt_P_incorp(num_layers);  // root residue P (kg/ha)
 
       // DM
       root_dist_dead(dlt_dm_root * gm2kg /sm2ha, dlt_dm_incorp);
@@ -625,12 +747,12 @@ float plantRootPart::root_proportion (int layer)
    float depth_to_root;           // depth to root in layer (mm)
    float depth_of_root_in_layer;  // depth of root within layer (mm)
    // Implementation Section ----------------------------------
-   depth_to_layer_bottom = sum(plant->getEnvironment()->dlayer, layer+1);
-   depth_to_layer_top = depth_to_layer_bottom - plant->getEnvironment()->dlayer[layer];
+   depth_to_layer_bottom = sum_real_array(dlayer, layer+1);
+   depth_to_layer_top = depth_to_layer_bottom - dlayer[layer];
    depth_to_root  = min(depth_to_layer_bottom, root_depth);
    depth_of_root_in_layer = max(0.0, depth_to_root-depth_to_layer_top);
 
-   return (divide (depth_of_root_in_layer, plant->getEnvironment()->dlayer[layer], 0.0));
+   return (divide (depth_of_root_in_layer, dlayer[layer], 0.0));
    }
 
 void plantRootPart::doNConccentrationLimits(void)
@@ -730,24 +852,21 @@ void plantRootPart::redistribute(const vector<float> &dlayer_old,        //  old
 
 void plantRootPart::get_root_length(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    int num_layers = plant->getEnvironment()->num_layers;
     system->sendVariable(qd, protocol::vector<float>(root_length,root_length+num_layers));
 }
 
 void plantRootPart::get_rlv(protocol::Component *system, protocol::QueryValueData &qd)
 {
     float rlv[max_layer];
-    int num_layers = plant->getEnvironment()->num_layers;
     for (int layer = 0; layer < num_layers; layer++)
        {
-       rlv[layer] = divide (root_length[layer], plant->getEnvironment()->dlayer[layer], 0.0);
+       rlv[layer] = divide (root_length[layer], dlayer[layer], 0.0);
        }
     system->sendVariable(qd, protocol::vector<float>(rlv,rlv+num_layers));
 }
 
 void plantRootPart::get_root_length_dead(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    int num_layers = plant->getEnvironment()->num_layers;
     system->sendVariable(qd, protocol::vector<float>(root_length_dead, root_length_dead+num_layers));
 }
 
@@ -767,24 +886,23 @@ void rootGrowthOption1::root_length_growth (void)
    setTo(dltRootLength, (float)0.0);
 
    float depth_today = root_depth + dltRootDepth;
-   const environment_t *env = plant->getEnvironment();
-   int deepest_layer = env->find_layer_no (depth_today);
+   int deepest_layer = find_layer_no (depth_today);
 
-   vector<float> rlv_factor(env->num_layers);  // relative rooting factor for all layers
+   vector<float> rlv_factor(num_layers);  // relative rooting factor for all layers
 
    rlv_factor_tot = 0.0;
    for(int layer = 0; layer <= deepest_layer; layer++)
       {
-      rld = divide (root_length[layer], env->dlayer[layer], 0.0);
+      rld = divide (root_length[layer], dlayer[layer], 0.0);
 
       plant_rld = divide (rld, plant->getPlants(), 0.0);
 
       branching_factor = rel_root_rate.value(plant_rld);
 
-      rlv_factor[layer] = sw_fac_root.value(env->sw_avail_ratio(layer)) *
+      rlv_factor[layer] = sw_fac_root.value(sw_avail_ratio(layer)) *
                  branching_factor *                                      // branching factor
                    xf [layer]  *                                       // growth factor
-                     divide(env->dlayer[layer],      // space weighting
+                     divide(dlayer[layer],      // space weighting
                             root_depth, 0.0);                            //       factor
 
       rlv_factor[layer] = l_bound(rlv_factor[layer], 1e-6);
@@ -818,35 +936,35 @@ void rootGrowthOption2::root_length_growth (void)
     float rwf;
     float cum_depth;
 
-   vector<float> rlv_factor(plant->getEnvironment()->num_layers);
-   vector<float> root_length_new(plant->getEnvironment()->num_layers);
+   vector<float> rlv_factor(num_layers);
+   vector<float> root_length_new(num_layers);
 
    setTo(dltRootLength, (float)0.0);
 
    float depth_today = root_depth + dltRootDepth;
-   int deepest_layer = plant->getEnvironment()->find_layer_no (depth_today);
+   int deepest_layer = find_layer_no (depth_today);
 
-   float cum_layer_depth = sum(plant->getEnvironment()->dlayer, deepest_layer);
+   float cum_layer_depth = sum_real_array(dlayer, deepest_layer);
 
    rlv_factor_tot = 0.0;
    cum_depth      = 0.0;
 
    for (int layer = 0; layer <= deepest_layer; layer++)
       {
-      cum_depth +=  0.5 * plant->getEnvironment()->dlayer[layer];
+      cum_depth +=  0.5 * dlayer[layer];
       rwf       = divide (cum_depth, cum_layer_depth, 0.0) ;
       rwf       = pow((1.0 - rwf), rootDistributionPattern);
 
-      rld       = divide (root_length[layer], plant->getEnvironment()->dlayer[layer], 0.0);
+      rld       = divide (root_length[layer], dlayer[layer], 0.0);
 
       plant_rld = divide (rld, plant->getPlants() ,0.0);
 
       branching_factor = rel_root_rate.value(plant_rld);
 
-      rlv_factor[layer] = sw_fac_root.value(plant->getEnvironment()->sw_avail_ratio(layer)) *
+      rlv_factor[layer] = sw_fac_root.value(sw_avail_ratio(layer)) *
                             branching_factor *
                              xf [layer] *
-                             divide(plant->getEnvironment()->dlayer[layer], root_depth, 0.0) *
+                             divide(dlayer[layer], root_depth, 0.0) *
                               rwf;
 
       rlv_factor[layer] = l_bound(rlv_factor[layer], 1e-6);
@@ -877,13 +995,15 @@ void rootGrowthOption2::readSpeciesParameters(protocol::Component *system, vecto
    plantRootPart::readSpeciesParameters(system, sections);
    system->readParameter (sections, "root_distribution_pattern",
                           rootDistributionPattern, 0.0, 100.0);
+
+
    }
 
 void plantRootPart::checkBounds(void)
    {
    if (root_depth < 0)
      throw std::runtime_error(c.name + " depth is negative! (" + ftoa(root_depth,".4") +")");
-   for (int layer = 0; layer < plant->getEnvironment()->num_layers; layer++)
+   for (int layer = 0; layer < num_layers; layer++)
       {
       if (root_length[layer] < 0)
          throw std::runtime_error(c.name + " length in layer " + itoa(layer+1) + " is negative! (" + ftoa(root_length[layer],".4") +")");
@@ -892,14 +1012,38 @@ void plantRootPart::checkBounds(void)
       }
    }
 
+void plantRootPart::getOtherVariables (protocol::Component *system)
+   {
+    std::vector<float> values;               // Scratch area
+    system->getVariable(sw_dep_id, values, sw_dep_lb, sw_dep_ub);
+    for (unsigned int i=0; i< values.size(); i++)
+        	sw_dep[i] = values[i];
+
+   }
+void plantRootPart::CalcWaterSupply ()
+   {
+              cproc_sw_supply1 (plant
+                          ,sw_lb
+                          ,dlayer
+                          ,ll_dep
+                          ,dul_dep
+                          ,sw_dep
+                          ,root_depth
+                          ,kl
+                          ,sw_avail
+                          ,sw_avail_pot
+                          ,sw_supply);
+
+
+   }
+
+void plantRootPart::doWaterUptake (float sw_demand)
+   {
+   cproc_sw_uptake1(max_layer, dlayer, root_depth, sw_demand, sw_supply, dlt_sw_dep);
+   }
 void plantRootPart::plant_water_stress (
-                                       float dlayer [],
                                        float sw_demand,
-                                       float sw_supply[],
-                                       float dlt_sw_dep[],
                                        float& swdef_photo,
-                                       float sw_avail[],
-                                       float sw_avail_pot[],
                                        float& swdef_pheno,
                                        float& swdef_pheno_flower,
                                        float& swdef_pheno_grainfill,
@@ -936,11 +1080,7 @@ void plantRootPart::plant_water_stress (
 
     }
 
-float plantRootPart::oxdef_stress (
-                                 float ll15_dep[],
-                                 float sat_dep[],
-                                 float sw_dep[],
-                                 float dlayer[])
+float plantRootPart::oxdef_stress ()
     {
         float stress;
 
@@ -957,3 +1097,268 @@ float plantRootPart::oxdef_stress (
         return stress;
 
     }
+
+void plantRootPart::doNewProfile(protocol::Variant &v)
+    {
+
+
+    float profile_depth;                          // depth of soil profile (mm)
+
+    protocol::ApsimVariant av(plant->getComponent());
+    av.aliasTo(v.getMessageData());
+
+    protocol::vector<float> previousLayers;
+    for (unsigned layer = 0; layer != max_layer; layer++)
+       previousLayers.push_back(dlayer[layer]);
+
+    protocol::vector<float> scratch;
+    av.get("dlayer", protocol::DTsingle, true, scratch);
+    num_layers = scratch.size();
+
+
+    for (unsigned layer = 0; layer != scratch.size(); layer++)
+       dlayer[layer] = scratch[layer];
+
+
+    av.get("ll15_dep", protocol::DTsingle, true, scratch);
+    for (unsigned layer = 0; layer != scratch.size(); layer++) { ll15_dep[layer] = scratch[layer]; }
+    av.get("dul_dep", protocol::DTsingle, true, scratch);
+    for (unsigned layer = 0; layer != scratch.size(); layer++) { dul_dep[layer] = scratch[layer]; }
+    av.get("sat_dep", protocol::DTsingle, true, scratch);
+    for (unsigned layer = 0; layer != scratch.size(); layer++) { sat_dep[layer] = scratch[layer]; }
+    av.get("sw_dep", protocol::DTsingle, true, scratch);
+    for (unsigned layer = 0; layer != scratch.size(); layer++) { sw_dep[layer] = scratch[layer]; }
+    av.get("bd", protocol::DTsingle, true, scratch);
+    for (unsigned layer = 0; layer != scratch.size(); layer++) { bd[layer] = scratch[layer]; }
+
+    // dlayer may be changed from its last setting due to erosion
+    profile_depth = sum_real_array(dlayer,max_layer);
+
+    if (root_depth > profile_depth)
+        {
+        vector<float> vdlayer;
+        for (unsigned layer = 0; layer != max_layer; layer++)
+          vdlayer.push_back(dlayer[layer]);
+        vector<float> vprevdlayer;
+        for (unsigned layer = 0; layer != previousLayers.size(); layer++)
+          vprevdlayer.push_back(previousLayers[layer]);
+
+        redistribute( vprevdlayer,  vdlayer, profile_depth);
+
+        }
+     for (unsigned layer = 0; layer < (unsigned) num_layers; layer++)
+        {
+        ll_dep[layer] = divide (ll_dep[layer], previousLayers[layer], 0.0)
+                              * dlayer[layer];
+        }
+    }
+
+// Return the index of the layer that contains "depth"
+int plantRootPart::find_layer_no(float depth) const
+   {
+   unsigned int indx;
+   float progressive_sum = 0.0;
+
+   for(indx = 0; indx < (unsigned) num_layers; indx++)
+      {
+      progressive_sum = progressive_sum + dlayer[indx];
+      if(progressive_sum >= depth)
+         break;
+      }
+   if (indx != 0 && indx==(unsigned)num_layers) return (indx - 1); // last element in array
+   return indx;                                            // index of
+   }
+
+float plantRootPart::sw_avail_ratio(int layer) const //(INPUT) soil profile layer number
+//===========================================================================
+
+/*  Purpose
+*      Get the soil water availability factor in a layer.  For a layer,
+*      it is 1.0 unless the plant-extractable soil water declines
+*      below a fraction of plant-extractable soil water capacity for
+*      that layer.
+*/
+
+   {
+   //  Local Variables
+   float pesw;                // plant extractable soil-water (mm/mm)
+   float pesw_capacity;       // plant extractable soil-water capacity (mm/mm)
+   float sw_avail_ratio;      // soil water availability ratio (0-1)
+
+   pesw = sw_dep[layer] - ll_dep[layer];
+   pesw_capacity = dul_dep[layer] - ll_dep[layer];
+   sw_avail_ratio = divide (pesw, pesw_capacity, 10.0);
+   return sw_avail_ratio;
+   }
+
+
+//===========================================================================
+int plantRootPart::find_layer_no(float depth,      // depth in profile
+                  float *dlayr,     // layer depth array
+                  int num_layers)   // lowest layer
+//===========================================================================
+
+/*Purpose
+ *   returns layer number of depth in profile dlayr
+ *Definition
+ *   Each of the "num_layers" elements of "dlayr" holds the
+ *   height of the corresponding soil layer.  The height of the
+ *   top layer is held in "dlayr"(0), and the rest follow in
+ *   sequence down into the soil profile.  This function
+ *   returns the index of the first element of "dlayr" which
+ *   has its lower surface deeper than or equal to "depth".  If
+ *   "depth" is deeper than the lower surface of the layer
+ *   corresponding to "dlayr"("num_layers"), then "num_layers"
+ *   is returned.
+ */
+
+   {
+   return get_cumulative_index_real(depth, dlayr, num_layers);
+   }
+
+int plantRootPart::find_layer_no(float depth, const vector<float> &dlayer )
+//===========================================================================
+   {
+   float progressive_sum = 0.0; //cumulative sum_of
+   unsigned int indx;                    //index count_of_real_vals
+
+   for(indx = 0; indx < dlayer.size(); indx++)
+      {
+      progressive_sum +=  dlayer[indx];
+      if(progressive_sum >= depth)
+         {
+         break;
+         }
+      }
+   if (indx==dlayer.size()) return (indx - 1); // last element in array
+   return indx;                                // index of
+   }
+
+void plantRootPart::DoIDs(protocol::Component *system)
+   {
+   // Get
+   sw_dep_id= system->addRegistration(RegistrationType::get,
+                                   "sw_dep", addUnitsToDDML(floatArrayType, "mm").c_str(),
+                                   "", "");
+   // Respond to Get
+   setupGetFunction(system, "sw_uptake", protocol::DTsingle, true,
+                    &plantRootPart::get_sw_uptake, "mm", "Plant water uptake per layer");
+   setupGetFunction(system, "sw_supply", protocol::DTsingle, false,
+                    &plantRootPart::get_sw_supply, "mm", "Soil water supply");
+   setupGetFunction(system, "sw_supply_layr", protocol::DTsingle, true,
+                    &plantRootPart::get_sw_supply_layr, "mm", "Soil water supply");
+   setupGetFunction(system, "ep", protocol::DTsingle, false,
+                    &plantRootPart::get_ep, "mm", "Plant water uptake");
+   setupGetFunction(system, "esw_layr", protocol::DTsingle, true,
+                    &plantRootPart::get_esw_layr, "mm", "Extractable soil water");
+   setupGetFunction(system, "no3_uptake", protocol::DTsingle, true,
+                    &plantRootPart::get_no3_uptake,"kg/ha","NO3 uptake");
+   setupGetFunction(system, "nh4_uptake", protocol::DTsingle, true,
+                    &plantRootPart::get_nh4_uptake,"kg/ha","NH4 uptake");
+   setupGetFunction(system, "no3_tot", protocol::DTsingle, false,
+                    &plantRootPart::get_no3_tot,"g/m^2", "NO3 available to plants");
+   setupGetFunction(system, "ll_dep", protocol::DTsingle, true,
+                    &plantRootPart::get_ll_dep,"mm","Crop lower limit");
+   setupGetFunction(system, "ll", protocol::DTsingle, true,
+                    &plantRootPart::get_ll,"%vol","Crop lower limit");
+
+   //Sets
+   dlt_sw_dep_id = system->addRegistration(RegistrationType::set,
+                                   "dlt_sw_dep", addUnitsToDDML(floatArrayType, "mm").c_str(),
+                                   "", "");
+
+   }
+
+void plantRootPart::UpdateOtherVariables(protocol::Component *system)
+   {
+    float scratch[max_layer];                     // soil NO3 change (kg/ha)
+    int   layer;                                  // soil layer no.
+
+   for (layer = 0; layer< num_layers;layer++) {scratch[layer] = dlt_sw_dep[layer];}
+   protocol::vector<float> dlt_sw_dep_values(scratch, scratch+num_layers);
+   system->setVariable(dlt_sw_dep_id, dlt_sw_dep_values);
+   }
+
+void plantRootPart::get_sw_uptake(protocol::Component *system, protocol::QueryValueData &qd)
+{
+    float rwu[max_layer];
+    for (int layer = 0; layer < num_layers; layer++)
+        {
+        rwu[layer] = fabs(dlt_sw_dep[layer]);
+        }
+    system->sendVariable(qd, protocol::vector<float>(rwu, rwu+num_layers));
+}
+
+
+void plantRootPart::get_sw_supply(protocol::Component *system, protocol::QueryValueData &qd)
+{
+    int deepest_layer = find_layer_no (root_depth);
+    float sw_supply_sum = sum_real_array (sw_supply, deepest_layer+1);
+    system->sendVariable(qd, sw_supply_sum);
+}
+
+void plantRootPart::get_sw_supply_layr(protocol::Component *system, protocol::QueryValueData &qd)
+{
+    system->sendVariable(qd, protocol::vector<float>(sw_supply, sw_supply+num_layers));
+}
+
+void plantRootPart::get_ep(protocol::Component *system, protocol::QueryValueData &qd)
+{
+    float sum = 0.0;
+    for (int layer = 0; layer < num_layers; layer++)
+        {
+        sum = sum + fabs(dlt_sw_dep[layer]);
+        }
+    system->sendVariable(qd, sum);
+}
+
+void plantRootPart::get_esw_layr(protocol::Component *system, protocol::QueryValueData &qd)
+{
+    float esw_layr[max_layer];
+    for (int layer = 0; layer < num_layers; layer++)
+       {
+       esw_layr[layer] = l_bound (sw_dep[layer] - ll_dep[layer], 0.0);
+       }
+    system->sendVariable(qd, protocol::vector<float>(esw_layr,esw_layr+num_layers));
+}
+void plantRootPart::get_no3_uptake(protocol::Component *system, protocol::QueryValueData &qd)
+{
+    float no3_uptake[max_layer];
+    fill_real_array(no3_uptake,0.0, max_layer);
+    for (int layer = 0; layer <= num_layers; layer++) {
+       no3_uptake[layer] =  dlt_no3gsm[layer] * gm2kg/sm2ha;
+    }
+    system->sendVariable(qd, protocol::vector<float>(no3_uptake, no3_uptake+num_layers));
+}
+
+void plantRootPart::get_nh4_uptake(protocol::Component *system, protocol::QueryValueData &qd)
+{
+    float nh4_uptake[max_layer];
+    fill_real_array(nh4_uptake,0.0, max_layer);
+    for (int layer = 0; layer <= num_layers; layer++) {
+       nh4_uptake[layer] =  dlt_nh4gsm[layer] * gm2kg/sm2ha;
+    }
+    system->sendVariable(qd, protocol::vector<float>(nh4_uptake, nh4_uptake+num_layers));
+}
+
+void plantRootPart::get_no3_tot(protocol::Component *system, protocol::QueryValueData &qd)
+{
+    int deepest_layer = find_layer_no (root_depth);
+    float no3gsm_tot = sum_real_array (no3gsm, deepest_layer+1);
+    system->sendVariable(qd, no3gsm_tot);
+}
+void plantRootPart::get_ll_dep(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+   {
+   vector<float> lldep;
+   for(int layer = 0; layer <= num_layers; layer++)
+      lldep.push_back(ll_dep[layer]);
+   systemInterface->sendVariable(qd, lldep);
+}
+
+void plantRootPart::get_ll(protocol::Component *systemInterface, protocol::QueryValueData &qd)
+   {
+   vector<float> ll;
+   for(int layer = 0; layer <= num_layers; layer++)
+      ll.push_back(ll_dep[layer] / dlayer[layer]);
+   systemInterface->sendVariable(qd, ll);
+}

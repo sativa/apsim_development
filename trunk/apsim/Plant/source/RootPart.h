@@ -5,6 +5,33 @@
 class plantRootPart : public plantPart
    {
    public:
+      float dlayer[max_layer];                         // thickness of soil layer I (mm)
+      float ll15_dep[max_layer];
+      float dul_dep[max_layer];                        // drained upper limit soil water content for soil layer L (mm water)
+      float sat_dep[max_layer];
+      float bd[max_layer];
+      float sw_dep[max_layer];                         // soil water content of layer L (mm)
+      float no3gsm [max_layer];                         // nitrate nitrogen in layer L (g N/m^2)
+      float nh4gsm [max_layer];                         // nitrate nitrogen in layer L (g N/m^2)
+      float dlt_nh4gsm[max_layer];                      // actual NH4 uptake from soil (g/m^2)
+      float dlt_no3gsm[max_layer];                      // actual NO3 uptake from soil (g/m^2)
+
+      float sw_lb;                                      // lower limit of soilwater  (mm/mm)
+      float sw_ub;                                      // upper limit of soilwater  (mm/mm)
+
+      float ll_dep[max_layer];                          // lower limit of plant-extractable
+                                                        // soil water for soil layer L (mm)
+      float dlt_sw_dep[max_layer];                      // water uptake in each layer (mm water)
+      float kl[max_layer];                              // root length density factor for water
+      float kl_ub;                                      // upper limit of water uptake factor
+      int   num_layers;
+
+      string  uptake_source;                            // source of uptake information
+      float sw_avail_pot[max_layer];                    // potential extractable soil water (mm)
+      float sw_avail[max_layer];                        // actual extractable soil water (mm)
+      float sw_supply [max_layer];                      // potential water to take up (supply)
+                                                        // from current soil water (mm)
+
       float root_depth;                                 // depth of roots (mm)
       float root_length[max_layer];                     // root length (mm/mm^2)
       float root_length_dead[max_layer];                // root length of dead population (mm/mm^2)
@@ -19,6 +46,7 @@ class plantRootPart : public plantPart
       ~plantRootPart() {};
 
       void zeroAllGlobals(void);
+      void zeroSoil(void);
       void zeroDeltas(void);
       void doRegistrations(protocol::Component *system);
       void readConstants (protocol::Component *system, const string &section);
@@ -60,28 +88,52 @@ class plantRootPart : public plantPart
                                           , vector<float> &fract);
       void doNConccentrationLimits(void);
       void redistribute(const vector<float> &, const vector<float> &, float);
+      int find_layer_no(float) const;
+      int find_layer_no(float,const vector<float>&);
+      int find_layer_no(float, float *, int);
+      float sw_avail_ratio(int layer) const;
 
 void plantRootPart::plant_water_stress (
-                                       float dlayer [],
                                        float sw_demand,
-                                       float sw_supply[],
-                                       float dlt_sw_dep[],
                                        float& swdef_photo,
-                                       float sw_avail[],
-                                       float sw_avail_pot[],
                                        float& swdef_pheno,
                                        float& swdef_pheno_flower,
                                        float& swdef_pheno_grainfill,
                                        float& swdef_expansion,
                                        float& swdef_fixation );
 
-float plantRootPart::oxdef_stress (
-                                 float ll15_dep[],
-                                 float sat_dep[],
-                                 float sw_dep[],
-                                 float dlayer[]);
+void CalcWaterSupply();
+void doWaterUptake(float sw_demand);
+void getOtherVariables(protocol::Component *system);
+void UpdateOtherVariables(protocol::Component *system);
+void DoIDs(protocol::Component *system);
+
+float plantRootPart::oxdef_stress ();
+void plantRootPart::doNewProfile(protocol::Variant &v);
 
    private:
+
+// IDs for gets sets etc
+     unsigned int sw_dep_id;
+     unsigned int dlt_sw_dep_id;
+
+
+// External Getters and Setters etc
+void plantRootPart::get_sw_uptake(protocol::Component *system, protocol::QueryValueData &qd);
+void plantRootPart::get_sw_supply(protocol::Component *system, protocol::QueryValueData &qd);
+void plantRootPart::get_sw_supply_layr(protocol::Component *system, protocol::QueryValueData &qd);
+void plantRootPart::get_ep(protocol::Component *system, protocol::QueryValueData &qd);
+void plantRootPart::get_esw_layr(protocol::Component *system, protocol::QueryValueData &qd);
+void plantRootPart::get_no3_uptake(protocol::Component *system, protocol::QueryValueData &qd);
+void plantRootPart::get_nh4_uptake(protocol::Component *system, protocol::QueryValueData &qd);
+void plantRootPart::get_no3_tot(protocol::Component *system, protocol::QueryValueData &qd);
+void plantRootPart::get_ll_dep(protocol::Component *systemInterface, protocol::QueryValueData &qd);
+void plantRootPart::get_ll(protocol::Component *systemInterface, protocol::QueryValueData &qd);
+
+      float sw_dep_ub;                                  // upper limit of soilwater depth (mm)
+      float sw_dep_lb;                                  // lower limit of soilwater depth (mm)
+
+
       void get_rlv(protocol::Component *system, protocol::QueryValueData &qd);
       void get_root_length(protocol::Component *system, protocol::QueryValueData &qd);
       void get_root_length_dead(protocol::Component *system, protocol::QueryValueData &qd);
