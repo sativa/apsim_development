@@ -189,12 +189,12 @@ public:
 
    void plant_bio_actual (int option /* (INPUT) option number*/);
    void plant_bio_retrans (void);
-   void plant_water_stress (int option /* (INPUT) option number */);
-   void plant_temp_stress (int option/* (INPUT) option number*/);
-   void plant_oxdef_stress (int option /* (INPUT) option number */);
-   void plant_bio_water (int option  /* (INPUT) option number */);
+   void plant_water_stress (void);
+   void plant_temp_stress (void);
+   void plant_oxdef_stress ();
+   void plant_bio_water (void);
    void plant_retrans_init (int option);
-   void plant_detachment (int option /* (INPUT) option number */);
+   void plant_detachment (void);
    void plant_plant_death (int option /* (INPUT) option number*/);
    float plant_death_seedling    (
                                   int    c_num_weighted_temp
@@ -247,10 +247,10 @@ public:
    void plant_nit_retrans (int option      /* (INPUT) option number*/);
    void plant_nit_demand (int option       /* (INPUT) option number*/);
    void plant_nit_uptake (int option       /* (INPUT) option number*/);
-   void plant_nit_partition (int option    /* (INPUT) option number*/);
+   void plant_nit_partition ();
    void plant_nit_stress (int option       /* (INPUT) option number*/);
    void doNDemandGrain (void);
-   void plant_soil_nit_demand (int Option);
+   void plant_soil_nit_demand ();
 
    void plant_nit_demand_est (int option);
    void plant_height (int   option/*(INPUT) option number*/);
@@ -294,10 +294,7 @@ public:
                      ,float  *g_root_depth
                      ,float  *g_transpiration_tot
                     )  ;
-   void plant_event(float *g_dlayer
-                    ,float  g_root_depth
-                    ,float *g_sw_dep
-                    ,float *p_ll_dep);
+   void plant_event();
 
    void plant_dm_init (void);
 
@@ -634,7 +631,7 @@ private:
       // gets
       unsigned int eo;
       unsigned int fr_intc_radn;
-      unsigned int sw_dep;
+
       unsigned int no3;
       unsigned int nh4;
 
@@ -650,7 +647,7 @@ private:
       // sets
       unsigned int dlt_no3;
       unsigned int dlt_nh4;
-      unsigned int dlt_sw_dep;
+
 
       // events.
       unsigned int crop_chopped;
@@ -696,6 +693,7 @@ private:
       float remove_biom_pheno;
       float temp_stress_photo;
       float oxdef_photo;
+      float sowing_depth;
       float row_spacing;                                // row spacing (m) [optional]
       float skip_row;                                   // skip row (0, 1, 2)
       float skip_plant;                                 // skip plant (0, 1, 2)
@@ -749,12 +747,10 @@ private:
       float leaf_no_final;                              // total number of leaves the plant produces
       float grain_n_demand;                             // grain n demand from soil OR retrans
       float grain_n_supply;                             // grain n supply from soil OR retrans
-      float dlt_no3gsm[max_layer];                      // actual NO3 uptake from soil (g/m^2)
-      float no3gsm [max_layer];                         // nitrate nitrogen in layer L (g N/m^2)
+
       float no3gsm_diffn_pot[max_layer];                // potential NO3 (supply) from soil (g/m^2), by diffusion
       float no3gsm_mflow_avail[max_layer];              // potential NO3 (supply) from soil (g/m^2) by mass flow
-      float dlt_nh4gsm[max_layer];                      // actual NH4 uptake from soil (g/m^2)
-      float nh4gsm [max_layer];                         // nitrate nitrogen in layer L (g N/m^2)
+
       float nh4gsm_diffn_pot[max_layer];                // potential NH4 (supply) from soil (g/m^2), by diffusion
       float nh4gsm_mflow_avail[max_layer];              // potential NH4 (supply) from soil (g/m^2) by mass flow
       float nh4gsm_uptake_pot[max_layer];
@@ -762,22 +758,12 @@ private:
       float no3gsm_uptake_pot[max_layer];
       float n_fix_uptake;                               // N fixation actual (g/m^2)
       float n_fixed_tops;                               // cum. fixed N in tops
-      float dlayer [max_layer];                         // thickness of soil layer I (mm)
-      float dlt_sw_dep[max_layer];                      // water uptake in each layer (mm water)
-      float ll15_dep[max_layer];
-      float dul_dep [max_layer];                        // drained upper limit soil water content for soil layer L (mm water)
-      float sat_dep[max_layer];
-      float bd[max_layer];
-      float sw_dep [max_layer];                         // soil water content of layer L (mm)
+
       float swSupplyFruit;                              // crop water water supply to fruit (mm)
       float swSupplyVeg;                                // crop water water supply to vegetative parts (mm)
       float sw_demand;                                  // total crop demand for water (mm)
       float sw_demand_te;                               // crop demand for water calculated from transpiration efficiency (mm)
       float swDemandTEFruit;                            // crop fruit demand for water calculated from transpiration efficiency (mm)
-      float sw_avail_pot[max_layer];                    // potential extractable soil water (mm)
-      float sw_avail[max_layer];                        // actual extractable soil water (mm)
-      float sw_supply [max_layer];                      // potential water to take up (supply)
-                                                        // from current soil water (mm)
       float transpiration_tot;                          // cumulative transpiration (mm)
       float n_uptake_tot;                               // cumulative total N uptake (g/m^2)
       float n_demand_tot;                               // sum of N demand since last output (g/m^2)
@@ -827,10 +813,7 @@ private:
       int   num_hi_max_pot;
       float x_hi_max_pot_stress[max_table];             // maximum harvest index (g grain/g biomass)
       float y_hi_max_pot[max_table];                    // maximum harvest index (g grain/g biomass)
-      float kl[max_layer];                              // root length density factor for water
-      float ll_dep[max_layer];                          // lower limit of plant-extractable
-                                                        // soil water for soil layer L (mm)
-      string  uptake_source;                            // source of uptake information
+
       float eo_crop_factor;                             // Crop factor for sw demand applied to Eo
 
       float minTempGrnFill;
@@ -983,11 +966,8 @@ private:
       int   num_factors;                                // size_of table
       int   num_temp_other;                             //
       int   num_weighted_temp;                          // size of table
-      float kl_ub;                                      // upper limit of water uptake factor
-      float sw_dep_ub;                                  // upper limit of soilwater depth (mm)
-      float sw_dep_lb;                                  // lower limit of soilwater depth (mm)
-      float sw_ub;                                      // upper limit of soilwater depth (mm/mm)
-      float sw_lb;                                      // lower limit of soilwater depth (mm/mm)
+
+
       float no3_ub;                                     // upper limit of soil NO3 (kg/ha)
       float no3_lb;                                     // lower limit of soil NO3 (kg/ha)
       float nh4_ub;                                     // upper limit of soil NH4 (kg/ha)
