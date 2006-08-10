@@ -6,8 +6,8 @@ object data: TForm
   Align = alClient
   BorderIcons = []
   BorderStyle = bsNone
-  ClientHeight = 756
-  ClientWidth = 1062
+  ClientHeight = 867
+  ClientWidth = 1272
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -172,7 +172,7 @@ object data: TForm
     PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
     PersistentBackup = False
     ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    Filter = 'title = '#39'"A & R Weidemann-Wep 20"'#39
+    Filter = 'title = '#39'A & R Weidemann-Wep 20'#39
     FilterOptions = []
     Version = '2.53g'
     LanguageID = 0
@@ -364,6 +364,9 @@ object data: TForm
     SortID = 0
     SubLanguageID = 1
     LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'RegrYield.onSourceDataChanged'
+      'Graph1.afterDataRefresh')
     predData = Predicted
     obsData = Observed
     keyFields.Strings = (
@@ -371,12 +374,94 @@ object data: TForm
     Left = 336
     Top = 144
   end
+  object RegrYield: TRegr
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'RegrX'
+        DataType = ftFloat
+      end
+      item
+        Name = 'RegrY'
+        DataType = ftFloat
+      end
+      item
+        Name = '1:1X'
+        DataType = ftFloat
+      end
+      item
+        Name = '1:1Y'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Equation'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'm'
+        DataType = ftFloat
+      end
+      item
+        Name = 'c'
+        DataType = ftFloat
+      end
+      item
+        Name = 'r2'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'StdErr(m)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'StdErr(c)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'RMSD'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = PredObs1
+    subscriptionComponentNames.Strings = (
+      'Graph1.afterDataRefresh'
+      'Text3.afterDataRefresh')
+    xFieldName = 'Obswet_yield'
+    yFieldName = 'Predwet_yield'
+    Left = 430
+    Top = 154
+  end
 end
 object Page1: TQuickRep
-  Left = 332
-  Top = 97
-  Width = 397
-  Height = 561
+  Left = 318
+  Top = 0
+  Width = 635
+  Height = 898
   Frame.Color = clBlack
   Frame.DrawTop = False
   Frame.DrawBottom = False
@@ -417,12 +502,12 @@ object Page1: TQuickRep
   PrintIfEmpty = True
   SnapToGrid = True
   Units = MM
-  Zoom = 50
+  Zoom = 80
   object TitleBand1: TQRBand
     Left = 0
     Top = 0
-    Width = 397
-    Height = 561
+    Width = 635
+    Height = 898
     Frame.Color = clBlack
     Frame.DrawTop = False
     Frame.DrawBottom = False
@@ -434,7 +519,214 @@ object Page1: TQuickRep
     ForceNewPage = False
     Size.Values = (
       2970
-      2100.79166666667)
+      2100.13020833333)
     BandType = rbTitle
+    object Graph1: TGraph
+      Left = 16
+      Top = 136
+      Width = 309
+      Height = 334
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        1105.95833333333
+        52.9166666666667
+        449.791666666667
+        1021.29166666667)
+      title = 'Wet Yield (t/ha)'#13#10
+      subTitle = ' '
+      leftAxisTitle = ' '
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = ' '
+      footTitle = ' '
+      seriesTitle1 = ' '
+      seriesTitle2 = ' '
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
+      object QRDBChart1: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        Title.Text.Strings = (
+          'Wet Yield (t/ha)')
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.Grid.Visible = False
+        BottomAxis.LabelsSeparation = 100
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.Grid.Visible = False
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        Legend.LegendStyle = lsSeries
+        Legend.Visible = False
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object Series1: TPointSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.PredObs1
+          ClickableLine = False
+          Pointer.Brush.Color = clBlack
+          Pointer.InflateMargins = True
+          Pointer.Style = psCircle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Obswet_yield'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'Predwet_yield'
+        end
+        object Series2: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.RegrYield
+          SeriesColor = clBlack
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'RegrX'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'RegrY'
+        end
+        object Series3: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.RegrYield
+          SeriesColor = clBlack
+          LinePen.Style = psDot
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = '1:1X'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = '1:1Y'
+        end
+      end
+    end
+    object Text1: TText
+      Left = 26
+      Top = 38
+      Width = 293
+      Height = 46
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        152.135416666667
+        85.9895833333333
+        125.677083333333
+        969.036458333333)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -48
+      Font.Name = 'Arial'
+      Font.Style = []
+      Lines.Strings = (
+        'Wheat Validation')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = 'Wheat Validation'#13#10
+      FontSize = 36
+    end
+    object Text2: TText
+      Left = 50
+      Top = 78
+      Width = 271
+      Height = 26
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        85.9895833333333
+        165.364583333333
+        257.96875
+        896.276041666667)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -27
+      Font.Name = 'Arial'
+      Font.Style = []
+      Lines.Strings = (
+        'Yield Prophet Sites for 2005')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = 'Yield Prophet Sites for 2005'#13#10
+      FontSize = 20
+    end
+    object Text3: TText
+      Left = 135
+      Top = 410
+      Width = 192
+      Height = 23
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        76.0677083333333
+        446.484375
+        1355.98958333333
+        635)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = 'Arial'
+      Font.Style = []
+      Lines.Strings = (
+        ' y = 0.76 x + 0.65 (r2 = 0.56)')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = '$property(regrYield.equation)'#13#10
+      FontSize = 14
+    end
   end
 end
