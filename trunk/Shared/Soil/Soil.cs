@@ -1239,6 +1239,89 @@ namespace CSGeneral
 				SetCrop(CropName, ll, kl, xf);
 				}
 			}
+        
+        //---------------------------------------------------
+        // Adjust the DUL curve, given a max water Capacity
+        // start from bottom most layer that has water in it and reduced to zero or until
+        // the whole profile equals the given max water capacity
+        //---------------------------------------------------
+        public void ApplyMaxWaterCapacity(int maxWaterCapacity)
+            {
+            double[] localDUL = DUL;
+            double[] localLL15 = LL15;
+            double[] localThickness = Thickness;
+            //find lowest layer that has water
+            int bottomLayer;
+            int layer;
+            for (layer = 0; layer < localDUL.Length; layer++)
+                {
+                double test=((localDUL[layer]* Thickness[layer])-(localLL15[layer]*Thickness[layer]));
+                if (((localDUL[layer]* Thickness[layer])-(localLL15[layer]*Thickness[layer])) == 0) break;
+                }
+            bottomLayer=layer-1;
+            double currentCapacitySum = MathUtility.Sum(PAWC());
+            double capacityDifference =  maxWaterCapacity-currentCapacitySum ;
+            if (!(capacityDifference == 0))
+                {
+                if (capacityDifference > 0)
+                    {
+                    double newThickness = localThickness[bottomLayer] + (((Math.Abs(capacityDifference)) / (localDUL[bottomLayer] - localLL15[bottomLayer])));
+                    localThickness[bottomLayer] = newThickness;
+                    }
+                else
+                    {
+                    for (int j = bottomLayer; j >= 0; j--)
+                        {
+                        double waterInLayer=((localThickness[j]) * (localDUL[j] - localLL15[j]));
+                        if ((Math.Abs(capacityDifference) > waterInLayer))
+                            {
+                            capacityDifference = (Math.Abs(capacityDifference) - (localThickness[j]) * (localDUL[j] - localLL15[j]));
+                            localThickness[j] = 0;
+                            }
+                        else
+                            {
+                            double newThickness = ((Math.Abs(capacityDifference)) / (localDUL[j] - localLL15[j]));
+                            localThickness[j] = localThickness[j]-newThickness;
+                            break;
+                            }
+                        }
+                    }
+                }
+            Thickness=localThickness;
+            }
+
+        // -------------------------------------------------
+        // Adjust the DUL curve, given a max soil depth(cutoff)
+        // Leave the DUL number for all whole layers above the cutoff layer
+        // Work out the proportional DUL number for the layer that has the cutoff within it
+        // Set the LL15 to the DUL for the whole layers below the cutoff
+        // -------------------------------------------------
+        public void ApplyMaxSoilDepth(int soilDepth)
+            {
+            double[] localDUL = DUL;
+            double[] localLL15 = LL15;
+            for (int i = 0; i != this.CumThickness.Length; i++)
+                {
+                if (CumThickness[i] > soilDepth)
+                    {
+                    double PreviousCumThickness = 0.0;
+                    if (i > 0)
+                        PreviousCumThickness = CumThickness[i - 1];
+
+                    if (PreviousCumThickness > soilDepth)
+                        {
+                        localLL15[i]=localDUL[i];
+                        }
+                    else
+                        {
+                        double Proportion = (soilDepth - PreviousCumThickness) / Thickness[i];
+                        localDUL[i] = (LL15[i]+((localDUL[i]-LL15[i]) * Proportion));
+                        }
+                    }
+                }
+            DUL = localDUL;
+            LL15 = localLL15;
+            }
 
 		// ----------------------
 		// Methods for cell notes
