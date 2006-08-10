@@ -24,13 +24,16 @@ namespace APSRU.Howwet
             InitializeComponent();
             }
         private MetData metObject;
+        private MetData tempMetObject;
 
-        public void displayData(MetData metObject)
+        public void displayData(MetData data)
             {
-            this.metObject = metObject;
-            label3.Text = metObject.FileName;
-            DateTime firstYear = (DateTime)metObject.Data.Rows[0]["date"];
-            DateTime lastYear = (DateTime)metObject.Data.Rows[metObject.Data.Rows.Count - 1]["date"];
+            //this.metObject = data;
+            this.tempMetObject = data;
+            label3.Text = tempMetObject.FileName;
+            fpSpread1.Sheets[0].ClearRange(0, 1, 31, 13, true);
+            DateTime firstYear = (DateTime)this.tempMetObject.Data.Rows[0]["date"];
+            DateTime lastYear = (DateTime)this.tempMetObject.Data.Rows[this.tempMetObject.Data.Rows.Count - 1]["date"];
             yearSelectUpDown.Minimum = firstYear.Year;
             yearSelectUpDown.Maximum = lastYear.Year;
             yearSelectUpDown.Increment = 1;
@@ -41,7 +44,7 @@ namespace APSRU.Howwet
             {
             int selectedYear = (int)yearSelectUpDown.Value; ;
             String sql = "Date >= '1-1-" + selectedYear + "' AND Date < '31-12-" + selectedYear + "'";
-            DataRow[] yearRows = this.metObject.Data.Select(sql);
+            DataRow[] yearRows = this.tempMetObject.Data.Select(sql);
             if(!(yearRows.Length==0))
                 {
            
@@ -97,7 +100,7 @@ namespace APSRU.Howwet
             int day = selectedDate.Day;
             
             String sql = "Date = '"+day+"-"+month+"-"+ year+"'";
-            DataRow[] rows = this.metObject.Data.Select(sql);
+            DataRow[] rows = this.tempMetObject.Data.Select(sql);
 
             if (!(rows.Length == 0))
                 {//update
@@ -107,23 +110,26 @@ namespace APSRU.Howwet
                 }
             else
                 {
-                DataRow newRow = this.metObject.Data.NewRow();
-                newRow["site"] = metObject.Site;
+                DataRow newRow = this.tempMetObject.Data.NewRow();
+                newRow["site"] = this.tempMetObject.Site;
                 newRow["Date"] = selectedDate;
-                newRow["radn"] = metObject.RadnYearlyAverage[selectedDate.Month];
-                newRow["maxt"] = metObject.MaxtYearlyAverage[selectedDate.Month];
-                newRow["mint"] = metObject.MintYearlyAverage[selectedDate.Month];
-                newRow["evap"] = metObject.EvapYearlyAverage[selectedDate.Month];
+                newRow["radn"] = this.tempMetObject.RadnYearlyAverage[selectedDate.Month];
+                newRow["maxt"] = this.tempMetObject.MaxtYearlyAverage[selectedDate.Month];
+                newRow["mint"] = this.tempMetObject.MintYearlyAverage[selectedDate.Month];
+                newRow["evap"] = this.tempMetObject.EvapYearlyAverage[selectedDate.Month];
                 newRow["rain"] = Convert.ToInt16(fpSpread1.Sheets[0].Cells[e.Row, e.Column].Value);
-                this.metObject.Data.Rows.Add(newRow);
+                this.tempMetObject.Data.Rows.Add(newRow);
                 }
             }
                 
         void RainfallEditor_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
             {
-            //write new data
-            metObject.overWriteMetFile();
-            //generate dataChangedEvent
+            if(MessageBox.Show("Do you wish to save your changes?","Save",MessageBoxButtons.YesNo)==DialogResult.Yes)
+                {
+                this.metObject = this.tempMetObject;
+                //fill in blank cells upto the last date with 0mm rainfall and average other cell 
+                this.metObject.overWriteMetFile();
+                }
             }
        
         private void AddYearButton_Click(object sender, EventArgs e)
@@ -137,15 +143,15 @@ namespace APSRU.Howwet
                 DateTime endDate =new DateTime ((int)yearSelectUpDown.Value,12,31);
                 while (startDate <= endDate)
                     {
-                    DataRow newRow = this.metObject.Data.NewRow();
-                    newRow["site"] = metObject.Site;
+                    DataRow newRow = this.tempMetObject.Data.NewRow();
+                    newRow["site"] = this.tempMetObject.Site;
                     newRow["Date"] = startDate;
-                    newRow["radn"] = metObject.RadnYearlyAverage[startDate.Month];
-                    newRow["maxt"] = metObject.MaxtYearlyAverage[startDate.Month];
-                    newRow["mint"] = metObject.MintYearlyAverage[startDate.Month];
-                    newRow["evap"] = metObject.EvapYearlyAverage[startDate.Month];
+                    newRow["radn"] = this.tempMetObject.RadnYearlyAverage[startDate.Month];
+                    newRow["maxt"] = this.tempMetObject.MaxtYearlyAverage[startDate.Month];
+                    newRow["mint"] = this.tempMetObject.MintYearlyAverage[startDate.Month];
+                    newRow["evap"] = this.tempMetObject.EvapYearlyAverage[startDate.Month];
                     newRow["rain"] = 0;
-                    this.metObject.Data.Rows.Add(newRow);
+                    this.tempMetObject.Data.Rows.Add(newRow);
                     startDate = startDate.AddDays(1);
                     }
                 }

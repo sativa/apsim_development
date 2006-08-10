@@ -72,6 +72,8 @@
     <Reference Include="Xceed.Chart.Standard, Version=4.0.100.0, Culture=neutral, PublicKeyToken=ba83ff368b7563c6" />
     <Reference Include="Xceed.Chart.UIControls, Version=4.0.100.0, Culture=neutral, PublicKeyToken=ba83ff368b7563c6" />
     <Reference Include="Xceed.Chart.Utilities, Version=4.0.100.0, Culture=neutral, PublicKeyToken=ba83ff368b7563c6" />
+    <Reference Include="Xceed.DockingWindows, Version=1.0.6061.0, Culture=neutral, PublicKeyToken=ba83ff368b7563c6" />
+    <Reference Include="Xceed.DockingWindows.Layout, Version=1.0.6061.0, Culture=neutral, PublicKeyToken=ba83ff368b7563c6" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs">
@@ -161,6 +163,7 @@
     <Content Include="Howwet.css" />
     <Content Include="HowwetReport.xml" />
     <Content Include="HowwetReport.xslt" />
+    <Content Include="HowwetSetup.xml" />
     <Content Include="Resources\add2.png" />
     <Content Include="Resources\boxplot.bmp" />
     <Content Include="Resources\chart.png" />
@@ -177,6 +180,7 @@
     <Content Include="Resources\help2.png" />
     <Content Include="Resources\media_play.png" />
     <Content Include="Resources\paste.png" />
+    <Content Include="Resources\shovel.png" />
     <Content Include="Resources\Simulation.png" />
     <Content Include="Resources\sunglasses.png" />
     <Content Include="Resources\text.png" />
