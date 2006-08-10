@@ -125,8 +125,8 @@ object data: TForm
     LocaleID = 1024
     source = ApsimFileReader1
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     filter = 'Planting = 1'
     Left = 136
     Top = 176
@@ -178,8 +178,8 @@ object data: TForm
     LocaleID = 1024
     source = ApsimFileReader1
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     filter = 'Planting = 2'
     Left = 192
     Top = 184
@@ -231,8 +231,8 @@ object data: TForm
     LocaleID = 1024
     source = ApsimFileReader1
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     filter = 'Planting = 3'
     Left = 264
     Top = 192
@@ -284,8 +284,8 @@ object data: TForm
     LocaleID = 1024
     source = ApsimFileReader1
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     filter = 'Planting = 4'
     Left = 344
     Top = 192
@@ -337,8 +337,8 @@ object data: TForm
     LocaleID = 1024
     source = ApsimFileReader1
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     filter = 'Planting = 5'
     Left = 408
     Top = 208
@@ -390,8 +390,8 @@ object data: TForm
     LocaleID = 1024
     source = ApsimFileReader1
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     filter = 'Planting = 6'
     Left = 480
     Top = 200
@@ -443,8 +443,8 @@ object data: TForm
     LocaleID = 1024
     source = ApsimFileReader1
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     filter = 'Planting = 7'
     Left = 536
     Top = 200
@@ -496,8 +496,8 @@ object data: TForm
     LocaleID = 1024
     source = ApsimFileReader1
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     filter = 'Planting = 8'
     Left = 600
     Top = 208
@@ -583,7 +583,8 @@ object data: TForm
       end
       item
         Name = 'dlt_cumvd'
-        DataType = ftFloat
+        DataType = ftString
+        Size = 200
       end
       item
         Name = 'swdef_photo'
@@ -616,8 +617,8 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     filenames.Strings = (
       'GreenBelt1997 Planting1.out')
     Left = 74
@@ -704,7 +705,8 @@ object data: TForm
       end
       item
         Name = 'dlt_cumvd'
-        DataType = ftFloat
+        DataType = ftString
+        Size = 200
       end
       item
         Name = 'swdef_photo'
@@ -737,8 +739,8 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     filenames.Strings = (
       'GreenBelt1997 Planting2.out')
     Left = 160
@@ -825,7 +827,8 @@ object data: TForm
       end
       item
         Name = 'dlt_cumvd'
-        DataType = ftFloat
+        DataType = ftString
+        Size = 200
       end
       item
         Name = 'swdef_photo'
@@ -858,8 +861,8 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     filenames.Strings = (
       'GreenBelt1997 Planting3.out')
     Left = 232
@@ -946,7 +949,8 @@ object data: TForm
       end
       item
         Name = 'dlt_cumvd'
-        DataType = ftFloat
+        DataType = ftString
+        Size = 200
       end
       item
         Name = 'swdef_photo'
@@ -979,8 +983,8 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     filenames.Strings = (
       'GreenBelt1997 Planting4.out')
     Left = 328
@@ -1067,7 +1071,8 @@ object data: TForm
       end
       item
         Name = 'dlt_cumvd'
-        DataType = ftFloat
+        DataType = ftString
+        Size = 200
       end
       item
         Name = 'swdef_photo'
@@ -1100,8 +1105,8 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     filenames.Strings = (
       'GreenBelt1997 Planting5.out')
     Left = 424
@@ -1188,7 +1193,8 @@ object data: TForm
       end
       item
         Name = 'dlt_cumvd'
-        DataType = ftFloat
+        DataType = ftString
+        Size = 200
       end
       item
         Name = 'swdef_photo'
@@ -1221,8 +1227,8 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     filenames.Strings = (
       'GreenBelt1997 Planting6.out')
     Left = 504
@@ -1309,7 +1315,8 @@ object data: TForm
       end
       item
         Name = 'dlt_cumvd'
-        DataType = ftFloat
+        DataType = ftString
+        Size = 200
       end
       item
         Name = 'swdef_photo'
@@ -1342,8 +1349,8 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     filenames.Strings = (
       'GreenBelt1997 Planting7.out')
     Left = 587
@@ -1430,7 +1437,8 @@ object data: TForm
       end
       item
         Name = 'dlt_cumvd'
-        DataType = ftFloat
+        DataType = ftString
+        Size = 200
       end
       item
         Name = 'swdef_photo'
@@ -1463,8 +1471,8 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     filenames.Strings = (
       'GreenBelt1997 Planting8.out')
     Left = 680
@@ -1472,8 +1480,8 @@ object data: TForm
   end
 end
 object Page1: TQuickRep
-  Left = 118
-  Top = 0
+  Left = 235
+  Top = 32
   Width = 556
   Height = 786
   Frame.Color = clBlack
@@ -1622,9 +1630,14 @@ object Page1: TQuickRep
         Width = 1
         Height = 1
         BackWall.Visible = False
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMaximum = False
+        BottomAxis.AutomaticMinimum = False
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.Grid.Visible = False
         BottomAxis.LabelsSeparation = 100
+        BottomAxis.Maximum = 92
+        BottomAxis.Minimum = 2
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         LeftAxis.AxisValuesFormat = '###0.###'
@@ -1924,9 +1937,14 @@ object Page1: TQuickRep
         Width = 1
         Height = 1
         BackWall.Visible = False
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMaximum = False
+        BottomAxis.AutomaticMinimum = False
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.Grid.Visible = False
         BottomAxis.LabelsSeparation = 100
+        BottomAxis.Maximum = 35674
+        BottomAxis.Minimum = 35490
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         LeftAxis.AxisValuesFormat = '###0.###'
