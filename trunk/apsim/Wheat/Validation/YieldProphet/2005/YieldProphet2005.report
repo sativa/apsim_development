@@ -1,13 +1,13 @@
 Version = 3.0
-NumPages = 1
+NumPages = 2
 object data: TForm
   Left = 4
   Top = 4
   Align = alClient
   BorderIcons = []
   BorderStyle = bsNone
-  ClientHeight = 867
-  ClientWidth = 1272
+  ClientHeight = 442
+  ClientWidth = 711
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -179,6 +179,9 @@ object data: TForm
     SortID = 0
     SubLanguageID = 1
     LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'RegrGrainN.onSourceDataChanged'
+      'RegrYield2.onSourceDataChanged')
     filenames.Strings = (
       'A and R Weidemann-Gardies\scenario1Summary.out'
       'A and R Weidemann-Wep 20\scenario1Summary.out'
@@ -285,8 +288,8 @@ object data: TForm
       'teasdale-Dunlops 200\scenario1Summary.out'
       'Tony Gregson-School\scenario1Summary.out'
       'Tony Gregson-Teds North\scenario1Summary.out')
-    Left = 119
-    Top = 105
+    Left = 159
+    Top = 73
   end
   object Observed: TApsimFileReader
     Active = True
@@ -300,7 +303,19 @@ object data: TForm
         Size = 200
       end
       item
+        Name = 'SoilStatus'
+        DataType = ftFloat
+      end
+      item
         Name = 'wet_yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_protein'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
         DataType = ftFloat
       end>
     IndexDefs = <>
@@ -321,11 +336,15 @@ object data: TForm
     SortID = 0
     SubLanguageID = 1
     LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'RegrGrainN.onSourceDataChanged'
+      'FilteredObs.onSourceDataChanged'
+      'RegrYield2.onSourceDataChanged')
     filenames.Strings = (
       'Observed.txt')
     interpretTitles = True
-    Left = 136
-    Top = 239
+    Left = 256
+    Top = 151
   end
   object PredObs1: TPredObs
     Active = True
@@ -344,6 +363,22 @@ object data: TForm
       end
       item
         Name = 'Obswet_yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Predgrain_protein'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Obsgrain_protein'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Predgrain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Obsgrain_n'
         DataType = ftFloat
       end>
     IndexDefs = <>
@@ -366,7 +401,12 @@ object data: TForm
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
       'RegrYield.onSourceDataChanged'
-      'Graph1.afterDataRefresh')
+      'RegrProtein.onSourceDataChanged'
+      'RegrGrainN.onSourceDataChanged'
+      'Graph2.afterDataRefresh'
+      'Graph1.afterDataRefresh'
+      'Graph3.afterDataRefresh'
+      'RegrYield2.onSourceDataChanged')
     predData = Predicted
     obsData = Observed
     keyFields.Strings = (
@@ -449,16 +489,555 @@ object data: TForm
     LocaleID = 1024
     source = PredObs1
     subscriptionComponentNames.Strings = (
+      'Text3.afterDataRefresh'
+      'Text4.afterDataRefresh'
       'Graph1.afterDataRefresh'
-      'Text3.afterDataRefresh')
+      'Text3b.afterDataRefresh'
+      'RegrYield2.onSourceDataChanged')
     xFieldName = 'Obswet_yield'
     yFieldName = 'Predwet_yield'
     Left = 430
     Top = 154
   end
+  object RegrProtein: TRegr
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'RegrX'
+        DataType = ftFloat
+      end
+      item
+        Name = 'RegrY'
+        DataType = ftFloat
+      end
+      item
+        Name = '1:1X'
+        DataType = ftFloat
+      end
+      item
+        Name = '1:1Y'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Equation'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'm'
+        DataType = ftFloat
+      end
+      item
+        Name = 'c'
+        DataType = ftFloat
+      end
+      item
+        Name = 'r2'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'StdErr(m)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'StdErr(c)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'RMSD'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = PredObs1
+    subscriptionComponentNames.Strings = (
+      'Text4.afterDataRefresh'
+      'Text5.afterDataRefresh'
+      'Graph2.afterDataRefresh'
+      'Text4b.afterDataRefresh'
+      'RegrYield2.onSourceDataChanged')
+    xFieldName = 'Obsgrain_protein'
+    yFieldName = 'Predgrain_protein'
+    Left = 502
+    Top = 152
+  end
+  object RegrGrainN: TRegr
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'RegrX'
+        DataType = ftFloat
+      end
+      item
+        Name = 'RegrY'
+        DataType = ftFloat
+      end
+      item
+        Name = '1:1X'
+        DataType = ftFloat
+      end
+      item
+        Name = '1:1Y'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Equation'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'm'
+        DataType = ftFloat
+      end
+      item
+        Name = 'c'
+        DataType = ftFloat
+      end
+      item
+        Name = 'r2'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'StdErr(m)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'StdErr(c)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'RMSD'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = PredObs1
+    subscriptionComponentNames.Strings = (
+      'Text5.afterDataRefresh'
+      'Graph3.afterDataRefresh'
+      'Text5b.afterDataRefresh'
+      'RegrYield2.onSourceDataChanged')
+    xFieldName = 'Obsgrain_n'
+    yFieldName = 'Predgrain_n'
+    Left = 570
+    Top = 154
+  end
+  object FilteredObs: TFilter
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'title'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'SoilStatus'
+        DataType = ftFloat
+      end
+      item
+        Name = 'wet_yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_protein'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Observed
+    subscriptionComponentNames.Strings = (
+      'RegrYield2.onSourceDataChanged')
+    filter = 'SoilStatus = 1'
+    Left = 256
+    Top = 240
+  end
+  object PredObs2: TPredObs
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'title'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'Predwet_yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Obswet_yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Predgrain_protein'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Obsgrain_protein'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Predgrain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Obsgrain_n'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'RegrYield2.onSourceDataChanged'
+      'RegrProtein2.onSourceDataChanged'
+      'RegrGrainN2.onSourceDataChanged'
+      'Graph2b.afterDataRefresh'
+      'Graph3b.afterDataRefresh'
+      'Graph1b.afterDataRefresh')
+    predData = Predicted
+    obsData = FilteredObs
+    keyFields.Strings = (
+      'title')
+    Left = 336
+    Top = 240
+  end
+  object RegrYield2: TRegr
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'RegrX'
+        DataType = ftFloat
+      end
+      item
+        Name = 'RegrY'
+        DataType = ftFloat
+      end
+      item
+        Name = '1:1X'
+        DataType = ftFloat
+      end
+      item
+        Name = '1:1Y'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Equation'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'm'
+        DataType = ftFloat
+      end
+      item
+        Name = 'c'
+        DataType = ftFloat
+      end
+      item
+        Name = 'r2'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'StdErr(m)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'StdErr(c)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'RMSD'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = PredObs2
+    subscriptionComponentNames.Strings = (
+      'Text3b.afterDataRefresh'
+      'Graph1b.afterDataRefresh')
+    xFieldName = 'Obswet_yield'
+    yFieldName = 'Predwet_yield'
+    Left = 429
+    Top = 235
+  end
+  object RegrProtein2: TRegr
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'RegrX'
+        DataType = ftFloat
+      end
+      item
+        Name = 'RegrY'
+        DataType = ftFloat
+      end
+      item
+        Name = '1:1X'
+        DataType = ftFloat
+      end
+      item
+        Name = '1:1Y'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Equation'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'm'
+        DataType = ftFloat
+      end
+      item
+        Name = 'c'
+        DataType = ftFloat
+      end
+      item
+        Name = 'r2'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'StdErr(m)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'StdErr(c)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'RMSD'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = PredObs2
+    subscriptionComponentNames.Strings = (
+      'RegrYield2.onSourceDataChanged'
+      'Graph2b.afterDataRefresh'
+      'Text4b.afterDataRefresh')
+    xFieldName = 'Obsgrain_protein'
+    yFieldName = 'Predgrain_protein'
+    Left = 512
+    Top = 248
+  end
+  object RegrGrainN2: TRegr
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'RegrX'
+        DataType = ftFloat
+      end
+      item
+        Name = 'RegrY'
+        DataType = ftFloat
+      end
+      item
+        Name = '1:1X'
+        DataType = ftFloat
+      end
+      item
+        Name = '1:1Y'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Equation'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'm'
+        DataType = ftFloat
+      end
+      item
+        Name = 'c'
+        DataType = ftFloat
+      end
+      item
+        Name = 'r2'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'StdErr(m)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'StdErr(c)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'RMSD'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = PredObs2
+    subscriptionComponentNames.Strings = (
+      'RegrYield2.onSourceDataChanged'
+      'Graph3b.afterDataRefresh'
+      'Text5b.afterDataRefresh')
+    xFieldName = 'Obsgrain_n'
+    yFieldName = 'Predgrain_n'
+    Left = 584
+    Top = 232
+  end
 end
 object Page1: TQuickRep
-  Left = 318
+  Left = 44
   Top = 0
   Width = 635
   Height = 898
@@ -524,8 +1103,8 @@ object Page1: TQuickRep
     object Graph1: TGraph
       Left = 16
       Top = 136
-      Width = 309
-      Height = 334
+      Width = 301
+      Height = 320
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -533,16 +1112,16 @@ object Page1: TQuickRep
       Frame.DrawRight = False
       Frame.Style = psClear
       Size.Values = (
-        1105.95833333333
+        1058.33333333333
         52.9166666666667
         449.791666666667
-        1021.29166666667)
+        994.833333333333)
       title = 'Wet Yield (t/ha)'#13#10
       subTitle = ' '
-      leftAxisTitle = ' '
+      leftAxisTitle = 'Predicted'
       topAxisTitle = ' '
       rightAxisTitle = ' '
-      bottomAxisTitle = ' '
+      bottomAxisTitle = 'Observed'
       footTitle = ' '
       seriesTitle1 = ' '
       seriesTitle2 = ' '
@@ -555,18 +1134,26 @@ object Page1: TQuickRep
         Width = 1
         Height = 1
         BackWall.Visible = False
+        Title.Font.Color = clBlack
+        Title.Font.Height = -24
         Title.Text.Strings = (
           'Wet Yield (t/ha)')
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.Grid.Visible = False
+        BottomAxis.LabelsFont.Height = -16
         BottomAxis.LabelsSeparation = 100
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
+        BottomAxis.Title.Caption = 'Observed'
+        BottomAxis.Title.Font.Height = -16
         LeftAxis.AxisValuesFormat = '###0.###'
         LeftAxis.Grid.Visible = False
+        LeftAxis.LabelsFont.Height = -16
         LeftAxis.LabelsSeparation = 100
         LeftAxis.MinorTicks.Visible = False
         LeftAxis.TickLength = 7
+        LeftAxis.Title.Caption = 'Predicted'
+        LeftAxis.Title.Font.Height = -16
         Legend.LegendStyle = lsSeries
         Legend.Visible = False
         RightAxis.AxisValuesFormat = '###0.###'
@@ -632,18 +1219,18 @@ object Page1: TQuickRep
     object Text1: TText
       Left = 26
       Top = 38
-      Width = 293
-      Height = 46
+      Width = 394
+      Height = 58
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        152.135416666667
+        191.822916666667
         85.9895833333333
         125.677083333333
-        969.036458333333)
+        1303.07291666667)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -651,7 +1238,7 @@ object Page1: TQuickRep
       Color = clWhite
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -48
+      Font.Height = -64
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
@@ -660,23 +1247,23 @@ object Page1: TQuickRep
       Transparent = False
       WordWrap = True
       text = 'Wheat Validation'#13#10
-      FontSize = 36
+      FontSize = 48
     end
     object Text2: TText
-      Left = 50
-      Top = 78
-      Width = 271
-      Height = 26
+      Left = 354
+      Top = 174
+      Width = 192
+      Height = 64
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        85.9895833333333
-        165.364583333333
-        257.96875
-        896.276041666667)
+        211.666666666667
+        1170.78125
+        575.46875
+        635)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -688,16 +1275,17 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        'Yield Prophet Sites for 2005')
+        'Yield Prophet Sites '
+        'for 2005')
       ParentFont = False
       Transparent = False
       WordWrap = True
-      text = 'Yield Prophet Sites for 2005'#13#10
+      text = 'Yield Prophet Sites '#13#10'for 2005'#13#10
       FontSize = 20
     end
     object Text3: TText
-      Left = 135
-      Top = 410
+      Left = 143
+      Top = 377
       Width = 192
       Height = 23
       Frame.Color = clBlack
@@ -707,8 +1295,8 @@ object Page1: TQuickRep
       Frame.DrawRight = False
       Size.Values = (
         76.0677083333333
-        446.484375
-        1355.98958333333
+        472.942708333333
+        1246.84895833333
         635)
       Alignment = taLeftJustify
       AlignToBand = False
@@ -726,6 +1314,892 @@ object Page1: TQuickRep
       Transparent = False
       WordWrap = True
       text = '$property(regrYield.equation)'#13#10
+      FontSize = 14
+    end
+    object Graph2: TGraph
+      Left = 16
+      Top = 533
+      Width = 301
+      Height = 326
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        1079.5
+        52.9166666666667
+        1762.125
+        994.833333333333)
+      title = 'Grain Protein (%)'#13#10
+      subTitle = ' '
+      leftAxisTitle = 'Predicted'
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = 'Observed'
+      footTitle = ' '
+      seriesTitle1 = ' '
+      seriesTitle2 = ' '
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
+      object QRDBChart2: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        Title.Font.Color = clBlack
+        Title.Font.Height = -24
+        Title.Text.Strings = (
+          'Grain Protein (%)')
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.Grid.Visible = False
+        BottomAxis.LabelsFont.Height = -16
+        BottomAxis.LabelsSeparation = 100
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        BottomAxis.Title.Caption = 'Observed'
+        BottomAxis.Title.Font.Height = -16
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.Grid.Visible = False
+        LeftAxis.LabelsFont.Height = -16
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        LeftAxis.Title.Caption = 'Predicted'
+        LeftAxis.Title.Font.Height = -16
+        Legend.LegendStyle = lsSeries
+        Legend.Visible = False
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object PointSeries1: TPointSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.PredObs1
+          ClickableLine = False
+          Pointer.Brush.Color = clBlack
+          Pointer.InflateMargins = True
+          Pointer.Style = psCircle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Obsgrain_protein'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'Predgrain_protein'
+        end
+        object LineSeries1: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.RegrProtein
+          SeriesColor = clBlack
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'RegrX'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'RegrY'
+        end
+        object LineSeries2: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.RegrProtein
+          SeriesColor = clBlack
+          LinePen.Style = psDot
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = '1:1X'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = '1:1Y'
+        end
+      end
+    end
+    object Graph3: TGraph
+      Left = 323
+      Top = 533
+      Width = 301
+      Height = 326
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        1079.5
+        1068.91666666667
+        1762.125
+        994.833333333333)
+      title = 'Grain N(g/m2)'#13#10
+      subTitle = ' '
+      leftAxisTitle = 'Predicted'
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = 'Observed'
+      footTitle = ' '
+      seriesTitle1 = ' '
+      seriesTitle2 = ' '
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
+      object QRDBChart3: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        Title.Font.Color = clBlack
+        Title.Font.Height = -24
+        Title.Text.Strings = (
+          'Grain N(g/m2)')
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.Grid.Visible = False
+        BottomAxis.LabelsFont.Height = -16
+        BottomAxis.LabelsSeparation = 100
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        BottomAxis.Title.Caption = 'Observed'
+        BottomAxis.Title.Font.Height = -16
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.Grid.Visible = False
+        LeftAxis.LabelsFont.Height = -16
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        LeftAxis.Title.Caption = 'Predicted'
+        LeftAxis.Title.Font.Height = -16
+        Legend.LegendStyle = lsSeries
+        Legend.Visible = False
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object PointSeries2: TPointSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.PredObs1
+          ClickableLine = False
+          Pointer.Brush.Color = clBlack
+          Pointer.InflateMargins = True
+          Pointer.Style = psCircle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Obsgrain_n'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'Predgrain_n'
+        end
+        object LineSeries3: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.RegrGrainN
+          SeriesColor = clBlack
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'RegrX'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'RegrY'
+        end
+        object LineSeries4: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.RegrGrainN
+          SeriesColor = clBlack
+          LinePen.Style = psDot
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = '1:1X'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = '1:1Y'
+        end
+      end
+    end
+    object Text4: TText
+      Left = 109
+      Top = 783
+      Width = 192
+      Height = 23
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        76.0677083333333
+        360.494791666667
+        2589.609375
+        635)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = 'Arial'
+      Font.Style = []
+      Lines.Strings = (
+        ' y = 0.86 x + 2.41 (r2 = 0.23)')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = '$property(regrProtein.equation)'#13#10
+      FontSize = 14
+    end
+    object Text5: TText
+      Left = 429
+      Top = 783
+      Width = 192
+      Height = 23
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        76.0677083333333
+        1418.828125
+        2589.609375
+        635)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = 'Arial'
+      Font.Style = []
+      Lines.Strings = (
+        ' y = 0.86 x + 0.97 (r2 = 0.54)')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = '$property(regrGrainN.equation)'#13#10
+      FontSize = 14
+    end
+  end
+end
+object Page2: TQuickRep
+  Left = 44
+  Top = 0
+  Width = 635
+  Height = 898
+  Frame.Color = clBlack
+  Frame.DrawTop = False
+  Frame.DrawBottom = False
+  Frame.DrawLeft = False
+  Frame.DrawRight = False
+  Frame.Style = psClear
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Arial'
+  Font.Style = []
+  Functions.Strings = (
+    'PAGENUMBER'
+    'COLUMNNUMBER'
+    'REPORTTITLE')
+  Functions.DATA = (
+    '0'
+    '0'
+    #39#39)
+  Options = [FirstPageHeader, LastPageFooter]
+  Page.Columns = 1
+  Page.Orientation = poPortrait
+  Page.PaperSize = A4
+  Page.Ruler = False
+  Page.Values = (
+    0
+    2970
+    0
+    2100
+    0
+    0
+    0)
+  PrinterSettings.Copies = 1
+  PrinterSettings.Duplex = False
+  PrinterSettings.FirstPage = 0
+  PrinterSettings.LastPage = 0
+  PrinterSettings.OutputBin = Auto
+  PrintIfEmpty = True
+  SnapToGrid = True
+  Units = MM
+  Zoom = 80
+  object TitleBand1b: TQRBand
+    Left = 0
+    Top = 0
+    Width = 635
+    Height = 898
+    Frame.Color = clBlack
+    Frame.DrawTop = False
+    Frame.DrawBottom = False
+    Frame.DrawLeft = False
+    Frame.DrawRight = False
+    AlignToBottom = False
+    Color = clWhite
+    ForceNewColumn = False
+    ForceNewPage = False
+    Size.Values = (
+      2970
+      2100.13020833333)
+    BandType = rbTitle
+    object Graph1b: TGraph
+      Left = 16
+      Top = 136
+      Width = 301
+      Height = 320
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        1058.33333333333
+        52.9166666666667
+        449.791666666667
+        994.833333333333)
+      title = 'Wet Yield (t/ha)'#13#10
+      subTitle = ' '
+      leftAxisTitle = 'Predicted'
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = 'Observed'
+      footTitle = ' '
+      seriesTitle1 = ' '
+      seriesTitle2 = ' '
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
+      object QRDBChart1b: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        Title.Font.Color = clBlack
+        Title.Font.Height = -24
+        Title.Text.Strings = (
+          'Wet Yield (t/ha)')
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMinimum = False
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.Grid.Visible = False
+        BottomAxis.LabelsFont.Height = -16
+        BottomAxis.LabelsSeparation = 100
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        BottomAxis.Title.Caption = 'Observed'
+        BottomAxis.Title.Font.Height = -16
+        LeftAxis.Automatic = False
+        LeftAxis.AutomaticMinimum = False
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.Grid.Visible = False
+        LeftAxis.LabelsFont.Height = -16
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        LeftAxis.Title.Caption = 'Predicted'
+        LeftAxis.Title.Font.Height = -16
+        Legend.LegendStyle = lsSeries
+        Legend.Visible = False
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object Series1b: TPointSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.PredObs2
+          ClickableLine = False
+          Pointer.Brush.Color = clBlack
+          Pointer.InflateMargins = True
+          Pointer.Style = psCircle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Obswet_yield'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'Predwet_yield'
+        end
+        object Series2b: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.RegrYield2
+          SeriesColor = clBlack
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'RegrX'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'RegrY'
+        end
+        object Series3b: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.RegrYield2
+          SeriesColor = clBlack
+          LinePen.Style = psDot
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = '1:1X'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = '1:1Y'
+        end
+      end
+    end
+    object Text1b: TText
+      Left = 26
+      Top = 38
+      Width = 394
+      Height = 58
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        191.822916666667
+        85.9895833333333
+        125.677083333333
+        1303.07291666667)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -64
+      Font.Name = 'Arial'
+      Font.Style = []
+      Lines.Strings = (
+        'Wheat Validation')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = 'Wheat Validation'#13#10
+      FontSize = 48
+    end
+    object Text2b: TText
+      Left = 354
+      Top = 174
+      Width = 195
+      Height = 120
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        396.875
+        1170.78125
+        575.46875
+        644.921875)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -27
+      Font.Name = 'Arial'
+      Font.Style = []
+      Lines.Strings = (
+        'Yield Prophet Sites '
+        'for 2005'
+        '(Sites with good soil'
+        'data only)')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = 
+        'Yield Prophet Sites '#13#10'for 2005'#13#10'(Sites with good soil'#13#10'data only' +
+        ')'#13#10
+      FontSize = 20
+    end
+    object Text3b: TText
+      Left = 143
+      Top = 377
+      Width = 192
+      Height = 23
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        76.0677083333333
+        472.942708333333
+        1246.84895833333
+        635)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = 'Arial'
+      Font.Style = []
+      Lines.Strings = (
+        ' y = 0.74 x + 0.66 (r2 = 0.64)')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = '$property(regrYield2.equation)'#13#10
+      FontSize = 14
+    end
+    object Graph2b: TGraph
+      Left = 16
+      Top = 533
+      Width = 301
+      Height = 326
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        1079.5
+        52.9166666666667
+        1762.125
+        994.833333333333)
+      title = 'Grain Protein (%)'#13#10
+      subTitle = ' '
+      leftAxisTitle = 'Predicted'
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = 'Observed'
+      footTitle = ' '
+      seriesTitle1 = ' '
+      seriesTitle2 = ' '
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
+      object QRDBChart2b: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        Title.Font.Color = clBlack
+        Title.Font.Height = -24
+        Title.Text.Strings = (
+          'Grain Protein (%)')
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.Grid.Visible = False
+        BottomAxis.LabelsFont.Height = -16
+        BottomAxis.LabelsSeparation = 100
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        BottomAxis.Title.Caption = 'Observed'
+        BottomAxis.Title.Font.Height = -16
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.Grid.Visible = False
+        LeftAxis.LabelsFont.Height = -16
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        LeftAxis.Title.Caption = 'Predicted'
+        LeftAxis.Title.Font.Height = -16
+        Legend.LegendStyle = lsSeries
+        Legend.Visible = False
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object PointSeries1b: TPointSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.PredObs2
+          ClickableLine = False
+          Pointer.Brush.Color = clBlack
+          Pointer.InflateMargins = True
+          Pointer.Style = psCircle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Obsgrain_protein'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'Predgrain_protein'
+        end
+        object LineSeries1b: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.RegrProtein2
+          SeriesColor = clBlack
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'RegrX'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'RegrY'
+        end
+        object LineSeries2b: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.RegrProtein2
+          SeriesColor = clBlack
+          LinePen.Style = psDot
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = '1:1X'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = '1:1Y'
+        end
+      end
+    end
+    object Graph3b: TGraph
+      Left = 323
+      Top = 533
+      Width = 301
+      Height = 326
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        1079.5
+        1068.91666666667
+        1762.125
+        994.833333333333)
+      title = 'Grain N(g/m2)'#13#10
+      subTitle = ' '
+      leftAxisTitle = 'Predicted'
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = 'Observed'
+      footTitle = ' '
+      seriesTitle1 = ' '
+      seriesTitle2 = ' '
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
+      object QRDBChart3b: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        Title.Font.Color = clBlack
+        Title.Font.Height = -24
+        Title.Text.Strings = (
+          'Grain N(g/m2)')
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.Grid.Visible = False
+        BottomAxis.LabelsFont.Height = -16
+        BottomAxis.LabelsSeparation = 100
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        BottomAxis.Title.Caption = 'Observed'
+        BottomAxis.Title.Font.Height = -16
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.Grid.Visible = False
+        LeftAxis.LabelsFont.Height = -16
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        LeftAxis.Title.Caption = 'Predicted'
+        LeftAxis.Title.Font.Height = -16
+        Legend.LegendStyle = lsSeries
+        Legend.Visible = False
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object PointSeries2b: TPointSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.PredObs2
+          ClickableLine = False
+          Pointer.Brush.Color = clBlack
+          Pointer.InflateMargins = True
+          Pointer.Style = psCircle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Obsgrain_n'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'Predgrain_n'
+        end
+        object LineSeries3b: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.RegrGrainN2
+          SeriesColor = clBlack
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'RegrX'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'RegrY'
+        end
+        object LineSeries4b: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.RegrGrainN2
+          SeriesColor = clBlack
+          LinePen.Style = psDot
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = '1:1X'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = '1:1Y'
+        end
+      end
+    end
+    object Text4b: TText
+      Left = 109
+      Top = 783
+      Width = 192
+      Height = 23
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        76.0677083333333
+        360.494791666667
+        2589.609375
+        635)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = 'Arial'
+      Font.Style = []
+      Lines.Strings = (
+        ' y = 1.04 x + 0.38 (r2 = 0.30)')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = '$property(regrProtein2.equation)'#13#10
+      FontSize = 14
+    end
+    object Text5b: TText
+      Left = 429
+      Top = 783
+      Width = 192
+      Height = 23
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        76.0677083333333
+        1418.828125
+        2589.609375
+        635)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = 'Arial'
+      Font.Style = []
+      Lines.Strings = (
+        ' y = 0.83 x + 0.98 (r2 = 0.68)')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = '$property(regrGrainN2.equation)'#13#10
       FontSize = 14
     end
   end
