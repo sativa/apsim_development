@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Text;
 using VBGeneral;
 using CSGeneral;
+using APSRU.Error;
 
 
 namespace APSRU.Model.Howwet
@@ -13,6 +14,8 @@ namespace APSRU.Model.Howwet
         private APSIMData myData;
         private String fileName;
         private Soil newSoil;
+        private String oldCrop="";
+        
       
         public SimulationIn(APSIMData data)
             {
@@ -26,6 +29,8 @@ namespace APSRU.Model.Howwet
             }
         public void AddSoil(APSIMData selectedSoil)
             {
+            String errString = "";
+            const String FUNCTION_NAME = "AddSoil";
             try
                 {
                 APSIMData paddockNode = myData.FindChild("HowWet|paddock", '|');
@@ -33,19 +38,42 @@ namespace APSRU.Model.Howwet
 
                 if (!(soils.Count == 0))
                     {
+                    errString = "removing old soil";
                     String soil = soils[0];
                     APSIMData soilNode = paddockNode.Child(soil);
                     paddockNode.Delete(soilNode.Name);
-                    paddockNode.Add(selectedSoil);
                     }
-                else
-                    {
-                    paddockNode.Add(selectedSoil);
-                    }
+                errString = "adding new soil";
+                paddockNode.Add(selectedSoil);
                 newSoil = new Soil(selectedSoil);
                 }
             catch (Exception e)
                 {
+                throw new CustomException(new CustomError("", "Problem adding soil", errString + "\n Exception:" + e.ToString(), FUNCTION_NAME, this.GetType().FullName, true));
+                }
+            }
+
+        public void AddCrop(String newCrop)
+            {
+            String errString = "";
+            const String FUNCTION_NAME = "AddCrop";
+            try
+                {
+                APSIMData soilCropNode = myData.FindChild("HowWet|paddock", '|');
+                if(!(oldCrop==""))
+                    {
+                    errString = "removing old crop";
+                    soilCropNode.Delete(oldCrop);
+                    }
+                errString = "adding new crop";
+                APSIMData newNode=new APSIMData(newCrop,"");
+                soilCropNode.Add(newNode);
+                oldCrop = newCrop;
+                
+                }
+            catch (Exception e)
+                {
+                throw new CustomException(new CustomError("", "Problem adding Corp", errString + "\n Exception:" + e.ToString(), FUNCTION_NAME, this.GetType().FullName, true));
                 }
             }
 
@@ -88,20 +116,7 @@ namespace APSRU.Model.Howwet
                 }
             }
 
-        //ToDo
-        public String Crop
-            {
-            set
-                {
-                APSIMData soilCropNode = myData.FindChild("HowWet|paddock", '|');
-                soilCropNode.set_ChildValue("end_date", value);
-                }
-            get
-                {
-                APSIMData soilCropNode = myData.FindChild("HowWet|paddock", '|');
-                return soilCropNode.get_ChildValue("end_date");
-                }
-            }
+        
 
         public String ErosionSlope
             {
