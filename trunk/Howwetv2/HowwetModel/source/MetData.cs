@@ -15,6 +15,7 @@ namespace APSRU.Model.Howwet
     //to will also write back to the met file.
     public class MetData
         {
+        
         private DataTable data;
         private String site;
         private String fileName;
@@ -31,27 +32,31 @@ namespace APSRU.Model.Howwet
         private int[] evapYearlyAverage;
         private DataTable evapMonthlyAverage;
         private ArrayList constants;
+        
 
         public MetData(String fileName)
             {
-            String errString = "Problem reading met file";
-            APSIMInputFile metInput = new APSIMInputFile();
-            DateTime startDate = new DateTime();
-            DateTime endDate = new DateTime();
-            //get values from met file
+            String errString = "";
+            const String FUNCTION_NAME = "MetData";
             try
                 {
+                APSIMInputFile metInput = new APSIMInputFile();
+                DateTime startDate = new DateTime();
+                DateTime endDate = new DateTime();
+                //get values from met file
+                errString = "reading Met file";
                 metInput.ReadFromFile(fileName);
                 metInput.GetStartEndDate(fileName, ref startDate, ref endDate);
                 constants = metInput.Constants;
-
                 //hydrate this object
+                errString = "hydrating MetData Object";
                 this.Data = metInput.Data;
                 this.FileName = fileName;
                 this.StartDate = startDate;
                 this.EndDate = endDate;
                 this.Site = (String)this.Data.Rows[0]["site"];
                 //calculate averages
+                errString = "calculating averages";
                 this.RadnMonthlyAverage = createMonthlyAverages("radn");
                 this.RadnYearlyAverage = getMonthlyYearlyAverages(this.RadnMonthlyAverage);
                 this.MaxtMonthlyAverage = createMonthlyAverages("maxt");
@@ -63,9 +68,14 @@ namespace APSRU.Model.Howwet
                 this.EvapMonthlyAverage = createMonthlyAverages("evap");
                 this.EvapYearlyAverage = getMonthlyYearlyAverages(this.EvapMonthlyAverage);
                 }
-            catch (Exception e)
+            catch (CustomException err)
                 {
-                throw new CustomException(new CustomError("123","pub mess",errString,"MetData","className",true));
+                err.addError(new CustomError("", "Cannot read Met file", errString + "\n Exception:" + err.ToString(), FUNCTION_NAME, this.GetType().FullName, true));
+                throw err;
+                }
+            catch (Exception err)
+                {
+                throw new CustomException(new CustomError("", "Cannot read Met file", errString + "\n Exception:" + err.ToString(), FUNCTION_NAME, this.GetType().FullName, true));
                 }
             }
 
@@ -159,123 +169,149 @@ namespace APSRU.Model.Howwet
             get { return data; }
             }
 
+        //write met data to existing met file
+        public void overWriteMetFile()
+            {
+            String errString = "";
+            const String FUNCTION_NAME = "overWriteMetFile";
+            try
+                {
+                StreamWriter outStream = new StreamWriter(fileName);
+                errString = "writing " + fileName;
+                DateTime firstYear = (DateTime)this.Data.Rows[0]["date"];
+                DateTime lastYear = (DateTime)this.Data.Rows[Data.Rows.Count - 1]["date"];
+                String title = "!Title =" + fileName + " " + firstYear.Year + " - " + lastYear.Year;
+                outStream.WriteLine(title);
+                //write out the original file headers and comments + any new ones
+                foreach (APSIMConstant con in constants)
+                    {
+                    outStream.WriteLine(con.Name + " = " + con.Value + " (" + con.Units + ") " + " ! " + con.Comment);
+                    }
+
+                String headings = "site year day radn maxt mint rain evap";
+                outStream.WriteLine(headings);
+                String units = "()   ()    () (MJ/m2) (oC)   (oC)   (mm)    (mm)";
+                outStream.WriteLine(units);
+                //Data
+                foreach (DataRow row in Data.Rows)
+                    {
+                    DateTime date = new DateTime();
+                    date = (DateTime)row["date"];
+                    outStream.WriteLine(row["site"].ToString() + " " + date.Year + " " + date.DayOfYear + " " + row["radn"].ToString() + " " + row["maxt"].ToString() + " " + row["mint"].ToString() + " " + row["rain"].ToString() + " " + row["evap"].ToString());
+                    }
+                outStream.Close();
+                }
+            catch (Exception e)
+                {
+                throw new CustomException(new CustomError("", "Cannot write Met file", errString + "\n Exception:" + e.ToString(), FUNCTION_NAME, this.GetType().FullName, true));
+                }
+            }
         //create monthly averages for the given field across all years
         private DataTable createMonthlyAverages(String field)
             {
-            DataTable yearlySum = new DataTable("MetData");
-            yearlySum.Columns.Add("Year");
-            yearlySum.Columns.Add("Jan");
-            yearlySum.Columns.Add("Feb");
-            yearlySum.Columns.Add("Mar");
-            yearlySum.Columns.Add("Apr");
-            yearlySum.Columns.Add("May");
-            yearlySum.Columns.Add("Jun");
-            yearlySum.Columns.Add("Jul");
-            yearlySum.Columns.Add("Aug");
-            yearlySum.Columns.Add("Sep");
-            yearlySum.Columns.Add("Oct");
-            yearlySum.Columns.Add("Nov");
-            yearlySum.Columns.Add("Dec");
-
-            //for each year
-            DateTime firstYear = (DateTime)this.Data.Rows[0]["date"];
-            DateTime lastYear = (DateTime)this.Data.Rows[this.Data.Rows.Count - 1]["date"];
-
-            for (int year = firstYear.Year; year <= lastYear.Year; year++)
+            String errString = "";
+            const String FUNCTION_NAME = "createMonthlyAverages";
+            try
                 {
-                int[] monthlySum = new int[13];
-                int[] dayCount = new int[13];
-                //for the selected year sum the daily totals to a month total
-                String sql = "Date >= '1-1-" + year + "' AND Date < '31-12-" + year + "'";
-                DataRow[] yearRows = this.Data.Select(sql);
-                if (!(yearRows.Length == 0))
+                DataTable yearlySum = new DataTable("MetData");
+                yearlySum.Columns.Add("Year");
+                yearlySum.Columns.Add("Jan");
+                yearlySum.Columns.Add("Feb");
+                yearlySum.Columns.Add("Mar");
+                yearlySum.Columns.Add("Apr");
+                yearlySum.Columns.Add("May");
+                yearlySum.Columns.Add("Jun");
+                yearlySum.Columns.Add("Jul");
+                yearlySum.Columns.Add("Aug");
+                yearlySum.Columns.Add("Sep");
+                yearlySum.Columns.Add("Oct");
+                yearlySum.Columns.Add("Nov");
+                yearlySum.Columns.Add("Dec");
+                //for each year
+                DateTime firstYear = (DateTime)this.Data.Rows[0]["date"];
+                DateTime lastYear = (DateTime)this.Data.Rows[this.Data.Rows.Count - 1]["date"];
+
+                for (int year = firstYear.Year; year <= lastYear.Year; year++)
                     {
-                    foreach (DataRow row in yearRows)
+                    int[] monthlySum = new int[13];
+                    int[] dayCount = new int[13];
+                    //for the selected year sum the daily totals to a month total
+                    String sql = "Date >= '1-1-" + year + "' AND Date < '31-12-" + year + "'";
+                    DataRow[] yearRows = this.Data.Select(sql);
+                    if (!(yearRows.Length == 0))
                         {
-                        DateTime date = (DateTime)row["Date"];
-                        if (!(Convert.ToInt16(row[field]) == 0))
+                        foreach (DataRow row in yearRows)
                             {
-                            monthlySum[date.Month] = monthlySum[date.Month] + Convert.ToInt16(row[field]);
-                            dayCount[date.Month] = date.Day;
+                            DateTime date = (DateTime)row["Date"];
+                            if (!(Convert.ToInt16(row[field]) == 0))
+                                {
+                                monthlySum[date.Month] = monthlySum[date.Month] + Convert.ToInt16(row[field]);
+                                dayCount[date.Month] = date.Day;
+                                }
                             }
                         }
-                    }
-                //generate the averages for each month within the selected year
-                int[] monthlyAverage = new int[13];
-                int[] yearSumAverage = new int[13];
-                int itemsInArray = 1;
-                for (int loop = 1; loop < dayCount.Length; loop++)
-                    {
-                    if (!(dayCount[loop] == 0)) itemsInArray++;
-                    }
-
-                
-                for (int month = 1; month < itemsInArray; month++)
-                    {
-                    if (dayCount[month] == 0)//test divide by zero
+                    //generate the averages for each month within the selected year
+                    int[] monthlyAverage = new int[13];
+                    int[] yearSumAverage = new int[13];
+                    int itemsInArray = 1;
+                    for (int loop = 1; loop < dayCount.Length; loop++)
                         {
-                        monthlyAverage[month] = 0;
+                        if (!(dayCount[loop] == 0)) itemsInArray++;
                         }
-                    else
+                    for (int month = 1; month < itemsInArray; month++)
                         {
-                        monthlyAverage[month] = monthlySum[month] / dayCount[month];
+                        if (dayCount[month] == 0)//test divide by zero
+                            {
+                            monthlyAverage[month] = 0;
+                            }
+                        else
+                            {
+                            monthlyAverage[month] = monthlySum[month] / dayCount[month];
+                            }
                         }
+                    //put the monthly averages per year in a data table
+                    DataRow newRow = yearlySum.NewRow();
+                    newRow["Year"] = year;
+                    for (int col = 1; col < monthlyAverage.Length; col++)
+                        {
+                        newRow[col] = monthlyAverage[col];
+                        }
+                    yearlySum.Rows.Add(newRow);
                     }
-                //put the monthly averages per year in a data table
-                DataRow newRow = yearlySum.NewRow();
-                newRow["Year"] = year;
-                for (int col = 1; col < monthlyAverage.Length; col++)
-                    {
-                    newRow[col] = monthlyAverage[col];
-                    }
-                yearlySum.Rows.Add(newRow);
+                return yearlySum;
                 }
-            return yearlySum;
+            catch (Exception e)
+                {
+                throw new CustomException(new CustomError("", "Cannot create monthly averages", errString + "\n Exception:" + e.ToString(), FUNCTION_NAME, this.GetType().FullName, true));
+                }
             }
 
         //calculate yearly averages of monthly average 
         private int[] getMonthlyYearlyAverages(DataTable yearlySum)
             {
-            //generate the averages for each month across all years
-            int[] monthlyYearlyAverages = new int[13];
-            for (int columun = 1; columun < yearlySum.Columns.Count; columun++)
+            String errString = "";
+            const String FUNCTION_NAME="getMonthlyYearlyAverages";
+            try
                 {
-                int rowCount = 0;
-                int yearSum = 0;
-                foreach (DataRow row in yearlySum.Rows)
+                //generate the averages for each month across all years
+                int[] monthlyYearlyAverages = new int[13];
+                for (int columun = 1; columun < yearlySum.Columns.Count; columun++)
                     {
-                    yearSum = yearSum + Convert.ToInt16(row[columun]);
-                    rowCount++;
+                    int rowCount = 0;
+                    int yearSum = 0;
+                    foreach (DataRow row in yearlySum.Rows)
+                        {
+                        yearSum = yearSum + Convert.ToInt16(row[columun]);
+                        rowCount++;
+                        }
+                    monthlyYearlyAverages[columun] = yearSum / rowCount;
                     }
-                monthlyYearlyAverages[columun] = yearSum / rowCount;
+                return monthlyYearlyAverages;
                 }
-            return monthlyYearlyAverages;
-            }
-
-        //write met data to existing met file
-        public void overWriteMetFile()
-            {
-            StreamWriter outStream = new StreamWriter(fileName + "1");
-            DateTime firstYear = (DateTime)this.Data.Rows[0]["date"];
-            DateTime lastYear = (DateTime)this.Data.Rows[Data.Rows.Count - 1]["date"];
-            String title = "!Title =" + fileName + " " + firstYear.Year + " - " + lastYear.Year;
-            outStream.WriteLine(title);
-            //write out the original file headers and comments + any new ones
-            foreach (APSIMConstant con in constants)
+            catch (Exception e)
                 {
-                outStream.WriteLine(con.Name + " = " + con.Value + " (" + con.Units + ") " + " ! " + con.Comment);
+                throw new CustomException(new CustomError("", "Cannot getMonthlyYearlyAverages", errString + "\n Exception:" + e.ToString(), FUNCTION_NAME, this.GetType().FullName, true));
                 }
-
-            String headings = "site year day radn maxt mint rain evap";
-            outStream.WriteLine(headings);
-            //Data
-            foreach (DataRow row in Data.Rows)
-                {
-                DateTime date = new DateTime();
-                date = (DateTime)row["date"];
-                outStream.WriteLine(row["site"].ToString() + " " + date.Year + " " + date.DayOfYear + " " + row["radn"].ToString() + " " + row["maxt"].ToString() + " " + row["mint"].ToString() + " " + row["rain"].ToString() + " " + row["evap"].ToString());
-                }
-            outStream.Close();
             }
         }
     }

@@ -9,7 +9,7 @@ namespace APSRU.Error
     {
     public class CustomException : Exception
         {
-        private ArrayList errors=new ArrayList();
+        private ArrayList errors = new ArrayList();
         public CustomException(CustomError error)
             {
             errors.Add(error);
@@ -17,6 +17,11 @@ namespace APSRU.Error
         public ArrayList getErrors()
             {
             return errors;
+            }
+        public void addError(CustomError error)
+            {
+            errors.Add(error);
+           
             }
         }
     }
