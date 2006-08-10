@@ -29,38 +29,30 @@ namespace APSRU.Howwet
         private void InitializeComponent()
         {
         this.components = new System.ComponentModel.Container();
+       
         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
         this.chartControl1 = new Xceed.Chart.ChartControl();
         this.showAPSIMFileButton = new System.Windows.Forms.Button();
-        this.button2 = new System.Windows.Forms.Button();
         this.groupBox7 = new System.Windows.Forms.GroupBox();
         this.groupBox1 = new System.Windows.Forms.GroupBox();
-        this.groupBox11 = new System.Windows.Forms.GroupBox();
-        this.initialSoilWaterPercent = new System.Windows.Forms.NumericUpDown();
-        this.label29 = new System.Windows.Forms.Label();
-        this.label26 = new System.Windows.Forms.Label();
-        this.initialWater = new System.Windows.Forms.TextBox();
-        this.label30 = new System.Windows.Forms.Label();
-        this.label31 = new System.Windows.Forms.Label();
-        this.waterCapacity = new System.Windows.Forms.TextBox();
-        this.label21 = new System.Windows.Forms.Label();
-        this.label19 = new System.Windows.Forms.Label();
+        this.classificationLabel = new System.Windows.Forms.Label();
+        this.regionLabel = new System.Windows.Forms.Label();
+        this.label16 = new System.Windows.Forms.Label();
+        this.label15 = new System.Windows.Forms.Label();
+        this.selectedSoilLabel = new System.Windows.Forms.Label();
         this.groupBox10 = new System.Windows.Forms.GroupBox();
         this.label13 = new System.Windows.Forms.Label();
-        this.estimateNitrogenButton = new System.Windows.Forms.Button();
         this.label9 = new System.Windows.Forms.Label();
         this.initialSoilNitrogen = new System.Windows.Forms.TextBox();
         this.selectSoilButton = new System.Windows.Forms.Button();
-        this.label23 = new System.Windows.Forms.Label();
-        this.proposedCropList = new System.Windows.Forms.ComboBox();
-        this.label28 = new System.Windows.Forms.Label();
         this.label22 = new System.Windows.Forms.Label();
         this.label20 = new System.Windows.Forms.Label();
         this.groupBox3 = new System.Windows.Forms.GroupBox();
+        this.coverPercent = new System.Windows.Forms.NumericUpDown();
+        this.label1 = new System.Windows.Forms.Label();
         this.label14 = new System.Windows.Forms.Label();
-        this.typeName = new System.Windows.Forms.ComboBox();
+        this.coverCropList = new System.Windows.Forms.ComboBox();
         this.label12 = new System.Windows.Forms.Label();
-        this.mass = new System.Windows.Forms.TextBox();
         this.groupBox2 = new System.Windows.Forms.GroupBox();
         this.slope = new System.Windows.Forms.TextBox();
         this.label11 = new System.Windows.Forms.Label();
@@ -76,7 +68,16 @@ namespace APSRU.Howwet
         this.ocDepthLabel = new System.Windows.Forms.Label();
         this.organicCarbonContent = new System.Windows.Forms.TextBox();
         this.label17 = new System.Windows.Forms.Label();
-        this.soilsList = new System.Windows.Forms.ComboBox();
+        this.groupBox11 = new System.Windows.Forms.GroupBox();
+        this.initialSoilWaterPercent = new System.Windows.Forms.NumericUpDown();
+        this.label29 = new System.Windows.Forms.Label();
+        this.label26 = new System.Windows.Forms.Label();
+        this.initialWaterCapacity = new System.Windows.Forms.TextBox();
+        this.label30 = new System.Windows.Forms.Label();
+        this.label31 = new System.Windows.Forms.Label();
+        this.waterCapacity = new System.Windows.Forms.TextBox();
+        this.label21 = new System.Windows.Forms.Label();
+        this.label19 = new System.Windows.Forms.Label();
         this.groupBox6 = new System.Windows.Forms.GroupBox();
         this.label4 = new System.Windows.Forms.Label();
         this.StartDatePicker = new System.Windows.Forms.DateTimePicker();
@@ -87,6 +88,8 @@ namespace APSRU.Howwet
         this.browseMetButton = new System.Windows.Forms.Button();
         this.txtMetFile = new System.Windows.Forms.TextBox();
         this.label3 = new System.Windows.Forms.Label();
+        this.label23 = new System.Windows.Forms.Label();
+        this.proposedCropList = new System.Windows.Forms.ComboBox();
         this.groupBox8 = new System.Windows.Forms.GroupBox();
         this.groupBox9 = new System.Windows.Forms.GroupBox();
         this.button1 = new System.Windows.Forms.Button();
@@ -102,7 +105,6 @@ namespace APSRU.Howwet
         this.label24 = new System.Windows.Forms.Label();
         this.gainSoilWater = new System.Windows.Forms.Label();
         this.label2 = new System.Windows.Forms.Label();
-        this.chartHelper1 = new VBGeneral.ChartHelper();
         this.timer1 = new System.Windows.Forms.Timer(this.components);
         this.toolStrip1 = new System.Windows.Forms.ToolStrip();
         this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -118,14 +120,20 @@ namespace APSRU.Howwet
         this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
         this.soilFileName = new System.Windows.Forms.ToolStripTextBox();
         this.browseSoilFileButton = new System.Windows.Forms.ToolStripButton();
+        this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
         this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+        this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+        this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+        this.chartHelper1 = new VBGeneral.ChartHelper();
+        this.dockLayoutManager1 = new Xceed.DockingWindows.DockLayoutManager();
         this.groupBox7.SuspendLayout();
         this.groupBox1.SuspendLayout();
-        this.groupBox11.SuspendLayout();
-        ((System.ComponentModel.ISupportInitialize)(this.initialSoilWaterPercent)).BeginInit();
         this.groupBox10.SuspendLayout();
         this.groupBox3.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)(this.coverPercent)).BeginInit();
         this.groupBox2.SuspendLayout();
+        this.groupBox11.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)(this.initialSoilWaterPercent)).BeginInit();
         this.groupBox6.SuspendLayout();
         this.groupBox4.SuspendLayout();
         this.groupBox8.SuspendLayout();
@@ -135,6 +143,8 @@ namespace APSRU.Howwet
         this.toolStrip1.SuspendLayout();
         this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
         this.toolStripContainer1.SuspendLayout();
+        this.statusStrip1.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)(this.dockLayoutManager1)).BeginInit();
         this.SuspendLayout();
         // 
         // chartControl1
@@ -155,23 +165,13 @@ namespace APSRU.Howwet
         // 
         // showAPSIMFileButton
         // 
-        this.showAPSIMFileButton.Location = new System.Drawing.Point(271, -23);
+        this.showAPSIMFileButton.Location = new System.Drawing.Point(816, 662);
         this.showAPSIMFileButton.Name = "showAPSIMFileButton";
         this.showAPSIMFileButton.Size = new System.Drawing.Size(112, 41);
         this.showAPSIMFileButton.TabIndex = 16;
         this.showAPSIMFileButton.Text = "Show APSIM";
         this.showAPSIMFileButton.UseVisualStyleBackColor = true;
         this.showAPSIMFileButton.Click += new System.EventHandler(this.showAPSIMFileButton_Click);
-        // 
-        // button2
-        // 
-        this.button2.Location = new System.Drawing.Point(444, 137);
-        this.button2.Name = "button2";
-        this.button2.Size = new System.Drawing.Size(75, 23);
-        this.button2.TabIndex = 24;
-        this.button2.Text = "Graph";
-        this.button2.UseVisualStyleBackColor = true;
-        this.button2.Click += new System.EventHandler(this.button2_Click);
         // 
         // groupBox7
         // 
@@ -187,11 +187,13 @@ namespace APSRU.Howwet
         // 
         // groupBox1
         // 
+        this.groupBox1.Controls.Add(this.classificationLabel);
+        this.groupBox1.Controls.Add(this.regionLabel);
+        this.groupBox1.Controls.Add(this.label16);
+        this.groupBox1.Controls.Add(this.label15);
+        this.groupBox1.Controls.Add(this.selectedSoilLabel);
         this.groupBox1.Controls.Add(this.groupBox10);
         this.groupBox1.Controls.Add(this.selectSoilButton);
-        this.groupBox1.Controls.Add(this.label23);
-        this.groupBox1.Controls.Add(this.proposedCropList);
-        this.groupBox1.Controls.Add(this.label28);
         this.groupBox1.Controls.Add(this.label22);
         this.groupBox1.Controls.Add(this.label20);
         this.groupBox1.Controls.Add(this.groupBox3);
@@ -202,7 +204,6 @@ namespace APSRU.Howwet
         this.groupBox1.Controls.Add(this.ocDepthLabel);
         this.groupBox1.Controls.Add(this.organicCarbonContent);
         this.groupBox1.Controls.Add(this.label17);
-        this.groupBox1.Controls.Add(this.soilsList);
         this.groupBox1.Controls.Add(this.groupBox11);
         this.groupBox1.Location = new System.Drawing.Point(6, 19);
         this.groupBox1.Name = "groupBox1";
@@ -211,105 +212,54 @@ namespace APSRU.Howwet
         this.groupBox1.TabStop = false;
         this.groupBox1.Text = "Soil Properties";
         // 
-        // groupBox11
+        // classificationLabel
         // 
-        this.groupBox11.Controls.Add(this.initialSoilWaterPercent);
-        this.groupBox11.Controls.Add(this.label29);
-        this.groupBox11.Controls.Add(this.label26);
-        this.groupBox11.Controls.Add(this.initialWater);
-        this.groupBox11.Controls.Add(this.label30);
-        this.groupBox11.Controls.Add(this.label31);
-        this.groupBox11.Controls.Add(this.waterCapacity);
-        this.groupBox11.Controls.Add(this.label21);
-        this.groupBox11.Controls.Add(this.label19);
-        this.groupBox11.Location = new System.Drawing.Point(7, 126);
-        this.groupBox11.Name = "groupBox11";
-        this.groupBox11.Size = new System.Drawing.Size(352, 71);
-        this.groupBox11.TabIndex = 46;
-        this.groupBox11.TabStop = false;
-        this.groupBox11.Text = "Water";
+        this.classificationLabel.AutoSize = true;
+        this.classificationLabel.Location = new System.Drawing.Point(136, 45);
+        this.classificationLabel.Name = "classificationLabel";
+        this.classificationLabel.Size = new System.Drawing.Size(27, 13);
+        this.classificationLabel.TabIndex = 51;
+        this.classificationLabel.Text = "N/A";
         // 
-        // initialSoilWaterPercent
+        // regionLabel
         // 
-        this.initialSoilWaterPercent.Location = new System.Drawing.Point(93, 19);
-        this.initialSoilWaterPercent.Name = "initialSoilWaterPercent";
-        this.initialSoilWaterPercent.Size = new System.Drawing.Size(48, 20);
-        this.initialSoilWaterPercent.TabIndex = 38;
-        this.initialSoilWaterPercent.ValueChanged += new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
+        this.regionLabel.AutoSize = true;
+        this.regionLabel.Location = new System.Drawing.Point(136, 32);
+        this.regionLabel.Name = "regionLabel";
+        this.regionLabel.Size = new System.Drawing.Size(27, 13);
+        this.regionLabel.TabIndex = 50;
+        this.regionLabel.Text = "N/A";
         // 
-        // label29
+        // label16
         // 
-        this.label29.AutoSize = true;
-        this.label29.Location = new System.Drawing.Point(6, 21);
-        this.label29.Name = "label29";
-        this.label29.Size = new System.Drawing.Size(84, 13);
-        this.label29.TabIndex = 36;
-        this.label29.Text = "Initial soil Water:";
+        this.label16.AutoSize = true;
+        this.label16.Location = new System.Drawing.Point(60, 45);
+        this.label16.Name = "label16";
+        this.label16.Size = new System.Drawing.Size(71, 13);
+        this.label16.TabIndex = 49;
+        this.label16.Text = "Classification:";
         // 
-        // label26
+        // label15
         // 
-        this.label26.AutoSize = true;
-        this.label26.Location = new System.Drawing.Point(169, 23);
-        this.label26.Name = "label26";
-        this.label26.Size = new System.Drawing.Size(16, 13);
-        this.label26.TabIndex = 44;
-        this.label26.Text = "or";
+        this.label15.AutoSize = true;
+        this.label15.Location = new System.Drawing.Point(88, 32);
+        this.label15.Name = "label15";
+        this.label15.Size = new System.Drawing.Size(44, 13);
+        this.label15.TabIndex = 48;
+        this.label15.Text = "Region:";
         // 
-        // initialWater
+        // selectedSoilLabel
         // 
-        this.initialWater.Location = new System.Drawing.Point(187, 22);
-        this.initialWater.Name = "initialWater";
-        this.initialWater.Size = new System.Drawing.Size(38, 20);
-        this.initialWater.TabIndex = 37;
-        this.initialWater.TextChanged += new System.EventHandler(this.initialWater_TextChanged);
-        // 
-        // label30
-        // 
-        this.label30.AutoSize = true;
-        this.label30.Location = new System.Drawing.Point(147, 25);
-        this.label30.Name = "label30";
-        this.label30.Size = new System.Drawing.Size(15, 13);
-        this.label30.TabIndex = 39;
-        this.label30.Text = "%";
-        // 
-        // label31
-        // 
-        this.label31.AutoSize = true;
-        this.label31.Location = new System.Drawing.Point(235, 25);
-        this.label31.Name = "label31";
-        this.label31.Size = new System.Drawing.Size(23, 13);
-        this.label31.TabIndex = 40;
-        this.label31.Text = "mm";
-        // 
-        // waterCapacity
-        // 
-        this.waterCapacity.Location = new System.Drawing.Point(175, 48);
-        this.waterCapacity.Name = "waterCapacity";
-        this.waterCapacity.Size = new System.Drawing.Size(45, 20);
-        this.waterCapacity.TabIndex = 31;
-        // 
-        // label21
-        // 
-        this.label21.AutoSize = true;
-        this.label21.Location = new System.Drawing.Point(226, 51);
-        this.label21.Name = "label21";
-        this.label21.Size = new System.Drawing.Size(23, 13);
-        this.label21.TabIndex = 33;
-        this.label21.Text = "mm";
-        // 
-        // label19
-        // 
-        this.label19.AutoSize = true;
-        this.label19.Location = new System.Drawing.Point(54, 49);
-        this.label19.Name = "label19";
-        this.label19.Size = new System.Drawing.Size(109, 13);
-        this.label19.TabIndex = 7;
-        this.label19.Text = "Max. Water Capacity:";
+        this.selectedSoilLabel.AutoSize = true;
+        this.selectedSoilLabel.Location = new System.Drawing.Point(138, 16);
+        this.selectedSoilLabel.Name = "selectedSoilLabel";
+        this.selectedSoilLabel.Size = new System.Drawing.Size(82, 13);
+        this.selectedSoilLabel.TabIndex = 47;
+        this.selectedSoilLabel.Text = "No soil selected";
         // 
         // groupBox10
         // 
         this.groupBox10.Controls.Add(this.label13);
-        this.groupBox10.Controls.Add(this.estimateNitrogenButton);
         this.groupBox10.Controls.Add(this.label9);
         this.groupBox10.Controls.Add(this.initialSoilNitrogen);
         this.groupBox10.Location = new System.Drawing.Point(6, 196);
@@ -322,25 +272,16 @@ namespace APSRU.Howwet
         // label13
         // 
         this.label13.AutoSize = true;
-        this.label13.Location = new System.Drawing.Point(163, 26);
+        this.label13.Location = new System.Drawing.Point(179, 24);
         this.label13.Name = "label13";
-        this.label13.Size = new System.Drawing.Size(29, 13);
+        this.label13.Size = new System.Drawing.Size(36, 13);
         this.label13.TabIndex = 3;
-        this.label13.Text = "units";
-        // 
-        // estimateNitrogenButton
-        // 
-        this.estimateNitrogenButton.Location = new System.Drawing.Point(248, 19);
-        this.estimateNitrogenButton.Name = "estimateNitrogenButton";
-        this.estimateNitrogenButton.Size = new System.Drawing.Size(75, 23);
-        this.estimateNitrogenButton.TabIndex = 2;
-        this.estimateNitrogenButton.Text = "EstimateN";
-        this.estimateNitrogenButton.UseVisualStyleBackColor = true;
+        this.label13.Text = "kg/ha";
         // 
         // label9
         // 
         this.label9.AutoSize = true;
-        this.label9.Location = new System.Drawing.Point(6, 24);
+        this.label9.Location = new System.Drawing.Point(30, 24);
         this.label9.Name = "label9";
         this.label9.Size = new System.Drawing.Size(97, 13);
         this.label9.TabIndex = 1;
@@ -348,56 +289,30 @@ namespace APSRU.Howwet
         // 
         // initialSoilNitrogen
         // 
-        this.initialSoilNitrogen.Location = new System.Drawing.Point(109, 19);
+        this.initialSoilNitrogen.Location = new System.Drawing.Point(128, 19);
         this.initialSoilNitrogen.Name = "initialSoilNitrogen";
-        this.initialSoilNitrogen.Size = new System.Drawing.Size(47, 20);
+        this.initialSoilNitrogen.Size = new System.Drawing.Size(45, 20);
         this.initialSoilNitrogen.TabIndex = 0;
+        this.initialSoilNitrogen.Leave += new System.EventHandler(this.initialSoilNitrogen_Leave);
         // 
         // selectSoilButton
         // 
-        this.selectSoilButton.Location = new System.Drawing.Point(313, 16);
+        this.selectSoilButton.Location = new System.Drawing.Point(291, 16);
         this.selectSoilButton.Name = "selectSoilButton";
-        this.selectSoilButton.Size = new System.Drawing.Size(46, 22);
+        this.selectSoilButton.Size = new System.Drawing.Size(68, 22);
         this.selectSoilButton.TabIndex = 43;
-        this.selectSoilButton.Text = "button6";
+        this.selectSoilButton.Text = "Select Soil";
         this.selectSoilButton.UseVisualStyleBackColor = true;
         this.selectSoilButton.Click += new System.EventHandler(this.selectSoilButton_Click);
-        // 
-        // label23
-        // 
-        this.label23.AutoSize = true;
-        this.label23.Location = new System.Drawing.Point(53, 72);
-        this.label23.Name = "label23";
-        this.label23.Size = new System.Drawing.Size(80, 13);
-        this.label23.TabIndex = 42;
-        this.label23.Text = "Proposed Crop:";
-        // 
-        // proposedCropList
-        // 
-        this.proposedCropList.FormattingEnabled = true;
-        this.proposedCropList.Location = new System.Drawing.Point(134, 69);
-        this.proposedCropList.Name = "proposedCropList";
-        this.proposedCropList.Size = new System.Drawing.Size(122, 21);
-        this.proposedCropList.TabIndex = 41;
-        this.proposedCropList.SelectedValueChanged += new System.EventHandler(this.proposedCropList_SelectedValueChanged);
-        // 
-        // label28
-        // 
-        this.label28.AutoSize = true;
-        this.label28.Location = new System.Drawing.Point(5, 25);
-        this.label28.Name = "label28";
-        this.label28.Size = new System.Drawing.Size(41, 13);
-        this.label28.TabIndex = 35;
-        this.label28.Text = "Region";
         // 
         // label22
         // 
         this.label22.AutoSize = true;
-        this.label22.Location = new System.Drawing.Point(61, 21);
+        this.label22.Location = new System.Drawing.Point(74, 16);
         this.label22.Name = "label22";
-        this.label22.Size = new System.Drawing.Size(72, 13);
+        this.label22.Size = new System.Drawing.Size(58, 13);
         this.label22.TabIndex = 34;
-        this.label22.Text = "Selected Soil:";
+        this.label22.Text = "Soil Name:";
         // 
         // label20
         // 
@@ -410,37 +325,52 @@ namespace APSRU.Howwet
         // 
         // groupBox3
         // 
+        this.groupBox3.Controls.Add(this.coverPercent);
+        this.groupBox3.Controls.Add(this.label1);
         this.groupBox3.Controls.Add(this.label14);
-        this.groupBox3.Controls.Add(this.typeName);
+        this.groupBox3.Controls.Add(this.coverCropList);
         this.groupBox3.Controls.Add(this.label12);
-        this.groupBox3.Controls.Add(this.mass);
         this.groupBox3.Location = new System.Drawing.Point(5, 312);
         this.groupBox3.Name = "groupBox3";
         this.groupBox3.Size = new System.Drawing.Size(356, 53);
         this.groupBox3.TabIndex = 30;
         this.groupBox3.TabStop = false;
-        this.groupBox3.Text = "Cover";
+        this.groupBox3.Text = "Starting Cover";
+        // 
+        // coverPercent
+        // 
+        this.coverPercent.Location = new System.Drawing.Point(241, 20);
+        this.coverPercent.Name = "coverPercent";
+        this.coverPercent.Size = new System.Drawing.Size(39, 20);
+        this.coverPercent.TabIndex = 31;
+        this.coverPercent.ValueChanged += new System.EventHandler(this.coverPercent_ValueChanged);
+        // 
+        // label1
+        // 
+        this.label1.AutoSize = true;
+        this.label1.Location = new System.Drawing.Point(189, 22);
+        this.label1.Name = "label1";
+        this.label1.Size = new System.Drawing.Size(46, 13);
+        this.label1.TabIndex = 30;
+        this.label1.Text = "Amount:";
         // 
         // label14
         // 
         this.label14.AutoSize = true;
-        this.label14.Location = new System.Drawing.Point(212, 23);
+        this.label14.Location = new System.Drawing.Point(286, 22);
         this.label14.Name = "label14";
         this.label14.Size = new System.Drawing.Size(15, 13);
         this.label14.TabIndex = 29;
         this.label14.Text = "%";
         // 
-        // typeName
+        // coverCropList
         // 
-        this.typeName.FormattingEnabled = true;
-        this.typeName.Items.AddRange(new object[] {
-            "wheat",
-            "sorghum"});
-        this.typeName.Location = new System.Drawing.Point(37, 19);
-        this.typeName.Name = "typeName";
-        this.typeName.Size = new System.Drawing.Size(121, 21);
-        this.typeName.TabIndex = 1;
-        this.typeName.SelectedIndexChanged += new System.EventHandler(this.typeName_SelectedIndexChanged);
+        this.coverCropList.FormattingEnabled = true;
+        this.coverCropList.Location = new System.Drawing.Point(37, 19);
+        this.coverCropList.Name = "coverCropList";
+        this.coverCropList.Size = new System.Drawing.Size(121, 21);
+        this.coverCropList.TabIndex = 1;
+        this.coverCropList.SelectedValueChanged += new System.EventHandler(this.coverCropList_SelectedValueChanged);
         // 
         // label12
         // 
@@ -450,13 +380,6 @@ namespace APSRU.Howwet
         this.label12.Size = new System.Drawing.Size(34, 13);
         this.label12.TabIndex = 0;
         this.label12.Text = "Type:";
-        // 
-        // mass
-        // 
-        this.mass.Location = new System.Drawing.Point(177, 20);
-        this.mass.Name = "mass";
-        this.mass.Size = new System.Drawing.Size(29, 20);
-        this.mass.TabIndex = 27;
         // 
         // groupBox2
         // 
@@ -485,7 +408,7 @@ namespace APSRU.Howwet
         // label11
         // 
         this.label11.AutoSize = true;
-        this.label11.Location = new System.Drawing.Point(207, 22);
+        this.label11.Location = new System.Drawing.Point(204, 22);
         this.label11.Name = "label11";
         this.label11.Size = new System.Drawing.Size(15, 13);
         this.label11.TabIndex = 9;
@@ -512,7 +435,7 @@ namespace APSRU.Howwet
         // label6
         // 
         this.label6.AutoSize = true;
-        this.label6.Location = new System.Drawing.Point(6, 22);
+        this.label6.Location = new System.Drawing.Point(6, 20);
         this.label6.Name = "label6";
         this.label6.Size = new System.Drawing.Size(37, 13);
         this.label6.TabIndex = 4;
@@ -520,7 +443,7 @@ namespace APSRU.Howwet
         // 
         // erodibilty
         // 
-        this.erodibilty.Location = new System.Drawing.Point(281, 19);
+        this.erodibilty.Location = new System.Drawing.Point(286, 15);
         this.erodibilty.Name = "erodibilty";
         this.erodibilty.Size = new System.Drawing.Size(30, 20);
         this.erodibilty.TabIndex = 2;
@@ -528,7 +451,7 @@ namespace APSRU.Howwet
         // label7
         // 
         this.label7.AutoSize = true;
-        this.label7.Location = new System.Drawing.Point(92, 19);
+        this.label7.Location = new System.Drawing.Point(92, 18);
         this.label7.Name = "label7";
         this.label7.Size = new System.Drawing.Size(73, 13);
         this.label7.TabIndex = 5;
@@ -547,7 +470,7 @@ namespace APSRU.Howwet
         this.soilDepth.Name = "soilDepth";
         this.soilDepth.Size = new System.Drawing.Size(45, 20);
         this.soilDepth.TabIndex = 6;
-        this.soilDepth.TextChanged += new System.EventHandler(soilDepth_TextChanged);
+        this.soilDepth.Leave += new System.EventHandler(this.soilDepth_Leave);
         // 
         // soilDepthLabel
         // 
@@ -561,7 +484,7 @@ namespace APSRU.Howwet
         // label18
         // 
         this.label18.AutoSize = true;
-        this.label18.Location = new System.Drawing.Point(185, 51);
+        this.label18.Location = new System.Drawing.Point(185, 73);
         this.label18.Name = "label18";
         this.label18.Size = new System.Drawing.Size(15, 13);
         this.label18.TabIndex = 4;
@@ -570,15 +493,15 @@ namespace APSRU.Howwet
         // ocDepthLabel
         // 
         this.ocDepthLabel.AutoSize = true;
-        this.ocDepthLabel.Location = new System.Drawing.Point(87, 47);
+        this.ocDepthLabel.Location = new System.Drawing.Point(97, 70);
         this.ocDepthLabel.Name = "ocDepthLabel";
-        this.ocDepthLabel.Size = new System.Drawing.Size(41, 13);
+        this.ocDepthLabel.Size = new System.Drawing.Size(29, 13);
         this.ocDepthLabel.TabIndex = 3;
-        this.ocDepthLabel.Text = "label18";
+        this.ocDepthLabel.Text = "layer";
         // 
         // organicCarbonContent
         // 
-        this.organicCarbonContent.Location = new System.Drawing.Point(134, 44);
+        this.organicCarbonContent.Location = new System.Drawing.Point(134, 70);
         this.organicCarbonContent.Name = "organicCarbonContent";
         this.organicCarbonContent.Size = new System.Drawing.Size(45, 20);
         this.organicCarbonContent.TabIndex = 2;
@@ -586,20 +509,107 @@ namespace APSRU.Howwet
         // label17
         // 
         this.label17.AutoSize = true;
-        this.label17.Location = new System.Drawing.Point(6, 47);
+        this.label17.Location = new System.Drawing.Point(6, 70);
         this.label17.Name = "label17";
         this.label17.Size = new System.Drawing.Size(81, 13);
         this.label17.TabIndex = 0;
         this.label17.Text = "Organic Carbon";
         // 
-        // soilsList
+        // groupBox11
         // 
-        this.soilsList.FormattingEnabled = true;
-        this.soilsList.Location = new System.Drawing.Point(134, 17);
-        this.soilsList.Name = "soilsList";
-        this.soilsList.Size = new System.Drawing.Size(172, 21);
-        this.soilsList.TabIndex = 5;
-        this.soilsList.SelectedValueChanged += new System.EventHandler(this.soilsList_SelectedValueChanged);
+        this.groupBox11.Controls.Add(this.initialSoilWaterPercent);
+        this.groupBox11.Controls.Add(this.label29);
+        this.groupBox11.Controls.Add(this.label26);
+        this.groupBox11.Controls.Add(this.initialWaterCapacity);
+        this.groupBox11.Controls.Add(this.label30);
+        this.groupBox11.Controls.Add(this.label31);
+        this.groupBox11.Controls.Add(this.waterCapacity);
+        this.groupBox11.Controls.Add(this.label21);
+        this.groupBox11.Controls.Add(this.label19);
+        this.groupBox11.Location = new System.Drawing.Point(7, 122);
+        this.groupBox11.Name = "groupBox11";
+        this.groupBox11.Size = new System.Drawing.Size(352, 71);
+        this.groupBox11.TabIndex = 46;
+        this.groupBox11.TabStop = false;
+        this.groupBox11.Text = "Water";
+        // 
+        // initialSoilWaterPercent
+        // 
+        this.initialSoilWaterPercent.Location = new System.Drawing.Point(127, 47);
+        this.initialSoilWaterPercent.Name = "initialSoilWaterPercent";
+        this.initialSoilWaterPercent.Size = new System.Drawing.Size(45, 20);
+        this.initialSoilWaterPercent.TabIndex = 38;
+        this.initialSoilWaterPercent.ValueChanged += new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
+        // 
+        // label29
+        // 
+        this.label29.AutoSize = true;
+        this.label29.Location = new System.Drawing.Point(42, 49);
+        this.label29.Name = "label29";
+        this.label29.Size = new System.Drawing.Size(84, 13);
+        this.label29.TabIndex = 36;
+        this.label29.Text = "Initial soil Water:";
+        // 
+        // label26
+        // 
+        this.label26.AutoSize = true;
+        this.label26.Location = new System.Drawing.Point(191, 54);
+        this.label26.Name = "label26";
+        this.label26.Size = new System.Drawing.Size(16, 13);
+        this.label26.TabIndex = 44;
+        this.label26.Text = "or";
+        // 
+        // initialWaterCapacity
+        // 
+        this.initialWaterCapacity.Location = new System.Drawing.Point(213, 47);
+        this.initialWaterCapacity.Name = "initialWaterCapacity";
+        this.initialWaterCapacity.Size = new System.Drawing.Size(38, 20);
+        this.initialWaterCapacity.TabIndex = 37;
+        this.initialWaterCapacity.TextChanged += new System.EventHandler(this.initialWaterCapacity_TextChanged);
+        // 
+        // label30
+        // 
+        this.label30.AutoSize = true;
+        this.label30.Location = new System.Drawing.Point(176, 50);
+        this.label30.Name = "label30";
+        this.label30.Size = new System.Drawing.Size(15, 13);
+        this.label30.TabIndex = 39;
+        this.label30.Text = "%";
+        // 
+        // label31
+        // 
+        this.label31.AutoSize = true;
+        this.label31.Location = new System.Drawing.Point(255, 52);
+        this.label31.Name = "label31";
+        this.label31.Size = new System.Drawing.Size(23, 13);
+        this.label31.TabIndex = 40;
+        this.label31.Text = "mm";
+        // 
+        // waterCapacity
+        // 
+        this.waterCapacity.Location = new System.Drawing.Point(127, 19);
+        this.waterCapacity.Name = "waterCapacity";
+        this.waterCapacity.Size = new System.Drawing.Size(45, 20);
+        this.waterCapacity.TabIndex = 31;
+        this.waterCapacity.Leave += new System.EventHandler(this.waterCapacity_Leave);
+        // 
+        // label21
+        // 
+        this.label21.AutoSize = true;
+        this.label21.Location = new System.Drawing.Point(176, 23);
+        this.label21.Name = "label21";
+        this.label21.Size = new System.Drawing.Size(23, 13);
+        this.label21.TabIndex = 33;
+        this.label21.Text = "mm";
+        // 
+        // label19
+        // 
+        this.label19.AutoSize = true;
+        this.label19.Location = new System.Drawing.Point(17, 23);
+        this.label19.Name = "label19";
+        this.label19.Size = new System.Drawing.Size(109, 13);
+        this.label19.TabIndex = 7;
+        this.label19.Text = "Max. Water Capacity:";
         // 
         // groupBox6
         // 
@@ -699,6 +709,24 @@ namespace APSRU.Howwet
         this.label3.TabIndex = 9;
         this.label3.Text = "Met File Path:";
         // 
+        // label23
+        // 
+        this.label23.AutoSize = true;
+        this.label23.Location = new System.Drawing.Point(267, 28);
+        this.label23.Name = "label23";
+        this.label23.Size = new System.Drawing.Size(80, 13);
+        this.label23.TabIndex = 42;
+        this.label23.Text = "Proposed Crop:";
+        // 
+        // proposedCropList
+        // 
+        this.proposedCropList.FormattingEnabled = true;
+        this.proposedCropList.Location = new System.Drawing.Point(353, 25);
+        this.proposedCropList.Name = "proposedCropList";
+        this.proposedCropList.Size = new System.Drawing.Size(122, 21);
+        this.proposedCropList.TabIndex = 41;
+        this.proposedCropList.SelectedValueChanged += new System.EventHandler(this.proposedCropList_SelectedValueChanged);
+        // 
         // groupBox8
         // 
         this.groupBox8.Controls.Add(this.groupBox9);
@@ -712,7 +740,6 @@ namespace APSRU.Howwet
         // 
         // groupBox9
         // 
-        this.groupBox9.Controls.Add(this.showAPSIMFileButton);
         this.groupBox9.Controls.Add(this.button1);
         this.groupBox9.Controls.Add(this.chartControl1);
         this.groupBox9.Controls.Add(this.tabControl1);
@@ -783,10 +810,11 @@ namespace APSRU.Howwet
         this.groupBox5.Controls.Add(this.label27);
         this.groupBox5.Controls.Add(this.gainNitrate);
         this.groupBox5.Controls.Add(this.label25);
+        this.groupBox5.Controls.Add(this.label23);
         this.groupBox5.Controls.Add(this.label24);
+        this.groupBox5.Controls.Add(this.proposedCropList);
         this.groupBox5.Controls.Add(this.gainSoilWater);
         this.groupBox5.Controls.Add(this.label2);
-        this.groupBox5.Controls.Add(this.button2);
         this.groupBox5.Location = new System.Drawing.Point(6, 19);
         this.groupBox5.Name = "groupBox5";
         this.groupBox5.Size = new System.Drawing.Size(518, 164);
@@ -848,11 +876,6 @@ namespace APSRU.Howwet
         this.label2.TabIndex = 25;
         this.label2.Text = "Gain in soil Water:";
         // 
-        // chartHelper1
-        // 
-        this.chartHelper1.Chart = this.chartControl1;
-        this.chartHelper1.DataTable = null;
-        // 
         // timer1
         // 
         this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
@@ -873,10 +896,11 @@ namespace APSRU.Howwet
             this.toolStripSeparator1,
             this.toolStripLabel1,
             this.soilFileName,
-            this.browseSoilFileButton});
+            this.browseSoilFileButton,
+            this.toolStripButton1});
         this.toolStrip1.Location = new System.Drawing.Point(3, 0);
         this.toolStrip1.Name = "toolStrip1";
-        this.toolStrip1.Size = new System.Drawing.Size(362, 25);
+        this.toolStrip1.Size = new System.Drawing.Size(425, 25);
         this.toolStrip1.TabIndex = 40;
         this.toolStrip1.Text = "toolStrip1";
         // 
@@ -975,7 +999,7 @@ namespace APSRU.Howwet
         // soilFileName
         // 
         this.soilFileName.Name = "soilFileName";
-        this.soilFileName.Size = new System.Drawing.Size(100, 25);
+        this.soilFileName.Size = new System.Drawing.Size(140, 25);
         // 
         // browseSoilFileButton
         // 
@@ -984,18 +1008,28 @@ namespace APSRU.Howwet
         this.browseSoilFileButton.Size = new System.Drawing.Size(23, 22);
         this.browseSoilFileButton.Click += new System.EventHandler(this.browseSoilFileButton_Click);
         // 
+        // toolStripButton1
+        // 
+        this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+        this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+        this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+        this.toolStripButton1.Name = "toolStripButton1";
+        this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+        this.toolStripButton1.Text = "toolStripButton1";
+        this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+        // 
         // toolStripContainer1
         // 
         this.toolStripContainer1.BottomToolStripPanelVisible = false;
         // 
         // toolStripContainer1.ContentPanel
         // 
-        this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(935, 1);
+        this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(939, 3);
         this.toolStripContainer1.LeftToolStripPanelVisible = false;
-        this.toolStripContainer1.Location = new System.Drawing.Point(8, 0);
+        this.toolStripContainer1.Location = new System.Drawing.Point(8, -2);
         this.toolStripContainer1.Name = "toolStripContainer1";
         this.toolStripContainer1.RightToolStripPanelVisible = false;
-        this.toolStripContainer1.Size = new System.Drawing.Size(935, 26);
+        this.toolStripContainer1.Size = new System.Drawing.Size(939, 28);
         this.toolStripContainer1.TabIndex = 41;
         this.toolStripContainer1.Text = "toolStripContainer1";
         // 
@@ -1003,11 +1037,38 @@ namespace APSRU.Howwet
         // 
         this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
         // 
+        // statusStrip1
+        // 
+        this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
+        this.statusStrip1.Location = new System.Drawing.Point(0, 706);
+        this.statusStrip1.Name = "statusStrip1";
+        this.statusStrip1.Size = new System.Drawing.Size(947, 22);
+        this.statusStrip1.TabIndex = 42;
+        this.statusStrip1.Text = "statusStrip1";
+        // 
+        // toolStripStatusLabel1
+        // 
+        this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+        this.toolStripStatusLabel1.Size = new System.Drawing.Size(109, 17);
+        this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+        // 
+        // chartHelper1
+        // 
+        this.chartHelper1.Chart = this.chartControl1;
+        this.chartHelper1.DataTable = null;
+        // 
+        // dockLayoutManager1
+        // 
+        this.dockLayoutManager1.Initialize(this, null);
+        // 
         // Main
         // 
         this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         this.ClientSize = new System.Drawing.Size(947, 728);
+        this.Controls.Add(this.showAPSIMFileButton);
+        this.Controls.Add(this.statusStrip1);
         this.Controls.Add(this.toolStripContainer1);
         this.Controls.Add(this.groupBox7);
         this.Controls.Add(this.groupBox8);
@@ -1017,15 +1078,16 @@ namespace APSRU.Howwet
         this.groupBox7.ResumeLayout(false);
         this.groupBox1.ResumeLayout(false);
         this.groupBox1.PerformLayout();
-        this.groupBox11.ResumeLayout(false);
-        this.groupBox11.PerformLayout();
-        ((System.ComponentModel.ISupportInitialize)(this.initialSoilWaterPercent)).EndInit();
         this.groupBox10.ResumeLayout(false);
         this.groupBox10.PerformLayout();
         this.groupBox3.ResumeLayout(false);
         this.groupBox3.PerformLayout();
+        ((System.ComponentModel.ISupportInitialize)(this.coverPercent)).EndInit();
         this.groupBox2.ResumeLayout(false);
         this.groupBox2.PerformLayout();
+        this.groupBox11.ResumeLayout(false);
+        this.groupBox11.PerformLayout();
+        ((System.ComponentModel.ISupportInitialize)(this.initialSoilWaterPercent)).EndInit();
         this.groupBox6.ResumeLayout(false);
         this.groupBox6.PerformLayout();
         this.groupBox4.ResumeLayout(false);
@@ -1041,7 +1103,11 @@ namespace APSRU.Howwet
         this.toolStripContainer1.TopToolStripPanel.PerformLayout();
         this.toolStripContainer1.ResumeLayout(false);
         this.toolStripContainer1.PerformLayout();
+        this.statusStrip1.ResumeLayout(false);
+        this.statusStrip1.PerformLayout();
+        ((System.ComponentModel.ISupportInitialize)(this.dockLayoutManager1)).EndInit();
         this.ResumeLayout(false);
+        this.PerformLayout();
 
         }
 
@@ -1059,7 +1125,6 @@ namespace APSRU.Howwet
         private VBGeneral.ChartHelper chartHelper1;
         private Xceed.Chart.ChartControl chartControl1;
         private System.Windows.Forms.Button showAPSIMFileButton;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label22;
@@ -1068,9 +1133,8 @@ namespace APSRU.Howwet
         private System.Windows.Forms.TextBox waterCapacity;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.ComboBox typeName;
+        private System.Windows.Forms.ComboBox coverCropList;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox mass;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TextBox slope;
         private System.Windows.Forms.Label label11;
@@ -1087,7 +1151,6 @@ namespace APSRU.Howwet
         private System.Windows.Forms.Label ocDepthLabel;
         private System.Windows.Forms.TextBox organicCarbonContent;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.ComboBox soilsList;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DateTimePicker StartDatePicker;
@@ -1108,14 +1171,13 @@ namespace APSRU.Howwet
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label gainNitrate;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label gainSoilWater;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox initialWater;
+        private System.Windows.Forms.TextBox initialWaterCapacity;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label label30;
@@ -1126,7 +1188,6 @@ namespace APSRU.Howwet
         private System.Windows.Forms.Button selectSoilButton;
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.GroupBox groupBox11;
-        private System.Windows.Forms.Button estimateNitrogenButton;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox initialSoilNitrogen;
         private System.Windows.Forms.Label label13;
@@ -1145,6 +1206,17 @@ namespace APSRU.Howwet
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripTextBox soilFileName;
         private System.Windows.Forms.ToolStripButton browseSoilFileButton;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label selectedSoilLabel;
+        private System.Windows.Forms.Label classificationLabel;
+        private System.Windows.Forms.Label regionLabel;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.NumericUpDown coverPercent;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private Xceed.DockingWindows.DockLayoutManager dockLayoutManager1;
         
 
     }
