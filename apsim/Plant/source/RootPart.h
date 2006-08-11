@@ -42,8 +42,8 @@ class plantRootPart : public plantPart
       vector<float> dltRootLengthSenesced;
       vector<float> xf;                                 // root exploration factor (0-1)
 
-      plantRootPart(plantInterface *p, const string &name) : plantPart(p, name) {};
-      ~plantRootPart() {};
+      plantRootPart(plantInterface *p, const string &name);
+      ~plantRootPart(){};
 
       void zeroAllGlobals(void);
       void zeroSoil(void);

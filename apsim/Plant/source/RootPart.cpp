@@ -54,6 +54,13 @@ static const char* IncorpFOMType =    "<type name = \"IncorpFOM\">" \
 
 static const char* floatArrayType =   "<type kind=\"single\" array=\"T\"/>";
 
+plantRootPart::plantRootPart(plantInterface *p, const string &name) 
+   : plantPart(p, name)
+   {
+   zeroSoil();
+   zeroAllGlobals();
+   }
+
 plantRootPart* constructRootPart(plantInterface *p, const string &type, const string &name)
    {
    if (type == "Jones+RitchieGrowthPattern")
@@ -100,10 +107,6 @@ void plantRootPart::zeroAllGlobals(void)
       fill_real_array (kl, 0.0, max_layer);
       kl_ub = 0.0;
 
-      sw_lb = 0.0;
-      sw_ub = 0.0;
-
-
 
       fill_real_array (sw_avail_pot, 0.0, max_layer);
       fill_real_array (sw_avail, 0.0, max_layer);
@@ -115,7 +118,7 @@ void plantRootPart::zeroAllGlobals(void)
       fill_real_array (dlt_nh4gsm, 0.0, max_layer);
 
       uptake_source = "";
-      zeroSoil();
+
       
    }
 
@@ -131,6 +134,9 @@ void plantRootPart::zeroSoil(void)
       num_layers = 0;
       sw_dep_ub = 0.0;
       sw_dep_lb = 0.0;
+      
+      sw_lb = 0.0;
+      sw_ub = 0.0;
 
    }
 
