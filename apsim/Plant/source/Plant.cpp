@@ -276,6 +276,7 @@ void Plant::doInit2(protocol::Component *)
    {
    PlantP_set_phosphorus_aware(parent); // See whether a P module is plugged in
    plant_read_constants (); // Read constants
+   plant_zero_variables (); // Zero global states
    plant_init ();           // Site specific init
    plant_get_other_variables (); // sw etc..
    }
