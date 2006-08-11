@@ -57,6 +57,10 @@ static const char* floatArrayType =   "<type kind=\"single\" array=\"T\"/>";
 plantRootPart::plantRootPart(plantInterface *p, const string &name) 
    : plantPart(p, name)
    {
+   sw_dep_id = 0;
+   dlt_sw_dep_id = 0;
+   incorp_fom_ID = 0;
+   
    zeroSoil();
    zeroAllGlobals();
    }
@@ -75,7 +79,10 @@ void plantRootPart::zeroAllGlobals(void)
    {
    plantPart::zeroAllGlobals();
    root_depth            = 0.0;
-
+   initialRootDepth = 0.0;
+   rootDieBackFraction = 0.0;
+   specificRootLength = 0.0;
+   
    fill_real_array (root_length , 0.0, max_layer);
    fill_real_array (root_length_dead, 0.0, max_layer);
    n_conc_min = n_conc_crit = n_conc_max = 0.0;
