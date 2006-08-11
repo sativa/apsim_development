@@ -115,7 +115,8 @@ void plantRootPart::zeroAllGlobals(void)
       fill_real_array (dlt_nh4gsm, 0.0, max_layer);
 
       uptake_source = "";
-
+      zeroSoil();
+      
    }
 
 void plantRootPart::zeroSoil(void)

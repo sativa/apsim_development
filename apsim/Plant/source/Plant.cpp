@@ -4282,10 +4282,10 @@ void Plant::plant_zero_variables (void)
 
     g.plant_status_out_today = false;
 
-   for (vector<plantThing *>::iterator t = myThings.begin();
-        t != myThings.end();
-        t++)
-       (*t)->zeroAllGlobals();
+//   for (vector<plantThing *>::iterator t = myThings.begin();
+//        t != myThings.end();
+//        t++)
+//       (*t)->zeroAllGlobals();
 
     fill_real_array (g.soil_temp , 0.0, 366);
 
