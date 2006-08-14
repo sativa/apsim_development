@@ -4717,6 +4717,11 @@ c dsg 070302 added runon
       else if (lateral_send_my_variable(lateral, variable_name)) then
          ! we dont need to do anything here
 
+      else if (variable_name .eq. 'cona') then
+         call respond2get_real_var (variable_name, '()', p%cona)
+
+      else if (variable_name .eq. 'u') then
+         call respond2get_real_var (variable_name, '()', p%u)
 
       else
          ! not my variable
