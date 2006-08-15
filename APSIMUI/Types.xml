@@ -187,6 +187,23 @@
          <ini>%apsuite\apsim\clock\clock.ini</ini>
       </ApsimToSim>
    </clock>
+	   <canopy>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/canopy/docs/canopy_science.htm</Documentation>
+      <LargeIcon>Images\gears32.png</LargeIcon>
+      <SmallIcon>Images\gears16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="folder"/>
+      </drops>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\canopy\lib\canopy.dll</dll>
+      </ApsimToSim>
+   </canopy>  
    <FarmwiseSequencerConverter>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
