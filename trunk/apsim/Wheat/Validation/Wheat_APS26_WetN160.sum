@@ -56,6 +56,10 @@
         sw_dep() as sw_dep
         wheat.n_conc_grain  as n_conc_grain
         wheat.grain_protein  as grain_protein
+        wheat.swdef_photo  as swdef_photo
+        wheat.swdef_expan  as swdef_expan
+        wheat.nfact_photo  as nfact_photo
+        wheat.nfact_expan  as nfact_expan
      
      Output file = Wheat_APS26_WetN160.out
      Format = normal
