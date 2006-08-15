@@ -4442,9 +4442,6 @@ void Plant::plant_init (void)
 
        if ((int)ll.size() != rootPart->num_layers)
           {
-          char  msg[200];                               // output string
-          sprintf (msg, "%7d %7d", rootPart->num_layers, ll.size());
-          parent->writeString (msg);
           parent->warningError ("LL parameter doesn't match soil profile?");
           }
        }
