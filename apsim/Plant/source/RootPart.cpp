@@ -160,8 +160,8 @@ void plantRootPart::zeroDeltas(void)
    fill_real_array (sw_avail_pot , 0.0, max_layer);
    fill_real_array (sw_supply , 0.0, max_layer);
    fill_real_array (dlt_sw_dep , 0.0, max_layer);
-    fill_real_array (dlt_no3gsm , 0.0, max_layer);
-    fill_real_array (dlt_nh4gsm , 0.0, max_layer);
+   // fill_real_array (dlt_no3gsm , 0.0, max_layer);  required for output!!!
+   // fill_real_array (dlt_nh4gsm , 0.0, max_layer);
 
    }
 
