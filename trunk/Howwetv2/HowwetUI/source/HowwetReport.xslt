@@ -8,6 +8,13 @@
           <xsl:value-of select="report|howwet|head|title"/>
         </th>
         <table>
+          <tr>
+            <td>
+              <img src="RainfallSWChart.gif"/>
+            </td>
+          </tr>
+        </table>
+        <table>
           <xsl:apply-templates/>
         </table>
       </body>
@@ -27,3 +34,4 @@
     </td>
   </xsl:template>
 </xsl:stylesheet>
+
