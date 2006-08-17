@@ -36,6 +36,7 @@ namespace APSRU.Howwet
             Apsoil.AllData = soilsObject;
             dataTree1.Controller = Apsoil;
             }
+
         private void dataTree1_DoubleClickEvent()
             {
             if (Apsoil.Data.Type == "Soil")

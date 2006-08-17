@@ -63,6 +63,7 @@ namespace APSRU.Howwet
             this.ClientSize = new System.Drawing.Size(369, 354);
             this.Controls.Add(this.dataTree1);
             this.Name = "SoilSelection";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Select Soil";
             this.Load += new System.EventHandler(this.SoilSelection_Load);
             this.ResumeLayout(false);

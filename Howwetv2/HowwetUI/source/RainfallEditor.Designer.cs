@@ -237,6 +237,7 @@ namespace APSRU.Howwet
             this.Controls.Add(this.label1);
             this.Controls.Add(this.fpSpread1);
             this.Name = "RainfallEditor";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "RainfallEditor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RainfallEditor_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.fpSpread1)).EndInit();
