@@ -13,7 +13,7 @@ namespace APSRU.Model.Howwet
         {
         private APSIMData myData;
         private String fileName;
-        private Soil newSoil;
+    //    private Soil newSoil;
         private String oldCrop="";
         
       
@@ -25,7 +25,7 @@ namespace APSRU.Model.Howwet
         public APSIMData Data
             {
             get { return myData; }
-            set { myData = value; }
+            //set { myData = value; }
             }
         public void AddSoil(APSIMData selectedSoil)
             {
@@ -45,7 +45,7 @@ namespace APSRU.Model.Howwet
                     }
                 errString = "adding new soil";
                 paddockNode.Add(selectedSoil);
-                newSoil = new Soil(selectedSoil);
+          //      newSoil = new Soil(selectedSoil);
                 }
             catch (Exception e)
                 {
@@ -79,13 +79,31 @@ namespace APSRU.Model.Howwet
 
         public Soil Soil
             {
-            get { return newSoil; }
+            get
+                {
+                APSIMData paddockNode = myData.FindChild("HowWet|paddock", '|');
+                StringCollection soils = paddockNode.ChildList("Soil");
+                APSIMData soilNode = paddockNode.Child(soils[0]);//first soil
+                Soil soil = new Soil(soilNode);
+                return soil;
+                }
             }
 
         public String FileName
             {
             set{fileName = value;}
             get{return fileName;}
+            }
+
+        public String SimulationName
+            {
+            set
+                {
+                }
+            get
+                {
+                return "test";
+                }
             }
 
         public String StartDate
