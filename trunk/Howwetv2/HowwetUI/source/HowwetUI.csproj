@@ -26,7 +26,7 @@
     <ManifestKeyFile>HowwetUI_1_TemporaryKey.pfx</ManifestKeyFile>
     <GenerateManifests>true</GenerateManifests>
     <SignManifests>true</SignManifests>
-    <TargetZone>Custom</TargetZone>
+    <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -60,9 +60,12 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="TeeChart, Version=2.0.2306.26234, Culture=neutral, PublicKeyToken=9c8126276c77bdb7, processorArchitecture=MSIL" />
     <Reference Include="Xceed.Chart, Version=4.0.100.0, Culture=neutral, PublicKeyToken=ba83ff368b7563c6" />
     <Reference Include="Xceed.Chart.Core, Version=4.0.100.0, Culture=neutral, PublicKeyToken=ba83ff368b7563c6" />
     <Reference Include="Xceed.Chart.DataManipulation, Version=4.0.100.0, Culture=neutral, PublicKeyToken=ba83ff368b7563c6" />
@@ -76,6 +79,12 @@
     <Reference Include="Xceed.DockingWindows.Layout, Version=1.0.6061.0, Culture=neutral, PublicKeyToken=ba83ff368b7563c6" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Erosion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Erosion.Designer.cs">
+      <DependentUpon>Erosion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,6 +93,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Erosion.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Erosion.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Main.cs</DependentUpon>
@@ -164,6 +177,7 @@
     <Content Include="HowwetReport.xml" />
     <Content Include="HowwetReport.xslt" />
     <Content Include="HowwetSetup.xml" />
+    <Content Include="HowwetTemplate.xml" />
     <Content Include="Resources\add2.png" />
     <Content Include="Resources\boxplot.bmp" />
     <Content Include="Resources\chart.png" />
