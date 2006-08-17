@@ -114,10 +114,8 @@ namespace APSRU.Translator.Howwet
         }
     public class HowwetUtility
         {
-      //  private String fileLocation="c:\\robert\\data\\howwettemplate.xml";
-
         private APSIMData apsimData=new APSIMData();
-
+        
         public CoverCrop GetCrop(ArrayList cropList,String crop)
             {
             CoverCrop cropOut=new CoverCrop();
