@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Collections;
+using System.Collections.Specialized;
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
@@ -32,6 +33,8 @@ namespace APSRU.Model.Howwet
         private int[] evapYearlyAverage;
         private DataTable evapMonthlyAverage;
         private ArrayList constants;
+        private StringCollection headings;
+        private StringCollection units;
         
 
         public MetData(String fileName)
@@ -48,6 +51,8 @@ namespace APSRU.Model.Howwet
                 metInput.ReadFromFile(fileName);
                 metInput.GetStartEndDate(fileName, ref startDate, ref endDate);
                 constants = metInput.Constants;
+                headings=metInput.Headings;
+                units = metInput.Units;
                 //hydrate this object
                 errString = "hydrating MetData Object";
                 this.Data = metInput.Data;
@@ -55,18 +60,6 @@ namespace APSRU.Model.Howwet
                 this.StartDate = startDate;
                 this.EndDate = endDate;
                 this.Site = (String)this.Data.Rows[0]["site"];
-                //calculate averages
-                errString = "calculating averages";
-                this.RadnMonthlyAverage = createMonthlyAverages("radn");
-                this.RadnYearlyAverage = getMonthlyYearlyAverages(this.RadnMonthlyAverage);
-                this.MaxtMonthlyAverage = createMonthlyAverages("maxt");
-                this.MaxtYearlyAverage = getMonthlyYearlyAverages(this.MaxtMonthlyAverage);
-                this.MintMonthlyAverage = createMonthlyAverages("mint");
-                this.MintYearlyAverage = getMonthlyYearlyAverages(this.MintMonthlyAverage);
-                this.RainMonthlyAverage = createMonthlyAverages("rain");
-                this.RainYearlyAverage = getMonthlyYearlyAverages(this.RainMonthlyAverage);
-                this.EvapMonthlyAverage = createMonthlyAverages("evap");
-                this.EvapYearlyAverage = getMonthlyYearlyAverages(this.EvapMonthlyAverage);
                 }
             catch (CustomException err)
                 {
@@ -76,6 +69,35 @@ namespace APSRU.Model.Howwet
             catch (Exception err)
                 {
                 throw new CustomException(new CustomError("", "Cannot read Met file", errString + "\n Exception:" + err.ToString(), FUNCTION_NAME, this.GetType().FullName, true));
+                }
+            }
+
+        public bool BuildAverages()
+            {
+            const String FUNCTION_NAME = "MetData";
+            String errString = "calculating averages";
+            try
+                {
+                bool success = false;
+                this.RadnMonthlyAverage = createMonthlyAverages("radn");
+                this.RadnYearlyAverage = getMonthlyYearlyAverages(this.RadnMonthlyAverage);
+                this.MaxtMonthlyAverage = createMonthlyAverages("maxt");
+                this.MaxtYearlyAverage = getMonthlyYearlyAverages(this.MaxtMonthlyAverage);
+                this.MintMonthlyAverage = createMonthlyAverages("mint");
+                this.MintYearlyAverage = getMonthlyYearlyAverages(this.MintMonthlyAverage);
+                this.RainMonthlyAverage = createMonthlyAverages("rain");
+                this.RainYearlyAverage = getMonthlyYearlyAverages(this.RainMonthlyAverage);
+                success = true;
+                return success;
+                }
+            catch (CustomException err)
+                {
+                err.addError(new CustomError("", "Cannot build met averages", errString + "\n Exception:" + err.ToString(), FUNCTION_NAME, this.GetType().FullName, true));
+                throw err;
+                }
+            catch (Exception err)
+                {
+                throw new CustomException(new CustomError("", "Cannot build met averages", errString + "\n Exception:" + err.ToString(), FUNCTION_NAME, this.GetType().FullName, true));
                 }
             }
 
@@ -150,19 +172,7 @@ namespace APSRU.Model.Howwet
             set { rainMonthlyAverage = value; }
             get { return rainMonthlyAverage; }
             }
-
-        public int[] EvapYearlyAverage
-            {
-            set { evapYearlyAverage = value; }
-            get { return evapYearlyAverage; }
-            }
-
-        public DataTable EvapMonthlyAverage
-            {
-            set { evapMonthlyAverage = value; }
-            get { return evapMonthlyAverage; }
-            }
-
+     
         public DataTable Data
             {
             set { data = value; }
@@ -187,17 +197,38 @@ namespace APSRU.Model.Howwet
                     {
                     outStream.WriteLine(con.Name + " = " + con.Value + " (" + con.Units + ") " + " ! " + con.Comment);
                     }
-
-                String headings = "site year day radn maxt mint rain evap";
-                outStream.WriteLine(headings);
-                String units = "()   ()    () (MJ/m2) (oC)   (oC)   (mm)    (mm)";
-                outStream.WriteLine(units);
+                //headings
+                String headingString = "";
+                int headingCount = headings.Count;
+                for (int i = 7; i < headingCount; i++)
+                    {
+                    headings.RemoveAt(i);
+                    }
+                foreach(String heading in headings)
+                    {
+                    headingString = headingString + " " + heading;
+                    }
+             
+                outStream.WriteLine(headingString);
+                //Units
+                int unitCount = units.Count;
+                for (int j = 7; j < unitCount; j++)
+                    {
+                    units.RemoveAt(j);
+                    }
+                String unitString = "";
+                foreach (String unit in units)
+                    {
+                    unitString = unitString + " " + unit;
+                    }
+                
+                outStream.WriteLine(unitString);
                 //Data
                 foreach (DataRow row in Data.Rows)
                     {
                     DateTime date = new DateTime();
                     date = (DateTime)row["date"];
-                    outStream.WriteLine(row["site"].ToString() + " " + date.Year + " " + date.DayOfYear + " " + row["radn"].ToString() + " " + row["maxt"].ToString() + " " + row["mint"].ToString() + " " + row["rain"].ToString() + " " + row["evap"].ToString());
+                    outStream.WriteLine(row["site"].ToString() + " " + date.Year + " " + date.DayOfYear + " " + row["radn"].ToString() + " " + row["maxt"].ToString() + " " + row["mint"].ToString() + " " + row["rain"].ToString());
                     }
                 outStream.Close();
                 }
