@@ -34,8 +34,8 @@ namespace CSGeneral
 		{
 		private string _FileName;
 		private DataTable data = new DataTable();
-		private StringCollection Headings;
-		private StringCollection Units;
+		public StringCollection Headings;
+        public StringCollection Units;
 		private ArrayList _Constants = new ArrayList();
 
 		private int YearIndex;
