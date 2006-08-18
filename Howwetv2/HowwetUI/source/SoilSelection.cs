@@ -13,19 +13,37 @@ namespace APSRU.Howwet
     {
     public partial class SoilSelection : Form
         {
-
+        private static SoilSelection instance = null;
+        public bool isLoaded = false;
         public delegate void SoilSelected(APSIMData soil);
         public event SoilSelected SoilSelectedEvent;
 
         private APSIMData soilsObject;
         private ApsoilController Apsoil;
-        public SoilSelection(String fileName)
+
+        public static SoilSelection Instance
             {
-            InitializeComponent();
-            soilsObject = new APSIMData();
-            soilsObject.LoadFromFile(fileName);
+            get
+                {
+                if (SoilSelection.instance == null)SoilSelection.instance = new SoilSelection();
+                return SoilSelection.instance;
+                }
             }
 
+        public SoilSelection()
+            {
+            InitializeComponent();
+           // soilsObject = new APSIMData();
+           // soilsObject.LoadFromFile(fileName);
+            }
+
+        public void loadObject(String fileName)
+            {
+            soilsObject = new APSIMData();
+            soilsObject.LoadFromFile(fileName);
+            isLoaded = true;
+            }
+       
         private void SoilSelection_Load(object sender, EventArgs e)
             {
             this.dataTree1.ExpandAll = false;
@@ -44,6 +62,11 @@ namespace APSRU.Howwet
                 SoilSelectedEvent(Apsoil.Data);
                 this.Close();
                 }
+            }
+
+        private void SoilSelection_FormClosing(object sender, FormClosingEventArgs e)
+            {
+            instance = null;
             }
 
        
