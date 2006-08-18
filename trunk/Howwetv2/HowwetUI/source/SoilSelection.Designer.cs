@@ -65,6 +65,7 @@ namespace APSRU.Howwet
             this.Name = "SoilSelection";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Select Soil";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SoilSelection_FormClosing);
             this.Load += new System.EventHandler(this.SoilSelection_Load);
             this.ResumeLayout(false);
 

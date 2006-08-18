@@ -274,9 +274,17 @@ namespace APSRU.Howwet
                     soilFileName.Text = fileInfo.Name;
                     this.soilsFileName = fileInfo.Name;
 
-                    SoilSelection soilForm = new SoilSelection(this.soilsFileName);
-                    soilForm.SoilSelectedEvent += new SoilSelection.SoilSelected(soilForm_SoilSelectedEvent);
-                    soilForm.Show();
+                    if (!SoilSelection.Instance.isLoaded)
+                        {
+                        SoilSelection.Instance.loadObject(this.soilsFileName);
+                        SoilSelection.Instance.SoilSelectedEvent += new SoilSelection.SoilSelected(soilForm_SoilSelectedEvent);
+                        }
+                    SoilSelection.Instance.Focus();
+                    SoilSelection.Instance.Show();
+
+                  //  SoilSelection soilForm = new SoilSelection(this.soilsFileName);
+                  //  soilForm.SoilSelectedEvent += new SoilSelection.SoilSelected(soilForm_SoilSelectedEvent);
+                  //  soilForm.Show();
                     }
                 }
             catch (CustomException err)
@@ -295,9 +303,17 @@ namespace APSRU.Howwet
                 {
                 if (!(this.soilsFileName == ""))
                     {
-                    SoilSelection soilForm = new SoilSelection(this.soilsFileName);
-                    soilForm.SoilSelectedEvent += new SoilSelection.SoilSelected(soilForm_SoilSelectedEvent);
-                    soilForm.Show();
+                    if (!SoilSelection.Instance.isLoaded)
+                        {
+                        SoilSelection.Instance.loadObject(this.soilsFileName);
+                        SoilSelection.Instance.SoilSelectedEvent += new SoilSelection.SoilSelected(soilForm_SoilSelectedEvent);
+                        }
+                    SoilSelection.Instance.Focus();
+                    SoilSelection.Instance.Show();
+                    
+                 //   SoilSelection soilForm = new SoilSelection(this.soilsFileName);
+                 //   soilForm.SoilSelectedEvent += new SoilSelection.SoilSelected(soilForm_SoilSelectedEvent);
+                 //   soilForm.Show();
                     }
                 }
             catch (CustomException err)
@@ -590,14 +606,27 @@ namespace APSRU.Howwet
             {
             if (!(this.metObject.FileName == ""))
                 {
-                RainfallEditor form = new RainfallEditor();
-                form.displayData(this.metObject);
-                form.Show();
+                //RainfallEditor form = new RainfallEditor();
+                
+                toolStripStatusLabel2.Text = "Please wait: Loading Met file";
+               
+                if (!RainfallEditor.Instance.isLoaded)
+                    {
+                    this.metObject.BuildAverages();
+                    RainfallEditor.Instance.loadObject(this.metObject);
+                    }
+                RainfallEditor.Instance.Focus();
+                RainfallEditor.Instance.Show();
                 }
             else
                 {
                 MessageBox.Show("Please select a Met file to edit");
                 }
+            }
+
+        private void timerProgresBar_Tick(object sender, EventArgs e)
+            {
+            toolStripProgressBar1.PerformStep();
             }
        
         private void StartDatePicker_ValueChanged(object sender, EventArgs e)
@@ -959,6 +988,10 @@ namespace APSRU.Howwet
             }
 
         #endregion
+
+       
+
+       
 
       
 

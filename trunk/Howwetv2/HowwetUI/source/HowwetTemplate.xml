@@ -34,7 +34,7 @@
             <variable name="MaxTemp" variablename="maxt" module="global" arrayspec=" " description="Maximum temperature (oC)" ModuleType="registrations" />
             <variable name="Year" variablename="year" module="global" arrayspec=" " description="Year" ModuleType="registrations" />
 	          <variable name="SoilLoss" variablename="soil_loss" module="Erosion" arrayspec=" " description="Soil loss (t/ha)" ModuleType="erosion" />
-            <variable name="Drain" variablename="drain" module="#000 SampleBlackEarth Water" arrayspec=" " description="Drainage (mm)" />
+            <variable name="Drain" variablename="drain" module="" arrayspec=" " description="Drainage (mm)" />
           </variables>
           <events>
             <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
