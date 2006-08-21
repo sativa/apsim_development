@@ -72,6 +72,7 @@ class plantRootPart : public plantPart
       void update();
       void updateOthers();
       void checkBounds(void);
+      void removeBiomass2(float chop_fr);
       void sen_length(void);
       virtual void root_length_growth (void) = 0;
       virtual void plant_root_depth (void);
@@ -86,7 +87,7 @@ class plantRootPart : public plantPart
                                           , vector<float> &n_dead_detached
                                           , vector<float> &p_dead_detached
                                           , vector<float> &fract);
-      void doNConccentrationLimits(void);
+      void doNConccentrationLimits(float);
       void redistribute(const vector<float> &, const vector<float> &, float);
       int find_layer_no(float) const;
       int find_layer_no(float,const vector<float>&);

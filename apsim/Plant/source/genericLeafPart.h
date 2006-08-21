@@ -58,7 +58,7 @@ class genericLeafPart : public plantLeafPart {
    void update (void) ;
 
    void remove_detachment (float dlt_slai_detached, float dlt_lai_removed );
-   void remove_biomass_update(void);
+   void remove_biomass(void);
 
  
   private:

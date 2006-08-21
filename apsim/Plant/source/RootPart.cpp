@@ -769,7 +769,7 @@ float plantRootPart::root_proportion (int layer)
    return (divide (depth_of_root_in_layer, dlayer[layer], 0.0));
    }
 
-void plantRootPart::doNConccentrationLimits(void)
+void plantRootPart::doNConccentrationLimits(float)
 //==========================================================================
 // N targets are static - override plantPart's implementation
    {
@@ -1109,8 +1109,18 @@ float plantRootPart::oxdef_stress ()
                           , root_depth
                           , &stress);
         return stress;
-
     }
+
+void plantRootPart::removeBiomass2(float chop_fr)
+   {
+   float dlt_dm_die = DMGreen * rootDieBackFraction * chop_fr;
+   DMSenesced += dlt_dm_die;
+   DMGreen -= dlt_dm_die;
+
+   float dlt_n_die = dlt_dm_die * c.n_sen_conc;
+   NSenesced += dlt_n_die;
+   NGreen -= dlt_n_die;
+   }
 
 void plantRootPart::doNewProfile(protocol::Variant &v)
     {
@@ -1375,4 +1385,5 @@ void plantRootPart::get_ll(protocol::Component *systemInterface, protocol::Query
    for(int layer = 0; layer <= num_layers; layer++)
       ll.push_back(ll_dep[layer] / dlayer[layer]);
    systemInterface->sendVariable(qd, ll);
-}
+   }
+   

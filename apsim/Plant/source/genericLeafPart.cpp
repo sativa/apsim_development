@@ -686,10 +686,11 @@ void genericLeafPart::remove_detachment (float dlt_slai_detached, float dlt_lai_
       }
 }
 
-void genericLeafPart::remove_biomass_update(void)
-// Initialise plant leaf area from deltas
+void genericLeafPart::remove_biomass(void)
+// (Re)-Initialise plant leaf area from deltas
     {
-
+    plantPart::removeBiomass();
+    
     float chop_fr_green = divide(dlt.dm_green, DMGreen, 0.0);
     float chop_fr_sen   = divide(dlt.dm_senesced, DMSenesced, 0.0);
     float chop_fr_dead  = divide(dlt.dm_dead, DMDead, 0.0);

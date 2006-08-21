@@ -592,9 +592,6 @@ public:
    bool inPhase(const string &what) ;
    int  getDayOfYear(void) {return (Environment.day_of_year);};
 
-   // To transfer to Fruit class
-   void plant_bio_distribute (void);
-
    //Phosporousy things:
    void zero_p_variables ();
    void zero_daily_p_variables ();
@@ -987,7 +984,6 @@ private:
       float row_spacing_default;
       float skip_row_default;                           //Default skip row ()
       float skip_plant_default;                         //Default skip plant ()
-      float root_die_back_fr;                           // fraction of roots dying at harvest
       vector<string> class_action;
       vector<string> class_change;
 

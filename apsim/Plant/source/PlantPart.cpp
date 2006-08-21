@@ -631,7 +631,7 @@ void plantPart::doProcessBioDemand(void)
 {
 }
 
-void plantPart::doNConccentrationLimits(void)
+void plantPart::doNConccentrationLimits(float)
 //=======================================================================================
    {
    g.n_conc_crit = c.n_conc_crit.value(plant->getStageCode());
@@ -770,6 +770,15 @@ void plantPart::updateP(void)
       }
    }
 
+void plantPart::removeBiomass(void)
+//=======================================================================================
+// deltas have been given from an external module; update states.
+   {
+   update();
+   }
+void plantPart::removeBiomass2(float)
+   {
+   }
 void plantPart::doNDemand1Pot(float dlt_dm             //  Whole plant the daily biomass production (g/m^2)
                             , float dlt_dm_pot_rue)    //  Whole plant potential dry matter production (g/m^2)
 //=======================================================================================
@@ -932,11 +941,11 @@ void plantPart::doSenescence2(float sen_fr)
    dlt.dm_senesced = DMGreen * fraction_senescing;
    }
 
-void plantPart::doDmPartition(float DMAvail, float DMDemandTotal)
+//void plantPart::doDmPartition(float DMAvail, float DMDemandTotal)
 //=======================================================================================
-   {
-   dlt.dm_green = DMAvail * divide (DMGreenDemand, DMDemandTotal, 0.0);
-   }
+//   {
+//   dlt.dm_green = DMAvail * divide (DMGreenDemand, DMDemandTotal, 0.0);
+//   }
 
 void plantPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal)
 //=======================================================================================
@@ -1318,6 +1327,8 @@ float plantPart::pMinPotStressDeterminant(void)
       return 0.0;
    }
 
+float plantPart::height(void) {return Height;}
+
 float plantPart::soilNDemand(void) {return (SoilNDemand);}
 float plantPart::nDemand(void) {return (NDemand);}
 float plantPart::nMax(void){return (NMax);}
@@ -1425,18 +1436,16 @@ float plantPart::pRetransSupply(void)
 float plantPart::nRetransSupply(void)
 //=======================================================================================
    {
-//    if (c.retrans_part)
+//   if (c.retrans_part)
 //       return l_bound(NGreen - nMinPot(), 0.0);
-//    else
    return 0.0;
    }
 
 float plantPart::dmRetransSupply(void) const
 //=======================================================================================
    {
-//    if (c.retrans_part)
-//       return l_bound(DMGreen - dmMinPot(), 0.0);
-//    else
+   if (c.retrans_part)
+      return l_bound(DMGreen - (DMPlantMin*plant->getPlants()), 0.0);
    return 0.0;
    }
 
@@ -1631,3 +1640,37 @@ void plantPart::doTECO2(void){}                                       // (OUTPUT
 void plantPart::doTick(protocol::timeType &tick) {}
 void plantPart::writeCultivarInfo (protocol::Component *){}
 
+float plantPart::giveDmGreen(float delta) 
+//=======================================================================================
+// giveXXX: something is giving us some XXX. return the amount we actually take.
+   {
+   dlt.dm_green += delta;
+   return delta;
+   }
+
+float plantPart::giveNGreen(float delta) 
+//=======================================================================================
+   {
+   dlt.n_green += delta;
+   return delta;
+   }
+
+float plantPart::giveDmSenesced (float delta)
+//=======================================================================================
+   {
+   dlt.dm_senesced += delta;
+   return delta;
+   }
+
+float plantPart::giveDmDead (float delta)
+//=======================================================================================
+   {
+   dlt.dm_dead += delta;
+   return delta;
+   }
+
+float plantPart::dlt_dm_green_retrans_hack(float delta)
+   {
+   dlt.dm_green_retrans = delta;
+   return delta;
+   }

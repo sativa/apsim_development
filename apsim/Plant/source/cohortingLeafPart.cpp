@@ -780,13 +780,6 @@ void cohortingLeafPart::remove_detachment (float dlt_slai_detached, float dlt_la
 
    }
 
-void cohortingLeafPart::remove_biomass_update(void)
-//=======================================================================================
-// Initialise plant leaf area from deltas
-    {
-
-    }
-
 float cohortingLeafPart::senFract (void) const
 //=======================================================================================
    {

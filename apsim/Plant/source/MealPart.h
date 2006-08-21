@@ -18,6 +18,7 @@ class fruitMealPart : public plantPart {
    void onStartGrainFill(void);
 
    void doDMDemand(float dm_demand);         //remove
+   void doNDemand(float dm_demand);         //remove
    void doDMDemandGrain(float dm_demand);
    void doNRetranslocate( float dltN, float grain_n_demand);
    float nDemand2(void);

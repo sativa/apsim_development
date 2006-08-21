@@ -87,3 +87,10 @@ void plantStemPart::update(void)
 {
     plantPart::update();
 }
+
+void plantStemPart::removeBiomass2(float )
+{
+    Height *= (1.0 - divide(dlt.dm_green, DMGreen, 0.0));
+    Width *= (1.0 - divide(dlt.dm_green, DMGreen, 0.0));
+}
+

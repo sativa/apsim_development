@@ -27,3 +27,19 @@ plantLeafPart* constructLeafPart (plantInterface *p, const string &type, const s
 
   return (object);
   }
+
+
+void plantLeafPart::doNConccentrationLimits(float modifier)
+{
+   plantPart::doNConccentrationLimits(modifier);
+   g.n_conc_crit *= modifier;
+   if (g.n_conc_crit <= g.n_conc_min)
+      throw std::runtime_error("Aiieeee!!\nnconc_crit < nconc_min!\nWhat's happened to CO2??");
+}
+
+
+float plantLeafPart::dmRetransSupply(void) const
+  {
+  float dm_part_avail = DMGreen - DMPlantMin * plant->getPlants();
+  return (l_bound (dm_part_avail, 0.0));
+  }

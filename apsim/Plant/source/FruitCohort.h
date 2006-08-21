@@ -87,11 +87,7 @@ public:												// member functions
    virtual void display(ostream &os = cout) const;	// display function
    float calcCover (float canopy_fac);                  // return pod cover   //FIXME  //remove problem
    void doDmDemand (float dlt_dm_supply_by_veg);
-//   void doDmPartition(float DMAvail, float DMDemandTotal);
-//   void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
    void doNFixRetranslocate(float NFix, float NDemandDifferentialTotal);
-////   void doNRetranslocate( float N_avail_rep, float grain_n_demand);
-
 
 #if TEST_FruitCohort
    virtual ~FruitCohort();							// destructor
