@@ -6,8 +6,8 @@ object data: TForm
   Align = alClient
   BorderIcons = []
   BorderStyle = bsNone
-  ClientHeight = 867
-  ClientWidth = 1272
+  ClientHeight = 833
+  ClientWidth = 1264
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,7 +17,7 @@ object data: TForm
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
-  object Obs: TApsimFileReader
+  object Observed: TApsimFileReader
     Active = True
     DesignActivation = True
     AttachedAutoRefresh = True
@@ -29,44 +29,26 @@ object data: TForm
         Size = 200
       end
       item
-        Name = 'Plot'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'Sample'
+        Name = 'experiment'
         DataType = ftString
         Size = 200
       end
       item
-        Name = 'LAI'
+        Name = 'treatment'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'Nrate'
         DataType = ftFloat
       end
       item
-        Name = 'sla'
-        DataType = ftFloat
-      end
-      item
-        Name = 'tpp'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
+        Name = 'zadok_stage'
         DataType = ftFloat
       end
       item
@@ -78,35 +60,11 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Head_n'
-        DataType = ftFloat
-      end
-      item
         Name = 'biomass_n'
         DataType = ftFloat
       end
       item
         Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sln'
-        DataType = ftFloat
-      end
-      item
-        Name = 'tpsm'
         DataType = ftFloat
       end
       item
@@ -120,6 +78,11 @@ object data: TForm
       item
         Name = 'n_conc_grain'
         DataType = ftFloat
+      end
+      item
+        Name = 'protein'
+        DataType = ftString
+        Size = 200
       end>
     IndexDefs = <>
     SortOptions = []
@@ -140,16 +103,107 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph3.afterDataRefresh'
-      'Graph4.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'ObsMer73.onSourceDataChanged')
     filenames.Strings = (
-      'Observed\aps6.txt')
-    Left = 213
-    Top = 86
+      'Observed\CombinedFinalHarvest.txt')
+    Left = 155
+    Top = 111
   end
-  object PreAll: TApsimFileReader
+  object ObsMer73: TFilter
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'title'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'experiment'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'treatment'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'Nrate'
+        DataType = ftFloat
+      end
+      item
+        Name = 'zadok_stage'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_size'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_no'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'protein'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = Observed
+    subscriptionComponentNames.Strings = (
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh'
+      'Graph3.afterDataRefresh')
+    filter = 'experiment='#39'MER-73'#39
+    Left = 224
+    Top = 120
+  end
+  object Predicted: TApsimFileReader
     Active = True
     DesignActivation = True
     AttachedAutoRefresh = True
@@ -268,6 +322,18 @@ object data: TForm
       item
         Name = 'nfact_expan'
         DataType = ftFloat
+      end
+      item
+        Name = 'root_depth'
+        DataType = ftFloat
+      end
+      item
+        Name = 'ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'eo'
+        DataType = ftFloat
       end>
     IndexDefs = <>
     SortOptions = []
@@ -288,18 +354,16 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Pre.onSourceDataChanged')
+      'PredictedHarvest.onSourceDataChanged')
     filenames.Strings = (
-      'Wheat_APS6_N000.out'
-      'Wheat_APS6_N040.out'
-      'Wheat_APS6_N080.out'
-      'Wheat_APS6_N120.out'
-      'Wheat_APS6_N160.out'
-      'Wheat_APS6_N360.out')
-    Left = 227
-    Top = 215
+      'Wheat_MER-73_DryN000.out'
+      'Wheat_MER-73_DryN015.out'
+      'Wheat_MER-73_I040N015.out'
+      'Wheat_MER-73_I150N015.out')
+    Left = 176
+    Top = 216
   end
-  object Pre: TFilter
+  object PredictedHarvest: TFilter
     Active = True
     DesignActivation = True
     AttachedAutoRefresh = True
@@ -418,6 +482,18 @@ object data: TForm
       item
         Name = 'nfact_expan'
         DataType = ftFloat
+      end
+      item
+        Name = 'root_depth'
+        DataType = ftFloat
+      end
+      item
+        Name = 'ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'eo'
+        DataType = ftFloat
       end>
     IndexDefs = <>
     SortOptions = []
@@ -437,22 +513,21 @@ object data: TForm
     SortID = 0
     SubLanguageID = 1
     LocaleID = 1024
-    source = PreAll
+    source = Predicted
     subscriptionComponentNames.Strings = (
+      'Graph1.afterDataRefresh'
       'Graph2.afterDataRefresh'
-      'Graph3.afterDataRefresh'
-      'Graph4.afterDataRefresh'
-      'Graph1.afterDataRefresh')
-    filter = 'day = 306'
-    Left = 284
-    Top = 228
+      'Graph3.afterDataRefresh')
+    filter = 'zadok_stage=90'
+    Left = 256
+    Top = 208
   end
 end
 object Page1: TQuickRep
-  Left = 179
-  Top = 0
-  Width = 635
-  Height = 898
+  Left = 332
+  Top = 144
+  Width = 397
+  Height = 561
   Frame.Color = clBlack
   Frame.DrawTop = False
   Frame.DrawBottom = False
@@ -493,12 +568,12 @@ object Page1: TQuickRep
   PrintIfEmpty = True
   SnapToGrid = True
   Units = MM
-  Zoom = 80
+  Zoom = 50
   object TitleBand1: TQRBand
     Left = 0
     Top = 0
-    Width = 635
-    Height = 898
+    Width = 397
+    Height = 561
     Frame.Color = clBlack
     Frame.DrawTop = False
     Frame.DrawBottom = False
@@ -510,13 +585,46 @@ object Page1: TQuickRep
     ForceNewPage = False
     Size.Values = (
       2970
-      2100.13020833333)
+      2100.79166666667)
     BandType = rbTitle
+    object Text1: TText
+      Left = 26
+      Top = 27
+      Width = 120
+      Height = 22
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        116.416666666667
+        137.583333333333
+        142.875
+        635)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -37
+      Font.Name = 'Arial'
+      Font.Style = []
+      Lines.Strings = (
+        'Merredin 1973')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = 'Merredin 1973'#13#10
+      FontSize = 28
+    end
     object Graph1: TGraph
-      Left = 50
-      Top = 67
-      Width = 259
-      Height = 326
+      Left = 20
+      Top = 78
+      Width = 336
+      Height = 128
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -524,13 +632,13 @@ object Page1: TQuickRep
       Frame.DrawRight = False
       Frame.Style = psClear
       Size.Values = (
-        1079.5
-        164.041666666667
-        222.25
-        857.25)
+        677.333333333333
+        105.833333333333
+        412.75
+        1778)
       title = ' '
       subTitle = ' '
-      leftAxisTitle = ' '
+      leftAxisTitle = 'Grain Yield'
       topAxisTitle = ' '
       rightAxisTitle = ' '
       bottomAxisTitle = ' '
@@ -551,22 +659,14 @@ object Page1: TQuickRep
         BottomAxis.LabelsSeparation = 100
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
-        LeftAxis.Automatic = False
-        LeftAxis.AutomaticMaximum = False
         LeftAxis.AxisValuesFormat = '###0.###'
         LeftAxis.Grid.Visible = False
         LeftAxis.LabelsSeparation = 100
-        LeftAxis.Maximum = 800
         LeftAxis.MinorTicks.Visible = False
         LeftAxis.TickLength = 7
-        Legend.CustomPosition = True
-        Legend.Font.Height = -16
-        Legend.Frame.Visible = False
-        Legend.Left = 55
+        LeftAxis.Title.Caption = 'Grain Yield'
+        LeftAxis.Title.Font.Height = -19
         Legend.LegendStyle = lsSeries
-        Legend.ResizeChart = False
-        Legend.Shadow.Color = clWhite
-        Legend.Top = 25
         RightAxis.AxisValuesFormat = '###0.###'
         RightAxis.Grid.Visible = False
         RightAxis.LabelsSeparation = 100
@@ -581,8 +681,9 @@ object Page1: TQuickRep
         object Series1: TBarSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Obs
+          DataSource = data.ObsMer73
           Title = 'Observed'
+          XLabelsSource = 'experiment'
           Gradient.Direction = gdTopBottom
           XValues.Name = 'X'
           XValues.Order = loAscending
@@ -590,29 +691,25 @@ object Page1: TQuickRep
           YValues.Order = loNone
           YValues.ValueSource = 'grain_wt'
         end
-        object Series2: TLineSeries
+        object Series2: TBarSeries
           Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 20
           Marks.Visible = False
-          DataSource = data.Pre
+          DataSource = data.PredictedHarvest
           Title = 'Predicted'
-          LinePen.Width = 5
-          Pointer.InflateMargins = True
-          Pointer.Style = psRectangle
-          Pointer.Visible = False
+          Gradient.Direction = gdTopBottom
           XValues.Name = 'X'
           XValues.Order = loAscending
-          YValues.Name = 'Y'
+          YValues.Name = 'Bar'
           YValues.Order = loNone
           YValues.ValueSource = 'grain_wt'
         end
       end
     end
     object Graph2: TGraph
-      Left = 331
-      Top = 67
-      Width = 259
-      Height = 326
+      Left = 20
+      Top = 222
+      Width = 336
+      Height = 128
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -620,13 +717,13 @@ object Page1: TQuickRep
       Frame.DrawRight = False
       Frame.Style = psClear
       Size.Values = (
-        1079.5
-        1095.375
-        222.25
-        857.25)
+        677.333333333333
+        105.833333333333
+        1174.75
+        1778)
       title = ' '
       subTitle = ' '
-      leftAxisTitle = ' '
+      leftAxisTitle = 'Grain Number'
       topAxisTitle = ' '
       rightAxisTitle = ' '
       bottomAxisTitle = ' '
@@ -652,12 +749,9 @@ object Page1: TQuickRep
         LeftAxis.LabelsSeparation = 100
         LeftAxis.MinorTicks.Visible = False
         LeftAxis.TickLength = 7
-        Legend.CustomPosition = True
-        Legend.Left = 240
+        LeftAxis.Title.Caption = 'Grain Number'
+        LeftAxis.Title.Font.Height = -19
         Legend.LegendStyle = lsSeries
-        Legend.ResizeChart = False
-        Legend.Top = 10
-        Legend.Visible = False
         RightAxis.AxisValuesFormat = '###0.###'
         RightAxis.Grid.Visible = False
         RightAxis.LabelsSeparation = 100
@@ -672,8 +766,9 @@ object Page1: TQuickRep
         object BarSeries1: TBarSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Obs
+          DataSource = data.ObsMer73
           Title = 'Observed'
+          XLabelsSource = 'experiment'
           Gradient.Direction = gdTopBottom
           XValues.Name = 'X'
           XValues.Order = loAscending
@@ -684,7 +779,7 @@ object Page1: TQuickRep
         object BarSeries2: TBarSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Pre
+          DataSource = data.PredictedHarvest
           Title = 'Predicted'
           Gradient.Direction = gdTopBottom
           XValues.Name = 'X'
@@ -695,44 +790,11 @@ object Page1: TQuickRep
         end
       end
     end
-    object Text1: TText
-      Left = 73
-      Top = 23
-      Width = 222
-      Height = 31
-      Frame.Color = clBlack
-      Frame.DrawTop = False
-      Frame.DrawBottom = False
-      Frame.DrawLeft = False
-      Frame.DrawRight = False
-      Size.Values = (
-        102.526041666667
-        241.432291666667
-        76.0677083333333
-        734.21875)
-      Alignment = taLeftJustify
-      AlignToBand = False
-      AutoSize = True
-      AutoStretch = False
-      Color = clWhite
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -32
-      Font.Name = 'Arial'
-      Font.Style = []
-      Lines.Strings = (
-        'APS6 - Lawes, Qld.')
-      ParentFont = False
-      Transparent = False
-      WordWrap = True
-      text = 'APS6 - Lawes, Qld.'#13#10
-      FontSize = 24
-    end
     object Graph3: TGraph
-      Left = 344
-      Top = 426
-      Width = 259
-      Height = 326
+      Left = 28
+      Top = 366
+      Width = 336
+      Height = 128
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -740,13 +802,13 @@ object Page1: TQuickRep
       Frame.DrawRight = False
       Frame.Style = psClear
       Size.Values = (
-        1079.5
-        1137.70833333333
-        1407.58333333333
-        857.25)
+        677.333333333333
+        148.166666666667
+        1936.75
+        1778)
       title = ' '
       subTitle = ' '
-      leftAxisTitle = ' '
+      leftAxisTitle = 'Biomass'
       topAxisTitle = ' '
       rightAxisTitle = ' '
       bottomAxisTitle = ' '
@@ -772,12 +834,9 @@ object Page1: TQuickRep
         LeftAxis.LabelsSeparation = 100
         LeftAxis.MinorTicks.Visible = False
         LeftAxis.TickLength = 7
-        Legend.CustomPosition = True
-        Legend.Left = 240
+        LeftAxis.Title.Caption = 'Biomass'
+        LeftAxis.Title.Font.Height = -19
         Legend.LegendStyle = lsSeries
-        Legend.ResizeChart = False
-        Legend.Top = 10
-        Legend.Visible = False
         RightAxis.AxisValuesFormat = '###0.###'
         RightAxis.Grid.Visible = False
         RightAxis.LabelsSeparation = 100
@@ -792,122 +851,27 @@ object Page1: TQuickRep
         object BarSeries3: TBarSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Obs
+          DataSource = data.ObsMer73
           Title = 'Observed'
+          XLabelsSource = 'experiment'
           Gradient.Direction = gdTopBottom
           XValues.Name = 'X'
           XValues.Order = loAscending
           YValues.Name = 'Bar'
           YValues.Order = loNone
-          YValues.ValueSource = 'n_conc_grain'
+          YValues.ValueSource = 'biomass_wt'
         end
         object BarSeries4: TBarSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Pre
+          DataSource = data.PredictedHarvest
           Title = 'Predicted'
           Gradient.Direction = gdTopBottom
           XValues.Name = 'X'
           XValues.Order = loAscending
           YValues.Name = 'Bar'
           YValues.Order = loNone
-          YValues.ValueSource = 'n_conc_grain'
-        end
-      end
-    end
-    object Graph4: TGraph
-      Left = 46
-      Top = 443
-      Width = 269
-      Height = 296
-      Frame.Color = clBlack
-      Frame.DrawTop = False
-      Frame.DrawBottom = False
-      Frame.DrawLeft = False
-      Frame.DrawRight = False
-      Frame.Style = psClear
-      Size.Values = (
-        978.958333333333
-        153.458333333333
-        1465.79166666667
-        889)
-      title = ' '
-      subTitle = ' '
-      leftAxisTitle = ' '
-      topAxisTitle = ' '
-      rightAxisTitle = ' '
-      bottomAxisTitle = ' '
-      footTitle = ' '
-      seriesTitle1 = ' '
-      seriesTitle2 = ' '
-      seriesTitle3 = ' '
-      seriesTitle4 = ' '
-      seriesTitle5 = ' '
-      object QRDBChart4: TQRDBChart
-        Left = -1
-        Top = -1
-        Width = 1
-        Height = 1
-        BackWall.Visible = False
-        BottomAxis.Automatic = False
-        BottomAxis.AutomaticMaximum = False
-        BottomAxis.AutomaticMinimum = False
-        BottomAxis.AxisValuesFormat = '###0.###'
-        BottomAxis.Grid.Visible = False
-        BottomAxis.LabelsSeparation = 100
-        BottomAxis.Maximum = 800
-        BottomAxis.Minimum = 61
-        BottomAxis.MinorTicks.Visible = False
-        BottomAxis.TickLength = 7
-        LeftAxis.AxisValuesFormat = '###0.###'
-        LeftAxis.Grid.Visible = False
-        LeftAxis.LabelsSeparation = 100
-        LeftAxis.MinorTicks.Visible = False
-        LeftAxis.TickLength = 7
-        Legend.LegendStyle = lsSeries
-        Legend.Visible = False
-        RightAxis.AxisValuesFormat = '###0.###'
-        RightAxis.Grid.Visible = False
-        RightAxis.LabelsSeparation = 100
-        RightAxis.MinorTicks.Visible = False
-        RightAxis.TickLength = 7
-        TopAxis.AxisValuesFormat = '###0.###'
-        TopAxis.Grid.Visible = False
-        TopAxis.LabelsSeparation = 100
-        TopAxis.MinorTicks.Visible = False
-        TopAxis.TickLength = 7
-        View3D = False
-        object Series3: TLineSeries
-          Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 0
-          Marks.Visible = False
-          DataSource = data.Obs
-          ClickableLine = False
-          Pointer.InflateMargins = True
-          Pointer.Style = psRectangle
-          Pointer.Visible = True
-          XValues.Name = 'X'
-          XValues.Order = loAscending
-          XValues.ValueSource = 'grain_wt'
-          YValues.Name = 'Y'
-          YValues.Order = loNone
-          YValues.ValueSource = 'n_conc_grain'
-        end
-        object Series4: TLineSeries
-          Marks.Callout.Brush.Color = clBlack
-          Marks.Callout.Length = 0
-          Marks.Visible = False
-          DataSource = data.Pre
-          ClickableLine = False
-          Pointer.InflateMargins = True
-          Pointer.Style = psRectangle
-          Pointer.Visible = True
-          XValues.Name = 'X'
-          XValues.Order = loAscending
-          XValues.ValueSource = 'grain_wt'
-          YValues.Name = 'Y'
-          YValues.Order = loNone
-          YValues.ValueSource = 'n_conc_grain'
+          YValues.ValueSource = 'biomass_wt'
         end
       end
     end
