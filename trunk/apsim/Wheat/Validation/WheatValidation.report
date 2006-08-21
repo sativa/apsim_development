@@ -120,6 +120,26 @@ object data: TForm
       item
         Name = 'grain_protein'
         DataType = ftFloat
+      end
+      item
+        Name = 'swdef_photo'
+        DataType = ftFloat
+      end
+      item
+        Name = 'swdef_expan'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nfact_photo'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nfact_expan'
+        DataType = ftFloat
+      end
+      item
+        Name = 'root_depth'
+        DataType = ftFloat
       end>
     IndexDefs = <>
     SortOptions = []
@@ -133,7 +153,7 @@ object data: TForm
     PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
     PersistentBackup = False
     ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    Filter = 'Title = '#39'Wheat_APS14_StrawN200'#39' and stage_name = '#39'maturity'#39
+    Filter = 'Title = '#39'Wheat_Beverley90_N60'#39' and stage_name = '#39'maturity'#39
     FilterOptions = []
     Version = '2.53g'
     LanguageID = 0
@@ -143,6 +163,7 @@ object data: TForm
     subscriptionComponentNames.Strings = (
       'PredictedHarvest.onSourceDataChanged')
     filenames.Strings = (
+      'Wheat_Wongan84_N300.out'
       'Wheat_Wongan84_N325.out'
       'Wheat_APS6_N000.out'
       'Wheat_APS6_N040.out'
@@ -170,6 +191,11 @@ object data: TForm
       'Wheat_APS26_WetN040.out'
       'Wheat_APS26_WetN080.out'
       'Wheat_APS26_WetN160.out'
+      'Wheat_Beverley90_Early.out'
+      'Wheat_Beverley90_Late.out'
+      'Wheat_Beverley90_n15.out'
+      'Wheat_Beverley90_n30.out'
+      'Wheat_Beverley90_n60.out'
       'Wheat_Lincoln9192_I01.out'
       'Wheat_Lincoln9192_I03.out'
       'Wheat_Lincoln9192_I05.out'
@@ -186,8 +212,7 @@ object data: TForm
       'Wheat_MER-86_WetN015.out'
       'Wheat_MER-86_WetN060.out'
       'Wheat_Wongan84_N000.out'
-      'Wheat_Wongan84_N050.out'
-      'Wheat_Wongan84_N300.out')
+      'Wheat_Wongan84_N050.out')
     Left = 172
     Top = 84
   end
@@ -294,6 +319,26 @@ object data: TForm
       item
         Name = 'grain_protein'
         DataType = ftFloat
+      end
+      item
+        Name = 'swdef_photo'
+        DataType = ftFloat
+      end
+      item
+        Name = 'swdef_expan'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nfact_photo'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nfact_expan'
+        DataType = ftFloat
+      end
+      item
+        Name = 'root_depth'
+        DataType = ftFloat
       end>
     IndexDefs = <>
     SortOptions = []
@@ -330,9 +375,23 @@ object data: TForm
         Size = 200
       end
       item
+        Name = 'experiment'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'treatment'
+        DataType = ftString
+        Size = 200
+      end
+      item
         Name = 'stage_name'
         DataType = ftString
         Size = 200
+      end
+      item
+        Name = 'Nrate'
+        DataType = ftFloat
       end
       item
         Name = 'zadok_stage'
@@ -510,8 +569,8 @@ object data: TForm
       'RegrGSize.onSourceDataChanged'
       'Graph7.afterDataRefresh'
       'RegrBiomassN.onSourceDataChanged'
-      'Graph8.afterDataRefresh'
-      'Graph3.afterDataRefresh')
+      'Graph3.afterDataRefresh'
+      'Graph8.afterDataRefresh')
     predData = Predicted
     obsData = Observed
     keyFields.Strings = (
@@ -683,7 +742,8 @@ object data: TForm
       'Text4.afterDataRefresh'
       'Text5.afterDataRefresh'
       'Text6.afterDataRefresh'
-      'Graph2.afterDataRefresh')
+      'Graph2.afterDataRefresh'
+      'Text11.afterDataRefresh')
     xFieldName = 'Obsgrain_wt'
     yFieldName = 'Predgrain_wt'
     Left = 528
@@ -847,7 +907,9 @@ object data: TForm
     source = PredObsBiomass
     subscriptionComponentNames.Strings = (
       'Graph4.afterDataRefresh'
-      'Text6.afterDataRefresh')
+      'Text6.afterDataRefresh'
+      'Text10.afterDataRefresh'
+      'Text11.afterDataRefresh')
     xFieldName = 'Obsn_conc_grain'
     yFieldName = 'Predn_conc_grain'
     Left = 659
@@ -930,7 +992,8 @@ object data: TForm
     subscriptionComponentNames.Strings = (
       'Graph6.afterDataRefresh'
       'Text7.afterDataRefresh'
-      'Text8.afterDataRefresh')
+      'Text8.afterDataRefresh'
+      'Text12.afterDataRefresh')
     xFieldName = 'Obsgrain_n'
     yFieldName = 'Predgrain_n'
     Left = 744
@@ -1013,7 +1076,8 @@ object data: TForm
     subscriptionComponentNames.Strings = (
       'Graph7.afterDataRefresh'
       'Text8.afterDataRefresh'
-      'Text9.afterDataRefresh')
+      'Text9.afterDataRefresh'
+      'Text12.afterDataRefresh')
     xFieldName = 'Obsgrain_size'
     yFieldName = 'Predgrain_size'
     Left = 496
@@ -1094,8 +1158,8 @@ object data: TForm
     LocaleID = 1024
     source = PredObsBiomass
     subscriptionComponentNames.Strings = (
-      'Graph8.afterDataRefresh'
-      'Text9.afterDataRefresh')
+      'Text9.afterDataRefresh'
+      'Graph8.afterDataRefresh')
     xFieldName = 'Obsbiomass_n'
     yFieldName = 'Predbiomass_n'
     Left = 566
@@ -1103,10 +1167,10 @@ object data: TForm
   end
 end
 object Page1: TQuickRep
-  Left = 267
-  Top = 32
-  Width = 556
-  Height = 786
+  Left = 235
+  Top = 0
+  Width = 794
+  Height = 1123
   Frame.Color = clBlack
   Frame.DrawTop = False
   Frame.DrawBottom = False
@@ -1147,12 +1211,12 @@ object Page1: TQuickRep
   PrintIfEmpty = True
   SnapToGrid = True
   Units = MM
-  Zoom = 70
+  Zoom = 100
   object TitleBand1: TQRBand
     Left = 0
     Top = 0
-    Width = 556
-    Height = 786
+    Width = 794
+    Height = 1123
     Frame.Color = clBlack
     Frame.DrawTop = False
     Frame.DrawBottom = False
@@ -1163,14 +1227,14 @@ object Page1: TQuickRep
     ForceNewColumn = False
     ForceNewPage = False
     Size.Values = (
-      2970
-      2101.54761904762)
+      2971.27083333333
+      2100.79166666667)
     BandType = rbTitle
     object Graph5: TGraph
-      Left = 22
-      Top = 82
-      Width = 246
-      Height = 300
+      Left = 31
+      Top = 117
+      Width = 351
+      Height = 429
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -1282,10 +1346,10 @@ object Page1: TQuickRep
       end
     end
     object Graph1: TGraph
-      Left = 22
-      Top = 82
-      Width = 246
-      Height = 300
+      Left = 31
+      Top = 117
+      Width = 351
+      Height = 429
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -1397,20 +1461,20 @@ object Page1: TQuickRep
       end
     end
     object Text1: TText
-      Left = 104
-      Top = 324
-      Width = 146
-      Height = 23
+      Left = 149
+      Top = 463
+      Width = 204
+      Height = 33
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        86.9345238095238
-        393.095238095238
-        1224.64285714286
-        551.845238095238)
+        87.3125
+        394.229166666667
+        1225.02083333333
+        539.75)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -1422,7 +1486,7 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 1.11 x + -20.99 (r2 = 0.94)')
+        ' y = 1.10 x + 24.59 (r2 = 0.93)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -1430,10 +1494,10 @@ object Page1: TQuickRep
       FontSize = 12
     end
     object Graph2: TGraph
-      Left = 270
-      Top = 82
-      Width = 246
-      Height = 300
+      Left = 386
+      Top = 117
+      Width = 351
+      Height = 429
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -1551,10 +1615,10 @@ object Page1: TQuickRep
       end
     end
     object Graph3: TGraph
-      Left = 22
-      Top = 410
-      Width = 246
-      Height = 300
+      Left = 31
+      Top = 586
+      Width = 351
+      Height = 429
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -1668,10 +1732,10 @@ object Page1: TQuickRep
       end
     end
     object Graph4: TGraph
-      Left = 278
-      Top = 410
-      Width = 246
-      Height = 300
+      Left = 397
+      Top = 586
+      Width = 351
+      Height = 429
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -1788,19 +1852,19 @@ object Page1: TQuickRep
       end
     end
     object Text3: TText
-      Left = 40
-      Top = 16
-      Width = 259
-      Height = 27
+      Left = 57
+      Top = 23
+      Width = 370
+      Height = 39
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        102.053571428571
-        151.190476190476
-        60.4761904761905
+        103.1875
+        150.8125
+        60.8541666666667
         978.958333333333)
       Alignment = taLeftJustify
       AlignToBand = False
@@ -1821,20 +1885,20 @@ object Page1: TQuickRep
       FontSize = 24
     end
     object Text4: TText
-      Left = 398
-      Top = 324
-      Width = 146
-      Height = 23
+      Left = 569
+      Top = 463
+      Width = 204
+      Height = 33
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        86.9345238095238
-        1504.34523809524
-        1224.64285714286
-        551.845238095238)
+        87.3125
+        1505.47916666667
+        1225.02083333333
+        539.75)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -1846,7 +1910,7 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 1.03 x + -60.35 (r2 = 0.84)')
+        ' y = 0.96 x + 10.89 (r2 = 0.92)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -1854,20 +1918,20 @@ object Page1: TQuickRep
       FontSize = 12
     end
     object Text5: TText
-      Left = 104
-      Top = 653
-      Width = 155
-      Height = 23
+      Left = 149
+      Top = 933
+      Width = 222
+      Height = 33
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        86.9345238095238
-        393.095238095238
-        2468.18452380952
-        585.863095238095)
+        87.3125
+        394.229166666667
+        2468.5625
+        587.375)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -1879,7 +1943,7 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.80 x + 2228.13 (r2 = 0.85)')
+        ' y = 0.88 x + 1217.81 (r2 = 0.82)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -1887,20 +1951,20 @@ object Page1: TQuickRep
       FontSize = 12
     end
     object Text6: TText
-      Left = 358
-      Top = 653
-      Width = 137
-      Height = 23
+      Left = 511
+      Top = 933
+      Width = 200
+      Height = 33
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        86.9345238095238
-        1353.15476190476
-        2468.18452380952
-        517.827380952381)
+        87.3125
+        1352.02083333333
+        2468.5625
+        529.166666666667)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -1912,7 +1976,7 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.49 x + 1.20 (r2 = 0.38)')
+        ' y = 1.27 x + -0.63 (r2 = 0.59)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -1920,20 +1984,20 @@ object Page1: TQuickRep
       FontSize = 12
     end
     object Text2: TText
-      Left = 104
-      Top = 324
-      Width = 146
-      Height = 23
+      Left = 149
+      Top = 463
+      Width = 204
+      Height = 33
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        86.9345238095238
-        393.095238095238
-        1224.64285714286
-        551.845238095238)
+        87.3125
+        394.229166666667
+        1225.02083333333
+        539.75)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -1945,20 +2009,74 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 1.11 x + -20.99 (r2 = 0.94)')
+        ' y = 1.10 x + 24.59 (r2 = 0.93)')
       ParentFont = False
       Transparent = False
       WordWrap = True
       text = '$property(regrbiomass.equation)'#13#10
       FontSize = 12
     end
+    object Text10: TText
+      Left = 599
+      Top = 910
+      Width = 79
+      Height = 17
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        44.9791666666667
+        1584.85416666667
+        2407.70833333333
+        209.020833333333)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Lines.Strings = (
+        'RMSE=0.339')
+      Transparent = False
+      WordWrap = True
+      text = 'RMSE=$decplaces($property(regrGNPC.RMSD),3)'#13#10
+      FontSize = 10
+    end
+    object Text11: TText
+      Left = 636
+      Top = 421
+      Width = 86
+      Height = 17
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        44.9791666666667
+        1682.75
+        1113.89583333333
+        227.541666666667)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Lines.Strings = (
+        'RMSE=47.448')
+      Transparent = False
+      WordWrap = True
+      text = 'RMSE=$decplaces($property(regryield.RMSD),3)'#13#10
+      FontSize = 10
+    end
   end
 end
 object Page2: TQuickRep
-  Left = 307
-  Top = 88
-  Width = 476
-  Height = 674
+  Left = 354
+  Top = 30
+  Width = 556
+  Height = 786
   Frame.Color = clBlack
   Frame.DrawTop = False
   Frame.DrawBottom = False
@@ -1999,12 +2117,12 @@ object Page2: TQuickRep
   PrintIfEmpty = True
   SnapToGrid = True
   Units = MM
-  Zoom = 60
+  Zoom = 70
   object TitleBand2: TQRBand
     Left = 0
     Top = 0
-    Width = 476
-    Height = 674
+    Width = 556
+    Height = 786
     Frame.Color = clBlack
     Frame.DrawTop = False
     Frame.DrawBottom = False
@@ -2015,129 +2133,14 @@ object Page2: TQuickRep
     ForceNewColumn = False
     ForceNewPage = False
     Size.Values = (
-      2970
-      2099.02777777778)
+      2970.89285714286
+      2101.54761904762)
     BandType = rbTitle
-    object Graph6: TGraph
-      Left = 19
-      Top = 70
-      Width = 211
-      Height = 257
-      Frame.Color = clBlack
-      Frame.DrawTop = False
-      Frame.DrawBottom = False
-      Frame.DrawLeft = False
-      Frame.DrawRight = False
-      Frame.Style = psClear
-      Size.Values = (
-        1134.76851851852
-        82.3148148148148
-        308.680555555556
-        928.981481481481)
-      title = 'Grain N (g/m2)'#13#10
-      subTitle = ' '
-      leftAxisTitle = ' '
-      topAxisTitle = ' '
-      rightAxisTitle = ' '
-      bottomAxisTitle = ' '
-      footTitle = ' '
-      seriesTitle1 = ' '
-      seriesTitle2 = ' '
-      seriesTitle3 = ' '
-      seriesTitle4 = ' '
-      seriesTitle5 = ' '
-      object QRDBChart6: TQRDBChart
-        Left = -1
-        Top = -1
-        Width = 1
-        Height = 1
-        BackWall.Visible = False
-        Title.Font.Color = clBlack
-        Title.Font.Height = -19
-        Title.Text.Strings = (
-          'Grain N (g/m2)')
-        BottomAxis.AxisValuesFormat = '###0.###'
-        BottomAxis.ExactDateTime = False
-        BottomAxis.Grid.Visible = False
-        BottomAxis.Grid.ZPosition = 2
-        BottomAxis.Increment = 5
-        BottomAxis.LabelsFont.Height = -16
-        BottomAxis.LabelsSeparation = 0
-        BottomAxis.MinorTicks.Visible = False
-        BottomAxis.TickLength = 7
-        LeftAxis.AxisValuesFormat = '###0.###'
-        LeftAxis.Grid.Visible = False
-        LeftAxis.LabelsFont.Height = -16
-        LeftAxis.LabelsSeparation = 100
-        LeftAxis.MinorTicks.Visible = False
-        LeftAxis.TickLength = 7
-        Legend.LegendStyle = lsSeries
-        Legend.Visible = False
-        RightAxis.AxisValuesFormat = '###0.###'
-        RightAxis.Grid.Visible = False
-        RightAxis.LabelsSeparation = 100
-        RightAxis.MinorTicks.Visible = False
-        RightAxis.TickLength = 7
-        TopAxis.AxisValuesFormat = '###0.###'
-        TopAxis.Grid.Visible = False
-        TopAxis.LabelsSeparation = 100
-        TopAxis.MinorTicks.Visible = False
-        TopAxis.TickLength = 7
-        View3D = False
-        object PointSeries5: TPointSeries
-          Marks.Callout.Brush.Color = clBlack
-          Marks.Visible = False
-          DataSource = data.PredObsBiomass
-          SeriesColor = clBlack
-          ClickableLine = False
-          Pointer.InflateMargins = True
-          Pointer.Style = psCircle
-          Pointer.Visible = True
-          XValues.Name = 'X'
-          XValues.Order = loAscending
-          XValues.ValueSource = 'Obsgrain_n'
-          YValues.Name = 'Y'
-          YValues.Order = loNone
-          YValues.ValueSource = 'Predgrain_n'
-        end
-        object LineSeries9: TLineSeries
-          Marks.Callout.Brush.Color = clBlack
-          Marks.Visible = False
-          DataSource = data.RegrGrainN
-          SeriesColor = clBlack
-          Pointer.InflateMargins = True
-          Pointer.Style = psRectangle
-          Pointer.Visible = False
-          XValues.Name = 'X'
-          XValues.Order = loAscending
-          XValues.ValueSource = 'RegrX'
-          YValues.Name = 'Y'
-          YValues.Order = loNone
-          YValues.ValueSource = 'RegrY'
-        end
-        object LineSeries10: TLineSeries
-          Marks.Callout.Brush.Color = clBlack
-          Marks.Visible = False
-          DataSource = data.RegrGrainN
-          SeriesColor = clBlack
-          LinePen.Style = psDot
-          Pointer.InflateMargins = True
-          Pointer.Style = psRectangle
-          Pointer.Visible = False
-          XValues.Name = 'X'
-          XValues.Order = loAscending
-          XValues.ValueSource = '1:1X'
-          YValues.Name = 'Y'
-          YValues.Order = loNone
-          YValues.ValueSource = '1:1Y'
-        end
-      end
-    end
     object Graph7: TGraph
-      Left = 230
-      Top = 71
-      Width = 211
-      Height = 257
+      Left = 269
+      Top = 83
+      Width = 246
+      Height = 300
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -2254,11 +2257,126 @@ object Page2: TQuickRep
         end
       end
     end
+    object Graph6: TGraph
+      Left = 22
+      Top = 82
+      Width = 246
+      Height = 300
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        1134.76851851852
+        82.3148148148148
+        308.680555555556
+        928.981481481481)
+      title = 'Grain N (g/m2)'#13#10
+      subTitle = ' '
+      leftAxisTitle = ' '
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = ' '
+      footTitle = ' '
+      seriesTitle1 = ' '
+      seriesTitle2 = ' '
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
+      object QRDBChart6: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        Title.Font.Color = clBlack
+        Title.Font.Height = -19
+        Title.Text.Strings = (
+          'Grain N (g/m2)')
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.ExactDateTime = False
+        BottomAxis.Grid.Visible = False
+        BottomAxis.Grid.ZPosition = 2
+        BottomAxis.Increment = 5
+        BottomAxis.LabelsFont.Height = -16
+        BottomAxis.LabelsSeparation = 0
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.Grid.Visible = False
+        LeftAxis.LabelsFont.Height = -16
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        Legend.LegendStyle = lsSeries
+        Legend.Visible = False
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object PointSeries5: TPointSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.PredObsBiomass
+          SeriesColor = clBlack
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psCircle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Obsgrain_n'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'Predgrain_n'
+        end
+        object LineSeries9: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.RegrGrainN
+          SeriesColor = clBlack
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'RegrX'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'RegrY'
+        end
+        object LineSeries10: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.RegrGrainN
+          SeriesColor = clBlack
+          LinePen.Style = psDot
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = '1:1X'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = '1:1Y'
+        end
+      end
+    end
     object Graph8: TGraph
-      Left = 29
-      Top = 349
-      Width = 211
-      Height = 257
+      Left = 34
+      Top = 407
+      Width = 246
+      Height = 300
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -2292,6 +2410,8 @@ object Page2: TQuickRep
         Title.Font.Height = -19
         Title.Text.Strings = (
           'Biomass N (g/m2)')
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMaximum = False
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.ExactDateTime = False
         BottomAxis.Grid.Visible = False
@@ -2299,6 +2419,7 @@ object Page2: TQuickRep
         BottomAxis.Increment = 5
         BottomAxis.LabelsFont.Height = -16
         BottomAxis.LabelsSeparation = 0
+        BottomAxis.Maximum = 30
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         LeftAxis.AxisValuesFormat = '###0.###'
@@ -2370,85 +2491,19 @@ object Page2: TQuickRep
       end
     end
     object Text7: TText
-      Left = 82
-      Top = 285
-      Width = 117
-      Height = 11
+      Left = 96
+      Top = 333
+      Width = 140
+      Height = 13
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        48.5069444444444
-        361.597222222222
-        1256.77083333333
-        515.9375)
-      Alignment = taLeftJustify
-      AlignToBand = False
-      AutoSize = True
-      AutoStretch = False
-      Color = clWhite
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'Arial'
-      Font.Style = []
-      Lines.Strings = (
-        ' y = 0.92 x + 0.40 (r2 = 0.92)')
-      ParentFont = False
-      Transparent = False
-      WordWrap = True
-      text = '$property(regrGrainN.equation)'#13#10
-      FontSize = 12
-    end
-    object Text8: TText
-      Left = 317
-      Top = 285
-      Width = 117
-      Height = 11
-      Frame.Color = clBlack
-      Frame.DrawTop = False
-      Frame.DrawBottom = False
-      Frame.DrawLeft = False
-      Frame.DrawRight = False
-      Size.Values = (
-        48.5069444444444
-        1397.88194444444
-        1256.77083333333
-        515.9375)
-      Alignment = taLeftJustify
-      AlignToBand = False
-      AutoSize = True
-      AutoStretch = False
-      Color = clWhite
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'Arial'
-      Font.Style = []
-      Lines.Strings = (
-        ' y = 0.64 x + 0.01 (r2 = 0.08)')
-      ParentFont = False
-      Transparent = False
-      WordWrap = True
-      text = '$property(regrGSize.equation)'#13#10
-      FontSize = 12
-    end
-    object Text9: TText
-      Left = 119
-      Top = 557
-      Width = 120
-      Height = 11
-      Frame.Color = clBlack
-      Frame.DrawTop = False
-      Frame.DrawBottom = False
-      Frame.DrawLeft = False
-      Frame.DrawRight = False
-      Size.Values = (
-        48.5069444444444
-        524.756944444444
-        2456.21527777778
+        49.1369047619048
+        362.857142857143
+        1258.66071428571
         529.166666666667)
       Alignment = taLeftJustify
       AlignToBand = False
@@ -2461,11 +2516,110 @@ object Page2: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 1.07 x + -0.26 (r2 = 0.95)')
+        ' y = 1.02 x + -0.49 (r2 = 0.92)')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = '$property(regrGrainN.equation)'#13#10
+      FontSize = 12
+    end
+    object Text8: TText
+      Left = 979
+      Top = 881
+      Width = 137
+      Height = 13
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        49.1369047619048
+        3700.3869047619
+        3329.97023809524
+        517.827380952381)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = []
+      Lines.Strings = (
+        ' y = 0.51 x + 0.02 (r2 = 0.17)')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = '$property(regrGSize.equation)'#13#10
+      FontSize = 12
+    end
+    object Text9: TText
+      Left = 139
+      Top = 650
+      Width = 140
+      Height = 13
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        49.1369047619048
+        525.386904761905
+        2456.84523809524
+        529.166666666667)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = []
+      Lines.Strings = (
+        ' y = 1.05 x + -0.11 (r2 = 0.97)')
       ParentFont = False
       Transparent = False
       WordWrap = True
       text = '$property(regrBiomassN.equation)'#13#10
+      FontSize = 12
+    end
+    object Text12: TText
+      Left = 352
+      Top = 325
+      Width = 137
+      Height = 13
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        49.1369047619048
+        1330.47619047619
+        1228.42261904762
+        517.827380952381)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = []
+      Lines.Strings = (
+        ' y = 0.51 x + 0.02 (r2 = 0.17)')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = '$property(regrGSize.equation)'#13#10
       FontSize = 12
     end
   end

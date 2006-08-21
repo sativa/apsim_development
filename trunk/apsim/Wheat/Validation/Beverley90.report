@@ -135,8 +135,8 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     sortFields = 'Date'
     filename = 'D:\development\apsim\Wheat\Validation\Wheat.mdb'
     experiment = 'Beverly90'
@@ -263,8 +263,8 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     sortFields = 'Date'
     filename = 'D:\development\apsim\Wheat\Validation\Wheat.mdb'
     experiment = 'Beverly90'
@@ -297,6 +297,15 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'zadok_stage'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
         Name = 'biomass'
         DataType = ftFloat
       end
@@ -305,15 +314,7 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end
-      item
         Name = 'grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep'
         DataType = ftFloat
       end
       item
@@ -365,7 +366,35 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'sw_dep'
+        DataType = ftFloat
+      end
+      item
         Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_protein'
+        DataType = ftFloat
+      end
+      item
+        Name = 'swdef_photo'
+        DataType = ftFloat
+      end
+      item
+        Name = 'swdef_expan'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nfact_photo'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nfact_expan'
+        DataType = ftFloat
+      end
+      item
+        Name = 'root_depth'
         DataType = ftFloat
       end>
     IndexDefs = <>
@@ -387,12 +416,12 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     filenames.Strings = (
       'Wheat_Beverly90_Early.out')
     Left = 134
-    Top = 175
+    Top = 167
   end
   object LatePre: TApsimFileReader
     Active = True
@@ -418,6 +447,15 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'zadok_stage'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
         Name = 'biomass'
         DataType = ftFloat
       end
@@ -426,15 +464,7 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end
-      item
         Name = 'grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep'
         DataType = ftFloat
       end
       item
@@ -486,7 +516,35 @@ object data: TForm
         DataType = ftFloat
       end
       item
+        Name = 'sw_dep'
+        DataType = ftFloat
+      end
+      item
         Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_protein'
+        DataType = ftFloat
+      end
+      item
+        Name = 'swdef_photo'
+        DataType = ftFloat
+      end
+      item
+        Name = 'swdef_expan'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nfact_photo'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nfact_expan'
+        DataType = ftFloat
+      end
+      item
+        Name = 'root_depth'
         DataType = ftFloat
       end>
     IndexDefs = <>
@@ -508,19 +566,532 @@ object data: TForm
     SubLanguageID = 1
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph1.afterDataRefresh')
+      'Graph1.afterDataRefresh'
+      'Graph2.afterDataRefresh')
     filenames.Strings = (
       'Wheat_Beverly90_Late.out')
     Left = 216
-    Top = 184
+    Top = 160
+  end
+  object AllPre: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'title'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'Date'
+        DataType = ftDate
+      end
+      item
+        Name = 'day'
+        DataType = ftFloat
+      end
+      item
+        Name = 'year'
+        DataType = ftFloat
+      end
+      item
+        Name = 'zadok_stage'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'biomass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_size'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'head_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'leaf_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'head_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'leaf_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stem_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_no'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sw_dep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_protein'
+        DataType = ftFloat
+      end
+      item
+        Name = 'swdef_photo'
+        DataType = ftFloat
+      end
+      item
+        Name = 'swdef_expan'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nfact_photo'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nfact_expan'
+        DataType = ftFloat
+      end
+      item
+        Name = 'root_depth'
+        DataType = ftFloat
+      end
+      item
+        Name = 'ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'eo'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'PreNrespHarvest.onSourceDataChanged'
+      'AllPreHarvest.onSourceDataChanged')
+    filenames.Strings = (
+      'Wheat_Beverley90_Early.out'
+      'Wheat_Beverley90_Late.out'
+      'Wheat_Beverley90_n15.out'
+      'Wheat_Beverley90_n30.out'
+      'Wheat_Beverley90_n60.out')
+    Left = 176
+    Top = 256
+  end
+  object AllPreHarvest: TFilter
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'title'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'Date'
+        DataType = ftDate
+      end
+      item
+        Name = 'day'
+        DataType = ftFloat
+      end
+      item
+        Name = 'year'
+        DataType = ftFloat
+      end
+      item
+        Name = 'zadok_stage'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'biomass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_size'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'head_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'leaf_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'head_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'leaf_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stem_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_no'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sw_dep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_protein'
+        DataType = ftFloat
+      end
+      item
+        Name = 'swdef_photo'
+        DataType = ftFloat
+      end
+      item
+        Name = 'swdef_expan'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nfact_photo'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nfact_expan'
+        DataType = ftFloat
+      end
+      item
+        Name = 'root_depth'
+        DataType = ftFloat
+      end
+      item
+        Name = 'ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'eo'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = AllPre
+    subscriptionComponentNames.Strings = (
+      'Graph3.afterDataRefresh'
+      'Graph6.afterDataRefresh'
+      'Graph5.afterDataRefresh'
+      'Graph4.afterDataRefresh'
+      'Graph8.afterDataRefresh'
+      'Graph7.afterDataRefresh')
+    filter = 'zadok_stage=90'
+    Left = 280
+    Top = 256
+  end
+  object ObservedAll: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'title'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'experiment'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'treatment'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'Nrate'
+        DataType = ftFloat
+      end
+      item
+        Name = 'zadok_stage'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_size'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_no'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'protein'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    subscriptionComponentNames.Strings = (
+      'ObsBev90.onSourceDataChanged')
+    filenames.Strings = (
+      'Observed\CombinedFinalHarvest.txt')
+    Left = 157
+    Top = 337
+  end
+  object ObsBev90: TFilter
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'title'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'experiment'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'treatment'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'Nrate'
+        DataType = ftFloat
+      end
+      item
+        Name = 'zadok_stage'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_size'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_no'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'protein'
+        DataType = ftString
+        Size = 200
+      end>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = ObservedAll
+    subscriptionComponentNames.Strings = (
+      'Graph3.afterDataRefresh'
+      'Graph6.afterDataRefresh'
+      'Graph5.afterDataRefresh'
+      'Graph4.afterDataRefresh'
+      'Graph8.afterDataRefresh'
+      'Graph7.afterDataRefresh')
+    filter = 'experiment='#39'Beverley90'#39
+    Left = 248
+    Top = 344
   end
 end
 object Page1: TQuickRep
-  Left = 320
-  Top = 161
-  Width = 397
-  Height = 561
+  Left = 354
+  Top = 30
+  Width = 556
+  Height = 786
   Frame.Color = clBlack
   Frame.DrawTop = False
   Frame.DrawBottom = False
@@ -561,12 +1132,12 @@ object Page1: TQuickRep
   PrintIfEmpty = True
   SnapToGrid = True
   Units = MM
-  Zoom = 50
+  Zoom = 70
   object TitleBand1: TQRBand
     Left = 0
     Top = 0
-    Width = 397
-    Height = 561
+    Width = 556
+    Height = 786
     Frame.Color = clBlack
     Frame.DrawTop = False
     Frame.DrawBottom = False
@@ -578,23 +1149,23 @@ object Page1: TQuickRep
     ForceNewPage = False
     Size.Values = (
       2970
-      2100.79166666667)
+      2101.54761904762)
     BandType = rbTitle
     object Text1: TText
-      Left = 38
-      Top = 19
-      Width = 101
-      Height = 19
+      Left = 54
+      Top = 27
+      Width = 141
+      Height = 27
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        100.541666666667
-        201.083333333333
-        100.541666666667
-        534.458333333333)
+        102.053571428571
+        204.107142857143
+        102.053571428571
+        532.946428571429)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -614,10 +1185,10 @@ object Page1: TQuickRep
       FontSize = 24
     end
     object Graph1: TGraph
-      Left = 40
-      Top = 59
-      Width = 315
-      Height = 218
+      Left = 7
+      Top = 75
+      Width = 270
+      Height = 182
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -625,10 +1196,10 @@ object Page1: TQuickRep
       Frame.DrawRight = False
       Frame.Style = psClear
       Size.Values = (
-        1153.58333333333
-        211.666666666667
-        312.208333333333
-        1666.875)
+        687.916666666667
+        26.4583333333333
+        284.427083333333
+        1021.953125)
       title = ' '
       subTitle = ' '
       leftAxisTitle = ' '
@@ -667,6 +1238,7 @@ object Page1: TQuickRep
         Legend.LegendStyle = lsSeries
         Legend.ResizeChart = False
         Legend.Top = 10
+        Legend.Visible = False
         RightAxis.AxisValuesFormat = '###0.###'
         RightAxis.Grid.Visible = False
         RightAxis.LabelsSeparation = 100
@@ -748,10 +1320,10 @@ object Page1: TQuickRep
       end
     end
     object Graph2: TGraph
-      Left = 40
-      Top = 291
-      Width = 315
-      Height = 218
+      Left = 263
+      Top = 77
+      Width = 294
+      Height = 184
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -759,10 +1331,10 @@ object Page1: TQuickRep
       Frame.DrawRight = False
       Frame.Style = psClear
       Size.Values = (
-        1153.58333333333
-        211.666666666667
-        1539.875
-        1666.875)
+        694.53125
+        995.494791666667
+        291.041666666667
+        1111.25)
       title = ' '
       subTitle = ' '
       leftAxisTitle = ' '
@@ -801,6 +1373,7 @@ object Page1: TQuickRep
         Legend.LegendStyle = lsSeries
         Legend.ResizeChart = False
         Legend.Top = 10
+        Legend.Visible = False
         RightAxis.AxisValuesFormat = '###0.###'
         RightAxis.Grid.Visible = False
         RightAxis.LabelsSeparation = 100
@@ -952,6 +1525,551 @@ object Page1: TQuickRep
           YValues.Name = 'Y'
           YValues.Order = loNone
           YValues.ValueSource = 'grain_wt'
+        end
+      end
+    end
+    object Graph3: TGraph
+      Left = 32
+      Top = 287
+      Width = 220
+      Height = 145
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        549.010416666667
+        122.369791666667
+        1084.79166666667
+        830.130208333333)
+      title = ' '
+      subTitle = ' '
+      leftAxisTitle = 'Grain Yield'
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = ' '
+      footTitle = ' '
+      seriesTitle1 = 'Observed'
+      seriesTitle2 = 'Predicted'
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
+      object QRDBChart3: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.Grid.Visible = False
+        BottomAxis.LabelsSeparation = 60
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.Grid.Visible = False
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        LeftAxis.Title.Caption = 'Grain Yield'
+        LeftAxis.Title.Font.Height = -16
+        Legend.CustomPosition = True
+        Legend.Left = 205
+        Legend.LegendStyle = lsSeries
+        Legend.ResizeChart = False
+        Legend.Top = 130
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object Series11: TBarSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.ObsBev90
+          Title = 'Observed'
+          XLabelsSource = 'treatment'
+          Gradient.Direction = gdTopBottom
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          YValues.Name = 'Bar'
+          YValues.Order = loNone
+          YValues.ValueSource = 'grain_wt'
+        end
+        object Series12: TBarSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.AllPreHarvest
+          Title = 'Predicted'
+          Gradient.Direction = gdTopBottom
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          YValues.Name = 'Bar'
+          YValues.Order = loNone
+          YValues.ValueSource = 'grain_wt'
+        end
+      end
+    end
+    object Graph4: TGraph
+      Left = 296
+      Top = 455
+      Width = 234
+      Height = 145
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        549.010416666667
+        1117.86458333333
+        1719.79166666667
+        883.046875)
+      title = ' '
+      subTitle = ' '
+      leftAxisTitle = 'Grain Number'
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = ' '
+      footTitle = ' '
+      seriesTitle1 = 'Observed'
+      seriesTitle2 = 'Predicted'
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
+      object QRDBChart4: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.Grid.Visible = False
+        BottomAxis.LabelsSeparation = 60
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.Grid.Visible = False
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        LeftAxis.Title.Caption = 'Grain Number'
+        LeftAxis.Title.Font.Height = -16
+        Legend.CustomPosition = True
+        Legend.Left = 205
+        Legend.LegendStyle = lsSeries
+        Legend.ResizeChart = False
+        Legend.Top = 130
+        Legend.Visible = False
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object BarSeries1: TBarSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.ObsBev90
+          Title = 'Observed'
+          XLabelsSource = 'treatment'
+          Gradient.Direction = gdTopBottom
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          YValues.Name = 'Bar'
+          YValues.Order = loNone
+          YValues.ValueSource = 'grain_no'
+        end
+        object LineSeries1: TBarSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.AllPreHarvest
+          Title = 'Predicted'
+          Gradient.Direction = gdTopBottom
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          YValues.Name = 'Bar'
+          YValues.Order = loNone
+          YValues.ValueSource = 'grain_no'
+        end
+      end
+    end
+    object Graph5: TGraph
+      Left = 32
+      Top = 448
+      Width = 241
+      Height = 145
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        549.010416666667
+        122.369791666667
+        1693.33333333333
+        909.505208333333)
+      title = ' '
+      subTitle = ' '
+      leftAxisTitle = 'Grain N Concentration (%)'
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = ' '
+      footTitle = ' '
+      seriesTitle1 = 'Observed'
+      seriesTitle2 = 'Predicted'
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
+      object QRDBChart5: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.Grid.Visible = False
+        BottomAxis.LabelsSeparation = 60
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.Grid.Visible = False
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        LeftAxis.Title.Caption = 'Grain N Concentration (%)'
+        LeftAxis.Title.Font.Height = -16
+        Legend.CustomPosition = True
+        Legend.Left = 205
+        Legend.LegendStyle = lsSeries
+        Legend.ResizeChart = False
+        Legend.Top = 130
+        Legend.Visible = False
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object BarSeries2: TBarSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.ObsBev90
+          Title = 'Observed'
+          XLabelsSource = 'treatment'
+          Gradient.Direction = gdTopBottom
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          YValues.Name = 'Bar'
+          YValues.Order = loNone
+          YValues.ValueSource = 'n_conc_grain'
+        end
+        object LineSeries2: TBarSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.AllPreHarvest
+          Title = 'Predicted'
+          Gradient.Direction = gdTopBottom
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          YValues.Name = 'Bar'
+          YValues.Order = loNone
+          YValues.ValueSource = 'n_conc_grain'
+        end
+      end
+    end
+    object Graph6: TGraph
+      Left = 296
+      Top = 287
+      Width = 234
+      Height = 145
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        549.010416666667
+        1117.86458333333
+        1084.79166666667
+        883.046875)
+      title = ' '
+      subTitle = ' '
+      leftAxisTitle = 'Biomass'
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = ' '
+      footTitle = ' '
+      seriesTitle1 = 'Observed'
+      seriesTitle2 = 'Predicted'
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
+      object QRDBChart6: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.Grid.Visible = False
+        BottomAxis.LabelsSeparation = 60
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.Grid.Visible = False
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        LeftAxis.Title.Caption = 'Biomass'
+        LeftAxis.Title.Font.Height = -16
+        Legend.CustomPosition = True
+        Legend.Left = 205
+        Legend.LegendStyle = lsSeries
+        Legend.ResizeChart = False
+        Legend.Top = 130
+        Legend.Visible = False
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object BarSeries3: TBarSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.ObsBev90
+          Title = 'Observed'
+          XLabelsSource = 'treatment'
+          Gradient.Direction = gdTopBottom
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          YValues.Name = 'Bar'
+          YValues.Order = loNone
+          YValues.ValueSource = 'biomass_wt'
+        end
+        object LineSeries3: TBarSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.AllPreHarvest
+          Title = 'Predicted'
+          Gradient.Direction = gdTopBottom
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          YValues.Name = 'Bar'
+          YValues.Order = loNone
+          YValues.ValueSource = 'biomass_wt'
+        end
+      end
+    end
+    object Graph7: TGraph
+      Left = 39
+      Top = 623
+      Width = 220
+      Height = 145
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        549.010416666667
+        148.828125
+        2354.79166666667
+        830.130208333333)
+      title = ' '
+      subTitle = ' '
+      leftAxisTitle = 'Biomass N'
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = ' '
+      footTitle = ' '
+      seriesTitle1 = 'Observed'
+      seriesTitle2 = 'Predicted'
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
+      object QRDBChart7: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.Grid.Visible = False
+        BottomAxis.LabelsSeparation = 60
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.Grid.Visible = False
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        LeftAxis.Title.Caption = 'Biomass N'
+        LeftAxis.Title.Font.Height = -16
+        Legend.CustomPosition = True
+        Legend.Left = 205
+        Legend.LegendStyle = lsSeries
+        Legend.ResizeChart = False
+        Legend.Top = 130
+        Legend.Visible = False
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object BarSeries4: TBarSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.ObsBev90
+          Title = 'Observed'
+          XLabelsSource = 'treatment'
+          Gradient.Direction = gdTopBottom
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          YValues.Name = 'Bar'
+          YValues.Order = loNone
+          YValues.ValueSource = 'biomass_n'
+        end
+        object BarSeries5: TBarSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.AllPreHarvest
+          Title = 'Predicted'
+          Gradient.Direction = gdTopBottom
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          YValues.Name = 'Bar'
+          YValues.Order = loNone
+          YValues.ValueSource = 'biomass_n'
+        end
+      end
+    end
+    object Graph8: TGraph
+      Left = 296
+      Top = 623
+      Width = 234
+      Height = 145
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        549.010416666667
+        1117.86458333333
+        2354.79166666667
+        883.046875)
+      title = ' '
+      subTitle = ' '
+      leftAxisTitle = 'Grain Size (g)'
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = ' '
+      footTitle = ' '
+      seriesTitle1 = 'Observed'
+      seriesTitle2 = 'Predicted'
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
+      object QRDBChart8: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.Grid.Visible = False
+        BottomAxis.LabelsSeparation = 60
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.Grid.Visible = False
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        LeftAxis.Title.Caption = 'Grain Size (g)'
+        LeftAxis.Title.Font.Height = -16
+        Legend.CustomPosition = True
+        Legend.Left = 205
+        Legend.LegendStyle = lsSeries
+        Legend.ResizeChart = False
+        Legend.Top = 130
+        Legend.Visible = False
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object BarSeries6: TBarSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.ObsBev90
+          Title = 'Observed'
+          XLabelsSource = 'treatment'
+          Gradient.Direction = gdTopBottom
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          YValues.Name = 'Bar'
+          YValues.Order = loNone
+          YValues.ValueSource = 'grain_size'
+        end
+        object BarSeries7: TBarSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Length = 8
+          Marks.Visible = False
+          DataSource = data.AllPreHarvest
+          Title = 'Predicted'
+          Gradient.Direction = gdTopBottom
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          YValues.Name = 'Bar'
+          YValues.Order = loNone
+          YValues.ValueSource = 'grain_size'
         end
       end
     end
