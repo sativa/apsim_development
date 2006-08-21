@@ -6,8 +6,8 @@ object data: TForm
   Align = alClient
   BorderIcons = []
   BorderStyle = bsNone
-  ClientHeight = 442
-  ClientWidth = 711
+  ClientHeight = 867
+  ClientWidth = 1272
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -716,7 +716,7 @@ object data: TForm
     source = Observed
     subscriptionComponentNames.Strings = (
       'RegrYield2.onSourceDataChanged')
-    filter = 'SoilStatus = 1'
+    filter = 'SoilStatus=1'
     Left = 256
     Top = 240
   end
@@ -1037,7 +1037,7 @@ object data: TForm
   end
 end
 object Page1: TQuickRep
-  Left = 44
+  Left = 318
   Top = 0
   Width = 635
   Height = 898
@@ -1309,7 +1309,7 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.76 x + 0.65 (r2 = 0.56)')
+        ' y = 0.83 x + 0.80 (r2 = 0.57)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -1574,7 +1574,7 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.86 x + 2.41 (r2 = 0.23)')
+        ' y = 0.78 x + 3.81 (r2 = 0.18)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -1607,7 +1607,7 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.86 x + 0.97 (r2 = 0.54)')
+        ' y = 0.87 x + 1.79 (r2 = 0.53)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -1617,7 +1617,7 @@ object Page1: TQuickRep
   end
 end
 object Page2: TQuickRep
-  Left = 44
+  Left = 318
   Top = 0
   Width = 635
   Height = 898
@@ -1897,7 +1897,7 @@ object Page2: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.74 x + 0.66 (r2 = 0.64)')
+        ' y = 0.62 x + 1.31 (r2 = 0.40)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -2162,7 +2162,7 @@ object Page2: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 1.04 x + 0.38 (r2 = 0.30)')
+        ' y = 0.91 x + 2.34 (r2 = 0.22)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -2195,7 +2195,7 @@ object Page2: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.83 x + 0.98 (r2 = 0.68)')
+        ' y = 0.74 x + 2.30 (r2 = 0.50)')
       ParentFont = False
       Transparent = False
       WordWrap = True
