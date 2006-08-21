@@ -19,13 +19,10 @@ namespace protocol {
 #for_each type
 
 #if (type.Array = T)
-	std::string DDML(const std::vector<type.ckind>& value)
+	std::string DDML(const std::vector<type.ckind>& value);
 #else
-   std::string DDML(const type.ckind& value)
+   std::string DDML(const type.ckind& value);
 #endif
-	   {
-	   return type.cddml;
-	   }
 
 #endfor
 
@@ -104,6 +101,19 @@ extern "C" void EXPORT STDCALL publish_null(unsigned* id)
    protocol::NoData pd;
    FortranWrapper::currentInstance->publish(*id, pd);
    }
+
+#for_each type
+namespace protocol {
+#if (type.Array = T)
+	std::string DDML(const std::vector<type.ckind>& value)
+#else
+   std::string DDML(const type.ckind& value)
+#endif
+	   {
+	   return type.cddml;
+	   }
+} // protocol
+#endfor
 
 #for_each structure
 namespace protocol {
