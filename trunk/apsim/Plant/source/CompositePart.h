@@ -119,7 +119,7 @@ public:												// member functions
                                               , vector<float> &fract);
 
    virtual void update(void);
-   virtual void doNConccentrationLimits(void);
+   virtual void doNConccentrationLimits(float);
    virtual void zeroDltDmGreen(void);
 
 
@@ -217,7 +217,7 @@ public:												// member functions
 
    virtual void doNDemandGrain(float nfact_grain_conc, float swdef_expansion);
    virtual void doDmDemand (float dlt_dm_supply_by_veg);
-   virtual void doDmPartition(float DMAvail, float DMDemandTotal);
+   virtual float giveDmGreen(float dmSupplied);
    virtual void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
    virtual float dmDemandDifferential(void) const;
    virtual float nDemandDifferential(void);
@@ -256,6 +256,8 @@ public:												// member functions
    virtual float dlt_n_senesced_trans(void);
    virtual float dlt_dm_green_retrans(void);
 
+   virtual bool isYieldPart(void);
+   virtual bool isRetransPart(void);
 
 #if TEST_CompositePart
    virtual ~CompositePart();							// destructor

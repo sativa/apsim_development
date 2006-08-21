@@ -983,11 +983,6 @@ void fruitGrainPart::doNRetranslocate( float N_supply, float grain_n_demand)
    // get actual grain N uptake by retransolcation
    // limit retranslocation to total available N
 
-   vector<plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->dlt.n_retrans = 0.0;
-
-
    if (grain_n_demand >= N_supply)
       {
       // demand greater than or equal to supply
@@ -1003,7 +998,6 @@ void fruitGrainPart::doNRetranslocate( float N_supply, float grain_n_demand)
       mealPart->doNRetranslocate(grain_n_demand, grain_n_demand);
 
       }
-   dlt.n_retrans = 0.0;
 }
 
 void fruitGrainPart::doNDemand1(float /*dlt_dm*/             // (INPUT)  Whole plant the daily biomass production (g/m^2)
@@ -1032,6 +1026,6 @@ void fruitGrainPart::doNDemand2(float /*dlt_dm*/             // (INPUT)  Whole p
    NDemand = 0.0;
    NMax = 0.0;
    NDemand -= mealPart->nDemand();           //fixme can do this stuff better in mealpart?
-   mealPart->NDemand = gN_grain_demand;
+   mealPart->doNDemand(gN_grain_demand);
    NDemand += mealPart->nDemand();
 }

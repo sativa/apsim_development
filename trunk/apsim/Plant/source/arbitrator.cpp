@@ -68,13 +68,13 @@ void genericArbitrator::partitionDM(float dlt_dm,
 
     // root:shoot ratio of new dm 
    float  c_ratio_root_shoot = ratio_root_shoot[(int)plant->getStageNumber()-1];
-   rootPart->dlt.dm_green = c_ratio_root_shoot * dlt_dm;
+   rootPart->giveDmGreen(c_ratio_root_shoot * dlt_dm);
 
    // now distribute the assimilate to plant parts
    if (fruitPart->dmGreenDemand () >= dlt_dm)
         {
         // reproductive demand exceeds supply - distribute assimilate to those parts only
-        fruitPart->dlt.dm_green = dlt_dm;
+        fruitPart->giveDmGreen( dlt_dm );
         }
     else
         {
@@ -82,28 +82,28 @@ void genericArbitrator::partitionDM(float dlt_dm,
         // distribute to all parts
 
         // satisfy reproductive demands
-        fruitPart->dlt.dm_green = fruitPart->dmGreenDemand();
-        float dm_remaining = dlt_dm - fruitPart->dmGreenDemand();
+        float uptake = fruitPart->giveDmGreen( fruitPart->dmGreenDemand() );
+        float dm_remaining = dlt_dm - uptake;
 
         // distribute remainder to vegetative parts
         // fraction of remaining dm allocated to leaf
         float c_frac_leaf = frac_leaf[(int)plant->getStageNumber()-1];
-        leafPart->dlt.dm_green = c_frac_leaf * dm_remaining;
 
         // limit the delta leaf area to maximum
-        double dlt_dm_leaf_max = leafPart->dmGreenDemand();
-        leafPart->dlt.dm_green = u_bound (leafPart->dlt.dm_green, dlt_dm_leaf_max);
+        float dLeaf = u_bound(c_frac_leaf * dm_remaining, 
+                              leafPart->dmGreenDemand());
+        uptake = leafPart->giveDmGreen(dLeaf);
 
         // everything else to stem
-        dm_remaining -= leafPart->dlt.dm_green;
-        stemPart->dlt.dm_green = dm_remaining;
+        dm_remaining -= uptake;
+        stemPart->giveDmGreen(dm_remaining);
         }
 
    // do mass balance check - roots are not included
-   float dlt_dm_green_tot = /*rootPart->dlt.dm_green +*/
-                              leafPart->dlt.dm_green +
-                              stemPart->dlt.dm_green +
-                              fruitPart->dlt.dm_green;
+   float dlt_dm_green_tot = /*rootPart->dltDmGreen() +*/
+                              leafPart->dltDmGreen() +
+                              stemPart->dltDmGreen() +
+                              fruitPart->dltDmGreen();
 
    if (!reals_are_equal(dlt_dm_green_tot, dlt_dm, 1.0E-4)) 
        {
@@ -168,13 +168,13 @@ void cerealArbitrator::partitionDM(float dlt_dm,
                                           ,y_ratio_root_shoot
                                           ,num_stage_no_partition);
 
-   rootPart->dlt.dm_green = ratio_root_shoot * dlt_dm;
+   rootPart->giveDmGreen(ratio_root_shoot * dlt_dm);
 
    // now distribute the assimilate to plant parts
    if (fruitPart->dmGreenDemand () >= dlt_dm)
         {
         // reproductive demand exceeds supply - distribute assimilate to those parts only
-        fruitPart->dlt.dm_green = dlt_dm;
+        fruitPart->giveDmGreen(dlt_dm);
         }
     else
         {
@@ -182,8 +182,9 @@ void cerealArbitrator::partitionDM(float dlt_dm,
         // distribute to all parts
 
         // satisfy reproductive demands
-        fruitPart->dlt.dm_green = fruitPart->dmGreenDemand();
-        float dm_remaining = dlt_dm - fruitPart->dmGreenDemand();
+        float fruitDm = fruitPart->dmGreenDemand(); 
+        float uptake = fruitPart->giveDmGreen(fruitDm);
+        float dm_remaining = dlt_dm - uptake;
 
         // distribute remainder to vegetative parts
         // fraction of remaining dm allocated to leaf
@@ -193,29 +194,34 @@ void cerealArbitrator::partitionDM(float dlt_dm,
                                    ,y_frac_leaf
                                    ,num_stage_no_partition);
 
-        leafPart->dlt.dm_green = frac_leaf * dm_remaining;
-
         // limit the delta leaf area to maximum
-        double dlt_dm_leaf_max = leafPart->dmGreenDemand();
-        leafPart->dlt.dm_green = u_bound (leafPart->dlt.dm_green, dlt_dm_leaf_max);
+        float dLeaf = u_bound (frac_leaf * dm_remaining,
+                               leafPart->dmGreenDemand());
+
+        uptake = leafPart->giveDmGreen(dLeaf);
 
         // everything else to stem
-        dm_remaining -= leafPart->dlt.dm_green;
-        stemPart->dlt.dm_green = dm_remaining;
+        dm_remaining -= uptake;
+        stemPart->giveDmGreen(dm_remaining);
         }
 
    // do mass balance check - roots are not included
-   float dlt_dm_green_tot = /*rootPart->dlt.dm_green +*/
-                              leafPart->dlt.dm_green +
-                              stemPart->dlt.dm_green +
-                              fruitPart->dlt.dm_green;
+   float dlt_dm_green_tot = /*rootPart->dltDmGreen() +*/
+                              leafPart->dltDmGreen() +
+                              stemPart->dltDmGreen() +
+                              fruitPart->dltDmGreen();
 
    if (!reals_are_equal(dlt_dm_green_tot, dlt_dm, 1.0E-4)) 
        {
        string msg = "dlt_dm_green_tot mass balance is off: "
                     + ftoa(dlt_dm_green_tot, ".6")
                     + " vs "
-                    + ftoa(dlt_dm, ".6");
+                    + ftoa(dlt_dm, ".6")
+                    + "\nrootPart="  + ftoa(rootPart->dltDmGreen(), ".6")
+                    + "\nleafPart="  + ftoa(leafPart->dltDmGreen(), ".6")
+                    + "\nstemPart="  + ftoa(stemPart->dltDmGreen(), ".6")
+                    + "\nfruitPart=" + ftoa(fruitPart->dltDmGreen(), ".6")
+                    ;
        plant->warningError(msg.c_str());
       }
 }
@@ -275,19 +281,19 @@ void allometricArbitrator::partitionDM(float dlt_dm,
    
    // now we get the root delta for all stages - partition scheme
    // specified in coeff file
-   rootPart->dlt.dm_green = ratio_root_shoot[plant->getStageNumber()] * dlt_dm;
+   rootPart->giveDmGreen(ratio_root_shoot[plant->getStageNumber()] * dlt_dm);
 
    // now distribute the assimilate to plant parts
    if (fruitPart->dmGreenDemand () >= dlt_dm)
         {
         // reproductive demand exceeds supply - distribute assimilate to those parts only
-        fruitPart->dlt.dm_green = dlt_dm;
+        fruitPart->giveDmGreen(dlt_dm);
         }
     else
         {
         // more assimilate than needed for reproductive parts: find remainder
-        fruitPart->dlt.dm_green = fruitPart->dmGreenDemand();
-        float dm_remaining = dlt_dm - fruitPart->dlt.dm_green;                           // g/m^2
+        float uptake = fruitPart->giveDmGreen(fruitPart->dmGreenDemand());
+        float dm_remaining = dlt_dm - uptake;                           // g/m^2
 
         // Distribute remainder to vegetative parts
 
@@ -310,21 +316,21 @@ void allometricArbitrator::partitionDM(float dlt_dm,
         if (SLAcalc <= SLAmin)
            {
            // Supply > demand
-           leafPart->dlt.dm_green = min(dm_remaining, divide(dltLeafAreaPot, SLAmin, 0.0) * plant->getPlants() );
-           dm_remaining -= leafPart->dlt.dm_green;
-           stemPart->dlt.dm_green = min(dm_remaining, dltStemPot);
-           dm_remaining -= stemPart->dlt.dm_green;
-           /*extra*/stemPart->dlt.dm_green += dm_remaining;
+           uptake = leafPart->giveDmGreen(min(dm_remaining, divide(dltLeafAreaPot, SLAmin, 0.0) * plant->getPlants() ));
+           dm_remaining -= uptake;
+           uptake = stemPart->giveDmGreen(min(dm_remaining, dltStemPot));
+           dm_remaining -= uptake;
+           /*extra*/stemPart->giveDmGreen(dm_remaining);
            dm_remaining = 0.0;
            //fprintf(stdout,"S>D:dLeaf=%f,dStem=%f\n", leafPart->dlt.dm_green, stemPart->dlt.dm_green);       
            }
         else if (SLAcalc <= SLAmax) 
            {
            // Supply ~ demand
-           leafPart->dlt.dm_green = min(dm_remaining, divide(dltLeafAreaPot, SLAcalc, 0.0) * plant->getPlants() );
-           dm_remaining -= leafPart->dlt.dm_green;
-           stemPart->dlt.dm_green = min(dm_remaining, dltStemPot);
-           dm_remaining -= stemPart->dlt.dm_green;
+           uptake = leafPart->giveDmGreen(min(dm_remaining, divide(dltLeafAreaPot, SLAcalc, 0.0) * plant->getPlants() ));
+           dm_remaining -= uptake;
+           uptake = stemPart->giveDmGreen(min(dm_remaining, dltStemPot));
+           dm_remaining -= uptake;
            //fprintf(stdout,"S=D:dLeaf=%f,dStem=%f\n", leafPart->dlt.dm_green, stemPart->dlt.dm_green);       
            }
         else //(SLAcalc > SLAmax) 
@@ -333,19 +339,18 @@ void allometricArbitrator::partitionDM(float dlt_dm,
            float lf = divide(dltStemPot,
                              divide(dltLeafAreaPot, SLAmax, 0.0) * plant->getPlants()  + dltStemPot,
                              0.0);
-           leafPart->dlt.dm_green = dm_remaining * (1.0 - lf);
-           stemPart->dlt.dm_green = dm_remaining * lf;
-           dm_remaining -= (leafPart->dlt.dm_green + stemPart->dlt.dm_green);
+           dm_remaining -= (leafPart->giveDmGreen(dm_remaining * (1.0 - lf)) + 
+                            stemPart->giveDmGreen(dm_remaining * lf) );
            //fprintf(stdout,"S<D:lf=%f,dLeaf=%f,dStem=%f\n", lf, leafPart->dlt.dm_green, stemPart->dlt.dm_green);       
            }
        if (dm_remaining > 1.0E-4) {throw std::runtime_error("Unallocated DM left in allometricArbitrator::partitionDM");}
        }
 
    // do mass balance check - roots are not included
-   float dlt_dm_green_tot = /*rootPart->dlt.dm_green +*/
-                              leafPart->dlt.dm_green +
-                              stemPart->dlt.dm_green +
-                              fruitPart->dlt.dm_green;
+   float dlt_dm_green_tot = /*rootPart->dltDmGreen() +*/
+                              leafPart->dltDmGreen() +
+                              stemPart->dltDmGreen() +
+                              fruitPart->dltDmGreen();
 
    if (!reals_are_equal(dlt_dm_green_tot, dlt_dm, 1.0E-4)) 
       {

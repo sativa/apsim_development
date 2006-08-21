@@ -27,7 +27,7 @@ class fruitOilPart : public plantPart {
    float calcDmDemand(float dmDemand) ;
    void doDMDemand(float dlt_dm_grain_demand) ;       //remove
    void doDMDemandGrain(float dlt_dm_grain_demand);
-   void doDmPartition(float DMAvail, float DMDemandTotal);
+   float giveDmGreen(float delta); 
    void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
    float dltDmGreenUptake(void) const;
    float dltDmGreenRetransUptake(void) const;

@@ -924,30 +924,36 @@ void Plant::plant_bio_retrans (void)
    allParts.push_back(fruitPart);
 
    float dm_demand_differential = fruitPart->dmGreenDemand ()
-                                - fruitPart->dlt.dm_green;
+                                - fruitPart->dlt_dm_green();
 
    legnew_dm_retranslocate(allParts
                            , supply_pools_by_veg
                            , dm_demand_differential
                            , g.plants
                            , &g.dlt_dm_retrans_to_fruit);
-   }
 
-
-
-void Plant::plant_bio_distribute (void)
-//     ===========================================================
-//       distribute biomass to fruit parts.
-   {
-   fruitPart->doDmPartition (fruitPart->dlt.dm_green, fruitPart->dmGreenDemand ());
-
-   float dm_demand_differential = fruitPart->dmGreenDemand ()
-                                - fruitPart->dlt.dm_green;
    fruitPart->doDmRetranslocate (g.dlt_dm_retrans_to_fruit, dm_demand_differential);
+
+   // Finally, a mass balance check
+   float mbSum = 0.0;
+   for (vector<plantPart *>::iterator part = myParts.begin(); 
+        part != myParts.end(); 
+        part++)
+       mbSum += (*part)->dlt_dm_green_retrans();
+
+   if (fabs(mbSum) > 0.001)
+      {
+      string msg ="Crop dm retranslocate mass balance is off: error="
+              + ftoa(mbSum, ".6")
+              + "\n";
+      for (vector<plantPart *>::iterator part = myParts.begin(); 
+           part != myParts.end(); 
+           part++)
+         msg += (*part)->name() + "=" + 
+                  ftoa((*part)->dlt_dm_green_retrans(), ".6") +"\n";
+      parent->warningError(msg.c_str());
+      }
    }
-
-
-
 
 
 void Plant::plant_water_stress (void)
@@ -1920,23 +1926,22 @@ void Plant::plant_update(float  g_row_spacing                          // (INPUT
 //- Implementation Section ----------------------------------
     push_routine (my_name);
 
+    // Let me register my surprise at how this is done on the next few lines
+    // - why intrinsically limit processes to leaf etc right here!!! - NIH
+    float n_senesced_trans = leafPart->dlt_n_senesced_trans();
+    leafPart->giveNGreen(-1.0*n_senesced_trans);
+    stemPart->giveNGreen(n_senesced_trans);
+
+    float n_senesced_retrans = 0.0;
+    for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
+       n_senesced_retrans += (*part)->dlt_n_senesced_retrans();
+
+    leafPart->giveNGreen(-1.0*n_senesced_retrans);
+
     for (vector<plantPart *>::iterator part = myParts.begin();
          part != myParts.end();
          part++)
        (*part)->update();
-
-    // Let me register my surprise at how this is done on the next few lines
-    // - why intrinsically limit processes to leaf etc right here!!! - NIH
-    leafPart->NGreen -= leafPart->dlt.n_senesced_trans;
-    stemPart->NGreen += leafPart->dlt.n_senesced_trans;
-
-    float s = 0.0;
-    for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
-       s += (*part)->dlt.n_senesced_retrans;
-
-    // xx what does this mean??
-    leafPart->NGreen -= s;
-    leafPart->NGreen = l_bound(leafPart->NGreen, 0.0);   // Can occur at total leaf senescence. FIXME! XXXX
 
     if (*g_canopy_width > 0.0)
         {
@@ -2099,11 +2104,11 @@ void Plant::plant_totals
     n_conc_stover = divide (stoverNGreen(),stoverGreen() , 0.0);
 
     n_uptake = plantDltNRetrans();
-    n_uptake_stover =  leafPart->dlt.n_retrans + stemPart->dlt.n_retrans;
+    n_uptake_stover =  leafPart->dlt_n_retrans() + stemPart->dlt_n_retrans();
 
 // note - g_n_conc_crit should be done before the stages change
 
-    n_conc_stover_crit = (leafPart->g.n_conc_crit + stemPart->g.n_conc_crit) * 0.5;
+    n_conc_stover_crit = (leafPart->n_conc_crit() + stemPart->n_conc_crit()) * 0.5;
     n_green_demand = nDemand();
 
     deepest_layer = find_layer_no (*g_root_depth, g_dlayer, max_layer);
@@ -2118,7 +2123,7 @@ void Plant::plant_totals
         *g_n_uptake_stover_tot = n_uptake_stover;
 
         n_uptake_soil = plantDltNGreen();
-        n_uptake_soil_tops = n_uptake_soil - rootPart->dlt.n_green;
+        n_uptake_soil_tops = n_uptake_soil - rootPart->dlt_n_green();
         *g_n_fixed_tops = n_uptake_soil_tops
                               * divide (*g_n_fix_uptake
                                         ,n_uptake_soil
@@ -2135,7 +2140,7 @@ void Plant::plant_totals
         *g_n_uptake_stover_tot = (*g_n_uptake_stover_tot) + n_uptake_stover;
 //        n_uptake_soil = sum_real_array(g_dlt_n_green,max_part) + reproStruct->dlt.n_green + stemPart->dlt.n_green + leafPart->dlt.n_green;
         n_uptake_soil = plantDltNGreen();
-        n_uptake_soil_tops = n_uptake_soil - rootPart->dlt.n_green;
+        n_uptake_soil_tops = n_uptake_soil - rootPart->dlt_n_green();
         *g_n_fixed_tops = *g_n_fixed_tops + n_uptake_soil_tops * divide (*g_n_fix_uptake ,n_uptake_soil ,0.0);
 
         }
@@ -2696,13 +2701,9 @@ void Plant::plant_n_conc_limits(float  g_co2_modifier_n_conc)
         t != myParts.end();
         t++)
       {
-      (*t)->doNConccentrationLimits();
+      (*t)->doNConccentrationLimits(g_co2_modifier_n_conc);
       }
 
-   leafPart->g.n_conc_crit *= g_co2_modifier_n_conc;
-
-   if (leafPart->g.n_conc_crit <= leafPart->g.n_conc_min)
-      throw std::runtime_error("Aiieeee nconc_crit < nconc_min!");
    }
 
 
@@ -2808,21 +2809,21 @@ void Plant::legnew_dm_retranslocate
 // now translocate carbohydrate between plant components
 // this is different for each stage
 
-    for (part = allParts.begin(); part != allParts.end(); part++)
-        (*part)->dlt.dm_green_retrans = 0.0;
+//    for (part = allParts.begin(); part != allParts.end(); part++)
+//        (*part)->dlt.dm_green_retrans = 0.0;
 
     demand_differential = g_dm_demand_differential;
 
     // get available carbohydrate from supply pools
     for (part = supply_pools.begin(); part != supply_pools.end(); part++)
         {
-           dm_part_avail = (*part)->DMGreen - (*part)->DMPlantMin * g_plants;
-           dm_part_avail = l_bound (dm_part_avail, 0.0);
+           dm_part_avail = (*part)->dmRetransSupply();
 
            dlt_dm_retrans_part = min (demand_differential, dm_part_avail);
 
            //assign and accumulate
-           dm_retranslocate += (*part)->dlt.dm_green_retrans = - dlt_dm_retrans_part;
+           
+           dm_retranslocate += (*part)->dlt_dm_green_retrans_hack( - dlt_dm_retrans_part);
 
            demand_differential = demand_differential - dlt_dm_retrans_part;
         }
@@ -3014,10 +3015,9 @@ void Plant::plant_N_senescence (void)
         t++)
       (*t)->zeroDltNSenescedTrans();
 
-   green_n_conc = divide (leafPart->NGreen, leafPart->DMGreen, 0.0);
-   dlt_n_in_senescing_leaf = leafPart->dlt.dm_senesced * green_n_conc;
+   dlt_n_in_senescing_leaf = leafPart->dlt_dm_senesced() * leafPart->nConc();
 
-   navail = dlt_n_in_senescing_leaf - leafPart->dlt.n_senesced;
+   navail = dlt_n_in_senescing_leaf - leafPart->dlt_n_senesced();
    navail = l_bound(navail, 0.0);
 
    n_demand_tot = nDemand();
@@ -3108,7 +3108,6 @@ void Plant::plant_process ( void )
         arbitrator->partitionDM(g.dlt_dm, rootPart, leafPart, stemPart, fruitPart);
 
         plant_bio_retrans ();
-        plant_bio_distribute ();  // for fruit class - process bio distribute
 
         leafPart->actual ();
         fruitPart->calcDlt_pod_area ();
@@ -3763,12 +3762,12 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
     allParts.push_back(stemPart);
     allParts.push_back(fruitPart);
 
+    for (part = allParts.begin(); part != allParts.end(); part++)
+       (*part)->zeroDeltas();
+
     vector<plantPart *> topsParts;
     topsParts.push_back(leafPart);
     topsParts.push_back(stemPart);
-    //topsParts.push_back(podPart);  //??
-    //topsParts.push_back(mealPart); //??
-    //topsParts.push_back(oilPart);  //??
 
     float error_margin = 1.0e-6 ;
 
@@ -3804,29 +3803,29 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
        {
           if (dmRemoved.dm[pool].pool == "green")
           {
-             if (dmRemoved.dm[pool].part[part] == "stem")       {stemPart->dlt.dm_green = dmRemoved.dm[pool].dlt[part]; }
-             else if (dmRemoved.dm[pool].part[part] ==  "leaf") {leafPart->dlt.dm_green = dmRemoved.dm[pool].dlt[part]; }
+             if (dmRemoved.dm[pool].part[part] == "stem")       {stemPart->giveDmGreen(-1.0*dmRemoved.dm[pool].dlt[part]); }
+             else if (dmRemoved.dm[pool].part[part] ==  "leaf") {leafPart->giveDmGreen(-1.0*dmRemoved.dm[pool].dlt[part]); }
              else {  /* unknown part */ }
           }
 
           else if (dmRemoved.dm[pool].pool == "senesced")
           {
-             if (dmRemoved.dm[pool].part[part] == "stem")       {stemPart->dlt.dm_senesced = dmRemoved.dm[pool].dlt[part]; }
-             else if (dmRemoved.dm[pool].part[part] ==  "leaf") {leafPart->dlt.dm_senesced = dmRemoved.dm[pool].dlt[part]; }
+             if (dmRemoved.dm[pool].part[part] == "stem")       {stemPart->giveDmSenesced(-1.0*dmRemoved.dm[pool].dlt[part]); }
+             else if (dmRemoved.dm[pool].part[part] ==  "leaf") {leafPart->giveDmSenesced(-1.0*dmRemoved.dm[pool].dlt[part]); }
              else { /* unknown part */ }
           }
 
           else if (dmRemoved.dm[pool].pool == "dead")
           {
-             if (dmRemoved.dm[pool].part[part] == "stem")       {stemPart->dlt.dm_dead = dmRemoved.dm[pool].dlt[part]; }
-             else if (dmRemoved.dm[pool].part[part] ==  "leaf") {leafPart->dlt.dm_dead = dmRemoved.dm[pool].dlt[part]; }
+             if (dmRemoved.dm[pool].part[part] == "stem")       {stemPart->giveDmDead(-1.0*dmRemoved.dm[pool].dlt[part]); }
+             else if (dmRemoved.dm[pool].part[part] ==  "leaf") {leafPart->giveDmDead(-1.0*dmRemoved.dm[pool].dlt[part]); }
              else { /* unknown part */ }
           }
        }
     }
 
-    float dltBiomassGreen = leafPart->dlt.dm_green + stemPart->dlt.dm_green;
-    float biomassGreen =  leafPart->DMGreen + stemPart->DMGreen;
+    float dltBiomassGreen = leafPart->dlt_dm_green() + stemPart->dlt_dm_green();
+    float biomassGreen =  leafPart->dmGreen() + stemPart->dmGreen();
     g.remove_biom_pheno = divide (dltBiomassGreen, biomassGreen, 0.0);
 
     if (c.remove_biomass_report == "on")
@@ -3835,17 +3834,17 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
        msg1 << "Remove Crop Biomass 2:-" << endl;
        float dmTotal1 = 0.0;
 
-       msg1 << "   dm green leaf = " << leafPart->dlt.dm_green << " (g/m2)" << endl;
-       msg1 << "   dm green stem = " << stemPart->dlt.dm_green << " (g/m2)" << endl;
-       dmTotal1 +=  leafPart->dlt.dm_green + stemPart->dlt.dm_green;
+       msg1 << "   dm green leaf = " << leafPart->dlt_dm_green() << " (g/m2)" << endl;
+       msg1 << "   dm green stem = " << stemPart->dlt_dm_green() << " (g/m2)" << endl;
+       dmTotal1 +=  leafPart->dlt_dm_green() + stemPart->dlt_dm_green();
 
-       msg1 << "   dm senesced leaf = " << leafPart->dlt.dm_senesced << " (g/m2)" << endl;
-       msg1 << "   dm senesced stem = " << stemPart->dlt.dm_senesced << " (g/m2)" << endl;
-       dmTotal1 +=  leafPart->dlt.dm_senesced + stemPart->dlt.dm_senesced;
+       msg1 << "   dm senesced leaf = " << leafPart->dlt_dm_senesced() << " (g/m2)" << endl;
+       msg1 << "   dm senesced stem = " << stemPart->dlt_dm_senesced() << " (g/m2)" << endl;
+       dmTotal1 +=  leafPart->dlt_dm_senesced() + stemPart->dlt_dm_senesced();
 
-       msg1 << "   dm dead leaf = " << leafPart->dlt.dm_dead << " (g/m2)" << endl;
-       msg1 << "   dm dead stem = " << stemPart->dlt.dm_dead << " (g/m2)" << endl;
-       dmTotal1 +=  leafPart->dlt.dm_dead + stemPart->dlt.dm_dead;
+       msg1 << "   dm dead leaf = " << leafPart->dlt_dm_dead() << " (g/m2)" << endl;
+       msg1 << "   dm dead stem = " << stemPart->dlt_dm_dead() << " (g/m2)" << endl;
+       dmTotal1 +=  leafPart->dlt_dm_dead() + stemPart->dlt_dm_dead();
 
        msg1 << endl << "   dm total = " << dmTotal1 << " (g/m2)" << endl << ends;
 
@@ -3855,17 +3854,17 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
        msg2 << "Crop Biomass Available:-" << endl;
        float dmTotal2 = 0.0;
 
-       msg2 << "   dm green leaf = " << leafPart->DMGreen << " (g/m2)" << endl;
-       msg2 << "   dm green stem = " << stemPart->DMGreen << " (g/m2)" << endl;
-       dmTotal2 +=  leafPart->DMGreen + stemPart->DMGreen;
+       msg2 << "   dm green leaf = " << leafPart->dmGreen() << " (g/m2)" << endl;
+       msg2 << "   dm green stem = " << stemPart->dmGreen() << " (g/m2)" << endl;
+       dmTotal2 +=  leafPart->dmGreen() + stemPart->dmGreen();
 
-       msg2 << "   dm senesced leaf = " << leafPart->DMSenesced << " (g/m2)" << endl;
-       msg2 << "   dm senesced stem = " << stemPart->DMSenesced << " (g/m2)" << endl;
-       dmTotal2 +=  leafPart->DMSenesced + stemPart->DMSenesced;
+       msg2 << "   dm senesced leaf = " << leafPart->dmSenesced() << " (g/m2)" << endl;
+       msg2 << "   dm senesced stem = " << stemPart->dmSenesced() << " (g/m2)" << endl;
+       dmTotal2 +=  leafPart->dmSenesced() + stemPart->dmSenesced();
 
-       msg2 << "   dm dead leaf = " << leafPart->DMDead << " (g/m2)" << endl;
-       msg2 << "   dm dead stem = " << stemPart->DMDead << " (g/m2)" << endl;
-       dmTotal2 +=  leafPart->DMDead + stemPart->DMDead;
+       msg2 << "   dm dead leaf = " << leafPart->dmDead() << " (g/m2)" << endl;
+       msg2 << "   dm dead stem = " << stemPart->dmDead() << " (g/m2)" << endl;
+       dmTotal2 +=  leafPart->dmDead() + stemPart->dmDead();
 
        msg2 << endl << "   dm total = " << dmTotal2 << " (g/m2)" << endl << ends;
 
@@ -3877,25 +3876,25 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
     {
       if ((*part)->name() == "leaf" || (*part)->name() == "stem")
       {
-        if ((*part)->dlt.dm_green > (*part)->DMGreen + error_margin)
+        if ( ((*part)->dmGreen() - (*part)->dlt_dm_green()) < error_margin)
         {
              ostringstream msg;
              msg << "Attempting to remove more green " << (*part)->name() << " biomass than available:-" << endl;
-             msg << "Removing " << (*part)->dlt.dm_green << " (g/m2) from " << (*part)->DMGreen << " (g/m2) available." << ends;
+             msg << "Removing " << (*part)->dlt_dm_green() << " (g/m2) from " << (*part)->dmGreen() << " (g/m2) available." << ends;
              throw std::runtime_error (msg.str().c_str());
         }
-        else if ((*part)->dlt.dm_senesced > (*part)->DMSenesced + error_margin)
+        else if (((*part)->dmSenesced() - (*part)->dlt_dm_senesced()) < error_margin)
         {
              ostringstream msg;
              msg << "Attempting to remove more senesced " << (*part)->name() << " biomass than available:-" << endl;
-             msg << "Removing " << (*part)->dlt.dm_senesced << " (g/m2) from " << (*part)->DMSenesced << " (g/m2) available." << ends;
+             msg << "Removing " << (*part)->dlt_dm_senesced() << " (g/m2) from " << (*part)->dmSenesced() << " (g/m2) available." << ends;
              throw std::runtime_error (msg.str().c_str());
         }
-        else if ((*part)->dlt.dm_dead > (*part)->DMDead + error_margin)
+        else if (((*part)->dmDead() -(*part)->dlt_dm_dead()) <  error_margin)
         {
              ostringstream msg;
              msg << "Attempting to remove more dead " << (*part)->name() << " biomass than available:-" << endl;
-             msg << "Removing " << (*part)->dlt.dm_dead << " (g/m2) from " <<(*part)->DMDead << " (g/m2) available." << ends;
+             msg << "Removing " << (*part)->dlt_dm_dead() << " (g/m2) from " <<(*part)->dmDead() << " (g/m2) available." << ends;
              throw std::runtime_error (msg.str().c_str());
         }
         else
@@ -3906,42 +3905,24 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
 
     // Update biomass and N pools.  Different types of plant pools are affected in different ways.
     // Calculate Root Die Back
-    float dm_removed_root = 0.0, n_removed_root = 0.0;
-    float chop_fr_green_leaf = divide(leafPart->dlt.dm_green, leafPart->DMGreen, 0.0);
-    float dlt_dm_die = rootPart->DMGreen * c.root_die_back_fr * chop_fr_green_leaf;
-    rootPart->DMSenesced = rootPart->DMSenesced + dlt_dm_die;
-    rootPart->DMGreen = rootPart->DMGreen - dlt_dm_die;
-    dm_removed_root = 0.0 /*dlt_dm_die??xx*/;
+    float chop_fr_green_leaf = divide(leafPart->dlt_dm_green(), leafPart->dmGreen(), 0.0);
 
-    float dlt_n_die = dlt_dm_die * rootPart->c.n_sen_conc;
-    rootPart->NSenesced = rootPart->NSenesced + dlt_n_die;
-    rootPart->NGreen= rootPart->NGreen - dlt_n_die;
-    n_removed_root = 0.0 /*dlt_n_die??xx*/;
+    rootPart->removeBiomass2(chop_fr_green_leaf);
 
     float dm_removed_tops = 0.0;
     float n_removed_tops = 0.0;
     for (part = topsParts.begin(); part != topsParts.end(); part++)
         {
-        float chop_fr_green = divide((*part)->dlt.dm_green, (*part)->DMGreen, 0.0);
-        float chop_fr_sen   = divide((*part)->dlt.dm_senesced, (*part)->DMSenesced, 0.0);
-        float chop_fr_dead  = divide((*part)->dlt.dm_dead, (*part)->DMDead, 0.0);
+        float chop_fr_green = divide((*part)->dlt_dm_green(), (*part)->dmGreen(), 0.0);
+        float chop_fr_sen   = divide((*part)->dlt_dm_senesced(), (*part)->dmSenesced(), 0.0);
+        float chop_fr_dead  = divide((*part)->dlt_dm_dead(), (*part)->dmDead(), 0.0);
 
-        dm_removed_tops += ((*part)->dlt.dm_green + (*part)->dlt.dm_senesced + (*part)->dlt.dm_dead) * gm2kg/sm2ha;
-        n_removed_tops += ((*part)->NGreen*chop_fr_green +
-                      (*part)->NSenesced*chop_fr_sen +
-                      (*part)->NDead*chop_fr_dead) * gm2kg/sm2ha;
+        dm_removed_tops += ((*part)->dlt_dm_green() + (*part)->dlt_dm_senesced() + (*part)->dlt_dm_dead()) * gm2kg/sm2ha;
+        n_removed_tops += ((*part)->nGreen()*chop_fr_green +
+                           (*part)->nSenesced()*chop_fr_sen +
+                           (*part)->nDead()*chop_fr_dead) * gm2kg/sm2ha;
 
-        (*part)->DMGreen -= (*part)->dlt.dm_green;
-        (*part)->DMSenesced -= (*part)->dlt.dm_senesced;
-        (*part)->DMDead -= (*part)->dlt.dm_dead;
-
-        (*part)->NGreen -= (*part)->NGreen * chop_fr_green;
-        (*part)->NSenesced -= (*part)->NSenesced * chop_fr_sen;
-        (*part)->NDead -= (*part)->NDead * chop_fr_dead;
-
-        (*part)->PGreen -= (*part)->PGreen * chop_fr_green;
-        (*part)->PSen -= (*part)->PSen * chop_fr_sen;
-        (*part)->PDead -= (*part)->PDead * chop_fr_dead;
+        (*part)->removeBiomass();
         }
 
     if (c.remove_biomass_report == "on")
@@ -3951,10 +3932,10 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
 
        parent->writeString ("    Organic matter removed from system:-      From Tops               From Roots");
 
-       sprintf (msgrmv, "%48s%7.2f%24.2f", "DM (kg/ha) =               ", dm_removed_tops, dm_removed_root);
+       sprintf (msgrmv, "%48s%7.2f%24.2f", "DM (kg/ha) =               ", dm_removed_tops, 0.0);
        parent->writeString (msgrmv);
 
-       sprintf (msgrmv, "%48s%7.2f%24.2f", "N  (kg/ha) =               ", n_removed_tops, n_removed_root);
+       sprintf (msgrmv, "%48s%7.2f%24.2f", "N  (kg/ha) =               ", n_removed_tops, 0.0);
        parent->writeString (msgrmv);
 
        sprintf (msgrmv, "%30s%7.2f", "Remove biomass phenology factor = ", g.remove_biom_pheno);
@@ -3963,10 +3944,7 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
        parent->writeString (" ");
     }
 
-    leafPart->remove_biomass_update();
-
-    stemPart->Width *= (1.0 - divide(stemPart->dlt.dm_green, stemPart->DMGreen, 0.0));
-    reproStruct->Width *= (1.0 - divide(reproStruct->dlt.dm_green, reproStruct->DMGreen, 0.0));
+    stemPart->removeBiomass2(-1.0);
 
     if (g.canopy_width > 0.0)
         {
@@ -4012,10 +3990,6 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
                   ,&g.cover_dead);
 
     phenology->onRemoveBiomass(g.remove_biom_pheno);
-
-    // other plant states
-    stemPart->Height *= (1.0 - divide(stemPart->dlt.dm_green, stemPart->DMGreen, 0.0));
-    reproStruct->Height *= (1.0 - divide(reproStruct->dlt.dm_green, reproStruct->DMGreen, 0.0));
 
     plant_n_conc_limits ( g.co2_modifier_n_conc );
 
@@ -4231,7 +4205,6 @@ void Plant::plant_zero_all_globals (void)
       c.row_spacing_default = 0.0;
       c.skip_row_default = 0.0;
       c.skip_plant_default = 0.0;
-      c.root_die_back_fr = 0.0;
       c.class_action.clear();
       c.class_change.clear();
       c.eo_crop_factor_default = 0.0;
@@ -5491,12 +5464,6 @@ void Plant::plant_read_species_const ()
                    , c.swdf_photo_rate
                    , 0.0, 1.0);
 
-    parent->readParameter (search_order
-                   ,"root_die_back_fr"//, "(0-1)"
-                   , c.root_die_back_fr
-                   , 0.0, 0.99);
-
-
 
 // TEMPLATE OPTION
 //    plant_leaf_area
@@ -5756,8 +5723,8 @@ void Plant::plant_harvest_report ()
 
     plant_grain_no = divide (fruitPart->grainNo(), g.plants, 0.0);
 
-    float dmRoot = (rootPart->DMGreen + rootPart->DMDead + rootPart->DMSenesced) * gm2kg / sm2ha;
-    float nRoot = (rootPart->NGreen + rootPart->NDead + rootPart->NSenesced) * gm2kg / sm2ha;
+    float dmRoot = rootPart->dmTotal() * gm2kg / sm2ha;
+    float nRoot = rootPart->nTotal() * gm2kg / sm2ha;
 
     n_grain_conc_percent = fruitPart->grainNConcPercent();
 
@@ -6056,8 +6023,8 @@ float Plant::getLeafNo(void) const
 }
 
 void Plant::get_height(protocol::Component *system, protocol::QueryValueData &qd)
-{
-    system->sendVariable(qd, stemPart->Height);
+{  
+   system->sendVariable(qd, stemPart->height());
 }
 
 void Plant::get_plants(protocol::Component *system, protocol::QueryValueData &qd)
@@ -6160,18 +6127,18 @@ void Plant::get_n_conc_stover(protocol::Component *system, protocol::QueryValueD
 
 void Plant::get_n_conc_crit(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    float n_conc = divide ((leafPart->g.n_conc_crit*leafPart->DMGreen
-                           + stemPart->g.n_conc_crit*stemPart->DMGreen)
-                          , (leafPart->DMGreen + stemPart->DMGreen)
+    float n_conc = divide ((leafPart->n_conc_crit()*leafPart->dmGreen()
+                           + stemPart->n_conc_crit()*stemPart->dmGreen())
+                          , (leafPart->dmGreen() + stemPart->dmGreen())
                           , 0.0) * fract2pcnt;
     system->sendVariable(qd, n_conc);
 }
 
 void Plant::get_n_conc_min(protocol::Component *system, protocol::QueryValueData &qd)
 {
-    float n_conc = divide ((leafPart->g.n_conc_min * leafPart->DMGreen
-                            + stemPart->g.n_conc_min * stemPart->DMGreen)
-                          , (leafPart->DMGreen + stemPart->DMGreen)
+    float n_conc = divide ((leafPart->n_conc_min() * leafPart->dmGreen()
+                            + stemPart->n_conc_min() * stemPart->dmGreen())
+                          , (leafPart->dmGreen() + stemPart->dmGreen())
                           , 0.0) * fract2pcnt;
     system->sendVariable(qd, n_conc);
 }
@@ -6765,13 +6732,13 @@ float Plant::getCo2(void) const {return g.co2;}
 photosynthetic_pathway_t Plant::getPhotosynthetic_pathway(void) const {return c.photosynthetic_pathway;}
 //float Plant::getRadnInterceptedPod(void) const {return g.radn_int_pod;}
 float Plant::getDltDMPotRueVeg(void) const {return g.dlt_dm_pot_rue - fruitPart->dltDmPotRue();}
-float Plant::getDmGreenVeg(void) const {return leafPart->DMGreen + stemPart->DMGreen;}
+float Plant::getDmGreenVeg(void) const {return (leafPart->dmGreen() + stemPart->dmGreen());}
 //float Plant::getDltDmVeg(void) const {return leafPart->dltDmTotal() + stemPart->dltDmTotal();}
 float Plant::getWaterSupplyPod(void) const {return g.swSupplyFruit;}
 float Plant::getDmTops(void) const{ return topsGreen()+topsSenesced();}
 float Plant::getDltDm(void) const{ return g.dlt_dm;}
 float Plant::getDmVeg(void) const {return leafPart->dmTotal() + stemPart->dmTotal();}
-float Plant::getDmGreenStem(void) const {return stemPart->DMGreen;}
+float Plant::getDmGreenStem(void) const {return stemPart->dmGreen();}
 float Plant::getDmGreenTot(void) const {return plantGreen();}
 float Plant::getRelativeGrowthRate(void) {return divide(g.dlt_dm_pot_rue, getDmGreenTot(), 0.0);}
 float Plant::getDyingFractionPlants(void)
@@ -6793,22 +6760,22 @@ float Plant::getSwdefPhoto(void) const {return g.swdef_photo;}
 
 float Plant::plantGreen(void) const
    {
-     return  rootPart->DMGreen + fruitPart->dmGreen() + leafPart->DMGreen + stemPart->DMGreen;
+     return  rootPart->dmGreen() + fruitPart->dmGreen() + leafPart->dmGreen() + stemPart->dmGreen();
                     //     + reproStruct->DMGreen;
    }
 float Plant::plantSenesced(void) const
    {
-      return  rootPart->DMSenesced + fruitPart->dmSenesced() + leafPart->DMSenesced + stemPart->DMSenesced;
+      return  rootPart->dmSenesced() + fruitPart->dmSenesced() + leafPart->dmSenesced() + stemPart->dmSenesced();
                    //      + reproStruct->DMSenesced;
    }
 float Plant::plantDead(void) const
    {
-      return  rootPart->DMDead + fruitPart->dmDead() + leafPart->DMDead + stemPart->DMDead;
+      return  rootPart->dmDead() + fruitPart->dmDead() + leafPart->dmDead() + stemPart->dmDead();
                  //        + reproStruct->DMDead;
    }
 float Plant::plantDltDmGreen(void) const
    {
-      return  rootPart->dlt.dm_green + fruitPart->dltDmGreen() + leafPart->dlt.dm_green + stemPart->dlt.dm_green;
+      return  rootPart->dltDmGreen() + fruitPart->dltDmGreen() + leafPart->dltDmGreen() + stemPart->dltDmGreen();
                        //  + reproStruct->dlt.dm_green;
    }
 float Plant::plantTot(void) const
@@ -6818,22 +6785,22 @@ float Plant::plantTot(void) const
 
 float Plant::topsGreen(void) const
    {
-     return  fruitPart->dmGreen() + leafPart->DMGreen + stemPart->DMGreen;
+     return  fruitPart->dmGreen() + leafPart->dmGreen() + stemPart->dmGreen();
                     //     + reproStruct->DMGreen;
    }
 float Plant::topsSenesced(void) const
    {
-      return  fruitPart->dmSenesced() + leafPart->DMSenesced + stemPart->DMSenesced;
+      return  fruitPart->dmSenesced() + leafPart->dmSenesced() + stemPart->dmSenesced();
                    //      + reproStruct->DMSenesced;
    }
 float Plant::topsDead(void) const
    {
-      return  fruitPart->dmDead() + leafPart->DMDead + stemPart->DMDead;
+      return  fruitPart->dmDead() + leafPart->dmDead() + stemPart->dmDead();
                  //        + reproStruct->DMDead;
    }
 float Plant::topsDltDmGreen(void) const
    {
-      return  fruitPart->dltDmGreen() + leafPart->dlt.dm_green + stemPart->dlt.dm_green;
+      return  fruitPart->dltDmGreen() + leafPart->dltDmGreen() + stemPart->dltDmGreen();
                        //  + reproStruct->dlt.dm_green;
    }
 float Plant::topsTot(void) const
@@ -6843,180 +6810,187 @@ float Plant::topsTot(void) const
 
 float Plant::stoverGreen(void) const
    {
-      return  leafPart->DMGreen + fruitPart->dmGreenVegTotal() + stemPart->DMGreen;
+      return  leafPart->dmGreen() + fruitPart->dmGreenVegTotal() + stemPart->dmGreen();
               //           + reproStruct->DMGreen;
     }
 float Plant::stoverSenesced(void) const
    {
-      return  leafPart->DMSenesced + fruitPart->dmSenescedVegTotal() +  stemPart->DMSenesced;
+      return  leafPart->dmSenesced() + fruitPart->dmSenescedVegTotal() +  stemPart->dmSenesced();
                     //     + reproStruct->DMSenesced;
     }
 float Plant::stoverDead(void) const
    {
-      return  leafPart->DMDead + fruitPart->dmDeadVegTotal() +  stemPart->DMDead;
+      return  leafPart->dmDead() + fruitPart->dmDeadVegTotal() +  stemPart->dmDead();
                   //       + reproStruct->DMDead;
     }
 
 float Plant::stoverTot(void) const
    {
       return  stoverGreen() + stoverSenesced() + stoverDead();
-    }
+   }
 
 float Plant::plantNGreen(void) const
    {
-      return  rootPart->NGreen + fruitPart->nGreen() + leafPart->NGreen + stemPart->NGreen;
-                 //        + reproStruct->NGreen;
+   float ngreen = 0.0;
+   for (vector<plantPart * const>::iterator t = myParts.begin();
+        t != myParts.end();
+        t++)
+      ngreen += (*t)->nGreen();
+  
+   return ngreen;
    }
 float Plant::plantNSenesced(void) const
    {
-      return  rootPart->NSenesced + fruitPart->nSenesced() + leafPart->NSenesced + stemPart->NSenesced;
-               //          + reproStruct->NSenesced;
+   float nsenesced = 0.0;
+   for (vector<plantPart * const>::iterator t = myParts.begin();
+        t != myParts.end();
+        t++)
+      nsenesced += (*t)->nSenesced();
+  
+   return nsenesced;
    }
 float Plant::plantNDead(void) const
    {
-      return  rootPart->NDead + fruitPart->nDead() + leafPart->NDead + stemPart->NDead;
-                       //  + reproStruct->NDead;
+   float ndead = 0.0;
+   for (vector<plantPart * const>::iterator t = myParts.begin();
+        t != myParts.end();
+        t++)
+      ndead += (*t)->nDead();
+  
+   return ndead;
    }
+
 float Plant::plantNTot(void) const
    {
-      return  plantNGreen() + plantNSenesced() + plantNDead();
-    }
+   return  plantNGreen() + plantNSenesced() + plantNDead();
+   }
 
 float Plant::plantDltNGreen(void) const
    {
-      return  rootPart->dlt.n_green + fruitPart->dltNGreen() + leafPart->dlt.n_green + stemPart->dlt.n_green;
-                       //  + reproStruct->NDead;
+   float sum = 0.0;
+   for (vector<plantPart * const>::iterator t = myParts.begin();
+        t != myParts.end();
+        t++)
+      sum += (*t)->dltNGreen();
+  
+   return sum;
    }
 float Plant::plantDltNRetrans(void) const
    {
-      return  rootPart->dlt.n_retrans + fruitPart->dltNRetransOut() + leafPart->dlt.n_retrans + stemPart->dlt.n_retrans;
-                       //  + reproStruct->NDead;
+   float sum = 0.0;
+   for (vector<plantPart * const>::iterator t = myParts.begin();
+        t != myParts.end();
+        t++)
+      sum += (*t)->dltNRetransOut();
+  
+   return sum;
    }
 float Plant::topsNGreen(void) const
    {
-      return  fruitPart->nGreen() + leafPart->NGreen + stemPart->NGreen;
-                 //        + reproStruct->NGreen;
+   return  fruitPart->nGreen() + leafPart->nGreen() + stemPart->nGreen();
    }
 float Plant::topsNSenesced(void) const
    {
-      return  fruitPart->nSenesced() + leafPart->NSenesced + stemPart->NSenesced;
-               //          + reproStruct->NSenesced;
+   return  fruitPart->nSenesced() + leafPart->nSenesced() + stemPart->nSenesced();
    }
 float Plant::topsNDead(void) const
    {
-      return  fruitPart->nDead() + leafPart->NDead + stemPart->NDead;
-                       //  + reproStruct->NDead;
+   return  fruitPart->nDead() + leafPart->nDead() + stemPart->nDead();
    }
 float Plant::topsNTot(void) const
    {
-      return  topsNGreen() + topsNSenesced() + topsNDead();
-    }
+   return  topsNGreen() + topsNSenesced() + topsNDead();
+   }
 
 float Plant::stoverNGreen(void) const
    {
-      return  leafPart->NGreen + fruitPart->nGreenVegTotal() + stemPart->NGreen;
-                     //    + reproStruct->NGreen;
-    }
+   return  leafPart->nGreen() + fruitPart->nGreenVegTotal() + stemPart->nGreen();   //XXX john, check please - nGreenVegTotal is not implemented??
+   }
 float Plant::stoverNSenesced(void) const
    {
-      return  leafPart->NSenesced + fruitPart->nSenescedVegTotal() + stemPart->NSenesced;
-                   //      + reproStruct->NSenesced;
-    }
+   return  leafPart->nSenesced() + fruitPart->nSenescedVegTotal() + stemPart->nSenesced();
+   }
 float Plant::stoverNDead(void) const
    {
-      return  leafPart->NDead + fruitPart->nDeadVegTotal() + stemPart->NDead;
-                 //        + reproStruct->NDead;
-    }
+   return  leafPart->nDead() + fruitPart->nDeadVegTotal() + stemPart->nDead();
+   }
 float Plant::stoverNTot(void) const
    {
-      return  stoverNGreen() + stoverNSenesced() + stoverNDead();
-    }
+   return  stoverNGreen() + stoverNSenesced() + stoverNDead();
+   }
 
 float Plant::plantPGreen(void) const
    {
-      return  rootPart->PGreen + leafPart->PGreen + fruitPart->pGreenVegTotal() + stemPart->PGreen;
-                       //  + reproStruct->PGreen;
-    }
+   return  rootPart->pGreen() + leafPart->pGreen() + fruitPart->pGreenVegTotal() + stemPart->pGreen();
+   }
 float Plant::plantPSenesced(void) const
    {
-      return  rootPart->PSen + leafPart->PSen + fruitPart->pSenescedVegTotal() + stemPart->PSen;
-                         //+ reproStruct->PSen;
-    }
+   return  rootPart->pSenesced() + leafPart->pSenesced() + fruitPart->pSenescedVegTotal() + stemPart->pSenesced();
+   }
 float Plant::plantPDead(void) const
    {
-      return  rootPart->PDead + leafPart->PDead + fruitPart->pDeadVegTotal()+ stemPart->PDead;
-                        // + reproStruct->PDead;
-    }
+   return  rootPart->pDead() + leafPart->pDead() + fruitPart->pDeadVegTotal()+ stemPart->pDead();
+   }
 float Plant::plantPTot(void) const
    {
-      return  plantPGreen() + plantPSenesced() + plantPDead();
+   return plantPGreen() + plantPSenesced() + plantPDead();
    }
 
 float Plant::topsPGreen(void) const
    {
-      return  fruitPart->pGreen() + leafPart->PGreen + stemPart->PGreen;
-               //          + reproStruct->PGreen;
+   return fruitPart->pGreen() + leafPart->pGreen() + stemPart->pGreen();
    }
 float Plant::topsPSenesced(void) const
    {
-      return fruitPart->pSenesced() + leafPart->PSen + stemPart->PSen;
-                       //  + reproStruct->PSen;
+   return fruitPart->pSenesced() + leafPart->pSenesced() + stemPart->pSenesced();
    }
 float Plant::topsPDead(void) const
    {
-      return fruitPart->pDead() + leafPart->PDead + stemPart->PDead;
-                     //    + reproStruct->PDead;
+   return fruitPart->pDead() + leafPart->pDead() + stemPart->pDead();
    }
-
 
 float Plant::stoverPGreen(void) const
    {
-      return  leafPart->PGreen + fruitPart->pGreenVegTotal() + stemPart->PGreen;
-                       //  + reproStruct->PGreen;
-    }
+   return leafPart->pGreen() + fruitPart->pGreenVegTotal() + stemPart->pGreen();
+   }
+
 float Plant::stoverPSenesced(void) const
    {
-      return  leafPart->PSen + fruitPart->pSenescedVegTotal() + stemPart->PSen;
-                         //+ reproStruct->PSen;
-    }
+   return leafPart->pSenesced() + fruitPart->pSenescedVegTotal() + stemPart->pSenesced();
+   }
 float Plant::stoverPDead(void) const
    {
-      return  leafPart->PDead + fruitPart->pDeadVegTotal()+ stemPart->PDead;
-                        // + reproStruct->PDead;
-    }
+   return  leafPart->pDead() + fruitPart->pDeadVegTotal()+ stemPart->pDead();
+   }
 float Plant::stoverPTot(void) const
    {
-      return  stoverPGreen() + stoverPSenesced() + stoverPDead();
+   return  stoverPGreen() + stoverPSenesced() + stoverPDead();
    }
 
 float Plant::grainPGreen(void) const
    {
-      return  fruitPart->pGreenGrainTotal();
-                       //  + reproStruct->PGreen;
-    }
+   return  fruitPart->pGreenGrainTotal();
+   }
 float Plant::grainPSenesced(void) const
    {
-      return  fruitPart->pSenescedGrainTotal();
-                         //+ reproStruct->PSen;
-    }
+   return  fruitPart->pSenescedGrainTotal();
+   }
 float Plant::grainPDead(void) const
    {
-      return  fruitPart->pDeadGrainTotal();
-                        // + reproStruct->PDead;
-    }
+   return  fruitPart->pDeadGrainTotal();
+   }
 float Plant::grainPTot(void) const
    {
-      return  grainPGreen() + grainPSenesced() + grainPDead();
+   return  grainPGreen() + grainPSenesced() + grainPDead();
    }
 
 float Plant::grainPConcTot(void) const
    {
-      return  fruitPart->pConcGrainTotal();
-                       //  + reproStruct->PGreen;
-    }
+   return  fruitPart->pConcGrainTotal();
+   }
 float Plant::topsPTot(void) const
    {
-      return  topsPGreen() + topsPSenesced() + topsPDead();
+   return  topsPGreen() + topsPSenesced() + topsPDead();
    }
 float Plant::nCapacity(void)
    {

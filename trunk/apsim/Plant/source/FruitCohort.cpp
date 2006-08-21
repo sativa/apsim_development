@@ -45,7 +45,6 @@ void FruitCohort::checkBounds (void)
       (*part)->checkBounds();
 }
 
-
 ostream &operator<<(ostream &output, const FruitCohort /*&pool*/)
 {
    //	output << "FruitCohort:" << endl;
@@ -563,3 +562,4 @@ void FruitCohort::doNDemand1Pot(float dlt_dm             // (INPUT)  Whole plant
       NMax += (*part)->nMax();
       }
 }
+

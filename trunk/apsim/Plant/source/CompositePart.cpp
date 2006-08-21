@@ -1576,7 +1576,7 @@ float CompositePart::dltDmRetranslocateSupply(float demand_differential)
    float dlt_dm_green_retrans = 0.0;
    for (vector<plantPart *const>::iterator part = myParts.begin(); part != myParts.end(); part++)
       {
-      dlt_dm_green_retrans += (*part)->dlt.dm_green_retrans;
+      dlt_dm_green_retrans += (*part)->dlt_dm_green_retrans();
       }
    return dlt_dm_green_retrans;
 }
@@ -1630,12 +1630,12 @@ void CompositePart::update(void)
       (*part)->update();
 }
 
-void CompositePart::doNConccentrationLimits(void)
+void CompositePart::doNConccentrationLimits(float modifier)
    //===========================================================================
 {
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      (*part)->doNConccentrationLimits();
+      (*part)->doNConccentrationLimits(modifier);
 }
 
 // Query
@@ -1896,40 +1896,44 @@ float CompositePart::dmDemandDifferential(void) const
    return dm_demand_differential;
 }
 
-void CompositePart::doDmPartition(float DMAvail, float DMDemandTotal)
+float CompositePart::giveDmGreen(float dmSupplied)
 //=======================================================================================
-{
-    float DMGreenDemand = dmGreenDemand();
-    float dltDmGreen = DMAvail * divide (DMGreenDemand, DMDemandTotal, 0.0);
-
-        // now distribute the assimilate to plant parts
-
-    for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)      //FIXME later
-       (*part)->doDmPartition (dltDmGreen, DMGreenDemand);
+// Arbritator has given us some DM to distribute amongst individual parts
+   {
+   float dmDemand = dmGreenDemand();
+   float supplyFrac = bound(divide (dmDemand, dmSupplied, 0.0), 0.0, 1.0);
+   float uptake = 0.0;
+   for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
+      {
+      float partFrac =  divide((*part)->dmGreenDemand(),dmDemand, 0.0);
+      uptake += (*part)->giveDmGreen (dmSupplied * partFrac * supplyFrac);
+      }
 
    // do mass balance check
    float dlt_dm_green_tot = dltDmGreenUptake ();
 
-   if (!reals_are_equal(dlt_dm_green_tot, dltDmGreen, 1.0E-4))  // XX this is probably too much slop - try doubles XX
-   {
-        string msg = c.name + " dlt_dm_green_tot mass balance is off: "
+   if (!reals_are_equal(dlt_dm_green_tot, dmSupplied, 1.0E-4))  // XX this is probably too much slop - try doubles XX
+       {
+       string msg = c.name + " giveDmGreen mass balance is off: "
                    + ftoa(dlt_dm_green_tot, ".6")
                    + " vs "
-                   + ftoa(dltDmGreen, ".6");
-        plant->warningError(msg.c_str());
+                   + ftoa(dmSupplied, ".6");
+       plant->warningError(msg.c_str());
+       }
+ 
+   return uptake;
    }
-}
 
 
 void CompositePart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal)
 //=======================================================================================
-{
+   {
    dlt.dm_green_retrans = 0.0;
 
    float dm_demand_differential = dmDemandDifferential ();
    float dlt_dm_green_retrans = DMAvail * divide (dm_demand_differential, DMDemandDifferentialTotal, 0.0);
 
-   // get available carbohydrate from  supply pools
+   // get available carbohydrate from local supply pools
    float demand_differential = dm_demand_differential - dlt_dm_green_retrans;
 
    for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)      //FIXME later
@@ -1944,7 +1948,7 @@ void CompositePart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialT
    for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)      //FIXME later
        {
        (*part)->doDmRetranslocate (dlt_dm_green_retrans_tot, dm_demand_differential);
-       dlt.dm_green_retrans = (*part)->dlt.dm_green_retrans;
+       dlt.dm_green_retrans = (*part)->dlt_dm_green_retrans();
        }
    // do mass balance check
    float dlt_dm_green_tot = dltDmGreenRetransUptake ();
@@ -1958,7 +1962,6 @@ void CompositePart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialT
       plant->warningError(msg.c_str());
       }
    }
-
 
 void CompositePart::doSenescence1 (float sen_fr)       // (OUTPUT) actual biomass senesced from plant parts (g/m^2)
    //============================================================================
@@ -2044,12 +2047,9 @@ void CompositePart::doNRetranslocate( float N_supply, float g_grain_n_demand)
    // get actual grain N uptake by retransolcation
    // limit retranslocation to total available N
 
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)         //FIXME - put into part
-      (*part)->dlt.n_retrans = 0.0;
-
-
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart *>::iterator part = myParts.begin(); 
+        part != myParts.end(); 
+        part++)
       (*part)->doNRetranslocate(N_supply, g_grain_n_demand);           //FIXME - divy up?
 }
 
@@ -2305,7 +2305,7 @@ float CompositePart::pMaxPotStressDeterminant(void)
 }
 
 float CompositePart::pMinPotStressDeterminant(void)
-   //============================================================================
+//============================================================================
 {
    float p_min_pot = 0.0;
    vector <plantPart *>::iterator part;
@@ -2315,3 +2315,21 @@ float CompositePart::pMinPotStressDeterminant(void)
 }
 
 
+bool CompositePart::isYieldPart(void) 
+//============================================================================
+// True if at least one of our parts is a dm sink
+   {
+   vector <plantPart *>::iterator part;
+   for (part = myParts.begin(); part != myParts.end(); part++)
+      if ((*part)->isYieldPart()) return true;
+   return false;
+   }
+
+bool CompositePart::isRetransPart(void)
+// True if at least one of our parts supplies retranslocate
+   {
+   vector <plantPart *>::iterator part;
+   for (part = myParts.begin(); part != myParts.end(); part++)
+      if ((*part)->isRetransPart()) return true;
+   return false;
+   }

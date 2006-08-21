@@ -41,7 +41,6 @@ class cohortingLeafPart : public plantLeafPart {
    void detachment (void);
    void update (void) ;
 
-   void remove_biomass_update(void);
    void remove_detachment (float dlt_slai_detached, float dlt_lai_removed );
 
   private:

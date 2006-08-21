@@ -159,12 +159,13 @@ void fruitOilPart::doDMDemandGrain (float dlt_dm_grain_demand)
     DMGreenDemand = dltDmOil + dltDmOilConversion;
 }
 
-void fruitOilPart::doDmPartition(float DMAvail, float DMDemandTotal)
+float fruitOilPart::giveDmGreen(float delta)
 //=======================================================================================
    {
-   float dltDM = DMAvail * divide (DMGreenDemand, DMDemandTotal, 0.0);
-   dlt.dm_green = divide (dltDM, cCarbo_oil_conv_ratio, 0.0);
-   gDlt_dm_oil_conv = dltDM - dlt.dm_green;
+   float d = divide (delta, cCarbo_oil_conv_ratio, 0.0);
+   dlt.dm_green += d;
+   gDlt_dm_oil_conv = delta - d;
+   return delta;
    }
 
 void fruitOilPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal)

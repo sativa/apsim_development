@@ -27,6 +27,12 @@ void fruitMealPart::doDMDemand (float dm_demand)                    //remove
     DMGreenDemand = dm_demand;                                      //remove
 }                                                                   //remove
 
+void fruitMealPart::doNDemand (float n_demand)                      //remove
+//     ===========================================================  //remove
+{                                                                   //remove
+    NDemand = n_demand;                                             //remove
+}                                                                   //remove
+
 void fruitMealPart::doDMDemandGrain (float dm_demand)
 //     ===========================================================
 {
