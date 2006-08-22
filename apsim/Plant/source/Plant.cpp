@@ -926,33 +926,15 @@ void Plant::plant_bio_retrans (void)
    float dm_demand_differential = fruitPart->dmGreenDemand ()
                                 - fruitPart->dlt_dm_green();
 
+   float dlt_dm_retrans_to_fruit = 0.0;                    // dry matter retranslocated to fruit (g/m^2)
    legnew_dm_retranslocate(allParts
                            , supply_pools_by_veg
                            , dm_demand_differential
                            , g.plants
-                           , &g.dlt_dm_retrans_to_fruit);
+                           , &dlt_dm_retrans_to_fruit);
 
-   fruitPart->doDmRetranslocate (g.dlt_dm_retrans_to_fruit, dm_demand_differential);
+   fruitPart->doDmRetranslocate (dlt_dm_retrans_to_fruit, dm_demand_differential);
 
-   // Finally, a mass balance check
-   float mbSum = 0.0;
-   for (vector<plantPart *>::iterator part = myParts.begin(); 
-        part != myParts.end(); 
-        part++)
-       mbSum += (*part)->dlt_dm_green_retrans();
-
-   if (fabs(mbSum) > 0.001)
-      {
-      string msg ="Crop dm retranslocate mass balance is off: error="
-              + ftoa(mbSum, ".6")
-              + "\n";
-      for (vector<plantPart *>::iterator part = myParts.begin(); 
-           part != myParts.end(); 
-           part++)
-         msg += (*part)->name() + "=" + 
-                  ftoa((*part)->dlt_dm_green_retrans(), ".6") +"\n";
-      parent->warningError(msg.c_str());
-      }
    }
 
 
@@ -2809,8 +2791,8 @@ void Plant::legnew_dm_retranslocate
 // now translocate carbohydrate between plant components
 // this is different for each stage
 
-//    for (part = allParts.begin(); part != allParts.end(); part++)
-//        (*part)->dlt.dm_green_retrans = 0.0;
+    for (part = allParts.begin(); part != allParts.end(); part++)
+        (*part)->dlt_dm_green_retrans_hack( 0.0 );
 
     demand_differential = g_dm_demand_differential;
 
@@ -4083,7 +4065,6 @@ void Plant::plant_zero_all_globals (void)
       g.dlt_dm = 0.0;
       g.dlt_dm_pot_rue = 0.0;
       g.dlt_dm_pot_te = 0.0;
-      g.dlt_dm_retrans_to_fruit = 0.0;
       g.dlt_dm_parasite  =  0.0;
       g.dlt_dm_parasite_demand = 0.0;
       g.dlt_sw_parasite_demand = 0.0;

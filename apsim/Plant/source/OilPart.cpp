@@ -131,7 +131,7 @@ float fruitOilPart::calcDmDemand (float dmDemand)
    return divide (dmDemand, gGrain_energy, 0.0);
 }
 
-float fruitOilPart::dltDmGreenUptake(void) const
+float fruitOilPart::dltDmGreen(void) const
 //=======================================================================================
    {
    return (dlt.dm_green + gDlt_dm_oil_conv);
@@ -179,7 +179,7 @@ void fruitOilPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTo
 float fruitOilPart::dmDemandDifferential(void) const
 //=======================================================================================
    {
-   return dmGreenDemand() - dltDmGreenUptake();
+   return dmGreenDemand() - dltDmGreen();
    }
 
 void fruitOilPart::readSpeciesParameters(protocol::Component *system, vector<string> &sections)

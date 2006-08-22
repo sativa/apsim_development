@@ -1558,17 +1558,6 @@ float CompositePart::dltDmGreen(void) const
    return dltDmGreen;
 }
 
-float CompositePart::dltDmGreenUptake(void) const
-   //===========================================================================
-{
-   float dltDmUptake = 0.0;
-
-   vector<plantPart *const>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      dltDmUptake +=(*part)->dltDmGreenUptake();
-
-   return dltDmUptake;
-}
 
 float CompositePart::dltDmRetranslocateSupply(float demand_differential) 
    //===========================================================================
@@ -1901,16 +1890,15 @@ float CompositePart::giveDmGreen(float dmSupplied)
 // Arbritator has given us some DM to distribute amongst individual parts
    {
    float dmDemand = dmGreenDemand();
-   float supplyFrac = bound(divide (dmDemand, dmSupplied, 0.0), 0.0, 1.0);
    float uptake = 0.0;
    for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
       {
-      float partFrac =  divide((*part)->dmGreenDemand(),dmDemand, 0.0);
-      uptake += (*part)->giveDmGreen (dmSupplied * partFrac * supplyFrac);
+      float partFrac =  divide((*part)->dmGreenDemand(), dmDemand, 0.0);
+      uptake += (*part)->giveDmGreen (dmSupplied * partFrac);
       }
 
    // do mass balance check
-   float dlt_dm_green_tot = dltDmGreenUptake ();
+   float dlt_dm_green_tot = dltDmGreen();
 
    if (!reals_are_equal(dlt_dm_green_tot, dmSupplied, 1.0E-4))  // XX this is probably too much slop - try doubles XX
        {
@@ -1928,8 +1916,6 @@ float CompositePart::giveDmGreen(float dmSupplied)
 void CompositePart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal)
 //=======================================================================================
    {
-   dlt.dm_green_retrans = 0.0;
-
    float dm_demand_differential = dmDemandDifferential ();
    float dlt_dm_green_retrans = DMAvail * divide (dm_demand_differential, DMDemandDifferentialTotal, 0.0);
 
@@ -1948,15 +1934,13 @@ void CompositePart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialT
    for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)      //FIXME later
        {
        (*part)->doDmRetranslocate (dlt_dm_green_retrans_tot, dm_demand_differential);
-       dlt.dm_green_retrans = (*part)->dlt_dm_green_retrans();
        }
    // do mass balance check
-   float dlt_dm_green_tot = dltDmGreenRetransUptake ();
 
-   if (!reals_are_equal(dlt_dm_green_tot, dlt_dm_green_retrans, 1.0E-4))  // XX this is probably too much slop - try doubles XX
+   if (!reals_are_equal(dltDmGreenRetransUptake (), dlt_dm_green_retrans, 1.0E-4))  // XX this is probably too much slop - try doubles XX
       {
       string msg = c.name + " dlt_dm_green_retrans_tot mass balance is off: "
-                   + ftoa(dlt_dm_green_tot, ".6")
+                   + ftoa(dltDmGreenRetransUptake (), ".6")
                    + " vs "
                    + ftoa(dlt_dm_green_retrans, ".6");
       plant->warningError(msg.c_str());

@@ -29,7 +29,7 @@ class fruitOilPart : public plantPart {
    void doDMDemandGrain(float dlt_dm_grain_demand);
    float giveDmGreen(float delta); 
    void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
-   float dltDmGreenUptake(void) const;
+   float dltDmGreen(void) const;
    float dltDmGreenRetransUptake(void) const;
    float dmDemandDifferential(void) const;
 

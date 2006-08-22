@@ -226,18 +226,16 @@ public:
    virtual float dmGreenDemand(void) const;
    virtual float dmDemandDifferential(void) const;
    virtual float dltDmRetranslocateSupply(float DemandDifferential) ;
+   virtual float dltDmGreenRetransUptake(void) const;
    virtual float giveDmGreen(float) ;
    virtual float giveDmSenesced(float) ;
    virtual float giveDmDead(float) ;
    virtual float giveNGreen(float) ;
    virtual float dmGreen(void) const;
    virtual float dltDmGreen(void) const;
-   virtual float dltDmGreenRetrans(void) const;      //remove
    virtual float dltDmRetranslocate(void) const;
    virtual float dmGreenNew(void) const;
    virtual float dltDmGreenNew(void) const;
-   virtual float dltDmGreenUptake(void) const;
-   virtual float dltDmGreenRetransUptake(void) const;
    virtual float dltDmDetached(void) const;
    virtual float dmSenesced(void) const;
    virtual float dmDead(void) const;

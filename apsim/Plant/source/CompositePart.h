@@ -135,11 +135,10 @@ public:												// member functions
    virtual float dltDmGrainDemand(void) const;
    virtual float dltDmRetranslocate(void) const;
    virtual float dltDmRetranslocateSupply(float demand_differential) ;
+   virtual float dltDmGreenRetransUptake(void) const;
    virtual float dltDmGreen(void) const;
-   virtual float dltDmGreenUptake(void) const;
    virtual float dltDmPotTe(void);            //FIXME
    virtual float dltDmPotRue(void);        //FIXME
-   virtual float dltDmGreenRetransUptake(void) const;
    virtual float dltDmDetached(void) const;
 
    virtual float dmGreenDemand(void) const;     

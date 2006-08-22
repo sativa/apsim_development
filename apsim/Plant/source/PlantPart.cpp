@@ -956,7 +956,7 @@ void plantPart::doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal
 float plantPart::dmDemandDifferential(void) const
 //=======================================================================================
    {
-   return l_bound(dmGreenDemand() - dltDmGreenUptake(), 0.0);
+   return l_bound(dmGreenDemand() - dltDmGreen(), 0.0);
    }
 
 float plantPart::dltDmRetranslocateSupply(float DemandDifferential) 
@@ -1237,18 +1237,6 @@ float plantPart::dltDmGreen(void) const
    return (dlt.dm_green);
    }
 
-float plantPart::dltDmGreenUptake(void) const
-//=======================================================================================
-   {
-   return (dlt.dm_green);
-   }
-
-float plantPart::dltDmGreenRetrans(void) const                                                   //remove
-//=======================================================================================  //remove
-   {                                                                                       //remove
-   return (dlt.dm_green_retrans);                                                          //remove
-   }                                                                                       //remove
-
 float plantPart::dltDmRetranslocate(void) const
 //=======================================================================================
    {
@@ -1444,8 +1432,8 @@ float plantPart::nRetransSupply(void)
 float plantPart::dmRetransSupply(void) const
 //=======================================================================================
    {
-   if (c.retrans_part)
-      return l_bound(DMGreen - (DMPlantMin*plant->getPlants()), 0.0);
+//   if (c.retrans_part)
+//      return l_bound(DMGreen - (DMPlantMin*plant->getPlants()), 0.0);
    return 0.0;
    }
 
