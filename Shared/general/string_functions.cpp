@@ -321,6 +321,7 @@ void Replace_all_chars (char* St, char Char_to_replace, char Replacement_char)
       if (posEquals != string::npos)
          {
          key = line.substr(0, posEquals);
+         To_lower(key);
          stripLeadingTrailing(key, " ");
          value = line.substr(posEquals+1);
          stripLeadingTrailing(value, " ");
@@ -338,6 +339,7 @@ void Replace_all_chars (char* St, char Char_to_replace, char Replacement_char)
       if (posEquals != string::npos)
          {
          key = line.substr(0, posEquals);
+         To_lower(key);
          stripLeadingTrailing(key, " ");
          value = line.substr(posEquals+1);
          int posBracket = value.find('(');
