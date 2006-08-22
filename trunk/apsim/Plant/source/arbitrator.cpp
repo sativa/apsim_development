@@ -110,7 +110,12 @@ void genericArbitrator::partitionDM(float dlt_dm,
        string msg = "dlt_dm_green_tot mass balance is off: "
                     + ftoa(dlt_dm_green_tot, ".6")
                     + " vs "
-                    + ftoa(dlt_dm, ".6");
+                    + ftoa(dlt_dm, ".6")
+                    + "\nrootPart="  + ftoa(rootPart->dltDmGreen(), ".6")
+                    + "\nleafPart="  + ftoa(leafPart->dltDmGreen(), ".6")
+                    + "\nstemPart="  + ftoa(stemPart->dltDmGreen(), ".6")
+                    + "\nfruitPart=" + ftoa(fruitPart->dltDmGreen(), ".6")
+                    ;
        plant->warningError(msg.c_str());
       }
    }

@@ -730,8 +730,6 @@ private:
                                                         // optimum water and nitrogen and
                                                         // temperature stress conditions (g/m^2)
       float dlt_dm_pot_te;                              // the potential daily biomass production from te (g/m^2)
-      float dlt_dm_retrans_to_fruit;                    // dry matter retranslocated to fruit (g/m^2)
-
       float radn_int;                                   // radn intercepted by leaves (mj/m^2)
       float radnIntGreenFruit;                          // radn intercepted by fruit (mj/m^2)
       float transp_eff;                                 // transpiration efficiency (g dm/m^2/mm water)
