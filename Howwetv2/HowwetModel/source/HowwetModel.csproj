@@ -36,6 +36,12 @@
     <Compile Include="CustomError.cs" />
     <Compile Include="CustomException.cs" />
     <Compile Include="MetData.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Report.cs" />
     <Compile Include="SimulationOut.cs" />
     <Compile Include="SimulationIn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,6 +60,12 @@
       <Project>{F1F780B2-4762-48B6-B0D7-A68C57DDB347}</Project>
       <Name>VBGeneral</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,59 +1,84 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type="text/xsl" href="HowwetReport.xslt" ?>
 <report>
   <howwet>
     <head>
       <title>Howwet Summary Report</title>
-      <file></file>
-      <report_date></report_date>
+      <file>test one two</file>
+      <report_date>
+      </report_date>
     </head>
     <summary_in>
       <simulation_period>
-        <start></start>
-        <end></end>
+        <start>
+        </start>
+        <end>
+        </end>
       </simulation_period>
       <soil>
-        <name></name>
-        <oc></oc>
-        <water></water>
-        <nitrogen></nitrogen>
+        <name>test one two</name>
+        <oc>
+        </oc>
+        <water>
+        </water>
+        <nitrogen>
+        </nitrogen>
         <erosion>
-          <slope></slope>
-          <slope_length></slope_length>
+          <slope>
+          </slope>
+          <slope_length>
+          </slope_length>
         </erosion>
         <cover>
-          <type></type>
-          <percent></percent>
+          <type>
+          </type>
+          <percent>
+          </percent>
         </cover>
       </soil>
       <metfile>
-        <location></location>
-        <start></start>
-        <end></end>
+        <location>
+        </location>
+        <start>
+        </start>
+        <end>
+        </end>
       </metfile>
     </summary_in>
     <summary_out>
       <water>
-        <rainfall></rainfall>
-        <evaporation></evaporation>
-        <runoff></runoff>
+        <rainfall>
+        </rainfall>
+        <evaporation>
+        </evaporation>
+        <runoff>
+        </runoff>
       </water>
       <PAWC>
-        <start></start>
-        <end></end>
-        <gain></gain>
-        <efficiency></efficiency>
+        <start>
+        </start>
+        <end>
+        </end>
+        <gain>
+        </gain>
+        <efficiency>
+        </efficiency>
       </PAWC>
       <nitrate>
-        <start></start>
-        <end></end>
-        <gain></gain>
+        <start>
+        </start>
+        <end>
+        </end>
+        <gain>
+        </gain>
       </nitrate>
     </summary_out>
     <body>
       <graph>
-        <soil_water></soil_water>
-        <nitrogen></nitrogen>
+        <soil_water>
+        </soil_water>
+        <nitrogen>
+        </nitrogen>
       </graph>
     </body>
   </howwet>
