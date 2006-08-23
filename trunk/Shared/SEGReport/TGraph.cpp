@@ -12,6 +12,7 @@
 #include <TeeEdit.hpp>
 #include <DBEditCh.hpp>
 #include <EditChar.hpp>
+#include <Series.hpp>
 #include <sstream>
 using namespace std;
 #pragma package(smart_init)
@@ -151,6 +152,7 @@ void __fastcall TGraph::setScientificScaling(bool scaling)
 void __fastcall TGraph::Loaded(void)
    {
    TgtQRChart::Loaded();
+
    for (int s = 0; s != Chart->SeriesCount(); s++)
       Chart->Series[s]->OnBeforeAdd = onBeforeAdd;
    addDataChangeSubscriptions();
@@ -182,6 +184,18 @@ void TGraph::removeDataChangeSubscriptions(void)
 //---------------------------------------------------------------------------
 // One of the source datasets is now open - refresh chart.
 //---------------------------------------------------------------------------
+void __fastcall TGraph::OnClearValues(TChartSeries* dataset)
+   {
+   //refresh();
+   }
+
+void __fastcall TGraph::OnAfterDraw(TObject* sender)
+   {
+
+   }
+//---------------------------------------------------------------------------
+// One of the source datasets is now open - refresh chart.
+//---------------------------------------------------------------------------
 void __fastcall TGraph::afterDataRefresh(TDataSet* dataset)
    {
    refresh();
@@ -196,6 +210,18 @@ void TGraph::refresh(void)
       removeTemplatedChartSeries();
       createChartSeries();
       Chart->Refresh();
+
+      if (Chart->SeriesCount() == 1)
+         {
+         TPieSeries* pieSeries = dynamic_cast<TPieSeries*> (Chart->Series[0]);
+         if (pieSeries != NULL)
+            {
+            static TColor OurColors[5] = {0x004080, 0x0080FF, clLtGray, clGreen, clBlue};
+            SetDefaultColorPalette(OurColors, 5);
+            }
+         }
+
+
       for (int s = 0; s != Chart->SeriesCount(); s++)
          {
          try {
@@ -367,7 +393,7 @@ void TGraph::userEdit(void)
    if (Chart->SeriesCount() >= 5)
       seriesTitle5 = Chart->Series[4]->Title;
    replaceChartMacros();
-   
+
    for (int s = 0; s != Chart->SeriesCount(); s++)
       Chart->Series[s]->OnBeforeAdd = onBeforeAdd;
    addDataChangeSubscriptions();
@@ -417,3 +443,5 @@ void TGraph::fixBottomAxisScaling()
          }
       }
    }
+
+
