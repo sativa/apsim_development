@@ -14,6 +14,8 @@ using APSRU.Model.Howwet;
 using APSRU.Error;
 using System.Diagnostics;
 using APSRU.Translator.Howwet;
+using System.Xml;
+
 
 
 namespace APSRU.Howwet
@@ -36,6 +38,7 @@ namespace APSRU.Howwet
         private double[] thicknessOriginal;
         private double[] lL15Original;
         private double[] cLL;
+      //  private bool trainingMode = false;
         DataTable dt;
         DataTable chartDataTable;
         private String selectedFileName="";
@@ -119,7 +122,7 @@ namespace APSRU.Howwet
 
         #region Tool Strip events
 
-        private void RunButton_Click(object sender, EventArgs e)
+        private void RunButton_Click1(object sender, EventArgs e)
             {
             if (saveAllData())
                 {
@@ -151,56 +154,67 @@ namespace APSRU.Howwet
                 }
             }
 
-
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void RunButton_Click(object sender, EventArgs e)
             {
+            this.Cursor = Cursors.WaitCursor;
             if (saveAllData())
                 {
-                String ApsimToSimPath = "c:\\Program Files\\APSIM51\\bin\\apsimtosim.exe";
-                String Apsim = "c:\\Program Files\\APSIM51\\bin\\apsim.exe";
-                String test = "c:\\robert\\data\\" + simulationObject.FileName;       
-                try
+                if(ExecuteAPSIM())
                     {
-                    if (File.Exists(ApsimToSimPath))
-                        {
-                        Process.Start(ApsimToSimPath, "" + test + "");
-                        }
-
-                    Process[] processes = Process.GetProcesses();
-                    foreach (Process proc in processes)
-                        {
-                        if (Path.GetFileName(proc.ProcessName) == "apsimtosim")
-                            {
-                            while(proc.WaitForExit(300000)); //5 min
-                            if (!proc.Responding) proc.Kill();
-                            }
-                        }
-
-
-                    if (File.Exists(Apsim))
-                        {
-                        Process.Start(Apsim, "" + simulationObject.FileName.Substring(0, simulationObject.FileName.IndexOf(".apsim") - 1) + ".sim" + "");
-                        }
-                    processes = Process.GetProcesses();
-                    foreach (Process proc in processes)
-                        {
-                        if (Path.GetFileName(proc.ProcessName) == "apsim")
-                            {
-                            while (proc.WaitForExit(300000)) ; //5 min
-                            if (!proc.Responding) proc.Kill();
-                            }
-                        }
-                    }
-                catch (FileNotFoundException e1)
-                    {
-                    MessageBox.Show(e1.Message);
+                    ShowGraph();
                     }
                 }
-
+            this.Cursor = Cursors.Default;
             }
+
+        private bool ExecuteAPSIM()
+            {
+            bool success = false;
+            String ApsimToSimPath = "c:\\Program Files\\APSIM51\\bin\\apsimtosim.exe";
+            String Apsim = "c:\\Program Files\\APSIM51\\bin\\apsim.exe";
+            String simulationFileName = simulationObject.FileName;
+            
+             //remove old .sum, .out, and .sim files if they exist
+            if(File.Exists(simulationObject.OutputFileName))File.Delete(simulationObject.OutputFileName);
+            if (File.Exists(simulationObject.SummaryFileName)) File.Delete(simulationObject.SummaryFileName);
+            if (File.Exists(simulationObject.SimulationName + ".sim")) File.Delete(simulationObject.SimulationName + ".sim");
+
+            if (File.Exists(ApsimToSimPath))
+                {
+                this.Cursor = Cursors.WaitCursor;
+                Process p=Process.Start(ApsimToSimPath, "" + simulationFileName + "");
+                p.WaitForExit();
+                this.Refresh();
+                this.Cursor = Cursors.Default;
+                }
+                     
+            
+            if (File.Exists(Apsim))
+                {
+                String simFileName = simulationObject.SimulationName + ".sim";
+                Process p=Process.Start(Apsim, simFileName);
+                p.WaitForExit();
+                this.Refresh();
+                }
+           
+            if (File.Exists(simulationObject.SimulationName + ".sim")) success = true;
+
+            return success;
+            }
+ 
         private void ReportButton_Click_1(object sender, EventArgs e)
             {
             //TODO change path to a application variable
+            String fileName = "C:\\Development\\Howwetv2\\HowwetUI\\source\\HowwetReport.xml";
+
+            APSIMData report = new APSIMData();
+            report.LoadFromFile(fileName);
+
+            APSIMData fileNode = report.FindChild("howwet|summary_in|soil", '|');
+            fileNode.set_ChildValue("name", "test one two");
+
+            report.SaveToFile(fileName);
+
             String path = "C:\\Development\\Howwetv2\\HowwetUI\\source";
             System.Diagnostics.Process.Start("IExplore.exe", path + "\\HowwetReport.xml");
             RainfallSWChart.Export.Image.GIF.Save(path+"\\RainfallSWChart.gif"); 
@@ -641,7 +655,7 @@ namespace APSRU.Howwet
 
         #endregion
 
-        #region Events Outputside of Form
+        #region Events Output side of Form
 
         //Populate combo list with crops from the soil file
         private void displayProposedCropList()
@@ -710,18 +724,20 @@ namespace APSRU.Howwet
             }
 
        private void button1_Click(object sender, EventArgs e)
+           {
+           }
+        private void ShowGraph()
             {
             try
                 {
-                Console.WriteLine("button clicked");
                 RainfallBar.Clear();
                 RunoffBar.Clear();
-                PAWCLine.Clear();
+                SWLine.Clear();
                 NitrateLine.Clear();
                 SurfaceMoistureLine.Clear();
                 MaxTemperatureLine.Clear();
-                EroisionRunoffBar.Clear();
-                ErosionSoilLossBar.Clear();
+                ErosionRunoffCumLine.Clear();
+                ErosionSoilLossCumLine.Clear();
                 LTRainfallBar.Clear();
                 LTAvRainfallLine.Clear();
 
@@ -760,7 +776,21 @@ namespace APSRU.Howwet
                 dt = outputObject.Data;
                 chartDataTable = dt;
                 //add new column for the sum of PAWC
-                chartDataTable.Columns.Add("PAWC", typeof(double));
+                chartDataTable.Columns.Add("SoilWater", typeof(double));
+
+                RainfallSWChart.Axes.Left.Automatic = false;
+                RainfallSWChart.Axes.Right.Automatic = false;
+                RainfallSWChart.Axes.Bottom.Automatic = false;
+                ErosionChart.Axes.Left.Automatic = false;
+                ErosionChart.Axes.Right.Automatic = false;
+                ErosionChart.Axes.Bottom.Automatic = false;
+                SoilNitrogenChart.Axes.Left.Automatic = false;
+                SoilNitrogenChart.Axes.Right.Automatic = false;
+                SoilNitrogenChart.Axes.Bottom.Automatic = false;
+                axis1.Automatic = false;
+                LTRainfallChart.Axes.Left.Automatic = false;
+                LTRainfallChart.Axes.Right.Automatic = false;
+                LTRainfallChart.Axes.Bottom.Automatic = false;
                 //set x axis range
                 RainfallSWChart.Axes.Bottom.Maximum = Convert.ToDateTime(simulationObject.EndDate).ToOADate();
                 RainfallSWChart.Axes.Bottom.Minimum = Convert.ToDateTime(simulationObject.StartDate).ToOADate();
@@ -772,75 +802,121 @@ namespace APSRU.Howwet
                 LTRainfallChart.Axes.Bottom.Minimum = Convert.ToDateTime(simulationObject.StartDate).ToOADate();
     
                 //set left y axis range
-                double maxRainfallSW = 0, minRainfallSW = 0, maxPAWCSW = 0, minPAWCSW = 10000;
+                double maxRainfallSW = 0, minRainfallSW = 0, maxSW = 0, minSW = 10000;
                 double maxNitrate = 0, minNitrate = 10000, maxSurfaceMoisture = 0, minSurfaceMoisture = 10000, maxMaxTemp = 0, minMaxTemp = 10000; ;
                 double maxSoilLoss = 0, minSoilLoss = 0, maxRunoff = 0, minRunoff = 0;
                 double maxLTRainfall = 0, minLTRainfall = 0, maxLTAvRainfall = 0, minLTAvRainfall = 0;
                 Console.WriteLine("finding axes max min");
-                foreach (DataRow row in chartDataTable.Rows)
+                if (config.TrainingMode)
                     {
-                    //Rainfall soil water; subtract cll from soilwater and sum the absolute values to got pawc
-                    if (Convert.ToDouble(row["Rainfall"]) > maxRainfallSW) maxRainfallSW = Convert.ToDouble(row["Rainfall"]);
-                    ArrayList tmpSoilWaterLayers = (ArrayList)row["SoilWaterLayers"];
-                    double pawc=0;
-                    for (int layer = 0; layer < tmpSoilWaterLayers.Count; layer++)
+                    foreach (DataRow row in chartDataTable.Rows)
                         {
-                        pawc=pawc+(simulationObject.Soil.Thickness[layer]*(Math.Abs(Convert.ToDouble(tmpSoilWaterLayers[layer]) - simulationObject.Soil.LL15[layer])));
-                        }
-                    row["PAWC"] = pawc;
-                    if (pawc > maxPAWCSW) maxPAWCSW = pawc;
-                    if (pawc < minPAWCSW) minPAWCSW = pawc;
-                    //Soil Nitrogen
-                    if (Convert.ToDouble(row["NO3Total"]) > maxNitrate) maxNitrate = Convert.ToDouble(row["NO3Total"]);
-                    if (Convert.ToDouble(row["NO3Total"]) < minNitrate) minNitrate = Convert.ToDouble(row["NO3Total"]);
-                    if (Convert.ToDouble(row["SoilWaterTopLayer"]) > maxSurfaceMoisture) maxSurfaceMoisture = Convert.ToDouble(row["SoilWaterTopLayer"]);
-                    if (Convert.ToDouble(row["SoilWaterTopLayer"]) < minSurfaceMoisture) minSurfaceMoisture = Convert.ToDouble(row["SoilWaterTopLayer"]);
-                    if (Convert.ToDouble(row["MaxTemp"]) > maxMaxTemp) maxMaxTemp = Convert.ToDouble(row["MaxTemp"]);
-                    if (Convert.ToDouble(row["MaxTemp"]) < minMaxTemp) minMaxTemp = Convert.ToDouble(row["MaxTemp"]);
+                        //Rainfall soil water; subtract cll from soilwater and sum the absolute values to get sw
+                        if (Convert.ToDouble(row["Rainfall"]) > maxRainfallSW) maxRainfallSW = Convert.ToDouble(row["Rainfall"]);
+                        ArrayList tmpSoilWaterLayers = (ArrayList)row["SoilWaterLayers"];
+                        double sw = 0;
+                        for (int layer = 0; layer < tmpSoilWaterLayers.Count; layer++)
+                            {
+                            sw = sw + (simulationObject.Soil.Thickness[layer] * (Math.Abs(Convert.ToDouble(tmpSoilWaterLayers[layer]) - simulationObject.Soil.LL15[layer])));
+                            }
+                        row["SoilWater"] = sw;
+                        if (sw > maxSW) maxSW = sw;
+                        if (sw < minSW) minSW = sw;
+                        //Soil Nitrogen
+                        if (Convert.ToDouble(row["NO3Total"]) > maxNitrate) maxNitrate = Convert.ToDouble(row["NO3Total"]);
+                        if (Convert.ToDouble(row["NO3Total"]) < minNitrate) minNitrate = Convert.ToDouble(row["NO3Total"]);
+                        if (Convert.ToDouble(row["SoilWaterTopLayer"]) > maxSurfaceMoisture) maxSurfaceMoisture = Convert.ToDouble(row["SoilWaterTopLayer"]);
+                        if (Convert.ToDouble(row["SoilWaterTopLayer"]) < minSurfaceMoisture) minSurfaceMoisture = Convert.ToDouble(row["SoilWaterTopLayer"]);
+                        if (Convert.ToDouble(row["MaxTemp"]) > maxMaxTemp) maxMaxTemp = Convert.ToDouble(row["MaxTemp"]);
+                        if (Convert.ToDouble(row["MaxTemp"]) < minMaxTemp) minMaxTemp = Convert.ToDouble(row["MaxTemp"]);
 
+                        //Erosion
+                        if (Convert.ToDouble(row["SoilLossCum"]) > maxSoilLoss) maxSoilLoss = Convert.ToDouble(row["SoilLossCum"]);
+                        if (Convert.ToDouble(row["RunoffCum"]) > maxRunoff) maxRunoff = Convert.ToDouble(row["RunoffCum"]);
+                        //Long term rainfall
+                        if (Convert.ToDouble(row["Rainfall"]) > maxLTRainfall) maxLTRainfall = Convert.ToDouble(row["Rainfall"]);
+                        //  if (Convert.ToDouble(row["Rainfall"]) > maxLTAvRainfall) maxLTAvRainfall = Convert.ToDouble(row["Rainfall"]);
+                        }
+                    Console.WriteLine("found max min");
+                    //Rainfall and soil water 
+                    RainfallSWChart.Axes.Left.Maximum = maxRainfallSW;
+                    RainfallSWChart.Axes.Left.Minimum = minRainfallSW;
+                    RainfallSWChart.Axes.Right.Maximum = maxSW;
+                    //   RainfallSWChart.Axes.Right.Minimum = minSW;
+                    RainfallSWChart.Axes.Right.Minimum = 0;
+                    //soil nitrogen
+                    SoilNitrogenChart.Axes.Left.Maximum = maxNitrate;
+                    SoilNitrogenChart.Axes.Left.Minimum = minNitrate;
+                    SoilNitrogenChart.Axes.Right.Maximum = maxSurfaceMoisture * 150;
+                    SoilNitrogenChart.Axes.Right.Minimum = minSurfaceMoisture * 150;
+                    SoilNitrogenChart.Axes.Custom[0].Maximum = maxMaxTemp;
+                    //  SoilNitrogenChart.Axes.Custom[0].Minimum = minMaxTemp;
+                    SoilNitrogenChart.Axes.Custom[0].Minimum = 0;
                     //Erosion
-                    if (Convert.ToDouble(row["SoilLoss"]) > maxSoilLoss) maxSoilLoss = Convert.ToDouble(row["SoilLoss"]);
-                    if (Convert.ToDouble(row["Runoff"]) > maxRunoff) maxRunoff = Convert.ToDouble(row["Runoff"]); 
+                    ErosionChart.Axes.Left.Maximum = maxSoilLoss;
+                    ErosionChart.Axes.Left.Minimum = minSoilLoss;
+                    ErosionChart.Axes.Right.Maximum = maxRunoff;
+                    ErosionChart.Axes.Right.Minimum = minRunoff;
                     //Long term rainfall
-                    if (Convert.ToDouble(row["Rainfall"]) > maxLTRainfall) maxLTRainfall = Convert.ToDouble(row["Rainfall"]);
-                    //  if (Convert.ToDouble(row["Rainfall"]) > maxLTAvRainfall) maxLTAvRainfall = Convert.ToDouble(row["Rainfall"]);
-                    }
-                Console.WriteLine("found max min");
-                //Rainfall and soil water 
-                RainfallSWChart.Axes.Left.Maximum = maxRainfallSW;
-                RainfallSWChart.Axes.Left.Minimum = minRainfallSW;
-                RainfallSWChart.Axes.Right.Maximum = maxPAWCSW;
-                RainfallSWChart.Axes.Right.Minimum = minPAWCSW;
-                //soil nitrogen
-                SoilNitrogenChart.Axes.Left.Maximum = maxNitrate;
-                SoilNitrogenChart.Axes.Left.Minimum = minNitrate;
-                SoilNitrogenChart.Axes.Right.Maximum = maxSurfaceMoisture;
-                SoilNitrogenChart.Axes.Right.Minimum = minSurfaceMoisture;
-                SoilNitrogenChart.Axes.Custom[0].Maximum = maxMaxTemp;
-                SoilNitrogenChart.Axes.Custom[0].Minimum = minMaxTemp;
-                //Erosion
-                ErosionChart.Axes.Left.Maximum = maxSoilLoss;
-                ErosionChart.Axes.Left.Minimum = minSoilLoss;
-                ErosionChart.Axes.Right.Maximum = maxRunoff;
-                ErosionChart.Axes.Right.Minimum = minRunoff;
-                //Long term rainfall
-                LTRainfallChart.Axes.Left.Maximum = maxLTRainfall;
-                LTRainfallChart.Axes.Left.Minimum = minLTRainfall;
-            //    LTRainfallChart.Axes.Right.Maximum = maxLTAvRainfall;
-            //    LTRainfallChart.Axes.Right.Minimum = minLTAvRainfall;
-               
-               
-             //   if (!(speedBar.Value == 0))
-                 //   {
-                rowCount = 0;
-                    timer1.Interval =2;
+                    LTRainfallChart.Axes.Left.Maximum = maxLTRainfall;
+                    LTRainfallChart.Axes.Left.Minimum = minLTRainfall;
+                    //    LTRainfallChart.Axes.Right.Maximum = maxLTAvRainfall;
+                    //    LTRainfallChart.Axes.Right.Minimum = minLTAvRainfall;
+
+                    rowCount = 0;
+                    timer1.Interval = 2;
                     timer1.Start();
                     RainfallSWChart.Refresh();
                     SoilNitrogenChart.Refresh();
                     ErosionChart.Refresh();
                     LTRainfallChart.Refresh();
-                  //  }
-              
+                    }
+                else
+                    {
+                    RainfallSWChart.Axes.Left.Automatic = true;
+                    RainfallSWChart.Axes.Right.AutomaticMaximum = true;
+                    RainfallSWChart.Axes.Right.Minimum = 0;
+                    RainfallSWChart.Axes.Bottom.Automatic = true;
+                    ErosionChart.Axes.Left.Automatic = true;
+                    ErosionChart.Axes.Right.Automatic = true;
+                    ErosionChart.Axes.Bottom.Automatic = true;
+                    SoilNitrogenChart.Axes.Left.Automatic = true;
+                    SoilNitrogenChart.Axes.Right.Automatic = true;
+                    SoilNitrogenChart.Axes.Bottom.Automatic = true;
+                    axis1.AutomaticMaximum = true;
+                    axis1.Minimum = 0;
+                    LTRainfallChart.Axes.Left.Automatic = true;
+                    LTRainfallChart.Axes.Right.Automatic = true;
+                    LTRainfallChart.Axes.Bottom.Automatic = true;
+                    foreach (DataRow row in chartDataTable.Rows)
+                        {
+                        ArrayList tmpSoilWaterLayers = (ArrayList)row["SoilWaterLayers"];
+                        double sw = 0;
+                        for (int layer = 0; layer < tmpSoilWaterLayers.Count; layer++)
+                            {
+                            sw = sw + (simulationObject.Soil.Thickness[layer] * (Math.Abs(Convert.ToDouble(tmpSoilWaterLayers[layer]) - simulationObject.Soil.LL15[layer])));
+                            }
+                        row["SoilWater"] = sw;
+                        //Rainfall and soil water graph
+                        RainfallBar.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["Rainfall"]));
+                        RunoffBar.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["Runoff"]));
+                        SWLine.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["SoilWater"]));
+                        //Soil Nitrogen graph
+                        NitrateLine.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["NO3Total"]));
+                        SurfaceMoistureLine.Add(Convert.ToDateTime(row["Date"]), (Convert.ToDouble(row["SoilWaterTopLayer"]) * 150));
+                        MaxTemperatureLine.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["MaxTemp"]));
+                        //Erosion graph
+                        ErosionRunoffCumLine.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["RunoffCum"]));
+                        ErosionSoilLossCumLine.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["SoilLossCum"]));
+                        //Long term rainfall
+                        LTRainfallBar.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["Rainfall"]));
+                        // LTAvRainfallLine.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["Rainfall"]));
+                        }
+                    RainfallSWChart.Refresh();
+                    SoilNitrogenChart.Refresh();
+                    ErosionChart.Refresh();
+                    LTRainfallChart.Refresh();
+                    }
                 }
             catch (CustomException err)
                 {
@@ -863,14 +939,14 @@ namespace APSRU.Howwet
                 //Rainfall and soil water graph
                 RainfallBar.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["Rainfall"]));
                 RunoffBar.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["Runoff"]));
-                PAWCLine.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["PAWC"]));
+                SWLine.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["SoilWater"]));
                 //Soil Nitrogen graph
                 NitrateLine.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["NO3Total"]));
-                SurfaceMoistureLine.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["SoilWaterTopLayer"]));
+                SurfaceMoistureLine.Add(Convert.ToDateTime(row["Date"]), (Convert.ToDouble(row["SoilWaterTopLayer"])*150));
                 MaxTemperatureLine.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["MaxTemp"]));
                 //Erosion graph
-                EroisionRunoffBar.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["Runoff"]));
-                ErosionSoilLossBar.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["SoilLoss"]));
+                ErosionRunoffCumLine.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["RunoffCum"]));
+               ErosionSoilLossCumLine.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["SoilLossCum"]));
                 //Long term rainfall
                 LTRainfallBar.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["Rainfall"]));
          //       LTAvRainfallLine.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["Rainfall"]));
@@ -947,16 +1023,16 @@ namespace APSRU.Howwet
                     {
                     if (saveDialog.ShowDialog() == DialogResult.OK)
                         {
+                        FileInfo fileInfo = new FileInfo(saveDialog.FileName);
                         simulationObject.FileName = saveDialog.FileName;
+                        simulationObject.SimulationName = fileInfo.Name.Substring(0,fileInfo.Name.IndexOf(".apsim"));
                         simulationObject.OutputFileName = simulationObject.FileName.Substring(0, simulationObject.FileName.IndexOf(".apsim")) + ".out";
                         simulationObject.SummaryFileName = simulationObject.FileName.Substring(0, simulationObject.FileName.IndexOf(".apsim")) + ".sum";
 
                         APSIMData apsimObject = new APSIMData();
                         apsimObject = simulationObject.Data;
-                        apsimObject.SaveToFile(simulationObject.OutputFileName);
-                        apsimObject.SaveToFile(simulationObject.FileName);
-                        
-                        String fileName = simulationObject.FileName.Substring(0, simulationObject.FileName.IndexOf(".apsim")) + ".hwt";
+                                         
+                        String fileName = simulationObject.FileName;
                         apsimObject.SaveToFile(fileName);
                         this.Text = fileName;
                         saved = true;
@@ -978,17 +1054,13 @@ namespace APSRU.Howwet
                 }
             return saved;
             }
-
-        private void displayRainfallChart()
-            {
-            timer1.Interval = 200;
-            timer1.Start();
-            RainfallSWChart.Refresh();
-            RainfallSWChart.Visible = true;
-            }
+              
 
         #endregion
 
+        
+
+       
        
 
        

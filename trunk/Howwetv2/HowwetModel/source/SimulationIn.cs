@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Text;
+using System.Xml;
 using VBGeneral;
 using CSGeneral;
 using APSRU.Error;
@@ -13,7 +14,6 @@ namespace APSRU.Model.Howwet
         {
         private APSIMData myData;
         private String fileName;
-    //    private Soil newSoil;
         private String oldCrop="";
         
       
@@ -33,7 +33,7 @@ namespace APSRU.Model.Howwet
             const String FUNCTION_NAME = "AddSoil";
             try
                 {
-                APSIMData paddockNode = myData.FindChild("HowWet|paddock", '|');
+                APSIMData paddockNode = myData.FindChildByType("simulation|area", '|');
                 StringCollection soils = paddockNode.ChildList("Soil");
 
                 if (!(soils.Count == 0))
@@ -59,7 +59,7 @@ namespace APSRU.Model.Howwet
             const String FUNCTION_NAME = "AddCrop";
             try
                 {
-                APSIMData soilCropNode = myData.FindChild("HowWet|paddock", '|');
+                APSIMData soilCropNode = myData.FindChildByType("simulation|area", '|');
                 if(!(oldCrop==""))
                     {
                     errString = "removing old crop";
@@ -81,7 +81,7 @@ namespace APSRU.Model.Howwet
             {
             get
                 {
-                APSIMData paddockNode = myData.FindChild("HowWet|paddock", '|');
+                APSIMData paddockNode = myData.FindChildByType("simulation|area", '|');
                 StringCollection soils = paddockNode.ChildList("Soil");
                 APSIMData soilNode = paddockNode.Child(soils[0]);//first soil
                 Soil soil = new Soil(soilNode);
@@ -99,10 +99,13 @@ namespace APSRU.Model.Howwet
             {
             set
                 {
+                APSIMData simulationNode = myData.FindChildByType("simulation", '|');
+                simulationNode.Name = value;
                 }
             get
                 {
-                return "test";
+                APSIMData simulationNode = myData.FindChildByType("simulation", '|');
+                return simulationNode.Name;
                 }
             }
 
@@ -110,12 +113,12 @@ namespace APSRU.Model.Howwet
             {
             set
                 {
-                APSIMData clockNode = myData.FindChild("HowWet|clock", '|');
+                APSIMData clockNode = myData.FindChildByType("simulation|clock", '|');
                 clockNode.set_ChildValue("start_date", value);
                 }
             get
                 {
-                APSIMData clockNode = myData.FindChild("HowWet|clock", '|');
+                APSIMData clockNode = myData.FindChildByType("simulation|clock", '|');
                 return clockNode.get_ChildValue("start_date"); 
                 }
             }
@@ -124,12 +127,12 @@ namespace APSRU.Model.Howwet
             {
             set
                 {
-                APSIMData clockNode = myData.FindChild("HowWet|clock", '|');
+                APSIMData clockNode = myData.FindChildByType("simulation|clock", '|');
                 clockNode.set_ChildValue("end_date", value);
                 }
             get
                 {
-                APSIMData clockNode = myData.FindChild("HowWet|clock", '|');
+                APSIMData clockNode = myData.FindChildByType("simulation|clock", '|');
                 return clockNode.get_ChildValue("end_date"); 
                 }
             }
@@ -140,11 +143,11 @@ namespace APSRU.Model.Howwet
             {
             set
                 {
-                APSIMData erosionNode = myData.FindChild("HowWet|paddock|erosion", '|');
+                APSIMData erosionNode = myData.FindChildByType("simulation|area|erosion", '|');
                 erosionNode.set_ChildValue("slope", value);
                 }
             get {
-                APSIMData erosionNode = myData.FindChild("HowWet|paddock|erosion", '|');
+            APSIMData erosionNode = myData.FindChildByType("simulation|area|erosion", '|');
                 return erosionNode.get_ChildValue("slope");
                 }
             }
@@ -153,12 +156,12 @@ namespace APSRU.Model.Howwet
             {
             set
                 {
-                APSIMData erosionNode = myData.FindChild("HowWet|paddock|erosion", '|');
+                APSIMData erosionNode = myData.FindChildByType("simulation|area|erosion", '|');
                 erosionNode.set_ChildValue("slope_length", value);
                 }
             get
                 {
-                APSIMData erosionNode = myData.FindChild("HowWet|paddock|erosion", '|');
+                APSIMData erosionNode = myData.FindChildByType("simulation|area|erosion", '|');
                 return erosionNode.get_ChildValue("slope_length");
                 }
                
@@ -168,11 +171,11 @@ namespace APSRU.Model.Howwet
             {
             set
                 {
-                APSIMData erosionNode = myData.FindChild("HowWet|paddock|erosion", '|');
+                APSIMData erosionNode = myData.FindChildByType("simulation|area|erosion", '|');
                 erosionNode.set_ChildValue("k_factor", value);
                 }
             get {
-                APSIMData erosionNode = myData.FindChild("HowWet|paddock|erosion", '|');
+            APSIMData erosionNode = myData.FindChildByType("simulation|area|erosion", '|');
                 return erosionNode.get_ChildValue("k_factor");
                 }
             }
@@ -181,12 +184,12 @@ namespace APSRU.Model.Howwet
             {
             set
                 {
-                APSIMData erosionNode = myData.FindChild("HowWet|paddock|erosion", '|');
+                APSIMData erosionNode = myData.FindChildByType("simulation|area|erosion", '|');
                 erosionNode.set_ChildValue("bed_depth", value);
                 }
             get
                 {
-                APSIMData erosionNode = myData.FindChild("HowWet|paddock|erosion", '|');
+                APSIMData erosionNode = myData.FindChildByType("simulation|area|erosion", '|');
                 return erosionNode.get_ChildValue("bed_depth");
                 }
             }
@@ -195,12 +198,12 @@ namespace APSRU.Model.Howwet
             {
             set
                 {
-                APSIMData somNode = myData.FindChild("HowWet|paddock|surface organic matter", '|');
+                APSIMData somNode = myData.FindChildByType("simulation|area|surfaceom", '|');
                 somNode.set_ChildValue("type", value);
                 }
             get
                 {
-                APSIMData somNode = myData.FindChild("HowWet|paddock|surface organic matter", '|');
+                APSIMData somNode = myData.FindChildByType("simulation|area|surfaceom", '|');
                 return somNode.get_ChildValue("type");
                 }
             }
@@ -209,12 +212,12 @@ namespace APSRU.Model.Howwet
             {
             set
                 {
-                APSIMData somNode = myData.FindChild("HowWet|paddock|surface organic matter", '|');
+                APSIMData somNode = myData.FindChildByType("simulation|area|surfaceom", '|');
                 somNode.set_ChildValue("mass", value);
                 }
             get
                 {
-                APSIMData somNode = myData.FindChild("HowWet|paddock|surface organic matter", '|');
+                APSIMData somNode = myData.FindChildByType("simulation|area|surfaceom", '|');
                 return somNode.get_ChildValue("mass");
                 }
             }
@@ -223,12 +226,12 @@ namespace APSRU.Model.Howwet
             {
             set
                 {
-                APSIMData somNode = myData.FindChild("HowWet|paddock|surface organic matter", '|');
+                APSIMData somNode = myData.FindChildByType("simulation|area|surfaceom", '|');
                 somNode.set_ChildValue("cnr", value);
                 }
             get
                 {
-                APSIMData somNode = myData.FindChild("HowWet|paddock|surface organic matter", '|');
+                APSIMData somNode = myData.FindChildByType("simulation|area|surfaceom", '|');
                 return somNode.get_ChildValue("cnr");
                 }
             }
@@ -237,12 +240,12 @@ namespace APSRU.Model.Howwet
             {
             set
                 {
-                APSIMData summaryFileNode = myData.FindChild("HowWet|summaryfile", '|');
+                APSIMData summaryFileNode = myData.FindChildByType("simulation|summaryfile", '|');
                 summaryFileNode.set_ChildValue("filename", value);
                 }
             get
                 {
-                APSIMData summaryFileNode = myData.FindChild("HowWet|summaryfile", '|');
+                APSIMData summaryFileNode = myData.FindChildByType("simulation|summaryfile", '|');
                 return summaryFileNode.get_ChildValue("filename");
                 }
             }
@@ -251,12 +254,12 @@ namespace APSRU.Model.Howwet
             {
             set
                 {
-                APSIMData outputFileNode = myData.FindChild("HowWet|paddock|outputfile", '|');
+                APSIMData outputFileNode = myData.FindChildByType("simulation|area|outputfile", '|');
                 outputFileNode.set_ChildValue("filename", value);
                 }
             get
                 {
-                APSIMData outputFileNode = myData.FindChild("HowWet|paddock|outputfile", '|');
+                APSIMData outputFileNode = myData.FindChildByType("simulation|area|outputfile", '|');
                 return outputFileNode.get_ChildValue("filename");
                 }
             }
@@ -265,12 +268,12 @@ namespace APSRU.Model.Howwet
             {
             set
                 {
-                APSIMData metNode = myData.FindChild("HowWet|met", '|');
+                APSIMData metNode = myData.FindChildByType("simulation|metfile", '|');
                 metNode.set_ChildValue("filename", value);
                 }
             get
                 {
-                APSIMData metNode = myData.FindChild("HowWet|met", '|');
+                APSIMData metNode = myData.FindChildByType("simulation|metfile", '|');
                 return metNode.get_ChildValue("filename");
                 }
             }

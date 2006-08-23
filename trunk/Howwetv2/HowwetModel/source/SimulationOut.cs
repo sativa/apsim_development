@@ -26,7 +26,8 @@ namespace APSRU.Model.Howwet
                 errString = "reading file";
                 outputData.ReadFromFile(fileName);
                 output = outputData.Data;
-                output.Columns.Add("SoilWaterLayers" ,typeof(ArrayList)); //add new column to datatable
+                //add new column to datatable
+                output.Columns.Add("SoilWaterLayers" ,typeof(ArrayList)); 
                 
                 //how many soilwater layers are there
                 int numLayers=0;
@@ -38,7 +39,7 @@ namespace APSRU.Model.Howwet
                         numLayers++;
                         }
                     }
-                                
+                //re arrange soilwater columns in to a single column of arraylist                
                 foreach (DataRow row in output.Rows)
                     {
                     ArrayList soilWaterLayersTmp =new ArrayList();
@@ -48,7 +49,24 @@ namespace APSRU.Model.Howwet
                         }
                     row["SoilWaterLayers"] = soilWaterLayersTmp;
                     }
-                            
+                
+                //add two new columns to datatable for 
+                output.Columns.Add("SoilLossCum", typeof(double));
+                output.Columns.Add("RunoffCum", typeof(double));
+                double runoffCum = 0;
+                double soilLossCum = 0;
+
+                foreach (DataRow row in output.Rows)
+                    {
+                    runoffCum = runoffCum + Convert.ToDouble(row["Runoff"]);
+                    row["RunoffCum"] = runoffCum;
+                    soilLossCum = soilLossCum + Convert.ToDouble(row["SoilLoss"]);
+                    row["SoilLossCum"] = soilLossCum;
+                    }
+
+                //convert soilwater on the top layer to mm of water
+
+
                 errString = "summing the fields";
                 foreach (DataRow row in output.Rows)
                     {

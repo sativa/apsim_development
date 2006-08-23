@@ -38,6 +38,7 @@ namespace APSRU.Translator.Howwet
         {
         String version;
         bool debug;
+        bool trainingMode;
         String templateFileName;
         String defaultSoilFileName;
         ArrayList cropList;
@@ -58,6 +59,9 @@ namespace APSRU.Translator.Howwet
                 //debug
                 this.debug = false;
                 if (element.SelectSingleNode("/howwet/debug").InnerText == "true") this.debug = true;
+                //training Mode
+                this.trainingMode = false;
+                if (element.SelectSingleNode("/howwet/training_mode").InnerText == "true") this.trainingMode = true;
                 //Template file
                 this.TemplateFileName = element.SelectSingleNode("/howwet/template_name").InnerText;
                 //Default soil file
@@ -95,6 +99,11 @@ namespace APSRU.Translator.Howwet
             {
             set { debug = value; }
             get { return debug; }
+            }
+        public bool TrainingMode
+            {
+            set { trainingMode = value; }
+            get { return trainingMode; }
             }
         public String TemplateFileName
             {

@@ -29,6 +29,7 @@ namespace APSRU.Howwet
         private void InitializeComponent()
         {
         this.components = new System.ComponentModel.Container();
+        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
         this.showAPSIMFileButton = new System.Windows.Forms.Button();
         this.groupBox1 = new System.Windows.Forms.GroupBox();
         this.erosionButton = new System.Windows.Forms.Button();
@@ -65,16 +66,16 @@ namespace APSRU.Howwet
         this.label23 = new System.Windows.Forms.Label();
         this.proposedCropList = new System.Windows.Forms.ComboBox();
         this.groupBox9 = new System.Windows.Forms.GroupBox();
+        this.ErosionChart = new Steema.TeeChart.TChart();
+        this.ErosionRunoffCumLine = new Steema.TeeChart.Styles.Line();
+        this.ErosionSoilLossCumLine = new Steema.TeeChart.Styles.Line();
         this.textBox1 = new System.Windows.Forms.TextBox();
         this.speedBar = new System.Windows.Forms.TrackBar();
         this.LTRainfallChart = new Steema.TeeChart.TChart();
         this.LTRainfallBar = new Steema.TeeChart.Styles.Bar();
         this.LTAvRainfallLine = new Steema.TeeChart.Styles.Line();
-        this.ErosionChart = new Steema.TeeChart.TChart();
-        this.ErosionSoilLossBar = new Steema.TeeChart.Styles.Bar();
-        this.EroisionRunoffBar = new Steema.TeeChart.Styles.Bar();
         this.RainfallSWChart = new Steema.TeeChart.TChart();
-        this.PAWCLine = new Steema.TeeChart.Styles.Line();
+        this.SWLine = new Steema.TeeChart.Styles.Line();
         this.RainfallBar = new Steema.TeeChart.Styles.Bar();
         this.RunoffBar = new Steema.TeeChart.Styles.Bar();
         this.SoilNitrogenChart = new Steema.TeeChart.TChart();
@@ -89,6 +90,24 @@ namespace APSRU.Howwet
         this.chart4 = new System.Windows.Forms.TabPage();
         this.button1 = new System.Windows.Forms.Button();
         this.groupBox5 = new System.Windows.Forms.GroupBox();
+        this.label60 = new System.Windows.Forms.Label();
+        this.label59 = new System.Windows.Forms.Label();
+        this.label58 = new System.Windows.Forms.Label();
+        this.label56 = new System.Windows.Forms.Label();
+        this.label50 = new System.Windows.Forms.Label();
+        this.label45 = new System.Windows.Forms.Label();
+        this.label24 = new System.Windows.Forms.Label();
+        this.label22 = new System.Windows.Forms.Label();
+        this.label16 = new System.Windows.Forms.Label();
+        this.label15 = new System.Windows.Forms.Label();
+        this.textBox4 = new System.Windows.Forms.TextBox();
+        this.label11 = new System.Windows.Forms.Label();
+        this.label10 = new System.Windows.Forms.Label();
+        this.textBox3 = new System.Windows.Forms.TextBox();
+        this.label7 = new System.Windows.Forms.Label();
+        this.textBox2 = new System.Windows.Forms.TextBox();
+        this.label8 = new System.Windows.Forms.Label();
+        this.label6 = new System.Windows.Forms.Label();
         this.label43 = new System.Windows.Forms.Label();
         this.drainage = new System.Windows.Forms.Label();
         this.label2 = new System.Windows.Forms.Label();
@@ -153,29 +172,11 @@ namespace APSRU.Howwet
         this.browseMetButton = new System.Windows.Forms.ToolStripButton();
         this.editRainfallButton = new System.Windows.Forms.ToolStripButton();
         this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+        this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
         this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
         this.statusStrip1 = new System.Windows.Forms.StatusStrip();
         this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
         this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-        this.dockLayoutManager1 = new Xceed.DockingWindows.DockLayoutManager();
-        this.label6 = new System.Windows.Forms.Label();
-        this.label8 = new System.Windows.Forms.Label();
-        this.textBox2 = new System.Windows.Forms.TextBox();
-        this.label7 = new System.Windows.Forms.Label();
-        this.textBox3 = new System.Windows.Forms.TextBox();
-        this.label10 = new System.Windows.Forms.Label();
-        this.label11 = new System.Windows.Forms.Label();
-        this.textBox4 = new System.Windows.Forms.TextBox();
-        this.label15 = new System.Windows.Forms.Label();
-        this.label16 = new System.Windows.Forms.Label();
-        this.label22 = new System.Windows.Forms.Label();
-        this.label24 = new System.Windows.Forms.Label();
-        this.label45 = new System.Windows.Forms.Label();
-        this.label50 = new System.Windows.Forms.Label();
-        this.label56 = new System.Windows.Forms.Label();
-        this.label58 = new System.Windows.Forms.Label();
-        this.label59 = new System.Windows.Forms.Label();
-        this.label60 = new System.Windows.Forms.Label();
         this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
         this.timerProgresBar = new System.Windows.Forms.Timer(this.components);
         this.groupBox1.SuspendLayout();
@@ -189,7 +190,6 @@ namespace APSRU.Howwet
         this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
         this.toolStripContainer1.SuspendLayout();
         this.statusStrip1.SuspendLayout();
-        ((System.ComponentModel.ISupportInitialize)(this.dockLayoutManager1)).BeginInit();
         this.SuspendLayout();
         // 
         // showAPSIMFileButton
@@ -264,7 +264,7 @@ namespace APSRU.Howwet
         // label36
         // 
         this.label36.AutoSize = true;
-        this.label36.Location = new System.Drawing.Point(3, 142);
+        this.label36.Location = new System.Drawing.Point(3, 135);
         this.label36.Name = "label36";
         this.label36.Size = new System.Drawing.Size(35, 13);
         this.label36.TabIndex = 52;
@@ -273,7 +273,7 @@ namespace APSRU.Howwet
         // label5
         // 
         this.label5.AutoSize = true;
-        this.label5.Location = new System.Drawing.Point(66, 199);
+        this.label5.Location = new System.Drawing.Point(66, 190);
         this.label5.Name = "label5";
         this.label5.Size = new System.Drawing.Size(55, 13);
         this.label5.TabIndex = 22;
@@ -281,7 +281,7 @@ namespace APSRU.Howwet
         // 
         // StartDatePicker
         // 
-        this.StartDatePicker.Location = new System.Drawing.Point(121, 169);
+        this.StartDatePicker.Location = new System.Drawing.Point(121, 160);
         this.StartDatePicker.Name = "StartDatePicker";
         this.StartDatePicker.Size = new System.Drawing.Size(209, 20);
         this.StartDatePicker.TabIndex = 19;
@@ -289,7 +289,7 @@ namespace APSRU.Howwet
         // 
         // EndDatePicker
         // 
-        this.EndDatePicker.Location = new System.Drawing.Point(122, 195);
+        this.EndDatePicker.Location = new System.Drawing.Point(121, 186);
         this.EndDatePicker.Name = "EndDatePicker";
         this.EndDatePicker.Size = new System.Drawing.Size(208, 20);
         this.EndDatePicker.TabIndex = 20;
@@ -298,7 +298,7 @@ namespace APSRU.Howwet
         // label4
         // 
         this.label4.AutoSize = true;
-        this.label4.Location = new System.Drawing.Point(63, 173);
+        this.label4.Location = new System.Drawing.Point(62, 164);
         this.label4.Name = "label4";
         this.label4.Size = new System.Drawing.Size(58, 13);
         this.label4.TabIndex = 21;
@@ -307,7 +307,7 @@ namespace APSRU.Howwet
         // label12
         // 
         this.label12.AutoSize = true;
-        this.label12.Location = new System.Drawing.Point(188, 142);
+        this.label12.Location = new System.Drawing.Point(189, 135);
         this.label12.Name = "label12";
         this.label12.Size = new System.Drawing.Size(34, 13);
         this.label12.TabIndex = 0;
@@ -316,7 +316,7 @@ namespace APSRU.Howwet
         // coverCropList
         // 
         this.coverCropList.FormattingEnabled = true;
-        this.coverCropList.Location = new System.Drawing.Point(224, 139);
+        this.coverCropList.Location = new System.Drawing.Point(224, 132);
         this.coverCropList.Name = "coverCropList";
         this.coverCropList.Size = new System.Drawing.Size(106, 21);
         this.coverCropList.TabIndex = 1;
@@ -325,7 +325,7 @@ namespace APSRU.Howwet
         // label9
         // 
         this.label9.AutoSize = true;
-        this.label9.Location = new System.Drawing.Point(23, 93);
+        this.label9.Location = new System.Drawing.Point(23, 84);
         this.label9.Name = "label9";
         this.label9.Size = new System.Drawing.Size(97, 13);
         this.label9.TabIndex = 1;
@@ -342,7 +342,7 @@ namespace APSRU.Howwet
         // 
         // coverPercent
         // 
-        this.coverPercent.Location = new System.Drawing.Point(121, 140);
+        this.coverPercent.Location = new System.Drawing.Point(121, 133);
         this.coverPercent.Name = "coverPercent";
         this.coverPercent.Size = new System.Drawing.Size(45, 20);
         this.coverPercent.TabIndex = 31;
@@ -351,7 +351,7 @@ namespace APSRU.Howwet
         // label13
         // 
         this.label13.AutoSize = true;
-        this.label13.Location = new System.Drawing.Point(168, 93);
+        this.label13.Location = new System.Drawing.Point(168, 84);
         this.label13.Name = "label13";
         this.label13.Size = new System.Drawing.Size(36, 13);
         this.label13.TabIndex = 3;
@@ -360,7 +360,7 @@ namespace APSRU.Howwet
         // label1
         // 
         this.label1.AutoSize = true;
-        this.label1.Location = new System.Drawing.Point(44, 142);
+        this.label1.Location = new System.Drawing.Point(44, 135);
         this.label1.Name = "label1";
         this.label1.Size = new System.Drawing.Size(77, 13);
         this.label1.TabIndex = 30;
@@ -369,7 +369,7 @@ namespace APSRU.Howwet
         // label29
         // 
         this.label29.AutoSize = true;
-        this.label29.Location = new System.Drawing.Point(34, 115);
+        this.label29.Location = new System.Drawing.Point(35, 109);
         this.label29.Name = "label29";
         this.label29.Size = new System.Drawing.Size(86, 13);
         this.label29.TabIndex = 36;
@@ -377,7 +377,7 @@ namespace APSRU.Howwet
         // 
         // initialSoilWaterPercent
         // 
-        this.initialSoilWaterPercent.Location = new System.Drawing.Point(121, 113);
+        this.initialSoilWaterPercent.Location = new System.Drawing.Point(122, 107);
         this.initialSoilWaterPercent.Name = "initialSoilWaterPercent";
         this.initialSoilWaterPercent.Size = new System.Drawing.Size(45, 20);
         this.initialSoilWaterPercent.TabIndex = 38;
@@ -385,7 +385,7 @@ namespace APSRU.Howwet
         // 
         // initialSoilNitrogen
         // 
-        this.initialSoilNitrogen.Location = new System.Drawing.Point(121, 89);
+        this.initialSoilNitrogen.Location = new System.Drawing.Point(121, 81);
         this.initialSoilNitrogen.Name = "initialSoilNitrogen";
         this.initialSoilNitrogen.Size = new System.Drawing.Size(45, 20);
         this.initialSoilNitrogen.TabIndex = 0;
@@ -403,7 +403,7 @@ namespace APSRU.Howwet
         // label26
         // 
         this.label26.AutoSize = true;
-        this.label26.Location = new System.Drawing.Point(188, 117);
+        this.label26.Location = new System.Drawing.Point(189, 113);
         this.label26.Name = "label26";
         this.label26.Size = new System.Drawing.Size(16, 13);
         this.label26.TabIndex = 44;
@@ -411,7 +411,7 @@ namespace APSRU.Howwet
         // 
         // initialWaterCapacity
         // 
-        this.initialWaterCapacity.Location = new System.Drawing.Point(224, 114);
+        this.initialWaterCapacity.Location = new System.Drawing.Point(224, 106);
         this.initialWaterCapacity.Name = "initialWaterCapacity";
         this.initialWaterCapacity.Size = new System.Drawing.Size(38, 20);
         this.initialWaterCapacity.TabIndex = 37;
@@ -437,7 +437,7 @@ namespace APSRU.Howwet
         // 
         // waterCapacity
         // 
-        this.waterCapacity.Location = new System.Drawing.Point(121, 62);
+        this.waterCapacity.Location = new System.Drawing.Point(121, 58);
         this.waterCapacity.Name = "waterCapacity";
         this.waterCapacity.Size = new System.Drawing.Size(45, 20);
         this.waterCapacity.TabIndex = 31;
@@ -446,7 +446,7 @@ namespace APSRU.Howwet
         // label19
         // 
         this.label19.AutoSize = true;
-        this.label19.Location = new System.Drawing.Point(12, 64);
+        this.label19.Location = new System.Drawing.Point(11, 61);
         this.label19.Name = "label19";
         this.label19.Size = new System.Drawing.Size(109, 13);
         this.label19.TabIndex = 7;
@@ -532,10 +532,10 @@ namespace APSRU.Howwet
         // 
         // groupBox9
         // 
+        this.groupBox9.Controls.Add(this.ErosionChart);
         this.groupBox9.Controls.Add(this.textBox1);
         this.groupBox9.Controls.Add(this.speedBar);
         this.groupBox9.Controls.Add(this.LTRainfallChart);
-        this.groupBox9.Controls.Add(this.ErosionChart);
         this.groupBox9.Controls.Add(this.RainfallSWChart);
         this.groupBox9.Controls.Add(this.SoilNitrogenChart);
         this.groupBox9.Controls.Add(this.tabControl1);
@@ -545,6 +545,548 @@ namespace APSRU.Howwet
         this.groupBox9.TabIndex = 34;
         this.groupBox9.TabStop = false;
         this.groupBox9.Text = "Output Charts";
+        // 
+        // ErosionChart
+        // 
+        // 
+        // 
+        // 
+        this.ErosionChart.Aspect.ElevationFloat = 345;
+        this.ErosionChart.Aspect.RotationFloat = 345;
+        this.ErosionChart.Aspect.View3D = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Bottom.AutomaticMaximum = false;
+        this.ErosionChart.Axes.Bottom.AutomaticMinimum = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Bottom.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.ErosionChart.Axes.Bottom.Grid.Visible = false;
+        this.ErosionChart.Axes.Bottom.Grid.ZPosition = 0;
+        this.ErosionChart.Axes.Bottom.Increment = 30;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Bottom.Labels.DateTimeFormat = "MMM";
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Bottom.Labels.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Bottom.Labels.Shadow.Visible = false;
+        this.ErosionChart.Axes.Bottom.Maximum = 24;
+        this.ErosionChart.Axes.Bottom.Minimum = 0;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Bottom.Ticks.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Bottom.Title.Caption = "Date";
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Bottom.Title.Font.Shadow.Visible = false;
+        this.ErosionChart.Axes.Bottom.Title.Lines = new string[] {
+        "Date"};
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Bottom.Title.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Depth.Automatic = true;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Depth.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.ErosionChart.Axes.Depth.Grid.ZPosition = 0;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Depth.Labels.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Depth.Labels.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Depth.Title.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Depth.Title.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.DepthTop.Automatic = true;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.DepthTop.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.ErosionChart.Axes.DepthTop.Grid.ZPosition = 0;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.DepthTop.Labels.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.DepthTop.Labels.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.DepthTop.Title.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.DepthTop.Title.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Left.AutomaticMaximum = false;
+        this.ErosionChart.Axes.Left.AutomaticMinimum = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Left.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.ErosionChart.Axes.Left.Grid.Visible = false;
+        this.ErosionChart.Axes.Left.Grid.ZPosition = 0;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Left.Labels.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Left.Labels.Shadow.Visible = false;
+        this.ErosionChart.Axes.Left.Maximum = 303;
+        this.ErosionChart.Axes.Left.Minimum = 11;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Left.Ticks.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Left.Title.Caption = "Soil Loss (t/ha)";
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Left.Title.Font.Shadow.Visible = false;
+        this.ErosionChart.Axes.Left.Title.Lines = new string[] {
+        "Soil Loss (t/ha)"};
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Left.Title.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Right.AutomaticMaximum = false;
+        this.ErosionChart.Axes.Right.AutomaticMinimum = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Right.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.ErosionChart.Axes.Right.Grid.Visible = false;
+        this.ErosionChart.Axes.Right.Grid.ZPosition = 0;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Right.Labels.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Right.Labels.Shadow.Visible = false;
+        this.ErosionChart.Axes.Right.Maximum = 868;
+        this.ErosionChart.Axes.Right.Minimum = 750;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Right.Ticks.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Right.Title.Caption = "Runoff (mm)";
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Right.Title.Font.Shadow.Visible = false;
+        this.ErosionChart.Axes.Right.Title.Lines = new string[] {
+        "Runoff (mm)"};
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Right.Title.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Top.Automatic = true;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Top.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.ErosionChart.Axes.Top.Grid.ZPosition = 0;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Top.Labels.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Top.Labels.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Top.Title.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Axes.Top.Title.Shadow.Visible = false;
+        this.ErosionChart.Axes.Top.Visible = false;
+        this.ErosionChart.BackColor = System.Drawing.Color.Transparent;
+        this.ErosionChart.Cursor = System.Windows.Forms.Cursors.Default;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionChart.Footer.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Footer.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionChart.Header.Font.Shadow.Visible = false;
+        this.ErosionChart.Header.Lines = new string[] {
+        ""};
+        // 
+        // 
+        // 
+        this.ErosionChart.Header.Shadow.Visible = false;
+        this.ErosionChart.Header.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Legend.Alignment = Steema.TeeChart.LegendAlignments.Top;
+        this.ErosionChart.Legend.Bottom = 33;
+        this.ErosionChart.Legend.CustomPosition = true;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionChart.Legend.Font.Shadow.Visible = false;
+        this.ErosionChart.Legend.Left = 502;
+        this.ErosionChart.Legend.ResizeChart = false;
+        this.ErosionChart.Legend.Right = 648;
+        // 
+        // 
+        // 
+        this.ErosionChart.Legend.Shadow.Visible = false;
+        this.ErosionChart.Legend.TextStyle = Steema.TeeChart.LegendTextStyles.Plain;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionChart.Legend.Title.Font.Bold = true;
+        // 
+        // 
+        // 
+        this.ErosionChart.Legend.Title.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Legend.Title.Pen.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Legend.Title.Shadow.Visible = false;
+        this.ErosionChart.Legend.Top = 16;
+        this.ErosionChart.Legend.Transparent = true;
+        this.ErosionChart.Legend.VertSpacing = 2;
+        this.ErosionChart.Location = new System.Drawing.Point(10, 44);
+        this.ErosionChart.Name = "ErosionChart";
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionChart.Panel.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+        // 
+        // 
+        // 
+        this.ErosionChart.Panel.ImageBevel.Width = 1;
+        this.ErosionChart.Panel.MarginBottom = 1;
+        this.ErosionChart.Panel.MarginLeft = 1;
+        this.ErosionChart.Panel.MarginRight = 1;
+        this.ErosionChart.Panel.MarginTop = 5;
+        // 
+        // 
+        // 
+        this.ErosionChart.Panel.Shadow.Visible = false;
+        this.ErosionChart.Series.Add(this.ErosionRunoffCumLine);
+        this.ErosionChart.Series.Add(this.ErosionSoilLossCumLine);
+        this.ErosionChart.Size = new System.Drawing.Size(982, 281);
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionChart.SubFooter.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.SubFooter.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionChart.SubHeader.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.SubHeader.Shadow.Visible = false;
+        this.ErosionChart.TabIndex = 44;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionChart.Walls.Back.AutoHide = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Walls.Back.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Walls.Bottom.AutoHide = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Walls.Bottom.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Walls.Left.AutoHide = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Walls.Left.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Walls.Right.AutoHide = false;
+        // 
+        // 
+        // 
+        this.ErosionChart.Walls.Right.Shadow.Visible = false;
+        this.ErosionChart.Walls.Visible = false;
+        // 
+        // ErosionRunoffCumLine
+        // 
+        // 
+        // 
+        // 
+        this.ErosionRunoffCumLine.Brush.Color = System.Drawing.Color.Red;
+        // 
+        // 
+        // 
+        this.ErosionRunoffCumLine.LinePen.Color = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionRunoffCumLine.Marks.Callout.ArrowHead = Steema.TeeChart.Styles.ArrowHeadStyles.None;
+        this.ErosionRunoffCumLine.Marks.Callout.ArrowHeadSize = 8;
+        // 
+        // 
+        // 
+        this.ErosionRunoffCumLine.Marks.Callout.Brush.Color = System.Drawing.Color.Black;
+        this.ErosionRunoffCumLine.Marks.Callout.Distance = 0;
+        this.ErosionRunoffCumLine.Marks.Callout.Draw3D = false;
+        this.ErosionRunoffCumLine.Marks.Callout.Length = 10;
+        this.ErosionRunoffCumLine.Marks.Callout.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionRunoffCumLine.Marks.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionRunoffCumLine.Pointer.Brush.Color = System.Drawing.Color.Red;
+        this.ErosionRunoffCumLine.Pointer.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
+        this.ErosionRunoffCumLine.Title = "Runoff";
+        this.ErosionRunoffCumLine.VertAxis = Steema.TeeChart.Styles.VerticalAxis.Right;
+        // 
+        // 
+        // 
+        this.ErosionRunoffCumLine.XValues.DataMember = "X";
+        this.ErosionRunoffCumLine.XValues.DateTime = true;
+        this.ErosionRunoffCumLine.XValues.Order = Steema.TeeChart.Styles.ValueListOrder.Ascending;
+        // 
+        // 
+        // 
+        this.ErosionRunoffCumLine.YValues.DataMember = "Y";
+        // 
+        // ErosionSoilLossCumLine
+        // 
+        // 
+        // 
+        // 
+        this.ErosionSoilLossCumLine.Brush.Color = System.Drawing.Color.Green;
+        // 
+        // 
+        // 
+        this.ErosionSoilLossCumLine.LinePen.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(77)))), ((int)(((byte)(0)))));
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionSoilLossCumLine.Marks.Callout.ArrowHead = Steema.TeeChart.Styles.ArrowHeadStyles.None;
+        this.ErosionSoilLossCumLine.Marks.Callout.ArrowHeadSize = 8;
+        // 
+        // 
+        // 
+        this.ErosionSoilLossCumLine.Marks.Callout.Brush.Color = System.Drawing.Color.Black;
+        this.ErosionSoilLossCumLine.Marks.Callout.Distance = 0;
+        this.ErosionSoilLossCumLine.Marks.Callout.Draw3D = false;
+        this.ErosionSoilLossCumLine.Marks.Callout.Length = 10;
+        this.ErosionSoilLossCumLine.Marks.Callout.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionSoilLossCumLine.Marks.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ErosionSoilLossCumLine.Pointer.Brush.Color = System.Drawing.Color.Green;
+        this.ErosionSoilLossCumLine.Pointer.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
+        this.ErosionSoilLossCumLine.Title = "Soil Loss";
+        // 
+        // 
+        // 
+        this.ErosionSoilLossCumLine.XValues.DataMember = "X";
+        this.ErosionSoilLossCumLine.XValues.DateTime = true;
+        this.ErosionSoilLossCumLine.XValues.Order = Steema.TeeChart.Styles.ValueListOrder.Ascending;
+        // 
+        // 
+        // 
+        this.ErosionSoilLossCumLine.YValues.DataMember = "Y";
         // 
         // textBox1
         // 
@@ -581,11 +1123,13 @@ namespace APSRU.Howwet
         // 
         // 
         this.LTRainfallChart.Axes.Bottom.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.LTRainfallChart.Axes.Bottom.Grid.Visible = false;
         this.LTRainfallChart.Axes.Bottom.Grid.ZPosition = 0;
         this.LTRainfallChart.Axes.Bottom.Increment = 30;
         // 
         // 
         // 
+        this.LTRainfallChart.Axes.Bottom.Labels.DateTimeFormat = "MMM";
         // 
         // 
         // 
@@ -699,6 +1243,7 @@ namespace APSRU.Howwet
         // 
         // 
         this.LTRainfallChart.Axes.Left.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.LTRainfallChart.Axes.Left.Grid.Visible = false;
         this.LTRainfallChart.Axes.Left.Grid.ZPosition = 0;
         // 
         // 
@@ -716,6 +1261,10 @@ namespace APSRU.Howwet
         this.LTRainfallChart.Axes.Left.Labels.Shadow.Visible = false;
         this.LTRainfallChart.Axes.Left.Maximum = 115;
         this.LTRainfallChart.Axes.Left.Minimum = 0;
+        // 
+        // 
+        // 
+        this.LTRainfallChart.Axes.Left.MinorTicks.Visible = false;
         // 
         // 
         // 
@@ -742,6 +1291,7 @@ namespace APSRU.Howwet
         // 
         // 
         this.LTRainfallChart.Axes.Right.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.LTRainfallChart.Axes.Right.Grid.Visible = false;
         this.LTRainfallChart.Axes.Right.Grid.ZPosition = 0;
         // 
         // 
@@ -849,8 +1399,11 @@ namespace APSRU.Howwet
         // 
         // 
         this.LTRainfallChart.Legend.Alignment = Steema.TeeChart.LegendAlignments.Top;
-        this.LTRainfallChart.Legend.Bottom = 32;
-        this.LTRainfallChart.Legend.CheckBoxes = true;
+        this.LTRainfallChart.Legend.Bottom = 25;
+        // 
+        // 
+        // 
+        this.LTRainfallChart.Legend.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
         this.LTRainfallChart.Legend.CustomPosition = true;
         // 
         // 
@@ -859,8 +1412,24 @@ namespace APSRU.Howwet
         // 
         // 
         this.LTRainfallChart.Legend.Font.Shadow.Visible = false;
-        this.LTRainfallChart.Legend.Left = 124;
-        this.LTRainfallChart.Legend.Right = 434;
+        this.LTRainfallChart.Legend.Left = 416;
+        // 
+        // 
+        // 
+        this.LTRainfallChart.Legend.Pen.Visible = false;
+        this.LTRainfallChart.Legend.Right = 720;
+        // 
+        // 
+        // 
+        this.LTRainfallChart.Legend.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.LTRainfallChart.Legend.Symbol.Pen.Visible = false;
+        this.LTRainfallChart.Legend.Symbol.Width = 35;
         // 
         // 
         // 
@@ -880,8 +1449,9 @@ namespace APSRU.Howwet
         // 
         // 
         this.LTRainfallChart.Legend.Title.Shadow.Visible = false;
-        this.LTRainfallChart.Legend.Top = 13;
-        this.LTRainfallChart.Location = new System.Drawing.Point(-9, 36);
+        this.LTRainfallChart.Legend.Top = 10;
+        this.LTRainfallChart.Legend.Transparent = true;
+        this.LTRainfallChart.Location = new System.Drawing.Point(6, 44);
         this.LTRainfallChart.Name = "LTRainfallChart";
         // 
         // 
@@ -890,6 +1460,10 @@ namespace APSRU.Howwet
         // 
         // 
         this.LTRainfallChart.Panel.ImageBevel.Width = 1;
+        this.LTRainfallChart.Panel.MarginBottom = 1;
+        this.LTRainfallChart.Panel.MarginLeft = 1;
+        this.LTRainfallChart.Panel.MarginRight = 1;
+        this.LTRainfallChart.Panel.MarginTop = 1;
         // 
         // 
         // 
@@ -961,6 +1535,7 @@ namespace APSRU.Howwet
         // 
         // 
         this.LTRainfallChart.Walls.Right.Shadow.Visible = false;
+        this.LTRainfallChart.Walls.Visible = false;
         // 
         // LTRainfallBar
         // 
@@ -1001,6 +1576,7 @@ namespace APSRU.Howwet
         // 
         // 
         this.LTRainfallBar.XValues.DataMember = "X";
+        this.LTRainfallBar.XValues.DateTime = true;
         this.LTRainfallBar.XValues.Order = Steema.TeeChart.Styles.ValueListOrder.Ascending;
         // 
         // 
@@ -1054,506 +1630,12 @@ namespace APSRU.Howwet
         // 
         // 
         this.LTAvRainfallLine.XValues.DataMember = "X";
+        this.LTAvRainfallLine.XValues.DateTime = true;
         this.LTAvRainfallLine.XValues.Order = Steema.TeeChart.Styles.ValueListOrder.Ascending;
         // 
         // 
         // 
         this.LTAvRainfallLine.YValues.DataMember = "Y";
-        // 
-        // ErosionChart
-        // 
-        // 
-        // 
-        // 
-        this.ErosionChart.Aspect.ElevationFloat = 345;
-        this.ErosionChart.Aspect.RotationFloat = 345;
-        this.ErosionChart.Aspect.View3D = false;
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Bottom.AutomaticMaximum = false;
-        this.ErosionChart.Axes.Bottom.AutomaticMinimum = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Bottom.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
-        this.ErosionChart.Axes.Bottom.Grid.ZPosition = 0;
-        this.ErosionChart.Axes.Bottom.Increment = 30;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Bottom.Labels.DateTimeFormat = "d/MM/yyyy";
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Bottom.Labels.Font.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Bottom.Labels.Shadow.Visible = false;
-        this.ErosionChart.Axes.Bottom.Maximum = 38949.335904305553;
-        this.ErosionChart.Axes.Bottom.Minimum = 38944.335904305553;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Bottom.Title.Caption = "Date";
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Bottom.Title.Font.Shadow.Visible = false;
-        this.ErosionChart.Axes.Bottom.Title.Lines = new string[] {
-        "Date"};
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Bottom.Title.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Depth.Automatic = true;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Depth.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
-        this.ErosionChart.Axes.Depth.Grid.ZPosition = 0;
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Depth.Labels.Font.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Depth.Labels.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Depth.Title.Font.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Depth.Title.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.DepthTop.Automatic = true;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.DepthTop.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
-        this.ErosionChart.Axes.DepthTop.Grid.ZPosition = 0;
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.DepthTop.Labels.Font.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.DepthTop.Labels.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.DepthTop.Title.Font.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.DepthTop.Title.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Left.AutomaticMaximum = false;
-        this.ErosionChart.Axes.Left.AutomaticMinimum = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Left.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
-        this.ErosionChart.Axes.Left.Grid.ZPosition = 0;
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Left.Labels.Font.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Left.Labels.Shadow.Visible = false;
-        this.ErosionChart.Axes.Left.Maximum = 540;
-        this.ErosionChart.Axes.Left.Minimum = 0;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Left.Title.Caption = "Soil Loss (t/ha)";
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Left.Title.Font.Shadow.Visible = false;
-        this.ErosionChart.Axes.Left.Title.Lines = new string[] {
-        "Soil Loss (t/ha)"};
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Left.Title.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Right.AutomaticMaximum = false;
-        this.ErosionChart.Axes.Right.AutomaticMinimum = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Right.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
-        this.ErosionChart.Axes.Right.Grid.ZPosition = 0;
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Right.Labels.Font.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Right.Labels.Shadow.Visible = false;
-        this.ErosionChart.Axes.Right.Maximum = 512;
-        this.ErosionChart.Axes.Right.Minimum = 0;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Right.Title.Caption = "Runoff (mm)";
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Right.Title.Font.Shadow.Visible = false;
-        this.ErosionChart.Axes.Right.Title.Lines = new string[] {
-        "Runoff (mm)"};
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Right.Title.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Top.Automatic = true;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Top.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
-        this.ErosionChart.Axes.Top.Grid.ZPosition = 0;
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Top.Labels.Font.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Top.Labels.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Top.Title.Font.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Axes.Top.Title.Shadow.Visible = false;
-        this.ErosionChart.Cursor = System.Windows.Forms.Cursors.Default;
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.ErosionChart.Footer.Font.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Footer.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.ErosionChart.Header.Font.Shadow.Visible = false;
-        this.ErosionChart.Header.Lines = new string[] {
-        ""};
-        // 
-        // 
-        // 
-        this.ErosionChart.Header.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Legend.Alignment = Steema.TeeChart.LegendAlignments.Top;
-        this.ErosionChart.Legend.Bottom = 33;
-        this.ErosionChart.Legend.CheckBoxes = true;
-        this.ErosionChart.Legend.CustomPosition = true;
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.ErosionChart.Legend.Font.Shadow.Visible = false;
-        this.ErosionChart.Legend.Left = 167;
-        this.ErosionChart.Legend.Right = 343;
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.ErosionChart.Legend.Title.Font.Bold = true;
-        // 
-        // 
-        // 
-        this.ErosionChart.Legend.Title.Font.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Legend.Title.Pen.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Legend.Title.Shadow.Visible = false;
-        this.ErosionChart.Legend.Top = 14;
-        this.ErosionChart.Location = new System.Drawing.Point(6, 36);
-        this.ErosionChart.Name = "ErosionChart";
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.ErosionChart.Panel.ImageBevel.Width = 1;
-        // 
-        // 
-        // 
-        this.ErosionChart.Panel.Shadow.Visible = false;
-        this.ErosionChart.Series.Add(this.ErosionSoilLossBar);
-        this.ErosionChart.Series.Add(this.EroisionRunoffBar);
-        this.ErosionChart.Size = new System.Drawing.Size(983, 287);
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.ErosionChart.SubFooter.Font.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.SubFooter.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.ErosionChart.SubHeader.Font.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.SubHeader.Shadow.Visible = false;
-        this.ErosionChart.TabIndex = 28;
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.ErosionChart.Walls.Back.AutoHide = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Walls.Back.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Walls.Bottom.AutoHide = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Walls.Bottom.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Walls.Left.AutoHide = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Walls.Left.Shadow.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Walls.Right.AutoHide = false;
-        // 
-        // 
-        // 
-        this.ErosionChart.Walls.Right.Shadow.Visible = false;
-        // 
-        // ErosionSoilLossBar
-        // 
-        // 
-        // 
-        // 
-        this.ErosionSoilLossBar.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.ErosionSoilLossBar.Marks.Callout.ArrowHead = Steema.TeeChart.Styles.ArrowHeadStyles.None;
-        this.ErosionSoilLossBar.Marks.Callout.ArrowHeadSize = 8;
-        // 
-        // 
-        // 
-        this.ErosionSoilLossBar.Marks.Callout.Brush.Color = System.Drawing.Color.Black;
-        this.ErosionSoilLossBar.Marks.Callout.Distance = 0;
-        this.ErosionSoilLossBar.Marks.Callout.Draw3D = false;
-        this.ErosionSoilLossBar.Marks.Callout.Length = 20;
-        this.ErosionSoilLossBar.Marks.Callout.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.ErosionSoilLossBar.Marks.Font.Shadow.Visible = false;
-        this.ErosionSoilLossBar.Marks.Visible = false;
-        // 
-        // 
-        // 
-        this.ErosionSoilLossBar.Pen.Color = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-        this.ErosionSoilLossBar.Title = "Runoff";
-        this.ErosionSoilLossBar.VertAxis = Steema.TeeChart.Styles.VerticalAxis.Right;
-        // 
-        // 
-        // 
-        this.ErosionSoilLossBar.XValues.DataMember = "X";
-        this.ErosionSoilLossBar.XValues.DateTime = true;
-        this.ErosionSoilLossBar.XValues.Order = Steema.TeeChart.Styles.ValueListOrder.Ascending;
-        // 
-        // 
-        // 
-        this.ErosionSoilLossBar.YValues.DataMember = "Bar";
-        // 
-        // EroisionRunoffBar
-        // 
-        // 
-        // 
-        // 
-        this.EroisionRunoffBar.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.EroisionRunoffBar.Marks.Callout.ArrowHead = Steema.TeeChart.Styles.ArrowHeadStyles.None;
-        this.EroisionRunoffBar.Marks.Callout.ArrowHeadSize = 8;
-        // 
-        // 
-        // 
-        this.EroisionRunoffBar.Marks.Callout.Brush.Color = System.Drawing.Color.Black;
-        this.EroisionRunoffBar.Marks.Callout.Distance = 0;
-        this.EroisionRunoffBar.Marks.Callout.Draw3D = false;
-        this.EroisionRunoffBar.Marks.Callout.Length = 20;
-        this.EroisionRunoffBar.Marks.Callout.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
-        // 
-        // 
-        // 
-        // 
-        // 
-        // 
-        this.EroisionRunoffBar.Marks.Font.Shadow.Visible = false;
-        this.EroisionRunoffBar.Marks.Style = Steema.TeeChart.Styles.MarksStyles.LabelPercent;
-        this.EroisionRunoffBar.Marks.Visible = false;
-        // 
-        // 
-        // 
-        this.EroisionRunoffBar.Pen.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(77)))), ((int)(((byte)(0)))));
-        this.EroisionRunoffBar.Title = "SoilLoss";
-        // 
-        // 
-        // 
-        this.EroisionRunoffBar.XValues.DataMember = "X";
-        this.EroisionRunoffBar.XValues.DateTime = true;
-        this.EroisionRunoffBar.XValues.Order = Steema.TeeChart.Styles.ValueListOrder.Ascending;
-        // 
-        // 
-        // 
-        this.EroisionRunoffBar.YValues.DataMember = "Bar";
         // 
         // RainfallSWChart
         // 
@@ -1574,10 +1656,6 @@ namespace APSRU.Howwet
         // 
         // 
         // 
-        this.RainfallSWChart.Axes.Bottom.AxisPen.Visible = false;
-        // 
-        // 
-        // 
         this.RainfallSWChart.Axes.Bottom.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
         this.RainfallSWChart.Axes.Bottom.Grid.Visible = false;
         this.RainfallSWChart.Axes.Bottom.Grid.ZPosition = 0;
@@ -1585,6 +1663,7 @@ namespace APSRU.Howwet
         // 
         // 
         // 
+        this.RainfallSWChart.Axes.Bottom.Labels.DateTimeFormat = "MMM";
         // 
         // 
         // 
@@ -1592,6 +1671,8 @@ namespace APSRU.Howwet
         // 
         // 
         this.RainfallSWChart.Axes.Bottom.Labels.Font.Shadow.Visible = false;
+        this.RainfallSWChart.Axes.Bottom.Labels.OnAxis = false;
+        this.RainfallSWChart.Axes.Bottom.Labels.RoundFirstLabel = false;
         // 
         // 
         // 
@@ -1701,6 +1782,7 @@ namespace APSRU.Howwet
         // 
         // 
         this.RainfallSWChart.Axes.Left.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.RainfallSWChart.Axes.Left.Grid.Visible = false;
         this.RainfallSWChart.Axes.Left.Grid.ZPosition = 0;
         // 
         // 
@@ -1743,6 +1825,7 @@ namespace APSRU.Howwet
         // 
         // 
         this.RainfallSWChart.Axes.Right.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.RainfallSWChart.Axes.Right.Grid.Visible = false;
         this.RainfallSWChart.Axes.Right.Grid.ZPosition = 0;
         // 
         // 
@@ -1762,7 +1845,7 @@ namespace APSRU.Howwet
         // 
         // 
         // 
-        this.RainfallSWChart.Axes.Right.Title.Caption = "PAWC (mm)";
+        this.RainfallSWChart.Axes.Right.Title.Caption = "Soil Water (mm)";
         // 
         // 
         // 
@@ -1771,7 +1854,7 @@ namespace APSRU.Howwet
         // 
         this.RainfallSWChart.Axes.Right.Title.Font.Shadow.Visible = false;
         this.RainfallSWChart.Axes.Right.Title.Lines = new string[] {
-        "PAWC (mm)"};
+        "Soil Water (mm)"};
         // 
         // 
         // 
@@ -1855,7 +1938,7 @@ namespace APSRU.Howwet
         // 
         // 
         this.RainfallSWChart.Legend.Alignment = Steema.TeeChart.LegendAlignments.Top;
-        this.RainfallSWChart.Legend.Bottom = 21;
+        this.RainfallSWChart.Legend.Bottom = 31;
         this.RainfallSWChart.Legend.CustomPosition = true;
         // 
         // 
@@ -1864,8 +1947,16 @@ namespace APSRU.Howwet
         // 
         // 
         this.RainfallSWChart.Legend.Font.Shadow.Visible = false;
-        this.RainfallSWChart.Legend.Left = 156;
-        this.RainfallSWChart.Legend.Right = 342;
+        this.RainfallSWChart.Legend.Left = 391;
+        this.RainfallSWChart.Legend.Right = 697;
+        // 
+        // 
+        // 
+        this.RainfallSWChart.Legend.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.RainfallSWChart.Legend.Symbol.Width = 60;
         this.RainfallSWChart.Legend.TextStyle = Steema.TeeChart.LegendTextStyles.Plain;
         // 
         // 
@@ -1892,8 +1983,9 @@ namespace APSRU.Howwet
         // 
         // 
         this.RainfallSWChart.Legend.Title.Shadow.Visible = false;
-        this.RainfallSWChart.Legend.Top = 6;
-        this.RainfallSWChart.Location = new System.Drawing.Point(6, 36);
+        this.RainfallSWChart.Legend.Top = 16;
+        this.RainfallSWChart.Legend.Transparent = true;
+        this.RainfallSWChart.Location = new System.Drawing.Point(6, 44);
         this.RainfallSWChart.Name = "RainfallSWChart";
         // 
         // 
@@ -1902,11 +1994,15 @@ namespace APSRU.Howwet
         // 
         // 
         this.RainfallSWChart.Panel.ImageBevel.Width = 1;
+        this.RainfallSWChart.Panel.MarginBottom = 0;
+        this.RainfallSWChart.Panel.MarginLeft = 1;
+        this.RainfallSWChart.Panel.MarginRight = 1;
+        this.RainfallSWChart.Panel.MarginTop = 0;
         // 
         // 
         // 
         this.RainfallSWChart.Panel.Shadow.Visible = false;
-        this.RainfallSWChart.Series.Add(this.PAWCLine);
+        this.RainfallSWChart.Series.Add(this.SWLine);
         this.RainfallSWChart.Series.Add(this.RainfallBar);
         this.RainfallSWChart.Series.Add(this.RunoffBar);
         this.RainfallSWChart.Size = new System.Drawing.Size(984, 287);
@@ -1974,60 +2070,61 @@ namespace APSRU.Howwet
         // 
         // 
         this.RainfallSWChart.Walls.Right.Shadow.Visible = false;
+        this.RainfallSWChart.Walls.Visible = false;
         // 
-        // PAWCLine
-        // 
-        // 
-        // 
-        // 
-        this.PAWCLine.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-        // 
-        // 
-        // 
-        this.PAWCLine.LinePen.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(153)))));
+        // SWLine
         // 
         // 
         // 
         // 
-        // 
-        // 
-        this.PAWCLine.Marks.Callout.ArrowHead = Steema.TeeChart.Styles.ArrowHeadStyles.None;
-        this.PAWCLine.Marks.Callout.ArrowHeadSize = 8;
+        this.SWLine.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
         // 
         // 
         // 
-        this.PAWCLine.Marks.Callout.Brush.Color = System.Drawing.Color.Black;
-        this.PAWCLine.Marks.Callout.Distance = 0;
-        this.PAWCLine.Marks.Callout.Draw3D = false;
-        this.PAWCLine.Marks.Callout.Length = 10;
-        this.PAWCLine.Marks.Callout.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
+        this.SWLine.LinePen.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(153)))));
         // 
         // 
         // 
         // 
         // 
         // 
-        this.PAWCLine.Marks.Font.Shadow.Visible = false;
+        this.SWLine.Marks.Callout.ArrowHead = Steema.TeeChart.Styles.ArrowHeadStyles.None;
+        this.SWLine.Marks.Callout.ArrowHeadSize = 8;
+        // 
+        // 
+        // 
+        this.SWLine.Marks.Callout.Brush.Color = System.Drawing.Color.Black;
+        this.SWLine.Marks.Callout.Distance = 0;
+        this.SWLine.Marks.Callout.Draw3D = false;
+        this.SWLine.Marks.Callout.Length = 10;
+        this.SWLine.Marks.Callout.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
         // 
         // 
         // 
         // 
         // 
         // 
-        this.PAWCLine.Pointer.Brush.Color = System.Drawing.Color.Red;
-        this.PAWCLine.Pointer.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
-        this.PAWCLine.Title = "PAWC";
-        this.PAWCLine.VertAxis = Steema.TeeChart.Styles.VerticalAxis.Right;
+        this.SWLine.Marks.Font.Shadow.Visible = false;
         // 
         // 
         // 
-        this.PAWCLine.XValues.DataMember = "X";
-        this.PAWCLine.XValues.DateTime = true;
-        this.PAWCLine.XValues.Order = Steema.TeeChart.Styles.ValueListOrder.Ascending;
         // 
         // 
         // 
-        this.PAWCLine.YValues.DataMember = "Y";
+        this.SWLine.Pointer.Brush.Color = System.Drawing.Color.Red;
+        this.SWLine.Pointer.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
+        this.SWLine.Title = "Soil Water";
+        this.SWLine.VertAxis = Steema.TeeChart.Styles.VerticalAxis.Right;
+        // 
+        // 
+        // 
+        this.SWLine.XValues.DataMember = "X";
+        this.SWLine.XValues.DateTime = true;
+        this.SWLine.XValues.Order = Steema.TeeChart.Styles.ValueListOrder.Ascending;
+        // 
+        // 
+        // 
+        this.SWLine.YValues.DataMember = "Y";
         // 
         // RainfallBar
         // 
@@ -2141,11 +2238,13 @@ namespace APSRU.Howwet
         // 
         // 
         this.SoilNitrogenChart.Axes.Bottom.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.SoilNitrogenChart.Axes.Bottom.Grid.Visible = false;
         this.SoilNitrogenChart.Axes.Bottom.Grid.ZPosition = 0;
         this.SoilNitrogenChart.Axes.Bottom.Increment = 30;
         // 
         // 
         // 
+        this.SoilNitrogenChart.Axes.Bottom.Labels.DateTimeFormat = "MMM";
         // 
         // 
         // 
@@ -2260,6 +2359,7 @@ namespace APSRU.Howwet
         // 
         // 
         this.SoilNitrogenChart.Axes.Left.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.SoilNitrogenChart.Axes.Left.Grid.Visible = false;
         this.SoilNitrogenChart.Axes.Left.Grid.ZPosition = 0;
         // 
         // 
@@ -2303,11 +2403,11 @@ namespace APSRU.Howwet
         // 
         // 
         this.SoilNitrogenChart.Axes.Right.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.SoilNitrogenChart.Axes.Right.Grid.Visible = false;
         this.SoilNitrogenChart.Axes.Right.Grid.ZPosition = 0;
         // 
         // 
         // 
-        this.SoilNitrogenChart.Axes.Right.Labels.CustomSize = 67;
         // 
         // 
         // 
@@ -2317,17 +2417,23 @@ namespace APSRU.Howwet
         this.SoilNitrogenChart.Axes.Right.Labels.Font.Shadow.Visible = false;
         this.SoilNitrogenChart.Axes.Right.Labels.OnAxis = false;
         this.SoilNitrogenChart.Axes.Right.Labels.RoundFirstLabel = false;
+        this.SoilNitrogenChart.Axes.Right.Labels.Separation = 11;
         // 
         // 
         // 
         this.SoilNitrogenChart.Axes.Right.Labels.Shadow.Visible = false;
         this.SoilNitrogenChart.Axes.Right.Maximum = 1108;
         this.SoilNitrogenChart.Axes.Right.Minimum = 853;
-        this.SoilNitrogenChart.Axes.Right.MinorTickCount = 2;
+        this.SoilNitrogenChart.Axes.Right.MinorTickCount = 0;
         // 
         // 
         // 
         this.SoilNitrogenChart.Axes.Right.MinorTicks.Length = 0;
+        this.SoilNitrogenChart.Axes.Right.TickOnLabelsOnly = false;
+        // 
+        // 
+        // 
+        this.SoilNitrogenChart.Axes.Right.Ticks.Length = 2;
         // 
         // 
         // 
@@ -2418,7 +2524,7 @@ namespace APSRU.Howwet
         // 
         // 
         this.SoilNitrogenChart.Legend.Alignment = Steema.TeeChart.LegendAlignments.Top;
-        this.SoilNitrogenChart.Legend.Bottom = 30;
+        this.SoilNitrogenChart.Legend.Bottom = 29;
         this.SoilNitrogenChart.Legend.CustomPosition = true;
         // 
         // 
@@ -2427,8 +2533,16 @@ namespace APSRU.Howwet
         // 
         // 
         this.SoilNitrogenChart.Legend.Font.Shadow.Visible = false;
-        this.SoilNitrogenChart.Legend.Left = 101;
-        this.SoilNitrogenChart.Legend.Right = 455;
+        this.SoilNitrogenChart.Legend.Left = 291;
+        this.SoilNitrogenChart.Legend.Right = 743;
+        // 
+        // 
+        // 
+        this.SoilNitrogenChart.Legend.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.SoilNitrogenChart.Legend.Symbol.Width = 50;
         // 
         // 
         // 
@@ -2449,7 +2563,8 @@ namespace APSRU.Howwet
         // 
         this.SoilNitrogenChart.Legend.Title.Shadow.Visible = false;
         this.SoilNitrogenChart.Legend.Top = 14;
-        this.SoilNitrogenChart.Location = new System.Drawing.Point(6, 36);
+        this.SoilNitrogenChart.Legend.Transparent = true;
+        this.SoilNitrogenChart.Location = new System.Drawing.Point(7, 41);
         this.SoilNitrogenChart.Name = "SoilNitrogenChart";
         // 
         // 
@@ -2458,6 +2573,10 @@ namespace APSRU.Howwet
         // 
         // 
         this.SoilNitrogenChart.Panel.ImageBevel.Width = 1;
+        this.SoilNitrogenChart.Panel.MarginBottom = 1;
+        this.SoilNitrogenChart.Panel.MarginLeft = 1;
+        this.SoilNitrogenChart.Panel.MarginRight = 9;
+        this.SoilNitrogenChart.Panel.MarginTop = 1;
         // 
         // 
         // 
@@ -2530,6 +2649,7 @@ namespace APSRU.Howwet
         // 
         // 
         this.SoilNitrogenChart.Walls.Right.Shadow.Visible = false;
+        this.SoilNitrogenChart.Walls.Visible = false;
         // 
         // axis1
         // 
@@ -2551,26 +2671,19 @@ namespace APSRU.Howwet
         // 
         // 
         this.axis1.Labels.Font.Shadow.Visible = false;
-        this.axis1.Labels.OnAxis = false;
-        this.axis1.Labels.RoundFirstLabel = false;
-        this.axis1.Labels.Separation = 12;
         // 
         // 
         // 
         this.axis1.Labels.Shadow.Visible = false;
-        this.axis1.Maximum = 858;
-        this.axis1.Minimum = 514;
+        this.axis1.Maximum = 1066;
+        this.axis1.Minimum = 221;
         this.axis1.OtherSide = true;
-        this.axis1.RelativePosition = -13;
-        // 
-        // 
-        // 
-        this.axis1.Ticks.Length = 3;
+        this.axis1.RelativePosition = -8;
         // 
         // 
         // 
         this.axis1.Title.Angle = 270;
-        this.axis1.Title.Caption = "Max. Temperture (C)";
+        this.axis1.Title.Caption = "Max Temperture";
         // 
         // 
         // 
@@ -2579,7 +2692,7 @@ namespace APSRU.Howwet
         // 
         this.axis1.Title.Font.Shadow.Visible = false;
         this.axis1.Title.Lines = new string[] {
-        "Max. Temperture (C)"};
+        "Max Temperture"};
         // 
         // 
         // 
@@ -2593,7 +2706,7 @@ namespace APSRU.Howwet
         // 
         this.MaxTemperatureLine.Brush.Color = System.Drawing.Color.Red;
         this.MaxTemperatureLine.CustomVertAxis = this.axis1;
-        this.MaxTemperatureLine.Depth = 0;
+        this.MaxTemperatureLine.Depth = 3;
         // 
         // 
         // 
@@ -2629,7 +2742,7 @@ namespace APSRU.Howwet
         // 
         this.MaxTemperatureLine.Pointer.Brush.Color = System.Drawing.Color.Red;
         this.MaxTemperatureLine.Pointer.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
-        this.MaxTemperatureLine.Title = "MaxTemperature";
+        this.MaxTemperatureLine.Title = "Max.Temperature";
         this.MaxTemperatureLine.VertAxis = Steema.TeeChart.Styles.VerticalAxis.Custom;
         // 
         // 
@@ -2648,6 +2761,7 @@ namespace APSRU.Howwet
         // 
         // 
         this.SurfaceMoistureLine.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+        this.SurfaceMoistureLine.Depth = 1;
         // 
         // 
         // 
@@ -2675,6 +2789,7 @@ namespace APSRU.Howwet
         // 
         // 
         this.SurfaceMoistureLine.Marks.Font.Shadow.Visible = false;
+        this.SurfaceMoistureLine.Marks.Style = Steema.TeeChart.Styles.MarksStyles.Value;
         // 
         // 
         // 
@@ -2683,7 +2798,7 @@ namespace APSRU.Howwet
         // 
         this.SurfaceMoistureLine.Pointer.Brush.Color = System.Drawing.Color.Green;
         this.SurfaceMoistureLine.Pointer.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
-        this.SurfaceMoistureLine.Title = "SurfaceMoisture";
+        this.SurfaceMoistureLine.Title = "Surface Moisture";
         this.SurfaceMoistureLine.VertAxis = Steema.TeeChart.Styles.VerticalAxis.Right;
         // 
         // 
@@ -2737,7 +2852,7 @@ namespace APSRU.Howwet
         // 
         this.NitrateLine.Pointer.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
         this.NitrateLine.Pointer.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
-        this.NitrateLine.Title = "SoilNitrate";
+        this.NitrateLine.Title = "Soil Nitrate";
         // 
         // 
         // 
@@ -2758,7 +2873,7 @@ namespace APSRU.Howwet
         this.tabControl1.Location = new System.Drawing.Point(6, 19);
         this.tabControl1.Name = "tabControl1";
         this.tabControl1.SelectedIndex = 0;
-        this.tabControl1.Size = new System.Drawing.Size(317, 25);
+        this.tabControl1.Size = new System.Drawing.Size(313, 22);
         this.tabControl1.TabIndex = 0;
         this.tabControl1.Click += new System.EventHandler(this.tabControl1_Click);
         // 
@@ -2766,7 +2881,7 @@ namespace APSRU.Howwet
         // 
         this.chart1.Location = new System.Drawing.Point(4, 22);
         this.chart1.Name = "chart1";
-        this.chart1.Size = new System.Drawing.Size(309, 0);
+        this.chart1.Size = new System.Drawing.Size(305, 0);
         this.chart1.TabIndex = 0;
         this.chart1.Text = "Rainfall Soil Water";
         // 
@@ -2774,7 +2889,7 @@ namespace APSRU.Howwet
         // 
         this.chart2.Location = new System.Drawing.Point(4, 22);
         this.chart2.Name = "chart2";
-        this.chart2.Size = new System.Drawing.Size(309, 0);
+        this.chart2.Size = new System.Drawing.Size(305, -4);
         this.chart2.TabIndex = 1;
         this.chart2.Text = "Soil Nitrogen";
         // 
@@ -2782,7 +2897,7 @@ namespace APSRU.Howwet
         // 
         this.chart3.Location = new System.Drawing.Point(4, 22);
         this.chart3.Name = "chart3";
-        this.chart3.Size = new System.Drawing.Size(309, 0);
+        this.chart3.Size = new System.Drawing.Size(305, -4);
         this.chart3.TabIndex = 2;
         this.chart3.Text = "Erosion Estimate";
         // 
@@ -2790,7 +2905,7 @@ namespace APSRU.Howwet
         // 
         this.chart4.Location = new System.Drawing.Point(4, 22);
         this.chart4.Name = "chart4";
-        this.chart4.Size = new System.Drawing.Size(309, 0);
+        this.chart4.Size = new System.Drawing.Size(305, -4);
         this.chart4.TabIndex = 3;
         this.chart4.Text = "Rainfall";
         // 
@@ -2873,6 +2988,162 @@ namespace APSRU.Howwet
         this.groupBox5.TabIndex = 32;
         this.groupBox5.TabStop = false;
         this.groupBox5.Text = "Output Results";
+        // 
+        // label60
+        // 
+        this.label60.AutoSize = true;
+        this.label60.Location = new System.Drawing.Point(474, 181);
+        this.label60.Name = "label60";
+        this.label60.Size = new System.Drawing.Size(36, 13);
+        this.label60.TabIndex = 101;
+        this.label60.Text = "kg/ha";
+        // 
+        // label59
+        // 
+        this.label59.AutoSize = true;
+        this.label59.Location = new System.Drawing.Point(438, 181);
+        this.label59.Name = "label59";
+        this.label59.Size = new System.Drawing.Size(24, 13);
+        this.label59.TabIndex = 100;
+        this.label59.Text = "n/a";
+        // 
+        // label58
+        // 
+        this.label58.AutoSize = true;
+        this.label58.Location = new System.Drawing.Point(351, 181);
+        this.label58.Name = "label58";
+        this.label58.Size = new System.Drawing.Size(64, 13);
+        this.label58.TabIndex = 99;
+        this.label58.Text = "Nitrate Gap:";
+        // 
+        // label56
+        // 
+        this.label56.AutoSize = true;
+        this.label56.Location = new System.Drawing.Point(473, 160);
+        this.label56.Name = "label56";
+        this.label56.Size = new System.Drawing.Size(36, 13);
+        this.label56.TabIndex = 98;
+        this.label56.Text = "kg/ha";
+        // 
+        // label50
+        // 
+        this.label50.AutoSize = true;
+        this.label50.Location = new System.Drawing.Point(438, 160);
+        this.label50.Name = "label50";
+        this.label50.Size = new System.Drawing.Size(24, 13);
+        this.label50.TabIndex = 97;
+        this.label50.Text = "n/a";
+        // 
+        // label45
+        // 
+        this.label45.AutoSize = true;
+        this.label45.Location = new System.Drawing.Point(351, 160);
+        this.label45.Name = "label45";
+        this.label45.Size = new System.Drawing.Size(84, 13);
+        this.label45.TabIndex = 96;
+        this.label45.Text = "Nitrate Demand:";
+        // 
+        // label24
+        // 
+        this.label24.AutoSize = true;
+        this.label24.Location = new System.Drawing.Point(474, 147);
+        this.label24.Name = "label24";
+        this.label24.Size = new System.Drawing.Size(27, 13);
+        this.label24.TabIndex = 95;
+        this.label24.Text = "t/ha";
+        // 
+        // label22
+        // 
+        this.label22.AutoSize = true;
+        this.label22.Location = new System.Drawing.Point(438, 147);
+        this.label22.Name = "label22";
+        this.label22.Size = new System.Drawing.Size(24, 13);
+        this.label22.TabIndex = 94;
+        this.label22.Text = "n/a";
+        // 
+        // label16
+        // 
+        this.label16.AutoSize = true;
+        this.label16.Location = new System.Drawing.Point(351, 147);
+        this.label16.Name = "label16";
+        this.label16.Size = new System.Drawing.Size(33, 13);
+        this.label16.TabIndex = 93;
+        this.label16.Text = "Yield:";
+        // 
+        // label15
+        // 
+        this.label15.AutoSize = true;
+        this.label15.Location = new System.Drawing.Point(474, 125);
+        this.label15.Name = "label15";
+        this.label15.Size = new System.Drawing.Size(36, 13);
+        this.label15.TabIndex = 92;
+        this.label15.Text = "kg/ha";
+        // 
+        // textBox4
+        // 
+        this.textBox4.Location = new System.Drawing.Point(438, 122);
+        this.textBox4.Name = "textBox4";
+        this.textBox4.Size = new System.Drawing.Size(32, 20);
+        this.textBox4.TabIndex = 91;
+        // 
+        // label11
+        // 
+        this.label11.AutoSize = true;
+        this.label11.Location = new System.Drawing.Point(351, 125);
+        this.label11.Name = "label11";
+        this.label11.Size = new System.Drawing.Size(36, 13);
+        this.label11.TabIndex = 90;
+        this.label11.Text = "WUE:";
+        // 
+        // label10
+        // 
+        this.label10.AutoSize = true;
+        this.label10.Location = new System.Drawing.Point(473, 100);
+        this.label10.Name = "label10";
+        this.label10.Size = new System.Drawing.Size(23, 13);
+        this.label10.TabIndex = 89;
+        this.label10.Text = "mm";
+        // 
+        // textBox3
+        // 
+        this.textBox3.Location = new System.Drawing.Point(438, 97);
+        this.textBox3.Name = "textBox3";
+        this.textBox3.Size = new System.Drawing.Size(32, 20);
+        this.textBox3.TabIndex = 88;
+        // 
+        // label7
+        // 
+        this.label7.AutoSize = true;
+        this.label7.Location = new System.Drawing.Point(351, 100);
+        this.label7.Name = "label7";
+        this.label7.Size = new System.Drawing.Size(89, 13);
+        this.label7.TabIndex = 87;
+        this.label7.Text = "Threshold Water:";
+        // 
+        // textBox2
+        // 
+        this.textBox2.Location = new System.Drawing.Point(438, 71);
+        this.textBox2.Name = "textBox2";
+        this.textBox2.Size = new System.Drawing.Size(32, 20);
+        this.textBox2.TabIndex = 86;
+        // 
+        // label8
+        // 
+        this.label8.AutoSize = true;
+        this.label8.Location = new System.Drawing.Point(473, 74);
+        this.label8.Name = "label8";
+        this.label8.Size = new System.Drawing.Size(23, 13);
+        this.label8.TabIndex = 85;
+        this.label8.Text = "mm";
+        // 
+        // label6
+        // 
+        this.label6.AutoSize = true;
+        this.label6.Location = new System.Drawing.Point(351, 74);
+        this.label6.Name = "label6";
+        this.label6.Size = new System.Drawing.Size(82, 13);
+        this.label6.TabIndex = 83;
+        this.label6.Text = "In Crop Rainfall:";
         // 
         // label43
         // 
@@ -3255,10 +3526,11 @@ namespace APSRU.Howwet
             this.txtMetFile,
             this.browseMetButton,
             this.editRainfallButton,
-            this.toolStripSeparator5});
+            this.toolStripSeparator5,
+            this.toolStripButton1});
         this.toolStrip1.Location = new System.Drawing.Point(3, 0);
         this.toolStrip1.Name = "toolStrip1";
-        this.toolStrip1.Size = new System.Drawing.Size(838, 25);
+        this.toolStrip1.Size = new System.Drawing.Size(861, 25);
         this.toolStrip1.TabIndex = 40;
         this.toolStrip1.Text = "toolStrip1";
         // 
@@ -3437,6 +3709,15 @@ namespace APSRU.Howwet
         this.toolStripSeparator5.Name = "toolStripSeparator5";
         this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
         // 
+        // toolStripButton1
+        // 
+        this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+        this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+        this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+        this.toolStripButton1.Name = "toolStripButton1";
+        this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+        this.toolStripButton1.Text = "toolStripButton1";
+        // 
         // toolStripContainer1
         // 
         this.toolStripContainer1.BottomToolStripPanelVisible = false;
@@ -3481,166 +3762,6 @@ namespace APSRU.Howwet
         this.toolStripProgressBar1.Name = "toolStripProgressBar1";
         this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
         // 
-        // dockLayoutManager1
-        // 
-        this.dockLayoutManager1.Initialize(this, null);
-        // 
-        // label6
-        // 
-        this.label6.AutoSize = true;
-        this.label6.Location = new System.Drawing.Point(351, 74);
-        this.label6.Name = "label6";
-        this.label6.Size = new System.Drawing.Size(82, 13);
-        this.label6.TabIndex = 83;
-        this.label6.Text = "In Crop Rainfall:";
-        // 
-        // label8
-        // 
-        this.label8.AutoSize = true;
-        this.label8.Location = new System.Drawing.Point(473, 74);
-        this.label8.Name = "label8";
-        this.label8.Size = new System.Drawing.Size(23, 13);
-        this.label8.TabIndex = 85;
-        this.label8.Text = "mm";
-        // 
-        // textBox2
-        // 
-        this.textBox2.Location = new System.Drawing.Point(438, 71);
-        this.textBox2.Name = "textBox2";
-        this.textBox2.Size = new System.Drawing.Size(32, 20);
-        this.textBox2.TabIndex = 86;
-        // 
-        // label7
-        // 
-        this.label7.AutoSize = true;
-        this.label7.Location = new System.Drawing.Point(351, 100);
-        this.label7.Name = "label7";
-        this.label7.Size = new System.Drawing.Size(89, 13);
-        this.label7.TabIndex = 87;
-        this.label7.Text = "Threshold Water:";
-        // 
-        // textBox3
-        // 
-        this.textBox3.Location = new System.Drawing.Point(438, 97);
-        this.textBox3.Name = "textBox3";
-        this.textBox3.Size = new System.Drawing.Size(32, 20);
-        this.textBox3.TabIndex = 88;
-        // 
-        // label10
-        // 
-        this.label10.AutoSize = true;
-        this.label10.Location = new System.Drawing.Point(473, 100);
-        this.label10.Name = "label10";
-        this.label10.Size = new System.Drawing.Size(23, 13);
-        this.label10.TabIndex = 89;
-        this.label10.Text = "mm";
-        // 
-        // label11
-        // 
-        this.label11.AutoSize = true;
-        this.label11.Location = new System.Drawing.Point(351, 125);
-        this.label11.Name = "label11";
-        this.label11.Size = new System.Drawing.Size(36, 13);
-        this.label11.TabIndex = 90;
-        this.label11.Text = "WUE:";
-        // 
-        // textBox4
-        // 
-        this.textBox4.Location = new System.Drawing.Point(438, 122);
-        this.textBox4.Name = "textBox4";
-        this.textBox4.Size = new System.Drawing.Size(32, 20);
-        this.textBox4.TabIndex = 91;
-        // 
-        // label15
-        // 
-        this.label15.AutoSize = true;
-        this.label15.Location = new System.Drawing.Point(474, 125);
-        this.label15.Name = "label15";
-        this.label15.Size = new System.Drawing.Size(36, 13);
-        this.label15.TabIndex = 92;
-        this.label15.Text = "kg/ha";
-        // 
-        // label16
-        // 
-        this.label16.AutoSize = true;
-        this.label16.Location = new System.Drawing.Point(351, 147);
-        this.label16.Name = "label16";
-        this.label16.Size = new System.Drawing.Size(33, 13);
-        this.label16.TabIndex = 93;
-        this.label16.Text = "Yield:";
-        // 
-        // label22
-        // 
-        this.label22.AutoSize = true;
-        this.label22.Location = new System.Drawing.Point(438, 147);
-        this.label22.Name = "label22";
-        this.label22.Size = new System.Drawing.Size(24, 13);
-        this.label22.TabIndex = 94;
-        this.label22.Text = "n/a";
-        // 
-        // label24
-        // 
-        this.label24.AutoSize = true;
-        this.label24.Location = new System.Drawing.Point(474, 147);
-        this.label24.Name = "label24";
-        this.label24.Size = new System.Drawing.Size(27, 13);
-        this.label24.TabIndex = 95;
-        this.label24.Text = "t/ha";
-        // 
-        // label45
-        // 
-        this.label45.AutoSize = true;
-        this.label45.Location = new System.Drawing.Point(351, 160);
-        this.label45.Name = "label45";
-        this.label45.Size = new System.Drawing.Size(84, 13);
-        this.label45.TabIndex = 96;
-        this.label45.Text = "Nitrate Demand:";
-        // 
-        // label50
-        // 
-        this.label50.AutoSize = true;
-        this.label50.Location = new System.Drawing.Point(438, 160);
-        this.label50.Name = "label50";
-        this.label50.Size = new System.Drawing.Size(24, 13);
-        this.label50.TabIndex = 97;
-        this.label50.Text = "n/a";
-        // 
-        // label56
-        // 
-        this.label56.AutoSize = true;
-        this.label56.Location = new System.Drawing.Point(473, 160);
-        this.label56.Name = "label56";
-        this.label56.Size = new System.Drawing.Size(36, 13);
-        this.label56.TabIndex = 98;
-        this.label56.Text = "kg/ha";
-        // 
-        // label58
-        // 
-        this.label58.AutoSize = true;
-        this.label58.Location = new System.Drawing.Point(351, 181);
-        this.label58.Name = "label58";
-        this.label58.Size = new System.Drawing.Size(64, 13);
-        this.label58.TabIndex = 99;
-        this.label58.Text = "Nitrate Gap:";
-        // 
-        // label59
-        // 
-        this.label59.AutoSize = true;
-        this.label59.Location = new System.Drawing.Point(438, 181);
-        this.label59.Name = "label59";
-        this.label59.Size = new System.Drawing.Size(24, 13);
-        this.label59.TabIndex = 100;
-        this.label59.Text = "n/a";
-        // 
-        // label60
-        // 
-        this.label60.AutoSize = true;
-        this.label60.Location = new System.Drawing.Point(474, 181);
-        this.label60.Name = "label60";
-        this.label60.Size = new System.Drawing.Size(36, 13);
-        this.label60.TabIndex = 101;
-        this.label60.Text = "kg/ha";
-        // 
         // toolStripStatusLabel2
         // 
         this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
@@ -3682,7 +3803,6 @@ namespace APSRU.Howwet
         this.toolStripContainer1.PerformLayout();
         this.statusStrip1.ResumeLayout(false);
         this.statusStrip1.PerformLayout();
-        ((System.ComponentModel.ISupportInitialize)(this.dockLayoutManager1)).EndInit();
         this.ResumeLayout(false);
         this.PerformLayout();
 
@@ -3760,9 +3880,9 @@ namespace APSRU.Howwet
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown coverPercent;
-        private Xceed.DockingWindows.DockLayoutManager dockLayoutManager1;
+        
         private Steema.TeeChart.TChart RainfallSWChart;
-        private Steema.TeeChart.Styles.Line PAWCLine;
+        private Steema.TeeChart.Styles.Line SWLine;
         private Steema.TeeChart.Styles.Bar RainfallBar;
         private Steema.TeeChart.Styles.Bar RunoffBar;
         private Steema.TeeChart.TChart SoilNitrogenChart;
@@ -3771,13 +3891,9 @@ namespace APSRU.Howwet
         private Steema.TeeChart.Styles.Line NitrateLine;
         private System.Windows.Forms.TrackBar speedBar;
         private System.Windows.Forms.TextBox textBox1;
-        private Steema.TeeChart.TChart ErosionChart;
-        private Steema.TeeChart.Styles.Bar ErosionSoilLossBar;
-        private Steema.TeeChart.Styles.Bar EroisionRunoffBar;
         private Steema.TeeChart.TChart LTRainfallChart;
         private Steema.TeeChart.Styles.Bar LTRainfallBar;
         private Steema.TeeChart.Styles.Line LTAvRainfallLine;
-        private Steema.TeeChart.Axis axis1;
         private System.Windows.Forms.Label fallowRainfall;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label42;
@@ -3848,6 +3964,11 @@ namespace APSRU.Howwet
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.Timer timerProgresBar;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private Steema.TeeChart.TChart ErosionChart;
+        private Steema.TeeChart.Styles.Line ErosionRunoffCumLine;
+        private Steema.TeeChart.Styles.Line ErosionSoilLossCumLine;
+        private Steema.TeeChart.Axis axis1;
         
 
     }
