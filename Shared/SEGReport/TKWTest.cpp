@@ -67,6 +67,7 @@ bool TKWTest::createFields(void) throw(runtime_error)
       FieldDefs->Clear();
       addDBField(this, "PValue", "1.0");
       addDBField(this, "Description", "a");
+      addDBField(this, "AreNot", "a");
       return true;
       }
    return false;
@@ -114,10 +115,15 @@ void TKWTest::storeRecords(void) throw(runtime_error)
          Append();
          FieldValues["PValue"] = pValue;
          if (pValue < KRUSKAL_WALLIS_CRITICAL_VALUE)
+            {
             FieldValues["Description"] = "There is a significant difference between the distributions.";
-
+            FieldValues["AreNot"] = "ARE";
+            }
          else
+            {
             FieldValues["Description"] = "There is NO significant difference between the distributions.";
+            FieldValues["AreNot"] = "ARE NOT";
+            }
          Post();
          }
       source->cancelSeries();
