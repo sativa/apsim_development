@@ -548,5 +548,17 @@ Public Class APSIMData
         End If
     End Sub
 
+    Public Sub EnsureNumberOfChildren(ByVal ChildType As String, ByVal NumChildren As Integer)
+        Dim ChartDataChildren As StringCollection = ChildList(ChildType)
+        Dim NumChartChildrenToAdd As Integer = NumChildren - ChartDataChildren.Count
+        Dim NumChartChildrenToDelete As Integer = ChartDataChildren.Count - NumChildren
+        For i As Integer = 1 To NumChartChildrenToAdd
+            Add(New APSIMData(ChildType, ""))
+        Next
+        For i As Integer = 1 To NumChartChildrenToDelete
+            Delete(ChartDataChildren(ChartDataChildren.Count - 1))
+        Next
+    End Sub
+
 
 End Class
