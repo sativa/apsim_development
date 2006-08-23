@@ -47,6 +47,8 @@ class PACKAGE TGraph : public TgtQRChart
 
       bool __fastcall onBeforeAdd(TChartSeries* series);
       virtual void __fastcall Loaded(void);
+      void __fastcall TGraph::OnClearValues(TChartSeries* dataset);
+      void __fastcall TGraph::OnAfterDraw(TObject* sender);
       void replaceChartMacros(void);
       void scaleAxis(void);
       void fixBottomAxisScaling();
@@ -71,6 +73,7 @@ class PACKAGE TGraph : public TgtQRChart
       // Remove all data subscriptions.
       //---------------------------------------------------------------------------
       void removeDataChangeSubscriptions(void);
+
    protected:
       void refresh(void);
    public:
