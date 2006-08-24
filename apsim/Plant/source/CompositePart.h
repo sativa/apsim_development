@@ -26,7 +26,6 @@ public:												// member functions
 
    virtual void doInit1();
 
-
    virtual void doRegistrations(protocol::Component *);
    virtual void doTick(protocol::timeType &tick) ;
    virtual void doNewMet(protocol::newmetType &newmet) ;
@@ -136,10 +135,14 @@ public:												// member functions
    virtual float dltDmRetranslocate(void) const;
    virtual float dltDmRetranslocateSupply(float demand_differential) ;
    virtual float dltDmGreenRetransUptake(void) const;
-   virtual float dltDmGreen(void) const;
    virtual float dltDmPotTe(void);            //FIXME
-   virtual float dltDmPotRue(void);        //FIXME
+   virtual float dltDmPotRue(void);           //FIXME
+
+   virtual float dltDmGreen(void) const;
+   virtual float dltDmDead(void) const;
+   virtual float dltDmSenesced(void) const;
    virtual float dltDmDetached(void) const;
+   virtual float dltDmGreenRetrans(void) const;
 
    virtual float dmGreenDemand(void) const;     
    virtual float dmTotal(void) const;
@@ -232,28 +235,23 @@ public:												// member functions
    virtual void doPPartition(float p_uptake, float total_p_demand);
    virtual void doPRetranslocate(float total_p_supply, float total_p_demand);
 
-   virtual float dlt_dm_green(void);
-   virtual float dlt_n_green(void);
-   virtual float dlt_p_green(void);
-   virtual float dlt_dm_dead(void);
-   virtual float dlt_n_dead(void);
-   virtual float dlt_p_dead(void);
-   virtual float dlt_dm_senesced(void);
-   virtual float dlt_n_senesced(void);
-   virtual float dlt_p_sen(void);
-   virtual float dlt_dm_detached(void);
-   virtual float dlt_n_detached(void);
-   virtual float dlt_p_det(void);
+   virtual float dltPGreen(void) const;
+   virtual float dltNGreen(void) const;
+   virtual float dltNDead(void) const;
+   virtual float dltPDead(void) const;
+   virtual float dltNSenesced(void) const;
+   virtual float dltPSenesced(void) const;
+   virtual float dltNDetached(void) const;
+   virtual float dltPDetached(void) const;
    virtual float nConc(void);
    virtual float nConcPercent(void);
    virtual float pConc(void);
    virtual float pConcPercent(void);
-   virtual float n_conc_crit(void);
-   virtual float n_conc_min(void);
-   virtual float dlt_n_retrans(void);
-   virtual float dlt_n_senesced_retrans(void);
-   virtual float dlt_n_senesced_trans(void);
-   virtual float dlt_dm_green_retrans(void);
+   virtual float n_conc_crit(void) const;
+   virtual float n_conc_min(void) const;
+   virtual float dltNRetrans(void) const;
+   virtual float dltNSenescedRetrans(void) const;
+   virtual float dltNSenescedTrans(void) const;
 
    virtual bool isYieldPart(void);
    virtual bool isRetransPart(void);
