@@ -257,73 +257,73 @@ void CompositePart::get_PSen(protocol::Component *system, protocol::QueryValueDa
 void CompositePart::get_Dlt_dm_green(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
    {
-   system->sendVariable(qd, dlt_dm_green());
+   system->sendVariable(qd, dltDmGreen());
    }
 
 void CompositePart::get_Dlt_n_green(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
    {
-   system->sendVariable(qd, dlt_n_green());
+   system->sendVariable(qd, dltNGreen());
    }
 
 void CompositePart::get_Dlt_p_green(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
    {
-   system->sendVariable(qd, dlt_p_green());
+   system->sendVariable(qd, dltPGreen());
    }
 
 void CompositePart::get_Dlt_dm_dead(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
    {
-   system->sendVariable(qd, dlt_dm_dead());
+   system->sendVariable(qd, dltDmDead());
    }
 
 void CompositePart::get_Dlt_n_dead(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
    {
-   system->sendVariable(qd, dlt_n_dead());
+   system->sendVariable(qd, dltNDead());
    }
 
 void CompositePart::get_Dlt_p_dead(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
    {
-   system->sendVariable(qd, dlt_p_dead());
+   system->sendVariable(qd, dltPDead());
    }
 
 void CompositePart::get_Dlt_dm_senesced(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
    {
-   system->sendVariable(qd, dlt_dm_senesced());
+   system->sendVariable(qd, dltDmSenesced());
    }
 
 void CompositePart::get_Dlt_n_senesced(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
    {
-   system->sendVariable(qd, dlt_n_senesced());
+   system->sendVariable(qd, dltNSenesced());
    }
 
 void CompositePart::get_Dlt_p_sen(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
    {
-   system->sendVariable(qd, dlt_p_sen());
+   system->sendVariable(qd, dltPSenesced());
    }
 
 void CompositePart::get_Dlt_dm_detached(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
    {
-   system->sendVariable(qd, dlt_dm_detached());
+   system->sendVariable(qd, dltDmDetached());
    }
 
 void CompositePart::get_Dlt_n_detached(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
    {
-   system->sendVariable(qd, dlt_n_detached());
+   system->sendVariable(qd, dltNDetached());
    }
 
 void CompositePart::get_Dlt_p_det(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
    {
-   system->sendVariable(qd, dlt_p_det());
+   system->sendVariable(qd, dltPDetached());
    }
 
 void CompositePart::get_n_conc(protocol::Component *system, protocol::QueryValueData &qd)
@@ -359,155 +359,133 @@ void CompositePart::get_NDemand(protocol::Component *system, protocol::QueryValu
 void CompositePart::get_Dlt_n_retrans(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
    {
-   system->sendVariable(qd, dlt_n_retrans());
+   system->sendVariable(qd, dltNRetrans());
    }
 
 void CompositePart::get_Dlt_n_senesced_retrans(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
    {
-   system->sendVariable(qd, dlt_n_senesced_retrans());
+   system->sendVariable(qd, dltNSenescedRetrans());
    }
 
 void CompositePart::get_Dlt_n_senesced_trans(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
    {
-   system->sendVariable(qd, dlt_n_senesced_trans());
+   system->sendVariable(qd, dltNSenescedTrans());
    }
 
 void CompositePart::get_Dlt_dm_green_retrans(protocol::Component *system, protocol::QueryValueData &qd)
 //=======================================================================================
    {
-   system->sendVariable(qd, dlt_dm_green_retrans());
+   system->sendVariable(qd, dltDmGreenRetrans());
    }
 
 
-float CompositePart::dlt_dm_green(void)
+float CompositePart::dltNGreen(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart * const>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dlt_dm_green();
-   return sum;
-}
-
-float CompositePart::dlt_n_green(void)
-   //===========================================================================
-{
-   float sum = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dlt_n_green();
+      sum += (*part)->dltNGreen();
    return sum;
 }
 
 
-float CompositePart::dlt_p_green(void)
+float CompositePart::dltPGreen(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart * const>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dlt_p_green();
+      sum += (*part)->dltPGreen();
    return sum;
 }
 
 
-float CompositePart::dlt_dm_dead(void)
+float CompositePart::dltDmDead(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart *const>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dlt_dm_dead();
+      sum += (*part)->dltDmDead();
    return sum;
 }
 
 
-float CompositePart::dlt_n_dead(void)
+float CompositePart::dltNDead(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart * const>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dlt_n_dead();
+      sum += (*part)->dltNDead();
    return sum;
 }
 
 
-float CompositePart::dlt_p_dead(void)
+float CompositePart::dltPDead(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart * const>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dlt_p_dead();
+      sum += (*part)->dltPDead();
    return sum;
 }
 
 
-float CompositePart::dlt_dm_senesced(void)
+float CompositePart::dltDmSenesced(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart * const>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dlt_dm_senesced();
+      sum += (*part)->dltDmSenesced();
    return sum;
 }
 
 
-float CompositePart::dlt_n_senesced(void)
+float CompositePart::dltNSenesced(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart * const>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dlt_n_senesced();
+      sum += (*part)->dltNSenesced();
    return sum;
 }
 
 
-float CompositePart::dlt_p_sen(void)
+float CompositePart::dltPSenesced(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart * const>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dlt_p_sen();
+      sum += (*part)->dltPSenesced();
+   return sum;
+}
+
+float CompositePart::dltNDetached(void) const
+   //===========================================================================
+{
+   float sum = 0.0;
+   vector <plantPart * const>::iterator part;
+   for (part = myParts.begin(); part != myParts.end(); part++)
+      sum += (*part)->dltNDetached();
    return sum;
 }
 
 
-float CompositePart::dlt_dm_detached(void)
+float CompositePart::dltPDetached(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart * const>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dlt_dm_detached();
-   return sum;
-}
-
-
-float CompositePart::dlt_n_detached(void)
-   //===========================================================================
-{
-   float sum = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dlt_n_detached();
-   return sum;
-}
-
-
-float CompositePart::dlt_p_det(void)
-   //===========================================================================
-{
-   float sum = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dlt_p_det();
+      sum += (*part)->dltPDetached();
    return sum;
 }
 
@@ -554,68 +532,68 @@ float CompositePart::pConcPercent(void)                                         
 }
 
 
-float CompositePart::n_conc_crit(void)                                             //FIXME
+float CompositePart::n_conc_crit(void) const                                            //FIXME
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart *const>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       sum += (*part)->n_conc_crit();
    return divide (sum , myParts.size() , 0.0);           //unweighted mean
 }
 
 
-float CompositePart::n_conc_min(void)                                              //FIXME
+float CompositePart::n_conc_min(void) const                                             //FIXME
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart *const>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       sum += (*part)->n_conc_min();
    return divide (sum , myParts.size() , 0.0);           //unweighted mean
 }
 
 
-float CompositePart::dlt_n_retrans(void)
+float CompositePart::dltNRetrans(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart * const>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dlt_n_retrans();
+      sum += (*part)->dltNRetrans();
    return sum;
 }
 
 
-float CompositePart::dlt_n_senesced_retrans(void)
+float CompositePart::dltNSenescedRetrans(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart * const>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dlt_n_senesced_retrans();
+      sum += (*part)->dltNSenescedRetrans();
    return sum;
 }
 
 
-float CompositePart::dlt_n_senesced_trans(void)
+float CompositePart::dltNSenescedTrans(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart * const>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dlt_n_senesced_trans();
+      sum += (*part)->dltNSenescedTrans();
    return sum;
 }
 
 
-float CompositePart::dlt_dm_green_retrans(void)
+float CompositePart::dltDmGreenRetrans(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart * const>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      sum += (*part)->dlt_dm_green_retrans();
+      sum += (*part)->dltDmGreenRetrans();
    return sum;
 }
 
@@ -1565,7 +1543,7 @@ float CompositePart::dltDmRetranslocateSupply(float demand_differential)
    float dlt_dm_green_retrans = 0.0;
    for (vector<plantPart *const>::iterator part = myParts.begin(); part != myParts.end(); part++)
       {
-      dlt_dm_green_retrans += (*part)->dlt_dm_green_retrans();
+      dlt_dm_green_retrans += (*part)->dltDmGreenRetrans();
       }
    return dlt_dm_green_retrans;
 }
@@ -1898,14 +1876,17 @@ float CompositePart::giveDmGreen(float dmSupplied)
       }
 
    // do mass balance check
-   float dlt_dm_green_tot = dltDmGreen();
-
-   if (!reals_are_equal(dlt_dm_green_tot, dmSupplied, 1.0E-4))  // XX this is probably too much slop - try doubles XX
+   if (!reals_are_equal(uptake, dmSupplied, 1.0E-4))
        {
-       string msg = c.name + " giveDmGreen mass balance is off: "
-                   + ftoa(dlt_dm_green_tot, ".6")
+       string msg = c.name + " giveDmGreen mass balance is off:\n"
+                   + "uptake = " + ftoa(uptake, ".6")
                    + " vs "
-                   + ftoa(dmSupplied, ".6");
+                   + "supplied = " + ftoa(dmSupplied, ".6") +"\n";
+       for (vector<plantPart *>::iterator part = myParts.begin(); 
+            part != myParts.end(); 
+            part++)
+         msg += (*part)->name() + "=" + ftoa((*part)->dltDmGreen(), ".6") +"\n";
+
        plant->warningError(msg.c_str());
        }
  

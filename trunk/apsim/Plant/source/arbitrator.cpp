@@ -102,7 +102,7 @@ void genericArbitrator::partitionDM(float dlt_dm,
    // do mass balance check - roots are not included
    float dlt_dm_green_tot = /*rootPart->dltDmGreen() +*/
                               leafPart->dltDmGreen() +
-                              stemPart->dltDmGreen() +
+                              stemPart->dltDmGreen() + 
                               fruitPart->dltDmGreen();
 
    if (!reals_are_equal(dlt_dm_green_tot, dlt_dm, 1.0E-4)) 

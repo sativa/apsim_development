@@ -169,7 +169,6 @@ static const char* cropChoppedDDML =  "<type name = \"CropChopped\">" \
                                       "   <field name=\"fraction_to_residue_value\" kind=\"single\" array=\"T\"/>" \
                                       "</type>";
 
-
 /////////////These might be redundancies??//////////
 void push_routine (const char *) {};
 void pop_routine (const char *) {};
@@ -924,7 +923,7 @@ void Plant::plant_bio_retrans (void)
    allParts.push_back(fruitPart);
 
    float dm_demand_differential = fruitPart->dmGreenDemand ()
-                                - fruitPart->dlt_dm_green();
+                                - fruitPart->dltDmGreen();
 
    float dlt_dm_retrans_to_fruit = 0.0;                    // dry matter retranslocated to fruit (g/m^2)
    legnew_dm_retranslocate(allParts
@@ -935,6 +934,30 @@ void Plant::plant_bio_retrans (void)
 
    fruitPart->doDmRetranslocate (dlt_dm_retrans_to_fruit, dm_demand_differential);
 
+   // Finally, a mass balance check
+//   float mbSum = 0.0;
+//   for (vector<plantPart *>::iterator part = myParts.begin(); 
+//        part != myParts.end(); 
+//        part++)
+//       mbSum += (*part)->dlt_dm_green_retrans();
+//
+//   if (fabs(mbSum) > 0.001)
+//      {
+//      string msg ="Crop dm retranslocate mass balance is off: error="
+//              + ftoa(mbSum, ".6")
+//              + "\n";
+//      string msg;                                                                                         
+//      for (vector<plantPart *>::iterator part = myParts.begin(); 
+//           part != myParts.end(); 
+//           part++)
+//         msg += (*part)->name() + "=" + 
+//                  ftoa((*part)->dltDmGreenRetransUptake(), ".6") +"\n";
+//
+//      msg += "dlt_dm_retrans_to_fruit = " + ftoa(dlt_dm_retrans_to_fruit, ".6") + "\n";
+//            fprintf(stdout,"%s",msg.c_str()) ;
+//
+//      parent->warningError(msg.c_str());
+//      }
    }
 
 
@@ -1910,13 +1933,13 @@ void Plant::plant_update(float  g_row_spacing                          // (INPUT
 
     // Let me register my surprise at how this is done on the next few lines
     // - why intrinsically limit processes to leaf etc right here!!! - NIH
-    float n_senesced_trans = leafPart->dlt_n_senesced_trans();
+    float n_senesced_trans = leafPart->dltNSenescedTrans();
     leafPart->giveNGreen(-1.0*n_senesced_trans);
     stemPart->giveNGreen(n_senesced_trans);
 
     float n_senesced_retrans = 0.0;
     for (vector<plantPart *>::iterator part = myParts.begin(); part != myParts.end(); part++)
-       n_senesced_retrans += (*part)->dlt_n_senesced_retrans();
+       n_senesced_retrans += (*part)->dltNSenescedRetrans();
 
     leafPart->giveNGreen(-1.0*n_senesced_retrans);
 
@@ -2086,7 +2109,7 @@ void Plant::plant_totals
     n_conc_stover = divide (stoverNGreen(),stoverGreen() , 0.0);
 
     n_uptake = plantDltNRetrans();
-    n_uptake_stover =  leafPart->dlt_n_retrans() + stemPart->dlt_n_retrans();
+    n_uptake_stover =  leafPart->dltNRetrans() + stemPart->dltNRetrans();
 
 // note - g_n_conc_crit should be done before the stages change
 
@@ -2105,7 +2128,7 @@ void Plant::plant_totals
         *g_n_uptake_stover_tot = n_uptake_stover;
 
         n_uptake_soil = plantDltNGreen();
-        n_uptake_soil_tops = n_uptake_soil - rootPart->dlt_n_green();
+        n_uptake_soil_tops = n_uptake_soil - rootPart->dltNGreen();
         *g_n_fixed_tops = n_uptake_soil_tops
                               * divide (*g_n_fix_uptake
                                         ,n_uptake_soil
@@ -2122,7 +2145,7 @@ void Plant::plant_totals
         *g_n_uptake_stover_tot = (*g_n_uptake_stover_tot) + n_uptake_stover;
 //        n_uptake_soil = sum_real_array(g_dlt_n_green,max_part) + reproStruct->dlt.n_green + stemPart->dlt.n_green + leafPart->dlt.n_green;
         n_uptake_soil = plantDltNGreen();
-        n_uptake_soil_tops = n_uptake_soil - rootPart->dlt_n_green();
+        n_uptake_soil_tops = n_uptake_soil - rootPart->dltNGreen();
         *g_n_fixed_tops = *g_n_fixed_tops + n_uptake_soil_tops * divide (*g_n_fix_uptake ,n_uptake_soil ,0.0);
 
         }
@@ -2997,9 +3020,9 @@ void Plant::plant_N_senescence (void)
         t++)
       (*t)->zeroDltNSenescedTrans();
 
-   dlt_n_in_senescing_leaf = leafPart->dlt_dm_senesced() * leafPart->nConc();
+   dlt_n_in_senescing_leaf = leafPart->dltDmSenesced() * leafPart->nConc();
 
-   navail = dlt_n_in_senescing_leaf - leafPart->dlt_n_senesced();
+   navail = dlt_n_in_senescing_leaf - leafPart->dltNSenesced();
    navail = l_bound(navail, 0.0);
 
    n_demand_tot = nDemand();
@@ -3806,7 +3829,7 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
        }
     }
 
-    float dltBiomassGreen = leafPart->dlt_dm_green() + stemPart->dlt_dm_green();
+    float dltBiomassGreen = leafPart->dltDmGreen() + stemPart->dltDmGreen();
     float biomassGreen =  leafPart->dmGreen() + stemPart->dmGreen();
     g.remove_biom_pheno = divide (dltBiomassGreen, biomassGreen, 0.0);
 
@@ -3816,17 +3839,17 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
        msg1 << "Remove Crop Biomass 2:-" << endl;
        float dmTotal1 = 0.0;
 
-       msg1 << "   dm green leaf = " << leafPart->dlt_dm_green() << " (g/m2)" << endl;
-       msg1 << "   dm green stem = " << stemPart->dlt_dm_green() << " (g/m2)" << endl;
-       dmTotal1 +=  leafPart->dlt_dm_green() + stemPart->dlt_dm_green();
+       msg1 << "   dm green leaf = " << leafPart->dltDmGreen() << " (g/m2)" << endl;
+       msg1 << "   dm green stem = " << stemPart->dltDmGreen() << " (g/m2)" << endl;
+       dmTotal1 +=  leafPart->dltDmGreen() + stemPart->dltDmGreen();
 
-       msg1 << "   dm senesced leaf = " << leafPart->dlt_dm_senesced() << " (g/m2)" << endl;
-       msg1 << "   dm senesced stem = " << stemPart->dlt_dm_senesced() << " (g/m2)" << endl;
-       dmTotal1 +=  leafPart->dlt_dm_senesced() + stemPart->dlt_dm_senesced();
+       msg1 << "   dm senesced leaf = " << leafPart->dltDmSenesced() << " (g/m2)" << endl;
+       msg1 << "   dm senesced stem = " << stemPart->dltDmSenesced() << " (g/m2)" << endl;
+       dmTotal1 +=  leafPart->dltDmSenesced() + stemPart->dltDmSenesced();
 
-       msg1 << "   dm dead leaf = " << leafPart->dlt_dm_dead() << " (g/m2)" << endl;
-       msg1 << "   dm dead stem = " << stemPart->dlt_dm_dead() << " (g/m2)" << endl;
-       dmTotal1 +=  leafPart->dlt_dm_dead() + stemPart->dlt_dm_dead();
+       msg1 << "   dm dead leaf = " << leafPart->dltDmDead() << " (g/m2)" << endl;
+       msg1 << "   dm dead stem = " << stemPart->dltDmDead() << " (g/m2)" << endl;
+       dmTotal1 +=  leafPart->dltDmDead() + stemPart->dltDmDead();
 
        msg1 << endl << "   dm total = " << dmTotal1 << " (g/m2)" << endl << ends;
 
@@ -3858,25 +3881,25 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
     {
       if ((*part)->name() == "leaf" || (*part)->name() == "stem")
       {
-        if ( ((*part)->dmGreen() - (*part)->dlt_dm_green()) < error_margin)
+        if ( ((*part)->dmGreen() - (*part)->dltDmGreen()) < error_margin)
         {
              ostringstream msg;
              msg << "Attempting to remove more green " << (*part)->name() << " biomass than available:-" << endl;
-             msg << "Removing " << (*part)->dlt_dm_green() << " (g/m2) from " << (*part)->dmGreen() << " (g/m2) available." << ends;
+             msg << "Removing " << (*part)->dltDmGreen() << " (g/m2) from " << (*part)->dmGreen() << " (g/m2) available." << ends;
              throw std::runtime_error (msg.str().c_str());
         }
-        else if (((*part)->dmSenesced() - (*part)->dlt_dm_senesced()) < error_margin)
+        else if (((*part)->dmSenesced() - (*part)->dltDmSenesced()) < error_margin)
         {
              ostringstream msg;
              msg << "Attempting to remove more senesced " << (*part)->name() << " biomass than available:-" << endl;
-             msg << "Removing " << (*part)->dlt_dm_senesced() << " (g/m2) from " << (*part)->dmSenesced() << " (g/m2) available." << ends;
+             msg << "Removing " << (*part)->dltDmSenesced() << " (g/m2) from " << (*part)->dmSenesced() << " (g/m2) available." << ends;
              throw std::runtime_error (msg.str().c_str());
         }
-        else if (((*part)->dmDead() -(*part)->dlt_dm_dead()) <  error_margin)
+        else if (((*part)->dmDead() -(*part)->dltDmDead()) <  error_margin)
         {
              ostringstream msg;
              msg << "Attempting to remove more dead " << (*part)->name() << " biomass than available:-" << endl;
-             msg << "Removing " << (*part)->dlt_dm_dead() << " (g/m2) from " <<(*part)->dmDead() << " (g/m2) available." << ends;
+             msg << "Removing " << (*part)->dltDmDead() << " (g/m2) from " <<(*part)->dmDead() << " (g/m2) available." << ends;
              throw std::runtime_error (msg.str().c_str());
         }
         else
@@ -3887,7 +3910,7 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
 
     // Update biomass and N pools.  Different types of plant pools are affected in different ways.
     // Calculate Root Die Back
-    float chop_fr_green_leaf = divide(leafPart->dlt_dm_green(), leafPart->dmGreen(), 0.0);
+    float chop_fr_green_leaf = divide(leafPart->dltDmGreen(), leafPart->dmGreen(), 0.0);
 
     rootPart->removeBiomass2(chop_fr_green_leaf);
 
@@ -3895,11 +3918,11 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
     float n_removed_tops = 0.0;
     for (part = topsParts.begin(); part != topsParts.end(); part++)
         {
-        float chop_fr_green = divide((*part)->dlt_dm_green(), (*part)->dmGreen(), 0.0);
-        float chop_fr_sen   = divide((*part)->dlt_dm_senesced(), (*part)->dmSenesced(), 0.0);
-        float chop_fr_dead  = divide((*part)->dlt_dm_dead(), (*part)->dmDead(), 0.0);
+        float chop_fr_green = divide((*part)->dltDmGreen(), (*part)->dmGreen(), 0.0);
+        float chop_fr_sen   = divide((*part)->dltDmSenesced(), (*part)->dmSenesced(), 0.0);
+        float chop_fr_dead  = divide((*part)->dltDmDead(), (*part)->dmDead(), 0.0);
 
-        dm_removed_tops += ((*part)->dlt_dm_green() + (*part)->dlt_dm_senesced() + (*part)->dlt_dm_dead()) * gm2kg/sm2ha;
+        dm_removed_tops += ((*part)->dltDmGreen() + (*part)->dltDmSenesced() + (*part)->dltDmDead()) * gm2kg/sm2ha;
         n_removed_tops += ((*part)->nGreen()*chop_fr_green +
                            (*part)->nSenesced()*chop_fr_sen +
                            (*part)->nDead()*chop_fr_dead) * gm2kg/sm2ha;

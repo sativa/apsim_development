@@ -28,8 +28,7 @@
 
 class plantPart : public plantThing
    {
-//   friend class Plant;
-protected:
+ protected:
    // state variables
    struct {
       float n_conc_crit;                  // critical N concentration (g N/g biomass)
@@ -106,7 +105,6 @@ protected:
    float NCapacity;                  // amount of nitrogen this part can take(g/m^2)
    float NMax ;                      // maximum plant nitrogen demand (g/m^2)
 
-
    // "Constants"
    struct {
       float dm_init;                      // Initial value
@@ -182,15 +180,11 @@ public:
    virtual void onRemoveBiomass(float) {};
 
    virtual void prepare(void);
-   //void process(void);
    virtual void update(void);
-   virtual void updateDm(void);
-   virtual void updateN(void);
-   virtual void updateP(void);
 
    virtual void morphology(void);
-   virtual void doNConccentrationLimits(float);
 
+   virtual void doNConccentrationLimits(float);
    virtual void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
    virtual void doDmMin(void);
    virtual void doNDemand1(float, float);
@@ -210,33 +204,59 @@ public:
    virtual void doPDetachment(void);
    virtual void doPDemand(void);
    virtual void doPSenescence(void);
+
    virtual void zeroDltDmGreen(void);
    virtual void zeroDltDmGreenRetrans(void);
+
    virtual void collectDetachedForResidue(vector<string> &part_name
                                           , vector<float> &dm_residue
                                           , vector<float> &dm_n
                                           , vector<float> &dm_p
                                           , vector<float> &fract);
+
    virtual void collectDeadDetachedForResidue(vector<string> &part_name
                                           , vector<float> &dm_dead_detached
                                           , vector<float> &n_dead_detached
                                           , vector<float> &p_dead_detached
                                           , vector<float> &fract);
+
+   virtual float dlt_dm_green_retrans_hack(float);
+   virtual float dltDmRetranslocateSupply(float DemandDifferential) ;
+   virtual float dltNRetransOut(void);
+   virtual float dltDmGreenRetransUptake(void) const;
+   virtual float dltDmGreenRetrans(void) const;
+   virtual float dltDmGreen(void) const;
+   virtual float dltDmRetranslocate(void) const;
+   virtual float dltDmDetached(void) const;
+   virtual float dltDmGreenNew(void) const;
+   virtual float dltDmDead(void) const;
+   virtual float dltDmSenesced(void) const;
+   virtual float dltNGreen(void) const;
+   virtual float dltPGreen(void) const;
+   virtual float dltNDead(void) const;
+   virtual float dltPDead(void) const;
+   virtual float dltNSenesced(void) const;
+   virtual float dltPSenesced(void) const;
+   virtual float dltNDetached(void) const;
+   virtual float dltPDetached(void) const;
+   virtual float dltNRetrans(void) const;
+   virtual float dltNSenescedRetrans(void) const;
+   virtual float dltNSenescedTrans(void) const;
+
+   virtual float n_conc_crit(void) const;
+   virtual float n_conc_min(void) const;
+
    virtual float dmTotal(void) const;
    virtual float dmGreenDemand(void) const;
    virtual float dmDemandDifferential(void) const;
-   virtual float dltDmRetranslocateSupply(float DemandDifferential) ;
-   virtual float dltDmGreenRetransUptake(void) const;
-   virtual float giveDmGreen(float) ;
+
+   virtual float giveDmGreen(float) ;           // Arbitrator gives this part dm; return amount used
    virtual float giveDmSenesced(float) ;
    virtual float giveDmDead(float) ;
    virtual float giveNGreen(float) ;
+
    virtual float dmGreen(void) const;
-   virtual float dltDmGreen(void) const;
-   virtual float dltDmRetranslocate(void) const;
    virtual float dmGreenNew(void) const;
-   virtual float dltDmGreenNew(void) const;
-   virtual float dltDmDetached(void) const;
    virtual float dmSenesced(void) const;
    virtual float dmDead(void) const;
    virtual float dmRetransSupply(void) const;
@@ -249,12 +269,9 @@ public:
    virtual float nTotal(void);
    virtual float nGreen(void) const;
    virtual float nSenesced(void);
-   virtual float dltNSenescedRetrans(void);
    virtual float nDead(void);
    virtual float nConc(void);
    virtual float nConcPercent(void);
-   virtual float dltNRetransOut(void);
-   virtual float dltNGreen(void);
 
    virtual float nMaxPot(void) ;
    virtual float nMinPot(void) ;
@@ -405,26 +422,6 @@ public:
    virtual void doTick(protocol::timeType &tick) ;
    virtual void writeCultivarInfo (protocol::Component *);
 
-   virtual float dlt_dm_green_retrans_hack(float);
-   virtual float dlt_dm_green(void);
-   virtual float dlt_n_green(void);
-   virtual float dlt_p_green(void);
-   virtual float dlt_dm_dead(void);
-   virtual float dlt_n_dead(void);
-   virtual float dlt_p_dead(void);
-   virtual float dlt_dm_senesced(void);
-   virtual float dlt_n_senesced(void);
-   virtual float dlt_p_sen(void);
-   virtual float dlt_dm_detached(void);
-   virtual float dlt_n_detached(void);
-   virtual float dlt_p_det(void);
-   virtual float n_conc_crit(void);
-   virtual float n_conc_min(void);
-   virtual float dlt_n_retrans(void);
-   virtual float dlt_n_senesced_retrans(void);
-   virtual float dlt_n_senesced_trans(void);
-   virtual float dlt_dm_green_retrans(void);
-
    virtual bool isYieldPart(void) {return c.yield_part;};
    virtual bool isRetransPart(void) {return c.retrans_part;};
    
@@ -437,6 +434,10 @@ public:
       virtual void onStartGrainFill(void);
 
    private:
+      void updateDm(void);
+      void updateN(void);
+      void updateP(void);
+
       void get_n_conc(protocol::Component *, protocol::QueryValueData &);
       void get_n_conc_crit(protocol::Component *, protocol::QueryValueData &);
       void get_n_conc_min(protocol::Component *, protocol::QueryValueData &);

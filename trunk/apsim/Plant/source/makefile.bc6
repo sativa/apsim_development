@@ -100,7 +100,7 @@ $(PROJECT): $(OBJFILES) $(DEFFILE)
 
 ####
 clean:
-	rm -f $(OBJFILES) *.bak *.csm
+	del $(OBJFILES) *.bak *.csm
 
 PlantComponent.obj: PlantComponent.cpp plant.h
 Plant.obj: plant.cpp plant.h PlantLibrary.h Phenology\PlantPhenology.h PlantFruit.h PlantPart.h LeafPart.h
@@ -118,7 +118,7 @@ PlantP.obj: PlantP.cpp
 PlantPart.obj: PlantPart.cpp PlantPart.h
 CompositePart.obj: CompositePart.cpp CompositePart.h PlantPart.h
 PlantFruit.obj: PlantFruit.cpp PlantFruit.h CompositePart.h
-FruitCohort.obj: FruitCohort.cpp FruitCohort.h CompositePart.h
+FruitCohort.obj: FruitCohort.cpp FruitCohort.h PlantPart.h CompositePart.h
 Data.obj: Data.cpp PlantLibrary.h
 Date.obj: Date.cpp PlantLibrary.h
 Science.obj: Science.cpp PlantLibrary.h
@@ -126,11 +126,12 @@ Error.obj: Error.cpp PlantLibrary.h
 Environment.obj: Environment.cpp Environment.h
 Observers.obj: Observers.cpp Observers.h
 LeafPart.obj: LeafPart.cpp PlantPart.h LeafPart.h
-StemPart.obj: StemPart.cpp StemPart.h
-PodPart.obj: PodPart.cpp PodPart.h
-MealPart.obj: MealPart.cpp MealPart.h
-OilPart.obj: OilPart.cpp OilPart.h
-GrainPart.obj: GrainPart.cpp GrainPart.h CompositePart.h
+StemPart.obj: StemPart.cpp StemPart.h PlantPart.h
+PodPart.obj: PodPart.cpp PodPart.h PlantPart.h
+MealPart.obj: MealPart.cpp MealPart.h PlantPart.h
+RootPart.obj: RootPart.cpp RootPart.h PlantPart.h
+OilPart.obj: OilPart.cpp OilPart.h PlantPart.h
+GrainPart.obj: GrainPart.cpp GrainPart.h CompositePart.h PlantPart.h
 LeafAppPhase.obj: LeafAppPhase.cpp LeafAppPhase.h
 Output.obj: Output.cpp Output.h
 OutputVariable.obj: OutputVariable.cpp OutputVariable.h

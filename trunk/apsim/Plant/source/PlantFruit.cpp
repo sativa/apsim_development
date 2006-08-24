@@ -167,6 +167,6 @@ void PlantFruit::doNRetranslocate( float N_supply, float g_grain_n_demand)
 
    dlt.n_retrans = 0.0;
    for (part = myParts.begin(); part != myParts.end(); part++)
-      dlt.n_retrans += (*part)->dlt_n_retrans();
+      dlt.n_retrans += (*part)->dltNRetrans();
 }
 

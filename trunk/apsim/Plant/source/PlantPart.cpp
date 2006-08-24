@@ -205,125 +205,111 @@ void plantPart::get_dm_green_demand(protocol::Component *system, protocol::Query
    }
 
 
-float plantPart::dlt_dm_green(void)
-   //===========================================================================
-{
-   return dlt.dm_green;
-}
-
-float plantPart::dlt_n_green(void)
+float plantPart::dltNGreen(void) const
    //===========================================================================
 {
    return dlt.n_green;
 }
 
 
-float plantPart::dlt_p_green(void)
+float plantPart::dltPGreen(void) const
    //===========================================================================
 {
    return dlt.p_green;
 }
 
 
-float plantPart::dlt_dm_dead(void)
+float plantPart::dltDmDead(void) const
    //===========================================================================
 {
    return dlt.dm_dead;
 }
 
 
-float plantPart::dlt_n_dead(void)
+float plantPart::dltNDead(void) const
    //===========================================================================
 {
    return dlt.n_dead;
 }
 
 
-float plantPart::dlt_p_dead(void)
+float plantPart::dltPDead(void) const
    //===========================================================================
 {
    return dlt.p_dead;
 }
 
 
-float plantPart::dlt_dm_senesced(void)
+float plantPart::dltDmSenesced(void) const
    //===========================================================================
 {
    return dlt.dm_senesced;
 }
 
 
-float plantPart::dlt_n_senesced(void)
+float plantPart::dltNSenesced(void) const
    //===========================================================================
 {
    return dlt.n_senesced;
 }
 
 
-float plantPart::dlt_p_sen(void)
+float plantPart::dltPSenesced(void) const
    //===========================================================================
 {
    return dlt.p_sen;
 }
 
-
-float plantPart::dlt_dm_detached(void)
-   //===========================================================================
-{
-   return dlt.dm_detached;
-}
-
-
-float plantPart::dlt_n_detached(void)
+float plantPart::dltNDetached(void) const
    //===========================================================================
 {
    return dlt.n_detached;
 }
 
 
-float plantPart::dlt_p_det(void)
+float plantPart::dltPDetached(void) const
    //===========================================================================
 {
    return dlt.p_det;
 }
 
 
-float plantPart::n_conc_crit(void)
+float plantPart::n_conc_crit(void) const
    //===========================================================================
 {
    return g.n_conc_crit;
 }
 
 
-float plantPart::n_conc_min(void)
+float plantPart::n_conc_min(void) const
    //===========================================================================
 {
    return g.n_conc_min;
 }
 
 
-float plantPart::dlt_n_retrans(void)
+float plantPart::dltNRetrans(void) const
    //===========================================================================
 {
    return dlt.n_retrans;
 }
 
 
-float plantPart::dlt_n_senesced_retrans(void)
+float plantPart::dltNSenescedRetrans(void) const
    //===========================================================================
 {
    return dlt.n_senesced_retrans;
 }
 
 
-float plantPart::dlt_n_senesced_trans(void)
+float plantPart::dltNSenescedTrans(void) const
    //===========================================================================
 {
    return dlt.n_senesced_trans;
 }
 
 
-float plantPart::dlt_dm_green_retrans(void)
+float plantPart::dltDmGreenRetrans(void) const
    //===========================================================================
 {
    return dlt.dm_green_retrans;
@@ -1351,7 +1337,6 @@ float plantPart::pDemand(void) {return (PDemand);}
 float plantPart::nTotal(void) {return (nGreen() + nSenesced() + nDead());}
 float plantPart::nGreen(void) const {return (NGreen);}
 float plantPart::nSenesced(void) {return (NSenesced);}
-float plantPart::dltNSenescedRetrans(void) {return (dlt.n_senesced_retrans);}
 float plantPart::nDead(void) {return (NDead);}
 
 float plantPart::nConc(void)
@@ -1374,11 +1359,6 @@ float plantPart::dltNRetransOut(void)
       return (dlt.n_retrans);
    else
       return 0.0;
-   }
-float plantPart::dltNGreen(void)
-//=======================================================================================
-   {
-   return (dlt.n_green);
    }
 
 float plantPart::nMaxPot(void)
@@ -1432,8 +1412,8 @@ float plantPart::nRetransSupply(void)
 float plantPart::dmRetransSupply(void) const
 //=======================================================================================
    {
-//   if (c.retrans_part)
-//      return l_bound(DMGreen - (DMPlantMin*plant->getPlants()), 0.0);
+   if (c.retrans_part)
+      return l_bound(DMGreen - (DMPlantMin*plant->getPlants()), 0.0);
    return 0.0;
    }
 
