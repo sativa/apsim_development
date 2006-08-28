@@ -60,8 +60,21 @@
         wheat.swdef_expan  as swdef_expan
         wheat.nfact_photo  as nfact_photo
         wheat.nfact_expan  as nfact_expan
+        wheat.root_depth  as root_depth
+        wheat.ep  as ep
+        eo  as eo
      
      Output file = Wheat_Lincoln9192_I07.out
+     Format = normal
+
+------- SWOutputfile Initialisation -------------------------------------------
+     Output frequency:
+        post
+     Output variables:
+        dd/mm/yyyy  as Date
+        LincolnField Water.sw  as sw
+     
+     Output file = Wheat_Lincoln9192_I07 SWOutputfile.out
      Format = normal
 
 ------- accum Initialisation --------------------------------------------------
@@ -108,6 +121,22 @@
                wheat  harvest
                wheat  end_crop
             endif
+     
+     SECTION:- start_of_day
+              if (today = date('02-sep') then
+     resetwater = 'yes'
+     resetnitrogen  = 'yes'
+     resetsurfaceom = 'yes'
+     if (resetwater = 'yes') then
+         'lincolnfield water' reset
+     endif
+     if (resetnitrogen = 'yes') then
+         'lincolnfield nitrogen' reset
+     endif
+     if (resetsurfaceom = 'yes') then
+         'surface organic matter' reset
+     endif
+              endif
      END of rules
      
 
@@ -188,19 +217,14 @@
               Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
                 mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
         ---------------------------------------------------------------------
-            0.-  100.  0.080  0.120  0.300  0.440  0.300  1.300  0.613  0.600
-          100.-  300.  0.080  0.120  0.300  0.440  0.300  1.300  0.340  0.600
-          300.-  500.  0.080  0.120  0.300  0.440  0.300  1.300  0.048  0.600
-          500.-  700.  0.080  0.120  0.300  0.440  0.300  1.300  0.000  0.600
-          700.-  900.  0.080  0.120  0.300  0.440  0.300  1.300  0.000  0.600
-          900.- 1100.  0.080  0.120  0.300  0.440  0.300  1.300  0.000  0.600
-         1100.- 1300.  0.080  0.140  0.300  0.440  0.300  1.300  0.000  0.600
-         1300.- 1500.  0.080  0.140  0.300  0.440  0.300  1.300  0.000  0.600
-         1500.- 1700.  0.080  0.160  0.300  0.440  0.300  1.300  0.000  0.600
-         1700.- 1900.  0.080  0.160  0.300  0.440  0.300  1.300  0.000  0.600
-         1900.- 2100.  0.080  0.160  0.300  0.440  0.300  1.300  0.000  0.600
-         2100.- 2300.  0.080  0.160  0.300  0.440  0.300  1.300  0.000  0.600
-         2300.- 2500.  0.080  0.160  0.300  0.440  0.300  1.300  0.000  0.600
+            0.-  100.  0.050  0.080  0.310  0.440  0.280  1.300  0.613  0.600
+          100.-  300.  0.050  0.070  0.300  0.440  0.270  1.300  0.340  0.600
+          300.-  500.  0.050  0.070  0.280  0.440  0.250  1.300  0.048  0.600
+          500.-  700.  0.050  0.090  0.310  0.440  0.240  1.300  0.000  0.600
+          700.-  900.  0.050  0.110  0.300  0.440  0.260  1.300  0.000  0.600
+          900.- 1100.  0.050  0.160  0.280  0.440  0.280  1.300  0.000  0.600
+         1100.- 1300.  0.050  0.150  0.300  0.440  0.340  1.300  0.000  0.600
+         1300.- 1500.  0.050  0.120  0.340  0.440  0.220  1.300  0.000  0.600
         ---------------------------------------------------------------------
      
      
@@ -211,21 +235,16 @@
                           (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
                             mm        mm          mm         mm
           ---------------------------------------------------------
-            0.-  100.      12.00      18.00      18.00      14.00
-          100.-  300.      24.00      36.00      36.00      28.00
-          300.-  500.      24.00      36.00      36.00      28.00
-          500.-  700.      24.00      36.00      36.00      28.00
-          700.-  900.      24.00      36.00      36.00      28.00
-          900.- 1100.      24.00      36.00      36.00      28.00
-         1100.- 1300.      28.00      32.00      32.00      28.00
-         1300.- 1500.      28.00      32.00      32.00      28.00
-         1500.- 1700.      32.00      28.00      28.00      28.00
-         1700.- 1900.      32.00      28.00      28.00      28.00
-         1900.- 2100.      32.00      28.00      28.00      28.00
-         2100.- 2300.      32.00      28.00      28.00      28.00
-         2300.- 2500.      32.00      28.00      28.00      28.00
+            0.-  100.       8.00      20.00      23.00      13.00
+          100.-  300.      14.00      40.00      46.00      28.00
+          300.-  500.      14.00      36.00      42.00      32.00
+          500.-  700.      18.00      30.00      44.00      26.00
+          700.-  900.      22.00      30.00      38.00      28.00
+          900.- 1100.      32.00      24.00      24.00      32.00
+         1100.- 1300.      30.00      38.00      30.00      28.00
+         1300.- 1500.      24.00      20.00      44.00      20.00
           ---------------------------------------------------------
-               Totals     348.00     402.00     402.00     350.00
+               Totals     162.00     238.00     291.00     207.00
           ---------------------------------------------------------
      
      
@@ -237,7 +256,7 @@
           ---------------------------------------------------------
                  Insoil        Salb     Dif_Con   Dif_Slope
           ---------------------------------------------------------
-                   0.00        0.20       88.00       35.00
+                   0.00        0.20       40.00       16.00
           ---------------------------------------------------------
      
      
@@ -246,7 +265,7 @@
                 Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
                                            mm
           ---------------------------------------------------------
-              60.00   20.00    0.80  450.00
+              75.00   20.00    0.80  450.00
           ---------------------------------------------------------
      
      
@@ -255,6 +274,25 @@
             Cuml evap (U):            7.00 (mm^0.5)
             CONA:                     3.00 ()
            Eo from priestly-taylor
+
+------- Surface Organic Matter Initialisation ---------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat_stubwheat         1000.0   400.0     5.0     0.0   0.393     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.4
+     
 
 ------- LincolnField Nitrogen Initialisation ----------------------------------
      
@@ -281,13 +319,8 @@
              6     8.60  0.30    5.46    1.30    0.00
              7     8.60  0.10    5.46    1.30    0.00
              8     8.60  0.10    5.46    1.30    0.00
-             9     8.60  0.10    0.52    1.30    0.00
-            10     8.60  0.10    0.52    1.30    0.00
-            11     8.60  0.10    0.52    1.30    0.00
-            12     8.60  0.10    0.52    1.30    0.00
-            13     8.60  0.10    0.52    1.30    0.00
           ------------------------------------------------
-           Totals              149.37   21.45    0.00
+           Totals              146.77   14.95    0.00
           ------------------------------------------------
      
      
@@ -300,21 +333,16 @@
            Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
                     (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
           ---------------------------------------------------------
-             1       4429.2   295.3   120.7    15.1   357.2    17.9
-             2       6878.9   458.6   141.1    17.6   281.0    14.0
-             3       6155.6   410.4    84.4    10.6   221.0    11.1
-             4       4131.6   275.4    28.4     3.6   173.9     8.7
-             5       4131.6   275.4    28.4     3.6   136.8     6.8
-             6       7742.1   516.1    57.9     7.2   107.6     5.4
-             7       2579.4   172.0    20.6     2.6    84.6     4.2
-             8       2579.4   172.0    20.6     2.6    66.6     3.3
-             9       2579.4   172.0    20.6     2.6    52.4     2.6
-            10       2579.4   172.0    20.6     2.6    41.2     2.1
-            11       2579.4   172.0    20.6     2.6    32.4     1.6
-            12       2579.4   172.0    20.6     2.6    25.5     1.3
-            13       2579.4   172.0    20.6     2.6    20.0     1.0
+             1       4429.2   295.3   120.7    15.1   549.9    27.5
+             2       6878.9   458.6   141.1    17.6   368.6    18.4
+             3       6155.6   410.4    84.4    10.6   247.1    12.4
+             4       4131.6   275.4    28.4     3.6   165.6     8.3
+             5       4131.6   275.4    28.4     3.6   111.0     5.6
+             6       7742.1   516.1    57.9     7.2    74.4     3.7
+             7       2579.4   172.0    20.6     2.6    49.9     2.5
+             8       2579.4   172.0    20.6     2.6    33.4     1.7
           ---------------------------------------------------------
-           Totals   51524.8  3435.0   605.2    75.6  1600.0    80.0
+           Totals   38627.8  2575.2   502.2    62.8  1600.0    80.0
           ---------------------------------------------------------
 
 ------- wheat Initialisation --------------------------------------------------
@@ -348,21 +376,16 @@
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
          -----------------------------------------------
-         100.0     0.070          0.200       1.000
-         200.0     0.070          0.200       1.000
-         200.0     0.070          0.200       1.000
-         200.0     0.070          0.200       1.000
-         200.0     0.070          0.200       1.000
-         200.0     0.050          0.190       1.000
-         200.0     0.050          0.160       1.000
-         200.0     0.050          0.160       1.000
-         200.0     0.050          0.160       1.000
-         200.0     0.050          0.140       1.000
-         200.0     0.050          0.140       1.000
-         200.0     0.050          0.130       1.000
-         200.0     0.050          0.130       1.000
+         100.0     0.060          0.080       1.000
+         200.0     0.060          0.070       1.000
+         200.0     0.060          0.070       1.000
+         200.0     0.040          0.090       1.000
+         200.0     0.030          0.110       0.600
+         200.0     0.020          0.160       0.400
+         200.0     0.020          0.150       0.000
+         200.0     0.020          0.120       0.000
          -----------------------------------------------
-         Extractable SW:   328mm in  2500mm total depth ( 13%).
+         Extractable SW:   291mm in  1500mm total depth ( 19%).
          Crop factor for bounding water use is set to   1.5 times eo.
      
                       Crop Sowing Data
@@ -387,11 +410,11 @@
 26 June 1991(Day of year=177), wheat: 
       stage 3.0 emergence
                      biomass =           1.38 (g/m^2)   lai          =   0.060 (m^2/m^2)
-                     stover N conc =     5.85 (%)    extractable sw =   23.04 (mm)
+                     stover N conc =     5.85 (%)    extractable sw =   53.23 (mm)
 27 June 1991(Day of year=178), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           1.40 (g/m^2)   lai          =   0.060 (m^2/m^2)
-                     stover N conc =     5.85 (%)    extractable sw =   22.87 (mm)
+                     stover N conc =     5.85 (%)    extractable sw =   52.74 (mm)
 16 August 1991(Day of year=228), Irrigator: 
      Manager sending message :- irrigation apply  amount = 7 (mm)
 16 August 1991(Day of year=228), Fertilizer: 
@@ -403,6 +426,46 @@
                                               added at depth   50.00 (layer   1)
 29 August 1991(Day of year=241), Irrigator: 
      Manager sending message :- irrigation apply  amount = 20 (mm)
+2 September 1991(Day of year=245), Manager: 
+     Manager creating a new local string variable : resetwater = yes
+     Manager creating a new local string variable : resetnitrogen = yes
+     Manager creating a new local string variable : resetsurfaceom = yes
+     Manager sending message :- lincolnfield water reset
+2 September 1991(Day of year=245), LincolnField Water: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+2 September 1991(Day of year=245), Manager: 
+     Manager sending message :- lincolnfield nitrogen reset
+2 September 1991(Day of year=245), LincolnField Nitrogen: 
+     
+        - Reading Constants
+     
+        - Reading Parameters
+2 September 1991(Day of year=245), Manager: 
+     Manager sending message :- surface organic matter reset
+2 September 1991(Day of year=245), Surface Organic Matter: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat_stubwheat         1000.0   400.0     5.0     0.0   0.393     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.6
+     
 7 September 1991(Day of year=250), Irrigator: 
      Manager sending message :- irrigation apply  amount = 12 (mm)
 12 September 1991(Day of year=255), Irrigator: 
@@ -425,77 +488,77 @@
 11 October 1991(Day of year=284), wheat: 
       stage 5.0 floral_initiation
                      biomass =         475.79 (g/m^2)   lai          =   6.276 (m^2/m^2)
-                     stover N conc =     3.27 (%)    extractable sw =  146.18 (mm)
+                     stover N conc =     3.24 (%)    extractable sw =  215.09 (mm)
 17 October 1991(Day of year=290), Irrigator: 
      Manager sending message :- irrigation apply  amount = 30 (mm)
 27 November 1991(Day of year=331), wheat: 
       stage 6.0 flowering
-                     biomass =        1562.58 (g/m^2)   lai          =   5.476 (m^2/m^2)
-                     stover N conc =     1.43 (%)    extractable sw =   98.36 (mm)
+                     biomass =        1547.32 (g/m^2)   lai          =   5.243 (m^2/m^2)
+                     stover N conc =     1.09 (%)    extractable sw =   83.87 (mm)
 8 December 1991(Day of year=342), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =        1767.56 (g/m^2)   lai          =   4.916 (m^2/m^2)
-                     stover N conc =     1.10 (%)    extractable sw =  107.13 (mm)
+                     biomass =        1736.18 (g/m^2)   lai          =   4.884 (m^2/m^2)
+                     stover N conc =     0.77 (%)    extractable sw =   64.94 (mm)
 13 January 1992(Day of year=13), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =        2386.69 (g/m^2)   lai          =   1.300 (m^2/m^2)
-                     stover N conc =     0.31 (%)    extractable sw =   80.41 (mm)
+                     biomass =        2014.67 (g/m^2)   lai          =   1.286 (m^2/m^2)
+                     stover N conc =     0.31 (%)    extractable sw =   29.73 (mm)
 15 January 1992(Day of year=15), wheat: 
       stage 9.0 maturity
-                     biomass =        2387.35 (g/m^2)   lai          =   1.047 (m^2/m^2)
-                     stover N conc =     0.30 (%)    extractable sw =   79.24 (mm)
+                     biomass =        2015.16 (g/m^2)   lai          =   1.038 (m^2/m^2)
+                     stover N conc =     0.30 (%)    extractable sw =   28.12 (mm)
 16 January 1992(Day of year=16), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        2387.35 (g/m^2)   lai          =   0.002 (m^2/m^2)
-                     stover N conc =     0.29 (%)    extractable sw =   79.07 (mm)
+                     biomass =        2015.16 (g/m^2)   lai          =   0.002 (m^2/m^2)
+                     stover N conc =     0.29 (%)    extractable sw =   27.98 (mm)
 16 January 1992(Day of year=16), Manager: 
      Manager sending message :- wheat harvest
 16 January 1992(Day of year=16), wheat: 
      
-      flowering day          =  331                           stover (kg/ha)         =    15243.3
-      maturity day           =   15                           grain yield (kg/ha)    =     8630.2
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     9863.1
-      grain wt (g)           =    0.047                       grains/m^2             =  18192.879
-      grains/plant           =   60.6                         maximum lai            =      7.057
-      total above ground biomass (kg/ha)    =    23873.5
-      live above ground biomass (kg/ha)     =    23873.5
-      green above ground biomass (kg/ha)    =    20528.6
+      flowering day          =  331                           stover (kg/ha)         =    13657.6
+      maturity day           =   15                           grain yield (kg/ha)    =     6494.0
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     7421.7
+      grain wt (g)           =    0.036                       grains/m^2             =  17990.467
+      grains/plant           =   60.0                         maximum lai            =      7.056
+      total above ground biomass (kg/ha)    =    20151.6
+      live above ground biomass (kg/ha)     =    20151.6
+      green above ground biomass (kg/ha)    =    16806.7
       senesced above ground biomass (kg/ha) =     3344.9
       dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =   38.1
-      DM Root:Shoot ratio    =    0.121                       Harvest Index          =      0.361
-      Stover C:N ratio       =  118.179                       Root C:N ratio         =     16.660
-      grain N percent        =       2.04                     total N content (kg/ha)=     227.95
-      grain N uptake (kg/ha) =     176.35                     senesced N content (kg/ha)=   16.57
-      green N content (kg/ha)=      35.02                     dead N content (kg/ha) =       0.00
+      number of leaves       =   38.2
+      DM Root:Shoot ratio    =    0.142                       Harvest Index          =      0.322
+      Stover C:N ratio       =  116.400                       Root C:N ratio         =     26.279
+      grain N percent        =       1.85                     total N content (kg/ha)=     166.97
+      grain N uptake (kg/ha) =     120.04                     senesced N content (kg/ha)=   16.57
+      green N content (kg/ha)=      30.36                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
          end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
-         floral_initiation    to flowering               0.015        0.023        0.000        0.000
-         flowering            to start_grain_fill        0.020        0.038        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.134        0.178        0.131        0.222
+         floral_initiation    to flowering               0.025        0.036        0.000        0.018
+         flowering            to start_grain_fill        0.063        0.082        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.247        0.294        0.434        0.593
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               15242.62                    0.00
-                          N  (kg/ha) =                 51.59                    0.00
+                          DM (kg/ha) =               13657.00                    0.00
+                          N  (kg/ha) =                 46.93                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               8630.25                    0.00
-                          N  (kg/ha) =                176.35                    0.00
+                          DM (kg/ha) =               6493.96                    0.00
+                          N  (kg/ha) =                120.04                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.06 (g/m^2)   lai          =   0.060 (m^2/m^2)
-                     stover N conc =     0.47 (%)    extractable sw =   79.07 (mm)
+                     stover N conc =     0.47 (%)    extractable sw =   27.98 (mm)
 16 January 1992(Day of year=16), Manager: 
      Manager sending message :- wheat end_crop
 16 January 1992(Day of year=16), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.64                 2889.87
-                          N  (kg/ha) =                  0.00                   69.38
+                          DM (kg/ha) =                  0.64                 2871.36
+                          N  (kg/ha) =                  0.00                   43.71
      
 26 January 1992(Day of year=26), clock: 
      Simulation is terminating due to end criteria being met.

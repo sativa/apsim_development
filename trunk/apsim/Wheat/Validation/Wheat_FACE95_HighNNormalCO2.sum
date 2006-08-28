@@ -60,6 +60,9 @@
         wheat.swdef_expan  as swdef_expan
         wheat.nfact_photo  as nfact_photo
         wheat.nfact_expan  as nfact_expan
+        wheat.root_depth  as root_depth
+        wheat.ep  as ep
+        eo  as eo
      
      Output file = Wheat_FACE95_HighNNormalCO2.out
      Format = normal
@@ -635,7 +638,7 @@
       flowering day          =  101                           stover (kg/ha)         =    13610.6
       maturity day           =  135                           grain yield (kg/ha)    =     7114.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     8131.3
-      grain wt (g)           =    0.048                       grains/m^2             =  14683.520
+      grain wt (g)           =    0.048                       grains/m^2             =  14683.518
       grains/plant           =   78.9                         maximum lai            =      6.181
       total above ground biomass (kg/ha)    =    20725.4
       live above ground biomass (kg/ha)     =    20725.4

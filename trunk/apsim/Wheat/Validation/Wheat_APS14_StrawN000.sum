@@ -60,6 +60,9 @@
         wheat.swdef_expan  as swdef_expan
         wheat.nfact_photo  as nfact_photo
         wheat.nfact_expan  as nfact_expan
+        wheat.root_depth  as root_depth
+        wheat.ep  as ep
+        eo  as eo
      
      Output file = Wheat_APS14_StrawN000.out
      Format = normal
@@ -454,7 +457,7 @@
       flowering day          =  281                           stover (kg/ha)         =     1027.8
       maturity day           =  314                           grain yield (kg/ha)    =      415.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=      475.0
-      grain wt (g)           =    0.026                       grains/m^2             =   1600.845
+      grain wt (g)           =    0.026                       grains/m^2             =   1600.846
       grains/plant           =   14.0                         maximum lai            =      0.366
       total above ground biomass (kg/ha)    =     1443.4
       live above ground biomass (kg/ha)     =     1443.4

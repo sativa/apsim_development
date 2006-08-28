@@ -60,6 +60,9 @@
         wheat.swdef_expan  as swdef_expan
         wheat.nfact_photo  as nfact_photo
         wheat.nfact_expan  as nfact_expan
+        wheat.root_depth  as root_depth
+        wheat.ep  as ep
+        eo  as eo
      
      Output file = Wheat_APS14_StrawN080.out
      Format = normal
@@ -459,7 +462,7 @@
       flowering day          =  281                           stover (kg/ha)         =     5637.9
       maturity day           =  314                           grain yield (kg/ha)    =     2083.2
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2380.8
-      grain wt (g)           =    0.024                       grains/m^2             =   8766.924
+      grain wt (g)           =    0.024                       grains/m^2             =   8766.923
       grains/plant           =   76.9                         maximum lai            =      3.298
       total above ground biomass (kg/ha)    =     7721.1
       live above ground biomass (kg/ha)     =     7721.1
@@ -483,7 +486,7 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5637.71                    0.00
+                          DM (kg/ha) =               5637.70                    0.00
                           N  (kg/ha) =                 19.82                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
