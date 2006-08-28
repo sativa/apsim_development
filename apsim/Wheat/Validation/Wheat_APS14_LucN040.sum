@@ -60,6 +60,9 @@
         wheat.swdef_expan  as swdef_expan
         wheat.nfact_photo  as nfact_photo
         wheat.nfact_expan  as nfact_expan
+        wheat.root_depth  as root_depth
+        wheat.ep  as ep
+        eo  as eo
      
      Output file = Wheat_APS14_LucN040.out
      Format = normal
@@ -457,9 +460,9 @@
 11 November 1993(Day of year=315), wheat: 
      
       flowering day          =  281                           stover (kg/ha)         =     7111.9
-      maturity day           =  314                           grain yield (kg/ha)    =     2804.0
+      maturity day           =  314                           grain yield (kg/ha)    =     2804.1
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3204.6
-      grain wt (g)           =    0.025                       grains/m^2             =  11031.755
+      grain wt (g)           =    0.025                       grains/m^2             =  11031.761
       grains/plant           =   96.8                         maximum lai            =      4.340
       total above ground biomass (kg/ha)    =     9916.0
       live above ground biomass (kg/ha)     =     9916.0

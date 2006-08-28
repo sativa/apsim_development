@@ -60,6 +60,9 @@
         wheat.swdef_expan  as swdef_expan
         wheat.nfact_photo  as nfact_photo
         wheat.nfact_expan  as nfact_expan
+        wheat.root_depth  as root_depth
+        wheat.ep  as ep
+        eo  as eo
      
      Output file = Wheat_APS26_WetN040.out
      Format = normal
@@ -181,9 +184,9 @@
      SECTION:- end_of_day
      
      SECTION:- start_of_day
-            if (day = 186) then
-                fertiliser apply amount = 40 (kg/ha), depth = 50 (mm), type = no3_n ()
-            endif
+                if (day = 186) then
+        fertiliser apply amount = 40 (kg/ha), depth = 50 (mm), type = no3_n ()
+                endif
      END of rules
      
 
@@ -431,7 +434,7 @@
       flowering day          =  265                           stover (kg/ha)         =     5860.2
       maturity day           =  300                           grain yield (kg/ha)    =     2565.7
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     2932.2
-      grain wt (g)           =    0.028                       grains/m^2             =   9204.726
+      grain wt (g)           =    0.028                       grains/m^2             =   9204.723
       grains/plant           =   76.7                         maximum lai            =      3.367
       total above ground biomass (kg/ha)    =     8425.9
       live above ground biomass (kg/ha)     =     8425.9

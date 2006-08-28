@@ -60,6 +60,9 @@
         wheat.swdef_expan  as swdef_expan
         wheat.nfact_photo  as nfact_photo
         wheat.nfact_expan  as nfact_expan
+        wheat.root_depth  as root_depth
+        wheat.ep  as ep
+        eo  as eo
      
      Output file = Wheat_APS14_BareN080.out
      Format = normal
@@ -412,10 +415,10 @@
      Manager sending message :- wheat harvest
 11 November 1993(Day of year=315), wheat: 
      
-      flowering day          =  281                           stover (kg/ha)         =     7380.8
+      flowering day          =  281                           stover (kg/ha)         =     7380.9
       maturity day           =  314                           grain yield (kg/ha)    =     2740.9
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     3132.4
-      grain wt (g)           =    0.024                       grains/m^2             =  11389.784
+      grain wt (g)           =    0.024                       grains/m^2             =  11389.791
       grains/plant           =   99.9                         maximum lai            =      4.645
       total above ground biomass (kg/ha)    =    10121.7
       live above ground biomass (kg/ha)     =    10121.7
@@ -439,11 +442,11 @@
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               7380.61                    0.00
+                          DM (kg/ha) =               7380.62                    0.00
                           N  (kg/ha) =                 26.19                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2740.85                    0.00
+                          DM (kg/ha) =               2740.86                    0.00
                           N  (kg/ha) =                 52.54                    0.00
      
       stage 4.0 end_of_juvenile

@@ -60,6 +60,9 @@
         wheat.swdef_expan  as swdef_expan
         wheat.nfact_photo  as nfact_photo
         wheat.nfact_expan  as nfact_expan
+        wheat.root_depth  as root_depth
+        wheat.ep  as ep
+        eo  as eo
      
      Output file = Wheat_APS26_WetN080.out
      Format = normal
@@ -431,7 +434,7 @@
       flowering day          =  265                           stover (kg/ha)         =     7699.7
       maturity day           =  300                           grain yield (kg/ha)    =     3642.6
       grain % water content  =   12.5                         grain yield wet (kg/ha)=     4162.9
-      grain wt (g)           =    0.030                       grains/m^2             =  11981.449
+      grain wt (g)           =    0.030                       grains/m^2             =  11981.450
       grains/plant           =   99.8                         maximum lai            =      4.734
       total above ground biomass (kg/ha)    =    11342.3
       live above ground biomass (kg/ha)     =    11342.3

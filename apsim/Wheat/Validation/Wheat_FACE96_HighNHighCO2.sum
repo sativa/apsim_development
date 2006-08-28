@@ -60,6 +60,9 @@
         wheat.swdef_expan  as swdef_expan
         wheat.nfact_photo  as nfact_photo
         wheat.nfact_expan  as nfact_expan
+        wheat.root_depth  as root_depth
+        wheat.ep  as ep
+        eo  as eo
      
      Output file = Wheat_FACE96_HighNHighCO2.out
      Format = normal
@@ -648,7 +651,7 @@
                           N  (kg/ha) =                 56.44                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               3555.33                    0.00
+                          DM (kg/ha) =               3555.34                    0.00
                           N  (kg/ha) =                 86.07                    0.00
      
       stage 4.0 end_of_juvenile
