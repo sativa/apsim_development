@@ -1,5 +1,6 @@
 //---------------------------------------------------------------------------
 #include <stdlib.h>
+#include <strings.h>
 
 #include <fstream>
 #include <algorithm>
@@ -7,14 +8,15 @@
 #include <vector>
 #include <iomanip>
 #include <sstream>
-#include <general\TreeNodeIterator.h>
-#include <general\xml.h>
-#include <general\string_functions.h>
-#include <general\stl_functions.h>
-#include <ApsimShared\ApsimDataTypeData.h>
-#include <ApsimShared\ApsimDataTypesFile.h>
-#include <ApsimShared\ApsimComponentData.h>
-#include <ApsimShared\ApsimRegistrationData.h>
+#include <stdexcept>
+#include <general/TreeNodeIterator.h>
+#include <general/xml.h>
+#include <general/string_functions.h>
+#include <general/stl_functions.h>
+#include <ApsimShared/ApsimDataTypeData.h>
+#include <ApsimShared/ApsimDataTypesFile.h>
+#include <ApsimShared/ApsimComponentData.h>
+#include <ApsimShared/ApsimRegistrationData.h>
 
 #include "CreateDataTypesF90.h"
 
@@ -415,7 +417,7 @@ class WritePack
             out << ')' << endl;
             out << "   use DataModule" << endl;
             out << "   implicit none" << endl;
-            if (stricmp(pack, "pack") == 0)
+            if (strcasecmp(pack, "pack") == 0)
                writeDeclaration(dataType, out, "in", variableName);
             else
                writeDeclaration(dataType, out, "out", variableName);
@@ -423,7 +425,7 @@ class WritePack
             if (dataType.isArray())
                {
                out << "   integer, intent(";
-               if (strcmpi(pack, "pack") == 0)
+               if (strcasecmp(pack, "pack") == 0)
                   out << "in";
                else
                   out << "out";
@@ -518,12 +520,12 @@ class WritePack
             tempout << '(' << arrayIndex << ')';
          if (builtInArrayType)
             {
-            if (strcmpi(pack, "unpack") == 0)
+            if (strcasecmp(pack, "unpack") == 0)
                tempout << ", max_array_size";
             tempout  << ", " << ref << "Num" << getCleanName(dataType.getName()) << 's';
             }
          tempout << ')' << endl;
-         if (strcmpi(pack, "pack") == 0 &&
+         if (strcasecmp(pack, "pack") == 0 &&
              dataType.getLowerBound() != "" && dataType.getUpperBound() != "")
             {
             tempout.width(arrayLevel*3+3);
@@ -1011,7 +1013,7 @@ class WritePublish
          ApsimDataTypeData dataType = getDataType(registration);
          ostringstream tempout;
          string routineName = publish;
-         if (strcmpi(publish, "event") == 0)
+         if (strcasecmp(publish, "event") == 0)
             routineName = "publish";
          routineName += "_" + getCleanName(dataType.getName());
          if (routinesDoneSoFar.find(routineName) == routinesDoneSoFar.end())

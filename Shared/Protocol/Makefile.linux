@@ -6,7 +6,7 @@
 
 LIB=	libprotocol.so
 
-SRC=	transport.cpp	\
+SRC=	Transport.cpp	\
 	Computation.cpp
 
 OBJ=	$(SRC:.cpp=.o)

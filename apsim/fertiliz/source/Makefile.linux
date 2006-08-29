@@ -61,9 +61,6 @@ install: all
 %.o:	%.f90
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
 
-
-
-
-
-
-
+Registrations.o: Registrations.f90
+Registrations.f90: ../fertiliz.interface 
+	$(APSROOT)/bin/CreateComponentInterfaceSource ../fertiliz.interface

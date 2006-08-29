@@ -1,10 +1,10 @@
 //---------------------------------------------------------------------------
-#include <vcl.h>
-
+#include <stdio.h>
 #include <string>
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <stdexcept>
 #include <general/string_functions.h>
 #include <ApsimShared/ApsimSettings.h>
 

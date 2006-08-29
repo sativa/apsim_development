@@ -46,7 +46,7 @@ class EXPORT ArraySpecifier
       // an array specifier.  Name will have the array specification eg. (2-5)
       // removed and registeredType will become and array e.g. array="T"
       //---------------------------------------------------------------------------
-      static ArraySpecifier* ArraySpecifier::create(char* name, char* type);
+      static ArraySpecifier* create(char* name, char* type);
 
    private:
       unsigned number1;
@@ -59,7 +59,7 @@ class EXPORT ArraySpecifier
       // returns true if all ok.
       //---------------------------------------------------------------------------
       template <class T>
-      bool ArraySpecifier::convertArray(MessageData& messageData, vector<T>& values)
+      bool convertArray(MessageData& messageData, vector<T>& values)
          {
          messageData >> values;
 

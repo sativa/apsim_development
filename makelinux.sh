@@ -1,12 +1,25 @@
 #!/bin/sh
 
 echo ---------------------------------------------------
+export APSROOT=`pwd`
+export LD_LIBRARY_PATH=$APSROOT/lib
+ulimit -s unlimited
+
+rm -rf $APSROOT/lib
+mkdir $APSROOT/lib
+
+echo ---------------------------------------------------
 cd $APSROOT/Shared/general
 make -f Makefile.linux clobber
 make -f Makefile.linux install
 
 echo ---------------------------------------------------
 cd $APSROOT/Shared/ApsimShared
+make -f Makefile.linux clobber
+make -f Makefile.linux install
+
+echo ---------------------------------------------------
+cd $APSROOT/APSBuild/source
 make -f Makefile.linux clobber
 make -f Makefile.linux install
 
@@ -31,7 +44,7 @@ make -f Makefile.linux clobber
 make -f Makefile.linux install
 
 echo ---------------------------------------------------
-cd $APSROOT/apsim/ProtocolManager/source
+cd $APSROOT/apsim/ProtocolManager/Source
 make -f Makefile.linux clobber
 make -f Makefile.linux
 

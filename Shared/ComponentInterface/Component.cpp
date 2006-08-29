@@ -472,7 +472,8 @@ void Component::respondToEvent(unsigned int& fromID, unsigned int& eventID, Vari
   for (IDToRegMap::iterator i = Range.first; i != Range.second; i++)
       {
       RegItem* Reg = i->second;
-      Reg->Data->Unpack(variant.getMessageData());
+      protocol::MessageData msg = variant.getMessageData();
+      Reg->Data->Unpack(msg);
       }
   }
 // ------------------------------------------------------------------
@@ -729,7 +730,8 @@ void Component::onQuerySetValueMessage(unsigned fromID, QuerySetValueData& query
       if (i != RegIDs.end())
          {
          RegItem* Reg = i->second;
-         Reg->Data->Unpack(querySetData.variant.getMessageData());
+         protocol::MessageData msg = querySetData.variant.getMessageData();
+         Reg->Data->Unpack(msg);
          }
       }
    sendMessage(newNotifySetValueSuccessMessage

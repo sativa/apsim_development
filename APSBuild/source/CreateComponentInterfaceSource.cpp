@@ -1,7 +1,5 @@
 //---------------------------------------------------------------------------
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
+#include <iostream.h>
 #include "ComponentInterfaceGenerator.h"
 //---------------------------------------------------------------------------
 int main(int argc, char* argv[])
@@ -16,3 +14,5 @@ int main(int argc, char* argv[])
    return 0;
    }
 //---------------------------------------------------------------------------
+
+

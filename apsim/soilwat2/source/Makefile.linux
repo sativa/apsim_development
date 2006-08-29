@@ -65,9 +65,6 @@ install: all
 %.o:	%.f90
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
 
-
-
-
-
-
-
+Registrations.o: Registrations.f90
+Registrations.f90: ../soilwat2.interface 
+	$(APSROOT)/bin/CreateComponentInterfaceSource ../soilwat2.interface

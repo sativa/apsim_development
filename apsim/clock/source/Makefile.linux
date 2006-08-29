@@ -63,8 +63,6 @@ clobber:	clean
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
 
 
-
-
-
-
-
+Registrations.o: Registrations.f90
+Registrations.f90: ../clock.interface 
+	$(APSROOT)/bin/CreateComponentInterfaceSource ../clock.interface

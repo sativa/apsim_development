@@ -62,8 +62,6 @@ install: all
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
 
 
-
-
-
-
-
+Registrations.o: Registrations.f90
+Registrations.f90: ../manager.interface 
+	$(APSROOT)/bin/CreateComponentInterfaceSource ../manager.interface

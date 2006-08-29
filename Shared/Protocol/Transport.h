@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 #ifndef transportH
 #define transportH
-#include <ComponentInterface/interfaces.h>
+#include <ComponentInterface/Interfaces.h>
 #include <vector>
 
 namespace protocol {

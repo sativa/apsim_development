@@ -5,7 +5,7 @@
 #include "MessageData.h"
 #include <string>
 #include <vector>
-#define MessageDataExt 1
+
 namespace protocol {
 
 // turn of the warnings about "Functions containing for are not expanded inline.

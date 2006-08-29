@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 #ifndef computationH
 #define computationH
-#include <ComponentInterface/interfaces.h>
+#include <ComponentInterface/Interfaces.h>
 #include <stdexcept>
 
 #include <general/platform.h>

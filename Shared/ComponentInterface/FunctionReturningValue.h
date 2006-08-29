@@ -9,7 +9,7 @@
 
 namespace protocol {
 
-class __declspec(dllexport) FunctionReturningValue : public INamedData
+class EXPORT FunctionReturningValue : public INamedData
    // --------------------------------------------------------------
    // This class wraps a getter function for a component. It is also
    // an IData meaning that the result from the getter function can

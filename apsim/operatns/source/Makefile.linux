@@ -63,7 +63,6 @@ install: all
 
 
 
-
-
-
-
+Registrations.o: Registrations.f90
+Registrations.f90: ../operatns.interface 
+	$(APSROOT)/bin/CreateComponentInterfaceSource ../operatns.interface

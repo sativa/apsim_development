@@ -22,6 +22,7 @@
 #include <ApsimShared/ApsimRegistrationData.h>
 #include <ApsimShared/ApsimSimulationFile.h>
 
+#include <ComponentInterface/MessageDataExt.h>
 #include <ComponentInterface/Component.h>
 
 #include "ComponentAlias.h"
