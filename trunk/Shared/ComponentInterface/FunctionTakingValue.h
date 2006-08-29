@@ -6,12 +6,12 @@
 #include <ComponentInterface/Interfaces.h>
 #include <boost/function.hpp>
 #include <ComponentInterface/Variable.h>
-#include <ComponentInterface/DataTypes.h>
+#include <ComponentInterface/datatypes.h>
 
 namespace protocol {
 
 template <class T>
-class __declspec(dllexport) FunctionTakingValue : public INamedData
+class EXPORT FunctionTakingValue : public INamedData
    // --------------------------------------------------------------
    // Encapsulates a function: void f(const std::string&, const T& value)
    // --------------------------------------------------------------

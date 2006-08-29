@@ -1,5 +1,5 @@
 ##################################################
-#file ../shared/componentinterface/datatypes.h
+#file ../Shared/ComponentInterface/datatypes.h
 #ifndef DataTypesH
 #define DataTypesH
 #include <general/stl_functions.h>
@@ -58,13 +58,10 @@ inline protocol::MessageData& operator>>(protocol::MessageData& messageData, str
    return messageData;
    }
 #if (structure.Array = T)
-std::string DDML(const std::vector<structure.nameType>& value)
+std::string DDML(const std::vector<structure.nameType>& value);
 #else
-std::string DDML(const structure.nameType& value)
+std::string DDML(const structure.nameType& value);
 #endif
-   {
-   return structure.cddml;
-   }
 inline unsigned int memorySize(const structure.nameType& data)
    {
    return 0
@@ -83,7 +80,7 @@ void Initstructure.name(std::vector<structure.nameType>& values, const std::stri
 
 #endfile
 ##################################################
-#file ../shared/componentinterface/datatypes.cpp
+#file ../Shared/ComponentInterface/datatypes.cpp
 #include <boost/lexical_cast.hpp>
 #include <general/stl_functions.h>
 #include <general/TreeNodeIterator.h>
@@ -241,6 +238,15 @@ extern "C" void EXPORT STDCALL unpack_structure.name(protocol::Variant* variant,
    variant->unpack(*data);
    }
    #endif
+
+#if (structure.Array = T)
+std::string DDML(const std::vector<protocol::structure.nameType>& value)
+#else
+std::string DDML(const protocol::structure.nameType& value)
+#endif
+   {
+   return structure.cddml;
+   }
 
 #endfor
 

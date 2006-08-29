@@ -1,6 +1,6 @@
 #ifndef ComponentAliasH
 #define ComponentAliasH
-#include <ComponentInterface/interfaces.h>
+#include <ComponentInterface/Interfaces.h>
 // ------------------------------------------------------------------
 // Encapsulates a component.
 // ------------------------------------------------------------------

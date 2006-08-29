@@ -2,7 +2,7 @@
    #include <vcl.h>    // Gets around linker error: Unresolved external 'System::__linkproc__ __fastcall HandleFinally()' referenced from C:\PROGRAM FILES\BORLAND\CBUILDER6\LIB\OBJ\SYSINIT.OBJ
 #endif
 #include <stdio.h>
-#include <dir.h>
+//#include <dir.h>
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -18,7 +18,7 @@
 #include <ApsimShared/ApsimServiceData.h>
 #include <ApsimShared/ApsimSimulationFile.h>
 
-#include <ComponentInterface/interfaces.h>
+#include <ComponentInterface/Interfaces.h>
 
 #include "Simulation.h"
 

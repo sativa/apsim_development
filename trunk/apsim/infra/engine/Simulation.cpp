@@ -19,7 +19,7 @@
 #endif
 #include <ApsimShared/ApsimDirectories.h>
 
-#include <ComponentInterface/interfaces.h>
+#include <ComponentInterface/Interfaces.h>
 #include <ComponentInterface/MessageDataExt.h>
 #include <ComponentInterface/Messages.h>
 

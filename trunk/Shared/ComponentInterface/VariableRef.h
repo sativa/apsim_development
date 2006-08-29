@@ -9,7 +9,7 @@
 namespace protocol {
 
 
-class __declspec(dllexport) VariableRef : public IData
+class EXPORT VariableRef : public IData
    // --------------------------------------------------------------
    // This class wraps a VariableRef from an APSIM module.
    // --------------------------------------------------------------

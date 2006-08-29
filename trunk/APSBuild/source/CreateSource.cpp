@@ -1,13 +1,14 @@
 //---------------------------------------------------------------------------
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
-#include <general\Macro.h>
-#include <general\TreeNodeIterator.h>
-#include <general\xml.h>
-#include <general\stl_functions.h>
-#include <ApsimShared\ApsimDataTypeData.h>
-#include <ApsimShared\ApsimDataTypesFile.h>
+
+#include <stdio.h>
+#include <set>
+#include <stdexcept>
+#include <general/macro.h>
+#include <general/TreeNodeIterator.h>
+#include <general/xml.h>
+#include <general/stl_functions.h>
+#include <ApsimShared/ApsimDataTypeData.h>
+#include <ApsimShared/ApsimDataTypesFile.h>
 #include "CreateSource.h"
 
 using namespace std;

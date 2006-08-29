@@ -28,7 +28,7 @@
 #include <ComponentInterface/VariableRef.h>
 #include <ComponentInterface/FunctionReturningValue.h>
 #include <ComponentInterface/FunctionTakingValue.h>
-#include <ComponentInterface/interfaces.h>
+#include <ComponentInterface/Interfaces.h>
 
 namespace protocol {
 

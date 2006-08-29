@@ -7,6 +7,7 @@
 #include <general/math_functions.h>
 
 #include <ApsimShared/ApsimDataFile.h>
+#include <ComponentInterface/MessageDataExt.h>
 #include <ComponentInterface/Component.h>
 
 #include "StringVariant.h"

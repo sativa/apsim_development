@@ -24,7 +24,7 @@ using namespace boost;
 // ------------------------------------------------------------------
 ApsimSettings::ApsimSettings(void)
 	{
-   string originalPath = getApsimDirectory() + "\\apsim.ini";
+   string originalPath = getApsimDirectory() + "/Apsim.ini";
    original = new IniFile(originalPath);
    }
 // ------------------------------------------------------------------

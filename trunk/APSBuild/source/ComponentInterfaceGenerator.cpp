@@ -1,19 +1,20 @@
 //---------------------------------------------------------------------------
-#include <general\pch.h>
-#include <vcl.h>
-#pragma hdrstop
-#include "ComponentInterfaceGenerator.h"
-#include <general\path.h>
-#include <general\Macro.h>
-#include <general\TreeNodeIterator.h>
-#include <general\xml.h>
-#include <general\stl_functions.h>
-#include <ApsimShared\ApsimSettings.h>
-#include <ApsimShared\ApsimDataTypeData.h>
-#include <ApsimShared\ApsimComponentData.h>
-#include <ApsimShared\ApsimRegistrationData.h>
+#include <stdio.h>
 #include <iostream>
+#include <fstream>
+#include <stdexcept>
 #include <vector>
+
+#include "ComponentInterfaceGenerator.h"
+#include <general/path.h>
+#include <general/macro.h>
+#include <general/TreeNodeIterator.h>
+#include <general/xml.h>
+#include <general/stl_functions.h>
+#include <ApsimShared/ApsimSettings.h>
+#include <ApsimShared/ApsimDataTypeData.h>
+#include <ApsimShared/ApsimComponentData.h>
+#include <ApsimShared/ApsimRegistrationData.h>
 using namespace std;
 //---------------------------------------------------------------------------
 // Predicate to filter registrations of a particular type.
@@ -88,7 +89,7 @@ void GenerateComponentInterface(const string& interfaceFileName)
    try
       {
 
-      if (!FileExists(interfaceFileName.c_str()))
+      if (!fileExists(interfaceFileName.c_str()))
          throw runtime_error("Cannot find component interface file: " + interfaceFileName);
 
       ifstream in(interfaceFileName.c_str());
@@ -140,7 +141,7 @@ void GenerateComponentInterface(const string& interfaceFileName)
       string macrofile;
       ApsimSettings settings;
       settings.read("APSBuild|ComponentInterfaceMacroFile", macrofile, true);
-      if (!FileExists(macrofile.c_str()))
+      if (!fileExists(macrofile.c_str()))
          throw runtime_error("Cannot find component interface macro file: " + macrofile);
 
       ifstream in2(macrofile.c_str());

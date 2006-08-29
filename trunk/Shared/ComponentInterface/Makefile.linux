@@ -67,14 +67,23 @@ $(LIB):	$(OBJ)
 FORCE:
 
 clean:
-	rm -f *.o *.mod
+	rm -f *.o *.mod datatypes.cpp datatypes.h 
 
 clobber:	clean
-	rm -r $(LIB)
+	rm -f $(LIB)
 
 install: all
 	cp $(LIB) $(APSROOT)/lib
 
-%.o:	%.cpp
+%.o:	%.cpp datatypes.h 
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+
+datatypes.o: datatypes.h datatypes.cpp \
+		$(APSROOT)/apsim/infra/datatypes.interface \
+		$(APSROOT)/APSBuild/datatypes.macro 
+
+datatypes.cpp datatypes.h:  $(APSROOT)/apsim/infra/datatypes.interface \
+				$(APSROOT)/APSBuild/datatypes.macro \
+				$(APSROOT)/Bin/CreateDataTypesSource
+	( cd $(APSROOT)/Bin && $(APSROOT)/Bin/CreateDataTypesSource $(APSROOT)/apsim/infra/datatypes.interface $(APSROOT)/APSBuild/datatypes.macro )
 
