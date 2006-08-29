@@ -1,6 +1,5 @@
 //---------------------------------------------------------------------------
 #include <stdlib.h>
-#include <strings.h>
 
 #include <fstream>
 #include <algorithm>
@@ -417,7 +416,7 @@ class WritePack
             out << ')' << endl;
             out << "   use DataModule" << endl;
             out << "   implicit none" << endl;
-            if (strcasecmp(pack, "pack") == 0)
+            if (Str_i_Eq(pack, "pack"))
                writeDeclaration(dataType, out, "in", variableName);
             else
                writeDeclaration(dataType, out, "out", variableName);
@@ -425,7 +424,7 @@ class WritePack
             if (dataType.isArray())
                {
                out << "   integer, intent(";
-               if (strcasecmp(pack, "pack") == 0)
+               if (Str_i_Eq(pack, "pack"))
                   out << "in";
                else
                   out << "out";
@@ -520,12 +519,12 @@ class WritePack
             tempout << '(' << arrayIndex << ')';
          if (builtInArrayType)
             {
-            if (strcasecmp(pack, "unpack") == 0)
+            if (Str_i_Eq(pack, "unpack"))
                tempout << ", max_array_size";
             tempout  << ", " << ref << "Num" << getCleanName(dataType.getName()) << 's';
             }
          tempout << ')' << endl;
-         if (strcasecmp(pack, "pack") == 0 &&
+         if (Str_i_Eq(pack, "pack") &&
              dataType.getLowerBound() != "" && dataType.getUpperBound() != "")
             {
             tempout.width(arrayLevel*3+3);
@@ -1013,7 +1012,7 @@ class WritePublish
          ApsimDataTypeData dataType = getDataType(registration);
          ostringstream tempout;
          string routineName = publish;
-         if (strcasecmp(publish, "event") == 0)
+         if (Str_i_Eq(publish, "event") == 0)
             routineName = "publish";
          routineName += "_" + getCleanName(dataType.getName());
          if (routinesDoneSoFar.find(routineName) == routinesDoneSoFar.end())
