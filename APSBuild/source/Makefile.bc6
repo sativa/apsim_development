@@ -14,7 +14,6 @@ DTOBJECTS=CreateDataTypesSource.obj CreateSource.obj CreateDataTypesF90.obj
 CIOBJECTS=CreateComponentInterfaceSource.obj ComponentInterfaceGenerator.obj
 
 LIBFILES = $(SYSLIBS) $(APSROOT)\Shared\general\general.lib \
-	$(APSROOT)\Shared\general\general_vcl.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
 	$(BCB)\components\libxml2\win32\libxml2.lib \
 	$(BCB)\components\boost\libs\filesystem\filesystem.lib
@@ -28,13 +27,13 @@ LIBPATH = $(SYSLIBPATH)
 # 'Wizard' generated:
 #CFLAG1 = -Od -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWC -tWM- -c
 
-CFLAG1 = $(SYSCFLAGS) -O2 -r- -vi- -tWM
+CFLAG1 = $(SYSCFLAGS) -O2 -r- -vi- -tWM -tWC 
 WARNINGS = -w-par
 LFLAGS =  -ap -Tpe -x -Gn -v
 
-STDOBJ = c0x32.obj vcl.lib Memmgr.Lib sysinit.obj
+STDOBJ = c0x32.obj Memmgr.Lib sysinit.obj
 ALLRES = $(RESFILES)
-ALLLIB = $(LIBFILES) import32.lib cp32mti.lib
+ALLLIB = $(LIBFILES) import32.lib cw32mti.lib
 
 CC=$(BCB)\Bin\bcc32.exe
 LD=$(BCB)\Bin\ilink32
