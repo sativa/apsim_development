@@ -1,8 +1,8 @@
 #ifdef __WIN32__
    #include <vcl.h>    // Gets around linker error: Unresolved external 'System::__linkproc__ __fastcall HandleFinally()' referenced from C:\PROGRAM FILES\BORLAND\CBUILDER6\LIB\OBJ\SYSINIT.OBJ
+   #include <dir.h>
 #endif
 #include <stdio.h>
-//#include <dir.h>
 #include <string>
 #include <fstream>
 #include <iostream>

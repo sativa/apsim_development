@@ -19,7 +19,7 @@ namespace protocol {
 #for_each type
 
 #if (type.Array = T)
-	std::string DDML(const std::vector<type.ckind>& value);
+   std::string DDML(const std::vector<type.ckind>& value);
 #else
    std::string DDML(const type.ckind& value);
 #endif
@@ -58,9 +58,9 @@ inline protocol::MessageData& operator>>(protocol::MessageData& messageData, str
    return messageData;
    }
 #if (structure.Array = T)
-std::string DDML(const std::vector<structure.nameType>& value);
+std::string EXPORT DDML(const std::vector<structure.nameType>& value);
 #else
-std::string DDML(const structure.nameType& value);
+std::string EXPORT DDML(const structure.nameType& value);
 #endif
 inline unsigned int memorySize(const structure.nameType& data)
    {
@@ -99,18 +99,18 @@ extern "C" void EXPORT STDCALL publish_null(unsigned* id)
    FortranWrapper::currentInstance->publish(*id, pd);
    }
 
-#for_each type
 namespace protocol {
+#for_each type
 #if (type.Array = T)
-	std::string DDML(const std::vector<type.ckind>& value)
+std::string DDML(const std::vector<type.ckind>& value)
 #else
-   std::string DDML(const type.ckind& value)
+std::string DDML(const type.ckind& value)
 #endif
-	   {
-	   return type.cddml;
-	   }
-} // protocol
+   {
+   return type.cddml;
+   }
 #endfor
+} // protocol
 
 #for_each structure
 namespace protocol {
@@ -215,6 +215,16 @@ void Initstructure.name(std::vector<structure.nameType>& values, const std::stri
       }
    }
    #endif
+
+#if (structure.Array = T)
+std::string EXPORT DDML(const std::vector<structure.nameType>& value)
+#else
+std::string EXPORT DDML(const structure.nameType& value)
+#endif
+   {
+   return structure.cddml;
+   }
+
 }; // namespace protocol
    #if (structure.array = T)
 extern "C" void EXPORT STDCALL publish_structure.name(unsigned* id, const protocol::Fstructure.nameType data[], unsigned* numValues)
@@ -238,15 +248,6 @@ extern "C" void EXPORT STDCALL unpack_structure.name(protocol::Variant* variant,
    variant->unpack(*data);
    }
    #endif
-
-#if (structure.Array = T)
-std::string DDML(const std::vector<protocol::structure.nameType>& value)
-#else
-std::string DDML(const protocol::structure.nameType& value)
-#endif
-   {
-   return structure.cddml;
-   }
 
 #endfor
 

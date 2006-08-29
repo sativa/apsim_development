@@ -24,20 +24,21 @@
     <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
     <RELEASELIBPATH value="$(BCB)\lib\release"/>
     <LINKER value="ilink32"/>
-    <USERDEFINES value=""/>
+    <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="apsim.bpf"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(SHARED)"/>
+    <INCLUDEPATH value="$(BCB)\Components\Boost;$(BCB)\include;$(BCB)\include\vcl;..\..\..\Shared"/>
     <LIBPATH value="$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-O2 -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -k- -vi -tWC -tWM -c"/>
-    <PFLAGS value="-$Y- -$L- -$D- -$A8 -v -JPHNE -M"/>
+    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -tWC 
+      -tWM -c"/>
+    <PFLAGS value="-$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
-    <AFLAGS value="/mx /w2 /zn"/>
-    <LFLAGS value="-l. -D&quot;&quot; -ap -Tpe -x -Gn"/>
+    <AFLAGS value="/mx /w2 /zi"/>
+    <LFLAGS value="-l. -D&quot;&quot; -ap -Tpe -x -Gn -v"/>
     <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
@@ -89,20 +90,19 @@ Comments=APSIM Report Viewer
 
 [Excluded Packages]
 c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
-D:\development\Bin\APSGeneral.bpl=APSGeneral
-D:\development\Bin\APSData.bpl=APSuite data components
-C:\Program Files\Borland\CBuilder6\Components\TeeChart\source\Sources\Compiled\BuilderC6\System\TeeImage7C6.bpl=TeeChart Pro Graphic Exporting formats
-C:\Program Files\Borland\CBuilder6\Components\MemTable\kbmMemC6Des.bpl=kbmMemC6Des
 
 [HistoryLists\hlIncludePath]
-Count=7
-Item0=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item1=D:\development\apsim\infra\engine;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\ThirdParty;$(BCB)\Components\tms
-Item2=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\ThirdParty;$(BCB)\Components\tms
-Item3=C:\Program Files\Borland\CBuilder6\Components\ThirdParty;D:\Projects\Viewer;$(BCB)\include;$(BCB)\include\vcl;$(tmsDir);$(tmsDir)\xlsAdapter;C:\Program Files\Borland\CBuilder6\Projects
-Item4=D:\Projects\Viewer;$(BCB)\include;$(BCB)\include\vcl;$(tmsDir);$(tmsDir)\xlsAdapter;C:\Program Files\Borland\CBuilder6\Projects
-Item5=$(BCB)\include;$(BCB)\include\vcl;$(tmsDir);$(tmsDir)\xlsAdapter;C:\Program Files\Borland\CBuilder6\Projects
-Item6=D:\Projects\PIONEER\STAR\ftp;C:\Program Files\Borland\CBuilder6\Projects;D:\Projects\PIONEER\TXML;$(BCB)\include;$(BCB)\include\vcl
+Count=10
+Item0=$(BCB)\Components\Boost;$(BCB)\include;$(BCB)\include\vcl;..\..\..\Shared
+Item1=$(BCB)\Components;$(BCB)\include;$(BCB)\include\vcl;..\..\..\Shared
+Item2=$(BCB)\include;$(BCB)\include\vcl;..\..\..\Shared
+Item3=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item4=D:\development\apsim\infra\engine;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\ThirdParty;$(BCB)\Components\tms
+Item5=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\ThirdParty;$(BCB)\Components\tms
+Item6=C:\Program Files\Borland\CBuilder6\Components\ThirdParty;D:\Projects\Viewer;$(BCB)\include;$(BCB)\include\vcl;$(tmsDir);$(tmsDir)\xlsAdapter;C:\Program Files\Borland\CBuilder6\Projects
+Item7=D:\Projects\Viewer;$(BCB)\include;$(BCB)\include\vcl;$(tmsDir);$(tmsDir)\xlsAdapter;C:\Program Files\Borland\CBuilder6\Projects
+Item8=$(BCB)\include;$(BCB)\include\vcl;$(tmsDir);$(tmsDir)\xlsAdapter;C:\Program Files\Borland\CBuilder6\Projects
+Item9=D:\Projects\PIONEER\STAR\ftp;C:\Program Files\Borland\CBuilder6\Projects;D:\Projects\PIONEER\TXML;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
 Count=11
@@ -141,7 +141,7 @@ Item0=.
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=
+RunParams=C:\development\apsim\accum\sample\accum.sim
 Launcher=
 UseLauncher=0
 DebugCWD=

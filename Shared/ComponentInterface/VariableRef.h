@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <general/platform.h>
 #include <ComponentInterface/Interfaces.h>
 
 namespace protocol {
