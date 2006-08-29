@@ -204,6 +204,8 @@
          real    swcon (max_layer)                    ! soil water conductivity constant (1/d)
                                                       ! ie day**-1 for each soil layer
          real    mwcon (max_layer)                    ! impermeable soil layer indicator
+         logical using_ks                             ! flag to determine if Ks has been chosen for use.
+         real    ks (max_layer)                       ! saturated conductivity (mm/d)
          real    max_pond                             ! maximum surface storage capacity of soil
          real   cn2_bare                              ! curve number input used to calculate
                                                       ! daily g_runoff
@@ -303,7 +305,7 @@
       call soilwat2_zero_daily_variables ()
       call soilwat2_get_crop_variables ()
       call soilwat2_get_environ_variables ()
-               
+
       ! potential: sevap + transpiration:
       call soilwat2_pot_evapotranspiration (g%eo)
       g%real_eo = g%eo  ! store for reporting
@@ -426,8 +428,11 @@ c dsg 070302 added runon
 
             ! drainage
             ! get flux
-
-      call soilwat2_drainage (g%flux,extra_runoff)
+      if (p%using_ks) then
+         call soilwat2_drainage (g%flux,extra_runoff)
+      else
+         call soilwat2_drainage_old (g%flux,extra_runoff)
+      endif
 
       g%pond = min (extra_runoff, p%max_pond)
       g%runoff = g%runoff + extra_runoff - g%pond
@@ -1906,6 +1911,126 @@ c     should suffice.
 *+  Purpose
 *       calculate flux - drainage from each layer
 
+*+  Constant Values
+      character  my_name*(*)           ! name of subroutine
+      parameter (my_name = 'soilwat2_drainage')
+
+*+  Local Variables
+
+      real       add                   ! water to add to layer
+      real       backup                ! water to backup
+      real       excess                ! amount above saturation(overflow)(mm)
+      real       excess_down           ! amount above saturation(overflow)
+                                       ! that moves on down (mm)
+      real       new_sw_dep(max_layer) ! record of results of sw calculations
+                                       ! ensure mass balance. (mm)
+      integer    l                     ! counter
+      integer    layer                 ! counter for layer no.
+      integer    num_layers            ! number of layers
+      real       w_drain               ! water draining by gravity (mm)
+      real       w_in                  ! water coming into layer (mm)
+      real       w_out                 ! water going out of layer (mm)
+      real       w_tot                 ! total water in layer at start (mm)
+
+*- Implementation Section ----------------------------------
+
+      call push_routine (my_name)
+
+                ! flux into layer 1 = infiltration (mm).
+
+      w_in = 0.0
+      extra_runoff = 0.0
+      flux(1:max_layer) = 0.0
+
+                ! calculate drainage and water
+                ! redistribution.
+
+      num_layers = count_of_real_vals (p%dlayer, max_layer)
+
+      do 240 layer = 1, num_layers
+             ! get total water concentration in layer
+
+         w_tot = g%sw_dep(layer) + w_in
+
+             ! get excess water above saturation & then water left
+             ! to drain between sat and dul.  Only this water is
+             ! subject to swcon. The excess is not - treated as a
+             ! bucket model. (mm)
+
+         if (w_tot.gt.g%sat_dep(layer)) then
+            excess = w_tot - g%sat_dep(layer)
+            w_tot = g%sat_dep(layer)
+         else
+            excess = 0.0
+         endif
+
+         if (w_tot.gt. g%dul_dep(layer)) then
+            w_drain = (w_tot - g%dul_dep(layer)) *p%swcon(layer)
+            !w_drain = min(w_drain,p%Ks(layer))
+         else
+            w_drain = 0.0
+         endif
+
+             ! get water draining out of layer (mm)
+
+         if (excess.gt.0.0) then
+
+            ! Calculate amount of water to backup and push down
+            ! Firstly top up this layer (to saturation)
+            add = min (excess, w_drain)
+            excess = excess - add
+            new_sw_dep(layer) = g%sat_dep(layer) - w_drain + add
+
+            ! partition between flow back up and flow down
+            excess_down = min(p%ks(layer)-w_drain, excess)
+            backup = excess - excess_down
+
+            w_out = excess_down + w_drain
+            flux(layer) = w_out
+
+            ! now back up to saturation for this layer up out of the
+            ! backup water keeping account for reduction of actual
+            ! flow rates (flux) for N movement.
+
+            do 100 l=layer-1,1,-1
+               flux(l) = flux(l) - backup
+               add = min(g%sat_dep(l) - new_sw_dep(l),backup)
+               new_sw_dep(l) = new_sw_dep(l) + add
+               backup = backup - add
+  100       continue
+            extra_runoff = extra_runoff + backup
+
+         else
+            ! there is no excess so do nothing
+            w_out = w_drain
+            flux(layer) = w_out
+            new_sw_dep(layer) = g%sw_dep(layer) + w_in - w_out
+
+         endif
+
+             ! drainage out of this layer goes into next layer down
+
+         w_in = w_out
+240   continue
+
+      call pop_routine (my_name)
+      return
+      end subroutine
+
+*     ===========================================================
+      subroutine soilwat2_drainage_old (flux,extra_runoff)
+*     ===========================================================
+      Use Infrastructure
+      implicit none
+
+*+  Sub-Program Arguments
+      real       flux (*)              ! (output) water moving out of
+      real       extra_runoff          ! (output) water to add to runoff
+                                       ! layer (mm)
+
+*+  Purpose
+*       calculate flux - drainage from each layer
+
 *+  Mission Statement
 *     Calculate Drainage from each layer
 
@@ -1923,7 +2048,7 @@ c     should suffice.
 
 *+  Constant Values
       character  my_name*(*)           ! name of subroutine
-      parameter (my_name = 'soilwat2_drainage')
+      parameter (my_name = 'soilwat2_drainage_old')
 
 *+  Local Variables
 
@@ -1977,9 +2102,6 @@ c     should suffice.
          else
             w_drain = 0.0
          endif
-
-
-
 
              ! get water draining out of layer (mm)
 
@@ -2971,6 +3093,20 @@ c       be set to '1' in all layers by default
 
       if (numvals.eq.0) then
           p%mwcon(:) = 1.0
+      else
+          call warning_error (err_user,
+     :     'mwcon is being replaced with a saturated conductivity. '//
+     :     'See documentation for details.')
+      endif
+
+      call read_real_array_optional (section_name
+     :                     , 'ks', max_layer, '()'
+     :                     , p%ks, numvals
+     :                     , 0.0, 1000.)
+      if (numvals.eq.0) then
+          p%using_ks = .false.
+      else
+          p%using_ks = .true.
       endif
 
 
