@@ -14,15 +14,19 @@
          integer num_solutes
          real    dlayer (max_layer)
          real    bd (max_layer)
+         real    sw (max_layer)
+         real    sat (max_layer)
+         real    ll15(max_layer)
          real    maxlayeramount(max_solutes)
-         real    maxlayeramount_ppm(max_solutes) 
+         real    maxlayeramount_ppm(max_solutes)
          integer maxlayer(max_solutes)
-         
+
       end type SoluteGlobals
 !     ========================================
       Type SoluteParameters
          sequence
          character solute_names(max_solutes)*20
+         real     D0(max_solutes)
       end type SoluteParameters
 !     ========================================
       Type SoluteConstants
@@ -128,6 +132,7 @@
             g%solute(solnum,layer) = 0.0
   100    continue
          p%solute_names(solnum) = ' '
+         p%D0(solnum) = 0.0
   200 continue
 
       call pop_routine (myname)
@@ -182,6 +187,35 @@
      :      0.,              ! Lower Limit for bound checking
      :      1000.)          ! Upper Limit for bound checking
 
+      call Get_real_array (
+     :      unknown_module, ! Module that responds (Not Used)
+     :      'sat',       ! Variable Name
+     :      max_layer,      ! Array Size
+     :      '(cc/cc)',         ! Units                (Not Used)
+     :      g%sat,       ! Variable
+     :      numvals,        ! Number of values returned
+     :      0.,              ! Lower Limit for bound checking
+     :      1.)          ! Upper Limit for bound checking
+
+      call Get_real_array (
+     :      unknown_module, ! Module that responds (Not Used)
+     :      'll15',       ! Variable Name
+     :      max_layer,      ! Array Size
+     :      '(cc/cc)',         ! Units                (Not Used)
+     :      g%ll15,       ! Variable
+     :      numvals,        ! Number of values returned
+     :      0.,              ! Lower Limit for bound checking
+     :      1.)          ! Upper Limit for bound checking
+
+      call Get_real_array (
+     :      unknown_module, ! Module that responds (Not Used)
+     :      'sw',       ! Variable Name
+     :      max_layer,      ! Array Size
+     :      '(cc/cc)',         ! Units                (Not Used)
+     :      g%sw,       ! Variable
+     :      numvals,        ! Number of values returned
+     :      0.,              ! Lower Limit for bound checking
+     :      1.)          ! Upper Limit for bound checking
       call pop_routine (myname)
       return
       end subroutine
@@ -262,7 +296,7 @@
             solnum = counter
             else
             endif
-  300     continue 
+  300     continue
           call respond2Get_real_var (Variable_name
      &                            ,'(kg/ha)',g%maxlayeramount(solnum))
 
@@ -276,7 +310,7 @@
             solnum = counter
             else
             endif
-  350     continue 
+  350     continue
           call respond2Get_real_var (Variable_name
      &                        ,'(ppm)',g%maxlayeramount_ppm(solnum))
 
@@ -289,7 +323,7 @@
             solnum = counter
             else
             endif
-  400     continue 
+  400     continue
           call respond2Get_integer_var (Variable_name
      &                            ,'(kg/ha)',g%maxlayer(solnum))
 
@@ -345,6 +379,7 @@
       integer    solnum
       integer    numvals               ! number of values read
       real       sol(max_layer)
+      character parname*100
 
 *- Implementation Section ----------------------------------
 
@@ -380,6 +415,22 @@
             do 100 layer = 1, numvals
                g%solute(solnum,layer) = sol(layer)
   100       continue
+
+            parname = 'd0_'//p%solute_names(solnum)
+
+            call read_real_var_optional (
+     :           section_name,          ! Section header
+     :           parname,! Keyword
+     :           '(mm2/d)',             ! Units
+     :           p%d0(solnum),
+     :           numvals,               ! Number of values returned
+     :           0.0,           ! Lower Limit for bound checking
+     :           1000.0)           ! Upper Limit for bound checking
+
+            if (numvals.lt.1) then
+               p%d0(solnum) = 0.0
+            endif
+
          else
             ! solute is blank so ignore it.
          endif
@@ -590,11 +641,11 @@
       implicit none
 
 *+  Purpose
-*      To check maximum loads of solutes both in whole profile, each layer and 
+*      To check maximum loads of solutes both in whole profile, each layer and
 *      defining which layer has the highest solute concentration
 
 *+  Mission Statement
-*      To check maximum loads of solutes both in whole profile, each layer and 
+*      To check maximum loads of solutes both in whole profile, each layer and
 *      defining which layer has the highest solute concentration
 
 *+  Changes
@@ -617,26 +668,26 @@
       g%maxlayer(:) = 0
       num_layers = count_of_real_vals(g%dlayer,max_layer)
 
-      
+
       ! dsg 061204  This subroutine has been included in order to provide daily outputs for the
       !             maximum amount (in any layer) of each solute, that corresponding layer number and
       !             the total amount of that solute in the whole profile (kg/ha)
       do 200 solnum = 1,g%num_solutes
 
         do 100 layer = 1,num_layers
-  
+
           if (g%solute(solnum,layer).gt.g%maxlayeramount(solnum))then
                g%maxlayeramount(solnum) = g%solute(solnum,layer)
                g%maxlayer(solnum) = layer
-          endif               
-            
+          endif
+
   100   continue
 
       fac = divide (100.0, g%bd(g%maxlayer(solnum))
-     &           *g%dlayer(g%maxlayer(solnum)), 0.0)    
+     &           *g%dlayer(g%maxlayer(solnum)), 0.0)
       g%maxlayeramount_ppm(solnum) = g%maxlayeramount(solnum) * fac
 
-         
+
   200 continue
 
 
@@ -646,7 +697,68 @@
       end subroutine
 
 
+* ====================================================================
+       subroutine solute_diffusion ()
+* ====================================================================
+      Use Infrastructure
+      implicit none
 
+*+  Purpose
+*      To move solutes between layers due to concentration gradients
+
+*+  Constant Values
+      character  myname*(*)            ! name of this procedure
+      parameter (myname = 'solute_diffusion')
+
+*+  Local Variables
+       integer num_layers              ! number of soil layers
+       integer layer
+       integer solnum
+       real    flux
+       real    c1,c2, avsw, dx, avt, t1,t2
+*- Implementation Section ----------------------------------
+
+      call push_routine (myname)
+      num_layers = count_of_real_vals(g%dlayer,max_layer)
+
+      do 200 solnum = 1,g%num_solutes
+
+        do 100 layer = 1,num_layers -1
+           ! Calculate concentrations in SW solution
+           c1 = g%solute(solnum,layer)
+     :        /(g%dlayer(layer)*100000.**2*g%sw(layer)) ! kg/mm3 water
+           c2 = g%solute(solnum,layer+1)
+     :        /(g%dlayer(layer+1)*100000.**2*g%sw(layer+1)) ! kg/mm3 water
+           ! Calculate average water content
+           avsw = (g%sw(layer)+g%sw(layer+1))/2.
+
+! Moldrup et al type approach
+!           t1 = (g%sw(layer)-g%ll15(layer))/(g%sat(layer)-g%ll15(layer))
+!           t1 = bound (t1, 0.0,1.0)
+!           t2 = (g%sw(layer+1)-g%ll15(layer+1))
+!     :               /(g%sat(layer+1)-g%ll15(layer+1))
+!           t2 = bound (t2, 0.0,1.0)
+!           avt = (t1+t2)/2.0
+
+! Millington and Quirk type approach for pore water tortuosity
+           avt = ((g%sw(layer)/g%sat(layer))**2
+     :         + (g%sw(layer+1)/g%sat(layer+1))**2)/2.    ! average tortuosity
+
+
+           dx = (g%dlayer(layer)+g%dlayer(layer+1))/2.
+           flux = avt*avsw*p%D0(solnum)*(c1-c2)/dx
+     :           *100000.**2  ! mm2 / ha
+
+           g%solute(solnum,layer) = g%solute(solnum,layer) - flux
+           g%solute(solnum,layer+1) = g%solute(solnum,layer+1) + flux
+
+  100   continue
+
+  200 continue
+
+      call pop_routine (myname)
+      return
+      end subroutine
 
       end module SoluteModule
 
@@ -654,7 +766,7 @@
       subroutine alloc_dealloc_instance(doAllocate)
 !     ===========================================================
       use SoluteModule
-      implicit none  
+      implicit none
       ml_external alloc_dealloc_instance
 
 !+  Sub-Program Arguments
@@ -716,6 +828,7 @@
       else if (Action.eq.ACTION_Process) then
          call solute_get_other_variables ()
          call solute_check_maximumloads ()
+         call solute_diffusion()
 
       else if (Action.eq.ACTION_Create) then
          call doRegistrations(id)
@@ -744,10 +857,10 @@
       Use infrastructure
       implicit none
       ml_external respondToEvent
-      
+
       integer, intent(in) :: fromID
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
-      
+
       return
       end subroutine respondToEvent
