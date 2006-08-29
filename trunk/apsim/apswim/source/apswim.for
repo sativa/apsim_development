@@ -1495,25 +1495,25 @@ c      read(ret_string, *, iostat = err_code) g%rain
 
       if (Variable_name .eq. 'dlayer') then
          call respond2Get_double_array (
-     :            'dlayer',
+     :            Variable_name,
      :            '(mm)',
      :            g%dlayer(0),
      :            p%n+1)
       else if (Variable_name .eq. 'bd') then
          call respond2Get_double_array (
-     :            'bd',
+     :            Variable_name,
      :            '(g/cc)',
      :            p%rhob(0),
      :            p%n+1)
       else if (Variable_name .eq. 'sw') then
          call respond2Get_double_array (
-     :            'sw',
+     :            Variable_name,
      :            '(cc/cc)',
      :            g%th(0),
      :            p%n+1)
       else if (Variable_name .eq. 'swf') then
          call respond2Get_real_array (
-     :            'swf',
+     :            Variable_name,
      :            '()',
      :            g%swf(0),
      :            p%n+1)
@@ -1522,14 +1522,14 @@ c      read(ret_string, *, iostat = err_code) g%rain
             dummy(node) = g%th(node)*g%dlayer(node)
    11    continue
          call respond2Get_double_array (
-     :            'sw_dep',
+     :            Variable_name,
      :            '(mm)',
      :            dummy(0),
      :            p%n+1)
 
       else if (Variable_name .eq. 'll15') then
          call respond2Get_double_array (
-     :            'LL15',
+     :            Variable_name,
      :            '(cc/cc)',
      :            g%LL15(0),
      :            p%n+1)
@@ -1538,13 +1538,13 @@ c      read(ret_string, *, iostat = err_code) g%rain
             dummy(node) = g%LL15(node)*g%dlayer(node)
    12    continue
          call respond2Get_double_array (
-     :            'll15_dep',
+     :            Variable_name,
      :            '(mm)',
      :            dummy(0),
      :            p%n+1)
       else if (Variable_name .eq. 'dul') then
          call respond2Get_double_array (
-     :            'DUL',
+     :            Variable_name,
      :            '(cc/cc)',
      :            g%DUL(0),
      :            p%n+1)
@@ -1553,13 +1553,13 @@ c      read(ret_string, *, iostat = err_code) g%rain
             dummy(node) = g%DUL(node)*g%dlayer(node)
    13    continue
          call respond2Get_double_array (
-     :            'dul_dep',
+     :            Variable_name,
      :            '(mm)',
      :            dummy(0),
      :            p%n+1)
       else if (Variable_name .eq. 'sat') then
          call respond2Get_double_array (
-     :            'SAT',
+     :            Variable_name,
      :            '(cc/cc)',
      :            g%SAT(0),
      :            p%n+1)
@@ -1568,24 +1568,24 @@ c      read(ret_string, *, iostat = err_code) g%rain
             dummy(node) = g%SAT(node)*g%dlayer(node)
    14    continue
          call respond2Get_double_array (
-     :            'sat_dep',
+     :            Variable_name,
      :            '(mm)',
      :            dummy(0),
      :            p%n+1)
       else if (Variable_name .eq. 'wp') then
          call respond2Get_double_var (
-     :            'wp',
+     :            Variable_name,
      :            '(mm)',
      :            g%wp)
       else if (Variable_name .eq. 'p') then
          call respond2Get_double_array (
-     :            'p',
+     :            Variable_name,
      :            '(??)',
      :            g%p(0),
      :            p%n+1)
       else if (Variable_name .eq. 'psi') then
          call respond2Get_double_array (
-     :            'psi',
+     :            Variable_name,
      :            '(??)',
      :            g%psi(0),
      :            p%n+1)
@@ -1604,12 +1604,12 @@ c      read(ret_string, *, iostat = err_code) g%rain
      :                     apswim_crain(start_of_day))*10d0
 
          call respond2Get_double_var (
-     :            'rain',
+     :            Variable_name,
      :            '(mm)',
      :            daily_rain)
       else if (Variable_name .eq. 'runoff') then
          call respond2Get_double_var (
-     :            'runoff',
+     :            Variable_name,
      :            '(mm)',
      :            g%TD_runoff)
 
@@ -1619,24 +1619,24 @@ c      read(ret_string, *, iostat = err_code) g%rain
 !     :                     ,g%TD_wflow(0) + g%TD_evap)
          infiltration = g%TD_wflow(0)
          call respond2Get_double_var (
-     :            'infiltration',
+     :            Variable_name,
      :            '(mm)',
      :            infiltration)
 
       else if (Variable_name .eq. 'es') then
          call respond2Get_double_var (
-     :            'es',
+     :            Variable_name,
      :            '(mm)',
      :            g%TD_evap)
       else if (Variable_name .eq. 'eos') then
          call respond2Get_double_var (
-     :            'eos',
+     :            Variable_name,
      :            '(mm)',
      :            g%TD_pevap)
 cnh      print*,g%TD_pevap
       else if (Variable_name .eq. 'drain') then
          call respond2Get_double_var (
-     :            'drain',
+     :            Variable_name,
      :            '(mm)',
      :            g%TD_drain)
 
@@ -1652,7 +1652,7 @@ cnh      print*,g%TD_pevap
          eo = (apswim_cevap(end_of_day)-apswim_cevap(start_of_day))*10d0
 
          call respond2Get_double_var (
-     :            'eo',
+     :            Variable_name,
      :            '(mm)',
      :            eo)
 
@@ -1731,7 +1731,7 @@ cnh      print*,g%TD_pevap
 
       else if (Variable_name .eq. 'salb') then
          call respond2Get_real_var (
-     :            'salb',
+     :            Variable_name,
      :            '(??)',
      :            p%salb)
 
@@ -1743,48 +1743,48 @@ cnh      print*,g%TD_pevap
          endif
 
          call respond2Get_double_var (
-     :            'hmin',
+     :            Variable_name,
      :            '(mm)',
      :            hmin_mm)
 
       else if (Variable_name .eq. 'h') then
          h_mm = g%h * 10.d0
          call respond2Get_double_var (
-     :            'h',
+     :            Variable_name,
      :            '(mm)',
      :            h_mm)
 
       else if (Variable_name .eq. 'scon') then
 
          call respond2Get_double_var (
-     :            'scon',
+     :            Variable_name,
      :            '(/h)',
      :            g%gsurf)
 
       else if (Variable_name .eq. 'scon_min') then
 
          call respond2Get_double_var (
-     :            'scon_min',
+     :            Variable_name,
      :            '(/h)',
      :            p%g0)
 
       else if (Variable_name .eq. 'scon_max') then
 
          call respond2Get_double_var (
-     :            'scon_max',
+     :            Variable_name,
      :            '(/h)',
      :            p%g1)
 
       else if (Variable_name .eq. 'dr') then
          dr=(apswim_crain(g%t) - apswim_crain(g%t-g%dt))*10d0
          call respond2Get_double_var (
-     :            'dr',
+     :            Variable_name,
      :            '(mm)',
      :            dr)
 
       else if (Variable_name .eq. 'dt') then
          call respond2Get_double_var (
-     :            'dt',
+     :            Variable_name,
      :            '(min)',
      :            g%dt*60d0)
 
