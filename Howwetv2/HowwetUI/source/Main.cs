@@ -38,10 +38,15 @@ namespace APSRU.Howwet
         private double[] thicknessOriginal;
         private double[] lL15Original;
         private double[] cLL;
-      //  private bool trainingMode = false;
         DataTable dt;
         DataTable chartDataTable;
         private String selectedFileName="";
+
+        private String apsrunPath ="\\bin\\apsrun.exe";
+        private String apsimPath = "\\bin\\apsim.exe";
+        private String apsimToSimPath = "\\bin\\apsimtosim.exe";
+        private String howwetReportFileName = "\\HowwetReport.xml";
+        private String howwetSetupFileName = "\\HowwetSetup.xml";
 
         ToolTip toolTip1 = new System.Windows.Forms.ToolTip();
         #endregion
@@ -60,13 +65,14 @@ namespace APSRU.Howwet
         private void Main_Load(object sender, EventArgs e)
             {
             toolStripStatusLabel1.Text = "Select a Soil";
-            config = new HowwetConfiguration();
-            util = new HowwetUtility();
+            util = new HowwetUtility(Application.ExecutablePath,howwetSetupFileName);
+           // MessageBox.Show("path=" + util.GetApplicationDirectory(Application.ExecutablePath, howwetSetupFileName));
+            config = new HowwetConfiguration(util.ApplicationDirectory +"\\"+ howwetSetupFileName);
             if (this.selectedFileName == "")
                 {
-                simulationObject = new SimulationIn(util.ReadTemplateFile(config.TemplateFileName));
+                simulationObject = new SimulationIn(util.ReadTemplateFile(util.ApplicationDirectory+"\\"+ config.TemplateFileName));
                 simulationObject.FileName = "untitled";
-                FileInfo fileInfo = new FileInfo(config.DefaultSoilFileName);
+                FileInfo fileInfo = new FileInfo(util.ApplicationDirectory+"\\apsoil\\"+config.DefaultSoilFileName);
                 if (fileInfo.Exists)
                     {
                     soilFileName.Text = fileInfo.Name;
@@ -92,36 +98,26 @@ namespace APSRU.Howwet
         
         private void resetFormValues()
             {
-                        
             //setup default values on form
             this.Text = simulationObject.FileName;
-
-            //soil file
- 
-            //soil name
-            //oc/soil depth/water cap/ init water/init n/slope/slope length/erodibilty/ cover/met/start/end
-          //  soilForm_SoilSelectedEvent(
-
-           // organicCarbonContent.Text = simulationObject.Soil.OC;
-           
-
-
-            //Erosion
-        //    slope.Text = simulationObject.ErosionSlope;
-        //    slopeLength.Text = simulationObject.ErosionSlopeLength;
-        //    erodibilty.Text = simulationObject.ErosionErodibilty;
-           
-            
+            TrainingModeCheckBox.Checked = config.TrainingMode;
            // toolTip1.SetToolTip(selectSoilButton, "This is tooltip test");
            // toolTip1.Active = true;
+            tabControl1.Visible = false;
             RainfallSWChart.Visible = false;
-  
-            
+            SoilNitrogenChart.Visible = false;
+            ErosionChart.Visible = false;
+            LTRainfallChart.Visible = false;
+            label61.Visible = false;
             }
         #endregion
 
         #region Tool Strip events
 
+        private void TrainingModeCheckBox_CheckedChanged(object sender, EventArgs e)
+            {
+            config.TrainingMode = TrainingModeCheckBox.Checked;
+            }
         private void RunButton_Click1(object sender, EventArgs e)
             {
             if (saveAllData())
@@ -137,8 +133,8 @@ namespace APSRU.Howwet
                     }
 
                  //run apsun
-                //String ApsRunFileName = Path.GetDirectoryName(Application.ExecutablePath) + "\\apsrun.exe";
-                String ApsRunFileName = "c:\\Program Files\\APSIM51\\bin\\apsrun.exe";
+
+                String ApsRunFileName = util.ApplicationDirectory+"\\" + apsrunPath;
                 try
                     {
                     if (File.Exists(ApsRunFileName))
@@ -156,57 +152,92 @@ namespace APSRU.Howwet
 
         private void RunButton_Click(object sender, EventArgs e)
             {
-            this.Cursor = Cursors.WaitCursor;
+            
+            
             if (saveAllData())
                 {
+                tabControl1.Visible = false;
+                RainfallSWChart.Visible = false;
+                SoilNitrogenChart.Visible = false;
+                ErosionChart.Visible = false;
+                LTRainfallChart.Visible = false;
+                label61.Visible = true;
                 if(ExecuteAPSIM())
                     {
                     ShowGraph();
                     }
                 }
-            this.Cursor = Cursors.Default;
+            label61.Visible=false;
             }
 
         private bool ExecuteAPSIM()
             {
+            String errString = "";
+            const String FUNCTION_NAME = "ExecuteAPSIM";
             bool success = false;
-            String ApsimToSimPath = "c:\\Program Files\\APSIM51\\bin\\apsimtosim.exe";
-            String Apsim = "c:\\Program Files\\APSIM51\\bin\\apsim.exe";
-            String simulationFileName = simulationObject.FileName;
-            
-             //remove old .sum, .out, and .sim files if they exist
-            if(File.Exists(simulationObject.OutputFileName))File.Delete(simulationObject.OutputFileName);
-            if (File.Exists(simulationObject.SummaryFileName)) File.Delete(simulationObject.SummaryFileName);
-            if (File.Exists(simulationObject.SimulationName + ".sim")) File.Delete(simulationObject.SimulationName + ".sim");
-
-            if (File.Exists(ApsimToSimPath))
+            try
                 {
-                this.Cursor = Cursors.WaitCursor;
-                Process p=Process.Start(ApsimToSimPath, "" + simulationFileName + "");
-                p.WaitForExit();
-                this.Refresh();
-                this.Cursor = Cursors.Default;
-                }
-                     
-            
-            if (File.Exists(Apsim))
-                {
-                String simFileName = simulationObject.SimulationName + ".sim";
-                Process p=Process.Start(Apsim, simFileName);
-                p.WaitForExit();
-                this.Refresh();
-                }
-           
-            if (File.Exists(simulationObject.SimulationName + ".sim")) success = true;
+               //  String ApsimToSimPath = "c:\\Program Files\\APSIM51\\bin\\apsimtosim.exe";
+               //  String Apsim = "c:\\Program Files\\APSIM51\\bin\\apsim.exe";
+                String ApsimToSimPath = util.ApplicationDirectory +  apsimToSimPath;
+                String Apsim = util.ApplicationDirectory+ apsimPath;
+                String simulationFileName = simulationObject.FileName;
+                String simulationParentPath = Directory.GetParent(simulationFileName).ToString();
+                MessageBox.Show("apsimtosim path " + ApsimToSimPath + " apsim path " + Apsim);
+                //remove old .sum, .out, and .sim files if they exist
+                if (File.Exists(simulationObject.OutputFileName)) File.Delete(simulationObject.OutputFileName);
+                if (File.Exists(simulationObject.SummaryFileName)) File.Delete(simulationObject.SummaryFileName);
+                if (File.Exists(simulationObject.SimulationName + ".sim")) File.Delete(simulationObject.SimulationName + ".sim");
+               
+                errString = "ApsimToSimPath=" + ApsimToSimPath;
+                if (File.Exists(ApsimToSimPath))
+                    {
+                    this.Cursor = Cursors.WaitCursor;
+                    MessageBox.Show("apsimtosim path " + ApsimToSimPath + " sim file " + simulationFileName);
+                    Process p = Process.Start(ApsimToSimPath, "" + simulationFileName + "");
+                    p.WaitForExit();
+                    this.Refresh();
+                    this.Cursor = Cursors.Default;
 
-            return success;
+                    errString = "Apsim=" + Apsim;
+                    if (File.Exists(Apsim))
+                        {
+                        String simFileName = simulationParentPath+"\\"+simulationObject.SimulationName + ".sim";
+                        MessageBox.Show("apsim path " + Apsim + " sim file " + simFileName);
+                        p = Process.Start(Apsim, simFileName);
+                        p.WaitForExit();
+                        this.Refresh();
+
+                        if (File.Exists(simulationObject.SimulationName + ".sim")) success = true;
+                        }
+                    else
+                        {
+                        new CustomException(new CustomError("", "Cannot find Apsim file", errString, FUNCTION_NAME, this.GetType().FullName, false));
+                        }
+                    }
+                else
+                    {
+                    new CustomException(new CustomError("", "Cannot find ApsimToSim file", errString, FUNCTION_NAME, this.GetType().FullName, false));
+                    }
+                return success;
+                }
+            catch (CustomException err)
+                {
+                showCustomExceptionMessages(err);
+                return success;
+                }
+            catch (Exception err)
+                {
+                showExceptionMessages(err);
+                return success;
+                }
             }
  
         private void ReportButton_Click_1(object sender, EventArgs e)
             {
             //TODO change path to a application variable
-            String fileName = "C:\\Development\\Howwetv2\\HowwetUI\\source\\HowwetReport.xml";
-
+         //   String fileName = "C:\\Development\\Howwetv2\\HowwetUI\\source\\HowwetReport.xml";
+            String fileName = util.ApplicationDirectory +"\\"+ howwetReportFileName;
             APSIMData report = new APSIMData();
             report.LoadFromFile(fileName);
 
@@ -215,9 +246,10 @@ namespace APSRU.Howwet
 
             report.SaveToFile(fileName);
 
-            String path = "C:\\Development\\Howwetv2\\HowwetUI\\source";
-            System.Diagnostics.Process.Start("IExplore.exe", path + "\\HowwetReport.xml");
-            RainfallSWChart.Export.Image.GIF.Save(path+"\\RainfallSWChart.gif"); 
+           // String path = "C:\\Development\\Howwetv2\\HowwetUI\\source";
+            RainfallSWChart.Export.Image.GIF.Save(util.ApplicationDirectory + "\\RainfallSWChart.gif"); 
+
+            System.Diagnostics.Process.Start("IExplore.exe", util.ApplicationDirectory +"\\"+ howwetReportFileName);
             }
 
         private void openToolStripButton_Click(object sender, EventArgs e)
@@ -473,7 +505,7 @@ namespace APSRU.Howwet
                     {
                     test1 = test1 + " " + sw[i];
                     }
-                Console.WriteLine("sw " + test1 + "\n");
+                Console.WriteLine("sw " + test1 + " tot=" + MathUtility.Sum(sw) + "\n");
                 }
             catch (CustomException err)
                 {
@@ -506,7 +538,7 @@ namespace APSRU.Howwet
                     {
                     test = test + " " + sw[i];
                     }
-                Console.WriteLine("sw "+test + "\n");
+                Console.WriteLine("sw " + test + " tot=" + MathUtility.Sum(sw) + "\n");
                 }
             catch (CustomException err)
                 {
@@ -622,7 +654,7 @@ namespace APSRU.Howwet
                 {
                 //RainfallEditor form = new RainfallEditor();
                 
-                toolStripStatusLabel2.Text = "Please wait: Loading Met file";
+                StatusLabel2.Text = "Please wait: Loading Met file";
                
                 if (!RainfallEditor.Instance.isLoaded)
                     {
@@ -640,7 +672,7 @@ namespace APSRU.Howwet
 
         private void timerProgresBar_Tick(object sender, EventArgs e)
             {
-            toolStripProgressBar1.PerformStep();
+            ProgressBar1.PerformStep();
             }
        
         private void StartDatePicker_ValueChanged(object sender, EventArgs e)
@@ -723,11 +755,15 @@ namespace APSRU.Howwet
                     }
             }
 
-       private void button1_Click(object sender, EventArgs e)
-           {
-           }
-        private void ShowGraph()
+         private void ShowGraph()
             {
+            tabControl1.Visible = true;
+            tabControl1.SelectedIndex = 0;
+            RainfallSWChart.Visible = true;
+            SoilNitrogenChart.Visible = false;
+            ErosionChart.Visible = false;
+            LTRainfallChart.Visible = false;
+
             try
                 {
                 RainfallBar.Clear();
@@ -745,7 +781,8 @@ namespace APSRU.Howwet
                 displayProposedCropList();
 
                 //output summary results
-                double soilWaterStart = MathUtility.Sum(simulationObject.Soil.PAWC());
+               // double soilWaterStart = MathUtility.Sum(simulationObject.Soil.PAWC());
+                double soilWaterStart = outputObject.SoilWaterStart(simulationObject.Soil);
                 startSoilWater.Text = soilWaterStart.ToString("f0");
                 fallowRainfall.Text = outputObject.RainfallTotal.ToString("f0");
                 fallowEvaporation.Text = outputObject.EvaporationTotal.ToString("f0");
@@ -806,9 +843,14 @@ namespace APSRU.Howwet
                 double maxNitrate = 0, minNitrate = 10000, maxSurfaceMoisture = 0, minSurfaceMoisture = 10000, maxMaxTemp = 0, minMaxTemp = 10000; ;
                 double maxSoilLoss = 0, minSoilLoss = 0, maxRunoff = 0, minRunoff = 0;
                 double maxLTRainfall = 0, minLTRainfall = 0, maxLTAvRainfall = 0, minLTAvRainfall = 0;
-                Console.WriteLine("finding axes max min");
+                
                 if (config.TrainingMode)
                     {
+                    StatusLabel2.Text = "Parsing  chart data";
+                    ProgressBar1.Minimum = 1;
+                    ProgressBar1.Maximum = chartDataTable.Rows.Count;
+                    ProgressBar1.Step = 1;
+                    Console.WriteLine("finding axes max min");
                     foreach (DataRow row in chartDataTable.Rows)
                         {
                         //Rainfall soil water; subtract cll from soilwater and sum the absolute values to get sw
@@ -836,7 +878,10 @@ namespace APSRU.Howwet
                         //Long term rainfall
                         if (Convert.ToDouble(row["Rainfall"]) > maxLTRainfall) maxLTRainfall = Convert.ToDouble(row["Rainfall"]);
                         //  if (Convert.ToDouble(row["Rainfall"]) > maxLTAvRainfall) maxLTAvRainfall = Convert.ToDouble(row["Rainfall"]);
+                        ProgressBar1.PerformStep();
                         }
+                    StatusLabel2.Text = "";
+                    ProgressBar1.Value = 1;
                     Console.WriteLine("found max min");
                     //Rainfall and soil water 
                     RainfallSWChart.Axes.Left.Maximum = maxRainfallSW;
@@ -862,6 +907,10 @@ namespace APSRU.Howwet
                     LTRainfallChart.Axes.Left.Minimum = minLTRainfall;
                     //    LTRainfallChart.Axes.Right.Maximum = maxLTAvRainfall;
                     //    LTRainfallChart.Axes.Right.Minimum = minLTAvRainfall;
+                    StatusLabel2.Text = "Building chart";
+                    ProgressBar1.Minimum = 1;
+                    ProgressBar1.Maximum = chartDataTable.Rows.Count;
+                    ProgressBar1.Step = 1;
 
                     rowCount = 0;
                     timer1.Interval = 2;
@@ -888,6 +937,10 @@ namespace APSRU.Howwet
                     LTRainfallChart.Axes.Left.Automatic = true;
                     LTRainfallChart.Axes.Right.Automatic = true;
                     LTRainfallChart.Axes.Bottom.Automatic = true;
+                    StatusLabel2.Text = "Building chart";
+                    ProgressBar1.Minimum = 1;
+                    ProgressBar1.Maximum = chartDataTable.Rows.Count;
+                    ProgressBar1.Step = 1;
                     foreach (DataRow row in chartDataTable.Rows)
                         {
                         ArrayList tmpSoilWaterLayers = (ArrayList)row["SoilWaterLayers"];
@@ -911,7 +964,11 @@ namespace APSRU.Howwet
                         //Long term rainfall
                         LTRainfallBar.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["Rainfall"]));
                         // LTAvRainfallLine.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["Rainfall"]));
+                      //  Console.WriteLine(Convert.ToDateTime(row["Date"]));
+                        ProgressBar1.PerformStep();
                         }
+                    StatusLabel2.Text = "";
+                    ProgressBar1.Value = 1;
                     RainfallSWChart.Refresh();
                     SoilNitrogenChart.Refresh();
                     ErosionChart.Refresh();
@@ -956,17 +1013,16 @@ namespace APSRU.Howwet
                 SoilNitrogenChart.Refresh();
                 ErosionChart.Refresh();
                 LTRainfallChart.Refresh();
+                ProgressBar1.PerformStep();
                 }
             else
                 {
+                StatusLabel2.Text = "";
+                ProgressBar1.Value = 1;
                 timer1.Stop();
                 }
             }
-
-        private void speedBar_ValueChanged(object sender, EventArgs e)
-            {
-            textBox1.Text=speedBar.Value.ToString();
-            }
+               
         #endregion
 
         #region General Functions
@@ -1057,6 +1113,8 @@ namespace APSRU.Howwet
               
 
         #endregion
+
+      
 
         
 

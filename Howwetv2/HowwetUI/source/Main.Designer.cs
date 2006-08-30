@@ -29,8 +29,6 @@ namespace APSRU.Howwet
         private void InitializeComponent()
         {
         this.components = new System.ComponentModel.Container();
-        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-        this.showAPSIMFileButton = new System.Windows.Forms.Button();
         this.groupBox1 = new System.Windows.Forms.GroupBox();
         this.erosionButton = new System.Windows.Forms.Button();
         this.label3 = new System.Windows.Forms.Label();
@@ -69,8 +67,6 @@ namespace APSRU.Howwet
         this.ErosionChart = new Steema.TeeChart.TChart();
         this.ErosionRunoffCumLine = new Steema.TeeChart.Styles.Line();
         this.ErosionSoilLossCumLine = new Steema.TeeChart.Styles.Line();
-        this.textBox1 = new System.Windows.Forms.TextBox();
-        this.speedBar = new System.Windows.Forms.TrackBar();
         this.LTRainfallChart = new Steema.TeeChart.TChart();
         this.LTRainfallBar = new Steema.TeeChart.Styles.Bar();
         this.LTAvRainfallLine = new Steema.TeeChart.Styles.Line();
@@ -88,7 +84,6 @@ namespace APSRU.Howwet
         this.chart2 = new System.Windows.Forms.TabPage();
         this.chart3 = new System.Windows.Forms.TabPage();
         this.chart4 = new System.Windows.Forms.TabPage();
-        this.button1 = new System.Windows.Forms.Button();
         this.groupBox5 = new System.Windows.Forms.GroupBox();
         this.label60 = new System.Windows.Forms.Label();
         this.label59 = new System.Windows.Forms.Label();
@@ -172,18 +167,18 @@ namespace APSRU.Howwet
         this.browseMetButton = new System.Windows.Forms.ToolStripButton();
         this.editRainfallButton = new System.Windows.Forms.ToolStripButton();
         this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-        this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
         this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
         this.statusStrip1 = new System.Windows.Forms.StatusStrip();
         this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-        this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-        this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+        this.ProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+        this.StatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
         this.timerProgresBar = new System.Windows.Forms.Timer(this.components);
+        this.TrainingModeCheckBox = new System.Windows.Forms.CheckBox();
+        this.label61 = new System.Windows.Forms.Label();
         this.groupBox1.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)(this.coverPercent)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.initialSoilWaterPercent)).BeginInit();
         this.groupBox9.SuspendLayout();
-        ((System.ComponentModel.ISupportInitialize)(this.speedBar)).BeginInit();
         this.tabControl1.SuspendLayout();
         this.groupBox5.SuspendLayout();
         this.toolStrip1.SuspendLayout();
@@ -192,18 +187,9 @@ namespace APSRU.Howwet
         this.statusStrip1.SuspendLayout();
         this.SuspendLayout();
         // 
-        // showAPSIMFileButton
-        // 
-        this.showAPSIMFileButton.Location = new System.Drawing.Point(46, 169);
-        this.showAPSIMFileButton.Name = "showAPSIMFileButton";
-        this.showAPSIMFileButton.Size = new System.Drawing.Size(89, 31);
-        this.showAPSIMFileButton.TabIndex = 16;
-        this.showAPSIMFileButton.Text = "Show XML";
-        this.showAPSIMFileButton.UseVisualStyleBackColor = true;
-        this.showAPSIMFileButton.Click += new System.EventHandler(this.showAPSIMFileButton_Click);
-        // 
         // groupBox1
         // 
+        this.groupBox1.BackColor = System.Drawing.SystemColors.Control;
         this.groupBox1.Controls.Add(this.erosionButton);
         this.groupBox1.Controls.Add(this.label3);
         this.groupBox1.Controls.Add(this.label36);
@@ -284,7 +270,7 @@ namespace APSRU.Howwet
         this.StartDatePicker.Location = new System.Drawing.Point(121, 160);
         this.StartDatePicker.Name = "StartDatePicker";
         this.StartDatePicker.Size = new System.Drawing.Size(209, 20);
-        this.StartDatePicker.TabIndex = 19;
+        this.StartDatePicker.TabIndex = 9;
         this.StartDatePicker.ValueChanged += new System.EventHandler(this.StartDatePicker_ValueChanged);
         // 
         // EndDatePicker
@@ -292,7 +278,7 @@ namespace APSRU.Howwet
         this.EndDatePicker.Location = new System.Drawing.Point(121, 186);
         this.EndDatePicker.Name = "EndDatePicker";
         this.EndDatePicker.Size = new System.Drawing.Size(208, 20);
-        this.EndDatePicker.TabIndex = 20;
+        this.EndDatePicker.TabIndex = 10;
         this.EndDatePicker.ValueChanged += new System.EventHandler(this.EndDatePicker_ValueChanged);
         // 
         // label4
@@ -319,7 +305,7 @@ namespace APSRU.Howwet
         this.coverCropList.Location = new System.Drawing.Point(224, 132);
         this.coverCropList.Name = "coverCropList";
         this.coverCropList.Size = new System.Drawing.Size(106, 21);
-        this.coverCropList.TabIndex = 1;
+        this.coverCropList.TabIndex = 8;
         this.coverCropList.SelectedValueChanged += new System.EventHandler(this.coverCropList_SelectedValueChanged);
         // 
         // label9
@@ -345,7 +331,7 @@ namespace APSRU.Howwet
         this.coverPercent.Location = new System.Drawing.Point(121, 133);
         this.coverPercent.Name = "coverPercent";
         this.coverPercent.Size = new System.Drawing.Size(45, 20);
-        this.coverPercent.TabIndex = 31;
+        this.coverPercent.TabIndex = 7;
         this.coverPercent.ValueChanged += new System.EventHandler(this.coverPercent_ValueChanged);
         // 
         // label13
@@ -380,7 +366,7 @@ namespace APSRU.Howwet
         this.initialSoilWaterPercent.Location = new System.Drawing.Point(122, 107);
         this.initialSoilWaterPercent.Name = "initialSoilWaterPercent";
         this.initialSoilWaterPercent.Size = new System.Drawing.Size(45, 20);
-        this.initialSoilWaterPercent.TabIndex = 38;
+        this.initialSoilWaterPercent.TabIndex = 5;
         this.initialSoilWaterPercent.ValueChanged += new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
         // 
         // initialSoilNitrogen
@@ -388,7 +374,7 @@ namespace APSRU.Howwet
         this.initialSoilNitrogen.Location = new System.Drawing.Point(121, 81);
         this.initialSoilNitrogen.Name = "initialSoilNitrogen";
         this.initialSoilNitrogen.Size = new System.Drawing.Size(45, 20);
-        this.initialSoilNitrogen.TabIndex = 0;
+        this.initialSoilNitrogen.TabIndex = 4;
         this.initialSoilNitrogen.Leave += new System.EventHandler(this.initialSoilNitrogen_Leave);
         // 
         // label30
@@ -414,7 +400,7 @@ namespace APSRU.Howwet
         this.initialWaterCapacity.Location = new System.Drawing.Point(224, 106);
         this.initialWaterCapacity.Name = "initialWaterCapacity";
         this.initialWaterCapacity.Size = new System.Drawing.Size(38, 20);
-        this.initialWaterCapacity.TabIndex = 37;
+        this.initialWaterCapacity.TabIndex = 6;
         this.initialWaterCapacity.TextChanged += new System.EventHandler(this.initialWaterCapacity_TextChanged);
         // 
         // label31
@@ -440,7 +426,7 @@ namespace APSRU.Howwet
         this.waterCapacity.Location = new System.Drawing.Point(121, 58);
         this.waterCapacity.Name = "waterCapacity";
         this.waterCapacity.Size = new System.Drawing.Size(45, 20);
-        this.waterCapacity.TabIndex = 31;
+        this.waterCapacity.TabIndex = 3;
         this.waterCapacity.Leave += new System.EventHandler(this.waterCapacity_Leave);
         // 
         // label19
@@ -466,7 +452,7 @@ namespace APSRU.Howwet
         this.soilDepth.Location = new System.Drawing.Point(121, 36);
         this.soilDepth.Name = "soilDepth";
         this.soilDepth.Size = new System.Drawing.Size(45, 20);
-        this.soilDepth.TabIndex = 6;
+        this.soilDepth.TabIndex = 2;
         this.soilDepth.Leave += new System.EventHandler(this.soilDepth_Leave);
         // 
         // soilDepthLabel
@@ -501,7 +487,7 @@ namespace APSRU.Howwet
         this.organicCarbonContent.Location = new System.Drawing.Point(121, 13);
         this.organicCarbonContent.Name = "organicCarbonContent";
         this.organicCarbonContent.Size = new System.Drawing.Size(45, 20);
-        this.organicCarbonContent.TabIndex = 2;
+        this.organicCarbonContent.TabIndex = 1;
         // 
         // label17
         // 
@@ -532,16 +518,15 @@ namespace APSRU.Howwet
         // 
         // groupBox9
         // 
+        this.groupBox9.Controls.Add(this.label61);
         this.groupBox9.Controls.Add(this.ErosionChart);
-        this.groupBox9.Controls.Add(this.textBox1);
-        this.groupBox9.Controls.Add(this.speedBar);
         this.groupBox9.Controls.Add(this.LTRainfallChart);
         this.groupBox9.Controls.Add(this.RainfallSWChart);
         this.groupBox9.Controls.Add(this.SoilNitrogenChart);
         this.groupBox9.Controls.Add(this.tabControl1);
         this.groupBox9.Location = new System.Drawing.Point(8, 252);
         this.groupBox9.Name = "groupBox9";
-        this.groupBox9.Size = new System.Drawing.Size(996, 329);
+        this.groupBox9.Size = new System.Drawing.Size(996, 457);
         this.groupBox9.TabIndex = 34;
         this.groupBox9.TabStop = false;
         this.groupBox9.Text = "Output Charts";
@@ -891,7 +876,7 @@ namespace APSRU.Howwet
         this.ErosionChart.Legend.Top = 16;
         this.ErosionChart.Legend.Transparent = true;
         this.ErosionChart.Legend.VertSpacing = 2;
-        this.ErosionChart.Location = new System.Drawing.Point(10, 44);
+        this.ErosionChart.Location = new System.Drawing.Point(6, 41);
         this.ErosionChart.Name = "ErosionChart";
         // 
         // 
@@ -914,7 +899,7 @@ namespace APSRU.Howwet
         this.ErosionChart.Panel.Shadow.Visible = false;
         this.ErosionChart.Series.Add(this.ErosionRunoffCumLine);
         this.ErosionChart.Series.Add(this.ErosionSoilLossCumLine);
-        this.ErosionChart.Size = new System.Drawing.Size(982, 281);
+        this.ErosionChart.Size = new System.Drawing.Size(984, 410);
         // 
         // 
         // 
@@ -1087,21 +1072,6 @@ namespace APSRU.Howwet
         // 
         // 
         this.ErosionSoilLossCumLine.YValues.DataMember = "Y";
-        // 
-        // textBox1
-        // 
-        this.textBox1.Location = new System.Drawing.Point(687, 15);
-        this.textBox1.Name = "textBox1";
-        this.textBox1.Size = new System.Drawing.Size(38, 20);
-        this.textBox1.TabIndex = 43;
-        // 
-        // speedBar
-        // 
-        this.speedBar.Location = new System.Drawing.Point(739, 3);
-        this.speedBar.Name = "speedBar";
-        this.speedBar.Size = new System.Drawing.Size(104, 45);
-        this.speedBar.TabIndex = 34;
-        this.speedBar.ValueChanged += new System.EventHandler(this.speedBar_ValueChanged);
         // 
         // LTRainfallChart
         // 
@@ -1451,7 +1421,7 @@ namespace APSRU.Howwet
         this.LTRainfallChart.Legend.Title.Shadow.Visible = false;
         this.LTRainfallChart.Legend.Top = 10;
         this.LTRainfallChart.Legend.Transparent = true;
-        this.LTRainfallChart.Location = new System.Drawing.Point(6, 44);
+        this.LTRainfallChart.Location = new System.Drawing.Point(6, 41);
         this.LTRainfallChart.Name = "LTRainfallChart";
         // 
         // 
@@ -1470,7 +1440,7 @@ namespace APSRU.Howwet
         this.LTRainfallChart.Panel.Shadow.Visible = false;
         this.LTRainfallChart.Series.Add(this.LTRainfallBar);
         this.LTRainfallChart.Series.Add(this.LTAvRainfallLine);
-        this.LTRainfallChart.Size = new System.Drawing.Size(998, 287);
+        this.LTRainfallChart.Size = new System.Drawing.Size(984, 410);
         // 
         // 
         // 
@@ -1985,7 +1955,7 @@ namespace APSRU.Howwet
         this.RainfallSWChart.Legend.Title.Shadow.Visible = false;
         this.RainfallSWChart.Legend.Top = 16;
         this.RainfallSWChart.Legend.Transparent = true;
-        this.RainfallSWChart.Location = new System.Drawing.Point(6, 44);
+        this.RainfallSWChart.Location = new System.Drawing.Point(6, 41);
         this.RainfallSWChart.Name = "RainfallSWChart";
         // 
         // 
@@ -2005,7 +1975,7 @@ namespace APSRU.Howwet
         this.RainfallSWChart.Series.Add(this.SWLine);
         this.RainfallSWChart.Series.Add(this.RainfallBar);
         this.RainfallSWChart.Series.Add(this.RunoffBar);
-        this.RainfallSWChart.Size = new System.Drawing.Size(984, 287);
+        this.RainfallSWChart.Size = new System.Drawing.Size(984, 410);
         // 
         // 
         // 
@@ -2564,7 +2534,7 @@ namespace APSRU.Howwet
         this.SoilNitrogenChart.Legend.Title.Shadow.Visible = false;
         this.SoilNitrogenChart.Legend.Top = 14;
         this.SoilNitrogenChart.Legend.Transparent = true;
-        this.SoilNitrogenChart.Location = new System.Drawing.Point(7, 41);
+        this.SoilNitrogenChart.Location = new System.Drawing.Point(6, 41);
         this.SoilNitrogenChart.Name = "SoilNitrogenChart";
         // 
         // 
@@ -2584,7 +2554,7 @@ namespace APSRU.Howwet
         this.SoilNitrogenChart.Series.Add(this.MaxTemperatureLine);
         this.SoilNitrogenChart.Series.Add(this.SurfaceMoistureLine);
         this.SoilNitrogenChart.Series.Add(this.NitrateLine);
-        this.SoilNitrogenChart.Size = new System.Drawing.Size(984, 287);
+        this.SoilNitrogenChart.Size = new System.Drawing.Size(984, 410);
         // 
         // 
         // 
@@ -2874,7 +2844,7 @@ namespace APSRU.Howwet
         this.tabControl1.Name = "tabControl1";
         this.tabControl1.SelectedIndex = 0;
         this.tabControl1.Size = new System.Drawing.Size(313, 22);
-        this.tabControl1.TabIndex = 0;
+        this.tabControl1.TabIndex = 11;
         this.tabControl1.Click += new System.EventHandler(this.tabControl1_Click);
         // 
         // chart1
@@ -2889,7 +2859,7 @@ namespace APSRU.Howwet
         // 
         this.chart2.Location = new System.Drawing.Point(4, 22);
         this.chart2.Name = "chart2";
-        this.chart2.Size = new System.Drawing.Size(305, -4);
+        this.chart2.Size = new System.Drawing.Size(305, 0);
         this.chart2.TabIndex = 1;
         this.chart2.Text = "Soil Nitrogen";
         // 
@@ -2897,7 +2867,7 @@ namespace APSRU.Howwet
         // 
         this.chart3.Location = new System.Drawing.Point(4, 22);
         this.chart3.Name = "chart3";
-        this.chart3.Size = new System.Drawing.Size(305, -4);
+        this.chart3.Size = new System.Drawing.Size(305, 0);
         this.chart3.TabIndex = 2;
         this.chart3.Text = "Erosion Estimate";
         // 
@@ -2905,19 +2875,9 @@ namespace APSRU.Howwet
         // 
         this.chart4.Location = new System.Drawing.Point(4, 22);
         this.chart4.Name = "chart4";
-        this.chart4.Size = new System.Drawing.Size(305, -4);
+        this.chart4.Size = new System.Drawing.Size(305, 0);
         this.chart4.TabIndex = 3;
         this.chart4.Text = "Rainfall";
-        // 
-        // button1
-        // 
-        this.button1.Location = new System.Drawing.Point(152, 173);
-        this.button1.Name = "button1";
-        this.button1.Size = new System.Drawing.Size(72, 28);
-        this.button1.TabIndex = 25;
-        this.button1.Text = "graph";
-        this.button1.UseVisualStyleBackColor = true;
-        this.button1.Click += new System.EventHandler(this.button1_Click);
         // 
         // groupBox5
         // 
@@ -2943,8 +2903,6 @@ namespace APSRU.Howwet
         this.groupBox5.Controls.Add(this.drainage);
         this.groupBox5.Controls.Add(this.label2);
         this.groupBox5.Controls.Add(this.label57);
-        this.groupBox5.Controls.Add(this.showAPSIMFileButton);
-        this.groupBox5.Controls.Add(this.button1);
         this.groupBox5.Controls.Add(this.gainSoilWater);
         this.groupBox5.Controls.Add(this.label55);
         this.groupBox5.Controls.Add(this.label53);
@@ -3526,11 +3484,10 @@ namespace APSRU.Howwet
             this.txtMetFile,
             this.browseMetButton,
             this.editRainfallButton,
-            this.toolStripSeparator5,
-            this.toolStripButton1});
+            this.toolStripSeparator5});
         this.toolStrip1.Location = new System.Drawing.Point(3, 0);
         this.toolStrip1.Name = "toolStrip1";
-        this.toolStrip1.Size = new System.Drawing.Size(861, 25);
+        this.toolStrip1.Size = new System.Drawing.Size(838, 25);
         this.toolStrip1.TabIndex = 40;
         this.toolStrip1.Text = "toolStrip1";
         // 
@@ -3709,27 +3666,18 @@ namespace APSRU.Howwet
         this.toolStripSeparator5.Name = "toolStripSeparator5";
         this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
         // 
-        // toolStripButton1
-        // 
-        this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-        this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-        this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-        this.toolStripButton1.Name = "toolStripButton1";
-        this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-        this.toolStripButton1.Text = "toolStripButton1";
-        // 
         // toolStripContainer1
         // 
         this.toolStripContainer1.BottomToolStripPanelVisible = false;
         // 
         // toolStripContainer1.ContentPanel
         // 
-        this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(939, 3);
+        this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(843, 3);
         this.toolStripContainer1.LeftToolStripPanelVisible = false;
         this.toolStripContainer1.Location = new System.Drawing.Point(8, -2);
         this.toolStripContainer1.Name = "toolStripContainer1";
         this.toolStripContainer1.RightToolStripPanelVisible = false;
-        this.toolStripContainer1.Size = new System.Drawing.Size(939, 28);
+        this.toolStripContainer1.Size = new System.Drawing.Size(843, 28);
         this.toolStripContainer1.TabIndex = 41;
         this.toolStripContainer1.Text = "toolStripContainer1";
         // 
@@ -3741,9 +3689,9 @@ namespace APSRU.Howwet
         // 
         this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
-            this.toolStripProgressBar1,
-            this.toolStripStatusLabel2});
-        this.statusStrip1.Location = new System.Drawing.Point(0, 584);
+            this.ProgressBar1,
+            this.StatusLabel2});
+        this.statusStrip1.Location = new System.Drawing.Point(0, 712);
         this.statusStrip1.Name = "statusStrip1";
         this.statusStrip1.Size = new System.Drawing.Size(1016, 22);
         this.statusStrip1.TabIndex = 42;
@@ -3755,28 +3703,51 @@ namespace APSRU.Howwet
         this.toolStripStatusLabel1.Size = new System.Drawing.Size(109, 17);
         this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
         // 
-        // toolStripProgressBar1
+        // ProgressBar1
         // 
-        this.toolStripProgressBar1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-        this.toolStripProgressBar1.Margin = new System.Windows.Forms.Padding(100, 3, 1, 3);
-        this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-        this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
+        this.ProgressBar1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+        this.ProgressBar1.Margin = new System.Windows.Forms.Padding(100, 3, 1, 3);
+        this.ProgressBar1.Name = "ProgressBar1";
+        this.ProgressBar1.Size = new System.Drawing.Size(100, 16);
         // 
-        // toolStripStatusLabel2
+        // StatusLabel2
         // 
-        this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-        this.toolStripStatusLabel2.Size = new System.Drawing.Size(109, 17);
-        this.toolStripStatusLabel2.Text = "toolStripStatusLabel2";
+        this.StatusLabel2.Name = "StatusLabel2";
+        this.StatusLabel2.Size = new System.Drawing.Size(69, 17);
+        this.StatusLabel2.Text = "StatusLabel2";
         // 
         // timerProgresBar
         // 
         this.timerProgresBar.Tick += new System.EventHandler(this.timerProgresBar_Tick);
         // 
+        // TrainingModeCheckBox
+        // 
+        this.TrainingModeCheckBox.AutoSize = true;
+        this.TrainingModeCheckBox.Location = new System.Drawing.Point(874, 3);
+        this.TrainingModeCheckBox.Name = "TrainingModeCheckBox";
+        this.TrainingModeCheckBox.Size = new System.Drawing.Size(94, 17);
+        this.TrainingModeCheckBox.TabIndex = 43;
+        this.TrainingModeCheckBox.Text = "Training Mode";
+        this.TrainingModeCheckBox.UseVisualStyleBackColor = true;
+        this.TrainingModeCheckBox.CheckedChanged += new System.EventHandler(this.TrainingModeCheckBox_CheckedChanged);
+        // 
+        // label61
+        // 
+        this.label61.AutoSize = true;
+        this.label61.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        this.label61.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+        this.label61.Location = new System.Drawing.Point(397, 189);
+        this.label61.Name = "label61";
+        this.label61.Size = new System.Drawing.Size(233, 46);
+        this.label61.TabIndex = 45;
+        this.label61.Text = "Please Wait";
+        // 
         // Main
         // 
         this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.ClientSize = new System.Drawing.Size(1016, 606);
+        this.ClientSize = new System.Drawing.Size(1016, 734);
+        this.Controls.Add(this.TrainingModeCheckBox);
         this.Controls.Add(this.groupBox9);
         this.Controls.Add(this.groupBox5);
         this.Controls.Add(this.groupBox1);
@@ -3791,7 +3762,6 @@ namespace APSRU.Howwet
         ((System.ComponentModel.ISupportInitialize)(this.initialSoilWaterPercent)).EndInit();
         this.groupBox9.ResumeLayout(false);
         this.groupBox9.PerformLayout();
-        ((System.ComponentModel.ISupportInitialize)(this.speedBar)).EndInit();
         this.tabControl1.ResumeLayout(false);
         this.groupBox5.ResumeLayout(false);
         this.groupBox5.PerformLayout();
@@ -3819,8 +3789,7 @@ namespace APSRU.Howwet
 
         #endregion
 
-        private System.Windows.Forms.Button showAPSIMFileButton;
-        private System.Windows.Forms.GroupBox groupBox1;
+    private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TextBox waterCapacity;
@@ -3846,7 +3815,6 @@ namespace APSRU.Howwet
         private System.Windows.Forms.TabPage chart4;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label gainNitrate;
         private System.Windows.Forms.Label label25;
@@ -3889,8 +3857,6 @@ namespace APSRU.Howwet
         private Steema.TeeChart.Styles.Line MaxTemperatureLine;
         private Steema.TeeChart.Styles.Line SurfaceMoistureLine;
         private Steema.TeeChart.Styles.Line NitrateLine;
-        private System.Windows.Forms.TrackBar speedBar;
-        private System.Windows.Forms.TextBox textBox1;
         private Steema.TeeChart.TChart LTRainfallChart;
         private Steema.TeeChart.Styles.Bar LTRainfallBar;
         private Steema.TeeChart.Styles.Line LTAvRainfallLine;
@@ -3943,7 +3909,7 @@ namespace APSRU.Howwet
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button erosionButton;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private System.Windows.Forms.ToolStripProgressBar ProgressBar1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label6;
@@ -3962,13 +3928,14 @@ namespace APSRU.Howwet
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripStatusLabel StatusLabel2;
         private System.Windows.Forms.Timer timerProgresBar;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
         private Steema.TeeChart.TChart ErosionChart;
         private Steema.TeeChart.Styles.Line ErosionRunoffCumLine;
         private Steema.TeeChart.Styles.Line ErosionSoilLossCumLine;
         private Steema.TeeChart.Axis axis1;
+        private System.Windows.Forms.CheckBox TrainingModeCheckBox;
+        private System.Windows.Forms.Label label61;
         
 
     }
