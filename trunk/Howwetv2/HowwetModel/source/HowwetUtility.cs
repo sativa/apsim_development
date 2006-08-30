@@ -44,12 +44,13 @@ namespace APSRU.Translator.Howwet
         ArrayList cropList;
         
 
-        public HowwetConfiguration()
+        public HowwetConfiguration(String fileName)
             {
             String errString = "";
             try
                 {
-                String fileName = "C:\\Development\\Howwetv2\\HowwetUI\\source\\HowwetSetup.xml";
+               // String fileName = "C:\\Development\\Howwetv2\\HowwetUI\\source\\HowwetSetup.xml";
+                                              
                 errString = "reading " + fileName;
                 XmlDocument doc = new XmlDocument();
                 doc.Load(fileName);
@@ -89,7 +90,10 @@ namespace APSRU.Translator.Howwet
                 throw new CustomException(new CustomError("", "Problem reading Howwet setup file", errString + "\n Exception:" + e.ToString(), this.GetType().Name, this.GetType().FullName, true));
                 }
             }
-
+        public void Save()
+            {
+            //TODO
+            }
         public String Version
             {
             set { version = value; }
@@ -124,7 +128,34 @@ namespace APSRU.Translator.Howwet
     public class HowwetUtility
         {
         private APSIMData apsimData=new APSIMData();
-        
+        private String applicationDirectory = "";
+
+        public HowwetUtility(String appPath,String howwetSetupFileName)
+            {
+            String exeFolder = Path.GetDirectoryName(appPath);
+            if (File.Exists(exeFolder + howwetSetupFileName))
+                {
+                applicationDirectory= exeFolder;
+                }
+            else
+                {
+                String newPath = Directory.GetParent(exeFolder)+"\\Howwetv2\\HowwetUI\\source";
+               // String twoBack = Directory.GetParent(oneBack).ToString();
+                if (File.Exists(newPath + howwetSetupFileName))
+                    {
+                    applicationDirectory = newPath;
+                    }
+                }
+            }
+
+        public String ApplicationDirectory
+            {
+            get
+                {
+                return applicationDirectory;
+                }
+            }
+
         public CoverCrop GetCrop(ArrayList cropList,String crop)
             {
             CoverCrop cropOut=new CoverCrop();
