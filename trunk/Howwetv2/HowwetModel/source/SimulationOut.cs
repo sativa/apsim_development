@@ -138,12 +138,12 @@ namespace APSRU.Model.Howwet
 
         public double SoilWaterStart(Soil soil)
             {
-            DataRow firstRow = (DataRow)output.Rows[0];
-            ArrayList soilWaterStartByLayer = (ArrayList)firstRow["SoilWaterLayers"];
+           // DataRow firstRow = (DataRow)output.Rows[0];
+          //  ArrayList soilWaterStartByLayer = (ArrayList)firstRow["SoilWaterLayers"];
             double soilWaterStart = 0;
-            for (int layer = 0; layer < soilWaterStartByLayer.Count; layer++)
+            for (int layer = 0; layer < soil.InitialWater.SW.Length-1; layer++)
                 {
-                soilWaterStart = soilWaterStart + (Math.Abs(Convert.ToDouble(soilWaterStartByLayer[layer]) - soil.LL15[layer]) * soil.Thickness[layer]); 
+                soilWaterStart = soilWaterStart + ((soil.InitialWater.SW[layer] - soil.LL15[layer]) * soil.Thickness[layer]); 
                 }
             return soilWaterStart;
             }
