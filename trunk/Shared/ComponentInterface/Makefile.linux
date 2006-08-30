@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
-LIB=	libComponentInterface.so
+LIB=	$(APSROOT)/lib/libComponentInterface.so
 
 SRC=	Component.cpp			\
 	message.cpp			\
@@ -73,7 +73,6 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
-	cp $(LIB) $(APSROOT)/lib
 
 %.o:	%.cpp datatypes.h 
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<

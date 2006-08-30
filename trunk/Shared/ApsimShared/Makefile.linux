@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
-LIB=	libApsimShared.so
+LIB=	$(APSROOT)/lib/libApsimShared.so
 
 SRC=	phi_functions.cpp	\
 	ApsimSimulationFile.cpp	\
@@ -72,7 +72,6 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
-	cp $(LIB) $(APSROOT)/lib
 
 %.o:	%.cpp
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<

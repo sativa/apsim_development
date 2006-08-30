@@ -54,7 +54,7 @@ clean:
 	rm -f *.o *.mod
 
 clobber:	clean
-	rm -r $(LIB)
+	rm -f $(LIB)
 
 install: all
 	cp $(LIB) $(APSROOT)/lib
