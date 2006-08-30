@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<howwet>
+  <version>1.0</version>
+  <debug>true</debug>
+  <training_mode>false</training_mode>
+  <template_name>HowwetTemplate.xml</template_name>
+  <default_soil_file_name>APSRU-Australia-Soils.soils</default_soil_file_name>
+  <surfaceOM>
+    <crop>
+      <name>wheat</name>
+      <specific_area>.0005</specific_area>
+      <cnr>80</cnr>
+    </crop>
+    <crop>
+      <name>sorghum</name>
+      <specific_area>.0004</specific_area>
+      <cnr>80</cnr>
+    </crop>
+    <crop>
+      <name>legume</name>
+      <specific_area>.0002</specific_area>
+      <cnr>30</cnr>
+    </crop>
+  </surfaceOM>
+</howwet>
