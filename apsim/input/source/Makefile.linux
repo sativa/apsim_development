@@ -50,7 +50,7 @@ clean:
 	rm -f *.o *.mod
 
 clobber:	clean
-	rm -r $(LIB)
+	rm -f $(LIB)
 
 %.o:	%.cpp
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<

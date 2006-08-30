@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
-PRG=	apsim.x
+PRG=	$(APSROOT)/Bin/apsim.x
 
 SRC=	Simulation.cpp	\
 	apsim.cpp
@@ -57,10 +57,9 @@ clean:
 	rm -f *.o *.mod
 
 clobber:	clean
-	rm -r $(PRG)
+	rm -f $(PRG)
 
 install: all
-	cp $(PRG) $(APSROOT)/Bin/
 
 %.o:	%.cpp
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<

@@ -43,18 +43,14 @@ all: $(LIB)
 $(LIB):	$(OBJ)
 	$(CC) -shared -o $(LIB) $(OBJ) $(LDFLAGS) $(LIBS)
 
-# -L/usr/local/APSIM/lib -lComponentInterface -lprotocol -lApsimShared -lgeneral -lc
-
 FORCE:
 
 clean:
 	rm -f *.o *.mod
 
 clobber:	clean
-	rm -r $(LIB)
+	rm -f $(LIB)
 
 %.o:	%.cpp
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
-
-
 

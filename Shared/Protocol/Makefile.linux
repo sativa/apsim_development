@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
-LIB=	libprotocol.so
+LIB=	$(APSROOT)/lib/libprotocol.so
 
 SRC=	Transport.cpp	\
 	Computation.cpp
@@ -48,18 +48,12 @@ clean:
 	rm -f *.o *.mod
 
 clobber:	clean
-	rm -r $(LIB)
+	rm -f $(LIB)
 
 install: all
-	cp $(LIB) $(APSROOT)/lib
+
 
 
 %.o:	%.cpp
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
-
-
-
-
-
-
 

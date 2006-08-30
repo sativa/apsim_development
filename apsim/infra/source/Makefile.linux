@@ -44,14 +44,8 @@ clean:
 	rm -f *.o *.mod
 
 clobber:	clean
-	rm -r $(LIB)
+	rm -f $(LIB)
 
 %.o:	%.f90
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
-
-
-
-
-
-
 
