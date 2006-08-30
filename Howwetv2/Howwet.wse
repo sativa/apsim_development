@@ -15,7 +15,7 @@ item: Global
   Log Pathname=%MAINDIR%\INSTALL.LOG
   Message Font=MS Sans Serif
   Font Size=8
-  Pages Modified=00001000010100000000000000000011
+  Pages Modified=00001000010100000000001000000011
   Extra Pages=00000000000000000000000000010000
   Disk Label=Default
   Disk Filename=SETUP
@@ -31,7 +31,7 @@ item: Global
   Crystal Destination=00000000000000000000000000001011
   Distribute Path=V:\Robert
   Distribute Type=1
-  Step View=Properties
+  Step View=&Properties
   Variable Name1=_SYS_
   Variable Default1=C:\WINDOWS\system32
   Variable Flags1=00001000
@@ -86,6 +86,7 @@ item: Remark
 end
 item: Set Variable
   Variable=GROUP
+  Value=Howwet
   Flags=10000000
 end
 item: Remark
@@ -950,494 +951,32 @@ end
 item: Include Script
   Pathname=%_WISE_%\INCLUDE\uninstal.wse
 end
-item: Install File
-  Source=c:\Program Files\Apsim51\Bin\stlpmt45.dll
-  Destination=%MAINDIR%\bin\stlpmt45.dll
-  Flags=0000000010000010
-end
-item: Install File
-  Source=x:\development\apsim\soilwat2\lib\soilwat2.dll
-  Destination=%MAINDIR%\apsim\soilwat2\lib\soilwat2.dll
-  Flags=0000000010000010
-end
-item: Install File
-  Source=x:\development\apsim\input\lib\input.dll
-  Destination=%MAINDIR%\apsim\input\lib\input.dll
-  Flags=0000000010000010
-end
-item: Install File
-  Source=x:\development\apsim\SummaryFile\Lib\SummaryFile.dll
-  Destination=%MAINDIR%\apsim\summaryfile\Lib\SummaryFile.dll
-  Flags=0000000010000010
-end
-item: Install File
-  Source=x:\development\apsim\SurfaceOM\lib\surfaceom.dll
-  Destination=%MAINDIR%\apsim\surfaceOM\lib\surfaceom.dll
-  Flags=0000000010000010
-end
-item: Install File
-  Source=x:\development\apsim\clock\lib\clock.dll
-  Destination=%MAINDIR%\apsim\clock\lib\clock.dll
-  Flags=0000000010000010
-end
-item: Install File
-  Source=x:\development\apsim\ProtocolManager\Lib\ProtocolManager.dll
-  Destination=%MAINDIR%\apsim\protocolmanager\Lib\ProtocolManager.dll
-  Flags=0000000010000010
-end
-item: Install File
-  Source=x:\development\apsim\report\lib\Report.dll
-  Destination=%MAINDIR%\apsim\report\lib\Report.dll
-  Flags=0000000010000010
-end
-item: Install File
-  Source=x:\development\apsim\soiln2\lib\soiln2.dll
-  Destination=%MAINDIR%\apsim\soiln2\lib\soiln2.dll
-  Flags=0000000010000010
-end
-item: Install File
-  Source=x:\development\apsim\erosion\lib\erosion.dll
-  Destination=%MAINDIR%\apsim\erosion\lib\erosion.dll
-  Flags=0000000010000010
-end
-item: Install File
-  Source=x:\development\apsim\accum\lib\accum.dll
-  Destination=%MAINDIR%\apsim\accum\lib\accum.dll
-  Flags=0000000010000010
-end
-item: Install File
-  Source=c:\Development\apsim\infra\datatypes.interface
-  Destination=%MAINDIR%\apsim\infra\datatypes.interface
-  Flags=0000000010000010
-end
-item: Install File
-  Source=c:\Development\apsim\SurfaceOM\SurfaceOM.ini
-  Destination=%MAINDIR%\apsim\surfaceOM\SurfaceOM.ini
-  Flags=0000000010000010
-end
-item: Install File
-  Source=c:\Development\apsim\clock\clock.ini
-  Destination=%MAINDIR%\apsim\clock\clock.ini
-  Flags=0000000010000010
-end
-item: Install File
-  Source=c:\Development\apsim\erosion\erosion.ini
-  Destination=%MAINDIR%\apsim\erosion\erosion.ini
-  Flags=0000000010000010
-end
-item: Install File
-  Source=c:\Program Files\Apsim51\Bin\Soil.dll
-  Destination=%MAINDIR%\bin\Soil.dll
-  Flags=0001000010000011
-end
-item: Install File
-  Source=c:\Program Files\Apsim51\Bin\apsim.exe
-  Destination=%MAINDIR%\bin\apsim.exe
-  Flags=0001000010000011
-end
-item: Install File
-  Source=c:\Program Files\Apsim51\Bin\adortl60.bpl
-  Destination=%MAINDIR%\bin\adortl60.bpl
-  Flags=0001001010000011
-end
-item: Install File
-  Source=c:\Development\Apsimui\Types.xml
-  Destination=%MAINDIR%\apsimUI\Types.xml
-  Flags=0000000010000010
-end
-item: Install File
-  Source=c:\Program Files\Apsim51\Bin\ApsimToSim.exe
-  Destination=%MAINDIR%\bin\ApsimToSim.exe
-  Flags=0001000010000011
-end
-item: Install File
-  Source=c:\Program Files\Apsim51\Bin\APSRun.exe
-  Destination=%MAINDIR%\bin\APSRun.exe
-  Flags=0000000010000010
-end
-item: Install File
-  Source=c:\Program Files\Apsim51\Bin\bdertl60.bpl
-  Destination=%MAINDIR%\bin\bdertl60.bpl
-  Flags=0001001010000011
-end
-item: Install File
-  Source=c:\Program Files\Apsim51\Bin\borlndmm.dll
-  Destination=%MAINDIR%\bin\borlndmm.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=c:\Program Files\Apsim51\Bin\cc3260mt.dll
-  Destination=%MAINDIR%\bin\cc3260mt.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=c:\Program Files\Apsim51\Bin\dbrtl60.bpl
-  Destination=%MAINDIR%\bin\dbrtl60.bpl
-  Flags=0001000010000011
-end
-item: Install File
-  Source=c:\Program Files\Apsim51\Bin\ApsimShared.dll
-  Destination=%MAINDIR%\bin\ApsimShared.dll
-  Flags=0000000010000010
-end
-item: Install File
-  Source=c:\Program Files\Apsim51\Bin\libxml2.dll
-  Destination=%MAINDIR%\bin\libxml2.dll
-  Flags=0000000010000010
-end
-item: Install File
-  Source=c:\Program Files\Apsim51\Bin\Protocol.dll
-  Destination=%MAINDIR%\bin\Protocol.dll
-  Flags=0000000010000010
-end
-item: Install File
-  Source=c:\Program Files\Apsim51\Bin\qrpt60.bpl
-  Destination=%MAINDIR%\bin\qrpt60.bpl
-  Flags=0001001010000011
-end
-item: Install File
-  Source=c:\Program Files\Apsim51\Bin\rtl60.bpl
-  Destination=%MAINDIR%\bin\rtl60.bpl
-  Flags=0001000010000011
-end
-item: Install File
-  Source=c:\Program Files\Apsim51\Bin\vcl60.bpl
-  Destination=%MAINDIR%\bin\vcl60.bpl
-  Flags=0001000010000011
-end
-item: Install File
-  Source=c:\Program Files\Apsim51\Bin\vcldb60.bpl
-  Destination=%MAINDIR%\bin\vcldb60.bpl
-  Flags=0001000010000011
-end
-item: Install File
-  Source=c:\Program Files\Apsim51\Bin\vcljpg60.bpl
-  Destination=%MAINDIR%\bin\vcljpg60.bpl
-  Flags=0001000010000011
-end
-item: Install File
-  Source=c:\Program Files\Apsim51\Bin\vclx60.bpl
-  Destination=%MAINDIR%\bin\vclx60.bpl
-  Flags=0001000010000011
-end
-item: Install File
-  Source=c:\Program Files\Apsim51\apsim.ini
-  Destination=%MAINDIR%\apsim.ini
-  Flags=0000000010000010
-end
-item: Install File
-  Source=C:\WINDOWS\system32\Secur32.dll
-  Destination=%SYS32%\Secur32.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\urlmon.dll
-  Destination=%SYS32%\urlmon.dll
-  Flags=0001000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\System32\davclnt.dll
-  Destination=%SYS32%\davclnt.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\System32\SAMLIB.dll
-  Destination=%SYS32%\SAMLIB.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\System32\NETRAP.dll
-  Destination=%SYS32%\NETRAP.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\System32\NETUI1.dll
-  Destination=%SYS32%\NETUI1.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\System32\NETUI0.dll
-  Destination=%SYS32%\NETUI0.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\System32\ntlanman.dll
-  Destination=%SYS32%\ntlanman.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\System32\drprov.dll
-  Destination=%SYS32%\drprov.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\assembly\GAC_MSIL\FarPoint.CalcEngine\2.5.2002.2005__327c3516b1b18457\FarPoint.CalcEngine.dll
-  Destination=%WIN%\assembly\GAC_MSIL\FarPoint.CalcEngine\2.5.2002.2005__327c3516b1b18457\FarPoint.CalcEngine.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\assembly\GAC_MSIL\FarPoint.Win\2.5.2001.2005__327c3516b1b18457\FarPoint.Win.dll
-  Destination=%WIN%\assembly\GAC_MSIL\FarPoint.Win\2.5.2001.2005__327c3516b1b18457\FarPoint.Win.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\assembly\GAC_MSIL\FarPoint.Win.Spread\2.5.2001.2005__327c3516b1b18457\FarPoint.Win.Spread.dll
-  Destination=%WIN%\assembly\GAC_MSIL\FarPoint.Win.Spread\2.5.2001.2005__327c3516b1b18457\FarPoint.Win.Spread.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\assembly\GAC_32\System.Data\2.0.0.0__b77a5c561934e089\System.Data.dll
-  Destination=%WIN%\assembly\GAC_32\System.Data\2.0.0.0__b77a5c561934e089\System.Data.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\assembly\NativeImages_v2.0.50727_32\System.Data\26d37f68432fa04ba2d3b4e0934b327c\System.Data.ni.dll
-  Destination=%WIN%\assembly\NativeImages_v2.0.50727_32\System.Data\26d37f68432fa04ba2d3b4e0934b327c\System.Data.ni.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\WLDAP32.dll
-  Destination=%SYS32%\WLDAP32.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\IMAGEHLP.dll
-  Destination=%SYS32%\IMAGEHLP.dll
-  Flags=0000001010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\WINTRUST.dll
-  Destination=%SYS32%\WINTRUST.dll
-  Flags=0001000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\CRYPTUI.dll
-  Destination=%SYS32%\CRYPTUI.dll
-  Flags=0001000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\USERENV.dll
-  Destination=%SYS32%\USERENV.dll
-  Flags=0001000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\ATL.DLL
-  Destination=%SYS32%\ATL.DLL
-  Flags=0001001010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\ntshrui.dll
-  Destination=%SYS32%\ntshrui.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\SETUPAPI.dll
-  Destination=%SYS32%\SETUPAPI.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\browseui.dll
-  Destination=%SYS32%\browseui.dll
-  Flags=0001000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\System32\CSCDLL.dll
-  Destination=%SYS32%\CSCDLL.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\System32\cscui.dll
-  Destination=%SYS32%\cscui.dll
-  Flags=0001000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\WinSxS\x86_Microsoft.VC80.CRT_1fc8b3b9a1e18e3b_8.0.50727.42_x-ww_0de06acd\MSVCP80.dll
-  Destination=%WIN%\WinSxS\x86_Microsoft.VC80.CRT_1fc8b3b9a1e18e3b_8.0.50727.42_x-ww_0de06acd\MSVCP80.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\Program Files\TortoiseSVN\bin\intl3_svn.dll
-  Destination=%MAINDIR%\intl3_svn.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\Program Files\TortoiseSVN\bin\libapriconv.dll
-  Destination=%MAINDIR%\libapriconv.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\Program Files\TortoiseSVN\bin\libaprutil.dll
-  Destination=%MAINDIR%\libaprutil.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\MSWSOCK.dll
-  Destination=%SYS32%\MSWSOCK.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\WS2HELP.dll
-  Destination=%SYS32%\WS2HELP.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\WS2_32.dll
-  Destination=%SYS32%\WS2_32.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\Program Files\TortoiseSVN\bin\libapr.dll
-  Destination=%MAINDIR%\libapr.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\MSASN1.dll
-  Destination=%SYS32%\MSASN1.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\CRYPT32.dll
-  Destination=%SYS32%\CRYPT32.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\COMRes.dll
-  Destination=%SYS32%\COMRes.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\CLBCATQ.DLL
-  Destination=%SYS32%\CLBCATQ.DLL
-  Flags=0001000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\appHelp.dll
-  Destination=%SYS32%\appHelp.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\mslbui.dll
-  Destination=%SYS32%\mslbui.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\dciman32.dll
-  Destination=%SYS32%\dciman32.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\assembly\NativeImages_v2.0.50727_32\Microsoft.VisualBas#\dae3d2010a41744c839b78f19bc093b1\Microsoft.VisualBasic.ni.dll
-  Destination=%WIN%\assembly\NativeImages_v2.0.50727_32\Microsoft.VisualBas#\dae3d2010a41744c839b78f19bc093b1\Microsoft.VisualBasic.ni.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\Development\Howwetv2\HowwetUI\source\bin\Debug\Howwet.dll
-  Destination=%MAINDIR%\Howwet.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\Development\Howwetv2\HowwetUI\source\bin\Debug\VBGeneral.dll
-  Destination=%MAINDIR%\VBGeneral.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\oleaut32.dll
-  Destination=%SYS32%\oleaut32.dll
-  Flags=0001001010000011
-end
-item: Install File
-  Source=C:\WINDOWS\WinSxS\x86_Microsoft.Windows.GdiPlus_6595b64144ccf1df_1.0.2600.2180_x-ww_522f9f82\gdiplus.dll
-  Destination=%WIN%\WinSxS\x86_Microsoft.Windows.GdiPlus_6595b64144ccf1df_1.0.2600.2180_x-ww_522f9f82\gdiplus.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\Development\Howwetv2\HowwetUI\source\bin\Debug\TeeChart.dll
-  Destination=%MAINDIR%\TeeChart.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\xpsp2res.dll
-  Destination=%SYS32%\xpsp2res.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\rsaenh.dll
-  Destination=%SYS32%\rsaenh.dll
-  Flags=0001000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\assembly\NativeImages_v2.0.50727_32\System.Xml\4bc2d01202702045b2ef06f9b408c841\System.Xml.ni.dll
-  Destination=%WIN%\assembly\NativeImages_v2.0.50727_32\System.Xml\4bc2d01202702045b2ef06f9b408c841\System.Xml.ni.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\assembly\NativeImages_v2.0.50727_32\System.Configuration\11aed770bdef8c4286f68a6251f8bf5a\System.Configuration.ni.dll
-  Destination=%WIN%\assembly\NativeImages_v2.0.50727_32\System.Configuration\11aed770bdef8c4286f68a6251f8bf5a\System.Configuration.ni.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\assembly\NativeImages_v2.0.50727_32\System.Windows.Forms\d1145d2b66bb0e438fa9360ada263fad\System.Windows.Forms.ni.dll
-  Destination=%WIN%\assembly\NativeImages_v2.0.50727_32\System.Windows.Forms\d1145d2b66bb0e438fa9360ada263fad\System.Windows.Forms.ni.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\assembly\NativeImages_v2.0.50727_32\System.Drawing\7fa2bd3361428b44ada3bf7afd9f5d7a\System.Drawing.ni.dll
-  Destination=%WIN%\assembly\NativeImages_v2.0.50727_32\System.Drawing\7fa2bd3361428b44ada3bf7afd9f5d7a\System.Drawing.ni.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\assembly\NativeImages_v2.0.50727_32\System\601e07d4fe4803448fa8c6c5e735de01\System.ni.dll
-  Destination=%WIN%\assembly\NativeImages_v2.0.50727_32\System\601e07d4fe4803448fa8c6c5e735de01\System.ni.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\mscorjit.dll
-  Destination=%WIN%\Microsoft.NET\Framework\v2.0.50727\mscorjit.dll
-  Flags=0000001010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\MSCTF.dll
-  Destination=%SYS32%\MSCTF.dll
-  Flags=0001001010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\uxtheme.dll
-  Destination=%SYS32%\uxtheme.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\assembly\NativeImages_v2.0.50727_32\mscorlib\6cca9a693bbccb4b9f5b75608724fab7\mscorlib.ni.dll
-  Destination=%WIN%\assembly\NativeImages_v2.0.50727_32\mscorlib\6cca9a693bbccb4b9f5b75608724fab7\mscorlib.ni.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\WinSxS\x86_Microsoft.VC80.CRT_1fc8b3b9a1e18e3b_8.0.50727.42_x-ww_0de06acd\MSVCR80.dll
-  Destination=%WIN%\WinSxS\x86_Microsoft.VC80.CRT_1fc8b3b9a1e18e3b_8.0.50727.42_x-ww_0de06acd\MSVCR80.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\mscorwks.dll
-  Destination=%WIN%\Microsoft.NET\Framework\v2.0.50727\mscorwks.dll
-  Flags=0000001010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\msvcrt.dll
-  Destination=%SYS32%\msvcrt.dll
-  Flags=0000001010000011
-end
-item: Install File
-  Source=C:\WINDOWS\system32\mscoree.dll
-  Destination=%SYS32%\mscoree.dll
-  Flags=0001001010000011
-end
-item: Install File
-  Source=C:\Development\Howwetv2\HowwetUI\source\bin\Debug\HowwetUI.exe
-  Destination=%MAINDIR%\HowwetUI.exe
-  Flags=0000000010000011
+item: Remark
+  Text=Third party files
 end
 item: Install File
   Source=c:\Program Files\FarPoint Technologies\Spread.WinForms.v25 for Visual Studio 2005\v2.5.2001\Bin\FarPoint.Excel.dll
   Destination=%MAINDIR%\bin\FarPoint.Excel.dll
+  Flags=0001000010000011
+end
+item: Install File
+  Source=c:\Program Files\FarPoint Technologies\Spread.WinForms.v25 for Visual Studio 2005\v2.5.2001\Bin\FarPoint.Win.TextRenderer.dll
+  Destination=%MAINDIR%\bin\FarPoint.Win.TextRenderer.dll
+  Flags=0001000010000011
+end
+item: Install File
+  Source=c:\Program Files\FarPoint Technologies\Spread.WinForms.v25 for Visual Studio 2005\v2.5.2001\Bin\FarPoint.Win.Spread.dll
+  Destination=%MAINDIR%\bin\FarPoint.Win.Spread.dll
+  Flags=0001000010000011
+end
+item: Install File
+  Source=c:\Program Files\FarPoint Technologies\Spread.WinForms.v25 for Visual Studio 2005\v2.5.2001\Bin\FarPoint.Win.Spread.Design.dll
+  Destination=%MAINDIR%\bin\FarPoint.Win.Spread.Design.dll
+  Flags=0001000010000011
+end
+item: Install File
+  Source=c:\Program Files\FarPoint Technologies\Spread.WinForms.v25 for Visual Studio 2005\v2.5.2001\Bin\FarPoint.Win.dll
+  Destination=%MAINDIR%\bin\FarPoint.Win.dll
   Flags=0001000010000011
 end
 item: Install File
@@ -1446,28 +985,75 @@ item: Install File
   Flags=0001000010000011
 end
 item: Install File
-  Source=c:\Development\Howwetv2\HowwetUI\source\HowwetTemplate.xml
+  Source=C:\Development\Howwetv2\HowwetUI\source\bin\Debug\TeeChart.dll
+  Destination=%MAINDIR%\TeeChart.dll
+  Flags=0000000010000011
+end
+item: Remark
+  Text=Howwet files
+end
+item: Install File
+  Source=C:\Development\Howwetv2\HowwetUI\source\bin\Debug\Howwet.dll
+  Destination=%MAINDIR%\Howwet.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\Development\Howwetv2\HowwetUI\source\bin\Debug\HowwetUI.exe
+  Destination=%MAINDIR%\HowwetUI.exe
+  Flags=0000000010000011
+end
+item: Install File
+  Source=..\..\Development\Howwetv2\HowwetUI\source\HowwetTemplate.xml
   Destination=%MAINDIR%\HowwetTemplate.xml
   Flags=0000000010000010
 end
 item: Install File
-  Source=c:\Development\Howwetv2\HowwetUI\source\HowwetSetup.xml
+  Source=..\..\Development\Howwetv2\HowwetUI\source\HowwetSetup.xml
   Destination=%MAINDIR%\HowwetSetup.xml
   Flags=0000000010000010
 end
 item: Install File
-  Source=c:\Development\Howwetv2\HowwetUI\source\HowwetReport.xslt
+  Source=..\..\Development\Howwetv2\HowwetUI\source\HowwetReport.xslt
   Destination=%MAINDIR%\HowwetReport.xslt
   Flags=0000000010000010
 end
 item: Install File
-  Source=c:\Development\Howwetv2\HowwetUI\source\HowwetReport.xml
+  Source=..\..\Development\Howwetv2\HowwetUI\source\HowwetReport.xml
   Destination=%MAINDIR%\HowwetReport.xml
   Flags=0000000010000010
 end
 item: Install File
-  Source=c:\Development\Howwetv2\HowwetUI\source\Howwet.css
+  Source=..\..\Development\Howwetv2\HowwetUI\source\Howwet.css
   Destination=%MAINDIR%\Howwet.css
+  Flags=0000000010000010
+end
+item: Install File
+  Source=..\..\development\Bin\CSGeneral.dll
+  Destination=%MAINDIR%\CSGeneral.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=..\..\development\Bin\Soil.dll
+  Destination=%MAINDIR%\Soil.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=..\..\development\Bin\VBGeneral.dll
+  Destination=%MAINDIR%\VBGeneral.dll
+  Flags=0000000010000011
+end
+item: Remark
+  Text=Sample files
+end
+item: Create Directory
+  Pathname=%MAINDIR%\sample
+end
+item: Create Directory
+  Pathname=%MAINDIR%\docs
+end
+item: Install File
+  Source=c:\Program Files\Apsim51\APSoil\APSRU-Australia-Soils.soils
+  Destination=%MAINDIR%\apsoil\APSRU-Australia-Soils.soils
   Flags=0000000010000010
 end
 item: Install File
@@ -1520,6 +1106,493 @@ item: Install File
   Destination=%MAINDIR%\sample\met\bundabrg.met
   Flags=0000000010000010
 end
+item: Remark
+  Text=Apsim files
+end
+item: Install File
+  Source=..\..\development\apsim.ini
+  Destination=%MAINDIR%\apsim.ini
+  Flags=0000000010000010
+end
+item: Install File
+  Source=..\..\development\apsim\soilwat2\lib\soilwat2.dll
+  Destination=%MAINDIR%\apsim\soilwat2\lib\soilwat2.dll
+  Flags=0000000010000010
+end
+item: Install File
+  Source=..\..\development\apsim\input\lib\input.dll
+  Destination=%MAINDIR%\apsim\input\lib\input.dll
+  Flags=0000000010000010
+end
+item: Install File
+  Source=..\..\development\apsim\SummaryFile\Lib\SummaryFile.dll
+  Destination=%MAINDIR%\apsim\summaryfile\Lib\SummaryFile.dll
+  Flags=0000000010000010
+end
+item: Install File
+  Source=..\..\development\apsim\SurfaceOM\lib\surfaceom.dll
+  Destination=%MAINDIR%\apsim\surfaceOM\lib\surfaceom.dll
+  Flags=0000000010000010
+end
+item: Install File
+  Source=..\..\development\apsim\clock\lib\clock.dll
+  Destination=%MAINDIR%\apsim\clock\lib\clock.dll
+  Flags=0000000010000010
+end
+item: Install File
+  Source=..\..\development\apsim\ProtocolManager\Lib\ProtocolManager.dll
+  Destination=%MAINDIR%\apsim\protocolmanager\Lib\ProtocolManager.dll
+  Flags=0000000010000010
+end
+item: Install File
+  Source=..\..\development\apsim\report\lib\Report.dll
+  Destination=%MAINDIR%\apsim\report\lib\Report.dll
+  Flags=0000000010000010
+end
+item: Install File
+  Source=..\..\development\apsim\soiln2\lib\soiln2.dll
+  Destination=%MAINDIR%\apsim\soiln2\lib\soiln2.dll
+  Flags=0000000010000010
+end
+item: Install File
+  Source=..\..\development\apsim\erosion\lib\erosion.dll
+  Destination=%MAINDIR%\apsim\erosion\lib\erosion.dll
+  Flags=0000000010000010
+end
+item: Install File
+  Source=..\..\development\apsim\accum\lib\accum.dll
+  Destination=%MAINDIR%\apsim\accum\lib\accum.dll
+  Flags=0000000010000010
+end
+item: Install File
+  Source=..\..\development\apsim\infra\datatypes.interface
+  Destination=%MAINDIR%\apsim\infra\datatypes.interface
+  Flags=0000000010000010
+end
+item: Install File
+  Source=..\..\development\apsim\SurfaceOM\SurfaceOM.ini
+  Destination=%MAINDIR%\apsim\surfaceOM\SurfaceOM.ini
+  Flags=0000000010000010
+end
+item: Install File
+  Source=..\..\development\apsim\clock\clock.ini
+  Destination=%MAINDIR%\apsim\clock\clock.ini
+  Flags=0000000010000010
+end
+item: Install File
+  Source=..\..\development\Apsimui\Types.xml
+  Destination=%MAINDIR%\apsimUI\Types.xml
+  Flags=0000000010000010
+end
+item: Install File
+  Source=..\..\development\apsim\erosion\erosion.ini
+  Destination=%MAINDIR%\apsim\erosion\erosion.ini
+  Flags=0000000010000010
+end
+item: Install File
+  Source=..\..\development\Bin\apsim.exe
+  Destination=%MAINDIR%\bin\apsim.exe
+  Flags=0001000010000011
+end
+item: Install File
+  Source=..\..\development\Bin\ApsimToSim.exe
+  Destination=%MAINDIR%\bin\ApsimToSim.exe
+  Flags=0001000010000011
+end
+item: Install File
+  Source=..\..\development\Bin\APSRun.exe
+  Destination=%MAINDIR%\bin\APSRun.exe
+  Flags=0000000010000010
+end
+item: Install File
+  Source=..\..\development\Bin\ApsimShared.dll
+  Destination=%MAINDIR%\bin\ApsimShared.dll
+  Flags=0000000010000010
+end
+item: Install File
+  Source=..\..\development\Bin\Soil.dll
+  Destination=%MAINDIR%\bin\Soil.dll
+  Flags=0001000010000011
+end
+item: Install File
+  Source=..\..\development\Bin\CSGeneral.dll
+  Destination=%MAINDIR%\bin\CSGeneral.dll
+  Flags=0001000010000011
+end
+item: Install File
+  Source=..\..\development\Bin\VBGeneral.dll
+  Destination=%MAINDIR%\bin\VBGeneral.dll
+  Flags=0000000010000011
+end
+item: Remark
+  Text=Borland files
+end
+item: Install File
+  Source=c:\Program Files\Borland\CBuilder6\Bin\stlpmt45.dll
+  Destination=%MAINDIR%\bin\stlpmt45.dll
+  Flags=0000000010000010
+end
+item: Install File
+  Source=c:\Program Files\Borland\CBuilder6\Bin\adortl60.bpl
+  Destination=%MAINDIR%\bin\adortl60.bpl
+  Flags=0001001010000011
+end
+item: Install File
+  Source=c:\Program Files\Borland\CBuilder6\Bin\bdertl60.bpl
+  Destination=%MAINDIR%\bin\bdertl60.bpl
+  Flags=0001001010000011
+end
+item: Install File
+  Source=c:\Program Files\Borland\CBuilder6\Bin\borlndmm.dll
+  Destination=%MAINDIR%\bin\borlndmm.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=c:\Program Files\Borland\CBuilder6\Bin\cc3260mt.dll
+  Destination=%MAINDIR%\bin\cc3260mt.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=c:\Program Files\Borland\CBuilder6\Bin\dbrtl60.bpl
+  Destination=%MAINDIR%\bin\dbrtl60.bpl
+  Flags=0001000010000011
+end
+item: Install File
+  Source=c:\Program Files\Borland\CBuilder6\Bin\libxml2.dll
+  Destination=%MAINDIR%\bin\libxml2.dll
+  Flags=0000000010000010
+end
+item: Install File
+  Source=c:\Program Files\Borland\CBuilder6\Bin\Protocol.dll
+  Destination=%MAINDIR%\bin\Protocol.dll
+  Flags=0000000010000010
+end
+item: Install File
+  Source=c:\Program Files\Borland\CBuilder6\Bin\qrpt60.bpl
+  Destination=%MAINDIR%\bin\qrpt60.bpl
+  Flags=0001001010000011
+end
+item: Install File
+  Source=c:\Program Files\Borland\CBuilder6\Bin\rtl60.bpl
+  Destination=%MAINDIR%\bin\rtl60.bpl
+  Flags=0001000010000011
+end
+item: Install File
+  Source=c:\Program Files\Borland\CBuilder6\Bin\vcl60.bpl
+  Destination=%MAINDIR%\bin\vcl60.bpl
+  Flags=0001000010000011
+end
+item: Install File
+  Source=c:\Program Files\Borland\CBuilder6\Bin\vcldb60.bpl
+  Destination=%MAINDIR%\bin\vcldb60.bpl
+  Flags=0001000010000011
+end
+item: Install File
+  Source=c:\Program Files\Borland\CBuilder6\Bin\vcljpg60.bpl
+  Destination=%MAINDIR%\bin\vcljpg60.bpl
+  Flags=0001000010000011
+end
+item: Install File
+  Source=c:\Program Files\Borland\CBuilder6\Bin\vclx60.bpl
+  Destination=%MAINDIR%\bin\vclx60.bpl
+  Flags=0001000010000011
+end
+item: Remark
+  Text=Windows files
+end
+item: Install File
+  Source=C:\Program Files\TortoiseSVN\bin\libapr.dll
+  Destination=%MAINDIR%\libapr.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\Program Files\TortoiseSVN\bin\intl3_svn.dll
+  Destination=%MAINDIR%\intl3_svn.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\Program Files\TortoiseSVN\bin\libapriconv.dll
+  Destination=%MAINDIR%\libapriconv.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\Program Files\TortoiseSVN\bin\libaprutil.dll
+  Destination=%MAINDIR%\libaprutil.dll
+  Flags=0000000010000011
+end
+item: Remark
+  Text=SVN
+end
+item: Install File
+  Source=C:\WINDOWS\system32\Secur32.dll
+  Destination=%SYS32%\Secur32.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\urlmon.dll
+  Destination=%SYS32%\urlmon.dll
+  Flags=0001000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\System32\davclnt.dll
+  Destination=%SYS32%\davclnt.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\System32\SAMLIB.dll
+  Destination=%SYS32%\SAMLIB.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\System32\NETRAP.dll
+  Destination=%SYS32%\NETRAP.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\System32\NETUI1.dll
+  Destination=%SYS32%\NETUI1.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\System32\NETUI0.dll
+  Destination=%SYS32%\NETUI0.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\System32\ntlanman.dll
+  Destination=%SYS32%\ntlanman.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\System32\drprov.dll
+  Destination=%SYS32%\drprov.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\assembly\GAC_MSIL\FarPoint.CalcEngine\2.5.2002.2005__327c3516b1b18457\FarPoint.CalcEngine.dll
+  Destination=%WIN%\assembly\GAC_MSIL\FarPoint.CalcEngine\2.5.2002.2005__327c3516b1b18457\FarPoint.CalcEngine.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\assembly\GAC_MSIL\FarPoint.Win\2.5.2001.2005__327c3516b1b18457\FarPoint.Win.dll
+  Destination=%WIN%\assembly\GAC_MSIL\FarPoint.Win\2.5.2001.2005__327c3516b1b18457\FarPoint.Win.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\assembly\GAC_MSIL\FarPoint.Win.Spread\2.5.2001.2005__327c3516b1b18457\FarPoint.Win.Spread.dll
+  Destination=%WIN%\assembly\GAC_MSIL\FarPoint.Win.Spread\2.5.2001.2005__327c3516b1b18457\FarPoint.Win.Spread.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\assembly\GAC_32\System.Data\2.0.0.0__b77a5c561934e089\System.Data.dll
+  Destination=%WIN%\assembly\GAC_32\System.Data\2.0.0.0__b77a5c561934e089\System.Data.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\assembly\NativeImages_v2.0.50727_32\System.Data\26d37f68432fa04ba2d3b4e0934b327c\System.Data.ni.dll
+  Destination=%WIN%\assembly\NativeImages_v2.0.50727_32\System.Data\26d37f68432fa04ba2d3b4e0934b327c\System.Data.ni.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\WLDAP32.dll
+  Destination=%SYS32%\WLDAP32.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\IMAGEHLP.dll
+  Destination=%SYS32%\IMAGEHLP.dll
+  Flags=0000001010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\WINTRUST.dll
+  Destination=%SYS32%\WINTRUST.dll
+  Flags=0001000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\CRYPTUI.dll
+  Destination=%SYS32%\CRYPTUI.dll
+  Flags=0001000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\USERENV.dll
+  Destination=%SYS32%\USERENV.dll
+  Flags=0001000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\ATL.DLL
+  Destination=%SYS32%\ATL.DLL
+  Flags=0001001010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\ntshrui.dll
+  Destination=%SYS32%\ntshrui.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\SETUPAPI.dll
+  Destination=%SYS32%\SETUPAPI.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\browseui.dll
+  Destination=%SYS32%\browseui.dll
+  Flags=0001000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\System32\CSCDLL.dll
+  Destination=%SYS32%\CSCDLL.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\System32\cscui.dll
+  Destination=%SYS32%\cscui.dll
+  Flags=0001000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\WinSxS\x86_Microsoft.VC80.CRT_1fc8b3b9a1e18e3b_8.0.50727.42_x-ww_0de06acd\MSVCP80.dll
+  Destination=%WIN%\WinSxS\x86_Microsoft.VC80.CRT_1fc8b3b9a1e18e3b_8.0.50727.42_x-ww_0de06acd\MSVCP80.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\MSWSOCK.dll
+  Destination=%SYS32%\MSWSOCK.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\WS2HELP.dll
+  Destination=%SYS32%\WS2HELP.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\WS2_32.dll
+  Destination=%SYS32%\WS2_32.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\MSASN1.dll
+  Destination=%SYS32%\MSASN1.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\CRYPT32.dll
+  Destination=%SYS32%\CRYPT32.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\COMRes.dll
+  Destination=%SYS32%\COMRes.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\CLBCATQ.DLL
+  Destination=%SYS32%\CLBCATQ.DLL
+  Flags=0001000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\appHelp.dll
+  Destination=%SYS32%\appHelp.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\mslbui.dll
+  Destination=%SYS32%\mslbui.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\dciman32.dll
+  Destination=%SYS32%\dciman32.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\assembly\NativeImages_v2.0.50727_32\Microsoft.VisualBas#\dae3d2010a41744c839b78f19bc093b1\Microsoft.VisualBasic.ni.dll
+  Destination=%WIN%\assembly\NativeImages_v2.0.50727_32\Microsoft.VisualBas#\dae3d2010a41744c839b78f19bc093b1\Microsoft.VisualBasic.ni.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\oleaut32.dll
+  Destination=%SYS32%\oleaut32.dll
+  Flags=0001001010000011
+end
+item: Install File
+  Source=C:\WINDOWS\WinSxS\x86_Microsoft.Windows.GdiPlus_6595b64144ccf1df_1.0.2600.2180_x-ww_522f9f82\gdiplus.dll
+  Destination=%WIN%\WinSxS\x86_Microsoft.Windows.GdiPlus_6595b64144ccf1df_1.0.2600.2180_x-ww_522f9f82\gdiplus.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\xpsp2res.dll
+  Destination=%SYS32%\xpsp2res.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\rsaenh.dll
+  Destination=%SYS32%\rsaenh.dll
+  Flags=0001000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\assembly\NativeImages_v2.0.50727_32\System.Xml\4bc2d01202702045b2ef06f9b408c841\System.Xml.ni.dll
+  Destination=%WIN%\assembly\NativeImages_v2.0.50727_32\System.Xml\4bc2d01202702045b2ef06f9b408c841\System.Xml.ni.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\assembly\NativeImages_v2.0.50727_32\System.Configuration\11aed770bdef8c4286f68a6251f8bf5a\System.Configuration.ni.dll
+  Destination=%WIN%\assembly\NativeImages_v2.0.50727_32\System.Configuration\11aed770bdef8c4286f68a6251f8bf5a\System.Configuration.ni.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\assembly\NativeImages_v2.0.50727_32\System.Windows.Forms\d1145d2b66bb0e438fa9360ada263fad\System.Windows.Forms.ni.dll
+  Destination=%WIN%\assembly\NativeImages_v2.0.50727_32\System.Windows.Forms\d1145d2b66bb0e438fa9360ada263fad\System.Windows.Forms.ni.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\assembly\NativeImages_v2.0.50727_32\System.Drawing\7fa2bd3361428b44ada3bf7afd9f5d7a\System.Drawing.ni.dll
+  Destination=%WIN%\assembly\NativeImages_v2.0.50727_32\System.Drawing\7fa2bd3361428b44ada3bf7afd9f5d7a\System.Drawing.ni.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\assembly\NativeImages_v2.0.50727_32\System\601e07d4fe4803448fa8c6c5e735de01\System.ni.dll
+  Destination=%WIN%\assembly\NativeImages_v2.0.50727_32\System\601e07d4fe4803448fa8c6c5e735de01\System.ni.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\mscorjit.dll
+  Destination=%WIN%\Microsoft.NET\Framework\v2.0.50727\mscorjit.dll
+  Flags=0000001010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\MSCTF.dll
+  Destination=%SYS32%\MSCTF.dll
+  Flags=0001001010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\uxtheme.dll
+  Destination=%SYS32%\uxtheme.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\assembly\NativeImages_v2.0.50727_32\mscorlib\6cca9a693bbccb4b9f5b75608724fab7\mscorlib.ni.dll
+  Destination=%WIN%\assembly\NativeImages_v2.0.50727_32\mscorlib\6cca9a693bbccb4b9f5b75608724fab7\mscorlib.ni.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\WinSxS\x86_Microsoft.VC80.CRT_1fc8b3b9a1e18e3b_8.0.50727.42_x-ww_0de06acd\MSVCR80.dll
+  Destination=%WIN%\WinSxS\x86_Microsoft.VC80.CRT_1fc8b3b9a1e18e3b_8.0.50727.42_x-ww_0de06acd\MSVCR80.dll
+  Flags=0000000010000011
+end
+item: Install File
+  Source=C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\mscorwks.dll
+  Destination=%WIN%\Microsoft.NET\Framework\v2.0.50727\mscorwks.dll
+  Flags=0000001010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\msvcrt.dll
+  Destination=%SYS32%\msvcrt.dll
+  Flags=0000001010000011
+end
+item: Install File
+  Source=C:\WINDOWS\system32\mscoree.dll
+  Destination=%SYS32%\mscoree.dll
+  Flags=0001001010000011
+end
 item: Install File
   Source=C:\WINDOWS\assembly\GAC_MSIL\FarPoint.CalcEngine\2.5.2002.2005__327c3516b1b18457\FarPoint.CalcEngine.dll
   Destination=%WIN%\assembly\GAC_MSIL\FarPoint.CalcEngine\2.5.2002.2005__327c3516b1b18457\FarPoint.CalcEngine.dll
@@ -1661,16 +1734,6 @@ item: Install File
   Flags=0000000010000011
 end
 item: Install File
-  Source=C:\Development\Howwetv2\HowwetUI\source\bin\Debug\CSGeneral.dll
-  Destination=%MAINDIR%\CSGeneral.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=C:\Development\Howwetv2\HowwetUI\source\bin\Debug\Soil.dll
-  Destination=%MAINDIR%\Soil.dll
-  Flags=0000000010000011
-end
-item: Install File
   Source=C:\WINDOWS\system32\mslbui.dll
   Destination=%SYS32%\mslbui.dll
   Flags=0000000010000011
@@ -1799,37 +1862,6 @@ item: Install File
   Source=C:\WINDOWS\assembly\NativeImages_v2.0.50727_32\System.Configuration\11aed770bdef8c4286f68a6251f8bf5a\System.Configuration.ni.dll
   Destination=%WIN%\assembly\NativeImages_v2.0.50727_32\System.Configuration\11aed770bdef8c4286f68a6251f8bf5a\System.Configuration.ni.dll
   Flags=0000000010000011
-end
-item: Install File
-  Source=c:\Program Files\FarPoint Technologies\Spread.WinForms.v25 for Visual Studio 2005\v2.5.2001\Bin\FarPoint.Win.TextRenderer.dll
-  Destination=%MAINDIR%\bin\FarPoint.Win.TextRenderer.dll
-  Flags=0001000010000011
-end
-item: Install File
-  Source=c:\Program Files\FarPoint Technologies\Spread.WinForms.v25 for Visual Studio 2005\v2.5.2001\Bin\FarPoint.Win.Spread.dll
-  Destination=%MAINDIR%\bin\FarPoint.Win.Spread.dll
-  Flags=0001000010000011
-end
-item: Install File
-  Source=c:\Program Files\FarPoint Technologies\Spread.WinForms.v25 for Visual Studio 2005\v2.5.2001\Bin\FarPoint.Win.Spread.Design.dll
-  Destination=%MAINDIR%\bin\FarPoint.Win.Spread.Design.dll
-  Flags=0001000010000011
-end
-item: Install File
-  Source=c:\Program Files\FarPoint Technologies\Spread.WinForms.v25 for Visual Studio 2005\v2.5.2001\Bin\FarPoint.Win.dll
-  Destination=%MAINDIR%\bin\FarPoint.Win.dll
-  Flags=0001000010000011
-end
-item: Install File
-  Source=c:\Program Files\Apsim51\APSoil\APSRU-Australia-Soils.soils
-  Destination=%MAINDIR%\apsoil\APSRU-Australia-Soils.soils
-  Flags=0000000010000010
-end
-item: Create Directory
-  Pathname=%MAINDIR%\sample
-end
-item: Create Directory
-  Pathname=%MAINDIR%\docs
 end
 item: Install File
   Source=C:\WINDOWS\system32\mscoree.dll
@@ -2048,7 +2080,33 @@ item: Set Variable
   Variable=GROUP
   Value=%GROUPDIR%\%GROUP%
 end
+item: Create Shortcut
+  Source=%MAINDIR%\HowwetUI.exe
+  Destination=%DESKTOPDIR%\HowwetUI.lnk
+  Icon Number=0
+  Icon Pathname=%MAINDIR%\HowwetUI.exe
+end
+item: Create Shortcut
+  Source=%MAINDIR%\HowwetUI.exe
+  Destination=%GROUP%\HowwetUI.lnk
+  Icon Number=0
+  Icon Pathname=%MAINDIR%\HowwetUI.exe
+end
 item: Else Statement
+end
+item: Add ProgMan Icon
+  Group=%GROUP%
+  Icon Name=HowwetUI
+  Command Line=%MAINDIR%\HowwetUI.exe
+  Icon Pathname=%MAINDIR%\HowwetUI.exe
+  Flags=01000000
+end
+item: Add ProgMan Icon
+  Group=%GROUP%
+  Icon Name=HowwetUI
+  Command Line=%MAINDIR%\HowwetUI.exe
+  Icon Pathname=%MAINDIR%\HowwetUI.exe
+  Flags=01000000
 end
 item: End Block
 end
