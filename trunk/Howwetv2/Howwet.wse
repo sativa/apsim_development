@@ -31,7 +31,7 @@ item: Global
   Crystal Destination=00000000000000000000000000001011
   Distribute Path=V:\Robert
   Distribute Type=1
-  Step View=&Properties
+  Step View=&All
   Variable Name1=_SYS_
   Variable Default1=C:\WINDOWS\system32
   Variable Flags1=00001000
@@ -985,62 +985,47 @@ item: Install File
   Flags=0001000010000011
 end
 item: Install File
-  Source=C:\Development\Howwetv2\HowwetUI\source\bin\Debug\TeeChart.dll
-  Destination=%MAINDIR%\TeeChart.dll
+  Source=C:\Program Files\Steema Software\TeeChart for .NET v2 Evaluation\TeeChartForNET\bin\TeeChart.dll
+  Destination=%MAINDIR%\bin\TeeChart.dll
   Flags=0000000010000011
 end
 item: Remark
   Text=Howwet files
 end
 item: Install File
-  Source=C:\Development\Howwetv2\HowwetUI\source\bin\Debug\Howwet.dll
-  Destination=%MAINDIR%\Howwet.dll
+  Source=..\..\Development\bin\Howwet.dll
+  Destination=%MAINDIR%\bin\Howwet.dll
   Flags=0000000010000011
 end
 item: Install File
-  Source=C:\Development\Howwetv2\HowwetUI\source\bin\Debug\HowwetUI.exe
-  Destination=%MAINDIR%\HowwetUI.exe
+  Source=..\..\Development\bin\HowwetUI.exe
+  Destination=%MAINDIR%\bin\HowwetUI.exe
   Flags=0000000010000011
 end
 item: Install File
   Source=..\..\Development\Howwetv2\HowwetUI\source\HowwetTemplate.xml
-  Destination=%MAINDIR%\HowwetTemplate.xml
+  Destination=%MAINDIR%\bin\HowwetTemplate.xml
   Flags=0000000010000010
 end
 item: Install File
   Source=..\..\Development\Howwetv2\HowwetUI\source\HowwetSetup.xml
-  Destination=%MAINDIR%\HowwetSetup.xml
+  Destination=%MAINDIR%\bin\HowwetSetup.xml
   Flags=0000000010000010
 end
 item: Install File
   Source=..\..\Development\Howwetv2\HowwetUI\source\HowwetReport.xslt
-  Destination=%MAINDIR%\HowwetReport.xslt
+  Destination=%MAINDIR%\bin\HowwetReport.xslt
   Flags=0000000010000010
 end
 item: Install File
   Source=..\..\Development\Howwetv2\HowwetUI\source\HowwetReport.xml
-  Destination=%MAINDIR%\HowwetReport.xml
+  Destination=%MAINDIR%\bin\HowwetReport.xml
   Flags=0000000010000010
 end
 item: Install File
   Source=..\..\Development\Howwetv2\HowwetUI\source\Howwet.css
-  Destination=%MAINDIR%\Howwet.css
+  Destination=%MAINDIR%\bin\Howwet.css
   Flags=0000000010000010
-end
-item: Install File
-  Source=..\..\development\Bin\CSGeneral.dll
-  Destination=%MAINDIR%\CSGeneral.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=..\..\development\Bin\Soil.dll
-  Destination=%MAINDIR%\Soil.dll
-  Flags=0000000010000011
-end
-item: Install File
-  Source=..\..\development\Bin\VBGeneral.dll
-  Destination=%MAINDIR%\VBGeneral.dll
-  Flags=0000000010000011
 end
 item: Remark
   Text=Sample files
