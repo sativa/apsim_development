@@ -139,8 +139,9 @@ namespace APSRU.Translator.Howwet
                 }
             else
                 {
-                String newPath = Directory.GetParent(exeFolder)+"\\Howwetv2\\HowwetUI\\source";
+              //  String newPath = Directory.GetParent(exeFolder)+"\\Howwetv2\\HowwetUI\\source";
                // String twoBack = Directory.GetParent(oneBack).ToString();
+                String newPath = Directory.GetParent(exeFolder).ToString();
                 if (File.Exists(newPath + howwetSetupFileName))
                     {
                     applicationDirectory = newPath;
