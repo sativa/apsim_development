@@ -623,8 +623,8 @@ int apsimSendMessageProc(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * 
 
       // 2. build variant
       protocol::ApsimVariant outgoingApsimVariant(component);
-      outgoingApsimVariant.store(FString("sender"), protocol::DTstring, false, component->getName());
-      outgoingApsimVariant.store(FString("sender_id"), protocol::DTint4, false, component->getId());
+      outgoingApsimVariant.store(FString("sender"), protocol::DTstring, false, FString(component->getName()));
+      outgoingApsimVariant.store(FString("sender_id"), protocol::DTint4, false, (int)component->getId());
 
       for (int i = 3; i < objc; i++)
          {
