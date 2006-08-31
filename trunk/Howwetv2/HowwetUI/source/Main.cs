@@ -45,8 +45,8 @@ namespace APSRU.Howwet
         private String apsrunPath ="\\bin\\apsrun.exe";
         private String apsimPath = "\\bin\\apsim.exe";
         private String apsimToSimPath = "\\bin\\apsimtosim.exe";
-        private String howwetReportFileName = "\\HowwetReport.xml";
-        private String howwetSetupFileName = "\\HowwetSetup.xml";
+        private String howwetReportFileName = "\\howwetv2\\HowwetReport.xml";
+        private String howwetSetupFileName = "\\howwetv2\\HowwetSetup.xml";
 
         ToolTip toolTip1 = new System.Windows.Forms.ToolTip();
         #endregion
@@ -70,7 +70,7 @@ namespace APSRU.Howwet
             config = new HowwetConfiguration(util.ApplicationDirectory +"\\"+ howwetSetupFileName);
             if (this.selectedFileName == "")
                 {
-                simulationObject = new SimulationIn(util.ReadTemplateFile(util.ApplicationDirectory+"\\"+ config.TemplateFileName));
+                simulationObject = new SimulationIn(util.ReadTemplateFile(util.ApplicationDirectory + "\\howwetv2\\" + config.TemplateFileName));
                 simulationObject.FileName = "untitled";
                 FileInfo fileInfo = new FileInfo(util.ApplicationDirectory+"\\apsoil\\"+config.DefaultSoilFileName);
                 if (fileInfo.Exists)
