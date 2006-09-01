@@ -83,8 +83,12 @@ namespace APSRU.Model.Howwet
                 {
                 APSIMData paddockNode = myData.FindChildByType("simulation|area", '|');
                 StringCollection soils = paddockNode.ChildList("Soil");
-                APSIMData soilNode = paddockNode.Child(soils[0]);//first soil
-                Soil soil = new Soil(soilNode);
+                Soil soil =null;
+                if (!(soils.Count == 0))
+                    {
+                    APSIMData soilNode = paddockNode.Child(soils[0]);//first soil
+                    soil = new Soil(soilNode);
+                    }
                 return soil;
                 }
             }
