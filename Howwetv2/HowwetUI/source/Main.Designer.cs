@@ -29,6 +29,7 @@ namespace APSRU.Howwet
         private void InitializeComponent()
         {
         this.components = new System.ComponentModel.Container();
+        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
         this.groupBox1 = new System.Windows.Forms.GroupBox();
         this.erosionButton = new System.Windows.Forms.Button();
         this.label3 = new System.Windows.Forms.Label();
@@ -64,6 +65,12 @@ namespace APSRU.Howwet
         this.label23 = new System.Windows.Forms.Label();
         this.proposedCropList = new System.Windows.Forms.ComboBox();
         this.groupBox9 = new System.Windows.Forms.GroupBox();
+        this.ProfileChart = new Steema.TeeChart.TChart();
+        this.ProfileSWLine = new Steema.TeeChart.Styles.Line();
+        this.ProfileCLLLine = new Steema.TeeChart.Styles.Line();
+        this.ProfileLL15Line = new Steema.TeeChart.Styles.Line();
+        this.ProfileDULLine = new Steema.TeeChart.Styles.Line();
+        this.label61 = new System.Windows.Forms.Label();
         this.ErosionChart = new Steema.TeeChart.TChart();
         this.ErosionRunoffCumLine = new Steema.TeeChart.Styles.Line();
         this.ErosionSoilLossCumLine = new Steema.TeeChart.Styles.Line();
@@ -84,6 +91,7 @@ namespace APSRU.Howwet
         this.chart2 = new System.Windows.Forms.TabPage();
         this.chart3 = new System.Windows.Forms.TabPage();
         this.chart4 = new System.Windows.Forms.TabPage();
+        this.chart5 = new System.Windows.Forms.TabPage();
         this.groupBox5 = new System.Windows.Forms.GroupBox();
         this.label60 = new System.Windows.Forms.Label();
         this.label59 = new System.Windows.Forms.Label();
@@ -159,7 +167,7 @@ namespace APSRU.Howwet
         this.browseSoilFileButton = new System.Windows.Forms.ToolStripButton();
         this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
         this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
-        this.selectedSoilLabel = new System.Windows.Forms.ToolStripTextBox();
+        this.selectedSoilName = new System.Windows.Forms.ToolStripTextBox();
         this.selectSoilButton = new System.Windows.Forms.ToolStripButton();
         this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
         this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
@@ -174,7 +182,6 @@ namespace APSRU.Howwet
         this.StatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
         this.timerProgresBar = new System.Windows.Forms.Timer(this.components);
         this.TrainingModeCheckBox = new System.Windows.Forms.CheckBox();
-        this.label61 = new System.Windows.Forms.Label();
         this.groupBox1.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)(this.coverPercent)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.initialSoilWaterPercent)).BeginInit();
@@ -221,7 +228,7 @@ namespace APSRU.Howwet
         this.groupBox1.Controls.Add(this.ocDepthLabel);
         this.groupBox1.Controls.Add(this.organicCarbonContent);
         this.groupBox1.Controls.Add(this.label17);
-        this.groupBox1.Location = new System.Drawing.Point(8, 26);
+        this.groupBox1.Location = new System.Drawing.Point(3, 40);
         this.groupBox1.Name = "groupBox1";
         this.groupBox1.Size = new System.Drawing.Size(336, 220);
         this.groupBox1.TabIndex = 28;
@@ -518,21 +525,649 @@ namespace APSRU.Howwet
         // 
         // groupBox9
         // 
+        this.groupBox9.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                    | System.Windows.Forms.AnchorStyles.Left)
+                    | System.Windows.Forms.AnchorStyles.Right)));
+        this.groupBox9.Controls.Add(this.ProfileChart);
         this.groupBox9.Controls.Add(this.label61);
         this.groupBox9.Controls.Add(this.ErosionChart);
         this.groupBox9.Controls.Add(this.LTRainfallChart);
         this.groupBox9.Controls.Add(this.RainfallSWChart);
         this.groupBox9.Controls.Add(this.SoilNitrogenChart);
         this.groupBox9.Controls.Add(this.tabControl1);
-        this.groupBox9.Location = new System.Drawing.Point(8, 252);
+        this.groupBox9.Location = new System.Drawing.Point(3, 262);
         this.groupBox9.Name = "groupBox9";
-        this.groupBox9.Size = new System.Drawing.Size(996, 457);
+        this.groupBox9.Size = new System.Drawing.Size(996, 447);
         this.groupBox9.TabIndex = 34;
         this.groupBox9.TabStop = false;
         this.groupBox9.Text = "Output Charts";
         // 
+        // ProfileChart
+        // 
+        // 
+        // 
+        // 
+        this.ProfileChart.Aspect.ElevationFloat = 345;
+        this.ProfileChart.Aspect.RotationFloat = 345;
+        this.ProfileChart.Aspect.View3D = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Bottom.Automatic = true;
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Bottom.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.ProfileChart.Axes.Bottom.Grid.ZPosition = 0;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Bottom.Labels.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Bottom.Labels.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Bottom.Title.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Bottom.Title.Shadow.Visible = false;
+        this.ProfileChart.Axes.Bottom.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Depth.Automatic = true;
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Depth.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.ProfileChart.Axes.Depth.Grid.ZPosition = 0;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Depth.Labels.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Depth.Labels.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Depth.Title.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Depth.Title.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.DepthTop.Automatic = true;
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.DepthTop.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.ProfileChart.Axes.DepthTop.Grid.ZPosition = 0;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.DepthTop.Labels.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.DepthTop.Labels.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.DepthTop.Title.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.DepthTop.Title.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Left.AutomaticMaximum = false;
+        this.ProfileChart.Axes.Left.AutomaticMinimum = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Left.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.ProfileChart.Axes.Left.Grid.Visible = false;
+        this.ProfileChart.Axes.Left.Grid.ZPosition = 0;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Left.Labels.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Left.Labels.Shadow.Visible = false;
+        this.ProfileChart.Axes.Left.Maximum = 324;
+        this.ProfileChart.Axes.Left.Minimum = 219;
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Left.Title.Caption = "Depth (mm)";
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Left.Title.Font.Shadow.Visible = false;
+        this.ProfileChart.Axes.Left.Title.Lines = new string[] {
+        "Depth (mm)"};
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Left.Title.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Right.Automatic = true;
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Right.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.ProfileChart.Axes.Right.Grid.ZPosition = 0;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Right.Labels.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Right.Labels.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Right.Title.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Right.Title.Shadow.Visible = false;
+        this.ProfileChart.Axes.Right.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Top.AutomaticMaximum = false;
+        this.ProfileChart.Axes.Top.AutomaticMinimum = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Top.Grid.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+        this.ProfileChart.Axes.Top.Grid.Visible = false;
+        this.ProfileChart.Axes.Top.Grid.ZPosition = 0;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Top.Labels.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Top.Labels.Shadow.Visible = false;
+        this.ProfileChart.Axes.Top.Maximum = 25.000000000000025;
+        this.ProfileChart.Axes.Top.Minimum = 0;
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Top.Title.Caption = "Water (mm)";
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Top.Title.Font.Shadow.Visible = false;
+        this.ProfileChart.Axes.Top.Title.Lines = new string[] {
+        "Water (mm)"};
+        // 
+        // 
+        // 
+        this.ProfileChart.Axes.Top.Title.Shadow.Visible = false;
+        this.ProfileChart.Cursor = System.Windows.Forms.Cursors.Default;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileChart.Footer.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Footer.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileChart.Header.Font.Shadow.Visible = false;
+        this.ProfileChart.Header.Lines = new string[] {
+        ""};
+        // 
+        // 
+        // 
+        this.ProfileChart.Header.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Legend.CheckBoxes = true;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileChart.Legend.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileChart.Legend.Title.Font.Bold = true;
+        // 
+        // 
+        // 
+        this.ProfileChart.Legend.Title.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Legend.Title.Pen.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Legend.Title.Shadow.Visible = false;
+        this.ProfileChart.Location = new System.Drawing.Point(6, 41);
+        this.ProfileChart.Name = "ProfileChart";
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileChart.Panel.ImageBevel.Width = 1;
+        this.ProfileChart.Panel.MarginBottom = 2;
+        this.ProfileChart.Panel.MarginLeft = 1;
+        this.ProfileChart.Panel.MarginRight = 1;
+        this.ProfileChart.Panel.MarginTop = 3;
+        // 
+        // 
+        // 
+        this.ProfileChart.Panel.Shadow.Visible = false;
+        this.ProfileChart.Series.Add(this.ProfileSWLine);
+        this.ProfileChart.Series.Add(this.ProfileCLLLine);
+        this.ProfileChart.Series.Add(this.ProfileLL15Line);
+        this.ProfileChart.Series.Add(this.ProfileDULLine);
+        this.ProfileChart.Size = new System.Drawing.Size(984, 400);
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileChart.SubFooter.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.SubFooter.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileChart.SubHeader.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.SubHeader.Shadow.Visible = false;
+        this.ProfileChart.TabIndex = 46;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileChart.Walls.Back.AutoHide = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Walls.Back.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Walls.Bottom.AutoHide = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Walls.Bottom.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Walls.Left.AutoHide = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Walls.Left.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Walls.Right.AutoHide = false;
+        // 
+        // 
+        // 
+        this.ProfileChart.Walls.Right.Shadow.Visible = false;
+        this.ProfileChart.Walls.Visible = false;
+        // 
+        // ProfileSWLine
+        // 
+        // 
+        // 
+        // 
+        this.ProfileSWLine.Brush.Color = System.Drawing.Color.Red;
+        this.ProfileSWLine.HorizAxis = Steema.TeeChart.Styles.HorizontalAxis.Top;
+        // 
+        // 
+        // 
+        this.ProfileSWLine.LinePen.Color = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileSWLine.Marks.Callout.ArrowHead = Steema.TeeChart.Styles.ArrowHeadStyles.None;
+        this.ProfileSWLine.Marks.Callout.ArrowHeadSize = 8;
+        // 
+        // 
+        // 
+        this.ProfileSWLine.Marks.Callout.Brush.Color = System.Drawing.Color.Black;
+        this.ProfileSWLine.Marks.Callout.Distance = 0;
+        this.ProfileSWLine.Marks.Callout.Draw3D = false;
+        this.ProfileSWLine.Marks.Callout.Length = 10;
+        this.ProfileSWLine.Marks.Callout.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileSWLine.Marks.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileSWLine.Pointer.Brush.Color = System.Drawing.Color.Red;
+        this.ProfileSWLine.Pointer.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
+        this.ProfileSWLine.Title = "SW";
+        // 
+        // 
+        // 
+        this.ProfileSWLine.XValues.DataMember = "X";
+        this.ProfileSWLine.XValues.Order = Steema.TeeChart.Styles.ValueListOrder.Ascending;
+        // 
+        // 
+        // 
+        this.ProfileSWLine.YValues.DataMember = "Y";
+        // 
+        // ProfileCLLLine
+        // 
+        // 
+        // 
+        // 
+        this.ProfileCLLLine.Brush.Color = System.Drawing.Color.Green;
+        this.ProfileCLLLine.HorizAxis = Steema.TeeChart.Styles.HorizontalAxis.Top;
+        // 
+        // 
+        // 
+        this.ProfileCLLLine.LinePen.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(77)))), ((int)(((byte)(0)))));
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileCLLLine.Marks.Callout.ArrowHead = Steema.TeeChart.Styles.ArrowHeadStyles.None;
+        this.ProfileCLLLine.Marks.Callout.ArrowHeadSize = 8;
+        // 
+        // 
+        // 
+        this.ProfileCLLLine.Marks.Callout.Brush.Color = System.Drawing.Color.Black;
+        this.ProfileCLLLine.Marks.Callout.Distance = 0;
+        this.ProfileCLLLine.Marks.Callout.Draw3D = false;
+        this.ProfileCLLLine.Marks.Callout.Length = 10;
+        this.ProfileCLLLine.Marks.Callout.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileCLLLine.Marks.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileCLLLine.Pointer.Brush.Color = System.Drawing.Color.Green;
+        this.ProfileCLLLine.Pointer.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
+        this.ProfileCLLLine.Title = "CLL";
+        // 
+        // 
+        // 
+        this.ProfileCLLLine.XValues.DataMember = "X";
+        this.ProfileCLLLine.XValues.Order = Steema.TeeChart.Styles.ValueListOrder.Ascending;
+        // 
+        // 
+        // 
+        this.ProfileCLLLine.YValues.DataMember = "Y";
+        // 
+        // ProfileLL15Line
+        // 
+        // 
+        // 
+        // 
+        this.ProfileLL15Line.Brush.Color = System.Drawing.Color.Yellow;
+        this.ProfileLL15Line.HorizAxis = Steema.TeeChart.Styles.HorizontalAxis.Top;
+        // 
+        // 
+        // 
+        this.ProfileLL15Line.LinePen.Color = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(0)))));
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileLL15Line.Marks.Callout.ArrowHead = Steema.TeeChart.Styles.ArrowHeadStyles.None;
+        this.ProfileLL15Line.Marks.Callout.ArrowHeadSize = 8;
+        // 
+        // 
+        // 
+        this.ProfileLL15Line.Marks.Callout.Brush.Color = System.Drawing.Color.Black;
+        this.ProfileLL15Line.Marks.Callout.Distance = 0;
+        this.ProfileLL15Line.Marks.Callout.Draw3D = false;
+        this.ProfileLL15Line.Marks.Callout.Length = 10;
+        this.ProfileLL15Line.Marks.Callout.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileLL15Line.Marks.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileLL15Line.Pointer.Brush.Color = System.Drawing.Color.Yellow;
+        this.ProfileLL15Line.Pointer.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
+        this.ProfileLL15Line.Title = "LL15";
+        // 
+        // 
+        // 
+        this.ProfileLL15Line.XValues.DataMember = "X";
+        this.ProfileLL15Line.XValues.Order = Steema.TeeChart.Styles.ValueListOrder.Ascending;
+        // 
+        // 
+        // 
+        this.ProfileLL15Line.YValues.DataMember = "Y";
+        // 
+        // ProfileDULLine
+        // 
+        // 
+        // 
+        // 
+        this.ProfileDULLine.Brush.Color = System.Drawing.Color.Blue;
+        this.ProfileDULLine.HorizAxis = Steema.TeeChart.Styles.HorizontalAxis.Top;
+        // 
+        // 
+        // 
+        this.ProfileDULLine.LinePen.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(153)))));
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileDULLine.Marks.Callout.ArrowHead = Steema.TeeChart.Styles.ArrowHeadStyles.None;
+        this.ProfileDULLine.Marks.Callout.ArrowHeadSize = 8;
+        // 
+        // 
+        // 
+        this.ProfileDULLine.Marks.Callout.Brush.Color = System.Drawing.Color.Black;
+        this.ProfileDULLine.Marks.Callout.Distance = 0;
+        this.ProfileDULLine.Marks.Callout.Draw3D = false;
+        this.ProfileDULLine.Marks.Callout.Length = 10;
+        this.ProfileDULLine.Marks.Callout.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileDULLine.Marks.Font.Shadow.Visible = false;
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        this.ProfileDULLine.Pointer.Brush.Color = System.Drawing.Color.Blue;
+        this.ProfileDULLine.Pointer.Style = Steema.TeeChart.Styles.PointerStyles.Rectangle;
+        this.ProfileDULLine.Title = "DUL";
+        // 
+        // 
+        // 
+        this.ProfileDULLine.XValues.DataMember = "X";
+        this.ProfileDULLine.XValues.Order = Steema.TeeChart.Styles.ValueListOrder.Ascending;
+        // 
+        // 
+        // 
+        this.ProfileDULLine.YValues.DataMember = "Y";
+        // 
+        // label61
+        // 
+        this.label61.AutoSize = true;
+        this.label61.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        this.label61.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+        this.label61.Location = new System.Drawing.Point(397, 189);
+        this.label61.Name = "label61";
+        this.label61.Size = new System.Drawing.Size(233, 46);
+        this.label61.TabIndex = 45;
+        this.label61.Text = "Please Wait";
+        // 
         // ErosionChart
         // 
+        this.ErosionChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                    | System.Windows.Forms.AnchorStyles.Left)
+                    | System.Windows.Forms.AnchorStyles.Right)));
         // 
         // 
         // 
@@ -837,7 +1472,7 @@ namespace APSRU.Howwet
         // 
         // 
         this.ErosionChart.Legend.Alignment = Steema.TeeChart.LegendAlignments.Top;
-        this.ErosionChart.Legend.Bottom = 33;
+        this.ErosionChart.Legend.Bottom = 34;
         this.ErosionChart.Legend.CustomPosition = true;
         // 
         // 
@@ -899,7 +1534,7 @@ namespace APSRU.Howwet
         this.ErosionChart.Panel.Shadow.Visible = false;
         this.ErosionChart.Series.Add(this.ErosionRunoffCumLine);
         this.ErosionChart.Series.Add(this.ErosionSoilLossCumLine);
-        this.ErosionChart.Size = new System.Drawing.Size(984, 410);
+        this.ErosionChart.Size = new System.Drawing.Size(984, 400);
         // 
         // 
         // 
@@ -1075,6 +1710,9 @@ namespace APSRU.Howwet
         // 
         // LTRainfallChart
         // 
+        this.LTRainfallChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                    | System.Windows.Forms.AnchorStyles.Left)
+                    | System.Windows.Forms.AnchorStyles.Right)));
         // 
         // 
         // 
@@ -1369,7 +2007,7 @@ namespace APSRU.Howwet
         // 
         // 
         this.LTRainfallChart.Legend.Alignment = Steema.TeeChart.LegendAlignments.Top;
-        this.LTRainfallChart.Legend.Bottom = 25;
+        this.LTRainfallChart.Legend.Bottom = 26;
         // 
         // 
         // 
@@ -1440,7 +2078,7 @@ namespace APSRU.Howwet
         this.LTRainfallChart.Panel.Shadow.Visible = false;
         this.LTRainfallChart.Series.Add(this.LTRainfallBar);
         this.LTRainfallChart.Series.Add(this.LTAvRainfallLine);
-        this.LTRainfallChart.Size = new System.Drawing.Size(984, 410);
+        this.LTRainfallChart.Size = new System.Drawing.Size(984, 400);
         // 
         // 
         // 
@@ -1609,6 +2247,9 @@ namespace APSRU.Howwet
         // 
         // RainfallSWChart
         // 
+        this.RainfallSWChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                    | System.Windows.Forms.AnchorStyles.Left)
+                    | System.Windows.Forms.AnchorStyles.Right)));
         // 
         // 
         // 
@@ -1908,7 +2549,7 @@ namespace APSRU.Howwet
         // 
         // 
         this.RainfallSWChart.Legend.Alignment = Steema.TeeChart.LegendAlignments.Top;
-        this.RainfallSWChart.Legend.Bottom = 31;
+        this.RainfallSWChart.Legend.Bottom = 32;
         this.RainfallSWChart.Legend.CustomPosition = true;
         // 
         // 
@@ -1975,7 +2616,7 @@ namespace APSRU.Howwet
         this.RainfallSWChart.Series.Add(this.SWLine);
         this.RainfallSWChart.Series.Add(this.RainfallBar);
         this.RainfallSWChart.Series.Add(this.RunoffBar);
-        this.RainfallSWChart.Size = new System.Drawing.Size(984, 410);
+        this.RainfallSWChart.Size = new System.Drawing.Size(984, 400);
         // 
         // 
         // 
@@ -2190,6 +2831,9 @@ namespace APSRU.Howwet
         // 
         // SoilNitrogenChart
         // 
+        this.SoilNitrogenChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                    | System.Windows.Forms.AnchorStyles.Left)
+                    | System.Windows.Forms.AnchorStyles.Right)));
         // 
         // 
         // 
@@ -2494,7 +3138,7 @@ namespace APSRU.Howwet
         // 
         // 
         this.SoilNitrogenChart.Legend.Alignment = Steema.TeeChart.LegendAlignments.Top;
-        this.SoilNitrogenChart.Legend.Bottom = 29;
+        this.SoilNitrogenChart.Legend.Bottom = 30;
         this.SoilNitrogenChart.Legend.CustomPosition = true;
         // 
         // 
@@ -2554,7 +3198,7 @@ namespace APSRU.Howwet
         this.SoilNitrogenChart.Series.Add(this.MaxTemperatureLine);
         this.SoilNitrogenChart.Series.Add(this.SurfaceMoistureLine);
         this.SoilNitrogenChart.Series.Add(this.NitrateLine);
-        this.SoilNitrogenChart.Size = new System.Drawing.Size(984, 410);
+        this.SoilNitrogenChart.Size = new System.Drawing.Size(984, 400);
         // 
         // 
         // 
@@ -2840,10 +3484,11 @@ namespace APSRU.Howwet
         this.tabControl1.Controls.Add(this.chart2);
         this.tabControl1.Controls.Add(this.chart3);
         this.tabControl1.Controls.Add(this.chart4);
+        this.tabControl1.Controls.Add(this.chart5);
         this.tabControl1.Location = new System.Drawing.Point(6, 19);
         this.tabControl1.Name = "tabControl1";
         this.tabControl1.SelectedIndex = 0;
-        this.tabControl1.Size = new System.Drawing.Size(313, 22);
+        this.tabControl1.Size = new System.Drawing.Size(408, 22);
         this.tabControl1.TabIndex = 11;
         this.tabControl1.Click += new System.EventHandler(this.tabControl1_Click);
         // 
@@ -2851,36 +3496,51 @@ namespace APSRU.Howwet
         // 
         this.chart1.Location = new System.Drawing.Point(4, 22);
         this.chart1.Name = "chart1";
-        this.chart1.Size = new System.Drawing.Size(305, 0);
+        this.chart1.Size = new System.Drawing.Size(400, 0);
         this.chart1.TabIndex = 0;
         this.chart1.Text = "Rainfall Soil Water";
+        this.chart1.UseVisualStyleBackColor = true;
         // 
         // chart2
         // 
         this.chart2.Location = new System.Drawing.Point(4, 22);
         this.chart2.Name = "chart2";
-        this.chart2.Size = new System.Drawing.Size(305, 0);
+        this.chart2.Size = new System.Drawing.Size(400, -4);
         this.chart2.TabIndex = 1;
         this.chart2.Text = "Soil Nitrogen";
+        this.chart2.UseVisualStyleBackColor = true;
         // 
         // chart3
         // 
         this.chart3.Location = new System.Drawing.Point(4, 22);
         this.chart3.Name = "chart3";
-        this.chart3.Size = new System.Drawing.Size(305, 0);
+        this.chart3.Size = new System.Drawing.Size(400, -4);
         this.chart3.TabIndex = 2;
         this.chart3.Text = "Erosion Estimate";
+        this.chart3.UseVisualStyleBackColor = true;
         // 
         // chart4
         // 
         this.chart4.Location = new System.Drawing.Point(4, 22);
         this.chart4.Name = "chart4";
-        this.chart4.Size = new System.Drawing.Size(305, 0);
+        this.chart4.Size = new System.Drawing.Size(400, -4);
         this.chart4.TabIndex = 3;
         this.chart4.Text = "Rainfall";
+        this.chart4.UseVisualStyleBackColor = true;
+        // 
+        // chart5
+        // 
+        this.chart5.Location = new System.Drawing.Point(4, 22);
+        this.chart5.Name = "chart5";
+        this.chart5.Size = new System.Drawing.Size(400, -4);
+        this.chart5.TabIndex = 4;
+        this.chart5.Text = "Soil Water Profile";
+        this.chart5.UseVisualStyleBackColor = true;
         // 
         // groupBox5
         // 
+        this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                    | System.Windows.Forms.AnchorStyles.Right)));
         this.groupBox5.Controls.Add(this.label60);
         this.groupBox5.Controls.Add(this.label59);
         this.groupBox5.Controls.Add(this.label58);
@@ -2940,7 +3600,7 @@ namespace APSRU.Howwet
         this.groupBox5.Controls.Add(this.label25);
         this.groupBox5.Controls.Add(this.label23);
         this.groupBox5.Controls.Add(this.proposedCropList);
-        this.groupBox5.Location = new System.Drawing.Point(350, 26);
+        this.groupBox5.Location = new System.Drawing.Point(345, 40);
         this.groupBox5.Name = "groupBox5";
         this.groupBox5.Size = new System.Drawing.Size(654, 220);
         this.groupBox5.TabIndex = 32;
@@ -3477,7 +4137,7 @@ namespace APSRU.Howwet
             this.browseSoilFileButton,
             this.toolStripSeparator2,
             this.toolStripLabel3,
-            this.selectedSoilLabel,
+            this.selectedSoilName,
             this.selectSoilButton,
             this.toolStripSeparator4,
             this.toolStripLabel2,
@@ -3487,197 +4147,205 @@ namespace APSRU.Howwet
             this.toolStripSeparator5});
         this.toolStrip1.Location = new System.Drawing.Point(3, 0);
         this.toolStrip1.Name = "toolStrip1";
-        this.toolStrip1.Size = new System.Drawing.Size(838, 25);
+        this.toolStrip1.Size = new System.Drawing.Size(1013, 36);
         this.toolStrip1.TabIndex = 40;
         this.toolStrip1.Text = "toolStrip1";
         // 
         // newToolStripButton
         // 
-        this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this.newToolStripButton.Image = global::Howwet.Properties.Resources.document_new;
         this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.newToolStripButton.Name = "newToolStripButton";
-        this.newToolStripButton.Size = new System.Drawing.Size(23, 22);
+        this.newToolStripButton.Size = new System.Drawing.Size(32, 33);
         this.newToolStripButton.Text = "&New";
+        this.newToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+        this.newToolStripButton.ToolTipText = "Create a new Simulation";
+        this.newToolStripButton.Click += new System.EventHandler(this.newToolStripButton_Click);
         // 
         // openToolStripButton
         // 
-        this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-        this.openToolStripButton.Image = global::Howwet.Properties.Resources.folder_document;
+        this.openToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripButton.Image")));
         this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.openToolStripButton.Name = "openToolStripButton";
-        this.openToolStripButton.Size = new System.Drawing.Size(23, 22);
+        this.openToolStripButton.Size = new System.Drawing.Size(37, 33);
         this.openToolStripButton.Text = "&Open";
+        this.openToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+        this.openToolStripButton.ToolTipText = "Open an existing simulation";
         this.openToolStripButton.Click += new System.EventHandler(this.openToolStripButton_Click);
         // 
         // saveToolStripButton
         // 
-        this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this.saveToolStripButton.Image = global::Howwet.Properties.Resources.disk_blue;
         this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.saveToolStripButton.Name = "saveToolStripButton";
-        this.saveToolStripButton.Size = new System.Drawing.Size(23, 22);
+        this.saveToolStripButton.Size = new System.Drawing.Size(35, 33);
         this.saveToolStripButton.Text = "&Save";
+        this.saveToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+        this.saveToolStripButton.ToolTipText = "Save the current simulation";
         this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
         // 
         // saveAsToolStripButton
         // 
-        this.saveAsToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this.saveAsToolStripButton.Image = global::Howwet.Properties.Resources.disk_blue_window;
         this.saveAsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.saveAsToolStripButton.Name = "saveAsToolStripButton";
-        this.saveAsToolStripButton.Size = new System.Drawing.Size(23, 22);
+        this.saveAsToolStripButton.Size = new System.Drawing.Size(47, 33);
         this.saveAsToolStripButton.Text = "Save&As";
+        this.saveAsToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.saveAsToolStripButton.ToolTipText = "Save As";
         this.saveAsToolStripButton.Click += new System.EventHandler(this.saveAsToolStripButton_Click);
         // 
         // toolStripSeparator
         // 
         this.toolStripSeparator.Name = "toolStripSeparator";
-        this.toolStripSeparator.Size = new System.Drawing.Size(6, 25);
+        this.toolStripSeparator.Size = new System.Drawing.Size(6, 36);
         // 
         // RunButton
         // 
-        this.RunButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this.RunButton.Image = global::Howwet.Properties.Resources.media_play;
         this.RunButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.RunButton.Name = "RunButton";
-        this.RunButton.Size = new System.Drawing.Size(23, 22);
-        this.RunButton.Text = "toolStripButton1";
+        this.RunButton.Size = new System.Drawing.Size(30, 33);
+        this.RunButton.Text = "&Run";
+        this.RunButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.RunButton.ToolTipText = "Run Simulation";
         this.RunButton.Click += new System.EventHandler(this.RunButton_Click);
         // 
         // toolStripSeparator3
         // 
         this.toolStripSeparator3.Name = "toolStripSeparator3";
-        this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+        this.toolStripSeparator3.Size = new System.Drawing.Size(6, 36);
         // 
         // ReportButton
         // 
-        this.ReportButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this.ReportButton.Image = global::Howwet.Properties.Resources.text;
         this.ReportButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.ReportButton.Name = "ReportButton";
-        this.ReportButton.Size = new System.Drawing.Size(23, 22);
-        this.ReportButton.Text = "toolStripButton1";
-        this.ReportButton.ToolTipText = "Report";
-        this.ReportButton.Click += new System.EventHandler(this.ReportButton_Click_1);
+        this.ReportButton.Size = new System.Drawing.Size(44, 33);
+        this.ReportButton.Text = "Re&port";
+        this.ReportButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+        this.ReportButton.ToolTipText = "Display a one page report";
+        this.ReportButton.Click += new System.EventHandler(this.ReportButton_Click);
         // 
         // helpToolStripButton
         // 
-        this.helpToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this.helpToolStripButton.Image = global::Howwet.Properties.Resources.help2;
         this.helpToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.helpToolStripButton.Name = "helpToolStripButton";
-        this.helpToolStripButton.Size = new System.Drawing.Size(23, 22);
+        this.helpToolStripButton.Size = new System.Drawing.Size(32, 33);
         this.helpToolStripButton.Text = "He&lp";
+        this.helpToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         // 
         // toolStripSeparator1
         // 
         this.toolStripSeparator1.Name = "toolStripSeparator1";
-        this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+        this.toolStripSeparator1.Size = new System.Drawing.Size(6, 36);
         // 
         // toolStripLabel1
         // 
+        this.toolStripLabel1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
         this.toolStripLabel1.Name = "toolStripLabel1";
-        this.toolStripLabel1.Size = new System.Drawing.Size(46, 22);
+        this.toolStripLabel1.Size = new System.Drawing.Size(46, 33);
         this.toolStripLabel1.Text = "Soil File:";
+        this.toolStripLabel1.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
+        this.toolStripLabel1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         // 
         // soilFileName
         // 
         this.soilFileName.Name = "soilFileName";
-        this.soilFileName.Size = new System.Drawing.Size(140, 25);
+        this.soilFileName.Size = new System.Drawing.Size(140, 36);
         // 
         // browseSoilFileButton
         // 
         this.browseSoilFileButton.Image = global::Howwet.Properties.Resources.folder_document;
         this.browseSoilFileButton.Name = "browseSoilFileButton";
-        this.browseSoilFileButton.Size = new System.Drawing.Size(23, 22);
-        this.browseSoilFileButton.ToolTipText = "Browse file system for Soil File";
+        this.browseSoilFileButton.Size = new System.Drawing.Size(46, 33);
+        this.browseSoilFileButton.Text = "Br&owse";
+        this.browseSoilFileButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+        this.browseSoilFileButton.ToolTipText = "Browse for Soil File";
         this.browseSoilFileButton.Click += new System.EventHandler(this.browseSoilFileButton_Click);
         // 
         // toolStripSeparator2
         // 
         this.toolStripSeparator2.Name = "toolStripSeparator2";
-        this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+        this.toolStripSeparator2.Size = new System.Drawing.Size(6, 36);
         // 
         // toolStripLabel3
         // 
         this.toolStripLabel3.Name = "toolStripLabel3";
-        this.toolStripLabel3.Size = new System.Drawing.Size(57, 22);
+        this.toolStripLabel3.Size = new System.Drawing.Size(57, 33);
         this.toolStripLabel3.Text = "Soil Name:";
         // 
-        // selectedSoilLabel
+        // selectedSoilName
         // 
-        this.selectedSoilLabel.Name = "selectedSoilLabel";
-        this.selectedSoilLabel.Size = new System.Drawing.Size(140, 25);
+        this.selectedSoilName.Name = "selectedSoilName";
+        this.selectedSoilName.Size = new System.Drawing.Size(140, 36);
         // 
         // selectSoilButton
         // 
-        this.selectSoilButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this.selectSoilButton.Image = global::Howwet.Properties.Resources.windows;
         this.selectSoilButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.selectSoilButton.Name = "selectSoilButton";
-        this.selectSoilButton.Size = new System.Drawing.Size(23, 22);
-        this.selectSoilButton.Text = "toolStripButton1";
+        this.selectSoilButton.Size = new System.Drawing.Size(27, 33);
+        this.selectSoilButton.Text = "So&il";
+        this.selectSoilButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.selectSoilButton.ToolTipText = "Select a Soil";
         this.selectSoilButton.Click += new System.EventHandler(this.selectSoilButton_Click);
         // 
         // toolStripSeparator4
         // 
         this.toolStripSeparator4.Name = "toolStripSeparator4";
-        this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+        this.toolStripSeparator4.Size = new System.Drawing.Size(6, 36);
         // 
         // toolStripLabel2
         // 
         this.toolStripLabel2.Name = "toolStripLabel2";
-        this.toolStripLabel2.Size = new System.Drawing.Size(48, 22);
+        this.toolStripLabel2.Size = new System.Drawing.Size(48, 33);
         this.toolStripLabel2.Text = "Met File:";
         // 
         // txtMetFile
         // 
         this.txtMetFile.Name = "txtMetFile";
-        this.txtMetFile.Size = new System.Drawing.Size(100, 25);
+        this.txtMetFile.Size = new System.Drawing.Size(100, 36);
         // 
         // browseMetButton
         // 
-        this.browseMetButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this.browseMetButton.Image = global::Howwet.Properties.Resources.folder_document;
         this.browseMetButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.browseMetButton.Name = "browseMetButton";
-        this.browseMetButton.Size = new System.Drawing.Size(23, 22);
-        this.browseMetButton.Text = "toolStripButton2";
-        this.browseMetButton.ToolTipText = "Browse file system for Met. file";
+        this.browseMetButton.Size = new System.Drawing.Size(46, 33);
+        this.browseMetButton.Text = "Bro&wse";
+        this.browseMetButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+        this.browseMetButton.ToolTipText = "Browse for Met. file";
         this.browseMetButton.Click += new System.EventHandler(this.browseMetButton_Click);
         // 
         // editRainfallButton
         // 
-        this.editRainfallButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this.editRainfallButton.Image = global::Howwet.Properties.Resources.edit;
         this.editRainfallButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.editRainfallButton.Name = "editRainfallButton";
-        this.editRainfallButton.Size = new System.Drawing.Size(23, 22);
-        this.editRainfallButton.Text = "toolStripButton3";
+        this.editRainfallButton.Size = new System.Drawing.Size(29, 33);
+        this.editRainfallButton.Text = "&Edit";
+        this.editRainfallButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.editRainfallButton.ToolTipText = "Edit Met File";
         this.editRainfallButton.Click += new System.EventHandler(this.editRainfallButton_Click);
         // 
         // toolStripSeparator5
         // 
         this.toolStripSeparator5.Name = "toolStripSeparator5";
-        this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
+        this.toolStripSeparator5.Size = new System.Drawing.Size(6, 36);
         // 
         // toolStripContainer1
         // 
-        this.toolStripContainer1.BottomToolStripPanelVisible = false;
         // 
         // toolStripContainer1.ContentPanel
         // 
-        this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(843, 3);
+        this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1016, 4);
+        this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Top;
         this.toolStripContainer1.LeftToolStripPanelVisible = false;
-        this.toolStripContainer1.Location = new System.Drawing.Point(8, -2);
+        this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
         this.toolStripContainer1.Name = "toolStripContainer1";
-        this.toolStripContainer1.RightToolStripPanelVisible = false;
-        this.toolStripContainer1.Size = new System.Drawing.Size(843, 28);
+        this.toolStripContainer1.Size = new System.Drawing.Size(1016, 40);
         this.toolStripContainer1.TabIndex = 41;
         this.toolStripContainer1.Text = "toolStripContainer1";
         // 
@@ -3723,34 +4391,23 @@ namespace APSRU.Howwet
         // TrainingModeCheckBox
         // 
         this.TrainingModeCheckBox.AutoSize = true;
-        this.TrainingModeCheckBox.Location = new System.Drawing.Point(874, 3);
+        this.TrainingModeCheckBox.Location = new System.Drawing.Point(899, 715);
         this.TrainingModeCheckBox.Name = "TrainingModeCheckBox";
         this.TrainingModeCheckBox.Size = new System.Drawing.Size(94, 17);
         this.TrainingModeCheckBox.TabIndex = 43;
-        this.TrainingModeCheckBox.Text = "Training Mode";
+        this.TrainingModeCheckBox.Text = "&Training Mode";
         this.TrainingModeCheckBox.UseVisualStyleBackColor = true;
         this.TrainingModeCheckBox.CheckedChanged += new System.EventHandler(this.TrainingModeCheckBox_CheckedChanged);
-        // 
-        // label61
-        // 
-        this.label61.AutoSize = true;
-        this.label61.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.label61.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-        this.label61.Location = new System.Drawing.Point(397, 189);
-        this.label61.Name = "label61";
-        this.label61.Size = new System.Drawing.Size(233, 46);
-        this.label61.TabIndex = 45;
-        this.label61.Text = "Please Wait";
         // 
         // Main
         // 
         this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         this.ClientSize = new System.Drawing.Size(1016, 734);
+        this.Controls.Add(this.groupBox1);
+        this.Controls.Add(this.groupBox5);
         this.Controls.Add(this.TrainingModeCheckBox);
         this.Controls.Add(this.groupBox9);
-        this.Controls.Add(this.groupBox5);
-        this.Controls.Add(this.groupBox1);
         this.Controls.Add(this.statusStrip1);
         this.Controls.Add(this.toolStripContainer1);
         this.Name = "Main";
@@ -3897,7 +4554,7 @@ namespace APSRU.Howwet
         private System.Windows.Forms.Label drainage;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolStripLabel toolStripLabel3;
-        private System.Windows.Forms.ToolStripTextBox selectedSoilLabel;
+        private System.Windows.Forms.ToolStripTextBox selectedSoilName;
         private System.Windows.Forms.ToolStripButton selectSoilButton;
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
         private System.Windows.Forms.ToolStripTextBox txtMetFile;
@@ -3936,6 +4593,12 @@ namespace APSRU.Howwet
         private Steema.TeeChart.Axis axis1;
         private System.Windows.Forms.CheckBox TrainingModeCheckBox;
         private System.Windows.Forms.Label label61;
+        private Steema.TeeChart.TChart ProfileChart;
+        private System.Windows.Forms.TabPage chart5;
+        private Steema.TeeChart.Styles.Line ProfileSWLine;
+        private Steema.TeeChart.Styles.Line ProfileCLLLine;
+        private Steema.TeeChart.Styles.Line ProfileLL15Line;
+        private Steema.TeeChart.Styles.Line ProfileDULLine;
         
 
     }
