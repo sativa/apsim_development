@@ -167,6 +167,9 @@
     <Compile Include="AreaUI.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="TclUI.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="EmptyUI.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -273,6 +276,10 @@
     </Compile>
     <EmbeddedResource Include="AreaUI.resx">
       <DependentUpon>AreaUI.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TclUI.resx">
+      <DependentUpon>TclUI.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="EmptyUI.resx">
       <DependentUpon>EmptyUI.vb</DependentUpon>
@@ -405,6 +412,25 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="AxTCLCONTROLPRJ2Lib">
+      <Guid>{E796A720-F130-11D2-8003-0040055861F2}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="TCLCONTROLPRJ2Lib">
+      <Guid>{E796A720-F130-11D2-8003-0040055861F2}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
