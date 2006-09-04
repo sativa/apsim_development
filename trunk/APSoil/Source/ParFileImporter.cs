@@ -55,48 +55,53 @@ namespace APSoil
 		// ------------------------------
 		// Import from specified w2 file.
 		// ------------------------------
-		static public void ImportW2N2P2(string FileName, ApsoilController Apsoil)
+		static public void ImportW2N2P2(string[] FileNames, ApsoilController Apsoil)
 			{	
 			Cursor.Current = Cursors.WaitCursor;
+            string NewXml = "";
+            foreach (string FileName in FileNames)
+                {
+                string W2FileName = Path.GetDirectoryName(FileName) + "\\" + Path.GetFileNameWithoutExtension(FileName) + ".w2";
+                if (!File.Exists(W2FileName))
+                    throw new Exception("Cannot import file " + W2FileName + ". File doesn't exist");
+                string[] Sections = APSIMSettings.INIReadAllSections(W2FileName);
 
-			string W2FileName = Path.GetDirectoryName(FileName) + "\\" + Path.GetFileNameWithoutExtension(FileName) + ".w2";
-			if (!File.Exists(W2FileName))
-				throw new Exception("Cannot import file " + W2FileName + ". File doesn't exist");
-			string[] Sections = APSIMSettings.INIReadAllSections(W2FileName);
-			
-			//Look for a title on the first few line.
-			string Title = "";
-			StreamReader sr = new StreamReader(W2FileName);
-			for (int i = 0; i != 5; i++)
-				{
-				string TitleLine = sr.ReadLine();
-				if (TitleLine.Length > 5 && TitleLine.ToLower().Substring(0, 6) == "!title")
-					Title = StringManip.SplitOffAfterDelimiter(ref TitleLine, "=");
-				}
-			if (Title.Length == 0)
-				throw new Exception("Cannot find title line in file " + W2FileName);
-			
-			// create a new soil.
-			Soil NewSoil = new Soil(new APSIMData("soil", Title));
+                //Look for a title on the first few line.
+                string Title = "";
+                StreamReader sr = new StreamReader(W2FileName);
+                for (int i = 0; i != 5; i++)
+                    {
+                    string TitleLine = sr.ReadLine();
+                    if (TitleLine.Length > 5 && TitleLine.ToLower().Substring(0, 6) == "!title")
+                        Title = StringManip.SplitOffAfterDelimiter(ref TitleLine, "=");
+                    }
+                if (Title.Length == 0)
+                    throw new Exception("Cannot find title line in file " + W2FileName);
 
-			// Read in all water parameters
-			ReadWaterSection("run%", W2FileName, NewSoil);
+                // create a new soil.
+                Soil NewSoil = new Soil(new APSIMData("soil", Title));
 
-			// Read in all crop sections.
-			ReadCropSections("run%", W2FileName, NewSoil);
+                // Read in all water parameters
+                ReadWaterSection("run%", W2FileName, NewSoil);
 
-			// Read in all nitrogen parameters.
-			string N2FileName = Path.GetDirectoryName(FileName) + "\\" + Path.GetFileNameWithoutExtension(FileName) + ".n2";
-			if (File.Exists(N2FileName))
-				ReadNitrogenSection("run%", N2FileName, NewSoil);
+                // Read in all crop sections.
+                ReadCropSections("run%", W2FileName, NewSoil);
 
-			// Read in all phosphorus parameters.
-			string P2FileName = Path.GetDirectoryName(FileName) + "\\" + Path.GetFileNameWithoutExtension(FileName) + ".p2";
-			if (File.Exists(P2FileName))
-				ReadPhosphorusSection("run%", P2FileName, NewSoil);
+                // Read in all nitrogen parameters.
+                string N2FileName = Path.GetDirectoryName(FileName) + "\\" + Path.GetFileNameWithoutExtension(FileName) + ".n2";
+                if (File.Exists(N2FileName))
+                    ReadNitrogenSection("run%", N2FileName, NewSoil);
+
+                // Read in all phosphorus parameters.
+                string P2FileName = Path.GetDirectoryName(FileName) + "\\" + Path.GetFileNameWithoutExtension(FileName) + ".p2";
+                if (File.Exists(P2FileName))
+                    ReadPhosphorusSection("run%", P2FileName, NewSoil);
+
+                NewXml += NewSoil.Data.XML;
+                }
 
 			// Add new soil to our soils.
-			Apsoil.AddXMLToSelected(NewSoil.Data.XML);
+            Apsoil.AddXMLToSelected(NewXml);
 
 			Cursor.Current = Cursors.Default;
 			}
@@ -108,8 +113,7 @@ namespace APSoil
 		static private void ReadWaterSection(string SectionBit, string FileName, Soil NewSoil)
 			{
 			string SectionName = SectionBit + ".soilwat2.parameters";
-			NewSoil.Cona = GetDoubleValue(FileName, SectionName, "cona");
-			NewSoil.U = GetDoubleValue(FileName, SectionName, "u");
+			NewSoil.SetUCona(GetDoubleValue(FileName, SectionName, "u"), GetDoubleValue(FileName, SectionName, "cona"));
 			NewSoil.CN2Bare = GetDoubleValue(FileName, SectionName, "cn2_bare");
 			NewSoil.Salb = GetDoubleValue(FileName, SectionName, "salb");
 			NewSoil.DiffusConst = GetDoubleValue(FileName, SectionName, "diffus_const");

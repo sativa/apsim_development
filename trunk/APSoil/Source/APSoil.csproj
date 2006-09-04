@@ -119,18 +119,6 @@
       <HintPath>c:\Program Files\Common Files\TMG Development Ltd\Shared\1.0.0.3\TMGDevelopment.Shared.dll</HintPath>
       <AssemblyFolderKey>hklm\dn\tmgdevelopment.shared v1.0.0.3</AssemblyFolderKey>
     </Reference>
-    <Reference Include="Xceed.Chart">
-      <Name>Xceed.Chart</Name>
-      <HintPath>C:\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.dll</HintPath>
-      <AssemblyFolderKey>hklm\xceed chart for .net and asp.net v3.0.100.0</AssemblyFolderKey>
-    </Reference>
-    <COMReference Include="Microsoft.Office.Core">
-      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
-      <VersionMajor>2</VersionMajor>
-      <VersionMinor>2</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.ico" />
@@ -189,6 +177,7 @@
     <EmbeddedResource Include="ErrorMessageForm.resx">
       <DependentUpon>ErrorMessageForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="licenses.licx" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>

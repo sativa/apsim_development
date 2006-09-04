@@ -149,12 +149,12 @@ namespace CSGeneral
 			}
 
 
-		protected void setLayered(string ParentNodeType, string PropertyName, double[] Values, string Format)
+		protected void setLayered(string ParentNodeType, string PropertyName, double[] Values)
             //--------------------------------------------------------------------------
             // Sets the values of the specified node
             //--------------------------------------------------------------------------	
             {
-			setLayered(ParentNodeType, "", PropertyName, Values, Format);
+			setLayered(ParentNodeType, "", PropertyName, Values);
 			}
 		protected void setLayeredAsStrings(string ParentNodeType, string ParentNodeName, string PropertyName, string[] Values)
             //--------------------------------------------------------------------------
@@ -201,7 +201,7 @@ namespace CSGeneral
 				}
 			}
 
-        protected void setLayered(string ParentNodeType, string ParentNodeName, string PropertyName, double[] Values, string Format)
+        protected void setLayered(string ParentNodeType, string ParentNodeName, string PropertyName, double[] Values)
             //--------------------------------------------------------------------------
             // Sets the values of the specified node as doubles
             //--------------------------------------------------------------------------	
@@ -213,7 +213,7 @@ namespace CSGeneral
                 if (Value == MathUtility.MissingValue)
                     StringValues[Index] = "";
                 else
-                    StringValues[Index] = Values[Index].ToString(Format);
+                    StringValues[Index] = Values[Index].ToString();
                 Index++;
                 }
             setLayeredAsStrings(ParentNodeType, ParentNodeName, PropertyName, StringValues);
@@ -226,7 +226,7 @@ namespace CSGeneral
 		public double[] Thickness
 			{
 			get {return getLayered("water", "thickness");}
-			set {setLayered("water", "thickness", value, "f0");}
+			set {setLayered("water", "thickness", value);}
 			}
 
 

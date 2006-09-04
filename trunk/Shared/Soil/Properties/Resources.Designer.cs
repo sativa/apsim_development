@@ -81,6 +81,13 @@ namespace SoilNamespace.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap potion_yellow {
+            get {
+                object obj = ResourceManager.GetObject("potion_yellow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap printer {
             get {
                 object obj = ResourceManager.GetObject("printer", resourceCulture);

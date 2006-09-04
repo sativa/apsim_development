@@ -115,12 +115,14 @@
       <Name>System.Drawing</Name>
     </Reference>
     <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms">
       <Name>System.Windows.Forms</Name>
     </Reference>
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
+    <Reference Include="TeeChart, Version=2.0.2306.26232, Culture=neutral, PublicKeyToken=9c8126276c77bdb7, processorArchitecture=MSIL" />
     <Reference Include="TMGDevelopment.PrintForm">
       <Name>TMGDevelopment.PrintForm</Name>
       <HintPath>c:\Program Files\TMG Development Ltd\PrintForm Printing Component\bin\TMGDevelopment.PrintForm.dll</HintPath>
@@ -130,27 +132,6 @@
       <Name>TMGDevelopment.Shared</Name>
       <HintPath>c:\Program Files\Common Files\TMG Development Ltd\Shared\1.0.0.3\TMGDevelopment.Shared.dll</HintPath>
       <AssemblyFolderKey>hklm\dn\tmgdevelopment.shared v1.0.0.3</AssemblyFolderKey>
-    </Reference>
-    <Reference Include="Xceed.Chart">
-      <Name>Xceed.Chart</Name>
-      <HintPath>C:\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.dll</HintPath>
-      <AssemblyFolderKey>hklm\xceed chart for .net and asp.net v3.0.100.0</AssemblyFolderKey>
-    </Reference>
-    <Reference Include="Xceed.Chart.Core">
-      <Name>Xceed.Chart.Core</Name>
-      <HintPath>C:\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.Core.Dll</HintPath>
-      <AssemblyFolderKey>hklm\xceed chart for .net and asp.net v3.0.100.0</AssemblyFolderKey>
-    </Reference>
-    <Reference Include="Xceed.Chart.GraphicsCore, Version=4.0.100.0, Culture=neutral, PublicKeyToken=ba83ff368b7563c6" />
-    <Reference Include="Xceed.Chart.Standard">
-      <Name>Xceed.Chart.Standard</Name>
-      <HintPath>C:\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.Standard.Dll</HintPath>
-      <AssemblyFolderKey>hklm\xceed chart for .net and asp.net v3.0.100.0</AssemblyFolderKey>
-    </Reference>
-    <Reference Include="Xceed.Chart.Utilities">
-      <Name>Xceed.Chart.Utilities</Name>
-      <HintPath>C:\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.Utilities.Dll</HintPath>
-      <AssemblyFolderKey>hklm\xceed chart for .net and asp.net v3.0.100.0</AssemblyFolderKey>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -226,16 +207,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\C#General\CSGeneral.csproj">
-      <Project>{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}</Project>
-      <Name>CSGeneral</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\VBGeneral\VBGeneral.vbproj">
-      <Project>{F1F780B2-4762-48B6-B0D7-A68C57DDB347}</Project>
-      <Name>VBGeneral</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\add2.png" />
   </ItemGroup>
   <ItemGroup>
@@ -249,6 +220,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\printer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\C#General\CSGeneral.csproj">
+      <Project>{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}</Project>
+      <Name>CSGeneral</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VBGeneral\VBGeneral.vbproj">
+      <Project>{F1F780B2-4762-48B6-B0D7-A68C57DDB347}</Project>
+      <Name>VBGeneral</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\potion_yellow.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

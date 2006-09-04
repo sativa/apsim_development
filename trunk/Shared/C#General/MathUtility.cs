@@ -113,6 +113,39 @@ namespace CSGeneral
 				}
 			return results;	
 			}
+
+
+        //-------------------------------------------------------------------------
+        //
+        //-------------------------------------------------------------------------
+        public static double[] Add_Value(double[] value1, double value2)
+            {
+            double[] results = new double[value1.Length];
+            for (int iIndex = 0; iIndex < value1.Length; iIndex++)
+                {
+                if (value1[iIndex] == MissingValue)
+                    results[iIndex] = MissingValue;
+                else
+                    results[iIndex] = (value1[iIndex] + value2);
+                }
+            return results;
+            }
+
+        //-------------------------------------------------------------------------
+        //
+        //-------------------------------------------------------------------------
+        public static double[] Subtract_Value(double[] value1, double value2)
+            {
+            double[] results = new double[value1.Length];
+            for (int iIndex = 0; iIndex < value1.Length; iIndex++)
+                {
+                if (value1[iIndex] == MissingValue)
+                    results[iIndex] = MissingValue;
+                else
+                    results[iIndex] = (value1[iIndex] - value2);
+                }
+            return results;
+            }
 		//-------------------------------------------------------------------------
 		// Sum an array of numbers 
 		//-------------------------------------------------------------------------
@@ -201,11 +234,32 @@ namespace CSGeneral
 			}
 
 		static public double Constrain(double dLowerLimit, double dUpperLimit, double dValue)
-		{
+		    {
 			double dConstrainedValue = 0.0;
 			dConstrainedValue = Math.Min(dUpperLimit, Math.Max(dLowerLimit, dValue));
 			return dConstrainedValue;
-		}
+		    }
+
+        static public double Round(double Value, int NumDecPlaces)
+            // rounds properly rather than the math.round function.
+            // e.g. 3.4 becomes 3.0
+            //      3.5 becomes 4.0
+            {
+            double Multiplier = Math.Pow(10.0, NumDecPlaces);  // gives 1 or 10 or 100 for decplaces=0, 1, or 2 etc
+            Value = Math.Truncate(Value * Multiplier + 0.5);
+            return Value / Multiplier;
+            }
+
+        static public double[] Round(double[] Values, int NumDecPlaces)
+            // rounds properly rather than the math.round function.
+            // e.g. 3.4 becomes 3.0
+            //      3.5 becomes 4.0
+            {
+            double ExtraBit = 1.0 / Math.Pow(10.0, NumDecPlaces);  // gives 0.1 or 0.01 or 0.001 etc
+            for (int i = 0; i != Values.Length; i++)
+                Values[i] = Round(Values[i], NumDecPlaces);
+            return Values;
+            }
 
 
 		// ---------------------------------------------

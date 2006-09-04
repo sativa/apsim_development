@@ -219,8 +219,8 @@ Public Class DataTree
     WriteOnly Property SortAll() As Boolean
         Set(ByVal Value As Boolean)
             IsSorted = Value
-            TreeView.Sorted = IsSorted
             Refresh()
+            TreeView.Sorted = IsSorted
         End Set
     End Property
 

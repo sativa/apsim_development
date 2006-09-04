@@ -64,7 +64,6 @@ namespace APSoil
 		#region Constructor / Destructor / Main
 		public MainForm()
 			{
-            Xceed.Chart.Licenser.LicenseKey = "CHT40-N4AAF-77UTD-6ANA";
 			InitializeComponent();
 			}
 
@@ -433,7 +432,6 @@ namespace APSoil
         // 
         // CheckSoilsButton
         // 
-        this.CheckSoilsButton.CheckOnClick = true;
         this.CheckSoilsButton.Image = global::APSoil.Properties.Resources.check2;
         this.CheckSoilsButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.CheckSoilsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -446,6 +444,7 @@ namespace APSoil
         // 
         // SortButton
         // 
+        this.SortButton.CheckOnClick = true;
         this.SortButton.Image = global::APSoil.Properties.Resources.sort_ascending;
         this.SortButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.SortButton.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -768,8 +767,7 @@ namespace APSoil
                 if (FolderBrowserDialog.ShowDialog() == DialogResult.OK)
                     {
                     string[] Files = Directory.GetFiles(FolderBrowserDialog.SelectedPath, "*.w2");
-                    foreach (string File in Files)
-                        ParFileImporter.ImportW2N2P2(File, Apsoil);
+                    ParFileImporter.ImportW2N2P2(Files, Apsoil);
                     }
                 }
             catch (Exception err)
@@ -797,8 +795,8 @@ namespace APSoil
                 foreach (APSIMData SelectedData in Apsoil.SelectedData)
                     ForeignSoils.Add(SelectedData);
                 ForeignSoils.SaveToFile(ExportSoilsDialog.FileName);
-                MessageBox.Show("Soils have been exported to: " + ExportSoilsDialog.FileName, "For your information",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Soils have been successfully exported to '" + ExportSoilsDialog.FileName + "'. It is suggested that you rename soils within the new file to avoid confusion.",
+                                "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
 
@@ -842,7 +840,7 @@ namespace APSoil
                 if (ExportSpreadsheetDialog.ShowDialog() == DialogResult.OK)
                     {
                     SoilSpreadsheet.ExportToFile(ExportSpreadsheetDialog.FileName, Apsoil.SelectedData);
-                    MessageBox.Show("Soils have been successfully exported to '" + ExportSpreadsheetDialog.FileName + "'",
+                    MessageBox.Show("Soils have been successfully exported to '" + ExportSpreadsheetDialog.FileName + "'. It is suggested that you rename soils within the new file to avoid confusion.",
                                     "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
@@ -857,7 +855,7 @@ namespace APSoil
             // User wants to check all soils for consistency
             Cursor.Current = Cursors.WaitCursor;
             string ErrorMessage = "";
-            Apsoil.CheckAllSoils(Apsoil.Data, ref ErrorMessage);
+            Apsoil.CheckSoils(Apsoil.SelectedData, ref ErrorMessage);
             if (ErrorMessage == "")
                 MessageBox.Show("All soils checked out ok. No problems were encountered",
                                 "No problems encountered", MessageBoxButtons.OK,

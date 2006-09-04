@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.IO;
 using VBGeneral;
 using CSGeneral;
+using System.Collections;
 
 namespace CSGeneral
 	{
@@ -131,6 +132,12 @@ namespace CSGeneral
 				}
 			}
 
+        public override string ImageFileForType(string ComponentType)
+            {
+            return "";
+            }
+
+
 		public void AddCrop()
 			{
 			string NewCropName = InputDialog.InputBox("Enter the name of the new crop:", "New crop", "", false);
@@ -223,23 +230,22 @@ namespace CSGeneral
 				AddXMLToSelected("<sample name=\"NewSample\"/>");
 			}
 
-        public void CheckAllSoils(APSIMData Data, ref string ErrorMessage)
+        public void CheckSoils(ArrayList ArrayOfData, ref string ErrorMessage)
             {
-            if (Data.Type.ToLower() == "soil")
+            foreach (APSIMData Data in ArrayOfData)
                 {
-                Soil ThisSoil = new Soil(Data);
-                string Errors = ThisSoil.CheckForErrors();
-                if (Errors != "")
-                    ErrorMessage += "\r\n" + ThisSoil.Name + "\r\n" + StringManip.IndentText(Errors, 6);
-                }
-
-            // Check all soils and return an error message string
-            foreach (APSIMData Child in Data.get_Children(null))
-                {
-                if (Child.Type.ToLower() == "folder" || Child.Type.ToLower() == "soils")
-                    CheckAllSoils(Child, ref ErrorMessage);
+                if (Data.Type.ToLower() == "soil")
+                    {
+                    Soil ThisSoil = new Soil(Data);
+                    string Errors = ThisSoil.CheckForErrors();
+                    if (Errors != "")
+                        ErrorMessage += "\r\n" + ThisSoil.Name + "\r\n" + StringManip.IndentText(Errors, 6);
+                    }
+                else if (Data.Type.ToLower() == "folder")
+                    CheckSoils(Data.get_Children(null), ref ErrorMessage);
                 }
             }
+
 
 		}
 	}

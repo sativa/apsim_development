@@ -20,7 +20,7 @@ namespace CSGeneral
 		private System.ComponentModel.IContainer components = null;
 		private CSGeneral.Soil MySoil;
 		private System.Windows.Forms.ImageList ButtonImageList;
-		private static int NUMBER_OF_STATIC_COLS = 6;
+		private static int NUMBER_OF_STATIC_COLS = 7;
 		private System.Windows.Forms.FontDialog fontDialog1;
 		private FarPoint.Win.Spread.FpSpread Grid;
 		private FarPoint.Win.Spread.SheetView General;
@@ -52,6 +52,7 @@ namespace CSGeneral
         private ToolStripButton CheckSoilButton;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripButton PrintButton;
+        private ToolStripButton PHButton;
 		private string AttachmentFileName;
 		
 		// -------------
@@ -95,35 +96,14 @@ namespace CSGeneral
         FarPoint.Win.Spread.TipAppearance tipAppearance1 = new FarPoint.Win.Spread.TipAppearance();
         FarPoint.Win.Spread.CellType.TextCellType textCellType1 = new FarPoint.Win.Spread.CellType.TextCellType();
         FarPoint.Win.Spread.CellType.TextCellType textCellType2 = new FarPoint.Win.Spread.CellType.TextCellType();
+        FarPoint.Win.Spread.CellType.TextCellType textCellType3 = new FarPoint.Win.Spread.CellType.TextCellType();
         FarPoint.Win.BevelBorder bevelBorder1 = new FarPoint.Win.BevelBorder(FarPoint.Win.BevelBorderType.Raised);
         FarPoint.Win.BevelBorder bevelBorder2 = new FarPoint.Win.BevelBorder(FarPoint.Win.BevelBorderType.Raised);
-        FarPoint.Win.Spread.CellType.NumberCellType numberCellType1 = new FarPoint.Win.Spread.CellType.NumberCellType();
-        FarPoint.Win.Spread.CellType.NumberCellType numberCellType2 = new FarPoint.Win.Spread.CellType.NumberCellType();
-        FarPoint.Win.Spread.CellType.NumberCellType numberCellType3 = new FarPoint.Win.Spread.CellType.NumberCellType();
-        FarPoint.Win.Spread.CellType.NumberCellType numberCellType4 = new FarPoint.Win.Spread.CellType.NumberCellType();
-        FarPoint.Win.Spread.CellType.NumberCellType numberCellType5 = new FarPoint.Win.Spread.CellType.NumberCellType();
-        FarPoint.Win.Spread.CellType.NumberCellType numberCellType6 = new FarPoint.Win.Spread.CellType.NumberCellType();
-        FarPoint.Win.Spread.CellType.NumberCellType numberCellType7 = new FarPoint.Win.Spread.CellType.NumberCellType();
-        FarPoint.Win.Spread.CellType.NumberCellType numberCellType8 = new FarPoint.Win.Spread.CellType.NumberCellType();
-        FarPoint.Win.Spread.CellType.NumberCellType numberCellType9 = new FarPoint.Win.Spread.CellType.NumberCellType();
-        FarPoint.Win.Spread.CellType.NumberCellType numberCellType10 = new FarPoint.Win.Spread.CellType.NumberCellType();
-        FarPoint.Win.Spread.CellType.NumberCellType numberCellType11 = new FarPoint.Win.Spread.CellType.NumberCellType();
-        FarPoint.Win.Spread.CellType.NumberCellType numberCellType12 = new FarPoint.Win.Spread.CellType.NumberCellType();
-        FarPoint.Win.Spread.CellType.NumberCellType numberCellType13 = new FarPoint.Win.Spread.CellType.NumberCellType();
-        FarPoint.Win.Spread.CellType.NumberCellType numberCellType14 = new FarPoint.Win.Spread.CellType.NumberCellType();
-        FarPoint.Win.Spread.CellType.NumberCellType numberCellType15 = new FarPoint.Win.Spread.CellType.NumberCellType();
-        FarPoint.Win.Spread.CellType.NumberCellType numberCellType16 = new FarPoint.Win.Spread.CellType.NumberCellType();
-        FarPoint.Win.Spread.CellType.NumberCellType numberCellType17 = new FarPoint.Win.Spread.CellType.NumberCellType();
-        FarPoint.Win.Spread.CellType.NumberCellType numberCellType18 = new FarPoint.Win.Spread.CellType.NumberCellType();
-        FarPoint.Win.Spread.CellType.NumberCellType numberCellType19 = new FarPoint.Win.Spread.CellType.NumberCellType();
-        FarPoint.Win.Spread.CellType.NumberCellType numberCellType20 = new FarPoint.Win.Spread.CellType.NumberCellType();
-        FarPoint.Win.Spread.CellType.NumberCellType numberCellType21 = new FarPoint.Win.Spread.CellType.NumberCellType();
-        FarPoint.Win.Spread.CellType.NumberCellType numberCellType22 = new FarPoint.Win.Spread.CellType.NumberCellType();
-        FarPoint.Win.Spread.CellType.NumberCellType numberCellType23 = new FarPoint.Win.Spread.CellType.NumberCellType();
-        FarPoint.Win.Spread.CellType.TextCellType textCellType3 = new FarPoint.Win.Spread.CellType.TextCellType();
+        FarPoint.Win.Spread.CellType.ComboBoxCellType comboBoxCellType1 = new FarPoint.Win.Spread.CellType.ComboBoxCellType();
         FarPoint.Win.Spread.CellType.TextCellType textCellType4 = new FarPoint.Win.Spread.CellType.TextCellType();
         FarPoint.Win.Spread.CellType.TextCellType textCellType5 = new FarPoint.Win.Spread.CellType.TextCellType();
         FarPoint.Win.Spread.CellType.TextCellType textCellType6 = new FarPoint.Win.Spread.CellType.TextCellType();
+        FarPoint.Win.Spread.CellType.TextCellType textCellType7 = new FarPoint.Win.Spread.CellType.TextCellType();
         FarPoint.Win.Spread.CellType.ButtonCellType buttonCellType1 = new FarPoint.Win.Spread.CellType.ButtonCellType();
         FarPoint.Win.Spread.CellType.ButtonCellType buttonCellType2 = new FarPoint.Win.Spread.CellType.ButtonCellType();
         FarPoint.Win.Spread.CellType.ButtonCellType buttonCellType3 = new FarPoint.Win.Spread.CellType.ButtonCellType();
@@ -155,6 +135,7 @@ namespace CSGeneral
         this.AddButton = new System.Windows.Forms.ToolStripButton();
         this.DeleteButton = new System.Windows.Forms.ToolStripButton();
         this.ReorderButton = new System.Windows.Forms.ToolStripButton();
+        this.PHButton = new System.Windows.Forms.ToolStripButton();
         this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
         this.PrintButton = new System.Windows.Forms.ToolStripButton();
         this.CheckSoilButton = new System.Windows.Forms.ToolStripButton();
@@ -179,7 +160,7 @@ namespace CSGeneral
         // 
         // Grid
         // 
-        this.Grid.AccessibleDescription = "Grid, Photo/Attach, Row 1, Column 0, ";
+        this.Grid.AccessibleDescription = "Grid, Water, Row 0, Column 0, ";
         this.Grid.AllowDragDrop = true;
         this.Grid.ContextMenu = this.WaterMenu;
         this.Grid.Dock = System.Windows.Forms.DockStyle.Top;
@@ -187,6 +168,8 @@ namespace CSGeneral
         this.Grid.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded;
         this.Grid.Location = new System.Drawing.Point(0, 87);
         this.Grid.Name = "Grid";
+        this.Grid.SelectionBlockOptions = ((FarPoint.Win.Spread.SelectionBlockOptions)(((FarPoint.Win.Spread.SelectionBlockOptions.Cells | FarPoint.Win.Spread.SelectionBlockOptions.Rows)
+                    | FarPoint.Win.Spread.SelectionBlockOptions.Sheet)));
         this.Grid.Sheets.AddRange(new FarPoint.Win.Spread.SheetView[] {
             this.General,
             this.Water,
@@ -194,7 +177,7 @@ namespace CSGeneral
             this.APSIM,
             this.Phosphorus,
             this.PhotoAttachSheet});
-        this.Grid.Size = new System.Drawing.Size(911, 292);
+        this.Grid.Size = new System.Drawing.Size(906, 292);
         this.Grid.TabIndex = 12;
         this.Grid.TabStrip.ButtonPolicy = FarPoint.Win.Spread.TabStripButtonPolicy.AsNeeded;
         this.Grid.TabStripPolicy = FarPoint.Win.Spread.TabStripPolicy.Always;
@@ -203,7 +186,10 @@ namespace CSGeneral
         tipAppearance1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
         tipAppearance1.ForeColor = System.Drawing.SystemColors.InfoText;
         this.Grid.TextTipAppearance = tipAppearance1;
+        this.Grid.TextTipPolicy = FarPoint.Win.Spread.TextTipPolicy.Floating;
         this.Grid.ButtonClicked += new FarPoint.Win.Spread.EditorNotifyEventHandler(this.Grid_ButtonClicked);
+        this.Grid.ActiveSheetChanged += new System.EventHandler(this.Grid_ActiveSheetChanged_1);
+        this.Grid.TextTipFetch += new FarPoint.Win.Spread.TextTipFetchEventHandler(this.GetTextTip);
         this.Grid.SetViewportLeftColumn(0, 1);
         this.Grid.SetViewportLeftColumn(1, 0, 6);
         this.Grid.SetActiveViewport(1, 0, -1);
@@ -266,36 +252,45 @@ namespace CSGeneral
         // Formulas and custom names must be loaded with R1C1 reference style
         this.General.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1;
         this.General.ColumnCount = 2;
-        this.General.RowCount = 8;
+        this.General.RowCount = 9;
         this.General.ActiveColumnIndex = 1;
-        this.General.ActiveRowIndex = 5;
+        this.General.ActiveRowIndex = 7;
         this.General.AutoUpdateNotes = true;
-        this.General.Cells.Get(0, 0).Value = "Region: ";
-        this.General.Cells.Get(1, 0).Value = "Site: ";
-        this.General.Cells.Get(2, 0).Value = "Name: ";
-        this.General.Cells.Get(2, 1).Locked = true;
-        this.General.Cells.Get(3, 0).Value = "Classification: ";
-        this.General.Cells.Get(4, 0).Value = "Nearest Town: ";
-        this.General.Cells.Get(5, 0).Value = "Natural Vegetation: ";
-        this.General.Cells.Get(6, 0).Value = "Data source: ";
+        this.General.Cells.Get(0, 0).Value = "State: ";
+        this.General.Cells.Get(1, 0).Value = "Region: ";
+        this.General.Cells.Get(2, 0).Value = "Nearest Town: ";
+        this.General.Cells.Get(3, 0).Value = "Site: ";
+        this.General.Cells.Get(4, 0).Value = "Name: ";
+        this.General.Cells.Get(4, 1).Locked = true;
+        this.General.Cells.Get(5, 0).Value = "Classification: ";
+        textCellType1.MaxLength = 500;
+        textCellType1.Multiline = true;
         textCellType1.WordWrap = true;
-        this.General.Cells.Get(6, 1).CellType = textCellType1;
-        this.General.Cells.Get(7, 0).Value = "Comments: ";
+        this.General.Cells.Get(5, 1).CellType = textCellType1;
+        this.General.Cells.Get(6, 0).Value = "Natural Vegetation: ";
+        this.General.Cells.Get(7, 0).Value = "Data source: ";
+        textCellType2.MaxLength = 500;
         textCellType2.Multiline = true;
         textCellType2.WordWrap = true;
         this.General.Cells.Get(7, 1).CellType = textCellType2;
+        this.General.Cells.Get(8, 0).Value = "Comments: ";
+        textCellType3.MaxLength = 500;
+        textCellType3.Multiline = true;
+        textCellType3.WordWrap = true;
+        this.General.Cells.Get(8, 1).CellType = textCellType3;
         this.General.ColumnHeader.Visible = false;
         this.General.Columns.Get(0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
         this.General.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.General.Columns.Get(0).Locked = false;
         this.General.Columns.Get(0).Width = 123F;
-        this.General.Columns.Get(1).Width = 478F;
+        this.General.Columns.Get(1).Width = 550F;
         this.General.FrozenColumnCount = 1;
         this.General.RestrictColumns = true;
         this.General.RowHeader.Columns.Default.Resizable = false;
         this.General.RowHeader.Visible = false;
-        this.General.Rows.Get(6).Height = 93F;
-        this.General.Rows.Get(7).Height = 105F;
+        this.General.Rows.Get(5).Height = 40F;
+        this.General.Rows.Get(7).Height = 41F;
+        this.General.Rows.Get(8).Height = 105F;
         this.General.SheetName = "General";
         this.General.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.General_CellChanged);
         this.General.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
@@ -305,50 +300,44 @@ namespace CSGeneral
         this.Water.Reset();
         // Formulas and custom names must be loaded with R1C1 reference style
         this.Water.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1;
-        this.Water.ColumnCount = 6;
+        this.Water.ColumnCount = 7;
         this.Water.ColumnHeader.RowCount = 3;
         this.Water.RowCount = 100;
         this.Water.AutoUpdateNotes = true;
         this.Water.ColumnHeader.Cells.Get(0, 0).Border = bevelBorder1;
-        this.Water.ColumnHeader.Cells.Get(0, 0).ColumnSpan = 6;
+        this.Water.ColumnHeader.Cells.Get(0, 0).ColumnSpan = 7;
         this.Water.ColumnHeader.Cells.Get(0, 0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Center;
         this.Water.ColumnHeader.Cells.Get(0, 0).Value = "Soil properties";
-        this.Water.ColumnHeader.Cells.Get(0, 5).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.General;
+        this.Water.ColumnHeader.Cells.Get(0, 6).VerticalAlignment = FarPoint.Win.Spread.CellVerticalAlignment.General;
         this.Water.ColumnHeader.Cells.Get(1, 0).Border = bevelBorder2;
         this.Water.ColumnHeader.Cells.Get(1, 0).Value = "Depth";
         this.Water.ColumnHeader.Cells.Get(1, 1).Value = "BD";
-        this.Water.ColumnHeader.Cells.Get(1, 2).Value = "SAT";
-        this.Water.ColumnHeader.Cells.Get(1, 3).Value = " DUL";
-        this.Water.ColumnHeader.Cells.Get(1, 4).Value = "AirDry";
-        this.Water.ColumnHeader.Cells.Get(1, 5).Value = "LL15";
+        this.Water.ColumnHeader.Cells.Get(1, 2).Value = "% Rocks";
+        this.Water.ColumnHeader.Cells.Get(1, 3).Value = "SAT";
+        this.Water.ColumnHeader.Cells.Get(1, 4).Value = " DUL";
+        this.Water.ColumnHeader.Cells.Get(1, 5).Value = "AirDry";
+        this.Water.ColumnHeader.Cells.Get(1, 6).Value = "LL15";
         this.Water.ColumnHeader.Cells.Get(2, 0).Value = "(cm)";
         this.Water.ColumnHeader.Cells.Get(2, 1).Value = " (g/cc)";
-        this.Water.ColumnHeader.Cells.Get(2, 2).Value = "(%vol)";
-        this.Water.ColumnHeader.Cells.Get(2, 3).Value = "(%vol)";
-        this.Water.ColumnHeader.Cells.Get(2, 4).Value = "(%vol)";
-        this.Water.ColumnHeader.Cells.Get(2, 5).Value = "(%vol)";
+        this.Water.ColumnHeader.Cells.Get(2, 2).Value = "(%)";
+        this.Water.ColumnHeader.Cells.Get(2, 3).Value = "(mm/mm)";
+        this.Water.ColumnHeader.Cells.Get(2, 4).Value = "(mm/mm)";
+        this.Water.ColumnHeader.Cells.Get(2, 5).Value = "(mm/mm)";
+        this.Water.ColumnHeader.Cells.Get(2, 6).Value = "(mm/mm)";
         this.Water.Columns.Get(0).Label = "(cm)";
-        this.Water.Columns.Get(0).Width = 45F;
-        numberCellType1.DecimalPlaces = 3;
-        this.Water.Columns.Get(1).CellType = numberCellType1;
+        this.Water.Columns.Get(0).Width = 52F;
         this.Water.Columns.Get(1).Label = " (g/cc)";
         this.Water.Columns.Get(1).Width = 45F;
-        numberCellType2.DecimalPlaces = 2;
-        this.Water.Columns.Get(2).CellType = numberCellType2;
-        this.Water.Columns.Get(2).Label = "(%vol)";
-        this.Water.Columns.Get(2).Width = 48F;
-        numberCellType3.DecimalPlaces = 2;
-        this.Water.Columns.Get(3).CellType = numberCellType3;
-        this.Water.Columns.Get(3).Label = "(%vol)";
-        this.Water.Columns.Get(3).Width = 49F;
-        numberCellType4.DecimalPlaces = 2;
-        this.Water.Columns.Get(4).CellType = numberCellType4;
-        this.Water.Columns.Get(4).Label = "(%vol)";
-        this.Water.Columns.Get(4).Width = 48F;
-        numberCellType5.DecimalPlaces = 2;
-        this.Water.Columns.Get(5).CellType = numberCellType5;
-        this.Water.Columns.Get(5).Label = "(%vol)";
-        this.Water.Columns.Get(5).Width = 49F;
+        this.Water.Columns.Get(2).Label = "(%)";
+        this.Water.Columns.Get(2).Width = 52F;
+        this.Water.Columns.Get(3).Label = "(mm/mm)";
+        this.Water.Columns.Get(3).Width = 55F;
+        this.Water.Columns.Get(4).Label = "(mm/mm)";
+        this.Water.Columns.Get(4).Width = 56F;
+        this.Water.Columns.Get(5).Label = "(mm/mm)";
+        this.Water.Columns.Get(5).Width = 56F;
+        this.Water.Columns.Get(6).Label = "(mm/mm)";
+        this.Water.Columns.Get(6).Width = 56F;
         this.Water.FrozenColumnCount = 6;
         this.Water.FrozenTrailingRowCount = 1;
         this.Water.RowHeader.Columns.Default.Resizable = false;
@@ -365,7 +354,6 @@ namespace CSGeneral
         this.SoilProfile.ColumnCount = 20;
         this.SoilProfile.ColumnHeader.RowCount = 2;
         this.SoilProfile.RowCount = 100;
-        this.SoilProfile.ActiveColumnIndex = 2;
         this.SoilProfile.AutoUpdateNotes = true;
         this.SoilProfile.ColumnHeader.AutoText = FarPoint.Win.Spread.HeaderAutoText.Blank;
         this.SoilProfile.ColumnHeader.Cells.Get(0, 0).Value = "Depth";
@@ -373,66 +361,48 @@ namespace CSGeneral
         this.SoilProfile.ColumnHeader.Cells.Get(0, 2).Value = "SWCon";
         this.SoilProfile.ColumnHeader.Cells.Get(0, 3).Value = "MWCon";
         this.SoilProfile.ColumnHeader.Cells.Get(0, 4).Value = "FBiom";
-        this.SoilProfile.ColumnHeader.Cells.Get(0, 5).Value = "FInert";
+        this.SoilProfile.ColumnHeader.Cells.Get(0, 5).Value = "FInsert";
         this.SoilProfile.ColumnHeader.Cells.Get(0, 6).Value = "OC";
         this.SoilProfile.ColumnHeader.Cells.Get(0, 7).Value = "EC";
-        this.SoilProfile.ColumnHeader.Cells.Get(0, 8).Value = "PH";
-        this.SoilProfile.ColumnHeader.Cells.Get(0, 9).Value = "CL";
+        this.SoilProfile.ColumnHeader.Cells.Get(0, 8).Value = "pH";
+        this.SoilProfile.ColumnHeader.Cells.Get(0, 9).Value = "Cl";
         this.SoilProfile.ColumnHeader.Cells.Get(0, 10).Value = "Boron";
         this.SoilProfile.ColumnHeader.Cells.Get(0, 11).Value = "CEC";
         this.SoilProfile.ColumnHeader.Cells.Get(0, 12).Value = "Ca";
         this.SoilProfile.ColumnHeader.Cells.Get(0, 13).Value = "Mg";
         this.SoilProfile.ColumnHeader.Cells.Get(0, 14).Value = "Na";
         this.SoilProfile.ColumnHeader.Cells.Get(0, 15).Value = "K";
-        this.SoilProfile.ColumnHeader.Cells.Get(0, 16).Value = "ESP";
-        this.SoilProfile.ColumnHeader.Cells.Get(0, 17).Value = "Particle";
-        this.SoilProfile.ColumnHeader.Cells.Get(0, 18).Value = "Particle";
-        this.SoilProfile.ColumnHeader.Cells.Get(0, 19).Value = "Particle";
+        this.SoilProfile.ColumnHeader.Cells.Get(0, 16).Value = "K";
+        this.SoilProfile.ColumnHeader.Cells.Get(0, 17).Value = "Particle size";
+        this.SoilProfile.ColumnHeader.Cells.Get(0, 18).Value = "Particle size";
+        this.SoilProfile.ColumnHeader.Cells.Get(0, 19).Value = "Particle size";
         this.SoilProfile.ColumnHeader.Cells.Get(1, 0).Value = "(cm)";
-        this.SoilProfile.ColumnHeader.Cells.Get(1, 17).Value = "size sand";
-        this.SoilProfile.ColumnHeader.Cells.Get(1, 18).Value = "size silt";
-        this.SoilProfile.ColumnHeader.Cells.Get(1, 19).Value = "size clay";
-        this.SoilProfile.Columns.Get(1).Width = 120F;
-        numberCellType6.DecimalPlaces = 2;
-        this.SoilProfile.Columns.Get(2).CellType = numberCellType6;
-        numberCellType7.DecimalPlaces = 2;
-        this.SoilProfile.Columns.Get(3).CellType = numberCellType7;
-        numberCellType8.DecimalPlaces = 2;
-        this.SoilProfile.Columns.Get(4).CellType = numberCellType8;
-        numberCellType9.DecimalPlaces = 1;
-        this.SoilProfile.Columns.Get(5).CellType = numberCellType9;
-        numberCellType10.DecimalPlaces = 2;
-        this.SoilProfile.Columns.Get(6).CellType = numberCellType10;
-        numberCellType11.DecimalPlaces = 1;
-        this.SoilProfile.Columns.Get(7).CellType = numberCellType11;
-        numberCellType12.DecimalPlaces = 1;
-        this.SoilProfile.Columns.Get(8).CellType = numberCellType12;
-        numberCellType13.DecimalPlaces = 1;
-        this.SoilProfile.Columns.Get(9).CellType = numberCellType13;
-        numberCellType14.DecimalPlaces = 1;
-        this.SoilProfile.Columns.Get(10).CellType = numberCellType14;
-        numberCellType15.DecimalPlaces = 1;
-        this.SoilProfile.Columns.Get(11).CellType = numberCellType15;
-        numberCellType16.DecimalPlaces = 1;
-        this.SoilProfile.Columns.Get(12).CellType = numberCellType16;
-        numberCellType17.DecimalPlaces = 1;
-        this.SoilProfile.Columns.Get(13).CellType = numberCellType17;
-        numberCellType18.DecimalPlaces = 1;
-        this.SoilProfile.Columns.Get(14).CellType = numberCellType18;
-        numberCellType19.DecimalPlaces = 1;
-        this.SoilProfile.Columns.Get(15).CellType = numberCellType19;
-        numberCellType20.DecimalPlaces = 1;
-        this.SoilProfile.Columns.Get(16).CellType = numberCellType20;
-        numberCellType21.DecimalPlaces = 1;
-        this.SoilProfile.Columns.Get(17).CellType = numberCellType21;
-        this.SoilProfile.Columns.Get(17).Label = "size sand";
-        numberCellType22.DecimalPlaces = 1;
-        this.SoilProfile.Columns.Get(18).CellType = numberCellType22;
-        this.SoilProfile.Columns.Get(18).Label = "size silt";
-        numberCellType23.DecimalPlaces = 1;
-        this.SoilProfile.Columns.Get(19).CellType = numberCellType23;
-        this.SoilProfile.Columns.Get(19).Label = "size clay";
-        this.SoilProfile.RowHeader.Columns.Default.Resizable = true;
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 2).Value = "(0-1)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 3).Value = "(0-1)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 4).Value = "(0-1)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 5).Value = "(0-1)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 6).Value = "(%)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 7).Value = "(mS/cm)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 8).Value = "(water)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 9).Value = "(mg/kg)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 10).Value = "(mg/kg)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 11).Value = "(cmol+/kg)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 12).Value = "(cmol+/kg)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 13).Value = "(cmol+/kg)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 14).Value = "(cmol+/kg)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 15).Value = "(cmol+/kg)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 16).Value = "(cmol+/kg)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 17).Value = "sand (%)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 18).Value = "silt (%)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 19).Value = "clay (%)";
+        this.SoilProfile.Columns.Get(17).Label = "sand (%)";
+        this.SoilProfile.Columns.Get(17).Width = 79F;
+        this.SoilProfile.Columns.Get(18).Label = "silt (%)";
+        this.SoilProfile.Columns.Get(18).Width = 79F;
+        this.SoilProfile.Columns.Get(19).Label = "clay (%)";
+        this.SoilProfile.Columns.Get(19).Width = 79F;
+        this.SoilProfile.RowHeader.Columns.Default.Resizable = false;
+        this.SoilProfile.SelectionPolicy = FarPoint.Win.Spread.Model.SelectionPolicy.MultiRange;
         this.SoilProfile.SheetName = "Soil profile";
         this.SoilProfile.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.SoilProfile_CellChanged);
         this.SoilProfile.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
@@ -443,45 +413,67 @@ namespace CSGeneral
         // Formulas and custom names must be loaded with R1C1 reference style
         this.APSIM.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1;
         this.APSIM.ColumnCount = 2;
-        this.APSIM.RowCount = 18;
+        this.APSIM.RowCount = 24;
+        this.APSIM.ActiveColumnIndex = 1;
+        this.APSIM.ActiveRowIndex = 7;
         this.APSIM.AutoUpdateNotes = true;
         this.APSIM.Cells.Get(0, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
         this.APSIM.Cells.Get(0, 0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.APSIM.Cells.Get(0, 0).Value = "Evaporation";
-        this.APSIM.Cells.Get(0, 1).Locked = true;
+        comboBoxCellType1.ButtonAlign = FarPoint.Win.ButtonAlign.Right;
+        comboBoxCellType1.Items = new string[] {
+        "1 value for U and Cona",
+        "Summer/Winter values for U and Cona"};
+        this.APSIM.Cells.Get(0, 1).CellType = comboBoxCellType1;
+        this.APSIM.Cells.Get(0, 1).Locked = false;
+        this.APSIM.Cells.Get(0, 1).Value = "1 value for U and Cona";
         this.APSIM.Cells.Get(1, 0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.APSIM.Cells.Get(1, 0).Value = "U";
         this.APSIM.Cells.Get(2, 0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.APSIM.Cells.Get(2, 0).Value = "Cona";
-        this.APSIM.Cells.Get(3, 0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
-        this.APSIM.Cells.Get(3, 0).Value = "Salb";
-        this.APSIM.Cells.Get(4, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.APSIM.Cells.Get(4, 0).Value = "Unsaturated Flow";
-        this.APSIM.Cells.Get(4, 1).Locked = true;
-        this.APSIM.Cells.Get(5, 0).Value = "DiffusConst";
-        this.APSIM.Cells.Get(6, 0).Value = "DiffusSlope";
-        this.APSIM.Cells.Get(7, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.APSIM.Cells.Get(7, 0).Value = "Runoff";
-        this.APSIM.Cells.Get(7, 1).Locked = true;
-        this.APSIM.Cells.Get(8, 0).Value = "CN2Bare";
-        this.APSIM.Cells.Get(9, 0).Value = "CNRed";
-        this.APSIM.Cells.Get(10, 0).Value = "CNCov";
-        this.APSIM.Cells.Get(11, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.APSIM.Cells.Get(11, 0).Value = "Organic Matter";
-        this.APSIM.Cells.Get(11, 1).Locked = true;
-        this.APSIM.Cells.Get(12, 0).Value = "RootCN";
-        this.APSIM.Cells.Get(13, 0).Value = "RootWt";
-        this.APSIM.Cells.Get(14, 0).Value = "SoilCN";
-        this.APSIM.Cells.Get(15, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.APSIM.Cells.Get(15, 0).Value = "Erosion";
-        this.APSIM.Cells.Get(15, 1).Locked = true;
-        this.APSIM.Cells.Get(16, 0).Value = "EnrACoeff";
-        this.APSIM.Cells.Get(17, 0).Value = "EnrBCoeff";
+        this.APSIM.Cells.Get(3, 0).ForeColor = System.Drawing.Color.LightSteelBlue;
+        this.APSIM.Cells.Get(3, 0).Value = "SummerU";
+        this.APSIM.Cells.Get(4, 0).ForeColor = System.Drawing.Color.LightSteelBlue;
+        this.APSIM.Cells.Get(4, 0).Value = "WinterU";
+        this.APSIM.Cells.Get(5, 0).ForeColor = System.Drawing.Color.LightSteelBlue;
+        this.APSIM.Cells.Get(5, 0).Value = "SummerCona";
+        this.APSIM.Cells.Get(6, 0).ForeColor = System.Drawing.Color.LightSteelBlue;
+        this.APSIM.Cells.Get(6, 0).Value = "WinterCona";
+        this.APSIM.Cells.Get(7, 0).ForeColor = System.Drawing.Color.LightSteelBlue;
+        this.APSIM.Cells.Get(7, 0).Value = "SummerDate";
+        this.APSIM.Cells.Get(7, 1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
+        this.APSIM.Cells.Get(8, 0).ForeColor = System.Drawing.Color.LightSteelBlue;
+        this.APSIM.Cells.Get(8, 0).Value = "WinterDate";
+        this.APSIM.Cells.Get(8, 1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
+        this.APSIM.Cells.Get(9, 0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
+        this.APSIM.Cells.Get(9, 0).Value = "Salb";
+        this.APSIM.Cells.Get(10, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        this.APSIM.Cells.Get(10, 0).Value = "Unsaturated Flow";
+        this.APSIM.Cells.Get(10, 1).Locked = true;
+        this.APSIM.Cells.Get(11, 0).Value = "DiffusConst";
+        this.APSIM.Cells.Get(12, 0).Value = "DiffusSlope";
+        this.APSIM.Cells.Get(13, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        this.APSIM.Cells.Get(13, 0).Value = "Runoff";
+        this.APSIM.Cells.Get(13, 1).Locked = true;
+        this.APSIM.Cells.Get(14, 0).Value = "CN2Bare";
+        this.APSIM.Cells.Get(15, 0).Value = "CNRed";
+        this.APSIM.Cells.Get(16, 0).Value = "CNCov";
+        this.APSIM.Cells.Get(17, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        this.APSIM.Cells.Get(17, 0).Value = "Organic Matter";
+        this.APSIM.Cells.Get(17, 1).Locked = true;
+        this.APSIM.Cells.Get(18, 0).Value = "RootCN";
+        this.APSIM.Cells.Get(19, 0).Value = "RootWt";
+        this.APSIM.Cells.Get(20, 0).Value = "SoilCN";
+        this.APSIM.Cells.Get(21, 0).Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        this.APSIM.Cells.Get(21, 0).Value = "Erosion";
+        this.APSIM.Cells.Get(21, 1).Locked = true;
+        this.APSIM.Cells.Get(22, 0).Value = "EnrACoeff";
+        this.APSIM.Cells.Get(23, 0).Value = "EnrBCoeff";
         this.APSIM.ColumnHeader.Visible = false;
         this.APSIM.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.APSIM.Columns.Get(0).Locked = true;
         this.APSIM.Columns.Get(0).Width = 101F;
-        this.APSIM.Columns.Get(1).Width = 100F;
+        this.APSIM.Columns.Get(1).Width = 213F;
         this.APSIM.RowHeader.Columns.Default.Resizable = false;
         this.APSIM.SheetName = "APSIM";
         this.APSIM.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.APSIM_CellChanged);
@@ -495,6 +487,7 @@ namespace CSGeneral
         this.Phosphorus.ColumnCount = 5;
         this.Phosphorus.ColumnHeader.RowCount = 2;
         this.Phosphorus.RowCount = 100;
+        this.Phosphorus.ActiveColumnIndex = 4;
         this.Phosphorus.AutoUpdateNotes = true;
         this.Phosphorus.ColumnHeader.AutoText = FarPoint.Win.Spread.HeaderAutoText.Blank;
         this.Phosphorus.ColumnHeader.Cells.Get(0, 0).Value = "Depth";
@@ -509,17 +502,17 @@ namespace CSGeneral
         this.Phosphorus.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.Phosphorus.Columns.Get(0).Label = "(cm)";
         this.Phosphorus.Columns.Get(0).Width = 70F;
-        this.Phosphorus.Columns.Get(1).CellType = textCellType3;
+        this.Phosphorus.Columns.Get(1).CellType = textCellType4;
         this.Phosphorus.Columns.Get(1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.Phosphorus.Columns.Get(1).Label = "(mg/kg)";
         this.Phosphorus.Columns.Get(1).Width = 71F;
-        this.Phosphorus.Columns.Get(2).CellType = textCellType4;
+        this.Phosphorus.Columns.Get(2).CellType = textCellType5;
         this.Phosphorus.Columns.Get(2).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.Phosphorus.Columns.Get(2).Label = "(kg/ha)";
-        this.Phosphorus.Columns.Get(3).CellType = textCellType5;
+        this.Phosphorus.Columns.Get(3).CellType = textCellType6;
         this.Phosphorus.Columns.Get(3).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.Phosphorus.Columns.Get(3).Label = "(kg/ha)";
-        this.Phosphorus.Columns.Get(4).CellType = textCellType6;
+        this.Phosphorus.Columns.Get(4).CellType = textCellType7;
         this.Phosphorus.Columns.Get(4).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
         this.Phosphorus.RowHeader.Columns.Default.Resizable = false;
         this.Phosphorus.Rows.Get(14).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
@@ -572,7 +565,7 @@ namespace CSGeneral
         this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
         this.splitter1.Location = new System.Drawing.Point(0, 379);
         this.splitter1.Name = "splitter1";
-        this.splitter1.Size = new System.Drawing.Size(911, 3);
+        this.splitter1.Size = new System.Drawing.Size(906, 3);
         this.splitter1.TabIndex = 13;
         this.splitter1.TabStop = false;
         // 
@@ -616,12 +609,13 @@ namespace CSGeneral
             this.AddButton,
             this.DeleteButton,
             this.ReorderButton,
+            this.PHButton,
             this.toolStripSeparator1,
             this.PrintButton,
             this.CheckSoilButton});
         this.toolStrip1.Location = new System.Drawing.Point(0, 40);
         this.toolStrip1.Name = "toolStrip1";
-        this.toolStrip1.Size = new System.Drawing.Size(911, 47);
+        this.toolStrip1.Size = new System.Drawing.Size(906, 47);
         this.toolStrip1.TabIndex = 15;
         this.toolStrip1.Text = "toolStrip1";
         // 
@@ -658,6 +652,17 @@ namespace CSGeneral
         this.ReorderButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.ReorderButton.Click += new System.EventHandler(this.ReorderCropsMenuItem_Click);
         // 
+        // PHButton
+        // 
+        this.PHButton.Enabled = false;
+        this.PHButton.Image = global::SoilNamespace.Properties.Resources.potion_yellow;
+        this.PHButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        this.PHButton.Name = "PHButton";
+        this.PHButton.Size = new System.Drawing.Size(105, 44);
+        this.PHButton.Text = "Change pH units";
+        this.PHButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+        this.PHButton.Click += new System.EventHandler(this.PHButton_Click);
+        // 
         // toolStripSeparator1
         // 
         this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -692,7 +697,7 @@ namespace CSGeneral
         this.WaterChartControl.Location = new System.Drawing.Point(0, 379);
         this.WaterChartControl.Name = "WaterChartControl";
         this.WaterChartControl.ShowSoilWaterLine = false;
-        this.WaterChartControl.Size = new System.Drawing.Size(911, 327);
+        this.WaterChartControl.Size = new System.Drawing.Size(906, 383);
         this.WaterChartControl.TabIndex = 14;
         // 
         // SoilUI
@@ -702,7 +707,7 @@ namespace CSGeneral
         this.Controls.Add(this.Grid);
         this.Controls.Add(this.toolStrip1);
         this.Name = "SoilUI";
-        this.Size = new System.Drawing.Size(911, 706);
+        this.Size = new System.Drawing.Size(906, 762);
         this.Controls.SetChildIndex(this.toolStrip1, 0);
         this.Controls.SetChildIndex(this.Grid, 0);
         this.Controls.SetChildIndex(this.WaterChartControl, 0);
@@ -788,14 +793,15 @@ namespace CSGeneral
 			{
 			UserChange = false;
 			General.ClearRange(0, 1, General.RowCount, 1, true);
-			General.Cells[0, 1].Value = MySoil.Region;
-			General.Cells[1, 1].Value = MySoil.Site;
-			General.Cells[2, 1].Value = MySoil.Name;
-			General.Cells[3, 1].Value = MySoil.Order;
-			General.Cells[4, 1].Value = MySoil.NearestTown;
-			General.Cells[5, 1].Value = MySoil.NaturalVegetation;
-			General.Cells[6, 1].Value = MySoil.DataSource;
-			General.Cells[7, 1].Value = MySoil.Comment;
+            General.Cells[0, 1].Value = MySoil.State;
+            General.Cells[1, 1].Value = MySoil.Region;
+            General.Cells[2, 1].Value = MySoil.NearestTown;
+            General.Cells[3, 1].Value = MySoil.Site;
+			General.Cells[4, 1].Value = MySoil.Name;
+			General.Cells[5, 1].Value = MySoil.Order;
+			General.Cells[6, 1].Value = MySoil.NaturalVegetation;
+			General.Cells[7, 1].Value = MySoil.DataSource;
+			General.Cells[8, 1].Value = MySoil.Comment;
 			UserChange = true;
 			}
 
@@ -824,13 +830,14 @@ namespace CSGeneral
 		// ---------------------
 		private void SaveGeneralGrid()
 			{
-			MySoil.Region = GridUtils.GetCellAsString(General, 1, 0);
-			MySoil.Site = GridUtils.GetCellAsString(General, 1, 1);
-			MySoil.Order = GridUtils.GetCellAsString(General, 1, 3); 
-			MySoil.NearestTown = GridUtils.GetCellAsString(General, 1, 4);
-			MySoil.NaturalVegetation = GridUtils.GetCellAsString(General, 1, 5);
-			MySoil.DataSource = GridUtils.GetCellAsString(General, 1, 6);
-			MySoil.Comment = GridUtils.GetCellAsString(General, 1, 7);
+            MySoil.State = GridUtils.GetCellAsString(General, 1, 0);
+            MySoil.Region = GridUtils.GetCellAsString(General, 1, 1);
+            MySoil.NearestTown = GridUtils.GetCellAsString(General, 1, 2);
+            MySoil.Site = GridUtils.GetCellAsString(General, 1, 3);
+			MySoil.Order = GridUtils.GetCellAsString(General, 1, 5); 
+			MySoil.NaturalVegetation = GridUtils.GetCellAsString(General, 1, 6);
+			MySoil.DataSource = GridUtils.GetCellAsString(General, 1, 7);
+			MySoil.Comment = GridUtils.GetCellAsString(General, 1, 8);
 			}
 
 
@@ -843,16 +850,11 @@ namespace CSGeneral
             Water.ClearRange(0, 0, Water.RowCount, Water.ColumnCount, false);
 			GridUtils.SetColumnAsStrings(Water, 0, MySoil.DepthStrings);
 			GridUtils.SetColumnAsDoubles(Water, 1, MySoil.BD);
-			string WaterUnits;
-			GridUtils.SetColumnAsDoubles(Water, 2, MySoil.SAT);
-			GridUtils.SetColumnAsDoubles(Water, 3, MySoil.DUL);
-			GridUtils.SetColumnAsDoubles(Water, 4, MySoil.Airdry);
-			GridUtils.SetColumnAsDoubles(Water, 5, MySoil.LL15);
-			WaterUnits = "(%vol)";
-			Water.ColumnHeader.Cells[2, 2].Text = WaterUnits;
-			Water.ColumnHeader.Cells[2, 3].Text = WaterUnits;
-			Water.ColumnHeader.Cells[2, 4].Text = WaterUnits;
-			Water.ColumnHeader.Cells[2, 5].Text = WaterUnits;
+            GridUtils.SetColumnAsDoubles(Water, 2, MySoil.Rocks);
+			GridUtils.SetColumnAsDoubles(Water, 3, MySoil.SAT);
+			GridUtils.SetColumnAsDoubles(Water, 4, MySoil.DUL);
+			GridUtils.SetColumnAsDoubles(Water, 5, MySoil.Airdry);
+			GridUtils.SetColumnAsDoubles(Water, 6, MySoil.LL15);
 
 			// Make sure we have the right number of crop columns.
 			string[] CropNames = MySoil.Crops;
@@ -881,7 +883,7 @@ namespace CSGeneral
 				Water.ColumnHeader.Cells[0, CropCol].ColumnSpan = 4;
 				Water.ColumnHeader.Cells[0, CropCol].HorizontalAlignment = CellHorizontalAlignment.Center;
 				Water.ColumnHeader.Cells[1, CropCol].Text = "LL";
-				Water.ColumnHeader.Cells[2, CropCol].Text = WaterUnits;
+				Water.ColumnHeader.Cells[2, CropCol].Text = "mm/mm";
 				GridUtils.SetColumnAsDoubles(Water, CropCol, MySoil.LL(CropName));
 
 				if (Predicted)
@@ -891,7 +893,7 @@ namespace CSGeneral
 					}
 				else
 					Water.Columns[CropCol].BackColor = CropColor;
-				Water.Columns[CropCol].Width = 50;
+				Water.Columns[CropCol].Width = 60;
 				FarPoint.Win.Spread.CellType.NumberCellType LLFormatter = new FarPoint.Win.Spread.CellType.NumberCellType();
 				LLFormatter.DecimalPlaces = 2;
 				Water.Columns[CropCol].CellType = LLFormatter;
@@ -970,10 +972,11 @@ namespace CSGeneral
 				{
 				case 0: MySoil.DepthStrings = GridUtils.GetColumnAsStrings(Water, 0, NumLayers); break;
 				case 1: MySoil.BD = GridUtils.GetColumnAsDoubles(Water, 1, NumLayers); break;
-				case 2: MySoil.SAT = GridUtils.GetColumnAsDoubles(Water, 2, NumLayers); break;
-                case 3: MySoil.DUL = GridUtils.GetColumnAsDoubles(Water, 3, NumLayers); RefreshPAWCColumns();  break;
-				case 4: MySoil.Airdry = GridUtils.GetColumnAsDoubles(Water, 4, NumLayers); break;
-				case 5: MySoil.LL15 = GridUtils.GetColumnAsDoubles(Water, 5, NumLayers); break;
+                case 2: MySoil.Rocks = GridUtils.GetColumnAsDoubles(Water, 2, NumLayers); break;
+                case 3: MySoil.SAT = GridUtils.GetColumnAsDoubles(Water, 3, NumLayers); break;
+                case 4: MySoil.DUL = GridUtils.GetColumnAsDoubles(Water, 4, NumLayers); RefreshPAWCColumns();  break;
+				case 5: MySoil.Airdry = GridUtils.GetColumnAsDoubles(Water, 5, NumLayers); break;
+				case 6: MySoil.LL15 = GridUtils.GetColumnAsDoubles(Water, 6, NumLayers); break;
 				default:
 					{
 					int CropCol = (ColumnIndex - NUMBER_OF_STATIC_COLS) / 4 * 4 + NUMBER_OF_STATIC_COLS;
@@ -1010,7 +1013,6 @@ namespace CSGeneral
 			GridUtils.SetColumnAsDoubles(SoilProfile, 5, MySoil.FINERT);
 			GridUtils.SetColumnAsDoubles(SoilProfile, 6, MySoil.OC);
 			GridUtils.SetColumnAsDoubles(SoilProfile, 7, MySoil.EC);
-			GridUtils.SetColumnAsDoubles(SoilProfile, 8, MySoil.PH);
 			GridUtils.SetColumnAsDoubles(SoilProfile, 9, MySoil.CL);
 			GridUtils.SetColumnAsDoubles(SoilProfile, 10, MySoil.Boron);
 			GridUtils.SetColumnAsDoubles(SoilProfile, 11, MySoil.CEC);
@@ -1022,7 +1024,17 @@ namespace CSGeneral
 			GridUtils.SetColumnAsDoubles(SoilProfile, 17, MySoil.ParticleSizeSand);
 			GridUtils.SetColumnAsDoubles(SoilProfile, 18, MySoil.ParticleSizeSilt);
 			GridUtils.SetColumnAsDoubles(SoilProfile, 19, MySoil.ParticleSizeClay);
-			UserChange = true;
+            if (MySoil.PHStoredAsWater())
+                {
+                SoilProfile.ColumnHeader.Cells[1, 8].Text = "(water)";
+                GridUtils.SetColumnAsDoubles(SoilProfile, 8, MySoil.PH);
+                }
+            else
+                {
+                SoilProfile.ColumnHeader.Cells[1, 8].Text = "(CaCl)";
+                GridUtils.SetColumnAsDoubles(SoilProfile, 8, MySoil.PHCaCl);
+                UserChange = true;
+                }
 			}
 
 
@@ -1041,7 +1053,11 @@ namespace CSGeneral
 				case 5: MySoil.FINERT = GridUtils.GetColumnAsDoubles(SoilProfile, 5, NumLayers);  break;
 				case 6: MySoil.OC     = GridUtils.GetColumnAsDoubles(SoilProfile, 6, NumLayers);  break;
 				case 7: MySoil.EC     = GridUtils.GetColumnAsDoubles(SoilProfile, 7, NumLayers);  break;
-				case 8: MySoil.PH     = GridUtils.GetColumnAsDoubles(SoilProfile, 8, NumLayers);  break;
+                case 8: if (SoilProfile.ColumnHeader.Cells[1, 8].Text == "(water)")
+                            MySoil.PH = GridUtils.GetColumnAsDoubles(SoilProfile, 8, NumLayers);  
+                        else
+                            MySoil.PHCaCl = GridUtils.GetColumnAsDoubles(SoilProfile, 8, NumLayers);
+                        break;
 				case 9: MySoil.CL     = GridUtils.GetColumnAsDoubles(SoilProfile, 9, NumLayers);  break;
 				case 10: MySoil.Boron     = GridUtils.GetColumnAsDoubles(SoilProfile, 10, NumLayers);  break;
 				case 11: MySoil.CEC    = GridUtils.GetColumnAsDoubles(SoilProfile, 11, NumLayers);  break;
@@ -1063,42 +1079,113 @@ namespace CSGeneral
 			{
 			UserChange = false;
 			APSIM.ClearRange(0, 1, APSIM.RowCount, 1, true);
-			GridUtils.SetCellAsDouble(APSIM, 1, 1, MySoil.U);
-			GridUtils.SetCellAsDouble(APSIM, 1, 2, MySoil.Cona);
-			GridUtils.SetCellAsDouble(APSIM, 1, 3, MySoil.Salb);
-			GridUtils.SetCellAsDouble(APSIM, 1, 5, MySoil.DiffusConst);
-			GridUtils.SetCellAsDouble(APSIM, 1, 6, MySoil.DiffusSlope);
-			GridUtils.SetCellAsDouble(APSIM, 1, 8, MySoil.CN2Bare);
-			GridUtils.SetCellAsDouble(APSIM, 1, 9, MySoil.CNRed);
-			GridUtils.SetCellAsDouble(APSIM, 1, 10, MySoil.CNCov);
-			GridUtils.SetCellAsDouble(APSIM, 1, 12, MySoil.RootCN);
-			GridUtils.SetCellAsDouble(APSIM, 1, 13, MySoil.RootWT);
-			GridUtils.SetCellAsDouble(APSIM, 1, 14, MySoil.SoilCN);
-			GridUtils.SetCellAsDouble(APSIM, 1, 16, MySoil.EnrACoeff);
-			GridUtils.SetCellAsDouble(APSIM, 1, 17, MySoil.EnrBCoeff);
+
+            FarPoint.Win.Spread.CellType.ComboBoxCellType SummerWinterCombo = (FarPoint.Win.Spread.CellType.ComboBoxCellType) APSIM.Cells[0, 1].CellType;
+            if (MySoil.SummerCona != MathUtility.MissingValue)
+                APSIM.Cells[0, 1].Text = SummerWinterCombo.Items[1];
+            else
+                APSIM.Cells[0, 1].Text = SummerWinterCombo.Items[0];
+
+            SetupConaU();
+
+			GridUtils.SetCellAsDouble(APSIM, 1, 9, MySoil.Salb);
+			GridUtils.SetCellAsDouble(APSIM, 1, 11, MySoil.DiffusConst);
+			GridUtils.SetCellAsDouble(APSIM, 1, 12, MySoil.DiffusSlope);
+			GridUtils.SetCellAsDouble(APSIM, 1, 14, MySoil.CN2Bare);
+			GridUtils.SetCellAsDouble(APSIM, 1, 15, MySoil.CNRed);
+			GridUtils.SetCellAsDouble(APSIM, 1, 16, MySoil.CNCov);
+			GridUtils.SetCellAsDouble(APSIM, 1, 18, MySoil.RootCN);
+			GridUtils.SetCellAsDouble(APSIM, 1, 19, MySoil.RootWT);
+			GridUtils.SetCellAsDouble(APSIM, 1, 20, MySoil.SoilCN);
+			GridUtils.SetCellAsDouble(APSIM, 1, 22, MySoil.EnrACoeff);
+			GridUtils.SetCellAsDouble(APSIM, 1, 23, MySoil.EnrBCoeff);
 			UserChange = true;
 			
 			}
 
+        private void SetupConaU()
+            {
+            FarPoint.Win.Spread.CellType.ComboBoxCellType SummerWinterCombo = (FarPoint.Win.Spread.CellType.ComboBoxCellType) APSIM.Cells[0, 1].CellType;
+            if (APSIM.Cells[0, 1].Text == SummerWinterCombo.Items[1])
+                {
+                APSIM.Cells[1, 0].ForeColor = Color.LightSteelBlue;
+                APSIM.Cells[2, 0].ForeColor = Color.LightSteelBlue;
+                APSIM.Cells[3, 0].ForeColor = Color.Black;
+                APSIM.Cells[4, 0].ForeColor = Color.Black;
+                APSIM.Cells[5, 0].ForeColor = Color.Black;
+                APSIM.Cells[6, 0].ForeColor = Color.Black;
+                APSIM.Cells[7, 0].ForeColor = Color.Black;
+                APSIM.Cells[8, 0].ForeColor = Color.Black;
+                APSIM.Cells[1, 1].Locked = true;
+                APSIM.Cells[2, 1].Locked = true;
+                APSIM.Cells[3, 1].Locked = false;
+                APSIM.Cells[4, 1].Locked = false;
+                APSIM.Cells[5, 1].Locked = false;
+                APSIM.Cells[6, 1].Locked = false;
+                APSIM.Cells[7, 1].Locked = false;
+                APSIM.Cells[8, 1].Locked = false;
+                APSIM.Cells[1, 1].Text = "";
+                APSIM.Cells[2, 1].Text = "";
+                GridUtils.SetCellAsDouble(APSIM, 1, 3, MySoil.SummerU);
+                GridUtils.SetCellAsDouble(APSIM, 1, 4, MySoil.WinterU);
+                GridUtils.SetCellAsDouble(APSIM, 1, 5, MySoil.SummerCona);
+                GridUtils.SetCellAsDouble(APSIM, 1, 6, MySoil.WinterCona);
+                APSIM.Cells[7, 1].Text = MySoil.SummerDate;
+                APSIM.Cells[8, 1].Text = MySoil.WinterDate;
+                }
+            else
+                {
+                APSIM.Cells[1, 0].ForeColor = Color.Black;
+                APSIM.Cells[2, 0].ForeColor = Color.Black;
+                APSIM.Cells[3, 0].ForeColor = Color.LightSteelBlue;
+                APSIM.Cells[4, 0].ForeColor = Color.LightSteelBlue;
+                APSIM.Cells[5, 0].ForeColor = Color.LightSteelBlue;
+                APSIM.Cells[6, 0].ForeColor = Color.LightSteelBlue;
+                APSIM.Cells[7, 0].ForeColor = Color.LightSteelBlue;
+                APSIM.Cells[8, 0].ForeColor = Color.LightSteelBlue;
+                APSIM.Cells[1, 1].Locked = false;
+                APSIM.Cells[2, 1].Locked = false;
+                APSIM.Cells[3, 1].Locked = true;
+                APSIM.Cells[4, 1].Locked = true;
+                APSIM.Cells[5, 1].Locked = true;
+                APSIM.Cells[6, 1].Locked = true;
+                APSIM.Cells[7, 1].Locked = true;
+                APSIM.Cells[8, 1].Locked = true;
+                GridUtils.SetCellAsDouble(APSIM, 1, 1, MySoil.U);
+                GridUtils.SetCellAsDouble(APSIM, 1, 2, MySoil.Cona);
+                APSIM.Cells[3, 1].Text = "";
+                APSIM.Cells[4, 1].Text = "";
+                APSIM.Cells[5, 1].Text = "";
+                APSIM.Cells[6, 1].Text = "";
+                APSIM.Cells[7, 1].Text = "";
+                APSIM.Cells[8, 1].Text = "";
+                }
+            }
 
 		// ---------------------
 		// Save the APSIM grid
 		// ---------------------
 		private void SaveAPSIMGrid()
 			{
-			MySoil.U = GridUtils.GetCellAsDouble(APSIM, 1, 1);
-			MySoil.Cona = GridUtils.GetCellAsDouble(APSIM, 1, 2);
-			MySoil.Salb = GridUtils.GetCellAsDouble(APSIM, 1, 3);
-			MySoil.DiffusConst = GridUtils.GetCellAsDouble(APSIM, 1, 5);
-			MySoil.DiffusSlope = GridUtils.GetCellAsDouble(APSIM, 1, 6);
-			MySoil.CN2Bare = GridUtils.GetCellAsDouble(APSIM, 1, 8);
-			MySoil.CNRed = GridUtils.GetCellAsDouble(APSIM, 1, 9);
-			MySoil.CNCov = GridUtils.GetCellAsDouble(APSIM, 1, 10);
-			MySoil.RootCN = GridUtils.GetCellAsDouble(APSIM, 1, 12);
-			MySoil.RootWT = GridUtils.GetCellAsDouble(APSIM, 1, 13);
-			MySoil.SoilCN = GridUtils.GetCellAsDouble(APSIM, 1, 14);
-			MySoil.EnrACoeff = GridUtils.GetCellAsDouble(APSIM, 1, 16);
-			MySoil.EnrBCoeff = GridUtils.GetCellAsDouble(APSIM, 1, 17);
+            FarPoint.Win.Spread.CellType.ComboBoxCellType SummerWinterCombo = (FarPoint.Win.Spread.CellType.ComboBoxCellType)APSIM.Cells[0, 1].CellType;
+            if (APSIM.Cells[0, 1].Text == SummerWinterCombo.Items[0])
+                MySoil.SetUCona(GridUtils.GetCellAsDouble(APSIM, 1, 1), GridUtils.GetCellAsDouble(APSIM, 1, 2));
+            else
+                MySoil.SetSummerWinterUCona(GridUtils.GetCellAsDouble(APSIM, 1, 3), GridUtils.GetCellAsDouble(APSIM, 1, 4),
+                                            GridUtils.GetCellAsDouble(APSIM, 1, 4), GridUtils.GetCellAsDouble(APSIM, 1, 6),
+                                            APSIM.Cells[7, 1].Text, APSIM.Cells[8, 1].Text);
+                
+			MySoil.Salb = GridUtils.GetCellAsDouble(APSIM, 1, 9);
+			MySoil.DiffusConst = GridUtils.GetCellAsDouble(APSIM, 1, 11);
+			MySoil.DiffusSlope = GridUtils.GetCellAsDouble(APSIM, 1, 12);
+			MySoil.CN2Bare = GridUtils.GetCellAsDouble(APSIM, 1, 14);
+			MySoil.CNRed = GridUtils.GetCellAsDouble(APSIM, 1, 15);
+			MySoil.CNCov = GridUtils.GetCellAsDouble(APSIM, 1, 16);
+			MySoil.RootCN = GridUtils.GetCellAsDouble(APSIM, 1, 18);
+			MySoil.RootWT = GridUtils.GetCellAsDouble(APSIM, 1, 19);
+			MySoil.SoilCN = GridUtils.GetCellAsDouble(APSIM, 1, 20);
+			MySoil.EnrACoeff = GridUtils.GetCellAsDouble(APSIM, 1, 22);
+			MySoil.EnrBCoeff = GridUtils.GetCellAsDouble(APSIM, 1, 23);
 			}
 
 
@@ -1288,10 +1375,12 @@ namespace CSGeneral
 
 		private void APSIM_CellChanged(object sender, FarPoint.Win.Spread.SheetViewEventArgs e)
 			{
-			if (UserChange)
-				{
-				UserChange = false;
-				SaveAPSIMGrid();
+            if (UserChange)
+			    {
+                UserChange = false;
+                if (e.Row == 0)
+                    SetupConaU();
+                SaveAPSIMGrid();
 				UserChange = true;
 				}
 			}
@@ -1451,7 +1540,7 @@ namespace CSGeneral
             else if (e.Control == WaterChartControl.WaterChart)
                 {
                 Bitmap b = new Bitmap(e.Bounds.Width, e.Bounds.Height);
-                WaterChartControl.WaterChart.ImageExport.RenderToBitmap(b);
+                WaterChartControl.WaterChart.DrawToBitmap(b, e.Bounds);
                 e.Graphics.DrawImage(b, e.Bounds);
                 e.OwnerDrawn = true;
                 }
@@ -1520,7 +1609,117 @@ namespace CSGeneral
 				}
 			}
 
+        private void GetTextTip(object sender, FarPoint.Win.Spread.TextTipFetchEventArgs e)
+            {
+            e.ShowTip = false;
+            if (e.View.ActiveSheetIndex == 1)
+                {
+                if (e.Row < 3)
+                    {
+                    if (e.Column >= NUMBER_OF_STATIC_COLS)
+                        {
+                        if (Water.ColumnHeader.Cells[1, e.Column].Text == "LL")
+                            e.TipText = Water.ColumnHeader.Cells[0, e.Column].Text + ": Crop lower limit (mm water/mm soil)";
+                        else if (Water.ColumnHeader.Cells[1, e.Column].Text == "PAWC")
+                            e.TipText = Water.ColumnHeader.Cells[0, e.Column-1].Text + ": Calculated plant available water capacity (mm water/mm soil)";
+                        else if (Water.ColumnHeader.Cells[1, e.Column].Text == "KL")
+                            e.TipText = Water.ColumnHeader.Cells[0, e.Column-2].Text + ": Water extraction parameter (0-1)";
+                        else if (Water.ColumnHeader.Cells[1, e.Column].Text == "XF")
+                            e.TipText = Water.ColumnHeader.Cells[0, e.Column-3].Text + ": Root exploration parameter (0-1)";
+                        }
+                    else
+                        {
+                        switch (e.Column)
+                            {
+                            case (0): e.TipText = "Depth of layer (cm)"; break;
+                            case (1): e.TipText = "Bulk density (gm dry soil/cc moist soil)"; break;
+                            case (2): e.TipText = "Saturation (mm water/mm soil)"; break;
+                            case (3): e.TipText = "Drained upper limit (mm water/mm soil)"; break;
+                            case (4): e.TipText = "Air dry (mm water/mm soil)"; break;
+                            case (5): e.TipText = "Lower limit 15 bar (mm water/mm soil)"; break;
+                            }
+                        }
+                    e.ShowTip = true;
+                    }
+                }
+            else if (e.View.ActiveSheetIndex == 2)
+                {
+                if (e.Row < 2)
+                    {
+                    switch (e.Column)
+                        {
+                        case (0): e.TipText = "Depth of layer (cm)"; break;
+                        case (1): e.TipText = "Texture of soil"; break;
+                        case (2): e.TipText = "The proportion of soil water above dul that drains in one day (0-1)"; break;
+                        case (3): e.TipText = "A value of 0 indicates the layer is considered impermeable to ‘cascading' flow, hence water cascading down the soil profile will reach this layer and begin to back-up towards the surface. Drainage is still allowed through this layer unless ‘swcon' is also set to zero. (0-1)"; break;
+                        case (4): e.TipText = "Microbe fraction of humic pool (0-1)"; break;
+                        case (5): e.TipText = "Inert fraction of humic pool (0-1)"; break;
+                        case (6): e.TipText = "Soil Organic Carbon [Method = Walkley Black] (%)"; break;
+                        case (7): e.TipText = "Electrical conductivity (mS/cm or dS/m)"; break;
+                        case (8): e.TipText = "pH (Water or Calcium chloride)"; break;
+                        case (9): e.TipText = "Cloride (mg/kg)"; break;
+                        case (10): e.TipText = "Boron (mg/kg)"; break;
+                        case (11): e.TipText = "Cec (meq/100g or cmol+/kg)"; break;
+                        case (12): e.TipText = "Ca (meq/100g or cmol+/kg)"; break;
+                        case (13): e.TipText = "Mg (meq/100g or cmol+/kg)"; break;
+                        case (14): e.TipText = "Na (meq/100g or cmol+/kg)"; break;
+                        case (15): e.TipText = "K (meq/100g or cmol+/kg)"; break;
+                        case (16): e.TipText = "ESP (%)"; break;
+                        case (17): e.TipText = "Particle size sand (%)"; break;
+                        case (18): e.TipText = "Particle size silt (%)"; break;
+                        case (19): e.TipText = "Particle size clay (%)"; break;
+                        }
+                    e.ShowTip = true;
+                    }
+                }
+            else if (e.View.ActiveSheetIndex == 3)
+                {
+                if (e.Column == 0)
+                    {
+                    switch (e.Row)
+                        {
+                        case (0): e.TipText = "There are 2 ways of specifying U and Cona - single values for each or summer and winter values for each"; e.ShowTip = true; break;
+                        case (1): e.TipText = "U (as in CERES) is the amount of cumulative evaporation, since soil wetting, before soil supply becomes limiting - stage 1"; e.ShowTip = true; break;
+                        case (2): e.TipText = "Stage 2: Soil evaporation is a fraction of the square root of time since the end of first stage evaporation, using the regression coefficient CONA"; e.ShowTip = true; break;
+                        case (3): e.TipText = "U value to use in Summer"; e.ShowTip = true; break;
+                        case (4): e.TipText = "U value to use in Winter"; e.ShowTip = true; break;
+                        case (5): e.TipText = "Cona value to use in Summer"; e.ShowTip = true; break;
+                        case (6): e.TipText = "Cona value to use in Winter"; e.ShowTip = true; break;
+                        case (7): e.TipText = "The start date of summer (e.g. 15-sep)"; e.ShowTip = true; break;
+                        case (8): e.TipText = "The start date of winter (e.g. 15-apr)"; e.ShowTip = true; break;
+                        case (9): e.TipText = "Bare soil albedo"; e.ShowTip = true; break;
+                        case (11):
+                        case (12): e.TipText = "Diffusivity = diffus_const x exp(diffus_slope x thet_av)"; e.ShowTip = true; break;
+                        case (14): e.TipText = "Runoff curve number for BARE soil at AMC2"; e.ShowTip = true; break;
+                        case (15): e.TipText = "Reduction in CN2_bare for 'cn_cov' increase in cover"; e.ShowTip = true; break;
+                        case (16): e.TipText = "Frac. cover for 'cn_red' reduction in cover & max. cover for reduction"; e.ShowTip = true; break;
+                        case (18): e.TipText = "C:N ratio of initial root residues"; e.ShowTip = true; break;
+                        case (19): e.TipText = "Initial weight of root FOM in soil profile (kg/ha)"; e.ShowTip = true; break;
+                        case (20): e.TipText = "C:N ratio of the soil"; e.ShowTip = true; break;
+                        case (22):
+                        case (23): e.TipText = "enrichment ratio ENR = enr_a_coeff * (1000.0 * soil_loss)**(-1.0 * enr_b_coeff)"; e.ShowTip = true; break;
+                        }
+                    e.ShowTip = true;
+                    }
+                }
+            }
+
+        private void Grid_ActiveSheetChanged_1(object sender, EventArgs e)
+            {
+            PHButton.Enabled = (Grid.ActiveSheetIndex == 2);
+            }
+
+        private void PHButton_Click(object sender, EventArgs e)
+            {
+            if (SoilProfile.ColumnHeader.Cells[1, 8].Text == "(water)")
+                SoilProfile.ColumnHeader.Cells[1, 8].Text = "(CaCl)";
+            else
+                SoilProfile.ColumnHeader.Cells[1, 8].Text = "(water)";
+            SaveProfileGrid(8);
+            }
+
 	
 		}
+
 	}
 
