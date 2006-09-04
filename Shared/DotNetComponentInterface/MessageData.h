@@ -333,7 +333,7 @@ class WrapMemberInfo : public IEventData
 		 if (TypeString == "")
 			 {
 			 TypeString = Dummy.ddml();
-			 TypeString = TypeString.substr(0, TypeString.length()-2) + " units=\"" + Units + "\"/>";
+			 TypeString = TypeString.substr(0, TypeString.length()-2) + " unit=\"" + Units + "\"/>";
 			 }
          return TypeString.c_str();
          }
@@ -419,7 +419,7 @@ class WrapVariableAlias : public IData
 		 if (TypeString == "")
 			 {
 			 TypeString = Dummy->ddml();
-			 TypeString = TypeString.substr(0, TypeString.length()-2) + " units=\"" + Units + "\"/>";
+			 TypeString = TypeString.substr(0, TypeString.length()-2) + " unit=\"" + Units + "\"/>";
 			 }
  		 return TypeString.c_str();
          }
