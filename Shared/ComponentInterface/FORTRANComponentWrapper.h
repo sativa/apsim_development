@@ -19,7 +19,7 @@ static const char* logicalType = "<type kind=\"boolean\"/>";
 
 typedef EXPORT STDCALL void (Main_t)(const char* action, const char* data, unsigned actionLength, unsigned dataLength);
 typedef EXPORT STDCALL void (alloc_dealloc_instance_t)(const unsigned int* doAllocate);
-//typedef EXPORT STDCALL void (do_init1_t)(const char* sdml, unsigned int sdmlLength);
+typedef EXPORT STDCALL void (do_init1_t)();
 //typedef EXPORT STDCALL void (do_init2_t)(void);
 //typedef EXPORT STDCALL void (do_commence_t)(void);
 //typedef EXPORT STDCALL void (notify_termination_t)(void);
@@ -180,7 +180,7 @@ class FortranWrapper : public protocol::Component
                {
                insertPos--;
                buffer[insertPos] = 0;
-               strcat(buffer, " units=\"");
+               strcat(buffer, " unit=\"");
                strncat(buffer, units.f_str(), units.length());
                strcat(buffer, "\"/>");
                }
@@ -307,7 +307,7 @@ class FortranWrapper : public protocol::Component
       void *libraryHandle;
       Main_t *my_Main;
       alloc_dealloc_instance_t *my_alloc_dealloc_instance;
-      //do_init1_t *my_do_init1;
+      do_init1_t *my_do_init1;
       //do_init2_t *my_do_init2;
       //do_commence_t *my_do_commence;
       //notify_termination_t *my_notify_termination;

@@ -68,7 +68,7 @@ class EXPORT Type
          return protocol::memorySize(type);
          }
 
-      FString getUnits(void) const {return getAttribute("units");}
+      FString getUnits(void) const {return getAttribute("unit");}
       bool isArray(void) const {return (getAttribute("array") == "T");}
       void setArray(bool isArray);
       DataTypeCode getCode(void) const

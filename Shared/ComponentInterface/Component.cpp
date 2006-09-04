@@ -187,6 +187,7 @@ try {
                                  messageData >> querySetData;
                                  onQuerySetValueMessage(message->from, querySetData);
                                  break;}
+      case ReplySetValueSuccess:
       case NotifySetValueSuccess:{NotifySetValueSuccessData notifySetValueSuccess;
                                  messageData >> notifySetValueSuccess;
                                  setVariableSuccess = notifySetValueSuccess.success;
@@ -734,10 +735,10 @@ void Component::onQuerySetValueMessage(unsigned fromID, QuerySetValueData& query
          Reg->Data->Unpack(msg);
          }
       }
-   sendMessage(newNotifySetValueSuccessMessage
+   sendMessage(newReplySetValueSuccessMessage
                   (componentID,
-                   querySetData.replyToID,
-                   querySetData.replyID,
+                   fromID,
+                   currentMsgID,
                    ok));
    }
 // ------------------------------------------------------------------
@@ -1100,6 +1101,14 @@ std::string Component::getDescription()
             returnString += reg->getType();
             returnString += "</property>\n";
             }
+         else if (reg->getKind() == RegistrationType::respondToGetSet)
+            {
+            returnString += "   <property name=\"";
+            returnString += reg->getName();
+            returnString += "\" access=\"both\" init=\"F\">\n";
+            returnString += reg->getType();
+            returnString += "</property>\n";
+            }
 
 
          }
@@ -1242,11 +1251,11 @@ void Component::removeGettableVar(const char *systemName)
    //newend = getVarMap.remove_if(....??XXX
    //getVarMap.erase(newend, getVarMap.end());
    bool found = 1;
-   while (found) 
+   while (found)
       {
       UInt2InfoMap::iterator i;
-      for (i = getVarMap.begin();i != getVarMap.end();i++) 
+      for (i = getVarMap.begin();i != getVarMap.end();i++)
          if ((*i).second->name() == systemName) getVarMap.erase(i);  // and should probably deleteReg too..??
       if (i == getVarMap.end()) found = 0;
-      }   
+      }
    }

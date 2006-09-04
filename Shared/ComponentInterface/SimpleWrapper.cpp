@@ -56,3 +56,13 @@ extern "C" void EXPORT STDCALL getDescription(char* initScript, char* descriptio
    {
    getDescriptionInternal(initScript, description);
    }
+
+extern "C" void EXPORT STDCALL getDescriptionLength(char* initScript, int* length)
+//=======================================================================================
+// Return component description info.
+   {
+   char* buffer = new char[500000];
+   getDescriptionInternal(initScript, buffer);
+   *length = strlen(buffer);
+   delete [] buffer;
+   }

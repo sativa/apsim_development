@@ -8,7 +8,7 @@
       message.obj Type.obj TypeConverter.obj Variant.obj Variants.obj 
       MessageData.obj ApsimVariant.obj ArraySpecifier.obj Registrations.obj 
       RegistrationItem.obj ProtocolVector.obj datatypes.obj RegistrationType.obj 
-      EntryPoints.obj"/>
+      EntryPoints.obj Variable.obj VariableRef.obj"/>
     <RESFILES value="ComponentInterface.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -74,6 +74,8 @@
       <FILE FILENAME="..\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\bin.bcb\libxml2.lib" FORMNAME="" UNITNAME="libxml2.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="EntryPoints.cpp" FORMNAME="" UNITNAME="EntryPoints" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Variable.cpp" FORMNAME="" UNITNAME="Variable.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="VariableRef.cpp" FORMNAME="" UNITNAME="VariableRef.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -136,11 +138,11 @@ Item1=../../bin
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=d:\development\apsim\wheat\sample\wheat.sim
+RunParams=
 Launcher=
 UseLauncher=0
 DebugCWD=
-HostApplication=d:\development\bin\apsim.exe
+HostApplication=C:\Program Files\FarmWise\farmwise.exe
 RemoteHost=
 RemotePath=
 RemoteLauncher=

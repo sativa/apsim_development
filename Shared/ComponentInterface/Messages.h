@@ -231,6 +231,17 @@ inline Message* newNotifySetValueSuccessMessage(unsigned int from,
    messageData << ID << success;
    return msg;
    }
+inline Message* newReplySetValueSuccessMessage(unsigned int from,
+                                                unsigned int to,
+                                                unsigned int ID,
+                                                bool success)
+   {
+   Message* msg = constructMessage(ReplySetValueSuccess, from, to, false,
+                                   memorySize(ID) + memorySize(success));
+   MessageData messageData(msg);
+   messageData << ID << success;
+   return msg;
+   }
 // ---------------- NotifyTermination ---------------
 inline Message* newNotifyTerminationMessage(unsigned int from,
                                             unsigned int to)
@@ -314,28 +325,23 @@ inline Message* newQueryInfoMessage(unsigned int from,
 struct QuerySetValueData
    {
    unsigned int ID;
-   unsigned int replyToID;
-   unsigned int replyID;
    Variant variant;
    };
 inline MessageData& operator>> (MessageData& messageData, QuerySetValueData& data)
    {
-   messageData >> data.ID >> data.replyToID >> data.replyID >> data.variant;
+   messageData >> data.ID >> data.variant;
    return messageData;
    }
 inline Message* newQuerySetValueMessage(unsigned int from,
                                         unsigned int to,
                                         unsigned int ID,
-                                        unsigned int replytoID,
-                                        unsigned int replyID,
                                         Variant& variant)
    {
    Message* msg = constructMessage(QuerySetValue, from, to, false,
                                    memorySize(ID) +
-                                   memorySize(replytoID) + memorySize(replyID) +
                                    memorySize(variant));
    MessageData messageData(msg);
-   messageData << ID << replytoID << replyID << variant;
+   messageData << ID << variant;
    return msg;
    }
 // ------------ QueryValue ------------
