@@ -157,8 +157,11 @@ namespace CSGeneral
 		// ----------------------------------
 		public void SetUsingLayered(double[] sw)
 			{
-			Data.Clear();
-			setLayered("", "sw", sw, "f2");
+            if (sw.Length > 0)
+                {
+                Data.Clear();
+                setLayered("", "sw", sw);
+                }
 			}
 
 		}

@@ -26,7 +26,7 @@ namespace CSGeneral
 		public double[] NO3
 			{
 			get {return getLayered("InitNitrogen", "no3");}
-            set { setLayered("InitNitrogen", "no3", value, "f3"); }
+            set { setLayered("InitNitrogen", "no3", value); }
 			}
 
 		// ------------------------------------
@@ -35,7 +35,7 @@ namespace CSGeneral
 		public double[] NH4
 			{
 			get {return getLayered("InitNitrogen", "nh4");}
-            set { setLayered("InitNitrogen", "nh4", value, "f3"); }
+            set { setLayered("InitNitrogen", "nh4", value); }
 			}
 
 		// ------------------------------------
@@ -44,7 +44,7 @@ namespace CSGeneral
 		public double[] NO3KgHa
 			{
 			get {return ToKgHa(NO3);}
-            set { setLayered("InitNitrogen", "no3", ToPpm(value), "f3"); }
+            set { setLayered("InitNitrogen", "no3", ToPpm(value)); }
 			}
 
 		// ------------------------------------
@@ -53,7 +53,7 @@ namespace CSGeneral
 		public double[] NH4KgHa
 			{
 			get {return ToKgHa(NH4);}
-            set { setLayered("InitNitrogen", "nh4", ToPpm(value), "f3"); }
+            set { setLayered("InitNitrogen", "nh4", ToPpm(value)); }
 			}
 
 		// ------------------------------------

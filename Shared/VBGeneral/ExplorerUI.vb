@@ -139,9 +139,11 @@ Public Class ExplorerUI
                 MyCurrentUI.Controller = Controller
             ElseIf Not MyCurrentUI.Controller Is Controller Then
                 MyCurrentUI.Controller.AllData = Data
+                MyCurrentUI.Refresh()
+            Else
+                MyCurrentUI.Refresh()
             End If
             MyCurrentUI.Parent = UIPanel
-            MyCurrentUI.Refresh()
             MyCurrentUI.Dock = DockStyle.Fill
             MyCurrentUI.Show()
             Me.Visible = True

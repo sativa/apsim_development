@@ -80,7 +80,7 @@ namespace CSGeneral
 		// ---------------------------------------------------
 		// Get a column of values from the specified data table
 		// ---------------------------------------------------
-		static public double[] GetColumnAsDoubles(DataTable Table, string ColumnName, int NumValues)
+        static public double[] GetColumnAsDoubles(DataTable Table, string ColumnName, int NumValues)
 			{
 			double [] Values = new double[NumValues];
 			for (int Row = 0; Row != Table.Rows.Count && Row != NumValues; Row++)
@@ -88,7 +88,7 @@ namespace CSGeneral
 				if (Table.Rows[Row][ColumnName].ToString() == "")
 					Values[Row] = MathUtility.MissingValue;
 				else
-					Values[Row] = Convert.ToDouble(Table.Rows[Row][ColumnName]);
+                    Values[Row] = Convert.ToDouble(Table.Rows[Row][ColumnName]);
 				}
 			return Values;
 			}

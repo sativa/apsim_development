@@ -21,32 +21,37 @@ namespace CSGeneral
 		// -----------------------------------
 		// General soil descriptive properties
 		// -----------------------------------
-		public string Region
+        public string Name
+            {
+            get { return Data.Name; }
+            set { Data.Name = value; }
+            }
+        public string State
+            {
+            get { return GetStringValue("", "state"); }
+            set { SetValue("", "state", value); }
+            }
+        public string Region
 			{
 			get {return GetStringValue("", "region");}
 			set {SetValue("", "region", value);}
 			}
 
-		public string Site
+        public string NearestTown
+            {
+            get { return GetStringValue("", "nearesttown"); }
+            set { SetValue("", "nearesttown", value); }
+            }
+        public string Site
 			{
 			get {return GetStringValue("", "site");}
 			set {SetValue("", "site", value);}
 			}
 
-		public string Name
-			{
-			get {return Data.Name;}
-			set {Data.Name = value;}
-			}
 		public string Order
 			{
 			get {return GetStringValue("", "SoilType");}
 			set {SetValue("", "SoilType", value);}
-			}
-		public string NearestTown
-			{
-			get {return GetStringValue("", "nearesttown");}
-			set {SetValue("", "nearesttown", value);}
 			}
 		public string DataSource
 			{
@@ -106,207 +111,147 @@ namespace CSGeneral
 				return "";
 			}
 
-		// ---------------------------------------
-		// Methods to convert to from gravimetric
-		// and volumetric percent.
-		// ---------------------------------------
-		private double[] GetLayeredAsVol(string PropertyType, string PropertyName)
-			{
-			if (StoredWaterFormat == StoredWaterFormatType.VolumetricPercent)
-				return getLayered(PropertyType, PropertyName);
-			else
-				return MathUtility.Multiply(getLayered(PropertyType, PropertyName),
-											BD);
-			}
-		private double[] GetLayeredAsGrav(string PropertyType, string PropertyName)
-			{
-			if (StoredWaterFormat == StoredWaterFormatType.VolumetricPercent)
-				return MathUtility.Divide(getLayered(PropertyType, PropertyName),
-											BD);
-			else
-				return getLayered(PropertyType, PropertyName);
-			}
-
-		// ------------------------------------
-		// Layered soil properties.
-		// The water methods always return vol%
-		// unless otherwise named.
-		// ------------------------------------
-		public enum StoredWaterFormatType {VolumetricPercent, GravimetricPercent};
-		public StoredWaterFormatType StoredWaterFormat
-			{
-			get {
-				if (Data.get_ChildValue("WaterFormat") == "GravimetricPercent")
-					return StoredWaterFormatType.GravimetricPercent;
-				else
-                    return StoredWaterFormatType.VolumetricPercent;
-				}
-			}
-		private void SetStoredWaterFormat(StoredWaterFormatType WaterFormat)
-			{
-			if (WaterFormat == StoredWaterFormatType.GravimetricPercent)
-				Data.set_ChildValue("WaterFormat", "GravimetricPercent");
-			else
-				Data.set_ChildValue("WaterFormat", "VolumetricPercent");
-			}
 		public double[] LL15
 			{
-			get {return GetLayeredAsVol("water", "ll15");}
-			set {
-				SetStoredWaterFormat(StoredWaterFormatType.VolumetricPercent);
-				setLayered("water", "ll15", value, "f2");
-				}
-			}
-		public double[] LL15Grav
-			{
-			get {return GetLayeredAsGrav("water", "ll15");}
-			set {
-				SetStoredWaterFormat(StoredWaterFormatType.GravimetricPercent);
-                setLayered("water", "ll15", value, "f2");
-				}
+			get {return getLayered("water", "ll15");}
+			set {setLayered("water", "ll15", value);}
 			}
 		public double[] Airdry
 			{
-			get {return GetLayeredAsVol("water", "airdry");}
-			set {
-                setLayered("water", "airdry", value, "f2");
-				SetStoredWaterFormat(StoredWaterFormatType.VolumetricPercent);
-				}
-			}
-		public double[] AirdryGrav
-			{
-			get {return GetLayeredAsGrav("water", "airdry");}
-			set {
-                setLayered("water", "airdry", value, "f2");
-				SetStoredWaterFormat(StoredWaterFormatType.GravimetricPercent);
-				}
+            get { return getLayered("water", "airdry"); }
+			set { setLayered("water", "airdry", value);}
 			}
 		public double[] DUL
 			{
-			get {return GetLayeredAsVol("Water", "dul");}
-			set {
-                setLayered("Water", "dul", value, "f2");
-				SetStoredWaterFormat(StoredWaterFormatType.VolumetricPercent);
-				}
-			}
-		public double[] DULGrav
-			{
-			get {return GetLayeredAsGrav("Water", "dul");}
-			set {
-                setLayered("Water", "dul", value, "f2");
-				SetStoredWaterFormat(StoredWaterFormatType.GravimetricPercent);
-				}
+            get { return getLayered("Water", "dul"); }
+			set { setLayered("Water", "dul", value);}
 			}
 		public double[] SAT
 			{
-			get {return GetLayeredAsVol("water", "sat");}
-			set {
-                setLayered("Water", "sat", value, "f2");
-				SetStoredWaterFormat(StoredWaterFormatType.VolumetricPercent);
-				}
-			}
-		public double[] SATGrav
-			{
-			get {return GetLayeredAsGrav("water", "sat");}
-			set {
-                setLayered("Water", "sat", value, "f2");
-				SetStoredWaterFormat(StoredWaterFormatType.GravimetricPercent);
-				}
+            get { return getLayered("water", "sat"); }
+			set { setLayered("Water", "sat", value);}
 			}
 		public double[] BD
 			{
 			get {return getLayered("Water", "bd");}
-            set { setLayered("Water", "bd", value, "f3"); }
+            set { setLayered("Water", "bd", value); }
 			}
-		public double[] SWCON
+        public double[] Rocks
+            {
+            get { return getLayered("nitrogen", "Rocks"); }
+            set { setLayered("nitrogen", "Rocks", value); }
+            }
+        public double[] SWCON
 			{
 			get {return getLayered("Water", "swcon");}
-            set { setLayered("Water", "swcon", value, "f2"); }
+            set { setLayered("Water", "swcon", value); }
 			}
 		public double[] MWCON
 			{
 			get {return getLayered("Water", "mwcon");}
-            set { setLayered("Water", "mwcon", value, "f2"); }
+            set { setLayered("Water", "mwcon", value); }
 			}
 		public double[] FBIOM
 			{
 			get {return getLayered("nitrogen", "fbiom");}
-            set { setLayered("nitrogen", "fbiom", value, "f2"); }
+            set { setLayered("nitrogen", "fbiom", value); }
 			}
 		public double[] FINERT
 			{
 			get {return getLayered("nitrogen", "finert");}
-			set {setLayered("nitrogen", "finert", value, "f1");}
+			set {setLayered("nitrogen", "finert", value);}
 			}
 		public double[] OC
 			{
 			get {return getLayered("nitrogen", "oc");}
-            set { setLayered("nitrogen", "oc", value, "f2"); }
+            set {setLayered("nitrogen", "oc", value); }
 			}
-		public double[] PH
+        public bool PHStoredAsWater() { return (GetStringValue("nitrogen", "phunits") != "CaCl"); }
+        public double[] PH          // pH in water = (pH in CaCl X 1.1045) - 0.1375
 			{
-			get {return getLayered("nitrogen", "ph");}
-            set { setLayered("nitrogen", "ph", value, "f1"); }
+			get {
+                if (PHStoredAsWater())
+                    return getLayered("nitrogen", "ph");
+                else
+                    return MathUtility.Subtract_Value(MathUtility.Multiply_Value(getLayered("nitrogen", "ph"), 1.1045), 0.1375);
+                }
+            set {
+                SetValue("nitrogen", "phunits", "");
+                setLayered("nitrogen", "ph", value); 
+                }
 			}
+        public double[] PHCaCl         
+            {
+            get {
+                if (PHStoredAsWater())
+                    return MathUtility.Add_Value(MathUtility.Divide_Value(getLayered("nitrogen", "ph"), 1.1045), 0.1375);
+                else
+                    return getLayered("nitrogen", "ph");
+                }                  
+            set {
+                setLayered("nitrogen", "ph", value);
+                SetValue("nitrogen", "phunits", "CaCl");
+                }
+            }
 		public double[] EC
 			{
 			get {return getLayered("other", "ec");}
-            set { setLayered("other", "ec", value, "f1"); }
+            set { setLayered("other", "ec", value); }
 			}
 		public double[] CL
 			{
 			get {return getLayered("other", "cl");}
-            set { setLayered("other", "cl", value, "f1"); }
+            set { setLayered("other", "cl", value); }
 			}
 		public double[] Boron
 			{
 			get {return getLayered("other", "boron");}
-            set { setLayered("other", "boron", value, "f1"); }
+            set { setLayered("other", "boron", value); }
 			}
 		public double[] CEC
 			{
 			get {return getLayered("other", "cec");}
-            set { setLayered("other", "cec", value, "f1"); }
+            set { setLayered("other", "cec", value); }
 			}
 		public double[] Ca
 			{
 			get {return getLayered("other", "ca");}
-            set { setLayered("other", "ca", value, "f1"); }
+            set { setLayered("other", "ca", value); }
 			}
 		public double[] Mg
 			{
 			get {return getLayered("other", "Mg");}
-            set { setLayered("other", "Mg", value, "f1"); }
+            set { setLayered("other", "Mg", value); }
 			}
 		public double[] Na
 			{
 			get {return getLayered("other", "Na");}
-            set { setLayered("other", "Na", value, "f1"); }
+            set { setLayered("other", "Na", value); }
 			}
 		public double[] K
 			{
 			get {return getLayered("other", "K");}
-            set { setLayered("other", "K", value, "f1"); }
+            set { setLayered("other", "K", value); }
 			}
 		public double[] ESP
 			{
 			get {return getLayered("other", "esp");}
-            set { setLayered("other", "esp", value, "f1"); }
+            set { setLayered("other", "esp", value); }
 			}
 		public double[] ParticleSizeSand
 			{
 			get {return getLayered("other", "ParticleSizeSand");}
-            set { setLayered("other", "ParticleSizeSand", value, "f1"); }
+            set { setLayered("other", "ParticleSizeSand", value); }
 			}
 		public double[] ParticleSizeSilt
 			{
 			get {return getLayered("other", "ParticleSizeSilt");}
-            set { setLayered("other", "ParticleSizeSilt", value, "f1"); }
+            set { setLayered("other", "ParticleSizeSilt", value); }
 			}
 		public double[] ParticleSizeClay
 			{
 			get {return getLayered("other", "ParticleSizeClay");}
-            set { setLayered("other", "ParticleSizeClay", value, "f1"); }
+            set { setLayered("other", "ParticleSizeClay", value); }
 			}
         public string[] Texture
             {
@@ -316,22 +261,22 @@ namespace CSGeneral
 		public double[] LabileP
 			{
 			get {return getLayered("Phosphorus", "LabileP");}
-            set { setLayered("Phosphorus", "LabileP", value, "f1"); }
+            set { setLayered("Phosphorus", "LabileP", value); }
 			}
 		public double[] BandedP
 			{
 			get {return getLayered("Phosphorus", "BandedP");}
-            set { setLayered("Phosphorus", "BandedP", value, "f1"); }
+            set { setLayered("Phosphorus", "BandedP", value); }
 			}
 		public double[] RockP
 			{
 			get {return getLayered("Phosphorus", "RockP");}
-            set { setLayered("Phosphorus", "RockP", value, "f1"); }
+            set { setLayered("Phosphorus", "RockP", value); }
 			}
 		public double[] Sorption
 			{
 			get {return getLayered("Phosphorus", "Sorption");}
-            set { setLayered("Phosphorus", "Sorption", value, "f1"); }
+            set { setLayered("Phosphorus", "Sorption", value); }
 			}
 
 
@@ -368,16 +313,9 @@ namespace CSGeneral
 		public double[] LL(string CropName)
 			{
 			if (CropExists(CropName))
-				return GetLayeredAsVol(CropName, "ll");
+				return getLayered(CropName, "ll");
 			else
 				return PredictedLL(CropName);
-			}
-		public double[] LLGrav(string CropName)
-			{
-			if (CropExists(CropName))
-				return GetLayeredAsGrav(CropName, "ll");
-			else
-				return MathUtility.Divide(PredictedLL(CropName), BD);
 			}
 		public double[] KL(string CropName)
 			{
@@ -395,15 +333,9 @@ namespace CSGeneral
 			}
 		public void SetCrop(string CropName, double[] ll, double[] kl, double[] xf)
 			{
-			SetStoredWaterFormat(StoredWaterFormatType.VolumetricPercent);
-			setLayered("SoilCrop", CropName, "ll", ll, "f2");
-            setLayered("SoilCrop", CropName, "kl", kl, "f2");
-            setLayered("SoilCrop", CropName, "xf", xf, "f2");
-			}
-		public void SetCropGrav(string CropName, double[] ll, double[] kl, double[] xf)
-			{
-			SetCrop(CropName, ll, kl, xf);
-			SetStoredWaterFormat(StoredWaterFormatType.GravimetricPercent);
+			setLayered("SoilCrop", CropName, "ll", ll);
+            setLayered("SoilCrop", CropName, "kl", kl);
+            setLayered("SoilCrop", CropName, "xf", xf);
 			}
 		public void SetCropOrder(string[] CropNames)
 			{
@@ -560,13 +492,61 @@ namespace CSGeneral
 		public double U
 			{
 			get {return GetDoubleValue("Water", "U");}
-			set {SetValue("Water", "U", value);}
 			}
 		public double Cona
 			{
 			get {return GetDoubleValue("Water", "Cona");}
-			set {SetValue("Water", "Cona", value);}
 			}
+        public void SetUCona(double U, double Cona)
+            {
+            SetValue("Water", "Cona", Cona);
+            SetValue("Water", "U", U);
+            SetValue("Water", "SummerCona", "");
+            SetValue("Water", "WinterCona", "");
+            SetValue("Water", "SummerU", "");
+            SetValue("Water", "WinterU", "");
+            SetValue("Water", "SummerDate", "");
+            SetValue("Water", "WinterDate", "");
+            }
+
+        public void SetSummerWinterUCona(double SummerU, double WinterU, 
+                                         double SummerCona, double WinterCona,   
+                                         string SummerDate, string WinterDate)
+            {
+            SetValue("Water", "Cona", "");
+            SetValue("Water", "U", "");
+            SetValue("Water", "SummerCona", SummerCona);
+            SetValue("Water", "WinterCona", WinterCona);
+            SetValue("Water", "SummerU", SummerU);
+            SetValue("Water", "WinterU", WinterU);
+            SetValue("Water", "SummerDate", SummerDate);
+            SetValue("Water", "WinterDate", WinterDate);
+            }
+        public double WinterU
+            {
+            get { return GetDoubleValue("Water", "WinterU"); }
+            }
+        public double SummerU
+            {
+            get { return GetDoubleValue("Water", "SummerU"); }
+            }
+        public double WinterCona
+            {
+            get { return GetDoubleValue("Water", "WinterCona"); }
+            }
+        public double SummerCona
+            {
+            get { return GetDoubleValue("Water", "SummerCona"); }
+            }
+        public string WinterDate
+            {
+            get { return GetStringValue("Water", "WinterDate"); }
+            }
+        public string SummerDate
+            {
+            get { return GetStringValue("Water", "SummerDate"); }
+            }
+
 		public double Salb
 			{
 			get {return GetDoubleValue("Water", "Salb");}
@@ -707,75 +687,88 @@ namespace CSGeneral
 				"   cn2_bare     = [water.Cn2Bare]    ! bare soil runoff curve number\r\n"+
 				"   cn_red       = [water.CnRed]    ! potetial reduction in curve number due to residue\r\n"+
 				"   cn_cov       = [water.CnCov]   ! cover for maximum reduction in curve number\r\n"+
-				"   salb         = [water.Salb]  ! bare soil albedo\r\n"+
-				"   cona         = [water.Cona]   ! stage 2 evap coef.\r\n"+
-				"   u            = [water.U]     ! stage 1 soil evaporation coefficient (mm)\r\n"+
-				"\r\n"+
-				"   dlayer  =[foreach water.layer as Layer]  [Layer.thickness.3][endfor]   ! layer thickness mm soil\r\n"+
-				"   air_dry =[foreach water.layer as Layer]    [Layer.airdry.3][endfor]   ! air dry mm water/mm soil\r\n"+
-				"   ll15    =[foreach water.layer as Layer]    [Layer.ll15.3][endfor]   ! lower limit mm water/mm soil\r\n"+
-				"   dul     =[foreach water.layer as Layer]    [Layer.dul.3][endfor]   ! drained upper limit mm water/mm soil\r\n"+
-				"   sat     =[foreach water.layer as Layer]    [Layer.sat.3][endfor]   ! saturation mm water/mm soil\r\n"+
-				"   sw      =$SW$   ! starting soil water mm water/mm soil\r\n"+
-				"   swcon   =[foreach water.layer as Layer]    [Layer.swcon.3][endfor]   ! drainage coefficient\r\n"+
-				"   bd      =[foreach water.layer as Layer]    [Layer.bd.3][endfor]   ! bulk density gm dry soil/cc moist soil\r\n"+
-				"[if [water.1.mwcon] > 0]\r\n"+
-				"   mwcon   =[foreach water.layer as Layer]    [Layer.mwcon.3][endfor]   \r\n\r\n"+
-				"[endif]\r\n"+
-				"[endfor]\r\n"+//END OF WATER FOR LOOP
-				"\r\n"+
-				"[foreach Soil.SoilCrop as crop]\r\n"+
-				"[$SECTIONNAME$.[crop.name].parameters]\r\n"+//TITLE
-				"   [if [crop.predicted] = 'yes']"+
-				"   !These crop numbers are predicted\r\n"+
-				"   [endif]"+
-				"   ll      =[foreach crop.layer as Layer]\r\n      [Layer.ll.3][endfor]\r\n\r\n"+
-				"[if [crop.name] = ozcot]\r\n"+
-				"   Title = XXX\r\n"+
-				"   asoil = 3.0\r\n"+
-				"[else]\r\n"+
-				"   kl      =[foreach crop.layer as Layer]\r\n      [Layer.kl.3][endfor]\r\n\r\n"+
-				"   xf      =[foreach crop.layer as Layer]\r\n      [Layer.xf.3][endfor]\r\n\r\n"+
-				"[endif]\r\n"+
-				"[endfor]\r\n"+//END OF CROP FOR LOOP
-				"\r\n"+
-				"[$SECTIONNAME$.soiln2.parameters]\r\n"+//TITLE
-				"[foreach Soil.Nitrogen as nitrogen]\r\n"+
-				"   root_cn      = [nitrogen.rootcn]     ! C:N ratio of initial root residues\r\n"+
-				"   root_wt      = [nitrogen.rootwt]   ! root residues as biomass (kg/ha)\r\n"+
-				"   soil_cn      = [nitrogen.soilcn]   ! C:N ratio of soil\r\n"+
-				"   enr_a_coeff  = [nitrogen.enracoeff]\r\n"+
-				"   enr_b_coeff  = [nitrogen.enrbcoeff]\r\n"+
-				"   profile_reduction =  off\r\n"+
-				"\r\n"+
-				"   oc      =[foreach nitrogen.layer as Layer]\r\n      [Layer.oc.3][endfor]   ! Soil Organic Carbon\r\n"+
-				"   ph      =[foreach nitrogen.layer as Layer]\r\n      [Layer.ph.3][endfor]   ! pH of soil\r\n"+
-				"   fbiom   =[foreach nitrogen.layer as Layer]\r\n      [Layer.fbiom.3][endfor]   ! Organic C Biomass Fraction\r\n"+
-				"   finert  =[foreach nitrogen.layer as Layer]\r\n      [Layer.finert.3][endfor]   ! Inert Organic C Fraction\r\n"+
-				"   no3ppm  =$NO3$   ! Nitrate Concentration\r\n"+
-				"   nh4ppm  =$NH4$   ! Ammonium Concentration\r\n"+
-				"[endfor]\r\n"+//END OF NITROGEN FOR LOOP
-				"\r\n"+
-				"[foreach Soil.Phosphorus]\r\n"+
-				"[$SECTIONNAME$.soilp.parameters]\r\n"+
-				"   residue_cp         =  [phosphorus.residuecp]   () !c:p ratio of residues at initialisation\r\n"+
-				"   root_cp            =  [phosphorus.rootcp]      () !c:p ratio of roots at initialisation\r\n"+
-				"   rate_dissol_rock_P =  [phosphorus.RateDissolRock] (/yr)   !rate at which rock P source becomes available\r\n"+
-				"\r\n"+
-				"   labile_P  = [foreach phosphorus.layer]    [layer.labilep.3][endfor]   (mg/kg)\r\n"+
-				"   banded_P  = [foreach phosphorus.layer]    [layer.bandedP.3][endfor]   (kg/ha) ! banded p content for each layer\r\n"+
-				"   rock_P    = [foreach phosphorus.layer]    [layer.rockP.3][endfor]   (kg/ha)   !rock p content for each layer ie no water soluble\r\n"+
-				"   sorption  =[foreach phosphorus.layer]  [layer.sorption.3][endfor]   ()   !P sorbed at 0.2ppm\r\n"+
-				"[endfor]\r\n"+
-				"[endfile]\r\n\r\n";
+				"   salb         = [water.Salb]  ! bare soil albedo\r\n";
+            if (SummerCona != MathUtility.MissingValue)
+                {
+                Template += "   SummerCona   = [water.SummerCona]   ! stage 2 evap coef. for summer\r\n" +
+                            "   WinterCona   = [water.WinterCona]   ! stage 2 evap coef. for winter\r\n" +
+                            "   SummerU      = [water.SummerU]      ! stage 1 soil evaporation coefficient for summer (mm)\r\n" +
+                            "   WinterU      = [water.WinterU]      ! stage 1 soil evaporation coefficient for winter (mm)\r\n" +
+                            "   SummerDate   = [water.SummerDate]      ! Start date of summer\r\n" +
+                            "   WinterDate   = [water.WinterDate]      ! Start date of winter\r\n";
+                }
+            else
+                Template += "   cona         = [water.Cona]   ! stage 2 evap coef.\r\n" +
+                            "   u            = [water.U]     ! stage 1 soil evaporation coefficient (mm)\r\n";
+            Template +=
+                "\r\n" +
+                "   dlayer  =[foreach water.layer as Layer]  [Layer.thickness.3][endfor]   ! layer thickness mm soil\r\n" +
+                "   air_dry =[foreach water.layer as Layer]    [Layer.airdry.3][endfor]   ! air dry mm water/mm soil\r\n" +
+                "   ll15    =[foreach water.layer as Layer]    [Layer.ll15.3][endfor]   ! lower limit mm water/mm soil\r\n" +
+                "   dul     =[foreach water.layer as Layer]    [Layer.dul.3][endfor]   ! drained upper limit mm water/mm soil\r\n" +
+                "   sat     =[foreach water.layer as Layer]    [Layer.sat.3][endfor]   ! saturation mm water/mm soil\r\n" +
+                "   sw      =$SW$   ! starting soil water mm water/mm soil\r\n" +
+                "   swcon   =[foreach water.layer as Layer]    [Layer.swcon.3][endfor]   ! drainage coefficient\r\n" +
+                "   bd      =[foreach water.layer as Layer]    [Layer.bd.3][endfor]   ! bulk density gm dry soil/cc moist soil\r\n" +
+                "[if [water.1.mwcon] > 0]\r\n" +
+                "   mwcon   =[foreach water.layer as Layer]    [Layer.mwcon.3][endfor]   \r\n\r\n" +
+                "[endif]\r\n" +
+                "[endfor]\r\n" +//END OF WATER FOR LOOP
+                "\r\n" +
+                "[foreach Soil.SoilCrop as crop]\r\n" +
+                "[$SECTIONNAME$.[crop.name].parameters]\r\n" +//TITLE
+                "   [if [crop.predicted] = 'yes']" +
+                "   !These crop numbers are predicted\r\n" +
+                "   [endif]" +
+                "   ll      =[foreach crop.layer as Layer]\r\n      [Layer.ll.3][endfor]\r\n\r\n" +
+                "[if [crop.name] = ozcot]\r\n" +
+                "   Title = XXX\r\n" +
+                "   asoil = 3.0\r\n" +
+                "[else]\r\n" +
+                "   kl      =[foreach crop.layer as Layer]\r\n      [Layer.kl.3][endfor]\r\n\r\n" +
+                "   xf      =[foreach crop.layer as Layer]\r\n      [Layer.xf.3][endfor]\r\n\r\n" +
+                "[endif]\r\n" +
+                "[endfor]\r\n" +//END OF CROP FOR LOOP
+                "\r\n" +
+                "[$SECTIONNAME$.soiln2.parameters]\r\n" +//TITLE
+                "[foreach Soil.Nitrogen as nitrogen]\r\n" +
+                "   root_cn      = [nitrogen.rootcn]     ! C:N ratio of initial root residues\r\n" +
+                "   root_wt      = [nitrogen.rootwt]   ! root residues as biomass (kg/ha)\r\n" +
+                "   soil_cn      = [nitrogen.soilcn]   ! C:N ratio of soil\r\n" +
+                "   enr_a_coeff  = [nitrogen.enracoeff]\r\n" +
+                "   enr_b_coeff  = [nitrogen.enrbcoeff]\r\n" +
+                "   profile_reduction =  off\r\n" +
+                "\r\n" +
+                "   oc      =[foreach nitrogen.layer as Layer]\r\n      [Layer.oc.3][endfor]   ! Soil Organic Carbon\r\n" +
+                "   ph      =$PH$   ! pH of soil\r\n" +
+                "   fbiom   =[foreach nitrogen.layer as Layer]\r\n      [Layer.fbiom.3][endfor]   ! Organic C Biomass Fraction\r\n" +
+                "   finert  =[foreach nitrogen.layer as Layer]\r\n      [Layer.finert.3][endfor]   ! Inert Organic C Fraction\r\n" +
+                "   no3ppm  =$NO3$   ! Nitrate Concentration\r\n" +
+                "   nh4ppm  =$NH4$   ! Ammonium Concentration\r\n" +
+                "[endfor]\r\n" +//END OF NITROGEN FOR LOOP
+                "\r\n" +
+                "[foreach Soil.Phosphorus]\r\n" +
+                "[$SECTIONNAME$.soilp.parameters]\r\n" +
+                "   residue_cp         =  [phosphorus.residuecp]   () !c:p ratio of residues at initialisation\r\n" +
+                "   root_cp            =  [phosphorus.rootcp]      () !c:p ratio of roots at initialisation\r\n" +
+                "   rate_dissol_rock_P =  [phosphorus.RateDissolRock] (/yr)   !rate at which rock P source becomes available\r\n" +
+                "\r\n" +
+                "   labile_P  = [foreach phosphorus.layer]    [layer.labilep.3][endfor]   (mg/kg)\r\n" +
+                "   banded_P  = [foreach phosphorus.layer]    [layer.bandedP.3][endfor]   (kg/ha) ! banded p content for each layer\r\n" +
+                "   rock_P    = [foreach phosphorus.layer]    [layer.rockP.3][endfor]   (kg/ha)   !rock p content for each layer ie no water soluble\r\n" +
+                "   sorption  =[foreach phosphorus.layer]  [layer.sorption.3][endfor]   ()   !P sorbed at 0.2ppm\r\n" +
+                "[endfor]\r\n" +
+                "[endfile]\r\n\r\n";
 
 
 			string SWLine = "";
 			string NO3Line = "";
 			string NH4Line = "";
+            string PHLine = "";
 			double[] sw = InitialWater.SW;
 			double[] no3 = InitialNitrogen.NO3;
 			double[] nh4 = InitialNitrogen.NH4;
+            double[] ph = PH;
 
 			int NumLayers = Thickness.Length;
 			for (int i = 0; i != NumLayers; i++)
@@ -783,11 +776,13 @@ namespace CSGeneral
 				SWLine += "    " + sw[i].ToString("f3");
 				NO3Line += "      " + no3[i].ToString("f3");
 				NH4Line += "      " + nh4[i].ToString("f3");
+                PHLine += "      " + ph[i].ToString("f3");
 				}
 
 			Template = Template.Replace("$SW$", SWLine);
 			Template = Template.Replace("$NO3$", NO3Line);
 			Template = Template.Replace("$NH4$", NH4Line);
+            Template = Template.Replace("$PH$", PHLine);
 			Template = Template.Replace("$SECTIONNAME$", SectionName);
 
 			string szSoilFileTemplate = "[file " + Path.GetFileName(FileName) + "]\r\n" + Template;
@@ -800,19 +795,33 @@ namespace CSGeneral
 
 		public void ExportToSim(TextWriter Out)
 			{
-			string Template =
-				"[foreach soil.water]\r\n" +
-				"<component name=\"[soil.name] Water\" executable=\"%apsuite\\apsim\\soilwat2\\lib\\soilwat2.dll\">\r\n" +
-				"   <initdata>\r\n" +
+            string Template =
+                "[foreach soil.water]\r\n" +
+                "<component name=\"[soil.name] Water\" executable=\"%apsuite\\apsim\\soilwat2\\lib\\soilwat2.dll\">\r\n" +
+                "   <initdata>\r\n" +
                 "      <include>%apsuite\\apsim\\soilwat2\\soilwat2.ini</include>\r\n" +
-				"      <diffus_const>[water.DiffusConst]</diffus_const>\r\n" +
+                "      <diffus_const>[water.DiffusConst]</diffus_const>\r\n" +
                 "      <diffus_slope>[water.DiffusSlope]</diffus_slope>\r\n" +
                 "      <cn2_bare>[water.Cn2Bare]</cn2_bare>\r\n" +
                 "      <cn_red>[water.CnRed]</cn_red>\r\n" +
                 "      <cn_cov>[water.CnCov]</cn_cov>\r\n" +
-                "      <salb>[water.Salb]</salb>\r\n" +
+                "      <salb>[water.Salb]</salb>\r\n";
+            if (SummerCona != MathUtility.MissingValue)
+                {
+                Template +=
+                "      <SummerCona>[water.SummerCona]</SummerCona>\r\n" +
+                "      <WinterCona>[water.WinterCona]</WinterCona>\r\n" +
+                "      <SummerU>[water.SummerU]</SummerU>\r\n" +
+                "      <WinterU>[water.WinterU]</WinterU>\r\n" +
+                "      <SummerDate>[water.SummerDate]</SummerDate>\r\n" +
+                "      <WinterDate>[water.WinterDate]</WinterDate>\r\n";
+                }
+            else
+                Template +=
                 "      <cona>[water.Cona]</cona>\r\n" +
-                "      <u>[water.U]</u>\r\n" +
+                "      <u>[water.U]</u>\r\n";
+
+            Template +=
                 "      <dlayer> [foreach water.layer as l][l.thickness] [endfor] </dlayer>\r\n" +
                 "      <sat>[foreach water.layer as l][l.sat] [endfor]</sat>\r\n" +
                 "      <dul>[foreach water.layer as l][l.dul] [endfor]</dul>\r\n" +
@@ -831,6 +840,7 @@ namespace CSGeneral
 				"<component name=\"[soil.name] Nitrogen\" executable=\"%apsuite\\apsim\\soiln2\\lib\\soiln2.dll\">\r\n" +
 				"   <initdata>\r\n" +
                 "      <include>%apsuite\\apsim\\soiln2\\soiln2.ini</include>\r\n" +
+                "      <classification>[soil.classification]</classification>\r\n" +
                 "      <root_cn>[nitrogen.RootCN]</root_cn>\r\n" +
                 "      <root_wt>[nitrogen.RootWT]</root_wt>\r\n" +
                 "      <soil_cn>[nitrogen.SoilCN]</soil_cn>\r\n" +
@@ -838,9 +848,10 @@ namespace CSGeneral
                 "      <enr_b_coeff>[nitrogen.EnrBCoeff]</enr_b_coeff>\r\n" +
                 "      <profile_reduction>off</profile_reduction>\r\n" +
                 "      <oc>[foreach nitrogen.layer as l] [l.oc][endfor]</oc>\r\n" +
-                "      <ph>[foreach nitrogen.layer as l] [l.ph][endfor]</ph>\r\n" +
+                "      <ph>$PH$</ph>\r\n" +
                 "      <fbiom>[foreach nitrogen.layer as l] [l.fbiom][endfor]</fbiom>\r\n" +
                 "      <finert>[foreach nitrogen.layer as l] [l.finert][endfor]</finert>\r\n" +
+                "      <rocks>[foreach nitrogen.layer as l] [l.rocks][endfor]</finert>\r\n" +
                 "      <ureappm>0  0    0    0    0    0    0</ureappm>\r\n" +
                 "      <no3ppm>$NO3$</no3ppm>\r\n" +
                 "      <nh4ppm>$NH4$</nh4ppm>\r\n" +
@@ -867,9 +878,11 @@ namespace CSGeneral
 			string SWLine = "";
 			string NO3Line = "";
 			string NH4Line = "";
+            string PHLine = "";
 			double[] sw = InitialWater.SW;
 			double[] no3 = InitialNitrogen.NO3;
 			double[] nh4 = InitialNitrogen.NH4;
+            double[] ph = PH;
 
 			int NumLayers = Thickness.Length;
 			for (int i = 0; i != NumLayers; i++)
@@ -877,6 +890,7 @@ namespace CSGeneral
 				SWLine += "    " + sw[i].ToString("f3");
 				NO3Line += "      " + no3[i].ToString("f3");
 				NH4Line += "      " + nh4[i].ToString("f3");
+                PHLine += "      " + ph[i].ToString("f3");
 				}
 
 			try
@@ -884,7 +898,8 @@ namespace CSGeneral
 				Template = Template.Replace("$SW$", SWLine);
 				Template = Template.Replace("$NO3$", NO3Line);
 				Template = Template.Replace("$NH4$", NH4Line);
-				Macro SoilMacro = new Macro();
+                Template = Template.Replace("$PH$", PHLine);
+                Macro SoilMacro = new Macro();
 				Out.Write(SoilMacro.Go(Data, Template));
 				}
 			catch (Exception err)
@@ -969,9 +984,9 @@ namespace CSGeneral
 				if (OldNH4 != null && OldNH4.Length > 0)
 					InitialNitrogen.NH4 = OldNH4;
 				}
-            setLayered("water", "sw", new double[0], "f2");
-            setLayered("nitrogen", "no3", new double[0], "f3");
-            setLayered("nitrogen", "nh4", new double[0], "f3");
+            setLayered("water", "sw", new double[0]);
+            setLayered("nitrogen", "no3", new double[0]);
+            setLayered("nitrogen", "nh4", new double[0]);
 
 			// Look for missing crop names.
 			foreach (string Crop in Crops)
@@ -1008,8 +1023,6 @@ namespace CSGeneral
 			ErrorMessages += CheckForMissing(this.FINERT, "FINERT");
 			ErrorMessages += CheckForMissing(this.InitialNitrogen.NO3, "NO3");
 			ErrorMessages += CheckForMissing(this.InitialNitrogen.NH4, "NH4");
-			ErrorMessages += CheckForMissing(this.Cona, "CONA");
-			ErrorMessages += CheckForMissing(this.U, "U");
 			ErrorMessages += CheckForMissing(this.Salb, "SALB");
 			ErrorMessages += CheckForMissing(this.CN2Bare, "CN2BARE");
 			ErrorMessages += CheckForMissing(this.CNRed, "CNRED");
