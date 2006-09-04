@@ -17,7 +17,7 @@
 using namespace std;
 using namespace protocol;
 
-static const char* daysSinceLastReportType = "<type kind=\"integer4\" units=\"d\">";
+static const char* daysSinceLastReportType = "<type kind=\"integer4\" unit=\"d\">";
 static const char* stringArrayType = "<type kind=\"string\" array=\"T\">";
 // ------------------------------------------------------------------
 //  Short description:

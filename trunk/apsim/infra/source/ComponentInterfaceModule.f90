@@ -31,8 +31,16 @@ module ComponentInterfaceModule
       character (len=*), intent(in) :: alias
       character (len=*), intent(in) :: componentNameOrID
       integer                       :: add_registration
-
       end function add_registration
+
+      function add_registration_with_units(kind, name, typeString, units)
+      ml_external add_registration_with_units
+      integer, intent(in)           :: kind
+      character (len=*), intent(in) :: name
+      character (len=*), intent(in) :: typeString
+      character (len=*), intent(in) :: units
+      integer                       :: add_registration_with_units
+      end function add_registration_with_units
 
       subroutine fortran_error(msg, isFatal)
       ml_external fortran_error

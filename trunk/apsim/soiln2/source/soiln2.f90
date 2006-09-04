@@ -1,5 +1,6 @@
 module Soiln2Module
-   use Registrations
+   use DataTypes
+
 ! ====================================================================
 !      SoilN variables
 ! ====================================================================
@@ -298,6 +299,24 @@ module Soiln2Module
                                           ! mineralization (per day)
    end type Soiln2Constants
 ! ====================================================================
+   type IDsType
+      sequence
+      integer :: new_solute
+      integer :: n_balance
+      integer :: c_balance
+      integer :: actualresiduedecompositioncalculated
+      integer :: reset
+      integer :: sum_report
+      integer :: add_roots
+      integer :: incorp_fom
+      integer :: tick
+      integer :: newmet
+      integer :: potentialresiduedecompositioncalculated
+      integer :: freshorganicmatterincorporated
+      integer :: new_profile
+      integer :: process
+   end type IDsType
+
 
    ! instance variables.
    common /InstancePointers/ ID,g,p,c
@@ -401,7 +420,7 @@ subroutine soiln2_read_param ()
       ! Get parameter file name from control file and open it
    if (.not. g%use_external_st) then
       ! only need to read these if soil temp is not external
-      call get_real_var_optional ( unknown_module,'amp','(oC)',g%amp,numvals,0.0,50.0)
+      call get_real_var_optional ( unknown_module, 'amp','(oC)',g%amp,numvals,0.0,50.0)
 
       if (numvals .ne.1) then
          g%use_external_tav_amp = .false.
@@ -4667,10 +4686,6 @@ subroutine Main (action, data_string)
       call soiln2_notification()
       call soiln2_sum_report()
 
-   elseif (Action.eq.ACTION_Create) then
-      call doRegistrations(id)
-      call soiln2_zero_all_globals ()
-
    else
       ! Don't use message
       call message_unused ()
@@ -4680,6 +4695,127 @@ subroutine Main (action, data_string)
    call pop_routine (my_name)
    return
 end subroutine
+
+
+! ====================================================================
+! Do 1st stage initialisation
+! ====================================================================
+subroutine doInit1()
+   use Soiln2Module
+   Use infrastructure
+   implicit none
+   ml_external doInit1
+   integer dummy
+
+   ! events published
+   id%new_solute = add_registration(eventReg, 'new_solute', new_soluteTypeDDML, '', '')
+   id%n_balance = add_registration(eventReg, 'n_balance', n_balanceTypeDDML, '', '')
+   id%c_balance = add_registration(eventReg, 'c_balance', c_balanceTypeDDML, '', '')
+   id%actualresiduedecompositioncalculated = add_registration(eventReg, 'actualresiduedecompositioncalculated', SurfaceOrganicMatterDecompTypeDDML, '', '')
+
+   ! events subscribed to
+   id%process = add_registration(respondToEventReg, 'process', nullTypeDDML, '', '')
+   id%reset = add_registration(respondToEventReg, 'reset', nullTypeDDML, '', '')
+   id%sum_report = add_registration(respondToEventReg, 'sum_report', nullTypeDDML, '', '')
+   id%add_roots = add_registration(respondToEventReg, 'add_roots', incorp_fomTypeDDML, '', '')
+   id%incorp_fom = add_registration(respondToEventReg, 'incorp_fom', incorp_fomTypeDDML, '', '')
+   id%tick = add_registration(respondToEventReg, 'tick', timeTypeDDML, '', '')
+   id%newmet = add_registration(respondToEventReg, 'newmet', newmetTypeDDML, '', '')
+   id%potentialresiduedecompositioncalculated = add_registration(respondToEventReg, 'potentialresiduedecompositioncalculated', SurfaceOrganicMatterDecompTypeDDML, '', '')
+   id%freshorganicmatterincorporated = add_registration(respondToEventReg, 'freshorganicmatterincorporated', FPoolProfileLayerTypeDDML, '', '')
+   id%new_profile = add_registration(respondToEventReg, 'new_profile', new_profileTypeDDML, '', '')
+
+   ! variables we get from other modules.
+   dummy = add_registration_with_units(getVariableReg, 'amp', singleTypeDDML, 'oC')
+   dummy = add_registration_with_units(getVariableReg, 'tav', singleTypeDDML, 'oC')
+   dummy = add_registration_with_units(getVariableReg, 'sw_dep', singleArrayTypeDDML, 'mm')
+   dummy = add_registration_with_units(getVariableReg, 'dlayer', singleArrayTypeDDML, 'mm')
+   dummy = add_registration_with_units(getVariableReg, 'soil_loss', singleArrayTypeDDML, 't/ha')
+   dummy = add_registration_with_units(getVariableReg, 'ph', singleArrayTypeDDML, '')
+   dummy = add_registration_with_units(getVariableReg, 'sw_dep', singleArrayTypeDDML, 'mm')
+   dummy = add_registration_with_units(getVariableReg, 'ave_soil_temp', singleArrayTypeDDML, 'oC')
+   dummy = add_registration_with_units(getVariableReg, 'latitude', singleTypeDDML, 'degrees')
+   dummy = add_registration_with_units(getVariableReg, 'salb', singleTypeDDML, '')
+
+   ! variables we own and make available to other modules.
+   dummy = add_registration_with_units(respondToGetSetReg, 'no3', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_no3_net', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetSetReg, 'no3ppm', singleArrayTypeDDML, 'ppm')
+   dummy = add_registration_with_units(respondToGetReg, 'no3_min', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetSetReg, 'nh4', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_nh4_net', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetSetReg, 'nh4ppm', singleArrayTypeDDML, 'ppm')
+   dummy = add_registration_with_units(respondToGetReg, 'nh4_min', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetSetReg, 'urea', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_urea_hydrol', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'excess_nh4', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'fom_n', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'fom_n_pool1', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'fom_n_pool2', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'fom_n_pool3', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'hum_n', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'biom_n', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'fom_c', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'num_fom_types', integer4TypeDDML, '')
+   dummy = add_registration_with_units(respondToGetReg, 'fr_carb', singleTypeDDML, '')
+   dummy = add_registration_with_units(respondToGetReg, 'fr_cell', singleTypeDDML, '')
+   dummy = add_registration_with_units(respondToGetReg, 'fr_lign', singleTypeDDML, '')
+   dummy = add_registration_with_units(respondToGetReg, 'fom_c_pool1', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'fom_c_pool2', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'fom_c_pool3', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'hum_c', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'biom_c', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'carbon_tot', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'oc%', singleArrayTypeDDML, '%')
+   dummy = add_registration_with_units(respondToGetReg, 'nh4_transform_net', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'no3_transform_net', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_res_nh4_min', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_fom_n_min', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_biom_n_min', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_hum_n_min', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_res_no3_min', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_no3_dnit', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'nit_tot', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_n_min', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_n_min_res', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_n_min_tot', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dnit', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_c_loss_in_sed', singleTypeDDML, 'kg')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_n_loss_in_sed', singleTypeDDML, 'kg')
+   dummy = add_registration_with_units(respondToGetReg, 'st', singleArrayTypeDDML, 'oC')
+   dummy = add_registration_with_units(respondToGetSetReg, 'org_c_pool', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetSetReg, 'org_n', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_fom_c_hum', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_fom_c_biom', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_fom_c_atm', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_hum_c_biom', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_hum_c_atm', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_biom_c_hum', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_biom_c_atm', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_res_c_biom', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_res_c_hum', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_res_c_atm', singleTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_fom_c_pool1', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_fom_c_pool2', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'dlt_fom_c_pool3', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'soilp_dlt_res_c_atm', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'soilp_dlt_res_c_hum', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'soilp_dlt_res_c_biom', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToGetReg, 'soilp_dlt_org_p', singleArrayTypeDDML, 'kg/ha')
+
+   ! settable variables
+   dummy = add_registration_with_units(respondToSetReg, 'dlt_no3', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToSetReg, 'dlt_nh4', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToSetReg, 'dlt_no3ppm', singleArrayTypeDDML, 'ppm')
+   dummy = add_registration_with_units(respondToSetReg, 'dlt_nh4ppm', singleArrayTypeDDML, 'ppm')
+   dummy = add_registration_with_units(respondToSetReg, 'dlt_uread', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToSetReg, 'n_reduction', stringTypeDDML, '')
+   dummy = add_registration_with_units(respondToSetReg, 'dlt_org_n', singleArrayTypeDDML, 'kg/ha')
+   dummy = add_registration_with_units(respondToSetReg, 'dlt_org_c_pool', singleArrayTypeDDML, 'kg/ha')
+
+   call soiln2_zero_all_globals ()
+
+end subroutine doInit1
 
 ! ====================================================================
 ! This routine is the event handler for all events

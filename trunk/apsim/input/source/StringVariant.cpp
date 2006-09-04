@@ -147,7 +147,7 @@ void StringVariant::determineType(void)
          }
       }
    string units = splitOffBracketedValue(value->units, '(', ')');
-   typeString += " units=\"" + units + "\"";
+   typeString += " unit=\"" + units + "\"";
    typeString += "/>";
    }
 // ------------------------------------------------------------------
