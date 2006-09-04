@@ -91,7 +91,7 @@ void FortranWrapper::setupFortranDll(void)
 #ifdef __WIN32__
       my_Main = (Main_t*) GetProcAddress(libraryHandle, "Main");
       my_alloc_dealloc_instance = (alloc_dealloc_instance_t*) GetProcAddress(libraryHandle, "alloc_dealloc_instance");
-      //my_do_init1 = GetProcAddress(handle, "");
+      my_do_init1 = (do_init1_t*) GetProcAddress(libraryHandle, "doInit1");
       //my_do_init2 = GetProcAddress(handle, "");
       //my_do_commence = GetProcAddress(handle, "");
       //my_notify_termination = GetProcAddress(handle, "");
@@ -102,6 +102,7 @@ void FortranWrapper::setupFortranDll(void)
 #else
       my_Main = (Main_t*) dlsym(libraryHandle, "Main");
       my_alloc_dealloc_instance = (alloc_dealloc_instance_t*) dlsym(libraryHandle, "alloc_dealloc_instance");
+      my_do_init1 = (do_init1_t*) dlsym(libraryHandle, "doInit1");
       my_respondToEvent = (respondToEvent_t*) dlsym(libraryHandle, "respondToEvent");
 #endif
       }
@@ -168,7 +169,10 @@ void FortranWrapper::doInit1(const FString& sdml)
    FortranWrapper* savedThis = currentInstance;
    swapInstanceIn();
 
-   Main("create", "");
+   if (my_do_init1)
+      (*my_do_init1)();
+   else
+      Main("create", "");
 
    *instance = saved;
    currentInstance = savedThis;
@@ -274,6 +278,7 @@ void FortranWrapper::respondToEvent(unsigned int& fromID, unsigned int& eventID,
    if (!messageWasUsed)
       if (my_respondToEvent) {(*my_respondToEvent)(fromID, eventID, &var);}
 
+
    *instance = saved;
    currentInstance = savedThis;
    }
@@ -365,6 +370,40 @@ extern "C" unsigned  EXPORT STDCALL add_registration
        FString(componentNameOrID, componentNameOrIDLength, FORString));
    }
 
+string addUnitsToDDML(const string& ddml, const string& units)
+   {
+   string returnString = ddml;
+   unsigned pos = returnString.find("/>");
+   if (pos != string::npos)
+      returnString = returnString.substr(0, pos) + " unit=\"" + units + "\"/>";
+   return returnString;
+   }
+
+
+// ------------------------------------------------------------------
+//  Short description:
+//    add a registration to the system.  Return it's registration ID
+//    to caller.
+
+//  Notes:
+
+//  Changes:
+//    DPH 7/6/2001
+
+// ------------------------------------------------------------------
+extern "C" unsigned  EXPORT STDCALL add_registration_with_units
+   (RegistrationType* kind, const char* name, const char* type,
+    const char* units,
+    unsigned nameLength, unsigned typeLength, unsigned unitsLength)
+   {
+   string ddml = addUnitsToDDML(asString(FString(type, typeLength, FORString)),
+                                asString(FString(units, unitsLength, FORString)));
+   return FortranWrapper::currentInstance->addRegistration
+      (*kind, FString(name, nameLength, FORString),
+       protocol::Type(FString(ddml.c_str(), ddml.length(), CString)),
+       FString(""),
+       FString(""));
+   }
 // ------------------------------------------------------------------
 //  Short description:
 //     Called from FORTRAN to issue an error
