@@ -12,6 +12,7 @@
    </type>
 
    <type name="Error">
+      <field name="isFatal" kind="boolean"/>
       <field name="msg" kind="string"/>
    </type>
 

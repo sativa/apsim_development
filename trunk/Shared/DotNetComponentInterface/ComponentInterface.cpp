@@ -81,7 +81,8 @@ void ComponentComms::messageToLogic(ApsimComponent^ component,
 			case MessageType::Event:					onEventMessage(component, message); break;
 			case MessageType::ReturnValue:	
 			case MessageType::ReturnInfo:
-			case MessageType::NotifySetValueSuccess:	messages.push_back(new Message(message)); break;
+			case MessageType::NotifySetValueSuccess:
+			case MessageType::ReplySetValueSuccess:		messages.push_back(new Message(message)); break;
 			} 
 		}
 	catch (const error_has_already_occurred&)
@@ -240,6 +241,7 @@ void ComponentComms::error(const string& errorMessage, bool isFatal)
 
 	Error^ error = gcnew Error;
 	error->msg = gcnew String(msg.c_str());
+	error->isFatal = isFatal;
 	publish("error", WrapManaged<Error^>(error));
 	if (isFatal)
 		{
@@ -348,12 +350,11 @@ bool ComponentComms::setProperty(const std::string& propertyName,
 	data.pack(message);
 	sendMessage(message, parentID, false);
 	bool ok = false;
-	if (messages.size() == 1 && messages[0]->type() == MessageType::NotifySetValueSuccess)
+	if (messages.size() == 1 && (messages[0]->type() == MessageType::NotifySetValueSuccess || 
+								 messages[0]->type() == MessageType::ReplySetValueSuccess))
 		{
 		NotifySetValueSuccess notifySetValue;
 		notifySetValue.unpack(*messages[0]);
-		if (id != notifySetValue.id)
-			throw runtime_error("Invalid notifySetValueSuccess id");
 		ok = notifySetValue.success;
 		}
 	else if (messages.size() > 1)
@@ -431,10 +432,10 @@ void ComponentComms::onQuerySetValueMessage(ApsimComponent^ component, Message& 
 				
 		Message notifySetValueSuccessMessage = messageFactory.create(MessageType::NotifySetValueSuccess);
 		NotifySetValueSuccess notifySetValueSuccess;
-		notifySetValueSuccess.id = querySetValue.replyID;
+		notifySetValueSuccess.id = message.msgID();
 		notifySetValueSuccess.success = true;
 		notifySetValueSuccess.pack(notifySetValueSuccessMessage);
-		sendMessage(notifySetValueSuccessMessage, querySetValue.replyToID, false);
+		sendMessage(notifySetValueSuccessMessage, message.fromID(), false);
 		}
 	}
 

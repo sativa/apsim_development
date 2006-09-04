@@ -219,22 +219,16 @@ class QuerySetValue
    {
    public:
       int id;
-      int replyToID;
-      int replyID;
       std::string type;
       /*char* value;*/
       void pack(Message& message)
          {
          ApsimInteger4(id).pack(message);
-         ApsimInteger4(replyToID).pack(message);
-         ApsimInteger4(replyID).pack(message);
          ApsimString(type).pack(message);
          }
       void unpack(Message& message)
          {
          id = ApsimInteger4(message).value();
-         replyToID = ApsimInteger4(message).value();
-         replyID = ApsimInteger4(message).value();
          type = ApsimString(message).CValue();
          }
 
