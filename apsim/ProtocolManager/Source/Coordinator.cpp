@@ -650,11 +650,9 @@ void Coordinator::sendQuerySetValueMessage(unsigned ourComponentID,
          }
 
       else if (subs.size() == 1)
-         sendMessage(newQuerySetValueMessage(componentID,
+         sendMessage(newQuerySetValueMessage(foreignComponentID,
                                              subs[0].componentId,
                                              subs[0].id,
-                                             foreignComponentID,
-                                             foreignRegID,
                                              variant));
       else if (subs.size() > 1)
          {
@@ -904,8 +902,8 @@ void Coordinator::respondToGet(unsigned int& fromID, QueryValueData& queryValueD
 // ------------------------------------------------------------------
 bool Coordinator::respondToSet(unsigned int& fromID, QuerySetValueData& setValueData)
    {
-   sendQuerySetValueMessage(parentID, setValueData.replyToID,
-                            setValueData.ID, setValueData.replyID,
+   sendQuerySetValueMessage(parentID, fromID,
+                            setValueData.ID, setValueData.ID,
                             setValueData.variant);
    return getSetVariableSuccess();
    }

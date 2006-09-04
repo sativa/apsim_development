@@ -15,12 +15,12 @@
 
 # Main target
 source: ..\lib\soiln2.dll
-..\lib\soiln2.dll: Registrations.obj soiln2.obj $(STATICLINKEDOBJECTS)
+..\lib\soiln2.dll: soiln2.obj $(STATICLINKEDOBJECTS)
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
-	$(LF95) soiln2.obj Registrations.obj  \
- -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\soiln2.dll @linker.tmp
+	$(LF95) soiln2.obj  \
+ -export Main,wrapperDLL,doInit1,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\soiln2.dll @linker.tmp
 	$(RM) linker.tmp
 
 soiln2.obj: soiln2.f90
@@ -29,10 +29,6 @@ soiln2.obj: soiln2.f90
 	$(ECHO) $(F90MODS) >> compiler.tmp
 	$(LF95) -c soiln2.f90 @compiler.tmp
 	$(RM) compiler.tmp
-
-Registrations.obj: Registrations.f90
-Registrations.f90: ..\soiln2.interface
-	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\soiln2.interface
 
 clean:
 	$(RM) ..\lib\soiln2.dll Registrations.obj Registrations.f90 soiln2.obj soiln2.imp

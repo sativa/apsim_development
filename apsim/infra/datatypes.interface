@@ -310,8 +310,22 @@
 
    !!!!! SOLUTE types !!!!!
 
-   <type name="new_solute" description="To notify all interested modules in the ownership of solutes by an individual module">
-      <field name="solute_names" kind="string" array="T" description="List of new solute names added to simulation"/>
+   <type name="new_solute">
+      <field name="sender_name" kind="string"/>"
+      <field name="sender_numbytes" kind="integer4"/>"
+      <field name="sender_code" kind="integer4"/>"
+      <field name="sender_isarray" kind="boolean"/>"
+      <field name="sender_value" kind="string" />"
+      <field name="sender_id_name" kind="string"/>"
+      <field name="sender_id_numbytes" kind="integer4"/>"
+      <field name="sender_id_code" kind="integer4"/>"
+      <field name="sender_id_isarray" kind="boolean"/>"
+      <field name="sender_id_value" kind="integer4" />"
+      <field name="solute_names_name" kind="string"/>"
+      <field name="solute_names_numbytes" kind="integer4"/>"
+      <field name="solute_names_code" kind="integer4"/>"
+      <field name="solute_names_isarray" kind="boolean"/>"
+      <field name="solute_names_value" kind="string" array="T" />"
    </type>
    <type name="solute" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="1000.0" description="Solute concentration in layers"/>
    <type name="solute_ppm" kind="single" array="T" unit="mg/kg" description="Solute concentration(ppm) in layers"/>
@@ -1412,114 +1426,85 @@
 !
 !   !!!!! SOILN2  types  !!!!!!!!!!!!!!!!!!!!!!
 
-      <type name="dlt_no3_net" kind="single" array="T" unit="kg/ha" description="Net nitrate nitrogen"/>
-      <type name="no3ppm" kind="single" array="T" unit="ppm" lower_bound="0.0" upper_bound="300.0" description="Soil nitrate concentration"/>
-      <type name="dlt_no3ppm" kind="single" array="T" unit="ppm" description="Dlt_no3ppm"/>
-      <type name="nh4" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="1000.0" description="Ammonium nitrogen"/>
-      <type name="dlt_nh4_net" kind="single" array="T" unit="kg/ha" description="Net ammonium nitrogen"/>
-      <type name="nh4ppm" kind="single" array="T" unit="ppm" lower_bound="0.0" upper_bound="300.0" description="Soil ammonium concentration"/>
-      <type name="nh4_min" kind="single" array="T" unit="kg/ha" description="Minimum allowable nh4"/>
-      <type name="dlt_nh4" kind="single" array="T" unit="kg/ha" description="Dlt_nh4"/>
-      <type name="dlt_nh4ppm" kind="single" array="T" unit="ppm" description="Dlt_nh4ppm"/>
-      <type name="urea" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="1000.0" description="Urea nitrogen"/>
-      <type name="ureappm" kind="single" array="T" unit="ppm" lower_bound="0.0" upper_bound="600.0" description="Soil urea concentration"/>
-      <type name="dlt_urea" kind="single" array="T" unit="kg/ha" description="Dlt_urea"/>
-      <type name="fom_n" kind="single" array="T" unit="kg/ha" description="Nitrogen in fresh organic matter"/>
-      <type name="hum_n" kind="single" array="T" unit="kg/ha" description="Nitrogen in humus"/>
-      <type name="biom_n" kind="single" array="T" unit="kg/ha" description="Nitrogen in biomass"/>
-      <type name="fom_c" kind="single" array="T" unit="kg/ha" description="Fresh organic carbon"/>
-      <type name="hum_c" kind="single" array="T" unit="kg/ha" description="Humic carbon"/>
-      <type name="biom_c" kind="single" array="T" unit="kg/ha" description="Biomass carbon"/>
-      <type name="carbon_tot" kind="single" array="T" unit="kg/ha" description="Total carbon in soil"/>
-      <type name="ocpercent" kind="single" array="T" unit="kg/ha" lower_bound="0.01" upper_bound="4.0" description="Organic carbon concentration"/>
-      <type name="nit_tot" kind="single" array="T" unit="kg/ha" description="Total N in soil"/>
-      <type name="dlt_n_min" kind="single" array="T" unit="kg/ha" description="Net mineralisation"/>
-      <type name="dlt_n_min_res" kind="single" array="T" unit="kg/ha" description="Net mineralization of No3 and Nh4 from residue"/>
-      <type name="dlt_n_min_tot" kind="single" array="T" unit="kg/ha" description="Total N mineralization"/>
-      <type name="nh4_transform_net" kind="single" array="T" unit="kg/ha" description="Net NH4 transformation today"/>
-      <type name="dlt_res_nh4_min" kind="single" array="T" unit="kg/ha" description="Net Residue NH4 mineralisationn"/>
-      <type name="dlt_fom_n_min" kind="single" array="T" unit="kg/ha" description="Net fom N mineralized (negative for immobilization)"/>
-      <type name="dlt_biom_n_min" kind="single" array="T" unit="kg/ha" description="Net biomass N mineralized"/>
-      <type name="dlt_hum_n_min" kind="single" array="T" unit="kg/ha" description="Net humic N mineralized"/>
-      <type name="dlt_rntrf" kind="single" array="T" unit="kg/ha" description="Nitrogen moved by nitrification"/>
-      <type name="dlt_urea_hydrol" kind="single" array="T" unit="kg/ha" description="Nitrogen moved by hydrolysis"/>
-      <type name="excess_nh4" kind="single" array="T" unit="kg/ha" description="Excess N required above NH4 supply"/>
-      <type name="no3_transform_net" kind="single" array="T" unit="kg/ha" description="Net NO3 transformation today"/>
-      <type name="dlt_res_no3_min" kind="single" array="T" unit="kg/ha" description="Net Residue NO3 mineralisation"/>
-      <type name="dlt_no3_dnit" kind="single" array="T" unit="kg/ha" description="N denitrified"/>
-      <type name="dlt_c_loss_in_sed" kind="single" unit="kg/ha" description="Total C losses"/>
-      <type name="dlt_n_loss_in_sed" kind="single" unit="kg/ha" description="Total N losses"/>
-      <type name="org_c_pool" kind="single" array="T" unit="kg/ha" description="Organic carbon pool"/>
-      <type name="org_n" kind="single" array="T" unit="kg/ha" description="Organic nitrogen pool"/>
-      <type name="dlt_fom_c_hum" kind="single" array="T" unit="kg/ha" description="Fresh organic matter carbon from humis"/>
-      <type name="dlt_fom_c_biom" kind="single" array="T" unit="kg/ha" description="Fresh organic matter carbon from biomass"/>
-      <type name="dlt_fom_c_atm" kind="single" array="T" unit="kg/ha" description="Fresh organic matter carbon from atmosphere"/>
-      <type name="dlt_hum_c_biom" kind="single" array="T" unit="kg/ha" description="Humic carbon from biomass"/>
-      <type name="dlt_hum_c_atm" kind="single" array="T" unit="kg/ha" description="Humic carbon from atmosphere"/>
-      <type name="dlt_biom_c_hum" kind="single" array="T" unit="kg/ha" description="Biomass carbon from humus"/>
-      <type name="dlt_biom_c_atm" kind="single" array="T" unit="kg/ha" description="Biomass carbon from atmosphere"/>
-      <type name="dlt_res_c_biom" kind="single" array="T" unit="kg/ha" description="Residue carbon from biomass"/>
-      <type name="dlt_res_c_hum" kind="single" array="T" unit="kg/ha" description="Residue carbon from humus"/>
-      <type name="dlt_res_c_atm" kind="single" unit="kg/ha" description="Residue carbon from atmosphere"/>
-      <type name="amp" kind="single" unit="oC" lower_bound="0.0" upper_bound="50.0" description="Temperature amplitude - difference between highest and lowest mean monthly air temperatures"/>
-      <type name="tav" kind="single" unit="oC" lower_bound="0.0" upper_bound="50.0" description="Mean annual air temperature"/>
-      <type name="root_cn" kind="single" unit="" lower_bound="0.0" upper_bound="500.0" description="C:N ratio of initial root residues"/>
-      <type name="soil_cn" kind="single" unit="kg/ha" lower_bound="5.0" upper_bound="30.0" description="C:N ratio of the soil"/>
-      <type name="oc" kind="single" array="T" unit="%" lower_bound="0.01" upper_bound="4.0" description="Organic carbon"/>
-      <type name="ph" kind="single" array="T" unit="" lower_bound="3.5" upper_bound="10.0" description="Soil pH"/>
-      <type name="fbiom" kind="single" array="T" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Initial BIOM as proportion of non_inert C"/>
-      <type name="finert" kind="single" array="T" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Proportion of initial organic C assumed to be inert"/>
-      <type name="enr_a_coeff" kind="single" unit="" lower_bound="0.0" upper_bound="20.0" description="Enrichment equation coefficient"/>
-      <type name="enr_b_coeff" kind="single" unit="" lower_bound="0.0" upper_bound="20.0" description="Enrichment equation coefficient"/>
-      <type name="mcn" kind="single" unit="" lower_bound="1.0" upper_bound="50.0" description="C:N ratio of microbes"/>
-      <type name="ef_fom" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Fraction of fresh organic matter C mineralized retained in system"/>
-      <type name="fr_fom_biom" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Fraction of retained fresh organic matter C transferred to biomass"/>
-      <type name="ef_biom" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Fraction of biomass C mineralized retained in the system"/>
-      <type name="fr_biom_biom" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Fraction of retained biomass C returned to biomass"/>
-      <type name="ef_hum" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Fraction of humic C mineralized retained in system"/>
-      <type name="rd_biom" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Potential rate of soil biomass mineralization"/>
-      <type name="rd_hum" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Potential rate of humus mineralization"/>
-      <type name="ef_res" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Fraction of residue C mineralized retained in the system"/>
-      <type name="fr_res_biom" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Fraction of retained residue C transferred to biomass"/>
-      <type name="rd_carb" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Maximum rate constant for decomposition of fresh organic matter pools"/>
-      <type name="rd_cell" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Maximum rate constant for decomposition of fresh organic matter pools"/>
-      <type name="rd_lign" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Maximum rate constant for decomposition of fresh organic matter pools"/>
-      <type name="fom_type" kind="string" array="T" unit="" description="List of fresh organic types"/>
-      <type name="fr_carb" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="Carbohydrate cellulose and libnin fractions of FOM"/>
-      <type name="fr_cell" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="Carbohydrate cellulose and libnin fractions of FOM"/>
-      <type name="fr_lign" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="Carbohydrate cellulose and libnin fractions of FOM"/>
-      <type name="oc2om_factor" kind="single" unit="" lower_bound="0.0" upper_bound="3.0" description="Oc2om_factor"/>
-      <type name="fom_min" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Minimum allowable fresh organic matter"/>
-      <type name="no3ppm_min" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Minimum allowable NO3 ppm"/>
-      <type name="nh4ppm_min" kind="single" unit="" lower_bound="0.0" upper_bound="1.0" description="Minimum allowable NH4 ppm"/>
-      <type name="min_depth" kind="single" unit="mm" lower_bound="0.0" upper_bound="1000.0" description="Depth from which mineral N can be immobilized by decomposing residues"/>
-      <type name="wfmin_index" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="2.0" description="Index specifying water content for water factor for mineralisation"/>
-      <type name="wfmin_values" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="Value of water factor (mineralisation) function at given index values"/>
-      <type name="wfnit_index" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="2.0" description="Index specifying water content for water factor for nitrification"/>
-      <type name="wfnit_values" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="1.0" description="Value of water factor (nitrification) function at given index values"/>
-      <type name="nitrification_pot" kind="single" unit="ppm" lower_bound="0.0" upper_bound="100.0" description="Potential nitrification by soil"/>
-      <type name="nh4_at_half_pot" kind="single" unit="ppm" lower_bound="0.0" upper_bound="200.0" description="Nh4 concentration at half potential"/>
-      <type name="phf_nit_ph" kind="single" array="T" unit="" lower_bound="0.0" upper_bound="14.0" description="PH values for specifying pH factor for nitrification"/>
-      <type name="phf_nit_values" kind="single" array="T" unit="0-1" lower_bound="0.0" upper_bound="1.0" description="Value of pH factor (nitrification) function for given pH values"/>
-      <type name="dnit_rate_coeff" kind="single" unit="kg/mg" lower_bound="0.0" upper_bound="1.0" description="Dnit_rate_coeff"/>
-      <type name="dnit_wf_power" kind="single" unit="" lower_bound="0.0" upper_bound="5.0" description="Dnit_wf_power"/>
-      <type name="n_reduction" kind="string" unit="" description="N_reduction"/>
-      <type name="dlt_org_n" kind="single" array="T" unit="" description="Dlt_org_n"/>
-      <type name="dlt_org_c_pool" kind="single" array="T" unit="" description="Dlt_org_c_pool"/>
-      <type name="fom_n_pool1" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="5000.0" description="Fresh Organic Matter Nitrogen in the Carbohydrate pool"/>
-      <type name="fom_n_pool2" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="5000.0" description="Fresh Organic Matter Nitrogen in the Cellulose pool"/>
-      <type name="fom_n_pool3" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="5000.0" description="Fresh Organic Matter Nitrogen in the Lignin pool"/>
-      <type name="num_fom_types" kind="integer4" unit="" lower_bound="0" upper_bound="20" description="Number of fresh organic matter types"/>
-      <type name="fom_c_pool1" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="5000.0" description="Fresh Organic Matter Carbon in the Carbohydrate pool"/>
-      <type name="fom_c_pool2" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="5000.0" description="Fresh Organic Matter Carbon in the Cellulose pool"/>
-      <type name="fom_c_pool3" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="5000.0" description="Fresh Organic Matter Carbon in the Lignin pool"/>
-      <type name="dlt_fom_c_pool1" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="5000.0" description="Change in Fresh Organic Matter Carbon in the Carbohydrate pool"/>
-      <type name="dlt_fom_c_pool2" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="5000.0" description="Change in Fresh Organic Matter Carbon in the Cellulose pool"/>
-      <type name="dlt_fom_c_pool3" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="5000.0" description="Change in Fresh Organic Matter Carbon in the Lignin pool"/>
-      <type name="dlt_org_c_pool1" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="5000.0" description="Change in Organic Matter Carbon in the Carbohydrate pool"/>
-      <type name="dlt_org_c_pool2" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="5000.0" description="Change in Organic Matter Carbon in the Cellulose pool"/>
-      <type name="dlt_org_c_pool3" kind="single" array="T" unit="kg/ha" lower_bound="0.0" upper_bound="5000.0" description="Change in Organic Matter Carbon in the Lignin pool"/>
+      <type name="n_balance" description="Notification of the completion of the soil N calculations">
+         <field name="sender_name" kind="string"/>"
+         <field name="sender_numbytes" kind="integer4"/>"
+         <field name="sender_code" kind="integer4"/>"
+         <field name="sender_isarray" kind="boolean"/>"
+         <field name="sender_value" kind="string" />"
+         <field name="sender_id_name" kind="string"/>"
+         <field name="sender_id_numbytes" kind="integer4"/>"
+         <field name="sender_id_code" kind="integer4"/>"
+         <field name="sender_id_isarray" kind="boolean"/>"
+         <field name="sender_id_value" kind="integer4" />"
+         <field name="nh4_transform_net_name" kind="string"/>"
+         <field name="nh4_transform_net_numbytes" kind="integer4"/>"
+         <field name="nh4_transform_net_code" kind="integer4"/>"
+         <field name="nh4_transform_net_isarray" kind="boolean"/>"
+         <field name="nh4_transform_net_value" kind="single" array="T" />"
+         <field name="no3_transform_net_name" kind="string"/>"
+         <field name="no3_transform_net_numbytes" kind="integer4"/>"
+         <field name="no3_transform_net_code" kind="integer4"/>"
+         <field name="no3_transform_net_isarray" kind="boolean"/>"
+         <field name="no3_transform_net_value" kind="single" array="T" />"
+         <field name="dlt_nh4_net_name" kind="string"/>"
+         <field name="dlt_nh4_net_numbytes" kind="integer4"/>"
+         <field name="dlt_nh4_net_code" kind="integer4"/>"
+         <field name="dlt_nh4_net_isarray" kind="boolean"/>"
+         <field name="dlt_nh4_net_value" kind="single" array="T" />"
+         <field name="dlt_no3_net_name" kind="string"/>"
+         <field name="dlt_no3_net_numbytes" kind="integer4"/>"
+         <field name="dlt_no3_net_code" kind="integer4"/>"
+         <field name="dlt_no3_net_isarray" kind="boolean"/>"
+         <field name="dlt_no3_net_value" kind="single" array="T" />"
+      </type>
+      <type name="c_balance" description="Notification of the completion of the soil C calculations">
+         <field name="sender_name" kind="string"/>"
+         <field name="sender_numbytes" kind="integer4"/>"
+         <field name="sender_code" kind="integer4"/>"
+         <field name="sender_isarray" kind="boolean"/>"
+         <field name="sender_value" kind="string" />"
+         <field name="sender_id_name" kind="string"/>"
+         <field name="sender_id_numbytes" kind="integer4"/>"
+         <field name="sender_id_code" kind="integer4"/>"
+         <field name="sender_id_isarray" kind="boolean"/>"
+         <field name="sender_id_value" kind="integer4" />"
+         <field name="dlt_oc_name" kind="string"/>"
+         <field name="dlt_oc_numbytes" kind="integer4"/>"
+         <field name="dlt_oc_code" kind="integer4"/>"
+         <field name="dlt_oc_isarray" kind="boolean"/>"
+         <field name="dlt_oc_value" kind="single" array="T" />"
+         <field name="dlt_om_name" kind="string"/>"
+         <field name="dlt_om_numbytes" kind="integer4"/>"
+         <field name="dlt_om_code" kind="integer4"/>"
+         <field name="dlt_om_isarray" kind="boolean"/>"
+         <field name="dlt_om_value" kind="single" array="T" />"
+      </type>
+      <type name="incorp_fom">
+         <field name="dlt_fom_type_name" kind="string"/>"
+         <field name="dlt_fom_type_numbytes" kind="integer4"/>"
+         <field name="dlt_fom_type_code" kind="integer4"/>"
+         <field name="dlt_fom_type_isarray" kind="boolean"/>"
+         <field name="dlt_fom_type_value" kind="string"/>"
 
+         <field name="dlt_fom_wt_name" kind="string"/>"
+         <field name="dlt_fom_wt_numbytes" kind="integer4"/>"
+         <field name="dlt_fom_wt_code" kind="integer4"/>"
+         <field name="dlt_fom_wt_isarray" kind="boolean"/>"
+         <field name="dlt_fom_wt_value" kind="single" array="T" />"
+
+         <field name="dlt_fom_n_name" kind="string"/>"
+         <field name="dlt_fom_n_numbytes" kind="integer4"/>"
+         <field name="dlt_fom_n_code" kind="integer4"/>"
+         <field name="dlt_fom_n_isarray" kind="boolean"/>"
+         <field name="dlt_fom_n_value" kind="single" array="T" />"
+
+         <field name="dlt_fom_p_name" kind="string"/>"
+         <field name="dlt_fom_p_numbytes" kind="integer4"/>"
+         <field name="dlt_fom_p_code" kind="integer4"/>"
+         <field name="dlt_fom_p_isarray" kind="boolean"/>"
+         <field name="dlt_fom_p_value" kind="single" array="T" />"
+      </type>
 
       !dsg 030702
    <type name="SoilOrganicMatter">
@@ -1599,17 +1584,45 @@
          <field name="fraction_to_residue" kind="single" array="T"/>
       </type>
       <type name="new_profile">
-         <field name="dlayer" kind="single" array="T"/>
-         <field name="ll15_dep" kind="single" array="T"/>
-         <field name="dul_dep" kind="single" array="T"/>
-         <field name="sat_dep" kind="single" array="T"/>
-         <field name="sw_dep" kind="single" array="T"/>
-         <field name="bd" kind="single" array="T"/>
+         <field name="dlayer_name" kind="string"/>"
+         <field name="dlayer_numbytes" kind="integer4"/>"
+         <field name="dlayer_code" kind="integer4"/>"
+         <field name="dlayer_isarray" kind="boolean"/>"
+         <field name="dlayer_value" kind="single" array="T" />"
+
+         <field name="ll15_dep_name" kind="string"/>"
+         <field name="ll15_dep_numbytes" kind="integer4"/>"
+         <field name="ll15_dep_code" kind="integer4"/>"
+         <field name="ll15_dep_isarray" kind="boolean"/>"
+         <field name="ll15_dep_value" kind="single" array="T" />"
+
+         <field name="dul_dep_name" kind="string"/>"
+         <field name="dul_dep_numbytes" kind="integer4"/>"
+         <field name="dul_dep_code" kind="integer4"/>"
+         <field name="dul_dep_isarray" kind="boolean"/>"
+         <field name="dul_dep_value" kind="single" array="T" />"
+
+         <field name="sat_dep_name" kind="string"/>"
+         <field name="sat_dep_numbytes" kind="integer4"/>"
+         <field name="sat_dep_code" kind="integer4"/>"
+         <field name="sat_dep_isarray" kind="boolean"/>"
+         <field name="sat_dep_value" kind="single" array="T" />"
+
+         <field name="sw_dep_name" kind="string"/>"
+         <field name="sw_dep_numbytes" kind="integer4"/>"
+         <field name="sw_dep_code" kind="integer4"/>"
+         <field name="sw_dep_isarray" kind="boolean"/>"
+         <field name="sw_dep_value" kind="single" array="T" />"
+
+         <field name="bd_name" kind="string"/>"
+         <field name="bd_numbytes" kind="integer4"/>"
+         <field name="bd_code" kind="integer4"/>"
+         <field name="bd_isarray" kind="boolean"/>"
+         <field name="bd_value" kind="single" array="T" />"
       </type>
 
 ! dsg 041202  ALL 'OLD' APSIM 2.2 EVENTS AND METHODS
 
-      <type name="incorp_fom" kind="????" unit="" description="Message to report a residue decomposition"/>
       <type name="tick" kind="????" unit="" description="Change in the simulation system time and the duration of the new time step"/>
       <type name="newmet" kind="????" unit="" description="To notify all interested modules in a change in the simulation met data for the current time step"/>
       <type name="prepare" kind="????" unit="" description="Message to prepare for process"/>
@@ -1625,7 +1638,6 @@
       <type name="reset" kind="????" unit="" description="System reset stage"/>
       <type name="sum_report" kind="????" unit="" description="Report SoilWat module summary details"/>
       <type name="tillage" kind="????" unit="" description="Set up for CN reduction after tillage operation"/>
-      <type name="new_solute" kind="????" unit="" description="To notify all interested modules in the ownership of solutes by an individual module"/>
       <type name="irrigated" kind="????" unit="" description="To notify all interested modules in an irrigation application which may/maynot include solutes"/>
       <type name="Demofile" kind="????" unit="" description="Demo file name"/>
       <type name="fertilize" kind="????" unit="" description="Message from manager to module fertiliz"/>
@@ -1641,8 +1653,6 @@
       <type name="decomposed" kind="????" unit="" description="Message to report a residue decomposition"/>
       <type name="stop_growth" kind="????" unit="" description="Message from manager to module millet"/>
       <type name="initiate_crop" kind="????" unit="" description="Message for a crop to be initiated"/>
-      <type name="n_balanceType" kind="????" unit="" description="To notify all interested modules in the completion of the soil N calculations"/>
-      <type name="c_balanceType" kind="????" unit="" description="To notify all interested modules in the completion of the soil C calculations"/>
       <type name="residue_addedType" kind="????" unit="" description="To notify all interested modules of the addition of residue to the residue pool"/>
       <type name="residue_removedType" kind="????" unit="" description="To notify all interested modules of the removal of residue from the residue pool"/>
       <type name="hill_up" kind="????" unit="" description="Perform Sugar Hillup"/>
