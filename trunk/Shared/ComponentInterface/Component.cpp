@@ -1015,7 +1015,7 @@ unsigned int Component::getReg(const char *systemName,
    } else {
        strcat(buffer, "F");
    }
-   strcat(buffer, "\" units=\"(");
+   strcat(buffer, "\" unit=\"(");
    strcat(buffer, units);
    strcat(buffer, ")\"/>");
    return this->addRegistration(RegistrationType::respondToGet, systemName, buffer);
@@ -1185,7 +1185,7 @@ void Component::SubscribeToEvent(const std::string& Name, const INamedData& Even
 
 void AddAttributeToXML(string& XML, const string& Attribute)
    // -------------------------------------------------------------
-   // Add an attribute (e.g. units="g/m2") to the end of an
+   // Add an attribute (e.g. unit="g/m2") to the end of an
    // xml string (e.g. "<type name="biomass"/>)
    {
    unsigned PosEnd = XML.rfind("/>");
@@ -1208,7 +1208,7 @@ void Component::RegisterWithPM(const string& Name, const string& Units,
    NewRegistration->DDML = Data->DDML();
    NewRegistration->Data = Data;
    if (Units != "")
-      AddAttributeToXML(NewRegistration->DDML, "units=\"" + Units + "\"");
+      AddAttributeToXML(NewRegistration->DDML, "unit=\"" + Units + "\"");
    if (Description != "")
       AddAttributeToXML(NewRegistration->DDML, "description=\"" + Description + "\"");
 
