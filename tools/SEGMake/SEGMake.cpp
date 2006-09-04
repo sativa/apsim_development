@@ -8,6 +8,7 @@
 #include <general\string_functions.h>
 #include <general\io_functions.h>
 #include <general\path.h>
+#include <dir.h>
 #include <general\exec.h>
 using namespace std;
 
