@@ -851,7 +851,7 @@ namespace CSGeneral
                 "      <ph>$PH$</ph>\r\n" +
                 "      <fbiom>[foreach nitrogen.layer as l] [l.fbiom][endfor]</fbiom>\r\n" +
                 "      <finert>[foreach nitrogen.layer as l] [l.finert][endfor]</finert>\r\n" +
-                "      <rocks>[foreach nitrogen.layer as l] [l.rocks][endfor]</finert>\r\n" +
+                "      <rocks>[foreach nitrogen.layer as l] [l.rocks][endfor]</rocks>\r\n" +
                 "      <ureappm>0  0    0    0    0    0    0</ureappm>\r\n" +
                 "      <no3ppm>$NO3$</no3ppm>\r\n" +
                 "      <nh4ppm>$NH4$</nh4ppm>\r\n" +
