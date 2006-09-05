@@ -8,7 +8,7 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("VBGeneral")> 
+<Assembly: AssemblyTitle("Slurp")> 
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("APSRU")> 
 <Assembly: AssemblyProduct("VBGeneral")> 
