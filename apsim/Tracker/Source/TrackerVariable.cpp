@@ -195,7 +195,7 @@ void TrackerVariable::doRegistrations(void)
       if (ok)
          {
          protocol::Type t = variant->getType();
-         typeString = "<type kind=\"single\" units=\"" + asString(t.getUnits())
+         typeString = "<type kind=\"single\" unit=\"" + asString(t.getUnits())
                     + "\" array=\"T\"/>";
 
          parent->setRegistrationType(variableID, typeString.c_str());
