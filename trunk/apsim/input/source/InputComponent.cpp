@@ -23,11 +23,11 @@ using namespace boost;
 using namespace boost::gregorian;
 
 static const char* dayLengthType =
-   "<type name=\"daylength\" kind=\"single\" units=\"hours\"/>";
+   "<type name=\"daylength\" kind=\"single\" unit=\"hours\"/>";
 static const char* startDateType =
-   "<type name=\"startDate\" kind=\"integer4\" units=\"julian days\"/>";
+   "<type name=\"startDate\" kind=\"integer4\" unit=\"julian days\"/>";
 static const char* endDateType =
-   "<type name=\"endDate\" kind=\"integer4\" units=\"julian days\"/>";
+   "<type name=\"endDate\" kind=\"integer4\" unit=\"julian days\"/>";
 static const char* hasDataTodayTypeDDML =
    "<type name=\"hasDataToday\" kind=\"boolean\"/>";
 
