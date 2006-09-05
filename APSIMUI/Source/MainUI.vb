@@ -68,8 +68,6 @@ Public Class MainUI
         splash.VersionText = "Version " & APSIMSettings.ApsimVersion
         splash.Show()
 
-        Xceed.Chart.Licenser.LicenseKey = "CHT40-N4AAF-77UTD-6ANA"
-
         Application.DoEvents()
 
         'This call is required by the Windows Form Designer.
