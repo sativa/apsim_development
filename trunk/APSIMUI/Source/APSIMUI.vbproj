@@ -104,26 +104,9 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <Reference Include="Xceed.Chart">
-      <Name>Xceed.Chart</Name>
-      <HintPath>..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.dll</HintPath>
-      <AssemblyFolderKey>hklm\xceed chart for .net and asp.net v3.0.100.0</AssemblyFolderKey>
-    </Reference>
-    <Reference Include="Xceed.Chart.Core">
-      <Name>Xceed.Chart.Core</Name>
-      <HintPath>..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.Core.Dll</HintPath>
-      <AssemblyFolderKey>hklm\xceed chart for .net and asp.net v3.0.100.0</AssemblyFolderKey>
-    </Reference>
-    <Reference Include="Xceed.Chart.GraphicsCore, Version=4.0.100.0, Culture=neutral, PublicKeyToken=ba83ff368b7563c6" />
-    <Reference Include="Xceed.Chart.Standard">
-      <Name>Xceed.Chart.Standard</Name>
-      <HintPath>..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.Standard.Dll</HintPath>
-      <AssemblyFolderKey>hklm\xceed chart for .net and asp.net v3.0.100.0</AssemblyFolderKey>
-    </Reference>
-    <Reference Include="Xceed.Chart.Utilities">
-      <Name>Xceed.Chart.Utilities</Name>
-      <HintPath>..\..\..\..\..\Program Files\Xceed Components\Xceed Chart for .NET and ASP.NET 3.0\Bin\v3.0.100.0\Xceed.Chart.Utilities.Dll</HintPath>
-      <AssemblyFolderKey>hklm\xceed chart for .net and asp.net v3.0.100.0</AssemblyFolderKey>
+    <Reference Include="TeeChart, Version=2.0.2306.26232, Culture=neutral, PublicKeyToken=9c8126276c77bdb7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Steema Software\TeeChart for .NET v2\TeeChart.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -184,9 +167,6 @@
     </Compile>
     <Compile Include="TrackerVariableForm.vb">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GenericUI.vb">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="HelpAboutForm.vb">
       <SubType>Form</SubType>
@@ -289,9 +269,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FileUI.resx">
       <DependentUpon>FileUI.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GenericUI.resx">
-      <DependentUpon>GenericUI.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="HelpAboutForm.resx">
@@ -343,6 +320,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="OutputFileDescUI.resx">
       <DependentUpon>OutputFileDescUI.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="OutputFileExport.resx">
       <DependentUpon>OutputFileExport.vb</DependentUpon>
@@ -379,6 +357,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TrackerUI.resx">
       <DependentUpon>TrackerUI.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="TrackerVariableForm.resx">
       <SubType>Designer</SubType>

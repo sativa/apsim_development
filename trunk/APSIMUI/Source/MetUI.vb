@@ -8,7 +8,6 @@ Public Class MetUI
 
     Public Sub New()
         MyBase.New()
-        Xceed.Chart.Licenser.LicenseKey = "CHT30-YTL57-0UXLJ-145A"
         'This call is required by the Windows Form Designer.
         InitializeComponent()
 
@@ -59,7 +58,7 @@ Public Class MetUI
         Me.btnBrowse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnBrowse.ImageIndex = 0
         Me.btnBrowse.ImageList = Me.ImageList
-        Me.btnBrowse.Location = New System.Drawing.Point(582, 5)
+        Me.btnBrowse.Location = New System.Drawing.Point(909, 5)
         Me.btnBrowse.Name = "btnBrowse"
         Me.btnBrowse.Size = New System.Drawing.Size(88, 29)
         Me.btnBrowse.TabIndex = 13
@@ -76,25 +75,26 @@ Public Class MetUI
         Me.MetGraphControl1.HelpText = ""
         Me.MetGraphControl1.Location = New System.Drawing.Point(0, 40)
         Me.MetGraphControl1.Name = "MetGraphControl1"
-        Me.MetGraphControl1.Size = New System.Drawing.Size(688, 120)
-        Me.MetGraphControl1.TabIndex = 8
+        Me.MetGraphControl1.Size = New System.Drawing.Size(1015, 679)
+        Me.MetGraphControl1.TabIndex = 14
         '
         'MetUI
         '
-        Me.Controls.Add(Me.btnBrowse)
         Me.Controls.Add(Me.MetGraphControl1)
+        Me.Controls.Add(Me.btnBrowse)
         Me.Name = "MetUI"
-        Me.Size = New System.Drawing.Size(688, 160)
-        Me.Controls.SetChildIndex(Me.MetGraphControl1, 0)
+        Me.Size = New System.Drawing.Size(1015, 719)
         Me.Controls.SetChildIndex(Me.btnBrowse, 0)
+        Me.Controls.SetChildIndex(Me.MetGraphControl1, 0)
         Me.ResumeLayout(False)
 
     End Sub
 
 #End Region
 
-    Overrides Sub refresh()
+    Public Overrides Sub Refresh()
         MyBase.Refresh()
+
         Dim FileName As String = Controller.Data.ChildValueWithError("filename")
         MetGraphControl1.Controller = Controller
         HelpText = FileName
@@ -113,6 +113,10 @@ Public Class MetUI
             Me.HelpText = OpenFileDialog.FileName
 
         End If
+
+    End Sub
+
+    Private Sub MetGraphControl1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
 
