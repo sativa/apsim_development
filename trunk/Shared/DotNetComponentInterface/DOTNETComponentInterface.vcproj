@@ -137,6 +137,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="$(NoInherit)"
 				LinkIncremental="1"
+				ModuleDefinitionFile="exports.def"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>
