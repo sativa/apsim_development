@@ -1,8 +1,8 @@
 #ifdef __WIN32__
-	#include <windows.h>
-	#include <dir.h>
+   #include <windows.h>
+   #include <dir.h>
 #else
-	#include <dlfcn.h>
+   #include <dlfcn.h>
 #endif
 #include <general/platform.h>
 #include "Computation.h"
@@ -50,7 +50,7 @@ Computation::Computation(const string& name,
    // need to give the component to the transport layer.  Need a better
    // way of doing this.
    Transport::getTransport().addComponent(componentId, name, this);
-   
+
    if (loadComponent(fileName, componentInterfaceExecutable)) {
      createInstance(fileName, componentId, parentId);
    }
@@ -159,7 +159,7 @@ void *Computation::loadDLL(const string& filename) throw (runtime_error)
       throw runtime_error(dlError);
 #endif
       }
-   return result;   
+   return result;
    }
 
 // ------------------------------------------------------------------
@@ -185,83 +185,77 @@ bool Computation::loadComponent(const std::string& filename,
 
    string componentInterface;
    if (componentInterfaceExecutable != "")
-     {
-       componentInterface = componentInterfaceExecutable;
-       handle = loadDLL(componentInterface.c_str());
-     }
+      {
+      componentInterface = componentInterfaceExecutable;
+      handle = loadDLL(componentInterface.c_str());
+      }
    else
-     {
+      {
        handle = loadDLL(executableFileName);
 
        void EXPORT STDCALL (*wrapperDll)(char* dllFileName);
-#ifdef __WIN32__
+       #ifdef __WIN32__
        (FARPROC) wrapperDll = GetProcAddress(handle, "wrapperDLL");
-#else
+       #else
        wrapperDll = (void (*)(char *))dlsym(handle, "wrapperDLL");
-#endif
-       if (wrapperDll == NULL) {
-	 throw runtime_error("Cannot find entry point 'wrapperDll' in dll: " + filename);
-       }
-	
+       #endif
+       if (wrapperDll == NULL)
+          throw runtime_error("Cannot find entry point 'wrapperDll' in dll: " + filename);
+
        // Go get the wrapperDll filename.
        char wrapperFileName[500];
        (*wrapperDll)(&wrapperFileName[0]);
        componentInterface = wrapperFileName;
-       //       componentInterface = Path(&wrapperFileName[0]).Get_name();
-
 
        if (componentInterface != "")
-	 {
-#ifdef __WIN32__
-	    Path cwd = Path::getCurrentFolder();
-         // This is a wrapped dll - it has no "entry points". Load the wrapper.
+          {
+          #ifdef __WIN32__
+          Path cwd = Path::getCurrentFolder();
+          // This is a wrapped dll - it has no "entry points". Load the wrapper.
 
-	    FreeLibrary(handle);
-	    if (Str_i_Eq(componentInterface, "piwrapper.dll"))
-	      {
-		Path(executableFileName).Change_directory();
-		componentInterface = "C:\\Program Files\\Common Files\\AusFarm\\CMP\\piwrapper.dll";
-	      }
-	    else
-	      {
-		componentInterface = getApsimDirectory() + "\\bin\\" + componentInterface;
-	      }
-	    handle = LoadLibrary(componentInterface.c_str());
-	    if (handle == NULL)
-	      {
-		// Get windows error message.
-		LPVOID lpMsgBuf;
-		FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-			      NULL,
-			      GetLastError(),
-			      MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
-			      (LPTSTR) &lpMsgBuf,
-			      0,
-			      NULL
-			      );
-		string errorMessage = ("Cannot load DLL: " + componentInterface + ".\n  " + (LPTSTR) lpMsgBuf);
-		LocalFree( lpMsgBuf );
-		throw runtime_error(errorMessage);
-	      }
-	    cwd.Change_directory();
-#else
-	    const char* dlError;
-	    int return_code;
-	    return_code = dlclose(handle);
-	    handle = dlopen(componentInterface.c_str(), RTLD_NOW|RTLD_LOCAL);
-	    dlError = dlerror();
-	    if ( dlError ) { 
-	      throw runtime_error(dlError);
-	    }
-#endif
-	 }
-
+          FreeLibrary(handle);
+          if (Str_i_Eq(Path(componentInterface).Get_name(), "piwrapper.dll"))
+             {
+             Path(executableFileName).Change_directory();
+             }
+          else
+             {
+             componentInterface = getApsimDirectory() + "\\bin\\" + componentInterface;
+             }
+          handle = LoadLibrary(componentInterface.c_str());
+          if (handle == NULL)
+             {
+             // Get windows error message.
+             LPVOID lpMsgBuf;
+             FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+                      NULL,
+                      GetLastError(),
+                      MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
+                      (LPTSTR) &lpMsgBuf,
+                      0,
+                      NULL
+                      );
+             string errorMessage = ("Cannot load DLL: " + componentInterface + ".\n  " + (LPTSTR) lpMsgBuf);
+             LocalFree( lpMsgBuf );
+             throw runtime_error(errorMessage);
+             }
+          cwd.Change_directory();
+          #else
+          const char* dlError;
+          int return_code;
+          return_code = dlclose(handle);
+          handle = dlopen(componentInterface.c_str(), RTLD_NOW|RTLD_LOCAL);
+          dlError = dlerror();
+          if ( dlError )
+            throw runtime_error(dlError);
+          #endif
+          }
        else
-	 {
-	   // This is not a wrapped dll - it will provide entrypoints itself
-	 }
-	 }
-      
+          {
+          // This is not a wrapped dll - it will provide entrypoints itself
+          }
+      }
+
 #ifdef __WIN32__
    (FARPROC) createInstanceProc = GetProcAddress(handle, "createInstance");
    (FARPROC) deleteInstanceProc = GetProcAddress(handle, "deleteInstance");
@@ -271,12 +265,12 @@ bool Computation::loadComponent(const std::string& filename,
    int return_code;
 
    createInstanceProc = (void (*)(const char*,
-				  const unsigned int*,
-				  const unsigned int*,
-				  const int*,
-				  const int*,
-				  void(*)(const unsigned int*, protocol::Message*)))
-				  dlsym(handle, "createInstance");
+              const unsigned int*,
+              const unsigned int*,
+              const int*,
+              const int*,
+              void(*)(const unsigned int*, protocol::Message*)))
+              dlsym(handle, "createInstance");
    deleteInstanceProc = (void (*)(const int*))dlsym(handle, "deleteInstance");
    messageToLogicProc = (void (*)(const int*, const protocol::Message*, bool*))dlsym(handle, "messageToLogic");
 #endif
@@ -316,7 +310,7 @@ void Computation::unloadComponent(void)
   if ( handle != 0) {
     return_code = dlclose(handle);
     dlError = dlerror();
-    if ( return_code ) { 
+    if ( return_code ) {
       throw runtime_error(dlError);
     }
   }
