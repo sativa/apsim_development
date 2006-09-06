@@ -108,7 +108,13 @@ void Computation::createInstance(const std::string& filename,
 // ------------------------------------------------------------------
 void Computation::deleteInstance(void) const
    {
-   (*deleteInstanceProc) (&instanceNo);
+   try
+      {
+      (*deleteInstanceProc) (&instanceNo);
+      }
+   catch (...)
+      {
+      }
    }
 
 // ------------------------------------------------------------------
