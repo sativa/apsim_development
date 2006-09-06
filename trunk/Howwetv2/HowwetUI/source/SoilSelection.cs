@@ -33,8 +33,6 @@ namespace APSRU.Howwet
         public SoilSelection()
             {
             InitializeComponent();
-           // soilsObject = new APSIMData();
-           // soilsObject.LoadFromFile(fileName);
             }
 
         public void loadObject(String fileName)
@@ -69,6 +67,18 @@ namespace APSRU.Howwet
             instance = null;
             }
 
-       
+        private void SoilCloseButton_Click(object sender, EventArgs e)
+            {
+            this.Close();
+            }
+
+        private void SaveCloseButton_Click(object sender, EventArgs e)
+            {
+            if (Apsoil.Data.Type == "Soil")
+                {
+                SoilSelectedEvent(Apsoil.Data);
+                }
+            this.Close();
+            }
         }
     }

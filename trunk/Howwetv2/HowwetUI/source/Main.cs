@@ -37,12 +37,14 @@ namespace APSRU.Howwet
         private double soilNitrogenSumOriginal;
         private double[] thicknessOriginal;
         private double[] lL15Original;
+        private String erosionSlopeOriginal;
+        private String erosionSlopeLengthOriginal;
+        private String erosionErodibiltyOriginal;
         private double[] cLL;
         DataTable dt;
         DataTable chartDataTable;
         private String selectedFileName="";
 
-        private String apsrunPath ="\\bin\\apsrun.exe";
         private String apsimPath = "\\bin\\apsim.exe";
         private String apsimToSimPath = "\\bin\\apsimtosim.exe";
         private String howwetReportFileName = "\\howwetv2\\HowwetReport.xml";
@@ -75,6 +77,9 @@ namespace APSRU.Howwet
             if (this.selectedFileName == "")
                 {
                 simulationObject = new SimulationIn(util.ReadTemplateFile(util.ApplicationDirectory + "\\howwetv2\\" + config.TemplateFileName));
+                erosionSlopeOriginal = simulationObject.ErosionSlope;
+                erosionSlopeLengthOriginal = simulationObject.ErosionSlopeLength;
+                erosionErodibiltyOriginal = simulationObject.ErosionErodibilty;
                 simulationObject.FileName = "untitled";
                 FileInfo fileInfo = new FileInfo(util.ApplicationDirectory + "\\apsoil\\" + config.DefaultSoilFileName);
                 if (fileInfo.Exists)
@@ -191,6 +196,7 @@ namespace APSRU.Howwet
             coverPercent.Maximum = 99;
             coverPercent.Minimum = 0;
             coverPercent.Value = 30;
+            simulationObject.Soil.InitialWater.SetUsingPercent(Convert.ToInt16(initialSoilWaterPercent.Value), true);
             toolStripStatusLabel1.Text = "Select a Met file";
             }
 
@@ -218,7 +224,6 @@ namespace APSRU.Howwet
         private void clearFormMetValues()
             {
             txtMetFile.Text = "";
-          //  simulationObject.MetFileName = metObject.FileName;
             StartDatePicker.MaxDate = DateTime.Now;
             StartDatePicker.Value = DateTime.Now;
             EndDatePicker.MaxDate = DateTime.Now;
@@ -441,6 +446,10 @@ namespace APSRU.Howwet
                     SoilSelection.Instance.Focus();
                     SoilSelection.Instance.Show();
                     }
+                else
+                    {
+                    MessageBox.Show("Please select a Soil File first");
+                    }
                 }
             catch (CustomException err)
                 {
@@ -458,6 +467,10 @@ namespace APSRU.Howwet
                 {
                 //add soil to simulation object
                 simulationObject.AddSoil(soil);
+                //after changing a soil reset the erosion values back to the template file default
+                simulationObject.ErosionSlope = erosionSlopeOriginal;
+                simulationObject.ErosionSlopeLength = erosionSlopeLengthOriginal;
+                simulationObject.ErosionErodibilty = erosionErodibiltyOriginal;
                 updateFormSoilValues();
                 }
             catch (CustomException err)
@@ -501,8 +514,22 @@ namespace APSRU.Howwet
 
         private void erosionButton_Click(object sender, EventArgs e)
             {
-            Erosion  erosionForm = new Erosion(simulationObject);
-            erosionForm.Show();
+                {
+                if (!Erosion.Instance.isLoaded)
+                    {
+                    Erosion.Instance.loadObject(simulationObject);
+                    Erosion.Instance.ErosionChangedEvent += new Erosion.ErosionValuesChanged(Instance_ErosionChangedEvent);
+                    }
+                Erosion.Instance.Focus();
+                Erosion.Instance.Show();
+                }
+            }
+
+        void Instance_ErosionChangedEvent(string slope, string slopeLength, string erodibilty)
+            {
+            simulationObject.ErosionSlope = slope;
+            simulationObject.ErosionSlopeLength = slopeLength;
+            simulationObject.ErosionErodibilty = erodibilty;
             }
 
         private void waterCapacity_Leave(object sender, EventArgs e)
@@ -543,21 +570,10 @@ namespace APSRU.Howwet
                 
                 double Proportion = Convert.ToInt32(initialSoilWaterPercent.Value) / 100.0;
                 double AmountWater = MathUtility.Sum(simulationObject.Soil.PAWC()) * Proportion;
-
                 this.initialWaterCapacity.TextChanged -= new System.EventHandler(this.initialWaterCapacity_TextChanged);
                 initialWaterCapacity.Text = AmountWater.ToString("f0");
                 this.initialWaterCapacity.TextChanged += new System.EventHandler(this.initialWaterCapacity_TextChanged);
                 double[] pawc =simulationObject.Soil.PAWC();
-               
-                String test1 = "";
-               
-                double[] sw = simulationObject.Soil.InitialWater.SW;
-                
-                for (int i = 0; i < sw.Length; i++)
-                    {
-                    test1 = test1 + " " + sw[i];
-                    }
-                Console.WriteLine("sw " + test1 + " tot=" + MathUtility.Sum(sw) + "\n");
                 }
             catch (CustomException err)
                 {
@@ -579,18 +595,11 @@ namespace APSRU.Howwet
                     percent = Convert.ToInt32(Convert.ToDouble(initialWaterCapacity.Text) / TotalPAWC * 100);
                 percent = Math.Min(percent, 100);
                 percent = Math.Max(percent, 0);
-
                 this.initialSoilWaterPercent.ValueChanged -= new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
                 initialSoilWaterPercent.Value = percent;
                 this.initialSoilWaterPercent.ValueChanged += new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
                 simulationObject.Soil.InitialWater.SetUsingPercent(percent, true);
                 double[] sw=simulationObject.Soil.InitialWater.SW;
-                String test="";
-                for (int i = 0; i < sw.Length; i++)
-                    {
-                    test = test + " " + sw[i];
-                    }
-                Console.WriteLine("sw " + test + " tot=" + MathUtility.Sum(sw) + "\n");
                 }
             catch (CustomException err)
                 {
@@ -633,7 +642,6 @@ namespace APSRU.Howwet
                     updateFormMetValues();
                 }
               }
-            
             catch (CustomException err)
                 {
                 showCustomExceptionMessages(err);
@@ -673,7 +681,6 @@ namespace APSRU.Howwet
         private void coverPercent_ValueChanged(object sender, EventArgs e)
             {
             decimal percent = coverPercent.Value;
-       //     MessageBox.Show(percent.ToString());
             String selectedCrop = (String)coverCropList.SelectedItem;
             CoverCrop crop = util.GetCrop(coverCrops, selectedCrop);
             simulationObject.SOMMass = Convert.ToString(util.ConvertCoverPercentToKg(percent / 100, crop.SpecificArea));
@@ -682,12 +689,9 @@ namespace APSRU.Howwet
 
         private void editRainfallButton_Click(object sender, EventArgs e)
             {
-            if (!(this.metObject.FileName == ""))
+            if (!(this.metObject == null))
                 {
-                //RainfallEditor form = new RainfallEditor();
-                
                 StatusLabel2.Text = "Please wait: Loading Met file";
-               
                 if (!RainfallEditor.Instance.isLoaded)
                     {
                     this.metObject.BuildAverages();

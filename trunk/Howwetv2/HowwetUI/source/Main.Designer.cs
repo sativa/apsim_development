@@ -1473,6 +1473,7 @@ namespace APSRU.Howwet
         // 
         this.ErosionChart.Legend.Alignment = Steema.TeeChart.LegendAlignments.Top;
         this.ErosionChart.Legend.Bottom = 34;
+        this.ErosionChart.Legend.CheckBoxes = true;
         this.ErosionChart.Legend.CustomPosition = true;
         // 
         // 
@@ -2012,6 +2013,7 @@ namespace APSRU.Howwet
         // 
         // 
         this.LTRainfallChart.Legend.Brush.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+        this.LTRainfallChart.Legend.CheckBoxes = true;
         this.LTRainfallChart.Legend.CustomPosition = true;
         // 
         // 
@@ -2550,6 +2552,7 @@ namespace APSRU.Howwet
         // 
         this.RainfallSWChart.Legend.Alignment = Steema.TeeChart.LegendAlignments.Top;
         this.RainfallSWChart.Legend.Bottom = 32;
+        this.RainfallSWChart.Legend.CheckBoxes = true;
         this.RainfallSWChart.Legend.CustomPosition = true;
         // 
         // 
@@ -3139,6 +3142,7 @@ namespace APSRU.Howwet
         // 
         this.SoilNitrogenChart.Legend.Alignment = Steema.TeeChart.LegendAlignments.Top;
         this.SoilNitrogenChart.Legend.Bottom = 30;
+        this.SoilNitrogenChart.Legend.CheckBoxes = true;
         this.SoilNitrogenChart.Legend.CustomPosition = true;
         // 
         // 
