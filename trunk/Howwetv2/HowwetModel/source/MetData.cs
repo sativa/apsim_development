@@ -48,8 +48,9 @@ namespace APSRU.Model.Howwet
                 DateTime endDate = new DateTime();
                 //get values from met file
                 errString = "reading Met file";
+                APSIMInputFile tempMetInput=new APSIMInputFile();
+                tempMetInput.GetStartEndDate(fileName, ref startDate, ref endDate);
                 metInput.ReadFromFile(fileName);
-                metInput.GetStartEndDate(fileName, ref startDate, ref endDate);
                 constants = metInput.Constants;
                 headings=metInput.Headings;
                 units = metInput.Units;
@@ -59,7 +60,17 @@ namespace APSRU.Model.Howwet
                 this.FileName = fileName;
                 this.StartDate = startDate;
                 this.EndDate = endDate;
-                this.Site = (String)this.Data.Rows[0]["site"];
+                this.Site = "";
+                foreach (String heading in headings)
+                    {
+                    if(heading=="site")
+                        {
+                        DataRowCollection rows=metInput.Data.Rows;
+                        DataRow firstRow = (DataRow)rows[0];
+                        this.Site = (String)firstRow["site"];
+                        break;
+                        }
+                    }
                 }
             catch (CustomException err)
                 {
@@ -221,14 +232,30 @@ namespace APSRU.Model.Howwet
                     {
                     unitString = unitString + " " + unit;
                     }
-                
                 outStream.WriteLine(unitString);
                 //Data
                 foreach (DataRow row in Data.Rows)
                     {
-                    DateTime date = new DateTime();
-                    date = (DateTime)row["date"];
-                    outStream.WriteLine(row["site"].ToString() + " " + date.Year + " " + date.DayOfYear + " " + row["radn"].ToString() + " " + row["maxt"].ToString() + " " + row["mint"].ToString() + " " + row["rain"].ToString());
+                    foreach (String heading in headings)
+                        {
+                        DateTime date = new DateTime();
+                        date = (DateTime)row["date"];
+                        switch (heading)
+                            {
+                            case "day":
+                                outStream.Write(date.DayOfYear);
+                                break;
+                            case "year":
+                                outStream.Write(date.Year);
+                                break;
+                            default:
+                                outStream.Write(row[heading].ToString());
+                                break;
+                            }
+                        outStream.Write(" ");
+                        }
+                    outStream.Write("\r\n");
+                //    outStream.WriteLine(row["site"].ToString() + " " + date.Year + " " + date.DayOfYear + " " + row["radn"].ToString() + " " + row["maxt"].ToString() + " " + row["mint"].ToString() + " " + row["rain"].ToString());
                     }
                 outStream.Close();
                 }
