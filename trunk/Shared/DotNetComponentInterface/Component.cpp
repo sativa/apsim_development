@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #using <mscorlib.dll>
 #pragma managed
-#using "..\VBGeneral\obj\debug\VBGeneral.dll"
+#using <VBGeneral.dll>
 #include "Interfaces.h"
 #include "ApsimComponent.h"
 

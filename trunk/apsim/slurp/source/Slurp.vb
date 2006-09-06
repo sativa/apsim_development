@@ -3,7 +3,7 @@ Option Explicit On
 Imports VBGeneral
 Imports System.Math
 Imports VBMet
-Imports CSGeneral.MathUtility
+Imports CSGeneral
 Imports ComponentInterface
 
 Public Class Slurp
@@ -288,7 +288,7 @@ Public Class Slurp
         End Property
         Public Function value(ByVal x As Single) As Single
             Dim flag As Boolean
-            value = LinearInterpReal(CType(x, Single), XVals, YVals, flag)
+            value = MathUtility.LinearInterpReal(CType(x, Single), XVals, YVals, flag)
         End Function
     End Class
 
