@@ -17,6 +17,11 @@
          <filename>%apsuite\apsim\met\sample\dalby.met</filename>
       </initdata>
    </component>
+   <component name="Log" executable="%apsuite\apsim\Log\lib\Log.dll">
+      <initdata>
+      </initdata>
+   </component>
+
    <component name="reportpaddock" executable="%apsuite\apsim\report\lib\report.dll">
       <initdata>
         <outputfrequency>post </outputfrequency>
@@ -27,7 +32,7 @@
    </component>
   <system name="paddock" executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll" active="T">
     <registrations>
-      <event name="summaryFileWrite" type="null" />
+      <event name="summaryFileWrite" type="string" />
       <event name="error" type="string" />
       <event name="NotifyTermination" type="string" />
       <event name="gimme_water" type="string" />
@@ -37,14 +42,14 @@
       <respondToEvent name="process" type="process" />
       <respondToEvent name="post" type="post" />
       <respondToEvent name="do_stock" type="post" />
-      <respondToEvent name="end_week" type="null" />
-      <respondToEvent name="end_month" type="null" />
-      <respondToEvent name="end_year" type="null" />
-      <respondToEvent name="water_supplied" type="null" />
-      <respondToEvent name="irrigate" type="null" />
-      <respondToEvent name="sow" type="null" />
-      <respondToEvent name="fertilize" type="null" />
-      <respondToEvent name="tillage" type="null" />
+      <respondToEvent name="end_week" type="string" />
+      <respondToEvent name="end_month" type="string" />
+      <respondToEvent name="end_year" type="string" />
+      <respondToEvent name="water_supplied" type="string" />
+      <respondToEvent name="irrigate" type="string" />
+      <respondToEvent name="sow" type="string" />
+      <respondToEvent name="fertilize" type="string" />
+      <respondToEvent name="tillage" type="string" />
       <respondToEvent name="remove_herbage" type="remove_herbage" />
       <respondToEvent name="add_excreta" type="add_excreta" />
       <get name="today" type="integer4" />
@@ -177,7 +182,7 @@
          <bd>1.30 1.30 1.29 1.31 1.35 1.36 1.36</bd>
       </initdata>
    </component>
-   <component name="surfaceom" executable = "c:\data\apsim\development\apsim\surfaceom\lib\surfaceom.dll">
+   <component name="surfaceom" executable = "%apsuite\apsim\surfaceom\lib\surfaceom.dll">
       <initdata>
          <include>%apsuite\apsim\surfaceom\surfaceom.ini</include>
          <name>manure       lucerne</name>
