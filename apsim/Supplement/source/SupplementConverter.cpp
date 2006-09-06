@@ -25,6 +25,7 @@ using namespace std;
 
 #define doubleArrayTypeDDML "<type  array=\"T\" kind=\"double\"/>"
 #define singleArrayTypeDDML "<type  array=\"T\" kind=\"single\"/>"
+#define singleTypeDDML "<type kind=\"single\"/>"
 
 // ------------------------------------------------------------------
 // Return a blank string when requested to indicate that we
@@ -74,9 +75,9 @@ void SupplementConverter::doInit1(const FString& sdml)
    protocol::Component::doInit1(sdml);
 //   buyID = addRegistration(RegistrationType::event, "buy", supplementbuyTypeDDML);
    buySupplementID = addRegistration(RegistrationType::respondToEvent, "buysupplement", singleTypeDDML);
-   feedID = addRegistration(RegistrationType::event, "feed", supplementfeedTypeDDML);
+   feedID = addRegistration(RegistrationType::event, "feed", protocol::DDML(protocol::supplementfeedType()).c_str());
    feedSupplementID = addRegistration(RegistrationType::respondToEvent, "feedsupplement", singleTypeDDML);
-   mixID = addRegistration(RegistrationType::event, "mix", supplementmixTypeDDML);
+   mixID = addRegistration(RegistrationType::event, "mix", protocol::DDML(protocol::supplementmixType()).c_str());
    mixSupplementID = addRegistration(RegistrationType::respondToEvent, "mixsupplement", singleTypeDDML);
 
    }
@@ -268,7 +269,7 @@ void SupplementConverter::readParameters ( void )
    writeString (msg.str().c_str());
 
    std::string buy = supplementModuleName + ".buy";
-   buyID = addRegistration(RegistrationType::event, buy.c_str(), supplementbuyTypeDDML);
+   buyID = addRegistration(RegistrationType::event, buy.c_str(), protocol::DDML(protocol::supplementbuyType()).c_str());
 }
 
 

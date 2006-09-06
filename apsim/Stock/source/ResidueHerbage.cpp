@@ -4,7 +4,6 @@
 #pragma package(smart_init)
 using namespace std;
 
-
 #define singleArrayTypeDDML \
    "<type  array=\"T\" kind=\"single\"/>"
 #define singleTypeDDML \
@@ -396,7 +395,8 @@ string ResidueHerbage::debug(void)
 // ------------------------------------------------------------------
 void ResidueHerbage::doRunTimeReg(void)
    {
-   surfaceOMID = system->addRegistration(RegistrationType::get, "surface_organic_matter", DDML(protocol::SurfaceOrganicMatterType()).c_str(),"", herbageModuleName().c_str());   // parameter crop name=lablab
+   vector<protocol::SurfaceOrganicMatterType()> dummy;
+   surfaceOMID = system->addRegistration(RegistrationType::get, "surface_organic_matter", protocol::DDML(dummy).c_str(),"", herbageModuleName().c_str());   // parameter crop name=lablab
 
 //   heightID = system->addRegistration(RegistrationType::get, "height", singleTypeDDML,"", cHerbageModuleName.c_str());
    }

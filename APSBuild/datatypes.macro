@@ -19,9 +19,9 @@ namespace protocol {
 #for_each type
 
 #if (type.Array = T)
-   std::string DDML(const std::vector<type.ckind>& value);
+   std::string EXPORT DDML(const std::vector<type.ckind>& value);
 #else
-   std::string DDML(const type.ckind& value);
+   std::string EXPORT DDML(const type.ckind& value);
 #endif
 
 #endfor
@@ -102,9 +102,9 @@ extern "C" void EXPORT STDCALL publish_null(unsigned* id)
 namespace protocol {
 #for_each type
 #if (type.Array = T)
-std::string DDML(const std::vector<type.ckind>& value)
+std::string EXPORT DDML(const std::vector<type.ckind>& value)
 #else
-std::string DDML(const type.ckind& value)
+std::string EXPORT DDML(const type.ckind& value)
 #endif
    {
    return type.cddml;
