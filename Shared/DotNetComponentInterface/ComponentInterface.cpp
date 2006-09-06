@@ -2,7 +2,7 @@
 
 #include "stdafx.h"
 
-#using "..\VBGeneral\obj\debug\VBGeneral.dll"
+#using <VBGeneral.dll>
 #include "ComponentInterface.h"
 #include "Message.h"
 #include "MessageType.h"

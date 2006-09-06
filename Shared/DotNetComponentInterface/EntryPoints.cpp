@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 
 #using <mscorlib.dll>
-#using "../VbGeneral/bin/debug/VBGeneral.dll"
+#using <VBGeneral.dll>
 #include <string>
 #include <vector>
 #include "Interfaces.h"
