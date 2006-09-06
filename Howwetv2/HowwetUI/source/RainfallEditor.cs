@@ -40,11 +40,8 @@ namespace APSRU.Howwet
 
         public void loadObject(MetData data)
             {
-
-            //this.metObject = data;
             this.tempMetObject = data;
             isLoaded = true;
-            label3.Text = tempMetObject.FileName;
             fpSpread1.Sheets[0].ClearRange(0, 1, 31, 13, true);
             DateTime firstYear = (DateTime)this.tempMetObject.Data.Rows[0]["date"];
             DateTime lastYear = (DateTime)this.tempMetObject.Data.Rows[this.tempMetObject.Data.Rows.Count - 1]["date"];
@@ -52,6 +49,7 @@ namespace APSRU.Howwet
             yearSelectUpDown.Maximum = lastYear.Year;
             yearSelectUpDown.Increment = 1;
             yearSelectUpDown.Value = lastYear.Year;
+            this.Text = tempMetObject.FileName+"         "+firstYear.Year+" to "+lastYear.Year ;
             }
 
         private void yearSelectUpDown_ValueChanged(object sender, EventArgs e)
@@ -125,12 +123,14 @@ namespace APSRU.Howwet
             else
                 {
                 DataRow newRow = this.tempMetObject.Data.NewRow();
-                newRow["site"] = this.tempMetObject.Site;
+                if (!(this.tempMetObject.Site == ""))
+                    {
+                    newRow["site"] = this.tempMetObject.Site;
+                    }
                 newRow["Date"] = selectedDate;
                 newRow["radn"] = this.tempMetObject.RadnYearlyAverage[selectedDate.Month];
                 newRow["maxt"] = this.tempMetObject.MaxtYearlyAverage[selectedDate.Month];
                 newRow["mint"] = this.tempMetObject.MintYearlyAverage[selectedDate.Month];
-              //  newRow["evap"] = this.tempMetObject.EvapYearlyAverage[selectedDate.Month];
                 newRow["rain"] = Convert.ToInt16(fpSpread1.Sheets[0].Cells[e.Row, e.Column].Value);
                 this.tempMetObject.Data.Rows.Add(newRow);
                 }
@@ -138,13 +138,7 @@ namespace APSRU.Howwet
                 
         void RainfallEditor_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
             {
-            if(MessageBox.Show("Do you wish to save your changes?","Save",MessageBoxButtons.YesNo)==DialogResult.Yes)
-                {
-                instance = null;
-                this.metObject = this.tempMetObject;
-                //fill in blank cells upto the last date with 0mm rainfall and average other cell 
-                this.metObject.overWriteMetFile();
-                }
+            instance = null;
             }
        
         private void AddYearButton_Click(object sender, EventArgs e)
@@ -164,12 +158,24 @@ namespace APSRU.Howwet
                     newRow["radn"] = this.tempMetObject.RadnYearlyAverage[startDate.Month];
                     newRow["maxt"] = this.tempMetObject.MaxtYearlyAverage[startDate.Month];
                     newRow["mint"] = this.tempMetObject.MintYearlyAverage[startDate.Month];
-                  //  newRow["evap"] = this.tempMetObject.EvapYearlyAverage[startDate.Month];
                     newRow["rain"] = 0;
                     this.tempMetObject.Data.Rows.Add(newRow);
                     startDate = startDate.AddDays(1);
                     }
                 }
+            }
+
+        private void saveCloseButton_Click(object sender, EventArgs e)
+            {
+            this.metObject = this.tempMetObject;
+            //fill in blank cells upto the last date with 0mm rainfall and average other cell 
+            this.metObject.overWriteMetFile();
+            this.Close();
+            }
+
+        private void closeButton_Click(object sender, EventArgs e)
+            {
+            this.Close();
             }
         
         }

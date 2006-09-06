@@ -28,26 +28,27 @@ namespace APSRU.Howwet
         /// </summary>
         private void InitializeComponent()
             {
-            FarPoint.Win.Spread.TipAppearance tipAppearance1 = new FarPoint.Win.Spread.TipAppearance();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType1 = new FarPoint.Win.Spread.CellType.NumberCellType();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType2 = new FarPoint.Win.Spread.CellType.NumberCellType();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType3 = new FarPoint.Win.Spread.CellType.NumberCellType();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType4 = new FarPoint.Win.Spread.CellType.NumberCellType();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType5 = new FarPoint.Win.Spread.CellType.NumberCellType();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType6 = new FarPoint.Win.Spread.CellType.NumberCellType();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType7 = new FarPoint.Win.Spread.CellType.NumberCellType();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType8 = new FarPoint.Win.Spread.CellType.NumberCellType();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType9 = new FarPoint.Win.Spread.CellType.NumberCellType();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType10 = new FarPoint.Win.Spread.CellType.NumberCellType();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType11 = new FarPoint.Win.Spread.CellType.NumberCellType();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType12 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.TipAppearance tipAppearance3 = new FarPoint.Win.Spread.TipAppearance();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType25 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType26 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType27 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType28 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType29 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType30 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType31 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType32 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType33 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType34 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType35 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType36 = new FarPoint.Win.Spread.CellType.NumberCellType();
             this.fpSpread1 = new FarPoint.Win.Spread.FpSpread();
             this.fpSpread1_Sheet1 = new FarPoint.Win.Spread.SheetView();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.yearSelectUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label3 = new System.Windows.Forms.Label();
             this.AddYearButton = new System.Windows.Forms.Button();
+            this.closeButton = new System.Windows.Forms.Button();
+            this.saveCloseButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.fpSpread1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fpSpread1_Sheet1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.yearSelectUpDown)).BeginInit();
@@ -57,16 +58,16 @@ namespace APSRU.Howwet
             // 
             this.fpSpread1.AccessibleDescription = "fpSpread1, Sheet1, Row 0, Column 0, ";
             this.fpSpread1.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.Never;
-            this.fpSpread1.Location = new System.Drawing.Point(12, 43);
+            this.fpSpread1.Location = new System.Drawing.Point(12, 12);
             this.fpSpread1.Name = "fpSpread1";
             this.fpSpread1.Sheets.AddRange(new FarPoint.Win.Spread.SheetView[] {
             this.fpSpread1_Sheet1});
             this.fpSpread1.Size = new System.Drawing.Size(759, 663);
-            this.fpSpread1.TabIndex = 0;
-            tipAppearance1.BackColor = System.Drawing.SystemColors.Info;
-            tipAppearance1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            tipAppearance1.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.fpSpread1.TextTipAppearance = tipAppearance1;
+            this.fpSpread1.TabIndex = 1;
+            tipAppearance3.BackColor = System.Drawing.SystemColors.Info;
+            tipAppearance3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            tipAppearance3.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.fpSpread1.TextTipAppearance = tipAppearance3;
             this.fpSpread1.VerticalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.Never;
             this.fpSpread1.Change += new FarPoint.Win.Spread.ChangeEventHandler(this.fpSpread1_Change);
             // 
@@ -150,29 +151,29 @@ namespace APSRU.Howwet
             this.fpSpread1_Sheet1.Columns.Get(0).ForeColor = System.Drawing.Color.Silver;
             this.fpSpread1_Sheet1.Columns.Get(0).Label = "Day";
             this.fpSpread1_Sheet1.Columns.Get(0).Visible = false;
-            this.fpSpread1_Sheet1.Columns.Get(1).CellType = numberCellType1;
+            this.fpSpread1_Sheet1.Columns.Get(1).CellType = numberCellType25;
             this.fpSpread1_Sheet1.Columns.Get(1).Label = "Jan";
-            this.fpSpread1_Sheet1.Columns.Get(2).CellType = numberCellType2;
+            this.fpSpread1_Sheet1.Columns.Get(2).CellType = numberCellType26;
             this.fpSpread1_Sheet1.Columns.Get(2).Label = "Feb";
-            this.fpSpread1_Sheet1.Columns.Get(3).CellType = numberCellType3;
+            this.fpSpread1_Sheet1.Columns.Get(3).CellType = numberCellType27;
             this.fpSpread1_Sheet1.Columns.Get(3).Label = "Mar";
-            this.fpSpread1_Sheet1.Columns.Get(4).CellType = numberCellType4;
+            this.fpSpread1_Sheet1.Columns.Get(4).CellType = numberCellType28;
             this.fpSpread1_Sheet1.Columns.Get(4).Label = "Apr";
-            this.fpSpread1_Sheet1.Columns.Get(5).CellType = numberCellType5;
+            this.fpSpread1_Sheet1.Columns.Get(5).CellType = numberCellType29;
             this.fpSpread1_Sheet1.Columns.Get(5).Label = "May";
-            this.fpSpread1_Sheet1.Columns.Get(6).CellType = numberCellType6;
+            this.fpSpread1_Sheet1.Columns.Get(6).CellType = numberCellType30;
             this.fpSpread1_Sheet1.Columns.Get(6).Label = "Jun";
-            this.fpSpread1_Sheet1.Columns.Get(7).CellType = numberCellType7;
+            this.fpSpread1_Sheet1.Columns.Get(7).CellType = numberCellType31;
             this.fpSpread1_Sheet1.Columns.Get(7).Label = "Jul";
-            this.fpSpread1_Sheet1.Columns.Get(8).CellType = numberCellType8;
+            this.fpSpread1_Sheet1.Columns.Get(8).CellType = numberCellType32;
             this.fpSpread1_Sheet1.Columns.Get(8).Label = "Aug";
-            this.fpSpread1_Sheet1.Columns.Get(9).CellType = numberCellType9;
+            this.fpSpread1_Sheet1.Columns.Get(9).CellType = numberCellType33;
             this.fpSpread1_Sheet1.Columns.Get(9).Label = "Sep";
-            this.fpSpread1_Sheet1.Columns.Get(10).CellType = numberCellType10;
+            this.fpSpread1_Sheet1.Columns.Get(10).CellType = numberCellType34;
             this.fpSpread1_Sheet1.Columns.Get(10).Label = "Oct";
-            this.fpSpread1_Sheet1.Columns.Get(11).CellType = numberCellType11;
+            this.fpSpread1_Sheet1.Columns.Get(11).CellType = numberCellType35;
             this.fpSpread1_Sheet1.Columns.Get(11).Label = "Nov";
-            this.fpSpread1_Sheet1.Columns.Get(12).CellType = numberCellType12;
+            this.fpSpread1_Sheet1.Columns.Get(12).CellType = numberCellType36;
             this.fpSpread1_Sheet1.Columns.Get(12).Label = "Dec";
             this.fpSpread1_Sheet1.RowHeader.Columns.Default.Resizable = false;
             this.fpSpread1_Sheet1.Rows.Get(31).BackColor = System.Drawing.Color.Silver;
@@ -183,7 +184,7 @@ namespace APSRU.Howwet
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(518, 18);
+            this.label1.Location = new System.Drawing.Point(131, 686);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(32, 13);
             this.label1.TabIndex = 6;
@@ -192,7 +193,7 @@ namespace APSRU.Howwet
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(648, 22);
+            this.label2.Location = new System.Drawing.Point(238, 686);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(35, 13);
             this.label2.TabIndex = 7;
@@ -200,38 +201,50 @@ namespace APSRU.Howwet
             // 
             // yearSelectUpDown
             // 
-            this.yearSelectUpDown.Location = new System.Drawing.Point(556, 17);
+            this.yearSelectUpDown.Location = new System.Drawing.Point(169, 681);
             this.yearSelectUpDown.Name = "yearSelectUpDown";
             this.yearSelectUpDown.Size = new System.Drawing.Size(63, 20);
-            this.yearSelectUpDown.TabIndex = 8;
+            this.yearSelectUpDown.TabIndex = 3;
             this.yearSelectUpDown.ValueChanged += new System.EventHandler(this.yearSelectUpDown_ValueChanged);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(22, 17);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 13);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "label3";
             // 
             // AddYearButton
             // 
-            this.AddYearButton.Location = new System.Drawing.Point(432, 17);
+            this.AddYearButton.Location = new System.Drawing.Point(12, 681);
             this.AddYearButton.Name = "AddYearButton";
             this.AddYearButton.Size = new System.Drawing.Size(66, 22);
-            this.AddYearButton.TabIndex = 10;
-            this.AddYearButton.Text = "AddYear";
+            this.AddYearButton.TabIndex = 2;
+            this.AddYearButton.Text = "&Add Year";
             this.AddYearButton.UseVisualStyleBackColor = true;
             this.AddYearButton.Click += new System.EventHandler(this.AddYearButton_Click);
+            // 
+            // closeButton
+            // 
+            this.closeButton.Location = new System.Drawing.Point(690, 681);
+            this.closeButton.Name = "closeButton";
+            this.closeButton.Size = new System.Drawing.Size(81, 23);
+            this.closeButton.TabIndex = 5;
+            this.closeButton.Text = "&Close";
+            this.closeButton.UseVisualStyleBackColor = true;
+            this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
+            // 
+            // saveCloseButton
+            // 
+            this.saveCloseButton.Location = new System.Drawing.Point(582, 681);
+            this.saveCloseButton.Name = "saveCloseButton";
+            this.saveCloseButton.Size = new System.Drawing.Size(84, 23);
+            this.saveCloseButton.TabIndex = 4;
+            this.saveCloseButton.Text = "&Save && Close";
+            this.saveCloseButton.UseVisualStyleBackColor = true;
+            this.saveCloseButton.Click += new System.EventHandler(this.saveCloseButton_Click);
             // 
             // RainfallEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(783, 716);
+            this.ClientSize = new System.Drawing.Size(783, 710);
+            this.Controls.Add(this.saveCloseButton);
+            this.Controls.Add(this.closeButton);
             this.Controls.Add(this.AddYearButton);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.yearSelectUpDown);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -259,8 +272,9 @@ namespace APSRU.Howwet
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown yearSelectUpDown;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button AddYearButton;
+        private System.Windows.Forms.Button closeButton;
+        private System.Windows.Forms.Button saveCloseButton;
         
         }
     }
