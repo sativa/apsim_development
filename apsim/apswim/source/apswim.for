@@ -5246,43 +5246,43 @@ c                     p%beta(solnum,node) = table_beta(solnum2)
 
       do solnum = 1, p%num_solutes
             DDML = '<type name="solute_flow" array="T"'
-     :           //' kind="double" units="kg/ha"/>'
+     :           //' kind="double" unit="kg/ha"/>'
             variable_name = 'flow_'//trim(p%solute_names(solnum))
             id = Add_Registration (respondToGetSetReg, Variable_name,
      :                       DDML, ' ', ' ')
 
             DDML = '<type name="solute_leach" array="F"'
-     :           //' kind="double" units="kg/ha"/>'
+     :           //' kind="double" unit="kg/ha"/>'
             variable_name = 'leach_'//trim(p%solute_names(solnum))
             id = Add_Registration (respondToGetSetReg, Variable_name,
      :                       DDML, ' ', ' ')
 
             DDML = '<type name="solute_exco" array="T"'
-     :           //' kind="double" units=""/>'
+     :           //' kind="double" unit=""/>'
             variable_name = 'exco_'//trim(p%solute_names(solnum))
             id = Add_Registration (respondToGetSetReg, Variable_name,
      :                       DoubleArrayTypeDDML, ' ', ' ')
 
             DDML = '<type name="solute_dis" array="T"'
-     :           //' kind="double" units=""/>'
+     :           //' kind="double" unit=""/>'
             variable_name = 'dis_'//trim(p%solute_names(solnum))
             id = Add_Registration (respondToGetSetReg, Variable_name,
      :                       DDML, ' ', ' ')
 
             DDML = '<type name="conc_water_solute" array="T"'
-     :           //' kind="double" units="ppm"/>'
+     :           //' kind="double" unit="ppm"/>'
             variable_name = 'conc_water_'//trim(p%solute_names(solnum))
             id = Add_Registration (respondToGetSetReg, Variable_name,
      :                       DDML, ' ', ' ')
 
             DDML = '<type name="conc_adsorb_solute" array="T"'
-     :           //' kind="double" units="ppm"/>'
+     :           //' kind="double" unit="ppm"/>'
             variable_name = 'conc_adsorb_'//trim(p%solute_names(solnum))
             id = Add_Registration (respondToGetSetReg, Variable_name,
      :                       DDML, ' ', ' ')
 
             DDML = '<type name="subsurface_drain_solute" array="F"'
-     :           //' kind="double" units="kg/ha"/>'
+     :           //' kind="double" unit="kg/ha"/>'
             variable_name = 'subsurface_drain_'//
      :                          trim(p%solute_names(solnum))
             id = Add_Registration (respondToGetSetReg, Variable_name,
