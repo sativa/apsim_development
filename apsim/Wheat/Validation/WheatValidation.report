@@ -140,6 +140,14 @@ object data: TForm
       item
         Name = 'root_depth'
         DataType = ftFloat
+      end
+      item
+        Name = 'ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'eo'
+        DataType = ftFloat
       end>
     IndexDefs = <>
     SortOptions = []
@@ -153,7 +161,7 @@ object data: TForm
     PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
     PersistentBackup = False
     ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    Filter = 'Title = '#39'Wheat_Beverley90_N60'#39' and stage_name = '#39'maturity'#39
+    Filter = 'Title = '#39'Wheat_Beverley90_n60'#39' and stage_name = '#39'maturity'#39
     FilterOptions = []
     Version = '2.53g'
     LanguageID = 0
@@ -338,6 +346,14 @@ object data: TForm
       end
       item
         Name = 'root_depth'
+        DataType = ftFloat
+      end
+      item
+        Name = 'ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'eo'
         DataType = ftFloat
       end>
     IndexDefs = <>
@@ -1167,8 +1183,8 @@ object data: TForm
   end
 end
 object Page1: TQuickRep
-  Left = 235
-  Top = 0
+  Left = 107
+  Top = 49
   Width = 794
   Height = 1123
   Frame.Color = clBlack
@@ -1463,7 +1479,7 @@ object Page1: TQuickRep
     object Text1: TText
       Left = 149
       Top = 463
-      Width = 204
+      Width = 195
       Height = 33
       Frame.Color = clBlack
       Frame.DrawTop = False
@@ -1474,7 +1490,7 @@ object Page1: TQuickRep
         87.3125
         394.229166666667
         1225.02083333333
-        539.75)
+        515.9375)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -1486,7 +1502,7 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 1.10 x + 24.59 (r2 = 0.93)')
+        ' y = 1.11 x + 7.29 (r2 = 0.94)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -1910,7 +1926,7 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.96 x + 10.89 (r2 = 0.92)')
+        ' y = 0.92 x + 20.71 (r2 = 0.92)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -1943,7 +1959,7 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.88 x + 1217.81 (r2 = 0.82)')
+        ' y = 0.87 x + 1841.10 (r2 = 0.90)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -1953,7 +1969,7 @@ object Page1: TQuickRep
     object Text6: TText
       Left = 511
       Top = 933
-      Width = 200
+      Width = 195
       Height = 33
       Frame.Color = clBlack
       Frame.DrawTop = False
@@ -1964,7 +1980,7 @@ object Page1: TQuickRep
         87.3125
         1352.02083333333
         2468.5625
-        529.166666666667)
+        515.9375)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -1976,7 +1992,7 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 1.27 x + -0.63 (r2 = 0.59)')
+        ' y = 0.90 x + 0.10 (r2 = 0.51)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -1986,7 +2002,7 @@ object Page1: TQuickRep
     object Text2: TText
       Left = 149
       Top = 463
-      Width = 204
+      Width = 195
       Height = 33
       Frame.Color = clBlack
       Frame.DrawTop = False
@@ -1997,7 +2013,7 @@ object Page1: TQuickRep
         87.3125
         394.229166666667
         1225.02083333333
-        539.75)
+        515.9375)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -2009,7 +2025,7 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 1.10 x + 24.59 (r2 = 0.93)')
+        ' y = 1.11 x + 7.29 (r2 = 0.94)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -2037,7 +2053,7 @@ object Page1: TQuickRep
       AutoStretch = False
       Color = clWhite
       Lines.Strings = (
-        'RMSE=0.339')
+        'RMSE=0.277')
       Transparent = False
       WordWrap = True
       text = 'RMSE=$decplaces($property(regrGNPC.RMSD),3)'#13#10
@@ -2064,7 +2080,7 @@ object Page1: TQuickRep
       AutoStretch = False
       Color = clWhite
       Lines.Strings = (
-        'RMSE=47.448')
+        'RMSE=45.678')
       Transparent = False
       WordWrap = True
       text = 'RMSE=$decplaces($property(regryield.RMSD),3)'#13#10
@@ -2516,7 +2532,7 @@ object Page2: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 1.02 x + -0.49 (r2 = 0.92)')
+        ' y = 0.98 x + -0.19 (r2 = 0.92)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -2549,7 +2565,7 @@ object Page2: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.51 x + 0.02 (r2 = 0.17)')
+        ' y = 0.33 x + 0.02 (r2 = 0.09)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -2559,7 +2575,7 @@ object Page2: TQuickRep
     object Text9: TText
       Left = 139
       Top = 650
-      Width = 140
+      Width = 137
       Height = 13
       Frame.Color = clBlack
       Frame.DrawTop = False
@@ -2570,7 +2586,7 @@ object Page2: TQuickRep
         49.1369047619048
         525.386904761905
         2456.84523809524
-        529.166666666667)
+        517.827380952381)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -2582,7 +2598,7 @@ object Page2: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 1.05 x + -0.11 (r2 = 0.97)')
+        ' y = 1.04 x + 0.12 (r2 = 0.97)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -2615,7 +2631,7 @@ object Page2: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.51 x + 0.02 (r2 = 0.17)')
+        ' y = 0.33 x + 0.02 (r2 = 0.09)')
       ParentFont = False
       Transparent = False
       WordWrap = True
