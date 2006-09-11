@@ -798,7 +798,7 @@ namespace CSGeneral
             General.Cells[2, 1].Value = MySoil.NearestTown;
             General.Cells[3, 1].Value = MySoil.Site;
 			General.Cells[4, 1].Value = MySoil.Name;
-			General.Cells[5, 1].Value = MySoil.Order;
+            General.Cells[5, 1].Value = MySoil.Classification;
 			General.Cells[6, 1].Value = MySoil.NaturalVegetation;
 			General.Cells[7, 1].Value = MySoil.DataSource;
 			General.Cells[8, 1].Value = MySoil.Comment;
@@ -834,7 +834,7 @@ namespace CSGeneral
             MySoil.Region = GridUtils.GetCellAsString(General, 1, 1);
             MySoil.NearestTown = GridUtils.GetCellAsString(General, 1, 2);
             MySoil.Site = GridUtils.GetCellAsString(General, 1, 3);
-			MySoil.Order = GridUtils.GetCellAsString(General, 1, 5); 
+            MySoil.Classification = GridUtils.GetCellAsString(General, 1, 5); 
 			MySoil.NaturalVegetation = GridUtils.GetCellAsString(General, 1, 6);
 			MySoil.DataSource = GridUtils.GetCellAsString(General, 1, 7);
 			MySoil.Comment = GridUtils.GetCellAsString(General, 1, 8);

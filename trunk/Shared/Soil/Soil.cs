@@ -48,11 +48,12 @@ namespace CSGeneral
 			set {SetValue("", "site", value);}
 			}
 
-		public string Order
+		public string Classification
 			{
 			get {return GetStringValue("", "SoilType");}
 			set {SetValue("", "SoilType", value);}
 			}
+
 		public string DataSource
 			{
 			get {return GetStringValue("", "datasource");}
@@ -381,7 +382,7 @@ namespace CSGeneral
 				if (Data.ChildList("SoilCrop").Count > 0 && OpenPredLLCoeffFile())
 					{
 					// get a list of all possible predicted crops.
-					string SoilNameNoSpaces = Order.Replace(" ", "");
+                        string SoilNameNoSpaces = Classification.Replace(" ", "");
 					double[] SoilDepthCentre = this.CumThicknessMidPoints;
 				
 					foreach (APSIMData PredSoil in  PredLLCoeff.get_Children(null))
@@ -407,7 +408,7 @@ namespace CSGeneral
 			StringCollection AStrings = new StringCollection();
 			StringCollection BStrings = new StringCollection();
 			StringCollection LayerCentreStrings = new StringCollection();
-			string SoilNameNoSpaces = Order.Replace(" ", "");
+            string SoilNameNoSpaces = Classification.Replace(" ", "");
 			foreach (APSIMData Layer in PredLLCoeff.Child(SoilNameNoSpaces).Child(CropName).get_Children("layer"))
 				{
 				AStrings.Add(Layer.get_ChildValue("a"));
@@ -416,7 +417,7 @@ namespace CSGeneral
 				}
 
 			if (AStrings.Count == 0 || AStrings.Count != BStrings.Count || AStrings.Count != LayerCentreStrings.Count)
-				throw new Exception("Invalid predicted LL coeffs found for soil: " + Order + " and crop: " + CropName);
+                throw new Exception("Invalid predicted LL coeffs found for soil: " + Classification + " and crop: " + CropName);
 			a = new double[AStrings.Count];
 			b = new double[BStrings.Count];
 			CoeffDepthCentre = new double[LayerCentreStrings.Count];
@@ -840,7 +841,7 @@ namespace CSGeneral
 				"<component name=\"[soil.name] Nitrogen\" executable=\"%apsuite\\apsim\\soiln2\\lib\\soiln2.dll\">\r\n" +
 				"   <initdata>\r\n" +
                 "      <include>%apsuite\\apsim\\soiln2\\soiln2.ini</include>\r\n" +
-                "      <classification>[soil.classification]</classification>\r\n" +
+                "      <soiltype>[soil.soiltype]</soiltype>\r\n" +
                 "      <root_cn>[nitrogen.RootCN]</root_cn>\r\n" +
                 "      <root_wt>[nitrogen.RootWT]</root_wt>\r\n" +
                 "      <soil_cn>[nitrogen.SoilCN]</soil_cn>\r\n" +
