@@ -15,6 +15,8 @@ Public Class DataTree
     Private IsSorted As Boolean = False
     Private LastNode As TreeNode
     Private FirstNode As TreeNode
+    Friend WithEvents MenuItem3 As System.Windows.Forms.MenuItem
+    Friend WithEvents CollapseAllMenuItem As System.Windows.Forms.MenuItem
     Private UserChange As Boolean = True
     Delegate Sub NotifyEventHandler()
     Delegate Sub OnDataTreeKeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
@@ -74,6 +76,8 @@ Public Class DataTree
         Me.MenuItem2 = New System.Windows.Forms.MenuItem
         Me.MoveUpMenuItem = New System.Windows.Forms.MenuItem
         Me.MoveDownMenuItem = New System.Windows.Forms.MenuItem
+        Me.MenuItem3 = New System.Windows.Forms.MenuItem
+        Me.CollapseAllMenuItem = New System.Windows.Forms.MenuItem
         Me.SuspendLayout()
         '
         'TreeView
@@ -88,12 +92,12 @@ Public Class DataTree
         Me.TreeView.Name = "TreeView"
         Me.TreeView.PathSeparator = "|"
         Me.TreeView.ShowNodeToolTips = True
-        Me.TreeView.Size = New System.Drawing.Size(843, 549)
+        Me.TreeView.Size = New System.Drawing.Size(926, 661)
         Me.TreeView.TabIndex = 0
         '
         'ContextMenu1
         '
-        Me.ContextMenu1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.AddFolderMenuItem, Me.DeleteItemMenuItem, Me.RenameMenuItem, Me.MenuItem1, Me.CutMenuItem, Me.CopyMenuItem, Me.PasteMenuItem, Me.MenuItem2, Me.MoveUpMenuItem, Me.MoveDownMenuItem})
+        Me.ContextMenu1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.AddFolderMenuItem, Me.DeleteItemMenuItem, Me.RenameMenuItem, Me.MenuItem1, Me.CutMenuItem, Me.CopyMenuItem, Me.PasteMenuItem, Me.MenuItem2, Me.MoveUpMenuItem, Me.MoveDownMenuItem, Me.MenuItem3, Me.CollapseAllMenuItem})
         '
         'AddFolderMenuItem
         '
@@ -151,12 +155,22 @@ Public Class DataTree
         Me.MoveDownMenuItem.ShowShortcut = False
         Me.MoveDownMenuItem.Text = "Move do&wn    Ctrl+Down"
         '
+        'MenuItem3
+        '
+        Me.MenuItem3.Index = 10
+        Me.MenuItem3.Text = "-"
+        '
+        'CollapseAllMenuItem
+        '
+        Me.CollapseAllMenuItem.Index = 11
+        Me.CollapseAllMenuItem.Text = "Collapse A&ll"
+        '
         'DataTree
         '
         Me.AllowDrop = True
         Me.Controls.Add(Me.TreeView)
         Me.Name = "DataTree"
-        Me.Size = New System.Drawing.Size(843, 589)
+        Me.Size = New System.Drawing.Size(926, 701)
         Me.Controls.SetChildIndex(Me.TreeView, 0)
         Me.ResumeLayout(False)
 
@@ -826,6 +840,12 @@ Public Class DataTree
 
     Private Sub MoveDownMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MoveDownMenuItem.Click
         Controller.MoveSelectedDown()
+    End Sub
+
+    Private Sub CollapseAllMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles CollapseAllMenuItem.Click
+        TreeView.BeginUpdate()
+        TreeView.Nodes(0).Collapse()
+        TreeView.EndUpdate()
     End Sub
 
     Private Sub RenameMenuItemClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles RenameMenuItem.Click
