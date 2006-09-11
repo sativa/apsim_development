@@ -211,6 +211,7 @@ module Soiln2Module
       real       excess_nh4(max_layer)      ! excess N required above NH4 supply
 
       ! CHARACTER
+      character   soiltype*32               ! soil type spec used to determine mineralisation parameters.
       character   residue_module*(Max_module_name_size)
                                           ! list of modules  replying
       character   residue_name(max_residues)*(Max_module_name_size)
@@ -362,11 +363,11 @@ subroutine soiln2_reset ()
    ! Get information which may vary through time
    call soiln2_get_other_variables ()
 
-   ! Get all coefficients from parameter file
-   call soiln2_read_constants ()
-
    ! Get all parameters from parameter file
    call soiln2_read_param ()
+
+   ! Get all coefficients from parameter file
+   call soiln2_read_constants ()
 
    ! Perform initial calculations from inputs
    call soiln2_init_calc()
@@ -416,6 +417,11 @@ subroutine soiln2_read_param ()
    call push_routine (my_name)
 
    call write_string (  new_line//'   - Reading Parameters')
+
+   ! read in setting for soil type which is used to determine the mineralisation
+   ! model parameters section from the ini file.
+   call read_char_var_optional (section_name, 'soiltype', '()', g%soiltype, numvals)
+   if (numvals.le.0) g%soiltype = 'standard'
 
       ! Get parameter file name from control file and open it
    if (.not. g%use_external_st) then
@@ -1672,23 +1678,31 @@ subroutine soiln2_read_constants ()
 !     Read Constants from Ini file
 
 !+  Constant Values
-   character*(*) section_name
-   parameter (section_name = 'constants')
-!
    character*(*) my_name
    parameter (my_name = 'soiln2_read_constants')
 
 !+  Local Variables
    integer    numvals               ! number of values read from file
    character  string*80
+   character section_name*32
 
 !- Implementation Section ----------------------------------
    call push_routine (my_name)
 
    call write_string (new_line//'   - Reading Constants')
 
+   section_name = g%soiltype
 
-   call read_real_var (section_name, 'mcn', '()', c%mcn, numvals, 1.0, 50.0)
+   call read_real_var_optional (section_name, 'mcn', '()', c%mcn, numvals, 1.0, 50.0)
+   if (numvals.le.0) then
+      call write_string ('Using standard soil mineralisation for soil type '//g%soiltype)
+      section_name = 'standard'
+      call read_real_var(section_name, 'mcn', '()', c%mcn, numvals, 1.0, 50.0)
+   else
+      if (g%soiltype.ne.'standard') then
+         call write_string ('Using soil mineralisation specification for '//g%soiltype)
+      endif
+   endif
 
    call read_real_var (section_name, 'ef_fom', '()', c%ef_fom, numvals, 0.0, 1.0)
 
@@ -2168,11 +2182,11 @@ subroutine soiln2_incorp_fom ()
         g%fom_c_pool(1,layer) = g%fom_c_pool(1,layer)+ dlt_fom_c_pool1(layer)
         g%fom_c_pool(2,layer) = g%fom_c_pool(2,layer)+ dlt_fom_c_pool2(layer)
         g%fom_c_pool(3,layer) = g%fom_c_pool(3,layer)+ dlt_fom_c_pool3(layer)
-     
+
         g%fom_n_pool(1,layer) = g%fom_n_pool(1,layer)+ dlt_fom_n_pool1(layer)
         g%fom_n_pool(2,layer) = g%fom_n_pool(2,layer)+ dlt_fom_n_pool2(layer)
         g%fom_n_pool(3,layer) = g%fom_n_pool(3,layer)+ dlt_fom_n_pool3(layer)
-     
+
         !dsg    add up fom_n in each layer by adding up each of the pools
         g%fom_n(layer) = g%fom_n_pool(1,layer)+ g%fom_n_pool(2,layer)+ g%fom_n_pool(3,layer)
      end do
@@ -2202,7 +2216,7 @@ subroutine soiln2_incorp_fom ()
       else
          dlt_fom_type = ' '
          call collect_char_var_optional ('dlt_fom_type', '()', dlt_fom_type, numvals)
-      
+
          g%fom_type = Find_string_in_array (dlt_fom_type, g%fom_types, g%num_fom_types)
          if (g%fom_type.le.0) then
             ! fom type not found - use default
@@ -2219,23 +2233,23 @@ subroutine soiln2_incorp_fom ()
             dlt_fom_n_pool2(layer)=dlt_fom_n_incorp(layer)*c%fr_fom(2,g%fom_type)
             dlt_fom_n_pool3(layer)=dlt_fom_n_incorp(layer)*c%fr_fom(3,g%fom_type)
          end do
-   
+
          !dsg   NOW INCREMENT THE POOLS
          do layer = 1, numvals_n
             g%fom_c_pool(1,layer) = g%fom_c_pool(1,layer)+ dlt_fom_c_pool1(layer)
             g%fom_c_pool(2,layer) = g%fom_c_pool(2,layer)+ dlt_fom_c_pool2(layer)
             g%fom_c_pool(3,layer) = g%fom_c_pool(3,layer)+ dlt_fom_c_pool3(layer)
-         
+
             g%fom_n_pool(1,layer) = g%fom_n_pool(1,layer)+ dlt_fom_n_pool1(layer)
             g%fom_n_pool(2,layer) = g%fom_n_pool(2,layer)+ dlt_fom_n_pool2(layer)
             g%fom_n_pool(3,layer) = g%fom_n_pool(3,layer)+ dlt_fom_n_pool3(layer)
-         
+
             !dsg    add up fom_n in each layer by adding up each of the pools
             g%fom_n(layer) = g%fom_n_pool(1,layer)+ g%fom_n_pool(2,layer)+ g%fom_n_pool(3,layer)
          end do
       endif
    endif
-   
+
    ! now stuff any inorganic in this message into profile
    call soiln2_incorp_min_N ()
 
