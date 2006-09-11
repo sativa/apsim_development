@@ -139,8 +139,8 @@
       <UItype>area</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <LargeIcon>Images\layout_center32.png</LargeIcon>
-      <SmallIcon>Images\layout_center16.png</SmallIcon>
+      <LargeIcon>Images\document32.png</LargeIcon>
+      <SmallIcon>Images\document16.png</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="simulations"/>
@@ -203,7 +203,7 @@
          <type>component</type>
          <dll>%apsuite\apsim\canopy\lib\canopy.dll</dll>
       </ApsimToSim>
-   </canopy>  
+   </canopy>
    <FarmwiseSequencerConverter>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
@@ -3218,15 +3218,15 @@
       </drops>
       <variables>
          <variable name="final_soil_temp_surface" description="Soil surface temperature at the end of the final internal Soiltemp timestep. (oC)"/>
-         <variable name="final_soil_temp" array="T" description="Soil temperature at the end of the final internal Soiltemp timestep. oC"/> 
-         <variable name="ave_soil_temp_surface" description="Average soil surface temperature during the Apsim timestep. (oC)"/> 
-         <variable name="ave_soil_temp" array="T" description="Average soil surface temperature during the Apsim timestep. (oC)"/> 
-         <variable name="mint_soil_surface" description="Minimum soil surface temperature found on surface during the Apsim timestep. (oC)"/> 
-         <variable name="mint_soil" array="T" description="Minimum soil surface temperature found in each layer during the Apsim timestep. (oC)"/> 
-         <variable name="maxt_soil_surface" description="Maximum soil surface temperature found on surface during the Apsim timestep. (oC)"/> 
-         <variable name="maxt_soil" array="T" description="Maximum soil surface temperature found in each layer during the Apsim timestep. (oC)"/> 
-         <variable name="therm_cond" description="Thermal conductivity for each layer. (J s-1 m-1 K-1)"/> 
-         <variable name="heat_store" description="Volumetric specific heat for each layer. (J m-3 K-1)"/> 
+         <variable name="final_soil_temp" array="T" description="Soil temperature at the end of the final internal Soiltemp timestep. oC"/>
+         <variable name="ave_soil_temp_surface" description="Average soil surface temperature during the Apsim timestep. (oC)"/>
+         <variable name="ave_soil_temp" array="T" description="Average soil surface temperature during the Apsim timestep. (oC)"/>
+         <variable name="mint_soil_surface" description="Minimum soil surface temperature found on surface during the Apsim timestep. (oC)"/>
+         <variable name="mint_soil" array="T" description="Minimum soil surface temperature found in each layer during the Apsim timestep. (oC)"/>
+         <variable name="maxt_soil_surface" description="Maximum soil surface temperature found on surface during the Apsim timestep. (oC)"/>
+         <variable name="maxt_soil" array="T" description="Maximum soil surface temperature found in each layer during the Apsim timestep. (oC)"/>
+         <variable name="therm_cond" description="Thermal conductivity for each layer. (J s-1 m-1 K-1)"/>
+         <variable name="heat_store" description="Volumetric specific heat for each layer. (J m-3 K-1)"/>
       </variables>
       <ApsimToSim>
          <type>component</type>
