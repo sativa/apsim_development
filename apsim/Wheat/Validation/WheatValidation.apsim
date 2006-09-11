@@ -1883,6 +1883,7 @@
           <sat>0.28</sat>
           <sw>0.04</sw>
           <swcon>1</swcon>
+          <mwcon>1.00</mwcon>
         </layer>
         <layer name="2">
           <thickness>100</thickness>
@@ -1893,6 +1894,7 @@
           <sat>0.27</sat>
           <sw>0.05</sw>
           <swcon>1</swcon>
+          <mwcon>1.00</mwcon>
         </layer>
         <layer name="3">
           <thickness>100</thickness>
@@ -1903,6 +1905,7 @@
           <sat>0.27</sat>
           <sw>0.08</sw>
           <swcon>1</swcon>
+          <mwcon>1.00</mwcon>
         </layer>
         <layer name="4">
           <thickness>100</thickness>
@@ -1913,6 +1916,7 @@
           <sat>0.25</sat>
           <sw>0.15</sw>
           <swcon>1</swcon>
+          <mwcon>1.00</mwcon>
         </layer>
         <layer name="5">
           <thickness>100</thickness>
@@ -1923,6 +1927,7 @@
           <sat>0.25</sat>
           <sw>0.1</sw>
           <swcon>0.1</swcon>
+          <mwcon>0.00</mwcon>
         </layer>
         <layer name="6">
           <thickness>100</thickness>
@@ -1933,6 +1938,7 @@
           <sat>0.25</sat>
           <sw>0.2</sw>
           <swcon>1</swcon>
+          <mwcon>1.00</mwcon>
         </layer>
         <layer name="7">
           <thickness>100</thickness>
@@ -1943,6 +1949,7 @@
           <sat>0.25</sat>
           <sw>0.22</sw>
           <swcon>1</swcon>
+          <mwcon>1.00</mwcon>
         </layer>
         <layer name="8">
           <thickness>200</thickness>
@@ -1953,6 +1960,7 @@
           <sat>0.23</sat>
           <sw>0.22</sw>
           <swcon>1</swcon>
+          <mwcon>1.00</mwcon>
         </layer>
         <layer name="9">
           <thickness>200</thickness>
@@ -1963,6 +1971,7 @@
           <sat>0.23</sat>
           <sw>0.21</sw>
           <swcon>1</swcon>
+          <mwcon>1.00</mwcon>
         </layer>
         <layer name="10">
           <thickness>200</thickness>
@@ -1973,6 +1982,7 @@
           <sat>0.23</sat>
           <sw>0.19</sw>
           <swcon>1</swcon>
+          <mwcon>1.00</mwcon>
         </layer>
       </Water>
       <Nitrogen>
@@ -2122,54 +2132,55 @@
         <layer name="1">
           <ll>0.03</ll>
           <kl>0.06</kl>
-          <xf>0.2</xf>
+          <xf>0.20</xf>
         </layer>
         <layer name="2">
           <ll>0.03</ll>
           <kl>0.06</kl>
-          <xf>0.6</xf>
+          <xf>0.20</xf>
         </layer>
         <layer name="3">
           <ll>0.03</ll>
           <kl>0.06</kl>
-          <xf>0.6</xf>
+          <xf>0.40</xf>
         </layer>
         <layer name="4">
           <ll>0.05</ll>
           <kl>0.06</kl>
-          <xf>0.6</xf>
+          <xf>0.40</xf>
         </layer>
         <layer name="5">
-          <ll>0.1</ll>
+          <ll>0.10</ll>
           <kl>0.06</kl>
-          <xf>0.6</xf>
+          <xf>0.40</xf>
         </layer>
         <layer name="6">
           <ll>0.12</ll>
           <kl>0.06</kl>
-          <xf>0.6</xf>
+          <xf>0.40</xf>
         </layer>
         <layer name="7">
           <ll>0.17</ll>
           <kl>0.06</kl>
-          <xf>0.6</xf>
+          <xf>0.40</xf>
         </layer>
         <layer name="8">
           <ll>0.17</ll>
           <kl>0.06</kl>
-          <xf>0.6</xf>
+          <xf>0.40</xf>
         </layer>
         <layer name="9">
           <ll>0.17</ll>
           <kl>0.06</kl>
-          <xf>0.6</xf>
+          <xf>0.20</xf>
         </layer>
         <layer name="10">
           <ll>0.17</ll>
           <kl>0.06</kl>
-          <xf>0.6</xf>
+          <xf>0.00</xf>
         </layer>
       </SoilCrop>
+      <WaterFormat>VolumetricPercent</WaterFormat>
     </soil>
     <soil name="APS6Field">
       <Site>APS6Site</Site>
