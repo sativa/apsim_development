@@ -15,7 +15,6 @@ namespace APSRU.Model.Howwet
         private APSIMData myData;
         private String fileName;
         private String oldCrop="";
-        
       
         public SimulationIn(APSIMData data)
             {
@@ -25,7 +24,6 @@ namespace APSRU.Model.Howwet
         public APSIMData Data
             {
             get { return myData; }
-            //set { myData = value; }
             }
         public void AddSoil(APSIMData selectedSoil)
             {
@@ -35,7 +33,6 @@ namespace APSRU.Model.Howwet
                 {
                 APSIMData paddockNode = myData.FindChildByType("simulation|area", '|');
                 StringCollection soils = paddockNode.ChildList("Soil");
-
                 if (!(soils.Count == 0))
                     {
                     errString = "removing old soil";
@@ -45,7 +42,6 @@ namespace APSRU.Model.Howwet
                     }
                 errString = "adding new soil";
                 paddockNode.Add(selectedSoil);
-          //      newSoil = new Soil(selectedSoil);
                 }
             catch (Exception e)
                 {
@@ -69,14 +65,13 @@ namespace APSRU.Model.Howwet
                 APSIMData newNode=new APSIMData(newCrop,"");
                 soilCropNode.Add(newNode);
                 oldCrop = newCrop;
-                
                 }
             catch (Exception e)
                 {
                 throw new CustomException(new CustomError("", "Problem adding Corp", errString + "\n Exception:" + e.ToString(), FUNCTION_NAME, this.GetType().FullName, true));
                 }
             }
-
+       
         public Soil Soil
             {
             get
@@ -179,7 +174,7 @@ namespace APSRU.Model.Howwet
                 erosionNode.set_ChildValue("k_factor", value);
                 }
             get {
-            APSIMData erosionNode = myData.FindChildByType("simulation|area|erosion", '|');
+                APSIMData erosionNode = myData.FindChildByType("simulation|area|erosion", '|');
                 return erosionNode.get_ChildValue("k_factor");
                 }
             }

@@ -22,16 +22,18 @@ namespace APSRU.Model.Howwet
         private String fileName;
         private DateTime startDate;
         private DateTime endDate;
-        private int[] radnYearlyAverage;
+        private float[] radnYearlyAverage;
+        private float[] radnDaliyYearlyAverage;
         private DataTable radnMonthlyAverage;
-        private int[] maxtYearlyAverage;
+        private float[] maxtYearlyAverage;
+        private float[] maxtDaliyYearlyAverage;
         private DataTable maxtMonthlyAverage;
-        private int[] mintYearlyAverage;
+        private float[] mintYearlyAverage;
+        private float[] mintDaliyYearlyAverage;
         private DataTable mintMonthlyAverage;
-        private int[] rainYearlyAverage;
+        private float[] rainYearlyAverage;
+        private float[] rainDailyYearlyAverage;
         private DataTable rainMonthlyAverage;
-        private int[] evapYearlyAverage;
-        private DataTable evapMonthlyAverage;
         private ArrayList constants;
         private StringCollection headings;
         private StringCollection units;
@@ -98,6 +100,7 @@ namespace APSRU.Model.Howwet
                 this.MintYearlyAverage = getMonthlyYearlyAverages(this.MintMonthlyAverage);
                 this.RainMonthlyAverage = createMonthlyAverages("rain");
                 this.RainYearlyAverage = getMonthlyYearlyAverages(this.RainMonthlyAverage);
+                this.RainDailyYearlyAverage = getDailyYearlyAverage(this.RainYearlyAverage);
                 success = true;
                 return success;
                 }
@@ -110,6 +113,20 @@ namespace APSRU.Model.Howwet
                 {
                 throw new CustomException(new CustomError("", "Cannot build met averages", errString + "\n Exception:" + err.ToString(), FUNCTION_NAME, this.GetType().FullName, true));
                 }
+            }
+
+        public double averageRainInNext(DateTime startDate,int days)
+            {
+            double totalAverageRain = 0;
+            TimeSpan daySpan = new TimeSpan(days, 0, 0, 0);
+            int day=1;
+            while (day <= daySpan.Days)
+                {
+                DateTime newStartDate = startDate.Add(new TimeSpan(day, 0, 0, 0));
+                totalAverageRain = totalAverageRain + RainDailyYearlyAverage[newStartDate.Month];
+                day++;
+                }
+            return totalAverageRain;
             }
 
         public String Site
@@ -136,7 +153,7 @@ namespace APSRU.Model.Howwet
             get { return fileName; }
             }
 
-        public int[] RadnYearlyAverage
+        public float[] RadnYearlyAverage
             {
             set { radnYearlyAverage = value; }
             get { return radnYearlyAverage; }
@@ -148,7 +165,7 @@ namespace APSRU.Model.Howwet
             get { return radnMonthlyAverage; }
             }
 
-        public int[] MaxtYearlyAverage
+        public float[] MaxtYearlyAverage
             {
             set { maxtYearlyAverage = value; }
             get { return maxtYearlyAverage; }
@@ -160,7 +177,7 @@ namespace APSRU.Model.Howwet
             get { return maxtMonthlyAverage; }
             }
 
-        public int[] MintYearlyAverage
+        public float[] MintYearlyAverage
             {
             set { mintYearlyAverage = value; }
             get { return mintYearlyAverage; }
@@ -172,10 +189,16 @@ namespace APSRU.Model.Howwet
             get { return mintMonthlyAverage; }
             }
 
-        public int[] RainYearlyAverage
+        public float[] RainYearlyAverage
             {
             set { rainYearlyAverage = value; }
             get { return rainYearlyAverage; }
+            }
+
+        public float[] RainDailyYearlyAverage
+            {
+            set { rainDailyYearlyAverage = value; }
+            get { return rainDailyYearlyAverage; }
             }
 
         public DataTable RainMonthlyAverage
@@ -209,9 +232,10 @@ namespace APSRU.Model.Howwet
                     outStream.WriteLine(con.Name + " = " + con.Value + " (" + con.Units + ") " + " ! " + con.Comment);
                     }
                 //headings
+                errString = "Writting headings";
                 String headingString = "";
                 int headingCount = headings.Count;
-                for (int i = 7; i < headingCount; i++)
+                for (int i = headingCount-1; i >= 7; i--)
                     {
                     headings.RemoveAt(i);
                     }
@@ -222,8 +246,9 @@ namespace APSRU.Model.Howwet
              
                 outStream.WriteLine(headingString);
                 //Units
+                errString = "Writting Unit";
                 int unitCount = units.Count;
-                for (int j = 7; j < unitCount; j++)
+                for (int j = unitCount-1; j >= 7; j--)
                     {
                     units.RemoveAt(j);
                     }
@@ -234,6 +259,7 @@ namespace APSRU.Model.Howwet
                     }
                 outStream.WriteLine(unitString);
                 //Data
+                errString = "Writting Rows";
                 foreach (DataRow row in Data.Rows)
                     {
                     foreach (String heading in headings)
@@ -245,7 +271,13 @@ namespace APSRU.Model.Howwet
                             case "day":
                                 outStream.Write(date.DayOfYear);
                                 break;
+                            case "Day":
+                                outStream.Write(date.DayOfYear);
+                                break;
                             case "year":
+                                outStream.Write(date.Year);
+                                break;
+                            case "Year":
                                 outStream.Write(date.Year);
                                 break;
                             default:
@@ -255,7 +287,6 @@ namespace APSRU.Model.Howwet
                         outStream.Write(" ");
                         }
                     outStream.Write("\r\n");
-                //    outStream.WriteLine(row["site"].ToString() + " " + date.Year + " " + date.DayOfYear + " " + row["radn"].ToString() + " " + row["maxt"].ToString() + " " + row["mint"].ToString() + " " + row["rain"].ToString());
                     }
                 outStream.Close();
                 }
@@ -291,7 +322,7 @@ namespace APSRU.Model.Howwet
 
                 for (int year = firstYear.Year; year <= lastYear.Year; year++)
                     {
-                    int[] monthlySum = new int[13];
+                    float[] monthlySum = new float[13];
                     int[] dayCount = new int[13];
                     //for the selected year sum the daily totals to a month total
                     String sql = "Date >= '1-1-" + year + "' AND Date < '31-12-" + year + "'";
@@ -303,36 +334,36 @@ namespace APSRU.Model.Howwet
                             DateTime date = (DateTime)row["Date"];
                             if (!(Convert.ToInt16(row[field]) == 0))
                                 {
-                                monthlySum[date.Month] = monthlySum[date.Month] + Convert.ToInt16(row[field]);
-                                dayCount[date.Month] = date.Day;
+                                monthlySum[date.Month] = monthlySum[date.Month] + (float)row[field];
+                               // dayCount[date.Month] = dayCount[date.Month]+1;
                                 }
                             }
                         }
                     //generate the averages for each month within the selected year
-                    int[] monthlyAverage = new int[13];
-                    int[] yearSumAverage = new int[13];
-                    int itemsInArray = 1;
-                    for (int loop = 1; loop < dayCount.Length; loop++)
-                        {
-                        if (!(dayCount[loop] == 0)) itemsInArray++;
-                        }
-                    for (int month = 1; month < itemsInArray; month++)
-                        {
-                        if (dayCount[month] == 0)//test divide by zero
-                            {
-                            monthlyAverage[month] = 0;
-                            }
-                        else
-                            {
-                            monthlyAverage[month] = monthlySum[month] / dayCount[month];
-                            }
-                        }
+                //    int[] monthlyAverage = new int[13];
+                //    int[] yearSumAverage = new int[13];
+                //    int itemsInArray = 1;
+                //    for (int loop = 1; loop < dayCount.Length; loop++)
+                //        {
+                //        if (!(dayCount[loop] == 0)) itemsInArray++;
+                //        }
+                //    for (int month = 1; month < itemsInArray; month++)
+                //        {
+                //        if (dayCount[month] == 0)//test divide by zero
+                //            {
+               //             monthlyAverage[month] = 0;
+               //             }
+                //        else
+                //            {
+                //            monthlyAverage[month] = monthlySum[month] / dayCount[month];
+                //            }
+                //        }
                     //put the monthly averages per year in a data table
                     DataRow newRow = yearlySum.NewRow();
                     newRow["Year"] = year;
-                    for (int col = 1; col < monthlyAverage.Length; col++)
+                    for (int col = 1; col < monthlySum.Length; col++)
                         {
-                        newRow[col] = monthlyAverage[col];
+                        newRow[col] = monthlySum[col];
                         }
                     yearlySum.Rows.Add(newRow);
                     }
@@ -344,23 +375,44 @@ namespace APSRU.Model.Howwet
                 }
             }
 
+        private float[] getDailyYearlyAverage(float[] monthlyYearlyAverage)
+            {
+            String errString = "";
+            const String FUNCTION_NAME = "getDailyYearlyAverage";
+            try
+                {
+                float[] dailyYearlyAverages = new float[13];
+                for (int line = 1; line < monthlyYearlyAverage.Length; line++)
+                    {
+                    dailyYearlyAverages[line] = dailyYearlyAverages[line] + (monthlyYearlyAverage[line] / (DateTime.DaysInMonth(2001, line)));
+                    }
+                return dailyYearlyAverages;
+                }
+            catch (Exception e)
+                {
+                throw new CustomException(new CustomError("", "Cannot getDailyYearlyAverage", errString + "\n Exception:" + e.ToString(), FUNCTION_NAME, this.GetType().FullName, true));
+                }
+
+            }
+
+
         //calculate yearly averages of monthly average 
-        private int[] getMonthlyYearlyAverages(DataTable yearlySum)
+        private float[] getMonthlyYearlyAverages(DataTable yearlySum)
             {
             String errString = "";
             const String FUNCTION_NAME="getMonthlyYearlyAverages";
             try
                 {
                 //generate the averages for each month across all years
-                int[] monthlyYearlyAverages = new int[13];
+                float[] monthlyYearlyAverages = new float[13];
                 for (int columun = 1; columun < yearlySum.Columns.Count; columun++)
                     {
                     int rowCount = 0;
-                    int yearSum = 0;
+                    float yearSum = 0;
                     foreach (DataRow row in yearlySum.Rows)
                         {
-                        yearSum = yearSum + Convert.ToInt16(row[columun]);
-                        rowCount++;
+                        yearSum = yearSum + (float)Convert.ToDouble(row[columun]);
+                        if (!((float)Convert.ToDouble(row[columun]) == 0)) rowCount++;
                         }
                     monthlyYearlyAverages[columun] = yearSum / rowCount;
                     }

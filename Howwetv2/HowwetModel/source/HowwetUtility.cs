@@ -49,8 +49,6 @@ namespace APSRU.Translator.Howwet
             String errString = "";
             try
                 {
-               // String fileName = "C:\\Development\\Howwetv2\\HowwetUI\\source\\HowwetSetup.xml";
-                                              
                 errString = "reading " + fileName;
                 XmlDocument doc = new XmlDocument();
                 doc.Load(fileName);
@@ -139,8 +137,6 @@ namespace APSRU.Translator.Howwet
                 }
             else
                 {
-              //  String newPath = Directory.GetParent(exeFolder)+"\\Howwetv2\\HowwetUI\\source";
-               // String twoBack = Directory.GetParent(oneBack).ToString();
                 String newPath = Directory.GetParent(exeFolder).ToString();
                 if (File.Exists(newPath + howwetSetupFileName))
                     {
@@ -174,13 +170,13 @@ namespace APSRU.Translator.Howwet
 
         public decimal ConvertCoverKgToPercent(double mass,double specific_area)
             {
-            decimal percent=Convert.ToDecimal(1-(Math.Exp(specific_area*mass))*100);
+            decimal percent=Convert.ToDecimal((1-Math.Exp(-specific_area*mass))*100);
             return percent;
             }
 
         public double ConvertCoverPercentToKg(decimal percent,double specific_area)
             {
-            double mass = -((Math.Log10(1 - (Convert.ToDouble(percent)))) / specific_area);
+            double mass = -((Math.Log(1 - (Convert.ToDouble(percent)), 2.718281828459)) / specific_area);
             return mass;
             }
 
@@ -208,6 +204,5 @@ namespace APSRU.Translator.Howwet
             {
             get { return apsimData; }
             }
-       
         }
     }
