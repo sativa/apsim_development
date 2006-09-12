@@ -171,8 +171,8 @@ Public Class ApsimUIController
                 Case "operations"
                     Return New APSIMUI.OperationsUI
 
-                Case "tclui"
-                    Return New APSIMUI.TclUI
+                    'Case "tclui"
+                    '    Return New APSIMUI.TclUI
 
                 Case Else
                     Return New GenericUI
@@ -402,35 +402,14 @@ Public Class ApsimUIController
         Return TypesData.Child(GivenType).Child("Description").Value
     End Function
 
-    ' -----------------------------------------------------------------
-    ' Return list of parameter bounds for a given type
-    ' -----------------------------------------------------------------
-    Public Overrides Function CheckParameterBound(ByVal GivenType As String, ByVal parameter As String, ByVal value As String) As String
-        Dim result As String = ""
-
-        Dim bounds As APSIMData = TypesData.Child(GivenType).Child("bounds")
-        If Not IsNothing(bounds) Then
-            Dim bound As APSIMData = bounds.Child(parameter)
-            If Not IsNothing(bound) Then
-                Dim max As String = bound.Attribute("max")
-                If max <> "" Then
-                    If CType(value, Single) > CType(max, Single) Then
-                        result = "Value is greater than recommended upper value of " + Str(max)
-                    End If
-                End If
-                Dim min As String = bound.Attribute("min")
-                If min <> "" Then
-                    If CType(value, Single) < CType(min, Single) Then
-                        result = "Value is less than recommended lowest value of " + Str(min)
-                    End If
-                End If
-
-            Else
-                result = ""
-            End If
-        End If
-        Return result
-
+    Public Function GetPropertiesForType(ByVal GivenType As String, ByVal PropType As String) As String()
+        ' ------------------------------------------------------------------
+        ' Return from 'Types' database a list of property names
+        ' ------------------------------------------------------------------
+        Dim Values As StringCollection = TypesData.Child(GivenType).ChildList(PropType)
+        Dim ReturnValues(Values.Count - 1) As String
+        Values.CopyTo(ReturnValues, 0)
+        Return ReturnValues
     End Function
 
     ' ---------------------------------------
@@ -439,20 +418,6 @@ Public Class ApsimUIController
     Public Sub ShowHelp(ByVal url As String)
         Process.Start(url)
     End Sub
-
-
-    '' ---------------------------------------
-    '' Show the help window
-    '' ---------------------------------------
-    'Public Sub ShowHelpBrowser(ByVal Visible As Boolean)
-    '    '_MainForm.ViewHelpWindow.Checked = Visible
-    '    '_MainForm.HelpBrowserPanel.Visible = Visible
-    '    '_MainForm.HelpBrowsertoolBar.Visible = Visible
-    '    'Dim inifile As New APSIMSettings
-    '    '_MainForm.HelpBrowserPanel.Height = Val(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "helpheight"))
-    '    '_MainForm.HorizontalSplitter.Enabled = Visible
-    'End Sub
-
 
     ' --------------------------------
     ' Display the NewDocument form and
@@ -588,10 +553,90 @@ Public Class ApsimUIController
         Data.ChildValue("filename") = FileName
     End Sub
 
-    ' ------------------------------------------------------------------
-    ' Return a list of crop names
-    ' ------------------------------------------------------------------
+
+#Region "Generic UI functions"
+    Public Overrides Function CreateCellEditor(ByVal Prop As APSIMData) As FarPoint.Win.Spread.CellType.BaseCellType
+        ' --------------------------------------------------------------------
+        ' Create and return a cell editor based on the property based in.
+        ' --------------------------------------------------------------------
+        Dim Editor As FarPoint.Win.Spread.CellType.BaseCellType = MyBase.CreateCellEditor(Prop)
+        If Editor Is Nothing Then
+            If Prop.Attribute("type") = "modulename" Then
+                Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
+                Combo.Editable = True
+                Editor = Combo
+
+            ElseIf Prop.Attribute("type") = "crop" Then
+                Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
+                Combo.Editable = True
+                Editor = Combo
+
+            ElseIf Prop.Attribute("type") = "cultivars" Then
+                Dim CultivarCombo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
+                CultivarCombo.Editable = True
+                Editor = CultivarCombo
+
+            ElseIf Prop.Attribute("type") = "classes" Then
+                Dim CultivarCombo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
+                CultivarCombo.Items = GetMatchingModuleNames(Prop)
+                CultivarCombo.Editable = True
+                Editor = CultivarCombo
+            End If
+        End If
+        Return Editor
+    End Function
+
+    Public Overrides Sub PopulateCellEditor(ByVal Prop As APSIMData, ByVal Editor As FarPoint.Win.Spread.CellType.BaseCellType)
+        ' --------------------------------------------------------------------
+        ' Create and return a cell editor based on the property based in.
+        ' --------------------------------------------------------------------
+        MyBase.PopulateCellEditor(Prop, Editor)
+
+        If Not IsNothing(Editor) AndAlso Editor.GetType().ToString = "FarPoint.Win.Spread.CellType.ComboBoxCellType" Then
+            Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = Editor
+            If Prop.Attribute("type") = "modulename" Then
+                Combo.Items = GetMatchingModuleNames(Prop)
+
+            ElseIf Prop.Attribute("type") = "crop" Then
+                Combo.Items = GetCropNames(Prop)
+
+            ElseIf Prop.Attribute("type") = "cultivars" Then
+                Dim CropPropertyName As String = Prop.Attribute("croppropertyname")
+                Dim CropName As String = Prop.Parent.Child(CropPropertyName).Value
+                Combo.Items = GetPropertiesForType(CropName, "cultivar")
+
+            ElseIf Prop.Attribute("type") = "classes" Then
+                Dim CropPropertyName As String = Prop.Attribute("croppropertyname")
+                Dim CropName As String = Prop.Parent.Child(CropPropertyName).Value
+                Combo.Items = GetPropertiesForType(CropName, "class")
+            End If
+        End If
+    End Sub
+
+    Public Function GetMatchingModuleNames(ByVal Prop As APSIMData) As String()
+        ' ------------------------------------------------------------------
+        ' Return a list of instance names for the specified module name
+        ' ------------------------------------------------------------------
+        Dim Values As New StringCollection
+        Dim System As APSIMData = Prop.Parent
+        While System.Type <> "simulation" And System.Type <> "area" And Not IsNothing(System.Parent)
+            System = System.Parent
+        End While
+
+        For Each ApsimModule As APSIMData In System.Children
+            If Prop.Attribute("moduletype") = "" Or ApsimModule.Type = Prop.Attribute("moduletype") Then
+                Values.Add(ApsimModule.Name())
+            End If
+        Next
+        Dim ReturnValues(Values.Count - 1) As String
+        Values.CopyTo(ReturnValues, 0)
+        Return ReturnValues
+    End Function
+
     Overrides Function GetCropNames(ByVal Prop As APSIMData) As String()
+        ' ------------------------------------------------------------------
+        ' Return a list of crop names
+        ' ------------------------------------------------------------------
         Dim Values As New StringCollection
         Dim System As APSIMData = Prop.Parent
         While System.Type <> "simulation" And System.Type <> "area" And Not IsNothing(System.Parent)
@@ -607,6 +652,10 @@ Public Class ApsimUIController
         Values.CopyTo(ReturnValues, 0)
         Return ReturnValues
     End Function
+
+
+    
+#End Region
 
     Public Function GetOutputFilesUnder(ByVal Data As APSIMData) As StringCollection
         ' ------------------------------------------------------------

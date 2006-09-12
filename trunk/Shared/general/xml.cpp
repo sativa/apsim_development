@@ -148,10 +148,18 @@ std::string XMLNode::getValue(void) const
    string returnString;
    if (node != NULL)
       {
-      xmlChar* st = xmlNodeGetContent(node);
-      if (st != NULL)
-         returnString = (char*) st;
-      xmlFree(st);
+      xmlNode *child = node->children;
+      while (child != NULL)
+         {
+         if (child->type == XML_CDATA_SECTION_NODE || child->type == XML_TEXT_NODE)
+            {
+            xmlChar* st = xmlNodeGetContent(child);
+            if (st != NULL)
+               returnString += (char*) st;
+            xmlFree(st);
+            }
+         child = child->next;
+         }
       }
    return returnString;
    }

@@ -258,6 +258,14 @@ Public Class APSIMData
             RaiseEvent DataChanged()
         End If
     End Sub
+    Sub DeleteAttribute(ByVal AttributeName As String, ByVal AttributeValue As String)
+        Dim A As XmlAttribute = Node.Attributes.GetNamedItem(AttributeName)
+        If Not IsNothing(A) Then
+            Node.Attributes.Remove(A)
+            RaiseEvent DataChanged()
+        End If
+    End Sub
+
     ReadOnly Property Type() As String
         Get
             Return Node.Name
