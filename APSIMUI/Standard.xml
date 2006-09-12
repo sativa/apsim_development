@@ -1,13 +1,14 @@
-<folder name="Standard Toolbox" image="Images/toolbox.png">
+<folder name="Standard Toolbox" image="Images/toolbox.png" version="4">
   <folder name="Structural">
-   <memo></memo>
-   <folder name="folder">
-   </folder>
-   <folder name="shared">
-   </folder>
-   <area name="paddock">
-     <registrations name="global" />
-   </area>
+    <memo>
+    </memo>
+    <folder name="folder">
+    </folder>
+    <folder name="shared">
+    </folder>
+    <area name="paddock">
+      <registrations name="global" />
+    </area>
   </folder>
   <folder name="Crops">
     <barley />
@@ -20,100 +21,120 @@
     <egrandis />
     <fababean />
     <FarmwisePasture>
-       <PastureScienceConverter>
-         <debug type="list" listvalues="on,off">off</debug>
-         <sand>0.0 0.0 0.0 0.0 0.0 0.0 0.0</sand>
-         <kl>  0.12 0.12 0.12 0.11 0.06 0.05 0.03</kl>
-         <ll>  0.230 0.240 0.240 0.250 0.260 0.270 0.280</ll>
-         <svp_fract> 0.75</svp_fract>
-       </PastureScienceConverter>
-        <species>Perennial Ryegrass</species>
-        <nutrients></nutrients>
-        <fertility>0.75</fertility>
-        <max_rtdep description="Maximum rooting depth (mm)">250.0</max_rtdep>
-        <lagged_day_t description="lagged_day_t (oC)">-999.9</lagged_day_t>
-        <phenology>1.005</phenology>
-        <flower_len description="flower_len (d)">0.0</flower_len>
-        <flower_time description="flower_time (d)">0.0</flower_time>
-        <senc_index description="senc_index (d)">0.0</senc_index>
-        <dorm_index description="dorm_index (d)">0.0</dorm_index>
-        <dorm_t description="dorm_t (oc)">-999.9</dorm_t>
-        <FarmwisePastureGreen name="Green">
-           <status>established</status>
-           <rt_dep description="rt_dep (mm)">100.0</rt_dep>
-           <estab_index>0.0</estab_index>
-           <stress_index>0.0</stress_index>
-           <stem_reloc description="stem_reloc (kg/ha)">0.0</stem_reloc>
-           <frosts>0</frosts>
-
-           <FarmwisePastureGreenHerbage name="Herbage1">
-              <dmd description="dmd (kg/kg)">0.825</dmd>
-              <weight description="weight (kg/ha)">8000.0</weight>
-              <n_conc description="n_conc (kg/kg)"></n_conc>
-              <p_conc description="p_conc (kg/kg)"></p_conc>
-              <s_conc description="s_conc (kg/kg)"></s_conc>
-              <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
-              <root_wt description="root_wt (kg/ha)">3600.0</root_wt>
-           </FarmwisePastureGreenHerbage>
-
-           <FarmwisePastureGreenHerbage name="Herbage2">
-              <dmd description="dmd (kg/kg)">0.825</dmd>
-              <weight description="weight (kg/ha)">1000.0</weight>
-              <n_conc description="n_conc (kg/kg)"></n_conc>
-              <p_conc description="p_conc (kg/kg)"></p_conc>
-              <s_conc description="s_conc (kg/kg)"></s_conc>
-              <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
-              <root_wt description="root_wt (kg/ha)">0.0</root_wt>
-           </FarmwisePastureGreenHerbage>
-        </FarmwisePastureGreen>
-        <FarmwisePastureDry name="Dry1">
-           <status>dead</status>
-           <FarmwisePastureDryHerbage name="Herbage1">
-              <dmd description="dmd (kg/kg)">0.65</dmd>
-              <weight description="weight (kg/ha)">500.0</weight>
-              <n_conc description="n_conc (kg/kg)"></n_conc>
-              <p_conc description="p_conc (kg/kg)"></p_conc>
-              <s_conc description="s_conc (kg/kg)"></s_conc>
-              <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
-           </FarmwisePastureDryHerbage>
-           <FarmwisePastureDryHerbage name="Herbage2">
-              <dmd description="dmd (kg/kg)">0.425</dmd>
-              <weight description="weight (kg/ha)">100.0</weight>
-              <n_conc description="n_conc (kg/kg)"></n_conc>
-              <p_conc description="p_conc (kg/kg)"></p_conc>
-              <s_conc description="s_conc (kg/kg)"></s_conc>
-              <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
-           </FarmwisePastureDryHerbage>
-        </FarmwisePastureDry>
-        <FarmwisePastureDry name="Dry2">
-           <status>litter</status>
-           <FarmwisePastureDryHerbage name="Herbage1">
-              <dmd description="dmd (kg/kg)">0.651</dmd>
-              <weight description="weight (kg/ha)">233.0</weight>
-              <n_conc description="n_conc (kg/kg)"></n_conc>
-              <p_conc description="p_conc (kg/kg)"></p_conc>
-              <s_conc description="s_conc (kg/kg)"></s_conc>
-              <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
-           </FarmwisePastureDryHerbage>
-           <FarmwisePastureDryHerbage name="Herbage2">
-              <dmd description="dmd (kg/kg)">0.0</dmd>
-              <weight description="weight (kg/ha)">0.0</weight>
-              <n_conc description="n_conc (kg/kg)"></n_conc>
-              <p_conc description="p_conc (kg/kg)"></p_conc>
-              <s_conc description="s_conc (kg/kg)"></s_conc>
-              <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
-           </FarmwisePastureDryHerbage>
-        </FarmwisePastureDry>
-        <FarmwisePastureSeeds name="Seeds">
-           <soft_unripe description="soft_unripe (kg/ha)"></soft_unripe>
-           <soft_ripe description="soft_ripe (kg/ha)"></soft_ripe>
-           <hard_unripe description="hard_unripe (kg/ha)"></hard_unripe>
-           <hard_ripe description="hard_ripe (kg/ha)"></hard_ripe>
-        </FarmwisePastureSeeds>
-       <seed_dorm_time description="seed_dorm_time (d)">0.0</seed_dorm_time>
-       <germ_index description="germ_index (d)">0.0</germ_index>
+      <PastureScienceConverter>
+        <debug type="list" listvalues="on,off">off</debug>
+        <sand>0.0 0.0 0.0 0.0 0.0 0.0 0.0</sand>
+        <kl>  0.12 0.12 0.12 0.11 0.06 0.05 0.03</kl>
+        <ll>  0.230 0.240 0.240 0.250 0.260 0.270 0.280</ll>
+        <svp_fract> 0.75</svp_fract>
+      </PastureScienceConverter>
+      <species>Perennial Ryegrass</species>
+      <nutrients>
+      </nutrients>
+      <fertility>0.75</fertility>
+      <max_rtdep description="Maximum rooting depth (mm)">250.0</max_rtdep>
+      <lagged_day_t description="lagged_day_t (oC)">-999.9</lagged_day_t>
+      <phenology>1.005</phenology>
+      <flower_len description="flower_len (d)">0.0</flower_len>
+      <flower_time description="flower_time (d)">0.0</flower_time>
+      <senc_index description="senc_index (d)">0.0</senc_index>
+      <dorm_index description="dorm_index (d)">0.0</dorm_index>
+      <dorm_t description="dorm_t (oc)">-999.9</dorm_t>
+      <FarmwisePastureGreen name="Green">
+        <status>established</status>
+        <rt_dep description="rt_dep (mm)">100.0</rt_dep>
+        <estab_index>0.0</estab_index>
+        <stress_index>0.0</stress_index>
+        <stem_reloc description="stem_reloc (kg/ha)">0.0</stem_reloc>
+        <frosts>0</frosts>
+        <FarmwisePastureGreenHerbage name="Herbage1">
+          <dmd description="dmd (kg/kg)">0.825</dmd>
+          <weight description="weight (kg/ha)">8000.0</weight>
+          <n_conc description="n_conc (kg/kg)">
+          </n_conc>
+          <p_conc description="p_conc (kg/kg)">
+          </p_conc>
+          <s_conc description="s_conc (kg/kg)">
+          </s_conc>
+          <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
+          <root_wt description="root_wt (kg/ha)">3600.0</root_wt>
+        </FarmwisePastureGreenHerbage>
+        <FarmwisePastureGreenHerbage name="Herbage2">
+          <dmd description="dmd (kg/kg)">0.825</dmd>
+          <weight description="weight (kg/ha)">1000.0</weight>
+          <n_conc description="n_conc (kg/kg)">
+          </n_conc>
+          <p_conc description="p_conc (kg/kg)">
+          </p_conc>
+          <s_conc description="s_conc (kg/kg)">
+          </s_conc>
+          <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
+          <root_wt description="root_wt (kg/ha)">0.0</root_wt>
+        </FarmwisePastureGreenHerbage>
+      </FarmwisePastureGreen>
+      <FarmwisePastureDry name="Dry1">
+        <status>dead</status>
+        <FarmwisePastureDryHerbage name="Herbage1">
+          <dmd description="dmd (kg/kg)">0.65</dmd>
+          <weight description="weight (kg/ha)">500.0</weight>
+          <n_conc description="n_conc (kg/kg)">
+          </n_conc>
+          <p_conc description="p_conc (kg/kg)">
+          </p_conc>
+          <s_conc description="s_conc (kg/kg)">
+          </s_conc>
+          <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
+        </FarmwisePastureDryHerbage>
+        <FarmwisePastureDryHerbage name="Herbage2">
+          <dmd description="dmd (kg/kg)">0.425</dmd>
+          <weight description="weight (kg/ha)">100.0</weight>
+          <n_conc description="n_conc (kg/kg)">
+          </n_conc>
+          <p_conc description="p_conc (kg/kg)">
+          </p_conc>
+          <s_conc description="s_conc (kg/kg)">
+          </s_conc>
+          <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
+        </FarmwisePastureDryHerbage>
+      </FarmwisePastureDry>
+      <FarmwisePastureDry name="Dry2">
+        <status>litter</status>
+        <FarmwisePastureDryHerbage name="Herbage1">
+          <dmd description="dmd (kg/kg)">0.651</dmd>
+          <weight description="weight (kg/ha)">233.0</weight>
+          <n_conc description="n_conc (kg/kg)">
+          </n_conc>
+          <p_conc description="p_conc (kg/kg)">
+          </p_conc>
+          <s_conc description="s_conc (kg/kg)">
+          </s_conc>
+          <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
+        </FarmwisePastureDryHerbage>
+        <FarmwisePastureDryHerbage name="Herbage2">
+          <dmd description="dmd (kg/kg)">0.0</dmd>
+          <weight description="weight (kg/ha)">0.0</weight>
+          <n_conc description="n_conc (kg/kg)">
+          </n_conc>
+          <p_conc description="p_conc (kg/kg)">
+          </p_conc>
+          <s_conc description="s_conc (kg/kg)">
+          </s_conc>
+          <spec_area description="spec_area (cm^2/g)">10.0</spec_area>
+        </FarmwisePastureDryHerbage>
+      </FarmwisePastureDry>
+      <FarmwisePastureSeeds name="Seeds">
+        <soft_unripe description="soft_unripe (kg/ha)">
+        </soft_unripe>
+        <soft_ripe description="soft_ripe (kg/ha)">
+        </soft_ripe>
+        <hard_unripe description="hard_unripe (kg/ha)">
+        </hard_unripe>
+        <hard_ripe description="hard_ripe (kg/ha)">
+        </hard_ripe>
+      </FarmwisePastureSeeds>
+      <seed_dorm_time description="seed_dorm_time (d)">0.0</seed_dorm_time>
+      <germ_index description="germ_index (d)">0.0</germ_index>
     </FarmwisePasture>
-
     <fieldpea />
     <horsegram />
     <lablab />
@@ -123,7 +144,7 @@
     <mucuna />
     <mungbean />
     <navybean />
-	 <oats />
+    <oats />
     <peanut />
     <pigeonp />
     <slurp name="slurp">
@@ -154,7 +175,7 @@
       <nplds>180</nplds>
     </rice>
     <vinelogic name="vinelogic">
-     <data name="data"><![CDATA[*MODEL INPUT FILE            I     1    19     1     8
+      <data name="data"><![CDATA[*MODEL INPUT FILE            I     1    19     1     8
 *FILES
 MODEL          VInes950.exe
 FILEX
@@ -340,16 +361,16 @@ IrETIrrAmt(1)=0.0,0.0,0.0,0.0,0.0
 IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  0.60  1.80   1.0
 *ROOTSTOCK
 00000 VineLogic Rsk      5.    5.    5.    1.7  0.12   9.1 ]]></data>
-	<instance>1</instance>
-  </vinelogic>
+      <instance>1</instance>
+    </vinelogic>
   </folder>
-
   <clock name="Clock">
     <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1988</start_date>
     <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1988</end_date>
   </clock>
   <canopy name="Canopy">
-    <intercrop name="intercrop" description="Enter crop names to intercrop" type="text"></intercrop>
+    <intercrop name="intercrop" description="Enter crop names to intercrop" type="text">
+    </intercrop>
   </canopy>
   <FarmwiseSequencerConverter name="FarmwiseSequencer">
   </FarmwiseSequencerConverter>
@@ -370,21 +391,21 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
   <metfile name="Metfile">
     <filename name="filename">%apsuite\apsim\met\sample\dalby.met</filename>
   </metfile>
-    <climatechange>
-      <maxtmodifier description="Change in maximum temperature in degrees celsius">0.0</maxtmodifier>
-      <mintmodifier description="Change in minimum temperature in degrees celsius">0.0</mintmodifier>
-      <rainmodifier description="Relative change in rainfall">1.0</rainmodifier>
-      <radiationmodifier description="Relative change in radiation">1.0</radiationmodifier>
-      <co2 description="Atmospheric C02 concentration (ppm)">350</co2>
-    </climatechange>
+  <climatechange>
+    <maxtmodifier description="Change in maximum temperature in degrees celsius">0.0</maxtmodifier>
+    <mintmodifier description="Change in minimum temperature in degrees celsius">0.0</mintmodifier>
+    <rainmodifier description="Relative change in rainfall">1.0</rainmodifier>
+    <radiationmodifier description="Relative change in radiation">1.0</radiationmodifier>
+    <co2 description="Atmospheric C02 concentration (ppm)">350</co2>
+  </climatechange>
   <soilwatkludge name="soilwatkludge">
     <mwcon>1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0</mwcon>
     <max_pond>100</max_pond>
   </soilwatkludge>
   <folder name="Management">
-  <manager name="Manager">
-    <rule name="Sow using a variable rule">
-      <condition name="start_of_day"><![CDATA[
+    <manager name="Manager">
+      <rule name="Sow using a variable rule">
+        <condition name="start_of_day"><![CDATA[
       if (paddock_is_fallow() = 1 and FallowIn <> 'yes' and (NextCrop = 0 or NextCrop = '[crop]')) then
          if (date_within('[date1], [date2]') = 1) then
             if (rain[[rainnumdays]] >= [raincrit] AND esw >= [esw_amount]) OR
@@ -398,25 +419,25 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
          endif
       endif
             ]]></condition>
-      <category name="Sowing criteria">
-        <property name="date1" value="15-may" type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : " />
-        <property name="date2" value="10-jul" type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : " />
-        <property name="must_sow" value="no" type="yesno" description="Must sow? : " />
-        <property name="raincrit" value="30" type="text" description="Amount of rainfall : " />
-        <property name="rainnumdays" value="3" type="text" description="Number of days of rainfall : " />
-        <property name="esw_amount" value="200" type="text" description="Enter minimum allowable available soil water (mm) : " />
-      </category>
-      <category name="Sowing parameters">
-        <property name="crop" value="wheat" type="crop" description="Enter name of crop to sow : " />
-        <property name="density" value="100" type="text" description="Enter sowing density  (plants/m2) : " />
-        <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
-        <property name="cultivar" value="hartog" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-        <property name="class" value="plant" type="classes" croppropertyname="crop" description="Enter crop growth class : " />
-        <property name="row_spacing" value="250" type="text" description="Enter row spacing (mm) : " />
-      </category>
-    </rule>
-        <rule name="Sorghum sowing rule">
-          <condition name="start_of_day"><![CDATA[
+        <category name="Sowing criteria">
+          <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">15-may</date1>
+          <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">10-jul</date2>
+          <must_sow type="yesno" description="Must sow? : ">no</must_sow>
+          <raincrit type="text" description="Amount of rainfall : ">30</raincrit>
+          <rainnumdays type="text" description="Number of days of rainfall : ">3</rainnumdays>
+          <esw_amount type="text" description="Enter minimum allowable available soil water (mm) : ">200</esw_amount>
+        </category>
+        <category name="Sowing parameters">
+          <crop type="crop" description="Enter name of crop to sow : ">wheat</crop>
+          <density type="text" description="Enter sowing density  (plants/m2) : ">100</density>
+          <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
+          <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">hartog</cultivar>
+          <class type="classes" croppropertyname="crop" description="Enter crop growth class : ">plant</class>
+          <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
+        </category>
+      </rule>
+      <rule name="Sorghum sowing rule">
+        <condition name="start_of_day"><![CDATA[
       if (paddock_is_fallow() = 1 and FallowIn <> 'yes' and (NextCrop = 0 or NextCrop = '[crop]')) then
          if (date_within('[date1], [date2]') = 1) then
             if (rain[[rainnumdays]] >= [raincrit] AND esw >= [esw_amount]) OR
@@ -430,44 +451,44 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
          endif
       endif
             ]]></condition>
-          <category name="Sowing criteria">
-            <property name="date1" value="15-oct" type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : " />
-            <property name="date2" value="10-jan" type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : " />
-            <property name="must_sow" value="no" type="yesno" description="Must sow? : " />
-            <property name="raincrit" value="30" type="text" description="Amount of rainfall : " />
-            <property name="rainnumdays" value="3" type="text" description="Number of days of rainfall : " />
-            <property name="esw_amount" value="200" type="text" description="Enter minimum allowable available soil water (mm) : " />
-          </category>
-          <category name="Sowing parameters">
-            <property name="crop" value="sorghum" type="crop" description="Enter name of crop to sow : " />
-            <property name="density" value="7" type="text" description="Enter sowing density  (plants/m2) : " />
-            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
-            <property name="cultivar" value="early" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-            <property name="row_spacing" value="1" type="text" description="Enter row spacing (m) : " />
-            <property name="ftn" value="1" type="text" description="Enter Fertile Tiller No. : " />
-            <property name="skiprow" value="solid" type="list" listvalues="solid, single, double" description="Skip row : " />
-          </category>
-        </rule>
-    <rule name="Sow on a fixed date">
-      <condition name="start_of_day"><![CDATA[
+        <category name="Sowing criteria">
+          <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">15-oct</date1>
+          <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">10-jan</date2>
+          <must_sow type="yesno" description="Must sow? : ">no</must_sow>
+          <raincrit type="text" description="Amount of rainfall : ">30</raincrit>
+          <rainnumdays type="text" description="Number of days of rainfall : ">3</rainnumdays>
+          <esw_amount type="text" description="Enter minimum allowable available soil water (mm) : ">200</esw_amount>
+        </category>
+        <category name="Sowing parameters">
+          <crop type="crop" description="Enter name of crop to sow : ">sorghum</crop>
+          <density type="text" description="Enter sowing density  (plants/m2) : ">7</density>
+          <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
+          <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">early</cultivar>
+          <row_spacing type="text" description="Enter row spacing (m) : ">1</row_spacing>
+          <ftn type="text" description="Enter Fertile Tiller No. : ">1</ftn>
+          <skiprow type="list" listvalues="solid, single, double" description="Skip row : ">solid</skiprow>
+        </category>
+      </rule>
+      <rule name="Sow on a fixed date">
+        <condition name="start_of_day"><![CDATA[
         if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], crop_class = [class]
          endif
                ]]></condition>
-      <category name="Sowing criteria">
-        <property name="date" value="1-jan" type="text" description="Enter sowing date (dd-mmm) : " />
-      </category>
-      <category name="Sowing parameters">
-        <property name="crop" value="wheat" type="crop" description="Enter name of crop to sow : " />
-        <property name="density" value="10" type="text" description="Enter sowing density  (plants/m2) : " />
-        <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
-        <property name="cultivar" value="" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-        <property name="class" value="plant" type="classes" croppropertyname="crop" description="Enter crop growth class : " />
-        <property name="row_spacing" value="500" type="text" description="Enter row spacing (mm) : " />
-      </category>
-    </rule>
-    <rule name="SUGAR management">
-      <condition name="start_of_day"><![CDATA[
+        <category name="Sowing criteria">
+          <date type="text" description="Enter sowing date (dd-mmm) : ">1-jan</date>
+        </category>
+        <category name="Sowing parameters">
+          <crop type="crop" description="Enter name of crop to sow : ">wheat</crop>
+          <density type="text" description="Enter sowing density  (plants/m2) : ">10</density>
+          <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
+          <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+          <class type="classes" croppropertyname="crop" description="Enter crop growth class : ">plant</class>
+          <row_spacing type="text" description="Enter row spacing (mm) : ">500</row_spacing>
+        </category>
+      </rule>
+      <rule name="SUGAR management">
+        <condition name="start_of_day"><![CDATA[
             ! -----------------------------------------------------------------
             ! Book keeping to round days to integer values
             plantlen = nearest_int(plantlen)
@@ -511,49 +532,48 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
                dah = dah + 1
             endif
                ]]></condition>
-      <category name="Sugar plant crop management parameters">
-        <property name="crop" value="sugar" type="crop" description="Enter name of crop to sow : " />
-        <property name="planting_day" value="1-jan" type="text" description="Enter planting date (dd-mmm) : " />
-        <property name="plantlen" value="450" type="text" description="Duration of a plant crop (days) (30 days/month * 15 months) : " />
-        <property name="plant_stalks" value="10" type="text" description="Stalk density of plant crop (/m2) :" />
-        <property name="variety" value="q117" type="list" listvalues="q117,q96,q138,ts65-28,h73,q141,nco376,n12,n14,cp51,r570,m1356,m55560,q124" description="Planting variety :" />
-        <property name="sowing_depth" value="150" type="text" description="Planting depth mm) :" />
-      </category>
-      <category name="Ratoon management parameters">
-        <property name="NoRatoons" value="4" type="text" description="Number of ratoons (max = 5): " />
-        <property name="ratoonlen" value="390" type="text" description="Duration of a ratoon crop (days) (30 days/month * 13 months) : " />
-        <property name="ratoon_stalks" value="10" type="text" description="Stalk density of ratoon crop (/m2) :" />
-      </category>
-    </rule>
-    <rule name="Lucerne Ley fixed sow harvest at flowering">
-      <category name="Sowing criteria">
-        <property name="date" value="1-jan-1985" type="text" description="Enter sowing date (dd-mmm-yyyy) : " />
-      </category>
-      <category name="Sowing parameters">
-        <property name="crop" value="lucerne" type="crop" description="Enter name of crop to sow : " />
-        <property name="density" value="200" type="text" description="Enter sowing density  (plants/m2) : " />
-        <property name="depth" value="20" type="text" description="Enter sowing depth  (mm) : " />
-        <property name="cultivar" value="" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-        <property name="class" value="plant" type="classes" croppropertyname="crop" description="Enter crop growth class : " />
-        <property name="row_spacing" value="250" type="text" description="Enter row spacing (mm) : " />
-      </category>
-      <category name="Number of years">
-        <property name="leyyears" value="3" type="text" description="Enter numberofyeasr inley : " />
-      </category>
-      <category name="Harvesting criteria">
-        <property name="harvest_ht" value="50" type="text" description="Enter the height to harvest the crop : " />
-        <property name="remove" value="0.95" type="text" description="Fraction of maerial removed leaving the system (balance to residue): " />
-        <property name="killdate" value="15-nov" type="text" description="date lucerne is to be removed : " />
-      </category>
-
-      <condition name="start_of_day"><![CDATA[
+        <category name="Sugar plant crop management parameters">
+          <crop type="crop" description="Enter name of crop to sow : ">sugar</crop>
+          <planting_day type="text" description="Enter planting date (dd-mmm) : ">1-jan</planting_day>
+          <plantlen type="text" description="Duration of a plant crop (days) (30 days/month * 15 months) : ">450</plantlen>
+          <plant_stalks type="text" description="Stalk density of plant crop (/m2) :">10</plant_stalks>
+          <variety type="list" listvalues="q117,q96,q138,ts65-28,h73,q141,nco376,n12,n14,cp51,r570,m1356,m55560,q124" description="Planting variety :">q117</variety>
+          <sowing_depth type="text" description="Planting depth mm) :">150</sowing_depth>
+        </category>
+        <category name="Ratoon management parameters">
+          <NoRatoons type="text" description="Number of ratoons (max = 5): ">4</NoRatoons>
+          <ratoonlen type="text" description="Duration of a ratoon crop (days) (30 days/month * 13 months) : ">390</ratoonlen>
+          <ratoon_stalks type="text" description="Stalk density of ratoon crop (/m2) :">10</ratoon_stalks>
+        </category>
+      </rule>
+      <rule name="Lucerne Ley fixed sow harvest at flowering">
+        <category name="Sowing criteria">
+          <date type="text" description="Enter sowing date (dd-mmm-yyyy) : ">1-jan-1985</date>
+        </category>
+        <category name="Sowing parameters">
+          <crop type="crop" description="Enter name of crop to sow : ">lucerne</crop>
+          <density type="text" description="Enter sowing density  (plants/m2) : ">200</density>
+          <depth type="text" description="Enter sowing depth  (mm) : ">20</depth>
+          <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+          <class type="classes" croppropertyname="crop" description="Enter crop growth class : ">plant</class>
+          <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
+        </category>
+        <category name="Number of years">
+          <leyyears type="text" description="Enter numberofyeasr inley : ">3</leyyears>
+        </category>
+        <category name="Harvesting criteria">
+          <harvest_ht type="text" description="Enter the height to harvest the crop : ">50</harvest_ht>
+          <remove type="text" description="Fraction of maerial removed leaving the system (balance to residue): ">0.95</remove>
+          <killdate type="text" description="date lucerne is to be removed : ">15-nov</killdate>
+        </category>
+        <condition name="start_of_day"><![CDATA[
        if (today = date('[date]') then
               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], crop_class = [class]
               [crop]LeyYears = [leyyears]
        endif
 
 ]]></condition>
-      <condition name="end_of_day"><![CDATA[
+        <condition name="end_of_day"><![CDATA[
                 if [crop].stage_name = 'flowering'  then
              [crop]  harvest height = [harvest_ht]
         endif
@@ -565,35 +585,33 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
              endif
         endif
 ]]></condition>
-    </rule>
-
-    <rule name="Lucerne Ley variable sow harvest at flowering">
-      <category name="Sowing criteria">
-        <property name="date1" value="15-may" type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : " />
-        <property name="date2" value="10-jul" type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : " />
-        <property name="must_sow" value="no" type="yesno" description="Must sow? : " />
-        <property name="raincrit" value="30" type="text" description="Amount of rainfall : " />
-        <property name="rainnumdays" value="3" type="text" description="Number of days of rainfall : " />
-        <property name="esw_amount" value="200" type="text" description="Enter minimum allowable available soil water (mm) : " />
-      </category>
-      <category name="Sowing parameters">
-        <property name="crop" value="lucerne" type="crop" description="Enter name of crop to sow : " />
-        <property name="density" value="200" type="text" description="Enter sowing density  (plants/m2) : " />
-        <property name="depth" value="20" type="text" description="Enter sowing depth  (mm) : " />
-        <property name="cultivar" value="" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-        <property name="class" value="plant" type="classes" croppropertyname="crop" description="Enter crop growth class : " />
-        <property name="row_spacing" value="250" type="text" description="Enter row spacing (mm) : " />
-      </category>
-      <category name="Number of years">
-        <property name="leyyears" value="3" type="text" description="Enter numberofyeasr inley : " />
-      </category>
-      <category name="Harvesting criteria">
-        <property name="harvest_ht" value="50" type="text" description="Enter the height to harvest the crop : " />
-        <property name="remove" value="0.95" type="text" description="Fraction of maerial removed leaving the system (balance to residue): " />
-        <property name="killdate" value="15-nov" type="text" description="date lucerne is to be removed : " />
-      </category>
-
-      <condition name="start_of_day"><![CDATA[
+      </rule>
+      <rule name="Lucerne Ley variable sow harvest at flowering">
+        <category name="Sowing criteria">
+          <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">15-may</date1>
+          <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">10-jul</date2>
+          <must_sow type="yesno" description="Must sow? : ">no</must_sow>
+          <raincrit type="text" description="Amount of rainfall : ">30</raincrit>
+          <rainnumdays type="text" description="Number of days of rainfall : ">3</rainnumdays>
+          <esw_amount type="text" description="Enter minimum allowable available soil water (mm) : ">200</esw_amount>
+        </category>
+        <category name="Sowing parameters">
+          <crop type="crop" description="Enter name of crop to sow : ">lucerne</crop>
+          <density type="text" description="Enter sowing density  (plants/m2) : ">200</density>
+          <depth type="text" description="Enter sowing depth  (mm) : ">20</depth>
+          <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+          <class type="classes" croppropertyname="crop" description="Enter crop growth class : ">plant</class>
+          <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
+        </category>
+        <category name="Number of years">
+          <leyyears type="text" description="Enter numberofyeasr inley : ">3</leyyears>
+        </category>
+        <category name="Harvesting criteria">
+          <harvest_ht type="text" description="Enter the height to harvest the crop : ">50</harvest_ht>
+          <remove type="text" description="Fraction of maerial removed leaving the system (balance to residue): ">0.95</remove>
+          <killdate type="text" description="date lucerne is to be removed : ">15-nov</killdate>
+        </category>
+        <condition name="start_of_day"><![CDATA[
        if (paddock_is_fallow() = 1 and FallowIn <> 'yes' and (NextCrop = 0 or NextCrop = '[crop]')) then
          if (date_within('[date1], [date2]') = 1) then
             if (rain[[rainnumdays]] >= [raincrit] AND esw >= [esw_amount]) OR
@@ -609,7 +627,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
       endif
 
 ]]></condition>
-      <condition name="end_of_day"><![CDATA[
+        <condition name="end_of_day"><![CDATA[
                 if [crop].stage_name = 'flowering'  then
              [crop]  harvest height = [harvest_ht]
         endif
@@ -621,9 +639,9 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
              endif
         endif
 ]]></condition>
-    </rule>
-    <rule name="Harvesting rule">
-      <condition name="end_of_day">
+      </rule>
+      <rule name="Harvesting rule">
+        <condition name="end_of_day">
 
            if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
               [crop]  harvest
@@ -631,102 +649,102 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
            endif
 
             </condition>
-      <category name="Harvesting criteria">
-        <property name="crop" value="wheat" type="crop" description="Enter name of crop to harvest when ripe : " />
-      </category>
-    </rule>
-    <rule name="Fertilise with Phosphorus at sowing">
-      <condition name="[modulename].[eventname]">
+        <category name="Harvesting criteria">
+          <crop type="crop" description="Enter name of crop to harvest when ripe : ">wheat</crop>
+        </category>
+      </rule>
+      <rule name="Fertilise with Phosphorus at sowing">
+        <condition name="[modulename].[eventname]">
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
-      <category name="When should fertiliser be applied">
-        <property name="modulename" value="maize" type="modulename" description="On which module should the event come from : " />
-        <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
-      </category>
-      <category name="Fertiliser application details">
-        <property name="fertmodule" value="fertiliser" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
-        <property name="fert_amount_sow" value="150" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
-        <property name="fert_type_sow" value="broadcast_p" type="list" listvalues="rock_p, banded_p, broadcast_p" description="Sowing fertiliser type : " />
-      </category>
-    </rule>
-    <rule name="Fertilise with Phosphorus on fixed date">
-      <condition name="start_of_day"><![CDATA[
+        <category name="When should fertiliser be applied">
+          <modulename type="modulename" description="On which module should the event come from : ">maize</modulename>
+          <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
+        </category>
+        <category name="Fertiliser application details">
+          <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+          <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">150</fert_amount_sow>
+          <fert_type_sow type="list" listvalues="rock_p, banded_p, broadcast_p" description="Sowing fertiliser type : ">broadcast_p</fert_type_sow>
+        </category>
+      </rule>
+      <rule name="Fertilise with Phosphorus on fixed date">
+        <condition name="start_of_day"><![CDATA[
          if (today = date('[fert_date]') then
                [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
          endif ]]></condition>
-      <category name="When should fertiliser be applied">
-        <property name="fert_date" value="dd-mmm" type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : " />
-      </category>
-      <category name="Fertiliser application details">
-        <property name="fertmodule" value="fertiliser" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
-        <property name="fert_amount" value="150" type="text" description="Amount of fertiliser to apply (kg/ha) : " />
-        <property name="fert_type" value="broadcast_p" type="list" listvalues="rock_p, banded_p, broadcast_p" description="Sowing fertiliser type : " />
-      </category>
-    </rule>
-    <rule name="Fertilise at sowing">
-      <condition name="[modulename].[eventname]">
+        <category name="When should fertiliser be applied">
+          <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">dd-mmm</fert_date>
+        </category>
+        <category name="Fertiliser application details">
+          <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+          <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">150</fert_amount>
+          <fert_type type="list" listvalues="rock_p, banded_p, broadcast_p" description="Sowing fertiliser type : ">broadcast_p</fert_type>
+        </category>
+      </rule>
+      <rule name="Fertilise at sowing">
+        <condition name="[modulename].[eventname]">
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
-      <category name="When should fertiliser be applied">
-        <property name="modulename" value="wheat" type="modulename" description="On which module should the event come from : " />
-        <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
-      </category>
-      <category name="Fertiliser application details">
-        <property name="fertmodule" value="fertiliser" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
-        <property name="fert_amount_sow" value="150" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
-        <property name="fert_type_sow" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
-      </category>
-    </rule>
-    <rule name="Fertilise on fixed date">
-      <condition name="start_of_day"><![CDATA[
+        <category name="When should fertiliser be applied">
+          <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
+          <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
+        </category>
+        <category name="Fertiliser application details">
+          <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+          <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">150</fert_amount_sow>
+          <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
+        </category>
+      </rule>
+      <rule name="Fertilise on fixed date">
+        <condition name="start_of_day"><![CDATA[
          if (today = date('[fert_date]') then
             N_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
             if (N_topsoil < [fert_criteria]) then
                [fertmodule] apply amount = [fert_amount] (kg/ha), depth = 50 (mm), type = [fert_type] ()
             endif
          endif ]]></condition>
-      <category name="When should fertiliser be applied">
-        <property name="fert_date" value="dd-mmm" type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : " />
-        <property name="fert_criteria" value="1000" type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : " />
-      </category>
-      <category name="Fertiliser application details">
-        <property name="fertmodule" value="" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
-        <property name="fert_amount" value="150" type="text" description="Amount of fertiliser to apply (kg/ha) : " />
-        <property name="fert_type" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
-      </category>
-    </rule>
-    <rule name="Fertilise on fixed date - top up">
-      <condition name="start_of_day"><![CDATA[
+        <category name="When should fertiliser be applied">
+          <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">dd-mmm</fert_date>
+          <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
+        </category>
+        <category name="Fertiliser application details">
+          <fertmodule type="modulename" description="Module used to apply the fertiliser : " />
+          <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">150</fert_amount>
+          <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
+        </category>
+      </rule>
+      <rule name="Fertilise on fixed date - top up">
+        <condition name="start_of_day"><![CDATA[
          if (today = date('[fert_date]') then
             N_deficit = [fert_criteria] - (no3(1) + nh4(1) + no3(2) + nh4(2) + no3(3) + nh4(3))
             '[fertmodule]' apply amount = N_deficit (kg/ha), depth = 50 (mm), type = [fert_type] ()
          endif ]]></condition>
-      <category name="When should fertiliser be applied">
-        <property name="fert_date" value="dd-mmm" type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : " />
-        <property name="fert_criteria" value="1000" type="text" description="Amount of N required in top 3 layers (kg/ha) : " />
-      </category>
-      <category name="Fertiliser application details">
-        <property name="fertmodule" value="" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
-        <property name="fert_type" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
-      </category>
-    </rule>
-    <rule name="Irrigate at sowing">
-      <condition name="[modulename].[eventname]"><![CDATA[
+        <category name="When should fertiliser be applied">
+          <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">dd-mmm</fert_date>
+          <fert_criteria type="text" description="Amount of N required in top 3 layers (kg/ha) : ">1000</fert_criteria>
+        </category>
+        <category name="Fertiliser application details">
+          <fertmodule type="modulename" description="Module used to apply the fertiliser : " />
+          <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
+        </category>
+      </rule>
+      <rule name="Irrigate at sowing">
+        <condition name="[modulename].[eventname]"><![CDATA[
          if ([irrig_amount_evt] > 0) then
             '[irrigatemodule]' apply amount = [irrig_amount_evt] (mm)
          endif
    ]]></condition>
-      <category name="When should irrigation be applied">
-        <property name="modulename" value="" type="modulename" description="The module the event come from : " />
-        <property name="eventname" value="sowing" type="text" description="Which event should irrigation be applied : " />
-      </category>
-      <category name="Irrigation application details">
-        <property name="irrigatemodule" value="" type="modulename" moduletype="irrigation" description="Module used to apply the irrigation : " />
-        <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
-      </category>
-    </rule>
-    <rule name="Tillage on fixed date">
-      <condition name="start_of_day"><![CDATA[
+        <category name="When should irrigation be applied">
+          <modulename type="modulename" description="The module the event come from : " />
+          <eventname type="text" description="Which event should irrigation be applied : ">sowing</eventname>
+        </category>
+        <category name="Irrigation application details">
+          <irrigatemodule type="modulename" description="Module used to apply the irrigation : " />
+          <irrig_amount_evt type="text" description="Amount of irrigation to apply (mm) : ">50</irrig_amount_evt>
+        </category>
+      </rule>
+      <rule name="Tillage on fixed date">
+        <condition name="start_of_day"><![CDATA[
          if (today = date('[tillage_date]') then
             if ('[tillage_type]' = 'user_defined') then
                 '[surfaceommodule]' tillage type = [tillage_type], f_incorp = [tillage_f_incorp] (), tillage_depth = [tillage_depth]
@@ -737,18 +755,18 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
             till_day_pre_sow = 0
          endif
       ]]></condition>
-      <category name="When should tillage be done">
-        <property name="tillage_date" value="dd-mmm" type="ddmmmdate" description="Enter tillage date (dd-mmm) : " />
-      </category>
-      <category name="Tillage application details">
-        <property name="surfaceommodule" value="" type="modulename" moduletype="surfaceom" description="Module used to apply the tillage : " />
-        <property name="tillage_type" value="disc" type="list" listvalues="user_defined, chisel, disc, planter, burn, burn_90, graze, scarifier, rip, blade, tine" description="Tillage type : " />
-        <property name="tillage_depth" value="0" description="User_defined depth of seedbed preparation (mm) : " />
-        <property name="tillage_f_incorp" value="0" description="User_defined fraction of surface residues to incorporate (0-1): " />
-      </category>
-    </rule>
-    <rule name="Reset water, nitrogen and surfaceOM on fixed date">
-      <condition name="start_of_day">
+        <category name="When should tillage be done">
+          <tillage_date type="ddmmmdate" description="Enter tillage date (dd-mmm) : ">dd-mmm</tillage_date>
+        </category>
+        <category name="Tillage application details">
+          <surfaceommodule type="modulename" description="Module used to apply the tillage : " />
+          <tillage_type type="list" listvalues="user_defined, chisel, disc, planter, burn, burn_90, graze, scarifier, rip, blade, tine" description="Tillage type : ">disc</tillage_type>
+          <tillage_depth description="User_defined depth of seedbed preparation (mm) : ">0</tillage_depth>
+          <tillage_f_incorp description="User_defined fraction of surface residues to incorporate (0-1): ">0</tillage_f_incorp>
+        </category>
+      </rule>
+      <rule name="Reset water, nitrogen and surfaceOM on fixed date">
+        <condition name="start_of_day">
          if (today = date('[reset_date]') then
             resetWater = '[resetWater]'
             resetNitrogen  = '[resetNitrogen]'
@@ -764,19 +782,19 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
             endif
          endif
       </condition>
-      <category name="When should a reset be done">
-        <property name="reset_date" value="dd-mmm" type="ddmmmdate" description="Enter date of reset (dd-mmm) : " />
-      </category>
-      <category name="Reset details">
-        <property name="soilmodule" value="" type="modulename" moduletype="soil" description="Name of your soil module : " />
-        <property name="surfaceommodule" value="surface organic matter" type="modulename" moduletype="surfaceom" description="Name of your surface organic matter module : " />
-        <property name="resetWater" value="yes" type="yesno" description="Reset soil water?" />
-        <property name="resetNitrogen" value="yes" type="yesno" description="Reset soil nitrogen?" />
-        <property name="resetSurfaceOM" value="yes" type="yesno" description="Reset surface organic matter?" />
-      </category>
-    </rule>
-    <rule name="Reset water, nitrogen and surfaceOM on sowing">
-      <condition name="[modulename].[eventname]">
+        <category name="When should a reset be done">
+          <reset_date type="ddmmmdate" description="Enter date of reset (dd-mmm) : ">dd-mmm</reset_date>
+        </category>
+        <category name="Reset details">
+          <soilmodule type="modulename" description="Name of your soil module : " />
+          <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
+          <resetWater type="yesno" description="Reset soil water?">yes</resetWater>
+          <resetNitrogen type="yesno" description="Reset soil nitrogen?">yes</resetNitrogen>
+          <resetSurfaceOM type="yesno" description="Reset surface organic matter?">yes</resetSurfaceOM>
+        </category>
+      </rule>
+      <rule name="Reset water, nitrogen and surfaceOM on sowing">
+        <condition name="[modulename].[eventname]">
             resetWater = '[resetWater]'
             resetNitrogen  = '[resetNitrogen]'
             resetSurfaceOM = '[resetSurfaceOM]'
@@ -790,21 +808,20 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
                 '[surfaceommodule]' reset
             endif
       </condition>
-      <category name="When should a reset be done">
-        <property name="modulename" value="wheat" type="modulename" description="The module the event is to come from : " />
-        <property name="eventname" value="sowing" type="text" description="On which event should a reset be done : " />
-      </category>
-      <category name="Reset details">
-        <property name="soilmodule" value="" type="modulename" moduletype="soil" description="Name of your soil module : " />
-        <property name="surfaceommodule" value="surface organic matter" type="modulename" moduletype="surfaceom" description="Name of your surface organic matter module : " />
-        <property name="resetWater" value="yes" type="yesno" description="Reset soil water?" />
-        <property name="resetNitrogen" value="yes" type="yesno" description="Reset soil nitrogen?" />
-        <property name="resetSurfaceOM" value="yes" type="yesno" description="Reset surface organic matter?" />
-      </category>
-    </rule>
-
-    <rule name="Rotations">
-      <condition name="init">
+        <category name="When should a reset be done">
+          <modulename type="modulename" description="The module the event is to come from : ">wheat</modulename>
+          <eventname type="text" description="On which event should a reset be done : ">sowing</eventname>
+        </category>
+        <category name="Reset details">
+          <soilmodule type="modulename" description="Name of your soil module : " />
+          <surfaceommodule type="modulename" description="Name of your surface organic matter module : ">surface organic matter</surfaceommodule>
+          <resetWater type="yesno" description="Reset soil water?">yes</resetWater>
+          <resetNitrogen type="yesno" description="Reset soil nitrogen?">yes</resetNitrogen>
+          <resetSurfaceOM type="yesno" description="Reset surface organic matter?">yes</resetSurfaceOM>
+        </category>
+      </rule>
+      <rule name="Rotations">
+        <condition name="init">
          NextCropIndex = 1
          NextCrop = ' '
          ChooseNextCrop = 'yes'
@@ -812,7 +829,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
          WinterFallowIn = 'no'
          FallowIn = 'no'
       </condition>
-      <condition name="start_of_day"><![CDATA[
+        <condition name="start_of_day"><![CDATA[
       if (ChooseNextCrop = 'yes') then
          if (NextCropIndex = 1) then
             NextCrop = '[crop1]'
@@ -893,230 +910,221 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
          FallowIn = 'no'
       endif
       ]]></condition>
-      <category name="Fallow options">
-        <property name="SummerFallowName" value="sf" type="text" description="Enter summer fallow name : " />
-        <property name="SummerFallowEndDate" value="15-mar" type="text" description="Enter summer fallow END date (dd-mmm) : " />
-        <property name="WinterFallowName" value="wf" type="text" description="Enter winter fallow name : " />
-        <property name="WinterFallowEndDate" value="23-aug" type="text" description="Enter winter fallow END date (dd-mmm) : " />
-      </category>
-      <category name="Crop rotation sequence">
-        <property name="crop1" value="nil" type="crop" description="Enter 1st crop : " />
-        <property name="crop2" value="nil" type="crop" description="Enter 2nd crop : " />
-        <property name="crop3" value="nil" type="crop" description="Enter 3rd crop : " />
-        <property name="crop4" value="nil" type="crop" description="Enter 4th crop : " />
-        <property name="crop5" value="nil" type="crop" description="Enter 5th crop : " />
-        <property name="crop6" value="nil" type="crop" description="Enter 6th crop : " />
-        <property name="crop7" value="nil" type="crop" description="Enter 7th crop : " />
-        <property name="crop8" value="nil" type="crop" description="Enter 8th crop : " />
-        <property name="crop9" value="nil" type="crop" description="Enter 9th crop : " />
-        <property name="crop10" value="nil" type="crop" description="Enter 10th crop : " />
-        <property name="crop11" value="nil" type="crop" description="Enter 11th crop : " />
-        <property name="crop12" value="nil" type="crop" description="Enter 12th crop : " />
-        <property name="crop13" value="nil" type="crop" description="Enter 13th crop : " />
-        <property name="crop14" value="nil" type="crop" description="Enter 14th crop : " />
-        <property name="crop15" value="nil" type="crop" description="Enter 15th crop : " />
-        <property name="crop16" value="nil" type="crop" description="Enter 16th crop : " />
-        <property name="crop17" value="nil" type="crop" description="Enter 17th crop : " />
-        <property name="crop18" value="nil" type="crop" description="Enter 18th crop : " />
-        <property name="crop19" value="nil" type="crop" description="Enter 19th crop : " />
-        <property name="crop20" value="nil" type="crop" description="Enter 20th crop : " />
-      </category>
-    </rule>
-  </manager>
-  <folder name="Stock">
-  <manager name="Cattle">
-    <rule name="Buy cattle on a fixed date">
-      <condition name="init">
-            <![CDATA[
+        <category name="Fallow options">
+          <SummerFallowName type="text" description="Enter summer fallow name : ">sf</SummerFallowName>
+          <SummerFallowEndDate type="text" description="Enter summer fallow END date (dd-mmm) : ">15-mar</SummerFallowEndDate>
+          <WinterFallowName type="text" description="Enter winter fallow name : ">wf</WinterFallowName>
+          <WinterFallowEndDate type="text" description="Enter winter fallow END date (dd-mmm) : ">23-aug</WinterFallowEndDate>
+        </category>
+        <category name="Crop rotation sequence">
+          <crop1 type="crop" description="Enter 1st crop : ">nil</crop1>
+          <crop2 type="crop" description="Enter 2nd crop : ">nil</crop2>
+          <crop3 type="crop" description="Enter 3rd crop : ">nil</crop3>
+          <crop4 type="crop" description="Enter 4th crop : ">nil</crop4>
+          <crop5 type="crop" description="Enter 5th crop : ">nil</crop5>
+          <crop6 type="crop" description="Enter 6th crop : ">nil</crop6>
+          <crop7 type="crop" description="Enter 7th crop : ">nil</crop7>
+          <crop8 type="crop" description="Enter 8th crop : ">nil</crop8>
+          <crop9 type="crop" description="Enter 9th crop : ">nil</crop9>
+          <crop10 type="crop" description="Enter 10th crop : ">nil</crop10>
+          <crop11 type="crop" description="Enter 11th crop : ">nil</crop11>
+          <crop12 type="crop" description="Enter 12th crop : ">nil</crop12>
+          <crop13 type="crop" description="Enter 13th crop : ">nil</crop13>
+          <crop14 type="crop" description="Enter 14th crop : ">nil</crop14>
+          <crop15 type="crop" description="Enter 15th crop : ">nil</crop15>
+          <crop16 type="crop" description="Enter 16th crop : ">nil</crop16>
+          <crop17 type="crop" description="Enter 17th crop : ">nil</crop17>
+          <crop18 type="crop" description="Enter 18th crop : ">nil</crop18>
+          <crop19 type="crop" description="Enter 19th crop : ">nil</crop19>
+          <crop20 type="crop" description="Enter 20th crop : ">nil</crop20>
+        </category>
+      </rule>
+    </manager>
+    <folder name="Stock">
+      <manager name="Cattle">
+        <rule name="Buy cattle on a fixed date">
+          <condition name="init"><![CDATA[
                cattle_presence = 'off'
-            ]]>
-            </condition>
-      <condition name="start_of_day"><![CDATA[
+            ]]></condition>
+          <condition name="start_of_day"><![CDATA[
         if (today = date('[buy_date]') then
            [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
            cattle_presence = 'on'
          endif
                ]]></condition>
-      <category name="Buy properties">
-        <property name="stockmodule" value="StockScienceConverter" type="modulename" description="Name of stock converter module : " />
-        <property name="genotype" value="Angus" type="list" listvalues="Angus,ayrshire,beef shorthorn,brahman,brahman x british,brown swiss,charolais,charolais x british,charolais x friesian,charolais x holstein,chianina,dairy shorthorn,fresian,fresian x british,guernsey,hereford,holstein,holstein x british,jersey,limousein,sahiwal,simmental,south devon" description="Select Genotype : " />
-        <property name="buy_date" value="1-jan" type="text" description="Date (dd-mmm) : " />
-        <property name="buy_number" value="5" type="text" description="Number of stock : " />
-        <property name="sex" value="steer" type="list" listvalues="cow,heifer,steer,bull" description="Select sex : " />
-        <property name="buy_age" value="12" type="text" description="Age (months) : " />
-        <property name="buy_weight" value="250" type="text" description="Weight (kg) : " />
-      </category>
-    </rule>
-    <rule name="Buy cattle on feed-on-offer">
-      <condition name="init">
-            <![CDATA[
+          <category name="Buy properties">
+            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <genotype type="list" listvalues="Angus,ayrshire,beef shorthorn,brahman,brahman x british,brown swiss,charolais,charolais x british,charolais x friesian,charolais x holstein,chianina,dairy shorthorn,fresian,fresian x british,guernsey,hereford,holstein,holstein x british,jersey,limousein,sahiwal,simmental,south devon" description="Select Genotype : ">Angus</genotype>
+            <buy_date type="text" description="Date (dd-mmm) : ">1-jan</buy_date>
+            <buy_number type="text" description="Number of stock : ">5</buy_number>
+            <sex type="list" listvalues="cow,heifer,steer,bull" description="Select sex : ">steer</sex>
+            <buy_age type="text" description="Age (months) : ">12</buy_age>
+            <buy_weight type="text" description="Weight (kg) : ">250</buy_weight>
+          </category>
+        </rule>
+        <rule name="Buy cattle on feed-on-offer">
+          <condition name="init"><![CDATA[
                cattle_presence = 'off'
-            ]]>
-            </condition>
-      <condition name="start_of_day"><![CDATA[
+            ]]></condition>
+          <condition name="start_of_day"><![CDATA[
         if ([herbage_module].biomass >= [buy_feed_on_offer] AND cattle_presence = 'off') then
            [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
            cattle_presence = 'on'
         endif
                ]]></condition>
-      <category name="Buy properties">
-        <property name="stockmodule" value="StockScienceConverter" type="modulename" description="Name of stock converter module : " />
-        <property name="genotype" value="Angus" type="list" listvalues="Angus,ayrshire,beef shorthorn,brahman,brahman x british,brown swiss,charolais,charolais x british,charolais x friesian,charolais x holstein,chianina,dairy shorthorn,fresian,fresian x british,guernsey,hereford,holstein,holstein x british,jersey,limousein,sahiwal,simmental,south devon" description="Select Genotype : " />
-        <property name="herbage_module" value="lucerne" type="modulename" description="Module supplying herbage : " />
-        <property name="buy_feed_on_offer" value="1500.0" type="text" description="Feed on offer (kg/ha) : " />
-        <property name="buy_number" value="5" type="text" description="Number of stock : " />
-        <property name="sex" value="steer" type="list" listvalues="cow,heifer,steer,bull" description="Select sex : " />
-        <property name="buy_age" value="12" type="text" description="Age (months) : " />
-        <property name="buy_weight" value="250" type="text" description="Weight (kg) : " />
-      </category>
-    </rule>
-    <rule name="Sell cattle on a fixed date">
-      <condition name="start_of_day"><![CDATA[
+          <category name="Buy properties">
+            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <genotype type="list" listvalues="Angus,ayrshire,beef shorthorn,brahman,brahman x british,brown swiss,charolais,charolais x british,charolais x friesian,charolais x holstein,chianina,dairy shorthorn,fresian,fresian x british,guernsey,hereford,holstein,holstein x british,jersey,limousein,sahiwal,simmental,south devon" description="Select Genotype : ">Angus</genotype>
+            <herbage_module type="modulename" description="Module supplying herbage : ">lucerne</herbage_module>
+            <buy_feed_on_offer type="text" description="Feed on offer (kg/ha) : ">1500.0</buy_feed_on_offer>
+            <buy_number type="text" description="Number of stock : ">5</buy_number>
+            <sex type="list" listvalues="cow,heifer,steer,bull" description="Select sex : ">steer</sex>
+            <buy_age type="text" description="Age (months) : ">12</buy_age>
+            <buy_weight type="text" description="Weight (kg) : ">250</buy_weight>
+          </category>
+        </rule>
+        <rule name="Sell cattle on a fixed date">
+          <condition name="start_of_day"><![CDATA[
         if (today = date('[sell_date]') AND cattle_presence = 'on') then
            [stockmodule] sellstock number = [sell_number] (-)
            cattle_presence = 'off'
         endif
                ]]></condition>
-      <category name="Sell properties">
-        <property name="stockmodule" value="StockScienceConverter" type="modulename" description="Name of stock converter module : " />
-        <property name="sell_date" value="1-jan" type="text" description="Date (dd-mmm) : " />
-        <property name="sell_number" value="5" type="text" description="Number of stock : " />
-      </category>
-    </rule>
-    <rule name="Sell cattle on weight">
-      <condition name="start_of_day"><![CDATA[
+          <category name="Sell properties">
+            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <sell_date type="text" description="Date (dd-mmm) : ">1-jan</sell_date>
+            <sell_number type="text" description="Number of stock : ">5</sell_number>
+          </category>
+        </rule>
+        <rule name="Sell cattle on weight">
+          <condition name="start_of_day"><![CDATA[
         if ((stock.weight >= [sell_on_weight_gain] OR stock.weight <= [sell_on_weight_loss]) AND cattle_presence = 'on') then
            [stockmodule] sellstock number = [sell_number] (-)
            cattle_presence = 'off'
         endif
                ]]></condition>
-      <category name="Sell properties">
-        <property name="stockmodule" value="StockScienceConverter" type="modulename" description="Name of stock converter module : " />
-        <property name="sell_on_weight_gain" value="350.0" type="text" description="Weight (gaining) : " />
-        <property name="sell_on_weight_loss" value="0.0" type="text" description="Weight (losing) : " />
-        <property name="sell_number" value="5" type="text" description="Number of stock : " />
-      </category>
-    </rule>
-  </manager>
-  <manager name="Sheep">
-    <rule name="Buy sheep on a fixed date">
-      <condition name="init">
-            <![CDATA[
+          <category name="Sell properties">
+            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <sell_on_weight_gain type="text" description="Weight (gaining) : ">350.0</sell_on_weight_gain>
+            <sell_on_weight_loss type="text" description="Weight (losing) : ">0.0</sell_on_weight_loss>
+            <sell_number type="text" description="Number of stock : ">5</sell_number>
+          </category>
+        </rule>
+      </manager>
+      <manager name="Sheep">
+        <rule name="Buy sheep on a fixed date">
+          <condition name="init"><![CDATA[
                sheep_presence = 'off'
-            ]]>
-            </condition>
-      <condition name="start_of_day"><![CDATA[
+            ]]></condition>
+          <condition name="start_of_day"><![CDATA[
         if (today = date('[buy_date]') then
            [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
            sheep_presence = 'on'
          endif
                ]]></condition>
-      <category name="Buy properties">
-        <property name="stockmodule" value="StockScienceConverter" type="modulename" description="Name of stock converter module : " />
-        <property name="genotype" value="suffolk" type="list" listvalues="black face x white face,birder keucester, border leicester x merino,columbia,corriedale,delaine-merino,dorset x merino,dorset,finnsheep,hampshire,large merino,medium merino,small merino,polwarth,polypay,romney,ryeland,southdown,suffolk,targhee,texel,US corriedale,US romney,US southdown,US suffolk" description="Select Genotype : " />
-        <property name="buy_date" value="1-jan" type="text" description="Date (dd-mmm) : " />
-        <property name="buy_number" value="50" type="text" description="Number of stock : " />
-        <property name="sex" value="wether" type="list" listvalues="ewe,wether,ram,crypto" description="Select sex : " />
-        <property name="buy_age" value="12" type="text" description="Age (months) : " />
-        <property name="buy_weight" value="45" type="text" description="Weight (kg) : " />
-      </category>
-    </rule>
-    <rule name="Buy sheep on feed-on-offer">
-      <condition name="init">
-            <![CDATA[
+          <category name="Buy properties">
+            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <genotype type="list" listvalues="black face x white face,birder keucester, border leicester x merino,columbia,corriedale,delaine-merino,dorset x merino,dorset,finnsheep,hampshire,large merino,medium merino,small merino,polwarth,polypay,romney,ryeland,southdown,suffolk,targhee,texel,US corriedale,US romney,US southdown,US suffolk" description="Select Genotype : ">suffolk</genotype>
+            <buy_date type="text" description="Date (dd-mmm) : ">1-jan</buy_date>
+            <buy_number type="text" description="Number of stock : ">50</buy_number>
+            <sex type="list" listvalues="ewe,wether,ram,crypto" description="Select sex : ">wether</sex>
+            <buy_age type="text" description="Age (months) : ">12</buy_age>
+            <buy_weight type="text" description="Weight (kg) : ">45</buy_weight>
+          </category>
+        </rule>
+        <rule name="Buy sheep on feed-on-offer">
+          <condition name="init"><![CDATA[
                sheep_presence = 'off'
-            ]]>
-            </condition>
-      <condition name="start_of_day"><![CDATA[
+            ]]></condition>
+          <condition name="start_of_day"><![CDATA[
         if ([herbage_module].biomass >= [buy_feed_on_offer] AND sheep_presence = 'off') then
            [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
            sheep_presence = 'on'
          endif
                ]]></condition>
-      <category name="Buy properties">
-        <property name="stockmodule" value="StockScienceConverter" type="modulename" description="Name of stock converter module : " />
-        <property name="genotype" value="suffolk" type="list" listvalues="black face x white face,birder keucester, border leicester x merino,columbia,corriedale,delaine-merino,dorset x merino,dorset,finnsheep,hampshire,large merino,medium merino,small merino,polwarth,polypay,romney,ryeland,southdown,suffolk,targhee,texel,US corriedale,US romney,US southdown,US suffolk" description="Select Genotype : " />
-        <property name="herbage_module" value="lucerne" type="modulename" description="Module supplying herbage : " />
-        <property name="buy_feed_on_offer" value="1500.0" type="text" description="Feed on offer (kg/ha) : " />
-        <property name="buy_number" value="50" type="text" description="Number of stock : " />
-        <property name="sex" value="wether" type="list" listvalues="ewe,wether,ram,crypto" description="Select sex : " />
-        <property name="buy_age" value="12" type="text" description="Age (months) : " />
-        <property name="buy_weight" value="45" type="text" description="Weight (kg) : " />
-      </category>
-    </rule>
-    <rule name="Sell sheep on a fixed date">
-      <condition name="start_of_day"><![CDATA[
+          <category name="Buy properties">
+            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <genotype type="list" listvalues="black face x white face,birder keucester, border leicester x merino,columbia,corriedale,delaine-merino,dorset x merino,dorset,finnsheep,hampshire,large merino,medium merino,small merino,polwarth,polypay,romney,ryeland,southdown,suffolk,targhee,texel,US corriedale,US romney,US southdown,US suffolk" description="Select Genotype : ">suffolk</genotype>
+            <herbage_module type="modulename" description="Module supplying herbage : ">lucerne</herbage_module>
+            <buy_feed_on_offer type="text" description="Feed on offer (kg/ha) : ">1500.0</buy_feed_on_offer>
+            <buy_number type="text" description="Number of stock : ">50</buy_number>
+            <sex type="list" listvalues="ewe,wether,ram,crypto" description="Select sex : ">wether</sex>
+            <buy_age type="text" description="Age (months) : ">12</buy_age>
+            <buy_weight type="text" description="Weight (kg) : ">45</buy_weight>
+          </category>
+        </rule>
+        <rule name="Sell sheep on a fixed date">
+          <condition name="start_of_day"><![CDATA[
         if (today = date('[sell_date]') AND sheep_presence = 'on') then
            [stockmodule] sellstock number = [sell_number] (-)
            sheep_presence = 'off'
         endif
                ]]></condition>
-      <category name="Sell properties">
-        <property name="stockmodule" value="StockScienceConverter" type="modulename" description="Name of stock converter module : " />
-        <property name="sell_date" value="1-jan" type="text" description="Date (dd-mmm) : " />
-        <property name="sell_number" value="50" type="text" description="Number of stock : " />
-      </category>
-    </rule>
-    <rule name="Sell sheep on weight">
-      <condition name="start_of_day"><![CDATA[
+          <category name="Sell properties">
+            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <sell_date type="text" description="Date (dd-mmm) : ">1-jan</sell_date>
+            <sell_number type="text" description="Number of stock : ">50</sell_number>
+          </category>
+        </rule>
+        <rule name="Sell sheep on weight">
+          <condition name="start_of_day"><![CDATA[
         if ((stock.weight >= [sell_on_weight_gain] OR stock.weight <= [sell_on_weight_loss]) AND sheep_presence = 'on') then
            [stockmodule] sellstock number = [sell_number] (-)
            sheep_presence = 'off'
         endif
                ]]></condition>
-      <category name="Sell properties">
-        <property name="stockmodule" value="StockScienceConverter" type="modulename" description="Name of stock converter module : " />
-        <property name="sell_on_weight_gain" value="60.0" type="text" description="Weight (gaining) : " />
-        <property name="sell_on_weight_loss" value="0.0" type="text" description="Weight (losing) : " />
-        <property name="sell_number" value="50" type="text" description="Number of stock : " />
-      </category>
-    </rule>
-  </manager>
-  <manager name="Supplement">
-    <rule name="Buy supplement on a fixed date">
-      <condition name="start_of_day"><![CDATA[
+          <category name="Sell properties">
+            <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+            <sell_on_weight_gain type="text" description="Weight (gaining) : ">60.0</sell_on_weight_gain>
+            <sell_on_weight_loss type="text" description="Weight (losing) : ">0.0</sell_on_weight_loss>
+            <sell_number type="text" description="Number of stock : ">50</sell_number>
+          </category>
+        </rule>
+      </manager>
+      <manager name="Supplement">
+        <rule name="Buy supplement on a fixed date">
+          <condition name="start_of_day"><![CDATA[
         if (today = date('[buy_date]') then
            [supplementmodule] buysupplement supplement = [buy_name] (-), amount = [buy_amount] (kg)
          endif
                ]]></condition>
-      <category name="Buy properties">
-        <property name="supplementmodule" value="SupplementScienceConverter" type="modulename" description="Name of supplement converter module : " />
-        <property name="buy_date" value="1-jan" type="text" description="Date (dd-mmm) : " />
-        <property name="buy_name" value="wheat" type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : " />
-        <property name="buy_amount" value="1000" type="text" description="Fresh weight of supplement to purchase (kg) : " />
-      </category>
-    </rule>
-    <rule name="Mix supplement on a fixed date">
-      <condition name="start_of_day"><![CDATA[
+          <category name="Buy properties">
+            <supplementmodule type="modulename" description="Name of supplement converter module : ">SupplementScienceConverter</supplementmodule>
+            <buy_date type="text" description="Date (dd-mmm) : ">1-jan</buy_date>
+            <buy_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : ">wheat</buy_name>
+            <buy_amount type="text" description="Fresh weight of supplement to purchase (kg) : ">1000</buy_amount>
+          </category>
+        </rule>
+        <rule name="Mix supplement on a fixed date">
+          <condition name="start_of_day"><![CDATA[
         if (today = date('[mix_date]') then
            [supplementmodule] mixsupplement src_store = [src_store_name] (-), amount = [mix_amount] (kg), dest_store = [dest_store_name] (-)
          endif
                ]]></condition>
-      <category name="Mix properties">
-        <property name="supplementmodule" value="SupplementScienceConverter" type="modulename" description="Name of supplement converter module : " />
-        <property name="mix_date" value="1-jan" type="text" description="Date (dd-mmm) : " />
-        <property name="src_store_name" value="wheat" type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the source supplement store. : " />
-        <property name="dest_store_name" value="wheat" type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the destination store. : " />
-        <property name="mix_amount" value="1000" type="text" description="Fresh weight of supplement to transfer. (kg) : " />
-      </category>
-    </rule>
-    <rule name="Feed supplement in a fixed date window">
-      <condition name="start_of_day"><![CDATA[
+          <category name="Mix properties">
+            <supplementmodule type="modulename" description="Name of supplement converter module : ">SupplementScienceConverter</supplementmodule>
+            <mix_date type="text" description="Date (dd-mmm) : ">1-jan</mix_date>
+            <src_store_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the source supplement store. : ">wheat</src_store_name>
+            <dest_store_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the destination store. : ">wheat</dest_store_name>
+            <mix_amount type="text" description="Fresh weight of supplement to transfer. (kg) : ">1000</mix_amount>
+          </category>
+        </rule>
+        <rule name="Feed supplement in a fixed date window">
+          <condition name="start_of_day"><![CDATA[
         if (date_within('[feed_start_date], [feed_end_date]') = 1) then
            [supplementmodule] feedsupplement supplement = [feed_name] (-), amount = [feed_amount] (kg)
          endif
                ]]></condition>
-      <category name="Feed properties">
-        <property name="supplementmodule" value="SupplementScienceConverter" type="modulename" description="Name of supplement converter module : " />
-        <property name="feed_start_date" value="1-jan" type="text" description="Date (dd-mmm) : " />
-        <property name="feed_end_date" value="1-jan" type="text" description="Date (dd-mmm) : " />
-        <property name="feed_name" value="wheat" type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : " />
-        <property name="feed_amount" value="1000" type="text" description="Fresh weight of supplement to purchase (kg) : " />
-      </category>
-    </rule>
-    <rule name="Feed supplement on animal condition">
-      <condition name="init">
-            <![CDATA[
+          <category name="Feed properties">
+            <supplementmodule type="modulename" description="Name of supplement converter module : ">SupplementScienceConverter</supplementmodule>
+            <feed_start_date type="text" description="Date (dd-mmm) : ">1-jan</feed_start_date>
+            <feed_end_date type="text" description="Date (dd-mmm) : ">1-jan</feed_end_date>
+            <feed_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : ">wheat</feed_name>
+            <feed_amount type="text" description="Fresh weight of supplement to purchase (kg) : ">1000</feed_amount>
+          </category>
+        </rule>
+        <rule name="Feed supplement on animal condition">
+          <condition name="init"><![CDATA[
          FALSE = 0
          TRUE = 1
          feeding = FALSE
@@ -1125,9 +1133,8 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
          est_lag_days = 10.0 / feed_rate_factor
          initial_feed_rate = 0.0
 
-            ]]>
-            </condition>
-      <condition name="start_of_day"><![CDATA[
+            ]]></condition>
+          <condition name="start_of_day"><![CDATA[
             dlt_cond_score = cond_score_all - yest_cond_score_all
             yest_cond_score_all = cond_score_all
             if (feeding = TRUE AND cond_score_all = 0.0) then
@@ -1159,16 +1166,15 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
             endif
 
                ]]></condition>
-      <category name="Feed properties">
-        <property name="supplementmodule" value="SupplementScienceConverter" type="modulename" description="Name of supplement converter module : " />
-        <property name="crit_cs" value="1.0" type="text" description="Critical condition score. 1.0 is sensible for dry stock : " />
-        <property name="max_feed_rate" value="1.0" type="text" description="Maximum rate of feeding in kg FW/day; 1.0 is sensible for sheep : " />
-        <property name="feed_name" value="wheat" type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : " />
-      </category>
-    </rule>
-    <rule name="Feed supplement on animal condition loss">
-      <condition name="init">
-            <![CDATA[
+          <category name="Feed properties">
+            <supplementmodule type="modulename" description="Name of supplement converter module : ">SupplementScienceConverter</supplementmodule>
+            <crit_cs type="text" description="Critical condition score. 1.0 is sensible for dry stock : ">1.0</crit_cs>
+            <max_feed_rate type="text" description="Maximum rate of feeding in kg FW/day; 1.0 is sensible for sheep : ">1.0</max_feed_rate>
+            <feed_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : ">wheat</feed_name>
+          </category>
+        </rule>
+        <rule name="Feed supplement on animal condition loss">
+          <condition name="init"><![CDATA[
          FALSE = 0
          TRUE = 1
          feeding = FALSE
@@ -1177,9 +1183,8 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
          feed_rate_factor = 0.2
          est_lag_days = 10.0 / feed_rate_factor
          initial_feed_rate = 0.0
-            ]]>
-            </condition>
-      <condition name="start_of_day"><![CDATA[
+            ]]></condition>
+          <condition name="start_of_day"><![CDATA[
          dlt_cond_score = cond_score_all - yest_cond_score_all
          yest_cond_score_all = cond_score_all
             if (feeding = TRUE AND cond_score_all = 0.0) then
@@ -1215,17 +1220,16 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
             endif
 
                ]]></condition>
-      <category name="Feed properties">
-        <property name="supplementmodule" value="SupplementScienceConverter" type="modulename" description="Name of supplement converter module : " />
-        <property name="days" value="5" type="text" description="Number of days to sum condition change : " />
-        <property name="crit_condition_change" value="0.0" type="text" description="Critical condition change needed to start feeding (kg/head) : " />
-        <property name="max_feed_rate" value="1.0" type="text" description="Maximum rate of feeding in kg FW/day; 1.0 is sensible for sheep : " />
-        <property name="feed_name" value="wheat" type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : " />
-      </category>
-    </rule>
-    <rule name="Feed supplement on animal weight loss">
-      <condition name="init">
-            <![CDATA[
+          <category name="Feed properties">
+            <supplementmodule type="modulename" description="Name of supplement converter module : ">SupplementScienceConverter</supplementmodule>
+            <days type="text" description="Number of days to sum condition change : ">5</days>
+            <crit_condition_change type="text" description="Critical condition change needed to start feeding (kg/head) : ">0.0</crit_condition_change>
+            <max_feed_rate type="text" description="Maximum rate of feeding in kg FW/day; 1.0 is sensible for sheep : ">1.0</max_feed_rate>
+            <feed_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : ">wheat</feed_name>
+          </category>
+        </rule>
+        <rule name="Feed supplement on animal weight loss">
+          <condition name="init"><![CDATA[
          FALSE = 0
          TRUE = 1
          feeding = FALSE
@@ -1234,9 +1238,8 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
          feed_rate_factor = 0.5
          est_lag_days = 10.0 / feed_rate_factor
          initial_feed_rate = 0.1
-            ]]>
-            </condition>
-      <condition name="start_of_day"><![CDATA[
+            ]]></condition>
+          <condition name="start_of_day"><![CDATA[
             if (feeding = TRUE AND cond_score_all = 0.0) then
                crit_wt = 0.0
                feeding = FALSE
@@ -1270,22 +1273,20 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
             endif
 
                ]]></condition>
-      <category name="Feed properties">
-        <property name="supplementmodule" value="SupplementScienceConverter" type="modulename" description="Name of supplement converter module : " />
-        <property name="days" value="5" type="text" description="Number of days to sum weight change : " />
-        <property name="crit_weight_change" value="0.0" type="text" description="Critical weight change needed to start feeding (kg/head) : " />
-        <property name="max_feed_rate" value="1.0" type="text" description="Maximum rate of feeding in kg FW/day; 1.0 is sensible for sheep : " />
-        <property name="feed_name" value="wheat" type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : " />
-      </category>
-    </rule>
-    <rule name="Feed supplement to reach a target weight">
-      <condition name="init">
-            <![CDATA[
+          <category name="Feed properties">
+            <supplementmodule type="modulename" description="Name of supplement converter module : ">SupplementScienceConverter</supplementmodule>
+            <days type="text" description="Number of days to sum weight change : ">5</days>
+            <crit_weight_change type="text" description="Critical weight change needed to start feeding (kg/head) : ">0.0</crit_weight_change>
+            <max_feed_rate type="text" description="Maximum rate of feeding in kg FW/day; 1.0 is sensible for sheep : ">1.0</max_feed_rate>
+            <feed_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : ">wheat</feed_name>
+          </category>
+        </rule>
+        <rule name="Feed supplement to reach a target weight">
+          <condition name="init"><![CDATA[
          feed_rate = 0.0     ! Rate of feeding in kg FW/day
 
-            ]]>
-            </condition>
-      <condition name="start_of_day"><![CDATA[
+            ]]></condition>
+          <condition name="start_of_day"><![CDATA[
             if (date_within('[date_start_feed], [date_end_feed]') = 1) then
                days_left = date('[date_end_feed]') - date('[date_start_feed]')
                if (days_left < 0.0) then
@@ -1314,28 +1315,33 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
             endif
 
                ]]></condition>
-      <category name="Feed properties">
-        <property name="supplementmodule" value="SupplementScienceConverter" type="modulename" description="Name of supplement converter module : " />
-        <property name="date_start_feed" value="1-jan" type="text" description="date to begin feeding (dd-mmm) : " />
-        <property name="date_end_feed" value="1-jan" type="text" description="date to end feeding (dd-mmm) : " />
-        <property name="target_wt" value="1.0" type="text" description="Target weight per head to finish (kg) : " />
-        <property name="max_feed_rate" value="1.0" type="text" description="Maximum rate of feeding in kg FW/day; 1.0 is sensible for sheep : " />
-        <property name="feed_name" value="wheat" type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : " />
-      </category>
-    </rule>
-  </manager>
-  </folder>
-  <folder name="Tcl">
-   <tclmanager name="TCL Manager (standalone)">
-     <rule name="Logic">
-       <condition name="init"></condition>
-       <condition name="prepare"></condition>
-       <condition name="process"></condition>
-       <condition name="post"></condition>
-       <condition name="exit"></condition>
-     </rule>
-     <rule name="Debugger">
-       <condition name="init"><![CDATA[package require Tk
+          <category name="Feed properties">
+            <supplementmodule type="modulename" description="Name of supplement converter module : ">SupplementScienceConverter</supplementmodule>
+            <date_start_feed type="text" description="date to begin feeding (dd-mmm) : ">1-jan</date_start_feed>
+            <date_end_feed type="text" description="date to end feeding (dd-mmm) : ">1-jan</date_end_feed>
+            <target_wt type="text" description="Target weight per head to finish (kg) : ">1.0</target_wt>
+            <max_feed_rate type="text" description="Maximum rate of feeding in kg FW/day; 1.0 is sensible for sheep : ">1.0</max_feed_rate>
+            <feed_name type="list" listvalues="'barley- crushed','barley- whole','barley straw','beans- field','bran','brewers grains','canola meal','canola straw','citrus pulp- dry','coconut meal','cottonseed- whole','cottonseed meal','fish meal','groundnut meal','hay','lucerne pellets','lupins','linseed meal','maize','maize bran','maize gluten fd','maize straw','molasses','oats- crushed','oats- whole','oat bran','oat chaff','oat straw','peas','pea pod meal','pea straw','pellets','rice- crushed','rice- whole','rice bran','rice straw','rye','safflower meal','silage','sorghum','sorghum- whole','soya bean meal','sunflower meal','tallow','triticale- crushed','triticale- whole','urea','vetch grain','wheat- crushed','wheat- whole','wheat chaff','wheat pollard','wheat straw'" description="Name of the supplement to purchase : ">wheat</feed_name>
+          </category>
+        </rule>
+      </manager>
+    </folder>
+    <folder name="Tcl">
+      <tclmanager name="TCL Manager (standalone)">
+        <rule name="Logic">
+          <condition name="init">
+          </condition>
+          <condition name="prepare">
+          </condition>
+          <condition name="process">
+          </condition>
+          <condition name="post">
+          </condition>
+          <condition name="exit">
+          </condition>
+        </rule>
+        <rule name="Debugger">
+          <condition name="init"><![CDATA[package require Tk
 wm withdraw .
 
 package require tkcon
@@ -1366,8 +1372,8 @@ proc getLinked {a n1 n2 op} {uplevel #0 set $n1 [apsimGet $a]}
 proc setLinked {a n1 n2 op} {apsimSet $a $n1}
 
 ]]></condition>
-        <condition name="prepare" />
-        <condition name="process">update
+          <condition name="prepare" />
+          <condition name="process">update
 foreach cond $Conds {
   if {[expr $cond]} {
     set steps 1
@@ -1377,48 +1383,58 @@ foreach cond $Conds {
 incr steps -1
 if {$steps == 0} {tkwait variable steps}
         </condition>
-        <condition name="post" />
-        <condition name="exit" />
-      </rule>
-   </tclmanager>
-   <farmmanager name="Farm Manager">
-     <rule name="Farm logic">
-       <condition name="init"></condition>
-       <condition name="prepare"></condition>
-       <condition name="process"></condition>
-       <condition name="post"></condition>
-       <condition name="exit"></condition>
-     </rule>
-   </farmmanager>
-   <paddockmanager name="Paddock Manager">
-     <rule name="Farm logic">
-       <condition name="init"></condition>
-       <condition name="prepare"></condition>
-       <condition name="process"></condition>
-       <condition name="post"></condition>
-       <condition name="exit"></condition>
-     </rule>
-   </paddockmanager>
-  </folder>
-  <logic name="Logic">
-    <script name="init">
-    </script>
-    <script name="startofday">
-    </script>
-    <script name="endofday">
-    </script>
-  </logic>
-  <operations/>
-  <accum name="accum">
-     <variable name = "variable">variable</variable>
-  </accum>
-  <log name="Log">
-    <debugoutput name="debugoutput">on</debugoutput>
-    <filename name="filename">log.txt</filename>
-  </log>
-  <soi name="soi">
-    <filename>%apsuite\soi\phases.soi</filename>
-  </soi>
+          <condition name="post" />
+          <condition name="exit" />
+        </rule>
+      </tclmanager>
+      <farmmanager name="Farm Manager">
+        <rule name="Farm logic">
+          <condition name="init">
+          </condition>
+          <condition name="prepare">
+          </condition>
+          <condition name="process">
+          </condition>
+          <condition name="post">
+          </condition>
+          <condition name="exit">
+          </condition>
+        </rule>
+      </farmmanager>
+      <paddockmanager name="Paddock Manager">
+        <rule name="Farm logic">
+          <condition name="init">
+          </condition>
+          <condition name="prepare">
+          </condition>
+          <condition name="process">
+          </condition>
+          <condition name="post">
+          </condition>
+          <condition name="exit">
+          </condition>
+        </rule>
+      </paddockmanager>
+    </folder>
+    <logic name="Logic">
+      <script name="init">
+      </script>
+      <script name="startofday">
+      </script>
+      <script name="endofday">
+      </script>
+    </logic>
+    <operations />
+    <accum name="accum">
+      <variable name="variable">variable</variable>
+    </accum>
+    <log name="Log">
+      <debugoutput name="debugoutput">on</debugoutput>
+      <filename name="filename">log.txt</filename>
+    </log>
+    <soi name="soi">
+      <filename>%apsuite\soi\phases.soi</filename>
+    </soi>
   </folder>
   <folder name="Water">
     <irrigation name="Irrigation">
@@ -1465,7 +1481,6 @@ if {$steps == 0} {tkwait variable steps}
       <rainfall_salt_conc>20.0</rainfall_salt_conc>
     </dam>
   </folder>
-
   <surfaceom name="Surface Organic Matter">
     <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
     <type description="Organic Matter type">wheat</type>
@@ -1474,7 +1489,7 @@ if {$steps == 0} {tkwait variable steps}
     <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
   </surfaceom>
   <fertiliser name="Fertiliser" />
-  <phos name="Phosphorus"/>
+  <phos name="Phosphorus" />
   <st name="Soil Temperature">
     <bound_layer_cond description="boundary layer conductance">20.0</bound_layer_cond>
     <clay description="proportion of clay">0.1  0.1  0.1  0.1  0.1  0.2  0.3</clay>
@@ -1485,17 +1500,16 @@ if {$steps == 0} {tkwait variable steps}
     <salt>491 62 1490 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000</salt>
   </solute>
   <erosion name="Erosion">
-   <model name="model">freebairn</model>
-   <slope name="slope">6.5</slope>
-   <slope_length name="slope_length">60.0</slope_length>
-   <k_factor name="k_factor">0.4</k_factor>
-   <p_factor name="p_factor">1.0</p_factor>
-   <bed_depth name="bed_depth">1900</bed_depth>
-   <profile_reduction name="profile_reduction">off</profile_reduction>
-   <profile_layer_merge name="profile_layer_merge">0.05</profile_layer_merge>
-   <minimum_depth name="minimum_depth">100.0</minimum_depth>
+    <model name="model">freebairn</model>
+    <slope name="slope">6.5</slope>
+    <slope_length name="slope_length">60.0</slope_length>
+    <k_factor name="k_factor">0.4</k_factor>
+    <p_factor name="p_factor">1.0</p_factor>
+    <bed_depth name="bed_depth">1900</bed_depth>
+    <profile_reduction name="profile_reduction">off</profile_reduction>
+    <profile_layer_merge name="profile_layer_merge">0.05</profile_layer_merge>
+    <minimum_depth name="minimum_depth">100.0</minimum_depth>
   </erosion>
-
   <micromet name="Micromet">
     <soilalbedo name="soilalbedo">0.23</soilalbedo>
     <a_interception name="a_interception">0.0</a_interception>
@@ -1509,52 +1523,43 @@ if {$steps == 0} {tkwait variable steps}
       <conversion_model>herbage</conversion_model>
       <herbage_model>plant</herbage_model>
       <herbage_module_name type="modulename">lablab</herbage_module_name>
-
       <proportion_legume>1.0</proportion_legume>
       <dmdValue>0.8 0.7 0.6 0.5 0.4 0.3</dmdValue>
-
       <p_conc_green_leaf_default>0.004</p_conc_green_leaf_default>
       <p_conc_green_stem_default>0.003</p_conc_green_stem_default>
       <p_conc_senesced_leaf_default>0.004</p_conc_senesced_leaf_default>
       <p_conc_senesced_stem_default>0.003</p_conc_senesced_stem_default>
       <p_conc_dead_leaf_default>0.004</p_conc_dead_leaf_default>
       <p_conc_dead_stem_default>0.003</p_conc_dead_stem_default>
-
       <ash_alk_green_leaf_default>254.0</ash_alk_green_leaf_default>
       <ash_alk_green_stem_default>96.0</ash_alk_green_stem_default>
       <ash_alk_senesced_leaf_default>254.0</ash_alk_senesced_leaf_default>
       <ash_alk_senesced_stem_default>96.0</ash_alk_senesced_stem_default>
       <ash_alk_dead_leaf_default>254.0</ash_alk_dead_leaf_default>
       <ash_alk_dead_stem_default>96.0</ash_alk_dead_stem_default>
-
       <ns_ratio_green_leaf_default>19.0</ns_ratio_green_leaf_default>
       <ns_ratio_green_stem_default>11.0</ns_ratio_green_stem_default>
       <ns_ratio_senesced_leaf_default>19.0</ns_ratio_senesced_leaf_default>
       <ns_ratio_senesced_stem_default>11.0</ns_ratio_senesced_stem_default>
       <ns_ratio_dead_leaf_default>19.0</ns_ratio_dead_leaf_default>
       <ns_ratio_dead_stem_default>11.0</ns_ratio_dead_stem_default>
-
       <np_ratio_green_leaf_default>8.0</np_ratio_green_leaf_default>
       <np_ratio_green_stem_default>8.0</np_ratio_green_stem_default>
       <np_ratio_senesced_leaf_default>8.0</np_ratio_senesced_leaf_default>
       <np_ratio_senesced_stem_default>8.0</np_ratio_senesced_stem_default>
       <np_ratio_dead_leaf_default>8.0</np_ratio_dead_leaf_default>
       <np_ratio_dead_stem_default>8.0</np_ratio_dead_stem_default>
-
       <dmd_green_leaf>0.80 0.65 0.60</dmd_green_leaf>
       <dmd_green_stem>0.60 0.55 0.50</dmd_green_stem>
       <dmd_senesced_leaf>0.60 0.50 0.40</dmd_senesced_leaf>
       <dmd_senesced_stem>0.50 0.35 0.30</dmd_senesced_stem>
       <dmd_dead_leaf>0.40 0.40 0.40</dmd_dead_leaf>
       <dmd_dead_stem>0.30 0.30 0.30</dmd_dead_stem>
-
       <KQ5Leaf>0.008</KQ5Leaf>
       <KQ5Stem>0.004</KQ5Stem>
       <KQ4>200</KQ4>
-
       <cp_n_ratio>6.25</cp_n_ratio>
     </StockHerbageConverter>
-
     <StockScienceConverter>
       <debug type="list" listvalues="on,off">off</debug>
       <stock_module type="modulename">stock</stock_module>
@@ -1562,98 +1567,104 @@ if {$steps == 0} {tkwait variable steps}
       <fraction_faeces_added>0.5</fraction_faeces_added>
       <fraction_urine_added>0.5</fraction_urine_added>
     </StockScienceConverter>
-
     <stock>
-       <stockgenotype name="Medium Merino Genotype">
-         <genotypename>Medium Merino</genotypename>
-         <dam_breed></dam_breed>
-         <sire_breed></sire_breed>
-         <generation>0</generation>
-         <srw>50.0</srw>
-         <conception1>0.8</conception1>
-         <conception2>0.15</conception2>
-         <death_rate>0.02</death_rate>
-         <ref_fleece_wt>4.5</ref_fleece_wt>
-         <max_fibre_diam>19.0</max_fibre_diam>
-         <fleece_yield>0.7</fleece_yield>
-         <peak_milk>25.0</peak_milk>
-       </stockgenotype>
-       <stockgenotype name="Angus Genotype">
-         <genotypename>Angus</genotypename>
-         <dam_breed></dam_breed>
-         <sire_breed></sire_breed>
-         <generation>0</generation>
-         <srw>520.0</srw>
-         <conception1>0.8</conception1>
-         <conception2>0.15</conception2>
-         <death_rate>0.01</death_rate>
-         <ref_fleece_wt>4.5</ref_fleece_wt>
-         <max_fibre_diam>19.0</max_fibre_diam>
-         <fleece_yield>0.7</fleece_yield>
-         <peak_milk>25.0</peak_milk>
-       </stockgenotype>
-       <sheep>
-         <genotypename>Medium Merino</genotypename>
-         <number>120</number>
-         <sex type="list" listvalues="ewe,wether,ram,crypto">wether</sex>
-         <age>730.0</age>
-         <weight>50.0</weight>
-         <max_prev_wt>50.0</max_prev_wt>
-         <fleece_wt>6.0</fleece_wt>
-         <fibre_diam>20.0</fibre_diam>
-         <mated_to></mated_to>
-         <pregnant>0</pregnant>
-         <lactating>0</lactating>
-         <no_young>0</no_young>
-         <birth_cs>0.0</birth_cs>
-         <lamb_wt>0.0</lamb_wt>
-         <lamb_fleece_wt>0.0</lamb_fleece_wt>
-         <paddock></paddock>
-         <tag>0</tag>
-         <priority>0</priority>
-       </sheep>
-       <cattle>
-         <genotypename>Angus</genotypename>
-         <number>120</number>
-         <sex type="list" listvalues="cow,heifer,steer,bull">steer</sex>
-         <age>730.0</age>
-         <weight>50.0</weight>
-         <max_prev_wt>50.0</max_prev_wt>
-         <mated_to></mated_to>
-         <pregnant>0</pregnant>
-         <lactating>0</lactating>
-         <no_foetuses>0</no_foetuses>
-         <no_suckling>0</no_suckling>
-         <birth_cs>0.0</birth_cs>
-         <calf_wt>0.0</calf_wt>
-         <paddock></paddock>
-         <tag>0</tag>
-         <priority>0</priority>
-       </cattle>
+      <stockgenotype name="Medium Merino Genotype">
+        <genotypename>Medium Merino</genotypename>
+        <dam_breed>
+        </dam_breed>
+        <sire_breed>
+        </sire_breed>
+        <generation>0</generation>
+        <srw>50.0</srw>
+        <conception1>0.8</conception1>
+        <conception2>0.15</conception2>
+        <death_rate>0.02</death_rate>
+        <ref_fleece_wt>4.5</ref_fleece_wt>
+        <max_fibre_diam>19.0</max_fibre_diam>
+        <fleece_yield>0.7</fleece_yield>
+        <peak_milk>25.0</peak_milk>
+      </stockgenotype>
+      <stockgenotype name="Angus Genotype">
+        <genotypename>Angus</genotypename>
+        <dam_breed>
+        </dam_breed>
+        <sire_breed>
+        </sire_breed>
+        <generation>0</generation>
+        <srw>520.0</srw>
+        <conception1>0.8</conception1>
+        <conception2>0.15</conception2>
+        <death_rate>0.01</death_rate>
+        <ref_fleece_wt>4.5</ref_fleece_wt>
+        <max_fibre_diam>19.0</max_fibre_diam>
+        <fleece_yield>0.7</fleece_yield>
+        <peak_milk>25.0</peak_milk>
+      </stockgenotype>
+      <sheep>
+        <genotypename>Medium Merino</genotypename>
+        <number>120</number>
+        <sex type="list" listvalues="ewe,wether,ram,crypto">wether</sex>
+        <age>730.0</age>
+        <weight>50.0</weight>
+        <max_prev_wt>50.0</max_prev_wt>
+        <fleece_wt>6.0</fleece_wt>
+        <fibre_diam>20.0</fibre_diam>
+        <mated_to>
+        </mated_to>
+        <pregnant>0</pregnant>
+        <lactating>0</lactating>
+        <no_young>0</no_young>
+        <birth_cs>0.0</birth_cs>
+        <lamb_wt>0.0</lamb_wt>
+        <lamb_fleece_wt>0.0</lamb_fleece_wt>
+        <paddock>
+        </paddock>
+        <tag>0</tag>
+        <priority>0</priority>
+      </sheep>
+      <cattle>
+        <genotypename>Angus</genotypename>
+        <number>120</number>
+        <sex type="list" listvalues="cow,heifer,steer,bull">steer</sex>
+        <age>730.0</age>
+        <weight>50.0</weight>
+        <max_prev_wt>50.0</max_prev_wt>
+        <mated_to>
+        </mated_to>
+        <pregnant>0</pregnant>
+        <lactating>0</lactating>
+        <no_foetuses>0</no_foetuses>
+        <no_suckling>0</no_suckling>
+        <birth_cs>0.0</birth_cs>
+        <calf_wt>0.0</calf_wt>
+        <paddock>
+        </paddock>
+        <tag>0</tag>
+        <priority>0</priority>
+      </cattle>
     </stock>
     <supplement>
       <spoilage_time>0.0</spoilage_time>
-       <supplementstore name="Wheat Store">
-           <name>wheat</name>
-           <stored>10000000</stored>
-           <roughage>false</roughage>
-           <dm_content>0.89</dm_content>
-           <dmd>0.9</dmd>
-           <me_content>13.8</me_content>
-           <cp_conc>0.14</cp_conc>
-           <prot_dg>0.92</prot_dg>
-           <p_conc>0.0038</p_conc>
-           <s_conc>0.0014</s_conc>
-           <ee_conc>0.02</ee_conc>
-           <adip2cp>0.02</adip2cp>
-           <ash_alk>0.18</ash_alk>
-           <max_passage>0.0</max_passage>
-       </supplementstore>
+      <supplementstore name="Wheat Store">
+        <name>wheat</name>
+        <stored>10000000</stored>
+        <roughage>false</roughage>
+        <dm_content>0.89</dm_content>
+        <dmd>0.9</dmd>
+        <me_content>13.8</me_content>
+        <cp_conc>0.14</cp_conc>
+        <prot_dg>0.92</prot_dg>
+        <p_conc>0.0038</p_conc>
+        <s_conc>0.0014</s_conc>
+        <ee_conc>0.02</ee_conc>
+        <adip2cp>0.02</adip2cp>
+        <ash_alk>0.18</ash_alk>
+        <max_passage>0.0</max_passage>
+      </supplementstore>
     </supplement>
     <SupplementScienceConverter>
       <debug type="list" listvalues="on,off">off</debug>
-      <supplement_module type="modulename" >supplement</supplement_module>
-     </SupplementScienceConverter>
+      <supplement_module type="modulename">supplement</supplement_module>
+    </SupplementScienceConverter>
   </folder>
-
 </folder>

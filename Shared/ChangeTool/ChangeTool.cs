@@ -10,31 +10,38 @@ namespace ChangeTool
 	// ------------------------------------------
 	public class APSIMChangeTool
 		{
-		private static int CurrentVersion = 2;	   
+		private static int CurrentVersion = 4;	   
 		private delegate void UpgraderDelegate(APSIMData Data);
 
 		// ------------------------------------------
 		// Upgrade the specified data
 		// to the 'current' version
 		// ------------------------------------------
-		public static void Upgrade(APSIMData Data)
-			{
-			// Get version number of data.
-			int DataVersion = 1;
-			if (Data.AttributeExists("version"))
-				DataVersion = Convert.ToInt32(Data.Attribute("version"));
+        public static void Upgrade(APSIMData Data)
+            {
+            if (Data != null)
+                {
+                // Get version number of data.
+                int DataVersion = 1;
+                if (Data.AttributeExists("version"))
+                    DataVersion = Convert.ToInt32(Data.Attribute("version"));
 
-			// Upgrade from version 1 to 2.
-			if (DataVersion < 2)
-				Upgrade(Data, new UpgraderDelegate(UpdateToVersion2));            
+                // Upgrade from version 1 to 2.
+                if (DataVersion < 2)
+                    Upgrade(Data, new UpgraderDelegate(UpdateToVersion2));
 
-			// Upgrade from version 2 to 3.
-			if (DataVersion < 3)
-				Upgrade(Data, new UpgraderDelegate(UpdateToVersion3));
+                // Upgrade from version 2 to 3.
+                if (DataVersion < 3)
+                    Upgrade(Data, new UpgraderDelegate(UpdateToVersion3));
 
-			// All finished upgrading - write version number out.
-			Data.SetAttribute("version", CurrentVersion.ToString());
-			}
+                // Upgrade from version 3 to 4.
+                if (DataVersion < 4)
+                    Upgrade(Data, new UpgraderDelegate(UpdateToVersion4));
+
+                // All finished upgrading - write version number out.
+                Data.SetAttribute("version", CurrentVersion.ToString());
+                }
+            }
 
 
 		// ------------------------------------------------
@@ -46,7 +53,8 @@ namespace ChangeTool
 				{
 				if (Child.Type.ToLower() == "area" 
 					|| Child.Type.ToLower() == "folder"
-					|| Child.Type.ToLower() == "simulation")
+					|| Child.Type.ToLower() == "simulation"
+                    || Child.Type.ToLower() == "manager")
 					Upgrade(Child, Upgrader);  // recursion
 				else
 					Upgrader(Child);
@@ -119,6 +127,36 @@ namespace ChangeTool
 					Child.Name = Child.Name.Remove(0, 21);
 				}
 			}
+
+        // -----------------------------
+        // Upgrade the data to version 4.
+        // -----------------------------
+        private static void UpdateToVersion4(APSIMData Data)
+            {
+            if (Data.Type.ToLower() == "rule")
+                {
+                foreach (APSIMData category in Data.get_Children("category"))
+                    {
+                    foreach (APSIMData property in category.get_Children("property"))
+                        {
+                        APSIMData NewProperty = new APSIMData(property.Name, "");
+                        NewProperty.SetAttribute("type", property.Attribute("type"));
+
+                        if (property.AttributeExists("croppropertyname"))
+                            NewProperty.SetAttribute("croppropertyname", property.Attribute("croppropertyname"));
+
+                        if (property.AttributeExists("listvalues"))
+                            NewProperty.SetAttribute("listvalues", property.Attribute("listvalues"));
+
+                        NewProperty.SetAttribute("description", property.Attribute("description"));
+                        NewProperty.Value = property.Attribute("value");
+                        category.Delete(property.Name);
+                        category.Add(NewProperty);
+                        }
+                    }
+                }
+            }	
+
 
 
 		}

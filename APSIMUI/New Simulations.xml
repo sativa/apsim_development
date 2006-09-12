@@ -1,4 +1,4 @@
-<simulations name="New Simulations" image="Images/layout_center24.png" version="2">
+<simulations name="New Simulations" image="Images/layout_center24.png" version="4">
   <simulation name="Blank Simulation">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1940</start_date>
@@ -47,20 +47,20 @@
       endif
             ]]></condition>
           <category name="Sowing criteria">
-            <property name="date1" value="15-may" type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : " />
-            <property name="date2" value="10-jul" type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : " />
-            <property name="must_sow" value="no" type="yesno" description="Must sow? : " />
-            <property name="raincrit" value="30" type="text" description="Amount of rainfall : " />
-            <property name="rainnumdays" value="3" type="text" description="Number of days of rainfall : " />
-            <property name="esw_amount" value="200" type="text" description="Enter minimum allowable available soil water (mm) : " />
+            <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">15-may</date1>
+            <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">10-jul</date2>
+            <must_sow type="yesno" description="Must sow? : ">no</must_sow>
+            <raincrit type="text" description="Amount of rainfall : ">30</raincrit>
+            <rainnumdays type="text" description="Number of days of rainfall : ">3</rainnumdays>
+            <esw_amount type="text" description="Enter minimum allowable available soil water (mm) : ">200</esw_amount>
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="wheat" type="crop" description="Enter name of crop to sow : " />
-            <property name="density" value="100" type="text" description="Enter sowing density  (plants/m2) : " />
-            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
-            <property name="cultivar" value="hartog" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-            <property name="class" value="plant" type="classes" croppropertyname="crop" description="Enter crop growth class : " />
-            <property name="row_spacing" value="250" type="text" description="Enter row spacing (mm) : " />
+            <crop type="crop" description="Enter name of crop to sow : ">wheat</crop>
+            <density type="text" description="Enter sowing density  (plants/m2) : ">100</density>
+            <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
+            <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">hartog</cultivar>
+            <class type="classes" croppropertyname="crop" description="Enter crop growth class : ">plant</class>
+            <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
           </category>
         </rule>
         <rule name="Harvesting rule">
@@ -73,7 +73,7 @@
 
             </condition>
           <category name="Harvesting criteria">
-            <property name="crop" value="wheat" type="crop" description="Enter name of crop to harvest when ripe : " />
+            <crop type="crop" description="Enter name of crop to harvest when ripe : ">wheat</crop>
           </category>
         </rule>
         <rule name="Sowing fertiliser">
@@ -81,13 +81,13 @@
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
           <category name="When should fertiliser be applied">
-            <property name="modulename" value="wheat" type="modulename" description="On which module should the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+            <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
+            <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
           </category>
           <category name="Fertiliser application details">
-            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
-            <property name="fert_amount_sow" value="150" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
-            <property name="fert_type_sow" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+            <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+            <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">150</fert_amount_sow>
+            <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
           </category>
         </rule>
       </manager>
@@ -866,20 +866,20 @@
       endif
             ]]></condition>
           <category name="Sowing criteria">
-            <property name="date1" value="15-may" type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : " />
-            <property name="date2" value="10-jul" type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : " />
-            <property name="must_sow" value="no" type="yesno" description="Must sow? : " />
-            <property name="raincrit" value="30" type="text" description="Amount of rainfall : " />
-            <property name="rainnumdays" value="3" type="text" description="Number of days of rainfall : " />
-            <property name="esw_amount" value="200" type="text" description="Enter minimum allowable available soil water (mm) : " />
+            <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">15-may</date1>
+            <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">10-jul</date2>
+            <must_sow type="yesno" description="Must sow? : ">no</must_sow>
+            <raincrit type="text" description="Amount of rainfall : ">30</raincrit>
+            <rainnumdays type="text" description="Number of days of rainfall : ">3</rainnumdays>
+            <esw_amount type="text" description="Enter minimum allowable available soil water (mm) : ">200</esw_amount>
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="wheat" type="crop" description="Enter name of crop to sow : " />
-            <property name="density" value="100" type="text" description="Enter sowing density  (plants/m2) : " />
-            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
-            <property name="cultivar" value="hartog" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-            <property name="class" value="plant" type="classes" croppropertyname="crop" description="Enter crop growth class : " />
-            <property name="row_spacing" value="250" type="text" description="Enter row spacing (mm) : " />
+            <crop type="crop" description="Enter name of crop to sow : ">wheat</crop>
+            <density type="text" description="Enter sowing density  (plants/m2) : ">100</density>
+            <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
+            <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">hartog</cultivar>
+            <class type="classes" croppropertyname="crop" description="Enter crop growth class : ">plant</class>
+            <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
           </category>
         </rule>
         <rule name="Harvesting rule">
@@ -892,7 +892,7 @@
 
             </condition>
           <category name="Harvesting criteria">
-            <property name="crop" value="wheat" type="crop" description="Enter name of crop to harvest when ripe : " />
+            <crop type="crop" description="Enter name of crop to harvest when ripe : ">wheat</crop>
           </category>
         </rule>
         <rule name="Sowing fertiliser">
@@ -900,13 +900,13 @@
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
           <category name="When should fertiliser be applied">
-            <property name="modulename" value="wheat" type="modulename" description="On which module should the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+            <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
+            <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
           </category>
           <category name="Fertiliser application details">
-            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
-            <property name="fert_amount_sow" value="150" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
-            <property name="fert_type_sow" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+            <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+            <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">150</fert_amount_sow>
+            <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
           </category>
         </rule>
       </manager>
@@ -1691,21 +1691,21 @@
       endif
             ]]></condition>
           <category name="Sowing criteria">
-            <property name="date1" value="15-oct" type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : " />
-            <property name="date2" value="10-jan" type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : " />
-            <property name="must_sow" value="no" type="yesno" description="Must sow? : " />
-            <property name="raincrit" value="30" type="text" description="Amount of rainfall : " />
-            <property name="rainnumdays" value="3" type="text" description="Number of days of rainfall : " />
-            <property name="esw_amount" value="200" type="text" description="Enter minimum allowable available soil water (mm) : " />
+            <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">15-oct</date1>
+            <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">10-jan</date2>
+            <must_sow type="yesno" description="Must sow? : ">no</must_sow>
+            <raincrit type="text" description="Amount of rainfall : ">30</raincrit>
+            <rainnumdays type="text" description="Number of days of rainfall : ">3</rainnumdays>
+            <esw_amount type="text" description="Enter minimum allowable available soil water (mm) : ">200</esw_amount>
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="sorghum" type="crop" description="Enter name of crop to sow : " />
-            <property name="density" value="7" type="text" description="Enter sowing density  (plants/m2) : " />
-            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
-            <property name="cultivar" value="early" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-            <property name="row_spacing" value="1" type="text" description="Enter row spacing (m) : " />
-            <property name="ftn" value="1" type="text" description="Enter Fertile Tiller No. : " />
-            <property name="skiprow" value="solid" type="list" listvalues="solid, single, double" description="Skip row : " />
+            <crop type="crop" description="Enter name of crop to sow : ">sorghum</crop>
+            <density type="text" description="Enter sowing density  (plants/m2) : ">7</density>
+            <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
+            <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">early</cultivar>
+            <row_spacing type="text" description="Enter row spacing (m) : ">1</row_spacing>
+            <ftn type="text" description="Enter Fertile Tiller No. : ">1</ftn>
+            <skiprow type="list" listvalues="solid, single, double" description="Skip row : ">solid</skiprow>
           </category>
         </rule>
         <rule name="Harvesting rule">
@@ -1718,7 +1718,7 @@
 
             </condition>
           <category name="Harvesting criteria">
-            <property name="crop" value="sorghum" type="crop" description="Enter name of crop to harvest when ripe : " />
+            <crop type="crop" description="Enter name of crop to harvest when ripe : ">sorghum</crop>
           </category>
         </rule>
         <rule name="Sowing fertiliser">
@@ -1726,13 +1726,13 @@
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
           <category name="When should fertiliser be applied">
-            <property name="modulename" value="sorghum" type="modulename" description="On which module should the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+            <modulename type="modulename" description="On which module should the event come from : ">sorghum</modulename>
+            <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
           </category>
           <category name="Fertiliser application details">
-            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
-            <property name="fert_amount_sow" value="150" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
-            <property name="fert_type_sow" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+            <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+            <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">150</fert_amount_sow>
+            <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
           </category>
         </rule>
       </manager>
@@ -2478,11 +2478,11 @@
          endif
             </condition>
           <category name="Sowing criteria">
-            <property name="date1" value="15-mar" type="ddmmmdate" description="Enter planting date (dd-mmm) : " />
+            <date1 type="ddmmmdate" description="Enter planting date (dd-mmm) : ">15-mar</date1>
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="egrandis" type="crop" description="Enter name of growth module to sow : " />
-            <property name="density" value="1111" type="text" description="Enter sowing density  (plants/m2) : " />
+            <crop type="crop" description="Enter name of growth module to sow : ">egrandis</crop>
+            <density type="text" description="Enter sowing density  (plants/m2) : ">1111</density>
           </category>
         </rule>
         <rule name="Establishment fertiliser">
@@ -2490,13 +2490,13 @@
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
           <category name="When should fertiliser be applied">
-            <property name="modulename" value="egrandis" type="modulename" description="For which module is fertiliser applied : " />
-            <property name="eventname" value="establishing" type="text" description="On which event should fertiliser be applied : " />
+            <modulename type="modulename" description="For which module is fertiliser applied : ">egrandis</modulename>
+            <eventname type="text" description="On which event should fertiliser be applied : ">establishing</eventname>
           </category>
           <category name="Fertiliser application details">
-            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
-            <property name="fert_amount_sow" value="150" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
-            <property name="fert_type_sow" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+            <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+            <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">150</fert_amount_sow>
+            <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
           </category>
         </rule>
         <rule name="Fertilise on a date">
@@ -2506,12 +2506,12 @@
             endif
         </condition>
           <category name="When should fertiliser be applied">
-            <property name="date1" value="15-mar" type="ddmmmdate" description="Enter application date (dd-mmm) : " />
+            <date1 type="ddmmmdate" description="Enter application date (dd-mmm) : ">15-mar</date1>
           </category>
           <category name="Fertiliser application details">
-            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
-            <property name="fert_amount_sow" value="150" type="text" description="Amount of fertiliser to apply (kg/ha) : " />
-            <property name="fert_type_sow" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+            <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+            <fert_amount_sow type="text" description="Amount of fertiliser to apply (kg/ha) : ">150</fert_amount_sow>
+            <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
           </category>
         </rule>
       </manager>
@@ -2525,11 +2525,14 @@
       </surfaceom>
       <soil name="UniformSoil">
         <Site>Hypothetical</Site>
-        <Region></Region>
+        <Region>
+        </Region>
         <LocalName>Uniform</LocalName>
         <SoilType>Loam</SoilType>
-        <NearestTown></NearestTown>
-        <NaturalVegetation></NaturalVegetation>
+        <NearestTown>
+        </NearestTown>
+        <NaturalVegetation>
+        </NaturalVegetation>
         <Water>
           <Cona>3.5</Cona>
           <DiffusConst>88</DiffusConst>
@@ -3775,17 +3778,17 @@
             endif
                ]]></condition>
           <category name="Sugar plant crop management parameters">
-            <property name="crop" value="sugar" type="crop" description="Enter name of crop to sow : " />
-            <property name="planting_day" value="1-apr" type="ddmmmdate" description="Enter planting date (dd-mmm) : " />
-            <property name="plantlen" value="450" type="text" description="Duration of a plant crop (days) (30 days/month * 15 months) : " />
-            <property name="plant_stalks" value="10" type="text" description="Stalk density of plant crop (/m2) :" />
-            <property name="variety" value="q117" type="list" listvalues="q117,q96,q138,ts65-28,h73,q141,nco376,n12,n14,cp51,r570,m1356,m55560,q124" description="Planting variety :" />
-            <property name="sowing_depth" value="150" type="text" description="Planting depth mm) :" />
+            <crop type="crop" description="Enter name of crop to sow : ">sugar</crop>
+            <planting_day type="ddmmmdate" description="Enter planting date (dd-mmm) : ">1-apr</planting_day>
+            <plantlen type="text" description="Duration of a plant crop (days) (30 days/month * 15 months) : ">450</plantlen>
+            <plant_stalks type="text" description="Stalk density of plant crop (/m2) :">10</plant_stalks>
+            <variety type="list" listvalues="q117,q96,q138,ts65-28,h73,q141,nco376,n12,n14,cp51,r570,m1356,m55560,q124" description="Planting variety :">q117</variety>
+            <sowing_depth type="text" description="Planting depth mm) :">150</sowing_depth>
           </category>
           <category name="Ratoon management parameters">
-            <property name="NoRatoons" value="4" type="text" description="Number of ratoons (max = 5): " />
-            <property name="ratoonlen" value="390" type="text" description="Duration of a ratoon crop (days) (30 days/month * 13 months) : " />
-            <property name="ratoon_stalks" value="10" type="text" description="Stalk density of ratoon crop (/m2) :" />
+            <NoRatoons type="text" description="Number of ratoons (max = 5): ">4</NoRatoons>
+            <ratoonlen type="text" description="Duration of a ratoon crop (days) (30 days/month * 13 months) : ">390</ratoonlen>
+            <ratoon_stalks type="text" description="Stalk density of ratoon crop (/m2) :">10</ratoon_stalks>
           </category>
         </rule>
         <rule name="Fertilise on fixed date">
@@ -3797,13 +3800,13 @@
             endif
          endif ]]></condition>
           <category name="When should fertiliser be applied">
-            <property name="fert_date" value="01-sep" type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : " />
-            <property name="fert_criteria" value="1000" type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : " />
+            <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">01-sep</fert_date>
+            <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
           </category>
           <category name="Fertiliser application details">
-            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
-            <property name="fert_amount" value="200" type="text" description="Amount of fertiliser to apply (kg/ha) : " />
-            <property name="fert_type" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+            <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+            <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">200</fert_amount>
+            <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
           </category>
         </rule>
       </manager>
@@ -3839,20 +3842,20 @@
       endif
             ]]></condition>
           <category name="Sowing criteria">
-            <property name="date1" value="10-Oct" type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : " />
-            <property name="date2" value="10-Dec" type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : " />
-            <property name="must_sow" value="yes" type="yesno" description="Must sow? : " />
-            <property name="raincrit" value="10" type="text" description="Amount of rainfall : " />
-            <property name="rainnumdays" value="3" type="text" description="Number of days of rainfall : " />
-            <property name="esw_amount" value="100" type="text" description="Enter minimum allowable available soil water (mm) : " />
+            <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">10-Oct</date1>
+            <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">10-Dec</date2>
+            <must_sow type="yesno" description="Must sow? : ">yes</must_sow>
+            <raincrit type="text" description="Amount of rainfall : ">10</raincrit>
+            <rainnumdays type="text" description="Number of days of rainfall : ">3</rainnumdays>
+            <esw_amount type="text" description="Enter minimum allowable available soil water (mm) : ">100</esw_amount>
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="cotton" type="crop" description="Enter name of crop to sow : " />
-            <property name="density" value="10" type="text" description="Enter sowing density  (plants/m row) : " />
-            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
-            <property name="cultivar" value="Siok" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-            <property name="row_spacing" value="1000" type="text" description="Enter row spacing (mm) : " />
-            <property name="skip" value="0" type="text" description="Enter Skip Row (0=solid, 1=single, 2=double) : " />
+            <crop type="crop" description="Enter name of crop to sow : ">cotton</crop>
+            <density type="text" description="Enter sowing density  (plants/m row) : ">10</density>
+            <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
+            <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Siok</cultivar>
+            <row_spacing type="text" description="Enter row spacing (mm) : ">1000</row_spacing>
+            <skip type="text" description="Enter Skip Row (0=solid, 1=single, 2=double) : ">0</skip>
           </category>
         </rule>
         <rule name="ChickPeaSowing">
@@ -3871,20 +3874,20 @@
       endif
             ]]></condition>
           <category name="Sowing criteria">
-            <property name="date1" value="15-may" type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : " />
-            <property name="date2" value="10-jul" type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : " />
-            <property name="must_sow" value="no" type="yesno" description="Must sow? : " />
-            <property name="raincrit" value="25" type="text" description="Amount of rainfall : " />
-            <property name="rainnumdays" value="3" type="text" description="Number of days of rainfall : " />
-            <property name="esw_amount" value="50" type="text" description="Enter minimum allowable available soil water (mm) : " />
+            <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">15-may</date1>
+            <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">10-jul</date2>
+            <must_sow type="yesno" description="Must sow? : ">no</must_sow>
+            <raincrit type="text" description="Amount of rainfall : ">25</raincrit>
+            <rainnumdays type="text" description="Number of days of rainfall : ">3</rainnumdays>
+            <esw_amount type="text" description="Enter minimum allowable available soil water (mm) : ">50</esw_amount>
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="chickpea" type="crop" description="Enter name of crop to sow : " />
-            <property name="density" value="25" type="text" description="Enter sowing density  (plants/m2) : " />
-            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
-            <property name="cultivar" value="amethyst" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-            <property name="class" value="plant" type="classes" croppropertyname="crop" description="Enter crop growth class : " />
-            <property name="row_spacing" value="500" type="text" description="Enter row spacing (mm) : " />
+            <crop type="crop" description="Enter name of crop to sow : ">chickpea</crop>
+            <density type="text" description="Enter sowing density  (plants/m2) : ">25</density>
+            <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
+            <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">amethyst</cultivar>
+            <class type="classes" croppropertyname="crop" description="Enter crop growth class : ">plant</class>
+            <row_spacing type="text" description="Enter row spacing (mm) : ">500</row_spacing>
           </category>
         </rule>
         <rule name="WheatSowing">
@@ -3903,20 +3906,20 @@
       endif
             ]]></condition>
           <category name="Sowing criteria">
-            <property name="date1" value="15-may" type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : " />
-            <property name="date2" value="10-jul" type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : " />
-            <property name="must_sow" value="no" type="yesno" description="Must sow? : " />
-            <property name="raincrit" value="25" type="text" description="Amount of rainfall : " />
-            <property name="rainnumdays" value="3" type="text" description="Number of days of rainfall : " />
-            <property name="esw_amount" value="50" type="text" description="Enter minimum allowable available soil water (mm) : " />
+            <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">15-may</date1>
+            <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">10-jul</date2>
+            <must_sow type="yesno" description="Must sow? : ">no</must_sow>
+            <raincrit type="text" description="Amount of rainfall : ">25</raincrit>
+            <rainnumdays type="text" description="Number of days of rainfall : ">3</rainnumdays>
+            <esw_amount type="text" description="Enter minimum allowable available soil water (mm) : ">50</esw_amount>
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="wheat" type="crop" description="Enter name of crop to sow : " />
-            <property name="density" value="100" type="text" description="Enter sowing density  (plants/m2) : " />
-            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
-            <property name="cultivar" value="hartog" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-            <property name="class" value="plant" type="classes" croppropertyname="crop" description="Enter crop growth class : " />
-            <property name="row_spacing" value="250" type="text" description="Enter row spacing (mm) : " />
+            <crop type="crop" description="Enter name of crop to sow : ">wheat</crop>
+            <density type="text" description="Enter sowing density  (plants/m2) : ">100</density>
+            <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
+            <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">hartog</cultivar>
+            <class type="classes" croppropertyname="crop" description="Enter crop growth class : ">plant</class>
+            <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
           </category>
         </rule>
         <rule name="CottonHarvesting">
@@ -3929,7 +3932,7 @@
 
             ]]></condition>
           <category name="Harvesting criteria">
-            <property name="crop" value="cotton" type="crop" description="Enter name of crop to harvest when ripe : " />
+            <crop type="crop" description="Enter name of crop to harvest when ripe : ">cotton</crop>
           </category>
         </rule>
         <rule name="ChickPeaHarvesting">
@@ -3942,7 +3945,7 @@
 
             </condition>
           <category name="Harvesting criteria">
-            <property name="crop" value="chickpea" type="crop" description="Enter name of crop to harvest when ripe : " />
+            <crop type="crop" description="Enter name of crop to harvest when ripe : ">chickpea</crop>
           </category>
         </rule>
         <rule name="WheatHarvesting">
@@ -3955,7 +3958,7 @@
 
             </condition>
           <category name="Harvesting criteria">
-            <property name="crop" value="wheat" type="crop" description="Enter name of crop to harvest when ripe : " />
+            <crop type="crop" description="Enter name of crop to harvest when ripe : ">wheat</crop>
           </category>
         </rule>
         <rule name="Fertilise at sowing">
@@ -3963,13 +3966,13 @@
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
           <category name="When should fertiliser be applied">
-            <property name="modulename" value="wheat" type="modulename" description="On which module should the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+            <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
+            <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
           </category>
           <category name="Fertiliser application details">
-            <property name="fertmodule" value="fertiliser" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
-            <property name="fert_amount_sow" value="150" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
-            <property name="fert_type_sow" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+            <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+            <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">150</fert_amount_sow>
+            <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type_sow>
           </category>
         </rule>
         <rule name="Rotations">
@@ -4063,32 +4066,32 @@
       endif
       </condition>
           <category name="Fallow options">
-            <property name="SummerFallowName" value="sf" type="text" description="Enter summer fallow name : " />
-            <property name="SummerFallowEndDate" value="15-mar" type="text" description="Enter summer fallow END date (dd-mmm) : " />
-            <property name="WinterFallowName" value="wf" type="text" description="Enter winter fallow name : " />
-            <property name="WinterFallowEndDate" value="23-aug" type="text" description="Enter winter fallow END date (dd-mmm) : " />
+            <SummerFallowName type="text" description="Enter summer fallow name : ">sf</SummerFallowName>
+            <SummerFallowEndDate type="text" description="Enter summer fallow END date (dd-mmm) : ">15-mar</SummerFallowEndDate>
+            <WinterFallowName type="text" description="Enter winter fallow name : ">wf</WinterFallowName>
+            <WinterFallowEndDate type="text" description="Enter winter fallow END date (dd-mmm) : ">23-aug</WinterFallowEndDate>
           </category>
           <category name="Crop rotation sequence">
-            <property name="crop1" value="cotton" type="crop" description="Enter 1st crop : " />
-            <property name="crop2" value="chickpea" type="crop" description="Enter 2nd crop : " />
-            <property name="crop3" value="sf" type="crop" description="Enter 3rd crop : " />
-            <property name="crop4" value="wheat" type="crop" description="Enter 4th crop : " />
-            <property name="crop5" value="sf" type="crop" description="Enter 5th crop : " />
-            <property name="crop6" value="wf" type="crop" description="Enter 6th crop : " />
-            <property name="crop7" value="nil" type="crop" description="Enter 7th crop : " />
-            <property name="crop8" value="nil" type="crop" description="Enter 8th crop : " />
-            <property name="crop9" value="nil" type="crop" description="Enter 9th crop : " />
-            <property name="crop10" value="nil" type="crop" description="Enter 10th crop : " />
-            <property name="crop11" value="nil" type="crop" description="Enter 11th crop : " />
-            <property name="crop12" value="nil" type="crop" description="Enter 12th crop : " />
-            <property name="crop13" value="nil" type="crop" description="Enter 13th crop : " />
-            <property name="crop14" value="nil" type="crop" description="Enter 14th crop : " />
-            <property name="crop15" value="nil" type="crop" description="Enter 15th crop : " />
-            <property name="crop16" value="nil" type="crop" description="Enter 16th crop : " />
-            <property name="crop17" value="nil" type="crop" description="Enter 17th crop : " />
-            <property name="crop18" value="nil" type="crop" description="Enter 18th crop : " />
-            <property name="crop19" value="nil" type="crop" description="Enter 19th crop : " />
-            <property name="crop20" value="nil" type="crop" description="Enter 20th crop : " />
+            <crop1 type="crop" description="Enter 1st crop : ">cotton</crop1>
+            <crop2 type="crop" description="Enter 2nd crop : ">chickpea</crop2>
+            <crop3 type="crop" description="Enter 3rd crop : ">sf</crop3>
+            <crop4 type="crop" description="Enter 4th crop : ">wheat</crop4>
+            <crop5 type="crop" description="Enter 5th crop : ">sf</crop5>
+            <crop6 type="crop" description="Enter 6th crop : ">wf</crop6>
+            <crop7 type="crop" description="Enter 7th crop : ">nil</crop7>
+            <crop8 type="crop" description="Enter 8th crop : ">nil</crop8>
+            <crop9 type="crop" description="Enter 9th crop : ">nil</crop9>
+            <crop10 type="crop" description="Enter 10th crop : ">nil</crop10>
+            <crop11 type="crop" description="Enter 11th crop : ">nil</crop11>
+            <crop12 type="crop" description="Enter 12th crop : ">nil</crop12>
+            <crop13 type="crop" description="Enter 13th crop : ">nil</crop13>
+            <crop14 type="crop" description="Enter 14th crop : ">nil</crop14>
+            <crop15 type="crop" description="Enter 15th crop : ">nil</crop15>
+            <crop16 type="crop" description="Enter 16th crop : ">nil</crop16>
+            <crop17 type="crop" description="Enter 17th crop : ">nil</crop17>
+            <crop18 type="crop" description="Enter 18th crop : ">nil</crop18>
+            <crop19 type="crop" description="Enter 19th crop : ">nil</crop19>
+            <crop20 type="crop" description="Enter 20th crop : ">nil</crop20>
           </category>
         </rule>
       </manager>
@@ -4453,7 +4456,7 @@
             <variable name="WheatLAI" variablename="lai" module="wheat" arrayspec=" " description="Leaf area index" array="T" ModuleType="wheat" />
           </variables>
           <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" />
+            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
           </events>
         </outputfiledescription>
       </outputfile>
@@ -4467,7 +4470,7 @@
       <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1955</end_date>
     </clock>
     <summaryfile name="summaryfile">
-      <filename name="filename">Rotation run.sum</filename>
+      <filename name="filename">Complex Rotations.sum</filename>
     </summaryfile>
     <metfile name="met">
       <filename name="filename">%apsuite\apsim\met\sample\emerald.met</filename>
@@ -4483,7 +4486,7 @@
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
       <outputfile name="outputfile">
-        <filename name="filename">Rotation run.out</filename>
+        <filename name="filename">Complex Rotations.out</filename>
         <outputfiledescription name="My Variables">
           <variables>
             <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec=" " description="Date (dd/mm/yyyy)" ModuleType="registrations" />
@@ -4553,7 +4556,7 @@ set a [stateGraph arc insert fallow covercrop]
 stateGraph arc lappend $a rules {[apsimGet day] == 183}
 stateGraph arc lappend $a rules {[apsimGet esw] > 60}
 stateGraph arc lappend $a rules {[apsimGet surfaceom_cover] < 0.3}
-   
+
 # Chickpea
 set a [stateGraph arc insert fallow chickpea]
 stateGraph arc lappend $a rules {[dateWithin 121 167]}
@@ -4597,10 +4600,10 @@ array set defaults {
   chickpea,sow,cultivar         amethyst
   chickpea,sow,plants           30
   chickpea,fertiliser,amount    0
-}     
+}
 
 # Initial conditions of state variables at the start of the simulation
-set harvestedToday "nothing" 
+set harvestedToday "nothing"
 set state          "fallow"               ;# has to start somewhere...
 set history        {wheat wheat}          ;# The last few crops
 set daysSinceLastHarvest 0
@@ -4611,7 +4614,7 @@ proc wheatHistory {} {
    global history
    if {[lindex $history end] == "wheat" && [lindex $history end-1] == "wheat"} {
        return 0   ;# 2 in a row - no more.
-   } 
+   }
    return 1
 }
 
@@ -4620,7 +4623,7 @@ proc dateWithin {t0 t1} {
    set t [apsimGet day]
    if {$t0 > $t1} {
       return [expr $t >= $t0 || $t <= $t1]
-   } else {   
+   } else {
       return [expr $t >= $t0 && $t <= $t1]
    }
    # notreached
@@ -4639,7 +4642,7 @@ proc log {msg} {
 
 # Look at the current crop, see if it needs harvesting or is dead..
 proc checkState {} {
-   global alias harvestedToday daysSinceLastHarvest 
+   global alias harvestedToday daysSinceLastHarvest
 
    set harvestedToday "nothing"
 
@@ -4670,8 +4673,8 @@ proc currentState {} {
    # See if this is an alias
    if {[info exists alias($state)]} {
       return $alias($state)
-   } 
-   return $state   
+   }
+   return $state
 }
 
 # Gather arguments (eg sowing depth, fert rate etc} from defaults array
@@ -4694,11 +4697,11 @@ proc gatherArgs {action what} {
    foreach {index value} [array get defaults $what,$action,*] {
       set args([lindex [split $index ","] end]) $value
    }
-   return [array get args] 
+   return [array get args]
 }
 
 # Mash a list into name/value pairs
-proc mash {list} {   
+proc mash {list} {
    set result {}
    foreach {name value} $list {lappend result [list $name $value]}
    return $result
@@ -4719,7 +4722,7 @@ proc changeState {newstate} {
       # do nothing
    } else {
       eval apsimSendMessage $realState sow [mash [gatherArgs sow $newstate]]
-      
+
       array set fert [gatherArgs fertiliser $newstate]
       eval apsimSendMessage fertiliser apply [mash [array get fert]]
 
@@ -4729,7 +4732,7 @@ proc changeState {newstate} {
    log "changeState $newstate"
 }
 
-############### The decision routine. 
+############### The decision routine.
 # Iterate through all arcs from current state and take the "best" arc possible (product of scores)
 proc checkRules {} {
   global state
@@ -4746,11 +4749,11 @@ proc checkRules {} {
      set score($arc) [expr [join $expr($arc) "*"]]
      log "  score= $score($arc)"
      if {$best == {} || $score($arc) > $best} {
-       set best $score($arc) 
+       set best $score($arc)
        set bestChoice [stateGraph arc target $arc]
      }
-  }  
-  
+  }
+
   if {$best != {} && $best > 0.0} {
      log " Changing state to $bestChoice - score = $best"
      changeState $bestChoice
@@ -4762,7 +4765,7 @@ proc doProcess {} {
 
    # Housekeeping - check crop maturity & update accumulators
    checkState
-   
+
    # See if there can be a state change today
    checkRules
 }
@@ -4817,7 +4820,7 @@ proc setupUI {w} {
   bind $b.c <1> "+focus %W; canvasButton %x %y"
   bind $b.c <Up> "+canvasUp"
   bind $b.c <Down> "+canvasDown"
- 
+
   focus $b.c
 }
 
@@ -4894,24 +4897,24 @@ proc canvasRight {} {
 
 # Display the current ruleset in the text window
 proc showText {} {
-   global data text canvw txtw currTime 
+   global data text canvw txtw currTime
    set stime [split $currTime ","]
    set year [lindex $stime 1]; set day [max [expr [lindex $stime 0]-1] 0]
-  
+
    set dstr [clock format [clock scan "1/1/$year + $day days"] -format "%d-%b-%Y"]
    $txtw delete 0.0 end
    $txtw insert end "$dstr ($currTime)\n"
    if {[info exists text(main,$currTime)]} {
       $txtw insert end $text(main,$currTime)
-   } 
-   
-   $canvw coords currPos [wtocx 0] [wtocy $currTime] [wtocx 1] [wtocy $currTime] 
+   }
+
+   $canvw coords currPos [wtocx 0] [wtocy $currTime] [wtocx 1] [wtocy $currTime]
 }
 
 # Draw the paddock history
 proc draw {c} {
    global data colours width height
-   set col 0; 
+   set col 0;
 
    for {set i 1} {$i < [llength $data(timeline)]} {incr i} {
       set t0 [lindex [lindex $data(timeline) [expr $i-1]] 0]
@@ -4920,9 +4923,9 @@ proc draw {c} {
       $c create rect [wtocx $col] [wtocy $t0] [wtocx [expr $col+1]] [wtocy $t1] -fill $colours($what) -outline {}
       $c create text [expr 5 + [wtocx $col]] [wtocy $t0] -text $what -anchor nw
    }
-   
+
    for {set y [lindex [split $data(earliest) ","] 1]} {$y <= [lindex [split $data(latest) ","] 1]} {incr y} {
-      $c create line  [wtocx -0.1]  [wtocy "1,$y"]  [wtocx 0] [wtocy "1,$y"] 
+      $c create line  [wtocx -0.1]  [wtocy "1,$y"]  [wtocx 0] [wtocy "1,$y"]
       $c create text [expr 5 + [wtocx -0.7]] [wtocy "1,$y"] -text "1/1/$y" -anchor w
    }
 
@@ -4931,7 +4934,7 @@ proc draw {c} {
    $c create line [wtocx 0] [wtocy $data(earliest)] [wtocx 1] [wtocy $data(earliest)] -fill white -tag currPos
 }
 
-# Read in the logfiles 
+# Read in the logfiles
 proc readIn { filename } {
    global data text width height message
    set types {
@@ -4942,7 +4945,7 @@ proc readIn { filename } {
    if {$filename == ""} {
      set filename [tk_getOpenFile -filetypes $types]
    }
-   
+
    if {$filename == ""} { return }
 
    set message "Reading..."; update
@@ -5261,5 +5264,5 @@ canvasButton 100 100
       <sorghum />
       <chickpea />
     </area>
-  </simulation>  
+  </simulation>
 </simulations>

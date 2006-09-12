@@ -490,7 +490,8 @@ Public Class MainUI
     Private Sub OnNewDataEvent()
         ' New data has entered the system.
         ' This is usually caused by FileNew,
-        ' FileOpen etc.        APSIMChangeTool.Upgrade(ApsimUI.Data)
+        ' FileOpen etc.        
+        APSIMChangeTool.Upgrade(ApsimUI.AllData)
         OnNodeChanged(ApsimUI.AllData.Name, ApsimUI.AllData)
         SetFunctionality()
     End Sub
@@ -763,6 +764,10 @@ Public Class MainUI
             Dim filename As String = toolboxes.NameToFileName(Sender.ToString)
             ToolboxExplorer.ExpandAll = False
             Toolbox.FileOpen(filename)
+            APSIMChangeTool.Upgrade(Toolbox.AllData)
+            If Toolbox.DirtyData Then
+                Toolbox.FileSave()
+            End If
         End If
     End Sub
 

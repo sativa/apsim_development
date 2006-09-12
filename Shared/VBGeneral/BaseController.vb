@@ -75,10 +75,6 @@ Public MustInherit Class BaseController
 
     MustOverride Function CreateUI(ByVal UIType As String) As BaseView
 
-    Public Overridable Function CheckParameterBound(ByVal GivenType As String, ByVal parameter As String, ByVal value As String) As String
-        Return ""
-    End Function
-
     Public Overridable Function GetCropNames(ByVal Prop As APSIMData) As String()
         Return Nothing
     End Function
@@ -110,8 +106,8 @@ Public MustInherit Class BaseController
 
             MyData = Value
 
-            RaiseEvent NewDataEvent()
             AddHandler MyData.DataChanged, AddressOf OnDataChanged
+            RaiseEvent NewDataEvent()
 
             NewSelections.Add(MyData.Name)
             SelectedPaths = NewSelections
@@ -640,83 +636,35 @@ Public MustInherit Class BaseController
 
 #End Region
 
-    ' --------------------------------
-    ' Set the type of a grid column
-    ' --------------------------------
-    Public Overridable Sub SetCellType(ByVal Grid As FarPoint.Win.Spread.SheetView, _
-                            ByVal row As Integer, _
-                            ByVal col As Integer, _
-                            ByVal Prop As APSIMData)
-
+#Region "Generic UI functions"
+    Public Overridable Function CreateCellEditor(ByVal Prop As APSIMData) As FarPoint.Win.Spread.CellType.BaseCellType
+        ' --------------------------------------------------------------------
+        ' Create and return a cell editor based on the property based in.
+        ' --------------------------------------------------------------------
         If Prop.Attribute("type") = "yesno" Then
             Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
             Combo.Items = New String() {"yes", "no"}
-            Grid.Cells(row, col).CellType = Combo
-
-        ElseIf Prop.Attribute("type") = "ddmmmdate" Then
-            Grid.Cells(row, col).Note = "This cell accepts only 'dd/MMM' (10-Jan) or 'dd/mm/yyyy' (10/01/2005) style dates."
-            Grid.Cells(row, col).NoteStyle = FarPoint.Win.Spread.NoteStyle.PopupNote
+            Return Combo
 
         ElseIf Prop.Attribute("type") = "date" Then
             Dim DateEditor As FarPoint.Win.Spread.CellType.DateTimeCellType = New FarPoint.Win.Spread.CellType.DateTimeCellType
             DateEditor.DateDefault = Prop.Value
             DateEditor.DropDownButton = True
-            Grid.Cells(row, col).CellType = DateEditor
+            Return DateEditor
 
         ElseIf Prop.Attribute("type") = "list" Then
             Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
             Combo.Items = Prop.Attribute("listvalues").Split(",")
             Combo.Editable = True
-            Grid.Cells(row, col).CellType = Combo
+            Return Combo
 
-        ElseIf Prop.Attribute("type") = "modulename" Then
-            Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
-            Combo.Items = GetMatchingModuleNames(Prop)
-            Combo.Editable = True
-            Grid.Cells(row, col).CellType = Combo
-
-        ElseIf Prop.Attribute("type") = "crop" Then
-            Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
-            Combo.Items = GetCropNames(Prop)
-            Combo.Editable = True
-            Grid.Cells(row, col).CellType = Combo
-
-        ElseIf Prop.Attribute("type") = "cultivars" Then
-            Dim CultivarCombo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
-            CultivarCombo.Items = GetMatchingModuleNames(Prop)
-            CultivarCombo.Editable = True
-            Grid.Cells(row, col).CellType = CultivarCombo
-
-        ElseIf Prop.Attribute("type") = "classes" Then
-            Dim CultivarCombo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
-            CultivarCombo.Items = GetMatchingModuleNames(Prop)
-            CultivarCombo.Editable = True
-            Grid.Cells(row, col).CellType = CultivarCombo
-
+        Else
+            Return Nothing
         End If
-    End Sub
-
-
-    ' ------------------------------------------------------------------
-    ' Return a list of instance names for the specified module name
-    ' ------------------------------------------------------------------
-    Shared Function GetMatchingModuleNames(ByVal Prop As APSIMData) As String()
-        Dim Values As New StringCollection
-        Dim System As APSIMData = Prop.Parent
-        While System.Type <> "simulation" And System.Type <> "area" And Not IsNothing(System.Parent)
-            System = System.Parent
-        End While
-
-        For Each ApsimModule As APSIMData In System.Children
-            If Prop.Attribute("moduletype") = "" Or ApsimModule.Type = Prop.Attribute("moduletype") Then
-                Values.Add(ApsimModule.Name())
-            End If
-        Next
-        Dim ReturnValues(Values.Count - 1) As String
-        Values.CopyTo(ReturnValues, 0)
-        Return ReturnValues
     End Function
 
-
+    Public Overridable Sub PopulateCellEditor(ByVal Prop As APSIMData, ByVal Editor As FarPoint.Win.Spread.CellType.BaseCellType)
+    End Sub
+#End Region
 
 End Class
