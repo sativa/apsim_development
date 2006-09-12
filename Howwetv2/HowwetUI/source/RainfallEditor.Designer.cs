@@ -28,19 +28,19 @@ namespace APSRU.Howwet
         /// </summary>
         private void InitializeComponent()
             {
-            FarPoint.Win.Spread.TipAppearance tipAppearance3 = new FarPoint.Win.Spread.TipAppearance();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType25 = new FarPoint.Win.Spread.CellType.NumberCellType();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType26 = new FarPoint.Win.Spread.CellType.NumberCellType();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType27 = new FarPoint.Win.Spread.CellType.NumberCellType();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType28 = new FarPoint.Win.Spread.CellType.NumberCellType();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType29 = new FarPoint.Win.Spread.CellType.NumberCellType();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType30 = new FarPoint.Win.Spread.CellType.NumberCellType();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType31 = new FarPoint.Win.Spread.CellType.NumberCellType();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType32 = new FarPoint.Win.Spread.CellType.NumberCellType();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType33 = new FarPoint.Win.Spread.CellType.NumberCellType();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType34 = new FarPoint.Win.Spread.CellType.NumberCellType();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType35 = new FarPoint.Win.Spread.CellType.NumberCellType();
-            FarPoint.Win.Spread.CellType.NumberCellType numberCellType36 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.TipAppearance tipAppearance1 = new FarPoint.Win.Spread.TipAppearance();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType1 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType2 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType3 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType4 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType5 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType6 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType7 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType8 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType9 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType10 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType11 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            FarPoint.Win.Spread.CellType.NumberCellType numberCellType12 = new FarPoint.Win.Spread.CellType.NumberCellType();
             this.fpSpread1 = new FarPoint.Win.Spread.FpSpread();
             this.fpSpread1_Sheet1 = new FarPoint.Win.Spread.SheetView();
             this.label1 = new System.Windows.Forms.Label();
@@ -57,6 +57,9 @@ namespace APSRU.Howwet
             // fpSpread1
             // 
             this.fpSpread1.AccessibleDescription = "fpSpread1, Sheet1, Row 0, Column 0, ";
+            this.fpSpread1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.fpSpread1.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.Never;
             this.fpSpread1.Location = new System.Drawing.Point(12, 12);
             this.fpSpread1.Name = "fpSpread1";
@@ -64,10 +67,10 @@ namespace APSRU.Howwet
             this.fpSpread1_Sheet1});
             this.fpSpread1.Size = new System.Drawing.Size(759, 663);
             this.fpSpread1.TabIndex = 1;
-            tipAppearance3.BackColor = System.Drawing.SystemColors.Info;
-            tipAppearance3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            tipAppearance3.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.fpSpread1.TextTipAppearance = tipAppearance3;
+            tipAppearance1.BackColor = System.Drawing.SystemColors.Info;
+            tipAppearance1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            tipAppearance1.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.fpSpread1.TextTipAppearance = tipAppearance1;
             this.fpSpread1.VerticalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.Never;
             this.fpSpread1.Change += new FarPoint.Win.Spread.ChangeEventHandler(this.fpSpread1_Change);
             // 
@@ -151,29 +154,29 @@ namespace APSRU.Howwet
             this.fpSpread1_Sheet1.Columns.Get(0).ForeColor = System.Drawing.Color.Silver;
             this.fpSpread1_Sheet1.Columns.Get(0).Label = "Day";
             this.fpSpread1_Sheet1.Columns.Get(0).Visible = false;
-            this.fpSpread1_Sheet1.Columns.Get(1).CellType = numberCellType25;
+            this.fpSpread1_Sheet1.Columns.Get(1).CellType = numberCellType1;
             this.fpSpread1_Sheet1.Columns.Get(1).Label = "Jan";
-            this.fpSpread1_Sheet1.Columns.Get(2).CellType = numberCellType26;
+            this.fpSpread1_Sheet1.Columns.Get(2).CellType = numberCellType2;
             this.fpSpread1_Sheet1.Columns.Get(2).Label = "Feb";
-            this.fpSpread1_Sheet1.Columns.Get(3).CellType = numberCellType27;
+            this.fpSpread1_Sheet1.Columns.Get(3).CellType = numberCellType3;
             this.fpSpread1_Sheet1.Columns.Get(3).Label = "Mar";
-            this.fpSpread1_Sheet1.Columns.Get(4).CellType = numberCellType28;
+            this.fpSpread1_Sheet1.Columns.Get(4).CellType = numberCellType4;
             this.fpSpread1_Sheet1.Columns.Get(4).Label = "Apr";
-            this.fpSpread1_Sheet1.Columns.Get(5).CellType = numberCellType29;
+            this.fpSpread1_Sheet1.Columns.Get(5).CellType = numberCellType5;
             this.fpSpread1_Sheet1.Columns.Get(5).Label = "May";
-            this.fpSpread1_Sheet1.Columns.Get(6).CellType = numberCellType30;
+            this.fpSpread1_Sheet1.Columns.Get(6).CellType = numberCellType6;
             this.fpSpread1_Sheet1.Columns.Get(6).Label = "Jun";
-            this.fpSpread1_Sheet1.Columns.Get(7).CellType = numberCellType31;
+            this.fpSpread1_Sheet1.Columns.Get(7).CellType = numberCellType7;
             this.fpSpread1_Sheet1.Columns.Get(7).Label = "Jul";
-            this.fpSpread1_Sheet1.Columns.Get(8).CellType = numberCellType32;
+            this.fpSpread1_Sheet1.Columns.Get(8).CellType = numberCellType8;
             this.fpSpread1_Sheet1.Columns.Get(8).Label = "Aug";
-            this.fpSpread1_Sheet1.Columns.Get(9).CellType = numberCellType33;
+            this.fpSpread1_Sheet1.Columns.Get(9).CellType = numberCellType9;
             this.fpSpread1_Sheet1.Columns.Get(9).Label = "Sep";
-            this.fpSpread1_Sheet1.Columns.Get(10).CellType = numberCellType34;
+            this.fpSpread1_Sheet1.Columns.Get(10).CellType = numberCellType10;
             this.fpSpread1_Sheet1.Columns.Get(10).Label = "Oct";
-            this.fpSpread1_Sheet1.Columns.Get(11).CellType = numberCellType35;
+            this.fpSpread1_Sheet1.Columns.Get(11).CellType = numberCellType11;
             this.fpSpread1_Sheet1.Columns.Get(11).Label = "Nov";
-            this.fpSpread1_Sheet1.Columns.Get(12).CellType = numberCellType36;
+            this.fpSpread1_Sheet1.Columns.Get(12).CellType = numberCellType12;
             this.fpSpread1_Sheet1.Columns.Get(12).Label = "Dec";
             this.fpSpread1_Sheet1.RowHeader.Columns.Default.Resizable = false;
             this.fpSpread1_Sheet1.Rows.Get(31).BackColor = System.Drawing.Color.Silver;

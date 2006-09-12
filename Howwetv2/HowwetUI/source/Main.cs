@@ -29,6 +29,7 @@ namespace APSRU.Howwet
         private HowwetConfiguration config;
         public MetData metObject;
         private SimulationOut outputObject;
+        private Results result;
         public String soilsFileName = "";
         private ArrayList coverCrops;
         int rowCount = 0;
@@ -41,7 +42,6 @@ namespace APSRU.Howwet
         private String erosionSlopeLengthOriginal;
         private String erosionErodibiltyOriginal;
         private double[] cLL;
-        DataTable dt;
         DataTable chartDataTable;
         private String selectedFileName="";
 
@@ -49,6 +49,8 @@ namespace APSRU.Howwet
         private String apsimToSimPath = "\\bin\\apsimtosim.exe";
         private String howwetReportFileName = "\\howwetv2\\HowwetReport.xml";
         private String howwetSetupFileName = "\\howwetv2\\HowwetSetup.xml";
+        private const int WUEDefault = 3;
+        private const int ThresholdWaterDefault = 100;
 
         ToolTip toolTip1 = new System.Windows.Forms.ToolTip();
         #endregion
@@ -73,7 +75,13 @@ namespace APSRU.Howwet
             {
             toolStripStatusLabel1.Text = "Select a Soil";
             util = new HowwetUtility(Application.ExecutablePath, howwetSetupFileName);
-            config = new HowwetConfiguration(util.ApplicationDirectory + "\\" + howwetSetupFileName);
+            config = new HowwetConfiguration(util.ApplicationDirectory +  howwetSetupFileName);
+
+            CoverCrop crop = util.GetCrop(config.CropList, "wheat");
+            decimal percent = 40;
+          //  MessageBox.Show("1000kg/ha "+ util.ConvertCoverKgToPercent(713, crop.SpecificArea));
+          //  MessageBox.Show("10 percent " + util.ConvertCoverPercentToKg((percent/100), crop.SpecificArea).ToString("f0"));
+          
             if (this.selectedFileName == "")
                 {
                 simulationObject = new SimulationIn(util.ReadTemplateFile(util.ApplicationDirectory + "\\howwetv2\\" + config.TemplateFileName));
@@ -174,29 +182,20 @@ namespace APSRU.Howwet
             String[] layers = simulationObject.Soil.DepthStrings;
             ocDepthLabel.Text = layers[0];//top layer string
             organicCarbonContent.Text = simulationObject.Soil.OC.GetValue(0).ToString();
-
             soilDepthSumOriginal = MathUtility.Sum(simulationObject.Soil.Thickness);
             soilPAWCSumOriginal = MathUtility.Sum(simulationObject.Soil.PAWC());
             soilNitrogenSumOriginal = MathUtility.Sum(simulationObject.Soil.InitialNitrogen.NO3KgHa);
-
             lL15Original = simulationObject.Soil.LL15;
             thicknessOriginal = simulationObject.Soil.Thickness;
-
             soilDepth.Text = soilDepthSumOriginal.ToString("f0");
-            this.initialWaterCapacity.TextChanged -= new System.EventHandler(this.initialWaterCapacity_TextChanged);
-            initialWaterCapacity.Text = soilPAWCSumOriginal.ToString("f0");
-            this.initialWaterCapacity.TextChanged += new System.EventHandler(this.initialWaterCapacity_TextChanged);
             waterCapacity.Text = soilPAWCSumOriginal.ToString("f0");
             initialSoilNitrogen.Text = soilNitrogenSumOriginal.ToString("f0");
             displayCoverCropList();
-
-            this.initialSoilWaterPercent.ValueChanged -= new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
+            initialSoilWaterPercent.Value = 19;
             initialSoilWaterPercent.Value = 20;
-            this.initialSoilWaterPercent.ValueChanged += new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
             coverPercent.Maximum = 99;
             coverPercent.Minimum = 0;
             coverPercent.Value = 30;
-            simulationObject.Soil.InitialWater.SetUsingPercent(Convert.ToInt16(initialSoilWaterPercent.Value), true);
             toolStripStatusLabel1.Text = "Select a Met file";
             }
 
@@ -225,15 +224,21 @@ namespace APSRU.Howwet
             {
             txtMetFile.Text = "";
             StartDatePicker.MaxDate = DateTime.Now;
-            StartDatePicker.Value = DateTime.Now;
+            StartDatePicker.Value = DateTime.Today;
             EndDatePicker.MaxDate = DateTime.Now;
-            EndDatePicker.Value = DateTime.Now;
+            EndDatePicker.Value = DateTime.Today;
             }
         
         private void updateFormOutputValues()
             {//todo
             // clear the proposed crop combo and other bits
-
+            this.daystoMaturityUpDown.ValueChanged -= new EventHandler(daystoMaturityUpDown_ValueChanged);
+            daystoMaturityUpDown.Minimum = 1;
+            daystoMaturityUpDown.Maximum = 180;
+            daystoMaturityUpDown.Increment = 1;
+            daystoMaturityUpDown.Value = 1;
+            this.daystoMaturityUpDown.ValueChanged +=new EventHandler(daystoMaturityUpDown_ValueChanged);
+            
             }
 
         #endregion
@@ -248,7 +253,6 @@ namespace APSRU.Howwet
         private void RunButton_Click(object sender, EventArgs e)
             {
             saveAllData();
-            
             tabControl1.Visible = false;
             RainfallSWChart.Visible = false;
             SoilNitrogenChart.Visible = false;
@@ -281,35 +285,52 @@ namespace APSRU.Howwet
                 if (File.Exists(simulationObject.OutputFileName)) File.Delete(simulationObject.OutputFileName);
                 if (File.Exists(simulationObject.SummaryFileName)) File.Delete(simulationObject.SummaryFileName);
                 if (File.Exists(simulationObject.SimulationName + ".sim")) File.Delete(simulationObject.SimulationName + ".sim");
-               
+                ProgressBar1.Minimum = 0;
+                ProgressBar1.Maximum = 2;
+                ProgressBar1.Step = 1;
+                StatusLabel2.Text = "Running APSIM";
                 errString = "ApsimToSimPath=" + ApsimToSimPath;
                 if (File.Exists(ApsimToSimPath))
                     {
-                    
+                    ProgressBar1.PerformStep();
                     Process p = Process.Start("\""+ApsimToSimPath+"\"", "\"" + simulationFileName + "\"");
                     p.WaitForExit();
                     this.Refresh();
-                    this.Cursor = Cursors.Default;
-
-                    errString = "Apsim=" + Apsim;
-                    if (File.Exists(Apsim))
+                  
+                    String simFileName = simulationParentPath+"\\"+simulationObject.SimulationName + ".sim";
+                    errString = "Apsim=" + Apsim+ " Sim="+simFileName;
+                    if(File.Exists(simFileName))
                         {
-                        String simFileName = simulationParentPath+"\\"+simulationObject.SimulationName + ".sim";
-                        p = Process.Start("\""+ Apsim +"\"", "\""+ simFileName +"\"");
-                        p.WaitForExit();
-                        this.Refresh();
+                        if (File.Exists(Apsim))
+                            {
+                            ProgressBar1.PerformStep();
+                            p = Process.Start("\""+ Apsim +"\"", "\""+ simFileName +"\"");
+                            p.WaitForExit();
+                            this.Refresh();
 
-                        if (File.Exists(simulationObject.SimulationName + ".sim")) success = true;
-                        }
-                    else
-                        {
-                        new CustomException(new CustomError("", "Cannot find Apsim file", errString, FUNCTION_NAME, this.GetType().FullName, false));
+                            String outFileName = simulationObject.SimulationName + ".out";
+                            errString = "Output file=" + outFileName;
+                            if (File.Exists(outFileName))
+                                {
+                                success = true;
+                                }
+                            else
+                                {
+                                new CustomException(new CustomError("", "Cannot find simulation output file", errString, FUNCTION_NAME, this.GetType().FullName, false));
+                                }
+                            }
+                        else
+                            {
+                            new CustomException(new CustomError("", "Cannot find Apsim file", errString, FUNCTION_NAME, this.GetType().FullName, false));
+                            }
                         }
                     }
                 else
                     {
                     new CustomException(new CustomError("", "Cannot find ApsimToSim file", errString, FUNCTION_NAME, this.GetType().FullName, false));
                     }
+                ProgressBar1.Value = 0;
+                StatusLabel2.Text = "";
                 return success;
                 }
             catch (CustomException err)
@@ -326,17 +347,24 @@ namespace APSRU.Howwet
  
         private void ReportButton_Click(object sender, EventArgs e)
             {
-            //TODO change path to a application variable
-        
             String fileName = util.ApplicationDirectory + howwetReportFileName;
             APSIMData report = new APSIMData();
             report.LoadFromFile(fileName);
 
-            APSIMData fileNode = report.FindChild("howwet|summary_in|soil", '|');
-            fileNode.set_ChildValue("name", "test one two");
+            APSIMData fileNode = report.FindChildByType("howwet|summary_in|soil", '|');
+            fileNode.set_ChildValue("name", "test one two three");
+
+           // Report test = new Report();
+          //  test.firstName = "robert";
+          //  test.lastName = "gratwick";
+          //  test.age = 10;
+          ///  StreamWriter stream = new StreamWriter("c:\\robert\\data\\testXML.xml");
+           // stream.WriteLine("<?xml-stylesheet type=""text/xsl"" href=""testXML.xsl""?>");
+          //  System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(test.GetType());
+          //  x.Serialize(stream, test);
 
             report.SaveToFile(fileName);
-            RainfallSWChart.Export.Image.GIF.Save(util.ApplicationDirectory + "\\RainfallSWChart.gif"); 
+            RainfallSWChart.Export.Image.GIF.Save(util.ApplicationDirectory + "\\howwetv2\\RainfallSWChart.gif"); 
             System.Diagnostics.Process.Start("IExplore.exe", util.ApplicationDirectory + howwetReportFileName);
             }
 
@@ -564,16 +592,17 @@ namespace APSRU.Howwet
             {
             try
                 {
-                int percent = Convert.ToInt32(initialSoilWaterPercent.Value);
-                
-                simulationObject.Soil.InitialWater.SetUsingPercent(percent,true);
-                
-                double Proportion = Convert.ToInt32(initialSoilWaterPercent.Value) / 100.0;
-                double AmountWater = MathUtility.Sum(simulationObject.Soil.PAWC()) * Proportion;
-                this.initialWaterCapacity.TextChanged -= new System.EventHandler(this.initialWaterCapacity_TextChanged);
-                initialWaterCapacity.Text = AmountWater.ToString("f0");
-                this.initialWaterCapacity.TextChanged += new System.EventHandler(this.initialWaterCapacity_TextChanged);
-                double[] pawc =simulationObject.Soil.PAWC();
+                if (!(simulationObject.Soil == null))
+                    {
+                    int percent = Convert.ToInt32(initialSoilWaterPercent.Value);
+                    simulationObject.Soil.InitialWater.SetUsingPercent(percent, true);
+                    double Proportion = Convert.ToInt32(initialSoilWaterPercent.Value) / 100.0;
+                    double AmountWater = MathUtility.Sum(simulationObject.Soil.PAWC()) * Proportion;
+                    this.initialWaterCapacity.TextChanged -= new System.EventHandler(this.initialWaterCapacity_TextChanged);
+                    initialWaterCapacity.Text = AmountWater.ToString("f0");
+                    this.initialWaterCapacity.TextChanged += new System.EventHandler(this.initialWaterCapacity_TextChanged);
+                    double[] pawc = simulationObject.Soil.PAWC();
+                    }
                 }
             catch (CustomException err)
                 {
@@ -637,9 +666,9 @@ namespace APSRU.Howwet
               openDialog.ShowDialog();
               if (!(openDialog.FileName == ""))
                 {
-                    //hydrate metObject       
-                    metObject = new MetData(openDialog.FileName);
-                    updateFormMetValues();
+                //hydrate metObject       
+                metObject = new MetData(openDialog.FileName);
+                updateFormMetValues();
                 }
               }
             catch (CustomException err)
@@ -684,7 +713,7 @@ namespace APSRU.Howwet
             String selectedCrop = (String)coverCropList.SelectedItem;
             CoverCrop crop = util.GetCrop(coverCrops, selectedCrop);
             simulationObject.SOMMass = Convert.ToString(util.ConvertCoverPercentToKg(percent / 100, crop.SpecificArea));
-            label36.Text = simulationObject.SOMMass;
+            label36.Text = String.Format("{0:##.##}",simulationObject.SOMMass);
             }
 
         private void editRainfallButton_Click(object sender, EventArgs e)
@@ -695,6 +724,7 @@ namespace APSRU.Howwet
                 if (!RainfallEditor.Instance.isLoaded)
                     {
                     this.metObject.BuildAverages();
+                    Console.WriteLine("Rain in next 100 days " + metObject.averageRainInNext(EndDatePicker.Value, 100));
                     RainfallEditor.Instance.loadObject(this.metObject);
                     }
                 RainfallEditor.Instance.Focus();
@@ -756,20 +786,38 @@ namespace APSRU.Howwet
                 {
                 cLL = simulationObject.Soil.LL(selectedCrop);
                 }
-                ArrayList soilWaterEndLayers = (ArrayList)outputObject.SoilWaterEndByLayer;
-                double pAWEnd = 0;
-                for (int layer = 0; layer < soilWaterEndLayers.Count; layer++)
-                    {
-                    pAWEnd = pAWEnd + (Math.Abs(Convert.ToDouble(soilWaterEndLayers[layer]) - cLL[layer]) * simulationObject.Soil.Thickness[layer]); ;
-                    }
-                endPAW.Text = pAWEnd.ToString("f0");
+                endPAW.Text = result.PAWEnd(cLL).ToString("f0");
             }
 
-        private void showAPSIMFileButton_Click(object sender, EventArgs e)
+        private void daystoMaturityUpDown_ValueChanged(object sender, EventArgs e)
             {
-            APSIMData test = new APSIMData();
-            test = simulationObject.Data;
-            MessageBox.Show(test.XML);
+            inCropRainfall.Text = metObject.averageRainInNext(EndDatePicker.Value, Convert.ToInt16(daystoMaturityUpDown.Value)).ToString("f0");
+            
+            double totalWater=(result.PAWEnd(cLL)+Convert.ToDouble(inCropRainfall.Text))-Convert.ToDouble(thresholdWater.Text);
+            double expectedYield=(totalWater*Convert.ToDouble(WUE.Text))/1000;
+            cropYield.Text = String.Format("{0:##.##}", expectedYield);
+            float grainProtein;
+            grainProtein = 11.5F;
+            float efficiencyOfNUptake;
+            efficiencyOfNUptake = 1.7F;
+            float fractionOfNinProtein;
+            fractionOfNinProtein = (10F / 5.7F);
+            float nDemand;
+            nDemand = ((float)expectedYield * grainProtein * fractionOfNinProtein) * efficiencyOfNUptake;
+            nitrateDemand.Text = String.Format("{0:##.##}",nDemand);
+            float nGap;
+            nGap = nDemand - (float)result.NitrateEnd;
+            nitrateGap.Text = nGap.ToString("f0");
+            }
+
+        private void inCropRainfall_Leave(object sender, EventArgs e)
+            {
+
+            }
+
+        private void calculateNitrogenRequirement()
+            {
+
             }
 
         private void tabControl1_Click(object sender, EventArgs e)
@@ -842,44 +890,44 @@ namespace APSRU.Howwet
                 ProfileLL15Line.Clear();
                 ProfileSWLine.Clear();
 
-                outputObject = new SimulationOut(simulationObject.OutputFileName);
+                outputObject = new SimulationOut(simulationObject);
+                result = new Results(simulationObject,outputObject);
                 displayProposedCropList();
-
                 //output summary results
-               // double soilWaterStart = MathUtility.Sum(simulationObject.Soil.PAWC());
-                double soilWaterStart = outputObject.SoilWaterStart(simulationObject.Soil);
-                startSoilWater.Text = soilWaterStart.ToString("f0");
-                fallowRainfall.Text = outputObject.RainfallTotal.ToString("f0");
-                fallowEvaporation.Text = outputObject.EvaporationTotal.ToString("f0");
-                fallowRunoff.Text = outputObject.RunoffTotal.ToString("f0");
-                drainage.Text = outputObject.DrainTotal.ToString("f0");
-                double soilWaterEnd = outputObject.SoilWaterEnd(simulationObject.Soil);
-                endSoilWater.Text = soilWaterEnd.ToString("f0");
-
-                double fallowWaterGain = soilWaterEnd - soilWaterStart;
-                gainSoilWater.Text = fallowWaterGain.ToString("f0");
-                double fallowWaterEfficiency = ((fallowWaterGain / soilWaterStart) * 100);
-                waterEfficiency.Text = fallowWaterEfficiency.ToString("f0");
-
-                startSoilNitrate.Text = MathUtility.Sum(simulationObject.Soil.InitialNitrogen.NO3KgHa).ToString("f0");
-                endSoilNitrate.Text = outputObject.NitrateEnd.ToString("f0");
-                double nitrateGain = outputObject.NitrateEnd - MathUtility.Sum(simulationObject.Soil.InitialNitrogen.NO3KgHa);
-                gainNitrate.Text = nitrateGain.ToString("f0");
-                double nitrateEfficiencySum = (nitrateGain / MathUtility.Sum(simulationObject.Soil.InitialNitrogen.NO3KgHa)) * 100;
-                nitrateEfficiency.Text = nitrateEfficiencySum.ToString("f0");
-                ArrayList soilWaterEndLayers = outputObject.SoilWaterEndByLayer;
-                double pAWEnd = 0;
-                for (int layer = 0; layer < soilWaterEndLayers.Count; layer++)
-                    {
-                    pAWEnd = pAWEnd + (Math.Abs(Convert.ToDouble(soilWaterEndLayers[layer]) - cLL[layer]) * simulationObject.Soil.Thickness[layer]);
-                    }
-                endPAW.Text = pAWEnd.ToString("f0");
+                //water
+                startSoilWater.Text = result.SoilWaterStart.ToString("f0");
+                fallowRainfall.Text = result.RainfallTotal.ToString("f0");
+                fallowEvaporation.Text = result.EvaporationTotal.ToString("f0");
+                fallowRunoff.Text = result.RunoffTotal.ToString("f0");
+                drainage.Text = result.DrainTotal.ToString("f0");
+                endSoilWater.Text = result.SoilWaterEnd.ToString("f0");
+                gainSoilWater.Text = result.FallowWaterGain.ToString("f0");
+                waterEfficiency.Text = result.FallowWaterEfficiency.ToString("f0");
+                //cover
+                CoverCrop crop = util.GetCrop(coverCrops, simulationObject.SOMType);
+                decimal startCoverPercent = util.ConvertCoverKgToPercent(result.StartCover, crop.SpecificArea);
+                ToolTip a=new ToolTip();
+                a.Show(result.StartCover.ToString("f0") + " kg/ha", startingCover, 1000);
+                startingCover.Text = startCoverPercent.ToString("f0");
+                decimal endCoverPrecent=util.ConvertCoverKgToPercent(result.EndCover, crop.SpecificArea);
+                ToolTip b = new ToolTip();
+                b.Show(result.EndCover.ToString("f0") + " kg/ha", endCover, 1000);
+                endCover.Text = endCoverPrecent.ToString("f0");
                 
-                dt = outputObject.Data;
-                chartDataTable = dt;
-                //add new column for the sum of PAWC
-                chartDataTable.Columns.Add("SoilWater", typeof(double));
+                //Nitrogen
+                startSoilNitrate.Text = result.NitrateStart.ToString("f0");
+                endSoilNitrate.Text = result.NitrateEnd.ToString("f0");
+                gainNitrate.Text = result.NitrateGain.ToString("f0");
+                nitrateEfficiency.Text = result.NitrateEfficiency.ToString("f0");
+                //n Requirement
 
+                endPAW.Text = result.PAWEnd(cLL).ToString("f0");
+                thresholdWater.Text = ThresholdWaterDefault.ToString("f0");
+                WUE.Text = WUEDefault.ToString("f0");
+              //  daystoMaturityUpDown.Value = 60;
+
+                chartDataTable = outputObject.Data;
+              
                 RainfallSWChart.Axes.Left.Automatic = false;
                 RainfallSWChart.Axes.Right.Automatic = false;
                 RainfallSWChart.Axes.Bottom.Automatic = false;
@@ -912,23 +960,16 @@ namespace APSRU.Howwet
                 if (config.TrainingMode)
                     {
                     StatusLabel2.Text = "Parsing  chart data";
-                    ProgressBar1.Minimum = 1;
+                    ProgressBar1.Minimum = 0;
                     ProgressBar1.Maximum = chartDataTable.Rows.Count;
                     ProgressBar1.Step = 1;
-                    Console.WriteLine("finding axes max min");
+                   // Console.WriteLine("finding axes max min");
                     foreach (DataRow row in chartDataTable.Rows)
                         {
                         //Rainfall soil water; subtract cll from soilwater and sum the absolute values to get sw
                         if (Convert.ToDouble(row["Rainfall"]) > maxRainfallSW) maxRainfallSW = Convert.ToDouble(row["Rainfall"]);
-                        ArrayList tmpSoilWaterLayers = (ArrayList)row["SoilWaterLayers"];
-                        double sw = 0;
-                        for (int layer = 0; layer < tmpSoilWaterLayers.Count; layer++)
-                            {
-                            sw = sw + (simulationObject.Soil.Thickness[layer] * (Math.Abs(Convert.ToDouble(tmpSoilWaterLayers[layer]) - simulationObject.Soil.LL15[layer])));
-                            }
-                        row["SoilWater"] = sw;
-                        if (sw > maxSW) maxSW = sw;
-                        if (sw < minSW) minSW = sw;
+                        if(Convert.ToDouble(row["SoilWater"]) > maxSW)maxSW=Convert.ToDouble(row["SoilWater"]);
+                        if(Convert.ToDouble(row["SoilWater"]) < minSW)minSW=Convert.ToDouble(row["SoilWater"]);
                         //Soil Nitrogen
                         if (Convert.ToDouble(row["NO3Total"]) > maxNitrate) maxNitrate = Convert.ToDouble(row["NO3Total"]);
                         if (Convert.ToDouble(row["NO3Total"]) < minNitrate) minNitrate = Convert.ToDouble(row["NO3Total"]);
@@ -946,8 +987,8 @@ namespace APSRU.Howwet
                         ProgressBar1.PerformStep();
                         }
                     StatusLabel2.Text = "";
-                    ProgressBar1.Value = 1;
-                    Console.WriteLine("found max min");
+                    ProgressBar1.Value = 0;
+                  //  Console.WriteLine("found max min");
                     //Rainfall and soil water 
                     RainfallSWChart.Axes.Left.Maximum = maxRainfallSW;
                     RainfallSWChart.Axes.Left.Minimum = minRainfallSW;
@@ -974,7 +1015,7 @@ namespace APSRU.Howwet
                     //    LTRainfallChart.Axes.Right.Maximum = maxLTAvRainfall;
                     //    LTRainfallChart.Axes.Right.Minimum = minLTAvRainfall;
                     StatusLabel2.Text = "Building chart";
-                    ProgressBar1.Minimum = 1;
+                    ProgressBar1.Minimum = 0;
                     ProgressBar1.Maximum = chartDataTable.Rows.Count;
                     ProgressBar1.Step = 1;
 
@@ -1004,18 +1045,11 @@ namespace APSRU.Howwet
                     LTRainfallChart.Axes.Right.Automatic = true;
                     LTRainfallChart.Axes.Bottom.Automatic = true;
                     StatusLabel2.Text = "Building chart";
-                    ProgressBar1.Minimum = 1;
+                    ProgressBar1.Minimum = 0;
                     ProgressBar1.Maximum = chartDataTable.Rows.Count;
                     ProgressBar1.Step = 1;
                     foreach (DataRow row in chartDataTable.Rows)
                         {
-                        ArrayList tmpSoilWaterLayers = (ArrayList)row["SoilWaterLayers"];
-                        double sw = 0;
-                        for (int layer = 0; layer < tmpSoilWaterLayers.Count; layer++)
-                            {
-                            sw = sw + (simulationObject.Soil.Thickness[layer] * (Math.Abs(Convert.ToDouble(tmpSoilWaterLayers[layer]) - simulationObject.Soil.LL15[layer])));
-                            }
-                        row["SoilWater"] = sw;
                         //Rainfall and soil water graph
                         RainfallBar.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["Rainfall"]));
                         RunoffBar.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["Runoff"]));
@@ -1031,17 +1065,25 @@ namespace APSRU.Howwet
                         LTRainfallBar.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["Rainfall"]));
                         // LTAvRainfallLine.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["Rainfall"]));
                       //  Console.WriteLine(Convert.ToDateTime(row["Date"]));
+                        
                         ProgressBar1.PerformStep();
                         }
+                    this.metObject.BuildAverages();
+                    //int[] rainav = metObject.RainYearlyAverage;
                     StatusLabel2.Text = "";
-                    ProgressBar1.Value = 1;
+                    ProgressBar1.Value = 0;
                     RainfallSWChart.Refresh();
                     SoilNitrogenChart.Refresh();
                     ErosionChart.Refresh();
                     LTRainfallChart.Refresh();
                     }
                 //Profile chart
-
+                ProfileChart.Axes.Top.Minimum = 0;
+                ProfileChart.Axes.Left.Minimum = 0;
+                ProfileCLLLine.Add(cLL, simulationObject.Soil.CumThickness);
+                ProfileLL15Line.Add(simulationObject.Soil.LL15, simulationObject.Soil.CumThickness);
+                ProfileSWLine.Add(result.SoilWaterEndByLayer, simulationObject.Soil.CumThickness);
+                ProfileDULLine.Add(simulationObject.Soil.DUL, simulationObject.Soil.CumThickness);
                 }
             catch (CustomException err)
                 {
@@ -1055,12 +1097,9 @@ namespace APSRU.Howwet
 
         public void timer1_Tick(object sender, EventArgs e)
             {
-            
             if (rowCount <= (chartDataTable.Rows.Count - 1))
                 {
-                DataRow row = dt.Rows[rowCount];
-                Console.WriteLine("Date "+row["Date"]+ " Runoff " + row["Runoff"] + " SoilLoss " + row["SoilLoss"]);
-
+                DataRow row = chartDataTable.Rows[rowCount];
                 //Rainfall and soil water graph
                 RainfallBar.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["Rainfall"]));
                 RunoffBar.Add(Convert.ToDateTime(row["Date"]), Convert.ToDouble(row["Runoff"]));
@@ -1086,7 +1125,7 @@ namespace APSRU.Howwet
             else
                 {
                 StatusLabel2.Text = "";
-                ProgressBar1.Value = 1;
+                ProgressBar1.Value = 0;
                 timer1.Stop();
                 }
             }
@@ -1158,6 +1197,11 @@ namespace APSRU.Howwet
             }
         #endregion
 
+        
+
+       
+
+        
         
 
         
