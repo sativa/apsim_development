@@ -2,35 +2,35 @@
   <folder name="shared">
     <outputfiledescription name="DailyVariables">
       <variables>
-        <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec=" " description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-        <variable name="day" variablename="day" module="global" arrayspec=" " description="Day of Year" ModuleType="registrations" />
-        <variable name="year" variablename="year" module="global" arrayspec=" " description="Year" ModuleType="registrations" />
-        <variable name="zadok_stage" variablename="zadok_stage" module="wheat" arrayspec=" " description="Plant stage code" ModuleType="wheat" />
-        <variable name="stage_name" variablename="stage_name" module="wheat" arrayspec=" " description="Biomass" ModuleType="wheat" />
-        <variable name="biomass" variablename="biomass" module="wheat" arrayspec=" " description="Biomass" ModuleType="wheat" />
-        <variable name="yield" variablename="yield" module="wheat" arrayspec=" " description="Yield" ModuleType="wheat" />
-        <variable name="grain_size" variablename="grain_size" module="wheat" arrayspec=" " description="Size of each grain" ModuleType="wheat" />
-        <variable name="biomass_wt" variablename="biomass_wt" module="wheat" arrayspec=" " description="Biomass weight" ModuleType="wheat" />
-        <variable name="biomass_n" variablename="biomass_n" module="wheat" arrayspec=" " description="N in total biomass" ModuleType="wheat" />
-        <variable name="lai" variablename="lai" module="wheat" arrayspec=" " description="Leaf area index" ModuleType="wheat" />
-        <variable name="head_wt" variablename="head_wt" module="wheat" arrayspec=" " description="Weight of heads" ModuleType="wheat" />
-        <variable name="grain_wt" variablename="grain_wt" module="wheat" arrayspec=" " description="Weight of grain" ModuleType="wheat" />
-        <variable name="leaf_wt" variablename="leaf_wt" module="wheat" arrayspec=" " description="Weight of leaf" ModuleType="wheat" />
-        <variable name="head_n" variablename="head_n" module="wheat" arrayspec=" " description="N in heads" ModuleType="wheat" />
-        <variable name="grain_n" variablename="grain_n" module="wheat" arrayspec=" " description="N in grain" ModuleType="wheat" />
-        <variable name="leaf_n" variablename="leaf_n" module="wheat" arrayspec=" " description="N in leaf" ModuleType="wheat" />
-        <variable name="stem_n" variablename="stem_n" module="wheat" arrayspec=" " description="N in stem" ModuleType="wheat" />
-        <variable name="stem_wt" variablename="stem_wt" module="wheat" arrayspec=" " description="Weight of stem" ModuleType="wheat" />
-        <variable name="grain_no" variablename="grain_no" module="wheat" arrayspec=" " description="Grain number" ModuleType="wheat" />
+        <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec=" " description="Date (dd/mm/yyyy)" />
+        <variable name="day" variablename="day" module="global" arrayspec=" " description="Day of Year" />
+        <variable name="year" variablename="year" module="global" arrayspec=" " description="Year" />
+        <variable name="zadok_stage" variablename="zadok_stage" module="wheat" arrayspec=" " description="Plant stage code" />
+        <variable name="stage_name" variablename="stage_name" module="wheat" arrayspec=" " description="Biomass" />
+        <variable name="biomass" variablename="biomass" module="wheat" arrayspec=" " description="Biomass" />
+        <variable name="yield" variablename="yield" module="wheat" arrayspec=" " description="Yield" />
+        <variable name="grain_size" variablename="grain_size" module="wheat" arrayspec=" " description="Size of each grain" />
+        <variable name="biomass_wt" variablename="biomass_wt" module="wheat" arrayspec=" " description="Biomass weight" />
+        <variable name="biomass_n" variablename="biomass_n" module="wheat" arrayspec=" " description="N in total biomass" />
+        <variable name="lai" variablename="lai" module="wheat" arrayspec=" " description="Leaf area index" />
+        <variable name="head_wt" variablename="head_wt" module="wheat" arrayspec=" " description="Weight of heads" />
+        <variable name="grain_wt" variablename="grain_wt" module="wheat" arrayspec=" " description="Weight of grain" />
+        <variable name="leaf_wt" variablename="leaf_wt" module="wheat" arrayspec=" " description="Weight of leaf" />
+        <variable name="head_n" variablename="head_n" module="wheat" arrayspec=" " description="N in heads" />
+        <variable name="grain_n" variablename="grain_n" module="wheat" arrayspec=" " description="N in grain" />
+        <variable name="leaf_n" variablename="leaf_n" module="wheat" arrayspec=" " description="N in leaf" />
+        <variable name="stem_n" variablename="stem_n" module="wheat" arrayspec=" " description="N in stem" />
+        <variable name="stem_wt" variablename="stem_wt" module="wheat" arrayspec=" " description="Weight of stem" />
+        <variable name="grain_no" variablename="grain_no" module="wheat" arrayspec=" " description="Grain number" />
         <variable name="sw_dep" variablename="sw_dep" arrayspec="()" description="Soil water - layered (mm)" array="T" />
-        <variable name="n_conc_grain" variablename="n_conc_grain" module="wheat" arrayspec=" " description="N concentration in grain" ModuleType="wheat" />
-        <variable name="grain_protein" variablename="grain_protein" module="wheat" arrayspec=" " description="grain protein content" ModuleType="wheat" />
-        <variable name="swdef_photo" variablename="swdef_photo" module="wheat" arrayspec=" " description="Soil water deficit in photosynthesis" ModuleType="wheat" />
-        <variable name="swdef_expan" variablename="swdef_expan" module="wheat" arrayspec=" " description="Soil water deficit in leaf expansion" ModuleType="wheat" />
-        <variable name="nfact_photo" variablename="nfact_photo" module="wheat" arrayspec=" " description="N factor for photosynthesis" ModuleType="wheat" />
-        <variable name="nfact_expan" variablename="nfact_expan" module="wheat" arrayspec=" " description="N factor for leaf expansion" ModuleType="wheat" />
-        <variable name="root_depth" variablename="root_depth" module="wheat" arrayspec=" " description="plant rooting depth" array="T" ModuleType="wheat" />
-        <variable name="ep" variablename="ep" module="wheat" arrayspec=" " description="wheat water use" array="T" ModuleType="wheat" />
+        <variable name="n_conc_grain" variablename="n_conc_grain" module="wheat" arrayspec=" " description="N concentration in grain" />
+        <variable name="grain_protein" variablename="grain_protein" module="wheat" arrayspec=" " description="grain protein content" />
+        <variable name="swdef_photo" variablename="swdef_photo" module="wheat" arrayspec=" " description="Soil water deficit in photosynthesis" />
+        <variable name="swdef_expan" variablename="swdef_expan" module="wheat" arrayspec=" " description="Soil water deficit in leaf expansion" />
+        <variable name="nfact_photo" variablename="nfact_photo" module="wheat" arrayspec=" " description="N factor for photosynthesis" />
+        <variable name="nfact_expan" variablename="nfact_expan" module="wheat" arrayspec=" " description="N factor for leaf expansion" />
+        <variable name="root_depth" variablename="root_depth" module="wheat" arrayspec=" " description="plant rooting depth" array="T" />
+        <variable name="ep" variablename="ep" module="wheat" arrayspec=" " description="wheat water use" array="T" />
         <variable name="eo" variablename="eo" arrayspec=" " description="potential et" array="T" />
       </variables>
       <events>
@@ -41,7 +41,7 @@
       <Site>Beverley</Site>
       <Region>WA</Region>
       <LocalName>Beverley</LocalName>
-      <SoilType>BeverleySoil</SoilType>
+      <SoilType>sand</SoilType>
       <NearestTown>Unknown</NearestTown>
       <NaturalVegetation>Unknown</NaturalVegetation>
       <Water>
@@ -365,7 +365,7 @@
       <Site>WonganSite</Site>
       <Region>WA</Region>
       <LocalName>WonganSite</LocalName>
-      <SoilType>WonganRippedSoil</SoilType>
+      <SoilType>sand</SoilType>
       <NearestTown>Unknown</NearestTown>
       <NaturalVegetation>Unknown</NaturalVegetation>
       <Water>
@@ -700,7 +700,7 @@
       <Site>WonganSite</Site>
       <Region>WA</Region>
       <LocalName>WonganSite</LocalName>
-      <SoilType>WonganUnrippedSoil</SoilType>
+      <SoilType>sand</SoilType>
       <NearestTown>Unknown</NearestTown>
       <NaturalVegetation>Unknown</NaturalVegetation>
       <Water>
@@ -1549,7 +1549,7 @@
       <Site>Merredin</Site>
       <Region>WA</Region>
       <LocalName>Merredin</LocalName>
-      <SoilType>MER-86Soil</SoilType>
+      <SoilType>sand</SoilType>
       <NearestTown>Unknown</NearestTown>
       <NaturalVegetation>Unknown</NaturalVegetation>
       <Water>
@@ -1862,7 +1862,7 @@
       <Site>Merredin</Site>
       <Region>WA</Region>
       <LocalName>Merredin</LocalName>
-      <SoilType>MER-73Soil</SoilType>
+      <SoilType>sand</SoilType>
       <NearestTown>Unknown</NearestTown>
       <NaturalVegetation>Unknown</NaturalVegetation>
       <Water>
@@ -2425,7 +2425,2257 @@
         </layer>
       </SoilCrop>
     </soil>
+    <soil name="Cunderdin">
+      <Site>Cunderdin</Site>
+      <Region>WA</Region>
+      <LocalName>Beverley</LocalName>
+      <SoilType>heavy
+</SoilType>
+      <NearestTown>Cunderdin</NearestTown>
+      <NaturalVegetation>Unknown</NaturalVegetation>
+      <Water>
+        <Cona>3</Cona>
+        <DiffusConst>88</DiffusConst>
+        <DiffusSlope>35</DiffusSlope>
+        <U>7.5</U>
+        <Salb>0.13</Salb>
+        <Cn2Bare>25</Cn2Bare>
+        <CnRed>20</CnRed>
+        <CnCov>0.8</CnCov>
+        <layer name="1">
+          <thickness>50</thickness>
+          <bd>1.3</bd>
+          <ll15>0.07</ll15>
+          <airdry>0.034</airdry>
+          <dul>0.156</dul>
+          <sat>0.48</sat>
+          <sw>0.12</sw>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="2">
+          <thickness>50</thickness>
+          <bd>1.3</bd>
+          <ll15>0.07</ll15>
+          <airdry>0.034</airdry>
+          <dul>0.156</dul>
+          <sat>0.48</sat>
+          <sw>0.15</sw>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="3">
+          <thickness>100</thickness>
+          <bd>1.4</bd>
+          <ll15>0.121</ll15>
+          <airdry>0.121</airdry>
+          <dul>0.22</dul>
+          <sat>0.44</sat>
+          <sw>0.18</sw>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="4">
+          <thickness>100</thickness>
+          <bd>1.4</bd>
+          <ll15>0.123</ll15>
+          <airdry>0.123</airdry>
+          <dul>0.224</dul>
+          <sat>0.44</sat>
+          <sw>0.2</sw>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="5">
+          <thickness>100</thickness>
+          <bd>1.5</bd>
+          <ll15>0.132</ll15>
+          <airdry>0.132</airdry>
+          <dul>0.243</dul>
+          <sat>0.4</sat>
+          <sw>0.2</sw>
+          <swcon>0.6</swcon>
+          <mwcon>0</mwcon>
+        </layer>
+        <layer name="6">
+          <thickness>100</thickness>
+          <bd>1.5</bd>
+          <ll15>0.132</ll15>
+          <airdry>0.132</airdry>
+          <dul>0.243</dul>
+          <sat>0.4</sat>
+          <sw>0.21</sw>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="7">
+          <thickness>100</thickness>
+          <bd>1.5</bd>
+          <ll15>0.135</ll15>
+          <airdry>0.135</airdry>
+          <dul>0.243</dul>
+          <sat>0.4</sat>
+          <sw>0.22</sw>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="8">
+          <thickness>100</thickness>
+          <bd>1.5</bd>
+          <ll15>0.145</ll15>
+          <airdry>0.145</airdry>
+          <dul>0.243</dul>
+          <sat>0.4</sat>
+          <sw>0.22</sw>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="9">
+          <thickness>200</thickness>
+          <bd>1.5</bd>
+          <ll15>0.145</ll15>
+          <airdry>0.145</airdry>
+          <dul>0.243</dul>
+          <sat>0.4</sat>
+          <sw>0.21</sw>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="10">
+          <thickness>200</thickness>
+          <bd>1.5</bd>
+          <ll15>0.145</ll15>
+          <airdry>0.145</airdry>
+          <dul>0.243</dul>
+          <sat>0.4</sat>
+          <sw>0.19</sw>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="11">
+          <thickness>200</thickness>
+          <bd>1.5</bd>
+          <sat>0.4</sat>
+          <dul>0.243</dul>
+          <airdry>0.145</airdry>
+          <ll15>0.145</ll15>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="12">
+          <thickness>200</thickness>
+          <bd>1.5</bd>
+          <sat>0.4</sat>
+          <dul>0.243</dul>
+          <airdry>0.145</airdry>
+          <ll15>0.145</ll15>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="13">
+          <thickness>200</thickness>
+          <bd>1.5</bd>
+          <sat>0.4</sat>
+          <dul>0.243</dul>
+          <airdry>0.145</airdry>
+          <ll15>0.145</ll15>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="14">
+          <thickness>200</thickness>
+          <bd>1.5</bd>
+          <sat>0.4</sat>
+          <dul>0.243</dul>
+          <airdry>0.145</airdry>
+          <ll15>0.145</ll15>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="15">
+          <thickness>200</thickness>
+          <bd>1.5</bd>
+          <sat>0.4</sat>
+          <dul>0.243</dul>
+          <airdry>0.145</airdry>
+          <ll15>0.145</ll15>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="16">
+          <thickness>200</thickness>
+          <bd>1.5</bd>
+          <sat>0.4</sat>
+          <dul>0.243</dul>
+          <airdry>0.145</airdry>
+          <ll15>0.145</ll15>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+        <layer name="17">
+          <thickness>200</thickness>
+          <bd>1.5</bd>
+          <sat>0.4</sat>
+          <dul>0.243</dul>
+          <airdry>0.145</airdry>
+          <ll15>0.145</ll15>
+          <swcon>0.6</swcon>
+          <mwcon>1</mwcon>
+        </layer>
+      </Water>
+      <Nitrogen>
+        <CnCanopyFact>0.8</CnCanopyFact>
+        <RootCn>40</RootCn>
+        <RootWt>500</RootWt>
+        <SoilCn>13</SoilCn>
+        <EnrACoeff>1</EnrACoeff>
+        <EnrBCoeff>1</EnrBCoeff>
+        <layer name="1">
+          <fbiom>0.03</fbiom>
+          <finert>0.3</finert>
+          <oc>0.73</oc>
+          <ph>4.7</ph>
+        </layer>
+        <layer name="2">
+          <fbiom>0.03</fbiom>
+          <finert>0.3</finert>
+          <oc>0.73</oc>
+          <ph>4.7</ph>
+        </layer>
+        <layer name="3">
+          <fbiom>0.02</fbiom>
+          <finert>0.3</finert>
+          <oc>0.46</oc>
+          <ph>4.7</ph>
+        </layer>
+        <layer name="4">
+          <fbiom>0.01</fbiom>
+          <finert>0.4</finert>
+          <oc>0.39</oc>
+          <ph>4.7</ph>
+        </layer>
+        <layer name="5">
+          <fbiom>0.01</fbiom>
+          <finert>0.8</finert>
+          <oc>0.3</oc>
+          <ph>6</ph>
+        </layer>
+        <layer name="6">
+          <fbiom>0.01</fbiom>
+          <finert>0.9</finert>
+          <oc>0.22</oc>
+          <ph>6</ph>
+        </layer>
+        <layer name="7">
+          <fbiom>0.01</fbiom>
+          <finert>0.9</finert>
+          <oc>0.19</oc>
+          <ph>6</ph>
+        </layer>
+        <layer name="8">
+          <fbiom>0.01</fbiom>
+          <finert>0.9</finert>
+          <oc>0.19</oc>
+          <ph>6</ph>
+        </layer>
+        <layer name="9">
+          <fbiom>0.01</fbiom>
+          <finert>0.9</finert>
+          <oc>0.1</oc>
+          <ph>6</ph>
+        </layer>
+        <layer name="10">
+          <fbiom>0.01</fbiom>
+          <finert>0.9</finert>
+          <oc>0.1</oc>
+          <ph>6</ph>
+        </layer>
+        <layer name="11">
+          <fbiom>0.01</fbiom>
+          <finert>0.9</finert>
+          <oc>0.1</oc>
+          <ph>6</ph>
+        </layer>
+        <layer name="12">
+          <fbiom>0.01</fbiom>
+          <finert>0.9</finert>
+          <oc>0.1</oc>
+          <ph>6</ph>
+        </layer>
+        <layer name="13">
+          <fbiom>0.01</fbiom>
+          <finert>0.9</finert>
+          <oc>0.1</oc>
+          <ph>6</ph>
+        </layer>
+        <layer name="14">
+          <fbiom>0.01</fbiom>
+          <finert>0.9</finert>
+          <oc>0.1</oc>
+          <ph>6</ph>
+        </layer>
+        <layer name="15">
+          <fbiom>0.01</fbiom>
+          <finert>0.9</finert>
+          <oc>0.1</oc>
+          <ph>6</ph>
+        </layer>
+        <layer name="16">
+          <fbiom>0.01</fbiom>
+          <finert>0.9</finert>
+          <oc>0.1</oc>
+          <ph>6</ph>
+        </layer>
+        <layer name="17">
+          <fbiom>0.01</fbiom>
+          <finert>0.9</finert>
+          <oc>0.1</oc>
+          <ph>6</ph>
+        </layer>
+      </Nitrogen>
+      <other />
+      <InitWater>
+        <layer name="1">
+          <sw>0.034</sw>
+        </layer>
+        <layer name="2">
+          <sw>0.156</sw>
+        </layer>
+        <layer name="3">
+          <sw>0.22</sw>
+        </layer>
+        <layer name="4">
+          <sw>0.224</sw>
+        </layer>
+        <layer name="5">
+          <sw>0.244</sw>
+        </layer>
+        <layer name="6">
+          <sw>0.245</sw>
+        </layer>
+        <layer name="7">
+          <sw>0.246</sw>
+        </layer>
+        <layer name="8">
+          <sw>0.247</sw>
+        </layer>
+        <layer name="9">
+          <sw>0.246</sw>
+        </layer>
+        <layer name="10">
+          <sw>0.145</sw>
+        </layer>
+        <layer name="11">
+          <sw>0.145</sw>
+        </layer>
+        <layer name="12">
+          <sw>0.145</sw>
+        </layer>
+        <layer name="13">
+          <sw>0.145</sw>
+        </layer>
+        <layer name="14">
+          <sw>0.145</sw>
+        </layer>
+        <layer name="15">
+          <sw>0.145</sw>
+        </layer>
+        <layer name="16">
+          <sw>0.145</sw>
+        </layer>
+        <layer name="17">
+          <sw>0.145</sw>
+        </layer>
+      </InitWater>
+      <InitNitrogen>
+        <layer name="1">
+          <no3>23</no3>
+          <nh4>2</nh4>
+        </layer>
+        <layer name="2">
+          <no3>23</no3>
+          <nh4>2</nh4>
+        </layer>
+        <layer name="3">
+          <no3>12</no3>
+          <nh4>1</nh4>
+        </layer>
+        <layer name="4">
+          <no3>9</no3>
+          <nh4>2</nh4>
+        </layer>
+        <layer name="5">
+          <no3>4</no3>
+          <nh4>1</nh4>
+        </layer>
+        <layer name="6">
+          <no3>2</no3>
+          <nh4>1</nh4>
+        </layer>
+        <layer name="7">
+          <no3>2</no3>
+          <nh4>1</nh4>
+        </layer>
+        <layer name="8">
+          <no3>2</no3>
+          <nh4>1</nh4>
+        </layer>
+        <layer name="9">
+          <no3>2</no3>
+          <nh4>1</nh4>
+        </layer>
+        <layer name="10">
+          <no3>2</no3>
+          <nh4>1</nh4>
+        </layer>
+        <layer name="11">
+          <no3>2</no3>
+          <nh4>1</nh4>
+        </layer>
+        <layer name="12">
+          <no3>2</no3>
+          <nh4>1</nh4>
+        </layer>
+        <layer name="13">
+          <no3>2</no3>
+          <nh4>1</nh4>
+        </layer>
+        <layer name="14">
+          <no3>2</no3>
+          <nh4>1</nh4>
+        </layer>
+        <layer name="15">
+          <no3>2</no3>
+          <nh4>1</nh4>
+        </layer>
+        <layer name="16">
+          <no3>2</no3>
+          <nh4>1</nh4>
+        </layer>
+        <layer name="17">
+          <no3>2</no3>
+          <nh4>1</nh4>
+        </layer>
+      </InitNitrogen>
+      <SoilCrop name="Wheat">
+        <layer name="1">
+          <ll>0.07</ll>
+          <kl>0.06</kl>
+          <xf>0.7</xf>
+        </layer>
+        <layer name="2">
+          <ll>0.07</ll>
+          <kl>0.06</kl>
+          <xf>0.6</xf>
+        </layer>
+        <layer name="3">
+          <ll>0.121</ll>
+          <kl>0.05</kl>
+          <xf>0.5</xf>
+        </layer>
+        <layer name="4">
+          <ll>0.123</ll>
+          <kl>0.05</kl>
+          <xf>0.5</xf>
+        </layer>
+        <layer name="5">
+          <ll>0.132</ll>
+          <kl>0.05</kl>
+          <xf>0.5</xf>
+        </layer>
+        <layer name="6">
+          <ll>0.132</ll>
+          <kl>0.05</kl>
+          <xf>0.5</xf>
+        </layer>
+        <layer name="7">
+          <ll>0.135</ll>
+          <kl>0.05</kl>
+          <xf>0.5</xf>
+        </layer>
+        <layer name="8">
+          <ll>0.145</ll>
+          <kl>0.05</kl>
+          <xf>0.5</xf>
+        </layer>
+        <layer name="9">
+          <ll>0.145</ll>
+          <kl>0.03</kl>
+          <xf>0.3</xf>
+        </layer>
+        <layer name="10">
+          <ll>0.145</ll>
+          <kl>0.03</kl>
+          <xf>0.3</xf>
+        </layer>
+        <layer name="11">
+          <ll>0.145</ll>
+          <kl>0.03</kl>
+          <xf>0.3</xf>
+        </layer>
+        <layer name="12">
+          <ll>0.145</ll>
+          <kl>0.03</kl>
+          <xf>0.3</xf>
+        </layer>
+        <layer name="13">
+          <ll>0.145</ll>
+          <kl>0.03</kl>
+          <xf>0.3</xf>
+        </layer>
+        <layer name="14">
+          <ll>0.145</ll>
+          <kl>0.03</kl>
+          <xf>0.3</xf>
+        </layer>
+        <layer name="15">
+          <ll>0.145</ll>
+          <kl>0.03</kl>
+          <xf>0.3</xf>
+        </layer>
+        <layer name="16">
+          <ll>0.145</ll>
+          <kl>0.03</kl>
+          <xf>0.3</xf>
+        </layer>
+        <layer name="17">
+          <ll>0.145</ll>
+          <kl>0.03</kl>
+          <xf>0.3</xf>
+        </layer>
+      </SoilCrop>
+    </soil>
   </folder>
+  <simulation name="Wheat_Cunderdin97_WetN0SpearEarly">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">16/04/1997</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">30/12/1997</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Wheat_Cunderdin97_WetN0SpearEarly.sum</filename>
+    </summaryfile>
+    <metfile name="met">
+      <filename name="filename">D:\Development\apsim\Wheat\Validation\Cunderdin.met</filename>
+    </metfile>
+    <area name="paddock">
+      <registrations name="global" />
+      <outputfile name="outputfile">
+        <filename name="filename">Wheat_Cunderdin97_WetN0SpearEarly.out</filename>
+        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+      </outputfile>
+      <manager name="Manager">
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+            if (paddock_is_fallow() = 1 and today = date('[date]')) then
+              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+            endif
+          </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="6/06/1997" type="text" description="Enter sowing date (d/m/yyyy) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="150" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="spear" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="250" type="text" description="Enter row spacing (m) : " />
+          </category>
+        </rule>
+        <rule name="Harvesting rule">
+          <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+          <category name="Harvesting criteria">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to harvest when ripe : " />
+          </category>
+        </rule>
+      </manager>
+      <wheat />
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">off</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <logic name="Irrigator">
+        <script name="init" />
+        <script name="startofday"> ! irrigation record from senthold
+
+           if (day = 266) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 274) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 279) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 287) then
+               irrigation apply amount = 20 (mm)
+           endif
+
+           if (day = 294) then
+               irrigation apply amount = 17.5 (mm)
+           endif
+
+           if (day = 299) then
+               irrigation apply amount = 17.5 (mm)
+           endif
+</script>
+        <script name="endofday" />
+      </logic>
+      <fertiliser name="fertiliser" />
+      <logic name="Fertilizer">
+        <script name="init" />
+        <script name="startofday" />
+        <script name="endofday" />
+      </logic>
+      <soil shortcut="Cunderdin" />
+      <surfaceom name="Surface Organic Matter">
+        <PoolName description="Organic Matter pool name">canola</PoolName>
+        <type description="Organic Matter type">canola</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">60</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+    </area>
+  </simulation>
+  <simulation name="Wheat_Cunderdin97_WetN0SpearMid">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">16/04/1997</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">30/12/1997</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Wheat_Cunderdin97_WetN0SpearMid.sum</filename>
+    </summaryfile>
+    <metfile name="met">
+      <filename name="filename">D:\Development\apsim\Wheat\Validation\Cunderdin.met</filename>
+    </metfile>
+    <area name="paddock">
+      <registrations name="global" />
+      <outputfile name="outputfile">
+        <filename name="filename">Wheat_Cunderdin97_WetN0SpearMid.out</filename>
+        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+      </outputfile>
+      <manager name="Manager">
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+            if (paddock_is_fallow() = 1 and today = date('[date]')) then
+              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+            endif
+          </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="8/07/1997" type="text" description="Enter sowing date (d/m/yyyy) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="108" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="spear" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="250" type="text" description="Enter row spacing (m) : " />
+          </category>
+        </rule>
+        <rule name="Harvesting rule">
+          <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+          <category name="Harvesting criteria">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to harvest when ripe : " />
+          </category>
+        </rule>
+      </manager>
+      <wheat />
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">off</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <logic name="Irrigator">
+        <script name="init" />
+        <script name="startofday"> ! irrigation record from senthold
+
+           if (day = 266) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 274) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 279) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 287) then
+               irrigation apply amount = 20 (mm)
+           endif
+
+           if (day = 294) then
+               irrigation apply amount = 17.5 (mm)
+           endif
+
+           if (day = 299) then
+               irrigation apply amount = 17.5 (mm)
+           endif
+</script>
+        <script name="endofday" />
+      </logic>
+      <fertiliser name="fertiliser" />
+      <logic name="Fertilizer">
+        <script name="init" />
+        <script name="startofday" />
+        <script name="endofday" />
+      </logic>
+      <soil shortcut="Cunderdin" />
+      <surfaceom name="Surface Organic Matter">
+        <PoolName description="Organic Matter pool name">canola</PoolName>
+        <type description="Organic Matter type">canola</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">60</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+    </area>
+  </simulation>
+  <simulation name="Wheat_Cunderdin97_WetN50SpearEarly">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">16/04/1997</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">30/12/1997</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Wheat_Cunderdin97_WetN50SpearEarly.sum</filename>
+    </summaryfile>
+    <metfile name="met">
+      <filename name="filename">D:\Development\apsim\Wheat\Validation\Cunderdin.met</filename>
+    </metfile>
+    <area name="paddock">
+      <registrations name="global" />
+      <outputfile name="outputfile">
+        <filename name="filename">Wheat_Cunderdin97_WetN50SpearEarly.out</filename>
+        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+      </outputfile>
+      <manager name="Manager">
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+            if (paddock_is_fallow() = 1 and today = date('[date]')) then
+              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+            endif
+          </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="6/06/1997" type="text" description="Enter sowing date (d/m/yyyy) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="150" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="spear" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="250" type="text" description="Enter row spacing (m) : " />
+          </category>
+        </rule>
+        <rule name="Harvesting rule">
+          <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+          <category name="Harvesting criteria">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to harvest when ripe : " />
+          </category>
+        </rule>
+        <rule name="Fertilise at sowing">
+          <condition name="[modulename].[eventname]">
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+            </condition>
+          <category name="When should fertiliser be applied">
+            <property name="modulename" value="wheat" type="modulename" description="On which module should the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+          </category>
+          <category name="Fertiliser application details">
+            <property name="fertmodule" value="fertiliser" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
+            <property name="fert_amount_sow" value="51" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+            <property name="fert_type_sow" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          </category>
+        </rule>
+      </manager>
+      <wheat />
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">off</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <logic name="Irrigator">
+        <script name="init" />
+        <script name="startofday"> ! irrigation record from senthold
+
+           if (day = 266) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 274) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 279) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 287) then
+               irrigation apply amount = 20 (mm)
+           endif
+
+           if (day = 294) then
+               irrigation apply amount = 17.5 (mm)
+           endif
+
+           if (day = 299) then
+               irrigation apply amount = 17.5 (mm)
+           endif
+</script>
+        <script name="endofday" />
+      </logic>
+      <fertiliser name="fertiliser" />
+      <logic name="Fertilizer">
+        <script name="init" />
+        <script name="startofday" />
+        <script name="endofday" />
+      </logic>
+      <soil shortcut="Cunderdin" />
+      <surfaceom name="Surface Organic Matter">
+        <PoolName description="Organic Matter pool name">canola</PoolName>
+        <type description="Organic Matter type">canola</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">60</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+    </area>
+  </simulation>
+  <simulation name="Wheat_Cunderdin97_WetN50SpearMid">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">16/04/1997</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">30/12/1997</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Wheat_Cunderdin97_WetN50SpearMid.sum</filename>
+    </summaryfile>
+    <metfile name="met">
+      <filename name="filename">D:\Development\apsim\Wheat\Validation\Cunderdin.met</filename>
+    </metfile>
+    <area name="paddock">
+      <registrations name="global" />
+      <outputfile name="outputfile">
+        <filename name="filename">Wheat_Cunderdin97_WetN50SpearMid.out</filename>
+        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+      </outputfile>
+      <manager name="Manager">
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+            if (paddock_is_fallow() = 1 and today = date('[date]')) then
+              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+            endif
+          </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="8/07/1997" type="text" description="Enter sowing date (d/m/yyyy) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="108" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="spear" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="250" type="text" description="Enter row spacing (m) : " />
+          </category>
+        </rule>
+        <rule name="Harvesting rule">
+          <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+          <category name="Harvesting criteria">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to harvest when ripe : " />
+          </category>
+        </rule>
+        <rule name="Fertilise at sowing">
+          <condition name="[modulename].[eventname]">
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+            </condition>
+          <category name="When should fertiliser be applied">
+            <property name="modulename" value="wheat" type="modulename" description="On which module should the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+          </category>
+          <category name="Fertiliser application details">
+            <property name="fertmodule" value="fertiliser" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
+            <property name="fert_amount_sow" value="51" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+            <property name="fert_type_sow" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          </category>
+        </rule>
+      </manager>
+      <wheat />
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">off</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <logic name="Irrigator">
+        <script name="init" />
+        <script name="startofday"> ! irrigation record from senthold
+
+           if (day = 266) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 274) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 279) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 287) then
+               irrigation apply amount = 20 (mm)
+           endif
+
+           if (day = 294) then
+               irrigation apply amount = 17.5 (mm)
+           endif
+
+           if (day = 299) then
+               irrigation apply amount = 17.5 (mm)
+           endif
+</script>
+        <script name="endofday" />
+      </logic>
+      <fertiliser name="fertiliser" />
+      <logic name="Fertilizer">
+        <script name="init" />
+        <script name="startofday" />
+        <script name="endofday" />
+      </logic>
+      <soil shortcut="Cunderdin" />
+      <surfaceom name="Surface Organic Matter">
+        <PoolName description="Organic Matter pool name">canola</PoolName>
+        <type description="Organic Matter type">canola</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">60</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+    </area>
+  </simulation>
+  <simulation name="Wheat_Cunderdin97_DryN0SpearEarly">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">16/04/1997</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">30/12/1997</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Wheat_Cunderdin97_DryN0SpearEarly.sum</filename>
+    </summaryfile>
+    <metfile name="met">
+      <filename name="filename">D:\Development\apsim\Wheat\Validation\Cunderdin.met</filename>
+    </metfile>
+    <area name="paddock">
+      <registrations name="global" />
+      <outputfile name="outputfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN0SpearEarly.out</filename>
+        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+      </outputfile>
+      <manager name="Manager">
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+            if (paddock_is_fallow() = 1 and today = date('[date]')) then
+              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+            endif
+          </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="6/06/1997" type="text" description="Enter sowing date (d/m/yyyy) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="150" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="spear" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="250" type="text" description="Enter row spacing (m) : " />
+          </category>
+        </rule>
+        <rule name="Harvesting rule">
+          <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+          <category name="Harvesting criteria">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to harvest when ripe : " />
+          </category>
+        </rule>
+      </manager>
+      <wheat />
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">off</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <logic name="Irrigator">
+        <script name="init" />
+        <script name="startofday">
+        </script>
+        <script name="endofday" />
+      </logic>
+      <fertiliser name="fertiliser" />
+      <logic name="Fertilizer">
+        <script name="init" />
+        <script name="startofday" />
+        <script name="endofday" />
+      </logic>
+      <soil shortcut="Cunderdin" />
+      <surfaceom name="Surface Organic Matter">
+        <PoolName description="Organic Matter pool name">canola</PoolName>
+        <type description="Organic Matter type">canola</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">60</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+    </area>
+  </simulation>
+  <simulation name="Wheat_Cunderdin97_DryN0SpearMid">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">16/04/1997</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">30/12/1997</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Wheat_Cunderdin97_DryN0SpearMid.sum</filename>
+    </summaryfile>
+    <metfile name="met">
+      <filename name="filename">D:\Development\apsim\Wheat\Validation\Cunderdin.met</filename>
+    </metfile>
+    <area name="paddock">
+      <registrations name="global" />
+      <outputfile name="outputfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN0SpearMid.out</filename>
+        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+      </outputfile>
+      <manager name="Manager">
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+            if (paddock_is_fallow() = 1 and today = date('[date]')) then
+              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+            endif
+          </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="8/07/1997" type="text" description="Enter sowing date (d/m/yyyy) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="108" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="spear" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="250" type="text" description="Enter row spacing (m) : " />
+          </category>
+        </rule>
+        <rule name="Harvesting rule">
+          <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+          <category name="Harvesting criteria">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to harvest when ripe : " />
+          </category>
+        </rule>
+      </manager>
+      <wheat />
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">off</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <logic name="Irrigator">
+        <script name="init" />
+        <script name="startofday">
+        </script>
+        <script name="endofday" />
+      </logic>
+      <fertiliser name="fertiliser" />
+      <logic name="Fertilizer">
+        <script name="init" />
+        <script name="startofday" />
+        <script name="endofday" />
+      </logic>
+      <soil shortcut="Cunderdin" />
+      <surfaceom name="Surface Organic Matter">
+        <PoolName description="Organic Matter pool name">canola</PoolName>
+        <type description="Organic Matter type">canola</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">60</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+    </area>
+  </simulation>
+  <simulation name="Wheat_Cunderdin97_DryN50SpearEarly">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">16/04/1997</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">30/12/1997</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Wheat_Cunderdin97_DryN50SpearEarly.sum</filename>
+    </summaryfile>
+    <metfile name="met">
+      <filename name="filename">D:\Development\apsim\Wheat\Validation\Cunderdin.met</filename>
+    </metfile>
+    <area name="paddock">
+      <registrations name="global" />
+      <outputfile name="outputfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN50SpearEarly.out</filename>
+        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+      </outputfile>
+      <manager name="Manager">
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+            if (paddock_is_fallow() = 1 and today = date('[date]')) then
+              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+            endif
+          </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="6/06/1997" type="text" description="Enter sowing date (d/m/yyyy) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="150" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="spear" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="250" type="text" description="Enter row spacing (m) : " />
+          </category>
+        </rule>
+        <rule name="Harvesting rule">
+          <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+          <category name="Harvesting criteria">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to harvest when ripe : " />
+          </category>
+        </rule>
+        <rule name="Fertilise at sowing">
+          <condition name="[modulename].[eventname]">
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+            </condition>
+          <category name="When should fertiliser be applied">
+            <property name="modulename" value="wheat" type="modulename" description="On which module should the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+          </category>
+          <category name="Fertiliser application details">
+            <property name="fertmodule" value="fertiliser" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
+            <property name="fert_amount_sow" value="51" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+            <property name="fert_type_sow" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          </category>
+        </rule>
+      </manager>
+      <wheat />
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">off</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <logic name="Irrigator">
+        <script name="init" />
+        <script name="startofday">
+        </script>
+        <script name="endofday" />
+      </logic>
+      <fertiliser name="fertiliser" />
+      <logic name="Fertilizer">
+        <script name="init" />
+        <script name="startofday" />
+        <script name="endofday" />
+      </logic>
+      <soil shortcut="Cunderdin" />
+      <surfaceom name="Surface Organic Matter">
+        <PoolName description="Organic Matter pool name">canola</PoolName>
+        <type description="Organic Matter type">canola</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">60</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+    </area>
+  </simulation>
+  <simulation name="Wheat_Cunderdin97_DryN50SpearMid">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">16/04/1997</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">30/12/1997</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Wheat_Cunderdin97_DryN50SpearMid.sum</filename>
+    </summaryfile>
+    <metfile name="met">
+      <filename name="filename">D:\Development\apsim\Wheat\Validation\Cunderdin.met</filename>
+    </metfile>
+    <area name="paddock">
+      <registrations name="global" />
+      <outputfile name="outputfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN50SpearMid.out</filename>
+        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+      </outputfile>
+      <manager name="Manager">
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+            if (paddock_is_fallow() = 1 and today = date('[date]')) then
+              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+            endif
+          </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="8/07/1997" type="text" description="Enter sowing date (d/m/yyyy) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="150" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="spear" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="250" type="text" description="Enter row spacing (m) : " />
+          </category>
+        </rule>
+        <rule name="Harvesting rule">
+          <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+          <category name="Harvesting criteria">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to harvest when ripe : " />
+          </category>
+        </rule>
+        <rule name="Fertilise at sowing">
+          <condition name="[modulename].[eventname]">
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+            </condition>
+          <category name="When should fertiliser be applied">
+            <property name="modulename" value="wheat" type="modulename" description="On which module should the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+          </category>
+          <category name="Fertiliser application details">
+            <property name="fertmodule" value="fertiliser" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
+            <property name="fert_amount_sow" value="51" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+            <property name="fert_type_sow" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          </category>
+        </rule>
+      </manager>
+      <wheat />
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">off</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <logic name="Irrigator">
+        <script name="init" />
+        <script name="startofday"> ! irrigation record from senthold
+
+</script>
+        <script name="endofday" />
+      </logic>
+      <fertiliser name="fertiliser" />
+      <logic name="Fertilizer">
+        <script name="init" />
+        <script name="startofday" />
+        <script name="endofday" />
+      </logic>
+      <soil shortcut="Cunderdin" />
+      <surfaceom name="Surface Organic Matter">
+        <PoolName description="Organic Matter pool name">canola</PoolName>
+        <type description="Organic Matter type">canola</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">60</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+    </area>
+  </simulation>
+  <simulation name="Wheat_Cunderdin97_WetN0WilgoyneEarly">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">16/04/1997</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">30/12/1997</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Wheat_Cunderdin97_WetN0WilgoyneEarly.sum</filename>
+    </summaryfile>
+    <metfile name="met">
+      <filename name="filename">D:\Development\apsim\Wheat\Validation\Cunderdin.met</filename>
+    </metfile>
+    <area name="paddock">
+      <registrations name="global" />
+      <outputfile name="outputfile">
+        <filename name="filename">Wheat_Cunderdin97_WetN0WilgoyneEarly.out</filename>
+        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+      </outputfile>
+      <manager name="Manager">
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+            if (paddock_is_fallow() = 1 and today = date('[date]')) then
+              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+            endif
+          </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="6/06/1997" type="text" description="Enter sowing date (d/m/yyyy) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="150" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="Wilgoyne" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="250" type="text" description="Enter row spacing (m) : " />
+          </category>
+        </rule>
+        <rule name="Harvesting rule">
+          <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+          <category name="Harvesting criteria">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to harvest when ripe : " />
+          </category>
+        </rule>
+      </manager>
+      <wheat />
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">off</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <logic name="Irrigator">
+        <script name="init" />
+        <script name="startofday"> ! irrigation record from senthold
+
+           if (day = 266) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 274) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 279) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 287) then
+               irrigation apply amount = 20 (mm)
+           endif
+
+           if (day = 294) then
+               irrigation apply amount = 17.5 (mm)
+           endif
+
+           if (day = 299) then
+               irrigation apply amount = 17.5 (mm)
+           endif
+</script>
+        <script name="endofday" />
+      </logic>
+      <fertiliser name="fertiliser" />
+      <logic name="Fertilizer">
+        <script name="init" />
+        <script name="startofday" />
+        <script name="endofday" />
+      </logic>
+      <soil shortcut="Cunderdin" />
+      <surfaceom name="Surface Organic Matter">
+        <PoolName description="Organic Matter pool name">canola</PoolName>
+        <type description="Organic Matter type">canola</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">60</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+    </area>
+  </simulation>
+  <simulation name="Wheat_Cunderdin97_WetN0WilgoyneMid">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">16/04/1997</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">30/12/1997</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Wheat_Cunderdin97_WetN0WilgoyneMid.sum</filename>
+    </summaryfile>
+    <metfile name="met">
+      <filename name="filename">D:\Development\apsim\Wheat\Validation\Cunderdin.met</filename>
+    </metfile>
+    <area name="paddock">
+      <registrations name="global" />
+      <outputfile name="outputfile">
+        <filename name="filename">Wheat_Cunderdin97_WetN0WilgoyneMid.out</filename>
+        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+      </outputfile>
+      <manager name="Manager">
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+            if (paddock_is_fallow() = 1 and today = date('[date]')) then
+              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+            endif
+          </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="8/07/1997" type="text" description="Enter sowing date (d/m/yyyy) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="108" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="Wilgoyne" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="250" type="text" description="Enter row spacing (m) : " />
+          </category>
+        </rule>
+        <rule name="Harvesting rule">
+          <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+          <category name="Harvesting criteria">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to harvest when ripe : " />
+          </category>
+        </rule>
+      </manager>
+      <wheat />
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">off</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <logic name="Irrigator">
+        <script name="init" />
+        <script name="startofday"> ! irrigation record from senthold
+
+           if (day = 266) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 274) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 279) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 287) then
+               irrigation apply amount = 20 (mm)
+           endif
+
+           if (day = 294) then
+               irrigation apply amount = 17.5 (mm)
+           endif
+
+           if (day = 299) then
+               irrigation apply amount = 17.5 (mm)
+           endif
+</script>
+        <script name="endofday" />
+      </logic>
+      <fertiliser name="fertiliser" />
+      <logic name="Fertilizer">
+        <script name="init" />
+        <script name="startofday" />
+        <script name="endofday" />
+      </logic>
+      <soil shortcut="Cunderdin" />
+      <surfaceom name="Surface Organic Matter">
+        <PoolName description="Organic Matter pool name">canola</PoolName>
+        <type description="Organic Matter type">canola</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">60</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+    </area>
+  </simulation>
+  <simulation name="Wheat_Cunderdin97_WetN0WilgoyneLate">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">16/04/1997</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">30/12/1997</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Wheat_Cunderdin97_WetN0WilgoyneLate.sum</filename>
+    </summaryfile>
+    <metfile name="met">
+      <filename name="filename">D:\Development\apsim\Wheat\Validation\Cunderdin.met</filename>
+    </metfile>
+    <area name="paddock">
+      <registrations name="global" />
+      <outputfile name="outputfile">
+        <filename name="filename">Wheat_Cunderdin97_WetN0WilgoyneLate.out</filename>
+        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+      </outputfile>
+      <manager name="Manager">
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+            if (paddock_is_fallow() = 1 and today = date('[date]')) then
+              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+            endif
+          </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="30/07/1997" type="text" description="Enter sowing date (d/m/yyyy) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="100" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="Wilgoyne" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="250" type="text" description="Enter row spacing (m) : " />
+          </category>
+        </rule>
+        <rule name="Harvesting rule">
+          <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+          <category name="Harvesting criteria">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to harvest when ripe : " />
+          </category>
+        </rule>
+      </manager>
+      <wheat />
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">off</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <logic name="Irrigator">
+        <script name="init" />
+        <script name="startofday"> ! irrigation record from senthold
+
+           if (day = 266) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 274) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 279) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 287) then
+               irrigation apply amount = 20 (mm)
+           endif
+
+           if (day = 294) then
+               irrigation apply amount = 17.5 (mm)
+           endif
+
+           if (day = 299) then
+               irrigation apply amount = 17.5 (mm)
+           endif
+</script>
+        <script name="endofday" />
+      </logic>
+      <fertiliser name="fertiliser" />
+      <logic name="Fertilizer">
+        <script name="init" />
+        <script name="startofday" />
+        <script name="endofday" />
+      </logic>
+      <soil shortcut="Cunderdin" />
+      <surfaceom name="Surface Organic Matter">
+        <PoolName description="Organic Matter pool name">canola</PoolName>
+        <type description="Organic Matter type">canola</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">60</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+    </area>
+  </simulation>
+  <simulation name="Wheat_Cunderdin97_WetN50WilgoyneEarly">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">16/04/1997</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">30/12/1997</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Wheat_Cunderdin97_WetN50WilgoyneEarly.sum</filename>
+    </summaryfile>
+    <metfile name="met">
+      <filename name="filename">D:\Development\apsim\Wheat\Validation\Cunderdin.met</filename>
+    </metfile>
+    <area name="paddock">
+      <registrations name="global" />
+      <outputfile name="outputfile">
+        <filename name="filename">Wheat_Cunderdin97_WetN50WilgoyneEarly.out</filename>
+        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+      </outputfile>
+      <manager name="Manager">
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+            if (paddock_is_fallow() = 1 and today = date('[date]')) then
+              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+            endif
+          </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="6/06/1997" type="text" description="Enter sowing date (d/m/yyyy) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="150" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="Wilgoyne" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="250" type="text" description="Enter row spacing (m) : " />
+          </category>
+        </rule>
+        <rule name="Harvesting rule">
+          <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+          <category name="Harvesting criteria">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to harvest when ripe : " />
+          </category>
+        </rule>
+        <rule name="Fertilise at sowing">
+          <condition name="[modulename].[eventname]">
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+            </condition>
+          <category name="When should fertiliser be applied">
+            <property name="modulename" value="wheat" type="modulename" description="On which module should the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+          </category>
+          <category name="Fertiliser application details">
+            <property name="fertmodule" value="fertiliser" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
+            <property name="fert_amount_sow" value="51" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+            <property name="fert_type_sow" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          </category>
+        </rule>
+      </manager>
+      <wheat />
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">off</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <logic name="Irrigator">
+        <script name="init" />
+        <script name="startofday"> ! irrigation record from senthold
+
+           if (day = 266) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 274) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 279) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 287) then
+               irrigation apply amount = 20 (mm)
+           endif
+
+           if (day = 294) then
+               irrigation apply amount = 17.5 (mm)
+           endif
+
+           if (day = 299) then
+               irrigation apply amount = 17.5 (mm)
+           endif
+</script>
+        <script name="endofday" />
+      </logic>
+      <fertiliser name="fertiliser" />
+      <logic name="Fertilizer">
+        <script name="init" />
+        <script name="startofday" />
+        <script name="endofday" />
+      </logic>
+      <soil shortcut="Cunderdin" />
+      <surfaceom name="Surface Organic Matter">
+        <PoolName description="Organic Matter pool name">canola</PoolName>
+        <type description="Organic Matter type">canola</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">60</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+    </area>
+  </simulation>
+  <simulation name="Wheat_Cunderdin97_WetN50WilgoyneMid">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">16/04/1997</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">30/12/1997</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Wheat_Cunderdin97_WetN50WilgoyneMid.sum</filename>
+    </summaryfile>
+    <metfile name="met">
+      <filename name="filename">D:\Development\apsim\Wheat\Validation\Cunderdin.met</filename>
+    </metfile>
+    <area name="paddock">
+      <registrations name="global" />
+      <outputfile name="outputfile">
+        <filename name="filename">Wheat_Cunderdin97_WetN50WilgoyneMid.out</filename>
+        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+      </outputfile>
+      <manager name="Manager">
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+            if (paddock_is_fallow() = 1 and today = date('[date]')) then
+              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+            endif
+          </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="8/07/1997" type="text" description="Enter sowing date (d/m/yyyy) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="108" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="Wilgoyne" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="250" type="text" description="Enter row spacing (m) : " />
+          </category>
+        </rule>
+        <rule name="Harvesting rule">
+          <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+          <category name="Harvesting criteria">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to harvest when ripe : " />
+          </category>
+        </rule>
+        <rule name="Fertilise at sowing">
+          <condition name="[modulename].[eventname]">
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+            </condition>
+          <category name="When should fertiliser be applied">
+            <property name="modulename" value="wheat" type="modulename" description="On which module should the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+          </category>
+          <category name="Fertiliser application details">
+            <property name="fertmodule" value="fertiliser" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
+            <property name="fert_amount_sow" value="51" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+            <property name="fert_type_sow" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          </category>
+        </rule>
+      </manager>
+      <wheat />
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">off</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <logic name="Irrigator">
+        <script name="init" />
+        <script name="startofday"> ! irrigation record from senthold
+
+           if (day = 266) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 274) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 279) then
+               irrigation apply amount = 15 (mm)
+           endif
+
+           if (day = 287) then
+               irrigation apply amount = 20 (mm)
+           endif
+
+           if (day = 294) then
+               irrigation apply amount = 17.5 (mm)
+           endif
+
+           if (day = 299) then
+               irrigation apply amount = 17.5 (mm)
+           endif
+</script>
+        <script name="endofday" />
+      </logic>
+      <fertiliser name="fertiliser" />
+      <logic name="Fertilizer">
+        <script name="init" />
+        <script name="startofday" />
+        <script name="endofday" />
+      </logic>
+      <soil shortcut="Cunderdin" />
+      <surfaceom name="Surface Organic Matter">
+        <PoolName description="Organic Matter pool name">canola</PoolName>
+        <type description="Organic Matter type">canola</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">60</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+    </area>
+  </simulation>
+  <simulation name="Wheat_Cunderdin97_DryN0WilgoyneEarly">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">16/04/1997</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">30/12/1997</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Wheat_Cunderdin97_DryN0WilgoyneEarly.sum</filename>
+    </summaryfile>
+    <metfile name="met">
+      <filename name="filename">D:\Development\apsim\Wheat\Validation\Cunderdin.met</filename>
+    </metfile>
+    <area name="paddock">
+      <registrations name="global" />
+      <outputfile name="outputfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN0WilgoyneEarly.out</filename>
+        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+      </outputfile>
+      <manager name="Manager">
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+            if (paddock_is_fallow() = 1 and today = date('[date]')) then
+              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+            endif
+          </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="6/06/1997" type="text" description="Enter sowing date (d/m/yyyy) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="150" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="Wilgoyne" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="250" type="text" description="Enter row spacing (m) : " />
+          </category>
+        </rule>
+        <rule name="Harvesting rule">
+          <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+          <category name="Harvesting criteria">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to harvest when ripe : " />
+          </category>
+        </rule>
+      </manager>
+      <wheat />
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">off</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <logic name="Irrigator">
+        <script name="init" />
+        <script name="startofday" />
+        <script name="endofday" />
+      </logic>
+      <fertiliser name="fertiliser" />
+      <logic name="Fertilizer">
+        <script name="init" />
+        <script name="startofday" />
+        <script name="endofday" />
+      </logic>
+      <soil shortcut="Cunderdin" />
+      <surfaceom name="Surface Organic Matter">
+        <PoolName description="Organic Matter pool name">canola</PoolName>
+        <type description="Organic Matter type">canola</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">60</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+    </area>
+  </simulation>
+  <simulation name="Wheat_Cunderdin97_DryN0WilgoyneMid">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">16/04/1997</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">30/12/1997</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Wheat_Cunderdin97_DryN0WilgoyneMid.sum</filename>
+    </summaryfile>
+    <metfile name="met">
+      <filename name="filename">D:\Development\apsim\Wheat\Validation\Cunderdin.met</filename>
+    </metfile>
+    <area name="paddock">
+      <registrations name="global" />
+      <outputfile name="outputfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN0WilgoyneMid.out</filename>
+        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+      </outputfile>
+      <manager name="Manager">
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+            if (paddock_is_fallow() = 1 and today = date('[date]')) then
+              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+            endif
+          </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="8/07/1997" type="text" description="Enter sowing date (d/m/yyyy) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="108" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="Wilgoyne" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="250" type="text" description="Enter row spacing (m) : " />
+          </category>
+        </rule>
+        <rule name="Harvesting rule">
+          <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+          <category name="Harvesting criteria">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to harvest when ripe : " />
+          </category>
+        </rule>
+      </manager>
+      <wheat />
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">off</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <logic name="Irrigator">
+        <script name="init" />
+        <script name="startofday" />
+        <script name="endofday" />
+      </logic>
+      <fertiliser name="fertiliser" />
+      <logic name="Fertilizer">
+        <script name="init" />
+        <script name="startofday" />
+        <script name="endofday" />
+      </logic>
+      <soil shortcut="Cunderdin" />
+      <surfaceom name="Surface Organic Matter">
+        <PoolName description="Organic Matter pool name">canola</PoolName>
+        <type description="Organic Matter type">canola</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">60</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+    </area>
+  </simulation>
+  <simulation name="Wheat_Cunderdin97_DryN0WilgoyneLate">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">16/04/1997</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">30/12/1997</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Wheat_Cunderdin97_DryN0WilgoyneLate.sum</filename>
+    </summaryfile>
+    <metfile name="met">
+      <filename name="filename">D:\Development\apsim\Wheat\Validation\Cunderdin.met</filename>
+    </metfile>
+    <area name="paddock">
+      <registrations name="global" />
+      <outputfile name="outputfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN0WilgoyneLate.out</filename>
+        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+      </outputfile>
+      <manager name="Manager">
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+            if (paddock_is_fallow() = 1 and today = date('[date]')) then
+              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+            endif
+          </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="30/07/1997" type="text" description="Enter sowing date (d/m/yyyy) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="100" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="Wilgoyne" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="250" type="text" description="Enter row spacing (m) : " />
+          </category>
+        </rule>
+        <rule name="Harvesting rule">
+          <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+          <category name="Harvesting criteria">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to harvest when ripe : " />
+          </category>
+        </rule>
+      </manager>
+      <wheat />
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">off</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <logic name="Irrigator">
+        <script name="init" />
+        <script name="startofday" />
+        <script name="endofday" />
+      </logic>
+      <fertiliser name="fertiliser" />
+      <logic name="Fertilizer">
+        <script name="init" />
+        <script name="startofday" />
+        <script name="endofday" />
+      </logic>
+      <soil shortcut="Cunderdin" />
+      <surfaceom name="Surface Organic Matter">
+        <PoolName description="Organic Matter pool name">canola</PoolName>
+        <type description="Organic Matter type">canola</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">60</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+    </area>
+  </simulation>
+  <simulation name="Wheat_Cunderdin97_DryN50WilgoyneEarly">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">16/04/1997</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">30/12/1997</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Wheat_Cunderdin97_DryN50WilgoyneEarly.sum</filename>
+    </summaryfile>
+    <metfile name="met">
+      <filename name="filename">D:\Development\apsim\Wheat\Validation\Cunderdin.met</filename>
+    </metfile>
+    <area name="paddock">
+      <registrations name="global" />
+      <outputfile name="outputfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN50WilgoyneEarly.out</filename>
+        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+      </outputfile>
+      <manager name="Manager">
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+            if (paddock_is_fallow() = 1 and today = date('[date]')) then
+              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+            endif
+          </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="6/06/1997" type="text" description="Enter sowing date (d/m/yyyy) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="150" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="Wilgoyne" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="250" type="text" description="Enter row spacing (m) : " />
+          </category>
+        </rule>
+        <rule name="Harvesting rule">
+          <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+          <category name="Harvesting criteria">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to harvest when ripe : " />
+          </category>
+        </rule>
+        <rule name="Fertilise at sowing">
+          <condition name="[modulename].[eventname]">
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+            </condition>
+          <category name="When should fertiliser be applied">
+            <property name="modulename" value="wheat" type="modulename" description="On which module should the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+          </category>
+          <category name="Fertiliser application details">
+            <property name="fertmodule" value="fertiliser" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
+            <property name="fert_amount_sow" value="51" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+            <property name="fert_type_sow" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          </category>
+        </rule>
+      </manager>
+      <wheat />
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">off</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <logic name="Irrigator">
+        <script name="init" />
+        <script name="startofday" />
+        <script name="endofday" />
+      </logic>
+      <fertiliser name="fertiliser" />
+      <logic name="Fertilizer">
+        <script name="init" />
+        <script name="startofday" />
+        <script name="endofday" />
+      </logic>
+      <soil shortcut="Cunderdin" />
+      <surfaceom name="Surface Organic Matter">
+        <PoolName description="Organic Matter pool name">canola</PoolName>
+        <type description="Organic Matter type">canola</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">60</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+    </area>
+  </simulation>
+  <simulation name="Wheat_Cunderdin97_DryN50WilgoyneMid">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">16/04/1997</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">30/12/1997</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Wheat_Cunderdin97_DryN50WilgoyneMid.sum</filename>
+    </summaryfile>
+    <metfile name="met">
+      <filename name="filename">D:\Development\apsim\Wheat\Validation\Cunderdin.met</filename>
+    </metfile>
+    <area name="paddock">
+      <registrations name="global" />
+      <outputfile name="outputfile">
+        <filename name="filename">Wheat_Cunderdin97_DryN50WilgoyneMid.out</filename>
+        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+      </outputfile>
+      <manager name="Manager">
+        <rule name="Sow on a fixed date">
+          <condition name="start_of_day">
+            if (paddock_is_fallow() = 1 and today = date('[date]')) then
+              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
+            endif
+          </condition>
+          <category name="Sowing criteria">
+            <property name="date" value="8/07/1997" type="text" description="Enter sowing date (d/m/yyyy) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to sow : " />
+            <property name="density" value="150" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="Wilgoyne" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="row_spacing" value="250" type="text" description="Enter row spacing (m) : " />
+          </category>
+        </rule>
+        <rule name="Harvesting rule">
+          <condition name="end_of_day">
+
+           if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+              [crop]  harvest
+              [crop]  end_crop
+           endif
+
+            </condition>
+          <category name="Harvesting criteria">
+            <property name="crop" value="Wheat" type="modulename" description="Enter name of crop to harvest when ripe : " />
+          </category>
+        </rule>
+        <rule name="Fertilise at sowing">
+          <condition name="[modulename].[eventname]">
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+            </condition>
+          <category name="When should fertiliser be applied">
+            <property name="modulename" value="wheat" type="modulename" description="On which module should the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+          </category>
+          <category name="Fertiliser application details">
+            <property name="fertmodule" value="fertiliser" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
+            <property name="fert_amount_sow" value="51" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+            <property name="fert_type_sow" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          </category>
+        </rule>
+      </manager>
+      <wheat />
+      <irrigation name="Irrigation">
+        <property name="automatic_irrigation" type="text" description="switch">off</property>
+        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
+        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.9</property>
+        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      </irrigation>
+      <logic name="Irrigator">
+        <script name="init" />
+        <script name="startofday"> ! irrigation record from senthold
+
+</script>
+        <script name="endofday" />
+      </logic>
+      <fertiliser name="fertiliser" />
+      <logic name="Fertilizer">
+        <script name="init" />
+        <script name="startofday" />
+        <script name="endofday" />
+      </logic>
+      <soil shortcut="Cunderdin" />
+      <surfaceom name="Surface Organic Matter">
+        <PoolName description="Organic Matter pool name">canola</PoolName>
+        <type description="Organic Matter type">canola</type>
+        <mass description="Initial surface residue (kg/ha)">500</mass>
+        <cnr description="C:N ratio of initial residue">60</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+    </area>
+  </simulation>
   <simulation name="Wheat_APS26_DryN000">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date">13/06/1995</start_date>
@@ -27216,7 +29466,7 @@
         <Site>WonganSite</Site>
         <Region>WA</Region>
         <LocalName>WonganSite</LocalName>
-        <SoilType>WonganUnrippedSoil</SoilType>
+        <SoilType>sand</SoilType>
         <NearestTown>Unknown</NearestTown>
         <NaturalVegetation>Unknown</NaturalVegetation>
         <Water>
@@ -27621,7 +29871,7 @@
         <Site>WonganSite</Site>
         <Region>WA</Region>
         <LocalName>WonganSite</LocalName>
-        <SoilType>WonganUnrippedSoil</SoilType>
+        <SoilType>sand</SoilType>
         <NearestTown>Unknown</NearestTown>
         <NaturalVegetation>Unknown</NaturalVegetation>
         <Water>
@@ -28032,7 +30282,7 @@
         <Site>WonganSite</Site>
         <Region>WA</Region>
         <LocalName>WonganSite</LocalName>
-        <SoilType>WonganUnrippedSoil</SoilType>
+        <SoilType>sand</SoilType>
         <NearestTown>Unknown</NearestTown>
         <NaturalVegetation>Unknown</NaturalVegetation>
         <Water>
@@ -28443,7 +30693,7 @@
         <Site>WonganSite</Site>
         <Region>WA</Region>
         <LocalName>WonganSite</LocalName>
-        <SoilType>WonganUnrippedSoil</SoilType>
+        <SoilType>sand</SoilType>
         <NearestTown>Unknown</NearestTown>
         <NaturalVegetation>Unknown</NaturalVegetation>
         <Water>
@@ -28813,4 +31063,5 @@
       </logic>
     </area>
   </simulation>
+
 </simulations>
