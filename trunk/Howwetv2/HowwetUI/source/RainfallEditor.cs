@@ -23,6 +23,7 @@ namespace APSRU.Howwet
         private MetData tempMetObject;
         private static RainfallEditor instance = null;
         public bool isLoaded = false;
+        private DataRow lastRowInFile;
 
         public RainfallEditor()
             {
@@ -43,23 +44,23 @@ namespace APSRU.Howwet
             this.tempMetObject = data;
             isLoaded = true;
             fpSpread1.Sheets[0].ClearRange(0, 1, 31, 13, true);
-            DateTime firstYear = (DateTime)this.tempMetObject.Data.Rows[0]["date"];
-            DateTime lastYear = (DateTime)this.tempMetObject.Data.Rows[this.tempMetObject.Data.Rows.Count - 1]["date"];
-            yearSelectUpDown.Minimum = firstYear.Year;
-            yearSelectUpDown.Maximum = lastYear.Year;
+            DateTime firstDate = (DateTime)this.tempMetObject.Data.Rows[0]["date"];
+            lastRowInFile = this.tempMetObject.Data.Rows[this.tempMetObject.Data.Rows.Count-1];
+            DateTime lastDate = (DateTime)lastRowInFile["date"];
+            yearSelectUpDown.Minimum = firstDate.Year;
+            yearSelectUpDown.Maximum = lastDate.Year;
             yearSelectUpDown.Increment = 1;
-            yearSelectUpDown.Value = lastYear.Year;
-            this.Text = tempMetObject.FileName+"         "+firstYear.Year+" to "+lastYear.Year ;
+            yearSelectUpDown.Value = lastDate.Year;
+            this.Text = tempMetObject.FileName+"         "+firstDate.Year+" to "+lastDate.Year ;
             }
 
         private void yearSelectUpDown_ValueChanged(object sender, EventArgs e)
             {
             int selectedYear = (int)yearSelectUpDown.Value; ;
-            String sql = "Date >= '1-1-" + selectedYear + "' AND Date < '31-12-" + selectedYear + "'";
+            String sql = "Date >= '1-1-" + selectedYear + "' AND Date <= '31-12-" + selectedYear + "'";
             DataRow[] yearRows = this.tempMetObject.Data.Select(sql);
             if(!(yearRows.Length==0))
                 {
-           
                 int lastMonth = 0;
                 fpSpread1.Sheets[0].ClearRange(0, 1, 31, 13, true);
                 foreach (DataRow row in yearRows)
@@ -78,7 +79,6 @@ namespace APSRU.Howwet
                             }
                         lastMonth = month;
                         }
-                 
                     if (!(Convert.ToInt16(row["rain"])==0))
                         {
                         fpSpread1.Sheets[0].Cells[day-1, month].Value = row["rain"];
@@ -89,7 +89,35 @@ namespace APSRU.Howwet
                 {
                 fpSpread1.Sheets[0].ClearRange(0, 1, 31, 13, true);
                 }
-                
+            //fill in the rows between last row and the end of year with averaged data and rain of zero
+            if (!(yearRows.Length == 0))
+                {
+                DataRow lastRow = yearRows[yearRows.Length - 1];
+                DateTime lastDate = (DateTime)lastRow["Date"];
+                DateTime lastDayOfYear = new DateTime(selectedYear, 12, 31);
+                TimeSpan diff = lastDayOfYear - lastDate;
+                int newRowCount = 1;
+                if (diff.Days > 0)
+                    {
+                    while (newRowCount <= diff.Days)
+                        {
+                        DataRow newRow = this.tempMetObject.Data.NewRow();
+                        if (!(this.tempMetObject.Site == ""))
+                            {
+                            newRow["site"] = this.tempMetObject.Site;
+                            }
+                        TimeSpan incTime = new TimeSpan(newRowCount, 0, 0, 0);
+                        DateTime selectedDate = lastDate.Add(incTime);
+                        newRow["Date"] = selectedDate;
+                        newRow["radn"] = this.tempMetObject.RadnYearlyAverage[selectedDate.Month];
+                        newRow["maxt"] = this.tempMetObject.MaxtYearlyAverage[selectedDate.Month];
+                        newRow["mint"] = this.tempMetObject.MintYearlyAverage[selectedDate.Month];
+                        newRow["rain"] = 0;
+                        this.tempMetObject.Data.Rows.Add(newRow);
+                        newRowCount++;
+                        }
+                    }
+                }
             updateRainfallTotal();
             }
             
@@ -153,7 +181,10 @@ namespace APSRU.Howwet
                 while (startDate <= endDate)
                     {
                     DataRow newRow = this.tempMetObject.Data.NewRow();
-                    newRow["site"] = this.tempMetObject.Site;
+                    if (!(this.tempMetObject.Site == ""))
+                        {
+                        newRow["site"] = this.tempMetObject.Site;
+                        }
                     newRow["Date"] = startDate;
                     newRow["radn"] = this.tempMetObject.RadnYearlyAverage[startDate.Month];
                     newRow["maxt"] = this.tempMetObject.MaxtYearlyAverage[startDate.Month];
@@ -168,11 +199,10 @@ namespace APSRU.Howwet
         private void saveCloseButton_Click(object sender, EventArgs e)
             {
             this.metObject = this.tempMetObject;
-            //fill in blank cells upto the last date with 0mm rainfall and average other cell 
             this.metObject.overWriteMetFile();
             this.Close();
             }
-
+        
         private void closeButton_Click(object sender, EventArgs e)
             {
             this.Close();
