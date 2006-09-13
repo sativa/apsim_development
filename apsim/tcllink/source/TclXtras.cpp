@@ -17,6 +17,7 @@ extern int apsimWriteToSummaryFileProc(ClientData , Tcl_Interp *, int , Tcl_Obj 
 extern int apsimRegisterEvent(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[]);
 extern int apsimUnRegisterEvent(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[]);
 extern int apsimCatchMessages(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[]);
+extern int apsimGetComponentXML(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[]);
 
 static char GlobalDllName[4096];
 
@@ -66,6 +67,8 @@ Tcl_Interp *NewInterp (Tcl_Interp *topLevel, ClientData cd, const char *interpNa
    Tcl_CreateObjCommand(interp, "apsimRegisterEvent", apsimRegisterEvent, cd, NULL);
    Tcl_CreateObjCommand(interp, "apsimUnRegisterEvent", apsimUnRegisterEvent, cd, NULL);
    Tcl_CreateObjCommand(interp, "apsimCatchMessages", apsimCatchMessages, cd, NULL);
+   Tcl_CreateObjCommand(interp, "apsimGetComponentXML", apsimGetComponentXML, cd, NULL);
+
    return interp;
    }
 

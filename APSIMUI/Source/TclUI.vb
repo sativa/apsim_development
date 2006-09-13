@@ -1,10 +1,22 @@
+Imports System.Collections
+Imports System.Collections.Specialized
+Imports VBGeneral.ApsimData
+Imports CSGeneral
+
 Public Class TclUI
     Inherits VBGeneral.BaseView
 
     Overrides Sub Refresh()
         MyBase.Refresh()
-        Dim UIFileName As String = Controller.Data.ChildValueWithError("uifilename")
-        AxTclControl1.Eval("source " + UIFileName)
+
+        AxTclControl1.SetVar("GlobalXMLDoc", Controller.AllData.XML(), 1)
+        AxTclControl1.SetVar("XMLDoc", Me.Controller.Data.XML(), 1)
+
+        Dim UIScript As String = Controller.Data.ChildValueWithError("uiscript")
+
+        If (AxTclControl1.Eval(UIScript) = False) Then
+            MessageBox.Show(AxTclControl1.Result, "Tcl Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
     End Sub
 
 #Region " Windows Form Designer generated code "
@@ -45,17 +57,19 @@ Public Class TclUI
         'AxTclControl1
         '
         Me.AxTclControl1.Enabled = True
-        Me.AxTclControl1.Location = New System.Drawing.Point(0, 43)
+        Me.AxTclControl1.Location = New System.Drawing.Point(0, 0)
         Me.AxTclControl1.Name = "AxTclControl1"
         Me.AxTclControl1.OcxState = CType(resources.GetObject("AxTclControl1.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.AxTclControl1.Size = New System.Drawing.Size(933, 483)
+        Me.AxTclControl1.Size = New System.Drawing.Size(1016, 620)
         Me.AxTclControl1.TabIndex = 2
         '
         'TclUI
         '
+        Me.AutoSize = True
+        Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.Controls.Add(Me.AxTclControl1)
         Me.Name = "TclUI"
-        Me.Size = New System.Drawing.Size(936, 526)
+        Me.Size = New System.Drawing.Size(1016, 620)
         Me.Controls.SetChildIndex(Me.AxTclControl1, 0)
         CType(Me.AxTclControl1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -64,8 +78,7 @@ Public Class TclUI
 
 #End Region
 
-
     Public Overrides Sub Save()
-        AxTclControl1.Eval("Save")
+        Me.Controller.Data.XML() = AxTclControl1.GetVar("XMLDoc", 1)
     End Sub
 End Class

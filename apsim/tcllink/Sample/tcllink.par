@@ -67,6 +67,8 @@ foreach cond $Conds {
 incr steps -1
 if {$steps == 0} {tkwait variable steps}
 
+[dbg.tcllink.exit]
+destroy .
 
 [catchEvent.tcllink.init]
 # Demonstrates catching events at the "event" level
