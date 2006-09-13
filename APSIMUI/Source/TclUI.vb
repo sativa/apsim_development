@@ -1,5 +1,6 @@
 Imports System.Collections
 Imports System.Collections.Specialized
+Imports VBGeneral.ApsimSettings
 Imports VBGeneral.ApsimData
 Imports CSGeneral
 
@@ -11,6 +12,7 @@ Public Class TclUI
 
         AxTclControl1.SetVar("GlobalXMLDoc", Controller.AllData.XML(), 1)
         AxTclControl1.SetVar("XMLDoc", Me.Controller.Data.XML(), 1)
+        AxTclControl1.SetVar("apsuite", ApsimDirectory(), 1)
 
         Dim UIScript As String = Controller.Data.ChildValueWithError("uiscript")
 
