@@ -55,7 +55,7 @@ namespace APSRU.Howwet
 
         private void dataTree1_DoubleClickEvent()
             {
-            if (Apsoil.Data.Type == "Soil")
+            if (Apsoil.Data.Type == "soil")
                 {
                 SoilSelectedEvent(Apsoil.Data);
                 this.Close();

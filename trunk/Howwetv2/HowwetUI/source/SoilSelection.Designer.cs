@@ -31,9 +31,9 @@ namespace APSRU.Howwet
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SoilSelection));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.dataTree1 = new VBGeneral.DataTree();
             this.SaveCloseButton = new System.Windows.Forms.Button();
             this.SoilCloseButton = new System.Windows.Forms.Button();
+            this.dataTree1 = new VBGeneral.DataTree();
             this.SuspendLayout();
             // 
             // imageList1
@@ -43,24 +43,10 @@ namespace APSRU.Howwet
             this.imageList1.Images.SetKeyName(0, "shovel.png");
             this.imageList1.Images.SetKeyName(1, "folder_document.png");
             // 
-            // dataTree1
-            // 
-            this.dataTree1.AllowDrop = true;
-            this.dataTree1.AutoScroll = true;
-            this.dataTree1.BackColor = System.Drawing.SystemColors.Control;
-            this.dataTree1.Controller = null;
-            this.dataTree1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.dataTree1.HelpText = "";
-            this.dataTree1.Location = new System.Drawing.Point(0, 0);
-            this.dataTree1.Name = "dataTree1";
-            this.dataTree1.Size = new System.Drawing.Size(369, 312);
-            this.dataTree1.Sorted = false;
-            this.dataTree1.TabIndex = 0;
-            this.dataTree1.DoubleClickEvent += new VBGeneral.DataTree.NotifyEventHandler(this.dataTree1_DoubleClickEvent);
-            // 
             // SaveCloseButton
             // 
-            this.SaveCloseButton.Location = new System.Drawing.Point(170, 319);
+            this.SaveCloseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.SaveCloseButton.Location = new System.Drawing.Point(175, 326);
             this.SaveCloseButton.Name = "SaveCloseButton";
             this.SaveCloseButton.Size = new System.Drawing.Size(88, 23);
             this.SaveCloseButton.TabIndex = 1;
@@ -70,25 +56,44 @@ namespace APSRU.Howwet
             // 
             // SoilCloseButton
             // 
-            this.SoilCloseButton.Location = new System.Drawing.Point(276, 319);
+            this.SoilCloseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.SoilCloseButton.Location = new System.Drawing.Point(269, 326);
             this.SoilCloseButton.Name = "SoilCloseButton";
-            this.SoilCloseButton.Size = new System.Drawing.Size(81, 23);
+            this.SoilCloseButton.Size = new System.Drawing.Size(88, 23);
             this.SoilCloseButton.TabIndex = 2;
             this.SoilCloseButton.Text = "&Close";
             this.SoilCloseButton.UseVisualStyleBackColor = true;
             this.SoilCloseButton.Click += new System.EventHandler(this.SoilCloseButton_Click);
             // 
+            // dataTree1
+            // 
+            this.dataTree1.AllowDrop = true;
+            this.dataTree1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataTree1.AutoScroll = true;
+            this.dataTree1.BackColor = System.Drawing.SystemColors.Control;
+            this.dataTree1.Controller = null;
+            this.dataTree1.HelpText = "";
+            this.dataTree1.Location = new System.Drawing.Point(0, 0);
+            this.dataTree1.Name = "dataTree1";
+            this.dataTree1.Size = new System.Drawing.Size(369, 320);
+            this.dataTree1.Sorted = false;
+            this.dataTree1.TabIndex = 0;
+            this.dataTree1.DoubleClickEvent += new VBGeneral.DataTree.NotifyEventHandler(this.dataTree1_DoubleClickEvent);
+            // 
             // SoilSelection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(369, 354);
+            this.ClientSize = new System.Drawing.Size(369, 352);
             this.Controls.Add(this.SoilCloseButton);
             this.Controls.Add(this.SaveCloseButton);
             this.Controls.Add(this.dataTree1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SoilSelection";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Select Soil";
+            this.Text = "Select a Soil";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SoilSelection_FormClosing);
             this.Load += new System.EventHandler(this.SoilSelection_Load);
             this.ResumeLayout(false);
