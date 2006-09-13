@@ -1,0 +1,57 @@
+[summaryfile.summaryfile.parameters]
+summaryfile = machinery.sum
+[error1.summaryfile.parameters]
+summaryfile = error1.sum
+
+[sample.report.parameters]
+outputfile =machinery.out
+variable = clock.day
+variable = clock.year
+variable = manager.canplant
+variable = manager.canspray
+variable = cashbook.balance
+
+[manager.manager.init]
+canplant = 0
+canspray = 0
+
+[manager.manager.process]
+canplant = machinery.available('tractor=175kwFWA,implement=Planter')
+canspray = machinery.available('tractor=175kwFWA,implement=SprayRig')
+
+if (day = 169) then
+  machinery operate tractor= '175kwFWA', implement=AirSeeder, area = 500
+  cashbook expenditure cost = 42000.0, description = dummy description here
+endif
+
+report do_output                            
+
+[error1.manager.process]
+! This query should throw an error:
+Z = machinery.available('tractor=HogBlatter4300,implement=Digger')
+
+[machinery.machinery.init]                            
+source ../lib/Machinery.tcl
+
+[machinery.machinery.parameters]
+tractor = 175kwFWA
+implement = AirSeeder
+
+[machinery.machinery.tractor]
+name = 175kwFWA
+workrate = 100
+!hmmm. Need to be able to make a frag like:
+! <workrate implement="AirSeeder" units="ha/hour">100.0</workrate>
+! This is too hard with conToSim. 
+age = 2
+
+[machinery.machinery.implement]
+name = AirSeeder
+age = 2
+
+[cashbook.cashbook.init]
+source ../lib/Cashbook.tcl
+
+[cashbook.cashbook.parameters]
+balance = 0
+outputfilename = cashbook.csv
