@@ -1,3 +1,11 @@
+# Makefile for tcl component
+# Uses 8.4.13 binaries from ActiveState distribution,
+#      and Source distribution for include files
+# These are stored on \\thor\seg\tcl and copied here the 1st time
+# this makefile is called.
+
+# An ActiveX control (TclControl.dll) is also registered for ApsimUI.
+
 # ---------------------------------------------------------------------------
 !if !$d(BCB)
 BCB = $(MAKEDIR)\..
@@ -14,20 +22,12 @@ INSTLIBS = ..\lib
 !include $(APSROOT)\APSBuild\platform.make
 !include $(APSROOT)\APSBuild\cpp.make
 
-NODEBUG=1   ##$(DEBUG)
-
-!IF "$(NODEBUG)" == "1"
-TMPDIRNAME	= Release
-!ELSE
-TMPDIRNAME	= Debug
-!ENDIF
-
 # ---------------------------------------------------------------------------
 # TCL SECTION
 # ---------------------------------------------------------------------------
 VER=84
 DOTVER=8.4
-PATCH=11
+PATCH=13
 TCLVER=$(DOTVER).$(PATCH)
 TCLROOT=.\tcl$(TCLVER)\$(TMPDIRNAME)
 TKROOT=.\tk$(TCLVER)\$(TMPDIRNAME)
@@ -42,7 +42,7 @@ LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
     $(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
     $(APSROOT)\Shared\general\general.lib \
 	 $(APSROOT)\Shared\Protocol\Protocol.lib \
-    $(TCLROOT)\tcl$(VER).lib $(TKROOT)\tk$(VER).lib 
+    tcl$(VER).lib tk$(VER).lib 
 
 PACKAGES = rtl.bpi vcl.bpi vclx.bpi vcljpg.bpi ibsmp.bpi dbrtl.bpi vcldb.bpi \
     bdertl.bpi bcbsmp.bpi vcldbx.bpi dclocx.bpi qrpt.bpi
@@ -65,14 +65,15 @@ CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
 WARNINGS = -w-par
 LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 
-source:  .\tcl$(TCLVER) .\tk$(TCLVER) $(INSTLIBS) $(PROJECT)
+# ---------------------------------------------------------------------------
+source:  ..\lib\ASTcl$(TCLVER).license.terms $(PROJECT) 
 
 # ---------------------------------------------------------------------------
 ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib sysinit.obj $(OBJFILES)
 ALLRES = $(RESFILES)
-ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cp32mti.lib $(TCLROOT)\tcl$(VER).lib $(TKROOT)\tk$(VER).lib
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cp32mti.lib 
 
-$(PROJECT): $(OBJFILES) $(TCLROOT)\tcl$(VER).lib $(TKROOT)\tk$(VER).lib
+$(PROJECT): $(OBJFILES) $(LIBFILES)
     $(LINKER) @&&!
     $(LFLAGS) -L$(LIBPATH) +
     $(ALLOBJ), +
@@ -82,43 +83,37 @@ $(PROJECT): $(OBJFILES) $(TCLROOT)\tcl$(VER).lib $(TKROOT)\tk$(VER).lib
     $(ALLRES)
 !
 
-.cpp.obj:
+.cpp.obj: 
 	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
 
 clean:
-	del /y $(OBJFILES) 
+	del $(OBJFILES) 
 
-
-.\tcl$(TCLVER): 
+..\lib\ASTcl$(TCLVER).license.terms:
+   # Sources
 	@if not exist .\tcl$(TCLVER) xcopy \\thor\seg\tools\tcl\tcl$(TCLVER) .\tcl$(TCLVER) /E /Y /I /Q
-    
-.\tk$(TCLVER): 
 	@if not exist .\tk$(TCLVER) xcopy \\thor\seg\tools\tcl\tk$(TCLVER) .\tk$(TCLVER) /E /Y /I /Q
+	# Binaries
+   if not exist ..\lib\tcl$(VER).dll copy \\thor\seg\tools\tcl\ASTcl\bin\tcl$(VER).dll ..\lib\tcl$(VER).dll
+   if not exist ..\lib\zlib.dll copy \\thor\seg\tools\tcl\ASTcl\bin\zlib.dll  ..\lib\zlib.dll 
+   if not exist ..\lib\iconv.dll copy \\thor\seg\tools\tcl\ASTcl\bin\iconv.dll ..\lib\iconv.dll
+   if not exist ..\lib\tclsh$(VER).exe copy \\thor\seg\tools\tcl\ASTcl\bin\tclsh$(VER).exe ..\lib\tclsh$(VER).exe
+   if not exist ..\lib\tclpip$(VER).dll copy \\thor\seg\tools\tcl\ASTcl\bin\tclpip$(VER).dll ..\lib\tclpip$(VER).dll
+   if not exist ..\lib\tk$(VER).dll copy \\thor\seg\tools\tcl\ASTcl\bin\tk$(VER).dll ..\lib\tk$(VER).dll
+   if not exist ..\lib\wish$(VER).exe copy \\thor\seg\tools\tcl\ASTcl\bin\wish$(VER).exe ..\lib\wish$(VER).exe
+	if not exist ..\lib\tcl$(DOTVER)\nul xcopy \\thor\seg\tools\tcl\ASTcl\lib\tcl$(DOTVER) ..\lib\tcl$(DOTVER) /E /Y /I /Q
+	if not exist ..\lib\tk$(DOTVER)\nul xcopy \\thor\seg\tools\tcl\ASTcl\lib\tk$(DOTVER) ..\lib\tk$(DOTVER) /E /Y /I /Q
+	if not exist ..\lib\tcllib1.8\nul xcopy \\thor\seg\tools\tcl\ASTcl\lib\tcllib1.8 ..\lib\tcllib1.8 /E /Y /I /Q
+	if not exist ..\lib\bwidget1.7\nul xcopy \\thor\seg\tools\tcl\ASTcl\lib\bwidget1.7 ..\lib\bwidget1.7 /E /Y /I /Q
+	if not exist ..\lib\tdom0.8.1\nul xcopy \\thor\seg\tools\tcl\ASTcl\lib\tdom0.8.1 ..\lib\tdom0.8.1 /E /Y /I /Q
+	if not exist ..\lib\tkcon\nul xcopy \\thor\seg\tools\tcl\tkcon ..\lib\tkcon /E /Y /I /Q
+   # Do the ActiveX control
+ 	@if not exist ..\lib\TclControl$(VER).dll copy \\thor\seg\Tools\tcl\TclControl\install\TclControl$(VER).dll ..\lib\TclControl$(VER).dll
+ 	..\lib\tclsh$(VER).exe  \\thor\seg\Tools\tcl\TclControl\install\install.tcl
+   # The distributed AS libs are in MS coff format. Convert them for borland tools.
+   $(BCB)\Bin\coff2omf \\thor\seg\tools\tcl\ASTcl\lib\tcl$(VER).lib tcl$(VER).lib
+   $(BCB)\Bin\coff2omf \\thor\seg\tools\tcl\ASTcl\lib\tk$(VER).lib tk$(VER).lib
+   # Finally the tcl license
+   copy \\thor\seg\tools\tcl\ASTcl\licenses\License.tcl ..\lib\ASTcl$(TCLVER).license.terms
 
-.\tcllib:
-	@if not exist ..\lib\tcllib1.5 xcopy \\thor\seg\tools\tcl\tcllib1.5 ..\lib\tcllib1.5 /E /Y /I /Q
-
-.\tkcon:
-	@if not exist ..\lib\tkcon xcopy \\thor\seg\tools\tcl\tkcon ..\lib\tkcon /E /Y /I /Q
-
-$(TCLROOT)\tcl$(VER).lib: .\tcl$(TCLVER)
- 	cd tcl$(TCLVER)\win
-	$(MAKE) -f Makefile.bc 
-	cd ..\..
-
-$(TKROOT)\tk$(VER).lib: .\tk$(TCLVER)
- 	cd tk$(TCLVER)\win
-	$(MAKE) -f Makefile.bc 
-	cd ..\..
-
-$(INSTLIBS): $(TCLROOT)\tcl$(VER).lib $(TKROOT)\tk$(VER).lib .\tcllib .\tkcon
-	if not exist ..\lib\tcl$(DOTVER) xcopy tcl$(TCLVER)\library ..\lib\tcl$(DOTVER) /E /Y /I /Q
-	if not exist ..\lib\tcl84.dll copy $(TCLROOT)\tcl84.dll ..\lib
-	if not exist ..\lib\tcldde12.dll copy $(TCLROOT)\tcldde12.dll ..\lib
-	if not exist ..\lib\tclpip84.dll copy $(TCLROOT)\tclpip84.dll ..\lib
-        if not exist ..\lib\tclreg11.dll copy $(TCLROOT)\tclreg11.dll ..\lib
-        if not exist ..\lib\tclsh84.exe copy $(TCLROOT)\tclsh84.exe ..\lib
-	if not exist ..\lib\tk$(DOTVER) xcopy tk$(TCLVER)\library ..\lib\tk$(DOTVER) /E /Y /I /Q
-	if not exist ..\lib\tk84.dll copy $(TKROOT)\tk84.dll ..\lib
-	if not exist ..\lib\wish84.exe copy $(TKROOT)\wish84.exe ..\lib
  

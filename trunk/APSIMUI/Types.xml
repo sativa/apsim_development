@@ -924,7 +924,6 @@
             [endfor]
          </sim>
       </ApsimToSim>
-
    </manager>
    <tclmanager>
       <UItype>area</UItype>
@@ -1017,6 +1016,39 @@
          </sim>
       </ApsimToSim>
    </paddockmanager>
+   <tclgroup>
+      <UItype>area</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/tcllink/docs/farmmanager_science.htm</Documentation>
+      <LargeIcon>Images\manager32.png</LargeIcon>
+      <SmallIcon>Images\manager16.png</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+      </drops>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\tcllink\lib\tcllink.dll</dll>
+         <sim>
+            <master>no</master>
+            <rule condition="init">[tclgroup.initscript]</rule>
+            [foreach tclgroup.tclui as tclui]
+            [tclui.innerxml]
+            [endfor]
+         </sim>
+      </ApsimToSim>
+   </tclgroup>
+   <tclui>
+      <UItype>tclui</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <drops>
+         <drop name="tclgroup"/>
+     </drops>
+   </tclui>
    <rule>
       <UItype>rule</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>

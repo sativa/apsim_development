@@ -4,6 +4,7 @@
 #include <general/string_functions.h>
 #include <general/stristr.h>
 
+#include <ApsimShared/ApsimDirectories.h>
 #include <ApsimShared/FStringExt.h>
 
 #include <ComponentInterface/Component.h>
@@ -55,6 +56,7 @@ int apsimRegisterGetSetProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST [])
 int apsimSendEventProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
 int apsimRegisterEvent(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[]);
 int apsimCatchMessages(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[]);
+int apsimGetComponentXML(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[]);
 
 // ------------------------------------------------------------------
 //  Short description:
@@ -145,6 +147,8 @@ void TclComponent::doInit2(void)
       Interp = NewInterp(TopLevelInterp, this, this->getName());  
       writeString((string("Interpreter name: '")+ this->getName() + "'").c_str());
    }
+
+   Tcl_SetVar(Interp, "apsuite", getApsimDirectory().c_str(), TCL_GLOBAL_ONLY);
    
    string initRule;
    std::vector<string> ruleNames;
@@ -839,3 +843,13 @@ void TclComponent::callback(const std::string& toName, const protocol::Message* 
       free(cmd);
       }
    }
+
+
+int apsimGetComponentXML(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[])
+{
+   TclComponent *component = (TclComponent *) cd;
+   string xml = component->getXML();
+   Tcl_SetObjResult(interp, Tcl_NewStringObj(xml.c_str(), -1));
+   return TCL_OK;
+} 
+ 

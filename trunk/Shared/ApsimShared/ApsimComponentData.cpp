@@ -355,6 +355,24 @@ void ApsimComponentData::clearRules(void)
    XMLNode initData = getInitData();
    eraseNodes(initData, "rules");
    } */
+
+// Helper function for below
+template <class T, class CT=std::vector<std::string> >
+class GetRulesFunction
+   {
+   private:
+      CT& Container;
+   public:
+      GetRulesFunction(CT& container)
+         : Container (container)
+         { }
+      void operator () (T &arg)
+         {
+         if (Str_i_Eq(arg.getName(), "rule")) 
+            Container.push_back(arg.getAttribute("name"));
+         };
+   };
+
 // ------------------------------------------------------------------
 // return a list of rule names to caller.
 // ------------------------------------------------------------------
@@ -362,7 +380,7 @@ void ApsimComponentData::getRuleNames(vector<string>& names) const
    {
    XMLNode initData = getInitData();
    for_each(initData.begin(), initData.end(),
-            GetNameAttributeFunction<XMLNode>(names));
+            GetRulesFunction<XMLNode>(names));
    }
 // ------------------------------------------------------------------
 // return a rule to caller or blank if not found.

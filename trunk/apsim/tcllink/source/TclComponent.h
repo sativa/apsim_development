@@ -30,6 +30,8 @@ class TclComponent : public protocol::Component,
       unsigned int registerEvent(string &eventName, string &script);
       void unRegisterEvent(unsigned int id);
       void catchMessages(string &command);
+
+      std::string getXML(void) {return componentData->getXML();};
       
    private:
 
@@ -40,5 +42,6 @@ class TclComponent : public protocol::Component,
 
       void callback(const std::string& toName, const protocol::Message* message);
       std::string messageCallbackCommand;
+      
    };
 #endif
