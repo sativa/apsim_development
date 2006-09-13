@@ -51,7 +51,7 @@ namespace APSRU.Howwet
             yearSelectUpDown.Maximum = lastDate.Year;
             yearSelectUpDown.Increment = 1;
             yearSelectUpDown.Value = lastDate.Year;
-            this.Text = tempMetObject.FileName+"         "+firstDate.Year+" to "+lastDate.Year ;
+            this.Text = "Rainfall Editor         Rainfall File:" +tempMetObject.FileName+"      "+firstDate.Year+" to "+lastDate.Year ;
             }
 
         private void yearSelectUpDown_ValueChanged(object sender, EventArgs e)
@@ -109,9 +109,9 @@ namespace APSRU.Howwet
                         TimeSpan incTime = new TimeSpan(newRowCount, 0, 0, 0);
                         DateTime selectedDate = lastDate.Add(incTime);
                         newRow["Date"] = selectedDate;
-                        newRow["radn"] = this.tempMetObject.RadnYearlyAverage[selectedDate.Month];
-                        newRow["maxt"] = this.tempMetObject.MaxtYearlyAverage[selectedDate.Month];
-                        newRow["mint"] = this.tempMetObject.MintYearlyAverage[selectedDate.Month];
+                        newRow["radn"] = this.tempMetObject.RadnDailyYearlyAverage[selectedDate.Month];
+                        newRow["maxt"] = this.tempMetObject.MaxtDailyYearlyAverage[selectedDate.Month];
+                        newRow["mint"] = this.tempMetObject.MintDailyYearlyAverage[selectedDate.Month];
                         newRow["rain"] = 0;
                         this.tempMetObject.Data.Rows.Add(newRow);
                         newRowCount++;
@@ -156,9 +156,9 @@ namespace APSRU.Howwet
                     newRow["site"] = this.tempMetObject.Site;
                     }
                 newRow["Date"] = selectedDate;
-                newRow["radn"] = this.tempMetObject.RadnYearlyAverage[selectedDate.Month];
-                newRow["maxt"] = this.tempMetObject.MaxtYearlyAverage[selectedDate.Month];
-                newRow["mint"] = this.tempMetObject.MintYearlyAverage[selectedDate.Month];
+                newRow["radn"] = this.tempMetObject.RadnDailyYearlyAverage[selectedDate.Month];
+                newRow["maxt"] = this.tempMetObject.MaxtDailyYearlyAverage[selectedDate.Month];
+                newRow["mint"] = this.tempMetObject.MintDailyYearlyAverage[selectedDate.Month];
                 newRow["rain"] = Convert.ToInt16(fpSpread1.Sheets[0].Cells[e.Row, e.Column].Value);
                 this.tempMetObject.Data.Rows.Add(newRow);
                 }
@@ -186,9 +186,9 @@ namespace APSRU.Howwet
                         newRow["site"] = this.tempMetObject.Site;
                         }
                     newRow["Date"] = startDate;
-                    newRow["radn"] = this.tempMetObject.RadnYearlyAverage[startDate.Month];
-                    newRow["maxt"] = this.tempMetObject.MaxtYearlyAverage[startDate.Month];
-                    newRow["mint"] = this.tempMetObject.MintYearlyAverage[startDate.Month];
+                    newRow["radn"] = this.tempMetObject.RadnDailyYearlyAverage[startDate.Month];
+                    newRow["maxt"] = this.tempMetObject.MaxtDailyYearlyAverage[startDate.Month];
+                    newRow["mint"] = this.tempMetObject.MintDailyYearlyAverage[startDate.Month];
                     newRow["rain"] = 0;
                     this.tempMetObject.Data.Rows.Add(newRow);
                     startDate = startDate.AddDays(1);

@@ -41,6 +41,7 @@ namespace APSRU.Howwet
             FarPoint.Win.Spread.CellType.NumberCellType numberCellType10 = new FarPoint.Win.Spread.CellType.NumberCellType();
             FarPoint.Win.Spread.CellType.NumberCellType numberCellType11 = new FarPoint.Win.Spread.CellType.NumberCellType();
             FarPoint.Win.Spread.CellType.NumberCellType numberCellType12 = new FarPoint.Win.Spread.CellType.NumberCellType();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RainfallEditor));
             this.fpSpread1 = new FarPoint.Win.Spread.FpSpread();
             this.fpSpread1_Sheet1 = new FarPoint.Win.Spread.SheetView();
             this.label1 = new System.Windows.Forms.Label();
@@ -57,6 +58,7 @@ namespace APSRU.Howwet
             // fpSpread1
             // 
             this.fpSpread1.AccessibleDescription = "fpSpread1, Sheet1, Row 0, Column 0, ";
+            this.fpSpread1.AllowUserZoom = false;
             this.fpSpread1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
@@ -187,7 +189,7 @@ namespace APSRU.Howwet
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(131, 686);
+            this.label1.Location = new System.Drawing.Point(140, 688);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(32, 13);
             this.label1.TabIndex = 6;
@@ -196,7 +198,7 @@ namespace APSRU.Howwet
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(238, 686);
+            this.label2.Location = new System.Drawing.Point(238, 688);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(35, 13);
             this.label2.TabIndex = 7;
@@ -204,7 +206,7 @@ namespace APSRU.Howwet
             // 
             // yearSelectUpDown
             // 
-            this.yearSelectUpDown.Location = new System.Drawing.Point(169, 681);
+            this.yearSelectUpDown.Location = new System.Drawing.Point(169, 684);
             this.yearSelectUpDown.Name = "yearSelectUpDown";
             this.yearSelectUpDown.Size = new System.Drawing.Size(63, 20);
             this.yearSelectUpDown.TabIndex = 3;
@@ -214,7 +216,7 @@ namespace APSRU.Howwet
             // 
             this.AddYearButton.Location = new System.Drawing.Point(12, 681);
             this.AddYearButton.Name = "AddYearButton";
-            this.AddYearButton.Size = new System.Drawing.Size(66, 22);
+            this.AddYearButton.Size = new System.Drawing.Size(88, 23);
             this.AddYearButton.TabIndex = 2;
             this.AddYearButton.Text = "&Add Year";
             this.AddYearButton.UseVisualStyleBackColor = true;
@@ -222,9 +224,9 @@ namespace APSRU.Howwet
             // 
             // closeButton
             // 
-            this.closeButton.Location = new System.Drawing.Point(690, 681);
+            this.closeButton.Location = new System.Drawing.Point(683, 681);
             this.closeButton.Name = "closeButton";
-            this.closeButton.Size = new System.Drawing.Size(81, 23);
+            this.closeButton.Size = new System.Drawing.Size(88, 23);
             this.closeButton.TabIndex = 5;
             this.closeButton.Text = "&Close";
             this.closeButton.UseVisualStyleBackColor = true;
@@ -232,9 +234,9 @@ namespace APSRU.Howwet
             // 
             // saveCloseButton
             // 
-            this.saveCloseButton.Location = new System.Drawing.Point(582, 681);
+            this.saveCloseButton.Location = new System.Drawing.Point(589, 681);
             this.saveCloseButton.Name = "saveCloseButton";
-            this.saveCloseButton.Size = new System.Drawing.Size(84, 23);
+            this.saveCloseButton.Size = new System.Drawing.Size(88, 23);
             this.saveCloseButton.TabIndex = 4;
             this.saveCloseButton.Text = "&Save && Close";
             this.saveCloseButton.UseVisualStyleBackColor = true;
@@ -252,9 +254,10 @@ namespace APSRU.Howwet
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.fpSpread1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RainfallEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "RainfallEditor";
+            this.Text = "Rainfall Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RainfallEditor_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.fpSpread1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fpSpread1_Sheet1)).EndInit();
