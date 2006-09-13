@@ -22,16 +22,16 @@ namespace APSRU.Model.Howwet
         private String fileName;
         private DateTime startDate;
         private DateTime endDate;
-        private float[] radnYearlyAverage;
-        private float[] radnDaliyYearlyAverage;
+        private float[] radnMonthlyYearlyAverage;
+        private float[] radnDailyYearlyAverage;
         private DataTable radnMonthlyAverage;
-        private float[] maxtYearlyAverage;
-        private float[] maxtDaliyYearlyAverage;
+        private float[] maxtMonthlyYearlyAverage;
+        private float[] maxtDailyYearlyAverage;
         private DataTable maxtMonthlyAverage;
-        private float[] mintYearlyAverage;
-        private float[] mintDaliyYearlyAverage;
+        private float[] mintMonthlyYearlyAverage;
+        private float[] mintDailyYearlyAverage;
         private DataTable mintMonthlyAverage;
-        private float[] rainYearlyAverage;
+        private float[] rainMonthlyYearlyAverage;
         private float[] rainDailyYearlyAverage;
         private DataTable rainMonthlyAverage;
         private ArrayList constants;
@@ -93,14 +93,17 @@ namespace APSRU.Model.Howwet
                 {
                 bool success = false;
                 this.RadnMonthlyAverage = createMonthlyAverages("radn");
-                this.RadnYearlyAverage = getMonthlyYearlyAverages(this.RadnMonthlyAverage);
+                this.RadnMonthlyYearlyAverage = getMonthlyYearlyAverages(this.RadnMonthlyAverage);
+                this.RadnDailyYearlyAverage = getDailyYearlyAverage(this.RadnMonthlyYearlyAverage);
                 this.MaxtMonthlyAverage = createMonthlyAverages("maxt");
-                this.MaxtYearlyAverage = getMonthlyYearlyAverages(this.MaxtMonthlyAverage);
+                this.MaxtMonthlyYearlyAverage = getMonthlyYearlyAverages(this.MaxtMonthlyAverage);
+                this.MaxtDailyYearlyAverage = getDailyYearlyAverage(this.MaxtMonthlyYearlyAverage);
                 this.MintMonthlyAverage = createMonthlyAverages("mint");
-                this.MintYearlyAverage = getMonthlyYearlyAverages(this.MintMonthlyAverage);
+                this.MintMonthlyYearlyAverage = getMonthlyYearlyAverages(this.MintMonthlyAverage);
+                this.MintDailyYearlyAverage = getDailyYearlyAverage(this.MintMonthlyYearlyAverage);
                 this.RainMonthlyAverage = createMonthlyAverages("rain");
-                this.RainYearlyAverage = getMonthlyYearlyAverages(this.RainMonthlyAverage);
-                this.RainDailyYearlyAverage = getDailyYearlyAverage(this.RainYearlyAverage);
+                this.RainMonthlyYearlyAverage = getMonthlyYearlyAverages(this.RainMonthlyAverage);
+                this.RainDailyYearlyAverage = getDailyYearlyAverage(this.RainMonthlyYearlyAverage);
                 success = true;
                 return success;
                 }
@@ -153,10 +156,10 @@ namespace APSRU.Model.Howwet
             get { return fileName; }
             }
 
-        public float[] RadnYearlyAverage
+        public float[] RadnMonthlyYearlyAverage
             {
-            set { radnYearlyAverage = value; }
-            get { return radnYearlyAverage; }
+            set { radnMonthlyYearlyAverage = value; }
+            get { return radnMonthlyYearlyAverage; }
             }
 
         public DataTable RadnMonthlyAverage
@@ -165,10 +168,16 @@ namespace APSRU.Model.Howwet
             get { return radnMonthlyAverage; }
             }
 
-        public float[] MaxtYearlyAverage
+        public float[] RadnDailyYearlyAverage
             {
-            set { maxtYearlyAverage = value; }
-            get { return maxtYearlyAverage; }
+            set { radnDailyYearlyAverage = value; }
+            get { return radnDailyYearlyAverage; }
+            }
+
+        public float[] MaxtMonthlyYearlyAverage
+            {
+            set { maxtMonthlyYearlyAverage = value; }
+            get { return maxtMonthlyYearlyAverage; }
             }
 
         public DataTable MaxtMonthlyAverage
@@ -177,10 +186,16 @@ namespace APSRU.Model.Howwet
             get { return maxtMonthlyAverage; }
             }
 
-        public float[] MintYearlyAverage
+        public float[] MaxtDailyYearlyAverage
             {
-            set { mintYearlyAverage = value; }
-            get { return mintYearlyAverage; }
+            set { maxtDailyYearlyAverage = value; }
+            get { return maxtDailyYearlyAverage; }
+            }
+
+        public float[] MintMonthlyYearlyAverage
+            {
+            set { mintMonthlyYearlyAverage = value; }
+            get { return mintMonthlyYearlyAverage; }
             }
 
         public DataTable MintMonthlyAverage
@@ -189,10 +204,16 @@ namespace APSRU.Model.Howwet
             get { return mintMonthlyAverage; }
             }
 
-        public float[] RainYearlyAverage
+        public float[] MintDailyYearlyAverage
             {
-            set { rainYearlyAverage = value; }
-            get { return rainYearlyAverage; }
+            set { mintDailyYearlyAverage = value; }
+            get { return mintDailyYearlyAverage; }
+            }
+
+        public float[] RainMonthlyYearlyAverage
+            {
+            set { rainMonthlyYearlyAverage = value; }
+            get { return rainMonthlyYearlyAverage; }
             }
 
         public float[] RainDailyYearlyAverage
