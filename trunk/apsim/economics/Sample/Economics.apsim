@@ -1,0 +1,3504 @@
+<simulations name="untitled">
+  <simulation name="Sample Economics Simulation">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">31/12/1940</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1942</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Sample Economics Simulation.sum</filename>
+    </summaryfile>
+    <metfile name="met">
+      <filename name="filename">c:\development\apsim\met\sample\goond.met</filename>
+    </metfile>
+    <area name="paddock">
+      <registrations name="global" />
+      <manager name="Manager">
+        <rule name="Sowing rule">
+          <condition name="start_of_day"><![CDATA[
+! Ask the system (economics/machinery module) whether the tractor/implement combination is available:
+if (available('tractor=t1,implement=p1')) THEN
+
+      if (paddock_is_fallow() = 1 and FallowIn <> 'yes' and (NextCrop = 0 or NextCrop = '[crop]')) then
+         if (date_within('[date1], [date2]') = 1) then
+            if (rain[[rainnumdays]] >= [raincrit] AND 
+                esw >= [esw_amount] ) <> 0) OR
+                ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
+               ChooseNextCrop = 'yes'   ! for rotations
+
+               ! When machinery 'operates', it stops them being 'available', and incurs operating costs.
+               economics operate tractor=t1, implement = p1, area = 200
+
+               ! incur seed costs (should be others too, eg fungicide etc)
+               economics expenditure category = seedcost, name = [crop], rate = 120 (kg/ha), area = 200 (ha)
+
+               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], crop_class = [class]
+
+            endif
+            if today = date('[date2]') then
+               ChooseNextCrop = 'yes'
+            endif
+         endif
+      endif
+
+ENDIF
+]]></condition>
+          <category name="Sowing criteria">
+            <property name="date1" value="15-may" type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : " />
+            <property name="date2" value="10-jul" type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : " />
+            <property name="must_sow" value="no" type="yesno" description="Must sow? : " />
+            <property name="raincrit" value="30" type="text" description="Amount of rainfall : " />
+            <property name="rainnumdays" value="3" type="text" description="Number of days of rainfall : " />
+            <property name="esw_amount" value="200" type="text" description="Enter minimum allowable available soil water (mm) : " />
+          </category>
+          <category name="Sowing parameters">
+            <property name="crop" value="wheat" type="crop" description="Enter name of crop to sow : " />
+            <property name="density" value="100" type="text" description="Enter sowing density  (plants/m2) : " />
+            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
+            <property name="cultivar" value="hartog" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
+            <property name="class" value="plant" type="classes" croppropertyname="crop" description="Enter crop growth class : " />
+            <property name="row_spacing" value="250" type="text" description="Enter row spacing (mm) : " />
+          </category>
+        </rule>
+        <rule name="Harvesting rule">
+          <condition name="end_of_day">
+
+if [crop].stage_name = 'harvest_ripe' or [crop].plant_status = 'dead' then
+
+              ! harvesting costs
+              economics expenditure category = contract, name = broadacre_harvesting, rate = 1, area = 200 (ha)
+
+              ! income
+              cropyieldTONNES = [crop].yield / 1000.0
+              if ('[crop]' = 'wheat') THEN
+                  protein = [crop].grain_protein           !?may need adjustment?
+                  economics income category= cropprice, name = [crop], yield = cropyieldTONNES, protein = protein, area = 200 (ha)
+              else
+                  economics income category= cropprice, name = [crop], yield = cropyieldTONNES, area = 200 (ha)
+              endif
+
+              [crop]  harvest
+              [crop]  end_crop
+endif
+
+            </condition>
+          <category name="Harvesting criteria">
+            <property name="crop" value="wheat" type="crop" description="Enter name of crop to harvest when ripe : " />
+          </category>
+        </rule>
+        <rule name="Sowing fertiliser">
+          <condition name="[modulename].[eventname]">
+        ! Fertiliser costs
+        economics expenditure category = fertilisercost, name = [fert_type_sow], rate = [fert_amount_sow], area = 200 (ha)
+        [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
+
+            </condition>
+          <category name="When should fertiliser be applied">
+            <property name="modulename" value="wheat" type="modulename" description="On which module should the event come from : " />
+            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+          </category>
+          <category name="Fertiliser application details">
+            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
+            <property name="fert_amount_sow" value="150" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
+            <property name="fert_type_sow" value=" urea" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          </category>
+        </rule>
+      </manager>
+      <fertiliser name="fertiliser" />
+      <surfaceom name="surface organic matter">
+        <PoolName description="Organic Matter pool name">wheat</PoolName>
+        <type description="Organic Matter type">wheat</type>
+        <mass description="Initial surface residue (kg/ha)">1000.</mass>
+        <cnr description="C:N ratio of initial residue">80.0</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+      <wheat />
+      <outputfile name="outputfile">
+        <filename name="filename">Sample Economics Simulation.out</filename>
+        <outputfiledescription name="My Variables">
+          <variables>
+            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
+            <variable name="biomass" description="Biomass" array="F" units="kg/ha" module="wheat" variablename="biomass" arrayspec="" ModuleType="wheat" />
+            <variable name="yield" description="Yield" array="F" units="kg/ha" module="wheat" variablename="yield" arrayspec="" ModuleType="wheat" />
+            <variable name="grain_protein" description="grain protein content" array="F" units="%" module="wheat" variablename="grain_protein" arrayspec="" ModuleType="wheat" />
+            <variable name="grain_size" description="Size of each grain" array="F" units="g" module="wheat" variablename="grain_size" arrayspec="" ModuleType="wheat" />
+            <variable name="esw" array="F" description="Extractable Soil Water (mm)" module="Jimbour,Waco (#016)" variablename="esw" arrayspec="" ModuleType="soil" VariableType="Water" />
+          </variables>
+          <events>
+            <event name="harvesting" description="" module="wheat" ModuleType="wheat" />
+          </events>
+        </outputfiledescription>
+      </outputfile>
+      <soil name="Jimbour,Waco (#016)">
+        <Site>Jimbour</Site>
+        <Region>South East Queensland</Region>
+        <LocalName>Waco</LocalName>
+        <SoilType>Black Vertosol</SoilType>
+        <NearestTown>Jimbour, Q 4352</NearestTown>
+        <NaturalVegetation>Grassland, mainly Qld bluegrass</NaturalVegetation>
+        <Water>
+          <Cona>3.5</Cona>
+          <DiffusConst>40</DiffusConst>
+          <DiffusSlope>16</DiffusSlope>
+          <U>6</U>
+          <Salb>0.13</Salb>
+          <Cn2Bare>73</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
+          <layer name="1">
+            <thickness>150</thickness>
+            <bd>1.02</bd>
+            <ll15>0.29</ll15>
+            <airdry>0.15</airdry>
+            <dul>0.54</dul>
+            <sat>0.59</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="2">
+            <thickness>150</thickness>
+            <bd>1.03</bd>
+            <ll15>0.29</ll15>
+            <airdry>0.26</airdry>
+            <dul>0.53</dul>
+            <sat>0.58</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="3">
+            <thickness>300</thickness>
+            <bd>1.02</bd>
+            <ll15>0.29</ll15>
+            <airdry>0.29</airdry>
+            <dul>0.54</dul>
+            <sat>0.59</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="4">
+            <thickness>300</thickness>
+            <bd>1.02</bd>
+            <ll15>0.29</ll15>
+            <airdry>0.29</airdry>
+            <dul>0.54</dul>
+            <sat>0.58</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="5">
+            <thickness>300</thickness>
+            <bd>1.06</bd>
+            <ll15>0.3</ll15>
+            <airdry>0.3</airdry>
+            <dul>0.52</dul>
+            <sat>0.57</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="6">
+            <thickness>300</thickness>
+            <bd>1.11</bd>
+            <ll15>0.31</ll15>
+            <airdry>0.31</airdry>
+            <dul>0.5</dul>
+            <sat>0.55</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="7">
+            <thickness>300</thickness>
+            <bd>1.12</bd>
+            <ll15>0.32</ll15>
+            <airdry>0.32</airdry>
+            <dul>0.5</dul>
+            <sat>0.55</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="8">
+            <thickness>300</thickness>
+            <bd>1.15</bd>
+            <ll15>0.33</ll15>
+            <airdry>0.33</airdry>
+            <dul>0.48</dul>
+            <sat>0.53</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="9">
+            <thickness>300</thickness>
+            <bd>1.18</bd>
+            <ll15>0.34</ll15>
+            <airdry>0.34</airdry>
+            <dul>0.47</dul>
+            <sat>0.52</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="10">
+            <thickness>300</thickness>
+            <bd>1.2</bd>
+            <ll15>0.35</ll15>
+            <airdry>0.35</airdry>
+            <dul>0.46</dul>
+            <sat>0.51</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="11">
+            <thickness>300</thickness>
+            <bd>1.25</bd>
+            <ll15>0.36</ll15>
+            <airdry>0.36</airdry>
+            <dul>0.44</dul>
+            <sat>0.49</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+        </Water>
+        <Nitrogen>
+          <CnCanopyFact>1</CnCanopyFact>
+          <RootCn>40</RootCn>
+          <RootWt>200</RootWt>
+          <SoilCn>12.5</SoilCn>
+          <EnrACoeff>7.4</EnrACoeff>
+          <EnrBCoeff>0.2</EnrBCoeff>
+          <layer name="1">
+            <oc>1.04</oc>
+            <ph>8.4</ph>
+            <fbiom>0.025</fbiom>
+            <finert>0.4</finert>
+            <no3>6.5</no3>
+            <nh4>0.6</nh4>
+          </layer>
+          <layer name="2">
+            <oc>0.89</oc>
+            <ph>8.8</ph>
+            <fbiom>0.02</fbiom>
+            <finert>0.6</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="3">
+            <oc>0.89</oc>
+            <ph>9</ph>
+            <fbiom>0.015</fbiom>
+            <finert>0.8</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="4">
+            <oc>0.89</oc>
+            <ph>9.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.9</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="5">
+            <oc>0.77</oc>
+            <ph>9.2</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="6">
+            <oc>0.45</oc>
+            <ph>9.1</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="7">
+            <oc>0.27</oc>
+            <ph>9</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="8">
+            <oc>0.22</oc>
+            <ph>9</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="9">
+            <oc>0.16</oc>
+            <ph>8.9</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="10">
+            <oc>0.13</oc>
+            <ph>8.9</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+          <layer name="11">
+            <oc>0.12</oc>
+            <ph>8.9</ph>
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
+        </Nitrogen>
+        <other>
+          <layer name="1">
+            <ec>0.2</ec>
+          </layer>
+          <layer name="2">
+            <ec>0.25</ec>
+          </layer>
+          <layer name="3">
+            <ec>0.31</ec>
+          </layer>
+          <layer name="4">
+            <ec>0.4</ec>
+          </layer>
+          <layer name="5">
+            <ec>0.59</ec>
+          </layer>
+          <layer name="6">
+            <ec>0.84</ec>
+          </layer>
+          <layer name="7">
+            <ec>0.93</ec>
+          </layer>
+          <layer name="8">
+            <ec>1.01</ec>
+          </layer>
+          <layer name="9">
+            <ec>1.06</ec>
+          </layer>
+          <layer name="10">
+            <ec>1.05</ec>
+          </layer>
+          <layer name="11">
+            <ec>1.01</ec>
+          </layer>
+        </other>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
+        </InitWater>
+        <SoilCrop name="Barley">
+          <layer name="1">
+            <ll>0.29</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.29</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.32</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.38</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.39</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.39</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.41</ll>
+            <kl>0.01</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.48</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="9">
+            <ll>0.47</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="10">
+            <ll>0.46</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="11">
+            <ll>0.44</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+        </SoilCrop>
+        <SoilCrop name="Chickpea">
+          <layer name="1">
+            <ll>0.29</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.29</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.36</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.43</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.51</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.5</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.5</ll>
+            <kl>0.01</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.48</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="9">
+            <ll>0.47</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="10">
+            <ll>0.46</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="11">
+            <ll>0.44</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+        </SoilCrop>
+        <SoilCrop name="Lucerne">
+          <layer name="1">
+            <ll>0.29</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.29</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.29</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.29</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.3</ll>
+            <kl>0.09</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.31</ll>
+            <kl>0.09</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.32</ll>
+            <kl>0.09</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.33</ll>
+            <kl>0.09</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="9">
+            <ll>0.34</ll>
+            <kl>0.09</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="10">
+            <ll>0.35</ll>
+            <kl>0.09</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="11">
+            <ll>0.36</ll>
+            <kl>0.09</kl>
+            <xf>1</xf>
+          </layer>
+        </SoilCrop>
+        <SoilCrop name="Maize">
+          <layer name="1">
+            <ll>0.29</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.29</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.34</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.34</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.37</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.4</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.42</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.48</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="9">
+            <ll>0.47</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="10">
+            <ll>0.46</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="11">
+            <ll>0.44</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+        </SoilCrop>
+        <SoilCrop name="Perennial Grass">
+          <layer name="1">
+            <ll>0.29</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.29</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.39</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.41</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.4</ll>
+            <kl>0.09</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.4</ll>
+            <kl>0.07</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.41</ll>
+            <kl>0.05</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.41</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="9">
+            <ll>0.4</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="10">
+            <ll>0.4</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="11">
+            <ll>0.42</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+        </SoilCrop>
+        <SoilCrop name="Sorghum">
+          <layer name="1">
+            <ll>0.29</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.29</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.35</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.38</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.4</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.4</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.4</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.48</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="9">
+            <ll>0.47</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="10">
+            <ll>0.46</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="11">
+            <ll>0.44</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+        </SoilCrop>
+        <SoilCrop name="Wheat">
+          <layer name="1">
+            <ll>0.29</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.29</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.32</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.32</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.35</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.38</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.41</ll>
+            <kl>0.01</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="8">
+            <ll>0.48</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="9">
+            <ll>0.47</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="10">
+            <ll>0.46</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+          <layer name="11">
+            <ll>0.44</ll>
+            <kl>0</kl>
+            <xf>0</xf>
+          </layer>
+        </SoilCrop>
+        <InitNitrogen>
+          <layer name="1">
+            <no3>6.50251233431099</no3>
+            <nh4>0.599196200219218</nh4>
+          </layer>
+          <layer name="2">
+            <no3>2.10081167723893</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="3">
+            <no3>2.10081167723893</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="4">
+            <no3>1.70065707205056</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="5">
+            <no3>1.70065707205057</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="6">
+            <no3>1.70065707205056</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="7">
+            <no3>1.70065707205056</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="8">
+            <no3>1.70065707205056</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="9">
+            <no3>1.70065707205056</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="10">
+            <no3>1.70065707205056</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+          <layer name="11">
+            <no3>1.70065707205056</no3>
+            <nh4>0.0998660333698697</nh4>
+          </layer>
+        </InitNitrogen>
+      </soil>
+      <tclgroup name="Economics">
+        <initscript>
+source $apsuite/apsim/Economics/lib/Cashbook.tcl
+source $apsuite/apsim/Economics/lib/Machinery.tcl
+    </initscript>
+        <tclui name="Cash Journal">
+          <uiscript>source $apsuite/apsim/Economics/lib/CashbookUI.tcl</uiscript>
+          <balance>42000</balance>
+          <outputfilename>cashbook.csv</outputfilename>
+        </tclui>
+        <tclui name="Capital Assets">
+          <uiscript>source $apsuite/apsim/Economics/lib/CapitalUI.tcl</uiscript>
+          <category>capital</category>
+        </tclui>
+        <tclui name="Prices">
+          <uiscript>source $apsuite/apsim/Economics/lib/PricesUI.tcl</uiscript>
+          <category>cropprice</category>
+          <cropprice>
+            <desc>Wheat</desc>
+            <name>wheat</name>
+            <price>400.0</price>
+            <units>$/tonne</units>
+            <updated />
+          </cropprice>
+          <cropprice>
+            <desc>Sorghum</desc>
+            <name>sorghum</name>
+            <price>120.0</price>
+            <units>$/tonne</units>
+            <updated />
+          </cropprice>
+        </tclui>
+        <tclui name="Machinery - 200kwFWA">
+          <uiscript>source $apsuite/apsim/Economics/lib/MachineryUI.tcl</uiscript>
+          <category>tractor</category>
+          <tractor>
+            <image>R0lGODdhOAH/APcAAPD+/uj9/dz+/fj9//3//Pv8+f/8/+vs6/L89uLj4vX2866zscLFxLa4
+rpmXjpygnKaopd/p4v70+pigotXX1vv58NjVzbqwrKOenZaXlYqWko6Qja+vpsTEu52qpqCg
+l+3m3Kion8/AvouIfoJ+dIiAgoOJhnF4dnZyaHqAfXdwc5GQiKafmK6mn3SDimlxb2R1e1Rm
+dGVeYF5qbHGFgWN2clRoaMLGslVmYEhUVUZVT9zUwfz2509bXERTYaWjk1diY5GkmrOzoZ2r
+n05SVZKYjTpFRmd2aJymke7oz1tiWEJMTj1OSFRaVmNpZmNqX0xcVEFWTVZZXEhVSlthXW5m
+aFNnV0BBPz9EO0RMSEtTT4uWec3DsouSfIOKfjtJWDdHQTxEQIuRhpCAd0RFQypAOfv00frp
+05+RgI2BcLGdm9jArvz23Jh+dYBwaKSUi6+gkqeMhKyFgKyQlaOHjHqBdYOIc+fPvpt8a5d/
+YamKeIptW4VtZrqYkTU+OVBSTztPQtHDq6eQcaZ+Y5yMg3yAa+jQsOTEqbF6ZG9gWcCxojE8
+PVBTSnR2YdnCorGgiUlKSEZMQ8SwmaGEWI6BakhYR1haUTU3NTI5QS0sKEpLPnuFaciwks6Y
+hDs9Oiw0LUFNQi0/NJWPgpZeTYpgV2tjUk5KSTM/NWRmTUpINUtYQVhWQl1USVBJQWJRSmNg
+VktLQzg9NVlUUjU7Le/GrrCjc7WqhTxOM3BjTntyYGtnXSIqIjs6M11TV7WfgHZgRbGjap+U
+ZJSLaYWNZVZWSVNoSmh2WXBuS5+Rem90ajlGO867i5yQWIOHSzM6I2JlUaOqfWFMO1NCPUZC
+QU1CRfTxx1hWMouPXHdeVkhBOqOmaJSWWV96TMbKnEVcPoSVT5SrcGBUQVFFMnKOXoVwU5ar
+Y3yZXXOUSnV2PkFbMGB7NWJJK0RDOn1xW1BrQ4pmUG2LT0Q4NG5IOV18QT05LT5aIyAeGE5t
+M09sO2Y9PtnEmjAsITw0JE41LnhFOnJLSiwAAAAAOAH/AAAI/wABCBxIUCDAAAIFAhQgcGAA
+AQECAAAwYMCAAQAJCBxYACABgQMJFjR4EGHCgQALCBwoECABgQIBFhA4kGABgAMEDiRYECAA
+gQIBBhAoUEAAgAIEDiQoMIAAgAEEDgwgQIAAAQEEEAQAAMCAAQMIEChQACABgQMJGjAAkIDA
+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
+IAQEDBBaQAgIADs=</image>
+            <fuelrate implement="SprayRig" units="lts/hour">25.0</fuelrate>
+            <fuelrate implement="DeepPlanter" units="lts/hour">60.0</fuelrate>
+            <workrate implement="DeepPlanter" units="ha/hour">100.0</workrate>
+            <workrate implement="SprayRig" units="ha/hour">500.0</workrate>
+            <workrate implement="Planter">100.0</workrate>
+            <fuelrate implement="Planter">40.0</fuelrate>
+            <MarketValue>150000</MarketValue>
+            <SalvageValue>60000</SalvageValue>
+            <YearsToReplacement>10</YearsToReplacement>
+            <age>2</age>
+            <name>t1</name>
+            <workrate implement="PrecisionPlanter">
+            </workrate>
+            <fuelrate implement="PrecisionPlanter">
+            </fuelrate>
+            <workrate implement="p1">10</workrate>
+            <fuelrate implement="p1">10</fuelrate>
+          </tractor>
+        </tclui>
+        <tclui name="Machinery - Precision Planter">
+          <uiscript>source $apsuite/apsim/Economics/lib/MachineryUI.tcl</uiscript>
+          <category>implement</category>
+          <implement>
+            <MarketValue>12000</MarketValue>
+            <SalvageValue>10000</SalvageValue>
+            <YearsToReplacement>10</YearsToReplacement>
+            <age>2</age>
+            <name>PrecisionPlanter</name>
+          </implement>
+        </tclui>
+        <tclui name="Machinery - Planter">
+          <uiscript>source $apsuite/apsim/Economics/lib/MachineryUI.tcl</uiscript>
+          <category>implement</category>
+          <implement>
+            <MarketValue>8000</MarketValue>
+            <SalvageValue>2000</SalvageValue>
+            <YearsToReplacement>10</YearsToReplacement>
+            <age>2</age>
+            <name>p1</name>
+          </implement>
+        </tclui>
+        <tclui name="Costs - Farm Overheads">
+          <uiscript>source $apsuite/apsim/Economics/lib/OverheadsUI.tcl</uiscript>
+          <category name="Overhead Expenses">overhead</category>
+          <overhead>
+            <description>Accountant/Consultancy fees</description>
+            <name>accountancy</name>
+            <value>5000</value>
+          </overhead>
+          <overhead>
+            <description>Administration</description>
+            <name>administration</name>
+            <value>500</value>
+          </overhead>
+          <overhead>
+            <description>Bank Charges other than interest</description>
+            <name>bankcharges</name>
+            <value>500</value>
+          </overhead>
+          <overhead>
+            <description>Electricity - Farm</description>
+            <name>electricity</name>
+            <value>2000</value>
+          </overhead>
+          <overhead>
+            <description>Freight &amp; Cartage (sundry)</description>
+            <name>freight</name>
+            <value>0</value>
+          </overhead>
+          <overhead>
+            <description>Fuel &amp; Oil (other than farming)</description>
+            <name>fuels</name>
+            <value>10000</value>
+          </overhead>
+          <overhead>
+            <description>Insurance - Farm</description>
+            <name>insurance</name>
+            <value>6000</value>
+          </overhead>
+          <overhead>
+            <description>Motor Vehicle Expenses - Farm</description>
+            <name>vehicleexpenses</name>
+            <value>5000</value>
+          </overhead>
+          <overhead>
+            <description>Rates and Rents - Farm</description>
+            <name>rates</name>
+            <value>3500</value>
+          </overhead>
+          <overhead>
+            <description>Repairs &amp; Maintenance (extra)</description>
+            <name>repairs</name>
+            <value>20000</value>
+          </overhead>
+          <overhead>
+            <description>Subscriptions</description>
+            <name>subs</name>
+            <value>1000</value>
+          </overhead>
+          <overhead>
+            <description>Telephone - Farm</description>
+            <name>telephone</name>
+            <value>2500</value>
+          </overhead>
+          <overhead>
+            <description>Wages (other than casual included in activity budgets)</description>
+            <name>wages</name>
+            <value>30000</value>
+          </overhead>
+          <overhead>
+            <description>Other Overhead Expenses</description>
+            <name>other</name>
+            <value>0</value>
+          </overhead>
+          <overhead>
+            <description>Operators labour and management</description>
+            <name>operator</name>
+            <value>50000</value>
+          </overhead>
+        </tclui>
+        <tclui name="Costs - Fertilisers">
+          <uiscript>source $apsuite/apsim/Economics/lib/TreatmentsUI.tcl</uiscript>
+          <category>fertilisercost</category>
+          <fertilisercost>
+            <desc>Big n (82n)</desc>
+            <name>big_n</name>
+            <price>0.61</price>
+            <units>$/kg</units>
+            <updated />
+          </fertilisercost>
+          <fertilisercost>
+            <desc>CK700 (32.3n;5.1p;18.9s)</desc>
+            <name>ck700</name>
+            <price>0.52</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>CK1 (14.6p;14.5k;1s;10.6ca)</desc>
+            <name>ck1</name>
+            <price>0.52</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>CK600s (17.9n;5.1p;18.9s)</desc>
+            <name>ck600s</name>
+            <price>0.52</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>DAP (18n;20p)</desc>
+            <name>dap</name>
+            <price>0.48</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>granam (20.2n;24s)</desc>
+            <name>granam</name>
+            <price>0.48</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>granulock (starter z - 10.5n;19.5p;2.2s)</desc>
+            <name>granulock</name>
+            <price>0.62</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>Gypsum (14.5s;18.5ca)</desc>
+            <name>gypsum</name>
+            <price>0.07</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>Lime (Ca)</desc>
+            <name>lime</name>
+            <price>0.05</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>MAP (starterphos - 10n;21.9p;1.5s)</desc>
+            <name>map</name>
+            <price>0.52</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>Muriate of Potash (mop - 50k)</desc>
+            <name>mop</name>
+            <price>0.51</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>nitram (34N)</desc>
+            <name>nitram</name>
+            <price>0.71</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>Nitram and Sulphur</desc>
+            <name>nitram_and_sulphur</name>
+            <price>0.13</price>
+            <units>$/kg</units>
+            <updated />
+          </fertilisercost>
+          <fertilisercost>
+            <desc>Phosul</desc>
+            <name>phosul</name>
+            <price>0.57</price>
+            <units>$/kg</units>
+            <updated />
+          </fertilisercost>
+          <fertilisercost>
+            <desc>potassium nitrate (13n;38.3k)</desc>
+            <name>potassium_nitrate</name>
+            <price>0.95</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>solubor (20.5b)</desc>
+            <name>solubor</name>
+            <price>3.83</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>starter z</desc>
+            <name>starter_z</name>
+            <price>0.62</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>starterphos (10n;21.9p;1.5s)</desc>
+            <name>starterphos</name>
+            <price>0.48</price>
+            <units>$/kg</units>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>sulphate of potash (41K;18S)</desc>
+            <name>sulphate_of_potash</name>
+            <price>0.69</price>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>Supazinc (7.5Zn)</desc>
+            <name>supazinc</name>
+            <price>4.82</price>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>Superphosphate (8.8P;11S;20Ca)</desc>
+            <name>superphosphate</name>
+            <price>0.34</price>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>tech feed </desc>
+            <name>tech_feed</name>
+            <price>0.58</price>
+            <updated>needs to be specific</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>Urea (46N)</desc>
+            <name>urea</name>
+            <price>0.5</price>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>zinc sulphate heptahydrate</desc>
+            <name>zinc_sulphate_heptahydrate</name>
+            <price>0.72</price>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>zinc sulphate monohydrate (35Zn;17.2S)</desc>
+            <name>zinc sulphate monohydrate</name>
+            <price>1.12</price>
+            <updated>30/03/2004</updated>
+          </fertilisercost>
+          <fertilisercost>
+            <desc>Ammonium Sulphate</desc>
+            <name>ammonium_sulphate</name>
+            <price>0.5</price>
+            <updated />
+          </fertilisercost>
+        </tclui>
+        <tclui name="Costs - Herbicides">
+          <uiscript>source $apsuite/apsim/Economics/lib/TreatmentsUI.tcl</uiscript>
+          <category>herbicide</category>
+          <herbicide>
+            <desc>Achieve</desc>
+            <name>Achieve</name>
+            <price>87.82</price>
+            <updated>29/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Ally (metsulfuron)</desc>
+            <name>Ally</name>
+            <price units="$ per kg or per litre">0.2</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Amicide 625</desc>
+            <name>Amicide625</name>
+            <price units="$ per kg or per litre">500</price>
+            <updated />
+          </herbicide>
+          <herbicide>
+            <desc>Avadex Xtra (tri-allate)</desc>
+            <name>Avadex Xtra</name>
+            <price units="$ per kg or per litre">14.29</price>
+            <updated />
+          </herbicide>
+          <herbicide>
+            <desc>Basagran (bentazone)</desc>
+            <name>Basagran</name>
+            <price units="$ per kg or per litre">34.27</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Blazer 2L (acifluorfen)</desc>
+            <name>Blazer 2L</name>
+            <price units="$ per kg or per litre">43.45</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Broadstrike (flumetsulam)</desc>
+            <name>Broadstrike</name>
+            <price units="$ per kg or per litre">0.65</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Bromicide MA (bromicide + MCPA)</desc>
+            <name>Bromicide_MA</name>
+            <price units="$ per kg or per litre">13.95</price>
+            <updated />
+          </herbicide>
+          <herbicide>
+            <desc>Buticide</desc>
+            <name>Buticide</name>
+            <price units="$ per kg or per litre">500</price>
+            <updated />
+          </herbicide>
+          <herbicide>
+            <desc>Cotogard (flurometuron + prometryn)</desc>
+            <name>Cotogard</name>
+            <price units="$ per kg or per litre">12.32</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Cotoran (flurometuron)</desc>
+            <name>Cotoran</name>
+            <price units="$ per kg or per litre">12.3</price>
+            <updated />
+          </herbicide>
+          <herbicide>
+            <desc>Diuron</desc>
+            <name>Diuron</name>
+            <price units="$ per kg or per litre">8.5</price>
+            <updated />
+          </herbicide>
+          <herbicide>
+            <desc>Dual Gold (metolachlor)</desc>
+            <name>Dual Gold</name>
+            <price units="$ per kg or per litre">32.23</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Eclipse (metosulam)</desc>
+            <name>Eclipse</name>
+            <price units="$ per kg or per litre">1.19</price>
+            <updated />
+          </herbicide>
+          <herbicide>
+            <desc>Eptam (EPTC)</desc>
+            <name>Eptam</name>
+            <price units="$ per kg or per litre">23.9</price>
+            <updated />
+          </herbicide>
+          <herbicide>
+            <desc>Flame (imazipac)</desc>
+            <name>Flame</name>
+            <price units="$ per kg or per litre">142.77</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Fusilade (fluazifop-p)</desc>
+            <name>Fusilade</name>
+            <price units="$ per kg or per litre">69.27</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Garlon 600 (triclopyr)</desc>
+            <name>Garlon 600</name>
+            <price units="$ per kg or per litre">50.91</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Gesagard 500SC (prometryn)</desc>
+            <name>Gesagard 500SC</name>
+            <price units="$ per kg or per litre">14.23</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Gesaprim (atrazine)</desc>
+            <name>Gesaprim</name>
+            <price units="$ per kg or per litre">6.23</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Glean (chlorsulfuron)</desc>
+            <name>Glean</name>
+            <price units="$ per kg or per litre">0.18</price>
+            <updated />
+          </herbicide>
+          <herbicide>
+            <desc>Glyphosate 450 CT (glyphosate IPA salt)</desc>
+            <name>Glyphosate 450 CT</name>
+            <price units="$ per kg or per litre">4.64</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Gramoxone 250 (paraquat)</desc>
+            <name>Gramoxone 250</name>
+            <price units="$ per kg or per litre">9.68</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Harmony M (thifensulfuron-methyl + metsulfuron-methyl)</desc>
+            <name>Harmony M</name>
+            <price units="$ per kg or per litre">0.38</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Jaguar (bromoxynil + diflufenican)</desc>
+            <name>Jaguar</name>
+            <price units="$ per kg or per litre">31.2</price>
+            <updated />
+          </herbicide>
+          <herbicide>
+            <desc>Kamba 500 (Dicamba)</desc>
+            <name>Kamba 500</name>
+            <price units="$ per kg or per litre">39</price>
+            <updated>3/06/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Kamba M (MCPA + dicamba)</desc>
+            <name>Kamba M</name>
+            <price units="$ per kg or per litre">10.4</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>MCPA LVE (MCPA ester)</desc>
+            <name>MCPA LVE</name>
+            <price units="$ per kg or per litre">10.4</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Primextra Gold (metolachlor + atrazine)</desc>
+            <name>Primextra Gold</name>
+            <price units="$ per kg or per litre">14.64</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Promo-mix (fluometuron + prometryn)</desc>
+            <name>Promo-mix</name>
+            <price units="$ per kg or per litre">11.75</price>
+            <updated>20/12/2002</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Reglone (diquat)</desc>
+            <name>Reglone</name>
+            <price units="$ per kg or per litre">18.72</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Roundup POWERMAX (glyphosate MEA salt)</desc>
+            <name>Roundup POWERMAX</name>
+            <price units="$ per kg or per litre">7.64</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Select (clethodim)</desc>
+            <name>Select</name>
+            <price units="$ per kg or per litre">84.5</price>
+            <updated>20/12/2002</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Simazine 900DF (simazine)</desc>
+            <name>Simazine 900DF</name>
+            <price units="$ per kg or per litre">9.93</price>
+            <updated>20/12/2002</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Simazine Flowable (simazine)</desc>
+            <name>Simazine Flowable</name>
+            <price units="$ per kg or per litre">5.65</price>
+            <updated>20/12/2002</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Spinnaker 700 WDG (imazethapyr)</desc>
+            <name>Spinnaker 700 WDG</name>
+            <price units="$ per kg or per litre">34.74</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Sprayseed (paraquat + diquat)</desc>
+            <name>Sprayseed</name>
+            <price units="$ per kg or per litre">10.32</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Starane (fluroxypyr)</desc>
+            <name>Starane</name>
+            <price units="$ per kg or per litre">21.5</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Stomp XTRA (pendimethalin)</desc>
+            <name>Stomp XTRA</name>
+            <price units="$ per kg or per litre">11.41</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Striker (diuron)</desc>
+            <name>Striker</name>
+            <price units="$ per kg or per litre">43.6</price>
+            <updated />
+          </herbicide>
+          <herbicide>
+            <desc>Surpass 300</desc>
+            <name>Surpass 300</name>
+            <price units="$ per kg or per litre" />
+            <updated />
+          </herbicide>
+          <herbicide>
+            <desc>Tigrex (MCPA + diflufenican)</desc>
+            <name>Tigrex</name>
+            <price units="$ per kg or per litre">21.95</price>
+            <updated />
+          </herbicide>
+          <herbicide>
+            <desc>Topik (clodinafop + cloquintocet)</desc>
+            <name>Topik</name>
+            <price units="$ per kg or per litre">400</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Tordon 242 (MCPA + picloram)</desc>
+            <name>Tordon 242</name>
+            <price units="$ per kg or per litre">16.82</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Tordon 75D</desc>
+            <name>Tordon 75D</name>
+            <price units="$ per kg or per litre">300 g/L + 75 g/L</price>
+            <updated />
+          </herbicide>
+          <herbicide>
+            <desc>Trifluralin 480 (trifluralin)</desc>
+            <name>Trifluralin 480</name>
+            <price units="$ per kg or per litre">7.82</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Verdict 520 (haloxyfop)</desc>
+            <name>Verdict 520</name>
+            <price units="$ per kg or per litre">240</price>
+            <updated>30/03/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Wildcat</desc>
+            <name>Wildcat</name>
+            <price units="$ per kg or per litre">78.6</price>
+            <updated>20/12/2002</updated>
+          </herbicide>
+          <herbicide>
+            <desc>S-metolachlor</desc>
+            <name>S-metolachlor</name>
+            <price units="$ per kg or per litre">32.14</price>
+            <updated>20/12/2002</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Treflan (Triflur 480)</desc>
+            <name>Treflan</name>
+            <price units="$ per kg or per litre">8.6</price>
+            <updated>3/06/2004</updated>
+          </herbicide>
+          <herbicide>
+            <desc>Express</desc>
+            <name>Express</name>
+            <price units="$ per kg or per litre">0.48</price>
+            <updated>3/06/2004</updated>
+          </herbicide>
+        </tclui>
+        <tclui name="Costs - Fungicides">
+          <uiscript>source $apsuite/apsim/Economics/lib/TreatmentsUI.tcl</uiscript>
+          <category>fungicide</category>
+          <fungicide>
+            <desc>Alto 100SL (cyproconazole)</desc>
+            <name>Alto 100SL</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">116.9</price>
+            <updated>30/03/2004</updated>
+          </fungicide>
+          <fungicide>
+            <desc>Dithane (mancozeb)</desc>
+            <name>Dithane </name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">7.25</price>
+            <updated>30/03/2004</updated>
+          </fungicide>
+          <fungicide>
+            <desc>Elect 720 (chlorothalonil)</desc>
+            <name>Elect 720</name>
+            <qty units="kg bag/drum">chlorothalonil</qty>
+            <price units="$ per kg or per litre">18.83</price>
+            <updated>30/03/2004</updated>
+          </fungicide>
+          <fungicide>
+            <desc>Folicur 430 SC</desc>
+            <name>Folicur 430 SC</name>
+            <qty units="kg bag/drum">tebuconazole</qty>
+            <price units="$ per kg or per litre">94</price>
+            <updated>30/03/2004</updated>
+          </fungicide>
+          <fungicide>
+            <desc>Fortress 500 (procymidone)</desc>
+            <name>Fortress 500</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">67</price>
+            <updated>20/12/2002</updated>
+          </fungicide>
+          <fungicide>
+            <desc>Rover</desc>
+            <name>Rover</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">14.75</price>
+            <updated>20/12/2002</updated>
+          </fungicide>
+          <fungicide>
+            <desc>Rovral Aquaflo (iprodione)</desc>
+            <name>Rovral Aquaflo</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">55.82</price>
+            <updated>20/12/2002</updated>
+          </fungicide>
+          <fungicide>
+            <desc>Wettable Sulphur</desc>
+            <name>Wettable Sulphur</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">2.16</price>
+            <updated>30/03/2004</updated>
+          </fungicide>
+        </tclui>
+        <tclui name="Costs - Insecticides">
+          <uiscript>source $apsuite/apsim/Economics/lib/TreatmentsUI.tcl</uiscript>
+          <category>insecticide</category>
+          <insecticide>
+            <desc>Amino-feed</desc>
+            <name>Amino-feed</name>
+            <price units="$ per kg or per litre">3.91</price>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Amitraz EC (amitraz)</desc>
+            <name>Amitraz EC</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">14.27</price>
+            <updated>20/12/2002</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Cosmos (fipronil)</desc>
+            <name>Cosmos</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">687.27</price>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Curacron Pro (profenofos)</desc>
+            <name>Curacron Pro</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">27</price>
+            <updated>20/12/2002</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Decis Options (deltamethrin)</desc>
+            <name>Decis Options</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">26.5</price>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Dimethoate</desc>
+            <name>Dimethoate</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">7.36</price>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Dipel (Bt)</desc>
+            <name>Dipel</name>
+            <price units="$ per kg or per litre">6.23</price>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Dipel (Strain HD-1)</desc>
+            <name>Dipel</name>
+            <price units="$ per kg or per litre">66</price>
+            <updated>20/12/2002</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Dominex 100 EC (alpha cypermethrin)</desc>
+            <name>Dominex 100 EC</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">19.5</price>
+            <updated>20/12/2002</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Dominex Duo (alpha cypermethrin)</desc>
+            <name>Dominex Duo</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">22</price>
+            <updated>20/12/2002</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Elect 760</desc>
+            <name>Elect 760</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">24</price>
+            <updated>20/12/2002</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Emamectin</desc>
+            <name>Emamectin</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">102.92</price>
+            <updated>20/12/2002</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Endosulfan EC</desc>
+            <name>Endosulfan EC</name>
+            <qty units="kg bag/drum">endosulfan</qty>
+            <price units="$ per kg or per litre">10.23</price>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Ethion + Zeta-cypermethrin</desc>
+            <name>Ethion + Zeta-cypermethrin</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">18.41</price>
+            <updated>20/12/2002</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Fastac Duo (alpha cypermethrin)</desc>
+            <name>Fastac Duo</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">6</price>
+            <updated>20/12/2002</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Fenitrothion 1000</desc>
+            <name>Fenitrothion</name>
+            <qty units="kg bag/drum">fenitrothion</qty>
+            <price units="$ per kg or per litre">30</price>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>L Marlin (methomyl)</desc>
+            <name>L Marlin</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">10.95</price>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Larvin 375 (thiodicarb)</desc>
+            <name>Larvin 375</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">25.68</price>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Larvin LV</desc>
+            <name>Larvin LV</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">17.97</price>
+            <updated />
+          </insecticide>
+          <insecticide>
+            <desc>Lorsban 500 EC (chlorpyrifos)</desc>
+            <name>Lorsban 500 EC</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">9.77</price>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Lorsban 750WG (chlorpyrifos)</desc>
+            <name>Lorsban 750WG</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">65</price>
+            <updated />
+          </insecticide>
+          <insecticide>
+            <desc>NPV Gemstar/Vivus</desc>
+            <name>NPV Gemstar/Vivus</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">66.9</price>
+            <updated />
+          </insecticide>
+          <insecticide>
+            <desc>PBO (piperonyl butoxide)</desc>
+            <name>PBO</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">30</price>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Phostoxin tablets (aluminium phosphide)</desc>
+            <name>Phostoxin tablets</name>
+            <qty units="kg bag/drum">aluminium phosphide</qty>
+            <price units="$ per kg or per litre">0.15</price>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Predator 300 (chlorpyrifos)</desc>
+            <name>Predator 300</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">11</price>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Regent (fipronil)</desc>
+            <name>Regent</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">360</price>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Sabre EC )(profenofos)</desc>
+            <name>Sabre EC</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">14</price>
+            <updated />
+          </insecticide>
+          <insecticide>
+            <desc>Semevin (thiodicarb)</desc>
+            <name>Semevin</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">67</price>
+            <updated />
+          </insecticide>
+          <insecticide>
+            <desc>Steward (indoxacarb)</desc>
+            <name>Steward</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">85.36</price>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Talstar EC (bifenthrin)</desc>
+            <name>Talstar EC</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">49.04</price>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Thidiazuron</desc>
+            <name>Thidiazuron</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre" />
+            <updated />
+          </insecticide>
+          <insecticide>
+            <desc>Tracer (spinosad)</desc>
+            <name>Tracer</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">76.5</price>
+            <updated>30/03/2004</updated>
+          </insecticide>
+          <insecticide>
+            <desc>Thidiazuron</desc>
+            <name>Thidiazuron</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre" />
+            <updated />
+          </insecticide>
+          <insecticide>
+            <desc>Tracer (spinosad)</desc>
+            <name>Tracer</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">91.75</price>
+            <updated />
+          </insecticide>
+        </tclui>
+        <tclui name="Costs - Seed">
+          <uiscript>source $apsuite/apsim/Economics/lib/TreatmentsUI.tcl</uiscript>
+          <category>seedcost</category>
+          <seedcost>
+            <desc>Barley (Tallon)</desc>
+            <name>Barley</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">0.78</price>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Chickpea (Jimbour)</desc>
+            <name>Chickpea</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">1.51</price>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Cotton </desc>
+            <name>Cotton</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">5.6</price>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Forage Sorghum (Jumbo)</desc>
+            <name>Forage Sorghum</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">3.96</price>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Lucerne (sequel)</desc>
+            <name>Lucerne</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">5.45</price>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Maize P3237</desc>
+            <name>Maize</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">6.51</price>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Millet (White frend)</desc>
+            <name>Millet</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">1</price>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Mungbean (Emerald)</desc>
+            <name>Mungbean</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">1.45</price>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Navy Bean (Spearfeld)</desc>
+            <name>NavyBean</name>
+            <qty units="kg bag/drum">Spearfeld</qty>
+            <price units="$ per kg or per litre">1.49</price>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Peanut Streeton (20-23 weeks)</desc>
+            <name>PeanutC</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">2.91</price>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Peanut Conder (17-19 weeks)</desc>
+            <name>PeanutS</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">2.7</price>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Peanut VB97 (20-23 weeks)</desc>
+            <name>PeanutVB</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">2.7</price>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Peanut NC7 (20-23 weeks)</desc>
+            <name>PeanutNC7</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">2.7</price>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Sorghum (Buster)</desc>
+            <name>Sorghum</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">5.82</price>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Soybean (Soya791)</desc>
+            <name>Soybean</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">1.31</price>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Sunflower (Sunolei 04)</desc>
+            <name>Sunflower</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">11.82</price>
+            <updated>30/03/2004</updated>
+          </seedcost>
+          <seedcost>
+            <desc>Wheat (Kennedy)</desc>
+            <name>Wheat</name>
+            <qty units="kg bag/drum" />
+            <price units="$ per kg or per litre">0.73</price>
+            <updated>30/03/2004</updated>
+          </seedcost>
+        </tclui>
+        <tclui name="Costs - Defoliants">
+          <uiscript>source $apsuite/apsim/Economics/lib/TreatmentsUI.tcl</uiscript>
+          <category>defoliant</category>
+          <defoliant>
+            <desc>dropp (thidiazuron + diuron)</desc>
+            <name>dropp</name>
+            <price>147</price>
+            <units>kg</units>
+            <updated />
+          </defoliant>
+          <defoliant>
+            <desc>Salt Defoliant</desc>
+            <name>salt defoliant</name>
+            <price>1.55</price>
+            <units>kg</units>
+            <updated />
+          </defoliant>
+        </tclui>
+        <tclui name="Costs - Contractors">
+          <uiscript>source $apsuite/apsim/Economics/lib/TreatmentsUI.tcl</uiscript>
+          <category>contract</category>
+          <contract>
+            <desc>aerial spraying - broadacre</desc>
+            <name>aerial_spraying</name>
+            <price>12.5</price>
+            <units>$/ha</units>
+            <updated>20/12/2002</updated>
+          </contract>
+          <contract>
+            <desc>aerial spraying-cotton ec</desc>
+            <name>aerial_spraying_cotton_ec</name>
+            <price>12.5</price>
+            <units>$/ha</units>
+            <updated>20/12/2002</updated>
+          </contract>
+          <contract>
+            <desc>aerial_spraying_cotton_ulv</desc>
+            <name>aerial spraying-cotton ulv</name>
+            <price>9.5</price>
+            <units>$/ha</units>
+            <updated />
+          </contract>
+          <contract>
+            <desc>Broadacre Harvesting</desc>
+            <name>broadacre_harvesting</name>
+            <price>250</price>
+            <units>$/ha</units>
+            <updated />
+          </contract>
+          <contract>
+            <desc>chickpea scouting</desc>
+            <name>chickpea_scouting</name>
+            <price>10</price>
+            <units>$/ha</units>
+            <updated>20/12/2002</updated>
+          </contract>
+          <contract>
+            <desc>Cotton casual labour</desc>
+            <name>cotton_casual_labour</name>
+            <price>80</price>
+            <units>$/ha</units>
+            <updated />
+          </contract>
+          <contract>
+            <desc>peanut chipping</desc>
+            <name>peanut_chipping</name>
+            <price>40</price>
+            <units>$/ha</units>
+            <updated>30/05/2004</updated>
+          </contract>
+          <contract>
+            <desc>cotton consultant</desc>
+            <name>cotton_consultant</name>
+            <price>35</price>
+            <units>$/ha</units>
+            <updated />
+          </contract>
+          <contract>
+            <desc>cotton crop insurance</desc>
+            <name>cotton_crop_insurance</name>
+            <price>30</price>
+            <units>$/ha</units>
+            <updated />
+          </contract>
+          <contract>
+            <desc>Cotton harvesting double skip</desc>
+            <name>cotton_harvesting_double_skip</name>
+            <price>41.67</price>
+            <units>$170 / hr at 1.36 ha / hour @ 3 bales/ha</units>
+            <updated />
+          </contract>
+          <contract>
+            <desc>heavy offsets - contract</desc>
+            <name>heavy_offsets</name>
+            <price>0</price>
+            <units>$/ha</units>
+            <updated />
+          </contract>
+          <contract>
+            <desc>light chisel plough - contract</desc>
+            <name>light_chisel_plough</name>
+            <price>0</price>
+            <units>$/ha</units>
+            <updated />
+          </contract>
+          <contract>
+            <desc>light offsets - contract</desc>
+            <name>light_offsets</name>
+            <price>0</price>
+            <units>$/ha</units>
+            <updated />
+          </contract>
+          <contract>
+            <desc>peanut scouting</desc>
+            <name>peanut_scouting</name>
+            <price>45</price>
+            <units>$/ha</units>
+            <updated />
+          </contract>
+          <contract>
+            <desc>cotton_eliminator</desc>
+            <name>Cotton eliminator</name>
+            <price>22</price>
+            <units>$/bale</units>
+            <updated />
+          </contract>
+          <contract>
+            <desc>Cotton harvest solid nsw</desc>
+            <name>cotton_harvest_solid_nsw</name>
+            <price>280</price>
+            <units>$/ha</units>
+            <updated />
+          </contract>
+          <contract>
+            <desc>gypsum spread on farm</desc>
+            <name>gypsum_spread</name>
+            <price>72.72</price>
+            <units>$/ha</units>
+            <updated>30/05/2004</updated>
+          </contract>
+          <contract>
+            <desc>lime spread on farm</desc>
+            <name>lime_spread</name>
+            <price>50</price>
+            <units>$/ha</units>
+            <updated>30/05/2004</updated>
+          </contract>
+          <contract>
+            <desc>high clearance spray rig</desc>
+            <name>high clearance spray rig</name>
+            <price>10</price>
+            <units>$/ha</units>
+            <updated />
+          </contract>
+        </tclui>
+      </tclgroup>
+    </area>
+  </simulation>
+</simulations>
