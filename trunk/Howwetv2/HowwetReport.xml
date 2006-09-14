@@ -1,85 +1,51 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="HowwetReport.xslt" ?>
-<report>
-  <howwet>
-    <head>
-      <title>Howwet Summary Report</title>
-      <file>test one two</file>
-      <report_date>
-      </report_date>
-    </head>
-    <summary_in>
-      <simulation_period>
-        <start>
-        </start>
-        <end>
-        </end>
-      </simulation_period>
-      <soil>
-        <name>test one two</name>
-        <oc>
-        </oc>
-        <water>
-        </water>
-        <nitrogen>
-        </nitrogen>
-        <erosion>
-          <slope>
-          </slope>
-          <slope_length>
-          </slope_length>
-        </erosion>
-        <cover>
-          <type>
-          </type>
-          <percent>
-          </percent>
-        </cover>
-      </soil>
-      <metfile>
-        <location>
-        </location>
-        <start>
-        </start>
-        <end>
-        </end>
-      </metfile>
-    </summary_in>
-    <summary_out>
-      <water>
-        <rainfall>
-        </rainfall>
-        <evaporation>
-        </evaporation>
-        <runoff>
-        </runoff>
-      </water>
-      <PAWC>
-        <start>
-        </start>
-        <end>
-        </end>
-        <gain>
-        </gain>
-        <efficiency>
-        </efficiency>
-      </PAWC>
-      <nitrate>
-        <start>
-        </start>
-        <end>
-        </end>
-        <gain>
-        </gain>
-      </nitrate>
-    </summary_out>
-    <body>
-      <graph>
-        <soil_water>
-        </soil_water>
-        <nitrogen>
-        </nitrogen>
-      </graph>
-    </body>
-  </howwet>
-</report>
+<?xml-stylesheet type="text/xsl" href="HowwetReport.xsl"?>
+<?xml version="1.0" encoding="utf-8"?>
+<Results xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <simulationFileName>C:\Robert\Data\test1.apsim</simulationFileName>
+  <soilName>Grey Vertosol-Brigalow (Warra #019)</soilName>
+  <metFileName>C:\Robert\Data\dalby.met</metFileName>
+  <startDate>26/03/1989</startDate>
+  <endDate>30/04/1990</endDate>
+  <oc>1.19</oc>
+  <soilWaterStart>63.3</soilWaterStart>
+  <soilWaterEnd>320.54999184608459</soilWaterEnd>
+  <slope>1.0</slope>
+  <slopeLength>60.0</slopeLength>
+  <erodibility>0.4</erodibility>
+  <rainfall>983.70000275224447</rainfall>
+  <evaporation>546.458000138402</evaporation>
+  <runoff>150.74800191214308</runoff>
+  <soilLoss>11.571000079275109</soilLoss>
+  <drain>29.31000018119812</drain>
+  <startCover>713.349887877477</startCover>
+  <endCover>3.1359999179840088</endCover>
+  <coverType>wheat</coverType>
+  <fallowWaterGain>257.24999184608458</fallowWaterGain>
+  <fallowWaterEfficiency>406.39809138401989</fallowWaterEfficiency>
+  <nitrateStart>56.385</nitrateStart>
+  <nitrateEnd>150.77099609375</nitrateEnd>
+  <nitrateGain>94.385996093750009</nitrateGain>
+  <nitrateEfficiency>167.39557700407912</nitrateEfficiency>
+  <soilWaterEndByLayer>
+    <double>0.34000000357627869</double>
+    <double>0.4050000011920929</double>
+    <double>0.41200000047683716</double>
+    <double>0.38699999451637268</double>
+    <double>0.39100000262260437</double>
+    <double>0.382999986410141</double>
+    <double>0.382999986410141</double>
+  </soilWaterEndByLayer>
+  <thickness>
+    <double>150</double>
+    <double>150</double>
+    <double>300</double>
+    <double>300</double>
+    <double>300</double>
+    <double>300</double>
+    <double>300</double>
+  </thickness>
+  <nitrogenRequirementPAW>633.14997553825378</nitrogenRequirementPAW>
+  <nitrogenRequirementYield>0</nitrogenRequirementYield>
+  <nitrogenRequirementDemand>0</nitrogenRequirementDemand>
+  <nitrogenRequirementGap>0</nitrogenRequirementGap>
+</Results>
