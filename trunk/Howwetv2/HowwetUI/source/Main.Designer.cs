@@ -29,6 +29,7 @@ namespace APSRU.Howwet
         private void InitializeComponent()
         {
         this.components = new System.ComponentModel.Container();
+        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
         this.groupBox1 = new System.Windows.Forms.GroupBox();
         this.erosionButton = new System.Windows.Forms.Button();
         this.label3 = new System.Windows.Forms.Label();
@@ -92,8 +93,34 @@ namespace APSRU.Howwet
         this.chart4 = new System.Windows.Forms.TabPage();
         this.chart5 = new System.Windows.Forms.TabPage();
         this.groupBox5 = new System.Windows.Forms.GroupBox();
+        this.panel5 = new System.Windows.Forms.Panel();
+        this.label50 = new System.Windows.Forms.Label();
+        this.label64 = new System.Windows.Forms.Label();
         this.daystoMaturityUpDown = new System.Windows.Forms.NumericUpDown();
         this.label76 = new System.Windows.Forms.Label();
+        this.label8 = new System.Windows.Forms.Label();
+        this.inCropRainfall = new System.Windows.Forms.TextBox();
+        this.label6 = new System.Windows.Forms.Label();
+        this.label10 = new System.Windows.Forms.Label();
+        this.thresholdWater = new System.Windows.Forms.TextBox();
+        this.label7 = new System.Windows.Forms.Label();
+        this.label58 = new System.Windows.Forms.Label();
+        this.nitrateGap = new System.Windows.Forms.Label();
+        this.label60 = new System.Windows.Forms.Label();
+        this.label15 = new System.Windows.Forms.Label();
+        this.WUE = new System.Windows.Forms.TextBox();
+        this.label11 = new System.Windows.Forms.Label();
+        this.label45 = new System.Windows.Forms.Label();
+        this.nitrateDemand = new System.Windows.Forms.Label();
+        this.label56 = new System.Windows.Forms.Label();
+        this.label24 = new System.Windows.Forms.Label();
+        this.cropYield = new System.Windows.Forms.Label();
+        this.label16 = new System.Windows.Forms.Label();
+        this.panel4 = new System.Windows.Forms.Panel();
+        this.label22 = new System.Windows.Forms.Label();
+        this.label37 = new System.Windows.Forms.Label();
+        this.endPAW = new System.Windows.Forms.Label();
+        this.label42 = new System.Windows.Forms.Label();
         this.panel3 = new System.Windows.Forms.Panel();
         this.label63 = new System.Windows.Forms.Label();
         this.label44 = new System.Windows.Forms.Label();
@@ -142,28 +169,6 @@ namespace APSRU.Howwet
         this.endCover = new System.Windows.Forms.Label();
         this.startingCover = new System.Windows.Forms.Label();
         this.label68 = new System.Windows.Forms.Label();
-        this.label64 = new System.Windows.Forms.Label();
-        this.label60 = new System.Windows.Forms.Label();
-        this.nitrateGap = new System.Windows.Forms.Label();
-        this.label58 = new System.Windows.Forms.Label();
-        this.label56 = new System.Windows.Forms.Label();
-        this.nitrateDemand = new System.Windows.Forms.Label();
-        this.label45 = new System.Windows.Forms.Label();
-        this.label24 = new System.Windows.Forms.Label();
-        this.cropYield = new System.Windows.Forms.Label();
-        this.label16 = new System.Windows.Forms.Label();
-        this.label15 = new System.Windows.Forms.Label();
-        this.WUE = new System.Windows.Forms.TextBox();
-        this.label11 = new System.Windows.Forms.Label();
-        this.label10 = new System.Windows.Forms.Label();
-        this.thresholdWater = new System.Windows.Forms.TextBox();
-        this.label7 = new System.Windows.Forms.Label();
-        this.inCropRainfall = new System.Windows.Forms.TextBox();
-        this.label8 = new System.Windows.Forms.Label();
-        this.label6 = new System.Windows.Forms.Label();
-        this.label42 = new System.Windows.Forms.Label();
-        this.endPAW = new System.Windows.Forms.Label();
-        this.label37 = new System.Windows.Forms.Label();
         this.timer1 = new System.Windows.Forms.Timer(this.components);
         this.toolStrip1 = new System.Windows.Forms.ToolStrip();
         this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -197,17 +202,15 @@ namespace APSRU.Howwet
         this.timerProgresBar = new System.Windows.Forms.Timer(this.components);
         this.TrainingModeCheckBox = new System.Windows.Forms.CheckBox();
         this.helpProvider1 = new System.Windows.Forms.HelpProvider();
-        this.panel4 = new System.Windows.Forms.Panel();
-        this.panel5 = new System.Windows.Forms.Panel();
-        this.label22 = new System.Windows.Forms.Label();
-        this.label50 = new System.Windows.Forms.Label();
         this.groupBox1.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)(this.coverPercent)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.initialSoilWaterPercent)).BeginInit();
         this.groupBox9.SuspendLayout();
         this.tabControl1.SuspendLayout();
         this.groupBox5.SuspendLayout();
+        this.panel5.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)(this.daystoMaturityUpDown)).BeginInit();
+        this.panel4.SuspendLayout();
         this.panel3.SuspendLayout();
         this.panel2.SuspendLayout();
         this.panel1.SuspendLayout();
@@ -215,8 +218,6 @@ namespace APSRU.Howwet
         this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
         this.toolStripContainer1.SuspendLayout();
         this.statusStrip1.SuspendLayout();
-        this.panel4.SuspendLayout();
-        this.panel5.SuspendLayout();
         this.SuspendLayout();
         // 
         // groupBox1
@@ -3547,7 +3548,7 @@ namespace APSRU.Howwet
         // 
         this.chart2.Location = new System.Drawing.Point(4, 22);
         this.chart2.Name = "chart2";
-        this.chart2.Size = new System.Drawing.Size(400, 0);
+        this.chart2.Size = new System.Drawing.Size(400, -4);
         this.chart2.TabIndex = 1;
         this.chart2.Text = "Soil Nitrogen";
         this.chart2.UseVisualStyleBackColor = true;
@@ -3556,7 +3557,7 @@ namespace APSRU.Howwet
         // 
         this.chart3.Location = new System.Drawing.Point(4, 22);
         this.chart3.Name = "chart3";
-        this.chart3.Size = new System.Drawing.Size(400, 0);
+        this.chart3.Size = new System.Drawing.Size(400, -4);
         this.chart3.TabIndex = 2;
         this.chart3.Text = "Erosion Estimate";
         this.chart3.UseVisualStyleBackColor = true;
@@ -3565,7 +3566,7 @@ namespace APSRU.Howwet
         // 
         this.chart4.Location = new System.Drawing.Point(4, 22);
         this.chart4.Name = "chart4";
-        this.chart4.Size = new System.Drawing.Size(400, 0);
+        this.chart4.Size = new System.Drawing.Size(400, -4);
         this.chart4.TabIndex = 3;
         this.chart4.Text = "Rainfall";
         this.chart4.UseVisualStyleBackColor = true;
@@ -3574,7 +3575,7 @@ namespace APSRU.Howwet
         // 
         this.chart5.Location = new System.Drawing.Point(4, 22);
         this.chart5.Name = "chart5";
-        this.chart5.Size = new System.Drawing.Size(400, 0);
+        this.chart5.Size = new System.Drawing.Size(400, -4);
         this.chart5.TabIndex = 4;
         this.chart5.Text = "Soil Water Profile";
         this.chart5.UseVisualStyleBackColor = true;
@@ -3595,6 +3596,55 @@ namespace APSRU.Howwet
         this.groupBox5.TabStop = false;
         this.groupBox5.Text = "Output Results";
         // 
+        // panel5
+        // 
+        this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+        this.panel5.Controls.Add(this.label50);
+        this.panel5.Controls.Add(this.label64);
+        this.panel5.Controls.Add(this.daystoMaturityUpDown);
+        this.panel5.Controls.Add(this.label76);
+        this.panel5.Controls.Add(this.label8);
+        this.panel5.Controls.Add(this.inCropRainfall);
+        this.panel5.Controls.Add(this.label6);
+        this.panel5.Controls.Add(this.label10);
+        this.panel5.Controls.Add(this.thresholdWater);
+        this.panel5.Controls.Add(this.label7);
+        this.panel5.Controls.Add(this.label58);
+        this.panel5.Controls.Add(this.nitrateGap);
+        this.panel5.Controls.Add(this.label60);
+        this.panel5.Controls.Add(this.label15);
+        this.panel5.Controls.Add(this.WUE);
+        this.panel5.Controls.Add(this.label11);
+        this.panel5.Controls.Add(this.label45);
+        this.panel5.Controls.Add(this.nitrateDemand);
+        this.panel5.Controls.Add(this.label56);
+        this.panel5.Controls.Add(this.label24);
+        this.panel5.Controls.Add(this.cropYield);
+        this.panel5.Controls.Add(this.label16);
+        this.panel5.Location = new System.Drawing.Point(351, 13);
+        this.panel5.Name = "panel5";
+        this.panel5.Size = new System.Drawing.Size(319, 201);
+        this.panel5.TabIndex = 123;
+        // 
+        // label50
+        // 
+        this.label50.AutoSize = true;
+        this.label50.Location = new System.Drawing.Point(153, 24);
+        this.label50.Name = "label50";
+        this.label50.Size = new System.Drawing.Size(16, 13);
+        this.label50.TabIndex = 122;
+        this.label50.Text = "or";
+        // 
+        // label64
+        // 
+        this.label64.AutoSize = true;
+        this.label64.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        this.label64.Location = new System.Drawing.Point(72, 2);
+        this.label64.Name = "label64";
+        this.label64.Size = new System.Drawing.Size(159, 16);
+        this.label64.TabIndex = 104;
+        this.label64.Text = "Nitrogen Requirement";
+        // 
         // daystoMaturityUpDown
         // 
         this.daystoMaturityUpDown.Location = new System.Drawing.Point(259, 21);
@@ -3611,6 +3661,219 @@ namespace APSRU.Howwet
         this.label76.Size = new System.Drawing.Size(85, 13);
         this.label76.TabIndex = 120;
         this.label76.Text = "Days to maturity:";
+        // 
+        // label8
+        // 
+        this.label8.AutoSize = true;
+        this.label8.Location = new System.Drawing.Point(124, 24);
+        this.label8.Name = "label8";
+        this.label8.Size = new System.Drawing.Size(23, 13);
+        this.label8.TabIndex = 85;
+        this.label8.Text = "mm";
+        // 
+        // inCropRainfall
+        // 
+        this.inCropRainfall.Location = new System.Drawing.Point(91, 21);
+        this.inCropRainfall.Name = "inCropRainfall";
+        this.inCropRainfall.Size = new System.Drawing.Size(32, 20);
+        this.inCropRainfall.TabIndex = 86;
+        this.inCropRainfall.Leave += new System.EventHandler(this.NRequirement_Leave);
+        this.inCropRainfall.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NRequirement_KeyPress);
+        // 
+        // label6
+        // 
+        this.label6.AutoSize = true;
+        this.label6.Location = new System.Drawing.Point(8, 24);
+        this.label6.Name = "label6";
+        this.label6.Size = new System.Drawing.Size(76, 13);
+        this.label6.TabIndex = 83;
+        this.label6.Text = "In crop rainfall:";
+        // 
+        // label10
+        // 
+        this.label10.AutoSize = true;
+        this.label10.Location = new System.Drawing.Point(124, 46);
+        this.label10.Name = "label10";
+        this.label10.Size = new System.Drawing.Size(23, 13);
+        this.label10.TabIndex = 89;
+        this.label10.Text = "mm";
+        // 
+        // thresholdWater
+        // 
+        this.thresholdWater.Location = new System.Drawing.Point(91, 43);
+        this.thresholdWater.Name = "thresholdWater";
+        this.thresholdWater.Size = new System.Drawing.Size(32, 20);
+        this.thresholdWater.TabIndex = 88;
+        this.thresholdWater.Leave += new System.EventHandler(this.NRequirement_Leave);
+        this.thresholdWater.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NRequirement_KeyPress);
+        // 
+        // label7
+        // 
+        this.label7.AutoSize = true;
+        this.label7.Location = new System.Drawing.Point(6, 46);
+        this.label7.Name = "label7";
+        this.label7.Size = new System.Drawing.Size(86, 13);
+        this.label7.TabIndex = 87;
+        this.label7.Text = "Threshold water:";
+        // 
+        // label58
+        // 
+        this.label58.AutoSize = true;
+        this.label58.Location = new System.Drawing.Point(6, 125);
+        this.label58.Name = "label58";
+        this.label58.Size = new System.Drawing.Size(62, 13);
+        this.label58.TabIndex = 99;
+        this.label58.Text = "Nitrate gap:";
+        // 
+        // nitrateGap
+        // 
+        this.nitrateGap.AutoSize = true;
+        this.nitrateGap.Location = new System.Drawing.Point(88, 125);
+        this.nitrateGap.Name = "nitrateGap";
+        this.nitrateGap.Size = new System.Drawing.Size(24, 13);
+        this.nitrateGap.TabIndex = 100;
+        this.nitrateGap.Text = "n/a";
+        // 
+        // label60
+        // 
+        this.label60.AutoSize = true;
+        this.label60.Location = new System.Drawing.Point(124, 125);
+        this.label60.Name = "label60";
+        this.label60.Size = new System.Drawing.Size(36, 13);
+        this.label60.TabIndex = 101;
+        this.label60.Text = "kg/ha";
+        // 
+        // label15
+        // 
+        this.label15.AutoSize = true;
+        this.label15.Location = new System.Drawing.Point(124, 69);
+        this.label15.Name = "label15";
+        this.label15.Size = new System.Drawing.Size(40, 13);
+        this.label15.TabIndex = 92;
+        this.label15.Text = "kg/mm";
+        // 
+        // WUE
+        // 
+        this.WUE.Location = new System.Drawing.Point(91, 65);
+        this.WUE.Name = "WUE";
+        this.WUE.Size = new System.Drawing.Size(32, 20);
+        this.WUE.TabIndex = 91;
+        this.WUE.Leave += new System.EventHandler(this.NRequirement_Leave);
+        this.WUE.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NRequirement_KeyPress);
+        // 
+        // label11
+        // 
+        this.label11.AutoSize = true;
+        this.label11.Location = new System.Drawing.Point(6, 68);
+        this.label11.Name = "label11";
+        this.label11.Size = new System.Drawing.Size(36, 13);
+        this.label11.TabIndex = 90;
+        this.label11.Text = "WUE:";
+        // 
+        // label45
+        // 
+        this.label45.AutoSize = true;
+        this.label45.Location = new System.Drawing.Point(6, 109);
+        this.label45.Name = "label45";
+        this.label45.Size = new System.Drawing.Size(82, 13);
+        this.label45.TabIndex = 96;
+        this.label45.Text = "Nitrate demand:";
+        // 
+        // nitrateDemand
+        // 
+        this.nitrateDemand.AutoSize = true;
+        this.nitrateDemand.Location = new System.Drawing.Point(88, 109);
+        this.nitrateDemand.Name = "nitrateDemand";
+        this.nitrateDemand.Size = new System.Drawing.Size(24, 13);
+        this.nitrateDemand.TabIndex = 97;
+        this.nitrateDemand.Text = "n/a";
+        // 
+        // label56
+        // 
+        this.label56.AutoSize = true;
+        this.label56.Location = new System.Drawing.Point(124, 109);
+        this.label56.Name = "label56";
+        this.label56.Size = new System.Drawing.Size(36, 13);
+        this.label56.TabIndex = 98;
+        this.label56.Text = "kg/ha";
+        // 
+        // label24
+        // 
+        this.label24.AutoSize = true;
+        this.label24.Location = new System.Drawing.Point(124, 96);
+        this.label24.Name = "label24";
+        this.label24.Size = new System.Drawing.Size(27, 13);
+        this.label24.TabIndex = 95;
+        this.label24.Text = "t/ha";
+        // 
+        // cropYield
+        // 
+        this.cropYield.AutoSize = true;
+        this.cropYield.Location = new System.Drawing.Point(88, 96);
+        this.cropYield.Name = "cropYield";
+        this.cropYield.Size = new System.Drawing.Size(24, 13);
+        this.cropYield.TabIndex = 94;
+        this.cropYield.Text = "n/a";
+        // 
+        // label16
+        // 
+        this.label16.AutoSize = true;
+        this.label16.Location = new System.Drawing.Point(6, 94);
+        this.label16.Name = "label16";
+        this.label16.Size = new System.Drawing.Size(33, 13);
+        this.label16.TabIndex = 93;
+        this.label16.Text = "Yield:";
+        // 
+        // panel4
+        // 
+        this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+        this.panel4.Controls.Add(this.label22);
+        this.panel4.Controls.Add(this.label23);
+        this.panel4.Controls.Add(this.proposedCropList);
+        this.panel4.Controls.Add(this.label37);
+        this.panel4.Controls.Add(this.endPAW);
+        this.panel4.Controls.Add(this.label42);
+        this.panel4.Location = new System.Drawing.Point(161, 115);
+        this.panel4.Name = "panel4";
+        this.panel4.Size = new System.Drawing.Size(184, 100);
+        this.panel4.TabIndex = 122;
+        // 
+        // label22
+        // 
+        this.label22.AutoSize = true;
+        this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        this.label22.Location = new System.Drawing.Point(13, 5);
+        this.label22.Name = "label22";
+        this.label22.Size = new System.Drawing.Size(158, 16);
+        this.label22.TabIndex = 55;
+        this.label22.Text = "Plant Available Water";
+        // 
+        // label37
+        // 
+        this.label37.AutoSize = true;
+        this.label37.Location = new System.Drawing.Point(6, 64);
+        this.label37.Name = "label37";
+        this.label37.Size = new System.Drawing.Size(35, 13);
+        this.label37.TabIndex = 49;
+        this.label37.Text = "PAW:";
+        // 
+        // endPAW
+        // 
+        this.endPAW.AutoSize = true;
+        this.endPAW.Location = new System.Drawing.Point(79, 64);
+        this.endPAW.Name = "endPAW";
+        this.endPAW.Size = new System.Drawing.Size(24, 13);
+        this.endPAW.TabIndex = 50;
+        this.endPAW.Text = "n/a";
+        // 
+        // label42
+        // 
+        this.label42.AutoSize = true;
+        this.label42.Location = new System.Drawing.Point(108, 64);
+        this.label42.Name = "label42";
+        this.label42.Size = new System.Drawing.Size(23, 13);
+        this.label42.TabIndex = 54;
+        this.label42.Text = "mm";
         // 
         // panel3
         // 
@@ -4089,205 +4352,6 @@ namespace APSRU.Howwet
         this.label68.TabIndex = 108;
         this.label68.Text = "%";
         // 
-        // label64
-        // 
-        this.label64.AutoSize = true;
-        this.label64.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.label64.Location = new System.Drawing.Point(72, 2);
-        this.label64.Name = "label64";
-        this.label64.Size = new System.Drawing.Size(159, 16);
-        this.label64.TabIndex = 104;
-        this.label64.Text = "Nitrogen Requirement";
-        // 
-        // label60
-        // 
-        this.label60.AutoSize = true;
-        this.label60.Location = new System.Drawing.Point(124, 125);
-        this.label60.Name = "label60";
-        this.label60.Size = new System.Drawing.Size(36, 13);
-        this.label60.TabIndex = 101;
-        this.label60.Text = "kg/ha";
-        // 
-        // nitrateGap
-        // 
-        this.nitrateGap.AutoSize = true;
-        this.nitrateGap.Location = new System.Drawing.Point(88, 125);
-        this.nitrateGap.Name = "nitrateGap";
-        this.nitrateGap.Size = new System.Drawing.Size(24, 13);
-        this.nitrateGap.TabIndex = 100;
-        this.nitrateGap.Text = "n/a";
-        // 
-        // label58
-        // 
-        this.label58.AutoSize = true;
-        this.label58.Location = new System.Drawing.Point(6, 125);
-        this.label58.Name = "label58";
-        this.label58.Size = new System.Drawing.Size(62, 13);
-        this.label58.TabIndex = 99;
-        this.label58.Text = "Nitrate gap:";
-        // 
-        // label56
-        // 
-        this.label56.AutoSize = true;
-        this.label56.Location = new System.Drawing.Point(124, 109);
-        this.label56.Name = "label56";
-        this.label56.Size = new System.Drawing.Size(36, 13);
-        this.label56.TabIndex = 98;
-        this.label56.Text = "kg/ha";
-        // 
-        // nitrateDemand
-        // 
-        this.nitrateDemand.AutoSize = true;
-        this.nitrateDemand.Location = new System.Drawing.Point(88, 109);
-        this.nitrateDemand.Name = "nitrateDemand";
-        this.nitrateDemand.Size = new System.Drawing.Size(24, 13);
-        this.nitrateDemand.TabIndex = 97;
-        this.nitrateDemand.Text = "n/a";
-        // 
-        // label45
-        // 
-        this.label45.AutoSize = true;
-        this.label45.Location = new System.Drawing.Point(6, 109);
-        this.label45.Name = "label45";
-        this.label45.Size = new System.Drawing.Size(82, 13);
-        this.label45.TabIndex = 96;
-        this.label45.Text = "Nitrate demand:";
-        // 
-        // label24
-        // 
-        this.label24.AutoSize = true;
-        this.label24.Location = new System.Drawing.Point(124, 96);
-        this.label24.Name = "label24";
-        this.label24.Size = new System.Drawing.Size(27, 13);
-        this.label24.TabIndex = 95;
-        this.label24.Text = "t/ha";
-        // 
-        // cropYield
-        // 
-        this.cropYield.AutoSize = true;
-        this.cropYield.Location = new System.Drawing.Point(88, 96);
-        this.cropYield.Name = "cropYield";
-        this.cropYield.Size = new System.Drawing.Size(24, 13);
-        this.cropYield.TabIndex = 94;
-        this.cropYield.Text = "n/a";
-        // 
-        // label16
-        // 
-        this.label16.AutoSize = true;
-        this.label16.Location = new System.Drawing.Point(6, 94);
-        this.label16.Name = "label16";
-        this.label16.Size = new System.Drawing.Size(33, 13);
-        this.label16.TabIndex = 93;
-        this.label16.Text = "Yield:";
-        // 
-        // label15
-        // 
-        this.label15.AutoSize = true;
-        this.label15.Location = new System.Drawing.Point(124, 69);
-        this.label15.Name = "label15";
-        this.label15.Size = new System.Drawing.Size(40, 13);
-        this.label15.TabIndex = 92;
-        this.label15.Text = "kg/mm";
-        // 
-        // WUE
-        // 
-        this.WUE.Location = new System.Drawing.Point(91, 65);
-        this.WUE.Name = "WUE";
-        this.WUE.Size = new System.Drawing.Size(32, 20);
-        this.WUE.TabIndex = 91;
-        this.WUE.Leave += new System.EventHandler(this.NRequirement_Leave);
-        this.WUE.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NRequirement_KeyPress);
-        // 
-        // label11
-        // 
-        this.label11.AutoSize = true;
-        this.label11.Location = new System.Drawing.Point(6, 68);
-        this.label11.Name = "label11";
-        this.label11.Size = new System.Drawing.Size(36, 13);
-        this.label11.TabIndex = 90;
-        this.label11.Text = "WUE:";
-        // 
-        // label10
-        // 
-        this.label10.AutoSize = true;
-        this.label10.Location = new System.Drawing.Point(124, 46);
-        this.label10.Name = "label10";
-        this.label10.Size = new System.Drawing.Size(23, 13);
-        this.label10.TabIndex = 89;
-        this.label10.Text = "mm";
-        // 
-        // thresholdWater
-        // 
-        this.thresholdWater.Location = new System.Drawing.Point(91, 43);
-        this.thresholdWater.Name = "thresholdWater";
-        this.thresholdWater.Size = new System.Drawing.Size(32, 20);
-        this.thresholdWater.TabIndex = 88;
-        this.thresholdWater.Leave += new System.EventHandler(this.NRequirement_Leave);
-        this.thresholdWater.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NRequirement_KeyPress);
-        // 
-        // label7
-        // 
-        this.label7.AutoSize = true;
-        this.label7.Location = new System.Drawing.Point(6, 46);
-        this.label7.Name = "label7";
-        this.label7.Size = new System.Drawing.Size(86, 13);
-        this.label7.TabIndex = 87;
-        this.label7.Text = "Threshold water:";
-        // 
-        // inCropRainfall
-        // 
-        this.inCropRainfall.Location = new System.Drawing.Point(91, 21);
-        this.inCropRainfall.Name = "inCropRainfall";
-        this.inCropRainfall.Size = new System.Drawing.Size(32, 20);
-        this.inCropRainfall.TabIndex = 86;
-        this.inCropRainfall.Leave += new System.EventHandler(this.NRequirement_Leave);
-        this.inCropRainfall.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NRequirement_KeyPress);
-        // 
-        // label8
-        // 
-        this.label8.AutoSize = true;
-        this.label8.Location = new System.Drawing.Point(124, 24);
-        this.label8.Name = "label8";
-        this.label8.Size = new System.Drawing.Size(23, 13);
-        this.label8.TabIndex = 85;
-        this.label8.Text = "mm";
-        // 
-        // label6
-        // 
-        this.label6.AutoSize = true;
-        this.label6.Location = new System.Drawing.Point(8, 24);
-        this.label6.Name = "label6";
-        this.label6.Size = new System.Drawing.Size(76, 13);
-        this.label6.TabIndex = 83;
-        this.label6.Text = "In crop rainfall:";
-        // 
-        // label42
-        // 
-        this.label42.AutoSize = true;
-        this.label42.Location = new System.Drawing.Point(108, 64);
-        this.label42.Name = "label42";
-        this.label42.Size = new System.Drawing.Size(23, 13);
-        this.label42.TabIndex = 54;
-        this.label42.Text = "mm";
-        // 
-        // endPAW
-        // 
-        this.endPAW.AutoSize = true;
-        this.endPAW.Location = new System.Drawing.Point(79, 64);
-        this.endPAW.Name = "endPAW";
-        this.endPAW.Size = new System.Drawing.Size(24, 13);
-        this.endPAW.TabIndex = 50;
-        this.endPAW.Text = "n/a";
-        // 
-        // label37
-        // 
-        this.label37.AutoSize = true;
-        this.label37.Location = new System.Drawing.Point(6, 64);
-        this.label37.Name = "label37";
-        this.label37.Size = new System.Drawing.Size(35, 13);
-        this.label37.TabIndex = 49;
-        this.label37.Text = "PAW:";
-        // 
         // timer1
         // 
         this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
@@ -4321,7 +4385,7 @@ namespace APSRU.Howwet
             this.toolStripSeparator5});
         this.toolStrip1.Location = new System.Drawing.Point(3, 0);
         this.toolStrip1.Name = "toolStrip1";
-        this.toolStrip1.Size = new System.Drawing.Size(990, 36);
+        this.toolStrip1.Size = new System.Drawing.Size(1013, 36);
         this.toolStrip1.TabIndex = 40;
         this.toolStrip1.Text = "toolStrip1";
         // 
@@ -4574,69 +4638,6 @@ namespace APSRU.Howwet
         this.TrainingModeCheckBox.UseVisualStyleBackColor = true;
         this.TrainingModeCheckBox.CheckedChanged += new System.EventHandler(this.TrainingModeCheckBox_CheckedChanged);
         // 
-        // panel4
-        // 
-        this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-        this.panel4.Controls.Add(this.label22);
-        this.panel4.Controls.Add(this.label23);
-        this.panel4.Controls.Add(this.proposedCropList);
-        this.panel4.Controls.Add(this.label37);
-        this.panel4.Controls.Add(this.endPAW);
-        this.panel4.Controls.Add(this.label42);
-        this.panel4.Location = new System.Drawing.Point(161, 115);
-        this.panel4.Name = "panel4";
-        this.panel4.Size = new System.Drawing.Size(184, 100);
-        this.panel4.TabIndex = 122;
-        // 
-        // panel5
-        // 
-        this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-        this.panel5.Controls.Add(this.label50);
-        this.panel5.Controls.Add(this.label64);
-        this.panel5.Controls.Add(this.daystoMaturityUpDown);
-        this.panel5.Controls.Add(this.label76);
-        this.panel5.Controls.Add(this.label8);
-        this.panel5.Controls.Add(this.inCropRainfall);
-        this.panel5.Controls.Add(this.label6);
-        this.panel5.Controls.Add(this.label10);
-        this.panel5.Controls.Add(this.thresholdWater);
-        this.panel5.Controls.Add(this.label7);
-        this.panel5.Controls.Add(this.label58);
-        this.panel5.Controls.Add(this.nitrateGap);
-        this.panel5.Controls.Add(this.label60);
-        this.panel5.Controls.Add(this.label15);
-        this.panel5.Controls.Add(this.WUE);
-        this.panel5.Controls.Add(this.label11);
-        this.panel5.Controls.Add(this.label45);
-        this.panel5.Controls.Add(this.nitrateDemand);
-        this.panel5.Controls.Add(this.label56);
-        this.panel5.Controls.Add(this.label24);
-        this.panel5.Controls.Add(this.cropYield);
-        this.panel5.Controls.Add(this.label16);
-        this.panel5.Location = new System.Drawing.Point(351, 13);
-        this.panel5.Name = "panel5";
-        this.panel5.Size = new System.Drawing.Size(319, 201);
-        this.panel5.TabIndex = 123;
-        // 
-        // label22
-        // 
-        this.label22.AutoSize = true;
-        this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.label22.Location = new System.Drawing.Point(13, 5);
-        this.label22.Name = "label22";
-        this.label22.Size = new System.Drawing.Size(158, 16);
-        this.label22.TabIndex = 55;
-        this.label22.Text = "Plant Available Water";
-        // 
-        // label50
-        // 
-        this.label50.AutoSize = true;
-        this.label50.Location = new System.Drawing.Point(153, 24);
-        this.label50.Name = "label50";
-        this.label50.Size = new System.Drawing.Size(16, 13);
-        this.label50.TabIndex = 122;
-        this.label50.Text = "or";
-        // 
         // Main
         // 
         this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4659,7 +4660,11 @@ namespace APSRU.Howwet
         this.groupBox9.PerformLayout();
         this.tabControl1.ResumeLayout(false);
         this.groupBox5.ResumeLayout(false);
+        this.panel5.ResumeLayout(false);
+        this.panel5.PerformLayout();
         ((System.ComponentModel.ISupportInitialize)(this.daystoMaturityUpDown)).EndInit();
+        this.panel4.ResumeLayout(false);
+        this.panel4.PerformLayout();
         this.panel3.ResumeLayout(false);
         this.panel3.PerformLayout();
         this.panel2.ResumeLayout(false);
@@ -4674,10 +4679,6 @@ namespace APSRU.Howwet
         this.toolStripContainer1.PerformLayout();
         this.statusStrip1.ResumeLayout(false);
         this.statusStrip1.PerformLayout();
-        this.panel4.ResumeLayout(false);
-        this.panel4.PerformLayout();
-        this.panel5.ResumeLayout(false);
-        this.panel5.PerformLayout();
         this.ResumeLayout(false);
         this.PerformLayout();
 

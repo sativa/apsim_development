@@ -341,23 +341,15 @@ namespace APSRU.Howwet
         private void ReportButton_Click(object sender, EventArgs e)
             {
             String fileName = util.ApplicationDirectory + howwetReportFileName;
-            APSIMData report = new APSIMData();
-            report.LoadFromFile(fileName);
-
-            APSIMData fileNode = report.FindChildByType("howwet|summary_in|soil", '|');
-            fileNode.set_ChildValue("name", "test one two three");
-
-           // Report test = new Report();
-          //  test.firstName = "robert";
-          //  test.lastName = "gratwick";
-          //  test.age = 10;
-          ///  StreamWriter stream = new StreamWriter("c:\\robert\\data\\testXML.xml");
-           // stream.WriteLine("<?xml-stylesheet type=""text/xsl"" href=""testXML.xsl""?>");
-          //  System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(test.GetType());
-          //  x.Serialize(stream, test);
-
-            report.SaveToFile(fileName);
-            RainfallSWChart.Export.Image.GIF.Save(util.ApplicationDirectory + "\\howwetv2\\RainfallSWChart.gif"); 
+            StreamWriter stream = new StreamWriter(fileName);
+            stream.WriteLine("<?xml-stylesheet type=\"text/xsl\" href=\"HowwetReport.xsl\"?>");
+            System.Xml.Serialization.XmlSerializer xmlStream = new System.Xml.Serialization.XmlSerializer(result.GetType());
+            xmlStream.Serialize(stream, result);
+            RainfallSWChart.Export.Image.GIF.Save(util.ApplicationDirectory + "\\howwetv2\\RainfallSWChart.gif");
+            SoilNitrogenChart.Export.Image.GIF.Save(util.ApplicationDirectory + "\\howwetv2\\SoilNitorgenChart.gif");
+            ErosionChart.Export.Image.GIF.Save(util.ApplicationDirectory + "\\howwetv2\\ErosionChart.gif");
+            LTRainfallChart.Export.Image.GIF.Save(util.ApplicationDirectory + "\\howwetv2\\LTRainfallChart.gif");
+            ProfileChart.Export.Image.GIF.Save(util.ApplicationDirectory + "\\howwetv2\\ProfileChart.gif");
             System.Diagnostics.Process.Start("IExplore.exe", util.ApplicationDirectory + howwetReportFileName);
             }
 
@@ -804,7 +796,7 @@ namespace APSRU.Howwet
                 {
                 cLL = simulationObject.Soil.LL(selectedCrop);
                 }
-                endPAW.Text = result.PAWEnd(cLL).ToString("f0");
+                endPAW.Text = result.calcPAWEnd(cLL).ToString("f0");
             calculateNitrogenRequirement();
             }
 
@@ -817,7 +809,7 @@ namespace APSRU.Howwet
         //************
         private void calculateNitrogenRequirement()
             {
-            double totalWater = (result.PAWEnd(cLL) + Convert.ToDouble(inCropRainfall.Text)) - Convert.ToDouble(thresholdWater.Text);
+            double totalWater = (result.calcPAWEnd(cLL) + Convert.ToDouble(inCropRainfall.Text)) - Convert.ToDouble(thresholdWater.Text);
             double expectedYield = (totalWater * Convert.ToDouble(WUE.Text)) / 1000;
             cropYield.Text = String.Format("{0:##.##}", expectedYield);
             float grainProtein;
@@ -830,7 +822,7 @@ namespace APSRU.Howwet
             nDemand = ((float)expectedYield * grainProtein * fractionOfNinProtein) * efficiencyOfNUptake;
             nitrateDemand.Text = String.Format("{0:##.##}", nDemand);
             float nGap;
-            nGap = nDemand - (float)result.NitrateEnd;
+            nGap = nDemand - (float)result.nitrateEnd;
             nitrateGap.Text = nGap.ToString("f0");
             }
         private void NRequirement_Leave(object sender, EventArgs e)
@@ -913,40 +905,41 @@ namespace APSRU.Howwet
                 ProfileSWLine.Clear();
 
                 outputObject = new SimulationOut(simulationObject);
-                result = new Results(simulationObject,outputObject);
+                result = new Results();
+                result.loadResults(simulationObject,outputObject);
                 //output summary results
                 //water
-                startSoilWater.Text = result.SoilWaterStart.ToString("f0");
-                fallowRainfall.Text = result.RainfallTotal.ToString("f0");
-                fallowEvaporation.Text = result.EvaporationTotal.ToString("f0");
-                fallowRunoff.Text = result.RunoffTotal.ToString("f0");
-                drainage.Text = result.DrainTotal.ToString("f0");
-                endSoilWater.Text = result.SoilWaterEnd.ToString("f0");
-                gainSoilWater.Text = result.FallowWaterGain.ToString("f0");
-                waterEfficiency.Text = result.FallowWaterEfficiency.ToString("f0");
+                startSoilWater.Text = result.soilWaterStart.ToString("f0");
+                fallowRainfall.Text = result.rainfall.ToString("f0");
+                fallowEvaporation.Text = result.evaporation.ToString("f0");
+                fallowRunoff.Text = result.runoff.ToString("f0");
+                drainage.Text = result.drain.ToString("f0");
+                endSoilWater.Text = result.soilWaterEnd.ToString("f0");
+                gainSoilWater.Text = result.fallowWaterGain.ToString("f0");
+                waterEfficiency.Text = result.fallowWaterEfficiency.ToString("f0");
                 //cover
                 CoverCrop crop = util.GetCrop(coverCrops, simulationObject.SOMType);
-                decimal startCoverPercent = util.ConvertCoverKgToPercent(result.StartCover, crop.SpecificArea);
+                decimal startCoverPercent = util.ConvertCoverKgToPercent(result.startCover, crop.SpecificArea);
                 ToolTip a=new ToolTip();
-                a.Show(result.StartCover.ToString("f0") + " kg/ha", startingCover, 1000);
+                a.Show(result.startCover.ToString("f0") + " kg/ha", startingCover, 1000);
                 startingCover.Text = startCoverPercent.ToString("f0");
-                decimal endCoverPrecent=util.ConvertCoverKgToPercent(result.EndCover, crop.SpecificArea);
+                decimal endCoverPrecent=util.ConvertCoverKgToPercent(result.endCover, crop.SpecificArea);
                 ToolTip b = new ToolTip();
-                b.Show(result.EndCover.ToString("f0") + " kg/ha", endCover, 1000);
+                b.Show(result.endCover.ToString("f0") + " kg/ha", endCover, 1000);
                 endCover.Text = endCoverPrecent.ToString("f0");
                 
                 //Nitrogen
-                startSoilNitrate.Text = result.NitrateStart.ToString("f0");
-                endSoilNitrate.Text = result.NitrateEnd.ToString("f0");
-                gainNitrate.Text = result.NitrateGain.ToString("f0");
-                nitrateEfficiency.Text = result.NitrateEfficiency.ToString("f0");
+                startSoilNitrate.Text = result.nitrateStart.ToString("f0");
+                endSoilNitrate.Text = result.nitrateEnd.ToString("f0");
+                gainNitrate.Text = result.nitrateGain.ToString("f0");
+                nitrateEfficiency.Text = result.nitrateEfficiency.ToString("f0");
 
                 //n Requirement
                 thresholdWater.Text = ThresholdWaterDefault.ToString("f0");
                 WUE.Text = WUEDefault.ToString("f0");
                 inCropRainfall.Text = metObject.averageRainInNext(EndDatePicker.Value, Convert.ToInt16(daystoMaturityUpDown.Value)).ToString("f0");
                 displayProposedCropList();
-                endPAW.Text = result.PAWEnd(cLL).ToString("f0");
+                endPAW.Text = result.calcPAWEnd(cLL).ToString("f0");
                 chartDataTable = outputObject.Data;
               
                 RainfallSWChart.Axes.Left.Automatic = false;
@@ -1116,7 +1109,7 @@ namespace APSRU.Howwet
                 ProfileChart.Axes.Left.Minimum = 0;
                 ProfileCLLLine.Add(cLL, simulationObject.Soil.CumThickness);
                 ProfileLL15Line.Add(simulationObject.Soil.LL15, simulationObject.Soil.CumThickness);
-                ProfileSWLine.Add(result.SoilWaterEndByLayer, simulationObject.Soil.CumThickness);
+                ProfileSWLine.Add(result.soilWaterEndByLayer, simulationObject.Soil.CumThickness);
                 ProfileDULLine.Add(simulationObject.Soil.DUL, simulationObject.Soil.CumThickness);
                 }
             catch (CustomException err)
