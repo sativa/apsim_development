@@ -95,3 +95,4 @@ class allometricArbitrator : public Arbitrator
 Arbitrator* constructArbitrator(plantInterface *, const string &type);   
 
 #endif
+

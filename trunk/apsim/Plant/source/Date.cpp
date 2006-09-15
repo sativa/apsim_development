@@ -2,7 +2,7 @@
 #include <math.h>
 #include <vector>
 #include <string>
-#include "Plantlibrary.h"
+#include "PlantLibrary.h"
 
 //==========================================================================
 int offset_day_of_year (int iyr,     //(INPUT) day of year number
@@ -327,7 +327,7 @@ void jday_to_day_of_year (double *julday,// (INPUT) day, month, year
 
    // need to get year from julday
    jday_to_date (&day, &month, year, *julday);
-   *dyoyr = (*julday) - date_to_jday(1, 1, *year) + 1;
+   *dyoyr = (int)(*julday - date_to_jday(1, 1, *year) + 1);
 }
 // ====================================================================
 bool  check_date (int   day,  // (INPUT) Day

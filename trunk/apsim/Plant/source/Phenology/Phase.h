@@ -2,10 +2,10 @@
 #define PLANTPHENOLOGYPHASE_H
 
 #include <string>
-#include "environment.h"
-#include "output.h"
 
 class PlantPhenology;
+class environment_t;
+class Output;
 
 // Terminology:
 // A "stage" is a point in time.

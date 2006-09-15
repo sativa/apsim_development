@@ -6,7 +6,7 @@
 class CropPhenology : public PlantPhenology
    {
    protected:
-       CropPhenology(PlantComponent *s, plantInterface *p) : PlantPhenology(s, p) {};
+       CropPhenology(plantInterface *p) : PlantPhenology(p) {};
        virtual void zeroDeltas(void);
        virtual void zeroAllGlobals(void);
        virtual void readConstants (protocol::Component *s, const string &section);
@@ -42,5 +42,5 @@ class CropPhenology : public PlantPhenology
     private:
     public:
     };
-
 #endif
+

@@ -106,7 +106,7 @@ class interpolationFunction : public externalFunction
    vector<float> x;
    vector<float> y;
  public:
-   float interpolationFunction::integral(float v1, float v2);
+   float integral(float v1, float v2);
    void search(protocol::Component *P, vector<string> &sections,
              const char *xName, const char * xunits, float x0, float x1,
              const char *yName, const char * yunits, float y0, float y1);

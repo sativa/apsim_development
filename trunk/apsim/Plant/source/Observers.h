@@ -27,5 +27,5 @@ class eventObserver : public plantThing {
      int getDoy(void) {return myDate;};
 };
 
-
 #endif
+

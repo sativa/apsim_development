@@ -117,6 +117,5 @@ class genericLeafPart : public plantLeafPart {
    float dltNodeNoPot;                            // potential fraction of oldest leaf expanding ()
 };
 
-
-
 #endif
+

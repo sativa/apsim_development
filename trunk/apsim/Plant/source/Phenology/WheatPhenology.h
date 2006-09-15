@@ -1,7 +1,7 @@
 #ifndef WHEATPHENOLOGY_H
 #define WHEATPHENOLOGY_H
 
-#include "cropphenology.h"
+#include "CropPhenology.h"
 
 class WheatPhenology : public CropPhenology {
  private:
@@ -27,7 +27,7 @@ class WheatPhenology : public CropPhenology {
    void get_zadok_stage(protocol::Component *system, protocol::QueryValueData &qd);
 
  public:
-   WheatPhenology(PlantComponent *s, plantInterface *p) : CropPhenology(s, p) {};
+   WheatPhenology(plantInterface *p) : CropPhenology(p) {};
 
    void readConstants (protocol::Component *, const string &);              // read structure etc from constants
    void doRegistrations (protocol::Component *);
@@ -43,5 +43,5 @@ class WheatPhenology : public CropPhenology {
    void zeroAllGlobals(void);
    virtual void zeroDeltas(void);
 };
-
 #endif
+

@@ -5,14 +5,6 @@
 #ifndef CompositePart_H
 #define CompositePart_H
 
-#ifndef __CSTRING_H
-#include <cstring.h>
-#endif
-
-#ifndef __IOSTREAM_H
-#include <iostream.h>
-#endif
-
 #include "PlantPart.h"
 
 class CompositePart : public plantPart
@@ -21,7 +13,6 @@ class CompositePart : public plantPart
 public:												// member functions
    CompositePart(plantInterface *p, const string &name);
 
-   //		CompositePart(const CompositePart &CompositePart); 			// copy constructor
    const CompositePart &operator=(const CompositePart &other);		// Assigment operator
 
    virtual void doInit1();
@@ -131,40 +122,40 @@ public:												// member functions
    virtual float grainNConcPercent(void);
    virtual float nDemandGrain(void) ;
 
-   virtual float dltDmGrainDemand(void) const;
-   virtual float dltDmRetranslocate(void) const;
+   virtual float dltDmGrainDemand(void) ;
+   virtual float dltDmRetranslocate(void) ;
    virtual float dltDmRetranslocateSupply(float demand_differential) ;
-   virtual float dltDmGreenRetransUptake(void) const;
+   virtual float dltDmGreenRetransUptake(void) ;
    virtual float dltDmPotTe(void);            //FIXME
    virtual float dltDmPotRue(void);           //FIXME
 
-   virtual float dltDmGreen(void) const;
-   virtual float dltDmDead(void) const;
-   virtual float dltDmSenesced(void) const;
-   virtual float dltDmDetached(void) const;
-   virtual float dltDmGreenRetrans(void) const;
+   virtual float dltDmGreen(void) ;
+   virtual float dltDmDead(void) ;
+   virtual float dltDmSenesced(void) ;
+   virtual float dltDmDetached(void) ;
+   virtual float dltDmGreenRetrans(void) ;
 
-   virtual float dmGreenDemand(void) const;     
-   virtual float dmTotal(void) const;
+   virtual float dmGreenDemand(void) ;     
+   virtual float dmTotal(void) ;
    virtual float dmGrainTotal(void) ;
    virtual float dmVegTotal(void);
    virtual float dmGreenGrainTotal(void);
-   virtual float dmGreen(void) const;
+   virtual float dmGreen(void);
    virtual float dmGreenVegTotal(void);
    virtual float dmSenescedVegTotal(void);
-   virtual float dmSenesced(void) const;
+   virtual float dmSenesced(void) ;
    virtual float dmDeadVegTotal(void);
-   virtual float dmDead(void) const;
+   virtual float dmDead(void) ;
    virtual float grainWt(void);
-   virtual float dmRetransSupply(void) const;
-   virtual float dmRetransDemand(void) const;
+   virtual float dmRetransSupply(void) ;
+   virtual float dmRetransDemand(void) ;
 
    virtual float nTotal(void);
    virtual float nGrainTotal(void);
    virtual float nVegTotal(void);
    virtual float nGreenGrainTotal(void);
    virtual float nGreenVegTotal(void);
-   virtual float nGreen(void) const;
+   virtual float nGreen(void) ;
    virtual float nSenescedVegTotal(void);
    virtual float nSenesced(void);
    virtual float nDeadVegTotal(void);
@@ -221,7 +212,7 @@ public:												// member functions
    virtual void doDmDemand (float dlt_dm_supply_by_veg);
    virtual float giveDmGreen(float dmSupplied);
    virtual void doDmRetranslocate(float DMAvail, float DMDemandDifferentialTotal);
-   virtual float dmDemandDifferential(void) const;
+   virtual float dmDemandDifferential(void) ;
    virtual float nDemandDifferential(void);
    virtual void doNFixRetranslocate(float NFix, float NDemandDifferentialTotal);
    virtual void doBioActual (void);
@@ -235,23 +226,21 @@ public:												// member functions
    virtual void doPPartition(float p_uptake, float total_p_demand);
    virtual void doPRetranslocate(float total_p_supply, float total_p_demand);
 
-   virtual float dltPGreen(void) const;
-   virtual float dltNGreen(void) const;
-   virtual float dltNDead(void) const;
-   virtual float dltPDead(void) const;
-   virtual float dltNSenesced(void) const;
-   virtual float dltPSenesced(void) const;
-   virtual float dltNDetached(void) const;
-   virtual float dltPDetached(void) const;
+   virtual float dltPGreen(void) ;
+   virtual float dltNDead(void) ;
+   virtual float dltPDead(void) ;
+   virtual float dltNSenesced(void) ;
+   virtual float dltPSenesced(void) ;
+   virtual float dltNDetached(void) ;
+   virtual float dltPDetached(void) ;
    virtual float nConc(void);
    virtual float nConcPercent(void);
    virtual float pConc(void);
    virtual float pConcPercent(void);
-   virtual float n_conc_crit(void) const;
-   virtual float n_conc_min(void) const;
-   virtual float dltNRetrans(void) const;
-   virtual float dltNSenescedRetrans(void) const;
-   virtual float dltNSenescedTrans(void) const;
+   virtual float n_conc_crit(void) ;
+   virtual float n_conc_min(void) ;
+   virtual float dltNRetrans(void) ;
+   virtual float dltNSenescedTrans(void) ;
 
    virtual bool isYieldPart(void);
    virtual bool isRetransPart(void);

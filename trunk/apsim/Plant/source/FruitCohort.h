@@ -5,19 +5,9 @@
 #ifndef FruitCohort_H
 #define FruitCohort_H
 
-#ifndef __CSTRING_H
-#include <cstring.h>
-#endif
-
-#ifndef __IOSTREAM_H
-#include <iostream.h>
-#endif
-
 #include "CompositePart.h"
 #include "GrainPart.h"
 #include "PodPart.h"
-
-
 
 class FruitCohort : public CompositePart
 {
@@ -25,7 +15,6 @@ class FruitCohort : public CompositePart
 public:												// member functions
    FruitCohort(plantInterface *p, const string &name);
 
-   //		FruitCohort(const FruitCohort &FruitCohort); 			// copy constructor
    const FruitCohort &operator=(const FruitCohort &other);		// Assigment operator
 
    void doInit1();

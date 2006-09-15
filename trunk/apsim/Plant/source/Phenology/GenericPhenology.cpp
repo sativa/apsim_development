@@ -1,11 +1,12 @@
-#include "GenericPhenology.h"
 #include <ComponentInterface/Component.h>
-#include <ComponentInterface/dataTypes.h>
+#include <ComponentInterface/datatypes.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/MessageDataExt.h>
 #include "PlantComponent.h"
 #include "PlantLibrary.h"
+#include "PlantInterface.h"
 #include "PlantPhenology.h"
+#include "GenericPhenology.h"
 #include "Environment.h"
 #include <iostream.h>
 #include <sstream>
@@ -47,7 +48,7 @@ void GenericPhenology::readCultivarParameters(protocol::Component *s, const stri
 void GenericPhenology::onSow(unsigned &, unsigned &, protocol::Variant &v)
 //=======================================================================================
    {
-   protocol::ApsimVariant incomingApsimVariant(parentPlant);
+   protocol::ApsimVariant incomingApsimVariant(plant->getComponent());
    incomingApsimVariant.aliasTo(v.getMessageData());
 
    for(unsigned i=0; i!= phases.size();i++)
@@ -117,7 +118,7 @@ void GenericPhenology::process (const environment_t &e, const pheno_stress_t &ps
    else if (inPhase("germination"))
       {
       dlt_tt_phenol = dlt_tt * rel_emerg_rate[fasw_seed];
-      const pPhase *current = phases[currentStage];
+      const pPhase *current = phases[(int)currentStage];
       float a =  current->getTT() + dlt_tt_phenol;
       float b =  current->getTTTarget();
       phase_devel = divide(a, b, 1.0);
@@ -131,7 +132,7 @@ void GenericPhenology::process (const environment_t &e, const pheno_stress_t &ps
       //new_stage = floor(currentStage) + phase_devel;
 
       dlt_tt_phenol = dlt_tt;
-      const pPhase *current = phases[currentStage];
+      const pPhase *current = phases[(int)currentStage];
       float a =  current->getTT() + dlt_tt_phenol;
       float b =  current->getTTTarget();
       phase_devel = divide(a, b, 1.0);
@@ -200,7 +201,7 @@ void GenericPhenology::onRemoveBiomass(float removeBiomPheno)
    if (initialOnBiomassRemove == true)
       {
       initialOnBiomassRemove = false;
-      y_removeFractPheno.search(parentPlant, iniSectionList,
+      y_removeFractPheno.search(plant->getComponent(), iniSectionList,
                "x_removeBiomPheno", "()", 0.0, 1.0,
                "y_removeFractPheno", "()", 0.0, 1.0);
       }
@@ -250,7 +251,7 @@ void GenericPhenology::onRemoveBiomass(float removeBiomPheno)
       }
    msg << "New Above ground TT = " << ttInPhase("above_ground") << endl << ends;
    if (plant->removeBiomassReport())
-      parentPlant->writeString (msg.str().c_str());
+      plant->getComponent()->writeString (msg.str().c_str());
 
    }
 

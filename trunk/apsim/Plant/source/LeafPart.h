@@ -44,6 +44,6 @@ class plantLeafPart : public plantPart {
  
 };
 
-
 plantLeafPart* constructLeafPart(plantInterface *p, const string &type, const string &name);
 #endif
+

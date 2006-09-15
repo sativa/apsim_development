@@ -1,9 +1,8 @@
 #ifndef VernalPhase_H
 #define VernalPhase_H
-#include "OutputVariable.h"
 
-#include "phase.h"
-#include "environment.h"
+class environment_t;
+class Output;
 
 class VernalPhase : public pPhase
    // A phenological phase.

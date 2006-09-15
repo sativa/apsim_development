@@ -5,7 +5,7 @@
 #include <ComponentInterface/Component.h>
 #include <ApsimShared/ApsimComponentData.h>
 #include "PlantComponent.h"
-#include "Plantlibrary.h"
+#include "PlantLibrary.h"
 
 //===========================================================================
 void crop_pool_fraction_delta (const int num_part,   // (INPUT)  number of plant parts
@@ -168,7 +168,7 @@ void crop_radn_int0(float cover_green,
 
 
 //==============================================================================
-extern "C" void _stdcall _export crop_radn_int1(float *extinction_coef, float *fr_intc_radn,
+extern "C" EXPORT void STDCALL crop_radn_int1(float *extinction_coef, float *fr_intc_radn,
       float *lai, float *radn, float *radn_int)
 //==============================================================================
 
@@ -255,3 +255,5 @@ string addUnitsToDDML(const string& ddml, const string& units)
       returnString = returnString.substr(0, pos) + " unit=\"" + units + "\"/>";
    return returnString;
    }
+
+

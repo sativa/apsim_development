@@ -1,8 +1,7 @@
 #ifndef EmergentPhase_H
 #define EmergentPhase_H
 
-#include "phase.h"
-#include "environment.h"
+class environment_t;
 
 class EmergentPhase : public pPhase
    // A phenological phase.

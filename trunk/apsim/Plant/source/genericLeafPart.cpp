@@ -11,8 +11,7 @@
 #include <ComponentInterface/Type.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/Component.h>
-#include <ComponentInterface/dataTypes.h>
-#include <ComponentInterface/Messages.h>
+#include <ComponentInterface/datatypes.h>
 #include <ComponentInterface/MessageDataExt.h>
 #include <ApsimShared/ApsimComponentData.h>
 #include <ApsimShared/FStringExt.h>
@@ -678,7 +677,7 @@ void genericLeafPart::remove_detachment (float dlt_slai_detached, float dlt_lai_
       }
 
    // calc new leaf number
-   int newNodeNo = 1.0 + gNodeNo;
+   int newNodeNo = (int) (1.0 + gNodeNo);
    for (int node = newNodeNo - 1; node < max_node; node++)
       {
       gLeafNo[node] = 0.0;

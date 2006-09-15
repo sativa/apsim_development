@@ -6,3 +6,4 @@ OutputVariable::OutputVariable(const string &Name, const string &Units, const st
    {
    this->Variable = (void*)&Variable;
    }
+

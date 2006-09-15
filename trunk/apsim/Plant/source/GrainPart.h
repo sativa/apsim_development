@@ -5,13 +5,6 @@
 #ifndef GrainPart_H
 #define GrainPart_H
 
-#ifndef __CSTRING_H
-#include <cstring.h>
-#endif
-
-#ifndef __IOSTREAM_H
-#include <iostream.h>
-#endif
 #include "CompositePart.h"
 #include "OilPart.h"
 #include "MealPart.h"

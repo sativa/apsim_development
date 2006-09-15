@@ -5,14 +5,6 @@
 #ifndef PLANTFRUIT_H
 #define PLANTFRUIT_H
 
-#ifndef __CSTRING_H
-#include <cstring.h>
-#endif
-
-#ifndef __IOSTREAM_H
-#include <iostream.h>
-#endif
-
 #include "CompositePart.h"
 #include "FruitCohort.h"
 
