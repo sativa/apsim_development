@@ -26,6 +26,8 @@ class pPhase
    public:
      pPhase(const std::string& n) {myName = n; tt = target = days = 0.0; empty = true;};
      pPhase(const char *n) {myName = n; tt = target = days = 0.0; empty = true;};
+     virtual ~pPhase() {};
+
      void  add(float dlt_days)               {days += dlt_days;};
      void  add(float dlt_days, float dlt_tt) {days += dlt_days; tt += dlt_tt;};
      void  add(float dlt_days, float dlt_tt, float *balance_days, float *balance_tt);

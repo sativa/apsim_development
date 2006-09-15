@@ -26,10 +26,10 @@ class IPlant {
 // Abstact plant interface, as seen from plant things (inside)
 class plantInterface {
    public:
+      virtual ~plantInterface() {};
+
       virtual void writeString (const char *line) = 0;
       virtual void warningError (const char *msg) = 0;
-
-//      virtual void doRegistrations(protocol::Component *) = 0;
 
       virtual float getLeafNo (void) const = 0;           // Leaf number (leaves/m^2)
       virtual float getPlants (void) const = 0;           // Planting density (plants/m^2)
@@ -73,6 +73,7 @@ class plantInterface {
 // Something that plugs into a plant
 class plantThing {
    public:
+     virtual ~plantThing() {};  
      virtual void doRegistrations(protocol::Component *) = 0;
      virtual void readConstants (protocol::Component *, const string &) = 0;
      virtual void readSpeciesParameters (protocol::Component *, vector<string> &) = 0;
