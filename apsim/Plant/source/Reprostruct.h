@@ -21,3 +21,4 @@ class ReproStruct : public plantPart
                   vector<float> &fraction_to_residue) {};
    };
 #endif
+

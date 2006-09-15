@@ -1,8 +1,7 @@
 #ifndef PhotoPhase_H
 #define PhotoPhase_H
 
-#include "phase.h"
-#include "environment.h"
+class environment_t;
 
 class PhotoPhase : public pPhase
    // A phenological phase.

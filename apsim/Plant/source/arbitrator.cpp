@@ -8,8 +8,8 @@
 #include "PlantLibrary.h"
 #include "Plant.h"
 #include "PlantPart.h"
-#include "leafPart.h"
-#include "Arbitrator.h"
+#include "LeafPart.h"
+#include "arbitrator.h"
 
 Arbitrator* constructArbitrator(plantInterface *p, const string &type)
    {

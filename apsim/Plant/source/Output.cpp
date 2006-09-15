@@ -1,4 +1,4 @@
-#include "output.h"
+#include "Output.h"
 using namespace std;
 
 Output::Output(const string &Name, const string &Units, const string &Description)
@@ -7,3 +7,4 @@ Output::Output(const string &Name, const string &Units, const string &Descriptio
    this->Units = Units;
    this->Description = Description;
    }
+

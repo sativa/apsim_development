@@ -94,7 +94,7 @@ class plantRootPart : public plantPart
       int find_layer_no(float, float *, int);
       float sw_avail_ratio(int layer) const;
 
-void plantRootPart::plant_water_stress (
+      void plant_water_stress (
                                        float sw_demand,
                                        float& swdef_photo,
                                        float& swdef_pheno,
@@ -103,33 +103,33 @@ void plantRootPart::plant_water_stress (
                                        float& swdef_expansion,
                                        float& swdef_fixation );
 
-void CalcWaterSupply();
-void doWaterUptake(float sw_demand);
-void getOtherVariables(protocol::Component *system);
-void UpdateOtherVariables(protocol::Component *system);
-void DoIDs(protocol::Component *system);
-
-float plantRootPart::oxdef_stress ();
-void plantRootPart::doNewProfile(protocol::Variant &v);
+      void CalcWaterSupply();
+      void doWaterUptake(float sw_demand);
+      void getOtherVariables(protocol::Component *system);
+      void UpdateOtherVariables(protocol::Component *system);
+      void DoIDs(protocol::Component *system);
+      
+      float oxdef_stress ();
+      void doNewProfile(protocol::Variant &v);
 
    private:
 
-// IDs for gets sets etc
-     unsigned int sw_dep_id;
-     unsigned int dlt_sw_dep_id;
+      // IDs for gets sets etc
+      unsigned int sw_dep_id;
+      unsigned int dlt_sw_dep_id;
 
 
-// External Getters and Setters etc
-void plantRootPart::get_sw_uptake(protocol::Component *system, protocol::QueryValueData &qd);
-void plantRootPart::get_sw_supply(protocol::Component *system, protocol::QueryValueData &qd);
-void plantRootPart::get_sw_supply_layr(protocol::Component *system, protocol::QueryValueData &qd);
-void plantRootPart::get_ep(protocol::Component *system, protocol::QueryValueData &qd);
-void plantRootPart::get_esw_layr(protocol::Component *system, protocol::QueryValueData &qd);
-void plantRootPart::get_no3_uptake(protocol::Component *system, protocol::QueryValueData &qd);
-void plantRootPart::get_nh4_uptake(protocol::Component *system, protocol::QueryValueData &qd);
-void plantRootPart::get_no3_tot(protocol::Component *system, protocol::QueryValueData &qd);
-void plantRootPart::get_ll_dep(protocol::Component *systemInterface, protocol::QueryValueData &qd);
-void plantRootPart::get_ll(protocol::Component *systemInterface, protocol::QueryValueData &qd);
+      // External Getters and Setters etc
+      void get_sw_uptake(protocol::Component *system, protocol::QueryValueData &qd);
+      void get_sw_supply(protocol::Component *system, protocol::QueryValueData &qd);
+      void get_sw_supply_layr(protocol::Component *system, protocol::QueryValueData &qd);
+      void get_ep(protocol::Component *system, protocol::QueryValueData &qd);
+      void get_esw_layr(protocol::Component *system, protocol::QueryValueData &qd);
+      void get_no3_uptake(protocol::Component *system, protocol::QueryValueData &qd);
+      void get_nh4_uptake(protocol::Component *system, protocol::QueryValueData &qd);
+      void get_no3_tot(protocol::Component *system, protocol::QueryValueData &qd);
+      void get_ll_dep(protocol::Component *systemInterface, protocol::QueryValueData &qd);
+      void get_ll(protocol::Component *systemInterface, protocol::QueryValueData &qd);
 
       float sw_dep_ub;                                  // upper limit of soilwater depth (mm)
       float sw_dep_lb;                                  // lower limit of soilwater depth (mm)

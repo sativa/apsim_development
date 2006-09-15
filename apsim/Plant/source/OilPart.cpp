@@ -11,7 +11,7 @@
 #include <ComponentInterface/Type.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/Component.h>
-#include <ComponentInterface/dataTypes.h>
+#include <ComponentInterface/datatypes.h>
 #include <ComponentInterface/Messages.h>
 #include <ComponentInterface/MessageDataExt.h>
 #include <ApsimShared/ApsimComponentData.h>
@@ -198,3 +198,5 @@ void fruitOilPart::readSpeciesParameters(protocol::Component *system, vector<str
                           , 0.0, 1.0);
 
 }
+
+

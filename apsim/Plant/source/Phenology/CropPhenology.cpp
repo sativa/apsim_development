@@ -1,5 +1,13 @@
-#include "CropPhenology.h"
+#include <sstream>
+#include <ComponentInterface/Component.h>
+#include <ComponentInterface/datatypes.h>
+#include <ComponentInterface/ApsimVariant.h>
+#include <ComponentInterface/MessageDataExt.h>
 #include "PlantComponent.h"
+#include "PlantLibrary.h"
+#include "PlantInterface.h"
+#include "PlantPhenology.h"
+#include "CropPhenology.h"
 
 using namespace std;
 
@@ -13,7 +21,7 @@ void CropPhenology::zeroAllGlobals(void)
 //=======================================================================================
    {
    PlantPhenology::zeroAllGlobals();
-   das = 0.0;
+   das = 0;
    }
 
 void CropPhenology::readConstants (protocol::Component *s, const string &section)
@@ -28,19 +36,19 @@ void CropPhenology::doRegistrations (protocol::Component *s)
    {
    PlantPhenology::doRegistrations(s);
 
-   setupEvent(parentPlant, "sow", RegistrationType::respondToEvent, &CropPhenology::onSow, "<type/>");
-   setupEvent(parentPlant, "end_crop", RegistrationType::respondToEvent, &CropPhenology::onEndCrop, "<type/>");
+   setupEvent(s, "sow", RegistrationType::respondToEvent, &CropPhenology::onSow, "<type/>");
+   setupEvent(s, "end_crop", RegistrationType::respondToEvent, &CropPhenology::onEndCrop, "<type/>");
 
-   parentPlant->addGettableVar("das", das, "d", "Days after Sowing");
-   parentPlant->addGettableVar("dlt_tt_phenol", dlt_tt_phenol,"dd", "Todays thermal time (incl. stress factors)");
-   parentPlant->addGettableVar("dlt_tt", dlt_tt, "dd", "Todays thermal time (no stress factors)");
+   s->addGettableVar("das", das, "d", "Days after Sowing");
+   s->addGettableVar("dlt_tt_phenol", dlt_tt_phenol,"dd", "Todays thermal time (incl. stress factors)");
+   s->addGettableVar("dlt_tt", dlt_tt, "dd", "Todays thermal time (no stress factors)");
 
    }
 
 void CropPhenology::onSow(unsigned &, unsigned &, protocol::Variant &v)
 //=======================================================================================
    {
-   protocol::ApsimVariant incomingApsimVariant(parentPlant);
+   protocol::ApsimVariant incomingApsimVariant(plant->getComponent());
    incomingApsimVariant.aliasTo(v.getMessageData());
    if (incomingApsimVariant.get("sowing_depth", protocol::DTsingle, false, sowing_depth) == false)
       throw std::invalid_argument("sowing_depth not specified");
@@ -61,7 +69,7 @@ void CropPhenology::onHarvest(unsigned &, unsigned &, protocol::Variant &)
    {
    previousStage = currentStage;
    currentStage = stage_reduction_harvest[currentStage];
-   for (unsigned int stage = currentStage; stage != phases.size(); stage++)
+   for (unsigned int stage = (int) currentStage; stage != phases.size(); stage++)
       phases[stage]->reset();
    setupTTTargets();
    }

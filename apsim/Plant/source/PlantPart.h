@@ -13,7 +13,7 @@
 #include <ComponentInterface/Type.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/Component.h>
-#include <ComponentInterface/dataTypes.h>
+#include <ComponentInterface/datatypes.h>
 #include <ComponentInterface/Messages.h>
 #include <ComponentInterface/MessageDataExt.h>
 #include <ApsimShared/ApsimComponentData.h>

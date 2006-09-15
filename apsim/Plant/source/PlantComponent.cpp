@@ -1,7 +1,5 @@
 #include <general/pch.h>
-#include <vcl.h>
 #include <boost/function.hpp>
-#pragma hdrstop
 
 #include <ComponentInterface/Component.h>
 #include <ComponentInterface/ApsimVariant.h>
@@ -12,7 +10,6 @@
 #include <ApsimShared/FStringExt.h>
 #include <general/string_functions.h>
 #include <general/stristr.h>
-#include <math>
 #include <map>
 
 #include "PlantLibrary.h"
@@ -22,16 +19,18 @@
 
 using namespace std;
 
-extern "C" void __stdcall getDescriptionInternal(char* initScript, char* description);
+extern "C" EXPORT void STDCALL getDescriptionInternal(char* initScript, char* description);
 
+#ifdef WIN32
 int WINAPI DllEntryPoint(HINSTANCE /*hinst*/, unsigned long /*reason*/, void*)
 //=======================================================================================
 // DLL entry point
    {
    return 1;
    }
+#endif
 
-extern "C" _export void __stdcall wrapperDLL(char* wrapperDll)
+extern "C" EXPORT void STDCALL wrapperDLL(char* wrapperDll)
 //=======================================================================================
 //     Return a blank string when requested to indicate that we
 //     don't need a wrapper DLL.
@@ -40,14 +39,14 @@ extern "C" _export void __stdcall wrapperDLL(char* wrapperDll)
    }
 
 
-extern "C" _export void __stdcall getDescription(char* initScript, char* description)
+extern "C" EXPORT void STDCALL getDescription(char* initScript, char* description)
 //=======================================================================================
 // Return component description info.
    {
    getDescriptionInternal(initScript, description);
    }
 
-extern "C" _export void __stdcall getDescriptionLength(char* initScript, int* length)
+extern "C" EXPORT void STDCALL getDescriptionLength(char* initScript, int* length)
 //=======================================================================================
 // Return component description info.
    {

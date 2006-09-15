@@ -11,6 +11,7 @@
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 
+#include <ComponentInterface/MessageDataExt.h>
 #include <ComponentInterface/Component.h>
 #include <ComponentInterface/Type.h>
 
@@ -18,9 +19,6 @@
 #include "PlantInterface.h"
 #include "PlantLibrary.h"
 #include "Phenology/PlantPhenology.h"
-#include "Phenology/WheatPhenology.h"
-#include "Phenology/TTTPhenology.h"
-#include "Phenology/TTTRatePhenology.h"
 #include "Plant.h"
 #include "PlantPart.h"
 #include "CompositePart.h"
@@ -33,9 +31,7 @@
 #include "OilPart.h"
 #include "RootPart.h"
 #include "Observers.h"
-#include "ReproStruct.h"
-#include "Phenology/GenericPhenology.h"
-#include "Phenology/BroccoliPhenology.h"
+#include "Reprostruct.h"
 #include "arbitrator.h"
 #include "PlantUtility.h"
 
@@ -165,23 +161,9 @@ Plant::~Plant()
 // Init1. Set up plant structure
 void Plant::doInit1(protocol::Component *s)
     {
-   plant_zero_variables (); // Zero global states
+    plant_zero_variables (); // Zero global states
 
-    string scratch = s->readParameter ("constants", "phenology_model");
-    if (scratch == "")
-       throw std::invalid_argument("The parameter 'phenology_model'\nisn't in your ini file.\n\nGet one.\n");
-    else if (scratch == "legume")
-       phenology = new TTTPhenology(parent, this);
-    else if (scratch == "tttrate")
-       phenology = new TTTRatePhenology(parent, this);
-    else if (scratch == "generic")
-       phenology = new GenericPhenology(parent, this);
-    else if (scratch == "wheat")
-       phenology = new WheatPhenology(parent, this);
-    else if (scratch == "broccoli")
-       phenology = new BroccoliPhenology(parent, this);
-    else
-       throw std::invalid_argument("Unknown phenology model '" + scratch + "'");
+    phenology = constructPhenology(this, s->readParameter ("constants", "phenology_model")); 
     myThings.push_back(phenology);
 
     rootPart = constructRootPart(this, s->readParameter ("constants", "root_part"), "root");
@@ -991,7 +973,7 @@ void Plant::plant_plant_death (int option /* (INPUT) option number*/)
         if (phenology->inPhase("sowing"))
            g.dlt_plants_failure_germ =
                   crop_failure_germination (this,
-                                            c.days_germ_limit,
+                                            (int)c.days_germ_limit,
                                             phenology->daysInCurrentPhase(),
                                             g.plants);
         else
@@ -4027,8 +4009,8 @@ void Plant::plant_zero_all_globals (void)
       g.skip_row_fac = 0.0;
       g.skip_plant_fac = 0.0;
       g.fr_intc_radn = 0.0;
-      Environment.year = 0.0;
-      Environment.day_of_year = 0.0;
+      Environment.year = 0;
+      Environment.day_of_year = 0;
       Environment.latitude = 0.0;
       Environment.mint = 0.0;
       Environment.maxt = 0.0;
@@ -5634,9 +5616,9 @@ void Plant::plant_read_species_const ()
                      , 0.0, 10.0);
 
     string pathway = parent->readParameter (search_order, "photosynthetic_pathway");
-    if (stricmp(pathway.c_str(), "C3")==0) {
+    if (Str_i_Eq(pathway.c_str(), "C3")) {
       c.photosynthetic_pathway = pw_C3;
-    } else if(stricmp(pathway.c_str(), "C4")==0) {
+    } else if(Str_i_Eq(pathway.c_str(), "C4")) {
       c.photosynthetic_pathway = pw_C4;
     } else {
       c.photosynthetic_pathway = pw_UNDEF;
@@ -6796,30 +6778,30 @@ float Plant::stoverTot(void) const
       return  stoverGreen() + stoverSenesced() + stoverDead();
    }
 
-float Plant::plantNGreen(void) const
+float Plant::plantNGreen(void)
    {
    float ngreen = 0.0;
-   for (vector<plantPart * const>::iterator t = myParts.begin();
+   for (vector<plantPart *>::iterator t = myParts.begin();
         t != myParts.end();
         t++)
       ngreen += (*t)->nGreen();
   
    return ngreen;
    }
-float Plant::plantNSenesced(void) const
+float Plant::plantNSenesced(void)
    {
    float nsenesced = 0.0;
-   for (vector<plantPart * const>::iterator t = myParts.begin();
+   for (vector<plantPart *>::iterator t = myParts.begin();
         t != myParts.end();
         t++)
       nsenesced += (*t)->nSenesced();
   
    return nsenesced;
    }
-float Plant::plantNDead(void) const
+float Plant::plantNDead(void)
    {
    float ndead = 0.0;
-   for (vector<plantPart * const>::iterator t = myParts.begin();
+   for (vector<plantPart *>::iterator t = myParts.begin();
         t != myParts.end();
         t++)
       ndead += (*t)->nDead();
@@ -6827,25 +6809,25 @@ float Plant::plantNDead(void) const
    return ndead;
    }
 
-float Plant::plantNTot(void) const
+float Plant::plantNTot(void) 
    {
    return  plantNGreen() + plantNSenesced() + plantNDead();
    }
 
-float Plant::plantDltNGreen(void) const
+float Plant::plantDltNGreen(void)
    {
    float sum = 0.0;
-   for (vector<plantPart * const>::iterator t = myParts.begin();
+   for (vector<plantPart *>::iterator t = myParts.begin();
         t != myParts.end();
         t++)
       sum += (*t)->dltNGreen();
   
    return sum;
    }
-float Plant::plantDltNRetrans(void) const
+float Plant::plantDltNRetrans(void) 
    {
    float sum = 0.0;
-   for (vector<plantPart * const>::iterator t = myParts.begin();
+   for (vector<plantPart *>::iterator t = myParts.begin();
         t != myParts.end();
         t++)
       sum += (*t)->dltNRetransOut();

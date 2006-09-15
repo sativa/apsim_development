@@ -2,18 +2,11 @@
 // Modification log
 // 6 Aug 97 J. Hargreaves  Implementation
 
-#define YES 1
-#define NO 0
-#define TEST_fruitGrainPart NO					// build unit test?
-
 #include "GrainPart.h"
 
 using namespace std;
 
 static const char* floatType =        "<type kind=\"single\"/>";
-
-void push_routine (const char *) {};
-void pop_routine (const char *) {};
 
 inline bool floatsAreEqual(float A, float B, float C) {return(fabs(A-B)<C);}
 
@@ -371,10 +364,10 @@ void fruitGrainPart::zeroAllGlobals(void)
    gMint = 0.0;
 
    gDelayGrnFill  = 0.0;
-   gDaysDelayedGrnFill  = 0.0;
+   gDaysDelayedGrnFill  = 0;
    cGrain_no_option  = 0.0;
    cGrain_fill_option  = 0.0;
-   cNum_temp_grainfill;
+   cNum_temp_grainfill = 0;
    cGrain_n_option  = 0.0;
    cSw_fac_max  = 0.0;
    cTemp_fac_min  = 0.0;
@@ -832,8 +825,6 @@ void fruitGrainPart::doNDemandGrain2 (void)
    float Tav ;
    float grain_growth;
 
-   push_routine (my_name);
-
    // default case
    gN_grain_demand = 0.0;
 
@@ -862,7 +853,6 @@ void fruitGrainPart::doNDemandGrain2 (void)
          }
       }
 
-   pop_routine (my_name);
 }
 
 float fruitGrainPart::dltNGrainConc(float sfac_slope      //(INPUT)  soil water stress factor slope

@@ -10,13 +10,13 @@ class GenericPhenology : public CropPhenology
       virtual void setupTTTargets(void);
 
    public:
-      GenericPhenology(PlantComponent *s, plantInterface *p) : CropPhenology(s, p) {};
+      GenericPhenology(plantInterface *p) : CropPhenology(p) {};
       void prepare(const environment_t &e);
       void process(const environment_t &e, const pheno_stress_t &ps, float fasw_seed, float pesw_seed);
       void readConstants (protocol::Component *, const string &);
       void readSpeciesParameters (protocol::Component *, std::vector<string> &);
       void readCultivarParameters (protocol::Component *, const string &);
-      void GenericPhenology::onSow(unsigned &, unsigned &, protocol::Variant &v);
+      void onSow(unsigned &, unsigned &, protocol::Variant &v);
       void writeCultivarInfo (PlantComponent *);
       void onRemoveBiomass(float removeBiomPheno);
       virtual float TT(const environment_t &e);
@@ -25,3 +25,4 @@ class GenericPhenology : public CropPhenology
    };
 
 #endif
+

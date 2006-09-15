@@ -4,12 +4,14 @@
 #include <string>
 #include <stdexcept>
 #include <ComponentInterface/Component.h>
-#include <ComponentInterface/dataTypes.h>
+#include <ComponentInterface/datatypes.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/MessageDataExt.h>
 
 #include "PlantComponent.h"
 #include "PlantLibrary.h"
+#include "PlantInterface.h"
+#include "Phase.h"
 #include "FixedPhase.h"
 
 void FixedPhase::readCultivarParameters(protocol::Component *s, const string & cultivar)
@@ -25,3 +27,4 @@ string FixedPhase::description() const
    {
    return "   tt_"+pPhase::name()+" = "+ftoa(target, "10.0")+ " (dd)";
    }
+

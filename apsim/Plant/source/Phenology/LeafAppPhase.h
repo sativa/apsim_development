@@ -1,8 +1,8 @@
 #ifndef LeafAppPhase_H
 #define LeafAppPhase_H
 
-#include "phase.h"
-#include "environment.h"
+class environment_t;
+class Output;
 
 class LeafAppPhase : public pPhase
    // A phenological phase.

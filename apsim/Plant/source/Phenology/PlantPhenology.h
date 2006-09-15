@@ -11,12 +11,8 @@
 
 #include <algorithm>
 #include <vector>
-#include <componentinterface\component.h>
-#include "plantinterface.h"
-
+//#include <ComponentInterface/Component.h>
 #include "CompositePhase.h"
-#include "Environment.h"
-#include "PlantLibrary.h"
 
 typedef struct {
 	float swdef;
@@ -26,11 +22,9 @@ typedef struct {
 	float remove_biom_pheno;
 } pheno_stress_t ;
 
-
-
 class protocol::Component;
-class PlantComponent;
-class Plant;
+class plantInterface;
+class environment_t;
 
 // Terminology:
 // A "stage" is a point in time.
@@ -43,9 +37,6 @@ class PlantPhenology : public plantThing {
  protected:
    // The plant to talk to for "plant" things
    plantInterface *plant;
-
-   // The system to talk to for "system" things - (XX should be a protocol::Component??)
-   PlantComponent *parentPlant;
 
    // State variables
    std::vector<pPhase*>     phases;                        // The list of phases that this plant goes through
@@ -76,7 +67,7 @@ class PlantPhenology : public plantThing {
    pPhase* find(const string& phase_name);
 
  public:
-   PlantPhenology(PlantComponent *s, plantInterface *p);
+   PlantPhenology(plantInterface *p);
    virtual void writeCultivarInfo (PlantComponent *)=0;
    virtual void readConstants (protocol::Component *, const string &);                // read structure etc from constants
    virtual void doRegistrations (protocol::Component *);
@@ -117,6 +108,7 @@ class PlantPhenology : public plantThing {
    virtual void zeroDeltas(void);
 };
 
+PlantPhenology * constructPhenology(plantInterface *plant, const string &name); 
 
 #endif
 

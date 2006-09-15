@@ -1,12 +1,13 @@
-#include "TTTphenology.h"
+#include <sstream>
 #include <ComponentInterface/Component.h>
-#include <ComponentInterface/dataTypes.h>
+#include <ComponentInterface/datatypes.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/MessageDataExt.h>
-#include <sstream>
 #include "PlantComponent.h"
 #include "PlantLibrary.h"
+#include "PlantInterface.h"
 #include "PlantPhenology.h"
+#include "TTTPhenology.h"
 #include "Environment.h"
 
 void TTTPhenology::zeroDeltas(void)
@@ -17,7 +18,8 @@ void TTTPhenology::zeroDeltas(void)
 void TTTPhenology::zeroAllGlobals(void)
    {
    CropPhenology::zeroAllGlobals();
-   est_days_emerg_to_init=cumvd =0;
+   est_days_emerg_to_init = 0;
+   cumvd = 0.0;
    }
 
 
@@ -226,7 +228,7 @@ void TTTPhenology::process (const environment_t &e, const pheno_stress_t &ps, fl
       {
 
       dlt_tt_phenol = dlt_tt * rel_emerg_rate[fasw_seed];
-      const pPhase *current = phases[currentStage];
+      const pPhase *current = phases[(int)currentStage];
       float a =  current->getTT() + dlt_tt_phenol;
       float b =  current->getTTTarget();
       phase_devel = divide(a, b, 1.0);
@@ -235,7 +237,7 @@ void TTTPhenology::process (const environment_t &e, const pheno_stress_t &ps, fl
    else if (inPhase("emergence2floral_initiation"))
       {
       dlt_tt_phenol = dlt_tt * min(ps.swdef, ps.nfact);
-      const pPhase *current = phases[currentStage];
+      const pPhase *current = phases[(int)currentStage];
       float a =  current->getTT() + dlt_tt_phenol;
       float b =  current->getTTTarget();
       phase_devel = divide(a, b, 1.0);
@@ -244,7 +246,7 @@ void TTTPhenology::process (const environment_t &e, const pheno_stress_t &ps, fl
     else if (inPhase("flowering"))
       {
       dlt_tt_phenol = dlt_tt *  ps.swdef_flower;          //no nstress
-      const pPhase *current = phases[currentStage];
+      const pPhase *current = phases[(int)currentStage];
       float a =  current->getTT() + dlt_tt_phenol;
       float b =  current->getTTTarget();
       phase_devel = divide(a, b, 1.0);
@@ -253,7 +255,7 @@ void TTTPhenology::process (const environment_t &e, const pheno_stress_t &ps, fl
     else if (inPhase("start_grain_fill2harvest_ripe"))
       {
       dlt_tt_phenol = dlt_tt *  ps.swdef_grainfill;       //no nstress
-      const pPhase *current = phases[currentStage];
+      const pPhase *current = phases[(int)currentStage];
       float a =  current->getTT() + dlt_tt_phenol;
       float b =  current->getTTTarget();
       phase_devel = divide(a, b, 1.0);
@@ -328,7 +330,7 @@ void TTTPhenology::onRemoveBiomass(float removeBiomPheno)
    if (initialOnBiomassRemove == true)
    {
       initialOnBiomassRemove = false;
-      y_removeFractPheno.search(parentPlant, iniSectionList,
+      y_removeFractPheno.search(plant->getComponent(), iniSectionList,
                "x_removeBiomPheno", "()", 0.0, 1.0,
                "y_removeFractPheno", "()", 0.0, 1.0);
    }
@@ -379,7 +381,7 @@ void TTTPhenology::onRemoveBiomass(float removeBiomPheno)
    }
    msg << "New Above ground TT = " << ttInPhase("above_ground") << endl << ends;
    if (plant->removeBiomassReport())
-      parentPlant->writeString (msg.str().c_str());
+      plant->getComponent()->writeString (msg.str().c_str());
 
 }
 
@@ -394,5 +396,6 @@ void TTTPhenology::prepare (const environment_t &e)
 void TTTPhenology::doRegistrations (protocol::Component *s)
    {
    CropPhenology::doRegistrations(s);
-   parentPlant->addGettableVar("dlt_cumvd", dlt_cumvd,   "", "Todays vd");
+   s->addGettableVar("dlt_cumvd", dlt_cumvd,   "", "Todays vd");
    }
+

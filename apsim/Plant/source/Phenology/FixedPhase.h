@@ -1,8 +1,6 @@
 #ifndef FIXEDPHASE_H
 #define FIXEDPHASE_H
 
-#include "phase.h"
-
 class FixedPhase : public pPhase
 // A fixed duration phenological phase.
    {

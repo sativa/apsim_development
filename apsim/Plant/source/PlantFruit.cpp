@@ -2,9 +2,6 @@
 // Modification log
 // 6 Aug 97 J. Hargreaves  Implementation
 
-#define YES 1
-#define NO 0
-#define TEST_PlantFruit NO					// build unit test?
 #include "PlantFruit.h"
 
 

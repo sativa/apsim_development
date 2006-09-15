@@ -1,11 +1,12 @@
-#include "TTTRatephenology.h"
 #include <ComponentInterface/Component.h>
-#include <ComponentInterface/dataTypes.h>
+#include <ComponentInterface/datatypes.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/MessageDataExt.h>
 #include "PlantComponent.h"
 #include "PlantLibrary.h"
+#include "PlantInterface.h"
 #include "PlantPhenology.h"
+#include "TTTRatePhenology.h"
 #include "Environment.h"
 
 
@@ -159,8 +160,9 @@ void TTTRatePhenology::doRegistrations (protocol::Component *s)
    {
    TTTPhenology::doRegistrations(s);
 
-   setupGetFunction(parentPlant, "zadok_stage", protocol::DTsingle, false,
+   setupGetFunction(s, "zadok_stage", protocol::DTsingle, false,
                     &TTTRatePhenology::get_zadok_stage,
                     "0-100", "Zadok's growth developmental stage");
 
-   }   
+   }
+

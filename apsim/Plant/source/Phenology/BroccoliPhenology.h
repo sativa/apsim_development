@@ -31,7 +31,7 @@ class BroccoliPhenology : public CropPhenology {
    virtual void updateTTTargets(const environment_t &e);
 
  public:
-   BroccoliPhenology(PlantComponent *s, plantInterface *p) : CropPhenology(s, p) {};
+   BroccoliPhenology(plantInterface *p) : CropPhenology(p) {};
    void prepare(const environment_t &e);
    void process(const environment_t &e, const pheno_stress_t &ps, float fasw_seed, float pesw_seed);
 
@@ -53,3 +53,4 @@ class BroccoliPhenology : public CropPhenology {
 };
 
 #endif
+

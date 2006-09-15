@@ -83,12 +83,12 @@ private:
    float plantTot(void) const;
    float plantDltDmGreen(void) const;
 
-   float plantNGreen(void) const;
-   float plantNSenesced(void) const;
-   float plantNDead(void) const;
-   float plantNTot(void) const;
-   float plantDltNRetrans(void) const;
-   float plantDltNGreen(void) const;
+   float plantNGreen(void);
+   float plantNSenesced(void);
+   float plantNDead(void);
+   float plantNTot(void);
+   float plantDltNRetrans(void);
+   float plantDltNGreen(void) ;
 
    float plantPGreen(void) const;
    float plantPSenesced(void) const;

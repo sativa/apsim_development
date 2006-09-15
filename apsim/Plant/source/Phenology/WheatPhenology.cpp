@@ -1,12 +1,14 @@
-#include "wheatphenology.h"
 #include <ComponentInterface/Component.h>
-#include <ComponentInterface/dataTypes.h>
+#include <ComponentInterface/datatypes.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/MessageDataExt.h>
 #include "PlantComponent.h"
 #include "PlantLibrary.h"
+#include "PlantInterface.h"
+#include "WheatPhenology.h"
 #include "PlantPhenology.h"
 #include "Environment.h"
+
 ///////////////////////////WHEAT///////////////////////////////////
 void WheatPhenology::zeroDeltas(void)
    {
@@ -440,14 +442,14 @@ void WheatPhenology::doRegistrations (protocol::Component *s)
    {
    CropPhenology::doRegistrations(s);
 
-   parentPlant->addGettableVar("cum_vernal_days", cumvd, "vd", "Cumulative vernalisation");
-   parentPlant->addGettableVar("vern_eff", vern_eff,     "", "Vernalisation effect");
-   parentPlant->addGettableVar("photop_eff", photop_eff, "", "Photoperiod effect");
-   parentPlant->addGettableVar("dlt_cumvd", dlt_cumvd,   "", "Todays vd");
+   s->addGettableVar("cum_vernal_days", cumvd, "vd", "Cumulative vernalisation");
+   s->addGettableVar("vern_eff", vern_eff,     "", "Vernalisation effect");
+   s->addGettableVar("photop_eff", photop_eff, "", "Photoperiod effect");
+   s->addGettableVar("dlt_cumvd", dlt_cumvd,   "", "Todays vd");
 
-   setupGetFunction(parentPlant, "zadok_stage", protocol::DTsingle, false,
+   setupGetFunction(s, "zadok_stage", protocol::DTsingle, false,
                     &WheatPhenology::get_zadok_stage,
                     "0-100", "Zadok's growth developmental stage");
 
    }
-   
+

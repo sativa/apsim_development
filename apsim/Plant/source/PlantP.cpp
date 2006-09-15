@@ -19,7 +19,6 @@
 #include <string>
 #include <algorithm>
 #include <stdexcept>
-#include <cstring.h>
 #include <iostream.h>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
@@ -29,7 +28,7 @@ using namespace std;
 #include <ComponentInterface/Type.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/Component.h>
-#include <ComponentInterface/dataTypes.h>
+#include <ComponentInterface/datatypes.h>
 #include <ComponentInterface/Messages.h>
 #include <ComponentInterface/MessageDataExt.h>
 #include <ApsimShared/ApsimComponentData.h>
@@ -47,11 +46,6 @@ using namespace std;
 
 static const char* floatArrayType =   "<type kind=\"single\" array=\"T\"/>";
 
-/////////////These might be redundancies??//////////
-void push_routine (const char *) {};
-void pop_routine (const char *) {};
-
-
 // =======================================
 void Plant::zero_p_variables ()
 {
@@ -64,7 +58,6 @@ void Plant::zero_p_variables ()
 //+  Constant Values
    const char*  my_name = "Plant::zero_p_variables";
 //- Implementation Section ----------------------------------
-      push_routine (my_name);
       // Parameters
       // ==========
 
@@ -84,7 +77,6 @@ void Plant::zero_p_variables ()
       c.num_x_p_stage_code = 0;
       g.phosphorus_aware = false;
 
-      pop_routine (my_name);
  }
 
 
@@ -137,7 +129,6 @@ void Plant::PlantP_partition (vector<plantPart*>&parts)
 
 
 //- Implementation Section ----------------------------------
-      push_routine (my_name);
 
       total_p_demand = 0.0;
       for (part = parts.begin(); part != parts.end(); part++)
@@ -158,7 +149,6 @@ void Plant::PlantP_partition (vector<plantPart*>&parts)
       for (part = parts.begin(); part != parts.end(); part++)
          (*part)->doPPartition(p_uptake, total_p_demand);
 
-      pop_routine (my_name);
 }
 
 
@@ -186,9 +176,7 @@ void Plant::zero_daily_p_variables ()
       const char*  my_name = "PlantP::zero_daily_p_variables";
 
 //- Implementation Section ----------------------------------
-      push_routine (my_name);
 
-      pop_routine (my_name);
 }
 // ====================================================================
 void Plant::doPInit (PlantComponent *systemInterface)
@@ -225,7 +213,6 @@ const char*  my_name = "PlantP_set_phosphorus_aware";
 
 //- Implementation Section ----------------------------------
 
-      push_routine (my_name);
 
       unsigned int idSoilpVar = systemInterface->addRegistration(RegistrationType::get,
                                                                "labile_p", floatArrayType,
@@ -245,7 +232,6 @@ const char*  my_name = "PlantP_set_phosphorus_aware";
          g.phosphorus_aware = false;
       }
 
-   pop_routine (my_name);
 }
 
 
@@ -288,7 +274,6 @@ float Plant::PlantP_Pfact (vector<plantPart *> &allParts)
       vector<plantPart*>::iterator part;
 
 //- Implementation Section ----------------------------------
-      push_routine (my_name);
 
    if (g.phosphorus_aware == true)
    {
@@ -329,7 +314,6 @@ float Plant::PlantP_Pfact (vector<plantPart *> &allParts)
       pfact = 1.0;
    }
 
-   pop_routine (my_name);
    return pfact;
 }
 
@@ -350,7 +334,6 @@ void Plant::PlantP_Stress (vector<plantPart *> &allParts)
       float    pfact;
 
 //- Implementation Section ----------------------------------
-      push_routine (my_name);
 
       pfact = PlantP_Pfact(allParts);
 
@@ -366,7 +349,6 @@ void Plant::PlantP_Stress (vector<plantPart *> &allParts)
       g.pfact_grain = pfact * c.pfact_grain_slope;
       g.pfact_grain = bound(g.pfact_grain, 0.0, 1.0);
 
-      pop_routine (my_name);
 }
 // ====================================================================
 void Plant::PlantP_init_pools (vector<plantPart*>&parts)  //FIXME - this is not referenced anywhere!!!
@@ -386,7 +368,6 @@ void Plant::PlantP_init_pools (vector<plantPart*>&parts)  //FIXME - this is not 
    float dmSum = 0.0, pSum = 0.0;
 
 //- Implementation Section ----------------------------------
-      push_routine (my_name);
 
    // This is wrong. need to initialise these on an event. XXXX
    for (part = parts.begin(); part != parts.end(); part++)
@@ -405,7 +386,6 @@ void Plant::PlantP_init_pools (vector<plantPart*>&parts)  //FIXME - this is not 
             (*part)->doPInit();
             }
          }
-   pop_routine (my_name);
 }
 
 void Plant::plant_p_retrans(void)
@@ -436,7 +416,6 @@ void Plant::PlantP_retrans (vector<plantPart*>&parts)
       float    totSupply, totDemand;
 
 //- Implementation Section ----------------------------------
-      push_routine (my_name);
 
       totSupply = 0.0;
       totDemand = 0.0;
@@ -449,7 +428,6 @@ void Plant::PlantP_retrans (vector<plantPart*>&parts)
       for (ipart =0; ipart != parts.size(); ipart++)
          parts[ipart]->doPRetranslocate(totSupply, totDemand);
 
-      pop_routine (my_name);
 }
 
 // ====================================================================
@@ -476,7 +454,6 @@ void Plant::summary_p (void)
       float       P_grain_conc_percent;  // grain nitrogen .
 
 //- Implementation Section ----------------------------------          g.p_green(1:g.num_parts)
-      push_routine (my_name);
 
    if (g.phosphorus_aware == true)
    {
@@ -508,7 +485,6 @@ void Plant::summary_p (void)
                 , " dead P content (kg/ha) = ", P_dead);
        parent->writeString (msg);
    }
-   pop_routine (my_name);
 }
 
 

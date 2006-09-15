@@ -4,13 +4,18 @@
 #include <string>
 #include <stdexcept>
 #include <ComponentInterface/Component.h>
-#include <ComponentInterface/dataTypes.h>
+#include <ComponentInterface/datatypes.h>
 #include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/MessageDataExt.h>
 
 #include "PlantComponent.h"
 #include "PlantLibrary.h"
+#include "PlantInterface.h"
+#include "Environment.h"
+#include "Phase.h"
 #include "VernalPhase.h"
+#include "Output.h"
+#include "OutputVariable.h"
 #include "iostream.h"
 
 void VernalPhase::reset()

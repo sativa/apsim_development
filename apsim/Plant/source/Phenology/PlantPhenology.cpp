@@ -3,13 +3,14 @@
 #include <vector>
 #include <string>
 #include <stdexcept>
-#include <ComponentInterface/Component.h>
-#include <ComponentInterface/dataTypes.h>
-#include <ComponentInterface/ApsimVariant.h>
 #include <ComponentInterface/MessageDataExt.h>
+#include <ComponentInterface/Component.h>
+#include <ComponentInterface/datatypes.h>
+#include <ComponentInterface/ApsimVariant.h>
 
 #include "PlantComponent.h"
 #include "PlantLibrary.h"
+#include "PlantInterface.h"
 #include "PlantPhenology.h"
 #include "Environment.h"
 #include "FixedPhase.h"
@@ -17,13 +18,38 @@
 #include "PhotoPhase.h"
 #include "EmergentPhase.h"
 #include "LeafAppPhase.h"
+#include "TTTPhenology.h"
+#include "TTTRatePhenology.h"
+#include "GenericPhenology.h"
+#include "WheatPhenology.h"
+#include "BroccoliPhenology.h"
+
 #include "OutputVariable.h"
 #include "iostream.h"
 
-PlantPhenology::PlantPhenology(PlantComponent *s, plantInterface *p)
+PlantPhenology * constructPhenology(plantInterface *plant, const string &name) 
+    {
+    class PlantPhenology *phenology = NULL;
+    if (name == "")
+       throw std::invalid_argument("The parameter 'phenology_model'\nisn't in your ini file.\n\nGet one.\n");
+    else if (name == "legume")
+       phenology = new TTTPhenology(plant);
+    else if (name == "tttrate")
+       phenology = new TTTRatePhenology(plant);
+    else if (name == "generic")
+       phenology = new GenericPhenology(plant);
+    else if (name == "wheat")
+       phenology = new WheatPhenology(plant);
+    else if (name == "broccoli")
+       phenology = new BroccoliPhenology(plant);
+    else
+       throw std::invalid_argument("Unknown phenology model '" + name + "'");
+    return phenology;
+    }
+
+PlantPhenology::PlantPhenology(plantInterface *p)
    {
    plant = p;          // "Plant" interface
-   parentPlant = s;    // "System" interface
    }
 
 void PlantPhenology::readConstants (protocol::Component *s, const string &section)
@@ -118,7 +144,7 @@ void PlantPhenology::readConstants (protocol::Component *s, const string &sectio
          {
          OutputVariable *Variable = dynamic_cast<OutputVariable*> (Outputs[o]);
          cout << Variable ;
-         parentPlant->addGettableVar(Outputs[o]->Name.c_str(), *((float*)Variable->Variable), Outputs[o]->Units.c_str(), Outputs[o]->Description.c_str());
+         s->addGettableVar(Outputs[o]->Name.c_str(), *((float*)Variable->Variable), Outputs[o]->Units.c_str(), Outputs[o]->Description.c_str());
          delete Outputs[o];
          }
 
@@ -138,17 +164,17 @@ pPhase* PlantPhenology::find(const string& PhaseName)
 void PlantPhenology::doRegistrations (protocol::Component *s)
 {
 
-   parentPlant->addGettableVar("stage", currentStage, "", "Plant stage");
-   parentPlant->addGettableVar("dlt_stage", dltStage, "", "Change in plant stage");
-   setupGetFunction(parentPlant, "stage_name", protocol::DTstring, false,
+   s->addGettableVar("stage", currentStage, "", "Plant stage");
+   s->addGettableVar("dlt_stage", dltStage, "", "Change in plant stage");
+   setupGetFunction(s, "stage_name", protocol::DTstring, false,
                     &PlantPhenology::get_stage_name, "", "Plant stage name");
-   setupGetFunction(parentPlant, "stage_code", protocol::DTint4, false,
+   setupGetFunction(s, "stage_code", protocol::DTint4, false,
                     &PlantPhenology::get_stage_code, "", "Plant stage code");
-   setupGetFunction(parentPlant, "phase_tt", protocol::DTsingle, true,
+   setupGetFunction(s, "phase_tt", protocol::DTsingle, true,
                     &PlantPhenology::get_phase_tt, "dd", "Thermal time target for each crop phase");
-   setupGetFunction(parentPlant, "tt_tot", protocol::DTsingle, true,
+   setupGetFunction(s, "tt_tot", protocol::DTsingle, true,
                     &PlantPhenology::get_tt_tot, "dd", "Thermal time spent in each crop stage");
-   setupGetFunction(parentPlant, "days_tot",protocol::DTsingle, true,
+   setupGetFunction(s, "days_tot",protocol::DTsingle, true,
                     &PlantPhenology::get_days_tot, "days", "Days spent in each crop stage");
 
 }
@@ -220,8 +246,8 @@ pPhase *PlantPhenology::getStage(const string &name)
 
 int PlantPhenology::daysInCurrentPhase(void)
    {
-   const pPhase *current = phases[currentStage];
-   return current->getDays();
+   const pPhase *current = phases[(int)currentStage];
+   return ((int) current->getDays());
    }
 
 float PlantPhenology::ttInPhase(const string &phaseName)
@@ -270,8 +296,8 @@ float PlantPhenology::TTTargetInPhase(const string &phaseName)
    }
 float PlantPhenology::ttInCurrentPhase(void)
    {
-	const pPhase *current = phases[currentStage];
-	return current->getTT();
+	const pPhase *current = phases[(int)currentStage];
+	return ((int)current->getTT());
    }
 
 int PlantPhenology::daysInPhase(const string &phaseName)
@@ -280,7 +306,7 @@ int PlantPhenology::daysInPhase(const string &phaseName)
       compositePhase phaseGroup = composites[phaseName];
       if (!phaseGroup.isEmpty())
       {
-         return phaseGroup.getDays();
+         return ((int)phaseGroup.getDays());
       }
       else
       {
@@ -292,7 +318,7 @@ int PlantPhenology::daysInPhase(const string &phaseName)
          }
          else
          {
-   	      return phase->getDays();
+   	      return ((int)phase->getDays());
    	   }
    	}
    }
@@ -340,10 +366,10 @@ void PlantPhenology::zeroAllGlobals(void)
 float PlantPhenology::stageCode (void)
     {
     if (currentStage < 3.0) return 3.0;
-    if (phases[currentStage]->isFirstDay())
+    if (phases[(int)currentStage]->isFirstDay())
         {
-        float tt_tot = phases[currentStage]->getTT();
-        float phase_tt = phases[currentStage]->getTTTarget();
+        float tt_tot = phases[(int)currentStage]->getTT();
+        float phase_tt = phases[(int)currentStage]->getTTTarget();
         float fraction_of = divide (tt_tot, phase_tt, 0.0);
         fraction_of = bound(fraction_of, 0.0, 0.999);
         return((int)currentStage +  fraction_of);
