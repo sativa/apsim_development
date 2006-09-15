@@ -1,0 +1,102 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for APSIM maize module
+#-----------------------------------------------------------------------
+#=======================================================================
+
+LIB=	../lib/plant.so
+    
+OBJ=PlantComponent.o \
+   Plant.o \
+   PlantPart.o \
+   PlantBiomass.o \
+   PlantCanopy.o \
+   PlantFail.o \
+   PlantLibrary.o \
+   PlantNitrogen.o \
+   PlantRoot.o \
+   PlantTemp.o \
+   PlantUtility.o \
+   PlantWater.o \
+   Data.o \
+   Science.o \
+   Date.o \
+   PlantComms.o \
+   PlantP.o \
+   Environment.o \
+   Observers.o \
+   LeafPart.o \
+   StemPart.o \
+   PodPart.o \
+   MealPart.o \
+   OilPart.o \
+   GrainPart.o \
+   CompositePart.o \
+   RootPart.o \
+   FruitCohort.o \
+   Output.o \
+   OutputVariable.o \
+   genericLeafPart.o \
+   cohortingLeafPart.o \
+   arbitrator.o \
+   Phenology/PlantPhenology.o \
+   Phenology/Phase.o \
+   Phenology/CompositePhase.o \
+   Phenology/TTTPhenology.o \
+   Phenology/CropPhenology.o \
+   Phenology/TTTRatePhenology.o \
+   Phenology/WheatPhenology.o \
+   Phenology/FixedPhase.o \
+   Phenology/VernalPhase.o \
+   Phenology/BroccoliPhenology.o \
+   Phenology/GenericPhenology.o \
+   Phenology/PhotoPhase.o \
+   Phenology/EmergentPhase.o \
+   Phenology/LeafAppPhase.o \
+   ../../../Shared/ComponentInterface/EntryPoints.o
+#-----------------------------------------------------------------------
+# Compiler options
+
+CC=		/usr/bin/gcc
+CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
+		-I$(APSROOT)/Shared				\
+		-I$(APSROOT)/Shared/ComponentInterface		\
+		-I$(APSROOT)/apsim/Plant/source                 \
+		-Wno-deprecated 				\
+		-fpermissive -fPIC
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS=	-L$(APSROOT)/lib		\
+		-L/usr/lib
+
+LIBS=		-lComponentInterface	\
+		-lprotocol		\
+		-lApsimShared		\
+		-lgeneral		\
+		-lboost_filesystem 	\
+		-lxml2
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB)
+
+%.o:	%.cpp
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+
+$(LIB):	$(OBJ)
+	$(CC) -shared -o $(LIB) $(OBJ) $(LDFLAGS) $(LIBS)
+
+FORCE:
+
+clean:
+	rm -f $(OBJ)
+
+clobber:	clean
+	rm -f $(LIB)
+
+install: all
+	cp $(LIB) $(APSROOT)/lib
+
