@@ -9,6 +9,7 @@
 #include <general/StringTokenizer.h>
 #include <general/stl_functions.h>
 #include <general/platform.h>
+#include "ApsimDirectories.h"
 #include "ApsimSettings.h"
 #include "ApsimVersion.h"
 #ifdef __WIN32__
@@ -126,7 +127,11 @@ void SimCreator::ConToSimInternal(const std::string& controlFileName,
       ofstream out(simFileName.c_str());
 
       out << "<?xml version=\"1.0\"?>\n";
-      out << "<simulation executable=\"%apsuite\\apsim\\protocolmanager\\lib\\protocolmanager.dll\" version=\"" << getApsimVersion() <<  "\">\n";
+#ifdef __WIN32__
+      out << "<simulation executable=\""+ getApsimDirectory() +"\\apsim\\protocolmanager\\lib\\protocolmanager.dll\" version=\"" << getApsimVersion() <<  "\">\n";
+#else
+      out << "<simulation executable=\""+ getApsimDirectory() +"/apsim/ProtocolManager/lib/libProtocolManager.so\" version=\"" << getApsimVersion() <<  "\">\n";
+#endif
       out << "   <title>";
       string Title = con.getTitle(sectionNames[s]);
       bool UseCDATA = (Title.find_first_of("<>&") != string::npos);
