@@ -820,8 +820,6 @@ void fruitGrainPart::doNDemandGrain1(float nfact_grain_conc      //   (INPUT)
 void fruitGrainPart::doNDemandGrain2 (void)
    //===========================================================================
 {
-   const char *my_name = "doNDemandGrain2";
-
    float Tav ;
    float grain_growth;
 
