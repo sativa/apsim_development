@@ -36,40 +36,40 @@ public:												// member functions
 
    void doNSenescedRetrans(float navail, float n_demand_tot);   //remove  problem
 
-   float grainNConcPercent(void);       //remove  problem
+   float grainNConcPercent(void) const;       //remove  problem
 
-   float dmGrainTotal(void);
-   float dmVegTotal(void);
-   float dmGreenGrainTotal(void);
-   float dmGreenVegTotal(void);
-   float dmSenescedVegTotal(void);
-   float dmDeadVegTotal(void);
+   float dmGrainTotal(void) const;
+   float dmVegTotal(void) const;
+   float dmGreenGrainTotal(void) const;
+   float dmGreenVegTotal(void)const;
+   float dmSenescedVegTotal(void)const;
+   float dmDeadVegTotal(void)const;
 
-   float nGrainTotal(void);
-   float nVegTotal(void);
-   float nGreenGrainTotal(void);
-   float nGreenVegTotal(void);
-   float nSenescedVegTotal(void);
-   float nDeadVegTotal(void);
+   float nGrainTotal(void)const;
+   float nVegTotal(void)const;
+   float nGreenGrainTotal(void)const;
+   float nGreenVegTotal(void)const;
+   float nSenescedVegTotal(void)const;
+   float nDeadVegTotal(void)const;
    float nDemandGrain2(void);          //remove  problem
    float nCapacity(void);
 ////   void  doNPartition(float nSupply, float n_demand_sum, float n_capacity_sum);
 
-   float nMaxPot(void);
-   float nMax(void);
-   float nMinPot(void);
-   float pGrainTotal(void);
-   float pVegTotal(void);
-   float pGreenGrainTotal(void);
-   float pDeadGrainTotal(void);
-   float pGreenVegTotal(void);
-   float pSenescedGrainTotal(void);     //remove
-   float pSenescedVegTotal(void);
-   float pDeadVegTotal(void);
-   float pConcGrain(void);              //remove
-   float pConcGrainTotal(void);        //remove
-   float pMaxPot(void);
-   float pMinPot(void);
+   float nMaxPot(void)const;
+   float nMax(void)const;
+   float nMinPot(void)const;
+   float pGrainTotal(void)const;
+   float pVegTotal(void)const;
+   float pGreenGrainTotal(void)const;
+   float pDeadGrainTotal(void)const;
+   float pGreenVegTotal(void)const;
+   float pSenescedGrainTotal(void)const;     //remove
+   float pSenescedVegTotal(void)const;
+   float pDeadVegTotal(void)const;
+   float pConcGrain(void)const;              //remove
+   float pConcGrainTotal(void)const;        //remove
+   float pMaxPot(void)const;
+   float pMinPot(void)const;
 
 
 

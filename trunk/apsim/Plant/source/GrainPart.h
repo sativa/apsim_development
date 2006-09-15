@@ -14,6 +14,7 @@ class fruitGrainPart : public CompositePart
    friend ostream &operator<<(ostream &, const fruitGrainPart &);
 public:												// member functions
    fruitGrainPart(plantInterface *p, const string &name);
+   ~fruitGrainPart();
 
    //		fruitGrainPart(const fruitGrainPart &fruitGrainPart); 			// copy constructor
    const fruitGrainPart &operator=(const fruitGrainPart &other);		// Assigment operator
@@ -69,18 +70,18 @@ public:												// member functions
    void update(void);
 
    float grainEnergy(void);        //remove
-   float grainNo(void);
-   float nConcPercent(void);         //remove
-   float grainNConcPercent(void);
-   float nDemandGrain(void);
+   float grainNo(void) const;
+   float nConcPercent(void)const;         //remove
+   float grainNConcPercent(void) const;
+   float nDemandGrain(void) const;
 
    float dltDmDemand(void);
    float dltDmGrainDemand(void) const;
 
-   float grainWt(void);
+   float grainWt(void) const;
    float nDemand2(void);
 
-   float pConcGrainTotal(void);
+   float pConcGrainTotal(void) const;
 
    virtual void display(ostream &os = cout) const;	// display function
 
@@ -96,11 +97,6 @@ public:												// member functions
    void doNInit (void);
    void doNRetranslocate( float N_avail_rep, float g_grain_n_demand);
 
-#if TEST_fruitGrainPart
-   virtual ~fruitGrainPart();							// destructor
-#else
-   ~fruitGrainPart();
-#endif
 
 
    //      protected:

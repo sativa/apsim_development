@@ -197,7 +197,7 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps,
                        min(vern_eff, photop_eff) *
                        rel_emerg_rate[fasw_seed];
 
-      const pPhase *current = phases[currentStage];
+      const pPhase *current = phases[(int)currentStage];
       phase_devel = divide(current->getTT() + dlt_tt_phenol, current->getTTTarget(), 1.0);
       new_stage = floor(currentStage) + phase_devel;
       }
@@ -216,7 +216,7 @@ void WheatPhenology::process (const environment_t &sw, const pheno_stress_t &ps,
                       fstress *
                       min(vern_eff, photop_eff);
 
-      const pPhase *current = phases[currentStage];
+      const pPhase *current = phases[(int)currentStage];
       phase_devel = divide(current->getTT() + dlt_tt_phenol, current->getTTTarget(), 1.0);
       new_stage = floor(currentStage) + phase_devel;
       }

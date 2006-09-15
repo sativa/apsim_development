@@ -103,7 +103,7 @@ void fruitGrainPart::doRegistrations(protocol::Component *system)
       (*part)->doRegistrations(system);
 }
 
-float fruitGrainPart::grainWt(void)
+float fruitGrainPart::grainWt(void) const
    //===========================================================================
 {
    return divide (dmTotal(), gGrain_no, 0.0);
@@ -115,7 +115,7 @@ float fruitGrainPart::nDemand2(void)
    return mealPart->nDemand2();
 }
 
-float fruitGrainPart::pConcGrainTotal(void)
+float fruitGrainPart::pConcGrainTotal(void)  const
    //===========================================================================
 {
    float p_conc = divide (pTotal() , dmTotal() , 0.0) * fract2pcnt;
@@ -640,10 +640,10 @@ void fruitGrainPart::doProcessBioDemand(void)
    return;
 }
 
-float fruitGrainPart::grainNo(void) {return gGrain_no;}
-float fruitGrainPart::nDemandGrain(void) {return gN_grain_demand;}
-float fruitGrainPart::nConcPercent(void) {return divide (nTotal(), dmTotal(), 0.0) * fract2pcnt;}   //redmove
-float fruitGrainPart::grainNConcPercent(void) {return divide (nTotal(), dmTotal(), 0.0) * fract2pcnt;}
+float fruitGrainPart::grainNo(void) const {return gGrain_no;}
+float fruitGrainPart::nDemandGrain(void) const {return gN_grain_demand;}
+float fruitGrainPart::nConcPercent(void) const {return divide (nTotal(), dmTotal(), 0.0) * fract2pcnt;}   //redmove
+float fruitGrainPart::grainNConcPercent(void) const {return divide (nTotal(), dmTotal(), 0.0) * fract2pcnt;}
 float fruitGrainPart::dltDmDemand(void) {return gDlt_dm_grain_demand;}                               //remove
 float fruitGrainPart::dltDmGrainDemand(void) const {return gDlt_dm_grain_demand;}
 

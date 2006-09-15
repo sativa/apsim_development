@@ -69,3 +69,4 @@ string PhotoPhase::description() const
    {
    return photo_tt.description();
    } 
+

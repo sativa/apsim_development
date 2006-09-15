@@ -119,7 +119,7 @@ float stage_no_of (float stage_code,           //(INPUT) stage code to look up
    }
 
 //===========================================================================
-float linear_interp_real (float x, float *x_cord, float *y_cord, int num_cord)
+float linear_interp_real (float x, const float *x_cord, const float *y_cord, int num_cord)
 //===========================================================================
 
 

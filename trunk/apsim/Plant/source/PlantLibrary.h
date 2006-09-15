@@ -91,9 +91,9 @@ class externalFunction {
                        const char *xname, const char * xunits, float x0, float x1,
                        const char *yname, const char * yunits, float y0, float y1);
 
-   virtual std::string description(void);
+   virtual std::string description(void) const;
 
-   virtual float value(float v) = 0;
+   virtual float value(float v) const = 0;
    float operator [] (float arg) {return value(arg);};
    virtual bool isInitialised(void) {return false;};
 };
@@ -110,14 +110,14 @@ class interpolationFunction : public externalFunction
    void search(protocol::Component *P, vector<string> &sections,
              const char *xName, const char * xunits, float x0, float x1,
              const char *yName, const char * yunits, float y0, float y1);
-   float value(float v);
+   float value(float v) const;
    vector<float> xVal() const {
    	return(x);
    };
    vector<float> yVal() const {
    	return(y);
    };
-   std::string description(void);
+   std::string description(void) const;
    bool isInitialised(void)
       {
       if (x.size() == 0) return false;
@@ -137,14 +137,14 @@ class lookupFunction : public externalFunction
    void search(protocol::Component *P, vector<string> &sections,
              const char *xName, const char * xunits, float x0, float x1,
              const char *yName, const char * yunits, float y0, float y1);
-   float value(float v);
+   float value(float v) const;
    vector<float> xVal() const {
    	return(x);
    };
    vector<float> yVal() const {
    	return(y);
    };
-   std::string description(void);
+   std::string description(void) const;
 };
 
 
@@ -1603,7 +1603,7 @@ void   jday_to_date (int *day, int *month, int *year, double jday);
 
 //---------------------------------------------------------------------------
 
-float linear_interp_real (float x, float *x_cord, float *y_cord, int num_cord);
+float linear_interp_real (float x, const float *x_cord, const float *y_cord, int num_cord);
 
 bool stage_is_between (int start, int finish, float current_stage);
 

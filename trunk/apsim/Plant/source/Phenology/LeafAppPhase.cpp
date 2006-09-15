@@ -97,4 +97,3 @@ string LeafAppPhase::description() const
    return "   Stage duration determined by leaf appearance rates";
    } 
 
-   
