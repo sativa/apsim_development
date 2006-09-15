@@ -72,7 +72,6 @@ Public Class RuleUI
         '
         Me.GenericUI.AutoScroll = True
         Me.GenericUI.BackColor = System.Drawing.SystemColors.Control
-        Me.GenericUI.Controller = Nothing
         Me.GenericUI.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GenericUI.HelpText = ""
         Me.GenericUI.Location = New System.Drawing.Point(0, 0)
@@ -97,14 +96,13 @@ Public Class RuleUI
     ' -----------------------------------
     ' Refresh the UI
     ' -----------------------------------
-    Overrides Sub refresh()
-        MyBase.Refresh()
+    Overrides Sub RefreshView(ByVal Controller As BaseController)
+        MyBase.RefreshView(Controller)
 
         InRefresh = True
 
         ' Fill the property grid.
-        GenericUI.Controller = Controller
-        GenericUI.Refresh()
+        GenericUI.RefreshView(Controller)
 
         ' Create a tab for each condition.
         While TabControl1.TabPages.Count > 1

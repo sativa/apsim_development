@@ -1,3 +1,4 @@
+Imports VBGeneral
 Public Class LogicUI
     Inherits VBGeneral.BaseView
 
@@ -138,8 +139,8 @@ Public Class LogicUI
 
 #End Region
 
-    Overrides Sub Refresh()
-        MyBase.Refresh()
+    Overrides Sub RefreshView(ByVal Controller As BaseController)
+        MyBase.RefreshView(Controller)
         InitTextBox.Text = Replace(Controller.Data.ChildValue("init"), "[cr]", vbCrLf)
         StartOfDayTextBox.Text = Replace(Controller.Data.ChildValue("startofday"), "[cr]", vbCrLf)
 

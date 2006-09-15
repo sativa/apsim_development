@@ -1,6 +1,6 @@
 Imports System
 Imports System.IO
-
+Imports VBGeneral
 Public Class MetUI
     Inherits VBGeneral.BaseView
 
@@ -70,7 +70,6 @@ Public Class MetUI
         '
         Me.MetGraphControl1.AutoScroll = True
         Me.MetGraphControl1.BackColor = System.Drawing.SystemColors.Control
-        Me.MetGraphControl1.Controller = Nothing
         Me.MetGraphControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.MetGraphControl1.HelpText = ""
         Me.MetGraphControl1.Location = New System.Drawing.Point(0, 40)
@@ -92,11 +91,11 @@ Public Class MetUI
 
 #End Region
 
-    Public Overrides Sub Refresh()
-        MyBase.Refresh()
+    Public Overrides Sub RefreshView(ByVal Controller As BaseController)
+        MyBase.RefreshView(Controller)
 
-        Dim FileName As String = Controller.Data.ChildValueWithError("filename")
-        MetGraphControl1.Controller = Controller
+        Dim FileName As String = Controller.Data.ChildValue("filename")
+        MetGraphControl1.RefreshView(Controller)
         HelpText = FileName
         OpenFileDialog.InitialDirectory = Path.GetDirectoryName(FileName)
         MetGraphControl1.SetFileName(FileName)

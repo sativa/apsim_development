@@ -1,80 +1,175 @@
 Imports System
-Imports System.Collections
-Imports System.Collections.Specialized
 Imports System.Xml
 Imports System.IO
 
-' ----------------------------------------------------------------------
-' This class encapsulates the way we use xml to pass information around.
-' ----------------------------------------------------------------------
 Public Class APSIMData
-    Private Node As XmlNode
-    Delegate Sub DataChangedEventHandler()
+    ' ----------------------------------------------------------------------
+    ' This class encapsulates the way we use xml to pass information around.
+    ' ----------------------------------------------------------------------
+    Private InternalNode As XmlNode
+    Private InUpdate As Boolean = False
+    Private InInternalUpdate As Boolean = False
+    Private Delimiter As String = "\"
+
+    Delegate Sub DataChangedEventHandler(ByVal ChangedData As APSIMData)
     Public Event DataChanged As DataChangedEventHandler
 
-    ' --------------------
-    ' constructors
-    ' --------------------
-    Sub New()
-        Node = Nothing
+    Public Sub New()
+        ' -----------------------------------------------------------------------
+        ' constructor taking no arguments - creates a completely empty APSIMData
+        ' -----------------------------------------------------------------------
+        InternalNode = Nothing
     End Sub
     Private Sub New(ByRef DataNode As XmlNode, ByVal ChangedHandler As DataChangedEventHandler)
-        Node = DataNode
+        ' -----------------------------------------------------------------------
+        ' internal constructor 
+        ' -----------------------------------------------------------------------
+        InternalNode = DataNode
         AddHandler DataChanged, ChangedHandler
     End Sub
-    Sub New(ByVal XMLString As String)
+    Public Sub New(ByVal XMLString As String)
+        ' -----------------------------------------------------------------------
+        ' constructor taking a single XML argument
+        ' -----------------------------------------------------------------------
         Dim data As New XmlDocument
         data.LoadXml(XMLString)
-        Node = data.DocumentElement
+        InternalNode = data.DocumentElement
     End Sub
-    Sub New(ByVal type As String, ByVal name As String)
+    Public Sub New(ByVal type As String, ByVal name As String)
+        ' -----------------------------------------------------------------------
+        ' constructor taking a type and a name as arguments.
+        ' -----------------------------------------------------------------------
         name = name.Replace("&", "&amp;")
         Dim XMLString As String
         XMLString = "<" + type
-        If name <> "" Then
+        If name <> "" And name <> type Then
             XMLString = XMLString + " name = """ + name + """"
         End If
         XMLString = XMLString + "/>"
 
         Dim data As New XmlDocument
         data.LoadXml(XMLString)
-        Node = data.DocumentElement
+        InternalNode = data.DocumentElement
     End Sub
 
+    Public Property PathDelimiter() As String
+        ' ---------------------------------------------------
+        ' Allows caller to change the delimiter used to find
+        ' a node
+        ' ---------------------------------------------------
+        Get
+            Return Delimiter
+        End Get
+        Set(ByVal value As String)
+            Delimiter = value
+        End Set
+    End Property
+    Private ReadOnly Property Node() As XmlNode
+        ' -----------------------------------------------------------------------
+        ' Returns an XmlNode that takes shortcuts into account.
+        ' -----------------------------------------------------------------------
+        Get
+            If Not IsNothing(InternalNode.Attributes) Then
+                Dim ShortCut As XmlAttribute = InternalNode.Attributes.GetNamedItem("shortcut")
+                If Not IsNothing(ShortCut) Then
+                    Dim ShortCutPath As String = "shared" + "|" + ShortCut.InnerText
+                    Return New APSIMData(InternalNode.OwnerDocument.DocumentElement, DataChangedEvent).Child(ShortCutPath).InternalNode
+                End If
+            End If
+            Return InternalNode
+        End Get
+    End Property
+    Public Sub BeginUpdate()
+        ' -----------------------------------------------------------------------
+        ' Signals that a whole chunk of stuff is about to change. Don't fire 
+        ' any events until EndUpdate is called.
+        ' -----------------------------------------------------------------------
+        InUpdate = True
+    End Sub
+    Public Sub EndUpdate()
+        ' -----------------------------------------------------------------------
+        ' Signals that updating has finished. Events can now be fired.
+        ' -----------------------------------------------------------------------
+        InUpdate = False
+        FireDataChangedEvent()
+    End Sub
+    Private Sub FireDataChangedEvent()
+        ' -----------------------------------------------------------------------
+        ' If BeginUpdate hasn't been called then fire off a DataChanged event.
+        ' -----------------------------------------------------------------------
+        If Not InUpdate And Not InInternalUpdate Then
+            RaiseEvent DataChanged(Me)
+        End If
 
-    ' ----------------------------
-    ' Load from specified file
-    ' ----------------------------
+    End Sub
+    Private Sub BeginInternalUpdate()
+        ' -----------------------------------------------------------------------
+        ' Signals that a whole chunk of stuff is about to change. Don't fire 
+        ' any events until EndUpdate is called.
+        ' -----------------------------------------------------------------------
+        InInternalUpdate = True
+    End Sub
+    Private Sub EndInternalUpdate()
+        ' -----------------------------------------------------------------------
+        ' Signals that updating has finished. Events can now be fired.
+        ' -----------------------------------------------------------------------
+        InInternalUpdate = False
+        FireDataChangedEvent()
+    End Sub
+    Public Property Name() As String
+        ' -----------------------------------------------------------------------
+        ' Provides read and write access to the name of this data.
+        ' -----------------------------------------------------------------------
+        Get
+            Dim NameAttribute As String = Attribute("name")
+            If NameAttribute = "" Then
+                Return Node.Name
+            Else
+                Return NameAttribute
+            End If
+        End Get
+        Set(ByVal NewName As String)
+            If Not IsNothing(Parent) Then
+                NewName = CalcUniqueName(NewName, Parent.ChildNames)
+            End If
+            SetAttribute("name", NewName)
+        End Set
+    End Property
+    Public ReadOnly Property Type() As String
+        ' -----------------------------------------------------------------------
+        ' Provides read access to the type of this data.
+        ' -----------------------------------------------------------------------
+        Get
+            Return Node.Name
+        End Get
+    End Property
     Public Function LoadFromFile(ByVal FileName As String) As Boolean
+        ' ----------------------------
+        ' Load from specified file
+        ' ----------------------------
         Dim MyFileName As String = Path.GetFullPath(FileName)
 
         If File.Exists(MyFileName) Then
             Dim data As New XmlDocument
             data.Load(MyFileName)
-            Node = data.DocumentElement
-            RaiseEvent DataChanged()
+            InternalNode = data.DocumentElement
+            FireDataChangedEvent()
             Return True
         Else
             MsgBox("Cannot find file: " + FileName)
             Return False
         End If
     End Function
-
-
-    ' ----------------------------
-    ' Save to the specified file
-    ' ----------------------------
     Public Sub SaveToFile(ByVal FileName As String)
+        ' ----------------------------
+        ' Save to the specified file
+        ' ----------------------------
         Node.OwnerDocument.Save(FileName)
     End Sub
-
-
-
-
-    ' ------------------------------------------------
-    ' Return parent node data or nothing if root node
-    ' ------------------------------------------------
-    ReadOnly Property Parent() As APSIMData
+    Public ReadOnly Property Parent() As APSIMData
+        ' ------------------------------------------------
+        ' Return parent node data or nothing if root node
+        ' ------------------------------------------------
         Get
             Dim A As New APSIMData(Node.ParentNode, DataChangedEvent)
             If A.Type = "#document" Then
@@ -84,163 +179,162 @@ Public Class APSIMData
             End If
         End Get
     End Property
-
-
-    ' -----------------------------------------------
-    ' Return child node data or nothing if not found
-    ' -----------------------------------------------
-    Function Child(ByVal ChildName As String) As APSIMData
-        For Each ChildData As APSIMData In Me.Children
-            If LCase(ChildName) = LCase(ChildData.Name) Then
-                Return ChildData
-            End If
-        Next
-        Return Nothing
-    End Function
-
-
-    ' -------------------------------
-    ' Clear all children nodes
-    ' -------------------------------
-    Public Sub Clear()
-        For Each Child As String In ChildList()
-            Delete(Child)
-        Next
-    End Sub
-
-    ' -----------------------------------------------
-    ' Return child node data or nothing if not found
-    ' -----------------------------------------------
-    Function Type1(ByVal TypeName As String) As APSIMData
-        For Each ChildData As APSIMData In Me.Children
-            If LCase(TypeName) = LCase(ChildData.Type) Then
-                Return ChildData
-            End If
-        Next
-        Return Nothing
-    End Function
-   
-    ' --------------------------------------------------
-    ' Find and return a specific child from a child path.
-    ' --------------------------------------------------
-    Function FindChildByType(ByVal ChildPath As String, Optional ByVal Delimiter As Char = "|") As APSIMData
-        Dim name As String
-        Dim CurrentData As New APSIMData(Node, DataChangedEvent)
-        Dim Path As String = ChildPath
-
-        Do Until Path = ""
-
-            If InStr(Path, Delimiter) <> 0 Then
-                name = Left$(Path, InStr(Path, Delimiter) - 1)
-                Path = Mid$(Path, InStr(Path, Delimiter) + 1)
-            Else
-                name = Path
-                Path = ""
-            End If
-
-            CurrentData = CurrentData.Type1(name)
-            If IsNothing(CurrentData) Then
-                Exit Do
-            End If
-        Loop
-
-        If IsNothing(CurrentData) Then
-            Throw New System.Exception("Cannot find child " + ChildPath)
-        Else
-            Return CurrentData
-        End If
-    End Function
-
-    ' --------------------------------------------------
-    ' Find and return a specific child from a child path.
-    ' --------------------------------------------------
-    Function FindChild(ByVal ChildPath As String, Optional ByVal Delimiter As Char = "|") As APSIMData
-        Dim name As String
-        Dim CurrentData As New APSIMData(Node, DataChangedEvent)
-        Dim Path As String = ChildPath
-
-        Do Until Path = ""
-
-            If InStr(Path, Delimiter) <> 0 Then
-                name = Left$(Path, InStr(Path, Delimiter) - 1)
-                Path = Mid$(Path, InStr(Path, Delimiter) + 1)
-            Else
-                name = Path
-                Path = ""
-            End If
-
-            CurrentData = CurrentData.Child(name)
-            If IsNothing(CurrentData) Then
-                Exit Do
-            End If
-        Loop
-
-        If IsNothing(CurrentData) Then
-            Throw New System.Exception("Cannot find child " + ChildPath)
-        Else
-            Return CurrentData
-        End If
-    End Function
-    Function ChildList(Optional ByVal type As String = Nothing) As StringCollection
-        Dim List As New StringCollection
-        For Each child As APSIMData In Me.Children(type)
-            List.Add(child.Name)
-        Next
-        Return List
-
-    End Function
-    Property Value() As String
+    ReadOnly Property Children(Optional ByVal ChildTypeFilter As String = Nothing) As APSIMData()
+        ' ------------------------------------------------
+        ' Return an array of children.
+        ' ------------------------------------------------
         Get
-            If Me.Attribute("shortcut") <> "" Then
-                Dim RemoteSource As String = "shared" + "|" + Me.Attribute("shortcut")
-                Return New APSIMData(Node.OwnerDocument.DocumentElement, DataChangedEvent).FindChild(RemoteSource, "|").Value
+            Dim ReturnList(Node.ChildNodes.Count - 1) As APSIMData
+            Dim NumSoFar As Integer = 0
+            For i As Integer = 0 To Node.ChildNodes.Count - 1
+                Dim ChildType As String = Node.ChildNodes(i).Name
+                If ChildType <> "#text" And ChildType <> "#comment" Then
+                    If IsNothing(ChildTypeFilter) OrElse ChildTypeFilter.ToLower() = ChildType.ToLower() Then
+                        ReturnList(NumSoFar) = New APSIMData(Node.ChildNodes(i), DataChangedEvent)
+                        NumSoFar += 1
+                    End If
+                End If
+            Next
+            Array.Resize(ReturnList, NumSoFar)
+            Return ReturnList
+        End Get
+    End Property
+    Public Function Child(ByVal ChildName As String) As APSIMData
+        ' ------------------------------------------------------------------------------
+        ' Return a specific child with the specified name
+        ' Returns Nothing if not found.
+        ' ------------------------------------------------------------------------------
+        For Each ChildNode As APSIMData In Children
+            If ChildNode.Name.ToLower = ChildName.ToLower Then
+                Return ChildNode
+            End If
+        Next
+        Return Nothing
+    End Function
+    Public Property ChildValue(ByVal ChildName As String) As String
+        ' ------------------------------------------------------------------------------
+        ' Gets and sets the value of child element. Getter and Setter can handle
+        ' the child not existing.
+        ' ------------------------------------------------------------------------------
+        Get
+            Dim LocalChild As APSIMData = Find(Name + Delimiter + ChildName)
+            If IsNothing(LocalChild) Then
+                Return ""
             Else
-
-                Return Node.InnerText.Replace("%apsuite", APSIMSettings.ApsimDirectory())
+                Return LocalChild.Value
             End If
         End Get
         Set(ByVal value As String)
-            If Me.Attribute("shortcut") <> "" Then
-                Dim RemoteSource As String = "shared" + "|" + Me.Attribute("shortcut")
-                Dim RootNode As New APSIMData(Node.OwnerDocument.DocumentElement, DataChangedEvent)
-                RootNode.FindChild(RemoteSource, "|").Value = value
-            Else
-                Dim InvalidChars As String = "&<>"
-                If value.IndexOfAny(InvalidChars.ToCharArray()) <> -1 Then
-                    Dim cdata As XmlCDataSection = Node.OwnerDocument.CreateCDataSection(value)
-                    value = cdata.OuterXml
+            Dim LocalChild As APSIMData = Child(ChildName)
+            If LocalChild.Value <> value Then
+                BeginInternalUpdate()
+                If IsNothing(LocalChild) Then
+                    LocalChild = Add(New APSIMData(ChildName, ""))
                 End If
-                If Node.InnerXml <> value Then
-                    Node.InnerXml = value
-                    RaiseEvent DataChanged()
-                End If
+                LocalChild.Value = value
+                EndInternalUpdate()
             End If
         End Set
     End Property
-    Property Values(ByVal ChildName As String) As StringCollection
+    Public Function ChildByType(ByVal ChildType As String) As APSIMData
+        ' ------------------------------------------------------------------------------
+        ' Return a specific child with the specified type
+        ' Returns Nothing if not found.
+        ' ------------------------------------------------------------------------------
+        For Each ChildNode As APSIMData In Children
+            If ChildNode.Type.ToLower = ChildType.ToLower Then
+                Return ChildNode
+            End If
+        Next
+        Return Nothing
+    End Function
+    Public Function Find(ByVal FullPath As String) As APSIMData
+        ' --------------------------------------------------------
+        ' Find a specific data node from the specified full path.
+        ' Full path must be a fully qualified path using '\'
+        ' as a delimiter. It must include the name of this data
+        ' e.g. RootNode\ChildNode\SubChildNode
+        ' --------------------------------------------------------
+        Dim PosDelimiter As Integer = FullPath.IndexOf(Delimiter)
+        If PosDelimiter = -1 Then
+            If FullPath.ToLower() = Name.ToLower() Then
+                Return Me
+            End If
+        Else
+            If FullPath.Substring(0, PosDelimiter).ToLower() = Name.ToLower() Then
+                For Each ChildNode As APSIMData In Children
+                    Dim ReturnData As APSIMData = ChildNode.Find(FullPath.Substring(PosDelimiter + 1))
+                    If Not IsNothing(ReturnData) Then
+                        Return ReturnData
+                    End If
+                Next
+            End If
+        End If
+        Return Nothing
+    End Function
+    Public ReadOnly Property FullPath() As String
         Get
-            Dim ReturnValues As New StringCollection
-            For Each Child As APSIMData In Children(ChildName)
-                ReturnValues.Add(Child.Value)
-            Next
-            Return ReturnValues
+            ' --------------------------------------------------------
+            ' Return a full path for this data node using '\' as a 
+            ' delimiter.
+            ' --------------------------------------------------------
+            Dim LocalData As APSIMData = Me
+            Dim Path As String = LocalData.Name
+            LocalData = LocalData.Parent
+            While Not IsNothing(LocalData)
+                Path = LocalData.Name + Delimiter + Path
+                LocalData = LocalData.Parent
+            End While
+            Return Path
         End Get
-        Set(ByVal Values As StringCollection)
-            Clear()
-            For Each Value As String In Values
-                Dim NewNode As New APSIMData(ChildName)
-                NewNode.Value = Value
-                Add(NewNode)
-            Next
+    End Property
+    Public Sub Clear()
+        ' -------------------------------
+        ' Clear all children nodes
+        ' -------------------------------
+        Node.RemoveAll()
+        FireDataChangedEvent()
+    End Sub
+    Public Function ChildNames(Optional ByVal type As String = Nothing) As String()
+        ' -------------------------------------
+        ' Clear a list of all child names
+        ' -------------------------------------
+        Dim ChildNodes() As APSIMData = Children(type)
+        Dim Names(ChildNodes.Length - 1) As String
+        For i As Integer = 0 To ChildNodes.Length - 1
+            Names(i) = ChildNodes(i).Name
+        Next
+        Return Names
+    End Function
+    Public Property Value() As String
+        ' -----------------------------------------------------------------
+        ' Provides access (read and write) to the value for this data node
+        ' -----------------------------------------------------------------
+        Get
+            Return Node.InnerText.Replace("%apsuite", APSIMSettings.ApsimDirectory())
+        End Get
+        Set(ByVal value As String)
+            Dim InvalidChars As String = "&<>"
+            If value.IndexOfAny(InvalidChars.ToCharArray()) <> -1 Then
+                Dim cdata As XmlCDataSection = Node.OwnerDocument.CreateCDataSection(value)
+                value = cdata.OuterXml
+            End If
+            If Node.InnerXml <> value Then
+                Node.InnerXml = value
+                FireDataChangedEvent()
+            End If
         End Set
     End Property
-
-    Function AttributeExists(ByVal AttributeName As String) As Boolean
-        Dim A As XmlAttribute = Node.Attributes.GetNamedItem(AttributeName)
-        Return Not IsNothing(A)
+    Public Function AttributeExists(ByVal AttributeName As String) As Boolean
+        ' -----------------------------------------------------------------
+        ' Return true if the specified attribute exists
+        ' -----------------------------------------------------------------
+        Return Not IsNothing(Node.Attributes.GetNamedItem(AttributeName))
     End Function
-
-    Function Attribute(ByVal AttributeName As String) As String
+    Public Function Attribute(ByVal AttributeName As String) As String
+        ' -----------------------------------------------------------------
+        ' Return the specified attribute or "" if not found
+        ' -----------------------------------------------------------------
         Dim A As XmlAttribute = Node.Attributes.GetNamedItem(AttributeName)
         If Not IsNothing(A) Then
             Return A.InnerText
@@ -248,71 +342,55 @@ Public Class APSIMData
             Return ""
         End If
     End Function
-
-
-    Sub SetAttribute(ByVal AttributeName As String, ByVal AttributeValue As String)
+    Public Sub SetAttribute(ByVal AttributeName As String, ByVal AttributeValue As String)
+        ' ----------------------------------------
+        ' Set the value of the specified attribute
+        ' ----------------------------------------
         If Attribute(AttributeName) <> AttributeValue Then
             Dim attr As XmlNode = Node.OwnerDocument.CreateNode(XmlNodeType.Attribute, AttributeName, "")
             attr.Value = AttributeValue
             Node.Attributes.SetNamedItem(attr)
-            RaiseEvent DataChanged()
+            FireDataChangedEvent()
         End If
     End Sub
-    Sub DeleteAttribute(ByVal AttributeName As String, ByVal AttributeValue As String)
+    Public Sub DeleteAttribute(ByVal AttributeName As String, ByVal AttributeValue As String)
+        ' ----------------------------------------
+        ' Delete the specified attribute
+        ' ----------------------------------------
         Dim A As XmlAttribute = Node.Attributes.GetNamedItem(AttributeName)
         If Not IsNothing(A) Then
             Node.Attributes.Remove(A)
-            RaiseEvent DataChanged()
+            FireDataChangedEvent()
         End If
     End Sub
-
-    ReadOnly Property Type() As String
+    Public Property XML() As String
+        ' ----------------------------------------
+        ' Return this node's XML
+        ' ----------------------------------------
         Get
-            Return Node.Name
-        End Get
-    End Property
-    Property XML() As String
-        Get
-            If Me.Attribute("shortcut") <> "" Then
-                Dim RemoteSource As String = "shared" + "|" + Me.Attribute("shortcut")
-                Return New APSIMData(Node.OwnerDocument.DocumentElement, DataChangedEvent).FindChild(RemoteSource, "|").XML
-            Else
-                Return Node.OuterXml()
-            End If
+            Return Node.OuterXml()
         End Get
         Set(ByVal value As String)
-            If Me.Attribute("shortcut") <> "" Then
-                Dim RemoteSource As String = "shared" + "|" + Me.Attribute("shortcut")
-                Dim RootNode As New APSIMData(Node.OwnerDocument.DocumentElement, DataChangedEvent)
-                RootNode.FindChild(RemoteSource, "|").XML = value
-            Else
-                Dim newnode As New APSIMData(value)
-                If Node.InnerXml <> newnode.Node.InnerXml Then
-                    Node.InnerXml = newnode.Node.InnerXml
-                    RaiseEvent DataChanged()
-                End If
-            End If
-            RaiseEvent DataChanged()
+            Node.InnerXml = value
+            FireDataChangedEvent()
         End Set
     End Property
-    Property InnerXML() As String
+    Public Property InnerXML() As String
+        ' ----------------------------------------
+        ' Return this node's Inner XML
+        ' ----------------------------------------
         Get
-            If Me.Attribute("shortcut") <> "" Then
-                Dim RemoteSource As String = "shared" + "|" + Me.Attribute("shortcut")
-                Return New APSIMData(Node.OwnerDocument.DocumentElement, DataChangedEvent).FindChild(RemoteSource, "|").InnerXML
-            Else
-                Return Node.InnerXml()
-            End If
+            Return Node.InnerXml()
         End Get
         Set(ByVal Value As String)
             Node.InnerXml = Value
+            FireDataChangedEvent()
         End Set
     End Property
-
-    ' ----------------------------
-    ' Save to the specified stream
-    ' ----------------------------
     Public Shared Function FormatXML(ByVal XML As String) As String
+        ' -------------------------------------------------
+        ' Format the specified XML using indentation etc.
+        ' -------------------------------------------------
         Dim Data As New APSIMData("<dummy>" + XML + "</dummy>")
         Dim TextWriter As New StringWriter
         Dim Out As New XmlTextWriter(TextWriter)
@@ -320,258 +398,90 @@ Public Class APSIMData
         Data.Node.WriteContentTo(Out)
         Return TextWriter.ToString
     End Function
-
     Public Function Add(ByVal Data As APSIMData) As APSIMData
+        ' -------------------------------------------------
+        ' Add the specified data to this node.
+        ' -------------------------------------------------
         If Not IsNothing(Data) Then
-            If Me.Attribute("shortcut") <> "" Then
-                Dim RemoteSource As String = "shared" + "|" + Me.Attribute("shortcut")
-                Dim ParentData As APSIMData = New APSIMData(Node.OwnerDocument.DocumentElement, DataChangedEvent)
-                ParentData = ParentData.FindChild(RemoteSource, "|")
-                If IsNothing(ParentData) Then
-                    Throw New System.Exception("Cannot find shared node.")
-                End If
-                Return ParentData.Add(Data)
-            Else
-                Dim NewName As String = UniqueName(Data.Name, ChildList)
-                If NewName <> Data.Name Then
-                    Data.Name = NewName
-                End If
-
-                Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
-                Node.AppendChild(newnode)
-                RaiseEvent DataChanged()
-                Return New APSIMData(newnode, DataChangedEvent)
+            BeginInternalUpdate()
+            Dim NewName As String = CalcUniqueName(Data.Name, ChildNames)
+            Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
+            Dim NewData As APSIMData = New APSIMData(Node.AppendChild(newnode), DataChangedEvent)
+            If NewName <> NewData.Name Then
+                NewData.Name = NewName
             End If
+            EndInternalUpdate()
+            Return NewData
+        Else
+            Return Nothing
         End If
-        Return Nothing
     End Function
     Public Function AddBefore(ByVal Data As APSIMData, ByVal ReferenceNode As APSIMData) As APSIMData
+        ' -------------------------------------------------------------------------
+        ' Add the specified data to this node before the specified reference node
+        ' -------------------------------------------------------------------------
         If Not IsNothing(Data) Then
-            If Me.Attribute("shortcut") <> "" Then
-                Dim RemoteSource As String = "shared" + "|" + Me.Attribute("shortcut")
-                Dim ParentData As APSIMData = New APSIMData(Node.OwnerDocument.DocumentElement, DataChangedEvent)
-                ParentData = ParentData.FindChild(RemoteSource, "|")
-                If IsNothing(ParentData) Then
-                    Throw New System.Exception("Cannot find shared node.")
-                End If
-                Return ParentData.AddBefore(Data, ReferenceNode)
-            Else
-                Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
-                newnode = Node.InsertBefore(newnode, ReferenceNode.Node)
-                Dim NewData As APSIMData = New APSIMData(newnode, DataChangedEvent)
-                NewData.Name = UniqueName(Data.Name, ChildList)
-                RaiseEvent DataChanged()
-                Return NewData
+            BeginInternalUpdate()
+            Dim NewName As String = CalcUniqueName(Data.Name, ChildNames)
+            Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
+            Dim NewData = New APSIMData(Node.InsertBefore(newnode, ReferenceNode.Node), DataChangedEvent)
+            If NewName <> NewData.Name Then
+                NewData.Name = NewName
             End If
+            EndInternalUpdate()
+            Return NewData
         Else
             Return Nothing
         End If
     End Function
     Public Function AddAfter(ByVal Data As APSIMData, ByVal ReferenceNode As APSIMData) As APSIMData
+        ' -------------------------------------------------------------------------
+        ' Add the specified data to this node after the specified reference node
+        ' -------------------------------------------------------------------------
         If Not IsNothing(Data) Then
-            If Me.Attribute("shortcut") <> "" Then
-                Dim RemoteSource As String = "shared" + "|" + Me.Attribute("shortcut")
-                Dim ParentData As APSIMData = New APSIMData(Node.OwnerDocument.DocumentElement, DataChangedEvent)
-                ParentData = ParentData.FindChild(RemoteSource, "|")
-                If IsNothing(ParentData) Then
-                    Throw New System.Exception("Cannot find shared node.")
-                End If
-                Return ParentData.AddAfter(Data, ReferenceNode)
-            Else
-                Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
-                newnode = Node.InsertAfter(newnode, ReferenceNode.Node)
-                Dim NewData As APSIMData = New APSIMData(newnode, DataChangedEvent)
-                NewData.Name = UniqueName(Data.Name, ChildList)
-                RaiseEvent DataChanged()
-                Return NewData
+            BeginInternalUpdate()
+            Dim NewName As String = CalcUniqueName(Data.Name, ChildNames)
+            Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
+            Dim NewData = New APSIMData(Node.InsertAfter(newnode, ReferenceNode.Node), DataChangedEvent)
+            NewData.EnsureNameIsUnique()
+            If NewName <> NewData.Name Then
+                NewData.Name = NewName
             End If
+            EndInternalUpdate()
+            Return NewData
         Else
             Return Nothing
         End If
     End Function
     Public Sub Delete(ByVal ChildName As String)
-        If Me.Attribute("shortcut") <> "" Then
-            Dim RemoteSource As String = "shared" + "|" + Me.Attribute("shortcut")
-            Dim ParentData As APSIMData = New APSIMData(Node.OwnerDocument.DocumentElement, DataChangedEvent)
-            ParentData = ParentData.FindChild(RemoteSource, "|")
-            If IsNothing(ParentData) Then
-                Throw New System.Exception("Cannot find shared node.")
-            End If
-            ParentData.Delete(ChildName)
-        Else
-            Node.RemoveChild(Child(ChildName).Node)
-            RaiseEvent DataChanged()
-        End If
+        ' ---------------------------------
+        ' Delete the specified child
+        ' ---------------------------------
+        Node.RemoveChild(Child(ChildName).Node)
+        FireDataChangedEvent()
     End Sub
-    Private Function UniqueName(ByVal ProposedName As String, ByVal UsedNames As StringCollection) As String
-
-        Dim NewName As String
+    Private Function CalcUniqueName(ByVal Name As String, ByVal UsedNames() As String) As String
+        ' ------------------------------------------------
+        ' Using the specified name as a base, return a 
+        ' unique name against our children
+        ' ------------------------------------------------
+        Dim BaseName As String = Name
         Dim Found As Boolean = False
         Dim counter As Integer = 0
-
-        Do
-            Found = False
-            counter = counter + 1
-
-            If counter = 1 Then
-                NewName = ProposedName
+        For i As Integer = 1 To 100000
+            If Utility.IndexOfCaseInsensitive(UsedNames, Name) = -1 Then
+                Return Name
             Else
-                'NewName = ProposedName + "(" + Trim(Str(counter)) + ")"
-                NewName = ProposedName + "{" + Trim(Str(counter)) + "}"
+                Return BaseName + "{" + i.ToString + "}"
             End If
-            For Each name As String In UsedNames
-                If name = NewName Then
-                    Found = True
-                    Exit For
-                End If
-            Next
-
-        Loop Until Not Found
-
-        UniqueName = NewName
-
-
+        Next
+        Throw New Exception("Internal error in APSIMData.CalcUniqueName")
     End Function
-    Property Name() As String
-        Get
-            If Me.Attribute("shortcut") <> "" Then
-                Return Me.Attribute("shortcut")
-            Else
-                Dim AttributeNode As XmlNode = Node.Attributes.GetNamedItem("name")
-                If AttributeNode Is Nothing Then
-                    Return Node.Name
-                Else
-                    Return AttributeNode.Value
-                End If
-            End If
-        End Get
-        Set(ByVal Value As String)
-            SetAttribute("name", Value)
-        End Set
-    End Property
-    ReadOnly Property Children(Optional ByVal Type As String = Nothing) As System.Collections.ArrayList
-        Get
-            Dim ChildrenCollection As New ArrayList
-            If Node Is Nothing Then
-                ' do nothing
-            Else
-                If Me.Attribute("shortcut") = "" Then
-                    ' No shortcut so return MY children
-                    Dim i As Integer
-                    For i = 0 To Node.ChildNodes.Count - 1
-                        Dim nodename As String
-                        nodename = Node.ChildNodes(i).Name
-                        If nodename <> "#text" And nodename <> "#comment" Then
-                            Dim AddChild As Boolean = IsNothing(Type)
-                            If Not AddChild Then
-                                If Type.ToLower() = nodename.ToLower() Then
-                                    AddChild = True
-                                End If
-                            End If
-                            If AddChild Then
-                                ChildrenCollection.Add(New APSIMData(Node.ChildNodes(i), DataChangedEvent))
-                            End If
-                        End If
-                    Next i
-
-                Else
-                    ' There is a shortcut so return REMOTE children
-                    Dim RemoteSource As String = "shared" + "|" + Me.Attribute("shortcut")
-                    ChildrenCollection = New APSIMData(Node.OwnerDocument.DocumentElement, DataChangedEvent).FindChild(RemoteSource, "|").Children(Type)
-                End If
-
-
-            End If
-            Return ChildrenCollection
-
-        End Get
-    End Property
-    Property DataTable() As DataTable
-        Get
-            Dim DT As New DataTable
-            DT.Columns.Add("Name", System.Type.GetType("System.String"))
-            DT.Columns.Add("Value", System.Type.GetType("System.String"))
-
-            For Each child As APSIMData In Me.Children
-                Dim r As DataRow
-                r = DT.NewRow
-                r("Name") = child.Name
-                r("Value") = child.Value
-                DT.Rows.Add(r)
-            Next
-            Return DT
-        End Get
-        Set(ByVal Value As DataTable)
-
-            For Each row As DataRow In Value.Rows
-                Me.Child(row("Name")).Value = row("Value")
-            Next
-
-        End Set
-    End Property
-
-
-    ' -----------------------------------------------------
-    ' Return a child value to caller or blank if not found.
-    ' -----------------------------------------------------
-    Property ChildValue(ByVal key As String) As String
-        Get
-            Try
-                Return FindChild(key, "|").Value
-            Catch e As System.Exception
-                Return ""
-            End Try
-        End Get
-        Set(ByVal Value As String)
-            Dim name As String
-            Dim CurrentData As New APSIMData(Node, DataChangedEvent)
-            Dim Path As String = key
-
-            Do Until Path = ""
-                If InStr(Path, "|") <> 0 Then
-                    name = Left$(Path, InStr(Path, "|") - 1)
-                    Path = Mid$(Path, InStr(Path, "|") + 1)
-                Else
-                    name = Path
-                    Path = ""
-                End If
-
-                Dim Child As APSIMData = CurrentData.Child(name)
-                If IsNothing(Child) Then
-                    CurrentData.Add(New APSIMData(name, ""))
-                    CurrentData = CurrentData.Child(name)
-                Else
-                    CurrentData = Child
-                End If
-            Loop
-            CurrentData.Value = Value
-        End Set
-    End Property
-
-
-    ' -----------------------------------------------------
-    ' Return a child value to caller. Shows MsgBox on error
-    ' -----------------------------------------------------
-    Property ChildValueWithError(ByVal key As String) As String
-        Get
-            Dim Value As String = ChildValue(key)
-            If Value = "" Then
-                MsgBox("Error in returning value for child: " + Trim(key), MsgBoxStyle.Critical, "Error")
-            End If
-            Return Value
-        End Get
-        Set(ByVal Value As String)
-            Try
-                Child(Trim(key)).Value = Value
-                RaiseEvent DataChanged()
-            Catch e As System.Exception
-                MsgBox("Error in setting value for child: " + Trim(key), MsgBoxStyle.Critical, "Error")
-            End Try
-        End Set
-    End Property
-
-
     Public Sub MoveUp(ByVal ChildName As String, ByVal ChildType As String)
+        ' -------------------------------------------------------------------------
+        ' Move the specified child up. If ChildType is specified then the child
+        ' will be moved above the next sibling that matches 'ChildType'
+        ' -------------------------------------------------------------------------
         Dim ChildData As APSIMData = Child(ChildName)
 
         Dim ReferenceNode As XmlNode = ChildData.Node.PreviousSibling()
@@ -580,11 +490,14 @@ Public Class APSIMData
         End While
         If Not IsNothing(ReferenceNode) Then
             Node.InsertBefore(ChildData.Node, ReferenceNode)
-            RaiseEvent DataChanged()
+            FireDataChangedEvent()
         End If
     End Sub
-
     Public Sub MoveDown(ByVal ChildName As String, ByVal ChildType As String)
+        ' -------------------------------------------------------------------------
+        ' Move the specified child down. If ChildType is specified then the child
+        ' will be moved below the next sibling that matches 'ChildType'
+        ' -------------------------------------------------------------------------
         Dim ChildData As APSIMData = Child(ChildName)
 
         Dim ReferenceNode As XmlNode = ChildData.Node.NextSibling()
@@ -594,20 +507,28 @@ Public Class APSIMData
 
         If Not IsNothing(ReferenceNode) Then
             Node.InsertAfter(ChildData.Node, ReferenceNode)
-            RaiseEvent DataChanged()
+            FireDataChangedEvent()
         End If
     End Sub
-
     Public Sub EnsureNumberOfChildren(ByVal ChildType As String, ByVal NumChildren As Integer)
-        Dim ChartDataChildren As StringCollection = ChildList(ChildType)
-        Dim NumChartChildrenToAdd As Integer = NumChildren - ChartDataChildren.Count
-        Dim NumChartChildrenToDelete As Integer = ChartDataChildren.Count - NumChildren
-        For i As Integer = 1 To NumChartChildrenToAdd
+        ' -------------------------------------------------------------------------
+        ' Ensure there are the specified number of children with the speciifed type
+        ' -------------------------------------------------------------------------
+        Dim ChildrenNames() As String = ChildNames(ChildType)
+        Dim NumChildrenToAdd As Integer = NumChildren - ChildrenNames.Length
+        Dim NumChildrenToDelete As Integer = ChildrenNames.Length - NumChildren
+        If NumChildrenToAdd > 0 Or NumChildrenToDelete > 0 Then
+            BeginInternalUpdate()
+        End If
+        For i As Integer = 1 To NumChildrenToAdd
             Add(New APSIMData(ChildType, ""))
         Next
-        For i As Integer = 1 To NumChartChildrenToDelete
-            Delete(ChartDataChildren(ChartDataChildren.Count - 1))
+        For i As Integer = 1 To NumChildrenToDelete
+            Delete(ChildrenNames(ChildrenNames.Length - 1))
         Next
+        If NumChildrenToAdd > 0 Or NumChildrenToDelete > 0 Then
+            EndInternalUpdate()
+        End If
     End Sub
 
 

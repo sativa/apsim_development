@@ -727,14 +727,21 @@ namespace CSGeneral
 		}
 		#endregion
 
-
 		// ------------------------
 		// Refresh ourselves
 		// ------------------------
-		override public void Refresh()
+		override public void RefreshView(BaseController Controller)
 			{
+            base.RefreshView(Controller);
 			try
 				{
+                if (Controller.GetType().ToString() != "CSGeneral.ApsoilController")
+                    {
+                    ApsoilController NewController = new ApsoilController("", "", "", null);
+                    NewController.AllData = Controller.AllData;
+                    NewController.SelectedPaths = Controller.SelectedPaths;
+                    Controller = NewController;
+                    }
 				if (MySoil == null)
 					{
 					FarPoint.Win.Spread.InputMap InputMap = Grid.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused); 
@@ -770,7 +777,7 @@ namespace CSGeneral
 				SetupCellNotes();
 				OperationMode mode = OperationMode.Normal;
 				
-				if (!Apsoil.AllowChanges)
+				if (!Apsoil.AllowDataChanges)
 					mode = OperationMode.ReadOnly;
 					
 				General.OperationMode = mode;
@@ -994,7 +1001,7 @@ namespace CSGeneral
 					break;
 					}
 				}
-			WaterChartControl.Refresh();
+			WaterChartControl.RefreshView();
 			}
 
 
@@ -1438,7 +1445,7 @@ namespace CSGeneral
 				for (int Row = Range.Row; Row < Range.Row + Range.RowCount; Row++)
 					for (int Col = Range.Column; Col < Range.Column + Range.ColumnCount; Col++)
 						MySoil.AddNote(Grid.ActiveSheet.SheetName, Col, Row, NoteText);
-				Refresh();
+				RefreshView(Controller);
 				}
 			}
 

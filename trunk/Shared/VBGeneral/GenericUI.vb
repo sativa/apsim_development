@@ -56,7 +56,7 @@ Public Class GenericUI
         Me.PictureBox.Dock = System.Windows.Forms.DockStyle.Left
         Me.PictureBox.Location = New System.Drawing.Point(0, 40)
         Me.PictureBox.Name = "PictureBox"
-        Me.PictureBox.Size = New System.Drawing.Size(88, 690)
+        Me.PictureBox.Size = New System.Drawing.Size(88, 677)
         Me.PictureBox.TabIndex = 3
         Me.PictureBox.TabStop = False
         '
@@ -69,7 +69,7 @@ Public Class GenericUI
         Me.FpSpread1.Location = New System.Drawing.Point(88, 40)
         Me.FpSpread1.Name = "FpSpread1"
         Me.FpSpread1.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.Grid})
-        Me.FpSpread1.Size = New System.Drawing.Size(932, 690)
+        Me.FpSpread1.Size = New System.Drawing.Size(934, 677)
         Me.FpSpread1.TabIndex = 4
         Me.FpSpread1.TabStripPolicy = FarPoint.Win.Spread.TabStripPolicy.Never
         TipAppearance1.BackColor = System.Drawing.SystemColors.Info
@@ -106,7 +106,7 @@ Public Class GenericUI
         Me.Controls.Add(Me.FpSpread1)
         Me.Controls.Add(Me.PictureBox)
         Me.Name = "GenericUI"
-        Me.Size = New System.Drawing.Size(1020, 730)
+        Me.Size = New System.Drawing.Size(1022, 717)
         Me.Controls.SetChildIndex(Me.PictureBox, 0)
         Me.Controls.SetChildIndex(Me.FpSpread1, 0)
         CType(Me.PictureBox, System.ComponentModel.ISupportInitialize).EndInit()
@@ -118,11 +118,11 @@ Public Class GenericUI
 
 #End Region
 
-    Overrides Sub Refresh()
+    Overrides Sub RefreshView(ByVal Controller As BaseController)
         ' --------------------------------------------------------------------
         ' Refresh this user interface
         ' --------------------------------------------------------------------
-        MyBase.Refresh()
+        MyBase.RefreshView(Controller)
 
         InRefresh = True
 
@@ -138,7 +138,7 @@ Public Class GenericUI
             Grid.RowCount = 100
             PropertyData.Clear()
             Dim Row As Integer = 0
-            If Controller.Data.Children("category").Count > 0 Then
+            If Controller.Data.Children("category").Length > 0 Then
                 For Each Category As APSIMData In Controller.Data.Children("category")
                     PropertyData.Add(Nothing)
                     Grid.Cells(Row, 0).Value = Category.Name
@@ -163,25 +163,42 @@ Public Class GenericUI
         ' updated and returned to caller.
         ' --------------------------------------------------------------------
         For Each Prop As APSIMData In Data.Children
-            PropertyData.Add(Prop)
-            Grid.Cells(Row, 0).Value = Prop.Attribute("description")
-            Grid.Cells(Row, 1).CellType = Controller.CreateCellEditor(Prop)
-            Controller.PopulateCellEditor(Prop, Grid.Cells(Row, 1).CellType)
-            Grid.Cells(Row, 1).Value = Prop.Value
-
-            ' If the cell type is a combo box and the cell value is blank then set the cell value
-            ' to the first item in the combo box.
-            If TypeOf (Grid.Cells(Row, 1).CellType) Is FarPoint.Win.Spread.CellType.ComboBoxCellType Then
-                Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = Grid.Cells(Row, 1).CellType
-                If Trim(Grid.Cells(Row, 1).Value) = "" And Combo.Items.Length > 0 Then
-                    InRefresh = False    ' This is so that the cellchanged event is fired
-                    Grid.Cells(Row, 1).Value = Combo.Items(0)
-                    InRefresh = True
+            Dim ExistingIndex As Integer = FindExistingProp(Prop)
+            If ExistingIndex = -1 Then
+                PropertyData.Add(Prop)
+                Grid.Cells(Row, 0).Value = Prop.Attribute("description")
+                If Grid.Cells(Row, 0).Value = "" Then
+                    Grid.Cells(Row, 0).Value = Prop.Name
                 End If
+                Controller.CreateCellEditorForRow(Prop, Grid, Row)
+                Controller.PopulateCellEditor(Prop, Grid.Cells(Row, 1).CellType)
+                Grid.Cells(Row, 1).Value = Prop.Value
+                ' If the cell type is a combo box and the cell value is blank then set the cell value
+                ' to the first item in the combo box.
+                If TypeOf (Grid.Cells(Row, 1).CellType) Is FarPoint.Win.Spread.CellType.ComboBoxCellType Then
+                    Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = Grid.Cells(Row, 1).CellType
+                    If Trim(Grid.Cells(Row, 1).Value) = "" And Combo.Items.Length > 0 Then
+                        InRefresh = False    ' This is so that the cellchanged event is fired
+                        Grid.Cells(Row, 1).Value = Combo.Items(0)
+                        InRefresh = True
+                    End If
+                End If
+                Row = Row + 1
+            Else
+                Grid.Cells(ExistingIndex, 1).Text += vbCrLf + Prop.Value
             End If
-            Row = Row + 1
         Next
     End Sub
+
+    Private Function FindExistingProp(ByVal DataToFind As APSIMData)
+        For i As Integer = 0 To PropertyData.Count - 1
+            Dim Data As APSIMData = PropertyData(i)
+            If Not IsNothing(Data) AndAlso DataToFind.Name = Data.Name Then
+                Return i
+            End If
+        Next
+        Return -1
+    End Function
 
     Private Sub Grid_CellChanged(ByVal sender As Object, ByVal e As FarPoint.Win.Spread.SheetViewEventArgs) Handles Grid.CellChanged
         ' --------------------------------------------------------------------
@@ -189,7 +206,33 @@ Public Class GenericUI
         ' --------------------------------------------------------------------
         If e.Column = 1 And Not InRefresh Then
             Dim Prop As APSIMData = PropertyData(e.Row)
-            Prop.Value = Grid.Cells(e.Row, 1).Value
+            Dim Values() As String = Grid.Cells(e.Row, 1).Text.Split(vbCrLf.ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+
+            If Values.Length = 1 Then
+                Prop.Value = Values(0)
+            Else
+                Dim Name As String = Prop.Name
+                Dim Type As String = Prop.Type
+                Dim Description As String = Prop.Attribute("description")
+                Dim Parent As APSIMData = Prop.Parent
+                Parent.BeginUpdate()
+
+                ' Delete existing properties
+                Dim PropertyNames() As String = Prop.Parent.ChildNames(Prop.Type)
+                For Each PropertyName As String In PropertyNames
+                    Parent.Delete(PropertyName)
+                Next
+
+                ' Create new properties
+                For Each Value As String In Values
+                    Dim NewProperty As New APSIMData(Type, Name)
+                    If Description <> "" Then
+                        NewProperty.SetAttribute("description", Description)
+                    End If
+                    Parent.Add(NewProperty)
+                Next
+                Parent.EndUpdate()
+            End If
 
             ' Update all cell editors now that we've changed a cell. 
             ' e.g. a cultivars drop down may need updating if we just changed a crop.
@@ -217,4 +260,11 @@ Public Class GenericUI
     '    Me.FpSpread1.ActiveSheet.RaiseCellChanged(Me.Grid.ActiveCell.Row.Index, Me.Grid.ActiveCell.Column.Index)
     'End Sub
 
+    Private Sub FpSpread1_ButtonClicked(ByVal sender As System.Object, ByVal e As FarPoint.Win.Spread.EditorNotifyEventArgs) Handles FpSpread1.ButtonClicked
+        ' --------------------------------------------------------------
+        ' User has clicked a button in a cell somewhere on our grid.
+        ' Pass event to BaseController so that it can act on it.
+        ' --------------------------------------------------------------
+        Controller.OnButtonClick(sender, e)
+    End Sub
 End Class

@@ -27,7 +27,7 @@ namespace CSGeneral
 		public MethodType Method
 			{
 			get {
-                if (Data.ChildList("layer").Count > 0)
+                if (Data.ChildNames("layer").Length > 0)
                     return MethodType.Layered;
                 else if (Data.Child("DepthWetSoilMethod") != null)
                     return MethodType.DepthWetSoil;
@@ -42,15 +42,15 @@ namespace CSGeneral
 		// ---------------------------------------
 		public int Percent
 			{
-			get {return Convert.ToInt32(Convert.ToDouble(Data.get_ChildValueWithError("PercentMethod|Percent")) * 100);}
+			get {return Convert.ToInt32(Convert.ToDouble(Data.get_ChildValue("PercentMethod\\Percent")) * 100);}
 			}
 		public bool FilledFromTop
 			{
-			get {return (Data.get_ChildValueWithError("PercentMethod|Distributed").ToLower() == "filled from top");}
+			get {return (Data.get_ChildValue("PercentMethod\\Distributed").ToLower() == "filled from top");}
 			}
 		public int DepthWetSoil
 			{
-			get {return Convert.ToInt32(Data.get_ChildValueWithError("DepthWetSoilMethod|Depth"));}
+			get {return Convert.ToInt32(Data.get_ChildValue("DepthWetSoilMethod\\Depth"));}
 			}
 
 		// ------------------------------------
@@ -134,11 +134,11 @@ namespace CSGeneral
 			APSIMData Data = ParentSoil.Data.Child("InitWater");
 			Data.Clear();
 			double Prop = Percent / 100.0;
-			Data.set_ChildValue("PercentMethod|Percent", Prop.ToString("f2"));
+			Data.set_ChildValue("PercentMethod\\Percent", Prop.ToString("f2"));
 			string Distributed = "Filled from top";
 			if (!FilledFromTop)
 				Distributed = "Evenly distributed";
-			Data.set_ChildValue("PercentMethod|Distributed", Distributed);
+			Data.set_ChildValue("PercentMethod\\Distributed", Distributed);
 			}
 
 
@@ -148,7 +148,7 @@ namespace CSGeneral
 		public void SetUsingDepthWetSoil(int Depth)
 			{
 			Data.Clear();
-			Data.set_ChildValue("DepthWetSoilMethod|Depth", Depth.ToString());
+			Data.set_ChildValue("DepthWetSoilMethod\\Depth", Depth.ToString());
 			}
 
 

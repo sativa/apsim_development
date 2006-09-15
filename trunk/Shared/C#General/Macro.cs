@@ -104,7 +104,7 @@ namespace CSGeneral
 
 				// Loop through all matching child nodes and duplicate the foreach body for each child.
 				string Body = "";
-				ArrayList ChildNodes = MacroNode.get_Children(NodeType);
+				APSIMData[] ChildNodes = MacroNode.get_Children(NodeType);
 				foreach (APSIMData Child in ChildNodes)
 				{
 					AliasNames.Add(ForEachAlias.ToLower());
@@ -358,7 +358,8 @@ namespace CSGeneral
 					}
 				catch (Exception)
 					{
-					Child = Child.FindChild(ChildName, '.');
+                    Child.PathDelimiter = ".";
+					Child = Child.Find(ChildName);
 					}
 				}
 

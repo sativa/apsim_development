@@ -98,8 +98,8 @@ Public Class areaui
     ' ----------------------------------
     ' Refresh the listview
     ' ----------------------------------
-    Overrides Sub Refresh()
-        MyBase.Refresh()
+    Overrides Sub RefreshView(ByVal Controller As BaseController)
+        MyBase.RefreshView(Controller)
         Dim Settings As ApsimUIController = Controller
 
         ListView.Clear()
@@ -141,7 +141,7 @@ Public Class areaui
         Dim Item As APSIMData = Controller.Data.Child(ListView.SelectedItems.Item(0).Text)
 
         Dim Selections As New StringCollection
-        Selections.Add(BaseController.GetFullPathForData(Item))
+        Selections.Add(Item.FullPath)
         Controller.SelectedPaths = Selections
     End Sub
 
@@ -200,7 +200,7 @@ Public Class areaui
             Dim NewDataString As String = e.Data.GetData(DataFormats.Text)
             Dim NewNode As New APSIMData(NewDataString)
             Controller.Data.Add(NewNode)
-            Refresh()
+            RefreshView(Controller)
         Else
             For Each item As ListViewItem In ListView.SelectedItems
                 CSGeneral.ListViewAPI.SetItemPosition(ListView, ListView.SelectedItems.Item(0).Index, p.X, p.Y)
@@ -224,9 +224,9 @@ Public Class areaui
         If e.KeyCode = Keys.Delete Then
             Dim Item As APSIMData = Controller.Data.Child(ListView.SelectedItems.Item(0).Text)
             Dim Selections As New StringCollection
-            Selections.Add(BaseController.GetFullPathForData(Item))
-            Controller.Delete(Selections)
-            Refresh()
+            Selections.Add(Item.FullPath)
+            Controller.DeleteSelected()
+            RefreshView(Controller)
         End If
     End Sub
 End Class

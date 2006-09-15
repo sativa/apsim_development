@@ -61,7 +61,6 @@ Public Class OutputVariablesDataTree
         Me.DataTree.AllowDrop = True
         Me.DataTree.AutoScroll = True
         Me.DataTree.BackColor = System.Drawing.SystemColors.Control
-        Me.DataTree.Controller = Nothing
         Me.DataTree.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataTree.HelpText = ""
         Me.DataTree.Location = New System.Drawing.Point(0, 40)
@@ -109,23 +108,18 @@ Public Class OutputVariablesDataTree
     ' ----------------------------------
     ' Refresh the variable tree.
     ' ----------------------------------
-    Overrides Sub refresh()
-
-        MyBase.Refresh()
+    Overrides Sub RefreshView(ByVal Controller As BaseController)
+        MyBase.RefreshView(Controller)
 
         ' Try
         DataTree.Sorted = True
         DataTree.ExpandAll = False
         DataTree.HelpText = "Variable and events"
-        DataTree.Controller = New ApsimUIController("", "", "")
         DataTree.ShowAll = True
-        DataTree.Controller.AllData = BuildDataTree()
-        'Catch
 
-
-        'End Try
-
-
+        Dim ApsimUI As New ApsimUIController("", "", "")
+        ApsimUI.AllData = BuildDataTree()
+        DataTree.RefreshView(ApsimUI)
     End Sub
 
 
@@ -140,16 +134,6 @@ Public Class OutputVariablesDataTree
         Return New APSIMData(UIManager.GetOutputFileDescriptions(Controller.Data.Parent))
 
     End Function
-
-    Private Sub DataTree_DoubleClickEvent() Handles DataTree.DoubleClickEvent
-
-        If Me.DataTree.Controller.Data.Type = Me.TreeTypeText Then
-            RaiseEvent DataTreeDoubleClick(Me.DataTree.Controller.Data)
-
-        End If
-
-
-    End Sub
 
     Private Sub DataTree_DataTreeKeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles DataTree.DataTreeKeyPress
         RaiseEvent TreeKeyPress(sender, e)

@@ -35,7 +35,7 @@ namespace CSGeneral
 			{
 			string Key;
 			if (PropertyType != "")
-				Key = PropertyType + "|" + PropertyName;
+				Key = PropertyType + "\\" + PropertyName;
 			else
 				Key = PropertyName;
 			return Data.get_ChildValue(Key);
@@ -76,7 +76,7 @@ namespace CSGeneral
 			{
 			string Key;
 			if (PropertyType != "")
-				Key = PropertyType + "|" + PropertyName;
+				Key = PropertyType + "\\" + PropertyName;
 			else
 				Key = PropertyName;
 
@@ -109,7 +109,7 @@ namespace CSGeneral
             if (PropertyData == null)
                 return new string[0];
 
-            string[] values = new string[PropertyData.ChildList("layer").Count];
+            string[] values = new string[PropertyData.ChildNames("layer").Length];
             int index = 0;
             foreach (APSIMData layer in PropertyData.get_Children("layer"))
                 {
@@ -177,14 +177,14 @@ namespace CSGeneral
 			int iIndex = 0;
 
 			// make sure we have enough layer nodes.
-			int FirstLayerToAdd = node.get_Children("layer").Count + 1;
+			int FirstLayerToAdd = node.get_Children("layer").Length + 1;
 			for (int LayerNumber = FirstLayerToAdd; LayerNumber <= Values.Length; LayerNumber++)
 				node.Add(new APSIMData("layer", LayerNumber.ToString()));
 
 			if (Values.Length > 0)
 				{
 				// make sure we don't have too many layers.
-				int FirstLayerToDelete = node.get_Children("layer").Count;
+				int FirstLayerToDelete = node.get_Children("layer").Length;
 				for (int LayerNumber = FirstLayerToDelete; LayerNumber > Values.Length; LayerNumber--)
 					node.Delete(LayerNumber.ToString());
 				foreach (APSIMData layer in node.get_Children("layer"))

@@ -562,11 +562,10 @@ namespace APSoil
 											SmallImages);
 			Apsoil.NewDataEvent += new ApsoilController.NotifyEventHandler(OnNewDataEvent);
             Apsoil.SelectionChangedEvent += new ApsoilController.SelectionChangedHandler(OnSelectionChanged);
-			Apsoil.DataChangedEvent += new ApsoilController.NotifyEventHandler(SetFunctionality);
 
 			// Show the Simulation Explorer.
-			SoilExplorer = new ExplorerUI(this, Apsoil);
-			SoilExplorer.Dock = DockStyle.Fill;
+			SoilExplorer = new ExplorerUI(this);
+            SoilExplorer.Dock = DockStyle.Fill;
 			SoilExplorer.Parent = ToolStripContainer.ContentPanel;
 			SoilExplorer.Visible = true;
 			SoilExplorer.ExpandAll = false;
@@ -588,10 +587,16 @@ namespace APSoil
 			// This is usually caused by FileNew,
 			// FileOpen etc.
 
-			APSIMChangeTool.Upgrade(Apsoil.AllData);
+            Apsoil.AllData.DataChanged += new APSIMData.DataChangedEventHandler(OnDataChanged);
+            APSIMChangeTool.Upgrade(Apsoil.AllData);
+            SoilExplorer.RefreshView(Apsoil);
 			SetFunctionality();
 			}
         private void OnSelectionChanged(StringCollection OldSelections, StringCollection NewSelections)
+            {
+            SetFunctionality();
+            }
+        private void OnDataChanged(APSIMData ChangedData)
             {
             SetFunctionality();
             }
@@ -601,14 +606,17 @@ namespace APSoil
 			// Enable / Disable bits of functionality as 
 			// required. i.e. ensure program is in a 
 			// consistant state.
-			bool SomethingInTree = (Apsoil.AllData != null && Apsoil.AllData.ChildList(null).Count > 0);
+			bool SomethingInTree = (Apsoil.AllData != null && Apsoil.AllData.ChildNames(null).Length > 0);
 
-			bool OnlySoilsSelected = Apsoil.SomethingIsSelected;
-			foreach (APSIMData SelectedData in Apsoil.SelectedData)
-				OnlySoilsSelected = (SelectedData.Type.ToLower() == "soil");
+			bool OnlySoilsSelected = true;
+            foreach (string SelectedPath in Apsoil.SelectedPaths)
+                {
+                APSIMData SelectedData = Apsoil.AllData.Find(SelectedPath);
+                OnlySoilsSelected = (OnlySoilsSelected && (SelectedData.Type.ToLower() == "soil"));
+                }
 
-			SaveButton.Enabled = Apsoil.AllowChanges;
-			SaveButton.Enabled = Apsoil.AllowChanges;
+			SaveButton.Enabled = Apsoil.AllowDataChanges;
+			SaveButton.Enabled = Apsoil.AllowDataChanges;
 
 			CutButton.Enabled = Apsoil.AllowCut;
 			CopyButton.Enabled = Apsoil.AllowCopy;
@@ -617,22 +625,21 @@ namespace APSoil
 			bool FolderIsSelected = false;
 			if (Apsoil.SelectedPaths.Count == 1)
 				{
-				APSIMData SelectedData = (APSIMData) Apsoil.SelectedData[0];
-				string SelectedType = SelectedData.Type.ToLower();
+                string SelectedType = Apsoil.Data.Type.ToLower();
 				FolderIsSelected = (SelectedType == "soils" || SelectedType == "folder");
 				}
-			ImportSpreadsheet.Enabled = FolderIsSelected && Apsoil.AllowChanges;
-			ImportParFile.Enabled = FolderIsSelected && Apsoil.AllowChanges;
-			ImportSoilsFile.Enabled = FolderIsSelected && Apsoil.AllowChanges;
-			ImportW2File.Enabled = FolderIsSelected && Apsoil.AllowChanges;
+            ImportSpreadsheet.Enabled = FolderIsSelected && Apsoil.AllowDataChanges;
+            ImportParFile.Enabled = FolderIsSelected && Apsoil.AllowDataChanges;
+            ImportSoilsFile.Enabled = FolderIsSelected && Apsoil.AllowDataChanges;
+            ImportW2File.Enabled = FolderIsSelected && Apsoil.AllowDataChanges;
 			ExportParFile.Enabled = OnlySoilsSelected;
 			ExportSoilsFile.Enabled = OnlySoilsSelected;
             ExportSpreadsheet.Enabled = (Apsoil.SelectedPaths.Count >= 1);
 			CheckSoilsButton.Enabled = SomethingInTree;
 			SortButton.Enabled = SomethingInTree;
-			InsertNewFolder.Enabled = (Apsoil.AllowChanges && Apsoil.AllowInsertFolder);
-			InsertNewSoil.Enabled = (Apsoil.AllowChanges && Apsoil.AllowInsertSoil);
-			InsertNewSample.Enabled = (Apsoil.AllowChanges && Apsoil.AllowInsertSample);
+            InsertNewFolder.Enabled = (Apsoil.AllowDataChanges && Apsoil.AllowInsertFolder);
+            InsertNewSoil.Enabled = (Apsoil.AllowDataChanges && Apsoil.AllowInsertSoil);
+            InsertNewSample.Enabled = (Apsoil.AllowDataChanges && Apsoil.AllowInsertSample);
 			}
 
 		private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -752,7 +759,9 @@ namespace APSoil
             try
                 {
                 if (ImportSpreadsheetDialog.ShowDialog() == DialogResult.OK)
+                    {
                     SoilSpreadsheet.ImportFromFile(ImportSpreadsheetDialog.FileName, Apsoil);
+                    }
                 }
             catch (Exception err)
                 {
@@ -792,8 +801,8 @@ namespace APSoil
                     ForeignSoils.LoadFromFile(ExportSoilsDialog.FileName);
                     }
 
-                foreach (APSIMData SelectedData in Apsoil.SelectedData)
-                    ForeignSoils.Add(SelectedData);
+                foreach (string SelectedPath in Apsoil.SelectedPaths)
+                    ForeignSoils.Add(Apsoil.AllData.Find(SelectedPath));
                 ForeignSoils.SaveToFile(ExportSoilsDialog.FileName);
                 MessageBox.Show("Soils have been successfully exported to '" + ExportSoilsDialog.FileName + "'. It is suggested that you rename soils within the new file to avoid confusion.",
                                 "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -808,9 +817,9 @@ namespace APSoil
                 if (ParExportDialog.ShowDialog() == DialogResult.OK)
                     {
                     File.Delete(ParExportDialog.FileName);
-                    foreach (APSIMData SelectedData in Apsoil.SelectedData)
+                    foreach (string SelectedPath in Apsoil.SelectedPaths)
                         {
-                        Soil SoilToExport = new Soil(SelectedData);
+                        Soil SoilToExport = new Soil(Apsoil.AllData.Find(SelectedPath));
                         string Errors = SoilToExport.CheckForErrors();
                         if (Errors != "")
                             {
@@ -839,7 +848,7 @@ namespace APSoil
                 {
                 if (ExportSpreadsheetDialog.ShowDialog() == DialogResult.OK)
                     {
-                    SoilSpreadsheet.ExportToFile(ExportSpreadsheetDialog.FileName, Apsoil.SelectedData);
+                    SoilSpreadsheet.ExportSelectedToFile(ExportSpreadsheetDialog.FileName, Apsoil);
                     MessageBox.Show("Soils have been successfully exported to '" + ExportSpreadsheetDialog.FileName + "'. It is suggested that you rename soils within the new file to avoid confusion.",
                                     "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
@@ -855,7 +864,8 @@ namespace APSoil
             // User wants to check all soils for consistency
             Cursor.Current = Cursors.WaitCursor;
             string ErrorMessage = "";
-            Apsoil.CheckSoils(Apsoil.SelectedData, ref ErrorMessage);
+            foreach (string SelectedPath in Apsoil.SelectedPaths)
+                Apsoil.CheckSoils(Apsoil.AllData.Find(SelectedPath), ref ErrorMessage);
             if (ErrorMessage == "")
                 MessageBox.Show("All soils checked out ok. No problems were encountered",
                                 "No problems encountered", MessageBoxButtons.OK,

@@ -24,7 +24,6 @@ Public Class DataTree
     Public Event DoubleClickEvent As NotifyEventHandler
     Public Event DataTreeKeyPress As OnDataTreeKeyPress
 
-
 #Region " Windows Form Designer generated code "
 
     Public Sub New()
@@ -90,9 +89,8 @@ Public Class DataTree
         Me.TreeView.LabelEdit = True
         Me.TreeView.Location = New System.Drawing.Point(0, 40)
         Me.TreeView.Name = "TreeView"
-        Me.TreeView.PathSeparator = "|"
         Me.TreeView.ShowNodeToolTips = True
-        Me.TreeView.Size = New System.Drawing.Size(926, 661)
+        Me.TreeView.Size = New System.Drawing.Size(1020, 705)
         Me.TreeView.TabIndex = 0
         '
         'ContextMenu1
@@ -170,32 +168,13 @@ Public Class DataTree
         Me.AllowDrop = True
         Me.Controls.Add(Me.TreeView)
         Me.Name = "DataTree"
-        Me.Size = New System.Drawing.Size(926, 701)
+        Me.Size = New System.Drawing.Size(1020, 745)
         Me.Controls.SetChildIndex(Me.TreeView, 0)
         Me.ResumeLayout(False)
 
     End Sub
 
 #End Region
-
-
-
-    ' ------------------------------------------------
-    ' Called to setup the global application object
-    ' ------------------------------------------------
-    Overrides Property Controller() As BaseController
-        Get
-            Return MyBase.Controller
-        End Get
-        Set(ByVal Value As BaseController)
-            MyBase.Controller = Value
-            If Not IsNothing(Value) Then
-                AddHandler Controller.NodeChangedEvent, AddressOf OnNodeChanged
-                AddHandler Controller.SelectionChangedEvent, AddressOf OnSelectionChanged
-            End If
-        End Set
-    End Property
-
 
     ' ------------------------------------------------------
     ' Set the visible components context string property
@@ -223,6 +202,9 @@ Public Class DataTree
     WriteOnly Property ExpandAll() As Boolean
         Set(ByVal Value As Boolean)
             ExpandAllNodes = Value
+            If Not IsNothing(Controller) Then
+                RefreshView(Controller)
+            End If
         End Set
     End Property
 
@@ -233,18 +215,22 @@ Public Class DataTree
     WriteOnly Property SortAll() As Boolean
         Set(ByVal Value As Boolean)
             IsSorted = Value
-            Refresh()
+            If Not IsNothing(Controller) Then
+                RefreshView(Controller)
+            End If
             TreeView.Sorted = IsSorted
         End Set
     End Property
 
 
-    Overrides Sub Refresh()
+    Overrides Sub RefreshView(ByVal Controller As BaseController)
         ' ----------------------------------------------
         ' Override the base refresh method and populate
         ' ourselves.
         ' ----------------------------------------------
-        If Not IsNothing(Controller) AndAlso Not Controller.AllData Is Nothing AndAlso UserChange Then
+        MyBase.RefreshView(Controller)
+
+        If UserChange Then
             HelpText = ""
             TreeView.ImageList = Controller.SmallImageList
             If TreeView.Nodes.Count = 0 Then
@@ -322,7 +308,7 @@ Public Class DataTree
             Node.ToolTipText = Data.Attribute("description")
         End If
 
-        Dim Selected As Boolean = Controller.SelectedPaths.IndexOf(BaseController.GetFullPathForData(Data)) >= 0
+        Dim Selected As Boolean = Controller.SelectedPaths.IndexOf(Data.FullPath) >= 0
         PaintNode(Node, Selected)
     End Sub
 
@@ -483,8 +469,8 @@ Public Class DataTree
     End Sub
 
 
-    Private Sub OnNodeChanged(ByVal DataFullPath As String, ByVal Data As APSIMData)
-        RefreshNodeAndChildren(GetNodeFromPath(DataFullPath), Data)
+    Private Sub OnNodeChanged(ByVal DataThatHasChanged As APSIMData)
+        RefreshNodeAndChildren(GetNodeFromPath(DataThatHasChanged.FullPath), DataThatHasChanged)
     End Sub
 
     ' --------------------------------------------------
@@ -495,7 +481,7 @@ Public Class DataTree
         Dim Path As String = ChildPath
         Dim CurrentNode As TreeNode = Nothing
         Do Until Path = ""
-            Dim PosDelimiter As Integer = Path.IndexOf("|")
+            Dim PosDelimiter As Integer = Path.IndexOf(TreeView.PathSeparator)
             If PosDelimiter <> -1 Then
                 name = Path.Substring(0, PosDelimiter)
                 Path = Path.Substring(PosDelimiter + 1)
@@ -558,7 +544,7 @@ Public Class DataTree
         End If
 
         ' Get the data for this node.
-        Dim NodeData As APSIMData = Controller.GetDataForFullPath(n.FullPath)
+        Dim NodeData As APSIMData = Controller.AllData.Find(n.FullPath)
         If NodeData.Attribute("shortcut") <> "" Then
             n.ForeColor = Color.Blue
         End If
@@ -603,16 +589,13 @@ Public Class DataTree
 
         'catch the event where user starts a label edit but does not change anything
         'Appears to be a bug in TreeView control
-        If IsNothing(e.Label) Then
-            e.CancelEdit = True
-            Exit Sub
-
-        End If
-
-        ' A tree view node label cannot be an empty string.  If it is then
-        ' cancel the edit.
-        If (Not e.Label.Equals("")) Then
-            Controller.RenameSelected(e.Label)
+        If Not IsNothing(e.Label) AndAlso Not e.Label.Equals("") Then
+            Dim DataToRename As APSIMData = Controller.Data
+            DataToRename.Name = e.Label
+            Dim NewSelections As StringCollection = New StringCollection
+            NewSelections.Add(DataToRename.FullPath)
+            Controller.SelectedPaths = NewSelections
+            Controller.RefreshView()
         Else
             e.CancelEdit = True
         End If
@@ -631,12 +614,13 @@ Public Class DataTree
             TreeView.SelectedNode = e.Item
         End If
 
-        If Controller.SelectedData.Count > 0 Then
+        If Controller.SelectedPaths.Count > 0 Then
 
             Dim FullXML As String = ""
-            For Each Data As APSIMData In Controller.SelectedData
+            For Each SelectedPath As String In Controller.SelectedPaths
                 ' If Data is in shared then only drag a shortcut. Otherwise drag the full
                 ' XML.
+                Dim Data As APSIMData = Controller.AllData.Find(SelectedPath)
                 Dim P As APSIMData = Data.Parent
                 Dim IsShared As Boolean = False
                 While Not IsNothing(P)
@@ -654,32 +638,16 @@ Public Class DataTree
                 End If
             Next
             Dim AllowedEffects As DragDropEffects
-            If Controller.AllowChanges() Then
+            If Controller.AllowDataChanges() Then
                 AllowedEffects = DragDropEffects.Copy Or DragDropEffects.Move
             Else
                 AllowedEffects = DragDropEffects.Copy
             End If
-            Dim ItemsToPotentiallyDelete As StringCollection = Controller.SelectedPaths
             If TreeView.DoDragDrop(FullXML, AllowedEffects) = DragDropEffects.Move Then
-                Controller.Delete(ItemsToPotentiallyDelete)
+                Controller.DeleteSelected()
             End If
         End If
     End Sub
-
-
-    '-------------------------
-    'User is dragging a node
-    '-------------------------
-    'Private Sub TreeView_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles TreeView.DragEnter
-    '    Dim Control As Boolean = (ModifierKeys = Keys.Control)
-    '    Dim Shift As Boolean = (ModifierKeys = Keys.Shift)
-    '    'If Control Then
-    '    'e.Effect = DragDropEffects.Copy
-    '    'Else
-    '    e.Effect = DragDropEffects.Move
-    '    'End If
-    'End Sub
-
 
     ' --------------------------------------------------
     ' User has dragged a node over us - allow drop?
@@ -731,7 +699,7 @@ Public Class DataTree
     ' --------------------------------------------------
     Private Sub TreeView_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TreeView.KeyDown
         If e.KeyCode = Keys.Delete Then
-            Controller.Delete(Controller.SelectedPaths)
+            Controller.DeleteSelected()
         ElseIf e.Control And e.KeyCode = Keys.X Then
             Controller.Cut()
         ElseIf e.Control And e.KeyCode = Keys.C Then
@@ -773,11 +741,11 @@ Public Class DataTree
 
 
     ' --------------------------------------
-    ' Context menu is about to popup 
+    ' Context menu is about to popup
     ' Set functionality for it.
     ' --------------------------------------
     Private Sub ContextMenu1_Popup(ByVal sender As Object, ByVal e As System.EventArgs) Handles ContextMenu1.Popup
-        AddFolderMenuItem.Enabled = Controller.AllowAddFolderToSelected
+        AddFolderMenuItem.Enabled = Controller.AllowComponentAdd("folder", Controller.Data.Type)
         DeleteItemMenuItem.Enabled = Controller.AllowDeleteSelected
         RenameMenuItem.Enabled = Controller.AllowRenameSelected
         CutMenuItem.Enabled = Controller.AllowCut
@@ -806,7 +774,7 @@ Public Class DataTree
     ' User wants to delete the current selection
     ' -------------------------------------------
     Private Sub DeleteItemMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteItemMenuItem.Click
-        Controller.Delete(Controller.SelectedPaths)
+        Controller.DeleteSelected()
     End Sub
 
 

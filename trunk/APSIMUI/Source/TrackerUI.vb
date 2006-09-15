@@ -1,3 +1,4 @@
+Imports VBGeneral
 Public Class TrackerUI
     Inherits VBGeneral.BaseView
 
@@ -122,7 +123,8 @@ Public Class TrackerUI
 
 #End Region
 
-    Public Overrides Sub Refresh()
+    Public Overrides Sub RefreshView(ByVal Controller As BaseController)
+        MyBase.RefreshView(Controller)
         PopulateVariableList()
 
     End Sub

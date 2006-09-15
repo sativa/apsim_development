@@ -17,8 +17,9 @@
 using namespace std;
 using namespace protocol;
 
-static const char* daysSinceLastReportType = "<type kind=\"integer4\" unit=\"d\">";
-static const char* stringArrayType = "<type kind=\"string\" array=\"T\">";
+static const char* daysSinceLastReportType = "<type kind=\"integer4\" unit=\"d\"/>";
+static const char* stringArrayType = "<type kind=\"string\" array=\"T\"/>";
+static const char* stringType = "<type kind=\"string\"/>";
 // ------------------------------------------------------------------
 //  Short description:
 //     constructor
@@ -415,7 +416,7 @@ void ReportComponent::doInit2(void)
       {
       string fileName = componentData->getProperty("parameters", "outputfile");
       if (fileName == "")
-         throw runtime_error("Cannot find name of output file in parameter file. ");
+         fileName = calcFileName();
 
       out.open(fileName.c_str());
       if (!out)
@@ -483,6 +484,44 @@ void ReportComponent::doInit2(void)
       error(err.what(), true);
       }
    }
+
+// ------------------------------------------------------------------
+// Calculate a file name based on simulation title and PM name.
+// ------------------------------------------------------------------
+string ReportComponent::calcFileName()
+   {
+   string title, pmName;
+   unsigned titleID = addRegistration(RegistrationType::get,
+                                      "title",
+                                      stringType);
+   protocol::Variant* variant;
+   if (getVariable(titleID, variant, true))
+      variant->unpack(title);
+
+   char buffer[500];
+   strcpy(buffer, "\0");
+   FString parentName(buffer, sizeof(buffer), CString);
+   componentIDToName(parentID, parentName);
+   pmName = asString(parentName);
+
+   string fileName = title;
+   if (!Str_i_Eq(pmName, "paddock") && !Str_i_Eq(pmName, "masterpm"))
+      {
+      if (fileName != "")
+         fileName += " ";
+      fileName += pmName;
+      }
+
+   if (!Str_i_Eq(name, "outputfile"))
+      {
+      if (fileName != "")
+         fileName += " ";
+      fileName += name;
+      }
+   fileName += ".out";
+   return fileName;
+   }
+
 // ------------------------------------------------------------------
 //  Short description:
 //    Event handler.

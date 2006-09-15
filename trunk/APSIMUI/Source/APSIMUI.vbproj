@@ -230,14 +230,8 @@
     <Compile Include="RuleUI.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SimulationUI.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="SplashScreenForm.vb">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="StartupUI.vb">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="SwimSoilUI.vb">
       <SubType>UserControl</SubType>
@@ -339,15 +333,8 @@
       <DependentUpon>RuleUI.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="SimulationUI.resx">
-      <DependentUpon>SimulationUI.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="SplashScreenForm.resx">
       <DependentUpon>SplashScreenForm.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StartupUI.resx">
-      <DependentUpon>StartupUI.vb</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SwimSoilUI.resx">
       <DependentUpon>SwimSoilUI.vb</DependentUpon>

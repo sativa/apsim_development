@@ -10,6 +10,9 @@
 
 using namespace std;
 using namespace protocol;
+
+static const char* stringType = "<type kind=\"string\"/>";
+
 // ------------------------------------------------------------------
 //  Short description:
 //     Return a blank string when requested to indicate that we
@@ -87,9 +90,16 @@ void SummaryFileComponent::doInit1(const FString& sdml)
    summaryFileID = addRegistration(RegistrationType::respondToGet, "summaryFile", stringDDML);
    titleID = addRegistration(RegistrationType::get, "title", stringDDML);
    componentsID = addRegistration(RegistrationType::get, "components", stringArrayDDML);
-
+   }
+// ------------------------------------------------------------------
+// do INIT2 stuff.
+// ------------------------------------------------------------------
+void SummaryFileComponent::doInit2(void)
+   {
    // read in and open our file. Extra care taken during init1.
-   fileName = readParameter("parameters", "summaryfile");
+   fileName = componentData->getProperty("parameters", "summaryfile");
+   if (fileName == "")
+      fileName = calcFileName();
 
    out.open(fileName.c_str());
    if (!out)
@@ -99,14 +109,46 @@ void SummaryFileComponent::doInit1(const FString& sdml)
       }
 
    writeBanner();
-   }
-// ------------------------------------------------------------------
-// do INIT2 stuff.
-// ------------------------------------------------------------------
-void SummaryFileComponent::doInit2(void)
-   {
+
    writeInfo();
    if (!out) terminateSimulation(); // If open() failed earlier, stop now.
+   }
+
+// ------------------------------------------------------------------
+// Calculate a file name based on simulation title and PM name.
+// ------------------------------------------------------------------
+string SummaryFileComponent::calcFileName()
+   {
+   string title, pmName;
+   unsigned titleID = addRegistration(RegistrationType::get,
+                                      "title",
+                                      stringType);
+   protocol::Variant* variant;
+   if (getVariable(titleID, variant, true))
+      variant->unpack(title);
+
+   char buffer[500];
+   strcpy(buffer, "\0");
+   FString parentName(buffer, sizeof(buffer), CString);
+   componentIDToName(parentID, parentName);
+   pmName = asString(parentName);
+
+   string fileName = title;
+   if (!Str_i_Eq(pmName, "paddock") && !Str_i_Eq(pmName, "masterpm"))
+      {
+      if (fileName != "")
+         fileName += " ";
+      fileName += pmName;
+      }
+
+   if (!Str_i_Eq(name, "outputfile"))
+      {
+      if (fileName != "")
+         fileName += " ";
+      fileName += name;
+      }
+   fileName += ".sum";
+   return fileName;
    }
 // ------------------------------------------------------------------
 // write all simulation information to summary file.

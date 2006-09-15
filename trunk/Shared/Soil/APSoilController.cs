@@ -80,25 +80,25 @@ namespace CSGeneral
 			}
 
 
-		public override bool AllowFileOpenWrite(string FullFileName)
+        protected override bool IsDataReadOnly()
 			{
-			string FileName = Path.GetFileName(FullFileName).ToLower();
-			if (FileName.Substring(0, 6) == "apsru-" || FileName.Substring(0, 4) == "npd-" || FileName.Substring(0, 3) == "ap-")
-				{
+            string FileNameLower = FileName.ToLower();
+            if (FileNameLower.Substring(0, 6) == "apsru-" || FileNameLower.Substring(0, 4) == "npd-" || FileNameLower.Substring(0, 3) == "ap-")
+                {
                 string Password = InputDialog.InputBox("Enter password:", "This file is password protected", "", true);
                 if (Password == "soilinfo")
                     return true;
                 else if (Password == "")
                     return false;
                 else
-					{
-					MessageBox.Show("Password incorrect", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
-					return false;
-					}
+                    {
+                    MessageBox.Show("Password incorrect", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                    }
 
-				}
-			else
-				return true;
+                }
+            else
+                return base.IsDataReadOnly();
 			}
 		// -------------------------------------------------
 		// Return true if the specified component type can
@@ -143,7 +143,7 @@ namespace CSGeneral
 			string NewCropName = InputDialog.InputBox("Enter the name of the new crop:", "New crop", "", false);
 			if (NewCropName != "")
 				{
-				Soil MySoil = new Soil(SelectedData[0] as APSIMData);
+				Soil MySoil = new Soil(Data);
 				MySoil.AddCrop(NewCropName);
 				AddCropEvent();
 				}
@@ -156,7 +156,7 @@ namespace CSGeneral
 				{
 				try
 					{
-					Soil MySoil = new Soil(SelectedData[0] as APSIMData);
+					Soil MySoil = new Soil(Data);
 					MySoil.DeleteCrop(CropNameToDelete);
 					DeleteCropEvent();
 					}
@@ -169,7 +169,7 @@ namespace CSGeneral
 
 		public void ReorderCrops()
 			{
-			Soil MySoil = new Soil(SelectedData[0] as APSIMData);
+			Soil MySoil = new Soil(Data);
 
 			ReorderForm Form = new ReorderForm();
 			Form.SetItems(MySoil.Crops);
@@ -199,15 +199,15 @@ namespace CSGeneral
 
 		public bool AllowInsertFolder
 			{
-			get {return (SelectedData.Count == 1 && AllowComponentAdd("folder", ((APSIMData)SelectedData[0]).Type));}
+			get {return (SelectedPaths.Count == 1 && AllowComponentAdd("folder", Data.Type));}
 			}
 		public bool AllowInsertSoil
 			{
-			get {return (SelectedData.Count == 1 && AllowComponentAdd("soil", ((APSIMData)SelectedData[0]).Type));}
+            get { return (SelectedPaths.Count == 1 && AllowComponentAdd("soil", Data.Type)); }
 			}
 		public bool AllowInsertSample
 			{
-			get {return (SelectedData.Count == 1 && AllowComponentAdd("sample", ((APSIMData)SelectedData[0]).Type));}
+            get { return (SelectedPaths.Count == 1 && AllowComponentAdd("sample", Data.Type)); }
 			}
 		public void InsertFolder()
 			{
@@ -230,19 +230,19 @@ namespace CSGeneral
 				AddXMLToSelected("<sample name=\"NewSample\"/>");
 			}
 
-        public void CheckSoils(ArrayList ArrayOfData, ref string ErrorMessage)
+        public void CheckSoils(APSIMData Data, ref string ErrorMessage)
             {
-            foreach (APSIMData Data in ArrayOfData)
+            if (Data.Type.ToLower() == "soil")
                 {
-                if (Data.Type.ToLower() == "soil")
-                    {
-                    Soil ThisSoil = new Soil(Data);
-                    string Errors = ThisSoil.CheckForErrors();
-                    if (Errors != "")
-                        ErrorMessage += "\r\n" + ThisSoil.Name + "\r\n" + StringManip.IndentText(Errors, 6);
-                    }
-                else if (Data.Type.ToLower() == "folder")
-                    CheckSoils(Data.get_Children(null), ref ErrorMessage);
+                Soil ThisSoil = new Soil(Data);
+                string Errors = ThisSoil.CheckForErrors();
+                if (Errors != "")
+                    ErrorMessage += "\r\n" + ThisSoil.Name + "\r\n" + StringManip.IndentText(Errors, 6);
+                }
+            else if (Data.Type.ToLower() == "folder")
+                {
+                foreach (APSIMData Child in Data.get_Children(null))
+                    CheckSoils(Child, ref ErrorMessage);
                 }
             }
 

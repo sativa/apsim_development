@@ -74,12 +74,13 @@ Public Class EventsListView
     End Sub
 
 #End Region
-    Overrides Sub Refresh()
+    Overrides Sub RefreshView(ByVal Controller As BaseController)
+        MyBase.RefreshView(Controller)
         HelpText = "Events (output frequency)"
         ListView.Items.Clear()
         If Not IsNothing(Controller.Data) Then
             Dim EventsNode As APSIMData = Controller.Data.Child("events")
-            For Each child As String In EventsNode.ChildList("event")
+            For Each child As String In EventsNode.ChildNames("event")
                 Dim item As New ListViewItem
                 item.Text = EventsNode.Child(child).Attribute("name")
                 item.SubItems.Add(EventsNode.Child(child).Attribute("description"))
@@ -105,7 +106,7 @@ Public Class EventsListView
             NewData.SetAttribute("name", NewData.Attribute("module") + "." + NewData.Attribute("name"))
             Dim EventsNode As APSIMData = Controller.Data.Child("events")
             EventsNode.Add(NewData)
-            Refresh()
+            RefreshView(Controller)
         Else
             MsgBox("You can only add variables to the output variables list.", MsgBoxStyle.Critical, "Error")
         End If

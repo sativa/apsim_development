@@ -3,8 +3,8 @@ Imports VBGeneral
 Public Class OperationsUI
 
 
-    Overrides Sub Refresh()
-        MyBase.Refresh()
+    Overrides Sub RefreshView(ByVal Controller As BaseController)
+        MyBase.RefreshView(Controller)
 
         Dim StartGridRow As Integer = 0
         Dim EndGridRow As Integer = 0

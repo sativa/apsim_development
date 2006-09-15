@@ -818,9 +818,9 @@ namespace CSGeneral
 		#endregion
 		#endregion
 
-		override public void Refresh()
+		override public void RefreshView(BaseController Controller)
 			{
-			base.Refresh();
+			base.RefreshView(Controller);
 
 			HelpText = "There are two ways of specifying initial soil nitrogen. You can either type a number for each layer (kg/ha or ppm) "
 					 + " or a total NO3 / NH4 number (kg/ha only) on the last row of the grid.";

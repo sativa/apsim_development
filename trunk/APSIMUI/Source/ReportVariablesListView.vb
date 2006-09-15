@@ -135,7 +135,8 @@ Public Class ReportVariablesListView
 
 #End Region
 
-    Overrides Sub Refresh()
+    Overrides Sub RefreshView(ByVal Controller As BaseController)
+        MyBase.RefreshView(Controller)
         UserChange = False
         HelpText = "Output variables"
         VariablesList.RowCount = 0
@@ -207,7 +208,6 @@ Public Class ReportVariablesListView
     Private Sub VariablesList_CellChanged(ByVal sender As Object, ByVal e As FarPoint.Win.Spread.SheetViewEventArgs) Handles VariablesList.CellChanged
         If UserChange Then
             UserChange = False
-            ApsimUI.DirtyData = True
             FixAliasForRow(e.Row)
             AddBlankRow()
             UserChange = True
@@ -303,7 +303,6 @@ Public Class ReportVariablesListView
                 MsgBox("You can only add variables to the output variables list.", MsgBoxStyle.Critical, "Error")
             End If
         Next
-        ApsimUI.DirtyData = True
     End Sub
 
 
@@ -324,7 +323,6 @@ Public Class ReportVariablesListView
                 End If
                 AddBlankRow()
             End If
-            ApsimUI.DirtyData = True
         End If
     End Sub
 

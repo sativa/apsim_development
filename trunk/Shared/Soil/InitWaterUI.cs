@@ -355,9 +355,9 @@ namespace CSGeneral
 		// -----------------------
 		// Refresh the form
 		// -----------------------
-		override public void Refresh()
+		override public void RefreshView(BaseController Controller)
 			{
-			base.Refresh();
+			base.RefreshView(Controller);
 
 			HelpText = "There are multiple ways of initialising soil water. Select a method by clicking one of the options below "
 				 	 + " and then filling in the details.";
@@ -449,7 +449,7 @@ namespace CSGeneral
 			GridUtils.SetColumnAsDoubles(WaterGrid, 3, MathUtility.Multiply_Value(InitialWater.SW, 100));
 			WaterGrid.RowCount = SoilData.DepthStrings.Length;
 
-			WaterChartControl.Refresh();
+			WaterChartControl.RefreshView();
 			UserChange = true;
 			}	
 
@@ -462,7 +462,7 @@ namespace CSGeneral
 			if (UserChange)
 				{
 				SaveControls();
-				WaterChartControl.Refresh();
+				WaterChartControl.RefreshView();
 				}
 			}
 

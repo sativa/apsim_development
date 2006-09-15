@@ -131,10 +131,9 @@ Public Class HypropsControl
 #End Region
 
 
-    Public Overrides Sub Refresh()
-        MyBase.Refresh()
+    Public Overrides Sub RefreshView(ByVal Controller As BaseController)
+        MyBase.RefreshView(Controller)
         Hypropsdata.Data = Controller.Data.Child("hyprops")
-        DataTree.Controller = Controller
         PropertyGrid.SelectedObject = Hypropsdata
     End Sub
 

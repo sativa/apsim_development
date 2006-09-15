@@ -1,27 +1,21 @@
+Imports vbgeneral
 Public Class OutputVariablesForm
     Inherits System.Windows.Forms.Form
 
     Private mVariableName As String
+    Private Controller As BaseController
 
 #Region " Windows Form Designer generated code "
 
     Public Sub New()
         MyBase.New()
-
-        'This call is required by the Windows Form Designer.
         InitializeComponent()
-
-        'Add any initialization after the InitializeComponent() call
-
-
     End Sub
 
     Public Sub New(ByVal DataTreeController As VBGeneral.BaseController, ByVal treeType As OutputVariablesDataTree.TreeTypeEnum)
-        Me.New()
-        Me.VariableDataTree.Controller = DataTreeController
-        Me.VariableDataTree.TreeType = treeType
-
-
+        MyBase.New()
+        Controller = DataTreeController
+        VariableDataTree.TreeType = treeType
     End Sub
 
 
@@ -73,7 +67,6 @@ Public Class OutputVariablesForm
         '
         Me.VariableDataTree.AutoScroll = True
         Me.VariableDataTree.BackColor = System.Drawing.SystemColors.Control
-        Me.VariableDataTree.Controller = Nothing
         Me.VariableDataTree.Dock = System.Windows.Forms.DockStyle.Fill
         Me.VariableDataTree.HelpText = ""
         Me.VariableDataTree.Location = New System.Drawing.Point(0, 0)
@@ -107,7 +100,7 @@ Public Class OutputVariablesForm
 
     End Property
     Private Sub OutputVariablesForm_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Me.VariableDataTree.Refresh()
+        Me.VariableDataTree.RefreshView(Controller)
 
     End Sub
 

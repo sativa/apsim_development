@@ -170,5 +170,6 @@ namespace CSGeneral
 			string space = "\r\n" + new string(' ', numChars);
 			return returnString.Replace(space, "\r\n");
 			}
+
 	}
 }

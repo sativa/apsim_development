@@ -1,3 +1,4 @@
+Imports VBGeneral
 Public Class MemoUI
     Inherits VBGeneral.BaseView
 
@@ -66,7 +67,8 @@ Public Class MemoUI
         Controller.Data.Value = CSGeneral.CSUtility.EncodeStringToBase64(Me.Memo.TextRichFormat)
     End Sub
 
-    Public Overrides Sub Refresh()
+    Public Overrides Sub RefreshView(ByVal Controller As BaseController)
+        MyBase.RefreshView(Controller)
         'update the memo field with rich text syntax, after decoding the string from base64.
         Me.Memo.TextRichFormat(CSGeneral.CSUtility.EncodeBase64ToString(Controller.Data.InnerXML))
     End Sub

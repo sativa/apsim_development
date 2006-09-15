@@ -439,20 +439,26 @@ void Component::deleteRegistration(RegistrationType kind,
 
 void Component::respondToGet(unsigned int& /*fromID*/, QueryValueData& queryData)
    {
-   baseInfo *v = getVarMap[queryData.ID];
-   if (v)
-      v->sendVariable(this, queryData);
-   else
+   if (getVarMap.find(queryData.ID) != getVarMap.end())
       {
-      RegItem* Reg = (RegItem*) queryData.ID;
-      string type = Reg->DDML;
-      Message* msg = constructMessage(ReplyValue, componentID, parentID, false,
-                                      memorySize(queryData.ID) + memorySize(type) + Reg->Data->Size());
-      MessageData messageData(msg);
-      messageData << queryData.ID;
-      messageData << type;
-      Reg->Data->Pack(messageData);
-      sendMessage(msg);
+      baseInfo *v = getVarMap[queryData.ID];
+      if (v)
+         v->sendVariable(this, queryData);
+      else
+         {
+         RegItem* Reg = (RegItem*) queryData.ID;
+         if (Reg)
+            {
+            string type = Reg->DDML;
+            Message* msg = constructMessage(ReplyValue, componentID, parentID, false,
+                                            memorySize(queryData.ID) + memorySize(type) + Reg->Data->Size());
+            MessageData messageData(msg);
+            messageData << queryData.ID;
+            messageData << type;
+            Reg->Data->Pack(messageData);
+            sendMessage(msg);
+            }
+         }
       }
    }
 
@@ -716,7 +722,7 @@ bool Component::componentIDToName(unsigned int compID, FString& name)
          name = returnInfo->name;
       return true;
       }
-   else
+   else                      
       return false;
    }
 // ------------------------------------------------------------------
