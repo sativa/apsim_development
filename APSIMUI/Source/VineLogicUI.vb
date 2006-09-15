@@ -1,5 +1,6 @@
 Imports System
 Imports System.IO
+Imports VBGeneral
 Public Class VineLogicUI
     Inherits VBGeneral.BaseView
 
@@ -119,9 +120,9 @@ Public Class VineLogicUI
 
 #End Region
 
-    Overrides Sub refresh()
+    Overrides Sub RefreshView(ByVal Controller As BaseController)
         Try
-            MyBase.Refresh()
+            MyBase.RefreshView(Controller)
             HelpText = "Parameterisation of this vinelogic component is via the standard VineLogic Input file structure shown above."
             TextBox.Text = Controller.Data.Child("data").Value
             InstanceBox.Value = Val(Controller.Data.Child("instance").Value)

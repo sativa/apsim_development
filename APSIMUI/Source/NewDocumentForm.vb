@@ -81,7 +81,6 @@ Public Class NewDocumentForm
                     Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.DataTree.AutoScroll = True
         Me.DataTree.BackColor = System.Drawing.SystemColors.Control
-        Me.DataTree.Controller = Nothing
         Me.DataTree.HelpText = ""
         Me.DataTree.Location = New System.Drawing.Point(136, 32)
         Me.DataTree.Name = "DataTree"
@@ -120,11 +119,10 @@ Public Class NewDocumentForm
         Dim TemplateFile As String = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "new_docs")
         ApsimUI.FileOpen(TemplateFile)
         DataTree.MaximumNumLevels = 1
-        DataTree.Controller = ApsimUI
         DataTree.HelpText = "Select a new simulation"
         DataTree.Dock = DockStyle.None
         DataTree.ExpandAll = False
-        DataTree.Refresh()
+        DataTree.RefreshView(ApsimUI)
     End Sub
 
 
@@ -133,7 +131,7 @@ Public Class NewDocumentForm
     ' -----------------------------------
     Public ReadOnly Property Selection() As APSIMData
         Get
-            Return DataTree.Controller.Data
+            Return ApsimUI.Data
         End Get
     End Property
 

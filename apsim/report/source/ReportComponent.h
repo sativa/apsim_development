@@ -83,6 +83,7 @@ class ReportComponent : public protocol::Component
       unsigned daysSinceLastReportVariableID;
       unsigned reportedID;
 
+      std::string calcFileName();
       void writeHeadings(void);
       void WriteLineOfOutput(void);
    };

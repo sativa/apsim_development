@@ -30,18 +30,12 @@ Public Class ApsimUIController
         PopulateImageLists()
     End Sub
 
-    Public Overrides ReadOnly Property AllowChanges() As Boolean
-        Get
-            If IsNothing(FileName) Then
-                Return MyBase.AllowChanges()
-            Else
-                Dim FileNameNoPath As String = Path.GetFileName(FileName).ToLower()
-                Return MyBase.AllowChanges() AndAlso FileNameNoPath <> "apsru-australia-soils.soils" _
-                                             AndAlso FileNameNoPath <> "standard.xml" _
-                                             AndAlso FileNameNoPath <> "new simulations.xml"
-            End If
-        End Get
-    End Property
+    Protected Overrides Function IsDataReadOnly() As Boolean
+        Dim FileNameNoPath As String = Path.GetFileName(FileName).ToLower()
+        Return MyBase.IsDataReadOnly OrElse FileNameNoPath = "apsru-australia-soils.soils" _
+                                     OrElse FileNameNoPath = "standard.xml" _
+                                     OrElse FileNameNoPath = "new simulations.xml"
+    End Function
 
     ' ----------------------------------------------
     ' Property that returns a small icon imagelist
@@ -119,12 +113,7 @@ Public Class ApsimUIController
                     Return New TrackerUI
 
                 Case "soil"
-                    Dim SoilView As New SoilUI
-                    Dim SoilController As New ApsoilController(".soil", "", "", Nothing)
-                    SoilController.FileName = Me.FileName
-                    SoilController.AllData = Data
-                    SoilView.Controller = SoilController
-                    Return SoilView
+                    Return New SoilUI
 
                 Case "area"
                     Return New areaui
@@ -157,10 +146,6 @@ Public Class ApsimUIController
 
                 Case "initnitrogen"
                     Return New InitNitrogenUI
-
-                Case "startup"
-
-                    Return New StartupUI
 
                 Case "memo"
                     Return New APSIMUI.MemoUI
@@ -406,10 +391,7 @@ Public Class ApsimUIController
         ' ------------------------------------------------------------------
         ' Return from 'Types' database a list of property names
         ' ------------------------------------------------------------------
-        Dim Values As StringCollection = TypesData.Child(GivenType).ChildList(PropType)
-        Dim ReturnValues(Values.Count - 1) As String
-        Values.CopyTo(ReturnValues, 0)
-        Return ReturnValues
+        Return TypesData.Child(GivenType).ChildNames(PropType)
     End Function
 
     ' ---------------------------------------
@@ -439,152 +421,38 @@ Public Class ApsimUIController
         Return Nothing
     End Function
 
-    Private Sub UpdateShortCutLinks(ByVal Data As APSIMData, ByVal OldDataPath As String, ByVal NewData As APSIMData)
-        ' -----------------------------------------------------------
-        ' If necessary, update the shortcut for the specified data to 
-        ' point to the NewData
-        ' -----------------------------------------------------------
-        Dim PosDelimiter As String = OldDataPath.LastIndexOf("|")
-        Dim OldShortCutName As String
-        If PosDelimiter = -1 Then
-            Return
-        End If
-        OldShortCutName = OldDataPath.Substring(PosDelimiter + 1)
-        If Data.Attribute("shortcut") = OldShortCutName Then
-            Data.SetAttribute("shortcut", NewData.Name)
-            Dim DataPath As String = GetFullPathForData(Data)
-            DataPath = DataPath.Substring(0, DataPath.LastIndexOf("|") + 1) + "Shared: " + OldShortCutName
-            DataHasBeenAdded(DataPath, Data)
-        End If
-    End Sub
-
-    Public Sub CheckAllComponents(ByVal Data As APSIMData, ByVal OldDataPath As String, ByVal NewData As APSIMData)
-        ' --------------------------------------------------------
-        ' Recursive routine to check and fix missing module names
-        ' from output variables and look for 
-        ' --------------------------------------------------------
-        For Each Child As APSIMData In Data.Children
-            Dim ChildType As String = Child.Type.ToLower()
-            If ChildType = "area" Or Child.Type.ToLower() = "simulation" _
-               Or ChildType = "manager" Or ChildType = "soil" Then
-                CheckAllComponents(Child, OldDataPath, NewData)  ' recursion
-            ElseIf Child.Type.ToLower() = "outputfile" Then
-                CheckOutputFile(Child)
-                CheckAllComponents(Child, OldDataPath, NewData)  ' recursion
-            ElseIf Child.Type.ToLower() = "summaryfile" Then
-                SetOutputSummaryFileName(Child)
-            ElseIf Child.Attribute("shortcut") <> "" Then
-                UpdateShortCutLinks(Child, OldDataPath, NewData)
-            End If
-        Next
-    End Sub
-
-
-    ' ------------------------------------------------------
-    ' Check and modify if necessary the specified OutputFile
-    ' component
-    ' ------------------------------------------------------
-    Private Sub CheckOutputFile(ByVal OutputFile As APSIMData)
-        SetOutputSummaryFileName(OutputFile)
-
-        Dim OutputFileDescription As APSIMData = Nothing
-        For Each Child As APSIMData In OutputFile.Children
-            If Child.Type.ToLower() = "outputfiledescription" Then
-                OutputFileDescription = Child
-            End If
-        Next
-        If Not IsNothing(OutputFileDescription) Then
-            ' Get a list of all valid components.
-            Dim ComponentNames As New StringCollection
-            Dim ComponentTypes As New StringCollection
-            GetSiblingComponents(OutputFile, ComponentNames, ComponentTypes)
-
-            Dim Variables As APSIMData = OutputFileDescription.Child("variables")
-            If Not IsNothing(Variables) Then
-                CheckModulesOfChildren(Variables, "variable", ComponentNames, ComponentTypes)
-            End If
-
-            Dim Events As APSIMData = OutputFileDescription.Child("events")
-            If Not IsNothing(Events) Then
-                CheckModulesOfChildren(Events, "event", ComponentNames, ComponentTypes)
-            End If
-
-        End If
-    End Sub
-
-
-    ' -----------------------------------
-    ' Get an autogenerated output/summary
-    ' file name for specified node.
-    ' NB The returned path will be relative
-    ' to the .apsim file directory.
-    ' -----------------------------------
-    Sub SetOutputSummaryFileName(ByVal Data As APSIMData)
-        Dim SimulationName As String = Nothing
-        Dim PaddockName As String = Nothing
-        Dim D As APSIMData = Data
-        While Not IsNothing(D.Parent)
-            D = D.Parent
-            If D.Type.ToLower() = "area" Then
-                PaddockName = D.Name
-            ElseIf D.Type.ToLower() = "simulation" Then
-                SimulationName = D.Name
-            End If
-        End While
-
-        Dim FileName As String = SimulationName
-        If Data.Type.ToLower() = "outputfile" Or Data.Type.ToLower() = "summaryfile" Then
-            If Not IsNothing(PaddockName) Then
-                If PaddockName.ToLower() <> "paddock" Then
-                    FileName = FileName + " " + PaddockName
-                End If
-            End If
-            If Data.Name.ToLower() <> "outputfile" And Data.Name.ToLower() <> "summaryfile" Then
-                FileName = FileName + " " + Data.Name
-            End If
-            If Data.Type = "summaryfile" Then
-                FileName = FileName + ".sum"
-            Else
-                FileName = FileName + ".out"
-            End If
-        Else
-            FileName = Data.ChildValue("filename")
-        End If
-        Data.ChildValue("filename") = FileName
-    End Sub
-
 
 #Region "Generic UI functions"
-    Public Overrides Function CreateCellEditor(ByVal Prop As APSIMData) As FarPoint.Win.Spread.CellType.BaseCellType
+    Public Overrides Sub CreateCellEditorForRow(ByVal Prop As APSIMData, _
+                                                     ByVal Grid As FarPoint.Win.Spread.SheetView, _
+                                                     ByVal Row As Integer)
+
         ' --------------------------------------------------------------------
         ' Create and return a cell editor based on the property based in.
         ' --------------------------------------------------------------------
-        Dim Editor As FarPoint.Win.Spread.CellType.BaseCellType = MyBase.CreateCellEditor(Prop)
-        If Editor Is Nothing Then
-            If Prop.Attribute("type") = "modulename" Then
-                Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
-                Combo.Editable = True
-                Editor = Combo
+        MyBase.CreateCellEditorForRow(Prop, Grid, Row)
+        If Prop.Attribute("type") = "modulename" Then
+            Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
+            Combo.Editable = True
+            Grid.Cells(Row, 1).CellType = Combo
 
-            ElseIf Prop.Attribute("type") = "crop" Then
-                Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
-                Combo.Editable = True
-                Editor = Combo
+        ElseIf Prop.Attribute("type") = "crop" Then
+            Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
+            Combo.Editable = True
+            Grid.Cells(Row, 1).CellType = Combo
 
-            ElseIf Prop.Attribute("type") = "cultivars" Then
-                Dim CultivarCombo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
-                CultivarCombo.Editable = True
-                Editor = CultivarCombo
+        ElseIf Prop.Attribute("type") = "cultivars" Then
+            Dim CultivarCombo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
+            CultivarCombo.Editable = True
+            Grid.Cells(Row, 1).CellType = CultivarCombo
 
-            ElseIf Prop.Attribute("type") = "classes" Then
-                Dim CultivarCombo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
-                CultivarCombo.Items = GetMatchingModuleNames(Prop)
-                CultivarCombo.Editable = True
-                Editor = CultivarCombo
-            End If
+        ElseIf Prop.Attribute("type") = "classes" Then
+            Dim CultivarCombo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
+            CultivarCombo.Items = GetMatchingModuleNames(Prop)
+            CultivarCombo.Editable = True
+            Grid.Cells(Row, 1).CellType = CultivarCombo
         End If
-        Return Editor
-    End Function
+    End Sub
 
     Public Overrides Sub PopulateCellEditor(ByVal Prop As APSIMData, ByVal Editor As FarPoint.Win.Spread.CellType.BaseCellType)
         ' --------------------------------------------------------------------
@@ -633,7 +501,7 @@ Public Class ApsimUIController
         Return ReturnValues
     End Function
 
-    Overrides Function GetCropNames(ByVal Prop As APSIMData) As String()
+    Function GetCropNames(ByVal Prop As APSIMData) As String()
         ' ------------------------------------------------------------------
         ' Return a list of crop names
         ' ------------------------------------------------------------------
@@ -654,7 +522,7 @@ Public Class ApsimUIController
     End Function
 
 
-    
+
 #End Region
 
     Public Function GetOutputFilesUnder(ByVal Data As APSIMData) As StringCollection

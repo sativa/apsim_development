@@ -3,38 +3,20 @@ Imports System.Collections.Specialized
 Imports System.IO
 Public Class ExplorerUI
     Inherits BaseView
-    Private MyCurrentUI As BaseView
     Private MyParentForm As Form
     Private MyApplicationName As String
-    Private CurrentUIType As String = ""
-
+    Private UIs As New ArrayList
+    Private UITypes As New StringCollection
+    Private CurrentUIIndex As Integer = -1
 
 #Region " Windows Form Designer generated code "
 
-    Public Sub New(ByVal ParentForm As Form, _
-                    ByVal App As BaseController)
+    Public Sub New(ByVal ParentForm As Form)
         MyBase.New()
-
-        'This call is required by the Windows Form Designer.
         InitializeComponent()
-
-        'Get application name
         MyParentForm = ParentForm
-        MyBase.Controller = App
-        DataTree.Controller = Controller
-        If Not IsNothing(MyParentForm) Then
-            MyApplicationName = MyParentForm.Text
-        End If
-        AddHandler Controller.DataChangedEvent, AddressOf UpdateCaption
-        AddHandler Controller.SelectionChangingEvent, AddressOf OnSelectionChanging
-        AddHandler Controller.SelectionChangedEvent, AddressOf OnSelectionChanged
-        AddHandler Controller.NewDataEvent, AddressOf OnNewDataEvent
-        AddHandler Controller.BeforeSaveEvent, AddressOf OnBeforeSave
-        MyHelpLabel.Visible = False
     End Sub
 
-
-    'Form overrides dispose to clean up the component list.
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
         If disposing Then
             If Not (components Is Nothing) Then
@@ -64,29 +46,28 @@ Public Class ExplorerUI
         Me.DataTree.AllowDrop = True
         Me.DataTree.AutoScroll = True
         Me.DataTree.BackColor = System.Drawing.SystemColors.Control
-        Me.DataTree.Controller = Nothing
         Me.DataTree.Dock = System.Windows.Forms.DockStyle.Left
         Me.DataTree.HelpText = ""
-        Me.DataTree.Location = New System.Drawing.Point(0, 40)
+        Me.DataTree.Location = New System.Drawing.Point(0, 0)
         Me.DataTree.Name = "DataTree"
-        Me.DataTree.Size = New System.Drawing.Size(256, 760)
+        Me.DataTree.Size = New System.Drawing.Size(256, 828)
         Me.DataTree.Sorted = False
         Me.DataTree.TabIndex = 3
         '
         'Splitter
         '
-        Me.Splitter.Location = New System.Drawing.Point(256, 40)
+        Me.Splitter.Location = New System.Drawing.Point(256, 0)
         Me.Splitter.Name = "Splitter"
-        Me.Splitter.Size = New System.Drawing.Size(5, 760)
+        Me.Splitter.Size = New System.Drawing.Size(5, 828)
         Me.Splitter.TabIndex = 4
         Me.Splitter.TabStop = False
         '
         'UIPanel
         '
         Me.UIPanel.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UIPanel.Location = New System.Drawing.Point(261, 40)
+        Me.UIPanel.Location = New System.Drawing.Point(261, 0)
         Me.UIPanel.Name = "UIPanel"
-        Me.UIPanel.Size = New System.Drawing.Size(469, 760)
+        Me.UIPanel.Size = New System.Drawing.Size(759, 828)
         Me.UIPanel.TabIndex = 5
         '
         'ExplorerUI
@@ -95,7 +76,7 @@ Public Class ExplorerUI
         Me.Controls.Add(Me.Splitter)
         Me.Controls.Add(Me.DataTree)
         Me.Name = "ExplorerUI"
-        Me.Size = New System.Drawing.Size(730, 800)
+        Me.Size = New System.Drawing.Size(1020, 828)
         Me.Controls.SetChildIndex(Me.DataTree, 0)
         Me.Controls.SetChildIndex(Me.Splitter, 0)
         Me.Controls.SetChildIndex(Me.UIPanel, 0)
@@ -105,80 +86,105 @@ Public Class ExplorerUI
 
 #End Region
 
-    ' ------------------------------------------------------
-    ' Set the expandAll property
-    ' ------------------------------------------------------
+    Public Overrides Sub RefreshView(ByVal Controller As BaseController)
+        ' -------------------------------------------------------
+        ' Called by parent to refresh ourselves. 
+        ' -------------------------------------------------------
+        MyBase.RefreshView(Controller)
+
+        If Not IsNothing(MyParentForm) And MyApplicationName = "" Then
+            MyApplicationName = MyParentForm.Text
+        End If
+        RemoveHandler Controller.AllData.DataChanged, AddressOf OnDataChanged
+        RemoveHandler Controller.SelectionChangingEvent, AddressOf OnSelectionChanging
+        RemoveHandler Controller.SelectionChangedEvent, AddressOf OnSelectionChanged
+        RemoveHandler Controller.BeforeSaveEvent, AddressOf OnBeforeSave
+        RemoveHandler Controller.AfterSaveEvent, AddressOf OnAfterSave
+        RemoveHandler Controller.RefreshRequiredEvent, AddressOf RefreshView
+
+        AddHandler Controller.AllData.DataChanged, AddressOf OnDataChanged
+        AddHandler Controller.SelectionChangingEvent, AddressOf OnSelectionChanging
+        AddHandler Controller.SelectionChangedEvent, AddressOf OnSelectionChanged
+        AddHandler Controller.BeforeSaveEvent, AddressOf OnBeforeSave
+        AddHandler Controller.AfterSaveEvent, AddressOf OnAfterSave
+        AddHandler Controller.RefreshRequiredEvent, AddressOf RefreshView
+        MyHelpLabel.Visible = False
+        UpdateCaption()
+        DataTree.RefreshView(Controller)
+    End Sub
+
     WriteOnly Property ExpandAll() As Boolean
         Set(ByVal Value As Boolean)
+            ' ------------------------------------------------------
+            ' Tell the DataTree to expand all nodes.
+            ' ------------------------------------------------------
             DataTree.ExpandAll = Value
         End Set
     End Property
 
-
-    ' ------------------------------------------------------
-    ' Set the SortAll property
-    ' ------------------------------------------------------
     WriteOnly Property SortAll() As Boolean
         Set(ByVal Value As Boolean)
+            ' -------------------------------------------------------
+            ' Set the DataTree to display nodes in alphabetical order
+            ' -------------------------------------------------------
             DataTree.SortAll = Value
         End Set
     End Property
 
-
-    ' -------------------------------------------------
-    ' Create and show a specific UI depending on the
-    ' specified user interface type.
-    ' -------------------------------------------------
-    Public Sub ShowUI(ByVal Data As APSIMData)
-        If IsNothing(MyCurrentUI) OrElse CurrentUIType <> Data.Type Then
+    Private Sub ShowUI()
+        ' -------------------------------------------------
+        ' Create and show a specific UI depending on the
+        ' currently selected data
+        ' -------------------------------------------------
+        If CurrentUIIndex = -1 OrElse UITypes(CurrentUIIndex) <> Controller.Data.Type Then
             CloseUI()
-            MyCurrentUI = Controller.CreateUI(Data.Type)
-        End If
-        If Not IsNothing(MyCurrentUI) Then
-            If MyCurrentUI.Controller Is Nothing Then
-                MyCurrentUI.Controller = Controller
-            ElseIf Not MyCurrentUI.Controller Is Controller Then
-                MyCurrentUI.Controller.AllData = Data
-                MyCurrentUI.Refresh()
-            Else
-                MyCurrentUI.Refresh()
+            CurrentUIIndex = UITypes.IndexOf(Controller.Data.Type)
+            If CurrentUIIndex = -1 Then
+                Dim View As BaseView = Controller.CreateUI(Controller.Data.Type)
+                If Not IsNothing(View) Then
+                    UIs.Add(View)
+                    UITypes.Add(Controller.Data.Type)
+                    CurrentUIIndex = UIs.Count - 1
+                End If
             End If
-            MyCurrentUI.Parent = UIPanel
-            MyCurrentUI.Dock = DockStyle.Fill
-            MyCurrentUI.Show()
-            Me.Visible = True
-            CurrentUIType = Data.Type
-        Else
-            MyCurrentUI = Nothing
         End If
-        DataTree.Visible = Data.Type.ToLower() <> "startup"
-        Splitter.Visible = DataTree.Visible
+        If CurrentUIIndex <> -1 Then
+            Dim View As BaseView = UIs(CurrentUIIndex)
+            View.Parent = UIPanel
+            View.Dock = DockStyle.Fill
+            View.Show()
+            View.RefreshView(Controller)
+        End If
     End Sub
 
-
-    ' -------------------------------------------------
-    ' Close the current UI
-    ' -------------------------------------------------
     Private Sub CloseUI()
-        If MyCurrentUI Is Nothing Then
-            'Dont need to do anthing here
-        Else
-            UIPanel.Controls.Remove(MyCurrentUI)
-            MyCurrentUI.Dispose()
-            MyCurrentUI = Nothing
-            UIPanel.Visible = True
+        ' -------------------------------------------------
+        ' Close the current UI
+        ' -------------------------------------------------
+        If CurrentUIIndex <> -1 Then
+            UIPanel.Controls.Remove(UIs(CurrentUIIndex))
+            CurrentUIIndex = -1
         End If
     End Sub
 
+    Private Sub SaveCurrentView()
+        ' -----------------------------------------------------
+        ' Tell current view to save.
+        ' -----------------------------------------------------
+        If CurrentUIIndex <> -1 Then
+            Dim View As BaseView = UIs(CurrentUIIndex)
+            View.Save()
+        End If
+    End Sub
 
-    ' ----------------------------------------
-    ' Called to update the main form's caption
-    ' ----------------------------------------
     Private Sub UpdateCaption()
+        ' ----------------------------------------
+        ' Called to update the main form's caption
+        ' ----------------------------------------
         If Not IsNothing(MyParentForm) Then
             If Controller.DirtyData Then
                 MyParentForm.Text = MyApplicationName + " - " + Controller.FileName + "*"
-            ElseIf Not Controller.AllowChanges Then
+            ElseIf Not Controller.AllowDataChanges Then
                 MyParentForm.Text = MyApplicationName + " - " + Controller.FileName + " [readonly]"
             Else
                 MyParentForm.Text = MyApplicationName + " - " + Controller.FileName
@@ -186,56 +192,43 @@ Public Class ExplorerUI
         End If
     End Sub
 
-    ' -----------------------------------------------------
-    ' User is selecting a new node - save current UI
-    ' -----------------------------------------------------
-    Public Sub OnSelectionChanging()
-        If Not MyCurrentUI Is Nothing Then
-            MyCurrentUI.Save()
-        End If
+    Private Sub OnSelectionChanging()
+        ' -----------------------------------------------------
+        ' User is selecting a new node - save current UI
+        ' -----------------------------------------------------
+        SaveCurrentView()
     End Sub
 
-
-    ' -----------------------------------------------------
-    ' User is about to do a save.
-    ' -----------------------------------------------------
-    Public Sub OnBeforeSave()
-        If Not MyCurrentUI Is Nothing Then
-            DataTree.Focus()
-            MyCurrentUI.Save()
-        End If
+    Private Sub OnBeforeSave()
+        ' -----------------------------------------------------
+        ' User is about to do a save.
+        ' -----------------------------------------------------
+        SaveCurrentView()
     End Sub
 
+    Private Sub OnAfterSave()
+        ' -----------------------------------------------------
+        ' User has saved the data
+        ' -----------------------------------------------------
+        UpdateCaption()
+    End Sub
 
-    ' -----------------------------------------------------
-    ' User has selected a node - update user interface
-    ' -----------------------------------------------------
-    Public Sub OnSelectionChanged(ByVal OldSelections As StringCollection, ByVal NewSelections As StringCollection)
+    Private Sub OnSelectionChanged(ByVal OldSelections As StringCollection, ByVal NewSelections As StringCollection)
+        ' -----------------------------------------------------
+        ' User has selected a node - update user interface
+        ' -----------------------------------------------------
         If Controller.SelectedPaths.Count = 1 Then
-            ShowUI(Controller.Data)
+            ShowUI()
         Else
             CloseUI()
         End If
     End Sub
 
-
-    ' -----------------------------------------------------
-    ' User has selected new data - refresh ourselves.
-    ' -----------------------------------------------------
-    Public Sub OnNewDataEvent()
+    Public Sub OnDataChanged(ByVal ChangedData As APSIMData)
+        ' --------------------------
+        ' User has changed some data
+        ' --------------------------
         UpdateCaption()
     End Sub
 
-
-    ' -----------------------------------------------
-    ' The data structure has changed - refresh the ui
-    ' -----------------------------------------------
-    Public Sub OnRename(ByVal OldNodeName As String, ByVal NewNodeName As String)
-        If Not IsNothing(MyCurrentUI) Then
-            If Not MyCurrentUI.Controller Is Controller Then
-                MyCurrentUI.Controller.AllData = Controller.Data
-                MyCurrentUI.Refresh()
-            End If
-        End If
-    End Sub
 End Class

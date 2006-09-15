@@ -792,7 +792,7 @@ namespace CSGeneral
 			get {return MySoil;}
 			set {
 				MySoil = value;
-				Refresh();
+				RefreshView();
 				}		
 			}
 
@@ -804,14 +804,14 @@ namespace CSGeneral
 			get {return ShowSW;}
 			set {
 				ShowSW = value;
-				Refresh();
+				RefreshView();
 				}		
 			}
 
 		// -------------------
 		// Refresh            
 		// -------------------
-		public override void Refresh()
+		public void RefreshView()
 			{
 			if (MySoil != null)
 				PopulateWaterChart();

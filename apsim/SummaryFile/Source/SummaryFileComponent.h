@@ -34,6 +34,7 @@ class SummaryFileComponent : public protocol::Component
       virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
       virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
 
+      std::string calcFileName();
       void writeLine(const FString& moduleName, const FString& line);
       void writeBanner(void);
       void writeInfo(void);

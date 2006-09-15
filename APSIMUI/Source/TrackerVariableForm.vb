@@ -71,9 +71,6 @@ Public Class TrackerVariableForm
 
         End Select
 
-        'Me.TrackerTemplatePanel.Refresh()
-
-
     End Sub
 
     Private Sub SetHyperTextLinks()

@@ -124,7 +124,8 @@ Public Class EmptyUI
     End Sub
 
 #End Region
-    Overrides Sub Refresh()
+    Overrides Sub RefreshView(ByVal Controller As BaseController)
+        MyBase.RefreshView(Controller)
         MainLabel.Text = Controller.Data.Type
         Me.HelpText = "This module does not have any editable properties."
         Dim inifile As New APSIMSettings

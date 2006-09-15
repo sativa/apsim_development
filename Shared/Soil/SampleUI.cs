@@ -198,8 +198,9 @@ namespace CSGeneral
 		}
 		#endregion
 
-		override public void Refresh()
+		override public void RefreshView(BaseController Controller)
 			{
+            base.RefreshView(Controller);
 			try
 				{
 				if (MySample == null)

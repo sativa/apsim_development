@@ -237,7 +237,6 @@
          <type>component</type>
          <dll>%apsuite\apsim\summaryfile\lib\summaryfile.dll</dll>
          <sim>
-            <summaryfile>[summaryfile.filename]</summaryfile>
          </sim>
       </ApsimToSim>
    </summaryfile>
@@ -258,7 +257,6 @@
          <type>component</type>
          <dll>%apsuite\apsim\report\lib\report.dll</dll>
          <sim>
-            <outputfile>[outputfile.filename]</outputfile>
             <outputfrequency>[foreach outputfile.outputfiledescription as desc][foreach desc.events][foreach events.event as e][if "[e.eventname]" = "Daily"]post[elseif "[e.module]" = "global"][e.eventname][else][e.name][endif] [endfor][endfor][endfor]</outputfrequency>
             [foreach outputfile.outputfiledescription as desc]
             [foreach desc.variables as vars]

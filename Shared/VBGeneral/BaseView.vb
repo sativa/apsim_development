@@ -1,35 +1,25 @@
 Imports System
 Imports System.IO
 
-' ----------------------------------
-' Base class for all user interfaces
-' It has data and knowledge of a
-' user interface.
-' All user interfaces should override the
-' 'Refresh' method and optionally the 
-' 'Save' method.
-' ----------------------------------
+
 Public Class BaseView
+    ' ----------------------------------
+    ' Base class for all user interfaces
+    ' It has data and knowledge of a
+    ' user interface.
+    ' All user interfaces should override the
+    ' 'Refresh' method and optionally the 
+    ' 'Save' method.
+    ' ----------------------------------   
     Inherits System.Windows.Forms.UserControl
-    Private MyController As BaseController
-
-
+    Protected Controller As BaseController
 
 #Region " Windows Form Designer generated code "
     Public Sub New()
         MyBase.New()
-
-        'This call is required by the Windows Form Designer.
         InitializeComponent()
-
-        'Add any initialization after the InitializeComponent() call
-
-        'Me.WindowState = FormWindowState.Maximized
-        Me.Dock = Windows.Forms.DockStyle.Fill
-
     End Sub
 
-    'Form overrides dispose to clean up the component list.
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
         If disposing Then
             If Not (components Is Nothing) Then
@@ -37,9 +27,6 @@ Public Class BaseView
             End If
         End If
         MyBase.Dispose(disposing)
-        If Not IsNothing(MyController) Then
-            RemoveHandler MyController.NewDataEvent, AddressOf OnNewData
-        End If
     End Sub
 
     'Required by the Windows Form Designer
@@ -78,51 +65,27 @@ Public Class BaseView
     End Sub
 #End Region
 
-    ' ------------------------------------------------
-    ' Called to setup the global application object
-    ' ------------------------------------------------
-    Overridable Property Controller() As BaseController
-        Get
-            Return MyController
-        End Get
-        Set(ByVal Value As BaseController)
-            HelpText = ""
-            If Not Value Is Nothing Then
-                If MyController Is Nothing OrElse Not MyController Is Value OrElse Not MyController.Data Is Value.Data Then
-                    MyController = Value
-                    If Not MyController Is Nothing Then
-                        AddHandler MyController.NewDataEvent, AddressOf OnNewData
-                        If Not MyController.Data Is Nothing Then
-                            Refresh()
-                        End If
-                    End If
-                End If
-            End If
-        End Set
-    End Property
-
-
-    Private Sub OnNewData()
-        If Parent Is Nothing Then
-            RemoveHandler MyController.NewDataEvent, AddressOf OnNewData
-        Else
-            Refresh()
-        End If
+    Public Overridable Sub RefreshView(ByVal Controller As BaseController)
+        ' ------------------------------------------------
+        ' Called to setup the view object. The controller
+        ' passed in is guarenteed to have data.
+        ' ------------------------------------------------
+        HelpText = ""
+        Me.Controller = Controller
     End Sub
 
-    ' ---------------------------------------------
-    ' An overridable method that is called whenever
-    ' data should be saved back to the APSIMData 
-    ' instance.
-    ' ---------------------------------------------
-    Overridable Sub Save()
+    Public Overridable Sub Save()
+        ' ---------------------------------------------
+        ' An overridable method that is called whenever
+        ' data should be saved back to the APSIMData 
+        ' instance.
+        ' ---------------------------------------------
     End Sub
 
-
-    ' ---------------------------------------------
-    ' Provide access to the help label of this ui
-    ' ---------------------------------------------
     Public Property HelpText() As String
+        ' ---------------------------------------------
+        ' Provide access to the help label of this ui
+        ' ---------------------------------------------
         Get
             Return MyHelpLabel.Text
         End Get
@@ -131,6 +94,5 @@ Public Class BaseView
             MyHelpLabel.Visible = Value <> ""
         End Set
     End Property
-
 
 End Class

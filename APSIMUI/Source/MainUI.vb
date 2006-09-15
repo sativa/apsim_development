@@ -40,15 +40,14 @@ Public Class MainUI
     Friend WithEvents OpenButton As System.Windows.Forms.ToolStripSplitButton
     Friend WithEvents SaveButton As System.Windows.Forms.ToolStripButton
     Friend WithEvents SaveAsButton As System.Windows.Forms.ToolStripButton
-    Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents CutButton As System.Windows.Forms.ToolStripButton
-    Friend WithEvents CopyButton As System.Windows.Forms.ToolStripButton
-    Friend WithEvents PasteButton As System.Windows.Forms.ToolStripButton
     Friend WithEvents HelpContentsButton As System.Windows.Forms.ToolStripButton
-    Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolBoxesToolStrip As System.Windows.Forms.ToolStrip
     Friend WithEvents ManageToolboxesButton As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents OpenButton2 As System.Windows.Forms.Button
+    Friend WithEvents SimulationList As System.Windows.Forms.ListView
+    Friend WithEvents NewButton2 As System.Windows.Forms.Button
     Private ToolBoxSplitterPoint As Integer
 
 #Region "Constructor / Destructor / Main"
@@ -119,20 +118,19 @@ Public Class MainUI
         Me.ToolBoxesToolStrip = New System.Windows.Forms.ToolStrip
         Me.ManageToolboxesButton = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
+        Me.NewButton2 = New System.Windows.Forms.Button
+        Me.SimulationList = New System.Windows.Forms.ListView
+        Me.OpenButton2 = New System.Windows.Forms.Button
+        Me.Label1 = New System.Windows.Forms.Label
         Me.ToolboxSplitter = New System.Windows.Forms.Splitter
         Me.SimulationToolStrip = New System.Windows.Forms.ToolStrip
         Me.NewButton = New System.Windows.Forms.ToolStripButton
         Me.OpenButton = New System.Windows.Forms.ToolStripSplitButton
         Me.SaveButton = New System.Windows.Forms.ToolStripButton
         Me.SaveAsButton = New System.Windows.Forms.ToolStripButton
-        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
-        Me.CutButton = New System.Windows.Forms.ToolStripButton
-        Me.CopyButton = New System.Windows.Forms.ToolStripButton
-        Me.PasteButton = New System.Windows.Forms.ToolStripButton
         Me.HelpContentsButton = New System.Windows.Forms.ToolStripButton
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
-        Me.RunButton = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator
+        Me.RunButton = New System.Windows.Forms.ToolStripButton
         Me.GraphButton = New System.Windows.Forms.ToolStripButton
         Me.ApsimOutlookButton = New System.Windows.Forms.ToolStripButton
         Me.ExcelButton = New System.Windows.Forms.ToolStripButton
@@ -203,6 +201,11 @@ Public Class MainUI
         'SimulationContainer.ContentPanel
         '
         Me.SimulationContainer.ContentPanel.AutoScroll = True
+        Me.SimulationContainer.ContentPanel.BackColor = System.Drawing.SystemColors.Window
+        Me.SimulationContainer.ContentPanel.Controls.Add(Me.NewButton2)
+        Me.SimulationContainer.ContentPanel.Controls.Add(Me.SimulationList)
+        Me.SimulationContainer.ContentPanel.Controls.Add(Me.OpenButton2)
+        Me.SimulationContainer.ContentPanel.Controls.Add(Me.Label1)
         Me.SimulationContainer.ContentPanel.Controls.Add(Me.ToolboxSplitter)
         Me.SimulationContainer.ContentPanel.Controls.Add(Me.ToolBoxPanel)
         Me.SimulationContainer.ContentPanel.Size = New System.Drawing.Size(705, 441)
@@ -240,6 +243,59 @@ Public Class MainUI
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
         Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 31)
         '
+        'NewButton2
+        '
+        Me.NewButton2.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.NewButton2.FlatAppearance.BorderSize = 0
+        Me.NewButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.NewButton2.Image = Global.APSIMUI.My.Resources.Resources.document_new
+        Me.NewButton2.Location = New System.Drawing.Point(12, 52)
+        Me.NewButton2.Name = "NewButton2"
+        Me.NewButton2.Size = New System.Drawing.Size(184, 35)
+        Me.NewButton2.TabIndex = 31
+        Me.NewButton2.Text = "Create a new simulation"
+        Me.NewButton2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.NewButton2.UseVisualStyleBackColor = True
+        '
+        'SimulationList
+        '
+        Me.SimulationList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.SimulationList.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.SimulationList.Location = New System.Drawing.Point(56, 134)
+        Me.SimulationList.Name = "SimulationList"
+        Me.SimulationList.Size = New System.Drawing.Size(439, 158)
+        Me.SimulationList.TabIndex = 30
+        Me.SimulationList.UseCompatibleStateImageBehavior = False
+        Me.SimulationList.View = System.Windows.Forms.View.List
+        '
+        'OpenButton2
+        '
+        Me.OpenButton2.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.OpenButton2.FlatAppearance.BorderSize = 0
+        Me.OpenButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.OpenButton2.Image = Global.APSIMUI.My.Resources.Resources.folder_document
+        Me.OpenButton2.Location = New System.Drawing.Point(12, 93)
+        Me.OpenButton2.Name = "OpenButton2"
+        Me.OpenButton2.Size = New System.Drawing.Size(184, 35)
+        Me.OpenButton2.TabIndex = 32
+        Me.OpenButton2.Text = "Open an existing simulation"
+        Me.OpenButton2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.OpenButton2.UseVisualStyleBackColor = True
+        '
+        'Label1
+        '
+        Me.Label1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label1.BackColor = System.Drawing.SystemColors.InactiveCaptionText
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.ForeColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Label1.Location = New System.Drawing.Point(0, 26)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(705, 23)
+        Me.Label1.TabIndex = 26
+        Me.Label1.Text = "  APSIM Quick Start Menu"
+        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
         'ToolboxSplitter
         '
         Me.ToolboxSplitter.Dock = System.Windows.Forms.DockStyle.Bottom
@@ -252,10 +308,10 @@ Public Class MainUI
         'SimulationToolStrip
         '
         Me.SimulationToolStrip.Dock = System.Windows.Forms.DockStyle.None
-        Me.SimulationToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewButton, Me.OpenButton, Me.SaveButton, Me.SaveAsButton, Me.ToolStripSeparator3, Me.CutButton, Me.CopyButton, Me.PasteButton, Me.HelpContentsButton, Me.ToolStripSeparator1, Me.RunButton, Me.ToolStripSeparator5, Me.GraphButton, Me.ApsimOutlookButton, Me.ExcelButton})
+        Me.SimulationToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewButton, Me.OpenButton, Me.SaveButton, Me.SaveAsButton, Me.HelpContentsButton, Me.ToolStripSeparator5, Me.RunButton, Me.GraphButton, Me.ApsimOutlookButton, Me.ExcelButton})
         Me.SimulationToolStrip.Location = New System.Drawing.Point(3, 0)
         Me.SimulationToolStrip.Name = "SimulationToolStrip"
-        Me.SimulationToolStrip.Size = New System.Drawing.Size(654, 47)
+        Me.SimulationToolStrip.Size = New System.Drawing.Size(528, 47)
         Me.SimulationToolStrip.TabIndex = 1
         '
         'NewButton
@@ -298,41 +354,6 @@ Public Class MainUI
         Me.SaveAsButton.Text = "Save &as..."
         Me.SaveAsButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
-        'ToolStripSeparator3
-        '
-        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(6, 47)
-        '
-        'CutButton
-        '
-        Me.CutButton.Image = Global.APSIMUI.My.Resources.Resources.cut
-        Me.CutButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.CutButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.CutButton.Name = "CutButton"
-        Me.CutButton.Size = New System.Drawing.Size(31, 44)
-        Me.CutButton.Text = "&Cut"
-        Me.CutButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'CopyButton
-        '
-        Me.CopyButton.Image = Global.APSIMUI.My.Resources.Resources.copy
-        Me.CopyButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.CopyButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.CopyButton.Name = "CopyButton"
-        Me.CopyButton.Size = New System.Drawing.Size(40, 44)
-        Me.CopyButton.Text = "Co&py"
-        Me.CopyButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'PasteButton
-        '
-        Me.PasteButton.Image = Global.APSIMUI.My.Resources.Resources.paste
-        Me.PasteButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.PasteButton.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.PasteButton.Name = "PasteButton"
-        Me.PasteButton.Size = New System.Drawing.Size(43, 44)
-        Me.PasteButton.Text = "&Paste"
-        Me.PasteButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
         'HelpContentsButton
         '
         Me.HelpContentsButton.Image = Global.APSIMUI.My.Resources.Resources.help2
@@ -343,10 +364,10 @@ Public Class MainUI
         Me.HelpContentsButton.Text = "&Help"
         Me.HelpContentsButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
-        'ToolStripSeparator1
+        'ToolStripSeparator5
         '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 47)
+        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(6, 47)
         '
         'RunButton
         '
@@ -358,11 +379,6 @@ Public Class MainUI
         Me.RunButton.Size = New System.Drawing.Size(68, 44)
         Me.RunButton.Text = "&Run"
         Me.RunButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
-        '
-        'ToolStripSeparator5
-        '
-        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
-        Me.ToolStripSeparator5.Size = New System.Drawing.Size(6, 47)
         '
         'GraphButton
         '
@@ -431,18 +447,15 @@ Public Class MainUI
                                             "Soils files (*.soils)|*.soils|" + _
                                             "All files (*.*)|*.*", _
                                         "apsimui")
-        AddHandler ApsimUI.NewDataEvent, AddressOf OnNewDataEvent
+        AddHandler ApsimUI.NewDataEvent, AddressOf OnNewData
         AddHandler ApsimUI.SelectionChangedEvent, AddressOf OnSelectionChanged
-        AddHandler ApsimUI.DataChangedEvent, AddressOf SetFunctionality
-        AddHandler ApsimUI.NodeChangedEvent, AddressOf OnNodeChanged
 
         ' Show the Simulation Explorer.
-        SimulationExplorer = New ExplorerUI(Me, ApsimUI)
+        SimulationExplorer = New ExplorerUI(Me)
         SimulationExplorer.Dock = DockStyle.Fill
         SimulationExplorer.Parent = SimulationContainer.ContentPanel
-        SimulationExplorer.Visible = True
+        SimulationExplorer.Visible = False
         SimulationExplorer.BringToFront()
-        SimulationExplorer.ShowUI(New APSIMData("startup", ""))
 
         ' Setup but don't show the Toolbox Explorer.
         Toolbox = New ApsimUIController(".xml", _
@@ -450,12 +463,10 @@ Public Class MainUI
                                             "Soils files (*.soils)|*.soils|" + _
                                             "All files (*.*)|*.*", _
                                         "")
-        ToolboxExplorer = New ExplorerUI(Nothing, Toolbox)
-        ToolboxExplorer.Dock = DockStyle.Fill
+        ToolboxExplorer = New ExplorerUI(Nothing)
         ToolboxExplorer.Parent = ToolBoxPanel
-        ToolboxExplorer.Visible = True
+        ToolboxExplorer.Dock = DockStyle.Fill
         ToolboxExplorer.BringToFront()
-        ToolboxSplitter.BringToFront()
 
         ' Load a default file if one was specified on the command line.
         Dim separators As String = " "
@@ -474,6 +485,15 @@ Public Class MainUI
             ApsimUI.FileOpen(FileName)
         End If
 
+        ' Populate the simulation list 
+        Dim FileNames() As String = ApsimUI.GetFrequentList()
+        For Each File As String In FileNames
+            Dim item As New ListViewItem(File, 0)
+            item.ImageIndex = 0
+            SimulationList.Items.Add(item)
+        Next
+        SimulationList.Visible = FileNames.Length > 0
+
         CreateRecentFileListMenu()
         PopulateToolBoxStrip()
         SetFunctionality()
@@ -486,20 +506,18 @@ Public Class MainUI
     Private Sub OnSelectionChanged(ByVal OldSelections As StringCollection, ByVal NewSelections As StringCollection)
         SetFunctionality()
     End Sub
-
-    Private Sub OnNewDataEvent()
+    Private Sub OnDataChanged(ByVal ChangedData As APSIMData)
+        SetFunctionality()
+    End Sub
+    Private Sub OnNewData()
         ' New data has entered the system.
         ' This is usually caused by FileNew,
         ' FileOpen etc.        
+        AddHandler ApsimUI.AllData.DataChanged, AddressOf OnDataChanged
         APSIMChangeTool.Upgrade(ApsimUI.AllData)
-        OnNodeChanged(ApsimUI.AllData.Name, ApsimUI.AllData)
+        SimulationExplorer.Visible = True
+        SimulationExplorer.RefreshView(ApsimUI)
         SetFunctionality()
-    End Sub
-
-    Private Sub OnNodeChanged(ByVal OldNodePath As String, ByVal NewNodeData As APSIMData)
-        ' Called when the tree view control is alterted
-        ApsimUI.CheckAllComponents(ApsimUI.AllData, OldNodePath, NewNodeData)
-
     End Sub
 
     Private Sub CreateRecentFileListMenu()
@@ -528,14 +546,9 @@ Public Class MainUI
         ' Enable / Disable bits of functionality as 
         ' required. i.e. ensure program is in a 
         ' consistant state.
-        Dim SomethingInTree As Boolean = Not IsNothing(ApsimUI.AllData) AndAlso ApsimUI.AllData.ChildList.Count > 0
-
-        CutButton.Enabled = ApsimUI.AllowCut
-        CopyButton.Enabled = ApsimUI.AllowCopy
-        PasteButton.Enabled = ApsimUI.AllowPaste
+        Dim SomethingInTree As Boolean = Not IsNothing(ApsimUI.AllData) AndAlso ApsimUI.AllData.ChildNames.Length > 0
 
         RunButton.Enabled = SomethingInTree
-
         GraphButton.Enabled = SomethingInTree
         ApsimOutlookButton.Enabled = SomethingInTree
 
@@ -557,21 +570,29 @@ Public Class MainUI
             Catch ex As System.Exception
             End Try
 
-            If ToolboxExplorer.Visible And Toolbox.AllowFileSave Then
+            If ToolboxExplorer.Visible And Toolbox.AllowDataChanges Then
                 Toolbox.FileSave()
             End If
         End If
     End Sub
 #End Region
 #Region "Main button bar"
-    Private Sub OnNewFileClick(ByVal sender As Object, ByVal e As EventArgs) Handles NewButton.Click
+
+    Private Sub SimulationList_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SimulationList.DoubleClick
+        If SimulationList.SelectedItems.Count > 0 Then
+            Dim SelectedFile As String = SimulationList.SelectedItems(0).Text
+            ApsimUI.FileOpen(SelectedFile)
+        End If
+    End Sub
+
+    Private Sub OnNewFileClick(ByVal sender As Object, ByVal e As EventArgs) Handles NewButton.Click, NewButton2.Click
         Dim NewData As APSIMData = ApsimUI.LetUserSelectNewDocument()
         If Not IsNothing(NewData) Then
             ApsimUI.FileNew(NewData)
         End If
     End Sub
 
-    Private Sub OnOpenFileClick(ByVal sender As Object, ByVal e As EventArgs) Handles OpenButton.Click
+    Private Sub OnOpenFileClick(ByVal sender As Object, ByVal e As EventArgs) Handles OpenButton.Click, OpenButton2.Click
         ApsimUI.FileOpen()
     End Sub
 
@@ -583,15 +604,15 @@ Public Class MainUI
         ApsimUI.FileSaveAs()
     End Sub
 
-    Private Sub ONCutClick(ByVal sender As Object, ByVal e As EventArgs) Handles CutButton.Click
+    Private Sub ONCutClick(ByVal sender As Object, ByVal e As EventArgs)
         ApsimUI.Cut()
     End Sub
 
-    Private Sub OnCopyClick(ByVal sender As Object, ByVal e As EventArgs) Handles CopyButton.Click
+    Private Sub OnCopyClick(ByVal sender As Object, ByVal e As EventArgs)
         ApsimUI.Copy()
     End Sub
 
-    Private Sub OnPasteClick(ByVal sender As Object, ByVal e As EventArgs) Handles PasteButton.Click
+    Private Sub OnPasteClick(ByVal sender As Object, ByVal e As EventArgs)
         ApsimUI.Paste()
     End Sub
 
@@ -764,6 +785,8 @@ Public Class MainUI
             Dim filename As String = toolboxes.NameToFileName(Sender.ToString)
             ToolboxExplorer.ExpandAll = False
             Toolbox.FileOpen(filename)
+            ToolboxExplorer.RefreshView(Toolbox)
+
             APSIMChangeTool.Upgrade(Toolbox.AllData)
             If Toolbox.DirtyData Then
                 Toolbox.FileSave()
@@ -782,7 +805,7 @@ Public Class MainUI
             Button.Checked = False
         Next
 
-        If Toolbox.AllowFileSave Then
+        If Toolbox.AllowDataChanges Then
             Toolbox.FileSave()
         End If
 
@@ -801,6 +824,5 @@ Public Class MainUI
     End Sub
 
 #End Region
-
 
 End Class

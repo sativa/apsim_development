@@ -140,18 +140,19 @@ Public Class OutputFileDescUI
     ' ----------------------------------
     ' Refresh the variable tree.
     ' ----------------------------------
-    Overrides Sub refresh()
-        MyBase.Refresh()
+    Overrides Sub RefreshView(ByVal Controller As BaseController)
+        MyBase.RefreshView(Controller)
         HelpText = "Use the variables tab to specify APSIM variables that should be written to the output file. Use the file contents tab to view the contents of the output file."
 
         DataTree.Sorted = True
         DataTree.ExpandAll = False
         DataTree.HelpText = "Variable and events"
-        DataTree.Controller = New ApsimUIController("", "", "")
+        Dim VariablesController As New ApsimUIController("", "", "")
+        VariablesController.AllData = BuildDataTree()
+        DataTree.RefreshView(VariablesController)
         DataTree.ShowAll = True
-        DataTree.Controller.AllData = BuildDataTree()
-        VariablesListView.Controller = Controller
-        EventsListView.Controller = Controller
+        VariablesListView.RefreshView(Controller)
+        EventsListView.RefreshView(Controller)
     End Sub
 
 

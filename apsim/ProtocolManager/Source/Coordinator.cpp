@@ -539,39 +539,41 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
    {
    unsigned componentId = 0;
 
-   string name = asString(queryInfo.name);
-   unsigned posPeriod = name.find('.');
+   string childName = asString(queryInfo.name);
+   unsigned posPeriod = childName.find('.');
    if (posPeriod != string::npos)
       {
-      string componentName = name.substr(0, posPeriod);
-      name.erase(0, posPeriod);
-      componentID = componentNameToID(name);
+      string componentName = childName.substr(0, posPeriod);
+      childName.erase(0, posPeriod);
+      componentID = componentNameToID(childName);
       }
    std::vector< ::Registration> matches;
 
    if (queryInfo.kind == respondToGetInfo)
-      registrations.findMatching(componentId, name, RegistrationType::respondToGet, matches);
+      registrations.findMatching(componentId, childName, RegistrationType::respondToGet, matches);
    else if (queryInfo.kind == respondToSetInfo)
-      registrations.findMatching(componentId, name, RegistrationType::respondToSet, matches);
+      registrations.findMatching(componentId, childName, RegistrationType::respondToSet, matches);
    else if (queryInfo.kind == respondToEventInfo)
-      registrations.findMatching(componentId, name, RegistrationType::respondToEvent, matches);
+      registrations.findMatching(componentId, childName, RegistrationType::respondToEvent, matches);
    else if (queryInfo.kind == componentInfo)
       {
       unsigned childID;
-      if (Is_numerical(name.c_str()))
+      if (Is_numerical(childName.c_str()))
          {
-         childID = atoi(name.c_str());
-         if (components[childID] != NULL)
-            name = components[childID]->getName();
+         childID = atoi(childName.c_str());
+         if (components.find(childID) != components.end())
+            childName = components[childID]->getName();
+         if (childID == componentID)
+            childName = name;
          }
       else
-         childID = componentNameToID(name);
+         childID = componentNameToID(childName);
 
-      if (childID == INT_MAX || components[childID] == NULL) return; // XX Yuck!!
+      if (childID == INT_MAX || childName == "") return; // XX Yuck!!
 
       string fqn = name;
       fqn += ".";
-      fqn += components[childID]->getName();
+      fqn += childName;
       sendMessage(newReturnInfoMessage(componentID,
                                        fromID,
                                        messageID,
@@ -878,7 +880,7 @@ void Coordinator::respondToEvent(unsigned int& fromID, unsigned int& eventID, pr
 // return one of our variables to caller
 // ------------------------------------------------------------------
 void Coordinator::respondToGet(unsigned int& fromID, QueryValueData& queryValueData)
-   {
+   {                  
    if (queryValueData.ID == titleID)
       sendVariable(queryValueData, FString(title.c_str()));
    else if (queryValueData.ID == componentsID)

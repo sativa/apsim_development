@@ -36,23 +36,24 @@ namespace APSoil
                 {
                 APSIMData NewData = new APSIMData(Xml);
 				APSIMData NewNode = CreateNodeFromPath(Apsoil, Apsoil.AllData, NewData.Name);
-                NewSelections.Add(BaseController.GetFullPathForData(NewNode));
+                NewSelections.Add(NewNode.FullPath);
                 NewNode.InnerXML = NewData.InnerXML;
 				}
-            Apsoil.SelectedPaths = NewSelections;			
+            Apsoil.SelectedPaths = NewSelections;
+            Apsoil.RefreshView();
 			Cursor.Current = Cursors.Default;
 			}
 
 
-		static public void ExportToFile(string FileName, ArrayList Soils)
+        static public void ExportSelectedToFile(string FileName, ApsoilController Apsoil)
 			{
             Cursor.Current = Cursors.WaitCursor;
             
             File.Delete(FileName);
             DataTable Table = new DataTable("SoilData");
             int Row = 0;
-            foreach (APSIMData SelectedData in Soils)
-                CreateTableFromData(SelectedData, Table, ApsoilController.GetFullPathForData(SelectedData), ref Row);
+            foreach (string SelectedPath in Apsoil.SelectedPaths)
+                CreateTableFromData(Apsoil.AllData.Find(SelectedPath), Table, SelectedPath, ref Row);
             ExcelHelper.SendDataToSheet(FileName, "SoilData", Table);
             Cursor.Current = Cursors.Default;
             }
@@ -313,7 +314,7 @@ namespace APSoil
 
 				if (rootNode)
 					{
-                    Apsoil.RenameSelected(PathNodeName);
+                    Apsoil.Data.Name = PathNodeName;
 					rootNode = false;
 					}
 				else
@@ -325,8 +326,6 @@ namespace APSoil
                             Child = NewData.Add(new APSIMData("soil", PathNodeName));
                         else
                             Child = NewData.Add(new APSIMData("folder", PathNodeName));
-                        Apsoil.DataHasBeenAdded(BaseController.GetFullPathForData(Child.Parent), Child.Parent);
-    
                         }
 					NewData = Child;
 					}

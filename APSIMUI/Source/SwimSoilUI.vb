@@ -1,3 +1,4 @@
+Imports VBGeneral
 Public Class SwimSoilUI
     Inherits VBGeneral.BaseView
 
@@ -229,9 +230,9 @@ Public Class SwimSoilUI
 
 #End Region
 
-    Overrides Sub refresh()
-        MyBase.Refresh()
-        HypropsControl.Controller = Controller
+    Overrides Sub RefreshView(ByVal Controller As BaseController)
+        MyBase.RefreshView(Controller)
+        HypropsControl.RefreshView(Controller)
     End Sub
 
 

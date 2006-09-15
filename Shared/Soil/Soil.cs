@@ -287,11 +287,11 @@ namespace CSGeneral
 		public string[] Crops
 			{
 			get {
-				StringCollection ReturnListCollection = Data.ChildList("SoilCrop");
+				String[] ReturnListCollection = Data.ChildNames("SoilCrop");
 				StringCollection PredCrops = PredictedCrops;
-				string[] ReturnList = new string[ReturnListCollection.Count + PredCrops.Count];
+				string[] ReturnList = new string[ReturnListCollection.Length + PredCrops.Count];
 				ReturnListCollection.CopyTo(ReturnList, 0);
-				PredCrops.CopyTo(ReturnList, ReturnListCollection.Count);
+				PredCrops.CopyTo(ReturnList, ReturnListCollection.Length);
 				return ReturnList;
 				}
 			}
@@ -379,7 +379,7 @@ namespace CSGeneral
 			{
 			get {
 				StringCollection PredCrops = new StringCollection();
-				if (Data.ChildList("SoilCrop").Count > 0 && OpenPredLLCoeffFile())
+				if (Data.ChildNames("SoilCrop").Length > 0 && OpenPredLLCoeffFile())
 					{
 					// get a list of all possible predicted crops.
                         string SoilNameNoSpaces = Classification.Replace(" ", "");
@@ -387,7 +387,7 @@ namespace CSGeneral
 				
 					foreach (APSIMData PredSoil in  PredLLCoeff.get_Children(null))
 						if (PredSoil.Name.ToLower() == SoilNameNoSpaces.ToLower())
-							foreach (string CropName in PredSoil.ChildList(null))
+							foreach (string CropName in PredSoil.ChildNames(null))
 								if (!CropExists(CropName))
 									{
 									double[] a = null;
@@ -1373,7 +1373,7 @@ namespace CSGeneral
 
 		public Note[] GetNotes()
 			{
-			Note[] ReturnList = new Note[Data.get_Children("note").Count];
+			Note[] ReturnList = new Note[Data.get_Children("note").Length];
 			int i = 0;
 			foreach (APSIMData NoteNode in Data.get_Children("note"))
 				{

@@ -21,14 +21,14 @@ namespace ApsimToSim
 			// Main entry point into application.
 			// Firstly parse all arguments.
 			string ApsimFileName = null;
-			StringCollection SimNames = new StringCollection();
-			foreach (string arg in args)
-				{
-				if (ApsimFileName == null)
-					ApsimFileName = arg;
-				else
-					SimNames.Add(arg);
-				}
+            string[] SimNames = new string[args.Length - 1];
+            for (int i = 0; i != args.Length; i++ )
+                {
+                if (i == 0)
+                    ApsimFileName = args[i];
+                else
+                    SimNames[i-1] = args[i];
+                }
 
 			if (ApsimFileName == null)
 				Console.WriteLine("No .apsim file specified on the command line");
@@ -36,7 +36,7 @@ namespace ApsimToSim
 			try
 				{
 				ApsimToSim SimCreator = new ApsimToSim();
-            SimCreator.ConvertApsimToSim(ApsimFileName, SimNames);
+                SimCreator.ConvertApsimToSim(ApsimFileName, SimNames);
 				}
 			catch (Exception err)
 				{
@@ -46,7 +46,7 @@ namespace ApsimToSim
 			return 0;
 			}
 
-		private void ConvertApsimToSim(string ApsimFileName, StringCollection SimNames)
+		private void ConvertApsimToSim(string ApsimFileName, string[] SimNames)
 			{
             Directory.SetCurrentDirectory(Path.GetDirectoryName(ApsimFileName));
 
@@ -56,8 +56,8 @@ namespace ApsimToSim
 			Data.LoadFromFile(ApsimFileName);
 			
 			// If no simulations were specified then do all simulations in .apsim file.
-			if (SimNames.Count == 0)
-				SimNames = Data.ChildList("simulation");
+			if (SimNames.Length == 0)
+				SimNames = Data.ChildNames("simulation");
 
 			// we'll need the types.xml file for later.
 			Types = new APSIMData();
@@ -73,7 +73,7 @@ namespace ApsimToSim
 				string SortedContents = SortSim(Out.ToString());
 				
 				StreamWriter FileOut = new StreamWriter(SimName + ".sim");
-            FileOut.Write(SortedContents);
+                FileOut.Write(SortedContents);
 				FileOut.Close();
 				}
 			}
@@ -195,7 +195,7 @@ namespace ApsimToSim
 			MethodInfo Method = t.GetMethod(MethodName);
 			if (Method == null)
 				throw new Exception("Cannot find method '" + MethodName + "' in class '" + ClassName + "'");
-            object[] Params = new object[1 + CallDllNode.ChildList("argument").Count];
+            object[] Params = new object[1 + CallDllNode.ChildNames("argument").Length];
 			Params[0] = Out;		
 			int i = 1;
 			foreach (APSIMData Argument in CallDllNode.get_Children("argument"))
@@ -239,8 +239,8 @@ namespace ApsimToSim
 
 				if (ModuleName1 == ModuleName2)
 					{
-					int ChildIndex1 = Data1.Parent.ChildList(null).IndexOf(Data1.Name);
-					int ChildIndex2 = Data2.Parent.ChildList(null).IndexOf(Data2.Name);
+                    int ChildIndex1 = Array.IndexOf(Data1.Parent.ChildNames(null), Data1.Name);
+                    int ChildIndex2 = Array.IndexOf(Data2.Parent.ChildNames(null), Data2.Name);
 					if (ChildIndex1 < ChildIndex2)
 						return -1;
 					else
@@ -272,7 +272,6 @@ namespace ApsimToSim
 			if (Executable != "")
 				SortedData.SetAttribute("executable", Executable);
 
-            StringCollection ChildCollection = Data.ChildList(null);
 			ArrayList Children = new ArrayList();
 			foreach (APSIMData Child in Data.get_Children(null))
 				Children.Add(Child);

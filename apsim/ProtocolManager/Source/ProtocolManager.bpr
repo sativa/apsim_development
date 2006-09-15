@@ -32,8 +32,8 @@
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <CFLAG1 value="-WD -vGc -vGt -vGd -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- 
-      -k -y -v -vi- -tWD -tWM -c"/>
+    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- 
+      -tWD -tWM -c"/>
     <PFLAGS value="-$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
     <AFLAGS value="/mx /w2 /zi"/>
@@ -43,7 +43,7 @@
   <LINKER>
     <ALLOBJ value="c0d32.obj $(PACKAGES) $(OBJFILES)"/>
     <ALLRES value="$(RESFILES)"/>
-    <ALLLIB value="cg32.lib $(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
@@ -90,35 +90,41 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 
+[Excluded Packages]
+C:\Program Files\Borland\CBuilder6\Components\TeeChart\source\Sources\Compiled\BuilderC6\System\TeeImage7C6.bpl=TeeChart Pro Graphic Exporting formats
+C:\Program Files\Borland\CBuilder6\Components\MemTable\kbmMemC6Des.bpl=kbmMemC6Des
+
 [HistoryLists\hlIncludePath]
-Count=17
-Item0=..\..\..\Shared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost
-Item1=..\..\..\Shared\ComponentInterface;..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;(BCB)\components\boost
-Item2=..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;(BCB)\components\boost
-Item3=..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;(BCB)\components\boost
-Item4=..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;..\..\Shared;$(BCB)\components\boost
-Item5=..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
-Item6=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
-Item7=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item8=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);..\..\infra\componentinterface;..\..\infra\engine
-Item9=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);..\..\infra\componentinterface
-Item10=$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\componentinterface;..\..\infra\protocol
-Item11=$(BCB)\include;$(BCB)\include\vcl;k:\;..\infra\componentinterface;..\infra\protocol
-Item12=$(BCB)\include;$(BCB)\include\vcl;k:\;..\componentinterface;..\protocol
-Item13=$(BCB)\include;$(BCB)\include\vcl;k:\;..\componentinterface\;..\protocol\
-Item14=$(BCB)\include;$(BCB)\include\vcl;k:\;C:\Program Files\Borland\CBuilder5\componentinterface\;C:\Program Files\Borland\CBuilder5\protocol\
-Item15=C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\componentinterface;..\protocol
-Item16=$(BCB)\include;$(BCB)\include\vcl
+Count=18
+Item0=..\..\..\Shared\ComponentInterface;..\..\..\Shared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost
+Item1=..\..\..\Shared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost
+Item2=..\..\..\Shared\ComponentInterface;..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;(BCB)\components\boost
+Item3=..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;(BCB)\components\boost
+Item4=..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;(BCB)\components\boost
+Item5=..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;..\..\Shared;$(BCB)\components\boost
+Item6=..\..\..\Shared\ComponentInterface;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
+Item7=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
+Item8=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item9=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);..\..\infra\componentinterface;..\..\infra\engine
+Item10=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);..\..\infra\componentinterface
+Item11=$(BCB)\include;$(BCB)\include\vcl;k:\;..\..\infra\componentinterface;..\..\infra\protocol
+Item12=$(BCB)\include;$(BCB)\include\vcl;k:\;..\infra\componentinterface;..\infra\protocol
+Item13=$(BCB)\include;$(BCB)\include\vcl;k:\;..\componentinterface;..\protocol
+Item14=$(BCB)\include;$(BCB)\include\vcl;k:\;..\componentinterface\;..\protocol\
+Item15=$(BCB)\include;$(BCB)\include\vcl;k:\;C:\Program Files\Borland\CBuilder5\componentinterface\;C:\Program Files\Borland\CBuilder5\protocol\
+Item16=C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;k:\;..\componentinterface;..\protocol
+Item17=$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=7
-Item0=..\..\..\Shared;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item1=..\..\..\Shared\ComponentInterface;..\..\Shared\ComponentInterface;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item2=..\..\Shared\ComponentInterface;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item3=..\..\..\Shared\ComponentInterface;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item4=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item5=C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
-Item6=$(BCB)\lib\obj;$(BCB)\lib
+Count=8
+Item0=..\..\..\Shared\ComponentInterface;..\..\..\Shared;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item1=..\..\..\Shared;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item2=..\..\..\Shared\ComponentInterface;..\..\Shared\ComponentInterface;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item3=..\..\Shared\ComponentInterface;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item4=..\..\..\Shared\ComponentInterface;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item5=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item6=C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item7=$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1
@@ -137,11 +143,11 @@ Item1=..\Lib
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=C:\development\apsim\FarmMachinery\MACHIN~1.sim
+RunParams=&quot;D:\tmp\Continuous Wheat Simulation.sim&quot;
 Launcher=
 UseLauncher=0
 DebugCWD=
-HostApplication=c:\development\bin\apsim.exe
+HostApplication=d:\development\bin\apsim.exe
 RemoteHost=
 RemotePath=
 RemoteLauncher=
@@ -151,7 +157,7 @@ RemoteDebug=0
 [Compiler]
 ShowInfoMsgs=0
 LinkDebugVcl=0
-LinkCGLIB=1
+LinkCGLIB=0
 
 [Language]
 ActiveLang=

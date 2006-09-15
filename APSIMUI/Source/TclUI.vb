@@ -14,7 +14,7 @@ Public Class TclUI
         AxTclControl1.SetVar("XMLDoc", Me.Controller.Data.XML(), 1)
         AxTclControl1.SetVar("apsuite", ApsimDirectory(), 1)
 
-        Dim UIScript As String = Controller.Data.ChildValueWithError("uiscript")
+        Dim UIScript As String = Controller.Data.ChildValue("uiscript")
 
         If (AxTclControl1.Eval(UIScript) = False) Then
             MessageBox.Show(AxTclControl1.Result, "Tcl Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -48,7 +48,7 @@ Public Class TclUI
     Private components As System.ComponentModel.IContainer
 
     'NOTE: The following procedure is required by the Windows Form Designer
-    'It can be modified using the Windows Form Designer.  
+    'It can be modified using the Windows Form Designer.
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(TclUI))
