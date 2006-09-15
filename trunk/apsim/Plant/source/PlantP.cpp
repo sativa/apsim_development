@@ -46,26 +46,10 @@ using namespace std;
 
 static const char* floatArrayType =   "<type kind=\"single\" array=\"T\"/>";
 
-// =======================================
 void Plant::zero_p_variables ()
-{
-//+  Purpose
+// =======================================
 //     Set all variables in this module to zero.
-
-//+  Changes
-//     <insert here>
-
-//+  Constant Values
-   const char*  my_name = "Plant::zero_p_variables";
-//- Implementation Section ----------------------------------
-      // Parameters
-      // ==========
-
-      // Globals
-      // =======
-
-      // Constants
-      // =========
+{
       g.pfact_photo        = 1.0;
       g.pfact_expansion    = 1.0;
       g.pfact_pheno        = 1.0;
@@ -166,17 +150,6 @@ void Plant::PlantP_senescence (vector<plantPart*>&parts)
 void Plant::zero_daily_p_variables ()
 {
 
-//+  Purpose
-//     <insert here>
-
-//+  Changes
-//
-
-//+  Constant Values
-      const char*  my_name = "PlantP::zero_daily_p_variables";
-
-//- Implementation Section ----------------------------------
-
 }
 // ====================================================================
 void Plant::doPInit (PlantComponent *systemInterface)
@@ -193,26 +166,13 @@ void Plant::doPInit (PlantComponent *systemInterface)
 }
 
 
-// ====================================================================
 void Plant::PlantP_set_phosphorus_aware (PlantComponent *systemInterface)
-{
-//+  Purpose
+// ====================================================================
 //      Check that soil phosphorus is in system
-
-//+  Mission statement
-//     Check the phosphorus awareness of the system
-
-//+  Changes
-
-//+  Constant Values
-const char*  my_name = "PlantP_set_phosphorus_aware";
-
+{
 //+  Local Variables
       vector<float> values;               // Scratch area
       bool soilpPresent;
-
-//- Implementation Section ----------------------------------
-
 
       unsigned int idSoilpVar = systemInterface->addRegistration(RegistrationType::get,
                                                                "labile_p", floatArrayType,
@@ -350,19 +310,10 @@ void Plant::PlantP_Stress (vector<plantPart *> &allParts)
       g.pfact_grain = bound(g.pfact_grain, 0.0, 1.0);
 
 }
-// ====================================================================
 void Plant::PlantP_init_pools (vector<plantPart*>&parts)  //FIXME - this is not referenced anywhere!!!
-{
-
-//+  Purpose
+// ====================================================================
 //      Initialise Plant P Pools
-
-//+  Changes
-//     <insert here>
-
-//+  Constant Values
-      const char*  my_name = "PlantP_init_pools";
-
+{
 //+  Local Variables
    vector<plantPart *>::iterator part;
    float dmSum = 0.0, pSum = 0.0;
@@ -397,18 +348,8 @@ void Plant::plant_p_retrans(void)
 }
 
 void Plant::PlantP_retrans (vector<plantPart*>&parts)
-{
-
-//+  Purpose
 //      Calculate retranslocation between pools
-
-//+  Changes
-//     <insert here>
-
-//+  Constant Values
-      const char*  my_name = "PlantP_retrans";
-
-//+  Local Variables
+{
       vector<float>    supply(parts.size());
       vector<float>    demand(parts.size());
 
@@ -433,18 +374,7 @@ void Plant::PlantP_retrans (vector<plantPart*>&parts)
 // ====================================================================
 void Plant::summary_p (void)
 {
-//+  Purpose
-//      Summary
-
-//+  Changes
-//     <insert here>
-
-
-//+  Constant Values
-    const char*  my_name = "PlantP_summary" ;
-
-//+  Local Variables
-    char  msg[400];
+   char  msg[400];
       float       P_grain;               // total grain P uptake (kg/ha)
       float       P_dead;                // above ground dead plant P (kg/ha)
       float       P_green;               // above ground green plant P (kg/ha)
@@ -489,74 +419,6 @@ void Plant::summary_p (void)
 
 
 
-
-////
-//// PlantP class test harness
-////
-//// Tests default constructor, copy constructor, assignment operator and
-//// each of the get and set functions.  Does not test the destructor.
-////
-//// Modification log
-//// 27/7/97 J Hargreaves    Initial implementation
-////
-//
-//int main()
-//{
-//	cout << "PlantP test started" << endl;
-//
-//	PlantP p;
-//
-//	cout << endl << "Test set and get functions:" << endl;
-//	string name = "Bill";
-//	p.setName(name);
-//	if (p.getName() == name)
-//		cout << "setName(name) / getName() test OK" << endl;
-//	else
-//		cout << "setName(name) / getName() test FAILED" << endl;
-//	string phone = "1234-5678";
-//	p.setPhone(phone);
-//	if (p.getPhone() == phone)
-//		cout << "setPhone(phone) / getPhone() test OK" << endl;
-//	else
-//		cout << "setPhone(phone) / getPhone() test FAILED" << endl;
-//
-//	cout << endl << "Test default constructor:" << endl;
-//	PlantP q;                           // run default constructor
-//	if (q.getName() == "" && q.getPhone() == "")
-//		cout << "default constructor test OK" << endl;
-//	else
-//		cout << "default constructor test FAILED" << endl;
-//
-//	cout << endl << "Test constructor parameters:" << endl;
-//	PlantP r(name, phone);              // run constructor with parameters
-//	if (r.getName() == name && r.getPhone() == phone)
-//		cout << "constructor parameters test OK" << endl;
-//	else
-//		cout << "constructor parameters test FAILED" << endl;
-//
-//	cout << endl << "Test copy constructor:" << endl;
-//	PlantP s = p;                       // run copy constructor
-//	if (s.getName() == p.getName() && s.getPhone() == p.getPhone())
-//		cout << "copy constructor test OK" << endl;
-//	else
-//		cout << "copy constructor test FAILED" << endl;
-//
-//	cout << endl << "Test assignment operator:" << endl;
-//	s.setName("Another name"); s.setPhone("Another number"); // change object
-//	if (s.getName() != p.getName() && s.getPhone() != p.getPhone())
-//	{
-//		s = p;                          // run operator=
-//		if (s.getName() == p.getName() && s.getPhone() == p.getPhone())
-//			cout << "assignment operator test OK" << endl;
-//		else
-//			cout << "assignment operator test FAILED" << endl;
-//	}
-//	else
-//		cout << "assignment operator test FAILED DIFFERENCE TEST" << endl;
-//
-//	cout << endl << "PlantP test finished" << endl;
-//	return 0;
-//}
 
 
 
