@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<simulation executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll" version="5.1">
+<simulation executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll" version="5.2">
    <title>Test sowing next day after out</title>
    <component name="SummaryFile" executable = "c:\development\apsim\SummaryFile\lib\SummaryFile.dll">
       <initdata>
@@ -99,7 +99,7 @@
          <min_crit_temp>5.0 (oC)</min_crit_temp>
          <max_crit_temp>35.0 (oC)</max_crit_temp>
          <max_albedo>0.23 ()</max_albedo>
-         <A_to_evap_fact>0.44</A_to_evap_fact>
+         <a_to_evap_fact>0.44</a_to_evap_fact>
          <canopy_eos_coef>1.7</canopy_eos_coef>
          <sw_top_crit>0.9 ()</sw_top_crit>
          <sumes1_max>100.0 (mm)</sumes1_max>
@@ -137,12 +137,12 @@
          <c_fract>0.4 ()</c_fract>
          <leach_rain_tot>25.0</leach_rain_tot>
          <min_rain_to_leach>10.0</min_rain_to_leach>
-         <crit_min_surfom_orgC>0.004 (kg/ha)</crit_min_surfom_orgC>
+         <crit_min_surfom_orgc>0.004 (kg/ha)</crit_min_surfom_orgc>
          <default_cpr>0.0 ()</default_cpr>
          <default_standing_fraction>0.0</default_standing_fraction>
          <base_type>
             <fom_type>inert</fom_type>
-            <fraction_C>0.4</fraction_C>
+            <fraction_c>0.4</fraction_c>
             <po4ppm>0.0</po4ppm>
             <nh4ppm>0.0</nh4ppm>
             <no3ppm>0.0</no3ppm>
@@ -160,7 +160,7 @@
          </inert>
          <manure>
             <fom_type>manure</fom_type>
-            <fraction_C>0.08</fraction_C>
+            <fraction_c>0.08</fraction_c>
             <pot_decomp_rate>0.1</pot_decomp_rate>
             <fr_c>0.3 0.3 0.4</fr_c>
             <fr_n>0.3 0.3 0.4</fr_n>
@@ -173,7 +173,7 @@
          </manure>
          <fym>
             <fom_type>fym</fom_type>
-            <fraction_C>0.08</fraction_C>
+            <fraction_c>0.08</fraction_c>
             <pot_decomp_rate>0.1</pot_decomp_rate>
             <fr_c>0.3 0.3 0.4</fr_c>
             <fr_n>0.3 0.3 0.4</fr_n>
@@ -344,6 +344,11 @@
             <fom_type>sunflower</fom_type>
             <specific_area>0.0002</specific_area>
          </sunflower>
+         <sweetcorn>
+            <derived_from>base_type</derived_from>
+            <fom_type>sweetcorn</fom_type>
+            <specific_area>0.0004</specific_area>
+         </sweetcorn>
          <sweetsorghum>
             <derived_from>base_type</derived_from>
             <fom_type>sweetsorghum</fom_type>
@@ -373,7 +378,7 @@
             <rip>0.3           300.</rip>
             <blade>0.30          100.</blade>
             <sweep>0.30          100.</sweep>
-            <Cool_burn>0.7             0.</Cool_burn>
+            <cool_burn>0.7             0.</cool_burn>
             <burn_90>0.9             0.</burn_90>
             <tine>1.0           100.</tine>
             <default>1.0             1.</default>
@@ -399,41 +404,43 @@
          <enr_a_coeff>7.4 ()</enr_a_coeff>
          <enr_b_coeff>0.2</enr_b_coeff>
          <profile_reduction>off</profile_reduction>
-         <cnrf_coeff>0.693</cnrf_coeff>
-         <cnrf_optcn>25.0</cnrf_optcn>
-         <ef_biom>0.4</ef_biom>
-         <ef_fom>0.4</ef_fom>
-         <ef_hum>0.4</ef_hum>
-         <ef_res>0.4</ef_res>
-         <fom_min>0.5</fom_min>
-         <fr_biom_biom>0.6</fr_biom_biom>
-         <fr_fom_biom>0.9</fr_fom_biom>
-         <fr_res_biom>0.9</fr_res_biom>
-         <fom_type>default manure  goose_poo  hippo</fom_type>
-         <fr_carb>0.2      0.3      0.3        0.2</fr_carb>
-         <fr_cell>0.7      0.3     0.3        0.2</fr_cell>
-         <fr_lign>0.1      0.4     0.4        0.6</fr_lign>
-         <oc2om_factor>1.7</oc2om_factor>
-         <mcn>8.0</mcn>
-         <opt_temp>32.0</opt_temp>
-         <rd_biom>0.0081</rd_biom>
-         <rd_carb>0.2</rd_carb>
-         <rd_cell>0.05</rd_cell>
-         <rd_lign>0.0095</rd_lign>
-         <rd_hum>0.00015</rd_hum>
-         <nh4ppm_min>0.0</nh4ppm_min>
-         <no3ppm_min>0.0</no3ppm_min>
-         <min_depth>100.</min_depth>
-         <wfmin_index>0.0 0.5 1.0 2.0</wfmin_index>
-         <wfmin_values>0.0 1.0 1.0 0.5</wfmin_values>
-         <wfnit_index>0.0 .25 1.0 2.0</wfnit_index>
-         <wfnit_values>0.0 1.0 1.0 0.0</wfnit_values>
-         <nitrification_pot>40.0 (ppm)</nitrification_pot>
-         <nh4_at_half_pot>90 (ppm)</nh4_at_half_pot>
-         <pHf_nit_pH>4.5 6.0 8.0 9.0</pHf_nit_pH>
-         <pHf_nit_values>0.0 1.0 1.0 0.0</pHf_nit_values>
-         <dnit_rate_coeff>0.0006</dnit_rate_coeff>
-         <dnit_wf_power>1</dnit_wf_power>
+         <standard>
+            <cnrf_coeff>0.693</cnrf_coeff>
+            <cnrf_optcn>25.0</cnrf_optcn>
+            <ef_biom>0.4</ef_biom>
+            <ef_fom>0.4</ef_fom>
+            <ef_hum>0.4</ef_hum>
+            <ef_res>0.4</ef_res>
+            <fom_min>0.5</fom_min>
+            <fr_biom_biom>0.6</fr_biom_biom>
+            <fr_fom_biom>0.9</fr_fom_biom>
+            <fr_res_biom>0.9</fr_res_biom>
+            <fom_type>default manure  goose_poo  hippo</fom_type>
+            <fr_carb>0.2      0.3      0.3        0.2</fr_carb>
+            <fr_cell>0.7      0.3     0.3        0.2</fr_cell>
+            <fr_lign>0.1      0.4     0.4        0.6</fr_lign>
+            <oc2om_factor>1.7</oc2om_factor>
+            <mcn>8.0</mcn>
+            <opt_temp>32.0</opt_temp>
+            <rd_biom>0.0081</rd_biom>
+            <rd_carb>0.2</rd_carb>
+            <rd_cell>0.05</rd_cell>
+            <rd_lign>0.0095</rd_lign>
+            <rd_hum>0.00015</rd_hum>
+            <nh4ppm_min>0.0</nh4ppm_min>
+            <no3ppm_min>0.0</no3ppm_min>
+            <min_depth>100.</min_depth>
+            <wfmin_index>0.0 0.5 1.0 2.0</wfmin_index>
+            <wfmin_values>0.0 1.0 1.0 0.5</wfmin_values>
+            <wfnit_index>0.0 .25 1.0 2.0</wfnit_index>
+            <wfnit_values>0.0 1.0 1.0 0.0</wfnit_values>
+            <nitrification_pot>40.0 (ppm)</nitrification_pot>
+            <nh4_at_half_pot>90 (ppm)</nh4_at_half_pot>
+            <phf_nit_ph>4.5 6.0 8.0 9.0</phf_nit_ph>
+            <phf_nit_values>0.0 1.0 1.0 0.0</phf_nit_values>
+            <dnit_rate_coeff>0.0006</dnit_rate_coeff>
+            <dnit_wf_power>1</dnit_wf_power>
+         </standard>
       </initdata>
    </component>
    <component name="millet" executable = "c:\development\apsim\millet\lib\millet.dll">
@@ -449,7 +456,7 @@
          <root_depth_rate>0   0  20.0 20.0 20.0  20.0  20.0    0.0   0.0   0.0   0     0  (mm/d)</root_depth_rate>
          <ratio_root_shoot>0  0   1    1    0.33  0.33  0.087  0     0     0     0     0  (0-1)</ratio_root_shoot>
          <frac_dm_to_leaf>0   0  0.67 0.67 0.67  0     0       0     0     0     0     0  (0-1)</frac_dm_to_leaf>
-         <N_fix_rate>0   0    0   0     0     0     0      0      0    0     0     0  (gN/gDM)</N_fix_rate>
+         <n_fix_rate>0   0    0   0     0     0     0      0      0    0     0     0  (gN/gDM)</n_fix_rate>
          <transp_eff_cf>0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 (kpa)</transp_eff_cf>
          <row_spacing_default>0.75        (m)</row_spacing_default>
          <x_row_spacing>0.20   0.75   1.50  (m)</x_row_spacing>
@@ -599,8 +606,8 @@
          <n_stem_init_conc>0.044     (g/g)</n_stem_init_conc>
          <n_leaf_sen_conc>0.001     (g/g)</n_leaf_sen_conc>
          <n_root_sen_conc>0.001     (g/g)</n_root_sen_conc>
-         <N_fact_photo>1.25     ()</N_fact_photo>
-         <N_fact_pheno>10.0     ()</N_fact_pheno>
+         <n_fact_photo>1.25     ()</n_fact_photo>
+         <n_fact_pheno>10.0     ()</n_fact_pheno>
          <p_stage_code>3       4      5      7      8      10     ()</p_stage_code>
          <p_conc_max>0.005   0.004  0.003  0.0015  0.0015  0.0020 ()</p_conc_max>
          <p_conc_min>0.003   0.002  0.0015 0.0007 0.0007 0.0007  ()</p_conc_min>
@@ -723,7 +730,7 @@
          <root_depth_rate>0   0  20.0 20.0 20.0  20.0  20.0    0.0   0.0   0.0   0     0  (mm/d)</root_depth_rate>
          <ratio_root_shoot>0  0   1    1    0.33  0.33  0.087  0     0     0     0     0  (0-1)</ratio_root_shoot>
          <frac_dm_to_leaf>0   0  0.67 0.67 0.67  0     0       0     0     0     0     0  (0-1)</frac_dm_to_leaf>
-         <N_fix_rate>0   0    0   0     0     0     0      0      0    0     0     0  (gN/gDM)</N_fix_rate>
+         <n_fix_rate>0   0    0   0     0     0     0      0      0    0     0     0  (gN/gDM)</n_fix_rate>
          <transp_eff_cf>0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 (kpa)</transp_eff_cf>
          <row_spacing_default>0.75        (m)</row_spacing_default>
          <x_row_spacing>0.20   0.75   1.50  (m)</x_row_spacing>
@@ -873,8 +880,8 @@
          <n_stem_init_conc>0.044     (g/g)</n_stem_init_conc>
          <n_leaf_sen_conc>0.001     (g/g)</n_leaf_sen_conc>
          <n_root_sen_conc>0.001     (g/g)</n_root_sen_conc>
-         <N_fact_photo>1.25     ()</N_fact_photo>
-         <N_fact_pheno>10.0     ()</N_fact_pheno>
+         <n_fact_photo>1.25     ()</n_fact_photo>
+         <n_fact_pheno>10.0     ()</n_fact_pheno>
          <p_stage_code>3       4      5      7      8      10     ()</p_stage_code>
          <p_conc_max>0.005   0.004  0.003  0.0015  0.0015  0.0020 ()</p_conc_max>
          <p_conc_min>0.003   0.002  0.0015 0.0007 0.0007 0.0007  ()</p_conc_min>
@@ -997,7 +1004,7 @@
          <root_depth_rate>0   0  20.0 20.0 20.0  20.0  20.0    0.0   0.0   0.0   0     0  (mm/d)</root_depth_rate>
          <ratio_root_shoot>0  0   1    1    0.33  0.33  0.087  0     0     0     0     0  (0-1)</ratio_root_shoot>
          <frac_dm_to_leaf>0   0  0.67 0.67 0.67  0     0       0     0     0     0     0  (0-1)</frac_dm_to_leaf>
-         <N_fix_rate>0   0    0   0     0     0     0      0      0    0     0     0  (gN/gDM)</N_fix_rate>
+         <n_fix_rate>0   0    0   0     0     0     0      0      0    0     0     0  (gN/gDM)</n_fix_rate>
          <transp_eff_cf>0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 (kpa)</transp_eff_cf>
          <row_spacing_default>0.75        (m)</row_spacing_default>
          <x_row_spacing>0.20   0.75   1.50  (m)</x_row_spacing>
@@ -1147,8 +1154,8 @@
          <n_stem_init_conc>0.044     (g/g)</n_stem_init_conc>
          <n_leaf_sen_conc>0.001     (g/g)</n_leaf_sen_conc>
          <n_root_sen_conc>0.001     (g/g)</n_root_sen_conc>
-         <N_fact_photo>1.25     ()</N_fact_photo>
-         <N_fact_pheno>10.0     ()</N_fact_pheno>
+         <n_fact_photo>1.25     ()</n_fact_photo>
+         <n_fact_pheno>10.0     ()</n_fact_pheno>
          <p_stage_code>3       4      5      7      8      10     ()</p_stage_code>
          <p_conc_max>0.005   0.004  0.003  0.0015  0.0015  0.0020 ()</p_conc_max>
          <p_conc_min>0.003   0.002  0.0015 0.0007 0.0007 0.0007  ()</p_conc_min>
@@ -1271,7 +1278,7 @@
          <root_depth_rate>0   0  20.0 20.0 20.0  20.0  20.0    0.0   0.0   0.0   0     0  (mm/d)</root_depth_rate>
          <ratio_root_shoot>0  0   1    1    0.33  0.33  0.087  0     0     0     0     0  (0-1)</ratio_root_shoot>
          <frac_dm_to_leaf>0   0  0.67 0.67 0.67  0     0       0     0     0     0     0  (0-1)</frac_dm_to_leaf>
-         <N_fix_rate>0   0    0   0     0     0     0      0      0    0     0     0  (gN/gDM)</N_fix_rate>
+         <n_fix_rate>0   0    0   0     0     0     0      0      0    0     0     0  (gN/gDM)</n_fix_rate>
          <transp_eff_cf>0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 (kpa)</transp_eff_cf>
          <row_spacing_default>0.75        (m)</row_spacing_default>
          <x_row_spacing>0.20   0.75   1.50  (m)</x_row_spacing>
@@ -1421,8 +1428,8 @@
          <n_stem_init_conc>0.044     (g/g)</n_stem_init_conc>
          <n_leaf_sen_conc>0.001     (g/g)</n_leaf_sen_conc>
          <n_root_sen_conc>0.001     (g/g)</n_root_sen_conc>
-         <N_fact_photo>1.25     ()</N_fact_photo>
-         <N_fact_pheno>10.0     ()</N_fact_pheno>
+         <n_fact_photo>1.25     ()</n_fact_photo>
+         <n_fact_pheno>10.0     ()</n_fact_pheno>
          <p_stage_code>3       4      5      7      8      10     ()</p_stage_code>
          <p_conc_max>0.005   0.004  0.003  0.0015  0.0015  0.0020 ()</p_conc_max>
          <p_conc_min>0.003   0.002  0.0015 0.0007 0.0007 0.0007  ()</p_conc_min>
@@ -1545,7 +1552,7 @@
          <root_depth_rate>0   0  20.0 20.0 20.0  20.0  20.0    0.0   0.0   0.0   0     0  (mm/d)</root_depth_rate>
          <ratio_root_shoot>0  0   1    1    0.33  0.33  0.087  0     0     0     0     0  (0-1)</ratio_root_shoot>
          <frac_dm_to_leaf>0   0  0.67 0.67 0.67  0     0       0     0     0     0     0  (0-1)</frac_dm_to_leaf>
-         <N_fix_rate>0   0    0   0     0     0     0      0      0    0     0     0  (gN/gDM)</N_fix_rate>
+         <n_fix_rate>0   0    0   0     0     0     0      0      0    0     0     0  (gN/gDM)</n_fix_rate>
          <transp_eff_cf>0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 (kpa)</transp_eff_cf>
          <row_spacing_default>0.75        (m)</row_spacing_default>
          <x_row_spacing>0.20   0.75   1.50  (m)</x_row_spacing>
@@ -1695,8 +1702,8 @@
          <n_stem_init_conc>0.044     (g/g)</n_stem_init_conc>
          <n_leaf_sen_conc>0.001     (g/g)</n_leaf_sen_conc>
          <n_root_sen_conc>0.001     (g/g)</n_root_sen_conc>
-         <N_fact_photo>1.25     ()</N_fact_photo>
-         <N_fact_pheno>10.0     ()</N_fact_pheno>
+         <n_fact_photo>1.25     ()</n_fact_photo>
+         <n_fact_pheno>10.0     ()</n_fact_pheno>
          <p_stage_code>3       4      5      7      8      10     ()</p_stage_code>
          <p_conc_max>0.005   0.004  0.003  0.0015  0.0015  0.0020 ()</p_conc_max>
          <p_conc_min>0.003   0.002  0.0015 0.0007 0.0007 0.0007  ()</p_conc_min>
@@ -1819,7 +1826,7 @@
          <root_depth_rate>0   0  20.0 20.0 20.0  20.0  20.0    0.0   0.0   0.0   0     0  (mm/d)</root_depth_rate>
          <ratio_root_shoot>0  0   1    1    0.33  0.33  0.087  0     0     0     0     0  (0-1)</ratio_root_shoot>
          <frac_dm_to_leaf>0   0  0.67 0.67 0.67  0     0       0     0     0     0     0  (0-1)</frac_dm_to_leaf>
-         <N_fix_rate>0   0    0   0     0     0     0      0      0    0     0     0  (gN/gDM)</N_fix_rate>
+         <n_fix_rate>0   0    0   0     0     0     0      0      0    0     0     0  (gN/gDM)</n_fix_rate>
          <transp_eff_cf>0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 0.009 (kpa)</transp_eff_cf>
          <row_spacing_default>0.75        (m)</row_spacing_default>
          <x_row_spacing>0.20   0.75   1.50  (m)</x_row_spacing>
@@ -1969,8 +1976,8 @@
          <n_stem_init_conc>0.044     (g/g)</n_stem_init_conc>
          <n_leaf_sen_conc>0.001     (g/g)</n_leaf_sen_conc>
          <n_root_sen_conc>0.001     (g/g)</n_root_sen_conc>
-         <N_fact_photo>1.25     ()</N_fact_photo>
-         <N_fact_pheno>10.0     ()</N_fact_pheno>
+         <n_fact_photo>1.25     ()</n_fact_photo>
+         <n_fact_pheno>10.0     ()</n_fact_pheno>
          <p_stage_code>3       4      5      7      8      10     ()</p_stage_code>
          <p_conc_max>0.005   0.004  0.003  0.0015  0.0015  0.0020 ()</p_conc_max>
          <p_conc_min>0.003   0.002  0.0015 0.0007 0.0007 0.0007  ()</p_conc_min>
