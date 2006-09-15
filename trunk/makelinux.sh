@@ -130,3 +130,15 @@ cd $APSROOT/apsim/Tracker/Source
 if [ ! -d $APSROOT/apsim/Tracker/lib ]; then mkdir $APSROOT/apsim/Tracker/lib; fi
 make -f Makefile.linux clobber
 make -f Makefile.linux
+
+echo ---------------------------------------------------
+cd $APSROOT/apsim/tcllink/source
+if [ ! -d $APSROOT/apsim/tcllink/lib ]; then mkdir $APSROOT/apsim/tcllink/lib; fi
+make -f Makefile.linux clobber
+make -f Makefile.linux
+
+echo ---------------------------------------------------
+cd $APSROOT/apsim/Plant/source
+if [ ! -d $APSROOT/apsim/Plant/lib ]; then mkdir $APSROOT/apsim/Plant/lib; fi
+make -f Makefile.linux clobber
+make -f Makefile.linux
