@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<simulation executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll" version="5.1">
+<simulation executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll" version="5.2">
    <title>4 Years Lucerne Harvested 1997 plots</title>
    <component name="SummaryFile" executable = "c:\development\apsim\SummaryFile\lib\SummaryFile.dll">
       <initdata>
@@ -186,35 +186,49 @@
             22  1994 lucerne harvest height = 50 (mm), remove = 0.65
             85  1994 lucerne harvest height = 50 (mm)
             87  1994 surfaceom tillage type = graze()
+            !91  1994 surfaceom tillage type = graze()
             292 1994 lucerne harvest height = 50 (mm), remove = 0.65
             6   1995 lucerne harvest height = 50 (mm)
             8   1995 surfaceom tillage type = graze()
             12  1995 surfaceom tillage type = graze()
             42  1995 lucerne harvest height = 50 (mm)
             44  1995 surfaceom tillage type = graze()
+            !48  1995 surfaceom tillage type = graze()
             235 1995 lucerne harvest height = 50 (mm), remove = 0.65
             287 1995 lucerne harvest height = 50 (mm), remove = 0.65, plants = 150
-            335 1995 lucerne harvest height = 50 (mm), remove = 0.65, plants = 200 
+            335 1995 lucerne harvest height = 50 (mm), remove = 0.65, plants = 200 !440
             18  1996 lucerne harvest height = 50 (mm)
             20  1996 surfaceom tillage type = graze()
+            !24  1996 surfaceom tillage type = graze()
             74  1996 lucerne harvest height = 50 (mm)
             76  1996 surfaceom tillage type = graze()
+            !80  1996 surfaceom tillage type = graze()
             230 1996 lucerne harvest height = 50 (mm), remove = 0.65
             298 1996 lucerne harvest height = 50 (mm), remove = 0.65
             346 1996 lucerne harvest height = 50 (mm)
             348 1996 surfaceom tillage type = graze()
+            !351 1996 surfaceom tillage type = graze()
             93  1997 lucerne harvest
+            !93  1997 lucerne kill_crop
             93  1997 lucerne end_crop
+            !133 1997 nwheat sow plants = 195, depth = 40, cultivar = swift
             133 1997 wheat sow plants = 195, sowing_depth = 40, cultivar = swift
+            !345 1997 nwheat harvest
             345 1997 wheat harvest
             345 1997 wheat kill_crop
             345 1997 wheat end_crop
+            !355 1997 surfaceom tillage type = graze()
+            !10  1998 surfaceom tillage type = graze()
             110 1998 surfaceom tillage type = burn_95()
+            !120 1998 nwheat sow plants = 240, depth = 40, cultivar = goldmark
             120 1998 wheat sow plants = 240, sowing_depth = 40, cultivar = goldmark
+            !356 1998 nwheat harvest
             316 1998 weed sow cultivar = early, plants = 15 (/m2), crop_class = winter_grass, sowing_depth = 40 (mm)
             356 1998 wheat harvest
             356 1998 wheat kill_crop
             356 1998 wheat end_crop
+            !365 1998 surfaceom tillage type = graze()
+            !10  1999 surfaceom tillage type = graze()
             119 1999 weed harvest
             119 1999 weed kill_crop
             119 1999 weed end_crop
@@ -222,6 +236,8 @@
             145 1999 canola sow cultivar = pinnacle, crop_class = triazine, plants = 216 (/m2), sowing_depth = 20 (mm)
             341 1999 canola harvest
             341 1999 canola end_crop
+            !350 1999 surfaceom tillage type = graze()
+            !******************** surfaceom module ********************
             ]]>
             </rule>
       </initdata>
@@ -300,12 +316,14 @@
          <rule name="early.start_of_day" condition="start_of_day">
             <![CDATA[
             if ((year = 1993) and (day = 1)) then
+            !soiln2 set no3 = 1 2 3 4 5 6 7
             soiln2 add_roots dlt_fom_wt=1500 1000 500 350 300 200 100 50 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0,dlt_fom_cnr=30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30
             endif
             ]]>
             </rule>
          <rule name="all.init" condition="init">
             <![CDATA[
+            ! Initialise
             event         = 0
             transp        = 0
             ET            = 0
@@ -343,6 +361,15 @@
             </rule>
          <rule name="all.start_of_day" condition="start_of_day">
             <![CDATA[
+            !if (day = 150) then
+            !    soilwat2 set cona = 2
+            !    soilwat2 set u = 2 !u = 6
+            !    !soilwat2 evap_init
+            !endif
+            !if (day = 300) then
+            !    soilwat2 set cona = 3.5
+            !    soilwat2 set u = 6
+            !endif
             if (day = 1) then
                cum_drain_120  = 0
                cum_drain_180  = 0
@@ -353,6 +380,7 @@
                cumnetdrain180 = 0
                cum_n_min_020  = 0
             endif
+            !winter activity adjustments
             if (lucerne.crop_class = 'regrowth' and day = 90 and reduce_status = 0) then
                lucerne reduce
                reduce_status = 1
@@ -361,6 +389,7 @@
                lucerne spring
                reduce_status = 0
             endif
+            !resetting of reduce_status in case of replanting
             if (reduce_status = 1 and lucerne.crop_class = 'plant') then
                reduce_status = 0
             endif
@@ -368,6 +397,9 @@
             </rule>
          <rule name="all.end_of_day" condition="end_of_day">
             <![CDATA[
+            !------------------------ calculations -----------------------
+            !layers            0-10  10-20   20-30  30-40   40-60    60-80    80-100   100-120  120-140  140-160  160-180  180-200  200-220  220-240  240-260  260-280  280-300
+            !layer             1      2      3      4       5        6        7        8        9        10       11       12       13       14       15       16       17
             transp        = lucerne.ep + canola.ep + lupin.ep + weed.ep + wheat.ep
             ET            = soilwat2.es + transp
             cum_drain_120 = cum_drain_120 + flow_water(8)
@@ -386,14 +418,17 @@
             hum_n_020     = hum_n(1) + hum_n(2)
             cum_n_min_020 = cum_n_min_020 + dlt_n_min(1) + dlt_n_min(2)
             sw_dep_180300 = sw_dep(12) + sw_dep(13) + sw_dep(14) + sw_dep(15) + sw_dep(16) + sw_dep(17)
+            !net flux (system) past 180 cm
             sw_dep_0180    = sw_dep_10180 + sw_dep(1)
             netdrain180    = met.rain - ET - (sw_dep_0180 - oldsw_dep_0180)
             cumnetdrain180 = cumnetdrain180 + netdrain180
             oldsw_dep_0180 = sw_dep_0180
+            !mimic of paper drainage calculations
             period_rain  = period_rain + met.rain
             period_ET    = period_ET + ET
             period_drain = 0
             report2 do_end_day_output
+            !  No observed values for 1993 and 1994.  These are to help analysis.
             if ((year = 1993) and (day = 31 or day = 59 or
                  day = 90 or day = 158 or day = 192 or
                  day = 205 or day = 213 or day = 219 or day = 233 or
@@ -411,6 +446,7 @@
                  event = 1
                  report_flag = 1
             endif
+            ! Harvests and DM measurements for crops (plus day after harvest)
             if ((year = 1995) and (day = 311 or day = 335 or day = 336)) then
                  event = 1
                  report_flag = 1
@@ -431,6 +467,7 @@
                  event = 1
                  report_flag = 1
             endif
+            !Lucerne harvest dates (and day after)
             if ((year = 1994) and (day = 21 or day = 22 or day = 84 or day = 85 or day = 291 or day = 292)) then
                 event = 1
                 report_flag = 1
@@ -471,6 +508,7 @@
                 event = 1
                 report_flag = 1
             endif
+            ! Event 2 line up with soil water measurements.
             if ((year = 1995) and (day = 265 or day = 272 or day = 282 or day = 292 or day = 300
                  or day = 306 or day = 314 or day = 321 or day = 328 or day = 339 or day = 342 or day = 362)) then
                  event = 2
@@ -497,6 +535,7 @@
                  event = 2
                  report_flag = 1
             endif
+            !Event 3 line up with soil Nitrogen measurements (nominally 1 May)
             if ((year = 1993) and (day = 121)) then
                 event = 3
                 report_flag = 1
@@ -560,7 +599,7 @@
          <min_crit_temp>5.0 (oC)</min_crit_temp>
          <max_crit_temp>35.0 (oC)</max_crit_temp>
          <max_albedo>0.23 ()</max_albedo>
-         <A_to_evap_fact>0.44</A_to_evap_fact>
+         <a_to_evap_fact>0.44</a_to_evap_fact>
          <canopy_eos_coef>1.7</canopy_eos_coef>
          <sw_top_crit>0.9 ()</sw_top_crit>
          <sumes1_max>100.0 (mm)</sumes1_max>
@@ -599,12 +638,12 @@
          <c_fract>0.4 ()</c_fract>
          <leach_rain_tot>25.0</leach_rain_tot>
          <min_rain_to_leach>10.0</min_rain_to_leach>
-         <crit_min_surfom_orgC>0.004 (kg/ha)</crit_min_surfom_orgC>
+         <crit_min_surfom_orgc>0.004 (kg/ha)</crit_min_surfom_orgc>
          <default_cpr>0.0 ()</default_cpr>
          <default_standing_fraction>0.0</default_standing_fraction>
          <base_type>
             <fom_type>inert</fom_type>
-            <fraction_C>0.4</fraction_C>
+            <fraction_c>0.4</fraction_c>
             <po4ppm>0.0</po4ppm>
             <nh4ppm>0.0</nh4ppm>
             <no3ppm>0.0</no3ppm>
@@ -622,7 +661,7 @@
          </inert>
          <manure>
             <fom_type>manure</fom_type>
-            <fraction_C>0.08</fraction_C>
+            <fraction_c>0.08</fraction_c>
             <pot_decomp_rate>0.1</pot_decomp_rate>
             <fr_c>0.3 0.3 0.4</fr_c>
             <fr_n>0.3 0.3 0.4</fr_n>
@@ -635,7 +674,7 @@
          </manure>
          <fym>
             <fom_type>fym</fom_type>
-            <fraction_C>0.08</fraction_C>
+            <fraction_c>0.08</fraction_c>
             <pot_decomp_rate>0.1</pot_decomp_rate>
             <fr_c>0.3 0.3 0.4</fr_c>
             <fr_n>0.3 0.3 0.4</fr_n>
@@ -806,6 +845,11 @@
             <fom_type>sunflower</fom_type>
             <specific_area>0.0002</specific_area>
          </sunflower>
+         <sweetcorn>
+            <derived_from>base_type</derived_from>
+            <fom_type>sweetcorn</fom_type>
+            <specific_area>0.0004</specific_area>
+         </sweetcorn>
          <sweetsorghum>
             <derived_from>base_type</derived_from>
             <fom_type>sweetsorghum</fom_type>
@@ -835,7 +879,7 @@
             <rip>0.3           300.</rip>
             <blade>0.30          100.</blade>
             <sweep>0.30          100.</sweep>
-            <Cool_burn>0.7             0.</Cool_burn>
+            <cool_burn>0.7             0.</cool_burn>
             <burn_90>0.9             0.</burn_90>
             <tine>1.0           100.</tine>
             <default>1.0             1.</default>
@@ -862,41 +906,43 @@
          <oc>1.42   0.96   0.59   0.46    0.35     0.35     0.26     0.15     0.08     0.06     0.06    0.06      0.06     0.06     0.06     0.06     0.06    0.06     0.06     0.06     0.06     0.06     0.06     0.06     0.06     0.06     0.06 (%)</oc>
          <fbiom>0.06   0.05   0.04   0.02    0.015    0.015    0.01     0.01     0.01     0.01     0.01    0.01      0.01     0.01     0.01     0.01     0.01    0.01     0.01     0.01     0.01     0.01     0.01     0.01     0.01     0.01     0.01 ()</fbiom>
          <finert>0.05   0.1    0.2    0.5     0.7      0.75     0.8      0.85     0.9      0.95     0.95    0.95      0.95     0.95     0.95     0.95     0.95    0.95     0.95     0.95     0.95     0.95     0.95     0.95     0.95     0.95     0.95 ()</finert>
-         <cnrf_coeff>0.693</cnrf_coeff>
-         <cnrf_optcn>25.0</cnrf_optcn>
-         <ef_biom>0.4</ef_biom>
-         <ef_fom>0.4</ef_fom>
-         <ef_hum>0.4</ef_hum>
-         <ef_res>0.4</ef_res>
-         <fom_min>0.5</fom_min>
-         <fr_biom_biom>0.6</fr_biom_biom>
-         <fr_fom_biom>0.9</fr_fom_biom>
-         <fr_res_biom>0.9</fr_res_biom>
-         <fom_type>default manure  goose_poo  hippo</fom_type>
-         <fr_carb>0.2      0.3      0.3        0.2</fr_carb>
-         <fr_cell>0.7      0.3     0.3        0.2</fr_cell>
-         <fr_lign>0.1      0.4     0.4        0.6</fr_lign>
-         <oc2om_factor>1.7</oc2om_factor>
-         <mcn>8.0</mcn>
-         <opt_temp>32.0</opt_temp>
-         <rd_biom>0.0081</rd_biom>
-         <rd_carb>0.2</rd_carb>
-         <rd_cell>0.05</rd_cell>
-         <rd_lign>0.0095</rd_lign>
-         <rd_hum>0.00015</rd_hum>
-         <nh4ppm_min>0.0</nh4ppm_min>
-         <no3ppm_min>0.0</no3ppm_min>
-         <min_depth>100.</min_depth>
-         <wfmin_index>0.0 0.5 1.0 2.0</wfmin_index>
-         <wfmin_values>0.0 1.0 1.0 0.5</wfmin_values>
-         <wfnit_index>0.0 .25 1.0 2.0</wfnit_index>
-         <wfnit_values>0.0 1.0 1.0 0.0</wfnit_values>
-         <nitrification_pot>40.0 (ppm)</nitrification_pot>
-         <nh4_at_half_pot>90 (ppm)</nh4_at_half_pot>
-         <pHf_nit_pH>4.5 6.0 8.0 9.0</pHf_nit_pH>
-         <pHf_nit_values>0.0 1.0 1.0 0.0</pHf_nit_values>
-         <dnit_rate_coeff>0.0006</dnit_rate_coeff>
-         <dnit_wf_power>1</dnit_wf_power>
+         <standard>
+            <cnrf_coeff>0.693</cnrf_coeff>
+            <cnrf_optcn>25.0</cnrf_optcn>
+            <ef_biom>0.4</ef_biom>
+            <ef_fom>0.4</ef_fom>
+            <ef_hum>0.4</ef_hum>
+            <ef_res>0.4</ef_res>
+            <fom_min>0.5</fom_min>
+            <fr_biom_biom>0.6</fr_biom_biom>
+            <fr_fom_biom>0.9</fr_fom_biom>
+            <fr_res_biom>0.9</fr_res_biom>
+            <fom_type>default manure  goose_poo  hippo</fom_type>
+            <fr_carb>0.2      0.3      0.3        0.2</fr_carb>
+            <fr_cell>0.7      0.3     0.3        0.2</fr_cell>
+            <fr_lign>0.1      0.4     0.4        0.6</fr_lign>
+            <oc2om_factor>1.7</oc2om_factor>
+            <mcn>8.0</mcn>
+            <opt_temp>32.0</opt_temp>
+            <rd_biom>0.0081</rd_biom>
+            <rd_carb>0.2</rd_carb>
+            <rd_cell>0.05</rd_cell>
+            <rd_lign>0.0095</rd_lign>
+            <rd_hum>0.00015</rd_hum>
+            <nh4ppm_min>0.0</nh4ppm_min>
+            <no3ppm_min>0.0</no3ppm_min>
+            <min_depth>100.</min_depth>
+            <wfmin_index>0.0 0.5 1.0 2.0</wfmin_index>
+            <wfmin_values>0.0 1.0 1.0 0.5</wfmin_values>
+            <wfnit_index>0.0 .25 1.0 2.0</wfnit_index>
+            <wfnit_values>0.0 1.0 1.0 0.0</wfnit_values>
+            <nitrification_pot>40.0 (ppm)</nitrification_pot>
+            <nh4_at_half_pot>90 (ppm)</nh4_at_half_pot>
+            <phf_nit_ph>4.5 6.0 8.0 9.0</phf_nit_ph>
+            <phf_nit_values>0.0 1.0 1.0 0.0</phf_nit_values>
+            <dnit_rate_coeff>0.0006</dnit_rate_coeff>
+            <dnit_wf_power>1</dnit_wf_power>
+         </standard>
       </initdata>
    </component>
    <component name="canola" executable = "c:\development\apsim\plant\lib\plant.dll">
@@ -907,6 +953,10 @@
          <kl>0.08   0.08   0.04   0.04    0.02    0.02      0.01     0.01     0        0        0        0        0        0        0        0        0       0        0        0        0        0        0        0        0        0        0     ()</kl>
          <crop_type>canola</crop_type>
          <default_crop_class>plant</default_crop_class>
+         <leaf_part>generic_leaf</leaf_part>
+         <stress_determinants>leaf stem meal</stress_determinants>
+         <yield_parts>meal oil</yield_parts>
+         <retrans_parts>leaf stem</retrans_parts>
          <sw_ub>1.0</sw_ub>
          <sw_lb>0.0</sw_lb>
          <year_ub>2000      ()</year_ub>
@@ -951,14 +1001,12 @@
          <node_formation>emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill</node_formation>
          <hi_stress_sensitive>flowering</hi_stress_sensitive>
          <stress_reporting>end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill</stress_reporting>
-         <leaf_part>generic_leaf</leaf_part>
          <canola>
             <plant>canola</plant>
             <triazine>canola_triazine_tol canola</triazine>
             <winter>canola_winter canola</winter>
             <class_action>harvest</class_action>
             <class_change>unchanged</class_change>
-            <partition_option>1</partition_option>
             <n_uptake_option>1</n_uptake_option>
             <grain_fill_option>1</grain_fill_option>
             <leaf_no_pot_option>1</leaf_no_pot_option>
@@ -968,6 +1016,7 @@
             <dm_senescence_option>1</dm_senescence_option>
             <n_senescence_option>1</n_senescence_option>
             <n_stress_option>1</n_stress_option>
+            <partition_option>1</partition_option>
             <fruit_no_option>1</fruit_no_option>
             <parasite_option>1</parasite_option>
             <co2_default>350                      (ppm)</co2_default>
@@ -1067,13 +1116,13 @@
             <oxdef_photo>1.0  1.0   1.0         (0-1)</oxdef_photo>
             <n_supply_preference>active</n_supply_preference>
             <no3_diffn_const>2.0 (days)</no3_diffn_const>
-            <N_fix_rate>0      0    0     .00  0.00  0.00  0.00   0.00  0.00  0.00    0  (gN/gDM)</N_fix_rate>
+            <n_fix_rate>0      0    0     .00  0.00  0.00  0.00   0.00  0.00  0.00    0  (gN/gDM)</n_fix_rate>
             <x_sw_avail_fix>0.0  0.50  0.95  1.0   ()</x_sw_avail_fix>
             <y_swdef_fix>1.0  1.0   1.0   1.0   (0-1)</y_swdef_fix>
-            <N_stress_start_stage>3</N_stress_start_stage>
-            <N_fact_photo>2.0</N_fact_photo>
-            <N_fact_expansion>0.7</N_fact_expansion>
-            <N_fact_pheno>100</N_fact_pheno>
+            <n_stress_start_stage>3</n_stress_start_stage>
+            <n_fact_photo>2.0</n_fact_photo>
+            <n_fact_expansion>0.7</n_fact_expansion>
+            <n_fact_pheno>100</n_fact_pheno>
             <x_stage_code>3      4       5           6       7      8       9        ()</x_stage_code>
             <y_n_conc_min_leaf>0.0550 0.0500  0.0400      0.0300  0.0050 0.0050  0.0050   ()</y_n_conc_min_leaf>
             <y_n_conc_crit_leaf>0.0650 0.0600  0.0550      0.0500  0.0500 0.0500  0.0100   ()</y_n_conc_crit_leaf>
@@ -1817,8 +1866,8 @@
             <y_vernal_days>1  1  1  1</y_vernal_days>
             <x_temp>1.0  5.0  10  15  30  40        (oC)</x_temp>
             <y_tt>0.0  3.0  6.5 10  25  0.0</y_tt>
-            <x_removeBiomPheno>0.0  0.1   0.4  0.5  1.0       ()</x_removeBiomPheno>
-            <y_removeFractPheno>0.0  0.8  0.8  0.8  0.8       ()</y_removeFractPheno>
+            <x_removebiompheno>0.0  0.1   0.4  0.5  1.0       ()</x_removebiompheno>
+            <y_removefractpheno>0.0  0.8  0.8  0.8  0.8       ()</y_removefractpheno>
             <leaf_no_at_emerg>0.1</leaf_no_at_emerg>
             <x_node_no_app>0    0.99 1   20</x_node_no_app>
             <y_node_app_rate>51   51   51  51</y_node_app_rate>
@@ -1895,13 +1944,13 @@
             <oxdef_photo>1.0  1.0   1.0         (0-1)</oxdef_photo>
             <n_supply_preference>active</n_supply_preference>
             <no3_diffn_const>2.0 (days)</no3_diffn_const>
-            <N_fix_rate>0.0  0.0  0.0   0.02  0.03  0.01  0.01     0     0     0     0  (gN/gDM)</N_fix_rate>
+            <n_fix_rate>0.0  0.0  0.0   0.02  0.03  0.01  0.01     0     0     0     0  (gN/gDM)</n_fix_rate>
             <x_sw_avail_fix>0.0  0.8   ()</x_sw_avail_fix>
             <y_swdef_fix>0.0  1.0   (0-1)</y_swdef_fix>
-            <N_stress_start_stage>3</N_stress_start_stage>
-            <N_fact_photo>1.25</N_fact_photo>
-            <N_fact_expansion>100</N_fact_expansion>
-            <N_fact_pheno>5.75</N_fact_pheno>
+            <n_stress_start_stage>3</n_stress_start_stage>
+            <n_fact_photo>1.25</n_fact_photo>
+            <n_fact_expansion>100</n_fact_expansion>
+            <n_fact_pheno>5.75</n_fact_pheno>
             <x_stage_code>3       4        6        10   ()</x_stage_code>
             <y_n_conc_max_leaf>0.0610   0.0610   0.0310  0.021()</y_n_conc_max_leaf>
             <y_n_conc_crit_leaf>0.0600   0.0600   0.0300  0.02 ()</y_n_conc_crit_leaf>
@@ -2226,6 +2275,9 @@
          <crop_type>lupin</crop_type>
          <default_crop_class>plant</default_crop_class>
          <leaf_part>generic_leaf</leaf_part>
+         <stress_determinants>leaf stem meal</stress_determinants>
+         <yield_parts>meal oil</yield_parts>
+         <retrans_parts>leaf stem</retrans_parts>
          <sw_ub>1.0</sw_ub>
          <sw_lb>0.0</sw_lb>
          <year_ub>2000      ()</year_ub>
@@ -2383,13 +2435,13 @@
             <oxdef_photo>1.0  1.0   1.0         (0-1)</oxdef_photo>
             <n_supply_preference>fixation</n_supply_preference>
             <no3_diffn_const>2.0 (days)</no3_diffn_const>
-            <N_fix_rate>0      0    0     0.001 0.002 0.002 0.001  0.0003 0.0   0.0    0  (gN/gDM)</N_fix_rate>
+            <n_fix_rate>0      0    0     0.001 0.002 0.002 0.001  0.0003 0.0   0.0    0  (gN/gDM)</n_fix_rate>
             <x_sw_avail_fix>0.0  0.50  0.95  1.0   ()</x_sw_avail_fix>
             <y_swdef_fix>0.0  1.0   1.0   1.0   (0-1)</y_swdef_fix>
-            <N_stress_start_stage>3</N_stress_start_stage>
-            <N_fact_photo>1.25</N_fact_photo>
-            <N_fact_expansion>100</N_fact_expansion>
-            <N_fact_pheno>5.75</N_fact_pheno>
+            <n_stress_start_stage>3</n_stress_start_stage>
+            <n_fact_photo>1.25</n_fact_photo>
+            <n_fact_expansion>100</n_fact_expansion>
+            <n_fact_pheno>5.75</n_fact_pheno>
             <x_stage_code>3      4       6       7      9        ()</x_stage_code>
             <y_n_conc_max_leaf>0.0900 0.0650  0.0450  0.0320 0.0250   ()</y_n_conc_max_leaf>
             <y_n_conc_crit_leaf>0.0700 0.0550  0.0400  0.0250 0.020   ()</y_n_conc_crit_leaf>
@@ -2882,10 +2934,10 @@
             <no3_diffn_const>2.0       (days)</no3_diffn_const>
             <x_sw_avail_fix>0.0  0.50  0.95  1.0   ()</x_sw_avail_fix>
             <y_swdef_fix>0.0  1.0   1.0   1.0   (0-1)</y_swdef_fix>
-            <N_stress_start_stage>3</N_stress_start_stage>
-            <N_fact_photo>1.5      ()</N_fact_photo>
-            <N_fact_expansion>1.00</N_fact_expansion>
-            <N_fact_pheno>50       ()</N_fact_pheno>
+            <n_stress_start_stage>3</n_stress_start_stage>
+            <n_fact_photo>1.5      ()</n_fact_photo>
+            <n_fact_expansion>1.00</n_fact_expansion>
+            <n_fact_pheno>50       ()</n_fact_pheno>
             <root_n_sen_conc>0.0075   (g/g)</root_n_sen_conc>
             <leaf_n_sen_conc>0.005</leaf_n_sen_conc>
             <stem_n_sen_conc>0</stem_n_sen_conc>
@@ -2964,7 +3016,7 @@
             <transp_eff_cf>0      0    .009  .009  .009  .009  .009  .009   .009  .00    0 (Pa)</transp_eff_cf>
          </C4>
          <non_legume>
-            <N_fix_rate>0      0    0     .000 0.000 0.000 0.000  0.000 0.000 0.000   0  (gN/gDM)</N_fix_rate>
+            <n_fix_rate>0      0    0     .000 0.000 0.000 0.000  0.000 0.000 0.000   0  (gN/gDM)</n_fix_rate>
             <root_n_init_conc>0.018   (g/g)</root_n_init_conc>
             <leaf_n_init_conc>0.060</leaf_n_init_conc>
             <stem_n_init_conc>0.060</stem_n_init_conc>
@@ -2995,7 +3047,7 @@
             <y_n_conc_max_oil>0.0     0.0     0.0      0.0    ()</y_n_conc_max_oil>
          </non_legume>
          <legume>
-            <N_fix_rate>0      0    0     .002 0.002 0.002 0.002  0.002 0.002 0.000   0  (gN/gDM)</N_fix_rate>
+            <n_fix_rate>0      0    0     .002 0.002 0.002 0.002  0.002 0.002 0.000   0  (gN/gDM)</n_fix_rate>
             <root_n_init_conc>0.025  (g/g)</root_n_init_conc>
             <leaf_n_init_conc>0.06</leaf_n_init_conc>
             <stem_n_init_conc>0.06</stem_n_init_conc>
@@ -3110,6 +3162,9 @@
          <crop_type>wheat</crop_type>
          <default_crop_class>plant</default_crop_class>
          <leaf_part>generic_leaf</leaf_part>
+         <stress_determinants>leaf stem</stress_determinants>
+         <yield_parts>meal</yield_parts>
+         <retrans_parts>stem leaf</retrans_parts>
          <sw_ub>1.0</sw_ub>
          <sw_lb>0.0</sw_lb>
          <year_ub>2000      ()</year_ub>
@@ -3299,14 +3354,14 @@
             <oxdef_photo>1.0  1.0   1.0         (0-1)</oxdef_photo>
             <n_supply_preference>active</n_supply_preference>
             <no3_diffn_const>4.0</no3_diffn_const>
-            <N_fix_rate>0      0    0     .00  0.00  0.00  0.00   0.00  0.00  0.00    0  (gN/gDM)</N_fix_rate>
+            <n_fix_rate>0      0    0     .00  0.00  0.00  0.00   0.00  0.00  0.00    0  (gN/gDM)</n_fix_rate>
             <x_sw_avail_fix>0.0  0.50  0.95  1.0   ()</x_sw_avail_fix>
             <y_swdef_fix>1.0  1.0   1.0   1.0   (0-1)</y_swdef_fix>
             <n_stress_option>2</n_stress_option>
             <n_stress_start_stage>4.3</n_stress_start_stage>
-            <N_fact_photo>1.5</N_fact_photo>
-            <N_fact_expansion>1.0</N_fact_expansion>
-            <N_fact_pheno>100</N_fact_pheno>
+            <n_fact_photo>1.5</n_fact_photo>
+            <n_fact_expansion>1.0</n_fact_expansion>
+            <n_fact_pheno>100</n_fact_pheno>
             <x_stage_code>3       4      5     6      8      10    ()</x_stage_code>
             <y_n_conc_min_leaf>0.025   0.025  0.021 0.010  0.005  0.0025 ()</y_n_conc_min_leaf>
             <y_n_conc_crit_leaf>0.063   0.063  0.042 0.015  0.008  0.0035 ()</y_n_conc_crit_leaf>
@@ -3618,6 +3673,11 @@
             <vern_sens>1.6</vern_sens>
             <photop_sens>1.8</photop_sens>
          </wyalkatchem>
+         <young>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.6</vern_sens>
+            <photop_sens>1.8</photop_sens>
+         </young>
          <bowerbird>
             <derived_from>base_cultivar</derived_from>
             <vern_sens>1.6</vern_sens>
@@ -3638,6 +3698,11 @@
             <vern_sens>1.6</vern_sens>
             <photop_sens>1.8</photop_sens>
          </perengori>
+         <agtscythe>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.6</vern_sens>
+            <photop_sens>1.8</photop_sens>
+         </agtscythe>
          <annuello>
             <derived_from>base_cultivar</derived_from>
             <vern_sens>1.5</vern_sens>
@@ -3935,6 +4000,14 @@
             <vern_sens>1.00</vern_sens>
             <photop_sens>2.90</photop_sens>
          </keel>
+         <hamelin>
+            <derived_from>base_cultivar</derived_from>
+            <potential_grain_filling_rate>0.0031</potential_grain_filling_rate>
+            <startgf_to_mat>530</startgf_to_mat>
+            <phyllochron>30.0</phyllochron>
+            <vern_sens>1.00</vern_sens>
+            <photop_sens>2.90</photop_sens>
+         </hamelin>
       </initdata>
    </component>
    <component name="tracker1" executable = "c:\development\apsim\tracker\lib\tracker.dll">
