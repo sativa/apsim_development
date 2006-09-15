@@ -9,7 +9,7 @@ class Arbitrator : public plantThing
    plantInterface *plant;                 // The plant we are attached to
   public:
    Arbitrator(plantInterface *p) {plant = p;};
-   // ~Arbitrator(void) {};
+   virtual ~Arbitrator(void) {};
 
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &) {};
    virtual void partitionDM(float,plantPart *,plantLeafPart *,plantPart *,plantPart *) = 0;

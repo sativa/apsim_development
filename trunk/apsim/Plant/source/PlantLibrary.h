@@ -81,7 +81,7 @@ class externalFunction {
      std::string xName, yName, xUnits, yUnits;
  public:
    externalFunction();
-   ~externalFunction();
+   virtual ~externalFunction();
 
    void read(protocol::Component *P, const string &section,
                      const char *xname, const char * xunits, float x0, float x1,
@@ -94,7 +94,7 @@ class externalFunction {
    virtual std::string description(void) const;
 
    virtual float value(float v) const = 0;
-   float operator [] (float arg) {return value(arg);};
+   float operator [] (float arg) const {return value(arg);};
    virtual bool isInitialised(void) {return false;};
 };
 
