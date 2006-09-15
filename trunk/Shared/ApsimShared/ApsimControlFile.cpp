@@ -43,7 +43,9 @@ struct ParamFile
 
    void fixUpModuleName(void)
       {
-      if (moduleName.find('\\') != string::npos || moduleName.find('.') != string::npos)
+      if (moduleName.find('/') != string::npos || 
+          moduleName.find('\\') != string::npos || 
+          moduleName.find('.') != string::npos)
          {
          Path dllPath(moduleName);
          moduleName = dllPath.Get_name_without_ext();
@@ -51,8 +53,13 @@ struct ParamFile
          }
       else
          {
+#ifdef __WIN32_
          dllFileName = getApsimDirectory() + "\\apsim\\" + moduleName + "\\lib\\"
                      + moduleName + ".dll";
+#else
+         dllFileName = getApsimDirectory() + "/apsim/" + moduleName + "/lib/"
+                     + moduleName + ".so";
+#endif
          }
       }
    };

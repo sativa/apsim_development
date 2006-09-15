@@ -51,10 +51,9 @@ string EXPORT getApsimDirectory(void) throw(runtime_error)
    Dl_info dlinfo;
    if (dladdr((void *)dummyFnPtr, &dlinfo) != 0)
      {
-       Path path(dlinfo.dli_fname);
-       path.Set_name("apsim.ini");
-       while (path.Back_up_directory() != "" && !path.Exists()) /*nothing*/;
-       return path.Get_directory();
+       string dll(dlinfo.dli_fname);
+       while ((dll = fileDirName(dll)) != "" && !fileExists(dll + "/Apsim.ini")) /*nothing*/;
+       return dll;
      }
    // cross fingers and hope for the best :)
    return "/usr/local/APSIM";
