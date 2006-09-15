@@ -260,34 +260,34 @@ public:
    virtual float dmSenesced(void) const;
    virtual float dmDead(void) const;
    virtual float dmRetransSupply(void) const;
-   virtual float dmRetransDemand(void) const;
+   virtual float dmRetransDemand(void) ;
 
    virtual float dmGreenStressDeterminant(void);
    virtual float pGreenStressDeterminant(void);
    virtual float pMaxPotStressDeterminant(void);
    virtual float pMinPotStressDeterminant(void);
-   virtual float nTotal(void);
+   virtual float nTotal(void) const;
    virtual float nGreen(void) const;
-   virtual float nSenesced(void);
-   virtual float nDead(void);
-   virtual float nConc(void);
-   virtual float nConcPercent(void);
+   virtual float nSenesced(void) const;
+   virtual float nDead(void)const;
+   virtual float nConc(void)const;
+   virtual float nConcPercent(void)const;
 
-   virtual float nMaxPot(void) ;
-   virtual float nMinPot(void) ;
-   virtual float pTotal(void);
-   virtual float pGreen(void);
-   virtual float pSenesced(void);
-   virtual float pDead(void);
-   virtual float pConc(void);
-   virtual float pConcPercent(void);
+   virtual float nMaxPot(void) const;
+   virtual float nMinPot(void) const;
+   virtual float pTotal(void) const;
+   virtual float pGreen(void) const;
+   virtual float pSenesced(void)const ;
+   virtual float pDead(void)const;
+   virtual float pConc(void)const;
+   virtual float pConcPercent(void)const;
 
-   virtual float pMaxPot(void) ;
-   virtual float pMinPot(void) ;
+   virtual float pMaxPot(void) const;
+   virtual float pMinPot(void) const;
 
    virtual float soilNDemand(void);
-   virtual float nDemand(void);
-   virtual float nMax(void);
+   virtual float nDemand(void)const;
+   virtual float nMax(void)const;
    virtual float nCapacity(void);
    virtual void  doNPartition(float nSupply, float n_demand_sum, float n_capacity_sum);
    virtual float nRetransSupply(void);
@@ -378,35 +378,35 @@ public:
    virtual float dltDmPotRue(void);        //FIXME
    virtual float dltDmPotTe(void);            //FIXME
    virtual float dltLeafAreaPot(void) {throw std::runtime_error("plantPart::dltLeafAreaPot() called");}; 
-   virtual float dmDeadVegTotal(void);
-   virtual float dmGrainTotal(void);
-   virtual float dmGreenGrainTotal(void);
-   virtual float dmGreenVegTotal(void);
-   virtual float dmSenescedVegTotal(void);
-   virtual float dmVegTotal(void);
-   virtual float grainNConcPercent(void);
-   virtual float grainNo(void) ;
-   virtual float grainWt(void) ;
+   virtual float dmDeadVegTotal(void)const;
+   virtual float dmGrainTotal(void) const;
+   virtual float dmGreenGrainTotal(void)const;
+   virtual float dmGreenVegTotal(void)const;
+   virtual float dmSenescedVegTotal(void)const;
+   virtual float dmVegTotal(void) const ;
+   virtual float grainNConcPercent(void) const;
+   virtual float grainNo(void) const;
+   virtual float grainWt(void) const;
    virtual float interceptRadiation(float radiation);        //FIXME
-   virtual float nConcGrain(void);
-   virtual float nDeadVegTotal(void);
-   virtual float nDemandGrain(void) ;
+   virtual float nConcGrain(void)const;
+   virtual float nDeadVegTotal(void) const;
+   virtual float nDemandGrain(void) const;
    virtual float nDemandGrain2(void);
-   virtual float nGrainTotal(void);
-   virtual float nGreenGrainTotal(void);
-   virtual float nGreenVegTotal(void);
-   virtual float nSenescedVegTotal(void);
-   virtual float nVegTotal(void);
-   virtual float pConcGrain(void);
-   virtual float pConcGrainTotal(void);
-   virtual float pDeadGrainTotal(void);
-   virtual float pDeadVegTotal(void);
-   virtual float pGrainTotal(void);
-   virtual float pGreenGrainTotal(void);
-   virtual float pGreenVegTotal(void);
-   virtual float pSenescedGrainTotal(void);
-   virtual float pSenescedVegTotal(void);
-   virtual float pVegTotal(void);
+   virtual float nGrainTotal(void) const;
+   virtual float nGreenGrainTotal(void)const;
+   virtual float nGreenVegTotal(void)const;
+   virtual float nSenescedVegTotal(void)const;
+   virtual float nVegTotal(void) const;
+   virtual float pConcGrain(void)const;
+   virtual float pConcGrainTotal(void)const;
+   virtual float pDeadGrainTotal(void)const;
+   virtual float pDeadVegTotal(void)const;
+   virtual float pGrainTotal(void) const;
+   virtual float pGreenGrainTotal(void)const;
+   virtual float pGreenVegTotal(void)const;
+   virtual float pSenescedGrainTotal(void)const;
+   virtual float pSenescedVegTotal(void)const;
+   virtual float pVegTotal(void)const;
    virtual float SWDemand(void);                           //(OUTPUT) crop water demand (mm)               //FIXME
    virtual void calcDlt_pod_area (void);   //FIXME
    virtual void doBioActual (void);
@@ -422,8 +422,8 @@ public:
    virtual void doTick(protocol::timeType &tick) ;
    virtual void writeCultivarInfo (protocol::Component *);
 
-   virtual bool isYieldPart(void) {return c.yield_part;};
-   virtual bool isRetransPart(void) {return c.retrans_part;};
+   virtual bool isYieldPart(void) const {return c.yield_part;};
+   virtual bool isRetransPart(void) const {return c.retrans_part;};
    
    protected:
 

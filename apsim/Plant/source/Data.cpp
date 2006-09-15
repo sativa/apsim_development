@@ -62,12 +62,12 @@ void interpolationFunction::search(protocol::Component *P, vector<string> &secti
    P->readParameter(sections,yname, y, y0, y1, true);
    }
 
-std::string externalFunction::description(void)
+std::string externalFunction::description(void) const
    {
    return string("");
    }
 
-std::string lookupFunction::description(void)
+std::string lookupFunction::description(void) const
    {
    int pad;
    ostringstream text;
@@ -87,7 +87,7 @@ std::string lookupFunction::description(void)
    return text.str();
    }
 
-std::string interpolationFunction::description(void)
+std::string interpolationFunction::description(void) const
    {
    int pad;
    ostringstream text;
@@ -109,7 +109,7 @@ std::string interpolationFunction::description(void)
    }
 
 // Return a y value from a linear interpolation function
-float interpolationFunction::value(float v)
+float interpolationFunction::value(float v) const
    {
    if (x.size() == 0 || y.size() == 0)
        throw std::runtime_error(string("Uninitialised call to interpolationFunction:") + xName + " and " + yName);
@@ -175,7 +175,7 @@ float interpolationFunction::integral(float v1, float v2)
 
 
 // Return a y value via table lookup
-float lookupFunction::value(float v)
+float lookupFunction::value(float v) const
    {
    if (x.size() == 0 || y.size() == 0)
        throw std::runtime_error(string("Uninitialised call to lookupFunction:") + xName + " and " + yName);

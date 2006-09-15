@@ -1304,8 +1304,8 @@ float plantPart::pMinPotStressDeterminant(void)
 float plantPart::height(void) {return Height;}
 
 float plantPart::soilNDemand(void) {return (SoilNDemand);}
-float plantPart::nDemand(void) {return (NDemand);}
-float plantPart::nMax(void){return (NMax);}
+float plantPart::nDemand(void) const {return (NDemand);}
+float plantPart::nMax(void)const{return (NMax);}
 float plantPart::nCapacity(void)
 //=======================================================================================
    {
@@ -1334,19 +1334,19 @@ void plantPart::doNPartition(float nSupply, float n_demand_sum, float n_capacity
 }
 
 float plantPart::pDemand(void) {return (PDemand);}
-float plantPart::nTotal(void) {return (nGreen() + nSenesced() + nDead());}
+float plantPart::nTotal(void) const {return (nGreen() + nSenesced() + nDead());}
 float plantPart::nGreen(void) const {return (NGreen);}
-float plantPart::nSenesced(void) {return (NSenesced);}
-float plantPart::nDead(void) {return (NDead);}
+float plantPart::nSenesced(void) const{return (NSenesced);}
+float plantPart::nDead(void) const{return (NDead);}
 
-float plantPart::nConc(void)
+float plantPart::nConc(void) const
 //=======================================================================================
    {
    float n_conc = divide (NGreen, DMGreen, 0.0);
    return n_conc;
    }
 
-float plantPart::nConcPercent(void)
+float plantPart::nConcPercent(void)const
 //=======================================================================================
    {
    return nConc() * fract2pcnt;
@@ -1361,32 +1361,32 @@ float plantPart::dltNRetransOut(void)
       return 0.0;
    }
 
-float plantPart::nMaxPot(void)
+float plantPart::nMaxPot(void) const
 //=======================================================================================
    {
    float n_conc_max = c.n_conc_max.value(plant->getStageCode());
    return n_conc_max * DMGreen;
    }
 
-float plantPart::nMinPot(void)
+float plantPart::nMinPot(void) const
 //=======================================================================================
    {
    float n_conc_min = c.n_conc_min.value(plant->getStageCode());
    return n_conc_min * DMGreen;
    }
-float plantPart::pTotal(void) {return (pGreen() + pSenesced() + pDead());}
-float plantPart::pGreen(void) {return (PGreen);}
-float plantPart::pSenesced(void) {return (PSen);}
-float plantPart::pDead(void) {return (PDead);}
+float plantPart::pTotal(void) const {return (pGreen() + pSenesced() + pDead());}
+float plantPart::pGreen(void) const {return (PGreen);}
+float plantPart::pSenesced(void) const{return (PSen);}
+float plantPart::pDead(void) const{return (PDead);}
 
-float plantPart::pConc(void)
+float plantPart::pConc(void) const
 //=======================================================================================
    {
    float p_conc = divide (PGreen, DMGreen, 0.0);
    return p_conc;
    }
 
-float plantPart::pConcPercent(void)
+float plantPart::pConcPercent(void) const
 //=======================================================================================
    {
    return pConc() * fract2pcnt;
@@ -1409,7 +1409,7 @@ float plantPart::nRetransSupply(void)
    return 0.0;
    }
 
-float plantPart::dmRetransSupply(void) const
+float plantPart::dmRetransSupply(void) const 
 //=======================================================================================
    {
    if (c.retrans_part)
@@ -1435,7 +1435,7 @@ float plantPart::nRetransDemand(void)
    return 0.0;
    }
 
-float plantPart::dmRetransDemand(void) const
+float plantPart::dmRetransDemand(void) 
 //=======================================================================================
    {
 //    if (c.yield_part)
@@ -1480,7 +1480,7 @@ void plantPart::doPInit()
    PGreen = c.p_init_conc * DMGreen;
    }
 
-float plantPart::pMaxPot(void)
+float plantPart::pMaxPot(void) const
 //=======================================================================================
    {
    float p_conc_max = linear_interp_real (plant->getStageCode()
@@ -1490,7 +1490,7 @@ float plantPart::pMaxPot(void)
    return p_conc_max * DMGreen;
    }
 
-float plantPart::pMinPot(void)
+float plantPart::pMinPot(void) const
 //=======================================================================================
    {
    float p_conc_min = linear_interp_real (plant->getStageCode()
@@ -1564,35 +1564,35 @@ float plantPart::dltDmGrainDemand(void) const {return 0;}
 float plantPart::dltDmPotRue(void){return 0;}        //FIXME
 float plantPart::dltDmPotTe(void){return 0;}            //FIXME
 ////float plantPart::dltDmRetranslocate(void){return 0;}
-float plantPart::dmDeadVegTotal(void){return 0;}
-float plantPart::dmGrainTotal(void){return 0;}
-float plantPart::dmGreenGrainTotal(void){return 0;}
-float plantPart::dmGreenVegTotal(void){return 0;}
-float plantPart::dmSenescedVegTotal(void){return 0;}
-float plantPart::dmVegTotal(void){return 0;}
-float plantPart::grainNConcPercent(void){return 0;}
-float plantPart::grainNo(void) {return 0;}
-float plantPart::grainWt(void) {return 0;}
+float plantPart::dmDeadVegTotal(void)const{return 0;}
+float plantPart::dmGrainTotal(void) const{return 0;}
+float plantPart::dmGreenGrainTotal(void) const{return 0;}
+float plantPart::dmGreenVegTotal(void)const{return 0;}
+float plantPart::dmSenescedVegTotal(void)const{return 0;}
+float plantPart::dmVegTotal(void) const {return 0;}
+float plantPart::grainNConcPercent(void) const {return 0;}
+float plantPart::grainNo(void) const {return 0;}
+float plantPart::grainWt(void) const {return 0;}
 float plantPart::interceptRadiation(float radiation){return 0;}        //FIXME
-float plantPart::nConcGrain(void){return 0;}
-float plantPart::nDeadVegTotal(void){return 0;}
-float plantPart::nDemandGrain(void) {return 0;}
+float plantPart::nConcGrain(void)const{return 0;}
+float plantPart::nDeadVegTotal(void) const{return 0;}
+float plantPart::nDemandGrain(void) const {return 0;}
 float plantPart::nDemandGrain2(void){return 0;}
-float plantPart::nGrainTotal(void){return 0;}
-float plantPart::nGreenGrainTotal(void){return 0;}
-float plantPart::nGreenVegTotal(void){return 0;}
-float plantPart::nSenescedVegTotal(void){return 0;}
-float plantPart::nVegTotal(void){return 0;}
-float plantPart::pConcGrain(void){return 0;}
-float plantPart::pConcGrainTotal(void){return 0;}
-float plantPart::pDeadGrainTotal(void){return 0;}
-float plantPart::pDeadVegTotal(void){return 0;}
-float plantPart::pGrainTotal(void){return 0;}
-float plantPart::pGreenGrainTotal(void){return 0;}
-float plantPart::pGreenVegTotal(void){return 0;}
-float plantPart::pSenescedGrainTotal(void){return 0;}
-float plantPart::pSenescedVegTotal(void){return 0;}
-float plantPart::pVegTotal(void){return 0;}
+float plantPart::nGrainTotal(void) const {return 0;}
+float plantPart::nGreenGrainTotal(void)const{return 0;}
+float plantPart::nGreenVegTotal(void)const{return 0;}
+float plantPart::nSenescedVegTotal(void)const{return 0;}
+float plantPart::nVegTotal(void)const{return 0;}
+float plantPart::pConcGrain(void)const{return 0;}
+float plantPart::pConcGrainTotal(void)const{return 0;}
+float plantPart::pDeadGrainTotal(void)const{return 0;}
+float plantPart::pDeadVegTotal(void)const{return 0;}
+float plantPart::pGrainTotal(void)const{return 0;}
+float plantPart::pGreenGrainTotal(void)const{return 0;}
+float plantPart::pGreenVegTotal(void)const{return 0;}
+float plantPart::pSenescedGrainTotal(void)const{return 0;}
+float plantPart::pSenescedVegTotal(void)const{return 0;}
+float plantPart::pVegTotal(void)const{return 0;}
 float plantPart::SWDemand(void){return 0;}                           //(OUTPUT) crop water demand (mm)               //FIXME
 void plantPart::calcDlt_pod_area (void){}   //FIXME
 void plantPart::doBioActual (void){}

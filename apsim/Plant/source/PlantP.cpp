@@ -96,25 +96,11 @@ void Plant::prepare_p(void)
 // ===============================
 void Plant::PlantP_partition (vector<plantPart*>&parts)
 {
-//+  Purpose
-//     <insert here>
-
-//+  Changes
-//
-
-//+  Constant Values
-      const char*  my_name = "PlantP_partition";
-
-//+  Local Variables
       vector<float> values;               // Scratch area
       vector<plantPart*>::iterator part;
       float p_uptake;
-      float total_p_demand;
 
-
-//- Implementation Section ----------------------------------
-
-      total_p_demand = 0.0;
+      float total_p_demand = 0.0;
       for (part = parts.begin(); part != parts.end(); part++)
           total_p_demand += (*part)->pDemand();
 
@@ -209,20 +195,10 @@ void Plant::PlantP_demand (vector<plantPart *> &allParts)
 }
 
 
-// ====================================================================
 float Plant::PlantP_Pfact (vector<plantPart *> &allParts)
-{
-
-//+  Purpose
+// ====================================================================
 //      Provide value of generic P factor
-
-//+  Changes
-//     <insert here>
-
-//+  Constant Values
-      const char*  my_name = "PlantP_Pfact";
-
-//+  Local Variables
+{
       float    max_p;
       float    min_p;
       float    act_p;
@@ -232,8 +208,6 @@ float Plant::PlantP_Pfact (vector<plantPart *> &allParts)
       float    determinants_wt;
       float    pfact;
       vector<plantPart*>::iterator part;
-
-//- Implementation Section ----------------------------------
 
    if (g.phosphorus_aware == true)
    {
@@ -277,25 +251,11 @@ float Plant::PlantP_Pfact (vector<plantPart *> &allParts)
    return pfact;
 }
 
-// ====================================================================
 void Plant::PlantP_Stress (vector<plantPart *> &allParts)
-{
-
-//+  Purpose
+// ====================================================================
 //      Provide value of  P stress factors
-
-//+  Changes
-//     <insert here>
-
-//+  Constant Values
-      const char*  my_name = "PlantP_Stress";
-
-//+  Local Variables
-      float    pfact;
-
-//- Implementation Section ----------------------------------
-
-      pfact = PlantP_Pfact(allParts);
+{
+      float    pfact = PlantP_Pfact(allParts);
 
       g.pfact_photo = pfact * c.pfact_photo_slope;
       g.pfact_photo = bound(g.pfact_photo, 0.0, 1.0);

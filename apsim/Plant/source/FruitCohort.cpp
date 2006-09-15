@@ -87,156 +87,156 @@ void FruitCohort::doRegistrations(protocol::Component *system)
 
 
 
-float FruitCohort::dmGrainTotal(void)
+float FruitCohort::dmGrainTotal(void) const
    //===========================================================================
 {
    float dmTotal = 0.0;
-   vector<plantPart *>::iterator part;
+   vector<plantPart *>::const_iterator part;
    for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
       dmTotal += (*part)->dmTotal();
    return dmTotal;
 }
 
-float FruitCohort::dmVegTotal(void)
+float FruitCohort::dmVegTotal(void) const
    //===========================================================================
 {
    float dmTotal = 0.0;
-   vector<plantPart *>::iterator part;
+   vector<plantPart *>::const_iterator part;
    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
       dmTotal += (*part)->dmTotal();
    return dmTotal;
 }
 
-float FruitCohort::dmGreenGrainTotal(void)
+float FruitCohort::dmGreenGrainTotal(void) const
    //===========================================================================
 {
    float dmTotal = 0.0;
-   vector<plantPart *>::iterator part;
+   vector<plantPart *>::const_iterator part;
    for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
       dmTotal += (*part)->dmGreen();
    return dmTotal;
 }
 
-float FruitCohort::dmGreenVegTotal(void)
+float FruitCohort::dmGreenVegTotal(void) const
    //===========================================================================
 {
    float dmTotal = 0.0;
-   vector<plantPart *>::iterator part;
+   vector<plantPart *>::const_iterator part;
    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
       dmTotal += (*part)->dmGreen();
    return dmTotal;
 }
 
-float FruitCohort::dmSenescedVegTotal(void)
+float FruitCohort::dmSenescedVegTotal(void) const
    //===========================================================================
 {
    float dmTotal = 0.0;
-   vector<plantPart *>::iterator part;
+   vector<plantPart *>::const_iterator part;
    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
       dmTotal += (*part)->dmSenesced();
    return dmTotal;
 }
 
 
-float FruitCohort::dmDeadVegTotal(void)
+float FruitCohort::dmDeadVegTotal(void) const
    //===========================================================================
 {
    float dmTotal = 0.0;
-   vector<plantPart *>::iterator part;
+   vector<plantPart *>::const_iterator part;
    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
       dmTotal += (*part)->dmDead();
    return dmTotal;
 }
 
 
-float FruitCohort::nGrainTotal(void)
+float FruitCohort::nGrainTotal(void) const
    //===========================================================================
 {
    float nTotal = 0.0;
-   vector<plantPart *>::iterator part;
+   vector<plantPart *>::const_iterator part;
    for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
       nTotal += (*part)->nTotal();
    return nTotal;
 }
 
-float FruitCohort::nVegTotal(void)
+float FruitCohort::nVegTotal(void) const
    //===========================================================================
 {
    float nTotal = 0.0;
-   vector<plantPart *>::iterator part;
+   vector<plantPart *>::const_iterator part;
    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
       nTotal += (*part)->nTotal();
    return nTotal;
 }
 
-float FruitCohort::nGreenGrainTotal(void)
+float FruitCohort::nGreenGrainTotal(void) const
    //===========================================================================
 {
    float nTotal = 0.0;
-   vector<plantPart *>::iterator part;
+   vector<plantPart *>::const_iterator part;
    for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
       nTotal += (*part)->nGreen();
    return nTotal;
 }
 
-float FruitCohort::nGreenVegTotal(void)
+float FruitCohort::nGreenVegTotal(void) const
    //===========================================================================
 {
    float nTotal = 0.0;
-   vector<plantPart *>::iterator part;
+   vector<plantPart *>::const_iterator part;
    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
       nTotal += (*part)->nGreen();
    return nTotal;
 }
 
 
-float FruitCohort::nSenescedVegTotal(void)
+float FruitCohort::nSenescedVegTotal(void) const
    //===========================================================================
 {
    float nTotal = 0.0;
-   vector<plantPart *>::iterator part;
+   vector<plantPart *>::const_iterator part;
    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
       nTotal += (*part)->nSenesced();
    return nTotal;
 }
 
 
-float FruitCohort::nDeadVegTotal(void)
+float FruitCohort::nDeadVegTotal(void) const
    //===========================================================================
 {
    float nTotal = 0.0;
-   vector<plantPart *>::iterator part;
+   vector<plantPart *>::const_iterator part;
    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
       nTotal += (*part)->nDead();
    return nTotal;
 }
 
 
-float FruitCohort::nMaxPot(void)
+float FruitCohort::nMaxPot(void) const
    //===========================================================================
 {
    float nMaxPot = 0.0;
-   vector<plantPart *>::iterator part;
+   vector<plantPart *>::const_iterator part;
    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
       nMaxPot += (*part)->nMaxPot();
    return nMaxPot;
 }
 
-float FruitCohort::nMax(void)
+float FruitCohort::nMax(void)const
    //===========================================================================
 {
-   NMax = 0.0;
-   vector<plantPart *>::iterator part;
+   float nMax = 0.0;
+   vector<plantPart *>::const_iterator part;
    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
-      NMax += (*part)->nMax();
-   return NMax;
+      nMax += (*part)->nMax();
+   return nMax;
 }
 
-float FruitCohort::nMinPot(void)
+float FruitCohort::nMinPot(void)const
    //===========================================================================
 {
    float nMinPot = 0.0;
-   vector<plantPart *>::iterator part;
+   vector<plantPart *>::const_iterator part;
    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
       nMinPot += (*part)->nMinPot();
    return nMinPot;
@@ -285,116 +285,116 @@ float FruitCohort::nCapacity(void)
 ////}
 
 
-float FruitCohort::pGrainTotal(void)
+float FruitCohort::pGrainTotal(void)  const
    //===========================================================================
 {
    float pTotal = 0.0;
-   vector<plantPart *>::iterator part;
+   vector<plantPart *>::const_iterator part;
    for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
       pTotal += (*part)->pTotal();
    return pTotal;
 }
 
-float FruitCohort::pVegTotal(void)
+float FruitCohort::pVegTotal(void)const
    //===========================================================================
 {
    float pTotal = 0.0;
-   vector<plantPart *>::iterator part;
+   vector<plantPart *>::const_iterator part;
    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
       pTotal += (*part)->pTotal();
    return pTotal;
 }
 
-float FruitCohort::pGreenGrainTotal(void)
+float FruitCohort::pGreenGrainTotal(void)const
    //===========================================================================
 {
    float pTotal = 0.0;
-   vector<plantPart *>::iterator part;
+   vector<plantPart *>::const_iterator part;
    for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
       pTotal += (*part)->pGreen();
    return pTotal;
 }
 
-float FruitCohort::pDeadGrainTotal(void)
+float FruitCohort::pDeadGrainTotal(void)const
    //===========================================================================
 {
    float pTotal = 0.0;
-   vector<plantPart *>::iterator part;
+   vector<plantPart *>::const_iterator part;
    for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)
       pTotal += (*part)->pDead();
    return pTotal;
 }
 
-float FruitCohort::pGreenVegTotal(void)
+float FruitCohort::pGreenVegTotal(void) const
    //===========================================================================
 {
    float pTotal = 0.0;
-   vector<plantPart *>::iterator part;
+   vector<plantPart *>::const_iterator part;
    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
       pTotal += (*part)->pGreen();
    return pTotal;
 }
 
 
-float FruitCohort::pSenescedGrainTotal(void)                                      //remove
+float FruitCohort::pSenescedGrainTotal(void) const                                     //remove
    //=========================================================================== //remove
 {                                                                                //remove
    float pTotal = 0.0;                                                           //remove
-   vector<plantPart *>::iterator part;                                           //remove
+   vector<plantPart *>::const_iterator part;                                           //remove
    for (part = myGrainParts.begin(); part != myGrainParts.end(); part++)         //remove
       pTotal += (*part)->pSenesced();                                            //remove
    return pTotal;                                                                //remove
 }                                                                                //remove
 
-float FruitCohort::pSenescedVegTotal(void)
+float FruitCohort::pSenescedVegTotal(void)const
    //===========================================================================
 {
    float pTotal = 0.0;
-   vector<plantPart *>::iterator part;
+   vector<plantPart *>::const_iterator part;
    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
       pTotal += (*part)->pSenesced();
    return pTotal;
 }
 
 
-float FruitCohort::pDeadVegTotal(void)
+float FruitCohort::pDeadVegTotal(void) const
    //===========================================================================
 {
    float pTotal = 0.0;
-   vector<plantPart *>::iterator part;
+   vector<plantPart *>::const_iterator part;
    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
       pTotal += (*part)->pDead();
    return pTotal;
 }
 
 
-float FruitCohort::pConcGrain(void)                                               //remove
+float FruitCohort::pConcGrain(void) const                                              //remove
    //=========================================================================== //remove
 {                                                                                //remove
    return grainPart->pConcPercent();                                                    //remove
 }                                                                                //remove
 
-float FruitCohort::pConcGrainTotal(void)                                           //remove
+float FruitCohort::pConcGrainTotal(void) const                                          //remove
    //===========================================================================  //remove
 {                                                                                 //remove
    return grainPart->pConcGrainTotal();                                           //remove
 }                                                                                 //remove
 
-float FruitCohort::pMaxPot(void)
+float FruitCohort::pMaxPot(void) const
    //===========================================================================
 {
    float pMaxPot = 0.0;
-   vector<plantPart *>::iterator part;
+   vector<plantPart *>::const_iterator part;
    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
       pMaxPot += (*part)->pMaxPot();
    return pMaxPot;
 }
 
-float FruitCohort::pMinPot(void)
+float FruitCohort::pMinPot(void) const
    //===========================================================================
 {
    float pMinPot = 0.0;
-   vector<plantPart *>::iterator part;
+   vector<plantPart *>::const_iterator part;
    for (part = myVegParts.begin(); part != myVegParts.end(); part++)
       pMinPot += (*part)->pMinPot();
    return pMinPot;
@@ -475,7 +475,7 @@ void FruitCohort::display(ostream &os) const
 
 float FruitCohort::calcCover (float canopy_fac) {return  podPart->calcCover(canopy_fac);}    //remove problem
 
-float FruitCohort::grainNConcPercent(void) {return grainPart->nConcPercent();}     //remove problem
+float FruitCohort::grainNConcPercent(void) const {return grainPart->nConcPercent();}     //remove problem
 
 void FruitCohort::doDmDemand ( float dlt_dm_veg_supply)
    //===========================================================================

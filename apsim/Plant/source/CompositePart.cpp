@@ -381,121 +381,111 @@ void CompositePart::get_Dlt_dm_green_retrans(protocol::Component *system, protoc
    }
 
 
-float CompositePart::dltNGreen(void) 
+float CompositePart::dltNGreen(void) const 
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart * >::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       sum += (*part)->dltNGreen();
    return sum;
 }
 
 
-float CompositePart::dltPGreen(void) 
+float CompositePart::dltPGreen(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart * >::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       sum += (*part)->dltPGreen();
    return sum;
 }
 
 
-float CompositePart::dltDmDead(void)
+float CompositePart::dltDmDead(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       sum += (*part)->dltDmDead();
    return sum;
 }
 
 
-float CompositePart::dltNDead(void) 
+float CompositePart::dltNDead(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       sum += (*part)->dltNDead();
    return sum;
 }
 
 
-float CompositePart::dltPDead(void) 
+float CompositePart::dltPDead(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart * >::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       sum += (*part)->dltPDead();
    return sum;
 }
 
 
-float CompositePart::dltDmSenesced(void) 
+float CompositePart::dltDmSenesced(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       sum += (*part)->dltDmSenesced();
    return sum;
 }
 
 
-float CompositePart::dltNSenesced(void)
+float CompositePart::dltNSenesced(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart * >::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       sum += (*part)->dltNSenesced();
    return sum;
 }
 
 
-float CompositePart::dltPSenesced(void) 
+float CompositePart::dltPSenesced(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       sum += (*part)->dltPSenesced();
    return sum;
 }
 
-float CompositePart::dltNDetached(void) 
+float CompositePart::dltNDetached(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       sum += (*part)->dltNDetached();
    return sum;
 }
 
 
-float CompositePart::dltPDetached(void) 
+float CompositePart::dltPDetached(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart * >::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart *>::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       sum += (*part)->dltPDetached();
    return sum;
 }
 
 
-float CompositePart::nConc(void)                                                 //FIXME
+float CompositePart::nConc(void) const                                                //FIXME
    //===========================================================================
 {
    float sum = 0.0;
    float dmSum = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart *>::const_iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
    {
       sum += (*part)->nGreen();
@@ -504,19 +494,19 @@ float CompositePart::nConc(void)                                                
    return divide (sum , dmSum , 0.0);
 }
 
-float CompositePart::nConcPercent(void)                                                 //FIXME
+float CompositePart::nConcPercent(void) const                                                //FIXME
    //===========================================================================
 {
    return nConc() * fract2pcnt;
 }
 
 
-float CompositePart::pConc(void)                                                  //FIXME
+float CompositePart::pConc(void) const                                                 //FIXME
    //===========================================================================
 {
    float sum = 0.0;
    float dmSum = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart *>::const_iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
    {
       sum += (*part)->pGreen();
@@ -525,336 +515,304 @@ float CompositePart::pConc(void)                                                
    return divide (sum , dmSum , 0.0);
 }
 
-float CompositePart::pConcPercent(void)                                                  //FIXME
+float CompositePart::pConcPercent(void) const                                                 //FIXME
    //===========================================================================
 {
    return pConc() * fract2pcnt;
 }
 
 
-float CompositePart::n_conc_crit(void)                                             //FIXME
+float CompositePart::n_conc_crit(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       sum += (*part)->n_conc_crit();
    return divide (sum , myParts.size() , 0.0);           //unweighted mean
 }
 
 
-float CompositePart::n_conc_min(void)                                              //FIXME
+float CompositePart::n_conc_min(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       sum += (*part)->n_conc_min();
    return divide (sum , myParts.size() , 0.0);           //unweighted mean
 }
 
 
-float CompositePart::dltNRetrans(void) 
+float CompositePart::dltNRetrans(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart * >::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       sum += (*part)->dltNRetrans();
    return sum;
 }
 
 
-float CompositePart::dltNSenescedRetrans(void) 
+float CompositePart::dltNSenescedRetrans(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart * >::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       sum += (*part)->dltNSenescedRetrans();
    return sum;
 }
 
 
-float CompositePart::dltNSenescedTrans(void) 
+float CompositePart::dltNSenescedTrans(void) const
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart * >::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       sum += (*part)->dltNSenescedTrans();
    return sum;
 }
 
 
-float CompositePart::dltDmGreenRetrans(void) 
+float CompositePart::dltDmGreenRetrans(void) const 
    //===========================================================================
 {
    float sum = 0.0;
-   vector <plantPart * >::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       sum += (*part)->dltDmGreenRetrans();
    return sum;
 }
 
 
-float CompositePart::dmTotal(void) 
+float CompositePart::dmTotal(void) const
    //===========================================================================
 {
    float dmTotal = 0.0;
-   vector <plantPart * >::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       dmTotal += (*part)->dmTotal();
    return dmTotal;
 }
 
-float CompositePart::dmGreenDemand(void)  
+float CompositePart::dmGreenDemand(void)  const
    //===========================================================================
 {
    float dmGreenDemand = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       dmGreenDemand += (*part)->dmGreenDemand();
    return dmGreenDemand;
 }
 
-float CompositePart::grainWt(void)
+float CompositePart::grainWt(void) const
    //===========================================================================
 {
    float grainWtTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       grainWtTotal += (*part)->grainWt();
    return grainWtTotal;
 }
 
-float CompositePart::dmGrainTotal(void)
+float CompositePart::dmGrainTotal(void) const
    //===========================================================================
 {
    float dmTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       dmTotal += (*part)->dmGrainTotal();
    return dmTotal;
 }
 
-float CompositePart::dmVegTotal(void)
+float CompositePart::dmVegTotal(void) const
    //===========================================================================
 {
    float dmTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       dmTotal += (*part)->dmVegTotal();
    return dmTotal;
 }
 
-float CompositePart::dmGreenGrainTotal(void)
+float CompositePart::dmGreenGrainTotal(void) const
    //===========================================================================
 {
    float dmTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       dmTotal += (*part)->dmGreenGrainTotal();
    return dmTotal;
 }
 
-float CompositePart::dmGreenVegTotal(void)
+float CompositePart::dmGreenVegTotal(void) const
    //===========================================================================
 {
    float dmTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       dmTotal += (*part)->dmGreenVegTotal();
    return dmTotal;
 }
 
-float CompositePart::dmSenescedVegTotal(void)
+float CompositePart::dmSenescedVegTotal(void) const
    //===========================================================================
 {
    float dmTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       dmTotal += (*part)->dmSenescedVegTotal();
    return dmTotal;
 }
 
-float CompositePart::dltDmDetached(void) 
+float CompositePart::dltDmDetached(void) const
    //===========================================================================
 {
    float dlt_dm_detached = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       dlt_dm_detached += (*part)->dltDmDetached();
    return dlt_dm_detached;
 }
 
-float CompositePart::dmSenesced(void) 
+float CompositePart::dmSenesced(void) const
    //===========================================================================
 {
    float result = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       result += (*part)->dmSenesced();
    return result;
 }
 
-float CompositePart::dmDeadVegTotal(void)
+float CompositePart::dmDeadVegTotal(void) const
    //===========================================================================
 {
    float dmTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       dmTotal += (*part)->dmDead();
    return dmTotal;
 }
 
-float CompositePart::dmDead(void) 
+float CompositePart::dmDead(void) const 
    //===========================================================================
 {
    float result = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       result += (*part)->dmDead();
    return result;
 }
 
-float CompositePart::nTotal(void)
+float CompositePart::nTotal(void) const
    //===========================================================================
 {
    float nTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       nTotal += (*part)->nTotal();
    return nTotal;
 }
 
-float CompositePart::nGrainTotal(void)
+float CompositePart::nGrainTotal(void) const
    //===========================================================================
 {
    float nTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       nTotal += (*part)->nGrainTotal();
    return nTotal;
 }
 
-float CompositePart::nVegTotal(void)
+float CompositePart::nVegTotal(void) const
    //===========================================================================
 {
    float nTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       nTotal += (*part)->nVegTotal();
    return nTotal;
 }
 
-float CompositePart::nGreenGrainTotal(void)
+float CompositePart::nGreenGrainTotal(void) const
    //===========================================================================
 {
    float nTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       nTotal += (*part)->nGreenGrainTotal();
    return nTotal;
 }
 
-float CompositePart::nGreenVegTotal(void)
+float CompositePart::nGreenVegTotal(void) const
    //===========================================================================
 {
    float nTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       nTotal += (*part)->nGreenVegTotal();
    return nTotal;
 }
 
-float CompositePart::nGreen(void) 
+float CompositePart::nGreen(void) const
    //===========================================================================
 {
    float result = 0.0;
-   vector <plantPart * >::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       result += (*part)->nGreen();
    return result;
 }
 
-float CompositePart::nSenescedVegTotal(void)
+float CompositePart::nSenescedVegTotal(void) const
    //===========================================================================
 {
    float nTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       nTotal += (*part)->nSenescedVegTotal();
    return nTotal;
 }
 
-float CompositePart::nSenesced(void)
+float CompositePart::nSenesced(void) const
    //===========================================================================
 {
    float result = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       result += (*part)->nSenesced();
    return result;
 }
 
-float CompositePart::nDeadVegTotal(void)
+float CompositePart::nDeadVegTotal(void) const
    //===========================================================================
 {
    float nTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       nTotal += (*part)->nDeadVegTotal();
    return nTotal;
 }
 
-float CompositePart::nDead(void)
+float CompositePart::nDead(void) const
    //===========================================================================
 {
    float result = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       result += (*part)->nDead();
    return result;
 }
 
-float CompositePart::nMaxPot(void)
+float CompositePart::nMaxPot(void) const
    //===========================================================================
 {
    float nMaxPot = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       nMaxPot += (*part)->nMaxPot();                                //FIXME Is this a conc?
    return nMaxPot;
 }
 
-float CompositePart::nMax(void)
+float CompositePart::nMax(void) const
    //===========================================================================
 {
    float result = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       result += (*part)->nMax();                                      //FIXME Is this a conc?
    return result;
 }
 
-float CompositePart::nMinPot(void)
+float CompositePart::nMinPot(void) const
    //===========================================================================
 {
    float nMinPot = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       nMinPot += (*part)->nMinPot();
    return nMinPot;                                                 //FIXME Is this a conc?
 }
 
-float CompositePart::nConcGrain(void)
+float CompositePart::nConcGrain(void) const
    //===========================================================================
 {
    float nGreen = 0.0;
    float dmGreen = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
    {
       nGreen += (*part)->nGreenGrainTotal();
       dmGreen += (*part)->dmGreenGrainTotal();
@@ -873,22 +831,20 @@ float CompositePart::nDemandGrain2(void)
    return n_demand;
 }
 
-float CompositePart::soilNDemand(void)
+float CompositePart::soilNDemand(void) 
    //============================================================================
 {
    SoilNDemand = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::iterator part = myParts.begin(); part != myParts.end(); part++)
       SoilNDemand += (*part)->soilNDemand();
    return SoilNDemand;
 }
 
-float CompositePart::nDemand(void)
+float CompositePart::nDemand(void) const
    //============================================================================
 {
    float n_demand = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       n_demand += (*part)->nDemand();
    return n_demand;
 }
@@ -926,133 +882,120 @@ void CompositePart::doNPartition(float nSupply, float n_demand_sum, float n_capa
       }
 }
 
-float CompositePart::pTotal(void)
+float CompositePart::pTotal(void) const
    //===========================================================================
 {
    float pTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       pTotal += (*part)->pTotal();
    return pTotal;
 }
 
-float CompositePart::pGrainTotal(void)
+float CompositePart::pGrainTotal(void) const
    //===========================================================================
 {
    float pTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       pTotal += (*part)->pGrainTotal();
    return pTotal;
 }
 
-float CompositePart::pVegTotal(void)
+float CompositePart::pVegTotal(void) const
    //===========================================================================
 {
    float pTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       pTotal += (*part)->pVegTotal();
    return pTotal;
 }
 
-float CompositePart::pGreenGrainTotal(void)
+float CompositePart::pGreenGrainTotal(void) const
    //===========================================================================
 {
    float pTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       pTotal += (*part)->pGreenGrainTotal();
    return pTotal;
 }
 
-float CompositePart::pDeadGrainTotal(void)
+float CompositePart::pDeadGrainTotal(void) const
    //===========================================================================
 {
    float pTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       pTotal += (*part)->pDeadGrainTotal();
    return pTotal;
 }
 
-float CompositePart::pGreenVegTotal(void)
+float CompositePart::pGreenVegTotal(void) const
    //===========================================================================
 {
    float pTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       pTotal += (*part)->pGreenVegTotal();
    return pTotal;
 }
 
-float CompositePart::pGreen(void)
+float CompositePart::pGreen(void) const
    //===========================================================================
 {
    float pTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       pTotal += (*part)->pGreen();
    return pTotal;
 }
 
-float CompositePart::pSenescedGrainTotal(void)
+float CompositePart::pSenescedGrainTotal(void) const
    //===========================================================================
 {
    float pTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       pTotal += (*part)->pSenescedGrainTotal();
    return pTotal;
 }
 
-float CompositePart::pSenescedVegTotal(void)
+float CompositePart::pSenescedVegTotal(void) const
    //===========================================================================
 {
    float pTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       pTotal += (*part)->pSenescedVegTotal();
    return pTotal;
 }
 
-float CompositePart::pSenesced(void)
+float CompositePart::pSenesced(void) const
    //===========================================================================
 {
    float pTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       pTotal += (*part)->pSenesced();
    return pTotal;
 }
 
-float CompositePart::pDeadVegTotal(void)
+float CompositePart::pDeadVegTotal(void) const
    //===========================================================================
 {
    float pTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       pTotal += (*part)->pDeadVegTotal();
    return pTotal;
 }
 
-float CompositePart::pDead(void)
+float CompositePart::pDead(void) const
    //===========================================================================
 {
    float pTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       pTotal += (*part)->pDead();
    return pTotal;
 }
 
-float CompositePart::pConcGrain(void)
+float CompositePart::pConcGrain(void) const
    //===========================================================================
 {
    float pGreen = 0.0;
    float dmGreen = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
    {
       pGreen += (*part)->pGreenGrainTotal();
       dmGreen += (*part)->dmGreenGrainTotal();
@@ -1060,13 +1003,12 @@ float CompositePart::pConcGrain(void)
    return divide (pGreen , dmGreen , 0.0) * fract2pcnt;
 }
 
-float CompositePart::pConcGrainTotal(void)
+float CompositePart::pConcGrainTotal(void) const
    //===========================================================================
 {
    float pTotal = 0.0;
    float dmTotal = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
    {
       pTotal += (*part)->pGrainTotal();
       dmTotal += (*part)->dmGrainTotal();
@@ -1074,22 +1016,20 @@ float CompositePart::pConcGrainTotal(void)
    return divide (pTotal , dmTotal , 0.0) * fract2pcnt;
 }
 
-float CompositePart::pMaxPot(void)
+float CompositePart::pMaxPot(void) const
    //===========================================================================
 {
    float pMaxPot = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       pMaxPot += (*part)->pMaxPot();                                      //FIXME Is this a conc?
    return pMaxPot;
 }
 
-float CompositePart::pMinPot(void)
+float CompositePart::pMinPot(void) const
    //===========================================================================
 {
    float pMinPot = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)           //FIXME Is this a conc?
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       pMinPot += (*part)->pMinPot();
    return pMinPot;
 }
@@ -1516,22 +1456,20 @@ void CompositePart::readSpeciesParameters(protocol::Component *system, vector<st
       (*part)->readSpeciesParameters(system, sections);
 }
 
-float CompositePart::dmGreen(void) 
+float CompositePart::dmGreen(void) const
    //===========================================================================
 {
    float DMGreen = 0.0;
-   vector <plantPart * >::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       DMGreen +=(*part)->dmGreen();
    return DMGreen;
 }
 
-float CompositePart::dltDmGreen(void) 
+float CompositePart::dltDmGreen(void) const
    //===========================================================================
 {
    float dltDmGreen = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       dltDmGreen +=(*part)->dltDmGreen();
    return dltDmGreen;
 }
@@ -1685,22 +1623,20 @@ void CompositePart::doProcessBioDemand(void)
       (*part)->doProcessBioDemand();
 }
 
-float CompositePart::grainNo(void)
+float CompositePart::grainNo(void) const
    //===========================================================================
 {
    float grainNo = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part =  myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       grainNo += (*part)->grainNo();
    return grainNo;
 }
 
-float CompositePart::nDemandGrain(void)
+float CompositePart::nDemandGrain(void) const
    //===========================================================================
 {
    float nDemandGrain = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part =  myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       nDemandGrain += (*part)->nDemandGrain();
    return nDemandGrain;
 }
@@ -1725,13 +1661,12 @@ float CompositePart::dltDmPotRue(void)
    return dltDmPotRue;
 }
 
-float CompositePart::grainNConcPercent(void)
+float CompositePart::grainNConcPercent(void) const
    //===========================================================================
 {
    float nGreen = 0.0;
    float dmGreen = 0.0;
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
    {
       nGreen += (*part)->nGreenGrainTotal();
       dmGreen += (*part)->dmGreenGrainTotal();
@@ -1739,11 +1674,11 @@ float CompositePart::grainNConcPercent(void)
    return divide (nGreen , dmGreen , 0.0) * fract2pcnt;
 }
 
-float CompositePart::dltDmGrainDemand(void) 
+float CompositePart::dltDmGrainDemand(void) const
    //===========================================================================
 {
    float dltDmDemand = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart *>::const_iterator part;
    for (part =  myParts.begin(); part != myParts.end(); part++)
       dltDmDemand += (*part)->dltDmGrainDemand();
    return dltDmDemand;
@@ -1757,21 +1692,21 @@ void CompositePart::calcDlt_pod_area (void)
       (*part)->calcDlt_pod_area();
 }
 
-float CompositePart::dltDmRetranslocate(void) 
+float CompositePart::dltDmRetranslocate(void) const
    //===========================================================================
 {
    float dlt_dm_green_retrans = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart *>::const_iterator part;
    for (part =  myParts.begin(); part != myParts.end(); part++)
       dlt_dm_green_retrans += (*part)->dltDmRetranslocate();
    return dlt_dm_green_retrans;
 }
 
-float CompositePart::dltDmGreenRetransUptake(void) 
+float CompositePart::dltDmGreenRetransUptake(void) const
    //===========================================================================
 {
    float dltDmUptake = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart *>::const_iterator part;
    for (part =  myParts.begin(); part != myParts.end(); part++)
       dltDmUptake += (*part)->dltDmGreenRetransUptake();
    return dltDmUptake;
@@ -1853,11 +1788,11 @@ void CompositePart::doDmDemand ( float dlt_dm_veg_supply)
       (*part)->doDmDemand(dlt_dm_veg_supply);                                //FIXME - divey up dlt_dm_veg_supply? Only for HI approach
 }
 
-float CompositePart::dmDemandDifferential(void) 
+float CompositePart::dmDemandDifferential(void) const
    //===========================================================================
 {
    float dm_demand_differential = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart *>::const_iterator part;
    for (part =  myParts.begin(); part != myParts.end(); part++)
       dm_demand_differential += (*part)->dmDemandDifferential();
    return dm_demand_differential;
@@ -2134,11 +2069,11 @@ float CompositePart::pRetransDemand(void)
    return p_retrans_demand;
 }
 
-float CompositePart::dmRetransSupply(void) 
+float CompositePart::dmRetransSupply(void) const
    //============================================================================
 {
    float dm_retrans_supply = 0.0;
-   vector <plantPart *>::iterator part;
+   vector <plantPart *>::const_iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       dm_retrans_supply += (*part)->dmRetransSupply();
    return dm_retrans_supply;
@@ -2260,21 +2195,19 @@ float CompositePart::pMinPotStressDeterminant(void)
 }
 
 
-bool CompositePart::isYieldPart(void) 
+bool CompositePart::isYieldPart(void) const
 //============================================================================
 // True if at least one of our parts is a dm sink
    {
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       if ((*part)->isYieldPart()) return true;
    return false;
    }
 
-bool CompositePart::isRetransPart(void)
+bool CompositePart::isRetransPart(void) const
 // True if at least one of our parts supplies retranslocate
    {
-   vector <plantPart *>::iterator part;
-   for (part = myParts.begin(); part != myParts.end(); part++)
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
       if ((*part)->isRetransPart()) return true;
    return false;
    }
