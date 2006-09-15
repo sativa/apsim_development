@@ -42,11 +42,11 @@ class Registrations
       // Add a registration and return a pointer to it if registration was added.  If
       // the registration already exists, then return NULL.
       //---------------------------------------------------------------------------
-      RegistrationItem* Registrations::add(RegistrationType kind,
+      RegistrationItem* add(RegistrationType kind,
                                            const FString& name,
                                            const Type& type);
                                            
-      RegistrationItem* Registrations::add(RegistrationType kind,
+      RegistrationItem* add(RegistrationType kind,
                                            const FString& name,
                                            const Type& type,
                                            const FString& componentNameOrID);
