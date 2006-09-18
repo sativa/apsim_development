@@ -275,8 +275,8 @@ Public Class Slurp
 
         Public WriteOnly Property data() As APSIMData
             Set(ByVal Points As APSIMData)
-                ReDim XVals(Points.Children.Count - 1)
-                ReDim YVals(Points.Children.Count - 1)
+                ReDim XVals(Points.Children.Length - 1)
+                ReDim YVals(Points.Children.Length - 1)
                 Dim i As Integer = -1
                 For Each point As APSIMData In Points.Children
                     i = i + 1
@@ -302,7 +302,7 @@ Public Class Slurp
 
         Private Function value(ByVal name As String) As Single()
 
-            Dim ReturnValue(MyData.Children.Count - 1) As Single
+            Dim ReturnValue(MyData.Children.Length - 1) As Single
 
             Dim i As Integer = -1
             For Each layer As APSIMData In MyData.Children
