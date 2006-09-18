@@ -22,4 +22,18 @@
       <cnr>30</cnr>
     </crop>
   </surfaceOM>
+  <cropNDemand>
+    <crop>
+      <name>wheat</name>
+      <protein_target>11.5</protein_target>
+      <fraction_of_n_in_protein>.185185</fraction_of_n_in_protein>
+      <n_uptake_efficiency>1.7</n_uptake_efficiency>
+    </crop>
+    <crop>
+      <name>sorghum</name>
+      <protein_target>9.5</protein_target>
+      <fraction_of_n_in_protein>.153846</fraction_of_n_in_protein>
+      <n_uptake_efficiency>1.7</n_uptake_efficiency>
+    </crop>
+  </cropNDemand>
 </howwet>

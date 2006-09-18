@@ -2,38 +2,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Results xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <simulationFileName>C:\Robert\Data\test1.apsim</simulationFileName>
-  <soilName>Grey Vertosol-Brigalow (Warra #019)</soilName>
+  <soilName>Grey Vertosol-Brigalow (Brigalow west #023)</soilName>
   <metFileName>C:\Robert\Data\dalby.met</metFileName>
   <startDate>26/03/1989</startDate>
   <endDate>30/04/1990</endDate>
   <oc>1.19</oc>
-  <soilWaterStart>63.3</soilWaterStart>
-  <soilWaterEnd>320.54999184608459</soilWaterEnd>
+  <soilWaterStart>64.5</soilWaterStart>
+  <soilWaterEnd>326.24999231100082</soilWaterEnd>
   <slope>1.0</slope>
   <slopeLength>60.0</slopeLength>
   <erodibility>0.4</erodibility>
   <rainfall>983.70000275224447</rainfall>
-  <evaporation>546.458000138402</evaporation>
-  <runoff>150.74800191214308</runoff>
-  <soilLoss>11.571000079275109</soilLoss>
-  <drain>29.31000018119812</drain>
+  <evaporation>546.47900034487247</evaporation>
+  <runoff>152.50999929290265</runoff>
+  <soilLoss>11.735000181011856</soilLoss>
+  <drain>23.038000017404556</drain>
   <startCover>713.349887877477</startCover>
   <endCover>3.1359999179840088</endCover>
   <coverType>wheat</coverType>
-  <fallowWaterGain>257.24999184608458</fallowWaterGain>
-  <fallowWaterEfficiency>406.39809138401989</fallowWaterEfficiency>
-  <nitrateStart>56.385</nitrateStart>
-  <nitrateEnd>150.77099609375</nitrateEnd>
-  <nitrateGain>94.385996093750009</nitrateGain>
-  <nitrateEfficiency>167.39557700407912</nitrateEfficiency>
+  <fallowWaterGain>261.74999231100082</fallowWaterGain>
+  <fallowWaterEfficiency>405.81394156744312</fallowWaterEfficiency>
+  <nitrateStart>58.515000000000008</nitrateStart>
+  <nitrateEnd>153.97999572753906</nitrateEnd>
+  <nitrateGain>95.464995727539048</nitrateGain>
+  <nitrateEfficiency>163.14619452711105</nitrateEfficiency>
   <soilWaterEndByLayer>
-    <double>0.34000000357627869</double>
-    <double>0.4050000011920929</double>
-    <double>0.41200000047683716</double>
+    <double>0.34299999475479126</double>
+    <double>0.37799999117851257</double>
+    <double>0.382999986410141</double>
     <double>0.38699999451637268</double>
-    <double>0.39100000262260437</double>
-    <double>0.382999986410141</double>
-    <double>0.382999986410141</double>
+    <double>0.36100000143051147</double>
+    <double>0.33300000429153442</double>
+    <double>0.34299999475479126</double>
   </soilWaterEndByLayer>
   <thickness>
     <double>150</double>
@@ -44,8 +44,10 @@
     <double>300</double>
     <double>300</double>
   </thickness>
-  <nitrogenRequirementPAW>633.14997553825378</nitrogenRequirementPAW>
-  <nitrogenRequirementYield>0</nitrogenRequirementYield>
-  <nitrogenRequirementDemand>0</nitrogenRequirementDemand>
-  <nitrogenRequirementGap>0</nitrogenRequirementGap>
+  <nitrogenRequirementPAW>175.79999309778214</nitrogenRequirementPAW>
+  <nitrogenRequirementYield>0.23039997929334641</nitrogenRequirementYield>
+  <nitrogenRequirementDemand>7.9023150792717924</nitrogenRequirementDemand>
+  <nitrogenRequirementGap>-146.07768064826726</nitrogenRequirementGap>
+  <softwareVersion>1.0</softwareVersion>
+  <reportDate>15/09/2006 12:00:00 AM/9/2006</reportDate>
 </Results>
