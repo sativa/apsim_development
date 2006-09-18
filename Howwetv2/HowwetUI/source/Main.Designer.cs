@@ -29,11 +29,9 @@ namespace APSRU.Howwet
         private void InitializeComponent()
         {
         this.components = new System.ComponentModel.Container();
-        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
         this.groupBox1 = new System.Windows.Forms.GroupBox();
         this.erosionButton = new System.Windows.Forms.Button();
         this.label3 = new System.Windows.Forms.Label();
-        this.label36 = new System.Windows.Forms.Label();
         this.label5 = new System.Windows.Forms.Label();
         this.StartDatePicker = new System.Windows.Forms.DateTimePicker();
         this.EndDatePicker = new System.Windows.Forms.DateTimePicker();
@@ -93,7 +91,7 @@ namespace APSRU.Howwet
         this.chart4 = new System.Windows.Forms.TabPage();
         this.chart5 = new System.Windows.Forms.TabPage();
         this.groupBox5 = new System.Windows.Forms.GroupBox();
-        this.panel5 = new System.Windows.Forms.Panel();
+        this.NRequirementPanel = new System.Windows.Forms.Panel();
         this.label50 = new System.Windows.Forms.Label();
         this.label64 = new System.Windows.Forms.Label();
         this.daystoMaturityUpDown = new System.Windows.Forms.NumericUpDown();
@@ -116,12 +114,12 @@ namespace APSRU.Howwet
         this.label24 = new System.Windows.Forms.Label();
         this.cropYield = new System.Windows.Forms.Label();
         this.label16 = new System.Windows.Forms.Label();
-        this.panel4 = new System.Windows.Forms.Panel();
+        this.PawPanel = new System.Windows.Forms.Panel();
         this.label22 = new System.Windows.Forms.Label();
         this.label37 = new System.Windows.Forms.Label();
         this.endPAW = new System.Windows.Forms.Label();
         this.label42 = new System.Windows.Forms.Label();
-        this.panel3 = new System.Windows.Forms.Panel();
+        this.NitrogenPanel = new System.Windows.Forms.Panel();
         this.label63 = new System.Windows.Forms.Label();
         this.label44 = new System.Windows.Forms.Label();
         this.nitrateEfficiency = new System.Windows.Forms.Label();
@@ -135,7 +133,7 @@ namespace APSRU.Howwet
         this.label27 = new System.Windows.Forms.Label();
         this.gainNitrate = new System.Windows.Forms.Label();
         this.label25 = new System.Windows.Forms.Label();
-        this.panel2 = new System.Windows.Forms.Panel();
+        this.WaterPanel = new System.Windows.Forms.Panel();
         this.label43 = new System.Windows.Forms.Label();
         this.drainage = new System.Windows.Forms.Label();
         this.label2 = new System.Windows.Forms.Label();
@@ -161,7 +159,7 @@ namespace APSRU.Howwet
         this.fallowRainfall = new System.Windows.Forms.Label();
         this.label28 = new System.Windows.Forms.Label();
         this.label62 = new System.Windows.Forms.Label();
-        this.panel1 = new System.Windows.Forms.Panel();
+        this.CoverPanel = new System.Windows.Forms.Panel();
         this.label65 = new System.Windows.Forms.Label();
         this.label66 = new System.Windows.Forms.Label();
         this.label71 = new System.Windows.Forms.Label();
@@ -202,18 +200,19 @@ namespace APSRU.Howwet
         this.timerProgresBar = new System.Windows.Forms.Timer(this.components);
         this.TrainingModeCheckBox = new System.Windows.Forms.CheckBox();
         this.helpProvider1 = new System.Windows.Forms.HelpProvider();
+        this.version = new System.Windows.Forms.Label();
         this.groupBox1.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)(this.coverPercent)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.initialSoilWaterPercent)).BeginInit();
         this.groupBox9.SuspendLayout();
         this.tabControl1.SuspendLayout();
         this.groupBox5.SuspendLayout();
-        this.panel5.SuspendLayout();
+        this.NRequirementPanel.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)(this.daystoMaturityUpDown)).BeginInit();
-        this.panel4.SuspendLayout();
-        this.panel3.SuspendLayout();
-        this.panel2.SuspendLayout();
-        this.panel1.SuspendLayout();
+        this.PawPanel.SuspendLayout();
+        this.NitrogenPanel.SuspendLayout();
+        this.WaterPanel.SuspendLayout();
+        this.CoverPanel.SuspendLayout();
         this.toolStrip1.SuspendLayout();
         this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
         this.toolStripContainer1.SuspendLayout();
@@ -223,9 +222,9 @@ namespace APSRU.Howwet
         // groupBox1
         // 
         this.groupBox1.BackColor = System.Drawing.SystemColors.Control;
+        this.groupBox1.Controls.Add(this.version);
         this.groupBox1.Controls.Add(this.erosionButton);
         this.groupBox1.Controls.Add(this.label3);
-        this.groupBox1.Controls.Add(this.label36);
         this.groupBox1.Controls.Add(this.label5);
         this.groupBox1.Controls.Add(this.StartDatePicker);
         this.groupBox1.Controls.Add(this.EndDatePicker);
@@ -259,7 +258,7 @@ namespace APSRU.Howwet
         this.groupBox1.Size = new System.Drawing.Size(325, 220);
         this.groupBox1.TabIndex = 28;
         this.groupBox1.TabStop = false;
-        this.groupBox1.Text = "Input Parameters";
+        this.groupBox1.Text = "Input parameters";
         // 
         // erosionButton
         // 
@@ -279,15 +278,6 @@ namespace APSRU.Howwet
         this.label3.Size = new System.Drawing.Size(84, 13);
         this.label3.TabIndex = 53;
         this.label3.Text = "Erosion Options:";
-        // 
-        // label36
-        // 
-        this.label36.AutoSize = true;
-        this.label36.Location = new System.Drawing.Point(221, 13);
-        this.label36.Name = "label36";
-        this.label36.Size = new System.Drawing.Size(35, 13);
-        this.label36.TabIndex = 52;
-        this.label36.Text = "label3";
         // 
         // label5
         // 
@@ -518,6 +508,7 @@ namespace APSRU.Howwet
         // 
         // organicCarbonContent
         // 
+        this.helpProvider1.SetHelpKeyword(this.organicCarbonContent, "OC");
         this.helpProvider1.SetHelpNavigator(this.organicCarbonContent, System.Windows.Forms.HelpNavigator.Topic);
         this.organicCarbonContent.Location = new System.Drawing.Point(121, 13);
         this.organicCarbonContent.Name = "organicCarbonContent";
@@ -571,7 +562,7 @@ namespace APSRU.Howwet
         this.groupBox9.Size = new System.Drawing.Size(1010, 447);
         this.groupBox9.TabIndex = 34;
         this.groupBox9.TabStop = false;
-        this.groupBox9.Text = "Output Charts";
+        this.groupBox9.Text = "Output charts";
         // 
         // ProfileChart
         // 
@@ -3528,7 +3519,7 @@ namespace APSRU.Howwet
         this.tabControl1.Controls.Add(this.chart3);
         this.tabControl1.Controls.Add(this.chart4);
         this.tabControl1.Controls.Add(this.chart5);
-        this.tabControl1.Location = new System.Drawing.Point(6, 19);
+        this.tabControl1.Location = new System.Drawing.Point(8, 21);
         this.tabControl1.Name = "tabControl1";
         this.tabControl1.SelectedIndex = 0;
         this.tabControl1.Size = new System.Drawing.Size(408, 22);
@@ -3548,7 +3539,7 @@ namespace APSRU.Howwet
         // 
         this.chart2.Location = new System.Drawing.Point(4, 22);
         this.chart2.Name = "chart2";
-        this.chart2.Size = new System.Drawing.Size(400, -4);
+        this.chart2.Size = new System.Drawing.Size(400, 0);
         this.chart2.TabIndex = 1;
         this.chart2.Text = "Soil Nitrogen";
         this.chart2.UseVisualStyleBackColor = true;
@@ -3557,7 +3548,7 @@ namespace APSRU.Howwet
         // 
         this.chart3.Location = new System.Drawing.Point(4, 22);
         this.chart3.Name = "chart3";
-        this.chart3.Size = new System.Drawing.Size(400, -4);
+        this.chart3.Size = new System.Drawing.Size(400, 0);
         this.chart3.TabIndex = 2;
         this.chart3.Text = "Erosion Estimate";
         this.chart3.UseVisualStyleBackColor = true;
@@ -3566,7 +3557,7 @@ namespace APSRU.Howwet
         // 
         this.chart4.Location = new System.Drawing.Point(4, 22);
         this.chart4.Name = "chart4";
-        this.chart4.Size = new System.Drawing.Size(400, -4);
+        this.chart4.Size = new System.Drawing.Size(400, 0);
         this.chart4.TabIndex = 3;
         this.chart4.Text = "Rainfall";
         this.chart4.UseVisualStyleBackColor = true;
@@ -3575,7 +3566,7 @@ namespace APSRU.Howwet
         // 
         this.chart5.Location = new System.Drawing.Point(4, 22);
         this.chart5.Name = "chart5";
-        this.chart5.Size = new System.Drawing.Size(400, -4);
+        this.chart5.Size = new System.Drawing.Size(400, 0);
         this.chart5.TabIndex = 4;
         this.chart5.Text = "Soil Water Profile";
         this.chart5.UseVisualStyleBackColor = true;
@@ -3584,47 +3575,47 @@ namespace APSRU.Howwet
         // 
         this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                     | System.Windows.Forms.AnchorStyles.Right)));
-        this.groupBox5.Controls.Add(this.panel5);
-        this.groupBox5.Controls.Add(this.panel4);
-        this.groupBox5.Controls.Add(this.panel3);
-        this.groupBox5.Controls.Add(this.panel2);
-        this.groupBox5.Controls.Add(this.panel1);
+        this.groupBox5.Controls.Add(this.NRequirementPanel);
+        this.groupBox5.Controls.Add(this.PawPanel);
+        this.groupBox5.Controls.Add(this.NitrogenPanel);
+        this.groupBox5.Controls.Add(this.WaterPanel);
+        this.groupBox5.Controls.Add(this.CoverPanel);
         this.groupBox5.Location = new System.Drawing.Point(334, 40);
         this.groupBox5.Name = "groupBox5";
         this.groupBox5.Size = new System.Drawing.Size(679, 220);
         this.groupBox5.TabIndex = 32;
         this.groupBox5.TabStop = false;
-        this.groupBox5.Text = "Output Results";
+        this.groupBox5.Text = "Output results";
         // 
-        // panel5
+        // NRequirementPanel
         // 
-        this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-        this.panel5.Controls.Add(this.label50);
-        this.panel5.Controls.Add(this.label64);
-        this.panel5.Controls.Add(this.daystoMaturityUpDown);
-        this.panel5.Controls.Add(this.label76);
-        this.panel5.Controls.Add(this.label8);
-        this.panel5.Controls.Add(this.inCropRainfall);
-        this.panel5.Controls.Add(this.label6);
-        this.panel5.Controls.Add(this.label10);
-        this.panel5.Controls.Add(this.thresholdWater);
-        this.panel5.Controls.Add(this.label7);
-        this.panel5.Controls.Add(this.label58);
-        this.panel5.Controls.Add(this.nitrateGap);
-        this.panel5.Controls.Add(this.label60);
-        this.panel5.Controls.Add(this.label15);
-        this.panel5.Controls.Add(this.WUE);
-        this.panel5.Controls.Add(this.label11);
-        this.panel5.Controls.Add(this.label45);
-        this.panel5.Controls.Add(this.nitrateDemand);
-        this.panel5.Controls.Add(this.label56);
-        this.panel5.Controls.Add(this.label24);
-        this.panel5.Controls.Add(this.cropYield);
-        this.panel5.Controls.Add(this.label16);
-        this.panel5.Location = new System.Drawing.Point(351, 13);
-        this.panel5.Name = "panel5";
-        this.panel5.Size = new System.Drawing.Size(319, 201);
-        this.panel5.TabIndex = 123;
+        this.NRequirementPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+        this.NRequirementPanel.Controls.Add(this.label50);
+        this.NRequirementPanel.Controls.Add(this.label64);
+        this.NRequirementPanel.Controls.Add(this.daystoMaturityUpDown);
+        this.NRequirementPanel.Controls.Add(this.label76);
+        this.NRequirementPanel.Controls.Add(this.label8);
+        this.NRequirementPanel.Controls.Add(this.inCropRainfall);
+        this.NRequirementPanel.Controls.Add(this.label6);
+        this.NRequirementPanel.Controls.Add(this.label10);
+        this.NRequirementPanel.Controls.Add(this.thresholdWater);
+        this.NRequirementPanel.Controls.Add(this.label7);
+        this.NRequirementPanel.Controls.Add(this.label58);
+        this.NRequirementPanel.Controls.Add(this.nitrateGap);
+        this.NRequirementPanel.Controls.Add(this.label60);
+        this.NRequirementPanel.Controls.Add(this.label15);
+        this.NRequirementPanel.Controls.Add(this.WUE);
+        this.NRequirementPanel.Controls.Add(this.label11);
+        this.NRequirementPanel.Controls.Add(this.label45);
+        this.NRequirementPanel.Controls.Add(this.nitrateDemand);
+        this.NRequirementPanel.Controls.Add(this.label56);
+        this.NRequirementPanel.Controls.Add(this.label24);
+        this.NRequirementPanel.Controls.Add(this.cropYield);
+        this.NRequirementPanel.Controls.Add(this.label16);
+        this.NRequirementPanel.Location = new System.Drawing.Point(347, 14);
+        this.NRequirementPanel.Name = "NRequirementPanel";
+        this.NRequirementPanel.Size = new System.Drawing.Size(326, 201);
+        this.NRequirementPanel.TabIndex = 123;
         // 
         // label50
         // 
@@ -3824,19 +3815,19 @@ namespace APSRU.Howwet
         this.label16.TabIndex = 93;
         this.label16.Text = "Yield:";
         // 
-        // panel4
+        // PawPanel
         // 
-        this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-        this.panel4.Controls.Add(this.label22);
-        this.panel4.Controls.Add(this.label23);
-        this.panel4.Controls.Add(this.proposedCropList);
-        this.panel4.Controls.Add(this.label37);
-        this.panel4.Controls.Add(this.endPAW);
-        this.panel4.Controls.Add(this.label42);
-        this.panel4.Location = new System.Drawing.Point(161, 115);
-        this.panel4.Name = "panel4";
-        this.panel4.Size = new System.Drawing.Size(184, 100);
-        this.panel4.TabIndex = 122;
+        this.PawPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+        this.PawPanel.Controls.Add(this.label22);
+        this.PawPanel.Controls.Add(this.label23);
+        this.PawPanel.Controls.Add(this.proposedCropList);
+        this.PawPanel.Controls.Add(this.label37);
+        this.PawPanel.Controls.Add(this.endPAW);
+        this.PawPanel.Controls.Add(this.label42);
+        this.PawPanel.Location = new System.Drawing.Point(161, 115);
+        this.PawPanel.Name = "PawPanel";
+        this.PawPanel.Size = new System.Drawing.Size(184, 100);
+        this.PawPanel.TabIndex = 122;
         // 
         // label22
         // 
@@ -3875,26 +3866,26 @@ namespace APSRU.Howwet
         this.label42.TabIndex = 54;
         this.label42.Text = "mm";
         // 
-        // panel3
+        // NitrogenPanel
         // 
-        this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-        this.panel3.Controls.Add(this.label63);
-        this.panel3.Controls.Add(this.label44);
-        this.panel3.Controls.Add(this.nitrateEfficiency);
-        this.panel3.Controls.Add(this.label34);
-        this.panel3.Controls.Add(this.label51);
-        this.panel3.Controls.Add(this.endSoilNitrate);
-        this.panel3.Controls.Add(this.label49);
-        this.panel3.Controls.Add(this.label48);
-        this.panel3.Controls.Add(this.startSoilNitrate);
-        this.panel3.Controls.Add(this.label46);
-        this.panel3.Controls.Add(this.label27);
-        this.panel3.Controls.Add(this.gainNitrate);
-        this.panel3.Controls.Add(this.label25);
-        this.panel3.Location = new System.Drawing.Point(161, 14);
-        this.panel3.Name = "panel3";
-        this.panel3.Size = new System.Drawing.Size(184, 99);
-        this.panel3.TabIndex = 118;
+        this.NitrogenPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+        this.NitrogenPanel.Controls.Add(this.label63);
+        this.NitrogenPanel.Controls.Add(this.label44);
+        this.NitrogenPanel.Controls.Add(this.nitrateEfficiency);
+        this.NitrogenPanel.Controls.Add(this.label34);
+        this.NitrogenPanel.Controls.Add(this.label51);
+        this.NitrogenPanel.Controls.Add(this.endSoilNitrate);
+        this.NitrogenPanel.Controls.Add(this.label49);
+        this.NitrogenPanel.Controls.Add(this.label48);
+        this.NitrogenPanel.Controls.Add(this.startSoilNitrate);
+        this.NitrogenPanel.Controls.Add(this.label46);
+        this.NitrogenPanel.Controls.Add(this.label27);
+        this.NitrogenPanel.Controls.Add(this.gainNitrate);
+        this.NitrogenPanel.Controls.Add(this.label25);
+        this.NitrogenPanel.Location = new System.Drawing.Point(161, 14);
+        this.NitrogenPanel.Name = "NitrogenPanel";
+        this.NitrogenPanel.Size = new System.Drawing.Size(184, 99);
+        this.NitrogenPanel.TabIndex = 118;
         // 
         // label63
         // 
@@ -4014,38 +4005,38 @@ namespace APSRU.Howwet
         this.label25.TabIndex = 104;
         this.label25.Text = "Gain in soil nitrogen:";
         // 
-        // panel2
+        // WaterPanel
         // 
-        this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-        this.panel2.Controls.Add(this.label43);
-        this.panel2.Controls.Add(this.drainage);
-        this.panel2.Controls.Add(this.label2);
-        this.panel2.Controls.Add(this.label57);
-        this.panel2.Controls.Add(this.gainSoilWater);
-        this.panel2.Controls.Add(this.label55);
-        this.panel2.Controls.Add(this.label53);
-        this.panel2.Controls.Add(this.startSoilWater);
-        this.panel2.Controls.Add(this.label54);
-        this.panel2.Controls.Add(this.endSoilWater);
-        this.panel2.Controls.Add(this.label52);
-        this.panel2.Controls.Add(this.label38);
-        this.panel2.Controls.Add(this.label47);
-        this.panel2.Controls.Add(this.waterEfficiency);
-        this.panel2.Controls.Add(this.label32);
-        this.panel2.Controls.Add(this.label41);
-        this.panel2.Controls.Add(this.label40);
-        this.panel2.Controls.Add(this.label39);
-        this.panel2.Controls.Add(this.fallowRunoff);
-        this.panel2.Controls.Add(this.label35);
-        this.panel2.Controls.Add(this.fallowEvaporation);
-        this.panel2.Controls.Add(this.label33);
-        this.panel2.Controls.Add(this.fallowRainfall);
-        this.panel2.Controls.Add(this.label28);
-        this.panel2.Controls.Add(this.label62);
-        this.panel2.Location = new System.Drawing.Point(6, 14);
-        this.panel2.Name = "panel2";
-        this.panel2.Size = new System.Drawing.Size(154, 145);
-        this.panel2.TabIndex = 117;
+        this.WaterPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+        this.WaterPanel.Controls.Add(this.label43);
+        this.WaterPanel.Controls.Add(this.drainage);
+        this.WaterPanel.Controls.Add(this.label2);
+        this.WaterPanel.Controls.Add(this.label57);
+        this.WaterPanel.Controls.Add(this.gainSoilWater);
+        this.WaterPanel.Controls.Add(this.label55);
+        this.WaterPanel.Controls.Add(this.label53);
+        this.WaterPanel.Controls.Add(this.startSoilWater);
+        this.WaterPanel.Controls.Add(this.label54);
+        this.WaterPanel.Controls.Add(this.endSoilWater);
+        this.WaterPanel.Controls.Add(this.label52);
+        this.WaterPanel.Controls.Add(this.label38);
+        this.WaterPanel.Controls.Add(this.label47);
+        this.WaterPanel.Controls.Add(this.waterEfficiency);
+        this.WaterPanel.Controls.Add(this.label32);
+        this.WaterPanel.Controls.Add(this.label41);
+        this.WaterPanel.Controls.Add(this.label40);
+        this.WaterPanel.Controls.Add(this.label39);
+        this.WaterPanel.Controls.Add(this.fallowRunoff);
+        this.WaterPanel.Controls.Add(this.label35);
+        this.WaterPanel.Controls.Add(this.fallowEvaporation);
+        this.WaterPanel.Controls.Add(this.label33);
+        this.WaterPanel.Controls.Add(this.fallowRainfall);
+        this.WaterPanel.Controls.Add(this.label28);
+        this.WaterPanel.Controls.Add(this.label62);
+        this.WaterPanel.Location = new System.Drawing.Point(6, 14);
+        this.WaterPanel.Name = "WaterPanel";
+        this.WaterPanel.Size = new System.Drawing.Size(154, 145);
+        this.WaterPanel.TabIndex = 117;
         // 
         // label43
         // 
@@ -4273,20 +4264,20 @@ namespace APSRU.Howwet
         this.label62.TabIndex = 102;
         this.label62.Text = "Soil Water";
         // 
-        // panel1
+        // CoverPanel
         // 
-        this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-        this.panel1.Controls.Add(this.label65);
-        this.panel1.Controls.Add(this.label66);
-        this.panel1.Controls.Add(this.label71);
-        this.panel1.Controls.Add(this.label69);
-        this.panel1.Controls.Add(this.endCover);
-        this.panel1.Controls.Add(this.startingCover);
-        this.panel1.Controls.Add(this.label68);
-        this.panel1.Location = new System.Drawing.Point(6, 160);
-        this.panel1.Name = "panel1";
-        this.panel1.Size = new System.Drawing.Size(154, 54);
-        this.panel1.TabIndex = 113;
+        this.CoverPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+        this.CoverPanel.Controls.Add(this.label65);
+        this.CoverPanel.Controls.Add(this.label66);
+        this.CoverPanel.Controls.Add(this.label71);
+        this.CoverPanel.Controls.Add(this.label69);
+        this.CoverPanel.Controls.Add(this.endCover);
+        this.CoverPanel.Controls.Add(this.startingCover);
+        this.CoverPanel.Controls.Add(this.label68);
+        this.CoverPanel.Location = new System.Drawing.Point(6, 160);
+        this.CoverPanel.Name = "CoverPanel";
+        this.CoverPanel.Size = new System.Drawing.Size(154, 54);
+        this.CoverPanel.TabIndex = 113;
         // 
         // label65
         // 
@@ -4385,7 +4376,7 @@ namespace APSRU.Howwet
             this.toolStripSeparator5});
         this.toolStrip1.Location = new System.Drawing.Point(3, 0);
         this.toolStrip1.Name = "toolStrip1";
-        this.toolStrip1.Size = new System.Drawing.Size(1013, 36);
+        this.toolStrip1.Size = new System.Drawing.Size(990, 36);
         this.toolStrip1.TabIndex = 40;
         this.toolStrip1.Text = "toolStrip1";
         // 
@@ -4606,8 +4597,7 @@ namespace APSRU.Howwet
         // toolStripStatusLabel1
         // 
         this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-        this.toolStripStatusLabel1.Size = new System.Drawing.Size(109, 17);
-        this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+        this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
         // 
         // ProgressBar1
         // 
@@ -4638,6 +4628,19 @@ namespace APSRU.Howwet
         this.TrainingModeCheckBox.UseVisualStyleBackColor = true;
         this.TrainingModeCheckBox.CheckedChanged += new System.EventHandler(this.TrainingModeCheckBox_CheckedChanged);
         // 
+        // helpProvider1
+        // 
+        this.helpProvider1.HelpNamespace = "C:\\Development\\Howwetv2\\Help\\HowwetHelp.htm";
+        // 
+        // version
+        // 
+        this.version.AutoSize = true;
+        this.version.Location = new System.Drawing.Point(275, 14);
+        this.version.Name = "version";
+        this.version.Size = new System.Drawing.Size(41, 13);
+        this.version.TabIndex = 55;
+        this.version.Text = "version";
+        // 
         // Main
         // 
         this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4660,17 +4663,17 @@ namespace APSRU.Howwet
         this.groupBox9.PerformLayout();
         this.tabControl1.ResumeLayout(false);
         this.groupBox5.ResumeLayout(false);
-        this.panel5.ResumeLayout(false);
-        this.panel5.PerformLayout();
+        this.NRequirementPanel.ResumeLayout(false);
+        this.NRequirementPanel.PerformLayout();
         ((System.ComponentModel.ISupportInitialize)(this.daystoMaturityUpDown)).EndInit();
-        this.panel4.ResumeLayout(false);
-        this.panel4.PerformLayout();
-        this.panel3.ResumeLayout(false);
-        this.panel3.PerformLayout();
-        this.panel2.ResumeLayout(false);
-        this.panel2.PerformLayout();
-        this.panel1.ResumeLayout(false);
-        this.panel1.PerformLayout();
+        this.PawPanel.ResumeLayout(false);
+        this.PawPanel.PerformLayout();
+        this.NitrogenPanel.ResumeLayout(false);
+        this.NitrogenPanel.PerformLayout();
+        this.WaterPanel.ResumeLayout(false);
+        this.WaterPanel.PerformLayout();
+        this.CoverPanel.ResumeLayout(false);
+        this.CoverPanel.PerformLayout();
         this.toolStrip1.ResumeLayout(false);
         this.toolStrip1.PerformLayout();
         this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
@@ -4773,7 +4776,6 @@ namespace APSRU.Howwet
         private System.Windows.Forms.ToolStripTextBox txtMetFile;
         private System.Windows.Forms.ToolStripButton browseMetButton;
         private System.Windows.Forms.ToolStripButton editRainfallButton;
-        private System.Windows.Forms.Label label36;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
@@ -4821,8 +4823,8 @@ namespace APSRU.Howwet
         private System.Windows.Forms.Label label66;
         private System.Windows.Forms.Label label65;
         private System.Windows.Forms.Label label64;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel CoverPanel;
+        private System.Windows.Forms.Panel WaterPanel;
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.Label drainage;
         private System.Windows.Forms.Label label2;
@@ -4847,7 +4849,7 @@ namespace APSRU.Howwet
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label fallowRainfall;
         private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel NitrogenPanel;
         private System.Windows.Forms.Label label63;
         private System.Windows.Forms.Label label44;
         private System.Windows.Forms.Label nitrateEfficiency;
@@ -4864,10 +4866,11 @@ namespace APSRU.Howwet
         private System.Windows.Forms.Label label76;
         private System.Windows.Forms.NumericUpDown daystoMaturityUpDown;
         private System.Windows.Forms.HelpProvider helpProvider1;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Panel NRequirementPanel;
+        private System.Windows.Forms.Panel PawPanel;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label50;
+        private System.Windows.Forms.Label version;
         
 
     }
