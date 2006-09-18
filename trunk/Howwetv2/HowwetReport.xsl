@@ -72,7 +72,7 @@
   </tr>
 </table>
 <p>&nbsp;</p>
-<p align="center"><img src="../../Robert/Data/RainfallSWChart.gif" alt="Rainfall Soil Water Chart" width="998" height="400" /></p>
+<p align="center"><img src="RainfallSWChart.gif" alt="Rainfall Soil Water Chart" width="998" height="400" /></p>
 <hr />
 <p>&nbsp;</p>
 </body>
