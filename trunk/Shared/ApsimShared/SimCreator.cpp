@@ -128,9 +128,9 @@ void SimCreator::ConToSimInternal(const std::string& controlFileName,
 
       out << "<?xml version=\"1.0\"?>\n";
 #ifdef __WIN32__
-      out << "<simulation executable=\""+ getApsimDirectory() +"\\apsim\\protocolmanager\\lib\\protocolmanager.dll\" version=\"" << getApsimVersion() <<  "\">\n";
+      out << "<simulation executable=\"%apsuite\\apsim\\protocolmanager\\lib\\protocolmanager.dll\" version=\"" << getApsimVersion() <<  "\">\n";
 #else
-      out << "<simulation executable=\""+ getApsimDirectory() +"/apsim/ProtocolManager/lib/libProtocolManager.so\" version=\"" << getApsimVersion() <<  "\">\n";
+      out << "<simulation executable=\"%apsuite/apsim/ProtocolManager/lib/libProtocolManager.so\" version=\"" << getApsimVersion() <<  "\">\n";
 #endif
       out << "   <title>";
       string Title = con.getTitle(sectionNames[s]);
