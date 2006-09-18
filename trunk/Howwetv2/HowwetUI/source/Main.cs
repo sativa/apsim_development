@@ -73,9 +73,10 @@ namespace APSRU.Howwet
 
         private void resetSimulationValues()
             {
-            toolStripStatusLabel1.Text = "Select a Soil";
+          //  toolStripStatusLabel1.Text = "Select a Soil";
             util = new HowwetUtility(Application.ExecutablePath, howwetSetupFileName);
             config = new HowwetConfiguration(util.ApplicationDirectory +  howwetSetupFileName);
+            version.Text=config.Version;
             if (this.selectedFileName == "")
                 {
                 simulationObject = new SimulationIn(util.ReadTemplateFile(util.ApplicationDirectory + "\\howwetv2\\" + config.TemplateFileName));
@@ -93,6 +94,7 @@ namespace APSRU.Howwet
                 simulationObject = new SimulationIn(apsimDataObject);
                 resetFormValues();
                 }
+            
             }
 
         private void loadDefaultSoilFile()
@@ -102,20 +104,18 @@ namespace APSRU.Howwet
                 {
                 soilFileName.Text = fileInfo.Name;
                 this.soilsFileName = fileInfo.FullName;
-                toolStripStatusLabel1.Text = "Select a Soil";
+              //  toolStripStatusLabel1.Text = "Select a Soil";
                 toolTip1.Show("tes", this, 1000);
                 }
             else
                 {
                 soilFileName.Text = "<Select a Soil file>";
-                toolStripStatusLabel1.Text = "Select a Soil file";
+             //   toolStripStatusLabel1.Text = "Select a Soil file";
                 }
             }
         private void resetFormValues()
             {
             TrainingModeCheckBox.Checked = config.TrainingMode;
-
-            //setup default values on form
             this.Text = simulationObject.FileName;
             tabControl1.Visible = false;
             RainfallSWChart.Visible = false;
@@ -123,6 +123,13 @@ namespace APSRU.Howwet
             ErosionChart.Visible = false;
             LTRainfallChart.Visible = false;
             ProfileChart.Visible = false;
+            ReportButton.Enabled = false;
+            WaterPanel.Visible = false;
+            CoverPanel.Visible = false;
+            NitrogenPanel.Visible = false;
+            PawPanel.Visible = false;
+            NRequirementPanel.Visible = false;
+
             label61.Visible = false;
             //check if simluationObject has a soil
             if (!(simulationObject.Soil == null))
@@ -190,7 +197,7 @@ namespace APSRU.Howwet
             coverPercent.Maximum = 99;
             coverPercent.Minimum = 0;
             coverPercent.Value = 30;
-            toolStripStatusLabel1.Text = "Select a Met file";
+          //  toolStripStatusLabel1.Text = "Select a Met file";
             }
 
         private void updateFormMetValues()
@@ -211,7 +218,7 @@ namespace APSRU.Howwet
                 }
             EndDatePicker.MaxDate = metObject.EndDate;
             EndDatePicker.Value = metObject.EndDate;
-            toolStripStatusLabel1.Text = "Check soil Water and Nitrogen values are correct, then run the simulation";
+          //  toolStripStatusLabel1.Text = "Check soil Water and Nitrogen values are correct, then run the simulation";
             }
 
         private void clearFormMetValues()
@@ -725,7 +732,6 @@ namespace APSRU.Howwet
             String selectedCrop = (String)coverCropList.SelectedItem;
             CoverCrop crop = util.GetCrop(coverCrops, selectedCrop);
             simulationObject.SOMMass = Convert.ToString(util.ConvertCoverPercentToKg(percent / 100, crop.SpecificArea));
-            label36.Text = String.Format("{0:##.##}",simulationObject.SOMMass);
             }
 
         private void editRainfallButton_Click(object sender, EventArgs e)
@@ -809,20 +815,11 @@ namespace APSRU.Howwet
         //************
         private void calculateNitrogenRequirement()
             {
-            double totalWater = (result.calcPAWEnd(cLL) + Convert.ToDouble(inCropRainfall.Text)) - Convert.ToDouble(thresholdWater.Text);
-            double expectedYield = (totalWater * Convert.ToDouble(WUE.Text)) / 1000;
+            double expectedYield = result.calcYield(Convert.ToDouble(inCropRainfall.Text), Convert.ToDouble(thresholdWater.Text), Convert.ToDouble(WUE.Text));
             cropYield.Text = String.Format("{0:##.##}", expectedYield);
-            float grainProtein;
-            grainProtein = 11.5F;
-            float efficiencyOfNUptake;
-            efficiencyOfNUptake = 1.7F;
-            float fractionOfNinProtein;
-            fractionOfNinProtein = (10F / 5.7F);
-            float nDemand;
-            nDemand = ((float)expectedYield * grainProtein * fractionOfNinProtein) * efficiencyOfNUptake;
+            double nDemand=result.calcNitrogenDemand();
             nitrateDemand.Text = String.Format("{0:##.##}", nDemand);
-            float nGap;
-            nGap = nDemand - (float)result.nitrateEnd;
+            double nGap=result.calcNitrogenGap();
             nitrateGap.Text = nGap.ToString("f0");
             }
         private void NRequirement_Leave(object sender, EventArgs e)
@@ -880,13 +877,6 @@ namespace APSRU.Howwet
 
          private void ShowGraph()
             {
-            tabControl1.Visible = true;
-            tabControl1.SelectedIndex = 0;
-            RainfallSWChart.Visible = true;
-            SoilNitrogenChart.Visible = false;
-            ErosionChart.Visible = false;
-            LTRainfallChart.Visible = false;
-            ProfileChart.Visible = false;
             try
                 {
                 RainfallBar.Clear();
@@ -907,6 +897,8 @@ namespace APSRU.Howwet
                 outputObject = new SimulationOut(simulationObject);
                 result = new Results();
                 result.loadResults(simulationObject,outputObject);
+                result.softwareVersion = config.Version;
+                result.ReportDate = DateTime.Today.Date + "/" + DateTime.Today.Month + "/" + DateTime.Today.Year;
                 //output summary results
                 //water
                 startSoilWater.Text = result.soilWaterStart.ToString("f0");
@@ -969,7 +961,7 @@ namespace APSRU.Howwet
                 double maxRainfallSW = 0, minRainfallSW = 0, maxSW = 0, minSW = 10000;
                 double maxNitrate = 0, minNitrate = 10000, maxSurfaceMoisture = 0, minSurfaceMoisture = 10000, maxMaxTemp = 0, minMaxTemp = 10000; ;
                 double maxSoilLoss = 0, minSoilLoss = 0, maxRunoff = 0, minRunoff = 0;
-                double maxLTRainfall = 0, minLTRainfall = 0, maxLTAvRainfall = 0, minLTAvRainfall = 0;
+                double maxLTRainfall = 0, minLTRainfall = 0;
                 
                 if (config.TrainingMode)
                     {
@@ -1111,6 +1103,20 @@ namespace APSRU.Howwet
                 ProfileLL15Line.Add(simulationObject.Soil.LL15, simulationObject.Soil.CumThickness);
                 ProfileSWLine.Add(result.soilWaterEndByLayer, simulationObject.Soil.CumThickness);
                 ProfileDULLine.Add(simulationObject.Soil.DUL, simulationObject.Soil.CumThickness);
+                //make everthing visable;
+                tabControl1.Visible = true;
+                tabControl1.SelectedIndex = 0;
+                RainfallSWChart.Visible = true;
+                SoilNitrogenChart.Visible = false;
+                ErosionChart.Visible = false;
+                LTRainfallChart.Visible = false;
+                ProfileChart.Visible = false;
+                WaterPanel.Visible = true;
+                CoverPanel.Visible = true;
+                NitrogenPanel.Visible = true;
+                PawPanel.Visible = true;
+                NRequirementPanel.Visible = true;
+                ReportButton.Enabled = true;
                 }
             catch (CustomException err)
                 {
