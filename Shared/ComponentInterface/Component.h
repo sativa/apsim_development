@@ -71,7 +71,7 @@ class EXPORT baseInfo {
       myLength = 0;  myIsArray = false;
       myType = protocol::DTunknown;
       };
-   ~baseInfo() {};
+   virtual ~baseInfo() {};
    virtual void sendVariable(Component *, QueryValueData&) = 0;
    virtual std::string getXML();
    std::string name(void) {return myName;};
@@ -517,7 +517,7 @@ class EXPORT Component
              }
           }
        // remove any Units specifier "(..)":
-       int posBracket = valueString.find('(');
+       unsigned int posBracket = valueString.find('(');
        if (posBracket != std::string::npos)
          valueString = valueString.substr(0,posBracket);
 

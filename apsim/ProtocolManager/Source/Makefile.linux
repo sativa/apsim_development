@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
-LIB=	../lib/libProtocolManager.so
+LIB=	../lib/ProtocolManager.so
 
 SRC=	ComponentAlias.cpp		\
 	Coordinator.cpp			\
@@ -21,13 +21,13 @@ OBJ=	ComponentAlias.o		\
 CC=		/usr/bin/gcc
 CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
 		-I$(APSROOT)/Shared				\
-		-Wno-deprecated -fpermissive -fPIC
+		-Wno-deprecated -fpermissive -fPIC $(CPPDEBUGFLAGS)
 
 #-----------------------------------------------------------------------
 # Required libraries
 
 LDFLAGS=	-L/usr/lib 		\
-		-L$(APSROOT)/lib
+		-L$(APSROOT)/lib $(LDDEBUGFLAGS)
 
 LIBS=		-lComponentInterface	\
 		-lprotocol		\
@@ -44,6 +44,8 @@ $(LIB):	$(OBJ)
 	$(CC) -shared -o $(LIB) $(OBJ) $(LDFLAGS) $(LIBS)
 
 FORCE:
+
+install: all
 
 clean:
 	rm -f *.o *.mod

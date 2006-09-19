@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
-LIB=	../lib/libTracker.so
+LIB=	../lib/Tracker.so
 
 SRC=	TrackerComponent.cpp	\
 	TrackerVariable.cpp
@@ -19,14 +19,14 @@ CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
 		-I$(APSROOT)/Shared				\
 		-I$(APSROOT)/Shared/ComponentInterface		\
 		-Wno-deprecated 				\
-		-fpermissive -fPIC -D_NO_VCL
+		-fpermissive -fPIC -D_NO_VCL  $(CPPDEBUGFLAGS)
 
 
 #-----------------------------------------------------------------------
 # Required libraries
 
 LDFLAGS=	-L/usr/lib		\
-		-L$(APSROOT)/lib
+		-L$(APSROOT)/lib $(LDDEBUGFLAGS)
 
 LIBS=		-lComponentInterface	\
 		-lprotocol		\
@@ -46,8 +46,10 @@ $(LIB):	$(OBJ)
 
 FORCE:
 
+install: all
+
 clean:
-	rm -f *.o *.mod
+	rm -f *.o
 
 clobber:	clean
 	rm -f $(LIB)

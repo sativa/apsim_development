@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
-LIB=	../lib/libsoiln2.so
+LIB=	../lib/soiln2.so
 
 SRC=	Registrations.f90	\
 	soiln2.f90
@@ -12,6 +12,7 @@ SRC=	Registrations.f90	\
 STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
             ../../../Shared/ComponentInterface/EntryPoints.o   \
             ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o   \
+            ../../../Shared/ComponentInterface/FORTRANdatatypes.o   \
             ../../../Shared/ComponentInterface/datatypes.o
 
 OBJ=	Registrations.o		\
@@ -23,7 +24,7 @@ OBJ=	Registrations.o		\
 
 FC=		lf95
 CPPFLAGS=	-I$(APSROOT)/apsim/infra/source		\
-		-M. -M$(APSROOT)/apsim/infra/source
+		-M. -M$(APSROOT)/apsim/infra/source $(CPPDEBUGFLAGS)
 FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
 		--ml cdecl --staticlink
 
@@ -32,7 +33,7 @@ FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
 
 LDFLAGS=	-L$(APSROOT)/lib		\
 		-L$(APSROOT)/apsim/infra/lib	 \
-		-L/usr/lib
+		-L/usr/lib $(LDDEBUGFLAGS)
 
 LIBS=		-lComponentInterface -lapsinfra -lc
 
@@ -53,7 +54,6 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
-	cp $(LIB) $(APSROOT)/lib
 
 %.o:	%.for
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
@@ -64,4 +64,4 @@ install: all
 
 Registrations.o: Registrations.f90
 Registrations.f90: ../soiln2.interface 
-	$(APSROOT)/bin/CreateComponentInterfaceSource ../soiln2.interface
+	$(APSROOT)/Bin/CreateComponentInterfaceSource ../soiln2.interface

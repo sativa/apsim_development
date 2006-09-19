@@ -53,12 +53,12 @@ struct ParamFile
          }
       else
          {
-#ifdef __WIN32__
-         dllFileName = "%apsuite\\apsim\\" + moduleName + "\\lib\\"
-                     + moduleName + ".dll";
-#else
          dllFileName = "%apsuite/apsim/" + moduleName + "/lib/"
-                     + moduleName + ".so";
+                     + moduleName + 
+#ifdef __WIN32__
+                     ".dll";
+#else
+                     ".so";
 #endif
          }
       }

@@ -1,13 +1,18 @@
 // Ugliness mostly due to inability to include tk.h into apsim framework..
 
+#ifdef __WIN32__
 #include <windows.h>
+#endif
+
 #include <tcl.h>
 #include <tk.h>
 #include <stdexcept>
 
+#ifdef __WIN32__
 extern "C" void TclWinInit(HINSTANCE);
 extern "C" void TkWinXCleanup(HINSTANCE);
 extern "C" void TkWinXInit(HINSTANCE);
+#endif
 
 extern int apsimGetProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
 extern int apsimSetProc(ClientData , Tcl_Interp *, int , Tcl_Obj * CONST []);
@@ -54,10 +59,24 @@ Tcl_Interp *NewInterp (Tcl_Interp *topLevel, ClientData cd, const char *interpNa
    Tcl_SetVar(interp, "tcl_interactive", "0", TCL_GLOBAL_ONLY);
    Tcl_DStringFree(&argString);
 
-   if (Tcl_Init(interp) != TCL_OK) {MessageBox(0, interp->result, "Error in Tcl Startup", MB_ICONSTOP); return NULL;}
+   if (Tcl_Init(interp) != TCL_OK) {
+#ifdef __WIN32__
+      MessageBox(0, interp->result, "Error in Tcl Startup", MB_ICONSTOP); 
+#else
+      fprintf(stderr, "Error in Tcl Startup\n%s", interp->result);
+#endif
+      return NULL;
+   }
 
    Tcl_StaticPackage(interp, "Tk", Tk_Init, Tk_SafeInit);
-   if (Tk_Init(interp) != TCL_OK) {MessageBox(0, interp->result, "Error in Tk Startup", MB_ICONSTOP); return NULL;}
+   if (Tk_Init(interp) != TCL_OK) {
+#ifdef __WIN32__
+      MessageBox(0, interp->result, "Error in Tk Startup", MB_ICONSTOP); 
+#else
+      fprintf(stderr, "Error in Tk Startup\n%s", interp->result);
+#endif
+      return NULL;
+   }
 
    Tcl_CreateObjCommand(interp, "apsimGet", apsimGetProc, cd, NULL);
    Tcl_CreateObjCommand(interp, "apsimSet", apsimSetProc, cd, NULL);

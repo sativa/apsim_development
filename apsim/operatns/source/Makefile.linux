@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
-LIB=	../lib/liboperatns.so
+LIB=	../lib/operatns.so
 
 SRC=	Registrations.f90	\
 	operatns.for
@@ -23,7 +23,7 @@ OBJ=	Registrations.o		\
 
 FC=		lf95
 CPPFLAGS=	-I$(APSROOT)/apsim/infra/source		\
-		-M. -M$(APSROOT)/apsim/infra/source
+		-M. -M$(APSROOT)/apsim/infra/source $(CPPDEBUGFLAGS)
 FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
 		--ml cdecl --staticlink
 
@@ -32,7 +32,7 @@ FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
 
 LDFLAGS=	-L$(APSROOT)/lib		\
 		-L$(APSROOT)/apsim/infra/lib	 \
-		-L/usr/lib
+		-L/usr/lib $(LDDEBUGFLAGS)
 
 LIBS=		-lComponentInterface -lapsinfra -lc
 
@@ -53,7 +53,6 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
-	cp $(LIB) $(APSROOT)/lib
 
 %.o:	%.for
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
@@ -65,4 +64,4 @@ install: all
 
 Registrations.o: Registrations.f90
 Registrations.f90: ../operatns.interface 
-	$(APSROOT)/bin/CreateComponentInterfaceSource ../operatns.interface
+	$(APSROOT)/Bin/CreateComponentInterfaceSource ../operatns.interface

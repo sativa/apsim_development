@@ -242,7 +242,6 @@ void Coordinator::addComponent(const string& compName,
    if (Str_i_Eq(compName, "clock"))
       sequencerID = childID;
 
-
    ComponentAlias* componentAlias = new ComponentAlias
          (compName,
           compExecutable,

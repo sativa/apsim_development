@@ -21,7 +21,6 @@ SRC=	date_class.cpp		\
 
 #	exec.cpp		\
 #	general.cpp		\
-#	IniFile.cpp		\
 #	http.cpp
 
 OBJ=	$(SRC:.cpp=.o)
@@ -32,12 +31,12 @@ OBJ=	$(SRC:.cpp=.o)
 CC=		   /usr/bin/gcc
 CPPFLAGS=	-I/usr/include/boost -I$(APSROOT)/Shared 	\
 		      -I/usr/include/libxml2				\
-		      -Wno-deprecated -fpermissive -fPIC
+		      -Wno-deprecated -fpermissive -fPIC $(CPPDEBUGFLAGS)
 
 #-----------------------------------------------------------------------
 # Required libraries
 
-LDFLAGS=	-L/usr/lib
+LDFLAGS=	-L/usr/lib $(LDDEBUGFLAGS)
 
 LIBS=		-lxml2 -lboost_filesystem -libiberty
 

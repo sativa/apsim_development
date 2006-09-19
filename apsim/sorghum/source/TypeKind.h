@@ -2,7 +2,7 @@
 #define TYPEKIND_H_
 
 
-static const char* nullType =         "<type\>";
+static const char* nullType =         "<type/>";
 static const char* integerType =      "<type kind=\"integer4\"/>";
 static const char* integerArrayType = "<type kind=\"integer4\" array=\"T\"/>";
 static const char* floatType =        "<type kind=\"single\"/>";
@@ -14,3 +14,4 @@ static const char* stringArrayType =  "<type kind=\"string\" array=\"T\"/>";
 static const char* logicalType =      "<type kind=\"boolean\"/>";
 
 #endif
+

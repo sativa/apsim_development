@@ -3,8 +3,8 @@ version = 5.2
 
 
 title=Test of clock module
-module = clock report.par[test] %apsuite\apsim\clock\clock.ini[standard]
+module = clock report.par[test] %apsuite/apsim/clock/clock.ini[standard]
 module = report report.par[general] report.par[input] report.par[met]
-module = input(met) %apsuite\apsim\met\sample\dalby.met[weather]
+module = input(met) %apsuite/apsim/met/sample/dalby.met[weather]
 module = manager test.man[test]
 module = SummaryFile  report.par[test]

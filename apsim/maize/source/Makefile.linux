@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
-LIB=	../lib/libmaize.so
+LIB=	../lib/maize.so
 
 SRC=	Registrations.f90	\
 	maize.f90
@@ -12,6 +12,7 @@ SRC=	Registrations.f90	\
 STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
             ../../../Shared/ComponentInterface/EntryPoints.o   \
             ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o   \
+            ../../../Shared/ComponentInterface/FORTRANdatatypes.o   \
             ../../../Shared/ComponentInterface/datatypes.o
 
 OBJ=	Registrations.o		\
@@ -24,7 +25,7 @@ OBJ=	Registrations.o		\
 FC=		lf95
 CPPFLAGS=	-I$(APSROOT)/apsim/infra/source		\
 		-I$(APSROOT)/apsim/croptemp/source	\
-		-I$(APSROOT)/apsim/CropMod/source
+		-I$(APSROOT)/apsim/CropMod/source $(CPPDEBUGFLAGS)
 FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
 		--ml cdecl --staticlink
 
@@ -34,7 +35,7 @@ FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
 LDFLAGS=	-L$(APSROOT)/lib		\
 		-L$(APSROOT)/apsim/infra/lib	\
 		-L$(APSROOT)/apsim/croptemp/lib	\
-		-L/usr/lib
+		-L/usr/lib $(LDDEBUGFLAGS)
 
 LIBS=		-lComponentInterface 		\
 		-lapsinfra 			\
@@ -58,7 +59,6 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
-	cp $(LIB) $(APSROOT)/lib
 
 %.o:	%.for
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
@@ -68,4 +68,4 @@ install: all
 
 Registrations.o: Registrations.f90
 Registrations.f90: ../maize.interface 
-	$(APSROOT)/bin/CreateComponentInterfaceSource ../maize.interface
+	$(APSROOT)/Bin/CreateComponentInterfaceSource ../maize.interface

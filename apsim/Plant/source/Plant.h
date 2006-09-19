@@ -1,4 +1,4 @@
- #ifndef PLANT_H_
+#ifndef PLANT_H_
 #define PLANT_H_
 
 class ApsimVariant;
@@ -35,6 +35,8 @@ typedef std::map<unsigned, string>      UInt2StringMap;
 
 //      crop status names
 typedef enum {out, dead, alive} status_t;
+
+typedef enum {photosynthetic_pathway_UNDEF, photosynthetic_pathway_C3, photosynthetic_pathway_C4} photosynthetic_pathway_t;
 
 //      Process names used for stress
 // photosynthesis flag
@@ -318,8 +320,7 @@ public:
                               , double  stress_factor
                               , float  *dlt_dm_pot);
 
-   void plant_rue_co2_modifier(photosynthetic_pathway_t,  //!please use 'C3' or 'C4' for crop_type
-                               float co2,                 //!CO2 level (ppm)
+   void plant_rue_co2_modifier(float co2,                 //!CO2 level (ppm)
                                float maxt,                //!daily max temp (C)
                                float mint,                //!daily min temp (C)
                                float *modifier);          //!modifier (-)
@@ -429,7 +430,6 @@ public:
    void get_plants(protocol::Component *, protocol::QueryValueData &);
    float getPlants(void) const;
    float getCo2(void) const;
-   photosynthetic_pathway_t getPhotosynthetic_pathway(void) const;
    //  float getRadnInterceptedPod(void) const;
    float getDltDMPotRueVeg(void) const;
    float getDmGreenVeg(void) const;

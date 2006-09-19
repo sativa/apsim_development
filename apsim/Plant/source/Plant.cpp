@@ -2495,8 +2495,7 @@ void Plant::plant_dm_pot_rue_veg (externalFunction *c_rue
 
 void Plant::plant_co2_modifier_rue(void)
 {
-  plant_rue_co2_modifier(c.photosynthetic_pathway,
-                         g.co2,
+  plant_rue_co2_modifier(g.co2,
                          Environment.maxt,
                          Environment.mint,
                          &g.co2_modifier_rue);
@@ -2525,8 +2524,7 @@ void Plant::plant_vpd (float c_svp_fract, float g_maxt, float g_mint)
 
 
 //==========================================================================
-void Plant::plant_rue_co2_modifier(photosynthetic_pathway_t croptype, // Photosynthetic pathway
-                                   float co2,                 //!CO2 level (ppm)
+void Plant::plant_rue_co2_modifier(float co2,                 //!CO2 level (ppm)
                                    float maxt,                //!daily max temp (C)
                                    float mint,                //!daily min temp (C)
                                    float *modifier)           //!modifier (-)
@@ -2553,29 +2551,21 @@ void Plant::plant_rue_co2_modifier(photosynthetic_pathway_t croptype, // Photosy
       float second;           // expecting a pointer
 
    // Implementation Section ----------------------------------
-
-   switch (croptype)
+   if (c.photosynthetic_pathway == photosynthetic_pathway_C3) 
       {
-      pw_C3:
-        {
-        temp = 0.5*( maxt + mint);
-        TT  = divide(163.0 - temp, 5.0 - 0.1 * temp, 0.0);
+      temp = 0.5*( maxt + mint);
+      TT  = divide(163.0 - temp, 5.0 - 0.1 * temp, 0.0);
 
-        first = (co2 - TT) * (350.0 + 2.0 * TT);
-        second = (co2 + 2.0 * TT)*(350.0 - TT);
-        *modifier = divide( first, second, 1.0);
-        break;
-        }
-      pw_C4:
-        {
-        *modifier = 0.000143 * co2 + 0.95; //Mark Howden, personal communication
-        break;
-        }
-      default:
-        {
-        throw std::invalid_argument ("Unknown photosynthetic pathway in cproc_rue_co2_modifier()");
-        }
+      first = (co2 - TT) * (350.0 + 2.0 * TT);
+      second = (co2 + 2.0 * TT)*(350.0 - TT);
+      *modifier = divide( first, second, 1.0);
       }
+    else if (c.photosynthetic_pathway == photosynthetic_pathway_C4)
+      {
+      *modifier = 0.000143 * co2 + 0.95; //Mark Howden, personal communication
+      }
+    else  
+      throw std::invalid_argument ("Unknown photosynthetic pathway in cproc_rue_co2_modifier()");
    }
 
 //+  Purpose
@@ -4172,7 +4162,7 @@ void Plant::plant_zero_all_globals (void)
       fill_real_array (c.y_co2_nconc_modifier, 0.0, max_table);
       c.num_co2_nconc_modifier = 0;
 
-      c.photosynthetic_pathway = pw_UNDEF;
+      c.photosynthetic_pathway = photosynthetic_pathway_UNDEF;
 
     pop_routine (my_name);
     return;
@@ -5617,12 +5607,16 @@ void Plant::plant_read_species_const ()
 
     string pathway = parent->readParameter (search_order, "photosynthetic_pathway");
     if (Str_i_Eq(pathway.c_str(), "C3")) {
-      c.photosynthetic_pathway = pw_C3;
+      c.photosynthetic_pathway = photosynthetic_pathway_C3;
+      printf("C3 photosynthetic_pathway read=%d\n", c.photosynthetic_pathway);
     } else if(Str_i_Eq(pathway.c_str(), "C4")) {
-      c.photosynthetic_pathway = pw_C4;
+      c.photosynthetic_pathway = photosynthetic_pathway_C4;
+      printf("C4 photosynthetic_pathway read=%d\n", c.photosynthetic_pathway);
     } else {
-      c.photosynthetic_pathway = pw_UNDEF;
+      c.photosynthetic_pathway = photosynthetic_pathway_UNDEF;
+      printf("undefined photosynthetic_pathway read!!!!\n");
     }
+    printf("photosynthetic_pathway =%d\n", c.photosynthetic_pathway);
 
     pop_routine (my_name);
     }
@@ -6678,7 +6672,6 @@ float Plant::getStageCode(void) const {return phenology->stageCode();}
 float Plant::getStageNumber(void) const {return phenology->stageNumber();}
 float Plant::getPlants(void) const {return g.plants;}
 float Plant::getCo2(void) const {return g.co2;}
-photosynthetic_pathway_t Plant::getPhotosynthetic_pathway(void) const {return c.photosynthetic_pathway;}
 //float Plant::getRadnInterceptedPod(void) const {return g.radn_int_pod;}
 float Plant::getDltDMPotRueVeg(void) const {return g.dlt_dm_pot_rue - fruitPart->dltDmPotRue();}
 float Plant::getDmGreenVeg(void) const {return (leafPart->dmGreen() + stemPart->dmGreen());}

@@ -4,7 +4,7 @@
 #define OOStemH
 
 #include "OOPlantComponents.h"
-#include "utilities.h"
+#include "Utilities.h"
 //------------------------------------------------------------------------------------------------
 
 class Stem : public PlantPart

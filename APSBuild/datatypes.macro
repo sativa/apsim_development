@@ -11,10 +11,12 @@
 #include <ComponentInterface/Type.h>
 #include <ComponentInterface/Interfaces.h>
 
+// Maximum Array Size for fortran arrays
+#define max_array_size 100
+
 namespace protocol {
 
 //-------------------- Built in types
-
 #define nullTypeDDML "<type/>"
 #for_each type
 
@@ -28,7 +30,6 @@ namespace protocol {
 
 #for_each structure
 //-------------------- structure.nameType
-
 struct structure.nameType
    {
    #for_each structure.field
@@ -40,6 +41,25 @@ struct structure.nameType
    field.ctypeType field.name;
    #else
    field.ctype field.name;
+   #endif
+   #endfor
+   };
+struct Fstructure.nameType
+   {
+   #for_each structure.field
+   #if (field.isArrayAndStructure = T)
+   Ffield.ctypeType field.name[max_array_size];
+   #elseif (field.array = T)
+   field.ctype field.name[max_array_size];
+   #elseif (field.isStructure = T)
+   Ffield.ctypeType field.name;
+   #elseif (field.ctype = std::string)
+   char field.name[max_array_size];
+   #else
+   field.ctype field.name;
+   #endif
+   #if (field.array = T)
+   unsigned num_field.name;
    #endif
    #endfor
    };
@@ -69,6 +89,19 @@ inline unsigned int memorySize(const structure.nameType& data)
       + protocol::memorySize(data.field.name)
    #endfor;
    }
+inline unsigned int memorySize(const Fstructure.nameType& data)
+   {
+   return 0
+   #for_each structure.field
+      #if (field.array = T)
+      + 4 + data.num_field.name * protocol::memorySize(data.field.name[0])
+      #elseif (field.ctype = std::string)
+      + protocol::memorySize(FString(data.field.name, max_array_size, FORString))
+      #else
+      + protocol::memorySize(data.field.name)
+      #endif
+   #endfor;
+   }
 void Initstructure.name(structure.nameType& data, const std::string& xml);
 #if (structure.array = T)
 void Initstructure.name(std::vector<structure.nameType>& values, const std::string& xml);
@@ -90,14 +123,6 @@ void Initstructure.name(std::vector<structure.nameType>& values, const std::stri
 #include "Messages.h"
 #include "datatypes.h"
 #include "Component.h"
-#include "FORTRANComponentWrapper.h"
-const unsigned max_array_size = 100;
-
-extern "C" void EXPORT STDCALL publish_null(unsigned* id)
-   {
-   protocol::NoData pd;
-   FortranWrapper::currentInstance->publish(*id, pd);
-   }
 
 namespace protocol {
 #for_each type
@@ -114,71 +139,6 @@ std::string EXPORT DDML(const type.ckind& value)
 
 #for_each structure
 namespace protocol {
-struct Fstructure.nameType
-   {
-   #for_each structure.field
-   #if (field.isArrayAndStructure = T)
-   Ffield.ctypeType field.name[max_array_size];
-   #elseif (field.array = T)
-   field.ctype field.name[max_array_size];
-   #elseif (field.isStructure = T)
-   Ffield.ctypeType field.name;
-   #elseif (field.ctype = std::string)
-   char field.name[max_array_size];
-   #else
-   field.ctype field.name;
-   #endif
-   #if (field.array = T)
-   unsigned num_field.name;
-   #endif
-   #endfor
-   };
-inline protocol::MessageData& operator<<(protocol::MessageData& messageData, const Fstructure.nameType& data)
-   {
-   #for_each structure.field
-   #if (field.array = T)
-   messageData << data.num_field.name;
-   for (unsigned i = 0; i != data.num_field.name; i++)
-      messageData << data.field.name[i];
-   #elseif (field.ctype = std::string)
-   messageData << FString(data.field.name, max_array_size, FORString);
-   #else
-   messageData << data.field.name;
-   #endif
-   #endfor
-   return messageData;
-   }
-inline protocol::MessageData& operator>>(protocol::MessageData& messageData, Fstructure.nameType& data)
-   {
-   #for_each structure.field
-   #if (field.array = T)
-   messageData >> data.num_field.name;
-   for (unsigned i = 0; i != data.num_field.name; i++)
-      messageData >> data.field.name[i];
-   #elseif (field.ctype = std::string)
-   FString field.nameString(data.field.name, max_array_size, FORString);
-   FString field.nameAlias;
-   messageData >> field.nameAlias;
-   field.nameString = field.nameAlias;
-   #else
-   messageData >> data.field.name;
-   #endif
-   #endfor
-   return messageData;
-   }
-inline unsigned int memorySize(const Fstructure.nameType& data)
-   {
-   return 0
-   #for_each structure.field
-      #if (field.array = T)
-      + 4 + data.num_field.name * protocol::memorySize(data.field.name[0])
-      #elseif (field.ctype = std::string)
-      + protocol::memorySize(FString(data.field.name, max_array_size, FORString))
-      #else
-      + protocol::memorySize(data.field.name)
-      #endif
-   #endfor;
-   }
 void Initstructure.name(structure.nameType& data, const std::string& xml)
    {
    XMLDocument doc(xml, XMLDocument::xmlContents);
@@ -224,8 +184,101 @@ std::string EXPORT DDML(const structure.nameType& value)
    {
    return structure.cddml;
    }
-
 }; // namespace protocol
+#endfor
+#endfile
+##################################################
+#file ../apsim/infra/source/datatypes.f90
+module dataTypes
+   integer, parameter :: max_array_size = 100
+
+   !-------------------- Built in types
+   character(len=*), parameter :: nullTypeDDML = '<type/>'
+#for_each type
+   character(len=*), parameter :: type.nameTypeDDML = &
+type.forddml
+#endfor
+
+
+#for_each structure
+!-------------------- structure.nameType
+   character(len=*), parameter :: structure.nameTypeDDML = &
+structure.forddml
+   type structure.nameType
+      sequence
+      #for_each structure.field
+      #if (field.isArrayAndStructure = T)
+      type(field.forTypeType):: field.name(max_array_size)
+      #elseif (field.isStructure = T)
+      type(field.forTypeType) :: field.name
+      #elseif (field.array = T)
+      field.fortype :: field.name(max_array_size)
+      #else
+      field.fortype :: field.name
+      #endif
+      #if (field.array = T)
+      integer :: num_field.name
+      #endif
+      #endfor
+   end type structure.nameType
+
+#endfor
+end module dataTypes
+#endfile
+##################################################
+#file ../Shared/ComponentInterface/FORTRANdatatypes.cpp
+#include <boost/lexical_cast.hpp>
+#include <general/stl_functions.h>
+#include <general/TreeNodeIterator.h>
+#include <general/xml.h>
+#include <general/platform.h>
+
+#include "Messages.h"
+#include "datatypes.h"
+#include "Component.h"
+#include "FORTRANComponentWrapper.h"
+
+extern "C" void EXPORT STDCALL publish_null(unsigned* id)
+   {
+   protocol::NoData pd;
+   FortranWrapper::currentInstance->publish(*id, pd);
+   }
+#for_each structure
+namespace protocol {
+   inline protocol::MessageData& operator<<(protocol::MessageData& messageData, const Fstructure.nameType& data)
+      {
+      #for_each structure.field
+      #if (field.array = T)
+      messageData << data.num_field.name;
+      for (unsigned i = 0; i != data.num_field.name; i++)
+         messageData << data.field.name[i];
+      #elseif (field.ctype = std::string)
+      messageData << FString(data.field.name, max_array_size, FORString);
+      #else
+      messageData << data.field.name;
+      #endif
+      #endfor
+      return messageData;
+      }
+   inline protocol::MessageData& operator>>(protocol::MessageData& messageData, Fstructure.nameType& data)
+      {
+      #for_each structure.field
+      #if (field.array = T)
+      messageData >> data.num_field.name;
+      for (unsigned i = 0; i != data.num_field.name; i++)
+         messageData >> data.field.name[i];
+      #elseif (field.ctype = std::string)
+      FString field.nameString(data.field.name, max_array_size, FORString);
+      FString field.nameAlias;
+      messageData >> field.nameAlias;
+      field.nameString = field.nameAlias;
+      #else
+      messageData >> data.field.name;
+      #endif
+      #endfor
+      return messageData;
+      }
+}
    #if (structure.array = T)
 extern "C" void EXPORT STDCALL publish_structure.name(unsigned* id, const protocol::Fstructure.nameType data[], unsigned* numValues)
    {
@@ -248,7 +301,6 @@ extern "C" void EXPORT STDCALL unpack_structure.name(protocol::Variant* variant,
    variant->unpack(*data);
    }
    #endif
-
 #endfor
 
 #endfile
@@ -290,6 +342,7 @@ structure.forddml
 #endfor
 end module dataTypes
 #endfile
+
 
 ##################################################
 #file ../apsim/infra/source/datatypesinterface.f90

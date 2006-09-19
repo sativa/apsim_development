@@ -132,7 +132,6 @@ void *Computation::loadDLL(const string& filename) throw (runtime_error)
    void *result;
    const char *dlError = NULL;   /* Pointer to error string for Linux */
 
-
 #ifdef __WIN32__
    char oldwd[MAX_PATH];
 
@@ -160,10 +159,10 @@ void *Computation::loadDLL(const string& filename) throw (runtime_error)
                     );
       string errorMessage = ("Cannot load DLL: " + filename + ".\n  " + (LPTSTR) lpMsgBuf);
       LocalFree( lpMsgBuf );
-      throw runtime_error(errorMessage);
 #else
-      throw runtime_error(dlError);
+      string errorMessage = ("Cannot load DLL: " + filename + ".\n" + dlError);
 #endif
+      throw runtime_error(errorMessage);
       }
    return result;
    }

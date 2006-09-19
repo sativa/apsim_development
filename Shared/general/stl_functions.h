@@ -668,8 +668,8 @@ bool vectorsAreDifferent(container_type& c1, container_type& c2)
       return true;
    else
       {
-      container_type::iterator i1 = c1.begin();
-      container_type::iterator i2 = c2.begin();
+      typename container_type::iterator i1; i1 = c1.begin();
+      typename container_type::iterator i2; i2 = c2.begin();
       while (i1 != c1.end())
          {
          if (*i1 != *i2)
@@ -680,6 +680,5 @@ bool vectorsAreDifferent(container_type& c1, container_type& c2)
       }
    return false;
    }
-
 
 #endif

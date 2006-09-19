@@ -17,14 +17,14 @@ OBJ=	$(SRC:.cpp=.o)
 CC=		/usr/bin/gcc
 CPPFLAGS=	-I/usr/include/boost -I$(APSROOT)/Shared 	\
 		-I/usr/include/libxml2				\
-		-Wno-deprecated -fpermissive -fPIC
+		-Wno-deprecated -fpermissive -fPIC $(CPPDEBUGFLAGS)
 
 
 #-----------------------------------------------------------------------
 # Required libraries
 
 LDFLAGS=	-L/usr/lib		\
-		-L$(APSROOT)/lib
+		-L$(APSROOT)/lib $(LDDEBUGFLAGS)
 
 LIBS=		-lApsimShared		\
 		-lgeneral		\

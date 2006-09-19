@@ -8,7 +8,7 @@
 
 #include "OOPlantInterface.h"
 
-#include "utilities.h"
+#include "Utilities.h"
 
 
 #include <vector>
