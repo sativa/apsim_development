@@ -13,7 +13,7 @@ OBJECTS = ComponentInterface.obj Component.obj \
       RegistrationItem.obj ProtocolVector.obj RegistrationType.obj \
       EntryPoints.obj Variable.obj VariableRef.obj
 
-WRAPPEROBJECTS = $(OBJECTS) datatypes.obj FORTRANComponentWrapper.obj
+WRAPPEROBJECTS = $(OBJECTS) datatypes.obj FORTRANComponentWrapper.obj FORTRANdatatypes.obj
 
 PACKAGES = vcl.bpi rtl.bpi
 USERDEFINES =
