@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
-LIB=	../lib/libReport.so
+LIB=	../lib/report.so
 
 SRC=	ReportComponent.cpp
 
@@ -18,14 +18,14 @@ CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
 		-I$(APSROOT)/Shared				\
 		-I$(APSROOT)/Shared/ComponentInterface		\
 		-Wno-deprecated 				\
-		-fpermissive -fPIC
+		-fpermissive -fPIC $(CPPDEBUGFLAGS)
 
 
 #-----------------------------------------------------------------------
 # Required libraries
 
 LDFLAGS=	-L/usr/lib 				\
-		-L$(APSROOT)/lib
+		-L$(APSROOT)/lib $(LDDEBUGFLAGS)
 
 LIBS=		-lComponentInterface	\
 		-lprotocol		\
@@ -51,7 +51,6 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
-	cp $(LIB) $(APSROOT)/lib
 
 %.o:	%.cpp
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<

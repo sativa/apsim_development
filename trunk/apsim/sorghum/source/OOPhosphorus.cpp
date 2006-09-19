@@ -5,7 +5,7 @@
 #include "OOPlant.h"
 #include "OOPhosphorus.h"
 #include <vector>
-#include <ComponentInterface/dataTypes.h>
+#include <ComponentInterface/datatypes.h>
 //------------------------------------------------------------------------------------------------
 
 #pragma package(smart_init)

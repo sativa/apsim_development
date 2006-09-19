@@ -1,7 +1,7 @@
 #pragma hdrstop
 
 #include "VariableRef.h"
-#include <ComponentInterface/DataTypes.h>
+#include <ComponentInterface/datatypes.h>
 
 using namespace protocol;
 

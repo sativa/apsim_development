@@ -19,7 +19,7 @@ LD=		/usr/bin/g++
 CPPFLAGS=	-I/usr/include/boost -I$(APSROOT)/Shared 	\
 		-I/usr/include/libxml2				\
 		-I$(APSROOT)/Shared/ComponentInterface		\
-		-Wno-deprecated
+		-Wno-deprecated $(CPPDEBUGFLAGS)
 
 
 #-----------------------------------------------------------------------
@@ -27,7 +27,7 @@ CPPFLAGS=	-I/usr/include/boost -I$(APSROOT)/Shared 	\
 
 LDFLAGS=	-L/usr/lib 			\
 		-L$(APSROOT)/lib		\
-		-L/usr/local/lf9562/lib
+		-L/usr/local/lf9562/lib $(LDDEBUGFLAGS)
 
 LIBS=		-lprotocol			\
 		-lApsimShared			\

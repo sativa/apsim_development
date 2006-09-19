@@ -5,7 +5,6 @@
 #include <boost/bind.hpp>
 
 // Forward definitions..
-typedef enum {pw_C3, pw_C4, pw_UNDEF} photosynthetic_pathway_t;
 namespace protocol {
   class Component;
   class QuerySetValueData;
@@ -34,7 +33,6 @@ class plantInterface {
       virtual float getLeafNo (void) const = 0;           // Leaf number (leaves/m^2)
       virtual float getPlants (void) const = 0;           // Planting density (plants/m^2)
       virtual float getCo2 (void) const = 0;              // CO2 level (ppm)
-      virtual photosynthetic_pathway_t getPhotosynthetic_pathway(void) const = 0;              // CO2 level (ppm)
       virtual float getStageCode (void) const = 0;        // Phenological stage code AAACK DIE YOU BASTARD
       virtual float getStageNumber (void) const = 0;        // Phenological stage code AAACK DIE YOU BASTARD
       virtual float getDltDMPotRueVeg(void) const = 0;

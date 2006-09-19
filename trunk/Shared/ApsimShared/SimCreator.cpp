@@ -128,9 +128,9 @@ void SimCreator::ConToSimInternal(const std::string& controlFileName,
 
       out << "<?xml version=\"1.0\"?>\n";
 #ifdef __WIN32__
-      out << "<simulation executable=\"%apsuite\\apsim\\protocolmanager\\lib\\protocolmanager.dll\" version=\"" << getApsimVersion() <<  "\">\n";
+      out << "<simulation executable=\"%apsuite/apsim/protocolmanager/lib/protocolmanager.dll\" version=\"" << getApsimVersion() <<  "\">\n";
 #else
-      out << "<simulation executable=\"%apsuite/apsim/ProtocolManager/lib/libProtocolManager.so\" version=\"" << getApsimVersion() <<  "\">\n";
+      out << "<simulation executable=\"%apsuite/apsim/ProtocolManager/lib/ProtocolManager.so\" version=\"" << getApsimVersion() <<  "\">\n";
 #endif
       out << "   <title>";
       string Title = con.getTitle(sectionNames[s]);
@@ -229,7 +229,7 @@ void SimCreator::GetMatchingParFileSections(const std::string& instanceName,
                                             PEqualToFileName<ParFile>(fileName));
       if (i == convertedParFiles.end())
          {
-         if (!Path(fileName).Exists())
+         if (!fileExists(fileName))
             throw runtime_error("Cannot find file: " + fileName);
 
          convertedParFiles.push_back(ConvertParFile(fileName));

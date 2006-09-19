@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
-LIB=	../lib/plant.so
+LIB=	../lib/Plant.so
     
 OBJ=PlantComponent.o \
    Plant.o \
@@ -63,13 +63,13 @@ CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
 		-I$(APSROOT)/Shared/ComponentInterface		\
 		-I$(APSROOT)/apsim/Plant/source                 \
 		-Wno-deprecated 				\
-		-fpermissive -fPIC
+		-fpermissive -fPIC $(CPPDEBUGFLAGS)
 
 #-----------------------------------------------------------------------
 # Required libraries
 
 LDFLAGS=	-L$(APSROOT)/lib		\
-		-L/usr/lib
+		-L/usr/lib $(LDDEBUGFLAGS)
 
 LIBS=		-lComponentInterface	\
 		-lprotocol		\
@@ -98,5 +98,4 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
-	cp $(LIB) $(APSROOT)/lib
 

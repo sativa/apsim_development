@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
-LIB=	../lib/libclock.so
+LIB=	../lib/clock.so
 
 SRC=	Registrations.f90	\
 	clock.for		\
@@ -13,6 +13,7 @@ SRC=	Registrations.f90	\
 STATICOBJ=	$(APSROOT)/Shared/ComponentInterface/SimpleWrapper.o	\
 	$(APSROOT)/Shared/ComponentInterface/FORTRANComponentWrapper.o 	\
 	$(APSROOT)/Shared/ComponentInterface/EntryPoints.o 		\
+	$(APSROOT)/Shared/ComponentInterface/FORTRANdatatypes.o 		\
 	$(APSROOT)/Shared/ComponentInterface/datatypes.o
 
 OBJ=	Registrations.o		\
@@ -25,7 +26,7 @@ OBJ=	Registrations.o		\
 
 FC=		lf95
 CPPFLAGS=	-I$(APSROOT)/apsim/infra/source		\
-		-M. -M$(APSROOT)/apsim/infra/source
+		-M. -M$(APSROOT)/apsim/infra/source $(CPPDEBUGFLAGS)
 FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin 	\
 		--ml cdecl --staticlink
 
@@ -34,7 +35,7 @@ FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin 	\
 
 LDFLAGS=	-L$(APSROOT)/lib		\
 		-L$(APSROOT)/apsim/infra/lib	\
-		-L/usr/lib
+		-L/usr/lib $(LDDEBUGFLAGS)
 
 LIBS=		-lComponentInterface 		\
 		-lapsinfra			\
@@ -49,6 +50,8 @@ $(LIB):	$(OBJ)
 	g++ $(OBJ) -o $(LIB) -shared $(LDFLAGS) $(LIBS)
 
 FORCE:
+
+install: all
 
 clean:
 	rm -f *.o *.mod
@@ -65,4 +68,4 @@ clobber:	clean
 
 Registrations.o: Registrations.f90
 Registrations.f90: ../clock.interface 
-	$(APSROOT)/bin/CreateComponentInterfaceSource ../clock.interface
+	$(APSROOT)/Bin/CreateComponentInterfaceSource ../clock.interface

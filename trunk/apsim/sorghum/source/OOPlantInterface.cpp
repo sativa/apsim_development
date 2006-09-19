@@ -1,7 +1,9 @@
 //---------------------------------------------------------------------------
 
 #include <general/pch.h>
+#ifdef __WIN32__
 #include <vcl.h>
+#endif
 
 #include <boost/function.hpp>
 #pragma hdrstop
@@ -15,7 +17,6 @@
 #include <ApsimShared/FStringExt.h>
 #include <general/string_functions.h>
 #include <general/stristr.h>
-#include <math>
 #include <map>
 
 #include "OOPlant.h"
@@ -27,13 +28,12 @@
 #include <string>
 #include <algorithm>
 #include <stdexcept>
-#include <cstring.h>
 #include <iostream.h>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 
 
-#include <ComponentInterface/dataTypes.h>
+#include <ComponentInterface/datatypes.h>
 #include <ApsimShared/FStringExt.h>
 
 
@@ -44,10 +44,12 @@ using namespace std;
 //-----------------------------------------------------------------------------
 // DLL entry point
 //-----------------------------------------------------------------------------
+#ifdef __WIN32__
 int WINAPI DllEntryPoint(HINSTANCE /*hinst*/, unsigned long /*reason*/, void*)
    {
    return 1;
    }
+#endif
 // ------------------------------------------------------------------
 //  Short description:
 //     Return a blank string when requested to indicate that we
@@ -59,16 +61,16 @@ int WINAPI DllEntryPoint(HINSTANCE /*hinst*/, unsigned long /*reason*/, void*)
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" _export void __stdcall wrapperDLL(char* wrapperDll)
+extern "C" EXPORT void STDCALL wrapperDLL(char* wrapperDll)
    {
    strcpy(wrapperDll, "");
    }
-extern "C" void __stdcall getDescriptionInternal(char* initScript,
+extern "C" void STDCALL getDescriptionInternal(char* initScript,
                                                  char* description);
 // ------------------------------------------------------------------
 // Return component description info.
 // ------------------------------------------------------------------
-extern "C" _export void __stdcall getDescription(char* initScript, char* description)
+extern "C" EXPORT void STDCALL getDescription(char* initScript, char* description)
    {
    getDescriptionInternal(initScript, description);
    }

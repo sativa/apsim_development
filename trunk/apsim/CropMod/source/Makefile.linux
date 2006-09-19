@@ -27,7 +27,7 @@ OBJ=	Registrations.o		\
 
 FC=		lf95
 CPPFLAGS=	-I$(APSROOT)/apsim/infra/source		\
-		-I$(APSROOT)/apsim/croptemp/source
+		-I$(APSROOT)/apsim/croptemp/source $(CPPDEBUGFLAGS)
 FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
 		--ml cdecl --staticlink
 
@@ -36,7 +36,7 @@ FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
 
 LDFLAGS=	-L$(APSROOT)/apsim/infra/lib		\
 		-L$(APSROOT)/apsim/croptemp/lib		\
-		-L/usr/lib
+		-L/usr/lib $(LDDEBUGFLAGS)
 
 LIBS=		-lapsinfra -lcroptemp
 
@@ -68,4 +68,4 @@ install: all
 
 Registrations.o: Registrations.f90
 Registrations.f90: ../cropmod.interface 
-	$(APSROOT)/bin/CreateComponentInterfaceSource ../cropmod.interface
+	$(APSROOT)/Bin/CreateComponentInterfaceSource ../cropmod.interface

@@ -25,7 +25,7 @@ OBJ=	$(SRC:.f90=.o)
 # Compiler options
 
 FC=		lf95
-CPPFLAGS=	-I$(APSROOT)/apsim/infra/source
+CPPFLAGS=	-I$(APSROOT)/apsim/infra/source $(CPPDEBUGFLAGS)
 FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
 		--ml cdecl --staticlink
 
@@ -33,7 +33,7 @@ FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
 # Required libraries
 
 LDFLAGS=	-L$(APSROOT)/apsim/infra/lib	 \
-		-L/usr/lib
+		-L/usr/lib $(LDDEBUGFLAGS)
 
 LIBS=		-lapsinfra
 
@@ -60,10 +60,4 @@ install: all
 
 %.o:	%.f90
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
-
-
-
-
-
-
 

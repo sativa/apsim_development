@@ -38,5 +38,5 @@ ComponentAlias::~ComponentAlias(void)
 // ------------------------------------------------------------------
 bool ComponentAlias::isSystem(void)
    {
-   return (stristr(getExecutable().c_str(), "protocolmanager.dll") != NULL);
+   return (stristr(getExecutable().c_str(), "protocolmanager") != NULL);
    }

@@ -27,9 +27,9 @@ OBJ=	$(SRC:.f90=.o)
 # Compiler options
 
 FC=		lf95
-CPPFLAGS=	-I. -I/usr/local/APSIM/apsim/infra/source
+CPPFLAGS=	-I. -I/usr/local/APSIM/apsim/infra/source $(CPPDEBUGFLAGS)
 FFLAGS=		--tp -nco --o0 --pca -nsav -stchk -trace -nchk -nin	\
-		--ml cdecl --staticlink
+		--ml cdecl --staticlink 
 
 #-----------------------------------------------------------------------
 # The rules
@@ -39,6 +39,8 @@ all: $(LIB)
 $(LIB):	$(LIB)($(OBJ))
 
 FORCE:
+
+install: all
 
 clean:
 	rm -f *.o *.mod

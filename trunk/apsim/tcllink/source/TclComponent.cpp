@@ -7,11 +7,10 @@
 #include <ApsimShared/ApsimDirectories.h>
 #include <ApsimShared/FStringExt.h>
 
-#include <ComponentInterface/Component.h>
 #include <ComponentInterface/MessageDataExt.h>
+#include <ComponentInterface/Component.h>
 #include <ComponentInterface/ApsimVariant.h>
-#include <ComponentInterface/Messages.h>
-#include <Protocol/transport.h>
+#include <Protocol/Transport.h>
 
 #include <tcl.h>
 #include <tclInt.h>
@@ -69,16 +68,16 @@ int apsimGetComponentXML(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * 
 //    DPH 7/6/2001
 
 // ------------------------------------------------------------------
-extern "C" _export void __stdcall wrapperDLL(char* wrapperDll)
+extern "C" EXPORT void STDCALL wrapperDLL(char* wrapperDll)
    {
    strcpy(wrapperDll, "");
    }
-extern "C" void __stdcall getDescriptionInternal(char* initScript,
+extern "C" void STDCALL getDescriptionInternal(char* initScript,
                                                  char* description);
 // ------------------------------------------------------------------
 // Return component description info.
 // ------------------------------------------------------------------
-extern "C" _export void __stdcall getDescription(char* initScript, char* description)
+extern "C" EXPORT void STDCALL getDescription(char* initScript, char* description)
    {
    getDescriptionInternal(initScript, description);
    }
@@ -198,9 +197,9 @@ void TclComponent::respondToEvent(unsigned int& /*fromID*/, unsigned int& eventI
      if (!rule.empty())
         {
         // Set the global variable "incomingApsimVariant" to the variant's binary data
-        const MessageData message = variant.getMessageData();
+        MessageData message = variant.getMessageData();
         Tcl_ObjSetVar2(Interp, Tcl_NewStringObj("incomingApsimVariant",-1), NULL, 
-                       Tcl_NewByteArrayObj( message.start(), message.totalBytes()), TCL_GLOBAL_ONLY);
+                       Tcl_NewByteArrayObj((const unsigned char *)message.start(), message.totalBytes()), TCL_GLOBAL_ONLY);
 
         int result = Tcl_Eval(Interp, rule.c_str());
         if (result != TCL_OK)
@@ -672,7 +671,7 @@ void TclComponent::sendMessage(const char *moduleName, const char *actionName,
    {
    unsigned actionID = protocol::Component::addRegistration(RegistrationType::event,
                                                             actionName,
-                                                            "<type\>",
+                                                            "<type/>",
                                                             "",
                                                             moduleName);
    publish(actionID, outgoingApsimVariant);
@@ -828,7 +827,7 @@ void TclComponent::callback(const std::string& toName, const protocol::Message* 
 
          cmd[ncmd] = Tcl_NewListObj(0, NULL);
          Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewStringObj("data",-1));
-         Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewByteArrayObj(message->dataPtr,message->nDataBytes));
+         Tcl_ListObjAppendElement(Interp, cmd[ncmd], Tcl_NewByteArrayObj((const unsigned char *)message->dataPtr,message->nDataBytes));
          ncmd++;
          }
 
@@ -852,4 +851,4 @@ int apsimGetComponentXML(ClientData cd, Tcl_Interp *interp, int objc, Tcl_Obj * 
    Tcl_SetObjResult(interp, Tcl_NewStringObj(xml.c_str(), -1));
    return TCL_OK;
 } 
- 
+

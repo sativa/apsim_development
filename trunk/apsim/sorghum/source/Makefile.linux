@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
-LIB=	../lib/libsorghum.so
+LIB=	../lib/sorghum.so
 
 SRC=	OOLeaf.cpp		\
 	OOPlantInterface.cpp	\
@@ -33,14 +33,14 @@ CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
 		-I$(APSROOT)/Shared				\
 		-I$(APSROOT)/Shared/ComponentInterface		\
 		-Wno-deprecated 				\
-		-fpermissive -fPIC
+		-fpermissive -fPIC $(CPPDEBUGFLAGS)
 
 
 #-----------------------------------------------------------------------
 # Required libraries
 
 LDFLAGS=	-L/usr/lib 				\
-		-L$(APSROOT)/lib
+		-L$(APSROOT)/lib $(LDDEBUGFLAGS)
 
 LIBS=		-lComponentInterface	\
 		-lprotocol		\
@@ -60,13 +60,12 @@ $(LIB):	$(OBJ)
 FORCE:
 
 clean:
-	rm -f *.o *.mod
+	rm -f *.o 
 
 clobber:	clean
-	rm -r $(LIB)
+	rm -f $(LIB)
 
 install: all
-	cp $(LIB) $(APSROOT)/lib
 
 %.o:	%.cpp
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<

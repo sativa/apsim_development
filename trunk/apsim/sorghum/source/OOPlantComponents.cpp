@@ -3,7 +3,7 @@
 #pragma hdrstop
 
 #include "OOPlantComponents.h"
-#include "utilities.h"
+#include "Utilities.h"
 
 //---------------------------------------------------------------------------
 

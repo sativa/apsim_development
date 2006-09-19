@@ -5,13 +5,13 @@ version = 5.2
    
 
 title=Alan Hunter
-module = clock    ozcot.man [o97_1_all] %apsuite\apsim\clock\clock.ini[standard]
+module = clock    ozcot.man [o97_1_all] %apsuite/apsim/clock/clock.ini[standard]
 module = report   ozcot.man [o97_1_1]     ozcot.par [standard]
-module = input(met)      HUNTER.APS [standard]
+module = input(met)      hunter.aps [standard]
 module = manager  ozcot.man [o97_1_1]     ozcot.man [o97_1_all]
-module = soilwat2 ozcot.par [belah]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
-module = SurfaceOM   ozcot.par [belah] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
-module = soiln2   ozcot.par [belah]     %apsuite\apsim\soiln2\soiln2.ini [standard]
-module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini [standard]
-module = ozcot    ozcot.par [belah]    ..\ozcot.ini [standard]
+module = soilwat2 ozcot.par [belah]     %apsuite/apsim/soilwat2/soilwat2.ini [standard]
+module = SurfaceOM   ozcot.par [belah] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2   ozcot.par [belah]     %apsuite/apsim/soiln2/soiln2.ini [standard]
+module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini [standard]
+module = ozcot    ozcot.par [belah]    ../ozcot.ini [standard]
 module = SummaryFile  ozcot.par[o97_1_1]

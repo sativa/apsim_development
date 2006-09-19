@@ -27,7 +27,7 @@ accum.obj: accum.for
 Registrations.obj: Registrations.f90
 
 Registrations.f90: ..\accum.interface 
-	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\accum.interface
+	$(APSROOT)\Bin\CreateComponentInterfaceSource.exe ..\accum.interface
 
 clean:
 	$(RM) ..\lib\accum.dll Registrations.obj Registrations.f90 accum.obj accum.imp

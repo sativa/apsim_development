@@ -18,14 +18,17 @@ SRC=	Component.cpp			\
 	TypeConverter.cpp		\
 	ApsimVariant.cpp		\
 	Registrations.cpp		\
-	RegistrationItem.cpp
+	RegistrationItem.cpp            \
+	Variable.cpp                    \
+	VariableRef.cpp                 \
+	datatypes.cpp
 
-OBJ=	$(SRC:.cpp=.o)
+OBJ=	$(SRC:.cpp=.o) 	
 
 OBJ2=	FORTRANComponentWrapper.o	\
 	EntryPoints.o			\
 	SimpleWrapper.o			\
-	datatypes.o
+	FORTRANdatatypes.o
 
 #-----------------------------------------------------------------------
 # Compiler options
@@ -33,7 +36,7 @@ OBJ2=	FORTRANComponentWrapper.o	\
 CC=		/usr/bin/gcc
 CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
 		-I$(APSROOT)/Shared				\
-		-Wno-deprecated -fpermissive -fPIC
+		-Wno-deprecated -fpermissive -fPIC $(CPPDEBUGFLAGS)
 
 
 #-----------------------------------------------------------------------
@@ -41,7 +44,7 @@ CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
 
 
 LDFLAGS=	-L/usr/lib		\
-		-L$(APSROOT)/lib
+		-L$(APSROOT)/lib $(LDDEBUGFLAGS)
 
 LIBS=		-lprotocol		\
 		-lApsimShared		\
@@ -81,7 +84,9 @@ datatypes.o: datatypes.h datatypes.cpp \
 		$(APSROOT)/apsim/infra/datatypes.interface \
 		$(APSROOT)/APSBuild/datatypes.macro 
 
-datatypes.cpp datatypes.h:  $(APSROOT)/apsim/infra/datatypes.interface \
+FORTRANdatatypes.o: FORTRANdatatypes.cpp
+ 
+FORTRANdatatypes.cpp datatypes.cpp datatypes.h:  $(APSROOT)/apsim/infra/datatypes.interface \
 				$(APSROOT)/APSBuild/datatypes.macro \
 				$(APSROOT)/Bin/CreateDataTypesSource
 	( cd $(APSROOT)/Bin && $(APSROOT)/Bin/CreateDataTypesSource $(APSROOT)/apsim/infra/datatypes.interface $(APSROOT)/APSBuild/datatypes.macro )

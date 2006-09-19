@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
-LIB=	../lib/libSurfaceOM.so
+LIB=	../lib/SurfaceOM.so
 
 SRC=	Registrations.f90	\
 	SurfaceOM.f90
@@ -12,6 +12,7 @@ SRC=	Registrations.f90	\
 STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
             ../../../Shared/ComponentInterface/EntryPoints.o   \
             ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o   \
+            ../../../Shared/ComponentInterface/FORTRANdatatypes.o   \
             ../../../Shared/ComponentInterface/datatypes.o
 
 OBJ=	Registrations.o		\
@@ -53,7 +54,6 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
-	cp $(LIB) $(APSROOT)/lib
 
 %.o:	%.for
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
@@ -65,4 +65,4 @@ install: all
 
 Registrations.o: Registrations.f90
 Registrations.f90: ../SurfaceOM.interface 
-	$(APSROOT)/bin/CreateComponentInterfaceSource ../SurfaceOM.interface
+	$(APSROOT)/Bin/CreateComponentInterfaceSource ../SurfaceOM.interface

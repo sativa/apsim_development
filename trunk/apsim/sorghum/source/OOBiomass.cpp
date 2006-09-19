@@ -4,7 +4,7 @@
 #include "OOPlant.h"
 #include "OOBiomass.h"
 
-#include <ComponentInterface/dataTypes.h>
+#include <ComponentInterface/datatypes.h>
 //---------------------------------------------------------------------------
 
 #pragma package(smart_init)

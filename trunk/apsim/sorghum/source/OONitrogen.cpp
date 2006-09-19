@@ -1,11 +1,14 @@
 //------------------------------------------------------------------------------------------------
 #pragma hdrstop
 
+#include <ComponentInterface/MessageDataExt.h>
+#include <ComponentInterface/datatypes.h>
+
+#include <vector>
+
 #include "TypeKind.h"
 #include "OOPlant.h"
 #include "OONitrogen.h"
-#include <vector>
-#include <ComponentInterface/dataTypes.h>
 //------------------------------------------------------------------------------------------------
 
 #pragma package(smart_init)

@@ -7,7 +7,7 @@
 #include <math.h>
 
 
-#include "Conversions.h"
+#include "conversions.h"
 
 
 //class PlantInterface;
@@ -74,7 +74,7 @@ class aDate
    float julian;
    int year,month,day,doy;
 
-   __fastcall aDate(float jDay){convertJulian(jDay);}
+   aDate(float jDay){convertJulian(jDay);}
 
    aDate(){};
    void convertJulian(float jDay);
