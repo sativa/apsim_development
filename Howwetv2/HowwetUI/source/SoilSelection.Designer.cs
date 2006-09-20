@@ -73,7 +73,7 @@ namespace APSRU.Howwet
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.dataTree1.AutoScroll = true;
             this.dataTree1.BackColor = System.Drawing.SystemColors.Control;
-            this.dataTree1.Controller = null;
+            //this.dataTree1.Controller = null;
             this.dataTree1.HelpText = "";
             this.dataTree1.Location = new System.Drawing.Point(0, 0);
             this.dataTree1.Name = "dataTree1";
