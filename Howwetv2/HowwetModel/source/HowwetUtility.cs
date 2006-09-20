@@ -180,13 +180,6 @@ namespace APSRU.Translator.Howwet
             return mass;
             }
 
-        public StringCollection GetListOfSoils(String fileName)
-            {
-            apsimData.LoadFromFile(fileName);
-            StringCollection soilList = apsimData.ChildList("Soil");
-            return soilList;
-            }
-
         public APSIMData GetSoil(string soilName)
             {
             APSIMData soil = new APSIMData();

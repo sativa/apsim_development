@@ -31,9 +31,9 @@ namespace APSRU.Model.Howwet
             const String FUNCTION_NAME = "AddSoil";
             try
                 {
-                APSIMData paddockNode = myData.FindChildByType("simulation|area", '|');
-                StringCollection soils = paddockNode.ChildList("Soil");
-                if (!(soils.Count == 0))
+                APSIMData paddockNode = myData.FindChildByType("simulation|area",'|');
+                String[] soils = paddockNode.ChildNames("Soil");
+                if (!(soils.Length == 0))
                     {
                     errString = "removing old soil";
                     String soil = soils[0];
@@ -77,9 +77,9 @@ namespace APSRU.Model.Howwet
             get
                 {
                 APSIMData paddockNode = myData.FindChildByType("simulation|area", '|');
-                StringCollection soils = paddockNode.ChildList("Soil");
+                String[] soils = paddockNode.ChildNames("Soil");
                 Soil soil =null;
-                if (!(soils.Count == 0))
+                if (!(soils.Length == 0))
                     {
                     APSIMData soilNode = paddockNode.Child(soils[0]);//first soil
                     soil = new Soil(soilNode);
