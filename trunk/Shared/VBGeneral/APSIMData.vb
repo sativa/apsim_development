@@ -1,6 +1,7 @@
 Imports System
 Imports System.Xml
 Imports System.IO
+Imports System.Collections.Specialized
 
 Public Class APSIMData
     ' ----------------------------------------------------------------------
@@ -272,6 +273,46 @@ Public Class APSIMData
         End If
         Return Nothing
     End Function
+    '*****************************************************************************
+    Function FindChildByType(ByVal ChildPath As String, Optional ByVal Delimiter As Char = "|") As APSIMData
+        Dim name As String
+        Dim CurrentData As New APSIMData(Node, DataChangedEvent)
+        Dim Path As String = ChildPath
+
+        Do Until Path = ""
+
+            If InStr(Path, Delimiter) <> 0 Then
+                name = Left$(Path, InStr(Path, Delimiter) - 1)
+                Path = Mid$(Path, InStr(Path, Delimiter) + 1)
+            Else
+                name = Path
+                Path = ""
+            End If
+
+            CurrentData = CurrentData.Type1(name)
+            If IsNothing(CurrentData) Then
+                Exit Do
+            End If
+        Loop
+
+        If IsNothing(CurrentData) Then
+            Throw New System.Exception("Cannot find child " + ChildPath)
+        Else
+            Return CurrentData
+        End If
+    End Function
+    ' -----------------------------------------------
+    ' Return child node data or nothing if not found
+    ' -----------------------------------------------
+    Function Type1(ByVal TypeName As String) As APSIMData
+        For Each ChildData As APSIMData In Me.Children
+            If LCase(TypeName) = LCase(ChildData.Type) Then
+                Return ChildData
+            End If
+        Next
+        Return Nothing
+    End Function
+    '*************************************************************
     Public ReadOnly Property FullPath() As String
         Get
             ' --------------------------------------------------------
