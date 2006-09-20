@@ -36,3 +36,9 @@ cd %APSROOT%\apsrun\ApsimToSim
 echo ------Compiling ApsimToSim >> %APSROOT%\dotnet.out
 "C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\devenv" ApsimToSim.sln /build release >> %APSROOT%\dotnet.out
 cd %APSROOT%
+
+rem --------- Compile Howwetv2
+cd %APSROOT%\howwetv2\source
+echo ------Compiling Howwetv2 >> %APSROOT%\dotnet.out
+"C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\devenv" Howwetv2.sln /build release >> %APSROOT%\dotnet.out
+cd %APSROOT%
