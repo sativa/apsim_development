@@ -50,7 +50,7 @@ namespace APSRU.Howwet
                                                 "Apsoil",
                                                 imageList1);
             Apsoil.AllData = soilsObject;
-            dataTree1.Controller = Apsoil;
+            dataTree1.RefreshView(Apsoil);
             }
 
         private void dataTree1_DoubleClickEvent()
