@@ -167,9 +167,9 @@ namespace APSRU.Howwet
             waterCapacity.Text = "";
             initialSoilNitrogen.Text = "";
             displayCoverCropList();
-            this.initialSoilWaterPercent.ValueChanged -= new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
+           // this.initialSoilWaterPercent.ValueChanged -= new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
             initialSoilWaterPercent.Value = 20;
-            this.initialSoilWaterPercent.ValueChanged += new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
+          //  this.initialSoilWaterPercent.ValueChanged += new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
             coverPercent.Maximum = 99;
             coverPercent.Minimum = 0;
             coverPercent.Value = 30;
@@ -192,8 +192,9 @@ namespace APSRU.Howwet
             waterCapacity.Text = soilPAWCSumOriginal.ToString("f0");
             initialSoilNitrogen.Text = soilNitrogenSumOriginal.ToString("f0");
             displayCoverCropList();
-            initialSoilWaterPercent.Value = 19;
+           // this.initialSoilWaterPercent.ValueChanged -= new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
             initialSoilWaterPercent.Value = 20;
+          //  this.initialSoilWaterPercent.ValueChanged += new System.EventHandler(this.initialSoilWaterPercent_ValueChanged);
             coverPercent.Maximum = 99;
             coverPercent.Minimum = 0;
             coverPercent.Value = 30;
@@ -208,9 +209,9 @@ namespace APSRU.Howwet
             simulationObject.MetFileName = metObject.FileName;
             //set datetime picker
             StartDatePicker.MinDate = metObject.StartDate;
-            if (!(metObject.EndDate.Subtract(new TimeSpan(400, 0, 0, 0, 0)) < metObject.StartDate))//400 days
+            if (!(metObject.EndDate.Subtract(new TimeSpan(400, 0, 0, 0, 0)) < metObject.StartDate)) 
                 {
-                StartDatePicker.Value = metObject.EndDate.Subtract(new TimeSpan(400, 0, 0, 0, 0));//400 days
+                StartDatePicker.Value = metObject.EndDate.Subtract(new TimeSpan(400, 0, 0, 0, 0)); 
                 }
             else
                 {
