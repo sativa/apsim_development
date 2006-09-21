@@ -146,6 +146,10 @@ void InputComponent::doInit2(void)
    else
       writeString("Sparse data is not allowed");
    string msg = "INPUT File name: " + fileName;
+#ifdef __WIN32__
+         // Convert unix style paths to native DOS format
+         Replace_all(msg, "/", "\\");
+#endif
    writeString(msg.c_str());
    }
 // ------------------------------------------------------------------
