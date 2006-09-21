@@ -1,4 +1,4 @@
-<simulations name="untitled" version="2">
+<simulations name="untitled" version="4">
   <simulation name="GreenBelt1997">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date">1/03/1997</start_date>
@@ -18,13 +18,13 @@
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
           <category name="When should fertiliser be applied">
-            <property name="modulename" value="broccoli" type="modulename" description="On which module should the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+            <modulename type="modulename" description="On which module should the event come from : ">broccoli</modulename>
+            <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
           </category>
           <category name="Fertiliser application details">
-            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
-            <property name="fert_amount_sow" value="300" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
-            <property name="fert_type_sow" value="NO3_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+            <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+            <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">300</fert_amount_sow>
+            <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">NO3_N</fert_type_sow>
           </category>
         </rule>
         <rule name="Sow on a fixed date">
@@ -34,14 +34,14 @@
         endif
                </condition>
           <category name="Sowing criteria">
-            <property name="date" value="11-mar" type="text" description="Enter sowing date (dd-mmm) : " />
+            <date type="text" description="Enter sowing date (dd-mmm) : ">11-mar</date>
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
-            <property name="density" value="6" type="text" description="Enter sowing density  (plants/m2) : " />
-            <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
-            <property name="cultivar" value="greenbelt" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-            <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
+            <crop type="modulename" description="Enter name of crop to sow : ">broccoli</crop>
+            <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
+            <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
+            <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">greenbelt</cultivar>
+            <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
           </category>
         </rule>
         <rule name="Harvest on a Growth Stage">
@@ -52,10 +52,10 @@
         endif
                </condition>
           <category name="Harvesting criteria">
-            <property name="stage" value="maturity" type="text" description="Enter stage name : " />
+            <stage type="text" description="Enter stage name : ">maturity</stage>
           </category>
           <category name="Harvesting parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+            <crop type="modulename" description="Enter name of crop to sow : ">broccoli</crop>
           </category>
         </rule>
         <rule name="Irrigate at sowing">
@@ -65,12 +65,12 @@
          endif
    ]]></condition>
           <category name="When should irrigation be applied">
-            <property name="modulename" value="broccoli" type="modulename" description="The module the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="Which event should irrigation be applied : " />
+            <modulename type="modulename" description="The module the event come from : ">broccoli</modulename>
+            <eventname type="text" description="Which event should irrigation be applied : ">sowing</eventname>
           </category>
           <category name="Irrigation application details">
-            <property name="irrigatemodule" value="Irrigation" type="modulename" moduletype="irrigation" description="Module used to apply the irrigation : " />
-            <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
+            <irrigatemodule type="modulename" description="Module used to apply the irrigation : ">Irrigation</irrigatemodule>
+            <irrig_amount_evt type="text" description="Amount of irrigation to apply (mm) : ">50</irrig_amount_evt>
           </category>
         </rule>
       </manager>
@@ -107,13 +107,13 @@
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
           <category name="When should fertiliser be applied">
-            <property name="modulename" value="broccoli" type="modulename" description="On which module should the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+            <modulename type="modulename" description="On which module should the event come from : ">broccoli</modulename>
+            <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
           </category>
           <category name="Fertiliser application details">
-            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
-            <property name="fert_amount_sow" value="300" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
-            <property name="fert_type_sow" value="NO3_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+            <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+            <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">300</fert_amount_sow>
+            <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">NO3_N</fert_type_sow>
           </category>
         </rule>
         <rule name="Sow on a fixed date">
@@ -123,14 +123,14 @@
         endif
                </condition>
           <category name="Sowing criteria">
-            <property name="date" value="20-mar" type="text" description="Enter sowing date (dd-mmm) : " />
+            <date type="text" description="Enter sowing date (dd-mmm) : ">20-mar</date>
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
-            <property name="density" value="6" type="text" description="Enter sowing density  (plants/m2) : " />
-            <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
-            <property name="cultivar" value="greenbelt" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-            <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
+            <crop type="modulename" description="Enter name of crop to sow : ">broccoli</crop>
+            <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
+            <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
+            <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">greenbelt</cultivar>
+            <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
           </category>
         </rule>
         <rule name="Irrigate at sowing">
@@ -140,12 +140,12 @@
          endif
    ]]></condition>
           <category name="When should irrigation be applied">
-            <property name="modulename" value="broccoli" type="modulename" description="The module the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="Which event should irrigation be applied : " />
+            <modulename type="modulename" description="The module the event come from : ">broccoli</modulename>
+            <eventname type="text" description="Which event should irrigation be applied : ">sowing</eventname>
           </category>
           <category name="Irrigation application details">
-            <property name="irrigatemodule" value="Irrigation" type="modulename" moduletype="irrigation" description="Module used to apply the irrigation : " />
-            <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
+            <irrigatemodule type="modulename" description="Module used to apply the irrigation : ">Irrigation</irrigatemodule>
+            <irrig_amount_evt type="text" description="Amount of irrigation to apply (mm) : ">50</irrig_amount_evt>
           </category>
         </rule>
         <rule name="Harvest on a Growth Stage">
@@ -156,10 +156,10 @@
         endif
                </condition>
           <category name="Harvesting criteria">
-            <property name="stage" value="maturity" type="text" description="Enter stage name : " />
+            <stage type="text" description="Enter stage name : ">maturity</stage>
           </category>
           <category name="Harvesting parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+            <crop type="modulename" description="Enter name of crop to sow : ">broccoli</crop>
           </category>
         </rule>
       </manager>
@@ -196,13 +196,13 @@
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
           <category name="When should fertiliser be applied">
-            <property name="modulename" value="broccoli" type="modulename" description="On which module should the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+            <modulename type="modulename" description="On which module should the event come from : ">broccoli</modulename>
+            <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
           </category>
           <category name="Fertiliser application details">
-            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
-            <property name="fert_amount_sow" value="300" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
-            <property name="fert_type_sow" value="NO3_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+            <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+            <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">300</fert_amount_sow>
+            <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">NO3_N</fert_type_sow>
           </category>
         </rule>
         <rule name="Sow on a fixed date">
@@ -212,14 +212,14 @@
         endif
                </condition>
           <category name="Sowing criteria">
-            <property name="date" value="1-apr" type="text" description="Enter sowing date (dd-mmm) : " />
+            <date type="text" description="Enter sowing date (dd-mmm) : ">1-apr</date>
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
-            <property name="density" value="6" type="text" description="Enter sowing density  (plants/m2) : " />
-            <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
-            <property name="cultivar" value="greenbelt" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-            <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
+            <crop type="modulename" description="Enter name of crop to sow : ">broccoli</crop>
+            <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
+            <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
+            <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">greenbelt</cultivar>
+            <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
           </category>
         </rule>
         <rule name="Irrigate at sowing">
@@ -229,12 +229,12 @@
          endif
    ]]></condition>
           <category name="When should irrigation be applied">
-            <property name="modulename" value="broccoli" type="modulename" description="The module the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="Which event should irrigation be applied : " />
+            <modulename type="modulename" description="The module the event come from : ">broccoli</modulename>
+            <eventname type="text" description="Which event should irrigation be applied : ">sowing</eventname>
           </category>
           <category name="Irrigation application details">
-            <property name="irrigatemodule" value="Irrigation" type="modulename" moduletype="irrigation" description="Module used to apply the irrigation : " />
-            <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
+            <irrigatemodule type="modulename" description="Module used to apply the irrigation : ">Irrigation</irrigatemodule>
+            <irrig_amount_evt type="text" description="Amount of irrigation to apply (mm) : ">50</irrig_amount_evt>
           </category>
         </rule>
         <rule name="Harvest on a Growth Stage">
@@ -245,10 +245,10 @@
         endif
                </condition>
           <category name="Harvesting criteria">
-            <property name="stage" value="maturity" type="text" description="Enter stage name : " />
+            <stage type="text" description="Enter stage name : ">maturity</stage>
           </category>
           <category name="Harvesting parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+            <crop type="modulename" description="Enter name of crop to sow : ">broccoli</crop>
           </category>
         </rule>
       </manager>
@@ -285,13 +285,13 @@
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
           <category name="When should fertiliser be applied">
-            <property name="modulename" value="broccoli" type="modulename" description="On which module should the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+            <modulename type="modulename" description="On which module should the event come from : ">broccoli</modulename>
+            <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
           </category>
           <category name="Fertiliser application details">
-            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
-            <property name="fert_amount_sow" value="300" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
-            <property name="fert_type_sow" value="NO3_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+            <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+            <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">300</fert_amount_sow>
+            <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">NO3_N</fert_type_sow>
           </category>
         </rule>
         <rule name="Sow on a fixed date">
@@ -301,14 +301,14 @@
         endif
                </condition>
           <category name="Sowing criteria">
-            <property name="date" value="10-apr" type="text" description="Enter sowing date (dd-mmm) : " />
+            <date type="text" description="Enter sowing date (dd-mmm) : ">10-apr</date>
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
-            <property name="density" value="6" type="text" description="Enter sowing density  (plants/m2) : " />
-            <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
-            <property name="cultivar" value="greenbelt" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-            <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
+            <crop type="modulename" description="Enter name of crop to sow : ">broccoli</crop>
+            <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
+            <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
+            <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">greenbelt</cultivar>
+            <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
           </category>
         </rule>
         <rule name="Irrigate at sowing">
@@ -318,12 +318,12 @@
          endif
    ]]></condition>
           <category name="When should irrigation be applied">
-            <property name="modulename" value="broccoli" type="modulename" description="The module the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="Which event should irrigation be applied : " />
+            <modulename type="modulename" description="The module the event come from : ">broccoli</modulename>
+            <eventname type="text" description="Which event should irrigation be applied : ">sowing</eventname>
           </category>
           <category name="Irrigation application details">
-            <property name="irrigatemodule" value="Irrigation" type="modulename" moduletype="irrigation" description="Module used to apply the irrigation : " />
-            <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
+            <irrigatemodule type="modulename" description="Module used to apply the irrigation : ">Irrigation</irrigatemodule>
+            <irrig_amount_evt type="text" description="Amount of irrigation to apply (mm) : ">50</irrig_amount_evt>
           </category>
         </rule>
         <rule name="Harvest on a Growth Stage">
@@ -334,10 +334,10 @@
         endif
                </condition>
           <category name="Harvesting criteria">
-            <property name="stage" value="maturity" type="text" description="Enter stage name : " />
+            <stage type="text" description="Enter stage name : ">maturity</stage>
           </category>
           <category name="Harvesting parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+            <crop type="modulename" description="Enter name of crop to sow : ">broccoli</crop>
           </category>
         </rule>
       </manager>
@@ -374,13 +374,13 @@
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
           <category name="When should fertiliser be applied">
-            <property name="modulename" value="broccoli" type="modulename" description="On which module should the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+            <modulename type="modulename" description="On which module should the event come from : ">broccoli</modulename>
+            <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
           </category>
           <category name="Fertiliser application details">
-            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
-            <property name="fert_amount_sow" value="300" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
-            <property name="fert_type_sow" value="NO3_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+            <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+            <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">300</fert_amount_sow>
+            <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">NO3_N</fert_type_sow>
           </category>
         </rule>
         <rule name="Sow on a fixed date">
@@ -390,14 +390,14 @@
         endif
                </condition>
           <category name="Sowing criteria">
-            <property name="date" value="21-apr" type="text" description="Enter sowing date (dd-mmm) : " />
+            <date type="text" description="Enter sowing date (dd-mmm) : ">21-apr</date>
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
-            <property name="density" value="6" type="text" description="Enter sowing density  (plants/m2) : " />
-            <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
-            <property name="cultivar" value="greenbelt" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-            <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
+            <crop type="modulename" description="Enter name of crop to sow : ">broccoli</crop>
+            <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
+            <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
+            <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">greenbelt</cultivar>
+            <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
           </category>
         </rule>
         <rule name="Irrigate at sowing">
@@ -407,12 +407,12 @@
          endif
    ]]></condition>
           <category name="When should irrigation be applied">
-            <property name="modulename" value="broccoli" type="modulename" description="The module the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="Which event should irrigation be applied : " />
+            <modulename type="modulename" description="The module the event come from : ">broccoli</modulename>
+            <eventname type="text" description="Which event should irrigation be applied : ">sowing</eventname>
           </category>
           <category name="Irrigation application details">
-            <property name="irrigatemodule" value="Irrigation" type="modulename" moduletype="irrigation" description="Module used to apply the irrigation : " />
-            <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
+            <irrigatemodule type="modulename" description="Module used to apply the irrigation : ">Irrigation</irrigatemodule>
+            <irrig_amount_evt type="text" description="Amount of irrigation to apply (mm) : ">50</irrig_amount_evt>
           </category>
         </rule>
         <rule name="Harvest on a Growth Stage">
@@ -423,10 +423,10 @@
         endif
                </condition>
           <category name="Harvesting criteria">
-            <property name="stage" value="maturity" type="text" description="Enter stage name : " />
+            <stage type="text" description="Enter stage name : ">maturity</stage>
           </category>
           <category name="Harvesting parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+            <crop type="modulename" description="Enter name of crop to sow : ">broccoli</crop>
           </category>
         </rule>
       </manager>
@@ -463,13 +463,13 @@
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
           <category name="When should fertiliser be applied">
-            <property name="modulename" value="broccoli" type="modulename" description="On which module should the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+            <modulename type="modulename" description="On which module should the event come from : ">broccoli</modulename>
+            <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
           </category>
           <category name="Fertiliser application details">
-            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
-            <property name="fert_amount_sow" value="300" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
-            <property name="fert_type_sow" value="NO3_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+            <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+            <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">300</fert_amount_sow>
+            <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">NO3_N</fert_type_sow>
           </category>
         </rule>
         <rule name="Sow on a fixed date">
@@ -479,14 +479,14 @@
         endif
                </condition>
           <category name="Sowing criteria">
-            <property name="date" value="1-may" type="text" description="Enter sowing date (dd-mmm) : " />
+            <date type="text" description="Enter sowing date (dd-mmm) : ">1-may</date>
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
-            <property name="density" value="6" type="text" description="Enter sowing density  (plants/m2) : " />
-            <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
-            <property name="cultivar" value="greenbelt" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-            <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
+            <crop type="modulename" description="Enter name of crop to sow : ">broccoli</crop>
+            <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
+            <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
+            <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">greenbelt</cultivar>
+            <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
           </category>
         </rule>
         <rule name="Irrigate at sowing">
@@ -496,12 +496,12 @@
          endif
    ]]></condition>
           <category name="When should irrigation be applied">
-            <property name="modulename" value="broccoli" type="modulename" description="The module the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="Which event should irrigation be applied : " />
+            <modulename type="modulename" description="The module the event come from : ">broccoli</modulename>
+            <eventname type="text" description="Which event should irrigation be applied : ">sowing</eventname>
           </category>
           <category name="Irrigation application details">
-            <property name="irrigatemodule" value="Irrigation" type="modulename" moduletype="irrigation" description="Module used to apply the irrigation : " />
-            <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
+            <irrigatemodule type="modulename" description="Module used to apply the irrigation : ">Irrigation</irrigatemodule>
+            <irrig_amount_evt type="text" description="Amount of irrigation to apply (mm) : ">50</irrig_amount_evt>
           </category>
         </rule>
         <rule name="Harvest on a Growth Stage">
@@ -512,10 +512,10 @@
         endif
                </condition>
           <category name="Harvesting criteria">
-            <property name="stage" value="maturity" type="text" description="Enter stage name : " />
+            <stage type="text" description="Enter stage name : ">maturity</stage>
           </category>
           <category name="Harvesting parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+            <crop type="modulename" description="Enter name of crop to sow : ">broccoli</crop>
           </category>
         </rule>
       </manager>
@@ -552,13 +552,13 @@
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
           <category name="When should fertiliser be applied">
-            <property name="modulename" value="broccoli" type="modulename" description="On which module should the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+            <modulename type="modulename" description="On which module should the event come from : ">broccoli</modulename>
+            <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
           </category>
           <category name="Fertiliser application details">
-            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
-            <property name="fert_amount_sow" value="300" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
-            <property name="fert_type_sow" value="NO3_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+            <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+            <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">300</fert_amount_sow>
+            <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">NO3_N</fert_type_sow>
           </category>
         </rule>
         <rule name="Sow on a fixed date">
@@ -568,14 +568,14 @@
         endif
                </condition>
           <category name="Sowing criteria">
-            <property name="date" value="12-may" type="text" description="Enter sowing date (dd-mmm) : " />
+            <date type="text" description="Enter sowing date (dd-mmm) : ">12-may</date>
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
-            <property name="density" value="6" type="text" description="Enter sowing density  (plants/m2) : " />
-            <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
-            <property name="cultivar" value="greenbelt" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-            <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
+            <crop type="modulename" description="Enter name of crop to sow : ">broccoli</crop>
+            <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
+            <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
+            <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">greenbelt</cultivar>
+            <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
           </category>
         </rule>
         <rule name="Irrigate at sowing">
@@ -585,12 +585,12 @@
          endif
    ]]></condition>
           <category name="When should irrigation be applied">
-            <property name="modulename" value="broccoli" type="modulename" description="The module the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="Which event should irrigation be applied : " />
+            <modulename type="modulename" description="The module the event come from : ">broccoli</modulename>
+            <eventname type="text" description="Which event should irrigation be applied : ">sowing</eventname>
           </category>
           <category name="Irrigation application details">
-            <property name="irrigatemodule" value="Irrigation" type="modulename" moduletype="irrigation" description="Module used to apply the irrigation : " />
-            <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
+            <irrigatemodule type="modulename" description="Module used to apply the irrigation : ">Irrigation</irrigatemodule>
+            <irrig_amount_evt type="text" description="Amount of irrigation to apply (mm) : ">50</irrig_amount_evt>
           </category>
         </rule>
         <rule name="Harvest on a Growth Stage">
@@ -601,10 +601,10 @@
         endif
                </condition>
           <category name="Harvesting criteria">
-            <property name="stage" value="maturity" type="text" description="Enter stage name : " />
+            <stage type="text" description="Enter stage name : ">maturity</stage>
           </category>
           <category name="Harvesting parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+            <crop type="modulename" description="Enter name of crop to sow : ">broccoli</crop>
           </category>
         </rule>
       </manager>
@@ -641,13 +641,13 @@
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
           <category name="When should fertiliser be applied">
-            <property name="modulename" value="broccoli" type="modulename" description="On which module should the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+            <modulename type="modulename" description="On which module should the event come from : ">broccoli</modulename>
+            <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
           </category>
           <category name="Fertiliser application details">
-            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
-            <property name="fert_amount_sow" value="300" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
-            <property name="fert_type_sow" value="NO3_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+            <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+            <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">300</fert_amount_sow>
+            <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">NO3_N</fert_type_sow>
           </category>
         </rule>
         <rule name="Sow on a fixed date">
@@ -657,14 +657,14 @@
         endif
                </condition>
           <category name="Sowing criteria">
-            <property name="date" value="22-may" type="text" description="Enter sowing date (dd-mmm) : " />
+            <date type="text" description="Enter sowing date (dd-mmm) : ">22-may</date>
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
-            <property name="density" value="6" type="text" description="Enter sowing density  (plants/m2) : " />
-            <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
-            <property name="cultivar" value="greenbelt" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-            <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
+            <crop type="modulename" description="Enter name of crop to sow : ">broccoli</crop>
+            <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
+            <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
+            <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">greenbelt</cultivar>
+            <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
           </category>
         </rule>
         <rule name="Irrigate at sowing">
@@ -674,12 +674,12 @@
          endif
    ]]></condition>
           <category name="When should irrigation be applied">
-            <property name="modulename" value="broccoli" type="modulename" description="The module the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="Which event should irrigation be applied : " />
+            <modulename type="modulename" description="The module the event come from : ">broccoli</modulename>
+            <eventname type="text" description="Which event should irrigation be applied : ">sowing</eventname>
           </category>
           <category name="Irrigation application details">
-            <property name="irrigatemodule" value="Irrigation" type="modulename" moduletype="irrigation" description="Module used to apply the irrigation : " />
-            <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
+            <irrigatemodule type="modulename" description="Module used to apply the irrigation : ">Irrigation</irrigatemodule>
+            <irrig_amount_evt type="text" description="Amount of irrigation to apply (mm) : ">50</irrig_amount_evt>
           </category>
         </rule>
         <rule name="Harvest on a Growth Stage">
@@ -690,10 +690,10 @@
         endif
                </condition>
           <category name="Harvesting criteria">
-            <property name="stage" value="maturity" type="text" description="Enter stage name : " />
+            <stage type="text" description="Enter stage name : ">maturity</stage>
           </category>
           <category name="Harvesting parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+            <crop type="modulename" description="Enter name of crop to sow : ">broccoli</crop>
           </category>
         </rule>
       </manager>
@@ -746,13 +746,13 @@
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
           <category name="When should fertiliser be applied">
-            <property name="modulename" value="broccoli" type="modulename" description="On which module should the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+            <modulename type="modulename" description="On which module should the event come from : ">broccoli</modulename>
+            <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
           </category>
           <category name="Fertiliser application details">
-            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
-            <property name="fert_amount_sow" value="300" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
-            <property name="fert_type_sow" value="NO3_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+            <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+            <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">300</fert_amount_sow>
+            <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">NO3_N</fert_type_sow>
           </category>
         </rule>
         <rule name="Sow on a fixed date">
@@ -762,14 +762,14 @@
         endif
                </condition>
           <category name="Sowing criteria">
-            <property name="date" value="11-mar" type="text" description="Enter sowing date (dd-mmm) : " />
+            <date type="text" description="Enter sowing date (dd-mmm) : ">11-mar</date>
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
-            <property name="density" value="6" type="text" description="Enter sowing density  (plants/m2) : " />
-            <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
-            <property name="cultivar" value="greenbelt" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-            <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
+            <crop type="modulename" description="Enter name of crop to sow : ">broccoli</crop>
+            <density type="text" description="Enter sowing density  (plants/m2) : ">6</density>
+            <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
+            <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">greenbelt</cultivar>
+            <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
           </category>
         </rule>
         <rule name="Harvest on a Growth Stage">
@@ -780,10 +780,10 @@
         endif
                </condition>
           <category name="Harvesting criteria">
-            <property name="stage" value="maturity" type="text" description="Enter stage name : " />
+            <stage type="text" description="Enter stage name : ">maturity</stage>
           </category>
           <category name="Harvesting parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+            <crop type="modulename" description="Enter name of crop to sow : ">broccoli</crop>
           </category>
         </rule>
         <rule name="Irrigate at sowing">
@@ -793,12 +793,12 @@
          endif
    ]]></condition>
           <category name="When should irrigation be applied">
-            <property name="modulename" value="broccoli" type="modulename" description="The module the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="Which event should irrigation be applied : " />
+            <modulename type="modulename" description="The module the event come from : ">broccoli</modulename>
+            <eventname type="text" description="Which event should irrigation be applied : ">sowing</eventname>
           </category>
           <category name="Irrigation application details">
-            <property name="irrigatemodule" value="Irrigation" type="modulename" moduletype="irrigation" description="Module used to apply the irrigation : " />
-            <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
+            <irrigatemodule type="modulename" description="Module used to apply the irrigation : ">Irrigation</irrigatemodule>
+            <irrig_amount_evt type="text" description="Amount of irrigation to apply (mm) : ">50</irrig_amount_evt>
           </category>
         </rule>
       </manager>
@@ -880,13 +880,13 @@
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
           <category name="When should fertiliser be applied">
-            <property name="modulename" value="broccoli" type="modulename" description="On which module should the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+            <modulename type="modulename" description="On which module should the event come from : ">broccoli</modulename>
+            <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
           </category>
           <category name="Fertiliser application details">
-            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
-            <property name="fert_amount_sow" value="300" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
-            <property name="fert_type_sow" value="NO3_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+            <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+            <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">300</fert_amount_sow>
+            <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">NO3_N</fert_type_sow>
           </category>
         </rule>
         <rule name="Sow on a fixed date">
@@ -896,14 +896,14 @@
         endif
                </condition>
           <category name="Sowing criteria">
-            <property name="date" value="14-mar" type="text" description="Enter sowing date (dd-mmm) : " />
+            <date type="text" description="Enter sowing date (dd-mmm) : ">14-mar</date>
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
-            <property name="density" value="4" type="text" description="Enter sowing density  (plants/m2) : " />
-            <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
-            <property name="cultivar" value="greenbelt" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-            <property name="row_spacing" value="600" type="text" description="Enter row spacing (mm) : " />
+            <crop type="modulename" description="Enter name of crop to sow : ">broccoli</crop>
+            <density type="text" description="Enter sowing density  (plants/m2) : ">4</density>
+            <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
+            <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">greenbelt</cultivar>
+            <row_spacing type="text" description="Enter row spacing (mm) : ">600</row_spacing>
           </category>
         </rule>
         <rule name="Harvest on a Growth Stage">
@@ -914,10 +914,10 @@
         endif
                </condition>
           <category name="Harvesting criteria">
-            <property name="stage" value="maturity" type="text" description="Enter stage name : " />
+            <stage type="text" description="Enter stage name : ">maturity</stage>
           </category>
           <category name="Harvesting parameters">
-            <property name="crop" value="broccoli" type="modulename" description="Enter name of crop to sow : " />
+            <crop type="modulename" description="Enter name of crop to sow : ">broccoli</crop>
           </category>
         </rule>
         <rule name="Irrigate at sowing">
@@ -927,12 +927,12 @@
          endif
    ]]></condition>
           <category name="When should irrigation be applied">
-            <property name="modulename" value="broccoli" type="modulename" description="The module the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="Which event should irrigation be applied : " />
+            <modulename type="modulename" description="The module the event come from : ">broccoli</modulename>
+            <eventname type="text" description="Which event should irrigation be applied : ">sowing</eventname>
           </category>
           <category name="Irrigation application details">
-            <property name="irrigatemodule" value="Irrigation" type="modulename" moduletype="irrigation" description="Module used to apply the irrigation : " />
-            <property name="irrig_amount_evt" value="50" type="text" description="Amount of irrigation to apply (mm) : " />
+            <irrigatemodule type="modulename" description="Module used to apply the irrigation : ">Irrigation</irrigatemodule>
+            <irrig_amount_evt type="text" description="Amount of irrigation to apply (mm) : ">50</irrig_amount_evt>
           </category>
         </rule>
       </manager>

@@ -12,12 +12,25 @@ Public Class Utility
         End Try
     End Function
 
-    Public Shared Function IndexOfCaseInsensitive(ByVal Values() As String, ByVal St As String)
+    Public Shared Function IndexOfCaseInsensitive(ByVal Values() As String, ByVal St As String) As Integer
         ' -------------------------------------------------------
         ' A version of IndexOf that is case insensitive.
         ' -------------------------------------------------------
         Dim StLower As String = St.ToLower()
         For i As Integer = 0 To Values.Length - 1
+            If Values(i).ToLower() = StLower Then
+                Return i
+            End If
+        Next
+        Return -1
+    End Function
+
+    Public Shared Function IndexOfCaseInsensitive(ByVal Values As Specialized.StringCollection, ByVal St As String) As Integer
+        ' -------------------------------------------------------
+        ' A version of IndexOf that is case insensitive.
+        ' -------------------------------------------------------
+        Dim StLower As String = St.ToLower()
+        For i As Integer = 0 To Values.Count - 1
             If Values(i).ToLower() = StLower Then
                 Return i
             End If

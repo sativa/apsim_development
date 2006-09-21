@@ -914,9 +914,6 @@
             [foreach rule.condition as condition]
             <rule name="[rule.name] - [condition.name]" condition="[condition.name]">
             [condition.innerxml]
-            [foreach rule.category as category]
-            [category.xml]
-            [endfor]
             </rule>
             [endfor]
             [endfor]

@@ -1,4 +1,4 @@
-<simulations name="untitled">
+<simulations name="untitled" version="4">
   <simulation name="Sample Butterfly pea Simulation">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1989</start_date>
@@ -29,19 +29,19 @@
       endif
             ]]></condition>
           <category name="Sowing criteria">
-            <property name="date1" value="31-jan" type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : " />
-            <property name="date2" value="31-jan" type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : " />
-            <property name="must_sow" value="yes" type="yesno" description="Must sow? : " />
-            <property name="raincrit" value="30" type="text" description="Amount of rainfall : " />
-            <property name="rainnumdays" value="3" type="text" description="Number of days of rainfall : " />
-            <property name="esw_amount" value="200" type="text" description="Enter minimum allowable available soil water (mm) : " />
+            <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">31-jan</date1>
+            <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">31-jan</date2>
+            <must_sow type="yesno" description="Must sow? : ">yes</must_sow>
+            <raincrit type="text" description="Amount of rainfall : ">30</raincrit>
+            <rainnumdays type="text" description="Number of days of rainfall : ">3</rainnumdays>
+            <esw_amount type="text" description="Enter minimum allowable available soil water (mm) : ">200</esw_amount>
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="butterflypea" type="crop" description="Enter name of crop to sow : " />
-            <property name="density" value="20" type="text" description="Enter sowing density  (plants/m2) : " />
-            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
-            <property name="cultivar" value="milgarra" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-            <property name="row_spacing" value="300" type="text" description="Enter row spacing (mm) : " />
+            <crop type="crop" description="Enter name of crop to sow : ">butterflypea</crop>
+            <density type="text" description="Enter sowing density  (plants/m2) : ">20</density>
+            <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
+            <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">milgarra</cultivar>
+            <row_spacing type="text" description="Enter row spacing (mm) : ">300</row_spacing>
           </category>
         </rule>
       </manager>

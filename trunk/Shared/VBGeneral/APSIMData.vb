@@ -73,8 +73,10 @@ Public Class APSIMData
             If Not IsNothing(InternalNode.Attributes) Then
                 Dim ShortCut As XmlAttribute = InternalNode.Attributes.GetNamedItem("shortcut")
                 If Not IsNothing(ShortCut) Then
-                    Dim ShortCutPath As String = "shared" + "|" + ShortCut.InnerText
-                    Return New APSIMData(InternalNode.OwnerDocument.DocumentElement, DataChangedEvent).Child(ShortCutPath).InternalNode
+                    Dim TopNode As APSIMData = New APSIMData(InternalNode.OwnerDocument.DocumentElement, DataChangedEvent)
+                    Dim ShortCutPath As String = TopNode.Name + Delimiter + "shared" + Delimiter + ShortCut.InnerText
+                    Dim SharedChild As APSIMData = TopNode.Find(ShortCutPath)
+                    Return SharedChild.InternalNode
                 End If
             End If
             Return InternalNode
@@ -130,9 +132,6 @@ Public Class APSIMData
             End If
         End Get
         Set(ByVal NewName As String)
-            If Not IsNothing(Parent) Then
-                NewName = CalcUniqueName(NewName, Parent.ChildNames)
-            End If
             SetAttribute("name", NewName)
         End Set
     End Property
@@ -445,12 +444,8 @@ Public Class APSIMData
         ' -------------------------------------------------
         If Not IsNothing(Data) Then
             BeginInternalUpdate()
-            Dim NewName As String = CalcUniqueName(Data.Name, ChildNames)
             Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
             Dim NewData As APSIMData = New APSIMData(Node.AppendChild(newnode), DataChangedEvent)
-            If NewName <> NewData.Name Then
-                NewData.Name = NewName
-            End If
             EndInternalUpdate()
             Return NewData
         Else
@@ -463,12 +458,8 @@ Public Class APSIMData
         ' -------------------------------------------------------------------------
         If Not IsNothing(Data) Then
             BeginInternalUpdate()
-            Dim NewName As String = CalcUniqueName(Data.Name, ChildNames)
             Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
             Dim NewData = New APSIMData(Node.InsertBefore(newnode, ReferenceNode.Node), DataChangedEvent)
-            If NewName <> NewData.Name Then
-                NewData.Name = NewName
-            End If
             EndInternalUpdate()
             Return NewData
         Else
@@ -481,13 +472,9 @@ Public Class APSIMData
         ' -------------------------------------------------------------------------
         If Not IsNothing(Data) Then
             BeginInternalUpdate()
-            Dim NewName As String = CalcUniqueName(Data.Name, ChildNames)
             Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
             Dim NewData = New APSIMData(Node.InsertAfter(newnode, ReferenceNode.Node), DataChangedEvent)
             NewData.EnsureNameIsUnique()
-            If NewName <> NewData.Name Then
-                NewData.Name = NewName
-            End If
             EndInternalUpdate()
             Return NewData
         Else
@@ -501,23 +488,24 @@ Public Class APSIMData
         Node.RemoveChild(Child(ChildName).Node)
         FireDataChangedEvent()
     End Sub
-    Private Function CalcUniqueName(ByVal Name As String, ByVal UsedNames() As String) As String
+    Public Sub EnsureNameIsUnique()
         ' ------------------------------------------------
-        ' Using the specified name as a base, return a 
-        ' unique name against our children
+        ' Ensure our name is unique among our siblings.
         ' ------------------------------------------------
-        Dim BaseName As String = Name
-        Dim Found As Boolean = False
-        Dim counter As Integer = 0
-        For i As Integer = 1 To 100000
-            If Utility.IndexOfCaseInsensitive(UsedNames, Name) = -1 Then
-                Return Name
-            Else
-                Return BaseName + "{" + i.ToString + "}"
-            End If
-        Next
-        Throw New Exception("Internal error in APSIMData.CalcUniqueName")
-    End Function
+        If Not IsNothing(Parent) Then
+            Dim BaseName As String = Name
+            Dim Found As Boolean = False
+            Dim counter As Integer = 0
+            Dim Siblings() As String = Parent.ChildNames
+
+            For i As Integer = 1 To 100000
+                If Utility.IndexOfCaseInsensitive(Siblings, Name) <> -1 Then
+                    Name = BaseName + "{" + i.ToString + "}"
+                End If
+            Next
+            Throw New Exception("Internal error in APSIMData.CalcUniqueName")
+        End If
+    End Sub
     Public Sub MoveUp(ByVal ChildName As String, ByVal ChildType As String)
         ' -------------------------------------------------------------------------
         ' Move the specified child up. If ChildType is specified then the child

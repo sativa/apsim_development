@@ -1,5 +1,4 @@
-
-<simulations name="SweetCornValidation" version="2">
+<simulations name="SweetCornValidation" version="4">
   <simulation name="NZIrrigation">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date">30/10/1996</start_date>
@@ -531,7 +530,7 @@
 
             </condition>
         <category name="Harvesting criteria">
-          <property name="crop" value="Sweetcorn" type="modulename" description="Enter name of crop to harvest when ripe : " />
+          <crop type="modulename" description="Enter name of crop to harvest when ripe : ">Sweetcorn</crop>
         </category>
       </rule>
       <rule name="Sowing fertiliser">
@@ -539,13 +538,13 @@
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             </condition>
         <category name="When should fertiliser be applied">
-          <property name="modulename" value="SweetCorn" type="modulename" description="On which module should the event come from : " />
-          <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+          <modulename type="modulename" description="On which module should the event come from : ">SweetCorn</modulename>
+          <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
         </category>
         <category name="Fertiliser application details">
-          <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
-          <property name="fert_amount_sow" value="24" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
-          <property name="fert_type_sow" value="NO3_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+          <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">24</fert_amount_sow>
+          <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">NO3_N</fert_type_sow>
         </category>
       </rule>
       <rule name="Sow on a fixed date">
@@ -555,14 +554,14 @@
         endif
                </condition>
         <category name="Sowing criteria">
-          <property name="date" value="30-oct" type="text" description="Enter sowing date (dd-mmm) : " />
+          <date type="text" description="Enter sowing date (dd-mmm) : ">30-oct</date>
         </category>
         <category name="Sowing parameters">
-          <property name="crop" value="SweetCorn" type="modulename" description="Enter name of crop to sow : " />
-          <property name="density" value="5.7" type="text" description="Enter sowing density  (plants/m2) : " />
-          <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
-          <property name="cultivar" value="challenger" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-          <property name="row_spacing" value="700" type="text" description="Enter row spacing (mm) : " />
+          <crop type="modulename" description="Enter name of crop to sow : ">SweetCorn</crop>
+          <density type="text" description="Enter sowing density  (plants/m2) : ">5.7</density>
+          <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
+          <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">challenger</cultivar>
+          <row_spacing type="text" description="Enter row spacing (mm) : ">700</row_spacing>
         </category>
       </rule>
       <rule name="Fertilise on fixed date">
@@ -574,13 +573,13 @@
             endif
          endif ]]></condition>
         <category name="When should fertiliser be applied">
-          <property name="fert_date" value="20-nov" type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : " />
-          <property name="fert_criteria" value="1000" type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : " />
+          <fert_date type="ddmmmdate" description="Enter fertiliser date (dd-mmm) : ">20-nov</fert_date>
+          <fert_criteria type="text" description="Don't add fertiliser if N in top 2 layers exceeds (kg/ha) : ">1000</fert_criteria>
         </category>
         <category name="Fertiliser application details">
-          <property name="fertmodule" value="fertiliser" type="modulename" moduletype="fertiliser" description="Module used to apply the fertiliser : " />
-          <property name="fert_amount" value="200" type="text" description="Amount of fertiliser to apply (kg/ha) : " />
-          <property name="fert_type" value="urea_N" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+          <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+          <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">200</fert_amount>
+          <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
         </category>
       </rule>
     </manager>
@@ -830,7 +829,7 @@
 
             </condition>
         <category name="Harvesting criteria">
-          <property name="crop" value="Sweetcorn" type="modulename" description="Enter name of crop to harvest when ripe : " />
+          <crop type="modulename" description="Enter name of crop to harvest when ripe : ">Sweetcorn</crop>
         </category>
       </rule>
       <rule name="Sow on a fixed date">
@@ -840,14 +839,14 @@
         endif
                </condition>
         <category name="Sowing criteria">
-          <property name="date" value="21-nov" type="text" description="Enter sowing date (dd-mmm) : " />
+          <date type="text" description="Enter sowing date (dd-mmm) : ">21-nov</date>
         </category>
         <category name="Sowing parameters">
-          <property name="crop" value="SweetCorn" type="modulename" description="Enter name of crop to sow : " />
-          <property name="density" value="5.7" type="text" description="Enter sowing density  (plants/m2) : " />
-          <property name="depth" value="50" type="text" description="Enter sowing depth  (mm) : " />
-          <property name="cultivar" value="h5" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-          <property name="row_spacing" value="700" type="text" description="Enter row spacing (mm) : " />
+          <crop type="modulename" description="Enter name of crop to sow : ">SweetCorn</crop>
+          <density type="text" description="Enter sowing density  (plants/m2) : ">5.7</density>
+          <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
+          <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">h5</cultivar>
+          <row_spacing type="text" description="Enter row spacing (mm) : ">700</row_spacing>
         </category>
       </rule>
     </manager>
