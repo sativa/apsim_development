@@ -431,7 +431,7 @@ namespace CSGeneral
 
 		private double[] PredictedLL(string CropName)
 			{
-			if (Crops.Length > 0 && OpenPredLLCoeffFile())
+			if (Crops.Length > 0 && OpenPredLLCoeffFile() && Utility.IndexOfCaseInsensitive(PredictedCrops, CropName) != -1)
 				{
 				double[] a = null;
 				double[] b = null;

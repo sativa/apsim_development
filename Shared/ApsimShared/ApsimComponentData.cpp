@@ -256,76 +256,6 @@ void ApsimComponentData::getProperties(const std::string& propertyType,
          }
       }
    }
-/*
-// ------------------------------------------------------------------
-// Try and replace the value of the specified property.  Return true
-// if property was found.  False otherwise.
-// ------------------------------------------------------------------
-bool ApsimComponentData::replaceProperty(const std::string& propertyType,
-                                         const std::string& name,
-                                         const std::string& value)
-   {
-   XMLNode initData = getInitData();
-   for (XMLNode::iterator groupI = initData.begin();
-                          groupI != initData.end();
-                          groupI++)
-      {
-      if (Str_i_Eq(groupI->getName(), propertyType))
-         {
-         XMLNode::iterator propertyI = find_if(groupI->begin(),
-                                               groupI->end(),
-                                               NodeEquals<XMLNode>("property", name));
-         if (propertyI != groupI->end())
-            {
-            propertyI->setValue(value);
-            return true;
-            }
-         }
-      }
-   return false;
-   }
-// ------------------------------------------------------------------
-// Set the value of a specified property.
-// ------------------------------------------------------------------
-void ApsimComponentData::setProperty(const string& propertyType,
-                                     const string& groupName,
-                                     const string& name,
-                                     const string& value)
-   {
-   XMLNode initData = getInitData();
-   XMLNode groupNode = appendChildIfNotExist(initData, propertyType, groupName);
-   XMLNode property = groupNode.appendChild("property", true);
-   property.setAttribute("name", name);
-   property.setValue(value);
-   }
-// ------------------------------------------------------------------
-// Delete all properties with the specified type.
-// ------------------------------------------------------------------
-void ApsimComponentData::clearProperties(const std::string& propertyType)
-   {
-   XMLNode initData = getInitData();
-   eraseNodes(initData, propertyType);
-   }
-// ------------------------------------------------------------------
-// Return a list of group names to caller for the specified type
-// of properties.
-// ------------------------------------------------------------------
-void ApsimComponentData::getGroupNames(const std::string& propertyType,
-                                       std::vector<std::string>& groupNames)
-   {
-   XMLNode initData = getInitData();
-   for_each_if(initData.begin(), initData.end(),
-               GetNameAttributeFunction<XMLNode>(groupNames),
-               EqualToName<XMLNode>(propertyType));
-   }
-// ------------------------------------------------------------------
-// Clear all variables.
-// ------------------------------------------------------------------
-void ApsimComponentData::clearVariables(void)
-   {
-   XMLNode initData = getInitData();
-   eraseNodes(initData, "variables");
-   }*/
 // ------------------------------------------------------------------
 // return a list of variables to caller.
 // ------------------------------------------------------------------
@@ -336,26 +266,6 @@ void ApsimComponentData::getVariables(vector<string>& variables) const
                GetValueFunction<vector<string>, XMLNode>(variables),
                EqualToName<XMLNode>("variable"));
    }
-/*
-// ------------------------------------------------------------------
-// Add a variable if it doesn't already exist.
-// ------------------------------------------------------------------
-void ApsimComponentData::addVariable(const string& name)
-   {
-   XMLNode initData = getInitData();
-   XMLNode group = initData.appendChild("variables");
-   XMLNode child = group.appendChild("variable", true);
-   child.setValue(name);
-   }
-// ------------------------------------------------------------------
-// Clear all rules
-// ------------------------------------------------------------------
-void ApsimComponentData::clearRules(void)
-   {
-   XMLNode initData = getInitData();
-   eraseNodes(initData, "rules");
-   } */
-
 // Helper function for below
 template <class T, class CT=std::vector<std::string> >
 class GetRulesFunction
@@ -398,38 +308,8 @@ void ApsimComponentData::getRule(const std::string& name,
       contents = rule->getValue();
 
       Replace_all(contents, "[cr]", "\n");
-      replaceAllMacros(rule, condition);
-      replaceAllMacros(rule, contents);
       }
-   }  /*
-// ------------------------------------------------------------------
-// Add a rule if it doesn't already exist.  If it does exist then
-// update its contents.
-// ------------------------------------------------------------------
-void ApsimComponentData::addRule(const string& name,
-                                 const string& condition,
-                                 const string& contents)
-   {
-   XMLNode initData = getInitData();
-   XMLNode rules = initData.appendChild("rules");
-   XMLNode::iterator rule = find_if(rules.begin(),
-                                    rules.end(),
-                                    NodeAttributesEquals<XMLNode>
-                                       ("rule",
-                                        "name", name,
-                                        "condition", condition));
-   string sanitisedContents = contents;
-   Replace_all(sanitisedContents, "\n", "[cr]");
-   if (rule == rules.end())
-      {
-      XMLNode child = rules.appendChild("rule", true);
-      child.setAttribute("name", name);
-      child.setAttribute("condition", condition);
-      child.setValue(sanitisedContents);
-      }
-   else
-      rule->setValue(sanitisedContents);
-   }    */
+   }
 // ------------------------------------------------------------------
 // Return the contents of this service as an xml string.
 // ------------------------------------------------------------------
@@ -496,38 +376,6 @@ std::string ApsimComponentData::getInterfaceFileName(void) const
          return interfaceFilePath.Get_path();
       }
    return "";
-   }
-
-// ------------------------------------------------------------------
-// Replace all macros between square brackets.
-// ------------------------------------------------------------------
-void ApsimComponentData::replaceAllMacros(XMLNode::iterator rulesNode, string& contents) const
-   {
-   unsigned posOpenBracket = contents.find('[');
-   while (posOpenBracket != string::npos)
-      {
-      unsigned posCloseBracket = contents.find(']', posOpenBracket);
-      string macroName = contents.substr(posOpenBracket+1, posCloseBracket-posOpenBracket-1);
-
-      // try and resolve macroName from a properties child.
-      for (XMLNode::iterator category = rulesNode->begin();
-                             category != rulesNode->end();
-                             category++)
-         {
-         if (category->getName() == "category")
-            {
-            XMLNode::iterator property = find_if(category->begin(), category->end(), EqualToName<XMLNode>(macroName));
-            if (property != category->end())
-               {
-               // found a property with the macro name - replace macro name.
-               string macroValue = property->getValue();
-               contents.replace(posOpenBracket, posCloseBracket-posOpenBracket+1, macroValue);
-               }
-            }
-         }
-
-      posOpenBracket = contents.find('[', posOpenBracket+1);
-      }
    }
 
 

@@ -129,9 +129,13 @@ namespace ApsimToSim
 						}
 					else
 						{
-						string Contents = APSIMData.FormatXML(SimNode.InnerXML);
+                        if (Component.Type.ToLower() == "manager")
+                            DoManagerSubstitutions(Component);
+
+                        string Contents = APSIMData.FormatXML(SimNode.InnerXML);
 						Macro macro = new Macro();
 						Contents = macro.Go(Component, Contents);
+
 						if (ModuleType.ToLower() == "component")
 							Contents = StringManip.IndentText(Contents, (Level + 2) * 2);
 						else
@@ -169,6 +173,28 @@ namespace ApsimToSim
 					}
 				}
 			}
+
+        private void DoManagerSubstitutions(APSIMData Component)
+            {
+            foreach (APSIMData Rule in Component.get_Children("rule"))
+                {
+                APSIMData Condition = Rule.ChildByType("condition");
+                if (Condition != null)
+                    {
+                    string Contents = Condition.XML;
+                    foreach (APSIMData Category in Rule.get_Children("category"))
+                        {
+                        foreach (APSIMData Property in Category.get_Children(null))
+                            {
+                            string MacroToLookFor = "[" + Property.Name + "]";
+                            Contents = Contents.Replace(MacroToLookFor, Property.Value);
+                            }
+                        }
+                    Rule.Delete(Condition.Name);
+                    Rule.Add(new APSIMData(Contents));
+                    }
+                }
+            }
 
 
 		private void CallDll(APSIMData CallDllNode, TextWriter Out, APSIMData Component)

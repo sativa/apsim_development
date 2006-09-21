@@ -351,15 +351,18 @@ namespace CSGeneral
 				{
 				string ChildName = Macro.Substring(0, PosLastPeriod);
 				Macro = Macro.Substring(PosLastPeriod+1);
-				try
+                int NumDecPlaces;
+                if (int.TryParse(Macro, out NumDecPlaces))
 					{
-					FormatString = "f" + Convert.ToInt32(Macro).ToString();
+                    FormatString = "f" + NumDecPlaces.ToString();
 					Macro = ChildName;
 					}
-				catch (Exception)
+                else
 					{
-                    Child.PathDelimiter = ".";
-					Child = Child.Find(ChildName);
+                    ChildName = ChildName.Replace(".", "\\");
+					APSIMData NewChild = Child.Find(ChildName);
+                    if (NewChild != null)
+                        Child = NewChild;
 					}
 				}
 
