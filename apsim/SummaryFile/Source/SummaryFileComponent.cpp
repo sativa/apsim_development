@@ -178,6 +178,10 @@ void SummaryFileComponent::writeInfo(void)
       variant->unpack(components);
       for (unsigned comp = 0; comp != components.size(); comp++)
          {
+#ifdef __WIN32__
+         // Convert unix style paths to native DOS format
+         Replace_all(components[comp], "/", "\\");
+#endif
          line = "Component DLL          = " + components[comp];
          writeLine("", line.c_str());
          }
