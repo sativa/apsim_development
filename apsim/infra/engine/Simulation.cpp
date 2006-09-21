@@ -73,22 +73,17 @@ Simulation::~Simulation(void)
 void Simulation::go(const string& simFilename)
    {
    // remove existing log file.
-   Path logPath(simFilename);
-   logPath.Set_extension(".log");
-   if (logPath.Exists())
-     unlink(logPath.Get_path().c_str());
+   string logFile = fileRoot(simFilename) + ".log";
+   if (fileExists(logFile))
+     unlink(logFile.c_str());
 
    try
       {
       ifstream in(simFilename.c_str());
       if (in)
          {
-         Path currentPath = Path::getCurrentFolder();
-         Path simPath(simFilename);
-         simPath.Change_directory();
-         init(simPath.Get_name());
+         init(simFilename);
          commence();
-         currentPath.Change_directory();
          }
       else
          throw runtime_error("Cannot find simulation file: " + simFilename);
@@ -111,9 +106,8 @@ void Simulation::go(const string& simFilename)
 // ------------------------------------------------------------------
 void Simulation::logError(const char* simFilename, const char* msg)
    {
-   Path logPath(simFilename);
-   logPath.Set_extension(".log");
-   ofstream log(logPath.Get_path().c_str(), ios::app);
+   string logFile = fileRoot(simFilename) + ".log";
+   ofstream log(logFile.c_str(), ios::app);
    log << endl;
    log << "APSIM Infrastructure Error" << endl;
    log << "--------------------------" << endl;

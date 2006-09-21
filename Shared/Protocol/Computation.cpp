@@ -127,27 +127,18 @@ void Computation::deleteInstance(void) const
 //    dph 22/2/2000
 
 // ------------------------------------------------------------------
+#ifdef __WIN32__
 void *Computation::loadDLL(const string& filename) throw (runtime_error)
    {
-   void *result;
-   const char *dlError = NULL;   /* Pointer to error string for Linux */
-
-#ifdef __WIN32__
    char oldwd[MAX_PATH];
-
    getcwd(oldwd, MAX_PATH);
-   chdir(Path(filename).Get_directory().c_str());  // XX may need to change drive too??
-   result = LoadLibrary(filename.c_str());
+   chdir(fileDirName(filename).c_str());
+   void *result = LoadLibrary(filename.c_str());
    chdir(oldwd);
-#else
-   result = dlopen(filename.c_str(), RTLD_NOW|RTLD_LOCAL);
-   dlError = dlerror();
-#endif
 
-   if (result == NULL || dlError)
+   if (result == NULL )
       {
       // Get windows error message.
-#ifdef __WIN32__
       LPVOID lpMsgBuf;
       FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
                     NULL,
@@ -159,13 +150,23 @@ void *Computation::loadDLL(const string& filename) throw (runtime_error)
                     );
       string errorMessage = ("Cannot load DLL: " + filename + ".\n  " + (LPTSTR) lpMsgBuf);
       LocalFree( lpMsgBuf );
-#else
-      string errorMessage = ("Cannot load DLL: " + filename + ".\n" + dlError);
-#endif
       throw runtime_error(errorMessage);
       }
    return result;
    }
+#else
+void *Computation::loadDLL(const string& filename) throw (runtime_error)
+   {
+   void *result = dlopen(filename.c_str(), RTLD_NOW|RTLD_LOCAL);
+
+   if (dlerror() != NULL)
+      {
+      string errorMessage = ("Cannot load DLL: " + filename + ".\n" + dlerror());
+      throw runtime_error(errorMessage);
+      }
+   return result;
+   }
+#endif
 
 // ------------------------------------------------------------------
 //  Short description:
