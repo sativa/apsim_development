@@ -227,7 +227,7 @@ void LogComponent::writeMessage(const string& toName,
       "ReplySetValueSuccess", "ReplyValue",
       "RequestComponentID", "RequestSetValue", "ResumeSimulation",
       "ReturnComponentID", "ReturnInfo", "ReturnValue",
-      "TerminateSimulation", "", "", "", "", "", "", "",
+      "TerminateSimulation", "<unused>", "<unused>", "<unused>", "<unused>", "<unused>", "<unused>", "<unused>",
       "ApsimGetQuery", "ApsimSetQuery", "ApsimChangeOrder"};
 
    if (message->messageType == protocol::Register)

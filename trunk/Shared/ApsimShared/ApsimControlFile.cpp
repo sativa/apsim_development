@@ -47,9 +47,8 @@ struct ParamFile
           moduleName.find('\\') != string::npos || 
           moduleName.find('.') != string::npos)
          {
-         Path dllPath(moduleName);
-         moduleName = dllPath.Get_name_without_ext();
-         dllFileName = dllPath.Get_path();
+         dllFileName = moduleName;
+         moduleName = fileRoot(fileTail(moduleName));
          }
       else
          {

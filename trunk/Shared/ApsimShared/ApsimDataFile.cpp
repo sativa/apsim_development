@@ -4,9 +4,9 @@
 #include <string>
 #include <general/string_functions.h>
 #include <general/stl_functions.h>
+#include <general/path.h>
 #include <general/IniFile.h>
 #include <general/platform.h>
-#include <boost/filesystem/operations.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/date_time/period.hpp>
 #include <boost/date_time/date_parsing.hpp>
@@ -15,18 +15,17 @@
 #include "FString.h"
 #include "ApsimDataFile.h"
 
+
 using namespace std;
 using namespace boost;
-using namespace boost::filesystem;
 using namespace boost::gregorian;
 
 //---------------------------------------------------------------------------
 // read in the contents of the specified file into this TSEGTable.
 //---------------------------------------------------------------------------
-void ApsimDataFile::open(const std::string& file)
+void ApsimDataFile::open(const std::string& fileName)
    {
-   fileName = file;
-   if (!exists(path(fileName, native)))
+   if (!fileExists(fileName))
       throw runtime_error("Cannot open file: " + fileName + ". File doesn't exist");
 
    if (in.is_open())
