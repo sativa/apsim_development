@@ -20,7 +20,7 @@
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
      Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\development\apsim\Sorghum\lib\Sorghum.dll
+     Component DLL          = c:\development\apsim\sorghum\lib\sorghum.dll
      Component DLL          = c:\development\apsim\Tracker\lib\Tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
@@ -46,7 +46,7 @@
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\common files\Roma.met
+     INPUT File name: c:\development\apsim\Common Files\roma.met
 
 ------- fertiliz Initialisation -----------------------------------------------
       Initialising
@@ -272,7 +272,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1957(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1957(Day of year=288), Sorghum: 
+15 October 1957(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -313,49 +313,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1957(Day of year=289), Sorghum: 
+16 October 1957(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-19 October 1957(Day of year=292), Sorghum: 
+19 October 1957(Day of year=292), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  19.20
-27 October 1957(Day of year=300), Sorghum: 
+27 October 1957(Day of year=300), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.53 		 lai =   0.02
      		stover N conc =   0.07 		 extractable sw =  71.17
-11 November 1957(Day of year=315), Sorghum: 
+11 November 1957(Day of year=315), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  31.86 		 lai =   0.53
      		stover N conc =   1.05 		 extractable sw =  96.91
-3 January 1958(Day of year=3), Sorghum: 
+3 January 1958(Day of year=3), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 293.15 		 lai =   0.29
      		stover N conc =  11.70 		 extractable sw =  22.51
-23 January 1958(Day of year=23), Sorghum: 
+23 January 1958(Day of year=23), sorghum: 
       stage 7.0 flowering
      		biomass = 335.76 		 lai =   0.23
      		stover N conc =  12.51 		 extractable sw =  41.00
-24 January 1958(Day of year=24), Sorghum: 
+24 January 1958(Day of year=24), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 338.61 		 lai =   0.23
      		stover N conc =  12.55 		 extractable sw =  37.91
-21 February 1958(Day of year=52), Sorghum: 
+21 February 1958(Day of year=52), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 403.12 		 lai =   0.23
      		stover N conc =  11.71 		 extractable sw =  34.28
-23 February 1958(Day of year=54), Sorghum: 
+23 February 1958(Day of year=54), sorghum: 
       stage 10.0 maturity
      		biomass = 406.62 		 lai =   0.23
      		stover N conc =  11.71 		 extractable sw =  29.63
-24 February 1958(Day of year=55), Sorghum: 
+24 February 1958(Day of year=55), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 409.58 		 lai =   0.23
      		stover N conc =  11.76 		 extractable sw =  26.72
 24 February 1958(Day of year=55), manager: 
      Manager sending message :- sorghum harvest
-24 February 1958(Day of year=55), Sorghum: 
+24 February 1958(Day of year=55), sorghum: 
      
      Harvest
      flowering (DAS)       = 100 	 maturity (DAS)          = 131
@@ -389,7 +389,7 @@
                          N  (kg/ha) =                 20.90		    0.00
 24 February 1958(Day of year=55), manager: 
      Manager sending message :- sorghum end_crop
-24 February 1958(Day of year=55), Sorghum: 
+24 February 1958(Day of year=55), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3151.41		 1144.70
@@ -441,7 +441,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1958(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1958(Day of year=288), Sorghum: 
+15 October 1958(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -482,49 +482,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1958(Day of year=289), Sorghum: 
+16 October 1958(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-21 October 1958(Day of year=294), Sorghum: 
+21 October 1958(Day of year=294), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  35.90
-31 October 1958(Day of year=304), Sorghum: 
+31 October 1958(Day of year=304), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.93 		 lai =   0.02
      		stover N conc =   0.11 		 extractable sw =  89.70
-15 November 1958(Day of year=319), Sorghum: 
+15 November 1958(Day of year=319), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  27.91 		 lai =   0.58
      		stover N conc =   0.94 		 extractable sw = 100.76
-9 December 1958(Day of year=343), Sorghum: 
+9 December 1958(Day of year=343), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 345.19 		 lai =   3.52
      		stover N conc =  10.27 		 extractable sw =  16.41
-22 December 1958(Day of year=356), Sorghum: 
+22 December 1958(Day of year=356), sorghum: 
       stage 7.0 flowering
      		biomass = 431.80 		 lai =   1.90
      		stover N conc =  12.09 		 extractable sw =  38.16
-23 December 1958(Day of year=357), Sorghum: 
+23 December 1958(Day of year=357), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 445.43 		 lai =   1.90
      		stover N conc =  12.27 		 extractable sw =  31.55
-22 January 1959(Day of year=22), Sorghum: 
+22 January 1959(Day of year=22), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 881.50 		 lai =   1.90
      		stover N conc =  12.53 		 extractable sw =  21.23
-24 January 1959(Day of year=24), Sorghum: 
+24 January 1959(Day of year=24), sorghum: 
       stage 10.0 maturity
      		biomass = 899.48 		 lai =   1.87
      		stover N conc =  12.47 		 extractable sw =  22.99
-25 January 1959(Day of year=25), Sorghum: 
+25 January 1959(Day of year=25), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 906.05 		 lai =   1.77
      		stover N conc =  12.40 		 extractable sw =  21.49
 25 January 1959(Day of year=25), manager: 
      Manager sending message :- sorghum harvest
-25 January 1959(Day of year=25), Sorghum: 
+25 January 1959(Day of year=25), sorghum: 
      
      Harvest
      flowering (DAS)       = 68 	 maturity (DAS)          = 101
@@ -558,7 +558,7 @@
                          N  (kg/ha) =                 59.48		    0.00
 25 January 1959(Day of year=25), manager: 
      Manager sending message :- sorghum end_crop
-25 January 1959(Day of year=25), Sorghum: 
+25 January 1959(Day of year=25), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               5027.90		 1515.44
@@ -610,7 +610,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1959(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1959(Day of year=288), Sorghum: 
+15 October 1959(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -651,49 +651,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1959(Day of year=289), Sorghum: 
+16 October 1959(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-20 October 1959(Day of year=293), Sorghum: 
+20 October 1959(Day of year=293), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  31.41
-29 October 1959(Day of year=302), Sorghum: 
+29 October 1959(Day of year=302), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.45 		 lai =   0.02
      		stover N conc =   0.07 		 extractable sw =  86.64
-13 November 1959(Day of year=317), Sorghum: 
+13 November 1959(Day of year=317), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  26.40 		 lai =   0.52
      		stover N conc =   0.81 		 extractable sw = 122.59
-7 December 1959(Day of year=341), Sorghum: 
+7 December 1959(Day of year=341), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 411.04 		 lai =   3.81
      		stover N conc =   9.79 		 extractable sw =  25.64
-16 December 1959(Day of year=350), Sorghum: 
+16 December 1959(Day of year=350), sorghum: 
       stage 7.0 flowering
      		biomass = 540.43 		 lai =   3.72
      		stover N conc =  11.32 		 extractable sw =  16.93
-17 December 1959(Day of year=351), Sorghum: 
+17 December 1959(Day of year=351), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 547.04 		 lai =   3.71
      		stover N conc =  11.43 		 extractable sw =  14.00
-15 January 1960(Day of year=15), Sorghum: 
+15 January 1960(Day of year=15), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 671.58 		 lai =   1.18
      		stover N conc =   6.67 		 extractable sw =   0.84
-17 January 1960(Day of year=17), Sorghum: 
+17 January 1960(Day of year=17), sorghum: 
       stage 10.0 maturity
      		biomass = 672.28 		 lai =   1.16
      		stover N conc =   6.68 		 extractable sw =   0.54
-18 January 1960(Day of year=18), Sorghum: 
+18 January 1960(Day of year=18), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 672.53 		 lai =   1.11
      		stover N conc =   6.69 		 extractable sw =   0.51
 18 January 1960(Day of year=18), manager: 
      Manager sending message :- sorghum harvest
-18 January 1960(Day of year=18), Sorghum: 
+18 January 1960(Day of year=18), sorghum: 
      
      Harvest
      flowering (DAS)       = 62 	 maturity (DAS)          = 94
@@ -727,7 +727,7 @@
                          N  (kg/ha) =                 61.28		    0.00
 18 January 1960(Day of year=18), manager: 
      Manager sending message :- sorghum end_crop
-18 January 1960(Day of year=18), Sorghum: 
+18 January 1960(Day of year=18), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4986.43		 1816.41
@@ -779,7 +779,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1960(Day of year=289), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1960(Day of year=289), Sorghum: 
+15 October 1960(Day of year=289), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -820,39 +820,39 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1960(Day of year=290), Sorghum: 
+16 October 1960(Day of year=290), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-20 October 1960(Day of year=294), Sorghum: 
+20 October 1960(Day of year=294), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  26.55
-28 October 1960(Day of year=302), Sorghum: 
+28 October 1960(Day of year=302), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.67 		 lai =   0.02
      		stover N conc =   0.08 		 extractable sw =  85.94
-14 November 1960(Day of year=319), Sorghum: 
+14 November 1960(Day of year=319), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  31.65 		 lai =   0.52
      		stover N conc =   0.91 		 extractable sw = 105.37
-9 December 1960(Day of year=344), Sorghum: 
+9 December 1960(Day of year=344), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 432.49 		 lai =   3.81
      		stover N conc =  10.79 		 extractable sw =  23.25
-3 January 1961(Day of year=3), Sorghum: 
+3 January 1961(Day of year=3), sorghum: 
       stage 7.0 flowering
      		biomass = 531.99 		 lai =   1.10
      		stover N conc =  12.94 		 extractable sw =   0.87
-5 January 1961(Day of year=5), Sorghum: 
+5 January 1961(Day of year=5), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 534.27 		 lai =   1.01
      		stover N conc =  12.96 		 extractable sw =   0.67
-28 January 1961(Day of year=28), Sorghum: 
+28 January 1961(Day of year=28), sorghum: 
      Plant Death. Standing above-ground dm = 5386.36 (kg/ha)
 28 January 1961(Day of year=28), manager: 
      Manager sending message :- sorghum harvest
-28 January 1961(Day of year=28), Sorghum: 
+28 January 1961(Day of year=28), sorghum: 
      
      Harvest
      flowering (DAS)       = 80 	 maturity (DAS)          = 0
@@ -886,7 +886,7 @@
                          N  (kg/ha) =                 40.29		    0.00
 28 January 1961(Day of year=28), manager: 
      Manager sending message :- sorghum end_crop
-28 January 1961(Day of year=28), Sorghum: 
+28 January 1961(Day of year=28), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4892.51		 1778.76
@@ -938,7 +938,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1961(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1961(Day of year=288), Sorghum: 
+15 October 1961(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -979,49 +979,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1961(Day of year=289), Sorghum: 
+16 October 1961(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-19 October 1961(Day of year=292), Sorghum: 
+19 October 1961(Day of year=292), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  19.37
-28 October 1961(Day of year=301), Sorghum: 
+28 October 1961(Day of year=301), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.91 		 lai =   0.03
      		stover N conc =   0.08 		 extractable sw =  74.65
-11 November 1961(Day of year=315), Sorghum: 
+11 November 1961(Day of year=315), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  23.95 		 lai =   0.53
      		stover N conc =   0.79 		 extractable sw = 141.14
-4 December 1961(Day of year=338), Sorghum: 
+4 December 1961(Day of year=338), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 417.89 		 lai =   3.98
      		stover N conc =   8.83 		 extractable sw =  63.89
-13 December 1961(Day of year=347), Sorghum: 
+13 December 1961(Day of year=347), sorghum: 
       stage 7.0 flowering
      		biomass = 547.77 		 lai =   3.88
      		stover N conc =  11.41 		 extractable sw =  17.94
-15 December 1961(Day of year=349), Sorghum: 
+15 December 1961(Day of year=349), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 570.36 		 lai =   3.85
      		stover N conc =  11.58 		 extractable sw =  86.24
-15 January 1962(Day of year=15), Sorghum: 
+15 January 1962(Day of year=15), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 989.31 		 lai =   1.95
      		stover N conc =   7.34 		 extractable sw =  87.63
-16 January 1962(Day of year=16), Sorghum: 
+16 January 1962(Day of year=16), sorghum: 
       stage 10.0 maturity
      		biomass = 996.04 		 lai =   1.84
      		stover N conc =   7.24 		 extractable sw =  86.79
-17 January 1962(Day of year=17), Sorghum: 
+17 January 1962(Day of year=17), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 1009.67 		 lai =   1.74
      		stover N conc =   7.14 		 extractable sw =  82.78
 17 January 1962(Day of year=17), manager: 
      Manager sending message :- sorghum harvest
-17 January 1962(Day of year=17), Sorghum: 
+17 January 1962(Day of year=17), sorghum: 
      
      Harvest
      flowering (DAS)       = 59 	 maturity (DAS)          = 93
@@ -1055,7 +1055,7 @@
                          N  (kg/ha) =                 83.23		    0.00
 17 January 1962(Day of year=17), manager: 
      Manager sending message :- sorghum end_crop
-17 January 1962(Day of year=17), Sorghum: 
+17 January 1962(Day of year=17), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               5237.72		 1842.60
@@ -1107,7 +1107,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1962(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1962(Day of year=288), Sorghum: 
+15 October 1962(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -1148,49 +1148,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1962(Day of year=289), Sorghum: 
+16 October 1962(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-19 October 1962(Day of year=292), Sorghum: 
+19 October 1962(Day of year=292), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  24.71
-28 October 1962(Day of year=301), Sorghum: 
+28 October 1962(Day of year=301), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.72 		 lai =   0.02
      		stover N conc =   0.07 		 extractable sw =  85.09
-13 November 1962(Day of year=317), Sorghum: 
+13 November 1962(Day of year=317), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  29.55 		 lai =   0.51
      		stover N conc =   0.84 		 extractable sw = 118.02
-9 December 1962(Day of year=343), Sorghum: 
+9 December 1962(Day of year=343), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 401.69 		 lai =   3.70
      		stover N conc =   9.12 		 extractable sw =  12.82
-1 January 1963(Day of year=1), Sorghum: 
+1 January 1963(Day of year=1), sorghum: 
       stage 7.0 flowering
      		biomass = 508.01 		 lai =   1.44
      		stover N conc =  10.25 		 extractable sw = 129.07
-2 January 1963(Day of year=2), Sorghum: 
+2 January 1963(Day of year=2), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 518.96 		 lai =   1.44
      		stover N conc =  10.30 		 extractable sw = 133.31
-3 February 1963(Day of year=34), Sorghum: 
+3 February 1963(Day of year=34), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 861.35 		 lai =   1.44
      		stover N conc =   7.07 		 extractable sw = 124.19
-5 February 1963(Day of year=36), Sorghum: 
+5 February 1963(Day of year=36), sorghum: 
       stage 10.0 maturity
      		biomass = 882.66 		 lai =   1.44
      		stover N conc =   6.97 		 extractable sw = 120.84
-6 February 1963(Day of year=37), Sorghum: 
+6 February 1963(Day of year=37), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 897.40 		 lai =   1.44
      		stover N conc =   6.95 		 extractable sw = 115.08
 6 February 1963(Day of year=37), manager: 
      Manager sending message :- sorghum harvest
-6 February 1963(Day of year=37), Sorghum: 
+6 February 1963(Day of year=37), sorghum: 
      
      Harvest
      flowering (DAS)       = 78 	 maturity (DAS)          = 113
@@ -1224,7 +1224,7 @@
                          N  (kg/ha) =                 55.56		    0.00
 6 February 1963(Day of year=37), manager: 
      Manager sending message :- sorghum end_crop
-6 February 1963(Day of year=37), Sorghum: 
+6 February 1963(Day of year=37), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               5673.55		 1703.50
@@ -1276,7 +1276,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1963(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1963(Day of year=288), Sorghum: 
+15 October 1963(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -1317,49 +1317,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1963(Day of year=289), Sorghum: 
+16 October 1963(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-20 October 1963(Day of year=293), Sorghum: 
+20 October 1963(Day of year=293), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  25.52
-28 October 1963(Day of year=301), Sorghum: 
+28 October 1963(Day of year=301), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.56 		 lai =   0.03
      		stover N conc =   0.08 		 extractable sw =  74.71
-12 November 1963(Day of year=316), Sorghum: 
+12 November 1963(Day of year=316), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  24.61 		 lai =   0.51
      		stover N conc =   0.81 		 extractable sw = 111.83
-6 December 1963(Day of year=340), Sorghum: 
+6 December 1963(Day of year=340), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 428.31 		 lai =   3.90
      		stover N conc =   8.48 		 extractable sw = 102.47
-14 December 1963(Day of year=348), Sorghum: 
+14 December 1963(Day of year=348), sorghum: 
       stage 7.0 flowering
      		biomass = 615.92 		 lai =   3.82
      		stover N conc =  10.51 		 extractable sw =  97.85
-16 December 1963(Day of year=350), Sorghum: 
+16 December 1963(Day of year=350), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 665.65 		 lai =   3.78
      		stover N conc =  11.01 		 extractable sw =  83.21
-12 January 1964(Day of year=12), Sorghum: 
+12 January 1964(Day of year=12), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 943.30 		 lai =   1.15
      		stover N conc =   6.58 		 extractable sw =   2.79
-14 January 1964(Day of year=14), Sorghum: 
+14 January 1964(Day of year=14), sorghum: 
       stage 10.0 maturity
      		biomass = 945.36 		 lai =   0.95
      		stover N conc =   6.58 		 extractable sw =   4.25
-15 January 1964(Day of year=15), Sorghum: 
+15 January 1964(Day of year=15), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 948.77 		 lai =   0.87
      		stover N conc =   6.55 		 extractable sw =   2.97
 15 January 1964(Day of year=15), manager: 
      Manager sending message :- sorghum harvest
-15 January 1964(Day of year=15), Sorghum: 
+15 January 1964(Day of year=15), sorghum: 
      
      Harvest
      flowering (DAS)       = 60 	 maturity (DAS)          = 91
@@ -1393,7 +1393,7 @@
                          N  (kg/ha) =                 83.03		    0.00
 15 January 1964(Day of year=15), manager: 
      Manager sending message :- sorghum end_crop
-15 January 1964(Day of year=15), Sorghum: 
+15 January 1964(Day of year=15), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               5689.82		 2138.00
@@ -1445,7 +1445,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1964(Day of year=289), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1964(Day of year=289), Sorghum: 
+15 October 1964(Day of year=289), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -1486,39 +1486,39 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1964(Day of year=290), Sorghum: 
+16 October 1964(Day of year=290), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-21 October 1964(Day of year=295), Sorghum: 
+21 October 1964(Day of year=295), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  34.77
-31 October 1964(Day of year=305), Sorghum: 
+31 October 1964(Day of year=305), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.71 		 lai =   0.03
      		stover N conc =   0.08 		 extractable sw =  91.73
-18 November 1964(Day of year=323), Sorghum: 
+18 November 1964(Day of year=323), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  30.78 		 lai =   0.58
      		stover N conc =   0.92 		 extractable sw = 111.63
-11 December 1964(Day of year=346), Sorghum: 
+11 December 1964(Day of year=346), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 392.73 		 lai =   3.75
      		stover N conc =  10.30 		 extractable sw =  22.68
-9 January 1965(Day of year=9), Sorghum: 
+9 January 1965(Day of year=9), sorghum: 
       stage 7.0 flowering
      		biomass = 480.76 		 lai =   0.71
      		stover N conc =  12.58 		 extractable sw =  13.87
-11 January 1965(Day of year=11), Sorghum: 
+11 January 1965(Day of year=11), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 491.08 		 lai =   0.71
      		stover N conc =  12.70 		 extractable sw =   6.46
-4 February 1965(Day of year=35), Sorghum: 
+4 February 1965(Day of year=35), sorghum: 
      Plant Death. Standing above-ground dm = 4995.59 (kg/ha)
 4 February 1965(Day of year=35), manager: 
      Manager sending message :- sorghum harvest
-4 February 1965(Day of year=35), Sorghum: 
+4 February 1965(Day of year=35), sorghum: 
      
      Harvest
      flowering (DAS)       = 86 	 maturity (DAS)          = 0
@@ -1552,7 +1552,7 @@
                          N  (kg/ha) =                 38.80		    0.00
 4 February 1965(Day of year=35), manager: 
      Manager sending message :- sorghum end_crop
-4 February 1965(Day of year=35), Sorghum: 
+4 February 1965(Day of year=35), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4444.91		 1636.80
@@ -1604,7 +1604,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1965(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1965(Day of year=288), Sorghum: 
+15 October 1965(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -1645,49 +1645,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1965(Day of year=289), Sorghum: 
+16 October 1965(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-20 October 1965(Day of year=293), Sorghum: 
+20 October 1965(Day of year=293), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  28.24
-27 October 1965(Day of year=300), Sorghum: 
+27 October 1965(Day of year=300), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.36 		 lai =   0.02
      		stover N conc =   0.07 		 extractable sw =  75.31
-11 November 1965(Day of year=315), Sorghum: 
+11 November 1965(Day of year=315), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  28.71 		 lai =   0.52
      		stover N conc =   1.08 		 extractable sw =  97.54
-5 December 1965(Day of year=339), Sorghum: 
+5 December 1965(Day of year=339), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 390.18 		 lai =   3.61
      		stover N conc =  10.26 		 extractable sw =  84.50
-13 December 1965(Day of year=347), Sorghum: 
+13 December 1965(Day of year=347), sorghum: 
       stage 7.0 flowering
      		biomass = 509.98 		 lai =   3.53
      		stover N conc =  11.49 		 extractable sw = 101.07
-15 December 1965(Day of year=349), Sorghum: 
+15 December 1965(Day of year=349), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 547.68 		 lai =   3.50
      		stover N conc =  11.77 		 extractable sw = 124.51
-14 January 1966(Day of year=14), Sorghum: 
+14 January 1966(Day of year=14), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 1008.27 		 lai =   1.85
      		stover N conc =   9.26 		 extractable sw =   4.96
-16 January 1966(Day of year=16), Sorghum: 
+16 January 1966(Day of year=16), sorghum: 
       stage 10.0 maturity
      		biomass = 1011.68 		 lai =   1.68
      		stover N conc =   9.27 		 extractable sw =   3.90
-17 January 1966(Day of year=17), Sorghum: 
+17 January 1966(Day of year=17), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 1012.94 		 lai =   1.58
      		stover N conc =   9.27 		 extractable sw =   3.46
 17 January 1966(Day of year=17), manager: 
      Manager sending message :- sorghum harvest
-17 January 1966(Day of year=17), Sorghum: 
+17 January 1966(Day of year=17), sorghum: 
      
      Harvest
      flowering (DAS)       = 59 	 maturity (DAS)          = 93
@@ -1721,7 +1721,7 @@
                          N  (kg/ha) =                 76.34		    0.00
 17 January 1966(Day of year=17), manager: 
      Manager sending message :- sorghum end_crop
-17 January 1966(Day of year=17), Sorghum: 
+17 January 1966(Day of year=17), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4852.67		 1813.76
@@ -1773,7 +1773,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1966(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1966(Day of year=288), Sorghum: 
+15 October 1966(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -1814,49 +1814,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1966(Day of year=289), Sorghum: 
+16 October 1966(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-19 October 1966(Day of year=292), Sorghum: 
+19 October 1966(Day of year=292), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  19.59
-29 October 1966(Day of year=302), Sorghum: 
+29 October 1966(Day of year=302), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.92 		 lai =   0.03
      		stover N conc =   0.08 		 extractable sw =  83.57
-11 November 1966(Day of year=315), Sorghum: 
+11 November 1966(Day of year=315), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  23.54 		 lai =   0.50
      		stover N conc =   0.79 		 extractable sw = 122.71
-5 December 1966(Day of year=339), Sorghum: 
+5 December 1966(Day of year=339), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 383.63 		 lai =   3.73
      		stover N conc =  10.10 		 extractable sw =  17.84
-3 January 1967(Day of year=3), Sorghum: 
+3 January 1967(Day of year=3), sorghum: 
       stage 7.0 flowering
      		biomass = 481.06 		 lai =   0.60
      		stover N conc =  12.22 		 extractable sw =  11.08
-4 January 1967(Day of year=4), Sorghum: 
+4 January 1967(Day of year=4), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 485.15 		 lai =   0.60
      		stover N conc =  12.29 		 extractable sw =   8.37
-1 February 1967(Day of year=32), Sorghum: 
+1 February 1967(Day of year=32), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 548.25 		 lai =   0.28
      		stover N conc =   9.29 		 extractable sw =  37.23
-3 February 1967(Day of year=34), Sorghum: 
+3 February 1967(Day of year=34), sorghum: 
       stage 10.0 maturity
      		biomass = 552.00 		 lai =   0.28
      		stover N conc =   9.27 		 extractable sw =  54.00
-4 February 1967(Day of year=35), Sorghum: 
+4 February 1967(Day of year=35), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 555.62 		 lai =   0.28
      		stover N conc =   9.28 		 extractable sw =  51.33
 4 February 1967(Day of year=35), manager: 
      Manager sending message :- sorghum harvest
-4 February 1967(Day of year=35), Sorghum: 
+4 February 1967(Day of year=35), sorghum: 
      
      Harvest
      flowering (DAS)       = 80 	 maturity (DAS)          = 111
@@ -1890,7 +1890,7 @@
                          N  (kg/ha) =                 41.51		    0.00
 4 February 1967(Day of year=35), manager: 
      Manager sending message :- sorghum end_crop
-4 February 1967(Day of year=35), Sorghum: 
+4 February 1967(Day of year=35), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4566.63		 1562.33
@@ -1942,7 +1942,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1967(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1967(Day of year=288), Sorghum: 
+15 October 1967(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -1983,49 +1983,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1967(Day of year=289), Sorghum: 
+16 October 1967(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-19 October 1967(Day of year=292), Sorghum: 
+19 October 1967(Day of year=292), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  22.11
-28 October 1967(Day of year=301), Sorghum: 
+28 October 1967(Day of year=301), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.81 		 lai =   0.03
      		stover N conc =   0.08 		 extractable sw =  83.52
-11 November 1967(Day of year=315), Sorghum: 
+11 November 1967(Day of year=315), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  29.53 		 lai =   0.54
      		stover N conc =   0.84 		 extractable sw = 115.87
-9 December 1967(Day of year=343), Sorghum: 
+9 December 1967(Day of year=343), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 424.96 		 lai =   3.45
      		stover N conc =   9.72 		 extractable sw =  46.23
-23 December 1967(Day of year=357), Sorghum: 
+23 December 1967(Day of year=357), sorghum: 
       stage 7.0 flowering
      		biomass = 554.06 		 lai =   2.26
      		stover N conc =  10.98 		 extractable sw =  41.68
-25 December 1967(Day of year=359), Sorghum: 
+25 December 1967(Day of year=359), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 588.72 		 lai =   2.26
      		stover N conc =  11.19 		 extractable sw =  32.28
-25 January 1968(Day of year=25), Sorghum: 
+25 January 1968(Day of year=25), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 1005.72 		 lai =   1.67
      		stover N conc =   8.06 		 extractable sw =  23.13
-26 January 1968(Day of year=26), Sorghum: 
+26 January 1968(Day of year=26), sorghum: 
       stage 10.0 maturity
      		biomass = 1015.93 		 lai =   1.59
      		stover N conc =   8.05 		 extractable sw =  19.71
-27 January 1968(Day of year=27), Sorghum: 
+27 January 1968(Day of year=27), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 1024.76 		 lai =   1.50
      		stover N conc =   8.02 		 extractable sw =  22.95
 27 January 1968(Day of year=27), manager: 
      Manager sending message :- sorghum harvest
-27 January 1968(Day of year=27), Sorghum: 
+27 January 1968(Day of year=27), sorghum: 
      
      Harvest
      flowering (DAS)       = 69 	 maturity (DAS)          = 103
@@ -2059,7 +2059,7 @@
                          N  (kg/ha) =                 69.98		    0.00
 27 January 1968(Day of year=27), manager: 
      Manager sending message :- sorghum end_crop
-27 January 1968(Day of year=27), Sorghum: 
+27 January 1968(Day of year=27), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               6206.67		 1902.44
@@ -2111,7 +2111,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1968(Day of year=289), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1968(Day of year=289), Sorghum: 
+15 October 1968(Day of year=289), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -2152,49 +2152,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1968(Day of year=290), Sorghum: 
+16 October 1968(Day of year=290), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-19 October 1968(Day of year=293), Sorghum: 
+19 October 1968(Day of year=293), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  19.42
-28 October 1968(Day of year=302), Sorghum: 
+28 October 1968(Day of year=302), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.85 		 lai =   0.03
      		stover N conc =   0.08 		 extractable sw =  74.77
-12 November 1968(Day of year=317), Sorghum: 
+12 November 1968(Day of year=317), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  33.05 		 lai =   0.58
      		stover N conc =   1.13 		 extractable sw =  93.48
-11 December 1968(Day of year=346), Sorghum: 
+11 December 1968(Day of year=346), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 335.72 		 lai =   2.39
      		stover N conc =  11.33 		 extractable sw =  10.83
-28 December 1968(Day of year=363), Sorghum: 
+28 December 1968(Day of year=363), sorghum: 
       stage 7.0 flowering
      		biomass = 410.68 		 lai =   1.04
      		stover N conc =  12.47 		 extractable sw =  44.11
-29 December 1968(Day of year=364), Sorghum: 
+29 December 1968(Day of year=364), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 423.84 		 lai =   1.04
      		stover N conc =  12.67 		 extractable sw =  38.33
-26 January 1969(Day of year=26), Sorghum: 
+26 January 1969(Day of year=26), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 577.06 		 lai =   0.88
      		stover N conc =  11.74 		 extractable sw =   0.84
-28 January 1969(Day of year=28), Sorghum: 
+28 January 1969(Day of year=28), sorghum: 
       stage 10.0 maturity
      		biomass = 577.69 		 lai =   0.79
      		stover N conc =  11.76 		 extractable sw =   0.71
-29 January 1969(Day of year=29), Sorghum: 
+29 January 1969(Day of year=29), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 577.96 		 lai =   0.72
      		stover N conc =  11.77 		 extractable sw =   0.65
 29 January 1969(Day of year=29), manager: 
      Manager sending message :- sorghum harvest
-29 January 1969(Day of year=29), Sorghum: 
+29 January 1969(Day of year=29), sorghum: 
      
      Harvest
      flowering (DAS)       = 74 	 maturity (DAS)          = 105
@@ -2228,7 +2228,7 @@
                          N  (kg/ha) =                 39.69		    0.00
 29 January 1969(Day of year=29), manager: 
      Manager sending message :- sorghum end_crop
-29 January 1969(Day of year=29), Sorghum: 
+29 January 1969(Day of year=29), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3728.46		 1474.71
@@ -2280,7 +2280,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1969(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1969(Day of year=288), Sorghum: 
+15 October 1969(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -2321,49 +2321,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1969(Day of year=289), Sorghum: 
+16 October 1969(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-21 October 1969(Day of year=294), Sorghum: 
+21 October 1969(Day of year=294), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  37.87
-28 October 1969(Day of year=301), Sorghum: 
+28 October 1969(Day of year=301), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.48 		 lai =   0.02
      		stover N conc =   0.07 		 extractable sw =  84.45
-12 November 1969(Day of year=316), Sorghum: 
+12 November 1969(Day of year=316), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  31.82 		 lai =   0.54
      		stover N conc =   0.87 		 extractable sw = 116.44
-8 December 1969(Day of year=342), Sorghum: 
+8 December 1969(Day of year=342), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 525.39 		 lai =   3.92
      		stover N conc =   9.55 		 extractable sw =  31.11
-24 December 1969(Day of year=358), Sorghum: 
+24 December 1969(Day of year=358), sorghum: 
       stage 7.0 flowering
      		biomass = 638.66 		 lai =   2.39
      		stover N conc =  10.90 		 extractable sw =  22.66
-26 December 1969(Day of year=360), Sorghum: 
+26 December 1969(Day of year=360), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 664.14 		 lai =   2.39
      		stover N conc =  11.02 		 extractable sw =  15.25
-23 January 1970(Day of year=23), Sorghum: 
+23 January 1970(Day of year=23), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 695.30 		 lai =   0.26
      		stover N conc =   6.75 		 extractable sw =   0.29
-24 January 1970(Day of year=24), Sorghum: 
+24 January 1970(Day of year=24), sorghum: 
       stage 10.0 maturity
      		biomass = 695.42 		 lai =   0.23
      		stover N conc =   6.76 		 extractable sw =   0.28
-25 January 1970(Day of year=25), Sorghum: 
+25 January 1970(Day of year=25), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 695.53 		 lai =   0.21
      		stover N conc =   6.77 		 extractable sw =   0.27
 25 January 1970(Day of year=25), manager: 
      Manager sending message :- sorghum harvest
-25 January 1970(Day of year=25), Sorghum: 
+25 January 1970(Day of year=25), sorghum: 
      
      Harvest
      flowering (DAS)       = 70 	 maturity (DAS)          = 101
@@ -2397,7 +2397,7 @@
                          N  (kg/ha) =                 47.44		    0.00
 25 January 1970(Day of year=25), manager: 
      Manager sending message :- sorghum end_crop
-25 January 1970(Day of year=25), Sorghum: 
+25 January 1970(Day of year=25), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               5917.96		 2150.64
@@ -2449,7 +2449,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1970(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1970(Day of year=288), Sorghum: 
+15 October 1970(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -2490,49 +2490,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1970(Day of year=289), Sorghum: 
+16 October 1970(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-19 October 1970(Day of year=292), Sorghum: 
+19 October 1970(Day of year=292), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  19.32
-29 October 1970(Day of year=302), Sorghum: 
+29 October 1970(Day of year=302), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.92 		 lai =   0.03
      		stover N conc =   0.09 		 extractable sw =  80.47
-14 November 1970(Day of year=318), Sorghum: 
+14 November 1970(Day of year=318), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  28.36 		 lai =   0.56
      		stover N conc =   0.90 		 extractable sw = 125.05
-9 December 1970(Day of year=343), Sorghum: 
+9 December 1970(Day of year=343), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 413.75 		 lai =   3.85
      		stover N conc =   9.89 		 extractable sw = 122.51
-17 December 1970(Day of year=351), Sorghum: 
+17 December 1970(Day of year=351), sorghum: 
       stage 7.0 flowering
      		biomass = 610.29 		 lai =   3.76
      		stover N conc =  12.56 		 extractable sw =  72.87
-19 December 1970(Day of year=353), Sorghum: 
+19 December 1970(Day of year=353), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 667.47 		 lai =   3.72
      		stover N conc =  13.03 		 extractable sw =  57.35
-19 January 1971(Day of year=19), Sorghum: 
+19 January 1971(Day of year=19), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 1260.43 		 lai =   1.98
      		stover N conc =   8.25 		 extractable sw =  60.47
-21 January 1971(Day of year=21), Sorghum: 
+21 January 1971(Day of year=21), sorghum: 
       stage 10.0 maturity
      		biomass = 1284.43 		 lai =   1.80
      		stover N conc =   8.03 		 extractable sw =  56.43
-22 January 1971(Day of year=22), Sorghum: 
+22 January 1971(Day of year=22), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 1302.35 		 lai =   1.71
      		stover N conc =   7.94 		 extractable sw =  63.50
 22 January 1971(Day of year=22), manager: 
      Manager sending message :- sorghum harvest
-22 January 1971(Day of year=22), Sorghum: 
+22 January 1971(Day of year=22), sorghum: 
      
      Harvest
      flowering (DAS)       = 63 	 maturity (DAS)          = 98
@@ -2566,7 +2566,7 @@
                          N  (kg/ha) =                 97.06		    0.00
 22 January 1971(Day of year=22), manager: 
      Manager sending message :- sorghum end_crop
-22 January 1971(Day of year=22), Sorghum: 
+22 January 1971(Day of year=22), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               6772.22		 2140.77
@@ -2618,7 +2618,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1971(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1971(Day of year=288), Sorghum: 
+15 October 1971(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -2659,49 +2659,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1971(Day of year=289), Sorghum: 
+16 October 1971(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-20 October 1971(Day of year=293), Sorghum: 
+20 October 1971(Day of year=293), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  28.26
-29 October 1971(Day of year=302), Sorghum: 
+29 October 1971(Day of year=302), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.75 		 lai =   0.03
      		stover N conc =   0.08 		 extractable sw =  82.65
-15 November 1971(Day of year=319), Sorghum: 
+15 November 1971(Day of year=319), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  34.72 		 lai =   0.53
      		stover N conc =   1.09 		 extractable sw =  97.20
-18 December 1971(Day of year=352), Sorghum: 
+18 December 1971(Day of year=352), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 344.72 		 lai =   1.82
      		stover N conc =  11.21 		 extractable sw =   3.39
-3 January 1972(Day of year=3), Sorghum: 
+3 January 1972(Day of year=3), sorghum: 
       stage 7.0 flowering
      		biomass = 429.11 		 lai =   0.90
      		stover N conc =  12.23 		 extractable sw = 107.96
-4 January 1972(Day of year=4), Sorghum: 
+4 January 1972(Day of year=4), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 438.56 		 lai =   0.90
      		stover N conc =  12.29 		 extractable sw = 112.35
-5 February 1972(Day of year=36), Sorghum: 
+5 February 1972(Day of year=36), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 718.41 		 lai =   0.90
      		stover N conc =  10.54 		 extractable sw =  67.38
-7 February 1972(Day of year=38), Sorghum: 
+7 February 1972(Day of year=38), sorghum: 
       stage 10.0 maturity
      		biomass = 735.80 		 lai =   0.90
      		stover N conc =  10.54 		 extractable sw =  62.93
-8 February 1972(Day of year=39), Sorghum: 
+8 February 1972(Day of year=39), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 744.12 		 lai =   0.90
      		stover N conc =  10.54 		 extractable sw =  60.87
 8 February 1972(Day of year=39), manager: 
      Manager sending message :- sorghum harvest
-8 February 1972(Day of year=39), Sorghum: 
+8 February 1972(Day of year=39), sorghum: 
      
      Harvest
      flowering (DAS)       = 80 	 maturity (DAS)          = 115
@@ -2735,7 +2735,7 @@
                          N  (kg/ha) =                 45.01		    0.00
 8 February 1972(Day of year=39), manager: 
      Manager sending message :- sorghum end_crop
-8 February 1972(Day of year=39), Sorghum: 
+8 February 1972(Day of year=39), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4732.77		 1501.84
@@ -2787,7 +2787,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1972(Day of year=289), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1972(Day of year=289), Sorghum: 
+15 October 1972(Day of year=289), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -2828,49 +2828,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1972(Day of year=290), Sorghum: 
+16 October 1972(Day of year=290), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-20 October 1972(Day of year=294), Sorghum: 
+20 October 1972(Day of year=294), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  25.52
-29 October 1972(Day of year=303), Sorghum: 
+29 October 1972(Day of year=303), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.68 		 lai =   0.03
      		stover N conc =   0.07 		 extractable sw =  97.28
-12 November 1972(Day of year=317), Sorghum: 
+12 November 1972(Day of year=317), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  24.04 		 lai =   0.52
      		stover N conc =   0.81 		 extractable sw = 147.54
-7 December 1972(Day of year=342), Sorghum: 
+7 December 1972(Day of year=342), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 436.15 		 lai =   4.04
      		stover N conc =   8.70 		 extractable sw =  92.45
-15 December 1972(Day of year=350), Sorghum: 
+15 December 1972(Day of year=350), sorghum: 
       stage 7.0 flowering
      		biomass = 623.90 		 lai =   3.95
      		stover N conc =  11.10 		 extractable sw =  42.00
-16 December 1972(Day of year=351), Sorghum: 
+16 December 1972(Day of year=351), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 642.59 		 lai =   3.93
      		stover N conc =  11.35 		 extractable sw =  36.46
-12 January 1973(Day of year=12), Sorghum: 
+12 January 1973(Day of year=12), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 804.25 		 lai =   1.25
      		stover N conc =   6.93 		 extractable sw =  12.29
-14 January 1973(Day of year=14), Sorghum: 
+14 January 1973(Day of year=14), sorghum: 
       stage 10.0 maturity
      		biomass = 818.28 		 lai =   1.25
      		stover N conc =   6.97 		 extractable sw =  35.65
-15 January 1973(Day of year=15), Sorghum: 
+15 January 1973(Day of year=15), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 827.95 		 lai =   1.25
      		stover N conc =   6.95 		 extractable sw =  31.79
 15 January 1973(Day of year=15), manager: 
      Manager sending message :- sorghum harvest
-15 January 1973(Day of year=15), Sorghum: 
+15 January 1973(Day of year=15), sorghum: 
      
      Harvest
      flowering (DAS)       = 61 	 maturity (DAS)          = 91
@@ -2904,7 +2904,7 @@
                          N  (kg/ha) =                 71.04		    0.00
 15 January 1973(Day of year=15), manager: 
      Manager sending message :- sorghum end_crop
-15 January 1973(Day of year=15), Sorghum: 
+15 January 1973(Day of year=15), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               6071.31		 2099.19
@@ -2956,7 +2956,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1973(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1973(Day of year=288), Sorghum: 
+15 October 1973(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -2997,49 +2997,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1973(Day of year=289), Sorghum: 
+16 October 1973(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-19 October 1973(Day of year=292), Sorghum: 
+19 October 1973(Day of year=292), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  19.26
-28 October 1973(Day of year=301), Sorghum: 
+28 October 1973(Day of year=301), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.49 		 lai =   0.02
      		stover N conc =   0.07 		 extractable sw =  74.70
-12 November 1973(Day of year=316), Sorghum: 
+12 November 1973(Day of year=316), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  23.04 		 lai =   0.53
      		stover N conc =   0.78 		 extractable sw = 147.40
-6 December 1973(Day of year=340), Sorghum: 
+6 December 1973(Day of year=340), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 450.85 		 lai =   3.98
      		stover N conc =   9.35 		 extractable sw =  48.17
-15 December 1973(Day of year=349), Sorghum: 
+15 December 1973(Day of year=349), sorghum: 
       stage 7.0 flowering
      		biomass = 602.76 		 lai =   3.89
      		stover N conc =  10.91 		 extractable sw =  17.20
-17 December 1973(Day of year=351), Sorghum: 
+17 December 1973(Day of year=351), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 617.74 		 lai =   3.86
      		stover N conc =  11.12 		 extractable sw =  11.30
-15 January 1974(Day of year=15), Sorghum: 
+15 January 1974(Day of year=15), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 863.26 		 lai =   2.00
      		stover N conc =   6.79 		 extractable sw =  22.88
-17 January 1974(Day of year=17), Sorghum: 
+17 January 1974(Day of year=17), sorghum: 
       stage 10.0 maturity
      		biomass = 882.62 		 lai =   1.79
      		stover N conc =   6.81 		 extractable sw =  20.48
-18 January 1974(Day of year=18), Sorghum: 
+18 January 1974(Day of year=18), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 892.09 		 lai =   1.69
      		stover N conc =   6.77 		 extractable sw =  17.47
 18 January 1974(Day of year=18), manager: 
      Manager sending message :- sorghum harvest
-18 January 1974(Day of year=18), Sorghum: 
+18 January 1974(Day of year=18), sorghum: 
      
      Harvest
      flowering (DAS)       = 61 	 maturity (DAS)          = 94
@@ -3073,7 +3073,7 @@
                          N  (kg/ha) =                 67.42		    0.00
 18 January 1974(Day of year=18), manager: 
      Manager sending message :- sorghum end_crop
-18 January 1974(Day of year=18), Sorghum: 
+18 January 1974(Day of year=18), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               6152.63		 1987.56
@@ -3125,7 +3125,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1974(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1974(Day of year=288), Sorghum: 
+15 October 1974(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -3166,49 +3166,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1974(Day of year=289), Sorghum: 
+16 October 1974(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-22 October 1974(Day of year=295), Sorghum: 
+22 October 1974(Day of year=295), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  38.68
-31 October 1974(Day of year=304), Sorghum: 
+31 October 1974(Day of year=304), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.71 		 lai =   0.03
      		stover N conc =   0.08 		 extractable sw =  84.34
-16 November 1974(Day of year=320), Sorghum: 
+16 November 1974(Day of year=320), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  27.36 		 lai =   0.52
      		stover N conc =   0.82 		 extractable sw = 118.64
-17 December 1974(Day of year=351), Sorghum: 
+17 December 1974(Day of year=351), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 396.50 		 lai =   2.58
      		stover N conc =  11.37 		 extractable sw =   7.47
-9 January 1975(Day of year=9), Sorghum: 
+9 January 1975(Day of year=9), sorghum: 
       stage 7.0 flowering
      		biomass = 474.24 		 lai =   0.92
      		stover N conc =  12.85 		 extractable sw =  13.20
-10 January 1975(Day of year=10), Sorghum: 
+10 January 1975(Day of year=10), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 479.63 		 lai =   0.92
      		stover N conc =  12.88 		 extractable sw =  26.42
-9 February 1975(Day of year=40), Sorghum: 
+9 February 1975(Day of year=40), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 539.00 		 lai =   0.16
      		stover N conc =   9.83 		 extractable sw =   0.27
-11 February 1975(Day of year=42), Sorghum: 
+11 February 1975(Day of year=42), sorghum: 
       stage 10.0 maturity
      		biomass = 539.26 		 lai =   0.13
      		stover N conc =   9.84 		 extractable sw =   0.25
-12 February 1975(Day of year=43), Sorghum: 
+12 February 1975(Day of year=43), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 539.38 		 lai =   0.12
      		stover N conc =   9.84 		 extractable sw =   0.25
 12 February 1975(Day of year=43), manager: 
      Manager sending message :- sorghum harvest
-12 February 1975(Day of year=43), Sorghum: 
+12 February 1975(Day of year=43), sorghum: 
      
      Harvest
      flowering (DAS)       = 86 	 maturity (DAS)          = 119
@@ -3242,7 +3242,7 @@
                          N  (kg/ha) =                 38.79		    0.00
 12 February 1975(Day of year=43), manager: 
      Manager sending message :- sorghum end_crop
-12 February 1975(Day of year=43), Sorghum: 
+12 February 1975(Day of year=43), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4402.27		 1544.15
@@ -3294,7 +3294,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1975(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1975(Day of year=288), Sorghum: 
+15 October 1975(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -3335,49 +3335,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1975(Day of year=289), Sorghum: 
+16 October 1975(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-19 October 1975(Day of year=292), Sorghum: 
+19 October 1975(Day of year=292), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  21.60
-29 October 1975(Day of year=302), Sorghum: 
+29 October 1975(Day of year=302), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.66 		 lai =   0.03
      		stover N conc =   0.07 		 extractable sw =  82.50
-13 November 1975(Day of year=317), Sorghum: 
+13 November 1975(Day of year=317), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  27.76 		 lai =   0.51
      		stover N conc =   0.82 		 extractable sw = 107.25
-16 December 1975(Day of year=350), Sorghum: 
+16 December 1975(Day of year=350), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 348.33 		 lai =   2.02
      		stover N conc =  11.28 		 extractable sw =   3.15
-28 December 1975(Day of year=362), Sorghum: 
+28 December 1975(Day of year=362), sorghum: 
       stage 7.0 flowering
      		biomass = 405.25 		 lai =   1.42
      		stover N conc =  11.63 		 extractable sw = 128.64
-30 December 1975(Day of year=364), Sorghum: 
+30 December 1975(Day of year=364), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 419.33 		 lai =   1.42
      		stover N conc =  11.69 		 extractable sw = 127.27
-30 January 1976(Day of year=30), Sorghum: 
+30 January 1976(Day of year=30), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 792.50 		 lai =   1.42
      		stover N conc =   9.98 		 extractable sw = 118.75
-1 February 1976(Day of year=32), Sorghum: 
+1 February 1976(Day of year=32), sorghum: 
       stage 10.0 maturity
      		biomass = 817.42 		 lai =   1.40
      		stover N conc =   9.90 		 extractable sw = 111.80
-2 February 1976(Day of year=33), Sorghum: 
+2 February 1976(Day of year=33), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 825.99 		 lai =   1.32
      		stover N conc =   9.85 		 extractable sw = 109.35
 2 February 1976(Day of year=33), manager: 
      Manager sending message :- sorghum harvest
-2 February 1976(Day of year=33), Sorghum: 
+2 February 1976(Day of year=33), sorghum: 
      
      Harvest
      flowering (DAS)       = 74 	 maturity (DAS)          = 109
@@ -3411,7 +3411,7 @@
                          N  (kg/ha) =                 47.01		    0.00
 2 February 1976(Day of year=33), manager: 
      Manager sending message :- sorghum end_crop
-2 February 1976(Day of year=33), Sorghum: 
+2 February 1976(Day of year=33), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               5207.15		 1391.84
@@ -3463,7 +3463,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1976(Day of year=289), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1976(Day of year=289), Sorghum: 
+15 October 1976(Day of year=289), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -3504,49 +3504,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1976(Day of year=290), Sorghum: 
+16 October 1976(Day of year=290), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-21 October 1976(Day of year=295), Sorghum: 
+21 October 1976(Day of year=295), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  31.77
-31 October 1976(Day of year=305), Sorghum: 
+31 October 1976(Day of year=305), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.71 		 lai =   0.03
      		stover N conc =   0.08 		 extractable sw =  94.30
-14 November 1976(Day of year=319), Sorghum: 
+14 November 1976(Day of year=319), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  23.82 		 lai =   0.49
      		stover N conc =   0.74 		 extractable sw = 116.91
-12 December 1976(Day of year=347), Sorghum: 
+12 December 1976(Day of year=347), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 366.16 		 lai =   2.87
      		stover N conc =  10.28 		 extractable sw =  11.33
-7 January 1977(Day of year=7), Sorghum: 
+7 January 1977(Day of year=7), sorghum: 
       stage 7.0 flowering
      		biomass = 451.01 		 lai =   0.82
      		stover N conc =  11.82 		 extractable sw =  13.77
-9 January 1977(Day of year=9), Sorghum: 
+9 January 1977(Day of year=9), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 462.65 		 lai =   0.82
      		stover N conc =  11.96 		 extractable sw =   7.55
-7 February 1977(Day of year=38), Sorghum: 
+7 February 1977(Day of year=38), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 660.60 		 lai =   0.78
      		stover N conc =   9.65 		 extractable sw =  78.35
-9 February 1977(Day of year=40), Sorghum: 
+9 February 1977(Day of year=40), sorghum: 
       stage 10.0 maturity
      		biomass = 677.33 		 lai =   0.78
      		stover N conc =   9.67 		 extractable sw =  73.19
-10 February 1977(Day of year=41), Sorghum: 
+10 February 1977(Day of year=41), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 685.36 		 lai =   0.78
      		stover N conc =   9.68 		 extractable sw =  70.58
 10 February 1977(Day of year=41), manager: 
      Manager sending message :- sorghum harvest
-10 February 1977(Day of year=41), Sorghum: 
+10 February 1977(Day of year=41), sorghum: 
      
      Harvest
      flowering (DAS)       = 84 	 maturity (DAS)          = 117
@@ -3580,7 +3580,7 @@
                          N  (kg/ha) =                 42.90		    0.00
 10 February 1977(Day of year=41), manager: 
      Manager sending message :- sorghum end_crop
-10 February 1977(Day of year=41), Sorghum: 
+10 February 1977(Day of year=41), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4534.43		 1477.47
@@ -3632,7 +3632,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1977(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1977(Day of year=288), Sorghum: 
+15 October 1977(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -3673,49 +3673,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1977(Day of year=289), Sorghum: 
+16 October 1977(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-19 October 1977(Day of year=292), Sorghum: 
+19 October 1977(Day of year=292), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  19.33
-29 October 1977(Day of year=302), Sorghum: 
+29 October 1977(Day of year=302), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.54 		 lai =   0.02
      		stover N conc =   0.07 		 extractable sw =  90.78
-13 November 1977(Day of year=317), Sorghum: 
+13 November 1977(Day of year=317), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  32.80 		 lai =   0.53
      		stover N conc =   1.06 		 extractable sw = 103.27
-6 December 1977(Day of year=340), Sorghum: 
+6 December 1977(Day of year=340), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 379.01 		 lai =   3.84
      		stover N conc =  10.27 		 extractable sw =  21.92
-16 January 1978(Day of year=16), Sorghum: 
+16 January 1978(Day of year=16), sorghum: 
       stage 7.0 flowering
      		biomass = 452.85 		 lai =   0.21
      		stover N conc =  12.45 		 extractable sw =  53.76
-17 January 1978(Day of year=17), Sorghum: 
+17 January 1978(Day of year=17), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 455.28 		 lai =   0.21
      		stover N conc =  12.47 		 extractable sw =  58.05
-17 February 1978(Day of year=48), Sorghum: 
+17 February 1978(Day of year=48), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 521.22 		 lai =   0.21
      		stover N conc =  10.07 		 extractable sw = 101.80
-18 February 1978(Day of year=49), Sorghum: 
+18 February 1978(Day of year=49), sorghum: 
       stage 10.0 maturity
      		biomass = 523.74 		 lai =   0.21
      		stover N conc =  10.07 		 extractable sw =  99.39
-19 February 1978(Day of year=50), Sorghum: 
+19 February 1978(Day of year=50), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 526.47 		 lai =   0.21
      		stover N conc =  10.06 		 extractable sw =  97.13
 19 February 1978(Day of year=50), manager: 
      Manager sending message :- sorghum harvest
-19 February 1978(Day of year=50), Sorghum: 
+19 February 1978(Day of year=50), sorghum: 
      
      Harvest
      flowering (DAS)       = 93 	 maturity (DAS)          = 126
@@ -3749,7 +3749,7 @@
                          N  (kg/ha) =                 32.54		    0.00
 19 February 1978(Day of year=50), manager: 
      Manager sending message :- sorghum end_crop
-19 February 1978(Day of year=50), Sorghum: 
+19 February 1978(Day of year=50), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4235.84		 1472.07
@@ -3801,7 +3801,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1978(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1978(Day of year=288), Sorghum: 
+15 October 1978(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -3842,49 +3842,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1978(Day of year=289), Sorghum: 
+16 October 1978(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-21 October 1978(Day of year=294), Sorghum: 
+21 October 1978(Day of year=294), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  36.86
-1 November 1978(Day of year=305), Sorghum: 
+1 November 1978(Day of year=305), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.52 		 lai =   0.02
      		stover N conc =   0.07 		 extractable sw = 104.65
-19 November 1978(Day of year=323), Sorghum: 
+19 November 1978(Day of year=323), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  35.67 		 lai =   0.58
      		stover N conc =   0.93 		 extractable sw = 115.64
-14 December 1978(Day of year=348), Sorghum: 
+14 December 1978(Day of year=348), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 448.52 		 lai =   3.92
      		stover N conc =   9.48 		 extractable sw =  23.42
-29 December 1978(Day of year=363), Sorghum: 
+29 December 1978(Day of year=363), sorghum: 
       stage 7.0 flowering
      		biomass = 564.75 		 lai =   2.45
      		stover N conc =  11.14 		 extractable sw =  31.76
-31 December 1978(Day of year=365), Sorghum: 
+31 December 1978(Day of year=365), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 597.77 		 lai =   2.45
      		stover N conc =  11.40 		 extractable sw =  21.69
-28 January 1979(Day of year=28), Sorghum: 
+28 January 1979(Day of year=28), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 653.77 		 lai =   0.31
      		stover N conc =   7.21 		 extractable sw =   7.77
-30 January 1979(Day of year=30), Sorghum: 
+30 January 1979(Day of year=30), sorghum: 
       stage 10.0 maturity
      		biomass = 658.47 		 lai =   0.31
      		stover N conc =   7.19 		 extractable sw =   4.33
-31 January 1979(Day of year=31), Sorghum: 
+31 January 1979(Day of year=31), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 660.62 		 lai =   0.31
      		stover N conc =   7.18 		 extractable sw =   3.19
 31 January 1979(Day of year=31), manager: 
      Manager sending message :- sorghum harvest
-31 January 1979(Day of year=31), Sorghum: 
+31 January 1979(Day of year=31), sorghum: 
      
      Harvest
      flowering (DAS)       = 75 	 maturity (DAS)          = 107
@@ -3918,7 +3918,7 @@
                          N  (kg/ha) =                 51.52		    0.00
 31 January 1979(Day of year=31), manager: 
      Manager sending message :- sorghum end_crop
-31 January 1979(Day of year=31), Sorghum: 
+31 January 1979(Day of year=31), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               5272.88		 1958.21
@@ -3970,7 +3970,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1979(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1979(Day of year=288), Sorghum: 
+15 October 1979(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -4011,49 +4011,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1979(Day of year=289), Sorghum: 
+16 October 1979(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-19 October 1979(Day of year=292), Sorghum: 
+19 October 1979(Day of year=292), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  19.26
-27 October 1979(Day of year=300), Sorghum: 
+27 October 1979(Day of year=300), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.37 		 lai =   0.02
      		stover N conc =   0.07 		 extractable sw =  71.83
-11 November 1979(Day of year=315), Sorghum: 
+11 November 1979(Day of year=315), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  26.90 		 lai =   0.54
      		stover N conc =   0.84 		 extractable sw = 124.92
-4 December 1979(Day of year=338), Sorghum: 
+4 December 1979(Day of year=338), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 393.01 		 lai =   3.81
      		stover N conc =  10.17 		 extractable sw =  25.41
-20 December 1979(Day of year=354), Sorghum: 
+20 December 1979(Day of year=354), sorghum: 
       stage 7.0 flowering
      		biomass = 498.24 		 lai =   1.78
      		stover N conc =  12.08 		 extractable sw =  22.66
-21 December 1979(Day of year=355), Sorghum: 
+21 December 1979(Day of year=355), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 507.85 		 lai =   1.78
      		stover N conc =  12.18 		 extractable sw =  23.93
-19 January 1980(Day of year=19), Sorghum: 
+19 January 1980(Day of year=19), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 579.93 		 lai =   0.40
      		stover N conc =   7.57 		 extractable sw =   0.38
-21 January 1980(Day of year=21), Sorghum: 
+21 January 1980(Day of year=21), sorghum: 
       stage 10.0 maturity
      		biomass = 580.16 		 lai =   0.33
      		stover N conc =   7.58 		 extractable sw =   0.35
-22 January 1980(Day of year=22), Sorghum: 
+22 January 1980(Day of year=22), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 580.29 		 lai =   0.30
      		stover N conc =   7.58 		 extractable sw =   0.34
 22 January 1980(Day of year=22), manager: 
      Manager sending message :- sorghum harvest
-22 January 1980(Day of year=22), Sorghum: 
+22 January 1980(Day of year=22), sorghum: 
      
      Harvest
      flowering (DAS)       = 66 	 maturity (DAS)          = 98
@@ -4087,7 +4087,7 @@
                          N  (kg/ha) =                 55.13		    0.00
 22 January 1980(Day of year=22), manager: 
      Manager sending message :- sorghum end_crop
-22 January 1980(Day of year=22), Sorghum: 
+22 January 1980(Day of year=22), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4592.53		 1677.57
@@ -4139,7 +4139,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1980(Day of year=289), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1980(Day of year=289), Sorghum: 
+15 October 1980(Day of year=289), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -4180,49 +4180,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1980(Day of year=290), Sorghum: 
+16 October 1980(Day of year=290), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-20 October 1980(Day of year=294), Sorghum: 
+20 October 1980(Day of year=294), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  29.75
-28 October 1980(Day of year=302), Sorghum: 
+28 October 1980(Day of year=302), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.59 		 lai =   0.03
      		stover N conc =   0.08 		 extractable sw =  89.64
-13 November 1980(Day of year=318), Sorghum: 
+13 November 1980(Day of year=318), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  34.25 		 lai =   0.56
      		stover N conc =   0.90 		 extractable sw = 113.01
-6 December 1980(Day of year=341), Sorghum: 
+6 December 1980(Day of year=341), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 414.84 		 lai =   3.86
      		stover N conc =   9.13 		 extractable sw = 109.73
-13 December 1980(Day of year=348), Sorghum: 
+13 December 1980(Day of year=348), sorghum: 
       stage 7.0 flowering
      		biomass = 593.57 		 lai =   3.77
      		stover N conc =  10.61 		 extractable sw =  72.35
-15 December 1980(Day of year=350), Sorghum: 
+15 December 1980(Day of year=350), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 639.17 		 lai =   3.73
      		stover N conc =  11.04 		 extractable sw =  62.64
-14 January 1981(Day of year=14), Sorghum: 
+14 January 1981(Day of year=14), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 1023.28 		 lai =   2.01
      		stover N conc =   6.81 		 extractable sw =  17.54
-16 January 1981(Day of year=16), Sorghum: 
+16 January 1981(Day of year=16), sorghum: 
       stage 10.0 maturity
      		biomass = 1041.22 		 lai =   1.81
      		stover N conc =   6.67 		 extractable sw =  12.43
-17 January 1981(Day of year=17), Sorghum: 
+17 January 1981(Day of year=17), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 1051.36 		 lai =   1.71
      		stover N conc =   6.57 		 extractable sw =  10.68
 17 January 1981(Day of year=17), manager: 
      Manager sending message :- sorghum harvest
-17 January 1981(Day of year=17), Sorghum: 
+17 January 1981(Day of year=17), sorghum: 
      
      Harvest
      flowering (DAS)       = 59 	 maturity (DAS)          = 93
@@ -4256,7 +4256,7 @@
                          N  (kg/ha) =                 86.59		    0.00
 17 January 1981(Day of year=17), manager: 
      Manager sending message :- sorghum end_crop
-17 January 1981(Day of year=17), Sorghum: 
+17 January 1981(Day of year=17), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               5870.66		 2128.66
@@ -4308,7 +4308,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1981(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1981(Day of year=288), Sorghum: 
+15 October 1981(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -4349,49 +4349,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1981(Day of year=289), Sorghum: 
+16 October 1981(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-20 October 1981(Day of year=293), Sorghum: 
+20 October 1981(Day of year=293), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  28.84
-30 October 1981(Day of year=303), Sorghum: 
+30 October 1981(Day of year=303), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.74 		 lai =   0.03
      		stover N conc =   0.08 		 extractable sw =  86.32
-13 November 1981(Day of year=317), Sorghum: 
+13 November 1981(Day of year=317), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  25.57 		 lai =   0.55
      		stover N conc =   0.87 		 extractable sw = 105.91
-9 December 1981(Day of year=343), Sorghum: 
+9 December 1981(Day of year=343), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 380.77 		 lai =   3.80
      		stover N conc =  10.85 		 extractable sw =  21.73
-20 December 1981(Day of year=354), Sorghum: 
+20 December 1981(Day of year=354), sorghum: 
       stage 7.0 flowering
      		biomass = 475.11 		 lai =   3.00
      		stover N conc =  12.50 		 extractable sw =  11.23
-22 December 1981(Day of year=356), Sorghum: 
+22 December 1981(Day of year=356), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 480.44 		 lai =   2.68
      		stover N conc =  12.68 		 extractable sw =   5.08
-19 January 1982(Day of year=19), Sorghum: 
+19 January 1982(Day of year=19), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 607.39 		 lai =   0.85
      		stover N conc =   8.69 		 extractable sw =  37.93
-21 January 1982(Day of year=21), Sorghum: 
+21 January 1982(Day of year=21), sorghum: 
       stage 10.0 maturity
      		biomass = 616.71 		 lai =   0.85
      		stover N conc =   8.64 		 extractable sw =  83.08
-22 January 1982(Day of year=22), Sorghum: 
+22 January 1982(Day of year=22), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 621.73 		 lai =   0.85
      		stover N conc =   8.63 		 extractable sw =  80.94
 22 January 1982(Day of year=22), manager: 
      Manager sending message :- sorghum harvest
-22 January 1982(Day of year=22), Sorghum: 
+22 January 1982(Day of year=22), sorghum: 
      
      Harvest
      flowering (DAS)       = 66 	 maturity (DAS)          = 98
@@ -4425,7 +4425,7 @@
                          N  (kg/ha) =                 57.23		    0.00
 22 January 1982(Day of year=22), manager: 
      Manager sending message :- sorghum end_crop
-22 January 1982(Day of year=22), Sorghum: 
+22 January 1982(Day of year=22), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4742.52		 1598.70
@@ -4477,7 +4477,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1982(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1982(Day of year=288), Sorghum: 
+15 October 1982(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -4518,49 +4518,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1982(Day of year=289), Sorghum: 
+16 October 1982(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-20 October 1982(Day of year=293), Sorghum: 
+20 October 1982(Day of year=293), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  25.44
-30 October 1982(Day of year=303), Sorghum: 
+30 October 1982(Day of year=303), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.72 		 lai =   0.03
      		stover N conc =   0.09 		 extractable sw =  80.35
-14 November 1982(Day of year=318), Sorghum: 
+14 November 1982(Day of year=318), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  33.34 		 lai =   0.54
      		stover N conc =   1.01 		 extractable sw =  92.44
-7 December 1982(Day of year=341), Sorghum: 
+7 December 1982(Day of year=341), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 361.27 		 lai =   3.39
      		stover N conc =  11.29 		 extractable sw =  48.89
-20 December 1982(Day of year=354), Sorghum: 
+20 December 1982(Day of year=354), sorghum: 
       stage 7.0 flowering
      		biomass = 483.13 		 lai =   2.46
      		stover N conc =  14.24 		 extractable sw =  16.07
-21 December 1982(Day of year=355), Sorghum: 
+21 December 1982(Day of year=355), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 489.75 		 lai =   2.27
      		stover N conc =  14.36 		 extractable sw =  12.24
-19 January 1983(Day of year=19), Sorghum: 
+19 January 1983(Day of year=19), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 645.59 		 lai =   0.94
      		stover N conc =  10.18 		 extractable sw =   1.51
-20 January 1983(Day of year=20), Sorghum: 
+20 January 1983(Day of year=20), sorghum: 
       stage 10.0 maturity
      		biomass = 646.11 		 lai =   0.88
      		stover N conc =  10.19 		 extractable sw =   0.89
-21 January 1983(Day of year=21), Sorghum: 
+21 January 1983(Day of year=21), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 646.54 		 lai =   0.83
      		stover N conc =  10.20 		 extractable sw =   0.75
 21 January 1983(Day of year=21), manager: 
      Manager sending message :- sorghum harvest
-21 January 1983(Day of year=21), Sorghum: 
+21 January 1983(Day of year=21), sorghum: 
      
      Harvest
      flowering (DAS)       = 66 	 maturity (DAS)          = 97
@@ -4594,7 +4594,7 @@
                          N  (kg/ha) =                 58.59		    0.00
 21 January 1983(Day of year=21), manager: 
      Manager sending message :- sorghum end_crop
-21 January 1983(Day of year=21), Sorghum: 
+21 January 1983(Day of year=21), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4448.80		 1686.57
@@ -4646,7 +4646,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1983(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1983(Day of year=288), Sorghum: 
+15 October 1983(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -4687,49 +4687,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1983(Day of year=289), Sorghum: 
+16 October 1983(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-19 October 1983(Day of year=292), Sorghum: 
+19 October 1983(Day of year=292), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  20.67
-29 October 1983(Day of year=302), Sorghum: 
+29 October 1983(Day of year=302), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.80 		 lai =   0.03
      		stover N conc =   0.08 		 extractable sw =  80.83
-11 November 1983(Day of year=315), Sorghum: 
+11 November 1983(Day of year=315), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  25.50 		 lai =   0.50
      		stover N conc =   0.80 		 extractable sw = 112.80
-8 December 1983(Day of year=342), Sorghum: 
+8 December 1983(Day of year=342), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 429.06 		 lai =   4.03
      		stover N conc =   8.55 		 extractable sw = 129.10
-16 December 1983(Day of year=350), Sorghum: 
+16 December 1983(Day of year=350), sorghum: 
       stage 7.0 flowering
      		biomass = 658.97 		 lai =   3.94
      		stover N conc =  10.90 		 extractable sw =  79.45
-18 December 1983(Day of year=352), Sorghum: 
+18 December 1983(Day of year=352), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 715.61 		 lai =   3.91
      		stover N conc =  11.54 		 extractable sw =  62.42
-19 January 1984(Day of year=19), Sorghum: 
+19 January 1984(Day of year=19), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 1205.89 		 lai =   1.91
      		stover N conc =   6.36 		 extractable sw =  29.43
-21 January 1984(Day of year=21), Sorghum: 
+21 January 1984(Day of year=21), sorghum: 
       stage 10.0 maturity
      		biomass = 1230.74 		 lai =   1.74
      		stover N conc =   6.26 		 extractable sw =  20.24
-22 January 1984(Day of year=22), Sorghum: 
+22 January 1984(Day of year=22), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 1244.04 		 lai =   1.63
      		stover N conc =   6.21 		 extractable sw =  16.58
 22 January 1984(Day of year=22), manager: 
      Manager sending message :- sorghum harvest
-22 January 1984(Day of year=22), Sorghum: 
+22 January 1984(Day of year=22), sorghum: 
      
      Harvest
      flowering (DAS)       = 62 	 maturity (DAS)          = 98
@@ -4763,7 +4763,7 @@
                          N  (kg/ha) =                 91.59		    0.00
 22 January 1984(Day of year=22), manager: 
      Manager sending message :- sorghum end_crop
-22 January 1984(Day of year=22), Sorghum: 
+22 January 1984(Day of year=22), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               6422.15		 2262.26
@@ -4815,7 +4815,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1984(Day of year=289), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1984(Day of year=289), Sorghum: 
+15 October 1984(Day of year=289), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -4856,49 +4856,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1984(Day of year=290), Sorghum: 
+16 October 1984(Day of year=290), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-21 October 1984(Day of year=295), Sorghum: 
+21 October 1984(Day of year=295), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  31.45
-1 November 1984(Day of year=306), Sorghum: 
+1 November 1984(Day of year=306), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.64 		 lai =   0.03
      		stover N conc =   0.08 		 extractable sw = 107.07
-15 November 1984(Day of year=320), Sorghum: 
+15 November 1984(Day of year=320), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  28.55 		 lai =   0.55
      		stover N conc =   0.88 		 extractable sw = 115.60
-15 December 1984(Day of year=350), Sorghum: 
+15 December 1984(Day of year=350), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 419.68 		 lai =   2.77
      		stover N conc =  10.32 		 extractable sw =  40.09
-22 December 1984(Day of year=357), Sorghum: 
+22 December 1984(Day of year=357), sorghum: 
       stage 7.0 flowering
      		biomass = 535.90 		 lai =   2.57
      		stover N conc =  11.67 		 extractable sw =  69.30
-24 December 1984(Day of year=359), Sorghum: 
+24 December 1984(Day of year=359), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 580.03 		 lai =   2.57
      		stover N conc =  12.27 		 extractable sw =  55.12
-22 January 1985(Day of year=22), Sorghum: 
+22 January 1985(Day of year=22), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 887.96 		 lai =   1.88
      		stover N conc =   9.91 		 extractable sw =   6.09
-23 January 1985(Day of year=23), Sorghum: 
+23 January 1985(Day of year=23), sorghum: 
       stage 10.0 maturity
      		biomass = 889.73 		 lai =   1.75
      		stover N conc =   9.92 		 extractable sw =   4.88
-24 January 1985(Day of year=24), Sorghum: 
+24 January 1985(Day of year=24), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 891.65 		 lai =   1.62
      		stover N conc =   9.92 		 extractable sw =   3.84
 24 January 1985(Day of year=24), manager: 
      Manager sending message :- sorghum harvest
-24 January 1985(Day of year=24), Sorghum: 
+24 January 1985(Day of year=24), sorghum: 
      
      Harvest
      flowering (DAS)       = 68 	 maturity (DAS)          = 100
@@ -4932,7 +4932,7 @@
                          N  (kg/ha) =                 67.70		    0.00
 24 January 1985(Day of year=24), manager: 
      Manager sending message :- sorghum end_crop
-24 January 1985(Day of year=24), Sorghum: 
+24 January 1985(Day of year=24), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               5002.11		 1894.47
@@ -4984,7 +4984,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1985(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1985(Day of year=288), Sorghum: 
+15 October 1985(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -5025,49 +5025,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1985(Day of year=289), Sorghum: 
+16 October 1985(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-19 October 1985(Day of year=292), Sorghum: 
+19 October 1985(Day of year=292), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  23.66
-31 October 1985(Day of year=304), Sorghum: 
+31 October 1985(Day of year=304), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.75 		 lai =   0.02
      		stover N conc =   0.08 		 extractable sw =  90.15
-15 November 1985(Day of year=319), Sorghum: 
+15 November 1985(Day of year=319), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  22.01 		 lai =   0.48
      		stover N conc =   0.72 		 extractable sw = 130.08
-9 December 1985(Day of year=343), Sorghum: 
+9 December 1985(Day of year=343), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 432.32 		 lai =   4.06
      		stover N conc =   8.59 		 extractable sw =  80.24
-17 December 1985(Day of year=351), Sorghum: 
+17 December 1985(Day of year=351), sorghum: 
       stage 7.0 flowering
      		biomass = 621.01 		 lai =   3.97
      		stover N conc =  11.18 		 extractable sw =  38.76
-18 December 1985(Day of year=352), Sorghum: 
+18 December 1985(Day of year=352), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 639.00 		 lai =   3.95
      		stover N conc =  11.44 		 extractable sw =  33.34
-16 January 1986(Day of year=16), Sorghum: 
+16 January 1986(Day of year=16), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 761.94 		 lai =   0.74
      		stover N conc =   6.58 		 extractable sw =   0.77
-17 January 1986(Day of year=17), Sorghum: 
+17 January 1986(Day of year=17), sorghum: 
       stage 10.0 maturity
      		biomass = 762.27 		 lai =   0.67
      		stover N conc =   6.60 		 extractable sw =   0.70
-18 January 1986(Day of year=18), Sorghum: 
+18 January 1986(Day of year=18), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 762.93 		 lai =   0.61
      		stover N conc =   6.61 		 extractable sw =   0.64
 18 January 1986(Day of year=18), manager: 
      Manager sending message :- sorghum harvest
-18 January 1986(Day of year=18), Sorghum: 
+18 January 1986(Day of year=18), sorghum: 
      
      Harvest
      flowering (DAS)       = 63 	 maturity (DAS)          = 94
@@ -5101,7 +5101,7 @@
                          N  (kg/ha) =                 71.38		    0.00
 18 January 1986(Day of year=18), manager: 
      Manager sending message :- sorghum end_crop
-18 January 1986(Day of year=18), Sorghum: 
+18 January 1986(Day of year=18), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               5730.70		 2082.85
@@ -5153,7 +5153,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1986(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1986(Day of year=288), Sorghum: 
+15 October 1986(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -5194,49 +5194,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1986(Day of year=289), Sorghum: 
+16 October 1986(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-20 October 1986(Day of year=293), Sorghum: 
+20 October 1986(Day of year=293), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  27.18
-30 October 1986(Day of year=303), Sorghum: 
+30 October 1986(Day of year=303), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.81 		 lai =   0.02
      		stover N conc =   0.08 		 extractable sw =  84.80
-15 November 1986(Day of year=319), Sorghum: 
+15 November 1986(Day of year=319), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  32.21 		 lai =   0.59
      		stover N conc =   0.93 		 extractable sw = 131.84
-12 December 1986(Day of year=346), Sorghum: 
+12 December 1986(Day of year=346), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 467.62 		 lai =   4.02
      		stover N conc =   9.54 		 extractable sw =  38.11
-30 December 1986(Day of year=364), Sorghum: 
+30 December 1986(Day of year=364), sorghum: 
       stage 7.0 flowering
      		biomass = 570.50 		 lai =   1.61
      		stover N conc =  12.07 		 extractable sw =   2.94
-1 January 1987(Day of year=1), Sorghum: 
+1 January 1987(Day of year=1), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 572.78 		 lai =   1.33
      		stover N conc =  12.14 		 extractable sw =   2.27
-28 January 1987(Day of year=28), Sorghum: 
+28 January 1987(Day of year=28), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 705.66 		 lai =   0.93
      		stover N conc =   8.10 		 extractable sw =   9.04
-30 January 1987(Day of year=30), Sorghum: 
+30 January 1987(Day of year=30), sorghum: 
       stage 10.0 maturity
      		biomass = 715.15 		 lai =   0.93
      		stover N conc =   8.04 		 extractable sw =  71.90
-31 January 1987(Day of year=31), Sorghum: 
+31 January 1987(Day of year=31), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 720.60 		 lai =   0.93
      		stover N conc =   8.01 		 extractable sw =  69.22
 31 January 1987(Day of year=31), manager: 
      Manager sending message :- sorghum harvest
-31 January 1987(Day of year=31), Sorghum: 
+31 January 1987(Day of year=31), sorghum: 
      
      Harvest
      flowering (DAS)       = 76 	 maturity (DAS)          = 107
@@ -5270,7 +5270,7 @@
                          N  (kg/ha) =                 56.81		    0.00
 31 January 1987(Day of year=31), manager: 
      Manager sending message :- sorghum end_crop
-31 January 1987(Day of year=31), Sorghum: 
+31 January 1987(Day of year=31), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               5390.23		 1892.61
@@ -5322,7 +5322,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1987(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1987(Day of year=288), Sorghum: 
+15 October 1987(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -5363,49 +5363,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1987(Day of year=289), Sorghum: 
+16 October 1987(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-21 October 1987(Day of year=294), Sorghum: 
+21 October 1987(Day of year=294), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  36.92
-30 October 1987(Day of year=303), Sorghum: 
+30 October 1987(Day of year=303), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.62 		 lai =   0.02
      		stover N conc =   0.08 		 extractable sw =  94.89
-15 November 1987(Day of year=319), Sorghum: 
+15 November 1987(Day of year=319), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  28.71 		 lai =   0.55
      		stover N conc =   0.88 		 extractable sw = 135.79
-10 December 1987(Day of year=344), Sorghum: 
+10 December 1987(Day of year=344), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 439.21 		 lai =   3.88
      		stover N conc =   9.97 		 extractable sw =  21.48
-24 January 1988(Day of year=24), Sorghum: 
+24 January 1988(Day of year=24), sorghum: 
       stage 7.0 flowering
      		biomass = 531.84 		 lai =   0.21
      		stover N conc =  11.96 		 extractable sw =  12.63
-25 January 1988(Day of year=25), Sorghum: 
+25 January 1988(Day of year=25), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 534.56 		 lai =   0.19
      		stover N conc =  12.00 		 extractable sw =   9.71
-25 February 1988(Day of year=56), Sorghum: 
+25 February 1988(Day of year=56), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 589.12 		 lai =   0.18
      		stover N conc =   9.11 		 extractable sw =  21.23
-27 February 1988(Day of year=58), Sorghum: 
+27 February 1988(Day of year=58), sorghum: 
       stage 10.0 maturity
      		biomass = 591.30 		 lai =   0.18
      		stover N conc =   9.09 		 extractable sw =  45.74
-28 February 1988(Day of year=59), Sorghum: 
+28 February 1988(Day of year=59), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 592.06 		 lai =   0.18
      		stover N conc =   9.08 		 extractable sw =  47.15
 28 February 1988(Day of year=59), manager: 
      Manager sending message :- sorghum harvest
-28 February 1988(Day of year=59), Sorghum: 
+28 February 1988(Day of year=59), sorghum: 
      
      Harvest
      flowering (DAS)       = 101 	 maturity (DAS)          = 135
@@ -5439,7 +5439,7 @@
                          N  (kg/ha) =                 36.02		    0.00
 28 February 1988(Day of year=59), manager: 
      Manager sending message :- sorghum end_crop
-28 February 1988(Day of year=59), Sorghum: 
+28 February 1988(Day of year=59), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4935.68		 1658.02
@@ -5491,7 +5491,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1988(Day of year=289), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1988(Day of year=289), Sorghum: 
+15 October 1988(Day of year=289), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -5532,49 +5532,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1988(Day of year=290), Sorghum: 
+16 October 1988(Day of year=290), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-20 October 1988(Day of year=294), Sorghum: 
+20 October 1988(Day of year=294), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  25.39
-28 October 1988(Day of year=302), Sorghum: 
+28 October 1988(Day of year=302), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.62 		 lai =   0.02
      		stover N conc =   0.08 		 extractable sw =  74.49
-12 November 1988(Day of year=317), Sorghum: 
+12 November 1988(Day of year=317), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  32.76 		 lai =   0.53
      		stover N conc =   1.09 		 extractable sw =  93.03
-7 December 1988(Day of year=342), Sorghum: 
+7 December 1988(Day of year=342), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 420.91 		 lai =   3.73
      		stover N conc =  10.85 		 extractable sw =  21.48
-21 December 1988(Day of year=356), Sorghum: 
+21 December 1988(Day of year=356), sorghum: 
       stage 7.0 flowering
      		biomass = 513.59 		 lai =   2.30
      		stover N conc =  12.53 		 extractable sw =  17.53
-22 December 1988(Day of year=357), Sorghum: 
+22 December 1988(Day of year=357), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 520.96 		 lai =   2.30
      		stover N conc =  12.64 		 extractable sw =  14.33
-20 January 1989(Day of year=20), Sorghum: 
+20 January 1989(Day of year=20), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 567.30 		 lai =   0.27
      		stover N conc =   7.91 		 extractable sw =   0.33
-21 January 1989(Day of year=21), Sorghum: 
+21 January 1989(Day of year=21), sorghum: 
       stage 10.0 maturity
      		biomass = 567.42 		 lai =   0.24
      		stover N conc =   7.91 		 extractable sw =   0.32
-22 January 1989(Day of year=22), Sorghum: 
+22 January 1989(Day of year=22), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 567.52 		 lai =   0.22
      		stover N conc =   7.92 		 extractable sw =   0.30
 22 January 1989(Day of year=22), manager: 
      Manager sending message :- sorghum harvest
-22 January 1989(Day of year=22), Sorghum: 
+22 January 1989(Day of year=22), sorghum: 
      
      Harvest
      flowering (DAS)       = 67 	 maturity (DAS)          = 98
@@ -5608,7 +5608,7 @@
                          N  (kg/ha) =                 55.77		    0.00
 22 January 1989(Day of year=22), manager: 
      Manager sending message :- sorghum end_crop
-22 January 1989(Day of year=22), Sorghum: 
+22 January 1989(Day of year=22), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4748.50		 1766.45
@@ -5660,7 +5660,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1989(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1989(Day of year=288), Sorghum: 
+15 October 1989(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -5701,49 +5701,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1989(Day of year=289), Sorghum: 
+16 October 1989(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-19 October 1989(Day of year=292), Sorghum: 
+19 October 1989(Day of year=292), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  19.20
-29 October 1989(Day of year=302), Sorghum: 
+29 October 1989(Day of year=302), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.58 		 lai =   0.03
      		stover N conc =   0.08 		 extractable sw =  95.80
-14 November 1989(Day of year=318), Sorghum: 
+14 November 1989(Day of year=318), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  32.12 		 lai =   0.55
      		stover N conc =   0.85 		 extractable sw = 146.54
-7 December 1989(Day of year=341), Sorghum: 
+7 December 1989(Day of year=341), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 437.51 		 lai =   4.01
      		stover N conc =   8.51 		 extractable sw = 169.03
-15 December 1989(Day of year=349), Sorghum: 
+15 December 1989(Day of year=349), sorghum: 
       stage 7.0 flowering
      		biomass = 643.59 		 lai =   3.94
      		stover N conc =  10.44 		 extractable sw = 115.83
-17 December 1989(Day of year=351), Sorghum: 
+17 December 1989(Day of year=351), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 692.01 		 lai =   3.90
      		stover N conc =  10.71 		 extractable sw = 105.50
-14 January 1990(Day of year=14), Sorghum: 
+14 January 1990(Day of year=14), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 1007.92 		 lai =   1.21
      		stover N conc =   6.00 		 extractable sw =   4.71
-15 January 1990(Day of year=15), Sorghum: 
+15 January 1990(Day of year=15), sorghum: 
       stage 10.0 maturity
      		biomass = 1009.04 		 lai =   1.11
      		stover N conc =   6.00 		 extractable sw =   4.25
-16 January 1990(Day of year=16), Sorghum: 
+16 January 1990(Day of year=16), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 1010.82 		 lai =   1.02
      		stover N conc =   5.98 		 extractable sw =  30.70
 16 January 1990(Day of year=16), manager: 
      Manager sending message :- sorghum harvest
-16 January 1990(Day of year=16), Sorghum: 
+16 January 1990(Day of year=16), sorghum: 
      
      Harvest
      flowering (DAS)       = 61 	 maturity (DAS)          = 92
@@ -5777,7 +5777,7 @@
                          N  (kg/ha) =                 72.64		    0.00
 16 January 1990(Day of year=16), manager: 
      Manager sending message :- sorghum end_crop
-16 January 1990(Day of year=16), Sorghum: 
+16 January 1990(Day of year=16), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               6032.25		 2273.33
@@ -5829,7 +5829,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1990(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1990(Day of year=288), Sorghum: 
+15 October 1990(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -5870,49 +5870,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1990(Day of year=289), Sorghum: 
+16 October 1990(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-19 October 1990(Day of year=292), Sorghum: 
+19 October 1990(Day of year=292), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  19.52
-30 October 1990(Day of year=303), Sorghum: 
+30 October 1990(Day of year=303), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.91 		 lai =   0.03
      		stover N conc =   0.08 		 extractable sw =  81.99
-13 November 1990(Day of year=317), Sorghum: 
+13 November 1990(Day of year=317), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  31.74 		 lai =   0.49
      		stover N conc =   0.92 		 extractable sw =  94.85
-14 December 1990(Day of year=348), Sorghum: 
+14 December 1990(Day of year=348), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 323.65 		 lai =   1.92
      		stover N conc =  11.07 		 extractable sw =  18.55
-8 January 1991(Day of year=8), Sorghum: 
+8 January 1991(Day of year=8), sorghum: 
       stage 7.0 flowering
      		biomass = 401.20 		 lai =   0.72
      		stover N conc =  12.25 		 extractable sw =  40.26
-9 January 1991(Day of year=9), Sorghum: 
+9 January 1991(Day of year=9), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 409.91 		 lai =   0.72
      		stover N conc =  12.34 		 extractable sw =  35.71
-7 February 1991(Day of year=38), Sorghum: 
+7 February 1991(Day of year=38), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 546.18 		 lai =   0.60
      		stover N conc =  11.14 		 extractable sw =  18.54
-8 February 1991(Day of year=39), Sorghum: 
+8 February 1991(Day of year=39), sorghum: 
       stage 10.0 maturity
      		biomass = 550.43 		 lai =   0.57
      		stover N conc =  11.10 		 extractable sw =  53.93
-9 February 1991(Day of year=40), Sorghum: 
+9 February 1991(Day of year=40), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 553.76 		 lai =   0.57
      		stover N conc =  11.06 		 extractable sw =  58.05
 9 February 1991(Day of year=40), manager: 
      Manager sending message :- sorghum harvest
-9 February 1991(Day of year=40), Sorghum: 
+9 February 1991(Day of year=40), sorghum: 
      
      Harvest
      flowering (DAS)       = 85 	 maturity (DAS)          = 116
@@ -5946,7 +5946,7 @@
                          N  (kg/ha) =                 32.64		    0.00
 9 February 1991(Day of year=40), manager: 
      Manager sending message :- sorghum end_crop
-9 February 1991(Day of year=40), Sorghum: 
+9 February 1991(Day of year=40), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               3710.85		 1389.92
@@ -5998,7 +5998,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1991(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1991(Day of year=288), Sorghum: 
+15 October 1991(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -6039,49 +6039,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1991(Day of year=289), Sorghum: 
+16 October 1991(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-19 October 1991(Day of year=292), Sorghum: 
+19 October 1991(Day of year=292), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  19.09
-27 October 1991(Day of year=300), Sorghum: 
+27 October 1991(Day of year=300), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.60 		 lai =   0.02
      		stover N conc =   0.07 		 extractable sw =  70.99
-10 November 1991(Day of year=314), Sorghum: 
+10 November 1991(Day of year=314), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  26.03 		 lai =   0.50
      		stover N conc =   0.92 		 extractable sw =  97.90
-3 December 1991(Day of year=337), Sorghum: 
+3 December 1991(Day of year=337), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 351.62 		 lai =   3.66
      		stover N conc =   9.82 		 extractable sw =  42.54
-13 December 1991(Day of year=347), Sorghum: 
+13 December 1991(Day of year=347), sorghum: 
       stage 7.0 flowering
      		biomass = 470.51 		 lai =   3.57
      		stover N conc =  11.65 		 extractable sw =  53.61
-14 December 1991(Day of year=348), Sorghum: 
+14 December 1991(Day of year=348), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 499.86 		 lai =   3.55
      		stover N conc =  11.90 		 extractable sw =  45.42
-11 January 1992(Day of year=11), Sorghum: 
+11 January 1992(Day of year=11), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 645.02 		 lai =   0.87
      		stover N conc =   7.79 		 extractable sw =   0.61
-13 January 1992(Day of year=13), Sorghum: 
+13 January 1992(Day of year=13), sorghum: 
       stage 10.0 maturity
      		biomass = 645.44 		 lai =   0.73
      		stover N conc =   7.81 		 extractable sw =   0.54
-14 January 1992(Day of year=14), Sorghum: 
+14 January 1992(Day of year=14), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 645.63 		 lai =   0.67
      		stover N conc =   7.82 		 extractable sw =   0.51
 14 January 1992(Day of year=14), manager: 
      Manager sending message :- sorghum harvest
-14 January 1992(Day of year=14), Sorghum: 
+14 January 1992(Day of year=14), sorghum: 
      
      Harvest
      flowering (DAS)       = 59 	 maturity (DAS)          = 90
@@ -6115,7 +6115,7 @@
                          N  (kg/ha) =                 65.94		    0.00
 14 January 1992(Day of year=14), manager: 
      Manager sending message :- sorghum end_crop
-14 January 1992(Day of year=14), Sorghum: 
+14 January 1992(Day of year=14), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4402.35		 1694.08
@@ -6167,7 +6167,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1992(Day of year=289), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1992(Day of year=289), Sorghum: 
+15 October 1992(Day of year=289), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -6208,31 +6208,31 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1992(Day of year=290), Sorghum: 
+16 October 1992(Day of year=290), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-20 October 1992(Day of year=294), Sorghum: 
+20 October 1992(Day of year=294), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  27.01
-31 October 1992(Day of year=305), Sorghum: 
+31 October 1992(Day of year=305), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.76 		 lai =   0.03
      		stover N conc =   0.08 		 extractable sw =  85.64
-16 November 1992(Day of year=321), Sorghum: 
+16 November 1992(Day of year=321), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  31.88 		 lai =   0.50
      		stover N conc =   0.83 		 extractable sw =  97.77
-17 December 1992(Day of year=352), Sorghum: 
+17 December 1992(Day of year=352), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 365.12 		 lai =   2.07
      		stover N conc =  11.13 		 extractable sw =  13.96
-29 January 1993(Day of year=29), Sorghum: 
+29 January 1993(Day of year=29), sorghum: 
      Plant Death. Standing above-ground dm = 4325.42 (kg/ha)
 29 January 1993(Day of year=29), manager: 
      Manager sending message :- sorghum harvest
-29 January 1993(Day of year=29), Sorghum: 
+29 January 1993(Day of year=29), sorghum: 
      
      Harvest
      flowering (DAS)       = 0 	 maturity (DAS)          = 0
@@ -6266,7 +6266,7 @@
                          N  (kg/ha) =                  0.00		    0.00
 29 January 1993(Day of year=29), manager: 
      Manager sending message :- sorghum end_crop
-29 January 1993(Day of year=29), Sorghum: 
+29 January 1993(Day of year=29), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4326.70		 1480.77
@@ -6318,7 +6318,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1993(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1993(Day of year=288), Sorghum: 
+15 October 1993(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -6359,31 +6359,31 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1993(Day of year=289), Sorghum: 
+16 October 1993(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-19 October 1993(Day of year=292), Sorghum: 
+19 October 1993(Day of year=292), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  23.03
-29 October 1993(Day of year=302), Sorghum: 
+29 October 1993(Day of year=302), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.61 		 lai =   0.02
      		stover N conc =   0.08 		 extractable sw =  84.47
-14 November 1993(Day of year=318), Sorghum: 
+14 November 1993(Day of year=318), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  25.40 		 lai =   0.51
      		stover N conc =   0.79 		 extractable sw = 116.87
-7 December 1993(Day of year=341), Sorghum: 
+7 December 1993(Day of year=341), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 340.56 		 lai =   3.59
      		stover N conc =  10.51 		 extractable sw =  19.20
-24 January 1994(Day of year=24), Sorghum: 
+24 January 1994(Day of year=24), sorghum: 
      Plant Death. Standing above-ground dm = 4526.47 (kg/ha)
 24 January 1994(Day of year=24), manager: 
      Manager sending message :- sorghum harvest
-24 January 1994(Day of year=24), Sorghum: 
+24 January 1994(Day of year=24), sorghum: 
      
      Harvest
      flowering (DAS)       = 0 	 maturity (DAS)          = 0
@@ -6417,7 +6417,7 @@
                          N  (kg/ha) =                  0.00		    0.00
 24 January 1994(Day of year=24), manager: 
      Manager sending message :- sorghum end_crop
-24 January 1994(Day of year=24), Sorghum: 
+24 January 1994(Day of year=24), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4527.96		 1491.95
@@ -6469,7 +6469,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1994(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1994(Day of year=288), Sorghum: 
+15 October 1994(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -6510,49 +6510,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1994(Day of year=289), Sorghum: 
+16 October 1994(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-20 October 1994(Day of year=293), Sorghum: 
+20 October 1994(Day of year=293), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  25.61
-31 October 1994(Day of year=304), Sorghum: 
+31 October 1994(Day of year=304), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.86 		 lai =   0.03
      		stover N conc =   0.08 		 extractable sw = 103.38
-15 November 1994(Day of year=319), Sorghum: 
+15 November 1994(Day of year=319), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  27.02 		 lai =   0.47
      		stover N conc =   0.75 		 extractable sw = 109.74
-9 December 1994(Day of year=343), Sorghum: 
+9 December 1994(Day of year=343), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 446.75 		 lai =   4.04
      		stover N conc =   9.02 		 extractable sw =  63.56
-17 December 1994(Day of year=351), Sorghum: 
+17 December 1994(Day of year=351), sorghum: 
       stage 7.0 flowering
      		biomass = 591.51 		 lai =   3.95
      		stover N conc =  11.45 		 extractable sw =  19.79
-18 December 1994(Day of year=352), Sorghum: 
+18 December 1994(Day of year=352), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 597.46 		 lai =   3.94
      		stover N conc =  11.61 		 extractable sw =  17.05
-16 January 1995(Day of year=16), Sorghum: 
+16 January 1995(Day of year=16), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 654.72 		 lai =   0.40
      		stover N conc =   7.17 		 extractable sw =   0.46
-17 January 1995(Day of year=17), Sorghum: 
+17 January 1995(Day of year=17), sorghum: 
       stage 10.0 maturity
      		biomass = 654.88 		 lai =   0.36
      		stover N conc =   7.18 		 extractable sw =   0.43
-18 January 1995(Day of year=18), Sorghum: 
+18 January 1995(Day of year=18), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 655.10 		 lai =   0.33
      		stover N conc =   7.18 		 extractable sw =   0.41
 18 January 1995(Day of year=18), manager: 
      Manager sending message :- sorghum harvest
-18 January 1995(Day of year=18), Sorghum: 
+18 January 1995(Day of year=18), sorghum: 
      
      Harvest
      flowering (DAS)       = 63 	 maturity (DAS)          = 94
@@ -6586,7 +6586,7 @@
                          N  (kg/ha) =                 57.99		    0.00
 18 January 1995(Day of year=18), manager: 
      Manager sending message :- sorghum end_crop
-18 January 1995(Day of year=18), Sorghum: 
+18 January 1995(Day of year=18), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               5424.94		 1965.37
@@ -6638,7 +6638,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1995(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1995(Day of year=288), Sorghum: 
+15 October 1995(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -6679,49 +6679,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1995(Day of year=289), Sorghum: 
+16 October 1995(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-20 October 1995(Day of year=293), Sorghum: 
+20 October 1995(Day of year=293), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  25.66
-29 October 1995(Day of year=302), Sorghum: 
+29 October 1995(Day of year=302), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.67 		 lai =   0.02
      		stover N conc =   0.07 		 extractable sw =  91.20
-13 November 1995(Day of year=317), Sorghum: 
+13 November 1995(Day of year=317), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  26.58 		 lai =   0.47
      		stover N conc =   0.92 		 extractable sw = 105.00
-7 December 1995(Day of year=341), Sorghum: 
+7 December 1995(Day of year=341), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 442.27 		 lai =   4.02
      		stover N conc =   8.70 		 extractable sw = 190.01
-16 December 1995(Day of year=350), Sorghum: 
+16 December 1995(Day of year=350), sorghum: 
       stage 7.0 flowering
      		biomass = 675.90 		 lai =   3.93
      		stover N conc =  10.76 		 extractable sw = 150.52
-17 December 1995(Day of year=351), Sorghum: 
+17 December 1995(Day of year=351), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 704.55 		 lai =   3.91
      		stover N conc =  10.96 		 extractable sw = 140.31
-18 January 1996(Day of year=18), Sorghum: 
+18 January 1996(Day of year=18), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 1361.36 		 lai =   1.95
      		stover N conc =   6.17 		 extractable sw = 130.79
-20 January 1996(Day of year=20), Sorghum: 
+20 January 1996(Day of year=20), sorghum: 
       stage 10.0 maturity
      		biomass = 1393.14 		 lai =   1.75
      		stover N conc =   6.10 		 extractable sw = 123.14
-21 January 1996(Day of year=21), Sorghum: 
+21 January 1996(Day of year=21), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 1409.47 		 lai =   1.65
      		stover N conc =   5.99 		 extractable sw = 119.39
 21 January 1996(Day of year=21), manager: 
      Manager sending message :- sorghum harvest
-21 January 1996(Day of year=21), Sorghum: 
+21 January 1996(Day of year=21), sorghum: 
      
      Harvest
      flowering (DAS)       = 62 	 maturity (DAS)          = 97
@@ -6755,7 +6755,7 @@
                          N  (kg/ha) =                 93.85		    0.00
 21 January 1996(Day of year=21), manager: 
      Manager sending message :- sorghum end_crop
-21 January 1996(Day of year=21), Sorghum: 
+21 January 1996(Day of year=21), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               7273.94		 2300.62
@@ -6807,7 +6807,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1996(Day of year=289), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1996(Day of year=289), Sorghum: 
+15 October 1996(Day of year=289), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -6848,49 +6848,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1996(Day of year=290), Sorghum: 
+16 October 1996(Day of year=290), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-19 October 1996(Day of year=293), Sorghum: 
+19 October 1996(Day of year=293), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  20.68
-30 October 1996(Day of year=304), Sorghum: 
+30 October 1996(Day of year=304), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.92 		 lai =   0.03
      		stover N conc =   0.09 		 extractable sw =  80.91
-17 November 1996(Day of year=322), Sorghum: 
+17 November 1996(Day of year=322), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  39.47 		 lai =   0.54
      		stover N conc =   1.35 		 extractable sw =  93.79
-13 December 1996(Day of year=348), Sorghum: 
+13 December 1996(Day of year=348), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 377.09 		 lai =   3.19
      		stover N conc =  11.06 		 extractable sw =  33.11
-21 December 1996(Day of year=356), Sorghum: 
+21 December 1996(Day of year=356), sorghum: 
       stage 7.0 flowering
      		biomass = 523.31 		 lai =   3.09
      		stover N conc =  12.55 		 extractable sw =  36.23
-23 December 1996(Day of year=358), Sorghum: 
+23 December 1996(Day of year=358), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 565.40 		 lai =   3.07
      		stover N conc =  12.98 		 extractable sw =  24.91
-22 January 1997(Day of year=22), Sorghum: 
+22 January 1997(Day of year=22), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 636.03 		 lai =   0.37
      		stover N conc =   7.74 		 extractable sw =   0.38
-24 January 1997(Day of year=24), Sorghum: 
+24 January 1997(Day of year=24), sorghum: 
       stage 10.0 maturity
      		biomass = 636.38 		 lai =   0.31
      		stover N conc =   7.75 		 extractable sw =   0.34
-25 January 1997(Day of year=25), Sorghum: 
+25 January 1997(Day of year=25), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 636.52 		 lai =   0.28
      		stover N conc =   7.76 		 extractable sw =   0.33
 25 January 1997(Day of year=25), manager: 
      Manager sending message :- sorghum harvest
-25 January 1997(Day of year=25), Sorghum: 
+25 January 1997(Day of year=25), sorghum: 
      
      Harvest
      flowering (DAS)       = 67 	 maturity (DAS)          = 101
@@ -6924,7 +6924,7 @@
                          N  (kg/ha) =                 67.19		    0.00
 25 January 1997(Day of year=25), manager: 
      Manager sending message :- sorghum end_crop
-25 January 1997(Day of year=25), Sorghum: 
+25 January 1997(Day of year=25), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4869.38		 1901.83
@@ -6976,7 +6976,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1997(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1997(Day of year=288), Sorghum: 
+15 October 1997(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -7017,49 +7017,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1997(Day of year=289), Sorghum: 
+16 October 1997(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-20 October 1997(Day of year=293), Sorghum: 
+20 October 1997(Day of year=293), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  25.57
-30 October 1997(Day of year=303), Sorghum: 
+30 October 1997(Day of year=303), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.80 		 lai =   0.03
      		stover N conc =   0.09 		 extractable sw =  80.48
-13 November 1997(Day of year=317), Sorghum: 
+13 November 1997(Day of year=317), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  24.36 		 lai =   0.54
      		stover N conc =   0.84 		 extractable sw = 101.40
-8 December 1997(Day of year=342), Sorghum: 
+8 December 1997(Day of year=342), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 338.60 		 lai =   3.35
      		stover N conc =  11.08 		 extractable sw =  31.18
-16 December 1997(Day of year=350), Sorghum: 
+16 December 1997(Day of year=350), sorghum: 
       stage 7.0 flowering
      		biomass = 465.66 		 lai =   3.36
      		stover N conc =  12.47 		 extractable sw =  80.30
-17 December 1997(Day of year=351), Sorghum: 
+17 December 1997(Day of year=351), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 492.40 		 lai =   3.36
      		stover N conc =  12.95 		 extractable sw =  70.09
-15 January 1998(Day of year=15), Sorghum: 
+15 January 1998(Day of year=15), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 719.01 		 lai =   1.16
      		stover N conc =  10.83 		 extractable sw =   8.43
-17 January 1998(Day of year=17), Sorghum: 
+17 January 1998(Day of year=17), sorghum: 
       stage 10.0 maturity
      		biomass = 724.99 		 lai =   1.16
      		stover N conc =  10.79 		 extractable sw =   2.57
-18 January 1998(Day of year=18), Sorghum: 
+18 January 1998(Day of year=18), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 726.20 		 lai =   1.07
      		stover N conc =  10.79 		 extractable sw =   1.41
 18 January 1998(Day of year=18), manager: 
      Manager sending message :- sorghum harvest
-18 January 1998(Day of year=18), Sorghum: 
+18 January 1998(Day of year=18), sorghum: 
      
      Harvest
      flowering (DAS)       = 62 	 maturity (DAS)          = 94
@@ -7093,7 +7093,7 @@
                          N  (kg/ha) =                 66.12		    0.00
 18 January 1998(Day of year=18), manager: 
      Manager sending message :- sorghum end_crop
-18 January 1998(Day of year=18), Sorghum: 
+18 January 1998(Day of year=18), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               4349.84		 1670.01
@@ -7145,7 +7145,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1998(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1998(Day of year=288), Sorghum: 
+15 October 1998(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -7186,49 +7186,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1998(Day of year=289), Sorghum: 
+16 October 1998(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-19 October 1998(Day of year=292), Sorghum: 
+19 October 1998(Day of year=292), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  19.36
-30 October 1998(Day of year=303), Sorghum: 
+30 October 1998(Day of year=303), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.77 		 lai =   0.03
      		stover N conc =   0.08 		 extractable sw =  95.58
-14 November 1998(Day of year=318), Sorghum: 
+14 November 1998(Day of year=318), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  23.29 		 lai =   0.51
      		stover N conc =   0.76 		 extractable sw = 136.89
-9 December 1998(Day of year=343), Sorghum: 
+9 December 1998(Day of year=343), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 461.18 		 lai =   3.96
      		stover N conc =  10.23 		 extractable sw =  37.86
-18 December 1998(Day of year=352), Sorghum: 
+18 December 1998(Day of year=352), sorghum: 
       stage 7.0 flowering
      		biomass = 574.03 		 lai =   3.71
      		stover N conc =  12.04 		 extractable sw =  25.00
-19 December 1998(Day of year=353), Sorghum: 
+19 December 1998(Day of year=353), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 583.60 		 lai =   3.71
      		stover N conc =  12.19 		 extractable sw =  22.47
-19 January 1999(Day of year=19), Sorghum: 
+19 January 1999(Day of year=19), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 973.76 		 lai =   2.03
      		stover N conc =   8.10 		 extractable sw =  10.24
-20 January 1999(Day of year=20), Sorghum: 
+20 January 1999(Day of year=20), sorghum: 
       stage 10.0 maturity
      		biomass = 978.66 		 lai =   1.93
      		stover N conc =   8.09 		 extractable sw =   8.52
-21 January 1999(Day of year=21), Sorghum: 
+21 January 1999(Day of year=21), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 982.50 		 lai =   1.82
      		stover N conc =   8.08 		 extractable sw =   7.02
 21 January 1999(Day of year=21), manager: 
      Manager sending message :- sorghum harvest
-21 January 1999(Day of year=21), Sorghum: 
+21 January 1999(Day of year=21), sorghum: 
      
      Harvest
      flowering (DAS)       = 64 	 maturity (DAS)          = 97
@@ -7262,7 +7262,7 @@
                          N  (kg/ha) =                 82.55		    0.00
 21 January 1999(Day of year=21), manager: 
      Manager sending message :- sorghum end_crop
-21 January 1999(Day of year=21), Sorghum: 
+21 January 1999(Day of year=21), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               5338.21		 1908.68
@@ -7314,7 +7314,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 1999(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 1999(Day of year=288), Sorghum: 
+15 October 1999(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -7355,49 +7355,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 1999(Day of year=289), Sorghum: 
+16 October 1999(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-19 October 1999(Day of year=292), Sorghum: 
+19 October 1999(Day of year=292), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  19.20
-29 October 1999(Day of year=302), Sorghum: 
+29 October 1999(Day of year=302), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.65 		 lai =   0.03
      		stover N conc =   0.08 		 extractable sw =  82.66
-15 November 1999(Day of year=319), Sorghum: 
+15 November 1999(Day of year=319), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  30.51 		 lai =   0.50
      		stover N conc =   0.85 		 extractable sw = 105.13
-10 December 1999(Day of year=344), Sorghum: 
+10 December 1999(Day of year=344), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 443.60 		 lai =   3.97
      		stover N conc =  10.43 		 extractable sw =  37.32
-18 December 1999(Day of year=352), Sorghum: 
+18 December 1999(Day of year=352), sorghum: 
       stage 7.0 flowering
      		biomass = 598.98 		 lai =   3.87
      		stover N conc =  12.43 		 extractable sw =  59.58
-20 December 1999(Day of year=354), Sorghum: 
+20 December 1999(Day of year=354), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 628.41 		 lai =   3.84
      		stover N conc =  12.64 		 extractable sw =  53.02
-24 January 2000(Day of year=24), Sorghum: 
+24 January 2000(Day of year=24), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 1335.06 		 lai =   1.97
      		stover N conc =   9.39 		 extractable sw =  23.42
-26 January 2000(Day of year=26), Sorghum: 
+26 January 2000(Day of year=26), sorghum: 
       stage 10.0 maturity
      		biomass = 1354.05 		 lai =   1.79
      		stover N conc =   9.24 		 extractable sw =  18.07
-27 January 2000(Day of year=27), Sorghum: 
+27 January 2000(Day of year=27), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 1363.15 		 lai =   1.69
      		stover N conc =   9.17 		 extractable sw =  26.49
 27 January 2000(Day of year=27), manager: 
      Manager sending message :- sorghum harvest
-27 January 2000(Day of year=27), Sorghum: 
+27 January 2000(Day of year=27), sorghum: 
      
      Harvest
      flowering (DAS)       = 64 	 maturity (DAS)          = 103
@@ -7431,7 +7431,7 @@
                          N  (kg/ha) =                 99.18		    0.00
 27 January 2000(Day of year=27), manager: 
      Manager sending message :- sorghum end_crop
-27 January 2000(Day of year=27), Sorghum: 
+27 January 2000(Day of year=27), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               7053.49		 2040.35
@@ -7483,7 +7483,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 2000(Day of year=289), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 2000(Day of year=289), Sorghum: 
+15 October 2000(Day of year=289), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -7524,49 +7524,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 2000(Day of year=290), Sorghum: 
+16 October 2000(Day of year=290), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-20 October 2000(Day of year=294), Sorghum: 
+20 October 2000(Day of year=294), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  25.53
-29 October 2000(Day of year=303), Sorghum: 
+29 October 2000(Day of year=303), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.65 		 lai =   0.03
      		stover N conc =   0.08 		 extractable sw =  81.29
-16 November 2000(Day of year=321), Sorghum: 
+16 November 2000(Day of year=321), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  24.33 		 lai =   0.58
      		stover N conc =   0.84 		 extractable sw = 160.14
-10 December 2000(Day of year=345), Sorghum: 
+10 December 2000(Day of year=345), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 464.33 		 lai =   3.94
      		stover N conc =   8.82 		 extractable sw =  71.03
-17 December 2000(Day of year=352), Sorghum: 
+17 December 2000(Day of year=352), sorghum: 
       stage 7.0 flowering
      		biomass = 590.75 		 lai =   3.85
      		stover N conc =   9.91 		 extractable sw =  47.06
-19 December 2000(Day of year=354), Sorghum: 
+19 December 2000(Day of year=354), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 639.76 		 lai =   3.81
      		stover N conc =  10.25 		 extractable sw =  33.96
-17 January 2001(Day of year=17), Sorghum: 
+17 January 2001(Day of year=17), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 790.52 		 lai =   0.90
      		stover N conc =   5.74 		 extractable sw =   0.87
-19 January 2001(Day of year=19), Sorghum: 
+19 January 2001(Day of year=19), sorghum: 
       stage 10.0 maturity
      		biomass = 791.05 		 lai =   0.74
      		stover N conc =   5.74 		 extractable sw =   0.72
-20 January 2001(Day of year=20), Sorghum: 
+20 January 2001(Day of year=20), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 791.42 		 lai =   0.67
      		stover N conc =   5.74 		 extractable sw =   0.66
 20 January 2001(Day of year=20), manager: 
      Manager sending message :- sorghum harvest
-20 January 2001(Day of year=20), Sorghum: 
+20 January 2001(Day of year=20), sorghum: 
      
      Harvest
      flowering (DAS)       = 63 	 maturity (DAS)          = 96
@@ -7600,7 +7600,7 @@
                          N  (kg/ha) =                 62.25		    0.00
 20 January 2001(Day of year=20), manager: 
      Manager sending message :- sorghum end_crop
-20 January 2001(Day of year=20), Sorghum: 
+20 January 2001(Day of year=20), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               5485.68		 2029.87
@@ -7652,7 +7652,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 2001(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 2001(Day of year=288), Sorghum: 
+15 October 2001(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -7693,49 +7693,49 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 2001(Day of year=289), Sorghum: 
+16 October 2001(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-21 October 2001(Day of year=294), Sorghum: 
+21 October 2001(Day of year=294), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  32.66
-30 October 2001(Day of year=303), Sorghum: 
+30 October 2001(Day of year=303), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.69 		 lai =   0.02
      		stover N conc =   0.08 		 extractable sw =  96.77
-15 November 2001(Day of year=319), Sorghum: 
+15 November 2001(Day of year=319), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  28.03 		 lai =   0.51
      		stover N conc =   0.84 		 extractable sw = 121.05
-10 December 2001(Day of year=344), Sorghum: 
+10 December 2001(Day of year=344), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 438.28 		 lai =   3.93
      		stover N conc =  10.02 		 extractable sw =  39.54
-18 December 2001(Day of year=352), Sorghum: 
+18 December 2001(Day of year=352), sorghum: 
       stage 7.0 flowering
      		biomass = 557.23 		 lai =   3.85
      		stover N conc =  11.58 		 extractable sw =  44.76
-20 December 2001(Day of year=354), Sorghum: 
+20 December 2001(Day of year=354), sorghum: 
       stage 8.0 start_grain_fill
      		biomass = 597.97 		 lai =   3.81
      		stover N conc =  12.09 		 extractable sw =  31.25
-17 January 2002(Day of year=17), Sorghum: 
+17 January 2002(Day of year=17), sorghum: 
       stage 9.0 end_grain_fill
      		biomass = 747.07 		 lai =   1.11
      		stover N conc =   7.51 		 extractable sw =  13.96
-19 January 2002(Day of year=19), Sorghum: 
+19 January 2002(Day of year=19), sorghum: 
       stage 10.0 maturity
      		biomass = 759.73 		 lai =   1.11
      		stover N conc =   7.56 		 extractable sw =   9.65
-20 January 2002(Day of year=20), Sorghum: 
+20 January 2002(Day of year=20), sorghum: 
       stage 11.0 harvest_ripe
      		biomass = 764.76 		 lai =   1.11
      		stover N conc =   7.56 		 extractable sw =   7.94
 20 January 2002(Day of year=20), manager: 
      Manager sending message :- sorghum harvest
-20 January 2002(Day of year=20), Sorghum: 
+20 January 2002(Day of year=20), sorghum: 
      
      Harvest
      flowering (DAS)       = 64 	 maturity (DAS)          = 96
@@ -7769,7 +7769,7 @@
                          N  (kg/ha) =                 73.16		    0.00
 20 January 2002(Day of year=20), manager: 
      Manager sending message :- sorghum end_crop
-20 January 2002(Day of year=20), Sorghum: 
+20 January 2002(Day of year=20), sorghum: 
      Crop ended. Yield (dw) =     0.0 kg/ha
      Organic matter from crop:-      Tops to surface residue	 Roots to soil FOM
                          DM (kg/ha) =               5505.05		 1931.35
@@ -7821,7 +7821,7 @@
                                               added at depth  200.00 (layer   2)
 15 October 2002(Day of year=288), manager: 
      Manager sending message :- sorghum sow  cultivar = medium, plants = 8 (/m2), sowing_depth = 30 (mm), row_spacing = 1.0, tiller_no_fertile = 1.0
-15 October 2002(Day of year=288), Sorghum: 
+15 October 2002(Day of year=288), sorghum: 
      Sowing initiate
      
                       Crop Sowing Data
@@ -7862,23 +7862,23 @@
              300.0     0.040          0.410       1.000
          ---------------------------------------------------
      
-16 October 2002(Day of year=289), Sorghum: 
+16 October 2002(Day of year=289), sorghum: 
       stage 2.0 germination
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =   0.00
-20 October 2002(Day of year=293), Sorghum: 
+20 October 2002(Day of year=293), sorghum: 
       stage 3.0 emergence
      		biomass =   0.00 		 lai =   0.00
      		stover N conc =   0.00 		 extractable sw =  25.46
-29 October 2002(Day of year=302), Sorghum: 
+29 October 2002(Day of year=302), sorghum: 
       stage 4.0 end_of_juvenile
      		biomass =   2.79 		 lai =   0.03
      		stover N conc =   0.09 		 extractable sw =  77.43
-13 November 2002(Day of year=317), Sorghum: 
+13 November 2002(Day of year=317), sorghum: 
       stage 5.0 floral_initiation
      		biomass =  33.22 		 lai =   0.56
      		stover N conc =   1.19 		 extractable sw =  91.49
-9 December 2002(Day of year=343), Sorghum: 
+9 December 2002(Day of year=343), sorghum: 
       stage 6.0 flag_leaf
      		biomass = 338.87 		 lai =   2.67
      		stover N conc =  10.64 		 extractable sw =   7.86
