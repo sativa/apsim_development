@@ -18,14 +18,20 @@
 class TTextForm : public TPropertyForm
 {
 __published:	// IDE-managed Components
-   TRichEdit *TextEdit;
    TFontDialog *FontDialog;
-   TLabel *Label6;
-   TComboBox *AlignmentCombo;
    TLabel *Label7;
+   TComboBox *AlignmentCombo;
    TCheckBox *AutosizeCheckBox;
-   TLabel *Label5;
    TLabel *FontLabel;
+   TLabel *Label6;
+   TRichEdit *TextEdit;
+   TLabel *Label5;
+   TLabel *Label1;
+   TLabel *Label2;
+   TLabel *Label3;
+   TLabel *Label4;
+   TLabel *Label8;
+   TLabel *Label9;
    void __fastcall TextEditExit(TObject *Sender);
    void __fastcall AlignmentComboChange(TObject *Sender);
    void __fastcall ToolbarCheckBoxClick(TObject *Sender);

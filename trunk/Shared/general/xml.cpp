@@ -253,7 +253,7 @@ XMLNode::iterator XMLNode::erase(XMLNode::iterator& child)
 // ------------------------------------------------------------------
 xmlNode* findFirstValidNode(xmlNode* node)
    {
-   while (node != NULL && node->type == XML_TEXT_NODE)
+   while (node != NULL && (node->type == XML_TEXT_NODE || node->type == XML_CDATA_SECTION_NODE))
        node = node->next;
    return node;
    }

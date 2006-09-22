@@ -35,7 +35,6 @@ void __fastcall TText::setText(AnsiString text)
    {
    contentsWithMacros = text;
    refresh();
-   trapSourceDataRefresh();
    }
 //---------------------------------------------------------------------------
 // Return alignment as a string.
@@ -69,39 +68,4 @@ void TText::refresh(void)
    Lines->Text = macros.doReplacement(Owner, contentsWithMacros);
    Paint();
    }
-
-//---------------------------------------------------------------------------
-// trap the dataset onDataRefresh events so that we can update our macros.
-//---------------------------------------------------------------------------
-void TText::trapSourceDataRefresh(void)
-   {
-   // remove ourself from all source data lists.
-   for (unsigned i = 0; i != sourceNames.size(); i++)
-      {
-      TSEGTable* source = getComponent<TSEGTable>(Owner, sourceNames[i].c_str());
-      if (source != NULL)
-         source->removeDataChangeSubscription(Name.c_str());
-      }
-
-   // find data component on owner.
-   TForm* data = getComponent<TForm>(Owner, "data");
-
-   // add ourself to all source components.
-   macros.getReferencedComponents(sourceNames);
-   for (unsigned i = 0; i != sourceNames.size(); i++)
-      {
-      TSEGTable* source = getComponent<TSEGTable>(data, sourceNames[i].c_str());
-      if (source != NULL)
-         source->addDataChangeSubscription(Name + ".afterDataRefresh");
-      }
-   }
-
-//---------------------------------------------------------------------------
-// One of the source datasets is now open - refresh our macros.
-//---------------------------------------------------------------------------
-void __fastcall TText::afterDataRefresh(TDataSet* dataset)
-   {
-   refresh();
-   }
-
 

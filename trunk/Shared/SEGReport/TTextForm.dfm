@@ -1,116 +1,143 @@
 inherited TextForm: TTextForm
+  Left = 393
+  Top = 265
   Width = 278
-  Height = 527
+  Height = 591
   Caption = 'TextForm'
   OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
-  inherited AdvPanelGroup1: TAdvPanelGroup
-    Width = 270
-    Height = 494
-    FullHeight = 18
-    inherited AdvancedPanel: TAdvPanel
-      Width = 254
-      FullHeight = 293
-      inherited NameEdit: TEdit
-        Width = 183
-      end
-      inherited SourceCombo: TComboBox
-        Width = 183
-      end
-      inherited SortFieldsEdit: TEdit
-        Width = 183
-      end
-      inherited GroupByEdit: TEdit
-        Width = 184
-      end
-    end
-    inherited PropertyPanel: TAdvPanel
-      Width = 254
-      FullHeight = 297
-      object Label6: TLabel
-        Left = 7
-        Top = 98
-        Width = 30
-        Height = 13
-        Caption = 'Text:'
-      end
-      object Label7: TLabel
-        Left = 7
-        Top = 20
-        Width = 62
-        Height = 13
-        Caption = 'Alignment:'
-      end
-      object Label5: TLabel
-        Left = 7
-        Top = 267
-        Width = 191
-        Height = 65
-        Anchors = [akLeft, akBottom]
-        Caption = 
-          'E.g macros:    $precision(component.property,                   ' +
-          'decplaces [,recno])  $property(component.property               ' +
-          '    [,recno])'
-        WordWrap = True
-      end
-      object FontLabel: TLabel
-        Left = 7
-        Top = 78
-        Width = 49
-        Height = 13
-        Cursor = crHandPoint
-        Caption = 'Edit Font'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlue
-        Font.Height = -11
-        Font.Name = 'Verdana'
-        Font.Style = [fsUnderline]
-        ParentFont = False
-        OnClick = FontLabelClick
-      end
-      object TextEdit: TRichEdit
-        Left = 7
-        Top = 111
-        Width = 189
-        Height = 156
-        Anchors = [akLeft, akTop, akRight, akBottom]
-        BevelInner = bvNone
-        BevelOuter = bvRaised
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        ScrollBars = ssBoth
-        TabOrder = 0
-        WordWrap = False
-        OnExit = TextEditExit
-      end
-      object AlignmentCombo: TComboBox
-        Left = 7
-        Top = 33
-        Width = 143
-        Height = 21
-        BevelKind = bkSoft
-        ItemHeight = 13
-        TabOrder = 2
-        OnChange = AlignmentComboChange
-        Items.Strings = (
-          'Left'
-          'Centre'
-          'Right')
-      end
-      object AutosizeCheckBox: TCheckBox
-        Left = 7
-        Top = 59
-        Width = 96
-        Height = 17
-        Alignment = taLeftJustify
-        Caption = 'Autosize?'
-        Ctl3D = True
-        ParentCtl3D = False
-        TabOrder = 1
-        OnClick = ToolbarCheckBoxClick
-      end
-    end
+  object Label7: TLabel
+    Left = 7
+    Top = 20
+    Width = 49
+    Height = 13
+    Caption = 'Alignment:'
+  end
+  object FontLabel: TLabel
+    Left = 7
+    Top = 78
+    Width = 49
+    Height = 13
+    Cursor = crHandPoint
+    Caption = 'Edit Font'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlue
+    Font.Height = -11
+    Font.Name = 'Verdana'
+    Font.Style = [fsUnderline]
+    ParentFont = False
+    OnClick = FontLabelClick
+  end
+  object Label6: TLabel
+    Left = 7
+    Top = 98
+    Width = 24
+    Height = 13
+    Caption = 'Text:'
+  end
+  object Label5: TLabel
+    Left = 15
+    Top = 355
+    Width = 144
+    Height = 13
+    Anchors = [akLeft, akBottom]
+    Caption = '$property(component.property)'
+    WordWrap = True
+  end
+  object Label1: TLabel
+    Left = 8
+    Top = 336
+    Width = 53
+    Height = 13
+    Caption = 'E.g macros'
+  end
+  object Label2: TLabel
+    Left = 15
+    Top = 371
+    Width = 168
+    Height = 13
+    Anchors = [akLeft, akBottom]
+    Caption = '$decplaces(value, num dec places)'
+    WordWrap = True
+  end
+  object Label3: TLabel
+    Left = 15
+    Top = 387
+    Width = 38
+    Height = 13
+    Anchors = [akLeft, akBottom]
+    Caption = '$today()'
+    WordWrap = True
+  end
+  object Label4: TLabel
+    Left = 15
+    Top = 403
+    Width = 105
+    Height = 13
+    Anchors = [akLeft, akBottom]
+    Caption = '$dayofyeartodate(doy)'
+    WordWrap = True
+  end
+  object Label8: TLabel
+    Left = 15
+    Top = 419
+    Width = 106
+    Height = 13
+    Anchors = [akLeft, akBottom]
+    Caption = '$formatshortdate(date)'
+    WordWrap = True
+  end
+  object Label9: TLabel
+    Left = 15
+    Top = 435
+    Width = 151
+    Height = 13
+    Anchors = [akLeft, akBottom]
+    Caption = '$adddaystodate(date, numdays)'
+    WordWrap = True
+  end
+  object AlignmentCombo: TComboBox
+    Left = 63
+    Top = 17
+    Width = 202
+    Height = 21
+    BevelKind = bkSoft
+    Anchors = [akLeft, akTop, akRight]
+    ItemHeight = 13
+    TabOrder = 0
+    OnChange = AlignmentComboChange
+    Items.Strings = (
+      'Left'
+      'Centre'
+      'Right')
+  end
+  object AutosizeCheckBox: TCheckBox
+    Left = 6
+    Top = 51
+    Width = 69
+    Height = 17
+    Alignment = taLeftJustify
+    Caption = 'Autosize?'
+    Ctl3D = True
+    ParentCtl3D = False
+    TabOrder = 2
+    OnClick = ToolbarCheckBoxClick
+  end
+  object TextEdit: TRichEdit
+    Left = 7
+    Top = 111
+    Width = 258
+    Height = 220
+    Anchors = [akLeft, akTop, akRight, akBottom]
+    BevelInner = bvNone
+    BevelOuter = bvRaised
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    ScrollBars = ssBoth
+    TabOrder = 1
+    WordWrap = False
+    OnExit = TextEditExit
   end
   object FontDialog: TFontDialog
     Font.Charset = DEFAULT_CHARSET

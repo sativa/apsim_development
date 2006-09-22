@@ -192,9 +192,6 @@ Public MustInherit Class BaseController
         If FileData.LoadFromFile(FileName) Then
             MyFileName = FileName
             MyIsReadOnly = IsDataReadOnly()
-            If MyIsReadOnly Then
-                MessageBox.Show("The file: " + FileName + " is readonly. All editing capability is disabled.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            End If
             AddFileToFrequentList(MyFileName)
             MyDirtyData = False
             AllData = FileData
@@ -474,7 +471,7 @@ Public MustInherit Class BaseController
             ParentData.BeginUpdate()
             Dim NewData As New APSIMData("<dummy>" + XML + "</dummy>")
             For Each Child As APSIMData In NewData.Children
-                ParentData.Add(Child)
+                ParentData.Add(Child).EnsureNameIsUnique()
             Next
             ParentData.EndUpdate()
             RefreshView()
@@ -596,15 +593,23 @@ Public MustInherit Class BaseController
             Combo.Editable = True
             Grid.Cells(Row, 1).CellType = Combo
 
+        ElseIf Prop.Attribute("type") = "multilist" Then
+            Dim Combo As CheckedListBoxCellType = New CheckedListBoxCellType
+            Combo.Items = Prop.Attribute("listvalues").Split(",")
+            Grid.Cells(Row, 1).CellType = Combo
+
         ElseIf Prop.Attribute("type") = "filenames" Or Prop.Attribute("type") = "filename" Then
             Grid.Columns(1).Visible = True
             Grid.Cells(Row, 1).Locked = False
             Dim Button As FarPoint.Win.Spread.CellType.ButtonCellType = New FarPoint.Win.Spread.CellType.ButtonCellType
             Button.Picture = My.Resources.folder
             Grid.Cells(Row, 1).CellType = Button
-            If Prop.Attribute("type") = "filenames" Then
-                Grid.Rows(Row).Height = 100
-            End If
+
+        ElseIf Prop.Attribute("type") = "multiedit" Then
+            Dim Text As FarPoint.Win.Spread.CellType.TextCellType = New FarPoint.Win.Spread.CellType.TextCellType
+            Text.Multiline = True
+            Grid.Cells(Row, 1).CellType = Text
+            Grid.Rows(Row).Height = 80
         End If
 
     End Sub
@@ -612,13 +617,13 @@ Public MustInherit Class BaseController
     Public Overridable Sub PopulateCellEditor(ByVal Prop As APSIMData, ByVal Editor As FarPoint.Win.Spread.CellType.BaseCellType)
     End Sub
 
-    Public Overridable Sub OnButtonClick(ByVal sender As System.Object, ByVal e As FarPoint.Win.Spread.EditorNotifyEventArgs)
+    Public Overridable Sub OnButtonClick(ByVal sender As System.Object, ByVal e As FarPoint.Win.Spread.EditorNotifyEventArgs, ByVal Prop As APSIMData)
         Dim Spread As FarPoint.Win.Spread.FpSpread = sender
         Dim Grid As FarPoint.Win.Spread.SheetView = Spread.ActiveSheet
 
         Dim Dialog As New OpenFileDialog
         Dialog.AddExtension = True
-        Dialog.Multiselect = (Grid.Rows(e.Row).Height = 100)
+        Dialog.Multiselect = Prop.Attribute("type").ToLower() = "filenames"
         If Dialog.ShowDialog = DialogResult.OK Then
             Dim Text As String = ""
             For Each FileName As String In Dialog.FileNames

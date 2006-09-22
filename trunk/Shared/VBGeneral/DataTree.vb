@@ -591,7 +591,11 @@ Public Class DataTree
         'Appears to be a bug in TreeView control
         If Not IsNothing(e.Label) AndAlso Not e.Label.Equals("") Then
             Dim DataToRename As APSIMData = Controller.Data
+            DataToRename.BeginUpdate()
             DataToRename.Name = e.Label
+            DataToRename.EnsureNameIsUnique()
+            DataToRename.EndUpdate()
+
             Dim NewSelections As StringCollection = New StringCollection
             NewSelections.Add(DataToRename.FullPath)
             Controller.SelectedPaths = NewSelections

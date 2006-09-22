@@ -188,7 +188,7 @@ Public Class APSIMData
             Dim NumSoFar As Integer = 0
             For i As Integer = 0 To Node.ChildNodes.Count - 1
                 Dim ChildType As String = Node.ChildNodes(i).Name
-                If ChildType <> "#text" And ChildType <> "#comment" Then
+                If ChildType <> "#text" And ChildType <> "#comment" And ChildType <> "#cdata-section" Then
                     If IsNothing(ChildTypeFilter) OrElse ChildTypeFilter.ToLower() = ChildType.ToLower() Then
                         ReturnList(NumSoFar) = New APSIMData(Node.ChildNodes(i), DataChangedEvent)
                         NumSoFar += 1
@@ -499,7 +499,15 @@ Public Class APSIMData
             Dim Siblings() As String = Parent.ChildNames
 
             For i As Integer = 1 To 100000
-                If Utility.IndexOfCaseInsensitive(Siblings, Name) <> -1 Then
+                Dim Count As Integer = 0
+                For Each Sibling As String In Siblings
+                    If Sibling.ToLower = Name.ToLower Then
+                        Count += 1
+                    End If
+                Next
+                If Count = 1 Then
+                    Return
+                Else
                     Name = BaseName + "{" + i.ToString + "}"
                 End If
             Next
@@ -539,7 +547,7 @@ Public Class APSIMData
             FireDataChangedEvent()
         End If
     End Sub
-    Public Sub EnsureNumberOfChildren(ByVal ChildType As String, ByVal NumChildren As Integer)
+    Public Sub EnsureNumberOfChildren(ByVal ChildType As String, ByVal ChildName As String, ByVal NumChildren As Integer)
         ' -------------------------------------------------------------------------
         ' Ensure there are the specified number of children with the speciifed type
         ' -------------------------------------------------------------------------
@@ -550,7 +558,7 @@ Public Class APSIMData
             BeginInternalUpdate()
         End If
         For i As Integer = 1 To NumChildrenToAdd
-            Add(New APSIMData(ChildType, ""))
+            Add(New APSIMData(ChildType, ChildName))
         Next
         For i As Integer = 1 To NumChildrenToDelete
             Delete(ChildrenNames(ChildrenNames.Length - 1))

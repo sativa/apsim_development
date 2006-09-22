@@ -4,17 +4,15 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\..\Bin\ApsimReport.exe"/>
-    <OBJFILES value="ApsimReport.obj TMainForm.obj TPageSetupForm.obj TLibraryForm.obj 
-      TObjectInspectorForm.obj TDataPreviewForm.obj"/>
+    <OBJFILES value="ApsimReport.obj TMainForm.obj TPageSetupForm.obj"/>
     <RESFILES value="ApsimReport.res"/>
     <DEFFILE value=""/>
-    <RESDEPEN value="$(RESFILES) TMainForm.dfm TPageSetupForm.dfm TLibraryForm.dfm 
-      TObjectInspectorForm.dfm TDataPreviewForm.dfm"/>
+    <RESDEPEN value="$(RESFILES) TMainForm.dfm TPageSetupForm.dfm"/>
     <LIBFILES value="..\..\Shared\general\general.lib ..\..\Shared\ApsimShared\ApsimShared.lib 
       ..\..\Shared\SEGReport\SEGReport.lib ..\..\Shared\general\general_vcl.lib"/>
-    <LIBRARIES value="ThirdParty.lib VclSmp.lib TMSC6.lib"/>
+    <LIBRARIES value="Tee7C6.lib ThirdParty.lib VclSmp.lib TMSC6.lib"/>
     <SPARELIBS value="vcl.lib rtl.lib vclx.lib dbrtl.lib bdertl.lib vcldb.lib TMSC6.lib 
-      VclSmp.lib ThirdParty.lib vcldbx.lib"/>
+      VclSmp.lib ThirdParty.lib vcldbx.lib Tee7C6.lib"/>
     <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi dbrtl.bpi adortl.bpi vcldb.bpi bdertl.bpi 
       vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi ibxpress.bpi visualclx.bpi 
       visualdbclx.bpi vclie.bpi xmlrtl.bpi inet.bpi inetdbbde.bpi 
@@ -58,9 +56,6 @@
       <FILE FILENAME="TPageSetupForm.cpp" FORMNAME="PageSetupForm" UNITNAME="TPageSetupForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\Shared\SEGReport\SEGReport.lib" FORMNAME="" UNITNAME="SEGReport.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="TLibraryForm.cpp" FORMNAME="LibraryForm" UNITNAME="TLibraryForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="TObjectInspectorForm.cpp" FORMNAME="ObjectInspectorForm" UNITNAME="TObjectInspectorForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="TDataPreviewForm.cpp" FORMNAME="DataPreviewForm" UNITNAME="TDataPreviewForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\Shared\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>

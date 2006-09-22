@@ -88,11 +88,9 @@ namespace CSGeneral
                 string Password = InputDialog.InputBox("Enter password:", "This file is password protected", "", true);
                 if (Password == "soilinfo")
                     return true;
-                else if (Password == "")
-                    return false;
                 else
                     {
-                    MessageBox.Show("Password incorrect", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Password incorrect. File will open as readonly", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                     }
 

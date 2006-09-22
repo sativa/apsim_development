@@ -1,76 +1,26 @@
 inherited ChartForm: TChartForm
-  Left = 600
-  Top = 156
+  Left = 555
+  Top = 202
   Width = 293
   VertScrollBar.Visible = False
   Caption = 'ChartForm'
   OldCreateOrder = True
-  PixelsPerInch = 120
-  TextHeight = 16
-  inherited AdvPanelGroup1: TAdvPanelGroup
-    Width = 285
-    FullHeight = 18
-    inherited AdvancedPanel: TAdvPanel
-      Width = 269
-      FullHeight = 289
-      inherited SortFieldsLabel: TLabel
-        Left = 19
-        Top = 101
-      end
-      inherited NameEdit: TEdit
-        Width = 183
-      end
-      inherited SourceCombo: TComboBox
-        Width = 183
-      end
-      inherited SortFieldsEdit: TEdit
-        Width = 183
-      end
-      inherited GroupByEdit: TEdit
-        Width = 184
-      end
-    end
-    inherited PropertyPanel: TAdvPanel
-      Width = 269
-      FullHeight = 401
-      object ChartPropertyLabel: TLabel
-        Left = 16
-        Top = 32
-        Width = 107
-        Height = 16
-        Cursor = crHandPoint
-        Caption = 'Chart properties'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlue
-        Font.Height = -13
-        Font.Name = 'Verdana'
-        Font.Style = [fsUnderline]
-        ParentFont = False
-        WordWrap = True
-        OnClick = ChartPropertyLabelClick
-      end
-      object Label3: TLabel
-        Left = 16
-        Top = 72
-        Width = 219
-        Height = 48
-        Caption = 
-          'Use 1st chart series as template for data series number(s) (blan' +
-          'k, *, or space separated numbers):'
-        WordWrap = True
-      end
-      object SeriesNumberEdit: TEdit
-        Left = 16
-        Top = 128
-        Width = 199
-        Height = 24
-        Anchors = [akLeft, akTop, akRight]
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        TabOrder = 0
-        OnExit = SeriesNumberEditChange
-      end
-    end
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 24
+    Top = 24
+    Width = 94
+    Height = 13
+    Cursor = crHandPoint
+    Caption = 'Edit chart properties'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlue
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsUnderline]
+    ParentFont = False
+    OnClick = ChartPropertyLabelClick
   end
   object TImageList
     Height = 17

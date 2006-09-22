@@ -11,7 +11,6 @@
 #include <QuickRpt.hpp>
 #include <vector>
 #include <string>
-#include "TSEGTable.h"
 #include "ReportMacros.h"
 //---------------------------------------------------------------------------
 // This class encapsulates a regular TQRShape - just providing a

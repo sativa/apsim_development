@@ -28,7 +28,6 @@ void TImageForm::setComponent(TComponent* component)
    AutoSizeCheckBox->Checked = image->AutoSize;
    CentreCheckBox->Checked = image->Center;
    StretchCheckBox->Checked = image->Stretch;
-   NameEdit->Text = image->Name;
    image->Zoom = image->ParentReport->Zoom;
    ImageFileEdit->Text = image->FileName;
    LinkCheckBox->Checked = image->ImageAsLink;

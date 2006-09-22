@@ -89,8 +89,7 @@ string ReportMacros::resolve(TComponent* owner, const string& macro)
             returnValue = "?";
             }
 
-//         if (value != "")
-            returnValue.replace(posMacro, posCloseBracket-posMacro+1, value);
+         returnValue.replace(posMacro, posCloseBracket-posMacro+1, value);
          }
 
       posMacro = returnValue.find('$', posMacro+1);
@@ -104,8 +103,6 @@ string ReportMacros::resolve(TComponent* owner, const string& macro)
 //---------------------------------------------------------------------------
 AnsiString ReportMacros::doReplacement(TComponent* owner, AnsiString text)
    {
-   // find data component on owner.
-   TForm* data = getComponent<TForm>(owner, "data");
-   return resolve(data, text.c_str()).c_str();
+   return resolve(owner, text.c_str()).c_str();
    }
 

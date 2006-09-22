@@ -22,11 +22,8 @@
 class TChartForm : public TPropertyForm
 {
 __published:	// IDE-managed Components
-   TLabel *ChartPropertyLabel;
    TImageList *ImageList1;
-   TLabel *Label3;
-   TEdit *SeriesNumberEdit;
-   void __fastcall SeriesNumberEditChange(TObject *Sender);
+   TLabel *Label1;
    void __fastcall ChartPropertyLabelClick(TObject *Sender);
 private:	// User declarations
    TGraph* graph;

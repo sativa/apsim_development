@@ -5,9 +5,6 @@
 
 #include "TMainForm.h"
 #include "TPageSetupForm.h"
-#include "TDataPreviewForm.h"
-#include "TObjectInspectorForm.h"
-#include "TLibraryForm.h"
 #include <general\vcl_functions.h>
 #include <general\io_functions.h>
 #include <general\inifile.h>
@@ -33,14 +30,9 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FormShow(TObject *Sender)
    {
-   MainMenu1->Images = ImageList1;
-   report.createPage();
-   report.setObjectInspectorForm(ObjectInspectorForm, DataPreviewForm->DataSource);
    ZoomUpDown->Position = report.getZoom();
    report.getPageNames(TabControl->Tabs);
    pageChanged(NULL);
-
-   report.OnObjectInspectorUpdate = OnObjectInspectorShow;
 
    ApsimSettings settings;
    string leftSt, topSt, widthSt, heightSt;
@@ -70,77 +62,39 @@ void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
    settings.write("Apsim Report Pos|MainFormTop", IntToStr(Top).c_str());
    settings.write("Apsim Report Pos|MainFormWidth", IntToStr(Width).c_str());
    settings.write("Apsim Report Pos|MainFormHeight", IntToStr(Height).c_str());
-
-   // ApsimReport will throw an av when shut down without the following line.
-//   report.clear();
    }
 //---------------------------------------------------------------------------
 // User wants to edit the report.
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::EditReportActionExecute(TObject *Sender)
    {
-   edit(false);
-   if (EditReportAction->Checked)
+   bool turnOn = EditReportButton->Down;
+
+   // turn on edit mode and make palette dockable.
+   static TForm* palette = NULL;
+   if (!turnOn && palette != NULL)
+      palette->Visible = false;
+
+   palette = report.edit(turnOn);
+   if (palette != NULL)
       {
-      report.showDataPage(false);
-      edit(true);
+      palette->DragMode = dmAutomatic;
+      palette->DragKind = dkDock;
+      palette->BorderIcons.Clear();
+      palette->Caption = "";
+      palette->BorderStyle = bsNone;
+      palette->Parent = ButtonBar;
       }
-   DataPreviewForm->Visible = false;
-   TabControl->TabHeight = 0;  // auto size.
-   TabControl->TabWidth = 0;
+   report.setObjectInspector(ObjectInspector, NULL);
+   ObjectInspector->Visible = turnOn;
+   ObjectInspectorSplitter->Visible = turnOn;
    }
 //---------------------------------------------------------------------------
 // User wants to edit the data.
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::EditDataActionExecute(TObject *Sender)
    {
-   saveFormPosition(DataPreviewForm);
-   DataPreviewForm->Visible = EditDataAction->Checked;
-   edit(false);
-   if (EditDataAction->Checked)
-      {
-      TabControl->TabHeight = 1;
-      TabControl->TabWidth = 1;
-      report.showDataPage(true);
-      edit(true);
-      loadFormPosition(DataPreviewForm);
-      }
-   else
-      {
-      saveFormPosition(DataPreviewForm);
-      report.showDataPage(false);
-      TabControl->TabHeight = 0;  // auto size.
-      TabControl->TabWidth = 0;
-      }
-   }
-//---------------------------------------------------------------------------
-// Tell report to go into edit mode.
-//---------------------------------------------------------------------------
-void TMainForm::edit(bool turnOn)
-   {
-   static TForm* palette = NULL;
-   if (palette != NULL)
-      {
-      saveFormPosition(palette);
-      saveFormPosition(ObjectInspectorForm);
-      }
-   // turn on edit mode and make palette dockable.
-   ReportToolBar->Visible = !turnOn;
-   palette = report.edit(turnOn);
-   if (palette != NULL)
-      {
-      palette->DragMode = dmAutomatic;
-      palette->DragKind = dkDock;
-      loadFormPosition(palette);
-      loadFormPosition(ObjectInspectorForm);
-      }
-   if (!turnOn)
-      {
-      HideDockPanel(LeftDockPanel);
-      HideDockPanel(BottomDockPanel);
-      HideDockPanel(RightDockPanel);
-      populateToolBar();
-      }
+   report.showDataPage();
    }
 //---------------------------------------------------------------------------
 // User has changed pages in tab control - update main form.
@@ -149,14 +103,6 @@ void __fastcall TMainForm::pageChanged(TObject* sender)
    {
    ZoomUpDown->Position = report.getZoom();
    report.showPage(TabControl->TabIndex);
-   }
-//---------------------------------------------------------------------------
-// Populate the toolbar.
-//---------------------------------------------------------------------------
-void TMainForm::populateToolBar(void)
-   {
-   report.populateToolBar(ReportToolBar);
-   ReportToolBar->Visible = (ReportToolBar->ButtonCount > 0);
    }
 //---------------------------------------------------------------------------
 // User has clicked exit.
@@ -171,24 +117,70 @@ void __fastcall TMainForm::ExitActionExecute(TObject *Sender)
 void __fastcall TMainForm::NewActionExecute(TObject *Sender)
    {
    saveIfNecessary();
-   if (LibraryForm->ShowModal() == mrOk)
-      {
-      open(LibraryForm->getSelectedFile());
-      filename = "";
-      setCaption();
-      report.showWizard();
-      }
+   report.clear();
+   filename = "";
+   setCaption();
    }
 //---------------------------------------------------------------------------
 // User has clicked open.
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::OpenActionExecute(TObject *Sender)
    {
-   if (OpenDialog1->Execute())
+   // populate the open menu
+   OpenMenu->Items->Clear();
+   populateOpenMenu();
+
+   // display the open menu.
+   TPoint Pos = ButtonBar->ClientToScreen(TPoint(OpenButton->Left, OpenButton->Top + OpenButton->Height));
+   OpenMenu->Popup(Pos.x, Pos.y);
+   }
+
+//---------------------------------------------------------------------------
+// Populate the open menu.
+//---------------------------------------------------------------------------
+void TMainForm::populateOpenMenu()
+   {
+   TMenuItem* NewItem = new TMenuItem(OpenMenu);
+   OpenMenu->Items->Add(NewItem);
+   NewItem->Caption = "Open";
+   NewItem->OnClick = OpenMenuItemClick;
+   NewItem = new TMenuItem(OpenMenu);
+   OpenMenu->Items->Add(NewItem);
+   NewItem->Caption = "-";
+   for (int i = 0; i != MRUFileList->Items->Count; i++)
       {
-      saveIfNecessary();
-      open(OpenDialog1->FileName);
-      ZoomUpDown->Position = report.getZoom();
+      NewItem = new TMenuItem(OpenMenu);
+      OpenMenu->Items->Add(NewItem);
+      string fileName = MRUFileList->Items->Strings[i].c_str();
+      replaceAll(fileName, "&", "");
+      NewItem->Caption = fileName.c_str();
+      NewItem->OnClick = OpenMenuItemClick;
+      }
+   }
+
+//---------------------------------------------------------------------------
+// User has clicked an item on the open menu - respond.
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::OpenMenuItemClick(TObject* sender)
+   {
+   TMenuItem* item = dynamic_cast<TMenuItem*> (sender);
+   if (item != NULL)
+      {
+      if (item->Caption == "&Open")
+         {
+         if (OpenDialog1->Execute())
+            {
+            saveIfNecessary();
+            open(OpenDialog1->FileName);
+            ZoomUpDown->Position = report.getZoom();
+            }
+         }
+      else
+         {
+         string fileName = item->Caption.c_str();
+         replaceAll(fileName, "&", "");
+         open(fileName.c_str(), false);
+         }
       }
    }
 //---------------------------------------------------------------------------
@@ -212,12 +204,11 @@ void __fastcall TMainForm::SaveAsActionExecute(TObject *Sender)
 void TMainForm::open(AnsiString file, bool quiet)
    {
    filename = ExpandFileName(file);
+   MRUFileList->AddItem(filename);
    report.load(filename.c_str(), quiet);
    setCaption();
    ZoomUpDown->Position = report.getZoom();
-   MRUFileList->AddItem(filename);
    report.getPageNames(TabControl->Tabs);
-   populateToolBar();
    }
 //---------------------------------------------------------------------------
 // Go save to the specified file.
@@ -360,7 +351,7 @@ void TMainForm::processCommandLine(AnsiString commandLine)
                   {
                   propertyName = propertyLine.substr(0, posEquals);
                   propertyValue = propertyLine.substr(posEquals+1);
-                  report.setProperty(objectName, propertyName, propertyValue);
+                  //report.setProperty(objectName, propertyName, propertyValue);
                   }
                }
             }
@@ -371,253 +362,7 @@ void TMainForm::processCommandLine(AnsiString commandLine)
          }
       }
    }
-//---------------------------------------------------------------------------
-// Show dock panel.
-//---------------------------------------------------------------------------
-void TMainForm::ShowDockPanel(TWinControl* APanel, TControl* Client, TRect& dockRect)
-   {
-   //Client - the docked client to show.
 
-   APanel->Visible = true;
-   if (APanel == LeftDockPanel)
-      LeftSplitter->Visible = true;
-   else if (APanel == BottomDockPanel)
-      BottomSplitter->Visible = true;
-   else
-      RightSplitter->Visible = true;
-
-   if (APanel == LeftDockPanel)
-      {
-      APanel->Width = dockRect.Right - dockRect.Left;
-      LeftSplitter->Left = APanel->Width + LeftSplitter->Width;
-      }
-   else if (APanel == BottomDockPanel)
-      {
-      APanel->Height = dockRect.Bottom - dockRect.Top;
-      BottomSplitter->Top = ClientHeight - APanel->Height - BottomSplitter->Width;
-      }
-   else if (APanel == RightDockPanel)
-      {
-      APanel->Width = dockRect.Right - dockRect.Left;
-      RightSplitter->Left = Width - APanel->Width - RightSplitter->Width;
-      }
-   Client->Show();
-   }
-//---------------------------------------------------------------------------
-// Show dock panel.
-//---------------------------------------------------------------------------
-void TMainForm::HideDockPanel(TPanel* APanel)
-   {
-   // Since docking to a non-visible docksite isn't allowed, instead of setting
-   // Visible for the panels we set the width to zero. The default InfluenceRect
-   // for a control extends a few pixels beyond it's boundaries, so it is possible
-   // to dock to zero width controls.
-
-   // Don't try to hide a panel which has visible dock clients.
-   if (APanel->VisibleDockClientCount > 1)
-      return;
-
-   if (APanel == LeftDockPanel)
-      LeftSplitter->Visible = false;
-   else if (APanel == BottomDockPanel)
-      BottomSplitter->Visible = false;
-   else
-      RightSplitter->Visible = false;
-
-   if (APanel == LeftDockPanel)
-      APanel->Width = 0;
-   else if (APanel == BottomDockPanel)
-      APanel->Height = 0;
-   else if (APanel == RightDockPanel)
-      APanel->Width = 0;
-   }
-
-//---------------------------------------------------------------------------
-void __fastcall TMainForm::FormDockOver(TObject *Sender,
-      TDragDockObject *Source, int X, int Y, TDragState State,
-      bool &Accept)
-   {
-   TPanel* SenderPanel = dynamic_cast<TPanel*>(Sender);
-
-   Accept = true; //(dynamic_cast<TDockableForm*>(Source->Control) != NULL);
-   if (Accept)
-      {
-      // Modify the DockRect to preview dock area.
-      Types::TPoint TopLeft = ClientToScreen(
-        Point(SenderPanel->Left, SenderPanel->Top));
-      Types::TPoint BottomRight;
-      if (SenderPanel->Align == alBottom)
-         {
-         TopLeft = ClientToScreen(Point(SenderPanel->Left, SenderPanel->Top-ClientHeight/3));
-         BottomRight = ClientToScreen(Point(SenderPanel->Width, SenderPanel->Top));
-         }
-
-      else if (SenderPanel->Align == alRight)
-         BottomRight = SenderPanel->ClientToScreen(
-            Point(-this->ClientWidth / 3, SenderPanel->Height));
-
-      else
-         BottomRight = SenderPanel->ClientToScreen(
-            Point(this->ClientWidth / 3, SenderPanel->Height));
-         Source->DockRect = Types::TRect(TopLeft, BottomRight);
-      }
-   }
-//---------------------------------------------------------------------------
-
-void __fastcall TMainForm::LeftDockPanelGetSiteInfo(TObject *Sender,
-      TControl *DockClient, TRect &InfluenceRect, TPoint &MousePos,
-      bool &CanDock)
-   {
-   // If CanDock is true, the panel will not automatically draw the preview rect.
-//   CanDock = (dynamic_cast<TDockableForm*>(DockClient) != NULL);
-   }
-//---------------------------------------------------------------------------
-void __fastcall TMainForm::FormDockDrop(TObject *Sender,
-      TDragDockObject *Source, int X, int Y)
-   {
-   TPanel* SenderPanel = dynamic_cast<TPanel*>(Sender);
-   if (SenderPanel == NULL)
-      throw EInvalidCast("");
-
-   // OnDockDrop gets called AFTER the client has actually docked,
-   // so we check for DockClientCount = 1 before making the dock panel visible.
-  if (SenderPanel->DockClientCount == 1)
-      ShowDockPanel(SenderPanel, Source->Control, Source->DockRect);
-
-   // Make DockManager repaints it's clients.
-   SenderPanel->DockManager->ResetBounds(true);
-   }
-//---------------------------------------------------------------------------
-void __fastcall TMainForm::FormUnDock(TObject *Sender,
-      TControl *Client, TWinControl *NewTarget, bool &Allow)
-   {
-   TPanel* SenderPanel = dynamic_cast<TPanel*>(Sender);
-   if (SenderPanel == NULL)
-      throw EInvalidCast("");
-
-   // OnUnDock gets called BEFORE the client is undocked, in order to optionally
-   // disallow the undock. DockClientCount is never 0 when called from this event.
-   if (SenderPanel->DockClientCount == 1)
-      HideDockPanel(SenderPanel);
-   }
-
-//---------------------------------------------------------------------------
-// load the position a form from settings file.
-//---------------------------------------------------------------------------
-void TMainForm::loadFormPosition(TForm* form)
-   {
-   try
-      {
-      form->Visible = true;
-
-      ApsimSettings settings;
-      string keyPrefix = string("Apsim Report Pos|") + form->Name.c_str() + string("_");
-      int left, top, width, height;
-
-      settings.read(keyPrefix + "Left", left);
-      settings.read(keyPrefix + "Top", top);
-      settings.read(keyPrefix + "Width", width);
-      settings.read(keyPrefix + "Height", height);
-      if (width == 0)
-         width = 100;
-      if (height == 0)
-         height = 100;
-      form->Left = left;
-      form->Top = top;
-      form->Width = width;
-      form->Height = height;
-      string dockSiteName;
-      settings.read(keyPrefix + "DockSite", dockSiteName);
-      if (dockSiteName != "")
-         {
-         string alignString;
-         settings.read(keyPrefix + "DockSiteAlign", alignString);
-         TAlign align = alLeft;
-         if (alignString == "alLeft")
-            align = alLeft;
-         else if (alignString == "alTop")
-            align = alTop;
-         else if (alignString == "alRight")
-            align = alRight;
-         else if (alignString == "alBottom")
-            align = alBottom;
-         else if (alignString == "alNone")
-            align = alNone;
-         else
-            {
-            string msg = "Invalid align type in positionControl: " + alignString;
-            ShowMessage(msg.c_str());
-            }
-
-         TWinControl* dockSite = getComponent<TWinControl>(this, dockSiteName.c_str());
-         if (form->Parent != dockSite)
-            {
-            form->Parent = dockSite;
-            form->ManualDock(dockSite, NULL, align);
-            }
-         else if (dockSite != NULL)
-            {
-            TPanel* panel = dynamic_cast<TPanel*>(dockSite);
-            if (panel != NULL)
-               {
-               ShowDockPanel(panel, form, form->ClientRect);
-               panel->DockManager->ResetBounds(true);
-               }
-            }
-         }
-      }
-   catch (...)
-      {
-      }
-   }
-//---------------------------------------------------------------------------
-// save the position of a form from settings file.
-//---------------------------------------------------------------------------
-void TMainForm::saveFormPosition(TForm* form)
-   {
-   if (form->Visible)
-      {
-      ApsimSettings settings;
-      string keyPrefix = string("Apsim Report Pos|") + form->Name.c_str() + string("_");
-
-      settings.write(keyPrefix + "Left", form->Left);
-      settings.write(keyPrefix + "Top", form->Top);
-      settings.write(keyPrefix + "Width", form->Width);
-      settings.write(keyPrefix + "Height", form->Height);
-      if (form->Parent != NULL)
-         {
-         settings.write(keyPrefix + "DockSite", form->Parent->Name.c_str());
-
-         string alignString;
-         if (form->Align == alLeft)
-            alignString = "alLeft";
-         else if (form->Align == alTop)
-            alignString = "alTop";
-         else if (form->Align == alRight)
-            alignString = "alRight";
-         else if (form->Align == alBottom)
-            alignString = "alBottom";
-         else if (form->Align == alNone)
-            alignString = "alNone";
-         settings.write(keyPrefix + "DockSiteAlign", alignString);
-         }
-      else
-         {
-         settings.deleteKey(keyPrefix + "DockSite");
-         settings.deleteKey(keyPrefix + "DockSiteAlign");
-         }
-      }
-   }
-//---------------------------------------------------------------------------
-// The object inspector has just been shown - load the form position.
-//---------------------------------------------------------------------------
-void __fastcall TMainForm::OnObjectInspectorShow(TObject* sender)
-   {
-   if (ObjectInspectorForm->Parent == NULL ||
-       !ObjectInspectorForm->Parent->Visible ||
-       ObjectInspectorForm->Parent->Width <= 0)
-      loadFormPosition(ObjectInspectorForm);
-   }
 //---------------------------------------------------------------------------
 // User has clicked add menu item
 //---------------------------------------------------------------------------
@@ -727,4 +472,15 @@ void __fastcall TMainForm::onDragDrop(TObject* sender, TObject* source,
       report.movePage(draggedTab, tab);
       }
    }
+
+//---------------------------------------------------------------------------
+// User has clicked the page button - Show user the page menu.
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::PageActionExecute(TObject *Sender)
+   {
+   TPoint Pos = ButtonBar->ClientToScreen(TPoint(PageButton->Left, PageButton->Top + PageButton->Height));
+   PagePopupMenu->Popup(Pos.x, Pos.y);
+
+   }
+//---------------------------------------------------------------------------
 

@@ -394,27 +394,29 @@ void loadComponent(istream& in, TComponent* component)
 
       TMemoryStream* binaryStream = new TMemoryStream();
       TReader* reader;
+      ObjectTextToBinary(textStream, binaryStream);
+      binaryStream->Seek(0, 0);
+      reader = new TReader(binaryStream, 4096);
+      reader->BeginReferences();
+      reader->ReadSignature();
+      if (component->Owner == NULL)
+         reader->Root = component;
+      else
+         reader->Root = component->Owner;
+      reader->Parent = reader->Root;
+      reader->BeginReferences();
+      reader->ReadComponent(component);
       try
          {
-         ObjectTextToBinary(textStream, binaryStream);
-         binaryStream->Seek(0, 0);
-         reader = new TReader(binaryStream, 4096);
-         reader->BeginReferences();
-         reader->ReadSignature();
-         if (component->Owner == NULL)
-            reader->Root = component;
-         else
-            reader->Root = component->Owner;
-         reader->Parent = reader->Root;
-         reader->ReadComponent(component);
          reader->FixupReferences();
          }
-      __finally
+      catch (...)
          {
-         delete reader;
-         delete textStream;
-         delete binaryStream;
          }
+      reader->EndReferences();
+      delete reader;
+      delete textStream;
+      delete binaryStream;
       }
    }
 // ------------------------------------------------------------------
