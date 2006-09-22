@@ -19,7 +19,7 @@
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\sorghum\lib\sorghum.dll
-     Component DLL          = c:\development\apsim\TclLink\lib\TclLink.dll
+     Component DLL          = c:\development\apsim\tcllink\lib\tcllink.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -154,9 +154,9 @@
 
 ------- soiln2 Initialisation -------------------------------------------------
      
-        - Reading Constants
-     
         - Reading Parameters
+     
+        - Reading Constants
      
      
      
@@ -201,11 +201,11 @@
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
 
-------- TclLink Initialisation ------------------------------------------------
+------- tcllink Initialisation ------------------------------------------------
      Copyright (C) 1991-1994 The Regents of the University of California.
      Copyright (C) 1996-1997 Sun Microsystems, Inc.
      Copyright (C) 2001      ActiveState.
-     Interpreter name: 'TclLink'
+     Interpreter name: 'tcllink'
      --->Section: init
      
      

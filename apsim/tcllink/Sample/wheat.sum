@@ -18,8 +18,8 @@
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\TclLink\lib\TclLink.dll
+     Component DLL          = c:\development\apsim\Plant\lib\Plant.dll
+     Component DLL          = c:\development\apsim\tcllink\lib\tcllink.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -140,9 +140,9 @@
 
 ------- soiln2 Initialisation -------------------------------------------------
      
-        - Reading Constants
-     
         - Reading Parameters
+     
+        - Reading Constants
      
      
      
@@ -190,11 +190,11 @@
 ------- wheat Initialisation --------------------------------------------------
      phenology model: Wheat
 
-------- TclLink Initialisation ------------------------------------------------
+------- tcllink Initialisation ------------------------------------------------
      Copyright (C) 1991-1994 The Regents of the University of California.
      Copyright (C) 1996-1997 Sun Microsystems, Inc.
      Copyright (C) 2001      ActiveState.
-     Interpreter name: 'TclLink'
+     Interpreter name: 'tcllink'
      --->Section: init
      
      

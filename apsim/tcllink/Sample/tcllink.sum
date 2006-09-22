@@ -16,7 +16,7 @@
      Component DLL          = c:\development\apsim\report\lib\report.dll
      Component DLL          = c:\development\apsim\input\lib\input.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
-     Component DLL          = c:\development\apsim\TclLink\lib\TclLink.dll
+     Component DLL          = c:\development\apsim\tcllink\lib\tcllink.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -52,11 +52,11 @@
      
      Manager creating a new local real variable : test =     0.00000000000000
 
-------- TclLink Initialisation ------------------------------------------------
+------- tcllink Initialisation ------------------------------------------------
      Copyright (C) 1991-1994 The Regents of the University of California.
      Copyright (C) 1996-1997 Sun Microsystems, Inc.
      Copyright (C) 2001      ActiveState.
-     Interpreter name: 'TclLink'
+     Interpreter name: 'tcllink'
      --->Section: process
      
      
