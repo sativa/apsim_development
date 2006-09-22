@@ -168,6 +168,7 @@ namespace CSGeneral
 		void ReadAllData(StreamReader In, DateTime StartDate, DateTime EndDate)
 			{
 			data.Rows.Clear();
+            data.Columns.Clear();
 			string Line;
 			Line = In.ReadLine();
 			while (Line != null && Line.Length > 0)
