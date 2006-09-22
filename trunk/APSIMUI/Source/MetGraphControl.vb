@@ -2447,6 +2447,12 @@ Public Class MetGraphControl
             Dim StartDate As DateTime
             Dim EndDate As DateTime
             Metfile.GetStartEndDate(FileName, StartDate, EndDate)
+            Dim startDateNode As APSIMData = Me.Controller.Data.Parent.FindChildByType("clock|start_date")
+            Dim endDateNode As APSIMData = Me.Controller.Data.Parent.FindChildByType("clock|end_date")
+            startDateNode.SetAttribute("lbound", StartDate.ToShortDateString())
+            startDateNode.SetAttribute("ubound", EndDate.ToShortDateString())
+            endDateNode.SetAttribute("lbound", StartDate.ToShortDateString())
+            endDateNode.SetAttribute("ubound", EndDate.ToShortDateString())
             YearBox.Minimum = StartDate.Year
             YearBox.Maximum = EndDate.Year
         End If
