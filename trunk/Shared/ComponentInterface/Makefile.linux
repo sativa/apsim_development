@@ -3,6 +3,7 @@
 #     Makefile for ComponentInterface Module
 #-----------------------------------------------------------------------
 #=======================================================================
+DESTDIR ?= /usr/local/apsim
 
 LIB=	$(APSROOT)/lib/libComponentInterface.so
 
@@ -76,6 +77,8 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
+	if [ ! -d $(DESTDIR)/lib ]; then mkdir -p $(DESTDIR)/lib; fi 
+	cp $(LIB) $(DESTDIR)/lib
 
 %.o:	%.cpp datatypes.h 
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<

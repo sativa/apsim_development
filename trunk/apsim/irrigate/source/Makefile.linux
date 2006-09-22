@@ -4,6 +4,8 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
+DESTDIR ?= /usr/local/apsim
+
 LIB=	../lib/irrigate.so
 
 SRC=	Registrations.f90	\
@@ -53,6 +55,8 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
+	if [ ! -d $(DESTDIR)/apsim/irrigate/lib ]; then mkdir -p $(DESTDIR)/apsim/irrigate/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/irrigate/lib
 
 %.o:	%.for
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<

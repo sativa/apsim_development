@@ -4,6 +4,8 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
+DESTDIR ?= /usr/local/apsim
+
 LIB=	../lib/soilwat2.so
 
 SRC=	Registrations.f90	\
@@ -58,6 +60,9 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
+	if [ ! -d $(DESTDIR)/apsim/soilwat2/lib ]; then mkdir -p $(DESTDIR)/apsim/soilwat2/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/soilwat2/lib
+	cp ../soilwat2.ini $(DESTDIR)/apsim/soilwat2
 
 %.o:	%.for
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<

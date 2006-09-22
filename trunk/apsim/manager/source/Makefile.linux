@@ -3,6 +3,7 @@
 #     Makefile for APSIM manager module
 #-----------------------------------------------------------------------
 #=======================================================================
+DESTDIR ?= /usr/local/apsim
 
 LIB=	../lib/manager.so
 
@@ -54,6 +55,8 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
+	if [ ! -d $(DESTDIR)/apsim/manager/lib ]; then mkdir -p $(DESTDIR)/apsim/manager/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/manager/lib
 
 %.o:	%.for
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<

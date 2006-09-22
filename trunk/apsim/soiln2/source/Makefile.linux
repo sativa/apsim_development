@@ -4,6 +4,8 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
+DESTDIR ?= /usr/local/apsim
+
 LIB=	../lib/soiln2.so
 
 SRC=	Registrations.f90	\
@@ -54,6 +56,9 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
+	if [ ! -d $(DESTDIR)/apsim/soiln2/lib ]; then mkdir -p $(DESTDIR)/apsim/soiln2/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/soiln2/lib
+	cp ../soiln2.ini $(DESTDIR)/apsim/soiln2
 
 %.o:	%.for
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<

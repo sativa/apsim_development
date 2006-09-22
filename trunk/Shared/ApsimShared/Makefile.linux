@@ -4,6 +4,8 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
+DESTDIR ?= /usr/local/apsim
+
 LIB=	$(APSROOT)/lib/libApsimShared.so
 
 SRC=	phi_functions.cpp	\
@@ -72,6 +74,8 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
+	if [ ! -d $(DESTDIR)/lib ]; then mkdir -p $(DESTDIR)/lib; fi 
+	cp $(LIB) $(DESTDIR)/lib
 
 %.o:	%.cpp
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<

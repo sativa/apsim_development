@@ -3,6 +3,7 @@
 #     Makefile for ProtocolManager module
 #-----------------------------------------------------------------------
 #=======================================================================
+DESTDIR ?= /usr/local/apsim
 
 LIB=	../lib/ProtocolManager.so
 
@@ -46,6 +47,8 @@ $(LIB):	$(OBJ)
 FORCE:
 
 install: all
+	if [ ! -d $(DESTDIR)/apsim/ProtocolManager/lib ]; then mkdir -p $(DESTDIR)/apsim/ProtocolManager/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/ProtocolManager/lib
 
 clean:
 	rm -f *.o *.mod

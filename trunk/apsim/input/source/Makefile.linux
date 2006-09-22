@@ -4,6 +4,8 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
+DESTDIR ?= /usr/local/apsim
+
 LIB=	../lib/input.so
 
 SRC=	InputComponent.cpp	\
@@ -47,6 +49,8 @@ $(LIB):	$(OBJ)
 FORCE:
 
 install: all
+	if [ ! -d $(DESTDIR)/apsim/input/lib ]; then mkdir -p $(DESTDIR)/apsim/input/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/input/lib
 
 clean:
 	rm -f *.o *.mod

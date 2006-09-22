@@ -4,6 +4,8 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
+DESTDIR ?= /usr/local/apsim
+
 LIB=	../lib/Tracker.so
 
 SRC=	TrackerComponent.cpp	\
@@ -47,6 +49,8 @@ $(LIB):	$(OBJ)
 FORCE:
 
 install: all
+	if [ ! -d $(DESTDIR)/apsim/Tracker/lib ]; then mkdir -p $(DESTDIR)/apsim/Tracker/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/Tracker/lib
 
 clean:
 	rm -f *.o

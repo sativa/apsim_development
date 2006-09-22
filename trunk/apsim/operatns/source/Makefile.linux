@@ -4,6 +4,8 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
+DESTDIR ?= /usr/local/apsim
+
 LIB=	../lib/operatns.so
 
 SRC=	Registrations.f90	\
@@ -53,6 +55,8 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
+	if [ ! -d $(DESTDIR)/apsim/operatns/lib ]; then mkdir -p $(DESTDIR)/apsim/operatns/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/operatns/lib
 
 %.o:	%.for
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
