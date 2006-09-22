@@ -188,6 +188,10 @@ Public Class GenericUI
                 Grid.Cells(ExistingIndex, 1).Text += vbCrLf + Prop.Value
             End If
         Next
+        If Controller.MsgBoxString <> "" Then
+            MsgBox(Controller.MsgBoxString, MsgBoxStyle.Information)
+            Controller.MsgBoxString = ""
+        End If
     End Sub
 
     Private Function FindExistingProp(ByVal DataToFind As APSIMData)

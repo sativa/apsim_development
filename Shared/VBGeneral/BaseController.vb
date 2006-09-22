@@ -18,6 +18,7 @@ Public MustInherit Class BaseController
     Private Updating As Boolean
     Private MyIsReadOnly As Boolean
     Protected disposed As Boolean = False
+    Private MyMsgBoxString As String
 
 
     Delegate Sub NotifyEventHandler()
@@ -78,6 +79,14 @@ Public MustInherit Class BaseController
 #End Region
 
 #Region "Data methods"
+    Public Property MsgBoxString() As String
+        Get
+            Return MyMsgBoxString
+        End Get
+        Set(ByVal value As String)
+            MyMsgBoxString = value
+        End Set
+    End Property
     Public ReadOnly Property Data() As APSIMData
         ' -------------------------------------------------------
         ' Provides readonly access to the currently selected data.
@@ -554,26 +563,45 @@ Public MustInherit Class BaseController
         If Prop.Attribute("type") = "yesno" Then
             Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
             Combo.Items = New String() {"yes", "no"}
-            Grid.Cells(Row, 2).CellType = Combo
+            Grid.Cells(Row, 1).CellType = Combo
 
         ElseIf Prop.Attribute("type") = "date" Then
             Dim DateEditor As FarPoint.Win.Spread.CellType.DateTimeCellType = New FarPoint.Win.Spread.CellType.DateTimeCellType
+            DateEditor.DateTimeFormat = FarPoint.Win.Spread.CellType.DateTimeFormat.ShortDate
             DateEditor.DateDefault = Prop.Value
+            DateEditor.MaximumDate = Prop.Attribute("ubound")
+            DateEditor.MinimumDate = Prop.Attribute("lbound")
+
+            Dim dtValue As Date = Prop.Value
+            Dim ubound As Date = Prop.Attribute("ubound")
+            Dim lbound As Date = Prop.Attribute("lbound")
+            If dtValue > ubound Then
+                Prop.Value = Prop.Attribute("ubound")
+                DateEditor.DateDefault = Prop.Value
+                Me.MsgBoxString = "The " + Prop.Type + " selected is greater then the dates in the Met file." & vbCrLf & _
+                            "Automaticly adjusting simulation end date to match the Met file end date"
+            End If
+            If dtValue < lbound Then
+                Prop.Value = Prop.Attribute("lbound")
+                DateEditor.DateDefault = Prop.Value
+                Me.MsgBoxString = "The " + Prop.Type + " selected is less then the dates in the Met file." & vbCrLf & _
+                            "Automaticly adjusting simulation start date to match the Met file start date"
+            End If
             DateEditor.DropDownButton = True
-            Grid.Cells(Row, 2).CellType = DateEditor
+            Grid.Cells(Row, 1).CellType = DateEditor
 
         ElseIf Prop.Attribute("type") = "list" Then
             Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = New FarPoint.Win.Spread.CellType.ComboBoxCellType
             Combo.Items = Prop.Attribute("listvalues").Split(",")
             Combo.Editable = True
-            Grid.Cells(Row, 2).CellType = Combo
+            Grid.Cells(Row, 1).CellType = Combo
 
         ElseIf Prop.Attribute("type") = "filenames" Or Prop.Attribute("type") = "filename" Then
-            Grid.Columns(2).Visible = True
-            Grid.Cells(Row, 2).Locked = False
+            Grid.Columns(1).Visible = True
+            Grid.Cells(Row, 1).Locked = False
             Dim Button As FarPoint.Win.Spread.CellType.ButtonCellType = New FarPoint.Win.Spread.CellType.ButtonCellType
             Button.Picture = My.Resources.folder
-            Grid.Cells(Row, 2).CellType = Button
+            Grid.Cells(Row, 1).CellType = Button
             If Prop.Attribute("type") = "filenames" Then
                 Grid.Rows(Row).Height = 100
             End If
