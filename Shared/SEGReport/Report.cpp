@@ -6,18 +6,19 @@
 #include "Report.h"
 #include "ComponentRegistration.h"
 
-#include <fstream>
 #include <QuickRpt.hpp>
 #include <general\vcl_functions.h>
 #include <general\path.h>
 #include <general\inifile.h>
+#include <general\stringtokenizer.h>
+#include <general\xml.h>
+#include <general\exec.h>
+#include <ApsimShared\ApsimDirectories.h>
 #include <dcfdes.hpp>
 #include <qrctrls.hpp>
 #include <gtQrRtns.hpp>
-#include "TSegTable.h"
+#include "TText.h"
 #include "TGraph.h"
-#include "TWizardForm.h"
-#include "TXYGraph.h"
 
 #pragma package(smart_init)
 #pragma link "dcfdes"
@@ -35,42 +36,11 @@ extern HINSTANCE instanceHandle;
 Report::Report(TWinControl* p)
    : parent(p)
    {
-   dataForm = NULL;
-   reportForm = NULL;
    currentPage = NULL;
    uiForm = NULL;
    OnObjectInspectorUpdate = NULL;
+   data = NULL;
 
-   clear();
-   isEditing = false;
-   isDirty = false;
-   zoomToFit = false;
-
-   buttonImages = new TImageList(parent);
-   buttonImages->Width = 24;
-   buttonImages->Height = 24;
-   buttonImages->Masked = true;
-
-   RegisterComponents();
-   }
-//---------------------------------------------------------------------------
-// destructor
-//---------------------------------------------------------------------------
-Report::~Report(void)
-   {
-   if (isEditing)
-      edit(false);
-   delete buttonImages;
-   delete dataForm;
-   delete reportForm;
-   pages.erase(pages.begin(), pages.end());
-   }
-//---------------------------------------------------------------------------
-// Clear the report and create a new one.
-//---------------------------------------------------------------------------
-void Report::clear(void)
-   {
-   delete reportForm;
    reportForm = new TForm((TComponent*)NULL);
    reportForm->Parent = parent;
    reportForm->Name = "report";
@@ -83,19 +53,110 @@ void Report::clear(void)
    scrollBox = new TScrollBox(reportForm);
    scrollBox->Parent = reportForm;
    scrollBox->Align = alClient;
+   clear();
 
-   dataForm = new TForm(reportForm);
-   dataForm->Name = "data";
-   dataForm->Align = alClient;
-   dataForm->BorderIcons = TBorderIcons();
-   dataForm->BorderStyle = bsNone;
-   dataForm->Caption = "";
-   dataForm->Visible = false;
-
-
-   currentPage = NULL;
-   pages.erase(pages.begin(), pages.end());
+   isEditing = false;
    isDirty = false;
+   zoomToFit = false;
+
+   buttonImages = new TImageList(parent);
+   buttonImages->Width = 24;
+   buttonImages->Height = 24;
+   buttonImages->Masked = true;
+
+   RegisterComponents();
+
+   }
+//---------------------------------------------------------------------------
+// destructor
+//---------------------------------------------------------------------------
+Report::~Report(void)
+   {
+   if (isEditing)
+      edit(false);
+   delete buttonImages;
+   delete reportForm;
+   pages.erase(pages.begin(), pages.end());
+   }
+//---------------------------------------------------------------------------
+// Clear the report and create a new one.
+//---------------------------------------------------------------------------
+void Report::clear(void)
+   {
+   const string reportTemplate =
+      "<report version=\"4\">\r\n"
+      "   <data/>\r\n"
+      "   <page><![CDATA[\r\n"
+      "     object Page1: TQuickRep\r\n"
+      "       Left = 241\r\n"
+      "       Top = 0\r\n"
+      "       Width = 794\r\n"
+      "       Height = 1123\r\n"
+      "       Frame.Color = clBlack\r\n"
+      "       Frame.DrawTop = False\r\n"
+      "       Frame.DrawBottom = False\r\n"
+      "       Frame.DrawLeft = False\r\n"
+      "       Frame.DrawRight = False\r\n"
+      "       Frame.Style = psClear\r\n"
+      "       Font.Charset = DEFAULT_CHARSET\r\n"
+      "       Font.Color = clWindowText\r\n"
+      "       Font.Height = -17\r\n"
+      "       Font.Name = 'Arial'\r\n"
+      "       Font.Style = []\r\n"
+      "       Functions.Strings = (\r\n"
+      "        'PAGENUMBER'\r\n"
+      "        'COLUMNNUMBER'\r\n"
+      "        'REPORTTITLE')\r\n"
+      "       Functions.DATA = (\r\n"
+      "        '0'\r\n"
+      "        '0'\r\n"
+      "        #39#39)\r\n"
+      "       Options = [FirstPageHeader, LastPageFooter]\r\n"
+      "       Page.Columns = 1\r\n"
+      "       Page.Orientation = poPortrait\r\n"
+      "       Page.PaperSize = A4\r\n"
+      "       Page.Ruler = False\r\n"
+      "       Page.Values = (\r\n"
+      "        0\r\n"
+      "        2970\r\n"
+      "        0\r\n"
+      "        2100\r\n"
+      "        0\r\n"
+      "        0\r\n"
+      "        0)\r\n"
+      "       PrinterSettings.Copies = 1\r\n"
+      "       PrinterSettings.Duplex = False\r\n"
+      "       PrinterSettings.FirstPage = 0\r\n"
+      "       PrinterSettings.LastPage = 0\r\n"
+      "       PrinterSettings.OutputBin = Auto\r\n"
+      "       PrintIfEmpty = True\r\n"
+      "       SnapToGrid = True\r\n"
+      "       Units = MM\r\n"
+      "       Zoom = 100\r\n"
+      "       object TitleBand1: TQRBand\r\n"
+      "         Left = 0\r\n"
+      "         Top = 0\r\n"
+      "         Width = 794\r\n"
+      "         Height = 1123\r\n"
+      "         Frame.Color = clBlack\r\n"
+      "         Frame.DrawTop = False\r\n"
+      "         Frame.DrawBottom = False\r\n"
+      "         Frame.DrawLeft = False\r\n"
+      "         Frame.DrawRight = False\r\n"
+      "         AlignToBottom = False\r\n"
+      "         Color = clWhite\r\n"
+      "         ForceNewColumn = False\r\n"
+      "         ForceNewPage = False\r\n"
+      "         Size.Values = (\r\n"
+      "           2970\r\n"
+      "           2100.79166666667)\r\n"
+      "         BandType = rbTitle\r\n"
+      "       end\r\n"
+      "     end\r\n]]>"
+      "   </page>\r\n"
+      "</report>";
+
+   loadFromContents(reportTemplate, false);
    }
 //---------------------------------------------------------------------------
 // If the filename exists then load it into the report.
@@ -104,7 +165,8 @@ void Report::load(const string& fileName, bool quiet)
    {
    if (FileExists(fileName.c_str()))
       {
-      clear();
+      TCursor savedCursor = Screen->Cursor;
+      Screen->Cursor = crHourGlass;
 
       SetCurrentDir(ExtractFileDir(fileName.c_str()));
       edit(false);
@@ -112,44 +174,62 @@ void Report::load(const string& fileName, bool quiet)
       ifstream in(fileName.c_str());
       string versionLine;
       getline(in, versionLine);
-      if (getKeyValue(versionLine, "version") == "")
-         {
-         in.seekg(0);
-         readOldVersion(0, in);
-         }
-      else if (getKeyValue(versionLine, "version") == "1.0")
-         readOldVersion(1, in);
-
+      if (versionLine.find('<') == string::npos)
+         convertVersion3To4(in, fileName);
       else
-         {
-         if (getKeyValue(versionLine, "version") == "2.0")
-            {
-            in.close();
-            convertVersion2To3(fileName);
-            in.open(fileName.c_str());
-            getline(in, versionLine);
-            }
-         string numPagesLine;
-         getline(in, numPagesLine);
-         unsigned numPages = StrToInt(getKeyValue(numPagesLine, "NumPages").c_str());
+         in.close();
 
-         vector<TComponent*> components;
-         components.push_back(dataForm);
-         for (unsigned p = 0; p != numPages; p++)
-            {
-            TQuickRep* newPage = new TQuickRep(reportForm);
-            newPage->Visible = false;
-            newPage->Parent = scrollBox;
-            pages.push_back(newPage);
-            components.push_back(newPage);
-            }
-         loadComponents(in, components);
-         }
-      showPage(0);
-      refresh(quiet);
-      isDirty = false;
+      // set up the data.
+      in.open(fileName.c_str());
+      ostringstream contents;
+      contents << in.rdbuf();
+      in.close();
+      loadFromContents(contents.str(), quiet);
+      Screen->Cursor = savedCursor;
       }
    }
+//---------------------------------------------------------------------------
+// Given the specified xml contents - set ourselves up.
+//---------------------------------------------------------------------------
+void Report::loadFromContents(const string& contents, bool quiet)
+   {
+   currentPage = NULL;
+   for (unsigned i = 0; i != pages.size(); i++)
+      delete pages[i];
+   pages.erase(pages.begin(), pages.end());
+
+   // set up the pages.
+   XMLDocument doc(contents, XMLDocument::xmlContents);
+   for (XMLNode::iterator i = doc.documentElement().begin();
+                          i != doc.documentElement().end();
+                          i++)
+      {
+      if (Str_i_Eq(i->getName(), "data"))
+         {
+         dataContents = i->write();
+         delete data;
+         data = new DataContainer(reportForm);
+         data->setProperties("", dataContents);
+         //setDataComponentsActive(false);
+         }
+      else if (Str_i_Eq(i->getName(), "page"))
+         {
+         TQuickRep* newPage = new TQuickRep(reportForm);
+         pages.push_back(newPage);
+         string pageContents = i->getValue();
+         istringstream pageStream (pageContents);
+         if (pageContents != "")
+            loadComponent(pageStream, newPage);
+         newPage->Visible = false;
+         newPage->Parent = NULL;
+         }
+      }
+
+   showPage(0);
+   refresh(quiet);
+   isDirty = false;
+   }
+
 //---------------------------------------------------------------------------
 // Save the report to the specified filename.
 //---------------------------------------------------------------------------
@@ -157,18 +237,10 @@ void Report::save(const std::string& fileName)
    {
    if (ExtractFileExt(fileName.c_str()) == ".report")
       {
-      dataForm->Visible = false;
-      setReportDirectory(ExtractFileDir(fileName.c_str()).c_str());
-
-      ofstream out(fileName.c_str(), ios::binary);
+      ofstream out(fileName.c_str());
       if (out.is_open())
          {
-         out << "Version = 3.0\r\n";
-         out << "NumPages = " << pages.size() << "\r\n";
-         saveComponent(out, dataForm);
-         for (unsigned p = 0; p != pages.size(); p++)
-            saveComponent(out, pages[p]);
-
+         out << getReportXml();
          out.close();
          isDirty = false;
          }
@@ -179,6 +251,27 @@ void Report::save(const std::string& fileName)
       exportCurrentToFile(fileName);
    }
 //---------------------------------------------------------------------------
+// write the full report xml to the specified stream.
+//---------------------------------------------------------------------------
+string Report::getReportXml()
+   {
+   ostringstream out;
+   out << "<report version=\"4\">" << endl;
+   out << dataContents << endl;
+   for (unsigned p = 0; p != pages.size(); p++)
+      {
+      out << "   <page> <![CDATA[" << endl;
+      saveComponent(out, pages[p]);
+      out << "]]>" << endl;
+      out << "   </page>" << endl;
+      }
+   out << "</report>" << endl;
+   string contents = out.str();
+   replaceAll(contents, "\r", "");
+   return contents;
+   }
+
+//---------------------------------------------------------------------------
 // Edit the current page.
 //---------------------------------------------------------------------------
 TForm* Report::edit(bool turnOn)
@@ -187,34 +280,14 @@ TForm* Report::edit(bool turnOn)
 
    if (turnOn && currentPage != NULL)
       {
-      bool dataPage = !currentPage->Visible;
-
       formDesigner = new TDCLiteDesigner(NULL);
       formDesigner->OnSelectionChanged = onDesignerSelectionChanged;
-      if (dataPage)
-         {
-         formDesigner->DesignedComponent = dataForm;
-         formDesigner->LimitControl = dataForm;
-         }
-      else
-         {
-         formDesigner->DesignedComponent = scrollBox;
-         formDesigner->LimitControl = scrollBox;
-         }
-
-      formDesigner->ShowComponents = dataPage;
+      formDesigner->DesignedComponent = scrollBox;
+      formDesigner->LimitControl = scrollBox;
+      formDesigner->ShowComponents = false;
       formDesigner->ShowPalette = true;
       formDesigner->Active = true;
-      GetPalForm()->AutoSize = false;
-      GetPalForm()->Width = 400;
-      GetPalForm()->Height = 80;
-      GetPalForm()->Palette->RefreshData();
-      if (dataPage)
-         GetPalForm()->Palette->DeletePage(0);
-      else
-         GetPalForm()->Palette->DeletePage(1);
-      GetPalForm()->Palette->SetNewTabIndex(0);
-
+      GetPalForm()->AutoSize = true;
       return dynamic_cast<TForm*> (GetPalForm());
       }
    else if (!turnOn && formDesigner != NULL)
@@ -228,9 +301,9 @@ TForm* Report::edit(bool turnOn)
 //---------------------------------------------------------------------------
 // Set the object inspector form to use.
 //---------------------------------------------------------------------------
-void Report::setObjectInspectorForm(TForm* objectInspector, TDataSource* dataInspector)
+void Report::setObjectInspector(TWinControl* objectinspector, TDataSource* dataInspector)
    {
-   objectInspectorForm = objectInspector;
+   objectInspector = objectinspector;
    dataInspectorSource = dataInspector;
    }
 //---------------------------------------------------------------------------
@@ -256,33 +329,24 @@ void __fastcall Report::onDesignerSelectionChanged(TObject* sender)
 //---------------------------------------------------------------------------
 void Report::updateObjectInspector(TComponent* component)
    {
-   if (objectInspectorForm != NULL)
+   delete uiForm;
+   uiForm = NULL;
+
+   if (component != NULL)
       {
-      if (OnObjectInspectorUpdate != NULL)
-         OnObjectInspectorUpdate(objectInspectorForm);
+      // get a property form.
+      uiForm = createComponentUI(component, objectInspector, true);
 
-      objectInspectorForm->Visible = true;
-
-      delete uiForm;
-      uiForm = NULL;
-
-      if (component != NULL)
+      // If an addin returned a form then make that form a child of the parent
+      // form.
+      if (uiForm != NULL)
          {
-         // get a property form.
-         uiForm = createComponentUI(component, objectInspectorForm, true);
-
-         // If an addin returned a form then make that form a child of the parent
-         // form.
-         if (uiForm != NULL)
-            {
-            uiForm->BorderStyle = bsNone;
-            uiForm->Parent = objectInspectorForm;
-            uiForm->Align = alClient;
-            uiForm->Show();
-            }
-         isDirty = true;
+         uiForm->BorderStyle = bsNone;
+         uiForm->Parent = objectInspector;
+         uiForm->Align = alClient;
+         uiForm->Show();
          }
-      dataInspectorSource->DataSet = dynamic_cast<TDataSet*>(component);
+      isDirty = true;
       }
    }
 //---------------------------------------------------------------------------
@@ -354,27 +418,27 @@ void Report::showPage(unsigned pageNumber)
 //---------------------------------------------------------------------------
 // Show the data page.
 //---------------------------------------------------------------------------
-void Report::showDataPage(bool showData)
+void Report::showDataPage()
    {
-   if (showData)
+   string tempFileName = Path::getTempFolder().Get_path() + "\\apsimreportdata.tmp";
+   ofstream out(tempFileName.c_str());
+   out << dataContents;
+   out.close();
+   string commandLine = getApsimDirectory() + "\\bin\\ApsimReportData.exe "
+        + "\"" + tempFileName + "\"";
+   Exec(commandLine.c_str(), SW_SHOW, true);
+
+   if (Path(tempFileName).Exists())
       {
-      currentPage->Visible = false;
-      currentPage->Parent = NULL;
-      dataForm->Visible = true;
-      dataForm->Parent = parent;
+      ifstream in(tempFileName.c_str());
+      ostringstream contents;
+      contents << in.rdbuf();
+      in.close();
+      dataContents = contents.str();
+      string fullContents = getReportXml();
+      loadFromContents(fullContents, false);
+      isDirty = true;
       }
-   else
-      {
-      dataForm->Visible = false;
-      dataForm->Parent = NULL;
-      currentPage->Parent = scrollBox;
-      currentPage->Visible = true;
-      }
-//   if (isEditing)
-//      {
-//      edit(false);
-//      edit(true);
-//      }
    }
 //---------------------------------------------------------------------------
 // Rename a page.
@@ -431,7 +495,7 @@ void Report::centrePage(void)
          currentPage->Zoom *= 1.0 * parent->Width / currentPage->Width;
          }
 
-      int left = (scrollBox->Width - currentPage->Width) / 2;
+      int left = max((scrollBox->Width - currentPage->Width) / 2, 0);
       int top = max((scrollBox->Height - currentPage->Height) / 2, 0);
       currentPage->Left = max(left, 0);
       currentPage->Top  = max(top, 0);
@@ -456,18 +520,6 @@ void __fastcall Report::onResize(TObject* sender)
    centrePage();
    }
 
-//---------------------------------------------------------------------------
-// Call the setReportDirectory method in all SEGTable components.
-//---------------------------------------------------------------------------
-void Report::setReportDirectory(const std::string& reportDirectory)
-   {
-   for (int c = 0; c < dataForm->ComponentCount; c++)
-      {
-      TSEGTable* table = dynamic_cast<TSEGTable*> (dataForm->Components[c]);
-      if (table != NULL)
-         table->setReportDirectory(reportDirectory.c_str());
-      }
-   }
 //---------------------------------------------------------------------------
 // return zoom
 //---------------------------------------------------------------------------
@@ -567,40 +619,35 @@ void Report::print(bool currentPageOnly)
 //---------------------------------------------------------------------------
 void Report::refresh(bool quiet)
    {
-   TSEGTable::errorMessage = "";
+   TCursor savedCursor = Screen->Cursor;
+   Screen->Cursor = crHourGlass;
 
-   // loop through all dataset components and refresh them.  This will then
-   // cause all data aware components to refresh.
-   for (int componentI = 0; componentI < dataForm->ComponentCount; componentI++)
-      {
-      TSEGTable* table = dynamic_cast<TSEGTable*> (dataForm->Components[componentI]);
-      if (table != NULL)
-         table->refresh();
-      }
+   data->refresh("");
 
-   if (!quiet && TSEGTable::errorMessage != "")
-      {
-      ::MessageBox(NULL, TSEGTable::errorMessage.c_str(), "Errors were encountered", MB_ICONSTOP | MB_OK);
-      TSEGTable::errorMessage = "";
-      }
+   refreshControls(reportForm);
+
+   Screen->Cursor = savedCursor;
    }
+
 //---------------------------------------------------------------------------
-// Refresh all components linked to datasets but not the datasets themselves.
+// now refresh our gui components.
 //---------------------------------------------------------------------------
-void Report::refreshLinkedComponents(void)
+void Report::refreshControls(TWinControl* control)
    {
-   TSEGTable::errorMessage = "";
-
-   // loop through all dataset components and refresh them.  This will then
-   // cause all data aware components to refresh.
-   for (int componentI = 0; componentI < dataForm->ComponentCount; componentI++)
+   if (control != NULL)
       {
-      TSEGTable* table = dynamic_cast<TSEGTable*> (dataForm->Components[componentI]);
-      if (table != NULL)
-         table->refreshLinkedComponents();
+      TText* text = dynamic_cast<TText*> (control);
+      if (text != NULL)
+         text->refresh();
+
+      TGraph* graph = dynamic_cast<TGraph*> (control);
+      if (graph != NULL)
+         graph->refresh();
+
+      for (int i = 0; i != control->ControlCount; i++)
+         refreshControls(dynamic_cast<TWinControl*> (control->Controls[i]));
       }
    }
-
 //---------------------------------------------------------------------------
 // Export all pages to the specified file.
 //---------------------------------------------------------------------------
@@ -677,38 +724,6 @@ void Report::exportCurrentToFile(const std::string& fileNameBase)
       }
    }
 //---------------------------------------------------------------------------
-// Methods for filling a tool bar with buttons.
-//---------------------------------------------------------------------------
-void Report::populateToolBar(TToolBar* toolbar)
-   {
-   toolbar->Images = buttonImages;
-   while (toolbar->ButtonCount > 0)
-      delete toolbar->Buttons[0];
-   buttonImages->Clear();
-   toolbar->AutoSize = false;
-
-   // Loop through all data components and add to tool bar IF the
-   // data component indicates it is ok.
-   for (int c = 0; c < dataForm->ComponentCount; c++)
-      {
-      TSEGTable* table = dynamic_cast<TSEGTable*>(dataForm->Components[c]);
-      if (table != NULL && table->addToToolBar)
-         addButtonToToolBar(table, toolbar);
-      }
-   // Loop through current page and add all chart components
-   if (currentPage != NULL)
-      {
-      TQRBand* titleBand = getControlOfType<TQRBand>(currentPage);
-      for (int c = 0; c < titleBand->ControlCount; c++)
-         {
-         TGraph* graph = dynamic_cast<TGraph*>(titleBand->Controls[c]);
-         if (graph != NULL)
-            addButtonToToolBar(graph, toolbar);
-         }
-      }
-   toolbar->AutoSize = true;
-   }
-//---------------------------------------------------------------------------
 // Add a button to the specified toolbar.
 //---------------------------------------------------------------------------
 void Report::addButtonToToolBar(TComponent* component, TToolBar* toolbar)
@@ -768,163 +783,302 @@ void __fastcall Report::buttonClick(TObject* sender)
    updateObjectInspector((TComponent*)button->Tag);
    }
 //---------------------------------------------------------------------------
-// Set a property.
-//---------------------------------------------------------------------------
-void Report::setProperty(const std::string& componentName,
-                         const std::string& propertyName,
-                         const std::string& propertyValue)
-   {
-   // get the first file reader and pass the output file to it.
-   TComponent* component = getComponent<TComponent> (dataForm, componentName.c_str());
-   TSEGTable* data = dynamic_cast<TSEGTable*>(component);
-   if (data != NULL)
-      data->setProperty(propertyName, propertyValue);
-   }
-//---------------------------------------------------------------------------
 // Return a component to caller.
 //---------------------------------------------------------------------------
-TComponent* Report::getAComponent(const std::string& componentName)
-   {
-   TComponent* component = getComponent<TComponent> (dataForm, componentName.c_str());
-   if (component == NULL)
-      component = getComponent<TComponent> (reportForm, componentName.c_str());
-   return component;
-   }
-
-
-
+//TComponent* Report::getAComponent(const std::string& componentName)
+//   {
+//   TComponent* component = getComponent<TComponent> (dataForm, componentName.c_str());
+//   if (component == NULL)
+//      component = getComponent<TComponent> (reportForm, componentName.c_str());
+//   return component;
+//   }
 
 
 //---------------------------------------------------------------------------
-// Check for and read in the old version of the component.
+// Version 3 to 4
 //---------------------------------------------------------------------------
-void Report::readOldVersion(int versionNumber, std::istream& in)
+void Report::convertVersion3To4(ifstream& in, const std::string& fileName)
    {
-   RegisterClass(__classid(TPageControl));
-   RegisterClass(__classid(TTabSheet));
-   RegisterClass(__classid(TScrollBox));
+   in.ignore(1000, '\n');   // skip past the numpages.
+   in.ignore(1000, '\n');   // skip past: object data: TForm
 
-   // remove all instances of TSEGChart & TRichText.
-   ostringstream contentsBuffer;
-   contentsBuffer << in.rdbuf();
-   string contents = contentsBuffer.str();
-   replaceAll(contents, "TQRImage", "TImage");
-   replaceAll(contents, "TSEGChart", "TGraph");
-   replaceAll(contents, "TRichText", "TText");
-   istringstream newIn(contents.c_str());
-
-   TForm* formReadIn = new TForm((TComponent*)NULL);
-   loadComponent(newIn, formReadIn);
-   for (int c = 0; c != formReadIn->ComponentCount; c++)
+   XMLDocument doc("report", XMLDocument::rootName);
+   doc.documentElement().setAttribute("version", "4");
+   bool end = false;
+   string line;
+   while (!end && getline(in, line))
       {
-      TSEGTable* table = dynamic_cast<TSEGTable*>(formReadIn->Components[c]);
-      TQuickRep* page = dynamic_cast<TQuickRep*>(formReadIn->Components[c]);
-      TChartSeries* series = dynamic_cast<TChartSeries*>(formReadIn->Components[c]);
-      if (table != NULL)
+      StringTokenizer tokenizer(line, " :");
+      string firstWord = tokenizer.nextToken();
+      if (firstWord == "object")
          {
-         moveComponentTree(formReadIn->Components[c], dataForm);
-         c = -1; // start counter back at beginning.
+         string objectName = tokenizer.nextToken();
+         string objectType = tokenizer.nextToken();
+         addObjectToXML(in, objectName, objectType, doc);
          }
-      else if (series != NULL)
+      else if (firstWord == "end")
+         end = true;
+      }
+   nestAllObjectsUsingSource(doc);
+
+   // now go through each page and write to xml doc.
+   string pageContents;
+   while (getline(in, line))
+      {
+      pageContents += line + "\n";
+      if (line == "end")
          {
-         moveComponentTree(formReadIn->Components[c], reportForm);
-         c = -1; // start counter back at beginning.
-         }
-      else if (page != NULL)
-         {
-         moveComponentTree(formReadIn->Components[c], reportForm);
-         page->Visible = false;
-         page->Parent = scrollBox;
-         pages.push_back(page);
-         c = -1; // start counter back at beginning.
+         XMLNode page = doc.documentElement().appendChild("page", true);
+         replaceAll(pageContents, "DataSource = Data.", "DataSource = ");
+         page.setValueAsCData(pageContents);
+         pageContents = "";
          }
       }
-   delete formReadIn;
-   }
-//---------------------------------------------------------------------------
-// Version 2 to 3
-//---------------------------------------------------------------------------
-void Report::convertVersion2To3(const std::string& fileName)
-   {
-   ifstream in(fileName.c_str());
-   ostringstream contentsStream;
-   contentsStream << in.rdbuf();
-   string contents = contentsStream.str();
-   replaceAll(contents, "SeriesTitle = ", "SeriesTitle1 = ");
+   AnsiString newFileName = ExtractFileName(fileName.c_str());
    in.close();
-
-   ofstream out(fileName.c_str());
-   out << contents;
+   RenameFile(fileName.c_str(), ChangeFileExt(newFileName, ".bak"));
+   doc.write(fileName);
    }
-//---------------------------------------------------------------------------
-// Move the specified component to the specified owner.  Uses recursion.
-//---------------------------------------------------------------------------
-void Report::moveComponentTree(TComponent* component, TComponent* owner)
-   {
-   if (component != NULL && component->Owner != NULL)
-      {
-      component->Owner->RemoveComponent(component);
-      owner->InsertComponent(component);
-      TWinControl* control = dynamic_cast<TWinControl*>(component);
-      if (control != NULL)
-         {
-         for (int c = 0; c != control->ControlCount; c++)
-            moveComponentTree(control->Controls[c], owner);
-         }
-      }
-   }
-//---------------------------------------------------------------------------
-// Show the report wizard
-//---------------------------------------------------------------------------
-void Report::showWizard()
-   {
-   TForm* parents[2];
-   parents[0] = dataForm;
-   parents[1] = reportForm;
 
-   TWizardForm* wizardForm = new TWizardForm(parent);
-
-   bool someUIsFound = false;
-   for (int formI = 0; formI != 2; formI++)
+//---------------------------------------------------------------------------
+// Add multiple elements to specified 'elements' and 'values' vectors
+// from BORLAND lines that look like:
+//    filenames.Strings = (
+//      'scenario1Yearly.out')
+//---------------------------------------------------------------------------
+void addMultipleElements(istream& in, const string& elementName,
+                         const string& elementType,
+                         vector<string>& elements,
+                         vector<string>& types,
+                         vector<string>& values)
+   {
+   string fullLine;
+   string line;
+   bool endOfMultipleElements = false;
+   do
       {
-      for (int componentI = 0; componentI < parents[formI]->ComponentCount; componentI++)
+      getline(in, line);
+      bool lineContinuation = (line.find("' +") != string::npos);
+      endOfMultipleElements = (line.find("')") != string::npos);
+
+      replaceAll(line, "' +", "");
+      replaceAll(line, "'", "");
+      replaceAll(line, ")", "");
+      stripLeadingTrailing(line, " ");
+      if (line != "")
          {
-         TComponent* component = parents[formI]->Components[componentI];
-         if (doShowComponentInWizard(component))
+         fullLine += line;
+
+         if (!lineContinuation)
             {
-            // get a property form.
-            TForm* uiForm = createComponentUI(component, wizardForm, false);
-
-            // If an addin returned a form then make that form a child of the parent
-            // form.
-            if (uiForm != NULL)
-               {
-               uiForm->BorderStyle = bsNone;
-               wizardForm->addComponentForm(uiForm);
-               someUIsFound = true;
-               }
+            replaceAll(fullLine, "#39", "'");
+            elements.push_back(elementName);
+            types.push_back(elementType);
+            values.push_back(fullLine);
+            fullLine = "";
             }
          }
       }
-   if (someUIsFound)
-      {
-      wizardForm->ShowModal();
-      delete wizardForm;
-      }
+   while (!endOfMultipleElements);
    }
 //---------------------------------------------------------------------------
-// Return true if the specified component show be include in the wizard.
+// Add an element to specified 'elements' and 'values' vectors
+// from BORLAND lines that look like:
+//    filter = 'xxxx'
 //---------------------------------------------------------------------------
-bool Report::doShowComponentInWizard(TComponent* component)
+void addElement(const string& elementName, const string& elementType,
+                const string& value,
+                vector<string>& elements,
+                vector<string>& types,
+                vector<string>& values)
    {
-   TSEGTable* table = dynamic_cast<TSEGTable*> (component);
-   if (table != NULL)
-      return table->addToWizard;
+   elements.push_back(elementName);
+   types.push_back(elementType);
+   string rawValue = value;
+   replaceAll(rawValue, "'", "");
+   replaceAll(rawValue, "#39", "'");
+   values.push_back(rawValue);
+   }
+// ------------------------------------------------------------------
+// Go find an object somewhere in the tree with the specified name.
+// ------------------------------------------------------------------
+XMLNode findObject(XMLNode parent, const std::string& name)
+   {
+   for (XMLNode::iterator child = parent.begin();
+                          child != parent.end();
+                          child++)
+      {
+      if (Str_i_Eq(child->getAttribute("name"), name))
+         return XMLNode(*child);
+      else
+         {
+         XMLNode node = findObject(*child, name);
+         if (node.isValid())
+            return node;
+         }
+      }
+   return XMLNode();
+   }
 
-   TXYGraph* graph = dynamic_cast<TXYGraph*> (component);
-   if (graph != NULL)
-      return true;
+//---------------------------------------------------------------------------
+// Convert a single 'object' from old BORLAND format to XML
+//---------------------------------------------------------------------------
+void Report::addObjectToXML(istream& in, const string& objectName,
+                            const string& objectType, XMLDocument& doc)
+   {
+   // go collect all settings for this object and store in the 2 vectors
+   // declared immediately below.
+   vector<string> elements, types, values;
+   string line;
+   string sourceName;
+   bool end = false;
+   int nestingLevel = 0;
+   while (in && !end && getline(in, line))
+      {
+      stripLeadingTrailing(line, " >");
+      if (line == "item")
+         nestingLevel++;
+      if (line == "end")
+         {
+         if (nestingLevel > 0)
+            nestingLevel--;
+         else
+            end = true;
+         }
+      string key, value;
+      int posEquals = line.find('=');
+      if (posEquals != string::npos)
+         {
+         key = line.substr(0, posEquals);
+         stripLeadingTrailing(key, " ");
+         value = line.substr(posEquals+1);
+         stripLeadingTrailing(value, " ");
+         }
 
-   return false;
+      if (Str_i_Eq(key, "source") || Str_i_Eq(key, "predData"))
+         sourceName = value;
+      else if (Str_i_Eq(key, "filenames.Strings"))
+         addMultipleElements(in, "FileName", "filenames", elements, types, values);
+      else if (Str_i_Eq(key, "interpretTitles"))
+         addElement("ParseTitle", "yesno", "yes", elements, types, values);
+      else if (Str_i_Eq(key, "pageName"))
+         addElement("PageName", "", value, elements, types, values);
+      else if (Str_i_Eq(key, "pagenames.Strings"))
+        addMultipleElements(in, "PageName", "", elements, types, values);
+      else if (key == "filter")
+         addElement("FilterString", "", value, elements, types, values);
+      else if (Str_i_Eq(key, "exceedence"))
+         addElement("Exceedence", "yesno", "yes", elements, types, values);
+      else if (Str_i_Eq(key, "FieldName"))
+         addElement("FieldName", "fieldnames", value, elements, types, values);
+      else if (Str_i_Eq(key, "FileName"))
+         addElement("FileName", "filename", value, elements, types, values);
+      else if (Str_i_Eq(key, "Experiment"))
+         addElement("Experiment", "experiment", value, elements, types, values);
+      else if (Str_i_Eq(key, "Treatment"))
+         addElement("Treatment", "treatment", value, elements, types, values);
+      else if (Str_i_Eq(key, "DataSource"))
+         addElement("DataSource", "datasource", value, elements, types, values);
+      else if (Str_i_Eq(key, "cropnames.Strings"))
+        addMultipleElements(in, "CropName", "", elements, types, values);
+      else if (Str_i_Eq(key, "AveragedFields.Strings"))
+        addMultipleElements(in, "AveragedField", "fieldnames", elements, types, values);
+      else if (Str_i_Eq(key, "Month"))
+         addElement("Month", "month", value, elements, types, values);
+      else if (Str_i_Eq(key, "Negative"))
+         addElement("Phase", "soiphase", "Negative", elements, types, values);
+      else if (Str_i_Eq(key, "Positive"))
+         addElement("Phase", "soiphase", "Positive", elements, types, values);
+      else if (Str_i_Eq(key, "Falling"))
+         addElement("Phase", "soiphase", "Falling", elements, types, values);
+      else if (Str_i_Eq(key, "Rising"))
+         addElement("Phase", "soiphase", "Rising", elements, types, values);
+      else if (Str_i_Eq(key, "Zero"))
+         addElement("Phase", "soiphase", "Zero", elements, types, values);
+      else if (Str_i_Eq(key, "GetSOIFromSource"))
+         addElement("GetSOIFromSource", "yesno", "yes", elements, types, values);
+      else if (Str_i_Eq(key, "AllOtherYears"))
+         addElement("Phase", "soiphase", "AllOtherYears", elements, types, values);
+      else if (Str_i_Eq(key, "stats"))
+         {
+         string statsAsString = splitOffBracketedValue(value, '[', ']');
+         vector<string> stats;
+         splitIntoValues(statsAsString, ", ", stats);
+         for (unsigned i = 0; i != stats.size(); i++)
+            addElement("Stat", "stat", stats[i].substr(4), elements, types, values);
+         }
+      else if (Str_i_Eq(key, "FirstRecord"))
+         addElement("FirstRecord", "yesno", "yes", elements, types, values);
+      else if (Str_i_Eq(key, "LastRecord"))
+         addElement("LastRecord", "yesno", "yes", elements, types, values);
+      else if (Str_i_Eq(key, "RecordNumber"))
+         addElement("RecordNumber", "", value, elements, types, values);
+      else if (Str_i_Eq(key, "X1"))
+         addElement("X1FieldName", "fieldname", value, elements, types, values);
+      else if (Str_i_Eq(key, "Y1"))
+         addElement("Y1FieldName", "fieldname", value, elements, types, values);
+      else if (Str_i_Eq(key, "Label"))
+         addElement("Label", "fieldname", value, elements, types, values);
+      else if (Str_i_Eq(key, "labels.Strings"))
+        addMultipleElements(in, "fieldname", "Label", elements, types, values);
+      else if (Str_i_Eq(key, "filters.Strings"))
+        addMultipleElements(in, "", "FilterString", elements, types, values);
+      else if (Str_i_Eq(key, "Percent"))
+         addElement("Percent", "yesno", "yes", elements, types, values);
+      else if (Str_i_Eq(key, "obsData"))
+         addElement("obsFileName", "filename", value, elements, types, values);
+      else if (Str_i_Eq(key, "keyfields.strings"))
+         addMultipleElements(in, "KeyFieldName", "fieldnames", elements, types, values);
+      else if (Str_i_Eq(key, "xfieldname"))
+         addElement("XFieldName", "fieldname", value, elements, types, values);
+      else if (Str_i_Eq(key, "yfieldname"))
+         addElement("YFieldName", "fieldname", value, elements, types, values);
+      }
+
+   XMLNode data = doc.documentElement().appendChild("Data", false);
+   string oType = objectType.substr(1);
+   if (oType == "Regr")
+      oType = "Regression";
+   XMLNode object = data.appendChild(oType, true);
+   object.setAttribute("name", objectName);
+   if (sourceName != "")
+      object.setAttribute("source", sourceName);
+   for (unsigned i = 0; i != elements.size(); i++)
+      {
+      XMLNode element = object.appendChild(elements[i], true);
+      if (types[i] != "")
+         element.setAttribute("type", types[i]);
+      element.setValue(values[i]);
+      }
+   }
+
+//---------------------------------------------------------------------------
+// Go through all children of the documentelement and nest them using their
+// source attribute as the name of their parent node.
+//---------------------------------------------------------------------------
+void Report::nestAllObjectsUsingSource(XMLDocument& doc)
+   {
+   // go through the elements and values vectors and write everything to
+   // the XML doc that was passed in.
+   XMLNode data = doc.documentElement().appendChild("Data", false);
+   XMLNode::iterator object = data.begin();
+   while (object != data.end())
+      {
+      string sourceName = object->getAttribute("source");
+      if (sourceName != "")
+         {
+         XMLNode parent = findObject(doc.documentElement(), sourceName);
+         if (parent.isValid())
+            {
+            XMLNode nestedObject = parent.appendChild(*object, true);
+            nestedObject.setAttribute("source", "");
+            object = doc.documentElement().erase(object);
+            }
+         else
+            object++;
+         }
+      else
+         object++;
+      }
    }
 

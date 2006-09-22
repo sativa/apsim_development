@@ -20,12 +20,12 @@ class TImageForm : public TPropertyForm
 {
 __published:	// IDE-managed Components
    TOpenPictureDialog *OpenPictureDialog;
+   TLabel *FilenameLabel;
    TAdvEditBtn *ImageFileEdit;
+   TCheckBox *LinkCheckBox;
    TCheckBox *AutoSizeCheckBox;
    TCheckBox *CentreCheckBox;
    TCheckBox *StretchCheckBox;
-   TLabel *FilenameLabel;
-   TCheckBox *LinkCheckBox;
    void __fastcall AutoSizeCheckBoxClick(TObject *Sender);
    void __fastcall CentreCheckBoxClick(TObject *Sender);
    void __fastcall StretchCheckBoxClick(TObject *Sender);

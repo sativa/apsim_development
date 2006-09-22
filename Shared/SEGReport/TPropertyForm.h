@@ -13,7 +13,6 @@
 #include <ComCtrls.hpp>
 #include <Db.hpp>
 #include <Grids.hpp>
-#include "TSEGTable.h"
 #include <DB.hpp>
 #include "DBAdvGrd.hpp"
 #include "AdvPanel.hpp"
@@ -22,31 +21,11 @@
 class TPropertyForm : public TForm
    {
    __published:	// IDE-managed Components
-      TAdvPanelGroup *AdvPanelGroup1;
-      TAdvPanel *AdvancedPanel;
-      TLabel *Label2;
-      TEdit *NameEdit;
-      TLabel *SourceLabel;
-      TComboBox *SourceCombo;
-      TCheckBox *ToolbarCheckBox;
-      TLabel *SortFieldsLabel;
-      TEdit *SortFieldsEdit;
-      TLabel *PivotLabel;
-      TEdit *GroupByEdit;
-      TAdvPanel *PropertyPanel;
-      TCheckBox *WizardCheckBox;
-      void __fastcall NameEditExit(TObject *Sender);
-      void __fastcall SourceComboChange(TObject *Sender);
-      void __fastcall ToolbarCheckBoxClick(TObject *Sender);
-      void __fastcall SortFieldsEditChange(TObject *Sender);
-      void __fastcall GroupByEditExit(TObject *Sender);
-      void __fastcall WizardCheckBoxClick(TObject *Sender);
       void __fastcall FormShow(TObject *Sender);
    private:	// User declarations
       TComponent* component;
       bool showAdvanced;
    protected:
-      virtual void sourceHasChanged(TSEGTable* segTable) { };
       virtual void setComponent(TComponent* component) { };
    public:		// User declarations
       __fastcall TPropertyForm(TComponent* Owner);

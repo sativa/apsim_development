@@ -3,12 +3,15 @@
 #ifndef ReportH
 #define ReportH
 #include <string>
+#include <fstream>
+#include "DataContainer.h"
 namespace Quickrpt {
    class TQuickRep;
    };
 namespace Classes {
    class TComponent;
    };
+class XMLDocument;
 //---------------------------------------------------------------------------
 // Report class.
 //---------------------------------------------------------------------------
@@ -41,7 +44,7 @@ class __declspec(dllexport) Report
       //---------------------------------------------------------------------------
       // Set the object inspector form to use.
       //---------------------------------------------------------------------------
-      void setObjectInspectorForm(TForm* objectInspectorForm, TDataSource* dataInspectorSource);
+      void setObjectInspector(TWinControl* objectInspector, TDataSource* dataInspectorSource);
 
       //---------------------------------------------------------------------------
       // Page methods.
@@ -49,7 +52,7 @@ class __declspec(dllexport) Report
       AnsiString createPage(void);
       void getPageNames(TStrings* pageNames);
       void showPage(unsigned pageIndex);
-      void showDataPage(bool showData);
+      void showDataPage();
       void renamePage(AnsiString oldName, AnsiString newName);
       void deletePage(unsigned pageIndex);
       void movePage(unsigned oldPageIndex, unsigned insertBeforePageIndex);
@@ -77,19 +80,9 @@ class __declspec(dllexport) Report
       void print(bool currentPageOnly);
 
       //---------------------------------------------------------------------------
-      // Methods for filling a tool bar with buttons.
-      //---------------------------------------------------------------------------
-      void populateToolBar(TToolBar* toolbar);
-
-      //---------------------------------------------------------------------------
       // Refresh the report
       //---------------------------------------------------------------------------
       void refresh(bool quiet);
-
-      //---------------------------------------------------------------------------
-      // Refresh all components linked to datasets but not the datasets themselves.
-      //---------------------------------------------------------------------------
-      void refreshLinkedComponents(void);
 
       //---------------------------------------------------------------------------
       // Return true if the report needs saving.
@@ -97,16 +90,9 @@ class __declspec(dllexport) Report
       bool needsSaving(void) {return isDirty;}
 
       //---------------------------------------------------------------------------
-      // Set a property.
-      //---------------------------------------------------------------------------
-      void setProperty(const std::string& componentName,
-                       const std::string& propertyName,
-                       const std::string& propertyValue);
-
-      //---------------------------------------------------------------------------
       // Return a component to caller.
       //---------------------------------------------------------------------------
-      TComponent* getAComponent(const std::string& componentName);
+      //TComponent* getAComponent(const std::string& componentName);
 
       //---------------------------------------------------------------------------
       // Event that triggers when object inspector is updated.
@@ -118,11 +104,6 @@ class __declspec(dllexport) Report
       //---------------------------------------------------------------------------
       void setZoomToFit(bool fit) {zoomToFit = fit;}
 
-      //---------------------------------------------------------------------------
-      // Show the report wizard
-      //---------------------------------------------------------------------------
-      void showWizard();
-
    private:
       TWinControl* parent;
       std::vector<Quickrpt::TQuickRep*> pages;
@@ -131,12 +112,17 @@ class __declspec(dllexport) Report
       bool isEditing;
       bool zoomToFit;
       TForm* reportForm;
-      TForm* dataForm;
-      TForm* objectInspectorForm;
+      TWinControl* objectInspector;
       TDataSource* dataInspectorSource;
       TForm* uiForm;
       TScrollBox* scrollBox;
       TImageList* buttonImages;
+
+      DataContainer* data;
+      std::string dataContents;
+
+      void loadFromContents(const std::string& contents, bool quiet);
+      std::string getReportXml();
 
       //---------------------------------------------------------------------------
       // The designer has changed selection - get current object and call
@@ -161,11 +147,6 @@ class __declspec(dllexport) Report
       void __fastcall onResize(TObject* sender);
 
       //---------------------------------------------------------------------------
-      // Call the setReportDirectory method in all SEGTable components.
-      //---------------------------------------------------------------------------
-      void setReportDirectory(const std::string& reportDirectory);
-
-      //---------------------------------------------------------------------------
       // Export the current page to the specified file.
       //---------------------------------------------------------------------------
       void exportCurrentToFile(const std::string& fileName);
@@ -187,25 +168,12 @@ class __declspec(dllexport) Report
       //---------------------------------------------------------------------------
       void __fastcall buttonClick(TObject* button);
 
-      //---------------------------------------------------------------------------
-      // Check for and read in the old version of the component.
-      //---------------------------------------------------------------------------
-      void readOldVersion(int versionNumber, std::istream& in);
+      void convertVersion3To4(std::ifstream& in, const std::string& fileName);
+      void addObjectToXML(std::istream& in, const std::string& objectName,
+                            const std::string& objectType, XMLDocument& doc);
+      void nestAllObjectsUsingSource(XMLDocument& doc);
+      void refreshControls(TWinControl* parent);
 
-      //---------------------------------------------------------------------------
-      // Move the specified component to the specified owner.  Uses recursion.
-      //---------------------------------------------------------------------------
-      void moveComponentTree(TComponent* component, TComponent* owner);
-
-      //---------------------------------------------------------------------------
-      // Return true if the specified component show be include in the wizard.
-      //---------------------------------------------------------------------------
-      bool doShowComponentInWizard(TComponent* component);
-
-      //---------------------------------------------------------------------------
-      // Version 2 to 3
-      //---------------------------------------------------------------------------
-      void convertVersion2To3(const std::string& fileName);
 
    };
 #endif

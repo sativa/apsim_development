@@ -15,12 +15,12 @@
 class TShapeForm : public TPropertyForm
 {
 __published:	// IDE-managed Components
-   TColorBox *BrushColourCombo;
-   TColorBox *PenColourCombo;
+   TLabel *Label5;
    TComboBox *ShapeCombo;
    TLabel *Label3;
+   TColorBox *PenColourCombo;
    TLabel *Label4;
-   TLabel *Label5;
+   TColorBox *BrushColourCombo;
    void __fastcall ShapeComboChange(TObject *Sender);
    void __fastcall PenColourComboChange(TObject *Sender);
    void __fastcall BrushColourComboChange(TObject *Sender);

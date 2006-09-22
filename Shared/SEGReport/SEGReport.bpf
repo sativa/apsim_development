@@ -1,24 +1,9 @@
 USEFORM("TPropertyForm.cpp", PropertyForm);
 USEFORM("TTextForm.cpp", TextForm);
-USEFORM("TApsimFileReaderForm.cpp", ApsimFileReaderForm);
 USEFORM("TChartForm.cpp", ChartForm);
-USEFORM("TExcelForm.cpp", ExcelForm);
-USEFORM("TFilterForm.cpp", FilterForm);
 USEFORM("TImageForm.cpp", ImageForm);
-USEFORM("TREMSForm.cpp", REMSForm);
 USEFORM("TShapeForm.cpp", ShapeForm);
-USEFORM("TSOIForm.cpp", SOIForm);
-USEFORM("TStatsForm.cpp", StatsForm);
-USEFORM("TWizardForm.cpp", WizardForm);
-USEFORM("TXYForm.cpp", XYForm);
-USEFORM("TXmlFileReaderForm.cpp", XmlFileReaderForm);
-USEFORM("TRecFilterForm.cpp", RecFilterForm);
-USEFORM("TChartLineForm.cpp", ChartLineForm);
-USEFORM("TProbabilityForm.cpp", ProbabilityForm);
-USEFORM("TFrequencyForm.cpp", FrequencyForm);
-USEFORM("TKWTestForm.cpp", KWTestForm);
-USEFORM("TPredObsForm.cpp", PredObsForm);
-USEFORM("TRegrForm.cpp", RegrForm);
+USEFORM("TGridForm.cpp", GridForm);
 //---------------------------------------------------------------------------
 This file is used by the project manager only and should be treated like the project file
 
