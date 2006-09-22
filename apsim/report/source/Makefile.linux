@@ -4,6 +4,8 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
+DESTDIR ?= /usr/local/apsim
+
 LIB=	../lib/report.so
 
 SRC=	ReportComponent.cpp
@@ -51,6 +53,8 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
+	if [ ! -d $(DESTDIR)/apsim/report/lib ]; then mkdir -p $(DESTDIR)/apsim/report/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/report/lib
 
 %.o:	%.cpp
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<

@@ -3,6 +3,7 @@
 #     Makefile for APSIM EXE
 #-----------------------------------------------------------------------
 #=======================================================================
+DESTDIR ?= /usr/local/apsim
 
 PRG=	$(APSROOT)/Bin/apsim.x
 
@@ -60,6 +61,8 @@ clobber:	clean
 	rm -f $(PRG)
 
 install: all
+	if [ ! -d $(DESTDIR)/bin ]; then mkdir -p $(DESTDIR)/bin; fi 
+	cp $(PRG) $(DESTDIR)/bin
 
 %.o:	%.cpp
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<

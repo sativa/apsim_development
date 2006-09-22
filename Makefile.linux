@@ -1,0 +1,114 @@
+# Makefile for apsim/linux
+
+
+# Set these to compile with debug/whatever flags
+#CPPDEBUGFLAGS=-g
+#LDDEBUGFLAGS=-lg
+
+# Optimised flags
+CPPDEBUGFLAGS=-O2
+LDDEBUGFLAGS=
+
+# Profiling (gmon.out) flags
+#CPPDEBUGFLAGS=-pg
+#LDDEBUGFLAGS=-pg
+
+SYSDIRS =  $(APSROOT)/Shared/general \
+  $(APSROOT)/Shared/ApsimShared \
+  $(APSROOT)/APSBuild/source \
+  $(APSROOT)/Shared/Protocol \
+  $(APSROOT)/Shared/ComponentInterface \
+  $(APSROOT)/apsim/infra/source \
+  $(APSROOT)/apsim/infra/engine \
+  $(APSROOT)/APSRun/ConToSim
+
+MODULEDIRS =  apsim/ProtocolManager/Source \
+	apsim/accum/source \
+	apsim/canopy/source \
+	apsim/clock/source \
+	apsim/croptemp/source \
+	apsim/CropMod/source \
+	apsim/fertiliz/source \
+	apsim/input/source \
+	apsim/irrigate/source \
+	apsim/maize/source \
+	apsim/manager/source \
+	apsim/operatns/source \
+	apsim/ozcot/source \
+	apsim/Plant/source \
+	apsim/report/source \
+	apsim/soilwat2/source \
+	apsim/soiln2/source \
+	apsim/sorghum/source \
+	apsim/SummaryFile/Source \
+	apsim/SurfaceOM/source \
+	apsim/Tracker/Source \
+	apsim/tcllink/source 
+
+INIFILES = \
+	apsim/soybean/soybean.ini \
+	apsim/WaterSupply/WaterSupply.ini \
+	apsim/sunflower/Sunflower.ini \
+	apsim/weed/weed.ini \
+	apsim/lablab/lablab.ini \
+	apsim/SweetSorghum/SweetSorghum.ini \
+	apsim/Bambatsi/Bambatsi.ini \
+	apsim/ButterflyPea/butterflypea.ini \
+	apsim/chickpea/chickpea.ini \
+	apsim/cowpea/cowpea.ini \
+	apsim/lucerne/lucerne.ini \
+	apsim/Horsegram/horsegram.ini \
+	apsim/Egrandis/Egrandis.ini \
+	apsim/navybean/navybean.ini \
+	apsim/mungbean/mungbean.ini \
+	apsim/SweetCorn/SweetCorn.ini \
+	apsim/Wheat/wheat.ini \
+	apsim/pigeonp/pigeonp.ini \
+	apsim/canola/canola.ini \
+	apsim/stylo/stylo.ini \
+	apsim/Broccoli/Broccoli.ini \
+	apsim/fababean/fababean.ini \
+	apsim/lupin/lupin.ini \
+	apsim/barley/barley.ini \
+	apsim/FieldPea/fieldpea.ini \
+	apsim/peanut/peanut.ini \
+	apsim/eo/eo.ini \
+	apsim/mucuna/mucuna.ini \
+
+
+all: system modules
+
+
+system:
+	for dir in $(SYSDIRS); do \
+		$(MAKE) -f Makefile.linux -C $$dir; \
+	done
+
+modules:
+	for dir in $(MODULEDIRS); do \
+		if [ ! -d `dirname $$dir`/lib ]; then mkdir `dirname $$dir`/lib; fi ; \
+		$(MAKE) -f Makefile.linux -C $(APSROOT)/$$dir; \
+	done
+
+clobber: 
+	for dir in $(SYSDIRS); do \
+		$(MAKE) -f Makefile.linux -C $$dir clobber; \
+	done
+	for dir in $(MODULEDIRS); do \
+		$(MAKE) -f Makefile.linux -C $(APSROOT)/$$dir clobber; \
+	done
+
+
+install: system modules
+	for dir in $(SYSDIRS); do \
+		$(MAKE) -f Makefile.linux -C $$dir install; \
+	done
+	for dir in $(MODULEDIRS); do \
+		$(MAKE) -f Makefile.linux -C $(APSROOT)/$$dir install; \
+	done 
+	for file in $(INIFILES); do \
+		if [ ! -d `dirname $(DESTDIR)/$$file` ]; then mkdir `dirname $(DESTDIR)/$$file`; fi ; \
+		cp $(APSROOT)/$$file $(DESTDIR)/$$file; \
+	done 
+	cp $(APSROOT)/Bin/APSRun $(DESTDIR)/bin
+

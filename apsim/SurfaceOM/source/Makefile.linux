@@ -4,6 +4,8 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
+DESTDIR ?= /usr/local/apsim
+
 LIB=	../lib/SurfaceOM.so
 
 SRC=	Registrations.f90	\
@@ -54,6 +56,9 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
+	if [ ! -d $(DESTDIR)/apsim/SurfaceOM/lib ]; then mkdir -p $(DESTDIR)/apsim/SurfaceOM/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/SurfaceOM/lib
+	cp ../SurfaceOM.ini $(DESTDIR)/apsim/SurfaceOM
 
 %.o:	%.for
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<

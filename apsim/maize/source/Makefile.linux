@@ -4,6 +4,8 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
+DESTDIR ?= /usr/local/apsim
+
 LIB=	../lib/maize.so
 
 SRC=	Registrations.f90	\
@@ -59,6 +61,9 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
+	if [ ! -d $(DESTDIR)/apsim/maize/lib ]; then mkdir -p $(DESTDIR)/apsim/maize/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/maize/lib
+	cp ../maize.ini $(DESTDIR)/apsim/maize
 
 %.o:	%.for
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<

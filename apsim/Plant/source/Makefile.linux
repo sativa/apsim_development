@@ -4,6 +4,8 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
+DESTDIR ?= /usr/local/apsim
+
 LIB=	../lib/Plant.so
     
 OBJ=PlantComponent.o \
@@ -98,4 +100,6 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
+	if [ ! -d $(DESTDIR)/apsim/Plant/lib ]; then mkdir -p $(DESTDIR)/apsim/Plant/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/Plant/lib
 

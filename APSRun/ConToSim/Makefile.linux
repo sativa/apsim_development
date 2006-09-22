@@ -3,8 +3,9 @@
 #     Makefile for ConToSim EXE
 #-----------------------------------------------------------------------
 #=======================================================================
+DESTDIR ?= /usr/local/apsim
 
-PRG=	../../Bin/ConToSim.x
+PRG=	$(APSROOT)/Bin/ConToSim.x
 
 SRC=	ConToSim.cpp
 
@@ -54,6 +55,8 @@ clobber:	clean
 	rm -f $(PRG)
 
 install: all
+	if [ ! -d $(DESTDIR)/bin ]; then mkdir -p $(DESTDIR)/bin; fi
+	cp $(PRG) $(DESTDIR)/bin
 
 %.o:	%.cpp
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<

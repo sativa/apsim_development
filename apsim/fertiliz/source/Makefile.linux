@@ -4,6 +4,8 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
+DESTDIR ?= /usr/local/apsim
+
 LIB=	../lib/fertiliz.so
 
 SRC=	Registrations.f90	\
@@ -54,6 +56,9 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
+	if [ ! -d $(DESTDIR)/apsim/fertiliz/lib ]; then mkdir -p $(DESTDIR)/apsim/fertiliz/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/fertiliz/lib
+	cp ../fertiliz.ini $(DESTDIR)/apsim/fertiliz
 
 %.o:	%.for
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
