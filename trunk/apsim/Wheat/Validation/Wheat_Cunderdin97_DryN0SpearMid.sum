@@ -11,10 +11,10 @@
 
      Version                = 5.2
      Title                  = Wheat_Cunderdin97_DryN0SpearMid
-     Component DLL          = d:\development\apsim\summaryfile\lib\summaryfile.dll
-     Component DLL          = d:\development\apsim\clock\lib\clock.dll
-     Component DLL          = d:\development\apsim\input\lib\input.dll
-     Component DLL          = d:\development\apsim\protocolmanager\lib\protocolmanager.dll
+     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\protocolmanager\lib\protocolmanager.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -27,7 +27,7 @@
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: D:\Development\apsim\Wheat\Validation\Cunderdin.met
+     INPUT File name: Cunderdin.met
 
 ------- outputfile Initialisation ---------------------------------------------
      Output frequency:
@@ -155,14 +155,6 @@
         - Reading Soil Property Parameters
      
         - Reading Soil Profile Parameters
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     mwcon is being replaced with a saturated conductivity. See documentation for details.
-     Component name: Cunderdin Water
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
      Initial soilwater distributed using "sw" parameter.
      
      
@@ -410,76 +402,76 @@
                      stover N conc =     5.83 (%)    extractable sw =   13.42 (mm)
 21 September 1997(Day of year=264), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         244.26 (g/m^2)   lai          =   3.495 (m^2/m^2)
-                     stover N conc =     2.16 (%)    extractable sw =   45.19 (mm)
+                     biomass =         244.04 (g/m^2)   lai          =   3.493 (m^2/m^2)
+                     stover N conc =     2.16 (%)    extractable sw =   44.89 (mm)
 25 October 1997(Day of year=298), wheat: 
       stage 6.0 flowering
-                     biomass =         443.64 (g/m^2)   lai          =   0.725 (m^2/m^2)
-                     stover N conc =     1.40 (%)    extractable sw =   25.13 (mm)
+                     biomass =         443.12 (g/m^2)   lai          =   0.724 (m^2/m^2)
+                     stover N conc =     1.33 (%)    extractable sw =   25.19 (mm)
 2 November 1997(Day of year=306), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         464.62 (g/m^2)   lai          =   0.406 (m^2/m^2)
-                     stover N conc =     1.27 (%)    extractable sw =   16.87 (mm)
+                     biomass =         464.14 (g/m^2)   lai          =   0.406 (m^2/m^2)
+                     stover N conc =     1.02 (%)    extractable sw =   16.93 (mm)
 30 November 1997(Day of year=334), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         524.65 (g/m^2)   lai          =   0.132 (m^2/m^2)
-                     stover N conc =     0.67 (%)    extractable sw =   15.46 (mm)
+                     biomass =         524.35 (g/m^2)   lai          =   0.133 (m^2/m^2)
+                     stover N conc =     0.50 (%)    extractable sw =   15.52 (mm)
 1 December 1997(Day of year=335), wheat: 
       stage 9.0 maturity
-                     biomass =         524.65 (g/m^2)   lai          =   0.126 (m^2/m^2)
-                     stover N conc =     0.67 (%)    extractable sw =   15.03 (mm)
+                     biomass =         524.35 (g/m^2)   lai          =   0.126 (m^2/m^2)
+                     stover N conc =     0.50 (%)    extractable sw =   15.09 (mm)
 2 December 1997(Day of year=336), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         524.65 (g/m^2)   lai          =   0.001 (m^2/m^2)
-                     stover N conc =     0.68 (%)    extractable sw =   14.60 (mm)
+                     biomass =         524.35 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     stover N conc =     0.50 (%)    extractable sw =   14.67 (mm)
 2 December 1997(Day of year=336), Manager: 
      Manager sending message :- wheat harvest
 2 December 1997(Day of year=336), wheat: 
      
-      flowering day          =  298                           stover (kg/ha)         =     3664.3
-      maturity day           =  335                           grain yield (kg/ha)    =     1582.2
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1808.2
-      grain wt (g)           =    0.034                       grains/m^2             =   4590.176
-      grains/plant           =   42.5                         maximum lai            =      3.686
-      total above ground biomass (kg/ha)    =     5246.5
-      live above ground biomass (kg/ha)     =     5246.5
-      green above ground biomass (kg/ha)    =     3619.3
-      senesced above ground biomass (kg/ha) =     1627.2
+      flowering day          =  298                           stover (kg/ha)         =     3779.4
+      maturity day           =  335                           grain yield (kg/ha)    =     1464.2
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1673.3
+      grain wt (g)           =    0.032                       grains/m^2             =   4584.296
+      grains/plant           =   42.4                         maximum lai            =      3.684
+      total above ground biomass (kg/ha)    =     5243.5
+      live above ground biomass (kg/ha)     =     5243.5
+      green above ground biomass (kg/ha)    =     3618.1
+      senesced above ground biomass (kg/ha) =     1625.4
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   45.1
-      DM Root:Shoot ratio    =    0.222                       Harvest Index          =      0.302
-      Stover C:N ratio       =   66.914                       Root C:N ratio         =     21.538
-      grain N percent        =       2.27                     total N content (kg/ha)=      57.87
-      grain N uptake (kg/ha) =      35.97                     senesced N content (kg/ha)=    8.14
-      green N content (kg/ha)=      13.77                     dead N content (kg/ha) =       0.00
+      DM Root:Shoot ratio    =    0.222                       Harvest Index          =      0.279
+      Stover C:N ratio       =   80.439                       Root C:N ratio         =     20.361
+      grain N percent        =       2.47                     total N content (kg/ha)=      54.91
+      grain N uptake (kg/ha) =      36.12                     senesced N content (kg/ha)=    8.13
+      green N content (kg/ha)=      10.67                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.006        0.011        0.194        0.233
-         floral_initiation    to flowering               0.491        0.575        0.256        0.271
-         flowering            to start_grain_fill        0.799        0.913        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.390        0.476        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.007        0.011        0.194        0.233
+         floral_initiation    to flowering               0.492        0.575        0.256        0.271
+         flowering            to start_grain_fill        0.798        0.912        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.389        0.475        0.000        0.000
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3664.10                    0.00
-                          N  (kg/ha) =                 21.89                    0.00
+                          DM (kg/ha) =               3779.16                    0.00
+                          N  (kg/ha) =                 18.79                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1582.18                    0.00
-                          N  (kg/ha) =                 35.97                    0.00
+                          DM (kg/ha) =               1464.17                    0.00
+                          N  (kg/ha) =                 36.12                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.022 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =   14.60 (mm)
+                     stover N conc =     0.83 (%)    extractable sw =   14.67 (mm)
 2 December 1997(Day of year=336), Manager: 
      Manager sending message :- wheat end_crop
 2 December 1997(Day of year=336), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.22                 1166.76
-                          N  (kg/ha) =                  0.01                   21.67
+                          DM (kg/ha) =                  0.22                 1165.41
+                          N  (kg/ha) =                  0.00                   22.90
      
 30 December 1997(Day of year=364), clock: 
      Simulation is terminating due to end criteria being met.
