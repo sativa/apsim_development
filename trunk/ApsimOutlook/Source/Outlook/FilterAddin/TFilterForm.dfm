@@ -1,8 +1,8 @@
 object FilterForm: TFilterForm
   Left = 247
   Top = 156
-  Width = 544
-  Height = 259
+  Width = 546
+  Height = 268
   BorderIcons = []
   Caption = 'Filter Values'
   Color = clBtnFace
@@ -17,7 +17,7 @@ object FilterForm: TFilterForm
   PixelsPerInch = 96
   TextHeight = 13
   object BitBtn2: TBitBtn
-    Left = 272
+    Left = 216
     Top = 200
     Width = 75
     Height = 25
@@ -25,7 +25,7 @@ object FilterForm: TFilterForm
     Kind = bkCancel
   end
   object BitBtn1: TBitBtn
-    Left = 192
+    Left = 136
     Top = 200
     Width = 75
     Height = 25
@@ -35,7 +35,7 @@ object FilterForm: TFilterForm
   object PageControl1: TPageControl
     Left = 0
     Top = 0
-    Width = 536
+    Width = 538
     Height = 193
     ActivePage = Scenario1Sheet
     Align = alTop
@@ -388,7 +388,7 @@ object FilterForm: TFilterForm
         Width = 524
         Height = 21
         Style = csDropDownList
-        ItemHeight = 0
+        ItemHeight = 13
         TabOrder = 0
         OnChange = FilterCombo2Change
       end
@@ -727,7 +727,7 @@ object FilterForm: TFilterForm
         Width = 524
         Height = 21
         Style = csDropDownList
-        ItemHeight = 0
+        ItemHeight = 13
         TabOrder = 0
         OnChange = FilterCombo3Change
       end
@@ -1066,7 +1066,7 @@ object FilterForm: TFilterForm
         Width = 524
         Height = 21
         Style = csDropDownList
-        ItemHeight = 0
+        ItemHeight = 13
         TabOrder = 0
         OnChange = FilterCombo4Change
       end
@@ -1405,7 +1405,7 @@ object FilterForm: TFilterForm
         Width = 524
         Height = 21
         Style = csDropDownList
-        ItemHeight = 0
+        ItemHeight = 13
         TabOrder = 0
         OnChange = FilterCombo5Change
       end
@@ -1735,6 +1735,17 @@ object FilterForm: TFilterForm
           end>
       end
     end
+  end
+  object TurnOffButton: TBitBtn
+    Left = 296
+    Top = 200
+    Width = 113
+    Height = 25
+    Caption = '&Turn filter off'
+    ModalResult = 1
+    TabOrder = 3
+    OnClick = TurnOffButtonClick
+    NumGlyphs = 2
   end
   object MemTable1: TkbmMemTable
     DesignActivation = True

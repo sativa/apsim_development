@@ -45,6 +45,7 @@ __published:	// IDE-managed Components
    TkbmMemTable *MemTable3;
    TkbmMemTable *MemTable4;
    TkbmMemTable *MemTable5;
+   TBitBtn *TurnOffButton;
    void __fastcall FormShow(TObject *Sender);
    void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
    void __fastcall FilterCombo1Change(TObject *Sender);
@@ -57,6 +58,7 @@ __published:	// IDE-managed Components
    void __fastcall FilterBox4Change(TObject *Sender);
    void __fastcall FilterCombo5Change(TObject *Sender);
    void __fastcall FilterBox5Change(TObject *Sender);
+   void __fastcall TurnOffButtonClick(TObject *Sender);
 private:	// User declarations
    ApsimSettings settings;
    TComboBox* activeCombo;
