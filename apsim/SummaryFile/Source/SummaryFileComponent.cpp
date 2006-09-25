@@ -141,7 +141,7 @@ string SummaryFileComponent::calcFileName()
       fileName += pmName;
       }
 
-   if (!Str_i_Eq(name, "outputfile"))
+   if (!Str_i_Eq(name, "summaryfile"))
       {
       if (fileName != "")
          fileName += " ";
