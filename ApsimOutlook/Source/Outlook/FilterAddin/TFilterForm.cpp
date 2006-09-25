@@ -224,4 +224,12 @@ void __fastcall TFilterForm::FilterBox5Change(TObject *Sender)
    PutFilterInCombo(FilterCombo5, FilterBox5->FilterStr);
    }
 //---------------------------------------------------------------------------
+void __fastcall TFilterForm::TurnOffButtonClick(TObject *Sender)
+   {
+   vector<string> filters;
+   filterAddIn->setFilters(filters);
+   ModalResult = mrCancel;
+   Close();
+   }
+//---------------------------------------------------------------------------
 
