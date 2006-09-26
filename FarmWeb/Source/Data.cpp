@@ -16,6 +16,7 @@
 #include <ApsimShared\ApsimDataFileWriter.h>
 #include <soil\soil.h>
 #include <soil\soilSample.h>
+#include <dir.h>
 
 #pragma package(smart_init)
 using namespace boost;
