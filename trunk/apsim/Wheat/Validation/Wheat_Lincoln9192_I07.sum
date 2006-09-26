@@ -123,20 +123,20 @@
             endif
      
      SECTION:- start_of_day
-              if (today = date('02-sep') then
-     resetwater = 'yes'
-     resetnitrogen  = 'yes'
-     resetsurfaceom = 'yes'
-     if (resetwater = 'yes') then
-         'lincolnfield water' reset
-     endif
-     if (resetnitrogen = 'yes') then
-         'lincolnfield nitrogen' reset
-     endif
-     if (resetsurfaceom = 'yes') then
-         'surface organic matter' reset
-     endif
-              endif
+          if (today = date('02-sep') then
+             resetwater = 'yes'
+             resetnitrogen  = 'no'
+             resetsurfaceom = 'no'
+             if (resetwater = 'yes') then
+                 'lincolnfield water' reset
+             endif
+             if (resetnitrogen = 'yes') then
+                 'lincolnfield nitrogen' reset
+             endif
+             if (resetsurfaceom = 'yes') then
+                 'surface organic matter' reset
+             endif
+          endif
      END of rules
      
 
@@ -383,8 +383,8 @@
          200.0     0.040          0.090       1.000
          200.0     0.030          0.110       0.600
          200.0     0.020          0.160       0.400
-         200.0     0.020          0.150       0.000
-         200.0     0.020          0.120       0.000
+         200.0     0.020          0.150       0.400
+         200.0     0.020          0.120       0.400
          -----------------------------------------------
          Extractable SW:   291mm in  1500mm total depth ( 19%).
          Crop factor for bounding water use is set to   1.5 times eo.
@@ -429,8 +429,8 @@
      Manager sending message :- irrigation apply  amount = 20 (mm)
 2 September 1991(Day of year=245), Manager: 
      Manager creating a new local string variable : resetwater = yes
-     Manager creating a new local string variable : resetnitrogen = yes
-     Manager creating a new local string variable : resetsurfaceom = yes
+     Manager creating a new local string variable : resetnitrogen = no
+     Manager creating a new local string variable : resetsurfaceom = no
      Manager sending message :- lincolnfield water reset
 2 September 1991(Day of year=245), LincolnField Water: 
      
@@ -440,34 +440,6 @@
      
         - Reading Soil Profile Parameters
      Initial soilwater distributed using "sw" parameter.
-2 September 1991(Day of year=245), Manager: 
-     Manager sending message :- lincolnfield nitrogen reset
-2 September 1991(Day of year=245), LincolnField Nitrogen: 
-     
-        - Reading Parameters
-     
-        - Reading Constants
-     Using standard soil mineralisation for soil type LincolnSoil
-2 September 1991(Day of year=245), Manager: 
-     Manager sending message :- surface organic matter reset
-2 September 1991(Day of year=245), Surface Organic Matter: 
-     
-         - Reading constants
-     
-         - Reading parameters
-     
-     
-     
-                         Initial Surface Organic Matter Data
-         ----------------------------------------------------------------------
-            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
-                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
-         ----------------------------------------------------------------------
-          wheat_stubwheat         1000.0   400.0     5.0     0.0   0.393     0.0
-         ----------------------------------------------------------------------
-     
-                      Effective Cover from Surface Materials =   0.6
-     
 7 September 1991(Day of year=250), Irrigator: 
      Manager sending message :- irrigation apply  amount = 12 (mm)
 12 September 1991(Day of year=255), Irrigator: 
@@ -490,77 +462,77 @@
 11 October 1991(Day of year=284), wheat: 
       stage 5.0 floral_initiation
                      biomass =         475.79 (g/m^2)   lai          =   6.276 (m^2/m^2)
-                     stover N conc =     3.24 (%)    extractable sw =  215.09 (mm)
+                     stover N conc =     3.27 (%)    extractable sw =  214.34 (mm)
 17 October 1991(Day of year=290), Irrigator: 
      Manager sending message :- irrigation apply  amount = 30 (mm)
 27 November 1991(Day of year=331), wheat: 
       stage 6.0 flowering
-                     biomass =        1547.32 (g/m^2)   lai          =   5.243 (m^2/m^2)
-                     stover N conc =     1.09 (%)    extractable sw =   83.87 (mm)
+                     biomass =        1552.09 (g/m^2)   lai          =   5.319 (m^2/m^2)
+                     stover N conc =     1.46 (%)    extractable sw =  107.76 (mm)
 8 December 1991(Day of year=342), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =        1736.18 (g/m^2)   lai          =   4.884 (m^2/m^2)
-                     stover N conc =     0.77 (%)    extractable sw =   64.94 (mm)
+                     biomass =        1745.09 (g/m^2)   lai          =   4.916 (m^2/m^2)
+                     stover N conc =     1.22 (%)    extractable sw =   87.94 (mm)
 13 January 1992(Day of year=13), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =        2014.67 (g/m^2)   lai          =   1.286 (m^2/m^2)
-                     stover N conc =     0.31 (%)    extractable sw =   29.73 (mm)
+                     biomass =        2191.06 (g/m^2)   lai          =   1.300 (m^2/m^2)
+                     stover N conc =     0.33 (%)    extractable sw =   60.32 (mm)
 15 January 1992(Day of year=15), wheat: 
       stage 9.0 maturity
-                     biomass =        2015.16 (g/m^2)   lai          =   1.038 (m^2/m^2)
-                     stover N conc =     0.30 (%)    extractable sw =   28.12 (mm)
+                     biomass =        2192.72 (g/m^2)   lai          =   1.047 (m^2/m^2)
+                     stover N conc =     0.33 (%)    extractable sw =   57.38 (mm)
 16 January 1992(Day of year=16), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =        2015.16 (g/m^2)   lai          =   0.002 (m^2/m^2)
-                     stover N conc =     0.29 (%)    extractable sw =   27.98 (mm)
+                     biomass =        2192.72 (g/m^2)   lai          =   0.002 (m^2/m^2)
+                     stover N conc =     0.32 (%)    extractable sw =   57.01 (mm)
 16 January 1992(Day of year=16), Manager: 
      Manager sending message :- wheat harvest
 16 January 1992(Day of year=16), wheat: 
      
-      flowering day          =  331                           stover (kg/ha)         =    13657.6
-      maturity day           =   15                           grain yield (kg/ha)    =     6494.0
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     7421.7
-      grain wt (g)           =    0.036                       grains/m^2             =  17990.467
-      grains/plant           =   60.0                         maximum lai            =      7.056
-      total above ground biomass (kg/ha)    =    20151.6
-      live above ground biomass (kg/ha)     =    20151.6
-      green above ground biomass (kg/ha)    =    16806.7
+      flowering day          =  331                           stover (kg/ha)         =    13480.1
+      maturity day           =   15                           grain yield (kg/ha)    =     8447.1
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     9653.9
+      grain wt (g)           =    0.043                       grains/m^2             =  19859.051
+      grains/plant           =   66.2                         maximum lai            =      7.057
+      total above ground biomass (kg/ha)    =    21927.2
+      live above ground biomass (kg/ha)     =    21927.2
+      green above ground biomass (kg/ha)    =    18582.3
       senesced above ground biomass (kg/ha) =     3344.9
       dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =   38.2
-      DM Root:Shoot ratio    =    0.142                       Harvest Index          =      0.322
-      Stover C:N ratio       =  116.400                       Root C:N ratio         =     26.279
-      grain N percent        =       1.85                     total N content (kg/ha)=     166.97
-      grain N uptake (kg/ha) =     120.04                     senesced N content (kg/ha)=   16.57
-      green N content (kg/ha)=      30.36                     dead N content (kg/ha) =       0.00
+      number of leaves       =   38.1
+      DM Root:Shoot ratio    =    0.131                       Harvest Index          =      0.385
+      Stover C:N ratio       =  109.488                       Root C:N ratio         =     16.797
+      grain N percent        =       2.19                     total N content (kg/ha)=     234.04
+      grain N uptake (kg/ha) =     184.79                     senesced N content (kg/ha)=   16.72
+      green N content (kg/ha)=      32.52                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
          end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
-         floral_initiation    to flowering               0.025        0.036        0.000        0.018
-         flowering            to start_grain_fill        0.063        0.082        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.247        0.294        0.434        0.593
+         floral_initiation    to flowering               0.022        0.033        0.000        0.000
+         flowering            to start_grain_fill        0.053        0.072        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.311        0.377        0.086        0.221
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               13657.00                    0.00
-                          N  (kg/ha) =                 46.93                    0.00
+                          DM (kg/ha) =               13479.44                    0.00
+                          N  (kg/ha) =                 49.21                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               6493.96                    0.00
-                          N  (kg/ha) =                120.04                    0.00
+                          DM (kg/ha) =               8447.14                    0.00
+                          N  (kg/ha) =                184.79                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.06 (g/m^2)   lai          =   0.060 (m^2/m^2)
-                     stover N conc =     0.47 (%)    extractable sw =   27.98 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =   57.01 (mm)
 16 January 1992(Day of year=16), Manager: 
      Manager sending message :- wheat end_crop
 16 January 1992(Day of year=16), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.64                 2871.36
-                          N  (kg/ha) =                  0.00                   43.71
+                          DM (kg/ha) =                  0.64                 2876.68
+                          N  (kg/ha) =                  0.04                   68.51
      
 26 January 1992(Day of year=26), clock: 
      Simulation is terminating due to end criteria being met.
