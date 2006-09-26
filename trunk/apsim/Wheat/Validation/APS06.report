@@ -1,2897 +1,87 @@
-Version = 3.0
-NumPages = 1
-object data: TForm
-  Left = 4
-  Top = 4
-  Align = alClient
-  BorderIcons = []
-  BorderStyle = bsNone
-  ClientHeight = 833
-  ClientWidth = 1264
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Sans Serif'
-  Font.Style = []
-  OldCreateOrder = False
-  PixelsPerInch = 96
-  TextHeight = 13
-  object N1: TREMS
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'experiment'
-        Attributes = [faRequired]
-        DataType = ftString
-        Size = 50
-      end
-      item
-        Name = 'treatment'
-        Attributes = [faRequired]
-        DataType = ftString
-        Size = 50
-      end
-      item
-        Name = 'TreatmentID'
-        DataType = ftInteger
-      end
-      item
-        Name = 'Date'
-        DataType = ftDateTime
-      end
-      item
-        Name = 'Biomass_N'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'DeadLeaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'DeadLeaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'gpsm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'LAI'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sla'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sln'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'TPP'
-        DataType = ftFloat
-      end
-      item
-        Name = 'TPSM'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'Date'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh'
-      'Graph2.afterDataRefresh'
-      'Graph3.afterDataRefresh')
-    sortFields = 'Date'
-    filename = 'Wheat.mdb'
-    experiment = 'APS6'
-    treatment = 'N000 '
-    datasource = 'Crop'
-    Left = 79
-    Top = 43
-  end
-  object N2: TREMS
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'experiment'
-        Attributes = [faRequired]
-        DataType = ftString
-        Size = 50
-      end
-      item
-        Name = 'treatment'
-        Attributes = [faRequired]
-        DataType = ftString
-        Size = 50
-      end
-      item
-        Name = 'TreatmentID'
-        DataType = ftInteger
-      end
-      item
-        Name = 'Date'
-        DataType = ftDateTime
-      end
-      item
-        Name = 'Biomass_N'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'DeadLeaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'DeadLeaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'gpsm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'LAI'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sla'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sln'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'TPP'
-        DataType = ftFloat
-      end
-      item
-        Name = 'TPSM'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'Date'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh'
-      'Graph2.afterDataRefresh'
-      'Graph3.afterDataRefresh')
-    sortFields = 'Date'
-    filename = 'Wheat.mdb'
-    experiment = 'APS6'
-    treatment = 'N040 '
-    datasource = 'Crop'
-    Left = 128
-    Top = 40
-  end
-  object N3: TREMS
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'experiment'
-        Attributes = [faRequired]
-        DataType = ftString
-        Size = 50
-      end
-      item
-        Name = 'treatment'
-        Attributes = [faRequired]
-        DataType = ftString
-        Size = 50
-      end
-      item
-        Name = 'TreatmentID'
-        DataType = ftInteger
-      end
-      item
-        Name = 'Date'
-        DataType = ftDateTime
-      end
-      item
-        Name = 'Biomass_N'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'DeadLeaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'DeadLeaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'gpsm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'LAI'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sla'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sln'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'TPP'
-        DataType = ftFloat
-      end
-      item
-        Name = 'TPSM'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'Date'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh'
-      'Graph2.afterDataRefresh'
-      'Graph3.afterDataRefresh')
-    sortFields = 'Date'
-    filename = 'Wheat.mdb'
-    experiment = 'APS6'
-    treatment = 'N080 '
-    datasource = 'Crop'
-    Left = 184
-    Top = 40
-  end
-  object N4: TREMS
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'experiment'
-        Attributes = [faRequired]
-        DataType = ftString
-        Size = 50
-      end
-      item
-        Name = 'treatment'
-        Attributes = [faRequired]
-        DataType = ftString
-        Size = 50
-      end
-      item
-        Name = 'TreatmentID'
-        DataType = ftInteger
-      end
-      item
-        Name = 'Date'
-        DataType = ftDateTime
-      end
-      item
-        Name = 'Biomass_N'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'DeadLeaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'DeadLeaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'gpsm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'LAI'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sla'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sln'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'TPP'
-        DataType = ftFloat
-      end
-      item
-        Name = 'TPSM'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'Date'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh'
-      'Graph2.afterDataRefresh'
-      'Graph3.afterDataRefresh')
-    sortFields = 'Date'
-    filename = 'Wheat.mdb'
-    experiment = 'APS6'
-    treatment = 'N120 '
-    datasource = 'Crop'
-    Left = 232
-    Top = 40
-  end
-  object N5: TREMS
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'experiment'
-        Attributes = [faRequired]
-        DataType = ftString
-        Size = 50
-      end
-      item
-        Name = 'treatment'
-        Attributes = [faRequired]
-        DataType = ftString
-        Size = 50
-      end
-      item
-        Name = 'TreatmentID'
-        DataType = ftInteger
-      end
-      item
-        Name = 'Date'
-        DataType = ftDateTime
-      end
-      item
-        Name = 'Biomass_N'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'DeadLeaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'DeadLeaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'gpsm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'LAI'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sla'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sln'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'TPP'
-        DataType = ftFloat
-      end
-      item
-        Name = 'TPSM'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'Date'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh'
-      'Graph2.afterDataRefresh'
-      'Graph3.afterDataRefresh')
-    sortFields = 'Date'
-    filename = 'Wheat.mdb'
-    experiment = 'APS6'
-    treatment = 'N160 '
-    datasource = 'Crop'
-    Left = 284
-    Top = 46
-  end
-  object N6: TREMS
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'experiment'
-        Attributes = [faRequired]
-        DataType = ftString
-        Size = 50
-      end
-      item
-        Name = 'treatment'
-        Attributes = [faRequired]
-        DataType = ftString
-        Size = 50
-      end
-      item
-        Name = 'TreatmentID'
-        DataType = ftInteger
-      end
-      item
-        Name = 'Date'
-        DataType = ftDateTime
-      end
-      item
-        Name = 'Biomass_N'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'DeadLeaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'DeadLeaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'gpsm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'LAI'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sla'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sln'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'TPP'
-        DataType = ftFloat
-      end
-      item
-        Name = 'TPSM'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'Date'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh'
-      'Graph2.afterDataRefresh'
-      'Graph3.afterDataRefresh')
-    sortFields = 'Date'
-    filename = 'Wheat.mdb'
-    experiment = 'APS6'
-    treatment = 'N360 '
-    datasource = 'Crop'
-    Left = 338
-    Top = 49
-  end
-  object N1pre: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nh4()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sla'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'grain_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'tiller_no'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'root_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'maturity_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'root_depth'
-        DataType = ftFloat
-      end
-      item
-        Name = 'node_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaves_per_node'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3gsm_uptake_pot()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_supply_soil'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm_pot_rue'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh'
-      'Graph2.afterDataRefresh'
-      'Graph3.afterDataRefresh')
-    filenames.Strings = (
-      'Wheat_APS6_N000.out')
-    Left = 89
-    Top = 160
-  end
-  object N2pre: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nh4()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sla'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'grain_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'tiller_no'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'root_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'maturity_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'root_depth'
-        DataType = ftFloat
-      end
-      item
-        Name = 'node_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaves_per_node'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3gsm_uptake_pot()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_supply_soil'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm_pot_rue'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh'
-      'Graph2.afterDataRefresh'
-      'Graph3.afterDataRefresh')
-    filenames.Strings = (
-      'Wheat_APS6_N040.out')
-    Left = 143
-    Top = 159
-  end
-  object N3pre: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nh4()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sla'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'grain_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'tiller_no'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'root_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'maturity_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'root_depth'
-        DataType = ftFloat
-      end
-      item
-        Name = 'node_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaves_per_node'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3gsm_uptake_pot()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_supply_soil'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm_pot_rue'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh'
-      'Graph2.afterDataRefresh'
-      'Graph3.afterDataRefresh')
-    filenames.Strings = (
-      'Wheat_APS6_N080.out')
-    Left = 189
-    Top = 163
-  end
-  object N4pre: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nh4()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sla'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'grain_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'tiller_no'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'root_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'maturity_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'root_depth'
-        DataType = ftFloat
-      end
-      item
-        Name = 'node_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaves_per_node'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3gsm_uptake_pot()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_supply_soil'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm_pot_rue'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh'
-      'Graph2.afterDataRefresh'
-      'Graph3.afterDataRefresh')
-    filenames.Strings = (
-      'Wheat_APS6_N120.out')
-    Left = 240
-    Top = 160
-  end
-  object N5pre: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nh4()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sla'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'grain_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'tiller_no'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'root_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'maturity_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'root_depth'
-        DataType = ftFloat
-      end
-      item
-        Name = 'node_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaves_per_node'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3gsm_uptake_pot()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_supply_soil'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm_pot_rue'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh'
-      'Graph2.afterDataRefresh'
-      'Graph3.afterDataRefresh')
-    filenames.Strings = (
-      'Wheat_APS6_N160.out')
-    Left = 288
-    Top = 160
-  end
-  object N6pre: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nh4()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sla'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'grain_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'tiller_no'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'root_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'maturity_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'root_depth'
-        DataType = ftFloat
-      end
-      item
-        Name = 'node_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaves_per_node'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3gsm_uptake_pot()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_supply_soil'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm_pot_rue'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh'
-      'Graph2.afterDataRefresh'
-      'Graph3.afterDataRefresh')
-    filenames.Strings = (
-      'Wheat_APS6_N360.out')
-    Left = 339
-    Top = 163
-  end
-  object REMS1: TREMS
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    filename = 'Wheat.mdb'
-    experiment = 'Lincoln9192'
-    datasource = 'Crop'
-    Left = 499
-    Top = 41
-  end
-  object Allpre: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nh4()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sla'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'grain_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'tiller_no'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'root_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'maturity_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'root_depth'
-        DataType = ftFloat
-      end
-      item
-        Name = 'node_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaves_per_node'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3gsm_uptake_pot()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_supply_soil'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm_pot_rue'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'HarvestPre.onSourceDataChanged')
-    filenames.Strings = (
-      'Wheat_Lincoln9192_I11.out'
-      'Wheat_Lincoln9192_I01.out'
-      'Wheat_Lincoln9192_I03.out'
-      'Wheat_Lincoln9192_I05.out'
-      'Wheat_Lincoln9192_I06.out'
-      'Wheat_Lincoln9192_I07.out'
-      'Wheat_Lincoln9192_I08.out')
-    Left = 92
-    Top = 269
-  end
-  object HarvestPre: TFilter
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nh4()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sla'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'grain_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'tiller_no'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'root_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'maturity_date'
-        DataType = ftFloat
-      end
-      item
-        Name = 'root_depth'
-        DataType = ftFloat
-      end
-      item
-        Name = 'node_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaves_per_node'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3gsm_uptake_pot()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_demand'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_supply_soil'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'dlt_dm_pot_rue'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_crit_leaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    source = Allpre
-    subscriptionComponentNames.Strings = (
-      'HarvestPre.onSourceDataChanged'
-      'Graph3.afterDataRefresh')
-    filter = 'day=26'
-    Left = 160
-    Top = 264
-  end
-  object HarvestObs: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'Plot'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'Sample'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'LAI'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sla'
-        DataType = ftFloat
-      end
-      item
-        Name = 'tpp'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sln'
-        DataType = ftFloat
-      end
-      item
-        Name = 'tpsm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'gpsm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    filenames.Strings = (
-      'Observed\aps6.txt')
-    Left = 576
-    Top = 56
-  end
-  object TotSWObs: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'I01'
-        DataType = ftFloat
-      end
-      item
-        Name = 'I03'
-        DataType = ftFloat
-      end
-      item
-        Name = 'I05'
-        DataType = ftFloat
-      end
-      item
-        Name = 'I06'
-        DataType = ftFloat
-      end
-      item
-        Name = 'I07'
-        DataType = ftFloat
-      end
-      item
-        Name = 'I08'
-        DataType = ftFloat
-      end
-      item
-        Name = 'I11'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    filenames.Strings = (
-      'Observed\LincolnTotSW.txt')
-    Left = 673
-    Top = 57
-  end
-end
+<report version="4">
+<Data>
+  <REMS name="N1">
+    <FileName type="filename">Wheat.mdb</FileName>
+    <Experiment type="experiment">APS6</Experiment>
+    <Treatment type="treatment">N000 </Treatment>
+    <DataSource type="datasource">Crop</DataSource>
+  </REMS>
+  <REMS name="N2">
+    <FileName type="filename">Wheat.mdb</FileName>
+    <Experiment type="experiment">APS6</Experiment>
+    <Treatment type="treatment">N040 </Treatment>
+    <DataSource type="datasource">Crop</DataSource>
+  </REMS>
+  <REMS name="N3">
+    <FileName type="filename">Wheat.mdb</FileName>
+    <Experiment type="experiment">APS6</Experiment>
+    <Treatment type="treatment">N080 </Treatment>
+    <DataSource type="datasource">Crop</DataSource>
+  </REMS>
+  <REMS name="N4">
+    <FileName type="filename">Wheat.mdb</FileName>
+    <Experiment type="experiment">APS6</Experiment>
+    <Treatment type="treatment">N120 </Treatment>
+    <DataSource type="datasource">Crop</DataSource>
+  </REMS>
+  <REMS name="N5">
+    <FileName type="filename">Wheat.mdb</FileName>
+    <Experiment type="experiment">APS6</Experiment>
+    <Treatment type="treatment">N160 </Treatment>
+    <DataSource type="datasource">Crop</DataSource>
+  </REMS>
+  <REMS name="N6">
+    <FileName type="filename">Wheat.mdb</FileName>
+    <Experiment type="experiment">APS6</Experiment>
+    <Treatment type="treatment">N360 </Treatment>
+    <DataSource type="datasource">Crop</DataSource>
+  </REMS>
+  <ApsimFileReader name="N1pre">
+    <FileName type="filenames">Wheat_APS6_N000.out</FileName>
+  </ApsimFileReader>
+  <ApsimFileReader name="N2pre">
+    <FileName type="filenames">Wheat_APS6_N040.out</FileName>
+  </ApsimFileReader>
+  <ApsimFileReader name="N3pre">
+    <FileName type="filenames">Wheat_APS6_N080.out</FileName>
+  </ApsimFileReader>
+  <ApsimFileReader name="N4pre">
+    <FileName type="filenames">Wheat_APS6_N120.out</FileName>
+  </ApsimFileReader>
+  <ApsimFileReader name="N5pre">
+    <FileName type="filenames">Wheat_APS6_N160.out</FileName>
+  </ApsimFileReader>
+  <ApsimFileReader name="N6pre">
+    <FileName type="filenames">Wheat_APS6_N360.out</FileName>
+  </ApsimFileReader>
+  <REMS name="REMS1">
+    <FileName type="filename">Wheat.mdb</FileName>
+    <Experiment type="experiment">Lincoln9192</Experiment>
+    <DataSource type="datasource">Crop</DataSource>
+  </REMS>
+  <ApsimFileReader name="Allpre">
+    <FileName type="filenames">Wheat_Lincoln9192_I11.out</FileName>
+    <FileName type="filenames">Wheat_Lincoln9192_I01.out</FileName>
+    <FileName type="filenames">Wheat_Lincoln9192_I03.out</FileName>
+    <FileName type="filenames">Wheat_Lincoln9192_I05.out</FileName>
+    <FileName type="filenames">Wheat_Lincoln9192_I06.out</FileName>
+    <FileName type="filenames">Wheat_Lincoln9192_I07.out</FileName>
+    <FileName type="filenames">Wheat_Lincoln9192_I08.out</FileName>
+    <Filter name="HarvestPre">
+      <FilterString>day=26</FilterString>
+    </Filter>
+  </ApsimFileReader>
+  <ApsimFileReader name="HarvestObs">
+    <FileName type="filenames">Observed\aps6.txt</FileName>
+  </ApsimFileReader>
+  <ApsimFileReader name="TotSWObs">
+    <FileName type="filenames">Observed\LincolnTotSW.txt</FileName>
+  </ApsimFileReader>
+</Data>
+   <page> <![CDATA[
 object Page1: TQuickRep
-  Left = 222
-  Top = 32
+  Left = 358
+  Top = 48
   Width = 556
   Height = 786
   Frame.Color = clBlack
@@ -2987,9 +177,14 @@ object Page1: TQuickRep
         Width = 1
         Height = 1
         BackWall.Visible = False
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMaximum = False
+        BottomAxis.AutomaticMinimum = False
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.Grid.Visible = False
         BottomAxis.LabelsSeparation = 100
+        BottomAxis.Maximum = 33939
+        BottomAxis.Minimum = 33756
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         LeftAxis.AxisValuesFormat = '###0.###'
@@ -3017,7 +212,7 @@ object Page1: TQuickRep
         object Series1: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N1
+          DataSource = N1
           Title = 'N1'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -3034,7 +229,7 @@ object Page1: TQuickRep
         object Series2: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N2
+          DataSource = N2
           Title = 'N2'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -3051,7 +246,7 @@ object Page1: TQuickRep
         object Series3: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N3
+          DataSource = N3
           Title = 'N3'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -3068,7 +263,7 @@ object Page1: TQuickRep
         object Series4: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N4
+          DataSource = N4
           Title = 'N4'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -3085,7 +280,7 @@ object Page1: TQuickRep
         object Series5: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N5
+          DataSource = N5
           Title = 'N5'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -3102,7 +297,7 @@ object Page1: TQuickRep
         object Series6: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N6
+          DataSource = N6
           Title = 'N6'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -3119,7 +314,7 @@ object Page1: TQuickRep
         object Series8: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N1pre
+          DataSource = N1pre
           SeriesColor = clRed
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -3136,7 +331,7 @@ object Page1: TQuickRep
         object Series9: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N2pre
+          DataSource = N2pre
           SeriesColor = clGreen
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -3153,7 +348,7 @@ object Page1: TQuickRep
         object Series10: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N3pre
+          DataSource = N3pre
           SeriesColor = clYellow
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -3170,7 +365,7 @@ object Page1: TQuickRep
         object Series11: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N4pre
+          DataSource = N4pre
           SeriesColor = 10485760
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -3187,7 +382,7 @@ object Page1: TQuickRep
         object Series12: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N5pre
+          DataSource = N5pre
           SeriesColor = clGray
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -3204,7 +399,7 @@ object Page1: TQuickRep
         object Series13: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N6pre
+          DataSource = N6pre
           SeriesColor = clFuchsia
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -3254,9 +449,14 @@ object Page1: TQuickRep
         Width = 1
         Height = 1
         BackWall.Visible = False
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMaximum = False
+        BottomAxis.AutomaticMinimum = False
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.Grid.Visible = False
         BottomAxis.LabelsSeparation = 100
+        BottomAxis.Maximum = 33939
+        BottomAxis.Minimum = 33756
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         LeftAxis.AxisValuesFormat = '###0.###'
@@ -3285,7 +485,7 @@ object Page1: TQuickRep
         object PointSeries1: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N1
+          DataSource = N1
           Title = 'I01'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -3302,7 +502,7 @@ object Page1: TQuickRep
         object PointSeries2: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N2
+          DataSource = N2
           Title = 'I03'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -3319,7 +519,7 @@ object Page1: TQuickRep
         object PointSeries3: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N3
+          DataSource = N3
           Title = 'I05'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -3336,7 +536,7 @@ object Page1: TQuickRep
         object PointSeries4: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N4
+          DataSource = N4
           Title = 'I06'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -3353,7 +553,7 @@ object Page1: TQuickRep
         object PointSeries5: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N5
+          DataSource = N5
           Title = 'I07'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -3370,7 +570,7 @@ object Page1: TQuickRep
         object PointSeries6: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N6
+          DataSource = N6
           Title = 'I08'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -3387,7 +587,7 @@ object Page1: TQuickRep
         object LineSeries1: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N1pre
+          DataSource = N1pre
           SeriesColor = clRed
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -3404,7 +604,7 @@ object Page1: TQuickRep
         object LineSeries2: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N2pre
+          DataSource = N2pre
           SeriesColor = clGreen
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -3421,7 +621,7 @@ object Page1: TQuickRep
         object LineSeries3: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N3pre
+          DataSource = N3pre
           SeriesColor = clYellow
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -3438,7 +638,7 @@ object Page1: TQuickRep
         object LineSeries4: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N4pre
+          DataSource = N4pre
           SeriesColor = 10485760
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -3455,7 +655,7 @@ object Page1: TQuickRep
         object LineSeries5: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N5pre
+          DataSource = N5pre
           SeriesColor = clGray
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -3472,7 +672,7 @@ object Page1: TQuickRep
         object LineSeries6: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N6pre
+          DataSource = N6pre
           SeriesColor = clFuchsia
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -3522,9 +722,14 @@ object Page1: TQuickRep
         Width = 1
         Height = 1
         BackWall.Visible = False
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMaximum = False
+        BottomAxis.AutomaticMinimum = False
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.Grid.Visible = False
         BottomAxis.LabelsSeparation = 100
+        BottomAxis.Maximum = 33939
+        BottomAxis.Minimum = 33756
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         LeftAxis.AxisValuesFormat = '###0.###'
@@ -3553,7 +758,7 @@ object Page1: TQuickRep
         object PointSeries8: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N1
+          DataSource = N1
           Title = 'I01'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -3570,7 +775,7 @@ object Page1: TQuickRep
         object PointSeries9: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N2
+          DataSource = N2
           Title = 'I03'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -3587,7 +792,7 @@ object Page1: TQuickRep
         object PointSeries10: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N3
+          DataSource = N3
           Title = 'I05'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -3604,7 +809,7 @@ object Page1: TQuickRep
         object PointSeries11: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N4
+          DataSource = N4
           Title = 'I06'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -3621,7 +826,7 @@ object Page1: TQuickRep
         object PointSeries12: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N5
+          DataSource = N5
           Title = 'I07'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -3638,7 +843,7 @@ object Page1: TQuickRep
         object PointSeries13: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N6
+          DataSource = N6
           Title = 'I08'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -3655,7 +860,7 @@ object Page1: TQuickRep
         object LineSeries8: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N1pre
+          DataSource = N1pre
           SeriesColor = clRed
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -3672,7 +877,7 @@ object Page1: TQuickRep
         object LineSeries9: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N2pre
+          DataSource = N2pre
           SeriesColor = clGreen
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -3689,7 +894,7 @@ object Page1: TQuickRep
         object LineSeries10: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N3pre
+          DataSource = N3pre
           SeriesColor = clYellow
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -3706,7 +911,7 @@ object Page1: TQuickRep
         object LineSeries11: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N4pre
+          DataSource = N4pre
           SeriesColor = 10485760
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -3723,7 +928,7 @@ object Page1: TQuickRep
         object LineSeries12: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N5pre
+          DataSource = N5pre
           SeriesColor = clGray
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -3740,7 +945,7 @@ object Page1: TQuickRep
         object LineSeries13: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.N6pre
+          DataSource = N6pre
           SeriesColor = clFuchsia
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -3791,3 +996,6 @@ object Page1: TQuickRep
     end
   end
 end
+]]>
+   </page>
+</report>
