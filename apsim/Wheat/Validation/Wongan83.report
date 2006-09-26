@@ -1,818 +1,39 @@
-Version = 3.0
-NumPages = 1
-object data: TForm
-  Left = 4
-  Top = 4
-  Align = alClient
-  BorderIcons = []
-  BorderStyle = bsNone
-  ClientHeight = 833
-  ClientWidth = 1264
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Sans Serif'
-  Font.Style = []
-  OldCreateOrder = False
-  PixelsPerInch = 96
-  TextHeight = 13
-  object Obs: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'Ripped'
-        DataType = ftFloat
-      end
-      item
-        Name = 'NRate'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'GrainNo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Protein'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Ripped.onSourceDataChanged'
-      'UnRipped.onSourceDataChanged')
-    filenames.Strings = (
-      'Observed\Wongan83.txt')
-    Left = 162
-    Top = 66
-  end
-  object Ripped: TFilter
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'Ripped'
-        DataType = ftFloat
-      end
-      item
-        Name = 'NRate'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'GrainNo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Protein'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    source = Obs
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh'
-      'Graph4.afterDataRefresh'
-      'Graph2.afterDataRefresh'
-      'Graph3.afterDataRefresh')
-    filter = 'Ripped = 1'
-    Left = 263
-    Top = 73
-  end
-  object UnRipped: TFilter
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'Ripped'
-        DataType = ftFloat
-      end
-      item
-        Name = 'NRate'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'GrainNo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Protein'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    source = Obs
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh'
-      'Graph4.afterDataRefresh'
-      'Graph2.afterDataRefresh'
-      'Graph3.afterDataRefresh')
-    filter = 'Ripped = 0'
-    Left = 328
-    Top = 80
-  end
-  object PreRipped: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'zadok_stage'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage_name'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_expan'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'PreRippedHarvest.onSourceDataChanged')
-    filenames.Strings = (
-      'Wheat_Wongan83Ripped_RippedN000.out'
-      'Wheat_Wongan83Ripped_RippedN010.out'
-      'Wheat_Wongan83Ripped_RippedN025.out'
-      'Wheat_Wongan83Ripped_RippedN050.out'
-      'Wheat_Wongan83Ripped_RippedN100.out')
-    Left = 173
-    Top = 220
-  end
-  object PreRippedHarvest: TFilter
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'zadok_stage'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage_name'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_expan'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    source = PreRipped
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh'
-      'Graph4.afterDataRefresh'
-      'Graph2.afterDataRefresh'
-      'Graph3.afterDataRefresh')
-    filter = 'zadok_stage=90'
-    Left = 248
-    Top = 216
-  end
-  object PreUnRipped: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'zadok_stage'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage_name'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_expan'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'PreUnRippedHarvest.onSourceDataChanged')
-    filenames.Strings = (
-      'Wheat_Wongan83Unripped_UnrippedN000.out'
-      'Wheat_Wongan83Unripped_UnrippedN010.out'
-      'Wheat_Wongan83Unripped_UnrippedN025.out'
-      'Wheat_Wongan83Unripped_UnrippedN050.out'
-      'Wheat_Wongan83Unripped_UnrippedN100.out')
-    Left = 191
-    Top = 318
-  end
-  object PreUnRippedHarvest: TFilter
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'zadok_stage'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage_name'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_expan'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    source = PreUnRipped
-    subscriptionComponentNames.Strings = (
-      'Graph4.afterDataRefresh'
-      'Graph2.afterDataRefresh'
-      'Graph3.afterDataRefresh')
-    filter = 'zadok_stage=90'
-    Left = 264
-    Top = 320
-  end
-end
+<report version="4">
+<Data>
+  <ApsimFileReader name="Obs">
+    <FileName type="filenames">Observed\Wongan83.txt</FileName>
+    <Filter name="Ripped">
+      <FilterString>Ripped = 1</FilterString>
+    </Filter>
+    <Filter name="UnRipped">
+      <FilterString>Ripped = 0</FilterString>
+    </Filter>
+  </ApsimFileReader>
+  <ApsimFileReader name="PreRipped">
+    <FileName type="filenames">Wheat_Wongan83Ripped_RippedN000.out</FileName>
+    <FileName type="filenames">Wheat_Wongan83Ripped_RippedN010.out</FileName>
+    <FileName type="filenames">Wheat_Wongan83Ripped_RippedN025.out</FileName>
+    <FileName type="filenames">Wheat_Wongan83Ripped_RippedN050.out</FileName>
+    <FileName type="filenames">Wheat_Wongan83Ripped_RippedN100.out</FileName>
+    <Filter name="PreRippedHarvest">
+      <FilterString>zadok_stage=90</FilterString>
+    </Filter>
+  </ApsimFileReader>
+  <ApsimFileReader name="PreUnRipped">
+    <FileName type="filenames">Wheat_Wongan83Unripped_UnrippedN000.out</FileName>
+    <FileName type="filenames">Wheat_Wongan83Unripped_UnrippedN010.out</FileName>
+    <FileName type="filenames">Wheat_Wongan83Unripped_UnrippedN025.out</FileName>
+    <FileName type="filenames">Wheat_Wongan83Unripped_UnrippedN050.out</FileName>
+    <FileName type="filenames">Wheat_Wongan83Unripped_UnrippedN100.out</FileName>
+    <Filter name="PreUnRippedHarvest">
+      <FilterString>zadok_stage=90</FilterString>
+    </Filter>
+  </ApsimFileReader>
+</Data>
+   <page> <![CDATA[
 object Page1: TQuickRep
   Tag = 1
-  Left = 193
+  Left = 220
   Top = 0
   Width = 635
   Height = 898
@@ -975,7 +196,7 @@ object Page1: TQuickRep
         object Series5: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Ripped
+          DataSource = Ripped
           Title = 'Ripped'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -991,7 +212,7 @@ object Page1: TQuickRep
         object Series6: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.UnRipped
+          DataSource = UnRipped
           SeriesColor = clBlue
           Title = 'Unripped'
           ClickableLine = False
@@ -1009,7 +230,7 @@ object Page1: TQuickRep
           Depth = 0
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.PreRippedHarvest
+          DataSource = PreRippedHarvest
           SeriesColor = clRed
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -1026,7 +247,7 @@ object Page1: TQuickRep
           Depth = 0
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.PreUnRippedHarvest
+          DataSource = PreUnRippedHarvest
           SeriesColor = clBlue
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -1105,7 +326,7 @@ object Page1: TQuickRep
         object Series7: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Ripped
+          DataSource = Ripped
           XLabelsSource = 'nRate'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -1120,7 +341,7 @@ object Page1: TQuickRep
         object Series8: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.UnRipped
+          DataSource = UnRipped
           SeriesColor = clBlue
           XLabelsSource = 'nRate'
           ClickableLine = False
@@ -1137,7 +358,7 @@ object Page1: TQuickRep
           Depth = 0
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.PreRippedHarvest
+          DataSource = PreRippedHarvest
           SeriesColor = clRed
           ShowInLegend = False
           Pointer.InflateMargins = True
@@ -1153,7 +374,7 @@ object Page1: TQuickRep
           Depth = 0
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.PreUnRippedHarvest
+          DataSource = PreUnRippedHarvest
           ShowInLegend = False
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -1237,7 +458,7 @@ object Page1: TQuickRep
         object PointSeries1: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Ripped
+          DataSource = Ripped
           XLabelsSource = 'NRate'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -1252,7 +473,7 @@ object Page1: TQuickRep
         object PointSeries2: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.UnRipped
+          DataSource = UnRipped
           SeriesColor = clBlue
           XLabelsSource = 'NRate'
           ClickableLine = False
@@ -1269,7 +490,7 @@ object Page1: TQuickRep
         object Series1: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.PreRippedHarvest
+          DataSource = PreRippedHarvest
           SeriesColor = clRed
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -1283,7 +504,7 @@ object Page1: TQuickRep
         object Series3: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.PreUnRippedHarvest
+          DataSource = PreUnRippedHarvest
           SeriesColor = clBlue
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -1298,3 +519,6 @@ object Page1: TQuickRep
     end
   end
 end
+]]>
+   </page>
+</report>
