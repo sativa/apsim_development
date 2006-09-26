@@ -6,8 +6,8 @@ object data: TForm
   Align = alClient
   BorderIcons = []
   BorderStyle = bsNone
-  ClientHeight = 833
-  ClientWidth = 1264
+  ClientHeight = 569
+  ClientWidth = 1000
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -220,7 +220,41 @@ object data: TForm
       'Wheat_MER-86_WetN015.out'
       'Wheat_MER-86_WetN060.out'
       'Wheat_Wongan84_N000.out'
-      'Wheat_Wongan84_N050.out')
+      'Wheat_Wongan84_N050.out'
+      'Wheat_Cunderdin97_DryN0SpearEarly.out'
+      'Wheat_Cunderdin97_DryN0SpearMid.out'
+      'Wheat_Cunderdin97_DryN50SpearEarly.out'
+      'Wheat_Cunderdin97_DryN50SpearMid.out'
+      'Wheat_Cunderdin97_WetN0SpearEarly.out'
+      'Wheat_Cunderdin97_WetN0SpearMid.out'
+      'Wheat_Cunderdin97_WetN50SpearEarly.out'
+      'Wheat_Cunderdin97_WetN50SpearMid.out'
+      'Wheat_Cunderdin97_DryN0WilgoyneEarly.out'
+      'Wheat_Cunderdin97_DryN0WilgoyneMid.out'
+      'Wheat_Cunderdin97_DryN0WilgoyneLate.out'
+      'Wheat_Cunderdin97_DryN50WilgoyneEarly.out'
+      'Wheat_Cunderdin97_DryN50WilgoyneMid.out'
+      'Wheat_Cunderdin97_WetN0WilgoyneEarly.out'
+      'Wheat_Cunderdin97_WetN0WilgoyneMid.out'
+      'Wheat_Cunderdin97_WetN0WilgoyneLate.out'
+      'Wheat_Cunderdin97_WetN50WilgoyneEarly.out'
+      'Wheat_Cunderdin97_WetN50WilgoyneMid.out'
+      'Wheat_Cunderdin97_DryN0bSpearEarly.out'
+      'Wheat_Cunderdin97_DryN0bSpearMid.out'
+      'Wheat_Cunderdin97_DryN50bSpearEarly.out'
+      'Wheat_Cunderdin97_DryN50bSpearMid.out'
+      'Wheat_Cunderdin97_WetN0bSpearEarly.out'
+      'Wheat_Cunderdin97_WetN0bSpearMid.out'
+      'Wheat_Cunderdin97_WetN50bSpearEarly.out'
+      'Wheat_Cunderdin97_WetN50bSpearMid.out'
+      'Wheat_Cunderdin97_DryN0bWilgoyneEarly.out'
+      'Wheat_Cunderdin97_DryN0bWilgoyneMid.out'
+      'Wheat_Cunderdin97_DryN50bWilgoyneEarly.out'
+      'Wheat_Cunderdin97_DryN50bWilgoyneMid.out'
+      'Wheat_Cunderdin97_WetN0bWilgoyneEarly.out'
+      'Wheat_Cunderdin97_WetN0bWilgoyneMid.out'
+      'Wheat_Cunderdin97_WetN50bWilgoyneEarly.out'
+      'Wheat_Cunderdin97_WetN50bWilgoyneMid.out')
     Left = 172
     Top = 84
   end
@@ -442,9 +476,8 @@ object data: TForm
         DataType = ftFloat
       end
       item
-        Name = 'protein'
-        DataType = ftString
-        Size = 200
+        Name = 'grain_protein'
+        DataType = ftFloat
       end>
     IndexDefs = <>
     SortOptions = []
@@ -551,6 +584,14 @@ object data: TForm
       item
         Name = 'Obsn_conc_grain'
         DataType = ftFloat
+      end
+      item
+        Name = 'Predgrain_protein'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Obsgrain_protein'
+        DataType = ftFloat
       end>
     IndexDefs = <>
     SortOptions = []
@@ -576,7 +617,6 @@ object data: TForm
       'RegrYield.onSourceDataChanged'
       'RegrGNo.onSourceDataChanged'
       'RegrGNPC.onSourceDataChanged'
-      'Graph4.afterDataRefresh'
       'Graph1.afterDataRefresh'
       'Graph2.afterDataRefresh'
       'RegrGrainN.onSourceDataChanged'
@@ -586,7 +626,8 @@ object data: TForm
       'Graph7.afterDataRefresh'
       'RegrBiomassN.onSourceDataChanged'
       'Graph3.afterDataRefresh'
-      'Graph8.afterDataRefresh')
+      'Graph8.afterDataRefresh'
+      'Graph4.afterDataRefresh')
     predData = Predicted
     obsData = Observed
     keyFields.Strings = (
@@ -922,10 +963,10 @@ object data: TForm
     LocaleID = 1024
     source = PredObsBiomass
     subscriptionComponentNames.Strings = (
-      'Graph4.afterDataRefresh'
       'Text6.afterDataRefresh'
       'Text10.afterDataRefresh'
-      'Text11.afterDataRefresh')
+      'Text11.afterDataRefresh'
+      'Graph4.afterDataRefresh')
     xFieldName = 'Obsn_conc_grain'
     yFieldName = 'Predn_conc_grain'
     Left = 659
@@ -1183,10 +1224,10 @@ object data: TForm
   end
 end
 object Page1: TQuickRep
-  Left = 107
-  Top = 49
-  Width = 794
-  Height = 1123
+  Left = 17
+  Top = 0
+  Width = 714
+  Height = 1010
   Frame.Color = clBlack
   Frame.DrawTop = False
   Frame.DrawBottom = False
@@ -1227,12 +1268,12 @@ object Page1: TQuickRep
   PrintIfEmpty = True
   SnapToGrid = True
   Units = MM
-  Zoom = 100
+  Zoom = 90
   object TitleBand1: TQRBand
     Left = 0
     Top = 0
-    Width = 794
-    Height = 1123
+    Width = 714
+    Height = 1010
     Frame.Color = clBlack
     Frame.DrawTop = False
     Frame.DrawBottom = False
@@ -1243,14 +1284,14 @@ object Page1: TQuickRep
     ForceNewColumn = False
     ForceNewPage = False
     Size.Values = (
-      2971.27083333333
-      2100.79166666667)
+      2970
+      2099.02777777778)
     BandType = rbTitle
     object Graph5: TGraph
-      Left = 31
-      Top = 117
-      Width = 351
-      Height = 429
+      Left = 28
+      Top = 105
+      Width = 316
+      Height = 386
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -1362,10 +1403,10 @@ object Page1: TQuickRep
       end
     end
     object Graph1: TGraph
-      Left = 31
-      Top = 117
-      Width = 351
-      Height = 429
+      Left = 28
+      Top = 105
+      Width = 316
+      Height = 386
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -1477,9 +1518,9 @@ object Page1: TQuickRep
       end
     end
     object Text1: TText
-      Left = 149
-      Top = 463
-      Width = 195
+      Left = 133
+      Top = 417
+      Width = 184
       Height = 33
       Frame.Color = clBlack
       Frame.DrawTop = False
@@ -1487,10 +1528,10 @@ object Page1: TQuickRep
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        87.3125
-        394.229166666667
-        1225.02083333333
-        515.9375)
+        97.0138888888889
+        390.99537037037
+        1225.90277777778
+        540.925925925926)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -1502,7 +1543,7 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 1.11 x + 7.29 (r2 = 0.94)')
+        ' y = 1.00 x + 96.40 (r2 = 0.93)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -1510,10 +1551,10 @@ object Page1: TQuickRep
       FontSize = 12
     end
     object Graph2: TGraph
-      Left = 386
-      Top = 117
-      Width = 351
-      Height = 429
+      Left = 347
+      Top = 105
+      Width = 316
+      Height = 386
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -1631,10 +1672,10 @@ object Page1: TQuickRep
       end
     end
     object Graph3: TGraph
-      Left = 31
-      Top = 586
-      Width = 351
-      Height = 429
+      Left = 28
+      Top = 527
+      Width = 316
+      Height = 386
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -1748,10 +1789,10 @@ object Page1: TQuickRep
       end
     end
     object Graph4: TGraph
-      Left = 397
-      Top = 586
-      Width = 351
-      Height = 429
+      Left = 357
+      Top = 527
+      Width = 316
+      Height = 386
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -1868,19 +1909,19 @@ object Page1: TQuickRep
       end
     end
     object Text3: TText
-      Left = 57
-      Top = 23
-      Width = 370
-      Height = 39
+      Left = 51
+      Top = 21
+      Width = 333
+      Height = 34
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        103.1875
-        150.8125
-        60.8541666666667
+        99.9537037037037
+        149.930555555556
+        61.7361111111111
         978.958333333333)
       Alignment = taLeftJustify
       AlignToBand = False
@@ -1901,9 +1942,9 @@ object Page1: TQuickRep
       FontSize = 24
     end
     object Text4: TText
-      Left = 569
-      Top = 463
-      Width = 204
+      Left = 511
+      Top = 417
+      Width = 184
       Height = 33
       Frame.Color = clBlack
       Frame.DrawTop = False
@@ -1911,10 +1952,10 @@ object Page1: TQuickRep
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        87.3125
-        1505.47916666667
-        1225.02083333333
-        539.75)
+        97.0138888888889
+        1502.24537037037
+        1225.90277777778
+        540.925925925926)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -1926,7 +1967,7 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.92 x + 20.71 (r2 = 0.92)')
+        ' y = 0.92 x + 23.09 (r2 = 0.95)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -1934,20 +1975,20 @@ object Page1: TQuickRep
       FontSize = 12
     end
     object Text5: TText
-      Left = 149
-      Top = 933
-      Width = 222
-      Height = 33
+      Left = 133
+      Top = 841
+      Width = 192
+      Height = 31
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        87.3125
-        394.229166666667
-        2468.5625
-        587.375)
+        91.1342592592593
+        390.99537037037
+        2472.38425925926
+        564.444444444444)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -1959,7 +2000,7 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.87 x + 1841.10 (r2 = 0.90)')
+        ' y = 0.93 x + 922.25 (r2 = 0.93)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -1967,20 +2008,20 @@ object Page1: TQuickRep
       FontSize = 12
     end
     object Text6: TText
-      Left = 511
-      Top = 933
-      Width = 195
-      Height = 33
+      Left = 461
+      Top = 841
+      Width = 176
+      Height = 31
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        87.3125
-        1352.02083333333
-        2468.5625
-        515.9375)
+        91.1342592592593
+        1355.25462962963
+        2472.38425925926
+        517.407407407407)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -1992,7 +2033,7 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.90 x + 0.10 (r2 = 0.51)')
+        ' y = 0.63 x + 0.62 (r2 = 0.54)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -2000,9 +2041,9 @@ object Page1: TQuickRep
       FontSize = 12
     end
     object Text2: TText
-      Left = 149
-      Top = 463
-      Width = 195
+      Left = 133
+      Top = 417
+      Width = 184
       Height = 33
       Frame.Color = clBlack
       Frame.DrawTop = False
@@ -2010,10 +2051,10 @@ object Page1: TQuickRep
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        87.3125
-        394.229166666667
-        1225.02083333333
-        515.9375)
+        97.0138888888889
+        390.99537037037
+        1225.90277777778
+        540.925925925926)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -2025,7 +2066,7 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 1.11 x + 7.29 (r2 = 0.94)')
+        ' y = 1.00 x + 96.40 (r2 = 0.93)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -2033,54 +2074,54 @@ object Page1: TQuickRep
       FontSize = 12
     end
     object Text10: TText
-      Left = 599
-      Top = 910
-      Width = 79
-      Height = 17
+      Left = 538
+      Top = 819
+      Width = 71
+      Height = 16
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        44.9791666666667
-        1584.85416666667
+        47.037037037037
+        1581.62037037037
         2407.70833333333
-        209.020833333333)
+        208.726851851852)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
       AutoStretch = False
       Color = clWhite
       Lines.Strings = (
-        'RMSE=0.277')
+        'RMSE=0.279')
       Transparent = False
       WordWrap = True
       text = 'RMSE=$decplaces($property(regrGNPC.RMSD),3)'#13#10
       FontSize = 10
     end
     object Text11: TText
-      Left = 636
-      Top = 421
-      Width = 86
-      Height = 17
+      Left = 573
+      Top = 380
+      Width = 77
+      Height = 16
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        44.9791666666667
-        1682.75
-        1113.89583333333
-        227.541666666667)
+        47.037037037037
+        1684.51388888889
+        1117.12962962963
+        226.365740740741)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
       AutoStretch = False
       Color = clWhite
       Lines.Strings = (
-        'RMSE=45.678')
+        'RMSE=42.510')
       Transparent = False
       WordWrap = True
       text = 'RMSE=$decplaces($property(regryield.RMSD),3)'#13#10
@@ -2089,8 +2130,8 @@ object Page1: TQuickRep
   end
 end
 object Page2: TQuickRep
-  Left = 354
-  Top = 30
+  Left = 96
+  Top = 0
   Width = 556
   Height = 786
   Frame.Color = clBlack
@@ -2149,7 +2190,7 @@ object Page2: TQuickRep
     ForceNewColumn = False
     ForceNewPage = False
     Size.Values = (
-      2970.89285714286
+      2970
       2101.54761904762)
     BandType = rbTitle
     object Graph7: TGraph
@@ -2508,51 +2549,18 @@ object Page2: TQuickRep
     end
     object Text7: TText
       Left = 96
-      Top = 333
-      Width = 140
-      Height = 13
-      Frame.Color = clBlack
-      Frame.DrawTop = False
-      Frame.DrawBottom = False
-      Frame.DrawLeft = False
-      Frame.DrawRight = False
-      Size.Values = (
-        49.1369047619048
-        362.857142857143
-        1258.66071428571
-        529.166666666667)
-      Alignment = taLeftJustify
-      AlignToBand = False
-      AutoSize = True
-      AutoStretch = False
-      Color = clWhite
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'Arial'
-      Font.Style = []
-      Lines.Strings = (
-        ' y = 0.98 x + -0.19 (r2 = 0.92)')
-      ParentFont = False
-      Transparent = False
-      WordWrap = True
-      text = '$property(regrGrainN.equation)'#13#10
-      FontSize = 12
-    end
-    object Text8: TText
-      Left = 979
-      Top = 881
+      Top = 332
       Width = 137
-      Height = 13
+      Height = 14
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        49.1369047619048
-        3700.3869047619
-        3329.97023809524
+        52.9166666666667
+        362.857142857143
+        1254.88095238095
         517.827380952381)
       Alignment = taLeftJustify
       AlignToBand = False
@@ -2565,7 +2573,40 @@ object Page2: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.33 x + 0.02 (r2 = 0.09)')
+        ' y = 0.78 x + 0.94 (r2 = 0.92)')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = '$property(regrGrainN.equation)'#13#10
+      FontSize = 12
+    end
+    object Text8: TText
+      Left = 978
+      Top = 880
+      Width = 137
+      Height = 14
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        52.9166666666667
+        3696.60714285714
+        3326.19047619048
+        517.827380952381)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial'
+      Font.Style = []
+      Lines.Strings = (
+        ' y = 0.53 x + 0.02 (r2 = 0.32)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -2573,18 +2614,18 @@ object Page2: TQuickRep
       FontSize = 12
     end
     object Text9: TText
-      Left = 139
+      Left = 138
       Top = 650
       Width = 137
-      Height = 13
+      Height = 14
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        49.1369047619048
-        525.386904761905
+        52.9166666666667
+        521.607142857143
         2456.84523809524
         517.827380952381)
       Alignment = taLeftJustify
@@ -2598,7 +2639,7 @@ object Page2: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 1.04 x + 0.12 (r2 = 0.97)')
+        ' y = 0.81 x + 2.17 (r2 = 0.90)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -2607,18 +2648,18 @@ object Page2: TQuickRep
     end
     object Text12: TText
       Left = 352
-      Top = 325
+      Top = 326
       Width = 137
-      Height = 13
+      Height = 14
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        49.1369047619048
+        52.9166666666667
         1330.47619047619
-        1228.42261904762
+        1232.20238095238
         517.827380952381)
       Alignment = taLeftJustify
       AlignToBand = False
@@ -2631,7 +2672,7 @@ object Page2: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.33 x + 0.02 (r2 = 0.09)')
+        ' y = 0.53 x + 0.02 (r2 = 0.32)')
       ParentFont = False
       Transparent = False
       WordWrap = True
