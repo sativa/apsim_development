@@ -486,6 +486,11 @@ void plantPart::readSpeciesParameters(protocol::Component *system, vector<string
                             , c.name + "_trans_frac"
                             , c.trans_frac
                             , 0.0, 1.0);
+    if(system->readParameter (sections
+                            , c.name + "_trans_frac_option"
+                            , c.trans_frac_option
+                            , 1, 2,true)==false)
+      c.trans_frac_option=1;
 
     system->readParameter (sections
                             , c.name + "_sen_detach_frac"
@@ -576,7 +581,10 @@ void plantPart::onFlowering(void)
 //=======================================================================================
    {
    float dm_plant = divide (DMGreen, plant->getPlants(), 0.0);
-   DMPlantMin = dm_plant;
+   if (c.trans_frac_option==1)
+      DMPlantMin = dm_plant;
+   else
+      DMPlantMin = dm_plant * (1.0 - c.trans_frac);
    }
 
 void plantPart::onStartGrainFill(void)
@@ -584,7 +592,11 @@ void plantPart::onStartGrainFill(void)
 // set the minimum weight of part; used for retranslocation to grain
    {
    float dm_plant = divide (DMGreen, plant->getPlants(), 0.0);
-   DMPlantMin = dm_plant * (1.0 - c.trans_frac);
+   if (c.trans_frac_option==1)
+      DMPlantMin = dm_plant * (1.0 - c.trans_frac);
+   //else
+      //DMPlantMin = DMPlantMin + (dm_plant - DMPlantMin) * (1.0 - c.trans_frac);
+      //DMPlantMin = DMPlantMin + (dm_plant - DMPlantMin);
    }
 
 void plantPart::onKillStem(void)
@@ -704,7 +716,7 @@ void plantPart::updateN(void)
    NSenesced -= dlt.n_senesced_dead;
    NDead += dlt.n_senesced_dead;
 
-   NGreen = l_bound(NGreen, 0.0);   // Can occur at total leaf senescence. 
+   NGreen = l_bound(NGreen, 0.0);   // Can occur at total leaf senescence.
    }
 
 void plantPart::updateDm(void)
@@ -752,7 +764,7 @@ void plantPart::updateP(void)
       dlt.p_senesced_dead = PSen * dying_fract_plants;
       PSen  -= dlt.p_senesced_dead;
       PDead += dlt.p_senesced_dead;
-      PGreen = l_bound(PGreen, 0.0);  // Can occur at total leaf senescence. 
+      PGreen = l_bound(PGreen, 0.0);  // Can occur at total leaf senescence.
       }
    }
 
@@ -945,7 +957,7 @@ float plantPart::dmDemandDifferential(void) const
    return l_bound(dmGreenDemand() - dltDmGreen(), 0.0);
    }
 
-float plantPart::dltDmRetranslocateSupply(float DemandDifferential) 
+float plantPart::dltDmRetranslocateSupply(float DemandDifferential)
 //=======================================================================================
    {
 //   float DMPartPot = DMGreen + dlt.dm_green_retrans;
@@ -1086,7 +1098,7 @@ float critNFactor(vector<const plantPart *> &parts, float multiplier)
       // calculate minimum N concentrations
       float N_min = 0.0;
       for (part = parts.begin(); part != parts.end(); part++)
-         N_min += (*part)->nMin(); 
+         N_min += (*part)->nMin();
 
       float N_conc_min = divide (N_min, dm, 0.0);
 
@@ -1182,7 +1194,7 @@ void plantPart::collectDetachedForResidue(vector<string> &part_name
    dm_residue.push_back(dlt.dm_detached * gm2kg/sm2ha);
    dm_n.push_back(dlt.n_detached * gm2kg/sm2ha);
    dm_p.push_back(dlt.p_det * gm2kg/sm2ha);
-   fraction_to_residue.push_back(1.0);   
+   fraction_to_residue.push_back(1.0);
    }
 
 void plantPart::collectDeadDetachedForResidue(vector<string> &part_name
@@ -1608,7 +1620,7 @@ void plantPart::doTECO2(void){}                                       // (OUTPUT
 void plantPart::doTick(protocol::timeType &tick) {}
 void plantPart::writeCultivarInfo (protocol::Component *){}
 
-float plantPart::giveDmGreen(float delta) 
+float plantPart::giveDmGreen(float delta)
 //=======================================================================================
 // giveXXX: something is giving us some XXX. return the amount we actually take.
    {
@@ -1616,7 +1628,7 @@ float plantPart::giveDmGreen(float delta)
    return delta;
    }
 
-float plantPart::giveNGreen(float delta) 
+float plantPart::giveNGreen(float delta)
 //=======================================================================================
    {
    dlt.n_green += delta;
