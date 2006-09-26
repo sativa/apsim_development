@@ -881,8 +881,8 @@ void Plant::plant_bio_retrans (void)
 
    // Finally, a mass balance check
 //   float mbSum = 0.0;
-//   for (vector<plantPart *>::iterator part = myParts.begin(); 
-//        part != myParts.end(); 
+//   for (vector<plantPart *>::iterator part = myParts.begin();
+//        part != myParts.end();
 //        part++)
 //       mbSum += (*part)->dlt_dm_green_retrans();
 //
@@ -891,11 +891,11 @@ void Plant::plant_bio_retrans (void)
 //      string msg ="Crop dm retranslocate mass balance is off: error="
 //              + ftoa(mbSum, ".6")
 //              + "\n";
-//      string msg;                                                                                         
-//      for (vector<plantPart *>::iterator part = myParts.begin(); 
-//           part != myParts.end(); 
+//      string msg;
+//      for (vector<plantPart *>::iterator part = myParts.begin();
+//           part != myParts.end();
 //           part++)
-//         msg += (*part)->name() + "=" + 
+//         msg += (*part)->name() + "=" +
 //                  ftoa((*part)->dltDmGreenRetransUptake(), ".6") +"\n";
 //
 //      msg += "dlt_dm_retrans_to_fruit = " + ftoa(dlt_dm_retrans_to_fruit, ".6") + "\n";
@@ -2762,7 +2762,7 @@ void Plant::legnew_dm_retranslocate
            dlt_dm_retrans_part = min (demand_differential, dm_part_avail);
 
            //assign and accumulate
-           
+
            dm_retranslocate += (*part)->dlt_dm_green_retrans_hack( - dlt_dm_retrans_part);
 
            demand_differential = demand_differential - dlt_dm_retrans_part;
@@ -2957,10 +2957,11 @@ void Plant::plant_N_senescence (void)
 
    dlt_n_in_senescing_leaf = leafPart->dltDmSenesced() * leafPart->nConc();
 
-   navail = dlt_n_in_senescing_leaf - leafPart->dltNSenesced();
-   navail = l_bound(navail, 0.0);
-
    n_demand_tot = nDemand();
+
+   navail = dlt_n_in_senescing_leaf - leafPart->dltNSenesced();
+   navail = bound(navail, 0.0, n_demand_tot);
+
    for (vector<plantPart *>::iterator t = myParts.begin();
         t != myParts.end();
         t++)
@@ -5966,7 +5967,7 @@ float Plant::getLeafNo(void) const
 }
 
 void Plant::get_height(protocol::Component *system, protocol::QueryValueData &qd)
-{  
+{
    system->sendVariable(qd, stemPart->height());
 }
 
@@ -6696,6 +6697,7 @@ float Plant::getCo2ModifierNConc(void) const {return g.co2_modifier_n_conc;}
 float Plant::getVpd(void) const {return g.vpd;}
 float Plant::getTempStressPhoto(void) const {return g.temp_stress_photo;}
 float Plant::getNfactPhoto(void) const {return g.nfact_photo;}
+float Plant::getNfactGrainConc(void) const {return g.nfact_grain_conc;}
 float Plant::getOxdefPhoto(void) const {return g.oxdef_photo;}
 float Plant::getPfactPhoto(void) const {return g.pfact_photo;}
 float Plant::getSwdefPhoto(void) const {return g.swdef_photo;}
@@ -6778,7 +6780,7 @@ float Plant::plantNGreen(void)
         t != myParts.end();
         t++)
       ngreen += (*t)->nGreen();
-  
+
    return ngreen;
    }
 float Plant::plantNSenesced(void)
@@ -6788,7 +6790,7 @@ float Plant::plantNSenesced(void)
         t != myParts.end();
         t++)
       nsenesced += (*t)->nSenesced();
-  
+
    return nsenesced;
    }
 float Plant::plantNDead(void)
@@ -6798,7 +6800,7 @@ float Plant::plantNDead(void)
         t != myParts.end();
         t++)
       ndead += (*t)->nDead();
-  
+
    return ndead;
    }
 
@@ -6814,7 +6816,7 @@ float Plant::plantDltNGreen(void)
         t != myParts.end();
         t++)
       sum += (*t)->dltNGreen();
-  
+
    return sum;
    }
 float Plant::plantDltNRetrans(void) 
@@ -6824,7 +6826,7 @@ float Plant::plantDltNRetrans(void)
         t != myParts.end();
         t++)
       sum += (*t)->dltNRetransOut();
-  
+
    return sum;
    }
 float Plant::topsNGreen(void) const

@@ -90,7 +90,7 @@ public:												// member functions
    //FIXME
    void doNDemandGrain(float nfact_grain_conc, float swdef_expansion);
    void doNDemandGrain1(float nfact_grain_conc, float swdef_expansion);
-   void doNDemandGrain2(void);
+   void doNDemandGrain2(float nfact_grain_conc);
 
    float calcDmDemand (void);
 
@@ -165,6 +165,7 @@ private:
    float cSfac_slope;
    float cTfac_slope;
    float cPotential_grain_n_filling_rate ;
+   float cMinimum_grain_n_filling_rate ;
    float cCrit_grainfill_rate;
    float cX_temp_grain_n_fill[max_table];
    int   cNum_temp_grain_n_fill;
@@ -181,6 +182,8 @@ private:
                                                       // to grain
    float pGrains_per_gram_stem;
    float pPotential_grain_filling_rate;
+   float pPotential_grain_growth_rate;
+   float pMaxGrainSize;
 
    float pX_pp_hi_incr[max_table];
    float pY_hi_incr[max_table];                       // harvest index increment per day ()

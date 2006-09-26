@@ -449,6 +449,7 @@ public:
 
    float getTempStressPhoto(void) const;
    float getNfactPhoto(void) const;
+   float getNfactGrainConc(void) const;
    float getOxdefPhoto(void) const;
    float getPfactPhoto(void) const;
    float getSwdefPhoto(void) const;

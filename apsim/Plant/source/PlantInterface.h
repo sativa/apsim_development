@@ -54,6 +54,7 @@ class plantInterface {
 
       virtual float getTempStressPhoto(void) const = 0;
       virtual float getNfactPhoto(void) const = 0;
+      virtual float getNfactGrainConc(void) const = 0;
       virtual float getOxdefPhoto(void) const = 0;
       virtual float getPfactPhoto(void) const = 0;
       virtual float getSwdefPhoto(void) const = 0;

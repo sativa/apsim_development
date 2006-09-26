@@ -38,7 +38,7 @@ class plantPart : public plantThing
       float p_conc_max;                   // maximum P concentration (g N/g biomass)
       float p_conc_min;                   // minimum P concentration (g N/g biomass)
    } g;
-    
+
    float DMPlantMin;                 // minimum weight of each plant part (g/plant)
    float Height;                     // The height of this part (mm)
    float Width;                      // The width of this part (mm)
@@ -113,6 +113,7 @@ class plantPart : public plantThing
       float n_sen_conc;                   // N concentration of senesced material (gN/gdm)
 
       float trans_frac;                   // fraction of part used in translocation to grain
+      int   trans_frac_option;            // flag to say how trans_frac is to be used.
       float n_retrans_fraction;           // fraction of N in paret availale for retranslocation
 
       float dead_detach_frac;             // fraction of dead plant parts detaching each day (0-1)
@@ -151,7 +152,7 @@ class plantPart : public plantThing
 
    plantInterface *plant;                 // The plant we are attached to
 
-public:      
+public:
 
    plantPart(plantInterface *p, const string &name)
      {
@@ -159,6 +160,7 @@ public:
      plant = p;
      c.name = name;
      c.trans_frac = 0.0;
+     c.trans_frac = 1;
      c.n_retrans_fraction = 1.0;
      c.p_stress_determinant = false;
      c.p_yield_part = false;
@@ -377,7 +379,7 @@ public:
    virtual float dltDmGrainDemand(void) const;
    virtual float dltDmPotRue(void);        //FIXME
    virtual float dltDmPotTe(void);            //FIXME
-   virtual float dltLeafAreaPot(void) {throw std::runtime_error("plantPart::dltLeafAreaPot() called");}; 
+   virtual float dltLeafAreaPot(void) {throw std::runtime_error("plantPart::dltLeafAreaPot() called");};
    virtual float dmDeadVegTotal(void)const;
    virtual float dmGrainTotal(void) const;
    virtual float dmGreenGrainTotal(void)const;
@@ -424,7 +426,7 @@ public:
 
    virtual bool isYieldPart(void) const {return c.yield_part;};
    virtual bool isRetransPart(void) const {return c.retrans_part;};
-   
+
    protected:
 
       virtual void onSowing(void);
