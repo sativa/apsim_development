@@ -1,1233 +1,139 @@
-Version = 3.0
-NumPages = 2
-object data: TForm
-  Left = 4
-  Top = 4
-  Align = alClient
-  BorderIcons = []
-  BorderStyle = bsNone
-  ClientHeight = 569
-  ClientWidth = 1000
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Sans Serif'
-  Font.Style = []
-  OldCreateOrder = False
-  PixelsPerInch = 96
-  TextHeight = 13
-  object Predicted: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'zadok_stage'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage_name'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'root_depth'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eo'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    Filter = 'Title = '#39'Wheat_Beverley90_n60'#39' and stage_name = '#39'maturity'#39
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'PredictedHarvest.onSourceDataChanged')
-    filenames.Strings = (
-      'Wheat_Wongan84_N300.out'
-      'Wheat_Wongan84_N325.out'
-      'Wheat_APS6_N000.out'
-      'Wheat_APS6_N040.out'
-      'Wheat_APS6_N080.out'
-      'Wheat_APS6_N120.out'
-      'Wheat_APS6_N160.out'
-      'Wheat_APS6_N360.out'
-      'Wheat_APS14_BareN000.out'
-      'Wheat_APS14_BareN040.out'
-      'Wheat_APS14_BareN080.out'
-      'Wheat_APS14_BareN200.out'
-      'Wheat_APS14_LucN000.out'
-      'Wheat_APS14_LucN040.out'
-      'Wheat_APS14_LucN080.out'
-      'Wheat_APS14_LucN200.out'
-      'Wheat_APS14_StrawN000.out'
-      'Wheat_APS14_StrawN040.out'
-      'Wheat_APS14_StrawN080.out'
-      'Wheat_APS14_StrawN200.out'
-      'Wheat_APS26_DryN000.out'
-      'Wheat_APS26_DryN040.out'
-      'Wheat_APS26_DryN080.out'
-      'Wheat_APS26_DryN160.out'
-      'Wheat_APS26_WetN000.out'
-      'Wheat_APS26_WetN040.out'
-      'Wheat_APS26_WetN080.out'
-      'Wheat_APS26_WetN160.out'
-      'Wheat_Beverley90_Early.out'
-      'Wheat_Beverley90_Late.out'
-      'Wheat_Beverley90_n15.out'
-      'Wheat_Beverley90_n30.out'
-      'Wheat_Beverley90_n60.out'
-      'Wheat_Lincoln9192_I01.out'
-      'Wheat_Lincoln9192_I03.out'
-      'Wheat_Lincoln9192_I05.out'
-      'Wheat_Lincoln9192_I06.out'
-      'Wheat_Lincoln9192_I07.out'
-      'Wheat_Lincoln9192_I08.out'
-      'Wheat_Lincoln9192_I11.out'
-      'Wheat_MER-73_DryN000.out'
-      'Wheat_MER-73_DryN015.out'
-      'Wheat_MER-73_I040N015.out'
-      'Wheat_MER-73_I150N015.out'
-      'Wheat_MER-86_DryN015.out'
-      'Wheat_MER-86_DryN060.out'
-      'Wheat_MER-86_WetN015.out'
-      'Wheat_MER-86_WetN060.out'
-      'Wheat_Wongan84_N000.out'
-      'Wheat_Wongan84_N050.out'
-      'Wheat_Cunderdin97_DryN0SpearEarly.out'
-      'Wheat_Cunderdin97_DryN0SpearMid.out'
-      'Wheat_Cunderdin97_DryN50SpearEarly.out'
-      'Wheat_Cunderdin97_DryN50SpearMid.out'
-      'Wheat_Cunderdin97_WetN0SpearEarly.out'
-      'Wheat_Cunderdin97_WetN0SpearMid.out'
-      'Wheat_Cunderdin97_WetN50SpearEarly.out'
-      'Wheat_Cunderdin97_WetN50SpearMid.out'
-      'Wheat_Cunderdin97_DryN0WilgoyneEarly.out'
-      'Wheat_Cunderdin97_DryN0WilgoyneMid.out'
-      'Wheat_Cunderdin97_DryN0WilgoyneLate.out'
-      'Wheat_Cunderdin97_DryN50WilgoyneEarly.out'
-      'Wheat_Cunderdin97_DryN50WilgoyneMid.out'
-      'Wheat_Cunderdin97_WetN0WilgoyneEarly.out'
-      'Wheat_Cunderdin97_WetN0WilgoyneMid.out'
-      'Wheat_Cunderdin97_WetN0WilgoyneLate.out'
-      'Wheat_Cunderdin97_WetN50WilgoyneEarly.out'
-      'Wheat_Cunderdin97_WetN50WilgoyneMid.out'
-      'Wheat_Cunderdin97_DryN0bSpearEarly.out'
-      'Wheat_Cunderdin97_DryN0bSpearMid.out'
-      'Wheat_Cunderdin97_DryN50bSpearEarly.out'
-      'Wheat_Cunderdin97_DryN50bSpearMid.out'
-      'Wheat_Cunderdin97_WetN0bSpearEarly.out'
-      'Wheat_Cunderdin97_WetN0bSpearMid.out'
-      'Wheat_Cunderdin97_WetN50bSpearEarly.out'
-      'Wheat_Cunderdin97_WetN50bSpearMid.out'
-      'Wheat_Cunderdin97_DryN0bWilgoyneEarly.out'
-      'Wheat_Cunderdin97_DryN0bWilgoyneMid.out'
-      'Wheat_Cunderdin97_DryN50bWilgoyneEarly.out'
-      'Wheat_Cunderdin97_DryN50bWilgoyneMid.out'
-      'Wheat_Cunderdin97_WetN0bWilgoyneEarly.out'
-      'Wheat_Cunderdin97_WetN0bWilgoyneMid.out'
-      'Wheat_Cunderdin97_WetN50bWilgoyneEarly.out'
-      'Wheat_Cunderdin97_WetN50bWilgoyneMid.out')
-    Left = 172
-    Top = 84
-  end
-  object PredictedHarvest: TFilter
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'zadok_stage'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage_name'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'root_depth'
-        DataType = ftFloat
-      end
-      item
-        Name = 'ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eo'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    source = Predicted
-    filter = 'zadok_stage=90'
-    Left = 352
-    Top = 40
-  end
-  object Observed: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'experiment'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'treatment'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'stage_name'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'Nrate'
-        DataType = ftFloat
-      end
-      item
-        Name = 'zadok_stage'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh')
-    filenames.Strings = (
-      'Observed\CombinedFinalHarvest.txt')
-    interpretTitles = True
-    Left = 176
-    Top = 160
-  end
-  object PredObsBiomass: TPredObs
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'stage_name'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'Predzadok_stage'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Obszadok_stage'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Predbiomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Obsbiomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Predgrain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Obsgrain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Predbiomass_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Obsbiomass_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Predgrain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Obsgrain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Predgrain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Obsgrain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Predgrain_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Obsgrain_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Predn_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Obsn_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Predgrain_protein'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Obsgrain_protein'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Regr1.onSourceDataChanged'
-      'RegrBiomass.onSourceDataChanged'
-      'RegrYield.onSourceDataChanged'
-      'RegrGNo.onSourceDataChanged'
-      'RegrGNPC.onSourceDataChanged'
-      'Graph1.afterDataRefresh'
-      'Graph2.afterDataRefresh'
-      'RegrGrainN.onSourceDataChanged'
-      'Graph5.afterDataRefresh'
-      'Graph6.afterDataRefresh'
-      'RegrGSize.onSourceDataChanged'
-      'Graph7.afterDataRefresh'
-      'RegrBiomassN.onSourceDataChanged'
-      'Graph3.afterDataRefresh'
-      'Graph8.afterDataRefresh'
-      'Graph4.afterDataRefresh')
-    predData = Predicted
-    obsData = Observed
-    keyFields.Strings = (
-      'Title'
-      'stage_name')
-    Left = 385
-    Top = 160
-  end
-  object RegrBiomass: TRegr
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'RegrX'
-        DataType = ftFloat
-      end
-      item
-        Name = 'RegrY'
-        DataType = ftFloat
-      end
-      item
-        Name = '1:1X'
-        DataType = ftFloat
-      end
-      item
-        Name = '1:1Y'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Equation'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'c'
-        DataType = ftFloat
-      end
-      item
-        Name = 'r2'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'StdErr(m)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'StdErr(c)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'RMSD'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    source = PredObsBiomass
-    subscriptionComponentNames.Strings = (
-      'Text1.afterDataRefresh'
-      'Text4.afterDataRefresh'
-      'Graph1.afterDataRefresh'
-      'Graph5.afterDataRefresh'
-      'Text2.afterDataRefresh')
-    xFieldName = 'Obsbiomass_wt'
-    yFieldName = 'Predbiomass_wt'
-    Left = 472
-    Top = 163
-  end
-  object RegrYield: TRegr
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'RegrX'
-        DataType = ftFloat
-      end
-      item
-        Name = 'RegrY'
-        DataType = ftFloat
-      end
-      item
-        Name = '1:1X'
-        DataType = ftFloat
-      end
-      item
-        Name = '1:1Y'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Equation'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'c'
-        DataType = ftFloat
-      end
-      item
-        Name = 'r2'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'StdErr(m)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'StdErr(c)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'RMSD'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    source = PredObsBiomass
-    subscriptionComponentNames.Strings = (
-      'Text4.afterDataRefresh'
-      'Text5.afterDataRefresh'
-      'Text6.afterDataRefresh'
-      'Graph2.afterDataRefresh'
-      'Text11.afterDataRefresh')
-    xFieldName = 'Obsgrain_wt'
-    yFieldName = 'Predgrain_wt'
-    Left = 528
-    Top = 160
-  end
-  object RegrGNo: TRegr
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'RegrX'
-        DataType = ftFloat
-      end
-      item
-        Name = 'RegrY'
-        DataType = ftFloat
-      end
-      item
-        Name = '1:1X'
-        DataType = ftFloat
-      end
-      item
-        Name = '1:1Y'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Equation'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'c'
-        DataType = ftFloat
-      end
-      item
-        Name = 'r2'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'StdErr(m)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'StdErr(c)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'RMSD'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    source = PredObsBiomass
-    subscriptionComponentNames.Strings = (
-      'Text5.afterDataRefresh'
-      'Graph3.afterDataRefresh')
-    xFieldName = 'Obsgrain_no'
-    yFieldName = 'Predgrain_no'
-    Left = 592
-    Top = 168
-  end
-  object RegrGNPC: TRegr
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'RegrX'
-        DataType = ftFloat
-      end
-      item
-        Name = 'RegrY'
-        DataType = ftFloat
-      end
-      item
-        Name = '1:1X'
-        DataType = ftFloat
-      end
-      item
-        Name = '1:1Y'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Equation'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'c'
-        DataType = ftFloat
-      end
-      item
-        Name = 'r2'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'StdErr(m)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'StdErr(c)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'RMSD'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    source = PredObsBiomass
-    subscriptionComponentNames.Strings = (
-      'Text6.afterDataRefresh'
-      'Text10.afterDataRefresh'
-      'Text11.afterDataRefresh'
-      'Graph4.afterDataRefresh')
-    xFieldName = 'Obsn_conc_grain'
-    yFieldName = 'Predn_conc_grain'
-    Left = 659
-    Top = 172
-  end
-  object RegrGrainN: TRegr
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'RegrX'
-        DataType = ftFloat
-      end
-      item
-        Name = 'RegrY'
-        DataType = ftFloat
-      end
-      item
-        Name = '1:1X'
-        DataType = ftFloat
-      end
-      item
-        Name = '1:1Y'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Equation'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'c'
-        DataType = ftFloat
-      end
-      item
-        Name = 'r2'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'StdErr(m)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'StdErr(c)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'RMSD'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    source = PredObsBiomass
-    subscriptionComponentNames.Strings = (
-      'Graph6.afterDataRefresh'
-      'Text7.afterDataRefresh'
-      'Text8.afterDataRefresh'
-      'Text12.afterDataRefresh')
-    xFieldName = 'Obsgrain_n'
-    yFieldName = 'Predgrain_n'
-    Left = 744
-    Top = 176
-  end
-  object RegrGSize: TRegr
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'RegrX'
-        DataType = ftFloat
-      end
-      item
-        Name = 'RegrY'
-        DataType = ftFloat
-      end
-      item
-        Name = '1:1X'
-        DataType = ftFloat
-      end
-      item
-        Name = '1:1Y'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Equation'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'c'
-        DataType = ftFloat
-      end
-      item
-        Name = 'r2'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'StdErr(m)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'StdErr(c)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'RMSD'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    source = PredObsBiomass
-    subscriptionComponentNames.Strings = (
-      'Graph7.afterDataRefresh'
-      'Text8.afterDataRefresh'
-      'Text9.afterDataRefresh'
-      'Text12.afterDataRefresh')
-    xFieldName = 'Obsgrain_size'
-    yFieldName = 'Predgrain_size'
-    Left = 496
-    Top = 264
-  end
-  object RegrBiomassN: TRegr
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'RegrX'
-        DataType = ftFloat
-      end
-      item
-        Name = 'RegrY'
-        DataType = ftFloat
-      end
-      item
-        Name = '1:1X'
-        DataType = ftFloat
-      end
-      item
-        Name = '1:1Y'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Equation'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'c'
-        DataType = ftFloat
-      end
-      item
-        Name = 'r2'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'StdErr(m)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'StdErr(c)'
-        DataType = ftFloat
-      end
-      item
-        Name = 'RMSD'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    source = PredObsBiomass
-    subscriptionComponentNames.Strings = (
-      'Text9.afterDataRefresh'
-      'Graph8.afterDataRefresh')
-    xFieldName = 'Obsbiomass_n'
-    yFieldName = 'Predbiomass_n'
-    Left = 566
-    Top = 284
-  end
-end
+<report version="4">
+<Data>
+  <ApsimFileReader name="Predicted">
+    <FileName type="filenames">Wheat_Wongan84_N300.out</FileName>
+    <FileName type="filenames">Wheat_Wongan84_N325.out</FileName>
+    <FileName type="filenames">Wheat_APS6_N000.out</FileName>
+    <FileName type="filenames">Wheat_APS6_N040.out</FileName>
+    <FileName type="filenames">Wheat_APS6_N080.out</FileName>
+    <FileName type="filenames">Wheat_APS6_N120.out</FileName>
+    <FileName type="filenames">Wheat_APS6_N160.out</FileName>
+    <FileName type="filenames">Wheat_APS6_N360.out</FileName>
+    <FileName type="filenames">Wheat_APS14_BareN000.out</FileName>
+    <FileName type="filenames">Wheat_APS14_BareN040.out</FileName>
+    <FileName type="filenames">Wheat_APS14_BareN080.out</FileName>
+    <FileName type="filenames">Wheat_APS14_BareN200.out</FileName>
+    <FileName type="filenames">Wheat_APS14_LucN000.out</FileName>
+    <FileName type="filenames">Wheat_APS14_LucN040.out</FileName>
+    <FileName type="filenames">Wheat_APS14_LucN080.out</FileName>
+    <FileName type="filenames">Wheat_APS14_LucN200.out</FileName>
+    <FileName type="filenames">Wheat_APS14_StrawN000.out</FileName>
+    <FileName type="filenames">Wheat_APS14_StrawN040.out</FileName>
+    <FileName type="filenames">Wheat_APS14_StrawN080.out</FileName>
+    <FileName type="filenames">Wheat_APS14_StrawN200.out</FileName>
+    <FileName type="filenames">Wheat_APS26_DryN000.out</FileName>
+    <FileName type="filenames">Wheat_APS26_DryN040.out</FileName>
+    <FileName type="filenames">Wheat_APS26_DryN080.out</FileName>
+    <FileName type="filenames">Wheat_APS26_DryN160.out</FileName>
+    <FileName type="filenames">Wheat_APS26_WetN000.out</FileName>
+    <FileName type="filenames">Wheat_APS26_WetN040.out</FileName>
+    <FileName type="filenames">Wheat_APS26_WetN080.out</FileName>
+    <FileName type="filenames">Wheat_APS26_WetN160.out</FileName>
+    <FileName type="filenames">Wheat_Beverley90_Early.out</FileName>
+    <FileName type="filenames">Wheat_Beverley90_Late.out</FileName>
+    <FileName type="filenames">Wheat_Beverley90_n15.out</FileName>
+    <FileName type="filenames">Wheat_Beverley90_n30.out</FileName>
+    <FileName type="filenames">Wheat_Beverley90_n60.out</FileName>
+    <FileName type="filenames">Wheat_Lincoln9192_I01.out</FileName>
+    <FileName type="filenames">Wheat_Lincoln9192_I03.out</FileName>
+    <FileName type="filenames">Wheat_Lincoln9192_I05.out</FileName>
+    <FileName type="filenames">Wheat_Lincoln9192_I06.out</FileName>
+    <FileName type="filenames">Wheat_Lincoln9192_I07.out</FileName>
+    <FileName type="filenames">Wheat_Lincoln9192_I08.out</FileName>
+    <FileName type="filenames">Wheat_Lincoln9192_I11.out</FileName>
+    <FileName type="filenames">Wheat_MER-73_DryN000.out</FileName>
+    <FileName type="filenames">Wheat_MER-73_DryN015.out</FileName>
+    <FileName type="filenames">Wheat_MER-73_I040N015.out</FileName>
+    <FileName type="filenames">Wheat_MER-73_I150N015.out</FileName>
+    <FileName type="filenames">Wheat_MER-86_DryN015.out</FileName>
+    <FileName type="filenames">Wheat_MER-86_DryN060.out</FileName>
+    <FileName type="filenames">Wheat_MER-86_WetN015.out</FileName>
+    <FileName type="filenames">Wheat_MER-86_WetN060.out</FileName>
+    <FileName type="filenames">Wheat_Wongan84_N000.out</FileName>
+    <FileName type="filenames">Wheat_Wongan84_N050.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_DryN0SpearEarly.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_DryN0SpearMid.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_DryN50SpearEarly.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_DryN50SpearMid.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_WetN0SpearEarly.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_WetN0SpearMid.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_WetN50SpearEarly.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_WetN50SpearMid.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_DryN0WilgoyneEarly.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_DryN0WilgoyneMid.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_DryN0WilgoyneLate.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_DryN50WilgoyneEarly.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_DryN50WilgoyneMid.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_WetN0WilgoyneEarly.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_WetN0WilgoyneMid.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_WetN0WilgoyneLate.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_WetN50WilgoyneEarly.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_WetN50WilgoyneMid.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_DryN0bSpearEarly.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_DryN0bSpearMid.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_DryN50bSpearEarly.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_DryN50bSpearMid.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_WetN0bSpearEarly.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_WetN0bSpearMid.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_WetN50bSpearEarly.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_WetN50bSpearMid.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_DryN0bWilgoyneEarly.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_DryN0bWilgoyneMid.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_DryN50bWilgoyneEarly.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_DryN50bWilgoyneMid.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_WetN0bWilgoyneEarly.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_WetN0bWilgoyneMid.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_WetN50bWilgoyneEarly.out</FileName>
+    <FileName type="filenames">Wheat_Cunderdin97_WetN50bWilgoyneMid.out</FileName>
+    <Filter name="PredictedHarvest">
+      <FilterString>zadok_stage=90</FilterString>
+	    <PredObs name="PredObsBiomass">
+	      <obsFileName type="filename">Observed\CombinedFinalHarvest.txt</obsFileName>
+	      <KeyFieldName type="fieldnames">Title</KeyFieldName>
+	      <KeyFieldName type="fieldnames">stage_name</KeyFieldName>
+	      <Regression name="RegrBiomass">
+	        <XFieldName type="fieldname">Obsbiomass_wt</XFieldName>
+	        <YFieldName type="fieldname">Predbiomass_wt</YFieldName>
+	      </Regression>
+	      <Regression name="RegrYield">
+	        <XFieldName type="fieldname">Obsgrain_wt</XFieldName>
+	        <YFieldName type="fieldname">Predgrain_wt</YFieldName>
+	      </Regression>
+	      <Regression name="RegrGNo">
+	        <XFieldName type="fieldname">Obsgrain_no</XFieldName>
+	        <YFieldName type="fieldname">Predgrain_no</YFieldName>
+	      </Regression>
+	      <Regression name="RegrGNPC">
+	        <XFieldName type="fieldname">Obsn_conc_grain</XFieldName>
+	        <YFieldName type="fieldname">Predn_conc_grain</YFieldName>
+	      </Regression>
+	      <Regression name="RegrGrainN">
+	        <XFieldName type="fieldname">Obsgrain_n</XFieldName>
+	        <YFieldName type="fieldname">Predgrain_n</YFieldName>
+	      </Regression>
+	      <Regression name="RegrGSize">
+	        <XFieldName type="fieldname">Obsgrain_size</XFieldName>
+	        <YFieldName type="fieldname">Predgrain_size</YFieldName>
+	      </Regression>
+	      <Regression name="RegrBiomassN">
+	        <XFieldName type="fieldname">Obsbiomass_n</XFieldName>
+	        <YFieldName type="fieldname">Predbiomass_n</YFieldName>
+	      </Regression>
+	    </PredObs>
+    </Filter>
+
+  </ApsimFileReader>
+  <ApsimFileReader name="Observed">
+    <FileName type="filenames">Observed\CombinedFinalHarvest.txt</FileName>
+    <ParseTitle type="yesno">yes</ParseTitle>
+  </ApsimFileReader>
+</Data>
+   <page> <![CDATA[
 object Page1: TQuickRep
-  Left = 17
+  Left = 318
   Top = 0
-  Width = 714
-  Height = 1010
+  Width = 635
+  Height = 898
   Frame.Color = clBlack
   Frame.DrawTop = False
   Frame.DrawBottom = False
@@ -1268,12 +174,12 @@ object Page1: TQuickRep
   PrintIfEmpty = True
   SnapToGrid = True
   Units = MM
-  Zoom = 90
+  Zoom = 80
   object TitleBand1: TQRBand
     Left = 0
     Top = 0
-    Width = 714
-    Height = 1010
+    Width = 635
+    Height = 898
     Frame.Color = clBlack
     Frame.DrawTop = False
     Frame.DrawBottom = False
@@ -1285,13 +191,13 @@ object Page1: TQuickRep
     ForceNewPage = False
     Size.Values = (
       2970
-      2099.02777777778)
+      2100.13020833333)
     BandType = rbTitle
     object Graph5: TGraph
-      Left = 28
-      Top = 105
-      Width = 316
-      Height = 386
+      Left = 25
+      Top = 94
+      Width = 281
+      Height = 343
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -1356,7 +262,7 @@ object Page1: TQuickRep
         object PointSeries4: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.PredObsBiomass
+          DataSource = PredObsBiomass
           SeriesColor = clBlack
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -1372,7 +278,7 @@ object Page1: TQuickRep
         object LineSeries7: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.RegrBiomass
+          DataSource = RegrBiomass
           SeriesColor = clBlack
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -1387,7 +293,7 @@ object Page1: TQuickRep
         object LineSeries8: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.RegrBiomass
+          DataSource = RegrBiomass
           SeriesColor = clBlack
           LinePen.Style = psDot
           Pointer.InflateMargins = True
@@ -1403,10 +309,10 @@ object Page1: TQuickRep
       end
     end
     object Graph1: TGraph
-      Left = 28
-      Top = 105
-      Width = 316
-      Height = 386
+      Left = 25
+      Top = 94
+      Width = 281
+      Height = 343
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -1471,7 +377,7 @@ object Page1: TQuickRep
         object Series1: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.PredObsBiomass
+          DataSource = PredObsBiomass
           SeriesColor = clBlack
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -1487,7 +393,7 @@ object Page1: TQuickRep
         object Series2: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.RegrBiomass
+          DataSource = RegrBiomass
           SeriesColor = clBlack
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -1502,7 +408,7 @@ object Page1: TQuickRep
         object Series3: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.RegrBiomass
+          DataSource = RegrBiomass
           SeriesColor = clBlack
           LinePen.Style = psDot
           Pointer.InflateMargins = True
@@ -1518,20 +424,20 @@ object Page1: TQuickRep
       end
     end
     object Text1: TText
-      Left = 133
-      Top = 417
-      Width = 184
-      Height = 33
+      Left = 119
+      Top = 371
+      Width = 163
+      Height = 29
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        97.0138888888889
-        390.99537037037
-        1225.90277777778
-        540.925925925926)
+        95.9114583333333
+        393.567708333333
+        1227.00520833333
+        539.088541666667)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -1543,7 +449,7 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 1.00 x + 96.40 (r2 = 0.93)')
+        ' y = 1.04 x + 66.52 (r2 = 0.95)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -1551,10 +457,10 @@ object Page1: TQuickRep
       FontSize = 12
     end
     object Graph2: TGraph
-      Left = 347
-      Top = 105
-      Width = 316
-      Height = 386
+      Left = 309
+      Top = 94
+      Width = 281
+      Height = 343
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -1625,7 +531,7 @@ object Page1: TQuickRep
         object PointSeries1: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.PredObsBiomass
+          DataSource = PredObsBiomass
           SeriesColor = clBlack
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -1641,7 +547,7 @@ object Page1: TQuickRep
         object LineSeries1: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.RegrYield
+          DataSource = RegrYield
           SeriesColor = clBlack
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -1656,7 +562,7 @@ object Page1: TQuickRep
         object LineSeries2: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.RegrYield
+          DataSource = RegrYield
           SeriesColor = clBlack
           LinePen.Style = psDot
           Pointer.InflateMargins = True
@@ -1672,10 +578,10 @@ object Page1: TQuickRep
       end
     end
     object Graph3: TGraph
-      Left = 28
-      Top = 527
-      Width = 316
-      Height = 386
+      Left = 25
+      Top = 469
+      Width = 281
+      Height = 343
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -1742,7 +648,7 @@ object Page1: TQuickRep
         object PointSeries2: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.PredObsBiomass
+          DataSource = PredObsBiomass
           SeriesColor = clBlack
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -1758,7 +664,7 @@ object Page1: TQuickRep
         object LineSeries3: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.RegrGNo
+          DataSource = RegrGNo
           SeriesColor = clBlack
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -1773,7 +679,7 @@ object Page1: TQuickRep
         object LineSeries4: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.RegrGNo
+          DataSource = RegrGNo
           SeriesColor = clBlack
           LinePen.Style = psDot
           Pointer.InflateMargins = True
@@ -1789,10 +695,10 @@ object Page1: TQuickRep
       end
     end
     object Graph4: TGraph
-      Left = 357
-      Top = 527
-      Width = 316
-      Height = 386
+      Left = 318
+      Top = 469
+      Width = 281
+      Height = 343
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -1862,7 +768,7 @@ object Page1: TQuickRep
         object PointSeries3: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.PredObsBiomass
+          DataSource = PredObsBiomass
           SeriesColor = clBlack
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -1878,7 +784,7 @@ object Page1: TQuickRep
         object LineSeries5: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.RegrGNPC
+          DataSource = RegrGNPC
           SeriesColor = clBlack
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -1893,7 +799,7 @@ object Page1: TQuickRep
         object LineSeries6: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.RegrGNPC
+          DataSource = RegrGNPC
           SeriesColor = clBlack
           LinePen.Style = psDot
           Pointer.InflateMargins = True
@@ -1909,19 +815,19 @@ object Page1: TQuickRep
       end
     end
     object Text3: TText
-      Left = 51
-      Top = 21
-      Width = 333
-      Height = 34
+      Left = 45
+      Top = 19
+      Width = 296
+      Height = 31
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        99.9537037037037
-        149.930555555556
-        61.7361111111111
+        102.526041666667
+        148.828125
+        62.8385416666667
         978.958333333333)
       Alignment = taLeftJustify
       AlignToBand = False
@@ -1942,20 +848,20 @@ object Page1: TQuickRep
       FontSize = 24
     end
     object Text4: TText
-      Left = 511
-      Top = 417
-      Width = 184
-      Height = 33
+      Left = 455
+      Top = 371
+      Width = 163
+      Height = 29
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        97.0138888888889
-        1502.24537037037
-        1225.90277777778
-        540.925925925926)
+        95.9114583333333
+        1504.81770833333
+        1227.00520833333
+        539.088541666667)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -1967,7 +873,7 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.92 x + 23.09 (r2 = 0.95)')
+        ' y = 0.90 x + 20.17 (r2 = 0.88)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -1975,20 +881,20 @@ object Page1: TQuickRep
       FontSize = 12
     end
     object Text5: TText
-      Left = 133
-      Top = 841
-      Width = 192
-      Height = 31
+      Left = 119
+      Top = 748
+      Width = 170
+      Height = 28
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        91.1342592592593
-        390.99537037037
-        2472.38425925926
-        564.444444444444)
+        92.6041666666667
+        393.567708333333
+        2473.85416666667
+        562.239583333333)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -2000,7 +906,7 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.93 x + 922.25 (r2 = 0.93)')
+        ' y = 0.95 x + 305.26 (r2 = 0.85)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -2008,20 +914,20 @@ object Page1: TQuickRep
       FontSize = 12
     end
     object Text6: TText
-      Left = 461
-      Top = 841
-      Width = 176
-      Height = 31
+      Left = 409
+      Top = 748
+      Width = 156
+      Height = 28
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        91.1342592592593
-        1355.25462962963
-        2472.38425925926
-        517.407407407407)
+        92.6041666666667
+        1352.68229166667
+        2473.85416666667
+        515.9375)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -2033,7 +939,7 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.63 x + 0.62 (r2 = 0.54)')
+        ' y = 0.68 x + 0.66 (r2 = 0.59)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -2041,20 +947,20 @@ object Page1: TQuickRep
       FontSize = 12
     end
     object Text2: TText
-      Left = 133
-      Top = 417
-      Width = 184
-      Height = 33
+      Left = 119
+      Top = 371
+      Width = 163
+      Height = 29
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        97.0138888888889
-        390.99537037037
-        1225.90277777778
-        540.925925925926)
+        95.9114583333333
+        393.567708333333
+        1227.00520833333
+        539.088541666667)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -2066,7 +972,7 @@ object Page1: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 1.00 x + 96.40 (r2 = 0.93)')
+        ' y = 1.04 x + 66.52 (r2 = 0.95)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -2074,54 +980,54 @@ object Page1: TQuickRep
       FontSize = 12
     end
     object Text10: TText
-      Left = 538
-      Top = 819
-      Width = 71
-      Height = 16
+      Left = 479
+      Top = 728
+      Width = 63
+      Height = 15
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        47.037037037037
-        1581.62037037037
+        49.609375
+        1584.19270833333
         2407.70833333333
-        208.726851851852)
+        208.359375)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
       AutoStretch = False
       Color = clWhite
       Lines.Strings = (
-        'RMSE=0.279')
+        'RMSE=0.278')
       Transparent = False
       WordWrap = True
       text = 'RMSE=$decplaces($property(regrGNPC.RMSD),3)'#13#10
       FontSize = 10
     end
     object Text11: TText
-      Left = 573
-      Top = 380
-      Width = 77
-      Height = 16
+      Left = 509
+      Top = 337
+      Width = 69
+      Height = 15
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        47.037037037037
-        1684.51388888889
-        1117.12962962963
-        226.365740740741)
+        49.609375
+        1683.41145833333
+        1114.55729166667
+        228.203125)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
       AutoStretch = False
       Color = clWhite
       Lines.Strings = (
-        'RMSE=42.510')
+        'RMSE=65.723')
       Transparent = False
       WordWrap = True
       text = 'RMSE=$decplaces($property(regryield.RMSD),3)'#13#10
@@ -2129,9 +1035,12 @@ object Page1: TQuickRep
     end
   end
 end
+]]>
+   </page>
+   <page> <![CDATA[
 object Page2: TQuickRep
-  Left = 96
-  Top = 0
+  Left = 358
+  Top = 48
   Width = 556
   Height = 786
   Frame.Color = clBlack
@@ -2268,7 +1177,7 @@ object Page2: TQuickRep
         object PointSeries6: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.PredObsBiomass
+          DataSource = PredObsBiomass
           SeriesColor = clBlack
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -2284,7 +1193,7 @@ object Page2: TQuickRep
         object LineSeries11: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.RegrGSize
+          DataSource = RegrGSize
           SeriesColor = clBlack
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -2299,7 +1208,7 @@ object Page2: TQuickRep
         object LineSeries12: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.RegrGSize
+          DataSource = RegrGSize
           SeriesColor = clBlack
           LinePen.Style = psDot
           Pointer.InflateMargins = True
@@ -2383,7 +1292,7 @@ object Page2: TQuickRep
         object PointSeries5: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.PredObsBiomass
+          DataSource = PredObsBiomass
           SeriesColor = clBlack
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -2399,7 +1308,7 @@ object Page2: TQuickRep
         object LineSeries9: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.RegrGrainN
+          DataSource = RegrGrainN
           SeriesColor = clBlack
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -2414,7 +1323,7 @@ object Page2: TQuickRep
         object LineSeries10: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.RegrGrainN
+          DataSource = RegrGrainN
           SeriesColor = clBlack
           LinePen.Style = psDot
           Pointer.InflateMargins = True
@@ -2501,7 +1410,7 @@ object Page2: TQuickRep
         object PointSeries7: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.PredObsBiomass
+          DataSource = PredObsBiomass
           SeriesColor = clBlack
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -2517,7 +1426,7 @@ object Page2: TQuickRep
         object LineSeries13: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.RegrBiomassN
+          DataSource = RegrBiomassN
           SeriesColor = clBlack
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -2532,7 +1441,7 @@ object Page2: TQuickRep
         object LineSeries14: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.RegrBiomassN
+          DataSource = RegrBiomassN
           SeriesColor = clBlack
           LinePen.Style = psDot
           Pointer.InflateMargins = True
@@ -2573,7 +1482,7 @@ object Page2: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.78 x + 0.94 (r2 = 0.92)')
+        ' y = 0.88 x + 0.82 (r2 = 0.90)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -2606,7 +1515,7 @@ object Page2: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.53 x + 0.02 (r2 = 0.32)')
+        ' y = 0.25 x + 0.03 (r2 = 0.08)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -2639,7 +1548,7 @@ object Page2: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.81 x + 2.17 (r2 = 0.90)')
+        ' y = 0.83 x + 2.06 (r2 = 0.89)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -2672,7 +1581,7 @@ object Page2: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.53 x + 0.02 (r2 = 0.32)')
+        ' y = 0.25 x + 0.03 (r2 = 0.08)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -2681,3 +1590,6 @@ object Page2: TQuickRep
     end
   end
 end
+]]>
+   </page>
+</report>
