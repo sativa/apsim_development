@@ -174,8 +174,8 @@
           300.-  400.  0.132  0.132  0.243  0.400  0.244  1.500  0.038  0.600
           400.-  500.  0.132  0.132  0.243  0.400  0.245  1.500  0.009  0.600
           500.-  600.  0.135  0.135  0.243  0.400  0.246  1.500  0.000  0.600
-          600.-  700.  0.145  0.145  0.243  0.400  0.247  1.500  0.000  0.600
-          700.-  900.  0.145  0.145  0.243  0.400  0.246  1.500  0.000  0.600
+          600.-  700.  0.145  0.145  0.243  0.400  0.243  1.500  0.000  0.600
+          700.-  900.  0.145  0.145  0.243  0.400  0.240  1.500  0.000  0.600
           900.- 1100.  0.145  0.145  0.243  0.400  0.145  1.500  0.000  0.600
          1100.- 1300.  0.145  0.145  0.243  0.400  0.145  1.500  0.000  0.600
          1300.- 1500.  0.145  0.145  0.243  0.400  0.145  1.500  0.000  0.600
@@ -201,8 +201,8 @@
           300.-  400.      13.20      11.20      11.10      15.70
           400.-  500.      13.20      11.30      11.10      15.70
           500.-  600.      13.50      11.10      10.80      15.70
-          600.-  700.      14.50      10.20       9.80      15.70
-          700.-  900.      29.00      20.20      19.60      31.40
+          600.-  700.      14.50       9.80       9.80      15.70
+          700.-  900.      29.00      19.00      19.60      31.40
           900.- 1100.      29.00       0.00      19.60      31.40
          1100.- 1300.      29.00       0.00      19.60      31.40
          1300.- 1500.      29.00       0.00      19.60      31.40
@@ -212,7 +212,7 @@
          2100.- 2300.      29.00       0.00      19.60      31.40
          2300.- 2500.      29.00       0.00      19.60      31.40
           ---------------------------------------------------------
-               Totals     346.80      88.30     247.80     421.40
+               Totals     346.80      86.70     247.80     421.40
           ---------------------------------------------------------
      
      
@@ -368,10 +368,10 @@
           50.0     0.060          0.070       0.600
          100.0     0.050          0.121       0.500
          100.0     0.050          0.123       0.500
-         100.0     0.050          0.132       0.500
-         100.0     0.050          0.132       0.500
-         100.0     0.050          0.135       0.500
-         100.0     0.050          0.145       0.500
+         100.0     0.040          0.132       0.500
+         100.0     0.040          0.132       0.500
+         100.0     0.040          0.135       0.500
+         100.0     0.040          0.145       0.500
          200.0     0.030          0.145       0.300
          200.0     0.030          0.145       0.300
          200.0     0.030          0.145       0.300
@@ -406,83 +406,83 @@
 13 June 1997(Day of year=164), wheat: 
       stage 3.0 emergence
                      biomass =           0.69 (g/m^2)   lai          =   0.030 (m^2/m^2)
-                     stover N conc =     5.85 (%)    extractable sw =   14.99 (mm)
+                     stover N conc =     5.85 (%)    extractable sw =   14.98 (mm)
 14 June 1997(Day of year=165), wheat: 
       stage 4.0 end_of_juvenile
                      biomass =           0.90 (g/m^2)   lai          =   0.033 (m^2/m^2)
-                     stover N conc =     5.83 (%)    extractable sw =   15.20 (mm)
+                     stover N conc =     5.83 (%)    extractable sw =   15.19 (mm)
 2 August 1997(Day of year=214), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         127.72 (g/m^2)   lai          =   1.742 (m^2/m^2)
-                     stover N conc =     3.31 (%)    extractable sw =   28.57 (mm)
+                     biomass =         125.03 (g/m^2)   lai          =   1.672 (m^2/m^2)
+                     stover N conc =     3.31 (%)    extractable sw =   28.86 (mm)
 21 September 1997(Day of year=264), wheat: 
       stage 6.0 flowering
-                     biomass =         644.88 (g/m^2)   lai          =   1.746 (m^2/m^2)
-                     stover N conc =     1.35 (%)    extractable sw =   39.72 (mm)
+                     biomass =         622.57 (g/m^2)   lai          =   1.687 (m^2/m^2)
+                     stover N conc =     1.38 (%)    extractable sw =   41.84 (mm)
 30 September 1997(Day of year=273), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         697.68 (g/m^2)   lai          =   1.041 (m^2/m^2)
-                     stover N conc =     1.09 (%)    extractable sw =   26.82 (mm)
+                     biomass =         673.89 (g/m^2)   lai          =   1.005 (m^2/m^2)
+                     stover N conc =     1.23 (%)    extractable sw =   29.22 (mm)
 1 November 1997(Day of year=305), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         796.13 (g/m^2)   lai          =   0.192 (m^2/m^2)
-                     stover N conc =     0.61 (%)    extractable sw =   17.07 (mm)
+                     biomass =         775.25 (g/m^2)   lai          =   0.199 (m^2/m^2)
+                     stover N conc =     0.46 (%)    extractable sw =   18.45 (mm)
 2 November 1997(Day of year=306), wheat: 
       stage 9.0 maturity
-                     biomass =         796.13 (g/m^2)   lai          =   0.179 (m^2/m^2)
-                     stover N conc =     0.61 (%)    extractable sw =   16.64 (mm)
+                     biomass =         775.25 (g/m^2)   lai          =   0.186 (m^2/m^2)
+                     stover N conc =     0.46 (%)    extractable sw =   17.98 (mm)
 3 November 1997(Day of year=307), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         796.13 (g/m^2)   lai          =   0.001 (m^2/m^2)
-                     stover N conc =     0.61 (%)    extractable sw =   16.21 (mm)
+                     biomass =         775.25 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     stover N conc =     0.46 (%)    extractable sw =   17.52 (mm)
 3 November 1997(Day of year=307), Manager: 
      Manager sending message :- wheat harvest
 3 November 1997(Day of year=307), wheat: 
      
-      flowering day          =  264                           stover (kg/ha)         =     5434.3
-      maturity day           =  306                           grain yield (kg/ha)    =     2527.0
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2888.0
-      grain wt (g)           =    0.032                       grains/m^2             =   7851.303
-      grains/plant           =   52.3                         maximum lai            =      2.444
-      total above ground biomass (kg/ha)    =     7961.3
-      live above ground biomass (kg/ha)     =     7961.3
-      green above ground biomass (kg/ha)    =     6918.8
-      senesced above ground biomass (kg/ha) =     1042.5
+      flowering day          =  264                           stover (kg/ha)         =     4986.1
+      maturity day           =  306                           grain yield (kg/ha)    =     2766.3
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3161.5
+      grain wt (g)           =    0.037                       grains/m^2             =   7564.996
+      grains/plant           =   50.4                         maximum lai            =      2.342
+      total above ground biomass (kg/ha)    =     7752.5
+      live above ground biomass (kg/ha)     =     7752.5
+      green above ground biomass (kg/ha)    =     6731.6
+      senesced above ground biomass (kg/ha) =     1020.8
       dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =   30.2
-      DM Root:Shoot ratio    =    0.151                       Harvest Index          =      0.317
-      Stover C:N ratio       =   67.796                       Root C:N ratio         =     17.124
-      grain N percent        =       2.44                     total N content (kg/ha)=      93.81
-      grain N uptake (kg/ha) =      61.74                     senesced N content (kg/ha)=    5.21
-      green N content (kg/ha)=      26.85                     dead N content (kg/ha) =       0.00
+      number of leaves       =   30.1
+      DM Root:Shoot ratio    =    0.150                       Harvest Index          =      0.357
+      Stover C:N ratio       =   84.982                       Root C:N ratio         =     17.132
+      grain N percent        =       2.61                     total N content (kg/ha)=      95.67
+      grain N uptake (kg/ha) =      72.21                     senesced N content (kg/ha)=    5.10
+      green N content (kg/ha)=      18.36                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.020        0.030        0.000        0.000
-         floral_initiation    to flowering               0.063        0.091        0.000        0.000
-         flowering            to start_grain_fill        0.627        0.740        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.512        0.600        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.025        0.036        0.000        0.000
+         floral_initiation    to flowering               0.072        0.104        0.000        0.000
+         flowering            to start_grain_fill        0.629        0.741        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.491        0.579        0.000        0.003
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               5434.04                    0.00
-                          N  (kg/ha) =                 32.04                    0.00
+                          DM (kg/ha) =               4985.84                    0.00
+                          N  (kg/ha) =                 23.45                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2527.01                    0.00
-                          N  (kg/ha) =                 61.74                    0.00
+                          DM (kg/ha) =               2766.33                    0.00
+                          N  (kg/ha) =                 72.21                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.03 (g/m^2)   lai          =   0.030 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =   16.21 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =   17.52 (mm)
 3 November 1997(Day of year=307), Manager: 
      Manager sending message :- wheat end_crop
 3 November 1997(Day of year=307), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.29                 1200.76
-                          N  (kg/ha) =                  0.02                   28.05
+                          DM (kg/ha) =                  0.29                 1162.46
+                          N  (kg/ha) =                  0.02                   27.14
      
 30 December 1997(Day of year=364), clock: 
      Simulation is terminating due to end criteria being met.
