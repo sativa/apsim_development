@@ -1,8 +1,8 @@
 Version = 3.0
 NumPages = 2
 object data: TForm
-  Left = 4
-  Top = 4
+  Left = 0
+  Top = 0
   Align = alClient
   BorderIcons = []
   BorderStyle = bsNone
@@ -3356,10 +3356,10 @@ object data: TForm
   end
 end
 object Page1: TQuickRep
-  Left = 358
-  Top = 32
-  Width = 556
-  Height = 786
+  Left = 143
+  Top = -428
+  Width = 714
+  Height = 1010
   Frame.Color = clBlack
   Frame.DrawTop = False
   Frame.DrawBottom = False
@@ -3400,12 +3400,12 @@ object Page1: TQuickRep
   PrintIfEmpty = True
   SnapToGrid = True
   Units = MM
-  Zoom = 70
+  Zoom = 90
   object TitleBand1: TQRBand
     Left = 0
     Top = 0
-    Width = 556
-    Height = 786
+    Width = 714
+    Height = 1010
     Frame.Color = clBlack
     Frame.DrawTop = False
     Frame.DrawBottom = False
@@ -3417,13 +3417,13 @@ object Page1: TQuickRep
     ForceNewPage = False
     Size.Values = (
       2970
-      2101.54761904762)
+      2099.02777777778)
     BandType = rbTitle
     object Graph1: TGraph
-      Left = 46
-      Top = 62
-      Width = 487
-      Height = 216
+      Left = 59
+      Top = 80
+      Width = 626
+      Height = 278
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -3725,10 +3725,10 @@ object Page1: TQuickRep
       end
     end
     object Graph2: TGraph
-      Left = 37
-      Top = 278
-      Width = 496
-      Height = 216
+      Left = 48
+      Top = 357
+      Width = 638
+      Height = 278
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -4031,10 +4031,10 @@ object Page1: TQuickRep
       end
     end
     object Graph3: TGraph
-      Left = 37
-      Top = 510
-      Width = 496
-      Height = 216
+      Left = 48
+      Top = 656
+      Width = 638
+      Height = 278
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -4337,20 +4337,20 @@ object Page1: TQuickRep
       end
     end
     object Text1: TText
-      Left = 39
-      Top = 29
-      Width = 186
-      Height = 26
+      Left = 51
+      Top = 37
+      Width = 239
+      Height = 34
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        98.2738095238095
-        147.410714285714
-        109.613095238095
-        703.035714285714)
+        99.9537037037037
+        149.930555555556
+        108.773148148148
+        702.615740740741)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -4372,10 +4372,10 @@ object Page1: TQuickRep
   end
 end
 object Page2: TQuickRep
-  Left = 153
+  Left = 222
   Top = 0
-  Width = 794
-  Height = 1123
+  Width = 556
+  Height = 786
   Frame.Color = clBlack
   Frame.DrawTop = False
   Frame.DrawBottom = False
@@ -4416,12 +4416,12 @@ object Page2: TQuickRep
   PrintIfEmpty = True
   SnapToGrid = True
   Units = MM
-  Zoom = 100
+  Zoom = 70
   object TitleBand2: TQRBand
     Left = 0
     Top = 0
-    Width = 794
-    Height = 1123
+    Width = 556
+    Height = 786
     Frame.Color = clBlack
     Frame.DrawTop = False
     Frame.DrawBottom = False
@@ -4433,13 +4433,13 @@ object Page2: TQuickRep
     ForceNewPage = False
     Size.Values = (
       2970
-      2100.79166666667)
+      2101.54761904762)
     BandType = rbTitle
     object Graph4: TGraph
-      Left = 30
-      Top = 82
-      Width = 693
-      Height = 200
+      Left = 21
+      Top = 58
+      Width = 485
+      Height = 140
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -4740,10 +4740,10 @@ object Page2: TQuickRep
       end
     end
     object Graph5: TGraph
-      Left = 30
-      Top = 278
-      Width = 693
-      Height = 200
+      Left = 21
+      Top = 194
+      Width = 485
+      Height = 140
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -5045,10 +5045,10 @@ object Page2: TQuickRep
       end
     end
     object Graph6: TGraph
-      Left = 30
-      Top = 473
-      Width = 693
-      Height = 200
+      Left = 21
+      Top = 331
+      Width = 485
+      Height = 140
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -5350,10 +5350,10 @@ object Page2: TQuickRep
       end
     end
     object Graph7: TGraph
-      Left = 30
-      Top = 665
-      Width = 693
-      Height = 200
+      Left = 21
+      Top = 466
+      Width = 485
+      Height = 140
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -5655,10 +5655,10 @@ object Page2: TQuickRep
       end
     end
     object Graph8: TGraph
-      Left = 38
-      Top = 897
-      Width = 693
-      Height = 200
+      Left = 27
+      Top = 628
+      Width = 485
+      Height = 140
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
