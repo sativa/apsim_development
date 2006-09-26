@@ -1,13 +1,13 @@
 Version = 3.0
-NumPages = 3
+NumPages = 4
 object data: TForm
   Left = 4
   Top = 4
   Align = alClient
   BorderIcons = []
   BorderStyle = bsNone
-  ClientHeight = 833
-  ClientWidth = 1264
+  ClientHeight = 528
+  ClientWidth = 735
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -61,13 +61,11 @@ object data: TForm
       end
       item
         Name = 'biomass_n'
-        DataType = ftString
-        Size = 200
+        DataType = ftFloat
       end
       item
         Name = 'grain_n'
-        DataType = ftString
-        Size = 200
+        DataType = ftFloat
       end
       item
         Name = 'grain_size'
@@ -79,8 +77,7 @@ object data: TForm
       end
       item
         Name = 'n_conc_grain'
-        DataType = ftString
-        Size = 200
+        DataType = ftFloat
       end
       item
         Name = 'grain_protein'
@@ -110,8 +107,8 @@ object data: TForm
     filenames.Strings = (
       'Observed\CombinedFinalHarvest.txt')
     interpretTitles = True
-    Left = 113
-    Top = 64
+    Left = 73
+    Top = 32
   end
   object ObsCunderdinFinal: TFilter
     Active = True
@@ -157,13 +154,11 @@ object data: TForm
       end
       item
         Name = 'biomass_n'
-        DataType = ftString
-        Size = 200
+        DataType = ftFloat
       end
       item
         Name = 'grain_n'
-        DataType = ftString
-        Size = 200
+        DataType = ftFloat
       end
       item
         Name = 'grain_size'
@@ -175,8 +170,7 @@ object data: TForm
       end
       item
         Name = 'n_conc_grain'
-        DataType = ftString
-        Size = 200
+        DataType = ftFloat
       end
       item
         Name = 'grain_protein'
@@ -207,8 +201,8 @@ object data: TForm
       'Graph2.afterDataRefresh'
       'Graph3.afterDataRefresh')
     filter = 'experiment='#39'Cunderdin97'#39
-    Left = 179
-    Top = 64
+    Left = 155
+    Top = 32
   end
   object Predicted: TApsimFileReader
     Active = True
@@ -380,9 +374,25 @@ object data: TForm
       'Wheat_Cunderdin97_WetN0WilgoyneMid.out'
       'Wheat_Cunderdin97_WetN0WilgoyneLate.out'
       'Wheat_Cunderdin97_WetN50WilgoyneEarly.out'
-      'Wheat_Cunderdin97_WetN50WilgoyneMid.out')
-    Left = 115
-    Top = 143
+      'Wheat_Cunderdin97_WetN50WilgoyneMid.out'
+      'Wheat_Cunderdin97_DryN0bSpearEarly.out'
+      'Wheat_Cunderdin97_DryN0bSpearMid.out'
+      'Wheat_Cunderdin97_DryN50bSpearEarly.out'
+      'Wheat_Cunderdin97_DryN50bSpearMid.out'
+      'Wheat_Cunderdin97_WetN0bSpearEarly.out'
+      'Wheat_Cunderdin97_WetN0bSpearMid.out'
+      'Wheat_Cunderdin97_WetN50bSpearEarly.out'
+      'Wheat_Cunderdin97_WetN50bSpearMid.out'
+      'Wheat_Cunderdin97_DryN0bWilgoyneEarly.out'
+      'Wheat_Cunderdin97_DryN0bWilgoyneMid.out'
+      'Wheat_Cunderdin97_DryN50bWilgoyneEarly.out'
+      'Wheat_Cunderdin97_DryN50bWilgoyneMid.out'
+      'Wheat_Cunderdin97_WetN0bWilgoyneEarly.out'
+      'Wheat_Cunderdin97_WetN0bWilgoyneMid.out'
+      'Wheat_Cunderdin97_WetN50bWilgoyneEarly.out'
+      'Wheat_Cunderdin97_WetN50bWilgoyneMid.out')
+    Left = 75
+    Top = 135
   end
   object PredictedFinal: TFilter
     Active = True
@@ -528,7 +538,7 @@ object data: TForm
     PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
     PersistentBackup = False
     ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    Filter = 'title = '#39'Wheat_Cunderdin97_WetN50WilgoyneMid'#39
+    Filter = 'title = '#39'Wheat_Cunderdin97_WetN50bWilgoyneMid'#39
     FilterOptions = []
     Version = '2.53g'
     LanguageID = 0
@@ -541,8 +551,8 @@ object data: TForm
       'Graph2.afterDataRefresh'
       'Graph3.afterDataRefresh')
     filter = 'zadok_stage=90'
-    Left = 200
-    Top = 144
+    Left = 152
+    Top = 128
   end
   object PredObs1: TPredObs
     Active = True
@@ -591,23 +601,19 @@ object data: TForm
       end
       item
         Name = 'Predbiomass_n'
-        DataType = ftString
-        Size = 200
+        DataType = ftFloat
       end
       item
         Name = 'Obsbiomass_n'
-        DataType = ftString
-        Size = 200
+        DataType = ftFloat
       end
       item
         Name = 'Predgrain_n'
-        DataType = ftString
-        Size = 200
+        DataType = ftFloat
       end
       item
         Name = 'Obsgrain_n'
-        DataType = ftString
-        Size = 200
+        DataType = ftFloat
       end
       item
         Name = 'Predgrain_size'
@@ -627,13 +633,11 @@ object data: TForm
       end
       item
         Name = 'Predn_conc_grain'
-        DataType = ftString
-        Size = 200
+        DataType = ftFloat
       end
       item
         Name = 'Obsn_conc_grain'
-        DataType = ftString
-        Size = 200
+        DataType = ftFloat
       end
       item
         Name = 'Predgrain_protein'
@@ -669,13 +673,15 @@ object data: TForm
       'Graph7.afterDataRefresh'
       'Graph6.afterDataRefresh'
       'Graph4.afterDataRefresh'
-      'Graph5.afterDataRefresh')
+      'Graph5.afterDataRefresh'
+      'RegrGrainN.onSourceDataChanged'
+      'Graph10.afterDataRefresh')
     predData = PredictedFinal
     obsData = ObsCunderdinFinal
     keyFields.Strings = (
       'title')
-    Left = 351
-    Top = 172
+    Left = 239
+    Top = 132
   end
   object RegrBiomass: TRegr
     Active = True
@@ -757,8 +763,8 @@ object data: TForm
       'Graph4.afterDataRefresh')
     xFieldName = 'Obsbiomass_wt'
     yFieldName = 'Predbiomass_wt'
-    Left = 455
-    Top = 180
+    Left = 311
+    Top = 132
   end
   object RegrYield: TRegr
     Active = True
@@ -840,8 +846,8 @@ object data: TForm
       'Graph5.afterDataRefresh')
     xFieldName = 'Obsgrain_wt'
     yFieldName = 'Predgrain_wt'
-    Left = 527
-    Top = 187
+    Left = 383
+    Top = 131
   end
   object RegrGno: TRegr
     Active = True
@@ -923,8 +929,8 @@ object data: TForm
       'Text6.afterDataRefresh')
     xFieldName = 'Obsgrain_no'
     yFieldName = 'Predgrain_no'
-    Left = 596
-    Top = 181
+    Left = 460
+    Top = 133
   end
   object RegrProtein: TRegr
     Active = True
@@ -1005,8 +1011,8 @@ object data: TForm
       'Text6.afterDataRefresh')
     xFieldName = 'Obsgrain_protein'
     yFieldName = 'Predgrain_protein'
-    Left = 654
-    Top = 185
+    Left = 518
+    Top = 137
   end
   object ObsTimeSeries: TApsimFileReader
     Active = True
@@ -1060,11 +1066,12 @@ object data: TForm
     LocaleID = 1024
     subscriptionComponentNames.Strings = (
       'Filter1.onSourceDataChanged'
-      'ObsTimeSeriesN50.onSourceDataChanged')
+      'ObsTimeSeriesN50.onSourceDataChanged'
+      'ObsTimeSeriesN0.onSourceDataChanged')
     filenames.Strings = (
       'Observed\CunderdinTimeSeries.txt')
-    Left = 355
-    Top = 67
+    Left = 291
+    Top = 35
   end
   object ObsTimeSeriesN0: TFilter
     Active = True
@@ -1121,8 +1128,8 @@ object data: TForm
       'Graph8.afterDataRefresh'
       'Graph9.afterDataRefresh')
     filter = 'Nrate=0'
-    Left = 440
-    Top = 80
+    Left = 376
+    Top = 32
   end
   object ObsTimeSeriesN50: TFilter
     Active = True
@@ -1179,8 +1186,8 @@ object data: TForm
       'Graph8.afterDataRefresh'
       'Graph9.afterDataRefresh')
     filter = 'Nrate=50'
-    Left = 528
-    Top = 88
+    Left = 456
+    Top = 40
   end
   object PredictedSpearN0_1: TApsimFileReader
     Active = True
@@ -1814,12 +1821,486 @@ object data: TForm
     Left = 281
     Top = 399
   end
+  object RegrGrainN: TRegr
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'RegrX'
+        DataType = ftFloat
+      end
+      item
+        Name = 'RegrY'
+        DataType = ftFloat
+      end
+      item
+        Name = '1:1X'
+        DataType = ftFloat
+      end
+      item
+        Name = '1:1Y'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Equation'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'm'
+        DataType = ftFloat
+      end
+      item
+        Name = 'c'
+        DataType = ftFloat
+      end
+      item
+        Name = 'r2'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'StdErr(m)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'StdErr(c)'
+        DataType = ftFloat
+      end
+      item
+        Name = 'RMSD'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    source = PredObs1
+    subscriptionComponentNames.Strings = (
+      'Graph10.afterDataRefresh'
+      'Text15.afterDataRefresh')
+    xFieldName = 'Obsgrain_n'
+    yFieldName = 'Predgrain_n'
+    Left = 576
+    Top = 136
+  end
+  object PreSingleApp: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'title'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'Date'
+        DataType = ftDate
+      end
+      item
+        Name = 'day'
+        DataType = ftFloat
+      end
+      item
+        Name = 'year'
+        DataType = ftFloat
+      end
+      item
+        Name = 'zadok_stage'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'biomass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_size'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'head_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'leaf_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'head_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'leaf_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stem_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_no'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sw_dep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_protein'
+        DataType = ftFloat
+      end
+      item
+        Name = 'swdef_photo'
+        DataType = ftFloat
+      end
+      item
+        Name = 'swdef_expan'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nfact_photo'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nfact_expan'
+        DataType = ftFloat
+      end
+      item
+        Name = 'root_depth'
+        DataType = ftFloat
+      end
+      item
+        Name = 'ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'eo'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    filenames.Strings = (
+      'Wheat_Cunderdin97_DryN0SpearEarly.out'
+      'Wheat_Cunderdin97_DryN0SpearMid.out'
+      'Wheat_Cunderdin97_DryN50SpearEarly.out'
+      'Wheat_Cunderdin97_DryN50SpearMid.out'
+      'Wheat_Cunderdin97_WetN0SpearEarly.out'
+      'Wheat_Cunderdin97_WetN0SpearMid.out'
+      'Wheat_Cunderdin97_WetN50SpearEarly.out'
+      'Wheat_Cunderdin97_WetN50SpearMid.out'
+      'Wheat_Cunderdin97_DryN0WilgoyneEarly.out'
+      'Wheat_Cunderdin97_DryN0WilgoyneMid.out'
+      'Wheat_Cunderdin97_DryN50WilgoyneEarly.out'
+      'Wheat_Cunderdin97_DryN50WilgoyneMid.out'
+      'Wheat_Cunderdin97_WetN0WilgoyneEarly.out'
+      'Wheat_Cunderdin97_WetN0WilgoyneMid.out'
+      'Wheat_Cunderdin97_WetN50WilgoyneEarly.out'
+      'Wheat_Cunderdin97_WetN50WilgoyneMid.out')
+    Left = 73
+    Top = 244
+  end
+  object PreTopDress: TApsimFileReader
+    Active = True
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <
+      item
+        Name = 'title'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'Date'
+        DataType = ftDate
+      end
+      item
+        Name = 'day'
+        DataType = ftFloat
+      end
+      item
+        Name = 'year'
+        DataType = ftFloat
+      end
+      item
+        Name = 'zadok_stage'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stage_name'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'biomass'
+        DataType = ftFloat
+      end
+      item
+        Name = 'yield'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_size'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'biomass_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'lai'
+        DataType = ftFloat
+      end
+      item
+        Name = 'head_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'leaf_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'head_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'leaf_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stem_n'
+        DataType = ftFloat
+      end
+      item
+        Name = 'stem_wt'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_no'
+        DataType = ftFloat
+      end
+      item
+        Name = 'sw_dep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'n_conc_grain'
+        DataType = ftFloat
+      end
+      item
+        Name = 'grain_protein'
+        DataType = ftFloat
+      end
+      item
+        Name = 'swdef_photo'
+        DataType = ftFloat
+      end
+      item
+        Name = 'swdef_expan'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nfact_photo'
+        DataType = ftFloat
+      end
+      item
+        Name = 'nfact_expan'
+        DataType = ftFloat
+      end
+      item
+        Name = 'root_depth'
+        DataType = ftFloat
+      end
+      item
+        Name = 'ep'
+        DataType = ftFloat
+      end
+      item
+        Name = 'eo'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    filenames.Strings = (
+      'Wheat_Cunderdin97_DryN0bSpearEarly.out'
+      'Wheat_Cunderdin97_DryN0bSpearMid.out'
+      'Wheat_Cunderdin97_DryN50bSpearEarly.out'
+      'Wheat_Cunderdin97_DryN50bSpearMid.out'
+      'Wheat_Cunderdin97_WetN0bSpearEarly.out'
+      'Wheat_Cunderdin97_WetN0bSpearMid.out'
+      'Wheat_Cunderdin97_WetN50bSpearEarly.out'
+      'Wheat_Cunderdin97_WetN50bSpearMid.out'
+      'Wheat_Cunderdin97_DryN0bWilgoyneEarly.out'
+      'Wheat_Cunderdin97_DryN0bWilgoyneMid.out'
+      'Wheat_Cunderdin97_DryN50bWilgoyneEarly.out'
+      'Wheat_Cunderdin97_DryN50bWilgoyneMid.out'
+      'Wheat_Cunderdin97_WetN0bWilgoyneEarly.out'
+      'Wheat_Cunderdin97_WetN0bWilgoyneMid.out'
+      'Wheat_Cunderdin97_WetN50bWilgoyneEarly.out'
+      'Wheat_Cunderdin97_WetN50bWilgoyneMid.out')
+    Left = 152
+    Top = 248
+  end
+  object Filter1: TFilter
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    Left = 200
+    Top = 256
+  end
+  object Filter2: TFilter
+    DesignActivation = True
+    AttachedAutoRefresh = True
+    AttachMaxCount = 1
+    FieldDefs = <>
+    IndexDefs = <>
+    SortOptions = []
+    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
+    CommaTextOptions = [mtfSaveData]
+    CSVQuote = '"'
+    CSVFieldDelimiter = ','
+    CSVRecordDelimiter = ','
+    CSVTrueString = 'True'
+    CSVFalseString = 'False'
+    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
+    PersistentBackup = False
+    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
+    FilterOptions = []
+    Version = '2.53g'
+    LanguageID = 0
+    SortID = 0
+    SubLanguageID = 1
+    LocaleID = 1024
+    Left = 296
+    Top = 256
+  end
 end
 object Page1: TQuickRep
-  Left = 200
+  Left = 24
   Top = 0
-  Width = 635
-  Height = 898
+  Width = 952
+  Height = 1347
   Frame.Color = clBlack
   Frame.DrawTop = False
   Frame.DrawBottom = False
@@ -1860,12 +2341,12 @@ object Page1: TQuickRep
   PrintIfEmpty = True
   SnapToGrid = True
   Units = MM
-  Zoom = 80
+  Zoom = 120
   object TitleBand1: TQRBand
     Left = 0
     Top = 0
-    Width = 635
-    Height = 898
+    Width = 952
+    Height = 1347
     Frame.Color = clBlack
     Frame.DrawTop = False
     Frame.DrawBottom = False
@@ -1877,13 +2358,13 @@ object Page1: TQuickRep
     ForceNewPage = False
     Size.Values = (
       2970
-      2100.13020833333)
+      2099.02777777778)
     BandType = rbTitle
     object Graph1: TGraph
-      Left = 34
-      Top = 110
-      Width = 574
-      Height = 269
+      Left = 50
+      Top = 166
+      Width = 862
+      Height = 403
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -1972,10 +2453,10 @@ object Page1: TQuickRep
       end
     end
     object Graph2: TGraph
-      Left = 34
-      Top = 341
-      Width = 574
-      Height = 269
+      Left = 50
+      Top = 511
+      Width = 862
+      Height = 403
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -2065,10 +2546,10 @@ object Page1: TQuickRep
       end
     end
     object Graph3: TGraph
-      Left = 34
-      Top = 584
-      Width = 574
-      Height = 269
+      Left = 50
+      Top = 876
+      Width = 862
+      Height = 403
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -2158,20 +2639,20 @@ object Page1: TQuickRep
       end
     end
     object Text1: TText
-      Left = 47
-      Top = 40
-      Width = 289
-      Height = 47
+      Left = 71
+      Top = 60
+      Width = 433
+      Height = 71
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        155.442708333333
-        155.442708333333
+        156.545138888889
+        156.545138888889
         132.291666666667
-        955.807291666667)
+        954.704861111111)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -2191,20 +2672,20 @@ object Page1: TQuickRep
       FontSize = 36
     end
     object Text2: TText
-      Left = 368
-      Top = 30
-      Width = 206
-      Height = 81
+      Left = 552
+      Top = 46
+      Width = 308
+      Height = 121
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        267.890625
+        266.788194444444
         1217.08333333333
-        99.21875
-        681.302083333333)
+        101.423611111111
+        679.097222222222)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -2229,20 +2710,20 @@ object Page1: TQuickRep
       FontSize = 16
     end
     object Text12: TText
-      Left = 368
-      Top = 30
-      Width = 206
-      Height = 81
+      Left = 552
+      Top = 46
+      Width = 308
+      Height = 121
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        267.890625
+        266.788194444444
         1217.08333333333
-        99.21875
-        681.302083333333)
+        101.423611111111
+        679.097222222222)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -2269,10 +2750,10 @@ object Page1: TQuickRep
   end
 end
 object Page2: TQuickRep
-  Left = 319
-  Top = 144
-  Width = 397
-  Height = 561
+  Left = 24
+  Top = -578
+  Width = 952
+  Height = 1347
   Frame.Color = clBlack
   Frame.DrawTop = False
   Frame.DrawBottom = False
@@ -2313,12 +2794,12 @@ object Page2: TQuickRep
   PrintIfEmpty = True
   SnapToGrid = True
   Units = MM
-  Zoom = 50
+  Zoom = 120
   object TitleBand2: TQRBand
     Left = 0
     Top = 0
-    Width = 397
-    Height = 561
+    Width = 952
+    Height = 1347
     Frame.Color = clBlack
     Frame.DrawTop = False
     Frame.DrawBottom = False
@@ -2330,13 +2811,13 @@ object Page2: TQuickRep
     ForceNewPage = False
     Size.Values = (
       2970
-      2100.79166666667)
+      2099.02777777778)
     BandType = rbTitle
     object Graph4: TGraph
-      Left = 16
-      Top = 141
-      Width = 172
-      Height = 161
+      Left = 38
+      Top = 338
+      Width = 413
+      Height = 386
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -2454,10 +2935,10 @@ object Page2: TQuickRep
       end
     end
     object Text3: TText
-      Left = 84
-      Top = 261
-      Width = 107
-      Height = 10
+      Left = 202
+      Top = 626
+      Width = 256
+      Height = 24
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -2465,9 +2946,9 @@ object Page2: TQuickRep
       Frame.DrawRight = False
       Size.Values = (
         52.9166666666667
-        444.5
-        1381.125
-        566.208333333333)
+        445.381944444444
+        1380.24305555556
+        564.444444444444)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -2479,7 +2960,7 @@ object Page2: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 1.08 x + 124.10 (r2 = 0.92)')
+        ' y = 0.97 x + 135.20 (r2 = 0.90)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -2487,10 +2968,10 @@ object Page2: TQuickRep
       FontSize = 12
     end
     object Graph5: TGraph
-      Left = 192
-      Top = 141
-      Width = 172
-      Height = 161
+      Left = 461
+      Top = 338
+      Width = 413
+      Height = 386
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -2608,10 +3089,10 @@ object Page2: TQuickRep
       end
     end
     object Text4: TText
-      Left = 252
-      Top = 261
-      Width = 102
-      Height = 10
+      Left = 604
+      Top = 626
+      Width = 245
+      Height = 24
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -2619,9 +3100,9 @@ object Page2: TQuickRep
       Frame.DrawRight = False
       Size.Values = (
         52.9166666666667
-        1333.5
-        1381.125
-        539.75)
+        1331.73611111111
+        1380.24305555556
+        540.190972222222)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -2633,7 +3114,7 @@ object Page2: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.80 x + 89.62 (r2 = 0.82)')
+        ' y = 0.74 x + 59.30 (r2 = 0.87)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -2641,10 +3122,10 @@ object Page2: TQuickRep
       FontSize = 12
     end
     object Graph6: TGraph
-      Left = 16
-      Top = 357
-      Width = 172
-      Height = 161
+      Left = 38
+      Top = 857
+      Width = 413
+      Height = 386
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -2762,10 +3243,10 @@ object Page2: TQuickRep
       end
     end
     object Text5: TText
-      Left = 76
-      Top = 477
-      Width = 111
-      Height = 10
+      Left = 181
+      Top = 1144
+      Width = 266
+      Height = 24
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -2773,9 +3254,9 @@ object Page2: TQuickRep
       Frame.DrawRight = False
       Size.Values = (
         52.9166666666667
-        402.166666666667
-        2524.125
-        587.375)
+        399.079861111111
+        2522.36111111111
+        586.493055555556)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -2787,7 +3268,7 @@ object Page2: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 1.21 x + 1936.22 (r2 = 0.86)')
+        ' y = 0.67 x + 2112.05 (r2 = 0.75)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -2795,10 +3276,10 @@ object Page2: TQuickRep
       FontSize = 12
     end
     object Graph7: TGraph
-      Left = 192
-      Top = 357
-      Width = 172
-      Height = 161
+      Left = 461
+      Top = 857
+      Width = 413
+      Height = 386
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -2916,10 +3397,10 @@ object Page2: TQuickRep
       end
     end
     object Text6: TText
-      Left = 252
-      Top = 477
-      Width = 98
-      Height = 10
+      Left = 604
+      Top = 1144
+      Width = 234
+      Height = 24
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -2927,9 +3408,9 @@ object Page2: TQuickRep
       Frame.DrawRight = False
       Size.Values = (
         52.9166666666667
-        1333.5
-        2524.125
-        518.583333333333)
+        1331.73611111111
+        2522.36111111111
+        515.9375)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -2941,7 +3422,7 @@ object Page2: TQuickRep
       Font.Name = 'Arial'
       Font.Style = []
       Lines.Strings = (
-        ' y = 0.46 x + 5.59 (r2 = 0.70)')
+        ' y = 0.40 x + 7.05 (r2 = 0.55)')
       ParentFont = False
       Transparent = False
       WordWrap = True
@@ -2949,20 +3430,20 @@ object Page2: TQuickRep
       FontSize = 12
     end
     object Text7: TText
-      Left = 52
-      Top = 124
-      Width = 59
-      Height = 17
+      Left = 124
+      Top = 298
+      Width = 140
+      Height = 40
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        89.9583333333333
-        275.166666666667
-        656.166666666667
-        312.208333333333)
+        88.1944444444444
+        273.402777777778
+        657.048611111111
+        308.680555555556)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -2982,20 +3463,20 @@ object Page2: TQuickRep
       FontSize = 20
     end
     object Text8: TText
-      Left = 228
-      Top = 124
-      Width = 34
-      Height = 17
+      Left = 548
+      Top = 298
+      Width = 80
+      Height = 40
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        89.9583333333333
-        1206.5
-        656.166666666667
-        179.916666666667)
+        88.1944444444444
+        1208.26388888889
+        657.048611111111
+        176.388888888889)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -3015,20 +3496,20 @@ object Page2: TQuickRep
       FontSize = 20
     end
     object Text9: TText
-      Left = 60
-      Top = 340
-      Width = 94
-      Height = 17
+      Left = 144
+      Top = 816
+      Width = 224
+      Height = 40
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        89.9583333333333
+        88.1944444444444
         317.5
         1799.16666666667
-        497.416666666667)
+        493.888888888889)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -3048,20 +3529,20 @@ object Page2: TQuickRep
       FontSize = 20
     end
     object Text10: TText
-      Left = 220
-      Top = 340
-      Width = 88
-      Height = 17
+      Left = 528
+      Top = 816
+      Width = 211
+      Height = 40
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        89.9583333333333
+        88.1944444444444
         1164.16666666667
         1799.16666666667
-        465.666666666667)
+        465.225694444444)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -3081,20 +3562,20 @@ object Page2: TQuickRep
       FontSize = 20
     end
     object Text11: TText
-      Left = 21
-      Top = 25
-      Width = 181
-      Height = 29
+      Left = 50
+      Top = 60
+      Width = 433
+      Height = 70
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        153.458333333333
-        111.125
+        154.340277777778
+        110.243055555556
         132.291666666667
-        957.791666666667)
+        954.704861111111)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -3114,20 +3595,20 @@ object Page2: TQuickRep
       FontSize = 36
     end
     object Text13: TText
-      Left = 230
-      Top = 19
-      Width = 129
-      Height = 59
+      Left = 516
+      Top = 58
+      Width = 392
+      Height = 142
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        312.208333333333
-        1217.08333333333
-        100.541666666667
-        682.625)
+        313.090277777778
+        1137.70833333333
+        127.881944444444
+        864.305555555556)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -3141,21 +3622,23 @@ object Page2: TQuickRep
       Lines.Strings = (
         'Cultivars - Spear, Wilgoyne'
         'Irrigated and Dryland'
-        'Zero or 50kg of Nitrogen'
+        'Zero or 50kg of Nitrogen at sowing'
+        'Zero or 30kg of Nitrogen at booting'
         'Sowing - Early, Mid, Late')
       ParentFont = False
       Transparent = False
       WordWrap = True
       text = 
         'Cultivars - Spear, Wilgoyne'#13#10'Irrigated and Dryland'#13#10'Zero or 50kg' +
-        ' of Nitrogen'#13#10'Sowing - Early, Mid, Late'#13#10
+        ' of Nitrogen at sowing'#13#10'Zero or 30kg of Nitrogen at booting'#13#10'Sow' +
+        'ing - Early, Mid, Late'#13#10
       FontSize = 16
     end
   end
 end
 object Page3: TQuickRep
-  Left = 318
-  Top = 144
+  Left = 302
+  Top = 10
   Width = 397
   Height = 561
   Frame.Color = clBlack
@@ -3592,6 +4075,242 @@ object Page3: TQuickRep
       Transparent = False
       WordWrap = True
       text = 'Spear (Non-irrigated)'#13#10
+      FontSize = 18
+    end
+  end
+end
+object Page4: TQuickRep
+  Left = 64
+  Top = 0
+  Width = 873
+  Height = 1235
+  Frame.Color = clBlack
+  Frame.DrawTop = False
+  Frame.DrawBottom = False
+  Frame.DrawLeft = False
+  Frame.DrawRight = False
+  Frame.Style = psClear
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Arial'
+  Font.Style = []
+  Functions.Strings = (
+    'PAGENUMBER'
+    'COLUMNNUMBER'
+    'REPORTTITLE')
+  Functions.DATA = (
+    '0'
+    '0'
+    #39#39)
+  Options = [FirstPageHeader, LastPageFooter]
+  Page.Columns = 1
+  Page.Orientation = poPortrait
+  Page.PaperSize = A4
+  Page.Ruler = False
+  Page.Values = (
+    0
+    2970
+    0
+    2100
+    0
+    0
+    0)
+  PrinterSettings.Copies = 1
+  PrinterSettings.Duplex = False
+  PrinterSettings.FirstPage = 0
+  PrinterSettings.LastPage = 0
+  PrinterSettings.OutputBin = Auto
+  PrintIfEmpty = True
+  SnapToGrid = True
+  Units = MM
+  Zoom = 110
+  object TitleBand4: TQRBand
+    Left = 0
+    Top = 0
+    Width = 873
+    Height = 1235
+    Frame.Color = clBlack
+    Frame.DrawTop = False
+    Frame.DrawBottom = False
+    Frame.DrawLeft = False
+    Frame.DrawRight = False
+    AlignToBottom = False
+    Color = clWhite
+    ForceNewColumn = False
+    ForceNewPage = False
+    Size.Values = (
+      2970
+      2099.82954545455)
+    BandType = rbTitle
+    object Graph10: TGraph
+      Left = 46
+      Top = 128
+      Width = 385
+      Height = 319
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Frame.Style = psClear
+      Size.Values = (
+        767.291666666667
+        110.643939393939
+        307.878787878788
+        926.041666666667)
+      title = ' '
+      subTitle = ' '
+      leftAxisTitle = 'Predicted'
+      topAxisTitle = ' '
+      rightAxisTitle = ' '
+      bottomAxisTitle = 'Observed'
+      footTitle = ' '
+      seriesTitle1 = ' '
+      seriesTitle2 = ' '
+      seriesTitle3 = ' '
+      seriesTitle4 = ' '
+      seriesTitle5 = ' '
+      object QRDBChart10: TQRDBChart
+        Left = -1
+        Top = -1
+        Width = 1
+        Height = 1
+        BackWall.Visible = False
+        BottomAxis.AxisValuesFormat = '###0.###'
+        BottomAxis.Grid.Visible = False
+        BottomAxis.LabelsSeparation = 100
+        BottomAxis.MinorTicks.Visible = False
+        BottomAxis.TickLength = 7
+        BottomAxis.Title.Caption = 'Observed'
+        BottomAxis.Title.Font.Height = -16
+        LeftAxis.AxisValuesFormat = '###0.###'
+        LeftAxis.Grid.Visible = False
+        LeftAxis.LabelsSeparation = 100
+        LeftAxis.MinorTicks.Visible = False
+        LeftAxis.TickLength = 7
+        LeftAxis.Title.Caption = 'Predicted'
+        LeftAxis.Title.Font.Height = -16
+        Legend.LegendStyle = lsSeries
+        Legend.Visible = False
+        RightAxis.AxisValuesFormat = '###0.###'
+        RightAxis.Grid.Visible = False
+        RightAxis.LabelsSeparation = 100
+        RightAxis.MinorTicks.Visible = False
+        RightAxis.TickLength = 7
+        TopAxis.AxisValuesFormat = '###0.###'
+        TopAxis.Grid.Visible = False
+        TopAxis.LabelsSeparation = 100
+        TopAxis.MinorTicks.Visible = False
+        TopAxis.TickLength = 7
+        View3D = False
+        object Series12: TPointSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.PredObs1
+          SeriesColor = clBlack
+          ClickableLine = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psCircle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Obsgrain_n'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'Predgrain_n'
+        end
+        object Series13: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.RegrGrainN
+          SeriesColor = clBlack
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'RegrX'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'RegrY'
+        end
+        object Series14: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = data.RegrGrainN
+          SeriesColor = clBlack
+          LinePen.Style = psDot
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = '1:1X'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = '1:1Y'
+        end
+      end
+    end
+    object Text15: TText
+      Left = 207
+      Top = 356
+      Width = 186
+      Height = 20
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        48.1060606060606
+        497.897727272727
+        856.287878787879
+        447.386363636364)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Lines.Strings = (
+        ' y = 0.76 x + 0.93 (r2 = 0.82)')
+      Transparent = False
+      WordWrap = True
+      text = '$property(regrGrainN.equation)'#13#10
+      FontSize = 10
+    end
+    object Text16: TText
+      Left = 102
+      Top = 79
+      Width = 177
+      Height = 30
+      Frame.Color = clBlack
+      Frame.DrawTop = False
+      Frame.DrawBottom = False
+      Frame.DrawLeft = False
+      Frame.DrawRight = False
+      Size.Values = (
+        72.1590909090909
+        245.340909090909
+        190.018939393939
+        425.738636363636)
+      Alignment = taLeftJustify
+      AlignToBand = False
+      AutoSize = True
+      AutoStretch = False
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -24
+      Font.Name = 'Arial'
+      Font.Style = []
+      Lines.Strings = (
+        'Grain N (g/m2)')
+      ParentFont = False
+      Transparent = False
+      WordWrap = True
+      text = 'Grain N (g/m2)'#13#10
       FontSize = 18
     end
   end
