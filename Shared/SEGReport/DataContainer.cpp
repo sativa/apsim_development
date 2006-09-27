@@ -227,8 +227,18 @@ extern "C" void _export __stdcall SetProperties(DataContainer* container,
                                                 const char* path,
                                                 const char* properties)
    {
-   if (container != NULL && container->setProperties(path, properties))
-      container->refresh(path);
+   TCursor savedCursor = Screen->Cursor;
+   Screen->Cursor = crHourGlass;
+
+   try
+      {
+      if (container != NULL && container->setProperties(path, properties))
+         container->refresh(path);
+      }
+   catch (...)
+      {
+      }
+   Screen->Cursor = savedCursor;
    }
 
 extern "C" void _export __stdcall GetErrorMessage(DataContainer* container,
