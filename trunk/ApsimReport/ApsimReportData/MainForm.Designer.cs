@@ -31,21 +31,20 @@ namespace ApsimReportData
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.BottomPanel = new System.Windows.Forms.Panel();
+            this.ToolboxPanel = new System.Windows.Forms.Panel();
+            this.ToolboxLabel = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.SmallImages = new System.Windows.Forms.ImageList(this.components);
             this.RightPanel = new System.Windows.Forms.Panel();
-            this.CancelBut = new System.Windows.Forms.Button();
-            this.OkButton = new System.Windows.Forms.Button();
+            this.CloseButton = new System.Windows.Forms.Button();
             this.Splitter = new System.Windows.Forms.Splitter();
             this.MainPanel = new System.Windows.Forms.Panel();
             this.BottomToolStrip = new System.Windows.Forms.ToolStrip();
             this.ShowHideToolboxButton = new System.Windows.Forms.ToolStripButton();
-            this.ToolboxLabel = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.ToolboxPanel = new System.Windows.Forms.Panel();
             this.BottomPanel.SuspendLayout();
+            this.ToolboxLabel.SuspendLayout();
             this.RightPanel.SuspendLayout();
             this.BottomToolStrip.SuspendLayout();
-            this.ToolboxLabel.SuspendLayout();
             this.SuspendLayout();
             // 
             // BottomPanel
@@ -58,6 +57,36 @@ namespace ApsimReportData
             this.BottomPanel.Size = new System.Drawing.Size(894, 154);
             this.BottomPanel.TabIndex = 2;
             this.BottomPanel.Visible = false;
+            // 
+            // ToolboxPanel
+            // 
+            this.ToolboxPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ToolboxPanel.Location = new System.Drawing.Point(0, 30);
+            this.ToolboxPanel.Name = "ToolboxPanel";
+            this.ToolboxPanel.Size = new System.Drawing.Size(894, 124);
+            this.ToolboxPanel.TabIndex = 22;
+            // 
+            // ToolboxLabel
+            // 
+            this.ToolboxLabel.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.ToolboxLabel.Controls.Add(this.label1);
+            this.ToolboxLabel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ToolboxLabel.Location = new System.Drawing.Point(0, 0);
+            this.ToolboxLabel.Name = "ToolboxLabel";
+            this.ToolboxLabel.Size = new System.Drawing.Size(894, 30);
+            this.ToolboxLabel.TabIndex = 21;
+            this.ToolboxLabel.Visible = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.label1.Location = new System.Drawing.Point(5, 4);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(51, 15);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Toolbox";
             // 
             // SmallImages
             // 
@@ -78,35 +107,23 @@ namespace ApsimReportData
             // RightPanel
             // 
             this.RightPanel.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.RightPanel.Controls.Add(this.CancelBut);
-            this.RightPanel.Controls.Add(this.OkButton);
+            this.RightPanel.Controls.Add(this.CloseButton);
             this.RightPanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.RightPanel.Location = new System.Drawing.Point(894, 0);
             this.RightPanel.Name = "RightPanel";
             this.RightPanel.Size = new System.Drawing.Size(98, 667);
             this.RightPanel.TabIndex = 3;
             // 
-            // CancelBut
+            // CloseButton
             // 
-            this.CancelBut.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelBut.Location = new System.Drawing.Point(15, 50);
-            this.CancelBut.Name = "CancelBut";
-            this.CancelBut.Size = new System.Drawing.Size(75, 23);
-            this.CancelBut.TabIndex = 3;
-            this.CancelBut.Text = "Cancel";
-            this.CancelBut.UseVisualStyleBackColor = true;
-            this.CancelBut.Click += new System.EventHandler(this.CancelBut_Click);
-            // 
-            // OkButton
-            // 
-            this.OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OkButton.Location = new System.Drawing.Point(15, 12);
-            this.OkButton.Name = "OkButton";
-            this.OkButton.Size = new System.Drawing.Size(75, 23);
-            this.OkButton.TabIndex = 2;
-            this.OkButton.Text = "Ok";
-            this.OkButton.UseVisualStyleBackColor = true;
-            this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
+            this.CloseButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.CloseButton.Location = new System.Drawing.Point(15, 12);
+            this.CloseButton.Name = "CloseButton";
+            this.CloseButton.Size = new System.Drawing.Size(75, 23);
+            this.CloseButton.TabIndex = 2;
+            this.CloseButton.Text = "Close";
+            this.CloseButton.UseVisualStyleBackColor = true;
+            this.CloseButton.Click += new System.EventHandler(this.CloseButtonClick);
             // 
             // Splitter
             // 
@@ -147,36 +164,6 @@ namespace ApsimReportData
             this.ShowHideToolboxButton.Text = "Show / Hide toolbox";
             this.ShowHideToolboxButton.Click += new System.EventHandler(this.ShowHideToolboxButton_Click);
             // 
-            // ToolboxLabel
-            // 
-            this.ToolboxLabel.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.ToolboxLabel.Controls.Add(this.label1);
-            this.ToolboxLabel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ToolboxLabel.Location = new System.Drawing.Point(0, 0);
-            this.ToolboxLabel.Name = "ToolboxLabel";
-            this.ToolboxLabel.Size = new System.Drawing.Size(894, 30);
-            this.ToolboxLabel.TabIndex = 21;
-            this.ToolboxLabel.Visible = false;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label1.Location = new System.Drawing.Point(5, 4);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(51, 15);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Toolbox";
-            // 
-            // ToolboxPanel
-            // 
-            this.ToolboxPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ToolboxPanel.Location = new System.Drawing.Point(0, 30);
-            this.ToolboxPanel.Name = "ToolboxPanel";
-            this.ToolboxPanel.Size = new System.Drawing.Size(894, 124);
-            this.ToolboxPanel.TabIndex = 22;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -191,11 +178,11 @@ namespace ApsimReportData
             this.Text = "ApsimReport Data Manager";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.BottomPanel.ResumeLayout(false);
+            this.ToolboxLabel.ResumeLayout(false);
+            this.ToolboxLabel.PerformLayout();
             this.RightPanel.ResumeLayout(false);
             this.BottomToolStrip.ResumeLayout(false);
             this.BottomToolStrip.PerformLayout();
-            this.ToolboxLabel.ResumeLayout(false);
-            this.ToolboxLabel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -206,8 +193,7 @@ namespace ApsimReportData
         private System.Windows.Forms.Panel BottomPanel;
         private System.Windows.Forms.ImageList SmallImages;
         private System.Windows.Forms.Panel RightPanel;
-        private System.Windows.Forms.Button CancelBut;
-        private System.Windows.Forms.Button OkButton;
+        private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.Splitter Splitter;
         private System.Windows.Forms.Panel MainPanel;
         private System.Windows.Forms.ToolStrip BottomToolStrip;

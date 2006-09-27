@@ -13,7 +13,6 @@ namespace ApsimReportData
     {
     public partial class MainForm : Form
        {
-        private string FileName;
         private GraphController Graph;
         private ExplorerUI DataExplorer;
         private GraphController Toolbox;
@@ -24,10 +23,20 @@ namespace ApsimReportData
             InitializeComponent();
             }
 
-        public void LoadFile(string CommandFileName)
+        public void Go(string CommandLine)
             {
-            // Load the specified file. Called when a command line arg is used.
-            FileName = CommandFileName.Replace("\"", "");
+            int PosComma = CommandLine.IndexOf(',');
+            if (PosComma == -1)
+                MessageBox.Show("Invalid command line to ApsimReportData: " + CommandLine);
+            else
+                {
+                UInt32 DataContainer = Convert.ToUInt32(CommandLine.Substring(0, PosComma));
+                string xml = CommandLine.Substring(PosComma + 1);
+                Graph = new GraphController(SmallImages, DataContainer);
+                Graph.AllData = new APSIMData(xml);
+                this.Show();
+                Application.Run(this);
+                }
             }
 
         private void MainForm_Load(object sender, System.EventArgs e)
@@ -38,18 +47,10 @@ namespace ApsimReportData
             DataExplorer.Dock = DockStyle.Fill;
             DataExplorer.Visible = true;
 
-            // Form has been loaded - set everything up
-            Graph = new GraphController(SmallImages);
-            
-            // Load up the file from the command line if necessary.
-            if (FileName != "")
-                {
-                Graph.FileOpen(FileName);
-                DataExplorer.RefreshView(Graph);
-                }
+            DataExplorer.RefreshView(Graph);
 
             // Setup but don't show the Toolbox Explorer.
-            Toolbox = new GraphController(SmallImages);
+            Toolbox = new GraphController(SmallImages, 0);
             ToolboxExplorer = new ExplorerUI(null);
             ToolboxExplorer.Parent = ToolboxPanel;
             ToolboxExplorer.Dock = DockStyle.Fill;
@@ -65,16 +66,8 @@ namespace ApsimReportData
             BottomPanel.Visible = ShowHideToolboxButton.Checked;
             }
 
-        private void OkButton_Click(object sender, EventArgs e)
+        private void CloseButtonClick(object sender, EventArgs e)
             {
-            // write back to the file
-            Graph.FileSave();
-            Close();
-            }
-
-        private void CancelBut_Click(object sender, EventArgs e)
-            {
-            File.Delete(FileName);
             Close();
             }
 

@@ -30,13 +30,13 @@ namespace Graph
             this.GenericUI.HelpText = "";
             this.GenericUI.Location = new System.Drawing.Point(0, 40);
             this.GenericUI.Name = "GenericUI";
-            this.GenericUI.Size = new System.Drawing.Size(1020, 773);
+            this.GenericUI.Size = new System.Drawing.Size(1020, 416);
             this.GenericUI.TabIndex = 4;
             // 
             // splitter2
             // 
             this.splitter2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.splitter2.Location = new System.Drawing.Point(0, 599);
+            this.splitter2.Location = new System.Drawing.Point(0, 456);
             this.splitter2.Name = "splitter2";
             this.splitter2.Size = new System.Drawing.Size(1020, 3);
             this.splitter2.TabIndex = 5;
@@ -46,22 +46,22 @@ namespace Graph
             // 
             this.DataPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.DataPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.DataPanel.Location = new System.Drawing.Point(0, 602);
+            this.DataPanel.Location = new System.Drawing.Point(0, 459);
             this.DataPanel.Name = "DataPanel";
-            this.DataPanel.Size = new System.Drawing.Size(1020, 211);
+            this.DataPanel.Size = new System.Drawing.Size(1020, 354);
             this.DataPanel.TabIndex = 6;
             this.DataPanel.Resize += new System.EventHandler(this.DataPanel_Resize);
             // 
             // GraphDataUI
             // 
+            this.Controls.Add(this.GenericUI);
             this.Controls.Add(this.splitter2);
             this.Controls.Add(this.DataPanel);
-            this.Controls.Add(this.GenericUI);
             this.Name = "GraphDataUI";
             this.Size = new System.Drawing.Size(1020, 813);
-            this.Controls.SetChildIndex(this.GenericUI, 0);
             this.Controls.SetChildIndex(this.DataPanel, 0);
             this.Controls.SetChildIndex(this.splitter2, 0);
+            this.Controls.SetChildIndex(this.GenericUI, 0);
             this.ResumeLayout(false);
 
             }
