@@ -11,6 +11,8 @@ Public Class APSIMData
     Private InUpdate As Boolean = False
     Private InInternalUpdate As Boolean = False
     Private Delimiter As String = "\"
+    Private ChildrenList As APSIMData()
+    Private ChildrenLoaded As Boolean = False
 
     Delegate Sub DataChangedEventHandler(ByVal ChangedData As APSIMData)
     Public Event DataChanged As DataChangedEventHandler
@@ -117,6 +119,7 @@ Public Class APSIMData
         ' Signals that updating has finished. Events can now be fired.
         ' -----------------------------------------------------------------------
         InInternalUpdate = False
+        ChildrenLoaded = False   'stuff has been added, the Children property is not in the correct state. (Speed Profiling)
         FireDataChangedEvent()
     End Sub
     Public Property Name() As String
@@ -184,19 +187,30 @@ Public Class APSIMData
         ' Return an array of children.
         ' ------------------------------------------------
         Get
-            Dim ReturnList(Node.ChildNodes.Count - 1) As APSIMData
-            Dim NumSoFar As Integer = 0
-            For i As Integer = 0 To Node.ChildNodes.Count - 1
-                Dim ChildType As String = Node.ChildNodes(i).Name
-                If ChildType <> "#text" And ChildType <> "#comment" And ChildType <> "#cdata-section" Then
-                    If IsNothing(ChildTypeFilter) OrElse ChildTypeFilter.ToLower() = ChildType.ToLower() Then
-                        ReturnList(NumSoFar) = New APSIMData(Node.ChildNodes(i), DataChangedEvent)
-                        NumSoFar += 1
-                    End If
+            If Not IsNothing(ChildrenList) Then
+                If Node.ChildNodes.Count <> ChildrenList.Length Then
+                    ChildrenLoaded = False
                 End If
-            Next
-            Array.Resize(ReturnList, NumSoFar)
-            Return ReturnList
+            End If
+            If (Not ChildrenLoaded) Or ChildTypeFilter <> "" Then
+                Dim ReturnList(Node.ChildNodes.Count - 1) As APSIMData
+                Dim NumSoFar As Integer = 0
+                For i As Integer = 0 To Node.ChildNodes.Count - 1
+                    Dim ChildType As String = Node.ChildNodes(i).Name
+                    If ChildType <> "#text" And ChildType <> "#comment" And ChildType <> "#cdata-section" Then
+                        If IsNothing(ChildTypeFilter) OrElse ChildTypeFilter.ToLower() = ChildType.ToLower() Then
+                            ReturnList(NumSoFar) = New APSIMData(Node.ChildNodes(i), DataChangedEvent)
+                            NumSoFar += 1
+                        End If
+                    End If
+                Next
+                Array.Resize(ReturnList, NumSoFar)
+                ChildrenList = ReturnList
+                ChildrenLoaded = True
+                Return ReturnList
+            Else
+                Return ChildrenList
+            End If
         End Get
     End Property
     Public Function Child(ByVal ChildName As String) As APSIMData
@@ -333,6 +347,7 @@ Public Class APSIMData
         ' Clear all children nodes
         ' -------------------------------
         Node.RemoveAll()
+        ChildrenLoaded = False
         FireDataChangedEvent()
     End Sub
     Public Function ChildNames(Optional ByVal type As String = Nothing) As String()
@@ -400,6 +415,7 @@ Public Class APSIMData
         Dim A As XmlAttribute = Node.Attributes.GetNamedItem(AttributeName)
         If Not IsNothing(A) Then
             Node.Attributes.Remove(A)
+            ChildrenLoaded = False
             FireDataChangedEvent()
         End If
     End Sub
@@ -486,6 +502,7 @@ Public Class APSIMData
         ' Delete the specified child
         ' ---------------------------------
         Node.RemoveChild(Child(ChildName).Node)
+        ChildrenLoaded = False
         FireDataChangedEvent()
     End Sub
     Public Sub EnsureNameIsUnique()
@@ -527,6 +544,7 @@ Public Class APSIMData
         End While
         If Not IsNothing(ReferenceNode) Then
             Node.InsertBefore(ChildData.Node, ReferenceNode)
+            ChildrenLoaded = False
             FireDataChangedEvent()
         End If
     End Sub
@@ -544,6 +562,7 @@ Public Class APSIMData
 
         If Not IsNothing(ReferenceNode) Then
             Node.InsertAfter(ChildData.Node, ReferenceNode)
+            ChildrenLoaded = False
             FireDataChangedEvent()
         End If
     End Sub
