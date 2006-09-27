@@ -19,6 +19,12 @@ echo ------Compiling ApsimReportData >> %APSROOT%\dotnet.out
 "C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\devenv" ApsimReportData.sln /build release >> %APSROOT%\dotnet.out
 cd %APSROOT%
 
+rem --------- Compile Tools\CallManagedDLL
+cd %APSROOT%\Tools\CallManagedDLL
+echo ------Compiling Tools\CallManagedDLL >> %APSROOT%\dotnet.out
+"C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\devenv" CallManagedDLL.sln /build release >> %APSROOT%\dotnet.out
+cd %APSROOT%
+
 rem --------- Compile GetComponentDescription
 cd %APSROOT%\tools\GetComponentDescription
 echo ------Compiling  GetComponentDescription >> %APSROOT%\dotnet.out

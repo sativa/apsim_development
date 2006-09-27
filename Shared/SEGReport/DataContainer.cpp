@@ -223,58 +223,12 @@ void DataContainer::refresh(TDataSet* source)
 //---------------------------------------------------------------------------
 //- INTERFACE CALLABLE FROM .NET --------------------------------------------
 //---------------------------------------------------------------------------
-extern "C" DataContainer* _export __stdcall CreateDataContainer(const char* properties)
-   {
-   DataContainer* newContainer = new DataContainer(NULL);
-   newContainer->setup(properties);
-   newContainer->refresh("");
-   return newContainer;
-   }
-
-extern "C" void _export __stdcall DeleteDataContainer(DataContainer* container)
-   {
-   delete container;
-   }
-
 extern "C" void _export __stdcall SetProperties(DataContainer* container,
                                                 const char* path,
                                                 const char* properties)
    {
    if (container != NULL && container->setProperties(path, properties))
       container->refresh(path);
-   }
-
-extern "C" void _export __stdcall FindData(DataContainer* container,
-                                           const char* path,
-                                           char* dataAsString)
-   {
-   strcpy(dataAsString, "");
-   if (container != NULL)
-      {
-      TDataSet* data = container->findData(path);
-      if (data != NULL && data->Active && data->FieldDefs->Count > 0)
-         {
-         for (int f = 0; f != data->FieldDefs->Count; f++)
-            {
-            if (f > 0)
-               strcat(dataAsString, "\t");
-            strcat(dataAsString, data->FieldDefs->Items[f]->Name.c_str());
-            }
-
-         data->First();
-         while (!data->Eof)
-            {
-            strcat(dataAsString, "\n");
-            for (int f = 0; f != data->FieldDefs->Count; f++)
-               {
-               if (f > 0)
-                  strcat(dataAsString, "\t");
-               strcat(dataAsString, data->Fields->Fields[f]->AsString.c_str());
-               }
-            data->Next();
-            }
-         }
-      }
    }
 
 extern "C" void _export __stdcall GetErrorMessage(DataContainer* container,
@@ -385,7 +339,6 @@ extern "C" void _export __stdcall FillDataFormWithData(TForm* form,
          {
          GridForm->DataSource->DataSet = data;
          GridForm->DataSource->Enabled = true;
-         GridForm->grid->AutoSizeColumns(false, 10);
          }
       else
          GridForm->DataSource->DataSet = NULL;

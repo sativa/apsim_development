@@ -415,30 +415,21 @@ void Report::showPage(unsigned pageNumber)
       centrePage();
       }
    }
+
+extern "C" void __stdcall  CallDLL(const char* dllFileName, const char* className,
+											const char* methodName, const char* methodArgument);
+
 //---------------------------------------------------------------------------
 // Show the data page.
 //---------------------------------------------------------------------------
 void Report::showDataPage()
    {
-   string tempFileName = Path::getTempFolder().Get_path() + "\\apsimreportdata.tmp";
-   ofstream out(tempFileName.c_str());
-   out << dataContents;
-   out.close();
-   string commandLine = getApsimDirectory() + "\\bin\\ApsimReportData.exe "
-        + "\"" + tempFileName + "\"";
-   Exec(commandLine.c_str(), SW_SHOW, true);
+   ostringstream argument;
+   argument << (unsigned) data << ',' << dataContents;
 
-   if (Path(tempFileName).Exists())
-      {
-      ifstream in(tempFileName.c_str());
-      ostringstream contents;
-      contents << in.rdbuf();
-      in.close();
-      dataContents = contents.str();
-      string fullContents = getReportXml();
-      loadFromContents(fullContents, false);
-      isDirty = true;
-      }
+   string dllFileName = getApsimDirectory() + "\\bin\\ApsimReportData.dll";
+   CallDLL(dllFileName.c_str(), "ApsimReportData.MainForm", "Go", argument.str().c_str());
+   refreshControls(reportForm);
    }
 //---------------------------------------------------------------------------
 // Rename a page.
@@ -634,19 +625,29 @@ void Report::refresh(bool quiet)
 //---------------------------------------------------------------------------
 void Report::refreshControls(TWinControl* control)
    {
-   if (control != NULL)
+   TCursor savedCursor = Screen->Cursor;
+   Screen->Cursor = crHourGlass;
+   try
       {
-      TText* text = dynamic_cast<TText*> (control);
-      if (text != NULL)
-         text->refresh();
+      if (control != NULL)
+         {
+         TText* text = dynamic_cast<TText*> (control);
+         if (text != NULL)
+            text->refresh();
 
-      TGraph* graph = dynamic_cast<TGraph*> (control);
-      if (graph != NULL)
-         graph->refresh();
+         TGraph* graph = dynamic_cast<TGraph*> (control);
+         if (graph != NULL)
+            graph->refresh();
 
-      for (int i = 0; i != control->ControlCount; i++)
-         refreshControls(dynamic_cast<TWinControl*> (control->Controls[i]));
+         for (int i = 0; i != control->ControlCount; i++)
+            refreshControls(dynamic_cast<TWinControl*> (control->Controls[i]));
+         }
       }
+   catch (Exception* err)
+      {
+      MessageBox(NULL, err->Message.c_str(), "Error", MB_ICONSTOP | MB_OK);
+      }
+   Screen->Cursor = savedCursor;
    }
 //---------------------------------------------------------------------------
 // Export all pages to the specified file.

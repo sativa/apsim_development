@@ -21,72 +21,56 @@ namespace Graph
         UInt32 DataContainer = 0;
 
         #region Imports from external DLL's
-        [DllImport("d:\\development\\bin\\segreport.dll",
-                   CharSet = CharSet.Ansi,
-                   CallingConvention = CallingConvention.StdCall)]
-        private static extern UInt32 CreateDataContainer(string properties);
-
-        [DllImport("d:\\development\\bin\\segreport.dll",
-                   CharSet = CharSet.Ansi,
-                   CallingConvention = CallingConvention.StdCall)]
-        private static extern void DeleteDataContainer(UInt32 DataContainer);
-
-        [DllImport("d:\\development\\bin\\segreport.dll",
+        [DllImport("segreport.dll",
                    CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
         private static extern void SetProperties(UInt32 DataContainer,
                                                 string path,
                                                 string properties);
-        [DllImport("d:\\development\\bin\\segreport.dll",
-                   CharSet = CharSet.Ansi,
-                   CallingConvention = CallingConvention.StdCall)]
-        private static extern void FindData(UInt32 DataContainer,
-                                           string path,
-                                           StringBuilder data);
-        [DllImport("d:\\development\\bin\\segreport.dll",
+        [DllImport("segreport.dll",
                    CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
         private static extern void GetErrorMessage(UInt32 DataContainer,
                                                    string path,
                                                    StringBuilder ErrorMessage);
 
-        [DllImport("d:\\development\\bin\\segreport.dll",
+        [DllImport("segreport.dll",
                    CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
         private static extern void GetFieldNames(UInt32 DataContainer,
                                                  string path,
                                                  StringBuilder FieldNames);
 
-        [DllImport("d:\\development\\bin\\segreport.dll",
+        [DllImport("segreport.dll",
                    CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
         private static extern void GetREMSExperimentNames(UInt32 DataContainer,
                                                           string path,
                                                           StringBuilder Names);
 
-        [DllImport("d:\\development\\bin\\segreport.dll",
+        [DllImport("segreport.dll",
                    CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
         private static extern void GetREMSTreatmentNames(UInt32 DataContainer,
                                                          string path,
                                                          StringBuilder Names);
 
-        [DllImport("d:\\development\\bin\\segreport.dll",
+        [DllImport("segreport.dll",
                    CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
         private static extern UInt32 CreateDataForm(IntPtr ParentHandle);
 
-        [DllImport("d:\\development\\bin\\segreport.dll",
+        [DllImport("segreport.dll",
                    CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
         private static extern void DeleteDataForm(UInt32 Handle);
 
-        [DllImport("d:\\development\\bin\\segreport.dll",
+        [DllImport("segreport.dll",
                    CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
         private static extern int GetHandleOfForm(UInt32 FormHandle);
 
-        [DllImport("d:\\development\\bin\\segreport.dll",
+        [DllImport("segreport.dll",
                    CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
         private static extern void FillDataFormWithData(UInt32 FormHandle,
@@ -107,37 +91,15 @@ namespace Graph
         #endregion
 
         #region Constructor / destructor / setup
-        public GraphController(ImageList images)	
+        public GraphController(ImageList images, UInt32 datacontainer)	
 			: base("", "", "")
 			{
             // --------------------------------------
             // constructor
             // --------------------------------------
             MyImageList = images;
-            NewDataEvent += new NotifyEventHandler(OnNewDataEvent);
+            DataContainer = datacontainer;
 			}
-        protected override void Dispose(bool disposing)
-            {
-            // --------------------------------------
-            // destructor
-            // --------------------------------------
-            if (!disposed && disposing)
-                DeleteDataContainer(DataContainer);
-            base.Dispose(disposing);
-            }
-        void OnNewDataEvent()
-            {
-            // -------------------------------------------
-            // New XML data has been opened.
-            // Create a new data container passing the
-            // new data to it.
-            // -------------------------------------------
-            if (AllowDataChanges)
-                {
-                DeleteDataContainer(DataContainer);
-                DataContainer = CreateDataContainer(AllData.XML);
-                }
-            }
         #endregion
 
         #region Override methods from base class

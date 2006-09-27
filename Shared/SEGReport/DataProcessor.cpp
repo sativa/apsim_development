@@ -69,8 +69,8 @@ DataProcessor* DataProcessor::factory(const XMLNode& properties)
       return new Depth("Depth");
    else if (Str_i_Eq(componentName, "Diff"))
       return new Diff("Diff");
-   else if (Str_i_Eq(componentName, "ExcelReader"))
-      return new ExcelReader("ExcelReader");
+//   else if (Str_i_Eq(componentName, "ExcelReader"))
+//      return new ExcelReader("ExcelReader");
    else if (Str_i_Eq(componentName, "Frequency"))
       return new Frequency("Frequency");
    else if (Str_i_Eq(componentName, "KWTest"))
