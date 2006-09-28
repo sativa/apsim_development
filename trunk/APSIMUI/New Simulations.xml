@@ -94,7 +94,7 @@
       <fertiliser name="fertiliser" />
       <surfaceom name="surface organic matter">
         <PoolName description="Organic Matter pool name">wheat</PoolName>
-        <type description="Organic Matter type">wheat</type>
+        <type type="list" description="Organic Matter type"  listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
         <mass description="Initial surface residue (kg/ha)">1000.</mass>
         <cnr description="C:N ratio of initial residue">80.0</cnr>
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
@@ -913,7 +913,7 @@
       <fertiliser name="fertiliser" />
       <surfaceom name="surface organic matter">
         <PoolName description="Organic Matter pool name">wheat</PoolName>
-        <type description="Organic Matter type">wheat</type>
+        <type type="list" description="Organic Matter type"  listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
         <mass description="Initial surface residue (kg/ha)">1000.</mass>
         <cnr description="C:N ratio of initial residue">80.0</cnr>
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
@@ -1739,7 +1739,7 @@
       <fertiliser name="fertiliser" />
       <surfaceom name="surface organic matter">
         <PoolName description="Organic Matter pool name">wheat</PoolName>
-        <type description="Organic Matter type">wheat</type>
+        <type type="list" description="Organic Matter type"  listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
         <mass description="Initial surface residue (kg/ha)">1000.</mass>
         <cnr description="C:N ratio of initial residue">80.0</cnr>
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
@@ -4438,7 +4438,7 @@
       </soil>
       <surfaceom name="surface organic matter">
         <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
-        <type description="Organic Matter type">wheat</type>
+        <type type="list" description="Organic Matter type"  listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
         <mass description="Initial surface residue (kg/ha)">1000.</mass>
         <cnr description="C:N ratio of initial residue">80.0</cnr>
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
@@ -4480,7 +4480,7 @@
       <fertiliser name="fertiliser" />
       <surfaceom name="surface organic matter">
         <PoolName description="Organic Matter pool name">wheat</PoolName>
-        <type description="Organic Matter type">wheat</type>
+        <type type="list" description="Organic Matter type"  listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
         <mass description="Initial surface residue (kg/ha)">1000.</mass>
         <cnr description="C:N ratio of initial residue">80.0</cnr>
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
