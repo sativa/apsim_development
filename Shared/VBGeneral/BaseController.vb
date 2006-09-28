@@ -586,8 +586,9 @@ Public MustInherit Class BaseController
                     DateEditor.DateDefault = Prop.Value
                     Me.MsgBoxString = "The " + Prop.Type + " selected is before the dates in the Met file." & vbCrLf & _
                                 "Automaticly adjusting simulation start date to match the Met file start date"
+                    DateEditor.MinimumDate = lbound
                 End If
-                DateEditor.MinimumDate = Prop.Attribute("lbound")
+
             End If
 
             DateEditor.DropDownButton = True
