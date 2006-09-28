@@ -566,24 +566,30 @@ Public MustInherit Class BaseController
             Dim DateEditor As FarPoint.Win.Spread.CellType.DateTimeCellType = New FarPoint.Win.Spread.CellType.DateTimeCellType
             DateEditor.DateTimeFormat = FarPoint.Win.Spread.CellType.DateTimeFormat.ShortDate
             DateEditor.DateDefault = Prop.Value
-            DateEditor.MaximumDate = Prop.Attribute("ubound")
-            DateEditor.MinimumDate = Prop.Attribute("lbound")
-
+            Dim ubound As Date
+            Dim lbound As Date
             Dim dtValue As Date = Prop.Value
-            Dim ubound As Date = Prop.Attribute("ubound")
-            Dim lbound As Date = Prop.Attribute("lbound")
-            If dtValue > ubound Then
-                Prop.Value = Prop.Attribute("ubound")
-                DateEditor.DateDefault = Prop.Value
-                Me.MsgBoxString = "The " + Prop.Type + " selected is greater then the dates in the Met file." & vbCrLf & _
-                            "Automaticly adjusting simulation end date to match the Met file end date"
+            If (Prop.Attribute("ubound")) <> "" Then
+                ubound = Prop.Attribute("ubound")
+                If dtValue > ubound Then
+                    Prop.Value = Prop.Attribute("ubound")
+                    DateEditor.DateDefault = Prop.Value
+                    Me.MsgBoxString = "The " + Prop.Type + " selected is after the dates in the Met file." & vbCrLf & _
+                                "Automaticly adjusting simulation end date to match the Met file end date"
+                    DateEditor.MaximumDate = ubound
+                End If
             End If
-            If dtValue < lbound Then
-                Prop.Value = Prop.Attribute("lbound")
-                DateEditor.DateDefault = Prop.Value
-                Me.MsgBoxString = "The " + Prop.Type + " selected is less then the dates in the Met file." & vbCrLf & _
-                            "Automaticly adjusting simulation start date to match the Met file start date"
+            If (Prop.Attribute("lbound")) <> "" Then
+                lbound = Prop.Attribute("lbound")
+                If dtValue < lbound Then
+                    Prop.Value = Prop.Attribute("lbound")
+                    DateEditor.DateDefault = Prop.Value
+                    Me.MsgBoxString = "The " + Prop.Type + " selected is before the dates in the Met file." & vbCrLf & _
+                                "Automaticly adjusting simulation start date to match the Met file start date"
+                End If
+                DateEditor.MinimumDate = Prop.Attribute("lbound")
             End If
+
             DateEditor.DropDownButton = True
             Grid.Cells(Row, 1).CellType = DateEditor
 
