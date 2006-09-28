@@ -49,6 +49,7 @@ Public Class MainUI
     Friend WithEvents SimulationList As System.Windows.Forms.ListView
     Friend WithEvents NewButton2 As System.Windows.Forms.Button
     Private ToolBoxSplitterPoint As Integer
+    Private SimulationHasRun As Boolean = False
 
 #Region "Constructor / Destructor / Main"
     <System.STAThread()> _
@@ -226,7 +227,7 @@ Public Class MainUI
         Me.ToolBoxesToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ManageToolboxesButton, Me.ToolStripSeparator2})
         Me.ToolBoxesToolStrip.Location = New System.Drawing.Point(3, 0)
         Me.ToolBoxesToolStrip.Name = "ToolBoxesToolStrip"
-        Me.ToolBoxesToolStrip.Size = New System.Drawing.Size(99, 31)
+        Me.ToolBoxesToolStrip.Size = New System.Drawing.Size(91, 31)
         Me.ToolBoxesToolStrip.TabIndex = 2
         '
         'ManageToolboxesButton
@@ -235,7 +236,7 @@ Public Class MainUI
         Me.ManageToolboxesButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ManageToolboxesButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ManageToolboxesButton.Name = "ManageToolboxesButton"
-        Me.ManageToolboxesButton.Size = New System.Drawing.Size(81, 28)
+        Me.ManageToolboxesButton.Size = New System.Drawing.Size(73, 28)
         Me.ManageToolboxesButton.Text = "&Manage"
         '
         'ToolStripSeparator2
@@ -311,7 +312,7 @@ Public Class MainUI
         Me.SimulationToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewButton, Me.OpenButton, Me.SaveButton, Me.SaveAsButton, Me.HelpContentsButton, Me.ToolStripSeparator5, Me.RunButton, Me.GraphButton, Me.ApsimOutlookButton, Me.ExcelButton})
         Me.SimulationToolStrip.Location = New System.Drawing.Point(3, 0)
         Me.SimulationToolStrip.Name = "SimulationToolStrip"
-        Me.SimulationToolStrip.Size = New System.Drawing.Size(528, 47)
+        Me.SimulationToolStrip.Size = New System.Drawing.Size(474, 47)
         Me.SimulationToolStrip.TabIndex = 1
         '
         'NewButton
@@ -320,7 +321,7 @@ Public Class MainUI
         Me.NewButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.NewButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.NewButton.Name = "NewButton"
-        Me.NewButton.Size = New System.Drawing.Size(49, 44)
+        Me.NewButton.Size = New System.Drawing.Size(44, 44)
         Me.NewButton.Text = "&New..."
         Me.NewButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -330,7 +331,7 @@ Public Class MainUI
         Me.OpenButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.OpenButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.OpenButton.Name = "OpenButton"
-        Me.OpenButton.Size = New System.Drawing.Size(66, 44)
+        Me.OpenButton.Size = New System.Drawing.Size(61, 44)
         Me.OpenButton.Text = "&Open..."
         Me.OpenButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -340,7 +341,7 @@ Public Class MainUI
         Me.SaveButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.SaveButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.SaveButton.Name = "SaveButton"
-        Me.SaveButton.Size = New System.Drawing.Size(40, 44)
+        Me.SaveButton.Size = New System.Drawing.Size(35, 44)
         Me.SaveButton.Text = "&Save"
         Me.SaveButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -350,7 +351,7 @@ Public Class MainUI
         Me.SaveAsButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.SaveAsButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.SaveAsButton.Name = "SaveAsButton"
-        Me.SaveAsButton.Size = New System.Drawing.Size(69, 44)
+        Me.SaveAsButton.Size = New System.Drawing.Size(61, 44)
         Me.SaveAsButton.Text = "Save &as..."
         Me.SaveAsButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -360,7 +361,7 @@ Public Class MainUI
         Me.HelpContentsButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.HelpContentsButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.HelpContentsButton.Name = "HelpContentsButton"
-        Me.HelpContentsButton.Size = New System.Drawing.Size(37, 44)
+        Me.HelpContentsButton.Size = New System.Drawing.Size(32, 44)
         Me.HelpContentsButton.Text = "&Help"
         Me.HelpContentsButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -386,7 +387,7 @@ Public Class MainUI
         Me.GraphButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.GraphButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.GraphButton.Name = "GraphButton"
-        Me.GraphButton.Size = New System.Drawing.Size(46, 44)
+        Me.GraphButton.Size = New System.Drawing.Size(40, 44)
         Me.GraphButton.Text = "&Graph"
         Me.GraphButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -396,7 +397,7 @@ Public Class MainUI
         Me.ApsimOutlookButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ApsimOutlookButton.ImageTransparentColor = System.Drawing.SystemColors.ControlLight
         Me.ApsimOutlookButton.Name = "ApsimOutlookButton"
-        Me.ApsimOutlookButton.Size = New System.Drawing.Size(94, 44)
+        Me.ApsimOutlookButton.Size = New System.Drawing.Size(79, 44)
         Me.ApsimOutlookButton.Text = "Apsim Outlook"
         Me.ApsimOutlookButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -406,7 +407,7 @@ Public Class MainUI
         Me.ExcelButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.ExcelButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ExcelButton.Name = "ExcelButton"
-        Me.ExcelButton.Size = New System.Drawing.Size(41, 44)
+        Me.ExcelButton.Size = New System.Drawing.Size(36, 44)
         Me.ExcelButton.Text = "E&xcel"
         Me.ExcelButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -551,9 +552,13 @@ Public Class MainUI
         RunButton.Enabled = SomethingInTree
         GraphButton.Enabled = SomethingInTree
         ApsimOutlookButton.Enabled = SomethingInTree
-
         Me.ExcelButton.Enabled = SomethingInTree
 
+        If Not SimulationHasRun Then
+            GraphButton.Enabled = False
+            ApsimOutlookButton.Enabled = False
+            Me.ExcelButton.Enabled = False
+        End If
     End Sub
 
     Private Sub MainUI_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
@@ -582,6 +587,8 @@ Public Class MainUI
         If SimulationList.SelectedItems.Count > 0 Then
             Dim SelectedFile As String = SimulationList.SelectedItems(0).Text
             ApsimUI.FileOpen(SelectedFile)
+            SimulationHasRun = False
+            SetFunctionality()
         End If
     End Sub
 
@@ -590,10 +597,14 @@ Public Class MainUI
         If Not IsNothing(NewData) Then
             ApsimUI.FileNew(NewData)
         End If
+        SimulationHasRun = False
+        SetFunctionality()
     End Sub
 
     Private Sub OnOpenFileClick(ByVal sender As Object, ByVal e As EventArgs) Handles OpenButton.Click, OpenButton2.Click
         ApsimUI.FileOpen()
+        SimulationHasRun = False
+        SetFunctionality()
     End Sub
 
     Private Sub OnSaveFileClick(ByVal sender As Object, ByVal e As EventArgs) Handles SaveButton.Click
@@ -626,7 +637,8 @@ Public Class MainUI
         ' Go run APSIM.
         ' ---------------------------------------------------------------
         Try
-            RunSimulations()
+            SimulationHasRun = RunSimulations()
+            SetFunctionality()
         Catch fnf As System.IO.FileNotFoundException
             MessageBox.Show(fnf.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -659,25 +671,28 @@ Public Class MainUI
         ' selected to export. Returns "" if user hits cancel.
         ' ---------------------------------------------------------------
         Dim OutputFiles As StringCollection = ApsimUI.GetOutputFilesUnder(ApsimUI.AllData)
-
-        'Only show export screen if more than one output file
-        If OutputFiles.Count = 1 Then
-            Return OutputFiles(0)
-        Else
-            Dim ExportForm As New OutputFileExport(OutputFiles)
-            If ExportForm.ShowDialog() = Windows.Forms.DialogResult.Cancel Then
-                Return ""
+        If OutputFiles.Count <> 0 Then
+            'Only show export screen if more than one output file
+            If OutputFiles.Count = 1 Then
+                Return OutputFiles(0)
             Else
-                Dim ReturnString As String = ""
-                For Each St As String In ExportForm.SelectedOutputFiles
-                    ReturnString += "," & St
-                Next
-                Return ReturnString
+                Dim ExportForm As New OutputFileExport(OutputFiles)
+                If ExportForm.ShowDialog() = Windows.Forms.DialogResult.Cancel Then
+                    Return ""
+                Else
+                    Dim ReturnString As String = ""
+                    For Each St As String In ExportForm.SelectedOutputFiles
+                        ReturnString += "," & St
+                    Next
+                    Return ReturnString
+                End If
             End If
+        Else
+            MessageBox.Show("Please run the simulation first")
         End If
     End Function
 
-    Private Sub RunSimulations()
+    Private Function RunSimulations() As Boolean
         ' ---------------------------------------------------------------
         ' Save the simulation and then do an APSIM run.
         ' ---------------------------------------------------------------
@@ -699,7 +714,8 @@ Public Class MainUI
                 Throw New System.IO.FileNotFoundException("The file '" & ApsRunFileName & "' could not be found.")
             End If
         End If
-    End Sub
+        Return True
+    End Function
 
 #End Region
 #Region "Toolbox button bar"
