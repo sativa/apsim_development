@@ -1156,28 +1156,28 @@
          <variable name="surfaceom_cover" description="Fraction of ground covered by all surface OM&quot;s"/>
          <variable name="tf" description="Temperature factor for decomposition"/>
          <variable name="cf" description="Contact factor for decomposition"/>
-         <variable name="surfaceom_wt_xxxx" description="Mass of organic matter named &quot;xxxx&quot;"/>
-         <variable name="surfaceom_c_xxxx"  description="Mass of organic carbon in &quot;xxxx&quot;"/>
-         <variable name="surfaceom_n_xxxx"  description="Mass of organic nitrogen in &quot;xxxx&quot;"/>
-         <variable name="surfaceom_p_xxxx"  description="Mass of organic phosphor in &quot;xxxx&quot;"/>
-         <variable name="surfaceom_no3_xxxx" description="Mass of nitrate in &quot;xxxx&quot;"/>
-         <variable name="surfaceom_nh4_xxxx" description="Mass of ammonium in &quot;xxxx&quot;"/>
-         <variable name="surfaceom_labile_p_xxxx" description="Mass of labile phosphorus in &quot;xxxx&quot;"/>
-         <variable name="surfaceom_c1_xxxx" description="Mass of organic carbon in &quot;xxxx&quot; in fpool1"/>
-         <variable name="surfaceom_c2_xxxx" description="Mass of organic carbon in &quot;xxxx&quot; in fpool2"/>
-         <variable name="surfaceom_c3_xxxx" description="Mass of organic carbon in &quot;xxxx&quot; in fpool3"/>
-         <variable name="surfaceom_n1_xxxx" description="Mass of organic nitrogen in &quot;xxxx&quot; in fpool1"/>
-         <variable name="surfaceom_n2_xxxx" description="Mass of organic nitrogen in &quot;xxxx&quot; in fpool2"/>
-         <variable name="surfaceom_n3_xxxx" description="Mass of organic nitrogen in &quot;xxxx&quot; in fpool3"/>
-         <variable name="surfaceom_p1_xxxx" description="Mass of organic phosphorous in &quot;xxxx&quot; in fpool1"/>
-         <variable name="surfaceom_p2_xxxx" description="Mass of organic phosphorous in &quot;xxxx&quot; in fpool2"/>
-         <variable name="surfaceom_p3_xxxx" description="Mass of organic phosphorous in &quot;xxxx&quot; in fpool3"/>
-         <variable name="pot_c_decomp_xxxx" description="Potential organic C decomposition in &quot;xxxx&quot;"/>
-         <variable name="pot_n_decomp_xxxx" description="Potential organic N decomposition in &quot;xxxx&quot;"/>
-         <variable name="pot_p_decomp_xxxx" description="Potential organic P decomposition in &quot;xxxx&quot;"/>
-         <variable name="standing_fr_xxxx" description="Fraction of &quot;xxxx&quot; which is inert, ie not in contact with the ground"/>
-         <variable name="surfaceom_cover_xxxx" description="Fraction of ground covered by &quot;xxxx&quot;"/>
-         <variable name="cnrf_xxxx" description="C:N ratio factor for decomposition for &quot;xxxx&quot;"/>
+         <variable name="surfaceom_wt_{Enter Pool Name}" description="Mass of organic matter named {Enter Pool Name}"/>
+         <variable name="surfaceom_c_{Enter Pool Name}"  description="Mass of organic carbon in {Enter Pool Name}"/>
+         <variable name="surfaceom_n_{Enter Pool Name}"  description="Mass of organic nitrogen in {Enter Pool Name}"/>
+         <variable name="surfaceom_p_{Enter Pool Name}"  description="Mass of organic phosphor in {Enter Pool Name}"/>
+         <variable name="surfaceom_no3_{Enter Pool Name}" description="Mass of nitrate in {Enter Pool Name}"/>
+         <variable name="surfaceom_nh4_{Enter Pool Name}" description="Mass of ammonium in {Enter Pool Name}"/>
+         <variable name="surfaceom_labile_p_{Enter Pool Name}" description="Mass of labile phosphorus in {Enter Pool Name}"/>
+         <variable name="surfaceom_c1_{Enter Pool Name}" description="Mass of organic carbon in {Enter Pool Name} in fpool1"/>
+         <variable name="surfaceom_c2_{Enter Pool Name}" description="Mass of organic carbon in {Enter Pool Name} in fpool2"/>
+         <variable name="surfaceom_c3_{Enter Pool Name}" description="Mass of organic carbon in {Enter Pool Name} in fpool3"/>
+         <variable name="surfaceom_n1_{Enter Pool Name}" description="Mass of organic nitrogen in {Enter Pool Name} in fpool1"/>
+         <variable name="surfaceom_n2_{Enter Pool Name}" description="Mass of organic nitrogen in {Enter Pool Name} in fpool2"/>
+         <variable name="surfaceom_n3_{Enter Pool Name}" description="Mass of organic nitrogen in {Enter Pool Name} in fpool3"/>
+         <variable name="surfaceom_p1_{Enter Pool Name}" description="Mass of organic phosphorous in {Enter Pool Name} in fpool1"/>
+         <variable name="surfaceom_p2_{Enter Pool Name}" description="Mass of organic phosphorous in {Enter Pool Name} in fpool2"/>
+         <variable name="surfaceom_p3_{Enter Pool Name}" description="Mass of organic phosphorous in {Enter Pool Name} in fpool3"/>
+         <variable name="pot_c_decomp_{Enter Pool Name}" description="Potential organic C decomposition in {Enter Pool Name}"/>
+         <variable name="pot_n_decomp_{Enter Pool Name}" description="Potential organic N decomposition in {Enter Pool Name}"/>
+         <variable name="pot_p_decomp_{Enter Pool Name}" description="Potential organic P decomposition in {Enter Pool Name}"/>
+         <variable name="standing_fr_{Enter Pool Name}" description="Fraction of {Enter Pool Name} which is inert, ie not in contact with the ground"/>
+         <variable name="surfaceom_cover_{Enter Pool Name}" description="Fraction of ground covered by {Enter Pool Name}"/>
+         <variable name="cnrf_{Enter Pool Name}" description="C:N ratio factor for decomposition for {Enter Pool Name}"/>
       </variables>
       <ApsimToSim>
          <type>component</type>
