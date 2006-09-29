@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
-<simulation executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll" version="5.2">
+<simulation executable="%apsuite/apsim/protocolmanager/lib/protocolmanager.dll" version="5.2">
    <title>Test sowing next day after out</title>
-   <component name="SummaryFile" executable = "c:\development\apsim\SummaryFile\lib\SummaryFile.dll">
+   <component name="SummaryFile" executable = "%apsuite/apsim/SummaryFile/lib/SummaryFile.dll">
       <initdata>
          <summaryfile>test3.sum</summaryfile>
       </initdata>
    </component>
-   <component name="clock" executable = "c:\development\apsim\clock\lib\clock.dll">
+   <component name="clock" executable = "%apsuite/apsim/clock/lib/clock.dll">
       <initdata>
          <start_date>1/1/1988</start_date>
          <end_date>26/12/1988</end_date>
          <timestep_events>prepare process post</timestep_events>
       </initdata>
    </component>
-   <component name="report" executable = "c:\development\apsim\report\lib\report.dll">
+   <component name="report" executable = "%apsuite/apsim/report/lib/report.dll">
       <initdata>
          <outputfile>test3.out</outputfile>
          <variable>clock.day</variable>
@@ -23,17 +23,17 @@
          <variable>millet.green_biomass</variable>
       </initdata>
    </component>
-   <component name="met" executable = "c:\development\apsim\input\lib\input.dll">
+   <component name="met" executable = "%apsuite/apsim/input/lib/input.dll">
       <initdata>
          <filename>c:\development\apsim\met\sample\dalby.met</filename>
       </initdata>
    </component>
-   <component name="canopy" executable = "c:\development\apsim\canopy\lib\canopy.dll">
+   <component name="canopy" executable = "%apsuite/apsim/canopy/lib/canopy.dll">
       <initdata>
          <intercrop>millet millet1 millet2 millet3 millet4 millet5</intercrop>
       </initdata>
    </component>
-   <component name="manager" executable = "c:\development\apsim\manager\lib\manager.dll">
+   <component name="manager" executable = "%apsuite/apsim/manager/lib/manager.dll">
       <initdata>
          <rule name="test3.start_of_day" condition="start_of_day">
             <![CDATA[
@@ -77,7 +77,7 @@
             </rule>
       </initdata>
    </component>
-   <component name="soilwat2" executable = "c:\development\apsim\soilwat2\lib\soilwat2.dll">
+   <component name="soilwat2" executable = "%apsuite/apsim/soilwat2/lib/soilwat2.dll">
       <initdata>
          <insoil>2.0 ()</insoil>
          <diffus_const>88. ()</diffus_const>
@@ -123,7 +123,7 @@
          </tillage>
       </initdata>
    </component>
-   <component name="SurfaceOM" executable = "c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll">
+   <component name="SurfaceOM" executable = "%apsuite/apsim/SurfaceOM/lib/SurfaceOM.dll">
       <initdata>
          <mass>2000. (kg/ha)</mass>
          <cnr>30.0 ()</cnr>
@@ -387,7 +387,7 @@
          </tillage>
       </initdata>
    </component>
-   <component name="soiln2" executable = "c:\development\apsim\soiln2\lib\soiln2.dll">
+   <component name="soiln2" executable = "%apsuite/apsim/soiln2/lib/soiln2.dll">
       <initdata>
          <amp>15.0</amp>
          <tav>20.0</tav>
@@ -443,7 +443,7 @@
          </standard>
       </initdata>
    </component>
-   <component name="millet" executable = "c:\development\apsim\millet\lib\millet.dll">
+   <component name="millet" executable = "%apsuite/apsim/millet/lib/millet.dll">
       <initdata>
          <uptake_source>calc</uptake_source>
          <ll>0.230   0.240   0.240   0.250   0.260   0.270   0.280</ll>
@@ -717,7 +717,7 @@
          </mh179>
       </initdata>
    </component>
-   <component name="millet1" executable = "c:\development\apsim\millet\lib\millet.dll">
+   <component name="millet1" executable = "%apsuite/apsim/millet/lib/millet.dll">
       <initdata>
          <uptake_source>calc</uptake_source>
          <ll>0.230   0.240   0.240   0.250   0.260   0.270   0.280</ll>
@@ -991,7 +991,7 @@
          </mh179>
       </initdata>
    </component>
-   <component name="millet2" executable = "c:\development\apsim\millet\lib\millet.dll">
+   <component name="millet2" executable = "%apsuite/apsim/millet/lib/millet.dll">
       <initdata>
          <uptake_source>calc</uptake_source>
          <ll>0.230   0.240   0.240   0.250   0.260   0.270   0.280</ll>
@@ -1265,7 +1265,7 @@
          </mh179>
       </initdata>
    </component>
-   <component name="millet3" executable = "c:\development\apsim\millet\lib\millet.dll">
+   <component name="millet3" executable = "%apsuite/apsim/millet/lib/millet.dll">
       <initdata>
          <uptake_source>calc</uptake_source>
          <ll>0.230   0.240   0.240   0.250   0.260   0.270   0.280</ll>
@@ -1539,7 +1539,7 @@
          </mh179>
       </initdata>
    </component>
-   <component name="millet4" executable = "c:\development\apsim\millet\lib\millet.dll">
+   <component name="millet4" executable = "%apsuite/apsim/millet/lib/millet.dll">
       <initdata>
          <uptake_source>calc</uptake_source>
          <ll>0.230   0.240   0.240   0.250   0.260   0.270   0.280</ll>
@@ -1813,7 +1813,7 @@
          </mh179>
       </initdata>
    </component>
-   <component name="millet5" executable = "c:\development\apsim\millet\lib\millet.dll">
+   <component name="millet5" executable = "%apsuite/apsim/millet/lib/millet.dll">
       <initdata>
          <uptake_source>calc</uptake_source>
          <ll>0.230   0.240   0.240   0.250   0.260   0.270   0.280</ll>
