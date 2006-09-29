@@ -1,454 +1,7 @@
-Version = 3.0
-NumPages = 1
-object data: TForm
-  Left = 4
-  Top = 4
-  Align = alClient
-  BorderIcons = []
-  BorderStyle = bsNone
-  ClientHeight = 867
-  ClientWidth = 1272
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Sans Serif'
-  Font.Style = []
-  OldCreateOrder = False
-  PixelsPerInch = 96
-  TextHeight = 13
-  object Obs: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'Plot'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'Sample'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'LAI'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sla'
-        DataType = ftFloat
-      end
-      item
-        Name = 'tpp'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'deadleaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sln'
-        DataType = ftFloat
-      end
-      item
-        Name = 'tpsm'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph3.afterDataRefresh'
-      'Graph4.afterDataRefresh'
-      'Graph1.afterDataRefresh')
-    filenames.Strings = (
-      'Observed\aps6.txt')
-    Left = 213
-    Top = 86
-  end
-  object PreAll: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'zadok_stage'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage_name'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_expan'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Pre.onSourceDataChanged')
-    filenames.Strings = (
-      'Wheat_APS6_N000.out'
-      'Wheat_APS6_N040.out'
-      'Wheat_APS6_N080.out'
-      'Wheat_APS6_N120.out'
-      'Wheat_APS6_N160.out'
-      'Wheat_APS6_N360.out')
-    Left = 227
-    Top = 215
-  end
-  object Pre: TFilter
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'zadok_stage'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stage_name'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_size'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_no'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sw_dep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_protein'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'swdef_expan'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_photo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nfact_expan'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    source = PreAll
-    subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh'
-      'Graph3.afterDataRefresh'
-      'Graph4.afterDataRefresh'
-      'Graph1.afterDataRefresh')
-    filter = 'day = 306'
-    Left = 284
-    Top = 228
-  end
-end
-object Page1: TQuickRep
+<?xml version="1.0"?>
+<report version="4">
+  <Data><ApsimFileReader name="Obs"><FileName type="filenames">Observed\aps6.txt</FileName></ApsimFileReader><ApsimFileReader name="PreAll"><FileName type="filenames">Wheat_APS6_N000.out</FileName><FileName type="filenames">Wheat_APS6_N040.out</FileName><FileName type="filenames">Wheat_APS6_N080.out</FileName><FileName type="filenames">Wheat_APS6_N120.out</FileName><FileName type="filenames">Wheat_APS6_N160.out</FileName><FileName type="filenames">Wheat_APS6_N360.out</FileName><Filter name="Pre"><FilterString>day = 306</FilterString></Filter></ApsimFileReader></Data>
+  <page><![CDATA[object Page1: TQuickRep
   Left = 179
   Top = 0
   Width = 635
@@ -581,7 +134,7 @@ object Page1: TQuickRep
         object Series1: TBarSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Obs
+          DataSource = Obs
           Title = 'Observed'
           Gradient.Direction = gdTopBottom
           XValues.Name = 'X'
@@ -594,7 +147,7 @@ object Page1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 20
           Marks.Visible = False
-          DataSource = data.Pre
+          DataSource = Pre
           Title = 'Predicted'
           LinePen.Width = 5
           Pointer.InflateMargins = True
@@ -672,7 +225,7 @@ object Page1: TQuickRep
         object BarSeries1: TBarSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Obs
+          DataSource = Obs
           Title = 'Observed'
           Gradient.Direction = gdTopBottom
           XValues.Name = 'X'
@@ -684,7 +237,7 @@ object Page1: TQuickRep
         object BarSeries2: TBarSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Pre
+          DataSource = Pre
           Title = 'Predicted'
           Gradient.Direction = gdTopBottom
           XValues.Name = 'X'
@@ -792,7 +345,7 @@ object Page1: TQuickRep
         object BarSeries3: TBarSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Obs
+          DataSource = Obs
           Title = 'Observed'
           Gradient.Direction = gdTopBottom
           XValues.Name = 'X'
@@ -804,7 +357,7 @@ object Page1: TQuickRep
         object BarSeries4: TBarSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Pre
+          DataSource = Pre
           Title = 'Predicted'
           Gradient.Direction = gdTopBottom
           XValues.Name = 'X'
@@ -881,7 +434,7 @@ object Page1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 0
           Marks.Visible = False
-          DataSource = data.Obs
+          DataSource = Obs
           ClickableLine = False
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -897,7 +450,7 @@ object Page1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 0
           Marks.Visible = False
-          DataSource = data.Pre
+          DataSource = Pre
           ClickableLine = False
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -913,3 +466,5 @@ object Page1: TQuickRep
     end
   end
 end
+]]></page>
+</report>
