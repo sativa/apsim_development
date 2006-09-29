@@ -1,171 +1,7 @@
-Version = 3.0
-NumPages = 1
-object data: TForm
-  Left = 4
-  Top = 4
-  Align = alClient
-  BorderIcons = []
-  BorderStyle = bsNone
-  ClientHeight = 865
-  ClientWidth = 1384
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Sans Serif'
-  Font.Style = []
-  OldCreateOrder = False
-  PixelsPerInch = 96
-  TextHeight = 13
-  object Walpeup200: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'in_crop_rain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eff_in_crop_rain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'hi'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nhi'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum_ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'esw'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'year'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Warra1500HighNProb.onSourceDataChanged'
-      'Gunnedah1500Prob.onSourceDataChanged'
-      'SandProb.onSourceDataChanged'
-      'Graph2.afterDataRefresh'
-      'WalpeupProb.onSourceDataChanged')
-    sortFields = 'year'
-    filenames.Strings = (
-      'walpeup200.out')
-    Left = 171
-    Top = 223
-  end
-  object WalpeupProb: TProbability
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Probability'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'Probability'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    source = Walpeup200
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh')
-    sortFields = 'Probability'
-    fieldName = 'yield'
-    Left = 304
-    Top = 232
-  end
-end
-object Page1: TQuickRep
+<?xml version="1.0"?>
+<report version="4">
+  <Data><ApsimFileReader name="Walpeup200"><FileName type="filenames">walpeup200.out</FileName><Probability name="WalpeupProb"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader></Data>
+  <page><![CDATA[object Page1: TQuickRep
   Left = 117
   Top = 0
   Width = 714
@@ -307,7 +143,7 @@ object Page1: TQuickRep
         object Series3: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.WalpeupProb
+          DataSource = WalpeupProb
           SeriesColor = clGreen
           Title = 'Walpeup'
           Pointer.InflateMargins = True
@@ -502,7 +338,7 @@ object Page1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.Walpeup200
+          DataSource = Walpeup200
           SeriesColor = clGreen
           Title = '1500 mm High N'
           ClickableLine = False
@@ -520,3 +356,5 @@ object Page1: TQuickRep
     end
   end
 end
+]]></page>
+</report>
