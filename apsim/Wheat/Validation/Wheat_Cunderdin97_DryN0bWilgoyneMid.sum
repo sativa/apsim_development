@@ -427,68 +427,60 @@
 22 October 1997(Day of year=295), wheat: 
       stage 7.0 start_grain_fill
                      biomass =         464.96 (g/m^2)   lai          =   0.424 (m^2/m^2)
-                     stover N conc =     1.20 (%)    extractable sw =   25.23 (mm)
+                     stover N conc =     1.19 (%)    extractable sw =   25.23 (mm)
 20 November 1997(Day of year=324), wheat: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.012045 vs n_uptake_sum =0.012046
-     Component name: wheat
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
       stage 8.0 end_grain_fill
-                     biomass =         535.95 (g/m^2)   lai          =   0.160 (m^2/m^2)
-                     stover N conc =     0.38 (%)    extractable sw =   21.57 (mm)
+                     biomass =         530.24 (g/m^2)   lai          =   0.172 (m^2/m^2)
+                     stover N conc =     0.36 (%)    extractable sw =   22.23 (mm)
 22 November 1997(Day of year=326), wheat: 
       stage 9.0 maturity
-                     biomass =         536.69 (g/m^2)   lai          =   0.160 (m^2/m^2)
-                     stover N conc =     0.38 (%)    extractable sw =   20.42 (mm)
+                     biomass =         530.91 (g/m^2)   lai          =   0.172 (m^2/m^2)
+                     stover N conc =     0.36 (%)    extractable sw =   21.08 (mm)
 23 November 1997(Day of year=327), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         536.69 (g/m^2)   lai          =   0.001 (m^2/m^2)
-                     stover N conc =     0.38 (%)    extractable sw =   20.19 (mm)
+                     biomass =         530.91 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     stover N conc =     0.36 (%)    extractable sw =   20.83 (mm)
 23 November 1997(Day of year=327), Manager: 
      Manager sending message :- wheat harvest
 23 November 1997(Day of year=327), wheat: 
      
-      flowering day          =  288                           stover (kg/ha)         =     3604.4
-      maturity day           =  326                           grain yield (kg/ha)    =     1762.5
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     2014.2
-      grain wt (g)           =    0.035                       grains/m^2             =   4970.056
+      flowering day          =  288                           stover (kg/ha)         =     3602.0
+      maturity day           =  326                           grain yield (kg/ha)    =     1707.1
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     1951.0
+      grain wt (g)           =    0.034                       grains/m^2             =   4970.056
       grains/plant           =   46.0                         maximum lai            =      3.080
-      total above ground biomass (kg/ha)    =     5366.9
-      live above ground biomass (kg/ha)     =     5366.9
-      green above ground biomass (kg/ha)    =     4069.6
+      total above ground biomass (kg/ha)    =     5309.1
+      live above ground biomass (kg/ha)     =     5309.1
+      green above ground biomass (kg/ha)    =     4011.9
       senesced above ground biomass (kg/ha) =     1297.3
       dead above ground biomass (kg/ha)     =        0.0
       number of leaves       =   32.7
-      DM Root:Shoot ratio    =    0.180                       Harvest Index          =      0.328
-      Stover C:N ratio       =   94.570                       Root C:N ratio         =     19.802
-      grain N percent        =       2.59                     total N content (kg/ha)=      60.96
-      grain N uptake (kg/ha) =      45.71                     senesced N content (kg/ha)=    6.49
-      green N content (kg/ha)=       8.76                     dead N content (kg/ha) =       0.00
+      DM Root:Shoot ratio    =    0.181                       Harvest Index          =      0.322
+      Stover C:N ratio       =   97.308                       Root C:N ratio         =     19.802
+      grain N percent        =       2.67                     total N content (kg/ha)=      60.36
+      grain N uptake (kg/ha) =      45.56                     senesced N content (kg/ha)=    6.49
+      green N content (kg/ha)=       8.32                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
          end_of_juvenile      to floral_initiation       0.015        0.024        0.018        0.051
          floral_initiation    to flowering               0.407        0.477        0.103        0.227
          flowering            to start_grain_fill        0.691        0.807        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.327        0.410        0.017        0.174
+         start_grain_fill     to end_grain_fill          0.303        0.372        0.132        0.300
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               3604.20                    0.00
-                          N  (kg/ha) =                 15.23                    0.00
+                          DM (kg/ha) =               3601.81                    0.00
+                          N  (kg/ha) =                 14.79                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               1762.46                    0.00
-                          N  (kg/ha) =                 45.71                    0.00
+                          DM (kg/ha) =               1707.11                    0.00
+                          N  (kg/ha) =                 45.56                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.02 (g/m^2)   lai          =   0.022 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =   20.19 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =   20.83 (mm)
 23 November 1997(Day of year=327), Manager: 
      Manager sending message :- wheat end_crop
 23 November 1997(Day of year=327), wheat: 
