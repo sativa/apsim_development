@@ -13,7 +13,7 @@ c:\progra~1\R\rw2010\bin\Rterm.exe --slave < validation-1.r
 ..\..\..\bin\apsimreport.exe aps06summary.report graphs\aps6\aps06summary.gif
 ..\..\..\bin\apsimreport.exe wheatvalidation.report graphs\wheatvalidation.gif
 
-cd \yieldprophet\2005
+cd yieldprophet\2005
 call runall.bat
 
 popd
