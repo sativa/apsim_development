@@ -9479,6 +9479,28 @@
             <crop type="modulename" description="Enter name of crop to harvest when ripe : ">Wheat</crop>
           </category>
         </rule>
+        <rule name="Tillage on fixed date">
+          <condition name="start_of_day">
+         if (today = date('[tillage_date]') then
+            if ('[tillage_type]' = 'user_defined') then
+                '[surfaceommodule]' tillage type = [tillage_type], f_incorp = [tillage_f_incorp] (), tillage_depth = [tillage_depth]
+            else
+                '[surfaceommodule]' tillage type = [tillage_type]
+            endif
+            ready_to_till_pre_sow = 0
+            till_day_pre_sow = 0
+         endif
+      </condition>
+          <category name="When should tillage be done">
+            <tillage_date type="ddmmmdate" description="Enter tillage date (dd-mmm) : ">21-jun</tillage_date>
+          </category>
+          <category name="Tillage application details">
+            <surfaceommodule type="modulename" description="Module used to apply the tillage : ">Surface Organic Matter</surfaceommodule>
+            <tillage_type type="list" listvalues="user_defined, chisel, disc, planter, burn, burn_90, graze, scarifier, rip, blade, tine" description="Tillage type : ">disc</tillage_type>
+            <tillage_depth description="User_defined depth of seedbed preparation (mm) : ">0</tillage_depth>
+            <tillage_f_incorp description="User_defined fraction of surface residues to incorporate (0-1): ">0</tillage_f_incorp>
+          </category>
+        </rule>
       </manager>
       <soil shortcut="MER-73Field" />
       <wheat />
@@ -9556,6 +9578,28 @@
             </condition>
           <category name="Harvesting criteria">
             <crop type="modulename" description="Enter name of crop to harvest when ripe : ">Wheat</crop>
+          </category>
+        </rule>
+        <rule name="Tillage on fixed date">
+          <condition name="start_of_day">
+         if (today = date('[tillage_date]') then
+            if ('[tillage_type]' = 'user_defined') then
+                '[surfaceommodule]' tillage type = [tillage_type], f_incorp = [tillage_f_incorp] (), tillage_depth = [tillage_depth]
+            else
+                '[surfaceommodule]' tillage type = [tillage_type]
+            endif
+            ready_to_till_pre_sow = 0
+            till_day_pre_sow = 0
+         endif
+      </condition>
+          <category name="When should tillage be done">
+            <tillage_date type="ddmmmdate" description="Enter tillage date (dd-mmm) : ">21-jun</tillage_date>
+          </category>
+          <category name="Tillage application details">
+            <surfaceommodule type="modulename" description="Module used to apply the tillage : ">Surface Organic Matter</surfaceommodule>
+            <tillage_type type="list" listvalues="user_defined, chisel, disc, planter, burn, burn_90, graze, scarifier, rip, blade, tine" description="Tillage type : ">disc</tillage_type>
+            <tillage_depth description="User_defined depth of seedbed preparation (mm) : ">0</tillage_depth>
+            <tillage_f_incorp description="User_defined fraction of surface residues to incorporate (0-1): ">0</tillage_f_incorp>
           </category>
         </rule>
       </manager>
@@ -9641,6 +9685,28 @@
             </condition>
           <category name="Harvesting criteria">
             <crop type="modulename" description="Enter name of crop to harvest when ripe : ">Wheat</crop>
+          </category>
+        </rule>
+        <rule name="Tillage on fixed date">
+          <condition name="start_of_day">
+         if (today = date('[tillage_date]') then
+            if ('[tillage_type]' = 'user_defined') then
+                '[surfaceommodule]' tillage type = [tillage_type], f_incorp = [tillage_f_incorp] (), tillage_depth = [tillage_depth]
+            else
+                '[surfaceommodule]' tillage type = [tillage_type]
+            endif
+            ready_to_till_pre_sow = 0
+            till_day_pre_sow = 0
+         endif
+      </condition>
+          <category name="When should tillage be done">
+            <tillage_date type="ddmmmdate" description="Enter tillage date (dd-mmm) : ">21-jun</tillage_date>
+          </category>
+          <category name="Tillage application details">
+            <surfaceommodule type="modulename" description="Module used to apply the tillage : ">Surface Organic Matter</surfaceommodule>
+            <tillage_type type="list" listvalues="user_defined, chisel, disc, planter, burn, burn_90, graze, scarifier, rip, blade, tine" description="Tillage type : ">disc</tillage_type>
+            <tillage_depth description="User_defined depth of seedbed preparation (mm) : ">0</tillage_depth>
+            <tillage_f_incorp description="User_defined fraction of surface residues to incorporate (0-1): ">0</tillage_f_incorp>
           </category>
         </rule>
       </manager>
@@ -9732,6 +9798,28 @@
             </condition>
           <category name="Harvesting criteria">
             <crop type="modulename" description="Enter name of crop to harvest when ripe : ">Wheat</crop>
+          </category>
+        </rule>
+        <rule name="Tillage on fixed date">
+          <condition name="start_of_day">
+         if (today = date('[tillage_date]') then
+            if ('[tillage_type]' = 'user_defined') then
+                '[surfaceommodule]' tillage type = [tillage_type], f_incorp = [tillage_f_incorp] (), tillage_depth = [tillage_depth]
+            else
+                '[surfaceommodule]' tillage type = [tillage_type]
+            endif
+            ready_to_till_pre_sow = 0
+            till_day_pre_sow = 0
+         endif
+      </condition>
+          <category name="When should tillage be done">
+            <tillage_date type="ddmmmdate" description="Enter tillage date (dd-mmm) : ">21-jun</tillage_date>
+          </category>
+          <category name="Tillage application details">
+            <surfaceommodule type="modulename" description="Module used to apply the tillage : ">Surface Organic Matter</surfaceommodule>
+            <tillage_type type="list" listvalues="user_defined, chisel, disc, planter, burn, burn_90, graze, scarifier, rip, blade, tine" description="Tillage type : ">disc</tillage_type>
+            <tillage_depth description="User_defined depth of seedbed preparation (mm) : ">0</tillage_depth>
+            <tillage_f_incorp description="User_defined fraction of surface residues to incorporate (0-1): ">0</tillage_f_incorp>
           </category>
         </rule>
       </manager>
