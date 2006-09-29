@@ -1,0 +1,1553 @@
+<?xml version="1.0"?>
+<simulation executable="%apsuite/apsim/protocolmanager/lib/protocolmanager.dll" version="5.2">
+   <title>Jon Whykes-P34 Rise</title>
+   <component name="SummaryFile" executable = "%apsuite/apsim/SummaryFile/lib/SummaryFile.dll">
+      <initdata>
+         <summaryfile>scenario1.sum</summaryfile>
+      </initdata>
+   </component>
+   <component name="clock" executable = "%apsuite/apsim/clock/lib/clock.dll">
+      <initdata>
+         <start_date>1/1/2005</start_date>
+         <end_date>31/12/2005</end_date>
+         <timestep_events>prepare process post</timestep_events>
+      </initdata>
+   </component>
+   <component name="report" executable = "%apsuite/apsim/report/lib/report.dll">
+      <initdata>
+         <outputfile>scenario1.out</outputfile>
+         <variable>manager.sow_year</variable>
+         <variable>clock.dd/mm/yyyy as date</variable>
+         <variable>clock.day</variable>
+         <variable>met.met_end_date_string</variable>
+         <variable>manager.phase</variable>
+         <variable>manager.wet_yield</variable>
+         <variable>gsr</variable>
+         <variable>InCropRain</variable>
+         <variable>manager.Water</variable>
+         <variable>soiln2.no3() as Nitrogen</variable>
+         <variable>IrrApplied</variable>
+         <variable>NApplied</variable>
+         <variable>manager.gm</variable>
+         <variable>Wheat.das</variable>
+         <variable>Wheat.sw_stress_expan</variable>
+         <variable>Wheat.n_stress_expan</variable>
+         <variable>Wheat.flowering_date</variable>
+         <variable>Wheat.maturity_date</variable>
+         <variable>Wheat.root_depth</variable>
+         <variable>Wheat.zadok_stage</variable>
+         <variable>Wheat.grain_protein</variable>
+         <variable>manager.oil_conc</variable>
+      </initdata>
+   </component>
+   <component name="summary" executable = "%apsuite/apsim/report/lib/report.dll">
+      <initdata>
+         <outputfile>scenario1Summary.out</outputfile>
+         <variable>dd/mm/yyyy as date</variable>
+         <variable>met_end_date_string</variable>
+         <variable>wet_yield</variable>
+         <variable>grain_protein</variable>
+         <variable>grain_n</variable>
+         <variable>manager.Water as ESW</variable>
+         <variable>no3()</variable>
+         <variable>nh4()</variable>
+         <variable>gm</variable>
+         <variable>sw_stress_expan</variable>
+         <variable>sw_stress_photo</variable>
+         <variable>n_stress_expan</variable>
+         <variable>n_stress_photo</variable>
+         <variable>zadok_stage</variable>
+         <variable>Zadok30Das</variable>
+         <variable>Zadok60Das</variable>
+         <variable>Zadok70Das</variable>
+         <variable>Zadok90Das</variable>
+         <variable>flowering_das</variable>
+         <variable>maturity_das</variable>
+         <variable>root_depth</variable>
+         <variable>gsr as SeasonalRain</variable>
+         <variable>IrrApplied as SeasonalIrrigation</variable>
+         <variable>NApplied as SeasonalFertiliser</variable>
+         <variable>SowESW</variable>
+         <variable>SowNo3</variable>
+         <variable>InCropRain</variable>
+         <variable>InCropES</variable>
+         <variable>InCropEO</variable>
+         <variable>InCropRunoff</variable>
+         <variable>InCropDrain</variable>
+         <variable>InCropDltNMin</variable>
+         <variable>InCropLeachNo3</variable>
+      </initdata>
+   </component>
+   <component name="thisyear" executable = "%apsuite/apsim/report/lib/report.dll">
+      <initdata>
+         <outputfile>ThisYear.out</outputfile>
+         <variable>manager.sow_year</variable>
+         <variable>clock.dd/mm/yyyy as date</variable>
+         <variable>clock.day</variable>
+         <variable>met.met_end_date_string</variable>
+         <variable>manager.phase</variable>
+         <variable>manager.wet_yield</variable>
+         <variable>gsr</variable>
+         <variable>InCropRain</variable>
+         <variable>manager.Water</variable>
+         <variable>soiln2.no3() as Nitrogen</variable>
+         <variable>IrrApplied</variable>
+         <variable>NApplied</variable>
+         <variable>manager.gm</variable>
+         <variable>Wheat.das</variable>
+         <variable>Wheat.sw_stress_expan</variable>
+         <variable>Wheat.sw_stress_photo</variable>
+         <variable>Wheat.n_stress_expan</variable>
+         <variable>Wheat.n_stress_photo</variable>
+         <variable>Wheat.flowering_date</variable>
+         <variable>Wheat.maturity_date</variable>
+         <variable>Wheat.root_depth</variable>
+         <variable>Wheat.zadok_stage</variable>
+         <variable>Wheat.grain_protein</variable>
+      </initdata>
+   </component>
+   <component name="met" executable = "%apsuite/apsim/input/lib/input.dll">
+      <initdata>
+         <filename>grower.met</filename>
+      </initdata>
+   </component>
+   <component name="fertiliz" executable = "%apsuite/apsim/fertiliz/lib/fertiliz.dll">
+      <initdata>
+         <calcite_ca>
+            <full_name>Ca as finely ground Agricultural Lime</full_name>
+            <components>CaCO3</components>
+            <fraction>1.0</fraction>
+         </calcite_ca>
+         <calcite_fine>
+            <full_name>finely ground Agricultural Lime</full_name>
+            <components>CaCO3</components>
+            <fraction>0.4</fraction>
+         </calcite_fine>
+         <dolomite>
+            <full_name>finely ground dolomite</full_name>
+            <components>CaCO3</components>
+            <fraction>0.22</fraction>
+         </dolomite>
+         <NO3_N>
+            <full_name>N as nitrate</full_name>
+            <components>no3</components>
+            <fraction>1.0</fraction>
+         </NO3_N>
+         <NH4_N>
+            <full_name>N as ammonium</full_name>
+            <components>nh4</components>
+            <fraction>1.0</fraction>
+         </NH4_N>
+         <NH4NO3>
+            <full_name>ammonium nitrate</full_name>
+            <components>nh4  no3</components>
+            <fraction>0.5  0.5</fraction>
+         </NH4NO3>
+         <urea_N>
+            <full_name>N as urea</full_name>
+            <components>urea</components>
+            <fraction>1.0</fraction>
+         </urea_N>
+         <urea_no3>
+            <full_name>N as urea</full_name>
+            <components>urea no3</components>
+            <fraction>0.50 0.50</fraction>
+         </urea_no3>
+         <urea>
+            <full_name>Urea ferilizer</full_name>
+            <components>Urea</components>
+            <fraction>0.46</fraction>
+         </urea>
+         <nh4so4_n>
+            <full_name>ammonium sulphate</full_name>
+            <components>nh4</components>
+            <fraction>1.0</fraction>
+         </nh4so4_n>
+         <rock_p>
+            <full_name>Rock Phosphorus</full_name>
+            <components>rock_p labile_p</components>
+            <fraction>0.8     0.2</fraction>
+         </rock_p>
+         <banded_p>
+            <full_name>Banded Phosphorus</full_name>
+            <components>banded_p</components>
+            <fraction>1.0</fraction>
+         </banded_p>
+         <broadcast_p>
+            <full_name>Broadcast Phosporus</full_name>
+            <components>labile_p</components>
+            <fraction>1.0</fraction>
+         </broadcast_p>
+      </initdata>
+   </component>
+   <component name="irrigate" executable = "%apsuite/apsim/irrigate/lib/irrigate.dll">
+      <initdata>
+      </initdata>
+   </component>
+   <component name="manager" executable = "%apsuite/apsim/manager/lib/manager.dll">
+      <initdata>
+         <rule name="scenario1.init" condition="init">
+            <![CDATA[
+               MoistureContent = 12   !%
+               population = 100
+               gm = 0.0
+               costs = 0.0
+               num_n_applications = 0
+               base_price = 0
+               min_protein = 0
+               protein_incr = 0
+               n_cost = 0
+               n_appl_cost = 0
+            ]]>
+            </rule>
+         <rule name="scenario1.start_of_day" condition="start_of_day">
+            <![CDATA[
+               phase = 'none'
+               ! Sow the crop.
+               if (today = date('10-Jul')) then
+                  surfaceom tillage type = planter, f_incorp = 0.1 (), tillage_depth = 50
+                  Wheat sow cultivar = Yitpi, plants = population (plants/m2), sowing_depth = 30
+                  phase = 'sowing'
+                  sow_year = year
+                  Zadok30Das = 0
+                  Zadok60Das = 0
+                  Zadok70Das = 0
+                  Zadok90Das = 0
+                  report do_end_day_output
+               endif
+               ! Harvest the crop.
+               HarvestToday = 'no'
+               if (Wheat.plant_status = 'dead' or Wheat.stage_name = 'harvest_ripe') then
+                  HarvestToday = 'yes'
+               endif
+               if (HarvestToday = 'yes') then
+                  wet_yield = Wheat.yield / (1 - MoistureContent/100) / 1000
+                  cropprotein = Wheat.grain_protein
+                  if (cropprotein > 14) then
+                     cropprotein = 14
+                  endif
+                  price = base_price + (cropprotein - min_protein) * 2 * protein_incr
+                  costs = n_cost * NApplied + n_appl_cost * num_n_applications
+                  gm = price * wet_yield - costs
+                  phase = 'harvest'
+                  report do_output
+                  if (today > date('01/04/2005')) then
+                     summary do_output
+                  endif
+                  Wheat harvest
+                  Wheat kill_crop
+                  Wheat end_crop
+                  surfaceom tillage type = burn
+               endif
+               ! Do canola specific stuff.
+               ! Reset measured soilwater on a known date
+               if (today = date('02-Apr')
+                   or (today = date('10-Jul') and date('10/07/2005') < date('02/04/2005'))) then
+                  soilwat2 reset
+                  soiln2 reset
+                  surfaceom reset
+               endif
+               ! Modify evap for winter or summer
+               if day > 90 and day < 273 then
+                  soilwat2.cona = 2.0
+                  soilwat2.u = 2.0
+               else
+                  soilwat2.cona = 3.5
+                  soilwat2.u = 4.0
+               endif
+               ! Generate an event for start of growing season.
+               if (today = date('01/04/2005')) then
+                  act_mods StartSeason
+               endif
+               if (today > date('01/04/2005')) then
+                  ! Set the phase to today when necessary.
+                  if (today = simulation_end_date) then
+                     phase = 'today'
+                     if (das > 0) then
+                        summary do_end_day_output
+                     endif
+                  endif
+               endif
+               ! Tell thisyear to do an output if we are incrop.
+               if (today >= date('10/07/2005')) then
+                  thisyear do_end_day_output
+               endif
+               ! Keep track of when important zadok stages occur.
+               if (zadok_stage >= 30 and Zadok30Das = 0) then
+                  Zadok30Das = das
+               elseif (zadok_stage >= 60 and Zadok60Das = 0) then
+                  Zadok60Das = das
+               elseif (zadok_stage >= 70 and Zadok70Das = 0) then
+                  Zadok70Das = das
+               elseif (zadok_stage >= 90 and Zadok90Das = 0) then
+                  Zadok90Das = das
+               endif
+               ! Fertilise the crop.
+               if (today = date('10-Jul')) then
+                  fertiliz apply amount = 10 (kg/ha), depth = 20 (mm), type = no3_n
+               endif
+               ! Irrigate the crop.
+            ]]>
+            </rule>
+         <rule name="scenario1.end_of_day" condition="end_of_day">
+            <![CDATA[
+               Water = esw_layer() + esw_layr()
+            ! ---------------------------
+            ! This year's crop sections
+            ! ---------------------------
+            ]]>
+            </rule>
+      </initdata>
+   </component>
+   <component name="soilwat2" executable = "%apsuite/apsim/soilwat2/lib/soilwat2.dll">
+      <initdata>
+         <diffus_const>88</diffus_const>
+         <diffus_slope>35.4</diffus_slope>
+         <cn2_bare>84</cn2_bare>
+         <cn_red>20</cn_red>
+         <cn_cov>0.8</cn_cov>
+         <salb>0.13</salb>
+         <cona>2</cona>
+         <u>2</u>
+         <dlayer>100.000  150.000  150.000  150.000  150.000  300.000  300.000  300.000</dlayer>
+         <air_dry>0.087    0.194    0.243    0.255    0.255    0.293    0.300    0.300</air_dry>
+         <ll15>0.174    0.243    0.243    0.255    0.255    0.293    0.300    0.300</ll15>
+         <dul>0.300    0.330    0.370    0.370    0.370    0.370    0.370    0.370</dul>
+         <sat>0.461    0.453    0.453    0.448    0.448    0.451    0.448    0.445</sat>
+         <sw>0.097    0.290    0.290    0.307    0.307    0.293    0.300    0.300</sw>
+         <swcon>0.700    0.300    0.300    0.300    0.300    0.300    0.300    0.300</swcon>
+         <bd>1.350    1.369    1.369    1.383    1.383    1.375    1.384    1.391</bd>
+         <min_crit_temp>5.0 (oC)</min_crit_temp>
+         <max_crit_temp>35.0 (oC)</max_crit_temp>
+         <max_albedo>0.23 ()</max_albedo>
+         <a_to_evap_fact>0.44</a_to_evap_fact>
+         <canopy_eos_coef>1.7</canopy_eos_coef>
+         <sw_top_crit>0.9 ()</sw_top_crit>
+         <sumes1_max>100.0 (mm)</sumes1_max>
+         <sumes2_max>25.0 (mm)</sumes2_max>
+         <solute_flow_eff>1.0 ()</solute_flow_eff>
+         <solute_flux_eff>1.0 ()</solute_flux_eff>
+         <gravity_gradient>0.00002 ()</gravity_gradient>
+         <specific_bd>2.65 (g/cc)</specific_bd>
+         <hydrol_effective_depth>450 (mm)</hydrol_effective_depth>
+         <mobile_solutes>no3 urea cl br org_n org_c_pool1 org_c_pool2 org_c_pool3</mobile_solutes>
+         <immobile_solutes>nh4</immobile_solutes>
+         <canopy_fact>1.0  1.0  0.0  0.0  ()</canopy_fact>
+         <canopy_fact_height>0  600  1800 30000 (mm)</canopy_fact_height>
+         <canopy_fact_default>0.5 ()</canopy_fact_default>
+         <act_evap_method>ritchie</act_evap_method>
+         <tillage>
+            <chisel>0.0           0.</chisel>
+            <disc>0.0           0.</disc>
+            <planter>0.0           0.</planter>
+            <burn>0.0           0.</burn>
+         </tillage>
+      </initdata>
+   </component>
+   <component name="SurfaceOM" executable = "%apsuite/apsim/SurfaceOM/lib/SurfaceOM.dll">
+      <initdata>
+         <mass>1000 (kg/ha)</mass>
+         <cnr>80</cnr>
+         <type>wheat</type>
+         <name>wheat</name>
+         <crit_residue_wt>2000</crit_residue_wt>
+         <opt_temp>20</opt_temp>
+         <cum_eos_max>20</cum_eos_max>
+         <cnrf_coeff>0.277</cnrf_coeff>
+         <cnrf_optcn>25.0</cnrf_optcn>
+         <c_fract>0.4 ()</c_fract>
+         <leach_rain_tot>25.0</leach_rain_tot>
+         <min_rain_to_leach>10.0</min_rain_to_leach>
+         <crit_min_surfom_orgc>0.004 (kg/ha)</crit_min_surfom_orgc>
+         <default_cpr>0.0 ()</default_cpr>
+         <default_standing_fraction>0.0</default_standing_fraction>
+         <base_type>
+            <fom_type>inert</fom_type>
+            <fraction_c>0.4</fraction_c>
+            <po4ppm>0.0</po4ppm>
+            <nh4ppm>0.0</nh4ppm>
+            <no3ppm>0.0</no3ppm>
+            <specific_area>0.0005</specific_area>
+            <cf_contrib>1</cf_contrib>
+            <pot_decomp_rate>0.1</pot_decomp_rate>
+            <fr_c>0.2 0.7 0.1</fr_c>
+            <fr_n>0.2 0.7 0.1</fr_n>
+            <fr_p>0.2 0.7 0.1</fr_p>
+         </base_type>
+         <inert>
+            <derived_from>base_type</derived_from>
+            <fom_type>inert</fom_type>
+            <pot_decomp_rate>0.0</pot_decomp_rate>
+         </inert>
+         <manure>
+            <fom_type>manure</fom_type>
+            <fraction_c>0.08</fraction_c>
+            <pot_decomp_rate>0.1</pot_decomp_rate>
+            <fr_c>0.3 0.3 0.4</fr_c>
+            <fr_n>0.3 0.3 0.4</fr_n>
+            <fr_p>0.3 0.3 0.4</fr_p>
+            <po4ppm>10.0</po4ppm>
+            <nh4ppm>10.0</nh4ppm>
+            <no3ppm>10.0</no3ppm>
+            <specific_area>0.0001</specific_area>
+            <cf_contrib>1</cf_contrib>
+         </manure>
+         <fym>
+            <fom_type>fym</fom_type>
+            <fraction_c>0.08</fraction_c>
+            <pot_decomp_rate>0.1</pot_decomp_rate>
+            <fr_c>0.3 0.3 0.4</fr_c>
+            <fr_n>0.3 0.3 0.4</fr_n>
+            <fr_p>0.3 0.3 0.4</fr_p>
+            <po4ppm>40.0</po4ppm>
+            <nh4ppm>10.0</nh4ppm>
+            <no3ppm>10.0</no3ppm>
+            <specific_area>0.0001</specific_area>
+            <cf_contrib>1</cf_contrib>
+         </fym>
+         <bambatsi>
+            <derived_from>base_type</derived_from>
+            <fom_type>bambatsi</fom_type>
+            <specific_area>0.0005</specific_area>
+         </bambatsi>
+         <barley>
+            <derived_from>base_type</derived_from>
+            <fom_type>barley</fom_type>
+            <specific_area>0.0005</specific_area>
+         </barley>
+         <broccoli>
+            <derived_from>base_type</derived_from>
+            <fom_type>broccoli</fom_type>
+            <specific_area>0.0004</specific_area>
+         </broccoli>
+         <camaldulensis>
+            <derived_from>base_type</derived_from>
+            <fom_type>camaldulensis</fom_type>
+            <specific_area>0.0002</specific_area>
+         </camaldulensis>
+         <canola>
+            <derived_from>base_type</derived_from>
+            <fom_type>canola</fom_type>
+            <specific_area>0.0002</specific_area>
+         </canola>
+         <chickpea>
+            <derived_from>base_type</derived_from>
+            <fom_type>chickpea</fom_type>
+            <specific_area>0.0002</specific_area>
+         </chickpea>
+         <cowpea>
+            <derived_from>base_type</derived_from>
+            <fom_type>cowpea</fom_type>
+            <specific_area>0.0002</specific_area>
+         </cowpea>
+         <danthonia>
+            <derived_from>base_type</derived_from>
+            <fom_type>danthonia</fom_type>
+            <specific_area>0.0005</specific_area>
+         </danthonia>
+         <globulus>
+            <derived_from>base_type</derived_from>
+            <fom_type>globulus</fom_type>
+            <specific_area>0.0002</specific_area>
+         </globulus>
+         <grandis>
+            <derived_from>base_type</derived_from>
+            <fom_type>grandis</fom_type>
+            <specific_area>0.0002</specific_area>
+         </grandis>
+         <fababean>
+            <derived_from>base_type</derived_from>
+            <fom_type>fababean</fom_type>
+            <specific_area>0.0002</specific_area>
+         </fababean>
+         <fieldpea>
+            <derived_from>base_type</derived_from>
+            <fom_type>fieldpea</fom_type>
+            <specific_area>0.0002</specific_area>
+         </fieldpea>
+         <grass>
+            <derived_from>base_type</derived_from>
+            <fom_type>grass</fom_type>
+            <specific_area>0.0004</specific_area>
+         </grass>
+         <lablab>
+            <derived_from>base_type</derived_from>
+            <fom_type>lablab</fom_type>
+            <specific_area>0.0002</specific_area>
+         </lablab>
+         <lucerne>
+            <derived_from>base_type</derived_from>
+            <fom_type>lucerne</fom_type>
+            <specific_area>0.0002</specific_area>
+         </lucerne>
+         <lupin>
+            <derived_from>base_type</derived_from>
+            <fom_type>lupin</fom_type>
+            <specific_area>0.0002</specific_area>
+         </lupin>
+         <maize>
+            <derived_from>base_type</derived_from>
+            <fom_type>maize</fom_type>
+            <specific_area>0.0004</specific_area>
+         </maize>
+         <millet>
+            <derived_from>base_type</derived_from>
+            <fom_type>millet</fom_type>
+            <specific_area>0.0004</specific_area>
+         </millet>
+         <mucuna>
+            <derived_from>base_type</derived_from>
+            <fom_type>mucuna</fom_type>
+            <specific_area>0.0002</specific_area>
+         </mucuna>
+         <mungbean>
+            <derived_from>base_type</derived_from>
+            <fom_type>mungbean</fom_type>
+            <specific_area>0.0002</specific_area>
+         </mungbean>
+         <horsegram>
+            <derived_from>base_type</derived_from>
+            <fom_type>horsegram</fom_type>
+            <specific_area>0.0002</specific_area>
+         </horsegram>
+         <navybean>
+            <derived_from>base_type</derived_from>
+            <fom_type>navybean</fom_type>
+            <specific_area>0.0002</specific_area>
+         </navybean>
+         <cotton>
+            <derived_from>base_type</derived_from>
+            <fom_type>cotton</fom_type>
+            <specific_area>0.0002</specific_area>
+         </cotton>
+         <orobanche>
+            <derived_from>base_type</derived_from>
+            <fom_type>orobanche</fom_type>
+            <specific_area>0.0002</specific_area>
+         </orobanche>
+         <peanut>
+            <derived_from>base_type</derived_from>
+            <fom_type>peanut</fom_type>
+            <specific_area>0.0002</specific_area>
+         </peanut>
+         <pigeonpea>
+            <derived_from>base_type</derived_from>
+            <fom_type>pigeonpea</fom_type>
+            <specific_area>0.0002</specific_area>
+         </pigeonpea>
+         <rice>
+            <derived_from>base_type</derived_from>
+            <fom_type>rice</fom_type>
+            <specific_area>0.0005</specific_area>
+         </rice>
+         <soybean>
+            <derived_from>base_type</derived_from>
+            <fom_type>soybean</fom_type>
+            <specific_area>0.0002</specific_area>
+         </soybean>
+         <sorghum>
+            <derived_from>base_type</derived_from>
+            <fom_type>sorghum</fom_type>
+            <specific_area>0.0004</specific_area>
+         </sorghum>
+         <stylo>
+            <derived_from>base_type</derived_from>
+            <fom_type>stylo</fom_type>
+            <specific_area>0.0002</specific_area>
+         </stylo>
+         <sugar>
+            <derived_from>base_type</derived_from>
+            <fom_type>sugar</fom_type>
+            <specific_area>0.0007</specific_area>
+         </sugar>
+         <sunflower>
+            <derived_from>base_type</derived_from>
+            <fom_type>sunflower</fom_type>
+            <specific_area>0.0002</specific_area>
+         </sunflower>
+         <sweetcorn>
+            <derived_from>base_type</derived_from>
+            <fom_type>sweetcorn</fom_type>
+            <specific_area>0.0004</specific_area>
+         </sweetcorn>
+         <sweetsorghum>
+            <derived_from>base_type</derived_from>
+            <fom_type>sweetsorghum</fom_type>
+            <specific_area>0.0004</specific_area>
+         </sweetsorghum>
+         <weed>
+            <derived_from>base_type</derived_from>
+            <fom_type>weed</fom_type>
+            <specific_area>0.0004</specific_area>
+         </weed>
+         <wheat>
+            <derived_from>base_type</derived_from>
+            <fom_type>wheat</fom_type>
+            <specific_area>0.0005</specific_area>
+         </wheat>
+         <tillage>
+            <chisel>0.5           100.</chisel>
+            <disc>0.5           200.</disc>
+            <planter>0.1            50.</planter>
+            <burn>1.0             0.</burn>
+            <bw_chisel>1.0           100.</bw_chisel>
+            <herbinc>0.1            50.</herbinc>
+            <burn_95>.95            0.</burn_95>
+            <graze>0.75            0.</graze>
+            <scarifier>0.30          100.</scarifier>
+            <pits>0.5           100.</pits>
+            <rip>0.3           300.</rip>
+            <blade>0.30          100.</blade>
+            <sweep>0.30          100.</sweep>
+            <cool_burn>0.7             0.</cool_burn>
+            <burn_90>0.9             0.</burn_90>
+            <tine>1.0           100.</tine>
+            <default>1.0             1.</default>
+            <decomp>1.0           200.</decomp>
+            <hoe>1.0           100.</hoe>
+         </tillage>
+      </initdata>
+   </component>
+   <component name="soiln2" executable = "%apsuite/apsim/soiln2/lib/soiln2.dll">
+      <initdata>
+         <root_cn>45</root_cn>
+         <root_wt>1500</root_wt>
+         <soil_cn>12.5</soil_cn>
+         <enr_a_coeff>7.4</enr_a_coeff>
+         <enr_b_coeff>0.2</enr_b_coeff>
+         <profile_reduction>off</profile_reduction>
+         <oc>1.050      0.450      0.450      0.300      0.300      0.300      0.250      0.250</oc>
+         <ph>7.700      8.000      8.000      8.200      8.200      9.000      8.900      8.900</ph>
+         <fbiom>0.025      0.020      0.020      0.015      0.015      0.010      0.010      0.010</fbiom>
+         <finert>0.400      0.600      0.600      0.800      0.800      0.900      0.900      0.900</finert>
+         <no3ppm>21.000      13.000      13.000      4.000      4.000      1.000      0.400      0.200</no3ppm>
+         <nh4ppm>0.100      0.100      0.050      0.050      0.040      0.040      0.020      0.010</nh4ppm>
+         <standard>
+            <cnrf_coeff>0.693</cnrf_coeff>
+            <cnrf_optcn>25.0</cnrf_optcn>
+            <ef_biom>0.4</ef_biom>
+            <ef_fom>0.4</ef_fom>
+            <ef_hum>0.4</ef_hum>
+            <ef_res>0.4</ef_res>
+            <fom_min>0.5</fom_min>
+            <fr_biom_biom>0.6</fr_biom_biom>
+            <fr_fom_biom>0.9</fr_fom_biom>
+            <fr_res_biom>0.9</fr_res_biom>
+            <fom_type>default manure  goose_poo  hippo</fom_type>
+            <fr_carb>0.2      0.3      0.3        0.2</fr_carb>
+            <fr_cell>0.7      0.3     0.3        0.2</fr_cell>
+            <fr_lign>0.1      0.4     0.4        0.6</fr_lign>
+            <oc2om_factor>1.7</oc2om_factor>
+            <mcn>8.0</mcn>
+            <opt_temp>32.0</opt_temp>
+            <rd_biom>0.0081</rd_biom>
+            <rd_carb>0.2</rd_carb>
+            <rd_cell>0.05</rd_cell>
+            <rd_lign>0.0095</rd_lign>
+            <rd_hum>0.00015</rd_hum>
+            <nh4ppm_min>0.0</nh4ppm_min>
+            <no3ppm_min>0.0</no3ppm_min>
+            <min_depth>100.</min_depth>
+            <wfmin_index>0.0 0.5 1.0 2.0</wfmin_index>
+            <wfmin_values>0.0 1.0 1.0 0.5</wfmin_values>
+            <wfnit_index>0.0 .25 1.0 2.0</wfnit_index>
+            <wfnit_values>0.0 1.0 1.0 0.0</wfnit_values>
+            <nitrification_pot>40.0 (ppm)</nitrification_pot>
+            <nh4_at_half_pot>90 (ppm)</nh4_at_half_pot>
+            <phf_nit_ph>4.5 6.0 8.0 9.0</phf_nit_ph>
+            <phf_nit_values>0.0 1.0 1.0 0.0</phf_nit_values>
+            <dnit_rate_coeff>0.0006</dnit_rate_coeff>
+            <dnit_wf_power>1</dnit_wf_power>
+         </standard>
+      </initdata>
+   </component>
+   <component name="Wheat" executable = "%apsuite/apsim/plant/lib/plant.dll">
+      <initdata>
+         <ll>0.137      0.243      0.243      0.255      0.255      0.293      0.300      0.300</ll>
+         <kl>0.060      0.060      0.040      0.040      0.040      0.040      0.020      0.020</kl>
+         <xf>1.000      1.000      1.000      1.000      1.000      0.000      0.000      0.000</xf>
+         <crop_type>wheat</crop_type>
+         <default_crop_class>plant</default_crop_class>
+         <leaf_part>generic_leaf</leaf_part>
+         <stress_determinants>leaf stem</stress_determinants>
+         <yield_parts>meal</yield_parts>
+         <retrans_parts>stem leaf</retrans_parts>
+         <sw_ub>1.0</sw_ub>
+         <sw_lb>0.0</sw_lb>
+         <year_ub>2000      ()</year_ub>
+         <year_lb>1800      ()</year_lb>
+         <latitude_ub>90        (oL)</latitude_ub>
+         <latitude_lb>-90       (oL)</latitude_lb>
+         <maxt_ub>55        (oC)</maxt_ub>
+         <maxt_lb>0         (oC)</maxt_lb>
+         <mint_ub>40        (oC)</mint_ub>
+         <mint_lb>-10       (oC)</mint_lb>
+         <radn_ub>50        (MJ/m^2)</radn_ub>
+         <radn_lb>1         (MJ/m^2)</radn_lb>
+         <dlayer_ub>1000      (mm)</dlayer_ub>
+         <dlayer_lb>0         (mm)</dlayer_lb>
+         <dul_dep_ub>1000      (mm)</dul_dep_ub>
+         <dul_dep_lb>0         (mm)</dul_dep_lb>
+         <sw_dep_ub>1000      (mm)</sw_dep_ub>
+         <sw_dep_lb>0         (mm)</sw_dep_lb>
+         <no3_ub>10000     (kg/ha)</no3_ub>
+         <no3_lb>0         (kg/ha)</no3_lb>
+         <no3_min_ub>10000     (kg/ha)</no3_min_ub>
+         <no3_min_lb>0         (kg/ha)</no3_min_lb>
+         <nh4_ub>10000     (kg/ha)</nh4_ub>
+         <nh4_lb>0         (kg/ha)</nh4_lb>
+         <nh4_min_ub>10000     (kg/ha)</nh4_min_ub>
+         <nh4_min_lb>0         (kg/ha)</nh4_min_lb>
+         <phenology_model>wheat</phenology_model>
+         <stage_code_list>1         2          3         4                5               6           7               8             9            10       12</stage_code_list>
+         <stage_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</stage_names>
+         <phase_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</phase_names>
+         <phase_type>generic generic    generic   generic         generic           generic   generic          generic        generic  generic      generic</phase_type>
+         <composite_phases>under_ground above_ground grainfill reproductive leaf_senescence vernalisation eme2ej preflowering tiller_formation hi_stress_sensitive stress_reporting postflowering</composite_phases>
+         <under_ground>sowing germination</under_ground>
+         <above_ground>emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe</above_ground>
+         <vernalisation>germination emergence end_of_juvenile</vernalisation>
+         <leaf_senescence>floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe</leaf_senescence>
+         <tiller_formation>emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity</tiller_formation>
+         <preflowering>emergence end_of_juvenile floral_initiation</preflowering>
+         <postflowering>flowering start_grain_fill</postflowering>
+         <reproductive>flowering start_grain_fill</reproductive>
+         <hi_stress_sensitive>flowering</hi_stress_sensitive>
+         <grainfill>start_grain_fill</grainfill>
+         <eme2ej>emergence end_of_juvenile</eme2ej>
+         <stress_reporting>end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill</stress_reporting>
+         <wheat>
+            <grain_no_option>2</grain_no_option>
+            <partition_option>2</partition_option>
+            <n_retrans_option>2</n_retrans_option>
+            <n_retrans_fraction>1.0</n_retrans_fraction>
+            <n_deficit_uptake_fraction>0.0001</n_deficit_uptake_fraction>
+            <grain_fill_option>2</grain_fill_option>
+            <x_temp_grainfill>0 26 35</x_temp_grainfill>
+            <y_rel_grainfill>0  1  1</y_rel_grainfill>
+            <n_uptake_option>3</n_uptake_option>
+            <kno3>0.02</kno3>
+            <no3ppm_min>0.0</no3ppm_min>
+            <knh4>0.0</knh4>
+            <nh4ppm_min>0.0</nh4ppm_min>
+            <total_n_uptake_max>0.6 (g/m2)</total_n_uptake_max>
+            <fruit_no_option>1</fruit_no_option>
+            <parasite_option>1</parasite_option>
+            <plant>wheat</plant>
+            <class_action>harvest</class_action>
+            <class_change>unchanged</class_change>
+            <co2_default>350                             (ppm)</co2_default>
+            <photosynthetic_pathway>C3                   (C3, or C4)</photosynthetic_pathway>
+            <x_co2_te_modifier>0  350  700   1000        (ppm co2)</x_co2_te_modifier>
+            <y_co2_te_modifier>0  1.0  1.37  1.69        ()</y_co2_te_modifier>
+            <x_co2_nconc_modifier>0  350  700   1000        (ppm co2)</x_co2_nconc_modifier>
+            <y_co2_nconc_modifier>0  1.0  0.93  0.9         ()</y_co2_nconc_modifier>
+            <phenology_option>2</phenology_option>
+            <stage_code>1      2    3     4     5     6     7      8     9    10     11  ()</stage_code>
+            <stage_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</stage_names>
+            <stage_code_list>1      2    3     4     5     6     7      8     9    10     11  ()</stage_code_list>
+            <stage_stem_reduction_harvest>1      2    3     4     4     4     4      4     4     4     11  ()</stage_stem_reduction_harvest>
+            <stage_stem_reduction_kill_stem>1      2    3     3     4     4     4      4     4     4     11  ()</stage_stem_reduction_kill_stem>
+            <pesw_germ>0.00 (mm/mm)</pesw_germ>
+            <shoot_lag>40.0 (oCd)</shoot_lag>
+            <shoot_rate>1.50 (oCd/mm)</shoot_rate>
+            <fasw_emerg>0.0  1.0</fasw_emerg>
+            <rel_emerg_rate>1.0  1.0</rel_emerg_rate>
+            <twilight>-6.0</twilight>
+            <x_vernal_temp>0 2  8  15</x_vernal_temp>
+            <y_vernal_days>0 1  0.5  0</y_vernal_days>
+            <x_temp>0  26  34  (oC)</x_temp>
+            <y_tt>0  26   0  (oCd)</y_tt>
+            <leaf_no_at_emerg>2.0</leaf_no_at_emerg>
+            <leaf_app_rate1>75.0 (oCd)</leaf_app_rate1>
+            <leaf_app_rate2>2.0  (oCd)</leaf_app_rate2>
+            <leaf_no_rate_change>7     ()</leaf_no_rate_change>
+            <leaf_no_pot_option>2</leaf_no_pot_option>
+            <x_node_no_app>0    20</x_node_no_app>
+            <y_node_app_rate>95   95</y_node_app_rate>
+            <x_node_no_leaf>0    2.5   6</x_node_no_leaf>
+            <y_leaves_per_node>1    1   6.0</y_leaves_per_node>
+            <x_lai_ratio>0.0  0.1 0.8 1.0 ()</x_lai_ratio>
+            <y_leaf_no_frac>0.0  1.0 1.0 1.0  ()</y_leaf_no_frac>
+            <x_stage_rue>1      2    3     4     5     6     7      8     9      10    11  ()</x_stage_rue>
+            <y_rue>0      0    1.24  1.24  1.24  1.24  1.24   1.24  0.00  0.00   0  (g/MJ)</y_rue>
+            <skiprow_default>0</skiprow_default>
+            <row_spacing_default>250 (mm)</row_spacing_default>
+            <x_row_spacing>200  350  1000</x_row_spacing>
+            <y_extinct_coef>0.50 0.50 0.50</y_extinct_coef>
+            <y_extinct_coef_dead>0.30 0.30 0.30</y_extinct_coef_dead>
+            <extinct_coef_pod>0.0   ()</extinct_coef_pod>
+            <spec_pod_area>0.0   (mm^2/g)</spec_pod_area>
+            <rue_pod>0.0   (g/MJ)</rue_pod>
+            <x_ave_temp>0  10 25 35 (oC)</x_ave_temp>
+            <y_stress_photo>0  1  1  0  ()</y_stress_photo>
+            <dm_init>0.010     (g/plant)</dm_init>
+            <root_dm_init>0.010     (g/plant)</root_dm_init>
+            <leaf_dm_init>0.003</leaf_dm_init>
+            <stem_dm_init>0.0016</stem_dm_init>
+            <pod_dm_init>0.0</pod_dm_init>
+            <meal_dm_init>0.0</meal_dm_init>
+            <oil_dm_init>0.0</oil_dm_init>
+            <stem_trans_frac>0.35 ()</stem_trans_frac>
+            <leaf_trans_frac>0.00 ()</leaf_trans_frac>
+            <pod_trans_frac>0    ()</pod_trans_frac>
+            <meal_trans_frac>0.00 ()</meal_trans_frac>
+            <oil_trans_frac>0.00 ()</oil_trans_frac>
+            <root_trans_frac>0.00 ()</root_trans_frac>
+            <x_stage_no_partition>1      2    3     4    4.9       5     5.4   6       6.9    7      8     9    10     11   ()</x_stage_no_partition>
+            <y_ratio_root_shoot>0      0    1.0   1.0  0.3       0.30  0.30  0.08    0.01   0      0     0     0      0   (0-1)</y_ratio_root_shoot>
+            <y_frac_leaf>0      0    0.6   0.6  0.6       0.42  0.0   0.0     0.0    0      0     0     0      0   (0-1)</y_frac_leaf>
+            <y_frac_pod>0      0    0     0     0        0     0.33  0.33    0.33   0      0     0     0      0   (0-1)</y_frac_pod>
+            <grain_n_option>2</grain_n_option>
+            <sw_fac_max>1.125     ()</sw_fac_max>
+            <temp_fac_min>0.69      ()</temp_fac_min>
+            <sfac_slope>-0.125    ()</sfac_slope>
+            <tfac_slope>0.0125    ()</tfac_slope>
+            <potential_grain_n_filling_rate>0.000055  (g/grain/d)</potential_grain_n_filling_rate>
+            <minimum_grain_n_filling_rate>0.000015 (g/grain/d)</minimum_grain_n_filling_rate>
+            <x_temp_grain_n_fill>0 25</x_temp_grain_n_fill>
+            <y_rel_grain_n_fill>0   1</y_rel_grain_n_fill>
+            <crit_grainfill_rate>0.</crit_grainfill_rate>
+            <x_temp_grain>0.0   15.0        (oC)</x_temp_grain>
+            <y_grain_rate>0.0   1.0         (0-1)</y_grain_rate>
+            <carbo_oil_conv_ratio>1.0</carbo_oil_conv_ratio>
+            <grain_oil_conc>0.0</grain_oil_conc>
+            <grn_water_cont>0.125 (g/g)</grn_water_cont>
+            <node_no_correction>2.0</node_no_correction>
+            <x_node_no>1     5    8    10</x_node_no>
+            <y_leaf_size>1400 3700 4800 5600</y_leaf_size>
+            <x_lai>0     5</x_lai>
+            <y_sla_max>27000 22000</y_sla_max>
+            <sla_min>18000</sla_min>
+            <initial_tpla>200    (mm^2/plant)</initial_tpla>
+            <fr_height_cut>0.0  0.1    1</fr_height_cut>
+            <fr_stem_remain>0.0  0.2    1</fr_stem_remain>
+            <root_depth_rate>0      5.0  30    30    30    30    30      0.0   0.0   0.0    0  (mm/d)</root_depth_rate>
+            <x_ws_root>0   1</x_ws_root>
+            <y_ws_root_fac>1   1</y_ws_root_fac>
+            <x_sw_ratio>0.0 0.25 ()</x_sw_ratio>
+            <y_sw_fac_root>0   1    ()</y_sw_fac_root>
+            <x_temp_root_advance>0 25 35</x_temp_root_advance>
+            <y_rel_root_advance>0 1  0</y_rel_root_advance>
+            <initial_root_depth>100 (mm)</initial_root_depth>
+            <specific_root_length>105000 (mm/g)</specific_root_length>
+            <x_plant_rld>0   0.0001  0.0003 (mm/mm3/plant)</x_plant_rld>
+            <y_rel_root_rate>0.02  0.10  1.0   (0-1)</y_rel_root_rate>
+            <transp_eff_cf>0      0    .006  .006  .006  .006  .006  .006   .0025 .00    0 (Pa)</transp_eff_cf>
+            <svp_fract>0.75</svp_fract>
+            <eo_crop_factor_default>1.5</eo_crop_factor_default>
+            <x_sw_demand_ratio>0.1 1.1 ()</x_sw_demand_ratio>
+            <y_swdef_leaf>0   1   ()</y_swdef_leaf>
+            <x_sw_avail_ratio>0.0 0.16 ()</x_sw_avail_ratio>
+            <y_swdef_pheno>1.0 1.0  ()</y_swdef_pheno>
+            <x_sw_avail_ratio_flower>0.2   0.50  1.0  ()</x_sw_avail_ratio_flower>
+            <y_swdef_pheno_flower>1.0   1.0    1.0  ()</y_swdef_pheno_flower>
+            <x_sw_avail_ratio_grainfill>0.2   0.50   1.0  ()</x_sw_avail_ratio_grainfill>
+            <y_swdef_pheno_grainfill>1.0   1.0    1.0  ()</y_swdef_pheno_grainfill>
+            <oxdef_photo_rtfr>0.0  0.8   1.0         ()</oxdef_photo_rtfr>
+            <oxdef_photo>1.0  1.0   1.0         (0-1)</oxdef_photo>
+            <n_supply_preference>active</n_supply_preference>
+            <no3_diffn_const>4.0</no3_diffn_const>
+            <n_fix_rate>0      0    0     .00  0.00  0.00  0.00   0.00  0.00  0.00    0  (gN/gDM)</n_fix_rate>
+            <x_sw_avail_fix>0.0  0.50  0.95  1.0   ()</x_sw_avail_fix>
+            <y_swdef_fix>1.0  1.0   1.0   1.0   (0-1)</y_swdef_fix>
+            <n_stress_option>2</n_stress_option>
+            <n_stress_start_stage>4.3</n_stress_start_stage>
+            <n_fact_photo>1.5</n_fact_photo>
+            <n_fact_expansion>1.0</n_fact_expansion>
+            <n_fact_pheno>100</n_fact_pheno>
+            <x_stage_code>3       4      5     6      8      10    ()</x_stage_code>
+            <y_n_conc_min_leaf>0.025   0.025  0.021 0.010  0.005  0.0025 ()</y_n_conc_min_leaf>
+            <y_n_conc_crit_leaf>0.063   0.063  0.042 0.015  0.008  0.0035 ()</y_n_conc_crit_leaf>
+            <y_n_conc_max_leaf>0.070   0.070  0.050 0.020  0.010  0.005 ()</y_n_conc_max_leaf>
+            <y_n_conc_min_stem>0.025   0.025  0.004 0.003  0.003  0.0025 ()</y_n_conc_min_stem>
+            <y_n_conc_crit_stem>0.050   0.050  0.020 0.010  0.005  0.0035 ()</y_n_conc_crit_stem>
+            <y_n_conc_max_stem>0.070   0.070  0.040 0.015  0.015  0.015 ()</y_n_conc_max_stem>
+            <y_n_conc_min_pod>0.025   0.025  0.004 0.003  0.003  0.0025 ()</y_n_conc_min_pod>
+            <y_n_conc_crit_pod>0.050   0.050  0.020 0.010  0.005  0.0035 ()</y_n_conc_crit_pod>
+            <y_n_conc_max_pod>0.070   0.070  0.040 0.015  0.015  0.015 ()</y_n_conc_max_pod>
+            <n_conc_min_root>0.010   ()</n_conc_min_root>
+            <n_conc_crit_root>0.020   ()</n_conc_crit_root>
+            <n_conc_max_root>0.020   ()</n_conc_max_root>
+            <n_conc_min_grain>0.014   ()</n_conc_min_grain>
+            <n_conc_crit_grain>0.030   ()</n_conc_crit_grain>
+            <n_conc_max_grain>0.030   ()</n_conc_max_grain>
+            <y_n_conc_min_meal>0.0     0.0     0.0    0.0   0.014  0.014   ()</y_n_conc_min_meal>
+            <y_n_conc_crit_meal>0.0     0.0     0.0    0.0   0.030  0.030   ()</y_n_conc_crit_meal>
+            <y_n_conc_max_meal>0.0     0.0     0.0    0.0   0.030  0.030   ()</y_n_conc_max_meal>
+            <y_n_conc_min_oil>0.0     0.0     0.0    0.0    0.0    0.0   ()</y_n_conc_min_oil>
+            <y_n_conc_crit_oil>0.0     0.0     0.0    0.0    0.0    0.0   ()</y_n_conc_crit_oil>
+            <y_n_conc_max_oil>0.0     0.0     0.0    0.0    0.0    0.0   ()</y_n_conc_max_oil>
+            <n_init_conc>0.020</n_init_conc>
+            <root_n_init_conc>0.020</root_n_init_conc>
+            <leaf_n_init_conc>0.063</leaf_n_init_conc>
+            <stem_n_init_conc>0.050</stem_n_init_conc>
+            <pod_n_init_conc>0.063</pod_n_init_conc>
+            <meal_n_init_conc>0.0</meal_n_init_conc>
+            <oil_n_init_conc>0.0</oil_n_init_conc>
+            <n_senescence_option>2</n_senescence_option>
+            <n_sen_conc>0.005</n_sen_conc>
+            <root_n_sen_conc>0.005</root_n_sen_conc>
+            <leaf_n_sen_conc>0.005</leaf_n_sen_conc>
+            <stem_n_sen_conc>0.0025</stem_n_sen_conc>
+            <pod_n_sen_conc>0.007</pod_n_sen_conc>
+            <meal_n_sen_conc>0.014</meal_n_sen_conc>
+            <oil_n_sen_conc>0.0</oil_n_sen_conc>
+            <root_die_back_fr>0.0  (0-1)</root_die_back_fr>
+            <dm_senescence_option>1</dm_senescence_option>
+            <x_dm_sen_frac_root>0    1</x_dm_sen_frac_root>
+            <y_dm_sen_frac_root>0.005 0.005</y_dm_sen_frac_root>
+            <x_dm_sen_frac_leaf>0    1</x_dm_sen_frac_leaf>
+            <y_dm_sen_frac_leaf>0    1</y_dm_sen_frac_leaf>
+            <x_dm_sen_frac_stem>0    1</x_dm_sen_frac_stem>
+            <y_dm_sen_frac_stem>0    0</y_dm_sen_frac_stem>
+            <x_dm_sen_frac_pod>0    1</x_dm_sen_frac_pod>
+            <y_dm_sen_frac_pod>0    0</y_dm_sen_frac_pod>
+            <x_dm_sen_frac_meal>0    1</x_dm_sen_frac_meal>
+            <y_dm_sen_frac_meal>0    0</y_dm_sen_frac_meal>
+            <x_dm_sen_frac_oil>0    1</x_dm_sen_frac_oil>
+            <y_dm_sen_frac_oil>0    0</y_dm_sen_frac_oil>
+            <min_tpla>5.0   ()</min_tpla>
+            <sen_start_stage>4.4</sen_start_stage>
+            <node_sen_rate>60.0   (oCd/node)</node_sen_rate>
+            <fr_lf_sen_rate>0.035   ()</fr_lf_sen_rate>
+            <n_fact_lf_sen_rate>0.0</n_fact_lf_sen_rate>
+            <lai_sen_light>7.0  (m^2/m^2)</lai_sen_light>
+            <sen_light_slope>0.002()</sen_light_slope>
+            <x_temp_senescence>-15.0 -5.0</x_temp_senescence>
+            <y_senescence_fac>1    0</y_senescence_fac>
+            <sen_rate_water>0.10 ()</sen_rate_water>
+            <dead_detach_frac>0   ()</dead_detach_frac>
+            <sen_detach_frac>1   ()</sen_detach_frac>
+            <root_dead_detach_frac>0   ()</root_dead_detach_frac>
+            <root_sen_detach_frac>1   ()</root_sen_detach_frac>
+            <leaf_dead_detach_frac>0.0</leaf_dead_detach_frac>
+            <leaf_sen_detach_frac>0.0</leaf_sen_detach_frac>
+            <stem_dead_detach_frac>0.0</stem_dead_detach_frac>
+            <stem_sen_detach_frac>0.0</stem_sen_detach_frac>
+            <pod_dead_detach_frac>0.0</pod_dead_detach_frac>
+            <pod_sen_detach_frac>0.0</pod_sen_detach_frac>
+            <meal_dead_detach_frac>0.0</meal_dead_detach_frac>
+            <meal_sen_detach_frac>0.0</meal_sen_detach_frac>
+            <oil_dead_detach_frac>0.0</oil_dead_detach_frac>
+            <oil_sen_detach_frac>0.0</oil_sen_detach_frac>
+            <leaf_no_crit>10.0      ()</leaf_no_crit>
+            <tt_emerg_limit>300.0     (oCd)</tt_emerg_limit>
+            <days_germ_limit>40.0      (days)</days_germ_limit>
+            <swdf_photo_limit>99.0      ()</swdf_photo_limit>
+            <swdf_photo_rate>0.0       ()</swdf_photo_rate>
+            <swdf_pheno_limit>25       ()</swdf_pheno_limit>
+            <x_weighted_temp>55.0  60.0  (oC)</x_weighted_temp>
+            <y_plant_death>0.0   1.0</y_plant_death>
+            <ll_ub>1000.0 ()</ll_ub>
+            <kl_ub>1.0    ()</kl_ub>
+            <minsw>0.00001 ()</minsw>
+            <tt_emerg_to_endjuv_ub>1000.0 (oCd)</tt_emerg_to_endjuv_ub>
+            <tt_flower_to_maturity_ub>1500.0 (oCd)</tt_flower_to_maturity_ub>
+            <tt_maturity_to_ripe_ub>1000.0 (oCd)</tt_maturity_to_ripe_ub>
+            <tt_flower_to_start_grain_ub>1000.0 (oCd)</tt_flower_to_start_grain_ub>
+            <tt_init_to_flower_ub>1000.0 (oCd)</tt_init_to_flower_ub>
+         </wheat>
+         <base_cultivar>
+            <grains_per_gram_stem>25.0</grains_per_gram_stem>
+            <potential_grain_filling_rate>0.0020</potential_grain_filling_rate>
+            <potential_grain_growth_rate>0.0010</potential_grain_growth_rate>
+            <max_grain_size>0.041</max_grain_size>
+            <phyllochron>95.0</phyllochron>
+            <startgf_to_mat>580</startgf_to_mat>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.0</photop_sens>
+            <x_pp_hi_incr>1      24    (h)</x_pp_hi_incr>
+            <y_hi_incr>0.013 0.013 (1/days)</y_hi_incr>
+            <x_hi_max_pot_stress>0.00 1.00 ()</x_hi_max_pot_stress>
+            <y_hi_max_pot>0.50 0.50 ()</y_hi_max_pot>
+            <cum_vernal_days>0    25</cum_vernal_days>
+            <tt_emerg_to_endjuv>800  600   (oCd)</tt_emerg_to_endjuv>
+            <est_days_emerg_to_init>83       (d)</est_days_emerg_to_init>
+            <x_pp_endjuv_to_init>10.8   16.3</x_pp_endjuv_to_init>
+            <y_tt_endjuv_to_init>50     50</y_tt_endjuv_to_init>
+            <x_pp_init_to_flower>10.8   16.3   (h)</x_pp_init_to_flower>
+            <y_tt_init_to_flower>450    200  (oCd)</y_tt_init_to_flower>
+            <x_pp_flower_to_start_grain>1      24   (h)</x_pp_flower_to_start_grain>
+            <y_tt_flower_to_start_grain>120     120 (oCd)</y_tt_flower_to_start_grain>
+            <x_pp_start_to_end_grain>1      24  (h)</x_pp_start_to_end_grain>
+            <y_tt_start_to_end_grain>580    580 (oCd)</y_tt_start_to_end_grain>
+            <tt_end_grain_to_maturity>50.0   (oCd)</tt_end_grain_to_maturity>
+            <tt_maturity_to_ripe>1.0    (oCd)</tt_maturity_to_ripe>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
+            <y_height>0  1500   (mm)</y_height>
+         </base_cultivar>
+         <hartog>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.0</photop_sens>
+         </hartog>
+         <janz>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.5</photop_sens>
+         </janz>
+         <cunningham>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.5</photop_sens>
+         </cunningham>
+         <hybrid_meteor>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.5</photop_sens>
+         </hybrid_meteor>
+         <buckly>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.5</photop_sens>
+         </buckly>
+         <anlace>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.5</photop_sens>
+         </anlace>
+         <bowie>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.5</photop_sens>
+         </bowie>
+         <sunco>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>2.0</vern_sens>
+            <photop_sens>3.5</photop_sens>
+         </sunco>
+         <batavia>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>2.0</vern_sens>
+            <photop_sens>4.0</photop_sens>
+         </batavia>
+         <suneca>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>2.8</vern_sens>
+            <photop_sens>3.0</photop_sens>
+         </suneca>
+         <sunbri>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>2.5</vern_sens>
+            <photop_sens>4.0</photop_sens>
+         </sunbri>
+         <sunbrook>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>3.0</vern_sens>
+            <photop_sens>4.0</photop_sens>
+         </sunbrook>
+         <pasture>
+            <derived_from>base_cultivar</derived_from>
+            <grains_per_gram_stem>0.0</grains_per_gram_stem>
+         </pasture>
+         <kulin>
+            <derived_from>base_cultivar</derived_from>
+            <phyllochron>100.0</phyllochron>
+            <startgf_to_mat>680</startgf_to_mat>
+            <vern_sens>1.6</vern_sens>
+            <photop_sens>1.8</photop_sens>
+         </kulin>
+         <gamenya>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.6</vern_sens>
+            <photop_sens>2.0</photop_sens>
+            <phyllochron>110.0</phyllochron>
+            <startgf_to_mat>700</startgf_to_mat>
+         </gamenya>
+         <gutha>
+            <derived_from>base_cultivar</derived_from>
+            <grains_per_gram_stem>20.0</grains_per_gram_stem>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.0</photop_sens>
+         </gutha>
+         <spear>
+            <derived_from>base_cultivar</derived_from>
+            <phyllochron>95</phyllochron>
+            <startgf_to_mat>580</startgf_to_mat>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.5</photop_sens>
+            <grains_per_gram_stem>20</grains_per_gram_stem>
+            <max_grain_size>0.045</max_grain_size>
+         </spear>
+         <wilgoyne>
+            <derived_from>base_cultivar</derived_from>
+            <phyllochron>95.0</phyllochron>
+            <startgf_to_mat>580</startgf_to_mat>
+            <vern_sens>1.4</vern_sens>
+            <photop_sens>1.6</photop_sens>
+            <grains_per_gram_stem>20.0</grains_per_gram_stem>
+            <max_grain_size>0.045</max_grain_size>
+         </wilgoyne>
+         <yecora>
+            <derived_from>base_cultivar</derived_from>
+            <grains_per_gram_stem>20.0</grains_per_gram_stem>
+            <vern_sens>2.5</vern_sens>
+            <photop_sens>3.5</photop_sens>
+         </yecora>
+         <rongotea>
+            <derived_from>base_cultivar</derived_from>
+            <grains_per_gram_stem>22.0</grains_per_gram_stem>
+            <max_grain_size>0.047</max_grain_size>
+            <vern_sens>2.0</vern_sens>
+            <photop_sens>4.0</photop_sens>
+         </rongotea>
+         <xifeng24>
+            <derived_from>base_cultivar</derived_from>
+            <startgf_to_mat>650</startgf_to_mat>
+            <vern_sens>2.0</vern_sens>
+            <photop_sens>2.0</photop_sens>
+            <potential_grain_filling_rate>0.0025</potential_grain_filling_rate>
+         </xifeng24>
+         <dingxi24>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>0.5</vern_sens>
+            <photop_sens>1.0</photop_sens>
+         </dingxi24>
+         <hartog_wet>
+            <derived_from>base_cultivar</derived_from>
+         </hartog_wet>
+         <hartog_dry>
+            <derived_from>base_cultivar</derived_from>
+         </hartog_dry>
+         <gatton_hartog>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>2.5</vern_sens>
+            <photop_sens>3.5</photop_sens>
+         </gatton_hartog>
+         <h45>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>1.5</photop_sens>
+         </h45>
+         <h46>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>1.5</photop_sens>
+         </h46>
+         <silverstar>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>1.5</photop_sens>
+         </silverstar>
+         <westonia>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>1.5</photop_sens>
+         </westonia>
+         <wollaroi>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>1.5</photop_sens>
+         </wollaroi>
+         <arrino>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.6</vern_sens>
+            <photop_sens>1.8</photop_sens>
+         </arrino>
+         <ruby>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.6</vern_sens>
+            <photop_sens>1.8</photop_sens>
+         </ruby>
+         <kirchauff>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.6</vern_sens>
+            <photop_sens>1.8</photop_sens>
+         </kirchauff>
+         <kalka>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.6</vern_sens>
+            <photop_sens>1.8</photop_sens>
+         </kalka>
+         <kukri>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.6</vern_sens>
+            <photop_sens>1.8</photop_sens>
+         </kukri>
+         <hybrid_mercury>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.6</vern_sens>
+            <photop_sens>1.8</photop_sens>
+         </hybrid_mercury>
+         <ouyen>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.6</vern_sens>
+            <photop_sens>1.8</photop_sens>
+         </ouyen>
+         <pugsley>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.6</vern_sens>
+            <photop_sens>1.8</photop_sens>
+         </pugsley>
+         <tamaroi>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.6</vern_sens>
+            <photop_sens>1.8</photop_sens>
+         </tamaroi>
+         <wyalkatchem>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.6</vern_sens>
+            <photop_sens>1.8</photop_sens>
+         </wyalkatchem>
+         <young>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.6</vern_sens>
+            <photop_sens>1.8</photop_sens>
+         </young>
+         <bowerbird>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.6</vern_sens>
+            <photop_sens>1.8</photop_sens>
+         </bowerbird>
+         <drysdale>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.6</vern_sens>
+            <photop_sens>1.8</photop_sens>
+         </drysdale>
+         <bonnie_rock>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.6</vern_sens>
+            <photop_sens>1.8</photop_sens>
+         </bonnie_rock>
+         <perengori>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.6</vern_sens>
+            <photop_sens>1.8</photop_sens>
+         </perengori>
+         <agtscythe>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.6</vern_sens>
+            <photop_sens>1.8</photop_sens>
+         </agtscythe>
+         <annuello>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.0</photop_sens>
+         </annuello>
+         <diamondbird>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.0</photop_sens>
+         </diamondbird>
+         <frame>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.0</photop_sens>
+         </frame>
+         <goroke>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.0</photop_sens>
+         </goroke>
+         <ventura>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.0</photop_sens>
+         </ventura>
+         <mitre>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.0</photop_sens>
+         </mitre>
+         <yallaroi>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.0</photop_sens>
+         </yallaroi>
+         <yitpi>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.0</photop_sens>
+         </yitpi>
+         <sunstate>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.0</photop_sens>
+         </sunstate>
+         <baxter>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.5</photop_sens>
+         </baxter>
+         <babbler>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.5</photop_sens>
+         </babbler>
+         <camm>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.5</photop_sens>
+         </camm>
+         <clf-jnz>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.5</photop_sens>
+         </clf-jnz>
+         <dollarbird>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.5</photop_sens>
+         </dollarbird>
+         <saphire>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.5</photop_sens>
+         </saphire>
+         <Arrivato>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.5</photop_sens>
+         </Arrivato>
+         <bellaroi>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>2.0</vern_sens>
+            <photop_sens>3.5</photop_sens>
+         </bellaroi>
+         <lang>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>2.0</vern_sens>
+            <photop_sens>3.5</photop_sens>
+         </lang>
+         <braewood>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>2.8</vern_sens>
+            <photop_sens>3.0</photop_sens>
+         </braewood>
+         <calingiri>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>2.8</vern_sens>
+            <photop_sens>3.0</photop_sens>
+         </calingiri>
+         <chara>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>2.8</vern_sens>
+            <photop_sens>3.0</photop_sens>
+         </chara>
+         <giles>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>2.8</vern_sens>
+            <photop_sens>3.0</photop_sens>
+         </giles>
+         <stiletto>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>2.8</vern_sens>
+            <photop_sens>3.0</photop_sens>
+         </stiletto>
+         <sunlin>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>2.8</vern_sens>
+            <photop_sens>3.0</photop_sens>
+         </sunlin>
+         <sunvale>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>2.8</vern_sens>
+            <photop_sens>3.0</photop_sens>
+         </sunvale>
+         <kelallac>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>2.5</vern_sens>
+            <photop_sens>4.0</photop_sens>
+         </kelallac>
+         <strzelecki>
+            <derived_from>base_cultivar</derived_from>
+            <vern_sens>2.5</vern_sens>
+            <photop_sens>4.0</photop_sens>
+         </strzelecki>
+         <lorikeet>
+            <derived_from>base_cultivar</derived_from>
+            <phyllochron>60.0</phyllochron>
+            <vern_sens>3.9</vern_sens>
+            <photop_sens>3.9</photop_sens>
+         </lorikeet>
+         <wylah>
+            <derived_from>base_cultivar</derived_from>
+            <phyllochron>60.0</phyllochron>
+            <vern_sens>3.9</vern_sens>
+            <photop_sens>3.9</photop_sens>
+         </wylah>
+         <rosella>
+            <derived_from>base_cultivar</derived_from>
+            <phyllochron>60.0</phyllochron>
+            <vern_sens>3.9</vern_sens>
+            <photop_sens>3.9</photop_sens>
+         </rosella>
+         <whistler>
+            <derived_from>base_cultivar</derived_from>
+            <phyllochron>60.0</phyllochron>
+            <vern_sens>3.9</vern_sens>
+            <photop_sens>3.9</photop_sens>
+         </whistler>
+         <wedgetail>
+            <derived_from>base_cultivar</derived_from>
+            <phyllochron>60.0</phyllochron>
+            <vern_sens>3.9</vern_sens>
+            <photop_sens>3.9</photop_sens>
+         </wedgetail>
+         <marombi>
+            <derived_from>base_cultivar</derived_from>
+            <phyllochron>75.0</phyllochron>
+            <vern_sens>3.9</vern_sens>
+            <photop_sens>4.0</photop_sens>
+         </marombi>
+         <declic>
+            <derived_from>base_cultivar</derived_from>
+            <phyllochron>90.0</phyllochron>
+            <vern_sens>3.9</vern_sens>
+            <photop_sens>4.3</photop_sens>
+         </declic>
+         <mackellar>
+            <derived_from>base_cultivar</derived_from>
+            <phyllochron>90.0</phyllochron>
+            <vern_sens>3.9</vern_sens>
+            <photop_sens>4.3</photop_sens>
+         </mackellar>
+         <brennan>
+            <derived_from>base_cultivar</derived_from>
+            <phyllochron>90.0</phyllochron>
+            <vern_sens>3.9</vern_sens>
+            <photop_sens>4.3</photop_sens>
+         </brennan>
+         <dennis>
+            <derived_from>base_cultivar</derived_from>
+            <phyllochron>100.0</phyllochron>
+            <vern_sens>3.9</vern_sens>
+            <photop_sens>4.5</photop_sens>
+         </dennis>
+         <tennant>
+            <derived_from>base_cultivar</derived_from>
+            <phyllochron>100.0</phyllochron>
+            <vern_sens>3.9</vern_sens>
+            <photop_sens>4.5</photop_sens>
+         </tennant>
+         <schooner>
+            <derived_from>base_cultivar</derived_from>
+            <potential_grain_filling_rate>0.0033</potential_grain_filling_rate>
+            <startgf_to_mat>530</startgf_to_mat>
+            <phyllochron>30.0</phyllochron>
+            <vern_sens>1.00</vern_sens>
+            <photop_sens>3.50</photop_sens>
+         </schooner>
+         <skiff>
+            <derived_from>base_cultivar</derived_from>
+            <potential_grain_filling_rate>0.0033</potential_grain_filling_rate>
+            <startgf_to_mat>550</startgf_to_mat>
+            <phyllochron>35.0</phyllochron>
+            <vern_sens>1.00</vern_sens>
+            <photop_sens>3.50</photop_sens>
+         </skiff>
+         <franklin>
+            <potential_grain_filling_rate>0.0033</potential_grain_filling_rate>
+            <derived_from>base_cultivar</derived_from>
+            <startgf_to_mat>580</startgf_to_mat>
+            <phyllochron>90.0</phyllochron>
+            <vern_sens>1.00</vern_sens>
+            <photop_sens>2.90</photop_sens>
+         </franklin>
+         <sloop>
+            <derived_from>base_cultivar</derived_from>
+            <potential_grain_filling_rate>0.0033</potential_grain_filling_rate>
+            <startgf_to_mat>530</startgf_to_mat>
+            <phyllochron>30.0</phyllochron>
+            <vern_sens>1.00</vern_sens>
+            <photop_sens>3.50</photop_sens>
+         </sloop>
+         <Sloop_SA>
+            <derived_from>base_cultivar</derived_from>
+            <potential_grain_filling_rate>0.0033</potential_grain_filling_rate>
+            <startgf_to_mat>530</startgf_to_mat>
+            <phyllochron>35.0</phyllochron>
+            <vern_sens>1.00</vern_sens>
+            <photop_sens>3.50</photop_sens>
+         </Sloop_SA>
+         <Sloop_VIC>
+            <derived_from>base_cultivar</derived_from>
+            <potential_grain_filling_rate>0.0031</potential_grain_filling_rate>
+            <startgf_to_mat>530</startgf_to_mat>
+            <phyllochron>30.0</phyllochron>
+            <vern_sens>1.00</vern_sens>
+            <photop_sens>3.50</photop_sens>
+         </Sloop_VIC>
+         <gairdner>
+            <derived_from>base_cultivar</derived_from>
+            <potential_grain_filling_rate>0.0033</potential_grain_filling_rate>
+            <startgf_to_mat>580</startgf_to_mat>
+            <phyllochron>40.0</phyllochron>
+            <vern_sens>1.00</vern_sens>
+            <photop_sens>3.50</photop_sens>
+         </gairdner>
+         <barque>
+            <derived_from>base_cultivar</derived_from>
+            <potential_grain_filling_rate>0.0031</potential_grain_filling_rate>
+            <startgf_to_mat>550</startgf_to_mat>
+            <phyllochron>30.0</phyllochron>
+            <vern_sens>1.00</vern_sens>
+            <photop_sens>3.30</photop_sens>
+         </barque>
+         <maritime>
+            <derived_from>base_cultivar</derived_from>
+            <potential_grain_filling_rate>0.0033</potential_grain_filling_rate>
+            <startgf_to_mat>530</startgf_to_mat>
+            <phyllochron>30.0</phyllochron>
+            <vern_sens>1.00</vern_sens>
+            <photop_sens>3.30</photop_sens>
+         </maritime>
+         <baudin>
+            <derived_from>base_cultivar</derived_from>
+            <potential_grain_filling_rate>0.0033</potential_grain_filling_rate>
+            <startgf_to_mat>550</startgf_to_mat>
+            <phyllochron>35.0</phyllochron>
+            <vern_sens>1.00</vern_sens>
+            <photop_sens>3.50</photop_sens>
+         </baudin>
+         <vb0021>
+            <derived_from>base_cultivar</derived_from>
+            <potential_grain_filling_rate>0.0033</potential_grain_filling_rate>
+            <startgf_to_mat>530</startgf_to_mat>
+            <phyllochron>40.0</phyllochron>
+            <vern_sens>1.00</vern_sens>
+            <photop_sens>3.50</photop_sens>
+         </vb0021>
+         <keel>
+            <derived_from>base_cultivar</derived_from>
+            <potential_grain_filling_rate>0.0035</potential_grain_filling_rate>
+            <startgf_to_mat>500</startgf_to_mat>
+            <phyllochron>30.0</phyllochron>
+            <vern_sens>1.00</vern_sens>
+            <photop_sens>2.90</photop_sens>
+         </keel>
+         <hamelin>
+            <derived_from>base_cultivar</derived_from>
+            <potential_grain_filling_rate>0.0031</potential_grain_filling_rate>
+            <startgf_to_mat>530</startgf_to_mat>
+            <phyllochron>30.0</phyllochron>
+            <vern_sens>1.00</vern_sens>
+            <photop_sens>2.90</photop_sens>
+         </hamelin>
+      </initdata>
+   </component>
+   <component name="tracker" executable = "%apsuite/apsim/tracker/lib/tracker.dll">
+      <initdata>
+         <variable>sum of rain on post from StartSeason to harvesting as gsr</variable>
+         <variable>sum of fertilizer on post from StartSeason to harvesting as NApplied</variable>
+         <variable>sum of irrigation on post from StartSeason to harvesting as IrrApplied</variable>
+         <variable>sum of met.rain on post from sowing to harvesting as InCropRain</variable>
+         <variable>sum of es on post from sowing to harvesting as InCropES</variable>
+         <variable>sum of eo on post from sowing to harvesting as InCropEO</variable>
+         <variable>sum of runoff on post from sowing to harvesting as InCropRunoff</variable>
+         <variable>sum of drain on post from sowing to harvesting as InCropDrain</variable>
+         <variable>sum of dlt_n_min() on post from sowing to harvesting as InCropDltNMin</variable>
+         <variable>sum of leach_no3 on post from sowing to harvesting as InCropLeachNo3</variable>
+         <variable>sum of no3_uptake on post from sowing to harvesting as InCropNo3Uptake</variable>
+         <variable>sum of nh4_uptake on post from sowing to harvesting as InCropNh4Uptake</variable>
+         <variable>value of Manager.Water on sowing as SowESW</variable>
+         <variable>value of No3() on sowing as SowNo3</variable>
+      </initdata>
+   </component>
+   <component name="rainfall" executable = "%apsuite/apsim/patchinput/lib/patchinput.dll">
+      <initdata>
+         <filename>grower.rai</filename>
+      </initdata>
+   </component>
+</simulation>
