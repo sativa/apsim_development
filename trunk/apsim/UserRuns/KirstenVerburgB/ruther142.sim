@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
-<simulation executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll" version="5.2">
+<simulation executable="%apsuite/apsim/protocolmanager/lib/protocolmanager.dll" version="5.2">
    <title>4 Years Lucerne Harvested 1997 plots</title>
-   <component name="SummaryFile" executable = "c:\development\apsim\SummaryFile\lib\SummaryFile.dll">
+   <component name="SummaryFile" executable = "%apsuite/apsim/SummaryFile/lib/SummaryFile.dll">
       <initdata>
          <summaryfile>4L97-142.sum</summaryfile>
       </initdata>
    </component>
-   <component name="clock" executable = "c:\development\apsim\clock\lib\clock.dll">
+   <component name="clock" executable = "%apsuite/apsim/clock/lib/clock.dll">
       <initdata>
          <start_date>1/1/1993</start_date>
          <end_date>31/12/1999</end_date>
          <timestep_events>prepare process post</timestep_events>
       </initdata>
    </component>
-   <component name="report1" executable = "c:\development\apsim\report\lib\report.dll">
+   <component name="report1" executable = "%apsuite/apsim/report/lib/report.dll">
       <initdata>
          <format>csv</format>
          <variable>clock.day</variable>
@@ -124,7 +124,7 @@
          <outputfile>4L97-142.out</outputfile>
       </initdata>
    </component>
-   <component name="report2" executable = "c:\development\apsim\report\lib\report.dll">
+   <component name="report2" executable = "%apsuite/apsim/report/lib/report.dll">
       <initdata>
          <variable>clock.day</variable>
          <variable>clock.year</variable>
@@ -167,17 +167,17 @@
          <outputfile>d4L97-142.out</outputfile>
       </initdata>
    </component>
-   <component name="met" executable = "c:\development\apsim\input\lib\input.dll">
+   <component name="met" executable = "%apsuite/apsim/input/lib/input.dll">
       <initdata>
          <filename>082039new.met</filename>
       </initdata>
    </component>
-   <component name="canopy" executable = "c:\development\apsim\canopy\lib\canopy.dll">
+   <component name="canopy" executable = "%apsuite/apsim/canopy/lib/canopy.dll">
       <initdata>
          <intercrop>wheat weed</intercrop>
       </initdata>
    </component>
-   <component name="operatns" executable = "c:\development\apsim\operatns\lib\operatns.dll">
+   <component name="operatns" executable = "%apsuite/apsim/operatns/lib/operatns.dll">
       <initdata>
          <rule name="4L97.parameters" condition="">
             <![CDATA[
@@ -242,7 +242,7 @@
             </rule>
       </initdata>
    </component>
-   <component name="fertiliz" executable = "c:\development\apsim\fertiliz\lib\fertiliz.dll">
+   <component name="fertiliz" executable = "%apsuite/apsim/fertiliz/lib/fertiliz.dll">
       <initdata>
          <calcite_ca>
             <full_name>Ca as finely ground Agricultural Lime</full_name>
@@ -311,7 +311,7 @@
          </broadcast_p>
       </initdata>
    </component>
-   <component name="manager" executable = "c:\development\apsim\manager\lib\manager.dll">
+   <component name="manager" executable = "%apsuite/apsim/manager/lib/manager.dll">
       <initdata>
          <rule name="early.start_of_day" condition="start_of_day">
             <![CDATA[
@@ -577,7 +577,7 @@
             </rule>
       </initdata>
    </component>
-   <component name="soilwat2" executable = "c:\development\apsim\soilwat2\lib\soilwat2.dll">
+   <component name="soilwat2" executable = "%apsuite/apsim/soilwat2/lib/soilwat2.dll">
       <initdata>
          <u>6.0   (mm)</u>
          <cona>3.5   ()</cona>
@@ -623,7 +623,7 @@
          </tillage>
       </initdata>
    </component>
-   <component name="SurfaceOM" executable = "c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll">
+   <component name="SurfaceOM" executable = "%apsuite/apsim/SurfaceOM/lib/SurfaceOM.dll">
       <initdata>
          <report_additions>no</report_additions>
          <mass>1000</mass>
@@ -888,7 +888,7 @@
          </tillage>
       </initdata>
    </component>
-   <component name="soiln2" executable = "c:\development\apsim\soiln2\lib\soiln2.dll">
+   <component name="soiln2" executable = "%apsuite/apsim/soiln2/lib/soiln2.dll">
       <initdata>
          <root_cn>20       ()</root_cn>
          <root_wt>0</root_wt>
@@ -945,7 +945,7 @@
          </standard>
       </initdata>
    </component>
-   <component name="canola" executable = "c:\development\apsim\plant\lib\plant.dll">
+   <component name="canola" executable = "%apsuite/apsim/plant/lib/plant.dll">
       <initdata>
          <uptake_source>calc</uptake_source>
          <ll>0.03   0.03   0.05   0.13    0.15     0.16     0.18     0.22     0.22     0.21     0.19     0.18     0.22     0.23     0.22     0.22     0.22    0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22  ()</ll>
@@ -1773,7 +1773,7 @@
          </french_winter>
       </initdata>
    </component>
-   <component name="lucerne" executable = "c:\development\apsim\plant\lib\plant.dll">
+   <component name="lucerne" executable = "%apsuite/apsim/plant/lib/plant.dll">
       <initdata>
          <uptake_source>calc</uptake_source>
          <ll>0.03   0.03   0.05   0.13    0.15     0.16     0.18     0.22     0.22     0.21     0.19     0.18     0.22     0.23     0.22     0.22     0.22    0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22  ()</ll>
@@ -2266,7 +2266,7 @@
          </Longdong>
       </initdata>
    </component>
-   <component name="lupin" executable = "c:\development\apsim\plant\lib\plant.dll">
+   <component name="lupin" executable = "%apsuite/apsim/plant/lib/plant.dll">
       <initdata>
          <uptake_source>calc</uptake_source>
          <ll>0.03   0.03   0.05   0.13    0.15     0.16     0.18     0.22     0.22     0.21     0.19     0.18     0.22     0.23     0.22     0.22     0.22    0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22  ()</ll>
@@ -2740,7 +2740,7 @@
          </short>
       </initdata>
    </component>
-   <component name="weed" executable = "c:\development\apsim\plant\lib\plant.dll">
+   <component name="weed" executable = "%apsuite/apsim/plant/lib/plant.dll">
       <initdata>
          <uptake_source>calc</uptake_source>
          <ll>0.03   0.03   0.05   0.13    0.15     0.16     0.18     0.22     0.22     0.21     0.19     0.18     0.22     0.23     0.22     0.22     0.22    0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22  ()</ll>
@@ -3153,7 +3153,7 @@
          </late>
       </initdata>
    </component>
-   <component name="wheat" executable = "c:\development\apsim\plant\lib\plant.dll">
+   <component name="wheat" executable = "%apsuite/apsim/plant/lib/plant.dll">
       <initdata>
          <uptake_source>calc</uptake_source>
          <ll>0.03   0.03   0.05   0.13    0.15     0.16     0.18     0.22     0.22     0.21     0.19     0.18     0.22     0.23     0.22     0.22     0.22    0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22  ()</ll>
@@ -3196,14 +3196,15 @@
          <stage_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</stage_names>
          <phase_names>sowing germination emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe end_crop</phase_names>
          <phase_type>generic generic    generic   generic         generic           generic   generic          generic        generic  generic      generic</phase_type>
-         <composite_phases>under_ground above_ground grainfill reproductive leaf_senescence vernalisation eme2ej preflowering tiller_formation hi_stress_sensitive stress_reporting</composite_phases>
+         <composite_phases>under_ground above_ground grainfill reproductive leaf_senescence vernalisation eme2ej preflowering tiller_formation hi_stress_sensitive stress_reporting postflowering</composite_phases>
          <under_ground>sowing germination</under_ground>
          <above_ground>emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe</above_ground>
          <vernalisation>germination emergence end_of_juvenile</vernalisation>
          <leaf_senescence>floral_initiation flowering start_grain_fill end_grain_fill maturity harvest_ripe</leaf_senescence>
          <tiller_formation>emergence end_of_juvenile floral_initiation flowering start_grain_fill end_grain_fill maturity</tiller_formation>
          <preflowering>emergence end_of_juvenile floral_initiation</preflowering>
-         <reproductive>flowering start_grain_fill end_grain_fill</reproductive>
+         <postflowering>flowering start_grain_fill</postflowering>
+         <reproductive>flowering start_grain_fill</reproductive>
          <hi_stress_sensitive>flowering</hi_stress_sensitive>
          <grainfill>start_grain_fill</grainfill>
          <eme2ej>emergence end_of_juvenile</eme2ej>
@@ -3310,10 +3311,11 @@
             <temp_fac_min>0.69      ()</temp_fac_min>
             <sfac_slope>-0.125    ()</sfac_slope>
             <tfac_slope>0.0125    ()</tfac_slope>
-            <potential_grain_n_filling_rate>0.00004 (g/grain/d)</potential_grain_n_filling_rate>
+            <potential_grain_n_filling_rate>0.000055  (g/grain/d)</potential_grain_n_filling_rate>
+            <minimum_grain_n_filling_rate>0.000015 (g/grain/d)</minimum_grain_n_filling_rate>
             <x_temp_grain_n_fill>0 25</x_temp_grain_n_fill>
             <y_rel_grain_n_fill>0   1</y_rel_grain_n_fill>
-            <crit_grainfill_rate>0.0005</crit_grainfill_rate>
+            <crit_grainfill_rate>0.</crit_grainfill_rate>
             <x_temp_grain>0.0   15.0        (oC)</x_temp_grain>
             <y_grain_rate>0.0   1.0         (0-1)</y_grain_rate>
             <carbo_oil_conv_ratio>1.0</carbo_oil_conv_ratio>
@@ -3419,7 +3421,7 @@
             <fr_lf_sen_rate>0.035   ()</fr_lf_sen_rate>
             <n_fact_lf_sen_rate>0.0</n_fact_lf_sen_rate>
             <lai_sen_light>7.0  (m^2/m^2)</lai_sen_light>
-            <sen_light_slope>0.005()</sen_light_slope>
+            <sen_light_slope>0.002()</sen_light_slope>
             <x_temp_senescence>-15.0 -5.0</x_temp_senescence>
             <y_senescence_fac>1    0</y_senescence_fac>
             <sen_rate_water>0.10 ()</sen_rate_water>
@@ -3456,7 +3458,9 @@
          </wheat>
          <base_cultivar>
             <grains_per_gram_stem>25.0</grains_per_gram_stem>
-            <potential_grain_filling_rate>0.0023</potential_grain_filling_rate>
+            <potential_grain_filling_rate>0.0020</potential_grain_filling_rate>
+            <potential_grain_growth_rate>0.0010</potential_grain_growth_rate>
+            <max_grain_size>0.041</max_grain_size>
             <phyllochron>95.0</phyllochron>
             <startgf_to_mat>580</startgf_to_mat>
             <vern_sens>1.5</vern_sens>
@@ -3554,8 +3558,10 @@
          </kulin>
          <gamenya>
             <derived_from>base_cultivar</derived_from>
-            <vern_sens>1.5</vern_sens>
-            <photop_sens>3.0</photop_sens>
+            <vern_sens>1.6</vern_sens>
+            <photop_sens>2.0</photop_sens>
+            <phyllochron>110.0</phyllochron>
+            <startgf_to_mat>700</startgf_to_mat>
          </gamenya>
          <gutha>
             <derived_from>base_cultivar</derived_from>
@@ -3563,6 +3569,24 @@
             <vern_sens>1.5</vern_sens>
             <photop_sens>3.0</photop_sens>
          </gutha>
+         <spear>
+            <derived_from>base_cultivar</derived_from>
+            <phyllochron>95</phyllochron>
+            <startgf_to_mat>580</startgf_to_mat>
+            <vern_sens>1.5</vern_sens>
+            <photop_sens>3.5</photop_sens>
+            <grains_per_gram_stem>20</grains_per_gram_stem>
+            <max_grain_size>0.045</max_grain_size>
+         </spear>
+         <wilgoyne>
+            <derived_from>base_cultivar</derived_from>
+            <phyllochron>95.0</phyllochron>
+            <startgf_to_mat>580</startgf_to_mat>
+            <vern_sens>1.4</vern_sens>
+            <photop_sens>1.6</photop_sens>
+            <grains_per_gram_stem>20.0</grains_per_gram_stem>
+            <max_grain_size>0.045</max_grain_size>
+         </wilgoyne>
          <yecora>
             <derived_from>base_cultivar</derived_from>
             <grains_per_gram_stem>20.0</grains_per_gram_stem>
@@ -3571,7 +3595,8 @@
          </yecora>
          <rongotea>
             <derived_from>base_cultivar</derived_from>
-            <grains_per_gram_stem>20.0</grains_per_gram_stem>
+            <grains_per_gram_stem>22.0</grains_per_gram_stem>
+            <max_grain_size>0.047</max_grain_size>
             <vern_sens>2.0</vern_sens>
             <photop_sens>4.0</photop_sens>
          </rongotea>
@@ -4010,7 +4035,7 @@
          </hamelin>
       </initdata>
    </component>
-   <component name="tracker1" executable = "c:\development\apsim\tracker\lib\tracker.dll">
+   <component name="tracker1" executable = "%apsuite/apsim/tracker/lib/tracker.dll">
       <initdata>
          <variable>sum of met.rain on process from report1.reported to now as sum@met_rain</variable>
          <variable>sum of wheat.ep on process from report1.reported to now as sum@wheat_ep</variable>
@@ -4037,7 +4062,7 @@
          <variable>sum of manager.netdrain180 on process from report1.reported to now as sum@manager_netdrain180</variable>
       </initdata>
    </component>
-   <component name="tracker2" executable = "c:\development\apsim\tracker\lib\tracker.dll">
+   <component name="tracker2" executable = "%apsuite/apsim/tracker/lib/tracker.dll">
       <initdata>
          <variable>sum of soiln2.dlt_n_min(1) on process from report2.reported to now as sum@soiln2_dlt_n_min[1]</variable>
          <variable>sum of soiln2.dlt_n_min_res(1) on process from report2.reported to now as sum@soiln2_dlt_n_min_res[1]</variable>
