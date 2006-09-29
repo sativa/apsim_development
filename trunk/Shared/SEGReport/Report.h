@@ -117,6 +117,10 @@ class __declspec(dllexport) Report
       TForm* uiForm;
       TScrollBox* scrollBox;
       TImageList* buttonImages;
+      HINSTANCE handle;
+      void _export __stdcall (*callDLL)(const char* dllFileName, const char* className,
+                              const char* methodName, const char* methodArgument);
+
 
       DataContainer* data;
       std::string dataContents;

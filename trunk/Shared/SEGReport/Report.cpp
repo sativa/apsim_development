@@ -40,6 +40,7 @@ Report::Report(TWinControl* p)
    uiForm = NULL;
    OnObjectInspectorUpdate = NULL;
    data = NULL;
+   handle = NULL;
 
    reportForm = new TForm((TComponent*)NULL);
    reportForm->Parent = parent;
@@ -72,6 +73,8 @@ Report::Report(TWinControl* p)
 //---------------------------------------------------------------------------
 Report::~Report(void)
    {
+   if (handle != NULL)
+        FreeLibrary(handle);
    if (isEditing)
       edit(false);
    delete buttonImages;
@@ -416,9 +419,6 @@ void Report::showPage(unsigned pageNumber)
       }
    }
 
-extern "C" void __stdcall  CallDLL(const char* dllFileName, const char* className,
-											const char* methodName, const char* methodArgument);
-
 //---------------------------------------------------------------------------
 // Show the data page.
 //---------------------------------------------------------------------------
@@ -428,8 +428,20 @@ void Report::showDataPage()
    argument << (unsigned) data << ',' << dataContents;
 
    string dllFileName = getApsimDirectory() + "\\bin\\ApsimReportData.dll";
-   CallDLL(dllFileName.c_str(), "ApsimReportData.MainForm", "Go", argument.str().c_str());
-   refreshControls(reportForm);
+
+   if (handle == NULL)
+        {
+        string callManagedDLL = getApsimDirectory() + "\\bin\\" + "CallManagedDLL.dll";
+        handle = LoadLibrary(callManagedDLL.c_str());
+        (FARPROC) callDLL = GetProcAddress(handle, "CallDLL");
+        }
+   if (handle == NULL)
+        ::MessageBox(NULL, "Cannot find CallManagedDLL.dll", "Error", MB_ICONSTOP | MB_OK);
+   else
+        {
+        (*callDLL)(dllFileName.c_str(), "ApsimReportData.MainForm", "Go", argument.str().c_str());
+        refreshControls(reportForm);
+        }
    }
 //---------------------------------------------------------------------------
 // Rename a page.
