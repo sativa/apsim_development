@@ -817,6 +817,9 @@ Public Class DataTree
     Private Sub CollapseAllMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles CollapseAllMenuItem.Click
         TreeView.BeginUpdate()
         TreeView.Nodes(0).Collapse()
+        Dim SelectedPaths As New StringCollection
+        SelectedPaths.Add(Controller.AllData.FullPath)
+        Controller.SelectedPaths = SelectedPaths
         TreeView.EndUpdate()
     End Sub
 
