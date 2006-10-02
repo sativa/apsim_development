@@ -129,12 +129,14 @@ Public Class RuleUI
         GenericUI.Save()
 
         Dim index As Integer = 1
-        For Each Condition As APSIMData In Controller.Data.Children("condition")
-            Dim page As TabPage = TabControl1.TabPages.Item(index)
-            Dim ScriptBox As RichTextBox = page.Controls.Item(0)
-            Condition.Value = ScriptBox.Text
-            index = index + 1
-        Next
+        If Not IsNothing(Controller.Data) Then
+            For Each Condition As APSIMData In Controller.Data.Children("condition")
+                Dim page As TabPage = TabControl1.TabPages.Item(index)
+                Dim ScriptBox As RichTextBox = page.Controls.Item(0)
+                Condition.Value = ScriptBox.Text
+                index = index + 1
+            Next
+        End If
     End Sub
 
 End Class
