@@ -255,14 +255,16 @@ Public Class GenericUI
 
             ' Update all cell editors now that we've changed a cell. 
             ' e.g. a cultivars drop down may need updating if we just changed a crop.
-            For Row As Integer = 0 To Grid.RowCount - 1
-                Dim RowProp As APSIMData = PropertyData(Row)
-                If RowProp.Attribute("type").ToLower() = "filenames" Then
-                    Grid.Rows(Row).Height = Grid.Rows(Row).GetPreferredHeight
-                End If
+            For Row As Integer = 0 To PropertyData.Count - 1
+                If Not IsNothing(PropertyData(Row)) Then
+                    Dim RowProp As APSIMData = PropertyData(Row)
+                    If RowProp.Attribute("type").ToLower() = "filenames" Then
+                        Grid.Rows(Row).Height = Grid.Rows(Row).GetPreferredHeight
+                    End If
 
-                If Not Grid.Rows(Row).Locked Then
-                    Controller.PopulateCellEditor(PropertyData(Row), Grid.Cells(Row, 1).CellType)
+                    If Not Grid.Rows(Row).Locked Then
+                        Controller.PopulateCellEditor(PropertyData(Row), Grid.Cells(Row, 1).CellType)
+                    End If
                 End If
             Next
         End If
