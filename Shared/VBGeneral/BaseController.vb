@@ -485,6 +485,7 @@ Public MustInherit Class BaseController
             Dim NodeToDelete As APSIMData = AllData.Find(FullPath)
             NodeToDelete.Parent.Delete(NodeToDelete.Name)
         Next
+        MySelectedData.Clear()
         RefreshView()
     End Sub
     Public Sub MoveSelectedUp()
