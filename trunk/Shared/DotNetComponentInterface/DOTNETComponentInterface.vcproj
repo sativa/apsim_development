@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalUsingDirectories="&quot;C:\development\Shared\C#General\obj\Debug&quot;;C:\development\Shared\VBGeneral\obj\Debug"
+				AdditionalUsingDirectories="&quot;..\C#General\obj\Debug&quot;;..\VBGeneral\obj\Debug"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
@@ -117,7 +117,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalUsingDirectories="&quot;C:\development\Shared\C#General\obj\Release&quot;;C:\development\Shared\VBGeneral\obj\Release"
+				AdditionalUsingDirectories="&quot;..\C#General\obj\Release&quot;;..\VBGeneral\obj\Release"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
