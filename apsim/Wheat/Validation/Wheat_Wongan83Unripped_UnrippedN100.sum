@@ -247,7 +247,7 @@
         - Reading Parameters
      
         - Reading Constants
-     Using standard soil mineralisation for soil type sand
+     Using soil mineralisation specification for sand
      
      
      
@@ -370,76 +370,76 @@
                      stover N conc =     5.83 (%)    extractable sw =   16.04 (mm)
 13 August 1983(Day of year=225), wheat: 
       stage 5.0 floral_initiation
-                     biomass =         117.93 (g/m^2)   lai          =   1.496 (m^2/m^2)
-                     stover N conc =     3.02 (%)    extractable sw =   21.84 (mm)
+                     biomass =         118.29 (g/m^2)   lai          =   1.496 (m^2/m^2)
+                     stover N conc =     3.21 (%)    extractable sw =   21.81 (mm)
 26 September 1983(Day of year=269), wheat: 
       stage 6.0 flowering
-                     biomass =         537.63 (g/m^2)   lai          =   1.249 (m^2/m^2)
-                     stover N conc =     1.30 (%)    extractable sw =   46.92 (mm)
+                     biomass =         537.87 (g/m^2)   lai          =   1.249 (m^2/m^2)
+                     stover N conc =     1.33 (%)    extractable sw =   46.92 (mm)
 4 October 1983(Day of year=277), wheat: 
       stage 7.0 start_grain_fill
-                     biomass =         595.82 (g/m^2)   lai          =   0.900 (m^2/m^2)
-                     stover N conc =     1.11 (%)    extractable sw =   33.40 (mm)
+                     biomass =         596.07 (g/m^2)   lai          =   0.900 (m^2/m^2)
+                     stover N conc =     1.20 (%)    extractable sw =   33.40 (mm)
 8 November 1983(Day of year=312), wheat: 
       stage 8.0 end_grain_fill
-                     biomass =         716.88 (g/m^2)   lai          =   0.265 (m^2/m^2)
-                     stover N conc =     0.31 (%)    extractable sw =   20.48 (mm)
+                     biomass =         727.60 (g/m^2)   lai          =   0.263 (m^2/m^2)
+                     stover N conc =     0.32 (%)    extractable sw =   18.86 (mm)
 10 November 1983(Day of year=314), wheat: 
       stage 9.0 maturity
-                     biomass =         717.69 (g/m^2)   lai          =   0.205 (m^2/m^2)
-                     stover N conc =     0.31 (%)    extractable sw =   19.24 (mm)
+                     biomass =         728.48 (g/m^2)   lai          =   0.201 (m^2/m^2)
+                     stover N conc =     0.32 (%)    extractable sw =   17.52 (mm)
 11 November 1983(Day of year=315), wheat: 
       stage 10.0 harvest_ripe
-                     biomass =         717.69 (g/m^2)   lai          =   0.001 (m^2/m^2)
-                     stover N conc =     0.31 (%)    extractable sw =   18.31 (mm)
+                     biomass =         728.48 (g/m^2)   lai          =   0.001 (m^2/m^2)
+                     stover N conc =     0.31 (%)    extractable sw =   16.68 (mm)
 11 November 1983(Day of year=315), Manager: 
      Manager sending message :- wheat harvest
 11 November 1983(Day of year=315), wheat: 
      
-      flowering day          =  269                           stover (kg/ha)         =     4365.5
-      maturity day           =  314                           grain yield (kg/ha)    =     2811.5
-      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3213.1
-      grain wt (g)           =    0.035                       grains/m^2             =   8006.000
-      grains/plant           =   50.4                         maximum lai            =      1.848
-      total above ground biomass (kg/ha)    =     7176.9
-      live above ground biomass (kg/ha)     =     7176.9
-      green above ground biomass (kg/ha)    =     6231.4
-      senesced above ground biomass (kg/ha) =      945.6
+      flowering day          =  269                           stover (kg/ha)         =     4370.0
+      maturity day           =  314                           grain yield (kg/ha)    =     2914.8
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     3331.2
+      grain wt (g)           =    0.036                       grains/m^2             =   8007.564
+      grains/plant           =   50.4                         maximum lai            =      1.846
+      total above ground biomass (kg/ha)    =     7284.8
+      live above ground biomass (kg/ha)     =     7284.8
+      green above ground biomass (kg/ha)    =     6337.2
+      senesced above ground biomass (kg/ha) =      947.6
       dead above ground biomass (kg/ha)     =        0.0
-      number of leaves       =   31.9
-      DM Root:Shoot ratio    =    0.144                       Harvest Index          =      0.392
-      Stover C:N ratio       =  114.504                       Root C:N ratio         =     17.526
-      grain N percent        =       2.31                     total N content (kg/ha)=      80.15
-      grain N uptake (kg/ha) =      64.90                     senesced N content (kg/ha)=    4.73
-      green N content (kg/ha)=      10.52                     dead N content (kg/ha) =       0.00
+      number of leaves       =   31.5
+      DM Root:Shoot ratio    =    0.142                       Harvest Index          =      0.400
+      Stover C:N ratio       =  113.538                       Root C:N ratio         =     16.960
+      grain N percent        =       2.63                     total N content (kg/ha)=      92.05
+      grain N uptake (kg/ha) =      76.65                     senesced N content (kg/ha)=    4.74
+      green N content (kg/ha)=      10.66                     dead N content (kg/ha) =       0.00
      
       Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
          emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
-         end_of_juvenile      to floral_initiation       0.075        0.093        0.003        0.048
-         floral_initiation    to flowering               0.130        0.171        0.000        0.031
+         end_of_juvenile      to floral_initiation       0.076        0.095        0.000        0.015
+         floral_initiation    to flowering               0.130        0.171        0.000        0.000
          flowering            to start_grain_fill        0.457        0.557        0.000        0.000
-         start_grain_fill     to end_grain_fill          0.217        0.272        0.369        0.546
+         start_grain_fill     to end_grain_fill          0.247        0.305        0.268        0.436
      
      
      Crop harvested.
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =               4365.17                    0.00
-                          N  (kg/ha) =                 15.23                    0.00
+                          DM (kg/ha) =               4369.65                    0.00
+                          N  (kg/ha) =                 15.38                    0.00
      
          Organic matter removed from system:-      From Tops               From Roots
-                          DM (kg/ha) =               2811.47                    0.00
-                          N  (kg/ha) =                 64.90                    0.00
+                          DM (kg/ha) =               2914.82                    0.00
+                          N  (kg/ha) =                 76.65                    0.00
      
       stage 4.0 end_of_juvenile
                      biomass =           0.03 (g/m^2)   lai          =   0.032 (m^2/m^2)
-                     stover N conc =     6.30 (%)    extractable sw =   18.31 (mm)
+                     stover N conc =     6.30 (%)    extractable sw =   16.68 (mm)
 11 November 1983(Day of year=315), Manager: 
      Manager sending message :- wheat end_crop
 11 November 1983(Day of year=315), wheat: 
      Crop ended. Yield (dw) =     0.0  (kg/ha)
          Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
-                          DM (kg/ha) =                  0.31                 1031.27
-                          N  (kg/ha) =                  0.02                   23.54
+                          DM (kg/ha) =                  0.31                 1031.75
+                          N  (kg/ha) =                  0.02                   24.33
      
 11 November 1983(Day of year=315), clock: 
      Simulation is terminating due to end criteria being met.
