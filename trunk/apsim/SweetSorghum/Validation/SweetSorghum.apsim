@@ -8,7 +8,7 @@
       <filename name="filename">PacSeeds.sum</filename>
     </summaryfile>
     <metfile name="met">
-      <filename name="filename">D:\development\apsim\SweetSorghum\Validation\lawes0405.met</filename>
+      <filename name="filename">lawes0405.met</filename>
     </metfile>
     <area name="Planting1">
       <registrations name="global" />
@@ -66,7 +66,7 @@
         <cnr description="C:N ration of initial residue">80.0</cnr>
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
-      <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
+      <soil name="Soil" shortcut="LawesSoil" />
       <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">PacSeeds Planting1.out</filename>
@@ -148,7 +148,7 @@
         <cnr description="C:N ration of initial residue">80.0</cnr>
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
-      <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
+      <soil name="Soil" shortcut="LawesSoil" />
       <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">PacSeeds Planting2.out</filename>
@@ -176,7 +176,7 @@
     </area>
   </simulation>
   <folder name="shared">
-    <soil name="#037 - UQ, Lawes,Black Vertosol">
+    <soil name="LawesSoil">
       <Site>UQ, Lawes</Site>
       <Region>Lockyer</Region>
       <SoilType>Black Vertosol</SoilType>
@@ -412,7 +412,7 @@
       <filename name="filename">Lawes0102.sum</filename>
     </summaryfile>
     <metfile name="met">
-      <filename name="filename">D:\development\apsim\SweetSorghum\Validation\UQG0102.met</filename>
+      <filename name="filename">UQG0102.met</filename>
     </metfile>
     <area name="Planting1">
       <registrations name="global" />
@@ -470,7 +470,7 @@
         <cnr description="C:N ration of initial residue">80.0</cnr>
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
-      <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
+      <soil name="Soil" shortcut="LawesSoil" />
       <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">Lawes0102 Planting1.out</filename>
@@ -552,7 +552,7 @@
         <cnr description="C:N ration of initial residue">80.0</cnr>
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
-      <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
+      <soil name="Soil" shortcut="LawesSoil" />
       <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">Lawes0102 Planting2.out</filename>
@@ -634,7 +634,7 @@
         <cnr description="C:N ration of initial residue">80.0</cnr>
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
-      <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
+      <soil name="Soil" shortcut="LawesSoil" />
       <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">Lawes0102 Planting3.out</filename>
@@ -716,7 +716,7 @@
         <cnr description="C:N ration of initial residue">80.0</cnr>
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
-      <soil name="Soil" shortcut="#037 - UQ, Lawes,Black Vertosol" />
+      <soil name="Soil" shortcut="LawesSoil" />
       <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">Lawes0102 Planting4.out</filename>

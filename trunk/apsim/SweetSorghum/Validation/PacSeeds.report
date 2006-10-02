@@ -1,498 +1,34 @@
-Version = 3.0
-NumPages = 1
-object data: TForm
-  Left = 4
-  Top = 4
-  Align = alClient
-  BorderIcons = []
-  BorderStyle = bsNone
-  ClientHeight = 833
-  ClientWidth = 1264
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Sans Serif'
-  Font.Style = []
-  OldCreateOrder = False
-  PixelsPerInch = 96
-  TextHeight = 13
-  object Planting1: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'zadok_stage'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_wt'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh'
-      'Graph2.afterDataRefresh'
-      'Graph3.afterDataRefresh'
-      'Graph4.afterDataRefresh')
-    filenames.Strings = (
-      'PacSeeds Planting1.out')
-    Left = 72
-    Top = 66
-  end
-  object Planting2: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'zadok_stage'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'leaf_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'stem_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'head_wt'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass_wt'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh'
-      'Graph2.afterDataRefresh'
-      'Graph3.afterDataRefresh'
-      'Graph4.afterDataRefresh')
-    filenames.Strings = (
-      'PacSeeds Planting2.out')
-    Left = 200
-    Top = 80
-  end
-  object Planting1Phenology: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'Das'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'Zadok'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh')
-    filenames.Strings = (
-      'PacSeeds1Phenology.txt')
-    Left = 106
-    Top = 171
-  end
-  object Planting2Phenology: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'Das'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'Zadok'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh')
-    filenames.Strings = (
-      'PacSeeds2Phenology.txt')
-    Left = 256
-    Top = 168
-  end
-  object Planting1Leaf: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'DAS'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'LeafNo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh')
-    filenames.Strings = (
-      'PacSeeds1Leaf.txt')
-    Left = 121
-    Top = 300
-  end
-  object Planting2Leaf: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'DAS'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'LeafNo'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph2.afterDataRefresh')
-    filenames.Strings = (
-      'PacSeeds2Leaf.txt')
-    Left = 280
-    Top = 288
-  end
-  object Planting1Biomass: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'DAS'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'Stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'GreenLeaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'DeadLeaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Head'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = '%DW'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph3.afterDataRefresh'
-      'Graph4.afterDataRefresh')
-    filenames.Strings = (
-      'PacSeeds1Biomass.txt')
-    Left = 104
-    Top = 400
-  end
-  object Planting2Biomass: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'DAS'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Date'
-        DataType = ftDate
-      end
-      item
-        Name = 'Stem'
-        DataType = ftFloat
-      end
-      item
-        Name = 'GreenLeaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'DeadLeaf'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Head'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = '%DW'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Graph3.afterDataRefresh'
-      'Graph4.afterDataRefresh')
-    filenames.Strings = (
-      'PacSeeds2Biomass.txt')
-    Left = 224
-    Top = 432
-  end
-end
+<report version="4">
+<Data>
+  <ApsimFileReader name="Planting1">
+    <FileName type="filenames">PacSeeds Planting1.out</FileName>
+  </ApsimFileReader>
+  <ApsimFileReader name="Planting2">
+    <FileName type="filenames">PacSeeds Planting2.out</FileName>
+  </ApsimFileReader>
+  <ApsimFileReader name="Planting1Phenology">
+    <FileName type="filenames">PacSeeds1Phenology.txt</FileName>
+  </ApsimFileReader>
+  <ApsimFileReader name="Planting2Phenology">
+    <FileName type="filenames">PacSeeds2Phenology.txt</FileName>
+  </ApsimFileReader>
+  <ApsimFileReader name="Planting1Leaf">
+    <FileName type="filenames">PacSeeds1Leaf.txt</FileName>
+  </ApsimFileReader>
+  <ApsimFileReader name="Planting2Leaf">
+    <FileName type="filenames">PacSeeds2Leaf.txt</FileName>
+  </ApsimFileReader>
+  <ApsimFileReader name="Planting1Biomass">
+    <FileName type="filenames">PacSeeds1Biomass.txt</FileName>
+  </ApsimFileReader>
+  <ApsimFileReader name="Planting2Biomass">
+    <FileName type="filenames">PacSeeds2Biomass.txt</FileName>
+  </ApsimFileReader>
+</Data>
+   <page> <![CDATA[
 object Page1: TQuickRep
-  Left = 271
-  Top = 40
+  Left = 358
+  Top = 48
   Width = 556
   Height = 786
   Frame.Color = clBlack
@@ -588,9 +124,14 @@ object Page1: TQuickRep
         Width = 1
         Height = 1
         BackWall.Visible = False
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMaximum = False
+        BottomAxis.AutomaticMinimum = False
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.Grid.Visible = False
         BottomAxis.LabelsSeparation = 100
+        BottomAxis.Maximum = 38534
+        BottomAxis.Minimum = 38231
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         LeftAxis.AxisValuesFormat = '###0.###'
@@ -614,7 +155,7 @@ object Page1: TQuickRep
         object Series1: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Planting1
+          DataSource = Planting1
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
@@ -629,7 +170,7 @@ object Page1: TQuickRep
         object Series2: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Planting2
+          DataSource = Planting2
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
@@ -646,7 +187,7 @@ object Page1: TQuickRep
           Marks.BackColor = clRed
           Marks.Color = clRed
           Marks.Visible = False
-          DataSource = data.Planting1Phenology
+          DataSource = Planting1Phenology
           ClickableLine = False
           Pointer.Brush.Color = clRed
           Pointer.InflateMargins = True
@@ -663,7 +204,7 @@ object Page1: TQuickRep
         object Series14: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Planting2Phenology
+          DataSource = Planting2Phenology
           ClickableLine = False
           Pointer.Brush.Color = clTeal
           Pointer.InflateMargins = True
@@ -713,9 +254,14 @@ object Page1: TQuickRep
         Width = 1
         Height = 1
         BackWall.Visible = False
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMaximum = False
+        BottomAxis.AutomaticMinimum = False
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.Grid.Visible = False
         BottomAxis.LabelsSeparation = 100
+        BottomAxis.Maximum = 38534
+        BottomAxis.Minimum = 38231
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         LeftAxis.Automatic = False
@@ -741,7 +287,7 @@ object Page1: TQuickRep
         object Series3: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Planting1
+          DataSource = Planting1
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
@@ -756,7 +302,7 @@ object Page1: TQuickRep
         object Series4: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Planting2
+          DataSource = Planting2
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
@@ -771,7 +317,7 @@ object Page1: TQuickRep
         object Series15: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Planting1Leaf
+          DataSource = Planting1Leaf
           ClickableLine = False
           Pointer.Brush.Color = clRed
           Pointer.InflateMargins = True
@@ -788,7 +334,7 @@ object Page1: TQuickRep
         object Series16: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Planting2Leaf
+          DataSource = Planting2Leaf
           ClickableLine = False
           Pointer.Brush.Color = clTeal
           Pointer.InflateMargins = True
@@ -838,9 +384,14 @@ object Page1: TQuickRep
         Width = 1
         Height = 1
         BackWall.Visible = False
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMaximum = False
+        BottomAxis.AutomaticMinimum = False
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.Grid.Visible = False
         BottomAxis.LabelsSeparation = 100
+        BottomAxis.Maximum = 38534
+        BottomAxis.Minimum = 38231
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         LeftAxis.AxisValuesFormat = '###0.###'
@@ -864,7 +415,7 @@ object Page1: TQuickRep
         object Series5: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Planting1
+          DataSource = Planting1
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
@@ -879,7 +430,7 @@ object Page1: TQuickRep
         object Series6: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Planting1
+          DataSource = Planting1
           SeriesColor = clRed
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -895,7 +446,7 @@ object Page1: TQuickRep
         object Series7: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Planting2
+          DataSource = Planting2
           SeriesColor = clTeal
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -911,7 +462,7 @@ object Page1: TQuickRep
         object Series8: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Planting2
+          DataSource = Planting2
           SeriesColor = clTeal
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -927,7 +478,7 @@ object Page1: TQuickRep
         object Series17: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Planting1Biomass
+          DataSource = Planting1Biomass
           ClickableLine = False
           Pointer.Brush.Color = clRed
           Pointer.InflateMargins = True
@@ -944,7 +495,7 @@ object Page1: TQuickRep
         object Series18: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Planting1Biomass
+          DataSource = Planting1Biomass
           ClickableLine = False
           Pointer.Brush.Color = clRed
           Pointer.InflateMargins = True
@@ -961,7 +512,7 @@ object Page1: TQuickRep
         object Series19: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Planting2Biomass
+          DataSource = Planting2Biomass
           ClickableLine = False
           Pointer.Brush.Color = clTeal
           Pointer.InflateMargins = True
@@ -978,7 +529,7 @@ object Page1: TQuickRep
         object Series20: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Planting2Biomass
+          DataSource = Planting2Biomass
           ClickableLine = False
           Pointer.Brush.Color = clTeal
           Pointer.InflateMargins = True
@@ -1028,9 +579,14 @@ object Page1: TQuickRep
         Width = 1
         Height = 1
         BackWall.Visible = False
+        BottomAxis.Automatic = False
+        BottomAxis.AutomaticMaximum = False
+        BottomAxis.AutomaticMinimum = False
         BottomAxis.AxisValuesFormat = '###0.###'
         BottomAxis.Grid.Visible = False
         BottomAxis.LabelsSeparation = 100
+        BottomAxis.Maximum = 38534
+        BottomAxis.Minimum = 38231
         BottomAxis.MinorTicks.Visible = False
         BottomAxis.TickLength = 7
         LeftAxis.AxisValuesFormat = '###0.###'
@@ -1054,7 +610,7 @@ object Page1: TQuickRep
         object Series9: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Planting1
+          DataSource = Planting1
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
@@ -1069,7 +625,7 @@ object Page1: TQuickRep
         object Series10: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Planting1
+          DataSource = Planting1
           SeriesColor = clRed
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -1085,7 +641,7 @@ object Page1: TQuickRep
         object Series11: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Planting2
+          DataSource = Planting2
           SeriesColor = clTeal
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -1101,7 +657,7 @@ object Page1: TQuickRep
         object Series12: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Planting2
+          DataSource = Planting2
           SeriesColor = clTeal
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -1117,7 +673,7 @@ object Page1: TQuickRep
         object Series21: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Planting1Biomass
+          DataSource = Planting1Biomass
           ClickableLine = False
           Pointer.Brush.Color = clRed
           Pointer.InflateMargins = True
@@ -1134,7 +690,7 @@ object Page1: TQuickRep
         object Series22: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Planting1Biomass
+          DataSource = Planting1Biomass
           ClickableLine = False
           Pointer.Brush.Color = clRed
           Pointer.InflateMargins = True
@@ -1151,7 +707,7 @@ object Page1: TQuickRep
         object Series23: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Planting2Biomass
+          DataSource = Planting2Biomass
           ClickableLine = False
           Pointer.Brush.Color = clTeal
           Pointer.InflateMargins = True
@@ -1168,7 +724,7 @@ object Page1: TQuickRep
         object Series24: TPointSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Planting2Biomass
+          DataSource = Planting2Biomass
           ClickableLine = False
           Pointer.Brush.Color = clTeal
           Pointer.InflateMargins = True
@@ -1371,3 +927,6 @@ object Page1: TQuickRep
     end
   end
 end
+]]>
+   </page>
+</report>
