@@ -163,7 +163,7 @@ void Plant::doInit1(protocol::Component *s)
     {
     plant_zero_variables (); // Zero global states
 
-    phenology = constructPhenology(this, s->readParameter ("constants", "phenology_model")); 
+    phenology = constructPhenology(this, s->readParameter ("constants", "phenology_model"));
     myThings.push_back(phenology);
 
     rootPart = constructRootPart(this, s->readParameter ("constants", "root_part"), "root");
@@ -2551,7 +2551,7 @@ void Plant::plant_rue_co2_modifier(float co2,                 //!CO2 level (ppm)
       float second;           // expecting a pointer
 
    // Implementation Section ----------------------------------
-   if (c.photosynthetic_pathway == photosynthetic_pathway_C3) 
+   if (c.photosynthetic_pathway == photosynthetic_pathway_C3)
       {
       temp = 0.5*( maxt + mint);
       TT  = divide(163.0 - temp, 5.0 - 0.1 * temp, 0.0);
@@ -2564,7 +2564,7 @@ void Plant::plant_rue_co2_modifier(float co2,                 //!CO2 level (ppm)
       {
       *modifier = 0.000143 * co2 + 0.95; //Mark Howden, personal communication
       }
-    else  
+    else
       throw std::invalid_argument ("Unknown photosynthetic pathway in cproc_rue_co2_modifier()");
    }
 
@@ -3817,21 +3817,21 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
     {
       if ((*part)->name() == "leaf" || (*part)->name() == "stem")
       {
-        if ( ((*part)->dmGreen() - (*part)->dltDmGreen()) < error_margin)
+        if ((*part)->dltDmGreen() > ((*part)->dmGreen() + error_margin))
         {
              ostringstream msg;
              msg << "Attempting to remove more green " << (*part)->name() << " biomass than available:-" << endl;
              msg << "Removing " << (*part)->dltDmGreen() << " (g/m2) from " << (*part)->dmGreen() << " (g/m2) available." << ends;
              throw std::runtime_error (msg.str().c_str());
         }
-        else if (((*part)->dmSenesced() - (*part)->dltDmSenesced()) < error_margin)
+        else if ((*part)->dltDmSenesced() > ((*part)->dmSenesced() + error_margin))
         {
              ostringstream msg;
              msg << "Attempting to remove more senesced " << (*part)->name() << " biomass than available:-" << endl;
              msg << "Removing " << (*part)->dltDmSenesced() << " (g/m2) from " << (*part)->dmSenesced() << " (g/m2) available." << ends;
              throw std::runtime_error (msg.str().c_str());
         }
-        else if (((*part)->dmDead() -(*part)->dltDmDead()) <  error_margin)
+        else if ((*part)->dltDmDead() > ((*part)->dmDead() + error_margin))
         {
              ostringstream msg;
              msg << "Attempting to remove more dead " << (*part)->name() << " biomass than available:-" << endl;
@@ -6804,7 +6804,7 @@ float Plant::plantNDead(void)
    return ndead;
    }
 
-float Plant::plantNTot(void) 
+float Plant::plantNTot(void)
    {
    return  plantNGreen() + plantNSenesced() + plantNDead();
    }
@@ -6819,7 +6819,7 @@ float Plant::plantDltNGreen(void)
 
    return sum;
    }
-float Plant::plantDltNRetrans(void) 
+float Plant::plantDltNRetrans(void)
    {
    float sum = 0.0;
    for (vector<plantPart *>::iterator t = myParts.begin();
