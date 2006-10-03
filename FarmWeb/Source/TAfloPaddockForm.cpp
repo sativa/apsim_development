@@ -61,6 +61,10 @@ void TAfloPaddockForm::setup(TWebSession* session,
    populateCombo(CultivarCombo, data, userName, paddockName, "cultivar");
    populateCombo(StartingSWCombo, data, userName, paddockName, "startsw");
    SaveButton->Enabled = (webSession->isSaveAllowed());
+   IRUrl1 = Data::getSpecialURL(webSession, userName, paddockName, "IR1");
+   IRUrl2 = Data::getSpecialURL(webSession, userName, paddockName, "IR2");
+   IRButton1->Visible = (IRUrl1 != "");
+   IRButton2->Visible = (IRUrl2 != "");
    }
 //---------------------------------------------------------------------------
 // User has clicked the save button.
@@ -126,6 +130,20 @@ void __fastcall TAfloPaddockForm::HelpButtonClick(TObject *Sender)
 void __fastcall TAfloPaddockForm::IrrigationButtonClick(TObject *Sender)
    {
    webSession->showIrrigationForm(userName, paddockName, false);
+   }
+//---------------------------------------------------------------------------
+// User has clicked on irbutton1
+//---------------------------------------------------------------------------
+void __fastcall TAfloPaddockForm::IRButton1Click(TObject *Sender)
+   {
+   webSession->showViewReportForm(IRUrl1, userName, paddockName, false);
+   }
+//---------------------------------------------------------------------------
+// User has clicked on irbutton2
+//---------------------------------------------------------------------------
+void __fastcall TAfloPaddockForm::IRButton2Click(TObject *Sender)
+   {
+   webSession->showViewReportForm(IRUrl2, userName, paddockName, false);
    }
 //---------------------------------------------------------------------------
 

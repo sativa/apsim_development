@@ -22,16 +22,23 @@ __fastcall TViewReportForm::TViewReportForm(TComponent* Owner)
 
    }
 //---------------------------------------------------------------------------
-void TViewReportForm::setup(TWebSession* session, const std::string& url, const std::string& username)
+void TViewReportForm::setup(TWebSession* session, const std::string& url,
+                            const std::string& username, const std::string& paddockname,
+                            bool backToReports)
    {
    webSession = session;
    userName = username;
+   paddockName = paddockname;
    Image->ImageFile->URL = url.c_str();
+   backToReportsForm = backToReports;
    }
 
 void __fastcall TViewReportForm::BackButtonClick(TObject *Sender)
    {
-   webSession->showReportsForm(userName, false, false);
+   if (backToReportsForm)
+      webSession->showReportsForm(userName, false, false);
+   else
+      webSession->showPaddockForm(userName, paddockName, false, false);
    }
 //---------------------------------------------------------------------------
 

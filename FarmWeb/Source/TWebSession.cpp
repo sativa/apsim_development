@@ -367,7 +367,10 @@ void TWebSession::showGenerateReportForm(const std::string& userName, const std:
 // -----------------------------------------
 // Show the view report form.
 // -----------------------------------------
-void TWebSession::showViewReportForm(const std::string& fileName, const std::string& userName)
+void TWebSession::showViewReportForm(const std::string& fileName,
+                                     const std::string& userName,
+                                     const std::string& paddockName,
+                                     bool backToReportsForm)
    {
    try
       {
@@ -376,7 +379,7 @@ void TWebSession::showViewReportForm(const std::string& fileName, const std::str
          viewReportForm = new TViewReportForm(this);
          setupForm(viewReportForm);
          }
-      viewReportForm->setup(this, fileName, userName);
+      viewReportForm->setup(this, fileName, userName, paddockName, backToReportsForm);
       show(viewReportForm);
       }
    catch (const exception& err)

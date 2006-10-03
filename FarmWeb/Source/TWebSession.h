@@ -146,7 +146,8 @@ class TWebSession : public TIWUserSessionBase
       // -----------------------------------------
       // Show the view report form.
       // -----------------------------------------
-      void showViewReportForm(const std::string& fileName, const std::string& userName);
+      void showViewReportForm(const std::string& fileName, const std::string& userName,
+                              const std::string& paddockName, bool backToReportsForm);
 
       //---------------------------------------------------------------------------
       // Show the question form.
