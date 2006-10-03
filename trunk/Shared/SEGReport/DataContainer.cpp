@@ -5,6 +5,7 @@
 
 #include "DataContainer.h"
 #include <general\xml.h>
+#include <general\string_functions.h>
 #include <kbmmemtable.hpp>
 #include <DBAdvgrd.hpp>
 #include "TGridForm.h"
@@ -216,7 +217,19 @@ void DataContainer::refresh(TDataSet* source)
       data->EnableControls();
    }
 
-
+//---------------------------------------------------------------------------
+// save all properties to the specified string
+//---------------------------------------------------------------------------
+void DataContainer::save(string& st, int level)
+   {
+   if (processor != NULL)
+      {
+      processor->save(st, level+1);
+      }
+   else
+      for (unsigned i = 0; i != children.size(); i++)
+         children[i]->save(st, level+1);
+   }
 
 
 #include "rems.h"

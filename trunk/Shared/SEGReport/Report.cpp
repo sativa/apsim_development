@@ -209,11 +209,9 @@ void Report::loadFromContents(const string& contents, bool quiet)
       {
       if (Str_i_Eq(i->getName(), "data"))
          {
-         dataContents = i->write();
          delete data;
          data = new DataContainer(reportForm);
-         data->setProperties("", dataContents);
-         //setDataComponentsActive(false);
+         data->setProperties("", i->write());
          }
       else if (Str_i_Eq(i->getName(), "page"))
          {
@@ -253,6 +251,22 @@ void Report::save(const std::string& fileName)
    else
       exportCurrentToFile(fileName);
    }
+
+//---------------------------------------------------------------------------
+// return the Data as xml
+//---------------------------------------------------------------------------
+string Report::getDataXml()
+   {
+   if (data != NULL)
+      {
+      string returnString = "<Data>\n";
+      data->save(returnString, 0);
+      returnString += "\n</Data>\n";
+      return returnString;
+      }
+   else
+      return "";
+   }
 //---------------------------------------------------------------------------
 // write the full report xml to the specified stream.
 //---------------------------------------------------------------------------
@@ -260,7 +274,7 @@ string Report::getReportXml()
    {
    ostringstream out;
    out << "<report version=\"4\">" << endl;
-   out << dataContents << endl;
+   out << getDataXml() << endl;
    for (unsigned p = 0; p != pages.size(); p++)
       {
       out << "   <page> <![CDATA[" << endl;
@@ -425,7 +439,7 @@ void Report::showPage(unsigned pageNumber)
 void Report::showDataPage()
    {
    ostringstream argument;
-   argument << (unsigned) data << ',' << dataContents;
+   argument << (unsigned) data << ',' << getDataXml();
 
    string dllFileName = getApsimDirectory() + "\\bin\\ApsimReportData.dll";
 

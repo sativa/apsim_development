@@ -93,13 +93,14 @@ DataProcessor* DataProcessor::factory(const XMLNode& properties)
 //---------------------------------------------------------------------------
 bool DataProcessor::setProperties(const XMLNode& properties)
    {
+   propertyXML = properties.write();
    vector<string> localPropertyNames, localPropertyValues;
    for (XMLNode::iterator child = properties.begin();
                           child != properties.end();
                           child++)
       {
       bool childHasChildren = (child->begin() != child->end());
-      if (!childHasChildren && child->getValue() != "")
+      if (!childHasChildren)
          {
          localPropertyNames.push_back(child->getName());
          localPropertyValues.push_back(child->getValue());
@@ -303,5 +304,13 @@ void DataProcessor::addGroupByFieldValues(TDataSet* source, TDataSet* result, in
             }
          }
       }
+   }
+
+// ------------------------------------------------------------------
+// Save the current properties to the specified node.
+// ------------------------------------------------------------------
+void DataProcessor::save(string& st, int level)
+   {
+   st += propertyXML;
    }
 
