@@ -17,6 +17,7 @@
 #include <soil\soil.h>
 #include <soil\soilSample.h>
 #include <dir.h>
+#include "TWebSession.h"
 
 #pragma package(smart_init)
 using namespace boost;
@@ -1414,5 +1415,28 @@ string Data::getHelpUrl() const
       return helpUrls[0];
    else
       throw runtime_error("Cannot find the help url");
+   }
+//---------------------------------------------------------------------------
+// Return the special url that lives under afloman directory.
+//---------------------------------------------------------------------------
+string Data::getSpecialURL(TWebSession* webSession,
+                           const std::string& userName,
+                           const std::string& paddockName,
+                           const std::string& baseFileName)
+   {
+   string dirForFolder = webSession->getFilesDir() + "\\..\\..\\..\\Afloman\\Files\\" + userName;
+   dirForFolder = ExpandFileName(dirForFolder.c_str()).c_str();
+   dirForFolder += "\\";
+   string fileSpec = dirForFolder + paddockName + "-" + baseFileName + ".*";
+
+   struct ffblk ffblk;
+   int error = findfirst(fileSpec.c_str(), &ffblk, FA_ARCH);
+   if (error)
+      return "";
+   else
+      {
+      string urlForFolder = "http://www.apsim.info/apsim/afloman/files/" + userName;
+      return urlForFolder + "/" +  ffblk.ff_name;
+      }
    }
 

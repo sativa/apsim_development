@@ -127,7 +127,7 @@ void __fastcall TReportsForm::ShowButtonClick(TObject *Sender)
       string url = fileName;
       replaceAll(url, webSession->getFilesDir(), webSession->getBaseURL() + "/files");
       replaceAll(url, "\\", "/");
-      webSession->showViewReportForm(url, userName);
+      webSession->showViewReportForm(url, userName, paddockName, true);
       }
    }
 //---------------------------------------------------------------------------

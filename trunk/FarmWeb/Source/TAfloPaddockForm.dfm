@@ -679,4 +679,48 @@ object AfloPaddockForm: TAfloPaddockForm
     FriendlyName = 'IWImageFile1'
     ImageFile.Filename = 'D:\development\FarmWeb\Source\Files\irrigation.GIF'
   end
+  object IRButton1: TIWButton
+    Left = 568
+    Top = 152
+    Width = 177
+    Height = 33
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = True
+    Caption = 'View RS image 1'
+    DoSubmitValidation = True
+    Color = clBtnFace
+    Font.Color = clNone
+    Font.Size = 10
+    Font.Style = []
+    FriendlyName = 'IRButton1'
+    ScriptEvents = <>
+    TabOrder = 0
+    OnClick = IRButton1Click
+  end
+  object IRButton2: TIWButton
+    Left = 568
+    Top = 192
+    Width = 177
+    Height = 33
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = True
+    Caption = 'View RS image 2'
+    DoSubmitValidation = True
+    Color = clBtnFace
+    Font.Color = clNone
+    Font.Size = 10
+    Font.Style = []
+    FriendlyName = 'IRButton1'
+    ScriptEvents = <>
+    TabOrder = 0
+    OnClick = IRButton2Click
+  end
 end

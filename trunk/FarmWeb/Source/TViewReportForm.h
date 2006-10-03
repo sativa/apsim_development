@@ -30,10 +30,14 @@ class TViewReportForm: public TIWAppForm
    private:	// User declarations
       TWebSession* webSession;
       std::string userName;
+      std::string paddockName;
+      bool backToReportsForm;
 
    public:		// User declarations
       __fastcall TViewReportForm(TComponent* Owner);
-      void setup(TWebSession* webSession, const std::string& fileName, const std::string& userName);
+      void setup(TWebSession* webSession, const std::string& fileName,
+                 const std::string& userName, const std::string& paddockName,
+                 bool backToReportsForm);
 
 
    };

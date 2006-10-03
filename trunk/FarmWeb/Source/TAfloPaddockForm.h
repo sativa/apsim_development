@@ -57,6 +57,8 @@ class TAfloPaddockForm: public TIWAppForm
    TIWLink *HelpButton;
    TIWLink *IrrigationButton;
    TIWImageFile *IWImageFile2;
+   TIWButton *IRButton1;
+   TIWButton *IRButton2;
       void __fastcall SaveButtonClick(TObject *Sender);
       void __fastcall RainfallEntryButtonClick(TObject *Sender);
       void __fastcall CreateReportButtonClick(TObject *Sender);
@@ -64,11 +66,15 @@ class TAfloPaddockForm: public TIWAppForm
       void __fastcall AirTempButtonClick(TObject *Sender);
    void __fastcall HelpButtonClick(TObject *Sender);
    void __fastcall IrrigationButtonClick(TObject *Sender);
+   void __fastcall IRButton1Click(TObject *Sender);
+   void __fastcall IRButton2Click(TObject *Sender);
    private:
       TWebSession* webSession;
       Data* data;
       std::string userName;
       std::string paddockName;
+      std::string IRUrl1;
+      std::string IRUrl2;
 
       //---------------------------------------------------------------------------
       // Populate the report combo.

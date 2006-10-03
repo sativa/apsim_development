@@ -8,6 +8,8 @@
 namespace Adodb {
    class TADOConnection;
    };
+
+class TWebSession;
 //---------------------------------------------------------------------------
 // This class encapsulates the non-gui data and logic behind the FarmWeb
 // web site.
@@ -465,6 +467,15 @@ class Data
       std::string getHelpUrl() const;
 
       Adodb::TADOConnection* connectn() {return connection;}
+
+      //---------------------------------------------------------------------------
+      // Return the special url that lives under afloman directory.
+      //---------------------------------------------------------------------------
+      static std::string getSpecialURL(TWebSession* webSession,
+                                       const std::string& userName,
+                                       const std::string& paddockName,
+                                       const std::string& baseFileName);
+
 
    private:
       Adodb::TADOConnection* connection;
