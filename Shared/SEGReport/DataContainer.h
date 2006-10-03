@@ -50,13 +50,14 @@ class __declspec(dllexport) DataContainer
       // return processor to caller.
       DataProcessor* getProcessor() {return processor;}
 
+      // save all properties to the specified xml node.
+      void save(string& st, int level);
 
    private:
       std::string name;
       DataProcessor* processor;
       TDataSet* data;
       std::vector<DataContainer*> children;
-      std::vector<XMLNode> childrenSettings;
       TComponent* owner;
 
       bool setProperties(const XMLNode& properties);

@@ -397,3 +397,11 @@ unsigned matchBracket(const std::string& st, char openBracket, char closeBracket
    return string::npos;
    }
 
+// ------------------------------------------------------------
+// return a string of spaces for the specified level of indent.
+// ------------------------------------------------------------
+std::string indentString(int level)
+   {
+   return string(level*3, ' ');
+   }
+

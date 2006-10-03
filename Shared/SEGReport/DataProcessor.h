@@ -35,6 +35,9 @@ class DataProcessor
 
       std::string type() {return typeOfProcessor;}
 
+      // Save the current properties to the specified node.
+      void save(std::string& st, int level);
+
    protected:
       TDataSet* getDataSet(const std::string& dataSetName);
 
@@ -48,6 +51,7 @@ class DataProcessor
       std::vector<std::string> propertyValues;
       std::vector<std::string> groupByFilters;
       std::vector<std::string>::iterator currentGroupByFilter;
+      std::string propertyXML;
 
       virtual void createFields(TDataSet* source, TDataSet* result) = 0;
       virtual void process(TDataSet* source, TDataSet* result) = 0;

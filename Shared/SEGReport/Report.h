@@ -123,9 +123,9 @@ class __declspec(dllexport) Report
 
 
       DataContainer* data;
-      std::string dataContents;
 
       void loadFromContents(const std::string& contents, bool quiet);
+      std::string getDataXml();
       std::string getReportXml();
 
       //---------------------------------------------------------------------------

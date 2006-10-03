@@ -474,5 +474,12 @@ unsigned findSubString(const std::string& st, const std::string& substring);
 // -----------------------------------------------------------
 unsigned matchBracket(const std::string& st, char openBracket, char closeBracket,
                       unsigned startPos);
+
+// ------------------------------------------------------------
+// return a string of spaces for the specified level of indent.
+// ------------------------------------------------------------
+std::string indentString(int level);
+
+
 #endif
 
