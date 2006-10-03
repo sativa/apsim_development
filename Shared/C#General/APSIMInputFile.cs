@@ -173,6 +173,10 @@ namespace CSGeneral
 			Line = In.ReadLine();
 			while (Line != null && Line.Length > 0)
 				{
+                if (Line.IndexOf("!") > 0) //used to ignore "!" in a row
+                    {
+                    Line = Line.Substring(0, Line.IndexOf("!") - 1);
+                    }
 				StringCollection Words = StringManip.SplitStringHonouringQuotes(Line, " \t");
 				if (Words.Count !=	Headings.Count)
 					throw new Exception("Invalid number of values on line: " + Line + "\r\nin file: " + _FileName);
@@ -280,9 +284,9 @@ namespace CSGeneral
 			if (DateIndex != -1)
 				{
 				StringCollection DateWords = StringManip.SplitStringHonouringQuotes(Words[DateIndex], "/");
-				if (DateWords.Count != 3)
-					throw new Exception("Invalid date format: " + Words[DateIndex] + ". Format for dates is yyyy/mm/dd");
-				return new DateTime(Convert.ToInt32(DateWords[0]),
+                if (DateWords.Count != 3)
+                    throw new Exception("Invalid date format: " + Words[DateIndex] + ". Format for dates is yyyy/mm/dd");
+                return new DateTime(Convert.ToInt32(DateWords[0]),
 					                              Convert.ToInt32(DateWords[1]),
 															Convert.ToInt32(DateWords[2]));
 
@@ -315,7 +319,11 @@ namespace CSGeneral
 
 			string Line;
 			Line = In.ReadLine();
-			StringCollection Words = StringManip.SplitStringHonouringQuotes(Line, " \t");
+            if(Line.IndexOf("!")>0)  //used to ignore "!" in row 
+                {
+                Line=Line.Substring(0,Line.IndexOf("!")-1);
+                }
+            StringCollection Words = StringManip.SplitStringHonouringQuotes(Line, " \t");
 			if (Words.Count !=	Headings.Count)
 				throw new Exception("Invalid number of values on line: " + Line + "\r\nin file: " + _FileName);
 
