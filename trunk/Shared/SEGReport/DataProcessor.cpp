@@ -149,10 +149,12 @@ void DataProcessor::refresh(TDataSet* source, TDataSet* result)
    catch (const runtime_error& err)
       {
       errorMessage += err.what();
+      source->Filtered = false;
       }
    catch (const Sysutils::Exception& err)
       {
       errorMessage += err.Message.c_str();
+      source->Filtered = false;
       }
    }
 

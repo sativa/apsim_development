@@ -23,7 +23,9 @@ void Filter::createFields(TDataSet* source, TDataSet* result)
 void Filter::process(TDataSet* source, TDataSet* result)
    {
    std::string filter = getProperty("FilterString");
-   std::string originalFilter = source->Filter.c_str();
+   std::string originalFilter;
+   if (source->Filtered)
+      originalFilter = source->Filter.c_str();
    if (originalFilter != "")
       filter = originalFilter + " and " + filter;
 
