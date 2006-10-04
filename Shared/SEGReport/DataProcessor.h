@@ -51,7 +51,7 @@ class DataProcessor
       std::vector<std::string> propertyValues;
       std::vector<std::string> groupByFilters;
       std::vector<std::string>::iterator currentGroupByFilter;
-      std::string propertyXML;
+      std::vector<std::string> propertyXMLElements;
 
       virtual void createFields(TDataSet* source, TDataSet* result) = 0;
       virtual void process(TDataSet* source, TDataSet* result) = 0;
