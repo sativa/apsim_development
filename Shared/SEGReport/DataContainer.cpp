@@ -74,9 +74,10 @@ bool DataContainer::setProperties(const XMLNode& properties)
          {
          if (data == NULL)
             data = new TkbmMemTable(owner);
-         data->Name = name.c_str();
          }
       }
+   if (data != NULL)
+      data->Name = name.c_str();
 
    // give properties to processor.
    if (processor != NULL)

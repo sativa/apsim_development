@@ -47,7 +47,7 @@ void addDBField(TDataSet* dataset,
 
       try
          {
-         if (Is_numerical(fieldValue.c_str()))
+         if (fieldValue == "" || Is_numerical(fieldValue.c_str()))
             fieldDef->DataType = ftFloat;
 
          else
