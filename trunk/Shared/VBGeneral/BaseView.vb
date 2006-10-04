@@ -92,6 +92,7 @@ Public Class BaseView
         Set(ByVal Value As String)
             MyHelpLabel.Text = Value
             MyHelpLabel.Visible = Value <> ""
+            MyHelpLabel.AutoSize = True
             MyHelpLabel.Height = MyHelpLabel.GetPreferredSize(MyHelpLabel.Size).Height
         End Set
     End Property

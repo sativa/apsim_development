@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using CSGeneral;
+//using CSGeneral;
 
 namespace GetComponentDescription
 	{
@@ -18,15 +18,13 @@ namespace GetComponentDescription
 			{
 			try
 				{
-				if (args.Length == 3)
+				if (args.Length == 2)
 					{
-					string xml = ComponentDescription.getDescriptionFromDLL(args[0], args[1]);
-					StreamWriter Out = new StreamWriter(args[2]);
-					Out.Write(xml);
-					Out.Close();
+					string xml = CSGeneral.ComponentDescription.getDescriptionFromDLL(args[0], args[1]);
+					Console.Write(xml);
 					}
 				else
-					Console.WriteLine("Usage: GetComponentDescription modulename instancename outputfilename");
+					Console.WriteLine("Usage: GetComponentDescription DLLFileName instancename");
 				}
 			catch (Exception err)
 				{

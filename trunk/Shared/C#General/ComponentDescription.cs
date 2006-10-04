@@ -35,9 +35,9 @@ namespace CSGeneral
 		// Return a list of variables (as xml) for the specified component
 		// by calling into a protocol compliant DLL.
 		// ------------------------------------------------------------------
-		static public  string getDescriptionFromDLL(string moduleName, string instanceName)
-			{	
-			string DllFileName = APSIMSettings.ApsimDirectory() + "\\apsim\\" + moduleName + "\\lib\\" + moduleName + ".dll";
+		static public  string getDescriptionFromDLL(string DllFileName, string instanceName)
+			{
+            string moduleName = Path.GetFileNameWithoutExtension(DllFileName);
 
 			// Dynamically create a method.
 			AppDomain currentDomain = AppDomain.CurrentDomain;
@@ -68,7 +68,7 @@ namespace CSGeneral
 			initScript += "   </initdata>\r\n";
 			initScript += "</component>";
 
-			// Get the xsl transform ready.
+            // Get the xsl transform ready.
 			APSIMSettings Settings = new APSIMSettings();
 			string ProtocolToVariablesXSLFileName = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "ProtocolToVariablesFile");
             System.Xml.Xsl.XslCompiledTransform xslt = new System.Xml.Xsl.XslCompiledTransform();  
@@ -79,10 +79,8 @@ namespace CSGeneral
 			object[] parameters;
 			parameters = new object[] {initScript, description};
 			MethodInfo mi = moduleBuilder.GetMethod( "getDescription" );
-			string CurrentDirectory = Directory.GetCurrentDirectory();
-			Directory.SetCurrentDirectory(APSIMSettings.ApsimDirectory() + "\\bin");		
-			mi.Invoke(null, parameters);
-			Directory.SetCurrentDirectory(CurrentDirectory);		
+
+            mi.Invoke(null, parameters);
 
 			// Transform the xml returned from the dll with our xsl.
 			StringReader ContentsReader = new StringReader(description.ToString());
@@ -92,9 +90,7 @@ namespace CSGeneral
 			xslt.Transform(XmlData, Writer);
 			Writer.Close();
 
-			return "<?xml version=\"1.0\"?>\r\n"
-				       + "<?xml-stylesheet type=\"text/xsl\" href=\"../docs/shared/Variables.xsl\"?>\r\n"
-				       + SWriter.ToString();
+			return SWriter.ToString();
 			}
 
 

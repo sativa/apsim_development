@@ -20,14 +20,15 @@
      and once for the actual variables
      ============================================================================ -->
 <xsl:template match="variables">
-   <h2>Variables for outputting</h2>
    <table>
    <tr>
    <td><b>Name</b></td>
    <td><b>Description</b></td>
    <td><b>Units</b></td>
    </tr>
-   <xsl:apply-templates select="//variable">
+   <H2><a name="{name(..)}"><xsl:value-of select="name(..)"/></a> variables</H2>
+
+   <xsl:apply-templates select="variable">
       <xsl:sort select="@name"/>
    </xsl:apply-templates>
    </table>

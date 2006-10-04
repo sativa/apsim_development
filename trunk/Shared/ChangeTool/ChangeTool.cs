@@ -10,7 +10,7 @@ namespace ChangeTool
 	// ------------------------------------------
 	public class APSIMChangeTool
 		{
-		private static int CurrentVersion = 4;	   
+		private static int CurrentVersion = 5;	   
 		private delegate void UpgraderDelegate(APSIMData Data);
 
 		// ------------------------------------------
@@ -37,6 +37,10 @@ namespace ChangeTool
                 // Upgrade from version 3 to 4.
                 if (DataVersion < 4)
                     Upgrade(Data, new UpgraderDelegate(UpdateToVersion4));
+
+                // Upgrade from version 4 to 5.
+                if (DataVersion < 5)
+                    Upgrade(Data, new UpgraderDelegate(UpdateToVersion5));
 
                 // All finished upgrading - write version number out.
                 Data.SetAttribute("version", CurrentVersion.ToString());
@@ -155,8 +159,68 @@ namespace ChangeTool
                         }
                     }
                 }
-            }	
+            }
 
+        // -----------------------------
+        // Upgrade the data to version 5.
+        // -----------------------------
+        private static void UpdateToVersion5(APSIMData Data)
+            {
+            if (Data.Type.ToLower() == "outputfile")
+                {
+                foreach (APSIMData outputfiledescription in Data.get_Children("outputfiledescription"))
+                    {
+                    foreach (APSIMData VariablesGroup in outputfiledescription.get_Children("variables"))
+                        {
+                        foreach (APSIMData Variable in VariablesGroup.get_Children("variable"))
+                            {
+                            if (Variable.Attribute("name") != Variable.Attribute("variablename"))
+                                Variable.Name = Variable.Attribute("variablename") + " as " + Variable.Attribute("name");
+
+                            if (Variable.Attribute("arrayspec").Trim() != "")
+                                Variable.Name += Variable.Attribute("arrayspec");
+
+                            string ComponentName = Variable.Attribute("module");
+                            if (ComponentName.ToLower() == "global")
+                                ComponentName = "";
+
+                            if (ComponentName != "")
+                                Variable.Name = ComponentName + "." + Variable.Name;
+
+                            Variable.SetAttribute("array", "?");
+                            Variable.DeleteAttribute("ModuleType");
+                            Variable.DeleteAttribute("arrayspec");
+                            Variable.DeleteAttribute("module");
+                            Variable.DeleteAttribute("variablename");
+                            }
+                        if (VariablesGroup.Name == "variables")
+                            VariablesGroup.Name = "Variables";
+                        Data.Add(VariablesGroup);
+                        outputfiledescription.Delete(VariablesGroup.Name);
+                        }
+                    foreach (APSIMData EventsGroup in outputfiledescription.get_Children("events"))
+                        {
+                        foreach (APSIMData Event in EventsGroup.get_Children("variable"))
+                            {
+                            string ComponentName = Event.Attribute("module");
+                            if (ComponentName.ToLower() == "global")
+                                ComponentName = "";
+
+                            if (ComponentName != "")
+                                Event.Name = ComponentName + "." + Event.Name;
+
+                            Event.DeleteAttribute("ModuleType");
+                            Event.DeleteAttribute("module");
+                            }
+                        if (EventsGroup.Name == "events")
+                            EventsGroup.Name = "Frequency";
+                        Data.Add(EventsGroup);
+                        outputfiledescription.Delete(EventsGroup.Name);
+                        }
+                    Data.Delete(outputfiledescription.Name);
+                    }
+                }
+            }	
 
 
 		}

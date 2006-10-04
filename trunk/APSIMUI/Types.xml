@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="../docs/shared/ModuleDocumentation.xsl"?>
+
 <Types>
    <startup>
       <UItype>startup</UItype>
@@ -36,7 +37,7 @@
       <SmallIcon>Images\layout_center16.png</SmallIcon>
       <drops>
      </drops>
-      <variables>
+      <variables name="Simulation variables" module="">
          <variable name="year" description="Year"/>
          <variable name="day" description="Day"/>
          <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)"/>
@@ -46,7 +47,7 @@
          <variable name="rain" description="Rainfall (mm)"/>
          <variable name="radn" description="Solar Radiation (MJ/m2/day)"/>
       </variables>
-      <events>
+      <events name="Simulation events" module="">
          <event name="end_week" description="End of week"/>
          <event name="end_month" description="End of month"/>
          <event name="end_year" description="End of year"/>
@@ -117,24 +118,6 @@
          </sim>
       </ApsimToSim>
    </registrations>
-
-   <variables>
-      <ShowInMainTree>No</ShowInMainTree>
-      <SmallIcon>Images\books_blue.png</SmallIcon>
-   </variables>
-   <variable>
-      <ShowInMainTree>No</ShowInMainTree>
-      <SmallIcon>Images\book_blue.png</SmallIcon>
-   </variable>
-   <events>
-      <ShowInMainTree>No</ShowInMainTree>
-      <SmallIcon>Images\books_green.png</SmallIcon>
-   </events>
-   <event>
-      <ShowInMainTree>No</ShowInMainTree>
-      <SmallIcon>Images\book_green.png</SmallIcon>
-   </event>
-
    <simulation>
       <UItype>area</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
@@ -166,7 +149,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
       </drops>
-      <variables>
+      <variables name="Simulation variables" module="">
          <variable name="year" description="Year"/>
          <variable name="day" description="Day"/>
          <variable name="month" description="Month"/>
@@ -257,22 +240,10 @@
          <type>component</type>
          <dll>%apsuite\apsim\report\lib\report.dll</dll>
          <sim>
-            <outputfrequency>[foreach outputfile.outputfiledescription as desc][foreach desc.events][foreach events.event as e][if "[e.eventname]" = "Daily"]post[elseif "[e.module]" = "global"][e.eventname][else][e.name][endif] [endfor][endfor][endfor]</outputfrequency>
-            [foreach outputfile.outputfiledescription as desc]
-            [foreach desc.variables as vars]
-            [foreach vars.variable as var]
-            [if "[var.module]" = "global"]
-            <variable>[var.variablename][var.arrayspec] as [var.name]</variable>
-            [elseif "[var.VariableType]" = "Water"]
-            <variable>[var.module] Water.[var.variablename][var.arrayspec] as [var.name]</variable>
-            [elseif "[var.VariableType]" = "Nitrogen"]
-            <variable>[var.module] Nitrogen.[var.variablename][var.arrayspec] as [var.name]</variable>
-            [elseif "[var.module]" = ""]
-            <variable>[var.variablename][var.arrayspec] as [var.name]</variable>
-            [else]
-            <variable>[var.module].[var.variablename][var.arrayspec] as [var.name]</variable>
-            [endif]
-            [endfor]
+            <outputfrequency>[foreach outputfile.events][foreach events.event][if "[event.name]" = "Daily"]post[else][event.name][endif] [endfor][endfor]</outputfrequency>
+            [foreach outputfile.variables]
+            [foreach variables.variable]
+            <variable>[variable.name]</variable>
             [endfor]
             [endfor]
          </sim>
@@ -292,7 +263,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
-      <variables module="met">
+      <variables name="Simulation variables" module="">
          <variable name="maxt" description="Maximum temperature (oC)"/>
          <variable name="mint" description="Minimum temperature (oC)"/>
          <variable name="rain" description="Rainfall (mm)"/>
@@ -377,7 +348,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
-      <variables module="irrigate">
+      <variables>
          <variable name="irrigation" description="Irrigation entering the profile (mm)"/>
          <variable name="irrig_loss" description="Irrigation losses (mm)"/>
          <variable name="irrig_tot" description="Total applied irrigation (irrigation + loss) (mm)"/>
@@ -411,7 +382,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
-      <variables module="fertiliz">
+      <variables>
          <variable name="fertilizer" description="Amount of fertilizer applied (kg/ha)"/>
       </variables>
       <ApsimToSim>
@@ -435,25 +406,7 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
-     <variables name="Nitrogen variables" module="soiln2">
-         <variable name="no3ppm" array="T" description="NO3 - layered (ppm)"/>
-         <variable name="no3" array="T" description="NO3 - layered (kg/ha)"/>
-         <variable name="nh4ppm" array="T" description="NH4 - layered (ppm)"/>
-         <variable name="nh4" array="T" description="NH4 - layered (kg/ha)"/>
-         <variable name="urea" array="T" description="Urea - layered (ppm)"/>
-         <variable name="fom_c" array="T" description="FOM Carbon - layered (kg/ha)"/>
-         <variable name="fom_n" array="T" description="FOM Nitrogen - layered (kg/ha)"/>
-         <variable name="hum_c" array="T" description="Humic Carbon - layered (kg/ha)"/>
-         <variable name="hum_n" array="T" description="Humic Nitrogen - layered (kg/ha)"/>
-         <variable name="biom_c" array="T" description="Biomass Carbon - layered (kg/ha)"/>
-         <variable name="biom_n" array="T" description="Biomass Nitrogen - layered (kg/ha)"/>
-         <variable name="carbon_tot" description="Total soil Carbon - total (kg/ha)"/>
-         <variable name="nit_tot" description="Total soil Nitrogen - total (kg/ha)"/>
-         <variable name="dnit" array="T" description="denitrification - layered (kg/ha)"/>
-         <variable name="dlt_n_min" array="T" description="N mineralised - layered (kg/ha)"/>
-         <variable name="st" array="T" description="Soil temperature - layered (oC)"/>
-      </variables>
-      <variables name="Water variables" module="soilwat2">
+      <variables name="Water variables" module="[name] Water">
          <variable name="dlayer" array="T" description="Depth - layered (mm)"/>
          <variable name="ll15" array="T" description="15 Bar Lower limit - layered (mm/mm)"/>
          <variable name="ll15_dep" array="T" description="15 Bar Lower limit - layered (mm)"/>
@@ -480,6 +433,8 @@
          <variable name="infiltration" description="Infiltration (mm)"/>
          <variable name="pond_evap" description="pond_evap (mm)"/>
       </variables>
+      <variables name="Nitrogen variables" module="[name] Nitrogen" link="soiln2"/>
+      <events name="Nitrogen events" module="[name] Nitrogen" link="soiln2"/>
       <ApsimToSim>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
@@ -628,7 +583,8 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
-     <variables link="stock.xml"/>
+     <variables link="stock"/>
+     <events link="stock"/>
       <ApsimToSim>
          <type>component</type>
          <dll>c:\program files\farmwise\stock.dll</dll>
@@ -882,17 +838,28 @@
          <drop name="folder"/>
      </drops>
    </sheep>
-   <outputfiledescription>
-      <UItype>outputfiledescription</UItype>
+   <variables>
+      <UItype>outputfiledesc</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <LargeIcon>Images\cubes32.png</LargeIcon>
-      <SmallIcon>Images\cubes16.png</SmallIcon>
+      <LargeIcon>Images\elements132.png</LargeIcon>
+      <SmallIcon>Images\elements116.png</SmallIcon>
       <drops>
          <drop name="outputfile"/>
          <drop name="folder"/>
      </drops>
-   </outputfiledescription>
+   </variables>
+   <events>
+      <UItype>outputfiledesc</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <LargeIcon>Images\elements132.png</LargeIcon>
+      <SmallIcon>Images\elements116.png</SmallIcon>
+      <drops>
+         <drop name="outputfile"/>
+         <drop name="folder"/>
+     </drops>
+   </events>
    <manager>
       <UItype>area</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
@@ -1311,7 +1278,8 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
@@ -1342,7 +1310,8 @@
      </drops>
       <class    name="plant"/>
       <cultivar name="milgarra"/>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
@@ -1372,7 +1341,8 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
       <class    name="plant"/>
       <class    name="plant"/>
       <class    name="winter"/>
@@ -1440,7 +1410,8 @@
       <cultivar name="tyson"/>
       <cultivar name="CV244-1"/>
       <cultivar name="cpi56566"/>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
@@ -1475,7 +1446,8 @@
       <cultivar name="red_caloona"/>
       <cultivar name="CPI28215"/>
       <cultivar name="spreading"/>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
@@ -1508,7 +1480,8 @@
       <class    name="plant"/>
       <cultivar name="fiord"/>
       <cultivar name="ILB1814"/>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
@@ -1544,7 +1517,8 @@
       <cultivar name="parafield"/>
       <cultivar name="kaspa"/>
       <cultivar name="mutka"/>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
@@ -1579,7 +1553,8 @@
       <cultivar name="lablab_small_leaf_perennial"/>
       <cultivar name="endurance"/>
       <cultivar name="highworth"/>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
@@ -1622,7 +1597,8 @@
       <cultivar name="aquarius"/>
       <cultivar name="dingxi"/>
       <cultivar name="Longdong"/>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
@@ -1663,7 +1639,8 @@
       <cultivar name="wodjil"/>
       <cultivar name="gungurru"/>
       <cultivar name="short"/>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
@@ -1801,7 +1778,8 @@
      </drops>
       <class    name="plant"/>
       <cultivar name="mucuna_gen"/>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
@@ -1842,7 +1820,8 @@
       <cultivar name="celera"/>
       <cultivar name="green_diamond"/>
       <cultivar name="delta"/>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
@@ -1875,7 +1854,8 @@
       <class    name="plant"/>
       <cultivar name="co1"/>
       <cultivar name="paiyur"/>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
@@ -1911,7 +1891,8 @@
       <cultivar name="sirius"/>
       <cultivar name="othello"/>
       <cultivar name="caucaya"/>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
@@ -2093,7 +2074,8 @@
       <cultivar name="florunner"/>
       <cultivar name="TMV_2"/>
       <cultivar name="SO95"/>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
@@ -2128,7 +2110,8 @@
       <cultivar name="medium_duration"/>
       <cultivar name="short_duration"/>
       <cultivar name="extrashort_duration"/>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
@@ -2219,7 +2202,8 @@
       <cultivar name="QL41xQL36"/>
       <cultivar name="M35-1"/>
       <cultivar name="CSH13R"/>
-     <variables link="sorghum.xml"/>
+     <variables link="sorghum"/>
+      <events link="plant"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\sorghum\lib\sorghum.dll</dll>
@@ -2260,7 +2244,8 @@
       <cultivar name="magoye"/>
       <cultivar name="roan"/>
       <cultivar name="harvest12"/>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
@@ -2291,7 +2276,8 @@
      </drops>
       <class    name="plant"/>
       <cultivar name="stylo.verano"/>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
@@ -2526,7 +2512,8 @@
       </drops>
       <class    name="plant"/>
       <cultivar name="h5"/>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
@@ -2557,7 +2544,8 @@
      </drops>
       <class    name="plant"/>
       <cultivar name="sugargraze"/>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
@@ -2608,7 +2596,8 @@
       <cultivar name="warm_season"/>
       <cultivar name="early"/>
       <cultivar name="late   "/>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
@@ -2644,7 +2633,9 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
+
       <class    name="plant"/>
       <cultivar name="annuello"/>
       <cultivar name="arrino"/>
@@ -2772,7 +2763,8 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
@@ -2815,7 +2807,8 @@
       <cultivar name="baudin"/>
       <cultivar name="vb0021"/>
       <cultivar name="keel"/>
-      <variables link="plant.xml"/>
+      <variables link="plant"/>
+      <events link="plant"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\plant\lib\plant.dll</dll>
@@ -3271,7 +3264,8 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
-     <variables link="pasture.xml"/>
+     <variables link="pasture"/>
+      <events link="pasture"/>
       <ApsimToSim>
          <type>component</type>
          <dll>c:\program files\farmwise\pasture.dll</dll>
@@ -3519,7 +3513,8 @@
          <drop name="simulation"/>
          <drop name="folder"/>
      </drops>
-     <variables link="supplement.xml"/>
+     <variables link="supplement"/>
+      <events link="supplement"/>
       <ApsimToSim>
          <type>component</type>
          <dll>c:\program files\farmwise\supplement.dll</dll>
