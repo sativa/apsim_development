@@ -11,6 +11,8 @@ echo ^<ComponentDescription^> >> %APSROOT%\ApsimUI\ComponentDescription.xml
 c:
 cd "c:\program files\farmwise"
 %APSROOT%\bin\getcomponentdescription "c:\program files\farmwise\stock.dll" stock >> %APSROOT%\ApsimUI\ComponentDescription.xml
+%APSROOT%\bin\getcomponentdescription "c:\program files\farmwise\pasture.dll" pasture >> %APSROOT%\ApsimUI\ComponentDescription.xml
+%APSROOT%\bin\getcomponentdescription "c:\program files\farmwise\supplement.dll" supplement >> %APSROOT%\ApsimUI\ComponentDescription.xml
 echo ^</ComponentDescription^> >> %APSROOT%\ApsimUI\ComponentDescription.xml
 
 
