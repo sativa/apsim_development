@@ -90,7 +90,7 @@ void plantStemPart::update(void)
 
 void plantStemPart::removeBiomass2(float )
 {
-    Height *= (1.0 - divide(dlt.dm_green, DMGreen, 0.0));
+    Height *= (1.0 - divide(dlt.dm_green, DMGreen, 0.0)); // these values are overwritten in plantPart::morphology(void)
     Width *= (1.0 - divide(dlt.dm_green, DMGreen, 0.0));
 }
 
