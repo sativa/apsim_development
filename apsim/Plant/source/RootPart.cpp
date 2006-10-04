@@ -1110,15 +1110,15 @@ float plantRootPart::oxdef_stress ()
         return stress;
     }
 
-void plantRootPart::removeBiomass2(float chop_fr)
+void plantRootPart::removeBiomass2(float chop_fr) // chop_fr is negative
    {
    float dlt_dm_die = DMGreen * rootDieBackFraction * chop_fr;
-   DMSenesced += dlt_dm_die;
-   DMGreen -= dlt_dm_die;
+   DMSenesced -= dlt_dm_die;
+   DMGreen += dlt_dm_die;
 
    float dlt_n_die = dlt_dm_die * c.n_sen_conc;
-   NSenesced += dlt_n_die;
-   NGreen -= dlt_n_die;
+   NSenesced -= dlt_n_die;
+   NGreen += dlt_n_die;
    }
 
 void plantRootPart::doNewProfile(protocol::Variant &v)
