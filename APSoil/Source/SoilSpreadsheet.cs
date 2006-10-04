@@ -80,7 +80,7 @@ namespace APSoil
             DataTableUtility.AddValue(Data, "Region", MySoil.Region, Row, NumLayers);
             DataTableUtility.AddValue(Data, "NearestTown", MySoil.NearestTown, Row, NumLayers);
             DataTableUtility.AddValue(Data, "Site", MySoil.Site, Row, NumLayers);
-            DataTableUtility.AddValue(Data, "Classification", MySoil.Order, Row, NumLayers);
+            DataTableUtility.AddValue(Data, "Classification", MySoil.Classification, Row, NumLayers);
 			DataTableUtility.AddValue(Data, "DataSource", MySoil.DataSource, Row, NumLayers);
 			DataTableUtility.AddValue(Data, "Comments", MySoil.Comment, Row, NumLayers);
 			DataTableUtility.AddValue(Data, "NaturalVegetation", MySoil.NaturalVegetation, Row, NumLayers);
@@ -158,7 +158,7 @@ namespace APSoil
             NewSoil.Region = GetStringValue(Table, "Region", Row);
             NewSoil.NearestTown = GetStringValue(Table, "NearestTown", Row);
             NewSoil.Site = GetStringValue(Table, "Site", Row);
-			NewSoil.Order = GetStringValue(Table, "Classification", Row);
+			NewSoil.Classification = GetStringValue(Table, "Classification", Row);
 			NewSoil.DataSource = GetStringValue(Table, "DataSource", Row);
 			NewSoil.Comment = GetStringValue(Table, "Comments", Row);
 			NewSoil.NaturalVegetation = GetStringValue(Table, "NaturalVegetation", Row);
