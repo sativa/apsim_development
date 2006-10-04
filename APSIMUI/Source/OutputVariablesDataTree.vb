@@ -131,7 +131,7 @@ Public Class OutputVariablesDataTree
         Dim VariablesXML As String = "<components/>"
         Dim UIManager As ApsimUIController = Controller
 
-        Return New APSIMData(UIManager.GetOutputFileDescriptions(Controller.Data.Parent))
+        Return UIManager.GetVariableDescriptions(Controller.Data.Parent, "variables")
 
     End Function
 

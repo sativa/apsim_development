@@ -408,7 +408,7 @@ Public Class APSIMData
             FireDataChangedEvent()
         End If
     End Sub
-    Public Sub DeleteAttribute(ByVal AttributeName As String, ByVal AttributeValue As String)
+    Public Sub DeleteAttribute(ByVal AttributeName As String)
         ' ----------------------------------------
         ' Delete the specified attribute
         ' ----------------------------------------

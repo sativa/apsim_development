@@ -60,7 +60,7 @@
                      </table>
                   </xsl:when>
                   <xsl:otherwise>
-                     <p><a href="{../variables/@link}">Link to variables for outputting</a></p>
+                     <p><a href="ComponentDescription.xml#{../variables/@link}">Link to variables for outputting</a></p>
                   </xsl:otherwise>
               </xsl:choose>
            </xsl:if>

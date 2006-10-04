@@ -80,7 +80,6 @@ Public Class OutputVariablesForm
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.ClientSize = New System.Drawing.Size(176, 266)
         Me.ControlBox = False
-        Me.Controls.Add(Me.VariableDataTree)
         Me.Controls.Add(Me.GlobalCheckBox)
         Me.Controls.Add(Me.btnCancel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow

@@ -12,7 +12,7 @@ Public Class ApsimUIController
     Private TypesFileName As String
     Private _LargeImageList As New ImageList
     Private _SmallImageList As New ImageList
-
+    Private ComponentDescriptionData As APSIMData = Nothing
 
     ' ---------------------
     ' Constructor
@@ -25,8 +25,11 @@ Public Class ApsimUIController
         _LargeImageList.ImageSize = New Size(32, 32)
         _SmallImageList.ImageSize = New Size(16, 16)
         Dim inifile As New APSIMSettings
+
+        ' Load types.xml
         TypesFileName = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "typesfile")
         TypesData.LoadFromFile(TypesFileName)
+
         PopulateImageLists()
     End Sub
 
@@ -132,7 +135,7 @@ Public Class ApsimUIController
                 Case "swimsoil"
                     Return New SwimSoilUI
 
-                Case "outputfiledescription"
+                Case "outputfiledesc"
                     Return New OutputFileDescUI
 
                 Case "vinelogic"
@@ -256,57 +259,59 @@ Public Class ApsimUIController
     End Sub
 
 
-    ' -----------------------------------------------------------------
-    ' Return type info for all child components for the specified APSIMData
-    ' -----------------------------------------------------------------
-    Public Function GetOutputFileDescription(ByRef Data As APSIMData, ByVal ComponentType As String, ByVal InstanceName As String) As String
-        Dim ReturnString As String = ""
+    Public Sub GetVariablesForComponent(ByVal ComponentType As String, ByVal InstanceName As String, _
+                                        ByVal PropertyGroup As String, ByVal ReturnVariables As APSIMData)
+        ' -----------------------------------------------------------------
+        ' Add variable info for the specified type and instance name to the
+        ' "VariableData" argument.
+        ' -----------------------------------------------------------------
+        Dim TypeInfo As APSIMData = TypesData.Child(ComponentType)
+        If Not IsNothing(TypeInfo) Then
+            For Each TypeVariables As APSIMData In TypeInfo.Children(PropertyGroup)
+                Dim Variables As APSIMData = TypeVariables
 
+                If TypeVariables.Attribute("link") <> "" Then
+                    ' Load components description file if necessary
+                    If ComponentDescriptionData Is Nothing Then
+                        ComponentDescriptionData = New APSIMData
+                        ComponentDescriptionData.LoadFromFile(APSIMSettings.ApsimDirectory + "\\ApsimUI\\ComponentDescription.xml")
+                    End If
 
-        For Each VariablesInfo As APSIMData In Data.Children("variables")
-            Dim ComponentName As String = InstanceName
-            If VariablesInfo.Name = "Water variables" Then
-                ComponentName = ComponentName + " Water"
-            ElseIf VariablesInfo.Name = "Nitrogen variables" Then
-                ComponentName = ComponentName + " Nitrogen"
-            End If
+                    Dim Component As APSIMData = ComponentDescriptionData.Child(TypeVariables.Attribute("link"))
+                    If Not IsNothing(Component) Then
+                        Variables = ReturnVariables.Add(Component.ChildByType(PropertyGroup))
+                        Variables.Name = TypeVariables.Name
+                        Variables.SetAttribute("module", TypeVariables.Attribute("module"))
+                    End If
+                ElseIf Not IsNothing(Variables) Then
+                    Variables = ReturnVariables.Add(Variables)
+                End If
 
-            If VariablesInfo.Attribute("link") <> "" Then
-                Dim ExternalFileData As New APSIMData
-                Dim Filename As String = APSIMSettings.ApsimDirectory + "\ApsimUI\" + VariablesInfo.Attribute("link")
-                ExternalFileData.LoadFromFile(Filename)
-                Return GetOutputFileDescription(ExternalFileData, ComponentType, InstanceName)
-            Else
-                ReturnString = ReturnString + VariablesInfo.XML.Replace("/>", " module=""" + ComponentName + """/>")
-            End If
-        Next
-
-        Dim EventsInfo As APSIMData = Data.Child("events")
-        If Not IsNothing(EventsInfo) Then
-            ReturnString = ReturnString + EventsInfo.XML.Replace("/>", " module=""" + InstanceName + """/>")
+                If Not IsNothing(Variables) Then
+                    If Variables.Name = Variables.Type Then
+                        Variables.Name = InstanceName
+                    End If
+                    If Not Variables.AttributeExists("module") Then
+                        Variables.SetAttribute("module", InstanceName)
+                    Else
+                        Variables.SetAttribute("module", Variables.Attribute("module").Replace("[name]", InstanceName))
+                    End If
+                End If
+            Next
         End If
-
-        Return ReturnString
-    End Function
+    End Sub
 
 
-    ' -----------------------------------------------------------------
-    ' Return type info for all child components for the specified APSIMData
-    ' -----------------------------------------------------------------
-    Public Function GetOutputFileDescriptions(ByRef Data As APSIMData) As String
-        Dim ReturnString As String = "<folder name=""Variables and Events"">"
+    Public Function GetVariableDescriptions(ByRef Data As APSIMData, ByVal PropertyGroup As String) As APSIMData
+        ' ------------------------------------------------------------------------------
+        ' Return variable descriptions for all child components for the specified "data"
+        ' ------------------------------------------------------------------------------
+        Dim ReturnVariables As New APSIMData(PropertyGroup, "")
 
         For Each Child As APSIMData In Data.Children
-            Dim TypeInfo As APSIMData = TypesData.Child(Child.Type)
-            If Not IsNothing(TypeInfo) Then
-                Dim ComponentXML As String = GetOutputFileDescription(TypeInfo, Child.Type, Child.Name)
-                If ComponentXML <> "" Then
-                    ReturnString = ReturnString + "<" + Child.Type + " name=""" + Child.Name + """>" + ComponentXML + "</" + Child.Type + ">"
-                End If
-            End If
+            GetVariablesForComponent(Child.Type, Child.Name, PropertyGroup, ReturnVariables)
         Next
-        ReturnString = ReturnString + "</folder>"
-        Return ReturnString
+        Return ReturnVariables
     End Function
 
 

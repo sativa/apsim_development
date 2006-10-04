@@ -9,8 +9,7 @@
 #include <boost/lexical_cast.hpp>
 
 #include <ApsimShared/FStringExt.h>
-//#include <ApsimShared/FApsimComponentData.h>
-
+#include <general/path.h>
 #include <general/date_class.h>
 
 #include "ProtocolVector.h"
@@ -722,7 +721,7 @@ bool Component::componentIDToName(unsigned int compID, FString& name)
          name = returnInfo->name;
       return true;
       }
-   else                      
+   else
       return false;
    }
 // ------------------------------------------------------------------
@@ -1051,15 +1050,58 @@ std::string Component::getDescription()
       returnString = "<describecomp name=\"" + asString(name) + "\">\n";
 
       returnString += string("<executable>") + dllName + "</executable>\n";
-      returnString += string("<class>") + name + "</class>\n";
+      returnString += string("<class>") + Path(dllName).Get_name_without_ext() + "</class>\n";
       returnString += "<version>1.0</version>\n";
       returnString += "<author>APSRU</author>\n";
-//      for (UInt2InfoMap::iterator var = getVarMap.begin();
-//                                  var != getVarMap.end();
-//                                  var++)
-//         {
-//         returnString += var->second->getXML() + "\n";
-//         }
+      for (UInt2InfoMap::iterator var = getVarMap.begin();
+                                  var != getVarMap.end();
+                                  var++)
+         {
+         returnString += var->second->getXML() + "\n";
+         }
+      if (getVarMap.size() == 0)
+         {
+         for (unsigned i = 0; i != registrations->size(); i++)
+            {
+            RegistrationItem* reg = registrations->get(i);
+            if (reg->getKind() == RegistrationType::respondToEvent)
+               {
+               returnString += "   <event name=\"";
+               returnString += reg->getName();
+               returnString += "\" kind=\"subscribed\">";
+               XMLDocument* doc = new XMLDocument(reg->getType(), XMLDocument::xmlContents);
+               returnString += doc->documentElement().innerXML();
+               delete doc;
+               returnString += "</event>\n";
+               }
+            else if (reg->getKind() == RegistrationType::respondToGet)
+               {
+               returnString += "   <property name=\"";
+               returnString += reg->getName();
+               returnString += "\" access=\"read\" init=\"F\">\n";
+               returnString += reg->getType();
+               returnString += "</property>\n";
+               }
+            else if (reg->getKind() == RegistrationType::respondToSet)
+               {
+               returnString += "   <property name=\"";
+               returnString += reg->getName();
+               returnString += "\" access=\"write\" init=\"F\">\n";
+               returnString += reg->getType();
+               returnString += "</property>\n";
+               }
+            else if (reg->getKind() == RegistrationType::respondToGetSet)
+               {
+               returnString += "   <property name=\"";
+               returnString += reg->getName();
+               returnString += "\" access=\"both\" init=\"F\">\n";
+               returnString += reg->getType();
+               returnString += "</property>\n";
+               }
+
+
+            }
+         }
       for (unsigned i = 0; i != registrations->size(); i++)
          {
          RegistrationItem* reg = registrations->get(i);
@@ -1073,16 +1115,6 @@ std::string Component::getDescription()
             delete doc;
             returnString += "</event>\n";
             }
-         else if (reg->getKind() == RegistrationType::respondToEvent)
-            {
-            returnString += "   <event name=\"";
-            returnString += reg->getName();
-            returnString += "\" kind=\"subscribed\">";
-            XMLDocument* doc = new XMLDocument(reg->getType(), XMLDocument::xmlContents);
-            returnString += doc->documentElement().innerXML();
-            delete doc;
-            returnString += "</event>\n";
-            }
          else if (reg->getKind() == RegistrationType::get)
             {
             returnString += "   <driver name=\"";
@@ -1091,32 +1123,6 @@ std::string Component::getDescription()
             returnString += reg->getType();
             returnString += "</driver>\n";
             }
-         else if (reg->getKind() == RegistrationType::respondToGet)
-            {
-            returnString += "   <property name=\"";
-            returnString += reg->getName();
-            returnString += "\" access=\"read\" init=\"F\">\n";
-            returnString += reg->getType();
-            returnString += "</property>\n";
-            }
-         else if (reg->getKind() == RegistrationType::respondToSet)
-            {
-            returnString += "   <property name=\"";
-            returnString += reg->getName();
-            returnString += "\" access=\"write\" init=\"F\">\n";
-            returnString += reg->getType();
-            returnString += "</property>\n";
-            }
-         else if (reg->getKind() == RegistrationType::respondToGetSet)
-            {
-            returnString += "   <property name=\"";
-            returnString += reg->getName();
-            returnString += "\" access=\"both\" init=\"F\">\n";
-            returnString += reg->getType();
-            returnString += "</property>\n";
-            }
-
-
          }
       returnString += "\n</describecomp>\n";
       std::ofstream out("d:\\tmp\\tempplant.xml");
