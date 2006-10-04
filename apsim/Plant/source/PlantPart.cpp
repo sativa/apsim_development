@@ -646,7 +646,7 @@ void plantPart::morphology(void)
    if (c.height.isInitialised())
       {
       float new_height = c.height.value(dm_plant);       // new plant height (mm)
-      dlt.height = l_bound(new_height - Height, 0.0);
+      dlt.height = new_height - Height;
       }
    else
       {
@@ -656,7 +656,7 @@ void plantPart::morphology(void)
    if (c.width.isInitialised())
       {
       float new_width = c.width.value(dm_plant);
-      dlt.width = l_bound(new_width - Width, 0.0);
+      dlt.width = new_width - Width;
       }
    else
       {
