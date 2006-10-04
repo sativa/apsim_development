@@ -224,11 +224,17 @@ void DataContainer::save(string& st, int level)
    {
    if (processor != NULL)
       {
+      st += indentString(level) + "<" + processor->type() + " name=\"" + name + "\">\n";
       processor->save(st, level+1);
-      }
-   else
       for (unsigned i = 0; i != children.size(); i++)
          children[i]->save(st, level+1);
+      st += indentString(level) + "</" + processor->type() + ">\n";
+      }
+   else
+      {
+      for (unsigned i = 0; i != children.size(); i++)
+         children[i]->save(st, level+1);
+      }
    }
 
 

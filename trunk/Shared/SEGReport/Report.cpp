@@ -455,6 +455,7 @@ void Report::showDataPage()
         {
         (*callDLL)(dllFileName.c_str(), "ApsimReportData.MainForm", "Go", argument.str().c_str());
         refreshControls(reportForm);
+        isDirty = true;
         }
    }
 //---------------------------------------------------------------------------

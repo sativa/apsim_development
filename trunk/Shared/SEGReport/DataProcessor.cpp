@@ -93,7 +93,7 @@ DataProcessor* DataProcessor::factory(const XMLNode& properties)
 //---------------------------------------------------------------------------
 bool DataProcessor::setProperties(const XMLNode& properties)
    {
-   propertyXML = properties.write();
+   propertyXMLElements.erase(propertyXMLElements.begin(), propertyXMLElements.end());
    vector<string> localPropertyNames, localPropertyValues;
    for (XMLNode::iterator child = properties.begin();
                           child != properties.end();
@@ -102,8 +102,12 @@ bool DataProcessor::setProperties(const XMLNode& properties)
       bool childHasChildren = (child->begin() != child->end());
       if (!childHasChildren)
          {
-         localPropertyNames.push_back(child->getName());
-         localPropertyValues.push_back(child->getValue());
+         propertyXMLElements.push_back(child->write());
+         if (child->getValue() != "")
+            {
+            localPropertyNames.push_back(child->getName());
+            localPropertyValues.push_back(child->getValue());
+            }
          }
       }
    if (localPropertyNames.size() == 0 ||
@@ -311,6 +315,7 @@ void DataProcessor::addGroupByFieldValues(TDataSet* source, TDataSet* result, in
 // ------------------------------------------------------------------
 void DataProcessor::save(string& st, int level)
    {
-   st += propertyXML;
+   for (unsigned i = 0; i != propertyXMLElements.size(); i++)
+      st += indentString(level) + propertyXMLElements[i] + "\n";
    }
 
