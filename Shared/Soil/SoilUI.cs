@@ -1375,10 +1375,12 @@ namespace CSGeneral
 			if (UserChange)
 				{
 				UserChange = false;
-				SaveProfileGrid(e.Column);
-				UserChange = true;
-				}
-			}
+                SaveProfileGrid(e.Column);
+                UserChange = true;
+                string msg = MySoil.CheckForErrors();
+                if (msg != "") MessageBox.Show(msg, "Errors", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
 
 		private void APSIM_CellChanged(object sender, FarPoint.Win.Spread.SheetViewEventArgs e)
 			{
@@ -1389,6 +1391,8 @@ namespace CSGeneral
                     SetupConaU();
                 SaveAPSIMGrid();
 				UserChange = true;
+                string msg = MySoil.CheckForErrors();
+                if (msg != "") MessageBox.Show(msg, "Errors", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 
@@ -1399,6 +1403,8 @@ namespace CSGeneral
 				UserChange = false;
 				SavePhosphorusGrid();
 				UserChange = true;
+                string msg = MySoil.CheckForErrors();
+                if (msg != "") MessageBox.Show(msg, "Errors", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 

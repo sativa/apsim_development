@@ -1189,6 +1189,14 @@ namespace CSGeneral
 					errorMessages += "OC value of " + OC[layer].ToString("f3")
 						          +  " in layer " + RealLayerNumber.ToString() + " is less than 0.01"
 								  + "\r\n";
+                if (PH[layer] < 3.5)
+                    errorMessages += "PH value of " + PH[layer].ToString("f3")
+                                  + " in layer " + RealLayerNumber.ToString() + " is less than 3.5"
+                                  + "\r\n";
+                if (PH[layer] > 11)
+                    errorMessages += "PH value of " + PH[layer].ToString("f3")
+                                  + " in layer " + RealLayerNumber.ToString() + " is greater than 11"
+                                  + "\r\n";
 				}
 			return errorMessages;
 			}
