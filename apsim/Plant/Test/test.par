@@ -367,3 +367,31 @@ variable = wheat.dlt_cumvd
 variable = wheat.vern_eff
 variable = wheat.photop_eff
 variable = wheat.zadok_stage
+
+[test9_missingLL.report.parameters]
+outputfile  =test9_missingLL.out
+[test9_missingLL.SummaryFile.parameters]
+summaryfile=test9_missingLL.sum
+[test9_missingLL.chickpea.parameters]
+   !!!ll    = .230 .240 .240 .250 .260 .270 .280  ! lower limit mm water/mm soil
+   xf   = 1.00 1.00 1.00 1.00 1.00 1.00 1.00  ! Weighting factor for root advance
+   kl   = 0.08 0.08 0.08 0.08 0.05 0.03 0.01  ! Water Extraction Parameter (0-1)
+
+[test9_missingKL.report.parameters]
+outputfile  =test9_missingKL.out
+[test9_missingKL.SummaryFile.parameters]
+summaryfile=test9_missingKL.sum
+[test9_missingKL.chickpea.parameters]
+   ll    = .230 .240 .240 .250 .260 .270 .280  ! lower limit mm water/mm soil
+   xf   = 1.00 1.00 1.00 1.00 1.00 1.00 1.00  ! Weighting factor for root advance
+   !!kl   = 0.08 0.08 0.08 0.08 0.05 0.03 0.01  ! Water Extraction Parameter (0-1)
+
+[test9_missingXF.report.parameters]
+outputfile  =test9_missingXF.out
+[test9_missingXF.SummaryFile.parameters]
+summaryfile=test9_missingXF.sum
+[test9_missingXF.chickpea.parameters]
+   ll    = .230 .240 .240 .250 .260 .270 .280  ! lower limit mm water/mm soil
+   !!xf   = 1.00 1.00 1.00 1.00 1.00 1.00 1.00  ! Weighting factor for root advance
+   KL   = 0.08 0.08 0.08 0.08 0.05 0.03 0.01  ! Water Extraction Parameter (0-1)
+
