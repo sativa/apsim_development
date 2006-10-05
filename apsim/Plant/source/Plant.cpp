@@ -3885,7 +3885,8 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
        parent->writeString (" ");
     }
 
-    stemPart->removeBiomass2(-1.0);
+    stemPart->removeBiomass2(-1.0); // the values calculated here are overwritten in plantPart::morphology(void)
+
 
     if (g.canopy_width > 0.0)
         {
