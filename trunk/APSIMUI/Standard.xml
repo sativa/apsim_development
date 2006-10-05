@@ -1602,7 +1602,7 @@ if {$steps == 0} {tkwait variable steps}
       </stockgenotype>
       <sheep>
         <genotypename>Medium Merino</genotypename>
-        <number>120</number>
+        <number>0</number>
         <sex type="list" listvalues="ewe,wether,ram,crypto">wether</sex>
         <age>730.0</age>
         <weight>50.0</weight>
@@ -1624,7 +1624,7 @@ if {$steps == 0} {tkwait variable steps}
       </sheep>
       <cattle>
         <genotypename>Angus</genotypename>
-        <number>120</number>
+        <number>0</number>
         <sex type="list" listvalues="cow,heifer,steer,bull">steer</sex>
         <age>730.0</age>
         <weight>50.0</weight>
