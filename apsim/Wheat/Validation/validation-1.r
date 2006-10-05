@@ -5,7 +5,7 @@ library(RODBC)
 
 # The "latest" runs (ie your development tree)
 #indir<-"//build_machine/build_machine/development/apsim/Wheat/Validation"
-indir<-"d:/development/apsim/Wheat/Validation"
+indir<-"c:/development/apsim/Wheat/Validation"
 
 # Where to write output
 #outDir<-"."
