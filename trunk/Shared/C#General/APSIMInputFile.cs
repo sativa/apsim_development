@@ -55,7 +55,12 @@ namespace CSGeneral
 				}
 			}
 
-
+        public void Clear()
+            {
+            _Constants = new ArrayList();
+            Headings = new StringCollection();
+            Units = new StringCollection();
+            }
 
 		// -------------------------------------
 		// Return constants to caller
@@ -66,7 +71,7 @@ namespace CSGeneral
 				{
 				return _Constants;
 				}
-			}
+            }
 		// -------------------------------------
 		// Return a given constant to caller
 		// -------------------------------------
