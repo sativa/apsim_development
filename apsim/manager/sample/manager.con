@@ -19,3 +19,13 @@ module = Input(Met)     %apsuite\apsim\met\sample\dalby.met [weather]
 module = manager manager.par [modify_met]
 module = summaryfile manager.par [modify_met]
 module = log manager.par[test]
+
+[test_big_module_names]
+
+title=Manager Sample Simulation
+module = clock   manager.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = %apsuite/apsim/report/lib/report.dll(really_big_report_name_that_is_too_long_for_ordinary_mortals)  manager.par [big_module_names]
+module = Input(Met)     %apsuite/apsim/met/sample/dalby.met [weather]
+module = manager manager.par [big_module_names]
+module = summaryfile manager.par [big_module_names]
+
