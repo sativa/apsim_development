@@ -4588,21 +4588,21 @@ c  dsg   070302  added runon
 
       if (variable_name .eq. 'es') then
          es = sum_real_array(g%es_layers, max_layer) + g%pond_evap
-         call respond2get_real_var (variable_name, '(mm)', es)
+         call respond2get_real_var (variable_name, 'mm', es)
 
 ! dsg 310502  Evaporation from the surface of any ponding.
       else if (variable_name .eq. 'pond_evap') then
-         call respond2get_real_var (variable_name, '(mm)', g%pond_evap)
+         call respond2get_real_var (variable_name, 'mm', g%pond_evap)
 
       else if (variable_name .eq. 't') then
-         call respond2get_real_var (variable_name, '(days)', g%t)
+         call respond2get_real_var (variable_name, 'days', g%t)
 
 
       else if (variable_name .eq. 'eo') then
-         call respond2get_real_var (variable_name, '(mm)', g%real_eo)
+         call respond2get_real_var (variable_name, 'mm', g%real_eo)
 
       else if (variable_name .eq. 'eos') then
-         call respond2get_real_var (variable_name, '(mm)', g%eos)
+         call respond2get_real_var (variable_name, 'mm', g%eos)
 
 !      else if (variable_name .eq. 'total_cover') then
 !         crop_cover = sum_cover_array (g%cover_tot, g%num_crops)
@@ -4611,38 +4611,38 @@ c  dsg   070302  added runon
 !     :                             , total_cover)
 
       else if (variable_name .eq. 'cover_surface_runoff') then
-         call respond2get_real_var (variable_name, '()'
+         call respond2get_real_var (variable_name, ''
      :                             , g%cover_surface_runoff)
 
       else if (variable_name .eq. 'cn2_new') then
-         call respond2get_real_var (variable_name, '()', g%cn2_new)
+            call respond2get_real_var (variable_name, '', g%cn2_new)
 
       else if (variable_name .eq. 'runoff') then
-         call respond2get_real_var (variable_name, '(mm)', g%runoff)
+         call respond2get_real_var (variable_name, 'mm', g%runoff)
 
       else if (variable_name .eq. 'pond') then
-         call respond2get_real_var ('pond', '(mm)', g%pond)
+         call respond2get_real_var ('pond', 'mm', g%pond)
 
       else if (variable_name .eq. 'drain') then
-         call respond2get_real_var (variable_name, '(mm)', g%drain)
+         call respond2get_real_var (variable_name, 'mm', g%drain)
 
       else if (variable_name .eq. 'infiltration') then
-         call respond2get_real_var (variable_name, '(mm)'
+         call respond2get_real_var (variable_name, 'mm'
      :                             , g%infiltration)
 
       else if (variable_name .eq. 'eff_rain') then
          es = sum_real_array(g%es_layers, max_layer)
 c dsg 070302 added runon
          eff_rain = g%rain + g%runon - g%runoff - g%drain
-         call respond2get_real_var (variable_name, '(mm)'
+         call respond2get_real_var (variable_name, 'mm'
      :                             , eff_rain)
 
       else if (variable_name .eq. 'salb') then
-         call respond2get_real_var (variable_name, '(mm)', p%salb)
+         call respond2get_real_var (variable_name, 'mm', p%salb)
 
       elseif (variable_name .eq. 'bd') then
          num_layers = count_of_real_vals (p%dlayer, max_layer)
-         call respond2get_real_array (variable_name, '(g/cc)'
+         call respond2get_real_array (variable_name, 'g/cc'
      :                               , g%bd, num_layers)
 
       else if (variable_name .eq. 'esw') then
@@ -4653,12 +4653,12 @@ c dsg 070302 added runon
             esw = esw + l_bound (g%sw_dep(layer) - g%ll15_dep(layer)
      :                        , 0.0)
 1000     continue
-         call respond2get_real_var (variable_name, '(mm)', esw)
+         call respond2get_real_var (variable_name, 'mm', esw)
 
       else if (variable_name .eq. 'sw_dep') then
 
          num_layers = count_of_real_vals (p%dlayer, max_layer)
-         call respond2get_real_array (variable_name, '(mm)'
+         call respond2get_real_array (variable_name, 'mm'
      :                               , g%sw_dep, num_layers)
 
       else if (variable_name .eq. 'sw') then
@@ -4668,18 +4668,18 @@ c dsg 070302 added runon
             temp_array(layer) = divide (g%sw_dep(layer)
      :                                , p%dlayer(layer), 0.0)
 2000     continue
-         call respond2get_real_array (variable_name, '(mm/mm)'
+         call respond2get_real_array (variable_name, 'mm/mm'
      :                               , temp_array, num_layers)
 
       else if (variable_name .eq. 'dlayer') then
          num_layers =  count_of_real_vals (p%dlayer, max_layer)
-         call respond2get_real_array (variable_name, '(mm)'
+         call respond2get_real_array (variable_name, 'mm'
      :                               , p%dlayer, num_layers)
 
       else if (variable_name .eq. 'll15_dep') then
 
          num_layers =  count_of_real_vals (p%dlayer, max_layer)
-         call respond2get_real_array (variable_name, '(mm)'
+         call respond2get_real_array (variable_name, 'mm'
      :                               , g%ll15_dep, num_layers)
 
       else if (variable_name .eq. 'll15') then
@@ -4689,13 +4689,13 @@ c dsg 070302 added runon
             temp_array(layer) = divide (g%ll15_dep(layer)
      :                                , p%dlayer(layer), 0.0)
 3000     continue
-         call respond2get_real_array (variable_name, '(mm/mm)'
+         call respond2get_real_array (variable_name, 'mm/mm'
      :                               , temp_array, num_layers)
 
       else if (variable_name .eq. 'dul_dep') then
 
          num_layers =  count_of_real_vals (p%dlayer, max_layer)
-         call respond2get_real_array (variable_name, '(mm)'
+         call respond2get_real_array (variable_name, 'mm'
      :                               , g%dul_dep, num_layers)
 
       else if (variable_name .eq. 'dul') then
@@ -4705,13 +4705,13 @@ c dsg 070302 added runon
             temp_array(layer) = divide (g%dul_dep(layer)
      :                                , p%dlayer(layer), 0.0)
 4000     continue
-         call respond2get_real_array (variable_name, '(mm/mm)'
+         call respond2get_real_array (variable_name, 'mm/mm'
      :                               , temp_array, num_layers)
 
       else if (variable_name .eq. 'sat_dep') then
 
          num_layers =  count_of_real_vals (p%dlayer, max_layer)
-         call respond2get_real_array (variable_name, '(mm)'
+         call respond2get_real_array (variable_name, 'mm'
      :                               , g%sat_dep, num_layers)
 
       else if (variable_name .eq. 'sat') then
@@ -4721,13 +4721,13 @@ c dsg 070302 added runon
             temp_array(layer) = divide (g%sat_dep(layer)
      :                                , p%dlayer(layer), 0.0)
 5000     continue
-         call respond2get_real_array (variable_name, '(mm/mm)'
+         call respond2get_real_array (variable_name, 'mm/mm'
      :                               , temp_array, num_layers)
 
       else if (variable_name .eq. 'air_dry_dep') then
 
          num_layers =  count_of_real_vals (p%dlayer, max_layer)
-         call respond2get_real_array (variable_name, '(mm)'
+         call respond2get_real_array (variable_name, 'mm'
      :                               , g%air_dry_dep, num_layers)
 
       else if (variable_name .eq. 'air_dry') then
@@ -4737,19 +4737,19 @@ c dsg 070302 added runon
             temp_array(layer) = divide (g%air_dry_dep(layer)
      :                                , p%dlayer(layer), 0.0)
 6000     continue
-         call respond2get_real_array (variable_name, '(mm/mm)'
+         call respond2get_real_array (variable_name, 'mm/mm'
      :                               , temp_array, num_layers)
 
       else if (variable_name .eq. 'flux') then
 
          num_layers =  count_of_real_vals (p%dlayer, max_layer)
-         call respond2get_real_array (variable_name, '(mm)'
+         call respond2get_real_array (variable_name, 'mm'
      :                               , g%flux, num_layers)
 
       else if (variable_name .eq. 'flow') then
 
          num_layers =  count_of_real_vals (p%dlayer, max_layer)
-         call respond2get_real_array (variable_name, '(mm)'
+         call respond2get_real_array (variable_name, 'mm'
      :                               , g%flow, num_layers)
 
       ! --- Resultant water and solute flow output variables ---
@@ -4759,7 +4759,7 @@ c dsg 070302 added runon
             temp_array(layer) = g%flux (layer)
      :                        - g%flow (layer)
  6100    continue
-         call respond2get_real_array (variable_name, '(mm)'
+         call respond2get_real_array (variable_name, 'mm'
      :                               , temp_array, num_layers)
 
       else if (index(variable_name, 'flow_').eq.1) then
@@ -4774,7 +4774,7 @@ c dsg 070302 added runon
      :                           - g%solute_up(solnum,layer)
  6200       continue
 
-            call respond2get_real_array (variable_name, '(kg/ha)'
+            call respond2get_real_array (variable_name, 'kg/ha'
      :                               , temp_array, num_layers)
          else
             call Message_unused ()
@@ -4789,7 +4789,7 @@ c dsg 070302 added runon
             num_layers = count_of_real_vals (p%dlayer, max_layer)
             temp_var = g%solute_leach(solnum,num_layers)
 
-            call respond2get_real_var (variable_name, '(kg/ha)'
+            call respond2get_real_var (variable_name, 'kg/ha'
      :                               , temp_var)
          else
             call Message_unused ()
@@ -4815,7 +4815,7 @@ c dsg 070302 added runon
                temp_array(layer) = g%solute_leach(solnum,layer)
  7000       continue
 
-            call respond2get_real_array (variable_name, '(kg/ha)'
+            call respond2get_real_array (variable_name, 'kg/ha'
      :                               , temp_array, num_layers)
          else
             call Message_unused ()
@@ -4836,28 +4836,28 @@ c dsg 070302 added runon
                temp_array(layer) = g%solute_up(solnum,layer)
  8000       continue
 
-            call respond2get_real_array (variable_name, '(kg/ha)'
+            call respond2get_real_array (variable_name, 'kg/ha'
      :                               , temp_array, num_layers)
          else
             call Message_unused ()
          endif
 
       else if (variable_name .eq. 'water_table') then
-         call respond2get_real_var ('water_table','(mm)',g%water_table)
+         call respond2get_real_var ('water_table','mm',g%water_table)
 
       else if (variable_name .eq. 'sws') then
          num_layers = count_of_real_vals (p%dlayer, max_layer)
-         call respond2get_real_array ('sws', '(mm/mm)'
+         call respond2get_real_array ('sws', 'mm/mm'
      :                               , g%sws, num_layers)
 
       else if (lateral_send_my_variable(lateral, variable_name)) then
          ! we dont need to do anything here
 
       else if (variable_name .eq. 'cona') then
-         call respond2get_real_var (variable_name, '()', p%cona)
+         call respond2get_real_var (variable_name, '', p%cona)
 
       else if (variable_name .eq. 'u') then
-         call respond2get_real_var (variable_name, '()', p%u)
+         call respond2get_real_var (variable_name, '', p%u)
 
       else
          ! not my variable
