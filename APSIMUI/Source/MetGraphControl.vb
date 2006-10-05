@@ -139,6 +139,7 @@ Public Class MetGraphControl
         Me.ContentsBox.Multiline = True
         Me.ContentsBox.Name = "ContentsBox"
         Me.ContentsBox.ReadOnly = True
+        Me.ContentsBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.ContentsBox.Size = New System.Drawing.Size(1001, 651)
         Me.ContentsBox.TabIndex = 0
         Me.ContentsBox.WordWrap = False
@@ -2427,7 +2428,9 @@ Public Class MetGraphControl
         Controller.Data.ChildValue("filename") = FileName
         ContentsBox.Text = ""
         Metfile.Data.Clear()
+        Metfile.clear()
         PopulateRawData()
+        RefreshAllCharts()
         YearBox.Visible = False
     End Sub
 
@@ -2513,6 +2516,7 @@ Public Class MetGraphControl
         ' ----------------------------------------------------------------------------------
         ' Read all daily data for the specified year
         ' ----------------------------------------------------------------------------------
+        Metfile.clear()
         Metfile.ReadFromFile(FileName, New Date(Year, 1, 1), New Date(Year, 12, 31))
     End Sub
 
