@@ -1284,7 +1284,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
 !+  Calls
 
 !+  Local Variables
-      character Module_name*(30)       ! Module name to send action to
+      character Module_name*(4096)       ! Module name to send action to
       character Action*(MES_Action_size)
                                        ! Action to send to APSIM
       character Data_string*(Function_string_len)

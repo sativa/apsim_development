@@ -71,3 +71,16 @@ report do_output
 [test.log.parameters]
 debug_output=off
 logfile=test.log
+
+[big_module_names.really_big_report_name_that_is_too_long_for_ordinary_mortals.parameters]
+Outputfile =big_module_names.out
+variable = clock.year
+variable = clock.day
+variable = met.maxt
+variable = met.mint
+
+[big_module_names.summaryfile.parameters]
+summaryfile=big_module_names.sum
+
+[big_module_names.manager.end_of_day]
+really_big_report_name_that_is_too_long_for_ordinary_mortals do_output
