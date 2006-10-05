@@ -53,13 +53,13 @@ static const char* IncorpFOMType =    "<type name = \"IncorpFOM\">" \
 
 static const char* floatArrayType =   "<type kind=\"single\" array=\"T\"/>";
 
-plantRootPart::plantRootPart(plantInterface *p, const string &name) 
+plantRootPart::plantRootPart(plantInterface *p, const string &name)
    : plantPart(p, name)
    {
    sw_dep_id = 0;
    dlt_sw_dep_id = 0;
    incorp_fom_ID = 0;
-   
+
    zeroSoil();
    zeroAllGlobals();
    }
@@ -81,7 +81,7 @@ void plantRootPart::zeroAllGlobals(void)
    initialRootDepth = 0.0;
    rootDieBackFraction = 0.0;
    specificRootLength = 0.0;
-   
+
    fill_real_array (root_length , 0.0, max_layer);
    fill_real_array (root_length_dead, 0.0, max_layer);
    n_conc_min = n_conc_crit = n_conc_max = 0.0;
@@ -125,7 +125,7 @@ void plantRootPart::zeroAllGlobals(void)
 
       uptake_source = "";
 
-      
+
    }
 
 void plantRootPart::zeroSoil(void)
@@ -140,7 +140,7 @@ void plantRootPart::zeroSoil(void)
       num_layers = 0;
       sw_dep_ub = 0.0;
       sw_dep_lb = 0.0;
-      
+
       sw_lb = 0.0;
       sw_ub = 0.0;
 
@@ -1119,6 +1119,16 @@ void plantRootPart::removeBiomass2(float chop_fr) // chop_fr is negative
    float dlt_n_die = dlt_dm_die * c.n_sen_conc;
    NSenesced -= dlt_n_die;
    NGreen += dlt_n_die;
+
+      // do root_length
+   vector<float> dltRootLengthDie;
+   dltRootLengthDie.clear(); dltRootLengthDie.resize(num_layers);
+   setTo (dltRootLengthDie, (float) 0.0);
+   float Die_length = -dlt_dm_die / sm2smm * specificRootLength;
+   root_dist(Die_length, dltRootLengthDie);
+   for (int layer = 0; layer < num_layers; layer++)
+      root_length[layer] -= dltRootLengthDie[layer];
+
    }
 
 void plantRootPart::doNewProfile(protocol::Variant &v)
@@ -1385,4 +1395,4 @@ void plantRootPart::get_ll(protocol::Component *systemInterface, protocol::Query
       ll.push_back(ll_dep[layer] / dlayer[layer]);
    systemInterface->sendVariable(qd, ll);
    }
-   
+
