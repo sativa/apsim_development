@@ -646,7 +646,7 @@ void plantPart::morphology(void)
    if (c.height.isInitialised())
       {
       float new_height = c.height.value(dm_plant);       // new plant height (mm)
-      dlt.height = new_height - Height;
+      dlt.height = l_bound(new_height - Height, 0.0);
       }
    else
       {
@@ -656,7 +656,7 @@ void plantPart::morphology(void)
    if (c.width.isInitialised())
       {
       float new_width = c.width.value(dm_plant);
-      dlt.width = new_width - Width;
+      dlt.width = l_bound(new_width - Width, 0.0);
       }
    else
       {
@@ -1421,7 +1421,7 @@ float plantPart::nRetransSupply(void)
    return 0.0;
    }
 
-float plantPart::dmRetransSupply(void) const 
+float plantPart::dmRetransSupply(void) const
 //=======================================================================================
    {
    if (c.retrans_part)
@@ -1447,7 +1447,7 @@ float plantPart::nRetransDemand(void)
    return 0.0;
    }
 
-float plantPart::dmRetransDemand(void) 
+float plantPart::dmRetransDemand(void)
 //=======================================================================================
    {
 //    if (c.yield_part)
