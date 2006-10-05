@@ -312,7 +312,7 @@ Public Class MainUI
         Me.SimulationToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewButton, Me.OpenButton, Me.SaveButton, Me.SaveAsButton, Me.HelpContentsButton, Me.ToolStripSeparator5, Me.RunButton, Me.GraphButton, Me.ApsimOutlookButton, Me.ExcelButton})
         Me.SimulationToolStrip.Location = New System.Drawing.Point(3, 0)
         Me.SimulationToolStrip.Name = "SimulationToolStrip"
-        Me.SimulationToolStrip.Size = New System.Drawing.Size(505, 47)
+        Me.SimulationToolStrip.Size = New System.Drawing.Size(474, 47)
         Me.SimulationToolStrip.TabIndex = 1
         '
         'NewButton
@@ -841,4 +841,9 @@ Public Class MainUI
 
 #End Region
 
+    Private Sub MainUI_FormClosing(ByVal sender As System.Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
+        If Toolbox.AllowDataChanges Then
+            Toolbox.FileSave()
+        End If
+    End Sub
 End Class
