@@ -172,6 +172,11 @@ namespace ChangeTool
         // -----------------------------
         private static void UpdateToVersion5(APSIMData Data)
             {
+            if (Data.Attribute("shortcut") != "" && Data.Attribute("name") == "")
+                {
+                Data.Name = Data.Attribute("shortcut");
+                }
+
             if (Data.Type.ToLower() == "outputfiledescription")
                 {
                 APSIMData outputfiledescription = Data;
