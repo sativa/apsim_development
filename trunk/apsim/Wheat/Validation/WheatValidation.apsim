@@ -1,42 +1,5 @@
-<simulations name="WheatValidation" version="4">
+<simulations name="WheatValidation" version="5">
   <folder name="shared">
-    <outputfiledescription name="DailyVariables">
-      <variables>
-        <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec=" " description="Date (dd/mm/yyyy)" />
-        <variable name="day" variablename="day" module="global" arrayspec=" " description="Day of Year" />
-        <variable name="year" variablename="year" module="global" arrayspec=" " description="Year" />
-        <variable name="zadok_stage" variablename="zadok_stage" module="wheat" arrayspec=" " description="Plant stage code" />
-        <variable name="stage_name" variablename="stage_name" module="wheat" arrayspec=" " description="Biomass" />
-        <variable name="biomass" variablename="biomass" module="wheat" arrayspec=" " description="Biomass" />
-        <variable name="yield" variablename="yield" module="wheat" arrayspec=" " description="Yield" />
-        <variable name="grain_size" variablename="grain_size" module="wheat" arrayspec=" " description="Size of each grain" />
-        <variable name="biomass_wt" variablename="biomass_wt" module="wheat" arrayspec=" " description="Biomass weight" />
-        <variable name="biomass_n" variablename="biomass_n" module="wheat" arrayspec=" " description="N in total biomass" />
-        <variable name="lai" variablename="lai" module="wheat" arrayspec=" " description="Leaf area index" />
-        <variable name="head_wt" variablename="head_wt" module="wheat" arrayspec=" " description="Weight of heads" />
-        <variable name="grain_wt" variablename="grain_wt" module="wheat" arrayspec=" " description="Weight of grain" />
-        <variable name="leaf_wt" variablename="leaf_wt" module="wheat" arrayspec=" " description="Weight of leaf" />
-        <variable name="head_n" variablename="head_n" module="wheat" arrayspec=" " description="N in heads" />
-        <variable name="grain_n" variablename="grain_n" module="wheat" arrayspec=" " description="N in grain" />
-        <variable name="leaf_n" variablename="leaf_n" module="wheat" arrayspec=" " description="N in leaf" />
-        <variable name="stem_n" variablename="stem_n" module="wheat" arrayspec=" " description="N in stem" />
-        <variable name="stem_wt" variablename="stem_wt" module="wheat" arrayspec=" " description="Weight of stem" />
-        <variable name="grain_no" variablename="grain_no" module="wheat" arrayspec=" " description="Grain number" />
-        <variable name="sw_dep" variablename="sw_dep" arrayspec="()" description="Soil water - layered (mm)" array="T" />
-        <variable name="n_conc_grain" variablename="n_conc_grain" module="wheat" arrayspec=" " description="N concentration in grain" />
-        <variable name="grain_protein" variablename="grain_protein" module="wheat" arrayspec=" " description="grain protein content" />
-        <variable name="swdef_photo" variablename="swdef_photo" module="wheat" arrayspec=" " description="Soil water deficit in photosynthesis" />
-        <variable name="swdef_expan" variablename="swdef_expan" module="wheat" arrayspec=" " description="Soil water deficit in leaf expansion" />
-        <variable name="nfact_photo" variablename="nfact_photo" module="wheat" arrayspec=" " description="N factor for photosynthesis" />
-        <variable name="nfact_expan" variablename="nfact_expan" module="wheat" arrayspec=" " description="N factor for leaf expansion" />
-        <variable name="root_depth" variablename="root_depth" module="wheat" arrayspec=" " description="plant rooting depth" array="T" />
-        <variable name="ep" variablename="ep" module="wheat" arrayspec=" " description="wheat water use" array="T" />
-        <variable name="eo" variablename="eo" arrayspec=" " description="potential et" array="T" />
-      </variables>
-      <events>
-        <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-      </events>
-    </outputfiledescription>
     <soil name="Beverley90">
       <Site>Beverley</Site>
       <Region>WA</Region>
@@ -2945,6 +2908,41 @@
         </layer>
       </SoilCrop>
     </soil>
+    <variables name="DailyVariables">
+      <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+      <variable name="day" description="Day of Year" array="?" />
+      <variable name="year" description="Year" array="?" />
+      <variable name="wheat.zadok_stage" description="Plant stage code" array="?" />
+      <variable name="wheat.stage_name" description="Biomass" array="?" />
+      <variable name="wheat.biomass" description="Biomass" array="?" />
+      <variable name="wheat.yield" description="Yield" array="?" />
+      <variable name="wheat.grain_size" description="Size of each grain" array="?" />
+      <variable name="wheat.biomass_wt" description="Biomass weight" array="?" />
+      <variable name="wheat.biomass_n" description="N in total biomass" array="?" />
+      <variable name="wheat.lai" description="Leaf area index" array="?" />
+      <variable name="wheat.head_wt" description="Weight of heads" array="?" />
+      <variable name="wheat.grain_wt" description="Weight of grain" array="?" />
+      <variable name="wheat.leaf_wt" description="Weight of leaf" array="?" />
+      <variable name="wheat.head_n" description="N in heads" array="?" />
+      <variable name="wheat.grain_n" description="N in grain" array="?" />
+      <variable name="wheat.leaf_n" description="N in leaf" array="?" />
+      <variable name="wheat.stem_n" description="N in stem" array="?" />
+      <variable name="wheat.stem_wt" description="Weight of stem" array="?" />
+      <variable name="wheat.grain_no" description="Grain number" array="?" />
+      <variable name="sw_dep()" description="Soil water - layered (mm)" array="?" />
+      <variable name="wheat.n_conc_grain" description="N concentration in grain" array="?" />
+      <variable name="wheat.grain_protein" description="grain protein content" array="?" />
+      <variable name="wheat.swdef_photo" description="Soil water deficit in photosynthesis" array="?" />
+      <variable name="wheat.swdef_expan" description="Soil water deficit in leaf expansion" array="?" />
+      <variable name="wheat.nfact_photo" description="N factor for photosynthesis" array="?" />
+      <variable name="wheat.nfact_expan" description="N factor for leaf expansion" array="?" />
+      <variable name="wheat.root_depth" description="plant rooting depth" array="?" />
+      <variable name="wheat.ep" description="wheat water use" array="?" />
+      <variable name="eo" description="potential et" array="?" />
+    </variables>
+    <events name="DailyVariables Events">
+      <event name="Daily" description="End of day" />
+    </events>
   </folder>
   <simulation name="Wheat_Cunderdin97_WetN0SpearEarly">
     <clock name="clock">
@@ -2961,7 +2959,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_WetN0SpearEarly.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -3063,7 +3062,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_WetN0SpearMid.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -3165,7 +3165,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_WetN50SpearEarly.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -3281,7 +3282,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_WetN50SpearMid.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -3397,7 +3399,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_DryN0SpearEarly.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -3475,7 +3478,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_DryN0SpearMid.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -3553,7 +3557,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_DryN50SpearEarly.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -3645,7 +3650,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_DryN50SpearMid.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -3738,7 +3744,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_WetN0WilgoyneEarly.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -3840,7 +3847,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_WetN0WilgoyneMid.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -3942,7 +3950,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_WetN0WilgoyneLate.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -4044,7 +4053,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_WetN50WilgoyneEarly.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -4160,7 +4170,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_WetN50WilgoyneMid.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -4276,7 +4287,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_DryN0WilgoyneEarly.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -4353,7 +4365,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_DryN0WilgoyneMid.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -4430,7 +4443,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_DryN0WilgoyneLate.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -4507,7 +4521,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_DryN50WilgoyneEarly.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -4598,7 +4613,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_DryN50WilgoyneMid.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -4691,7 +4707,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS26_DryN000.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -4811,7 +4828,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS26_DryN040.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -4937,7 +4955,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS26_DryN080.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -5063,7 +5082,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS26_DryN160.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -5189,7 +5209,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS26_WetN000.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -5363,7 +5384,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS26_WetN040.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -5543,7 +5565,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS26_WetN080.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -5723,7 +5746,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS26_WetN160.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -5903,7 +5927,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS6_N000.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -6059,7 +6084,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS6_N040.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -6222,7 +6248,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS6_N080.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -6385,7 +6412,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS6_N120.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -6554,7 +6582,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS6_N160.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -6723,7 +6752,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS6_N360.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -6898,7 +6928,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS14_BareN000.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -7042,7 +7073,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS14_BareN040.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -7186,7 +7218,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS14_BareN080.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -7330,7 +7363,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS14_BareN200.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -7480,7 +7514,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS14_LucN000.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -7641,7 +7676,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS14_LucN040.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -7802,7 +7838,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS14_LucN080.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -7963,7 +8000,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS14_LucN200.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -8130,7 +8168,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS14_StrawN000.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -8291,7 +8330,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS14_StrawN040.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -8452,7 +8492,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS14_StrawN080.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -8613,7 +8654,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_APS14_StrawN200.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -8780,7 +8822,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_MER-86_DryN015.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -8858,7 +8901,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_MER-86_DryN060.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -8936,7 +8980,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_MER-86_WetN015.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -9188,7 +9233,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_MER-86_WetN060.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -9446,7 +9492,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_MER-73_DryN000.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -9547,7 +9594,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_MER-73_DryN015.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -9654,7 +9702,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_MER-73_I040N015.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -9767,7 +9816,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_MER-73_I150N015.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -9898,7 +9948,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Lincoln9192_I01.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -10436,15 +10487,13 @@
       </soil>
       <outputfile name="SWOutputfile">
         <filename name="filename">Wheat_Lincoln9192_I01 SWOutputfile.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec=" " description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="sw" variablename="sw" module="LincolnField" arrayspec=" " description="Soil water - layered (mm/mm)" array="T" ModuleType="soil" VariableType="Water" />
-          </variables>
-          <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
+        <variables name="My Variables">
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+          <variable name="LincolnField.sw" description="Soil water - layered (mm/mm)" array="?" VariableType="Water" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="Daily" description="End of day" />
+        </events>
       </outputfile>
       <surfaceom name="Surface Organic Matter">
         <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
@@ -10470,7 +10519,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Lincoln9192_I03.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -10972,15 +11022,13 @@
       </soil>
       <outputfile name="SWOutputfile">
         <filename name="filename">Wheat_Lincoln9192_I03 SWOutputfile.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec=" " description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="sw" variablename="sw" module="LincolnField" arrayspec=" " description="Soil water - layered (mm/mm)" array="T" ModuleType="soil" VariableType="Water" />
-          </variables>
-          <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
+        <variables name="My Variables">
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+          <variable name="LincolnField.sw" description="Soil water - layered (mm/mm)" array="?" VariableType="Water" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="Daily" description="End of day" />
+        </events>
       </outputfile>
       <surfaceom name="Surface Organic Matter">
         <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
@@ -11006,7 +11054,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Lincoln9192_I05.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -11435,15 +11484,13 @@
       </soil>
       <outputfile name="SWOutputfile">
         <filename name="filename">Wheat_Lincoln9192_I05 SWOutputfile.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec=" " description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="sw" variablename="sw" module="LincolnField" arrayspec=" " description="Soil water - layered (mm/mm)" array="T" ModuleType="soil" VariableType="Water" />
-          </variables>
-          <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
+        <variables name="My Variables">
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+          <variable name="LincolnField.sw" description="Soil water - layered (mm/mm)" array="?" VariableType="Water" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="Daily" description="End of day" />
+        </events>
       </outputfile>
       <surfaceom name="Surface Organic Matter">
         <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
@@ -11469,7 +11516,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Lincoln9192_I06.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -11917,15 +11965,13 @@
       </soil>
       <outputfile name="SWOutputfile">
         <filename name="filename">Wheat_Lincoln9192_I06 SWOutputfile.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec=" " description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="sw" variablename="sw" module="LincolnField" arrayspec=" " description="Soil water - layered (mm/mm)" array="T" ModuleType="soil" VariableType="Water" />
-          </variables>
-          <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
+        <variables name="My Variables">
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+          <variable name="LincolnField.sw" description="Soil water - layered (mm/mm)" array="?" VariableType="Water" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="Daily" description="End of day" />
+        </events>
       </outputfile>
       <surfaceom name="Surface Organic Matter">
         <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
@@ -11951,7 +11997,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Lincoln9192_I07.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -12417,15 +12464,13 @@
       </soil>
       <outputfile name="SWOutputfile">
         <filename name="filename">Wheat_Lincoln9192_I07 SWOutputfile.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec=" " description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="sw" variablename="sw" module="LincolnField" arrayspec=" " description="Soil water - layered (mm/mm)" array="T" ModuleType="soil" VariableType="Water" />
-          </variables>
-          <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
+        <variables name="My Variables">
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+          <variable name="LincolnField.sw" description="Soil water - layered (mm/mm)" array="?" VariableType="Water" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="Daily" description="End of day" />
+        </events>
       </outputfile>
       <surfaceom name="Surface Organic Matter">
         <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
@@ -12451,7 +12496,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Lincoln9192_I08.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -12935,15 +12981,13 @@
       </soil>
       <outputfile name="SWOutputfile">
         <filename name="filename">Wheat_Lincoln9192_I08 SWOutputfile.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec=" " description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="sw" variablename="sw" module="LincolnField" arrayspec=" " description="Soil water - layered (mm/mm)" array="T" ModuleType="soil" VariableType="Water" />
-          </variables>
-          <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
+        <variables name="My Variables">
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+          <variable name="LincolnField.sw" description="Soil water - layered (mm/mm)" array="?" VariableType="Water" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="Daily" description="End of day" />
+        </events>
       </outputfile>
       <surfaceom name="Surface Organic Matter">
         <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
@@ -12969,7 +13013,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Lincoln9192_I11.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -13393,15 +13438,13 @@
       </soil>
       <outputfile name="SWOutputfile">
         <filename name="filename">Wheat_Lincoln9192_I11 SWOutputfile.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec=" " description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="sw" variablename="sw" module="LincolnField" arrayspec=" " description="Soil water - layered (mm/mm)" array="T" ModuleType="soil" VariableType="Water" />
-          </variables>
-          <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
+        <variables name="My Variables">
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+          <variable name="LincolnField.sw" description="Soil water - layered (mm/mm)" array="?" VariableType="Water" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="Daily" description="End of day" />
+        </events>
       </outputfile>
       <surfaceom name="Surface Organic Matter">
         <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
@@ -13427,7 +13470,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_FACE92_DryNormalCO2.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -14102,7 +14146,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_FACE92_WetNormalCO2.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -14789,7 +14834,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_FACE92_DryHighCO2.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -15464,7 +15510,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_FACE92_WetHighCO2.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -16151,7 +16198,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_FACE93_DryNormalCO2.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -16772,7 +16820,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_FACE93_WetNormalCO2.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -17447,7 +17496,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_FACE93_DryHighCO2.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -18068,7 +18118,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_FACE93_WetHighCO2.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -18743,7 +18794,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_FACE95_LowNNormalCO2.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -19460,7 +19512,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_FACE95_HighNNormalCO2.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -20189,7 +20242,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_FACE95_LowNHighCO2.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -20906,7 +20960,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_FACE95_HighNHighCO2.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -21635,7 +21690,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_FACE96_LowNNormalCO2.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -22352,7 +22408,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_FACE96_HighNNormalCO2.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -23075,7 +23132,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_FACE96_LowNHighCO2.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -23786,7 +23844,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_FACE96_HighNHighCO2.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -24509,7 +24568,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Beverley90_Early.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -24600,7 +24660,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Beverley90_Late.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -24691,7 +24752,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Beverley90_n15.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -24782,7 +24844,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Beverley90_n30.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -24873,7 +24936,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Beverley90_n60.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -24964,7 +25028,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Beverley91_Early.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -25267,7 +25332,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Beverley91_Late.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -25564,7 +25630,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Beverley92_Early(high).out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -25867,7 +25934,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Beverley92_Early(normal).out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -26170,7 +26238,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Beverley92_Late(high).out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -26473,7 +26542,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Beverley92_Late(normal).out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -26776,7 +26846,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Beverley93_EarlyN40.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -27067,7 +27138,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Beverley93_EarlyN40I30.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -27394,7 +27466,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Beverley93_EarlyN40I85.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -27721,7 +27794,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Beverley93_EarlyN80.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -28018,7 +28092,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Beverley93_LateN0.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -28303,7 +28378,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Beverley93_LateN80.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -28600,7 +28676,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Wongan83_Single.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -28678,7 +28755,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Wongan83Unripped_UnrippedN000.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -28757,7 +28835,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Wongan83Unripped_UnrippedN010.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -28842,7 +28921,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Wongan83Unripped_UnrippedN025.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -28927,7 +29007,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Wongan83Unripped_UnrippedN050.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -29012,7 +29093,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Wongan83Unripped_UnrippedN100.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -29097,7 +29179,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Wongan83Ripped_RippedN000.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -29176,7 +29259,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Wongan83Ripped_RippedN010.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -29261,7 +29345,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Wongan83Ripped_RippedN025.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -29346,7 +29431,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Wongan83Ripped_RippedN050.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -29431,7 +29517,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Wongan83Ripped_RippedN100.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -29516,7 +29603,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Wongan84_N000.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -29921,7 +30009,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Wongan84_N050.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -30332,7 +30421,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Wongan84_N300.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -30743,7 +30833,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Wongan84_N325.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -31166,7 +31257,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_WetN0bSpearEarly.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -31286,7 +31378,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_WetN0bSpearMid.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -31406,7 +31499,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_WetN50bSpearEarly.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -31540,7 +31634,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_WetN50bSpearMid.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -31674,7 +31769,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_DryN0bSpearEarly.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -31769,7 +31865,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_DryN0bSpearMid.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -31864,7 +31961,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_DryN50bSpearEarly.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -31973,7 +32071,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_DryN50bSpearMid.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -32084,7 +32183,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_WetN0bWilgoyneEarly.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -32204,7 +32304,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_WetN0bWilgoyneMid.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -32324,7 +32425,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_WetN50bWilgoyneEarly.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -32458,7 +32560,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_WetN50bWilgoyneMid.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -32592,7 +32695,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_DryN0bWilgoyneEarly.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -32687,7 +32791,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_DryN0bWilgoyneMid.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -32782,7 +32887,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneEarly.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">
@@ -32891,7 +32997,8 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Wheat_Cunderdin97_DryN50bWilgoyneMid.out</filename>
-        <outputfiledescription name="DailyVariables" shortcut="DailyVariables" />
+        <variables name="DailyVariables" shortcut="DailyVariables" />
+        <events name="DailyVariables Events" shortcut="DailyVariables Events" />
       </outputfile>
       <manager name="Manager">
         <rule name="Sow on a fixed date">

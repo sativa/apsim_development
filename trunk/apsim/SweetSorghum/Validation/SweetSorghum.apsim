@@ -1,4 +1,4 @@
-<simulations name="untitled" version="4">
+<simulations name="untitled" version="5">
   <simulation name="PacSeeds">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date">1/09/2004</start_date>
@@ -70,20 +70,18 @@
       <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">PacSeeds Planting1.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="zadok_stage" description="Zadok's growth developmental stage" array="F" units="0-100" module="SweetSorghum" variablename="zadok_stage" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="SweetSorghum" variablename="lai" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="leaf_wt" description="Weight of leaf" array="F" units="g/m^2" module="SweetSorghum" variablename="leaf_wt" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="stem_wt" description="Weight of stem" array="F" units="g/m^2" module="SweetSorghum" variablename="stem_wt" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="head_wt" description="Weight of heads" array="F" units="g/m^2" module="SweetSorghum" variablename="head_wt" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="SweetSorghum" variablename="biomass_wt" arrayspec=" " ModuleType="SweetSorghum" />
-          </variables>
-          <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
+        <variables name="My Variables">
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+          <variable name="SweetSorghum.zadok_stage" description="Zadok's growth developmental stage" array="?" units="0-100" />
+          <variable name="SweetSorghum.lai" description="Leaf area index" array="?" units="m^2/m^2" />
+          <variable name="SweetSorghum.leaf_wt" description="Weight of leaf" array="?" units="g/m^2" />
+          <variable name="SweetSorghum.stem_wt" description="Weight of stem" array="?" units="g/m^2" />
+          <variable name="SweetSorghum.head_wt" description="Weight of heads" array="?" units="g/m^2" />
+          <variable name="SweetSorghum.biomass_wt" description="Biomass weight" array="?" units="g/m^2" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="Daily" description="End of day" />
+        </events>
       </outputfile>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">on</property>
@@ -152,20 +150,18 @@
       <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">PacSeeds Planting2.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="zadok_stage" description="Zadok's growth developmental stage" array="F" units="0-100" module="SweetSorghum" variablename="zadok_stage" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="SweetSorghum" variablename="lai" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="leaf_wt" description="Weight of leaf" array="F" units="g/m^2" module="SweetSorghum" variablename="leaf_wt" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="stem_wt" description="Weight of stem" array="F" units="g/m^2" module="SweetSorghum" variablename="stem_wt" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="head_wt" description="Weight of heads" array="F" units="g/m^2" module="SweetSorghum" variablename="head_wt" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="SweetSorghum" variablename="biomass_wt" arrayspec=" " ModuleType="SweetSorghum" />
-          </variables>
-          <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
+        <variables name="My Variables">
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+          <variable name="SweetSorghum.zadok_stage" description="Zadok's growth developmental stage" array="?" units="0-100" />
+          <variable name="SweetSorghum.lai" description="Leaf area index" array="?" units="m^2/m^2" />
+          <variable name="SweetSorghum.leaf_wt" description="Weight of leaf" array="?" units="g/m^2" />
+          <variable name="SweetSorghum.stem_wt" description="Weight of stem" array="?" units="g/m^2" />
+          <variable name="SweetSorghum.head_wt" description="Weight of heads" array="?" units="g/m^2" />
+          <variable name="SweetSorghum.biomass_wt" description="Biomass weight" array="?" units="g/m^2" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="Daily" description="End of day" />
+        </events>
       </outputfile>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">on</property>
@@ -474,20 +470,41 @@
       <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">Lawes0102 Planting1.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="zadok_stage" description="Zadok's growth developmental stage" array="F" units="0-100" module="SweetSorghum" variablename="zadok_stage" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="SweetSorghum" variablename="lai" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="leaf_wt" description="Weight of leaf" array="F" units="g/m^2" module="SweetSorghum" variablename="leaf_wt" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="stem_wt" description="Weight of stem" array="F" units="g/m^2" module="SweetSorghum" variablename="stem_wt" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="head_wt" description="Weight of heads" array="F" units="g/m^2" module="SweetSorghum" variablename="head_wt" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="SweetSorghum" variablename="biomass_wt" arrayspec=" " ModuleType="SweetSorghum" />
-          </variables>
-          <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
+        <variables name="My Variables">
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+          <variable name="SweetSorghum.zadok_stage" description="Zadok's growth developmental stage" array="?" units="0-100" />
+          <variable name="SweetSorghum.lai" description="Leaf area index" array="?" units="m^2/m^2" />
+          <variable name="SweetSorghum.leaf_wt" description="Weight of leaf" array="?" units="g/m^2" />
+          <variable name="SweetSorghum.stem_wt" description="Weight of stem" array="?" units="g/m^2" />
+          <variable name="SweetSorghum.head_wt" description="Weight of heads" array="?" units="g/m^2" />
+          <variable name="SweetSorghum.biomass_wt" description="Biomass weight" array="?" units="g/m^2" />
+          <variable name="SweetCorn.swdef_photo" array="?" description="Soil water deficit in photosynthesis" />
+          <variable name="SweetCorn.node_no" array="?" description="Number of leaves per plant" />
+          <variable name="SweetCorn.node_no_sen" array="?" description="Number of senesced leaves per square meter" />
+          <variable name="SweetCorn.node_no_fx" array="?" description="Number of fully expanded leaves" />
+          <variable name="SweetCorn.nfact_photo" array="?" description="N factor for photosynthesis" />
+          <variable name="SweetCorn.temp_stress_photo" array="?" description="Temperature Stress in photosynthesis" />
+          <variable name="SweetCorn.tt_tot" array="?" description="Thermal time spent in each crop stage" />
+          <variable name="SweetCorn.das" array="?" description="Days after Sowing" />
+          <variable name="Irrigation.irrigation" array="?" description="Irrigation entering the profile (mm)" />
+          <variable name="SweetCorn.root_depth" array="?" description="depth of roots" />
+          <variable name="DPIGatton Water.sw_dep()" array="?" description="Soil water - layered (mm)" />
+          <variable name="DPIGatton Water.sw" array="?" description="Soil water - layered (mm/mm)" />
+          <variable name="SweetCorn.dlt_lai_pot" array="?" description="Potential change in live plant lai" />
+          <variable name="SweetCorn.ep" array="?" description="Plant water uptake" />
+          <variable name="SweetCorn.sw_demand" array="?" description="Demand for sw" />
+          <variable name="SweetCorn.nfact_expan" array="?" description="N factor for leaf expansion" />
+          <variable name="SweetCorn.swdef_expan" array="?" description="Soil water deficit in leaf expansion" />
+          <variable name="DPIGatton Water.runoff" array="?" description="Runoff (mm)" />
+          <variable name="DPIGatton Water.es" array="?" description="Evaporation (mm)" />
+          <variable name="wheat.nfact_expan" array="?" description="N factor for leaf expansion" />
+          <variable name="wheat.root_depth" array="?" description="plant rooting depth" />
+          <variable name="wheat.ep" array="?" description="wheat water use" />
+          <variable name="eo" array="?" description="potential et" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="Daily" description="End of day" />
+        </events>
       </outputfile>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">on</property>
@@ -556,20 +573,18 @@
       <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">Lawes0102 Planting2.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="zadok_stage" description="Zadok's growth developmental stage" array="F" units="0-100" module="SweetSorghum" variablename="zadok_stage" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="SweetSorghum" variablename="lai" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="leaf_wt" description="Weight of leaf" array="F" units="g/m^2" module="SweetSorghum" variablename="leaf_wt" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="stem_wt" description="Weight of stem" array="F" units="g/m^2" module="SweetSorghum" variablename="stem_wt" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="head_wt" description="Weight of heads" array="F" units="g/m^2" module="SweetSorghum" variablename="head_wt" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="SweetSorghum" variablename="biomass_wt" arrayspec=" " ModuleType="SweetSorghum" />
-          </variables>
-          <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
+        <variables name="My Variables">
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+          <variable name="SweetSorghum.zadok_stage" description="Zadok's growth developmental stage" array="?" units="0-100" />
+          <variable name="SweetSorghum.lai" description="Leaf area index" array="?" units="m^2/m^2" />
+          <variable name="SweetSorghum.leaf_wt" description="Weight of leaf" array="?" units="g/m^2" />
+          <variable name="SweetSorghum.stem_wt" description="Weight of stem" array="?" units="g/m^2" />
+          <variable name="SweetSorghum.head_wt" description="Weight of heads" array="?" units="g/m^2" />
+          <variable name="SweetSorghum.biomass_wt" description="Biomass weight" array="?" units="g/m^2" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="Daily" description="End of day" />
+        </events>
       </outputfile>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">on</property>
@@ -638,20 +653,18 @@
       <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">Lawes0102 Planting3.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="zadok_stage" description="Zadok's growth developmental stage" array="F" units="0-100" module="SweetSorghum" variablename="zadok_stage" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="SweetSorghum" variablename="lai" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="leaf_wt" description="Weight of leaf" array="F" units="g/m^2" module="SweetSorghum" variablename="leaf_wt" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="stem_wt" description="Weight of stem" array="F" units="g/m^2" module="SweetSorghum" variablename="stem_wt" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="head_wt" description="Weight of heads" array="F" units="g/m^2" module="SweetSorghum" variablename="head_wt" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="SweetSorghum" variablename="biomass_wt" arrayspec=" " ModuleType="SweetSorghum" />
-          </variables>
-          <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
+        <variables name="My Variables">
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+          <variable name="SweetSorghum.zadok_stage" description="Zadok's growth developmental stage" array="?" units="0-100" />
+          <variable name="SweetSorghum.lai" description="Leaf area index" array="?" units="m^2/m^2" />
+          <variable name="SweetSorghum.leaf_wt" description="Weight of leaf" array="?" units="g/m^2" />
+          <variable name="SweetSorghum.stem_wt" description="Weight of stem" array="?" units="g/m^2" />
+          <variable name="SweetSorghum.head_wt" description="Weight of heads" array="?" units="g/m^2" />
+          <variable name="SweetSorghum.biomass_wt" description="Biomass weight" array="?" units="g/m^2" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="Daily" description="End of day" />
+        </events>
       </outputfile>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">on</property>
@@ -720,20 +733,18 @@
       <SweetSorghum />
       <outputfile name="outputfile">
         <filename name="filename">Lawes0102 Planting4.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="zadok_stage" description="Zadok's growth developmental stage" array="F" units="0-100" module="SweetSorghum" variablename="zadok_stage" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="lai" description="Leaf area index" array="F" units="m^2/m^2" module="SweetSorghum" variablename="lai" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="leaf_wt" description="Weight of leaf" array="F" units="g/m^2" module="SweetSorghum" variablename="leaf_wt" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="stem_wt" description="Weight of stem" array="F" units="g/m^2" module="SweetSorghum" variablename="stem_wt" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="head_wt" description="Weight of heads" array="F" units="g/m^2" module="SweetSorghum" variablename="head_wt" arrayspec=" " ModuleType="SweetSorghum" />
-            <variable name="biomass_wt" description="Biomass weight" array="F" units="g/m^2" module="SweetSorghum" variablename="biomass_wt" arrayspec=" " ModuleType="SweetSorghum" />
-          </variables>
-          <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
+        <variables name="My Variables">
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+          <variable name="SweetSorghum.zadok_stage" description="Zadok's growth developmental stage" array="?" units="0-100" />
+          <variable name="SweetSorghum.lai" description="Leaf area index" array="?" units="m^2/m^2" />
+          <variable name="SweetSorghum.leaf_wt" description="Weight of leaf" array="?" units="g/m^2" />
+          <variable name="SweetSorghum.stem_wt" description="Weight of stem" array="?" units="g/m^2" />
+          <variable name="SweetSorghum.head_wt" description="Weight of heads" array="?" units="g/m^2" />
+          <variable name="SweetSorghum.biomass_wt" description="Biomass weight" array="?" units="g/m^2" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="Daily" description="End of day" />
+        </events>
       </outputfile>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">on</property>
