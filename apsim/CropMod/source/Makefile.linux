@@ -6,8 +6,7 @@
 
 LIB=	../lib/libcropmod.a
 
-SRC=	Registrations.f90	\
-	CropModData.for		\
+SRC=	CropModData.for		\
 	CropMod.for		\
 	CropModMain.for
 
@@ -16,8 +15,7 @@ STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
             ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o   \
             ../../../Shared/ComponentInterface/datatypes.o
 
-OBJ=	Registrations.o		\
-	CropModData.o		\
+OBJ=	CropModData.o		\
 	CropMod.o		\
 	CropModMain.o		\
 	$(STATICOBJ)
@@ -64,8 +62,3 @@ install: all
 
 %.o:	%.f90
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
-
-
-Registrations.o: Registrations.f90
-Registrations.f90: ../cropmod.interface 
-	$(APSROOT)/Bin/CreateComponentInterfaceSource ../cropmod.interface

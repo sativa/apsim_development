@@ -1,5 +1,5 @@
       module CropModData
-      use Registrations
+      use DataTypes
 ! ----------------------- Declaration section ------------------------
 
 !   Constant values
@@ -1650,6 +1650,23 @@
       end type CropModParameters
 
 
+! ====================================================================
+      type IDsType
+         sequence
+          integer :: incorp_fom
+          integer :: add_residue_p
+          integer :: crop_chopped
+          integer :: sowing
+          integer :: harvesting
+          integer :: create
+          integer :: sysinit
+          integer :: sow
+          integer :: harvest
+          integer :: kill_crop
+          integer :: end_crop
+          integer :: prepare
+          integer :: process
+      end type IDsType
 
 !=================== instance variables ========================================
 
@@ -1661,3 +1678,4 @@
       type (IDsType), pointer :: id
 
       end module CropModData
+

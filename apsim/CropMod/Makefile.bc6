@@ -1,8 +1,0 @@
-# (Borlandish) Makefile for apsim cropmod module
-MAKE=$(MAKEDIR)\make
-
-all: source 
-
-source:
-	cd source
-	$(APSMAKE)  source
