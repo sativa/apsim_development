@@ -27,6 +27,9 @@
       return
       end subroutine
 
+*=====================================================================
+      include 'doInit1.for'
+*=====================================================================
 
 *=====================================================================
       subroutine Main (action, data_string)
@@ -102,10 +105,6 @@ c
 c         if (TestTrue) open (1, FILE='test.dat')
          !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-      else if (Action.eq.ACTION_Create) then
-         call doRegistrations(id)
-         call doSysbalRegistrations()
 
       elseif (action.eq.ACTION_set_variable) then
 
@@ -334,46 +333,3 @@ c        if (TestTrue)   close (1)
       return
       end subroutine respondToEvent
 
-
-! ====================================================================
-! This routine registers variables needec by sysbal
-! ====================================================================
-      subroutine doSysbalRegistrations()
-      use Infrastructure
-      integer :: id
-      character DDML*128
-
-      DDML = '<type kind="single"  array="T">'
-
-         ! WATER
-      id = add_registration(respondToGetReg, 'ep'
-     :         , singleTypeDDML, 'mm', 'Plant water uptake')
-
-         ! P
-      id = add_registration(respondToGetReg, 'p_green'
-     :         , DDML , 'g/m^2', 'P in green')
-      id = add_registration(respondToGetReg, 'p_senesced'
-     :         , DDML, 'g/m^2', 'P in senesced')
-      id = add_registration(respondToGetReg, 'p_dead'
-     :         , DDML, 'g/m^2', 'P in dead')
-
-         ! N
-      id = add_registration(respondToGetReg, 'n_green'
-     :         , DDML, 'g/m^2', 'N in green')
-      id = add_registration(respondToGetReg, 'n_senesced'
-     :         , DDML, 'g/m^2', 'N in senesced')
-      id = add_registration(respondToGetReg, 'n_dead'
-     :         , DDML, 'g/m^2', 'N in dead')
-
-         ! DM
-      id = add_registration(respondToGetReg, 'dm_green'
-     :         , DDML, 'g/m^2', 'Weight of green material')
-      id = add_registration(respondToGetReg, 'dm_senesced'
-     :         , DDML, 'g/m^2', 'Weight of senesced material')
-      id = add_registration(respondToGetReg, 'dm_dead'
-     :         , DDML, 'g/m^2', 'Weight of dead material')
-      id = add_registration(respondToGetReg, 'dlt_dm_green'
-     :         , DDML, 'g/m^2', 'change in green pool weight')
-
-      return
-      end subroutine
