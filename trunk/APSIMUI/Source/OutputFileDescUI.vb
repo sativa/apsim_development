@@ -78,9 +78,9 @@ Public Class OutputFileDescUI
         '
         'RightHandPanel
         '
+        Me.RightHandPanel.Controls.Add(Me.Spread)
         Me.RightHandPanel.Controls.Add(Me.Splitter1)
         Me.RightHandPanel.Controls.Add(Me.VariableListView)
-        Me.RightHandPanel.Controls.Add(Me.Spread)
         Me.RightHandPanel.Controls.Add(Me.Splitter2)
         Me.RightHandPanel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RightHandPanel.Location = New System.Drawing.Point(0, 40)
@@ -91,9 +91,9 @@ Public Class OutputFileDescUI
         'Splitter1
         '
         Me.Splitter1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Splitter1.Location = New System.Drawing.Point(0, 411)
+        Me.Splitter1.Location = New System.Drawing.Point(0, 409)
         Me.Splitter1.Name = "Splitter1"
-        Me.Splitter1.Size = New System.Drawing.Size(753, 3)
+        Me.Splitter1.Size = New System.Drawing.Size(753, 5)
         Me.Splitter1.TabIndex = 16
         Me.Splitter1.TabStop = False
         '
@@ -140,7 +140,7 @@ Public Class OutputFileDescUI
         Me.Spread.Location = New System.Drawing.Point(0, 0)
         Me.Spread.Name = "Spread"
         Me.Spread.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.Grid})
-        Me.Spread.Size = New System.Drawing.Size(753, 730)
+        Me.Spread.Size = New System.Drawing.Size(753, 409)
         Me.Spread.TabIndex = 14
         TipAppearance1.BackColor = System.Drawing.SystemColors.Info
         TipAppearance1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -238,6 +238,7 @@ Public Class OutputFileDescUI
         ' -----------------------------------
         ' Populate the variable grid
         ' -----------------------------------
+        Grid.ClearRange(0, 0, Grid.RowCount, Grid.ColumnCount, False)
         Dim Row As Integer = 0
         For Each Variable As APSIMData In Controller.Data.Children
             Grid.Cells(Row, 0).Value = Variable.Name
