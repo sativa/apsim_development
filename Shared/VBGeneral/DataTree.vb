@@ -599,6 +599,7 @@ Public Class DataTree
             Dim NewSelections As StringCollection = New StringCollection
             NewSelections.Add(DataToRename.FullPath)
             Controller.SelectedPaths = NewSelections
+            ExpandAllNodes = False
             Controller.RefreshView()
         Else
             e.CancelEdit = True
