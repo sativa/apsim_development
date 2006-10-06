@@ -36,6 +36,9 @@ Public Class MetGraphControl
     Friend WithEvents MonthlyRainfallBar As Steema.TeeChart.Styles.Bar
     Friend WithEvents MonthlyEvaporationLine As Steema.TeeChart.Styles.Line
     Friend WithEvents YearBox As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents RainfallLabel As System.Windows.Forms.Label
     Private CurrentShortCut As Shortcut
 
 #Region " Windows Form Designer generated code "
@@ -85,6 +88,9 @@ Public Class MetGraphControl
         Me.RadiationLine = New Steema.TeeChart.Styles.Line
         Me.MaximumRadiationLine = New Steema.TeeChart.Styles.Line
         Me.YearBox = New System.Windows.Forms.NumericUpDown
+        Me.RainfallLabel = New System.Windows.Forms.Label
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.Label2 = New System.Windows.Forms.Label
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -146,6 +152,9 @@ Public Class MetGraphControl
         '
         'TabPage2
         '
+        Me.TabPage2.Controls.Add(Me.Label2)
+        Me.TabPage2.Controls.Add(Me.Label1)
+        Me.TabPage2.Controls.Add(Me.RainfallLabel)
         Me.TabPage2.Controls.Add(Me.RainfallChart)
         Me.TabPage2.ImageIndex = 1
         Me.TabPage2.Location = New System.Drawing.Point(4, 23)
@@ -2402,6 +2411,33 @@ Public Class MetGraphControl
         Me.YearBox.TabIndex = 16
         Me.YearBox.Value = New Decimal(New Integer() {1900, 0, 0, 0})
         '
+        'RainfallLabel
+        '
+        Me.RainfallLabel.AutoSize = True
+        Me.RainfallLabel.Location = New System.Drawing.Point(381, 11)
+        Me.RainfallLabel.Name = "RainfallLabel"
+        Me.RainfallLabel.Size = New System.Drawing.Size(19, 13)
+        Me.RainfallLabel.TabIndex = 15
+        Me.RainfallLabel.Text = "L1"
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(303, 11)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(72, 13)
+        Me.Label1.TabIndex = 16
+        Me.Label1.Text = "Total Rainfall:"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(406, 11)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(23, 13)
+        Me.Label2.TabIndex = 17
+        Me.Label2.Text = "mm"
+        '
         'MetGraphControl
         '
         Me.Controls.Add(Me.YearBox)
@@ -2414,6 +2450,7 @@ Public Class MetGraphControl
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout()
         Me.TabPage2.ResumeLayout(False)
+        Me.TabPage2.PerformLayout()
         Me.TabPage3.ResumeLayout(False)
         Me.TabPage5.ResumeLayout(False)
         Me.TabPage4.ResumeLayout(False)
@@ -2428,7 +2465,7 @@ Public Class MetGraphControl
         Controller.Data.ChildValue("filename") = FileName
         ContentsBox.Text = ""
         Metfile.Data.Clear()
-        Metfile.clear()
+        Metfile.Clear()
         PopulateRawData()
         RefreshAllCharts()
         YearBox.Visible = False
@@ -2511,13 +2548,21 @@ Public Class MetGraphControl
 
         End If
     End Sub
+    Private Function CalcYearlyRainfall() As Integer
+        Dim TotalYearlyRainfall As Integer = 0
+        For Each Row As DataRow In Metfile.Data.Rows
+            TotalYearlyRainfall = TotalYearlyRainfall + Convert.ToInt16(Row("rain"))
+        Next
+        Return TotalYearlyRainfall
+    End Function
 
     Private Sub ReadDailyDataForYear(ByVal Year As Integer)
         ' ----------------------------------------------------------------------------------
         ' Read all daily data for the specified year
         ' ----------------------------------------------------------------------------------
-        Metfile.clear()
+        Metfile.Clear()
         Metfile.ReadFromFile(FileName, New Date(Year, 1, 1), New Date(Year, 12, 31))
+        RainfallLabel.Text = CalcYearlyRainfall.ToString("f0")
     End Sub
 
     Private Sub CalcMonthlyData()
