@@ -8,8 +8,7 @@ DESTDIR ?= /usr/local/apsim
 
 LIB=	../lib/maize.so
 
-SRC=	Registrations.f90	\
-	maize.f90
+SRC= maize.f90
 
 STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
             ../../../Shared/ComponentInterface/EntryPoints.o   \
@@ -17,9 +16,7 @@ STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
             ../../../Shared/ComponentInterface/FORTRANdatatypes.o   \
             ../../../Shared/ComponentInterface/datatypes.o
 
-OBJ=	Registrations.o		\
-	maize.o			\
-	$(STATICOBJ)
+OBJ=	maize.o $(STATICOBJ)
 
 #-----------------------------------------------------------------------
 # Compiler options
@@ -70,7 +67,3 @@ install: all
 
 %.o:	%.f90
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
-
-Registrations.o: Registrations.f90
-Registrations.f90: ../maize.interface 
-	$(APSROOT)/Bin/CreateComponentInterfaceSource ../maize.interface
