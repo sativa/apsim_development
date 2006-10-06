@@ -41,8 +41,10 @@ void Grain::doRegistrations(void)
 //   setupGetVar("dlt_n_retrans", dltNRetranslocate, "g/m2", "Nitrogen retranslocated out from parts to grain");
    setupGetVar("n_conc_grain", nConc, "%", "N concentration in grain");
    setupGetVar("grain_nd", nDemand, "g/m2", "Today's N demand from grain");
-
 #undef setupGetVar     
+   setupGetFunction(plantInterface,"n_grain_pcnt", protocol::DTsingle, false,
+                    &Grain::get_n_grain_pcnt, "%", "% N in grain");
+
    }
 //------------------------------------------------------------------------------------------------
 //------- Initialize variables
@@ -266,3 +268,10 @@ void Grain::Summary(void)
   }
 
 
+
+void Grain::get_n_grain_pcnt(protocol::Component *system, protocol::QueryValueData &qd)
+   {
+   float grain_N_pcnt = divide (nGreen, dmGreen, 0.0) * fract2pcnt;
+
+   system->sendVariable(qd, grain_N_pcnt);
+   }
