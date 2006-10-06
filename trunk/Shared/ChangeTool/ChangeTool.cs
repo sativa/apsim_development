@@ -193,7 +193,7 @@ namespace ChangeTool
                             string ComponentName = Variable.Attribute("module");
                             if (ComponentName.ToLower() == "global")
                                 ComponentName = "";
-                            if (ComponentName != "")
+                            if (ComponentName != "" && Variable.Attribute("ModuleType") != "soil")
                                 Variable.Name = ComponentName + "." + Variable.Name;
                             Variable.SetAttribute("array", "?");
                             Variable.DeleteAttribute("ModuleType");
