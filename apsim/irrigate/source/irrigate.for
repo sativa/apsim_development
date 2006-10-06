@@ -41,7 +41,7 @@
       parameter (max_sources = 10)            ! for irrigation water
 
       integer    module_name_size      ! maximum length of module name
-      parameter (module_name_size = 30)
+      parameter (module_name_size = 100)
 
       real       effirr                       ! input - fractional value for
       parameter (effirr = 1.0)                ! irrigation system efficiency
