@@ -541,6 +541,9 @@ Public Class DataTree
             Dim NodeData As APSIMData = Controller.AllData.Find(n.FullPath)
             If Not IsNothing(NodeData) AndAlso NodeData.Attribute("shortcut") <> "" Then
                 n.ForeColor = Color.Blue
+                n.ToolTipText = "Linked to " + NodeData.Attribute("shortcut")
+            Else
+                n.ToolTipText = ""
             End If
         End If
     End Sub
