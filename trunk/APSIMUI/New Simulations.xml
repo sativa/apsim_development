@@ -108,7 +108,7 @@
           <variable name="wheat.yield" description="Yield" array="?" units="kg/ha" />
           <variable name="wheat.grain_protein" description="grain protein content" array="?" units="%" />
           <variable name="wheat.grain_size" description="Size of each grain" array="?" units="g" />
-          <variable name="Jimbour,Waco (#016).esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
+          <variable name="esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
         </variables>
         <events name="Reporting Frequency">
           <event name="wheat.harvesting" description="" />
@@ -925,7 +925,7 @@
           <variable name="wheat.yield" description="Yield" array="?" units="kg/ha" />
           <variable name="wheat.grain_protein" description="grain protein content" array="?" units="%" />
           <variable name="wheat.grain_size" description="Size of each grain" array="?" units="g" />
-          <variable name="Jimbour,Waco (#016).esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
+          <variable name="esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
         </variables>
         <events name="Reporting Frequency">
           <event name="wheat.harvesting" description="" />
@@ -1662,7 +1662,7 @@
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
           <variable name="sorghum.biomass" description="Biomass" array="?" units="kg/ha" />
           <variable name="sorghum.yield" description="Yield" array="?" units="kg/ha" />
-          <variable name="Jimbour,Waco (#16).esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
+          <variable name="esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
         </variables>
         <events name="Reporting Frequency">
           <event name="sorghum.harvesting" description="" />
@@ -2900,7 +2900,7 @@
         <filename name="filename">Eucalypt Forest Simulation Block.out</filename>
         <variables name="Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
-          <variable name="UniformSoil.esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
+          <variable name="esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
           <variable name="egrandis.lai" description="E. grandis leaf area index" array="?" />
           <variable name="egrandis.adm_green" array="?" description="E. grandis Live Above-ground Biomass Pools" />
           <variable name="egrandis.fw" description="E. grandis water stress factor" array="?" />
@@ -3705,7 +3705,7 @@
           <variable name="sugar.das" description="Sugar days after sowing" array="?" />
           <variable name="sugar.ratoon_no" description="Sugar Ratoon number" array="?" />
           <variable name="sugar.crop_status" description="Sugar Crop status (dead,alive,out)" array="?" />
-          <variable name="Sample Soil.esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
+          <variable name="esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
           <variable name="sugar.lai" description="Sugar green leaf area index" array="?" />
           <variable name="sugar.nfact_photo" description="Sugar Nitrogen stress factor on photosynthesis (0-1)" array="?" />
           <variable name="sugar.root_depth" description="Sugar depth of roots (mm)" array="?" />
