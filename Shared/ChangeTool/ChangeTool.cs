@@ -53,15 +53,21 @@ namespace ChangeTool
 		// ------------------------------------------------
 		private static void Upgrade(APSIMData Data, UpgraderDelegate Upgrader)
 			{
-			foreach (APSIMData Child in Data.get_Children(null))
+            string[] ChildNames = Data.ChildNames(null);
+			foreach (string ChildName in ChildNames)
 				{
-				if (Child.Type.ToLower() == "area" 
-					|| Child.Type.ToLower() == "folder"
-					|| Child.Type.ToLower() == "simulation"
-                    || Child.Type.ToLower() == "manager")
-					Upgrade(Child, Upgrader);  // recursion
-				else
-					Upgrader(Child);
+                APSIMData Child = Data.Child(ChildName);
+                if (Child != null)
+                    {
+    		        if (Child.Type.ToLower() == "area" 
+					   || Child.Type.ToLower() == "folder"
+				   	   || Child.Type.ToLower() == "simulation"
+                       || Child.Type.ToLower() == "manager"
+                       || Child.Type.ToLower() == "outputfile")
+				   	   Upgrade(Child, Upgrader);  // recursion
+				    else
+					   Upgrader(Child);
+                    }
 				}
 			}
                
@@ -166,61 +172,94 @@ namespace ChangeTool
         // -----------------------------
         private static void UpdateToVersion5(APSIMData Data)
             {
-            if (Data.Type.ToLower() == "outputfile")
+            if (Data.Type.ToLower() == "outputfiledescription")
                 {
-                foreach (APSIMData outputfiledescription in Data.get_Children("outputfiledescription"))
+                APSIMData outputfiledescription = Data;
+                string[] VGNames = outputfiledescription.ChildNames("variables");
+                foreach (string VGName in VGNames)
                     {
-                    foreach (APSIMData VariablesGroup in outputfiledescription.get_Children("variables"))
+                    APSIMData VariablesGroup = outputfiledescription.Child(VGName);
+                    if (outputfiledescription.Attribute("shortcut") == "")
                         {
-                        foreach (APSIMData Variable in VariablesGroup.get_Children("variable"))
+                        string[] VNames = VariablesGroup.ChildNames("variable");
+                        foreach (string VName in VNames)
                             {
+                            APSIMData Variable = VariablesGroup.Child(VName);
                             if (Variable.Attribute("name") != Variable.Attribute("variablename"))
                                 Variable.Name = Variable.Attribute("variablename") + " as " + Variable.Attribute("name");
-
                             if (Variable.Attribute("arrayspec").Trim() != "")
                                 Variable.Name += Variable.Attribute("arrayspec");
-
                             string ComponentName = Variable.Attribute("module");
                             if (ComponentName.ToLower() == "global")
                                 ComponentName = "";
-
                             if (ComponentName != "")
                                 Variable.Name = ComponentName + "." + Variable.Name;
-
                             Variable.SetAttribute("array", "?");
                             Variable.DeleteAttribute("ModuleType");
                             Variable.DeleteAttribute("arrayspec");
                             Variable.DeleteAttribute("module");
                             Variable.DeleteAttribute("variablename");
                             }
-                        if (VariablesGroup.Name == "variables")
-                            VariablesGroup.Name = "Variables";
-                        Data.Add(VariablesGroup);
-                        outputfiledescription.Delete(VariablesGroup.Name);
+                        VariablesGroup.Name = outputfiledescription.Name;
+                        VariablesGroup.Parent.Parent.Add(VariablesGroup);
                         }
-                    foreach (APSIMData EventsGroup in outputfiledescription.get_Children("events"))
+                    else
                         {
-                        foreach (APSIMData Event in EventsGroup.get_Children("variable"))
+                        VariablesGroup = Data.Parent.Add(new APSIMData("variables", outputfiledescription.Attribute("shortcut")));
+                        VariablesGroup.SetAttribute("shortcut", outputfiledescription.Attribute("shortcut"));
+                        }
+                    }
+
+                string[] EGNames = outputfiledescription.ChildNames("events");
+                foreach (string EGName in EGNames)
+                    {
+                    APSIMData EventsGroup = outputfiledescription.Child(EGName);
+                    if (outputfiledescription.Attribute("shortcut") == "")
+                        {
+                        string[] EventNames = EventsGroup.ChildNames("event");
+                        foreach (string EventName in EventNames)
                             {
-                            string ComponentName = Event.Attribute("module");
+                            APSIMData Event = EventsGroup.Child(EventName);
+                            string ComponentName;
+                            string NewEventName;
+
+                            if (Event.Name.IndexOf('.') != -1 )
+                                {
+                                ComponentName = Event.Name.Substring(0, Event.Name.IndexOf('.'));
+                                NewEventName = Event.Name.Substring(Event.Name.IndexOf('.')+1);
+                                }
+                            else
+                                {
+                                NewEventName = Event.Name;
+                                ComponentName = Event.Attribute("module");
+                                }
+
                             if (ComponentName.ToLower() == "global")
                                 ComponentName = "";
 
                             if (ComponentName != "")
-                                Event.Name = ComponentName + "." + Event.Name;
+                                Event.Name = ComponentName + "." + NewEventName;
+                            else
+                                Event.Name = NewEventName;
 
                             Event.DeleteAttribute("ModuleType");
                             Event.DeleteAttribute("module");
+                            Event.DeleteAttribute("eventname");
                             }
-                        if (EventsGroup.Name == "events")
-                            EventsGroup.Name = "Frequency";
-                        Data.Add(EventsGroup);
-                        outputfiledescription.Delete(EventsGroup.Name);
+                        EventsGroup.Name = outputfiledescription.Name + " Events";
+                        EventsGroup.Parent.Parent.Add(EventsGroup);
                         }
-                    Data.Delete(outputfiledescription.Name);
+                    else
+                        {
+                        EventsGroup = Data.Parent.Add(new APSIMData("events", outputfiledescription.Attribute("shortcut") + " Events"));
+                        EventsGroup.SetAttribute("shortcut", outputfiledescription.Attribute("shortcut") + " Events");
+                        }
                     }
+                outputfiledescription.Parent.Delete(outputfiledescription.Name);
                 }
-            }	
+            }
+
+            	
 
 
 		}
