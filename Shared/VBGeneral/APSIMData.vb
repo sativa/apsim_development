@@ -144,7 +144,7 @@ Public Class APSIMData
         ' Provides read access to the type of this data.
         ' -----------------------------------------------------------------------
         Get
-            Return Node.Name
+            Return InternalNode.Name
         End Get
     End Property
     Public Function LoadFromFile(ByVal FileName As String) As Boolean
