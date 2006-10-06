@@ -30,6 +30,7 @@ Public Class APSIMData
         InternalNode = DataNode
         AddHandler DataChanged, ChangedHandler
     End Sub
+    
     Public Sub New(ByVal XMLString As String)
         ' -----------------------------------------------------------------------
         ' constructor taking a single XML argument
@@ -191,25 +192,25 @@ Public Class APSIMData
                     ChildrenLoaded = False
                 End If
             End If
-            'If (Not ChildrenLoaded) Or ChildTypeFilter <> "" Then
-            Dim ReturnList(Node.ChildNodes.Count - 1) As APSIMData
-            Dim NumSoFar As Integer = 0
-            For i As Integer = 0 To Node.ChildNodes.Count - 1
-                Dim ChildType As String = Node.ChildNodes(i).Name
-                If ChildType <> "#text" And ChildType <> "#comment" And ChildType <> "#cdata-section" Then
-                    If IsNothing(ChildTypeFilter) OrElse ChildTypeFilter.ToLower() = ChildType.ToLower() Then
-                        ReturnList(NumSoFar) = New APSIMData(Node.ChildNodes(i), DataChangedEvent)
-                        NumSoFar += 1
+            If (Not ChildrenLoaded) Or ChildTypeFilter <> "" Then
+                Dim ReturnList(Node.ChildNodes.Count - 1) As APSIMData
+                Dim NumSoFar As Integer = 0
+                For i As Integer = 0 To Node.ChildNodes.Count - 1
+                    Dim ChildType As String = Node.ChildNodes(i).Name
+                    If ChildType <> "#text" And ChildType <> "#comment" And ChildType <> "#cdata-section" Then
+                        If IsNothing(ChildTypeFilter) OrElse ChildTypeFilter.ToLower() = ChildType.ToLower() Then
+                            ReturnList(NumSoFar) = New APSIMData(Node.ChildNodes(i), DataChangedEvent)
+                            NumSoFar += 1
+                        End If
                     End If
-                End If
-            Next
-            Array.Resize(ReturnList, NumSoFar)
-            ChildrenList = ReturnList
-            ChildrenLoaded = True
-            Return ReturnList
-            'Else
-            'Return ChildrenList
-            'End If
+                Next
+                Array.Resize(ReturnList, NumSoFar)
+                ChildrenList = ReturnList
+                ChildrenLoaded = True
+                Return ReturnList
+            Else
+                Return ChildrenList
+            End If
         End Get
     End Property
     Public Function Child(ByVal ChildName As String) As APSIMData
@@ -268,6 +269,7 @@ Public Class APSIMData
         ' as a delimiter. It must include the name of this data
         ' e.g. RootNode\ChildNode\SubChildNode
         ' --------------------------------------------------------
+        ChildrenLoaded = False
         Dim PosDelimiter As Integer = FullPath.IndexOf(Delimiter)
         If PosDelimiter = -1 Then
             If FullPath.ToLower() = Name.ToLower() Then
@@ -530,6 +532,8 @@ Public Class APSIMData
             Throw New Exception("Internal error in APSIMData.CalcUniqueName")
         End If
     End Sub
+
+
     Public Sub MoveUp(ByVal ChildName As String, ByVal ChildType As String)
         ' -------------------------------------------------------------------------
         ' Move the specified child up. If ChildType is specified then the child
