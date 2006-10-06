@@ -102,7 +102,7 @@
       <wheat />
       <outputfile name="outputfile">
         <filename name="filename">Continuous Wheat Simulation.out</filename>
-        <variables name="My Variables">
+        <variables name="Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
           <variable name="wheat.biomass" description="Biomass" array="?" units="kg/ha" />
           <variable name="wheat.yield" description="Yield" array="?" units="kg/ha" />
@@ -110,7 +110,7 @@
           <variable name="wheat.grain_size" description="Size of each grain" array="?" units="g" />
           <variable name="Jimbour,Waco (#016).esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
         </variables>
-        <events name="My Variables Events">
+        <events name="Reporting Frequency">
           <event name="wheat.harvesting" description="" />
         </events>
       </outputfile>
@@ -919,7 +919,7 @@
       <wheat />
       <outputfile name="outputfile">
         <filename name="filename">Continuous Wheat Simulation with Climate Change.out</filename>
-        <variables name="My Variables">
+        <variables name="Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
           <variable name="wheat.biomass" description="Biomass" array="?" units="kg/ha" />
           <variable name="wheat.yield" description="Yield" array="?" units="kg/ha" />
@@ -927,7 +927,7 @@
           <variable name="wheat.grain_size" description="Size of each grain" array="?" units="g" />
           <variable name="Jimbour,Waco (#016).esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
         </variables>
-        <events name="My Variables Events">
+        <events name="Reporting Frequency">
           <event name="wheat.harvesting" description="" />
         </events>
       </outputfile>
@@ -1658,13 +1658,13 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Continuous Sorghum Simulation.out</filename>
-        <variables name="My Variables">
+        <variables name="Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
           <variable name="sorghum.biomass" description="Biomass" array="?" units="kg/ha" />
           <variable name="sorghum.yield" description="Yield" array="?" units="kg/ha" />
           <variable name="Jimbour,Waco (#16).esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
         </variables>
-        <events name="My Variables Events">
+        <events name="Reporting Frequency">
           <event name="sorghum.harvesting" description="" />
         </events>
       </outputfile>
@@ -2898,7 +2898,7 @@
       <egrandis />
       <outputfile name="outputfile">
         <filename name="filename">Eucalypt Forest Simulation Block.out</filename>
-        <variables name="My Variables">
+        <variables name="Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
           <variable name="UniformSoil.esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
           <variable name="egrandis.lai" description="E. grandis leaf area index" array="?" />
@@ -2907,7 +2907,7 @@
           <variable name="egrandis.fn" description="E. grandis N stress factor" array="?" />
           <variable name="egrandis.plants" description="E. grandis Plant Population" array="?" />
         </variables>
-        <events name="My Variables Events">
+        <events name="Reporting Frequency">
           <event name="post" description="End of daily simulation time step" />
         </events>
       </outputfile>
@@ -3696,7 +3696,7 @@
       </soil>
       <outputfile name="outputfile">
         <filename name="filename">Sugar Simulation.out</filename>
-        <variables name="My Variables">
+        <variables name="Variables">
           <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)" array="?" />
           <variable name="sugar.biomass" description="Sugar total above-ground biomass (green + trash) (g/m2)" array="?" />
           <variable name="sugar.cane_wt" description="Sugar cane dry weight (g/m2)" array="?" />
@@ -3716,7 +3716,7 @@
           <variable name="maxt" description="Maximum temperature (oC)" array="?" />
           <variable name="mint" description="Minimum temperature (oC)" array="?" />
         </variables>
-        <events name="My Variables Events">
+        <events name="Reporting Frequency">
           <event name="post" description="End of daily simulation time step" />
         </events>
       </outputfile>
@@ -4435,7 +4435,7 @@
       </surfaceom>
       <outputfile name="outputfile">
         <filename name="filename">Rotation Sample.out</filename>
-        <variables name="My Variables">
+        <variables name="Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
           <variable name="cotton.dm as CottonBiomass" description="Total above ground biomass (kg/ha)" array="?" />
           <variable name="cotton.lai as CottonLAI" description="Leaf area index" array="?" />
@@ -4444,7 +4444,7 @@
           <variable name="wheat.biomass as WheatBiomass" description="Biomass" array="?" />
           <variable name="wheat.lai as WheatLAI" description="Leaf area index" array="?" />
         </variables>
-        <events name="My Variables Events">
+        <events name="Reporting Frequency">
           <event name="Daily" description="End of day" />
         </events>
       </outputfile>
@@ -4475,7 +4475,7 @@
       </surfaceom>
       <outputfile name="outputfile">
         <filename name="filename">Complex Rotations.out</filename>
-        <variables name="My Variables">
+        <variables name="Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
           <variable name="wheat.biomass as biomass_wheat" description="Biomass" array="?" />
           <variable name="wheat.yield as yield_wheat" description="Yield" array="?" />
@@ -4485,7 +4485,7 @@
           <variable name="chickpea.biomass as biomass_chickpea" array="?" />
           <variable name="chickpea.yield as yield_chickpea" array="?" />
         </variables>
-        <events name="My Variables Events">
+        <events name="Reporting Frequency">
           <event name="wheat.harvesting" description="" />
         </events>
       </outputfile>
