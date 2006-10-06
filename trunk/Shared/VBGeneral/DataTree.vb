@@ -233,6 +233,9 @@ Public Class DataTree
         If UserChange Then
             HelpText = ""
             TreeView.ImageList = Controller.SmallImageList
+
+            RemoveHandler Controller.SelectionChangedEvent, AddressOf OnSelectionChanged
+            AddHandler Controller.SelectionChangedEvent, AddressOf OnSelectionChanged
             If TreeView.Nodes.Count = 0 Then
                 TreeView.Nodes.Add(Controller.AllData.Name)
             End If
@@ -469,10 +472,6 @@ Public Class DataTree
     End Sub
 
 
-    Private Sub OnNodeChanged(ByVal DataThatHasChanged As APSIMData)
-        RefreshNodeAndChildren(GetNodeFromPath(DataThatHasChanged.FullPath), DataThatHasChanged)
-    End Sub
-
     ' --------------------------------------------------
     ' Returns a tree node given a fullly delimited path.
     ' --------------------------------------------------
@@ -511,11 +510,7 @@ Public Class DataTree
             End If
         Loop
 
-        If IsNothing(CurrentNode) Then
-            Throw New System.Exception("Cannot find tree node for path: " + ChildPath)
-        Else
-            Return CurrentNode
-        End If
+        Return CurrentNode
     End Function
 
 
@@ -536,17 +531,19 @@ Public Class DataTree
     End Sub
 
     Private Sub PaintNode(ByVal n As TreeNode, ByVal Selected As Boolean)
-        n.ForeColor = TreeView.ForeColor
-        n.BackColor = TreeView.BackColor
-        If Selected Then
-            n.BackColor = SystemColors.Highlight
-            n.ForeColor = SystemColors.HighlightText
-        End If
+        If Not IsNothing(n) Then
+            n.ForeColor = TreeView.ForeColor
+            n.BackColor = TreeView.BackColor
+            If Selected Then
+                n.BackColor = SystemColors.Highlight
+                n.ForeColor = SystemColors.HighlightText
+            End If
 
-        ' Get the data for this node.
-        Dim NodeData As APSIMData = Controller.AllData.Find(n.FullPath)
-        If NodeData.Attribute("shortcut") <> "" Then
-            n.ForeColor = Color.Blue
+            ' Get the data for this node.
+            Dim NodeData As APSIMData = Controller.AllData.Find(n.FullPath)
+            If Not IsNothing(NodeData) AndAlso NodeData.Attribute("shortcut") <> "" Then
+                n.ForeColor = Color.Blue
+            End If
         End If
     End Sub
 
@@ -739,7 +736,6 @@ Public Class DataTree
         ' ----------------------------------------
         ' Selection has changed - update tree.
         ' ----------------------------------------
-
         PaintNodes(OldSelections, False)
         PaintNodes(NewSelections, True)
     End Sub
