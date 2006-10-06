@@ -206,15 +206,17 @@ Public MustInherit Class BaseController
         ' --------------------------------------------------------
         RaiseEvent BeforeSaveEvent()
 
-        If MyFileName.IndexOf("Untitled.") <> -1 Then
-            Return FileSaveAs()
-        Else
-            AllData.SaveToFile(MyFileName)
-            AddFileToFrequentList(MyFileName)
-            MyDirtyData = False
-            MyIsReadOnly = False
-            RaiseEvent AfterSaveEvent()
-            Return True
+        If Not IsNothing(MyFileName) Then
+            If MyFileName.IndexOf("Untitled.") <> -1 Then
+                Return FileSaveAs()
+            Else
+                AllData.SaveToFile(MyFileName)
+                AddFileToFrequentList(MyFileName)
+                MyDirtyData = False
+                MyIsReadOnly = False
+                RaiseEvent AfterSaveEvent()
+                Return True
+            End If
         End If
     End Function
     Function FileSaveAs() As Boolean

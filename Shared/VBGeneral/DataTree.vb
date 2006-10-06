@@ -233,6 +233,8 @@ Public Class DataTree
         If UserChange Then
             HelpText = ""
             TreeView.ImageList = Controller.SmallImageList
+            Windows.Forms.Cursor.Current = Cursors.WaitCursor
+            TreeView.BeginUpdate()
 
             RemoveHandler Controller.SelectionChangedEvent, AddressOf OnSelectionChanged
             AddHandler Controller.SelectionChangedEvent, AddressOf OnSelectionChanged
@@ -246,6 +248,9 @@ Public Class DataTree
             Else
                 TreeView.Nodes(0).Expand()
             End If
+
+            TreeView.EndUpdate()
+            Windows.Forms.Cursor.Current = Cursors.Default
         End If
     End Sub
 
@@ -254,10 +259,6 @@ Public Class DataTree
         ' Refresh the specified TreeNode using the specified APSIMData
         ' plus all the child nodes.
         ' ------------------------------------------------------------
-        TreeView.ImageList = Controller.SmallImageList
-        Windows.Forms.Cursor.Current = Cursors.WaitCursor
-        TreeView.BeginUpdate()
-
         RecursivelyRefreshNodeAndChildren(Node, Data, 0)
 
         If Controller.SelectedPaths.Count >= 1 Then
@@ -265,9 +266,6 @@ Public Class DataTree
             TreeView.SelectedNode = GetNodeFromPath(Controller.SelectedPaths(0))
             UserChange = True
         End If
-
-        TreeView.EndUpdate()
-        Windows.Forms.Cursor.Current = Cursors.Default
     End Sub
 
     Private Sub RecursivelyRefreshNodeAndChildren(ByVal Node As TreeNode, ByVal Data As APSIMData, ByVal Level As Integer)
@@ -591,6 +589,7 @@ Public Class DataTree
             DataToRename.BeginUpdate()
             DataToRename.Name = e.Label
             DataToRename.EnsureNameIsUnique()
+            e.Node.Text = DataToRename.Name
             DataToRename.EndUpdate()
 
             Dim NewSelections As StringCollection = New StringCollection
@@ -598,9 +597,8 @@ Public Class DataTree
             Controller.SelectedPaths = NewSelections
             ExpandAllNodes = False
             Controller.RefreshView()
-        Else
-            e.CancelEdit = True
         End If
+        e.CancelEdit = True
 
         TreeView.ContextMenu = Me.ContextMenu1
     End Sub

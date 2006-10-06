@@ -459,6 +459,7 @@ Public Class MainUI
         SimulationExplorer.Visible = False
         SimulationExplorer.BringToFront()
 
+
         ' Setup but don't show the Toolbox Explorer.
         Toolbox = New ApsimUIController(".xml", _
                                          "Toolbox files (*.xml)|*.xml|" + _
@@ -518,6 +519,7 @@ Public Class MainUI
         AddHandler ApsimUI.AllData.DataChanged, AddressOf OnDataChanged
         APSIMChangeTool.Upgrade(ApsimUI.AllData)
         SimulationExplorer.Visible = True
+        SimulationExplorer.ExpandAll = ApsimUI.AllData.ChildNames.Length = 1
         SimulationExplorer.RefreshView(ApsimUI)
         SetFunctionality()
     End Sub
