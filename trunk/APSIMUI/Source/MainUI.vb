@@ -73,17 +73,6 @@ Public Class MainUI
         'This call is required by the Windows Form Designer.
         InitializeComponent()
 
-        ' Position window correctly.
-        Try
-            Dim inifile As New APSIMSettings
-            WindowState = Convert.ToInt32(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "windowstate"))
-            Top = Convert.ToInt32(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "top"))
-            Left = Convert.ToInt32(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "left"))
-            Height = Convert.ToInt32(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "height"))
-            Width = Convert.ToInt32(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "width"))
-        Catch ex As System.Exception
-            Me.WindowState = FormWindowState.Maximized
-        End Try
         splash.Close()
 
     End Sub
@@ -442,6 +431,18 @@ Public Class MainUI
 #End Region
 #Region "Startup methods"
     Private Sub MainUI_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        ' Position window correctly.
+        Try
+            Dim inifile As New APSIMSettings
+            WindowState = Convert.ToInt32(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "windowstate"))
+            Top = Convert.ToInt32(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "top"))
+            Left = Convert.ToInt32(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "left"))
+            Height = Convert.ToInt32(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "height"))
+            Width = Convert.ToInt32(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "width"))
+        Catch ex As System.Exception
+            Me.WindowState = FormWindowState.Maximized
+        End Try
+
         ApsimUI = New ApsimUIController(".apsim", _
                                          "APSIM files (*.apsim)|*.apsim|" + _
                                             "Toolbox files (*.xml)|*.xml|" + _
@@ -689,6 +690,7 @@ Public Class MainUI
             End If
         Else
             MessageBox.Show("Please run the simulation first")
+            Return ""
         End If
     End Function
 
