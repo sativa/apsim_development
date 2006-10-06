@@ -79,12 +79,12 @@ Public Class MetUI
         '
         'MetUI
         '
-        Me.Controls.Add(Me.MetGraphControl1)
         Me.Controls.Add(Me.btnBrowse)
+        Me.Controls.Add(Me.MetGraphControl1)
         Me.Name = "MetUI"
         Me.Size = New System.Drawing.Size(1015, 719)
-        Me.Controls.SetChildIndex(Me.btnBrowse, 0)
         Me.Controls.SetChildIndex(Me.MetGraphControl1, 0)
+        Me.Controls.SetChildIndex(Me.btnBrowse, 0)
         Me.ResumeLayout(False)
 
     End Sub
