@@ -20,28 +20,8 @@ BCB = $(MAKEDIR)\..
 !include $(APSROOT)\APSBuild\ApsimComponentInterface.make
 
 # Main target
-source: ..\lib\sorghum-old.dll ..\lib\sorghum.dll
+source: ..\lib\sorghum.dll
 
-####---------------Fortran/cropmod sorghum:
-
-..\lib\sorghum-old.dll: Registrations.obj sorghum.obj $(STATICLINKEDOBJECTS)
-	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
-	$(ECHO) $(F90FLAGS) >> linker.tmp
-	$(ECHO) $(F90CROPLIBS) >> linker.tmp
-	$(LF95) sorghum.obj Registrations.obj \
- -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\sorghum-old.dll @linker.tmp
-	$(RM) linker.tmp
-
-sorghum.obj: sorghum.for
-	$(ECHO) $(F90FLAGS) > compiler.tmp
-	$(ECHO) $(F90CROPINCLUDES);$(APSROOT)\apsim\cropmod\source >> compiler.tmp
-	$(ECHO) $(F90CROPMODS);$(APSROOT)\apsim\cropmod\source >> compiler.tmp
-	$(LF95) -c sorghum.for -o sorghum.obj @compiler.tmp
-	$(RM) compiler.tmp
-
-Registrations.obj: Registrations.f90
-Registrations.f90: ..\sorghum.interface
-	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\sorghum.interface
 
 ####---------------OO sorghum:
 
@@ -85,7 +65,7 @@ LD=$(BCB)\Bin\ilink32
 	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
 
 clean:
-	$(RM) ..\lib\sorghum.dll Registrations.obj Registrations.f90 sorghum.obj sorghum.imp
+	$(RM) ..\lib\sorghum.dll sorghum.obj sorghum.imp
 	$(RM) $(OBJFILES) *.bak *.csm
 
 ###Dependancies
