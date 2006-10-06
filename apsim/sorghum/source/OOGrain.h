@@ -48,6 +48,7 @@ class Grain : public PlantPart
    void   updateVars(void);                     // plant
    void   calcDemandStress(void);               // plant
    void   calcBiomassDemand(void);              // plant
+   void   get_n_grain_pcnt(protocol::Component *system, protocol::QueryValueData &qd);
 
    float calcNDemand(void);                     // nitrogen
 //   float getNGreen(void)const{return nGreen;}   // nitrogen
