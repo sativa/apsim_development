@@ -178,8 +178,7 @@ namespace ApsimToSim
             {
             foreach (APSIMData Rule in Component.get_Children("rule"))
                 {
-                APSIMData Condition = Rule.ChildByType("condition");
-                if (Condition != null)
+                foreach (APSIMData Condition in Rule.get_Children("condition"))
                     {
                     string Contents = Condition.XML;
                     foreach (APSIMData Category in Rule.get_Children("category"))
