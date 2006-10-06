@@ -16,13 +16,13 @@
 # Main target
 source: ..\lib\maize.dll 
 
-..\lib\maize.dll: Registrations.obj maize.obj $(STATICLINKEDOBJECTS) 
+..\lib\maize.dll: maize.obj $(STATICLINKEDOBJECTS) 
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
 	$(ECHO) $(F90CROPLIBS) >> linker.tmp
-	$(LF95) maize.obj Registrations.obj \
- -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\maize.dll @linker.tmp
+	$(LF95) maize.obj \
+ -export Main,wrapperDLL,doInit1,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\maize.dll @linker.tmp
 	$(RM) linker.tmp
    
 maize.obj: maize.for
@@ -32,8 +32,5 @@ maize.obj: maize.for
 	$(LF95) -c maize.for @compiler.tmp
 	$(RM) compiler.tmp
 
-Registrations.obj: Registrations.f90
-Registrations.f90: ..\maize.interface
-	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\maize.interface
 clean:
-	$(RM) ..\lib\maize.dll Registrations.obj Registrations.f90 maize.obj maize.imp
+	$(RM) ..\lib\maize.dll maize.obj maize.imp
