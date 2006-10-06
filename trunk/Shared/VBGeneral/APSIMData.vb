@@ -129,7 +129,7 @@ Public Class APSIMData
         Get
             Dim NameAttribute As String = Attribute("name")
             If NameAttribute = "" Then
-                Return Node.Name
+                Return InternalNode.Name
             Else
                 Return NameAttribute
             End If
@@ -159,8 +159,7 @@ Public Class APSIMData
             FireDataChangedEvent()
             Return True
         Else
-            MsgBox("Cannot find file: " + FileName)
-            Return False
+            Throw New Exception("Cannot file file " + MyFileName)
         End If
     End Function
     Public Sub SaveToFile(ByVal FileName As String)
@@ -174,7 +173,7 @@ Public Class APSIMData
         ' Return parent node data or nothing if root node
         ' ------------------------------------------------
         Get
-            Dim A As New APSIMData(Node.ParentNode, DataChangedEvent)
+            Dim A As New APSIMData(InternalNode.ParentNode, DataChangedEvent)
             If A.Type = "#document" Then
                 Return Nothing
             Else
@@ -192,25 +191,25 @@ Public Class APSIMData
                     ChildrenLoaded = False
                 End If
             End If
-            If (Not ChildrenLoaded) Or ChildTypeFilter <> "" Then
-                Dim ReturnList(Node.ChildNodes.Count - 1) As APSIMData
-                Dim NumSoFar As Integer = 0
-                For i As Integer = 0 To Node.ChildNodes.Count - 1
-                    Dim ChildType As String = Node.ChildNodes(i).Name
-                    If ChildType <> "#text" And ChildType <> "#comment" And ChildType <> "#cdata-section" Then
-                        If IsNothing(ChildTypeFilter) OrElse ChildTypeFilter.ToLower() = ChildType.ToLower() Then
-                            ReturnList(NumSoFar) = New APSIMData(Node.ChildNodes(i), DataChangedEvent)
-                            NumSoFar += 1
-                        End If
+            'If (Not ChildrenLoaded) Or ChildTypeFilter <> "" Then
+            Dim ReturnList(Node.ChildNodes.Count - 1) As APSIMData
+            Dim NumSoFar As Integer = 0
+            For i As Integer = 0 To Node.ChildNodes.Count - 1
+                Dim ChildType As String = Node.ChildNodes(i).Name
+                If ChildType <> "#text" And ChildType <> "#comment" And ChildType <> "#cdata-section" Then
+                    If IsNothing(ChildTypeFilter) OrElse ChildTypeFilter.ToLower() = ChildType.ToLower() Then
+                        ReturnList(NumSoFar) = New APSIMData(Node.ChildNodes(i), DataChangedEvent)
+                        NumSoFar += 1
                     End If
-                Next
-                Array.Resize(ReturnList, NumSoFar)
-                ChildrenList = ReturnList
-                ChildrenLoaded = True
-                Return ReturnList
-            Else
-                Return ChildrenList
-            End If
+                End If
+            Next
+            Array.Resize(ReturnList, NumSoFar)
+            ChildrenList = ReturnList
+            ChildrenLoaded = True
+            Return ReturnList
+            'Else
+            'Return ChildrenList
+            'End If
         End Get
     End Property
     Public Function Child(ByVal ChildName As String) As APSIMData
@@ -384,13 +383,13 @@ Public Class APSIMData
         ' -----------------------------------------------------------------
         ' Return true if the specified attribute exists
         ' -----------------------------------------------------------------
-        Return Not IsNothing(Node.Attributes.GetNamedItem(AttributeName))
+        Return Not IsNothing(InternalNode.Attributes.GetNamedItem(AttributeName))
     End Function
     Public Function Attribute(ByVal AttributeName As String) As String
         ' -----------------------------------------------------------------
         ' Return the specified attribute or "" if not found
         ' -----------------------------------------------------------------
-        Dim A As XmlAttribute = Node.Attributes.GetNamedItem(AttributeName)
+        Dim A As XmlAttribute = InternalNode.Attributes.GetNamedItem(AttributeName)
         If Not IsNothing(A) Then
             Return A.InnerText
         Else
@@ -402,9 +401,9 @@ Public Class APSIMData
         ' Set the value of the specified attribute
         ' ----------------------------------------
         If Attribute(AttributeName) <> AttributeValue Then
-            Dim attr As XmlNode = Node.OwnerDocument.CreateNode(XmlNodeType.Attribute, AttributeName, "")
+            Dim attr As XmlNode = InternalNode.OwnerDocument.CreateNode(XmlNodeType.Attribute, AttributeName, "")
             attr.Value = AttributeValue
-            Node.Attributes.SetNamedItem(attr)
+            InternalNode.Attributes.SetNamedItem(attr)
             FireDataChangedEvent()
         End If
     End Sub
@@ -412,9 +411,9 @@ Public Class APSIMData
         ' ----------------------------------------
         ' Delete the specified attribute
         ' ----------------------------------------
-        Dim A As XmlAttribute = Node.Attributes.GetNamedItem(AttributeName)
+        Dim A As XmlAttribute = InternalNode.Attributes.GetNamedItem(AttributeName)
         If Not IsNothing(A) Then
-            Node.Attributes.Remove(A)
+            InternalNode.Attributes.Remove(A)
             ChildrenLoaded = False
             FireDataChangedEvent()
         End If
@@ -501,7 +500,7 @@ Public Class APSIMData
         ' ---------------------------------
         ' Delete the specified child
         ' ---------------------------------
-        Node.RemoveChild(Child(ChildName).Node)
+        InternalNode.RemoveChild(Child(ChildName).InternalNode)
         ChildrenLoaded = False
         FireDataChangedEvent()
     End Sub

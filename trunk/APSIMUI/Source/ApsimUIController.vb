@@ -309,7 +309,12 @@ Public Class ApsimUIController
         Dim ReturnVariables As New APSIMData(PropertyGroup, "")
 
         For Each Child As APSIMData In Data.Children
-            GetVariablesForComponent(Child.Type, Child.Name, PropertyGroup, ReturnVariables)
+            Try
+                GetVariablesForComponent(Child.Type, Child.Name, PropertyGroup, ReturnVariables)
+            Catch e As Exception
+
+            End Try
+
         Next
         Return ReturnVariables
     End Function
