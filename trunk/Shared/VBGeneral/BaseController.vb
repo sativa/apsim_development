@@ -125,13 +125,17 @@ Public MustInherit Class BaseController
         ' --------------------------------------------------------
         MyDirtyData = True
     End Sub
-    Public ReadOnly Property DirtyData() As Boolean
+    Public Property DirtyData() As Boolean
+
         ' --------------------------------------------------------
         ' Returns true if the data needs saving i.e. it is dirty.
         ' --------------------------------------------------------
         Get
             Return MyDirtyData
         End Get
+        Set(ByVal value As Boolean)
+            MyDirtyData = value
+        End Set
     End Property
     Public ReadOnly Property AllowDataChanges() As Boolean
         Get
