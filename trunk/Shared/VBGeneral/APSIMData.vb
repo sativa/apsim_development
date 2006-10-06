@@ -521,7 +521,7 @@ Public Class APSIMData
                         Count += 1
                     End If
                 Next
-                If Count = 1 Then
+                If Count <= 1 Then
                     Return
                 Else
                     Name = BaseName + "{" + i.ToString + "}"
