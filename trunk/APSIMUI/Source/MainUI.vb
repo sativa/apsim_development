@@ -68,6 +68,7 @@ Public Class MainUI
         splash.VersionText = "Version " & APSIMSettings.ApsimVersion
         splash.Show()
 
+
         Application.DoEvents()
 
         'This call is required by the Windows Form Designer.
@@ -301,7 +302,7 @@ Public Class MainUI
         Me.SimulationToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewButton, Me.OpenButton, Me.SaveButton, Me.SaveAsButton, Me.HelpContentsButton, Me.ToolStripSeparator5, Me.RunButton, Me.GraphButton, Me.ApsimOutlookButton, Me.ExcelButton})
         Me.SimulationToolStrip.Location = New System.Drawing.Point(3, 0)
         Me.SimulationToolStrip.Name = "SimulationToolStrip"
-        Me.SimulationToolStrip.Size = New System.Drawing.Size(474, 47)
+        Me.SimulationToolStrip.Size = New System.Drawing.Size(505, 47)
         Me.SimulationToolStrip.TabIndex = 1
         '
         'NewButton
@@ -439,6 +440,7 @@ Public Class MainUI
             Left = Convert.ToInt32(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "left"))
             Height = Convert.ToInt32(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "height"))
             Width = Convert.ToInt32(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "width"))
+            HelpContentsButton.ToolTipText = "APSIM Version " & APSIMSettings.ApsimVersion & " Help"
         Catch ex As System.Exception
             Me.WindowState = FormWindowState.Maximized
         End Try
