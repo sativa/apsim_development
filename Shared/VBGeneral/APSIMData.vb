@@ -461,7 +461,7 @@ Public Class APSIMData
         ' -------------------------------------------------
         If Not IsNothing(Data) Then
             BeginInternalUpdate()
-            Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.Node, True)
+            Dim newnode As XmlNode = Node.OwnerDocument.ImportNode(Data.InternalNode, True)
             Dim NewData As APSIMData = New APSIMData(Node.AppendChild(newnode), DataChangedEvent)
             EndInternalUpdate()
             Return NewData
@@ -514,11 +514,10 @@ Public Class APSIMData
             Dim BaseName As String = Name
             Dim Found As Boolean = False
             Dim counter As Integer = 0
-            Dim Siblings() As String = Parent.ChildNames
 
             For i As Integer = 1 To 100000
                 Dim Count As Integer = 0
-                For Each Sibling As String In Siblings
+                For Each Sibling As String In Parent.ChildNames
                     If Sibling.ToLower = Name.ToLower Then
                         Count += 1
                     End If

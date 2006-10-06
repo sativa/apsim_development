@@ -17,6 +17,7 @@ Public Class DataTree
     Private FirstNode As TreeNode
     Friend WithEvents MenuItem3 As System.Windows.Forms.MenuItem
     Friend WithEvents CollapseAllMenuItem As System.Windows.Forms.MenuItem
+    Friend WithEvents ExpandAllMenuItem As System.Windows.Forms.MenuItem
     Private UserChange As Boolean = True
     Delegate Sub NotifyEventHandler()
     Delegate Sub OnDataTreeKeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
@@ -77,6 +78,7 @@ Public Class DataTree
         Me.MoveDownMenuItem = New System.Windows.Forms.MenuItem
         Me.MenuItem3 = New System.Windows.Forms.MenuItem
         Me.CollapseAllMenuItem = New System.Windows.Forms.MenuItem
+        Me.ExpandAllMenuItem = New System.Windows.Forms.MenuItem
         Me.SuspendLayout()
         '
         'TreeView
@@ -95,7 +97,7 @@ Public Class DataTree
         '
         'ContextMenu1
         '
-        Me.ContextMenu1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.AddFolderMenuItem, Me.DeleteItemMenuItem, Me.RenameMenuItem, Me.MenuItem1, Me.CutMenuItem, Me.CopyMenuItem, Me.PasteMenuItem, Me.MenuItem2, Me.MoveUpMenuItem, Me.MoveDownMenuItem, Me.MenuItem3, Me.CollapseAllMenuItem})
+        Me.ContextMenu1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.AddFolderMenuItem, Me.DeleteItemMenuItem, Me.RenameMenuItem, Me.MenuItem1, Me.CutMenuItem, Me.CopyMenuItem, Me.PasteMenuItem, Me.MenuItem2, Me.MoveUpMenuItem, Me.MoveDownMenuItem, Me.MenuItem3, Me.CollapseAllMenuItem, Me.ExpandAllMenuItem})
         '
         'AddFolderMenuItem
         '
@@ -162,6 +164,11 @@ Public Class DataTree
         '
         Me.CollapseAllMenuItem.Index = 11
         Me.CollapseAllMenuItem.Text = "Collapse A&ll"
+        '
+        'ExpandAllMenuItem
+        '
+        Me.ExpandAllMenuItem.Index = 12
+        Me.ExpandAllMenuItem.Text = "E&xpand All"
         '
         'DataTree
         '
@@ -635,7 +642,7 @@ Public Class DataTree
                     End If
                 End While
                 If IsShared Then
-                    FullXML = FullXML + "<" + Data.Type + " shortcut=""" + Data.Name + """/>"
+                    FullXML = FullXML + "<" + Data.Type + " name=""" + Data.Name + """ shortcut=""" + Data.Name + """/>"
                 Else
                     FullXML = FullXML + Data.XML
                 End If
@@ -818,6 +825,7 @@ Public Class DataTree
         Dim SelectedPaths As New StringCollection
         SelectedPaths.Add(Controller.AllData.FullPath)
         Controller.SelectedPaths = SelectedPaths
+        TreeView.Nodes(0).Expand()
         TreeView.EndUpdate()
     End Sub
 
@@ -833,5 +841,14 @@ Public Class DataTree
 
     Private Sub TreeView_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TreeView.KeyPress
         RaiseEvent DataTreeKeyPress(sender, e)
+    End Sub
+
+    Private Sub ExpandAllMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExpandAllMenuItem.Click
+        TreeView.BeginUpdate()
+        TreeView.Nodes(0).ExpandAll()
+        Dim SelectedPaths As New StringCollection
+        SelectedPaths.Add(Controller.AllData.FullPath)
+        Controller.SelectedPaths = SelectedPaths
+        TreeView.EndUpdate()
     End Sub
 End Class
