@@ -583,7 +583,7 @@ Public Class APSIMData
             Add(New APSIMData(ChildType, ChildName))
         Next
         For i As Integer = 1 To NumChildrenToDelete
-            Delete(ChildrenNames(ChildrenNames.Length - 1))
+            Delete(ChildrenNames(i - 1))
         Next
         If NumChildrenToAdd > 0 Or NumChildrenToDelete > 0 Then
             EndInternalUpdate()
