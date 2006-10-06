@@ -526,7 +526,15 @@ Public Class APSIMData
                 If Count <= 1 Then
                     Return
                 Else
+                    Dim braceLocStart As Integer = BaseName.IndexOf("{")
+                    Dim braceLocEnd As Integer = BaseName.IndexOf("}")
+                    If braceLocStart <> -1 Then
+                        Dim number As Integer = Convert.ToInt16((BaseName.Substring(braceLocStart + 1, (braceLocEnd - 1) - braceLocStart)))
+                        i = i + number
+                        BaseName = BaseName.Substring(0, braceLocStart)
+                    End If
                     Name = BaseName + "{" + i.ToString + "}"
+                    EnsureNameIsUnique()
                 End If
             Next
             Throw New Exception("Internal error in APSIMData.CalcUniqueName")
