@@ -426,8 +426,8 @@ namespace CSGeneral
         // 
         this.WaterChart.Panel.ImageBevel.Width = 1;
         this.WaterChart.Panel.MarginBottom = 8;
-        this.WaterChart.Panel.MarginLeft = 20;
-        this.WaterChart.Panel.MarginRight = 20;
+        this.WaterChart.Panel.MarginLeft = 7;
+        this.WaterChart.Panel.MarginRight = 7;
         // 
         // 
         // 
