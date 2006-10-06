@@ -1,6 +1,6 @@
-<simulations name="New Simulations" image="Images/layout_center24.png" version="4">
+<simulations name="New Simulations" image="Images/layout_center24.png" version="5">
   <simulation name="Blank Simulation">
-  <metfile name="met">
+    <metfile name="met">
       <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
     </metfile>
     <clock name="clock">
@@ -18,7 +18,7 @@
   </simulation>
   <shared name="shared" />
   <simulation name="Continuous Wheat Simulation">
-  <metfile name="met">
+    <metfile name="met">
       <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
     </metfile>
     <clock name="clock">
@@ -28,7 +28,7 @@
     <summaryfile name="summaryfile">
       <filename name="filename">Continuous Wheat Simulation.sum</filename>
     </summaryfile>
-     <area name="paddock">
+    <area name="paddock">
       <registrations name="global" />
       <manager name="Manager">
         <rule name="Sowing rule">
@@ -94,7 +94,7 @@
       <fertiliser name="fertiliser" />
       <surfaceom name="surface organic matter">
         <PoolName description="Organic Matter pool name">wheat</PoolName>
-        <type type="list" description="Organic Matter type"  listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
+        <type type="list" description="Organic Matter type" listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
         <mass description="Initial surface residue (kg/ha)">1000.</mass>
         <cnr description="C:N ratio of initial residue">80.0</cnr>
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
@@ -102,19 +102,17 @@
       <wheat />
       <outputfile name="outputfile">
         <filename name="filename">Continuous Wheat Simulation.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="biomass" description="Biomass" array="F" units="kg/ha" module="wheat" variablename="biomass" arrayspec="" ModuleType="wheat" />
-            <variable name="yield" description="Yield" array="F" units="kg/ha" module="wheat" variablename="yield" arrayspec="" ModuleType="wheat" />
-            <variable name="grain_protein" description="grain protein content" array="F" units="%" module="wheat" variablename="grain_protein" arrayspec="" ModuleType="wheat" />
-            <variable name="grain_size" description="Size of each grain" array="F" units="g" module="wheat" variablename="grain_size" arrayspec="" ModuleType="wheat" />
-            <variable name="esw" array="F" description="Extractable Soil Water (mm)" module="Jimbour,Waco (#016)" variablename="esw" arrayspec="" ModuleType="soil" VariableType="Water" />
-          </variables>
-          <events>
-            <event name="harvesting" description="" module="wheat" ModuleType="wheat" />
-          </events>
-        </outputfiledescription>
+        <variables name="My Variables">
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+          <variable name="wheat.biomass" description="Biomass" array="?" units="kg/ha" />
+          <variable name="wheat.yield" description="Yield" array="?" units="kg/ha" />
+          <variable name="wheat.grain_protein" description="grain protein content" array="?" units="%" />
+          <variable name="wheat.grain_size" description="Size of each grain" array="?" units="g" />
+          <variable name="Jimbour,Waco (#016).esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="wheat.harvesting" description="" />
+        </events>
       </outputfile>
       <soil name="Jimbour,Waco (#016)">
         <Site>Jimbour</Site>
@@ -913,7 +911,7 @@
       <fertiliser name="fertiliser" />
       <surfaceom name="surface organic matter">
         <PoolName description="Organic Matter pool name">wheat</PoolName>
-        <type type="list" description="Organic Matter type"  listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
+        <type type="list" description="Organic Matter type" listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
         <mass description="Initial surface residue (kg/ha)">1000.</mass>
         <cnr description="C:N ratio of initial residue">80.0</cnr>
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
@@ -921,19 +919,17 @@
       <wheat />
       <outputfile name="outputfile">
         <filename name="filename">Continuous Wheat Simulation with Climate Change.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="biomass" description="Biomass" array="F" units="kg/ha" module="wheat" variablename="biomass" arrayspec="" ModuleType="wheat" />
-            <variable name="yield" description="Yield" array="F" units="kg/ha" module="wheat" variablename="yield" arrayspec="" ModuleType="wheat" />
-            <variable name="grain_protein" description="grain protein content" array="F" units="%" module="wheat" variablename="grain_protein" arrayspec="" ModuleType="wheat" />
-            <variable name="grain_size" description="Size of each grain" array="F" units="g" module="wheat" variablename="grain_size" arrayspec="" ModuleType="wheat" />
-            <variable name="esw" array="F" description="Extractable Soil Water (mm)" module="Jimbour,Waco (#016)" variablename="esw" arrayspec="" ModuleType="soil" VariableType="Water" />
-          </variables>
-          <events>
-            <event name="harvesting" description="" module="wheat" ModuleType="wheat" />
-          </events>
-        </outputfiledescription>
+        <variables name="My Variables">
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+          <variable name="wheat.biomass" description="Biomass" array="?" units="kg/ha" />
+          <variable name="wheat.yield" description="Yield" array="?" units="kg/ha" />
+          <variable name="wheat.grain_protein" description="grain protein content" array="?" units="%" />
+          <variable name="wheat.grain_size" description="Size of each grain" array="?" units="g" />
+          <variable name="Jimbour,Waco (#016).esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="wheat.harvesting" description="" />
+        </events>
       </outputfile>
       <soil name="Jimbour,Waco (#016)">
         <Site>Jimbour</Site>
@@ -1648,7 +1644,7 @@
     </area>
   </simulation>
   <simulation name="Continuous Sorghum Simulation">
-  <metfile name="met">
+    <metfile name="met">
       <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
     </metfile>
     <clock name="clock">
@@ -1662,17 +1658,15 @@
       <registrations name="global" />
       <outputfile name="outputfile">
         <filename name="filename">Continuous Sorghum Simulation.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="biomass" description="Biomass" array="F" units="kg/ha" module="sorghum" variablename="biomass" arrayspec="" ModuleType="sorghum" />
-            <variable name="yield" description="Yield" array="F" units="kg/ha" module="sorghum" variablename="yield" arrayspec="" ModuleType="sorghum" />
-            <variable name="esw" array="F" description="Extractable Soil Water (mm)" module="Jimbour,Waco (#16)" variablename="esw" arrayspec="" ModuleType="soil" VariableType="Water" />
-          </variables>
-          <events>
-            <event name="harvesting" description="" module="sorghum" ModuleType="sorghum" />
-          </events>
-        </outputfiledescription>
+        <variables name="My Variables">
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+          <variable name="sorghum.biomass" description="Biomass" array="?" units="kg/ha" />
+          <variable name="sorghum.yield" description="Yield" array="?" units="kg/ha" />
+          <variable name="Jimbour,Waco (#16).esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="sorghum.harvesting" description="" />
+        </events>
       </outputfile>
       <manager name="Manager">
         <rule name="Sorghum Sowing rule">
@@ -1739,7 +1733,7 @@
       <fertiliser name="fertiliser" />
       <surfaceom name="surface organic matter">
         <PoolName description="Organic Matter pool name">wheat</PoolName>
-        <type type="list" description="Organic Matter type"  listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
+        <type type="list" description="Organic Matter type" listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
         <mass description="Initial surface residue (kg/ha)">1000.</mass>
         <cnr description="C:N ratio of initial residue">80.0</cnr>
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
@@ -2904,20 +2898,18 @@
       <egrandis />
       <outputfile name="outputfile">
         <filename name="filename">Eucalypt Forest Simulation Block.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="esw" array="F" description="Extractable Soil Water (mm)" module="UniformSoil" variablename="esw" arrayspec="" ModuleType="soil" VariableType="Water" />
-            <variable name="lai" description="E. grandis leaf area index" module="egrandis" variablename="lai" arrayspec="" ModuleType="egrandis" />
-            <variable name="adm_green" array="T" description="E. grandis Live Above-ground Biomass Pools" module="egrandis" variablename="adm_green" arrayspec="" ModuleType="egrandis" />
-            <variable name="fw" description="E. grandis water stress factor" module="egrandis" variablename="fw" arrayspec="" ModuleType="egrandis" />
-            <variable name="fn" description="E. grandis N stress factor" module="egrandis" variablename="fn" arrayspec="" ModuleType="egrandis" />
-            <variable name="plants" description="E. grandis Plant Population" module="egrandis" variablename="plants" arrayspec="" ModuleType="egrandis" />
-          </variables>
-          <events>
-            <event name="post" description="End of daily simulation time step" module="global" eventname="post" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
+        <variables name="My Variables">
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+          <variable name="UniformSoil.esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
+          <variable name="egrandis.lai" description="E. grandis leaf area index" array="?" />
+          <variable name="egrandis.adm_green" array="?" description="E. grandis Live Above-ground Biomass Pools" />
+          <variable name="egrandis.fw" description="E. grandis water stress factor" array="?" />
+          <variable name="egrandis.fn" description="E. grandis N stress factor" array="?" />
+          <variable name="egrandis.plants" description="E. grandis Plant Population" array="?" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="post" description="End of daily simulation time step" />
+        </events>
       </outputfile>
     </area>
   </simulation>
@@ -3704,31 +3696,29 @@
       </soil>
       <outputfile name="outputfile">
         <filename name="filename">Sugar Simulation.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)" module="global" variablename="dd/mm/yyyy" arrayspec="" ModuleType="registrations" />
-            <variable name="biomass" variablename="biomass" module="sugar" arrayspec="" description="Sugar total above-ground biomass (green + trash) (g/m2)" ModuleType="sugar" />
-            <variable name="cane_wt" description="Sugar cane dry weight (g/m2)" module="sugar" variablename="cane_wt" arrayspec="" ModuleType="sugar" />
-            <variable name="sucrose_wt" description="Sugar sucrose weight (g/m2)" module="sugar" variablename="sucrose_wt" arrayspec="" ModuleType="sugar" />
-            <variable name="sw_demand" description="Sugar crop demand for water (potential uptake) (mm)" module="sugar" variablename="sw_demand" arrayspec="" ModuleType="sugar" />
-            <variable name="das" description="Sugar days after sowing" module="sugar" variablename="das" arrayspec="" ModuleType="sugar" />
-            <variable name="ratoon_no" description="Sugar Ratoon number" module="sugar" variablename="ratoon_no" arrayspec="" ModuleType="sugar" />
-            <variable name="crop_status" description="Sugar Crop status (dead,alive,out)" module="sugar" variablename="crop_status" arrayspec="" ModuleType="sugar" />
-            <variable name="esw" array="F" description="Extractable Soil Water (mm)" module="Sample Soil" variablename="esw" arrayspec="" ModuleType="soil" VariableType="Water" />
-            <variable name="lai" description="Sugar green leaf area index" module="sugar" variablename="lai" arrayspec="" ModuleType="sugar" />
-            <variable name="nfact_photo" description="Sugar Nitrogen stress factor on photosynthesis (0-1)" module="sugar" variablename="nfact_photo" arrayspec="" ModuleType="sugar" />
-            <variable name="root_depth" description="Sugar depth of roots (mm)" module="sugar" variablename="root_depth" arrayspec="" ModuleType="sugar" />
-            <variable name="swdef_photo" description="Sugar water stress factor on photosynthesis (0-1)" module="sugar" variablename="swdef_photo" arrayspec="" ModuleType="sugar" />
-            <variable name="canefw" description="Sugar cane fresh weight (t/ha)" module="sugar" variablename="canefw" arrayspec="" ModuleType="sugar" />
-            <variable name="radn" description="Solar Radiation (MJ/m2/day)" module="global" variablename="radn" arrayspec="" ModuleType="registrations" />
-            <variable name="rain" description="Rainfall (mm)" module="global" variablename="rain" arrayspec="" ModuleType="registrations" />
-            <variable name="maxt" description="Maximum temperature (oC)" module="global" variablename="maxt" arrayspec="" ModuleType="registrations" />
-            <variable name="mint" description="Minimum temperature (oC)" module="global" variablename="mint" arrayspec="" ModuleType="registrations" />
-          </variables>
-          <events>
-            <event name="post" description="End of daily simulation time step" module="global" eventname="post" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
+        <variables name="My Variables">
+          <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)" array="?" />
+          <variable name="sugar.biomass" description="Sugar total above-ground biomass (green + trash) (g/m2)" array="?" />
+          <variable name="sugar.cane_wt" description="Sugar cane dry weight (g/m2)" array="?" />
+          <variable name="sugar.sucrose_wt" description="Sugar sucrose weight (g/m2)" array="?" />
+          <variable name="sugar.sw_demand" description="Sugar crop demand for water (potential uptake) (mm)" array="?" />
+          <variable name="sugar.das" description="Sugar days after sowing" array="?" />
+          <variable name="sugar.ratoon_no" description="Sugar Ratoon number" array="?" />
+          <variable name="sugar.crop_status" description="Sugar Crop status (dead,alive,out)" array="?" />
+          <variable name="Sample Soil.esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
+          <variable name="sugar.lai" description="Sugar green leaf area index" array="?" />
+          <variable name="sugar.nfact_photo" description="Sugar Nitrogen stress factor on photosynthesis (0-1)" array="?" />
+          <variable name="sugar.root_depth" description="Sugar depth of roots (mm)" array="?" />
+          <variable name="sugar.swdef_photo" description="Sugar water stress factor on photosynthesis (0-1)" array="?" />
+          <variable name="sugar.canefw" description="Sugar cane fresh weight (t/ha)" array="?" />
+          <variable name="radn" description="Solar Radiation (MJ/m2/day)" array="?" />
+          <variable name="rain" description="Rainfall (mm)" array="?" />
+          <variable name="maxt" description="Maximum temperature (oC)" array="?" />
+          <variable name="mint" description="Minimum temperature (oC)" array="?" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="post" description="End of daily simulation time step" />
+        </events>
       </outputfile>
       <fertiliser name="fertiliser" />
       <manager name="Manager">
@@ -3813,7 +3803,7 @@
     </area>
   </simulation>
   <simulation name="Rotation Sample">
-  <metfile name="met">
+    <metfile name="met">
       <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
     </metfile>
     <clock name="clock">
@@ -4438,27 +4428,25 @@
       </soil>
       <surfaceom name="surface organic matter">
         <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
-        <type type="list" description="Organic Matter type"  listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
+        <type type="list" description="Organic Matter type" listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
         <mass description="Initial surface residue (kg/ha)">1000.</mass>
         <cnr description="C:N ratio of initial residue">80.0</cnr>
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
       <outputfile name="outputfile">
         <filename name="filename">Rotation Sample.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec=" " description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="CottonBiomass" variablename="dm" module="cotton" arrayspec=" " description="Total above ground biomass (kg/ha)" ModuleType="ozcot" />
-            <variable name="CottonLAI" variablename="lai" module="cotton" arrayspec=" " description="Leaf area index" ModuleType="ozcot" />
-            <variable name="ChickPeaBiomass" variablename="biomass" module="chickpea" arrayspec=" " description="Biomass" ModuleType="chickpea" />
-            <variable name="ChickPeaLAI" variablename="lai" module="chickpea" arrayspec=" " description="Leaf area index" ModuleType="chickpea" />
-            <variable name="WheatBiomass" variablename="biomass" module="wheat" arrayspec=" " description="Biomass" array="T" ModuleType="wheat" />
-            <variable name="WheatLAI" variablename="lai" module="wheat" arrayspec=" " description="Leaf area index" array="T" ModuleType="wheat" />
-          </variables>
-          <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
+        <variables name="My Variables">
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+          <variable name="cotton.dm as CottonBiomass" description="Total above ground biomass (kg/ha)" array="?" />
+          <variable name="cotton.lai as CottonLAI" description="Leaf area index" array="?" />
+          <variable name="chickpea.biomass as ChickPeaBiomass" description="Biomass" array="?" />
+          <variable name="chickpea.lai as ChickPeaLAI" description="Leaf area index" array="?" />
+          <variable name="wheat.biomass as WheatBiomass" description="Biomass" array="?" />
+          <variable name="wheat.lai as WheatLAI" description="Leaf area index" array="?" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="Daily" description="End of day" />
+        </events>
       </outputfile>
       <fertiliser name="fertiliser" />
     </area>
@@ -4480,28 +4468,26 @@
       <fertiliser name="fertiliser" />
       <surfaceom name="surface organic matter">
         <PoolName description="Organic Matter pool name">wheat</PoolName>
-        <type type="list" description="Organic Matter type"  listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
+        <type type="list" description="Organic Matter type" listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
         <mass description="Initial surface residue (kg/ha)">1000.</mass>
         <cnr description="C:N ratio of initial residue">80.0</cnr>
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
       <outputfile name="outputfile">
         <filename name="filename">Complex Rotations.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec=" " description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="biomass_wheat" variablename="biomass" module="wheat" arrayspec=" " description="Biomass" ModuleType="wheat" />
-            <variable name="yield_wheat" variablename="yield" module="wheat" arrayspec=" " description="Yield" ModuleType="wheat" />
-            <variable name="grain_protein" variablename="grain_protein" module="wheat" arrayspec=" " description="grain protein content" ModuleType="wheat" />
-            <variable name="biomass_sorg" variablename="biomass" module="sorghum" arrayspec=" " array="T" ModuleType="sorghum" />
-            <variable name="yield_sorg" variablename="yield" module="sorghum" arrayspec=" " array="T" ModuleType="sorghum" />
-            <variable name="biomass_chickpea" variablename="biomass" module="chickpea" arrayspec=" " array="T" ModuleType="chickpea" />
-            <variable name="yield_chickpea" variablename="yield" module="chickpea" arrayspec=" " array="T" ModuleType="chickpea" />
-          </variables>
-          <events>
-            <event name="harvesting" description="" module="wheat" ModuleType="wheat" />
-          </events>
-        </outputfiledescription>
+        <variables name="My Variables">
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+          <variable name="wheat.biomass as biomass_wheat" description="Biomass" array="?" />
+          <variable name="wheat.yield as yield_wheat" description="Yield" array="?" />
+          <variable name="wheat.grain_protein" description="grain protein content" array="?" />
+          <variable name="sorghum.biomass as biomass_sorg" array="?" />
+          <variable name="sorghum.yield as yield_sorg" array="?" />
+          <variable name="chickpea.biomass as biomass_chickpea" array="?" />
+          <variable name="chickpea.yield as yield_chickpea" array="?" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="wheat.harvesting" description="" />
+        </events>
       </outputfile>
       <tclmanager name="TCL Manager">
         <rule name="Planting rules">
