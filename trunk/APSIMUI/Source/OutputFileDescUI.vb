@@ -228,6 +228,8 @@ Public Class OutputFileDescUI
         UserChange = False
         PopulateVariableGrid()
         PopulateVariableListView()
+        Grid.ActiveColumnIndex = 0
+        Grid.ActiveRowIndex = 0
         UserChange = True
 
         Dim InputMap As FarPoint.Win.Spread.InputMap = Spread.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused)
