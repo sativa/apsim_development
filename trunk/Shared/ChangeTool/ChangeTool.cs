@@ -175,12 +175,13 @@ namespace ChangeTool
             if (Data.Type.ToLower() == "outputfiledescription")
                 {
                 APSIMData outputfiledescription = Data;
-                string[] VGNames = outputfiledescription.ChildNames("variables");
-                foreach (string VGName in VGNames)
+                if (outputfiledescription.Attribute("shortcut") == "")
                     {
-                    APSIMData VariablesGroup = outputfiledescription.Child(VGName);
-                    if (outputfiledescription.Attribute("shortcut") == "")
+                    string[] VGNames = outputfiledescription.ChildNames("variables");
+                    foreach (string VGName in VGNames)
                         {
+                        APSIMData VariablesGroup = outputfiledescription.Child(VGName);
+
                         string[] VNames = VariablesGroup.ChildNames("variable");
                         foreach (string VName in VNames)
                             {
@@ -203,19 +204,11 @@ namespace ChangeTool
                         VariablesGroup.Name = outputfiledescription.Name;
                         VariablesGroup.Parent.Parent.Add(VariablesGroup);
                         }
-                    else
-                        {
-                        VariablesGroup = Data.Parent.Add(new APSIMData("variables", outputfiledescription.Attribute("shortcut")));
-                        VariablesGroup.SetAttribute("shortcut", outputfiledescription.Attribute("shortcut"));
-                        }
-                    }
 
-                string[] EGNames = outputfiledescription.ChildNames("events");
-                foreach (string EGName in EGNames)
-                    {
-                    APSIMData EventsGroup = outputfiledescription.Child(EGName);
-                    if (outputfiledescription.Attribute("shortcut") == "")
+                    string[] EGNames = outputfiledescription.ChildNames("events");
+                    foreach (string EGName in EGNames)
                         {
+                        APSIMData EventsGroup = outputfiledescription.Child(EGName);
                         string[] EventNames = EventsGroup.ChildNames("event");
                         foreach (string EventName in EventNames)
                             {
@@ -249,11 +242,14 @@ namespace ChangeTool
                         EventsGroup.Name = outputfiledescription.Name + " Events";
                         EventsGroup.Parent.Parent.Add(EventsGroup);
                         }
-                    else
-                        {
-                        EventsGroup = Data.Parent.Add(new APSIMData("events", outputfiledescription.Attribute("shortcut") + " Events"));
-                        EventsGroup.SetAttribute("shortcut", outputfiledescription.Attribute("shortcut") + " Events");
-                        }
+                    }
+                else
+                    {
+                    APSIMData VariablesGroup = Data.Parent.Add(new APSIMData("variables", outputfiledescription.Attribute("shortcut")));
+                    VariablesGroup.SetAttribute("shortcut", outputfiledescription.Attribute("shortcut"));
+
+                    APSIMData EventsGroup = Data.Parent.Add(new APSIMData("events", outputfiledescription.Attribute("shortcut") + " Events"));
+                    EventsGroup.SetAttribute("shortcut", outputfiledescription.Attribute("shortcut") + " Events");
                     }
                 outputfiledescription.Parent.Delete(outputfiledescription.Name);
                 }
