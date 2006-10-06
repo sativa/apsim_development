@@ -1,4 +1,4 @@
-<folder name="Standard Toolbox" image="Images/toolbox.png" version="4">
+<folder name="Standard Toolbox" image="Images/toolbox.png" version="5">
   <folder name="Structural">
     <memo>
     </memo>
@@ -376,14 +376,12 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
   </FarmwiseSequencerConverter>
   <outputfile name="Outputfile">
     <filename name="filename">sample.out</filename>
-    <outputfiledescription name="My Variables">
-      <variables>
-        <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" />
-      </variables>
-      <events>
-        <event name="Daily" description="End of daily simulation time step" module="clock" />
-      </events>
-    </outputfiledescription>
+    <variables name="Variables">
+      <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+    </variables>
+    <events name="Reporting Frequency">
+      <event name="clock.Daily" description="End of daily simulation time step" />
+    </events>
   </outputfile>
   <summaryfile name="Summaryfile">
     <filename name="filename">sample.sum</filename>
@@ -2433,7 +2431,7 @@ if {$steps == 0} {tkwait variable steps}
   </folder>
   <surfaceom name="Surface Organic Matter">
     <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
-    <type type="list" description="Organic Matter type"  listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
+    <type type="list" description="Organic Matter type" listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
     <mass description="Initial surface residue (kg/ha)">1000.</mass>
     <cnr description="C:N ratio of initial residue">80.0</cnr>
     <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
