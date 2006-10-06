@@ -1,4 +1,4 @@
-<simulations name="SweetCornValidation" version="4">
+<simulations name="SweetCornValidation" version="5">
   <simulation name="NZIrrigation">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date">30/10/1996</start_date>
@@ -23,7 +23,8 @@
       <SweetCorn />
       <outputfile name="outputfile">
         <filename name="filename">NZIrrigation FI.out</filename>
-        <outputfiledescription shortcut="My Variables" />
+        <variables name="My Variables" shortcut="My Variables" />
+        <events name="My Variables Events" shortcut="My Variables Events" />
       </outputfile>
       <irrigation name="Irrigation">
         <property name="automatic_irrigation" type="text" description="switch">switch</property>
@@ -53,7 +54,8 @@
       </irrigation>
       <outputfile name="outputfile">
         <filename name="filename">NZIrrigation FD.out</filename>
-        <outputfiledescription shortcut="My Variables" />
+        <variables name="My Variables" shortcut="My Variables" />
+        <events name="My Variables Events" shortcut="My Variables Events" />
       </outputfile>
       <soil shortcut="Lincoln" />
       <manager shortcut="LincolnCrop" />
@@ -83,11 +85,13 @@
       <SweetCorn />
       <outputfile name="outputfile">
         <filename name="filename">Lawes RD.out</filename>
-        <outputfiledescription shortcut="My Variables" />
+        <variables name="My Variables" shortcut="My Variables" />
+        <events name="My Variables Events" shortcut="My Variables Events" />
       </outputfile>
       <outputfile name="FinalOutput">
         <filename name="filename">Lawes RD FinalOutput.out</filename>
-        <outputfiledescription shortcut="FinalVariables" />
+        <variables name="FinalVariables" shortcut="FinalVariables" />
+        <events name="FinalVariables Events" shortcut="FinalVariables Events" />
       </outputfile>
       <Soil shortcut="DPIGatton" />
       <manager shortcut="LawesCrop" />
@@ -217,12 +221,14 @@
       <SweetCorn />
       <outputfile name="outputfile">
         <filename name="filename">Lawes Dry.out</filename>
-        <outputfiledescription shortcut="My Variables" />
+        <variables name="My Variables" shortcut="My Variables" />
+        <events name="My Variables Events" shortcut="My Variables Events" />
       </outputfile>
       <Soil shortcut="DPIGatton" />
       <outputfile name="FinalOutput">
         <filename name="filename">Lawes Dry FinalOutput.out</filename>
-        <outputfiledescription shortcut="FinalVariables" />
+        <variables name="FinalVariables" shortcut="FinalVariables" />
+        <events name="FinalVariables Events" shortcut="FinalVariables Events" />
       </outputfile>
       <manager shortcut="LawesCrop" />
       <operations>
@@ -583,39 +589,6 @@
         </category>
       </rule>
     </manager>
-    <outputfiledescription name="My Variables">
-      <variables>
-        <variable name="Date" variablename="dd/mmm/yyyy" module="global" arrayspec=" " description="Date (dd/mm/yyyy)" />
-        <variable name="zadok_stage" variablename="zadok_stage" module="SweetCorn" arrayspec=" " description="Zadok's growth developmental stage" />
-        <variable name="lai" variablename="lai" module="SweetCorn" arrayspec=" " description="Leaf area index" />
-        <variable name="leaf_wt" variablename="leaf_wt" module="SweetCorn" arrayspec=" " description="Weight of leaf" />
-        <variable name="stem_wt" variablename="stem_wt" module="SweetCorn" arrayspec=" " description="Weight of stem" />
-        <variable name="head_wt" variablename="head_wt" module="SweetCorn" arrayspec=" " description="Weight of heads" />
-        <variable name="biomass_wt" variablename="biomass_wt" module="SweetCorn" arrayspec=" " description="Biomass weight" />
-        <variable name="swdef_photo" variablename="swdef_photo" module="SweetCorn" arrayspec=" " description="Soil water deficit in photosynthesis" />
-        <variable name="node_no" variablename="node_no" module="SweetCorn" arrayspec=" " description="Number of leaves per plant" />
-        <variable name="node_no_sen" variablename="node_no_sen" module="SweetCorn" arrayspec=" " description="Number of senesced leaves per square meter" />
-        <variable name="node_no_fx" variablename="node_no_fx" module="SweetCorn" arrayspec=" " description="Number of fully expanded leaves" />
-        <variable name="nfact_photo" variablename="nfact_photo" module="SweetCorn" arrayspec=" " description="N factor for photosynthesis" />
-        <variable name="temp_stress_photo" variablename="temp_stress_photo" module="SweetCorn" arrayspec=" " description="Temperature Stress in photosynthesis" array="T" />
-        <variable name="tt_tot" variablename="tt_tot" module="SweetCorn" arrayspec=" " description="Thermal time spent in each crop stage" />
-        <variable name="das" variablename="das" module="SweetCorn" arrayspec=" " description="Days after Sowing" array="T" />
-        <variable name="irrigation" variablename="irrigation" module="Irrigation" arrayspec=" " description="Irrigation entering the profile (mm)" array="T" />
-        <variable name="root_depth" variablename="root_depth" module="SweetCorn" arrayspec=" " description="depth of roots" array="T" />
-        <variable name="sw_dep" variablename="sw_dep" module="DPIGatton Water" arrayspec="()" description="Soil water - layered (mm)" array="T" />
-        <variable name="sw" variablename="sw" module="DPIGatton Water" arrayspec=" " description="Soil water - layered (mm/mm)" array="T" />
-        <variable name="dlt_lai_pot" variablename="dlt_lai_pot" module="SweetCorn" arrayspec=" " description="Potential change in live plant lai" />
-        <variable name="ep" variablename="ep" module="SweetCorn" arrayspec=" " description="Plant water uptake" />
-        <variable name="sw_demand" variablename="sw_demand" module="SweetCorn" arrayspec=" " description="Demand for sw" />
-        <variable name="nfact_expan" variablename="nfact_expan" module="SweetCorn" arrayspec=" " description="N factor for leaf expansion" />
-        <variable name="swdef_expan" variablename="swdef_expan" module="SweetCorn" arrayspec=" " description="Soil water deficit in leaf expansion" />
-        <variable name="runoff" variablename="runoff" module="DPIGatton Water" arrayspec=" " description="Runoff (mm)" />
-        <variable name="es" variablename="es" module="DPIGatton Water" arrayspec=" " description="Evaporation (mm)" />
-      </variables>
-      <events>
-        <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-      </events>
-    </outputfiledescription>
     <Soil name="DPIGatton">
       <region>Lockyer</region>
       <site>UQ, Lawes</site>
@@ -851,16 +824,76 @@
       </rule>
     </manager>
     <operations />
-    <outputfiledescription name="FinalVariables">
-      <variables>
-        <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec=" " description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-        <variable name="leaf_area_max" variablename="leaf_area_max" module="SweetCorn" arrayspec=" " array="T" ModuleType="sweetcorn" />
-        <variable name="leaf_area" variablename="leaf_area" module="SweetCorn" arrayspec=" " array="T" ModuleType="sweetcorn" />
-      </variables>
-      <events>
-        <event name="SweetCorn.harvesting" description="" module="SweetCorn" eventname="harvesting" ModuleType="sweetcorn" />
-      </events>
-    </outputfiledescription>
+    <variables name="My Variables">
+      <variable name="dd/mmm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+      <variable name="SweetCorn.zadok_stage" description="Zadok's growth developmental stage" array="?" />
+      <variable name="SweetCorn.lai" description="Leaf area index" array="?" />
+      <variable name="SweetCorn.leaf_wt" description="Weight of leaf" array="?" />
+      <variable name="SweetCorn.stem_wt" description="Weight of stem" array="?" />
+      <variable name="SweetCorn.head_wt" description="Weight of heads" array="?" />
+      <variable name="SweetCorn.biomass_wt" description="Biomass weight" array="?" />
+      <variable name="SweetCorn.swdef_photo" description="Soil water deficit in photosynthesis" array="?" />
+      <variable name="SweetCorn.node_no" description="Number of leaves per plant" array="?" />
+      <variable name="SweetCorn.node_no_sen" description="Number of senesced leaves per square meter" array="?" />
+      <variable name="SweetCorn.node_no_fx" description="Number of fully expanded leaves" array="?" />
+      <variable name="SweetCorn.nfact_photo" description="N factor for photosynthesis" array="?" />
+      <variable name="SweetCorn.temp_stress_photo" description="Temperature Stress in photosynthesis" array="?" />
+      <variable name="SweetCorn.tt_tot" description="Thermal time spent in each crop stage" array="?" />
+      <variable name="SweetCorn.das" description="Days after Sowing" array="?" />
+      <variable name="Irrigation.irrigation" description="Irrigation entering the profile (mm)" array="?" />
+      <variable name="SweetCorn.root_depth" description="depth of roots" array="?" />
+      <variable name="DPIGatton Water.sw_dep()" description="Soil water - layered (mm)" array="?" />
+      <variable name="DPIGatton Water.sw" description="Soil water - layered (mm/mm)" array="?" />
+      <variable name="SweetCorn.dlt_lai_pot" description="Potential change in live plant lai" array="?" />
+      <variable name="SweetCorn.ep" description="Plant water uptake" array="?" />
+      <variable name="SweetCorn.sw_demand" description="Demand for sw" array="?" />
+      <variable name="SweetCorn.nfact_expan" description="N factor for leaf expansion" array="?" />
+      <variable name="SweetCorn.swdef_expan" description="Soil water deficit in leaf expansion" array="?" />
+      <variable name="DPIGatton Water.runoff" description="Runoff (mm)" array="?" />
+      <variable name="DPIGatton Water.es" description="Evaporation (mm)" array="?" />
+      <variable name="wheat.nfact_expan" array="?" description="N factor for leaf expansion" />
+      <variable name="wheat.root_depth" array="?" description="plant rooting depth" />
+      <variable name="wheat.ep" array="?" description="wheat water use" />
+      <variable name="eo" array="?" description="potential et" />
+    </variables>
+    <events name="My Variables Events">
+      <event name="Daily" description="End of day" />
+    </events>
+    <variables name="FinalVariables">
+      <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+      <variable name="SweetCorn.leaf_area_max" array="?" />
+      <variable name="SweetCorn.leaf_area" array="?" />
+      <variable name="SweetCorn.leaf_wt" array="?" description="Weight of leaf" />
+      <variable name="SweetCorn.stem_wt" array="?" description="Weight of stem" />
+      <variable name="SweetCorn.head_wt" array="?" description="Weight of heads" />
+      <variable name="SweetCorn.biomass_wt" array="?" description="Biomass weight" />
+      <variable name="SweetCorn.swdef_photo" array="?" description="Soil water deficit in photosynthesis" />
+      <variable name="SweetCorn.node_no" array="?" description="Number of leaves per plant" />
+      <variable name="SweetCorn.node_no_sen" array="?" description="Number of senesced leaves per square meter" />
+      <variable name="SweetCorn.node_no_fx" array="?" description="Number of fully expanded leaves" />
+      <variable name="SweetCorn.nfact_photo" array="?" description="N factor for photosynthesis" />
+      <variable name="SweetCorn.temp_stress_photo" array="?" description="Temperature Stress in photosynthesis" />
+      <variable name="SweetCorn.tt_tot" array="?" description="Thermal time spent in each crop stage" />
+      <variable name="SweetCorn.das" array="?" description="Days after Sowing" />
+      <variable name="Irrigation.irrigation" array="?" description="Irrigation entering the profile (mm)" />
+      <variable name="SweetCorn.root_depth" array="?" description="depth of roots" />
+      <variable name="DPIGatton Water.sw_dep()" array="?" description="Soil water - layered (mm)" />
+      <variable name="DPIGatton Water.sw" array="?" description="Soil water - layered (mm/mm)" />
+      <variable name="SweetCorn.dlt_lai_pot" array="?" description="Potential change in live plant lai" />
+      <variable name="SweetCorn.ep" array="?" description="Plant water uptake" />
+      <variable name="SweetCorn.sw_demand" array="?" description="Demand for sw" />
+      <variable name="SweetCorn.nfact_expan" array="?" description="N factor for leaf expansion" />
+      <variable name="SweetCorn.swdef_expan" array="?" description="Soil water deficit in leaf expansion" />
+      <variable name="DPIGatton Water.runoff" array="?" description="Runoff (mm)" />
+      <variable name="DPIGatton Water.es" array="?" description="Evaporation (mm)" />
+      <variable name="wheat.nfact_expan" array="?" description="N factor for leaf expansion" />
+      <variable name="wheat.root_depth" array="?" description="plant rooting depth" />
+      <variable name="wheat.ep" array="?" description="wheat water use" />
+      <variable name="eo" array="?" description="potential et" />
+    </variables>
+    <events name="FinalVariables Events">
+      <event name="SweetCorn.harvesting" description="" />
+    </events>
   </folder>
   <simulation name="Lawes{2}">
     <clock name="clock">
@@ -886,11 +919,13 @@
       <SweetCorn />
       <outputfile name="outputfile">
         <filename name="filename">Lawes{2} RD.out</filename>
-        <outputfiledescription shortcut="My Variables" />
+        <variables name="My Variables" shortcut="My Variables" />
+        <events name="My Variables Events" shortcut="My Variables Events" />
       </outputfile>
       <outputfile name="FinalOutput">
         <filename name="filename">Lawes{2} RD FinalOutput.out</filename>
-        <outputfiledescription shortcut="FinalVariables" />
+        <variables name="FinalVariables" shortcut="FinalVariables" />
+        <events name="FinalVariables Events" shortcut="FinalVariables Events" />
       </outputfile>
       <Soil shortcut="DPIGatton" />
       <manager shortcut="LawesCrop" />
