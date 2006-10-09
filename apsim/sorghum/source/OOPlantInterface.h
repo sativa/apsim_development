@@ -21,7 +21,6 @@ class PlantInterface : public protocol::Component
    //virtual void respondToMethod(unsigned int& fromID, unsigned int& eventID,
    //                                             protocol::Variant& variant);
    bool respondToSet(unsigned int& /*fromID*/,protocol::QuerySetValueData& setValueData);
-   void onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryData);
 
 
   // void respondToGet(unsigned int& /*fromID*/,protocol::QueryValueData& queryData);
@@ -29,8 +28,6 @@ class PlantInterface : public protocol::Component
   //                                           bool isArray, const char *units);
    void warningError (const char *msg);
    void writeString (const char *line);
-
-
 
    std::string readParameter(const string& sectionName,const string& variableName)
       {

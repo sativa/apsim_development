@@ -111,12 +111,6 @@ void PlantInterface::doInit2(void)
    {
    protocol::Component::doInit2();
    }
-//-----------------------------------------------------------------------------
-void PlantInterface::onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryData)
-   {
-   plant->onApsimGetQuery(apsimGetQueryData);
-   }
-//-----------------------------------------------------------------------------
 
 
 // Look for a messages we have an interest in.

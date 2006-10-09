@@ -17,7 +17,6 @@ class PlantComponent : public protocol::Component
       void doInit1(const FString& sdml);
       void doInit2(void);
       bool respondToSet(unsigned int& fromID, protocol::QuerySetValueData& setValueData);
-      void onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryData);
 
       void writeString (const char *msg);
       void warningError (const char *msg);

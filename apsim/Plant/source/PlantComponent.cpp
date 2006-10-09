@@ -107,12 +107,6 @@ void PlantComponent::doInit2(void)
    if (plant) plant->doInit2(this);
    }
 
-void PlantComponent::onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryData)
-//=======================================================================================
-   {
-   if (plant) plant->onApsimGetQuery(apsimGetQueryData);
-   }
-
 bool PlantComponent::respondToSet(unsigned int& /*fromID*/, protocol::QuerySetValueData& setValueData)
 //=======================================================================================
 // Set the value of a variable for the specified
