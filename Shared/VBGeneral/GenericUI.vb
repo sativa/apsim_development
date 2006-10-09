@@ -79,6 +79,8 @@ Public Class GenericUI
         TipAppearance1.ForeColor = System.Drawing.SystemColors.InfoText
         Me.FpSpread1.TextTipAppearance = TipAppearance1
         Me.FpSpread1.VerticalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded
+        Me.FpSpread1.TextTipPolicy = FarPoint.Win.Spread.TextTipPolicy.Floating
+        Me.FpSpread1.TextTipDelay = 500
         '
         'Grid
         '
@@ -171,6 +173,7 @@ Public Class GenericUI
                 If ExistingIndex = -1 Then
                     PropertyData.Add(Prop)
                     Grid.Cells(Row, 0).Value = Prop.Attribute("description")
+                    Grid.Cells(Row, 0).Tag = Prop.Name
                     If Grid.Cells(Row, 0).Value = "" Then
                         Grid.Cells(Row, 0).Value = Prop.Name
                     End If
@@ -292,5 +295,13 @@ Public Class GenericUI
         ' Pass event to BaseController so that it can act on it.
         ' --------------------------------------------------------------
         Controller.OnButtonClick(sender, e, PropertyData(e.Row))
+    End Sub
+
+    Private Sub FpSpread1_TextTipFetch(ByVal sender As System.Object, ByVal e As FarPoint.Win.Spread.TextTipFetchEventArgs) Handles FpSpread1.TextTipFetch
+        e.ShowTip = True
+        If Not IsNothing(Grid.Cells(e.Row, e.Column).Tag) Then
+            e.TipText = "The APSIM variable for this field is [" + Grid.Cells(e.Row, e.Column).Tag.ToString() + "]"
+        End If
+
     End Sub
 End Class
