@@ -484,40 +484,7 @@ void OOPlant::phenologyEvent(int iStage)
    plantInterface->publish (id, outgoingApsimVariant);
 
    }
-//------------------------------------------------------------------------------------------------
 
-void OOPlant::onApsimGetQuery(protocol::ApsimGetQueryData& apsimQueryData)
-   {
-   string name = string(apsimQueryData.name.f_str(),apsimQueryData.name.length());
-   boost::function2<void, protocol::Component *, protocol::QueryValueData &> fn;
-   if (name == string("crop_type"))
-      {
-
-      fn = boost::bind(&OOPlant::get_crop_type, this, _1, _2);
-      plantInterface->addGettableVar("crop_type", protocol::DTstring, false,fn, "",  "");
-      }
-   else if (name == string("cover_green"))
-      {
-      fn = boost::bind(&OOPlant::get_cover_green, this, _1, _2);
-      plantInterface->addGettableVar("cover_green", protocol::DTsingle, false,fn, "",  "");
-      }
-   else if (name == string("cover_tot"))
-      {
-      fn = boost::bind(&OOPlant::get_cover_tot, this, _1, _2);
-      plantInterface->addGettableVar("cover_tot", protocol::DTsingle, false,fn, "",  "");
-      }
-   else if (name == string("height"))
-      {
-      fn = boost::bind(&OOPlant::get_height, this, _1, _2);
-      plantInterface->addGettableVar("height", protocol::DTsingle, false,fn, "mm",  "");
-      }
-   }
-
-
-void OOPlant::get_crop_type(protocol::Component *system, protocol::QueryValueData &qd)
-   {
-   system->sendVariable(qd, FString(cropType.c_str()));
-   }
 void OOPlant::get_cover_green(protocol::Component *system, protocol::QueryValueData &qd)
    {
    float coverGreen = leaf->getCoverGreen();

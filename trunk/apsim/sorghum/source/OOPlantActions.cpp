@@ -55,9 +55,8 @@ void OOPlant::doRegistrations(void)
 
 
 #define setupGetVar plantInterface->addGettableVar
-//   setupGetVar("crop_type", cropType, "", "Crop species");
-   setupGetVar("crop_class",cropClass, "", "");
-//   setupGetVar("plant_status", statusString, "", "Status of crop");
+   setupGetVar("crop_type", cropType, "", "Crop species");
+   setupGetVar("crop_class",cropClass, "", "Crop class");
    setupGetVar("das", das, "days", "Days after sowing");
    setupGetVar("radn_int", radnIntercepted, "", "");
    setupGetVar("temp_stress", tempStress, "", "");
@@ -70,6 +69,12 @@ void OOPlant::doRegistrations(void)
 
    setupGetFunction(plantInterface,"plant_status", protocol::DTstring, false,
                     &OOPlant::getPlantStatus, "", "Status of crop");
+   setupGetFunction(plantInterface,"height", protocol::DTsingle, false,
+                    &OOPlant::get_height, "mm", "Status of crop");
+   setupGetFunction(plantInterface,"cover_green", protocol::DTsingle, false,
+                    &OOPlant::get_cover_green, "", "Green cover");
+   setupGetFunction(plantInterface,"cover_tot", protocol::DTsingle, false,
+                    &OOPlant::get_cover_tot, "", "Total cover");
 
    plantInterface->addRegistration(RegistrationType::event, "sowing", nullTypeDDML, "", "");
    plantInterface->addRegistration(RegistrationType::event, "harvesting", nullTypeDDML, "", "");

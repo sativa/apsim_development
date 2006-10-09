@@ -19,7 +19,6 @@ class IPlant {
    virtual void doInit1(protocol::Component *) = 0;
    virtual void doInit2(protocol::Component *) = 0;
    virtual bool respondToSet(unsigned int& /*fromID*/, protocol::QuerySetValueData& /*setValueData*/) = 0;
-   virtual void onApsimGetQuery(protocol::ApsimGetQueryData&) = 0;
 };
 
 // Abstact plant interface, as seen from plant things (inside)

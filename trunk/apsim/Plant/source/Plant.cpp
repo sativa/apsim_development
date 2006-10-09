@@ -301,15 +301,14 @@ void Plant::doRegistrations(protocol::Component *system)
    setupGetFunction(parent, "plant_status", protocol::DTstring, false,
                      &Plant::get_plant_status, "", "Plant Status");
 
-// XXXX UGLY HACK workaround for broken coordinator in 3.4
-//   id = parent->addGettableVar("crop_type", protocol::DTstring, false, "");
-//   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_crop_type));
+   setupGetFunction(parent, "crop_type", protocol::DTstring, false,
+                     &Plant::get_crop_type, "", "Crop Type");
 
    parent->addGettableVar("crop_class",
-               g.crop_class, "", "Plant crop class");
+                          g.crop_class, "", "Plant crop class");
 
-//   id = parent->addGettableVar("height", protocol::DTsingle, false, "mm");
-//   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_height));
+   setupGetFunction(parent, "height", protocol::DTsingle, false,
+                     &Plant::get_height, "mm", "Height of crop");
 
    parent->addGettableVar("width",
                g.canopy_width, "mm", "canopy row width");
@@ -317,11 +316,11 @@ void Plant::doRegistrations(protocol::Component *system)
    parent->addGettableVar("plants",
                g.plants, "plants/m^2", "Plant desnity");
 
-//   id = parent->addGettableVar("cover_green", protocol::DTsingle, false, "");
-//   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_cover_green));
+   setupGetFunction(parent, "cover_green", protocol::DTsingle, false,
+                     &Plant::get_cover_green, "", "Green cover");
 
-//   id = parent->addGettableVar("cover_tot", protocol::DTsingle, false, "");
-//   IDtoGetFn.insert(UInt2GetFnMap::value_type(id,&Plant::get_cover_tot));
+   setupGetFunction(parent, "cover_tot", protocol::DTsingle, false,
+                     &Plant::get_cover_tot, "", "Total cover");
 
    parent->addGettableVar("lai_canopy_green",
                g.lai_canopy_green, "m^2/m^2", "Green lai");
@@ -686,30 +685,6 @@ void Plant::doRegistrations(protocol::Component *system)
       (*t)->doRegistrations(parent);
    }
 
-void Plant::onApsimGetQuery(protocol::ApsimGetQueryData& apsimQueryData)
-{
-   boost::function2<void, protocol::Component *, protocol::QueryValueData &> fn;
-
-   // XXXX UGLY HACK workaround for broken coordinator in 3.4 Get rid of this ASAP
-   string name = string(apsimQueryData.name.f_str(),apsimQueryData.name.length());
-   if (name == string("crop_type")) {
-      fn = boost::bind(&Plant::get_crop_type, this, _1, _2);
-      parent->addGettableVar("crop_type", protocol::DTstring, false,
-                             fn, "",  "");
-   } else if (name == string("cover_green")) {
-      fn = boost::bind(&Plant::get_cover_green, this, _1, _2);
-      parent->addGettableVar("cover_green", protocol::DTsingle, false,
-                             fn, "",  "");
-   } else if (name == string("cover_tot")) {
-      fn = boost::bind(&Plant::get_cover_tot, this, _1, _2);
-      parent->addGettableVar("cover_tot", protocol::DTsingle, false,
-                             fn, "",  "");
-   } else if (name == string("height")) {
-      fn = boost::bind(&Plant::get_height, this, _1, _2);
-      parent->addGettableVar("height", protocol::DTsingle, false,
-                             fn, "mm",  "");
-   }
-}
 
 void Plant::doPlantEvent(const string &e)
    {

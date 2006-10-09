@@ -186,8 +186,6 @@ class OOPlant
    void doEndRun(unsigned &, unsigned &, protocol::Variant &v) ;
    void doKillCrop(unsigned &, unsigned &, protocol::Variant &v);
 
-   void onApsimGetQuery(protocol::ApsimGetQueryData&);
-
    bool setVariable(unsigned id, protocol::QuerySetValueData& qd);
  //  void getVariable(protocol::QueryValueData& qd);
  //  void mapVar(unsigned id,string name,void *ptr,int dType);

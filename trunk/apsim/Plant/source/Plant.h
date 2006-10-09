@@ -157,7 +157,6 @@ public:
 
    void doInit1(protocol::Component *);
    void doInit2(protocol::Component *);
-   void onApsimGetQuery(protocol::ApsimGetQueryData&);
    bool respondToSet(unsigned int &id, protocol::QuerySetValueData& qd) ;
 
    void doPrepare(unsigned &, unsigned &, protocol::Variant &) ;
