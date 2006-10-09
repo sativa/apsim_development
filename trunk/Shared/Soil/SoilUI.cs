@@ -17,6 +17,7 @@ namespace CSGeneral
 	// -------------------------------------------
 	public class SoilUI : VBGeneral.BaseView
 		{
+        private ApsoilController Controller = new ApsoilController("", "", "", null);
 		private System.ComponentModel.IContainer components = null;
 		private CSGeneral.Soil MySoil;
 		private System.Windows.Forms.ImageList ButtonImageList;
@@ -740,7 +741,7 @@ namespace CSGeneral
                     ApsoilController NewController = new ApsoilController("", "", "", null);
                     NewController.AllData = Controller.AllData;
                     NewController.SelectedPaths = Controller.SelectedPaths;
-                    Controller = NewController;
+                    this.Controller = NewController;
                     }
 				if (MySoil == null)
 					{
@@ -751,9 +752,9 @@ namespace CSGeneral
 								FarPoint.Win.Spread.SpreadActions.MoveToNextRow); 
 					Grid_ActiveSheetChanged(null, null);
 					}
-				MySoil = new CSGeneral.Soil(Controller.Data);
-				ApsoilController Apsoil = Controller as ApsoilController;
-				Apsoil.AddCropEvent -= new BaseController.NotifyEventHandler(Refresh);
+				MySoil = new CSGeneral.Soil(this.Controller.Data);
+				ApsoilController Apsoil = this.Controller as ApsoilController;
+                Apsoil.AddCropEvent -= new BaseController.NotifyEventHandler(Refresh);
 				Apsoil.AddCropEvent += new BaseController.NotifyEventHandler(Refresh);
 				Apsoil.DeleteCropEvent -= new BaseController.NotifyEventHandler(Refresh);
 				Apsoil.DeleteCropEvent += new BaseController.NotifyEventHandler(Refresh);
@@ -1298,8 +1299,8 @@ namespace CSGeneral
 		// --------------------------------
 		public void AddCropMenuItem_Click(object sender, System.EventArgs e)
 			{
-			ApsoilController Apsoil = Controller as ApsoilController;
-			Apsoil.AddCrop();
+            ApsoilController Apsoil = this.Controller as ApsoilController;
+            Apsoil.AddCrop();
 			}
 
 
@@ -1308,7 +1309,7 @@ namespace CSGeneral
 		// --------------------------------
 		public void DeleteCropMenuItem_Click(object sender, System.EventArgs e)
 			{
-			ApsoilController Apsoil = Controller as ApsoilController;
+            ApsoilController Apsoil = this.Controller as ApsoilController;
 			Apsoil.DeleteCrop();
 			}
 
@@ -1317,8 +1318,8 @@ namespace CSGeneral
 		// --------------------------------
 		public void ReorderCropsMenuItem_Click(object sender, System.EventArgs e)
 			{
-			ApsoilController Apsoil = Controller as ApsoilController;
-			Apsoil.ReorderCrops();
+            ApsoilController Apsoil = this.Controller as ApsoilController;
+            Apsoil.ReorderCrops();
 			}
 
 		// --------------------------------
