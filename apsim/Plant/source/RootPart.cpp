@@ -1110,21 +1110,21 @@ float plantRootPart::oxdef_stress ()
         return stress;
     }
 
-void plantRootPart::removeBiomass2(float chop_fr) // chop_fr is negative
+void plantRootPart::removeBiomass2(float chop_fr)
    {
    float dlt_dm_die = DMGreen * rootDieBackFraction * chop_fr;
-   DMSenesced -= dlt_dm_die;
-   DMGreen += dlt_dm_die;
+   DMSenesced += dlt_dm_die;
+   DMGreen -= dlt_dm_die;
 
    float dlt_n_die = dlt_dm_die * c.n_sen_conc;
-   NSenesced -= dlt_n_die;
-   NGreen += dlt_n_die;
+   NSenesced += dlt_n_die;
+   NGreen -= dlt_n_die;
 
       // do root_length
    vector<float> dltRootLengthDie;
    dltRootLengthDie.clear(); dltRootLengthDie.resize(num_layers);
    setTo (dltRootLengthDie, (float) 0.0);
-   float Die_length = -dlt_dm_die / sm2smm * specificRootLength;
+   float Die_length = dlt_dm_die / sm2smm * specificRootLength;
    root_dist(Die_length, dltRootLengthDie);
    for (int layer = 0; layer < num_layers; layer++)
       root_length[layer] -= dltRootLengthDie[layer];
