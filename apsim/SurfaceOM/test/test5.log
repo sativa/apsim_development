@@ -228,11 +228,11 @@
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="get" name="salb" type="type kind='single' unit=''"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGetSet" name="no3" type="type array='T' kind='single' unit='kgha'"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="dlt_no3_net" type="type array='T' kind='single' unit='kgha'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGetSet" name="no3ppm" type="type array='T' kind='single' unit='ppm'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGetSet" name="no3ppm" type="type array='T' kind='single' unit='mgkg'"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="no3_min" type="type array='T' kind='single' unit='kgha'"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGetSet" name="nh4" type="type array='T' kind='single' unit='kgha'"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="dlt_nh4_net" type="type array='T' kind='single' unit='kgha'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGetSet" name="nh4ppm" type="type array='T' kind='single' unit='ppm'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGetSet" name="nh4ppm" type="type array='T' kind='single' unit='mgkg'"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="nh4_min" type="type array='T' kind='single' unit='kgha'"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGetSet" name="urea" type="type array='T' kind='single' unit='kgha'"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="dlt_urea_hydrol" type="type array='T' kind='single' unit='kgha'"/>
@@ -292,8 +292,8 @@
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="soilp_dlt_org_p" type="type array='T' kind='single' unit='kgha'"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToSet" name="dlt_no3" type="type array='T' kind='single' unit='kgha'"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToSet" name="dlt_nh4" type="type array='T' kind='single' unit='kgha'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToSet" name="dlt_no3ppm" type="type array='T' kind='single' unit='ppm'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToSet" name="dlt_nh4ppm" type="type array='T' kind='single' unit='ppm'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToSet" name="dlt_no3ppm" type="type array='T' kind='single' unit='mgkg'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToSet" name="dlt_nh4ppm" type="type array='T' kind='single' unit='mgkg'"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToSet" name="dlt_uread" type="type array='T' kind='single' unit='kgha'"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToSet" name="n_reduction" type="type kind='string' unit=''"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToSet" name="dlt_org_n" type="type array='T' kind='single' unit='kgha'"/>
@@ -679,7 +679,7 @@
             <message4 to="Met" msgtype="ApsimGetQuery" ack="false" name="eos"/>
             <message4 to="manager" msgtype="ApsimGetQuery" ack="false" name="eos"/>
             <message4 to="soilwat2" msgtype="ApsimGetQuery" ack="false" name="eos">
-               <message5 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="eos" type="type kind='single' unit='(mm)'"/>
+               <message5 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="eos" type="type kind='single' unit='mm'"/>
             </message4>
             <message4 to="SurfaceOM" msgtype="ApsimGetQuery" ack="false" name="eos"/>
             <message4 to="soiln2" msgtype="ApsimGetQuery" ack="false" name="eos"/>
@@ -700,7 +700,7 @@
             <message4 to="Met" msgtype="ApsimGetQuery" ack="false" name="dlayer"/>
             <message4 to="manager" msgtype="ApsimGetQuery" ack="false" name="dlayer"/>
             <message4 to="soilwat2" msgtype="ApsimGetQuery" ack="false" name="dlayer">
-               <message5 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="dlayer" type="type kind='single' array='T' unit='(mm)'"/>
+               <message5 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="dlayer" type="type kind='single' array='T' unit='mm'"/>
             </message4>
             <message4 to="SurfaceOM" msgtype="ApsimGetQuery" ack="false" name="dlayer"/>
             <message4 to="soiln2" msgtype="ApsimGetQuery" ack="false" name="dlayer"/>
@@ -804,7 +804,7 @@
             <message4 to="Met" msgtype="ApsimGetQuery" ack="false" name="salb"/>
             <message4 to="manager" msgtype="ApsimGetQuery" ack="false" name="salb"/>
             <message4 to="soilwat2" msgtype="ApsimGetQuery" ack="false" name="salb">
-               <message5 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="salb" type="type kind='single' unit='(mm)'"/>
+               <message5 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="salb" type="type kind='single' unit='mm'"/>
             </message4>
             <message4 to="SurfaceOM" msgtype="ApsimGetQuery" ack="false" name="salb"/>
             <message4 to="soiln2" msgtype="ApsimGetQuery" ack="false" name="salb"/>
@@ -824,7 +824,7 @@
             <message4 to="Met" msgtype="ApsimGetQuery" ack="false" name="sw_dep"/>
             <message4 to="manager" msgtype="ApsimGetQuery" ack="false" name="sw_dep"/>
             <message4 to="soilwat2" msgtype="ApsimGetQuery" ack="false" name="sw_dep">
-               <message5 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="sw_dep" type="type kind='single' array='T' unit='(mm)'"/>
+               <message5 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="sw_dep" type="type kind='single' array='T' unit='mm'"/>
             </message4>
             <message4 to="SurfaceOM" msgtype="ApsimGetQuery" ack="false" name="sw_dep"/>
             <message4 to="soiln2" msgtype="ApsimGetQuery" ack="false" name="sw_dep"/>
@@ -1023,7 +1023,7 @@
             <message4 to="Met" msgtype="ApsimGetQuery" ack="false" name="ll15_dep"/>
             <message4 to="manager" msgtype="ApsimGetQuery" ack="false" name="ll15_dep"/>
             <message4 to="soilwat2" msgtype="ApsimGetQuery" ack="false" name="ll15_dep">
-               <message5 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="ll15_dep" type="type kind='single' array='T' unit='(mm)'"/>
+               <message5 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="ll15_dep" type="type kind='single' array='T' unit='mm'"/>
             </message4>
             <message4 to="SurfaceOM" msgtype="ApsimGetQuery" ack="false" name="ll15_dep"/>
             <message4 to="soiln2" msgtype="ApsimGetQuery" ack="false" name="ll15_dep"/>
@@ -1044,7 +1044,7 @@
             <message4 to="Met" msgtype="ApsimGetQuery" ack="false" name="dul_dep"/>
             <message4 to="manager" msgtype="ApsimGetQuery" ack="false" name="dul_dep"/>
             <message4 to="soilwat2" msgtype="ApsimGetQuery" ack="false" name="dul_dep">
-               <message5 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="dul_dep" type="type kind='single' array='T' unit='(mm)'"/>
+               <message5 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="dul_dep" type="type kind='single' array='T' unit='mm'"/>
             </message4>
             <message4 to="SurfaceOM" msgtype="ApsimGetQuery" ack="false" name="dul_dep"/>
             <message4 to="soiln2" msgtype="ApsimGetQuery" ack="false" name="dul_dep"/>
@@ -1065,7 +1065,7 @@
             <message4 to="Met" msgtype="ApsimGetQuery" ack="false" name="sat_dep"/>
             <message4 to="manager" msgtype="ApsimGetQuery" ack="false" name="sat_dep"/>
             <message4 to="soilwat2" msgtype="ApsimGetQuery" ack="false" name="sat_dep">
-               <message5 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="sat_dep" type="type kind='single' array='T' unit='(mm)'"/>
+               <message5 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="sat_dep" type="type kind='single' array='T' unit='mm'"/>
             </message4>
             <message4 to="SurfaceOM" msgtype="ApsimGetQuery" ack="false" name="sat_dep"/>
             <message4 to="soiln2" msgtype="ApsimGetQuery" ack="false" name="sat_dep"/>
