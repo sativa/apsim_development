@@ -159,8 +159,8 @@ Public Class ApsimUIController
                 Case "operations"
                     Return New APSIMUI.OperationsUI
 
-                    'Case "tclui"
-                    '    Return New APSIMUI.TclUI
+                Case "tclui"
+                    Return New APSIMUI.TclUI
 
                 Case Else
                     Return New GenericUI
