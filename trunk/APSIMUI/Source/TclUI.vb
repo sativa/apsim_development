@@ -1,14 +1,12 @@
-Imports System.Collections
-Imports System.Collections.Specialized
 Imports VBGeneral.ApsimSettings
-Imports VBGeneral.ApsimData
+Imports VBGeneral
 Imports CSGeneral
 
 Public Class TclUI
     Inherits VBGeneral.BaseView
 
-    Overrides Sub Refresh()
-        MyBase.Refresh()
+    Overrides Sub RefreshView(ByVal Controller As BaseController)
+        MyBase.RefreshView(Controller)
 
         AxTclControl1.SetVar("GlobalXMLDoc", Controller.AllData.XML(), 1)
         AxTclControl1.SetVar("XMLDoc", Me.Controller.Data.XML(), 1)
@@ -58,11 +56,12 @@ Public Class TclUI
         '
         'AxTclControl1
         '
+        Me.AxTclControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.AxTclControl1.Enabled = True
-        Me.AxTclControl1.Location = New System.Drawing.Point(0, 0)
+        Me.AxTclControl1.Location = New System.Drawing.Point(0, 40)
         Me.AxTclControl1.Name = "AxTclControl1"
         Me.AxTclControl1.OcxState = CType(resources.GetObject("AxTclControl1.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.AxTclControl1.Size = New System.Drawing.Size(1016, 620)
+        Me.AxTclControl1.Size = New System.Drawing.Size(0, 0)
         Me.AxTclControl1.TabIndex = 2
         '
         'TclUI
@@ -71,7 +70,7 @@ Public Class TclUI
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.Controls.Add(Me.AxTclControl1)
         Me.Name = "TclUI"
-        Me.Size = New System.Drawing.Size(1016, 620)
+        Me.Size = New System.Drawing.Size(0, 40)
         Me.Controls.SetChildIndex(Me.AxTclControl1, 0)
         CType(Me.AxTclControl1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -81,6 +80,11 @@ Public Class TclUI
 #End Region
 
     Public Overrides Sub Save()
-        Me.Controller.Data.XML() = AxTclControl1.GetVar("XMLDoc", 1)
+        Dim newXML As String
+        newXML = AxTclControl1.GetVar("XMLDoc", 1)
+        If (newXML <> "") Then
+            Me.Controller.Data.XML() = newXML
+        End If
     End Sub
+
 End Class
