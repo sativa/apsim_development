@@ -90,12 +90,23 @@ namespace ApsimToSim
 					// write module header bit i.e. <component ...
 					string ModuleDLL = ApsimToSim.get_ChildValue("dll");
 					string ModuleType = ApsimToSim.get_ChildValue("type");
-					string ModuleINI = ApsimToSim.get_ChildValue("ini");
+                    APSIMData ini = Component.Child("ini");
+                    string ModuleINI = "";
+                    if (ini != null)
+                        {
+                        ModuleINI = ini.get_ChildValue("filename");
+                        }
+                    else
+                        {
+                        ModuleINI = ApsimToSim.get_ChildValue("ini");
+                        }
 					if (ModuleType != "")
 						{
 						ModuleDLL = ModuleDLL.Replace(APSIMSettings.ApsimDirectory(), "%apsuite");
-						ModuleINI = ModuleINI.Replace(APSIMSettings.ApsimDirectory(), "%apsuite");
-
+                        if (ini == null)
+                            {
+                            ModuleINI = ModuleINI.Replace(APSIMSettings.ApsimDirectory(), "%apsuite");
+                            }
 						string ComponentHeader = "<" + ModuleType;
 						if (ModuleDLL != "")
 							{
