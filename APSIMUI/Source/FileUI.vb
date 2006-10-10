@@ -41,7 +41,7 @@ Public Class FileUI
     Friend WithEvents BrowseToolBar As System.Windows.Forms.ToolBar
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FileUI))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FileUI))
         Me.ImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.FileContentsBox = New System.Windows.Forms.RichTextBox
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
@@ -51,9 +51,12 @@ Public Class FileUI
         '
         'ImageList
         '
-        Me.ImageList.ImageSize = New System.Drawing.Size(24, 24)
         Me.ImageList.ImageStream = CType(resources.GetObject("ImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
         Me.ImageList.TransparentColor = System.Drawing.Color.Transparent
+        Me.ImageList.Images.SetKeyName(0, "")
+        Me.ImageList.Images.SetKeyName(1, "")
+        Me.ImageList.Images.SetKeyName(2, "")
+        Me.ImageList.Images.SetKeyName(3, "")
         '
         'FileContentsBox
         '
@@ -94,6 +97,7 @@ Public Class FileUI
         'BrowseButton
         '
         Me.BrowseButton.ImageIndex = 0
+        Me.BrowseButton.Name = "BrowseButton"
         Me.BrowseButton.Text = "Browse"
         '
         'FileUI
@@ -121,8 +125,14 @@ Public Class FileUI
         Dim FileName As String
         If Controller.Data.Type = "outputfile" Or Controller.Data.Type = "summaryfile" Then
             FileName = CalcFileName()
+            FileContentsBox.ReadOnly = True
         Else
             FileName = Controller.Data.ChildValue("filename")
+            If Controller.Data.Type = "ini" Then
+                FileContentsBox.ReadOnly = False
+            Else
+                FileContentsBox.ReadOnly = True
+            End If
         End If
 
         ' Add a path to filename if necessary.
@@ -215,6 +225,15 @@ Public Class FileUI
     Private Sub OnActivate(ByVal sender As Object, ByVal e As EventArgs)
         If File.Exists(FullFileName) AndAlso FileDateTime <> File.GetLastWriteTime(FullFileName) Then
             RefreshView(Controller)
+        End If
+    End Sub
+
+    Public Overrides Sub Save()
+        If Controller.Data.Type = "ini" Then
+            Dim FileName As String = Controller.Data.ChildValue("filename")
+            If FileName <> "" Then
+                FileContentsBox.SaveFile(FileName, RichTextBoxStreamType.PlainText)
+            End If
         End If
     End Sub
 End Class
