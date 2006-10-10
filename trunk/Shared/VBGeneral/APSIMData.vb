@@ -428,7 +428,9 @@ Public Class APSIMData
             Return Node.OuterXml()
         End Get
         Set(ByVal value As String)
-            Node.InnerXml = value
+            Dim data As New XmlDocument
+            data.LoadXml(value)
+            InternalNode = data.DocumentElement
             FireDataChangedEvent()
         End Set
     End Property
