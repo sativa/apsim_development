@@ -107,7 +107,7 @@
       dummy = add_registration_with_units(respondToGetReg, 
      :                        'tlai_dead', singleTypeDDML, 'm^2/m^2')
       dummy = add_registration_with_units(respondToGetReg, 
-     :                        'sla', singleTypeDDML, 'mm2/g')
+     :                        'sla', singleTypeDDML, 'mm^2/g')
       dummy = add_registration_with_units(respondToGetReg, 
      :                        'dlt_lai', singleTypeDDML, 'm^2/m^2')
       dummy = add_registration_with_units(respondToGetReg, 
@@ -141,9 +141,9 @@
       dummy = add_registration_with_units(respondToGetReg, 
      :                        'root_depth', singleTypeDDML, 'mm')
       dummy = add_registration_with_units(respondToGetReg, 
-     :                 'root_length', singleArrayTypeDDML, 'mm/mm2')
+     :                 'root_length', singleArrayTypeDDML, 'mm/mm^2')
       dummy = add_registration_with_units(respondToGetReg, 
-     :                        'rlv', singleArrayTypeDDML, 'mm/mm3')
+     :                        'rlv', singleArrayTypeDDML, 'mm/mm^3')
       dummy = add_registration_with_units(respondToGetReg, 
      :                        'leaf_part', singleTypeDDML, '')
       dummy = add_registration_with_units(respondToGetReg, 
@@ -343,7 +343,7 @@
       dummy = add_registration_with_units(respondToGetReg, 
      :          'dlt_n_dead_detached', singleArrayTypeDDML, 'g/m^2')
       dummy = add_registration_with_units(respondToGetReg, 
-     :              'sln', singleTypeDDML, 'gN/m2leaf')
+     :              'sln', singleTypeDDML, 'gN/m^2leaf')
       dummy = add_registration_with_units(respondToGetReg, 
      :              'n_conc_stover', singleTypeDDML, '%')
       dummy = add_registration_with_units(respondToGetReg, 
