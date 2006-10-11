@@ -1,4 +1,4 @@
-<simulations name="untitled" version="4">
+<simulations name="untitled" version="5">
   <simulation name="Sample Butterfly pea Simulation">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1989</start_date>
@@ -55,27 +55,25 @@
       </surfaceom>
       <outputfile name="outputfile">
         <filename name="filename">Sample Butterfly pea Simulation.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec=" " description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="das" variablename="das" module="butterflypea" arrayspec=" " description="Days after Sowing" ModuleType="butterflypea" />
-            <variable name="lai" variablename="lai" module="butterflypea" arrayspec=" " description="Leaf area index" ModuleType="butterflypea" />
-            <variable name="biomass" variablename="biomass" module="butterflypea" arrayspec=" " description="Biomass" ModuleType="butterflypea" />
-            <variable name="leaf_n" variablename="leaf_n" module="butterflypea" arrayspec=" " description="N in leaf" ModuleType="butterflypea" />
-            <variable name="n_fixed_tops" variablename="n_fixed_tops" module="butterflypea" arrayspec=" " description="N fixation" ModuleType="butterflypea" />
-            <variable name="root_n" variablename="root_n" module="butterflypea" arrayspec=" " description="N in roots" ModuleType="butterflypea" />
-            <variable name="sw_stress_photo" variablename="sw_stress_photo" module="butterflypea" arrayspec=" " description="Soil water stress for photosynthesis" ModuleType="butterflypea" />
-            <variable name="rain" variablename="rain" module="global" arrayspec=" " description="Rainfall (mm)" ModuleType="registrations" />
-            <variable name="radn" variablename="radn" module="global" arrayspec=" " description="Solar Radiation (MJ/m2/day)" ModuleType="registrations" />
-            <variable name="sw_stress_pheno" variablename="sw_stress_pheno" module="butterflypea" arrayspec=" " description="Soil water stress for phenological development" ModuleType="butterflypea" />
-            <variable name="sw_stress_fixation" variablename="sw_stress_fixation" module="butterflypea" arrayspec=" " description="Soil water stress for N fixation" ModuleType="butterflypea" />
-            <variable name="sw_stress_expan" variablename="sw_stress_expan" module="butterflypea" arrayspec=" " description="Soil water stress for leaf expansion" ModuleType="butterflypea" />
-            <variable name="stage_name" variablename="stage_name" module="butterflypea" arrayspec=" " description="phenology stage" array="T" ModuleType="butterflypea" />
-          </variables>
-          <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
+        <variables name="My Variables">
+          <variable name="dd/mm/yyyy as Date" array="" description="Date (dd/mm/yyyy)" />
+          <variable name="butterflypea.das" array="" description="Days after Sowing" />
+          <variable name="butterflypea.lai" array="" description="Leaf area index" />
+          <variable name="butterflypea.biomass" array="" description="Biomass" />
+          <variable name="butterflypea.leaf_n" array="" description="N in leaf" />
+          <variable name="butterflypea.n_fixed_tops" array="" description="N fixation" />
+          <variable name="butterflypea.root_n" array="" description="N in roots" />
+          <variable name="butterflypea.sw_stress_photo" array="" description="Soil water stress for photosynthesis" />
+          <variable name="rain" array="" description="Rainfall (mm)" />
+          <variable name="radn" array="" description="Solar Radiation (MJ/m2/day)" />
+          <variable name="butterflypea.sw_stress_pheno" array="" description="Soil water stress for phenological development" />
+          <variable name="butterflypea.sw_stress_fixation" array="" description="Soil water stress for N fixation" />
+          <variable name="butterflypea.sw_stress_expan" array="" description="Soil water stress for leaf expansion" />
+          <variable name="butterflypea.stage_name" description="phenology stage" array="" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="Daily" description="End of day" />
+        </events>
       </outputfile>
       <butterflypea />
       <Soil name="#063 - Roma Res Stn, Roma,Brown Vertosol">

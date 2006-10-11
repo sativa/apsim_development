@@ -33,20 +33,20 @@
      Output frequency:
         post
      Output variables:
-        dd/mm/yyyy  as Date
-        butterflypea.das  as das
-        butterflypea.lai  as lai
-        butterflypea.biomass  as biomass
-        butterflypea.leaf_n  as leaf_n
-        butterflypea.n_fixed_tops  as n_fixed_tops
-        butterflypea.root_n  as root_n
-        butterflypea.sw_stress_photo  as sw_stress_photo
-        rain  as rain
-        radn  as radn
-        butterflypea.sw_stress_pheno  as sw_stress_pheno
-        butterflypea.sw_stress_fixation  as sw_stress_fixation
-        butterflypea.sw_stress_expan  as sw_stress_expan
-        butterflypea.stage_name  as stage_name
+        dd/mm/yyyy as Date
+        butterflypea.das
+        butterflypea.lai
+        butterflypea.biomass
+        butterflypea.leaf_n
+        butterflypea.n_fixed_tops
+        butterflypea.root_n
+        butterflypea.sw_stress_photo
+        rain
+        radn
+        butterflypea.sw_stress_pheno
+        butterflypea.sw_stress_fixation
+        butterflypea.sw_stress_expan
+        butterflypea.stage_name
      
      Output file = Sample Butterfly pea Simulation.out
      Format = normal
@@ -174,9 +174,10 @@
 
 ------- #063 - Roma Res Stn, Roma,Brown Vertosol Nitrogen Initialisation ------
      
-        - Reading Constants
-     
         - Reading Parameters
+     
+        - Reading Constants
+     Using standard soil mineralisation for soil type [soil.soiltype]
      
      
      
