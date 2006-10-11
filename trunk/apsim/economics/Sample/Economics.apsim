@@ -1,4 +1,4 @@
-<simulations name="untitled">
+<simulations name="untitled" version="5">
   <simulation name="Sample Economics Simulation">
     <clock name="clock">
       <start_date name="start_date" description="Select the start date of the simulation" type="date">31/12/1940</start_date>
@@ -43,20 +43,20 @@ if (available('tractor=t1,implement=p1')) THEN
 ENDIF
 ]]></condition>
           <category name="Sowing criteria">
-            <property name="date1" value="15-may" type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : " />
-            <property name="date2" value="10-jul" type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : " />
-            <property name="must_sow" value="no" type="yesno" description="Must sow? : " />
-            <property name="raincrit" value="30" type="text" description="Amount of rainfall : " />
-            <property name="rainnumdays" value="3" type="text" description="Number of days of rainfall : " />
-            <property name="esw_amount" value="200" type="text" description="Enter minimum allowable available soil water (mm) : " />
+            <date1 type="ddmmmdate" description="Enter sowing window START date (dd-mmm) : ">15-may</date1>
+            <date2 type="ddmmmdate" description="Enter sowing window END date (dd-mmm) : ">10-jul</date2>
+            <must_sow type="yesno" description="Must sow? : ">no</must_sow>
+            <raincrit type="text" description="Amount of rainfall : ">30</raincrit>
+            <rainnumdays type="text" description="Number of days of rainfall : ">3</rainnumdays>
+            <esw_amount type="text" description="Enter minimum allowable available soil water (mm) : ">200</esw_amount>
           </category>
           <category name="Sowing parameters">
-            <property name="crop" value="wheat" type="crop" description="Enter name of crop to sow : " />
-            <property name="density" value="100" type="text" description="Enter sowing density  (plants/m2) : " />
-            <property name="depth" value="30" type="text" description="Enter sowing depth  (mm) : " />
-            <property name="cultivar" value="hartog" type="cultivars" croppropertyname="crop" description="Enter cultivar : " />
-            <property name="class" value="plant" type="classes" croppropertyname="crop" description="Enter crop growth class : " />
-            <property name="row_spacing" value="250" type="text" description="Enter row spacing (mm) : " />
+            <crop type="crop" description="Enter name of crop to sow : ">wheat</crop>
+            <density type="text" description="Enter sowing density  (plants/m2) : ">100</density>
+            <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
+            <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">hartog</cultivar>
+            <class type="classes" croppropertyname="crop" description="Enter crop growth class : ">plant</class>
+            <row_spacing type="text" description="Enter row spacing (mm) : ">250</row_spacing>
           </category>
         </rule>
         <rule name="Harvesting rule">
@@ -82,7 +82,7 @@ endif
 
             </condition>
           <category name="Harvesting criteria">
-            <property name="crop" value="wheat" type="crop" description="Enter name of crop to harvest when ripe : " />
+            <crop type="crop" description="Enter name of crop to harvest when ripe : ">wheat</crop>
           </category>
         </rule>
         <rule name="Sowing fertiliser">
@@ -93,13 +93,13 @@ endif
 
             </condition>
           <category name="When should fertiliser be applied">
-            <property name="modulename" value="wheat" type="modulename" description="On which module should the event come from : " />
-            <property name="eventname" value="sowing" type="text" description="On which event should fertiliser be applied : " />
+            <modulename type="modulename" description="On which module should the event come from : ">wheat</modulename>
+            <eventname type="text" description="On which event should fertiliser be applied : ">sowing</eventname>
           </category>
           <category name="Fertiliser application details">
-            <property name="fertmodule" value="fertiliser" type="modulename" description="Module used to apply the fertiliser : " />
-            <property name="fert_amount_sow" value="150" type="text" description="Amount of starter fertiliser at sowing (kg/ha) : " />
-            <property name="fert_type_sow" value=" urea" type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : " />
+            <fertmodule type="modulename" description="Module used to apply the fertiliser : ">fertiliser</fertmodule>
+            <fert_amount_sow type="text" description="Amount of starter fertiliser at sowing (kg/ha) : ">150</fert_amount_sow>
+            <fert_type_sow type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : "> urea</fert_type_sow>
           </category>
         </rule>
       </manager>
@@ -114,19 +114,17 @@ endif
       <wheat />
       <outputfile name="outputfile">
         <filename name="filename">Sample Economics Simulation.out</filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="Date" variablename="dd/mm/yyyy" module="global" arrayspec="" description="Date (dd/mm/yyyy)" ModuleType="registrations" />
-            <variable name="biomass" description="Biomass" array="F" units="kg/ha" module="wheat" variablename="biomass" arrayspec="" ModuleType="wheat" />
-            <variable name="yield" description="Yield" array="F" units="kg/ha" module="wheat" variablename="yield" arrayspec="" ModuleType="wheat" />
-            <variable name="grain_protein" description="grain protein content" array="F" units="%" module="wheat" variablename="grain_protein" arrayspec="" ModuleType="wheat" />
-            <variable name="grain_size" description="Size of each grain" array="F" units="g" module="wheat" variablename="grain_size" arrayspec="" ModuleType="wheat" />
-            <variable name="esw" array="F" description="Extractable Soil Water (mm)" module="Jimbour,Waco (#016)" variablename="esw" arrayspec="" ModuleType="soil" VariableType="Water" />
-          </variables>
-          <events>
-            <event name="harvesting" description="" module="wheat" ModuleType="wheat" />
-          </events>
-        </outputfiledescription>
+        <variables name="My Variables">
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="" />
+          <variable name="wheat.biomass" description="Biomass" array="" units="kg/ha" />
+          <variable name="wheat.yield" description="Yield" array="" units="kg/ha" />
+          <variable name="wheat.grain_protein" description="grain protein content" array="" units="%" />
+          <variable name="wheat.grain_size" description="Size of each grain" array="" units="g" />
+          <variable name="esw" array="" description="Extractable Soil Water (mm)" VariableType="Water" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="wheat.harvesting" description="" />
+        </events>
       </outputfile>
       <soil name="Jimbour,Waco (#016)">
         <Site>Jimbour</Site>
