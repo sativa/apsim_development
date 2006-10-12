@@ -420,19 +420,13 @@ Public Class APSIMData
             FireDataChangedEvent()
         End If
     End Sub
-    Public Property XML() As String
+    Public ReadOnly Property XML() As String
         ' ----------------------------------------
         ' Return this node's XML
         ' ----------------------------------------
         Get
             Return Node.OuterXml()
         End Get
-        Set(ByVal value As String)
-            Dim data As New XmlDocument
-            data.LoadXml(value)
-            InternalNode = data.DocumentElement
-            FireDataChangedEvent()
-        End Set
     End Property
     Public Property InnerXML() As String
         ' ----------------------------------------
