@@ -2468,7 +2468,7 @@ Public Class MetGraphControl
         Metfile.Clear()
         PopulateRawData()
         RefreshAllCharts()
-        YearBox.Visible = False
+        YearBox.Visible = (TabControl.SelectedIndex <> 0)
     End Sub
 
     Private Sub YearBox_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles YearBox.ValueChanged
