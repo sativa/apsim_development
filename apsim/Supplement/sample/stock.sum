@@ -9,25 +9,20 @@
  The Agricultural Production Systems Simulator
              Copyright(c) APSRU               
 
-     Version                = 5.1
+     Version                = 5.2
      Title                  = Stock Supplement PI SAMPLE Simulation
      Component DLL          = c:\data\apsim\development\apsim\log\lib\log.dll
      Component DLL          = c:\data\apsim\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\data\apsim\development\apsim\clock\lib\clock.dll
      Component DLL          = c:\data\apsim\development\apsim\Input\lib\Input.dll
+     Component DLL          = c:\data\apsim\development\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll
      Component DLL          = c:\data\apsim\development\apsim\protocolmanager\lib\protocolmanager.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
-        init_step
         prepare
-        do_pasture_water
         process
-        prewaterbalance
-        do_pasture_growth
-        do_stock
         post
-        end_step
      Simulation start date =  1/10/1988
      Simulation end date   = 30/04/1989
      Time step =           = 1440 (mins)
@@ -35,6 +30,16 @@
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
      INPUT File name: c:\data\apsim\development\apsim\met\sample\dalby.met
+
+------- FarmwiseSequencer Initialisation --------------------------------------
+      - reading constants
+     Subscribe Event: prepare
+           Publish Event/s: init_step do_pasture_water
+     Subscribe Event: process
+           Publish Event/s: prewaterbalance do_pasture_growth do_stock
+     Subscribe Event: post
+           Publish Event/s: end_step
+     
 
 ------- report Initialisation -------------------------------------------------
      Output frequency:
@@ -54,23 +59,6 @@
      
      Output file = stock.out
      Format = normal
-
-------- PaddockArea Initialisation --------------------------------------------
-     Manager rules:
-     
-     SECTION:- init
-     
-     SECTION:- end_of_day
-     
-     SECTION:- start_of_day
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM Warning Error
-                      -------------------
-     No manager lines were found in any parameter file.
-     Component name: PaddockArea
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     
-     
 
 ------- soilwat2 Initialisation -----------------------------------------------
      
@@ -166,9 +154,9 @@
 
 ------- soiln2 Initialisation -------------------------------------------------
      
-        - Reading Constants
-     
         - Reading Parameters
+     
+        - Reading Constants
      
      
      
@@ -242,6 +230,9 @@
      if day = 330 and year = 1988 then
         cattle buystock number = 5 (-), genotype = angus, sex = steer, age = 12 (months), weight = 250.0 (kg)
         cattle movestock group = 1
+     endif
+     if day = 32 and year = 1989 then
+        cattle sellstock number = 5 (-)
      endif
      END of rules
      
@@ -546,6 +537,12 @@
      Supplement feed:
         Name = pellets
         Amount = 20 (kg)
+     
+1 February 1989(Day of year=32), managercattle: 
+     Manager sending message :- cattle sellstock  number = 5 (-)
+1 February 1989(Day of year=32), cattle: 
+     Sell stock :-
+        number =          5 (-)
      
 30 April 1989(Day of year=120), clock: 
      Simulation is terminating due to end criteria being met.

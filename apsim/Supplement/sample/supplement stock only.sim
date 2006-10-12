@@ -23,6 +23,12 @@
          <filename>%apsuite\apsim\met\sample\dalby.met</filename>
       </initdata>
    </component>
+  <component name="FarmwiseSequencer" executable="%apsuite\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll">
+    <executable>%apsuite\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll</executable>
+    <initdata>
+      <include>%apsuite\apsim\FarmwiseSequencer\FarmwiseSequencer.ini</include>
+    </initdata>
+  </component>
   <system name="paddock" executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll">
     <registrations>
       <event name="summaryFileWrite" type="single" />
@@ -92,14 +98,6 @@
          <variable>stock.weight</variable>
          <variable>stock.supp_intake</variable>
          <variable>stock.wt_change</variable>
-      </initdata>
-   </component>
-    <component name="PaddockArea" executable="%apsuite\apsim\manager\lib\manager.dll">
-      <executable>%apsuite\apsim\manager\lib\manager.dll</executable>
-      <initdata>
-        <rule name="init" condition="init" />
-        <rule name="end_of_day" condition="end_of_day" />
-        <rule name="start_of_day" condition="start_of_day" />
       </initdata>
    </component>
    <component name="soilwat2" executable="%apsuite\apsim\soilwat2\lib\soilwat2.dll">
@@ -212,6 +210,9 @@
             if day = 330 and year = 1988 then
                cattle buystock number = 5 (-), genotype = angus, sex = steer, age = 12 (months), weight = 250.0 (kg)
                cattle movestock group = 1
+            endif
+            if day = 32 and year = 1989 then
+               cattle sellstock number = 5 (-)
             endif
             ]]>
          </rule>
