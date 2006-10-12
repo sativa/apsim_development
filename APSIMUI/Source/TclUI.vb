@@ -1,18 +1,19 @@
+Imports System.Xml
 Imports VBGeneral.ApsimSettings
 Imports VBGeneral
-Imports CSGeneral
+'Imports CSGeneral
 
 Public Class TclUI
     Inherits VBGeneral.BaseView
 
-    Overrides Sub RefreshView(ByVal Controller As BaseController)
-        MyBase.RefreshView(Controller)
+    Overrides Sub RefreshView(ByVal tController As BaseController)
+        MyBase.RefreshView(tController)
 
-        AxTclControl1.SetVar("GlobalXMLDoc", Controller.AllData.XML(), 1)
+        AxTclControl1.SetVar("GlobalXMLDoc", Me.Controller.AllData.XML(), 1)
         AxTclControl1.SetVar("XMLDoc", Me.Controller.Data.XML(), 1)
         AxTclControl1.SetVar("apsuite", ApsimDirectory(), 1)
 
-        Dim UIScript As String = Controller.Data.ChildValue("uiscript")
+        Dim UIScript As String = Me.Controller.Data.ChildValue("uiscript")
 
         If (AxTclControl1.Eval(UIScript) = False) Then
             MessageBox.Show(AxTclControl1.Result, "Tcl Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -83,7 +84,13 @@ Public Class TclUI
         Dim newXML As String
         newXML = AxTclControl1.GetVar("XMLDoc", 1)
         If (newXML <> "") Then
-            Me.Controller.Data.XML() = newXML
+            ' Butt-ugly way of rewriting the whole inner xml document 
+            Dim frag As String
+            frag = newXML.Substring(newXML.IndexOf(">") + 1)
+            frag = frag.Substring(frag.IndexOf("<"))
+            frag = frag.Substring(0, frag.LastIndexOf("<") - 1)
+
+            Me.Controller.Data.InnerXML = frag
         End If
     End Sub
 
