@@ -60,7 +60,7 @@ Public Class MainUI
     Friend WithEvents RunButton As System.Windows.Forms.ToolStripDropDownButton
     Friend WithEvents RunAllSimulationsMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RunCurrentSimulationMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Private SimulationHasRun As Boolean = False
+
 
 #Region "Constructor / Destructor / Main"
     <System.STAThread()> _
@@ -698,11 +698,10 @@ Public Class MainUI
         ApsimOutlookButton.Enabled = SomethingInTree
         Me.ExcelButton.Enabled = SomethingInTree
 
-        If Not SimulationHasRun Then
-            GraphButton.Enabled = False
-            ApsimOutlookButton.Enabled = False
-            Me.ExcelButton.Enabled = False
-        End If
+        GraphButton.Enabled = SomethingInTree
+        ApsimOutlookButton.Enabled = SomethingInTree
+        ExcelButton.Enabled = SomethingInTree
+
     End Sub
 
     Private Sub MainUI_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
@@ -731,7 +730,6 @@ Public Class MainUI
         If SimulationList.SelectedItems.Count > 0 Then
             Dim SelectedFile As String = SimulationList.SelectedItems(0).Text
             ApsimUI.FileOpen(SelectedFile)
-            SimulationHasRun = False
             SetFunctionality()
         End If
     End Sub
@@ -741,13 +739,11 @@ Public Class MainUI
         If Not IsNothing(NewData) Then
             ApsimUI.FileNew(NewData)
         End If
-        SimulationHasRun = False
         SetFunctionality()
     End Sub
 
     Private Sub OnOpenFileClick(ByVal sender As Object, ByVal e As EventArgs) Handles OpenButton2.Click, OpenButton.ButtonClick
         ApsimUI.FileOpen()
-        SimulationHasRun = False
         SetFunctionality()
     End Sub
 
@@ -788,21 +784,30 @@ Public Class MainUI
         ' ---------------------------------------------------------------
         ' Send output files to APSVis
         ' ---------------------------------------------------------------
-        apsvisFiles(GetCSVListOfOutputFiles())
+        Dim FileNames As String = GetCSVListOfOutputFiles()
+        If FileNames <> "" Then
+            apsvisFiles(FileNames)
+        End If
     End Sub
 
     Private Sub OnApsimOutlookClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ApsimOutlookButton.Click
         ' ---------------------------------------------------------------
         ' Send output files to ApsimOutlook
         ' ---------------------------------------------------------------
-        apsimoutlookFiles(GetCSVListOfOutputFiles())
+        Dim FileNames As String = GetCSVListOfOutputFiles()
+        If FileNames <> "" Then
+            apsimoutlookFiles(FileNames)
+        End If
     End Sub
 
     Private Sub OnExcelClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExcelButton.Click
         ' ---------------------------------------------------------------
         ' Send output files to Excel
         ' ---------------------------------------------------------------
-        excelFiles(GetCSVListOfOutputFiles())
+        Dim FileNames As String = GetCSVListOfOutputFiles()
+        If FileNames <> "" Then
+            excelFiles(FileNames)
+        End If
     End Sub
 
     Private Function GetCSVListOfOutputFiles() As String
@@ -828,7 +833,7 @@ Public Class MainUI
                 End If
             End If
         Else
-            MessageBox.Show("Please run the simulation first")
+            MessageBox.Show("No output files found")
             Return ""
         End If
     End Function
