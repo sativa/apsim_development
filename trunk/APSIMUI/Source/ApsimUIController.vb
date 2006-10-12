@@ -522,7 +522,7 @@ Public Class ApsimUIController
         End While
 
         For Each ApsimModule As APSIMData In System.Children
-            Dim Child As APSIMData = TypesData.Child(ApsimModule.Type).Child("IsCrop")
+            Dim Child As APSIMData = TypesData.Find(ApsimModule.Type + "|IsCrop")
             If Not IsNothing(Child) AndAlso Child.Value.ToLower = "yes" Then
                 Values.Add(ApsimModule.Name())
             End If
