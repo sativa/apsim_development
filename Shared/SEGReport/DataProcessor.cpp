@@ -154,7 +154,8 @@ void DataProcessor::refresh(TDataSet* source, TDataSet* result)
    catch (const Sysutils::Exception& err)
       {
       errorMessage += err.Message.c_str();
-      source->Filtered = false;
+      if (source != NULL)
+         source->Filtered = false;
       }
    }
 
