@@ -225,31 +225,43 @@ Public Class APSIMData
         Next
         Return Nothing
     End Function
-    Public Property ChildValue(ByVal ChildName As String) As String
-        ' ------------------------------------------------------------------------------
-        ' Gets and sets the value of child element. Getter and Setter can handle
-        ' the child not existing.
-        ' ------------------------------------------------------------------------------
+    ' -----------------------------------------------------
+    ' Return a child value to caller or blank if not found.
+    ' -----------------------------------------------------
+    Property ChildValue(ByVal key As String) As String
         Get
-            Dim LocalChild As APSIMData = Find(Name + Delimiter + ChildName)
-            If IsNothing(LocalChild) Then
+            Try
+                Return FindChildByType(key, "\").Value
+            Catch e As System.Exception
                 Return ""
-            Else
-                Return LocalChild.Value
-            End If
+            End Try
         End Get
-        Set(ByVal value As String)
-            Dim LocalChild As APSIMData = Child(ChildName)
-            If LocalChild.Value <> value Then
-                BeginInternalUpdate()
-                If IsNothing(LocalChild) Then
-                    LocalChild = Add(New APSIMData(ChildName, ""))
+        Set(ByVal Value As String)
+            Dim name As String
+            Dim CurrentData As New APSIMData(Node, DataChangedEvent)
+            Dim Path As String = key
+
+            Do Until Path = ""
+                If InStr(Path, "\") <> 0 Then
+                    name = Left$(Path, InStr(Path, "\") - 1)
+                    Path = Mid$(Path, InStr(Path, "\") + 1)
+                Else
+                    name = Path
+                    Path = ""
                 End If
-                LocalChild.Value = value
-                EndInternalUpdate()
-            End If
+
+                Dim Child As APSIMData = CurrentData.Child(name)
+                If IsNothing(Child) Then
+                    CurrentData.Add(New APSIMData(name, ""))
+                    CurrentData = CurrentData.Child(name)
+                Else
+                    CurrentData = Child
+                End If
+            Loop
+            CurrentData.Value = Value
         End Set
     End Property
+
     Public Function ChildByType(ByVal ChildType As String) As APSIMData
         ' ------------------------------------------------------------------------------
         ' Return a specific child with the specified type
