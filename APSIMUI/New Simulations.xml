@@ -3705,7 +3705,7 @@
           <variable name="sugar.das" description="Sugar days after sowing" array="?" />
           <variable name="sugar.ratoon_no" description="Sugar Ratoon number" array="?" />
           <variable name="sugar.crop_status" description="Sugar Crop status (dead,alive,out)" array="?" />
-          <variable name="esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
+          <variable name="sugar.esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
           <variable name="sugar.lai" description="Sugar green leaf area index" array="?" />
           <variable name="sugar.nfact_photo" description="Sugar Nitrogen stress factor on photosynthesis (0-1)" array="?" />
           <variable name="sugar.root_depth" description="Sugar depth of roots (mm)" array="?" />
