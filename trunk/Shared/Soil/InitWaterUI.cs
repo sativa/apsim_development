@@ -73,7 +73,6 @@ namespace CSGeneral
         FarPoint.Win.Spread.CellType.NumberCellType numberCellType3 = new FarPoint.Win.Spread.CellType.NumberCellType();
         this.panel1 = new System.Windows.Forms.Panel();
         this.Grid = new FarPoint.Win.Spread.FpSpread();
-        this.WaterGrid = new FarPoint.Win.Spread.SheetView();
         this.LayeredRadio = new System.Windows.Forms.RadioButton();
         this.GroupBox = new System.Windows.Forms.GroupBox();
         this.PercentPanel = new System.Windows.Forms.Panel();
@@ -90,13 +89,14 @@ namespace CSGeneral
         this.PercentRadio = new System.Windows.Forms.RadioButton();
         this.splitter1 = new System.Windows.Forms.Splitter();
         this.WaterChartControl = new CSGeneral.WaterChartControl();
+        this.WaterGrid = new FarPoint.Win.Spread.SheetView();
         this.panel1.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
-        ((System.ComponentModel.ISupportInitialize)(this.WaterGrid)).BeginInit();
         this.GroupBox.SuspendLayout();
         this.PercentPanel.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)(this.PercentEdit)).BeginInit();
         this.DepthWetSoilPanel.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)(this.WaterGrid)).BeginInit();
         this.SuspendLayout();
         // 
         // panel1
@@ -114,7 +114,7 @@ namespace CSGeneral
         // 
         // Grid
         // 
-        this.Grid.AccessibleDescription = "";
+        this.Grid.AccessibleDescription = "Grid";
         this.Grid.BackColor = System.Drawing.SystemColors.Control;
         this.Grid.EditModeReplace = true;
         this.Grid.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded;
@@ -130,48 +130,6 @@ namespace CSGeneral
         this.Grid.TextTipAppearance = tipAppearance1;
         this.Grid.VerticalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded;
         // 
-        // WaterGrid
-        // 
-        this.WaterGrid.Reset();
-        // Formulas and custom names must be loaded with R1C1 reference style
-        this.WaterGrid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1;
-        this.WaterGrid.ColumnCount = 4;
-        this.WaterGrid.ColumnHeader.RowCount = 2;
-        this.WaterGrid.AutoUpdateNotes = true;
-        this.WaterGrid.ColumnHeader.Cells.Get(0, 0).Value = "Depth";
-        this.WaterGrid.ColumnHeader.Cells.Get(0, 1).Value = "LL15";
-        this.WaterGrid.ColumnHeader.Cells.Get(0, 2).Value = "DUL";
-        this.WaterGrid.ColumnHeader.Cells.Get(0, 3).Value = "SW";
-        this.WaterGrid.ColumnHeader.Cells.Get(1, 0).Value = "(cm)";
-        this.WaterGrid.ColumnHeader.Cells.Get(1, 1).Value = "(%)";
-        this.WaterGrid.ColumnHeader.Cells.Get(1, 2).Value = "(%)";
-        this.WaterGrid.ColumnHeader.Cells.Get(1, 3).Value = "(%)";
-        this.WaterGrid.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
-        this.WaterGrid.Columns.Get(0).Label = "(cm)";
-        this.WaterGrid.Columns.Get(0).Locked = true;
-        numberCellType1.DecimalPlaces = 2;
-        this.WaterGrid.Columns.Get(1).CellType = numberCellType1;
-        this.WaterGrid.Columns.Get(1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
-        this.WaterGrid.Columns.Get(1).Label = "(%)";
-        this.WaterGrid.Columns.Get(1).Locked = true;
-        numberCellType2.DecimalPlaces = 2;
-        this.WaterGrid.Columns.Get(2).CellType = numberCellType2;
-        this.WaterGrid.Columns.Get(2).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
-        this.WaterGrid.Columns.Get(2).Label = "(%)";
-        this.WaterGrid.Columns.Get(2).Locked = true;
-        numberCellType3.DecimalPlaces = 2;
-        this.WaterGrid.Columns.Get(3).CellType = numberCellType3;
-        this.WaterGrid.Columns.Get(3).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
-        this.WaterGrid.Columns.Get(3).Label = "(%)";
-        this.WaterGrid.DefaultStyle.BackColor = System.Drawing.Color.White;
-        this.WaterGrid.DefaultStyle.Locked = false;
-        this.WaterGrid.DefaultStyle.Parent = "DataAreaDefault";
-        this.WaterGrid.RowHeader.Columns.Default.Resizable = false;
-        this.WaterGrid.RowHeader.Visible = false;
-        this.WaterGrid.SheetName = "Sheet1";
-        this.WaterGrid.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.WaterGrid_CellChanged);
-        this.WaterGrid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
-        // 
         // LayeredRadio
         // 
         this.LayeredRadio.Location = new System.Drawing.Point(8, 56);
@@ -184,6 +142,7 @@ namespace CSGeneral
         // GroupBox
         // 
         this.GroupBox.Controls.Add(this.PercentPanel);
+        this.GroupBox.Controls.Add(this.DepthWetSoilPanel);
         this.GroupBox.Location = new System.Drawing.Point(8, 80);
         this.GroupBox.Name = "GroupBox";
         this.GroupBox.Size = new System.Drawing.Size(272, 118);
@@ -199,7 +158,6 @@ namespace CSGeneral
         this.PercentPanel.Controls.Add(this.PAWCEdit);
         this.PercentPanel.Controls.Add(this.Label1);
         this.PercentPanel.Controls.Add(this.PercentEdit);
-        this.PercentPanel.Controls.Add(this.DepthWetSoilPanel);
         this.PercentPanel.Location = new System.Drawing.Point(8, 21);
         this.PercentPanel.Name = "PercentPanel";
         this.PercentPanel.Size = new System.Drawing.Size(256, 67);
@@ -269,7 +227,7 @@ namespace CSGeneral
         // 
         this.DepthWetSoilPanel.Controls.Add(this.Label3);
         this.DepthWetSoilPanel.Controls.Add(this.DepthEdit);
-        this.DepthWetSoilPanel.Location = new System.Drawing.Point(8, 0);
+        this.DepthWetSoilPanel.Location = new System.Drawing.Point(6, 19);
         this.DepthWetSoilPanel.Name = "DepthWetSoilPanel";
         this.DepthWetSoilPanel.Size = new System.Drawing.Size(200, 34);
         this.DepthWetSoilPanel.TabIndex = 16;
@@ -327,6 +285,48 @@ namespace CSGeneral
         this.WaterChartControl.Size = new System.Drawing.Size(444, 677);
         this.WaterChartControl.TabIndex = 22;
         // 
+        // WaterGrid
+        // 
+        this.WaterGrid.Reset();
+        // Formulas and custom names must be loaded with R1C1 reference style
+        this.WaterGrid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.R1C1;
+        this.WaterGrid.ColumnCount = 4;
+        this.WaterGrid.ColumnHeader.RowCount = 2;
+        this.WaterGrid.AutoUpdateNotes = true;
+        this.WaterGrid.ColumnHeader.Cells.Get(0, 0).Value = "Depth";
+        this.WaterGrid.ColumnHeader.Cells.Get(0, 1).Value = "LL15";
+        this.WaterGrid.ColumnHeader.Cells.Get(0, 2).Value = "DUL";
+        this.WaterGrid.ColumnHeader.Cells.Get(0, 3).Value = "SW";
+        this.WaterGrid.ColumnHeader.Cells.Get(1, 0).Value = "(cm)";
+        this.WaterGrid.ColumnHeader.Cells.Get(1, 1).Value = "(%)";
+        this.WaterGrid.ColumnHeader.Cells.Get(1, 2).Value = "(%)";
+        this.WaterGrid.ColumnHeader.Cells.Get(1, 3).Value = "(%)";
+        this.WaterGrid.Columns.Get(0).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
+        this.WaterGrid.Columns.Get(0).Label = "(cm)";
+        this.WaterGrid.Columns.Get(0).Locked = true;
+        numberCellType1.DecimalPlaces = 2;
+        this.WaterGrid.Columns.Get(1).CellType = numberCellType1;
+        this.WaterGrid.Columns.Get(1).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
+        this.WaterGrid.Columns.Get(1).Label = "(%)";
+        this.WaterGrid.Columns.Get(1).Locked = true;
+        numberCellType2.DecimalPlaces = 2;
+        this.WaterGrid.Columns.Get(2).CellType = numberCellType2;
+        this.WaterGrid.Columns.Get(2).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
+        this.WaterGrid.Columns.Get(2).Label = "(%)";
+        this.WaterGrid.Columns.Get(2).Locked = true;
+        numberCellType3.DecimalPlaces = 2;
+        this.WaterGrid.Columns.Get(3).CellType = numberCellType3;
+        this.WaterGrid.Columns.Get(3).HorizontalAlignment = FarPoint.Win.Spread.CellHorizontalAlignment.Right;
+        this.WaterGrid.Columns.Get(3).Label = "(%)";
+        this.WaterGrid.DefaultStyle.BackColor = System.Drawing.Color.White;
+        this.WaterGrid.DefaultStyle.Locked = false;
+        this.WaterGrid.DefaultStyle.Parent = "DataAreaDefault";
+        this.WaterGrid.RowHeader.Columns.Default.Resizable = false;
+        this.WaterGrid.RowHeader.Visible = false;
+        this.WaterGrid.SheetName = "Sheet1";
+        this.WaterGrid.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.WaterGrid_CellChanged);
+        this.WaterGrid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
+        // 
         // InitWaterUI
         // 
         this.Controls.Add(this.WaterChartControl);
@@ -339,13 +339,13 @@ namespace CSGeneral
         this.Controls.SetChildIndex(this.WaterChartControl, 0);
         this.panel1.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
-        ((System.ComponentModel.ISupportInitialize)(this.WaterGrid)).EndInit();
         this.GroupBox.ResumeLayout(false);
         this.PercentPanel.ResumeLayout(false);
         this.PercentPanel.PerformLayout();
         ((System.ComponentModel.ISupportInitialize)(this.PercentEdit)).EndInit();
         this.DepthWetSoilPanel.ResumeLayout(false);
         this.DepthWetSoilPanel.PerformLayout();
+        ((System.ComponentModel.ISupportInitialize)(this.WaterGrid)).EndInit();
         this.ResumeLayout(false);
 
 		}
