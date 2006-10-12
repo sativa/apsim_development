@@ -20,27 +20,27 @@ Partial Class OperationsUI
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim TipAppearance1 As FarPoint.Win.Spread.TipAppearance = New FarPoint.Win.Spread.TipAppearance
-        Me.FpSpread1 = New FarPoint.Win.Spread.FpSpread
+        Me.Spread = New FarPoint.Win.Spread.FpSpread
         Me.StartDayGrid = New FarPoint.Win.Spread.SheetView
         Me.EndDayGrid = New FarPoint.Win.Spread.SheetView
-        CType(Me.FpSpread1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Spread, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.StartDayGrid, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.EndDayGrid, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'FpSpread1
+        'Spread
         '
-        Me.FpSpread1.AccessibleDescription = "FpSpread1, Start of day, Row 0, Column 0, "
-        Me.FpSpread1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.FpSpread1.Location = New System.Drawing.Point(0, 40)
-        Me.FpSpread1.Name = "FpSpread1"
-        Me.FpSpread1.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.StartDayGrid, Me.EndDayGrid})
-        Me.FpSpread1.Size = New System.Drawing.Size(843, 549)
-        Me.FpSpread1.TabIndex = 2
+        Me.Spread.AccessibleDescription = "Spread, Start of day, Row 0, Column 0, "
+        Me.Spread.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Spread.Location = New System.Drawing.Point(0, 40)
+        Me.Spread.Name = "Spread"
+        Me.Spread.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.StartDayGrid, Me.EndDayGrid})
+        Me.Spread.Size = New System.Drawing.Size(843, 549)
+        Me.Spread.TabIndex = 2
         TipAppearance1.BackColor = System.Drawing.SystemColors.Info
         TipAppearance1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         TipAppearance1.ForeColor = System.Drawing.SystemColors.InfoText
-        Me.FpSpread1.TextTipAppearance = TipAppearance1
+        Me.Spread.TextTipAppearance = TipAppearance1
         '
         'StartDayGrid
         '
@@ -81,17 +81,17 @@ Partial Class OperationsUI
         '
         'OperationsUI
         '
-        Me.Controls.Add(Me.FpSpread1)
+        Me.Controls.Add(Me.Spread)
         Me.Name = "OperationsUI"
         Me.Size = New System.Drawing.Size(843, 589)
-        Me.Controls.SetChildIndex(Me.FpSpread1, 0)
-        CType(Me.FpSpread1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Controls.SetChildIndex(Me.Spread, 0)
+        CType(Me.Spread, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.StartDayGrid, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.EndDayGrid, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents FpSpread1 As FarPoint.Win.Spread.FpSpread
+    Friend WithEvents Spread As FarPoint.Win.Spread.FpSpread
     Friend WithEvents StartDayGrid As FarPoint.Win.Spread.SheetView
     Friend WithEvents EndDayGrid As FarPoint.Win.Spread.SheetView
 
