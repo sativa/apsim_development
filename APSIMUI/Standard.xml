@@ -2386,10 +2386,10 @@ if {$steps == 0} {tkwait variable steps}
   </folder>
   <folder name="Water">
     <irrigation name="Irrigation">
-      <property name="automatic_irrigation" type="text" description="switch">on</property>
-      <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
-      <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
-      <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
+      <automatic_irrigation type="text" description="switch">on</automatic_irrigation>
+      <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
+      <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
+      <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
     </irrigation>
     <bore name="bore">
       <max_available_water>100</max_available_water>

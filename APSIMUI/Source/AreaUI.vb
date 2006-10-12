@@ -209,13 +209,19 @@ Public Class areaui
                 child.SetAttribute("y", p.Y.ToString)
             Next
         End If
+        Controller.RefreshView()
     End Sub
 
     Private Sub ListView_DragOver(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles ListView.DragOver
-        If (e.KeyState And 5) = 5 Then
-            e.Effect = DragDropEffects.Move
+        Dim FullXML As String = e.Data.GetData(DataFormats.Text)
+        If Controller.AllowAddXMLToData(FullXML, Controller.Data.FullPath) Then
+            If (e.KeyState And 5) = 5 Then
+                e.Effect = DragDropEffects.Move
+            Else
+                e.Effect = DragDropEffects.Copy
+            End If
         Else
-            e.Effect = DragDropEffects.Copy
+            e.Effect = DragDropEffects.None
         End If
 
     End Sub
