@@ -140,5 +140,32 @@ Public Class GridUtils
         Next
         Return Grid.RowCount
     End Function
-
+    ' ---------------------------------------------------------------------
+    ' Get number of non blank values in column of the specified data table
+    ' ---------------------------------------------------------------------
+    Public Shared Function FindBlankCells(ByVal Grid As SheetView, _
+                                                    ByVal ColumnIndex As Integer, ByVal RowCount As Integer) As Integer()
+        Dim count As Integer = 0
+        Dim RowIndexs(RowCount - 1) As Integer
+        For RowIndex As Integer = 0 To RowCount - 1
+            If Grid.Cells(RowIndex, ColumnIndex).Text = "" Then
+                RowIndexs(count) = RowIndex
+                count += 1
+            End If
+        Next
+        ReDim Preserve RowIndexs(count - 1)
+        Return RowIndexs
+    End Function
+    ' -----------------------
+    ' How many rows in sheet have data
+    ' -----------------------
+    Public Shared Function FindRowsInSheet(ByVal Grid As SheetView) As Integer
+        Dim i As Integer = 0
+        For RowIndex As Integer = Grid.RowCount - 1 To 0 Step -1
+            If Grid.Cells(RowIndex, 0).Text <> "" Then
+                i += 1
+            End If
+        Next
+        Return i
+    End Function
 End Class
