@@ -1,4 +1,4 @@
-<simulations name="New Simulations" image="Images/layout_center24.png" version="5">
+<folder name="New Simulations" image="Images/layout_center24.png" version="5">
   <simulation name="Blank Simulation">
     <metfile name="met">
       <filename name="filename">%apsuite\apsim\met\sample\goond.met</filename>
@@ -101,7 +101,6 @@
       </surfaceom>
       <wheat />
       <outputfile name="outputfile">
-        <filename name="filename">Continuous Wheat Simulation.out</filename>
         <variables name="Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
           <variable name="wheat.biomass" description="Biomass" array="?" units="kg/ha" />
@@ -918,7 +917,6 @@
       </surfaceom>
       <wheat />
       <outputfile name="outputfile">
-        <filename name="filename">Continuous Wheat Simulation with Climate Change.out</filename>
         <variables name="Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
           <variable name="wheat.biomass" description="Biomass" array="?" units="kg/ha" />
@@ -1657,7 +1655,6 @@
     <area name="paddock">
       <registrations name="global" />
       <outputfile name="outputfile">
-        <filename name="filename">Continuous Sorghum Simulation.out</filename>
         <variables name="Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
           <variable name="sorghum.biomass" description="Biomass" array="?" units="kg/ha" />
@@ -2897,7 +2894,6 @@
       </micromet>
       <egrandis />
       <outputfile name="outputfile">
-        <filename name="filename">Eucalypt Forest Simulation Block.out</filename>
         <variables name="Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
           <variable name="esw" array="?" description="Extractable Soil Water (mm)" VariableType="Water" />
@@ -3695,7 +3691,6 @@
         </InitNitrogen>
       </soil>
       <outputfile name="outputfile">
-        <filename name="filename">Sugar Simulation.out</filename>
         <variables name="Variables">
           <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)" array="?" />
           <variable name="sugar.biomass" description="Sugar total above-ground biomass (green + trash) (g/m2)" array="?" />
@@ -4434,7 +4429,6 @@
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
       <outputfile name="outputfile">
-        <filename name="filename">Rotation Sample.out</filename>
         <variables name="Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
           <variable name="cotton.dm as CottonBiomass" description="Total above ground biomass (kg/ha)" array="?" />
@@ -4474,7 +4468,6 @@
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
       <outputfile name="outputfile">
-        <filename name="filename">Complex Rotations.out</filename>
         <variables name="Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
           <variable name="wheat.biomass as biomass_wheat" description="Biomass" array="?" />
@@ -5251,4 +5244,4 @@ canvasButton 100 100
       <chickpea />
     </area>
   </simulation>
-</simulations>
+</folder>

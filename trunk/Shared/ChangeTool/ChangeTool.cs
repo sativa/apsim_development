@@ -59,14 +59,17 @@ namespace ChangeTool
                 APSIMData Child = Data.Child(ChildName);
                 if (Child != null)
                     {
-    		        if (Child.Type.ToLower() == "area" 
-					   || Child.Type.ToLower() == "folder"
-				   	   || Child.Type.ToLower() == "simulation"
+                    if (Child.Type.ToLower() == "area"
+                       || Child.Type.ToLower() == "folder"
+                       || Child.Type.ToLower() == "simulation"
                        || Child.Type.ToLower() == "manager"
                        || Child.Type.ToLower() == "outputfile")
-				   	   Upgrade(Child, Upgrader);  // recursion
-				    else
-					   Upgrader(Child);
+                        {
+                        Upgrader(Child);
+                        Upgrade(Child, Upgrader);  // recursion
+                        }
+                    else
+                        Upgrader(Child);
                     }
 				}
 			}
@@ -175,6 +178,13 @@ namespace ChangeTool
             if (Data.Attribute("shortcut") != "" && Data.Attribute("name") == "")
                 {
                 Data.Name = Data.Attribute("shortcut");
+                }
+
+            // get rid of <filename>
+            if (Data.Type.ToLower() == "outputfile")
+                {
+                if (Data.Child("filename") != null)
+                    Data.Delete("filename");
                 }
 
             if (Data.Type.ToLower() == "outputfiledescription")

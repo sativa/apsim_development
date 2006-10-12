@@ -47,7 +47,6 @@ Public Class OutputFileDescUI
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents Splitter1 As System.Windows.Forms.Splitter
     Friend WithEvents GridContextMenu As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents MoveUpMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MoveDownMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -63,7 +62,6 @@ Public Class OutputFileDescUI
         Me.MoveUpMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MoveDownMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.Grid = New FarPoint.Win.Spread.SheetView
-        Me.Splitter1 = New System.Windows.Forms.Splitter
         Me.VariableListView = New System.Windows.Forms.ListView
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
@@ -86,10 +84,9 @@ Public Class OutputFileDescUI
         '
         'RightHandPanel
         '
-        Me.RightHandPanel.Controls.Add(Me.Spread)
-        Me.RightHandPanel.Controls.Add(Me.Splitter1)
         Me.RightHandPanel.Controls.Add(Me.VariableListView)
         Me.RightHandPanel.Controls.Add(Me.Splitter2)
+        Me.RightHandPanel.Controls.Add(Me.Spread)
         Me.RightHandPanel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RightHandPanel.Location = New System.Drawing.Point(0, 40)
         Me.RightHandPanel.Name = "RightHandPanel"
@@ -101,7 +98,7 @@ Public Class OutputFileDescUI
         Me.Spread.AccessibleDescription = "Spread, Sheet1, Row 0, Column 0, "
         Me.Spread.AllowDrop = True
         Me.Spread.ContextMenuStrip = Me.GridContextMenu
-        Me.Spread.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Spread.Dock = System.Windows.Forms.DockStyle.Top
         Me.Spread.EditModeReplace = True
         Me.Spread.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded
         Me.Spread.Location = New System.Drawing.Point(0, 0)
@@ -119,7 +116,7 @@ Public Class OutputFileDescUI
         '
         Me.GridContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MoveUpMenuItem, Me.MoveDownMenuItem})
         Me.GridContextMenu.Name = "ContextMenu"
-        Me.GridContextMenu.Size = New System.Drawing.Size(278, 70)
+        Me.GridContextMenu.Size = New System.Drawing.Size(278, 48)
         '
         'MoveUpMenuItem
         '
@@ -159,23 +156,14 @@ Public Class OutputFileDescUI
         Me.Grid.SheetName = "Sheet1"
         Me.Grid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1
         '
-        'Splitter1
-        '
-        Me.Splitter1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Splitter1.Location = New System.Drawing.Point(0, 409)
-        Me.Splitter1.Name = "Splitter1"
-        Me.Splitter1.Size = New System.Drawing.Size(753, 5)
-        Me.Splitter1.TabIndex = 16
-        Me.Splitter1.TabStop = False
-        '
         'VariableListView
         '
         Me.VariableListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader4, Me.ColumnHeader3})
-        Me.VariableListView.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.VariableListView.Dock = System.Windows.Forms.DockStyle.Fill
         Me.VariableListView.FullRowSelect = True
-        Me.VariableListView.Location = New System.Drawing.Point(0, 414)
+        Me.VariableListView.Location = New System.Drawing.Point(0, 412)
         Me.VariableListView.Name = "VariableListView"
-        Me.VariableListView.Size = New System.Drawing.Size(753, 316)
+        Me.VariableListView.Size = New System.Drawing.Size(753, 321)
         Me.VariableListView.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.VariableListView.TabIndex = 15
         Me.VariableListView.UseCompatibleStateImageBehavior = False
@@ -203,8 +191,8 @@ Public Class OutputFileDescUI
         '
         'Splitter2
         '
-        Me.Splitter2.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Splitter2.Location = New System.Drawing.Point(0, 730)
+        Me.Splitter2.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Splitter2.Location = New System.Drawing.Point(0, 409)
         Me.Splitter2.Name = "Splitter2"
         Me.Splitter2.Size = New System.Drawing.Size(753, 3)
         Me.Splitter2.TabIndex = 13
@@ -262,6 +250,15 @@ Public Class OutputFileDescUI
         Grid.ActiveRowIndex = 0
         UserChange = True
 
+        If Controller.Data.Type.ToLower <> "variables" Then
+            VariableListView.Columns(2).Width = 0
+            Grid.Columns(1).Visible = False
+
+        Else
+            VariableListView.Columns(2).Width = 45
+            Grid.Columns(1).Visible = True
+        End If
+
         Dim InputMap As FarPoint.Win.Spread.InputMap = Spread.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused)
         InputMap.Put(New FarPoint.Win.Spread.Keystroke(Keys.Enter, Keys.None), FarPoint.Win.Spread.SpreadActions.MoveToNextRow)
     End Sub
@@ -286,6 +283,7 @@ Public Class OutputFileDescUI
         VariableListView.BeginUpdate()
         VariableListView.Groups.Clear()
         VariableListView.Items.Clear()
+
         Dim ApsimUI As ApsimUIController = Controller
         Dim VariableData As APSIMData = ApsimUI.GetVariableDescriptions(Controller.Data.Parent.Parent, Controller.Data.Type)
 
