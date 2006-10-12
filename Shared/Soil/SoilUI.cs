@@ -161,13 +161,13 @@ namespace CSGeneral
         // 
         // Grid
         // 
-        this.Grid.AccessibleDescription = "Grid, Water, Row 0, Column 0, ";
+        this.Grid.AccessibleDescription = "Grid, Soil profile, Row 0, Column 0, ";
         this.Grid.AllowDragDrop = true;
         this.Grid.ContextMenu = this.WaterMenu;
         this.Grid.Dock = System.Windows.Forms.DockStyle.Top;
         this.Grid.EditModeReplace = true;
         this.Grid.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded;
-        this.Grid.Location = new System.Drawing.Point(0, 87);
+        this.Grid.Location = new System.Drawing.Point(0, 84);
         this.Grid.Name = "Grid";
         this.Grid.SelectionBlockOptions = ((FarPoint.Win.Spread.SelectionBlockOptions)(((FarPoint.Win.Spread.SelectionBlockOptions.Cells | FarPoint.Win.Spread.SelectionBlockOptions.Rows)
                     | FarPoint.Win.Spread.SelectionBlockOptions.Sheet)));
@@ -194,7 +194,8 @@ namespace CSGeneral
         this.Grid.SetViewportLeftColumn(0, 1);
         this.Grid.SetViewportLeftColumn(1, 0, 6);
         this.Grid.SetActiveViewport(1, 0, -1);
-        this.Grid.ActiveSheetIndex = 1;
+        this.Grid.SetViewportLeftColumn(2, 0, 8);
+        this.Grid.ActiveSheetIndex = 2;
         // 
         // WaterMenu
         // 
@@ -373,7 +374,7 @@ namespace CSGeneral
         this.SoilProfile.ColumnHeader.Cells.Get(0, 13).Value = "Mg";
         this.SoilProfile.ColumnHeader.Cells.Get(0, 14).Value = "Na";
         this.SoilProfile.ColumnHeader.Cells.Get(0, 15).Value = "K";
-        this.SoilProfile.ColumnHeader.Cells.Get(0, 16).Value = "K";
+        this.SoilProfile.ColumnHeader.Cells.Get(0, 16).Value = "ESP";
         this.SoilProfile.ColumnHeader.Cells.Get(0, 17).Value = "Particle size";
         this.SoilProfile.ColumnHeader.Cells.Get(0, 18).Value = "Particle size";
         this.SoilProfile.ColumnHeader.Cells.Get(0, 19).Value = "Particle size";
@@ -392,7 +393,7 @@ namespace CSGeneral
         this.SoilProfile.ColumnHeader.Cells.Get(1, 13).Value = "(cmol+/kg)";
         this.SoilProfile.ColumnHeader.Cells.Get(1, 14).Value = "(cmol+/kg)";
         this.SoilProfile.ColumnHeader.Cells.Get(1, 15).Value = "(cmol+/kg)";
-        this.SoilProfile.ColumnHeader.Cells.Get(1, 16).Value = "(cmol+/kg)";
+        this.SoilProfile.ColumnHeader.Cells.Get(1, 16).Value = "(%)";
         this.SoilProfile.ColumnHeader.Cells.Get(1, 17).Value = "sand (%)";
         this.SoilProfile.ColumnHeader.Cells.Get(1, 18).Value = "silt (%)";
         this.SoilProfile.ColumnHeader.Cells.Get(1, 19).Value = "clay (%)";
@@ -402,7 +403,7 @@ namespace CSGeneral
         this.SoilProfile.Columns.Get(18).Width = 79F;
         this.SoilProfile.Columns.Get(19).Label = "clay (%)";
         this.SoilProfile.Columns.Get(19).Width = 79F;
-        this.SoilProfile.RowHeader.Columns.Default.Resizable = false;
+        this.SoilProfile.RowHeader.Columns.Default.Resizable = true;
         this.SoilProfile.SelectionPolicy = FarPoint.Win.Spread.Model.SelectionPolicy.MultiRange;
         this.SoilProfile.SheetName = "Soil profile";
         this.SoilProfile.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.SoilProfile_CellChanged);
@@ -564,7 +565,7 @@ namespace CSGeneral
         // splitter1
         // 
         this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
-        this.splitter1.Location = new System.Drawing.Point(0, 379);
+        this.splitter1.Location = new System.Drawing.Point(0, 376);
         this.splitter1.Name = "splitter1";
         this.splitter1.Size = new System.Drawing.Size(906, 3);
         this.splitter1.TabIndex = 13;
@@ -616,7 +617,7 @@ namespace CSGeneral
             this.CheckSoilButton});
         this.toolStrip1.Location = new System.Drawing.Point(0, 40);
         this.toolStrip1.Name = "toolStrip1";
-        this.toolStrip1.Size = new System.Drawing.Size(906, 47);
+        this.toolStrip1.Size = new System.Drawing.Size(906, 44);
         this.toolStrip1.TabIndex = 15;
         this.toolStrip1.Text = "toolStrip1";
         // 
@@ -626,7 +627,7 @@ namespace CSGeneral
         this.AddButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.AddButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.AddButton.Name = "AddButton";
-        this.AddButton.Size = new System.Drawing.Size(63, 44);
+        this.AddButton.Size = new System.Drawing.Size(54, 41);
         this.AddButton.Text = "&Add crop";
         this.AddButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.AddButton.Click += new System.EventHandler(this.AddCropMenuItem_Click);
@@ -637,7 +638,7 @@ namespace CSGeneral
         this.DeleteButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.DeleteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.DeleteButton.Name = "DeleteButton";
-        this.DeleteButton.Size = new System.Drawing.Size(77, 44);
+        this.DeleteButton.Size = new System.Drawing.Size(66, 41);
         this.DeleteButton.Text = "&Delete crop";
         this.DeleteButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.DeleteButton.Click += new System.EventHandler(this.DeleteCropMenuItem_Click);
@@ -648,7 +649,7 @@ namespace CSGeneral
         this.ReorderButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.ReorderButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.ReorderButton.Name = "ReorderButton";
-        this.ReorderButton.Size = new System.Drawing.Size(93, 44);
+        this.ReorderButton.Size = new System.Drawing.Size(79, 41);
         this.ReorderButton.Text = "&Reorder crops";
         this.ReorderButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.ReorderButton.Click += new System.EventHandler(this.ReorderCropsMenuItem_Click);
@@ -659,7 +660,7 @@ namespace CSGeneral
         this.PHButton.Image = global::SoilNamespace.Properties.Resources.potion_yellow;
         this.PHButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.PHButton.Name = "PHButton";
-        this.PHButton.Size = new System.Drawing.Size(105, 44);
+        this.PHButton.Size = new System.Drawing.Size(90, 41);
         this.PHButton.Text = "Change pH units";
         this.PHButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.PHButton.Click += new System.EventHandler(this.PHButton_Click);
@@ -667,7 +668,7 @@ namespace CSGeneral
         // toolStripSeparator1
         // 
         this.toolStripSeparator1.Name = "toolStripSeparator1";
-        this.toolStripSeparator1.Size = new System.Drawing.Size(6, 47);
+        this.toolStripSeparator1.Size = new System.Drawing.Size(6, 44);
         // 
         // PrintButton
         // 
@@ -675,7 +676,7 @@ namespace CSGeneral
         this.PrintButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.PrintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.PrintButton.Name = "PrintButton";
-        this.PrintButton.Size = new System.Drawing.Size(61, 44);
+        this.PrintButton.Size = new System.Drawing.Size(51, 41);
         this.PrintButton.Text = "&Print soil";
         this.PrintButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.PrintButton.Click += new System.EventHandler(this.PrintClick);
@@ -686,7 +687,7 @@ namespace CSGeneral
         this.CheckSoilButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.CheckSoilButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.CheckSoilButton.Name = "CheckSoilButton";
-        this.CheckSoilButton.Size = new System.Drawing.Size(69, 44);
+        this.CheckSoilButton.Size = new System.Drawing.Size(58, 41);
         this.CheckSoilButton.Text = "&Check soil";
         this.CheckSoilButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.CheckSoilButton.Click += new System.EventHandler(this.CheckSoilMenuItem_Click);
@@ -695,10 +696,10 @@ namespace CSGeneral
         // 
         this.WaterChartControl.Dock = System.Windows.Forms.DockStyle.Fill;
         this.WaterChartControl.LinkedSoil = null;
-        this.WaterChartControl.Location = new System.Drawing.Point(0, 379);
+        this.WaterChartControl.Location = new System.Drawing.Point(0, 376);
         this.WaterChartControl.Name = "WaterChartControl";
         this.WaterChartControl.ShowSoilWaterLine = false;
-        this.WaterChartControl.Size = new System.Drawing.Size(906, 383);
+        this.WaterChartControl.Size = new System.Drawing.Size(906, 386);
         this.WaterChartControl.TabIndex = 14;
         // 
         // SoilUI
