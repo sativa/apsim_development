@@ -54,28 +54,40 @@ namespace ApsimToSim
 			// into a separate .sim file for each.
 			APSIMData Data = new APSIMData();
 			Data.LoadFromFile(ApsimFileName);
+
+            // we'll need the types.xml file for later.
+            Types = new APSIMData();
+            Types.LoadFromFile(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "typesfile"));
 			
-			// If no simulations were specified then do all simulations in .apsim file.
-			if (SimNames.Length == 0)
-				SimNames = Data.ChildNames("simulation");
+            findSimsAndConvert(Data, SimNames);
+            }
 
-			// we'll need the types.xml file for later.
-			Types = new APSIMData();
-			Types.LoadFromFile(APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "apsimui", "typesfile"));
+        private void findSimsAndConvert(APSIMData Data, string[] SimNames)
+            {
+			// Iterate through all nested simulations and convert them to
+            // .sim format if necessary.
+            foreach (APSIMData child in Data.get_Children(null))
+                {
+                if (child.Type.ToLower() == "simulation")
+                    {
+                    string SimName = child.Name;
+                    bool convertSim = (SimNames.Length == 0 || Array.IndexOf(SimNames, SimName) != -1);
+                    if (convertSim)
+                        {
+                        StringWriter Out = new StringWriter();
 
-			// Loop through all simulations and write a sim file for each.
-			foreach (string SimName in SimNames)
-				{
-				StringWriter Out = new StringWriter();
+                        WriteSimForComponent(child, Out, 0);
+                        Out.Close();
+                        string SortedContents = SortSim(Out.ToString());
 
-				WriteSimForComponent(Data.Child(SimName), Out, 0);
-				Out.Close();
-				string SortedContents = SortSim(Out.ToString());
-				
-				StreamWriter FileOut = new StreamWriter(SimName + ".sim");
-                FileOut.Write(SortedContents);
-				FileOut.Close();
-				}
+                        StreamWriter FileOut = new StreamWriter(SimName + ".sim");
+                        FileOut.Write(SortedContents);
+                        FileOut.Close();
+                        }
+                    }
+                if (child.Type.ToLower() == "folder")
+                    findSimsAndConvert(child, SimNames);
+                }                    
 			}
 
 		private void WriteSimForComponent(APSIMData Component, TextWriter Out, int Level)
