@@ -20,6 +20,9 @@ Public Class OperationsUI
                 EndGridRow = EndGridRow + 1
             End If
         Next
+
+        Dim InputMap As FarPoint.Win.Spread.InputMap = Spread.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused)
+        InputMap.Put(New FarPoint.Win.Spread.Keystroke(Keys.Enter, Keys.None), FarPoint.Win.Spread.SpreadActions.MoveToNextRow)
     End Sub
 
     Public Overrides Sub Save()
@@ -42,6 +45,24 @@ Public Class OperationsUI
             Controller.Data.Add(NewNode)
             Row = Row + 1
         End While
+    End Sub
+
+    Private Sub GridKeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Spread.KeyDown
+        ' --------------------------------------------------
+        ' If user has hit delete then delete the entire row.
+        ' --------------------------------------------------
+        If e.KeyCode = Keys.Delete Then
+            If Spread.ActiveSheet.SelectionCount > 0 Then
+                Dim Range As FarPoint.Win.Spread.Model.CellRange = Spread.ActiveSheet.GetSelection(0)
+                If Range.ColumnCount = 5 Then
+                    ' delete the entire rows.
+                    Spread.ActiveSheet.Rows(Range.Row, Range.Row + Range.RowCount - 1).Remove()
+                Else
+                    ' just clear the cell contents.
+                    Spread.ActiveSheet.Cells(Range.Row, Range.Column, Range.Row + Range.RowCount - 1, Range.Column + Range.ColumnCount - 1).Value = ""
+                End If
+            End If
+        End If
     End Sub
 
 End Class
