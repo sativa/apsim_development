@@ -613,6 +613,14 @@ Public MustInherit Class BaseController
             Grid.Cells(Row, 1).CellType = Combo
 
         ElseIf Prop.Attribute("type") = "filenames" Or Prop.Attribute("type") = "filename" Then
+            If Prop.Attribute("type") = "filenames" Then
+                Dim Text As FarPoint.Win.Spread.CellType.TextCellType = New FarPoint.Win.Spread.CellType.TextCellType
+                Text.Multiline = True
+                Text.MaxLength = 65536
+                Text.ScrollBars = ScrollBars.Both
+                Grid.Cells(Row, 1).CellType = Text
+            End If
+
             Grid.Columns(2).Visible = True
             Grid.Cells(Row, 2).Locked = False
             Dim Button As FarPoint.Win.Spread.CellType.ButtonCellType = New FarPoint.Win.Spread.CellType.ButtonCellType

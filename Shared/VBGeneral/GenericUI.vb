@@ -194,7 +194,7 @@ Public Class GenericUI
                 Else
                     Grid.Cells(ExistingIndex, 1).Text += vbCrLf + Prop.Value
                     If PropertyData(ExistingIndex).Attribute("type").ToLower() = "filenames" Then
-                        Grid.Rows(ExistingIndex).Height = Grid.Rows(ExistingIndex).GetPreferredHeight
+                        Grid.Rows(ExistingIndex).Height = Math.Min(Grid.Rows(ExistingIndex).GetPreferredHeight, 300)
                     End If
                 End If
             End If
