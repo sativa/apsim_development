@@ -48,7 +48,7 @@ Public Class OutputFileDescUI
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
     Friend WithEvents Splitter1 As System.Windows.Forms.Splitter
-    Friend WithEvents ContextMenu As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents GridContextMenu As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents MoveUpMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MoveDownMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Splitter2 As System.Windows.Forms.Splitter
@@ -59,7 +59,7 @@ Public Class OutputFileDescUI
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
         Me.RightHandPanel = New System.Windows.Forms.Panel
         Me.Spread = New FarPoint.Win.Spread.FpSpread
-        Me.ContextMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.GridContextMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.MoveUpMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MoveDownMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.Grid = New FarPoint.Win.Spread.SheetView
@@ -73,7 +73,7 @@ Public Class OutputFileDescUI
         Me.EventsListView = New APSIMUI.EventsListView
         Me.RightHandPanel.SuspendLayout()
         CType(Me.Spread, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.ContextMenu.SuspendLayout()
+        Me.GridContextMenu.SuspendLayout()
         CType(Me.Grid, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -100,7 +100,7 @@ Public Class OutputFileDescUI
         '
         Me.Spread.AccessibleDescription = "Spread, Sheet1, Row 0, Column 0, "
         Me.Spread.AllowDrop = True
-        Me.Spread.ContextMenuStrip = Me.ContextMenu
+        Me.Spread.ContextMenuStrip = Me.GridContextMenu
         Me.Spread.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Spread.EditModeReplace = True
         Me.Spread.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded
@@ -115,11 +115,11 @@ Public Class OutputFileDescUI
         Me.Spread.TextTipAppearance = TipAppearance1
         Me.Spread.VerticalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded
         '
-        'ContextMenu
+        'GridContextMenu
         '
-        Me.ContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MoveUpMenuItem, Me.MoveDownMenuItem})
-        Me.ContextMenu.Name = "ContextMenu"
-        Me.ContextMenu.Size = New System.Drawing.Size(278, 70)
+        Me.GridContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MoveUpMenuItem, Me.MoveDownMenuItem})
+        Me.GridContextMenu.Name = "ContextMenu"
+        Me.GridContextMenu.Size = New System.Drawing.Size(278, 70)
         '
         'MoveUpMenuItem
         '
@@ -230,7 +230,7 @@ Public Class OutputFileDescUI
         Me.Controls.SetChildIndex(Me.RightHandPanel, 0)
         Me.RightHandPanel.ResumeLayout(False)
         CType(Me.Spread, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ContextMenu.ResumeLayout(False)
+        Me.GridContextMenu.ResumeLayout(False)
         CType(Me.Grid, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
