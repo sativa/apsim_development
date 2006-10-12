@@ -317,10 +317,16 @@ Public Class OutputFileDescUI
         ' e.g. if current data type is 'variables' then property type is 'variable'
         Dim PropertyType As String = Controller.Data.Type
         PropertyType = PropertyType.Remove(PropertyType.Length - 1)
-
-        Dim NumVariables As Integer = GridUtils.FindFirstBlankCell(Grid, 0)
-        Controller.Data.EnsureNumberOfChildren(PropertyType, "", NumVariables)
-
+        'how many blank
+        Dim BlankRows As Integer() = GridUtils.FindBlankCells(Grid, 0, Controller.Data.Children(PropertyType).Length)
+        'how mant total rows occupied in grid to check new ones need to be add
+        Dim TotalRowsNow As Integer = GridUtils.FindRowsInSheet(Grid)
+        If TotalRowsNow > Controller.Data.Children(PropertyType).Length Then
+            For i As Integer = Controller.Data.Children(PropertyType).Length To TotalRowsNow - 1
+                Controller.Data.Add(New APSIMData(PropertyType, ""))
+            Next
+        End If
+        'reset all the children to the grid values
         Dim Row As Integer = 0
         For Each Variable As APSIMData In Controller.Data.Children(PropertyType)
             Variable.Name = Grid.Cells(Row, 0).Text
@@ -328,6 +334,13 @@ Public Class OutputFileDescUI
             Variable.SetAttribute("description", Grid.Cells(Row, 2).Text)
             Row += 1
         Next
+        Dim ChildrenNames() As String = Controller.Data.ChildNames(PropertyType)
+        If BlankRows.Length <> 0 Then
+            'delete some rows
+            For i As Integer = 0 To BlankRows.Length - 1
+                Controller.Data.Delete(ChildrenNames(BlankRows(i)))
+            Next
+        End If
     End Sub
 
     Private Sub GridKeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Spread.KeyDown
