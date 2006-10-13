@@ -1,5 +1,5 @@
 'Imports DotNetComponentInterface
-Option Explicit On 
+Option Explicit On
 Imports VBGeneral
 Imports System.Math
 Imports VBMet
@@ -73,11 +73,14 @@ Public Class Slurp
         FVPDFunction.data = Data.Child("fvpd")
         FtFunction.data = Data.Child("ft")
 
+        rlv = StringToSingleArray(Data.Child("rlv").Value)
+        ll = StringToSingleArray(Data.Child("ll").Value)
+        kl = StringToSingleArray(Data.Child("kl").Value)
 
-        Dim RootData As New RootParameters(Data.Child("layers"))
-        rlv = RootData.rlv
-        ll = RootData.ll
-        kl = RootData.kl
+        'Dim RootData As New RootParameters(Data.Child("layers"))
+        'rlv = RootData.rlv
+        'll = RootData.ll
+        'kl = RootData.kl
 
     End Sub
     ' ===================================================
@@ -267,6 +270,19 @@ Public Class Slurp
             SWUptake(layer) = SWSupply(layer) * Fraction
         Next
         Return SWUptake
+    End Function
+#End Region
+#Region "Utilities"
+    Public Function StringToSingleArray(ByVal Stream As String) As Single()
+
+        Dim ValueStrings As String() = Split(Stream)
+        Dim ReturnValue(ValueStrings.Length - 1) As Single
+
+        For i As Integer = 0 To ValueStrings.Length - 1
+            ReturnValue(i) = Convert.ToSingle(ValueStrings(i))
+        Next
+
+        Return ReturnValue
     End Function
 #End Region
     Private Class InterpSet
