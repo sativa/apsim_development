@@ -102,6 +102,7 @@ namespace ApsimToSim
 					// write module header bit i.e. <component ...
 					string ModuleDLL = ApsimToSim.get_ChildValue("dll");
 					string ModuleType = ApsimToSim.get_ChildValue("type");
+                    string ComponentInterfaceType = ApsimToSim.get_ChildValue("componentinterface");
                     APSIMData ini = Component.Child("ini");
                     string ModuleINI = "";
                     if (ini != null)
@@ -127,6 +128,8 @@ namespace ApsimToSim
 							if (ModuleType.ToLower() == "component")
 								{
 								ComponentHeader += "\r\n  <executable>" + ModuleDLL + "</executable>";
+                                if(ComponentInterfaceType != "")
+                                    ComponentHeader += "\r\n  <componentinterface>" + ComponentInterfaceType + "</componentinterface>";
 								ComponentHeader += "\r\n  <initdata>";
 								}
 							}
@@ -248,7 +251,7 @@ namespace ApsimToSim
 			int i = 1;
 			foreach (APSIMData Argument in CallDllNode.get_Children("argument"))
 				{
-				Params[i] = Argument.Value;
+				Params[i] = Argument.Value.Replace("[component_name]",Component.Name);
 				i++;
 				}
 			Method.Invoke(Obj, Params);
