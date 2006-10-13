@@ -85,10 +85,6 @@ void ComponentComms::messageToLogic(ApsimComponent^ component,
 			case MessageType::ReplySetValueSuccess:		messages.push_back(new Message(message)); break;
 			} 
 		}
-	catch (const error_has_already_occurred&)
-		{
-		// error has already occured - continue execution.
-		}
 	catch (const exception& err)
 		{
 		error(err.what(), true);
@@ -124,7 +120,7 @@ unsigned ComponentComms::nameToRegistrationID(const std::string& name,
 		Register reg;
 		reg.kind = regType;
 		reg.id = newRegId;
-		reg.destID = parentID;
+		reg.destID = 0;
 		reg.name = name;
 		reg.type = data.ddml();
 		//if (units != "")
