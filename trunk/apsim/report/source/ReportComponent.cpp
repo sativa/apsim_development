@@ -148,7 +148,7 @@ void Field::getValues(bool setupHeadings)
                   }
                headings.push_back(heading);
                units.push_back(unit);
-               calcFieldWidths(variant, ok, headings.size()-1);
+               calcFieldWidth(headings.size()-1);
                }
             }
          }
@@ -161,7 +161,7 @@ void Field::getValues(bool setupHeadings)
          {
          headings.push_back(VariableName);
          units.push_back("(?)");
-         calcFieldWidths(NULL, false, headings.size()-1);
+         calcFieldWidth(headings.size()-1);
          }
       }
    }
@@ -293,14 +293,9 @@ void Field::writeValuesTo(ostream& out, std::vector<string>& values)
 //    DPH 29/7/99
 
 // ------------------------------------------------------------------
-void Field::calcFieldWidth(protocol::Variant* variant, bool ok, int index)
+void Field::calcFieldWidth(int index)
    {
    int fieldWidth = 15;
-
-   if (ok && variant->getType().getCode() == DTint4)
-      fieldWidth = 10;
-   else
-      fieldWidth = 15;
    fieldWidth = max(fieldWidth, headings[index].length() + 1);
    if (units.size() > 0)
       fieldWidth = max(fieldWidth, units[index].length() + 1);
