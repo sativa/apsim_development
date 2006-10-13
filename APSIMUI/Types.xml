@@ -2155,13 +2155,41 @@
             <laid>[slurp.LAId]</laid>
             <kg>[slurp.Kg]</kg>
             <kd>[slurp.Kd]</kd>
-            <vpd>0 10 50</vpd>
-            <fvpd>1 1  1</fvpd>
+         <table name="fvpd">
+            <point name="1">
+               <x units="()">0</x>
+               <y units="()">1</y>
+            </point>
+            <point name="2">
+               <x units="()">[slurp.VPDcrit]</x>
+               <y units="()">1</y>
+            </point>
+            <point name="3">
+               <x units="()">[slurp.VPDmax]</x>
+               <y units="()">1</y>
+            </point>
+         </table>
+         <table name="ft">
+            <point name="1">
+               <x units="()">[slurp.Tbase]</x>
+               <y units="()">0</y>
+            </point>
+            <point name="2">
+               <x units="()">[slurp.Topt1]</x>
+               <y units="()">1</y>
+            </point>
+            <point name="3">
+               <x units="()">[slurp.Topt2]</x>
+               <y units="()">1</y>
+            </point>
+            <point name="4">
+               <x units="()">[slurp.Tmax]</x>
+               <y units="()">0</y>
+            </point>
+         </table>
             <height>[slurp.height]</height>
             <frgr>[slurp.Frgr]</frgr>
-            <tav>5 20 25 40</tav>
-            <ft>1  1  1  1</ft>
-            <rlv>0.100    0.100    0.100    0.100    0.100    0.100    0.100    0.100    0.100    0.100    0.100    0.100    0.100</rlv>
+            <rlv>[slurp.rlv]</rlv>
          </sim>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
