@@ -36,10 +36,10 @@ Field::Field (protocol::Component* p,
               const std::string& nastring,
               unsigned int precision)
    {
+   string ModuleName;
+   string VariableAlias;
    parent = p;
    CSVFormat = csvformat;
-   fieldWidth = 0;
-   managerVariable = false;
    NAString = nastring;
    Precision = precision;
 
@@ -97,41 +97,73 @@ Field::Field (protocol::Component* p,
 //    DPH 29/7/99
 
 // ------------------------------------------------------------------
-bool Field::getValues(void)
+void Field::getValues(bool setupHeadings)
    {
    values.erase(values.begin(), values.end());
-   protocol::Variant* variant;
-   bool ok = parent->getVariable(variableID, variant, true);
-   if (ok)
+
+   protocol::Variants* variants;
+   if (parent->getVariables(variableID, variants))
       {
-      try
+      unsigned numResponses = variants->size();
+      for (unsigned v = 0; v != numResponses; v++)
          {
-         bool ok = variant->unpack(values);
-         unit = asString(variant->getType().getUnits());
-         arrayIndex = variant->getLowerBound();
-         if (unit[0] != '(')
-            unit = "(" + unit + ")";
+         protocol::Variant* variant = variants->getVariant(v);
+         std::vector<string> localValues;
+         bool ok = variant->unpack(localValues);
          if (!ok)
             {
             string msg = "Cannot use array notation on a scalar variable.\n"
                          "Variable name: " + VariableName;
             parent->error(msg.c_str(), false);
             }
-         FormatValues();
+
+         copy(localValues.begin(), localValues.end(), back_inserter(values));
+         if (setupHeadings)
+            {
+            string unit = asString(variant->getType().getUnits());
+            if (unit[0] != '(')
+               unit = "(" + unit + ")";
+            unsigned arrayIndex = variant->getLowerBound();
+            string fromModuleName;
+            if (numResponses > 1)
+               {
+               char buffer[500];
+               strcpy(buffer, "\0");
+               FString compName(buffer, sizeof(buffer), CString);
+               parent->componentIDToName(variant->getFromId(), compName);
+               fromModuleName = asString(compName);
+               }
+            for (unsigned i = 0; i != localValues.size(); i++)
+               {
+               string heading = VariableName;
+               if (numResponses > 1)
+                  {
+                  if (fromModuleName != "")
+                     heading = fromModuleName + "." + VariableName;
+                  }
+               if (localValues.size() > 1)
+                  {
+                  heading += "(" + itoa(arrayIndex) + ")";
+                  arrayIndex++;
+                  }
+               headings.push_back(heading);
+               units.push_back(unit);
+               calcFieldWidths(variant, ok, headings.size()-1);
+               }
+            }
          }
-      catch (const runtime_error& err)
-         {
-         string msg = err.what();
-         msg += " Variable name = " + VariableName;
-         parent->error(msg.c_str(), true);
-         }
+      FormatValues();
       }
    else
-      unit = "(?)";
-   if (fieldWidth == 0)
-      calcFieldWidth(variant, ok);
-
-   return ok;
+      {
+      values.push_back(NAString);
+      if (setupHeadings)
+         {
+         headings.push_back(VariableName);
+         units.push_back("(?)");
+         calcFieldWidths(NULL, false, headings.size()-1);
+         }
+      }
    }
 // ------------------------------------------------------------------
 // Try and format the values as floats ie 3 decimal places.
@@ -180,39 +212,11 @@ void Field::FormatValues(void)
 // ------------------------------------------------------------------
 void Field::writeHeadings(ostream& headingOut, ostream& unitOut)
    {
-   getValues();
-   if (unit == "(man)")
-      {
-      unit = "()";
-      managerVariable = true;
-      }
-   if (values.size() == 0)
-      unit = "(?)";
-   if (values.size() <= 1)
-      {
-      writeTo(headingOut, VariableName);
-      writeTo(unitOut, unit);
-      }
-   else
-      {
-      string baseName = VariableName;
-      unsigned posArraySpec = baseName.find('(');
-      if (posArraySpec != string::npos)
-         baseName.erase(posArraySpec);
-      for (unsigned int v = 0; v < values.size(); v++)
-         {
-         string arrayVariableName = baseName + "(";
-         arrayVariableName += itoa(arrayIndex++);
-         arrayVariableName += ")";
-         if (CSVFormat && v != 0)
-            {
-            headingOut << ',';
-            unitOut << ',';
-            }
-         writeTo(headingOut, arrayVariableName);
-         writeTo(unitOut, unit);
-         }
-      }
+   headings.erase(headings.begin(), headings.end());
+   units.erase(units.begin(), units.end());
+   getValues(true);
+   writeValuesTo(headingOut, headings);
+   writeValuesTo(unitOut, units);
    }
 // ------------------------------------------------------------------
 //  Short description:
@@ -226,19 +230,10 @@ void Field::writeHeadings(ostream& headingOut, ostream& unitOut)
 // ------------------------------------------------------------------
 void Field::writeValue(ostream& out)
    {
-   getValues();
+   getValues(false);
    if (!CSVFormat)
       formatAsFloats();
-
-   for (unsigned v = 0; v != values.size(); v++)
-      {
-      if (CSVFormat && v != 0)
-         out << ',';
-      writeTo(out, values[v]);
-      }
-
-   if (values.size() == 0)
-      writeTo(out, NAString);
+   writeValuesTo(out, values);
    }
 
 // ------------------------------------------------------------------
@@ -268,17 +263,25 @@ void Field::writeToSummary(void)
 //    DPH 29/7/99
 
 // ------------------------------------------------------------------
-void Field::writeTo(ostream& out, const string& value)
+void Field::writeValuesTo(ostream& out, std::vector<string>& values)
    {
-   if (CSVFormat)
-      out << value;
-   else
+   for (unsigned v = 0; v != values.size(); v++)
       {
-      out.width(fieldWidth);
-      if (value.length() >= fieldWidth)
-         value.erase(fieldWidth-1);
-      out << value;
+      if (CSVFormat)
+         {
+         if (v != 0)
+            out << ',';
+         out << values[v];
+         }
+      else
+         {
+         out.width(fieldWidths[v]);
+         if (values[v].length() >= fieldWidths[v])
+            values[v].erase(fieldWidths[v]-1);
+         out << values[v];
+         }
       }
+
    }
 // ------------------------------------------------------------------
 //  Short description:
@@ -290,18 +293,18 @@ void Field::writeTo(ostream& out, const string& value)
 //    DPH 29/7/99
 
 // ------------------------------------------------------------------
-void Field::calcFieldWidth(protocol::Variant* variant, bool ok)
+void Field::calcFieldWidth(protocol::Variant* variant, bool ok, int index)
    {
-   if (!ok)
-      fieldWidth = 15;
-   else if (variant->getType().getCode() == DTint4)
+   int fieldWidth = 15;
+
+   if (ok && variant->getType().getCode() == DTint4)
       fieldWidth = 10;
    else
       fieldWidth = 15;
-   fieldWidth = max(fieldWidth, VariableName.length() + 1);
-   fieldWidth = max(fieldWidth, unit.length() + 1);
-   if (values.size() > 1)
-      fieldWidth += strlen("(xx)");
+   fieldWidth = max(fieldWidth, headings[index].length() + 1);
+   if (units.size() > 0)
+      fieldWidth = max(fieldWidth, units[index].length() + 1);
+   fieldWidths.push_back(fieldWidth);
    }
 
 // ------------------------------------------------------------------

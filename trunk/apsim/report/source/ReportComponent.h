@@ -20,24 +20,20 @@ class Field
 
    private:
       protocol::Component* parent;
-      std::string ModuleName;
       std::string VariableName;
-      std::string VariableAlias;
-      std::string VariableUnits;
       std::string VariableFormat;
       std::string NAString;
       bool CSVFormat;
       unsigned variableID;
-      unsigned int fieldWidth;
       unsigned int Precision;
+      std::vector<std::string> headings;
+      std::vector<std::string> units;
       std::vector<std::string> values;
-      std::string unit;
-      unsigned arrayIndex;
-      bool managerVariable;
+      std::vector<unsigned> fieldWidths;
 
-      bool getValues(void);
-      void calcFieldWidth(protocol::Variant* variant, bool ok);
-      void writeTo(std::ostream& out, const std::string& value);
+      void getValues(bool setupHeadings);
+      void calcFieldWidths(protocol::Variant* variant, bool ok, int index);
+      void writeValuesTo(std::ostream& out, std::vector<std::string>& values);
       void formatAsFloats(void);
    };
 // ------------------------------------------------------------------
