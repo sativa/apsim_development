@@ -443,7 +443,7 @@ void ComponentComms::registerEventHandler(const std::string& eventName, IEventDa
 	Register reg;
 	reg.kind = Registration::respondToEvent;
 	reg.id = RegisteredEventHandlers::add(event);
-	reg.destID = parentID;
+	reg.destID = 0;
 	reg.name = eventName;
 	reg.type = event->ddml();
 	Message message = messageFactory.create(MessageType::Register);
