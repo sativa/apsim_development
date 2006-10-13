@@ -350,9 +350,9 @@ void eraseNodes(XMLNode node, const std::string& name)
 // Handy function that returns a node given a fully qualified name
 // eg fqn:  root|child1|child2
 // ------------------------------------------------------------------
-XMLNode findNode(XMLNode node, const std::string& fqn)
+XMLNode findNode(XMLNode node, const std::string& fqn, char delimiter)
    {
-   unsigned posDelimiter = fqn.find('|');
+   unsigned posDelimiter = fqn.find(delimiter);
    XMLNode::iterator i = find_if(node.begin(),
                                  node.end(),
                                  EqualToName<XMLNode>(fqn.substr(0, posDelimiter)));
@@ -372,9 +372,9 @@ XMLNode findNode(XMLNode node, const std::string& fqn)
 // This variant uses the 'name' attribute to search.
 // eg fqn:  root|child1|child2
 // ------------------------------------------------------------------
-XMLNode findNodeWithName(XMLNode node, const std::string& fqn)
+XMLNode findNodeWithName(XMLNode node, const std::string& fqn, char delimiter)
    {
-   unsigned posDelimiter = fqn.find('|');
+   unsigned posDelimiter = fqn.find(delimiter);
    XMLNode::iterator i = find_if(node.begin(),
                                  node.end(),
                                  AttributeEquals<XMLNode>("name", fqn.substr(0, posDelimiter)));
@@ -395,4 +395,17 @@ string XMLNode::innerXML()
    for (XMLNode::iterator i = begin(); i != end(); i++)
       returnString += i->write();
    return returnString;
+   }
+
+// ------------------------------------------------------------------
+// Handy function that returns a node value given a fully qualified name
+// eg fqn:  root|child1|child2
+// ------------------------------------------------------------------
+std::string findNodeValue(XMLNode node, const std::string& fqn)
+   {
+   XMLNode foundNode = findNode(node, fqn);
+   if (foundNode.isValid())
+      return foundNode.getValue();
+   else
+      return "";
    }
