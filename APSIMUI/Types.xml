@@ -2148,6 +2148,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\slurp\lib\slurp.dll</dll>
+         <componentinterface>%apsuite\bin\dotnetcomponentinterface.dll</componentinterface>
          <sim>
             <crop_type>[slurp.type]</crop_type>
             <lai>[slurp.LAI]</lai>
@@ -2160,14 +2161,14 @@
             <frgr>[slurp.Frgr]</frgr>
             <tav>5 20 25 40</tav>
             <ft>1  1  1  1</ft>
-            <rlv>0.05    0.03    0.02    0.01    0.01    0.005   0.001</rlv>
+            <rlv>0.100    0.100    0.100    0.100    0.100    0.100    0.100    0.100    0.100    0.100    0.100    0.100    0.100</rlv>
          </sim>
          <calldll>
             <dll>%apsuite\bin\soil.dll</dll>
             <class>CSGeneral.Soil</class>
             <method>ExportCropToSim</method>
             <ConstructorArgument>soil</ConstructorArgument>
-            <argument>slurp</argument>
+            <argument>[component_name]</argument>
          </calldll>
       </ApsimToSim>
    </slurp>
