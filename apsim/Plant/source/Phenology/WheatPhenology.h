@@ -36,7 +36,7 @@ class WheatPhenology : public CropPhenology {
 
    void process(const environment_t &e, const pheno_stress_t &ps, float fasw_seed, float pesw_seed);
 
-//   void onRemoveBiomass(float removeBiomPheno){};
+   void onRemoveBiomass(protocol::Component *parent, float removeBiomPheno);
 
    float get_dlt_tt(void) {return dlt_tt;};                          // XX remove when leaves are finished
 
