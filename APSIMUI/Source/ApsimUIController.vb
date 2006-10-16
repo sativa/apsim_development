@@ -481,7 +481,14 @@ Public Class ApsimUIController
             ElseIf Prop.Attribute("type") = "cultivars" Then
                 Dim CropPropertyName As String = Prop.Attribute("croppropertyname")
                 Dim CropName As String = Prop.Parent.Child(CropPropertyName).Value
-                Combo.Items = GetPropertiesForType(CropName, "cultivar")
+                Dim System As APSIMData = Prop.Parent
+                While System.Type <> "simulation" And System.Type <> "area" And Not IsNothing(System.Parent)
+                    System = System.Parent
+                End While
+                Dim Crop As APSIMData = System.Child(CropName)
+                If Not IsNothing(Crop) Then
+                    Combo.Items = GetPropertiesForType(Crop.Type, "cultivar")
+                End If
 
             ElseIf Prop.Attribute("type") = "classes" Then
                 Dim CropPropertyName As String = Prop.Attribute("croppropertyname")
@@ -522,7 +529,7 @@ Public Class ApsimUIController
         End While
 
         For Each ApsimModule As APSIMData In System.Children
-            Dim Child As APSIMData = TypesData.Find(ApsimModule.Type + "|IsCrop")
+            Dim Child As APSIMData = TypesData.Find("types\" + ApsimModule.Type + "\IsCrop")
             If Not IsNothing(Child) AndAlso Child.Value.ToLower = "yes" Then
                 Values.Add(ApsimModule.Name())
             End If
