@@ -15,20 +15,30 @@ namespace ComponentInterface {
 // -----------------------------------
 ApsimComponent^ createInstanceOfComponent(const std::string& dllFileName)
    {
-	Assembly^ assembly = Assembly::LoadFrom(gcnew String(dllFileName.c_str()));
-	array<Type^>^ Types = assembly->GetTypes();
-	IEnumerator^ myEnum = Types->GetEnumerator();
-	while (myEnum->MoveNext())
+   String^ dll = gcnew String(dllFileName.c_str());
+	if (System::IO::File::Exists(dll))
 		{
-		Type^ oType = safe_cast<Type^>(myEnum->Current);
-		if (oType->BaseType->Name->CompareTo("ApsimComponent") == 0)
+		Assembly^ assembly = Assembly::LoadFrom(gcnew String(dllFileName.c_str()));
+		array<Type^>^ Types = assembly->GetTypes();
+		IEnumerator^ myEnum = Types->GetEnumerator();
+		while (myEnum->MoveNext())
 			{
-				Object^ o = Activator::CreateInstance(oType);
-			ApsimComponent^ Comp = static_cast<ApsimComponent^> (o);
-			Comp->SetAssembly(assembly);
-			return Comp;
+			Type^ oType = safe_cast<Type^>(myEnum->Current);
+			if (oType->BaseType->Name->CompareTo("ApsimComponent") == 0)
+				{
+					Object^ o = Activator::CreateInstance(oType);
+				ApsimComponent^ Comp = static_cast<ApsimComponent^> (o);
+				Comp->SetAssembly(assembly);
+				return Comp;
+				}
 			}
 		}
+	else
+		{
+		String^ msg = gcnew String("Cannot find dll: " + dll);
+		System::Windows::Forms::MessageBox::Show(msg, "Error", System::Windows::Forms::MessageBoxButtons::OK);
+		}
+
 	return nullptr;
    }
 };
