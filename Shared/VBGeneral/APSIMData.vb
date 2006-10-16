@@ -510,7 +510,7 @@ Public Class APSIMData
         ' ---------------------------------
         ' Delete the specified child
         ' ---------------------------------
-        InternalNode.RemoveChild(Child(ChildName).InternalNode)
+        Node.RemoveChild(Child(ChildName).InternalNode)
         ChildrenLoaded = False
         FireDataChangedEvent()
     End Sub
