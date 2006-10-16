@@ -441,6 +441,10 @@
             <dnit_rate_coeff>0.0006</dnit_rate_coeff>
             <dnit_wf_power>1</dnit_wf_power>
          </standard>
+         <sand>
+            <derived_from>standard</derived_from>
+            <rd_biom>0.0324</rd_biom>
+         </sand>
       </initdata>
    </component>
    <component name="millet" executable = "%apsuite/apsim/millet/lib/millet.dll">
