@@ -105,66 +105,86 @@ void Field::getValues(bool setupHeadings)
    if (parent->getVariables(variableID, variants))
       {
       unsigned numResponses = variants->size();
+
       for (unsigned v = 0; v != numResponses; v++)
          {
          protocol::Variant* variant = variants->getVariant(v);
-         std::vector<string> localValues;
-         bool ok = variant->unpack(localValues);
-         if (!ok)
-            {
-            string msg = "Cannot use array notation on a scalar variable.\n"
-                         "Variable name: " + VariableName;
-            parent->error(msg.c_str(), false);
-            }
-
-         copy(localValues.begin(), localValues.end(), back_inserter(values));
-         if (setupHeadings)
-            {
-            string unit = asString(variant->getType().getUnits());
-            if (unit[0] != '(')
-               unit = "(" + unit + ")";
-            unsigned arrayIndex = variant->getLowerBound();
-            string fromModuleName;
-            if (numResponses > 1)
-               {
-               char buffer[500];
-               strcpy(buffer, "\0");
-               FString compName(buffer, sizeof(buffer), CString);
-               parent->componentIDToName(variant->getFromId(), compName);
-               fromModuleName = asString(compName);
-               }
-            for (unsigned i = 0; i != localValues.size(); i++)
-               {
-               string heading = VariableName;
-               if (numResponses > 1)
-                  {
-                  if (fromModuleName != "")
-                     heading = fromModuleName + "." + VariableName;
-                  }
-               if (localValues.size() > 1)
-                  {
-                  heading += "(" + itoa(arrayIndex) + ")";
-                  arrayIndex++;
-                  }
-               headings.push_back(heading);
-               units.push_back(unit);
-               calcFieldWidth(headings.size()-1);
-               }
-            }
+         bool includeModuleNameInHeading = (numResponses > 1);
+         storeValue(variant, setupHeadings, includeModuleNameInHeading);
          }
-      FormatValues();
       }
    else
+      storeValue(NULL, setupHeadings, false);
+
+   FormatValues();
+   if (setupHeadings)
+      calcFieldWidths();
+   }
+
+// ------------------------------------------------------------------
+// Store the values in the specified variant.
+// ------------------------------------------------------------------
+void Field::storeValue(protocol::Variant* variant, bool setupHeadings, bool includeModuleNameInHeading)
+   {
+   std::vector<string> localValues;
+   if (variant != NULL)
       {
-      values.push_back(NAString);
-      if (setupHeadings)
+      bool ok = variant->unpack(localValues);
+      if (!ok)
          {
-         headings.push_back(VariableName);
-         units.push_back("(?)");
-         calcFieldWidth(headings.size()-1);
+         string msg = "Cannot use array notation on a scalar variable.\n"
+                      "Variable name: " + VariableName;
+         parent->error(msg.c_str(), false);
+         }
+      }
+   bool noValues = (localValues.size() == 0);
+   if (noValues)
+      localValues.push_back(NAString);
+   else
+      copy(localValues.begin(), localValues.end(), back_inserter(values));
+
+   if (setupHeadings)
+      {
+      string unit;
+      unsigned arrayIndex = 1;
+      if (noValues || variant == NULL)
+         unit = "(?)";
+      else
+         {
+         unit = asString(variant->getType().getUnits());
+         if (unit[0] != '(')
+            unit = "(" + unit + ")";
+         arrayIndex = variant->getLowerBound();
+         }
+
+      string fromModuleName;
+      if (includeModuleNameInHeading)
+         {
+         char buffer[500];
+         strcpy(buffer, "\0");
+         FString compName(buffer, sizeof(buffer), CString);
+         parent->componentIDToName(variant->getFromId(), compName);
+         fromModuleName = asString(compName);
+         }
+      for (unsigned i = 0; i != localValues.size(); i++)
+         {
+         string heading = VariableName;
+         if (includeModuleNameInHeading)
+            {
+            if (fromModuleName != "")
+               heading = fromModuleName + "." + VariableName;
+            }
+         if (localValues.size() > 1)
+            {
+            heading += "(" + itoa(arrayIndex) + ")";
+            arrayIndex++;
+            }
+         headings.push_back(heading);
+         units.push_back(unit);
          }
       }
    }
+
 // ------------------------------------------------------------------
 // Try and format the values as floats ie 3 decimal places.
 // ------------------------------------------------------------------
@@ -293,13 +313,17 @@ void Field::writeValuesTo(ostream& out, std::vector<string>& values)
 //    DPH 29/7/99
 
 // ------------------------------------------------------------------
-void Field::calcFieldWidth(int index)
+void Field::calcFieldWidths()
    {
-   int fieldWidth = 15;
-   fieldWidth = max(fieldWidth, headings[index].length() + 1);
-   if (units.size() > 0)
-      fieldWidth = max(fieldWidth, units[index].length() + 1);
-   fieldWidths.push_back(fieldWidth);
+   fieldWidths.erase(fieldWidths.begin(), fieldWidths.end());
+   for (unsigned index = 0; index != headings.size(); index++)
+      {
+      int fieldWidth = 15;
+      fieldWidth = max(fieldWidth, headings[index].length() + 1);
+      if (units.size() > 0)
+         fieldWidth = max(fieldWidth, units[index].length() + 1);
+      fieldWidths.push_back(fieldWidth);
+      }
    }
 
 // ------------------------------------------------------------------
