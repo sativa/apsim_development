@@ -1302,6 +1302,7 @@ namespace CSGeneral
 			{
             ApsoilController Apsoil = this.Controller as ApsoilController;
             Apsoil.AddCrop();
+            RefreshView(Controller);
 			}
 
 
@@ -1312,6 +1313,7 @@ namespace CSGeneral
 			{
             ApsoilController Apsoil = this.Controller as ApsoilController;
 			Apsoil.DeleteCrop();
+            RefreshView(Controller);
 			}
 
 		// --------------------------------
@@ -1321,6 +1323,7 @@ namespace CSGeneral
 			{
             ApsoilController Apsoil = this.Controller as ApsoilController;
             Apsoil.ReorderCrops();
+            RefreshView(Controller);
 			}
 
 		// --------------------------------
