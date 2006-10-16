@@ -3835,7 +3835,7 @@
             <esw_amount type="text" description="Enter minimum allowable available soil water (mm) : ">100</esw_amount>
           </category>
           <category name="Sowing parameters">
-            <crop type="crop" description="Enter name of crop to sow : ">ozcot</crop>
+            <crop type="crop" description="Enter name of crop to sow : ">cotton</crop>
             <density type="text" description="Enter sowing density  (plants/m row) : ">10</density>
             <depth type="text" description="Enter sowing depth  (mm) : ">30</depth>
             <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">Siok</cultivar>
@@ -4431,12 +4431,9 @@
       <outputfile name="outputfile">
         <variables name="Variables">
           <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
-          <variable name="cotton.dm as CottonBiomass" description="Total above ground biomass (kg/ha)" array="?" />
-          <variable name="cotton.lai as CottonLAI" description="Leaf area index" array="?" />
-          <variable name="chickpea.biomass as ChickPeaBiomass" description="Biomass" array="?" />
-          <variable name="chickpea.lai as ChickPeaLAI" description="Leaf area index" array="?" />
-          <variable name="wheat.biomass as WheatBiomass" description="Biomass" array="?" />
-          <variable name="wheat.lai as WheatLAI" description="Leaf area index" array="?" />
+          <variable name="cotton.dm as Cotton.Biomass" description="Total above ground biomass (kg/ha)" array="?" />
+          <variable name="biomass" description="Biomass" array="No" />
+          <variable name="lai" description="Leaf area index" array="No" />
         </variables>
         <events name="Reporting Frequency">
           <event name="Daily" description="End of day" />
