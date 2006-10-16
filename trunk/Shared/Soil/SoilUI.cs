@@ -902,9 +902,6 @@ namespace CSGeneral
 				else
 					Water.Columns[CropCol].BackColor = CropColor;
 				Water.Columns[CropCol].Width = 60;
-				FarPoint.Win.Spread.CellType.NumberCellType LLFormatter = new FarPoint.Win.Spread.CellType.NumberCellType();
-				LLFormatter.DecimalPlaces = 2;
-				Water.Columns[CropCol].CellType = LLFormatter;
 
 				// setup the PAWC column.
 				Water.ColumnHeader.Cells[1,CropCol+1].Text = "PAWC";
@@ -932,9 +929,6 @@ namespace CSGeneral
 				else
 					Water.Columns[CropCol+2].BackColor = CropColor;
 				Water.Columns[CropCol+2].Width = 45;
-				FarPoint.Win.Spread.CellType.NumberCellType KLFormatter = new FarPoint.Win.Spread.CellType.NumberCellType();
-				KLFormatter.DecimalPlaces = 2;
-				Water.Columns[CropCol+2].CellType = KLFormatter;
 
 				// setup the XF column
 				Water.ColumnHeader.Cells[1, CropCol+3].Text = "XF";
@@ -948,9 +942,6 @@ namespace CSGeneral
 				else
 					Water.Columns[CropCol+3].BackColor = CropColor;
 				Water.Columns[CropCol+3].Width = 45;
-				FarPoint.Win.Spread.CellType.NumberCellType XFFormatter = new FarPoint.Win.Spread.CellType.NumberCellType();
-				XFFormatter.DecimalPlaces = 1;
-				Water.Columns[CropCol+3].CellType = XFFormatter;
 				}
 
 			AddSummaryRow();
