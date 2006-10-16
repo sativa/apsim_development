@@ -120,12 +120,6 @@ namespace CSGeneral
         this.CheckSoilMenuItem = new System.Windows.Forms.MenuItem();
         this.menuItem1 = new System.Windows.Forms.MenuItem();
         this.PrintMenuItem = new System.Windows.Forms.MenuItem();
-        this.General = new FarPoint.Win.Spread.SheetView();
-        this.Water = new FarPoint.Win.Spread.SheetView();
-        this.SoilProfile = new FarPoint.Win.Spread.SheetView();
-        this.APSIM = new FarPoint.Win.Spread.SheetView();
-        this.Phosphorus = new FarPoint.Win.Spread.SheetView();
-        this.PhotoAttachSheet = new FarPoint.Win.Spread.SheetView();
         this.splitter1 = new System.Windows.Forms.Splitter();
         this.PrintForm = new TMGDevelopment.Windows.Forms.PrintForm(this.components);
         this.PrintPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
@@ -141,14 +135,20 @@ namespace CSGeneral
         this.PrintButton = new System.Windows.Forms.ToolStripButton();
         this.CheckSoilButton = new System.Windows.Forms.ToolStripButton();
         this.WaterChartControl = new CSGeneral.WaterChartControl();
+        this.General = new FarPoint.Win.Spread.SheetView();
+        this.Water = new FarPoint.Win.Spread.SheetView();
+        this.SoilProfile = new FarPoint.Win.Spread.SheetView();
+        this.APSIM = new FarPoint.Win.Spread.SheetView();
+        this.Phosphorus = new FarPoint.Win.Spread.SheetView();
+        this.PhotoAttachSheet = new FarPoint.Win.Spread.SheetView();
         ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
+        this.toolStrip1.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)(this.General)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.Water)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.SoilProfile)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.APSIM)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.Phosphorus)).BeginInit();
         ((System.ComponentModel.ISupportInitialize)(this.PhotoAttachSheet)).BeginInit();
-        this.toolStrip1.SuspendLayout();
         this.SuspendLayout();
         // 
         // ButtonImageList
@@ -161,7 +161,7 @@ namespace CSGeneral
         // 
         // Grid
         // 
-        this.Grid.AccessibleDescription = "Grid, Soil profile, Row 0, Column 0, ";
+        this.Grid.AccessibleDescription = "Grid, Photo/Attach, Row 1, Column 0, ";
         this.Grid.AllowDragDrop = true;
         this.Grid.ContextMenu = this.WaterMenu;
         this.Grid.Dock = System.Windows.Forms.DockStyle.Top;
@@ -194,8 +194,7 @@ namespace CSGeneral
         this.Grid.SetViewportLeftColumn(0, 1);
         this.Grid.SetViewportLeftColumn(1, 0, 6);
         this.Grid.SetActiveViewport(1, 0, -1);
-        this.Grid.SetViewportLeftColumn(2, 0, 8);
-        this.Grid.ActiveSheetIndex = 2;
+        this.Grid.ActiveSheetIndex = 1;
         // 
         // WaterMenu
         // 
@@ -247,6 +246,146 @@ namespace CSGeneral
         this.PrintMenuItem.Index = 6;
         this.PrintMenuItem.Text = "&Print";
         this.PrintMenuItem.Click += new System.EventHandler(this.PrintClick);
+        // 
+        // splitter1
+        // 
+        this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
+        this.splitter1.Location = new System.Drawing.Point(0, 376);
+        this.splitter1.Name = "splitter1";
+        this.splitter1.Size = new System.Drawing.Size(906, 3);
+        this.splitter1.TabIndex = 13;
+        this.splitter1.TabStop = false;
+        // 
+        // PrintForm
+        // 
+        this.PrintForm.AutoFit = TMGDevelopment.Windows.Forms.PageElement.Body;
+        this.PrintForm.BodyContainer = this;
+        this.PrintForm.CenterStyle = TMGDevelopment.Windows.Forms.CenterStyle.None;
+        this.PrintForm.PreDraw += new TMGDevelopment.Windows.Forms.PreDrawEventHandler(this.printForm1_PreDraw);
+        // 
+        // PrintPreviewDialog
+        // 
+        this.PrintPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
+        this.PrintPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+        this.PrintPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
+        this.PrintPreviewDialog.Document = this.printDocument1;
+        this.PrintPreviewDialog.Enabled = true;
+        this.PrintPreviewDialog.Icon = ((System.Drawing.Icon)(resources.GetObject("PrintPreviewDialog.Icon")));
+        this.PrintPreviewDialog.Name = "PrintPreviewDialog";
+        this.PrintPreviewDialog.Visible = false;
+        // 
+        // printDocument1
+        // 
+        this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
+        this.printDocument1.QueryPageSettings += new System.Drawing.Printing.QueryPageSettingsEventHandler(this.printDocument1_QueryPageSettings);
+        this.printDocument1.BeginPrint += new System.Drawing.Printing.PrintEventHandler(this.printDocument1_BeginPrint);
+        // 
+        // printDialog1
+        // 
+        this.printDialog1.Document = this.printDocument1;
+        // 
+        // OpenAttachmentDialog
+        // 
+        this.OpenAttachmentDialog.Filter = "All files|*.*";
+        this.OpenAttachmentDialog.RestoreDirectory = true;
+        // 
+        // toolStrip1
+        // 
+        this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+        this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AddButton,
+            this.DeleteButton,
+            this.ReorderButton,
+            this.PHButton,
+            this.toolStripSeparator1,
+            this.PrintButton,
+            this.CheckSoilButton});
+        this.toolStrip1.Location = new System.Drawing.Point(0, 40);
+        this.toolStrip1.Name = "toolStrip1";
+        this.toolStrip1.Size = new System.Drawing.Size(906, 44);
+        this.toolStrip1.TabIndex = 15;
+        this.toolStrip1.Text = "toolStrip1";
+        // 
+        // AddButton
+        // 
+        this.AddButton.Image = global::SoilNamespace.Properties.Resources.add2;
+        this.AddButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+        this.AddButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        this.AddButton.Name = "AddButton";
+        this.AddButton.Size = new System.Drawing.Size(54, 41);
+        this.AddButton.Text = "&Add crop";
+        this.AddButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+        this.AddButton.Click += new System.EventHandler(this.AddCropMenuItem_Click);
+        // 
+        // DeleteButton
+        // 
+        this.DeleteButton.Image = global::SoilNamespace.Properties.Resources.delete2;
+        this.DeleteButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+        this.DeleteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        this.DeleteButton.Name = "DeleteButton";
+        this.DeleteButton.Size = new System.Drawing.Size(66, 41);
+        this.DeleteButton.Text = "&Delete crop";
+        this.DeleteButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+        this.DeleteButton.Click += new System.EventHandler(this.DeleteCropMenuItem_Click);
+        // 
+        // ReorderButton
+        // 
+        this.ReorderButton.Image = global::SoilNamespace.Properties.Resources.up_down;
+        this.ReorderButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+        this.ReorderButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        this.ReorderButton.Name = "ReorderButton";
+        this.ReorderButton.Size = new System.Drawing.Size(79, 41);
+        this.ReorderButton.Text = "&Reorder crops";
+        this.ReorderButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+        this.ReorderButton.Click += new System.EventHandler(this.ReorderCropsMenuItem_Click);
+        // 
+        // PHButton
+        // 
+        this.PHButton.Enabled = false;
+        this.PHButton.Image = global::SoilNamespace.Properties.Resources.potion_yellow;
+        this.PHButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        this.PHButton.Name = "PHButton";
+        this.PHButton.Size = new System.Drawing.Size(90, 41);
+        this.PHButton.Text = "Change pH units";
+        this.PHButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+        this.PHButton.Click += new System.EventHandler(this.PHButton_Click);
+        // 
+        // toolStripSeparator1
+        // 
+        this.toolStripSeparator1.Name = "toolStripSeparator1";
+        this.toolStripSeparator1.Size = new System.Drawing.Size(6, 44);
+        // 
+        // PrintButton
+        // 
+        this.PrintButton.Image = global::SoilNamespace.Properties.Resources.printer;
+        this.PrintButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+        this.PrintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        this.PrintButton.Name = "PrintButton";
+        this.PrintButton.Size = new System.Drawing.Size(51, 41);
+        this.PrintButton.Text = "&Print soil";
+        this.PrintButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+        this.PrintButton.Click += new System.EventHandler(this.PrintClick);
+        // 
+        // CheckSoilButton
+        // 
+        this.CheckSoilButton.Image = global::SoilNamespace.Properties.Resources.check2;
+        this.CheckSoilButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+        this.CheckSoilButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+        this.CheckSoilButton.Name = "CheckSoilButton";
+        this.CheckSoilButton.Size = new System.Drawing.Size(58, 41);
+        this.CheckSoilButton.Text = "&Check soil";
+        this.CheckSoilButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+        this.CheckSoilButton.Click += new System.EventHandler(this.CheckSoilMenuItem_Click);
+        // 
+        // WaterChartControl
+        // 
+        this.WaterChartControl.Dock = System.Windows.Forms.DockStyle.Fill;
+        this.WaterChartControl.LinkedSoil = null;
+        this.WaterChartControl.Location = new System.Drawing.Point(0, 376);
+        this.WaterChartControl.Name = "WaterChartControl";
+        this.WaterChartControl.ShowSoilWaterLine = false;
+        this.WaterChartControl.Size = new System.Drawing.Size(906, 386);
+        this.WaterChartControl.TabIndex = 14;
         // 
         // General
         // 
@@ -403,7 +542,7 @@ namespace CSGeneral
         this.SoilProfile.Columns.Get(18).Width = 79F;
         this.SoilProfile.Columns.Get(19).Label = "clay (%)";
         this.SoilProfile.Columns.Get(19).Width = 79F;
-        this.SoilProfile.RowHeader.Columns.Default.Resizable = true;
+        this.SoilProfile.RowHeader.Columns.Default.Resizable = false;
         this.SoilProfile.SelectionPolicy = FarPoint.Win.Spread.Model.SelectionPolicy.MultiRange;
         this.SoilProfile.SheetName = "Soil profile";
         this.SoilProfile.CellChanged += new FarPoint.Win.Spread.SheetViewEventHandler(this.SoilProfile_CellChanged);
@@ -562,146 +701,6 @@ namespace CSGeneral
         this.PhotoAttachSheet.VerticalGridLine = new FarPoint.Win.Spread.GridLine(FarPoint.Win.Spread.GridLineType.Flat, System.Drawing.Color.LightGray, System.Drawing.SystemColors.ControlLightLight, System.Drawing.SystemColors.ControlDark, 0);
         this.PhotoAttachSheet.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1;
         // 
-        // splitter1
-        // 
-        this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
-        this.splitter1.Location = new System.Drawing.Point(0, 376);
-        this.splitter1.Name = "splitter1";
-        this.splitter1.Size = new System.Drawing.Size(906, 3);
-        this.splitter1.TabIndex = 13;
-        this.splitter1.TabStop = false;
-        // 
-        // PrintForm
-        // 
-        this.PrintForm.AutoFit = TMGDevelopment.Windows.Forms.PageElement.Body;
-        this.PrintForm.BodyContainer = this;
-        this.PrintForm.CenterStyle = TMGDevelopment.Windows.Forms.CenterStyle.None;
-        this.PrintForm.PreDraw += new TMGDevelopment.Windows.Forms.PreDrawEventHandler(this.printForm1_PreDraw);
-        // 
-        // PrintPreviewDialog
-        // 
-        this.PrintPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
-        this.PrintPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
-        this.PrintPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
-        this.PrintPreviewDialog.Document = this.printDocument1;
-        this.PrintPreviewDialog.Enabled = true;
-        this.PrintPreviewDialog.Icon = ((System.Drawing.Icon)(resources.GetObject("PrintPreviewDialog.Icon")));
-        this.PrintPreviewDialog.Name = "PrintPreviewDialog";
-        this.PrintPreviewDialog.Visible = false;
-        // 
-        // printDocument1
-        // 
-        this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
-        this.printDocument1.QueryPageSettings += new System.Drawing.Printing.QueryPageSettingsEventHandler(this.printDocument1_QueryPageSettings);
-        this.printDocument1.BeginPrint += new System.Drawing.Printing.PrintEventHandler(this.printDocument1_BeginPrint);
-        // 
-        // printDialog1
-        // 
-        this.printDialog1.Document = this.printDocument1;
-        // 
-        // OpenAttachmentDialog
-        // 
-        this.OpenAttachmentDialog.Filter = "All files|*.*";
-        this.OpenAttachmentDialog.RestoreDirectory = true;
-        // 
-        // toolStrip1
-        // 
-        this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-        this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.AddButton,
-            this.DeleteButton,
-            this.ReorderButton,
-            this.PHButton,
-            this.toolStripSeparator1,
-            this.PrintButton,
-            this.CheckSoilButton});
-        this.toolStrip1.Location = new System.Drawing.Point(0, 40);
-        this.toolStrip1.Name = "toolStrip1";
-        this.toolStrip1.Size = new System.Drawing.Size(906, 44);
-        this.toolStrip1.TabIndex = 15;
-        this.toolStrip1.Text = "toolStrip1";
-        // 
-        // AddButton
-        // 
-        this.AddButton.Image = global::SoilNamespace.Properties.Resources.add2;
-        this.AddButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-        this.AddButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        this.AddButton.Name = "AddButton";
-        this.AddButton.Size = new System.Drawing.Size(54, 41);
-        this.AddButton.Text = "&Add crop";
-        this.AddButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-        this.AddButton.Click += new System.EventHandler(this.AddCropMenuItem_Click);
-        // 
-        // DeleteButton
-        // 
-        this.DeleteButton.Image = global::SoilNamespace.Properties.Resources.delete2;
-        this.DeleteButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-        this.DeleteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        this.DeleteButton.Name = "DeleteButton";
-        this.DeleteButton.Size = new System.Drawing.Size(66, 41);
-        this.DeleteButton.Text = "&Delete crop";
-        this.DeleteButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-        this.DeleteButton.Click += new System.EventHandler(this.DeleteCropMenuItem_Click);
-        // 
-        // ReorderButton
-        // 
-        this.ReorderButton.Image = global::SoilNamespace.Properties.Resources.up_down;
-        this.ReorderButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-        this.ReorderButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        this.ReorderButton.Name = "ReorderButton";
-        this.ReorderButton.Size = new System.Drawing.Size(79, 41);
-        this.ReorderButton.Text = "&Reorder crops";
-        this.ReorderButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-        this.ReorderButton.Click += new System.EventHandler(this.ReorderCropsMenuItem_Click);
-        // 
-        // PHButton
-        // 
-        this.PHButton.Enabled = false;
-        this.PHButton.Image = global::SoilNamespace.Properties.Resources.potion_yellow;
-        this.PHButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        this.PHButton.Name = "PHButton";
-        this.PHButton.Size = new System.Drawing.Size(90, 41);
-        this.PHButton.Text = "Change pH units";
-        this.PHButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-        this.PHButton.Click += new System.EventHandler(this.PHButton_Click);
-        // 
-        // toolStripSeparator1
-        // 
-        this.toolStripSeparator1.Name = "toolStripSeparator1";
-        this.toolStripSeparator1.Size = new System.Drawing.Size(6, 44);
-        // 
-        // PrintButton
-        // 
-        this.PrintButton.Image = global::SoilNamespace.Properties.Resources.printer;
-        this.PrintButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-        this.PrintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        this.PrintButton.Name = "PrintButton";
-        this.PrintButton.Size = new System.Drawing.Size(51, 41);
-        this.PrintButton.Text = "&Print soil";
-        this.PrintButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-        this.PrintButton.Click += new System.EventHandler(this.PrintClick);
-        // 
-        // CheckSoilButton
-        // 
-        this.CheckSoilButton.Image = global::SoilNamespace.Properties.Resources.check2;
-        this.CheckSoilButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-        this.CheckSoilButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-        this.CheckSoilButton.Name = "CheckSoilButton";
-        this.CheckSoilButton.Size = new System.Drawing.Size(58, 41);
-        this.CheckSoilButton.Text = "&Check soil";
-        this.CheckSoilButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-        this.CheckSoilButton.Click += new System.EventHandler(this.CheckSoilMenuItem_Click);
-        // 
-        // WaterChartControl
-        // 
-        this.WaterChartControl.Dock = System.Windows.Forms.DockStyle.Fill;
-        this.WaterChartControl.LinkedSoil = null;
-        this.WaterChartControl.Location = new System.Drawing.Point(0, 376);
-        this.WaterChartControl.Name = "WaterChartControl";
-        this.WaterChartControl.ShowSoilWaterLine = false;
-        this.WaterChartControl.Size = new System.Drawing.Size(906, 386);
-        this.WaterChartControl.TabIndex = 14;
-        // 
         // SoilUI
         // 
         this.Controls.Add(this.splitter1);
@@ -715,14 +714,14 @@ namespace CSGeneral
         this.Controls.SetChildIndex(this.WaterChartControl, 0);
         this.Controls.SetChildIndex(this.splitter1, 0);
         ((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
+        this.toolStrip1.ResumeLayout(false);
+        this.toolStrip1.PerformLayout();
         ((System.ComponentModel.ISupportInitialize)(this.General)).EndInit();
         ((System.ComponentModel.ISupportInitialize)(this.Water)).EndInit();
         ((System.ComponentModel.ISupportInitialize)(this.SoilProfile)).EndInit();
         ((System.ComponentModel.ISupportInitialize)(this.APSIM)).EndInit();
         ((System.ComponentModel.ISupportInitialize)(this.Phosphorus)).EndInit();
         ((System.ComponentModel.ISupportInitialize)(this.PhotoAttachSheet)).EndInit();
-        this.toolStrip1.ResumeLayout(false);
-        this.toolStrip1.PerformLayout();
         this.ResumeLayout(false);
         this.PerformLayout();
 
