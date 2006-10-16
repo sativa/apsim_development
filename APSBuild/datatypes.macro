@@ -91,16 +91,19 @@ inline unsigned int memorySize(const structure.nameType& data)
    }
 inline unsigned int memorySize(const Fstructure.nameType& data)
    {
-   return 0
+   unsigned size = 0;
    #for_each structure.field
       #if (field.array = T)
-      + 4 + data.num_field.name * protocol::memorySize(data.field.name[0])
+      size += 4;
+      for (unsigned i = 0; i != data.num_field.name; i++)
+         size += protocol::memorySize(data.field.name[i]);
       #elseif (field.ctype = std::string)
-      + protocol::memorySize(FString(data.field.name, max_array_size, FORString))
+      size += protocol::memorySize(FString(data.field.name, max_array_size, FORString));
       #else
-      + protocol::memorySize(data.field.name)
+      size += protocol::memorySize(data.field.name);
       #endif
    #endfor;
+   return size;
    }
 void Initstructure.name(structure.nameType& data, const std::string& xml);
 #if (structure.array = T)
