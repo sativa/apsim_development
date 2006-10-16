@@ -32,7 +32,9 @@ class Field
       std::vector<unsigned> fieldWidths;
 
       void getValues(bool setupHeadings);
-      void calcFieldWidth(int index);
+      void storeValue(protocol::Variant* variant, bool setupHeadings,
+                      bool includeModuleNameInHeading);
+      void calcFieldWidths();
       void writeValuesTo(std::ostream& out, std::vector<std::string>& values);
       void formatAsFloats(void);
    };
