@@ -438,6 +438,65 @@ void WheatPhenology::get_zadok_stage(protocol::Component *system, protocol::Quer
     system->sendVariable(qd, zadok_stage);
 }
 
+void WheatPhenology::onRemoveBiomass(protocol::Component *parent, float removeBiomPheno)
+{
+   if (initialOnBiomassRemove == true)
+   {
+      initialOnBiomassRemove = false;
+      y_removeFractPheno.search(parent, iniSectionList,
+               "x_removeBiomPheno", "()", 0.0, 1.0,
+               "y_removeFractPheno", "()", 0.0, 1.0);
+   }
+   else
+   {     // parameters already read - do nothing
+   }
+
+
+//   float ttCritical = max(0.0, ttInPhase("above_ground") - ttInPhase("emergence"));
+   float ttCritical = ttInPhase("above_ground");
+   float removeFractPheno = y_removeFractPheno[removeBiomPheno];
+   float removeTTPheno = ttCritical * removeFractPheno;
+
+   ostringstream msg;
+   msg << "Phenology change:-" << endl;
+   msg << "    Fraction DM removed  = " << removeBiomPheno << endl;
+   msg << "    Fraction TT removed  = " << removeFractPheno << endl;
+   msg << "    Critical TT          = " << ttCritical << endl;
+   msg << "    Remove TT            = " << removeTTPheno << endl;
+
+   float ttRemaining = removeTTPheno;
+   vector <pPhase*>::reverse_iterator rphase;
+   for (rphase = phases.rbegin(); rphase !=  phases.rend(); rphase++)
+   {
+      pPhase* phase = *rphase;
+      if (!phase->isEmpty())
+      {
+         float ttCurrentPhase = phase->getTT();
+         if (ttRemaining > ttCurrentPhase)
+         {
+            phase->reset();
+            if (currentStage < 5.0)  //FIXME - hack to stop onEmergence being fired which initialises biomass parts
+               break;
+            ttRemaining -= ttCurrentPhase;
+            currentStage -= 1.0;
+         }
+         else
+         {
+            phase->add(0.0, -ttRemaining);
+            currentStage = (phase_fraction(0.0) + floor(currentStage));
+            //ttRemaining = 0.0; /* not used */
+            break;
+         }
+      }
+      else
+      { // phase is empty - not interested in it
+      }
+   }
+   msg << "New Above ground TT = " << ttInPhase("above_ground") << endl << ends;
+   if (plant->removeBiomassReport())
+      parent->writeString (msg.str().c_str());
+}
+
 void WheatPhenology::doRegistrations (protocol::Component *s)
    {
    CropPhenology::doRegistrations(s);
