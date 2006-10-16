@@ -41,7 +41,7 @@ namespace ApsimToSim
 			catch (Exception err)
 				{
 				Console.WriteLine(err.Message);
-            return 1;
+                return 1;
 				}
 			return 0;
 			}
@@ -254,7 +254,14 @@ namespace ApsimToSim
 				Params[i] = Argument.Value.Replace("[component_name]",Component.Name);
 				i++;
 				}
-			Method.Invoke(Obj, Params);
+            try
+                {
+                Method.Invoke(Obj, Params);
+                }
+            catch (Exception err)
+                {
+                throw new Exception(err.GetBaseException().Message);
+                }
 			}
 
 
