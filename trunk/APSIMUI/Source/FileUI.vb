@@ -4,6 +4,9 @@ Imports VBGeneral
 Public Class FileUI
     Inherits BaseView
     Dim FileDateTime As DateTime
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents SearchButton As System.Windows.Forms.Button
+    Friend WithEvents SearchTextBox As System.Windows.Forms.TextBox
     Dim FullFileName As String
 
 #Region " Windows Form Designer generated code "
@@ -47,6 +50,9 @@ Public Class FileUI
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
         Me.BrowseToolBar = New System.Windows.Forms.ToolBar
         Me.BrowseButton = New System.Windows.Forms.ToolBarButton
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.SearchButton = New System.Windows.Forms.Button
+        Me.SearchTextBox = New System.Windows.Forms.TextBox
         Me.SuspendLayout()
         '
         'ImageList
@@ -81,7 +87,7 @@ Public Class FileUI
         Me.BrowseToolBar.AutoSize = False
         Me.BrowseToolBar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.BrowseToolBar.Buttons.AddRange(New System.Windows.Forms.ToolBarButton() {Me.BrowseButton})
-        Me.BrowseToolBar.ButtonSize = New System.Drawing.Size(65, 26)
+        Me.BrowseToolBar.ButtonSize = New System.Drawing.Size(65, 20)
         Me.BrowseToolBar.Divider = False
         Me.BrowseToolBar.Dock = System.Windows.Forms.DockStyle.None
         Me.BrowseToolBar.DropDownArrows = True
@@ -100,15 +106,49 @@ Public Class FileUI
         Me.BrowseButton.Name = "BrowseButton"
         Me.BrowseButton.Text = "Browse"
         '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.BackColor = System.Drawing.SystemColors.Info
+        Me.Label1.Location = New System.Drawing.Point(351, 5)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(44, 13)
+        Me.Label1.TabIndex = 13
+        Me.Label1.Text = "Search:"
+        '
+        'SearchButton
+        '
+        Me.SearchButton.FlatAppearance.BorderSize = 0
+        Me.SearchButton.Image = Global.APSIMUI.My.Resources.Resources.text
+        Me.SearchButton.Location = New System.Drawing.Point(507, 2)
+        Me.SearchButton.Name = "SearchButton"
+        Me.SearchButton.Size = New System.Drawing.Size(24, 21)
+        Me.SearchButton.TabIndex = 14
+        Me.SearchButton.UseVisualStyleBackColor = True
+        '
+        'SearchTextBox
+        '
+        Me.SearchTextBox.Location = New System.Drawing.Point(401, 2)
+        Me.SearchTextBox.Name = "SearchTextBox"
+        Me.SearchTextBox.Size = New System.Drawing.Size(100, 20)
+        Me.SearchTextBox.TabIndex = 15
+        '
         'FileUI
         '
+        Me.Controls.Add(Me.SearchTextBox)
+        Me.Controls.Add(Me.SearchButton)
+        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.BrowseToolBar)
         Me.Controls.Add(Me.FileContentsBox)
         Me.Name = "FileUI"
         Me.Size = New System.Drawing.Size(794, 468)
         Me.Controls.SetChildIndex(Me.FileContentsBox, 0)
         Me.Controls.SetChildIndex(Me.BrowseToolBar, 0)
+        Me.Controls.SetChildIndex(Me.Label1, 0)
+        Me.Controls.SetChildIndex(Me.SearchButton, 0)
+        Me.Controls.SetChildIndex(Me.SearchTextBox, 0)
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -170,7 +210,7 @@ Public Class FileUI
                 C = C.Parent
             End If
         End While
-        
+
         BrowseToolBar.Visible = (Controller.Data.Type <> "outputfile" And Controller.Data.Type <> "summaryfile")
     End Sub
 
@@ -201,4 +241,29 @@ Public Class FileUI
             End If
         End If
     End Sub
+
+    Private Sub SearchButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchButton.Click
+        SearchString(SearchTextBox.Text)
+    End Sub
+    Private Sub SearchString(ByVal text As String)
+        If text.Length > 0 Then
+            FileContentsBox.SelectionBackColor = Color.FromKnownColor(KnownColor.Control)
+            FileContentsBox.SelectionStart = FileContentsBox.SelectionStart + 1
+            Dim indexToText As Integer = FileContentsBox.Find(text, FileContentsBox.SelectionStart, RichTextBoxFinds.None)
+            If indexToText = -1 Then
+                FileContentsBox.SelectionStart = 0
+            End If
+            If indexToText >= 0 Then
+                FileContentsBox.SelectionBackColor = Color.LightBlue
+                FileContentsBox.ScrollToCaret()
+            End If
+        End If
+    End Sub
+
+    Private Sub FileContentsBox_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles FileContentsBox.KeyDown, SearchTextBox.KeyDown
+        If e.KeyCode.Equals(Keys.F3) Or e.KeyCode.Equals(Keys.Return) Then
+            SearchString(SearchTextBox.Text)
+        End If
+    End Sub
+
 End Class
