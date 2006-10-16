@@ -1,608 +1,7 @@
-Version = 3.0
-NumPages = 1
-object data: TForm
-  Left = 4
-  Top = 4
-  Align = alClient
-  BorderIcons = []
-  BorderStyle = bsNone
-  ClientHeight = 839
-  ClientWidth = 1384
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Sans Serif'
-  Font.Style = []
-  OldCreateOrder = False
-  PixelsPerInch = 96
-  TextHeight = 13
-  object Dalby600: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'in_crop_rain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eff_in_crop_rain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'hi'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nhi'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum_ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'esw'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'year'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Dalby600Prob.onSourceDataChanged'
-      'Warra600HighNProb.onSourceDataChanged'
-      'Gunnedah600Prob.onSourceDataChanged'
-      'Graph2.afterDataRefresh')
-    sortFields = 'year'
-    filenames.Strings = (
-      'Dalby600.out')
-    Left = 170
-    Top = 157
-  end
-  object Dalby600Prob: TProbability
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Probability'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'Probability'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    source = Dalby600
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh')
-    sortFields = 'Probability'
-    fieldName = 'yield'
-    Left = 304
-    Top = 160
-  end
-  object Dalby1500: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'in_crop_rain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eff_in_crop_rain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'hi'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nhi'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum_ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'esw'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'year'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Warra1500HighNProb.onSourceDataChanged'
-      'Gunnedah1500Prob.onSourceDataChanged'
-      'Dalby1500Prob.onSourceDataChanged'
-      'Graph2.afterDataRefresh')
-    sortFields = 'year'
-    filenames.Strings = (
-      'Dalby1500.out')
-    Left = 171
-    Top = 223
-  end
-  object Roma400: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'in_crop_rain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eff_in_crop_rain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'hi'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nhi'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum_ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'esw'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'year'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Warra600LowNProb.onSourceDataChanged'
-      'Walgett600Prob.onSourceDataChanged'
-      'Roma600Prob.onSourceDataChanged'
-      'Graph2.afterDataRefresh')
-    sortFields = 'year'
-    filenames.Strings = (
-      'Roma400.out')
-    Left = 176
-    Top = 320
-  end
-  object Roma800: TApsimFileReader
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'title'
-        DataType = ftString
-        Size = 200
-      end
-      item
-        Name = 'date'
-        DataType = ftDate
-      end
-      item
-        Name = 'day'
-        DataType = ftFloat
-      end
-      item
-        Name = 'year'
-        DataType = ftFloat
-      end
-      item
-        Name = 'in_crop_rain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'eff_in_crop_rain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'lai'
-        DataType = ftFloat
-      end
-      item
-        Name = 'biomass'
-        DataType = ftFloat
-      end
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'hi'
-        DataType = ftFloat
-      end
-      item
-        Name = 'nhi'
-        DataType = ftFloat
-      end
-      item
-        Name = 'sum_ep'
-        DataType = ftFloat
-      end
-      item
-        Name = 'n_conc_grain'
-        DataType = ftFloat
-      end
-      item
-        Name = 'grain_n'
-        DataType = ftFloat
-      end
-      item
-        Name = 'no3()'
-        DataType = ftFloat
-      end
-      item
-        Name = 'esw'
-        DataType = ftFloat
-      end
-      item
-        Name = 'flowering_date'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'year'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    subscriptionComponentNames.Strings = (
-      'Warra1500LowNProb.onSourceDataChanged'
-      'Walgett1500Prob.onSourceDataChanged'
-      'Roma1500Prob.onSourceDataChanged'
-      'Graph2.afterDataRefresh')
-    sortFields = 'year'
-    filenames.Strings = (
-      'Roma800.out')
-    Left = 192
-    Top = 408
-  end
-  object Dalby1500Prob: TProbability
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Probability'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'Probability'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    source = Dalby1500
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh')
-    sortFields = 'Probability'
-    fieldName = 'yield'
-    Left = 304
-    Top = 232
-  end
-  object Roma600Prob: TProbability
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Probability'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'Probability'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    source = Roma400
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh')
-    sortFields = 'Probability'
-    fieldName = 'yield'
-    Left = 312
-    Top = 328
-  end
-  object Roma1500Prob: TProbability
-    Active = True
-    DesignActivation = True
-    AttachedAutoRefresh = True
-    AttachMaxCount = 1
-    FieldDefs = <
-      item
-        Name = 'yield'
-        DataType = ftFloat
-      end
-      item
-        Name = 'Probability'
-        DataType = ftFloat
-      end>
-    IndexDefs = <>
-    SortFields = 'Probability'
-    SortOptions = []
-    AllDataOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveBlobs, mtfSaveFiltered, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail, mtfSaveDeltas]
-    CommaTextOptions = [mtfSaveData]
-    CSVQuote = '"'
-    CSVFieldDelimiter = ','
-    CSVRecordDelimiter = ','
-    CSVTrueString = 'True'
-    CSVFalseString = 'False'
-    PersistentSaveOptions = [mtfSaveData, mtfSaveNonVisible, mtfSaveIgnoreRange, mtfSaveIgnoreMasterDetail]
-    PersistentBackup = False
-    ProgressFlags = [mtpcLoad, mtpcSave, mtpcCopy]
-    FilterOptions = []
-    Version = '2.53g'
-    LanguageID = 0
-    SortID = 0
-    SubLanguageID = 1
-    LocaleID = 1024
-    source = Roma800
-    subscriptionComponentNames.Strings = (
-      'Graph1.afterDataRefresh')
-    sortFields = 'Probability'
-    fieldName = 'yield'
-    Left = 322
-    Top = 418
-  end
-end
-object Page1: TQuickRep
+<?xml version="1.0"?>
+<report version="4">
+  <Data><ApsimFileReader name="Dalby600"><FileName type="filenames">Dalby600.out</FileName><Probability name="Dalby600Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader><ApsimFileReader name="Dalby1500"><FileName type="filenames">Dalby1500.out</FileName><Probability name="Dalby1500Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader><ApsimFileReader name="Roma400"><FileName type="filenames">Roma400.out</FileName><Probability name="Roma600Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader><ApsimFileReader name="Roma800"><FileName type="filenames">Roma800.out</FileName><Probability name="Roma1500Prob"><FieldName type="fieldnames">yield</FieldName></Probability></ApsimFileReader></Data>
+  <page><![CDATA[object Page1: TQuickRep
   Left = 196
   Top = 26
   Width = 556
@@ -744,7 +143,7 @@ object Page1: TQuickRep
         object Series2: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Dalby600Prob
+          DataSource = Dalby600Prob
           Title = 'Dalby 600mm'
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -759,7 +158,7 @@ object Page1: TQuickRep
         object Series3: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Dalby1500Prob
+          DataSource = Dalby1500Prob
           Title = 'Dalby 1500mm'
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -774,7 +173,7 @@ object Page1: TQuickRep
         object Series4: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Roma600Prob
+          DataSource = Roma600Prob
           Title = 'Roma 400mm'
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -789,7 +188,7 @@ object Page1: TQuickRep
         object Series1: TLineSeries
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
-          DataSource = data.Roma1500Prob
+          DataSource = Roma1500Prob
           Title = 'Roma 800 mm'
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
@@ -969,7 +368,7 @@ object Page1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.Dalby600
+          DataSource = Dalby600
           Title = '600 mm High N'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -986,7 +385,7 @@ object Page1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.Dalby1500
+          DataSource = Dalby1500
           Title = '1500 mm High N'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -1003,7 +402,7 @@ object Page1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.Roma400
+          DataSource = Roma400
           Title = '600 mm Low N'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -1020,7 +419,7 @@ object Page1: TQuickRep
           Marks.Callout.Brush.Color = clBlack
           Marks.Callout.Length = 8
           Marks.Visible = False
-          DataSource = data.Roma800
+          DataSource = Roma800
           Title = '1500 mm Low N'
           ClickableLine = False
           Pointer.InflateMargins = True
@@ -1037,3 +436,5 @@ object Page1: TQuickRep
     end
   end
 end
+]]></page>
+</report>
