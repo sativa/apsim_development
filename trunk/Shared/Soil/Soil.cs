@@ -876,6 +876,10 @@ namespace CSGeneral
 				"[endif]\r\n" +
                 "[endfor]";
 
+            string errors = CheckForErrors();
+            if (errors != "")
+                throw new Exception(errors);
+
 			string SWLine = "";
 			string NO3Line = "";
 			string NH4Line = "";
@@ -894,19 +898,12 @@ namespace CSGeneral
                 PHLine += "      " + ph[i].ToString("f3");
 				}
 
-			try
-				{
-				Template = Template.Replace("$SW$", SWLine);
-				Template = Template.Replace("$NO3$", NO3Line);
-				Template = Template.Replace("$NH4$", NH4Line);
-                Template = Template.Replace("$PH$", PHLine);
-                Macro SoilMacro = new Macro();
-				Out.Write(SoilMacro.Go(Data, Template));
-				}
-			catch (Exception err)
-				{
-				Out.Write(err.Message);
-				}
+			Template = Template.Replace("$SW$", SWLine);
+			Template = Template.Replace("$NO3$", NO3Line);
+			Template = Template.Replace("$NH4$", NH4Line);
+            Template = Template.Replace("$PH$", PHLine);
+            Macro SoilMacro = new Macro();
+			Out.Write(SoilMacro.Go(Data, Template));
 			}
 
 		public void ExportCropToSim(TextWriter Out, string CropName)
@@ -929,6 +926,8 @@ namespace CSGeneral
 				KLLine += "      " + kl[i].ToString("f3");
 				XFLine += "      " + xf[i].ToString("f3");
 				}
+            if (LLLine == "" || KLLine == "" || XFLine == "")
+                throw new Exception("Soil is not parameterised for crop: " + CropName);
 			Template = Template.Replace("$LL$", LLLine);
 			Template = Template.Replace("$KL$", KLLine);
 			Template = Template.Replace("$XF$", XFLine);

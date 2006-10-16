@@ -914,21 +914,35 @@ Public Class MainUI
                 File.Delete(SimFileName)
             End If
 
-            Dim ApsimToSimInfo As New ProcessStartInfo
+            Dim ApsimToSimInfo As New ProcessStartInfo()
             ApsimToSimInfo.FileName = Path.GetDirectoryName(Application.ExecutablePath) + "\apsimtosim.exe"
             ApsimToSimInfo.Arguments = """" + ApsimUI.FileName + """ """ + Simulation.Name + """"
             ApsimToSimInfo.WorkingDirectory = Path.GetDirectoryName(ApsimUI.FileName)
+            ApsimToSimInfo.RedirectStandardOutput = True
+            ApsimToSimInfo.UseShellExecute = False
             ApsimToSimInfo.WindowStyle = ProcessWindowStyle.Hidden
-            Process.Start(ApsimToSimInfo).WaitForExit()
+            ApsimToSimInfo.CreateNoWindow = True
 
-            Dim ApsimInfo As New ProcessStartInfo
-            ApsimInfo.FileName = Path.GetDirectoryName(Application.ExecutablePath) + "\apsim.exe"
-            ApsimInfo.Arguments = """" + SimFileName + """"
-            ApsimInfo.WorkingDirectory = Path.GetDirectoryName(ApsimUI.FileName)
-            ApsimInfo.WindowStyle = ProcessWindowStyle.Hidden
-            Dim ApsimProcess As Process = Process.Start(ApsimInfo)
-            ApsimProcess.EnableRaisingEvents = True
-            AddHandler ApsimProcess.Exited, AddressOf OnApsimExited
+            Dim ApsimToSimProcess As Process = Process.Start(ApsimToSimInfo)
+            ApsimToSimProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden
+
+            ApsimToSimProcess.WaitForExit()
+            If ApsimToSimProcess.ExitCode <> 0 Then
+                Dim Output As String = ApsimToSimProcess.StandardOutput.ReadToEnd()
+                Me.Invoke(New UpdateItemInRunBoxCallBack(AddressOf UpdateItemInRunBox), New Object() {"ERROR"})
+                MessageBox.Show(Output, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                RunNextSimulation()
+            Else
+                Dim ApsimInfo As New ProcessStartInfo
+                ApsimInfo.FileName = Path.GetDirectoryName(Application.ExecutablePath) + "\apsim.exe"
+                ApsimInfo.Arguments = """" + SimFileName + """"
+                ApsimInfo.WorkingDirectory = Path.GetDirectoryName(ApsimUI.FileName)
+                ApsimInfo.WindowStyle = ProcessWindowStyle.Hidden
+                Dim ApsimProcess As Process = Process.Start(ApsimInfo)
+                ApsimProcess.EnableRaisingEvents = True
+                AddHandler ApsimProcess.Exited, AddressOf OnApsimExited
+            End If
+
         Else
             ' All simulations are done
             Me.Invoke(New System.EventHandler(AddressOf EnableRunButton))
