@@ -39,6 +39,8 @@
      </drops>
       <variables name="Simulation variables" module="">
          <variable name="year" description="Year"/>
+         <variable name="month" description="Month"/>
+         <variable name="day_of_month" description="Day of Month"/>
          <variable name="day" description="Day"/>
          <variable name="dd/mm/yyyy" description="Date (dd/mm/yyyy)"/>
          <variable name="dd/mmm/yyyy" description="Date (dd/mmm/yyyy)"/>
@@ -86,6 +88,8 @@
             <get name="today" type="integer4"/>
             <get name="day" type="integer4"/>
             <get name="year" type="integer4"/>
+            <get name="month" type="integer4"/>
+            <get name="day_of_month" type="integer4"/>
             <get name="dd/mm/yyyy" type="string"/>
             <get name="dd/mmm/yyyy" type="string"/>
             <get name="day_length" type="single"/>
