@@ -140,8 +140,7 @@ void Field::storeValue(protocol::Variant* variant, bool setupHeadings, bool incl
    bool noValues = (localValues.size() == 0);
    if (noValues)
       localValues.push_back(NAString);
-   else
-      copy(localValues.begin(), localValues.end(), back_inserter(values));
+   copy(localValues.begin(), localValues.end(), back_inserter(values));
 
    if (setupHeadings)
       {
