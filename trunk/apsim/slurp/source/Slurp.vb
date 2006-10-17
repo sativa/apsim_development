@@ -86,6 +86,16 @@ Public Class Slurp
     ' ===================================================
     Private Sub GetSoilData()
         properties.Get("dlayer", dlayer)
+        If dlayer.Length <> ll.Length Then
+            Throw New Exception("Number of values of LL does not match the number of soil layers.")
+        End If
+        If dlayer.Length <> kl.Length Then
+            Throw New Exception("Number of values of KL does not match the number of soil layers.")
+        End If
+        If dlayer.Length <> rlv.Length Then
+            Throw New Exception("Number of values of RLV does not match the number of soil layers.")
+        End If
+
     End Sub
 
 #Region "EventHandlers"
@@ -107,7 +117,7 @@ Public Class Slurp
             'SWUptake = CalcSWSupply()
         End If
     End Sub
-    <ApsimEvent("NewMet")> Public Sub OnNewMet(ByVal NewMetData As NewMet)
+    <ApsimEvent("newmet")> Public Sub OnNewMet(ByVal NewMetData As NewMet)
         MetData = NewMetData
     End Sub
     <ApsimEvent("canopy_water_balance")> Public Sub OnCanopyWaterBalance(ByVal CWB As CanopyWaterBalance)
@@ -253,6 +263,7 @@ Public Class Slurp
         Dim SWdep() As Single
         properties.Get("sw_dep", SWdep)
 
+
         For layer As Integer = 0 To dlayer.Length - 1
             SWSupply(layer) = Max(0.0, kl(layer) * (SWdep(layer) - ll(layer) * (dlayer(layer))))
         Next
@@ -274,8 +285,9 @@ Public Class Slurp
 #End Region
 #Region "Utilities"
     Public Function StringToSingleArray(ByVal Stream As String) As Single()
+        Dim stringSeparators() As String = {" "}
 
-        Dim ValueStrings As String() = Split(Stream)
+        Dim ValueStrings As String() = Stream.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries)
         Dim ReturnValue(ValueStrings.Length - 1) As Single
 
         For i As Integer = 0 To ValueStrings.Length - 1
