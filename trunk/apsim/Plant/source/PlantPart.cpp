@@ -365,6 +365,9 @@ void plantPart::zeroDeltas(void)
    dlt.dm_green_retrans = 0.0;
    dlt.dm_green_dead = 0.0;
    dlt.dm_senesced_dead = 0.0;
+   dlt.dm_green_removed = 0.0;
+   dlt.dm_senesced_removed = 0.0;
+   dlt.dm_dead_removed = 0.0;
 
    dlt.n_green = 0.0;
    dlt.n_senesced = 0.0;
@@ -772,7 +775,22 @@ void plantPart::removeBiomass(void)
 //=======================================================================================
 // deltas have been given from an external module; update states.
    {
-   update();
+//    update();
+    float chop_fr_green = divide(dlt.dm_green_removed, DMGreen, 0.0);
+    float chop_fr_sen   = divide(dlt.dm_senesced_removed, DMSenesced, 0.0);
+    float chop_fr_dead  = divide(dlt.dm_dead_removed, DMDead, 0.0);
+
+   DMGreen -=DMGreen * chop_fr_green;
+   DMSenesced -= DMSenesced * chop_fr_sen;
+   DMDead -= DMDead * chop_fr_dead;
+
+   NGreen -= NGreen * chop_fr_green;
+   NSenesced -= NSenesced * chop_fr_sen;
+   NDead -= NDead * chop_fr_dead;
+
+   PGreen -= PGreen * chop_fr_green;
+   PSen -= PSen * chop_fr_sen;
+   PDead -= PDead * chop_fr_dead;
    }
 void plantPart::removeBiomass2(float)
    {
@@ -1265,6 +1283,24 @@ float plantPart::dltDmDetached(void) const
    return (dlt.dm_detached);
    }
 
+float plantPart::dltDmGreenRemoved(void) const
+//=======================================================================================
+   {
+   return (dlt.dm_green_removed);
+   }
+
+float plantPart::dltDmSenescedRemoved(void) const
+//=======================================================================================
+   {
+   return (dlt.dm_senesced_removed);
+   }
+
+float plantPart::dltDmDeadRemoved(void) const
+//=======================================================================================
+   {
+   return (dlt.dm_dead_removed);
+   }
+
 float plantPart::dmSenesced(void) const
 //=======================================================================================
    {
@@ -1652,5 +1688,27 @@ float plantPart::giveDmDead (float delta)
 float plantPart::dlt_dm_green_retrans_hack(float delta)
    {
    dlt.dm_green_retrans = delta;
+   return delta;
+   }
+
+float plantPart::giveDmGreenRemoved (float delta)
+//=======================================================================================
+// addXXX: something is removing some XXX. return the delta.
+   {
+   dlt.dm_green_removed = delta;
+   return delta;
+   }
+
+float plantPart::giveDmSenescedRemoved (float delta)
+//=======================================================================================
+   {
+   dlt.dm_senesced_removed = delta;
+   return delta;
+   }
+
+float plantPart::giveDmDeadRemoved (float delta)
+//=======================================================================================
+   {
+   dlt.dm_dead_removed = delta;
    return delta;
    }

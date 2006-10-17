@@ -58,6 +58,10 @@ class plantPart : public plantThing
       float dm_senesced;                  // biomass senescence (g/m^2)
       float dm_dead;                      // biomass dead (g/m^2)
 
+      float dm_green_removed;                     // green biomass removed (g/m^2)
+      float dm_senesced_removed;                  // senesced biomass removed (g/m^2)
+      float dm_dead_removed;                      // dead biomass removed (g/m^2)
+
       float dm_detached;                  // biomass detached from senesced part (g/m^2)
       float dm_dead_detached;             // biomass detached from dead plant (g/m^2)
 
@@ -244,6 +248,9 @@ public:
    virtual float dltNRetrans(void) const;
    virtual float dltNSenescedRetrans(void) const;
    virtual float dltNSenescedTrans(void) const;
+   virtual float dltDmGreenRemoved(void) const;
+   virtual float dltDmDeadRemoved(void) const;
+   virtual float dltDmSenescedRemoved(void) const;
 
    virtual float n_conc_crit(void) const;
    virtual float n_conc_min(void) const;
@@ -256,6 +263,10 @@ public:
    virtual float giveDmSenesced(float) ;
    virtual float giveDmDead(float) ;
    virtual float giveNGreen(float) ;
+
+   virtual float giveDmGreenRemoved(float) ;           //
+   virtual float giveDmSenescedRemoved(float) ;
+   virtual float giveDmDeadRemoved(float) ;
 
    virtual float dmGreen(void) const;
    virtual float dmGreenNew(void) const;
