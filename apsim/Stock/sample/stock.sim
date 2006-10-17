@@ -30,6 +30,11 @@
          <variable>paddock.area</variable>
       </initdata>
    </component>
+    <component name="FarmwiseSequencer" executable="%apsuite\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll">
+      <initdata>
+         <include>%apsuite\apsim\FarmwiseSequencer\FarmwiseSequencer.ini</include>
+      </initdata>
+   </component>
   <system name="paddock" executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll" active="T">
     <registrations>
       <event name="summaryFileWrite" type="string" />
@@ -135,9 +140,12 @@
          <variable>lablab.root_depth</variable>
          <variable>lablab.ep</variable>
          <variable>lablab.height</variable>
+         <variable>lablab.dlt_dm</variable>
+         <variable>lablab.dlt_dm_green</variable>
          <variable>lablab.dm_green(1) as dm_green_root</variable>
          <variable>lablab.dm_green(3) as dm_green_stem</variable>
          <variable>lablab.dm_green(2) as dm_green_leaf</variable>
+         <variable>lablab.dlt_dm_senesced</variable>
          <variable>lablab.dm_senesced(3) as dm_sen_stem</variable>
          <variable>lablab.dm_senesced(2) as dm_sen_leaf</variable>
          <variable>lablab.dm_dead()</variable>
