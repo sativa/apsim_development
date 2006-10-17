@@ -438,12 +438,12 @@ void WheatPhenology::get_zadok_stage(protocol::Component *system, protocol::Quer
     system->sendVariable(qd, zadok_stage);
 }
 
-void WheatPhenology::onRemoveBiomass(protocol::Component *parent, float removeBiomPheno)
+void WheatPhenology::onRemoveBiomass(float removeBiomPheno)
 {
    if (initialOnBiomassRemove == true)
    {
       initialOnBiomassRemove = false;
-      y_removeFractPheno.search(parent, iniSectionList,
+      y_removeFractPheno.search(plant->getComponent(), iniSectionList,
                "x_removeBiomPheno", "()", 0.0, 1.0,
                "y_removeFractPheno", "()", 0.0, 1.0);
    }
@@ -494,7 +494,7 @@ void WheatPhenology::onRemoveBiomass(protocol::Component *parent, float removeBi
    }
    msg << "New Above ground TT = " << ttInPhase("above_ground") << endl << ends;
    if (plant->removeBiomassReport())
-      parent->writeString (msg.str().c_str());
+      plant->writeString (msg.str().c_str());
 }
 
 void WheatPhenology::doRegistrations (protocol::Component *s)
