@@ -10,7 +10,7 @@ class genericLeafPart : public plantLeafPart {
    void leaf_no_actual (void);
    void initialiseAreas(void);
 
-  public: 
+  public:
    genericLeafPart(plantInterface *p, const string &name) : plantLeafPart(p, name) {};
    ~genericLeafPart() {};
    void onHarvest(float height, float remove_fr,
@@ -37,20 +37,20 @@ class genericLeafPart : public plantLeafPart {
    void get_leaf_area(protocol::Component *system, protocol::QueryValueData &qd);
    void get_leaf_area_tot(protocol::Component *system, protocol::QueryValueData &qd);
 
-  public:   
+  public:
    float getLAI(void) const {return gLAI;};
    float getSLAI(void) const {return gSLAI;};
    float getTLAI_dead(void) const {return gTLAI_dead;};
    float getLeafNo(void) const;
    float senFract (void) const
      { return(divide (dltSLAI, gLAI + dltLAI, 0.0)); };             // fraction of canopy senescing
-   float dmGreenDemand(void) const 
+   float dmGreenDemand(void) const
      { return(divide (dltLAI_stressed, cSLAMin * smm2sm, 0.0));};   // Maximum DM this part can take today
    float dltLeafAreaPot(void) {return (divide(dltLAI_stressed, plant->getPlants(), 0.0) * sm2smm);};
 
    void potential (int option, float, float);
    void leaf_area_stressed(float);
-   void actual(void);   
+   void actual(void);
 
    void leaf_death (float nfact_expansion, float  dlt_tt);
    void leaf_area_sen (float, float);
@@ -58,9 +58,9 @@ class genericLeafPart : public plantLeafPart {
    void update (void) ;
 
    void remove_detachment (float dlt_slai_detached, float dlt_lai_removed );
-   void remove_biomass(void);
+   void removeBiomass(void);
 
- 
+
   private:
    float gLAI;                                        // area of leaf
    float gSLAI;                                       // area of leaf senesced from plant
@@ -96,9 +96,9 @@ class genericLeafPart : public plantLeafPart {
    interpolationFunction cLeafSize;
    interpolationFunction cSLAMax;
    interpolationFunction cLeafNoFrac;
-   interpolationFunction cSenescenceFac;              // temperature senescence table (oC) 
+   interpolationFunction cSenescenceFac;              // temperature senescence table (oC)
 
-   float dltLAI;                                      // area of leaf 
+   float dltLAI;                                      // area of leaf
    float dltSLAI;                                     // area of leaf that senesces from plant
    float dltLAI_pot;                                  // potential change in live plant lai
    float dltLAI_stressed;                             // potential change in lai allowing for stress

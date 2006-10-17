@@ -3678,8 +3678,8 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
     allParts.push_back(stemPart);
     allParts.push_back(fruitPart);
 
-    for (part = allParts.begin(); part != allParts.end(); part++)
-       (*part)->zeroDeltas();
+//    for (part = allParts.begin(); part != allParts.end(); part++)
+//       (*part)->zeroDeltas();
 
     vector<plantPart *> topsParts;
     topsParts.push_back(leafPart);
@@ -3719,30 +3719,30 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
        {
           if (dmRemoved.dm[pool].pool == "green")
           {
-             if (dmRemoved.dm[pool].part[part] == "stem")       {stemPart->giveDmGreen(-1.0*dmRemoved.dm[pool].dlt[part]); }
-             else if (dmRemoved.dm[pool].part[part] ==  "leaf") {leafPart->giveDmGreen(-1.0*dmRemoved.dm[pool].dlt[part]); }
+             if (dmRemoved.dm[pool].part[part] == "stem")       {stemPart->giveDmGreenRemoved(dmRemoved.dm[pool].dlt[part]); }
+             else if (dmRemoved.dm[pool].part[part] ==  "leaf") {leafPart->giveDmGreenRemoved(dmRemoved.dm[pool].dlt[part]); }
              else {  /* unknown part */ }
           }
 
           else if (dmRemoved.dm[pool].pool == "senesced")
           {
-             if (dmRemoved.dm[pool].part[part] == "stem")       {stemPart->giveDmSenesced(-1.0*dmRemoved.dm[pool].dlt[part]); }
-             else if (dmRemoved.dm[pool].part[part] ==  "leaf") {leafPart->giveDmSenesced(-1.0*dmRemoved.dm[pool].dlt[part]); }
+             if (dmRemoved.dm[pool].part[part] == "stem")       {stemPart->giveDmSenescedRemoved(dmRemoved.dm[pool].dlt[part]); }
+             else if (dmRemoved.dm[pool].part[part] ==  "leaf") {leafPart->giveDmSenescedRemoved(dmRemoved.dm[pool].dlt[part]); }
              else { /* unknown part */ }
           }
 
           else if (dmRemoved.dm[pool].pool == "dead")
           {
-             if (dmRemoved.dm[pool].part[part] == "stem")       {stemPart->giveDmDead(-1.0*dmRemoved.dm[pool].dlt[part]); }
-             else if (dmRemoved.dm[pool].part[part] ==  "leaf") {leafPart->giveDmDead(-1.0*dmRemoved.dm[pool].dlt[part]); }
+             if (dmRemoved.dm[pool].part[part] == "stem")       {stemPart->giveDmDeadRemoved(dmRemoved.dm[pool].dlt[part]); }
+             else if (dmRemoved.dm[pool].part[part] ==  "leaf") {leafPart->giveDmDeadRemoved(dmRemoved.dm[pool].dlt[part]); }
              else { /* unknown part */ }
           }
        }
     }
 
-    float dltBiomassGreen = leafPart->dltDmGreen() + stemPart->dltDmGreen();
+    float dltBiomassGreen = leafPart->dltDmGreenRemoved() + stemPart->dltDmGreenRemoved();
     float biomassGreen =  leafPart->dmGreen() + stemPart->dmGreen();
-    g.remove_biom_pheno = -divide (dltBiomassGreen, biomassGreen, 0.0);
+    g.remove_biom_pheno = divide (dltBiomassGreen, biomassGreen, 0.0);
 
     if (c.remove_biomass_report == "on")
     {
@@ -3750,17 +3750,17 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
        msg1 << "Remove Crop Biomass 2:-" << endl;
        float dmTotal1 = 0.0;
 
-       msg1 << "   dm green leaf = " << -leafPart->dltDmGreen() << " (g/m2)" << endl;
-       msg1 << "   dm green stem = " << -stemPart->dltDmGreen() << " (g/m2)" << endl;
-       dmTotal1 +=  leafPart->dltDmGreen() + stemPart->dltDmGreen();
+       msg1 << "   dm green leaf = " << leafPart->dltDmGreenRemoved() << " (g/m2)" << endl;
+       msg1 << "   dm green stem = " << stemPart->dltDmGreenRemoved() << " (g/m2)" << endl;
+       dmTotal1 +=  leafPart->dltDmGreenRemoved() + stemPart->dltDmGreenRemoved();
 
-       msg1 << "   dm senesced leaf = " << -leafPart->dltDmSenesced() << " (g/m2)" << endl;
-       msg1 << "   dm senesced stem = " << -stemPart->dltDmSenesced() << " (g/m2)" << endl;
-       dmTotal1 +=  leafPart->dltDmSenesced() + stemPart->dltDmSenesced();
+       msg1 << "   dm senesced leaf = " << leafPart->dltDmSenescedRemoved() << " (g/m2)" << endl;
+       msg1 << "   dm senesced stem = " << stemPart->dltDmSenescedRemoved() << " (g/m2)" << endl;
+       dmTotal1 +=  leafPart->dltDmSenescedRemoved() + stemPart->dltDmSenescedRemoved();
 
-       msg1 << "   dm dead leaf = " << -leafPart->dltDmDead() << " (g/m2)" << endl;
-       msg1 << "   dm dead stem = " << -stemPart->dltDmDead() << " (g/m2)" << endl;
-       dmTotal1 +=  leafPart->dltDmDead() + stemPart->dltDmDead();
+       msg1 << "   dm dead leaf = " << leafPart->dltDmDeadRemoved() << " (g/m2)" << endl;
+       msg1 << "   dm dead stem = " << stemPart->dltDmDeadRemoved() << " (g/m2)" << endl;
+       dmTotal1 +=  leafPart->dltDmDeadRemoved() + stemPart->dltDmDeadRemoved();
 
        msg1 << endl << "   dm total = " << -dmTotal1 << " (g/m2)" << endl << ends;
 
@@ -3792,25 +3792,25 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
     {
       if ((*part)->name() == "leaf" || (*part)->name() == "stem")
       {
-        if ((*part)->dltDmGreen() > ((*part)->dmGreen() + error_margin))
+        if ((*part)->dltDmGreenRemoved() > ((*part)->dmGreen() + error_margin))
         {
              ostringstream msg;
              msg << "Attempting to remove more green " << (*part)->name() << " biomass than available:-" << endl;
-             msg << "Removing " << -(*part)->dltDmGreen() << " (g/m2) from " << (*part)->dmGreen() << " (g/m2) available." << ends;
+             msg << "Removing " << -(*part)->dltDmGreenRemoved() << " (g/m2) from " << (*part)->dmGreen() << " (g/m2) available." << ends;
              throw std::runtime_error (msg.str().c_str());
         }
-        else if ((*part)->dltDmSenesced() > ((*part)->dmSenesced() + error_margin))
+        else if ((*part)->dltDmSenescedRemoved() > ((*part)->dmSenesced() + error_margin))
         {
              ostringstream msg;
              msg << "Attempting to remove more senesced " << (*part)->name() << " biomass than available:-" << endl;
-             msg << "Removing " << -(*part)->dltDmSenesced() << " (g/m2) from " << (*part)->dmSenesced() << " (g/m2) available." << ends;
+             msg << "Removing " << -(*part)->dltDmSenescedRemoved() << " (g/m2) from " << (*part)->dmSenesced() << " (g/m2) available." << ends;
              throw std::runtime_error (msg.str().c_str());
         }
-        else if ((*part)->dltDmDead() > ((*part)->dmDead() + error_margin))
+        else if ((*part)->dltDmDeadRemoved() > ((*part)->dmDead() + error_margin))
         {
              ostringstream msg;
              msg << "Attempting to remove more dead " << (*part)->name() << " biomass than available:-" << endl;
-             msg << "Removing " << -(*part)->dltDmDead() << " (g/m2) from " <<(*part)->dmDead() << " (g/m2) available." << ends;
+             msg << "Removing " << -(*part)->dltDmDeadRemoved() << " (g/m2) from " <<(*part)->dmDead() << " (g/m2) available." << ends;
              throw std::runtime_error (msg.str().c_str());
         }
         else
@@ -3821,7 +3821,7 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
 
     // Update biomass and N pools.  Different types of plant pools are affected in different ways.
     // Calculate Root Die Back
-    float chop_fr_green_leaf = -divide(leafPart->dltDmGreen(), leafPart->dmGreen(), 0.0);
+    float chop_fr_green_leaf = divide(leafPart->dltDmGreenRemoved(), leafPart->dmGreen(), 0.0);
 
     rootPart->removeBiomass2(chop_fr_green_leaf);
 
@@ -3829,11 +3829,11 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
     float n_removed_tops = 0.0;
     for (part = topsParts.begin(); part != topsParts.end(); part++)
         {
-        float chop_fr_green = divide(-(*part)->dltDmGreen(), (*part)->dmGreen(), 0.0);
-        float chop_fr_sen   = divide(-(*part)->dltDmSenesced(), (*part)->dmSenesced(), 0.0);
-        float chop_fr_dead  = divide(-(*part)->dltDmDead(), (*part)->dmDead(), 0.0);
+        float chop_fr_green = divide((*part)->dltDmGreenRemoved(), (*part)->dmGreen(), 0.0);
+        float chop_fr_sen   = divide((*part)->dltDmSenescedRemoved(), (*part)->dmSenesced(), 0.0);
+        float chop_fr_dead  = divide((*part)->dltDmDeadRemoved(), (*part)->dmDead(), 0.0);
 
-        dm_removed_tops += -((*part)->dltDmGreen() + (*part)->dltDmSenesced() + (*part)->dltDmDead()) * gm2kg/sm2ha;
+        dm_removed_tops += ((*part)->dltDmGreenRemoved() + (*part)->dltDmSenescedRemoved() + (*part)->dltDmDeadRemoved()) * gm2kg/sm2ha;
         n_removed_tops += ((*part)->nGreen()*chop_fr_green +
                            (*part)->nSenesced()*chop_fr_sen +
                            (*part)->nDead()*chop_fr_dead) * gm2kg/sm2ha;
