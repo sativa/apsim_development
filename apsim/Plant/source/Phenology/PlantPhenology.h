@@ -99,7 +99,7 @@ class PlantPhenology : public plantThing {
    virtual void onEndCrop(unsigned &, unsigned &, protocol::Variant &v){};
    virtual void onHarvest(unsigned &, unsigned &, protocol::Variant &v){};
    virtual void onKillStem(unsigned &, unsigned &, protocol::Variant &v){};
-   virtual void onRemoveBiomass(protocol::Component *parent, float removeBiomPheno){}; // XX arg should be protocol::Variant &v
+   virtual void onRemoveBiomass(float removeBiomPheno){}; // XX arg should be protocol::Variant &v
 
    virtual float get_dlt_tt(void) = 0;                          // XX remove when leaf number development is finished
    void onPlantEvent(const string &) {};
