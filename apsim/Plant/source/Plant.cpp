@@ -3906,7 +3906,7 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
                   ,leafPart->getTLAI_dead()
                   ,&g.cover_dead);
 
-    phenology->onRemoveBiomass(parent, g.remove_biom_pheno);
+    phenology->onRemoveBiomass(g.remove_biom_pheno);
 
     plant_n_conc_limits ( g.co2_modifier_n_conc );
 
