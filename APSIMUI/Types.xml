@@ -895,7 +895,7 @@
       <UItype>area</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <Documentation name="Science documentation">../apsim/tcllink/docs/tcllink_science.htm</Documentation>
+      <Documentation name="Science documentation">../apsim/tcllink/docs/tclink_science.htm</Documentation>
       <LargeIcon>Images\manager32.png</LargeIcon>
       <SmallIcon>Images\manager16.png</SmallIcon>
       <drops>
@@ -1012,6 +1012,10 @@
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <drops>
+         <drop name="manager"/>
+         <drop name="tclmanager"/>
+         <drop name="farmmanager"/>
+         <drop name="paddockmanager"/>
          <drop name="tclgroup"/>
      </drops>
    </tclui>
