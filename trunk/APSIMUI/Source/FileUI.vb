@@ -95,7 +95,7 @@ Public Class FileUI
         Me.BrowseToolBar.Location = New System.Drawing.Point(708, 3)
         Me.BrowseToolBar.Name = "BrowseToolBar"
         Me.BrowseToolBar.ShowToolTips = True
-        Me.BrowseToolBar.Size = New System.Drawing.Size(80, 32)
+        Me.BrowseToolBar.Size = New System.Drawing.Size(80, 31)
         Me.BrowseToolBar.TabIndex = 11
         Me.BrowseToolBar.TextAlign = System.Windows.Forms.ToolBarTextAlign.Right
         Me.BrowseToolBar.Wrappable = False
@@ -110,7 +110,7 @@ Public Class FileUI
         '
         Me.Label1.AutoSize = True
         Me.Label1.BackColor = System.Drawing.SystemColors.Info
-        Me.Label1.Location = New System.Drawing.Point(351, 5)
+        Me.Label1.Location = New System.Drawing.Point(469, 5)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(44, 13)
         Me.Label1.TabIndex = 13
@@ -120,7 +120,7 @@ Public Class FileUI
         '
         Me.SearchButton.FlatAppearance.BorderSize = 0
         Me.SearchButton.Image = Global.APSIMUI.My.Resources.Resources.text
-        Me.SearchButton.Location = New System.Drawing.Point(507, 2)
+        Me.SearchButton.Location = New System.Drawing.Point(625, 2)
         Me.SearchButton.Name = "SearchButton"
         Me.SearchButton.Size = New System.Drawing.Size(24, 21)
         Me.SearchButton.TabIndex = 14
@@ -128,7 +128,7 @@ Public Class FileUI
         '
         'SearchTextBox
         '
-        Me.SearchTextBox.Location = New System.Drawing.Point(401, 2)
+        Me.SearchTextBox.Location = New System.Drawing.Point(519, 2)
         Me.SearchTextBox.Name = "SearchTextBox"
         Me.SearchTextBox.Size = New System.Drawing.Size(100, 20)
         Me.SearchTextBox.TabIndex = 15
@@ -266,4 +266,7 @@ Public Class FileUI
         End If
     End Sub
 
+    Private Sub SearchTextBox_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchTextBox.TextChanged
+
+    End Sub
 End Class
