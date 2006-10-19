@@ -943,6 +943,10 @@
             <dnit_rate_coeff>0.0006</dnit_rate_coeff>
             <dnit_wf_power>1</dnit_wf_power>
          </standard>
+         <sand>
+            <derived_from>standard</derived_from>
+            <rd_biom>0.0324</rd_biom>
+         </sand>
       </initdata>
    </component>
    <component name="canola" executable = "%apsuite/apsim/plant/lib/plant.dll">
@@ -3266,6 +3270,8 @@
             <y_vernal_days>0 1  0.5  0</y_vernal_days>
             <x_temp>0  26  34  (oC)</x_temp>
             <y_tt>0  26   0  (oCd)</y_tt>
+            <x_removebiompheno>0.0  0.1   0.4  0.5  1.0       ()</x_removebiompheno>
+            <y_removefractpheno>0.0  0.08  0.4  0.5  1.0     ()</y_removefractpheno>
             <leaf_no_at_emerg>2.0</leaf_no_at_emerg>
             <leaf_app_rate1>75.0 (oCd)</leaf_app_rate1>
             <leaf_app_rate2>2.0  (oCd)</leaf_app_rate2>
