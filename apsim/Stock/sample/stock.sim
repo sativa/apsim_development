@@ -17,19 +17,6 @@
          <filename>%apsuite\apsim\met\sample\dalby.met</filename>
       </initdata>
    </component>
-   <component name="Log" executable="%apsuite\apsim\Log\lib\Log.dll">
-      <initdata>
-      </initdata>
-   </component>
-
-   <component name="reportpaddock" executable="%apsuite\apsim\report\lib\report.dll">
-      <initdata>
-        <outputfrequency>post </outputfrequency>
-         <outputfile>paddock.out</outputfile>
-         <variable>dd/mm/yyyy as Date</variable>
-         <variable>paddock.area</variable>
-      </initdata>
-   </component>
     <component name="FarmwiseSequencer" executable="%apsuite\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll">
       <initdata>
          <include>%apsuite\apsim\FarmwiseSequencer\FarmwiseSequencer.ini</include>
@@ -90,18 +77,6 @@
       <respondToSet name="dlt_urea" type="single" />
     </registrations>
       <initdata>
-    <![CDATA[
-        <name>100hectare</name>
-        <area>100</area>
-        <initsection>
-          <init name="area" kind="double" unit="ha">
-            <val>50.0</val>
-          </init>
-          <init name="slope" kind="double" unit="deg">
-            <val>4.2</val>
-          </init>
-        </initsection>
-    ]]>
       </initdata>
    <component name="reportstock" executable="%apsuite\apsim\report\lib\report.dll">
       <initdata>
@@ -118,12 +93,6 @@
          <variable>stock.intake</variable>
          <variable>stock.wt_change</variable>
          <variable>stock.trampling</variable>
-      </initdata>
-   </component>
-   <component name="Log" executable="%apsuite\apsim\log\lib\log.dll">
-      <initdata>
-         <logfile>debug.xml</logfile>
-         <debug_output>on</debug_output>
       </initdata>
    </component>
    <component name="report" executable="%apsuite\apsim\report\lib\report.dll">
@@ -295,7 +264,7 @@
                 <val>angus</val>
               </field>
               <field name="death_rate" kind="double" unit="/y">
-                <val>0.01</val>
+                <val>0.0</val>
               </field>
             </element>
           </init>
