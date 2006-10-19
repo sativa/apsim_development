@@ -28,15 +28,19 @@
       <FileName type="filenames">D:\Development\apsim\Broccoli\Validation\Observed\Gatton2006Planting2SW.txt</FileName>
       <ParseTitle type="yesno">yes</ParseTitle>
    </ApsimFileReader>
+   <ApsimFileReader name="PreP2Wet">
+      <ParseTitle type="yesno">no</ParseTitle>
+      <FileName type="filenames">D:\Development\apsim\Broccoli\Validation\Lawes06 Planting2Wet Block.out</FileName>
+   </ApsimFileReader>
 
 </Data>
 
    <page> <![CDATA[
 object Page1: TQuickRep
-  Left = 211
-  Top = 33
-  Width = 397
-  Height = 561
+  Left = 53
+  Top = 0
+  Width = 714
+  Height = 1010
   Frame.Color = clBlack
   Frame.DrawTop = False
   Frame.DrawBottom = False
@@ -77,12 +81,12 @@ object Page1: TQuickRep
   PrintIfEmpty = True
   SnapToGrid = True
   Units = MM
-  Zoom = 50
+  Zoom = 90
   object TitleBand1: TQRBand
     Left = 0
     Top = 0
-    Width = 397
-    Height = 561
+    Width = 714
+    Height = 1010
     Frame.Color = clBlack
     Frame.DrawTop = False
     Frame.DrawBottom = False
@@ -94,13 +98,13 @@ object Page1: TQuickRep
     ForceNewPage = False
     Size.Values = (
       2970
-      2100.79166666667)
+      2099.02777777778)
     BandType = rbTitle
     object Graph1: TGraph
-      Left = 65
-      Top = 36
-      Width = 284
-      Height = 114
+      Left = 117
+      Top = 66
+      Width = 510
+      Height = 206
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -235,13 +239,30 @@ object Page1: TQuickRep
           YValues.Order = loNone
           YValues.ValueSource = 'LAI'
         end
+        object Series12: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = PreP2Wet
+          SeriesColor = clRed
+          ShowInLegend = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.DateTime = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Date'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'lai'
+        end
       end
     end
     object Graph2: TGraph
-      Left = 61
-      Top = 172
-      Width = 284
-      Height = 114
+      Left = 110
+      Top = 310
+      Width = 510
+      Height = 206
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -449,23 +470,40 @@ object Page1: TQuickRep
           YValues.Order = loNone
           YValues.ValueSource = 'Head'
         end
+        object Series13: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = PreP2Wet
+          SeriesColor = clRed
+          ShowInLegend = False
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.DateTime = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Date'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'biomass_wt'
+        end
       end
     end
     object Text1: TText
-      Left = 46
-      Top = 8
-      Width = 146
-      Height = 13
+      Left = 82
+      Top = 16
+      Width = 424
+      Height = 35
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
       Frame.DrawLeft = False
       Frame.DrawRight = False
       Size.Values = (
-        68.7916666666667
-        243.416666666667
-        42.3333333333333
-        772.583333333333)
+        102.893518518519
+        241.064814814815
+        47.037037037037
+        1246.48148148148)
       Alignment = taLeftJustify
       AlignToBand = False
       AutoSize = True
@@ -473,22 +511,22 @@ object Page1: TQuickRep
       Color = clWhite
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -21
+      Font.Height = -32
       Font.Name = 'Arial'
-      Font.Style = []
+      Font.Style = [fsBold]
       Lines.Strings = (
         'Broccoli Grown at Gatton 2006')
       ParentFont = False
       Transparent = False
       WordWrap = True
       text = 'Broccoli Grown at Gatton 2006'#13#10
-      FontSize = 16
+      FontSize = 24
     end
     object Graph3: TGraph
-      Left = 66
-      Top = 310
-      Width = 284
-      Height = 114
+      Left = 120
+      Top = 558
+      Width = 510
+      Height = 206
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -696,13 +734,45 @@ object Page1: TQuickRep
           YValues.Order = loNone
           YValues.ValueSource = 'Stem'
         end
+        object Series14: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = PreP2Wet
+          SeriesColor = clRed
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.DateTime = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Date'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'leaf_wt'
+        end
+        object Series15: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = PreP2Wet
+          SeriesColor = clRed
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.DateTime = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Date'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'stem_wt'
+        end
       end
     end
     object Graph4: TGraph
-      Left = 66
-      Top = 430
-      Width = 284
-      Height = 114
+      Left = 119
+      Top = 774
+      Width = 511
+      Height = 205
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -724,7 +794,7 @@ object Page1: TQuickRep
       seriesTitle1 = 'Unstressed'
       seriesTitle2 = 'Mild'
       seriesTitle3 = 'Severe'
-      seriesTitle4 = 'Comparison'
+      seriesTitle4 = ' '
       seriesTitle5 = ' '
       object QRDBChart4: TQRDBChart
         Left = -1
@@ -817,6 +887,22 @@ object Page1: TQuickRep
           YValues.Name = 'Y'
           YValues.Order = loNone
           YValues.ValueSource = 'Severe'
+        end
+        object Series16: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = PreP2Wet
+          SeriesColor = clRed
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.DateTime = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          XValues.ValueSource = 'Date'
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'sw_dep()'
         end
       end
     end
