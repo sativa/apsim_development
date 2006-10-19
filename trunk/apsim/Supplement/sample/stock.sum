@@ -11,12 +11,12 @@
 
      Version                = 5.2
      Title                  = Stock Supplement PI SAMPLE Simulation
-     Component DLL          = c:\data\apsim\development\apsim\log\lib\log.dll
-     Component DLL          = c:\data\apsim\development\apsim\SummaryFile\lib\SummaryFile.dll
-     Component DLL          = c:\data\apsim\development\apsim\clock\lib\clock.dll
-     Component DLL          = c:\data\apsim\development\apsim\Input\lib\Input.dll
-     Component DLL          = c:\data\apsim\development\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll
-     Component DLL          = c:\data\apsim\development\apsim\protocolmanager\lib\protocolmanager.dll
+     Component DLL          = c:\development\apsim\log\lib\log.dll
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\Input\lib\Input.dll
+     Component DLL          = c:\development\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll
+     Component DLL          = c:\development\apsim\protocolmanager\lib\protocolmanager.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -29,7 +29,7 @@
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\data\apsim\development\apsim\met\sample\dalby.met
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
 
 ------- FarmwiseSequencer Initialisation --------------------------------------
       - reading constants
