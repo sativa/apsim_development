@@ -3,18 +3,62 @@
 #APSRun - run apsim
 # Converts .con files to .sim files and runs them
 
-set APSROOT [file dirname [file dirname [info script]]]
+set BINDIR [file dirname [info script]]
+set APSROOT [file dirname $BINDIR]
 set env(LD_LIBRARY_PATH) $APSROOT/lib
 
-foreach arg $argv {
-   cd [file dirname $arg]
-   puts [exec $APSROOT/bin/ConToSim.x $arg]
-   set t0 [clock seconds]
-   foreach simfile [glob *.sim] {
-     if {[file mtime $simfile] >= $t0} {
-       puts [exec $APSROOT/bin/apsim.x $simfile]
-     }
-   }    
+proc run {arg} {
+   if {[file extension $arg] == ".run"} {
+	doRunFile $arg
+    } elseif {[file extension $arg] == ".con"} {
+	doConFile $arg
+    } else {
+	puts stderr "Don't know what to do with $arg"
+    }
 }
 
+proc doRunFile {arg} {
+    global APSROOT
+    set fp [open $arg r]
+    while {[gets $fp line] >= 0} {
+	if {[llength [set z [split $line "="]]] == 2} {
+	    regsub  {%apsuite} [lindex $z 1] $APSROOT file
+	    run $file
+	}
+    } 
+    close $fp
+}
+
+proc doConFile {arg} {
+    global BINDIR
+    if {[file isdir [file dirname $arg]]} {
+	cd [file dirname $arg]
+	puts "Running conToSim $arg in wd=[pwd]"
+	runCmd  "$BINDIR/ConToSim.x $arg"
+	set t0 [clock seconds]
+	foreach simfile [glob -nocomplain *.sim] {
+	    if {[file mtime $simfile] >= $t0} {
+		puts "Running $simfile in wd=[pwd]"
+		runCmd  "$BINDIR/apsim.x $simfile"
+	    }
+	}
+    } else {
+	puts stderr "No such directory [file dirname $arg]"
+    }
+}
+
+proc runCmd {cmd} {
+    catch {
+	set fp [open "| $cmd" r]
+	while {[gets $fp line] >= 0} {
+	    puts $line
+	}
+	close $fp
+    } msg
+    if {$msg != ""} {puts stderr "Error running '$cmd' in wd=[pwd] - $msg"}
+}
+
+foreach arg $argv {
+   run $arg
+}
 

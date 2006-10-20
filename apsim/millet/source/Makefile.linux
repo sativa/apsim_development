@@ -1,24 +1,24 @@
 #=======================================================================
 #-----------------------------------------------------------------------
-#     Makefile for APSIM irrigation module
+#     Makefile for APSIM millet module
 #-----------------------------------------------------------------------
 #=======================================================================
 
 DESTDIR ?= /usr/local/apsim
 
-LIB=	../lib/irrigate.so
+LIB=	../lib/millet.so
 
 SRC=	Registrations.f90	\
-	irrigate.for
+	millet.for
 
 STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
             ../../../Shared/ComponentInterface/EntryPoints.o   \
             ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o   \
-            ../../../Shared/ComponentInterface/FORTRANdatatypes.o \
+            ../../../Shared/ComponentInterface/FORTRANdatatypes.o   \
             ../../../Shared/ComponentInterface/datatypes.o
 
 OBJ=	Registrations.o		\
-	irrigate.o		\
+	mil_main.o		\
 	$(STATICOBJ)
 
 #-----------------------------------------------------------------------
@@ -26,6 +26,8 @@ OBJ=	Registrations.o		\
 
 FC=		lf95
 CPPFLAGS=	-I$(APSROOT)/apsim/infra/source		\
+		-I$(APSROOT)/apsim/croptemp/source	\
+		-I$(APSROOT)/apsim/CropMod/source \
 		-M. -M$(APSROOT)/apsim/infra/source $(CPPDEBUGFLAGS)
 FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
 		--ml cdecl --staticlink
@@ -56,8 +58,9 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
-	if [ ! -d $(DESTDIR)/apsim/irrigate/lib ]; then mkdir -p $(DESTDIR)/apsim/irrigate/lib; fi 
-	cp $(LIB) $(DESTDIR)/apsim/irrigate/lib
+	if [ ! -d $(DESTDIR)/apsim/millet/lib ]; then mkdir -p $(DESTDIR)/apsim/millet/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/millet/lib
+	cp ../millet.ini $(DESTDIR)/apsim/millet
 
 %.o:	%.for
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
@@ -66,5 +69,5 @@ install: all
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
 
 Registrations.o: Registrations.f90
-Registrations.f90: ../irrigate.interface 
-	$(APSROOT)/Bin/CreateComponentInterfaceSource ../irrigate.interface
+Registrations.f90: ../millet.interface 
+	$(APSROOT)/Bin/CreateComponentInterfaceSource ../millet.interface

@@ -3,7 +3,7 @@ version = 5.2
 
 ! Generic report parameters
 title=Eo_gatton_9394
-module = clock correl.par[Correl_gatton] %apsuite\apsim\clock\clock.ini[standard]
+module = clock correl.par[Correl_gatton] %apsuite/apsim/clock/clock.ini[standard]
 module = report correl.par[sample]
 module = input(met) COOPER.MET[CPRL]
 module = correl correl.par[sample]

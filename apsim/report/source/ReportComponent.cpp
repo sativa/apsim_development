@@ -318,9 +318,9 @@ void Field::calcFieldWidths()
    for (unsigned index = 0; index != headings.size(); index++)
       {
       int fieldWidth = 15;
-      fieldWidth = max(fieldWidth, headings[index].length() + 1);
+      fieldWidth = max(fieldWidth, (int)headings[index].length() + 1);
       if (units.size() > 0)
-         fieldWidth = max(fieldWidth, units[index].length() + 1);
+	fieldWidth = max(fieldWidth, (int)units[index].length() + 1);
       fieldWidths.push_back(fieldWidth);
       }
    }

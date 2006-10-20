@@ -2,9 +2,9 @@ version = 5.2
 
 [APSIM.Tamet2_sample]
 title=Dalby Tamet2 check
-module = clock   tamet2.par [Tamet2_dalby] %apsuite\apsim\clock\clock.ini[standard]
+module = clock   tamet2.par [Tamet2_dalby] %apsuite/apsim/clock/clock.ini[standard]
 module = report  tamet2.par[sample] tamet2.par[tamet2_dalby]
-module = Input(Met)     %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
+module = Input(Met)     %apsuite/apsim/met/SAMPLE/DALBY.MET [weather]
 module = manager tamet2.par[sample]
 module = tamet2  tamet2.par [sample]
 module = summaryfile tamet2.par [sample]

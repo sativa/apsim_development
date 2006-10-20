@@ -1,14 +1,14 @@
-version = 5.2
+Version = 5.2
 
 [apsim.sample_map]
 
 title=Map Sample Simulation
-module = clock    map.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = clock    map.par [sample] %apsuite/apsim/clock/clock.ini[standard]
 module = report   map.par [sample]
-module = Input(Met)      %apsuite\apsim\met\SAMPLE\DALBY.MET [weather]
+module = input(Met)      %apsuite/apsim/met/sample/dalby.met [weather]
 module = manager  map.par [sample]
-module = fertiliz %apsuite\apsim\fertiliz\fertiliz.ini [standard]
-module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]     %apsuite\apsim\soilwat2\soilwat2.ini [standard]
-module = solute   %apsuite\apsim\solute\sample\solute.par [sample]     %apsuite\apsim\solute\solute.ini [standard]
+module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini [standard]
+module = soilwat2 %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]     %apsuite/apsim/soilwat2/soilwat2.ini [standard]
+module = solute   %apsuite/apsim/solute/sample/solute.par [sample]     %apsuite/apsim/solute/solute.ini [standard]
 module = map      map.par [sample]
-module = summaryfile map.par [sample]
+module = SummaryFile map.par [sample]

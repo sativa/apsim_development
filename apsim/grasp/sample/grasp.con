@@ -1,20 +1,20 @@
 version = 5.2
 [apsim.grasp.control]
 title= Grass growth.
-module = clock    grasp.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = clock    grasp.par [sample] %apsuite/apsim/clock/clock.ini[standard]
 module = report   grasp.par [sample]
-module = Input(Met) %apsuite\apsim\met\sample\dalby.met[weather]
+module = input(Met) %apsuite/apsim/met/sample/dalby.met[weather]
 module = manager  grasp.par [sample]
-module = soilwat2 %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]  %apsuite\apsim\soilwat2\soilwat2.ini[standard]
-module = soiln2 %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]  %apsuite\apsim\soiln2\soiln2.ini[standard]
-module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
-module = grasp    grasp.par [sample] %apsuite\apsim\grasp\grasp.ini [standard]
+module = soilwat2 %apsuite/apsim/soilwat2/sample/soilwat2.par[black_earth]  %apsuite/apsim/soilwat2/soilwat2.ini[standard]
+module = soiln2 %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]  %apsuite/apsim/soiln2/soiln2.ini[standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = grasp    grasp.par [sample] %apsuite/apsim/grasp/grasp.ini [standard]
 module = SummaryFile  grasp.par[sample]
 !module = log      grasp.par[sample]
 
 ![APSIM.roselea]
 !TITLE = Roselea Grazing Trial Roma Trevor Hall Red Earth, Aristida jerichoensis
-!module = clock       grasp.par[roselea] %apsuite\apsim\clock\clock.ini[standard]
+!module = clock       grasp.par[roselea] %apsuite/apsim/clock/clock.ini[standard]
 !module = Screen      grasp.par[sample]
 !module = SummaryFile grasp.par[roselea]
 !module = report      grasp.par[roselea]
