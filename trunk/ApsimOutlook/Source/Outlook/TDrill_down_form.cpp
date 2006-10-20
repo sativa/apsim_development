@@ -245,9 +245,22 @@ void __fastcall TDrill_down_form::ScenarioTreeMouseDown(TObject *Sender,
       if (node->Parent != NULL)
          {
          // get factor name and value.
+         string line = node->Text.c_str();
          string Factor_name;
          string Factor_value;
-         getKeyNameAndValue(node->Text.c_str(), Factor_name, Factor_value);
+         int posEquals = line.find('=');
+         if (posEquals != string::npos)
+            {
+            Factor_name = line.substr(0, posEquals);
+            stripLeadingTrailing(Factor_name, " ");
+            Factor_value = line.substr(posEquals+1);
+            stripLeadingTrailing(Factor_value, " ");
+            }
+         else
+            {
+            Factor_name = "";
+            Factor_value = "";
+            }
 
          // delete old selections.
          if (ValueSelectPopup != NULL)
