@@ -2,12 +2,12 @@
 
 
 # Set these to compile with debug/whatever flags
-#CPPDEBUGFLAGS=-g
-#LDDEBUGFLAGS=-lg
+CPPDEBUGFLAGS=-g
+LDDEBUGFLAGS=-lg
 
-# Optimised flags
-CPPDEBUGFLAGS=-O2
-LDDEBUGFLAGS=
+# Optimised flags. (-O3 is broken)
+#CPPDEBUGFLAGS=-O2
+#LDDEBUGFLAGS=
 
 # Profiling (gmon.out) flags
 #CPPDEBUGFLAGS=-pg
@@ -33,18 +33,22 @@ MODULEDIRS =  apsim/ProtocolManager/Source \
 	apsim/irrigate/source \
 	apsim/maize/source \
 	apsim/manager/source \
+	apsim/millet/source \
 	apsim/operatns/source \
 	apsim/ozcot/source \
 	apsim/Plant/source \
 	apsim/report/source \
 	apsim/soilwat2/source \
 	apsim/soiln2/source \
+	apsim/SoilP/source \
+	apsim/solute/source \
 	apsim/sorghum/source \
 	apsim/SummaryFile/Source \
 	apsim/SurfaceOM/source \
 	apsim/Tracker/Source \
 	apsim/tcllink/source 
 
+# These inifiles don't have a "source" makefile to install them..
 INIFILES = \
 	apsim/soybean/soybean.ini \
 	apsim/WaterSupply/WaterSupply.ini \
@@ -61,6 +65,7 @@ INIFILES = \
 	apsim/Egrandis/Egrandis.ini \
 	apsim/navybean/navybean.ini \
 	apsim/mungbean/mungbean.ini \
+	apsim/millet/millet.ini \
 	apsim/SweetCorn/SweetCorn.ini \
 	apsim/Wheat/wheat.ini \
 	apsim/pigeonp/pigeonp.ini \
@@ -73,7 +78,7 @@ INIFILES = \
 	apsim/FieldPea/fieldpea.ini \
 	apsim/peanut/peanut.ini \
 	apsim/eo/eo.ini \
-	apsim/mucuna/mucuna.ini \
+	apsim/mucuna/mucuna.ini 
 
 
 all: system modules
@@ -81,13 +86,13 @@ all: system modules
 
 system:
 	for dir in $(SYSDIRS); do \
-		$(MAKE) -f Makefile.linux -C $$dir; \
+		$(MAKE) -f Makefile.linux  CPPDEBUGFLAGS=$(CPPDEBUGFLAGS) LDDEBUGFLAGS=$(LDDEBUGFLAGS) -C $$dir; \
 	done
 
 modules:
 	for dir in $(MODULEDIRS); do \
 		if [ ! -d `dirname $$dir`/lib ]; then mkdir `dirname $$dir`/lib; fi ; \
-		$(MAKE) -f Makefile.linux -C $(APSROOT)/$$dir; \
+		$(MAKE) -f Makefile.linux CPPDEBUGFLAGS=$(CPPDEBUGFLAGS) LDDEBUGFLAGS=$(LDDEBUGFLAGS) -C $(APSROOT)/$$dir; \
 	done
 
 clobber: 

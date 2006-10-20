@@ -148,6 +148,8 @@ void *Computation::loadDLL(const string& filename) throw (runtime_error)
                     0,
                     NULL
                     );
+
+      
       string errorMessage = ("Cannot load DLL: " + filename + ".\n  " + (LPTSTR) lpMsgBuf);
       LocalFree( lpMsgBuf );
       throw runtime_error(errorMessage);
@@ -158,11 +160,11 @@ void *Computation::loadDLL(const string& filename) throw (runtime_error)
 void *Computation::loadDLL(const string& filename) throw (runtime_error)
    {
    void *result = dlopen(filename.c_str(), RTLD_NOW|RTLD_LOCAL);
-
-   if (dlerror() != NULL)
+   char *dllerr = dlerror();
+   if (dllerr != NULL)
       {
-      string errorMessage = ("Cannot load DLL: " + filename + ".\n" + dlerror());
-      throw runtime_error(errorMessage);
+	string errorMessage = string("Cannot load DLL: ") + filename + ".\n" + dllerr;
+	throw runtime_error(errorMessage);
       }
    return result;
    }
@@ -267,8 +269,6 @@ bool Computation::loadComponent(const std::string& filename,
    (FARPROC) deleteInstanceProc = GetProcAddress(handle, "deleteInstance");
    (FARPROC) messageToLogicProc = GetProcAddress(handle, "messageToLogic");
 #else
-   const char* dlError;
-   int return_code;
 
    createInstanceProc = (void (*)(const char*,
               const unsigned int*,

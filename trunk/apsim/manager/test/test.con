@@ -2,11 +2,11 @@ version = 5.2
 [apsim.sample_manager]
 
 title=manager test
-module = clock   test.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = clock   test.par [sample] %apsuite/apsim/clock/clock.ini[standard]
 module = report  test.par [sample]
-module = Input(Met)     %apsuite\apsim\met\sample\dalby.met [weather]
+module = input(Met)     %apsuite/apsim/met/sample/dalby.met [weather]
 module = manager test.par [sample]
-module = summaryfile test.par[sample]
+module = SummaryFile test.par[sample]
 
 [Manager Test]
    ! ====================================================================================================
@@ -20,12 +20,12 @@ module = summaryfile test.par[sample]
    !    wheat sow cultivar = cultivar with spaces, plants = 120, sowing_depth = 30 (mm)
    ! ====================================================================================================
    title=manager test
-   module = clock   test.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+   module = clock   test.par [sample] %apsuite/apsim/clock/clock.ini[standard]
    module = report  test.par [test2]
-   module = Input(Met)     %apsuite\apsim\met\sample\dalby.met [weather]
+   module = input(Met)     %apsuite/apsim/met/sample/dalby.met [weather]
    module = manager test.par [Test2Manager]
-   module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]    %apsuite\apsim\soilwat2\soilwat2.ini [standard]
-   module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
-   module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
-   module = plant(wheat)  test.par [test2] %apsuite\apsim\wheat\wheat.ini [standard] test.par [standard]
-   module = summaryfile test.par[test2]
+   module = soilwat2        %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]    %apsuite/apsim/soilwat2/soilwat2.ini [standard]
+   module = soiln2          %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]    %apsuite/apsim/soiln2/soiln2.ini     [standard]
+   module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+   module = Plant(wheat)  test.par [test2] %apsuite/apsim/Wheat/wheat.ini [standard] test.par [standard]
+   module = SummaryFile test.par[test2]

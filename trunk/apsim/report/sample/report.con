@@ -9,12 +9,12 @@ version = 5.2
 !     has multiple values e.g. days_since_last_report
 
 title=Report Instantiation Sample Simulation
-module = clock report.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = clock report.par [sample] %apsuite/apsim/clock/clock.ini[standard]
 module = report (report1) report.par [sample]
 module = report (report2) report.par [sample]
 module = report (report3) report.par [sample]
 module = report (report4) report.par [sample]
-module = input(met) %apsuite\apsim\MET\SAMPLE\DALBY.MET [weather]
+module = input(met) %apsuite/apsim/met/sample/dalby.met [weather]
 module = manager report.par [sample]
-module = soilwat2 report.par [black_earth] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soilwat2 report.par [black_earth] %apsuite/apsim/soilwat2/soilwat2.ini [standard]
 module = SummaryFile  report.par[sample]

@@ -1,24 +1,24 @@
 #=======================================================================
 #-----------------------------------------------------------------------
-#     Makefile for APSIM irrigation module
+#     Makefile for APSIM solute module
 #-----------------------------------------------------------------------
 #=======================================================================
 
 DESTDIR ?= /usr/local/apsim
 
-LIB=	../lib/irrigate.so
+LIB=	../lib/solute.so
 
 SRC=	Registrations.f90	\
-	irrigate.for
+	solute.for
 
 STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
             ../../../Shared/ComponentInterface/EntryPoints.o   \
             ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o   \
-            ../../../Shared/ComponentInterface/FORTRANdatatypes.o \
+            ../../../Shared/ComponentInterface/FORTRANdatatypes.o   \
             ../../../Shared/ComponentInterface/datatypes.o
 
 OBJ=	Registrations.o		\
-	irrigate.o		\
+	solute.o		\
 	$(STATICOBJ)
 
 #-----------------------------------------------------------------------
@@ -56,8 +56,9 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
-	if [ ! -d $(DESTDIR)/apsim/irrigate/lib ]; then mkdir -p $(DESTDIR)/apsim/irrigate/lib; fi 
-	cp $(LIB) $(DESTDIR)/apsim/irrigate/lib
+	if [ ! -d $(DESTDIR)/apsim/solute/lib ]; then mkdir -p $(DESTDIR)/apsim/solute/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/solute/lib
+	cp ../solute.ini $(DESTDIR)/apsim/solute
 
 %.o:	%.for
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
@@ -66,5 +67,5 @@ install: all
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
 
 Registrations.o: Registrations.f90
-Registrations.f90: ../irrigate.interface 
-	$(APSROOT)/Bin/CreateComponentInterfaceSource ../irrigate.interface
+Registrations.f90: ../solute.interface 
+	$(APSROOT)/Bin/CreateComponentInterfaceSource ../solute.interface

@@ -6,19 +6,17 @@
 
 DESTDIR ?= /usr/local/apsim
 
-LIB=	../lib/irrigate.so
+LIB=	../lib/ozcot.so
 
-SRC=	Registrations.f90	\
-	irrigate.for
+SRC=	ozcot.for
 
 STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
             ../../../Shared/ComponentInterface/EntryPoints.o   \
             ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o   \
-            ../../../Shared/ComponentInterface/FORTRANdatatypes.o \
+            ../../../Shared/ComponentInterface/FORTRANdatatypes.o   \
             ../../../Shared/ComponentInterface/datatypes.o
 
-OBJ=	Registrations.o		\
-	irrigate.o		\
+OBJ=	ozcot.o		\
 	$(STATICOBJ)
 
 #-----------------------------------------------------------------------
@@ -26,7 +24,10 @@ OBJ=	Registrations.o		\
 
 FC=		lf95
 CPPFLAGS=	-I$(APSROOT)/apsim/infra/source		\
-		-M. -M$(APSROOT)/apsim/infra/source $(CPPDEBUGFLAGS)
+		-I$(APSROOT)/apsim/croptemp/source	\
+		-M$(APSROOT)/apsim/infra/source 	\
+		-M$(APSROOT)/apsim/croptemp/source $(CPPDEBUGFLAGS)
+
 FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
 		--ml cdecl --staticlink
 
@@ -35,9 +36,9 @@ FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
 
 LDFLAGS=	-L$(APSROOT)/lib		\
 		-L$(APSROOT)/apsim/infra/lib	 \
-		-L/usr/lib $(LDDEBUGFLAGS)
+		-L$(APSROOT)/apsim/croptemp/lib	$(LDDEBUGFLAGS)
 
-LIBS=		-lComponentInterface -lapsinfra -lc
+LIBS=		-lComponentInterface -lcroptemp -lapsinfra 
 
 #-----------------------------------------------------------------------
 # The rules
@@ -56,8 +57,9 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
-	if [ ! -d $(DESTDIR)/apsim/irrigate/lib ]; then mkdir -p $(DESTDIR)/apsim/irrigate/lib; fi 
-	cp $(LIB) $(DESTDIR)/apsim/irrigate/lib
+	if [ ! -d $(DESTDIR)/apsim/ozcot/lib ]; then mkdir -p $(DESTDIR)/apsim/ozcot/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/ozcot/lib
+	cp ../ozcot.ini $(DESTDIR)/apsim/ozcot
 
 %.o:	%.for
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
@@ -65,6 +67,4 @@ install: all
 %.o:	%.f90
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
 
-Registrations.o: Registrations.f90
-Registrations.f90: ../irrigate.interface 
-	$(APSROOT)/Bin/CreateComponentInterfaceSource ../irrigate.interface
+

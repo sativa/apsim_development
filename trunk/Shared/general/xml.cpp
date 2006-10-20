@@ -350,6 +350,10 @@ void eraseNodes(XMLNode node, const std::string& name)
 // Handy function that returns a node given a fully qualified name
 // eg fqn:  root|child1|child2
 // ------------------------------------------------------------------
+XMLNode findNode(XMLNode node, const std::string& fqn)
+   {
+     return findNode(node, fqn, '|');
+   }
 XMLNode findNode(XMLNode node, const std::string& fqn, char delimiter)
    {
    unsigned posDelimiter = fqn.find(delimiter);
@@ -372,6 +376,10 @@ XMLNode findNode(XMLNode node, const std::string& fqn, char delimiter)
 // This variant uses the 'name' attribute to search.
 // eg fqn:  root|child1|child2
 // ------------------------------------------------------------------
+XMLNode findNodeWithName(XMLNode node, const std::string& fqn) 
+   {
+   return findNodeWithName(node, fqn, '|');
+   }
 XMLNode findNodeWithName(XMLNode node, const std::string& fqn, char delimiter)
    {
    unsigned posDelimiter = fqn.find(delimiter);

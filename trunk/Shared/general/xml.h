@@ -219,14 +219,17 @@ class AttributeEquals
 // Handy function that returns a node given a fully qualified name
 // eg fqn:  root|child1|child2
 // ------------------------------------------------------------------
-XMLNode findNode(XMLNode node, const std::string& fqn, char delimiter = '|');
+XMLNode findNode(XMLNode node, const std::string& fqn);
+XMLNode findNode(XMLNode node, const std::string& fqn, char delimiter);
 
 // ------------------------------------------------------------------
 // Handy function that returns a node given a fully qualified name
 // This variant uses the 'name' attribute to search.
 // eg fqn:  root|child1|child2
 // ------------------------------------------------------------------
-XMLNode findNodeWithName(XMLNode node, const std::string& fqn, char delimiter = '|');
+XMLNode findNodeWithName(XMLNode node, const std::string& fqn);
+XMLNode findNodeWithName(XMLNode node, const std::string& fqn, char delimiter);
+
 
 // ------------------------------------------------------------------
 // Handy function that returns a node value given a fully qualified name

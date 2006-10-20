@@ -1,12 +1,12 @@
 version = 5.2
 [APSIM.sample_mucuna]
 title=mucuna Sample Simulation
-module = clock      mucuna.par[sample] %apsuite\apsim\clock\clock.ini[standard]
+module = clock      mucuna.par[sample] %apsuite/apsim/clock/clock.ini[standard]
 module = report     mucuna.par[sample]
-module = input(met)        %apsuite\apsim\met\sample\dalby.met[weather]
+module = input(met)        %apsuite/apsim/met/sample/dalby.met[weather]
 module = manager    mucuna.par[sample]
-module = soilwat2   %apsuite\apsim\soilwat2\sample\soilwat2.par[black_earth]  %apsuite\apsim\soilwat2\soilwat2.ini[standard]
-module = SurfaceOM   %apsuite\apsim\SurfaceOM\sample\SurfaceOM.par [legume_residue] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
-module = soiln2     %apsuite\apsim\soiln2\sample\soiln2.par[black_earth]      %apsuite\apsim\soiln2\soiln2.ini[standard]
-module = plant(mucuna)   mucuna.par[sample] %apsuite\apsim\mucuna\mucuna.ini[standard]
+module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par[black_earth]  %apsuite/apsim/soilwat2/soilwat2.ini[standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2     %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]      %apsuite/apsim/soiln2/soiln2.ini[standard]
+module = Plant(mucuna)   mucuna.par[sample] %apsuite/apsim/mucuna/mucuna.ini[standard]
 module = SummaryFile  mucuna.par[sample]

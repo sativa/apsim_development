@@ -2,9 +2,9 @@ version = 5.2
 [Sample PatchInput]
 
 title=PatchInput1 Simulation
-module = clock PatchInput.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = clock PatchInput.par [sample] %apsuite/apsim/clock/clock.ini[standard]
 module = report PatchInput.par [sample]
-module = input(met) %apsuite\apsim\met\sample\dalby.met[weather]
+module = input(met) %apsuite/apsim/met/sample/dalby.met[weather]
 module = PatchInput(patch) patch.dat [test]
 module = manager PatchInput.par [sample]
 module = SummaryFile  PatchInput.par[sample]
@@ -12,9 +12,9 @@ module = SummaryFile  PatchInput.par[sample]
 [Sample PatchInput2]
 
 title=PatchInput2 Simulation
-module = clock PatchInput.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = clock PatchInput.par [sample] %apsuite/apsim/clock/clock.ini[standard]
 module = report PatchInput.par [sample2]
-module = input(met) %apsuite\apsim\met\sample\dalby.met[weather]
+module = input(met) %apsuite/apsim/met/sample/dalby.met[weather]
 module = PatchInput(patch) patch2.dat [test]
 module = manager PatchInput.par [sample]
 module = SummaryFile  PatchInput.par[sample2]
@@ -28,9 +28,9 @@ module = SummaryFile  PatchInput.par[sample2]
 ! dalby.met file for the period: 1990-1-13 to 1990-1-18
 ! and patched over all other years for the same period.
 title=PatchInput3 Simulation
-module = clock PatchInput.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = clock PatchInput.par [sample] %apsuite/apsim/clock/clock.ini[standard]
 module = report PatchInput.par [sample3]
-module = input(met) %apsuite\apsim\met\sample\dalby.met[weather]
+module = input(met) %apsuite/apsim/met/sample/dalby.met[weather]
 module = PatchInput(patch) patch3.dat [test]
 module = manager PatchInput.par [sample]
 module = SummaryFile  PatchInput.par[sample3]
