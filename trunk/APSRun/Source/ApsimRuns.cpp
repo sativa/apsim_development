@@ -5,6 +5,7 @@
 
 #include <dir.h>
 
+#include <general/string_functions.h>
 #include <general/TreeNodeIterator.h>
 #include <general/xml.h>
 #include <general/path.h>
@@ -53,6 +54,7 @@ void ApsimRuns::addSimulationsFromFile(const std::string& fileName)
          string fileName;
          vector<string> conFileSections;
          runFile.getRun(runNames[r], fileName, conFileSections);
+         Replace_all(fileName, "%apsuite", getApsimDirectory().c_str());
          if (conFileSections.size() == 0)
             addSimulationsFromFile(fileName);
          else
