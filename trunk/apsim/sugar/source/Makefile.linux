@@ -6,10 +6,10 @@
 
 DESTDIR ?= /usr/local/apsim
 
-LIB=	../lib/millet.so
+LIB=	../lib/sugar.so
 
 SRC=	Registrations.f90	\
-	millet.for
+	sugar.for
 
 STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
             ../../../Shared/ComponentInterface/EntryPoints.o   \
@@ -18,7 +18,7 @@ STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
             ../../../Shared/ComponentInterface/datatypes.o
 
 OBJ=	Registrations.o		\
-	mil_main.o		\
+	sgr_main.o		\
 	$(STATICOBJ)
 
 #-----------------------------------------------------------------------
@@ -61,9 +61,9 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
-	if [ ! -d $(DESTDIR)/apsim/millet/lib ]; then mkdir -p $(DESTDIR)/apsim/millet/lib; fi 
-	cp $(LIB) $(DESTDIR)/apsim/millet/lib
-	cp ../millet.ini $(DESTDIR)/apsim/millet
+	if [ ! -d $(DESTDIR)/apsim/sugar/lib ]; then mkdir -p $(DESTDIR)/apsim/sugar/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/sugar/lib
+	cp ../sugar.ini $(DESTDIR)/apsim/sugar
 
 %.o:	%.for
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
@@ -72,5 +72,5 @@ install: all
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
 
 Registrations.o: Registrations.f90
-Registrations.f90: ../millet.interface 
-	$(APSROOT)/Bin/CreateComponentInterfaceSource ../millet.interface
+Registrations.f90: ../sugar.interface 
+	$(APSROOT)/Bin/CreateComponentInterfaceSource ../sugar.interface

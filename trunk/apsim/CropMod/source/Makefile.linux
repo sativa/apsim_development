@@ -5,6 +5,7 @@
 #=======================================================================
 
 LIB=	../lib/libcropmod.a
+DLL=	../lib/CropMod.so
 
 SRC=	CropModData.for		\
 	CropMod.for		\
@@ -13,6 +14,7 @@ SRC=	CropModData.for		\
 STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
             ../../../Shared/ComponentInterface/EntryPoints.o   \
             ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o   \
+            ../../../Shared/ComponentInterface/FORTRANdatatypes.o   \
             ../../../Shared/ComponentInterface/datatypes.o
 
 OBJ=	CropModData.o		\
@@ -32,19 +34,22 @@ FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
 #-----------------------------------------------------------------------
 # Required libraries
 
-LDFLAGS=	-L$(APSROOT)/apsim/infra/lib		\
-		-L$(APSROOT)/apsim/croptemp/lib		\
+LDFLAGS=	-L$(APSROOT)/lib		\
+		-L$(APSROOT)/apsim/infra/lib	\
+		-L$(APSROOT)/apsim/croptemp/lib	\
 		-L/usr/lib $(LDDEBUGFLAGS)
 
-LIBS=		-lapsinfra -lcroptemp
+LIBS=		-lComponentInterface -lapsinfra -lcroptemp
 
 #-----------------------------------------------------------------------
 # The rules
 
-all: $(LIB)
+all: $(LIB) $(DLL)
 
 $(LIB):	$(OBJ)
 
+$(DLL):	$(OBJ)
+	g++ $(OBJ) -o $(DLL) -shared $(LDFLAGS) $(LIBS)
 
 FORCE:
 

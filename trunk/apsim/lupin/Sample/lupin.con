@@ -2,7 +2,7 @@ version = 5.2
 
 [APSIM.sample_lupin]
 title=lupin Sample Simulation
-module = clock      lupin.par[sample] %apsuite\apsim\clock\clock.ini[standard]
+module = clock      lupin.par[sample] %apsuite/apsim/clock/clock.ini[standard]
 module = report     lupin.par[sample]
 module = input(Met)        %apsuite/apsim/met/sample/dalby.met[weather]
 module = manager    lupin.par[sample]

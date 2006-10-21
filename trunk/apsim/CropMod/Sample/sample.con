@@ -12,7 +12,7 @@ module = fertiliz            sample.par [sunflower]  %apsuite/apsim/fertiliz/fer
 module = soilwat2            %apsuite/apsim/soilwat2/sample/soilwat2.par[black_earth]     %apsuite/apsim/soilwat2/soilwat2.ini [standard]
 module = soiln2              %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]     %apsuite/apsim/soiln2/soiln2.ini     [standard]
 module = SurfaceOM           %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = CropMod(sunflower)  sample.par[sample] %apsuite/apsim/sunflower/sunflower.ini [standard]
+module = CropMod(sunflower)  sample.par[sample] %apsuite/apsim/sunflower/Sunflower.ini [standard]
 module = SummaryFile sample.par[sunflower]
 
 
@@ -29,7 +29,7 @@ module = canopy   sample.par [intercropping]
 module = soilwat2 %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]    %apsuite/apsim/soilwat2/soilwat2.ini [standard]
 module = soiln2   %apsuite/apsim/soiln2/soiln2.ini [standard]                  %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]
 module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
-module = plant(cowpea) sample.par[sample] %apsuite/apsim/cowpea/cowpea.ini[standard]
-module = cropmod(sunflower) sample.par[sample] %apsuite/apsim/sunflower/sunflower.ini [standard]
+module = Plant(cowpea) sample.par[sample] %apsuite/apsim/cowpea/cowpea.ini[standard]
+module = cropmod(sunflower) sample.par[sample] %apsuite/apsim/sunflower/Sunflower.ini [standard]
 module = SummaryFile sample.par[intercropping]
 

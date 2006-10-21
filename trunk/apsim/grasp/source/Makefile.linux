@@ -1,15 +1,14 @@
 #=======================================================================
 #-----------------------------------------------------------------------
-#     Makefile for APSIM millet module
+#     Makefile for APSIM grasp module
 #-----------------------------------------------------------------------
 #=======================================================================
 
 DESTDIR ?= /usr/local/apsim
 
-LIB=	../lib/millet.so
+LIB=	../lib/grasp.so
 
-SRC=	Registrations.f90	\
-	millet.for
+SRC=	ozcot.for
 
 STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
             ../../../Shared/ComponentInterface/EntryPoints.o   \
@@ -17,20 +16,18 @@ STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
             ../../../Shared/ComponentInterface/FORTRANdatatypes.o   \
             ../../../Shared/ComponentInterface/datatypes.o
 
-OBJ=	Registrations.o		\
-	mil_main.o		\
+OBJ=	Registrations.o grasp.o		\
 	$(STATICOBJ)
 
 #-----------------------------------------------------------------------
 # Compiler options
 
 FC=		lf95
-CPPFLAGS=	-I$(APSROOT)/apsim/infra/source	\
-		-I$(APSROOT)/apsim/croptemp/source \
-		-I$(APSROOT)/apsim/CropMod/source \
-		-M. -M$(APSROOT)/apsim/infra/source \
-		-M$(APSROOT)/apsim/CropMod/source \
-		$(CPPDEBUGFLAGS)
+CPPFLAGS=	-I$(APSROOT)/apsim/infra/source		\
+		-I$(APSROOT)/apsim/croptemp/source	\
+		-M$(APSROOT)/apsim/infra/source 	\
+		-M$(APSROOT)/apsim/croptemp/source $(CPPDEBUGFLAGS)
+
 FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
 		--ml cdecl --staticlink
 
@@ -39,10 +36,9 @@ FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
 
 LDFLAGS=	-L$(APSROOT)/lib		\
 		-L$(APSROOT)/apsim/infra/lib	 \
-		-L$(APSROOT)/apsim/croptemp/lib	 \
-		-L/usr/lib $(LDDEBUGFLAGS)
+		-L$(APSROOT)/apsim/croptemp/lib	$(LDDEBUGFLAGS)
 
-LIBS=		 -lcroptemp -lapsinfra -lComponentInterface -lc
+LIBS=		-lComponentInterface -lcroptemp -lapsinfra 
 
 #-----------------------------------------------------------------------
 # The rules
@@ -61,9 +57,9 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
-	if [ ! -d $(DESTDIR)/apsim/millet/lib ]; then mkdir -p $(DESTDIR)/apsim/millet/lib; fi 
-	cp $(LIB) $(DESTDIR)/apsim/millet/lib
-	cp ../millet.ini $(DESTDIR)/apsim/millet
+	if [ ! -d $(DESTDIR)/apsim/grasp/lib ]; then mkdir -p $(DESTDIR)/apsim/grasp/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/grasp/lib
+	cp ../grasp.ini $(DESTDIR)/apsim/grasp
 
 %.o:	%.for
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
@@ -72,5 +68,5 @@ install: all
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
 
 Registrations.o: Registrations.f90
-Registrations.f90: ../millet.interface 
-	$(APSROOT)/Bin/CreateComponentInterfaceSource ../millet.interface
+Registrations.f90: ../grasp.interface 
+	$(APSROOT)/Bin/CreateComponentInterfaceSource ../grasp.interface
