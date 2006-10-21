@@ -34,7 +34,7 @@ void TestAmpersandInTitle()
 
    BOOST_CHECK(contents ==
       "<?xml version=\"1.0\"?>\n"
-      "<simulation executable=\"%apsuite\\apsim\\protocolmanager\\lib\\protocolmanager.dll\" version=\"5.0\">\n"
+      "<simulation executable=\"%apsuite/apsim/protocolmanager/lib/protocolmanager.dll\" version=\"5.2\">\n"
       "   <title><![CDATA[WHEAT & SAMPLE Simulation]]></title>\n"
       "</simulation>\n");
 
