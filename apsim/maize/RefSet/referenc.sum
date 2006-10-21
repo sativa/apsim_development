@@ -11,7 +11,7 @@
 
      Version                = 5.2
      Title                  =
-     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\clock\lib\clock.dll
      Component DLL          = c:\development\apsim\report\lib\report.dll
      Component DLL          = c:\development\apsim\input\lib\input.dll
@@ -22,7 +22,7 @@
      Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\maize\lib\maize.dll
-     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\development\apsim\Tracker\lib\Tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -61,7 +61,7 @@
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: REFERENC.MET
+     INPUT File name: referenc.met
 
 ------- fertiliz Initialisation -----------------------------------------------
       Initialising
@@ -294,7 +294,7 @@
      
      
 
-------- tracker Initialisation ------------------------------------------------
+------- Tracker Initialisation ------------------------------------------------
      Tracker variables:
         average of maize.nfact_photo on process from reported to now as avg_nfact_photo
         average of maize.swdef_photo on process from reported to now as avg_swdef_photo
