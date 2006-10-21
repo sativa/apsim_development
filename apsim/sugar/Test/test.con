@@ -5,31 +5,31 @@ version = 5.2
 title = Sugar Test for capping of crop water use
 
 
-module = clock    test.par [sample] %apsuite/apsim/clock/clock.ini[standard]
-module = report   test.par [sample]
-module = input(met)      %apsuite/apsim/met/SAMPLE/INGHAM.MET [weather]
-module = manager  test.par [sample]
-module = irrigate test.par [sample]
+module = clock    Test.par [sample] %apsuite/apsim/clock/clock.ini[standard]
+module = report   Test.par [sample]
+module = input(met)      %apsuite/apsim/met/sample/ingham.met [weather]
+module = manager  Test.par [sample]
+module = irrigate Test.par [sample]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini [standard]
 module = soilwat2 %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]     %apsuite/apsim/soilwat2/soilwat2.ini [standard]
 module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [sugar_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]     %apsuite/apsim/soiln2/soiln2.ini [standard]
-module = sugar    test.par [sample]      %apsuite/apsim/sugar/sugar.ini [standard]
-module = SummaryFile   test.par [sample]
+module = sugar    Test.par [sample]      %apsuite/apsim/sugar/sugar.ini [standard]
+module = SummaryFile   Test.par [sample]
 
 
 [apsim.sample2_sugar]
 
 title = Sugar Test for defect d-514, Sugar Lodging N problem from Heidi Horan
 
-module = clock    test.par [sample]       %apsuite/apsim/clock/clock.ini[standard]
-module = report   test.par [sample2]
-module = input(met)      %apsuite/apsim/met/SAMPLE/INGHAM.MET [weather]
-module = manager  test.par [sample2]
-module = irrigate test.par [sample]
+module = clock    Test.par [sample]       %apsuite/apsim/clock/clock.ini[standard]
+module = report   Test.par [sample2]
+module = input(met)      %apsuite/apsim/met/sample/ingham.met [weather]
+module = manager  Test.par [sample2]
+module = irrigate Test.par [sample]
 module = fertiliz %apsuite/apsim/fertiliz/fertiliz.ini [standard]
 module = soilwat2 %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]     %apsuite/apsim/soilwat2/soilwat2.ini [standard]
 module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [sugar_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
 module = soiln2   %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]     %apsuite/apsim/soiln2/soiln2.ini [standard]
-module = sugar    test.par [sample]      %apsuite/apsim/sugar/sugar.ini [standard]
-module = SummaryFile   test.par [sample2]
+module = sugar    Test.par [sample]      %apsuite/apsim/sugar/sugar.ini [standard]
+module = SummaryFile   Test.par [sample2]

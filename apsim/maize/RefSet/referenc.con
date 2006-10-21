@@ -1,6 +1,6 @@
 version = 5.2
 [apsim.Maize_reference_data_set]
-module = clock      referenc.par [reference] %apsuite\apsim\clock\clock.ini[standard]
+module = clock      referenc.par [reference] %apsuite/apsim/clock/clock.ini[standard]
 module = report     referenc.par [reference]
 module = input(met) referenc.met [reference]
 module = manager    referenc.par [reference]

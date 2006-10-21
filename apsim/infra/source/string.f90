@@ -1,13 +1,13 @@
 module StringModule
 
-   dll_import strings_equal
+   ml_external strings_equal
    interface
 
-      function Strings_equal(st1, st2)
+      function strings_equal(st1, st2)
       character (len=*), intent(in) :: st1
       character (len=*), intent(in) :: st2
-      logical                       :: Strings_equal
-      end function Strings_equal
+      logical                       :: strings_equal
+      end function strings_equal
 
    end interface
 
