@@ -55,10 +55,7 @@ void ApsimRuns::addSimulationsFromFile(const std::string& fileName)
          vector<string> conFileSections;
          runFile.getRun(runNames[r], fileName, conFileSections);
          Replace_all(fileName, "%apsuite", getApsimDirectory().c_str());
-         if (conFileSections.size() == 0)
-            addSimulationsFromFile(fileName);
-         else
-            addSimulationsFromConFile(fileName, conFileSections);
+         addSimulationsFromFile(fileName);
          }
       }
    else if (fileExtensionEquals(fileName, "con"))
