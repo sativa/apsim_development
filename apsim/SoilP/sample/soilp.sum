@@ -11,16 +11,16 @@
 
      Version                = 5.2
      Title                  = soilp Sample Simulation
-     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
      Component DLL          = c:\development\apsim\clock\lib\clock.dll
      Component DLL          = c:\development\apsim\report\lib\report.dll
-     Component DLL          = c:\development\apsim\Input\lib\Input.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
      Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
      Component DLL          = c:\development\apsim\manager\lib\manager.dll
      Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
      Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
-     Component DLL          = c:\development\apsim\soilp\lib\soilp.dll
+     Component DLL          = c:\development\apsim\SoilP\lib\SoilP.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -48,7 +48,7 @@
 
 ------- Met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\met\SAMPLE\DALBY.MET
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
 
 ------- fertiliz Initialisation -----------------------------------------------
       Initialising
@@ -232,7 +232,7 @@
            Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
           ---------------------------------------------------------
 
-------- soilp Initialisation --------------------------------------------------
+------- SoilP Initialisation --------------------------------------------------
      
         - Reading Constants
      
@@ -300,7 +300,7 @@
                                              Incorporated Depth    =   200.00
 20 January 1988(Day of year=20), manager: 
      Manager sending message :- soilp tillage
-20 January 1988(Day of year=20), soilp: 
+20 January 1988(Day of year=20), SoilP: 
      Banded P destroyed
 30 January 1988(Day of year=30), clock: 
      Simulation is terminating due to end criteria being met.

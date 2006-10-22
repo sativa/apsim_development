@@ -28,14 +28,14 @@
      Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\solute\lib\solute.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
-     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
-     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
-     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\development\apsim\Plant\lib\Plant.dll
+     Component DLL          = c:\development\apsim\Plant\lib\Plant.dll
+     Component DLL          = c:\development\apsim\Plant\lib\Plant.dll
+     Component DLL          = c:\development\apsim\Plant\lib\Plant.dll
+     Component DLL          = c:\development\apsim\Tracker\lib\Tracker.dll
+     Component DLL          = c:\development\apsim\Tracker\lib\Tracker.dll
+     Component DLL          = c:\development\apsim\Tracker\lib\Tracker.dll
+     Component DLL          = c:\development\apsim\Tracker\lib\Tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -901,7 +901,7 @@
 ------- wheat Initialisation --------------------------------------------------
      phenology model: Wheat
 
-------- tracker1 Initialisation -----------------------------------------------
+------- Tracker1 Initialisation -----------------------------------------------
      Tracker variables:
         sum of met.rain on end_of_day from report1.reported to now as sum@met_rain
         sum of weed.ep on end_of_day from report1.reported to now as sum@weed_ep
@@ -918,12 +918,12 @@
         sum of lucerne.dlt_n_fixed on end_of_day from report1.reported to now as sum@lucerne_dlt_n_fixed
         sum of canola.dlt_n_fixed on end_of_day from report1.reported to now as sum@canola_dlt_n_fixed
 
-------- tracker2 Initialisation -----------------------------------------------
+------- Tracker2 Initialisation -----------------------------------------------
      Tracker variables:
         sum of lucerne.dlt_n_fixed on end_of_day from report2.reported to now as sum@lucerne_dlt_n_fixed
         sum of canola.dlt_n_fixed on end_of_day from report2.reported to now as sum@canola_dlt_n_fixed
 
-------- tracker3 Initialisation -----------------------------------------------
+------- Tracker3 Initialisation -----------------------------------------------
      Tracker variables:
         sum of met.rain on end_of_day from report4.reported to now as sum@met_rain
         sum of weed.ep on end_of_day from report4.reported to now as sum@weed_ep
@@ -935,7 +935,7 @@
         sum of apswim.drain on end_of_day from report4.reported to now as sum@apswim_drain
         sum of apswim.eo on end_of_day from report4.reported to now as sum@apswim_eo
 
-------- tracker4 Initialisation -----------------------------------------------
+------- Tracker4 Initialisation -----------------------------------------------
      Tracker variables:
         sum of apswim.leach_brA on end_of_day from report6.reported to now as sum@apswim_leach_brA
         sum of apswim.leach_brB on end_of_day from report6.reported to now as sum@apswim_leach_brB

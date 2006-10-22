@@ -30,17 +30,17 @@
      Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
      Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
      Component DLL          = c:\development\apsim\solute\lib\solute.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\plant\lib\plant.dll
-     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
-     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
-     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
-     Component DLL          = c:\development\apsim\tracker\lib\tracker.dll
+     Component DLL          = c:\development\apsim\Plant\lib\Plant.dll
+     Component DLL          = c:\development\apsim\Plant\lib\Plant.dll
+     Component DLL          = c:\development\apsim\Plant\lib\Plant.dll
+     Component DLL          = c:\development\apsim\Plant\lib\Plant.dll
+     Component DLL          = c:\development\apsim\Plant\lib\Plant.dll
+     Component DLL          = c:\development\apsim\Plant\lib\Plant.dll
+     Component DLL          = c:\development\apsim\Plant\lib\Plant.dll
+     Component DLL          = c:\development\apsim\Tracker\lib\Tracker.dll
+     Component DLL          = c:\development\apsim\Tracker\lib\Tracker.dll
+     Component DLL          = c:\development\apsim\Tracker\lib\Tracker.dll
+     Component DLL          = c:\development\apsim\Tracker\lib\Tracker.dll
 
 ------- clock Initialisation --------------------------------------------------
      Sequencer phases:
@@ -1197,7 +1197,7 @@
 ------- wheat Initialisation --------------------------------------------------
      phenology model: Wheat
 
-------- tracker1 Initialisation -----------------------------------------------
+------- Tracker1 Initialisation -----------------------------------------------
      Tracker variables:
         sum of met.rain on process from report1.reported to now as sum@met_rain
         sum of manager.T on process from report1.reported to now as sum@manager_T
@@ -1215,7 +1215,7 @@
         sum of lucerne.dlt_n_fixed on process from report1.reported to now as sum@lucerne_dlt_n_fixed
         sum of lupin.dlt_n_fixed on process from report1.reported to now as sum@lupin_dlt_n_fixed
 
-------- tracker2 Initialisation -----------------------------------------------
+------- Tracker2 Initialisation -----------------------------------------------
      Tracker variables:
         sum of met.rain on process from report2.reported to now as sum@met_rain
         sum of wheat.ep on process from report2.reported to now as sum@wheat_ep
@@ -1232,7 +1232,7 @@
         sum of apswim.eo on process from report2.reported to now as sum@apswim_eo
         sum of apswim.eos on process from report2.reported to now as sum@apswim_eos
 
-------- tracker3 Initialisation -----------------------------------------------
+------- Tracker3 Initialisation -----------------------------------------------
      Tracker variables:
         average of wheat.swdef_photo on process from report3.reported to now as avg@wheat_swdef_photo
         average of wheat.nfact_photo on process from report3.reported to now as avg@wheat_nfact_photo
@@ -1245,7 +1245,7 @@
         average of lupin.nfact_photo on process from report3.reported to now as avg@lupin_nfact_photo
         sum of lupin.dlt_n_fixed on process from report3.reported to now as sum@lupin_dlt_n_fixed
 
-------- tracker5 Initialisation -----------------------------------------------
+------- Tracker5 Initialisation -----------------------------------------------
      Tracker variables:
         average of weed1.nfact_photo on process from report5.reported to now as avg@weed1_nfact_photo
         average of weed1.swdef_photo on process from report5.reported to now as avg@weed1_swdef_photo

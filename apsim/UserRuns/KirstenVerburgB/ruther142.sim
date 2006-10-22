@@ -949,7 +949,7 @@
          </sand>
       </initdata>
    </component>
-   <component name="canola" executable = "%apsuite/apsim/plant/lib/plant.dll">
+   <component name="canola" executable = "%apsuite/apsim/Plant/lib/Plant.dll">
       <initdata>
          <uptake_source>calc</uptake_source>
          <ll>0.03   0.03   0.05   0.13    0.15     0.16     0.18     0.22     0.22     0.21     0.19     0.18     0.22     0.23     0.22     0.22     0.22    0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22  ()</ll>
@@ -1777,7 +1777,7 @@
          </french_winter>
       </initdata>
    </component>
-   <component name="lucerne" executable = "%apsuite/apsim/plant/lib/plant.dll">
+   <component name="lucerne" executable = "%apsuite/apsim/Plant/lib/Plant.dll">
       <initdata>
          <uptake_source>calc</uptake_source>
          <ll>0.03   0.03   0.05   0.13    0.15     0.16     0.18     0.22     0.22     0.21     0.19     0.18     0.22     0.23     0.22     0.22     0.22    0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22  ()</ll>
@@ -2270,7 +2270,7 @@
          </Longdong>
       </initdata>
    </component>
-   <component name="lupin" executable = "%apsuite/apsim/plant/lib/plant.dll">
+   <component name="lupin" executable = "%apsuite/apsim/Plant/lib/Plant.dll">
       <initdata>
          <uptake_source>calc</uptake_source>
          <ll>0.03   0.03   0.05   0.13    0.15     0.16     0.18     0.22     0.22     0.21     0.19     0.18     0.22     0.23     0.22     0.22     0.22    0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22  ()</ll>
@@ -2744,7 +2744,7 @@
          </short>
       </initdata>
    </component>
-   <component name="weed" executable = "%apsuite/apsim/plant/lib/plant.dll">
+   <component name="weed" executable = "%apsuite/apsim/Plant/lib/Plant.dll">
       <initdata>
          <uptake_source>calc</uptake_source>
          <ll>0.03   0.03   0.05   0.13    0.15     0.16     0.18     0.22     0.22     0.21     0.19     0.18     0.22     0.23     0.22     0.22     0.22    0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22  ()</ll>
@@ -3157,7 +3157,7 @@
          </late>
       </initdata>
    </component>
-   <component name="wheat" executable = "%apsuite/apsim/plant/lib/plant.dll">
+   <component name="wheat" executable = "%apsuite/apsim/Plant/lib/Plant.dll">
       <initdata>
          <uptake_source>calc</uptake_source>
          <ll>0.03   0.03   0.05   0.13    0.15     0.16     0.18     0.22     0.22     0.21     0.19     0.18     0.22     0.23     0.22     0.22     0.22    0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22     0.22  ()</ll>
