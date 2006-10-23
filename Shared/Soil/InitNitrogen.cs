@@ -119,7 +119,8 @@ namespace CSGeneral
 			double[] Thickness = ParentSoil.Thickness;
 			double[] KgHa = new double[ppm.Length];
 
-			for (int i = 0; i != ppm.Length; i++)
+			//for (int i = 0; i != ppm.Length; i++)
+            for (int i = 0; i != Thickness.Length; i++)
 				KgHa[i] = ppm[i] / 100 * (BD[i] * Thickness[i]);
 
 			return KgHa; 
