@@ -1,8 +1,8 @@
 <simulations name="untitled" version="5">
   <simulation name="Sample Economics Simulation">
     <clock name="clock">
-      <start_date name="start_date" description="Select the start date of the simulation" type="date">31/12/1940</start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1942</end_date>
+      <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/1940" ubound="31/12/1989">31/12/1940</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/1940" ubound="31/12/1989">31/12/1942</end_date>
     </clock>
     <summaryfile name="summaryfile">
       <filename name="filename">Sample Economics Simulation.sum</filename>
