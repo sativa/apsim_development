@@ -35,12 +35,12 @@
         post
      Output variables:
         dd/mm/yyyy as Date
-        SweetSorghum.zadok_stage  as zadok_stage
-        SweetSorghum.lai  as lai
-        SweetSorghum.leaf_wt  as leaf_wt
-        SweetSorghum.stem_wt  as stem_wt
-        SweetSorghum.head_wt  as head_wt
-        SweetSorghum.biomass_wt  as biomass_wt
+        SweetSorghum.zadok_stage
+        SweetSorghum.lai
+        SweetSorghum.leaf_wt
+        SweetSorghum.stem_wt
+        SweetSorghum.head_wt
+        SweetSorghum.biomass_wt
      
      Output file = PacSeeds Planting1.out
      Format = normal
@@ -95,7 +95,7 @@
      END of rules
      
 
-------- LawesSoil Water Initialisation ----------------------------------------
+------- Soil Water Initialisation ---------------------------------------------
      
          - Reading constants
      
@@ -186,7 +186,7 @@
                       Effective Cover from Surface Materials =   0.4
      
 
-------- LawesSoil Nitrogen Initialisation -------------------------------------
+------- Soil Nitrogen Initialisation ------------------------------------------
      
         - Reading Parameters
      
@@ -244,12 +244,12 @@
         post
      Output variables:
         dd/mm/yyyy as Date
-        SweetSorghum.zadok_stage  as zadok_stage
-        SweetSorghum.lai  as lai
-        SweetSorghum.leaf_wt  as leaf_wt
-        SweetSorghum.stem_wt  as stem_wt
-        SweetSorghum.head_wt  as head_wt
-        SweetSorghum.biomass_wt  as biomass_wt
+        SweetSorghum.zadok_stage
+        SweetSorghum.lai
+        SweetSorghum.leaf_wt
+        SweetSorghum.stem_wt
+        SweetSorghum.head_wt
+        SweetSorghum.biomass_wt
      
      Output file = PacSeeds Planting2.out
      Format = normal
@@ -304,7 +304,7 @@
      END of rules
      
 
-------- LawesSoil Water Initialisation ----------------------------------------
+------- Soil Water Initialisation ---------------------------------------------
      
          - Reading constants
      
@@ -395,7 +395,7 @@
                       Effective Cover from Surface Materials =   0.6
      
 
-------- LawesSoil Nitrogen Initialisation -------------------------------------
+------- Soil Nitrogen Initialisation ------------------------------------------
      
         - Reading Parameters
      
