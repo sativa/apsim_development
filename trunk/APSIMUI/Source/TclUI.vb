@@ -81,16 +81,18 @@ Public Class TclUI
 #End Region
 
     Public Overrides Sub Save()
-        Dim newXML As String
-        newXML = AxTclControl1.GetVar("XMLDoc", 1)
-        If (newXML <> "") Then
-            ' Butt-ugly way of rewriting the whole inner xml document 
-            Dim frag As String
-            frag = newXML.Substring(newXML.IndexOf(">") + 1)
-            frag = frag.Substring(frag.IndexOf("<"))
-            frag = frag.Substring(0, frag.LastIndexOf("<") - 1)
+        If Not IsNothing(Me.Controller.Data) Then
+            Dim newXML As String
+            newXML = AxTclControl1.GetVar("XMLDoc", 1)
+            If (newXML <> "") Then
+                ' Butt-ugly way of rewriting the whole inner xml document 
+                Dim frag As String
+                frag = newXML.Substring(newXML.IndexOf(">") + 1)
+                frag = frag.Substring(frag.IndexOf("<"))
+                frag = frag.Substring(0, frag.LastIndexOf("<"))
 
-            Me.Controller.Data.InnerXML = frag
+                Me.Controller.Data.InnerXML = frag
+            End If
         End If
     End Sub
 
