@@ -827,7 +827,10 @@ Public Class MainUI
                 Else
                     Dim ReturnString As String = ""
                     For Each St As String In ExportForm.SelectedOutputFiles
-                        ReturnString += "," & St
+                        If ReturnString <> "" Then
+                            ReturnString += ","
+                        End If
+                        ReturnString += St
                     Next
                     Return ReturnString
                 End If
