@@ -22,25 +22,44 @@
         prepare
         process
         post
-     Simulation start date = 30/10/1991
-     Simulation end date   = 31/12/1992
+     Simulation start date = 30/10/1996
+     Simulation end date   = 22/03/1997
      Time step =           = 1440 (mins)
 
 ------- met Initialisation ----------------------------------------------------
      Sparse data is not allowed
-     INPUT File name: c:\development\apsim\SweetCorn\Validation\Lincoln9192.met
+     INPUT File name: Lincoln9697.met
 
 ------- outputfile Initialisation ---------------------------------------------
      Output frequency:
         post
      Output variables:
-        dd/mm/yyyy  as Date
-        SweetCorn.zadok_stage  as zadok_stage
-        SweetCorn.lai  as lai
-        SweetCorn.leaf_wt  as leaf_wt
-        SweetCorn.stem_wt  as stem_wt
-        SweetCorn.head_wt  as head_wt
-        SweetCorn.biomass_wt  as biomass_wt
+        dd/mmm/yyyy as Date
+        SweetCorn.zadok_stage
+        SweetCorn.lai
+        SweetCorn.leaf_wt
+        SweetCorn.stem_wt
+        SweetCorn.head_wt
+        SweetCorn.biomass_wt
+        SweetCorn.swdef_photo
+        SweetCorn.node_no
+        SweetCorn.node_no_sen
+        SweetCorn.node_no_fx
+        SweetCorn.nfact_photo
+        SweetCorn.temp_stress_photo
+        SweetCorn.tt_tot
+        SweetCorn.das
+        Irrigation.irrigation
+        SweetCorn.root_depth
+        sw_dep()
+        sw
+        SweetCorn.dlt_lai_pot
+        SweetCorn.ep
+        SweetCorn.sw_demand
+        SweetCorn.nfact_expan
+        SweetCorn.swdef_expan
+        runoff
+        es
      
      Output file = NZIrrigation FI.out
      Format = normal
@@ -76,34 +95,34 @@
            Irrigation Allocation Budget (Disabled)
           -----------------------------------------------
 
-------- LincolnCrop Initialisation --------------------------------------------
+------- manager Initialisation ------------------------------------------------
      Manager rules:
      
      SECTION:- end_of_day
-            if sweetcorn.stage_name = 'harvest_ripe' or sweetcorn.plant_status = 'dead' then
-               sweetcorn  harvest
-               sweetcorn  end_crop
-            endif
+                if sweetcorn.stage_name = 'harvest_ripe' or sweetcorn.plant_status = 'dead' then
+       sweetcorn  harvest
+       sweetcorn  end_crop
+                endif
      
      SECTION:- sweetcorn.sowing
-         fertiliser apply amount = 24 (kg/ha), depth = 50 (mm), type = no3_n
+             fertiliser apply amount = 24 (kg/ha), depth = 50 (mm), type = no3_n
      
      SECTION:- start_of_day
-       if (today = date('30-oct') then
-                     sweetcorn sow plants =5.7, sowing_depth = 50, cultivar = challenger, row_spacing = 700
-         endif
-     
-     SECTION:- start_of_day
-          if (today = date('20/11/0001') then
-             n_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
-             if (n_topsoil < 1000) then
-                fertiliser apply amount = 200 (kg/ha), depth = 50 (mm), type = urea_n ()
+           if (today = date('30-oct') then
+             sweetcorn sow plants =5.7, sowing_depth = 50, cultivar = challenger, row_spacing = 700
              endif
-          endif
+     
+     SECTION:- start_of_day
+              if (today = date('20-nov') then
+     n_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+     if (n_topsoil < 1000) then
+        fertiliser apply amount = 200 (kg/ha), depth = 50 (mm), type = urea_n ()
+     endif
+              endif
      END of rules
      
 
-------- Lincoln Water Initialisation ------------------------------------------
+------- soil Water Initialisation ---------------------------------------------
      
          - Reading constants
      
@@ -119,13 +138,13 @@
               Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
                 mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
         ---------------------------------------------------------------------
-            0.-  150.  0.130  0.260  0.410  0.470  0.410  1.320  0.762  0.300
-          150.-  300.  0.234  0.260  0.430  0.480  0.430  1.300  0.190  0.300
-          300.-  600.  0.260  0.260  0.460  0.510  0.460  1.230  0.048  0.300
-          600.-  900.  0.260  0.260  0.440  0.490  0.440  1.270  0.000  0.300
-          900.- 1200.  0.250  0.250  0.400  0.450  0.400  1.370  0.000  0.300
-         1200.- 1500.  0.280  0.280  0.410  0.460  0.329  1.350  0.000  0.300
-         1500.- 1800.  0.310  0.310  0.380  0.460  0.310  1.350  0.000  0.300
+            0.-  150.  0.050  0.100  0.290  0.350  0.290  1.320  0.762  0.300
+          150.-  300.  0.100  0.100  0.290  0.350  0.290  1.300  0.190  0.300
+          300.-  600.  0.100  0.100  0.290  0.350  0.290  1.230  0.048  0.300
+          600.-  900.  0.100  0.100  0.290  0.350  0.290  1.270  0.000  0.300
+          900.- 1200.  0.100  0.100  0.290  0.350  0.290  1.370  0.000  0.300
+         1200.- 1500.  0.100  0.100  0.290  0.350  0.286  1.350  0.000  0.300
+         1500.- 1800.  0.100  0.100  0.290  0.350  0.100  1.350  0.000  0.300
         ---------------------------------------------------------------------
      
      
@@ -136,15 +155,15 @@
                           (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
                             mm        mm          mm         mm
           ---------------------------------------------------------
-            0.-  150.      39.00      22.50      22.50       9.00
-          150.-  300.      39.00      25.50      25.50       7.50
-          300.-  600.      78.00      60.00      60.00      15.00
-          600.-  900.      78.00      54.00      54.00      15.00
-          900.- 1200.      75.00      45.00      45.00      15.00
-         1200.- 1500.      84.00      14.70      39.00      15.00
-         1500.- 1800.      93.00       0.00      21.00      24.00
+            0.-  150.      15.00      28.50      28.50       9.00
+          150.-  300.      15.00      28.50      28.50       9.00
+          300.-  600.      30.00      57.00      57.00      18.00
+          600.-  900.      30.00      57.00      57.00      18.00
+          900.- 1200.      30.00      57.00      57.00      18.00
+         1200.- 1500.      30.00      55.80      57.00      18.00
+         1500.- 1800.      30.00       0.00      57.00      18.00
           ---------------------------------------------------------
-               Totals     486.00     221.70     267.00     100.50
+               Totals     180.00     283.80     342.00     108.00
           ---------------------------------------------------------
      
      
@@ -194,11 +213,12 @@
                       Effective Cover from Surface Materials =   0.0
      
 
-------- Lincoln Nitrogen Initialisation ---------------------------------------
-     
-        - Reading Constants
+------- soil Nitrogen Initialisation ------------------------------------------
      
         - Reading Parameters
+     
+        - Reading Constants
+     Using standard soil mineralisation for soil type Black Vertosol
      
      
      
@@ -250,13 +270,32 @@
      Output frequency:
         post
      Output variables:
-        dd/mm/yyyy  as Date
-        SweetCorn.zadok_stage  as zadok_stage
-        SweetCorn.lai  as lai
-        SweetCorn.leaf_wt  as leaf_wt
-        SweetCorn.stem_wt  as stem_wt
-        SweetCorn.head_wt  as head_wt
-        SweetCorn.biomass_wt  as biomass_wt
+        dd/mmm/yyyy as Date
+        SweetCorn.zadok_stage
+        SweetCorn.lai
+        SweetCorn.leaf_wt
+        SweetCorn.stem_wt
+        SweetCorn.head_wt
+        SweetCorn.biomass_wt
+        SweetCorn.swdef_photo
+        SweetCorn.node_no
+        SweetCorn.node_no_sen
+        SweetCorn.node_no_fx
+        SweetCorn.nfact_photo
+        SweetCorn.temp_stress_photo
+        SweetCorn.tt_tot
+        SweetCorn.das
+        Irrigation.irrigation
+        SweetCorn.root_depth
+        sw_dep()
+        sw
+        SweetCorn.dlt_lai_pot
+        SweetCorn.ep
+        SweetCorn.sw_demand
+        SweetCorn.nfact_expan
+        SweetCorn.swdef_expan
+        runoff
+        es
      
      Output file = NZIrrigation FD.out
      Format = normal
@@ -286,40 +325,40 @@
                       Irrigation parameters
           -----------------------------------------------
            Irrigation Schedule (Disabled)
-           Automatic Irrigation Application (Enabled)
+           Automatic Irrigation Application (Disabled)
            critical fraction of available soil water =  0.50
            depth for calculating available soil water =     600.00
            Irrigation Allocation Budget (Disabled)
           -----------------------------------------------
 
-------- LincolnCrop Initialisation --------------------------------------------
+------- manager Initialisation ------------------------------------------------
      Manager rules:
      
      SECTION:- end_of_day
-            if sweetcorn.stage_name = 'harvest_ripe' or sweetcorn.plant_status = 'dead' then
-               sweetcorn  harvest
-               sweetcorn  end_crop
-            endif
+                if sweetcorn.stage_name = 'harvest_ripe' or sweetcorn.plant_status = 'dead' then
+       sweetcorn  harvest
+       sweetcorn  end_crop
+                endif
      
      SECTION:- sweetcorn.sowing
-         fertiliser apply amount = 24 (kg/ha), depth = 50 (mm), type = no3_n
+             fertiliser apply amount = 24 (kg/ha), depth = 50 (mm), type = no3_n
      
      SECTION:- start_of_day
-       if (today = date('30-oct') then
-                     sweetcorn sow plants =5.7, sowing_depth = 50, cultivar = challenger, row_spacing = 700
-         endif
-     
-     SECTION:- start_of_day
-          if (today = date('20/11/0001') then
-             n_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
-             if (n_topsoil < 1000) then
-                fertiliser apply amount = 200 (kg/ha), depth = 50 (mm), type = urea_n ()
+           if (today = date('30-oct') then
+             sweetcorn sow plants =5.7, sowing_depth = 50, cultivar = challenger, row_spacing = 700
              endif
-          endif
+     
+     SECTION:- start_of_day
+              if (today = date('20-nov') then
+     n_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+     if (n_topsoil < 1000) then
+        fertiliser apply amount = 200 (kg/ha), depth = 50 (mm), type = urea_n ()
+     endif
+              endif
      END of rules
      
 
-------- Lincoln Water Initialisation ------------------------------------------
+------- soil Water Initialisation ---------------------------------------------
      
          - Reading constants
      
@@ -335,13 +374,13 @@
               Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
                 mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
         ---------------------------------------------------------------------
-            0.-  150.  0.130  0.260  0.410  0.470  0.410  1.320  0.762  0.300
-          150.-  300.  0.234  0.260  0.430  0.480  0.430  1.300  0.190  0.300
-          300.-  600.  0.260  0.260  0.460  0.510  0.460  1.230  0.048  0.300
-          600.-  900.  0.260  0.260  0.440  0.490  0.440  1.270  0.000  0.300
-          900.- 1200.  0.250  0.250  0.400  0.450  0.400  1.370  0.000  0.300
-         1200.- 1500.  0.280  0.280  0.410  0.460  0.329  1.350  0.000  0.300
-         1500.- 1800.  0.310  0.310  0.380  0.460  0.310  1.350  0.000  0.300
+            0.-  150.  0.050  0.100  0.290  0.350  0.290  1.320  0.762  0.300
+          150.-  300.  0.100  0.100  0.290  0.350  0.290  1.300  0.190  0.300
+          300.-  600.  0.100  0.100  0.290  0.350  0.290  1.230  0.048  0.300
+          600.-  900.  0.100  0.100  0.290  0.350  0.290  1.270  0.000  0.300
+          900.- 1200.  0.100  0.100  0.290  0.350  0.290  1.370  0.000  0.300
+         1200.- 1500.  0.100  0.100  0.290  0.350  0.286  1.350  0.000  0.300
+         1500.- 1800.  0.100  0.100  0.290  0.350  0.100  1.350  0.000  0.300
         ---------------------------------------------------------------------
      
      
@@ -352,15 +391,15 @@
                           (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
                             mm        mm          mm         mm
           ---------------------------------------------------------
-            0.-  150.      39.00      22.50      22.50       9.00
-          150.-  300.      39.00      25.50      25.50       7.50
-          300.-  600.      78.00      60.00      60.00      15.00
-          600.-  900.      78.00      54.00      54.00      15.00
-          900.- 1200.      75.00      45.00      45.00      15.00
-         1200.- 1500.      84.00      14.70      39.00      15.00
-         1500.- 1800.      93.00       0.00      21.00      24.00
+            0.-  150.      15.00      28.50      28.50       9.00
+          150.-  300.      15.00      28.50      28.50       9.00
+          300.-  600.      30.00      57.00      57.00      18.00
+          600.-  900.      30.00      57.00      57.00      18.00
+          900.- 1200.      30.00      57.00      57.00      18.00
+         1200.- 1500.      30.00      55.80      57.00      18.00
+         1500.- 1800.      30.00       0.00      57.00      18.00
           ---------------------------------------------------------
-               Totals     486.00     221.70     267.00     100.50
+               Totals     180.00     283.80     342.00     108.00
           ---------------------------------------------------------
      
      
@@ -410,11 +449,12 @@
                       Effective Cover from Surface Materials =   0.0
      
 
-------- Lincoln Nitrogen Initialisation ---------------------------------------
-     
-        - Reading Constants
+------- soil Nitrogen Initialisation ------------------------------------------
      
         - Reading Parameters
+     
+        - Reading Constants
+     Using standard soil mineralisation for soil type Black Vertosol
      
      
      
@@ -462,9 +502,9 @@
 ------- SweetCorn Initialisation ----------------------------------------------
      phenology model: Generic
 ------- Start of simulation  --------------------------------------------------
-30 October 1991(Day of year=303), LincolnCrop: 
+30 October 1996(Day of year=304), manager: 
      Manager sending message :- sweetcorn sow  plants = 5.7, sowing_depth = 50, cultivar = challenger, row_spacing = 700
-30 October 1991(Day of year=303), SweetCorn: 
+30 October 1996(Day of year=304), SweetCorn: 
      Crop Sow
       - reading constants for plant(sweetcorn)
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -546,36 +586,36 @@
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
          -----------------------------------------------
-         150.0     0.100          0.260       1.000
-         150.0     0.100          0.260       1.000
-         300.0     0.080          0.260       1.000
-         300.0     0.060          0.260       1.000
-         300.0     0.040          0.250       1.000
-         300.0     0.020          0.290       1.000
-         300.0     0.010          0.380       1.000
+         150.0     0.100          0.100       1.000
+         150.0     0.100          0.100       1.000
+         300.0     0.080          0.100       1.000
+         300.0     0.060          0.100       1.000
+         300.0     0.040          0.100       1.000
+         300.0     0.020          0.100       1.000
+         300.0     0.010          0.100       1.000
          -----------------------------------------------
-         Extractable SW:   243mm in  1800mm total depth ( 14%).
+         Extractable SW:   342mm in  1800mm total depth ( 19%).
          Crop factor for bounding water use is set to   1.0 times eo.
-30 October 1991(Day of year=303), LincolnCrop: 
+30 October 1996(Day of year=304), manager: 
      Manager sending message :- fertiliser apply  amount = 24 (kg/ha), depth = 50 (mm), type = no3_n
-30 October 1991(Day of year=303), fertiliser: 
+30 October 1996(Day of year=304), fertiliser: 
      
         - Reading Fertiliser Type Parameters
         24.00 of N as nitrate (no3_n)
                                               added at depth   50.00 (layer   1)
-30 October 1991(Day of year=303), SweetCorn: 
+30 October 1996(Day of year=304), SweetCorn: 
      
                       Crop Sowing Data
          ------------------------------------------------
          Sowing  Depth Plants Spacing Skip  Skip  Cultivar
          Day no   mm     m^2     mm   row   plant name
          ------------------------------------------------
-            303   50.0    5.7  700.0   0.0   0.0 challenger
+            304   50.0    5.7  700.0   0.0   0.0 challenger
          ------------------------------------------------
      
-30 October 1991(Day of year=303), LincolnCrop: 
+30 October 1996(Day of year=304), manager: 
      Manager sending message :- sweetcorn sow  plants = 5.7, sowing_depth = 50, cultivar = challenger, row_spacing = 700
-30 October 1991(Day of year=303), SweetCorn: 
+30 October 1996(Day of year=304), SweetCorn: 
      Crop Sow
       - reading constants for plant(sweetcorn)
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -657,63 +697,86 @@
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
          -----------------------------------------------
-         150.0     0.100          0.260       1.000
-         150.0     0.100          0.260       1.000
-         300.0     0.080          0.260       1.000
-         300.0     0.060          0.260       1.000
-         300.0     0.040          0.250       1.000
-         300.0     0.020          0.290       1.000
-         300.0     0.010          0.380       1.000
+         150.0     0.100          0.100       1.000
+         150.0     0.100          0.100       1.000
+         300.0     0.080          0.100       1.000
+         300.0     0.060          0.100       1.000
+         300.0     0.040          0.100       1.000
+         300.0     0.020          0.100       1.000
+         300.0     0.010          0.100       1.000
          -----------------------------------------------
-         Extractable SW:   243mm in  1800mm total depth ( 14%).
+         Extractable SW:   342mm in  1800mm total depth ( 19%).
          Crop factor for bounding water use is set to   1.0 times eo.
-30 October 1991(Day of year=303), LincolnCrop: 
+30 October 1996(Day of year=304), manager: 
      Manager sending message :- fertiliser apply  amount = 24 (kg/ha), depth = 50 (mm), type = no3_n
-30 October 1991(Day of year=303), fertiliser: 
+30 October 1996(Day of year=304), fertiliser: 
      
         - Reading Fertiliser Type Parameters
         24.00 of N as nitrate (no3_n)
                                               added at depth   50.00 (layer   1)
-30 October 1991(Day of year=303), SweetCorn: 
+30 October 1996(Day of year=304), SweetCorn: 
      
                       Crop Sowing Data
          ------------------------------------------------
          Sowing  Depth Plants Spacing Skip  Skip  Cultivar
          Day no   mm     m^2     mm   row   plant name
          ------------------------------------------------
-            303   50.0    5.7  700.0   0.0   0.0 challenger
+            304   50.0    5.7  700.0   0.0   0.0 challenger
          ------------------------------------------------
      
-31 October 1991(Day of year=304), SweetCorn: 
+31 October 1996(Day of year=305), SweetCorn: 
       stage 2.0 germination
       stage 2.0 germination
-12 November 1991(Day of year=316), SweetCorn: 
+12 November 1996(Day of year=317), SweetCorn: 
       stage 3.0 emergence
                      biomass =           0.11 (g/m^2)   lai          =   0.006 (m^2/m^2)
-                     stover N conc =     5.00 (%)    extractable sw =    6.46 (mm)
+                     stover N conc =     5.00 (%)    extractable sw =   12.98 (mm)
       stage 3.0 emergence
                      biomass =           0.11 (g/m^2)   lai          =   0.006 (m^2/m^2)
-                     stover N conc =     5.00 (%)    extractable sw =    6.46 (mm)
-12 December 1991(Day of year=346), SweetCorn: 
-      stage 4.0 endjuv_to_fi
-                     biomass =           2.38 (g/m^2)   lai          =   0.019 (m^2/m^2)
-                     stover N conc =     3.76 (%)    extractable sw =   22.57 (mm)
-      stage 4.0 endjuv_to_fi
-                     biomass =           2.38 (g/m^2)   lai          =   0.019 (m^2/m^2)
-                     stover N conc =     3.76 (%)    extractable sw =   22.57 (mm)
-25 December 1991(Day of year=359), SweetCorn: 
-      stage 5.0 fi_to_flag
-                     biomass =           9.11 (g/m^2)   lai          =   0.064 (m^2/m^2)
-                     stover N conc =     3.20 (%)    extractable sw =   74.52 (mm)
-      stage 5.0 fi_to_flag
-                     biomass =           9.11 (g/m^2)   lai          =   0.064 (m^2/m^2)
-                     stover N conc =     3.20 (%)    extractable sw =   74.52 (mm)
-27 January 1992(Day of year=27), met: 
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      APSIM  Fatal  Error
-                      -------------------
-     Cannot find data in INPUT file for date 1992-Jan-27
-     Component name: met
-     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                     stover N conc =     5.00 (%)    extractable sw =   12.98 (mm)
+20 November 1996(Day of year=325), manager: 
+     Manager creating a new local real variable : n_topsoil =     44.2464280970000
+     Manager sending message :- fertiliser apply  amount = 200 (kg/ha), depth = 50 (mm), type = urea_n
+20 November 1996(Day of year=325), fertiliser: 
      
+        - Reading Fertiliser Type Parameters
+       200.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+20 November 1996(Day of year=325), manager: 
+     Manager creating a new local real variable : n_topsoil =     44.2464280970000
+     Manager sending message :- fertiliser apply  amount = 200 (kg/ha), depth = 50 (mm), type = urea_n
+20 November 1996(Day of year=325), fertiliser: 
      
+        - Reading Fertiliser Type Parameters
+       200.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+1 December 1996(Day of year=336), SweetCorn: 
+      stage 4.0 endjuv_to_fi
+                     biomass =           4.03 (g/m^2)   lai          =   0.032 (m^2/m^2)
+                     stover N conc =     3.79 (%)    extractable sw =   32.36 (mm)
+      stage 4.0 endjuv_to_fi
+                     biomass =           4.03 (g/m^2)   lai          =   0.032 (m^2/m^2)
+                     stover N conc =     3.79 (%)    extractable sw =   32.36 (mm)
+14 December 1996(Day of year=349), SweetCorn: 
+      stage 5.0 fi_to_flag
+                     biomass =          14.66 (g/m^2)   lai          =   0.079 (m^2/m^2)
+                     stover N conc =     3.50 (%)    extractable sw =   83.18 (mm)
+      stage 5.0 fi_to_flag
+                     biomass =          14.66 (g/m^2)   lai          =   0.079 (m^2/m^2)
+                     stover N conc =     3.50 (%)    extractable sw =   83.18 (mm)
+11 February 1997(Day of year=42), SweetCorn: 
+      stage 6.0 flag_to_flower
+                     biomass =         404.09 (g/m^2)   lai          =   1.605 (m^2/m^2)
+                     stover N conc =     2.26 (%)    extractable sw =  213.77 (mm)
+      stage 6.0 flag_to_flower
+                     biomass =         404.09 (g/m^2)   lai          =   1.605 (m^2/m^2)
+                     stover N conc =     2.26 (%)    extractable sw =  213.77 (mm)
+22 February 1997(Day of year=53), SweetCorn: 
+      stage 7.0 flowering
+                     biomass =         598.06 (g/m^2)   lai          =   1.987 (m^2/m^2)
+                     stover N conc =     2.36 (%)    extractable sw =  238.68 (mm)
+      stage 7.0 flowering
+                     biomass =         575.71 (g/m^2)   lai          =   1.945 (m^2/m^2)
+                     stover N conc =     1.65 (%)    extractable sw =  197.69 (mm)
+22 March 1997(Day of year=81), clock: 
+     Simulation is terminating due to end criteria being met.
