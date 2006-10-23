@@ -620,7 +620,7 @@
           <ll15>0.21</ll15>
           <airdry>0.20</airdry>
           <dul>0.41</dul>
-          <sat>0.46</sat>
+          <sat>0.45</sat>
           <swcon>0.50</swcon>
         </layer>
         <layer name="3">
@@ -842,19 +842,15 @@
       <variable name="SweetCorn.das" description="Days after Sowing" array="?" />
       <variable name="Irrigation.irrigation" description="Irrigation entering the profile (mm)" array="?" />
       <variable name="SweetCorn.root_depth" description="depth of roots" array="?" />
-      <variable name="DPIGatton Water.sw_dep()" description="Soil water - layered (mm)" array="?" />
-      <variable name="DPIGatton Water.sw" description="Soil water - layered (mm/mm)" array="?" />
+      <variable name="sw_dep()" description="Soil water - layered (mm)" array="?" />
+      <variable name="sw" description="Soil water - layered (mm/mm)" array="?" />
       <variable name="SweetCorn.dlt_lai_pot" description="Potential change in live plant lai" array="?" />
       <variable name="SweetCorn.ep" description="Plant water uptake" array="?" />
       <variable name="SweetCorn.sw_demand" description="Demand for sw" array="?" />
       <variable name="SweetCorn.nfact_expan" description="N factor for leaf expansion" array="?" />
       <variable name="SweetCorn.swdef_expan" description="Soil water deficit in leaf expansion" array="?" />
-      <variable name="DPIGatton Water.runoff" description="Runoff (mm)" array="?" />
-      <variable name="DPIGatton Water.es" description="Evaporation (mm)" array="?" />
-      <variable name="wheat.nfact_expan" array="?" description="N factor for leaf expansion" />
-      <variable name="wheat.root_depth" array="?" description="plant rooting depth" />
-      <variable name="wheat.ep" array="?" description="wheat water use" />
-      <variable name="eo" array="?" description="potential et" />
+      <variable name="runoff" description="Runoff (mm)" array="?" />
+      <variable name="es" description="Evaporation (mm)" array="?" />
     </variables>
     <events name="My Variables Events">
       <event name="Daily" description="End of day" />
@@ -867,180 +863,15 @@
       <variable name="SweetCorn.stem_wt" array="?" description="Weight of stem" />
       <variable name="SweetCorn.head_wt" array="?" description="Weight of heads" />
       <variable name="SweetCorn.biomass_wt" array="?" description="Biomass weight" />
-      <variable name="SweetCorn.swdef_photo" array="?" description="Soil water deficit in photosynthesis" />
       <variable name="SweetCorn.node_no" array="?" description="Number of leaves per plant" />
       <variable name="SweetCorn.node_no_sen" array="?" description="Number of senesced leaves per square meter" />
       <variable name="SweetCorn.node_no_fx" array="?" description="Number of fully expanded leaves" />
-      <variable name="SweetCorn.nfact_photo" array="?" description="N factor for photosynthesis" />
-      <variable name="SweetCorn.temp_stress_photo" array="?" description="Temperature Stress in photosynthesis" />
       <variable name="SweetCorn.tt_tot" array="?" description="Thermal time spent in each crop stage" />
       <variable name="SweetCorn.das" array="?" description="Days after Sowing" />
-      <variable name="Irrigation.irrigation" array="?" description="Irrigation entering the profile (mm)" />
       <variable name="SweetCorn.root_depth" array="?" description="depth of roots" />
-      <variable name="DPIGatton Water.sw_dep()" array="?" description="Soil water - layered (mm)" />
-      <variable name="DPIGatton Water.sw" array="?" description="Soil water - layered (mm/mm)" />
-      <variable name="SweetCorn.dlt_lai_pot" array="?" description="Potential change in live plant lai" />
-      <variable name="SweetCorn.ep" array="?" description="Plant water uptake" />
-      <variable name="SweetCorn.sw_demand" array="?" description="Demand for sw" />
-      <variable name="SweetCorn.nfact_expan" array="?" description="N factor for leaf expansion" />
-      <variable name="SweetCorn.swdef_expan" array="?" description="Soil water deficit in leaf expansion" />
-      <variable name="DPIGatton Water.runoff" array="?" description="Runoff (mm)" />
-      <variable name="DPIGatton Water.es" array="?" description="Evaporation (mm)" />
-      <variable name="wheat.nfact_expan" array="?" description="N factor for leaf expansion" />
-      <variable name="wheat.root_depth" array="?" description="plant rooting depth" />
-      <variable name="wheat.ep" array="?" description="wheat water use" />
-      <variable name="eo" array="?" description="potential et" />
     </variables>
     <events name="FinalVariables Events">
       <event name="SweetCorn.harvesting" description="" />
     </events>
   </folder>
-  <simulation name="Lawes{2}">
-    <clock name="clock">
-      <start_date name="start_date" description="Select the start date of the simulation" type="date">20/11/2005</start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date">16/02/2006</end_date>
-    </clock>
-    <summaryfile name="summaryfile">
-      <filename name="filename">Lawes{2}.sum</filename>
-    </summaryfile>
-    <metfile name="met">
-      <filename name="filename">D:\development\apsim\SweetCorn\Validation\Lawes.met</filename>
-    </metfile>
-    <area name="RD">
-      <registrations name="global" />
-      <fertiliser name="fertiliser" />
-      <surfaceom name="surface organic matter">
-        <PoolName description="Organic Matter pool name">wheat</PoolName>
-        <type description="Organic Matter type">wheat</type>
-        <mass description="Initial surface residue (kg/ha)">10</mass>
-        <cnr description="C:N ration of initial residue">80.0</cnr>
-        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
-      </surfaceom>
-      <SweetCorn />
-      <outputfile name="outputfile">
-        <filename name="filename">Lawes{2} RD.out</filename>
-        <variables name="My Variables" shortcut="My Variables" />
-        <events name="My Variables Events" shortcut="My Variables Events" />
-      </outputfile>
-      <outputfile name="FinalOutput">
-        <filename name="filename">Lawes{2} RD FinalOutput.out</filename>
-        <variables name="FinalVariables" shortcut="FinalVariables" />
-        <events name="FinalVariables Events" shortcut="FinalVariables Events" />
-      </outputfile>
-      <Soil shortcut="DPIGatton" />
-      <manager shortcut="LawesCrop" />
-      <operations>
-        <operation condition="start_of_day">
-          <date>22-nov</date>
-          <action>Irrigation apply amount = 12</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{2}">
-          <date>8-dec</date>
-          <action>Irrigation apply amount = 3.8</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{3}">
-          <date>10-dec</date>
-          <action>Irrigation apply amount = 14.9</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{4}">
-          <date>13-dec</date>
-          <action>Irrigation apply amount = 7.6</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{5}">
-          <date>15-dec</date>
-          <action>Irrigation apply amount = 10</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{6}">
-          <date>20-dec</date>
-          <action>fertiliser apply amount = 15, type = no3_n, depth = 50</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{7}">
-          <date>20-dec</date>
-          <action>Irrigation apply amount = 9.8</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{8}">
-          <date>22-dec</date>
-          <action>Irrigation apply amount = 9.3</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{9}">
-          <date>23-dec</date>
-          <action>Irrigation apply amount = 13.6</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{10}">
-          <date>24-dec</date>
-          <action>Irrigation apply amount = 6.6</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{11}">
-          <date>29-dec</date>
-          <action>Irrigation apply amount = 21.1</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{12}">
-          <date>4-jan</date>
-          <action>Irrigation apply amount = 13.7</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{13}">
-          <date>5-jan</date>
-          <action>fertiliser apply amount = 15, type = no3_n, depth = 50</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{14}">
-          <date>6-jan</date>
-          <action>Irrigation apply amount = 14.8</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{15}">
-          <date>14-jan</date>
-          <action>Irrigation apply amount = 13</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{16}">
-          <date>17-jan</date>
-          <action>Irrigation apply amount = 19.4</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{17}">
-          <date>19-jan</date>
-          <action>Irrigation apply amount = 12.5</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{18}">
-          <date>25-jan</date>
-          <action>fertiliser apply amount = 15, type = no3_n, depth = 50</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{19}">
-          <date>26-jan</date>
-          <action>Irrigation apply amount = 13.5</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{20}">
-          <date>28-jan</date>
-          <action>Irrigation apply amount = 19.1</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{21}">
-          <date>31-jan</date>
-          <action>Irrigation apply amount = 14.1</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{22}">
-          <date>3-feb</date>
-          <action>Irrigation apply amount = 26</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{23}">
-          <date>8-feb</date>
-          <action>Irrigation apply amount = 19</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{24}">
-          <date>11-feb</date>
-          <action>Irrigation apply amount = 16.6</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{25}">
-          <date>13-feb</date>
-          <action>Sweetcorn harvest</action>
-        </operation>
-        <operation condition="start_of_day" name="operation{26}">
-          <date>13-feb</date>
-          <action>Sweetcorn end_crop</action>
-        </operation>
-      </operations>
-      <irrigation name="Irrigation">
-        <property name="automatic_irrigation" type="text" description="switch">off</property>
-        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
-        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
-        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
-      </irrigation>
-    </area>
-  </simulation>
 </simulations>
