@@ -122,7 +122,7 @@ namespace CSGeneral
         this.Grid.Name = "Grid";
         this.Grid.Sheets.AddRange(new FarPoint.Win.Spread.SheetView[] {
             this.WaterGrid});
-        this.Grid.Size = new System.Drawing.Size(272, 280);
+        this.Grid.Size = new System.Drawing.Size(272, 289);
         this.Grid.TabIndex = 30;
         tipAppearance1.BackColor = System.Drawing.SystemColors.Info;
         tipAppearance1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
