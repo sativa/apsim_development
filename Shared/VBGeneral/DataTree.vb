@@ -266,13 +266,13 @@ Public Class DataTree
         ' Refresh the specified TreeNode using the specified APSIMData
         ' plus all the child nodes.
         ' ------------------------------------------------------------
+        UserChange = False
         RecursivelyRefreshNodeAndChildren(Node, Data, 0)
 
         If Controller.SelectedPaths.Count >= 1 Then
-            UserChange = False
             TreeView.SelectedNode = GetNodeFromPath(Controller.SelectedPaths(0))
-            UserChange = True
         End If
+        UserChange = True
     End Sub
 
     Private Sub RecursivelyRefreshNodeAndChildren(ByVal Node As TreeNode, ByVal Data As APSIMData, ByVal Level As Integer)

@@ -203,7 +203,9 @@ Public Class ExplorerUI
         ' -----------------------------------------------------
         ' User is about to do a save.
         ' -----------------------------------------------------
-        SaveCurrentView()
+        If Not IsNothing(Controller.Data) Then
+            SaveCurrentView()
+        End If
     End Sub
 
     Private Sub OnAfterSave()

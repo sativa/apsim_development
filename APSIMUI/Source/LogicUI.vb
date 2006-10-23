@@ -141,10 +141,10 @@ Public Class LogicUI
 
     Overrides Sub RefreshView(ByVal Controller As BaseController)
         MyBase.RefreshView(Controller)
-        InitTextBox.Text = Replace(Controller.Data.ChildValue("init"), "[cr]", vbCrLf)
-        StartOfDayTextBox.Text = Replace(Controller.Data.ChildValue("startofday"), "[cr]", vbCrLf)
+        InitTextBox.Text = Replace(Controller.Data.Child("init").Value, "[cr]", vbCrLf)
+        StartOfDayTextBox.Text = Replace(Controller.Data.Child("startofday").Value, "[cr]", vbCrLf)
 
-        EndOfDayTextBox.Text = Replace(Controller.Data.ChildValue("endofday"), "[cr]", vbCrLf)
+        EndOfDayTextBox.Text = Replace(Controller.Data.Child("endofday").Value, "[cr]", vbCrLf)
         HelpText = "Enter your management logic into the edit box above."
     End Sub
 
