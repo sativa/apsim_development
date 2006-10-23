@@ -8,7 +8,7 @@
       <filename name="filename">NZIrrigation.sum</filename>
     </summaryfile>
     <metfile name="met">
-      <filename name="filename">D:\development\apsim\SweetCorn\Validation\Lincoln9697.met</filename>
+      <filename name="filename">Lincoln9697.met</filename>
     </metfile>
     <area name="FI">
       <registrations name="global" />
@@ -26,14 +26,14 @@
         <variables name="My Variables" shortcut="My Variables" />
         <events name="My Variables Events" shortcut="My Variables Events" />
       </outputfile>
-      <irrigation name="Irrigation">
-        <property name="automatic_irrigation" type="text" description="switch">switch</property>
-        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
-        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
-        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
-      </irrigation>
       <soil shortcut="Lincoln" />
       <manager shortcut="LincolnCrop" />
+      <irrigation name="Irrigation">
+        <automatic_irrigation type="text" description="switch">on</automatic_irrigation>
+        <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
+        <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
+        <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+      </irrigation>
     </area>
     <area name="FD">
       <registrations name="global" />
@@ -46,12 +46,6 @@
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
       <SweetCorn />
-      <irrigation name="Irrigation">
-        <property name="automatic_irrigation" type="text" description="switch">off</property>
-        <property name="asw_depth" type="text" description="Depth to which ASW is calculated. (mm)">600.0</property>
-        <property name="crit_fr_asw" type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</property>
-        <property name="irrigation_efficiency" description="Efficiency of the irrigation. (0-1.0)">1.0</property>
-      </irrigation>
       <outputfile name="outputfile">
         <filename name="filename">NZIrrigation FD.out</filename>
         <variables name="My Variables" shortcut="My Variables" />
@@ -59,6 +53,12 @@
       </outputfile>
       <soil shortcut="Lincoln" />
       <manager shortcut="LincolnCrop" />
+      <irrigation name="Irrigation">
+        <automatic_irrigation type="text" description="switch">off</automatic_irrigation>
+        <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
+        <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
+        <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+      </irrigation>
     </area>
   </simulation>
   <simulation name="Lawes">
@@ -70,7 +70,7 @@
       <filename name="filename">Lawes.sum</filename>
     </summaryfile>
     <metfile name="met">
-      <filename name="filename">D:\development\apsim\SweetCorn\Validation\Lawes.met</filename>
+      <filename name="filename">Lawes.met</filename>
     </metfile>
     <area name="RD">
       <registrations name="global" />
