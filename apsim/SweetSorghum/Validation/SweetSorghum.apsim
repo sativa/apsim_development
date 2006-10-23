@@ -478,29 +478,6 @@
           <variable name="SweetSorghum.stem_wt" description="Weight of stem" array="?" units="g/m^2" />
           <variable name="SweetSorghum.head_wt" description="Weight of heads" array="?" units="g/m^2" />
           <variable name="SweetSorghum.biomass_wt" description="Biomass weight" array="?" units="g/m^2" />
-          <variable name="SweetCorn.swdef_photo" array="?" description="Soil water deficit in photosynthesis" />
-          <variable name="SweetCorn.node_no" array="?" description="Number of leaves per plant" />
-          <variable name="SweetCorn.node_no_sen" array="?" description="Number of senesced leaves per square meter" />
-          <variable name="SweetCorn.node_no_fx" array="?" description="Number of fully expanded leaves" />
-          <variable name="SweetCorn.nfact_photo" array="?" description="N factor for photosynthesis" />
-          <variable name="SweetCorn.temp_stress_photo" array="?" description="Temperature Stress in photosynthesis" />
-          <variable name="SweetCorn.tt_tot" array="?" description="Thermal time spent in each crop stage" />
-          <variable name="SweetCorn.das" array="?" description="Days after Sowing" />
-          <variable name="Irrigation.irrigation" array="?" description="Irrigation entering the profile (mm)" />
-          <variable name="SweetCorn.root_depth" array="?" description="depth of roots" />
-          <variable name="DPIGatton Water.sw_dep()" array="?" description="Soil water - layered (mm)" />
-          <variable name="DPIGatton Water.sw" array="?" description="Soil water - layered (mm/mm)" />
-          <variable name="SweetCorn.dlt_lai_pot" array="?" description="Potential change in live plant lai" />
-          <variable name="SweetCorn.ep" array="?" description="Plant water uptake" />
-          <variable name="SweetCorn.sw_demand" array="?" description="Demand for sw" />
-          <variable name="SweetCorn.nfact_expan" array="?" description="N factor for leaf expansion" />
-          <variable name="SweetCorn.swdef_expan" array="?" description="Soil water deficit in leaf expansion" />
-          <variable name="DPIGatton Water.runoff" array="?" description="Runoff (mm)" />
-          <variable name="DPIGatton Water.es" array="?" description="Evaporation (mm)" />
-          <variable name="wheat.nfact_expan" array="?" description="N factor for leaf expansion" />
-          <variable name="wheat.root_depth" array="?" description="plant rooting depth" />
-          <variable name="wheat.ep" array="?" description="wheat water use" />
-          <variable name="eo" array="?" description="potential et" />
         </variables>
         <events name="My Variables Events">
           <event name="Daily" description="End of day" />
