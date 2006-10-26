@@ -387,7 +387,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
       <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
     </variables>
     <events name="Reporting Frequency">
-      <event name="clock.Daily" description="End of daily simulation time step" />
+      <event name="Daily" description="End of daily simulation time step" />
     </events>
   </outputfile>
   <summaryfile name="Summaryfile">
