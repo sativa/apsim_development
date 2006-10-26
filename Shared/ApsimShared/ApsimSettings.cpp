@@ -25,6 +25,7 @@ using namespace boost;
 ApsimSettings::ApsimSettings(void)
 	{
    string originalPath = getApsimDirectory() + "/Apsim.ini";
+   if (!fileExists(originalPath.c_str())) {throw std::runtime_error("Couldn't find ApsimSettings file " + originalPath);}
    original = new IniFile(originalPath);
    }
 // ------------------------------------------------------------------
