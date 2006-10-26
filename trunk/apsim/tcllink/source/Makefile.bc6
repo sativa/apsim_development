@@ -105,6 +105,7 @@ clean:
 	if not exist ..\lib\tk$(DOTVER)\nul xcopy \\thor\seg\tools\tcl\ASTcl\lib\tk$(DOTVER) ..\lib\tk$(DOTVER) /E /Y /I /Q
 	if not exist ..\lib\tcllib1.8\nul xcopy \\thor\seg\tools\tcl\ASTcl\lib\tcllib1.8 ..\lib\tcllib1.8 /E /Y /I /Q
 	if not exist ..\lib\bwidget1.7\nul xcopy \\thor\seg\tools\tcl\ASTcl\lib\bwidget1.7 ..\lib\bwidget1.7 /E /Y /I /Q
+	if not exist ..\lib\Img1.3\nul xcopy \\thor\seg\tools\tcl\ASTcl\lib\Img1.3 ..\lib\Img1.3 /E /Y /I /Q
 	if not exist ..\lib\tdom0.8.1\nul xcopy \\thor\seg\tools\tcl\ASTcl\lib\tdom0.8.1 ..\lib\tdom0.8.1 /E /Y /I /Q
 	if not exist ..\lib\tkcon\nul xcopy \\thor\seg\tools\tcl\tkcon ..\lib\tkcon /E /Y /I /Q
    # Do the ActiveX control
