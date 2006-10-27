@@ -1,17 +1,11 @@
 #! 
 # TreatmentsUI. 
-foreach c [winfo children .] {destroy $c}
 trace remove variable XMLDoc read setXML
-foreach v {name desc price units updated} {
-  if {[info exists $v]} {unset $v}
-}
-
-##set fp [open tst.xml r]; set XMLDoc [read $fp]; close $fp
 
 package require Tk
-set w [frame .w]
-
+package require BWidget
 package require tdom
+
 proc getValue {id thing} {
    foreach node [$id childNodes] {
       if {[string equal -nocase [$node nodeName] $thing]} {
@@ -20,11 +14,23 @@ proc getValue {id thing} {
    }
 }
 
+foreach v {name desc price units updated nodes} {
+   catch {unset $v}
+}
+
 ## Decode the XML string for this applet
 set doc [dom parse $XMLDoc]
 set docroot [$doc documentElement]
-
 set category [[$docroot selectNodes //category] text]
+
+# Build the UI
+catch {destroy .w}
+#set sw [ScrolledWindow .w]
+#set sf [ScrollableFrame $sw.f]
+#$sw setwidget $sf
+#set w [$sf getframe]
+frame .w
+
 set nodes {}
 foreach node [$docroot selectNodes //$category] {
    set desc($node)  [getValue $node desc]
@@ -35,18 +41,21 @@ foreach node [$docroot selectNodes //$category] {
    lappend nodes $node
 }
 
-set row 1
+label $w.cat -text "Category $category"
+grid $w.cat -row 0 -column 1 -padx 3  -sticky w
+
 label $w.t0 -text Description
 label $w.t1 -text "Apsim Name"
 label $w.t2 -text Price
 label $w.t3 -text Units
 label $w.t4 -text "Last Updated"
-grid $w.t0 -row 0 -column 1 -padx 3
-grid $w.t1 -row 0 -column 2 -padx 3
-grid $w.t2 -row 0 -column 3 -padx 3
-grid $w.t3 -row 0 -column 4 -padx 3
-grid $w.t4 -row 0 -column 5 -padx 3
+grid $w.t0 -row 1 -column 1 -padx 3
+grid $w.t1 -row 1 -column 2 -padx 3
+grid $w.t2 -row 1 -column 3 -padx 3
+grid $w.t3 -row 1 -column 4 -padx 3
+grid $w.t4 -row 1 -column 5 -padx 3
 
+set row 2
 foreach node $nodes {
    label $w.l$row -text   $desc($node)
    entry $w.n$row -width 15 -textvariable name($node)
@@ -66,7 +75,7 @@ foreach node $nodes {
 grid rowconf    $w $row -weight 1
 grid columnconf $w 5    -weight 1
 
-grid $w -row 0 -column 0 -sticky nw
+grid .w -row 0 -column 0 -sticky nesw
 grid rowconf    . 0 -weight 1
 grid columnconf . 0 -weight 1
 

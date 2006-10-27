@@ -1,4 +1,4 @@
-<folder name="economics">
+<folder name="economics" version="5">
   <tclgroup name="Economics">
     <initscript>
 source $apsuite/apsim/Economics/lib/Cashbook.tcl
@@ -9,9 +9,30 @@ source $apsuite/apsim/Economics/lib/Machinery.tcl
       <balance>42000</balance>
       <outputfilename>cashbook.csv</outputfilename>
     </tclui>
-    <tclui name="Capital Assets">
+    <tclui name="Initial Capital Assets">
       <uiscript>source $apsuite/apsim/Economics/lib/CapitalUI.tcl</uiscript>
-      <category>capital</category>
+      <category>icapital</category>
+      <icapital>
+        <description>Loan Value of Initial Investment</description>
+        <name>ivalue</name>
+        <amount>400000.0</amount>
+        <units>$</units>
+        <value>400000.0</value>
+      </icapital>
+      <icapital>
+        <description>Loan repayment rate</description>
+        <name>rate</name>
+        <amount>6.0</amount>
+        <units>%</units>
+        <value>6.0</value>
+      </icapital>
+      <icapital>
+        <description>Loan duration</description>
+        <name>duration</name>
+        <amount>5</amount>
+        <units>Years</units>
+        <value>5</value>
+      </icapital>
     </tclui>
     <tclui name="Prices">
       <uiscript>source $apsuite/apsim/Economics/lib/PricesUI.tcl</uiscript>
@@ -19,18 +40,17 @@ source $apsuite/apsim/Economics/lib/Machinery.tcl
       <cropprice>
         <desc>Wheat</desc>
         <name>wheat</name>
-        <price>400.0</price>
         <units>$/tonne</units>
-        <updated>
-        </updated>
+        <price>145.0 160.0 170.0 180.0 185.0</price>
+        <protein>9.5  10.0  12.0  13.0  14.0</protein>
+        <updated>26/10/2006</updated>
       </cropprice>
       <cropprice>
         <desc>Sorghum</desc>
         <name>sorghum</name>
         <price>120.0</price>
         <units>$/tonne</units>
-        <updated>
-        </updated>
+        <updated />
       </cropprice>
     </tclui>
     <tclui name="Machinery - 200kwFWA">
@@ -2085,62 +2105,68 @@ IAQEDBBaQAgIADs=</image>
     <tclui name="Costs - Fungicides">
       <uiscript>source $apsuite/apsim/Economics/lib/TreatmentsUI.tcl</uiscript>
       <category>fungicide</category>
-<fungicide>
-<desc>Alto 100SL (cyproconazole)</desc>
-<name>Alto 100SL</name>
-<qty units="kg bag/drum"></qty>
-<price units="$ per kg or per litre">116.9</price>
-<updated>30/03/2004</updated>
-</fungicide>
-<fungicide>
-<desc>Dithane (mancozeb)</desc>
-<name>Dithane </name>
-<qty units="kg bag/drum"></qty>
-<price units="$ per kg or per litre">7.25</price>
-<updated>30/03/2004</updated>
-</fungicide>
-<fungicide>
-<desc>Elect 720 (chlorothalonil)</desc>
-<name>Elect 720</name>
-<qty units="kg bag/drum">chlorothalonil</qty>
-<price units="$ per kg or per litre">18.83</price>
-<updated>30/03/2004</updated>
-</fungicide>
-<fungicide>
-<desc>Folicur 430 SC</desc>
-<name>Folicur 430 SC</name>
-<qty units="kg bag/drum">tebuconazole</qty>
-<price units="$ per kg or per litre">94</price>
-<updated>30/03/2004</updated>
-</fungicide>
-<fungicide>
-<desc>Fortress 500 (procymidone)</desc>
-<name>Fortress 500</name>
-<qty units="kg bag/drum"></qty>
-<price units="$ per kg or per litre">67</price>
-<updated>20/12/2002</updated>
-</fungicide>
-<fungicide>
-<desc>Rover</desc>
-<name>Rover</name>
-<qty units="kg bag/drum"></qty>
-<price units="$ per kg or per litre">14.75</price>
-<updated>20/12/2002</updated>
-</fungicide>
-<fungicide>
-<desc>Rovral Aquaflo (iprodione)</desc>
-<name>Rovral Aquaflo</name>
-<qty units="kg bag/drum"></qty>
-<price units="$ per kg or per litre">55.82</price>
-<updated>20/12/2002</updated>
-</fungicide>
-<fungicide>
-<desc>Wettable Sulphur</desc>
-<name>Wettable Sulphur</name>
-<qty units="kg bag/drum"></qty>
-<price units="$ per kg or per litre">2.16</price>
-<updated>30/03/2004</updated>
-</fungicide>
+      <fungicide>
+        <desc>Alto 100SL (cyproconazole)</desc>
+        <name>Alto 100SL</name>
+        <qty units="kg bag/drum">
+        </qty>
+        <price units="$ per kg or per litre">116.9</price>
+        <updated>30/03/2004</updated>
+      </fungicide>
+      <fungicide>
+        <desc>Dithane (mancozeb)</desc>
+        <name>Dithane </name>
+        <qty units="kg bag/drum">
+        </qty>
+        <price units="$ per kg or per litre">7.25</price>
+        <updated>30/03/2004</updated>
+      </fungicide>
+      <fungicide>
+        <desc>Elect 720 (chlorothalonil)</desc>
+        <name>Elect 720</name>
+        <qty units="kg bag/drum">chlorothalonil</qty>
+        <price units="$ per kg or per litre">18.83</price>
+        <updated>30/03/2004</updated>
+      </fungicide>
+      <fungicide>
+        <desc>Folicur 430 SC</desc>
+        <name>Folicur 430 SC</name>
+        <qty units="kg bag/drum">tebuconazole</qty>
+        <price units="$ per kg or per litre">94</price>
+        <updated>30/03/2004</updated>
+      </fungicide>
+      <fungicide>
+        <desc>Fortress 500 (procymidone)</desc>
+        <name>Fortress 500</name>
+        <qty units="kg bag/drum">
+        </qty>
+        <price units="$ per kg or per litre">67</price>
+        <updated>20/12/2002</updated>
+      </fungicide>
+      <fungicide>
+        <desc>Rover</desc>
+        <name>Rover</name>
+        <qty units="kg bag/drum">
+        </qty>
+        <price units="$ per kg or per litre">14.75</price>
+        <updated>20/12/2002</updated>
+      </fungicide>
+      <fungicide>
+        <desc>Rovral Aquaflo (iprodione)</desc>
+        <name>Rovral Aquaflo</name>
+        <qty units="kg bag/drum">
+        </qty>
+        <price units="$ per kg or per litre">55.82</price>
+        <updated>20/12/2002</updated>
+      </fungicide>
+      <fungicide>
+        <desc>Wettable Sulphur</desc>
+        <name>Wettable Sulphur</name>
+        <qty units="kg bag/drum">
+        </qty>
+        <price units="$ per kg or per litre">2.16</price>
+        <updated>30/03/2004</updated>
+      </fungicide>
     </tclui>
     <tclui name="Costs - Insecticides">
       <uiscript>source $apsuite/apsim/Economics/lib/TreatmentsUI.tcl</uiscript>
@@ -2384,125 +2410,141 @@ IAQEDBBaQAgIADs=</image>
     <tclui name="Costs - Seed">
       <uiscript>source $apsuite/apsim/Economics/lib/TreatmentsUI.tcl</uiscript>
       <category>seedcost</category>
-<seedcost>
-<desc>Barley (Tallon)</desc>
-<name>Barley</name>
-<qty units="kg bag/drum"></qty>
-<price units="$ per kg or per litre">0.78</price>
-<updated>30/03/2004</updated>
-</seedcost>
-<seedcost>
-<desc>Chickpea (Jimbour)</desc>
-<name>Chickpea</name>
-<qty units="kg bag/drum"></qty>
-<price units="$ per kg or per litre">1.51</price>
-<updated>30/03/2004</updated>
-</seedcost>
-<seedcost>
-<desc>Cotton </desc>
-<name>Cotton</name>
-<qty units="kg bag/drum"></qty>
-<price units="$ per kg or per litre">5.6</price>
-<updated>30/03/2004</updated>
-</seedcost>
-<seedcost>
-<desc>Forage Sorghum (Jumbo)</desc>
-<name>Forage Sorghum</name>
-<qty units="kg bag/drum"></qty>
-<price units="$ per kg or per litre">3.96</price>
-<updated>30/03/2004</updated>
-</seedcost>
-<seedcost>
-<desc>Lucerne (sequel)</desc>
-<name>Lucerne</name>
-<qty units="kg bag/drum"></qty>
-<price units="$ per kg or per litre">5.45</price>
-<updated>30/03/2004</updated>
-</seedcost>
-<seedcost>
-<desc>Maize P3237</desc>
-<name>Maize</name>
-<qty units="kg bag/drum"></qty>
-<price units="$ per kg or per litre">6.51</price>
-<updated>30/03/2004</updated>
-</seedcost>
-<seedcost>
-<desc>Millet (White frend)</desc>
-<name>Millet</name>
-<qty units="kg bag/drum"></qty>
-<price units="$ per kg or per litre">1</price>
-<updated>30/03/2004</updated>
-</seedcost>
-<seedcost>
-<desc>Mungbean (Emerald)</desc>
-<name>Mungbean</name>
-<qty units="kg bag/drum"></qty>
-<price units="$ per kg or per litre">1.45</price>
-<updated>30/03/2004</updated>
-</seedcost>
-<seedcost>
-<desc>Navy Bean (Spearfeld)</desc>
-<name>NavyBean</name>
-<qty units="kg bag/drum">Spearfeld</qty>
-<price units="$ per kg or per litre">1.49</price>
-<updated>30/03/2004</updated>
-</seedcost>
-<seedcost>
-<desc>Peanut Streeton (20-23 weeks)</desc>
-<name>PeanutC</name>
-<qty units="kg bag/drum"></qty>
-<price units="$ per kg or per litre">2.91</price>
-<updated>30/03/2004</updated>
-</seedcost>
-<seedcost>
-<desc>Peanut Conder (17-19 weeks)</desc>
-<name>PeanutS</name>
-<qty units="kg bag/drum"></qty>
-<price units="$ per kg or per litre">2.7</price>
-<updated>30/03/2004</updated>
-</seedcost>
-<seedcost>
-<desc>Peanut VB97 (20-23 weeks)</desc>
-<name>PeanutVB</name>
-<qty units="kg bag/drum"></qty>
-<price units="$ per kg or per litre">2.7</price>
-<updated>30/03/2004</updated>
-</seedcost>
-<seedcost>
-<desc>Peanut NC7 (20-23 weeks)</desc>
-<name>PeanutNC7</name>
-<qty units="kg bag/drum"></qty>
-<price units="$ per kg or per litre">2.7</price>
-<updated>30/03/2004</updated>
-</seedcost>
-<seedcost>
-<desc>Sorghum (Buster)</desc>
-<name>Sorghum</name>
-<qty units="kg bag/drum"></qty>
-<price units="$ per kg or per litre">5.82</price>
-<updated>30/03/2004</updated>
-</seedcost>
-<seedcost>
-<desc>Soybean (Soya791)</desc>
-<name>Soybean</name>
-<qty units="kg bag/drum"></qty>
-<price units="$ per kg or per litre">1.31</price>
-<updated>30/03/2004</updated>
-</seedcost>
-<seedcost>
-<desc>Sunflower (Sunolei 04)</desc>
-<name>Sunflower</name>
-<qty units="kg bag/drum"></qty>
-<price units="$ per kg or per litre">11.82</price>
-<updated>30/03/2004</updated>
-</seedcost>
-<seedcost>
-<desc>Wheat (Kennedy)</desc>
-<name>Wheat</name>
-<qty units="kg bag/drum"></qty>
-<price units="$ per kg or per litre">0.73</price>
-<updated>30/03/2004</updated>
-</seedcost>
+      <seedcost>
+        <desc>Barley (Tallon)</desc>
+        <name>Barley</name>
+        <qty units="kg bag/drum">
+        </qty>
+        <price units="$ per kg or per litre">0.78</price>
+        <updated>30/03/2004</updated>
+      </seedcost>
+      <seedcost>
+        <desc>Chickpea (Jimbour)</desc>
+        <name>Chickpea</name>
+        <qty units="kg bag/drum">
+        </qty>
+        <price units="$ per kg or per litre">1.51</price>
+        <updated>30/03/2004</updated>
+      </seedcost>
+      <seedcost>
+        <desc>Cotton </desc>
+        <name>Cotton</name>
+        <qty units="kg bag/drum">
+        </qty>
+        <price units="$ per kg or per litre">5.6</price>
+        <updated>30/03/2004</updated>
+      </seedcost>
+      <seedcost>
+        <desc>Forage Sorghum (Jumbo)</desc>
+        <name>Forage Sorghum</name>
+        <qty units="kg bag/drum">
+        </qty>
+        <price units="$ per kg or per litre">3.96</price>
+        <updated>30/03/2004</updated>
+      </seedcost>
+      <seedcost>
+        <desc>Lucerne (sequel)</desc>
+        <name>Lucerne</name>
+        <qty units="kg bag/drum">
+        </qty>
+        <price units="$ per kg or per litre">5.45</price>
+        <updated>30/03/2004</updated>
+      </seedcost>
+      <seedcost>
+        <desc>Maize P3237</desc>
+        <name>Maize</name>
+        <qty units="kg bag/drum">
+        </qty>
+        <price units="$ per kg or per litre">6.51</price>
+        <updated>30/03/2004</updated>
+      </seedcost>
+      <seedcost>
+        <desc>Millet (White frend)</desc>
+        <name>Millet</name>
+        <qty units="kg bag/drum">
+        </qty>
+        <price units="$ per kg or per litre">1</price>
+        <updated>30/03/2004</updated>
+      </seedcost>
+      <seedcost>
+        <desc>Mungbean (Emerald)</desc>
+        <name>Mungbean</name>
+        <qty units="kg bag/drum">
+        </qty>
+        <price units="$ per kg or per litre">1.45</price>
+        <updated>30/03/2004</updated>
+      </seedcost>
+      <seedcost>
+        <desc>Navy Bean (Spearfeld)</desc>
+        <name>NavyBean</name>
+        <qty units="kg bag/drum">Spearfeld</qty>
+        <price units="$ per kg or per litre">1.49</price>
+        <updated>30/03/2004</updated>
+      </seedcost>
+      <seedcost>
+        <desc>Peanut Streeton (20-23 weeks)</desc>
+        <name>PeanutC</name>
+        <qty units="kg bag/drum">
+        </qty>
+        <price units="$ per kg or per litre">2.91</price>
+        <updated>30/03/2004</updated>
+      </seedcost>
+      <seedcost>
+        <desc>Peanut Conder (17-19 weeks)</desc>
+        <name>PeanutS</name>
+        <qty units="kg bag/drum">
+        </qty>
+        <price units="$ per kg or per litre">2.7</price>
+        <updated>30/03/2004</updated>
+      </seedcost>
+      <seedcost>
+        <desc>Peanut VB97 (20-23 weeks)</desc>
+        <name>PeanutVB</name>
+        <qty units="kg bag/drum">
+        </qty>
+        <price units="$ per kg or per litre">2.7</price>
+        <updated>30/03/2004</updated>
+      </seedcost>
+      <seedcost>
+        <desc>Peanut NC7 (20-23 weeks)</desc>
+        <name>PeanutNC7</name>
+        <qty units="kg bag/drum">
+        </qty>
+        <price units="$ per kg or per litre">2.7</price>
+        <updated>30/03/2004</updated>
+      </seedcost>
+      <seedcost>
+        <desc>Sorghum (Buster)</desc>
+        <name>Sorghum</name>
+        <qty units="kg bag/drum">
+        </qty>
+        <price units="$ per kg or per litre">5.82</price>
+        <updated>30/03/2004</updated>
+      </seedcost>
+      <seedcost>
+        <desc>Soybean (Soya791)</desc>
+        <name>Soybean</name>
+        <qty units="kg bag/drum">
+        </qty>
+        <price units="$ per kg or per litre">1.31</price>
+        <updated>30/03/2004</updated>
+      </seedcost>
+      <seedcost>
+        <desc>Sunflower (Sunolei 04)</desc>
+        <name>Sunflower</name>
+        <qty units="kg bag/drum">
+        </qty>
+        <price units="$ per kg or per litre">11.82</price>
+        <updated>30/03/2004</updated>
+      </seedcost>
+      <seedcost>
+        <desc>Wheat (Kennedy)</desc>
+        <name>Wheat</name>
+        <qty units="kg bag/drum">
+        </qty>
+        <price units="$ per kg or per litre">0.73</price>
+        <updated>30/03/2004</updated>
+      </seedcost>
     </tclui>
     <tclui name="Costs - Defoliants">
       <uiscript>source $apsuite/apsim/Economics/lib/TreatmentsUI.tcl</uiscript>
@@ -2718,6 +2760,29 @@ ENDIF
         [fertmodule] apply amount = [fert_amount_sow] (kg/ha), depth = 50 (mm), type = [fert_type_sow]
             
 </rule>
+    </tclui>
+    <tclui name="Generic Sowing Rule">
+      <uiscript>source $apsuite/apsim/Economics/lib/GenericSowingUI.tcl</uiscript>
+      <crop>wheat</crop>
+      <date1>1-jun</date1>
+      <date2>1-aug</date2>
+      <ruletemplate name="Sowing rule - start_of_day" condition="start_of_day"><![CDATA[
+      if (paddock_is_fallow() = 1 and FallowIn <> 'yes' and (NextCrop = 0 or NextCrop = '[crop]')) then
+         if (date_within('[date1], [date2]') = 1) then
+            if (rain[[rainnumdays]] >= [raincrit] AND 
+                esw >= [esw_amount] ) <> 0) OR
+                ('[must_sow]' = 'yes' AND today = date('[date2]'))) THEN
+               ChooseNextCrop = 'yes'   ! for rotations
+
+               [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing], crop_class = [class]
+
+            endif
+            if today = date('[date2]') then
+               ChooseNextCrop = 'yes'
+            endif
+         endif
+      endif
+]]></ruletemplate>
     </tclui>
   </tclgroup>
 </folder>
