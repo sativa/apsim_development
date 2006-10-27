@@ -100,7 +100,11 @@ proc getValue {id thing} {
          return [string tolower [$node text]]
       }
    }
-   error "Object $id doesn't have a $thing node"
+#   apsimWriteToSummaryFile "Object $id doesn't have a $thing node:"
+#   foreach node [$id childNodes] {
+#      apsimWriteToSummaryFile "name=[$node nodeName],value=[$node text]"
+#   }
+   return ""
 }
 
 # Set the value of an objects 'thing'
@@ -109,11 +113,11 @@ proc setValue {id thing what} {
    foreach node [$id childNodes] {
       if {[string equal -nocase [$node nodeName] $thing]} {
          $id removeChild $node
-         set node [$config(xmldoc) createElement $thing]
-         $node appendChild [$config(xmldoc) createTextNode $what]
-         $id appendChild $node
       }
    }
+   set node [$config(xmldoc) createElement $thing]
+   $node appendChild [$config(xmldoc) createTextNode $what]
+   $id appendChild $node
 }
 
 # Return the name of an object, given id.
@@ -158,7 +162,7 @@ proc getImplementId {name} {
    error "Implement $name isn't in database (should be one of \"[join [getImplementNames] \",\"]\")"
 }
 
-# return the work rate this combo can cover per hour
+# return the work rate for this combo can cover per hour
 proc getRate {tid iid} {
    set implement [getName $iid]
    foreach rn [$tid selectNodes workrate] {
@@ -169,28 +173,38 @@ proc getRate {tid iid} {
    error "No work rate for [[$tid child 1] text] + [[$iid child 1] text] specified"
 }
 
-# return the fuel cost this combo uses per hour
-proc getCost {tid iid} {
+# Return the cost of fuel per liter
+proc fuelCost {} {
+   global config
+   set node [lindex [$config(docroot) selectNodes //fuelcosts] 0]
+   return [getValue $node "price"]
+}
+
+# return the fuel cost this combo uses per hour 
+proc getFuelCost {tid iid} {
    set implement [getName $iid]
    foreach rn [$tid selectNodes fuelrate] {
-       if {[string compare -nocase [$rn getAttribute implement] "$implement"] == 0} {
+       if {[string compare -nocase [$rn getAttribute implement] $implement] == 0} {
           set fuelrate [$rn text]
-          return $fuelrate
+          return [expr $fuelrate * [fuelCost]]
        }
    }
    error "No fuel rate for [getName $tid] + [getName $iid] specified"
 }
 
 # Return the number of hours worked per day
-proc getHoursPerDay {} {
-   #global config
-   #foreach fn [$config(docroot) selectNodes //hoursperday] {
-   #   return [$fn text]
-   #}
-   #error "No hours per day defined"
-   return 8.0
+proc getHoursPerDay {tid iid} {
+   set implement [getName $iid]
+   foreach rn [$tid selectNodes hoursperday] {
+       if {[string compare -nocase [$rn getAttribute implement] "$implement"] == 0} {
+          set hoursperday [$rn text]
+          return $hoursperday
+       }
+   }
+   error "No hours per day for [getName $tid] + [getName $iid] specified"
 }
 
+##############
 # Operate a configuration over an area. Just add it to the job queue 
 # and let process look after it.
 proc machinery:operate {tractorName implementName area} {
@@ -209,7 +223,6 @@ proc machinery:process {} {
    global machinery:jobs
    set tomorrowsJobs {}
    # Go through each job. If an item is in use in any prior job, we can't do it today. 
-   # Ignores partial days.
    for {set ijob 0} {$ijob < [llength ${machinery:jobs}]} {incr ijob} {
       set job [lindex ${machinery:jobs} $ijob]
       foreach {tid iid area} [split $job ","] {break}
@@ -219,11 +232,30 @@ proc machinery:process {} {
          if {$tid == $Ttid || $iid == $Tiid} {set inuse 1}
       }
       if {!$inuse} {
-        set cost [expr [getHoursPerDay] * [getCost $tid $iid]]
-        apsimSendMessage "" expenditure [list cost $cost] [list comment "operating costs of [getName $tid] + [getName $iid]"]
+        # The job is running today. Work out how many hours, and then the costs
+        set maxHours [getHoursPerDay $tid $iid]
+        set rate [getRate $tid $iid]
 
-        set rate [expr [getHoursPerDay] * [getRate $tid $iid]]
+        if {$maxHours * $rate <= $area} {
+           set hours $maxHours
+        } else {   
+           set hours [expr $area / $rate]
+        }   
+        apsimWriteToSummaryFile "hours='$hours', rate='$rate',cost='[getFuelCost $tid $iid]',oil='[getValue $tid oil]'"
+        set cost [expr $hours * [getFuelCost $tid $iid] * (1.0 + [getValue $tid oil]/100.0)]
+        apsimSendMessage "" expenditure [list cost $cost] [list comment "fuel & oil costs of [getName $tid] + [getName $iid]"]
+
+        set cost [expr $hours * [getValue $tid newPrice] * ([getValue $tid repairs]/100.0)/ [getValue $tid lifeOfEquipment]] 
+        apsimSendMessage "" expenditure [list cost $cost] [list comment "Repairs & maintenance of [getName $tid]"]
+
+        set cost [expr $hours * [getValue $iid newPrice] * ([getValue $iid repairs]/100.0)/ [getValue $iid lifeOfEquipment]] 
+        apsimSendMessage "" expenditure [list cost $cost] [list comment "Repairs & maintenance of [getName $iid]"]
+
+        set rate [expr $hours * [getRate $tid $iid]]
         set area [expr $area - $rate]
+        setValue $tid age [expr $hours + [getValue $tid age]]
+        setValue $iid age [expr $hours + [getValue $iid age]]
+
         if {$area > 0} {
            lappend tomorrowsJobs $tid,$iid,$area
         } else {
@@ -236,21 +268,33 @@ proc machinery:process {} {
    set machinery:jobs $tomorrowsJobs
 }
 
-# The "end_year" routine. Do replacement costs.
+# The "end_year" routine. Do loan payments and replacement
 proc machinery:end_year {} {
    foreach id [concat [getTractorIds] [getImplementIds]] {   
-      set age [expr [getValue $id age] + 1]
-      setValue $id age $age
-      
-      if {$age >= [getValue $id YearsToReplacement]} {
-         set what [getName $id]
-         set salvage [getValue $id SalvageValue]
-         apsimSendMessage "" income [list amount $salvage] [list comment "salvage value of $what"]
-
-         set cost [getValue $id MarketValue]
-         apsimSendMessage "" expenditure [list cost $cost] [list comment "replacement of $what"]
+      if {[getValue $id age] >= [getValue $id lifeOfEquipment]} {
+         set salvage [expr [getValue $id tradeInValue]/100.0 * [getValue $id newPrice]]
+         apsimSendMessage "" income [list amount $salvage] [list comment "Trade in value of [getName $id]"]
+         
+         setValue $id loanValue [getValue $id newPrice]
          setValue $id age 0
-      }   
+         setValue $id loanPeriod 1
+         apsimWriteToSummaryFile "Establishing new loan for  [getName $id]"
+      } else {
+         if {[getValue $id loanPeriod] <=  [getValue $id loanDuration]} {
+            #A = P(i(1+i)^n)/((1+i)^n - 1)
+            set P [getValue $id newPrice] 
+            set i [expr [getValue $id loanInterestRate]/100.0]
+            set n [getValue $id loanDuration]
+            
+            set A [expr $P * ($i*pow(1+$i,$n))/(pow(1.0+$i,$n) - 1.0) ]
+            apsimSendMessage "" expenditure [list cost $A] [list comment "Loan repayments for [getName $id]"]
+            
+            setValue $id loanPeriod [expr 1 + [getValue $id loanPeriod]]
+            if { [getValue $id loanPeriod] >  [getValue $id loanDuration] } {
+                apsimWriteToSummaryFile "Loan for [getName $id] is finished"
+            }    
+         }    
+      }
    }  
 }
 
@@ -258,3 +302,8 @@ proc machinery:end_year {} {
 machinery:initialise 
 set machinery:jobs {}
 apsimWriteToSummaryFile "Machinery:\nTractors=[getTractorNames]\nImplements=[getImplementNames]"
+
+# Set the current period of the loan to 1 past its end
+foreach id [concat [getTractorIds] [getImplementIds]] {
+   setValue $id loanPeriod [expr 1 + [getValue $id loanDuration]]
+}

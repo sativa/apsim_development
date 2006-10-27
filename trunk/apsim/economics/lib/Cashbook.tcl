@@ -39,8 +39,19 @@ proc cashbook:incomeHandler {args} {
       global docroot
       foreach node [$docroot selectNodes //$category] {
          if {[string equal -nocase [getValue $node name] $name]} {
-             set price [getValue $node price]
-             set amount [eval expr ( $price ) * $yield * $area]
+             if {$name != "wheat"} {
+                set price [getValue $node price]
+             } else {
+                # oddball wheat pricing system..
+                set proteins [getValue $node protein]
+                set prices [getValue $node price]
+                set price [lindex $prices 0]
+                for {set i 0} {($i < [llength $proteins]) && 
+                               ($protein > [lindex $proteins $i])} {incr i} {
+                   set price [lindex $prices $i]
+                }
+             }  
+             set amount [expr  $price * $yield * $area]
          }
       }
       set comment "$category ($name)"
@@ -51,15 +62,6 @@ proc cashbook:incomeHandler {args} {
    }
 
    cashbook:log income $amount $comment
-}
-
-# Get the value of an objects 'thing'
-proc cashbook:getValue {id thing} {
-   foreach node [$id childNodes] {
-      if {[string equal -nocase [$node nodeName] $thing]} {
-         return [string tolower [$node text]]
-      }
-   }
 }
 
 proc cashbook:expenditureHandler {args} {
@@ -98,6 +100,7 @@ proc cashbook:expenditureHandler {args} {
   cashbook:log expenditure $cost $comment
 }
 
+# Add up the annual farm overheads
 proc cashbook:doFarmOverheads {} {
    global docroot balance
    set sum 0.0
@@ -109,10 +112,40 @@ proc cashbook:doFarmOverheads {} {
    cashbook:log expenditure $sum "Farm Overheads"
 }
 
+# Work our repayments on initial investment
+proc cashbook:doInitialCapital {} {
+   global docroot balance
+   set sum 0.0
+
+# Set the period of initial loan
+setValue [lindex [$docroot selectNodes //icapital] 0] loanPeriod 1
+
+   set node [lindex [$docroot selectNodes //icapital] 0]
+   if {[getValue $node loanPeriod] <=  [getValue $node loanDuration]} {
+      #A = P(i(1+i)^n)/((1+i)^n - 1)
+      set P [getValue $node ivalue] 
+      set i [expr [getValue $node loanRate]/100.0]
+      set n [getValue $node loanDuration]
+      
+      set A [expr $P * ($i*pow(1+$i,$n))/(pow(1.0+$i,$n) - 1.0) ]
+
+      set balance [expr $balance - $A]
+      cashbook:log expenditure $A "Loan repayments for initial capital outlay"
+      
+      setValue $node loanPeriod [expr 1 + [getValue $node loanPeriod]]
+      if { [getValue $node loanPeriod] >  [getValue $node loanDuration] } {
+          apsimWriteToSummaryFile "Loan for initial capital outlay is finished"
+      }    
+   }
+}
+     
+
+
 # Send an "end financial year" message when needed
 proc cashbook:processHandler {args} {
   if {[apsimGet day] == 181} {
      cashbook:doFarmOverheads
+     cashbook:doInitialCapital
      apsimSendMessage "" end_financial_year
   }
 }
@@ -129,6 +162,8 @@ proc cashbook:log {what amount comment} {
   }
   close $fp
 }
+
+
 ########################## End apsim interface code
 ## Read our initial conditions
 
