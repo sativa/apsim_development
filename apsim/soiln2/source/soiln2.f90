@@ -4345,7 +4345,7 @@ subroutine soiln2_get_site_variables ()
 
    call push_routine (my_name)
 
-   call get_real_var (unknown_module, 'latitude', '(degrees)', g%latitude, numvals, -60.0,  60.0)
+   call get_real_var (unknown_module, 'latitude', '(deg)', g%latitude, numvals, -60.0,  60.0)
 
    call get_real_var (unknown_module, 'salb', '()', g%salb, numvals, 0.00001, 1.0)
 
