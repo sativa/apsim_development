@@ -40,7 +40,7 @@ __fastcall TRunForm::TRunForm(TComponent* Owner)
    // constructor
    {
    }
-   
+
 void TRunForm::setup(ApsimRuns& apsimRuns, bool autoRun)
    //---------------------------------------------------------------------------
    // Setup all form stuff
@@ -407,7 +407,12 @@ void __fastcall TRunForm::FormKeyDown(TObject *Sender, WORD &Key, TShiftState Sh
    // Look for a return key and send next button. If ESC, then close down.
    {
    if (Key == VK_RETURN)
-      NextButtonClick(NULL);
+      {
+      if (NextButton->Visible)
+         NextButtonClick(NULL);
+      else
+         Close();
+      }
    else if (Key == VK_ESCAPE)
       Close();
    }
