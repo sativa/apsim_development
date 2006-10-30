@@ -203,7 +203,7 @@ Public Class ExplorerUI
         ' -----------------------------------------------------
         ' User is about to do a save.
         ' -----------------------------------------------------
-        If Not IsNothing(Controller.Data) Then
+        If Controller.SelectedPaths.Count = 1 AndAlso Not IsNothing(Controller.Data) Then
             SaveCurrentView()
         End If
     End Sub
