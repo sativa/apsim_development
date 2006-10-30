@@ -211,7 +211,14 @@ void TRunForm::runSimulations()
    dayCounter = 0;
    Application->ProcessMessages();
 
-   runs->runApsim(false, OnRunNotifyEvent, OnStdoutEvent);
+   try
+      {
+      runs->runApsim(false, OnRunNotifyEvent, OnStdoutEvent);
+      }
+   catch (const exception& err)
+      {
+      ShowMessage(err.what());
+      }
 
    FinishedLabel->Visible = true;
    NextButton->Visible = false;
