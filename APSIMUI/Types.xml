@@ -1755,8 +1755,7 @@
          <variable name="plant_p" description ="Maize Total Plant Phosphorus (g/m2)"/>
          <variable name="biomass_p" description ="Maize Above-ground Phosphorus (g/m2)"/>
       </variables>
-      <events>
-      </events>
+      <events link="maize"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\maize\lib\maize.dll</dll>
@@ -1964,8 +1963,7 @@
          <variable name="totnup" description ="Total N uptake (kg/ha)"/>
          <variable name="evap_plant" description ="Crop transpiration (mm)"/>
       </variables>
-      <events>
-      </events>
+      <events link="ozcot"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\ozcot\lib\ozcot.dll</dll>
@@ -2518,8 +2516,7 @@
          <variable name="pfact_expan" description ="Sunflower phosphorus stress factor for expansion"/>
          <variable name="biomass_p" description ="Sunflower total biomass P (kg/ha)"/>
       </variables>
-      <events>
-      </events>
+      <events link="cropmod"/>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\cropmod\lib\cropmod.dll</dll>
@@ -2787,12 +2784,6 @@
       <Description>Most APSIM crop or plant modules do not require extra user input.  Crop specific parameters are either provided for your chosen soil, or are captured as part of the standard model validation process.</Description>
       <Documentation name="Wheat science documentation">../apsim/wheat/docs/wheat_science.htm</Documentation>
       <Documentation name="Generic plant documentation" >../apsim/plant/docs/plant_science.htm</Documentation>
-      <Documentation name="Gunnedah and Walgett sensibility tests">http://www.apsim.info/apsim/apsim/apsim/wheat/sensibility/nsw.html</Documentation>
-      <Documentation name="Birchip sensibility tests">http://www.apsim.info/apsim/apsim/apsim/wheat/sensibility/birchip.html</Documentation>
-      <Documentation name="Warra sensibility tests">http://www.apsim.info/apsim/apsim/apsim/wheat/sensibility/warra.html</Documentation>
-      <Documentation name="Darling downs sensibility tests">http://www.apsim.info/apsim/apsim/apsim/wheat/sensibility/darlingdowns.html</Documentation>
-      <Documentation name="Mingenew sensibility tests">http://www.apsim.info/apsim/apsim/apsim/wheat/sensibility/Mingenew.html</Documentation>
-      <Documentation name="Walpeup sensibility tests">http://www.apsim.info/apsim/apsim/apsim/wheat/sensibility/Walpeup.html</Documentation>
       <LargeIcon>Images\leaf32.bmp</LargeIcon>
       <SmallIcon>Images\leaf16.bmp</SmallIcon>
       <drops>
@@ -2861,11 +2852,6 @@
       </ApsimToSim>
    </barley>
 
-   <accum>
-      <UItype>generic</UItype>
-      <ShowInMainTree>No</ShowInMainTree>
-      <Documentation name="Science documentation">../apsim/accum/docs/accum_science.htm</Documentation>
-   </accum>
    <canopy>
       <UItype>generic</UItype>
       <ShowInMainTree>No</ShowInMainTree>
@@ -2897,11 +2883,6 @@
       <cultivar name="hhb67"/>
       <cultivar name="mh179"/>
    </millet>
-   <operatns>
-      <UItype>generic</UItype>
-      <ShowInMainTree>No</ShowInMainTree>
-      <Documentation name="Science documentation">../apsim/operatns/docs/operatns_science.htm</Documentation>
-   </operatns>
    <PatchInput>
       <UItype>generic</UItype>
       <ShowInMainTree>No</ShowInMainTree>
@@ -2922,11 +2903,6 @@
       <ShowInMainTree>No</ShowInMainTree>
       <Documentation name="Science documentation">../apsim/soilph/docs/soil_ph.htm</Documentation>
    </soilph>
-   <soiltemp>
-      <UItype>generic</UItype>
-      <ShowInMainTree>No</ShowInMainTree>
-      <Documentation name="Science documentation">../apsim/soiltemp/docs/soiltemp_science.htm</Documentation>
-   </soiltemp>
    <cl>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
@@ -3159,88 +3135,12 @@
          </calldll>
       </ApsimToSim>
    </egrandis>
-   <stream>
-      <UItype>empty</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <Description>The stream module doesn't have any properties. It is required though if you wish to track stream flow in a spatial simulation."</Description>
-      <Documentation name="Science documentation">../apsim/fertiliz/docs/fertiliz_science.htm</Documentation>
-      <LargeIcon>images\fertiliser32.png</LargeIcon>
-      <SmallIcon>images\fertiliser16.png</SmallIcon>
-      <drops>
-         <drop name="toolbox"/>
-         <drop name="area"/>
-         <drop name="simulation"/>
-         <drop name="folder"/>
-      </drops>
-      <variables>
-         <variable name="streamflow" description ="Stream Flow (ML)"/>
-      </variables>
-      <ApsimToSim>
-         <type>component</type>
-         <dll>%apsuite\apsim\stream\lib\stream.dll</dll>
-         <ini>%apsuite\apsim\egrandis\egrandis.ini</ini>
-         <sim>
-            <temp>xxx</temp>
-         </sim>
-      </ApsimToSim>
-   </stream>
-   <root>
-      <UItype>generic</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <Description>The Root module doesn't have any properties. It is required though if you wish to use the spatial root system capability in APSIM."</Description>
-      <Documentation name="Science documentation">../apsim/fertiliz/docs/fertiliz_science.htm</Documentation>
-      <LargeIcon>images\fertiliser32.png</LargeIcon>
-      <SmallIcon>images\fertiliser16.png</SmallIcon>
-      <drops>
-         <drop name="toolbox"/>
-         <drop name="area"/>
-         <drop name="simulation"/>
-         <drop name="folder"/>
-     </drops>
-     <variables>
-         <variable name="root_sw_demand_vol" description ="Root SW Demand (ML)"/>
-         <variable name="root_sw_supply_vol" description ="Root SW Supply (ML)"/>
-         <variable name="root_sw_uptake_vol" description ="Root SW Uptake (ML)"/>
-     </variables>
-      <ApsimToSim>
-         <type>component</type>
-         <dll>%apsuite\apsim\root\lib\root.dll</dll>
-         <sim>
-            <crop_type>[root.type]</crop_type>
-            <kl>[root.kl]</kl>
-         </sim>
-      </ApsimToSim>
-   </root>
-   <spaceslurp>
-      <UItype>generic</UItype>
-      <IsCrop>Yes</IsCrop>
-      <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <Description>The Spatial slurp module doesn't have any properties. It is required though if you wish to use the spatial root system capability in APSIM."</Description>
-      <Documentation name="Science documentation">../apsim/fertiliz/docs/fertiliz_science.htm</Documentation>
-      <LargeIcon>images\fertiliser32.png</LargeIcon>
-      <SmallIcon>images\fertiliser16.png</SmallIcon>
-      <drops>
-         <drop name="toolbox"/>
-         <drop name="area"/>
-         <drop name="simulation"/>
-         <drop name="folder"/>
-     </drops>
-
-     <variables>
-         <variable name="sw_demand" description ="SW Demand (mm)"/>
-         <variable name="sw_demand_vol" description ="SW Demand (ML)"/>
-     </variables>
-   </spaceslurp>
-
    <climatechange>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Description>This component allows the user to apply modifiers to daily climate variables in order to investigate the effects of climate change.</Description>
-      <Documentation name="Met module documentation">../apsim/met/docs/met_science.htm</Documentation>
+      <Documentation name="Met module documentation">../apsim/met/docs/met_science.htm#cchange</Documentation>
       <LargeIcon>Images\thermometer32.png</LargeIcon>
       <SmallIcon>Images\thermometer16.png</SmallIcon>
       <drops>
@@ -3658,7 +3558,7 @@
          <drop name="soil"/>
      </drops>
    </memo>
-   <st>
+   <soiltemp>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
@@ -3688,7 +3588,7 @@
          <dll>%apsuite\apsim\soiltemp\lib\soiltemp.dll</dll>
          <ini>%apsuite\apsim\soiltemp\soiltemp.ini</ini>
       </ApsimToSim>
-   </st>
+   </soiltemp>
    <ini>
       <UItype>file</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>

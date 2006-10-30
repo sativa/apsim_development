@@ -2445,11 +2445,11 @@ if {$steps == 0} {tkwait variable steps}
   </surfaceom>
   <fertiliser name="Fertiliser" />
   <phos name="Phosphorus" />
-  <st name="Soil Temperature">
+  <soiltemp name="Soil Temperature">
     <bound_layer_cond description="boundary layer conductance">20.0</bound_layer_cond>
     <clay description="proportion of clay">0.1  0.1  0.1  0.1  0.1  0.2  0.3</clay>
     <soil_temp description="Initial soil temperature">15 15 15 15 15 15 15</soil_temp>
-  </st>
+  </soiltemp>
   <cl name="Cl">
     <d0>108</d0>
     <layers>491 62 1490 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000</layers>
