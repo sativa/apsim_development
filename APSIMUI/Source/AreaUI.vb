@@ -229,9 +229,14 @@ Public Class areaui
     Private Sub ListView_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles ListView.KeyDown
         If e.KeyCode = Keys.Delete Then
             Dim Item As APSIMData = Controller.Data.Child(ListView.SelectedItems.Item(0).Text)
+            Dim InitialSelections As New StringCollection
+            InitialSelections.Add(Item.Parent.FullPath)
+
             Dim Selections As New StringCollection
             Selections.Add(Item.FullPath)
+            Controller.SelectedPaths = Selections
             Controller.DeleteSelected()
+            Controller.SelectedPaths = InitialSelections
             RefreshView(Controller)
         End If
     End Sub
