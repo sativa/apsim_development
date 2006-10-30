@@ -596,12 +596,18 @@ Public Class DataTree
         'Appears to be a bug in TreeView control
         If Not IsNothing(e.Label) AndAlso Not e.Label.Equals("") Then
             Dim DataToRename As APSIMData = Controller.Data
+
+            ' Firstly empty the current selections.
+            Controller.SelectedPaths = New StringCollection
+
+            ' Change the data
             DataToRename.BeginUpdate()
             DataToRename.Name = e.Label
             DataToRename.EnsureNameIsUnique()
             e.Node.Text = DataToRename.Name
             DataToRename.EndUpdate()
 
+            ' Now tell the base controller about the new selectionws.
             Dim NewSelections As StringCollection = New StringCollection
             NewSelections.Add(DataToRename.FullPath)
             Controller.SelectedPaths = NewSelections
@@ -709,7 +715,7 @@ Public Class DataTree
     ' --------------------------------------------------
     Private Sub TreeView_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TreeView.KeyDown
         If e.KeyCode = Keys.Delete Then
-            Controller.DeleteSelected()
+            DeleteSelected()
         ElseIf e.Control And e.KeyCode = Keys.X Then
             Controller.Cut()
         ElseIf e.Control And e.KeyCode = Keys.C Then
@@ -783,7 +789,16 @@ Public Class DataTree
     ' User wants to delete the current selection
     ' -------------------------------------------
     Private Sub DeleteItemMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteItemMenuItem.Click
+        DeleteSelected()
+    End Sub
+
+    Private Sub DeleteSelected()
         Controller.DeleteSelected()
+        ' The tree control will automatically select another node when the current selection is deleted
+        ' Go tell the base controller about the new selection.
+        Dim NewSelection As New StringCollection
+        NewSelection.Add(TreeView.SelectedNode.FullPath)
+        Controller.SelectedPaths = NewSelection
     End Sub
 
 
