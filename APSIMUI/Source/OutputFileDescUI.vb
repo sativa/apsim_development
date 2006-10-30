@@ -8,6 +8,8 @@ Imports CSGeneral
 Public Class OutputFileDescUI
     Inherits BaseView
     Private UserChange As Boolean = True
+    Private ComponentNames As New StringCollection
+    Private ComponentTypes As New StringCollection
 
 #Region " Windows Form Designer generated code "
 
@@ -42,14 +44,17 @@ Public Class OutputFileDescUI
     Friend WithEvents FpSpread1 As FarPoint.Win.Spread.FpSpread
     Friend WithEvents Grid As FarPoint.Win.Spread.SheetView
     Friend WithEvents Spread As FarPoint.Win.Spread.FpSpread
-    Friend WithEvents VariableListView As System.Windows.Forms.ListView
-    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
     Friend WithEvents GridContextMenu As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents MoveUpMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MoveDownMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents BottomPanel As System.Windows.Forms.Panel
+    Friend WithEvents DictionaryLabel As System.Windows.Forms.Label
+    Friend WithEvents VariableListView As System.Windows.Forms.ListView
+    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents ComponentFilter As System.Windows.Forms.ComboBox
     Friend WithEvents Splitter2 As System.Windows.Forms.Splitter
 
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
@@ -57,21 +62,25 @@ Public Class OutputFileDescUI
         Dim TipAppearance1 As FarPoint.Win.Spread.TipAppearance = New FarPoint.Win.Spread.TipAppearance
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
         Me.RightHandPanel = New System.Windows.Forms.Panel
+        Me.Splitter2 = New System.Windows.Forms.Splitter
         Me.Spread = New FarPoint.Win.Spread.FpSpread
         Me.GridContextMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.MoveUpMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MoveDownMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.Grid = New FarPoint.Win.Spread.SheetView
+        Me.BottomPanel = New System.Windows.Forms.Panel
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.ComponentFilter = New System.Windows.Forms.ComboBox
         Me.VariableListView = New System.Windows.Forms.ListView
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
-        Me.Splitter2 = New System.Windows.Forms.Splitter
+        Me.DictionaryLabel = New System.Windows.Forms.Label
+        Me.Grid = New FarPoint.Win.Spread.SheetView
         Me.EventsListView = New APSIMUI.EventsListView
         Me.RightHandPanel.SuspendLayout()
         CType(Me.Spread, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GridContextMenu.SuspendLayout()
+        Me.BottomPanel.SuspendLayout()
         CType(Me.Grid, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -84,7 +93,7 @@ Public Class OutputFileDescUI
         '
         'RightHandPanel
         '
-        Me.RightHandPanel.Controls.Add(Me.VariableListView)
+        Me.RightHandPanel.Controls.Add(Me.BottomPanel)
         Me.RightHandPanel.Controls.Add(Me.Splitter2)
         Me.RightHandPanel.Controls.Add(Me.Spread)
         Me.RightHandPanel.Dock = System.Windows.Forms.DockStyle.Fill
@@ -93,9 +102,18 @@ Public Class OutputFileDescUI
         Me.RightHandPanel.Size = New System.Drawing.Size(753, 733)
         Me.RightHandPanel.TabIndex = 11
         '
+        'Splitter2
+        '
+        Me.Splitter2.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Splitter2.Location = New System.Drawing.Point(0, 348)
+        Me.Splitter2.Name = "Splitter2"
+        Me.Splitter2.Size = New System.Drawing.Size(753, 3)
+        Me.Splitter2.TabIndex = 13
+        Me.Splitter2.TabStop = False
+        '
         'Spread
         '
-        Me.Spread.AccessibleDescription = "Spread, Sheet1, Row 0, Column 0, "
+        Me.Spread.AccessibleDescription = "Spread"
         Me.Spread.AllowDrop = True
         Me.Spread.ContextMenuStrip = Me.GridContextMenu
         Me.Spread.Dock = System.Windows.Forms.DockStyle.Top
@@ -104,7 +122,7 @@ Public Class OutputFileDescUI
         Me.Spread.Location = New System.Drawing.Point(0, 0)
         Me.Spread.Name = "Spread"
         Me.Spread.Sheets.AddRange(New FarPoint.Win.Spread.SheetView() {Me.Grid})
-        Me.Spread.Size = New System.Drawing.Size(753, 409)
+        Me.Spread.Size = New System.Drawing.Size(753, 348)
         Me.Spread.TabIndex = 14
         TipAppearance1.BackColor = System.Drawing.SystemColors.Info
         TipAppearance1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -132,6 +150,74 @@ Public Class OutputFileDescUI
         Me.MoveDownMenuItem.Size = New System.Drawing.Size(277, 22)
         Me.MoveDownMenuItem.Text = "Move variables &down"
         '
+        'BottomPanel
+        '
+        Me.BottomPanel.Controls.Add(Me.DictionaryLabel)
+        Me.BottomPanel.Controls.Add(Me.VariableListView)
+        Me.BottomPanel.Controls.Add(Me.Label1)
+        Me.BottomPanel.Controls.Add(Me.ComponentFilter)
+        Me.BottomPanel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.BottomPanel.Location = New System.Drawing.Point(0, 351)
+        Me.BottomPanel.Name = "BottomPanel"
+        Me.BottomPanel.Size = New System.Drawing.Size(753, 382)
+        Me.BottomPanel.TabIndex = 18
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(10, 35)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(86, 13)
+        Me.Label1.TabIndex = 19
+        Me.Label1.Text = "Component filter:"
+        '
+        'ComponentFilter
+        '
+        Me.ComponentFilter.FormattingEnabled = True
+        Me.ComponentFilter.Location = New System.Drawing.Point(102, 32)
+        Me.ComponentFilter.Name = "ComponentFilter"
+        Me.ComponentFilter.Size = New System.Drawing.Size(237, 21)
+        Me.ComponentFilter.TabIndex = 18
+        '
+        'VariableListView
+        '
+        Me.VariableListView.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.VariableListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader4, Me.ColumnHeader3})
+        Me.VariableListView.FullRowSelect = True
+        Me.VariableListView.Location = New System.Drawing.Point(11, 59)
+        Me.VariableListView.Name = "VariableListView"
+        Me.VariableListView.Size = New System.Drawing.Size(730, 309)
+        Me.VariableListView.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.VariableListView.TabIndex = 20
+        Me.VariableListView.UseCompatibleStateImageBehavior = False
+        Me.VariableListView.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Text = "Variable name"
+        Me.ColumnHeader1.Width = 201
+        '
+        'ColumnHeader4
+        '
+        Me.ColumnHeader4.Text = "Array?"
+        Me.ColumnHeader4.Width = 45
+        '
+        'ColumnHeader3
+        '
+        Me.ColumnHeader3.Text = "Description"
+        Me.ColumnHeader3.Width = 437
+        '
+        'DictionaryLabel
+        '
+        Me.DictionaryLabel.AutoSize = True
+        Me.DictionaryLabel.Location = New System.Drawing.Point(10, 10)
+        Me.DictionaryLabel.Name = "DictionaryLabel"
+        Me.DictionaryLabel.Size = New System.Drawing.Size(341, 13)
+        Me.DictionaryLabel.TabIndex = 21
+        Me.DictionaryLabel.Text = "Variable dictionary - drag variables from the list below to the grid above."
+        '
         'Grid
         '
         Me.Grid.Reset()
@@ -156,48 +242,6 @@ Public Class OutputFileDescUI
         Me.Grid.SheetName = "Sheet1"
         Me.Grid.ReferenceStyle = FarPoint.Win.Spread.Model.ReferenceStyle.A1
         '
-        'VariableListView
-        '
-        Me.VariableListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader4, Me.ColumnHeader3})
-        Me.VariableListView.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.VariableListView.FullRowSelect = True
-        Me.VariableListView.Location = New System.Drawing.Point(0, 412)
-        Me.VariableListView.Name = "VariableListView"
-        Me.VariableListView.Size = New System.Drawing.Size(753, 321)
-        Me.VariableListView.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.VariableListView.TabIndex = 15
-        Me.VariableListView.UseCompatibleStateImageBehavior = False
-        Me.VariableListView.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader1
-        '
-        Me.ColumnHeader1.Text = "Variable name"
-        Me.ColumnHeader1.Width = 120
-        '
-        'ColumnHeader2
-        '
-        Me.ColumnHeader2.Text = "Component name"
-        Me.ColumnHeader2.Width = 120
-        '
-        'ColumnHeader4
-        '
-        Me.ColumnHeader4.Text = "Array?"
-        Me.ColumnHeader4.Width = 45
-        '
-        'ColumnHeader3
-        '
-        Me.ColumnHeader3.Text = "Description"
-        Me.ColumnHeader3.Width = 410
-        '
-        'Splitter2
-        '
-        Me.Splitter2.Dock = System.Windows.Forms.DockStyle.Top
-        Me.Splitter2.Location = New System.Drawing.Point(0, 409)
-        Me.Splitter2.Name = "Splitter2"
-        Me.Splitter2.Size = New System.Drawing.Size(753, 3)
-        Me.Splitter2.TabIndex = 13
-        Me.Splitter2.TabStop = False
-        '
         'EventsListView
         '
         Me.EventsListView.AllowDrop = True
@@ -219,6 +263,8 @@ Public Class OutputFileDescUI
         Me.RightHandPanel.ResumeLayout(False)
         CType(Me.Spread, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GridContextMenu.ResumeLayout(False)
+        Me.BottomPanel.ResumeLayout(False)
+        Me.BottomPanel.PerformLayout()
         CType(Me.Grid, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -239,28 +285,46 @@ Public Class OutputFileDescUI
                        "       sw(2)                  -  Specific elements of array variables can be reported." + vbCrLf + _
                        "       sw(2-4)                -  Ranges of elements of arrays can be reported." + vbCrLf + _
                        "       wheat.yield as whtyld  -  Variable names can also be renamed in the output file - aliased"
+            DictionaryLabel.Text = "Variable dictionary - drag variables from the list below to the grid above."
         Else
             HelpText = "Drag one or more frequencies from the list at the bottom to the grid at the top."
+            DictionaryLabel.Text = "Frequency list - drag one or more frequencies from the list below to the grid above."
         End If
 
+        Dim ApsimUI As ApsimUIController = Controller
+        ApsimUI.GetSiblingComponents(Controller.Data.Parent, ComponentNames, ComponentTypes)
+
         UserChange = False
+        PopulateComponentFilter()
         PopulateVariableGrid()
         PopulateVariableListView()
         Grid.ActiveColumnIndex = 0
         Grid.ActiveRowIndex = 0
+        Spread.SetViewportTopRow(0, 0)
         UserChange = True
 
         If Controller.Data.Type.ToLower <> "variables" Then
-            VariableListView.Columns(2).Width = 0
+            VariableListView.Columns(1).Width = 0
             Grid.Columns(1).Visible = False
 
         Else
-            VariableListView.Columns(2).Width = 45
+            VariableListView.Columns(1).Width = 45
             Grid.Columns(1).Visible = True
         End If
 
         Dim InputMap As FarPoint.Win.Spread.InputMap = Spread.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused)
         InputMap.Put(New FarPoint.Win.Spread.Keystroke(Keys.Enter, Keys.None), FarPoint.Win.Spread.SpreadActions.MoveToNextRow)
+    End Sub
+
+    Private Sub PopulateComponentFilter()
+        ' ----------------------------------------
+        ' Populate the component filter drop down
+        ' ----------------------------------------
+        ComponentFilter.Items.Clear()
+        For Each ComponentName As String In ComponentNames
+            ComponentFilter.Items.Add(ComponentName)
+        Next
+        ComponentFilter.SelectedIndex = 0
     End Sub
 
     Private Sub PopulateVariableGrid()
@@ -280,31 +344,40 @@ Public Class OutputFileDescUI
         ' ----------------------------------------------
         ' Populate the variable list view box
         ' ----------------------------------------------
-        VariableListView.BeginUpdate()
-        VariableListView.Groups.Clear()
-        VariableListView.Items.Clear()
 
-        Dim ApsimUI As ApsimUIController = Controller
-        Dim VariableData As APSIMData = ApsimUI.GetVariableDescriptions(Controller.Data.Parent.Parent, Controller.Data.Type)
+        If ComponentFilter.SelectedIndex >= 0 And ComponentFilter.SelectedIndex < ComponentNames.Count Then
+            Windows.Forms.Cursor.Current = Cursors.WaitCursor
 
-        For Each VariableGroup As APSIMData In VariableData.Children
-            Dim NewGroup As New ListViewGroup(VariableGroup.Name)
-            VariableListView.Groups.Add(NewGroup)
+            Dim ApsimUI As ApsimUIController = Controller
+            Dim ComponentType As String = ComponentTypes(ComponentFilter.SelectedIndex)
+            Dim ComponentName As String = ComponentNames(ComponentFilter.SelectedIndex)
+            Dim PropertyGroup As String = Controller.Data.Type  ' e.g. variables or events
+            Dim VariableData As New APSIMData(PropertyGroup, "")
+            ApsimUI.GetVariablesForComponent(ComponentType, ComponentName, PropertyGroup, VariableData)
 
-            For Each Variable As APSIMData In VariableGroup.Children
-                Dim ListItem As New ListViewItem(Variable.Name)
-                ListItem.Group = NewGroup
-                ListItem.SubItems.Add(VariableGroup.Attribute("module"))
-                If Variable.Attribute("array") = "T" Then
-                    ListItem.SubItems.Add("Yes")
-                Else
-                    ListItem.SubItems.Add("No")
-                End If
-                ListItem.SubItems.Add(Variable.Attribute("description"))
-                VariableListView.Items.Add(ListItem)
+            VariableListView.BeginUpdate()
+            VariableListView.Groups.Clear()
+            VariableListView.Items.Clear()
+
+            For Each VariableGroup As APSIMData In VariableData.Children
+                Dim NewGroup As New ListViewGroup(VariableGroup.Name)
+                VariableListView.Groups.Add(NewGroup)
+                For Each Variable As APSIMData In VariableGroup.Children
+                    Dim ListItem As New ListViewItem(Variable.Name)
+                    ListItem.Group = NewGroup
+                    If Variable.Attribute("array") = "T" Then
+                        ListItem.SubItems.Add("Yes")
+                    Else
+                        ListItem.SubItems.Add("No")
+                    End If
+                    ListItem.SubItems.Add(Variable.Attribute("description"))
+                    VariableListView.Items.Add(ListItem)
+                Next
             Next
-        Next
-        VariableListView.EndUpdate()
+            VariableListView.EndUpdate()
+            Windows.Forms.Cursor.Current = Cursors.Default
+        End If
+
     End Sub
     Private Sub SaveVariableGrid()
         ' --------------------------------------------------
@@ -403,8 +476,8 @@ Public Class OutputFileDescUI
         Dim Row As Integer = GridUtils.FindFirstBlankCell(Grid, 0)
         For Each SelectedItem As ListViewItem In VariableListView.SelectedItems
             Grid.Cells(Row, 0).Text = SelectedItem.Text
-            Grid.Cells(Row, 1).Text = SelectedItem.SubItems(2).Text
-            Grid.Cells(Row, 2).Text = SelectedItem.SubItems(3).Text
+            Grid.Cells(Row, 1).Text = SelectedItem.SubItems(1).Text
+            Grid.Cells(Row, 2).Text = SelectedItem.SubItems(2).Text
             Row += 1
         Next
         UserChange = True
@@ -458,5 +531,9 @@ Public Class OutputFileDescUI
         Grid.AddSelection(Selection.Row + 1, Selection.Column, Selection.RowCount, Selection.ColumnCount)
         Controller.DirtyData = True
         UserChange = True
+    End Sub
+
+    Private Sub ComponentFilter_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComponentFilter.TextChanged
+        PopulateVariableListView()
     End Sub
 End Class
