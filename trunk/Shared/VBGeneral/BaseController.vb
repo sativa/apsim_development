@@ -487,11 +487,12 @@ Public MustInherit Class BaseController
         ' ---------------------------------------------
         ' Delete all selected nodes.
         ' ---------------------------------------------
-        For Each FullPath As String In MySelectedData
+        Dim Selections As StringCollection = MySelectedData
+        SelectedPaths = New StringCollection()
+        For Each FullPath As String In Selections
             Dim NodeToDelete As APSIMData = AllData.Find(FullPath)
             NodeToDelete.Parent.Delete(NodeToDelete.Name)
         Next
-        MySelectedData.Clear()
         RefreshView()
     End Sub
     Public Sub MoveSelectedUp()
