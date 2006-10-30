@@ -687,7 +687,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
         <category name="Fertiliser application details">
           <fertmodule type="modulename" description="Module used to apply the fertiliser : " />
           <fert_amount type="text" description="Amount of fertiliser to apply (kg/ha) : ">150</fert_amount>
-          <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
+          <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Fertiliser type : ">urea_N</fert_type>
         </category>
       </rule>
       <rule name="Fertilise on fixed date - top up">
@@ -702,7 +702,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
         </category>
         <category name="Fertiliser application details">
           <fertmodule type="modulename" description="Module used to apply the fertiliser : " />
-          <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Sowing fertiliser type : ">urea_N</fert_type>
+          <fert_type type="list" listvalues="NO3_N, NH4_N, NH4NO3, urea_N, urea_no3, urea" description="Fertiliser type : ">urea_N</fert_type>
         </category>
       </rule>
       <rule name="Irrigate at sowing">
@@ -2393,47 +2393,47 @@ if {$steps == 0} {tkwait variable steps}
   </folder>
   <folder name="Water">
     <irrigation name="Irrigation">
-      <automatic_irrigation type="text" description="switch">on</automatic_irrigation>
+      <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">on</automatic_irrigation>
       <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
       <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
       <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
     </irrigation>
     <bore name="bore">
-      <max_available_water>100</max_available_water>
-      <init_available_water>50</init_available_water>
-      <max_pump>10</max_pump>
-      <min_volume>2</min_volume>
-      <annual_allocation>100</annual_allocation>
-      <allocation_renewal_day>180</allocation_renewal_day>
-      <init_salt_conc>704.0</init_salt_conc>
+      <max_available_water description="Capacity (ML)">100</max_available_water>
+      <init_available_water description="Supply volume available at start of simulation (ML)">50</init_available_water>
+      <max_pump description="Maximum pump delivery volume per day (ML/day)">10</max_pump>
+      <min_volume description="Minimum volume in storage below which pump cannot access">2</min_volume>
+      <annual_allocation description="Annual Allocation in ML">100</annual_allocation>
+      <allocation_renewal_day description="Day of year on which allocation is granted">180</allocation_renewal_day>
+      <init_salt_conc description="Initial chloride concentration (ppm)">704.0</init_salt_conc>
     </bore>
     <channel name="channel">
-      <max_available_water>100</max_available_water>
-      <init_available_water>50</init_available_water>
-      <max_pump>10</max_pump>
-      <min_volume>2</min_volume>
-      <annual_allocation>100</annual_allocation>
-      <allocation_renewal_day>180</allocation_renewal_day>
-      <init_salt_conc>704.0</init_salt_conc>
+      <max_available_water description="Capacity (ML)">100</max_available_water>
+      <init_available_water description="Supply volume available at start of simulation (ML)">50</init_available_water>
+      <max_pump description="Maximum pump delivery volume per day (ML/day)">10</max_pump>
+      <min_volume description="Minimum volume in storage that the pump cannot access">2</min_volume>
+      <annual_allocation description="Annual Allocation in ML">100</annual_allocation>
+      <allocation_renewal_day description="Day of year on which allocation is granted">180</allocation_renewal_day>
+      <init_salt_conc description="Initial chloride concentration (ppm)">704.0</init_salt_conc>
     </channel>
     <dam name="dam">
-      <source_type>dam_gully</source_type>
-      <max_available_water>100</max_available_water>
-      <max_area>5</max_area>
-      <init_available_water>50</init_available_water>
-      <max_pump>10</max_pump>
-      <min_volume>2</min_volume>
-      <permeability>0.00007</permeability>
-      <seal_thickness>0.5</seal_thickness>
-      <receive_catchment_runoff>no</receive_catchment_runoff>
-      <receive_crop_runoff>no</receive_crop_runoff>
-      <init_salt_conc>704.0</init_salt_conc>
-      <receive_catchment_runoff>no</receive_catchment_runoff>
-      <catchment_area>50.0</catchment_area>
-      <catchment_runoff_factor>0.5</catchment_runoff_factor>
-      <receive_crop_runoff>yes</receive_crop_runoff>
-      <runoff_salt_conc>700.0</runoff_salt_conc>
-      <rainfall_salt_conc>20.0</rainfall_salt_conc>
+      <source_type type="list" listvalues="dam_gully,dam_ring,dam_exc,sump" description="Source Type">dam_gully</source_type>
+      <max_available_water description="Capacity (ML)">100</max_available_water>
+      <max_area description="Storage water surface area at capacity (ha)">5</max_area>
+      <init_available_water description="Initial supply volume available(ML)">50</init_available_water>
+      <max_pump description="Maximum pump delivery volume per day (ML/day)">10</max_pump>
+      <min_volume description="Minimum volume in storage that the pump cannot access">2</min_volume>
+      <permeability description="Permeability of sealing layer (m/day)">0.00007</permeability>
+      <seal_thickness description="Thickness of low permeability seal (m)">0.5</seal_thickness>
+      <receive_catchment_runoff type="list" listvalues="no,yes" description="Dam collects runoff from larger catchment area">no</receive_catchment_runoff>
+      <receive_crop_runoff type="list" listvalues="no,yes" description="Dam collects runoff from simulated crop area">no</receive_crop_runoff>
+      <init_salt_conc description="Initial chloride concentration (ppm)">704.0</init_salt_conc>
+      <receive_catchment_runoff type="list" listvalues="no,yes" description="Dam collects runoff from larger catchment area">no</receive_catchment_runoff>
+      <catchment_area description="Catchment area (ha)">50.0</catchment_area>
+      <catchment_runoff_factor description="soilwat2.runoff multiplier">0.5</catchment_runoff_factor>
+      <receive_crop_runoff type="list" listvalues="yes,no" description="Dam collects runoff from simulated crop area">yes</receive_crop_runoff>
+      <runoff_salt_conc description="Runoff chloride concentration (ppm)">700.0</runoff_salt_conc>
+      <rainfall_salt_conc description="Rainfall chloride concentration (ppm)">20.0</rainfall_salt_conc>
     </dam>
   </folder>
   <surfaceom name="Surface Organic Matter">
@@ -2455,15 +2455,15 @@ if {$steps == 0} {tkwait variable steps}
     <layers>491 62 1490 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000</layers>
   </cl>
   <erosion name="Erosion">
-    <model name="model">freebairn</model>
-    <slope name="slope">6.5</slope>
-    <slope_length name="slope_length">60.0</slope_length>
-    <k_factor name="k_factor">0.4</k_factor>
-    <p_factor name="p_factor">1.0</p_factor>
-    <bed_depth name="bed_depth">1900</bed_depth>
-    <profile_reduction name="profile_reduction">off</profile_reduction>
-    <profile_layer_merge name="profile_layer_merge">0.05</profile_layer_merge>
-    <minimum_depth name="minimum_depth">100.0</minimum_depth>
+    <model description="Model Name">freebairn</model>
+    <slope  description="Slope of plot in percent (%)">6.5</slope>
+    <slope_length description="Length of plot (m)">60.0</slope_length>
+    <k_factor description="Soil erodibility factor (t/ha/EI 30 )">0.4</k_factor>
+    <p_factor description="Supporting practise factor (unitless)">1.0</p_factor>
+    <bed_depth description="Depth to bedrock (mm)">1900</bed_depth>
+    <profile_reduction type="list" listvalues="off,on" description="Profile Reduction">off</profile_reduction>
+    <profile_layer_merge description="Fraction of original size in which the lowest layer is merged into the layer above (0-1)">0.05</profile_layer_merge>
+    <minimum_depth description="If the profile erodes to this depth, the simulation is stopped (mm)">100.0</minimum_depth>
   </erosion>
   <micromet name="Micromet">
     <soilalbedo name="soilalbedo">0.23</soilalbedo>
