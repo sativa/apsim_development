@@ -255,6 +255,12 @@ Public Class DataTree
             Else
                 TreeView.Nodes(0).Expand()
             End If
+            ' if nothing selected then select root node.
+            If Controller.SelectedPaths.Count = 0 Then
+                Dim RootNode As New StringCollection
+                RootNode.Add(TreeView.Nodes(0).FullPath)
+                Controller.SelectedPaths = RootNode
+            End If
 
             TreeView.EndUpdate()
             Windows.Forms.Cursor.Current = Cursors.Default
