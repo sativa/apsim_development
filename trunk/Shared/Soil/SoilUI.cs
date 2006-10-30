@@ -161,13 +161,13 @@ namespace CSGeneral
         // 
         // Grid
         // 
-        this.Grid.AccessibleDescription = "Grid, Photo/Attach, Row 1, Column 0, ";
+        this.Grid.AccessibleDescription = "Grid, Water, Row 0, Column 0, ";
         this.Grid.AllowDragDrop = true;
         this.Grid.ContextMenu = this.WaterMenu;
         this.Grid.Dock = System.Windows.Forms.DockStyle.Top;
         this.Grid.EditModeReplace = true;
         this.Grid.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded;
-        this.Grid.Location = new System.Drawing.Point(0, 84);
+        this.Grid.Location = new System.Drawing.Point(0, 87);
         this.Grid.Name = "Grid";
         this.Grid.SelectionBlockOptions = ((FarPoint.Win.Spread.SelectionBlockOptions)(((FarPoint.Win.Spread.SelectionBlockOptions.Cells | FarPoint.Win.Spread.SelectionBlockOptions.Rows)
                     | FarPoint.Win.Spread.SelectionBlockOptions.Sheet)));
@@ -211,13 +211,13 @@ namespace CSGeneral
         // 
         this.AddCropMenuItem.Index = 0;
         this.AddCropMenuItem.Text = "&Add crop";
-        this.AddCropMenuItem.Click += new System.EventHandler(this.AddCropMenuItem_Click_1);
+        this.AddCropMenuItem.Click += new System.EventHandler(this.AddCropMenuItem_Click);
         // 
         // DeleteCropMenuItem
         // 
         this.DeleteCropMenuItem.Index = 1;
         this.DeleteCropMenuItem.Text = "&Delete crop";
-        this.DeleteCropMenuItem.Click += new System.EventHandler(this.DeleteCropMenuItem_Click_1);
+        this.DeleteCropMenuItem.Click += new System.EventHandler(this.DeleteCropMenuItem_Click);
         // 
         // ReorderCropsMenuItem
         // 
@@ -565,7 +565,7 @@ namespace CSGeneral
         // splitter1
         // 
         this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
-        this.splitter1.Location = new System.Drawing.Point(0, 376);
+        this.splitter1.Location = new System.Drawing.Point(0, 379);
         this.splitter1.Name = "splitter1";
         this.splitter1.Size = new System.Drawing.Size(906, 3);
         this.splitter1.TabIndex = 13;
@@ -617,7 +617,7 @@ namespace CSGeneral
             this.CheckSoilButton});
         this.toolStrip1.Location = new System.Drawing.Point(0, 40);
         this.toolStrip1.Name = "toolStrip1";
-        this.toolStrip1.Size = new System.Drawing.Size(906, 44);
+        this.toolStrip1.Size = new System.Drawing.Size(906, 47);
         this.toolStrip1.TabIndex = 15;
         this.toolStrip1.Text = "toolStrip1";
         // 
@@ -627,7 +627,7 @@ namespace CSGeneral
         this.AddButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.AddButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.AddButton.Name = "AddButton";
-        this.AddButton.Size = new System.Drawing.Size(54, 41);
+        this.AddButton.Size = new System.Drawing.Size(63, 44);
         this.AddButton.Text = "&Add crop";
         this.AddButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.AddButton.Click += new System.EventHandler(this.AddCropMenuItem_Click);
@@ -638,7 +638,7 @@ namespace CSGeneral
         this.DeleteButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.DeleteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.DeleteButton.Name = "DeleteButton";
-        this.DeleteButton.Size = new System.Drawing.Size(66, 41);
+        this.DeleteButton.Size = new System.Drawing.Size(77, 44);
         this.DeleteButton.Text = "&Delete crop";
         this.DeleteButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.DeleteButton.Click += new System.EventHandler(this.DeleteCropMenuItem_Click);
@@ -649,7 +649,7 @@ namespace CSGeneral
         this.ReorderButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.ReorderButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.ReorderButton.Name = "ReorderButton";
-        this.ReorderButton.Size = new System.Drawing.Size(79, 41);
+        this.ReorderButton.Size = new System.Drawing.Size(93, 44);
         this.ReorderButton.Text = "&Reorder crops";
         this.ReorderButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.ReorderButton.Click += new System.EventHandler(this.ReorderCropsMenuItem_Click);
@@ -660,7 +660,7 @@ namespace CSGeneral
         this.PHButton.Image = global::SoilNamespace.Properties.Resources.potion_yellow;
         this.PHButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.PHButton.Name = "PHButton";
-        this.PHButton.Size = new System.Drawing.Size(90, 41);
+        this.PHButton.Size = new System.Drawing.Size(105, 44);
         this.PHButton.Text = "Change pH units";
         this.PHButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.PHButton.Click += new System.EventHandler(this.PHButton_Click);
@@ -668,7 +668,7 @@ namespace CSGeneral
         // toolStripSeparator1
         // 
         this.toolStripSeparator1.Name = "toolStripSeparator1";
-        this.toolStripSeparator1.Size = new System.Drawing.Size(6, 44);
+        this.toolStripSeparator1.Size = new System.Drawing.Size(6, 47);
         // 
         // PrintButton
         // 
@@ -676,7 +676,7 @@ namespace CSGeneral
         this.PrintButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.PrintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.PrintButton.Name = "PrintButton";
-        this.PrintButton.Size = new System.Drawing.Size(51, 41);
+        this.PrintButton.Size = new System.Drawing.Size(61, 44);
         this.PrintButton.Text = "&Print soil";
         this.PrintButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.PrintButton.Click += new System.EventHandler(this.PrintClick);
@@ -687,7 +687,7 @@ namespace CSGeneral
         this.CheckSoilButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
         this.CheckSoilButton.ImageTransparentColor = System.Drawing.Color.Magenta;
         this.CheckSoilButton.Name = "CheckSoilButton";
-        this.CheckSoilButton.Size = new System.Drawing.Size(58, 41);
+        this.CheckSoilButton.Size = new System.Drawing.Size(69, 44);
         this.CheckSoilButton.Text = "&Check soil";
         this.CheckSoilButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
         this.CheckSoilButton.Click += new System.EventHandler(this.CheckSoilMenuItem_Click);
@@ -696,10 +696,10 @@ namespace CSGeneral
         // 
         this.WaterChartControl.Dock = System.Windows.Forms.DockStyle.Fill;
         this.WaterChartControl.LinkedSoil = null;
-        this.WaterChartControl.Location = new System.Drawing.Point(0, 376);
+        this.WaterChartControl.Location = new System.Drawing.Point(0, 379);
         this.WaterChartControl.Name = "WaterChartControl";
         this.WaterChartControl.ShowSoilWaterLine = false;
-        this.WaterChartControl.Size = new System.Drawing.Size(906, 386);
+        this.WaterChartControl.Size = new System.Drawing.Size(906, 383);
         this.WaterChartControl.TabIndex = 14;
         // 
         // SoilUI
@@ -1563,18 +1563,6 @@ namespace CSGeneral
 			e.PageSettings.Margins.Top = 50;
 			e.PageSettings.Margins.Right = 50;
 			e.PageSettings.Margins.Bottom = 50;
-			}
-
-		private void AddCropMenuItem_Click_1(object sender, System.EventArgs e)
-			{
-			ApsoilController Apsoil = Controller as ApsoilController;
-			Apsoil.AddCrop();
-			}
-
-		private void DeleteCropMenuItem_Click_1(object sender, System.EventArgs e)
-			{
-			ApsoilController Apsoil = Controller as ApsoilController;
-			Apsoil.DeleteCrop();
 			}
 
 		private void CheckSoilMenuItem_Click(object sender, System.EventArgs e)
