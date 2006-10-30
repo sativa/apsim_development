@@ -888,7 +888,7 @@ Public Class MainUI
                     FillRunWindowWithSimulations(Child)
                 Next
             Else
-                While Data.Type <> "folder" AndAlso Data.Type <> "simulations"
+                While Data.Type <> "simulation" AndAlso Data.Type <> "folder" AndAlso Data.Type <> "simulations"
                     Data = Data.Parent
                 End While
                 FillRunWindowWithSimulations(Data)
