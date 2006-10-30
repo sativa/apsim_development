@@ -138,6 +138,7 @@ void TGraph::refresh(void)
    {
    if (!ComponentState.Contains(csLoading))
       {
+      Chart->RefreshData();
       Chart->Refresh();
       replaceChartMacros();
       fixBottomAxisScaling();

@@ -120,6 +120,8 @@ void __fastcall TMainForm::NewActionExecute(TObject *Sender)
    report.clear();
    filename = "";
    setCaption();
+   report.getPageNames(TabControl->Tabs);
+
    }
 //---------------------------------------------------------------------------
 // User has clicked open.
