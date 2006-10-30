@@ -556,12 +556,12 @@ Public Class APSIMData
         ' -------------------------------------------------------------------------
         Dim ChildData As APSIMData = Child(ChildName)
 
-        Dim ReferenceNode As XmlNode = ChildData.Node.PreviousSibling()
+        Dim ReferenceNode As XmlNode = ChildData.InternalNode.PreviousSibling()
         While (ChildType <> "" And ReferenceNode.Name.ToLower <> ChildType.ToLower)
             ReferenceNode = ReferenceNode.PreviousSibling()
         End While
         If Not IsNothing(ReferenceNode) Then
-            Node.InsertBefore(ChildData.Node, ReferenceNode)
+            InternalNode.InsertBefore(ChildData.InternalNode, ReferenceNode)
             ChildrenLoaded = False
             FireDataChangedEvent()
         End If
@@ -573,13 +573,13 @@ Public Class APSIMData
         ' -------------------------------------------------------------------------
         Dim ChildData As APSIMData = Child(ChildName)
 
-        Dim ReferenceNode As XmlNode = ChildData.Node.NextSibling()
+        Dim ReferenceNode As XmlNode = ChildData.InternalNode.NextSibling()
         While (ChildType <> "" And ReferenceNode.Name.ToLower <> ChildType.ToLower)
             ReferenceNode = ReferenceNode.NextSibling()
         End While
 
         If Not IsNothing(ReferenceNode) Then
-            Node.InsertAfter(ChildData.Node, ReferenceNode)
+            InternalNode.InsertAfter(ChildData.InternalNode, ReferenceNode)
             ChildrenLoaded = False
             FireDataChangedEvent()
         End If

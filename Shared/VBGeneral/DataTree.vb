@@ -766,7 +766,7 @@ Public Class DataTree
     ' Set functionality for it.
     ' --------------------------------------
     Private Sub ContextMenu1_Popup(ByVal sender As Object, ByVal e As System.EventArgs) Handles ContextMenu1.Popup
-        AddFolderMenuItem.Enabled = Controller.AllowComponentAdd("folder", Controller.Data.Type)
+        AddFolderMenuItem.Enabled = Controller.SelectedPaths.Count = 1 AndAlso Controller.AllowComponentAdd("folder", Controller.Data.Type)
         DeleteItemMenuItem.Enabled = Controller.AllowDeleteSelected
         RenameMenuItem.Enabled = Controller.AllowRenameSelected
         CutMenuItem.Enabled = Controller.AllowCut
