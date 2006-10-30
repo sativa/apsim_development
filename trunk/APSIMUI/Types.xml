@@ -2927,7 +2927,7 @@
       <ShowInMainTree>No</ShowInMainTree>
       <Documentation name="Science documentation">../apsim/soiltemp/docs/soiltemp_science.htm</Documentation>
    </soiltemp>
-   <solute>
+   <cl>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
@@ -2941,21 +2941,22 @@
          <drop name="folder"/>
      </drops>
      <variables>
-         <variable name="salt" description ="salt"/>
-         <variable name="max_salt" description ="max salt in any layer (kg/ha)"/>
-         <variable name="maxppm_salt" description ="max salt in any layer (ppm)"/>
-         <variable name="maxlayer_salt" description ="soil layer in which max_salt occurs"/>
+         <variable name="cl" description ="Cl in each layer (kg/ha)"/>
+         <variable name="max_cl" description ="max Cl in any layer (kg/ha)"/>
+         <variable name="maxppm_cl" description ="max Cl in any layer (ppm)"/>
+         <variable name="maxlayer_cl" description ="soil layer in which max_Cl occurs"/>
      </variables>
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\solute\lib\solute.dll</dll>
          <ini>%apsuite\apsim\solute\solute.ini</ini>
          <sim>
-            <solute_names>[solute.solute_names]</solute_names>
-            <salt>[solute.salt]</salt>
+            <solute_names>cl</solute_names>
+            <d0_cl>[solute.d0]</d0_cl>
+            <cl>[solute.layers]</cl>
          </sim>
       </ApsimToSim>
-   </solute>
+   </cl>
    <surface>
       <UItype>generic</UItype>
       <ShowInMainTree>No</ShowInMainTree>
