@@ -1644,10 +1644,11 @@ namespace CSGeneral
                             {
                             case (0): e.TipText = "Depth of layer (cm)"; break;
                             case (1): e.TipText = "Bulk density (gm dry soil/cc moist soil)"; break;
-                            case (2): e.TipText = "Saturation (mm water/mm soil)"; break;
-                            case (3): e.TipText = "Drained upper limit (mm water/mm soil)"; break;
-                            case (4): e.TipText = "Air dry (mm water/mm soil)"; break;
-                            case (5): e.TipText = "Lower limit 15 bar (mm water/mm soil)"; break;
+                            case (2): e.TipText = "Rocks (%)"; break;
+                            case (3): e.TipText = "Saturation (mm water/mm soil)"; break;
+                            case (4): e.TipText = "Drained upper limit (mm water/mm soil)"; break;
+                            case (5): e.TipText = "Air dry (mm water/mm soil)"; break;
+                            case (6): e.TipText = "Lower limit 15 bar (mm water/mm soil)"; break;
                             }
                         }
                     e.ShowTip = true;
