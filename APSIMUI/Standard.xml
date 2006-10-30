@@ -375,12 +375,6 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
     <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1988</start_date>
     <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1988</end_date>
   </clock>
-  <canopy name="Canopy">
-    <intercrop name="intercrop" description="Enter crop names to intercrop" type="text">
-    </intercrop>
-  </canopy>
-  <FarmwiseSequencerConverter name="FarmwiseSequencer">
-  </FarmwiseSequencerConverter>
   <outputfile name="Outputfile">
     <filename name="filename">sample.out</filename>
     <variables name="Variables">
@@ -2472,6 +2466,10 @@ if {$steps == 0} {tkwait variable steps}
     <c_interception name="c_interception">0.0</c_interception>
     <d_interception name="d_interception">0.0</d_interception>
   </micromet>
+  <canopy name="Canopy">
+    <intercrop name="intercrop" description="Enter crop names to intercrop" type="text">
+    </intercrop>
+  </canopy>
   <folder name="Animals">
     <StockHerbageConverter>
       <debug type="list" listvalues="on,off">off</debug>
@@ -2621,5 +2619,6 @@ if {$steps == 0} {tkwait variable steps}
       <debug type="list" listvalues="on,off">off</debug>
       <supplement_module type="modulename">supplement</supplement_module>
     </SupplementScienceConverter>
+    <FarmwiseSequencerConverter name="FarmwiseSequencer"/>
   </folder>
 </folder>

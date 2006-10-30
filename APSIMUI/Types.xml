@@ -174,23 +174,6 @@
          <ini>%apsuite\apsim\clock\clock.ini</ini>
       </ApsimToSim>
    </clock>
-	   <canopy>
-      <UItype>generic</UItype>
-      <ShowInMainTree>Yes</ShowInMainTree>
-      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
-      <Documentation name="Science documentation">../apsim/canopy/docs/canopy_science.htm</Documentation>
-      <LargeIcon>Images\gears32.png</LargeIcon>
-      <SmallIcon>Images\gears16.png</SmallIcon>
-      <drops>
-         <drop name="toolbox"/>
-         <drop name="area"/>
-         <drop name="folder"/>
-      </drops>
-      <ApsimToSim>
-         <type>component</type>
-         <dll>%apsuite\apsim\canopy\lib\canopy.dll</dll>
-      </ApsimToSim>
-   </canopy>
    <FarmwiseSequencerConverter>
       <UItype>generic</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
@@ -1185,8 +1168,8 @@
       <ShowInMainTree>Yes</ShowInMainTree>
       <Image>%apsuite\apsimui\images\banner2.jpg</Image>
       <Documentation name="Science documentation">../apsim/erosion/docs/erosion_science.htm</Documentation>
-      <LargeIcon>Images\cubes32.png</LargeIcon>
-      <SmallIcon>Images\earth2.png</SmallIcon>
+      <LargeIcon>Images\shovel32.bmp</LargeIcon>
+      <SmallIcon>Images\shovel16.bmp</SmallIcon>
       <drops>
          <drop name="toolbox"/>
          <drop name="area"/>
@@ -2852,11 +2835,6 @@
       </ApsimToSim>
    </barley>
 
-   <canopy>
-      <UItype>generic</UItype>
-      <ShowInMainTree>No</ShowInMainTree>
-      <Documentation name="Science documentation">../apsim/canopy/docs/canopy_science.htm</Documentation>
-   </canopy>
    <growth>
       <UItype>generic</UItype>
       <ShowInMainTree>No</ShowInMainTree>
@@ -3572,8 +3550,8 @@
          <drop name="folder"/>
       </drops>
       <variables>
-         <variable name="final_soil_temp_surface" description="Soil surface temperature at the end of the final internal Soiltemp timestep. (oC)"/>
-         <variable name="final_soil_temp" array="T" description="Soil temperature at the end of the final internal Soiltemp timestep. oC"/>
+         <variable name="final_soil_temp_surface" description="Soil surface temperature at the end of the final internal canopy timestep. (oC)"/>
+         <variable name="final_soil_temp" array="T" description="Soil temperature at the end of the final internal canopy timestep. oC"/>
          <variable name="ave_soil_temp_surface" description="Average soil surface temperature during the Apsim timestep. (oC)"/>
          <variable name="ave_soil_temp" array="T" description="Average soil surface temperature during the Apsim timestep. (oC)"/>
          <variable name="mint_soil_surface" description="Minimum soil surface temperature found on surface during the Apsim timestep. (oC)"/>
@@ -3589,6 +3567,33 @@
          <ini>%apsuite\apsim\soiltemp\soiltemp.ini</ini>
       </ApsimToSim>
    </soiltemp>
+   <canopy>
+      <UItype>generic</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/canopy/docs/canopy_science.htm</Documentation>
+      <LargeIcon>Images\leaf32.bmp</LargeIcon>
+      <SmallIcon>Images\leaf16.bmp</SmallIcon>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="area"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+      </drops>
+      <variables>
+         <variable name="cover_tot_sum" array="F" description="Sum of crop cover (0-1)"/>
+         <variable name="cover_tot_all" array="T" description="Cover of each crop (0-1)"/>
+         <variable name="cover_height_all" array="T" description="Height of each crop (0-1)"/>
+         <variable name="cover_green_sum" array="F" description="Green cover of all crops (0-1)"/>
+         <variable name="cover_green_all" array="T" description="Green cover of each crop (0-1)"/>
+         <variable name="cover_crops_all" array="T" description="Which crops are in canopy (boolean)"/>
+      </variables>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\canopy\lib\canopy.dll</dll>
+      </ApsimToSim>
+   </canopy>
+
    <ini>
       <UItype>file</UItype>
       <ShowInMainTree>Yes</ShowInMainTree>
