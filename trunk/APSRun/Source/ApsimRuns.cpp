@@ -66,7 +66,10 @@ void ApsimRuns::addSimulationsFromFile(const std::string& fileName)
    else if (fileExtensionEquals(fileName, "sim"))
       addSimulation(fileName, fileRoot(fileName));
    else if (fileExtensionEquals(fileName, "apsim"))
-      addSimulationsFromApsimFile(fileName);
+      {
+      XMLDocument doc(fileName);
+      addSimulationsFromApsimFile(fileName, doc.documentElement());
+      }
    else
       throw runtime_error("Invalid simulation file: " + fileName);
    }
@@ -94,20 +97,19 @@ void ApsimRuns::addSimulation(const std::string& fileName, const std::string& si
    simNames.push_back(simName);
    }
 
-void ApsimRuns::addSimulationsFromApsimFile(const std::string& fileName)
+void ApsimRuns::addSimulationsFromApsimFile(const std::string& fileName, XMLNode parent)
    //---------------------------------------------------------------------------
    // Add the specified simulations from the specified .APSIM file.
    {
-   vector<string> simulationNames;
-   XMLDocument doc(fileName);
-   for (XMLNode::iterator node = doc.documentElement().begin();
-                          node != doc.documentElement().end();
+   for (XMLNode::iterator node = parent.begin();
+                          node != parent.end();
                           node++)
+      {
       if (Str_i_Eq(node->getName(), "simulation"))
-         simulationNames.push_back(node->getAttribute("name"));
-
-   for (unsigned s = 0; s != simulationNames.size(); s++)
-      addSimulation(fileName, simulationNames[s]);
+         addSimulation(fileName, node->getAttribute("name"));
+      else if (Str_i_Eq(node->getName(), "folder"))
+         addSimulationsFromApsimFile(fileName, *node);
+      }
    }
 
 void ApsimRuns::getFilesNeedingConversion(std::vector<std::string>& filesNeedingConversion)
@@ -132,7 +134,7 @@ void ApsimRuns::runApsim(bool quiet,  TApsimRunEvent notifyEvent, TApsimRunEvent
       bool conversionOk = false;
 
       // Convert file to .sim if necessary (i.e. if it's a .con or a .apsim)
-      // There's a subtle difference in the name of each simulation that the converter writes 
+      // There's a subtle difference in the name of each simulation that the converter writes
       if (fileExtensionEquals(simFileName, "con"))
          {
          // Delete any old simfiles lying about
@@ -146,7 +148,7 @@ void ApsimRuns::runApsim(bool quiet,  TApsimRunEvent notifyEvent, TApsimRunEvent
             msgEvent(".con To .sim file conversion failed");
             conversionOk = false;
             }
-         else 
+         else
             conversionOk = true;
          simFileName = newSimName;
          }
@@ -157,7 +159,7 @@ void ApsimRuns::runApsim(bool quiet,  TApsimRunEvent notifyEvent, TApsimRunEvent
          string dir = fileDirName(simFileName);
          if (dir == "")
             newSimName = simNames[f] + ".sim";
-         else    
+         else
             newSimName = dir + "\\" + simNames[f] + ".sim";
 
          // Delete any old simfiles lying about
@@ -170,7 +172,7 @@ void ApsimRuns::runApsim(bool quiet,  TApsimRunEvent notifyEvent, TApsimRunEvent
             msgEvent(".apsim to .sim file conversion failed");
             conversionOk = false;
             }
-         else 
+         else
             conversionOk = true;
          simFileName = newSimName;
          }
