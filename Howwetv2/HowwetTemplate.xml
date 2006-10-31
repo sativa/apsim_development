@@ -1,14 +1,18 @@
-<simulations name="HowWet">
+<simulations name="HowWet" version="5">
   <simulation name="HowWet">
     <clock name="clock">
-      <start_date name="start_date" description="Select the start date of the simulation" type="date"></start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date"></end_date>
+      <start_date name="start_date" description="Select the start date of the simulation" type="date">
+      </start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date">
+      </end_date>
     </clock>
     <summaryfile name="summaryfile">
-      <filename name="filename"></filename>
+      <filename name="filename">
+      </filename>
     </summaryfile>
     <metfile name="met">
-      <filename name="filename"></filename>
+      <filename name="filename">
+      </filename>
     </metfile>
     <area name="paddock">
       <registrations name="global" />
@@ -20,28 +24,25 @@
         <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
       </surfaceom>
       <outputfile name="outputfile">
-        <filename name="filename"></filename>
-        <outputfiledescription name="My Variables">
-          <variables>
-            <variable name="SoilWater" variablename="sw" module="" arrayspec=" " description="Soil water - layered (mm/mm)" array="T" />
-            <variable name="Day" variablename="day" module="global" arrayspec=" " description="Day" ModuleType="registrations" />
-            <variable name="Rainfall" variablename="rain" module="global" arrayspec=" " description="Rainfall (mm)" ModuleType="registrations" />
-            <variable name="SurfaceOrganicMatter" variablename="surfaceom_wt" module="surface organic matter" arrayspec=" " description="Total mass of all surface organic materials" ModuleType="surfaceom" />
-            <variable name="Runoff" variablename="runoff" arrayspec=" " description="Runoff (mm)" />
-            <variable name="Evapoation" variablename="es" arrayspec=" " description="Evaporation (mm)" />
-            <variable name="SoilWaterTopLayer" variablename="sw" arrayspec="(1)" description="Soil water - layered (mm/mm)" array="T" />
-            <variable name="NO3Total" variablename="no3" arrayspec="()" description="NO3 - layered (kg/ha)" array="T" />
-            <variable name="MaxTemp" variablename="maxt" module="global" arrayspec=" " description="Maximum temperature (oC)" ModuleType="registrations" />
-            <variable name="Year" variablename="year" module="global" arrayspec=" " description="Year" ModuleType="registrations" />
-	          <variable name="SoilLoss" variablename="soil_loss" module="Erosion" arrayspec=" " description="Soil loss (t/ha)" ModuleType="erosion" />
-            <variable name="Drain" variablename="drain" module="" arrayspec=" " description="Drainage (mm)" />
-          </variables>
-          <events>
-            <event name="global.Daily" description="End of day" module="global" eventname="Daily" ModuleType="registrations" />
-          </events>
-        </outputfiledescription>
+        <variables name="My Variables">
+          <variable name="sw as SoilWater" description="Soil water - layered (mm/mm)" array="?" />
+          <variable name="day as Day" description="Day" array="?" />
+          <variable name="rain as Rainfall" description="Rainfall (mm)" array="?" />
+          <variable name="surface organic matter.surfaceom_wt as SurfaceOrganicMatter" description="Total mass of all surface organic materials" array="?" />
+          <variable name="runoff as Runoff" description="Runoff (mm)" array="?" />
+          <variable name="es as Evapoation" description="Evaporation (mm)" array="?" />
+          <variable name="sw(1) as SoilWaterTopLayer" description="Soil water - layered (mm/mm)" array="?" />
+          <variable name="no3() as NO3Total" description="NO3 - layered (kg/ha)" array="?" />
+          <variable name="maxt as MaxTemp" description="Maximum temperature (oC)" array="?" />
+          <variable name="year as Year" description="Year" array="?" />
+          <variable name="Erosion.soil_loss as SoilLoss" description="Soil loss (t/ha)" array="?" />
+          <variable name="drain as Drain" description="Drainage (mm)" array="?" />
+        </variables>
+        <events name="My Variables Events">
+          <event name="Daily" description="End of day" array="No" />
+        </events>
       </outputfile>
-	<erosion name="Erosion">
+      <erosion name="Erosion">
         <model name="model">freebairn</model>
         <slope name="slope">1.0</slope>
         <slope_length name="slope_length">60.0</slope_length>
