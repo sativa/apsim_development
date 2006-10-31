@@ -17,7 +17,7 @@ namespace CSGeneral
 	// -------------------------------------------
 	public class SoilUI : VBGeneral.BaseView
 		{
-        private ApsoilController Controller = new ApsoilController("", "", "", null);
+        private ApsoilController SoilController;
 		private System.ComponentModel.IContainer components = null;
 		private CSGeneral.Soil MySoil;
 		private System.Windows.Forms.ImageList ButtonImageList;
@@ -740,10 +740,12 @@ namespace CSGeneral
                 if (Controller.GetType().ToString() != "CSGeneral.ApsoilController")
                     {
                     ApsoilController NewController = new ApsoilController("", "", "", null);
-                    NewController.AllData = Controller.AllData;
-                    NewController.SelectedPaths = Controller.SelectedPaths;
-                    this.Controller = NewController;
+                    NewController.AllData = SoilController.AllData;
+                    NewController.SelectedPaths = SoilController.SelectedPaths;
+                    this.SoilController = NewController;
                     }
+                else
+                    SoilController = (ApsoilController) Controller;
 				if (MySoil == null)
 					{
 					FarPoint.Win.Spread.InputMap InputMap = Grid.GetInputMap(FarPoint.Win.Spread.InputMapMode.WhenAncestorOfFocused); 
@@ -753,8 +755,8 @@ namespace CSGeneral
 								FarPoint.Win.Spread.SpreadActions.MoveToNextRow); 
 					Grid_ActiveSheetChanged(null, null);
 					}
-				MySoil = new CSGeneral.Soil(this.Controller.Data);
-				ApsoilController Apsoil = this.Controller as ApsoilController;
+				MySoil = new CSGeneral.Soil(this.SoilController.Data);
+				ApsoilController Apsoil = this.SoilController as ApsoilController;
                 Apsoil.AddCropEvent -= new BaseController.NotifyEventHandler(Refresh);
 				Apsoil.AddCropEvent += new BaseController.NotifyEventHandler(Refresh);
 				Apsoil.DeleteCropEvent -= new BaseController.NotifyEventHandler(Refresh);
@@ -1293,9 +1295,9 @@ namespace CSGeneral
 		// --------------------------------
 		public void AddCropMenuItem_Click(object sender, System.EventArgs e)
 			{
-            ApsoilController Apsoil = this.Controller as ApsoilController;
+            ApsoilController Apsoil = this.SoilController as ApsoilController;
             Apsoil.AddCrop();
-            RefreshView(Controller);
+            RefreshView(SoilController);
 			}
 
 
@@ -1304,9 +1306,9 @@ namespace CSGeneral
 		// --------------------------------
 		public void DeleteCropMenuItem_Click(object sender, System.EventArgs e)
 			{
-            ApsoilController Apsoil = this.Controller as ApsoilController;
+            ApsoilController Apsoil = this.SoilController as ApsoilController;
 			Apsoil.DeleteCrop();
-            RefreshView(Controller);
+            RefreshView(SoilController);
 			}
 
 		// --------------------------------
@@ -1314,9 +1316,9 @@ namespace CSGeneral
 		// --------------------------------
 		public void ReorderCropsMenuItem_Click(object sender, System.EventArgs e)
 			{
-            ApsoilController Apsoil = this.Controller as ApsoilController;
+            ApsoilController Apsoil = this.SoilController as ApsoilController;
             Apsoil.ReorderCrops();
-            RefreshView(Controller);
+            RefreshView(SoilController);
 			}
 
 		// --------------------------------
@@ -1449,7 +1451,7 @@ namespace CSGeneral
 				for (int Row = Range.Row; Row < Range.Row + Range.RowCount; Row++)
 					for (int Col = Range.Column; Col < Range.Column + Range.ColumnCount; Col++)
 						MySoil.AddNote(Grid.ActiveSheet.SheetName, Col, Row, NoteText);
-				RefreshView(Controller);
+				RefreshView(SoilController);
 				}
 			}
 
