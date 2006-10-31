@@ -1,0 +1,71 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for APSIM solute module
+#-----------------------------------------------------------------------
+#=======================================================================
+
+DESTDIR ?= /usr/local/apsim
+
+LIB=	../lib/erosion.so
+
+SRC=	Registrations.f90	\
+	erosion.for
+
+STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
+            ../../../Shared/ComponentInterface/EntryPoints.o   \
+            ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o   \
+            ../../../Shared/ComponentInterface/FORTRANdatatypes.o   \
+            ../../../Shared/ComponentInterface/datatypes.o
+
+OBJ=	Registrations.o		\
+	erosion.o		\
+	$(STATICOBJ)
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+FC=		lf95
+CPPFLAGS=	-I$(APSROOT)/apsim/infra/source		\
+		-M. -M$(APSROOT)/apsim/infra/source $(CPPDEBUGFLAGS)
+FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
+		--ml cdecl --staticlink
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS=	-L$(APSROOT)/lib		\
+		-L$(APSROOT)/apsim/infra/lib	 \
+		-L/usr/lib $(LDDEBUGFLAGS)
+
+LIBS=		-lComponentInterface -lapsinfra -lc
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB)
+
+$(LIB):	$(OBJ)
+	g++ $(OBJ) -o $(LIB) -shared $(LDFLAGS) $(LIBS)
+
+FORCE:
+
+clean:
+	rm -f *.o *.mod
+
+clobber:	clean
+	rm -f $(LIB)
+
+install: all
+	if [ ! -d $(DESTDIR)/apsim/erosion/lib ]; then mkdir -p $(DESTDIR)/apsim/erosion/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/erosion/lib
+	cp ../erosion.ini $(DESTDIR)/apsim/erosion
+
+%.o:	%.for
+	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
+
+%.o:	%.f90
+	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
+
+Registrations.o: Registrations.f90
+Registrations.f90: ../erosion.interface 
+	$(APSROOT)/Bin/CreateComponentInterfaceSource ../erosion.interface

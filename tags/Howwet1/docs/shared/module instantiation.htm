@@ -1,0 +1,281 @@
+<html>
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<title>Module Instantiation</title>
+<link href="./docstyle.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<p class="Title1">Instantiation of Modules</p>
+<p class="Normal">&nbsp;</p>
+
+<p class="Title2">Introduction</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">APSIM offers the user the option of instantiating modules in any given
+simulation.  That is, the option of
+using the same module to perform several different tasks concurrently.  The APSIM modules which can be usefully
+instantiated are INPUT, REPORT, and any of the crop modules.  For example, REPORT may be instantiated to
+allow writing to two or more output files. 
+As an example of crop module instantiation, PLANT may be used to
+simulate a growing crop, and simultaneously (with a different configuration)
+simulate a weed growing in that crop.</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Title2">Instantiation in the
+Control File</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">Using the instantiated PLANT as an example, the pertinent lines in the
+control file might look like :</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Code">      Module = plant(maincrop)       crop.par [sample]      crop.ini [standard]</p>
+
+<p class="Code">      Module = plant(weeds)          crop.par
+[sample]      weeds.ini [standard]</p>
+
+<p class="Code">      Module = canopy                crop.par [sample]</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">The terms inside the round brackets are the arbitrary names by which
+the plant module will be recognised during this simulation, allowing the crop
+and weeds to be configured, planted, and harvested (or killed)
+individually.  Because two crops are
+being grown together, the CANOPY module is required to partition incoming light
+etc.</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Title2">Parameter Files and
+.ini Files</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">As an example, the pertinent sections in the parameter file ‘crop.par’
+might look like this :</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Code">[sample.maincrop.parameters]</p>
+
+<p class="Code">!layer    1      2   
+3    4    5    6    7  
+</p>
+
+<p class="Code">ll =      .230  .3  
+.3   .3   .3   .3   .3   
+! lower limit </p>
+
+<p class="Code">xf =      1.00 1.00 1.00 1.00
+1.00 1.00 1.00   ! Root Exploration </p>
+
+<p class="Code">kl =      0.12 0.12 0.12 0.12
+0.10 0.08 0.04   ! Water Extraction </p>
+
+<p class="Code">&nbsp;</p>
+
+<p class="Code">[sample.weeds.parameters]</p>
+
+<p class="Code">!layer    1      2   
+3    4    5    6    7  
+</p>
+
+<p class="Code">ll =      .230  .3  
+.3   .3   .3   .3   .3   
+! lower limit </p>
+
+<p class="Code">xf =      1.00 1.00  0.5 
+0.3  0.0  0.0 
+0.0   ! Root Exploration </p>
+
+<p class="Code">kl =      0.12 0.12 0.08
+0.04  0.0  0.0  0.0   ! Water Extraction </p>
+
+<p class="Code">&nbsp;</p>
+
+<p class="Code">[sample.canopy.parameters]</p>
+
+<p class="Code">intercrop = maincrop weeds</p>
+
+<p class="Code">&nbsp;</p>
+
+<p class="Normal">As can be seen in this example, the
+rooting depth and water extraction capability has been restricted for the
+weeds.  The CANOPY module treats the
+instantiated PLANT module aliases as two totally independent crops, called
+‘maincrop’ and ‘weeds’..</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">In the .ini files, the term ‘plant’ must
+be replaced with ‘maincrop’ or ‘weeds’ as appropriate.  For example, the pertinent section in
+‘crop.ini’ might look like :</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Code">[standard.maincrop.dekalb_xl82]</p>
+
+<p class="Code">&nbsp;</p>
+
+<p class="Code"> head_grain_no_max       = 610 ()           </p>
+
+<p class="Code"> grain_gth_rate          = 9.17 (mg/grain/day)          </p>
+
+<p class="Code"> tt_emerg_to_endjuv      = 211 ! </p>
+
+<p class="Code"> est_days_endjuv_to_init = 20             </p>
+
+<p class="Code"> tt_endjuv_to_init       = 0 (oC)   ………………… etc</p>
+
+<p class="Code">&nbsp;</p>
+
+<p>Whereas the pertinent section in
+‘weeds.ini’ might look like :</p>
+
+<p>&nbsp;</p>
+
+<p class="Code">[standard.weeds.dekalb_xl82]</p>
+
+<p class="Code">&nbsp;</p>
+
+<p class="Code"> head_grain_no_max       = 610 ()           </p>
+
+<p class="Code"> grain_gth_rate          = 9.17 (mg/grain/day)          </p>
+
+<p class="Code"> tt_emerg_to_endjuv      = 211 ! </p>
+
+<p class="Code"> est_days_endjuv_to_init = 20             </p>
+
+<p class="Code"> tt_endjuv_to_init       = 0 (oC)   ………………… etc</p>
+
+<p class="Code">&nbsp;</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Title"><b><i>Instantiation in the Manager Logic </i></b></p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">In the manager file for the simulation,
+both the crop and weeds must be planted separately, and either can be harvested
+or killed at any time.  The manager
+logic might look like :</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Code">[sample.manager.start_of_day]</p>
+
+<p class="Code">&nbsp;</p>
+
+<p class="Code">if
+maincrop.stage = 0 and day = 120 then</p>
+
+<p class="Code">  maincrop sow cultivar = dekalb_xl82, plants
+= 10, sowing_depth = 30 (mm)</p>
+
+<p class="Code">  fertiliz.fert_no3_n = fert1</p>
+
+<p class="Code">endif</p>
+
+<p class="Code">&nbsp;</p>
+
+<p class="Code">if
+weeds.stage = 0 and day = 150 then</p>
+
+<p class="Code">  weeds sow cultivar = dekalb_xl82, plants =
+10, sowing_depth = 15 (mm)</p>
+
+<p class="Code">endif</p>
+
+<p class="Code">&nbsp;</p>
+
+<p class="Code">if
+maincrop.das = 50 then</p>
+
+<p class="Code">  fertiliz.fert_no3_n = fert2</p>
+
+<p class="Code">endif</p>
+
+<p class="Code">&nbsp;</p>
+
+<p class="Code">if
+(maincrop.stage_name = 'dead') then</p>
+
+<p class="Code">      m_yield = maincrop.yield</p>
+
+<p class="Code">      m_biomass = maincrop.tops_biom * 10.</p>
+
+<p class="Code">      m_mat_day = day</p>
+
+<p class="Code">      maincrop harvest</p>
+
+<p class="Code">      weeds kill_crop</p>
+
+<p class="Code">      report do_output</p>
+
+<p class="Code">   endif</p>
+
+<p class="Code">&nbsp;</p>
+
+<p class="Normal">Note that the maize variables ‘stage’,
+‘yield’, ‘tops_biom’ and ‘das’ are prefaced with either ‘maincrop.’ or ‘weeds.’
+as appropriate.  </p>
+
+
+<p>&nbsp;</p>
+
+<p class="Title2">Reporting Instantiated Variables</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">Variables from the instantiated crop and
+weeds can be reported separately, by referring to the alias module names
+‘maincrop’ and ‘weeds’ in the report module as if they were totally unconnected
+modules.  The report module
+configuration for the above example could look like :</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Code">[common.report.parameters]  </p>
+
+<p class="Code">&nbsp;</p>
+
+<p class="Code">variable
+= clock.day</p>
+
+<p class="Code">variable
+= clock.year</p>
+
+<p class="Code">variable
+= dd/mm/yyyy as date</p>
+
+<p class="Code">variable
+= manager.m_yield</p>
+
+<p class="Code">variable
+= manager.m_biomass</p>
+
+<p class="Code">variable
+= maincrop.lai as crop_lai</p>
+
+<p class="Code">variable
+= weeds.lai as weed_lai</p>
+
+<p class="Code">&nbsp;</p>
+
+<p>&nbsp;</p>
+
+</div>
+
+</body>
+
+</html>

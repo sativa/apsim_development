@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="soilp">
+   <registrations>
+      <read name="labile_p" type="labile_p" readable="T"/>
+      <respondToGetSetReg name="labile_p" type="labile_p" readable="T"/>
+      <read name="unavailable_p" type="unavailable_p" readable="T"/>
+      <respondToGetReg name="unavailable_p" type="unavailable_p" readable="T"/>
+      <read name="banded_p" type="banded_p" readable="T"/>
+      <respondToGetSetReg name="banded_p" type="banded_p" readable="T"/>
+      <read name="rock_p" type="rock_p" readable="T"/>
+      <respondToGetSetReg name="rock_p" type="rock_p" readable="T"/>
+      <respondToGetReg name="soil_test_p" type="soil_test_p"/>
+      <respondToGetReg name="biom_p" type="biom_p"/>
+      <respondToGetReg name="hum_p" type="hum_p"/>
+      <respondToGetReg name="fom_p" type="fom_p"/>
+      <respondToGetReg name="fom_cp" type="fom_cp"/>
+      <respondToGetReg name="crop_p_uptake" type="crop_p_uptake"/>
+      <read name="sorption" type="sorption" readable="T"/>
+      <read name="root_cp" type="root_cp" readable="T"/>
+      <read name="rate_dissol_rock_p" type="rate_dissol_rock_p" readable="T"/>
+      <read name="rate_loss_avail_p" type="rate_loss_avail_p" readable="T"/>
+      <read name="act_energy_loss_avail_p" type="act_energy_loss_avail_p" readable="T"/>
+      <read name="availp_ratio" type="availp_ratio" readable="T"/>
+      <read name="rate_decr_placement" type="rate_decr_placement" readable="T"/>
+      <read name="eff_band" type="eff_band" readable="T"/>
+      <read name="biom_cp" type="biom_cp" readable="T"/>
+      <read name="hum_cp" type="hum_cp" readable="T"/>
+      <read name="wf_loss_index" type="wf_loss_index" readable="T"/>
+      <read name="wf_loss_values" type="wf_loss_values" readable="T"/>
+      <read name="crit_p_supply" type="crit_p_supply" readable="T"/>
+      <read name="crit_p_rlv" type="crit_p_rlv" readable="T"/>
+      <read name="lb_labile_p" type="lb_labile_p" readable="T"/>
+      <read name="ub_labile_p" type="ub_labile_p" readable="T"/>
+      <read name="lb_unavail_p" type="lb_unavail_p" readable="T"/>
+      <read name="ub_unavail_p" type="ub_unavail_p" readable="T"/>
+      <read name="lb_banded_p" type="lb_banded_p" readable="T"/>
+      <read name="ub_banded_p" type="ub_banded_p" readable="T"/>
+      <read name="lb_rock_p" type="lb_rock_p" readable="T"/>
+      <read name="ub_rock_p" type="ub_rock_p" readable="T"/>
+      <respondToGetSetReg name="dlt_labile_p" type="dlt_labile_p"/>
+      <respondToGetSetReg name="dlt_banded_p" type="dlt_banded_p"/>
+      <respondToGetSetReg name="dlt_rock_p" type="dlt_rock_p"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="reset" type="reset"/>
+      <respondToEventReg name="sum_report" type="sum_report"/>
+      <respondToEventReg name="tillage" type="tillage"/>
+      <respondToEventReg name="incorp_fom" type="incorp_fom"/>
+      <respondToEventReg name="FreshOrganicMatterIncorporated" type="FPoolProfileLayer"/>
+      <respondToEventReg name="decomposed" type="decomposed"/>
+      <respondToEventReg name="ActualResidueDecompositionCalculated" type="SurfaceOrganicMatterDecomp"/>
+      <getVariableReg name="dlayer" type="dlayer"/>
+      <getVariableReg name="st" type="st"/>
+      <getVariableReg name="sw_dep" type="sw_dep"/>
+      <getVariableReg name="ll15_dep" type="ll15_dep"/>
+      <getVariableReg name="dul_dep" type="dul_dep"/>
+      <getVariableReg name="sat_dep" type="sat_dep"/>
+      <getVariableReg name="bd" type="bd"/>
+      <getVariableReg name="dlt_fom_c_hum" type="dlt_fom_c_hum"/>
+      <getVariableReg name="dlt_fom_c_biom" type="dlt_fom_c_biom"/>
+      <getVariableReg name="dlt_fom_c_atm" type="dlt_fom_c_atm"/>
+      <getVariableReg name="dlt_hum_c_biom" type="dlt_hum_c_biom"/>
+      <getVariableReg name="dlt_hum_c_atm" type="dlt_hum_c_atm"/>
+      <getVariableReg name="dlt_biom_c_hum" type="dlt_biom_c_hum"/>
+      <getVariableReg name="dlt_biom_c_atm" type="dlt_biom_c_atm"/>
+      <getVariableReg name="dlt_res_c_biom" type="dlt_res_c_biom"/>
+      <getVariableReg name="dlt_res_c_hum" type="dlt_res_c_hum"/>
+      <getVariableReg name="dlt_res_c_atm" type="dlt_res_c_atm"/>
+      <getVariableReg name="pot_residue_decomp" type="pot_residue_decomp"/>
+      <getVariableReg name="crop_" type="crop_type"/>
+      <getVariableReg name="rlv" type="rlv"/>
+      <getVariableReg name="demand" type="demand"/>
+      <getVariableReg name="biom_c" type="biom_c"/>
+      <getVariableReg name="hum_c" type="hum_c"/>
+      <getVariableReg name="fom_c" type="fom_c"/>
+      <getVariableReg name="residue_wt" type="residue_wt"/>
+      <respondToEventReg name="tick" type="tick"/>
+      <respondToEventReg name="process" type="process"/>
+   </registrations>
+</component>

@@ -1,0 +1,36 @@
+# (Borlandish) Makefile for apsim maize module
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+
+# Platform specific defns
+!include $(APSROOT)\APSBuild\platform.make
+
+# Fortran compiler defns
+!include $(APSROOT)\APSBuild\fortran.make
+
+# The statically linked components of the engine interface
+!include $(APSROOT)\APSBuild\ApsimComponentInterface.make
+
+# Main target
+source: ..\lib\maize.dll 
+
+..\lib\maize.dll: maize.obj $(STATICLINKEDOBJECTS) 
+	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
+	$(ECHO) $(F90FLAGS) >> linker.tmp
+	$(ECHO) $(F90LIBS) >> linker.tmp
+	$(ECHO) $(F90CROPLIBS) >> linker.tmp
+	$(LF95) maize.obj \
+ -export Main,wrapperDLL,doInit1,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\maize.dll @linker.tmp
+	$(RM) linker.tmp
+   
+maize.obj: maize.for
+	$(ECHO) $(F90FLAGS) > compiler.tmp
+	$(ECHO) $(F90CROPINCLUDES);$(APSROOT)\apsim\cropmod\source >> compiler.tmp
+	$(ECHO) $(F90CROPMODS);$(APSROOT)\apsim\cropmod\source >> compiler.tmp
+	$(LF95) -c maize.for @compiler.tmp
+	$(RM) compiler.tmp
+
+clean:
+	$(RM) ..\lib\maize.dll maize.obj maize.imp

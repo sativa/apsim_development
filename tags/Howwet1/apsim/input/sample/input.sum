@@ -1,0 +1,71 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+     Version                = 5.2
+     Title                  = Met Sample Simulation
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+     Simulation start date =  1/01/1988
+     Simulation end date   = 11/01/1988
+     Time step =           = 1440 (mins)
+
+------- report Initialisation -------------------------------------------------
+     Output variables:
+        clock.day
+        clock.year
+        met.radn
+        met.maxt
+        met.mint
+        met.rain
+        input1.lumpia
+        input1.rug
+        input1.paxt
+        input1.alpha
+        input1.beta
+        sparse.bga
+        sparse.bgb
+     
+     Output file = input.out
+     Format = normal
+
+------- input1 Initialisation -------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: input1.dat
+
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
+
+------- sparse Initialisation -------------------------------------------------
+     Sparse data is allowed
+     INPUT File name: sparse.dat
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- end_of_day
+     report do_output
+     END of rules
+     
+------- Start of simulation  --------------------------------------------------
+11 January 1988(Day of year=11), clock: 
+     Simulation is terminating due to end criteria being met.

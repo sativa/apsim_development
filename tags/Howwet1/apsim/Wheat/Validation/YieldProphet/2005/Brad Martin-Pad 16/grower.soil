@@ -1,0 +1,39 @@
+[soil.soilwat2.parameters]
+   diffus_const = 88    ! coeffs for unsaturated water flow
+   diffus_slope = 35.4
+   cn2_bare     = 73    ! bare soil runoff curve number
+   cn_red       = 20    ! potetial reduction in curve number due to residue
+   cn_cov       = 0.8   ! cover for maximum reduction in curve number
+   salb         = 0.13  ! bare soil albedo
+   cona         = 2   ! stage 2 evap coef.
+   u            = 2     ! stage 1 soil evaporation coefficient (mm)
+
+   dlayer  =  100.000  150.000  150.000  150.000  150.000  300.000  300.000  300.000   ! layer thickness mm soil
+   air_dry =    0.075    0.122    0.152    0.165    0.165    0.271    0.271    0.316   ! air dry mm water/mm soil
+   ll15    =    0.140    0.152    0.152    0.165    0.165    0.271    0.271    0.316   ! lower limit mm water/mm soil
+   dul     =    0.334    0.341    0.341    0.352    0.350    0.351    0.350    0.344   ! drained upper limit mm water/mm soil
+   sat     =    0.414    0.421    0.421    0.432    0.430    0.431    0.430    0.424   ! saturation mm water/mm soil
+   sw      =    0.190    0.233    0.249    0.242    0.213    0.271    0.271    0.316   ! starting soil water mm water/mm soil
+   swcon   =    0.700    0.300    0.300    0.300    0.300    0.300    0.300    0.300   ! drainage coefficient
+   bd      =    1.450    1.260    1.260    1.281    1.281    1.243    1.242    1.338   ! bulk density gm dry soil/cc moist soil
+
+[soil.wheat.parameters]
+   ll      =      0.125      0.152      0.152      0.165      0.165      0.271      0.271      0.316
+   kl      =      0.060      0.060      0.040      0.040      0.040      0.040      0.020      0.020
+   xf      =      1.000      1.000      1.000      0.355      0.355      0.323      0.323      0.323
+
+[soil.soiln2.parameters]
+   root_cn      = 45     ! C:N ratio of initial root residues
+   root_wt      = 1500   ! root residues as biomass (kg/ha)
+   soil_cn      = 12.5   ! C:N ratio of soil
+   enr_a_coeff  = 7.4
+   enr_b_coeff  = 0.2
+   profile_reduction =  off
+
+   oc      =      1.050      0.450      0.450      0.300      0.300      0.300      0.250      0.250   ! Soil Organic Carbon
+   ph      =      7.800      8.300      8.633      8.800      8.800      8.867      8.900      8.900   ! pH of soil
+   fbiom   =      0.025      0.020      0.020      0.015      0.015      0.010      0.010      0.010   ! Organic C Biomass Fraction
+   finert  =      0.400      0.600      0.600      0.800      0.800      0.900      0.900      0.900   ! Inert Organic C Fraction
+   no3ppm  =      27.000      10.000      5.484      3.404      3.862      1.993      0.500      0.200   ! Nitrate Concentration
+   nh4ppm  =      0.100      0.100      0.050      0.050      0.040      0.040      0.020      0.010   ! Ammonium Concentration
+

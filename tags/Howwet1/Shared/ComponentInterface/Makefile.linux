@@ -1,0 +1,96 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for ComponentInterface Module
+#-----------------------------------------------------------------------
+#=======================================================================
+DESTDIR ?= /usr/local/apsim
+
+LIB=	$(APSROOT)/lib/libComponentInterface.so
+
+SRC=	Component.cpp			\
+	message.cpp			\
+	MessageData.cpp			\
+	ArraySpecifier.cpp		\
+	ProtocolVector.cpp		\
+	RegistrationType.cpp		\
+	Variant.cpp			\
+	Variants.cpp			\
+	Type.cpp			\
+	TypeConverter.cpp		\
+	ApsimVariant.cpp		\
+	Registrations.cpp		\
+	RegistrationItem.cpp            \
+	Variable.cpp                    \
+	VariableRef.cpp                 \
+	datatypes.cpp
+
+OBJ=	$(SRC:.cpp=.o) 	
+
+OBJ2=	FORTRANComponentWrapper.o	\
+	EntryPoints.o			\
+	SimpleWrapper.o			\
+	FORTRANdatatypes.o
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+CC=		/usr/bin/gcc
+CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
+		-I$(APSROOT)/Shared				\
+		-Wno-deprecated -fpermissive -fPIC $(CPPDEBUGFLAGS)
+
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+
+LDFLAGS=	-L/usr/lib		\
+		-L$(APSROOT)/lib $(LDDEBUGFLAGS)
+
+LIBS=		-lprotocol		\
+		-lApsimShared		\
+		-lgeneral		\
+		-lxml2 			\
+		-lboost_filesystem 	\
+		-lboost_date_time 	\
+		-lc
+
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB) FortranInterface
+
+lib: $(LIB)
+
+FortranInterface: $(OBJ2)
+
+$(LIB):	$(OBJ)
+	$(CC) -shared -lc -o $(LIB) $(OBJ) $(LDFLAGS) $(LIBS)
+
+FORCE:
+
+clean:
+	rm -f *.o *.mod datatypes.cpp datatypes.h 
+
+clobber:	clean
+	rm -f $(LIB)
+
+install: all
+	if [ ! -d $(DESTDIR)/lib ]; then mkdir -p $(DESTDIR)/lib; fi 
+	cp $(LIB) $(DESTDIR)/lib
+
+%.o:	%.cpp datatypes.h 
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+
+datatypes.o: datatypes.h datatypes.cpp \
+		$(APSROOT)/apsim/infra/datatypes.interface \
+		$(APSROOT)/APSBuild/datatypes.macro 
+
+FORTRANdatatypes.o: FORTRANdatatypes.cpp
+ 
+FORTRANdatatypes.cpp datatypes.cpp datatypes.h:  $(APSROOT)/apsim/infra/datatypes.interface \
+				$(APSROOT)/APSBuild/datatypes.macro \
+				$(APSROOT)/Bin/CreateDataTypesSource
+	( cd $(APSROOT)/Bin && $(APSROOT)/Bin/CreateDataTypesSource $(APSROOT)/apsim/infra/datatypes.interface $(APSROOT)/APSBuild/datatypes.macro )
+

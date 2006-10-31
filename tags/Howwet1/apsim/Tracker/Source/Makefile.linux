@@ -1,0 +1,63 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for APSIM MET module
+#-----------------------------------------------------------------------
+#=======================================================================
+
+DESTDIR ?= /usr/local/apsim
+
+LIB=	../lib/Tracker.so
+
+SRC=	TrackerComponent.cpp	\
+	TrackerVariable.cpp
+
+OBJ=    $(SRC:.cpp=.o) $(APSROOT)/Shared/ComponentInterface/EntryPoints.o
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+CC=		/usr/bin/gcc
+CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
+		-I$(APSROOT)/Shared				\
+		-I$(APSROOT)/Shared/ComponentInterface		\
+		-Wno-deprecated 				\
+		-fpermissive -fPIC -D_NO_VCL  $(CPPDEBUGFLAGS)
+
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS=	-L/usr/lib		\
+		-L$(APSROOT)/lib $(LDDEBUGFLAGS)
+
+LIBS=		-lComponentInterface	\
+		-lprotocol		\
+		-lApsimShared		\
+		-lgeneral		\
+		-lboost_filesystem 	\
+		-lxml2			\
+		-lc
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB)
+
+$(LIB):	$(OBJ)
+	$(CC) -shared -o $(LIB) $(OBJ) $(LDFLAGS) $(LIBS)
+
+FORCE:
+
+install: all
+	if [ ! -d $(DESTDIR)/apsim/Tracker/lib ]; then mkdir -p $(DESTDIR)/apsim/Tracker/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/Tracker/lib
+
+clean:
+	rm -f *.o
+
+clobber:	clean
+	rm -f $(LIB)
+
+%.o:	%.cpp
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+

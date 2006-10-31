@@ -1,0 +1,16 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  Run 1  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+version = 5.1
+[apsim.Run 1]
+module = clock       run1.par [run1] %apsuite\apsim\clock\clock.ini[standard]
+module = report      run1.par [run1]
+module = input(met)  Dalby1887_1998.met [weather]
+module = manager     run1.man [run1]
+module = soilwat2    run1.par [run1] %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2      run1.par [run1] %apsuite\apsim\soiln2\soiln2.ini [standard]
+module = SurfaceOM   run1.par [run1] %apsuite\apsim\SurfaceOM\SurfaceOM.ini [standard]
+module = ozcot       run1.par [run1] %apsuite\apsim\ozcot\ozcot.ini [standard]
+module = accum       run1.par [run1]
+module = fertiliz    %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+module = SummaryFile   run1.par [run1]
+
+title = GrantCottonKamaniV1.61(61-62)

@@ -1,0 +1,39 @@
+[soil.soilwat2.parameters]
+   diffus_const = 88    ! coeffs for unsaturated water flow
+   diffus_slope = 35
+   cn2_bare     = 73    ! bare soil runoff curve number
+   cn_red       = 20    ! potetial reduction in curve number due to residue
+   cn_cov       = 0.8   ! cover for maximum reduction in curve number
+   salb         = 0.13  ! bare soil albedo
+   cona         = 2   ! stage 2 evap coef.
+   u            = 2     ! stage 1 soil evaporation coefficient (mm)
+
+   dlayer  =  130.000  220.000  250.000  300.000  900.000   ! layer thickness mm soil
+   air_dry =    0.060    0.102    0.180    0.250    0.260   ! air dry mm water/mm soil
+   ll15    =    0.120    0.128    0.220    0.315    0.331   ! lower limit mm water/mm soil
+   dul     =    0.270    0.255    0.314    0.344    0.331   ! drained upper limit mm water/mm soil
+   sat     =    0.422    0.387    0.398    0.394    0.391   ! saturation mm water/mm soil
+   sw      =    0.160    0.229    0.277    0.306    0.331   ! starting soil water mm water/mm soil
+   swcon   =    0.600    0.500    0.300    0.100    0.100   ! drainage coefficient
+   bd      =    1.400    1.545    1.515    1.527    1.562   ! bulk density gm dry soil/cc moist soil
+
+[soil.wheat.parameters]
+   ll      =      0.120      0.128      0.220      0.315      0.331
+   kl      =      0.060      0.050      0.040      0.040      0.020
+   xf      =      1.000      1.000      1.000      0.300      0.000
+
+[soil.soiln2.parameters]
+   root_cn      = 45     ! C:N ratio of initial root residues
+   root_wt      = 1500   ! root residues as biomass (kg/ha)
+   soil_cn      = 12.5   ! C:N ratio of soil
+   enr_a_coeff  = 7.4
+   enr_b_coeff  = 0.2
+   profile_reduction =  off
+
+   oc      =      1.356      0.494      0.301      0.090      0.010   ! Soil Organic Carbon
+   ph      =      7.985      8.600      8.760      9.200      9.200   ! pH of soil
+   fbiom   =      0.025      0.019      0.013      0.010      0.010   ! Organic C Biomass Fraction
+   finert  =      0.382      0.621      0.815      0.926      0.950   ! Inert Organic C Fraction
+   no3ppm  =      20.574      8.294      7.547      4.270      1.000   ! Nitrate Concentration
+   nh4ppm  =      1.790      0.987      0.602      0.351      0.100   ! Ammonium Concentration
+

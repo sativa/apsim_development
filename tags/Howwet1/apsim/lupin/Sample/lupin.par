@@ -1,0 +1,41 @@
+[sample.report.parameters]
+outputfile  =lupin.out
+
+
+
+
+variable = clock.day
+variable = clock.year
+variable = lupin.lai
+variable = lupin.biomass
+variable = lupin.green_biomass
+[sample.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=9/5/1988     ! dd/mm/yyyy
+end_date=26/10/1988     ! dd/mm/yyyy
+
+[sample.manager.start_of_day]
+
+if day = 130 and year  = 1988 then
+   lupin sow cultivar = belara, plants = 25 (/m2), sowing_depth = 40 (mm)
+endif
+
+if lupin.stage_name = 'harvest_ripe' or lupin.plant_status = 'dead' then
+   lupin harvest
+   lupin end_crop   
+
+endif
+
+[sample.manager.end_of_day]
+report do_output
+
+
+[sample.lupin.parameters]
+
+   ll    = .230 .240 .240 .250 .260 .270 .280  ! lower limit mm water/mm soil
+   xf   = 1.00 1.00 1.00 1.00 1.00 1.00 1.00  ! Weighting factor for root advance
+   kl   = 0.08 0.08 0.08 0.08 0.05 0.03 0.01  ! Water Extraction Parameter (0-1)
+
+[sample.summaryfile.parameters]
+summaryfile=lupin.sum
+

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<howwet>
+  <version>alpha</version>
+  <debug>true</debug>
+  <training_mode>false</training_mode>
+  <template_name>HowwetTemplate.xml</template_name>
+  <default_soil_file_name>APSRU-Australia-Soils.soils</default_soil_file_name>
+  <surfaceOM>
+    <crop>
+      <name>wheat</name>
+      <specific_area>.0005</specific_area>
+      <cnr>80</cnr>
+    </crop>
+    <crop>
+      <name>sorghum</name>
+      <specific_area>.0004</specific_area>
+      <cnr>80</cnr>
+    </crop>
+    <crop>
+      <name>lucerne</name>
+      <specific_area>.0002</specific_area>
+      <cnr>30</cnr>
+    </crop>
+  </surfaceOM>
+  <cropNDemand>
+    <crop>
+      <name>wheat</name>
+      <protein_target>11.5</protein_target>
+      <fraction_of_n_in_protein>.185185</fraction_of_n_in_protein>
+      <n_uptake_efficiency>1.7</n_uptake_efficiency>
+    </crop>
+    <crop>
+      <name>sorghum</name>
+      <protein_target>9.5</protein_target>
+      <fraction_of_n_in_protein>.153846</fraction_of_n_in_protein>
+      <n_uptake_efficiency>1.7</n_uptake_efficiency>
+    </crop>
+  </cropNDemand>
+</howwet>

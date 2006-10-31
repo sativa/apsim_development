@@ -1,0 +1,112 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+     Version                = 5.2
+     Title                  = Manager Sample Simulation
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\operatns\lib\operatns.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+     Simulation start date =  1/01/1988
+     Simulation end date   =  8/04/1988
+     Time step =           = 1440 (mins)
+
+------- report Initialisation -------------------------------------------------
+     Output variables:
+        clock.year
+        clock.day
+        manager.avtemp
+        manager.avtempi
+        manager.feb_or_not
+        manager.fixed_rain
+        manager.rain_amount
+        manager.manager_date
+        met.rain
+     
+     Output file = manager.out
+     Format = normal
+
+------- Met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
+
+------- operatns Initialisation -----------------------------------------------
+     Operations Schedule
+     ===================
+      10/1/1988  Prepare      manager set fixed_rain = yes
+      10/1/1988  Prepare      manager set rain_amount = 50
+      20/1/1988  Prepare      manager set fixed_rain = no
+      20/1/1988  Prepare      manager set rain_amount = 0
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- init
+     fixed_rain = 'no'
+     rain_amount = 0
+     d = '1-jun'
+     
+     SECTION:- end_of_day
+     manager_date =date(d)
+     avtemp = (mint + maxt) / 2
+     avtempi=nearest_int(avtemp)
+     feb_or_not=date_within('1-feb,28-feb')
+     if (fixed_rain = 'yes') then
+        met set rain = rain_amount
+     endif
+     report do_output
+     END of rules
+     
+     Manager creating a new local string variable : fixed_rain = no
+     Manager creating a new local real variable : rain_amount =     0.00000000000000
+     Manager creating a new local string variable : d = 1-jun
+------- Start of simulation  --------------------------------------------------
+1 January 1988(Day of year=1), manager: 
+     Manager creating a new local real variable : manager_date =     2447314.00000000
+     Manager creating a new local real variable : avtemp =     25.1999988500000
+     Manager creating a new local real variable : avtempi =     25.0000000000000
+     Manager creating a new local real variable : feb_or_not =     0.00000000000000
+10 January 1988(Day of year=10), operatns: 
+      Sending set message to manager
+      Sending set message to manager
+10 January 1988(Day of year=10), manager: 
+     Manager sending message :- met set  rain = 50
+11 January 1988(Day of year=11), manager: 
+     Manager sending message :- met set  rain = 50
+12 January 1988(Day of year=12), manager: 
+     Manager sending message :- met set  rain = 50
+13 January 1988(Day of year=13), manager: 
+     Manager sending message :- met set  rain = 50
+14 January 1988(Day of year=14), manager: 
+     Manager sending message :- met set  rain = 50
+15 January 1988(Day of year=15), manager: 
+     Manager sending message :- met set  rain = 50
+16 January 1988(Day of year=16), manager: 
+     Manager sending message :- met set  rain = 50
+17 January 1988(Day of year=17), manager: 
+     Manager sending message :- met set  rain = 50
+18 January 1988(Day of year=18), manager: 
+     Manager sending message :- met set  rain = 50
+19 January 1988(Day of year=19), manager: 
+     Manager sending message :- met set  rain = 50
+20 January 1988(Day of year=20), operatns: 
+      Sending set message to manager
+      Sending set message to manager
+8 April 1988(Day of year=99), clock: 
+     Simulation is terminating due to end criteria being met.

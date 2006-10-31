@@ -1,0 +1,1897 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+
+<body>
+
+<p><img src="..\..\..\docs\shared\apsimdocumentationbanner.jpg" width="640"
+height="73"></p>
+</body>
+</html>
+<TITLE>The APSIM SoilP Model</TITLE>
+<FONT SIZE = 7><B><CENTER>The APSIM SoilP Model</CENTER></B></FONT>
+<H1>TABLE OF CONTENTS</H1>
+<H2><A HREF = "#Contact Information"> Contact Information </A></H2>
+<H2><A HREF = "#Module Description"> Module Description </A></H2>
+<H2>User Input Files</H2>
+<ul><li>The Constants File
+
+<ul><li><A HREF = "#standard.soilp.constants"> standard constants </A>
+
+</ul></ul>
+<H2>Module Logic</H2>
+<ul><li><A HREF = "#APSIM Soilp Module"> APSIM Soilp Module </A>
+
+<li><A HREF = "#Structure Charts"> Structure Charts </A>
+
+</ul>
+<hr>
+<A NAME = "Module Description">  </A>
+<H2>Module Documentation</H2>
+<br>
+<A HREF = "soilp_int.pdf"> soilp_int.pdf </A>
+<br>
+<A HREF = "soilp_science.pdf"> soilp_science.pdf </A>
+<br>
+<br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "Structure Charts"> <H2>Module Structure Charts</H2> </A>
+<H2>APSIM Soilp Module</H2>
+<ul><li><A HREF = "#main"> main </A>
+
+<ul><li><A HREF = "#soilp_init"> soilp_init </A>
+
+<ul><li><A HREF = "#soilp_zero_variables"> soilp_zero_variables </A>
+
+<li><A HREF = "#soilp_get_other_variables"> soilp_get_other_variables </A>
+
+<li><A HREF = "#soilp_read_constants"> soilp_read_constants </A>
+
+<li><A HREF = "#soilp_read_param"> soilp_read_param </A>
+
+<ul><li><A HREF = "#soilp_fac"> soilp_fac </A>
+
+</ul><li><A HREF = "#soilp_get_other_init_variables"> soilp_get_other_init_variables </A>
+
+<li><A HREF = "#soilp_sum_report"> soilp_sum_report </A>
+
+</ul><li><A HREF = "#soilp_sum_report"> soilp_sum_report </A>
+
+<li><A HREF = "#soilp_get_other_variables"> soilp_get_other_variables </A>
+
+<li><A HREF = "#soilp_process"> soilp_process </A>
+
+<ul><li><A HREF = "#soilp_availability_loss"> soilp_availability_loss </A>
+
+<ul><li><A HREF = "#soilp_wf"> soilp_wf </A>
+
+<li><A HREF = "#soilp_bound_check"> soilp_bound_check </A>
+
+</ul><li><A HREF = "#soilp_rock_p_dissolution"> soilp_rock_p_dissolution </A>
+
+<ul><li><A HREF = "#soilp_bound_check"> soilp_bound_check </A>
+
+</ul><li><A HREF = "#soilp_decrease_banded_p_effect"> soilp_decrease_banded_p_effect </A>
+
+<ul><li><A HREF = "#soilp_bound_check"> soilp_bound_check </A>
+
+</ul><li><A HREF = "#soilp_min_hum"> soilp_min_hum </A>
+
+<li><A HREF = "#soilp_min_biom"> soilp_min_biom </A>
+
+<li><A HREF = "#soilp_min_fom"> soilp_min_fom </A>
+
+<li><A HREF = "#soilp_find_crops"> soilp_find_crops </A>
+
+<li><A HREF = "#soilp_get_crop_variables"> soilp_get_crop_variables </A>
+
+<li><A HREF = "#soilp_crop_p_uptake"> soilp_crop_p_uptake </A>
+
+<ul><li><A HREF = "#soilp_sorption_fn"> soilp_sorption_fn </A>
+
+<li><A HREF = "#soilp_root_fac"> soilp_root_fac </A>
+
+<li><A HREF = "#soilp_sw_fn"> soilp_sw_fn </A>
+
+<li><A HREF = "#soilp_bound_check"> soilp_bound_check </A>
+
+</ul></ul><li><A HREF = "#soilp_send_my_variable"> soilp_send_my_variable </A>
+
+<li><A HREF = "#soilp_set_my_variable"> soilp_set_my_variable </A>
+
+<li><A HREF = "#soilp_tillage"> soilp_tillage </A>
+
+<ul><li><A HREF = "#soilp_redistribute_p"> soilp_redistribute_p </A>
+
+</ul><li><A HREF = "#soilp_incorp_residues"> soilp_incorp_residues </A>
+
+<ul><li><A HREF = "#soilp_bound_check"> soilp_bound_check </A>
+
+</ul><li><A HREF = "#soilp_min_residues"> soilp_min_residues </A>
+
+<ul><li><A HREF = "#soilp_bound_check"> soilp_bound_check </A>
+
+</ul></ul></ul>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<CENTER><A NAME = "Module Pseudo Code"> <H2><BIG>Module Pseudo Code</BIG></H2> </A></CENTER>
+<hr>
+<H2><BIG><A NAME = "APSIM Soilp Module"> APSIM Soilp Module </A></BIG></H2>
+<A NAME = "main">  </A>
+<H2>Main</H2>
+<br>
+<H3><CENTER>This routine is the interface between the main system and the soilp module.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (action.=.action_init) then<br>
+
+<blockquote><A HREF = "#soilp_init"> Initialise SoilP </A><br>
+
+</blockquote>else if (action.=.action_sum_report) then<br>
+
+<blockquote><A HREF = "#soilp_sum_report"> Report module details </A><br>
+
+</blockquote>else if (action.=.action_process) then<br>
+
+<blockquote><A HREF = "#soilp_get_other_variables"> Get variables from system </A><br>
+
+<A HREF = "#soilp_process"> Timestep calculations </A><br>
+
+</blockquote>else if (action.=.action_get_variable) then<br>
+
+<blockquote><A HREF = "#soilp_send_my_variable"> Supply variable to system as requested </A><br>
+
+</blockquote>else if (action.=.action_set_variable) then<br>
+
+<blockquote><A HREF = "#soilp_set_my_variable"> Set internal variable as requested </A><br>
+
+</blockquote>else if (action.=.action_till) then<br>
+
+<blockquote><A HREF = "#soilp_tillage"> Calculate effects of tillage </A><br>
+
+</blockquote>else if (action.=.action_incorp_fom) then<br>
+
+<blockquote><A HREF = "#soilp_incorp_residues"> Incorporate residues </A><br>
+
+</blockquote>else if (action.=.action_decomposed) then<br>
+
+<blockquote><A HREF = "#soilp_min_residues"> Mineralise residues </A><br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_init">  </A>
+<H2>Soilp Init</H2>
+<br>
+<H3><CENTER>Initialise soilp module  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+<A HREF = "#soilp_zero_variables"> Zero variables </A><br>
+
+<A HREF = "#soilp_get_other_variables"> Get variables from system </A><br>
+
+event_string = 'initialising'<br>
+
+Write a string to a file<br>
+
+<A HREF = "#soilp_read_constants"> Read constants </A><br>
+
+<A HREF = "#soilp_read_param"> Read parameters </A><br>
+
+<A HREF = "#soilp_get_other_init_variables"> Request varibles needed for initialisation </A><br>
+
+<A HREF = "#soilp_sum_report"> Report module details </A><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_zero_variables">  </A>
+<H2>Soilp Zero Variables</H2>
+<br>
+<H3><CENTER>Set all variables to initial state.  i.e. zero or blank.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+number of crops = 0<br>
+
+nveg = 0<br>
+
+crop_table_name = ' '<br>
+
+crop_names = ' '<br>
+
+crop_owners = ' '<br>
+
+sat<SUB>(in mm)</SUB> = 0 . 0<br>
+
+dul<SUB>(in mm)</SUB> = 0 . 0<br>
+
+sw<SUB>(in mm)</SUB> = 0 . 0<br>
+
+ll15<SUB>(in mm)</SUB> = 0 . 0<br>
+
+dlayer = 0 . 0<br>
+
+soil_t = 0 . 0<br>
+
+bd = 0 . 0<br>
+
+rlv = 0 . 0<br>
+
+crop_p_demand = 0 . 0<br>
+
+uptake_p_crop = 0 . 0<br>
+
+fom_cp = 0 . 0<br>
+
+p_decomp = 0 . 0<br>
+
+act_energy_loss_avail_p = 0 . 0<br>
+
+wf_loss_index = 0 . 0<br>
+
+wf_loss_values = 0 . 0<br>
+
+lb_labile_p = 0 . 0<br>
+
+ub_labile_p = 0 . 0<br>
+
+lb_unavail_p = 0 . 0<br>
+
+ub_unavail_p = 0 . 0<br>
+
+lb_banded_p = 0 . 0<br>
+
+ub_banded_p = 0 . 0<br>
+
+lb_rock_p = 0 . 0<br>
+
+ub_rock_p = 0 . 0<br>
+
+Fill labile_p with 0 . 0<br>
+
+Fill unavail_p with 0 . 0<br>
+
+Fill rock_p with 0 . 0<br>
+
+Fill banded_p with 0 . 0<br>
+
+Fill effective_p with 0 . 0<br>
+
+Fill sorption with 0 . 0<br>
+
+Fill crit_p_rlv with 0 . 0<br>
+
+Fill crit_p_supply with 0 . 0<br>
+
+Fill <FONT FACE = "SYMBOL">D</FONT>fom_c_hum with 0 . 0<br>
+
+Fill <FONT FACE = "SYMBOL">D</FONT>fom_c_biom with 0 . 0<br>
+
+Fill <FONT FACE = "SYMBOL">D</FONT>fom_c_atm with 0 . 0<br>
+
+Fill <FONT FACE = "SYMBOL">D</FONT>hum_c_biom with 0 . 0<br>
+
+Fill <FONT FACE = "SYMBOL">D</FONT>hum_c_atm with 0 . 0<br>
+
+Fill <FONT FACE = "SYMBOL">D</FONT>biom_c_hum with 0 . 0<br>
+
+Fill <FONT FACE = "SYMBOL">D</FONT>biom_c_atm with 0 . 0<br>
+
+Fill fom_p with 0 . 0<br>
+
+Fill hum_p with 0 . 0<br>
+
+Fill biom_p with 0 . 0<br>
+
+root_cp = 0 . 0<br>
+
+rate_dissol_rock_p = 0 . 0<br>
+
+rate_loss_avail_p = 0 . 0<br>
+
+act_energy_loss_avail_p = 0 . 0<br>
+
+availp_ratio = 0 . 0<br>
+
+rate_decr_placement = 0 . 0<br>
+
+eff_band = 0 . 0<br>
+
+biom_cp = 0 . 0<br>
+
+hum_cp = 0 . 0<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_get_other_variables">  </A>
+<H2>Soilp Get Other Variables</H2>
+<br>
+<H3><CENTER>Get the values of variables from other modules  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get dlayer from the system (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+Get soil_t from the system (Lower Bound = - 20 . 0, Upper Bound = 50 . 0)<br>
+
+Get sw<SUB>(in mm)</SUB> from the system (Lower Bound = 0 . 00001, Upper Bound = 1000 . 0)<br>
+
+Get ll15<SUB>(in mm)</SUB> from the system (Lower Bound = 0 . 00001, Upper Bound = 1000 . 0)<br>
+
+Get dul<SUB>(in mm)</SUB> from the system (Lower Bound = 0 . 00001, Upper Bound = 1000 . 0)<br>
+
+Get sat<SUB>(in mm)</SUB> from the system (Lower Bound = 0 . 00001, Upper Bound = 1000 . 0)<br>
+
+Get bd from the system (Lower Bound = 0 . 01, Upper Bound = 3 . 0)<br>
+
+Get <FONT FACE = "SYMBOL">D</FONT>fom_c_hum from the system (Lower Bound = 0 . 0, Upper Bound = 1000 .)<br>
+
+Get <FONT FACE = "SYMBOL">D</FONT>fom_c_biom from the system (Lower Bound = 0 . 0, Upper Bound = 1000 .)<br>
+
+Get <FONT FACE = "SYMBOL">D</FONT>fom_c_atm from the system (Lower Bound = 0 . 0, Upper Bound = 1000 .)<br>
+
+Get <FONT FACE = "SYMBOL">D</FONT>hum_c_biom from the system (Lower Bound = 0 . 0, Upper Bound = 1000 .)<br>
+
+Get <FONT FACE = "SYMBOL">D</FONT>hum_c_atm from the system (Lower Bound = 0 . 0, Upper Bound = 1000 .)<br>
+
+Get <FONT FACE = "SYMBOL">D</FONT>biom_c_hum from the system (Lower Bound = 0 . 0, Upper Bound = 1000 .)<br>
+
+Get <FONT FACE = "SYMBOL">D</FONT>biom_c_atm from the system (Lower Bound = 0 . 0, Upper Bound = 1000 .)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_read_constants">  </A>
+<H2>Soilp Read Constants</H2>
+<br>
+<H3><CENTER>Read in all constants from ini file.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Write a string to a file<br>
+
+Read rate_loss_avail_p from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read act_energy_loss_avail_p from file (Lower Bound = 0 . 0, Upper Bound = 100 . 0)<br>
+
+Read availp_ratio from file (Lower Bound = 0 . 01, Upper Bound = 0 . 25)<br>
+
+Read rate_decr_placement from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Read eff_band from file (Lower Bound = 0 . 0, Upper Bound = 100 . 0)<br>
+
+Read biom_cp from file (Lower Bound = 0 . 0, Upper Bound = 100 . 0)<br>
+
+Read hum_cp from file (Lower Bound = 0 . 0, Upper Bound = 100 . 0)<br>
+
+Read wf_loss_index from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+Read wf_loss_values from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+rate_loss_avail_p = - <I>log</I><SUB>e</SUB>(1 - rate_loss_avail_p) / 365 . 0<br>
+
+rate_decr_placement = - <I>log</I><SUB>e</SUB>(1 - rate_decr_placement) / 365 . 0<br>
+
+Read crop_table_name from file<br>
+
+Read crit_p_supply from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+Read crit_p_rlv from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+Read lb_labile_p from file (Lower Bound = 0 . 0, Upper Bound = 100 . 0)<br>
+
+Read ub_labile_p from file (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+Read lb_unavail_p from file (Lower Bound = 0 . 0, Upper Bound = 100 . 0)<br>
+
+Read ub_unavail_p from file (Lower Bound = 0 . 0, Upper Bound = 10000 . 0)<br>
+
+Read lb_banded_p from file (Lower Bound = 0 . 0, Upper Bound = 100 . 0)<br>
+
+Read ub_banded_p from file (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+Read lb_rock_p from file (Lower Bound = 0 . 0, Upper Bound = 100 . 0)<br>
+
+Read ub_rock_p from file (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_read_param">  </A>
+<H2>Soilp Read Param</H2>
+<br>
+<H3><CENTER>Read in all parameters from parameter file.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Write a string to a file<br>
+
+Read lab_p from file (Lower Bound = numvals, Upper Bound = lb_labile_p)<br>
+
+For each layer from 1 to maximum number of layers<br>
+
+<blockquote>labile_p (layer) = divide (lab_p<I><SUB> layer</SUB></I>, <A HREF = "#soilp_fac"> kg/ha to ppm conversion for layer </A>, 0 . 0)<br>
+
+</blockquote>next<br>
+
+Read unavail_p from file (Lower Bound = numvals, Upper Bound = lb_unavail_p) <I>(OPTIONAL)</I><br>
+
+if (numvals.=.0.0) then<br>
+
+<blockquote>For each layer from 1 to maximum number of layers<br>
+
+<blockquote>unavail_p (layer) = divide (labile_p (layer), availp_ratio, 0 . 0)<br>
+
+</blockquote>next<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Read banded_p from file (Lower Bound = numvals, Upper Bound = lb_banded_p) <I>(OPTIONAL)</I><br>
+
+if (numvals.=.0.0) then<br>
+
+<blockquote>Fill banded_p with 0 . 0<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Read rock_p from file (Lower Bound = numvals, Upper Bound = lb_rock_p) <I>(OPTIONAL)</I><br>
+
+if (numvals.=.0.0) then<br>
+
+<blockquote>Fill rock_p with 0 . 0<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Read sorption from file (Lower Bound = numvals, Upper Bound = 0 . 0)<br>
+
+Read root_cp from file (Lower Bound = 0 . 0, Upper Bound = 300 . 0)<br>
+
+Read rate_dissol_rock_p from file (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+rate_dissol_rock_p = - <I>log</I><SUB>e</SUB>(1 - rate_dissol_rock_p) / 365 . 0<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_fac">  </A>
+<H2>Soilp Fac</H2>
+<br>
+<H3><CENTER>Convert kg/ha to ppm of soil in a given layer  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+soilp_fac = divide (100 . 0, bd (layer) * dlayer (layer), 0 . 0)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_get_other_init_variables">  </A>
+<H2>Soilp Get Other Init Variables</H2>
+<br>
+<H3><CENTER>Get the values of variables from other modules that only needed for initialisation.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get temp_c from the system (Lower Bound = 0 . 0, Upper Bound = 10000 . 0)<br>
+
+For each layer from 1 to maximum number of layers<br>
+
+<blockquote>biom_p (layer) = temp_c<I><SUB> layer</SUB></I> / biom_cp<br>
+
+</blockquote>next<br>
+
+Get temp_c from the system (Lower Bound = 0 . 0, Upper Bound = 100000 . 0)<br>
+
+For each layer from 1 to maximum number of layers<br>
+
+<blockquote>hum_p (layer) = temp_c<I><SUB> layer</SUB></I> / hum_cp<br>
+
+</blockquote>next<br>
+
+Get temp_c from the system (Lower Bound = 0 . 0, Upper Bound = 10000 . 0)<br>
+
+For each layer from 1 to maximum number of layers<br>
+
+<blockquote>fom_p (layer) = temp_c<I><SUB> layer</SUB></I> / root_cp<br>
+
+fom_cp (layer) = root_cp<br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_sum_report">  </A>
+<H2>Soilp Sum Report</H2>
+<br>
+<H3><CENTER>Output P module summary details.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Write a string to a file<br>
+
+string = '              phosphorus initial data'<br>
+
+Write a string to a file<br>
+
+string = '     ---------------------------------------------------------'<br>
+
+Write a string to a file<br>
+
+string = '      layer    labile  unavailable' / / ' banded     rock    sorption'<br>
+
+Write a string to a file<br>
+
+string = ' (kg / ha ) (kg/ha) (kg/ha) (kg/ha) ())<br>
+
+Write a string to a file<br>
+
+string = '     ---------------------------------------------------------'<br>
+
+Write a string to a file<br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>write (to string)  layer , labile_p (layer) , unavail_p (layer) , banded_p (layer) , rock_p (layer) , sorption (layer)<br>
+
+Write a string to a file<br>
+
+</blockquote>next<br>
+
+string = '     ---------------------------------------------------------'<br>
+
+Write a string to a file<br>
+
+write (to string)  sum_real_array (labile_p, maximum number of layers) , sum_real_array (unavail_p, maximum number of layers) , sum_real_array (banded_p, maximum number of layers) , sum_real_array (rock_p, maximum number of layers)<br>
+
+Write a string to a file<br>
+
+string = '     ---------------------------------------------------------'<br>
+
+Write a string to a file<br>
+
+Write a string to a file<br>
+
+write (to string)  rate_dissol_rock_p<br>
+
+Write a string to a file<br>
+
+write (to string)  root_cp<br>
+
+Write a string to a file<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_process">  </A>
+<H2>Soilp Process</H2>
+<br>
+<H3><CENTER>Calculates changes in soil P. Processes considered are: - loss of available P - dissolution of a non water soluble source - loss of effectiveness of banded P fertilizer - organic P transformations - addition of P from residues including roots - P uptake by crops  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+<A HREF = "#soilp_availability_loss"> Change P availability </A><br>
+
+<A HREF = "#soilp_rock_p_dissolution"> Release labile P from non-water soluble source </A><br>
+
+<A HREF = "#soilp_decrease_banded_p_effect"> Decrease effectiveness of banded P </A><br>
+
+<A HREF = "#soilp_min_hum"> Mineralise P from humic pool </A><br>
+
+<A HREF = "#soilp_min_biom"> Mineralise P from biom pool </A><br>
+
+<A HREF = "#soilp_min_fom"> Mineralise P from fom pool </A><br>
+
+<A HREF = "#soilp_find_crops"> Find crops in the system </A><br>
+
+<A HREF = "#soilp_get_crop_variables"> Request variables from crops </A><br>
+
+<A HREF = "#soilp_crop_p_uptake"> Uptake P for each crop </A><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_availability_loss">  </A>
+<H2>Soilp Availability Loss</H2>
+<br>
+<H3><CENTER>Calculate changes in P availability. Transformation of labile P to unavailable P assumed to depend on temperature (defined in terms of activation energy, after Barrow) and soil moisture Both labile P and banded P are affected by loss in availability. Reverse process converts unavailable P to labile P assuming rate constants are in ratio of availP_ratio  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>adj_rate_loss_avail_p = rate_loss_avail_p * <I><BIG>e</BIG></I><SUP>act_energy_loss_avail_p * 1000 . 0 / 8 . 314 * ((1.0/298.0)-(1.0/(273.0+soil_t (layer))))</SUP><br>
+
+wf = <A HREF = "#soilp_wf"> Loss of availability water factor for layer </A><br>
+
+flux_p1 = labile_p (layer) * wf * adj_rate_loss_avail_p<br>
+
+flux_p2 = banded_p (layer) * wf * adj_rate_loss_avail_p<br>
+
+flux_p3 = unavail_p (layer) * wf * adj_rate_loss_avail_p * availp_ratio<br>
+
+unavail_p (layer) = unavail_p (layer) + flux_p1 + flux_p2 - flux_p3<br>
+
+labile_p (layer) = labile_p (layer) - flux_p1 + flux_p3<br>
+
+banded_p (layer) = banded_p (layer) - flux_p2<br>
+
+</blockquote>next<br>
+
+<A HREF = "#soilp_bound_check"> Check P pools </A><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_wf">  </A>
+<H2>Soilp Wf</H2>
+<br>
+<H3><CENTER>Calculates a 0-1 water factor for loss of availability.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (sw<SUB>(in mm)</SUB> (layer).&gt;.dul<SUB>(in mm)</SUB> (layer)) then<br>
+
+<blockquote>wfd = 1 . 0 + divide (sw<SUB>(in mm)</SUB> (layer) - dul<SUB>(in mm)</SUB> (layer), sat<SUB>(in mm)</SUB> (layer) - dul<SUB>(in mm)</SUB> (layer), 0 . 0)<br>
+
+wfd = bound (wfd, 1 . 0, 2 . 0)<br>
+
+</blockquote>else<br>
+
+<blockquote>wfd = divide (sw<SUB>(in mm)</SUB> (layer) - ll15<SUB>(in mm)</SUB> (layer), (dul<SUB>(in mm)</SUB> (layer)-ll15<SUB>(in mm)</SUB> (layer)), 0 . 0)<br>
+
+wfd = bound (wfd, 0 . 0, 1 . 0)<br>
+
+</blockquote>endif<br>
+
+soilp_wf = linear_interp_real (wfd, wf_loss_index, wf_loss_values, max_wf_values)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_bound_check">  </A>
+<H2>Soilp Bound Check</H2>
+<br>
+<H3><CENTER>Bound check all P pools  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Check that all labile_p lies between lb_labile_p and ub_labile_p<br>
+
+Check that all banded_p lies between lb_banded_p and ub_banded_p<br>
+
+Check that all rock_p lies between lb_rock_p and ub_rock_p<br>
+
+Check that all unavail_p lies between lb_unavail_p and ub_unavail_p<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_rock_p_dissolution">  </A>
+<H2>Soilp Rock P Dissolution</H2>
+<br>
+<H3><CENTER>Describes release of Labile P from a non-water soluble source.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>flux_p = rock_p (layer) * rate_dissol_rock_p<br>
+
+labile_p (layer) = labile_p (layer) + flux_p<br>
+
+rock_p (layer) = rock_p (layer) - flux_p<br>
+
+</blockquote>next<br>
+
+<A HREF = "#soilp_bound_check"> Check P pools </A><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_decrease_banded_p_effect">  </A>
+<H2>Soilp Decrease Banded P Effect</H2>
+<br>
+<H3><CENTER>Fertiliser effectiveness is higher when applied as a band than when broadcast.  However effect decreases with time. Tillage destroys any banding.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>flux_p = banded_p (layer) * rate_decr_placement<br>
+
+labile_p (layer) = labile_p (layer) + flux_p<br>
+
+banded_p (layer) = banded_p (layer) - flux_p<br>
+
+</blockquote>next<br>
+
+<A HREF = "#soilp_bound_check"> Check P pools </A><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_min_hum">  </A>
+<H2>Soilp Min Hum</H2>
+<br>
+<H3><CENTER>Mineralise P from hum pool  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>tot_hum_c_decomposed = <FONT FACE = "SYMBOL">D</FONT>hum_c_atm (layer) + <FONT FACE = "SYMBOL">D</FONT>hum_c_biom (layer)<br>
+
+hum_p_decomposed = tot_hum_c_decomposed / hum_cp<br>
+
+min_p = hum_p_decomposed - <FONT FACE = "SYMBOL">D</FONT>hum_c_biom (layer) / biom_cp<br>
+
+hum_p (layer) = hum_p (layer) - hum_p_decomposed<br>
+
+biom_p (layer) = biom_p (layer) + <FONT FACE = "SYMBOL">D</FONT>hum_c_biom (layer) / biom_cp<br>
+
+labile_p (layer) = labile_p (layer) + min_p<br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_min_biom">  </A>
+<H2>Soilp Min Biom</H2>
+<br>
+<H3><CENTER>Mineralise P from biom pool  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>tot_biom_c_decomposed = <FONT FACE = "SYMBOL">D</FONT>biom_c_atm (layer) + <FONT FACE = "SYMBOL">D</FONT>biom_c_hum (layer)<br>
+
+biom_p_decomposed = tot_biom_c_decomposed / biom_cp<br>
+
+min_p = biom_p_decomposed - <FONT FACE = "SYMBOL">D</FONT>biom_c_hum (layer) / hum_cp<br>
+
+biom_p (layer) = biom_p (layer) - biom_p_decomposed<br>
+
+hum_p (layer) = hum_p (layer) + <FONT FACE = "SYMBOL">D</FONT>biom_c_hum (layer) / hum_cp<br>
+
+labile_p (layer) = labile_p (layer) + min_p<br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_min_fom">  </A>
+<H2>Soilp Min Fom</H2>
+<br>
+<H3><CENTER>Mineralise P from fom pool  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>tot_fom_c_decomposed = <FONT FACE = "SYMBOL">D</FONT>fom_c_atm (layer) + <FONT FACE = "SYMBOL">D</FONT>fom_c_biom (layer) + <FONT FACE = "SYMBOL">D</FONT>fom_c_hum (layer)<br>
+
+fom_p_decomposed = tot_fom_c_decomposed / fom_cp (layer)<br>
+
+min_p = fom_p_decomposed - <FONT FACE = "SYMBOL">D</FONT>fom_c_biom (layer) / biom_cp - <FONT FACE = "SYMBOL">D</FONT>fom_c_hum (layer) / hum_cp<br>
+
+fom_p (layer) = fom_p (layer) - fom_p_decomposed<br>
+
+hum_p (layer) = hum_p (layer) + <FONT FACE = "SYMBOL">D</FONT>fom_c_hum (layer) / hum_cp<br>
+
+biom_p (layer) = biom_p (layer) + <FONT FACE = "SYMBOL">D</FONT>fom_c_biom (layer) / biom_cp<br>
+
+labile_p (layer) = labile_p (layer) + min_p<br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_find_crops">  </A>
+<H2>Soilp Find Crops</H2>
+<br>
+<H3><CENTER>Find all crops in the system.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+request_no = 0<br>
+
+number of crops = 0<br>
+
+</blockquote>next<br>
+
+request_no = request_no + 1<br>
+
+Get next crpname from the system<br>
+
+if (numvals.=.0) then<br>
+
+<blockquote>goto 999<br>
+
+</blockquote>else<br>
+
+<blockquote>if (number of crops.&lt;.maximum number of crops) then<br>
+
+<blockquote>get_posting_module<I><SUB> owner_module</SUB></I><br>
+
+number of crops = number of crops + 1<br>
+
+crop_names (number of crops) = crpname<br>
+
+crop_owners (number of crops) = owner_module<br>
+
+</blockquote>else<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>endif<br>
+
+</blockquote>endif<br>
+
+goto 10<br>
+
+</blockquote>next<br>
+
+nveg = number of crops<br>
+
+<br>
+
+</blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_get_crop_variables">  </A>
+<H2>Soilp Get Crop Variables</H2>
+<br>
+<H3><CENTER>Get crop variables from crop modules.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+For each vegnum from 1 to number of crops<br>
+
+<blockquote>Fill rlv with 0 . 0<br>
+
+if (position_in_char_array (crop_names (vegnum), crop_table_name, maximum number of crops).=.0.0) then<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>else<br>
+
+<blockquote>Get rlv from the system (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+if (numvals.&gt;.0) then<br>
+
+<blockquote>For each layer from 1 to numvals<br>
+
+<blockquote>rlv (vegnum, layer) = rlv<I><SUB> layer</SUB></I><br>
+
+</blockquote>next<br>
+
+</blockquote>else<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>endif<br>
+
+Get crop_p_demand (vegnum) from the system (Lower Bound = 0 . 0, Upper Bound = 20 . 0)<br>
+
+if (numvals.=.0) then<br>
+
+<blockquote>Report a fatal error<br>
+
+</blockquote>endif<br>
+
+</blockquote>endif<br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_crop_p_uptake">  </A>
+<H2>Soilp Crop P Uptake</H2>
+<br>
+<H3><CENTER>Calculate Phosphorus uptake for each crop based on phosphorus status in each layer.  P status depends on labile p in soil and is modified by soil P sorption, roots and soil water content.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each crop from 1 to number of crops<br>
+
+<blockquote>status_profile = 0 . 0<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>effective_p<I><SUB> layer</SUB></I> = labile_p (layer) + eff_band * banded_p (layer)<br>
+
+status<I><SUB> layer</SUB></I> = effective_p<I><SUB> layer</SUB></I> * <A HREF = "#soilp_sorption_fn"> P sorption factor for layer </A> * <A HREF = "#soilp_root_fac"> Root factor for crop in layer </A> * <A HREF = "#soilp_sw_fn"> Water function in layer </A><br>
+
+status_profile = status_profile + status<I><SUB> layer</SUB></I><br>
+
+</blockquote>next<br>
+
+crop_num = position_in_char_array (crop_names (crop), crop_table_name, maximum number of crops)<br>
+
+uptake_p_tot = status_profile * crit_p_supply (crop_num)<br>
+
+uptake_p_tot = bound (uptake_p_tot, 0 . 0, crop_p_demand (crop))<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>uptake_p_crop (crop, layer) = uptake_p_tot * divide (status<I><SUB> layer</SUB></I>, status_profile, 0 . 0)<br>
+
+fr_labile = divide (labile_p (layer), effective_p<I><SUB> layer</SUB></I>, 0 . 0)<br>
+
+labile_p (layer) = labile_p (layer) - uptake_p_crop (crop, layer) * fr_labile<br>
+
+banded_p (layer) = banded_p (layer) - uptake_p_crop (crop, layer) * (1.0-fr_labile)<br>
+
+</blockquote>next<br>
+
+<A HREF = "#soilp_bound_check"> Check P pools </A><br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_sorption_fn">  </A>
+<H2>Soilp Sorption Fn</H2>
+<br>
+<H3><CENTER>Soil P sorption factor.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+soilp_sorption_fn = divide (1 . 0, sorption (layer), 0 . 0)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_root_fac">  </A>
+<H2>Soilp Root Fac</H2>
+<br>
+<H3><CENTER>Crop root factor.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+crop_num = position_in_char_array (crop_names (crop), crop_table_name, maximum number of crops)<br>
+
+soilp_root_fac = rlv (crop, layer) * divide (1 . 0, crit_p_rlv (crop_num), 0 . 0)<br>
+
+soilp_root_fac = bound (soilp_root_fac, 0 . 0, 1 . 0)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_sw_fn">  </A>
+<H2>Soilp Sw Fn</H2>
+<br>
+<H3><CENTER>Soil water function.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+sw = divide (sw<SUB>(in mm)</SUB> (layer), dlayer (layer), 0 . 0)<br>
+
+ll = divide (ll15<SUB>(in mm)</SUB> (layer), dlayer (layer), 0 . 0)<br>
+
+dul = divide (dul<SUB>(in mm)</SUB> (layer), dlayer (layer), 0 . 0)<br>
+
+soilp_sw_fn = minimum of (sw * (sw-ll), dul * (dul-ll))<br>
+
+soilp_sw_fn = l_bound (soilp_sw_fn, 0 . 0)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_send_my_variable">  </A>
+<H2>Soilp Send My Variable</H2>
+<br>
+<H3><CENTER>Return the value of one of our variables to caller.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (variable_name.=.'labile_p') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply labile_p to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'unavail_p') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply unavail_p to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'banded_p') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply banded_p to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'rock_p') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply rock_p to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'soil_test_p') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Fill soil_test_p with 0 . 0<br>
+
+Add array labile_p to soil_test_p<br>
+
+Add array banded_p to soil_test_p<br>
+
+Supply soil_test_p to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'biom_p') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply biom_p to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'hum_p') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply hum_p to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'fom_p') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply fom_p to the requesting module<br>
+
+</blockquote>elseif (variable_name.=.'fom_cp') then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+Supply fom_cp to the requesting module<br>
+
+</blockquote>else if (index (variable_name, 'uptake_p_').=.1) then<br>
+
+<blockquote>crpnum = position_in_char_array (variable_name<I><SUB> 10 :</SUB></I>, crop_names, maximum number of crops)<br>
+
+if (crpnum.&gt;.0.0) then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>crop_p_uptake<I><SUB> layer</SUB></I> = uptake_p_crop (crpnum, layer)<br>
+
+</blockquote>next<br>
+
+Supply crop_p_uptake to the requesting module<br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_set_my_variable">  </A>
+<H2>Soilp Set My Variable</H2>
+<br>
+<H3><CENTER>Set one of our variables altered by some other module.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (variable_name.=.'labile_p') then<br>
+
+<blockquote>Get labile_p from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+</blockquote>elseif (variable_name.=.'banded_p') then<br>
+
+<blockquote>Get banded_p from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+</blockquote>elseif (variable_name.=.'rock_p') then<br>
+
+<blockquote>Get rock_p from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+</blockquote>elseif (variable_name.=.'dlt_labile_p') then<br>
+
+<blockquote>Get tarray from the message (Lower Bound = - 1000 . 0, Upper Bound = 1000 . 0)<br>
+
+Add array tarray to labile_p<br>
+
+Check that all labile_p lies between 0 . 0 and 1000 . 0<br>
+
+</blockquote>elseif (variable_name.=.'dlt_banded_p') then<br>
+
+<blockquote>Get tarray from the message (Lower Bound = - 1000 . 0, Upper Bound = 1000 . 0)<br>
+
+Add array tarray to banded_p<br>
+
+Check that all banded_p lies between 0 . 0 and 1000 . 0<br>
+
+</blockquote>elseif (variable_name.=.'dlt_rock_p') then<br>
+
+<blockquote>Get tarray from the message (Lower Bound = - 1000 . 0, Upper Bound = 1000 . 0)<br>
+
+Add array tarray to rock_p<br>
+
+Check that all rock_p lies between 0 . 0 and 1000 . 0<br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_tillage">  </A>
+<H2>Soilp Tillage</H2>
+<br>
+<H3><CENTER>Capture tillage events to destroy banding.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get f_incorp from the message (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<I>(OPTIONAL)</I><br>
+
+if (numvals.=.0) then<br>
+
+<blockquote>f_incorp = 1 . 0<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Get tillage_depth from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<I>(OPTIONAL)</I><br>
+
+if (numvals.=.0) then<br>
+
+<blockquote>tillage_depth = dlayer (1)<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+if ((tillage_depth.&gt;.0.0).and.(f_incorp.&gt;.0.0)) then<br>
+
+<blockquote>num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+tilled_layers = find_layer_no (tillage_depth, dlayer, num_layers)<br>
+
+For each layer from 1 to tilled_layers<br>
+
+<blockquote>labile_p (layer) = labile_p (layer) + banded_p (layer)<br>
+
+banded_p (layer) = 0 . 0<br>
+
+</blockquote>next<br>
+
+<A HREF = "#soilp_redistribute_p"> Redistribute labile_p over tillage_depth </A><br>
+
+<A HREF = "#soilp_redistribute_p"> Redistribute rock_p over tillage_depth </A><br>
+
+<A HREF = "#soilp_redistribute_p"> Redistribute effective_p over tillage_depth </A><br>
+
+Check that all labile_p lies between 0 . 0 and 1000 . 0<br>
+
+Write a string to a file<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_redistribute_p">  </A>
+<H2>Soilp Redistribute P</H2>
+<br>
+<H3><CENTER>Evenly redistribute P to specified depth.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+num_layers = count_of_real_vals (dlayer, maximum number of layers)<br>
+
+redistribute_layer = find_layer_no (depth, dlayer, num_layers)<br>
+
+frac_bottom_layer = divide (depth - sum_real_array (dlayer, redistribute_layer - 1), dlayer (redistribute_layer), 0 . 0)<br>
+
+redistributed_p = sum_real_array (parray, redistribute_layer) - (1.0-frac_bottom_layer) * parray<I><SUB> redistribute_layer</SUB></I><br>
+
+if (redistribute_layer.&gt;.1) then<br>
+
+<blockquote>For each layer from 1 to redistribute_layer<br>
+
+<blockquote>if (layer.=.redistribute_layer) then<br>
+
+<blockquote>parray<I><SUB> layer</SUB></I> = (1.0-frac_bottom_layer) * parray<I><SUB> layer</SUB></I> + redistributed_p * divide (dlayer (layer) * frac_bottom_layer, depth, 0 . 0)<br>
+
+</blockquote>else<br>
+
+<blockquote>parray<I><SUB> layer</SUB></I> = redistributed_p * divide (dlayer (layer), depth, 0 . 0)<br>
+
+</blockquote>endif<br>
+
+</blockquote>next<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_incorp_residues">  </A>
+<H2>Soilp Incorp Residues</H2>
+<br>
+<H3><CENTER>Transfers P from surface residues to fom pool. Presently assumes residues c:p is invariant.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+dlt_fom_incorp<I><SUB> :</SUB></I> = 0 . 0<br>
+
+dlt_fom_p_incorp<I><SUB> :</SUB></I> = 0 . 0<br>
+
+dlt_fom_cpr_incorp<I><SUB> :</SUB></I> = 0 . 0<br>
+
+dlt_labile_p<I><SUB> :</SUB></I> = 0 . 0<br>
+
+Get dlt_fom_incorp from the message (Lower Bound = 0 . 0, Upper Bound = 10000 . 0)<br>
+
+Get dlt_fom_p_incorp from the message (Lower Bound = 0 . 0, Upper Bound = 10000 . 0)<I>(OPTIONAL)</I><br>
+
+if (numval_p.=.0) then<br>
+
+<blockquote>Get dlt_fom_cpr_incorp from the message (Lower Bound = 0 . 0, Upper Bound = 10000 . 0)<I>(OPTIONAL)</I><br>
+
+For each layer from 1 to numval_cpr<br>
+
+<blockquote>dlt_fom_p_incorp<I><SUB> layer</SUB></I> = divide (dlt_fom_incorp<I><SUB> layer</SUB></I> * residue_c_frac, dlt_fom_cpr_incorp<I><SUB> layer</SUB></I>, 0 . 0)<br>
+
+</blockquote>next<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+if (numval_p.=.0.and.numval_cpr.=.0) then<br>
+
+<blockquote>For each layer from 1 to numval_fom<br>
+
+<blockquote>dlt_fom_p_incorp<I><SUB> layer</SUB></I> = divide (dlt_fom_incorp<I><SUB> layer</SUB></I> * residue_c_frac, root_cp, 0 . 0)<br>
+
+</blockquote>next<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+For each layer from 1 to numval_fom<br>
+
+<blockquote>new_fom_c = fom_cp (layer) * fom_p (layer) + dlt_fom_incorp<I><SUB> layer</SUB></I> * residue_c_frac<br>
+
+fom_p (layer) = fom_p (layer) + dlt_fom_p_incorp<I><SUB> layer</SUB></I><br>
+
+fom_cp (layer) = divide (new_fom_c, fom_p (layer), 0 . 0)<br>
+
+</blockquote>next<br>
+
+Get dlt_labile_p from the message (Lower Bound = 0 . 0, Upper Bound = 10000 . 0)<I>(OPTIONAL)</I><br>
+
+For each layer from 1 to numval_fom<br>
+
+<blockquote>labile_p (layer) = labile_p (layer) + dlt_labile_p<I><SUB> layer</SUB></I><br>
+
+</blockquote>next<br>
+
+<A HREF = "#soilp_bound_check"> Check P pools </A><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "soilp_min_residues">  </A>
+<H2>Soilp Min Residues</H2>
+<br>
+<H3><CENTER>Mineralise P from fom pool  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+dlt_res_c_atm = 0 . 0<br>
+
+dlt_res_c_hum = 0 . 0<br>
+
+dlt_res_c_biom = 0 . 0<br>
+
+dlt_org_p = 0 . 0<br>
+
+Get dlt_res_c_atm from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+Get dlt_res_c_hum from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+Get dlt_res_c_biom from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+Get dlt_org_p from the message (Lower Bound = 0 . 0, Upper Bound = 1000 . 0)<br>
+
+num_layers = count_of_real_vals (dlt_res_c_biom, maximum number of layers)<br>
+
+res_p_decomposed = sum_real_array (dlt_org_p, num_layers)<br>
+
+min_p = res_p_decomposed - sum_real_array (dlt_res_c_biom, num_layers) / biom_cp - sum_real_array (dlt_res_c_hum, num_layers) / hum_cp<br>
+
+For each layer from 1 to num_layers<br>
+
+<blockquote>hum_p (layer) = hum_p (layer) + dlt_res_c_hum<I><SUB> layer</SUB></I> / hum_cp<br>
+
+biom_p (layer) = biom_p (layer) + dlt_res_c_biom<I><SUB> layer</SUB></I> / biom_cp<br>
+
+labile_p (layer) = labile_p (layer) + min_p * divide (dlt_res_c_biom<I><SUB> layer</SUB></I>, sum_real_array (dlt_res_c_biom, num_layers), 0 . 0)<br>
+
+</blockquote>next<br>
+
+<A HREF = "#soilp_bound_check"> Check P pools </A><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<TABLE WIDTH = 100% ALIGN=center BORDER=1><CAPTION><H1><A NAME = "standard.soilp.constants"> Standard Constants </A></H1></CAPTION><TD><B>Parameter</B></TD><TD><B>Description</B></TD><TD><B>Specification</B></TD><TD><B>Usage</B></TD><TR><TD VALIGN=TOP><A NAME = "rate_loss_avail_p"> rate_loss_avail_p </A></TD><TD> Fraction lost per yr (less then 1) specified at 25 oC</TD><TD>   0.30  ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "rate_decr_placement"> rate_decr_placement </A></TD><TD>0.5 ()   ! Fractional loss of placement effect per yr (less then 1)</TD><TD>  0.8    ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "act_energy_loss_avail_p"> act_energy_loss_avail_p </A></TD><TD> Effect of soil temperature on P availability</TD><TD>   90  (kJ/mole)</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "availp_ratio"> availp_ratio </A></TD><TD> Ratio of available P : unavailable P at a steady state</TD><TD>      0.1  ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "eff_band"> eff_band </A></TD><TD> Relative effectiveness of banded_p compared with broadcast_p</TD><TD>          3.0  ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "biom_cp"> biom_cp </A></TD><TD> c:p ratio of biom pool</TD><TD>          40.0  ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "hum_cp"> hum_cp </A></TD><TD> c:p ratio of hum pool</TD><TD>          100.0  ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "wf_loss_index"> wf_loss_index </A></TD><TD> index specifying water content for water factor for loss of availability</TD><TD>  0.0 0.5  1.0  2.0    ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "wf_loss_values"> wf_loss_values </A></TD><TD> value of water factor function at given index values</TD><TD>  0.6 1.0  1.0  1.0    ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "crop_name"> crop_name </A></TD><TD> name of crop</TD><TD>       maize  wheat  bananas  apples    ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "crit_p_supply"> crit_p_supply </A></TD><TD> factor to calc potential P supply from soil P status</TD><TD>   4.0      0.5     0.05    0.05      (??)</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "p_supply_factor"> p_supply_factor </A></TD><TD> factor to calc potential P supply from soil P status</TD><TD>   3.0      0.5     0.05    0.05      (??)</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "crit_p_rlv"> crit_p_rlv </A></TD><TD> critical P rlv</TD><TD>     .00001    .05     .05     0.05    (mm/mm^3)</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "lb_labile_p"> lb_labile_p </A></TD><TD></TD><TD>  0 ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "ub_labile_p"> ub_labile_p </A></TD><TD></TD><TD>  1000 ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "lb_unavail_p"> lb_unavail_p </A></TD><TD></TD><TD>  0 ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "ub_unavail_p"> ub_unavail_p </A></TD><TD></TD><TD>  10000 ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "lb_banded_p"> lb_banded_p </A></TD><TD></TD><TD>  0 ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "ub_banded_p"> ub_banded_p </A></TD><TD></TD><TD>  1000 ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "lb_rock_p"> lb_rock_p </A></TD><TD></TD><TD>  0 ()</TD><TD></TD></TR>
+
+<TR><TD VALIGN=TOP><A NAME = "ub_rock_p"> ub_rock_p </A></TD><TD></TD><TD>  1000 ()</TD><TD></TD></TR>
+
+</TABLE>
+<br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<br>
+<A NAME = "Contact Information"> <H2>Contact Information</H2> </A>
+For Further Information Please Contact:
+<p>
+<A HREF = "mailto:Merv.Probert@tag.csiro.au"> Merv Probert - Module Developer </A><br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+
+<body>
+
+<p><img src="..\..\..\docs\shared\apsimdocumentationbanner.jpg" width="640"
+height="73"></p>
+</body>
+</html>
+Date: 10/01/2001  APseudo Version:  1. 0 Rev.  1<br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 

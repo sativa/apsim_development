@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="soiltemp">
+   <registrations>
+      <read name="clay" type="clay" readable="T"/>
+      <read name="soil_temp" type="soil_temp" readable="T"/>
+      <read name="bound_layer_cond" type="bound_layer_cond" readable="T"/>
+      <read name="nu" type="nu" readable="T"/>
+      <read name="vol_spec_heat_om" type="vol_spec_heat_om" readable="T"/>
+      <read name="vol_spec_heat_water" type="vol_spec_heat_water" readable="T"/>
+      <read name="vol_spec_heat_clay" type="vol_spec_heat_clay" readable="T"/>
+      <respondToGetReg name="soil_temp" type="soil_temp" readable="T"/>
+      <respondToGetReg name="final_soil_temp_surface" type="final_soil_temp_surface"/>
+      <respondToGetReg name="final_soil_temp" type="final_soil_temp"/>
+      <respondToGetReg name="ave_soil_temp_surface" type="ave_soil_temp_surface"/>
+      <respondToGetReg name="ave_soil_temp" type="ave_soil_temp"/>
+      <respondToGetReg name="mint_soil_surface" type="mint_soil_surface"/>
+      <respondToGetReg name="mint_soil" type="mint_soil"/>
+      <respondToGetReg name="maxt_soil_surface" type="maxt_soil_surface"/>
+      <respondToGetReg name="maxt_soil" type="maxt_soil"/>
+      <respondToGetReg name="therm_cond" type="therm_cond"/>
+      <respondToGetReg name="heat_store" type="heat_store"/>
+      <respondToEventReg name="create" type="create"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <getVariableReg name="dlayer" type="dlayer"/>
+      <getVariableReg name="bd" type="bd"/>
+      <getVariableReg name="sw" type="sw"/>
+      <getVariableReg name="maxt_time" type="maxt_time"/>
+      <getVariableReg name="maxt" type="maxt"/>
+      <getVariableReg name="mint" type="mint"/>
+      <getVariableReg name="es" type="es"/>
+      <getVariableReg name="eos" type="eos"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="process" type="process"/>
+   </registrations>
+</component>

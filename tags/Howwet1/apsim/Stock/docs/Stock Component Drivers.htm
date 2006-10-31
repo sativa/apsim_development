@@ -1,0 +1,383 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Drivers for the Stock Component </title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="../../../docs/shared/docstyle.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<p class="Title1">Drivers for the Stock Component </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Environmental information </p>
+<p class="Normal">The Stock component implements alternative interfaces to obtain weather data; I have only provided the APSIM-compatible interface here. </p>
+<p class="Normal">&nbsp;</p>
+<table cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="109" valign="top"><p align="center" class="Normal"><strong>Property </strong></p></td>
+    <td width="104" valign="top"><p align="center" class="Normal"><strong>Type </strong></p></td>
+    <td width="58" valign="top"><p align="center" class="Normal"><strong>Units </strong></p></td>
+    <td width="90" valign="top"><p align="center" class="Normal"><strong>Permitted number of values </strong></p></td>
+    <td width="294" valign="top"><p align="center" class="Normal"><strong>Description </strong></p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>time </em></p></td>
+    <td width="104" valign="top"><p class="Normal">record </p></td>
+    <td width="58" valign="top"></td>
+    <td width="90" valign="top"><p align="center" class="Normal">Exactly 1 </p></td>
+    <td width="294" valign="top"><p class="Normal">Current time step in standard format. </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>latitude </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">deg </p></td>
+    <td width="90" valign="top"><p align="center" class="Normal">Exactly 1 </p></td>
+    <td width="294" valign="top"><p class="Normal">Latitude (south is negative). </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>daylength </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">hr </p></td>
+    <td width="90" valign="top"><p align="center" class="Normal">Exactly 1 </p></td>
+    <td width="294" valign="top"><p class="Normal">Day length including civil twilight. </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>maxt </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">&ordm;C </p></td>
+    <td width="90" valign="top"><p align="center" class="Normal">Exactly 1 </p></td>
+    <td width="294" valign="top"><p class="Normal">Maximum air temperature. </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>mint </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">&ordm;C </p></td>
+    <td width="90" valign="top"><p align="center" class="Normal">Exactly 1 </p></td>
+    <td width="294" valign="top"><p class="Normal">Minimum air temperature. </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>rain </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">mm </p></td>
+    <td width="90" valign="top"><p align="center" class="Normal">Exactly 1 </p></td>
+    <td width="294" valign="top"><p class="Normal">Precipitation in all forms other than snow. </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>wind </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">m/s </p></td>
+    <td width="90" valign="top"><p align="center" class="Normal">Exactly 1 </p></td>
+    <td width="294" valign="top"><p class="Normal">Average wind speed </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>waterlog </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">- </p></td>
+    <td width="90" valign="top"><p align="center" class="Normal">Zero or more </p></td>
+    <td width="294" valign="top"><p class="Normal">Waterlogging index for each paddock. </p></td>
+  </tr>
+</table>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">The first six of these drivers will cause no difficulty. The <em>wind </em> driver is used in computing the energy requirement to maintain body temperature under cold conditions; it can be set to (say) a constant 2.0 m/s if wind speed data are not available. The <em>waterlog </em> driver is an index that describes the degree of waterlogging of the soil (which is modelled as affecting the time spent grazing); it is optional and can be ignored in your context. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Paddock information </p>
+<p class="Normal">&nbsp;</p>
+<table cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="109" valign="top"><p align="center" class="Normal"><strong>Property </strong></p></td>
+    <td width="104" valign="top"><p align="center" class="Normal"><strong>Type </strong></p></td>
+    <td width="58" valign="top"><p align="center" class="Normal"><strong>Units </strong></p></td>
+    <td width="90" valign="top"><p align="center" class="Normal"><strong>Permitted number of values </strong></p></td>
+    <td width="294" valign="top"><p align="center" class="Normal"><strong>Description </strong></p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>area </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">ha </p></td>
+    <td width="90" valign="top"><p align="center" class="Normal">Zero or more </p></td>
+    <td width="294" valign="top"><p class="Normal">Area of each paddock. </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>slope </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">deg </p></td>
+    <td width="90" valign="top"><p align="center" class="Normal">Zero or more </p></td>
+    <td width="294" valign="top"><p class="Normal">Slope of each paddock </p></td>
+  </tr>
+</table>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">In the Stock component, each group of animals is taken to reside in a paddock. The list of valid paddock names is obtained by looking for the components that have the <em>area </em> property and then obtaining the names of these components, i.e. a paddock is defined as any entity with an area. If no component in the simulation has the <em>area </em> property, then the Stock component sets itself up with a single “paddock” that has the null string for its name, an area of 1.0 ha and zero slope. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">The <em>slope </em> values are used to compute the energy cost associated with movement. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">The usual configuration is to have the paddock components/systems at the same level in the component tree as the Stock component. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Herbage information </p>
+<p class="Normal">At each time step, the Stock component requests the <em>plant2stock </em> driving property. Each value of <em>plant2stock </em> is allocated to one of the paddocks by parsing the name of the component sending it. The herbage present in each paddock is then summarised before being used in the computations of animal intake. In the case where no paddocks have been identified, all the “plant” components that provide <em>plant2stock </em> are allocated to the null paddock. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">Once the intake rates of all animals have been computed, the rates for all animals in a paddock are summed and then allocated between the components in that paddock that provided a value for the <em>plant2stock </em> driver. Each such component is then sent a <em>remove_herbage </em> event that contains the rate of herbage removal for that plant component. </p>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">The <em>plant2stock </em> driving property is a record with six fields: </p>
+<p class="Normal">&nbsp;</p>
+<table cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="109" valign="top"><p align="center" class="Normal"><strong>Field </strong></p></td>
+    <td width="104" valign="top"><p align="center" class="Normal"><strong>Type </strong></p></td>
+    <td width="58" valign="top"><p align="center" class="Normal"><strong>Units </strong></p></td>
+    <td width="390" valign="top"><p align="center" class="Normal"><strong>Description </strong></p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>herbage </em></p></td>
+    <td width="104" valign="top"><p class="Normal">array of records </p></td>
+    <td width="58" valign="top"></td>
+    <td width="390" valign="top"><p class="Normal">Mass and quality of the herbage on offer. The herbage is split into a number of pools that are distinguished by their DM digestibility; each of these pools is described by one element of the array. The fields of the sub-records are set out below. </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>propn_green </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">- </p></td>
+    <td width="390" valign="top"><p class="Normal">Proportion of the total herbage mass that is green </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>legume </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">- </p></td>
+    <td width="390" valign="top"><p class="Normal">Proportion of the total herbage mass that is legume. Usually 0.0 or 1.0 </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>select_factor </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">- </p></td>
+    <td width="390" valign="top"><p class="Normal">Species-specific effect on the relationship between digestibility and voluntary intake. Typical values are 0.0 for C3 grasses and legumes and 0.16 for C4 grasses. </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>seed </em></p></td>
+    <td width="104" valign="top"><p class="Normal">array of records </p></td>
+    <td width="58" valign="top"></td>
+    <td width="390" valign="top"><p class="Normal">Mass and quality of unripe and ripe seeds (elements 1 and 2, respectively). The fields of the sub-records are the same as for the <em>herbage </em> field. </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>seed_class </em></p></td>
+    <td width="104" valign="top"><p class="Normal">array of integer4 </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">- </p></td>
+    <td width="390" valign="top"><p class="Normal">“Equivalent digestibility class” for unripe and ripe seeds (elements 1 and 2, respectively). Valid values are 1-6 or 0, where 1 denotes that seeds will be selected at the same time as 80% digestible herbage, 2 corresponds to 70% herbage, etc. A zero value denotes that seeds are not grazed. </p></td>
+  </tr>
+</table>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">The fields of the sub-records in <em>plant2stock </em>: <em>herbage </em> and <em>plant2stock </em>: <em>seed </em> are: </p>
+<p class="Normal">&nbsp;</p>
+<table cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="109" valign="top"><p align="center" class="Normal"><strong>Field </strong></p></td>
+    <td width="104" valign="top"><p align="center" class="Normal"><strong>Type </strong></p></td>
+    <td width="58" valign="top"><p align="center" class="Normal"><strong>Units </strong></p></td>
+    <td width="390" valign="top"><p align="center" class="Normal"><strong>Description </strong></p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>dm </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">kg/ha </p></td>
+    <td width="390" valign="top"><p class="Normal">Mass (dry matter basis) of the herbage or seed pool </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>dmd </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">- </p></td>
+    <td width="390" valign="top"><p class="Normal">Dry matter digestibility (0-1, not percentage) </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>cp_conc </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">kg/kg </p></td>
+    <td width="390" valign="top"><p class="Normal">Crude protein concentration. Can be estimated as 6.25 x [N] </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>p_conc </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">kg/kg </p></td>
+    <td width="390" valign="top"><p class="Normal">Phosphorus concentration. Can reasonably be estimated by assuming a fixed N:P ratio.</p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>s_conc </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">kg/kg </p></td>
+    <td width="390" valign="top"><p class="Normal">Sulphur concentration. Can reasonably be estimated by assuming a fixed N:S ratio. </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>prot_dg </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">kg/kg </p></td>
+    <td width="390" valign="top"><p class="Normal">Protein degradability. In the absence of better information, can be estimated as <em>dmd </em>+0.10 </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>ash_alk </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">mol/kg </p></td>
+    <td width="390" valign="top"><p class="Normal">Ash alkalinity. </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>height_ratio </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">- </p></td>
+    <td width="390" valign="top"><p class="Normal">An index of the bulk density of the herbage. The height ratio for herbage should be computed as 100/(0.03 x <em>BD </em>), where <em>BD </em> is the herbage bulk density in g/m 3 . This value should be set to 1.0 for seed pools. </p></td>
+  </tr>
+</table>
+<p class="Normal">&nbsp;</p>
+<p class="Normal">One way to obtain a distribution of herbage mass into DMD classes is given on page 32 of the technical paper on GrazFeed that can be found via http://www.csiro.au/index.asp?type=faq&amp;id=Grazplan . </p>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">Supplementary feed information </p>
+<p class="Normal">At each time step, the Stock component requests the <em>supp2stock </em> driving property. This driving property is optional. The <em>supp2stock </em> property returns the amount and quality of supplementary feed that is present in each paddock. All animals resident in a paddock can access the corresponding quantity of supplementary feed (it is allocated between them in proportion to their maximum intake rate). To provide this property, include the Supplement component in the simulation. </p>
+<p class="Normal">The <em>supp2stock </em> driving property is an array of records. Each sub-record has the following fields: </p>
+<p class="Normal">&nbsp;</p>
+<table cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="109" valign="top"><p align="center" class="Normal"><strong>Field </strong></p></td>
+    <td width="104" valign="top"><p align="center" class="Normal"><strong>Type </strong></p></td>
+    <td width="58" valign="top"><p align="center" class="Normal"><strong>Units </strong></p></td>
+    <td width="390" valign="top"><p align="center" class="Normal"><strong>Description </strong></p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>paddock </em></p></td>
+    <td width="104" valign="top"><p class="Normal">string </p></td>
+    <td width="58" valign="top"></td>
+    <td width="390" valign="top"><p class="Normal">Name of a paddock </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>amount </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">kg </p></td>
+    <td width="390" valign="top"><p class="Normal">Amount of supplementary feed present in the paddock </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>roughage </em></p></td>
+    <td width="104" valign="top"><p class="Normal">boolean </p></td>
+    <td width="58" valign="top"></td>
+    <td width="390" valign="top"><p class="Normal">TRUE i.f.f. the feed is a roughage. </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>dm_content </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">kg/kg </p></td>
+    <td width="390" valign="top"><p class="Normal">Dry matter content of the feed. </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>dmd </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">- </p></td>
+    <td width="390" valign="top"><p class="Normal">Dry matter digestibility of the feed (not including any portion that passes the gut undamaged). </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>me_content </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">MJ/kg </p></td>
+    <td width="390" valign="top"><p class="Normal">Metabolizable energy content of the feed. </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>cp_conc </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">kg/kg </p></td>
+    <td width="390" valign="top"><p class="Normal">Crude protein content of the feed. </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>prot_dg </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">kg/kg </p></td>
+    <td width="390" valign="top"><p class="Normal">Protein degradability of the feed. </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>p_conc </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">kg/kg </p></td>
+    <td width="390" valign="top"><p class="Normal">Phosphorus content of the feed. </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>s_conc </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">kg/kg </p></td>
+    <td width="390" valign="top"><p class="Normal">Sulphur content of the feed. </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>ee_conc </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">kg/kg </p></td>
+    <td width="390" valign="top"><p class="Normal">Ether-extractable content of the feed. </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>adip2cp </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">kg/kg </p></td>
+    <td width="390" valign="top"><p class="Normal">Proportion of crude protein that is insoluble in acid detergent. </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>ash_alk </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">mol/kg </p></td>
+    <td width="390" valign="top"><p class="Normal">Ash alkalinity of the feed. </p></td>
+  </tr>
+  <tr>
+    <td width="109" valign="top"><p class="Normal"><em>max_passage </em></p></td>
+    <td width="104" valign="top"><p class="Normal">double </p></td>
+    <td width="58" valign="top"><p align="center" class="Normal">kg/kg </p></td>
+    <td width="390" valign="top"><p class="Normal">Maximum proportion of the feed that will pass undamaged through the gut of ruminants. </p></td>
+  </tr>
+</table>
+<p class="Normal">&nbsp;</p>
+<p class="Title2">DDML definitions </p>
+<p class="Normal">This is for the programmers: </p>
+<p class="Normal">&nbsp;</p>
+<p class="Code">plant2stock </p>
+<p class="Code">&nbsp;</p>
+<p class="Code">&lt;type&gt; </p>
+<p class="Code">&nbsp;&nbsp;&lt;field name = &quot;herbage&quot; array=&quot;T&quot;&gt; </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&lt;element&gt; </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;dm&quot; unit=&quot;kg/ha&quot; kind=&quot;double&quot;/&gt; </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;dmd&quot; unit=&quot;-&quot; kind=&quot;double&quot;/&gt; </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;cp_conc&quot; unit=&quot;kg/kg&quot; kind=&quot;double&quot;/&gt; </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;p_conc&quot; unit=&quot;kg/kg&quot; kind=&quot;double&quot;/&gt; </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;s_conc&quot; unit=&quot;kg/kg&quot; kind=&quot;double&quot;/&gt; </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;prot_dg&quot; unit=&quot;kg/kg&quot; kind=&quot;double&quot;/&gt; </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;ash_alk&quot; unit=&quot;mol/kg&quot; kind=&quot;double&quot;/&gt; </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;height_ratio&quot; unit=&quot;-&quot; kind=&quot;double&quot;/&gt; </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&lt;/element&gt; </p>
+<p class="Code">&nbsp;&nbsp;&lt;/field&gt; </p>
+<p class="Code">&nbsp;&nbsp;&lt;field name=&quot;propn_green&quot; unit=&quot;-&quot; kind=&quot;double&quot;/&gt; </p>
+<p class="Code">&nbsp;&nbsp;&lt;field name=&quot;legume&quot; unit=&quot;-&quot; kind=&quot;double&quot;/&gt; </p>
+<p class="Code">&nbsp;&nbsp;&lt;field name=&quot;select_factor&quot; unit=&quot;-&quot; kind=&quot;double&quot;/&gt; </p>
+<p class="Code">&nbsp;&nbsp;&lt;field name = &quot;seed&quot; array=&quot;T&quot;&gt; </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&lt;element&gt; </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;dm&quot; unit=&quot;kg/ha&quot; kind=&quot;double&quot;/&gt; </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;dmd&quot; unit=&quot;-&quot; kind=&quot;double&quot;/&gt; </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;cp_conc&quot; unit=&quot;kg/kg&quot; kind=&quot;double&quot;/&gt; </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;p_conc&quot; unit=&quot;kg/kg&quot; kind=&quot;double&quot;/&gt; </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;s_conc&quot; unit=&quot;kg/kg&quot; kind=&quot;double&quot;/&gt; </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;prot_dg&quot; unit=&quot;kg/kg&quot; kind=&quot;double&quot;/&gt; </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;ash_alk&quot; unit=&quot;mol/kg&quot; kind=&quot;double&quot;/&gt; </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;height_ratio&quot; unit=&quot;-&quot; kind=&quot;double&quot;/&gt; </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&lt;/element&gt; </p>
+<p class="Code">&nbsp;&nbsp;&lt;/field&gt; </p>
+<p class="Code">&nbsp;&nbsp;&lt;field name = &quot;seed_class&quot; unit=&quot;-&quot; kind=&quot;integer4&quot; array=&quot;T&quot;/&gt; </p>
+<p class="Code">&lt;/type&gt; </p>
+<p class="Code">&nbsp;</p>
+<p class="Code">supp2stock </p>
+<p class="Code">&nbsp;</p>
+<p class="Code">&lt;type array=&quot;T&quot;&gt; </p>
+<p class="Code">&nbsp;&nbsp;&lt;element&gt; </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;paddock&quot; kind=&quot;string&quot;/&gt;' </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;amount&quot; unit=&quot;kg&quot; kind=&quot;double&quot;/&gt;' </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;roughage&quot; kind=&quot;boolean&quot;/&gt;' </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;dm_content&quot; unit=&quot;kg/kg&quot; kind=&quot;double&quot;/&gt;' </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;dmd&quot; unit=&quot;-&quot; kind=&quot;double&quot;/&gt;' </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;me_content&quot; unit=&quot;MJ/kg&quot; kind=&quot;double&quot;/&gt;' </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;cp_conc&quot; unit=&quot;kg/kg&quot; kind=&quot;double&quot;/&gt;' </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;prot_dg&quot; unit=&quot;kg/kg&quot; kind=&quot;double&quot;/&gt;' </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;p_conc&quot; unit=&quot;kg/kg&quot; kind=&quot;double&quot;/&gt;' </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;s_conc&quot; unit=&quot;kg/kg&quot; kind=&quot;double&quot;/&gt;' </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;ee_conc&quot; unit=&quot;kg/kg&quot; kind=&quot;double&quot;/&gt;' </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;adip2cp&quot; unit=&quot;kg/kg&quot; kind=&quot;double&quot;/&gt;' </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;ash_alk&quot; unit=&quot;mol/kg&quot; kind=&quot;double&quot;/&gt;' </p>
+<p class="Code">&nbsp;&nbsp;&nbsp;&nbsp;&lt;field name=&quot;max_passage&quot; unit=&quot;kg/kg&quot; kind=&quot;double&quot;/&gt;'; </p>
+<p class="Code">&nbsp;&nbsp;&lt;/element&gt; </p>
+<p class="Code">&lt;/type&gt; </p>
+</body>
+</html>

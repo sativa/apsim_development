@@ -1,0 +1,511 @@
+##################################################
+#file ../Shared/ComponentInterface/datatypes.h
+#ifndef DataTypesH
+#define DataTypesH
+#include <general/stl_functions.h>
+#include <general/TreeNodeIterator.h>
+#include <general/xml.h>
+
+#include <ComponentInterface/MessageData.h>
+#include <ComponentInterface/MessageDataExt.h>
+#include <ComponentInterface/Type.h>
+#include <ComponentInterface/Interfaces.h>
+
+// Maximum Array Size for fortran arrays
+#define max_array_size 100
+
+namespace protocol {
+
+//-------------------- Built in types
+#define nullTypeDDML "<type/>"
+#for_each type
+
+#if (type.Array = T)
+   std::string EXPORT DDML(const std::vector<type.ckind>& value);
+#else
+   std::string EXPORT DDML(const type.ckind& value);
+#endif
+
+#endfor
+
+#for_each structure
+//-------------------- structure.nameType
+struct structure.nameType
+   {
+   #for_each structure.field
+   #if (field.isArrayAndStructure = T)
+   std::vector<field.ctypeType> field.name;
+   #elseif (field.array = T)
+   std::vector<field.ctype> field.name;
+   #elseif (field.isStructure = T)
+   field.ctypeType field.name;
+   #else
+   field.ctype field.name;
+   #endif
+   #endfor
+   };
+struct Fstructure.nameType
+   {
+   #for_each structure.field
+   #if (field.isArrayAndStructure = T)
+   Ffield.ctypeType field.name[max_array_size];
+   #elseif (field.array = T)
+   field.ctype field.name[max_array_size];
+   #elseif (field.isStructure = T)
+   Ffield.ctypeType field.name;
+   #elseif (field.ctype = std::string)
+   char field.name[max_array_size];
+   #else
+   field.ctype field.name;
+   #endif
+   #if (field.array = T)
+   unsigned num_field.name;
+   #endif
+   #endfor
+   };
+inline protocol::MessageData& operator<<(protocol::MessageData& messageData, const structure.nameType& data)
+   {
+   #for_each structure.field
+   messageData << data.field.name;
+   #endfor
+   return messageData;
+   }
+inline protocol::MessageData& operator>>(protocol::MessageData& messageData, structure.nameType& data)
+   {
+   #for_each structure.field
+   messageData >> data.field.name;
+   #endfor
+   return messageData;
+   }
+#if (structure.Array = T)
+std::string EXPORT DDML(const std::vector<structure.nameType>& value);
+#else
+std::string EXPORT DDML(const structure.nameType& value);
+#endif
+inline unsigned int memorySize(const structure.nameType& data)
+   {
+   return 0
+   #for_each structure.field
+      + protocol::memorySize(data.field.name)
+   #endfor;
+   }
+inline unsigned int memorySize(const Fstructure.nameType& data)
+   {
+   unsigned size = 0;
+   #for_each structure.field
+      #if (field.array = T)
+      size += 4;
+      for (unsigned i = 0; i != data.num_field.name; i++)
+         size += protocol::memorySize(data.field.name[i]);
+      #elseif (field.ctype = std::string)
+      size += protocol::memorySize(FString(data.field.name, max_array_size, FORString));
+      #else
+      size += protocol::memorySize(data.field.name);
+      #endif
+   #endfor;
+   return size;
+   }
+void Initstructure.name(structure.nameType& data, const std::string& xml);
+#if (structure.array = T)
+void Initstructure.name(std::vector<structure.nameType>& values, const std::string& xml);
+#endif
+
+#endfor
+} // protocol
+#endif
+
+#endfile
+##################################################
+#file ../Shared/ComponentInterface/datatypes.cpp
+#include <boost/lexical_cast.hpp>
+#include <general/stl_functions.h>
+#include <general/TreeNodeIterator.h>
+#include <general/xml.h>
+#include <general/platform.h>
+
+#include "Messages.h"
+#include "datatypes.h"
+#include "Component.h"
+
+namespace protocol {
+#for_each type
+#if (type.Array = T)
+std::string EXPORT DDML(const std::vector<type.ckind>& value)
+#else
+std::string EXPORT DDML(const type.ckind& value)
+#endif
+   {
+   return type.cddml;
+   }
+#endfor
+} // protocol
+
+#for_each structure
+namespace protocol {
+void Initstructure.name(structure.nameType& data, const std::string& xml)
+   {
+   XMLDocument doc(xml, XMLDocument::xmlContents);
+   XMLNode::iterator childI = doc.documentElement();
+   #for_each structure.field
+   childI = std::find_if(doc.documentElement().begin(),
+                         doc.documentElement().end(),
+                         EqualToName<XMLNode>("field.name"));
+
+   #if (field.isArrayAndStructure = T)
+   // Don't know yet
+   #elseif (field.array = T)
+   StringToContainer<std::vector<field.ctype>, field.ctype> (childI->getValue(), data.field.name);
+
+   #elseif (field.isStructure = T)
+   // Don't know yet
+   #else
+   data.field.name = boost::lexical_cast<field.ctype> (childI->getValue());
+   #endif
+   #endfor
+   }
+   #if (structure.array = T)
+void Initstructure.name(std::vector<structure.nameType>& values, const std::string& xml)
+   {
+   XMLDocument doc(xml, XMLDocument::xmlContents);
+   for (XMLNode::iterator childI = doc.documentElement().begin();
+                          childI != doc.documentElement().end();
+                          childI++)
+      {
+      string childXml = childI->write();
+      structure.nameType data;
+      Initstructure.name(data, childXml);
+      values.push_back(data);
+      }
+   }
+   #endif
+
+#if (structure.Array = T)
+std::string EXPORT DDML(const std::vector<structure.nameType>& value)
+#else
+std::string EXPORT DDML(const structure.nameType& value)
+#endif
+   {
+   return structure.cddml;
+   }
+}; // namespace protocol
+#endfor
+#endfile
+##################################################
+#file ../apsim/infra/source/datatypes.f90
+module dataTypes
+   integer, parameter :: max_array_size = 100
+
+   !-------------------- Built in types
+   character(len=*), parameter :: nullTypeDDML = '<type/>'
+#for_each type
+   character(len=*), parameter :: type.nameTypeDDML = &
+type.forddml
+#endfor
+
+
+#for_each structure
+!-------------------- structure.nameType
+   character(len=*), parameter :: structure.nameTypeDDML = &
+structure.forddml
+   type structure.nameType
+      sequence
+      #for_each structure.field
+      #if (field.isArrayAndStructure = T)
+      type(field.forTypeType):: field.name(max_array_size)
+      #elseif (field.isStructure = T)
+      type(field.forTypeType) :: field.name
+      #elseif (field.array = T)
+      field.fortype :: field.name(max_array_size)
+      #else
+      field.fortype :: field.name
+      #endif
+      #if (field.array = T)
+      integer :: num_field.name
+      #endif
+      #endfor
+   end type structure.nameType
+
+#endfor
+end module dataTypes
+#endfile
+##################################################
+#file ../Shared/ComponentInterface/FORTRANdatatypes.cpp
+#include <boost/lexical_cast.hpp>
+#include <general/stl_functions.h>
+#include <general/TreeNodeIterator.h>
+#include <general/xml.h>
+#include <general/platform.h>
+
+#include "Messages.h"
+#include "datatypes.h"
+#include "Component.h"
+#include "FORTRANComponentWrapper.h"
+
+extern "C" void EXPORT STDCALL publish_null(unsigned* id)
+   {
+   protocol::NoData pd;
+   FortranWrapper::currentInstance->publish(*id, pd);
+   }
+#for_each structure
+namespace protocol {
+   inline protocol::MessageData& operator<<(protocol::MessageData& messageData, const Fstructure.nameType& data)
+      {
+      #for_each structure.field
+      #if (field.array = T)
+      messageData << data.num_field.name;
+      for (unsigned i = 0; i != data.num_field.name; i++)
+         messageData << data.field.name[i];
+      #elseif (field.ctype = std::string)
+      messageData << FString(data.field.name, max_array_size, FORString);
+      #else
+      messageData << data.field.name;
+      #endif
+      #endfor
+      return messageData;
+      }
+   inline protocol::MessageData& operator>>(protocol::MessageData& messageData, Fstructure.nameType& data)
+      {
+      #for_each structure.field
+      #if (field.array = T)
+      messageData >> data.num_field.name;
+      for (unsigned i = 0; i != data.num_field.name; i++)
+         messageData >> data.field.name[i];
+      #elseif (field.ctype = std::string)
+      FString field.nameString(data.field.name, max_array_size, FORString);
+      FString field.nameAlias;
+      messageData >> field.nameAlias;
+      field.nameString = field.nameAlias;
+      #else
+      messageData >> data.field.name;
+      #endif
+      #endfor
+      return messageData;
+      }
+}
+   #if (structure.array = T)
+extern "C" void EXPORT STDCALL publish_structure.name(unsigned* id, const protocol::Fstructure.nameType data[], unsigned* numValues)
+   {
+   FortranWrapper::currentInstance->publishArray(*id, data, *numValues);
+   }
+   #else
+extern "C" void EXPORT STDCALL publish_structure.name(unsigned* id, const protocol::Fstructure.nameType* data)
+   {
+   FortranWrapper::currentInstance->publish(*id, *data);
+   }
+   #endif
+   #if (structure.array = T)
+extern "C" void EXPORT STDCALL unpack_structure.name(protocol::Variant* variant, protocol::Fstructure.nameType data[], unsigned* numValues)
+   {
+   variant->unpackArray(data, *numValues);
+   }
+   #else
+extern "C" void EXPORT STDCALL unpack_structure.name(protocol::Variant* variant, protocol::Fstructure.nameType* data)
+   {
+   variant->unpack(*data);
+   }
+   #endif
+#endfor
+
+#endfile
+##################################################
+#file ../apsim/infra/source/datatypes.f90
+module dataTypes
+   integer, parameter :: max_array_size = 100
+
+   !-------------------- Built in types
+   character(len=*), parameter :: nullTypeDDML = '<type/>'
+#for_each type
+   character(len=*), parameter :: type.nameTypeDDML = &
+type.forddml
+#endfor
+
+
+#for_each structure
+!-------------------- structure.nameType
+   character(len=*), parameter :: structure.nameTypeDDML = &
+structure.forddml
+   type structure.nameType
+      sequence
+      #for_each structure.field
+      #if (field.isArrayAndStructure = T)
+      type(field.forTypeType):: field.name(max_array_size)
+      #elseif (field.isStructure = T)
+      type(field.forTypeType) :: field.name
+      #elseif (field.array = T)
+      field.fortype :: field.name(max_array_size)
+      #else
+      field.fortype :: field.name
+      #endif
+      #if (field.array = T)
+      integer :: num_field.name
+      #endif
+      #endfor
+   end type structure.nameType
+
+#endfor
+end module dataTypes
+#endfile
+
+
+##################################################
+#file ../apsim/infra/source/datatypesinterface.f90
+module dataTypesInterface
+   interface
+
+   subroutine publish_null(id)
+   use datatypes
+   ml_external publish_null
+   integer :: id
+   end subroutine
+
+   #for_each structure
+   #if (structure.array = T)
+   subroutine publish_structure.name(id, data, numValues)
+   use datatypes
+   ml_external publish_structure.name
+   integer :: id
+   type(structure.nameType) :: data(*)
+   integer :: numValues
+   end subroutine
+   #else
+   subroutine publish_structure.name(id, data)
+   use datatypes
+   ml_external publish_structure.name
+   integer :: id
+   type(structure.nameType) :: data
+   end subroutine
+   #endif
+
+   #if (structure.array = T)
+   subroutine unpack_structure.name(variant, data, numValues)
+   use datatypes
+   ml_external unpack_structure.name
+   integer :: variant
+   type(structure.nameType) :: data(*)
+   integer :: numValues
+   end subroutine
+   #else
+   subroutine unpack_structure.name(variant, data)
+   use datatypes
+   ml_external unpack_structure.name
+   integer :: variant
+   type(structure.nameType) :: data
+   end subroutine
+   #endif
+   #endfor
+
+   end interface
+end module dataTypesInterface
+
+#endfile
+##################################################
+#file ../apsim/tcllink/lib/apsimDatatypes.tcl
+;# Automatically generated - do not edit
+
+proc unpack_Variant {data} {
+   array set result {}
+   set ok [expr [string bytelength $data] > 0]
+   while {$ok} {
+      binary scan $data i nchar
+      if {$nchar > 0} {
+         set name [string range $data 4 [expr 4+$nchar-1]]         ;# Name
+         set data [string range $data [expr 4+$nchar] end]
+         binary scan $data iic nchar5 typeCode isArray             ;# type & array flag
+         set data [string range $data 9 end]
+         if {$typeCode == 8} {
+            binary scan $data i nchar                              ;# string value
+            set value [string range $data 4 [expr 4+$nchar-1]]
+            set data [string range $data [expr 4+$nchar] end]
+         } elseif {$typeCode == 2} {
+            binary scan $data i value                              ;# integer
+            set data [string range $data 4 end]
+         } elseif {$typeCode == 4} {
+            binary scan $data f value                              ;# float
+            set data [string range $data 4 end]
+         } elseif {$typeCode == 5} {
+            binary scan $data d value                              ;# double
+            set data [string range $data 8 end]
+         } else {
+            ;#set value "<undef>"
+            error "Unhandled variant typecode $typeCode"
+         }
+         set result($name) $value
+         set ok [expr [string bytelength $data] > 0]
+      } else {
+         set ok 0
+      }
+   }
+   return [array get result]
+}
+
+proc unpack_MessageData {data} {
+   binary scan $data ii result(id) result(publishedByID)  ;# id, publishedByID
+   set data [string range $data 8 end]
+
+   binary scan $data i nchar                              ;# typeXML
+   if {$nchar > 0} {
+     set result(typeXML) [string range $data 4 [expr 4+$nchar-1]]
+     set data [string range $data [expr 4+$nchar] end]
+   }
+
+   set ok [expr [string bytelength $data] > 0]
+   while {$ok} {
+      binary scan $data i nchar
+      if {$nchar > 0} {
+         ;##//messageData << variableName << protocol::memorySize(value)+5 << typeCode << isArray << value;
+         set name [string range $data 4 [expr 4+$nchar-1]]         ;# Name
+         set data [string range $data [expr 4+$nchar] end]
+         binary scan $data iic nchar5 typeCode isArray             ;# type & array flag
+         set data [string range $data 9 end]
+         if {$typeCode == 8} {
+            binary scan $data i nchar                              ;# string value
+            set value [string range $data 4 [expr 4+$nchar-1]]
+            set data [string range $data [expr 4+$nchar] end]
+         } elseif {$typeCode == 2} {
+            binary scan $data i value                              ;# integer
+            set data [string range $data 4 end]
+         } elseif {$typeCode == 4} {
+            binary scan $data f value                              ;# float
+            set data [string range $data 4 end]
+         } elseif {$typeCode == 5} {
+            binary scan $data d value                              ;# double
+            set data [string range $data 8 end]
+         } else {
+            ;#set value "<undef>"
+            error "Unhandled variant typecode $typeCode"
+         }
+         set result($name) $value
+         set ok [expr [string bytelength $data] > 0]
+      } else {
+         set ok 0
+      }
+   }
+   return [array get result]
+}
+
+#for_each structure
+proc unpack_structure.nameType {data} {
+   #for_each structure.field
+   #if (field.array = T)
+   binary scan $data i n ; set data [string range $data 4 end]
+   #else
+   set n 1
+   #endif
+   #if (field.ctype = double)
+   binary scan $data d$n result(field.name); set data [string range $data [expr 8*$n] end]
+   #elseif (field.ctype = int)
+   binary scan $data i$n result(field.name); set data [string range $data [expr 4*$n] end]
+   #elseif (field.ctype = float)
+   binary scan $data f$n result(field.name); set data [string range $data [expr 4*$n] end]
+   #elseif (field.ctype = std::string)
+   binary scan $data i n ; set data [string range $data 4 end]
+   binary scan $data a$n result(field.name) ; set data [string range $data $n end]
+   #else
+   error "unimplemented field.ctype"
+   #endif
+   #endfor
+   if {[string bytelength #data] != 0} {puts "Warning: extra bits left over in unpack_structure.nameType"}
+   return [array get result]
+}
+#endfor
+#endfile

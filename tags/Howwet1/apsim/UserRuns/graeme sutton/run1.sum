@@ -1,0 +1,4381 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+     Version                = 5.2
+     Title                  = GrantCottonKamaniV1.61(61-62)
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\accum\lib\accum.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\soilwat2\lib\soilwat2.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\ozcot\lib\ozcot.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+     Simulation start date = 30/04/1960
+     Simulation end date   = 26/05/1998
+     Time step =           = 1440 (mins)
+
+------- report Initialisation -------------------------------------------------
+     Output variables:
+        clock.dd/mm/yyyy as Date
+        clock.year
+        ozcot.yield as oz_yield
+     
+     Output file = run1.out
+     Format = normal
+
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: Dalby1887_1998.met
+
+------- accum Initialisation --------------------------------------------------
+     Initialising
+
+------- fertiliz Initialisation -----------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- init
+        crop_in = 0
+        lucerne_in = 0
+        blank = '.'
+        next_crop = blank
+        crop_current = blank
+        crop_sow = blank
+        ready_for_next = 1
+        ready_to_fert_pre_sow = 0
+        days_last_year = 365
+        fert_day_pre_sow = 0
+        ready_to_till_pre_sow = 0
+        till_day_pre_sow = 0
+     cotton = 'cotton'
+     
+     SECTION:- start_of_day
+       if (today = date('29-may')) then
+        soiln2 reset
+        soiln2 set no3ppm =  40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+       endif
+       if (today = date('20-jul')) then
+        soilwat2 reset
+        surfaceom reset
+        soilwat2 set sw =  0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+       endif
+     
+     SECTION:- end_of_day
+     days_this_year = 364 + (date('1-mar') - date('28-feb'))
+        if ((today = date('23-aug')+1 or today = date('15-mar')+1)then
+           if (crop_sow = 'waiting') then
+           report do_end_day_output
+           endif
+        endif
+        if ((today = date('23-aug')+1 or today = date('15-mar')+1)then
+           crop_sow = blank
+        endif
+        if (ozcot_status > 0) then
+           report do_end_day_output
+           ozcot harvest
+           crop_in = 0
+        endif
+     
+     SECTION:- process
+     if (next_crop = cotton or next_crop = blank) then
+        if (0 > 0 or 0 > 0 ) then
+           fert_day_pre_sow = date('1-sep') - 60
+           if (fert_day_pre_sow < today) then
+              fert_day_pre_sow = days_this_year + fert_day_pre_sow
+           endif
+           if (today = fert_day_pre_sow) then
+              ready_to_fert_pre_sow = 1
+           endif
+           if (crop_in = 0 and ready_to_fert_pre_sow = 1) then
+              if (0 > 0) then
+                 n_deficit = 0 - (no3(1) + nh4(1) + no3(2) + nh4(2) + no3(3) + nh4(3))
+                 if (n_deficit < 20) then
+                    fertiliz apply amount = 20 (kg/ha), depth = 50 (mm), type = urea_n ()
+                 elseif (n_deficit < 40) then
+                    fertiliz apply amount = 40 (kg/ha), depth = 50 (mm), type = urea_n ()
+                 elseif (n_deficit < 60) then
+                    fertiliz apply amount = 60 (kg/ha), depth = 50 (mm), type = urea_n ()
+                 elseif (n_deficit < 80) then
+                    fertiliz apply amount = 80 (kg/ha), depth = 50 (mm), type = urea_n ()
+                 elseif (n_deficit < 100) then
+                    fertiliz apply amount = 100 (kg/ha), depth = 50 (mm), type = urea_n ()
+                 elseif (n_deficit < 120) then
+                    fertiliz apply amount = 120 (kg/ha), depth = 50 (mm), type = urea_n ()
+                 elseif (n_deficit < 140) then
+                    fertiliz apply amount = 140 (kg/ha), depth = 50 (mm), type = urea_n ()
+                 elseif (n_deficit < 160) then
+                    fertiliz apply amount = 160 (kg/ha), depth = 50 (mm), type = urea_n ()
+                 elseif (n_deficit < 180) then
+                    fertiliz apply amount = 180 (kg/ha), depth = 50 (mm), type = urea_n ()
+                 elseif (n_deficit < 200) then
+                    fertiliz apply amount = 200 (kg/ha), depth = 50 (mm), type = urea_n ()
+                 else
+                    fertiliz apply amount = 220 (kg/ha), depth = 50 (mm), type = urea_n ()
+                 endif
+              else
+                 fertiliz apply amount = 0 (kg/ha), depth = 50 (mm), type = urea_n ()
+              endif
+              ready_to_fert_pre_sow = 0
+              fert_day_pre_sow = 0
+           endif
+        endif
+        if ( 0 > 0) then
+           till_day_pre_sow = date('1-sep') - 0
+           if (till_day_pre_sow < today) then
+              till_day_pre_sow = days_this_year + till_day_pre_sow
+           endif
+           if (today = till_day_pre_sow) then
+              ready_to_till_pre_sow = 1
+           endif
+           if (crop_in = 0 and ready_to_till_pre_sow = 1) then
+              if ('disc' = 'user_defined') then
+                  surfaceom tillage type = disc, f_incorp = 0 (), tillage_depth = 0
+              else
+                  surfaceom tillage type = disc ()
+              endif
+              ready_to_till_pre_sow = 0
+              till_day_pre_sow = 0
+           endif
+        endif
+        if (today = date('15-nov')) then
+           ready_for_next = 1
+        endif
+        if (crop_in = 0) then
+           if (date_within('1-sep, 15-nov') = 1) then
+              crop_sow = 'waiting'
+              surface_moist = (sw(1) - ll15(1)) / (dul(1)- ll15(1))
+              if ((rain[10] >= 50  and  esw >= 30 and
+                    (surface_moist <= 2 and surface_moist >= 0)) or
+                  ('no' = 'yes' and today = date('15-nov'))) then
+     ozcot sow cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0 ()
+                 crop_in = 1
+                 ready_for_next = 1
+                 crop_current = cotton
+                 crop_sow = cotton
+                 ready_to_fert_pre_sow = 0
+                 if (4 > 0) then
+                    fertiliz apply amount = 4 (kg/ha), depth = 50 (mm), type = urea_n ()
+                 endif
+              endif
+           endif
+        endif
+     endif
+     END of rules
+     
+     Manager creating a new local real variable : crop_in =     0.00000000000000
+     Manager creating a new local real variable : lucerne_in =     0.00000000000000
+     Manager creating a new local string variable : blank = .
+     Manager creating a new local string variable : next_crop = .
+     Manager creating a new local string variable : crop_current = .
+     Manager creating a new local string variable : crop_sow = .
+     Manager creating a new local real variable : ready_for_next =     1.00000000000000
+     Manager creating a new local real variable : ready_to_fert_pre_sow =     0.00000000000000
+     Manager creating a new local real variable : days_last_year =     365.000000000000
+     Manager creating a new local real variable : fert_day_pre_sow =     0.00000000000000
+     Manager creating a new local real variable : ready_to_till_pre_sow =     0.00000000000000
+     Manager creating a new local real variable : till_day_pre_sow =     0.00000000000000
+     Manager creating a new local string variable : cotton = cotton
+
+------- soilwat2 Initialisation -----------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.084  0.250  0.540  0.590  0.318  1.020  0.762  0.300
+          150.-  300.  0.260  0.260  0.530  0.580  0.323  1.030  0.190  0.300
+          300.-  600.  0.310  0.310  0.540  0.590  0.364  1.020  0.048  0.300
+          600.-  900.  0.330  0.330  0.540  0.590  0.379  1.020  0.000  0.300
+          900.- 1200.  0.350  0.350  0.520  0.570  0.390  1.060  0.000  0.300
+         1200.- 1500.  0.370  0.370  0.500  0.550  0.401  1.110  0.000  0.300
+         1500.- 1800.  0.400  0.400  0.500  0.550  0.424  1.120  0.000  0.300
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      37.50      10.23      43.50       7.50
+          150.-  300.      39.00       9.52      40.50       7.50
+          300.-  600.      93.00      16.22      69.00      15.00
+          600.-  900.      99.00      14.81      63.00      15.00
+          900.- 1200.     105.00      11.99      51.00      15.00
+         1200.- 1500.     111.00       9.17      39.00      15.00
+         1500.- 1800.     120.00       7.05      30.00      15.00
+          ---------------------------------------------------------
+               Totals     604.50      79.00     336.00      90.00
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   0.24        0.13       40.00       16.00
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              73.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            6.00 (mm^0.5)
+            CONA:                     3.50 ()
+           Eo from priestly-taylor
+
+------- SurfaceOM Initialisation ----------------------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.2
+     
+
+------- soiln2 Initialisation -------------------------------------------------
+     
+        - Reading Parameters
+     
+        - Reading Constants
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     8.20  1.19    4.97    0.46    0.00
+             2     8.50  1.01    1.62    0.08    0.00
+             3     8.60  0.45    3.21    0.15    0.00
+             4     8.60  0.30    2.60    0.15    0.00
+             5     7.40  0.20    2.70    0.16    0.00
+             6     5.30  0.16    2.83    0.17    0.00
+             7     5.30  0.17    2.94    0.17    0.00
+          ------------------------------------------------
+           Totals               20.88    1.34    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      17678.1  1414.3   528.9    66.1   138.9     2.8
+             2      15442.3  1235.4   162.2    20.3   108.1     2.2
+             3      13672.3  1093.8    97.7    12.2    65.6     1.3
+             4       9145.5   731.6    34.5     4.3    39.8     0.8
+             5       6343.6   507.5    16.4     2.0    24.1     0.5
+             6       5319.0   425.5     9.0     1.1    14.6     0.3
+             7       5703.5   456.3     8.5     1.1     8.9     0.2
+          ---------------------------------------------------------
+           Totals   73304.4  5864.4   857.1   107.1   400.0     8.0
+          ---------------------------------------------------------
+
+------- ozcot Initialisation --------------------------------------------------
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+------- Start of simulation  --------------------------------------------------
+30 April 1960(Day of year=121), manager: 
+     Manager creating a new local real variable : days_this_year =     366.000000000000
+29 May 1960(Day of year=150), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1960(Day of year=150), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1960(Day of year=150), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1960(Day of year=202), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1960(Day of year=202), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1960(Day of year=202), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1960(Day of year=202), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.3
+     
+20 July 1960(Day of year=202), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+1 September 1960(Day of year=245), manager: 
+     Manager creating a new local real variable : surface_moist =    0.466506817942610
+23 October 1960(Day of year=297), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+23 October 1960(Day of year=297), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            297   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+23 October 1960(Day of year=297), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+23 October 1960(Day of year=297), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+31 October 1960(Day of year=305), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+5 May 1961(Day of year=125), ozcot: 
+      *** Crop terminated by frost.
+5 May 1961(Day of year=125), manager: 
+     Manager sending message :- ozcot harvest
+5 May 1961(Day of year=125), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    194
+      bolls/m2               =  23.81        Lint (kg/ha)           =      427.6
+      N uptake (kg/ha)       =  72.40        bolls sc (g/boll)      =        4.3
+      max squares das (days) =     91        max lai das (days)     =    136
+      maximum squares/m2     =  49.45        maximum lai (m2/m2)    =  0.334
+      total above ground biomass (kg/ha) =     3311.1
+6 May 1961(Day of year=126), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+29 May 1961(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1961(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1961(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1961(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1961(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1961(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1961(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.5
+     
+20 July 1961(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+12 November 1961(Day of year=316), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+12 November 1961(Day of year=316), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            316   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+12 November 1961(Day of year=316), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+12 November 1961(Day of year=316), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+20 November 1961(Day of year=324), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+3 May 1962(Day of year=123), ozcot: 
+      *** Crop terminated by frost.
+         Defoliant spray    1
+3 May 1962(Day of year=123), manager: 
+     Manager sending message :- ozcot harvest
+3 May 1962(Day of year=123), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    172
+      bolls/m2               =  35.40        Lint (kg/ha)           =      707.4
+      N uptake (kg/ha)       = 113.06        bolls sc (g/boll)      =        4.8
+      max squares das (days) =     88        max lai das (days)     =    137
+      maximum squares/m2     =  70.47        maximum lai (m2/m2)    =  0.869
+      total above ground biomass (kg/ha) =     5195.9
+4 May 1962(Day of year=124), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+29 May 1962(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1962(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1962(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1962(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1962(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1962(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1962(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.6
+     
+20 July 1962(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+29 May 1963(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1963(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1963(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1963(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1963(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1963(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1963(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.6
+     
+20 July 1963(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+29 May 1964(Day of year=150), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1964(Day of year=150), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1964(Day of year=150), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1964(Day of year=202), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1964(Day of year=202), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1964(Day of year=202), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1964(Day of year=202), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.7
+     
+20 July 1964(Day of year=202), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+28 September 1964(Day of year=272), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+28 September 1964(Day of year=272), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            272   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+28 September 1964(Day of year=272), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+28 September 1964(Day of year=272), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+10 October 1964(Day of year=284), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+12 April 1965(Day of year=102), ozcot: 
+      *** All bolls open; crop finished.
+12 April 1965(Day of year=102), manager: 
+     Manager sending message :- ozcot harvest
+12 April 1965(Day of year=102), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    196
+      bolls/m2               =  26.19        Lint (kg/ha)           =      391.0
+      N uptake (kg/ha)       =  61.06        bolls sc (g/boll)      =        3.6
+      max squares das (days) =    110        max lai das (days)     =    117
+      maximum squares/m2     =  56.24        maximum lai (m2/m2)    =  0.381
+      total above ground biomass (kg/ha) =     2830.9
+13 April 1965(Day of year=103), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+29 May 1965(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1965(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1965(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1965(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1965(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1965(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1965(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.8
+     
+20 July 1965(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+29 May 1966(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1966(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1966(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1966(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1966(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1966(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1966(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.8
+     
+20 July 1966(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+29 May 1967(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1967(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1967(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1967(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1967(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1967(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1967(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.8
+     
+20 July 1967(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+29 May 1968(Day of year=150), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1968(Day of year=150), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1968(Day of year=150), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1968(Day of year=202), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1968(Day of year=202), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1968(Day of year=202), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1968(Day of year=202), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.9
+     
+20 July 1968(Day of year=202), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+29 May 1969(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1969(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1969(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1969(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1969(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1969(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1969(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.9
+     
+20 July 1969(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+8 September 1969(Day of year=251), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+8 September 1969(Day of year=251), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            251   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+8 September 1969(Day of year=251), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+8 September 1969(Day of year=251), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+29 September 1969(Day of year=272), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+8 May 1970(Day of year=128), ozcot: 
+      *** Crop terminated by frost.
+8 May 1970(Day of year=128), manager: 
+     Manager sending message :- ozcot harvest
+8 May 1970(Day of year=128), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    242
+      bolls/m2               =  44.29        Lint (kg/ha)           =      858.2
+      N uptake (kg/ha)       =  90.29        bolls sc (g/boll)      =        4.6
+      max squares das (days) =    126        max lai das (days)     =    149
+      maximum squares/m2     =  57.25        maximum lai (m2/m2)    =  0.570
+      total above ground biomass (kg/ha) =     4139.0
+9 May 1970(Day of year=129), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+29 May 1970(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1970(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1970(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1970(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1970(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1970(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1970(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.9
+     
+20 July 1970(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+22 October 1970(Day of year=295), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+22 October 1970(Day of year=295), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            295   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+22 October 1970(Day of year=295), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+22 October 1970(Day of year=295), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+31 October 1970(Day of year=304), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+27 April 1971(Day of year=117), ozcot: 
+         Defoliant spray    1
+3 May 1971(Day of year=123), ozcot: 
+      *** Crop terminated by frost.
+3 May 1971(Day of year=123), manager: 
+     Manager sending message :- ozcot harvest
+3 May 1971(Day of year=123), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    193
+      bolls/m2               =  30.35        Lint (kg/ha)           =      638.6
+      N uptake (kg/ha)       =  86.42        bolls sc (g/boll)      =        5.0
+      max squares das (days) =     89        max lai das (days)     =    149
+      maximum squares/m2     =  66.04        maximum lai (m2/m2)    =  0.795
+      total above ground biomass (kg/ha) =     3619.9
+4 May 1971(Day of year=124), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+29 May 1971(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1971(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1971(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1971(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1971(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1971(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1971(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.9
+     
+20 July 1971(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+15 October 1971(Day of year=288), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+15 October 1971(Day of year=288), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            288   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+15 October 1971(Day of year=288), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+15 October 1971(Day of year=288), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+25 October 1971(Day of year=298), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+28 April 1972(Day of year=119), ozcot: 
+         Defoliant spray    1
+8 May 1972(Day of year=129), ozcot: 
+         First Pick  206 days from sowing. There are enough bolls for a 2nd pick.
+         Crop terminated: first pick.
+8 May 1972(Day of year=129), manager: 
+     Manager sending message :- ozcot harvest
+8 May 1972(Day of year=129), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    206
+      bolls/m2               =  42.01        Lint (kg/ha)           =      677.5
+      N uptake (kg/ha)       =  97.27        bolls sc (g/boll)      =        3.8
+      max squares das (days) =    105        max lai das (days)     =    151
+      maximum squares/m2     =  65.55        maximum lai (m2/m2)    =  0.846
+      total above ground biomass (kg/ha) =     4220.6
+9 May 1972(Day of year=130), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+29 May 1972(Day of year=150), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1972(Day of year=150), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1972(Day of year=150), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1972(Day of year=202), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1972(Day of year=202), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1972(Day of year=202), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1972(Day of year=202), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.9
+     
+20 July 1972(Day of year=202), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+29 October 1972(Day of year=303), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+29 October 1972(Day of year=303), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            303   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+29 October 1972(Day of year=303), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+29 October 1972(Day of year=303), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+6 November 1972(Day of year=311), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+18 March 1973(Day of year=77), ozcot: 
+         Defoliant spray    1
+28 March 1973(Day of year=87), ozcot: 
+         First Pick  150 days from sowing. There are not enough bolls for a 2nd pick.
+         Crop terminated: first pick.
+28 March 1973(Day of year=87), manager: 
+     Manager sending message :- ozcot harvest
+28 March 1973(Day of year=87), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    150
+      bolls/m2               =  22.52        Lint (kg/ha)           =      448.0
+      N uptake (kg/ha)       =  59.79        bolls sc (g/boll)      =        4.7
+      max squares das (days) =     84        max lai das (days)     =     86
+      maximum squares/m2     =  54.80        maximum lai (m2/m2)    =  0.412
+      total above ground biomass (kg/ha) =     2880.3
+29 March 1973(Day of year=88), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+29 May 1973(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1973(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1973(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1973(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1973(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1973(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1973(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1973(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+6 November 1973(Day of year=310), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+6 November 1973(Day of year=310), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            310   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+6 November 1973(Day of year=310), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+6 November 1973(Day of year=310), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+15 November 1973(Day of year=319), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+16 April 1974(Day of year=106), ozcot: 
+         Defoliant spray    1
+26 April 1974(Day of year=116), ozcot: 
+         First Pick  171 days from sowing. There are not enough bolls for a 2nd pick.
+         Crop terminated: first pick.
+26 April 1974(Day of year=116), manager: 
+     Manager sending message :- ozcot harvest
+26 April 1974(Day of year=116), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    171
+      bolls/m2               =  35.13        Lint (kg/ha)           =      725.5
+      N uptake (kg/ha)       =  76.28        bolls sc (g/boll)      =        4.9
+      max squares das (days) =     91        max lai das (days)     =    116
+      maximum squares/m2     =  59.87        maximum lai (m2/m2)    =  0.638
+      total above ground biomass (kg/ha) =     3361.0
+27 April 1974(Day of year=117), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+29 May 1974(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1974(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1974(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1974(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1974(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1974(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1974(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1974(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+15 October 1974(Day of year=288), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+15 October 1974(Day of year=288), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            288   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+15 October 1974(Day of year=288), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+15 October 1974(Day of year=288), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+26 October 1974(Day of year=299), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+14 April 1975(Day of year=104), ozcot: 
+         Defoliant spray    1
+24 April 1975(Day of year=114), ozcot: 
+         First Pick  191 days from sowing. There are not enough bolls for a 2nd pick.
+         Crop terminated: first pick.
+24 April 1975(Day of year=114), manager: 
+     Manager sending message :- ozcot harvest
+24 April 1975(Day of year=114), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    191
+      bolls/m2               =  33.59        Lint (kg/ha)           =      640.3
+      N uptake (kg/ha)       =  84.62        bolls sc (g/boll)      =        4.5
+      max squares das (days) =    100        max lai das (days)     =    148
+      maximum squares/m2     =  57.35        maximum lai (m2/m2)    =  0.570
+      total above ground biomass (kg/ha) =     3760.4
+25 April 1975(Day of year=115), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+29 May 1975(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1975(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1975(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1975(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1975(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1975(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1975(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1975(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+2 September 1975(Day of year=245), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+2 September 1975(Day of year=245), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            245   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+2 September 1975(Day of year=245), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+2 September 1975(Day of year=245), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+18 September 1975(Day of year=261), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+29 March 1976(Day of year=89), ozcot: 
+         Defoliant spray    1
+8 April 1976(Day of year=99), ozcot: 
+         Defoliant spray    2
+18 April 1976(Day of year=109), ozcot: 
+         First Pick  229 days from sowing. There are not enough bolls for a 2nd pick.
+         Crop terminated: first pick.
+18 April 1976(Day of year=109), manager: 
+     Manager sending message :- ozcot harvest
+18 April 1976(Day of year=109), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    229
+      bolls/m2               =  31.20        Lint (kg/ha)           =      585.1
+      N uptake (kg/ha)       =  93.33        bolls sc (g/boll)      =        4.5
+      max squares das (days) =    129        max lai das (days)     =    194
+      maximum squares/m2     =  51.09        maximum lai (m2/m2)    =  0.571
+      total above ground biomass (kg/ha) =     3913.8
+19 April 1976(Day of year=110), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+29 May 1976(Day of year=150), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1976(Day of year=150), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1976(Day of year=150), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1976(Day of year=202), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1976(Day of year=202), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1976(Day of year=202), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1976(Day of year=202), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1976(Day of year=202), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+20 September 1976(Day of year=264), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+20 September 1976(Day of year=264), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            264   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+20 September 1976(Day of year=264), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+20 September 1976(Day of year=264), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+4 October 1976(Day of year=278), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+20 March 1977(Day of year=79), ozcot: 
+      *** All bolls open; crop finished.
+20 March 1977(Day of year=79), manager: 
+     Manager sending message :- ozcot harvest
+20 March 1977(Day of year=79), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    181
+      bolls/m2               =  18.63        Lint (kg/ha)           =      349.1
+      N uptake (kg/ha)       =  53.32        bolls sc (g/boll)      =        4.5
+      max squares das (days) =    101        max lai das (days)     =    118
+      maximum squares/m2     =  48.66        maximum lai (m2/m2)    =  0.281
+      total above ground biomass (kg/ha) =     2538.7
+21 March 1977(Day of year=80), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+29 May 1977(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1977(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1977(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1977(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1977(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1977(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1977(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1977(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+27 October 1977(Day of year=300), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+27 October 1977(Day of year=300), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            300   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+27 October 1977(Day of year=300), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+27 October 1977(Day of year=300), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+3 November 1977(Day of year=307), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+20 April 1978(Day of year=110), ozcot: 
+      *** All bolls open; crop finished.
+20 April 1978(Day of year=110), manager: 
+     Manager sending message :- ozcot harvest
+20 April 1978(Day of year=110), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    175
+      bolls/m2               =  38.84        Lint (kg/ha)           =      687.8
+      N uptake (kg/ha)       =  79.18        bolls sc (g/boll)      =        4.2
+      max squares das (days) =     76        max lai das (days)     =    104
+      maximum squares/m2     =  62.10        maximum lai (m2/m2)    =  0.518
+      total above ground biomass (kg/ha) =     3792.1
+21 April 1978(Day of year=111), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+29 May 1978(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1978(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1978(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1978(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1978(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1978(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1978(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1978(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+6 September 1978(Day of year=249), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+6 September 1978(Day of year=249), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            249   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+6 September 1978(Day of year=249), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+6 September 1978(Day of year=249), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+23 September 1978(Day of year=266), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+2 May 1979(Day of year=122), ozcot: 
+      *** All bolls open; crop finished.
+2 May 1979(Day of year=122), manager: 
+     Manager sending message :- ozcot harvest
+2 May 1979(Day of year=122), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    238
+      bolls/m2               =  30.24        Lint (kg/ha)           =      589.8
+      N uptake (kg/ha)       =  67.41        bolls sc (g/boll)      =        4.6
+      max squares das (days) =    129        max lai das (days)     =    148
+      maximum squares/m2     =  59.19        maximum lai (m2/m2)    =  0.465
+      total above ground biomass (kg/ha) =     3012.8
+3 May 1979(Day of year=123), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+29 May 1979(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1979(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1979(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1979(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1979(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1979(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1979(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1979(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+14 November 1979(Day of year=318), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+14 November 1979(Day of year=318), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            318   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+14 November 1979(Day of year=318), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+14 November 1979(Day of year=318), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+21 November 1979(Day of year=325), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+27 May 1980(Day of year=148), ozcot: 
+      *** All bolls open; crop finished.
+27 May 1980(Day of year=148), manager: 
+     Manager sending message :- ozcot harvest
+27 May 1980(Day of year=148), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    195
+      bolls/m2               =  35.27        Lint (kg/ha)           =      622.6
+      N uptake (kg/ha)       =  84.15        bolls sc (g/boll)      =        4.2
+      max squares das (days) =     66        max lai das (days)     =     97
+      maximum squares/m2     =  53.55        maximum lai (m2/m2)    =  0.470
+      total above ground biomass (kg/ha) =     4073.4
+28 May 1980(Day of year=149), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+29 May 1980(Day of year=150), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1980(Day of year=150), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1980(Day of year=150), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1980(Day of year=202), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1980(Day of year=202), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1980(Day of year=202), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1980(Day of year=202), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1980(Day of year=202), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+16 October 1980(Day of year=290), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+16 October 1980(Day of year=290), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            290   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+16 October 1980(Day of year=290), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+16 October 1980(Day of year=290), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+24 October 1980(Day of year=298), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+29 May 1981(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1981(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1981(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 June 1981(Day of year=171), ozcot: 
+      *** Crop terminated by frost.
+20 June 1981(Day of year=171), manager: 
+     Manager sending message :- ozcot harvest
+20 June 1981(Day of year=171), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    247
+      bolls/m2               =  30.01        Lint (kg/ha)           =      507.4
+      N uptake (kg/ha)       =  96.21        bolls sc (g/boll)      =        4.0
+      max squares das (days) =     88        max lai das (days)     =    122
+      maximum squares/m2     =  60.16        maximum lai (m2/m2)    =  0.508
+      total above ground biomass (kg/ha) =     4329.4
+21 June 1981(Day of year=172), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+20 July 1981(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1981(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1981(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1981(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1981(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+4 November 1981(Day of year=308), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+4 November 1981(Day of year=308), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            308   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+4 November 1981(Day of year=308), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+4 November 1981(Day of year=308), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+13 November 1981(Day of year=317), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+26 March 1982(Day of year=85), ozcot: 
+         Defoliant spray    1
+5 April 1982(Day of year=95), ozcot: 
+         First Pick  152 days from sowing. There are not enough bolls for a 2nd pick.
+         Crop terminated: first pick.
+5 April 1982(Day of year=95), manager: 
+     Manager sending message :- ozcot harvest
+5 April 1982(Day of year=95), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    152
+      bolls/m2               =  30.13        Lint (kg/ha)           =      439.7
+      N uptake (kg/ha)       =  68.90        bolls sc (g/boll)      =        3.5
+      max squares das (days) =     81        max lai das (days)     =     93
+      maximum squares/m2     =  66.73        maximum lai (m2/m2)    =  0.648
+      total above ground biomass (kg/ha) =     2976.7
+6 April 1982(Day of year=96), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+29 May 1982(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1982(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1982(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1982(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1982(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1982(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1982(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1982(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+29 May 1983(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1983(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1983(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1983(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1983(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1983(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1983(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1983(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+15 October 1983(Day of year=288), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+15 October 1983(Day of year=288), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            288   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+15 October 1983(Day of year=288), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+15 October 1983(Day of year=288), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+25 October 1983(Day of year=298), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+29 May 1984(Day of year=150), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1984(Day of year=150), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1984(Day of year=150), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+5 June 1984(Day of year=157), ozcot: 
+         Defoliant spray    1
+11 June 1984(Day of year=163), ozcot: 
+      *** All bolls open; crop finished.
+11 June 1984(Day of year=163), manager: 
+     Manager sending message :- ozcot harvest
+11 June 1984(Day of year=163), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    240
+      bolls/m2               =  34.29        Lint (kg/ha)           =      561.0
+      N uptake (kg/ha)       =  85.62        bolls sc (g/boll)      =        3.9
+      max squares das (days) =     97        max lai das (days)     =    119
+      maximum squares/m2     =  53.71        maximum lai (m2/m2)    =  0.537
+      total above ground biomass (kg/ha) =     3838.8
+12 June 1984(Day of year=164), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+20 July 1984(Day of year=202), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1984(Day of year=202), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1984(Day of year=202), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1984(Day of year=202), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1984(Day of year=202), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+2 November 1984(Day of year=307), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+2 November 1984(Day of year=307), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            307   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+2 November 1984(Day of year=307), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+2 November 1984(Day of year=307), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+10 November 1984(Day of year=315), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+4 April 1985(Day of year=94), ozcot: 
+         Defoliant spray    1
+14 April 1985(Day of year=104), ozcot: 
+         First Pick  163 days from sowing. There are not enough bolls for a 2nd pick.
+         Crop terminated: first pick.
+14 April 1985(Day of year=104), manager: 
+     Manager sending message :- ozcot harvest
+14 April 1985(Day of year=104), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    163
+      bolls/m2               =  41.97        Lint (kg/ha)           =      850.2
+      N uptake (kg/ha)       =  96.72        bolls sc (g/boll)      =        4.8
+      max squares das (days) =     82        max lai das (days)     =    112
+      maximum squares/m2     =  65.17        maximum lai (m2/m2)    =  0.662
+      total above ground biomass (kg/ha) =     4285.8
+15 April 1985(Day of year=105), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+29 May 1985(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1985(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1985(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1985(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1985(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1985(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1985(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1985(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+2 September 1985(Day of year=245), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+2 September 1985(Day of year=245), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            245   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+2 September 1985(Day of year=245), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+2 September 1985(Day of year=245), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+18 September 1985(Day of year=261), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+13 April 1986(Day of year=103), ozcot: 
+      *** All bolls open; crop finished.
+13 April 1986(Day of year=103), manager: 
+     Manager sending message :- ozcot harvest
+13 April 1986(Day of year=103), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    223
+      bolls/m2               =  25.72        Lint (kg/ha)           =      462.3
+      N uptake (kg/ha)       =  58.93        bolls sc (g/boll)      =        4.3
+      max squares das (days) =    134        max lai das (days)     =    145
+      maximum squares/m2     =  56.32        maximum lai (m2/m2)    =  0.381
+      total above ground biomass (kg/ha) =     2692.8
+14 April 1986(Day of year=104), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+29 May 1986(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1986(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1986(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1986(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1986(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1986(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1986(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1986(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+24 October 1986(Day of year=297), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+24 October 1986(Day of year=297), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            297   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+24 October 1986(Day of year=297), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+24 October 1986(Day of year=297), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+3 November 1986(Day of year=307), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+1 May 1987(Day of year=121), ozcot: 
+      *** All bolls open; crop finished.
+1 May 1987(Day of year=121), manager: 
+     Manager sending message :- ozcot harvest
+1 May 1987(Day of year=121), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    189
+      bolls/m2               =  38.39        Lint (kg/ha)           =      689.9
+      N uptake (kg/ha)       =  73.73        bolls sc (g/boll)      =        4.3
+      max squares das (days) =     95        max lai das (days)     =    105
+      maximum squares/m2     =  61.22        maximum lai (m2/m2)    =  0.542
+      total above ground biomass (kg/ha) =     3554.4
+2 May 1987(Day of year=122), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+29 May 1987(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1987(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1987(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1987(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1987(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1987(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1987(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1987(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+18 October 1987(Day of year=291), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+18 October 1987(Day of year=291), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            291   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+18 October 1987(Day of year=291), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+18 October 1987(Day of year=291), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+28 October 1987(Day of year=301), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+4 April 1988(Day of year=95), ozcot: 
+         Defoliant spray    1
+14 April 1988(Day of year=105), ozcot: 
+         Defoliant spray    2
+24 April 1988(Day of year=115), ozcot: 
+         First Pick  189 days from sowing. There are enough bolls for a 2nd pick.
+         Crop terminated: first pick.
+24 April 1988(Day of year=115), manager: 
+     Manager sending message :- ozcot harvest
+24 April 1988(Day of year=115), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    189
+      bolls/m2               =  41.61        Lint (kg/ha)           =      817.6
+      N uptake (kg/ha)       = 107.70        bolls sc (g/boll)      =        4.7
+      max squares das (days) =     88        max lai das (days)     =    165
+      maximum squares/m2     =  57.31        maximum lai (m2/m2)    =  0.738
+      total above ground biomass (kg/ha) =     4426.5
+25 April 1988(Day of year=116), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+29 May 1988(Day of year=150), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1988(Day of year=150), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1988(Day of year=150), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1988(Day of year=202), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1988(Day of year=202), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1988(Day of year=202), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1988(Day of year=202), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1988(Day of year=202), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+29 May 1989(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1989(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1989(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1989(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1989(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1989(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1989(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1989(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+27 October 1989(Day of year=300), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+27 October 1989(Day of year=300), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            300   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+27 October 1989(Day of year=300), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+27 October 1989(Day of year=300), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+6 November 1989(Day of year=310), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+16 April 1990(Day of year=106), ozcot: 
+         Defoliant spray    1
+26 April 1990(Day of year=116), ozcot: 
+         Defoliant spray    2
+6 May 1990(Day of year=126), ozcot: 
+         First Pick  191 days from sowing. There are not enough bolls for a 2nd pick.
+         Crop terminated: first pick.
+6 May 1990(Day of year=126), manager: 
+     Manager sending message :- ozcot harvest
+6 May 1990(Day of year=126), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    191
+      bolls/m2               =  35.36        Lint (kg/ha)           =      663.3
+      N uptake (kg/ha)       =  84.52        bolls sc (g/boll)      =        4.5
+      max squares das (days) =     86        max lai das (days)     =    115
+      maximum squares/m2     =  51.92        maximum lai (m2/m2)    =  0.469
+      total above ground biomass (kg/ha) =     3811.8
+7 May 1990(Day of year=127), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+29 May 1990(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1990(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1990(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1990(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1990(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1990(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1990(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1990(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+11 October 1990(Day of year=284), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+11 October 1990(Day of year=284), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            284   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+11 October 1990(Day of year=284), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+11 October 1990(Day of year=284), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+20 October 1990(Day of year=293), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+9 March 1991(Day of year=68), ozcot: 
+      *** All bolls open; crop finished.
+9 March 1991(Day of year=68), manager: 
+     Manager sending message :- ozcot harvest
+9 March 1991(Day of year=68), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    149
+      bolls/m2               =   9.17        Lint (kg/ha)           =      162.1
+      N uptake (kg/ha)       =  20.23        bolls sc (g/boll)      =        4.2
+      max squares das (days) =     70        max lai das (days)     =     84
+      maximum squares/m2     =  38.49        maximum lai (m2/m2)    =  0.098
+      total above ground biomass (kg/ha) =     1046.8
+10 March 1991(Day of year=69), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+29 May 1991(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1991(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1991(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1991(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1991(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1991(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1991(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1991(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+29 May 1992(Day of year=150), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1992(Day of year=150), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1992(Day of year=150), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1992(Day of year=202), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1992(Day of year=202), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1992(Day of year=202), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1992(Day of year=202), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1992(Day of year=202), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+7 November 1992(Day of year=312), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+7 November 1992(Day of year=312), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            312   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+7 November 1992(Day of year=312), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+7 November 1992(Day of year=312), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+17 November 1992(Day of year=322), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+18 April 1993(Day of year=108), ozcot: 
+      *** All bolls open; crop finished.
+18 April 1993(Day of year=108), manager: 
+     Manager sending message :- ozcot harvest
+18 April 1993(Day of year=108), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    162
+      bolls/m2               =  19.49        Lint (kg/ha)           =      356.8
+      N uptake (kg/ha)       =  38.13        bolls sc (g/boll)      =        4.4
+      max squares das (days) =     77        max lai das (days)     =     85
+      maximum squares/m2     =  48.43        maximum lai (m2/m2)    =  0.206
+      total above ground biomass (kg/ha) =     1986.8
+19 April 1993(Day of year=109), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+29 May 1993(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1993(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1993(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1993(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1993(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1993(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1993(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1993(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+29 May 1994(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1994(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1994(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1994(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1994(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1994(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1994(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1994(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+29 May 1995(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1995(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1995(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1995(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1995(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1995(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1995(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1995(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+28 October 1995(Day of year=301), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+28 October 1995(Day of year=301), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            301   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+28 October 1995(Day of year=301), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+28 October 1995(Day of year=301), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+4 November 1995(Day of year=308), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+18 April 1996(Day of year=109), ozcot: 
+      *** Crop terminated by frost.
+18 April 1996(Day of year=109), manager: 
+     Manager sending message :- ozcot harvest
+18 April 1996(Day of year=109), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    173
+      bolls/m2               =  46.32        Lint (kg/ha)           =     1056.8
+      N uptake (kg/ha)       = 143.17        bolls sc (g/boll)      =        5.4
+      max squares das (days) =    100        max lai das (days)     =    147
+      maximum squares/m2     =  75.53        maximum lai (m2/m2)    =  1.273
+      total above ground biomass (kg/ha) =     6622.2
+19 April 1996(Day of year=110), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+29 May 1996(Day of year=150), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1996(Day of year=150), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1996(Day of year=150), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1996(Day of year=202), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1996(Day of year=202), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1996(Day of year=202), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1996(Day of year=202), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1996(Day of year=202), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+29 May 1997(Day of year=149), manager: 
+     Manager sending message :- soiln2 reset
+29 May 1997(Day of year=149), soiln2: 
+     
+        - Reading Parameters
+     
+        - Reading Constants
+29 May 1997(Day of year=149), manager: 
+     Manager sending message :- soiln2 set  no3ppm = 40.4  31.6  31.6  16.3  16.3  0.3 0.3 (ppm)
+20 July 1997(Day of year=201), manager: 
+     Manager sending message :- soilwat2 reset
+20 July 1997(Day of year=201), soilwat2: 
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     
+     Soil water in parameter file is being overridden by
+     the insoil parameter which is between 0 and 1
+     Initial soilwater distributed evenly using "insoil" parameter.
+20 July 1997(Day of year=201), manager: 
+     Manager sending message :- surfaceom reset
+20 July 1997(Day of year=201), SurfaceOM: 
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          sorghum   sorghum        500.0   200.0     2.6     0.0   0.181     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   1.0
+     
+20 July 1997(Day of year=201), manager: 
+     Manager sending message :- soilwat2 set  sw = 0.35  0.45  0.46  0.44  0.38  0.4  0.43 (mm/mm)
+9 October 1997(Day of year=282), manager: 
+     Manager sending message :- ozcot sow  cultivar = siok, sowing_depth = 50 (mm), row_spacing = 1500 (mm), plants_pm = 9.0
+9 October 1997(Day of year=282), ozcot: 
+     Sow
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar   = siok
+         percent_L  =   42.00
+         scboll     =     4.5
+         respcon    =   0.016
+         sqcon      =   0.023
+         fcutout    =  0.5411
+         flai       =     0.5
+         ddisq      =   420.0
+         popcon     = 0.03633
+         acotyl     =    525.
+         rlai       = 0.01000
+         frudd      =     50.   180.   350.   380.   520.   660.   870.  1100.
+         bltme      =    0.00   0.00   0.00   0.07   0.21   0.33   0.55   1.00
+         wt         =  0.0104 0.0272 0.1441 0.0988 0.5042 0.9617 1.0000 0.5785
+         fburr      =    1.23
+         dLdS_max  =    0.12
+         rate_emergence  =    1.00
+         ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Cultivar
+         Day no   mm     m       mm     Name
+         ------------------------------------------------
+            282   50.0   9.0   1500.0 siok
+         ------------------------------------------------
+9 October 1997(Day of year=282), manager: 
+     Manager sending message :- fertiliz apply  amount = 4 (kg/ha), depth = 50 (mm), type = urea_n
+9 October 1997(Day of year=282), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+         4.00 of N as urea (urea_n)
+                                              added at depth   50.00 (layer   1)
+20 October 1997(Day of year=293), ozcot: 
+      *** Crop emerged with  4.0 plants per m sq,100.% of target population of   4.0
+9 March 1998(Day of year=68), ozcot: 
+      *** All bolls open; crop finished.
+9 March 1998(Day of year=68), manager: 
+     Manager sending message :- ozcot harvest
+9 March 1998(Day of year=68), ozcot: 
+     harvest
+     
+     
+     
+      Days after sowing      =    151
+      bolls/m2               =   8.77        Lint (kg/ha)           =      130.8
+      N uptake (kg/ha)       =  20.88        bolls sc (g/boll)      =        3.6
+      max squares das (days) =     76        max lai das (days)     =     92
+      maximum squares/m2     =  38.43        maximum lai (m2/m2)    =  0.107
+      total above ground biomass (kg/ha) =     1085.1
+10 March 1998(Day of year=69), ozcot: 
+     Initialising
+     
+         - Reading constants
+     
+        - Reading root profile parameters
+     
+     
+     
+             Root Profile
+     ------------------------
+          Layer       Lower
+          Depth       Limit
+          (cm)      (mm/mm)
+     ------------------------
+           15.0          0.250
+           15.0          0.260
+           30.0          0.310
+           30.0          0.330
+           30.0          0.350
+           30.0          0.370
+           30.0          0.400
+     ------------------------
+     
+     
+     
+26 May 1998(Day of year=146), clock: 
+     Simulation is terminating due to end criteria being met.

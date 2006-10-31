@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="solute">
+   <registrations>
+      <respondToGetSetReg name="nnnnn" type="nnnnn"/>
+      <read name="solute" type="solute" readable="T"/>
+      <read name="ub_solute" type="ub_solute" readable="T"/>
+      <read name="lb_solute" type="lb_solute" readable="T"/>
+      <respondToGetSetReg name="dlt_nnnnn" type="dlt_nnnnn"/>
+      <respondToEventReg name="create" type="create"/>
+      <respondToEventReg name="sys_init" type="sys_init"/>
+      <eventReg name="new_solute" type="new_solute"/>
+      <getVariableReg name="dlayer" type="dlayer"/>
+      <respondToEventReg name="process" type="process"/>
+   </registrations>
+</component>

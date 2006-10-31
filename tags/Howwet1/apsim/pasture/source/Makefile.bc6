@@ -1,0 +1,61 @@
+# (Borlandish) Makefile for PastureScienceConverter module
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\data\Apsim\development
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
+PROJECT=..\lib\PastureScienceConverter.dll
+
+OBJFILES=PastureScienceConverter.obj PastureConverter.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
+
+LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
+	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
+	$(APSROOT)\Shared\general\general.lib \
+	$(APSROOT)\Shared\Protocol\Protocol.lib \
+	$(BCB)\Components\Boost\libs\date_time\date_time.lib
+
+USERDEFINES =
+SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
+INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface
+LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface
+
+
+# ---------------------------------------------------------------------------
+CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
+WARNINGS = -w-par
+LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
+
+ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib sysinit.obj $(OBJFILES)
+ALLRES = $(RESFILES)
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cp32mti.lib
+
+CC=$(BCB)\Bin\bcc32.exe
+LD=$(BCB)\Bin\ilink32
+# ---------------------------------------------------------------------------
+source: $(PROJECT)
+
+$(PROJECT): $(OBJFILES) $(DEFFILE)
+    $(LD) @&&!
+    $(LFLAGS) -L$(LIBPATH) +
+    $(ALLOBJ), +
+    $(PROJECT),, +
+    $(ALLLIB), +
+    $(DEFFILE), +
+    $(ALLRES)
+!
+
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+
+####
+PastureScienceConverter.obj: PastureScienceConverter.cpp
+PastureConverter.obj: PastureConverter.cpp PastureConverter.h
+
+clean:
+	del /f $(PROJECT) $(OBJFILES)

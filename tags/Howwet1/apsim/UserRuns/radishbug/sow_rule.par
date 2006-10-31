@@ -1,0 +1,260 @@
+[all.manager.init]
+ready_to_sow = 0
+first_op_to_sow = 0
+rg_sowdate = 0
+rg2_sowdate = 0
+rd_sowdate = 0
+rd2_sowdate = 0
+wt_sow_date = 0
+wt2_sow_date = 0
+wt_biomass = 0
+wt2_biomass = 0
+
+[all.canopy.parameters]
+intercrop = wheat ryegrass radish wheat2 ryegras2 radish2
+
+[all.accum.parameters]
+accum_variables = rain[10]
+
+[all.report.parameters]
+
+
+
+
+
+
+variable = clock.day
+variable = clock.year
+variable = manager.first_op_to_sow
+variable = manager.rd_sowdate
+variable = manager.rg_sowdate
+variable = manager.wt_sow_date
+variable = manager.density1
+variable = manager.density2
+variable = manager.rd2_sowdate
+variable = manager.rg2_sowdate
+variable = manager.wt2_sow_date
+variable = radish.flowering_date as rd_flower
+variable = ryegrass.flowering_date as rg_flower
+variable = wheat.flowering_date as wt_flower
+variable = radish2.flowering_date as rd2_flower
+variable = ryegras2.flowering_date as rg2_flower
+variable = wheat2.flowering_date as wt2_flower
+variable = radish.biomass as rd_biomass
+variable = radish.yield as rd_yield
+variable = ryegrass.biomass as rg_biomass
+variable = ryegrass.yield as rg_yield
+variable = manager.wt_biomass as wt_biomass
+variable = wheat.yield as wt_yield
+variable = radish2.biomass as rd2_biomass
+variable = radish2.yield as rd2_yield
+variable = ryegras2.biomass as rg2_biomass
+variable = ryegras2.yield as rg2_yield
+variable = manager.wt_biomass as wt2_biomass
+variable = wheat2.yield as wt2_yield
+[all.clock.parameters]
+start_date = 1/1/1957     ! dd/mm/yyyy
+end_date = 26/12/2001     ! dd/mm/yyyy
+
+! *** delays in sowing time ***
+
+[timeA.manager.init]
+time_delay = 0
+
+[timeB.manager.init]
+time_delay = 11
+
+[timeC.manager.init]
+time_delay = 21
+
+[timeD.manager.init]
+time_delay = 31
+
+!***** densities  ******
+
+[density1_0.manager.init]
+density1= 0
+
+[density1_10.manager.init]
+density1= 10
+
+[density1_50.manager.init]
+density1= 50
+
+[density1_100.manager.init]
+density1= 100
+
+[density1_250.manager.init]
+density1= 250
+
+[density1_1000.manager.init]
+density1= 1000
+
+[density2_0.manager.init]
+density2= 0
+
+[density2_10.manager.init]
+density2= 10
+
+[density2_50.manager.init]
+density2= 50
+
+[density2_100.manager.init]
+density2= 100
+
+[density2_250.manager.init]
+density2= 250
+
+[density2_1000.manager.init]
+density2= 1000
+
+! **** general mgt ****
+
+[all.manager.start_of_day]
+
+!report do_output
+
+wt_biomass = wheat.biomass_wt * 10.
+wt2_biomass = wheat2.biomass_wt * 10.
+
+! Exponential decay curve to vary row spacing with density such that 1 plant/m2 has 1000mm row space and 1000 plants/m2 has 100mm row space
+rowspace1 = 10 + 978.102*2.72^(-0.433045*density1) + 360.258*2.72^(-0.012816*density1)
+rowspace2 = 10 + 978.102*2.72^(-0.433045*density2) + 360.258*2.72^(-0.012816*density2)
+
+if day = 1 then
+   soiln2 reset
+   surfaceom reset
+endif
+
+if ready_to_sow = 0           and
+  (day >= 125 and day <= 212) and
+   rain[10] >= 15             and
+   first_op_to_sow = 0        then
+      ready_to_sow = 1
+      first_op_to_sow = day
+endif
+
+if day = 350 then
+   report do_output
+   ready_to_sow = 0
+   ryegrass harvest
+!   ryegrass kill_crop
+   ryegrass end_crop
+   ryegras2 harvest
+!   ryegras2 kill_crop
+   ryegras2 end_crop
+   radish harvest
+!   radish kill_crop
+   radish end_crop
+   radish2 harvest
+!   radish2 kill_crop
+   radish2 end_crop
+   wheat harvest
+   wheat end_crop
+   wheat2 harvest
+   wheat2 end_crop
+   first_op_to_sow = 0
+endif
+
+! **** monocrops *****!
+
+[wt.manager.start_of_day]
+if ready_to_sow = 1 and (day = first_op_to_sow + time_delay) and wheat.plant_status = 'out' then
+   wt_sow_date = day
+   wheat sow plants = density1(/m2), sowing_depth = 45 (mm),row_spacing = rowspace1, cultivar = kulin
+   fertiliz apply amount = 100 (kg/ha), depth = 20 (mm), type = no3_n
+endif
+
+[rg.manager.start_of_day]
+
+if ready_to_sow = 1 and (day = first_op_to_sow + time_delay) and ryegrass.plant_status = 'out' then
+   rg_sowdate = day
+   fertiliz apply amount = 100 (kg/ha), depth = 20 (mm), type = no3_n
+   ryegrass sow plants = density1 (/m2), sowing_depth = 30 (mm),row_spacing = rowspace1, cultivar = ryegrass
+endif
+
+[rd.manager.start_of_day]
+if ready_to_sow = 1 and (day = first_op_to_sow + time_delay) and radish.plant_status = 'out' then
+   rd_sowdate = day
+   fertiliz apply amount = 100 (kg/ha), depth = 30 (mm), type = no3_n
+   radish sow plants = density1 (/m2), sowing_depth = 30 (mm),row_spacing = rowspace1, cultivar = radish
+endif
+
+! **** intercrops *****!
+
+[wt_wt.manager.start_of_day]
+if ready_to_sow = 1 and wheat.plant_status = 'out' then
+   wt_sow_date = day
+   wheat sow plants = density1(/m2), sowing_depth = 45 (mm),row_spacing = rowspace1, cultivar = kulin
+   fertiliz apply amount = 100 (kg/ha), depth = 20 (mm), type = no3_n
+endif
+
+if ready_to_sow = 1 and (day = first_op_to_sow + time_delay) and wheat2.plant_status = 'out' then
+   wt2_sow_date = day
+   wheat2 sow plants = density2(/m2), sowing_depth = 45 (mm),row_spacing = rowspace2, cultivar = kulin
+endif
+
+[rg_rg.manager.start_of_day]
+if ready_to_sow = 1 and ryegras2.plant_status = 'out' then
+   rg2_sowdate = day
+   fertiliz apply amount = 100 (kg/ha), depth = 20 (mm), type = no3_n
+   ryegras2 sow plants = density1 (/m2), sowing_depth = 30 (mm),row_spacing = rowspace1, cultivar = ryegrass
+endif
+
+if ready_to_sow = 1 and (day = first_op_to_sow + time_delay) and ryegrass.plant_status = 'out' then
+   rg_sowdate = day
+   ryegrass sow plants = density2 (/m2), sowing_depth = 30 (mm),row_spacing = rowspace2, cultivar = ryegrass
+endif
+
+[rd_rd.manager.start_of_day]
+if ready_to_sow = 1 and radish2.plant_status = 'out' then
+   rd2_sowdate = day
+   fertiliz apply amount = 100 (kg/ha), depth = 30 (mm), type = no3_n
+   radish2 sow plants = density1 (/m2), sowing_depth = 30 (mm),row_spacing = rowspace1, cultivar = radish
+endif
+
+if ready_to_sow = 1 and (day = first_op_to_sow + time_delay) and radish.plant_status = 'out' then
+   rd_sowdate = day
+   radish sow plants = density2 (/m2), sowing_depth = 30 (mm),row_spacing = rowspace2, cultivar = radish
+endif
+
+[wt_rg.manager.start_of_day]
+if ready_to_sow = 1 and wheat.plant_status = 'out' then
+   wt_sow_date = day
+   wheat sow plants = density1(/m2), sowing_depth = 45 (mm),row_spacing = rowspace1, cultivar = kulin
+   fertiliz apply amount = 100 (kg/ha), depth = 20 (mm), type = no3_n
+endif
+
+if ready_to_sow = 1 and (day = first_op_to_sow + time_delay) and ryegrass.plant_status = 'out' then
+   rg_sowdate = day
+   ryegrass sow plants = density2 (/m2), sowing_depth = 30 (mm),row_spacing = rowspace2, cultivar = ryegrass
+endif
+
+[wt_rd.manager.start_of_day]
+if ready_to_sow = 1 and wheat.plant_status = 'out' then
+   wt_sow_date = day
+   wheat sow plants = density1(/m2), sowing_depth = 45 (mm),row_spacing = rowspace1, cultivar = kulin
+   fertiliz apply amount = 100 (kg/ha), depth = 20 (mm), type = no3_n
+endif
+
+if ready_to_sow = 1 and (day = first_op_to_sow + time_delay) and radish.plant_status = 'out' then
+   rd_sowdate = day
+   radish sow plants = density2 (/m2), sowing_depth = 30 (mm),row_spacing = rowspace2, cultivar = radish
+endif
+
+[rd_rg.manager.start_of_day]
+
+if ready_to_sow = 1 and radish.plant_status = 'out' then
+   rd_sowdate = day
+   fertiliz apply amount = 100 (kg/ha), depth = 30 (mm), type = no3_n
+   radish sow plants = density2 (/m2), sowing_depth = 30 (mm),row_spacing = rowspace1, cultivar = radish
+endif
+
+if ready_to_sow = 1 and (day = first_op_to_sow + time_delay) and ryegrass.plant_status = 'out' then
+   rg_sowdate = day
+   ryegrass sow plants = density2 (/m2), sowing_depth = 30 (mm),row_spacing = rowspace2, cultivar = ryegrass
+endif
+
+[rd1000_timeA.SummaryFile.parameters]
+summaryfile = summary_m.sum
+

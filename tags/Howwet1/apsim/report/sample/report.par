@@ -1,0 +1,91 @@
+[sample.report1.parameters]
+outputfile =report1.out
+
+variable = clock.day
+variable = clock.year
+variable = met.rain
+variable = soilwat2.runoff
+variable = soilwat2.drain
+variable = soilwat2.sw_dep
+
+[sample.report2.parameters]
+outputfile =report2.out
+
+variable = clock.day
+variable = clock.year
+variable = met.rain
+variable = soilwat2.runoff
+variable = soilwat2.drain
+variable = soilwat2.eo
+variable = soilwat2.es
+
+[sample.report3.parameters]
+outputfile =report3.csv
+format=csv
+variable = clock.year
+variable = clock.day
+variable = met.rain
+variable = soilwat2.runoff
+variable = soilwat2.drain
+variable = soilwat2.eo
+variable = soilwat2.es
+variable = soilwat2.sw
+
+[sample.report4.parameters]
+outputfile =report4.out
+NAString = NA
+precision = 12
+variable = clock.year
+variable = clock.day
+variable = met.rain
+variable = soilwat2.es
+variable = soilwat2.non-existant
+variable = soilwat2.sw
+variable = days_since_last_report
+
+[sample.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=1/1/1988
+end_date=9/4/1988
+
+[sample.manager.end_of_day]
+if report1.days_since_last_report = 5 then
+   report1 do_output
+   report2 do_output
+   report3 do_output
+endif
+report4 do_output
+
+[black_earth.soilwat2.parameters]
+insoil =    2.0 ()   ! indicator for initial soil water
+                     ! 0 to 1 is fraction of avail soil water
+		     ! (0=ll15, 1 = dul, >1 = input by user)
+
+diffus_const =    88. ()   !   coeffs for unsaturated water flow
+diffus_slope =    35.4  () !     "
+
+
+cn2_bare =    80 ()   ! bare soil runoff curve number
+cn_red =    20        ! potential reduction in curve number due to residue
+cn_cov =    .8        ! cover for maximum reduction in curve number
+salb =    0.13  ()    ! bare soil albedo
+cona =    2.5  ()     ! stage 2 evap coef.
+u =    4 (mm)         ! stage 1 soil evaporation coefficient (mm)
+
+!layer        1    2    3    4    5    6    7
+dlayer =     150  150  300  300  300  300  300   ! layer thickness mm soil
+sat =      .500 .509 .510 .505 .490 .480 .480    ! saturation mm water/mm soil
+dul =      .450 .459  .45 .44  .42  .41  .41     ! drained upper limit mm water/mm soil
+sw =       .280 .364  .43 .43  .40  .41  .41     ! initial soil water mm water/mm soil
+ll15 =     .230 .240 .240 .250 .260 .270 .280    ! lower limit mm water/mm soil
+air_dry =    .10 .20 .20 .20 .20 .20 .20         ! air dry mm water/ mm soil
+swcon =     0.2  0.2  0.2  0.2  0.2  0.2  0.2    ! drainage coefficient
+bd =       1.30 1.30 1.29 1.31 1.35 1.36 1.36    ! bulk density gm dry soil/cc moist soil
+
+
+
+[sample.SummaryFile.parameters]
+summaryfile=report.sum
+[sample.log.parameters]
+debug_output=on
+logfile=dean.log

@@ -1,0 +1,79 @@
+<Simulation executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll">
+   <title>This test makes sure a fatal error in a child system terminates the simulation immediately - D593</title>
+   <component name="log" executable="%apsuite\apsim\log\lib\log.dll">
+      <initdata>
+         <debug_output>on</debug_output>
+         <logfile>log.txt</logfile>
+      </initdata>
+   </component>
+
+   <component name="SummaryFile" executable="%apsuite\apsim\summaryfile\lib\summaryfile.dll">
+      <initdata>
+         <summaryfile>wheat.sum</summaryfile>
+      </initdata>
+   </component>
+   <component name="clock" executable="%apsuite\apsim\clock\lib\clock.dll">
+      <initdata>
+         <timestep_events>prepare process post rep</timestep_events>
+         <start_date>14/6/1988</start_date>
+         <end_date>17/11/1988</end_date>
+      </initdata>
+   </component>
+   <component name="report" executable="%apsuite\apsim\report\lib\report.dll">
+      <initdata>
+         <outputfile>wheat.out</outputfile>
+         <variable>clock.dd/mm/yyyy as Date</variable>
+         <variable>SubSystem.rain as rain</variable>
+      </initdata>
+   </component>
+   <component name="manager" executable="%apsuite\apsim\manager\lib\manager.dll">
+      <initdata>
+         <rule name="sample.end_of_day" condition="end_of_day">
+            <![CDATA[
+            if (day = 200) then
+               subsystem.rain = 123
+               subsystem.dlt_sw_dep= 0 0 0 0 0 0 0
+            endif
+            report do_output
+            SubSystem do_output
+            ]]>
+         </rule>
+      </initdata>
+   </component>
+
+
+   <system name="SubSystem" executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll">
+      <component name="Met" executable="%apsuite\apsim\input\lib\input.dll">
+	      <initdata>
+            <filename>%apsuite\apsim\met\sample\dalby.met</filename>
+	      </initdata>
+	   </component>
+
+	   <component name="soilwat2" executable="%apsuite\apsim\soilwat2\lib\soilwat2.dll">
+	      <initdata>
+	         <include>%apsuite\apsim\soilwat2\soilwat2.ini</include>
+            <profile_fesw>1</profile_fesw>
+	      </initdata>
+	   </component>
+
+      <registrations>
+         <event name="summaryFileWrite" type="summaryFileWrite"/>
+         <event name="error" type="string"/>
+         <respondToGet name="rain" type="rain"/>
+         <respondToSet name="dlt_sw_dep" type="single"/>
+         <respondToEvent name="tick" type="time"/>
+         <respondToEvent name="do_output" type="do_output"/>
+         <get name="day" type="integer4"/>
+         <get name="title" type="string"/>
+         <respondToSet name="rain" type="rain"/>
+      </registrations>
+      <types>
+         <type name="summaryFileWrite">
+            <field name="componentName" kind="string"/>
+            <field name="lines" kind="string"/>
+         </type>
+      </types>
+
+	</system>
+
+</Simulation>

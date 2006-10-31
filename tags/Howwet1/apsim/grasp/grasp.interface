@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="grasp">
+   <registrations>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <eventReg name="crop_chopped" type="crop_chopped"/>
+      <eventReg name="killing" type="null"/>
+      <eventReg name="establishing" type="null"/>
+      <respondToEventReg name="establish" type="establish"/>
+      <respondToEventReg name="kill" type="kill"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="process" type="process"/>
+   </registrations>
+</component>

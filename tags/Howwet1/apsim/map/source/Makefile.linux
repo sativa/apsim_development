@@ -1,0 +1,70 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for APSIM solute module
+#-----------------------------------------------------------------------
+#=======================================================================
+
+DESTDIR ?= /usr/local/apsim
+
+LIB=	../lib/solute.so
+
+SRC=	Registrations.f90	\
+	solute.for
+
+STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
+            ../../../Shared/ComponentInterface/EntryPoints.o   \
+            ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o   \
+            ../../../Shared/ComponentInterface/FORTRANdatatypes.o   \
+            ../../../Shared/ComponentInterface/datatypes.o
+
+OBJ= $(STATICOBJ) Registrations.o solute.o
+	
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+FC=		lf95
+CPPFLAGS=	-I$(APSROOT)/apsim/infra/source		\
+		-M. -M$(APSROOT)/apsim/infra/source $(CPPDEBUGFLAGS)
+FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
+		--ml cdecl --staticlink
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS=	-L$(APSROOT)/lib		\
+		-L$(APSROOT)/apsim/infra/lib	 \
+		-L/usr/lib $(LDDEBUGFLAGS)
+
+LIBS=		-lComponentInterface -lapsinfra -lc
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB)
+
+$(LIB):	$(OBJ)
+	g++ $(OBJ) -o $(LIB) -shared $(LDFLAGS) $(LIBS)
+
+FORCE:
+
+clean:
+	rm -f *.o *.mod
+
+clobber:	clean
+	rm -f $(LIB)
+
+install: all
+	if [ ! -d $(DESTDIR)/apsim/solute/lib ]; then mkdir -p $(DESTDIR)/apsim/solute/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/solute/lib
+	cp ../solute.ini $(DESTDIR)/apsim/solute
+
+%.o:	%.for
+	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
+
+%.o:	%.f90
+	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
+
+Registrations.o: Registrations.f90
+Registrations.f90: ../solute.interface 
+	$(APSROOT)/Bin/CreateComponentInterfaceSource ../solute.interface

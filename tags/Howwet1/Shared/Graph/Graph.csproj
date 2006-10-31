@@ -1,0 +1,103 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{97151919-5377-4FD3-ABF9-9400A332CE6C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Graph</RootNamespace>
+    <AssemblyName>Graph</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FarPoint.Win, Version=2.5.2001.2005, Culture=neutral, PublicKeyToken=327c3516b1b18457, processorArchitecture=MSIL" />
+    <Reference Include="FarPoint.Win.Spread, Version=2.5.2001.2005, Culture=neutral, PublicKeyToken=327c3516b1b18457, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Xceed.Chart, Version=4.0.100.0, Culture=neutral, PublicKeyToken=ba83ff368b7563c6" />
+    <Reference Include="Xceed.Chart.Core, Version=4.0.100.0, Culture=neutral, PublicKeyToken=ba83ff368b7563c6" />
+    <Reference Include="Xceed.Chart.GraphicsCore, Version=4.0.100.0, Culture=neutral, PublicKeyToken=ba83ff368b7563c6" />
+    <Reference Include="Xceed.Chart.Standard, Version=4.0.100.0, Culture=neutral, PublicKeyToken=ba83ff368b7563c6" />
+    <Reference Include="Xceed.Chart.Utilities, Version=4.0.100.0, Culture=neutral, PublicKeyToken=ba83ff368b7563c6" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GraphController.cs" />
+    <Compile Include="GraphDataUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GraphDataUI.Designer.cs">
+      <DependentUpon>GraphDataUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GraphUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GraphUI.Designer.cs">
+      <DependentUpon>GraphUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\C#General\CSGeneral.csproj">
+      <Project>{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}</Project>
+      <Name>CSGeneral</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VBGeneral\VBGeneral.vbproj">
+      <Project>{F1F780B2-4762-48B6-B0D7-A68C57DDB347}</Project>
+      <Name>VBGeneral</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GraphDataUI.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>GraphDataUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraphUI.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>GraphUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

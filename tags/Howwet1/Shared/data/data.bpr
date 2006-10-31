@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value="..\..\Bin\data.dll"/>
+    <OBJFILES value="data.obj apsim_binary_table.obj apsim_depth_table.obj apsim_table.obj
+      database.obj filter.obj Table_base.obj Table_stream.obj"/>
+    <RESFILES value=""/>
+    <IDLFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES)"/>
+    <LIBFILES value="..\general\general.lib ..\general\general_vcl.lib"/>
+    <LIBRARIES value=""/>
+    <SPARELIBS value="rtl.lib vcl.lib"/>
+    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi vcldb.bpi dbrtl.bpi vcldbx.bpi
+      dsnap.bpi cds.bpi bdecds.bpi visualclx.bpi visualdbclx.bpi vclie.bpi
+      inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi bcbie.bpi soaprtl.bpi
+      dclocx.bpi dbexpress.bpi dbxcds.bpi bcb2kaxserver.bpi ibxpress.bpi
+      indy.bpi bdertl.bpi"/>
+    <PATHCPP value=".;"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="ilink32"/>
+    <USERDEFINES value="BUILDING_DATA"/>
+    <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
+    <MAINSOURCE value="data.cpp"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost"/>
+    <LIBPATH value="$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib"/>
+    <WARNINGS value="-w-par -w-8027 -w-8026"/>
+    <WARNOPTSTR value=""/>
+    <OTHERFILES value=""/>
+  </MACROS>
+  <OPTIONS>
+    <CFLAG1 value="-WD -Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -Tkh30000 -X- -r- -a8 -b- -k
+      -y -v -vi- -c -tWM"/>
+    <PFLAGS value="-$YD -$W -$O- -$A8 -v -M -JPHNE"/>
+    <RFLAGS value="= /i$(BCB)\include /i$(BCB)\include\vcl /i..\ /d_RTLDLL /dBUILDING_DATA
+      /dUSEPACKAGES /mx /w2 /zd"/>
+    <AFLAGS value="/mx /w2 /zd"/>
+    <LFLAGS value="-l. -D&quot;&quot; -aa -Tpd -x -Gn -Gi -v"/>
+    <OTHERFILES value=""/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0d32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <OTHERFILES value=""/>
+  </LINKER>
+  <FILELIST>
+      <FILE FILENAME="data.cpp" FORMNAME="" UNITNAME="data" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="apsim_binary_table.cpp" FORMNAME="" UNITNAME="apsim_binary_table" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="apsim_depth_table.cpp" FORMNAME="" UNITNAME="apsim_depth_table" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="apsim_table.cpp" FORMNAME="" UNITNAME="apsim_table" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="database.cpp" FORMNAME="" UNITNAME="Database" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="filter.cpp" FORMNAME="" UNITNAME="Filter" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Table_base.cpp" FORMNAME="" UNITNAME="Table_base" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Table_stream.cpp" FORMNAME="" UNITNAME="Table_stream" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=3081
+CodePage=1252
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[HistoryLists\hlIncludePath]
+Count=7
+Item0=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item1=$(BCB)\include;$(BCB)\include\vcl;k:\
+Item2=$(BCB)\include;$(BCB)\include\vcl;k:Item1=$(BCB)\include;$(BCB)\include\vcl;..Item1=$(BCB)\include;$(BCB)\include\vcl;..Item1=$(BCB)\include;$(BCB)\include\vcl;..Item1=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
+Item3=
+Item4=
+Item5=
+Item6=
+
+[HistoryLists\hlLibraryPath]
+Count=2
+Item0=$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\projects\lib
+Item1=$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=3
+Item0=BUILDING_DATA
+Item1=_RTLDLL;BUILDING_DATA;USEPACKAGES
+Item2=_RTLDLL;USEPACKAGES;BUILDING_DATA
+
+[HistoryLists\hlFinalOutputDir]
+Count=4
+Item0=..\..\Bin\
+Item1=..\..\Bin
+Item2=c:\program files\borland\cbuilder5\projects\bpl\
+Item3=$(BCB)\projects\bpl
+
+[HistoryLists\hIBPIOutputDir]
+Count=2
+Item0=.
+Item1=$(BCB)\projects\lib
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=
+RemoteHost=
+RemotePath=
+RemoteLauncher=
+RemoteCWD=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+
+[Linker]
+LibPrefix=
+LibSuffix=
+LibVersion=
+  </IDEOPTIONS>
+</PROJECT>

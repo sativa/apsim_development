@@ -1,0 +1,32 @@
+# (Borlandish) Makefile for apsim irrigate module
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+
+# Platform specific defns
+!include $(APSROOT)\APSBuild\platform.make
+
+# Fortran compiler defns
+!include $(APSROOT)\APSBuild\fortran.make
+
+# The statically linked components of the engine interface
+!include $(APSROOT)\APSBuild\ApsimComponentInterface.make
+
+# Main target
+source: ..\lib\irrigate.dll
+..\lib\irrigate.dll: Registrations.obj irrigate.obj $(STATICLINKEDOBJECTS) 
+	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
+	$(ECHO) $(F90FLAGS) >> linker.tmp
+	$(ECHO) $(F90LIBS) >> linker.tmp
+	$(LF95) irrigate.obj Registrations.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\irrigate.dll @linker.tmp
+	$(RM) linker.tmp
+   
+irrigate.obj: irrigate.for
+Registrations.obj: Registrations.f90
+Registrations.f90: ..\irrigate.interface 
+	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\irrigate.interface
+clean:
+	$(RM) ..\lib\irrigate.dll Registrations.obj Registrations.f90 irrigate.obj irrigate.imp
+

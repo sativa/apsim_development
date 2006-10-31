@@ -1,0 +1,61 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for ProtocolManager module
+#-----------------------------------------------------------------------
+#=======================================================================
+DESTDIR ?= /usr/local/apsim
+
+LIB=	../lib/ProtocolManager.so
+
+SRC=	ComponentAlias.cpp		\
+	Coordinator.cpp			\
+	Registrations.cpp
+
+OBJ=	ComponentAlias.o		\
+	Coordinator.o			\
+	Registrations.o			\
+	$(APSROOT)/Shared/ComponentInterface/EntryPoints.o
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+CC=		/usr/bin/gcc
+CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
+		-I$(APSROOT)/Shared				\
+		-Wno-deprecated -fpermissive -fPIC $(CPPDEBUGFLAGS)
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS=	-L/usr/lib 		\
+		-L$(APSROOT)/lib $(LDDEBUGFLAGS)
+
+LIBS=		-lComponentInterface	\
+		-lprotocol		\
+		-lApsimShared		\
+		-lgeneral		\
+		-lc
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB)
+
+$(LIB):	$(OBJ)
+	$(CC) -shared -o $(LIB) $(OBJ) $(LDFLAGS) $(LIBS)
+
+FORCE:
+
+install: all
+	if [ ! -d $(DESTDIR)/apsim/ProtocolManager/lib ]; then mkdir -p $(DESTDIR)/apsim/ProtocolManager/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/ProtocolManager/lib
+
+clean:
+	rm -f *.o *.mod
+
+clobber:	clean
+	rm -f $(LIB)
+
+%.o:	%.cpp
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+

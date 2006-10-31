@@ -1,0 +1,73 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for APSIM surface organic matter module
+#-----------------------------------------------------------------------
+#=======================================================================
+
+DESTDIR ?= /usr/local/apsim
+
+LIB=	../lib/SurfaceOM.so
+
+SRC=	Registrations.f90	\
+	SurfaceOM.f90
+
+STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
+            ../../../Shared/ComponentInterface/EntryPoints.o   \
+            ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o   \
+            ../../../Shared/ComponentInterface/FORTRANdatatypes.o   \
+            ../../../Shared/ComponentInterface/datatypes.o
+
+OBJ=	Registrations.o		\
+	SurfaceOM.o		\
+	$(STATICOBJ)
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+FC=		lf95
+CPPFLAGS=	-I$(APSROOT)/apsim/infra/source		\
+		-M. -M$(APSROOT)/apsim/infra/source
+FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
+		--ml cdecl --staticlink
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS=	-L$(APSROOT)/lib		\
+		-L$(APSROOT)/apsim/infra/lib	 \
+		-L/usr/lib
+
+LIBS=		-lComponentInterface -lapsinfra -lc
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB)
+
+$(LIB):	$(OBJ)
+	g++ $(OBJ) -o $(LIB) -shared $(LDFLAGS) $(LIBS)
+
+FORCE:
+
+clean:
+	rm -f *.o *.mod
+
+clobber:	clean
+	rm -f $(LIB)
+
+install: all
+	if [ ! -d $(DESTDIR)/apsim/SurfaceOM/lib ]; then mkdir -p $(DESTDIR)/apsim/SurfaceOM/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/SurfaceOM/lib
+	cp ../SurfaceOM.ini $(DESTDIR)/apsim/SurfaceOM
+
+%.o:	%.for
+	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
+
+%.o:	%.f90
+	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
+
+
+
+Registrations.o: Registrations.f90
+Registrations.f90: ../SurfaceOM.interface 
+	$(APSROOT)/Bin/CreateComponentInterfaceSource ../SurfaceOM.interface

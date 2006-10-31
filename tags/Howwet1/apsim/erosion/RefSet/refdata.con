@@ -1,0 +1,88 @@
+! gmtb0[a-d] give each model driven by single/split equations under soilwat.
+! gmtb0e gives eroding profile.
+! gmtb0s gives swim/surface.
+
+version = 5.2
+[apsim.gmtb0a.control]
+
+title=Greenmount B0_SOILWAT
+module = clock refdata.par[gmtb0] %apsuite/apsim/clock/clock.ini[standard]
+module = report refdata.par[gmtb0] refdata.par[gmtb0a]
+module = input(met) gmtapsim.dat[weather]
+module = manager refdata.par[gmt]
+module = soilwat2 refdata.par[gmtb0] %apsuite/apsim/soilwat2/soilwat2.ini[standard]
+module = erosion refdata.par[gmtb0a]
+module = SurfaceOM   refdata.par [gmtb0] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = grasp refdata.par[gmtb0] %apsuite/apsim/grasp/grasp.ini[standard]
+module = SummaryFile  refdata.par[gmtb0a]
+[apsim.gmtb0b.control]
+
+title=Greenmount B0_SOILWAT
+module = clock refdata.par[gmtb0] %apsuite/apsim/clock/clock.ini[standard]
+module = report refdata.par[gmtb0] refdata.par[gmtb0b]
+module = input(met) gmtapsim.dat[weather]
+module = operatns refdata.par[gmtb0]
+module = manager refdata.par[gmt]
+module = soilwat2 refdata.par[gmtb0] %apsuite/apsim/soilwat2/soilwat2.ini[standard]
+module = erosion refdata.par[gmtb0b]
+module = SurfaceOM   refdata.par [gmtb0] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = grasp refdata.par[gmtb0] grasp.ini[standard]
+module = SummaryFile  refdata.par[gmtb0b]
+[apsim.gmtb0c.control]
+
+title=Greenmount B0_SOILWAT
+module = clock refdata.par[gmtb0] %apsuite/apsim/clock/clock.ini[standard]
+module = report refdata.par[gmtb0] refdata.par[gmtb0c]
+module = input(met) gmtapsim.dat[weather]
+module = operatns refdata.par[gmtb0]
+module = manager refdata.par[gmt]
+module = soilwat2 refdata.par[gmtb0] %apsuite/apsim/soilwat2/soilwat2.ini[standard]
+module = erosion refdata.par[gmtb0c]
+module = SurfaceOM   refdata.par [gmtb0] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = grasp refdata.par[gmtb0] %apsuite/apsim/grasp/grasp.ini[standard]
+module = SummaryFile  refdata.par[gmtb0c]
+[apsim.gmtb0d.control]
+
+title=Greenmount B0_SOILWAT
+module = clock refdata.par[gmtb0] %apsuite/apsim/clock/clock.ini[standard]
+module = report refdata.par[gmtb0] refdata.par[gmtb0d]
+module = input(met) gmtapsim.dat[weather]
+module = operatns refdata.par[gmtb0]
+module = manager refdata.par[gmt]
+module = soilwat2 refdata.par[gmtb0] %apsuite/apsim/soilwat2/soilwat2.ini[standard]
+module = erosion refdata.par[gmtb0d]
+module = SurfaceOM   refdata.par [gmtb0] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = grasp refdata.par[gmtb0] %apsuite/apsim/grasp/grasp.ini[standard]
+module = SummaryFile  refdata.par[gmtb0d]
+
+! NB.
+!     This will throw report into chaos when a profile layer disappears.
+!     There's a silly message from input at the end of the summary file. Is it a bug???
+[apsim.gmtb0e.control]
+title=Greenmount B0_SOILWAT
+module = clock refdata.par[gmtb0] %apsuite/apsim/clock/clock.ini[standard]
+module = report refdata.par[gmtb0] refdata.par[gmtb0e]
+module = input(met) gmtapsim.dat[weather]
+module = operatns refdata.par[gmtb0]
+module = manager refdata.par[gmt]
+module = soilwat2 refdata.par[gmtb0] %apsuite/apsim/soilwat2/soilwat2.ini[standard]
+module = erosion refdata.par[gmtb0e]
+module = SurfaceOM   refdata.par [gmtb0] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = grasp refdata.par[gmtb0] %apsuite/apsim/grasp/grasp.ini[standard]
+module = SummaryFile  refdata.par[gmtb0e]
+[apsim.gmtb0s.control]
+
+title=Greenmount B0_SWIM
+module = clock    gmtswim.par [gmtb0] %apsuite/apsim/clock/clock.ini[standard]
+module = report   gmtswim.par [gmtb0]
+module = input(met)      gmtapsim.dat [weather]
+module = operatns
+module = manager  gmtswim.par [gmtb0]
+module = apswim   gmtswim.par [gmtb0]     %apsuite/apsim/apswim/apswim.ini [standard]
+module = erosion  gmtswim.par [gmtb0]
+module = SurfaceOM   gmtswim.par [gmtb0] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2   gmtswim.par [gmtb0]     %apsuite/apsim/soiln2/soiln2.ini [standard]
+module = grasp    gmtswim.par [gmtb0]     %apsuite/apsim/grasp/grasp.ini [standard]
+module = surface  gmtswim.par [gmtb0]
+module = canopy
+module = SummaryFile  gmtswim.par[gmtb0]

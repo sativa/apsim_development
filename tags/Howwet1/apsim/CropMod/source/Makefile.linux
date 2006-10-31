@@ -1,0 +1,69 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for APSIM crop module
+#-----------------------------------------------------------------------
+#=======================================================================
+
+LIB=	../lib/libcropmod.a
+DLL=	../lib/CropMod.so
+
+SRC=	CropModData.for		\
+	CropMod.for		\
+	CropModMain.for
+
+STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
+            ../../../Shared/ComponentInterface/EntryPoints.o   \
+            ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o   \
+            ../../../Shared/ComponentInterface/FORTRANdatatypes.o   \
+            ../../../Shared/ComponentInterface/datatypes.o
+
+OBJ=	CropModData.o		\
+	CropMod.o		\
+	CropModMain.o		\
+	$(STATICOBJ)
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+FC=		lf95
+CPPFLAGS=	-I$(APSROOT)/apsim/infra/source		\
+		-I$(APSROOT)/apsim/croptemp/source $(CPPDEBUGFLAGS)
+FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
+		--ml cdecl --staticlink
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS=	-L$(APSROOT)/lib		\
+		-L$(APSROOT)/apsim/infra/lib	\
+		-L$(APSROOT)/apsim/croptemp/lib	\
+		-L/usr/lib $(LDDEBUGFLAGS)
+
+LIBS=		-lComponentInterface -lapsinfra -lcroptemp
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB) $(DLL)
+
+$(LIB):	$(OBJ)
+
+$(DLL):	$(OBJ)
+	g++ $(OBJ) -o $(DLL) -shared $(LDFLAGS) $(LIBS)
+
+FORCE:
+
+clean:
+	rm -f *.o *.mod
+
+clobber:	clean
+	rm -f $(LIB)
+
+install: all
+	cp $(LIB) $(APSROOT)/lib
+
+%.o:	%.for
+	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
+
+%.o:	%.f90
+	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<

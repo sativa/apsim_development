@@ -1,0 +1,29 @@
+[sample.report.parameters]
+outputfile  =erosion.out
+variable = clock.dd/mm/yyyy as date
+variable = erosion.soil_loss
+variable = soilwat2.runoff
+
+[sample.clock.parameters]
+! Start and end date of run (day number of year and year)
+start_date=1/1/1988     ! dd/mm/yyyy
+end_date=1/1/1990     ! dd/mm/yyyy
+
+[sample.manager.end_of_day]
+if runoff > 0 then
+  report do_output
+endif
+[sample.erosion.parameters]
+model =     freebairn (eastern darling downs)
+slope =             6.5   (%)
+slope_length =      60.0  (m)
+bed_depth =         1900.   (mm)
+profile_reduction =    off
+profile_layer_merge =  0.05 ()
+minimum_depth =    100.0 (mm)
+
+k_factor =          0.4   ()
+p_factor =          1.0   ()
+[sample.summaryfile.parameters]
+summaryfile=erosion.sum
+

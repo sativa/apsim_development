@@ -1,0 +1,548 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+     Version                = 5.2
+     Title                  = Stock Supplement PI SAMPLE Simulation
+     Component DLL          = c:\development\apsim\log\lib\log.dll
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\Input\lib\Input.dll
+     Component DLL          = c:\development\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll
+     Component DLL          = c:\development\apsim\protocolmanager\lib\protocolmanager.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+     Simulation start date =  1/10/1988
+     Simulation end date   = 30/04/1989
+     Time step =           = 1440 (mins)
+
+------- Met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
+
+------- FarmwiseSequencer Initialisation --------------------------------------
+      - reading constants
+     Subscribe Event: prepare
+           Publish Event/s: init_step do_pasture_water
+     Subscribe Event: process
+           Publish Event/s: prewaterbalance do_pasture_growth do_stock
+     Subscribe Event: post
+           Publish Event/s: end_step
+     
+
+------- report Initialisation -------------------------------------------------
+     Output frequency:
+        post
+     Output variables:
+        dd/mm/yyyy as Date
+        supplement.no_stores
+        supplement.no_paddocks
+        supplement.padd_names
+        supplement.padd_amounts
+        stock.number
+        stock.sex
+        stock.age
+        stock.weight
+        stock.supp_intake
+        stock.wt_change
+     
+     Output file = stock.out
+     Format = normal
+
+------- soilwat2 Initialisation -----------------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.100  0.230  0.450  0.500  0.280  1.300  0.762  0.200
+          150.-  300.  0.200  0.240  0.459  0.509  0.364  1.300  0.190  0.200
+          300.-  600.  0.200  0.240  0.450  0.510  0.430  1.290  0.048  0.200
+          600.-  900.  0.200  0.250  0.440  0.505  0.430  1.310  0.000  0.200
+          900.- 1200.  0.200  0.260  0.420  0.490  0.400  1.350  0.000  0.200
+         1200.- 1500.  0.200  0.270  0.410  0.480  0.410  1.360  0.000  0.200
+         1500.- 1800.  0.200  0.280  0.410  0.480  0.410  1.360  0.000  0.200
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      34.50       7.50      33.00       7.50
+          150.-  300.      36.00      18.60      32.85       7.50
+          300.-  600.      72.00      57.00      63.00      18.00
+          600.-  900.      75.00      54.00      57.00      19.50
+          900.- 1200.      78.00      42.00      48.00      21.00
+         1200.- 1500.      81.00      42.00      42.00      21.00
+         1500.- 1800.      84.00      39.00      39.00      21.00
+          ---------------------------------------------------------
+               Totals     460.50     260.10     314.85     115.50
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   2.00        0.13       88.00       35.40
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              80.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            4.00 (mm^0.5)
+            CONA:                     2.50 ()
+           Eo from priestly-taylor
+
+------- surfaceom Initialisation ----------------------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          manure    manure        2000.0   160.0     0.8     0.0   0.181     0.1
+          lucerne   lucerne       4000.0  1600.0    32.0     0.0   0.551     0.2
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.6
+     
+
+------- soiln2 Initialisation -------------------------------------------------
+     
+        - Reading Parameters
+     
+        - Reading Constants
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     8.20  1.00   17.94    0.58    0.00
+             2     8.50  0.84   14.82    0.58    0.00
+             3     8.60  0.77   18.96    1.16    0.00
+             4     8.60  0.65   10.61    1.18    0.00
+             5     7.40  0.54    6.07    1.22    0.00
+             6     5.30  0.48    7.34    2.04    0.00
+             7     5.00  0.43    5.71    2.04    0.00
+          ------------------------------------------------
+           Totals               81.46    8.81    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      19038.4  1313.0   461.6    57.7   138.9     6.9
+             2      16180.2  1115.9   199.8    25.0   108.1     5.4
+             3      29622.8  2043.0   176.2    22.0    65.6     3.3
+             4      25481.8  1757.4    63.2     7.9    39.8     2.0
+             5      21848.3  1506.8    21.7     2.7    24.1     1.2
+             6      19582.1  1350.5     1.9     0.2    14.6     0.7
+             7      17542.3  1209.8     1.7     0.2     8.9     0.4
+          ---------------------------------------------------------
+           Totals  149295.9 10296.3   926.1   115.8   400.0    20.0
+          ---------------------------------------------------------
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- start_of_day
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     No manager lines were found in any parameter file.
+     Component name: manager
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+
+------- cattle Initialisation -------------------------------------------------
+     Conversion model:- nonherbage
+     
+      - non-herbage converter reading parameters
+     Stock_module = stock
+     Fraction_faeces_added = 0.5
+     Fraction_urine_added = 0.5
+     Debug = off
+
+------- managercattle Initialisation ------------------------------------------
+     Manager rules:
+     
+     SECTION:- start_of_day
+     if day = 330 and year = 1988 then
+        cattle buystock number = 5 (-), genotype = angus, sex = steer, age = 12 (months), weight = 250.0 (kg)
+        cattle movestock group = 1
+     endif
+     if day = 32 and year = 1989 then
+        cattle sellstock number = 5 (-)
+     endif
+     END of rules
+     
+
+------- supplementstore Initialisation ----------------------------------------
+      - reading parameters
+     Debug = off
+     supplement_module = supplement
+     
+
+------- supplementmanager Initialisation --------------------------------------
+     Manager rules:
+     
+     SECTION:- start_of_day
+        if (day = 280) then
+           supplementstore buysupplement supplement = pellets, amount = 10000.0 (kg)
+        endif
+        if (day > 330) then
+           if (day < 340) then
+              supplementstore feedsupplement supplement = pellets, amount = 1.0 (kg)
+           elseif (day < 350) then
+              supplementstore feedsupplement supplement = pellets, amount = 5.0 (kg)
+           elseif (day < 360) then
+              supplementstore feedsupplement supplement = pellets, amount = 10.0 (kg)
+           else
+              supplementstore feedsupplement supplement = pellets, amount = 20.0 (kg)
+           endif
+        endif
+     END of rules
+     
+------- Start of simulation  --------------------------------------------------
+6 October 1988(Day of year=280), supplementmanager: 
+     Manager sending message :- supplementstore buysupplement  supplement = pellets, amount = 10000.0 (kg)
+6 October 1988(Day of year=280), supplementstore: 
+     Supplement buy:
+        Name = pellets
+        Amount = 10000 (kg)
+     
+25 November 1988(Day of year=330), managercattle: 
+     Manager sending message :- cattle buystock  number = 5 (-), genotype = angus, sex = steer, age = 12 (months), weight = 250.0 (kg)
+25 November 1988(Day of year=330), cattle: 
+     Buy stock :-
+        number =          5 (-)
+        genotype = angus (-)
+        sex = steer (-)
+        age = 12 (months)
+        weight = 250 (kg)
+25 November 1988(Day of year=330), managercattle: 
+     Manager sending message :- cattle movestock  group = 1
+25 November 1988(Day of year=330), cattle: 
+     Name stock :-
+        Group =          1 (-)
+     
+26 November 1988(Day of year=331), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 1.0 (kg)
+26 November 1988(Day of year=331), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 1 (kg)
+     
+27 November 1988(Day of year=332), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 1.0 (kg)
+27 November 1988(Day of year=332), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 1 (kg)
+     
+28 November 1988(Day of year=333), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 1.0 (kg)
+28 November 1988(Day of year=333), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 1 (kg)
+     
+29 November 1988(Day of year=334), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 1.0 (kg)
+29 November 1988(Day of year=334), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 1 (kg)
+     
+30 November 1988(Day of year=335), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 1.0 (kg)
+30 November 1988(Day of year=335), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 1 (kg)
+     
+1 December 1988(Day of year=336), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 1.0 (kg)
+1 December 1988(Day of year=336), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 1 (kg)
+     
+2 December 1988(Day of year=337), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 1.0 (kg)
+2 December 1988(Day of year=337), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 1 (kg)
+     
+3 December 1988(Day of year=338), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 1.0 (kg)
+3 December 1988(Day of year=338), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 1 (kg)
+     
+4 December 1988(Day of year=339), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 1.0 (kg)
+4 December 1988(Day of year=339), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 1 (kg)
+     
+5 December 1988(Day of year=340), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 5.0 (kg)
+5 December 1988(Day of year=340), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 5 (kg)
+     
+6 December 1988(Day of year=341), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 5.0 (kg)
+6 December 1988(Day of year=341), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 5 (kg)
+     
+7 December 1988(Day of year=342), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 5.0 (kg)
+7 December 1988(Day of year=342), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 5 (kg)
+     
+8 December 1988(Day of year=343), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 5.0 (kg)
+8 December 1988(Day of year=343), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 5 (kg)
+     
+9 December 1988(Day of year=344), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 5.0 (kg)
+9 December 1988(Day of year=344), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 5 (kg)
+     
+10 December 1988(Day of year=345), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 5.0 (kg)
+10 December 1988(Day of year=345), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 5 (kg)
+     
+11 December 1988(Day of year=346), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 5.0 (kg)
+11 December 1988(Day of year=346), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 5 (kg)
+     
+12 December 1988(Day of year=347), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 5.0 (kg)
+12 December 1988(Day of year=347), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 5 (kg)
+     
+13 December 1988(Day of year=348), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 5.0 (kg)
+13 December 1988(Day of year=348), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 5 (kg)
+     
+14 December 1988(Day of year=349), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 5.0 (kg)
+14 December 1988(Day of year=349), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 5 (kg)
+     
+15 December 1988(Day of year=350), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 10.0 (kg)
+15 December 1988(Day of year=350), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 10 (kg)
+     
+16 December 1988(Day of year=351), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 10.0 (kg)
+16 December 1988(Day of year=351), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 10 (kg)
+     
+17 December 1988(Day of year=352), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 10.0 (kg)
+17 December 1988(Day of year=352), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 10 (kg)
+     
+18 December 1988(Day of year=353), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 10.0 (kg)
+18 December 1988(Day of year=353), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 10 (kg)
+     
+19 December 1988(Day of year=354), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 10.0 (kg)
+19 December 1988(Day of year=354), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 10 (kg)
+     
+20 December 1988(Day of year=355), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 10.0 (kg)
+20 December 1988(Day of year=355), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 10 (kg)
+     
+21 December 1988(Day of year=356), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 10.0 (kg)
+21 December 1988(Day of year=356), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 10 (kg)
+     
+22 December 1988(Day of year=357), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 10.0 (kg)
+22 December 1988(Day of year=357), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 10 (kg)
+     
+23 December 1988(Day of year=358), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 10.0 (kg)
+23 December 1988(Day of year=358), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 10 (kg)
+     
+24 December 1988(Day of year=359), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 10.0 (kg)
+24 December 1988(Day of year=359), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 10 (kg)
+     
+25 December 1988(Day of year=360), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 20.0 (kg)
+25 December 1988(Day of year=360), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 20 (kg)
+     
+26 December 1988(Day of year=361), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 20.0 (kg)
+26 December 1988(Day of year=361), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 20 (kg)
+     
+27 December 1988(Day of year=362), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 20.0 (kg)
+27 December 1988(Day of year=362), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 20 (kg)
+     
+28 December 1988(Day of year=363), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 20.0 (kg)
+28 December 1988(Day of year=363), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 20 (kg)
+     
+29 December 1988(Day of year=364), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 20.0 (kg)
+29 December 1988(Day of year=364), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 20 (kg)
+     
+30 December 1988(Day of year=365), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 20.0 (kg)
+30 December 1988(Day of year=365), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 20 (kg)
+     
+31 December 1988(Day of year=366), supplementmanager: 
+     Manager sending message :- supplementstore feedsupplement  supplement = pellets, amount = 20.0 (kg)
+31 December 1988(Day of year=366), supplementstore: 
+     Supplement feed:
+        Name = pellets
+        Amount = 20 (kg)
+     
+1 February 1989(Day of year=32), managercattle: 
+     Manager sending message :- cattle sellstock  number = 5 (-)
+1 February 1989(Day of year=32), cattle: 
+     Sell stock :-
+        number =          5 (-)
+     
+30 April 1989(Day of year=120), clock: 
+     Simulation is terminating due to end criteria being met.

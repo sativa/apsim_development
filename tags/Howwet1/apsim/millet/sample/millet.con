@@ -1,0 +1,23 @@
+version = 5.2
+[apsim.sample_millet]
+
+title = Millet Sample Simulation
+
+module = clock      millet.par [sample]                                        %apsuite/apsim/clock/clock.ini[standard]
+module = report     millet.par [sample]
+module = input(met) %apsuite/apsim/met/sample/dalby.met [weather]
+module = manager    millet.par [sample]
+module = canopy     millet.par [sample]
+module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]  %apsuite/apsim/soilwat2/soilwat2.ini [standard]
+module = soiln2     %apsuite/apsim/soiln2/sample/soiln2.par [black_earth]      %apsuite/apsim/soiln2/soiln2.ini [standard]
+module = SurfaceOM  millet.par [sample]                                        %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = millet (millet)        millet.par [sample]                            %apsuite/apsim/millet/millet.ini [standard]
+module = millet (millet1)       millet.par [sample]                            %apsuite/apsim/millet/millet.ini [standard]
+module = millet (millet2)       millet.par [sample]                            %apsuite/apsim/millet/millet.ini [standard]
+module = millet (millet3)       millet.par [sample]                            %apsuite/apsim/millet/millet.ini [standard]
+module = millet (millet4)       millet.par [sample]                            %apsuite/apsim/millet/millet.ini [standard]
+module = millet (millet5)       millet.par [sample]                            %apsuite/apsim/millet/millet.ini [standard]
+module = SummaryFile            millet.par [sample]
+
+
+

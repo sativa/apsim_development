@@ -1,0 +1,63 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for General module
+#-----------------------------------------------------------------------
+#=======================================================================
+
+LIB=	libgeneral.a
+
+SRC=	date_class.cpp		\
+	math_functions.cpp	\
+	stream_functions.cpp	\
+	string_functions.cpp	\
+	StringTokenizer.cpp	\
+	stristr.cpp		\
+	macro.cpp		\
+	io_functions.cpp	\
+	xml.cpp			\
+	path.cpp		\
+	IniFile.cpp \
+	stream_processor.cpp
+
+#	exec.cpp		\
+#	general.cpp		\
+#	http.cpp
+
+OBJ=	$(SRC:.cpp=.o)
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+CC=		   /usr/bin/gcc
+CPPFLAGS=	-I/usr/include/boost -I$(APSROOT)/Shared 	\
+		      -I/usr/include/libxml2				\
+		      -Wno-deprecated -fpermissive -fPIC $(CPPDEBUGFLAGS)
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS=	-L/usr/lib $(LDDEBUGFLAGS)
+
+LIBS=		-lxml2 -lboost_filesystem -libiberty
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB)
+
+$(LIB):	$(LIB)($(OBJ))
+
+
+FORCE:
+
+clean:
+	rm -f *.o *.mod
+
+clobber:	clean
+	rm -f $(LIB)
+
+install: all
+	cp $(LIB) $(APSROOT)/lib
+
+%.o:	%.cpp
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<

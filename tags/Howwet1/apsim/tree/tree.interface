@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="tree">
+   <registrations>
+      <respondToGetReg name="height" type="height"/>
+      <respondToGetReg name="cover_tot" type="cover_tot"/>
+      <respondToGetReg name="green_cover" type="green_cover"/>
+      <respondToGetReg name="cover_green" type="cover_green"/>
+      <respondToGetReg name="root_depth" type="root_depth"/>
+      <respondToGetReg name="basal_area" type="basal_area"/>
+      <respondToGetReg name="ep" type="ep"/>
+      <respondToGetReg name="total_swi" type="total_swi"/>
+      <respondToGetReg name="total_rawswi" type="total_rawswi"/>
+      <respondToGetReg name="swi" type="swi"/>
+      <respondToGetReg name="sw_demand" type="sw_demand"/>
+      <respondToGetReg name="rlv" type="rlv"/>
+      <respondToGetReg name="crop_" type="crop_type"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="end_run" type="end_run"/>
+      <getVariableReg name="pan" type="pan"/>
+      <getVariableReg name="eo" type="eo"/>
+      <getVariableReg name="dlayer" type="dlayer"/>
+      <getVariableReg name="dul_dep" type="dul_dep"/>
+      <getVariableReg name="sw_dep" type="sw_dep"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="process" type="process"/>
+   </registrations>
+</component>

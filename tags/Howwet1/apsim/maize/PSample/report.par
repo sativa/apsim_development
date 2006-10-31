@@ -1,0 +1,114 @@
+[maizeF.report.parameters]
+outputfile = maize.out
+
+[maize.report.parameters]
+variable = clock.dd/mm/yyyy as date
+variable = maize.das
+variable = maize.stage
+variable = maize.dc_stage as zadok
+variable = maize.lai
+variable = maize.biomass_wt as biomass
+variable = maize.grain_wt as grain
+variable = maize.biomass_n
+variable = maize.grain_n
+variable = maize.tiller_no_fertile as tillers
+variable = maize.root_depth as rootdepth
+variable = maize.cep
+variable = maize.swdef_pheno as ws_pheno
+variable = maize.swdef_photo as ws_photo
+variable = maize.swdef_expan as ws_expan
+variable = maize.swdef_tiller as ws_tiller
+variable = maize.nfact_pheno as Ns_pheno
+variable = maize.nfact_photo as Ns_photo
+variable = maize.nfact_expan as Ns_expan
+variable = maize.nfact_tiller as Ns_tiller
+variable = maize.n_conc_root
+variable = maize.n_conc_leaf
+variable = maize.n_conc_stem
+variable = maize.n_conc_grain
+variable = maize.dm_green()
+variable = maize.dm_green
+variable = maize.dm_senesced()
+variable = maize.dm_senesced
+variable = maize.dlt_dm_detached
+variable = maize.p_green()
+variable = maize.p_green
+variable = maize.p_sen()
+variable = maize.p_sen
+variable = maize.p_demand
+variable = maize.pfact_photo
+variable = maize.pfact_pheno
+variable = maize.pfact_expansion
+variable = maize.pfact_grain
+variable = maize.biomass_p
+variable = maize.green_biomass_p
+variable = maize.grain_p
+variable = maize.leaf_p
+variable = maize.stem_p
+variable = maize.root_p
+variable = maize.deadleaf_p
+variable = maize.flower_p
+variable = maize.head_p
+variable = maize.p_senesced()
+variable = maize.p_dead()
+variable = maize.dlt_p_green()
+variable = maize.dlt_p_retrans()
+variable = maize.dlt_p_detached()
+variable = maize.dlt_p_dead()
+variable = maize.dlt_p_sen()
+variable = maize.p_conc_stover
+variable = maize.p_conc_leaf
+variable = maize.p_conc_stem
+variable = maize.p_conc_grain
+variable = maize.p_uptake_stover
+variable = maize.grain_p_demand
+variable = surfaceom.surfaceom_p
+variable = soilwat2.esw as esw
+variable = soilwat2.sw()
+variable = soilwat2.es
+variable = soilwat2.runoff
+variable = soilwat2.drain
+variable = soiln2.no3()
+variable = soiln2.nh4()
+variable = soilp.uptake_p_maize()
+variable = soilp.fom_cp()
+variable = soilp.fom_p_pool3()
+variable = soilp.fom_p_pool2()
+variable = soilp.fom_p_pool1()
+variable = soilp.fom_p()
+variable = soilp.hum_p()
+variable = soilp.biom_p()
+variable = soilp.soil_test_p()
+variable = soilp.rock_p()
+variable = soilp.unavail_p()
+variable = soilp.labile_p()
+
+
+
+
+
+
+[all.report.parameters]
+
+variable = soilwat2.esw as esw
+variable = soilwat2.sw()
+variable = soilwat2.es
+variable = soilwat2.runoff
+variable = soilwat2.drain
+variable = soiln2.no3()
+variable = soiln2.nh4()
+
+variable = soilp.uptake_p_maize()
+variable = soilp.fom_cp()
+variable = soilp.fom_p_pool3()
+variable = soilp.fom_p_pool2()
+variable = soilp.fom_p_pool1()
+variable = soilp.fom_p()
+variable = soilp.hum_p()
+variable = soilp.biom_p()
+variable = soilp.soil_test_p()
+variable = soilp.rock_p()
+variable = soilp.unavail_p()
+variable = soilp.labile_p()
+
+

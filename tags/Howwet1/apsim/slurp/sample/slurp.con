@@ -1,0 +1,11 @@
+version = 5.2
+[apsim.sample_slurp]
+title = Slurp Sample Simulation
+module = clock    slurp.par [sample] %apsuite/apsim/clock/clock.ini[standard]
+module = report   slurp.par [sample]
+module = input(met)      %apsuite/apsim/MET/SAMPLE/DALBY.MET [weather]
+module = micromet     slurp.par[sample] %apsuite/apsim/micromet/micromet.ini[standard]
+module = manager  slurp.par [sample]
+module = soilwat2 %apsuite/apsim/soilwat2/sample/soilwat2.par [black_earth]     %apsuite/apsim/soilwat2/soilwat2.ini [standard]
+module = slurp    slurp.par [sample]
+module = SummaryFile   slurp.par[sample]

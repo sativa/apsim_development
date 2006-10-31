@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="fertiliz">
+   <registrations>
+      <respondToEventReg name="create" type="create"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="apply" type="apply"/>
+      <respondToEventReg name="fertilize" type="fertilize"/>
+      <respondToEventReg name="tick" type="tick"/>
+      <respondToEventReg name="new_profile" type="new_profile"/>
+      <respondToEventReg name="process" type="process"/>
+   </registrations>
+</component>
