@@ -102,9 +102,9 @@
      Manager rules:
      
      SECTION:- start_of_day
-             if (paddock_is_fallow() = 1 and today = date('8/07/1997')) then
-               wheat sow plants =108, sowing_depth = 30, cultivar = spear, row_spacing = 250
-             endif
+                if (paddock_is_fallow() = 1 and today = date('8/07/1997')) then
+                  wheat sow plants =108, sowing_depth = 30, cultivar = spear, row_spacing = 250
+                endif
      
      SECTION:- end_of_day
                 if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
@@ -113,12 +113,12 @@
                 endif
      
      SECTION:- start_of_day
-          if (today = date('25-sep') then
-             n_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
-             if (n_topsoil < 1000) then
-                fertiliser apply amount = 30 (kg/ha), depth = 50 (mm), type = urea_n ()
+             if (today = date('25-sep') then
+                n_topsoil = no3(1) + nh4(1) + no3(2) + nh4(2)
+                if (n_topsoil < 1000) then
+                   fertiliser apply amount = 30 (kg/ha), depth = 50 (mm), type = urea_n ()
+                endif
              endif
-          endif
      END of rules
      
 

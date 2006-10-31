@@ -107,10 +107,10 @@
      endif
      
      SECTION:- end_of_day
-            if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
-               wheat  harvest
-               wheat  end_crop
-            endif
+               if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+                  wheat  harvest
+                  wheat  end_crop
+               endif
      END of rules
      
 
