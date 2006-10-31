@@ -107,10 +107,10 @@
      endif
      
      SECTION:- end_of_day
-            if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
-               wheat  harvest
-               wheat  end_crop
-            endif
+               if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+                  wheat  harvest
+                  wheat  end_crop
+               endif
      
      SECTION:- start_of_day
               if (today = date('21-jun') then
@@ -133,18 +133,18 @@
      SECTION:- end_of_day
      
      SECTION:- start_of_day
-            if (day = 240) then
-                irrigation apply amount = 20 (mm)
-            endif
-            if (day = 264) then
-                irrigation apply amount = 30 (mm)
-            endif
-            if (day = 285) then
-                irrigation apply amount = 50 (mm)
-            endif
-            if (day = 301) then
-                irrigation apply amount = 50 (mm)
-            endif
+               if (day = 240) then
+                   irrigation apply amount = 20 (mm)
+               endif
+               if (day = 264) then
+                   irrigation apply amount = 30 (mm)
+               endif
+               if (day = 285) then
+                   irrigation apply amount = 50 (mm)
+               endif
+               if (day = 301) then
+                   irrigation apply amount = 50 (mm)
+               endif
      END of rules
      
 
@@ -156,9 +156,9 @@
      SECTION:- end_of_day
      
      SECTION:- start_of_day
-            if (day = 172) then
-                fertiliser apply amount = 15 (kg/ha), depth = 50 (mm), type = no3_n ()
-            endif
+               if (day = 172) then
+                   fertiliser apply amount = 15 (kg/ha), depth = 50 (mm), type = no3_n ()
+               endif
      END of rules
      
 

@@ -139,9 +139,9 @@
      SECTION:- end_of_day
      
      SECTION:- start_of_day
-            if (day = 186) then
-                fertiliser apply amount = 45 (kg/ha), depth = 50 (mm), type = no3_n ()
-            endif
+               if (day = 186) then
+                   fertiliser apply amount = 45 (kg/ha), depth = 50 (mm), type = no3_n ()
+               endif
      END of rules
      
 

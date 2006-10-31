@@ -102,15 +102,15 @@
      Manager rules:
      
      SECTION:- start_of_day
-             if (paddock_is_fallow() = 1 and today = date('28/12/1996')) then
-               wheat sow plants =186, sowing_depth = 40, cultivar = yecora, row_spacing = 250
-             endif
+                if (paddock_is_fallow() = 1 and today = date('28/12/1996')) then
+                  wheat sow plants =186, sowing_depth = 40, cultivar = yecora, row_spacing = 250
+                endif
      
      SECTION:- end_of_day
-            if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
-               wheat  harvest
-               wheat  end_crop
-            endif
+               if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+                  wheat  harvest
+                  wheat  end_crop
+               endif
      END of rules
      
 
@@ -122,54 +122,54 @@
      SECTION:- end_of_day
      
      SECTION:- start_of_day
-            if (day = 93) then
-                irrigation apply amount = 42 (mm)
-            endif
-            if (day = 364) then
-                irrigation apply amount = 30 (mm)
-            endif
-            if (day = 30) then
-                irrigation apply amount = 25 (mm)
-            endif
-            if (day = 50) then
-                irrigation apply amount = 40 (mm)
-            endif
-            if (day = 64) then
-                irrigation apply amount = 35 (mm)
-            endif
-            if (day = 72) then
-                irrigation apply amount = 40 (mm)
-            endif
-            if (day = 77) then
-                irrigation apply amount = 30 (mm)
-            endif
-            if (day = 86) then
-                irrigation apply amount = 66 (mm)
-            endif
-            if (day = 97) then
-                irrigation apply amount = 22 (mm)
-            endif
-            if (day = 102) then
-                irrigation apply amount = 43 (mm)
-            endif
-            if (day = 107) then
-                irrigation apply amount = 38 (mm)
-            endif
-            if (day = 112) then
-                irrigation apply amount = 44 (mm)
-            endif
-            if (day = 119) then
-                irrigation apply amount = 60 (mm)
-            endif
-            if (day = 123) then
-                irrigation apply amount = 68 (mm)
-            endif
-            if (day = 128) then
-                irrigation apply amount = 35 (mm)
-            endif
-            if (day = 129) then
-                irrigation apply amount = 3 (mm)
-            endif
+               if (day = 93) then
+                   irrigation apply amount = 42 (mm)
+               endif
+               if (day = 364) then
+                   irrigation apply amount = 30 (mm)
+               endif
+               if (day = 30) then
+                   irrigation apply amount = 25 (mm)
+               endif
+               if (day = 50) then
+                   irrigation apply amount = 40 (mm)
+               endif
+               if (day = 64) then
+                   irrigation apply amount = 35 (mm)
+               endif
+               if (day = 72) then
+                   irrigation apply amount = 40 (mm)
+               endif
+               if (day = 77) then
+                   irrigation apply amount = 30 (mm)
+               endif
+               if (day = 86) then
+                   irrigation apply amount = 66 (mm)
+               endif
+               if (day = 97) then
+                   irrigation apply amount = 22 (mm)
+               endif
+               if (day = 102) then
+                   irrigation apply amount = 43 (mm)
+               endif
+               if (day = 107) then
+                   irrigation apply amount = 38 (mm)
+               endif
+               if (day = 112) then
+                   irrigation apply amount = 44 (mm)
+               endif
+               if (day = 119) then
+                   irrigation apply amount = 60 (mm)
+               endif
+               if (day = 123) then
+                   irrigation apply amount = 68 (mm)
+               endif
+               if (day = 128) then
+                   irrigation apply amount = 35 (mm)
+               endif
+               if (day = 129) then
+                   irrigation apply amount = 3 (mm)
+               endif
      END of rules
      
 
@@ -181,57 +181,57 @@
      SECTION:- end_of_day
      
      SECTION:- start_of_day
-            if (day = 350) then
-                fertiliser apply amount = 22 (kg/ha), depth = 50 (mm), type = no3_n ()
-            endif
-            if (day = 363) then
-                fertiliser apply amount = 5 (kg/ha), depth = 50 (mm), type = no3_n ()
-            endif
-            if (day = 30) then
-                fertiliser apply amount = 2 (kg/ha), depth = 50 (mm), type = no3_n ()
-            endif
-            if (day = 50) then
-                fertiliser apply amount = 0 (kg/ha), depth = 50 (mm), type = no3_n ()
-            endif
-            if (day = 63) then
-                fertiliser apply amount = 2 (kg/ha), depth = 50 (mm), type = no3_n ()
-            endif
-            if (day = 71) then
-                fertiliser apply amount = 2 (kg/ha), depth = 50 (mm), type = no3_n ()
-            endif
-            if (day = 76) then
-                fertiliser apply amount = 125 (kg/ha), depth = 50 (mm), type = no3_n ()
-            endif
-            if (day = 85) then
-                fertiliser apply amount = 2 (kg/ha), depth = 50 (mm), type = no3_n ()
-            endif
-            if (day = 91) then
-                fertiliser apply amount = 3 (kg/ha), depth = 50 (mm), type = no3_n ()
-            endif
-            if (day = 96) then
-                fertiliser apply amount = 2 (kg/ha), depth = 50 (mm), type = no3_n ()
-            endif
-            if (day = 101) then
-                fertiliser apply amount = 3 (kg/ha), depth = 50 (mm), type = no3_n ()
-            endif
-            if (day = 106) then
-                fertiliser apply amount = 50 (kg/ha), depth = 50 (mm), type = no3_n ()
-            endif
-            if (day = 111) then
-                fertiliser apply amount = 3 (kg/ha), depth = 50 (mm), type = no3_n ()
-            endif
-            if (day = 118) then
-                fertiliser apply amount = 5 (kg/ha), depth = 50 (mm), type = no3_n ()
-            endif
-            if (day = 123) then
-                fertiliser apply amount = 5 (kg/ha), depth = 50 (mm), type = no3_n ()
-            endif
-            if (day = 128) then
-                fertiliser apply amount = 3 (kg/ha), depth = 50 (mm), type = no3_n ()
-            endif
-            if (day = 129) then
-                fertiliser apply amount = 0 (kg/ha), depth = 50 (mm), type = no3_n ()
-            endif
+               if (day = 350) then
+                   fertiliser apply amount = 22 (kg/ha), depth = 50 (mm), type = no3_n ()
+               endif
+               if (day = 363) then
+                   fertiliser apply amount = 5 (kg/ha), depth = 50 (mm), type = no3_n ()
+               endif
+               if (day = 30) then
+                   fertiliser apply amount = 2 (kg/ha), depth = 50 (mm), type = no3_n ()
+               endif
+               if (day = 50) then
+                   fertiliser apply amount = 0 (kg/ha), depth = 50 (mm), type = no3_n ()
+               endif
+               if (day = 63) then
+                   fertiliser apply amount = 2 (kg/ha), depth = 50 (mm), type = no3_n ()
+               endif
+               if (day = 71) then
+                   fertiliser apply amount = 2 (kg/ha), depth = 50 (mm), type = no3_n ()
+               endif
+               if (day = 76) then
+                   fertiliser apply amount = 125 (kg/ha), depth = 50 (mm), type = no3_n ()
+               endif
+               if (day = 85) then
+                   fertiliser apply amount = 2 (kg/ha), depth = 50 (mm), type = no3_n ()
+               endif
+               if (day = 91) then
+                   fertiliser apply amount = 3 (kg/ha), depth = 50 (mm), type = no3_n ()
+               endif
+               if (day = 96) then
+                   fertiliser apply amount = 2 (kg/ha), depth = 50 (mm), type = no3_n ()
+               endif
+               if (day = 101) then
+                   fertiliser apply amount = 3 (kg/ha), depth = 50 (mm), type = no3_n ()
+               endif
+               if (day = 106) then
+                   fertiliser apply amount = 50 (kg/ha), depth = 50 (mm), type = no3_n ()
+               endif
+               if (day = 111) then
+                   fertiliser apply amount = 3 (kg/ha), depth = 50 (mm), type = no3_n ()
+               endif
+               if (day = 118) then
+                   fertiliser apply amount = 5 (kg/ha), depth = 50 (mm), type = no3_n ()
+               endif
+               if (day = 123) then
+                   fertiliser apply amount = 5 (kg/ha), depth = 50 (mm), type = no3_n ()
+               endif
+               if (day = 128) then
+                   fertiliser apply amount = 3 (kg/ha), depth = 50 (mm), type = no3_n ()
+               endif
+               if (day = 129) then
+                   fertiliser apply amount = 0 (kg/ha), depth = 50 (mm), type = no3_n ()
+               endif
      END of rules
      
 

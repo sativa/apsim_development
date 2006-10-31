@@ -102,15 +102,15 @@
      Manager rules:
      
      SECTION:- start_of_day
-             if (paddock_is_fallow() = 1 and today = date('21/6/1973')) then
-               wheat sow plants =100, sowing_depth = 30, cultivar = gamenya, row_spacing = 250
-             endif
+                if (paddock_is_fallow() = 1 and today = date('21/6/1973')) then
+                  wheat sow plants =100, sowing_depth = 30, cultivar = gamenya, row_spacing = 250
+                endif
      
      SECTION:- end_of_day
-            if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
-               wheat  harvest
-               wheat  end_crop
-            endif
+               if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+                  wheat  harvest
+                  wheat  end_crop
+               endif
      
      SECTION:- start_of_day
               if (today = date('21-jun') then
@@ -150,9 +150,9 @@
      SECTION:- end_of_day
      
      SECTION:- start_of_day
-            if (day = 172) then
-                fertiliser apply amount = 15 (kg/ha), depth = 50 (mm), type = no3_n ()
-            endif
+               if (day = 172) then
+                   fertiliser apply amount = 15 (kg/ha), depth = 50 (mm), type = no3_n ()
+               endif
      END of rules
      
 

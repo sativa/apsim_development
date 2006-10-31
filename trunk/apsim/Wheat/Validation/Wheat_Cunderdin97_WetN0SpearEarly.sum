@@ -102,9 +102,9 @@
      Manager rules:
      
      SECTION:- start_of_day
-             if (paddock_is_fallow() = 1 and today = date('6/06/1997')) then
-               wheat sow plants =150, sowing_depth = 30, cultivar = spear, row_spacing = 250
-             endif
+                if (paddock_is_fallow() = 1 and today = date('6/06/1997')) then
+                  wheat sow plants =150, sowing_depth = 30, cultivar = spear, row_spacing = 250
+                endif
      
      SECTION:- end_of_day
                 if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
