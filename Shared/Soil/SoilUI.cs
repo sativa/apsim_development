@@ -740,8 +740,8 @@ namespace CSGeneral
                 if (Controller.GetType().ToString() != "CSGeneral.ApsoilController")
                     {
                     ApsoilController NewController = new ApsoilController("", "", "", null);
-                    NewController.AllData = SoilController.AllData;
-                    NewController.SelectedPaths = SoilController.SelectedPaths;
+                    NewController.AllData = Controller.AllData;
+                    NewController.SelectedPaths = Controller.SelectedPaths;
                     this.SoilController = NewController;
                     }
                 else
