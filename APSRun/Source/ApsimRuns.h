@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 class ApsimRun;
+class XMLNode;
 typedef void __fastcall (__closure *TApsimRunEvent)(const std::string& simFileName);
 //---------------------------------------------------------------------------
 // This class keeps track of a series of APSIM runs and runs one at a time.
@@ -78,7 +79,7 @@ class ApsimRuns
       //---------------------------------------------------------------------------
       // Add the specified simulations from the specified .APSIM file.
       //---------------------------------------------------------------------------
-      void addSimulationsFromApsimFile(const std::string& fileName);
+      void addSimulationsFromApsimFile(const std::string& fileName, XMLNode parent);
 
       bool ApsExec(const char* Command_line, TApsimRunEvent msgEvent);
 
