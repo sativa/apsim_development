@@ -1,0 +1,39 @@
+<component name="micromet">
+
+   <registrations>
+
+      <respondToEventReg name="lai_table" type="null"/>
+      <respondToEventReg name="f_table" type="null"/>
+      <respondToEventReg name="rs_table" type="null"/>
+      <respondToEventReg name="rl_table" type="null"/>
+      <respondToEventReg name="gc_table" type="null"/>
+      <respondToEventReg name="ga_table" type="null"/>
+      <respondToEventReg name="pet_table" type="null"/>
+      <respondToEventReg name="petr_table" type="null"/>
+      <respondToEventReg name="peta_table" type="null"/>
+      <respondToEventReg name="omega_table" type="null"/>
+
+      <respondToEventReg name="tick" type="time"/>
+      <respondToEventReg name="newmet" type="newmet"/>
+      <respondToEventReg name="canopychanged" type="canopy"/>
+      <respondToEventReg name="domicromet" type="null"/>
+      <respondToGetReg name="interception" type="interception"/>
+      <eventReg name="lightprofilecalculated" type="lightprofile"/>
+      <eventReg name="CanopyWaterBalanceCalculated" type="canopywaterbalance"/>
+
+      <getVariableReg name="eo" type="eo" autoregister = "F"/>
+
+
+      <respondToEventReg name="process" type="process"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="new_crop" type="new_crop"/>
+      <respondToEventReg name="new_canopy" type="newcanopy"/>
+      <respondToEventReg name="new_pot_growth" type="new_pot_growth"/>
+      <respondToEventReg name="sys_init" type="sys_init"/>
+      <respondToEventReg name="create" type="createType"/>
+
+      <eventReg name="canopy_energy_balance" type="canopy_energy_balance"/>
+      <eventReg name="canopy_water_balance" type="canopy_water_balance"/>
+
+   </registrations>
+</component>

@@ -1,0 +1,59 @@
+# (Borlandish) Makefile for SummaryFile module
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
+#APSROOT=c:\progra~1\apsim33
+#APSROOT=c:\development
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+PROJECT=..\lib\SummaryFile.dll
+
+OBJFILES=SummaryFile.obj SummaryFileComponent.obj ..\..\..\Shared\ComponentInterface\EntryPoints.obj
+
+LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
+	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
+	$(APSROOT)\Shared\general\general.lib \
+	$(APSROOT)\Shared\Protocol\Protocol.lib
+
+USERDEFINES =
+SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(APSROOT)\Shared\ComponentInterface
+LIBPATH = $(APSROOT)\Shared\ComponentInterface
+
+
+# ---------------------------------------------------------------------------
+CFLAG1 = $(SYSCFLAGS) -vi -TWD
+WARNINGS = -w-par
+LFLAGS = $(SYSLDFLAGS) -D"" -aa -Tpd -x -Gn -Gi
+
+ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib sysinit.obj $(OBJFILES)
+ALLRES = $(RESFILES)
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cp32mti.lib
+
+CC=$(BCB)\Bin\bcc32.exe
+LD=$(BCB)\Bin\ilink32
+# ---------------------------------------------------------------------------
+source: $(PROJECT)
+
+$(PROJECT): $(OBJFILES) $(DEFFILE)
+    $(LD) @&&!
+    $(LFLAGS) -L$(LIBPATH) +
+    $(ALLOBJ), +
+    $(PROJECT),, +
+    $(ALLLIB), +
+    $(DEFFILE), +
+    $(ALLRES)
+!
+
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+
+####
+SummaryFile.obj: SummaryFile.cpp
+SummaryFileComponent.obj: SummaryFileComponent.cpp SummaryFileComponent.h
+
+clean:
+	del /f $(PROJECT) $(OBJFILES)

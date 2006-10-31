@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="surfaceom">
+   <registrations>
+      <read name="residue_wt" type="residue_wt" readable="T"/>
+      <read name="pot_decomp_rate" type="pot_decomp_rate" readable="T"/>
+      <read name="residue_cnr" type="residue_cnr" readable="T"/>
+      <read name="residue_cpr" type="residue_cpr" readable="T"/>
+      <read name="residue_" type="residue_type" readable="T"/>
+      <read name="report_additions" type="report_additions" readable="T"/>
+      <read name="" type="type" readable="T"/>
+      <read name="Specific_Area" type="Specific_Area" readable="T"/>
+      <read name="opt_temp" type="opt_temp" readable="T"/>
+      <read name="cum_eos_max" type="cum_eos_max" readable="T"/>
+      <read name="cnrf_coeff" type="cnrf_coeff" readable="T"/>
+      <read name="cnrf_optcn" type="cnrf_optcn" readable="T"/>
+      <read name="c_fract" type="c_fract" readable="T"/>
+      <read name="cf_residue_wt" type="cf_residue_wt" readable="T"/>
+      <read name="cf_factor" type="cf_factor" readable="T"/>
+      <read name="crit_residue_wt" type="crit_residue_wt" readable="T"/>
+      <read name="crit_min_residue_wt" type="crit_min_residue_wt" readable="T"/>
+      <read name="default_cpr" type="default_cpr" readable="T"/>
+      <respondToGetSetReg name="residue_wt" type="residue_wt" readable="T"/>
+      <respondToGetSetReg name="pot_decomp_rate" type="pot_decomp_rate" readable="T"/>
+      <respondToGetSetReg name="eos" type="eos"/>
+      <respondToGetSetReg name="dlayer" type="dlayer"/>
+      <respondToGetReg name="init_residue_" type="init_residue_type"/>
+      <respondToGetReg name="init_residue_dm_" type="init_residue_dm_type"/>
+      <respondToGetReg name="residue_n" type="residue_n"/>
+      <respondToGetReg name="residue_p" type="residue_p"/>
+      <respondToGetReg name="pot_c_decomp" type="pot_c_decomp"/>
+      <respondToGetReg name="pot_n_decomp" type="pot_n_decomp"/>
+      <respondToGetReg name="pot_p_decomp" type="pot_p_decomp"/>
+      <respondToGetReg name="residue_cover" type="residue_cover"/>
+      <respondToGetReg name="tf" type="tf"/>
+      <respondToGetReg name="wf" type="wf"/>
+      <respondToGetReg name="cnrf" type="cnrf"/>
+      <respondToGetReg name="cf" type="cf"/>
+      <getVariableReg name="eos" type="eos"/>
+      <getVariableReg name="dlayer" type="dlayer"/>
+      <respondToEventReg name="tillage" type="tillage"/>
+      <respondToEventReg name="tillage_single" type="tillage"/>
+      <respondToEventReg name="add_surfaceom" type="add_surfom"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="reset" type="reset"/>
+      <respondToEventReg name="create" type="create"/>
+      <respondToEventReg name="sum_report" type="sum_report"/>
+      <respondToEventReg name="remove_surfaceOM" type="SurfaceOrganicMatter"/>
+      <eventReg name="PotentialResidueDecompositionCalculated" type="SurfaceOrganicMatterDecomp"/>
+      <eventReg name="SurfaceOrganicMatterState" type="SurfaceOrganicMatter"/>
+      <eventReg name="FreshOrganicMatterIncorporated" type="FPoolProfileLayer"/>
+      <eventReg name="residue_added" type="residue_added"/>
+      <eventReg name="residue_removed" type="residue_removed"/>
+      <eventReg name="surfaceOM_removed" type="surfaceOM_removed"/>
+      <eventReg name="decomposed" type="decomposed"/>
+      <respondToEventReg name="tick" type="tick"/>
+      <respondToEventReg name="newmet" type="newmet"/>
+      <respondToEventReg name="irrigated" type="irrigated"/>
+      <respondToEventReg name="crop_chopped" type="crop_chopped"/>
+      <respondToEventReg name="process" type="process"/>
+      <respondToEventReg name="post" type="post"/>
+      <respondToEventReg name="ActualResidueDecompositionCalculated" type="SurfaceOrganicMatterDecomp"/>
+   </registrations>
+</component>

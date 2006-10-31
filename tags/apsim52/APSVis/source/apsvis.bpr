@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value="..\..\Bin\apsvis.exe"/>
+    <OBJFILES value="APSvis.obj main.obj &quot;chart child.obj&quot; &quot;scatter prop form.obj&quot;
+      &quot;scatter child.obj&quot; &quot;depth child.obj&quot; TDepth_prop_form.obj no_date.obj
+      about.obj chart_types.obj TProb_prop_form.obj Prob_child.obj
+      TFreq_prop_form.obj Freq_child.obj"/>
+    <RESFILES value="APSvis.res"/>
+    <IDLFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES) main.dfm &quot;chart child.dfm&quot; &quot;scatter prop form.dfm&quot;
+      TDepth_prop_form.dfm no_date.dfm about.dfm chart_types.dfm
+      TProb_prop_form.dfm TFreq_prop_form.dfm"/>
+    <LIBFILES value="..\..\Shared\data\data.lib ..\..\Shared\chart\chart.lib
+      ..\..\Shared\ApsimShared\ApsimShared.lib ..\..\Shared\general\general.lib
+      ..\..\Shared\general\general_vcl.lib"/>
+    <LIBRARIES value="TMSC6.lib"/>
+    <SPARELIBS value="vclx.lib dbrtl.lib vcldb.lib bdertl.lib rtl.lib vcl.lib TMSC6.lib"/>
+    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi vcldb.bpi dbrtl.bpi vcldbx.bpi
+      dsnap.bpi cds.bpi bdecds.bpi visualclx.bpi visualdbclx.bpi vclie.bpi
+      inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi bcbie.bpi soaprtl.bpi
+      dclocx.bpi dbexpress.bpi dbxcds.bpi bcb2kaxserver.bpi ibxpress.bpi
+      indy.bpi bdertl.bpi"/>
+    <PATHCPP value=".;"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="ilink32"/>
+    <USERDEFINES value=""/>
+    <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
+    <MAINSOURCE value="APSvis.cpp"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\boost;$(BCB)\components\teechart\cbuilder6\include;$(SHARED)"/>
+    <LIBPATH value="$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib;$(BCB)\lib\obj;$(BCB)\lib\debug;$(BCB)\components\tms;$(BCB)\projects\lib"/>
+    <WARNINGS value="-w-par -w-8027 -w-8026"/>
+    <WARNOPTSTR value=""/>
+    <OTHERFILES value=""/>
+  </MACROS>
+  <OPTIONS>
+    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -Tkh30000 -X- -r- -a8 -b- -k -y -v
+      -vi- -c -tW -tWM"/>
+    <PFLAGS value="-$YD -$W -$O- -$A8 -v -M -JPHNE"/>
+    <RFLAGS value=""/>
+    <AFLAGS value="/mx /w2 /zd"/>
+    <LFLAGS value="-l. -D&quot;&quot; -aa -Tpe -x -Gn -v"/>
+    <OTHERFILES value=""/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0w32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <OTHERFILES value=""/>
+  </LINKER>
+  <FILELIST>
+      <FILE FILENAME="APSvis.cpp" FORMNAME="" UNITNAME="APSvis" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="APSvis.res" FORMNAME="" UNITNAME="APSvis" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="main.cpp" FORMNAME="MainForm" UNITNAME="Main" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="chart child.cpp" FORMNAME="Chart_child" UNITNAME="chart child" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="scatter prop form.cpp" FORMNAME="Scatter_prop_form" UNITNAME="scatter prop form" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="scatter child.cpp" FORMNAME="" UNITNAME="scatter child" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="depth child.cpp" FORMNAME="" UNITNAME="depth child" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TDepth_prop_form.cpp" FORMNAME="Depth_prop_form" UNITNAME="TDepth_prop_form" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="no_date.cpp" FORMNAME="No_date_form" UNITNAME="no_date" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="about.cpp" FORMNAME="AboutBox" UNITNAME="about" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="chart_types.cpp" FORMNAME="Chart_types_form" UNITNAME="chart_types" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TProb_prop_form.cpp" FORMNAME="Prob_prop_form" UNITNAME="TProb_prop_form" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Prob_child.cpp" FORMNAME="" UNITNAME="Prob_child" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TFreq_prop_form.cpp" FORMNAME="Frequency_prop_form" UNITNAME="TFreq_prop_form" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Freq_child.cpp" FORMNAME="" UNITNAME="Freq_child" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\Shared\data\data.lib" FORMNAME="" UNITNAME="data.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\Shared\chart\chart.lib" FORMNAME="" UNITNAME="chart.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\Shared\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=3081
+CodePage=1252
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[HistoryLists\hlIncludePath]
+Count=16
+Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(BCB)\components\teechart\cbuilder6\include;$(SHARED)
+Item1=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\tms;$(SHARED)
+Item2=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item3=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\general;j:\rx\units
+Item4=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\general\;j:\rx\units\
+Item5=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\general\;j:\rx\unitsItem1=$(BCB)\include;$(BCB)\include\vcl;k:\;k:\components\general;j:\rx\units
+Item6=
+Item7=$(BCB)\include;$(BCB)\include\vcl;..\..\shared;..\..\shared\components\general;c:\progra~1\borland\components\rx\unitsItem1=$(BCB)\include;$(BCB)\include\vcl;..\..\shared;..\..\shared\components\general;c:\program files\borland\components\rx\unitsItem1=$(BCB)\include;$(BCB)\include\vcl;..\..\shared;..\..\shared\components\general;c:\program files\borland\components\rx\unitsItem1=$(BCB)\include;$(BCB)\include\vcl;..\..\shared;..\..\shared\components\general;c:\program files\borland\components\rx\units
+Item8=
+Item9=
+Item10=
+Item11=$(BCB)\include;$(BCB)\include\vcl;..\..\shared;..\..\shared\components\general;c:\rx\units
+Item12=$(BCB)\include;$(BCB)\include\vcl;..\..\shared;..\..\shared\components\general
+Item13=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared;c:\rx-30\units;d:\apsuite\shared\components\general
+Item14=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared;c:\rx-30\units
+Item15=$(BCB)\include;$(BCB)\include\vcl;d:\apsuite\shared
+
+[HistoryLists\hlLibraryPath]
+Count=21
+Item0=$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\lib;$(BCB)\lib\obj;$(BCB)\lib\debug;$(BCB)\components\tms;$(BCB)\projects\lib
+Item1=$(BCB)\lib;$(BCB)\lib\obj;$(BCB)\lib\debug;$(BCB)\components\tms;$(BCB)\projects\lib
+Item2=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item3=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib
+Item4=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general;k:\aps;k:\data;k:\chart;k:\components\general;j:\rx\units
+Item5=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general\;k:\aps\;k:\data\;k:\chart\;k:\components\general\;j:\rx\units\
+Item6=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\general;k:\aps;k:\data;k:\chart;k:\components\general\;j:\rx\unitsItem1=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;k:\components\general;j:\rx\units
+Item7=
+Item8=$(BCB)\projects\lib;$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\shared\components\general;c:\progra~1\borland\components\rx\units;c:\progra~1\borland\components\rx\unitsItem1=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\shared\components\general;..\..\shared\components\thirdparty;c:\program files\borland\components\rx\unitsItem1=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\shared\components\general;..\..\shared\components\thirdparty;c:\program files\borland\components\rx\unitsItem1=$(BCB)\lib\debug;$(BCB)\lib\obj;$(BCB)\lib;..\..\shared\components\general;..\..\shared\components\thirdparty;c:\program files\borland\components\rx\units
+Item9=
+Item10=
+Item11=
+Item12=$(BCB)\lib\obj;$(BCB)\lib;..\..\shared\components\general;..\..\shared\components\thirdparty;c:\program files\borland\components\rx\units
+Item13=..\..\..\..\rx\units;..\..\shared\components\general;..\..\shared\components\thirdparty;$(BCB)\lib\obj;$(BCB)\lib;c:\rx\units
+Item14=..\..\..\..\rx\units;..\..\shared\components\general;$(BCB)\lib\obj;$(BCB)\lib;c:\rx\units
+Item15=..\..\shared\components\general;$(BCB)\lib\obj;$(BCB)\lib;c:\rx\units
+Item16=..\..\shared\components\general;$(BCB)\lib\obj;$(BCB)\lib
+Item17=..\..\shared\components\thirdparty;c:\program files\borland\cbuilder3\lib;..\..\shared\components\ui;..\..\shared\components\general;c:\thypergrid;c:\rx-30\units;$(BCB)\lib\obj;$(BCB)\lib
+Item18=c:\program files\borland\cbuilder3\lib;..\..\shared\components\ui;..\..\shared\components\general;c:\thypergrid;c:\rx-30\units;$(BCB)\lib\obj;$(BCB)\lib
+Item19=..\..\shared\components\ui;..\..\shared\components\general;c:\thypergrid;c:\rx-30\units;$(BCB)\lib\obj;$(BCB)\lib
+Item20=$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=1
+Item0=_RTLDLL;USEPACKAGES
+
+[HistoryLists\hlRunParameters]
+Count=1
+Item0=c:\apswork\file.lst
+
+[HistoryLists\hlFinalOutputDir]
+Count=2
+Item0=..\..\Bin\
+Item1=..\..\Bin
+
+[HistoryLists\hIBPIOutputDir]
+Count=1
+Item0=.
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=
+RemoteHost=
+RemotePath=
+RemoteLauncher=
+RemoteCWD=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=0
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+  </IDEOPTIONS>
+</PROJECT>

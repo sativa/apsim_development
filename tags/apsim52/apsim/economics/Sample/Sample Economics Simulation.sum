@@ -1,0 +1,455 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+     Version                = 5.2
+     Title                  = Sample Economics Simulation
+     Component DLL          = c:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\protocolmanager\lib\protocolmanager.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+     Simulation start date = 31/12/1940
+     Simulation end date   = 31/12/1942
+     Time step =           = 1440 (mins)
+
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\development\apsim\met\sample\goond.met
+
+------- outputfile Initialisation ---------------------------------------------
+     Output frequency:
+        wheat.harvesting
+     Output variables:
+        dd/mm/yyyy as Date
+        wheat.biomass
+        wheat.yield
+        wheat.grain_protein
+        wheat.grain_size
+        esw
+     
+     Output file = Sample Economics Simulation.out
+     Format = normal
+
+------- accum Initialisation --------------------------------------------------
+     Initialising
+
+------- fertiliser Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- Manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- start_of_day
+     if (available('tractor=t1,implement=p1')) then
+           if (paddock_is_fallow() = 1 and fallowin <> 'yes' and (nextcrop = 0 or nextcrop = 'wheat')) then
+              if (date_within('15-may, 10-jul') = 1) then
+     if (rain[3] >= 30 and
+         esw >= 200 ) <> 0) or
+         ('no' = 'yes' and today = date('10-jul'))) then
+        choosenextcrop = 'yes'
+        economics operate tractor=t1, implement = p1, area = 200
+        economics expenditure category = seedcost, name = wheat, rate = 120 (kg/ha), area = 200 (ha)
+        wheat sow plants =100, sowing_depth = 30, cultivar = hartog, row_spacing = 250, crop_class = plant
+     endif
+     if today = date('10-jul') then
+        choosenextcrop = 'yes'
+     endif
+              endif
+           endif
+     endif
+     
+     SECTION:- end_of_day
+     if wheat.stage_name = 'harvest_ripe' or wheat.plant_status = 'dead' then
+       economics expenditure category = contract, name = broadacre_harvesting, rate = 1, area = 200 (ha)
+       cropyieldtonnes = wheat.yield / 1000.0
+       if ('wheat' = 'wheat') then
+           protein = wheat.grain_protein
+           economics income category= cropprice, name = wheat, yield = cropyieldtonnes, protein = protein, area = 200 (ha)
+       else
+           economics income category= cropprice, name = wheat, yield = cropyieldtonnes, area = 200 (ha)
+       endif
+       wheat  harvest
+       wheat  end_crop
+     endif
+     
+     SECTION:- wheat.sowing
+             economics expenditure category = fertilisercost, name =  urea, rate = 150, area = 200 (ha)
+             fertiliser apply amount = 150 (kg/ha), depth = 50 (mm), type =  urea
+     END of rules
+     
+
+------- Jimbour,Waco (#016) Water Initialisation ------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.150  0.290  0.540  0.590  0.540  1.020  0.762  0.300
+          150.-  300.  0.260  0.290  0.530  0.580  0.530  1.030  0.190  0.300
+          300.-  600.  0.290  0.290  0.540  0.590  0.540  1.020  0.048  0.300
+          600.-  900.  0.290  0.290  0.540  0.580  0.540  1.020  0.000  0.300
+          900.- 1200.  0.300  0.300  0.520  0.570  0.520  1.060  0.000  0.300
+         1200.- 1500.  0.310  0.310  0.500  0.550  0.500  1.110  0.000  0.300
+         1500.- 1800.  0.320  0.320  0.500  0.550  0.500  1.120  0.000  0.300
+         1800.- 2100.  0.330  0.330  0.480  0.530  0.480  1.150  0.000  0.300
+         2100.- 2400.  0.340  0.340  0.470  0.520  0.470  1.180  0.000  0.300
+         2400.- 2700.  0.350  0.350  0.460  0.510  0.460  1.200  0.000  0.300
+         2700.- 3000.  0.360  0.360  0.440  0.490  0.440  1.250  0.000  0.300
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      43.50      37.50      37.50       7.50
+          150.-  300.      43.50      36.00      36.00       7.50
+          300.-  600.      87.00      75.00      75.00      15.00
+          600.-  900.      87.00      75.00      75.00      12.00
+          900.- 1200.      90.00      66.00      66.00      15.00
+         1200.- 1500.      93.00      57.00      57.00      15.00
+         1500.- 1800.      96.00      54.00      54.00      15.00
+         1800.- 2100.      99.00      45.00      45.00      15.00
+         2100.- 2400.     102.00      39.00      39.00      15.00
+         2400.- 2700.     105.00      33.00      33.00      15.00
+         2700.- 3000.     108.00      24.00      24.00      15.00
+          ---------------------------------------------------------
+               Totals     954.00     541.50     541.50     147.00
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   0.00        0.13       40.00       16.00
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              73.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            6.00 (mm^0.5)
+            CONA:                     3.50 ()
+           Eo from priestly-taylor
+
+------- surface organic matter Initialisation ---------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat     wheat         1000.0   400.0     5.0     0.0   0.393     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.4
+     
+
+------- Jimbour,Waco (#016) Nitrogen Initialisation ---------------------------
+     
+        - Reading Parameters
+     
+        - Reading Constants
+     Using standard soil mineralisation for soil type Black Vertosol
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     8.40  1.04    9.95    0.92    0.00
+             2     8.80  0.89    3.25    0.15    0.00
+             3     9.00  0.89    6.43    0.31    0.00
+             4     9.20  0.89    5.21    0.31    0.00
+             5     9.20  0.77    5.41    0.32    0.00
+             6     9.10  0.45    5.66    0.33    0.00
+             7     9.00  0.27    5.72    0.34    0.00
+             8     9.00  0.22    5.87    0.35    0.00
+             9     8.90  0.16    6.02    0.35    0.00
+            10     8.90  0.13    6.12    0.36    0.00
+            11     8.90  0.12    6.38    0.38    0.00
+          ------------------------------------------------
+           Totals               66.01    4.10    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      15679.1  1254.3   232.9    29.1    19.3     0.5
+             2      13642.7  1091.4   107.8    13.5    16.6     0.4
+             3      27153.5  2172.3    80.5    10.1    12.3     0.3
+             4      27207.0  2176.6    27.0     3.4     9.1     0.2
+             5      24473.9  1957.9    12.1     1.5     6.7     0.2
+             6      14977.6  1198.2     7.4     0.9     5.0     0.1
+             7       9067.5   725.4     4.5     0.6     3.7     0.1
+             8       7586.2   606.9     3.8     0.5     2.7     0.1
+             9       5661.2   452.9     2.8     0.4     2.0     0.1
+            10       4677.7   374.2     2.3     0.3     1.5     0.0
+            11       4497.8   359.8     2.2     0.3     1.1     0.0
+          ---------------------------------------------------------
+           Totals  154624.2 12369.9   483.3    60.4    80.0     2.0
+          ---------------------------------------------------------
+
+------- wheat Initialisation --------------------------------------------------
+     phenology model: Wheat
+
+------- Economics Initialisation ----------------------------------------------
+     Copyright (C) 1991-1994 The Regents of the University of California.
+     Copyright (C) 1996-1997 Sun Microsystems, Inc.
+     Copyright (C) 2001      ActiveState.
+     Interpreter name: 'Economics'
+     --->Section: init
+     
+             source $apsuite/apsim/Economics/lib/Cashbook.tcl
+             source $apsuite/apsim/Economics/lib/Machinery.tcl
+     
+     --->End
+     Machinery:
+     Tractors=t1
+     Implements=p1 p2
+------- Start of simulation  --------------------------------------------------
+31 December 1940(Day of year=366), Manager: 
+     Manager creating a new local real variable : fallowin =     0.00000000000000
+     Manager creating a new local real variable : nextcrop =     0.00000000000000
+10 July 1941(Day of year=191), Manager: 
+     Manager creating a new local string variable : choosenextcrop = yes
+28 May 1942(Day of year=148), Manager: 
+     Manager sending message :- economics operate  tractor = t1, implement = p1, area = 200
+28 May 1942(Day of year=148), Economics: 
+     Machinery job 't1 + p1' is queued
+28 May 1942(Day of year=148), Manager: 
+     Manager sending message :- economics expenditure  category = seedcost, name = wheat, rate = 120 (kg/ha), area = 200 (ha)
+28 May 1942(Day of year=148), Economics: 
+     Costed wheat seedcost (rate=120, price=0.73) over 200 ha = 17520.0
+28 May 1942(Day of year=148), Manager: 
+     Manager sending message :- wheat sow  plants = 100, sowing_depth = 30, cultivar = hartog, row_spacing = 250, crop_class = plant
+28 May 1942(Day of year=148), wheat: 
+     Crop Sow
+      - reading constants for plant(wheat)
+      - reading cultivar parameters
+      - reading grain cultivar parameters
+         ------------------------------------------------
+        cultivar                   = hartog
+        pesw germination           =       0.00 (0-1)
+        vernalisation sensitivity  =       1.50 ()
+        photoperiod sensitivity    =       3.00 ()
+        phyllochron                =         95 ()
+        tt start gf to maturity    =        580 (dd)
+        x_pp_hi_incr               =       1.00      24.00
+        y_hi_incr                  =     0.0130     0.0130
+        x_hi_max_pot_stress        =       0.00       1.00
+        y_hi_max_pot               =       0.50       0.50
+         ------------------------------------------------
+     
+     
+      - reading root profile parameters
+                        Root Profile
+         -----------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+         -----------------------------------------------
+         150.0     0.100          0.290       1.000
+         150.0     0.100          0.290       1.000
+         300.0     0.080          0.320       1.000
+         300.0     0.060          0.320       1.000
+         300.0     0.040          0.350       1.000
+         300.0     0.020          0.380       1.000
+         300.0     0.010          0.410       1.000
+         300.0     0.000          0.480       0.000
+         300.0     0.000          0.470       0.000
+         300.0     0.000          0.460       0.000
+         300.0     0.000          0.440       0.000
+         -----------------------------------------------
+         Extractable SW:   320mm in  3000mm total depth ( 11%).
+         Crop factor for bounding water use is set to   1.5 times eo.
+28 May 1942(Day of year=148), Manager: 
+     Manager sending message :- economics expenditure  category = fertilisercost, name = urea, rate = 150, area = 200 (ha)
+28 May 1942(Day of year=148), Economics: 
+     Costed urea fertilisercost (rate=150, price=0.5) over 200 ha = 15000.0
+28 May 1942(Day of year=148), Manager: 
+     Manager sending message :- fertiliser apply  amount = 150 (kg/ha), depth = 50 (mm), type = urea
+28 May 1942(Day of year=148), fertiliser: 
+     
+        - Reading Fertiliser Type Parameters
+       150.00 of Urea ferilizer (urea)
+                                              added at depth   50.00 (layer   1)
+28 May 1942(Day of year=148), wheat: 
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   row   plant name
+         ------------------------------------------------
+            148   30.0  100.0  250.0   0.0   0.0 hartog
+         ------------------------------------------------
+     
+28 May 1942(Day of year=148), Economics: 
+     hours='8', rate='10',cost='12.05',oil='10'
+29 May 1942(Day of year=149), wheat: 
+      stage 2.0 germination
+29 May 1942(Day of year=149), Economics: 
+     hours='8', rate='10',cost='12.05',oil='10'
+30 May 1942(Day of year=150), Economics: 
+     hours='4', rate='10',cost='12.05',oil='10'
+     Machinery job 't1 + p1' has finished
+5 June 1942(Day of year=156), wheat: 
+      stage 3.0 emergence
+                     biomass =           0.46 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     stover N conc =     5.85 (%)    extractable sw =   32.50 (mm)
+6 June 1942(Day of year=157), wheat: 
+      stage 4.0 end_of_juvenile
+                     biomass =           0.58 (g/m^2)   lai          =   0.022 (m^2/m^2)
+                     stover N conc =     5.83 (%)    extractable sw =   34.27 (mm)
+23 July 1942(Day of year=204), wheat: 
+      stage 5.0 floral_initiation
+                     biomass =         110.41 (g/m^2)   lai          =   1.533 (m^2/m^2)
+                     stover N conc =     3.20 (%)    extractable sw =  245.55 (mm)
+31 August 1942(Day of year=243), wheat: 
+      stage 6.0 flowering
+                     biomass =         567.75 (g/m^2)   lai          =   1.749 (m^2/m^2)
+                     stover N conc =     1.33 (%)    extractable sw =  206.81 (mm)
+9 September 1942(Day of year=252), wheat: 
+      stage 7.0 start_grain_fill
+                     biomass =         679.95 (g/m^2)   lai          =   1.573 (m^2/m^2)
+                     stover N conc =     1.16 (%)    extractable sw =  182.10 (mm)
+7 October 1942(Day of year=280), wheat: 
+      stage 8.0 end_grain_fill
+                     biomass =         949.36 (g/m^2)   lai          =   0.518 (m^2/m^2)
+                     stover N conc =     0.36 (%)    extractable sw =  107.09 (mm)
+9 October 1942(Day of year=282), wheat: 
+      stage 9.0 maturity
+                     biomass =         951.57 (g/m^2)   lai          =   0.434 (m^2/m^2)
+                     stover N conc =     0.36 (%)    extractable sw =  103.81 (mm)
+10 October 1942(Day of year=283), wheat: 
+      stage 10.0 harvest_ripe
+                     biomass =         951.57 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     0.35 (%)    extractable sw =  103.04 (mm)
+10 October 1942(Day of year=283), Manager: 
+     Manager sending message :- economics expenditure  category = contract, name = broadacre_harvesting, rate = 1, area = 200 (ha)
+10 October 1942(Day of year=283), Economics: 
+     Costed broadacre_harvesting contract (rate=1, price=250) over 200 ha = 50000
+10 October 1942(Day of year=283), Manager: 
+     Manager creating a new local real variable : cropyieldtonnes =     3.52736963000000
+     Manager creating a new local real variable : protein =     13.9365997000000
+     Manager sending message :- economics income  category = cropprice, name = wheat, yield = 3.52736963000000, protein = 13.9365997000000, area = 200 (ha)
+10 October 1942(Day of year=283), Economics: 
+     Priced wheat cropprice (price='180.0', yield='3.52736963000000') over '200' ha = '126985.30668'
+10 October 1942(Day of year=283), Manager: 
+     Manager sending message :- wheat harvest
+10 October 1942(Day of year=283), wheat: 
+     
+      flowering day          =  243                           stover (kg/ha)         =     5988.3
+      maturity day           =  282                           grain yield (kg/ha)    =     3527.4
+      grain % water content  =   12.5                         grain yield wet (kg/ha)=     4031.3
+      grain wt (g)           =    0.041                       grains/m^2             =   8603.340
+      grains/plant           =   86.0                         maximum lai            =      2.115
+      total above ground biomass (kg/ha)    =     9515.7
+      live above ground biomass (kg/ha)     =     9515.7
+      green above ground biomass (kg/ha)    =     8619.2
+      senesced above ground biomass (kg/ha) =      896.5
+      dead above ground biomass (kg/ha)     =        0.0
+      number of leaves       =   34.7
+      DM Root:Shoot ratio    =    0.115                       Harvest Index          =      0.371
+      Stover C:N ratio       =  107.047                       Root C:N ratio         =     17.516
+      grain N percent        =       2.44                     total N content (kg/ha)=     108.47
+      grain N uptake (kg/ha) =      86.09                     senesced N content (kg/ha)=    4.48
+      green N content (kg/ha)=      17.89                     dead N content (kg/ha) =       0.00
+     
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.000        0.000        0.000        0.000
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
+         floral_initiation    to flowering               0.000        0.000        0.000        0.000
+         flowering            to start_grain_fill        0.000        0.000        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.000        0.000        0.044        0.277
+     
+     
+     Crop harvested.
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =               5988.14                    0.00
+                          N  (kg/ha) =                 22.36                    0.00
+     
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               3527.37                    0.00
+                          N  (kg/ha) =                 86.09                    0.00
+     
+      stage 4.0 end_of_juvenile
+                     biomass =           0.02 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     stover N conc =     6.30 (%)    extractable sw =  103.04 (mm)
+10 October 1942(Day of year=283), Manager: 
+     Manager sending message :- wheat end_crop
+10 October 1942(Day of year=283), wheat: 
+     Crop ended. Yield (dw) =     0.0  (kg/ha)
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.19                 1097.01
+                          N  (kg/ha) =                  0.01                   25.05
+     
+31 December 1942(Day of year=365), clock: 
+     Simulation is terminating due to end criteria being met.

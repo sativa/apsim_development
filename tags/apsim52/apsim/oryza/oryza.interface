@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="oryza">
+   <registrations>
+
+      <respondToEventReg name="create" type="create"/>
+      <respondToEventReg name="sysinit" type="sysinit"/>
+      <respondToEventReg name="sow" type="sow"/>
+      <respondToEventReg name="end_crop" type="end_crop"/>
+      <respondToEventReg name="kill_crop" type="kill_crop"/>
+      <respondToEventReg name="end_run" type="end_run"/>
+
+      <eventReg name="crop_chopped" type="crop_chopped"/>
+      <eventReg name="incorp_fom" type="incorp_fom"/>
+      <eventReg name="sowing" type="sowing"/>
+      <eventReg name="harvesting" type="harvesting"/>
+
+      <setVariableReg name="dlt_sw_dep" type="dlt_sw_dep"/>
+      <setVariableReg name="dlt_no3" type="dlt_no3"/>
+
+      <respondToEventReg name="tick" type="tick"/>
+      <respondToEventReg name="newmet" type="newmet"/>
+      <respondToEventReg name="new_profile" type="new_profile"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="process" type="process"/>
+
+   </registrations>
+</component>

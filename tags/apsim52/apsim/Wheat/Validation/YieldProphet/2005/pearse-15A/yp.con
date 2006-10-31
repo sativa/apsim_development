@@ -1,0 +1,22 @@
+version = 5.2
+[scenario1]
+   title = pearse-15A
+
+   module = clock                 yp.par[common]           %apsuite\apsim\clock\clock.ini[standard]
+   module = report                yp.par[scenario1]
+   module = report(thisyear)      yp.par[thisyear]
+   module = report(summary)       yp.par[scenario1]
+   module = tracker               yp.par[common]
+   module = input(met)     grower.met[weather]
+   module = patchinput(rainfall)  grower.rai[grower]
+   module = manager               yp.par[scenario1]  
+   module = soilwat2              grower.soil[soil]        %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+   module = soiln2                grower.soil[soil]        %apsuite\apsim\soiln2\soiln2.ini     [standard]
+   module = SurfaceOM             yp.par[common]           %apsuite\apsim\surfaceom\surfaceom.ini [standard]
+   module = fertiliz                                       %apsuite\apsim\fertiliz\fertiliz.ini [standard]
+   module = irrigate
+   module = plant(Wheat)          grower.soil[soil]        %apsuite\apsim\wheat\wheat.ini   [standard]
+   module = SummaryFile           yp.par[scenario1]
+
+
+

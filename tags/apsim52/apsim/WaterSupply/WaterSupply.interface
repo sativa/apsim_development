@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="WaterSupply">
+   <registrations>
+      <respondToGetReg name="rain_capture" type="rain_capture"/>
+      <read name="source_type" type="source_type" readable="T"/>
+      <read name="max_available_water" type="max_available_water" readable="T"/>
+      <read name="init_available_water" type="init_available_water" readable="T"/>
+      <read name="min_volume" type="min_volume" readable="T"/>
+      <read name="max_pump" type="max_pump" readable="T"/>
+      <read name="annual_allocation" type="annual_allocation" readable="T"/>
+      <read name="renewal_day" type="renewal_day" readable="T"/>
+      <read name="b" type="b" readable="T"/>
+
+      <respondToEventReg name="gimme_water" type="gimme_water"/>
+      <respondToEventReg name="top_up" type="top_up"/>
+      <respondToEventReg name="water_supplied" type="water_supplied"/>
+
+      <respondToEventReg name="tick" type="time"/>
+      <respondToEventReg name="newmet" type="newmet"/>
+      <respondToEventReg name="process" type="process"/>
+      <respondToEventReg name="new_solute" type="new_solute"/>
+
+   </registrations>
+</component>

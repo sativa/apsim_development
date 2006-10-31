@@ -1,0 +1,69 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for APSIM EXE
+#-----------------------------------------------------------------------
+#=======================================================================
+DESTDIR ?= /usr/local/apsim
+
+PRG=	$(APSROOT)/Bin/apsim.x
+
+SRC=	Simulation.cpp	\
+	apsim.cpp
+
+OBJ=	$(SRC:.cpp=.o) $(APSROOT)/Shared/ComponentInterface/message.o
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+CC=		/usr/bin/gcc
+LD=		/usr/bin/g++
+CPPFLAGS=	-I/usr/include/boost -I$(APSROOT)/Shared 	\
+		-I/usr/include/libxml2				\
+		-I$(APSROOT)/Shared/ComponentInterface		\
+		-Wno-deprecated $(CPPDEBUGFLAGS)
+
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS=	-L/usr/lib 			\
+		-L$(APSROOT)/lib		\
+		-L/usr/local/lf9562/lib $(LDDEBUGFLAGS)
+
+LIBS=		-lprotocol			\
+		-lApsimShared			\
+		-lgeneral			\
+		-lxml2 				\
+		-lboost_filesystem 		\
+		-lboost_date_time 		\
+		-lboost_regex			\
+		-liberty			\
+		-lfj9i6 			\
+		-lfj9f6 			\
+		-lfj9e6 			\
+		-lfccx86_6a 			\
+		-ldl
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(PRG)
+
+$(PRG):	$(OBJ)
+	$(LD) -o $(PRG) $(OBJ) $(LDFLAGS) $(LIBS)
+
+FORCE:
+
+clean:
+	rm -f *.o *.mod
+
+clobber:	clean
+	rm -f $(PRG)
+
+install: all
+	if [ ! -d $(DESTDIR)/bin ]; then mkdir -p $(DESTDIR)/bin; fi 
+	cp $(PRG) $(DESTDIR)/bin
+
+%.o:	%.cpp
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+

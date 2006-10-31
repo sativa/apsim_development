@@ -1,0 +1,22 @@
+[general.report.parameters]
+outputfile =test.out
+
+
+
+[input.report.parameters]
+
+variable = clock.year
+variable = clock.day
+[met.report.parameters]
+
+variable = clock.dd_mmm_yyyy as dd_mmm_yyyy
+variable = clock.dd/mm/yyyy as dd/mm/yyyy
+variable = clock.dd/mmm/yyyy
+variable = clock.mm/dd/yyyy as mm/dd/yyyy
+variable = clock.mmm/dd/yyyy as mmm/dd/yyyy
+
+[test.clock.parameters]
+start_date=1/1/1988
+end_date=8/4/1988
+[test.SummaryFile.parameters]
+summaryfile=test.sum

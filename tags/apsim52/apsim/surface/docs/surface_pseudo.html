@@ -1,0 +1,754 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+
+<body>
+
+<p><img src="..\..\..\docs\shared\apsimdocumentationbanner.jpg" width="640"
+height="73"></p>
+</body>
+</html>
+<TITLE>The APSIM Surface Model</TITLE>
+<FONT SIZE = 7><B><CENTER>The APSIM Surface Model</CENTER></B></FONT>
+<H1>TABLE OF CONTENTS</H1>
+<H2><A HREF = "#Contact Information"> Contact Information </A></H2>
+<H2><A HREF = "#Module Description"> Module Description </A></H2>
+<H2>User Input Files</H2>
+<H2>Module Logic</H2>
+<ul><li><A HREF = "#APSIM Surface Model"> APSIM Surface Model </A>
+
+<li><A HREF = "#Structure Charts"> Structure Charts </A>
+
+</ul>
+<hr>
+<A NAME = "Module Description">  </A>
+<H2>Module Documentation</H2>
+<br>
+<A HREF = "surface_int.pdf"> surface_int.pdf </A>
+<br>
+<A HREF = "surface_science.pdf"> surface_science.pdf </A>
+<br>
+<br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "Structure Charts"> <H2>Module Structure Charts</H2> </A>
+<H2>APSIM Surface Model</H2>
+<ul><li><A HREF = "#main"> main </A>
+
+<ul><li><A HREF = "#surface_zero_variables"> surface_zero_variables </A>
+
+<li><A HREF = "#surface_init"> surface_init </A>
+
+<ul><li><A HREF = "#surface_get_other_variables"> surface_get_other_variables </A>
+
+<li><A HREF = "#surface_read_param"> surface_read_param </A>
+
+</ul><li><A HREF = "#surface_send_my_variable"> surface_send_my_variable </A>
+
+<li><A HREF = "#surface_timestep_preparation"> surface_timestep_preparation </A>
+
+<ul><li><A HREF = "#surface_get_swim_variables"> surface_get_swim_variables </A>
+
+</ul><li><A HREF = "#surface_calc_scon"> surface_calc_scon </A>
+
+<ul><li><A HREF = "#surface_scon_calc1"> surface_scon_calc1 </A>
+
+<li><A HREF = "#surface_scon_calc2"> surface_scon_calc2 </A>
+
+</ul><li><A HREF = "#surface_set_my_variable"> surface_set_my_variable </A>
+
+<li><A HREF = "#surface_post_swim_timestep"> surface_post_swim_timestep </A>
+
+<li><A HREF = "#surface_tillage"> surface_tillage </A>
+
+</ul></ul>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<CENTER><A NAME = "Module Pseudo Code"> <H2><BIG>Module Pseudo Code</BIG></H2> </A></CENTER>
+<hr>
+<H2><BIG><A NAME = "APSIM Surface Model"> APSIM Surface Model </A></BIG></H2>
+<A NAME = "main">  </A>
+<H2>Main</H2>
+<br>
+<H3><CENTER>This routine is the interface between the main system and the surface module.  The communications and responses for this module are as follows.  The module will get Surface seal state variables at the start of the APSwim calculations for the current APSim timestep.  Just prior to the attempt at an APSwim timestep solution this module resets the surface seal value to the value this module wishes APSwim to use.  This will override any internally calculated value of surface conductance.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (action.=.action_init) then<br>
+
+<blockquote><A HREF = "#surface_zero_variables"> Zero all the variables </A><br>
+
+<A HREF = "#surface_init"> Initialise the module </A><br>
+
+</blockquote>else if (action.=.action_get_variable) then<br>
+
+<blockquote><A HREF = "#surface_send_my_variable"> Return the value of one of our variables to caller </A><br>
+
+</blockquote>else if (action.=.'swim_timestep_preparation') then<br>
+
+<blockquote><A HREF = "#surface_timestep_preparation"> Get the state variables prior to the timestep </A><br>
+
+</blockquote>else if (action.=.'pre_swim_timestep') then<br>
+
+<blockquote><A HREF = "#surface_calc_scon"> Return the value of one of our variables to caller </A><br>
+
+</blockquote>else if (action.=.action_set_variable) then<br>
+
+<blockquote><A HREF = "#surface_set_my_variable"> Set Variable as Requested </A><br>
+
+</blockquote>else if (action.=.'post_swim_timestep') then<br>
+
+<blockquote><A HREF = "#surface_post_swim_timestep"> Perform calcs after swim timestep </A><br>
+
+</blockquote>else if (action.=.'tillage') then<br>
+
+<blockquote><A HREF = "#surface_tillage"> Perform calcs to respond to a tillage action </A><br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "surface_zero_variables">  </A>
+<H2>Surface Zero Variables</H2>
+<br>
+<H3><CENTER>Set all variables in this module to zero.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+year = 0<br>
+
+day = 0<br>
+
+cover = 0d0<br>
+
+rr = 0d0<br>
+
+rr_max = 0d0<br>
+
+rr_min = 0d0<br>
+
+scon = 0d0<br>
+
+scon_max = 0d0<br>
+
+scon_min = 0d0<br>
+
+model_no = 0<br>
+
+effpar = 0d0<br>
+
+precip_const = 0d0<br>
+
+seal_decay_rate = 0d0<br>
+
+rr_decay_rate = 0d0<br>
+
+cover_tot_all (:) = 0 . 0<br>
+
+cover_height_all (:) = 0 . 0<br>
+
+number of crops = 0<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "surface_init">  </A>
+<H2>Surface Init</H2>
+<br>
+<H3><CENTER>Initialise surface module  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+<A HREF = "#surface_get_other_variables"> Get Other Variables </A><br>
+
+event_string = 'initialising'<br>
+
+Write a string to a file<br>
+
+<A HREF = "#surface_read_param"> Read parameters from parameter file </A><br>
+
+rr = rr_max<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "surface_get_other_variables">  </A>
+<H2>Surface Get Other Variables</H2>
+<br>
+<H3><CENTER>Get the values of variables from other modules  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get year from the system (Lower Bound = 1800, Upper Bound = 2000)<br>
+
+Get day from the system (Lower Bound = 0, Upper Bound = 366)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "surface_read_param">  </A>
+<H2>Surface Read Param</H2>
+<br>
+<H3><CENTER>Read in all parameters from parameter file.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Write a string to a file<br>
+
+Read model_no from file (Lower Bound = 1, Upper Bound = 2)<br>
+
+Read precip_const from file (Lower Bound = 0d0, Upper Bound = 1000d0)<br>
+
+Read effpar from file (Lower Bound = 0d0, Upper Bound = 10d0)<br>
+
+Read seal_decay_rate from file (Lower Bound = 0d0, Upper Bound = 1d0)<br>
+
+Read rr_decay_rate from file (Lower Bound = 0d0, Upper Bound = 1d0)<br>
+
+Read rr_max from file (Lower Bound = 0d0, Upper Bound = 3 . 99d0)<br>
+
+Read rr_min from file (Lower Bound = 0d0, Upper Bound = 3 . 99d0)<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "surface_send_my_variable">  </A>
+<H2>Surface Send My Variable</H2>
+<br>
+<H3><CENTER>Return the value of one of our variables to caller  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (variable_name.=.'rr') then<br>
+
+<blockquote>Supply rr to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'surf_cover') then<br>
+
+<blockquote>Supply cover to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'g1') then<br>
+
+<blockquote>Supply scon_max to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'g0') then<br>
+
+<blockquote>Supply scon_min to the requesting module<br>
+
+</blockquote>else if (variable_name.=.'grc') then<br>
+
+<blockquote>Supply seal_decay_rate to the requesting module<br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "surface_timestep_preparation">  </A>
+<H2>Surface Timestep Preparation</H2>
+<br>
+<H3><CENTER>APSwim broadcasts a message just prior to performing calculations to prepare for taking an attempt at a timestep.  We use this opportunity to get state variables just prior to calculations based upon swim's proposed timestep.  In this case we obtain the state of the surface seal before swim changes these states based upon the proposed timestep.  The values obtained at this point will not have any changes based upon apswim calculations. We record the state here and then perform our own calculations at the pre_timestep stage of swim calculations.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+<A HREF = "#surface_get_swim_variables"> Get the vales of surface seal variables from apswim </A><br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "surface_get_swim_variables">  </A>
+<H2>Surface Get Swim Variables</H2>
+<br>
+<H3><CENTER>Get the values of surface seal variables from apswim  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get scon from the system (Lower Bound = 0d0, Upper Bound = 1000d0)<br>
+
+Get scon_min from the system (Lower Bound = 0d0, Upper Bound = 1000d0)<br>
+
+Get scon_max from the system (Lower Bound = 0d0, Upper Bound = 1000d0)<br>
+
+Get cover_tot_all from the system (Lower Bound = 0 . 0, Upper Bound = 1 . 0)<br>
+
+Get cover_height_all from the system (Lower Bound = 0 . 0, Upper Bound = 20000 . 0)<br>
+
+residue_cover = 0d0<br>
+
+Get residue_cover from the system (Lower Bound = 0d0, Upper Bound = 1d0)<I>(OPTIONAL)</I><br>
+
+cover = sum_cover_array (cover_tot_all, number of crops)<br>
+
+cover = add_cover (real (cover), real (residue_cover))<br>
+
+</blockquote>next<br>
+
+<br>
+
+</blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "surface_calc_scon">  </A>
+<H2>Surface Calc Scon</H2>
+<br>
+<H3><CENTER>Return the value of one of our variables to caller  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get rainfall from the system (Lower Bound = 0d0, Upper Bound = 1000d0)<br>
+
+Get duration from the system (Lower Bound = 0d0, Upper Bound = 1440d0)<br>
+
+if (model_no.=.1) then<br>
+
+<blockquote><A HREF = "#surface_scon_calc1"> Update surface conductance given some rainfall </A><br>
+
+</blockquote>elseif (model_no.=.2) then<br>
+
+<blockquote><A HREF = "#surface_scon_calc2"> Update surface conductance using Silburn & Connolly approach </A><br>
+
+</blockquote>else<br>
+
+endif<br>
+
+<br>
+
+Supply scon to the messaging system using the name 'scon'<br>
+
+action_send<I><SUB> 'apswim', action_set_variable, 'scon'</SUB></I><br>
+
+<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "surface_scon_calc1">  </A>
+<H2>Surface Scon Calc1</H2>
+<br>
+<H3><CENTER>Update the surface conductance given some rainfall. Ideally, if timesteps are small we could just use dScon/dEnergy = -1/k x (SCon - Scom_min) but because this is really just a linear approximation of the curve for longer timesteps we had better be explicit and calculate the difference from the exponential decay curve. In order to calculate our position on the decay curve we back-calculate the energy required to acheive the current decayed state.  We do this because APSwim "owns" the seal and it may have it reset at any time via tillage etc.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote>decay_fraction = (scon-scon_min) / (scon_max-scon_min)<br>
+
+if (doubles_are_equal (decay_fraction, 0d0)) then<br>
+
+<blockquote>scon = scon_min<br>
+
+</blockquote>else<br>
+
+<blockquote>es = - precip_const * <I>log</I><SUB>e</SUB>(decay_fraction)<br>
+
+if (rainfall.&gt;.0.d0) then<br>
+
+<blockquote>avinten = rainfall / duration<br>
+
+eo = (1d0+effpar*<I>log</I><SUB>e</SUB>(avinten / (25d0/60d0)))<br>
+
+des = eo * rainfall<br>
+
+</blockquote>else<br>
+
+<blockquote>des = 0 . d0<br>
+
+</blockquote>endif<br>
+
+es = es + des<br>
+
+scon = scon_min + (scon_max-scon_min) * <I><BIG>e</BIG></I><SUP>- es / precip_const</SUP><br>
+
+</blockquote>endif<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "surface_scon_calc2">  </A>
+<H2>Surface Scon Calc2</H2>
+<br>
+<H3><CENTER>Update the surface conductance using the approach of Silburn and Connolly, (Journal of Hydrology 172 (1995) 87-104). Ideally, if timesteps are small we could just use dScon/dEnergy = -1/k x (SCon - Scom_min) but because this is really just a linear approximation of the curve for longer timesteps we had better be explicit and calculate the difference from the exponential decay curve. In order to calculate our position on the decay curve we back-calculate the energy required to acheive the current decayed state.  We do this because APSwim "owns" the seal and it may have it reset at any time via tillage etc. Similarly from APSwim's state for surface sealing we can deduce the state for random roughness, as they are both related to cumulative rainfall energy. Things to note: 1) Really all numbers in equations should be double precision (e.g. 1d0 not 1.0) to avoid mixed mode arithmetic. 2) In the current coding the decay of RR is autoregressive in that the ernergy term for RR decay is effected by RR. 3) The error within Eqn 4 from the above-mentioned paper has been corrected in this implementation. 4) The implementation of cumulative energy effect is different to the algorithm found in the source code used in the above-mentioned paper.  In the previous source code the seal was decayed each day using all rainfall up to that point in time instead of the rainfall for just that time period.  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote>decay_fraction = (scon-scon_min) / (scon_max-scon_min)<br>
+
+if (doubles_are_equal (decay_fraction, 0d0)) then<br>
+
+<blockquote>scon = scon_min<br>
+
+</blockquote>else<br>
+
+<blockquote>es = - 1 . 0 / seal_decay_rate * <I>log</I><SUB>e</SUB>(decay_fraction)<br>
+
+if (rainfall.&gt;.0.d0) then<br>
+
+<blockquote>avinten = rainfall / (duration/60d0)<br>
+
+eo = 26 . 35 * (1.0-0.669*<I><BIG>e</BIG></I><SUP>- 0 . 0349 * avinten</SUP>)<br>
+
+des = (1.0-cover) * (1.0-rr/4.0) * eo * rainfall<br>
+
+</blockquote>else<br>
+
+<blockquote>des = 0 . d0<br>
+
+</blockquote>endif<br>
+
+es = es + des<br>
+
+scon = scon_min + (scon_max-scon_min) * <I><BIG>e</BIG></I><SUP>- seal_decay_rate * es</SUP><br>
+
+</blockquote>endif<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "surface_set_my_variable">  </A>
+<H2>Surface Set My Variable</H2>
+<br>
+<H3><CENTER>Set one of our variables altered by some other module  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+if (variable_name.=.'seal_decay_rate') then<br>
+
+<blockquote>Get seal_decay_rate from the message (Lower Bound = 0 . 0d0, Upper Bound = 1 . 0d0)<br>
+
+</blockquote>else if (variable_name.=.'rr_decay_rate') then<br>
+
+<blockquote>Get rr_decay_rate from the message (Lower Bound = 0 . 0d0, Upper Bound = 1 . 0d0)<br>
+
+</blockquote>else if (variable_name.=.'rr_max') then<br>
+
+<blockquote>Get rr_max from the message (Lower Bound = 0 . 0d0, Upper Bound = 2000 . 0d0)<br>
+
+</blockquote>else if (variable_name.=.'rr_min') then<br>
+
+<blockquote>Get rr_min from the message (Lower Bound = 0 . 0d0, Upper Bound = 2000 . 0d0)<br>
+
+</blockquote>else if (variable_name.=.'maximum_conductance') then<br>
+
+<blockquote>Get scon_max from the message (Lower Bound = 0 . 0d0, Upper Bound = 2000 . 0d0)<br>
+
+</blockquote>else if (variable_name.=.'minimum_conductance') then<br>
+
+<blockquote>Get scon_min from the message (Lower Bound = 0 . 0d0, Upper Bound = 2000 . 0d0)<br>
+
+</blockquote>else<br>
+
+<blockquote>message_unused<br>
+
+</blockquote>endif<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "surface_post_swim_timestep">  </A>
+<H2>Surface Post Swim Timestep</H2>
+<br>
+<H3><CENTER>Perform calcs after swim timestep  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get dr from the system (Lower Bound = 0d0, Upper Bound = 1000d0)<br>
+
+rr = rr_min + ((1d0-rr_decay_rate)**dr*(rr-rr_min))<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "surface_tillage">  </A>
+<H2>Surface Tillage</H2>
+<br>
+<H3><CENTER>Perform calcs to respond to a tillage action  </CENTER></H3>
+<H4>Subprogram Logic</H4>
+<blockquote><br>
+
+Get temp from the message (Lower Bound = 0 . 0d0, Upper Bound = 4 . 0d0)<I>(OPTIONAL)</I><br>
+
+if (numvals.=/=.0) then<br>
+
+<blockquote>rr_max = temp<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Get temp from the message (Lower Bound = 0 . 0d0, Upper Bound = 4 . 0d0)<I>(OPTIONAL)</I><br>
+
+if (numvals.=/=.0) then<br>
+
+<blockquote>rr_min = temp<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+Get temp from the message (Lower Bound = 0 . 0d0, Upper Bound = 1 . 0d0)<I>(OPTIONAL)</I><br>
+
+if (numvals.=/=.0) then<br>
+
+<blockquote>rr_decay_rate = temp<br>
+
+</blockquote>else<br>
+
+endif<br>
+
+rr = rr_max<br>
+
+<br>
+
+</blockquote></blockquote>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<A NAME = "Contact Information"> <H2>Contact Information</H2> </A>
+For Further Information Please Contact:
+<p>
+<A HREF = "mailto:ConnelR@dpi.qld.gov.au"> Robin Connelly - Module Developer </A><br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+
+<body>
+
+<p><img src="..\..\..\docs\shared\apsimdocumentationbanner.jpg" width="640"
+height="73"></p>
+</body>
+</html>
+Date: 12/01/2001  APseudo Version:  1. 0 Rev.  1<br>
+<hr>
+<html>
+<body>
+<p>
+<MAP NAME="FrontPageMap0">
+<AREA SHAPE="RECT" COORDS="513, 2, 635, 18" HREF="#Top">
+<AREA SHAPE="RECT" COORDS="103, 4, 204, 18" HREF="#Structure Charts">
+<AREA SHAPE="RECT" COORDS="14, 3, 76, 18" HREF="#Top">
+</MAP>
+<img src="..\..\..\docs\shared\apseudopagebreak.jpg" width="640" height="19" (5835 bytes)" border="0" usemap="#FrontPageMap0">
+</p>
+</body>
+</html> 

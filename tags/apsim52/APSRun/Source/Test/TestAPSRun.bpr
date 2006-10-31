@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value="..\..\..\Bin\TestAPSRun.exe"/>
+    <OBJFILES value="TestAPSRun.obj TestConToSim.obj"/>
+    <RESFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES)"/>
+    <LIBFILES value="&quot;C:\Program Files\Borland\CBuilder6\Components\Boost\libs\test\test.lib&quot;
+      ..\..\..\Shared\ApsimShared\ApsimShared.lib
+      ..\..\..\Shared\general\general.lib"/>
+    <LIBRARIES value=""/>
+    <SPARELIBS value="rtl.lib"/>
+    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi adortl.bpi vcldb.bpi
+      qrpt.bpi bdertl.bpi vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi teeui.bpi
+      teedb.bpi tee.bpi teeqr.bpi ibxpress.bpi visualclx.bpi visualdbclx.bpi
+      vclie.bpi xmlrtl.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi
+      nmfast.bpi bcbie.bpi soaprtl.bpi dclocx.bpi dbexpress.bpi dbxcds.bpi
+      indy.bpi bcb2kaxserver.bpi"/>
+    <PATHCPP value=".;"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="ilink32"/>
+    <USERDEFINES value="_DEBUG"/>
+    <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
+    <MAINSOURCE value="TestAPSRun.bpf"/>
+    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)"/>
+    <LIBPATH value="$(BCB)\lib\obj;$(BCB)\lib"/>
+    <WARNINGS value="-w-par"/>
+    <OTHERFILES value=""/>
+  </MACROS>
+  <OPTIONS>
+    <CFLAG1 value="-vGc -vGt -vGd -Od -Vx -Ve -fp -X- -r- -a8 -b- -k -y -v -vi- -tWC -tWM -c"/>
+    <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
+    <RFLAGS value=""/>
+    <AFLAGS value="/mx /w2 /zi"/>
+    <LFLAGS value="-l. -D&quot;&quot; -ap -Tpe -x -Gn -wdpl -v"/>
+    <OTHERFILES value=""/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0x32.obj $(PACKAGES) $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="cg32.lib $(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
+    <OTHERFILES value=""/>
+  </LINKER>
+  <FILELIST>
+      <FILE FILENAME="TestAPSRun.bpf" FORMNAME="" UNITNAME="TestAPSRun" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TestAPSRun.cpp" FORMNAME="" UNITNAME="Test" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\Boost\libs\test\test.lib" FORMNAME="" UNITNAME="test.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TestConToSim.cpp" FORMNAME="" UNITNAME="TestConToSim" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=1
+MajorVer=1
+MinorVer=0
+Release=0
+Build=2
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=3081
+CodePage=1252
+
+[Version Info Keys]
+CompanyName=APSRU
+FileDescription=APSIM Report Viewer
+FileVersion=1.0.0.2
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=Viewer
+ProductVersion=1.0.0.0
+Comments=APSIM Report Viewer
+
+[Excluded Packages]
+C:\Program Files\Borland\CBuilder6\Components\TeeChart\source\Sources\Compiled\BuilderC6\System\TeeImage7C6.bpl=TeeChart Pro Graphic Exporting formats
+C:\Program Files\Borland\CBuilder6\Components\MemTable\kbmMemC6Des.bpl=kbmMemC6Des
+D:\development\Bin\APSData.bpl=APSuite data components
+
+[HistoryLists\hlIncludePath]
+Count=11
+Item0=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
+Item1=..\;..;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
+Item2=..\;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)
+Item3=c:\Documents and Settings\hol353\Desktop;$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item4=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item5=D:\development\Shared\ComponentInterface\Test;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\ThirdParty;$(BCB)\Components\tms
+Item6=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\ThirdParty;$(BCB)\Components\tms
+Item7=C:\Program Files\Borland\CBuilder6\Components\ThirdParty;D:\Projects\Viewer;$(BCB)\include;$(BCB)\include\vcl;$(tmsDir);$(tmsDir)\xlsAdapter;C:\Program Files\Borland\CBuilder6\Projects
+Item8=D:\Projects\Viewer;$(BCB)\include;$(BCB)\include\vcl;$(tmsDir);$(tmsDir)\xlsAdapter;C:\Program Files\Borland\CBuilder6\Projects
+Item9=$(BCB)\include;$(BCB)\include\vcl;$(tmsDir);$(tmsDir)\xlsAdapter;C:\Program Files\Borland\CBuilder6\Projects
+Item10=D:\Projects\PIONEER\STAR\ftp;C:\Program Files\Borland\CBuilder6\Projects;D:\Projects\PIONEER\TXML;$(BCB)\include;$(BCB)\include\vcl
+
+[HistoryLists\hlLibraryPath]
+Count=14
+Item0=$(BCB)\lib\obj;$(BCB)\lib
+Item1=..\;..;$(BCB)\lib\obj;$(BCB)\lib
+Item2=..\;$(BCB)\lib\obj;$(BCB)\lib
+Item3=c:\Documents and Settings\hol353\Desktop;D:\development\Shared\ComponentInterface\Test;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\tms;$(BCB)\Components\thirdparty
+Item4=D:\development\Shared\ComponentInterface\Test;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\tms;$(BCB)\Components\thirdparty
+Item5=$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\tms;$(BCB)\Components\thirdparty
+Item6=$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\tms
+Item7=$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\Components\ThirdParty
+Item8=c:\program files\borland\cbuilder6\components\teechart\cbuilder6\lib;C:\Program Files\Steema Software\TeeChart 6.01 for C++ Builder 6\CBuilder6\Lib;C:\Program Files\Borland\CBuilder6\Components\ThirdParty;$(BCB)\Projects\Lib;c:\program files\borland\cbuilder6\components\indy\c6;D:\Projects\Viewer;..\components\indy\c6;C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\lib\obj;$(BCB)\lib;$(tmsDir)
+Item9=C:\Program Files\Steema Software\TeeChart 6.01 for C++ Builder 6\CBuilder6\Lib;C:\Program Files\Borland\CBuilder6\Components\ThirdParty;$(BCB)\Projects\Lib;c:\program files\borland\cbuilder6\components\indy\c6;D:\Projects\Viewer;..\components\indy\c6;C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\lib\obj;$(BCB)\lib;$(tmsDir)
+Item10=$(BCB)\Projects\Lib;c:\program files\borland\cbuilder6\components\indy\c6;D:\Projects\Viewer;..\components\indy\c6;C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\lib\obj;$(BCB)\lib;$(tmsDir)
+Item11=$(BCB)\Projects\Lib;c:\program files\borland\cbuilder6\components\indy\c6;D:\Projects\Viewer;..\components\indy\c6;C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\lib\obj;$(BCB)\lib
+Item12=C:\Program Files\Borland\CBuilder6\Projects;$(BCB)\lib\obj;$(BCB)\lib
+Item13=c:\program files\borland\cbuilder6\components\indy\c6;..\components\indy\c6;D:\Projects\PIONEER\STAR\ftp;C:\Program Files\Borland\CBuilder6\Projects;D:\Projects\PIONEER\TXML;$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=2
+Item0=$(BCB)\source\vcl
+Item1=$(BCB)\source\vcl;$(tmsDir);$(tmsDir)\xlsAdapter
+
+[HistoryLists\hlConditionals]
+Count=1
+Item0=_DEBUG
+
+[HistoryLists\hlFinalOutputDir]
+Count=3
+Item0=..\..\..\Bin\
+Item1=..\..\Bin\
+Item2=..\..\Bin
+
+[HistoryLists\hIBPIOutputDir]
+Count=1
+Item0=.
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=
+RemoteHost=
+RemotePath=
+RemoteLauncher=
+RemoteCWD=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=1
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+  </IDEOPTIONS>
+</PROJECT>

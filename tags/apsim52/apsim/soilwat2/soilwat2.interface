@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../../docs/shared/apsim.xsl"?>
+
+<component name="soilwat2">
+   <registrations>
+      <respondToGetReg name="es" type="es"/>
+      <respondToGetReg name="eo" type="eo"/>
+      <respondToGetReg name="eos" type="eos"/>
+      <respondToGetReg name="total_cover" type="total_cover"/>
+      <respondToGetReg name="cover_surface_runoff" type="cover_surface_runoff"/>
+      <respondToGetReg name="cn2_new" type="cn2_new"/>
+      <respondToGetReg name="runoff" type="runoff"/>
+      <respondToGetReg name="drain" type="drain"/>
+      <respondToGetReg name="infiltration" type="infiltration"/>
+      <respondToGetReg name="eff_rain" type="eff_rain"/>
+      <read name="bd" type="bd" readable="T"/>
+      <respondToGetReg name="bd" type="bd" readable="T"/>
+      <respondToGetReg name="esw" type="esw"/>
+      <respondToGetSetReg name="sw_dep" type="sw_dep"/>
+      <respondToGetSetReg name="dlt_sw_dep" type="dlt_sw_dep"/>
+      <read name="sw" type="sw" readable="T"/>
+      <respondToGetSetReg name="sw" type="sw" readable="T"/>
+      <respondToGetSetReg name="dlt_sw" type="dlt_sw"/>
+      <read name="dlayer" type="dlayer" readable="T"/>
+      <respondToGetSetReg name="dlayer" type="dlayer" readable="T"/>
+      <respondToGetSetReg name="dlt_dlayer" type="dlt_dlayer"/>
+      <respondToGetSetReg name="ll15_dep" type="ll15_dep"/>
+      <read name="ll15" type="ll15" readable="T"/>
+      <respondToGetSetReg name="ll15" type="ll15" readable="T"/>
+      <respondToGetSetReg name="dul_dep" type="dul_dep"/>
+      <read name="dul" type="dul" readable="T"/>
+      <respondToGetSetReg name="dul" type="dul" readable="T"/>
+      <respondToGetSetReg name="sat_dep" type="sat_dep"/>
+      <read name="sat" type="sat" readable="T"/>
+      <respondToGetSetReg name="sat" type="sat" readable="T"/>
+      <respondToGetSetReg name="air_dry_dep" type="air_dry_dep"/>
+      <read name="air_dry" type="air_dry" readable="T"/>
+      <respondToGetSetReg name="air_dry" type="air_dry" readable="T"/>
+      <respondToGetReg name="flux" type="flux"/>
+      <respondToGetReg name="flow" type="flow"/>
+      <respondToGetReg name="flow_water" type="flow_water"/>
+      <respondToGetReg name="flow_nnnn" type="flow_nnnn"/>
+      <respondToGetReg name="nnnn_leach" type="nnnn_leach"/>
+      <respondToGetReg name="nnnn_up" type="nnnn_up"/>
+      <read name="observed_runoff" type="observed_runoff" readable="T"/>
+      <read name="insoil" type="insoil" readable="T"/>
+      <respondToGetSetReg name="insoil" type="insoil" readable="T"/>
+      <read name="profile_fesw" type="profile_fesw" readable="T"/>
+      <respondToGetSetReg name="profile_fesw" type="profile_fesw" readable="T"/>
+      <read name="profile_esw_depth" type="profile_esw_depth" readable="T"/>
+      <respondToGetSetReg name="profile_esw_depth" type="profile_esw_depth" readable="T"/>
+      <read name="wet_soil_depth" type="wet_soil_depth" readable="T"/>
+      <respondToGetSetReg name="wet_soil_depth" type="wet_soil_depth" readable="T"/>
+      <read name="diffus_const" type="diffus_const" readable="T"/>
+      <read name="diffus_slope" type="diffus_slope" readable="T"/>
+      <read name="cn2_bare" type="cn2_bare" readable="T"/>
+      <respondToGetSetReg name="cn2_bare" type="cn2_bare" readable="T"/>
+      <read name="cn_red" type="cn_red" readable="T"/>
+      <respondToGetSetReg name="cn_red" type="cn_red" readable="T"/>
+      <read name="cn_cov" type="cn_cov" readable="T"/>
+      <respondToGetSetReg name="cn_cov" type="cn_cov" readable="T"/>
+      <read name="salb" type="salb" readable="T"/>
+      <respondToGetReg name="salb" type="salb" readable="T"/>
+      <read name="cona" type="cona" readable="T"/>
+      <read name="u" type="u" readable="T"/>
+      <read name="eo_source" type="eo_source" readable="T"/>
+      <read name="min_crit_temp" type="min_crit_temp" readable="T"/>
+      <read name="max_crit_temp" type="max_crit_temp" readable="T"/>
+      <read name="max_albedo" type="max_albedo" readable="T"/>
+      <read name="A_to_evap_fact" type="A_to_evap_fact" readable="T"/>
+      <read name="canopy_eos_coef" type="canopy_eos_coef" readable="T"/>
+      <read name="sw_top_crit" type="sw_top_crit" readable="T"/>
+      <read name="sumes1_max" type="sumes1_max" readable="T"/>
+      <read name="sumes2_max" type="sumes2_max" readable="T"/>
+      <read name="solute_flow_eff" type="solute_flow_eff" readable="T"/>
+      <read name="solute_flux_eff" type="solute_flux_eff" readable="T"/>
+      <read name="gravity_gradient" type="gravity_gradient" readable="T"/>
+      <read name="specific_bd" type="specific_bd" readable="T"/>
+      <read name="hydrol_effective_depth" type="hydrol_effective_depth" readable="T"/>
+      <read name="mobile_solutes" type="mobile_solutes" readable="T"/>
+      <read name="immobile_solutes" type="immobile_solutes" readable="T"/>
+      <read name="canopy_fact" type="canopy_fact" readable="T"/>
+      <read name="canopy_fact_height" type="canopy_fact_height" readable="T"/>
+      <read name="canopy_fact_default" type="canopy_fact_default" readable="T"/>
+      <read name="act_evap_method" type="act_evap_method" readable="T"/>
+      <respondToEventReg name="tillage" type="tillage"/>
+      <respondToEventReg name="reset" type="reset"/>
+      <respondToEventReg name="sum_report" type="sum_report"/>
+      <respondToEventReg name="evap_init" type="evap_init"/>
+      <eventReg name="new_profile" type="new_profile"/>
+      <getVariableReg name="residue_cover" type="residue_cover"/>
+      <getVariableReg name="cover_surface_extra" type="cover_surface_extra"/>
+      <getVariableReg name="cover_green" type="cover_green"/>
+      <getVariableReg name="cover_tot" type="cover_tot"/>
+      <getVariableReg name="height" type="height"/>
+      <getVariableReg name="eo_source" type="eo_source"/>
+      <getVariableReg name="obsrunoff_name" type="obsrunoff_name"/>
+      <getVariableReg name="run_on" type="run_on"/>
+      <getVariableReg name="inflow_lat" type="inflow_lat"/>
+      <setVariableReg name="dlt_nnnn" type="dlt_nnnn"/>
+      <respondToEventReg name="tick" type="time"/>
+      <respondToEventReg name="newmet" type="newmet"/>
+      <respondToEventReg name="irrigated" type="irrigated"/>
+      <respondToEventReg name="new_solute" type="new_solute"/>
+      <respondToEventReg name="process" type="process"/>
+      <respondToEventReg name="prepare" type="prepare"/>
+      <respondToEventReg name="post" type="post"/>
+   </registrations>
+</component>

@@ -1,0 +1,263 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value=".\APSData.bpl"/>
+    <OBJFILES value="apsdata.obj TSimulation_database.obj TAPSRecord.obj TAPSTable.obj 
+      TAPSTable_form.obj TAnalysis.obj TAnalysis_form.obj TAnalysis_chart.obj 
+      TDataSet_2_TAPSTable.obj TAPSTable_2_TDataSet.obj TAnalysis_panel.obj 
+      TBox_series.obj TSummary_analysis.obj TSummary_panel.obj TSummary_form.obj 
+      TAnalysis_series.obj TProbability_panel.obj TProbability_analysis_form.obj 
+      TProbability_analysis.obj TTime_series_panel.obj TTime_series_form.obj 
+      TTime_series_analysis.obj TDifference_panel.obj TDifference_form.obj 
+      TDifference_analysis.obj TFrequency_panel.obj TFrequency_form.obj 
+      TFrequency_analysis.obj TPie_frequency_panel.obj 
+      TPie_frequency_analysis.obj TPie_frequency_form.obj txy_form.obj 
+      TXY_analysis.obj TPercentileLineSeries.obj TXY_panel.obj"/>
+    <RESFILES value="APSData.res"/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES) TAPSTable_form.dfm TAnalysis_form.dfm TSummary_form.dfm 
+      TProbability_analysis_form.dfm TTime_series_form.dfm TDifference_form.dfm 
+      TFrequency_form.dfm TPie_frequency_form.dfm txy_form.dfm"/>
+    <LIBFILES value="..\..\general\general.lib ..\..\general\general_vcl.lib 
+      ..\..\ApsimShared\ApsimShared.lib"/>
+    <LIBRARIES value="bdertl.lib"/>
+    <SPARELIBS value="rtl.lib vcl.lib bdertl.lib dbrtl.lib vcldb.lib vclx.lib APSGeneral.lib 
+      adortl.lib TMSC6.lib kbmMemC6Run.lib Tee7C6.lib VclSmp.lib TeeUI7C6.lib"/>
+    <PACKAGES value="APSGeneral.bpi rtl.bpi vcl.bpi vclx.bpi dbrtl.bpi vcldb.bpi adortl.bpi 
+      kbmMemC6Run.bpi TMSC6.bpi teepro7c6.bpi teeui7c6.bpi Tee7c6.bpi VclSmp.bpi"/>
+    <PATHCPP value=".;"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="ilink32"/>
+    <USERDEFINES value="_DEBUG"/>
+    <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
+    <MAINSOURCE value="APSData.cpp"/>
+    <INCLUDEPATH value="..\..\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(BCB)\components;$(BCB)\components\tms;$(BCB)\components\memtable;$(BCB)\Components\TeeChart\CBuilder6\Include;$(BCB)\components\boost;$(SHARED)"/>
+    <LIBPATH value="$(BCB)\components\thirdparty;..\general;..\..\ApsimShared;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\memtable;."/>
+    <WARNINGS value="-w-par"/>
+    <OTHERFILES value=""/>
+  </MACROS>
+  <OPTIONS>
+    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c 
+      -tWM"/>
+    <PFLAGS value="-$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
+    <RFLAGS value=""/>
+    <AFLAGS value="/mx /w2 /zi"/>
+    <LFLAGS value="-l. -D&quot;APSuite data components&quot; -aa -Tpp -Gpd -x -Gn -Gl -Gi -v"/>
+    <OTHERFILES value=""/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0pkg32.obj $(PACKAGES) Memmgr.Lib sysinit.obj $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <OTHERFILES value=""/>
+  </LINKER>
+  <FILELIST>
+      <FILE FILENAME="apsdata.cpp" FORMNAME="" UNITNAME="apsdata" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="APSData.res" FORMNAME="" UNITNAME="APSData" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TSimulation_database.cpp" FORMNAME="" UNITNAME="TSimulation_database" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TAPSRecord.cpp" FORMNAME="" UNITNAME="TAPSRecord" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TAPSTable.cpp" FORMNAME="" UNITNAME="TAPSTable" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TAPSTable_form.cpp" FORMNAME="APSTable_form" UNITNAME="TAPSTable_form" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TAnalysis.cpp" FORMNAME="" UNITNAME="TAnalysis" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TAnalysis_form.cpp" FORMNAME="Analysis_form" UNITNAME="TAnalysis_form" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TAnalysis_chart.cpp" FORMNAME="" UNITNAME="TAnalysis_chart" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TDataSet_2_TAPSTable.cpp" FORMNAME="" UNITNAME="TDataSet_2_TAPSTable" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TAPSTable_2_TDataSet.cpp" FORMNAME="" UNITNAME="TAPSTable_2_TDataSet" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TAnalysis_panel.cpp" FORMNAME="" UNITNAME="TAnalysis_panel" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TBox_series.cpp" FORMNAME="" UNITNAME="TBox_series" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TSummary_analysis.cpp" FORMNAME="" UNITNAME="TSummary_analysis" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TSummary_panel.cpp" FORMNAME="" UNITNAME="TSummary_panel" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\TMS\APSGeneral.bpi" FORMNAME="" UNITNAME="APSGeneral" CONTAINERID="BPITool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TSummary_form.cpp" FORMNAME="Summary_form" UNITNAME="TSummary_form" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TAnalysis_series.cpp" FORMNAME="" UNITNAME="TAnalysis_series" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TProbability_panel.cpp" FORMNAME="" UNITNAME="TProbability_panel" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TProbability_analysis_form.cpp" FORMNAME="Probability_analysis_form" UNITNAME="TProbability_analysis_form" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TProbability_analysis.cpp" FORMNAME="" UNITNAME="TProbability_analysis" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TTime_series_panel.cpp" FORMNAME="" UNITNAME="TTime_series_panel" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TTime_series_form.cpp" FORMNAME="Time_series_form" UNITNAME="TTime_series_form" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TTime_series_analysis.cpp" FORMNAME="" UNITNAME="TTime_series_analysis" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TDifference_panel.cpp" FORMNAME="" UNITNAME="TDifference_panel" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TDifference_form.cpp" FORMNAME="Difference_form" UNITNAME="TDifference_form" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TDifference_analysis.cpp" FORMNAME="" UNITNAME="TDifference_analysis" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TFrequency_panel.cpp" FORMNAME="" UNITNAME="TFrequency_panel" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TFrequency_form.cpp" FORMNAME="Frequency_form" UNITNAME="TFrequency_form" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TFrequency_analysis.cpp" FORMNAME="" UNITNAME="TFrequency_analysis" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TPie_frequency_panel.cpp" FORMNAME="" UNITNAME="TPie_frequency_panel" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TPie_frequency_analysis.cpp" FORMNAME="" UNITNAME="TPie_frequency_analysis" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TPie_frequency_form.cpp" FORMNAME="Pie_frequency_form" UNITNAME="TPie_frequency_form" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="txy_form.cpp" FORMNAME="XY_form" UNITNAME="TXY_form" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TXY_analysis.cpp" FORMNAME="" UNITNAME="TXY_analysis" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\TMS\rtl.bpi" FORMNAME="" UNITNAME="rtl" CONTAINERID="BPITool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\TMS\vcl.bpi" FORMNAME="" UNITNAME="vcl" CONTAINERID="BPITool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\TMS\vclx.bpi" FORMNAME="" UNITNAME="vclx" CONTAINERID="BPITool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\TMS\dbrtl.bpi" FORMNAME="" UNITNAME="dbrtl" CONTAINERID="BPITool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\TMS\vcldb.bpi" FORMNAME="" UNITNAME="vcldb" CONTAINERID="BPITool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\TMS\adortl.bpi" FORMNAME="" UNITNAME="adortl" CONTAINERID="BPITool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\general\general.lib" FORMNAME="" UNITNAME="general" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\general\general_vcl.lib" FORMNAME="" UNITNAME="general_vcl" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TPercentileLineSeries.cpp" FORMNAME="" UNITNAME="TPercentileLineSeries" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\ApsimShared\kbmMemC6Run.bpi" FORMNAME="" UNITNAME="kbmMemC6Run" CONTAINERID="BPITool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\ApsimShared\TMSC6.bpi" FORMNAME="" UNITNAME="TMSC6" CONTAINERID="BPITool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TXY_panel.cpp" FORMNAME="" UNITNAME="TXY_panel" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="c:\program files\borland\cbuilder6\Components\TeeChart\CBuilder6\Lib\teepro7c6.bpi" FORMNAME="" UNITNAME="teepro7c6" CONTAINERID="BPITool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="c:\program files\borland\cbuilder6\Components\TeeChart\CBuilder6\Lib\teeui7c6.bpi" FORMNAME="" UNITNAME="teeui7c6" CONTAINERID="BPITool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\ApsimOutlook\ApsimOutlook\Source\Outlook\General\Tee7c6.bpi" FORMNAME="" UNITNAME="Tee7c6" CONTAINERID="BPITool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\ApsimOutlook\ApsimOutlook\Source\Outlook\General\VclSmp.bpi" FORMNAME="" UNITNAME="VclSmp" CONTAINERID="BPITool" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=1
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=3081
+CodePage=1252
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[HistoryLists\hlIncludePath]
+Count=30
+Item0=..\..\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(BCB)\components;$(BCB)\components\tms;$(BCB)\components\memtable;$(BCB)\Components\TeeChart\CBuilder6\Include;$(BCB)\components\boost;$(SHARED)
+Item1=..\..\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(BCB)\components;$(BCB)\components\tms;$(BCB)\components\memtable;$(BCB)\Components\TeeChart\CBuilder6\Include;$(SHARED)
+Item2=..\..\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(BCB)\components;$(BCB)\components\tms;$(BCB)\components\memtable;$(BCB)\components\teechart;$(SHARED)
+Item3=..\..\ApsimShared;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(BCB)\components;$(BCB)\components\tms;$(BCB)\components\memtable;$(SHARED)
+Item4=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(BCB)\components;$(BCB)\components\tms;$(BCB)\components\memtable;$(SHARED)
+Item5=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(BCB)\components\tms;$(BCB)\components\memtable;$(SHARED)
+Item6=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(BCB)\components\tms;$(SHARED)
+Item7=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;$(SHARED)
+Item8=K:\general;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;..\general;k:\;j:\memtable;j:\tms;j:\thirdparty
+Item9=K:\general;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;..\general;k:\;j:\memtable\;j:\tms\;j:\thirdparty\
+Item10=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;..\general;k:\;j:\memtable\;j:\tms\;j:\thirdparty\
+Item11=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;..\general;k:\;j:\memtable\;j:\tms\
+Item12=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;..\general;k:\;j:\thirdparty\;j:\tms\
+Item13=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;..\general;k:\;j:\thirdparty\;j:\advgrid\
+Item14=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;..\general;k:\;j:\thirdparty\;j:\flytreeview\source\;j:\advgrid\
+Item15=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;..\general;k:\;j:\thirdparty\;j:\flytreeview\source\;j:\advgrid
+Item16=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;..\general;k:\;j:\thirdparty\;j:\flytreeview\source\
+Item17=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;..\general;k:\;j:\thirdparty\;j:\flytreeview\source
+Item18=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;..\general;k:\;j:\thirdparty\
+Item19=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;..\general;k:\;j:\thirdparty\;j:\dream\units\
+Item20=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;k:\components\general\;k:\;k:\components\data\;j:\thirdparty\;j:\dream\units\
+Item21=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;k:\components\general\;k:\;k:\components\data\;j:\thirdparty\;j:\dream\units
+Item22=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;k:\components\general\;k:\;k:\components\data\;j:\thirdparty\
+Item23=C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;k:\components\general\;k:\;k:\components\data\;j:\thirdparty\
+Item24=C:\Program Files\Borland\CBuilder5\Projects;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;k:\components\general\;k:\;k:\components\data\;j:\thirdparty\
+Item25=..\data1;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;k:\components\general\;k:\;k:\components\data\;j:\thirdparty\
+Item26=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;k:\components\general\;k:\;k:\components\data\;j:\thirdparty
+Item27=$(BCB)\include;$(BCB)\include\vcl;$(BCB)\imports;j:\rx\units\;k:\components\general\;k:\;k:\components\data\
+Item28=$(BCB)\include;$(BCB)\include\vcl;j:\rx\units\;k:\components\general\;k:\;k:\components\data\
+Item29=$(BCB)\include;$(BCB)\include\vcl;j:\rx\units\;k:\components\general\;k:\;k:\components\data
+
+[HistoryLists\hlLibraryPath]
+Count=30
+Item0=..\general;..\..\ApsimShared;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\memtable;.
+Item1=..\general;..\..\ApsimShared;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\memtable;.;$(SHARED)\Components\General
+Item2=..\general;..\..\ApsimShared;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms;$(BCB)\Components\TeeChart\CBuilder6\Lib;$(BCB)\components\memtable;.;$(SHARED\Components\General
+Item3=$(BCB)\Components\TeeChart\CBuilder6\Lib;..\general;..\..\ApsimShared;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms;.
+Item4=..\general;..\..\ApsimShared;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms;.
+Item5=..\general;..\..\ApsimShared;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;.
+Item6=..\general;..\..\ApsimShared;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item7=.;..\general;..\..\ApsimShared;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item8=..\..\ApsimShared;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item9=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item10=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(BCB)\components\tms
+Item11=K:\general;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\general;j:\thirdparty;j:\tms
+Item12=K:\general;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\general;j:\thirdparty\;j:\tms\
+Item13=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\general;j:\thirdparty\;j:\tms\
+Item14=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\general;j:\thirdparty\;j:\advgrid\
+Item15=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\general;j:\thirdparty\;j:\flytreeview\source\;j:\advgrid\
+Item16=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\general;j:\thirdparty\;j:\flytreeview\source\
+Item17=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\general;j:\thirdparty\;j:\flytreeview\source
+Item18=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;j:\thirdparty\;..\general
+Item19=C:\Program Files\Borland\components\DREAM\units\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;j:\thirdparty\;..\general;j:\dream\units\
+Item20=C:\Program Files\Borland\components\DREAM\units;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;j:\thirdparty\;..\general;j:\dream\units\
+Item21=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;j:\thirdparty\;..\general;j:\dream\units\
+Item22=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;j:\thirdparty\;..\general;j:\dream\units
+Item23=C:\Program Files\Borland\components\DREAM\units;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;j:\thirdparty\;..\general
+Item24=C:\Program Files\Borland\components\DREAM\units\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;j:\thirdparty\;..\general
+Item25=C:\Program Files\Borland\components\DREAM\units;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;j:\thirdparty\;k:\components\general\
+Item26=C:\Program Files\Borland\components\DREAM\units;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;j:\thirdparty\;k:\components\general\;j:\dream\units\
+Item27=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;j:\thirdparty\;k:\components\general\;j:\dream\units
+Item28=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;j:\thirdparty\;k:\components\general\
+Item29=C:\Program Files\Borland\CBuilder5\Projects\;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;j:\thirdparty\;k:\components\general\
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=1
+Item0=_DEBUG
+
+[HistoryLists\hlFinalOutputDir]
+Count=6
+Item0=.\
+Item1=.
+Item2=..\..\..\Bin\
+Item3=..\..\..\Bin
+Item4=c:\program files\borland\cbuilder5\projects\bpl\
+Item5=$(BCB)\projects\bpl
+
+[HistoryLists\hIBPIOutputDir]
+Count=2
+Item0=.
+Item1=$(BCB)\projects\lib
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=
+RemoteHost=
+RemotePath=
+RemoteLauncher=
+RemoteCWD=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=0
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+
+[Linker]
+LibPrefix=
+LibSuffix=
+LibVersion=
+  </IDEOPTIONS>
+</PROJECT>

@@ -1,0 +1,59 @@
+# (Borlandish) Makefile for SiloInput module
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
+PROJECT=..\lib\SiloInput.dll
+
+OBJFILES=SiloInput.obj SiloInputComponent.obj InputComponent.obj StringVariant.obj  ..\..\..\Shared\ComponentInterface\EntryPoints.obj
+
+LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
+	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
+	$(APSROOT)\Shared\general\general.lib \
+	$(BCB)\Components\Boost\libs\date_time\date_time.lib \
+	$(BCB)\Components\LibXml2\win32\LibXml2.lib
+USERDEFINES =
+SYSDEFINES = _RTLDLL;NO_STRICT;_NO_VCL;USEPACKAGES
+INCLUDEPATH = $(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\boost;$(APSROOT)\Shared;$(APSROOT)\apsim\input\source
+LIBPATH = $(BCB)\lib\obj;$(BCB)\lib
+
+
+# ---------------------------------------------------------------------------
+CFLAG1 = $(SYSCFLAGS) -tWD
+WARNINGS = -w-par
+LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
+
+ALLOBJ = c0d32.obj vcl.bpi Memmgr.Lib sysinit.obj $(OBJFILES)
+ALLRES = $(RESFILES)
+ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cp32mti.lib
+
+CC=$(BCB)\Bin\bcc32.exe
+LD=$(BCB)\Bin\ilink32
+# ---------------------------------------------------------------------------
+source: $(PROJECT)
+
+$(PROJECT): $(OBJFILES) $(DEFFILE)
+    $(LD) @&&!
+    $(LFLAGS) -L$(LIBPATH) +
+    $(ALLOBJ), +
+    $(PROJECT),, +
+    $(ALLLIB), +
+    $(DEFFILE), +
+    $(ALLRES)
+!
+
+.cpp.obj:
+	$(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+
+####
+SiloInput.obj: SiloInput.cpp
+SiloInputComponent.obj: SiloInputComponent.cpp SiloInputComponent.h
+InputComponent.obj: $(APSROOT)\apsim\input\source\InputComponent.cpp
+StringVariant.obj: $(APSROOT)\apsim\input\source\StringVariant.cpp
+
+clean:
+	del /f $(PROJECT) $(OBJFILES)

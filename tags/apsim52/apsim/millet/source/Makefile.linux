@@ -1,0 +1,76 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for APSIM millet module
+#-----------------------------------------------------------------------
+#=======================================================================
+
+DESTDIR ?= /usr/local/apsim
+
+LIB=	../lib/millet.so
+
+SRC=	Registrations.f90	\
+	millet.for
+
+STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
+            ../../../Shared/ComponentInterface/EntryPoints.o   \
+            ../../../Shared/ComponentInterface/FORTRANComponentWrapper.o   \
+            ../../../Shared/ComponentInterface/FORTRANdatatypes.o   \
+            ../../../Shared/ComponentInterface/datatypes.o
+
+OBJ=	Registrations.o		\
+	mil_main.o		\
+	$(STATICOBJ)
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+FC=		lf95
+CPPFLAGS=	-I$(APSROOT)/apsim/infra/source	\
+		-I$(APSROOT)/apsim/croptemp/source \
+		-I$(APSROOT)/apsim/CropMod/source \
+		-M. -M$(APSROOT)/apsim/infra/source \
+		-M$(APSROOT)/apsim/CropMod/source \
+		$(CPPDEBUGFLAGS)
+FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin \
+		--ml cdecl --staticlink
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS=	-L$(APSROOT)/lib		\
+		-L$(APSROOT)/apsim/infra/lib	 \
+		-L$(APSROOT)/apsim/croptemp/lib	 \
+		-L/usr/lib $(LDDEBUGFLAGS)
+
+LIBS=		 -lcroptemp -lapsinfra -lComponentInterface -lc
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB)
+
+$(LIB):	$(OBJ)
+	g++ $(OBJ) -o $(LIB) -shared $(LDFLAGS) $(LIBS)
+
+FORCE:
+
+clean:
+	rm -f *.o *.mod
+
+clobber:	clean
+	rm -f $(LIB)
+
+install: all
+	if [ ! -d $(DESTDIR)/apsim/millet/lib ]; then mkdir -p $(DESTDIR)/apsim/millet/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/millet/lib
+	cp ../millet.ini $(DESTDIR)/apsim/millet
+
+%.o:	%.for
+	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
+
+%.o:	%.f90
+	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
+
+Registrations.o: Registrations.f90
+Registrations.f90: ../millet.interface 
+	$(APSROOT)/Bin/CreateComponentInterfaceSource ../millet.interface

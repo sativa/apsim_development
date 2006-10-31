@@ -1,0 +1,31 @@
+version = 5.2
+
+[apsim.sample_manager]
+
+title=Manager Sample Simulation
+module = clock   manager.par [sample] %apsuite/apsim/clock/clock.ini[standard]
+module = report  manager.par [sample]
+module = input(Met)     %apsuite/apsim/met/sample/dalby.met [weather]
+module = manager manager.par [sample]
+module = operatns manager.par [sample]
+module = SummaryFile manager.par [sample]
+
+[test_modify_met_variables]
+
+title=Manager Sample Simulation
+module = clock   manager.par [sample] %apsuite/apsim/clock/clock.ini[standard]
+module = report  manager.par [modify_met]
+module = input(Met)     %apsuite/apsim/met/sample/dalby.met [weather]
+module = manager manager.par [modify_met]
+module = SummaryFile manager.par [modify_met]
+module = Log manager.par[test]
+
+[test_big_module_names]
+
+title=Manager Sample Simulation
+module = clock   manager.par [sample] %apsuite/apsim/clock/clock.ini[standard]
+module = %apsuite/apsim/report/lib/report.dll(really_big_report_name_that_is_too_long_for_ordinary_mortals)  manager.par [big_module_names]
+module = input(Met)     %apsuite/apsim/met/sample/dalby.met [weather]
+module = manager manager.par [big_module_names]
+module = SummaryFile manager.par [big_module_names]
+

@@ -1,0 +1,37 @@
+version = 5.2
+[APSIM.test1_sugar]
+title=Test sowing before out
+module = clock      testA.par[all] %apsuite/apsim/clock/clock.ini[standard]
+module = report     testA.par[test1]  testA.par[all]
+module = input(met)        %apsuite/apsim/met/sample/dalby.met[weather]
+module = manager    testA.par[test1]   testA.par[all]
+module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par[black_earth]  %apsuite/apsim/soilwat2/soilwat2.ini[standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2     %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]      %apsuite/apsim/soiln2/soiln2.ini[standard]
+module = sugar    testA.par [all]      %apsuite/apsim/sugar/sugar.ini [standard]
+module = SummaryFile  testA.par[test1]
+
+[APSIM.test2_sugar]
+title=Test sowing after out on same day
+module = clock      testA.par[all] %apsuite/apsim/clock/clock.ini[standard]
+module = report     testA.par[test2]  testA.par[all]
+module = input(met)        %apsuite/apsim/met/sample/dalby.met[weather]
+module = manager    testA.par[test2]   testA.par[all]
+module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par[black_earth]  %apsuite/apsim/soilwat2/soilwat2.ini[standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2     %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]      %apsuite/apsim/soiln2/soiln2.ini[standard]
+module = sugar    testA.par [all]      %apsuite/apsim/sugar/sugar.ini [standard]
+module = SummaryFile  testA.par[test2]
+
+[APSIM.test3_sugar]
+title=Test sowing next day after out
+module = clock      testA.par[all] %apsuite/apsim/clock/clock.ini[standard]
+module = report     testA.par[test3]  testA.par[all]
+module = input(met)        %apsuite/apsim/met/sample/dalby.met[weather]
+module = manager    testA.par[test3]   testA.par[all]
+module = soilwat2   %apsuite/apsim/soilwat2/sample/soilwat2.par[black_earth]  %apsuite/apsim/soilwat2/soilwat2.ini[standard]
+module = SurfaceOM   %apsuite/apsim/SurfaceOM/sample/SurfaceOM.par [legume_residue] %apsuite/apsim/SurfaceOM/SurfaceOM.ini [standard]
+module = soiln2     %apsuite/apsim/soiln2/sample/soiln2.par[black_earth]      %apsuite/apsim/soiln2/soiln2.ini[standard]
+module = sugar    testA.par [all]      %apsuite/apsim/sugar/sugar.ini [standard]
+module = SummaryFile  testA.par[test3]
+
