@@ -322,7 +322,8 @@ Public Class APSIMData
         Loop
 
         If IsNothing(CurrentData) Then
-            Throw New System.Exception("Cannot find child " + ChildPath)
+            'Throw New System.Exception("Cannot find child " + ChildPath)
+            Return Nothing
         Else
             Return CurrentData
         End If
