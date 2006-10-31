@@ -273,7 +273,7 @@
      --->End
      Machinery:
      Tractors=t1
-     Implements=precisionplanter p1
+     Implements=p1 p2
 ------- Start of simulation  --------------------------------------------------
 31 December 1940(Day of year=366), Manager: 
      Manager creating a new local real variable : fallowin =     0.00000000000000
@@ -351,9 +351,14 @@
             148   30.0  100.0  250.0   0.0   0.0 hartog
          ------------------------------------------------
      
+28 May 1942(Day of year=148), Economics: 
+     hours='8', rate='10',cost='12.05',oil='10'
 29 May 1942(Day of year=149), wheat: 
       stage 2.0 germination
+29 May 1942(Day of year=149), Economics: 
+     hours='8', rate='10',cost='12.05',oil='10'
 30 May 1942(Day of year=150), Economics: 
+     hours='4', rate='10',cost='12.05',oil='10'
      Machinery job 't1 + p1' has finished
 5 June 1942(Day of year=156), wheat: 
       stage 3.0 emergence
@@ -396,7 +401,7 @@
      Manager creating a new local real variable : protein =     13.9365997000000
      Manager sending message :- economics income  category = cropprice, name = wheat, yield = 3.52736963000000, protein = 13.9365997000000, area = 200 (ha)
 10 October 1942(Day of year=283), Economics: 
-     Priced wheat cropprice (price='400.0', yield='3.52736963000000') over '200' ha = '282189.5704'
+     Priced wheat cropprice (price='180.0', yield='3.52736963000000') over '200' ha = '126985.30668'
 10 October 1942(Day of year=283), Manager: 
      Manager sending message :- wheat harvest
 10 October 1942(Day of year=283), wheat: 
