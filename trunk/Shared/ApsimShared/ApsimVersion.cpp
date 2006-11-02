@@ -11,7 +11,7 @@
 //---------------------------------------------------------------------------
 std::string EXPORT getApsimVersion(void)
    {
-   IniFile ini(getApsimDirectory() + "/apsim.ini");
+   IniFile ini(getApsimDirectory() + "/Apsim.ini");
    std::string versionString;
    ini.read("version", "apsim", versionString);
    return versionString;
