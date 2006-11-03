@@ -294,6 +294,7 @@ void Plant::doRegistrations(protocol::Component *system)
    setupEvent(parent, "end_run",     RegistrationType::respondToEvent, &Plant::doEndRun, nullTypeDDML);
    setupEvent(parent, "kill_stem",   RegistrationType::respondToEvent, &Plant::doKillStem, killStemDDML);
    setupEvent(parent, "remove_crop_biomass",   RegistrationType::respondToEvent, &Plant::doRemoveCropBiomass, DDML(protocol::removeCropDmType()).c_str());
+   setupEvent(parent, "detach_crop_biomass_rate",   RegistrationType::respondToEvent, &Plant::doDetachCropBiomass, doubleType);
 
 
    // Send My Variable
@@ -782,6 +783,12 @@ void Plant::doEndRun(unsigned &, unsigned &,protocol::Variant &/*v*/)
 void Plant::doRemoveCropBiomass(unsigned &, unsigned &, protocol::Variant &v)
    {
    plant_remove_crop_biomass (v);
+   }
+
+// Field a Remove Crop Biomass event
+void Plant::doDetachCropBiomass(unsigned &, unsigned &, protocol::Variant &v)
+   {
+   plant_detach_crop_biomass (v);
    }
 
 // Field a class change event
@@ -3216,9 +3223,114 @@ void Plant::plant_remove_crop_biomass (protocol::Variant &v/*(INPUT) incoming me
 
     //plant_auto_class_change("remove_biomass");
 
-    plant_remove_biomass_update(v);
+    protocol::removeCropDmType dmRemoved;
+    v.unpack(dmRemoved);
+
+    if (c.remove_biomass_report == "on")
+    {
+       ostringstream msg;
+       msg << "Remove Crop Biomass:-" << endl;
+       float dmTotal = 0.0;
+
+       for (unsigned int pool=0; pool < dmRemoved.dm.size(); pool++)
+       {
+          for (unsigned int part = 0; part < dmRemoved.dm[pool].part.size(); part++)
+          {
+             msg << "   dm " << dmRemoved.dm[pool].pool << " " << dmRemoved.dm[pool].part[part] << " = " << dmRemoved.dm[pool].dlt[part] << " (g/m2)" << endl;
+             dmTotal +=  dmRemoved.dm[pool].dlt[part];
+          }
+       }
+       msg << endl << "   dm total = " << dmTotal << " (g/m2)" << endl << ends;
+
+       parent->writeString (msg.str().c_str());
+    }
+
+    plant_remove_biomass_update(dmRemoved);
 
     pop_routine (my_name);
+    return;
+    }
+
+//       Detach crop biomass.
+void Plant::plant_detach_crop_biomass (protocol::Variant &v/*(INPUT) incoming message variant*/)
+    {
+    float detachRate;
+    v.unpack(detachRate);
+
+    protocol::removeCropDmType dmRemoved;
+
+      protocol::dmType dm;
+
+      dm.pool = "green";
+      vector<plantPart*>::iterator part;
+
+      vector<float>  dmParts;
+      for (part = myStoverParts.begin(); part != myStoverParts.end(); part++)
+      {
+         (*part)->get_name(dm.part);
+         (*part)->get_dm_green(dmParts);
+      }
+
+      for (unsigned int pool=0; pool < dmParts.size(); pool++)
+         dm.dlt.push_back(double(dmParts[pool] * 0.0));
+
+      dmRemoved.dm.push_back(dm);
+
+      dm.dlt.erase(dm.dlt.begin(), dm.dlt.end());
+      dm.part.erase(dm.part.begin(), dm.part.end());
+      dmParts.clear();
+
+      dm.pool = "senesced";
+
+      for (part = myStoverParts.begin(); part != myStoverParts.end(); part++)
+      {
+         (*part)->get_name(dm.part);
+         (*part)->get_dm_senesced(dmParts);
+      }
+
+      for (unsigned int pool=0; pool < dmParts.size(); pool++)
+         dm.dlt.push_back(double(dmParts[pool] * detachRate));
+
+      dmRemoved.dm.push_back(dm);
+
+      dm.dlt.erase(dm.dlt.begin(), dm.dlt.end());
+      dm.part.erase(dm.part.begin(), dm.part.end());
+      dmParts.clear();
+
+      dm.pool = "dead";
+
+      for (part = myStoverParts.begin(); part != myStoverParts.end(); part++)
+      {
+         (*part)->get_name(dm.part);
+         (*part)->get_dm_dead(dmParts);
+      }
+
+      for (unsigned int pool=0; pool < dmParts.size(); pool++)
+         dm.dlt.push_back(double(dmParts[pool] * detachRate));
+
+      dmRemoved.dm.push_back(dm);
+
+    if (c.remove_biomass_report == "on")
+    {
+       ostringstream msg;
+       msg << "Detach Crop Biomass:-" << endl;
+       float dmTotal = 0.0;
+
+       for (unsigned int pool=0; pool < dmRemoved.dm.size(); pool++)
+       {
+          for (unsigned int part = 0; part < dmRemoved.dm[pool].part.size(); part++)
+          {
+             msg << "   dm " << dmRemoved.dm[pool].pool << " " << dmRemoved.dm[pool].part[part] << " = " << dmRemoved.dm[pool].dlt[part] << " (g/m2)" << endl;
+             dmTotal +=  dmRemoved.dm[pool].dlt[part];
+          }
+       }
+       msg << endl << "   dm total = " << dmTotal << " (g/m2)" << endl << ends;
+
+       parent->writeString (msg.str().c_str());
+    }
+
+    plant_remove_biomass_update(dmRemoved);
+
     return;
     }
 
@@ -3655,7 +3767,7 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
 //      261099 jngh removed energy from residue components
 //      131100 jngh removed energy
 //      210201 dsg replaced unprotected divides with 'divide' function
-void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message arguments*/)
+void Plant::plant_remove_biomass_update (protocol::removeCropDmType dmRemoved)
     {
 
 //+  Constant Values
@@ -3684,140 +3796,14 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
     vector<plantPart *> topsParts;
     topsParts.push_back(leafPart);
     topsParts.push_back(stemPart);
-
-    float error_margin = 1.0e-6 ;
+    topsParts.push_back(fruitPart);
 
 //- Implementation Section ----------------------------------
     push_routine (my_name);
 
-    protocol::removeCropDmType dmRemoved;
-    v.unpack(dmRemoved);
-
-    if (c.remove_biomass_report == "on")
-    {
-       ostringstream msg;
-       msg << "Remove Crop Biomass:-" << endl;
-       float dmTotal = 0.0;
-
-       for (unsigned int pool=0; pool < dmRemoved.dm.size(); pool++)
-       {
-          for (unsigned int part = 0; part < dmRemoved.dm[pool].part.size(); part++)
-          {
-             msg << "   dm " << dmRemoved.dm[pool].pool << " " << dmRemoved.dm[pool].part[part] << " = " << dmRemoved.dm[pool].dlt[part] << " (g/m2)" << endl;
-             dmTotal +=  dmRemoved.dm[pool].dlt[part];
-          }
-       }
-       msg << endl << "   dm total = " << dmTotal << " (g/m2)" << endl << ends;
-
-       parent->writeString (msg.str().c_str());
-    }
-
     // Unpack the DmRemoved structure
-    for (unsigned int pool = 0; pool < dmRemoved.dm.size(); pool++)
-    {
-       for (unsigned int part = 0; part < dmRemoved.dm[pool].part.size(); part++)
-       {
-          if (dmRemoved.dm[pool].pool == "green")
-          {
-             if (dmRemoved.dm[pool].part[part] == "stem")       {stemPart->giveDmGreenRemoved(dmRemoved.dm[pool].dlt[part]); }
-             else if (dmRemoved.dm[pool].part[part] ==  "leaf") {leafPart->giveDmGreenRemoved(dmRemoved.dm[pool].dlt[part]); }
-             else {  /* unknown part */ }
-          }
-
-          else if (dmRemoved.dm[pool].pool == "senesced")
-          {
-             if (dmRemoved.dm[pool].part[part] == "stem")       {stemPart->giveDmSenescedRemoved(dmRemoved.dm[pool].dlt[part]); }
-             else if (dmRemoved.dm[pool].part[part] ==  "leaf") {leafPart->giveDmSenescedRemoved(dmRemoved.dm[pool].dlt[part]); }
-             else { /* unknown part */ }
-          }
-
-          else if (dmRemoved.dm[pool].pool == "dead")
-          {
-             if (dmRemoved.dm[pool].part[part] == "stem")       {stemPart->giveDmDeadRemoved(dmRemoved.dm[pool].dlt[part]); }
-             else if (dmRemoved.dm[pool].part[part] ==  "leaf") {leafPart->giveDmDeadRemoved(dmRemoved.dm[pool].dlt[part]); }
-             else { /* unknown part */ }
-          }
-       }
-    }
-
-    float dltBiomassGreen = leafPart->dltDmGreenRemoved() + stemPart->dltDmGreenRemoved();
-    float biomassGreen =  leafPart->dmGreen() + stemPart->dmGreen();
-    g.remove_biom_pheno = divide (dltBiomassGreen, biomassGreen, 0.0);
-
-    if (c.remove_biomass_report == "on")
-    {
-       ostringstream msg1;
-       msg1 << "Remove Crop Biomass 2:-" << endl;
-       float dmTotal1 = 0.0;
-
-       msg1 << "   dm green leaf = " << leafPart->dltDmGreenRemoved() << " (g/m2)" << endl;
-       msg1 << "   dm green stem = " << stemPart->dltDmGreenRemoved() << " (g/m2)" << endl;
-       dmTotal1 +=  leafPart->dltDmGreenRemoved() + stemPart->dltDmGreenRemoved();
-
-       msg1 << "   dm senesced leaf = " << leafPart->dltDmSenescedRemoved() << " (g/m2)" << endl;
-       msg1 << "   dm senesced stem = " << stemPart->dltDmSenescedRemoved() << " (g/m2)" << endl;
-       dmTotal1 +=  leafPart->dltDmSenescedRemoved() + stemPart->dltDmSenescedRemoved();
-
-       msg1 << "   dm dead leaf = " << leafPart->dltDmDeadRemoved() << " (g/m2)" << endl;
-       msg1 << "   dm dead stem = " << stemPart->dltDmDeadRemoved() << " (g/m2)" << endl;
-       dmTotal1 +=  leafPart->dltDmDeadRemoved() + stemPart->dltDmDeadRemoved();
-
-       msg1 << endl << "   dm total = " << -dmTotal1 << " (g/m2)" << endl << ends;
-
-       parent->writeString (msg1.str().c_str());
-
-       ostringstream msg2;
-       msg2 << "Crop Biomass Available:-" << endl;
-       float dmTotal2 = 0.0;
-
-       msg2 << "   dm green leaf = " << leafPart->dmGreen() << " (g/m2)" << endl;
-       msg2 << "   dm green stem = " << stemPart->dmGreen() << " (g/m2)" << endl;
-       dmTotal2 +=  leafPart->dmGreen() + stemPart->dmGreen();
-
-       msg2 << "   dm senesced leaf = " << leafPart->dmSenesced() << " (g/m2)" << endl;
-       msg2 << "   dm senesced stem = " << stemPart->dmSenesced() << " (g/m2)" << endl;
-       dmTotal2 +=  leafPart->dmSenesced() + stemPart->dmSenesced();
-
-       msg2 << "   dm dead leaf = " << leafPart->dmDead() << " (g/m2)" << endl;
-       msg2 << "   dm dead stem = " << stemPart->dmDead() << " (g/m2)" << endl;
-       dmTotal2 +=  leafPart->dmDead() + stemPart->dmDead();
-
-       msg2 << endl << "   dm total = " << dmTotal2 << " (g/m2)" << endl << ends;
-
-       parent->writeString (msg2.str().c_str());
-    }
-
-    // Check sensibility of part deltas
-    for (part = allParts.begin(); part != allParts.end(); part++)
-    {
-      if ((*part)->name() == "leaf" || (*part)->name() == "stem")
-      {
-        if ((*part)->dltDmGreenRemoved() > ((*part)->dmGreen() + error_margin))
-        {
-             ostringstream msg;
-             msg << "Attempting to remove more green " << (*part)->name() << " biomass than available:-" << endl;
-             msg << "Removing " << -(*part)->dltDmGreenRemoved() << " (g/m2) from " << (*part)->dmGreen() << " (g/m2) available." << ends;
-             throw std::runtime_error (msg.str().c_str());
-        }
-        else if ((*part)->dltDmSenescedRemoved() > ((*part)->dmSenesced() + error_margin))
-        {
-             ostringstream msg;
-             msg << "Attempting to remove more senesced " << (*part)->name() << " biomass than available:-" << endl;
-             msg << "Removing " << -(*part)->dltDmSenescedRemoved() << " (g/m2) from " << (*part)->dmSenesced() << " (g/m2) available." << ends;
-             throw std::runtime_error (msg.str().c_str());
-        }
-        else if ((*part)->dltDmDeadRemoved() > ((*part)->dmDead() + error_margin))
-        {
-             ostringstream msg;
-             msg << "Attempting to remove more dead " << (*part)->name() << " biomass than available:-" << endl;
-             msg << "Removing " << -(*part)->dltDmDeadRemoved() << " (g/m2) from " <<(*part)->dmDead() << " (g/m2) available." << ends;
-             throw std::runtime_error (msg.str().c_str());
-        }
-        else
-        { // no more checks
-        }
-      }
-    }
+     for (vector<plantPart *>::iterator part = topsParts.begin(); part != topsParts.end(); part++)
+        (*part)->doRemoveBiomass(dmRemoved, c.remove_biomass_report);
 
     // Update biomass and N pools.  Different types of plant pools are affected in different ways.
     // Calculate Root Die Back
@@ -3825,21 +3811,19 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
 
     rootPart->removeBiomass2(chop_fr_green_leaf);
 
-    float dm_removed_tops = 0.0;
-    float n_removed_tops = 0.0;
+    float biomassGreenTops =  0.0;
+
+    float dmRemovedTops = 0.0;
+    float nRemovedTops = 0.0;
     for (part = topsParts.begin(); part != topsParts.end(); part++)
         {
-        float chop_fr_green = divide((*part)->dltDmGreenRemoved(), (*part)->dmGreen(), 0.0);
-        float chop_fr_sen   = divide((*part)->dltDmSenescedRemoved(), (*part)->dmSenesced(), 0.0);
-        float chop_fr_dead  = divide((*part)->dltDmDeadRemoved(), (*part)->dmDead(), 0.0);
-
-        dm_removed_tops += ((*part)->dltDmGreenRemoved() + (*part)->dltDmSenescedRemoved() + (*part)->dltDmDeadRemoved()) * gm2kg/sm2ha;
-        n_removed_tops += ((*part)->nGreen()*chop_fr_green +
-                           (*part)->nSenesced()*chop_fr_sen +
-                           (*part)->nDead()*chop_fr_dead) * gm2kg/sm2ha;
+        biomassGreenTops += (*part)->dltDmGreenRemoved();
+        dmRemovedTops += ((*part)->dltDmRemoved()) * gm2kg/sm2ha;
+        nRemovedTops += ((*part)->dltNRemoved()) * gm2kg/sm2ha;
 
         (*part)->removeBiomass();
         }
+    g.remove_biom_pheno = divide (dmRemovedTops, biomassGreenTops, 0.0);
 
     if (c.remove_biomass_report == "on")
     {
@@ -3848,10 +3832,10 @@ void Plant::plant_remove_biomass_update (protocol::Variant &v/*(INPUT)message ar
 
        parent->writeString ("    Organic matter removed from system:-      From Tops               From Roots");
 
-       sprintf (msgrmv, "%48s%7.2f%24.2f", "DM (kg/ha) =               ", dm_removed_tops, 0.0);
+       sprintf (msgrmv, "%48s%7.2f%24.2f", "DM (kg/ha) =               ", dmRemovedTops, 0.0);
        parent->writeString (msgrmv);
 
-       sprintf (msgrmv, "%48s%7.2f%24.2f", "N  (kg/ha) =               ", n_removed_tops, 0.0);
+       sprintf (msgrmv, "%48s%7.2f%24.2f", "N  (kg/ha) =               ", nRemovedTops, 0.0);
        parent->writeString (msgrmv);
 
        sprintf (msgrmv, "%30s%7.2f", "Remove biomass phenology factor = ", g.remove_biom_pheno);
@@ -4590,6 +4574,9 @@ void Plant::plant_read_root_params ()
         {
         p.eo_crop_factor = c.eo_crop_factor_default;
         }
+
+    c.default_crop_class = parent->readParameter (section_name, "default_crop_class");
+    c.remove_biomass_report = parent->readParameter (section_name, "remove_biomass_report");
 
     rootPart->readRootParameters(parent, section_name);
 

@@ -25,7 +25,7 @@ class plantLeafPart : public plantPart {
    virtual float getLAI(void) const = 0;                             //
    virtual float getSLAI(void) const = 0;                            //
    virtual float getTLAI_dead(void) const = 0;                       //
-   virtual float getLeafNo(void) const = 0;                          // The number of leaves 
+   virtual float getLeafNo(void) const = 0;                          // The number of leaves
    virtual float senFract (void) const = 0;                          // Fraction of canopy senescing today
    virtual float dmGreenDemand(void) const =0;                       // Maximum DM this part can take today
 
@@ -33,7 +33,7 @@ class plantLeafPart : public plantPart {
    virtual void leaf_area_stressed(float) =0;                        // the leaf area development from the
                                                                      //   potential daily increase in lai and stress factors
    virtual void actual(void) =0;                                     // Calculate actual leaf development from potential & stressed
-   virtual void leaf_death (float nfact_expansion, float  dlt_tt) =0;// 
+   virtual void leaf_death (float nfact_expansion, float  dlt_tt) =0;//
    virtual void leaf_area_sen (float, float) =0;
    virtual void detachment (void) =0;
    virtual void update (void) = 0;
@@ -41,7 +41,7 @@ class plantLeafPart : public plantPart {
 
    virtual float dmRetransSupply(void) const;
    virtual void  doNConccentrationLimits(float modifier);
- 
+
 };
 
 plantLeafPart* constructLeafPart(plantInterface *p, const string &type, const string &name);

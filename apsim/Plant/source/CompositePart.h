@@ -28,7 +28,7 @@ public:												// member functions
    virtual void onDayOf(const string &);
    virtual float availableRetranslocateN(void);
 
-
+   virtual void get_name(vector<string> &name);
    virtual void get_p_demand(vector<float> &p_demand);
    virtual void get_dlt_p_green(vector<float> &dlt_p_green);
    virtual void get_dlt_p_retrans(vector<float> &dlt_p_retrans);
@@ -75,6 +75,9 @@ public:												// member functions
    virtual void doPDetachment(void);
    virtual void doPDemand(void);
    virtual void doPSenescence(void);
+   virtual void  doRemoveBiomass(protocol::removeCropDmType dmRemoved, string &c_remove_biomass_report);
+   virtual void  removeBiomass(void);
+   virtual void  removeBiomass2(float);
 
    virtual void doGrainNumber (void);
 
@@ -135,7 +138,13 @@ public:												// member functions
    virtual float dltDmDetached(void) const;
    virtual float dltDmGreenRetrans(void) const ;
 
-   virtual float dmGreenDemand(void) const;     
+   virtual float dltDmGreenRemoved(void) const;
+   virtual float dltDmSenescedRemoved(void) const;
+   virtual float dltDmDeadRemoved(void) const;
+   virtual float dltDmRemoved(void) const;
+   virtual float dltNRemoved(void) const;
+
+   virtual float dmGreenDemand(void) const;
    virtual float dmTotal(void) const;
    virtual float dmGrainTotal(void) const;
    virtual float dmVegTotal(void) const;
