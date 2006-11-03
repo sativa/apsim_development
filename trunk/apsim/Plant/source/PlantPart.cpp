@@ -776,22 +776,114 @@ void plantPart::removeBiomass(void)
 // deltas have been given from an external module; update states.
    {
 //    update();
-    float chop_fr_green = divide(dlt.dm_green_removed, DMGreen, 0.0);
-    float chop_fr_sen   = divide(dlt.dm_senesced_removed, DMSenesced, 0.0);
-    float chop_fr_dead  = divide(dlt.dm_dead_removed, DMDead, 0.0);
+   DMGreen -= dltDmGreenRemoved();
+   DMSenesced -= dltDmSenescedRemoved();
+   DMDead -= dltDmDeadRemoved();
 
-   DMGreen -=DMGreen * chop_fr_green;
-   DMSenesced -= DMSenesced * chop_fr_sen;
-   DMDead -= DMDead * chop_fr_dead;
+   NGreen -= dltNGreenRemoved();
+   NSenesced -= dltNSenescedRemoved();
+   NDead -= dltNDeadRemoved();
 
-   NGreen -= NGreen * chop_fr_green;
-   NSenesced -= NSenesced * chop_fr_sen;
-   NDead -= NDead * chop_fr_dead;
-
-   PGreen -= PGreen * chop_fr_green;
-   PSen -= PSen * chop_fr_sen;
-   PDead -= PDead * chop_fr_dead;
+   PGreen -= dltPGreenRemoved();
+   PSen -= dltPSenescedRemoved();
+   PDead -= dltNDeadRemoved();
    }
+
+void plantPart::doRemoveBiomass(protocol::removeCropDmType dmRemoved, string &c_remove_biomass_report)
+//=======================================================================================
+// deltas have been given from an external module; update states.
+{
+    float error_margin = 1.0e-6 ;
+
+    for (unsigned int pool = 0; pool < dmRemoved.dm.size(); pool++)
+    {
+       for (unsigned int part = 0; part < dmRemoved.dm[pool].part.size(); part++)
+       {
+          if (dmRemoved.dm[pool].pool == "green")
+          {
+             if (dmRemoved.dm[pool].part[part] == c.name)       {giveDmGreenRemoved(dmRemoved.dm[pool].dlt[part]); }
+             else {  /* not my part */ }
+          }
+
+          else if (dmRemoved.dm[pool].pool == "senesced")
+          {
+             if (dmRemoved.dm[pool].part[part] == c.name)       {giveDmSenescedRemoved(dmRemoved.dm[pool].dlt[part]); }
+             else { /* not my part */ }
+          }
+
+          else if (dmRemoved.dm[pool].pool == "dead")
+          {
+             if (dmRemoved.dm[pool].part[part] == c.name)       {giveDmDeadRemoved(dmRemoved.dm[pool].dlt[part]); }
+             else { /* not my part */ }
+          }
+          else { /* unknown type */ }
+       }
+    }
+
+    if (c_remove_biomass_report == "on")
+    {
+       ostringstream msg1;
+       msg1 << "Remove Crop Biomass 2:-" << endl;
+       float dmTotal1 = 0.0;
+
+       msg1 << "   dm green "+c.name+" = " << dltDmGreenRemoved() << " (g/m2)" << endl;
+       dmTotal1 += dltDmGreenRemoved();
+
+       msg1 << "   dm senesced "+c.name+" = " << dltDmSenescedRemoved() << " (g/m2)" << endl;
+       dmTotal1 +=  dltDmSenescedRemoved();
+
+       msg1 << "   dm dead "+c.name+" = " << dltDmDeadRemoved() << " (g/m2)" << endl;
+       dmTotal1 +=  dltDmDeadRemoved();
+
+       msg1 << endl << "   dm total "+c.name+" = " << dmTotal1 << " (g/m2)" << endl << ends;
+
+       plant->writeString (msg1.str().c_str());
+
+       ostringstream msg2;
+       msg2 << "Crop Biomass Available:-" << endl;
+       float dmTotal2 = 0.0;
+
+       msg2 << "   dm green "+c.name+" = " << dmGreen() << " (g/m2)" << endl;
+       dmTotal2 +=  dmGreen();
+
+       msg2 << "   dm senesced "+c.name+" = " << dmSenesced() << " (g/m2)" << endl;
+       dmTotal2 +=  dmSenesced();
+
+       msg2 << "   dm dead "+c.name+" = " << dmDead() << " (g/m2)" << endl;
+       dmTotal2 +=  dmDead();
+
+       msg2 << endl << "   dm total "+c.name+" = " << dmTotal2 << " (g/m2)" << endl << ends;
+
+       plant->writeString (msg2.str().c_str());
+    }
+
+    // Check sensibility of part deltas
+     if (dltDmGreenRemoved() > (dmGreen() + error_margin))
+     {
+          ostringstream msg;
+          msg << "Attempting to remove more green " << name() << " biomass than available:-" << endl;
+          msg << "Removing " << -dltDmGreenRemoved() << " (g/m2) from " << dmGreen() << " (g/m2) available." << ends;
+          throw std::runtime_error (msg.str().c_str());
+     }
+     else if (dltDmSenescedRemoved() > (dmSenesced() + error_margin))
+     {
+          ostringstream msg;
+          msg << "Attempting to remove more senesced " << name() << " biomass than available:-" << endl;
+          msg << "Removing " << -dltDmSenescedRemoved() << " (g/m2) from " << dmSenesced() << " (g/m2) available." << ends;
+          throw std::runtime_error (msg.str().c_str());
+     }
+     else if (dltDmDeadRemoved() > (dmDead() + error_margin))
+     {
+          ostringstream msg;
+          msg << "Attempting to remove more dead " << name() << " biomass than available:-" << endl;
+          msg << "Removing " << -dltDmDeadRemoved() << " (g/m2) from " << dmDead() << " (g/m2) available." << ends;
+          throw std::runtime_error (msg.str().c_str());
+     }
+     else
+     { // no more checks
+     }
+}
+
 void plantPart::removeBiomass2(float)
    {
    }
@@ -1301,6 +1393,60 @@ float plantPart::dltDmDeadRemoved(void) const
    return (dlt.dm_dead_removed);
    }
 
+float plantPart::dltNGreenRemoved(void) const
+//=======================================================================================
+   {
+   return (NGreen * divide(dlt.dm_green_removed, DMGreen, 0.0));
+   }
+
+float plantPart::dltNSenescedRemoved(void) const
+//=======================================================================================
+   {
+   return (NSenesced * divide(dlt.dm_senesced_removed, DMSenesced, 0.0));
+   }
+
+float plantPart::dltNDeadRemoved(void) const
+//=======================================================================================
+   {
+   return (NDead * divide(dlt.dm_dead_removed, DMDead, 0.0));
+   }
+
+float plantPart::dltPGreenRemoved(void) const
+//=======================================================================================
+   {
+   return (PGreen * divide(dlt.dm_green_removed, DMGreen, 0.0));
+   }
+
+float plantPart::dltPSenescedRemoved(void) const
+//=======================================================================================
+   {
+   return (PSen * divide(dlt.dm_senesced_removed, DMSenesced, 0.0));
+   }
+
+float plantPart::dltPDeadRemoved(void) const
+//=======================================================================================
+   {
+   return (PDead * divide(dlt.dm_dead_removed, DMDead, 0.0));
+   }
+
+float plantPart::dltDmRemoved(void) const
+//=======================================================================================
+   {
+   return (dltDmGreenRemoved() + dltDmSenescedRemoved() + dltDmDeadRemoved());
+   }
+
+float plantPart::dltNRemoved(void) const
+//=======================================================================================
+   {
+   return (dltNGreenRemoved() + dltNSenescedRemoved() + dltNDeadRemoved());
+   }
+
+float plantPart::dltPRemoved(void) const
+//=======================================================================================
+   {
+   return (dltPGreenRemoved() + dltPSenescedRemoved() + dltPDeadRemoved());
+   }
+
 float plantPart::dmSenesced(void) const
 //=======================================================================================
    {
@@ -1567,6 +1713,7 @@ void plantPart::onPlantEvent(const string &event)
    else if (event == "start_grain_fill") onStartGrainFill();
    }
 
+void plantPart::get_name(vector<string> &names) {names.push_back(c.name);}
 void plantPart::get_p_demand(vector<float> &demands) {demands.push_back(PDemand);}
 void plantPart::get_dlt_p_green(vector<float> &dlt_p_green) {dlt_p_green.push_back(dlt.p_green);}
 void plantPart::get_p_green(vector<float> &p_green) {p_green.push_back(PGreen);}

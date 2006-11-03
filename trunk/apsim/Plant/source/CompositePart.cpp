@@ -381,7 +381,7 @@ void CompositePart::get_Dlt_dm_green_retrans(protocol::Component *system, protoc
    }
 
 
-float CompositePart::dltNGreen(void) const 
+float CompositePart::dltNGreen(void) const
    //===========================================================================
 {
    float sum = 0.0;
@@ -572,7 +572,7 @@ float CompositePart::dltNSenescedTrans(void) const
 }
 
 
-float CompositePart::dltDmGreenRetrans(void) const 
+float CompositePart::dltDmGreenRetrans(void) const
    //===========================================================================
 {
    float sum = 0.0;
@@ -681,7 +681,7 @@ float CompositePart::dmDeadVegTotal(void) const
    return dmTotal;
 }
 
-float CompositePart::dmDead(void) const 
+float CompositePart::dmDead(void) const
    //===========================================================================
 {
    float result = 0.0;
@@ -831,7 +831,7 @@ float CompositePart::nDemandGrain2(void)
    return n_demand;
 }
 
-float CompositePart::soilNDemand(void) 
+float CompositePart::soilNDemand(void)
    //============================================================================
 {
    SoilNDemand = 0.0;
@@ -1040,6 +1040,14 @@ void CompositePart::get_p_demand(vector<float> &p_demand)
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       (*part)->get_p_demand(p_demand);
+}
+
+void CompositePart::get_name(vector<string> &name)
+   //===========================================================================
+{
+   vector <plantPart *>::iterator part;
+   for (part = myParts.begin(); part != myParts.end(); part++)
+      (*part)->get_name(name);
 }
 
 void CompositePart::get_dlt_p_green(vector<float> &dlt_p_green)
@@ -1389,6 +1397,75 @@ void CompositePart::zeroDltNSenescedTrans(void)
       (*part)->zeroDltNSenescedTrans();
 }
 
+float CompositePart::dltDmGreenRemoved(void) const
+//=======================================================================================
+   {
+   float DMGreenRemoved = 0.0;
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      DMGreenRemoved +=(*part)->dltDmGreenRemoved();
+   return DMGreenRemoved;
+   }
+
+float CompositePart::dltDmSenescedRemoved(void) const
+//=======================================================================================
+   {
+   float DMSenescedRemoved = 0.0;
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      DMSenescedRemoved +=(*part)->dltDmSenescedRemoved();
+   return DMSenescedRemoved;
+   }
+
+float CompositePart::dltDmDeadRemoved(void) const
+//=======================================================================================
+   {
+   float DMDeadRemoved = 0.0;
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      DMDeadRemoved +=(*part)->dltDmDeadRemoved();
+   return DMDeadRemoved;
+   }
+
+float CompositePart::dltDmRemoved(void) const
+//=======================================================================================
+   {
+   float DMRemoved = 0.0;
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      DMRemoved +=(*part)->dltDmRemoved();
+   return DMRemoved;
+   }
+
+float CompositePart::dltNRemoved(void) const
+//=======================================================================================
+   {
+   float NRemoved = 0.0;
+   for (vector <plantPart * >::const_iterator part = myParts.begin(); part != myParts.end(); part++)
+      NRemoved +=(*part)->dltNRemoved();
+   return NRemoved;
+   }
+
+void CompositePart::doRemoveBiomass(protocol::removeCropDmType dmRemoved, string &c_remove_biomass_report)
+//=======================================================================================
+{
+   vector <plantPart *>::iterator part;
+   for (part =  myParts.begin(); part != myParts.end(); part++)
+      (*part)->doRemoveBiomass(dmRemoved, c_remove_biomass_report);
+}
+
+void CompositePart::removeBiomass(void)
+//=======================================================================================
+{
+   vector <plantPart *>::iterator part;
+   for (part =  myParts.begin(); part != myParts.end(); part++)
+      (*part)->removeBiomass();
+}
+
+void CompositePart::removeBiomass2(float chop_fr)
+//=======================================================================================
+{
+   vector <plantPart *>::iterator part;
+   for (part =  myParts.begin(); part != myParts.end(); part++)
+      (*part)->removeBiomass2(chop_fr);
+}
+
 void CompositePart::onHarvest(float cutting_height, float remove_fr,
                            vector<string> &dm_type,
                            vector<float> &dlt_crop_dm,
@@ -1475,7 +1552,7 @@ float CompositePart::dltDmGreen(void) const
 }
 
 
-float CompositePart::dltDmRetranslocateSupply(float demand_differential) 
+float CompositePart::dltDmRetranslocateSupply(float demand_differential)
    //===========================================================================
 {
    float dlt_dm_green_retrans = 0.0;
@@ -1817,14 +1894,14 @@ float CompositePart::giveDmGreen(float dmSupplied)
                    + "uptake = " + ftoa(uptake, ".6")
                    + " vs "
                    + "supplied = " + ftoa(dmSupplied, ".6") +"\n";
-       for (vector<plantPart *>::iterator part = myParts.begin(); 
-            part != myParts.end(); 
+       for (vector<plantPart *>::iterator part = myParts.begin();
+            part != myParts.end();
             part++)
          msg += (*part)->name() + "=" + ftoa((*part)->dltDmGreen(), ".6") +"\n";
 
        plant->warningError(msg.c_str());
        }
- 
+
    return uptake;
    }
 
@@ -1947,8 +2024,8 @@ void CompositePart::doNRetranslocate( float N_supply, float g_grain_n_demand)
    // get actual grain N uptake by retransolcation
    // limit retranslocation to total available N
 
-   for (vector <plantPart *>::iterator part = myParts.begin(); 
-        part != myParts.end(); 
+   for (vector <plantPart *>::iterator part = myParts.begin();
+        part != myParts.end();
         part++)
       (*part)->doNRetranslocate(N_supply, g_grain_n_demand);           //FIXME - divy up?
 }
@@ -2023,7 +2100,7 @@ void CompositePart::doNDetachment(void)
 
 void CompositePart::doPDemand(void)     // (INPUT)  Whole plant potential dry matter production (g/m^2)
    //============================================================================
-{  
+{
    vector <plantPart *>::iterator part;
    for (part = myParts.begin(); part != myParts.end(); part++)
       {
@@ -2079,7 +2156,7 @@ float CompositePart::dmRetransSupply(void) const
    return dm_retrans_supply;
 }
 
-float CompositePart::dmRetransDemand(void) 
+float CompositePart::dmRetransDemand(void)
 //============================================================================
 {
    float dm_retrans_demand = 0.0;

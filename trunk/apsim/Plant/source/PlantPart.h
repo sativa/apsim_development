@@ -251,6 +251,15 @@ public:
    virtual float dltDmGreenRemoved(void) const;
    virtual float dltDmDeadRemoved(void) const;
    virtual float dltDmSenescedRemoved(void) const;
+   virtual float dltDmRemoved(void) const;
+   virtual float dltNGreenRemoved(void) const;
+   virtual float dltNDeadRemoved(void) const;
+   virtual float dltNSenescedRemoved(void) const;
+   virtual float dltNRemoved(void) const;
+   virtual float dltPGreenRemoved(void) const;
+   virtual float dltPDeadRemoved(void) const;
+   virtual float dltPSenescedRemoved(void) const;
+   virtual float dltPRemoved(void) const;
 
    virtual float n_conc_crit(void) const;
    virtual float n_conc_min(void) const;
@@ -312,6 +321,8 @@ public:
    virtual float pRetransSupply(void);
    virtual float pRetransDemand(void);
    virtual float height(void);
+
+   virtual void  doRemoveBiomass(protocol::removeCropDmType dmRemoved, string &c_remove_biomass_report);
    virtual void  removeBiomass(void);
    virtual void  removeBiomass2(float);
 
@@ -344,6 +355,7 @@ public:
 
    const string &name(void) {return c.name;};
 
+   virtual void get_name(vector<string> &names);
    virtual void get_p_demand(vector<float> &p_demand);
    virtual void get_dlt_p_green(vector<float> &dlt_p_green);
    virtual void get_dlt_p_retrans(vector<float> &dlt_p_retrans);

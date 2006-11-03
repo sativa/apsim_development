@@ -29,8 +29,6 @@ public:												// member functions
    void get_pod_p(protocol::Component *, protocol::QueryValueData &qd);
    void get_head_p(protocol::Component *, protocol::QueryValueData &qd);
 
-
-
    void doNDemand1(float, float);
    void doNDemand1Pot(float, float);
 
