@@ -3,6 +3,7 @@
 #define PlantHerbageH
 #include "HerbageBase.h"
 #include "PlantPool.h"
+#include "SeedPool.h"
 
 
 // ------------------------------------------------------------------
@@ -18,25 +19,34 @@ class PlantHerbage : public HerbageBase
       void doDigestibility (void);
 
       void doRunTimeReg(void);
-      void getParts(PlantPartType &parts, unsigned partsID);
-      void getPGreen(PlantPartType &pGreen, PlantPool &dm);
-      void getPSenesced(PlantPartType &pSenesced, PlantPool &dm);
-      void getPDead(PlantPartType &pDead, PlantPool &dm);
+      void getParts(PlantPartType &parts, SeedPartType &partsSeed, unsigned partsID);
+      void getPGreen(PlantPartType &pGreen, PlantPool &dm, SeedPartType &pGreenSeed, SeedPool &dmSeed);
+      void getPSenesced(PlantPartType &pSenesced, PlantPool &dm, SeedPartType &pSenescedSeed, SeedPool &dmSeed);
+      void getPDead(PlantPartType &pDead, PlantPool &dm, SeedPartType &pDeadSeed, SeedPool &dmSeed);
       void getHeight(float &height);
-      void getThermalTime(float &thermalTime);
+      void getTrampling(void);
+      void getStage(void);
       void getVariables(void);
       void readHerbageModuleParameters ( void );
 
-      void calcDmdDistribution(PlantPool dmdFraction[], PlantPool dQ);
-      void calcDmdDistributionB(PlantPool dmdFraction[], PlantPool dQ);
+      void calcDmdDistribution(PlantPool dmdFraction[]);
       void calcDmdClass(PlantPool &dmdClassMax, PlantPool &dmdClassMin);
-      void calcDmdDecline(void);
-      float dmTotal(void);
-      float dmTot(int pool);
-      float cpConc(int pool);
-      float pConc(int pool);
-      float ashAlk(int pool);
-      float sConc(int pool);
+////      void calcDmdDecline(void);
+
+      float dmTotalVeg(void);
+      float dmTotVeg(int pool);
+      float cpConcVeg(int pool);
+      float pConcVeg(int pool);
+      float ashAlkVeg(int pool);
+      float sConcVeg(int pool);
+
+      float dmTotalSeed(void);
+      float dmTotSeed(int pool);
+      float cpConcSeed(int pool);
+      float pConcSeed(int pool);
+      float ashAlkSeed(int pool);
+      float sConcSeed(int pool);
+
       float proportionGreen(void);
       float proportionLegume(void);
       float selectionFactor ( void );
@@ -47,13 +57,26 @@ class PlantHerbage : public HerbageBase
 
       void readParameters ( void );
       void proportion (float dmdAvg, float dmdMax, float dmdMin, float dmdFraction[]);
+      void proportion (float dmdMax, float dmdMin, float dmdFraction[]);
       void dmdClass (float dmdMax, float dmdMin, float &dmdClassMax, float &dmdClassMin);
+
       float hHeight(void);
-      float heightRatio(int pool);
+      float heightRatioVeg(int pool);
       float bD(void);
-      float dmdValue(int pool);
-      float protDg(int pool);
-      int numDmdPools ( void );
+      float dmdValueVeg(int pool);
+      float protDgVeg(int pool);
+      int numDmdPoolsVeg ( void );
+
+      float heightRatioSeed(int pool);
+      float dmdValueSeed(int pool);
+      float protDgSeed(int pool);
+      int numDmdPoolsSeed ( void );
+
+      int seedClass(int pool);
+      int seedMaturity(void);
+      bool ripeSeed(void);
+      float trampling(void);
+
       string herbageModuleName(void);
       string debug();
 
@@ -65,29 +88,50 @@ class PlantHerbage : public HerbageBase
       unsigned dmFeedOnOfferID;
       unsigned dmFeedRemovedID;
       unsigned removeCropBiomassID;
+      unsigned detachRateID;
 
-      PlantPool dmdFraction[maxDmdPools];
-      PlantPool dmdPoolDm[maxDmdPools];
-      PlantPool partFraction[maxDmdPools];
-      PlantPool dmdMax;
-      PlantPool dmdAvg;
-      PlantPool dmdMin;
+      PlantPool dmdFractionVeg[maxDmdPoolsVeg];
+      PlantPool dmdPoolDmVeg[maxDmdPoolsVeg];
+      PlantPool partFractionVeg[maxDmdPoolsVeg];
+      PlantPool dmdMaxVeg;
+      PlantPool dmdAvgVeg;
+      PlantPool dmdMinVeg;
 
-      PlantPool dmdClassMax;
-      PlantPool dmdClassMin;
+      PlantPool dmdClassMaxVeg;
+      PlantPool dmdClassMinVeg;
 
-      PlantPool dm;
-      PlantPool N;
-      PlantPool P;
-      PlantPool dQ;
+      PlantPool dmVeg;
+      PlantPool NVeg;
+      PlantPool PVeg;
+////      PlantPool dQVeg;
+      float  eTrampling;
       float  height;
-      float  thermalTime;
+      int  cropMatureStageNo;
+      float  cropStageNo;
+      string cropStageName;
+
+      SeedPool dmdFractionSeed[maxDmdPoolsSeed];
+      SeedPool dmdPoolDmSeed[maxDmdPoolsSeed];
+      SeedPool partFractionSeed[maxDmdPoolsSeed];
+      SeedPool dmdUnripeSeed;
+      SeedPool dmdRipeSeed;
+
+      SeedPool dmdClassMaxSeed;
+      SeedPool dmdClassMinSeed;
+
+      SeedPool dmSeed;
+      SeedPool NSeed;
+      SeedPool PSeed;
+////      SeedPool dQSeed;
 
          string cHerbageModuleName;
          string cDebug;
 
-         float cDmdValue[maxDmdPools];
-         int   cNumDmdPools;
+         float cDmdValueVeg[maxDmdPoolsVeg];
+         int   cNumDmdPoolsVeg;
+
+         float cDmdValueSeed[maxDmdPoolsSeed];
+         int   cNumDmdPoolsSeed;
 
    private:
 ////      protocol::Component *system;
@@ -96,13 +140,6 @@ class PlantHerbage : public HerbageBase
       unsigned dmGreenID;
       unsigned dmSenescedID;
       unsigned dmDeadID;
-      unsigned dmGreenDeltaID;
-      unsigned dmGreenRetransDeltaID;
-      unsigned dmSenescedDeltaID;
-      unsigned dmSenescedDetachedDeltaID;
-      unsigned dmGreenDeadDeltaID;
-      unsigned dmSenescedDeadDeltaID;
-      unsigned dmDeadDetachedDeltaID;
       unsigned nGreenID;
       unsigned nSenescedID;
       unsigned nDeadID;
@@ -110,49 +147,100 @@ class PlantHerbage : public HerbageBase
       unsigned pSenescedID;
       unsigned pDeadID;
       unsigned heightID;
-      unsigned thermalTimeID;
-      unsigned thermalTimeBGID;
+      unsigned tramplingID;
+      unsigned stageID;
+      unsigned stageNameID;
 
       struct
       {
 
-         float dmdValue[maxDmdPools];
-         int   numDmdPools;
+         float dmdValueVeg[maxDmdPoolsVeg];
+         int   numDmdPoolsVeg;
+         float dmdValueSeed[maxDmdPoolsSeed];
+         int   numDmdPoolsSeed;
+         float specificDetachRate;
 
          float pConcGreenStemDefault;
+         float pConcGreenPodDefault;
          float pConcGreenLeafDefault;
+         float pConcGreenMealDefault;
+         float pConcGreenOilDefault;
          float pConcDeadStemDefault;
+         float pConcDeadPodDefault;
          float pConcDeadLeafDefault;
+         float pConcDeadMealDefault;
+         float pConcDeadOilDefault;
          float pConcSenescedStemDefault;
+         float pConcSenescedPodDefault;
          float pConcSenescedLeafDefault;
+         float pConcSenescedMealDefault;
+         float pConcSenescedOilDefault;
 
          float AshAlkGreenStemDefault;
+         float AshAlkGreenPodDefault;
          float AshAlkGreenLeafDefault;
+         float AshAlkGreenMealDefault;
+         float AshAlkGreenOilDefault;
          float AshAlkDeadStemDefault;
+         float AshAlkDeadPodDefault;
          float AshAlkDeadLeafDefault;
+         float AshAlkDeadMealDefault;
+         float AshAlkDeadOilDefault;
          float AshAlkSenescedStemDefault;
+         float AshAlkSenescedPodDefault;
          float AshAlkSenescedLeafDefault;
+         float AshAlkSenescedMealDefault;
+         float AshAlkSenescedOilDefault;
 
          float NSRatioGreenStemDefault;
+         float NSRatioGreenPodDefault;
          float NSRatioGreenLeafDefault;
+         float NSRatioGreenMealDefault;
+         float NSRatioGreenOilDefault;
          float NSRatioDeadStemDefault;
+         float NSRatioDeadPodDefault;
          float NSRatioDeadLeafDefault;
+         float NSRatioDeadMealDefault;
+         float NSRatioDeadOilDefault;
          float NSRatioSenescedStemDefault;
+         float NSRatioSenescedPodDefault;
          float NSRatioSenescedLeafDefault;
+         float NSRatioSenescedMealDefault;
+         float NSRatioSenescedOilDefault;
 
          float NPRatioGreenStemDefault;
+         float NPRatioGreenPodDefault;
          float NPRatioGreenLeafDefault;
+         float NPRatioGreenMealDefault;
+         float NPRatioGreenOilDefault;
          float NPRatioDeadStemDefault;
+         float NPRatioDeadPodDefault;
          float NPRatioDeadLeafDefault;
+         float NPRatioDeadMealDefault;
+         float NPRatioDeadOilDefault;
          float NPRatioSenescedStemDefault;
+         float NPRatioSenescedPodDefault;
          float NPRatioSenescedLeafDefault;
+         float NPRatioSenescedMealDefault;
+         float NPRatioSenescedOilDefault;
 
          float dmdGreenLeaf[3];
          float dmdGreenStem[3];
+         float dmdGreenPod[3];
+         float dmdGreenMeal[2];
+         float dmdGreenOil[2];
          float dmdSenescedLeaf[3];
          float dmdSenescedStem[3];
+         float dmdSenescedPod[3];
+         float dmdSenescedMeal[2];
+         float dmdSenescedOil[2];
          float dmdDeadLeaf[3];
          float dmdDeadStem[3];
+         float dmdDeadPod[3];
+         float dmdDeadMeal[2];
+         float dmdDeadOil[2];
+
+         int seedClass[2];
 
          float cpNRatio;
          float proportionLegume;

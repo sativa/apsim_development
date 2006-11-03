@@ -24,17 +24,27 @@ class ResidueHerbage : public HerbageBase
 ////      void getHeight(float &height);
 ////      void getThermalTime(float &thermalTime);
       void getVariables(void);
+      void getStage(void);
       void readHerbageModuleParameters ( void );
       void calcDmdDistribution(ResiduePool dmdFraction[], ResiduePool dQ);
       void calcDmdDistributionB(ResiduePool dmdFraction[], ResiduePool dQ);
       void calcDmdClass(ResiduePool &dmdClassMax, ResiduePool &dmdClassMin);
       void calcDmdAverage(void);
-      float dmTotal(void);
-      float dmTot(int pool);
-      float cpConc(int pool);
-      float pConc(int pool);
-      float ashAlk(int pool);
-      float sConc(int pool);
+
+      float dmTotalVeg(void);
+      float dmTotVeg(int pool);
+      float cpConcVeg(int pool);
+      float pConcVeg(int pool);
+      float ashAlkVeg(int pool);
+      float sConcVeg(int pool);
+
+      float dmTotalSeed(void);
+      float dmTotSeed(int pool);
+      float cpConcSeed(int pool);
+      float pConcSeed(int pool);
+      float ashAlkSeed(int pool);
+      float sConcSeed(int pool);
+
       float proportionGreen(void);
       float proportionLegume(void);
       float selectionFactor ( void );
@@ -46,12 +56,24 @@ class ResidueHerbage : public HerbageBase
 
       void proportion (float dmdAvg, float dmdMax, float dmdMin, float dmdFraction[]);
       void dmdClass (float dmdMax, float dmdMin, float &dmdClassMax, float &dmdClassMin);
+
       float hHeight(void);
-      float heightRatio(int pool);
+      float heightRatioVeg(int pool);
       float bD(void);
-      float dmdValue(int pool);
-      float protDg(int pool);
-      int numDmdPools ( void );
+      float dmdValueVeg(int pool);
+      float protDgVeg(int pool);
+
+      float heightRatioSeed(int pool);
+      float dmdValueSeed(int pool);
+      float protDgSeed(int pool);
+
+      int seedClass(int pool);
+      int seedMaturity(void);
+      float trampling(void);
+
+
+      int numDmdPoolsVeg ( void );
+      int numDmdPoolsSeed ( void );
       string herbageModuleName(void);
       string debug();
 
@@ -65,28 +87,47 @@ class ResidueHerbage : public HerbageBase
       unsigned dmFeedRemovedID;
       unsigned removeCropBiomassID;
 
-      ResiduePool dmdFraction[maxDmdPools];
-      ResiduePool dmdPoolDm[maxDmdPools];
-      ResiduePool partFraction[maxDmdPools];
-      ResiduePool dmdMax;
-      ResiduePool dmdAvg;
-      ResiduePool dmdMin;
+      ResiduePool dmdFractionVeg[maxDmdPoolsVeg];
+      ResiduePool dmdPoolDmVeg[maxDmdPoolsVeg];
+      ResiduePool partFractionVeg[maxDmdPoolsVeg];
+      ResiduePool dmdMaxVeg;
+      ResiduePool dmdAvgVeg;
+      ResiduePool dmdMinVeg;
 
-      ResiduePool dmdClassMax;
-      ResiduePool dmdClassMin;
+      ResiduePool dmdClassMaxVeg;
+      ResiduePool dmdClassMinVeg;
 
-      ResiduePool dm;
-      ResiduePool N;
-      ResiduePool P;
-      ResiduePool dQ;
+      ResiduePool dmVeg;
+      ResiduePool NVeg;
+      ResiduePool PVeg;
+      ResiduePool dQVeg;
+
+      ResiduePool dmdFractionSeed[maxDmdPoolsSeed];
+      ResiduePool dmdPoolDmSeed[maxDmdPoolsSeed];
+      ResiduePool partFractionSeed[maxDmdPoolsSeed];
+      ResiduePool dmdMaxSeed;
+      ResiduePool dmdAvgSeed;
+      ResiduePool dmdMinSeed;
+
+      ResiduePool dmdClassMaxSeed;
+      ResiduePool dmdClassMinSeed;
+
+      ResiduePool dmSeed;
+      ResiduePool NSeed;
+      ResiduePool PSeed;
+      ResiduePool dQSeed;
+
       float  height;
-      float  thermalTime;
+////      float  thermalTime;
 
          string cHerbageModuleName;
          string cDebug;
 
-         float cDmdValue[maxDmdPools];
-         int   cNumDmdPools;
+         float cDmdValueVeg[maxDmdPoolsVeg];
+         int   cNumDmdPoolsVeg;
+
+         float cDmdValueSeed[maxDmdPoolsSeed];
+         int   cNumDmdPoolsSeed;
 
    private:
 ////      protocol::Component *system;
@@ -97,8 +138,11 @@ class ResidueHerbage : public HerbageBase
       struct
       {
 
-         float dmdValue[maxDmdPools];
-         int   numDmdPools;
+         float dmdValueVeg[maxDmdPoolsVeg];
+         int   numDmdPoolsVeg;
+
+         float dmdValueSeed[maxDmdPoolsSeed];
+         int   numDmdPoolsSeed;
 
          float pConccelluloseDefault;
          float pConccarbohydrateDefault;

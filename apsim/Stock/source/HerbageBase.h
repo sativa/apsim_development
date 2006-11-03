@@ -25,7 +25,7 @@
 
 #pragma package(smart_init)
 
-#include "HerbagePool.h"
+//#include "HerbagePool.h"
 
 #define min(A,B) ((A)<(B)?(A):(B))
 #define max(A,B) ((A)>(B)?(A):(B))
@@ -34,7 +34,9 @@
 std::string ftoa(double Float, char *fmtwidth=".2");
 std::string itoa(int value, int width);
 
-      const int maxDmdPools = 6;
+      const int maxDmdPoolsVeg = 6;
+      const int maxDmdPoolsSeed = 2;
+      const int maxSeedClasses = 2;
 
 // ------------------------------------------------------------------
 class HerbageBase : public protocol::Component
@@ -47,21 +49,38 @@ class HerbageBase : public protocol::Component
     virtual void doInit2() = 0;
     virtual void doGrazed(protocol::remove_herbageType &grazed) = 0;
     virtual void doDigestibility() = 0;
-    virtual float dmTotal() = 0;
-    virtual int numDmdPools() = 0;
-    virtual float dmTot(int pool) = 0;
-    virtual float dmdValue(int pool) = 0;
-    virtual float cpConc(int pool) = 0;
-    virtual float pConc(int pool) = 0;
-    virtual float sConc(int pool) = 0;
-    virtual float protDg(int pool) = 0;
-    virtual float ashAlk(int pool) = 0;
-    virtual float heightRatio(int pool) = 0;
+
+    virtual float dmTotalVeg() = 0;
+    virtual int numDmdPoolsVeg() = 0;
+    virtual float dmTotVeg(int pool) = 0;
+    virtual float dmdValueVeg(int pool) = 0;
+    virtual float cpConcVeg(int pool) = 0;
+    virtual float pConcVeg(int pool) = 0;
+    virtual float sConcVeg(int pool) = 0;
+    virtual float protDgVeg(int pool) = 0;
+    virtual float ashAlkVeg(int pool) = 0;
+    virtual float heightRatioVeg(int pool) = 0;
     virtual float bD() = 0;
     virtual float hHeight() = 0;
+
+    virtual float dmTotalSeed() = 0;
+    virtual int numDmdPoolsSeed() = 0;
+    virtual float dmTotSeed(int pool) = 0;
+    virtual float dmdValueSeed(int pool) = 0;
+    virtual float cpConcSeed(int pool) = 0;
+    virtual float pConcSeed(int pool) = 0;
+    virtual float sConcSeed(int pool) = 0;
+    virtual float protDgSeed(int pool) = 0;
+    virtual float ashAlkSeed(int pool) = 0;
+    virtual float heightRatioSeed(int pool) = 0;
+    virtual void getStage(void) = 0;
+    virtual float trampling(void) = 0;
+
     virtual float proportionGreen() = 0;
     virtual float proportionLegume() = 0;
     virtual float selectionFactor() = 0; // ??
+    virtual int seedClass(int pool) = 0;
+    virtual int seedMaturity(void) = 0;
 
     protected:
         protocol::Component *system;

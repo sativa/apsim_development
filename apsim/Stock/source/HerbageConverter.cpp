@@ -4,8 +4,8 @@
 
 using namespace std;
 
-#define singleArrayTypeDDML \
-   "<type  array=\"T\" kind=\"single\"/>"
+static const char*  singleArrayTypeDDML = "<type  array=\"T\" kind=\"single\"/>";
+static const char*  singleTypeDDML = "<type kind=\"single\"/>";
 
 // number of plant parts
 // const int  max_part = 6 ; // NB. implies for (i=0; i < max_part; max_part++) usage
@@ -20,7 +20,6 @@ using namespace std;
 // ------------------------------------------------------------------
 HerbageConverter::HerbageConverter(protocol::Component *s) : ConverterBase(s)
    {
-////      system = s;
    }
 // ------------------------------------------------------------------
 // Destructor
@@ -34,7 +33,7 @@ HerbageConverter::~HerbageConverter(void)
 // ------------------------------------------------------------------
 void HerbageConverter::doInit1(const FString& sdml)
    {
-   tramplingID = system->addRegistration(RegistrationType::get, "trampling", protocol::DDML(int(1)).c_str());
+   tramplingID = system->addRegistration(RegistrationType::respondToGet, "herbage_trampling", singleTypeDDML);
    plant2stockID = system->addRegistration(RegistrationType::respondToGet, "plant2stock", protocol::DDML(protocol::plant2stockType()).c_str());
    removeHerbageID = system->addRegistration(RegistrationType::respondToEvent, "remove_herbage", DDML(protocol::remove_herbageType()).c_str());
 
@@ -91,6 +90,13 @@ void HerbageConverter::respondToEvent(unsigned int& fromID, unsigned int& eventI
             dmTotal1 +=  grazed.herbage[pool];
          }
 
+         msg1 << endl << "Remove Seed un/ripe pools:-" << endl;
+         for (unsigned int pool = 0; pool < feed.seed.size(); pool++)
+         {
+            msg1 << "   dm pool " << (pool+1) << " (" << feed.seed[pool].dmd << ") = " << grazed.seed[pool] << " (kg/ha)" << endl;
+            dmTotal1 +=  grazed.seed[pool];
+         }
+
          msg1 << endl << "   dm total = " << dmTotal1 << " (kg/ha)" << endl << ends;
 
          system->writeString (msg1.str().c_str());
@@ -104,6 +110,22 @@ void HerbageConverter::respondToEvent(unsigned int& fromID, unsigned int& eventI
             msg << "              !!!!! FATAL ERROR !!!!!" << endl;
             msg << "Attempting to remove more herbage from dmd pool " << (dmdPool+1) << " (dmd " << feed.herbage[dmdPool].dmd << ")" << " than available:-" << endl;
             msg << "Removing " << grazed.herbage[dmdPool] << " (kg/ha) from " << feed.herbage[dmdPool].dm << " (kg/ha) available." << endl;
+            msg << "Stock Science Converter Component Exiting" << endl << ends;
+            system->writeString (msg.str().c_str());
+            cerr << msg;
+            exit(1);
+//            throw std::runtime_error (msg.str());
+         }
+      }
+
+      for (unsigned int dmdPool = 0; dmdPool < grazed.seed.size(); dmdPool++)
+      {
+         if (grazed.seed[dmdPool] > feed.seed[dmdPool].dm)
+         {
+            ostringstream msg;     //FIXME!! Coding to avoid stack being wiped out.
+            msg << "              !!!!! FATAL ERROR !!!!!" << endl;
+            msg << "Attempting to remove more seed from dmd pool " << (dmdPool+1) << " (dmd " << feed.seed[dmdPool].dmd << ")" << " than available:-" << endl;
+            msg << "Removing " << grazed.seed[dmdPool] << " (kg/ha) from " << feed.seed[dmdPool].dm << " (kg/ha) available." << endl;
             msg << "Stock Science Converter Component Exiting" << endl << ends;
             system->writeString (msg.str().c_str());
             cerr << msg;
@@ -137,14 +159,23 @@ void HerbageConverter::respondToGet(unsigned int& fromID,
    // plant2stock
    else if (queryData.ID == plant2stockID)  sendPlant2Stock(queryData);
 
+   // trampling
+   else if (queryData.ID == tramplingID)  sendTrampling(queryData);
+
    else
    {   // don't respond to any other gets.
    }
 }
 
+void HerbageConverter::sendTrampling(protocol::QueryValueData& queryData)
+{
+      float trampling = conversion->trampling();
+      system->sendVariable(queryData, trampling);
+}
+
 void HerbageConverter::sendFeedOnOffer(protocol::QueryValueData& queryData)
 {
-      float dmFeedOnOffer[6] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+      float dmFeedOnOffer[8] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
       int num_parts = feed.herbage.size();
       if (num_parts > 0)
       {
@@ -157,12 +188,25 @@ void HerbageConverter::sendFeedOnOffer(protocol::QueryValueData& queryData)
       {
          num_parts = 6;
       }
-      system->sendVariable(queryData, vector <float> (dmFeedOnOffer, dmFeedOnOffer+num_parts-1));
+
+      int num_seed_parts = feed.seed.size();
+      if (num_seed_parts > 0)
+      {
+         for (int i = 0; i != num_seed_parts; i++)
+         {
+            dmFeedOnOffer[num_parts + i] = feed.seed[i].dm;
+         }
+      }
+      else
+      {
+         num_seed_parts = 2;
+      }
+      system->sendVariable(queryData, vector <float> (dmFeedOnOffer, dmFeedOnOffer+num_parts+num_seed_parts-1));
 }
 
 void HerbageConverter::sendFeedRemoved(protocol::QueryValueData& queryData)
 {
-      float dmFeedRemoved[6] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+      float dmFeedRemoved[8] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
       int num_parts = grazed.herbage.size();
       if (num_parts > 0)
       {
@@ -175,7 +219,20 @@ void HerbageConverter::sendFeedRemoved(protocol::QueryValueData& queryData)
       {
          num_parts = 6;
       }
-      system->sendVariable(queryData, vector <float> (dmFeedRemoved, dmFeedRemoved+num_parts-1));
+
+      int num_seed_parts = grazed.seed.size();
+      if (num_seed_parts > 0)
+      {
+         for (int i = 0; i != num_seed_parts; i++)
+         {
+            dmFeedRemoved[num_parts + i] = grazed.seed[i];
+         }
+      }
+      else
+      {
+         num_seed_parts = 2;
+      }
+      system->sendVariable(queryData, vector <float> (dmFeedRemoved, dmFeedRemoved+num_parts+num_seed_parts-1));
 }
 
 void HerbageConverter::sendPlant2Stock(protocol::QueryValueData& queryData)
@@ -184,21 +241,8 @@ void HerbageConverter::sendPlant2Stock(protocol::QueryValueData& queryData)
 //      conversion->getVariables(dm, N, P, height, thermalTime);
 
       protocol::herbageType herbage;
-      protocol::seedType seed;
 
-      seed.dm = 0.0;         // kg/ha
-      seed.dmd = 0.0;        // kg/ha
-      seed.cp_conc = 0.0;    // (kg/ha)
-      seed.p_conc = 0.0;
-      seed.s_conc = 0.0;      //  kg/ha
-      seed.prot_dg = 0.0;     //  kg/ha
-      seed.ash_alk = 0.0;      //  mol/kg
-      seed.height_ratio = 0.0; //
-
-      int unripe = 0;
-      int ripe = 0;
-
-      if (conversion->dmTotal() > 0.0)
+      if (conversion->dmTotalVeg() > 0.0)
       {
 
 // Now PREPARE herbage
@@ -207,16 +251,16 @@ void HerbageConverter::sendPlant2Stock(protocol::QueryValueData& queryData)
 // distribute herbage
 
 
-      for (int pool = 0; pool < conversion->numDmdPools(); pool++)
+      for (int pool = 0; pool < conversion->numDmdPoolsVeg(); pool++)
       {
-         herbage.dm = conversion->dmTot(pool);
-         herbage.dmd = conversion->dmdValue(pool);        // kg/ha  //fixme
-         herbage.cp_conc = conversion->cpConc(pool);   // (kg/ha) - parameter cpNRatio = 6.25
-         herbage.p_conc = conversion->pConc(pool);
-         herbage.s_conc = conversion->sConc(pool);      //parameter NSRatioLeaf = 19.0, NSRatioStem = 11.0;  herbage.s_conc = 0.0023;  kg/ha
-         herbage.prot_dg = conversion->protDg(pool);     // parameter ProtDegrade = 0.1;  herbage.prot_dg = 0.7;    // kg/ha
-         herbage.ash_alk = conversion->ashAlk(pool);      // herbage.ash_alk = 2.0;    // mol/kg
-         herbage.height_ratio = conversion->heightRatio(pool);
+         herbage.dm = conversion->dmTotVeg(pool);
+         herbage.dmd = conversion->dmdValueVeg(pool);        // kg/ha  //fixme
+         herbage.cp_conc = conversion->cpConcVeg(pool);   // (kg/ha) - parameter cpNRatio = 6.25
+         herbage.p_conc = conversion->pConcVeg(pool);
+         herbage.s_conc = conversion->sConcVeg(pool);      //parameter NSRatioLeaf = 19.0, NSRatioStem = 11.0;  herbage.s_conc = 0.0023;  kg/ha
+         herbage.prot_dg = conversion->protDgVeg(pool);     // parameter ProtDegrade = 0.1;  herbage.prot_dg = 0.7;    // kg/ha
+         herbage.ash_alk = conversion->ashAlkVeg(pool);      // herbage.ash_alk = 2.0;    // mol/kg
+         herbage.height_ratio = conversion->heightRatioVeg(pool);
 
          feed.herbage.push_back(herbage);
 
@@ -234,7 +278,7 @@ void HerbageConverter::sendPlant2Stock(protocol::QueryValueData& queryData)
                    << "   ash_alk      = " <<              herbage.ash_alk << " (mol/kg)" << endl
                    << "   prot_dg      = " <<              herbage.prot_dg << " (kg/kg)" << endl
                    << "   bd           = " <<              conversion->bD() << " (g/m^3)" << endl
-                   << "   dm total     = " <<              conversion->dmTotal() *kg2g/ha2sm << " (g/m2)" << endl
+                   << "   dm total     = " <<              conversion->dmTotalVeg() *kg2g/ha2sm << " (g/m2)" << endl
                    << "   height       = " <<              conversion->hHeight()*mm2m << " (m)" << endl
                    << "   height_ratio = " <<              herbage.height_ratio << " (-)" << ends;
                system->writeString (msg.str().c_str());
@@ -261,19 +305,63 @@ void HerbageConverter::sendPlant2Stock(protocol::QueryValueData& queryData)
          herbage.ash_alk = 0.0;      //  mol/kg
          herbage.height_ratio = 0.0; //
 
-         feed.herbage.push_back(herbage);
+         for (int pool = 0; pool < conversion->numDmdPoolsVeg(); pool++)
+         {
+            feed.herbage.push_back(herbage);
+         }
 
    // REST
          feed.propn_green = 0.0;
          feed.legume = 0.0;
          feed.select_factor = 0.0;
       }
-         feed.seed.push_back(seed);
-         feed.seed_class.push_back(unripe);
-         feed.seed_class.push_back(ripe);
 
-      // Now SEND feed off
-      system->sendVariable(queryData, feed);
+      protocol::seedType seed;
+      int seedClass;
+// Now PREPARE seed
+      feed.seed.erase(feed.seed.begin(), feed.seed.end());
+
+// distribute seed
+
+
+      for (int pool = 0; pool < conversion->numDmdPoolsSeed(); pool++)
+      {
+            seed.dm = conversion->dmTotSeed(pool);
+            seed.dmd = conversion->dmdValueSeed(pool);        // kg/ha  //fixme
+            seed.cp_conc = conversion->cpConcSeed(pool);   // (kg/ha) - parameter cpNRatio = 6.25
+            seed.p_conc = conversion->pConcSeed(pool);
+            seed.s_conc = conversion->sConcSeed(pool);      //parameter NSRatioLeaf = 19.0, NSRatioStem = 11.0;  seed.s_conc = 0.0023;  kg/ha
+            seed.prot_dg = conversion->protDgSeed(pool);     // parameter ProtDegrade = 0.1;  seed.prot_dg = 0.7;    // kg/ha
+            seed.ash_alk = conversion->ashAlkSeed(pool);      // seed.ash_alk = 2.0;    // mol/kg
+            seed.height_ratio = conversion->heightRatioSeed(pool);
+
+            feed.seed.push_back(seed);
+            feed.seed_class.push_back(conversion->seedClass(pool));
+
+            if (seed.dm > 0.0)
+            {
+               if (c.debug == "on")
+               {
+                  ostringstream msg;
+                  msg << endl << "Seed on offer, pool " << (pool+1) << ":-" << endl
+                      << "   dm           = " <<              seed.dm <<      " (kg/ha)" << endl
+                      << "   dmd          = " <<              seed.dmd <<     " (-)" <<     endl
+                      << "   cp_conc      = " <<              seed.cp_conc << " (kg/kg)" << endl
+                      << "   p_conc       = " <<              seed.p_conc <<  " (kg/kg)" << endl
+                      << "   s_conc       = " <<              seed.s_conc <<  " (kg/kg)" << endl
+                      << "   ash_alk      = " <<              seed.ash_alk << " (mol/kg)" << endl
+                      << "   prot_dg      = " <<              seed.prot_dg << " (kg/kg)" << endl
+                      << "   dm total     = " <<              conversion->dmTotalSeed() *kg2g/ha2sm << " (g/m2)" << endl
+                      << "   height_ratio = " <<              seed.height_ratio << " (-)" << ends;
+                  system->writeString (msg.str().c_str());
+               }
+            }
+         plant2StockSent = true;
+
+      } // end of Pools loop
+
+   // Now SEND feed off
+   system->sendVariable(queryData, feed);
 }
 
 

@@ -11,7 +11,7 @@ BCB = $(MAKEDIR)\..
 
 PROJECT=..\lib\StockScienceConverter.dll
 
-OBJFILES=StockScienceConverter.obj ScienceConverterComponent.obj PlantPool.obj \
+OBJFILES=StockScienceConverter.obj ScienceConverterComponent.obj PlantPool.obj SeedPool.obj \
 ConverterBase.obj HerbageBase.obj HerbageConverter.obj NonHerbageConverter.obj \
 PlantHerbage.obj ResidueHerbage.obj ResiduePool.obj \
  ..\..\..\Shared\ComponentInterface\EntryPoints.obj
@@ -57,15 +57,16 @@ $(PROJECT): $(OBJFILES) $(DEFFILE)
 
 
 ####
-StockScienceConverter.obj: StockScienceConverter.cpp PlantPool.cpp
-ScienceConverterComponent.obj: ScienceConverterComponent.cpp ScienceConverterComponent.h  HerbageConverter.h  NonHerbageConverter.h ConverterBase.h PlantHerbage.h ResidueHerbage.h HerbageBase.h PlantPool.h
+StockScienceConverter.obj: StockScienceConverter.cpp PlantPool.cpp SeedPool.cpp
+ScienceConverterComponent.obj: ScienceConverterComponent.cpp ScienceConverterComponent.h  HerbageConverter.h  NonHerbageConverter.h ConverterBase.h PlantHerbage.h ResidueHerbage.h HerbageBase.h PlantPool.h SeedPool.h
 PlantPool.obj: PlantPool.cpp PlantPool.h
+SeedPool.obj: SeedPool.cpp SeedPool.h
 ResiduePool.obj: ResiduePool.cpp ResiduePool.h
-PlantHerbage.obj:  PlantHerbage.cpp  PlantHerbage.h HerbageBase.h PlantPool.h
+PlantHerbage.obj:  PlantHerbage.cpp  PlantHerbage.h HerbageBase.h PlantPool.h SeedPool.h
 ResidueHerbage.obj:  ResidueHerbage.cpp  ResidueHerbage.h HerbageBase.h ResiduePool.h
 NonHerbageConverter.obj: NonHerbageConverter.cpp  NonHerbageConverter.h
-HerbageConverter.obj: HerbageConverter.cpp  HerbageConverter.h  ConverterBase.h PlantHerbage.h ResidueHerbage.h HerbageBase.h PlantPool.h
-HerbageBase.obj: HerbageBase.cpp  HerbageBase.h PlantPool.h
+HerbageConverter.obj: HerbageConverter.cpp  HerbageConverter.h  ConverterBase.h PlantHerbage.h ResidueHerbage.h HerbageBase.h PlantPool.h SeedPool.h
+HerbageBase.obj: HerbageBase.cpp  HerbageBase.h PlantPool.h SeedPool.h
 ConverterBase.obj: ConverterBase.cpp  ConverterBase.h
 
 clean:

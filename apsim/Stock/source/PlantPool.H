@@ -18,16 +18,27 @@ class PlantPartType
    friend ostream &operator<<(ostream &, const PlantPartType &);
    public:
       PlantPartType();
-      virtual ~PlantPartType();							// destructor
-      PlantPartType(float leafInit, float stemInit);
-	PlantPartType(const PlantPartType &PlantPartType); 						// copy constructor
-	const PlantPartType &operator=(const PlantPartType &other);		// Assigment operator
+      virtual ~PlantPartType();                                         // destructor
+      PlantPartType(float leafInit, float stemInit, float podInit);
+      PlantPartType(const PlantPartType &PlantPartType);                                  // copy constructor
+      const PlantPartType &operator=(const PlantPartType &other);       // Assigment operator
 
       PlantPartType operator- (const PlantPartType &y) const;  // Command
       PlantPartType operator+ (const PlantPartType &y) const;  // Command
+      PlantPartType operator* (const PlantPartType &y) const;  // Command
+      PlantPartType operator* (const float &y) const;  // Command
+      PlantPartType operator/ (const PlantPartType &y) const;  // Command
+      PlantPartType operator/ (const float &y) const;  // Command
+      PlantPartType multiply (const PlantPartType &y);  // Command
+      PlantPartType divide (PlantPartType &dividend, PlantPartType &divisor, float default_value);  // Command
+      float divide (const float dividend, const float divisor, float default_value) const;  // Command
+
+      void setValue(float leaf, float stem, float pod);
+      float total() const;    // Query
 
       float leaf;
       float stem;
+      float pod;
 
    private:
 };
@@ -35,12 +46,12 @@ class PlantPartType
 class PlantPool
 {
    friend ostream &operator<<(ostream &, const PlantPool &);
-	public:												// member functions
-		PlantPool();			// default constructor
-            PlantPool(float greenLeaf, float greenStem, float senescedLeaf, float senescedStem, float deadLeaf, float deadStem);
-		virtual ~PlantPool();							// destructor
-		PlantPool(const PlantPool &PlantPool); 						// copy constructor
-		const PlantPool &operator=(const PlantPool &other);		// Assigment operator
+      public:                                                                       // member functions
+            PlantPool();                  // default constructor
+            PlantPool(float greenLeaf, float greenStem, float greenPod, float senescedLeaf, float senescedStem, float senescedPod, float deadLeaf, float deadStem, float deadPod);
+            virtual ~PlantPool();                                       // destructor
+            PlantPool(const PlantPool &PlantPool);                                  // copy constructor
+            const PlantPool &operator=(const PlantPool &other);         // Assigment operator
 
             PlantPool operator- (const PlantPool &y) const;  // Command
             PlantPool operator+ (const PlantPool &y) const;  // Command
@@ -49,20 +60,18 @@ class PlantPool
             PlantPool operator/ (const PlantPool &y) const;  // Command
             PlantPool operator/ (const float &y) const;  // Command
             PlantPool multiply (const PlantPool &y);  // Command
-            PlantPool divide (PlantPool &dividend, PlantPool &divisor, float default_value);  // Command
-            float divide (float dividend, float divisor, float default_value) const;  // Command
-            void setValue(float greenLeaf, float greenStem, float senescedLeaf, float senescedStem, float deadLeaf, float deadStem);
-            void setValue(PlantPartType green, PlantPartType senesced, PlantPartType dead);
-		float total() const;  	// Query
+            void setValue(float greenLeaf, float greenStem, float greenPod, float senescedLeaf, float senescedStem, float senescedPod, float deadLeaf, float deadStem, float deadPod);
+            void setValue(PlantPartType &green, PlantPartType &senesced, PlantPartType &dead);
+            float total() const;    // Query
 
-		virtual void display(ostream &os = cout) const;	// display function
+            virtual void display(ostream &os = cout) const; // display function
 
 
 
          PlantPartType green;
          PlantPartType senesced;
          PlantPartType dead;
-	private:
+      private:
 };
 
 #endif

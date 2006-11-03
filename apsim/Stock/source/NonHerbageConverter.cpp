@@ -1,4 +1,5 @@
 #include "NonHerbageConverter.h"
+#include "Conversion.h"
 
 
 #pragma package(smart_init)
@@ -31,7 +32,7 @@ NonHerbageConverter::~NonHerbageConverter(void)
 void NonHerbageConverter::doInit1(const FString& sdml)
    {
    day_lengthID = system->addRegistration(RegistrationType::get, "day_length", singleTypeDDML);
-   tramplingID = system->addRegistration(RegistrationType::get, "trampling", singleTypeDDML);
+//   tramplingID = system->addRegistration(RegistrationType::get, "trampling", singleTypeDDML);
    ureaID = system->addRegistration(RegistrationType::get, "urea", singleArrayTypeDDML);
    dltUreaID = system->addRegistration(RegistrationType::set, "dlt_urea", singleArrayTypeDDML);
    labilePID = system->addRegistration(RegistrationType::get, "labile_p", singleArrayTypeDDML);

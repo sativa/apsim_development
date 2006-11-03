@@ -72,7 +72,7 @@ void ResidueHerbage::readParameters ( void )
 
     cHerbageModuleName = system->readParameter (section_name, "herbage_module_name");
     cDebug = system->readParameter (section_name, "debug");
-    system->readParameter (section_name, "dmdValue", cDmdValue, cNumDmdPools, 0.0, 1.0);
+    system->readParameter (section_name, "dmdValue", cDmdValueVeg, cNumDmdPoolsVeg, 0.0, 1.0);
 
       ostringstream msg;
       msg << "Herbage module name = " << cHerbageModuleName << endl
@@ -135,8 +135,8 @@ void ResidueHerbage::proportion (float dmdAvg, float dmdMax, float dmdMin, float
 {
    //Constant Values
 
-   const float MAXDMD = cDmdValue[0];
-   const float MINDMD = cDmdValue[cNumDmdPools-1];
+   const float MAXDMD = cDmdValueVeg[0];
+   const float MINDMD = cDmdValueVeg[cNumDmdPoolsVeg-1];
 //   const float MAXDMD = 0.8;
 //   const float MINDMD = 0.3;
    const float errorMargin = 1.0e-5;
@@ -259,8 +259,8 @@ void ResidueHerbage::dmdClass (float dmdMax, float dmdMin, float &dmdClassMax, f
 {
    //Constant Values
 
-   const float MAXDMD = cDmdValue[0];
-   const float MINDMD = cDmdValue[cNumDmdPools-1];
+   const float MAXDMD = cDmdValueVeg[0];
+   const float MINDMD = cDmdValueVeg[cNumDmdPoolsVeg-1];
    const float errorMargin = 1.0e-5;
 
    //Local Varialbes
@@ -293,19 +293,19 @@ void ResidueHerbage::dmdClass (float dmdMax, float dmdMin, float &dmdClassMax, f
       throw std::runtime_error(msg.str().c_str());
    }
 
-   for (int dmdClassNum = 0; dmdClassNum < cNumDmdPools; dmdClassNum++)
+   for (int dmdClassNum = 0; dmdClassNum < cNumDmdPoolsVeg; dmdClassNum++)
    {           // Assume dmdValue in descending order
       dmdClassMax = dmdClassNum;
-      if (fabs(dmdMax - cDmdValue[dmdClassNum]) < errorMargin)
+      if (fabs(dmdMax - cDmdValueVeg[dmdClassNum]) < errorMargin)
       {
          break;
       }
    }
 
-   for (int dmdClassNum = 0; dmdClassNum < cNumDmdPools; dmdClassNum++)
+   for (int dmdClassNum = 0; dmdClassNum < cNumDmdPoolsVeg; dmdClassNum++)
    {           // Assume dmdValue in descending order
       dmdClassMin = dmdClassNum;
-      if (fabs(dmdMin - cDmdValue[dmdClassNum]) < errorMargin)
+      if (fabs(dmdMin - cDmdValueVeg[dmdClassNum]) < errorMargin)
       {
          break;
       }
@@ -313,9 +313,14 @@ void ResidueHerbage::dmdClass (float dmdMax, float dmdMin, float &dmdClassMax, f
 }
 
    // REST
-float ResidueHerbage::dmTotal ( void )
+float ResidueHerbage::dmTotalVeg ( void )
 {
-      return dm.total();
+      return dmVeg.total();
+}
+
+float ResidueHerbage::dmTotalSeed ( void )
+{
+      return dmSeed.total();
 }
 
 float ResidueHerbage::hHeight ( void )
@@ -326,28 +331,48 @@ float ResidueHerbage::hHeight ( void )
 float ResidueHerbage::bD ( void )
 {
 //         float bd = divide(herbage.dm *kg2g/ha2sm, height*mm2m, 0.0);
-      float bd = divide(dm.total() *kg2g/ha2sm, hHeight()*mm2m, 0.0);
+      float bd = divide(dmVeg.total() *kg2g/ha2sm, hHeight()*mm2m, 0.0);
       return bd;
 }
 
-float ResidueHerbage::heightRatio ( int pool )
+float ResidueHerbage::heightRatioVeg ( int pool )
 {
       return  divide(100.0, 0.03*bD(), 0.0);
 }
 
-float ResidueHerbage::dmdValue ( int pool )
+float ResidueHerbage::heightRatioSeed ( int pool )
 {
-      return cDmdValue[pool];
+      return  1.0;
 }
 
-float ResidueHerbage::protDg ( int pool )
+float ResidueHerbage::dmdValueVeg ( int pool )
 {
-      return cDmdValue[pool] + 0.1;
+      return cDmdValueVeg[pool];
 }
 
-int ResidueHerbage::numDmdPools ( void )
+float ResidueHerbage::dmdValueSeed ( int pool )
 {
-   return cNumDmdPools; // ??
+      return cDmdValueSeed[pool];
+}
+
+float ResidueHerbage::protDgVeg ( int pool )
+{
+      return cDmdValueVeg[pool] + 0.1;
+}
+
+float ResidueHerbage::protDgSeed ( int pool )
+{
+      return cDmdValueSeed[pool] + 0.1;
+}
+
+int ResidueHerbage::numDmdPoolsVeg ( void )
+{
+   return cNumDmdPoolsVeg; // ??
+}
+
+int ResidueHerbage::numDmdPoolsSeed ( void )
+{
+   return cNumDmdPoolsSeed; // ??
 }
 
 void ResidueHerbage::doDigestibility(void)
@@ -356,22 +381,22 @@ void ResidueHerbage::doDigestibility(void)
 
       calcDmdAverage();
 
-      if (dm.total() > 0.0)
+      if (dmVeg.total() > 0.0)
       {
 
 // distribute herbage
 
 
-      calcDmdDistribution(dmdFraction, dQ);
+      calcDmdDistribution(dmdFractionVeg, dQVeg);
 ////      calcDmdDistributionB(dmdFraction, dQ);
 
-      for (int pool = 0; pool < cNumDmdPools; pool++)
+      for (int pool = 0; pool < cNumDmdPoolsVeg; pool++)
       {
          if (cDebug == "on")
          {
             ostringstream msgFraction;
             msgFraction << endl << "Residue Herbage dmd distribution, pool " << (pool+1) << ":-" << endl;
-            msgFraction << dmdFraction[pool] << ends;
+            msgFraction << dmdFractionVeg[pool] << ends;
             system->writeString (msgFraction.str().c_str());
          }
 
@@ -405,11 +430,11 @@ void ResidueHerbage::doRunTimeReg(void)
 // ------------------------------------------------------------------
 void ResidueHerbage::doDmdPoolsToHerbageParts(protocol::remove_herbageType &grazed, protocol::removeCropDmType &crop)
 {
-      for (int pool = 0; pool < numDmdPools(); pool++)
+      for (int pool = 0; pool < numDmdPoolsVeg(); pool++)
       {
-         ResiduePool poolDm = dm * dmdFraction[pool];
+         ResiduePool poolDm = dmVeg * dmdFractionVeg[pool];
          float dmTot = poolDm.total();
-         partFraction[pool] = poolDm / dmTot;
+         partFractionVeg[pool] = poolDm / dmTot;
       }
 
       protocol::dmType dm;
@@ -420,17 +445,17 @@ void ResidueHerbage::doDmdPoolsToHerbageParts(protocol::remove_herbageType &graz
       dm.pool = "standing";
       dm.part.push_back("carbohydrate");
       float dmPart = 0.0;
-      for (int pool = 0; pool < numDmdPools(); pool++) dmPart += grazed.herbage[pool]*partFraction[pool].standing.carbohydrate;
+      for (int pool = 0; pool < numDmdPoolsVeg(); pool++) dmPart += grazed.herbage[pool]*partFractionVeg[pool].standing.carbohydrate;
       dm.dlt.push_back(dmPart * kg2g / ha2sm);
 
       dm.part.push_back("cellulose");
       dmPart = 0.0;
-      for (int pool = 0; pool < numDmdPools(); pool++) dmPart += grazed.herbage[pool]*partFraction[pool].standing.cellulose;
+      for (int pool = 0; pool < numDmdPoolsVeg(); pool++) dmPart += grazed.herbage[pool]*partFractionVeg[pool].standing.cellulose;
       dm.dlt.push_back(dmPart * kg2g / ha2sm);
 
       dm.part.push_back("lignin");
       dmPart = 0.0;
-      for (int pool = 0; pool < numDmdPools(); pool++) dmPart += grazed.herbage[pool]*partFraction[pool].standing.lignin;
+      for (int pool = 0; pool < numDmdPoolsVeg(); pool++) dmPart += grazed.herbage[pool]*partFractionVeg[pool].standing.lignin;
       dm.dlt.push_back(dmPart * kg2g / ha2sm);
 
       crop.dm.push_back(dm);
@@ -440,17 +465,17 @@ void ResidueHerbage::doDmdPoolsToHerbageParts(protocol::remove_herbageType &graz
       dm.pool = "lying";
       dm.part.push_back("carbohydrate");
       dmPart = 0.0;
-      for (int pool = 0; pool < numDmdPools(); pool++) dmPart += grazed.herbage[pool]*partFraction[pool].lying.carbohydrate;
+      for (int pool = 0; pool < numDmdPoolsVeg(); pool++) dmPart += grazed.herbage[pool]*partFractionVeg[pool].lying.carbohydrate;
       dm.dlt.push_back(dmPart * kg2g / ha2sm);
 
       dm.part.push_back("cellulose");
       dmPart = 0.0;
-      for (int pool = 0; pool < numDmdPools(); pool++) dmPart += grazed.herbage[pool]*partFraction[pool].lying.cellulose;
+      for (int pool = 0; pool < numDmdPoolsVeg(); pool++) dmPart += grazed.herbage[pool]*partFractionVeg[pool].lying.cellulose;
       dm.dlt.push_back(dmPart * kg2g / ha2sm);
 
       dm.part.push_back("lignin");
       dmPart = 0.0;
-      for (int pool = 0; pool < numDmdPools(); pool++) dmPart += grazed.herbage[pool]*partFraction[pool].lying.lignin;
+      for (int pool = 0; pool < numDmdPoolsVeg(); pool++) dmPart += grazed.herbage[pool]*partFractionVeg[pool].lying.lignin;
       dm.dlt.push_back(dmPart * kg2g / ha2sm);
 
       crop.dm.push_back(dm);
@@ -458,6 +483,15 @@ void ResidueHerbage::doDmdPoolsToHerbageParts(protocol::remove_herbageType &graz
       dm.part.erase(dm.part.begin(), dm.part.end());
 
 }
+
+void ResidueHerbage::getStage(void)
+{
+}
+
+float ResidueHerbage::trampling(void)
+{
+}
+
 
 void ResidueHerbage::getParts(ResiduePartType &parts, unsigned partsID)
 {
@@ -638,36 +672,36 @@ void ResidueHerbage::calcDmdClass(ResiduePool &dmdClassMax, ResiduePool &dmdClas
 {
 
 // get STANDING carbohydrate & cellulose & lignin dmd classes
-      dmdClass (dmdMax.standing.carbohydrate, dmdMin.standing.carbohydrate, dmdClassMax.standing.carbohydrate, dmdClassMin.standing.carbohydrate);
-      dmdClass (dmdMax.standing.cellulose, dmdMin.standing.cellulose, dmdClassMax.standing.cellulose, dmdClassMin.standing.cellulose);
-      dmdClass (dmdMax.standing.lignin, dmdMin.standing.lignin, dmdClassMax.standing.lignin, dmdClassMin.standing.lignin);
+      dmdClass (dmdMaxVeg.standing.carbohydrate, dmdMinVeg.standing.carbohydrate, dmdClassMaxVeg.standing.carbohydrate, dmdClassMinVeg.standing.carbohydrate);
+      dmdClass (dmdMaxVeg.standing.cellulose, dmdMinVeg.standing.cellulose, dmdClassMaxVeg.standing.cellulose, dmdClassMinVeg.standing.cellulose);
+      dmdClass (dmdMaxVeg.standing.lignin, dmdMinVeg.standing.lignin, dmdClassMaxVeg.standing.lignin, dmdClassMinVeg.standing.lignin);
 
 // get LYING carbohydrate & cellulose & lignin dmd classes
-      dmdClass (dmdMax.lying.carbohydrate, dmdMin.lying.carbohydrate, dmdClassMax.lying.carbohydrate, dmdClassMin.lying.carbohydrate);
-      dmdClass (dmdMax.lying.cellulose, dmdMin.lying.cellulose, dmdClassMax.lying.cellulose, dmdClassMin.lying.cellulose);
-      dmdClass (dmdMax.lying.lignin, dmdMin.lying.lignin, dmdClassMax.lying.lignin, dmdClassMin.lying.lignin);
+      dmdClass (dmdMaxVeg.lying.carbohydrate, dmdMinVeg.lying.carbohydrate, dmdClassMaxVeg.lying.carbohydrate, dmdClassMinVeg.lying.carbohydrate);
+      dmdClass (dmdMaxVeg.lying.cellulose, dmdMinVeg.lying.cellulose, dmdClassMaxVeg.lying.cellulose, dmdClassMinVeg.lying.cellulose);
+      dmdClass (dmdMaxVeg.lying.lignin, dmdMinVeg.lying.lignin, dmdClassMaxVeg.lying.lignin, dmdClassMinVeg.lying.lignin);
 
 }
 
-void ResidueHerbage::calcDmdDistribution(ResiduePool dmdFraction[], ResiduePool dQ)
+void ResidueHerbage::calcDmdDistribution(ResiduePool dmdFraction[], ResiduePool dQVeg)
 {
 // base average (dmdDeclined) on weighted proportions of carbohydrate, cellulose and lignin.
-      ResiduePool dmdDeclined = dmdMax - dQ;
+      ResiduePool dmdDeclined = dmdMaxVeg - dQVeg;
 
-      float fraction[maxDmdPools];
+      float fraction[maxDmdPoolsVeg];
 
 // get STANDING dmd fractions
-      for (int pool = 0; pool < numDmdPools(); pool++)
+      for (int pool = 0; pool < numDmdPoolsVeg(); pool++)
          fraction[pool] = 0.0;
-      proportion (dmdDeclined.standing.carbohydrate, dmdMax.standing.carbohydrate, dmdMin.standing.carbohydrate, fraction);
-      for (int pool = 0; pool < numDmdPools(); pool++)
+      proportion (dmdDeclined.standing.carbohydrate, dmdMaxVeg.standing.carbohydrate, dmdMinVeg.standing.carbohydrate, fraction);
+      for (int pool = 0; pool < numDmdPoolsVeg(); pool++)
          dmdFraction[pool].standing = fraction[pool];
 
 // get LYING dmd fractions
-      for (int pool = 0; pool < numDmdPools(); pool++)
+      for (int pool = 0; pool < numDmdPoolsVeg(); pool++)
          fraction[pool] = 0.0;
-      proportion (dmdDeclined.lying.carbohydrate, dmdMax.lying.carbohydrate, dmdMin.lying.carbohydrate, fraction);
-      for (int pool = 0; pool < numDmdPools(); pool++)
+      proportion (dmdDeclined.lying.carbohydrate, dmdMaxVeg.lying.carbohydrate, dmdMinVeg.lying.carbohydrate, fraction);
+      for (int pool = 0; pool < numDmdPoolsVeg(); pool++)
          dmdFraction[pool].lying = fraction[pool];
 
 ////// get STANDING carbohydrate dmd fractions
@@ -702,96 +736,150 @@ void ResidueHerbage::calcDmdDistribution(ResiduePool dmdFraction[], ResiduePool 
 
 }
 
-void ResidueHerbage::calcDmdDistributionB(ResiduePool dmdFraction[], ResiduePool dQ)
+void ResidueHerbage::calcDmdDistributionB(ResiduePool dmdFraction[], ResiduePool dQVeg)
 {
-      ResiduePool dmdDeclined = dmdMax - dQ;
+      ResiduePool dmdDeclined = dmdMaxVeg - dQVeg;
 
 // get STANDING carbohydrate dmd fractions
       dmdFraction[0].standing.carbohydrate = 1.0;
-      cDmdValue[0] = dmdDeclined.standing.carbohydrate;
+      cDmdValueVeg[0] = dmdDeclined.standing.carbohydrate;
 
 // get STANDING cellulose dmd fractions
       dmdFraction[1].standing.cellulose = 1.0;
-      cDmdValue[1] = dmdDeclined.standing.cellulose;
+      cDmdValueVeg[1] = dmdDeclined.standing.cellulose;
 
 // get STANDING lignin dmd fractions
       dmdFraction[1].standing.lignin = 1.0;
-      cDmdValue[1] = dmdDeclined.standing.lignin;
+      cDmdValueVeg[1] = dmdDeclined.standing.lignin;
 
 // get LYING carbohydrate dmd fractions
       dmdFraction[2].lying.carbohydrate = 1.0;
-      cDmdValue[2] = dmdDeclined.lying.carbohydrate;
+      cDmdValueVeg[2] = dmdDeclined.lying.carbohydrate;
 
 // get LYING cellulose dmd fractions
       dmdFraction[3].lying.cellulose = 1.0;
-      cDmdValue[3] = dmdDeclined.lying.cellulose;
+      cDmdValueVeg[3] = dmdDeclined.lying.cellulose;
 
 // get LYING lignin dmd fractions
       dmdFraction[3].lying.lignin = 1.0;
-      cDmdValue[3] = dmdDeclined.lying.lignin;
+      cDmdValueVeg[3] = dmdDeclined.lying.lignin;
 
 }
 
 
    // REST
-float ResidueHerbage::dmTot ( int pool )
+float ResidueHerbage::dmTotVeg ( int pool )
 {
-      ResiduePool poolDm = dm * dmdFraction[pool];
+      ResiduePool poolDm = dmVeg * dmdFractionVeg[pool];
       float dmTot = poolDm.total();
 //         if (dmTot < 0.5) dmTot = 0.0;
       return dmTot;
 }
 
-float ResidueHerbage::cpConc ( int pool )
+float ResidueHerbage::dmTotSeed ( int pool )
 {
-        ResiduePool poolN = N * dmdFraction[pool];
+      ResiduePool poolDm = dmSeed * dmdFractionSeed[pool];
+      float dmTot = poolDm.total();
+//         if (dmTot < 0.5) dmTot = 0.0;
+      return dmTot;
+}
+
+float ResidueHerbage::cpConcVeg ( int pool )
+{
+        ResiduePool poolN = NVeg * dmdFractionVeg[pool];
         float nTot = poolN.total();
-        float nConc = divide (nTot, dmTot(pool), 0.0);
+        float nConc = divide (nTot, dmTotVeg(pool), 0.0);
       return nConc * c.cpNRatio;
 }
 
-float ResidueHerbage::pConc ( int pool )
+float ResidueHerbage::cpConcSeed ( int pool )
+{
+        ResiduePool poolN = NSeed * dmdFractionSeed[pool];
+        float nTot = poolN.total();
+        float nConc = divide (nTot, dmTotSeed(pool), 0.0);
+      return nConc * c.cpNRatio;
+}
+
+float ResidueHerbage::pConcVeg ( int pool )
 {
    ResiduePartType NPRatioStanding(c.NPRatiocarbohydrateDefault,  c.NPRatiocelluloseDefault,  c.NPRatioligninDefault);
    ResiduePartType NPRatioLying(c.NPRatiocarbohydrateDefault,  c.NPRatiocelluloseDefault,  c.NPRatioligninDefault);
 
       ResiduePool NPRatio(NPRatioStanding, NPRatioLying);
 //      poolP = P * dmdFraction[pool];
-      ResiduePool poolP = N/NPRatio * dmdFraction[pool];
+      ResiduePool poolP = NVeg/NPRatio * dmdFractionVeg[pool];
       float pTot = poolP.total();
-      float pConc = divide (pTot, dmTot(pool), 0.0);
+      float pConc = divide (pTot, dmTotVeg(pool), 0.0);
       return pConc;
 }
 
-float ResidueHerbage::ashAlk ( int pool )
+float ResidueHerbage::pConcSeed ( int pool )
+{
+   ResiduePartType NPRatioStanding(c.NPRatiocarbohydrateDefault,  c.NPRatiocelluloseDefault,  c.NPRatioligninDefault);
+   ResiduePartType NPRatioLying(c.NPRatiocarbohydrateDefault,  c.NPRatiocelluloseDefault,  c.NPRatioligninDefault);
+
+      ResiduePool NPRatio(NPRatioStanding, NPRatioLying);
+//      poolP = P * dmdFraction[pool];
+      ResiduePool poolP = NSeed/NPRatio * dmdFractionSeed[pool];
+      float pTot = poolP.total();
+      float pConc = divide (pTot, dmTotSeed(pool), 0.0);
+      return pConc;
+}
+
+float ResidueHerbage::ashAlkVeg ( int pool )
 {
    ResiduePartType AshAlkStanding(c.AshAlkcarbohydrateDefault,  c.AshAlkcelluloseDefault,  c.AshAlkligninDefault);
    ResiduePartType AshAlkLying(c.AshAlkcarbohydrateDefault, c.AshAlkcelluloseDefault, c.AshAlkligninDefault);
 
       ResiduePool partAshAlk(AshAlkStanding, AshAlkLying);
       partAshAlk = partAshAlk*cmol2mol;
-      ResiduePool poolAA    = partAshAlk * dm * dmdFraction[pool];  // ash alk to be got from lablab
+      ResiduePool poolAA    = partAshAlk * dmVeg * dmdFractionVeg[pool];  // ash alk to be got from lablab
       float aaTot = poolAA.total();
-      float ashAlk = divide (aaTot, dmTot(pool), 0.0);
+      float ashAlk = divide (aaTot, dmTotVeg(pool), 0.0);
       return ashAlk;
 }
 
-float ResidueHerbage::sConc ( int pool )
+float ResidueHerbage::ashAlkSeed ( int pool )
+{
+   ResiduePartType AshAlkStanding(c.AshAlkcarbohydrateDefault,  c.AshAlkcelluloseDefault,  c.AshAlkligninDefault);
+   ResiduePartType AshAlkLying(c.AshAlkcarbohydrateDefault, c.AshAlkcelluloseDefault, c.AshAlkligninDefault);
+
+      ResiduePool partAshAlk(AshAlkStanding, AshAlkLying);
+      partAshAlk = partAshAlk*cmol2mol;
+      ResiduePool poolAA    = partAshAlk * dmSeed * dmdFractionSeed[pool];  // ash alk to be got from lablab
+      float aaTot = poolAA.total();
+      float ashAlk = divide (aaTot, dmTotSeed(pool), 0.0);
+      return ashAlk;
+}
+
+float ResidueHerbage::sConcVeg ( int pool )
 {
    ResiduePartType NSRatioStanding(c.NSRatiocarbohydrateDefault,  c.NSRatiocelluloseDefault,  c.NSRatioligninDefault);
    ResiduePartType NSRatioLying(c.NSRatiocarbohydrateDefault,  c.NSRatiocelluloseDefault,  c.NSRatioligninDefault);
 
       ResiduePool NSRatio(NSRatioStanding, NSRatioLying);
-      ResiduePool poolS = N/NSRatio * dmdFraction[pool];
+      ResiduePool poolS = NVeg/NSRatio * dmdFractionVeg[pool];
       float sTot = poolS.total();
-      float sConc = divide (sTot, dmTot(pool), 0.0);
+      float sConc = divide (sTot, dmTotVeg(pool), 0.0);
+      return sConc;
+}
+
+float ResidueHerbage::sConcSeed ( int pool )
+{
+   ResiduePartType NSRatioStanding(c.NSRatiocarbohydrateDefault,  c.NSRatiocelluloseDefault,  c.NSRatioligninDefault);
+   ResiduePartType NSRatioLying(c.NSRatiocarbohydrateDefault,  c.NSRatiocelluloseDefault,  c.NSRatioligninDefault);
+
+      ResiduePool NSRatio(NSRatioStanding, NSRatioLying);
+      ResiduePool poolS = NSeed/NSRatio * dmdFractionSeed[pool];
+      float sTot = poolS.total();
+      float sConc = divide (sTot, dmTotSeed(pool), 0.0);
       return sConc;
 }
 
 float ResidueHerbage::proportionGreen ( void )  //FIXME how to handle proportion Green here?
 {
-         float dm_standing = dm.standing.total();
-         float dm_lying = dm.lying.total();
+         float dm_standing = dmVeg.standing.total();
+         float dm_lying = dmVeg.lying.total();
          float dm_total = dm_standing + dm_lying;
          return divide (dm_standing, dm_total, 0.0);
 }
@@ -806,6 +894,16 @@ float ResidueHerbage::selectionFactor ( void )
    return 0.0; // ??
 }
 
+int ResidueHerbage::seedClass(int pool)
+{
+      return 0;
+}
+
+int ResidueHerbage::seedMaturity(void)
+{
+      return 0;
+}
+
 void ResidueHerbage::readHerbageModuleParameters ( void )
 {
 
@@ -818,32 +916,32 @@ void ResidueHerbage::readHerbageModuleParameters ( void )
       system->writeString (msg.str().c_str());
 
 
-    system->readParameter (section_name, "p_conc_cellulose_default", c.pConccelluloseDefault, 0.0, 1.0);
-    system->readParameter (section_name, "p_conc_carbohydrate_default", c.pConccarbohydrateDefault, 0.0, 1.0);
-    system->readParameter (section_name, "p_conc_lignin_default", c.pConcligninDefault, 0.0, 1.0);
+    system->readParameter (herbageModuleName().c_str(), "p_conc_cellulose_default", c.pConccelluloseDefault, 0.0, 1.0);
+    system->readParameter (herbageModuleName().c_str(), "p_conc_carbohydrate_default", c.pConccarbohydrateDefault, 0.0, 1.0);
+    system->readParameter (herbageModuleName().c_str(), "p_conc_lignin_default", c.pConcligninDefault, 0.0, 1.0);
 
-    system->readParameter (section_name, "ash_alk_cellulose_default", c.AshAlkcelluloseDefault, 0.0, 500.0);
-    system->readParameter (section_name, "ash_alk_carbohydrate_default", c.AshAlkligninDefault, 0.0, 500.0);
-    system->readParameter (section_name, "ash_alk_lignin_default", c.AshAlkcarbohydrateDefault, 0.0, 500.0);
+    system->readParameter (herbageModuleName().c_str(), "ash_alk_cellulose_default", c.AshAlkcelluloseDefault, 0.0, 500.0);
+    system->readParameter (herbageModuleName().c_str(), "ash_alk_carbohydrate_default", c.AshAlkligninDefault, 0.0, 500.0);
+    system->readParameter (herbageModuleName().c_str(), "ash_alk_lignin_default", c.AshAlkcarbohydrateDefault, 0.0, 500.0);
 
-    system->readParameter (section_name, "ns_ratio_cellulose_default", c.NSRatiocelluloseDefault, 0.0, 30.0);
-    system->readParameter (section_name, "ns_ratio_carbohydrate_default", c.NSRatiocarbohydrateDefault, 0.0, 30.0);
-    system->readParameter (section_name, "ns_ratio_lignin_default", c.NSRatioligninDefault, 0.0, 30.0);
+    system->readParameter (herbageModuleName().c_str(), "ns_ratio_cellulose_default", c.NSRatiocelluloseDefault, 0.0, 30.0);
+    system->readParameter (herbageModuleName().c_str(), "ns_ratio_carbohydrate_default", c.NSRatiocarbohydrateDefault, 0.0, 30.0);
+    system->readParameter (herbageModuleName().c_str(), "ns_ratio_lignin_default", c.NSRatioligninDefault, 0.0, 30.0);
 
-    system->readParameter (section_name, "np_ratio_cellulose_default", c.NPRatiocelluloseDefault, 0.0, 10.0);
-    system->readParameter (section_name, "np_ratio_carbohydrate_default", c.NPRatiocarbohydrateDefault, 0.0, 10.0);
-    system->readParameter (section_name, "np_ratio_lignin_default", c.NPRatioligninDefault, 0.0, 10.0);
+    system->readParameter (herbageModuleName().c_str(), "np_ratio_cellulose_default", c.NPRatiocelluloseDefault, 0.0, 10.0);
+    system->readParameter (herbageModuleName().c_str(), "np_ratio_carbohydrate_default", c.NPRatiocarbohydrateDefault, 0.0, 10.0);
+    system->readParameter (herbageModuleName().c_str(), "np_ratio_lignin_default", c.NPRatioligninDefault, 0.0, 10.0);
 
     int numClasses = 3;
-    system->readParameter (section_name, "dmd_standing", c.dmdstanding, numClasses, 0.0, 1.0);
-    system->readParameter (section_name, "dmd_lying", c.dmdlying, numClasses, 0.0, 1.0);
+    system->readParameter (herbageModuleName().c_str(), "dmd_standing", c.dmdstanding, numClasses, 0.0, 1.0);
+    system->readParameter (herbageModuleName().c_str(), "dmd_lying", c.dmdlying, numClasses, 0.0, 1.0);
 
-    system->readParameter (section_name, "dmd_weighting_carbohydrate", c.dmdWeightingCarbohydrate, 0.0, 1.0);
-    system->readParameter (section_name, "dmd_weighting_cellulose", c.dmdWeightingCellulose, 0.0, 1.0);
-    system->readParameter (section_name, "dmd_weighting_lignin", c.dmdWeightingLignin, 0.0, 1.0);
+    system->readParameter (herbageModuleName().c_str(), "dmd_weighting_carbohydrate", c.dmdWeightingCarbohydrate, 0.0, 1.0);
+    system->readParameter (herbageModuleName().c_str(), "dmd_weighting_cellulose", c.dmdWeightingCellulose, 0.0, 1.0);
+    system->readParameter (herbageModuleName().c_str(), "dmd_weighting_lignin", c.dmdWeightingLignin, 0.0, 1.0);
 
-    system->readParameter (section_name, "cp_n_ratio", c.cpNRatio, 0.0, 10.0);
-    system->readParameter (section_name, "proportion_legume", c.proportionLegume, 0.0, 1.0);
+    system->readParameter (herbageModuleName().c_str(), "cp_n_ratio", c.cpNRatio, 0.0, 10.0);
+    system->readParameter (herbageModuleName().c_str(), "proportion_legume", c.proportionLegume, 0.0, 1.0);
 
    const int MAX = 0;
    const int AVG = 1;
@@ -859,11 +957,11 @@ void ResidueHerbage::readHerbageModuleParameters ( void )
    standing[MIN] = c.dmdstanding[MIN];
    lying[MIN] = c.dmdlying[MIN];
 
-   dmdMax.setValue(standing[MAX], lying[MAX]);
-   dmdAvg.setValue(standing[AVG], lying[AVG]);
-   dmdMin.setValue(standing[MIN], lying[MIN]);
+   dmdMaxVeg.setValue(standing[MAX], lying[MAX]);
+   dmdAvgVeg.setValue(standing[AVG], lying[AVG]);
+   dmdMinVeg.setValue(standing[MIN], lying[MIN]);
 
-   calcDmdClass(dmdClassMax, dmdClassMin);
+   calcDmdClass(dmdClassMaxVeg, dmdClassMinVeg);
 }
 
 //===========================================================================

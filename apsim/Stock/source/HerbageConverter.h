@@ -29,6 +29,7 @@ class HerbageConverter : public ConverterBase
       void sendFeedOnOffer(protocol::QueryValueData& queryData);
       void sendFeedRemoved(protocol::QueryValueData& queryData);
       void sendPlant2Stock(protocol::QueryValueData& queryData);
+      void sendTrampling(protocol::QueryValueData& queryData);
       void readParameters ( void );
       float divide (float dividend, float divisor, float default_value);
 
@@ -47,14 +48,23 @@ class HerbageConverter : public ConverterBase
 
       HerbageBase *conversion;
 
-      PlantPool dmdPoolDm[maxDmdPools];
-      PlantPool partFraction[maxDmdPools];
-      PlantPool dmdMax;
-      PlantPool dmdAvg;
-      PlantPool dmdMin;
-
-      PlantPool dmdClassMax;
-      PlantPool dmdClassMin;
+//      PlantPool dmdPoolDm[maxDmdPools];
+//      PlantPool partFraction[maxDmdPools];
+//      PlantPool dmdMax;
+//      PlantPool dmdAvg;
+//      PlantPool dmdMin;
+//
+//      PlantPool dmdClassMax;
+//      PlantPool dmdClassMin;
+//
+//      SeedPool dmdPoolDm[maxDmdPools];
+//      SeedPool partFraction[maxDmdPools];
+//      SeedPool dmdMax;
+//      SeedPool dmdAvg;
+//      SeedPool dmdMin;
+//
+//      SeedPool dmdClassMax;
+//      SeedPool dmdClassMin;
 
       string herbage_model;
       struct
@@ -62,16 +72,14 @@ class HerbageConverter : public ConverterBase
          string herbageModuleName;
          string debug;
 
-         float dmdValue[maxDmdPools];
-         int   numDmdPools;
+         float dmdValueVeg[maxDmdPoolsVeg];
+         int   numDmdPoolsVeg;
+
+         float dmdValueSeed[maxDmdPoolsSeed];
+         int   numDmdPoolsSeed;
 
 
          float cpNRatio;
-
-         float KQ5Leaf;
-         float KQ5Stem;
-         float KQ4;
-
       } c;
 
    };
