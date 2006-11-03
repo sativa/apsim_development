@@ -4,10 +4,11 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\Lib\StockScienceConverter.dll"/>
-    <OBJFILES value="StockScienceConverter.obj ScienceConverterComponent.obj 
+    <OBJFILES value="StockScienceConverter.obj 
       ..\..\..\Shared\ComponentInterface\EntryPoints.obj PlantPool.obj 
       PlantHerbage.obj HerbageConverter.obj NonHerbageConverter.obj 
-      ConverterBase.obj HerbageBase.obj ResidueHerbage.obj ResiduePool.obj"/>
+      ConverterBase.obj HerbageBase.obj ResidueHerbage.obj ResiduePool.obj 
+      ScienceConverterComponent.obj SeedPool.obj"/>
     <RESFILES value="StockScienceConverter.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -52,7 +53,6 @@
       <FILE FILENAME="StockScienceConverter.res" FORMNAME="" UNITNAME="StockScienceConverter.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="StockScienceConverter.bpf" FORMNAME="" UNITNAME="StockScienceConverter" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="StockScienceConverter.cpp" FORMNAME="" UNITNAME="Tracker" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="ScienceConverterComponent.cpp" FORMNAME="" UNITNAME="TrackerComponent.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\ApsimShared\ApsimShared.lib" FORMNAME="" UNITNAME="ApsimShared.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\ComponentInterface\ComponentInterface.lib" FORMNAME="" UNITNAME="ComponentInterface.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\..\..\Shared\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
@@ -66,6 +66,8 @@
       <FILE FILENAME="HerbageBase.cpp" FORMNAME="" UNITNAME="HerbageBase" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ResidueHerbage.cpp" FORMNAME="" UNITNAME="ResidueHerbage" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ResiduePool.cpp" FORMNAME="" UNITNAME="ResiduePool" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ScienceConverterComponent.cpp" FORMNAME="" UNITNAME="ScienceConverterComponent" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="SeedPool.cpp" FORMNAME="" UNITNAME="SeedPool" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -134,7 +136,7 @@ Item1=..\lib
 DebugSourceDirs=$(BCB)\source\vcl;c:\data\Apsim\development\Shared\ComponentInterface\;c:\data\Apsim\development\apsim\SummaryFile\Source\
 
 [Parameters]
-RunParams=&quot;C:\data\Apsim\development\apsim\Supplement\sample\supplement stock only.sim&quot;
+RunParams=C:\data\Apsim\development\apsim\Stock\sample\stockResidue.sim
 Launcher=
 UseLauncher=0
 DebugCWD=
