@@ -4748,7 +4748,7 @@ subroutine doInit1()
    dummy = add_registration_with_units(getVariableReg, 'ph', singleArrayTypeDDML, '')
    dummy = add_registration_with_units(getVariableReg, 'sw_dep', singleArrayTypeDDML, 'mm')
    dummy = add_registration_with_units(getVariableReg, 'ave_soil_temp', singleArrayTypeDDML, 'oC')
-   dummy = add_registration_with_units(getVariableReg, 'latitude', singleTypeDDML, 'degrees')
+   dummy = add_registration_with_units(getVariableReg, 'latitude', singleTypeDDML, 'deg')
    dummy = add_registration_with_units(getVariableReg, 'salb', singleTypeDDML, '')
 
    ! variables we own and make available to other modules.
