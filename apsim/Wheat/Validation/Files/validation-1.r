@@ -98,11 +98,6 @@ traits<-tolower(as.character(sqlQuery(db, "SELECT Traits.Trait FROM Traits;")$Tr
 allTreatments<-vector()
 allData<-list()
 
-mhtml<-file(paste(outDir, "validation.html", sep="/"),open="w")
-cat (file=mhtml,"<html><head>")
-cat (file=mhtml,"<link href=\"../../../docs/shared/docstyle.css\" rel=\"stylesheet\" type=\"text/css\">", append=T)
-cat (file=mhtml,"<title>", Crop, "Validation Runs</title>", append=T)
-cat (file=mhtml,"</head><body><p class=\"Title1\">\n", append=T)
 
 for (e in 1:dim(experiments)[1]) {
   expID<-experiments$ExpID[e]
@@ -139,28 +134,6 @@ for (e in 1:dim(experiments)[1]) {
     names(obs) <- tolower(names(obs))
     images<-report(outDir, obs, pred, groups, headings, Crop, expName, tName)
 
-    fname<-paste( Crop, tName, ".html", sep="")
-    cat(file=mhtml, "<a href=\"", expName, "/", fname, "\">", append=T, sep="")
-    cat(file=mhtml, Crop, expName, tName,  "</a><br>\n", append=T)
-    dir.create(paste(outDir, expName, tName, sep="/"))
-    fhtml<-file(paste(outDir, expName, tName, fname, sep="/"),open="w")
-    cat (file=fhtml,"<html><head>")
-    cat (file=fhtml,"<link href=\"../../../docs/shared/docstyle.css\" rel=\"stylesheet\" type=\"text/css\">", append=T)
-    cat (file=fhtml,"<title>", Crop, expName, tName, "</title>\n", append=T)
-    cat (file=fhtml,"</head><body><p class=\"Title1\">", Crop, expName, tName, "</p>\n",  append=T)
-    cat (file=fhtml,"<table><tr>\n", append=T)
-    r<-1
-    for (image in images) {
-      if (r%%4 == 0) {cat(file=fhtml,"</tr>\n<tr>", append=T); r<-1}
-      cat(file=fhtml,"<td><img src=\"", image, "\"></td>\n", sep="", append=T)
-      r<-r+1
-    }
-    cat (file=fhtml,"</tr></table><hr>", append=T)
-    cat (file=fhtml,"<p class=\"Title2\"><a href=\"../validation.html\">Up</a></p>", append=T)
-    sysinfo<-Sys.info()
-    cat (file=fhtml,"<p class=\"Code\">", Sys.info()[7], "<br>",  Sys.info()[4], "<br>", date(), "</p>", append=T)
-    cat (file=fhtml,"</body></html>\n", append=T)
-    close(fhtml)
   }
 }
 cat(file=mhtml, "</p></body></html>\n", append=T)
