@@ -1,128 +1,127 @@
 <report version="4">
 <Data>
-  <REMS name="I01">
-    <FileName type="filename">C:\development\apsim\Wheat\Validation\Wheat.mdb</FileName>
-    <Experiment type="experiment">Lincoln9192</Experiment>
-    <Treatment type="treatment">I01 </Treatment>
-    <DataSource type="datasource">Crop</DataSource>
-  </REMS>
-  <REMS name="I03">
-    <FileName type="filename">C:\development\apsim\Wheat\Validation\Wheat.mdb</FileName>
-    <Experiment type="experiment">Lincoln9192</Experiment>
-    <Treatment type="treatment">I03 </Treatment>
-    <DataSource type="datasource">Crop</DataSource>
-  </REMS>
-  <REMS name="I05">
-    <FileName type="filename">C:\development\apsim\Wheat\Validation\Wheat.mdb</FileName>
-    <Experiment type="experiment">Lincoln9192</Experiment>
-    <Treatment type="treatment">I05 </Treatment>
-    <DataSource type="datasource">Crop</DataSource>
-  </REMS>
-  <REMS name="I06">
-    <FileName type="filename">C:\development\apsim\Wheat\Validation\Wheat.mdb</FileName>
-    <Experiment type="experiment">Lincoln9192</Experiment>
-    <Treatment type="treatment">I06 </Treatment>
-    <DataSource type="datasource">Crop</DataSource>
-  </REMS>
-  <REMS name="I07">
-    <FileName type="filename">C:\development\apsim\Wheat\Validation\Wheat.mdb</FileName>
-    <Experiment type="experiment">Lincoln9192</Experiment>
-    <Treatment type="treatment">I07 </Treatment>
-    <DataSource type="datasource">Crop</DataSource>
-  </REMS>
-  <REMS name="I08">
-    <FileName type="filename">C:\development\apsim\Wheat\Validation\Wheat.mdb</FileName>
-    <Experiment type="experiment">Lincoln9192</Experiment>
-    <Treatment type="treatment">I08 </Treatment>
-    <DataSource type="datasource">Crop</DataSource>
-  </REMS>
-  <REMS name="I11">
-    <FileName type="filename">C:\development\apsim\Wheat\Validation\Wheat.mdb</FileName>
-    <Experiment type="experiment">Lincoln9192</Experiment>
-    <Treatment type="treatment">I11 </Treatment>
-    <DataSource type="datasource">Crop</DataSource>
-  </REMS>
-  <ApsimFileReader name="I01pre">
-    <FileName type="filenames">Wheat_Lincoln9192_I01.out</FileName>
-  </ApsimFileReader>
-  <ApsimFileReader name="I03pre">
-    <FileName type="filenames">Wheat_Lincoln9192_I03.out</FileName>
-  </ApsimFileReader>
-  <ApsimFileReader name="I05pre">
-    <FileName type="filenames">Wheat_Lincoln9192_I05.out</FileName>
-  </ApsimFileReader>
-  <ApsimFileReader name="I06pre">
-    <FileName type="filenames">Wheat_Lincoln9192_I06.out</FileName>
-  </ApsimFileReader>
-  <ApsimFileReader name="I07pre">
-    <FileName type="filenames">Wheat_Lincoln9192_I07.out</FileName>
-  </ApsimFileReader>
-  <ApsimFileReader name="I08pre">
-    <FileName type="filenames">Wheat_Lincoln9192_I08.out</FileName>
-  </ApsimFileReader>
-  <ApsimFileReader name="I11pre">
-    <FileName type="filenames">Wheat_Lincoln9192_I11.out</FileName>
-  </ApsimFileReader>
-  <REMS name="REMS1">
-    <FileName type="filename">D:\development\apsim\Wheat\Validation\Wheat.mdb</FileName>
-    <Experiment type="experiment">Lincoln9192</Experiment>
-    <DataSource type="datasource">Crop</DataSource>
-  </REMS>
-  <ApsimFileReader name="Allpre">
-    <FileName type="filenames">Wheat_Lincoln9192_I11.out</FileName>
-    <FileName type="filenames">Wheat_Lincoln9192_I01.out</FileName>
-    <FileName type="filenames">Wheat_Lincoln9192_I03.out</FileName>
-    <FileName type="filenames">Wheat_Lincoln9192_I05.out</FileName>
-    <FileName type="filenames">Wheat_Lincoln9192_I06.out</FileName>
-    <FileName type="filenames">Wheat_Lincoln9192_I07.out</FileName>
-    <FileName type="filenames">Wheat_Lincoln9192_I08.out</FileName>
-    <Filter name="HarvestPre">
-      <FilterString>day=26</FilterString>
-    </Filter>
-  </ApsimFileReader>
-  <ApsimFileReader name="HarvestObs">
-    <FileName type="filenames">Observed\Lincoln.txt</FileName>
-  </ApsimFileReader>
-  <ApsimFileReader name="TotSWObs">
-    <FileName type="filenames">Observed\LincolnTotSW.txt</FileName>
-  </ApsimFileReader>
-  <ApsimFileReader name="Obs10cm">
-    <FileName type="filenames">Observed\Lincoln10cm.txt</FileName>
-  </ApsimFileReader>
-  <ApsimFileReader name="I01PreSW">
-    <FileName type="filenames">Wheat_Lincoln9192_I01 SWOutputfile.out</FileName>
-  </ApsimFileReader>
-  <ApsimFileReader name="I03preSW">
-    <FileName type="filenames">Wheat_Lincoln9192_I03 SWOutputfile.out</FileName>
-  </ApsimFileReader>
-  <ApsimFileReader name="I05preSW">
-    <FileName type="filenames">Wheat_Lincoln9192_I05 SWOutputfile.out</FileName>
-  </ApsimFileReader>
-  <ApsimFileReader name="I06preSW">
-    <FileName type="filenames">Wheat_Lincoln9192_I06 SWOutputfile.out</FileName>
-  </ApsimFileReader>
-  <ApsimFileReader name="I07preSW">
-    <FileName type="filenames">Wheat_Lincoln9192_I07 SWOutputfile.out</FileName>
-  </ApsimFileReader>
-  <ApsimFileReader name="I08preSW">
-    <FileName type="filenames">Wheat_Lincoln9192_I08 SWOutputfile.out</FileName>
-  </ApsimFileReader>
-  <ApsimFileReader name="I11preSW">
-    <FileName type="filenames">Wheat_Lincoln9192_I11 SWOutputfile.out</FileName>
-  </ApsimFileReader>
-  <ApsimFileReader name="Obs30cm">
-    <FileName type="filenames">Observed\Lincoln30cm.txt</FileName>
-  </ApsimFileReader>
-  <ApsimFileReader name="Obs50cm">
-    <FileName type="filenames">Observed\Lincoln50cm.txt</FileName>
-  </ApsimFileReader>
-  <ApsimFileReader name="Obs70cm">
-    <FileName type="filenames">Observed\Lincoln70cm.txt</FileName>
-  </ApsimFileReader>
-  <ApsimFileReader name="Obs90cm">
-    <FileName type="filenames">Observed\Lincoln90cm.txt</FileName>
-  </ApsimFileReader>
+   <REMS name="I01">
+      <FileName type="filename">Wheat.mdb</FileName>
+      <Experiment type="experiment">Lincoln9192</Experiment>
+      <Treatment type="treatment">I01 </Treatment>
+      <DataSource type="datasource">Crop</DataSource>
+   </REMS>
+   <REMS name="I03">
+      <FileName type="filename">Wheat.mdb</FileName>
+      <Experiment type="experiment">Lincoln9192</Experiment>
+      <Treatment type="treatment">I03 </Treatment>
+      <DataSource type="datasource">Crop</DataSource>
+   </REMS>
+   <REMS name="I05">
+      <FileName type="filename">Wheat.mdb</FileName>
+      <Experiment type="experiment">Lincoln9192</Experiment>
+      <Treatment type="treatment">I05 </Treatment>
+      <DataSource type="datasource">Crop</DataSource>
+   </REMS>
+   <REMS name="I06">
+      <FileName type="filename">Wheat.mdb</FileName>
+      <Experiment type="experiment">Lincoln9192</Experiment>
+      <Treatment type="treatment">I06 </Treatment>
+      <DataSource type="datasource">Crop</DataSource>
+   </REMS>
+   <REMS name="I07">
+      <FileName type="filename">Wheat.mdb</FileName>
+      <Experiment type="experiment">Lincoln9192</Experiment>
+      <Treatment type="treatment">I07 </Treatment>
+      <DataSource type="datasource">Crop</DataSource>
+   </REMS>
+   <REMS name="I08">
+      <FileName type="filename">Wheat.mdb</FileName>
+      <Experiment type="experiment">Lincoln9192</Experiment>
+      <Treatment type="treatment">I08 </Treatment>
+      <DataSource type="datasource">Crop</DataSource>
+   </REMS>
+   <REMS name="I11">
+      <FileName type="filename">Wheat.mdb</FileName>
+      <Experiment type="experiment">Lincoln9192</Experiment>
+      <Treatment type="treatment">I11 </Treatment>
+      <DataSource type="datasource">Crop</DataSource>
+   </REMS>
+   <ApsimFileReader name="I01pre">
+      <FileName type="filenames">Wheat_Lincoln9192_I01.out</FileName>
+   </ApsimFileReader>
+   <ApsimFileReader name="I03pre">
+      <FileName type="filenames">Wheat_Lincoln9192_I03.out</FileName>
+   </ApsimFileReader>
+   <ApsimFileReader name="I05pre">
+      <FileName type="filenames">Wheat_Lincoln9192_I05.out</FileName>
+   </ApsimFileReader>
+   <ApsimFileReader name="I06pre">
+      <FileName type="filenames">Wheat_Lincoln9192_I06.out</FileName>
+   </ApsimFileReader>
+   <ApsimFileReader name="I07pre">
+      <FileName type="filenames">Wheat_Lincoln9192_I07.out</FileName>
+   </ApsimFileReader>
+   <ApsimFileReader name="I08pre">
+      <FileName type="filenames">Wheat_Lincoln9192_I08.out</FileName>
+   </ApsimFileReader>
+   <ApsimFileReader name="I11pre">
+      <FileName type="filenames">Wheat_Lincoln9192_I11.out</FileName>
+   </ApsimFileReader>
+   <ApsimFileReader name="Allpre">
+   </ApsimFileReader>
+   <ApsimFileReader name="Allpre">
+      <FileName type="filenames">Wheat_Lincoln9192_I11.out</FileName>
+      <FileName type="filenames">Wheat_Lincoln9192_I01.out</FileName>
+      <FileName type="filenames">Wheat_Lincoln9192_I03.out</FileName>
+      <FileName type="filenames">Wheat_Lincoln9192_I05.out</FileName>
+      <FileName type="filenames">Wheat_Lincoln9192_I06.out</FileName>
+      <FileName type="filenames">Wheat_Lincoln9192_I07.out</FileName>
+      <FileName type="filenames">Wheat_Lincoln9192_I08.out</FileName>
+      <Filter name="HarvestPre">
+         <FilterString>day=26</FilterString>
+      </Filter>
+   </ApsimFileReader>
+   <ApsimFileReader name="HarvestObs">
+      <FileName type="filenames">Observed\Lincoln.txt</FileName>
+   </ApsimFileReader>
+   <ApsimFileReader name="TotSWObs">
+      <FileName type="filenames">Observed\LincolnTotSW.txt</FileName>
+   </ApsimFileReader>
+   <ApsimFileReader name="Obs10cm">
+      <FileName type="filenames">Observed\Lincoln10cm.txt</FileName>
+   </ApsimFileReader>
+   <ApsimFileReader name="I01PreSW">
+      <FileName type="filenames">Wheat_Lincoln9192_I01 SWOutputfile.out</FileName>
+   </ApsimFileReader>
+   <ApsimFileReader name="I03preSW">
+      <FileName type="filenames">Wheat_Lincoln9192_I03 SWOutputfile.out</FileName>
+   </ApsimFileReader>
+   <ApsimFileReader name="I05preSW">
+      <FileName type="filenames">Wheat_Lincoln9192_I05 SWOutputfile.out</FileName>
+   </ApsimFileReader>
+   <ApsimFileReader name="I06preSW">
+      <FileName type="filenames">Wheat_Lincoln9192_I06 SWOutputfile.out</FileName>
+   </ApsimFileReader>
+   <ApsimFileReader name="I07preSW">
+      <FileName type="filenames">Wheat_Lincoln9192_I07 SWOutputfile.out</FileName>
+   </ApsimFileReader>
+   <ApsimFileReader name="I08preSW">
+      <FileName type="filenames">Wheat_Lincoln9192_I08 SWOutputfile.out</FileName>
+   </ApsimFileReader>
+   <ApsimFileReader name="I11preSW">
+      <FileName type="filenames">Wheat_Lincoln9192_I11 SWOutputfile.out</FileName>
+   </ApsimFileReader>
+   <ApsimFileReader name="Obs30cm">
+      <FileName type="filenames">Observed\Lincoln30cm.txt</FileName>
+   </ApsimFileReader>
+   <ApsimFileReader name="Obs50cm">
+      <FileName type="filenames">Observed\Lincoln50cm.txt</FileName>
+   </ApsimFileReader>
+   <ApsimFileReader name="Obs70cm">
+      <FileName type="filenames">Observed\Lincoln70cm.txt</FileName>
+   </ApsimFileReader>
+   <ApsimFileReader name="Obs90cm">
+      <FileName type="filenames">Observed\Lincoln90cm.txt</FileName>
+   </ApsimFileReader>
+
 </Data>
+
    <page> <![CDATA[
 object Page1: TQuickRep
   Left = 279
@@ -1204,7 +1203,7 @@ object Page2: TQuickRep
     ForceNewColumn = False
     ForceNewPage = False
     Size.Values = (
-      2970
+      2970.89285714286
       2101.54761904762)
     BandType = rbTitle
     object Graph4: TGraph
