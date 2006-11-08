@@ -1,5 +1,11 @@
 <Simulation name="Stock" executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll">
    <title>stock lablab SAMPLE Simulation</title>
+   <component name="log" executable="%apsuite\apsim\log\lib\log.dll">
+      <initdata>
+         <logfile>log.xml</logfile>
+         <debug_output>off</debug_output>
+      </initdata>
+   </component>
    <component name="SummaryFile" executable="%apsuite\apsim\SummaryFile\lib\SummaryFile.dll">
       <initdata>
          <summaryfile>lablab.sum</summaryfile>
@@ -9,7 +15,7 @@
       <initdata>
          <include>%apsuite\apsim\clock\clock.ini</include>
          <start_date>1/10/1988</start_date>
-         <end_date>30/4/1989</end_date>
+         <end_date>30/6/1989</end_date>
       </initdata>
    </component>
    <component name="Met" executable="%apsuite\apsim\Input\lib\Input.dll">
@@ -20,6 +26,24 @@
     <component name="FarmwiseSequencer" executable="%apsuite\apsim\\FarmwiseSequencer\lib\FarmwiseSequencerConverter.dll">
       <initdata>
          <include>%apsuite\apsim\FarmwiseSequencer\FarmwiseSequencer.ini</include>
+      </initdata>
+   </component>
+   <component name="reportpaddock" executable="%apsuite\apsim\report\lib\report.dll">
+      <initdata>
+        <outputfrequency>post </outputfrequency>
+         <outputfile>paddock.out</outputfile>
+         <variable>dd/mm/yyyy as Date</variable>
+         <variable>rain as rain</variable>
+         <variable>paddock.lai</variable>
+         <variable>paddock.lablab.lai</variable>
+         <variable>paddock.sw</variable>
+         <variable>paddock.soilwat2.sw</variable>
+         <variable>paddock.number</variable>
+         <variable>paddock.stock</variable>
+         <variable>paddock.age</variable>
+         <variable>paddock.weight</variable>
+         <variable>paddock.stock.cond_score</variable>
+         <variable>paddock.intake</variable>
       </initdata>
    </component>
   <system name="paddock" executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll" active="T">
@@ -34,6 +58,7 @@
       <respondToEvent name="process" type="process" />
       <respondToEvent name="post" type="post" />
       <respondToEvent name="do_stock" type="post" />
+      <respondToEvent name="buystock" type="string" />
       <respondToEvent name="end_week" type="string" />
       <respondToEvent name="end_month" type="string" />
       <respondToEvent name="end_year" type="string" />
@@ -62,8 +87,14 @@
       <get name="title" type="string" />
       <get name="components" type="string" />
       <respondToGet name="plant2stock" array="F" type="plant2stock" />
+      <respondToGet name="trampling" array="F" type="single" />
       <respondToGet name="streamflow" type="single" />
-      <respondToGet name="root_sw_uptake_vol" type="single" />
+      <respondToGet name="cond_score" type="single" />
+      <respondToGet name="number" type="single" />
+      <respondToGet name="sex" type="single" />
+      <respondToGet name="age" type="single" />
+      <respondToGet name="weight" type="single" />
+      <respondToGet name="intake" type="single" />
       <respondToGet name="root_sw_supply_vol" type="single" />
       <respondToGet name="sw_dep" array="T" type="single" />
       <respondToGet name="ll15_dep" array="T" type="single" />
@@ -120,7 +151,7 @@
          <variable>lablab.dm_dead()</variable>
          <variable>cattlelablab.dm_feed_on_offer()</variable>
          <variable>cattlelablab.dm_feed_removed()</variable>
-         <variable>paddock.area</variable>
+         <variable>cattlelablab.herbage_trampling</variable>
       </initdata>
    </component>
    <component name="manager" executable="%apsuite\apsim\manager\lib\manager.dll">
@@ -196,6 +227,7 @@
          <ll>.20  .28  .320 .300 .270 .240 .310</ll>
          <xf>1.00 1.00 1.00 1.00 1.00 1.00 1.00</xf>
          <kl>0.08 0.08 0.08 0.08 0.05 0.03 0.01</kl>
+         <remove_biomass_report>on</remove_biomass_report>
       </initdata>
    </component>
    <component name="cattlelablab" executable="%apsuite\apsim\stock\lib\StockScienceConverter.dll">
@@ -204,49 +236,7 @@
         <debug type="list" listvalues="on,off">on</debug>
          <conversion_model>herbage</conversion_model>
          <herbage_model>plant</herbage_model>
-         <proportion_legume>1.0</proportion_legume>
-            <dmdValue>0.8 0.7 0.6 0.5 0.4 0.3</dmdValue>
-
-            <p_conc_green_leaf_default>0.004</p_conc_green_leaf_default>
-            <p_conc_green_stem_default>0.003</p_conc_green_stem_default>
-            <p_conc_senesced_leaf_default>0.004</p_conc_senesced_leaf_default>
-            <p_conc_senesced_stem_default>0.003</p_conc_senesced_stem_default>
-            <p_conc_dead_leaf_default>0.004</p_conc_dead_leaf_default>
-            <p_conc_dead_stem_default>0.003</p_conc_dead_stem_default>
-
-            <ash_alk_green_leaf_default>254.0</ash_alk_green_leaf_default>
-            <ash_alk_green_stem_default>96.0</ash_alk_green_stem_default>
-            <ash_alk_senesced_leaf_default>254.0</ash_alk_senesced_leaf_default>
-            <ash_alk_senesced_stem_default>96.0</ash_alk_senesced_stem_default>
-            <ash_alk_dead_leaf_default>254.0</ash_alk_dead_leaf_default>
-            <ash_alk_dead_stem_default>96.0</ash_alk_dead_stem_default>
-
-            <ns_ratio_green_leaf_default>19.0</ns_ratio_green_leaf_default>
-            <ns_ratio_green_stem_default>11.0</ns_ratio_green_stem_default>
-            <ns_ratio_senesced_leaf_default>19.0</ns_ratio_senesced_leaf_default>
-            <ns_ratio_senesced_stem_default>11.0</ns_ratio_senesced_stem_default>
-            <ns_ratio_dead_leaf_default>19.0</ns_ratio_dead_leaf_default>
-            <ns_ratio_dead_stem_default>11.0</ns_ratio_dead_stem_default>
-
-            <np_ratio_green_leaf_default>8.0</np_ratio_green_leaf_default>
-            <np_ratio_green_stem_default>8.0</np_ratio_green_stem_default>
-            <np_ratio_senesced_leaf_default>8.0</np_ratio_senesced_leaf_default>
-            <np_ratio_senesced_stem_default>8.0</np_ratio_senesced_stem_default>
-            <np_ratio_dead_leaf_default>8.0</np_ratio_dead_leaf_default>
-            <np_ratio_dead_stem_default>8.0</np_ratio_dead_stem_default>
-
-            <dmd_green_leaf>0.80 0.65 0.60</dmd_green_leaf>
-            <dmd_green_stem>0.60 0.55 0.50</dmd_green_stem>
-            <dmd_senesced_leaf>0.60 0.50 0.40</dmd_senesced_leaf>
-            <dmd_senesced_stem>0.50 0.35 0.30</dmd_senesced_stem>
-            <dmd_dead_leaf>0.40 0.40 0.40</dmd_dead_leaf>
-            <dmd_dead_stem>0.30 0.30 0.30</dmd_dead_stem>
-
-            <KQ5Leaf>0.008</KQ5Leaf>
-            <KQ5Stem>0.004</KQ5Stem>
-            <KQ4>200</KQ4>
-
-            <cp_n_ratio>6.25</cp_n_ratio>
+         <include>%apsuite\apsim\stock\StockScienceConverter.ini</include>
       </initdata>
    </component>
    <component name="stock" executable="C:\Program Files\FarmWise\stock.dll">
