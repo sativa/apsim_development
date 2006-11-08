@@ -454,7 +454,7 @@ void Report::showDataPage()
    else
         {
         (*callDLL)(dllFileName.c_str(), "ApsimReportData.MainForm", "Go", argument.str().c_str());
-        refreshControls(reportForm);
+        refreshAllPages();
         isDirty = true;
         }
    }
@@ -642,11 +642,19 @@ void Report::refresh(bool quiet)
 
    data->refresh("");
 
-   refreshControls(reportForm);
+   refreshAllPages();
 
    Screen->Cursor = savedCursor;
    }
 
+//---------------------------------------------------------------------------
+// now refresh our gui components on all pages.
+//---------------------------------------------------------------------------
+void Report::refreshAllPages()
+   {
+   for (unsigned p = 0; p != pages.size(); p++)
+      refreshControls(pages[p]);
+   }
 //---------------------------------------------------------------------------
 // now refresh our gui components.
 //---------------------------------------------------------------------------
