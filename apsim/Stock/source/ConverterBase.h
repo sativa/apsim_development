@@ -2,11 +2,10 @@
 #ifndef ConverterBase_H
 #define ConverterBase_H
 
-#pragma hdrstop
-
 #include <math.h>
 #include <string>
 #include <sstream>
+#include <vector>
 #include <iomanip.h>
 
 #include <general/string_functions.h>
@@ -17,8 +16,6 @@
 
 #include <ComponentInterface/Component.h>
 #include <ComponentInterface/DataTypes.h>
-#include <ComponentInterface\Component.h>
-#include <vector>
 
 // ------------------------------------------------------------------
 class ConverterBase : public protocol::Component
