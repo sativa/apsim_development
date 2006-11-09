@@ -1,7 +1,5 @@
 #include "ScienceConverterComponent.h"
-#include "Conversion.h"
 
-#pragma package(smart_init)
 using namespace std;
 
 //const float kg2g = 1000.0;

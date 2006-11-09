@@ -1,16 +1,15 @@
 //---------------------------------------------------------------------------
 #ifndef ScienceConverterComponent_H
 #define ScienceConverterComponent_H
-#include <general\pch.h>
-#include <vcl.h>
-#include <boost/function.hpp>
-#pragma hdrstop
+#include <general/pch.h>
 
 #include <math.h>
 #include <string>
 #include <strstream>
+#include <vector>
 #include <iomanip.h>
 
+#include <boost/function.hpp>
 #include <general/string_functions.h>
 #include <general/stl_functions.h>
 #include <ApsimShared/FStringExt.h>
@@ -19,7 +18,6 @@
 
 #include <ComponentInterface/Component.h>
 #include <ComponentInterface/DataTypes.h>
-#include <vector>
 
 #include "HerbageConverter.h"
 #include "NonHerbageConverter.h"

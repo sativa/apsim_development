@@ -2,7 +2,7 @@
 #include <vcl.h>
 #include <boost/function.hpp>
 #include "ConverterBase.h"
-#include "Conversion.h"
+#include "Constants.h"
 
 
 #pragma package(smart_init)

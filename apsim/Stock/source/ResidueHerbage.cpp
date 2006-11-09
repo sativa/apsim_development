@@ -1,5 +1,6 @@
 #include "ResidueHerbage.h"
-#include "Conversion.h"
+#pragma hdrstop
+#include "Constants.h"
 
 #pragma package(smart_init)
 using namespace std;
@@ -490,6 +491,7 @@ void ResidueHerbage::getStage(void)
 
 float ResidueHerbage::trampling(void)
 {
+   return -1;
 }
 
 
@@ -908,7 +910,7 @@ void ResidueHerbage::readHerbageModuleParameters ( void )
 {
 
 //+  Constant Values
-    const char*  section_name = "parameters" ;
+//    const char*  section_name = "parameters" ;
 
 //- Implementation Section ----------------------------------
       ostringstream msg;

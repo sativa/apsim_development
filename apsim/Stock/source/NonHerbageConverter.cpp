@@ -1,5 +1,4 @@
 #include "NonHerbageConverter.h"
-#include "Conversion.h"
 
 
 #pragma package(smart_init)
@@ -390,7 +389,10 @@ void NonHerbageConverter::daylengthRelay (protocol::QueryValueData& queryData)
       {
          float dayLength;
          bool ok = variant->unpack(dayLength);  // what happens if this is not ok?
-         system->sendVariable(queryData, dayLength);
+         if (ok)
+            system->sendVariable(queryData, dayLength);
+         else
+            throw std::runtime_error("Failed to unpack a float in NonHerbageConverter::daylengthRelay");
       }
       else
       {   // didn't get the day_length ID ok. Do nothing about it.
@@ -404,10 +406,15 @@ void NonHerbageConverter::intakeRelay (protocol::QueryValueData& queryData)
       bool ok = system->getVariable(intakeGetID, variant, true);
       if (ok)
       {
-         protocol::intakeType intake[1];
-         bool ok = variant->unpack(intake);  // what happens if this is not ok?
-         float weight = static_cast<float>(intake[0].weight);
-         system->sendVariable(queryData, weight);
+         protocol::intakeType intake;
+         bool ok = variant->unpack(intake);
+         if (ok)
+         {
+            float weight = static_cast<float>(intake.weight);
+            system->sendVariable(queryData, weight);
+         }
+         else
+            throw std::runtime_error("Failed to unpack a protocol::intakeType in NonHerbageConverter::intakeRelay");
       }
       else
       {   // didn't get the intake ID ok. Do nothing about it.

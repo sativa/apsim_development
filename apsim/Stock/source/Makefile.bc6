@@ -11,10 +11,18 @@ BCB = $(MAKEDIR)\..
 
 PROJECT=..\lib\StockScienceConverter.dll
 
-OBJFILES=StockScienceConverter.obj ScienceConverterComponent.obj PlantPool.obj SeedPool.obj \
-ConverterBase.obj HerbageBase.obj HerbageConverter.obj NonHerbageConverter.obj \
-PlantHerbage.obj ResidueHerbage.obj ResiduePool.obj \
- ..\..\..\Shared\ComponentInterface\EntryPoints.obj
+OBJFILES=StockScienceConverter.obj \
+         ScienceConverterComponent.obj \
+         PlantPool.obj SeedPool.obj \
+         ConverterBase.obj \
+         HerbageBase.obj \
+         HerbageConverter.obj \
+         NonHerbageConverter.obj \
+         PlantHerbage.obj \
+         ResidueHerbage.obj \
+         ResiduePool.obj \
+         Constants.obj \
+          ..\..\..\Shared\ComponentInterface\EntryPoints.obj
 
 LIBFILES = $(APSROOT)\Shared\ComponentInterface\ComponentInterface.lib \
 	$(APSROOT)\Shared\ApsimShared\ApsimShared.lib \
@@ -62,12 +70,13 @@ ScienceConverterComponent.obj: ScienceConverterComponent.cpp ScienceConverterCom
 PlantPool.obj: PlantPool.cpp PlantPool.h
 SeedPool.obj: SeedPool.cpp SeedPool.h
 ResiduePool.obj: ResiduePool.cpp ResiduePool.h
-PlantHerbage.obj:  PlantHerbage.cpp  PlantHerbage.h HerbageBase.h PlantPool.h SeedPool.h
-ResidueHerbage.obj:  ResidueHerbage.cpp  ResidueHerbage.h HerbageBase.h ResiduePool.h
+PlantHerbage.obj:  PlantHerbage.cpp  PlantHerbage.h HerbageBase.h PlantPool.h SeedPool.h  Constants.h
+ResidueHerbage.obj:  ResidueHerbage.cpp  ResidueHerbage.h HerbageBase.h ResiduePool.h  Constants.h
 NonHerbageConverter.obj: NonHerbageConverter.cpp  NonHerbageConverter.h
-HerbageConverter.obj: HerbageConverter.cpp  HerbageConverter.h  ConverterBase.h PlantHerbage.h ResidueHerbage.h HerbageBase.h PlantPool.h SeedPool.h
+HerbageConverter.obj: HerbageConverter.cpp  HerbageConverter.h  ConverterBase.h PlantHerbage.h ResidueHerbage.h HerbageBase.h PlantPool.h SeedPool.h  Constants.h
 HerbageBase.obj: HerbageBase.cpp  HerbageBase.h PlantPool.h SeedPool.h
-ConverterBase.obj: ConverterBase.cpp  ConverterBase.h
+ConverterBase.obj: ConverterBase.cpp  ConverterBase.h  Constants.h
+Constants.obj: Constants.cpp  Constants.h
 
 clean:
 	del /f $(PROJECT) $(OBJFILES)
