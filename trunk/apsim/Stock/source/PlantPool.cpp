@@ -588,7 +588,7 @@ int main()
 {
       cout << "PlantPool test started" << endl;
 
-      PlantPool p, *aPtr = &p;
+      PlantPool p; //, *aPtr = &p;
 
       cout << endl << "Test set and get functions:" << endl;
       p.setValue(10.0, 2.0, 1.0, 20.0, 3.0, 1.5, 30.0, 4.0, 2.0);

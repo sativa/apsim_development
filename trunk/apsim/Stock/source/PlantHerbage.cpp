@@ -1,7 +1,7 @@
 #include "PlantHerbage.h"
-#include "Conversion.h"
+#pragma hdrstop
+#include "Constants.h"
 
-#pragma package(smart_init)
 using namespace std;
 
 

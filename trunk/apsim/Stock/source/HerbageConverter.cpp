@@ -1,6 +1,7 @@
 
 #include "HerbageConverter.h"
-#include "Conversion.h"
+#pragma hdrstop
+#include "Constants.h"
 
 using namespace std;
 
@@ -34,7 +35,7 @@ HerbageConverter::~HerbageConverter(void)
 void HerbageConverter::doInit1(const FString& sdml)
    {
    tramplingID = system->addRegistration(RegistrationType::respondToGet, "herbage_trampling", singleTypeDDML);
-   plant2stockID = system->addRegistration(RegistrationType::respondToGet, "plant2stock", protocol::DDML(protocol::plant2stockType()).c_str());
+   plant2stockID = system->addRegistration(RegistrationType::respondToGet, "plant2stock", DDML(protocol::plant2stockType()).c_str());
    removeHerbageID = system->addRegistration(RegistrationType::respondToEvent, "remove_herbage", DDML(protocol::remove_herbageType()).c_str());
 
    dmFeedOnOfferID = system->addRegistration(RegistrationType::respondToGet, "dm_feed_on_offer", singleArrayTypeDDML);

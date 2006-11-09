@@ -585,7 +585,7 @@ int main()
 {
 	cout << "SeedPool test started" << endl;
 
-	SeedPool p, *aPtr = &p;
+	SeedPool p; //, *aPtr = &p;
 
 	cout << endl << "Test set and get functions:" << endl;
 	p.setValue(10.0, 2.0, 1.0, 20.0, 3.0, 1.5);

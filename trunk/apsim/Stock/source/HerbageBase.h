@@ -2,17 +2,14 @@
 #ifndef HerbageBase_H
 #define HerbageBase_H
 
-#include <ComponentInterface\Component.h>
-#include <string>
-#include <vector>
-#include <general\pch.h>
-#include <vcl.h>
-#include <boost/function.hpp>
-#pragma hdrstop
-
+#include <general/pch.h>
 #include <math.h>
 #include <strstream>
+#include <string>
+#include <vector>
+
 #include <iomanip.h>
+#include <boost/function.hpp>
 
 #include <general/string_functions.h>
 #include <general/stl_functions.h>
@@ -23,7 +20,6 @@
 #include <ComponentInterface/Component.h>
 #include <ComponentInterface/DataTypes.h>
 
-#pragma package(smart_init)
 
 //#include "HerbagePool.h"
 
@@ -31,7 +27,8 @@
 #define max(A,B) ((A)>(B)?(A):(B))
 // Maximum number of layers in soil
 
-std::string ftoa(double Float, char *fmtwidth=".2");
+std::string ftoa(double Float);
+std::string ftoa(double Float, char *fmtwidth);
 std::string itoa(int value, int width);
 
       const int maxDmdPoolsVeg = 6;
