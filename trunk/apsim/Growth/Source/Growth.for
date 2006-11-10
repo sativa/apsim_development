@@ -930,6 +930,12 @@ cnh         cover = 1.0 - exp (-g%extinction_coef*g%lai)
      :              ,'(kg/ha)'         ! variable units
      :              ,g%foliage_n)   ! variable
 
+      elseif (variable_name .eq. 'foliage_n_sen') then
+         call respond2get_real_var (
+     :               variable_name     ! variable name
+     :              ,'(kg/ha)'         ! variable units
+     :              ,g%foliage_n_sen)   ! variable
+
       elseif (variable_name .eq. 'ep') then
          num_layers = count_of_real_vals (g%dlayer, max_layer)
          ep = abs(sum(g%dlt_sw_Dep(1:num_layers)))
@@ -1187,9 +1193,50 @@ cnh         cover = 1.0 - exp (-g%extinction_coef*g%lai)
      :              ,g%an_green       ! variable
      :              ,max(1,c%num_above_gnd_parts))! array size
 
+      elseif (variable_name .eq. 'an_sen') then
+
+         call respond2get_real_array (
+     :               variable_name    ! variable name
+     :              ,'(kg/ha)'        ! variable units
+     :              ,g%an_sen       ! variable
+     :              ,max(1,c%num_above_gnd_parts))! array size
+
+      elseif (variable_name .eq. 'an_dead') then
+
+         call respond2get_real_array (
+     :               variable_name    ! variable name
+     :              ,'(kg/ha)'        ! variable units
+     :              ,g%an_dead       ! variable
+     :              ,max(1,c%num_above_gnd_parts))! array size
+
+      elseif (variable_name .eq. 'bn_green') then
+
+         call respond2get_real_array (
+     :               variable_name    ! variable name
+     :              ,'(kg/ha)'        ! variable units
+     :              ,g%bn_green       ! variable
+     :              ,max(1,c%num_above_gnd_parts))! array size
+
+      elseif (variable_name .eq. 'bn_sen') then
+
+         call respond2get_real_array (
+     :               variable_name    ! variable name
+     :              ,'(kg/ha)'        ! variable units
+     :              ,g%bn_sen       ! variable
+     :              ,max(1,c%num_above_gnd_parts))! array size
+
+      elseif (variable_name .eq. 'bn_dead') then
+
+         call respond2get_real_array (
+     :               variable_name    ! variable name
+     :              ,'(kg/ha)'        ! variable units
+     :              ,g%bn_dead       ! variable
+     :              ,max(1,c%num_above_gnd_parts))! array size
+
       elseif (variable_name .eq. 'total_n') then
 
          total_n = g%foliage_n
+     :           + g%foliage_n_sen
      :           + sum_real_array(g%an_green,c%num_above_gnd_parts)
      :           + sum_real_array(g%an_sen,c%num_above_gnd_parts)
      :           + sum_real_array(g%an_dead,c%num_above_gnd_parts)
@@ -1197,6 +1244,78 @@ cnh         cover = 1.0 - exp (-g%extinction_coef*g%lai)
      :           + sum_real_array(g%bn_green,c%num_below_gnd_parts)
      :           + sum_real_array(g%bn_sen,c%num_below_gnd_parts)
      :           + sum_real_array(g%bn_dead,c%num_below_gnd_parts)
+
+         call respond2get_real_var (
+     :               variable_name       ! variable name
+     :              ,'(kg/ha)'           ! variable units
+     :              ,total_n)            ! variable
+
+      elseif (variable_name .eq. 'biomass_n') then
+
+         total_n = (g%foliage_n
+     :           + g%foliage_n_sen
+     :           + sum_real_array(g%an_green,c%num_above_gnd_parts)
+     :           + sum_real_array(g%an_sen,c%num_above_gnd_parts)
+     :           + sum_real_array(g%an_dead,c%num_above_gnd_parts)
+     :           ) * kg2gm/ha2sm
+
+         call respond2get_real_var (
+     :               variable_name       ! variable name
+     :              ,'(g/m^2)'           ! variable units
+     :              ,total_n)            ! variable
+
+      elseif (variable_name .eq. 'an_total') then
+
+         total_n = g%foliage_n
+     :           + g%foliage_n_sen
+     :           + sum_real_array(g%an_green,c%num_above_gnd_parts)
+     :           + sum_real_array(g%an_sen,c%num_above_gnd_parts)
+     :           + sum_real_array(g%an_dead,c%num_above_gnd_parts)
+
+         call respond2get_real_var (
+     :               variable_name       ! variable name
+     :              ,'(kg/ha)'           ! variable units
+     :              ,total_n)            ! variable
+
+      elseif (variable_name .eq. 'bn_total') then
+
+         total_n = g%root_n
+     :           + sum_real_array(g%bn_green,c%num_below_gnd_parts)
+     :           + sum_real_array(g%bn_sen,c%num_below_gnd_parts)
+     :           + sum_real_array(g%bn_dead,c%num_below_gnd_parts)
+
+         call respond2get_real_var (
+     :               variable_name       ! variable name
+     :              ,'(kg/ha)'           ! variable units
+     :              ,total_n)            ! variable
+
+      elseif (variable_name .eq. 'dlt_n_uptake_total') then
+
+         total_n = g%dlt_root_n
+     :           + g%dlt_foliage_n
+     :           + sum_real_array(g%dlt_an_green,c%num_above_gnd_parts)
+     :           + sum_real_array(g%dlt_bn_green,c%num_below_gnd_parts)
+
+         call respond2get_real_var (
+     :               variable_name       ! variable name
+     :              ,'(kg/ha)'           ! variable units
+     :              ,total_n)            ! variable
+
+      elseif (variable_name .eq. 'dlt_an_uptake_total') then
+
+         total_n = g%dlt_foliage_n
+     :           + sum_real_array(g%dlt_an_green,c%num_above_gnd_parts)
+
+         call respond2get_real_var (
+     :               variable_name       ! variable name
+     :              ,'(kg/ha)'           ! variable units
+     :              ,total_n)            ! variable
+
+
+      elseif (variable_name .eq. 'dlt_bn_uptake_total') then
+
+         total_n = g%dlt_root_n
+     :           + sum_real_array(g%dlt_bn_green,c%num_below_gnd_parts)
 
          call respond2get_real_var (
      :               variable_name       ! variable name
@@ -2315,7 +2434,7 @@ c     :          ,1.0)                 ! Upper Limit for bound check
 
 *+  Local Variables
       type(NewPotentialGrowthType) :: NewPotentialGrowth
-      
+
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
@@ -5902,7 +6021,7 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
 
       implicit none
       integer, intent(in) :: variant
-      
+
 *+  Purpose
 *      Retrieve information from the canopy energy balance event
 
@@ -5928,9 +6047,9 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
       call push_routine (myname)
       if (g%plant_status .eq. status_alive) then
 
-          call get_name (module_name)  
+          call get_name (module_name)
           call unpack_LightProfile(variant, LightProfile)
-          
+
           g%radn_int = 0.0
           do 100 i=1, LightProfile%Num_Interception
              if (LightProfile%Interception(i)%Name.eq.
@@ -5944,8 +6063,8 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
                 ! try next one
              endif
   100     continue
-          
-  
+
+
                  call Growth_dm_pot_rue
      :                   (
      :                    c%RUE
@@ -5974,7 +6093,7 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
 
       implicit none
       integer, intent(in) :: variant
-      
+
 *+  Purpose
 *      Retrieve information from the canopy water balance event
 
@@ -6002,7 +6121,7 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
           call get_name (module_name)
 
           call unpack_CanopyWaterBalance(variant, CanopyWaterBalance)
-          
+
           do 100 i=1,CanopyWaterBalance%Num_Canopy
              if (CanopyWaterBalance%Canopy(i)%name.eq.
      :           module_name) then
