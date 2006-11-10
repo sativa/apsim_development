@@ -177,16 +177,19 @@ void PlantHerbage::doGrazed(protocol::remove_herbageType &grazed)
          system->publish (removeCropBiomassID, crop);
       }
 
-      if (trampling() > 1.0e-6)
+      if (cDebug == "on")
       {
-         ostringstream msg;
-         msg << endl << "Detach herbage plant parts:-" << endl;
+         if (trampling() > 1.0e-6 && trampling() < 1.0e+6)
+         {
+            ostringstream msg;
+            msg << endl << "Detach herbage plant parts:-" << endl;
 
-         float detachRate = trampling() * c.specificDetachRate;
-         msg << "   Detach fraction = " << detachRate << " ()" << endl << ends;
-         system->writeString (msg.str().c_str());
+            float detachRate = trampling() * c.specificDetachRate;
+            msg << "   Detach fraction = " << detachRate << " ()" << endl << ends;
+            system->writeString (msg.str().c_str());
 
-         system->publish (detachRateID, detachRate);
+            system->publish (detachRateID, detachRate);
+         }
       }
 
 }
