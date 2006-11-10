@@ -84,6 +84,8 @@
             <respondToEvent name="end_step" type="post" />
             <respondToEvent name="remove_herbage" type="remove_herbage" />
             <respondToEvent name="add_excreta" type="add_excreta" />
+            <respondToEvent name="sellstock" type="string" />
+            <respondToEvent name="buystock" type="string" />
 
             <get name="today" type="integer4"/>
             <get name="day" type="integer4"/>
@@ -115,8 +117,17 @@
             <respondToGet name="dul_dep" array = "T" type="single"/>
             <respondToGet name="sat_dep" array = "T" type="single"/>
             <respondToGet name="sw" array = "T" type="single"/>
+            <respondToGet name="biomass" array = "F" type="single"/>
+            <respondToGet name="stage_name" array = "F" type="string"/>
             <respondToGet name="lai" array = "F" type="single"/>
             <respondToGet name="istage" array = "F" type="integer4"/>
+            <respondToGet name="cond_score_all" type="single" />
+            <respondToGet name="number_all" type="single" />
+            <respondToGet name="sex" type="single" />
+            <respondToGet name="age_all" type="single" />
+            <respondToGet name="weight_all" type="single" />
+            <respondToGet name="wt_change_all" type="single" />
+            <respondToGet name="intake_all" type="single" />
 
             <respondToSet name="root_sw_demand_vol" type="single"/>
          </sim>
@@ -770,6 +781,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\stock\lib\stockscienceconverter.dll</dll>
+         <ini>%apsuite\apsim\stock\stockscienceconverter.ini</ini>
          <recurse>yes</recurse>
          <sim>
             [StockHerbageConverter.innerxml]
@@ -791,6 +803,7 @@
       <ApsimToSim>
          <type>component</type>
          <dll>%apsuite\apsim\stock\lib\stockscienceconverter.dll</dll>
+         <ini>%apsuite\apsim\stock\stockscienceconverter.ini</ini>
          <recurse>yes</recurse>
          <sim>
             [StockScienceConverter.innerxml]
