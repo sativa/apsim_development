@@ -1844,6 +1844,56 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
             <buy_weight type="text" description="Weight (kg) : ">250</buy_weight>
           </category>
         </rule>
+    <rule name="Move cattle on a fixed date">
+      <condition name="init">
+            <![CDATA[
+               cattle_presence = 'off'
+            ]]>
+            </condition>
+      <condition name="start_of_day">
+         <![CDATA[
+         if (today = date('[move_date]') then
+               stockage = [sellpaddock].age_all/30.4375
+               stockwt = [sellpaddock].weight_all
+               stocknumber = [sellpaddock].number_all
+               [sellpaddock] sellstock number = stocknumber (-)
+               [buypaddock] buystock number = stocknumber (-), genotype = '[genotype]', sex = [sex], age = stockage (months), weight = stockwt (kg)
+        endif
+        ]]>
+      </condition>
+      <category name="Move properties">
+        <sellpaddock type="modulename" description="Name of sell paddock : ">Paddock</sellpaddock>
+        <buypaddock type="modulename" description="Name of buy paddock : ">Paddock</buypaddock>
+        <genotype type="list" listvalues="Angus,ayrshire,beef shorthorn,brahman,brahman x british,brown swiss,charolais,charolais x british,charolais x friesian,charolais x holstein,chianina,dairy shorthorn,fresian,fresian x british,guernsey,hereford,holstein,holstein x british,jersey,limousein,sahiwal,simmental,south devon" description="Select Genotype : ">Angus</genotype>
+        <move_date type="text" description="Date (dd-mmm) : ">1-jan</move_date>
+      </category>
+    </rule>
+    <rule name="Move cattle on a weight change">
+      <condition name="init">
+            <![CDATA[
+               cattle_presence = 'off'
+            ]]>
+      </condition>
+      <condition name="start_of_day">
+          <![CDATA[
+          if (([sellpaddock].wt_change_all <= [minimum_wt_change] OR [buypaddock].stage_name = 'flowering') AND [sellpaddock]_cattle_presence = 'on') then
+               stockage = [sellpaddock].age_all/30.4375
+               stockwt = [sellpaddock].weight_all
+               stocknumber = [sellpaddock].number_all
+               [sellpaddock] sellstock number = stocknumber (-)
+               [buypaddock] buystock number = stocknumber (-), genotype = '[genotype]', sex = [sex], age = stockage (months), weight = stockwt (kg)
+               [sellpaddock]_cattle_presence = 'off'
+               [buypaddock]_cattle_presence = 'on'
+          endif
+          ]]>
+      </condition>
+      <category name="Move properties">
+        <sellpaddock type="modulename" description="Name of sell paddock : ">Paddock</sellpaddock>
+        <buypaddock type="modulename" description="Name of buy paddock : ">Paddock</buypaddock>
+        <genotype type="list" listvalues="Angus,ayrshire,beef shorthorn,brahman,brahman x british,brown swiss,charolais,charolais x british,charolais x friesian,charolais x holstein,chianina,dairy shorthorn,fresian,fresian x british,guernsey,hereford,holstein,holstein x british,jersey,limousein,sahiwal,simmental,south devon" description="Select Genotype : ">Angus</genotype>
+        <minimum_wt_change type="text" description="Minimum weight gain (kg/day) : ">0</minimum_wt_change>
+      </category>
+    </rule>
         <rule name="Buy cattle on feed-on-offer">
           <condition name="init"><![CDATA[
                cattle_presence = 'off'
@@ -1865,6 +1915,50 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
             <buy_weight type="text" description="Weight (kg) : ">250</buy_weight>
           </category>
         </rule>
+    <rule name="Buy cattle on feed-on-offer test">
+      <condition name="init">
+            <![CDATA[
+               [paddockname]_cattle_presence = 'off'
+               cattle_presence = 'off'
+               buy_count = 0
+            ]]>
+            </condition>
+      <condition name="start_of_day">
+         <![CDATA[
+           if ('[paddockname]' = 'nil') then
+              if (stage_name = 'out') then
+                 buy_count = 0
+              endif
+              if ([herbage_module].biomass >= [buy_feed_on_offer] AND cattle_presence = 'off' AND buy_count = 0) then
+                 [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
+                 cattle_presence = 'on'
+                 buy_count = buy_count + 1
+              endif
+           else
+              if ([paddockname].stage_name = 'out') then
+                 buy_count = 0
+              endif
+              if ([paddockname].biomass >= [buy_feed_on_offer] AND cattle_presence = 'off' AND buy_count = 0) then
+                 [paddockname] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
+                 [paddockname]_cattle_presence = 'on'
+                 cattle_presence = 'on'
+                 buy_count = buy_count + 1
+              endif
+           endif
+         ]]>
+      </condition>
+      <category name="Buy properties">
+        <paddockname type="modulename" description="Name of paddock (nil if none) : ">nil</paddockname>
+        <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+        <genotype type="list" listvalues="Angus,ayrshire,beef shorthorn,brahman,brahman x british,brown swiss,charolais,charolais x british,charolais x friesian,charolais x holstein,chianina,dairy shorthorn,fresian,fresian x british,guernsey,hereford,holstein,holstein x british,jersey,limousein,sahiwal,simmental,south devon" description="Select Genotype : ">Angus</genotype>
+        <herbage_module type="modulename" description="Module supplying herbage : ">lucerne</herbage_module>
+        <buy_feed_on_offer type="text" description="Feed on offer (kg/ha) : ">1500.0</buy_feed_on_offer>
+        <buy_number type="text" description="Number of stock : ">5</buy_number>
+        <sex type="list" listvalues="cow,heifer,steer,bull" description="Select sex : ">steer</sex>
+        <buy_age type="text" description="Age (months) : ">12</buy_age>
+        <buy_weight type="text" description="Weight (kg) : ">250</buy_weight>
+      </category>
+    </rule>
         <rule name="Sell cattle on a fixed date">
           <condition name="start_of_day"><![CDATA[
         if (today = date('[sell_date]') AND cattle_presence = 'on') then
@@ -1878,6 +1972,67 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
             <sell_number type="text" description="Number of stock : ">5</sell_number>
           </category>
         </rule>
+    <rule name="Sell cattle on weight test">
+      <condition name="start_of_day">
+         <![CDATA[
+           if ('[sellpaddock]' = 'nil') then
+             if ((stock.weight >= [sell_on_weight]) AND cattle_presence = 'on') then
+                 [stockmodule] sellstock number = [sell_number] (-)
+                 cattle_presence = 'off'
+             endif
+           else
+             if ([sellpaddock].weight_all >= [sell_on_weight]) AND cattle_presence = 'on') then
+                 [sellpaddock] sellstock number = [sell_number] (-)
+                 cattle_presence = 'off'
+              endif
+           endif
+         ]]>
+      </condition>
+      <category name="Sell properties">
+        <sellpaddock type="modulename" description="Name of paddock: ">nil</sellpaddock>
+        <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+        <sell_on_weight type="text" description="LiveWeight for sale : ">350.0</sell_on_weight>
+        <sell_number type="text" description="Number of stock : ">100</sell_number>
+      </category>
+    </rule>
+    <rule name="Sell cattle on weight loss">
+        <condition name="init">
+            numdaysweightloss = 0
+        </condition>
+        <condition name="start_of_day">
+           <![CDATA[
+            if ('[sellpaddock]' = 'nil') then
+              if (wt_change_all < 0.0) then
+                 numdaysweightloss = numdaysweightloss + 1
+              endif
+              if ((numdaysweightloss >= [sell_on_days_weight_loss]) AND cattle_presence = 'on') then
+                 [stockmodule] sellstock number = [sell_number] (-)
+                 cattle_presence = 'off'
+                 maxstockwt = -1
+              endif
+            else
+               if ([sellpaddock]_cattle_presence = 'on') then
+                  if ([sellpaddock].wt_change_all < 0.0) then
+                     numdaysweightloss = numdaysweightloss + 1
+                  else
+                     numdaysweightloss = 0
+                  endif
+               endif
+               if ((numdaysweightloss >= [sell_on_days_weight_loss]) AND [sellpaddock]_cattle_presence = 'on') then
+                  [sellpaddock] sellstock number = [sell_number] (-)
+                  cattle_presence = 'off'
+                  [sellpaddock]_cattle_presence = 'off'
+               endif
+            endif
+         ]]>
+      </condition>
+      <category name="Sell properties">
+        <sellpaddock type="modulename" description="Name of paddock: ">nil</sellpaddock>
+        <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
+        <sell_on_days_weight_loss type="text" description="Number of days of weight loss : ">2.0</sell_on_days_weight_loss>
+        <sell_number type="text" description="Number of stock : ">100</sell_number>
+      </category>
+    </rule>
         <rule name="Sell cattle on weight">
           <condition name="start_of_day"><![CDATA[
         if ((stock.weight >= [sell_on_weight_gain] OR stock.weight <= [sell_on_weight_loss]) AND cattle_presence = 'on') then
@@ -2476,42 +2631,6 @@ if {$steps == 0} {tkwait variable steps}
       <conversion_model>herbage</conversion_model>
       <herbage_model>plant</herbage_model>
       <herbage_module_name type="modulename">lablab</herbage_module_name>
-      <proportion_legume>1.0</proportion_legume>
-      <dmdValue>0.8 0.7 0.6 0.5 0.4 0.3</dmdValue>
-      <p_conc_green_leaf_default>0.004</p_conc_green_leaf_default>
-      <p_conc_green_stem_default>0.003</p_conc_green_stem_default>
-      <p_conc_senesced_leaf_default>0.004</p_conc_senesced_leaf_default>
-      <p_conc_senesced_stem_default>0.003</p_conc_senesced_stem_default>
-      <p_conc_dead_leaf_default>0.004</p_conc_dead_leaf_default>
-      <p_conc_dead_stem_default>0.003</p_conc_dead_stem_default>
-      <ash_alk_green_leaf_default>254.0</ash_alk_green_leaf_default>
-      <ash_alk_green_stem_default>96.0</ash_alk_green_stem_default>
-      <ash_alk_senesced_leaf_default>254.0</ash_alk_senesced_leaf_default>
-      <ash_alk_senesced_stem_default>96.0</ash_alk_senesced_stem_default>
-      <ash_alk_dead_leaf_default>254.0</ash_alk_dead_leaf_default>
-      <ash_alk_dead_stem_default>96.0</ash_alk_dead_stem_default>
-      <ns_ratio_green_leaf_default>19.0</ns_ratio_green_leaf_default>
-      <ns_ratio_green_stem_default>11.0</ns_ratio_green_stem_default>
-      <ns_ratio_senesced_leaf_default>19.0</ns_ratio_senesced_leaf_default>
-      <ns_ratio_senesced_stem_default>11.0</ns_ratio_senesced_stem_default>
-      <ns_ratio_dead_leaf_default>19.0</ns_ratio_dead_leaf_default>
-      <ns_ratio_dead_stem_default>11.0</ns_ratio_dead_stem_default>
-      <np_ratio_green_leaf_default>8.0</np_ratio_green_leaf_default>
-      <np_ratio_green_stem_default>8.0</np_ratio_green_stem_default>
-      <np_ratio_senesced_leaf_default>8.0</np_ratio_senesced_leaf_default>
-      <np_ratio_senesced_stem_default>8.0</np_ratio_senesced_stem_default>
-      <np_ratio_dead_leaf_default>8.0</np_ratio_dead_leaf_default>
-      <np_ratio_dead_stem_default>8.0</np_ratio_dead_stem_default>
-      <dmd_green_leaf>0.80 0.65 0.60</dmd_green_leaf>
-      <dmd_green_stem>0.60 0.55 0.50</dmd_green_stem>
-      <dmd_senesced_leaf>0.60 0.50 0.40</dmd_senesced_leaf>
-      <dmd_senesced_stem>0.50 0.35 0.30</dmd_senesced_stem>
-      <dmd_dead_leaf>0.40 0.40 0.40</dmd_dead_leaf>
-      <dmd_dead_stem>0.30 0.30 0.30</dmd_dead_stem>
-      <KQ5Leaf>0.008</KQ5Leaf>
-      <KQ5Stem>0.004</KQ5Stem>
-      <KQ4>200</KQ4>
-      <cp_n_ratio>6.25</cp_n_ratio>
     </StockHerbageConverter>
     <StockScienceConverter>
       <debug type="list" listvalues="on,off">off</debug>
