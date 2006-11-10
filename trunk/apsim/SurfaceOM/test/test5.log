@@ -224,7 +224,7 @@
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="get" name="soil_loss" type="type array='T' kind='single' unit='tha'"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="get" name="ph" type="type array='T' kind='single' unit=''"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="get" name="ave_soil_temp" type="type array='T' kind='single' unit='oC'"/>
-         <message3 to="MasterPM" msgtype="Register" ack="false" kind="get" name="latitude" type="type kind='single' unit='degrees'"/>
+         <message3 to="MasterPM" msgtype="Register" ack="false" kind="get" name="latitude" type="type kind='single' unit='deg'"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="get" name="salb" type="type kind='single' unit=''"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGetSet" name="no3" type="type array='T' kind='single' unit='kgha'"/>
          <message3 to="MasterPM" msgtype="Register" ack="false" kind="respondToGet" name="dlt_no3_net" type="type array='T' kind='single' unit='kgha'"/>
