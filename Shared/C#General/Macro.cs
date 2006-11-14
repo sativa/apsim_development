@@ -378,7 +378,7 @@ namespace CSGeneral
 			else if (Macro == "innerxml")
 				Value = Child.InnerXML;
 			else
-				Value = Child.Child(Macro).InnerXML;
+				Value = Child.Child(Macro).Value;
 
 			if (FormatString != "")
 				Value = Convert.ToDouble(Value).ToString(FormatString);
