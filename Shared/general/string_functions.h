@@ -453,14 +453,14 @@ void getKeyNameValueUnits(const std::string& line,
 // ------------------------------------------------------------------
 // single quote the string passed in.
 // ------------------------------------------------------------------
-inline std::string singleQuoted(const std::string& st)
+std::string singleQuoted(const std::string& st)
    {
    return "'" + st + "'";
    }
 // ------------------------------------------------------------------
 // double quote the string passed in.
 // ------------------------------------------------------------------
-inline std::string doubleQuoted(const std::string& st)
+std::string doubleQuoted(const std::string& st)
    {
    return "\"" + st + "\"";
    }
@@ -480,6 +480,11 @@ unsigned matchBracket(const std::string& st, char openBracket, char closeBracket
 // ------------------------------------------------------------
 std::string indentString(int level);
 
+// -----------------------------------------------------------------------
+// Add an attribute (e.g. unit="g/m2") to the end of an
+// xml string (e.g. "<type name="biomass"/>)
+// -----------------------------------------------------------------------
+void addAttributeToXML(std::string& XML, const std::string& Attribute);
 
 #endif
 

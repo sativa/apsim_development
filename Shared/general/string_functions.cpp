@@ -405,3 +405,16 @@ std::string indentString(int level)
    return string(level*3, ' ');
    }
 
+void addAttributeToXML(std::string& XML, const std::string& Attribute)
+   // -----------------------------------------------------------------------
+   // Add an attribute (e.g. unit="g/m2") to the end of an
+   // xml string (e.g. "<type name="biomass"/>)
+   // -----------------------------------------------------------------------
+   {
+   unsigned PosEnd = XML.rfind("/>");
+   if (PosEnd == string::npos)
+      throw runtime_error("Invalid XML string: " + XML);
+
+   XML.insert(PosEnd, " " + Attribute);
+   }
+
