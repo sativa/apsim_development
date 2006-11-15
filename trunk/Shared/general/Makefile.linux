@@ -4,7 +4,9 @@
 #-----------------------------------------------------------------------
 #=======================================================================
 
-LIB=	libgeneral.a
+DESTDIR ?= /usr/local/apsim
+
+LIB=	$(APSROOT)/lib/libgeneral.a
 
 SRC=	date_class.cpp		\
 	math_functions.cpp	\
@@ -57,7 +59,7 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
-	cp $(LIB) $(APSROOT)/lib
+	cp $(LIB) $(DESTDIR)/lib
 
 %.o:	%.cpp
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
