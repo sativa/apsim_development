@@ -1,0 +1,76 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for APSIM tcl module
+# Requires tcl-devel.rpm
+#-----------------------------------------------------------------------
+#=======================================================================
+
+DESTDIR ?= /usr/local/apsim
+
+LIB=	../lib/tcllink.so
+
+SRC=	TclLink.cpp TclComponent.cpp TclXtras.cpp
+
+OBJ=    $(SRC:.cpp=.o) $(APSROOT)/Shared/ComponentInterface/EntryPoints.o
+
+# ---------------------------------------------------------------------------
+# TCL SECTION
+# ---------------------------------------------------------------------------
+VER=84
+DOTVER=8.4
+PATCH=13
+TCLVER=$(DOTVER).$(PATCH)
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+CC=		/usr/bin/gcc
+CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
+		-I$(APSROOT)/Shared				\
+		-I$(APSROOT)/Shared/ComponentInterface		\
+		-I/usr/include/tcl-private/generic -I/usr/include/tk-private/generic \
+		-Wno-deprecated 				\
+		-fpermissive -fPIC $(CPPDEBUGFLAGS)
+
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS=	-L/usr/lib		\
+		-L$(APSROOT)/lib $(LDDEBUGFLAGS)
+
+LIBS=		-lComponentInterface	\
+		-lprotocol		\
+		-lApsimShared		\
+		-lgeneral		\
+		-ltcl$(DOTVER) -ltk$(DOTVER) 
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB) ../lib/license.terms
+
+
+$(LIB):	$(OBJ)
+	$(CC) -shared -o $(LIB) $(OBJ) $(LDFLAGS) $(LIBS)
+
+FORCE:
+
+install: all
+	if [ ! -d $(DESTDIR)/apsim/tcllink/lib ]; then mkdir -p $(DESTDIR)/apsim/tcllink/lib; fi 
+	if [ ! -d $(DESTDIR)/apsim/tcllink/lib/tcl$(DOTVER) ]; then ln -s /usr/lib/tcl$(DOTVER) $(DESTDIR)/apsim/tcllink/lib/tcl$(DOTVER); fi
+	if [ ! -d $(DESTDIR)/apsim/tcllink/lib/tk$(DOTVER) ]; then ln -s /usr/share/tk$(DOTVER) $(DESTDIR)/apsim/tcllink/lib/tk$(DOTVER); fi
+	cp $(LIB) $(DESTDIR)/apsim/tcllink/lib
+
+clean:
+	rm -f *.o *.mod
+
+clobber:	clean
+	rm -f $(LIB)
+
+%.o:	%.cpp
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+
+../lib/license.terms:
+	if [ ! -d ../lib/tcl$(DOTVER) ]; then ln -s /usr/lib/tcl$(DOTVER) ../lib/tcl$(DOTVER); fi
+	if [ ! -d ../lib/tk$(DOTVER) ]; then ln -s /usr/share/tk$(DOTVER) ../lib/tk$(DOTVER); fi
