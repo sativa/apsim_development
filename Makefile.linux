@@ -24,11 +24,14 @@ SYSDIRS =  $(APSROOT)/Shared/general \
 
 MODULEDIRS =  apsim/ProtocolManager/Source \
 	apsim/accum/source \
+	apsim/apswim/source \
 	apsim/canopy/source \
 	apsim/clock/source \
 	apsim/croptemp/source \
 	apsim/CropMod/source \
+	apsim/erosion/source \
 	apsim/fertiliz/source \
+	apsim/grasp/source \
 	apsim/input/source \
 	apsim/irrigate/source \
 	apsim/maize/source \
@@ -85,6 +88,7 @@ all: system modules
 
 
 system:
+	if [ ! -d $(APSROOT)/lib ]; then mkdir $(APSROOT)/lib; fi ; \
 	for dir in $(SYSDIRS); do \
 		$(MAKE) -f Makefile.linux  CPPDEBUGFLAGS=$(CPPDEBUGFLAGS) LDDEBUGFLAGS=$(LDDEBUGFLAGS) -C $$dir; \
 	done
