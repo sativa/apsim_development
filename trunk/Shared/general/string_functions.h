@@ -453,17 +453,13 @@ void getKeyNameValueUnits(const std::string& line,
 // ------------------------------------------------------------------
 // single quote the string passed in.
 // ------------------------------------------------------------------
-std::string singleQuoted(const std::string& st)
-   {
-   return "'" + st + "'";
-   }
+std::string singleQuoted(const std::string& st);
+
 // ------------------------------------------------------------------
 // double quote the string passed in.
 // ------------------------------------------------------------------
-std::string doubleQuoted(const std::string& st)
-   {
-   return "\"" + st + "\"";
-   }
+std::string doubleQuoted(const std::string& st);
+
 // ------------------------------------------------------------------
 // Locate a substring within a string - case insensitive.
 // ------------------------------------------------------------------

@@ -418,3 +418,18 @@ void addAttributeToXML(std::string& XML, const std::string& Attribute)
    XML.insert(PosEnd, " " + Attribute);
    }
 
+// ------------------------------------------------------------------
+// single quote the string passed in.
+// ------------------------------------------------------------------
+std::string singleQuoted(const std::string& st)
+   {
+   return "'" + st + "'";
+   }
+
+// ------------------------------------------------------------------
+// double quote the string passed in.
+// ------------------------------------------------------------------
+std::string doubleQuoted(const std::string& st)
+   {
+   return "\"" + st + "\"";
+   }
