@@ -1,0 +1,53 @@
+# Makefile for component interface generator
+DESTDIR ?= /usr/local/apsim
+
+OBJ1=CreateDataTypesSource.o CreateSource.o CreateDataTypesF90.o
+OBJ2=CreateComponentInterfaceSource.o ComponentInterfaceGenerator.o
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+CC=		/usr/bin/gcc
+CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
+		-I$(APSROOT)/Shared				\
+		-Wno-deprecated $(CPPDEBUGFLAGS)
+LD=		/usr/bin/g++
+
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS=	-L/usr/lib		\
+		-L$(APSROOT)/lib $(LDDEBUGFLAGS)
+
+LIBS=		-lApsimShared		\
+		-lgeneral		\
+		-lxml2 			\
+		-lboost_filesystem 	\
+		-lboost_date_time 	\
+		-lboost_regex		\
+		-liberty		
+
+all: $(APSROOT)/Bin/CreateDataTypesSource $(APSROOT)/Bin/CreateComponentInterfaceSource
+
+$(APSROOT)/Bin/CreateDataTypesSource: $(OBJ1)
+	$(LD) -o $@ $(OBJ1) $(LDFLAGS) $(LIBS)
+
+$(APSROOT)/Bin/CreateComponentInterfaceSource: $(OBJ2)
+	$(LD) -o $@ $(OBJ2) $(LDFLAGS) $(LIBS)
+
+
+FORCE:
+
+clean:
+	rm -f *.o *.mod  $(APSROOT)/Bin/CreateDataTypesSource $(APSROOT)/Bin/CreateComponentInterfaceSource
+
+clobber:	clean
+
+install: all
+	if [ ! -d $(DESTDIR)/bin ]; then mkdir -p $(DESTDIR)/bin; fi 
+	cp $(APSROOT)/Bin/CreateDataTypesSource $(DESTDIR)/bin
+	cp $(APSROOT)/Bin/CreateComponentInterfaceSource $(DESTDIR)/bin
+
+%.o:	%.cpp
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
