@@ -10,6 +10,7 @@
 #include <sstream>
 #include <vector>
 #include <string>
+#include <stdexcept>
 
 #include "IniFile.h"
 
