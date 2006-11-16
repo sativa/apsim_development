@@ -15,20 +15,18 @@
 
 # Main target
 source: ..\lib\soilwat2.dll
-..\lib\soilwat2.dll: Registrations.obj lateral.obj evap.obj soilwat2.obj $(STATICLINKEDOBJECTS) 
+..\lib\soilwat2.dll: Registrations.obj lateral.obj evap.obj soilwat2.obj $(STATICLINKEDOBJECTS)
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
-	$(LF95) soilwat2.obj lateral.obj evap.obj Registrations.obj \
- -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance -exe ..\lib\soilwat2.dll @linker.tmp
+	$(LF95) soilwat2.obj lateral.obj evap.obj \
+ -export Main,wrapperDLL,respondToEvent,alloc_dealloc_instance,getInstance,doInit1 -exe ..\lib\soilwat2.dll @linker.tmp
 	$(RM) linker.tmp
-   
+
 lateral.obj: lateral.for
 evap.obj: evap.for
 soilwat2.obj: soilwat2.for
-Registrations.obj: Registrations.f90
-Registrations.f90: ..\soilwat2.interface 
-	$(APSROOT)\bin\CreateComponentInterfaceSource.exe ..\soilwat2.interface
+
 clean:
-	$(RM) ..\lib\soilwat2.dll Registrations.obj Registrations.f90 soilwat2.obj soilwat2.imp
+	$(RM) ..\lib\soilwat2.dll soilwat2.obj soilwat2.imp
 

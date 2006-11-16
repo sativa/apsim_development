@@ -6793,8 +6793,6 @@ c dsg 150302  saturated layer = layer, layer above not over dul
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call doRegistrations(id)
-
       call Evap_create(evap)
 
       call soilwat2_zero_variables ()
@@ -6966,10 +6964,6 @@ c dsg 150302  saturated layer = layer, layer above not over dul
 
       else if (action.eq.ACTION_post) then
 
-      else if (action.eq.ACTION_create) then
-         call doRegistrations(id)
-         call soilwat2_create()
-
       else if (action.eq.'evap_init') then
          call soilwat2_evap_init ()
 
@@ -7004,3 +6998,151 @@ c dsg 150302  saturated layer = layer, layer above not over dul
       return
       end subroutine respondToEvent
 
+! ====================================================================
+! Do 1st stage initialisation
+! ====================================================================
+      subroutine doInit1()
+      use SoilWat2Module
+      Use infrastructure
+      implicit none
+      ml_external doInit1
+      integer dummy
+
+      ! events published
+      id%new_profile = add_registration(eventReg, 'new_profile',
+     .                                  new_profileTypeDDML, '', '')
+
+      ! events subscribed to
+      id%tillage = add_registration(respondToEventReg, 'tillage',
+     .                              nullTypeDDML, '', '')
+      id%reset = add_registration(respondToEventReg, 'reset',
+     .                            nullTypeDDML, '', '')
+      id%sum_report = add_registration(respondToEventReg, 'sum_report',
+     .                                 nullTypeDDML, '', '')
+      id%evap_init = add_registration(respondToEventReg, 'evap_init',
+     .                                nullTypeDDML, '', '')
+      id%tick = add_registration(respondToEventReg, 'tick',
+     .                           timeTypeDDML, '', '')
+      id%newmet = add_registration(respondToEventReg, 'newmet',
+     .                             newmetTypeDDML, '', '')
+      id%irrigated = add_registration(respondToEventReg, 'irrigated',
+     .                                IrrigatedTypeDDML, '', '')
+      id%new_solute = add_registration(respondToEventReg, 'new_solute',
+     .                                 new_soluteTypeDDML, '', '')
+      id%process = add_registration(respondToEventReg, 'process',
+     .                              nullTypeDDML, '', '')
+      id%prepare = add_registration(respondToEventReg, 'prepare',
+     .                              nullTypeDDML, '', '')
+      id%post = add_registration(respondToEventReg, 'post',
+     .                           nullTypeDDML, '', '')
+
+      ! variables we own and make gettable
+      dummy = add_registration_with_units(respondToGetReg, 'es',
+     .                     singleTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToGetReg, 'pond_evap',
+     .                     singleTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToGetReg, 't',
+     .                     singleTypeDDML, 'days')
+      dummy = add_registration_with_units(respondToGetReg, 'eo',
+     .                     singleTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToGetReg, 'eos',
+     .                     singleTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToGetReg,
+     .                     'cover_surface_runoff', singleTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'cn2_new',
+     .                     singleTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'runoff',
+     .                     singleTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToGetReg, 'pond',
+     .                     singleTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToGetReg, 'drain',
+     .                     singleTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToGetReg,
+     .                     'infiltration', singleTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToGetReg, 'eff_rain',
+     .                     singleTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToGetReg, 'salb',
+     .                     singleTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToGetReg, 'bd',
+     .                     singleArrayTypeDDML, 'g/cc')
+      dummy = add_registration_with_units(respondToGetReg, 'esw',
+     .                     singleTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToGetReg, 'flux',
+     .                     singleArrayTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToGetReg, 'flow',
+     .                     singleArrayTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToGetReg, 'flow_water',
+     .                     singleArrayTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToGetReg,
+     .                     'water_table', singleTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToGetReg, 'sws',
+     .                     singleArrayTypeDDML, 'mm/mm')
+
+      ! variables that are settable
+      dummy = add_registration_with_units(respondToSetReg, 'insoil',
+     .                     singleTypeDDML, '')
+      dummy = add_registration_with_units(respondToSetReg,
+     .                     'profile_esw_depth', singleTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToSetReg,
+     .                     'wet_soil_depth', singleTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToSetReg,
+     .                     'profile_fesw', singleTypeDDML, '')
+      dummy = add_registration_with_units(respondToSetReg, 'dlt_sw',
+     .                     singleArrayTypeDDML, 'mm/mm')
+      dummy = add_registration_with_units(respondToSetReg, 'dlt_sw_dep',
+     .                     singleArrayTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToSetReg, 'max_pond',
+     .                     singleTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToSetReg, 'dlt_dlayer',
+     .                     singleArrayTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToSetReg, 'cn2_bare',
+     .                     singleTypeDDML, '')
+      dummy = add_registration_with_units(respondToSetReg, 'cn_cov',
+     .                     singleTypeDDML, '')
+      dummy = add_registration_with_units(respondToSetReg, 'cn_red',
+     .                     singleTypeDDML, '')
+
+      ! variables that are gettable and settable
+      dummy = add_registration_with_units(respondToGetSetReg, 'sw',
+     .                     singleArrayTypeDDML, 'mm/mm')
+      dummy = add_registration_with_units(respondToGetSetReg, 'sw_dep',
+     .                     singleArrayTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToGetSetReg, 'dul_dep',
+     .                     singleArrayTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToGetSetReg, 'dul',
+     .                     singleArrayTypeDDML, 'mm/mm')
+      dummy = add_registration_with_units(respondToGetSetReg,
+     .                     'll15_dep', singleArrayTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToGetSetReg, 'll15',
+     .                     singleArrayTypeDDML, 'mm/mm')
+      dummy = add_registration_with_units(respondToGetSetReg, 'sat_dep',
+     .                     singleArrayTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToGetSetReg, 'sat',
+     .                     singleArrayTypeDDML, 'mm/mm')
+      dummy = add_registration_with_units(respondToGetSetReg,
+     .                     'air_dry_dep', singleArrayTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToGetSetReg, 'air_dry',
+     .                     singleArrayTypeDDML, 'mm/mm')
+      dummy = add_registration_with_units(respondToGetSetReg, 'dlayer',
+     .                     singleArrayTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToGetSetReg, 'cona',
+     .                     singleTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetSetReg, 'u',
+     .                     singleTypeDDML, '')
+
+      ! variables we get from other modules.
+      dummy = add_registration_with_units(getVariableReg,
+     .                     'surfaceom_cover', singleTypeDDML, '')
+      dummy = add_registration_with_units(getVariableReg, 'cover_green',
+     .                     singleTypeDDML, '')
+      dummy = add_registration_with_units(getVariableReg, 'cover_tot',
+     .                     singleTypeDDML, '')
+      dummy = add_registration_with_units(getVariableReg, 'height',
+     .                     singleTypeDDML, 'mm')
+      dummy = add_registration_with_units(getVariableReg, 'runon',
+     .                     singleTypeDDML, 'mm')
+      dummy = add_registration_with_units(getVariableReg,
+     .                     'interception', singleTypeDDML, 'mm')
+
+      call soilwat2_create()
+      end subroutine

@@ -1584,6 +1584,18 @@
          <field name="fraction_to_residue" kind="single" array="T"/>
       </type>
       <type name="new_profile">
+         <field name="sender_name" kind="string"/>"
+         <field name="sender_numbytes" kind="integer4"/>"
+         <field name="sender_code" kind="integer4"/>"
+         <field name="sender_isarray" kind="boolean"/>"
+         <field name="sender_value" kind="string" />"
+
+         <field name="sender_id_name" kind="string"/>"
+         <field name="sender_id_numbytes" kind="integer4"/>"
+         <field name="sender_id_code" kind="integer4"/>"
+         <field name="sender_id_isarray" kind="boolean"/>"
+         <field name="sender_id_value" kind="integer4" />"
+
          <field name="dlayer_name" kind="string"/>"
          <field name="dlayer_numbytes" kind="integer4"/>"
          <field name="dlayer_code" kind="integer4"/>"
