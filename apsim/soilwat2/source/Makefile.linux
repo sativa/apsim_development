@@ -8,8 +8,7 @@ DESTDIR ?= /usr/local/apsim
 
 LIB=	../lib/soilwat2.so
 
-SRC=	Registrations.f90	\
-	evap.for		\
+SRC=	evap.for		\
 	lateral.for		\
 	soilwat2.for
 
@@ -19,8 +18,7 @@ STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
             ../../../Shared/ComponentInterface/FORTRANdatatypes.o   \
             ../../../Shared/ComponentInterface/datatypes.o
 
-OBJ=	Registrations.o		\
-	evap.o			\
+OBJ=	evap.o			\
 	lateral.o		\
 	soilwat2.o		\
 	$(STATICOBJ)
@@ -60,7 +58,7 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
-	if [ ! -d $(DESTDIR)/apsim/soilwat2/lib ]; then mkdir -p $(DESTDIR)/apsim/soilwat2/lib; fi 
+	if [ ! -d $(DESTDIR)/apsim/soilwat2/lib ]; then mkdir -p $(DESTDIR)/apsim/soilwat2/lib; fi
 	cp $(LIB) $(DESTDIR)/apsim/soilwat2/lib
 	cp ../soilwat2.ini $(DESTDIR)/apsim/soilwat2
 
@@ -69,7 +67,3 @@ install: all
 
 %.o:	%.f90
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
-
-Registrations.o: Registrations.f90
-Registrations.f90: ../soilwat2.interface 
-	$(APSROOT)/Bin/CreateComponentInterfaceSource ../soilwat2.interface

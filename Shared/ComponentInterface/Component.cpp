@@ -1059,22 +1059,13 @@ std::string Component::getDescription()
          {
          returnString += var->second->getXML() + "\n";
          }
+
       if (getVarMap.size() == 0)
          {
          for (unsigned i = 0; i != registrations->size(); i++)
             {
             RegistrationItem* reg = registrations->get(i);
-            if (reg->getKind() == RegistrationType::respondToEvent)
-               {
-               returnString += "   <event name=\"";
-               returnString += reg->getName();
-               returnString += "\" kind=\"subscribed\">";
-               XMLDocument* doc = new XMLDocument(reg->getType(), XMLDocument::xmlContents);
-               returnString += doc->documentElement().innerXML();
-               delete doc;
-               returnString += "</event>\n";
-               }
-            else if (reg->getKind() == RegistrationType::respondToGet)
+            if (reg->getKind() == RegistrationType::respondToGet)
                {
                returnString += "   <property name=\"";
                returnString += reg->getName();
@@ -1098,14 +1089,22 @@ std::string Component::getDescription()
                returnString += reg->getType();
                returnString += "</property>\n";
                }
-
-
             }
          }
       for (unsigned i = 0; i != registrations->size(); i++)
          {
          RegistrationItem* reg = registrations->get(i);
-         if (reg->getKind() == RegistrationType::event)
+         if (reg->getKind() == RegistrationType::respondToEvent)
+            {
+            returnString += "   <event name=\"";
+            returnString += reg->getName();
+            returnString += "\" kind=\"subscribed\">";
+            XMLDocument* doc = new XMLDocument(reg->getType(), XMLDocument::xmlContents);
+            returnString += doc->documentElement().innerXML();
+            delete doc;
+            returnString += "</event>\n";
+            }
+         else if (reg->getKind() == RegistrationType::event)
             {
             returnString += "   <event name=\"";
             returnString += reg->getName();
