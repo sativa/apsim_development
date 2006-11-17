@@ -59,7 +59,7 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
-	cp $(LIB) $(DESTDIR)/lib
+	cp $(LIB) $(DESTDIR)/lib/libgeneral.a
 
 %.o:	%.cpp
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
