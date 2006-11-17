@@ -8,8 +8,7 @@ DESTDIR ?= /usr/local/apsim
 
 LIB=	../lib/soiln2.so
 
-SRC=	Registrations.f90	\
-	soiln2.f90
+SRC=	soiln2.f90
 
 STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
             ../../../Shared/ComponentInterface/EntryPoints.o   \
@@ -17,9 +16,7 @@ STATICOBJ=	../../../Shared/ComponentInterface/SimpleWrapper.o \
             ../../../Shared/ComponentInterface/FORTRANdatatypes.o   \
             ../../../Shared/ComponentInterface/datatypes.o
 
-OBJ=	Registrations.o		\
-	soiln2.o		\
-	$(STATICOBJ)
+OBJ=	soiln2.o $(STATICOBJ)
 
 #-----------------------------------------------------------------------
 # Compiler options
@@ -66,7 +63,3 @@ install: all
 %.o:	%.f90
 	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
 
-
-Registrations.o: Registrations.f90
-Registrations.f90: ../soiln2.interface 
-	$(APSROOT)/Bin/CreateComponentInterfaceSource ../soiln2.interface
