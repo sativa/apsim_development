@@ -1,0 +1,61 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for APSIM SummaryFile module
+#-----------------------------------------------------------------------
+#=======================================================================
+
+DESTDIR ?= /usr/local/apsim
+
+LIB=	../lib/SummaryFile.so
+
+SRC=	SummaryFileComponent.cpp
+
+OBJ=    $(SRC:.cpp=.o) $(APSROOT)/Shared/ComponentInterface/EntryPoints.o
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+CC=		/usr/bin/gcc
+CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
+		-I$(APSROOT)/Shared				\
+		-I$(APSROOT)/Shared/ComponentInterface		\
+		-Wno-deprecated 				\
+		-fpermissive -fPIC $(CPPDEBUGFLAGS)
+
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS=	-L/usr/lib 				\
+		-L$(APSROOT)/lib $(LDDEBUGFLAGS)
+
+LIBS=		-lComponentInterface	\
+		-lprotocol		\
+		-lApsimShared		\
+		-lgeneral		\
+		-lboost_filesystem 	\
+		-lxml2
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB)
+
+$(LIB):	$(OBJ)
+	$(CC) -shared -o $(LIB) $(OBJ) $(LDFLAGS) $(LIBS)
+
+FORCE:
+
+clean:
+	rm -f *.o *.mod
+
+clobber:	clean
+	rm -f $(LIB)
+
+install: all
+	if [ ! -d $(DESTDIR)/apsim/SummaryFile/lib ]; then mkdir -p $(DESTDIR)/apsim/SummaryFile/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/SummaryFile/lib
+
+%.o:	%.cpp
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+
