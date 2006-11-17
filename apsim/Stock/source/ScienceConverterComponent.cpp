@@ -28,6 +28,17 @@ extern "C" _export void __stdcall getDescription(char* initScript, char* descrip
    {
    getDescriptionInternal(initScript, description);
    }
+
+extern "C" EXPORT void STDCALL getDescriptionLength(char* initScript, int* length)
+//=======================================================================================
+// Return component description info.
+   {
+   char* buffer = new char[500000];
+   getDescriptionInternal(initScript, buffer);
+   *length = strlen(buffer);
+   delete [] buffer;
+   }
+
 // ------------------------------------------------------------------
 // Create an instance of the science converter module
 // ------------------------------------------------------------------
