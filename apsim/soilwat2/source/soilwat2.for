@@ -2,7 +2,6 @@
       use ComponentInterfaceModule
       use LateralModule
       use EvapModule
-      use Registrations
 
 ! ====================================================================
 !     soilwat2 constants
@@ -257,6 +256,21 @@
 
       end type Soilwat2Constants
 ! ====================================================================
+      type IDsType
+         sequence
+          integer :: new_profile
+          integer :: tillage
+          integer :: reset
+          integer :: sum_report
+          integer :: evap_init
+          integer :: tick
+          integer :: newmet
+          integer :: irrigated
+          integer :: new_solute
+          integer :: prepare
+          integer :: process
+          integer :: post
+      end type IDsType
 
       ! instance variables.
       common /InstancePointers/ ID,g,p,c,lateral,evap

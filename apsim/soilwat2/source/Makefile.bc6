@@ -15,7 +15,7 @@
 
 # Main target
 source: ..\lib\soilwat2.dll
-..\lib\soilwat2.dll: Registrations.obj lateral.obj evap.obj soilwat2.obj $(STATICLINKEDOBJECTS)
+..\lib\soilwat2.dll: lateral.obj evap.obj soilwat2.obj $(STATICLINKEDOBJECTS)
 	$(ECHO) $(STATICLINKEDOBJECTS) > linker.tmp
 	$(ECHO) $(F90FLAGS) >> linker.tmp
 	$(ECHO) $(F90LIBS) >> linker.tmp
