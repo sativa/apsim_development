@@ -1,0 +1,73 @@
+#=======================================================================
+#-----------------------------------------------------------------------
+#     Makefile for APSIM swim module
+#-----------------------------------------------------------------------
+#=======================================================================
+DESTDIR ?= /usr/local/apsim
+
+LIB=	../lib/apswim.so
+
+SRC=	Registrations.f90	\
+	apswim.for
+
+STATICOBJ=	$(APSROOT)/Shared/ComponentInterface/SimpleWrapper.o	\
+	$(APSROOT)/Shared/ComponentInterface/FORTRANComponentWrapper.o 	\
+	$(APSROOT)/Shared/ComponentInterface/EntryPoints.o 		\
+	$(APSROOT)/Shared/ComponentInterface/FORTRANdatatypes.o 		\
+	$(APSROOT)/Shared/ComponentInterface/datatypes.o
+
+OBJ=	Registrations.o		\
+	apswim.o			\
+	$(STATICOBJ)
+
+#-----------------------------------------------------------------------
+# Compiler options
+
+FC=		lf95
+CPPFLAGS=	-I$(APSROOT)/apsim/infra/source		\
+		-M. -M$(APSROOT)/apsim/infra/source $(CPPDEBUGFLAGS)
+FFLAGS=		--tp -nco --o0 --pca -nsav -trace -nchk -nin 	\
+		--ml cdecl --staticlink
+
+#-----------------------------------------------------------------------
+# Required libraries
+
+LDFLAGS=	-L$(APSROOT)/lib		\
+		-L$(APSROOT)/apsim/infra/lib	\
+		-L/usr/lib $(LDDEBUGFLAGS)
+
+LIBS=		-lComponentInterface 		\
+		-lapsinfra			\
+		-lc
+
+#-----------------------------------------------------------------------
+# The rules
+
+all: $(LIB)
+
+$(LIB):	$(OBJ)
+	g++ $(OBJ) -o $(LIB) -shared $(LDFLAGS) $(LIBS)
+
+FORCE:
+
+install: all
+	if [ ! -d $(DESTDIR)/apsim/apswim/lib ]; then mkdir -p $(DESTDIR)/apsim/apswim/lib; fi 
+	cp $(LIB) $(DESTDIR)/apsim/apswim/lib
+
+clean:
+	rm -f *.o *.mod
+
+clobber:	clean
+	rm -f $(LIB)
+
+%.o:	%.for
+	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
+
+%.o:	%.f90
+	$(FC) $(CPPFLAGS) $(FFLAGS) -c -o $@ $<
+
+apswim.o: apswim.for swim.for
+
+Registrations.o: Registrations.f90
+Registrations.f90: ../apswim.interface 
+	$(APSROOT)/Bin/CreateComponentInterfaceSource ../apswim.interface
