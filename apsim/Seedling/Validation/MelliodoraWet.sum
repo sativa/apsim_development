@@ -1,0 +1,962 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+     Version                = 5.2
+     Title                  = MelliodoraWet
+     Component DLL          = d:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = d:\development\apsim\clock\lib\clock.dll
+     Component DLL          = d:\development\apsim\input\lib\input.dll
+     Component DLL          = d:\development\apsim\manager\lib\manager.dll
+     Component DLL          = d:\development\apsim\protocolmanager\lib\protocolmanager.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+     Simulation start date =  1/03/2006
+     Simulation end date   =  4/09/2006
+     Time step =           = 1440 (mins)
+
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: D:\Development\apsim\Seedling\Validation\Toowoomba.met
+
+------- ShelterEffects Initialisation -----------------------------------------
+     Manager rules:
+     
+     SECTION:- init
+              co2 = 350
+     
+     SECTION:- prenewmet
+              met.maxt = met.maxt + 0.0
+              met.mint = met.mint + 0.0
+              met.rain = met.rain * 0
+              met.radn = met.radn * 0.66
+     END of rules
+     
+     Manager creating a new local real variable : co2 =     350.000000000000
+
+------- outputfile Initialisation ---------------------------------------------
+     Output frequency:
+        post
+     Output variables:
+        dd/mm/yyyy as Date
+        lai
+        node_no
+        stem_wt
+        leaf_wt
+        swdef_photo
+        swdef_expan
+        nfact_photo
+        nfact_expan
+        leaf_no()
+        rain
+        irrigation
+        es
+        sw
+        sw_dep()
+        leaf_area_tot
+        temp_stress_photo
+        plantleaf
+        plantstem
+        plantla
+        plantbiomass
+        swsi
+        plants
+        dlt_dm_green_leaf
+        dlt_lai_pot
+        dlt_lai_stressed
+        slai
+        biomass_n
+        no3()
+        nh4()
+        n_conc_stem
+        n_conc_leaf
+        leaf_n
+        stem_n
+     
+     Output file = MelliodoraWet.out
+     Format = normal
+
+------- accum Initialisation --------------------------------------------------
+     Initialising
+
+------- operations Initialisation ---------------------------------------------
+     Operations Schedule
+     ===================
+          1-mar  Prepare      seedling sow plants = 6.25, cultivar = melliodora, sowing_depth = 5
+          1-mar  Prepare      'WellCamp Water' set sw = 0.54 0.52 0.53 0.48 0.40 0.37 0.28
+
+------- Irrigation Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                      Irrigation parameters
+          -----------------------------------------------
+           Irrigation Schedule (Disabled)
+           Automatic Irrigation Application (Enabled)
+           critical fraction of available soil water =  0.50
+           depth for calculating available soil water =     600.00
+           Irrigation Allocation Budget (Disabled)
+          -----------------------------------------------
+
+------- OutputCalculator Initialisation ---------------------------------------
+     Manager rules:
+     
+     SECTION:- init
+     plantbiomass = 0
+     plantleaf = 0
+     plantstem = 0
+     plantla = 0
+     swsi = 0
+     
+     SECTION:- end_of_day
+      if lai > 0 then
+        plantbiomass = biomass_wt/plants
+        plantleaf = leaf_wt / plants
+        plantstem = stem_wt / plants
+        plantla = lai * 10000 / plants
+        swsi = swsi + (1.0 - swdef_photo)
+     endif
+     
+     SECTION:- start_of_day
+     END of rules
+     
+     Manager creating a new local real variable : plantbiomass =     0.00000000000000
+     Manager creating a new local real variable : plantleaf =     0.00000000000000
+     Manager creating a new local real variable : plantstem =     0.00000000000000
+     Manager creating a new local real variable : plantla =     0.00000000000000
+     Manager creating a new local real variable : swsi =     0.00000000000000
+
+------- WellCamp Water Initialisation -----------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.100  0.200  0.540  0.590  0.540  1.020  0.762  0.300
+          150.-  300.  0.250  0.250  0.530  0.580  0.343  1.030  0.190  0.300
+          300.-  600.  0.300  0.300  0.540  0.590  0.300  1.020  0.048  0.300
+          600.-  900.  0.250  0.250  0.480  0.530  0.250  1.020  0.000  0.300
+          900.- 1200.  0.210  0.210  0.400  0.450  0.210  1.060  0.000  0.300
+         1200.- 1500.  0.210  0.210  0.380  0.430  0.210  1.110  0.000  0.300
+         1500.- 1800.  0.280  0.280  0.400  0.450  0.280  1.120  0.000  0.300
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      30.00      51.00      51.00       7.50
+          150.-  300.      37.50      13.95      42.00       7.50
+          300.-  600.      90.00       0.00      72.00      15.00
+          600.-  900.      75.00       0.00      69.00      15.00
+          900.- 1200.      63.00       0.00      57.00      15.00
+         1200.- 1500.      63.00       0.00      51.00      15.00
+         1500.- 1800.      84.00       0.00      36.00      15.00
+          ---------------------------------------------------------
+               Totals     442.50      64.95     378.00      90.00
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   0.00        0.13       40.00       16.00
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              73.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            5.00 (mm^0.5)
+            CONA:                     5.00 ()
+           Eo from priestly-taylor
+
+------- surface organic matter Initialisation ---------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat     wheat          100.0    40.0     0.5     0.0   0.049     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.0
+     
+
+------- WellCamp Nitrogen Initialisation --------------------------------------
+     
+        - Reading Parameters
+     
+        - Reading Constants
+     Using standard soil mineralisation for soil type Black Vertosol
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     8.40  1.04    9.95    0.92    0.00
+             2     8.80  0.89    3.25    0.15    0.00
+             3     9.00  0.89    6.43    0.31    0.00
+             4     9.20  0.89    5.21    0.31    0.00
+             5     9.20  0.77    5.41    0.32    0.00
+             6     9.10  0.45    5.66    0.33    0.00
+             7     9.00  0.27    5.72    0.34    0.00
+          ------------------------------------------------
+           Totals               41.62    2.67    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      15679.1  1254.3   232.9    29.1    27.8     0.7
+             2      13642.7  1091.4   107.8    13.5    21.6     0.5
+             3      27153.5  2172.3    80.5    10.1    13.1     0.3
+             4      27207.0  2176.6    27.0     3.4     8.0     0.2
+             5      24473.9  1957.9    12.1     1.5     4.8     0.1
+             6      14977.6  1198.2     7.4     0.9     2.9     0.1
+             7       9067.5   725.4     4.5     0.6     1.8     0.0
+          ---------------------------------------------------------
+           Totals  132201.3 10576.1   472.2    59.0    80.0     2.0
+          ---------------------------------------------------------
+
+------- seedling Initialisation -----------------------------------------------
+     phenology model: Generic
+------- Start of simulation  --------------------------------------------------
+1 March 2006(Day of year=60), operations: 
+      Sending sow message to seedling
+1 March 2006(Day of year=60), seedling: 
+     Crop Sow
+      - reading constants for plant(seedling)
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_lag_period(1)
+     Condition : 0.00 <= 9000 <= 2000.00
+     Component name: seedling
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_lag_period(2)
+     Condition : 0.00 <= 9000 <= 2000.00
+     Component name: seedling
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_lag_period(3)
+     Condition : 0.00 <= 9000 <= 2000.00
+     Component name: seedling
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Bound check warning while reading parameter.
+     Variable  : y_leaf_lag_period(4)
+     Condition : 0.00 <= 9000 <= 2000.00
+     Component name: seedling
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+      - reading cultivar parameters
+      - reading grain cultivar parameters
+         ------------------------------------------------
+        cultivar                   = melliodora
+     out
+     
+     sowing
+     
+     germination
+     shoot_lag =         10 (dd)
+     shoot_rate =          0 (dd/mm)
+     
+     emergence
+        tt_emergence =      10000 (dd)
+     maturity
+        tt_maturity =          5 (dd)
+     
+        x_pp_hi_incr               =       1.00      24.00
+        y_hi_incr                  =     0.0100     0.0100
+        x_hi_max_pot_stress        =       0.00       1.00
+        y_hi_max_pot               =       0.30       0.30
+         ------------------------------------------------
+     
+     
+      - reading root profile parameters
+                        Root Profile
+         -----------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+         -----------------------------------------------
+         150.0     0.001          0.200       1.000
+         150.0     0.001          0.250       1.000
+         300.0     0.001          0.300       1.000
+         300.0     0.001          0.250       1.000
+         300.0     0.001          0.210       1.000
+         300.0     0.001          0.210       1.000
+         300.0     0.001          0.280       1.000
+         -----------------------------------------------
+         Extractable SW:   378mm in  1800mm total depth ( 21%).
+         Crop factor for bounding water use is set to   1.1 times eo.
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     sowing_depth = 5.000000
+             less than lower limit of 10.000000
+     Component name: seedling
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   row   plant name
+         ------------------------------------------------
+             60    5.0    6.2  400.0   0.0   0.0 melliodora
+         ------------------------------------------------
+     
+1 March 2006(Day of year=60), operations: 
+      Sending set message to wellcamp water
+1 March 2006(Day of year=60), seedling: 
+       0.000000  0.000000  0.000000
+       0.006100
+2 March 2006(Day of year=61), seedling: 
+       0.000000  0.000000  0.000000
+       0.006100
+      stage 2.0 germination
+3 March 2006(Day of year=62), seedling: 
+       0.000000  0.004062  0.000000
+       0.006100
+      stage 3.0 emergence
+                     biomass =          10.62 (g/m^2)   lai          =   0.025 (m^2/m^2)
+                     stover N conc =     5.32 (%)    extractable sw =   49.87 (mm)
+4 March 2006(Day of year=63), seedling: 
+       0.000930  0.003535  0.000930
+       0.006100
+5 March 2006(Day of year=64), seedling: 
+       0.000910  0.003958  0.000910
+       0.006100
+6 March 2006(Day of year=65), seedling: 
+       0.001126  0.004048  0.001126
+       0.006100
+7 March 2006(Day of year=66), seedling: 
+       0.001040  0.005833  0.001040
+       0.006100
+8 March 2006(Day of year=67), seedling: 
+       0.001326  0.004617  0.001326
+       0.006100
+9 March 2006(Day of year=68), seedling: 
+       0.001262  0.010016  0.001262
+       0.006100
+10 March 2006(Day of year=69), seedling: 
+       0.001460  0.009756  0.001460
+       0.006100
+11 March 2006(Day of year=70), seedling: 
+       0.001604  0.008944  0.001604
+       0.006100
+12 March 2006(Day of year=71), seedling: 
+       0.001522  0.008814  0.001522
+       0.006100
+13 March 2006(Day of year=72), seedling: 
+       0.001673  0.009615  0.001673
+       0.006100
+14 March 2006(Day of year=73), seedling: 
+       0.002096  0.008093  0.002096
+       0.006100
+15 March 2006(Day of year=74), seedling: 
+       0.001847  0.008013  0.001847
+       0.006100
+16 March 2006(Day of year=75), seedling: 
+       0.002305  0.007882  0.002305
+       0.006100
+17 March 2006(Day of year=76), seedling: 
+       0.002293  0.008062  0.002293
+       0.006100
+18 March 2006(Day of year=77), seedling: 
+       0.002080  0.013670  0.002080
+       0.006100
+19 March 2006(Day of year=78), seedling: 
+       0.002036  0.013299  0.002036
+       0.006100
+20 March 2006(Day of year=79), seedling: 
+       0.001874  0.013855  0.001874
+       0.006100
+21 March 2006(Day of year=80), seedling: 
+       0.001471  0.012928  0.001471
+       0.006100
+22 March 2006(Day of year=81), seedling: 
+       0.000923  0.011857  0.000923
+       0.006100
+23 March 2006(Day of year=82), seedling: 
+       0.001853  0.012571  0.001853
+       0.006100
+24 March 2006(Day of year=83), seedling: 
+       0.001990  0.012482  0.001990
+       0.006100
+25 March 2006(Day of year=84), seedling: 
+       0.002249  0.011857  0.002249
+       0.006100
+26 March 2006(Day of year=85), seedling: 
+       0.002752  0.011857  0.002752
+       0.006100
+27 March 2006(Day of year=86), seedling: 
+       0.002425  0.016160  0.002425
+       0.006100
+28 March 2006(Day of year=87), seedling: 
+       0.001856  0.016333  0.001856
+       0.006100
+29 March 2006(Day of year=88), seedling: 
+       0.002136  0.016333  0.002136
+       0.006100
+30 March 2006(Day of year=89), seedling: 
+       0.002302  0.016505  0.002302
+       0.006100
+31 March 2006(Day of year=90), seedling: 
+       0.001303  0.015642  0.001303
+       0.006100
+1 April 2006(Day of year=91), seedling: 
+       0.002895  0.014952  0.002895
+       0.006100
+2 April 2006(Day of year=92), seedling: 
+       0.002820  0.013935  0.002820
+       0.006100
+3 April 2006(Day of year=93), seedling: 
+       0.002596  0.015815  0.002596
+       0.006100
+4 April 2006(Day of year=94), seedling: 
+       0.002189  0.017419  0.002189
+       0.006100
+5 April 2006(Day of year=95), seedling: 
+       0.000984  0.016732  0.000984
+       0.006100
+6 April 2006(Day of year=96), seedling: 
+       0.001835  0.018617  0.001835
+       0.006100
+7 April 2006(Day of year=97), seedling: 
+       0.002281  0.015711  0.002281
+       0.006100
+8 April 2006(Day of year=98), seedling: 
+       0.003016  0.016413  0.003016
+       0.006100
+9 April 2006(Day of year=99), seedling: 
+       0.002470  0.016703  0.002470
+       0.006100
+10 April 2006(Day of year=100), seedling: 
+       0.002934  0.017003  0.002934
+       0.006100
+11 April 2006(Day of year=101), seedling: 
+       0.002821  0.017003  0.002821
+       0.006100
+12 April 2006(Day of year=102), seedling: 
+       0.002253  0.018294  0.002253
+       0.006100
+13 April 2006(Day of year=103), seedling: 
+       0.002278  0.018133  0.002278
+       0.006100
+14 April 2006(Day of year=104), seedling: 
+       0.002609  0.019424  0.002609
+       0.006100
+15 April 2006(Day of year=105), seedling: 
+       0.002956  0.020232  0.002956
+       0.006100
+16 April 2006(Day of year=106), seedling: 
+       0.003005  0.019294  0.003005
+       0.006100
+17 April 2006(Day of year=107), seedling: 
+       0.002865  0.021638  0.002865
+       0.006100
+18 April 2006(Day of year=108), seedling: 
+       0.002732  0.022263  0.002732
+       0.006100
+19 April 2006(Day of year=109), seedling: 
+       0.002922  0.023044  0.002922
+       0.006100
+20 April 2006(Day of year=110), seedling: 
+       0.002627  0.023357  0.002627
+       0.006100
+21 April 2006(Day of year=111), seedling: 
+       0.003153  0.022888  0.003153
+       0.006100
+22 April 2006(Day of year=112), seedling: 
+       0.003192  0.019454  0.003192
+       0.006100
+23 April 2006(Day of year=113), seedling: 
+       0.003044  0.020857  0.003044
+       0.006100
+24 April 2006(Day of year=114), seedling: 
+       0.003070  0.019850  0.003070
+       0.006100
+25 April 2006(Day of year=115), seedling: 
+       0.002747  0.019329  0.002747
+       0.006100
+26 April 2006(Day of year=116), seedling: 
+       0.002935  0.020232  0.002935
+       0.006100
+27 April 2006(Day of year=117), seedling: 
+       0.003304  0.020700  0.003304
+       0.006100
+28 April 2006(Day of year=118), seedling: 
+       0.001929  0.021325  0.001929
+       0.006100
+29 April 2006(Day of year=119), seedling: 
+       0.002293  0.022732  0.002293
+       0.006100
+30 April 2006(Day of year=120), seedling: 
+       0.001423  0.025232  0.001423
+       0.006100
+1 May 2006(Day of year=121), seedling: 
+       0.002678  0.023200  0.002678
+       0.006100
+2 May 2006(Day of year=122), seedling: 
+       0.003231  0.022003  0.003231
+       0.006100
+3 May 2006(Day of year=123), seedling: 
+       0.003245  0.022116  0.003245
+       0.006100
+4 May 2006(Day of year=124), seedling: 
+       0.003260  0.022509  0.003260
+       0.006100
+5 May 2006(Day of year=125), seedling: 
+       0.003277  0.022473  0.003277
+       0.006100
+6 May 2006(Day of year=126), seedling: 
+       0.003294  0.022330  0.003294
+       0.006100
+7 May 2006(Day of year=127), seedling: 
+       0.003127  0.022863  0.003127
+       0.006100
+8 May 2006(Day of year=128), seedling: 
+       0.002959  0.022347  0.002959
+       0.006100
+9 May 2006(Day of year=129), seedling: 
+       0.003045  0.021523  0.003045
+       0.006100
+10 May 2006(Day of year=130), seedling: 
+       0.002609  0.021641  0.002609
+       0.006100
+11 May 2006(Day of year=131), seedling: 
+       0.002991  0.021738  0.002991
+       0.006100
+12 May 2006(Day of year=132), seedling: 
+       0.002626  0.022732  0.002626
+       0.006100
+13 May 2006(Day of year=133), seedling: 
+       0.003014  0.022888  0.003014
+       0.006100
+14 May 2006(Day of year=134), seedling: 
+       0.003219  0.022277  0.003219
+       0.006100
+15 May 2006(Day of year=135), seedling: 
+       0.003234  0.022673  0.003234
+       0.006100
+16 May 2006(Day of year=136), seedling: 
+       0.002868  0.022888  0.002868
+       0.006100
+17 May 2006(Day of year=137), seedling: 
+       0.002882  0.022576  0.002882
+       0.006100
+18 May 2006(Day of year=138), seedling: 
+       0.002509  0.022888  0.002509
+       0.006100
+19 May 2006(Day of year=139), seedling: 
+       0.002520  0.023357  0.002520
+       0.006100
+20 May 2006(Day of year=140), seedling: 
+       0.002921  0.022959  0.002921
+       0.006100
+21 May 2006(Day of year=141), seedling: 
+       0.002936  0.023855  0.002936
+       0.006100
+22 May 2006(Day of year=142), seedling: 
+       0.001969  0.024529  0.001969
+       0.006100
+23 May 2006(Day of year=143), seedling: 
+       0.002373  0.022116  0.002373
+       0.006100
+24 May 2006(Day of year=144), seedling: 
+       0.001814  0.020986  0.001814
+       0.006100
+25 May 2006(Day of year=145), seedling: 
+       0.002235  0.021778  0.002235
+       0.006100
+26 May 2006(Day of year=146), seedling: 
+       0.002987  0.022379  0.002987
+       0.006100
+27 May 2006(Day of year=147), seedling: 
+       0.002000  0.023609  0.002000
+       0.006100
+28 May 2006(Day of year=148), seedling: 
+       0.003011  0.023654  0.003011
+       0.006100
+29 May 2006(Day of year=149), seedling: 
+       0.003029  0.022132  0.003029
+       0.006100
+30 May 2006(Day of year=150), seedling: 
+       0.002085  0.021432  0.002085
+       0.006100
+31 May 2006(Day of year=151), seedling: 
+       0.001625  0.021256  0.001625
+       0.006100
+1 June 2006(Day of year=152), seedling: 
+       0.002070  0.021723  0.002070
+       0.006100
+2 June 2006(Day of year=153), seedling: 
+       0.002184  0.021608  0.002184
+       0.006100
+3 June 2006(Day of year=154), seedling: 
+       0.002845  0.021188  0.002845
+       0.006100
+4 June 2006(Day of year=155), seedling: 
+       0.002849  0.021771  0.002849
+       0.006100
+5 June 2006(Day of year=156), seedling: 
+       0.002870  0.021948  0.002870
+       0.006100
+6 June 2006(Day of year=157), seedling: 
+       0.002290  0.021518  0.002290
+       0.006100
+7 June 2006(Day of year=158), seedling: 
+       0.002881  0.021821  0.002881
+       0.006100
+8 June 2006(Day of year=159), seedling: 
+       0.002888  0.022072  0.002888
+       0.006100
+9 June 2006(Day of year=160), seedling: 
+       0.002275  0.022625  0.002275
+       0.006100
+10 June 2006(Day of year=161), seedling: 
+       0.001037  0.023086  0.001037
+       0.006100
+11 June 2006(Day of year=162), seedling: 
+       0.001868  0.021211  0.001868
+       0.006100
+12 June 2006(Day of year=163), seedling: 
+       0.002805  0.021509  0.002805
+       0.006100
+13 June 2006(Day of year=164), seedling: 
+       0.002409  0.021509  0.002409
+       0.006100
+14 June 2006(Day of year=165), seedling: 
+       0.003127  0.021983  0.003127
+       0.006100
+15 June 2006(Day of year=166), seedling: 
+       0.002926  0.022054  0.002926
+       0.006100
+16 June 2006(Day of year=167), seedling: 
+       0.002470  0.021653  0.002470
+       0.006100
+17 June 2006(Day of year=168), seedling: 
+       0.001574  0.021360  0.001574
+       0.006100
+18 June 2006(Day of year=169), seedling: 
+       0.001891  0.021530  0.001891
+       0.006100
+19 June 2006(Day of year=170), seedling: 
+       0.002103  0.022305  0.002103
+       0.006100
+20 June 2006(Day of year=171), seedling: 
+       0.001265  0.021367  0.001265
+       0.006100
+21 June 2006(Day of year=172), seedling: 
+       0.002320  0.022305  0.002320
+       0.006100
+22 June 2006(Day of year=173), seedling: 
+       0.001902  0.021547  0.001902
+       0.006100
+23 June 2006(Day of year=174), seedling: 
+       0.002328  0.022617  0.002328
+       0.006100
+24 June 2006(Day of year=175), seedling: 
+       0.002546  0.023086  0.002546
+       0.006100
+25 June 2006(Day of year=176), seedling: 
+       0.002767  0.023343  0.002767
+       0.006100
+26 June 2006(Day of year=177), seedling: 
+       0.002992  0.022303  0.002992
+       0.006100
+27 June 2006(Day of year=178), seedling: 
+       0.002640  0.022241  0.002640
+       0.006100
+28 June 2006(Day of year=179), seedling: 
+       0.002302  0.022004  0.002302
+       0.006100
+29 June 2006(Day of year=180), seedling: 
+       0.002583  0.022410  0.002583
+       0.006100
+30 June 2006(Day of year=181), seedling: 
+       0.002374  0.024727  0.002374
+       0.006100
+1 July 2006(Day of year=182), seedling: 
+       0.003251  0.022703  0.003251
+       0.006100
+2 July 2006(Day of year=183), seedling: 
+       0.003263  0.022317  0.003263
+       0.006100
+3 July 2006(Day of year=184), seedling: 
+       0.002837  0.022202  0.002837
+       0.006100
+4 July 2006(Day of year=185), seedling: 
+       0.002531  0.022418  0.002531
+       0.006100
+5 July 2006(Day of year=186), seedling: 
+       0.003070  0.023318  0.003070
+       0.006100
+6 July 2006(Day of year=187), seedling: 
+       0.003185  0.022710  0.003185
+       0.006100
+7 July 2006(Day of year=188), seedling: 
+       0.002604  0.022489  0.002604
+       0.006100
+8 July 2006(Day of year=189), seedling: 
+       0.003291  0.022228  0.003291
+       0.006100
+9 July 2006(Day of year=190), seedling: 
+       0.001444  0.022133  0.001444
+       0.006100
+10 July 2006(Day of year=191), seedling: 
+       0.002288  0.022504  0.002288
+       0.006100
+11 July 2006(Day of year=192), seedling: 
+       0.003010  0.023002  0.003010
+       0.006100
+12 July 2006(Day of year=193), seedling: 
+       0.003580  0.023515  0.003580
+       0.006100
+13 July 2006(Day of year=194), seedling: 
+       0.002088  0.023104  0.002088
+       0.006100
+14 July 2006(Day of year=195), seedling: 
+       0.001578  0.021832  0.001578
+       0.006100
+15 July 2006(Day of year=196), seedling: 
+       0.001129  0.021958  0.001129
+       0.006100
+16 July 2006(Day of year=197), seedling: 
+       0.001807  0.020968  0.001807
+       0.006100
+17 July 2006(Day of year=198), seedling: 
+       0.002309  0.021234  0.002309
+       0.006100
+18 July 2006(Day of year=199), seedling: 
+       0.002263  0.021631  0.002263
+       0.006100
+19 July 2006(Day of year=200), seedling: 
+       0.003399  0.022303  0.003399
+       0.006100
+20 July 2006(Day of year=201), seedling: 
+       0.002955  0.021936  0.002955
+       0.006100
+21 July 2006(Day of year=202), seedling: 
+       0.003051  0.021600  0.003051
+       0.006100
+22 July 2006(Day of year=203), seedling: 
+       0.002967  0.022063  0.002967
+       0.006100
+23 July 2006(Day of year=204), seedling: 
+       0.002287  0.022649  0.002287
+       0.006100
+24 July 2006(Day of year=205), seedling: 
+       0.002293  0.022285  0.002293
+       0.006100
+25 July 2006(Day of year=206), seedling: 
+       0.002297  0.022285  0.002297
+       0.006100
+26 July 2006(Day of year=207), seedling: 
+       0.003223  0.024258  0.003223
+       0.006100
+27 July 2006(Day of year=208), seedling: 
+       0.003008  0.023983  0.003008
+       0.006100
+28 July 2006(Day of year=209), seedling: 
+       0.001395  0.024258  0.001395
+       0.006100
+29 July 2006(Day of year=210), seedling: 
+       0.003494  0.023289  0.003494
+       0.006100
+30 July 2006(Day of year=211), seedling: 
+       0.003977  0.023794  0.003977
+       0.006100
+31 July 2006(Day of year=212), seedling: 
+       0.001546  0.021119  0.001546
+       0.006100
+1 August 2006(Day of year=213), seedling: 
+       0.004002  0.021967  0.004002
+       0.006100
+2 August 2006(Day of year=214), seedling: 
+       0.001948  0.021465  0.001948
+       0.006100
+3 August 2006(Day of year=215), seedling: 
+       0.002658  0.021825  0.002658
+       0.006100
+4 August 2006(Day of year=216), seedling: 
+       0.002568  0.021798  0.002568
+       0.006100
+5 August 2006(Day of year=217), seedling: 
+       0.003044  0.021888  0.003044
+       0.006100
+6 August 2006(Day of year=218), seedling: 
+       0.004030  0.022583  0.004030
+       0.006100
+7 August 2006(Day of year=219), seedling: 
+       0.003804  0.023188  0.003804
+       0.006100
+8 August 2006(Day of year=220), seedling: 
+       0.003989  0.023230  0.003989
+       0.006100
+9 August 2006(Day of year=221), seedling: 
+       0.004552  0.023845  0.004552
+       0.006100
+10 August 2006(Day of year=222), seedling: 
+       0.004576  0.023496  0.004576
+       0.006100
+11 August 2006(Day of year=223), seedling: 
+       0.004045  0.023376  0.004045
+       0.006100
+12 August 2006(Day of year=224), seedling: 
+       0.004374  0.023801  0.004374
+       0.006100
+13 August 2006(Day of year=225), seedling: 
+       0.004395  0.024150  0.004395
+       0.006100
+14 August 2006(Day of year=226), seedling: 
+       0.004665  0.023947  0.004665
+       0.006100
+15 August 2006(Day of year=227), seedling: 
+       0.004021  0.023726  0.004021
+       0.006100
+16 August 2006(Day of year=228), seedling: 
+       0.004712  0.023611  0.004712
+       0.006100
+17 August 2006(Day of year=229), seedling: 
+       0.003987  0.024735  0.003987
+       0.006100
+18 August 2006(Day of year=230), seedling: 
+       0.004260  0.024975  0.004260
+       0.006100
+19 August 2006(Day of year=231), seedling: 
+       0.004792  0.025535  0.004792
+       0.006100
+20 August 2006(Day of year=232), seedling: 
+       0.005083  0.024239  0.005083
+       0.006100
+21 August 2006(Day of year=233), seedling: 
+       0.004603  0.024898  0.004603
+       0.006100
+22 August 2006(Day of year=234), seedling: 
+       0.004633  0.026178  0.004633
+       0.006100
+23 August 2006(Day of year=235), seedling: 
+       0.005190  0.024898  0.005190
+       0.006100
+24 August 2006(Day of year=236), seedling: 
+       0.005228  0.025513  0.005228
+       0.006100
+25 August 2006(Day of year=237), seedling: 
+       0.005007  0.028573  0.005007
+       0.006100
+26 August 2006(Day of year=238), seedling: 
+       0.004798  0.026932  0.004798
+       0.006100
+27 August 2006(Day of year=239), seedling: 
+       0.004572  0.026463  0.004572
+       0.006100
+28 August 2006(Day of year=240), seedling: 
+       0.003524  0.028104  0.003524
+       0.006100
+29 August 2006(Day of year=241), seedling: 
+       0.003551  0.025291  0.003551
+       0.006100
+30 August 2006(Day of year=242), seedling: 
+       0.003569  0.025464  0.003569
+       0.006100
+31 August 2006(Day of year=243), seedling: 
+       0.002208  0.025213  0.002208
+       0.006100
+1 September 2006(Day of year=244), seedling: 
+       0.004706  0.027088  0.004706
+       0.006100
+2 September 2006(Day of year=245), seedling: 
+       0.004467  0.028651  0.004467
+       0.006100
+3 September 2006(Day of year=246), seedling: 
+       0.005356  0.028011  0.005356
+       0.006100
+4 September 2006(Day of year=247), seedling: 
+       0.003704  0.031776  0.003704
+       0.006100
+4 September 2006(Day of year=247), clock: 
+     Simulation is terminating due to end criteria being met.

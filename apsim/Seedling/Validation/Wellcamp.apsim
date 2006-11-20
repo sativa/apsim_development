@@ -1,0 +1,680 @@
+<folder name="Simulations" version="5">
+  <simulation name="Bare">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2006" ubound="14/11/2006">1/03/2006</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2006" ubound="14/11/2006">04/09/2006</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Continuous Wheat Simulation.sum</filename>
+    </summaryfile>
+    <metfile name="met" shortcut="met" />
+    <climatechange name="ShelterEffects">
+      <maxtmodifier description="Change in maximum temperature in degrees celsius">0.0</maxtmodifier>
+      <mintmodifier description="Change in minimum temperature in degrees celsius">0.0</mintmodifier>
+      <rainmodifier description="Relative change in rainfall">0</rainmodifier>
+      <radiationmodifier description="Relative change in radiation">0.66</radiationmodifier>
+      <co2 description="Atmospheric C02 concentration (ppm)">350</co2>
+    </climatechange>
+    <area name="paddock">
+      <registrations name="global" />
+      <operations>
+      </operations>
+      <soil name="WellCamp" shortcut="WellCamp" />
+      <outputfile name="outputfile" shortcut="outputfile" />
+      <irrigation name="Irrigation">
+        <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">off</automatic_irrigation>
+        <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
+        <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
+        <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+      </irrigation>
+      <surfaceom name="surface organic matter" shortcut="surface organic matter" />
+      <seedling name="seedling" shortcut="seedling" />
+      <logic name="OutputCalculator" shortcut="OutputCalculator" />
+    </area>
+  </simulation>
+  <simulation name="MelliodoraOutside">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2006" ubound="14/11/2006">1/03/2006</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2006" ubound="14/11/2006">04/09/2006</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Continuous Wheat Simulation.sum</filename>
+    </summaryfile>
+    <metfile name="met" shortcut="met" />
+    <area name="paddock">
+      <registrations name="global" />
+      <operations>
+        <operation condition="start_of_day">
+          <date>1-mar</date>
+          <action>seedling sow plants = 6.25, cultivar = melliodora, sowing_depth = 5</action>
+        </operation>
+        <operation condition="start_of_day">
+          <date>1-mar</date>
+          <action>'WellCamp Water' set sw = 0.54 0.52 0.53 0.48 0.40 0.37 0.28</action>
+        </operation>
+      </operations>
+      <soil name="WellCamp" shortcut="WellCamp" />
+      <outputfile name="outputfile" shortcut="outputfile" />
+      <irrigation name="Irrigation">
+        <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">on</automatic_irrigation>
+        <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
+        <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
+        <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+      </irrigation>
+      <surfaceom name="surface organic matter" shortcut="surface organic matter" />
+      <seedling name="seedling" shortcut="seedling" />
+      <logic name="OutputCalculator" shortcut="OutputCalculator" />
+    </area>
+  </simulation>
+  <simulation name="MelliodoraW1">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2006" ubound="14/11/2006">1/03/2006</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2006" ubound="14/11/2006">04/09/2006</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Continuous Wheat Simulation.sum</filename>
+    </summaryfile>
+    <metfile name="met" shortcut="met" />
+    <climatechange name="ShelterEffects" shortcut="ShelterEffects" />
+    <area name="paddock">
+      <registrations name="global" />
+      <operations>
+        <operation condition="start_of_day">
+          <date>1-mar</date>
+          <action>seedling sow plants = 6.25, cultivar = melliodora, sowing_depth = 5</action>
+        </operation>
+        <operation condition="start_of_day">
+          <date>1-mar</date>
+          <action>'WellCamp Water' set sw = 0.54 0.25 0.3 0.25 0.21 0.21 0.28</action>
+        </operation>
+      </operations>
+      <soil name="WellCamp" shortcut="WellCamp" />
+      <outputfile name="outputfile" shortcut="outputfile" />
+      <irrigation name="Irrigation">
+        <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">off</automatic_irrigation>
+        <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
+        <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
+        <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+      </irrigation>
+      <surfaceom name="surface organic matter" shortcut="surface organic matter" />
+      <seedling name="seedling" shortcut="seedling" />
+      <logic name="OutputCalculator" shortcut="OutputCalculator" />
+    </area>
+  </simulation>
+  <simulation name="MelliodoraW2">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2006" ubound="14/11/2006">1/03/2006</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2006" ubound="14/11/2006">04/09/2006</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Continuous Wheat Simulation.sum</filename>
+    </summaryfile>
+    <metfile name="met" shortcut="met" />
+    <climatechange name="ShelterEffects" shortcut="ShelterEffects" />
+    <area name="paddock">
+      <registrations name="global" />
+      <operations>
+        <operation condition="start_of_day">
+          <date>1-mar</date>
+          <action>seedling sow plants = 6.25, cultivar = melliodora, sowing_depth = 5</action>
+        </operation>
+        <operation condition="start_of_day">
+          <date>1-mar</date>
+          <action>'WellCamp Water' set sw = 0.54 0.52 0.3 0.25 0.21 0.21 0.28</action>
+        </operation>
+      </operations>
+      <soil name="WellCamp" shortcut="WellCamp" />
+      <outputfile name="outputfile" shortcut="outputfile" />
+      <irrigation name="Irrigation">
+        <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">off</automatic_irrigation>
+        <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
+        <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
+        <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+      </irrigation>
+      <surfaceom name="surface organic matter" shortcut="surface organic matter" />
+      <seedling name="seedling" shortcut="seedling" />
+      <logic name="OutputCalculator" shortcut="OutputCalculator" />
+    </area>
+  </simulation>
+  <simulation name="MelliodoraW3">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2006" ubound="14/11/2006">1/03/2006</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2006" ubound="14/11/2006">04/09/2006</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Continuous Wheat Simulation.sum</filename>
+    </summaryfile>
+    <metfile name="met" shortcut="met" />
+    <climatechange name="ShelterEffects" shortcut="ShelterEffects" />
+    <area name="paddock">
+      <registrations name="global" />
+      <operations>
+        <operation condition="start_of_day">
+          <date>1-mar</date>
+          <action>seedling sow plants = 6.25, cultivar = melliodora, sowing_depth = 5</action>
+        </operation>
+        <operation condition="start_of_day">
+          <date>1-mar</date>
+          <action>'WellCamp Water' set sw = 0.54 0.52 0.53 0.25 0.21 0.21 0.28</action>
+        </operation>
+      </operations>
+      <soil name="WellCamp" shortcut="WellCamp" />
+      <outputfile name="outputfile" shortcut="outputfile" />
+      <irrigation name="Irrigation">
+        <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">off</automatic_irrigation>
+        <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
+        <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
+        <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+      </irrigation>
+      <surfaceom name="surface organic matter" shortcut="surface organic matter" />
+      <seedling name="seedling" shortcut="seedling" />
+      <logic name="OutputCalculator" shortcut="OutputCalculator" />
+    </area>
+  </simulation>
+  <simulation name="MelliodoraW4">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2006" ubound="14/11/2006">1/03/2006</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2006" ubound="14/11/2006">04/09/2006</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Continuous Wheat Simulation.sum</filename>
+    </summaryfile>
+    <metfile name="met" shortcut="met" />
+    <climatechange name="ShelterEffects" shortcut="ShelterEffects" />
+    <area name="paddock">
+      <registrations name="global" />
+      <operations>
+        <operation condition="start_of_day">
+          <date>1-mar</date>
+          <action>seedling sow plants = 6.25, cultivar = melliodora, sowing_depth = 5</action>
+        </operation>
+        <operation condition="start_of_day">
+          <date>1-mar</date>
+          <action>'WellCamp Water' set sw = 0.54 0.52 0.53 0.48 0.21 0.21 0.28</action>
+        </operation>
+      </operations>
+      <soil name="WellCamp" shortcut="WellCamp" />
+      <outputfile name="outputfile" shortcut="outputfile" />
+      <irrigation name="Irrigation">
+        <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">off</automatic_irrigation>
+        <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
+        <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
+        <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+      </irrigation>
+      <surfaceom name="surface organic matter" shortcut="surface organic matter" />
+      <seedling name="seedling" shortcut="seedling" />
+      <logic name="OutputCalculator" shortcut="OutputCalculator" />
+    </area>
+  </simulation>
+  <simulation name="MelliodoraW5">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2006" ubound="14/11/2006">1/03/2006</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2006" ubound="14/11/2006">04/09/2006</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Continuous Wheat Simulation.sum</filename>
+    </summaryfile>
+    <metfile name="met" shortcut="met" />
+    <climatechange name="ShelterEffects" shortcut="ShelterEffects" />
+    <area name="paddock">
+      <registrations name="global" />
+      <operations>
+        <operation condition="start_of_day">
+          <date>1-mar</date>
+          <action>seedling sow plants = 6.25, cultivar = melliodora, sowing_depth = 5</action>
+        </operation>
+        <operation condition="start_of_day">
+          <date>1-mar</date>
+          <action>'WellCamp Water' set sw = 0.54 0.52 0.53 0.48 0.40 0.21 0.28</action>
+        </operation>
+      </operations>
+      <soil name="WellCamp" shortcut="WellCamp" />
+      <outputfile name="outputfile" shortcut="outputfile" />
+      <irrigation name="Irrigation">
+        <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">off</automatic_irrigation>
+        <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
+        <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
+        <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+      </irrigation>
+      <surfaceom name="surface organic matter" shortcut="surface organic matter" />
+      <seedling name="seedling" shortcut="seedling" />
+      <logic name="OutputCalculator" shortcut="OutputCalculator" />
+    </area>
+  </simulation>
+  <simulation name="MelliodoraW6">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2006" ubound="14/11/2006">1/03/2006</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2006" ubound="14/11/2006">04/09/2006</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Continuous Wheat Simulation.sum</filename>
+    </summaryfile>
+    <metfile name="met" shortcut="met" />
+    <climatechange name="ShelterEffects" shortcut="ShelterEffects" />
+    <area name="paddock">
+      <registrations name="global" />
+      <operations>
+        <operation condition="start_of_day">
+          <date>1-mar</date>
+          <action>seedling sow plants = 6.25, cultivar = melliodora, sowing_depth = 5</action>
+        </operation>
+        <operation condition="start_of_day">
+          <date>1-mar</date>
+          <action>'WellCamp Water' set sw = 0.54 0.52 0.53 0.48 0.40 0.37 0.28</action>
+        </operation>
+      </operations>
+      <soil name="WellCamp" shortcut="WellCamp" />
+      <outputfile name="outputfile" shortcut="outputfile" />
+      <irrigation name="Irrigation">
+        <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">off</automatic_irrigation>
+        <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
+        <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
+        <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+      </irrigation>
+      <surfaceom name="surface organic matter" shortcut="surface organic matter" />
+      <seedling name="seedling" shortcut="seedling" />
+      <logic name="OutputCalculator" shortcut="OutputCalculator" />
+    </area>
+  </simulation>
+  <simulation name="MelliodoraWet">
+    <clock name="clock">
+      <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/2006" ubound="14/11/2006">1/03/2006</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/2006" ubound="14/11/2006">04/09/2006</end_date>
+    </clock>
+    <summaryfile name="summaryfile">
+      <filename name="filename">Continuous Wheat Simulation.sum</filename>
+    </summaryfile>
+    <metfile name="met" shortcut="met" />
+    <climatechange name="ShelterEffects" shortcut="ShelterEffects" />
+    <area name="paddock">
+      <registrations name="global" />
+      <operations>
+        <operation condition="start_of_day">
+          <date>1-mar</date>
+          <action>seedling sow plants = 6.25, cultivar = melliodora, sowing_depth = 5</action>
+        </operation>
+        <operation condition="start_of_day">
+          <date>1-mar</date>
+          <action>'WellCamp Water' set sw = 0.54 0.52 0.53 0.48 0.40 0.37 0.28</action>
+        </operation>
+      </operations>
+      <soil name="WellCamp" shortcut="WellCamp" />
+      <outputfile name="outputfile" shortcut="outputfile" />
+      <irrigation name="Irrigation">
+        <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">on</automatic_irrigation>
+        <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
+        <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
+        <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
+      </irrigation>
+      <surfaceom name="surface organic matter" shortcut="surface organic matter" />
+      <seedling name="seedling" shortcut="seedling" />
+      <logic name="OutputCalculator" shortcut="OutputCalculator" />
+    </area>
+  </simulation>
+  <folder name="shared">
+    <soil name="WellCamp">
+      <Site>Jimbour</Site>
+      <Region>South East Queensland</Region>
+      <LocalName>Waco</LocalName>
+      <SoilType>Black Vertosol</SoilType>
+      <NearestTown>Jimbour, Q 4352</NearestTown>
+      <NaturalVegetation>Grassland, mainly Qld bluegrass</NaturalVegetation>
+      <Water>
+        <Cona>5</Cona>
+        <DiffusConst>40</DiffusConst>
+        <DiffusSlope>16</DiffusSlope>
+        <U>5</U>
+        <Salb>0.13</Salb>
+        <Cn2Bare>73</Cn2Bare>
+        <CnRed>20</CnRed>
+        <CnCov>0.8</CnCov>
+        <layer name="1">
+          <thickness>150</thickness>
+          <bd>1.02</bd>
+          <ll15>0.2</ll15>
+          <airdry>0.1</airdry>
+          <dul>0.54</dul>
+          <sat>0.59</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+        </layer>
+        <layer name="2">
+          <thickness>150</thickness>
+          <bd>1.03</bd>
+          <ll15>0.25</ll15>
+          <airdry>0.25</airdry>
+          <dul>0.53</dul>
+          <sat>0.58</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+        </layer>
+        <layer name="3">
+          <thickness>300</thickness>
+          <bd>1.02</bd>
+          <ll15>0.3</ll15>
+          <airdry>0.3</airdry>
+          <dul>0.54</dul>
+          <sat>0.59</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+        </layer>
+        <layer name="4">
+          <thickness>300</thickness>
+          <bd>1.02</bd>
+          <ll15>0.25</ll15>
+          <airdry>0.25</airdry>
+          <dul>0.48</dul>
+          <sat>0.53</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+        </layer>
+        <layer name="5">
+          <thickness>300</thickness>
+          <bd>1.06</bd>
+          <ll15>0.21</ll15>
+          <airdry>0.21</airdry>
+          <dul>0.4</dul>
+          <sat>0.45</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+        </layer>
+        <layer name="6">
+          <thickness>300</thickness>
+          <bd>1.11</bd>
+          <ll15>0.21</ll15>
+          <airdry>0.21</airdry>
+          <dul>0.38</dul>
+          <sat>0.43</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+        </layer>
+        <layer name="7">
+          <thickness>300</thickness>
+          <bd>1.12</bd>
+          <ll15>0.28</ll15>
+          <airdry>0.28</airdry>
+          <dul>0.4</dul>
+          <sat>0.45</sat>
+          <sw>9999.99</sw>
+          <swcon>0.3</swcon>
+        </layer>
+      </Water>
+      <Nitrogen>
+        <CnCanopyFact>1</CnCanopyFact>
+        <RootCn>40</RootCn>
+        <RootWt>200</RootWt>
+        <SoilCn>12.5</SoilCn>
+        <EnrACoeff>7.4</EnrACoeff>
+        <EnrBCoeff>0.2</EnrBCoeff>
+        <layer name="1">
+          <oc>1.04</oc>
+          <ph>8.4</ph>
+          <fbiom>0.025</fbiom>
+          <finert>0.4</finert>
+          <no3>6.5</no3>
+          <nh4>0.6</nh4>
+        </layer>
+        <layer name="2">
+          <oc>0.89</oc>
+          <ph>8.8</ph>
+          <fbiom>0.02</fbiom>
+          <finert>0.6</finert>
+          <no3>2.1</no3>
+          <nh4>0.1</nh4>
+        </layer>
+        <layer name="3">
+          <oc>0.89</oc>
+          <ph>9</ph>
+          <fbiom>0.015</fbiom>
+          <finert>0.8</finert>
+          <no3>2.1</no3>
+          <nh4>0.1</nh4>
+        </layer>
+        <layer name="4">
+          <oc>0.89</oc>
+          <ph>9.2</ph>
+          <fbiom>0.01</fbiom>
+          <finert>0.9</finert>
+          <no3>1.7</no3>
+          <nh4>0.1</nh4>
+        </layer>
+        <layer name="5">
+          <oc>0.77</oc>
+          <ph>9.2</ph>
+          <fbiom>0.01</fbiom>
+          <finert>0.95</finert>
+          <no3>1.7</no3>
+          <nh4>0.1</nh4>
+        </layer>
+        <layer name="6">
+          <oc>0.45</oc>
+          <ph>9.1</ph>
+          <fbiom>0.01</fbiom>
+          <finert>0.95</finert>
+          <no3>1.7</no3>
+          <nh4>0.1</nh4>
+        </layer>
+        <layer name="7">
+          <oc>0.27</oc>
+          <ph>9</ph>
+          <fbiom>0.01</fbiom>
+          <finert>0.95</finert>
+          <no3>1.7</no3>
+          <nh4>0.1</nh4>
+        </layer>
+      </Nitrogen>
+      <other>
+        <layer name="1">
+          <ec>0.2</ec>
+        </layer>
+        <layer name="2">
+          <ec>0.25</ec>
+        </layer>
+        <layer name="3">
+          <ec>0.31</ec>
+        </layer>
+        <layer name="4">
+          <ec>0.4</ec>
+        </layer>
+        <layer name="5">
+          <ec>0.59</ec>
+        </layer>
+        <layer name="6">
+          <ec>0.84</ec>
+        </layer>
+        <layer name="7">
+          <ec>0.93</ec>
+        </layer>
+      </other>
+      <InitWater>
+        <DepthWetSoilMethod>
+          <Depth>200</Depth>
+        </DepthWetSoilMethod>
+      </InitWater>
+      <SoilCrop name="Sorghum">
+        <layer name="1">
+          <ll>0.2</ll>
+          <kl>0.1</kl>
+          <xf>1</xf>
+        </layer>
+        <layer name="2">
+          <ll>0.25</ll>
+          <kl>0.1</kl>
+          <xf>1</xf>
+        </layer>
+        <layer name="3">
+          <ll>0.3</ll>
+          <kl>0.1</kl>
+          <xf>1</xf>
+        </layer>
+        <layer name="4">
+          <ll>0.25</ll>
+          <kl>0.08</kl>
+          <xf>1</xf>
+        </layer>
+        <layer name="5">
+          <ll>0.21</ll>
+          <kl>0.06</kl>
+          <xf>1</xf>
+        </layer>
+        <layer name="6">
+          <ll>0.21</ll>
+          <kl>0.04</kl>
+          <xf>1</xf>
+        </layer>
+        <layer name="7">
+          <ll>0.28</ll>
+          <kl>0.02</kl>
+          <xf>1</xf>
+        </layer>
+      </SoilCrop>
+      <InitNitrogen>
+        <layer name="1">
+          <no3>6.50251233431099</no3>
+          <nh4>0.599196200219218</nh4>
+        </layer>
+        <layer name="2">
+          <no3>2.10081167723893</no3>
+          <nh4>0.0998660333698697</nh4>
+        </layer>
+        <layer name="3">
+          <no3>2.10081167723893</no3>
+          <nh4>0.0998660333698697</nh4>
+        </layer>
+        <layer name="4">
+          <no3>1.70065707205056</no3>
+          <nh4>0.0998660333698697</nh4>
+        </layer>
+        <layer name="5">
+          <no3>1.70065707205057</no3>
+          <nh4>0.0998660333698697</nh4>
+        </layer>
+        <layer name="6">
+          <no3>1.70065707205056</no3>
+          <nh4>0.0998660333698697</nh4>
+        </layer>
+        <layer name="7">
+          <no3>1.70065707205056</no3>
+          <nh4>0.0998660333698697</nh4>
+        </layer>
+      </InitNitrogen>
+      <SoilCrop name="Seedling">
+        <layer name="1">
+          <ll>0.2</ll>
+          <xf>1</xf>
+          <kl>0.001</kl>
+        </layer>
+        <layer name="2">
+          <ll>0.25</ll>
+          <xf>1</xf>
+          <kl>0.001</kl>
+        </layer>
+        <layer name="3">
+          <ll>0.3</ll>
+          <xf>1</xf>
+          <kl>0.001</kl>
+        </layer>
+        <layer name="4">
+          <ll>0.25</ll>
+          <xf>1</xf>
+          <kl>0.001</kl>
+        </layer>
+        <layer name="5">
+          <ll>0.21</ll>
+          <xf>1</xf>
+          <kl>0.001</kl>
+        </layer>
+        <layer name="6">
+          <ll>0.21</ll>
+          <xf>1</xf>
+          <kl>0.001</kl>
+        </layer>
+        <layer name="7">
+          <ll>0.28</ll>
+          <xf>1</xf>
+          <kl>0.001</kl>
+        </layer>
+      </SoilCrop>
+    </soil>
+    <outputfile name="outputfile">
+      <variables name="Variables">
+        <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+        <variable name="lai" />
+        <variable name="node_no" />
+        <variable name="stem_wt" />
+        <variable name="leaf_wt" />
+        <variable name="swdef_photo" />
+        <variable name="swdef_expan" />
+        <variable name="nfact_photo" />
+        <variable name="nfact_expan" />
+        <variable name="leaf_no()" />
+        <variable name="rain" array="" />
+        <variable name="irrigation" />
+        <variable name="es" />
+        <variable name="sw" />
+        <variable name="sw_dep()" />
+        <variable name="leaf_area_tot" array="No" description="Total plant leaf area" />
+        <variable name="temp_stress_photo" array="No" description="Temperature Stress in photosynthesis" />
+        <variable name="plantleaf" />
+        <variable name="plantstem" />
+        <variable name="plantla" />
+        <variable name="plantbiomass" />
+        <variable name="swsi" />
+        <variable name="plants" />
+        <variable name="dlt_dm_green_leaf" array="No" description="Delta Weight of leaf" />
+        <variable name="dlt_lai_pot" array="No" description="Potential change in live plant lai" />
+        <variable name="dlt_lai_stressed" array="No" description="Potential change in lai allowing for stress" />
+        <variable name="slai" array="Senesced lai" />
+        <variable name="biomass_n" array="No" description="N in total biomass" />
+        <variable name="no3()" />
+        <variable name="nh4()" />
+        <variable name="n_conc_stem" array="No" description="N concentration in stem" />
+        <variable name="n_conc_leaf" array="No" description="N concentration in leaf" />
+        <variable name="leaf_n" array="N in leaf" />
+        <variable name="stem_n" />
+      </variables>
+      <events name="Reporting Frequency">
+        <event name="Daily" description="End of day" array="No" />
+      </events>
+    </outputfile>
+    <seedling>
+      <ini>
+        <filename />
+      </ini>
+    </seedling>
+    <surfaceom name="surface organic matter">
+      <PoolName description="Organic Matter pool name">wheat</PoolName>
+      <type type="list" description="Organic Matter type" listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
+      <mass description="Initial surface residue (kg/ha)">100</mass>
+      <cnr description="C:N ratio of initial residue">80.0</cnr>
+      <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+    </surfaceom>
+    <metfile name="met">
+      <filename name="filename">D:\Development\apsim\Seedling\Validation\Toowoomba.met</filename>
+    </metfile>
+    <climatechange name="ShelterEffects">
+      <maxtmodifier description="Change in maximum temperature in degrees celsius">0.0</maxtmodifier>
+      <mintmodifier description="Change in minimum temperature in degrees celsius">0.0</mintmodifier>
+      <rainmodifier description="Relative change in rainfall">0</rainmodifier>
+      <radiationmodifier description="Relative change in radiation">0.66</radiationmodifier>
+      <co2 description="Atmospheric C02 concentration (ppm)">350</co2>
+    </climatechange>
+    <logic name="OutputCalculator">
+      <script name="init"> 
+plantbiomass = 0 
+plantleaf = 0
+plantstem = 0
+plantla = 0
+SWSI = 0
+</script>
+      <script name="startofday" />
+      <script name="endofday"><![CDATA[ if lai > 0 then
+   plantbiomass = biomass_wt/plants
+   plantleaf = leaf_wt / plants
+   plantstem = stem_wt / plants
+   plantla = lai * 10000 / plants
+   SWSI = SWSI + (1.0 - swdef_photo)
+endif]]></script>
+    </logic>
+  </folder>
+</folder>

@@ -1,0 +1,286 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+     Version                = 5.2
+     Title                  = Bare
+     Component DLL          = d:\development\apsim\summaryfile\lib\summaryfile.dll
+     Component DLL          = d:\development\apsim\clock\lib\clock.dll
+     Component DLL          = d:\development\apsim\input\lib\input.dll
+     Component DLL          = d:\development\apsim\manager\lib\manager.dll
+     Component DLL          = d:\development\apsim\protocolmanager\lib\protocolmanager.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+     Simulation start date =  1/03/2006
+     Simulation end date   =  4/09/2006
+     Time step =           = 1440 (mins)
+
+------- met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: D:\Development\apsim\Seedling\Validation\Toowoomba.met
+
+------- ShelterEffects Initialisation -----------------------------------------
+     Manager rules:
+     
+     SECTION:- init
+              co2 = 350
+     
+     SECTION:- prenewmet
+              met.maxt = met.maxt + 0.0
+              met.mint = met.mint + 0.0
+              met.rain = met.rain * 0
+              met.radn = met.radn * 0.66
+     END of rules
+     
+     Manager creating a new local real variable : co2 =     350.000000000000
+
+------- outputfile Initialisation ---------------------------------------------
+     Output frequency:
+        post
+     Output variables:
+        dd/mm/yyyy as Date
+        lai
+        node_no
+        stem_wt
+        leaf_wt
+        swdef_photo
+        swdef_expan
+        nfact_photo
+        nfact_expan
+        leaf_no()
+        rain
+        irrigation
+        es
+        sw
+        sw_dep()
+        leaf_area_tot
+        temp_stress_photo
+        plantleaf
+        plantstem
+        plantla
+        plantbiomass
+        swsi
+        plants
+        dlt_dm_green_leaf
+        dlt_lai_pot
+        dlt_lai_stressed
+        slai
+        biomass_n
+        no3()
+        nh4()
+        n_conc_stem
+        n_conc_leaf
+        leaf_n
+        stem_n
+     
+     Output file = Bare.out
+     Format = normal
+
+------- accum Initialisation --------------------------------------------------
+     Initialising
+
+------- operations Initialisation ---------------------------------------------
+     Operations Schedule
+     ===================
+
+------- Irrigation Initialisation ---------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                      Irrigation parameters
+          -----------------------------------------------
+           Irrigation Schedule (Disabled)
+           Automatic Irrigation Application (Disabled)
+           critical fraction of available soil water =  0.50
+           depth for calculating available soil water =     600.00
+           Irrigation Allocation Budget (Disabled)
+          -----------------------------------------------
+
+------- OutputCalculator Initialisation ---------------------------------------
+     Manager rules:
+     
+     SECTION:- init
+     plantbiomass = 0
+     plantleaf = 0
+     plantstem = 0
+     plantla = 0
+     swsi = 0
+     
+     SECTION:- end_of_day
+      if lai > 0 then
+        plantbiomass = biomass_wt/plants
+        plantleaf = leaf_wt / plants
+        plantstem = stem_wt / plants
+        plantla = lai * 10000 / plants
+        swsi = swsi + (1.0 - swdef_photo)
+     endif
+     
+     SECTION:- start_of_day
+     END of rules
+     
+     Manager creating a new local real variable : plantbiomass =     0.00000000000000
+     Manager creating a new local real variable : plantleaf =     0.00000000000000
+     Manager creating a new local real variable : plantstem =     0.00000000000000
+     Manager creating a new local real variable : plantla =     0.00000000000000
+     Manager creating a new local real variable : swsi =     0.00000000000000
+
+------- WellCamp Water Initialisation -----------------------------------------
+     
+         - Reading constants
+     
+        - Reading Soil Property Parameters
+     
+        - Reading Soil Profile Parameters
+     Initial soilwater distributed using "sw" parameter.
+     
+     
+     
+                      Soil Profile Properties
+        ---------------------------------------------------------------------
+              Depth  Air_Dry  LL15   Dul    Sat     Sw     BD   Runoff  SWCON
+                mm     mm/mm  mm/mm  mm/mm  mm/mm  mm/mm  g/cc    wf
+        ---------------------------------------------------------------------
+            0.-  150.  0.100  0.200  0.540  0.590  0.540  1.020  0.762  0.300
+          150.-  300.  0.250  0.250  0.530  0.580  0.343  1.030  0.190  0.300
+          300.-  600.  0.300  0.300  0.540  0.590  0.300  1.020  0.048  0.300
+          600.-  900.  0.250  0.250  0.480  0.530  0.250  1.020  0.000  0.300
+          900.- 1200.  0.210  0.210  0.400  0.450  0.210  1.060  0.000  0.300
+         1200.- 1500.  0.210  0.210  0.380  0.430  0.210  1.110  0.000  0.300
+         1500.- 1800.  0.280  0.280  0.400  0.450  0.280  1.120  0.000  0.300
+        ---------------------------------------------------------------------
+     
+     
+     
+                  Soil Water Holding Capacity
+          ---------------------------------------------------------
+              Depth    Unavailable Available  Max Avail.  Drainable
+                          (LL15)   (SW-LL15)  (DUL-LL15)  (SAT-DUL)
+                            mm        mm          mm         mm
+          ---------------------------------------------------------
+            0.-  150.      30.00      51.00      51.00       7.50
+          150.-  300.      37.50      13.95      42.00       7.50
+          300.-  600.      90.00       0.00      72.00      15.00
+          600.-  900.      75.00       0.00      69.00      15.00
+          900.- 1200.      63.00       0.00      57.00      15.00
+         1200.- 1500.      63.00       0.00      51.00      15.00
+         1500.- 1800.      84.00       0.00      36.00      15.00
+          ---------------------------------------------------------
+               Totals     442.50      64.95     378.00      90.00
+          ---------------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Parameters
+          ---------------------------------------------------------
+                 Insoil        Salb     Dif_Con   Dif_Slope
+          ---------------------------------------------------------
+                   0.00        0.13       40.00       16.00
+          ---------------------------------------------------------
+     
+     
+     
+                  Runoff is predicted using scs curve number:
+                Cn2  Cn_Red  Cn_Cov   H_Eff_Depth
+                                           mm
+          ---------------------------------------------------------
+              73.00   20.00    0.80  450.00
+          ---------------------------------------------------------
+     
+     
+     
+           Using Ritchie evaporation model
+            Cuml evap (U):            5.00 (mm^0.5)
+            CONA:                     5.00 ()
+           Eo from priestly-taylor
+
+------- surface organic matter Initialisation ---------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          wheat     wheat          100.0    40.0     0.5     0.0   0.049     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.0
+     
+
+------- WellCamp Nitrogen Initialisation --------------------------------------
+     
+        - Reading Parameters
+     
+        - Reading Constants
+     Using standard soil mineralisation for soil type Black Vertosol
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     8.40  1.04    9.95    0.92    0.00
+             2     8.80  0.89    3.25    0.15    0.00
+             3     9.00  0.89    6.43    0.31    0.00
+             4     9.20  0.89    5.21    0.31    0.00
+             5     9.20  0.77    5.41    0.32    0.00
+             6     9.10  0.45    5.66    0.33    0.00
+             7     9.00  0.27    5.72    0.34    0.00
+          ------------------------------------------------
+           Totals               41.62    2.67    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1      15679.1  1254.3   232.9    29.1    27.8     0.7
+             2      13642.7  1091.4   107.8    13.5    21.6     0.5
+             3      27153.5  2172.3    80.5    10.1    13.1     0.3
+             4      27207.0  2176.6    27.0     3.4     8.0     0.2
+             5      24473.9  1957.9    12.1     1.5     4.8     0.1
+             6      14977.6  1198.2     7.4     0.9     2.9     0.1
+             7       9067.5   725.4     4.5     0.6     1.8     0.0
+          ---------------------------------------------------------
+           Totals  132201.3 10576.1   472.2    59.0    80.0     2.0
+          ---------------------------------------------------------
+
+------- seedling Initialisation -----------------------------------------------
+     phenology model: Generic
+------- Start of simulation  --------------------------------------------------
+4 September 2006(Day of year=247), clock: 
+     Simulation is terminating due to end criteria being met.
