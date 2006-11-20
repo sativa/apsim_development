@@ -1,0 +1,524 @@
+<?xml version="1.0"?>
+<simulation executable="%apsuite/apsim/protocolmanager/lib/protocolmanager.dll" version="5.2">
+   <title>Seedling Sample Simulation</title>
+   <component name="SummaryFile" executable = "%apsuite/apsim/SummaryFile/lib/SummaryFile.dll">
+      <initdata>
+         <summaryfile>Seedling.sum</summaryfile>
+      </initdata>
+   </component>
+   <component name="clock" executable = "%apsuite/apsim/clock/lib/clock.dll">
+      <initdata>
+         <start_date>1/02/1998</start_date>
+         <end_date>30/09/1998</end_date>
+         <timestep_events>prepare process post</timestep_events>
+      </initdata>
+   </component>
+   <component name="report" executable = "%apsuite/apsim/report/lib/report.dll">
+      <initdata>
+         <outputfile>Seedling.out</outputfile>
+         <variable>clock.dd/mmm/yyyy as Date</variable>
+         <variable>Seedling.das</variable>
+         <variable>Seedling.stage</variable>
+         <variable>Seedling.lai</variable>
+         <variable>Seedling.slai</variable>
+         <variable>Seedling.biomass</variable>
+         <variable>Seedling.ep</variable>
+         <variable>Seedling.swdef_photo</variable>
+         <variable>Seedling.swdef_expan</variable>
+         <variable>Seedling.nfact_photo</variable>
+         <variable>Seedling.nfact_expan</variable>
+         <variable>Seedling.leaf_no()</variable>
+         <variable>Seedling.dlt_leaf_no</variable>
+         <variable>Seedling.node_no</variable>
+         <variable>Seedling.node_no_sen</variable>
+         <variable>Seedling.node_no_fx</variable>
+         <variable>Seedling.dlt_tt</variable>
+      </initdata>
+   </component>
+   <component name="Met" executable = "%apsuite/apsim/Input/lib/Input.dll">
+      <initdata>
+         <filename>d:\development\apsim\met\sample\Gatton.met</filename>
+      </initdata>
+   </component>
+   <component name="fertiliz" executable = "%apsuite/apsim/fertiliz/lib/fertiliz.dll">
+      <initdata>
+         <calcite_ca>
+            <full_name>Ca as finely ground Agricultural Lime</full_name>
+            <components>CaCO3</components>
+            <fraction>1.0</fraction>
+         </calcite_ca>
+         <calcite_fine>
+            <full_name>finely ground Agricultural Lime</full_name>
+            <components>CaCO3</components>
+            <fraction>0.4</fraction>
+         </calcite_fine>
+         <dolomite>
+            <full_name>finely ground dolomite</full_name>
+            <components>CaCO3</components>
+            <fraction>0.22</fraction>
+         </dolomite>
+         <NO3_N>
+            <full_name>N as nitrate</full_name>
+            <components>no3</components>
+            <fraction>1.0</fraction>
+         </NO3_N>
+         <NH4_N>
+            <full_name>N as ammonium</full_name>
+            <components>nh4</components>
+            <fraction>1.0</fraction>
+         </NH4_N>
+         <NH4NO3>
+            <full_name>ammonium nitrate</full_name>
+            <components>nh4  no3</components>
+            <fraction>0.5  0.5</fraction>
+         </NH4NO3>
+         <urea_N>
+            <full_name>N as urea</full_name>
+            <components>urea</components>
+            <fraction>1.0</fraction>
+         </urea_N>
+         <urea_no3>
+            <full_name>N as urea</full_name>
+            <components>urea no3</components>
+            <fraction>0.50 0.50</fraction>
+         </urea_no3>
+         <urea>
+            <full_name>Urea ferilizer</full_name>
+            <components>Urea</components>
+            <fraction>0.46</fraction>
+         </urea>
+         <nh4so4_n>
+            <full_name>ammonium sulphate</full_name>
+            <components>nh4</components>
+            <fraction>1.0</fraction>
+         </nh4so4_n>
+         <rock_p>
+            <full_name>Rock Phosphorus</full_name>
+            <components>rock_p labile_p</components>
+            <fraction>0.8     0.2</fraction>
+         </rock_p>
+         <banded_p>
+            <full_name>Banded Phosphorus</full_name>
+            <components>banded_p</components>
+            <fraction>1.0</fraction>
+         </banded_p>
+         <broadcast_p>
+            <full_name>Broadcast Phosporus</full_name>
+            <components>labile_p</components>
+            <fraction>1.0</fraction>
+         </broadcast_p>
+      </initdata>
+   </component>
+   <component name="irrigate" executable = "%apsuite/apsim/irrigate/lib/irrigate.dll">
+      <initdata>
+      </initdata>
+   </component>
+   <component name="manager" executable = "%apsuite/apsim/manager/lib/manager.dll">
+      <initdata>
+         <rule name="sample.start_of_day" condition="start_of_day">
+            <![CDATA[
+            if today = date('1/2/98') then
+               Seedling sow cultivar = melliodora, plants = 6.25, sowing_depth = 50 (mm)
+               irrigate apply amount = 50
+            endif
+            ]]>
+            </rule>
+         <rule name="sample.end_of_day" condition="end_of_day">
+            <![CDATA[
+            if Seedling.stage_name = 'maturity' or Seedling.plant_status = 'dead' then
+               Seedling harvest
+               Seedling end_crop
+            endif
+               report do_output
+            ]]>
+            </rule>
+      </initdata>
+   </component>
+   <component name="soilwat2" executable = "%apsuite/apsim/soilwat2/lib/soilwat2.dll">
+      <initdata>
+         <insoil>2.0 ()</insoil>
+         <diffus_const>88. ()</diffus_const>
+         <diffus_slope>35.4  ()</diffus_slope>
+         <cn2_bare>80 ()</cn2_bare>
+         <cn_red>20</cn_red>
+         <cn_cov>.8</cn_cov>
+         <salb>0.13  ()</salb>
+         <cona>2.5  ()</cona>
+         <u>4 (mm)</u>
+         <dlayer>150  150  300  300  300  300  300</dlayer>
+         <sat>.500 .509 .510 .505 .490 .480 .480</sat>
+         <dul>.450 .459  .45 .44  .42  .41  .41</dul>
+         <sw>.280 .364  .43 .43  .40  .41  .41</sw>
+         <ll15>.230 .240 .240 .250 .260 .270 .280</ll15>
+         <air_dry>.10 .20 .20 .20 .20 .20 .20</air_dry>
+         <swcon>0.2  0.2  0.2  0.2  0.2  0.2  0.2</swcon>
+         <bd>1.30 1.30 1.29 1.31 1.35 1.36 1.36</bd>
+         <min_crit_temp>5.0 (oC)</min_crit_temp>
+         <max_crit_temp>35.0 (oC)</max_crit_temp>
+         <max_albedo>0.23 ()</max_albedo>
+         <a_to_evap_fact>0.44</a_to_evap_fact>
+         <canopy_eos_coef>1.7</canopy_eos_coef>
+         <sw_top_crit>0.9 ()</sw_top_crit>
+         <sumes1_max>100.0 (mm)</sumes1_max>
+         <sumes2_max>25.0 (mm)</sumes2_max>
+         <solute_flow_eff>1.0 ()</solute_flow_eff>
+         <solute_flux_eff>1.0 ()</solute_flux_eff>
+         <gravity_gradient>0.00002 ()</gravity_gradient>
+         <specific_bd>2.65 (g/cc)</specific_bd>
+         <hydrol_effective_depth>450 (mm)</hydrol_effective_depth>
+         <mobile_solutes>no3 urea cl br org_n org_c_pool1 org_c_pool2 org_c_pool3</mobile_solutes>
+         <immobile_solutes>nh4</immobile_solutes>
+         <canopy_fact>1.0  1.0  0.0  0.0  ()</canopy_fact>
+         <canopy_fact_height>0  600  1800 30000 (mm)</canopy_fact_height>
+         <canopy_fact_default>0.5 ()</canopy_fact_default>
+         <act_evap_method>ritchie</act_evap_method>
+         <tillage>
+            <chisel>0.0           0.</chisel>
+            <disc>0.0           0.</disc>
+            <planter>0.0           0.</planter>
+            <burn>0.0           0.</burn>
+         </tillage>
+      </initdata>
+   </component>
+   <component name="soiln2" executable = "%apsuite/apsim/soiln2/lib/soiln2.dll">
+      <initdata>
+         <soil_type>sand</soil_type>
+         <amp>15.0</amp>
+         <tav>20.0</tav>
+         <root_cn>20.</root_cn>
+         <root_wt>1000.</root_wt>
+         <soil_cn>14.5</soil_cn>
+         <oc>1.00 0.84 0.77 0.65 0.54 0.48 0.43 (%)</oc>
+         <ph>8.20 8.50 8.60 8.60 7.40 5.30 5.00 ()</ph>
+         <fbiom>.035 .025 .015 0.01 0.01 0.01 0.01 ()</fbiom>
+         <finert>0.30 0.50 0.60 0.75 0.90 0.99 0.99 ()</finert>
+         <no3ppm>9.2  7.6  4.9  2.7  1.5  1.8  1.4 (ppm)</no3ppm>
+         <nh4ppm>0.30 0.30 0.30 0.30 0.30 0.50 0.50 (ppm)</nh4ppm>
+         <ureappm>0  0    0    0    0    0    0    (ppm)</ureappm>
+         <enr_a_coeff>7.4 ()</enr_a_coeff>
+         <enr_b_coeff>0.2</enr_b_coeff>
+         <profile_reduction>off</profile_reduction>
+         <standard>
+            <cnrf_coeff>0.693</cnrf_coeff>
+            <cnrf_optcn>25.0</cnrf_optcn>
+            <ef_biom>0.4</ef_biom>
+            <ef_fom>0.4</ef_fom>
+            <ef_hum>0.4</ef_hum>
+            <ef_res>0.4</ef_res>
+            <fom_min>0.5</fom_min>
+            <fr_biom_biom>0.6</fr_biom_biom>
+            <fr_fom_biom>0.9</fr_fom_biom>
+            <fr_res_biom>0.9</fr_res_biom>
+            <fom_type>default manure  goose_poo  stable</fom_type>
+            <fr_carb>0.2      0.3      0.3        0.05</fr_carb>
+            <fr_cell>0.7      0.3     0.3        0.15</fr_cell>
+            <fr_lign>0.1      0.4     0.4        0.8</fr_lign>
+            <oc2om_factor>1.7</oc2om_factor>
+            <mcn>8.0</mcn>
+            <opt_temp>32.0</opt_temp>
+            <rd_biom>0.0081</rd_biom>
+            <rd_carb>0.2</rd_carb>
+            <rd_cell>0.05</rd_cell>
+            <rd_lign>0.0095</rd_lign>
+            <rd_hum>0.00015</rd_hum>
+            <nh4ppm_min>0.0</nh4ppm_min>
+            <no3ppm_min>0.0</no3ppm_min>
+            <min_depth>100.</min_depth>
+            <wfmin_index>0.0 0.5 1.0 2.0</wfmin_index>
+            <wfmin_values>0.0 1.0 1.0 0.5</wfmin_values>
+            <wfnit_index>0.0 .25 1.0 2.0</wfnit_index>
+            <wfnit_values>0.0 1.0 1.0 0.0</wfnit_values>
+            <nitrification_pot>40.0 (ppm)</nitrification_pot>
+            <nh4_at_half_pot>90 (ppm)</nh4_at_half_pot>
+            <phf_nit_ph>4.5 6.0 8.0 9.0</phf_nit_ph>
+            <phf_nit_values>0.0 1.0 1.0 0.0</phf_nit_values>
+            <dnit_rate_coeff>0.0006</dnit_rate_coeff>
+            <dnit_wf_power>1</dnit_wf_power>
+         </standard>
+         <sand>
+            <derived_from>standard</derived_from>
+            <rd_biom>0.0324</rd_biom>
+         </sand>
+      </initdata>
+   </component>
+   <component name="Seedling" executable = "%apsuite/apsim/plant/lib/plant.dll">
+      <initdata>
+         <ll>0.230   0.240   0.240   0.250   0.260   0.270   0.280 ()</ll>
+         <kl>0.06    0.06    0.05    0.03    0.0     0.0     0.0  ()</kl>
+         <xf>1.0     1.0     1.0     1.0     0.0     0.0     0.0   ()</xf>
+         <crop_type>seedling</crop_type>
+         <default_crop_class>plant</default_crop_class>
+         <leaf_part>cohorting</leaf_part>
+         <sw_ub>1.0</sw_ub>
+         <sw_lb>0.0</sw_lb>
+         <year_ub>2100      ()</year_ub>
+         <year_lb>1800      ()</year_lb>
+         <latitude_ub>90        (oL)</latitude_ub>
+         <latitude_lb>-90       (oL)</latitude_lb>
+         <maxt_ub>55        (oC)</maxt_ub>
+         <maxt_lb>0         (oC)</maxt_lb>
+         <mint_ub>40        (oC)</mint_ub>
+         <mint_lb>-10       (oC)</mint_lb>
+         <radn_ub>50        (MJ/m^2)</radn_ub>
+         <radn_lb>1         (MJ/m^2)</radn_lb>
+         <dlayer_ub>1000      (mm)</dlayer_ub>
+         <dlayer_lb>0         (mm)</dlayer_lb>
+         <dul_dep_ub>1000      (mm)</dul_dep_ub>
+         <dul_dep_lb>0         (mm)</dul_dep_lb>
+         <sw_dep_ub>1000      (mm)</sw_dep_ub>
+         <sw_dep_lb>0         (mm)</sw_dep_lb>
+         <no3_ub>10000     (kg/ha)</no3_ub>
+         <no3_lb>0         (kg/ha)</no3_lb>
+         <no3_min_ub>10000     (kg/ha)</no3_min_ub>
+         <no3_min_lb>0         (kg/ha)</no3_min_lb>
+         <nh4_ub>10000     (kg/ha)</nh4_ub>
+         <nh4_lb>0         (kg/ha)</nh4_lb>
+         <nh4_min_ub>10000     (kg/ha)</nh4_min_ub>
+         <nh4_min_lb>0         (kg/ha)</nh4_min_lb>
+         <phenology_model>generic</phenology_model>
+         <stage_code_list>1         2          3         4</stage_code_list>
+         <stage_names>sowing germination   emergence  maturity</stage_names>
+         <phase_type>generic  emergent     fixed   fixed</phase_type>
+         <phase_names>sowing germination    emergence maturity</phase_names>
+         <composite_phases>under_ground above_ground  reproductive leaf_senescence vernalisation  emergence2floral_initiation preflowering node_formation  stress_reporting tiller_formation leaf_initiation</composite_phases>
+         <under_ground>sowing germination</under_ground>
+         <above_ground>emergence maturity</above_ground>
+         <leaf_senescence>emergence maturity</leaf_senescence>
+         <reproductive>maturity</reproductive>
+         <vernalisation>germination</vernalisation>
+         <emergence2floral_initiation>emergence</emergence2floral_initiation>
+         <preflowering>emergence</preflowering>
+         <tiller_formation>emergence</tiller_formation>
+         <node_formation>emergence</node_formation>
+         <leaf_initiation>emergence</leaf_initiation>
+         <stress_reporting>emergence</stress_reporting>
+         <seedling>
+            <plant>seedling</plant>
+            <class_action>harvest</class_action>
+            <class_change>unchanged</class_change>
+            <partition_option>1</partition_option>
+            <n_uptake_option>1</n_uptake_option>
+            <grain_fill_option>1</grain_fill_option>
+            <leaf_no_pot_option>2</leaf_no_pot_option>
+            <grain_no_option>1</grain_no_option>
+            <grain_n_option>1</grain_n_option>
+            <n_retrans_option>1</n_retrans_option>
+            <dm_senescence_option>1</dm_senescence_option>
+            <n_senescence_option>1</n_senescence_option>
+            <n_stress_option>1</n_stress_option>
+            <fruit_no_option>1</fruit_no_option>
+            <parasite_option>1</parasite_option>
+            <co2_default>350                      (ppm)</co2_default>
+            <photosynthetic_pathway>C3            (C3, or C4)</photosynthetic_pathway>
+            <x_co2_te_modifier>350              (ppm co2)</x_co2_te_modifier>
+            <y_co2_te_modifier>1.0              ()</y_co2_te_modifier>
+            <x_co2_nconc_modifier>350          (ppm co2)</x_co2_nconc_modifier>
+            <y_co2_nconc_modifier>1.0          ()</y_co2_nconc_modifier>
+            <stage_names>sowing germination   emergence  maturity</stage_names>
+            <stage_code>1      2           3         4         ()</stage_code>
+            <stage_code_list>1      2    3     4   ()</stage_code_list>
+            <stage_stem_reduction_harvest>1      2    3     3   ()</stage_stem_reduction_harvest>
+            <stage_stem_reduction_kill_stem>1      2    3     3   ()</stage_stem_reduction_kill_stem>
+            <pesw_germ>0.00 (mm/mm)</pesw_germ>
+            <shoot_lag>10.0 (oCd)</shoot_lag>
+            <shoot_rate>0.0  (oCd/mm)</shoot_rate>
+            <fasw_emerg>0.0  1.0</fasw_emerg>
+            <rel_emerg_rate>1.0  1.0</rel_emerg_rate>
+            <twilight>-6.0 (o)</twilight>
+            <x_temp>5 20 25 35        (oC)</x_temp>
+            <y_tt>0 15 15  0        (oCd)</y_tt>
+            <leaf_no_at_emerg>5</leaf_no_at_emerg>
+            <leaf_no_seed>1.0</leaf_no_seed>
+            <leaf_no_min>5.0  ()</leaf_no_min>
+            <leaf_no_max>100.0 ()</leaf_no_max>
+            <x_node_no_app>0    5.99   6    10</x_node_no_app>
+            <y_node_app_rate>100   100   100   100</y_node_app_rate>
+            <x_node_no_leaf>0    5    8    14</x_node_no_leaf>
+            <y_leaves_per_node>1    1    1.2  1.2</y_leaves_per_node>
+            <x_lai_ratio>0.0  0.01 0.8 1.0 ()</x_lai_ratio>
+            <y_leaf_no_frac>0.0  1.0 1.0 1.0  ()</y_leaf_no_frac>
+            <x_stage_rue>1      2    3      ()</x_stage_rue>
+            <y_rue>0      0    1.0   (g/MJ)</y_rue>
+            <skiprow_default>0</skiprow_default>
+            <row_spacing_default>400 (mm)</row_spacing_default>
+            <x_row_spacing>200  350  1000</x_row_spacing>
+            <y_extinct_coef>0.50 0.50 0.50</y_extinct_coef>
+            <y_extinct_coef_dead>0.30 0.30 0.30</y_extinct_coef_dead>
+            <extinct_coef_pod>0.8   ()</extinct_coef_pod>
+            <spec_pod_area>10000 (mm^2/g)</spec_pod_area>
+            <rue_pod>1.54  (g/MJ)</rue_pod>
+            <x_ave_temp>5 20 25 35 (oC)</x_ave_temp>
+            <y_stress_photo>0  1  1  0 ()</y_stress_photo>
+            <root_dm_init>0.2   (g/plant)</root_dm_init>
+            <leaf_dm_init>0.9   (g/plant)</leaf_dm_init>
+            <stem_dm_init>0.8   (g/plant)</stem_dm_init>
+            <pod_dm_init>0.0</pod_dm_init>
+            <meal_dm_init>0.0</meal_dm_init>
+            <oil_dm_init>0.0</oil_dm_init>
+            <stem_trans_frac>0.25 ()</stem_trans_frac>
+            <leaf_trans_frac>0.15 ()</leaf_trans_frac>
+            <pod_trans_frac>0    ()</pod_trans_frac>
+            <meal_trans_frac>0.00 ()</meal_trans_frac>
+            <oil_trans_frac>0.00 ()</oil_trans_frac>
+            <root_trans_frac>0.00 ()</root_trans_frac>
+            <ratio_root_shoot>0      0    1.0   1.0   (0-1)</ratio_root_shoot>
+            <frac_leaf>0      0    0.90  0.70  (0-1)</frac_leaf>
+            <frac_pod>0      0    0     0     (0-1)</frac_pod>
+            <sw_fac_max>1.125     ()</sw_fac_max>
+            <temp_fac_min>0.69      ()</temp_fac_min>
+            <sfac_slope>-0.125    ()</sfac_slope>
+            <tfac_slope>0.0125    ()</tfac_slope>
+            <carbo_oil_conv_ratio>2.1</carbo_oil_conv_ratio>
+            <grain_oil_conc>0.45</grain_oil_conc>
+            <grn_water_cont>0.085 (g/g)</grn_water_cont>
+            <node_no_correction>0.0</node_no_correction>
+            <x_node_no>1   3    10</x_node_no>
+            <y_leaf_size>1000 1000 1000</y_leaf_size>
+            <x_lai>0    8</x_lai>
+            <y_sla_max>6100 6100</y_sla_max>
+            <sla_min>5900</sla_min>
+            <initial_tpla>4000    (mm^2/plant)</initial_tpla>
+            <x_leaf_cohort>1    5    11     15</x_leaf_cohort>
+            <y_leaf_growth_period>150  200  500    500 (oCd)</y_leaf_growth_period>
+            <y_leaf_lag_period>9000 9000 9000  9000 (oCd)</y_leaf_lag_period>
+            <y_leaf_sen_period>1000 1000 1000  1000 (oCd)</y_leaf_sen_period>
+            <y_leaf_area_pot>2500 2500 2500 2500 (mm^2/cohort)</y_leaf_area_pot>
+            <fr_height_cut>0.0  0.1    1</fr_height_cut>
+            <fr_stem_remain>0.0  0.2    1</fr_stem_remain>
+            <fr_bruce_remain>0 0 0</fr_bruce_remain>
+            <root_depth_rate>0      5.0  44.0  44.0    (mm/d)</root_depth_rate>
+            <x_ws_root>0   1</x_ws_root>
+            <y_ws_root_fac>1   1</y_ws_root_fac>
+            <x_sw_ratio>0.0 0.25 ()</x_sw_ratio>
+            <y_sw_fac_root>0   1    ()</y_sw_fac_root>
+            <x_temp_root_advance>0 20 32</x_temp_root_advance>
+            <y_rel_root_advance>1 1  1</y_rel_root_advance>
+            <initial_root_depth>100 (mm)</initial_root_depth>
+            <specific_root_length>40000 (mm/g)</specific_root_length>
+            <x_plant_rld>0   0.0001  0.0003 (mm/mm3/plant)</x_plant_rld>
+            <y_rel_root_rate>0.02  0.10  1.0   (0-1)</y_rel_root_rate>
+            <transp_eff_cf>0      0    .006  .006  (Pa)</transp_eff_cf>
+            <svp_fract>0.66</svp_fract>
+            <eo_crop_factor_default>1.1</eo_crop_factor_default>
+            <x_sw_demand_ratio>0.1 1.1 ()</x_sw_demand_ratio>
+            <y_swdef_leaf>0   1   ()</y_swdef_leaf>
+            <x_sw_avail_ratio>0.0 0.16 ()</x_sw_avail_ratio>
+            <y_swdef_pheno>1.0 1.0  ()</y_swdef_pheno>
+            <x_sw_avail_ratio_flower>0.2   0.50  1.0  ()</x_sw_avail_ratio_flower>
+            <y_swdef_pheno_flower>1.0   1.0    1.0  ()</y_swdef_pheno_flower>
+            <x_sw_avail_ratio_grainfill>0.2   0.50   1.0  ()</x_sw_avail_ratio_grainfill>
+            <y_swdef_pheno_grainfill>1.0   1.0    1.0  ()</y_swdef_pheno_grainfill>
+            <oxdef_photo_rtfr>0.0  0.8   1.0         ()</oxdef_photo_rtfr>
+            <oxdef_photo>1.0  1.0   1.0         (0-1)</oxdef_photo>
+            <n_supply_preference>active</n_supply_preference>
+            <no3_diffn_const>2.0 (days)</no3_diffn_const>
+            <n_fix_rate>0      0    0     .00   (gN/gDM)</n_fix_rate>
+            <x_sw_avail_fix>0.0  0.50  0.95  1.0   ()</x_sw_avail_fix>
+            <y_swdef_fix>1.0  1.0   1.0   1.0   (0-1)</y_swdef_fix>
+            <n_stress_start_stage>3</n_stress_start_stage>
+            <n_fact_photo>2.0</n_fact_photo>
+            <n_fact_expansion>1.0</n_fact_expansion>
+            <n_fact_pheno>100</n_fact_pheno>
+            <x_stage_code>3      4          ()</x_stage_code>
+            <y_n_conc_min_leaf>0.0550 0.0500  ()</y_n_conc_min_leaf>
+            <y_n_conc_crit_leaf>0.0650 0.0600  ()</y_n_conc_crit_leaf>
+            <y_n_conc_max_leaf>0.0800 0.0750  ()</y_n_conc_max_leaf>
+            <y_n_conc_min_stem>0.0550 0.0500  ()</y_n_conc_min_stem>
+            <y_n_conc_crit_stem>0.0650 0.0600  ()</y_n_conc_crit_stem>
+            <y_n_conc_max_stem>0.0800 0.0750  ()</y_n_conc_max_stem>
+            <y_n_conc_min_pod>0.0400  0.0400 ()</y_n_conc_min_pod>
+            <y_n_conc_crit_pod>0.0400  0.0400 ()</y_n_conc_crit_pod>
+            <y_n_conc_max_pod>0.0400  0.0400 ()</y_n_conc_max_pod>
+            <n_conc_min_grain>0.028                      ()</n_conc_min_grain>
+            <n_conc_crit_grain>0.040                      ()</n_conc_crit_grain>
+            <n_conc_max_grain>0.045                      ()</n_conc_max_grain>
+            <n_conc_min_root>0.00800                    ()</n_conc_min_root>
+            <n_conc_crit_root>0.01000                    ()</n_conc_crit_root>
+            <n_conc_max_root>0.01200                    ()</n_conc_max_root>
+            <y_n_conc_min_meal>0.0     0.0     ()</y_n_conc_min_meal>
+            <y_n_conc_crit_meal>0.0     0.0     ()</y_n_conc_crit_meal>
+            <y_n_conc_max_meal>0.0     0.0     ()</y_n_conc_max_meal>
+            <y_n_conc_min_oil>0.0     0.0    ()</y_n_conc_min_oil>
+            <y_n_conc_crit_oil>0.0     0.0    ()</y_n_conc_crit_oil>
+            <y_n_conc_max_oil>0.0     0.0    ()</y_n_conc_max_oil>
+            <root_n_init_conc>0.010</root_n_init_conc>
+            <stem_n_init_conc>0.040</stem_n_init_conc>
+            <leaf_n_init_conc>0.065</leaf_n_init_conc>
+            <pod_n_init_conc>0.000</pod_n_init_conc>
+            <meal_n_init_conc>0.0</meal_n_init_conc>
+            <oil_n_init_conc>0.0</oil_n_init_conc>
+            <root_n_sen_conc>0.008</root_n_sen_conc>
+            <leaf_n_sen_conc>0.015</leaf_n_sen_conc>
+            <stem_n_sen_conc>0.004</stem_n_sen_conc>
+            <pod_n_sen_conc>0.001</pod_n_sen_conc>
+            <meal_n_sen_conc>0.001</meal_n_sen_conc>
+            <oil_n_sen_conc>0.0</oil_n_sen_conc>
+            <root_die_back_fr>0.1  (0-1)</root_die_back_fr>
+            <x_dm_sen_frac_root>0    1</x_dm_sen_frac_root>
+            <y_dm_sen_frac_root>0.005 0.005</y_dm_sen_frac_root>
+            <x_dm_sen_frac_leaf>0    1</x_dm_sen_frac_leaf>
+            <y_dm_sen_frac_leaf>0    1</y_dm_sen_frac_leaf>
+            <x_dm_sen_frac_stem>0    1</x_dm_sen_frac_stem>
+            <y_dm_sen_frac_stem>0    0</y_dm_sen_frac_stem>
+            <x_dm_sen_frac_pod>0    1</x_dm_sen_frac_pod>
+            <y_dm_sen_frac_pod>0    0</y_dm_sen_frac_pod>
+            <x_dm_sen_frac_meal>0    1</x_dm_sen_frac_meal>
+            <y_dm_sen_frac_meal>0    0</y_dm_sen_frac_meal>
+            <x_dm_sen_frac_oil>0    1</x_dm_sen_frac_oil>
+            <y_dm_sen_frac_oil>0    0</y_dm_sen_frac_oil>
+            <x_dm_sen_frac_bruce>0    1</x_dm_sen_frac_bruce>
+            <y_dm_sen_frac_bruce>0    0</y_dm_sen_frac_bruce>
+            <min_tpla>50.0   ()</min_tpla>
+            <sen_start_stage>6</sen_start_stage>
+            <node_sen_rate>100.0   (oCd/node)</node_sen_rate>
+            <fr_lf_sen_rate>0.0   ()</fr_lf_sen_rate>
+            <n_fact_lf_sen_rate>0.0</n_fact_lf_sen_rate>
+            <lai_sen_light>4.0  (m^2/m^2)</lai_sen_light>
+            <sen_light_slope>0</sen_light_slope>
+            <x_temp_senescence>-15.0 -5.0</x_temp_senescence>
+            <y_senescence_fac>0    0</y_senescence_fac>
+            <sen_rate_water>0.10 ()</sen_rate_water>
+            <root_dead_detach_frac>0   ()</root_dead_detach_frac>
+            <root_sen_detach_frac>1   ()</root_sen_detach_frac>
+            <leaf_dead_detach_frac>0.0</leaf_dead_detach_frac>
+            <leaf_sen_detach_frac>0.0</leaf_sen_detach_frac>
+            <stem_dead_detach_frac>0.0</stem_dead_detach_frac>
+            <stem_sen_detach_frac>0.0</stem_sen_detach_frac>
+            <pod_dead_detach_frac>0.0</pod_dead_detach_frac>
+            <pod_sen_detach_frac>0.0</pod_sen_detach_frac>
+            <meal_dead_detach_frac>0.0</meal_dead_detach_frac>
+            <meal_sen_detach_frac>0.0</meal_sen_detach_frac>
+            <oil_dead_detach_frac>0.0</oil_dead_detach_frac>
+            <oil_sen_detach_frac>0.0</oil_sen_detach_frac>
+            <leaf_no_crit>10.0      ()</leaf_no_crit>
+            <tt_emerg_limit>300.0     (oCd)</tt_emerg_limit>
+            <days_germ_limit>40.0      (days)</days_germ_limit>
+            <swdf_photo_limit>99.0      ()</swdf_photo_limit>
+            <swdf_photo_rate>0.0       ()</swdf_photo_rate>
+            <swdf_pheno_limit>25       ()</swdf_pheno_limit>
+            <x_weighted_temp>55.0  60.0  (oC)</x_weighted_temp>
+            <y_plant_death>0.0   1.0</y_plant_death>
+            <ll_ub>1000.0 ()</ll_ub>
+            <kl_ub>1.0    ()</kl_ub>
+            <minsw>0.00001 ()</minsw>
+            <tt_emerg_to_endjuv_ub>1000.0 (oCd)</tt_emerg_to_endjuv_ub>
+            <tt_flower_to_maturity_ub>1500.0 (oCd)</tt_flower_to_maturity_ub>
+            <tt_maturity_to_ripe_ub>1000.0 (oCd)</tt_maturity_to_ripe_ub>
+            <tt_flower_to_start_grain_ub>1000.0 (oCd)</tt_flower_to_start_grain_ub>
+            <tt_init_to_flower_ub>1000.0 (oCd)</tt_init_to_flower_ub>
+         </seedling>
+         <melliodora>
+            <x_pp_hi_incr>1      24    (h)</x_pp_hi_incr>
+            <y_hi_incr>0.0100 0.010 (1/days)</y_hi_incr>
+            <x_hi_max_pot_stress>0.00 1.00 ()</x_hi_max_pot_stress>
+            <y_hi_max_pot>0.30 0.30 ()</y_hi_max_pot>
+            <est_days_emerg_to_init>83       (d)</est_days_emerg_to_init>
+            <tt_germination>100</tt_germination>
+            <tt_emergence>10000</tt_emergence>
+            <tt_maturity>5</tt_maturity>
+            <x_stem_wt>0  6     (g/plant)</x_stem_wt>
+            <y_height>0  1500   (mm)</y_height>
+         </melliodora>
+      </initdata>
+   </component>
+</simulation>

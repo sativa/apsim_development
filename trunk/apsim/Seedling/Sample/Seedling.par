@@ -1,0 +1,50 @@
+
+[sample.report.parameters]
+outputfile    = Seedling.out
+
+variable = clock.dd/mmm/yyyy as Date
+variable = Seedling.das
+variable = Seedling.stage
+variable = Seedling.lai
+variable = Seedling.slai
+variable = Seedling.biomass
+variable = Seedling.ep
+variable = Seedling.swdef_photo
+variable = Seedling.swdef_expan
+variable = Seedling.nfact_photo
+variable = Seedling.nfact_expan
+variable = Seedling.leaf_no()
+variable = Seedling.dlt_leaf_no
+variable = Seedling.node_no
+variable = Seedling.node_no_sen
+variable = Seedling.node_no_fx
+variable = Seedling.dlt_tt
+
+
+[sample.clock.parameters]
+start_date=1/02/1998     ! dd/mm/yyyy
+end_date=30/09/1998    ! dd/mm/yyyy
+
+
+[sample.manager.start_of_day]
+if today = date('1/2/98') then
+   Seedling sow cultivar = melliodora, plants = 6.25, sowing_depth = 50 (mm)
+   irrigate apply amount = 50
+endif
+
+[sample.manager.end_of_day]
+if Seedling.stage_name = 'maturity' or Seedling.plant_status = 'dead' then
+   Seedling harvest
+   Seedling end_crop
+endif
+
+   report do_output
+
+
+[sample.Seedling.parameters]
+ll =  0.230   0.240   0.240   0.250   0.260   0.270   0.280 ()!cm3 water/cm3 soil
+kl =  0.06    0.06    0.05    0.03    0.0     0.0     0.0  ()
+XF =  1.0     1.0     1.0     1.0     0.0     0.0     0.0   ()
+
+[sample.summaryfile.parameters]
+summaryfile=Seedling.sum

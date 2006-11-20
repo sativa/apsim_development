@@ -1,0 +1,16 @@
+version = 5.2
+
+[apsim.Seedling Sample]
+title= Seedling Sample Simulation
+module = clock           Seedling.par [sample] %apsuite\apsim\clock\clock.ini[standard]
+module = report          Seedling.par [sample]
+module = Input(Met)      %apsuite\apsim\met\sample\Gatton.met [weather]
+module = fertiliz        %apsuite\apsim\fertiliz\fertiliz.ini[standard]
+module = irrigate
+module = manager         Seedling.par [sample]
+module = soilwat2        %apsuite\apsim\soilwat2\sample\soilwat2.par [black_earth]    %apsuite\apsim\soilwat2\soilwat2.ini [standard]
+module = soiln2          %apsuite\apsim\soiln2\sample\soiln2.par [black_earth]    %apsuite\apsim\soiln2\soiln2.ini     [standard]
+module = plant(Seedling)  Seedling.par [sample] %apsuite\apsim\Seedling\Seedling.ini [standard]
+module = SummaryFile     Seedling.par [sample]
+
+ 
