@@ -180,6 +180,8 @@ void cohortingLeafPart::doRegistrations(protocol::Component *system)
    setupGetFunction(system, "lai", protocol::DTsingle, false,
                     &cohortingLeafPart::get_leaf_area_index, "m^2/m^2", "Leaf area index");
 
+   system->addGettableVar("dlt_lai", dltLAI, "m^2/m^2", "Actual change in live plant lai");
+
    system->addGettableVar("dlt_lai_pot", dltLAI_pot, "m^2/m^2", "Potential change in live plant lai");
 
    system->addGettableVar("dlt_lai_stressed", dltLAI_stressed, "m^2/m^2", "Potential change in lai allowing for stress");
@@ -252,7 +254,7 @@ void cohortingLeafPart::get_node_no_sen(protocol::Component *system, protocol::Q
          if (reals_are_equal(gLeafArea[cohort-1], 0.0, 1.0E-4)&&gLeafArea[cohort]>0.0)
             {
             // This is the senescing node
-            node_no_sen = cohort-1+1+divide(gLeafAreaSen[cohort],gLeafArea[cohort]+gLeafAreaSen[cohort],0.0);
+            node_no_sen = cohort-1+1+divide(gLeafAreaSen[cohort],gLeafAreaMax[cohort],0.0);
             break;
             }
          }
@@ -568,6 +570,8 @@ void cohortingLeafPart::leaf_area_potential (float tt)
       {
       if (cGrowthPeriod[cohort+1] - gLeafAge[cohort] > 0.0)
          gDltLeafAreaPot[cohort] = cAreaPot[cohort+1] * u_bound(divide(tt, cGrowthPeriod[cohort+1], 0.0), 1.0);
+      else
+         gDltLeafAreaPot[cohort] = 0.0;
       }
 
    dltLAI_pot =  sum(gDltLeafAreaPot) * smm2sm * plant->getPlants();
@@ -673,16 +677,12 @@ void cohortingLeafPart::update(void)
    float dltLeafArea = divide (dltLAI, plant->getPlants(), 0.0) * sm2smm;
 
     // Partition new LAI to cohorts
+
     if (dltLeafArea > 0.0)
        {
-
        for (cohort = 0; cohort != gLeafArea.size(); cohort++)
           {
-          float fract = 0.0;
-          if ((gLeafAge[cohort]- dltTT) < cGrowthPeriod[cohort+1])
-             {
-             fract = divide(gDltLeafAreaPot[cohort], sum(gDltLeafAreaPot), 0.0);
-             }
+          float fract = divide(gDltLeafAreaPot[cohort], sum(gDltLeafAreaPot), 0.0);
           gLeafArea[cohort] += fract * dltLeafArea;
           }
        }
@@ -750,10 +750,10 @@ void cohortingLeafPart::update(void)
        for (cohort = 0; cohort != gLeafArea.size(); cohort++)
           {
           float area = dltLeafArea * divide(gLeafArea[cohort], areaTot, 0.0);
-          gLeafArea[cohort] = u_bound(gLeafArea[cohort] - area, 0.0);
+          gLeafArea[cohort] = l_bound(gLeafArea[cohort] - area, 0.0);
 
           area = dltLeafAreaSen * divide(gLeafAreaSen[cohort], areaTotSen, 0.0);
-          gLeafAreaSen[cohort] = u_bound(gLeafAreaSen[cohort] - area, 0.0);
+          gLeafAreaSen[cohort] = l_bound(gLeafAreaSen[cohort] - area, 0.0);
           }
        dltLAI_dead = dltLeafArea * plant->getPlants() * smm2sm;
        dltSLAI_dead = dltLeafAreaSen * plant->getPlants() * smm2sm;
