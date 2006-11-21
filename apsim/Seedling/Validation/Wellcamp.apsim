@@ -302,8 +302,8 @@
       <outputfile name="outputfile" shortcut="outputfile" />
       <irrigation name="Irrigation">
         <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">on</automatic_irrigation>
-        <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
-        <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
+        <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">1000</asw_depth>
+        <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">1</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
       </irrigation>
       <surfaceom name="surface organic matter" shortcut="surface organic matter" />
@@ -562,12 +562,12 @@
         <layer name="1">
           <ll>0.2</ll>
           <xf>1</xf>
-          <kl>0.001</kl>
+          <kl>0.005</kl>
         </layer>
         <layer name="2">
           <ll>0.25</ll>
           <xf>1</xf>
-          <kl>0.001</kl>
+          <kl>0.002</kl>
         </layer>
         <layer name="3">
           <ll>0.3</ll>
@@ -632,15 +632,20 @@
         <variable name="n_conc_leaf" array="No" description="N concentration in leaf" />
         <variable name="leaf_n" array="N in leaf" />
         <variable name="stem_n" />
+        <variable name="dlt_lai" />
+        <variable name="dlt_lai_carbon" />
+        <variable name="tlai" />
+        <variable name="node_no_sen" />
+        <variable name="nodes" />
+        <variable name="root_depth" />
+        <variable name="rlv" />
+        <variable name="biomass_wt" />
       </variables>
       <events name="Reporting Frequency">
         <event name="Daily" description="End of day" array="No" />
       </events>
     </outputfile>
     <seedling>
-      <ini>
-        <filename />
-      </ini>
     </seedling>
     <surfaceom name="surface organic matter">
       <PoolName description="Organic Matter pool name">wheat</PoolName>
@@ -666,13 +671,15 @@ plantleaf = 0
 plantstem = 0
 plantla = 0
 SWSI = 0
+nodes = 0
 </script>
       <script name="startofday" />
       <script name="endofday"><![CDATA[ if lai > 0 then
-   plantbiomass = biomass_wt/plants
-   plantleaf = leaf_wt / plants
-   plantstem = stem_wt / plants
+   plantbiomass = green_biomass_wt/plants
+   plantleaf = dm_green_leaf / plants
+   plantstem = dm_green_stem / plants
    plantla = lai * 10000 / plants
+   nodes = node_no + 17
    SWSI = SWSI + (1.0 - swdef_photo)
 endif]]></script>
     </logic>
