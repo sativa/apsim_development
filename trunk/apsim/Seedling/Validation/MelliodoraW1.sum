@@ -83,6 +83,14 @@
         n_conc_leaf
         leaf_n
         stem_n
+        dlt_lai
+        dlt_lai_carbon
+        tlai
+        node_no_sen
+        nodes
+        root_depth
+        rlv
+        biomass_wt
      
      Output file = MelliodoraW1.out
      Format = normal
@@ -121,13 +129,15 @@
      plantstem = 0
      plantla = 0
      swsi = 0
+     nodes = 0
      
      SECTION:- end_of_day
       if lai > 0 then
-        plantbiomass = biomass_wt/plants
-        plantleaf = leaf_wt / plants
-        plantstem = stem_wt / plants
+        plantbiomass = green_biomass_wt/plants
+        plantleaf = dm_green_leaf / plants
+        plantstem = dm_green_stem / plants
         plantla = lai * 10000 / plants
+        nodes = node_no + 17
         swsi = swsi + (1.0 - swdef_photo)
      endif
      
@@ -139,6 +149,7 @@
      Manager creating a new local real variable : plantstem =     0.00000000000000
      Manager creating a new local real variable : plantla =     0.00000000000000
      Manager creating a new local real variable : swsi =     0.00000000000000
+     Manager creating a new local real variable : nodes =     0.00000000000000
 
 ------- WellCamp Water Initialisation -----------------------------------------
      
@@ -294,7 +305,7 @@
                       -------------------
      Bound check warning while reading parameter.
      Variable  : y_leaf_lag_period(1)
-     Condition : 0.00 <= 9000 <= 2000.00
+     Condition : 0.00 <= 90000 <= 2000.00
      Component name: seedling
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -304,7 +315,7 @@
                       -------------------
      Bound check warning while reading parameter.
      Variable  : y_leaf_lag_period(2)
-     Condition : 0.00 <= 9000 <= 2000.00
+     Condition : 0.00 <= 90000 <= 2000.00
      Component name: seedling
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -314,7 +325,7 @@
                       -------------------
      Bound check warning while reading parameter.
      Variable  : y_leaf_lag_period(3)
-     Condition : 0.00 <= 9000 <= 2000.00
+     Condition : 0.00 <= 90000 <= 2000.00
      Component name: seedling
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -324,7 +335,7 @@
                       -------------------
      Bound check warning while reading parameter.
      Variable  : y_leaf_lag_period(4)
-     Condition : 0.00 <= 9000 <= 2000.00
+     Condition : 0.00 <= 90000 <= 2000.00
      Component name: seedling
      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
@@ -360,8 +371,8 @@
           Depth     Factor         Limit      Factor
           (mm)         ()        (mm/mm)       (0-1)
          -----------------------------------------------
-         150.0     0.001          0.200       1.000
-         150.0     0.001          0.250       1.000
+         150.0     0.005          0.200       1.000
+         150.0     0.002          0.250       1.000
          300.0     0.001          0.300       1.000
          300.0     0.001          0.250       1.000
          300.0     0.001          0.210       1.000
@@ -390,610 +401,37 @@
      
 1 March 2006(Day of year=60), operations: 
       Sending set message to wellcamp water
-1 March 2006(Day of year=60), seedling: 
-       0.000000  0.000000  0.000000
-       0.006100
 2 March 2006(Day of year=61), seedling: 
-       0.000000  0.000000  0.000000
-       0.006100
       stage 2.0 germination
 3 March 2006(Day of year=62), seedling: 
-       0.000000  0.004062  0.000000
-       0.006100
       stage 3.0 emergence
                      biomass =          10.62 (g/m^2)   lai          =   0.025 (m^2/m^2)
                      stover N conc =     5.32 (%)    extractable sw =   46.47 (mm)
-4 March 2006(Day of year=63), seedling: 
-       0.000840  0.003155  0.000840
-       0.006100
-5 March 2006(Day of year=64), seedling: 
-       0.000898  0.003735  0.000898
-       0.006100
-6 March 2006(Day of year=65), seedling: 
-       0.000943  0.003359  0.000943
-       0.006100
-7 March 2006(Day of year=66), seedling: 
-       0.000900  0.004630  0.000900
-       0.006100
-8 March 2006(Day of year=67), seedling: 
-       0.000897  0.003114  0.000897
-       0.006100
-9 March 2006(Day of year=68), seedling: 
-       0.000905  0.006829  0.000905
-       0.006100
-10 March 2006(Day of year=69), seedling: 
-       0.000900  0.005815  0.000900
-       0.006100
-11 March 2006(Day of year=70), seedling: 
-       0.000912  0.005111  0.000912
-       0.006100
-12 March 2006(Day of year=71), seedling: 
-       0.000910  0.005607  0.000910
-       0.006100
-13 March 2006(Day of year=72), seedling: 
-       0.000884  0.005526  0.000884
-       0.006100
-14 March 2006(Day of year=73), seedling: 
-       0.000886  0.004187  0.000886
-       0.006100
-15 March 2006(Day of year=74), seedling: 
-       0.000904  0.004803  0.000904
-       0.006100
-16 March 2006(Day of year=75), seedling: 
-       0.000869  0.004044  0.000869
-       0.006100
-17 March 2006(Day of year=76), seedling: 
-       0.000819  0.004165  0.000819
-       0.006100
-18 March 2006(Day of year=77), seedling: 
-       0.000839  0.007875  0.000839
-       0.006100
-19 March 2006(Day of year=78), seedling: 
-       0.000836  0.008218  0.000836
-       0.006100
-20 March 2006(Day of year=79), seedling: 
-       0.000813  0.009501  0.000813
-       0.006100
-21 March 2006(Day of year=80), seedling: 
-       0.000791  0.012232  0.000791
-       0.006100
-22 March 2006(Day of year=81), seedling: 
-       0.000496  0.011857  0.000496
-       0.006100
-23 March 2006(Day of year=82), seedling: 
-       0.000816  0.009027  0.000816
-       0.006100
-24 March 2006(Day of year=83), seedling: 
-       0.000808  0.008364  0.000808
-       0.006100
-25 March 2006(Day of year=84), seedling: 
-       0.000817  0.007192  0.000817
-       0.006100
-26 March 2006(Day of year=85), seedling: 
-       0.000801  0.005746  0.000801
-       0.006100
-27 March 2006(Day of year=86), seedling: 
-       0.000757  0.009009  0.000757
-       0.006100
-28 March 2006(Day of year=87), seedling: 
-       0.000740  0.012656  0.000740
-       0.006100
-29 March 2006(Day of year=88), seedling: 
-       0.000732  0.010819  0.000732
-       0.006100
-30 March 2006(Day of year=89), seedling: 
-       0.000717  0.010103  0.000717
-       0.006100
-31 March 2006(Day of year=90), seedling: 
-       0.000551  0.015642  0.000551
-       0.006100
-1 April 2006(Day of year=91), seedling: 
-       0.000718  0.007270  0.000718
-       0.006100
-2 April 2006(Day of year=92), seedling: 
-       0.000724  0.007499  0.000724
-       0.006100
-3 April 2006(Day of year=93), seedling: 
-       0.000673  0.009051  0.000673
-       0.006100
-4 April 2006(Day of year=94), seedling: 
-       0.000552  0.010103  0.000552
-       0.006100
-5 April 2006(Day of year=95), seedling: 
-       0.000353  0.016732  0.000353
-       0.006100
-6 April 2006(Day of year=96), seedling: 
-       0.000658  0.017773  0.000658
-       0.006100
-7 April 2006(Day of year=97), seedling: 
-       0.000701  0.011911  0.000701
-       0.006100
-8 April 2006(Day of year=98), seedling: 
-       0.000669  0.008670  0.000669
-       0.006100
-9 April 2006(Day of year=99), seedling: 
-       0.000648  0.011266  0.000648
-       0.006100
-10 April 2006(Day of year=100), seedling: 
-       0.000631  0.009371  0.000631
-       0.006100
-11 April 2006(Day of year=101), seedling: 
-       0.000619  0.010041  0.000619
-       0.006100
-12 April 2006(Day of year=102), seedling: 
-       0.000582  0.013572  0.000582
-       0.006100
-13 April 2006(Day of year=103), seedling: 
-       0.000576  0.013370  0.000576
-       0.006100
-14 April 2006(Day of year=104), seedling: 
-       0.000543  0.011693  0.000543
-       0.006100
-15 April 2006(Day of year=105), seedling: 
-       0.000518  0.010338  0.000518
-       0.006100
-     Plant kill. 0.21% failure because of water stress.
-16 April 2006(Day of year=106), seedling: 
-       0.000539  0.010710  0.000539
-       0.006100
-     Plant kill. 0.60% failure because of water stress.
-17 April 2006(Day of year=107), seedling: 
-       0.000539  0.013302  0.000539
-       0.006100
-     Plant kill. 0.94% failure because of water stress.
-18 April 2006(Day of year=108), seedling: 
-       0.000514  0.014295  0.000514
-       0.006100
-     Plant kill. 1.22% failure because of water stress.
-19 April 2006(Day of year=109), seedling: 
-       0.000489  0.013511  0.000489
-       0.006100
-     Plant kill. 1.47% failure because of water stress.
-20 April 2006(Day of year=110), seedling: 
-       0.000474  0.015760  0.000474
-       0.006100
-     Plant kill. 1.77% failure because of water stress.
-21 April 2006(Day of year=111), seedling: 
-       0.000472  0.013015  0.000472
-       0.006100
-     Plant kill. 1.96% failure because of water stress.
-22 April 2006(Day of year=112), seedling: 
-       0.000526  0.013115  0.000526
-       0.006100
-     Plant kill. 2.25% failure because of water stress.
-23 April 2006(Day of year=113), seedling: 
-       0.000483  0.014090  0.000483
-       0.006100
-     Plant kill. 2.42% failure because of water stress.
-24 April 2006(Day of year=114), seedling: 
-       0.000489  0.014103  0.000489
-       0.006100
-     Plant kill. 2.57% failure because of water stress.
-25 April 2006(Day of year=115), seedling: 
-       0.000453  0.016287  0.000453
-       0.006100
-     Plant kill. 2.66% failure because of water stress.
-26 April 2006(Day of year=116), seedling: 
-       0.000459  0.015179  0.000459
-       0.006100
-     Plant kill. 2.66% failure because of water stress.
-27 April 2006(Day of year=117), seedling: 
-       0.000440  0.013405  0.000440
-       0.006100
-     Plant kill. 2.66% failure because of water stress.
-28 April 2006(Day of year=118), seedling: 
-       0.000268  0.016831  0.000268
-       0.006100
-29 April 2006(Day of year=119), seedling: 
-       0.000311  0.017941  0.000311
-       0.006100
-30 April 2006(Day of year=120), seedling: 
-       0.000193  0.019914  0.000193
-       0.006100
-     Plant kill. 2.76% failure because of water stress.
 1 May 2006(Day of year=121), seedling: 
-       0.000353  0.017805  0.000353
-       0.006100
+     Plant kill. 0.01% failure because of water stress.
 2 May 2006(Day of year=122), seedling: 
-       0.000414  0.015502  0.000414
-       0.006100
+     Plant kill. 0.08% failure because of water stress.
 3 May 2006(Day of year=123), seedling: 
-       0.000413  0.015146  0.000413
-       0.006100
-     Plant kill. 2.76% failure because of water stress.
+     Plant kill. 0.15% failure because of water stress.
 4 May 2006(Day of year=124), seedling: 
-       0.000400  0.014842  0.000400
-       0.006100
-     Plant kill. 2.77% failure because of water stress.
+     Plant kill. 0.22% failure because of water stress.
 5 May 2006(Day of year=125), seedling: 
-       0.000386  0.014788  0.000386
-       0.006100
+     Plant kill. 0.29% failure because of water stress.
 6 May 2006(Day of year=126), seedling: 
-       0.000377  0.014736  0.000377
-       0.006100
+     Plant kill. 0.37% failure because of water stress.
 7 May 2006(Day of year=127), seedling: 
-       0.000358  0.015008  0.000358
-       0.006100
+     Plant kill. 0.44% failure because of water stress.
 8 May 2006(Day of year=128), seedling: 
-       0.000339  0.015498  0.000339
-       0.006100
+     Plant kill. 0.52% failure because of water stress.
 9 May 2006(Day of year=129), seedling: 
-       0.000349  0.014594  0.000349
-       0.006100
+     Plant kill. 0.60% failure because of water stress.
 10 May 2006(Day of year=130), seedling: 
-       0.000299  0.015701  0.000299
-       0.006100
+     Plant kill. 0.68% failure because of water stress.
 11 May 2006(Day of year=131), seedling: 
-       0.000343  0.014318  0.000343
-       0.006100
+     Plant kill. 0.75% failure because of water stress.
 12 May 2006(Day of year=132), seedling: 
-       0.000301  0.015329  0.000301
-       0.006100
+     Plant kill. 0.83% failure because of water stress.
 13 May 2006(Day of year=133), seedling: 
-       0.000299  0.012712  0.000299
-       0.006100
-     Plant kill. 2.79% failure because of water stress.
-14 May 2006(Day of year=134), seedling: 
-       0.000302  0.011859  0.000302
-       0.006100
-     Plant kill. 2.92% failure because of water stress.
-15 May 2006(Day of year=135), seedling: 
-       0.000282  0.011710  0.000282
-       0.006100
-     Plant kill. 3.07% failure because of water stress.
-16 May 2006(Day of year=136), seedling: 
-       0.000272  0.013712  0.000272
-       0.006100
-     Plant kill. 3.21% failure because of water stress.
-17 May 2006(Day of year=137), seedling: 
-       0.000256  0.013548  0.000256
-       0.006100
-     Plant kill. 3.21% failure because of water stress.
-18 May 2006(Day of year=138), seedling: 
-       0.000209  0.014229  0.000209
-       0.006100
-19 May 2006(Day of year=139), seedling: 
-       0.000203  0.014521  0.000203
-       0.006100
-20 May 2006(Day of year=140), seedling: 
-       0.000236  0.013274  0.000236
-       0.006100
-21 May 2006(Day of year=141), seedling: 
-       0.000237  0.013954  0.000237
-       0.006100
-22 May 2006(Day of year=142), seedling: 
-       0.000159  0.015249  0.000159
-       0.006100
-23 May 2006(Day of year=143), seedling: 
-       0.000192  0.013750  0.000192
-       0.006100
-24 May 2006(Day of year=144), seedling: 
-       0.000146  0.013047  0.000146
-       0.006100
-25 May 2006(Day of year=145), seedling: 
-       0.000180  0.013539  0.000180
-       0.006100
-26 May 2006(Day of year=146), seedling: 
-       0.000241  0.013576  0.000241
-       0.006100
-27 May 2006(Day of year=147), seedling: 
-       0.000161  0.014678  0.000161
-       0.006100
-28 May 2006(Day of year=148), seedling: 
-       0.000236  0.012817  0.000236
-       0.006100
-     Plant kill. 3.21% failure because of water stress.
-29 May 2006(Day of year=149), seedling: 
-       0.000236  0.013000  0.000236
-       0.006100
-30 May 2006(Day of year=150), seedling: 
-       0.000157  0.012830  0.000157
-       0.006100
-31 May 2006(Day of year=151), seedling: 
-       0.000123  0.012790  0.000123
-       0.006100
-1 June 2006(Day of year=152), seedling: 
-       0.000156  0.013071  0.000156
-       0.006100
-2 June 2006(Day of year=153), seedling: 
-       0.000165  0.013002  0.000165
-       0.006100
-3 June 2006(Day of year=154), seedling: 
-       0.000215  0.012670  0.000215
-       0.006100
-4 June 2006(Day of year=155), seedling: 
-       0.000215  0.012679  0.000215
-       0.006100
-5 June 2006(Day of year=156), seedling: 
-       0.000217  0.013207  0.000217
-       0.006100
-6 June 2006(Day of year=157), seedling: 
-       0.000173  0.012948  0.000173
-       0.006100
-7 June 2006(Day of year=158), seedling: 
-       0.000218  0.012958  0.000218
-       0.006100
-8 June 2006(Day of year=159), seedling: 
-       0.000218  0.012654  0.000218
-       0.006100
-9 June 2006(Day of year=160), seedling: 
-       0.000172  0.013614  0.000172
-       0.006100
-10 June 2006(Day of year=161), seedling: 
-       0.000078  0.013891  0.000078
-       0.006100
-11 June 2006(Day of year=162), seedling: 
-       0.000141  0.012763  0.000141
-       0.006100
-12 June 2006(Day of year=163), seedling: 
-       0.000212  0.012434  0.000212
-       0.006100
-13 June 2006(Day of year=164), seedling: 
-       0.000182  0.012942  0.000182
-       0.006100
-14 June 2006(Day of year=165), seedling: 
-       0.000219  0.010963  0.000219
-       0.006100
-     Plant kill. 3.24% failure because of water stress.
-15 June 2006(Day of year=166), seedling: 
-       0.000212  0.012158  0.000212
-       0.006100
-16 June 2006(Day of year=167), seedling: 
-       0.000173  0.011838  0.000173
-       0.006100
-17 June 2006(Day of year=168), seedling: 
-       0.000111  0.012436  0.000111
-       0.006100
-18 June 2006(Day of year=169), seedling: 
-       0.000133  0.012535  0.000133
-       0.006100
-19 June 2006(Day of year=170), seedling: 
-       0.000148  0.012986  0.000148
-       0.006100
-20 June 2006(Day of year=171), seedling: 
-       0.000089  0.012440  0.000089
-       0.006100
-21 June 2006(Day of year=172), seedling: 
-       0.000163  0.012986  0.000163
-       0.006100
-22 June 2006(Day of year=173), seedling: 
-       0.000134  0.012545  0.000134
-       0.006100
-23 June 2006(Day of year=174), seedling: 
-       0.000164  0.013168  0.000164
-       0.006100
-24 June 2006(Day of year=175), seedling: 
-       0.000179  0.012911  0.000179
-       0.006100
-25 June 2006(Day of year=176), seedling: 
-       0.000195  0.012299  0.000195
-       0.006100
-26 June 2006(Day of year=177), seedling: 
-       0.000202  0.011182  0.000202
-       0.006100
-     Plant kill. 3.31% failure because of water stress.
-27 June 2006(Day of year=178), seedling: 
-       0.000170  0.010671  0.000170
-       0.006100
-     Plant kill. 3.35% failure because of water stress.
-28 June 2006(Day of year=179), seedling: 
-       0.000145  0.011128  0.000145
-       0.006100
-29 June 2006(Day of year=180), seedling: 
-       0.000157  0.012192  0.000157
-       0.006100
-30 June 2006(Day of year=181), seedling: 
-       0.000145  0.013453  0.000145
-       0.006100
-1 July 2006(Day of year=182), seedling: 
-       0.000188  0.010510  0.000188
-       0.006100
-     Plant kill. 3.40% failure because of water stress.
-2 July 2006(Day of year=183), seedling: 
-       0.000191  0.010666  0.000191
-       0.006100
-3 July 2006(Day of year=184), seedling: 
-       0.000160  0.011668  0.000160
-       0.006100
-4 July 2006(Day of year=185), seedling: 
-       0.000143  0.011782  0.000143
-       0.006100
-5 July 2006(Day of year=186), seedling: 
-       0.000174  0.011338  0.000174
-       0.006100
-6 July 2006(Day of year=187), seedling: 
-       0.000178  0.010585  0.000178
-       0.006100
-     Plant kill. 3.45% failure because of water stress.
-7 July 2006(Day of year=188), seedling: 
-       0.000142  0.010661  0.000142
-       0.006100
-8 July 2006(Day of year=189), seedling: 
-       0.000170  0.009904  0.000170
-       0.006100
-     Plant kill. 3.46% failure because of water stress.
-9 July 2006(Day of year=190), seedling: 
-       0.000073  0.010842  0.000073
-       0.006100
-10 July 2006(Day of year=191), seedling: 
-       0.000112  0.010538  0.000112
-       0.006100
-11 July 2006(Day of year=192), seedling: 
-       0.000148  0.011268  0.000148
-       0.006100
-12 July 2006(Day of year=193), seedling: 
-       0.000167  0.009791  0.000167
-       0.006100
-     Plant kill. 3.48% failure because of water stress.
-13 July 2006(Day of year=194), seedling: 
-       0.000098  0.010923  0.000098
-       0.006100
-14 July 2006(Day of year=195), seedling: 
-       0.000072  0.010322  0.000072
-       0.006100
-15 July 2006(Day of year=196), seedling: 
-       0.000051  0.010381  0.000051
-       0.006100
-16 July 2006(Day of year=197), seedling: 
-       0.000082  0.009913  0.000082
-       0.006100
-17 July 2006(Day of year=198), seedling: 
-       0.000105  0.010039  0.000105
-       0.006100
-18 July 2006(Day of year=199), seedling: 
-       0.000103  0.010227  0.000103
-       0.006100
-19 July 2006(Day of year=200), seedling: 
-       0.000155  0.009689  0.000155
-       0.006100
-20 July 2006(Day of year=201), seedling: 
-       0.000134  0.010371  0.000134
-       0.006100
-21 July 2006(Day of year=202), seedling: 
-       0.000139  0.009452  0.000139
-       0.006100
-22 July 2006(Day of year=203), seedling: 
-       0.000135  0.010431  0.000135
-       0.006100
-23 July 2006(Day of year=204), seedling: 
-       0.000104  0.010708  0.000104
-       0.006100
-24 July 2006(Day of year=205), seedling: 
-       0.000104  0.010536  0.000104
-       0.006100
-25 July 2006(Day of year=206), seedling: 
-       0.000105  0.010536  0.000105
-       0.006100
-26 July 2006(Day of year=207), seedling: 
-       0.000133  0.009280  0.000133
-       0.006100
-     Plant kill. 3.53% failure because of water stress.
-27 July 2006(Day of year=208), seedling: 
-       0.000131  0.010027  0.000131
-       0.006100
-28 July 2006(Day of year=209), seedling: 
-       0.000059  0.011063  0.000059
-       0.006100
-29 July 2006(Day of year=210), seedling: 
-       0.000132  0.008482  0.000132
-       0.006100
-     Plant kill. 3.63% failure because of water stress.
-30 July 2006(Day of year=211), seedling: 
-       0.000131  0.007526  0.000131
-       0.006100
-     Plant kill. 3.73% failure because of water stress.
-31 July 2006(Day of year=212), seedling: 
-       0.000056  0.008937  0.000056
-       0.006100
-1 August 2006(Day of year=213), seedling: 
-       0.000133  0.007894  0.000133
-       0.006100
-     Plant kill. 3.91% failure because of water stress.
-2 August 2006(Day of year=214), seedling: 
-       0.000065  0.008728  0.000065
-       0.006100
-3 August 2006(Day of year=215), seedling: 
-       0.000086  0.008875  0.000086
-       0.006100
-4 August 2006(Day of year=216), seedling: 
-       0.000083  0.008864  0.000083
-       0.006100
-5 August 2006(Day of year=217), seedling: 
-       0.000098  0.008900  0.000098
-       0.006100
-6 August 2006(Day of year=218), seedling: 
-       0.000120  0.007533  0.000120
-       0.006100
-     Plant kill. 3.96% failure because of water stress.
-7 August 2006(Day of year=219), seedling: 
-       0.000117  0.008256  0.000117
-       0.006100
-8 August 2006(Day of year=220), seedling: 
-       0.000112  0.007684  0.000112
-       0.006100
-     Plant kill. 4.04% failure because of water stress.
-9 August 2006(Day of year=221), seedling: 
-       0.000115  0.007116  0.000115
-       0.006100
-     Plant kill. 4.09% failure because of water stress.
-10 August 2006(Day of year=222), seedling: 
-       0.000113  0.007264  0.000113
-       0.006100
-     Plant kill. 4.19% failure because of water stress.
-11 August 2006(Day of year=223), seedling: 
-       0.000095  0.008050  0.000095
-       0.006100
-12 August 2006(Day of year=224), seedling: 
-       0.000099  0.008196  0.000099
-       0.006100
-13 August 2006(Day of year=225), seedling: 
-       0.000099  0.007931  0.000099
-       0.006100
-14 August 2006(Day of year=226), seedling: 
-       0.000105  0.007470  0.000105
-       0.006100
-15 August 2006(Day of year=227), seedling: 
-       0.000091  0.007409  0.000091
-       0.006100
-16 August 2006(Day of year=228), seedling: 
-       0.000103  0.007072  0.000103
-       0.006100
-17 August 2006(Day of year=229), seedling: 
-       0.000090  0.008083  0.000090
-       0.006100
-18 August 2006(Day of year=230), seedling: 
-       0.000092  0.007388  0.000092
-       0.006100
-19 August 2006(Day of year=231), seedling: 
-       0.000089  0.006395  0.000089
-       0.006100
-20 August 2006(Day of year=232), seedling: 
-       0.000094  0.006202  0.000094
-       0.006100
-21 August 2006(Day of year=233), seedling: 
-       0.000089  0.006771  0.000089
-       0.006100
-22 August 2006(Day of year=234), seedling: 
-       0.000083  0.006687  0.000083
-       0.006100
-23 August 2006(Day of year=235), seedling: 
-       0.000085  0.005833  0.000085
-       0.006100
-24 August 2006(Day of year=236), seedling: 
-       0.000082  0.005857  0.000082
-       0.006100
-25 August 2006(Day of year=237), seedling: 
-       0.000073  0.006120  0.000073
-       0.006100
-26 August 2006(Day of year=238), seedling: 
-       0.000074  0.006447  0.000074
-       0.006100
-27 August 2006(Day of year=239), seedling: 
-       0.000074  0.006832  0.000074
-       0.006100
-28 August 2006(Day of year=240), seedling: 
-       0.000066  0.009286  0.000066
-       0.006100
-29 August 2006(Day of year=241), seedling: 
-       0.000067  0.008709  0.000067
-       0.006100
-30 August 2006(Day of year=242), seedling: 
-       0.000067  0.008729  0.000067
-       0.006100
-31 August 2006(Day of year=243), seedling: 
-       0.000041  0.008683  0.000041
-       0.006100
-1 September 2006(Day of year=244), seedling: 
-       0.000068  0.006293  0.000068
-       0.006100
-2 September 2006(Day of year=245), seedling: 
-       0.000064  0.006776  0.000064
-       0.006100
-3 September 2006(Day of year=246), seedling: 
-       0.000063  0.005403  0.000063
-       0.006100
-4 September 2006(Day of year=247), seedling: 
-       0.000058  0.008885  0.000058
-       0.006100
+     Plant kill. 0.91% failure because of water stress.
 4 September 2006(Day of year=247), clock: 
      Simulation is terminating due to end criteria being met.

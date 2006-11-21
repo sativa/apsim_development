@@ -56,8 +56,8 @@
 
    <page> <![CDATA[
 object Page1: TQuickRep
-  Left = 311
-  Top = 50
+  Left = 339
+  Top = 158
   Width = 397
   Height = 561
   Frame.Color = clBlack
@@ -229,7 +229,7 @@ object Page1: TQuickRep
         1963.20833333333)
       title = ' '
       subTitle = ' '
-      leftAxisTitle = 'Leaf (g/plant)'
+      leftAxisTitle = 'Leaf (g/m2)'
       topAxisTitle = ' '
       rightAxisTitle = ' '
       bottomAxisTitle = ' '
@@ -257,7 +257,7 @@ object Page1: TQuickRep
         LeftAxis.LabelsSeparation = 100
         LeftAxis.MinorTicks.Visible = False
         LeftAxis.TickLength = 7
-        LeftAxis.Title.Caption = 'Leaf (g/plant)'
+        LeftAxis.Title.Caption = 'Leaf (g/m2)'
         LeftAxis.Title.Font.Height = -19
         Legend.CustomPosition = True
         Legend.Font.Height = -19
@@ -314,7 +314,7 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           YValues.Name = 'Y'
           YValues.Order = loNone
-          YValues.ValueSource = 'plantleaf'
+          YValues.ValueSource = 'leaf_wt'
         end
         object Series7: TLineSeries
           Marks.Callout.Brush.Color = clBlack
@@ -349,7 +349,7 @@ object Page1: TQuickRep
         1963.20833333333)
       title = ' '
       subTitle = ' '
-      leftAxisTitle = 'Stem (g/plant)'
+      leftAxisTitle = 'Stem (g/m2)'
       topAxisTitle = ' '
       rightAxisTitle = ' '
       bottomAxisTitle = ' '
@@ -377,7 +377,7 @@ object Page1: TQuickRep
         LeftAxis.LabelsSeparation = 100
         LeftAxis.MinorTicks.Visible = False
         LeftAxis.TickLength = 7
-        LeftAxis.Title.Caption = 'Stem (g/plant)'
+        LeftAxis.Title.Caption = 'Stem (g/m2)'
         LeftAxis.Title.Font.Height = -19
         Legend.CustomPosition = True
         Legend.Font.Height = -19
@@ -434,7 +434,7 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           YValues.Name = 'Y'
           YValues.Order = loNone
-          YValues.ValueSource = 'plantstem'
+          YValues.ValueSource = 'stem_wt'
         end
         object Series11: TLineSeries
           Marks.Callout.Brush.Color = clBlack
@@ -468,7 +468,7 @@ object Page1: TQuickRep
         1965.47619047619)
       title = ' '
       subTitle = ' '
-      leftAxisTitle = 'Biomass (g/plant)'
+      leftAxisTitle = 'Biomass (g/m2)'
       topAxisTitle = ' '
       rightAxisTitle = ' '
       bottomAxisTitle = ' '
@@ -496,11 +496,11 @@ object Page1: TQuickRep
         LeftAxis.LabelsSeparation = 100
         LeftAxis.MinorTicks.Visible = False
         LeftAxis.TickLength = 7
-        LeftAxis.Title.Caption = 'Biomass (g/plant)'
+        LeftAxis.Title.Caption = 'Biomass (g/m2)'
         LeftAxis.Title.Font.Height = -19
         Legend.CustomPosition = True
         Legend.Font.Height = -19
-        Legend.Left = 85
+        Legend.Left = 115
         Legend.LegendStyle = lsSeries
         Legend.ResizeChart = False
         Legend.Top = 30
@@ -541,10 +541,12 @@ object Page1: TQuickRep
           YValues.ValueSource = 'Biomass'
         end
         object Series12: TLineSeries
+          Depth = 0
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
           DataSource = MelliodoraFinal
           SeriesColor = clRed
+          ShowInLegend = False
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
@@ -552,13 +554,15 @@ object Page1: TQuickRep
           XValues.Order = loAscending
           YValues.Name = 'Y'
           YValues.Order = loNone
-          YValues.ValueSource = 'plantbiomass'
+          YValues.ValueSource = 'biomass_wt'
         end
         object Series13: TLineSeries
+          Depth = 0
           Marks.Callout.Brush.Color = clBlack
           Marks.Visible = False
           DataSource = MelliodoraFinal
           SeriesColor = clGreen
+          ShowInLegend = False
           Pointer.InflateMargins = True
           Pointer.Style = psRectangle
           Pointer.Visible = False
@@ -575,8 +579,8 @@ end
    </page>
    <page> <![CDATA[
 object Page2: TQuickRep
-  Left = 213
-  Top = 50
+  Left = 339
+  Top = 158
   Width = 397
   Height = 561
   Frame.Color = clBlack
@@ -635,7 +639,7 @@ object Page2: TQuickRep
     ForceNewColumn = False
     ForceNewPage = False
     Size.Values = (
-      2968.625
+      2970
       2100.79166666667)
     BandType = rbTitle
     object Graph5: TGraph
@@ -656,7 +660,7 @@ object Page2: TQuickRep
         2005.54166666667)
       title = ' '
       subTitle = ' '
-      leftAxisTitle = 'Leaf Area (cm2/plant)'
+      leftAxisTitle = 'LAI (m2/m2)'
       topAxisTitle = ' '
       rightAxisTitle = ' '
       bottomAxisTitle = ' '
@@ -681,10 +685,9 @@ object Page2: TQuickRep
         LeftAxis.AxisValuesFormat = '###0.###'
         LeftAxis.Grid.Visible = False
         LeftAxis.LabelsFont.Height = -19
-        LeftAxis.LabelsSeparation = 100
         LeftAxis.MinorTicks.Visible = False
         LeftAxis.TickLength = 7
-        LeftAxis.Title.Caption = 'Leaf Area (cm2/plant)'
+        LeftAxis.Title.Caption = 'LAI (m2/m2)'
         LeftAxis.Title.Font.Height = -19
         Legend.CustomPosition = True
         Legend.Font.Height = -19
@@ -714,7 +717,7 @@ object Page2: TQuickRep
           XValues.Order = loAscending
           YValues.Name = 'Bar'
           YValues.Order = loNone
-          YValues.ValueSource = 'LeafArea'
+          YValues.ValueSource = 'LAI'
         end
         object BarSeries8: TBarSeries
           Marks.Callout.Brush.Color = clBlack
@@ -726,7 +729,7 @@ object Page2: TQuickRep
           XValues.Order = loAscending
           YValues.Name = 'Bar'
           YValues.Order = loNone
-          YValues.ValueSource = 'LeafArea'
+          YValues.ValueSource = 'LAI'
         end
         object Series8: TLineSeries
           Depth = 0
@@ -742,7 +745,7 @@ object Page2: TQuickRep
           XValues.Order = loAscending
           YValues.Name = 'Y'
           YValues.Order = loNone
-          YValues.ValueSource = 'plantla'
+          YValues.ValueSource = 'lai'
         end
         object Series9: TLineSeries
           Marks.Callout.Brush.Color = clBlack
@@ -850,6 +853,20 @@ object Page2: TQuickRep
           YValues.Order = loNone
           YValues.ValueSource = 'Nodes'
         end
+        object Series23: TLineSeries
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Visible = False
+          DataSource = MelliodoraFinal
+          SeriesColor = clRed
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = False
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+          YValues.ValueSource = 'node_no'
+        end
       end
     end
     object Graph7: TGraph
@@ -952,8 +969,8 @@ end
    <page> <![CDATA[
 object Page3: TQuickRep
   Tag = 1
-  Left = 311
-  Top = 50
+  Left = 339
+  Top = 158
   Width = 397
   Height = 561
   Frame.Color = clBlack
@@ -1405,8 +1422,8 @@ end
    </page>
    <page> <![CDATA[
 object Page4: TQuickRep
-  Left = 351
-  Top = 106
+  Left = 379
+  Top = 214
   Width = 317
   Height = 449
   Frame.Color = clBlack

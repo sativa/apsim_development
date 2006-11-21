@@ -83,6 +83,14 @@
         n_conc_leaf
         leaf_n
         stem_n
+        dlt_lai
+        dlt_lai_carbon
+        tlai
+        node_no_sen
+        nodes
+        root_depth
+        rlv
+        biomass_wt
      
      Output file = Bare.out
      Format = normal
@@ -119,13 +127,15 @@
      plantstem = 0
      plantla = 0
      swsi = 0
+     nodes = 0
      
      SECTION:- end_of_day
       if lai > 0 then
-        plantbiomass = biomass_wt/plants
-        plantleaf = leaf_wt / plants
-        plantstem = stem_wt / plants
+        plantbiomass = green_biomass_wt/plants
+        plantleaf = dm_green_leaf / plants
+        plantstem = dm_green_stem / plants
         plantla = lai * 10000 / plants
+        nodes = node_no + 17
         swsi = swsi + (1.0 - swdef_photo)
      endif
      
@@ -137,6 +147,7 @@
      Manager creating a new local real variable : plantstem =     0.00000000000000
      Manager creating a new local real variable : plantla =     0.00000000000000
      Manager creating a new local real variable : swsi =     0.00000000000000
+     Manager creating a new local real variable : nodes =     0.00000000000000
 
 ------- WellCamp Water Initialisation -----------------------------------------
      
