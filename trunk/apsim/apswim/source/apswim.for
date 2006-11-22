@@ -276,7 +276,9 @@
       Type APSwimParameters
          sequence
          character        rainfall_source*50       ! source of rainfall data
-         character        evap_source*50       ! file containing evap data
+         character        rainfall_file*50
+         character        evap_source*50
+         character        evap_file*50         ! file containing evap data
          character        evap_curve*5
          character        echo_directives*5
          real             salb
@@ -395,6 +397,7 @@
          real             min_crit_temp
          real             max_crit_temp
          real             max_albedo
+         real             residue_albedo
 
          double precision max_bitesize
          double precision supply_fraction
@@ -577,11 +580,11 @@
       call apswim_init_calc ()
 
       ! read in rainfall information
-      if (p%rainfall_source .ne. 'apsim') then
+      if (p%rainfall_source .eq. 'file') then
             ! read in rainfall if it is not to be supplied by APSIM
             ! assume that rainfall source is then a file name.
 
-         open (UNIT=LUNrain, IOSTAT=iost, FILE=p%rainfall_source)
+         open (UNIT=LUNrain, IOSTAT=iost, FILE=p%rainfall_file)
 
          if (iost .ne. 0) then
             call Fatal_Error (err_internal,
@@ -592,11 +595,9 @@
       endif
 
       ! read in evaporation information
-      if      ((p%evap_source .ne. 'apsim')
-     :    .and.(p%evap_source .ne. 'calc')
-     :    .and.(p%evap_source .ne. 'sum_demands')) then
+      if (p%evap_source .eq. 'file') then
 
-         open (UNIT=LUNevap, IOSTAT=iost, FILE=p%evap_source)
+         open (UNIT=LUNevap, IOSTAT=iost, FILE=p%evap_file)
 
          if (iost .ne. 0) then
               call Fatal_Error (err_internal,
@@ -1071,23 +1072,47 @@ c     :              1.0d0)
       call Read_char_var (
      :              climate_section,
      :              'rainfall_source',
-     :              '(??)',
+     :              '()',
      :              p%rainfall_source,
      :              numvals)
+      if (p%rainfall_source.eq.'file') then
+         call Read_char_var (
+     :              climate_section,
+     :              'rainfall_file',
+     :              '()',
+     :              p%rainfall_file,
+     :              numvals)
+
+      elseif (p%rainfall_source.eq.'apsim') then
+         p%rainfall_source = 'rain'
+      endif
 
          ! Read in evap file name from parameter file
 
       call Read_char_var (
      :              climate_section,
      :              'evap_source',
-     :              '(??)',
+     :              '()',
      :              p%evap_source,
      :              numvals)
+      if (p%evap_source.eq.'sum_demands') then
+         call fatal_error(Err_User
+     :       ,'Sum_Demands no longer supported for evap data'
+     :       //' - use calc, file or variable name.')
+      else if (p%evap_source.eq.'file') then
+         call Read_char_var (
+     :              climate_section,
+     :              'evap_file',
+     :              '()',
+     :              p%evap_file,
+     :              numvals)
+
+      endif
 
       call Read_char_var_optional (
      :              climate_section,
      :              'evap_curve',
-     :              '(??)',
+     :              '()',
      :              p%evap_curve,
      :              numvals)
 
@@ -1590,7 +1615,7 @@ c      read(ret_string, *, iostat = err_code) g%rain
      :            g%psi(0),
      :            p%n+1)
       else if ((Variable_name .eq. 'rain').and.
-     :         (p%rainfall_source .ne. 'apsim')) then
+     :         (p%rainfall_source .ne. 'rain')) then
 !      else if (Variable_name .eq. 'rain') then
 
          start_of_day = apswim_time (g%year,g%day,
@@ -1641,7 +1666,7 @@ cnh      print*,g%TD_pevap
      :            g%TD_drain)
 
       else if ((Variable_name .eq. 'eo').and.
-     :         (p%evap_source .ne. 'apsim')) then
+     :         (p%evap_source .ne. 'eo')) then
          start_of_day = apswim_time (g%year,g%day,
      :                               apswim_time_to_mins(g%apsim_time))
          end_of_day = apswim_time (g%year
@@ -2506,10 +2531,7 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 
       call apswim_get_other_variables ()
 
-      if (p%rainfall_source .eq. 'apsim') then
-         call apswim_get_rain_variables ()
-
-      else
+      if (p%rainfall_source .eq. 'file') then
          call apswim_read_logfile (
      :                             LUNrain
      :                            ,g%year
@@ -2521,20 +2543,15 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
      :                            ,g%SWIMRainNumPairs
      :                            ,SWIMLogSize)
 
+      else
+         call apswim_get_rain_variables ()
+
       endif
 
       call apswim_recalc_eqrain()
 
-      if (p%evap_source .eq. 'apsim') then
-         call apswim_get_obs_evap_variables ()
+      if (p%evap_source .eq. 'file') then
 
-      else if ((p%evap_source .eq. 'calc')
-     :        .or.(p%evap_source .eq. 'sum_demands')) then
-         ! I need a cumulative eo curve from Priestly taylor
-         ! method for these pot. evap methods.
-         call apswim_calc_evap_variables ()
-
-      else
          call apswim_read_logfile (
      :                             LUNevap
      :                            ,g%year
@@ -2546,6 +2563,13 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
      :                            ,g%SWIMEvapNumPairs
      :                            ,SWIMLogSize)
 
+      else if (p%evap_source .eq. 'calc') then
+         ! I need a cumulative eo curve from Priestly taylor
+         ! method for these pot. evap methods.
+         call apswim_calc_evap_variables ()
+
+      else
+         call apswim_get_obs_evap_variables ()
       endif
 
 
@@ -2590,11 +2614,11 @@ cnh      call fill_real_array(ts(2,1),0.0,MTS)
 
 *- Implementation Section ----------------------------------
 
-      if (p%rainfall_source .ne. 'apsim') then
+      if (p%rainfall_source .eq. 'file') then
          close (LUNrain)
       endif
 
-      if (p%evap_source .ne. 'apsim') then
+      if (p%evap_source .eq. 'file') then
          close (LUNevap)
       endif
 
@@ -6127,6 +6151,7 @@ cnh NOTE - intensity is not part of the official design !!!!?
 *+  Local Variables
       double precision albedo          ! albedo taking into account plant
                                        !    material
+      double precision surface_albedo  ! albedo of soil surface
       double precision eeq             ! equilibrium evaporation rate (mm)
       double precision wt_ave_temp     ! weighted mean temperature for the
                                        !    g%day (oC)
@@ -6140,8 +6165,10 @@ cnh NOTE - intensity is not part of the official design !!!!?
                 ! find equilibrium evap rate as a
                 ! function of radiation, albedo, and temp.
 
+      surface_albedo = p%salb
+     :       + (c%residue_albedo - p%salb) * g%residue_cover
       albedo = c%max_albedo
-     :       - (c%max_albedo - p%salb) * (1d0 - g%cover_green_sum)
+     :       - (c%max_albedo-surface_albedo) * (1d0-g%cover_green_sum)
 
                 ! wt_ave_temp is mean temp, weighted towards max.
 
@@ -6289,6 +6316,16 @@ cnh NOTE - intensity is not part of the official design !!!!?
      :              numvals,
      :              -10.0,
      :              100.0)
+
+      call Read_real_var (
+     :              section_name,
+     :              'residue_albedo',
+     :              '()',
+     :              c%residue_albedo,
+     :              numvals,
+     :              0.0,
+     :              1.0)
+
 
       call Read_double_var (
      :              section_name,
@@ -7577,7 +7614,7 @@ cnh      end if
 
       call get_double_var (
      :           unknown_module,
-     :           'eo',
+     :           p%evap_source,
      :           '(mm)',
      :           amount,
      :           numvals,

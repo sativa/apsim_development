@@ -219,7 +219,6 @@ cnh      double precision frac
       integer          j
       double precision rep
       double precision rldi
-      double precision scale
       double precision sep          ! soil evaporation demand
 cnh      double precision sfrac
       integer          solnum
@@ -272,19 +271,12 @@ c      parameter (rad=0.1d0)
      :                        * rep*g%dt
   10     continue
 
-         if ((tot_pep+sep .gt. rep*g%dt)
-     :        .and.(p%evap_source.ne.'sum_demands')) then
-            scale = ddivide (rep*g%dt, tot_pep+sep, 0d0)
-         else
-            scale = 1d0
-         endif
-
          do 50 j=1,g%nveg
-            g%rtp(j) = ddivide(g%pep(j)*trf(j),TD_Eo, 0d0)*rep*scale
+            g%rtp(j) = ddivide(g%pep(j)*trf(j),TD_Eo, 0d0)*rep
 50       continue
 
          ! pot soil evap rate is not linked to apsim timestep
-         tresp = sep/g%dt*scale
+         tresp = sep/g%dt
 
          do 60 iveg=1,g%nveg
             do 60 i=0,p%n
