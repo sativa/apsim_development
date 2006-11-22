@@ -207,6 +207,16 @@ namespace APSRU.Howwet
             {
             this.Close();
             }
+      
+
+        private void fpSpread1_KeyDown(object sender, KeyEventArgs e)
+            {
+            if (e.KeyCode == Keys.Delete)
+                {
+                fpSpread1.Sheets[0].ActiveCell.Value = null;
+                }
+
+            }
         
         }
     }
