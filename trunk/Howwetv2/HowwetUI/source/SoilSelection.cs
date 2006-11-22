@@ -74,7 +74,7 @@ namespace APSRU.Howwet
 
         private void SaveCloseButton_Click(object sender, EventArgs e)
             {
-            if (Apsoil.Data.Type == "Soil")
+            if (Apsoil.Data.Type == "soil")
                 {
                 SoilSelectedEvent(Apsoil.Data);
                 }
