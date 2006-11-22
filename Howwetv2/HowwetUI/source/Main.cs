@@ -15,7 +15,9 @@ using APSRU.Error;
 using System.Diagnostics;
 using APSRU.Translator.Howwet;
 using System.Xml;
-
+using System.Net;
+using System.Threading;
+using APSRU.UIControls;
 
 
 namespace APSRU.Howwet
@@ -55,13 +57,9 @@ namespace APSRU.Howwet
         ToolTip toolTip1 = new System.Windows.Forms.ToolTip();
         #endregion
 
-        public Main(string[] args)
+        public Main()
             {
-                    InitializeComponent();
-                    if (args.Length>0)
-                        {
-                        this.selectedFileName = args[1];
-                        }
+               InitializeComponent();
             }
         
         #region Startup
@@ -69,14 +67,15 @@ namespace APSRU.Howwet
         private void Main_Load(object sender, EventArgs e)
             {
             resetSimulationValues();
+            
             }
-
+        
         private void resetSimulationValues()
             {
           //  toolStripStatusLabel1.Text = "Select a Soil";
             util = new HowwetUtility(Application.ExecutablePath, howwetSetupFileName);
             config = new HowwetConfiguration(util.ApplicationDirectory +  howwetSetupFileName);
-            version.Text=config.Version;
+           // version.Text=config.Version;
             if (this.selectedFileName == "")
                 {
                 simulationObject = new SimulationIn(util.ReadTemplateFile(util.ApplicationDirectory + "\\howwetv2\\" + config.TemplateFileName));
@@ -117,18 +116,18 @@ namespace APSRU.Howwet
             {
             TrainingModeCheckBox.Checked = config.TrainingMode;
             this.Text = simulationObject.FileName;
-            tabControl1.Visible = false;
-            RainfallSWChart.Visible = false;
-            SoilNitrogenChart.Visible = false;
-            ErosionChart.Visible = false;
-            LTRainfallChart.Visible = false;
-            ProfileChart.Visible = false;
-            ReportButton.Enabled = false;
-            WaterPanel.Visible = false;
-            CoverPanel.Visible = false;
-            NitrogenPanel.Visible = false;
-            PawPanel.Visible = false;
-            NRequirementPanel.Visible = false;
+           
+           // RainfallSWChart.Visible = false;
+           // SoilNitrogenChart.Visible = false;
+           // ErosionChart.Visible = false;
+           // LTRainfallChart.Visible = false;
+           // ProfileChart.Visible = false;
+            //ReportButton.Enabled = false;
+            //WaterPanel.Visible = false;
+          //  CoverPanel.Visible = false;
+          //  NitrogenPanel.Visible = false;
+          //  PawPanel.Visible = false;
+          //  NRequirementPanel.Visible = false;
 
             label61.Visible = false;
             //check if simluationObject has a soil
@@ -157,7 +156,7 @@ namespace APSRU.Howwet
         private void clearFormSoilValues()
             {
             selectedSoilName.Text = "";
-            selectedSoilName.ToolTipText = "";
+           // selectedSoilName.ToolTipText = "";
             ocDepthLabel.Text = "";
             organicCarbonContent.Text = "";
             soilDepth.Text = "";
@@ -179,7 +178,7 @@ namespace APSRU.Howwet
             {
             selectedSoilName.Text = simulationObject.Soil.Name;
             String soilString = "Soil Name: "+simulationObject.Soil.Name+ "\nRegion: " + simulationObject.Soil.Region;
-            selectedSoilName.ToolTipText = soilString;
+          //  selectedSoilName.ToolTipText = soilString;
             String[] layers = simulationObject.Soil.DepthStrings;
             ocDepthLabel.Text = layers[0];//top layer string
             organicCarbonContent.Text = simulationObject.Soil.OC.GetValue(0).ToString();
@@ -254,11 +253,11 @@ namespace APSRU.Howwet
         private void RunButton_Click(object sender, EventArgs e)
             {
             saveAllData();
-            tabControl1.Visible = false;
-            RainfallSWChart.Visible = false;
-            SoilNitrogenChart.Visible = false;
-            ErosionChart.Visible = false;
-            LTRainfallChart.Visible = false;
+           
+         //   RainfallSWChart.Visible = false;
+          //  SoilNitrogenChart.Visible = false;
+        //    ErosionChart.Visible = false;
+        //    LTRainfallChart.Visible = false;
             label61.Visible = true;
             if (ExecuteAPSIM())
                 {
@@ -425,6 +424,12 @@ namespace APSRU.Howwet
             {
             try
                 {
+
+               // Thread t = new Thread(new ThreadStart(STAOpenFileDialog));
+               // t.SetApartmentState(ApartmentState.STA);
+               // t.Start();
+               // while (t.ThreadState == System.Threading.ThreadState.Running) ;
+
                 OpenFileDialog openDialog = new OpenFileDialog();
                 openDialog.Title = "Browse for Soil File";
                 openDialog.Filter = "Soils files (*.soils)|*.soils";
@@ -451,6 +456,27 @@ namespace APSRU.Howwet
             catch (Exception err)
                 {
                 showExceptionMessages(err);
+                }
+            }
+        private void STAOpenFileDialog()
+            {
+            OpenFileDialog openDialog = new OpenFileDialog();
+            openDialog.Title = "Browse for Soil File";
+            openDialog.Filter = "Soils files (*.soils)|*.soils";
+            openDialog.ShowDialog();
+            if (!(openDialog.FileName == ""))
+                {
+                FileInfo fileInfo = new FileInfo(openDialog.FileName);
+                soilFileName.Text = fileInfo.Name;
+                this.soilsFileName = fileInfo.Name;
+
+                if (!SoilSelection.Instance.isLoaded)
+                    {
+                    SoilSelection.Instance.loadObject(this.soilsFileName);
+                    SoilSelection.Instance.SoilSelectedEvent += new SoilSelection.SoilSelected(soilForm_SoilSelectedEvent);
+                    }
+                SoilSelection.Instance.Focus();
+                SoilSelection.Instance.Show();
                 }
             }
         
@@ -832,7 +858,10 @@ namespace APSRU.Howwet
             if (e.KeyChar == Convert.ToChar(13)) calculateNitrogenRequirement();
             }
         //************
-        
+        private void tabControl2_SelectedIndexChanged(object sender, EventArgs e)
+            {
+
+            }
         private void tabControl1_Click(object sender, EventArgs e)
             {
                 TabControl tabControl= (TabControl) sender;
@@ -899,7 +928,7 @@ namespace APSRU.Howwet
                 result = new Results();
                 result.loadResults(simulationObject,outputObject);
                 result.softwareVersion = config.Version;
-                result.ReportDate = DateTime.Today.Date + "/" + DateTime.Today.Month + "/" + DateTime.Today.Year;
+               
                 //output summary results
                 //water
                 startSoilWater.Text = result.soilWaterStart.ToString("f0");
@@ -914,12 +943,12 @@ namespace APSRU.Howwet
                 CoverCrop crop = util.GetCrop(coverCrops, simulationObject.SOMType);
                 decimal startCoverPercent = util.ConvertCoverKgToPercent(result.startCover, crop.SpecificArea);
                 ToolTip a=new ToolTip();
-                a.Show(result.startCover.ToString("f0") + " kg/ha", startingCover, 1000);
-                startingCover.Text = startCoverPercent.ToString("f0");
+              //  a.Show(result.startCover.ToString("f0") + " kg/ha", startingCover, 1000);
+              //  startingCover.Text = startCoverPercent.ToString("f0");
                 decimal endCoverPrecent=util.ConvertCoverKgToPercent(result.endCover, crop.SpecificArea);
                 ToolTip b = new ToolTip();
-                b.Show(result.endCover.ToString("f0") + " kg/ha", endCover, 1000);
-                endCover.Text = endCoverPrecent.ToString("f0");
+             //   b.Show(result.endCover.ToString("f0") + " kg/ha", endCover, 1000);
+              //  endCover.Text = endCoverPrecent.ToString("f0");
                 
                 //Nitrogen
                 startSoilNitrate.Text = result.nitrateStart.ToString("f0");
@@ -1105,19 +1134,19 @@ namespace APSRU.Howwet
                 ProfileSWLine.Add(result.soilWaterEndByLayer, simulationObject.Soil.CumThickness);
                 ProfileDULLine.Add(simulationObject.Soil.DUL, simulationObject.Soil.CumThickness);
                 //make everthing visable;
-                tabControl1.Visible = true;
-                tabControl1.SelectedIndex = 0;
-                RainfallSWChart.Visible = true;
-                SoilNitrogenChart.Visible = false;
-                ErosionChart.Visible = false;
-                LTRainfallChart.Visible = false;
-                ProfileChart.Visible = false;
-                WaterPanel.Visible = true;
-                CoverPanel.Visible = true;
-                NitrogenPanel.Visible = true;
-                PawPanel.Visible = true;
-                NRequirementPanel.Visible = true;
-                ReportButton.Enabled = true;
+               
+              
+              //  RainfallSWChart.Visible = true;
+             //   SoilNitrogenChart.Visible = false;
+             //   ErosionChart.Visible = false;
+             //   LTRainfallChart.Visible = false;
+             //   ProfileChart.Visible = false;
+             //   WaterPanel.Visible = true;
+              //  CoverPanel.Visible = true;
+             //   NitrogenPanel.Visible = true;
+             //   PawPanel.Visible = true;
+             //   NRequirementPanel.Visible = true;
+              //  ReportButton.Enabled = true;
                 }
             catch (CustomException err)
                 {
@@ -1211,8 +1240,12 @@ namespace APSRU.Howwet
             //write form values
             if (simulationObject.FileName == "untitled")
                 {
-                SaveFileDialog saveDialog = new SaveFileDialog();
-                saveDialog.Filter = "APSIM files (*.apsim)|*.apsim";
+               // Thread t= new Thread(new ThreadStart(STATest));
+               // t.SetApartmentState(ApartmentState.STA);
+               // t.Start();
+               // while(t.ThreadState == System.Threading.ThreadState.Running);
+                 SaveFileDialog saveDialog = new SaveFileDialog();
+                 saveDialog.Filter = "APSIM files (*.apsim)|*.apsim";
                 if (saveDialog.ShowDialog() == DialogResult.OK)
                     {
                     simulationObject.FileName = saveDialog.FileName;
@@ -1229,7 +1262,26 @@ namespace APSRU.Howwet
             apsimObject.SaveToFile(simulationObject.FileName);
             this.Text = simulationObject.FileName;
             }
+        private void STATest()
+            {
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.Filter = "APSIM files (*.apsim)|*.apsim";
+            if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                simulationObject.FileName = saveDialog.FileName;
+                }
+            }
         #endregion
+
+      
+
+       
+
+       
+     
+        
+
+       
 
         
 

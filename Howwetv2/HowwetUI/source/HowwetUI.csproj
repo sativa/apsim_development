@@ -65,33 +65,38 @@
     <Reference Include="System.Deployment" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="TeeChart, Version=2.0.2306.26232, Culture=neutral, PublicKeyToken=9c8126276c77bdb7, processorArchitecture=MSIL" />
+    <Reference Include="VBMet, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Shared\VBMet\bin\VBMet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Erosion.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Erosion.Designer.cs">
-      <DependentUpon>Erosion.cs</DependentUpon>
-    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="Erosion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Erosion.Designer.cs">
+      <DependentUpon>Erosion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Erosion.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Erosion.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Main.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -149,6 +154,14 @@
     <ProjectReference Include="..\..\..\..\..\..\..\Development\Shared\VBGeneral\VBGeneral.vbproj">
       <Project>{F1F780B2-4762-48B6-B0D7-A68C57DDB347}</Project>
       <Name>VBGeneral</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Shared\CSUIControls\CSUIControls.csproj">
+      <Project>{25C8E90E-D464-4F49-B29E-2811F1B266DE}</Project>
+      <Name>CSUIControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Shared\VBUIControls\VBUIControls.vbproj">
+      <Project>{E78183EC-403E-4ED6-B6B0-9F60013FFEF4}</Project>
+      <Name>VBUIControls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\HowwetModel\source\HowwetModel.csproj">
       <Project>{6AA0DEDD-1841-499F-8BEB-1161F9671F28}</Project>

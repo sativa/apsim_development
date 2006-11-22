@@ -10,11 +10,11 @@ namespace APSRU.Howwet
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main(String[] args)
+        static void Main()
             {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main(args));
+            Application.Run(new Main());
             }
         }
     }
