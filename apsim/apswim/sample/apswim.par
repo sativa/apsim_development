@@ -1,9 +1,15 @@
 ! ============== REPORTING DATA =====================
-[all.summaryfile.parameters]
+[sample.summaryfile.parameters]
 summaryfile=apswim.sum
-[all.report.parameters]
-outputfile    =apswim.out
+[sample2.summaryfile.parameters]
+summaryfile=apswim_obs_eo.sum
 
+[sample.report.parameters]
+outputfile    =apswim.out
+[sample2.report.parameters]
+outputfile    =apswim_obs_eo.out
+
+[all.report.parameters]
 variable = clock.dd/mm/yyyy as Date
 
 variable = maize.biomass as m_biomass
@@ -141,8 +147,13 @@ slswt =  0.0
 ! ------------------------ climatic inputs ---------------------------
 [all.apswim.climate]
 rainfall_source =  apsim
-evap_source =  sum_demands
 salb =  0.23
+
+[calcevap.apswim.climate]
+evap_source =  calc
+[obsevap.apswim.climate]
+evap_source =  evap  ! evap data from dalby met file
+
 
 ! ------------------------ runoff functions --------------------------
 [all.apswim.runoff]

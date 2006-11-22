@@ -317,24 +317,39 @@ depending upon the processes taking place.</p>
 
 <p class="Title2"><a name="2.6"></a>Climatic Inputs Section</p>
 <p class="Normal">At present there are three climatic inputs - soil albedo and the rainfall and potential evapotranspiration 
-  data file names.  If these files are to be found in a directory other than the current directory then a full file name 
+  data sources.  If the user specifies either source as &quot;file&quot; they will then 
+need to provide a file name (see example below).&nbsp; If these files are to be found in a directory other than the current directory then a full file name 
 including path will be required.</p>
-<p class="Normal">The user can also direct apswim to get rainfall and evaporation information from other modules within APSIM, 
-such as the input module, using the keyword “apsim”. </p>
+<p class="Normal">The user can also direct apswim to get rainfall and 
+evaporation information from other modules within APSIM, such as the input 
+module, by simply typing in the name of the variable to use for that data (e.g. 
+'rain' or 'pan' from met module). </p>
 <p class="Normal">The user can also direct apswim to calculate evaporation data from daily meteorological data.  This is achieved
 by using the keyword “calc” for the evaporation data source. </p>
-<p class="Normal">When simulations include a crop module that calculates its own water demand a further option is recommended 
-  (evap_source = sum_demands).  This option does not constrain any demand term to a supposed overall atmospheric potential but 
-  rather utilises the demands of all crops and soil evaporation rates to simulate each individual process.  This is somewhat 
-  similar to the assumption that the atmospheric potential is equal to the sum of the evaporative demands of all evaporation 
-surfaces in the simulation.</p>
 <p class="Normal">&nbsp;</p>
 
 <p class="Code">! ------------------------ climatic inputs ---------------------------</p>
 <p class="Code">[sample.climate]</p>
 <p class="Code">salb     = 0.23                          ()</p>
-<p class="Code">rainfall_source = apsim                  ()</p>
-<p class="Code">evap_source = c:\apsim\swim\apswim.eva   ()</p>
+<p class="Code">rainfall_source = rain                  ()&nbsp; ! use apsim 
+variable called 'rain'</p>
+<p class="Code">evap_source = calc   ()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+! calculate own potential evaporation rate</p>
+<p class="Normal">&nbsp;</p>
+
+<p class="Normal">or</p>
+
+<p class="Normal">&nbsp;</p>
+
+<p class="Code">[sample.climate]</p>
+<p class="Code">salb     = 0.23                          ()</p>
+<p class="Code">rainfall_source = file                   ()&nbsp; ! get rainfall 
+from a file</p>
+<p class="Code">rainfall_file = c:\work\myrain.dat</p>
+<p class="Code">evap_source = file &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   ()</p>
+<p class="Code">evap_file = c:\work\myevap.dat</p>
+<p class="Normal">&nbsp;</p>
+
 <p class="Normal">&nbsp;</p>
 
 <p class="Normal"><a href="#top"><b>Back To Top</b></a></p>
