@@ -252,6 +252,7 @@
     </Compile>
     <EmbeddedResource Include="AreaUI.resx">
       <DependentUpon>AreaUI.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="TclUI.resx">
       <DependentUpon>TclUI.vb</DependentUpon>
@@ -279,6 +280,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LogicUI.resx">
       <DependentUpon>LogicUI.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MainUI.resx">
       <DependentUpon>MainUI.vb</DependentUpon>
@@ -320,6 +322,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="OutputFileExport.resx">
       <DependentUpon>OutputFileExport.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="OutputVariablesDataTree.resx">
       <DependentUpon>OutputVariablesDataTree.vb</DependentUpon>
@@ -338,6 +341,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SwimSoilUI.resx">
       <DependentUpon>SwimSoilUI.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="TrackerSlider.resx">
       <DependentUpon>TrackerSlider.vb</DependentUpon>
@@ -352,6 +356,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="VineLogicUI.resx">
       <DependentUpon>VineLogicUI.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
