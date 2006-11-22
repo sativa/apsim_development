@@ -74,6 +74,7 @@ namespace APSRU.Howwet
             tipAppearance1.ForeColor = System.Drawing.SystemColors.InfoText;
             this.fpSpread1.TextTipAppearance = tipAppearance1;
             this.fpSpread1.VerticalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.Never;
+            this.fpSpread1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.fpSpread1_KeyDown);
             this.fpSpread1.Change += new FarPoint.Win.Spread.ChangeEventHandler(this.fpSpread1_Change);
             // 
             // fpSpread1_Sheet1
@@ -259,7 +260,7 @@ namespace APSRU.Howwet
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Rainfall Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RainfallEditor_FormClosing);
-            ((System.ComponentModel.ISupportInitialize)(this.fpSpread1)).EndInit();
+                      ((System.ComponentModel.ISupportInitialize)(this.fpSpread1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fpSpread1_Sheet1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.yearSelectUpDown)).EndInit();
             this.ResumeLayout(false);
