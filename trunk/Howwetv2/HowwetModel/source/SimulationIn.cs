@@ -7,7 +7,9 @@ using VBGeneral;
 using CSGeneral;
 using APSRU.Error;
 
-
+// The purpose of this class it to have a complete simulation entity object.
+// The constructor of this class requires a template APSIMData object that would normal be the basic shell of a fallow simulation.
+// It contains helper methods and properties that are used to build and modify the object. 
 namespace APSRU.Model.Howwet
     {
     public class SimulationIn
