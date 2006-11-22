@@ -32,7 +32,7 @@ namespace APSRU.Model.Howwet
         public void loadResults(SimulationIn dataIn,SimulationOut dataOut)
             {
             String errString = "";
-            const String FUNCTION_NAME = "SimulationOut";
+            //const String FUNCTION_NAME = "SimulationOut";
             //Simulation Name
             simulationFileName = dataIn.FileName;
             //Soil Name
@@ -50,6 +50,8 @@ namespace APSRU.Model.Howwet
             slopeLength = dataIn.ErosionSlopeLength;
             erodibility = dataIn.ErosionErodibilty;
 
+            reportDate=DateTime.Today.Date + "/" + DateTime.Today.Month + "/" + DateTime.Today.Year;
+
             thickness = dataIn.Soil.Thickness;
             errString = "summing the fields";
             foreach (DataRow row in dataOut.Data.Rows)
@@ -60,6 +62,12 @@ namespace APSRU.Model.Howwet
                 soilLoss = soilLoss + Convert.ToDouble(row["SoilLoss"]);
                 drain = drain + Convert.ToDouble(row["Drain"]);
                 }
+            rainfall =Math.Round(rainfall);
+            evaporation = Math.Round(evaporation);
+            runoff = Math.Round(runoff);
+            soilLoss = Math.Round(soilLoss);
+            drain = Math.Round(drain);
+
             //nitrate start
             nitrateStart = MathUtility.Sum(dataIn.Soil.InitialNitrogen.NO3KgHa);
             //Nitrate End
@@ -67,6 +75,12 @@ namespace APSRU.Model.Howwet
             nitrateEnd = Convert.ToDouble(lastRow["NO3Total"]);
             nitrateGain = nitrateEnd - nitrateStart;
             nitrateEfficiency = (nitrateGain / nitrateStart) * 100;
+
+            nitrateStart = Math.Round(nitrateStart);
+            nitrateEnd = Math.Round(nitrateEnd);
+            nitrateGain = Math.Round(nitrateGain);
+            nitrateEfficiency = Math.Round(nitrateEfficiency);
+
 
             //SoilWater Start
             for (int layer = 0; layer < dataIn.Soil.InitialWater.SW.Length - 1; layer++)
@@ -81,13 +95,16 @@ namespace APSRU.Model.Howwet
                 }
             //fallow water gain
             fallowWaterGain = soilWaterEnd - soilWaterStart;
-            fallowWaterEfficiency = ((fallowWaterGain / soilWaterStart) * 100);
-
+            fallowWaterEfficiency = Math.Round((fallowWaterGain / rainfall) * 100);
+            soilWaterStart = Math.Round(soilWaterStart);
+            soilWaterEnd = Math.Round(soilWaterEnd);
+            fallowWaterGain = Math.Round(fallowWaterGain);
             //Cover
-            startCover = Convert.ToDouble(dataIn.SOMMass);
-            endCover = Convert.ToDouble(lastRow["SurfaceOrganicMatter"]);
+            startCover = Math.Round(Convert.ToDouble(dataIn.SOMMass));
+            endCover = Math.Round(Convert.ToDouble(lastRow["SurfaceOrganicMatter"]));
             coverType = dataIn.SOMType;
             }
+
         public double calcNitrogenGap()
             {
             nitrogenRequirementGap = 0;
@@ -101,7 +118,7 @@ namespace APSRU.Model.Howwet
             double grainProtein = 11.5;
             double efficiencyOfNUptake = 1.7;
             double fractionOfNinProtein = (10 / 5.7);
-            nitrogenRequirementDemand = (nitrogenRequirementYield * grainProtein * fractionOfNinProtein) * efficiencyOfNUptake;
+            nitrogenRequirementDemand = Math.Round((nitrogenRequirementYield * grainProtein * fractionOfNinProtein) * efficiencyOfNUptake);
             return nitrogenRequirementDemand;
             }
 
@@ -124,18 +141,12 @@ namespace APSRU.Model.Howwet
                     nitrogenRequirementPAW = nitrogenRequirementPAW + (diffference* thickness[layer]);
                     }
                 }
-            return nitrogenRequirementPAW;
+            return Math.Round(nitrogenRequirementPAW);
             }
 
         public String SoftwareVersion
             {
             set{softwareVersion=value;}
             }
-
-        public String ReportDate
-            {
-            set { reportDate = value; }
-            }
-      
         }
     }
