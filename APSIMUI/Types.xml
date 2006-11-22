@@ -884,6 +884,9 @@
             </rule>
             [endfor]
             [endfor]
+            [foreach manager.tclui as tclui]
+             [tclui.innerxml]
+            [endfor]
          </sim>
       </ApsimToSim>
    </manager>
@@ -915,6 +918,9 @@
             </rule>
             [endfor]
             [endfor]
+            [foreach tclmanager.tclui as tclui]
+             [tclui.innerxml]
+            [endfor]
          </sim>
      </ApsimToSim>
    </tclmanager>
@@ -945,6 +951,9 @@
                </rule>
                [endfor]
                [endfor]
+               [foreach farmmanager.tclui as tclui]
+                [tclui.innerxml]
+               [endfor]
          </sim>
       </ApsimToSim>
    </farmmanager>
@@ -974,6 +983,9 @@
                [endfor]
                </rule>
                [endfor]
+               [endfor]
+               [foreach paddockmanager.tclui as tclui]
+                [tclui.innerxml]
                [endfor]
          </sim>
       </ApsimToSim>
