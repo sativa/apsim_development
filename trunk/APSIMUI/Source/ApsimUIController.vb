@@ -70,8 +70,11 @@ Public Class ApsimUIController
     ' Return true if the specified component is visible
     ' to the user.
     ' -------------------------------------------------
-    Public Overrides Function IsComponentVisible(ByVal ComponentType As String) As Boolean
-        Dim VisibleChildren As New StringCollection
+    Public Overrides Function IsComponentVisible(ByVal Component As APSIMData) As Boolean
+        If Component.Attribute("invisible") = "yes" Then
+            Return False
+        End If
+        Dim ComponentType As String = Component.Type()
         If Not IsNothing(TypesData.Child(ComponentType)) Then
             If TypesData.Child(ComponentType).Child("ShowInMainTree").Value = "Yes" Then
                 Return True

@@ -8,8 +8,8 @@ Public Class TclUI
 
     Overrides Sub RefreshView(ByVal tController As BaseController)
         MyBase.RefreshView(tController)
-
-        AxTclControl1.SetVar("GlobalXMLDoc", Me.Controller.AllData.XML(), 1)
+        'AxTclControl1.TraceVar("GlobalXMLDoc", TRACE_READS + GLOBAL_ONLY)
+        'AxTclControl1.SetVar("GlobalXMLDoc", Me.Controller.AllData.XML(), 1)
         AxTclControl1.SetVar("XMLDoc", Me.Controller.Data.XML(), 1)
         AxTclControl1.SetVar("apsuite", ApsimDirectory(), 1)
 
@@ -18,6 +18,7 @@ Public Class TclUI
         If (AxTclControl1.Eval(UIScript) = False) Then
             MessageBox.Show(AxTclControl1.Result, "Tcl Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
+        AxTclControl1.Focus()
     End Sub
 
 #Region " Windows Form Designer generated code "
@@ -79,6 +80,13 @@ Public Class TclUI
     End Sub
 
 #End Region
+    Public Overrides Sub OnClose()
+        'Dim script As String = Me.Controller.Data.ChildValue("uiCloseScript")
+        Dim script As String = "foreach w [winfo chi .] {destroy $w} ;# trace remove variable XMLDoc read setXML"
+        If (script <> "") Then
+            AxTclControl1.Eval(script)
+        End If
+    End Sub
 
     Public Overrides Sub Save()
         If Not IsNothing(Me.Controller.Data) Then

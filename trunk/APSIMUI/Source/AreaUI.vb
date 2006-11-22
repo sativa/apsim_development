@@ -107,7 +107,7 @@ Public Class areaui
 
         ' Add an item for all children of this system.
         For Each Child As APSIMData In Controller.Data.Children
-            If Settings.IsComponentVisible(Child.Type) Then
+            If Settings.IsComponentVisible(Child) Then
                 'create new item
                 Dim item As New ListViewItem(Child.Name, 0)
                 item.ImageIndex = Settings.LargeImageIndex(Controller.Data.Child(Child.Name).Type)
