@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<simulation executable="%apsuite/apsim/protocolmanager/lib/protocolmanager.dll" version="5.2">
+<simulation executable="%apsuite/apsim/protocolmanager/lib/protocolmanager.dll" version="5.3">
    <title>4 Years Lucerne Harvested 1997 plots</title>
    <component name="SummaryFile" executable = "%apsuite/apsim/SummaryFile/lib/SummaryFile.dll">
       <initdata>
@@ -685,6 +685,68 @@
             <specific_area>0.0001</specific_area>
             <cf_contrib>1</cf_contrib>
          </fym>
+         <goatmanure>
+            <fom_type>goatmanure</fom_type>
+            <fraction_c>0.08</fraction_c>
+            <pot_decomp_rate>0.1</pot_decomp_rate>
+            <fr_c>0.3 0.6 0.3</fr_c>
+            <fr_n>0.3 0.6 0.3</fr_n>
+            <fr_p>0.3 0.6 0.34</fr_p>
+            <po4ppm>5.0</po4ppm>
+            <nh4ppm>1307.0</nh4ppm>
+            <no3ppm>481.0</no3ppm>
+            <specific_area>0.0001</specific_area>
+            <cf_contrib>1</cf_contrib>
+         </goatmanure>
+         <chikenmanure_base>
+            <fom_type>cm</fom_type>
+            <fraction_c>0.374</fraction_c>
+            <pot_decomp_rate>0.1</pot_decomp_rate>
+            <fr_c>0.0 0.50 0.50</fr_c>
+            <fr_n>0.0 0.50 0.50</fr_n>
+            <fr_p>0.0 0.50 0.50</fr_p>
+            <po4ppm>5.0</po4ppm>
+            <nh4ppm>1307.0</nh4ppm>
+            <no3ppm>481.0</no3ppm>
+            <specific_area>0.0001</specific_area>
+            <cf_contrib>1</cf_contrib>
+         </chikenmanure_base>
+         <cm>
+            <derived_from>chikenmanure_base</derived_from>
+            <fraction_c>0.277</fraction_c>
+            <nh4ppm>2558.0</nh4ppm>
+            <no3ppm>873.0</no3ppm>
+         </cm>
+         <cmA>
+            <derived_from>chikenmanure_base</derived_from>
+            <fraction_c>0.374</fraction_c>
+            <nh4ppm>1307.0</nh4ppm>
+            <no3ppm>481.0</no3ppm>
+         </cmA>
+         <cmB>
+            <derived_from>chikenmanure_base</derived_from>
+            <fraction_c>0.240</fraction_c>
+            <nh4ppm>3009.0</nh4ppm>
+            <no3ppm>36.0</no3ppm>
+         </cmB>
+         <manB>
+            <fom_type>manB</fom_type>
+            <fraction_c>0.08</fraction_c>
+            <pot_decomp_rate>0.1</pot_decomp_rate>
+            <fr_c>0.1 0.01 0.89</fr_c>
+            <fr_n>0.1 0.01 0.89</fr_n>
+            <fr_p>0.1 0.01 0.89</fr_p>
+            <po4ppm>5.0</po4ppm>
+            <nh4ppm>1307.0</nh4ppm>
+            <no3ppm>481.0</no3ppm>
+            <specific_area>0.0001</specific_area>
+            <cf_contrib>1</cf_contrib>
+         </manB>
+         <tithonia>
+            <derived_from>base_type</derived_from>
+            <fom_type>tithonia</fom_type>
+            <specific_area>0.0005</specific_area>
+         </tithonia>
          <bambatsi>
             <derived_from>base_type</derived_from>
             <fom_type>bambatsi</fom_type>
@@ -884,6 +946,7 @@
             <tine>1.0           100.</tine>
             <default>1.0             1.</default>
             <decomp>1.0           200.</decomp>
+            <mix>1.0           100.</mix>
             <hoe>1.0           100.</hoe>
          </tillage>
       </initdata>
