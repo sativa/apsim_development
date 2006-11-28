@@ -292,8 +292,6 @@ void CMPComponentInterface::query(const std::string& pattern, std::vector<QueryM
       if (arraySpecifier != NULL)
          arraySpecifier->adornVariableName(queryMatch.name);
       queryMatch.units = getAttributeFromXML(returnInfo.type, "unit");
-      if (queryMatch.units == "")
-         queryMatch.units = "?";
       matches.push_back(queryMatch);
       }
    delete arraySpecifier;

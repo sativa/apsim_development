@@ -224,7 +224,7 @@ void TrackerVariable::doRegistrations(void)
       {
       nameID = parent->addRegistration(RegistrationType::respondToGet,
                                        name.c_str(),
-                                       singleArrayDDML);
+                                       typeString.c_str());
       parent->setRegistrationType(nameID, typeString.c_str());
       }
    }

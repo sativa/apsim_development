@@ -190,6 +190,11 @@ void Coordinator::doInit2(void)
    // resolve all registrations.
    afterInit2 = true;
 
+   char buffer[100];
+   FString st(buffer, sizeof(buffer), CString);
+   componentIDToName(parentID, st);
+   parentName = asString(st);
+
    // initialise all components.
    for (Components::iterator componentI = components.begin();
                              componentI != components.end() && !doTerminate;
@@ -347,6 +352,10 @@ void Coordinator::onRegisterMessage(unsigned int fromID, RegisterData& registerD
          string componentName = regName.substr(0, posPeriod);
          if (Str_i_Eq(componentName.c_str(), name))
             destID = componentID;
+         else if (Str_i_Eq(componentName.c_str(), parentName))
+            destID = parentID;
+         else if (Is_numerical(componentName.c_str()))
+            destID = atoi(componentName.c_str());
          else
             destID = componentNameToID(componentName);
          if (destID == INT_MAX)
