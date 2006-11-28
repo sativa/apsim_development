@@ -10,11 +10,10 @@
 # Fortran compiler defns
 !include $(APSROOT)\APSBuild\fortran.make
 
-OBJECTS=ProtocolModule.obj dataTypes.obj dataTypesInterface.obj ComponentInterfaceModule.obj \
+OBJECTS=dataTypes.obj dataTypesInterface.obj ComponentInterfaceModule.obj \
 convertmodule.obj constantsModule.obj error.obj string.obj \
 data.obj datastr.obj date.obj science.obj  \
 read.obj Infrastructure.obj
-#??event.obj is mentioned but missing??
 
 source: ..\lib\apsinfra.lib datatypes.f90
 
@@ -26,7 +25,7 @@ source: ..\lib\apsinfra.lib datatypes.f90
 ..\lib\apsinfra.lib: $(OBJECTS)
 	if exist apsinfra.lib $(RM) apsinfra.lib
 	$(ECHO) apsinfra.lib > linker.tmp
-	$(ECHO) +ProtocolModule.obj +ComponentInterfaceModule.obj +convertmodule.obj +constantsModule.obj +error.obj +string.obj +data.obj +datastr.obj +date.obj +science.obj +dataTypes.obj +dataTypesInterface.obj +read.obj +Infrastructure.obj >> linker.tmp
+	$(ECHO) +ComponentInterfaceModule.obj +convertmodule.obj +constantsModule.obj +error.obj +string.obj +data.obj +datastr.obj +date.obj +science.obj +dataTypes.obj +dataTypesInterface.obj +read.obj +Infrastructure.obj >> linker.tmp
 	$(ECHO) apsinfra.lst >> linker.tmp
 	$(LFLM) @linker.tmp
 	$(MV) apsinfra.lib ..\lib\apsinfra.lib
