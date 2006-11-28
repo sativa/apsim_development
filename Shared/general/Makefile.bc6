@@ -19,7 +19,7 @@ all: general.lib general_vcl.lib
 OBJECTS = date_class.obj exec.obj general.obj IniFile.obj \
     io_functions.obj math_functions.obj path.obj stream_functions.obj \
     stream_processor.obj string_functions.obj StringTokenizer.obj stristr.obj Macro.obj \
-    xml.obj http.obj
+    xml.obj http.obj dll.obj
 
 BOBJS = $(BCB)\components\boost\libs\filesystem\src\path_posix_windows.obj \
 $(BCB)\components\boost\libs\filesystem\src\convenience.obj \
