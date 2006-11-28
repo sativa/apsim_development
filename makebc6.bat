@@ -51,6 +51,11 @@ cmd /c %APSMAKE%  >> %APSROOT%\build.out
 REM \tools\segmake ComponentInterface.bpg
 REM %APSROOT%\Tools\def2imp\def2imp.exe ApsimFortranWrapper.def ApsimFortranWrapper.imp
 
+REM  ---- ComponentInterface2
+cd %APSROOT%\Shared\ComponentInterface2
+echo ------Compiling  %APSROOT%\Shared\ComponentInterface2 >> %APSROOT%\build.out
+cmd /c %APSMAKE%  >> %APSROOT%\build.out
+
 cd %APSROOT%\apsim\ProtocolManager\Source
 echo ------Compiling  %APSROOT%\apsim\ProtocolManager\Source >> %APSROOT%\build.out
 cmd /c %APSMAKE%  >> %APSROOT%\build.out
