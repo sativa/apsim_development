@@ -135,7 +135,6 @@ void *Computation::loadDLL(const string& filename) throw (runtime_error)
    chdir(fileDirName(filename).c_str());
    void *result = LoadLibrary(filename.c_str());
    chdir(oldwd);
-
    if (result == NULL )
       {
       // Get windows error message.
@@ -202,29 +201,30 @@ bool Computation::loadComponent(const std::string& filename,
        handle = loadDLL(executableFileName);
 
        void EXPORT STDCALL (*wrapperDll)(char* dllFileName);
-       #ifdef __WIN32__
+#ifdef __WIN32__
        (FARPROC) wrapperDll = GetProcAddress(handle, "wrapperDLL");
-       #else
+#else
        wrapperDll = (void (*)(char *))dlsym(handle, "wrapperDLL");
-       #endif
+#endif
        if (wrapperDll == NULL)
           throw runtime_error("Cannot find entry point 'wrapperDll' in dll: " + filename);
 
        // Go get the wrapperDll filename.
-       char wrapperFileName[500];
+       char wrapperFileName[1024];
        (*wrapperDll)(&wrapperFileName[0]);
        componentInterface = wrapperFileName;
 
        if (componentInterface != "")
           {
-          #ifdef __WIN32__
-          Path cwd = Path::getCurrentFolder();
-          // This is a wrapped dll - it has no "entry points". Load the wrapper.
+#ifdef __WIN32__
+          char oldwd[MAX_PATH];
+          getcwd(oldwd, MAX_PATH);
 
+          // This is a wrapped dll - it has no "entry points". Load the wrapper.
           FreeLibrary(handle);
-          if (Str_i_Eq(Path(componentInterface).Get_name(), "piwrapper.dll"))
+          if (Str_i_Eq(fileTail(componentInterface), "piwrapper.dll"))
              {
-             Path(executableFileName).Change_directory();
+             chdir(fileDirName(executableFileName).c_str());
              }
           else
              {
@@ -247,8 +247,8 @@ bool Computation::loadComponent(const std::string& filename,
              LocalFree( lpMsgBuf );
              throw runtime_error(errorMessage);
              }
-          cwd.Change_directory();
-          #else
+          chdir(oldwd);
+#else
           const char* dlError;
           int return_code;
           return_code = dlclose(handle);
@@ -256,7 +256,7 @@ bool Computation::loadComponent(const std::string& filename,
           dlError = dlerror();
           if ( dlError )
             throw runtime_error(dlError);
-          #endif
+#endif
           }
        else
           {
