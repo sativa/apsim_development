@@ -67,8 +67,9 @@ namespace CSGeneral
 		// Return true if the specified component is visible
 		// to the user.
 		// -------------------------------------------------
-		public override bool IsComponentVisible(string ComponentName)
+		public override bool IsComponentVisible(APSIMData Component)
 			{
+                string ComponentName = Component.Type;
 			string ComponentNameLowerCase = ComponentName.ToLower();
 			return (ComponentNameLowerCase == "soils" || 
 				    ComponentNameLowerCase == "soil" || 
@@ -76,7 +77,7 @@ namespace CSGeneral
 					ComponentNameLowerCase == "initwater" || 
 					ComponentNameLowerCase == "initnitrogen" ||
 					ComponentNameLowerCase == "folder");
-
+     
 			}
 
 
