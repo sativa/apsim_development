@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <types>
 
-   <type kind="string" builtin="T"/>
-   <type kind="single" builtin="T"/>
-   <type kind="integer4" builtin="T"/>
-   <type kind="single" builtin="T" array="T"/>
+  <builtin kind="string"/>
+  <builtin kind="single"/>
+  <builtin kind="integer4"/>
+  <builtin kind="single" array="T"/>
 
    <type name="SummaryFileWrite">
       <field name="componentName" kind="string"/>
