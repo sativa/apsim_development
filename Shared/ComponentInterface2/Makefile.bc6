@@ -27,7 +27,7 @@ LIBFILES = $(SYSLIBS)                                    \
 
 source: ComponentInterface2.dll
 
-ALLOBJ = c0d32.obj $(PACKAGES)
+ALLOBJ = c0d32.obj $(PACKAGES) $(OBJECTS)
 ALLRES = $(RESFILES)
 ALLLIB = vcl.lib $(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib
 # ---------------------------------------------------------------------------
@@ -41,7 +41,7 @@ LFLAGS = $(SYSLDFLAGS) -aa -Tpd -x -Gn -Gi -v
 
 CC=$(BCB)\Bin\bcc32.exe
 LINKER=$(BCB)\Bin\ilink32.exe
-IMPDEF=$(BCB)\Bin\impdef.exe
+IMPLIB=$(BCB)\Bin\implib.exe
 
 .cpp.obj:
     $(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
@@ -55,6 +55,7 @@ $(ALLLIB), +
 $(DEFFILE), +
 $(ALLRES)
 !
+	$(IMPLIB) ComponentInterface2.lib ComponentInterface2.dll
 	move /Y ComponentInterface2.dll ..\..\bin
 
 
