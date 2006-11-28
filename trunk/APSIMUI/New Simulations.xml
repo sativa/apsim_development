@@ -4442,385 +4442,196 @@
       <fertiliser name="fertiliser" />
     </area>
   </simulation>
-  <simulation name="Complex Rotations">
-    <memo name="Readme">e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcZGVmZjBcZGVmbGFuZzMwODF7XGZvbnR0Ymx7XGYwXGZuaWxcZmNoYXJzZXQwIE1pY3Jvc29mdCBTYW5zIFNlcmlmO319DQpcdmlld2tpbmQ0XHVjMVxwYXJkXGYwXGZzMjkgVGhpcyBzaW11bGF0aW9uIGlzIGEgZGVtb25zdHJhdGlvbiBvZiB0b29scyBkZXZlbG9wZWQgYXMgcGFydCBvZiB0aGUgQ1FTRlMgcHJvamVjdCAtXGZzMjkgIHdoaWNoIGhhcyBiZWVuIGludmVzdGlnYXRpbmcgdGhlIHByb2JsZW0gb2Ygc2ltdWxhdGluZyByZXNvdXJjZSBtYW5hZ2VtZW50IGF0IGEgZmFybSBsZXZlbCAtIGllIHNpbXVsYXRpb24gb2YgcGFkZG9ja3MgYW5kIHRoZWlyIG1hbmFnZW1lbnQgd2l0aCBhcHNpbS4gQSBtYWpvciBvdXRjb21lIGhhcyBiZWVuIHRoZSB1c2Ugb2YgbGFuZ3VhZ2VzIHRoYXQgc3VwcG9ydCBjb21wbGV4IGRhdGEgc3RydWN0dXJlcyAmIHByb2NlZHVyZXMgdG8gbW9kZWwgZmFybSBkZWNpc2lvbiBtYWtpbmcuXHBhcg0KXGZzMjlccGFyDQpccGFyDQpUaGUgcm90YXRpb24gaXMgZGVzY3JpYmVkIGFzIGEgRGlyZWN0ZWQgR3JhcGggY29tcHJpc2VkIG9mIG5vZGVzICYgZWRnZXM6IFxwYXINCiAgLSB0aGUgc3RhdGUgb2YgdGhlIHBhZGRvY2sgaXMgYSBub2RlIG9uIHRoaXMgZ3JhcGggKGVnIGZhbGxvdywgY2hpY2twZWEgZXRjKSBccGFyDQogIC0gdGhlIGVkZ2VzIG9mIHRoZSBncmFwaCBoYXZlICJydWxlcyIsIHdoaWNoIGRldGVybWluZSBob3cgdGhlIHBhZGRvY2sgbW92ZXMgZnJvbSBzdGF0ZSB0byBzdGF0ZS5ccGFyDQpccGFyDQpFYWNoIGRheSwgdGhlIG1hbmFnZXIgZXZhbHVhdGVzIGFsbCBwYXRocyB0aGF0IGxlYWQgYXdheSBmcm9tIHRoZSBjdXJyZW50IHN0YXRlLiBFYWNoIHBhdGggaGFzIGEgc2V0IG9mIHJ1bGVzIHdoaWNoIGFyZSBldmFsdWF0ZWQ7IHRoZSAic2NvcmUiIGZvciB0aGF0IHBhdGhzIHRhcmdldCBub2RlIGlzIHRoZSBwcm9kdWN0IG9mIGFsbCBhc3NvY2lhdGVkIHJ1bGVzLiBUaGVzZSBydWxlcyBhcmUgdHlwaWNhbGx5IGJpbmFyeSB2YWx1ZXMsIGJ1dCBjYW4gYmUgYW55IHJlYWwgdmFsdWUuXHBhcg0KXHBhcg0KQSB0YWJsZSBvZiBkZWZhdWx0IHBhcmFtZXRlcnMgKGVnIGN1bHRpdmFyLCBmZXJ0aWxpc2VyIHJhdGVzIGV0YykgZm9yIGVhY2ggY3JvcCBpcyB1c2VkIHdoZW4gY2hhbmdpbmcgc3RhdGUuXHBhcg0KXHBhcg0KQSBzaW1wbGUgR1VJIHBvcHMgdXAgYXQgdGhlIGVuZCBvZiB0aGUgc2ltdWxhdGlvbiB0aGF0IHNob3dzIHRoZSBjcm9wcGluZyBoaXN0b3J5IGFuZCB0aGUgdmFsdWUgb2YgZXZhbHVhdGVkIHJ1bGVzIG9uIGFueSBkYXkuIENsaWNrIG9uIHRoZSBydWcgcGxvdCB0byBjaGFuZ2UgdGhlIGRheSwgYW5kIHVzZSB0aGUgYXJyb3cga2V5cyB0byBzdGVwIGJhY2t3YXJkL2ZvcndhcmQuXHBhcg0KXHBhcg0KfQ0K</memo>
+  <simulation name="Rotation Sample 2">
+    <memo name="Readme">e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcZGVmZjBcZGVmbGFuZzMwODF7XGZvbnR0Ymx7XGYwXGZuaWxcZmNoYXJzZXQwIE1pY3Jvc29mdCBTYW5zIFNlcmlmO319DQpcdmlld2tpbmQ0XHVjMVxwYXJkXGYwXGZzMjkgVGhpcyBzaW11bGF0aW9uIGlzIGEgZGVtb25zdHJhdGlvbiBvZiB0b29scyBkZXZlbG9wZWQgYXMgcGFydCBvZiB0aGUgQ1FTRlMgcHJvamVjdCAtIHdoaWNoIGhhcyBiZWVuIGludmVzdGlnYXRpbmcgdGhlIHByb2JsZW0gb2Ygc2ltdWxhdGluZyByZXNvdXJjZSBtYW5hZ2VtZW50IGF0IGEgZmFybSBsZXZlbCAtIGllIHNpbXVsYXRpb24gb2YgcGFkZG9ja3MgYW5kIHRoZWlyIG1hbmFnZW1lbnQgd2l0aCBhcHNpbS4gQSBtYWpvciBvdXRjb21lIGhhcyBiZWVuIHRoZSB1c2Ugb2YgbGFuZ3VhZ2VzIHRoYXQgc3VwcG9ydCBjb21wbGV4IGRhdGEgc3RydWN0dXJlcyAmIHByb2NlZHVyZXMgdG8gbW9kZWwgZmFybSBkZWNpc2lvbiBtYWtpbmcuXHBhcg0KXHBhcg0KXHBhcg0KVGhlIHJvdGF0aW9uIGlzIGRlc2NyaWJlZCBhcyBhIERpcmVjdGVkIEdyYXBoIGNvbXByaXNlZCBvZiBub2RlcyAmIGVkZ2VzOiBccGFyDQogIC0gdGhlIHN0YXRlIG9mIHRoZSBwYWRkb2NrIGlzIGEgbm9kZSBvbiB0aGlzIGdyYXBoIChlZyBmYWxsb3csIGNoaWNrcGVhIGV0YykgXHBhcg0KICAtIHRoZSBlZGdlcyBvZiB0aGUgZ3JhcGggaGF2ZSAicnVsZXMiLCB3aGljaCBkZXRlcm1pbmUgaG93IHRoZSBwYWRkb2NrIG1vdmVzIGZyb20gc3RhdGUgdG8gc3RhdGUuXHBhcg0KXHBhcg0KRWFjaCBkYXksIHRoZSBtYW5hZ2VyIGV2YWx1YXRlcyBhbGwgcGF0aHMgdGhhdCBsZWFkIGF3YXkgZnJvbSB0aGUgY3VycmVudCBzdGF0ZS4gRWFjaCBwYXRoIGhhcyBhIHNldCBvZiBydWxlcyB3aGljaCBhcmUgZXZhbHVhdGVkOyB0aGUgInNjb3JlIiBmb3IgdGhhdCBwYXRocyB0YXJnZXQgbm9kZSBpcyB0aGUgcHJvZHVjdCBvZiBhbGwgYXNzb2NpYXRlZCBydWxlcy4gVGhlc2UgcnVsZXMgYXJlIHR5cGljYWxseSBiaW5hcnkgdmFsdWVzLCBidXQgY2FuIGJlIGFueSByZWFsIHZhbHVlLlxwYXINClxwYXINCkEgdGFibGUgb2YgZGVmYXVsdCBwYXJhbWV0ZXJzIChlZyBjdWx0aXZhciwgZmVydGlsaXNlciByYXRlcyBldGMpIGZvciBlYWNoIGNyb3AgaXMgdXNlZCB3aGVuIGNoYW5naW5nIHN0YXRlLlxwYXINClxwYXINCkEgc2ltcGxlIEdVSSBwb3BzIHVwIGF0IHRoZSBlbmQgb2YgdGhlIHNpbXVsYXRpb24gdGhhdCBzaG93cyB0aGUgY3JvcHBpbmcgaGlzdG9yeSBhbmQgdGhlIHZhbHVlIG9mIGV2YWx1YXRlZCBydWxlcyBvbiBhbnkgZGF5LiBDbGljayBvbiB0aGUgcnVnIHBsb3QgdG8gY2hhbmdlIHRoZSBkYXksIGFuZCB1c2UgdGhlIGFycm93IGtleXMgdG8gc3RlcCBiYWNrd2FyZC9mb3J3YXJkLlxwYXINClxwYXINCn0NCg==</memo>
     <clock name="clock">
-      <start_date name="start_date" description="Select the start date of the simulation" type="date">1/01/1940</start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date">31/12/1955</end_date>
+      <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/1940" ubound="31/12/1989">1/01/1940</start_date>
+      <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/1940" ubound="31/12/1989">31/12/1950</end_date>
     </clock>
     <summaryfile name="summaryfile">
-      <filename name="filename">Complex Rotations.sum</filename>
+      <filename name="filename">Moonggoo.sum</filename>
     </summaryfile>
     <metfile name="met">
-      <filename name="filename">%apsuite\apsim\met\sample\emerald.met</filename>
+      <filename name="filename">C:\Program Files\Apsim52\apsim\met\sample\goond.met</filename>
     </metfile>
-    <area name="paddock">
+    <area name="Paddock">
       <registrations name="global" />
-      <fertiliser name="fertiliser" />
-      <surfaceom name="surface organic matter">
-        <PoolName description="Organic Matter pool name">wheat</PoolName>
-        <type type="list" description="Organic Matter type" listvalues="inert,manure,fym,bambatsi,barley,broccoli,camaldulensis,canola,chickpea,cowpea,danthonia,globulus,grandis,fababean,fieldpea,grass,lablab,lucerne,lupin,maize,millet,mucuna,mungbean,horsegram,navybean,cotton,orobanche,peanut,pigeonpea,rice,soybean,sorghum,stylo,sugar,sunflower,sweetcorn,sweetsorghum,weed,wheat">wheat</type>
-        <mass description="Initial surface residue (kg/ha)">1000.</mass>
-        <cnr description="C:N ratio of initial residue">80.0</cnr>
-        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
-      </surfaceom>
-      <outputfile name="outputfile">
-        <variables name="Variables">
-          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
-          <variable name="wheat.biomass as biomass_wheat" description="Biomass" array="?" />
-          <variable name="wheat.yield as yield_wheat" description="Yield" array="?" />
-          <variable name="wheat.grain_protein" description="grain protein content" array="?" />
-          <variable name="sorghum.biomass as biomass_sorg" array="?" />
-          <variable name="sorghum.yield as yield_sorg" array="?" />
-          <variable name="chickpea.biomass as biomass_chickpea" array="?" />
-          <variable name="chickpea.yield as yield_chickpea" array="?" />
-        </variables>
-        <events name="Reporting Frequency">
-          <event name="wheat.harvesting" description="" />
-        </events>
-      </outputfile>
-      <tclmanager name="TCL Manager">
-        <rule name="Planting rules">
-          <condition name="init"><![CDATA[
-# The crops we know about
-set crops {wheat earlySorghum lateSorghum chickpea covercrop}
+      <tclmanager name="Manager">
+        <tclui name="Rotation Rug Plot">
+          <uiscript>
+# Displays a rug plot of crop rotations
 
-# Aliases for crops
-set alias(earlySorghum) sorghum
-set alias(lateSorghum)  sorghum
-set alias(covercrop)    wheat
+trace remove variable XMLDoc read setXML
+package req tdom
 
-# Construct the graphs nodes.
-package require struct
-::struct::graph stateGraph
-
-stateGraph node insert fallow
-stateGraph node insert wheat
-stateGraph node insert covercrop
-stateGraph node insert earlySorghum
-stateGraph node insert lateSorghum
-stateGraph node insert chickpea
-
-# These are rules to "arc" between states eg. fallow into sorghum.
-# The score of a paddock is the product of these rules.
-# Rules are evaluated in order presented here.
-
-# sorghum nov-dec
-set a [stateGraph arc insert fallow earlySorghum]
-stateGraph arc lappend $a rules {[dateWithin 349 1]}
-stateGraph arc lappend $a rules {[apsimGet accum.rain\[4\]] > 25 && [apsimGet rain] == 0}
-stateGraph arc lappend $a rules {[apsimGet esw] > 110}
-stateGraph arc lappend $a rules {$daysSinceLastHarvest > 30}
-
-# sorghum jan-feb
-set a [stateGraph arc insert fallow lateSorghum]
-stateGraph arc lappend $a rules {[dateWithin 1 60]}
-stateGraph arc lappend $a rules {[apsimGet accum.rain\[4\]] > 12 && [apsimGet rain] == 0}
-stateGraph arc lappend $a rules {[apsimGet esw] > 90}
-stateGraph arc lappend $a rules {$daysSinceLastHarvest > 30}
-
-# Wheat
-set a [stateGraph arc insert fallow wheat]
-stateGraph arc lappend $a rules {[dateWithin 91 182]}
-stateGraph arc lappend $a rules {[apsimGet accum.rain\[4\]] > 12 && [apsimGet rain] == 0}
-stateGraph arc lappend $a rules {[apsimGet esw] > 100}
-stateGraph arc lappend $a rules {$daysSinceLastHarvest > 30}
-stateGraph arc lappend $a rules {[wheatHistory]}
-
-# Cover crop planted at end of wheat window
-set a [stateGraph arc insert fallow covercrop]
-stateGraph arc lappend $a rules {[apsimGet day] == 183}
-stateGraph arc lappend $a rules {[apsimGet esw] > 60}
-stateGraph arc lappend $a rules {[apsimGet surfaceom_cover] < 0.3}
-
-# Chickpea
-set a [stateGraph arc insert fallow chickpea]
-stateGraph arc lappend $a rules {[dateWithin 121 167]}
-stateGraph arc lappend $a rules {[apsimGet rain] == 0}
-stateGraph arc lappend $a rules {[apsimGet esw] > 120}
-stateGraph arc lappend $a rules {$daysSinceLastHarvest > 30}
-stateGraph arc lappend $a rules {[apsimGet surfaceom_cover] > 0.3}
-
-# Crop -> fallow rules
-set a [stateGraph arc insert earlySorghum fallow]
-stateGraph arc lappend $a rules {[string equal $harvestedToday "sorghum"]}
-
-set a [stateGraph arc insert lateSorghum fallow]
-stateGraph arc lappend $a rules {[string equal $harvestedToday "sorghum"]}
-
-set a [stateGraph arc insert wheat fallow]
-stateGraph arc lappend $a rules {[string equal $harvestedToday "wheat"]}
-
-set a [stateGraph arc insert covercrop fallow]
-stateGraph arc lappend $a rules {[string equal $harvestedToday "wheat"]}
-
-set a [stateGraph arc insert chickpea fallow]
-stateGraph arc lappend $a rules {[string equal $harvestedToday "chickpea"]}
-
-# Options for planting & fertiliser.
-# Order of preference goes like  earlySorghum(alias) > sorghum(crop) > default.
-array set defaults {
-  sow,sowing_depth              30
-  fertiliser,depth              50
-  fertiliser,type               urea
-  wheat,sow,cultivar            hartog
-  wheat,sow,plants              100
-  wheat,fertiliser,amount       75
-  covercrop,fertiliser,amount   0
-  sorghum,sow,plants            4
-  sorghum,sow,tiller_no_fertile 0
-  sorghum,sow,row_spacing       1.0
-  sorghum,fertiliser,amount     80
-  earlySorghum,sow,cultivar     late
-  lateSorghum,sow,cultivar      early
-  chickpea,sow,cultivar         amethyst
-  chickpea,sow,plants           30
-  chickpea,fertiliser,amount    0
+# Get the value of one of our parameters
+proc getValue {id thing} {
+   foreach node [$id childNodes] {
+      if {[string equal -nocase [$node nodeName] $thing]} {
+         return [$node text]
+      }
+   }
+   return ""
 }
 
-# Initial conditions of state variables at the start of the simulation
-set harvestedToday "nothing"
-set state          "fallow"               ;# has to start somewhere...
-set history        {wheat wheat}          ;# The last few crops
-set daysSinceLastHarvest 0
-
-########### Support procedures
-# Return our "reluctance" to plant wheat
-proc wheatHistory {} {
-   global history
-   if {[lindex $history end] == "wheat" && [lindex $history end-1] == "wheat"} {
-       return 0   ;# 2 in a row - no more.
+# Set the value of our 'thing'
+proc setValue {w thing what} {
+   upvar #0 $w data
+   foreach node [$data(docroot) childNodes] {
+      if {[string equal -nocase [$node nodeName] $thing]} {
+         $data(docroot) removeChild $node
+      }
    }
+   set node [$data(doc) createElement $thing]
+   $node appendChild [$data(doc) createTextNode $what]
+   $data(docroot) appendChild $node
+}
+
+proc appletInit {w} {
+   upvar #0 $w data
+   global XMLDoc
+   set data(doc) [dom parse $XMLDoc]
+   set data(docroot) [$data(doc) documentElement]
+   set data(filename) [getValue $data(docroot) filename]
+}   
+
+# Read in the logfile
+proc readIn {w} {
+   upvar #0 $w data
+   
+   if {![file exists $data(filename)]} { set data(message) "$data(filename) does not exist."; return 0}
+
+   set data(message) "Reading."; update
+
+   set fp [open $data(filename) r]
+   set data(finishedOK) 0
+   set data(crops) {fallow}
+   set date "X"
+   while {[gets $fp line] &gt; 0} {
+      if {[scan $line "%d,%d" day year]} {
+         set date $line
+         set data(latest) $date
+      } elseif {[string match "Starting*" $line]} {
+         set date [lindex $line 1]
+         set data(earliest) $date; set data(latest) $date
+      } elseif {[string match "paddocks*" $line]} {
+         set data(paddocks) [join [lindex [split $line =] 1]]
+         foreach paddock $data(paddocks) {
+            set data($paddock,timeline) [list [list $data(earliest) fallow]]
+         }
+      } elseif {[string match "Finished*" $line]} {
+         set data(finishedOK) 1
+      } elseif {[string match colour* $line]} {
+         set state [lindex $line 1]
+         set data(colours,$state) [lindex $line 2]
+      } elseif {[string match changeState* $line]} {
+         set paddock [lindex $line 1]
+         set state [lindex $line 2]
+         lappend data($paddock,timeline) [list $date $state]
+         if {[lsearch $data(crops) $state] &lt; 0} {lappend data(crops) $state}
+         append data(text,$date) "$line\n"
+      } else {
+         append data(text,$date) "$line\n"
+      }
+   }
+   close $fp
+   if {![info exists data(earliest)]} {set data(message) "No 'Starting' tag found - is this really a logfile??"; return 0}
+   if {$data(finishedOK) == 0} {set data(message) "No 'Finished' tag found - did the run crash??";return 0}
+
+   foreach paddock $data(paddocks) {
+      lappend data($paddock,timeline) [list $data(latest) end]
+   }
+
+   set message "Finished Reading."; update
    return 1
 }
 
-# return true if today's date is within 2 points.
-proc dateWithin {t0 t1} {
-   set t [apsimGet day]
-   if {$t0 > $t1} {
-      return [expr $t >= $t0 || $t <= $t1]
-   } else {
-      return [expr $t >= $t0 && $t <= $t1]
-   }
-   # notreached
-}
-
-# A log routine.  Uncommment this call for verbose summary files
-proc log {msg} {
-   global logFile
-   if {![info exists logFile]} {
-      set logFile [open rotations.log w]
-      puts $logFile "[apsimGet day],[apsimGet year]"
-      puts $logFile "Starting"
-   }
-   puts $logFile $msg
-}
-
-# Look at the current crop, see if it needs harvesting or is dead..
-proc checkState {} {
-   global alias harvestedToday daysSinceLastHarvest
-
-   set harvestedToday "nothing"
-
-   set crop [currentState]
-   if {$crop == "wheat" || $crop == "sorghum" || $crop == "chickpea" || $crop == "maize"} {
-      set stageName [apsimGet $crop.stage_name]
-      set plant_status [apsimGet $crop.plant_status]
-      if {$stageName == "harvest_ripe" || $plant_status == "dead"} {
-        if {$plant_status != "dead"} {
-           log "harvest-$crop"
-        } else {
-           log "fail-$crop"
-        }
-        apsimSendMessage $crop harvest
-        apsimSendMessage $crop kill_crop
-        apsimSendMessage $crop end_crop
-        set harvestedToday $crop
-        changeState fallow
-        set daysSinceLastHarvest -1
-      }
-   }
-   incr daysSinceLastHarvest
-}
-
-# Return the current state of the system
-proc currentState {} {
-   global state alias
-   # See if this is an alias
-   if {[info exists alias($state)]} {
-      return $alias($state)
-   }
-   return $state
-}
-
-# Gather arguments (eg sowing depth, fert rate etc} from defaults array
-# $action: the operation (sow, fert ...
-# $what: the module (wheat, sorghum ...
-proc gatherArgs {action what} {
-   global defaults alias
-
-   # "sow,..."
-   foreach {index value} [array get defaults $action,*] {
-      set args([lindex [split $index ","] end]) $value
-   }
-   # "wheat,sow,..."
-   if {[info exists alias($what)]} {
-      foreach {index value} [array get defaults $alias($what),$action,*] {
-         set args([lindex [split $index ","] end]) $value
-      }
-   }
-   # "covercrop,sow,..."
-   foreach {index value} [array get defaults $what,$action,*] {
-      set args([lindex [split $index ","] end]) $value
-   }
-   return [array get args]
-}
-
-# Mash a list into name/value pairs
-proc mash {list} {
-   set result {}
-   foreach {name value} $list {lappend result [list $name $value]}
-   return $result
-}
-
-# Change to a new state
-proc changeState {newstate} {
-   global alias history state
-
-   # See if this is an alias
-   if {[info exists alias($newstate)]} {
-      set realState $alias($newstate)
-   } else {
-      set realState $newstate
-   }
-
-   if {$realState == "fallow"} {
-      # do nothing
-   } else {
-      eval apsimSendMessage $realState sow [mash [gatherArgs sow $newstate]]
-
-      array set fert [gatherArgs fertiliser $newstate]
-      eval apsimSendMessage fertiliser apply [mash [array get fert]]
-
-      lappend history $realState
-   }
-   set state $newstate
-   log "changeState $newstate"
-}
-
-############### The decision routine.
-# Iterate through all arcs from current state and take the "best" arc possible (product of scores)
-proc checkRules {} {
-  global state
-
-  set best {}
-  foreach arc [stateGraph arcs -out $state] {
-     log " target [stateGraph arc target $arc]"
-     set expr($arc) {}
-     foreach rule [stateGraph arc get $arc rules] {
-         set value [uplevel #0 expr $rule]
-         lappend expr($arc) $value
-         log "  rule=$rule, value=$value"
-     }
-     set score($arc) [expr [join $expr($arc) "*"]]
-     log "  score= $score($arc)"
-     if {$best == {} || $score($arc) > $best} {
-       set best $score($arc)
-       set bestChoice [stateGraph arc target $arc]
-     }
-  }
-
-  if {$best != {} && $best > 0.0} {
-     log " Changing state to $bestChoice - score = $best"
-     changeState $bestChoice
-  }
-}
-
-proc doProcess {} {
-   log "[apsimGet day],[apsimGet year]"
-
-   # Housekeeping - check crop maturity & update accumulators
-   checkState
-
-   # See if there can be a state change today
-   checkRules
-}
-]]></condition>
-          <condition name="prepare" />
-          <condition name="process">doProcess
-</condition>
-          <condition name="post" />
-          <condition name="exit"><![CDATA[
-if {[info exists logFile]} {
-   puts $logFile "Finished"
-   close $logFile
-   set fp [open rotations.tcl w]
-   puts $fp {
-#############Log file viewer#############
-# Need to align these properly with init script
-set colours(fallow)  "orange"
-set colours(wheat)   "yellow"
-set colours(earlySorghum) "lightgreen"
-set colours(lateSorghum) "darkgreen"
-set colours(sorghum) "green"
-set colours(chickpea) "pink"
-set colours(covercrop) "red"
-
-set width 200
-set height 600
-
-button .b -text Cancel -command "exit"
-message .m -width 250 -textvariable message
-pack .b
-pack .m
-set message "Reading log file"
-update
-
 proc setupUI {w} {
-  global width height txtw canvw
-  if {$w == "."} {set b ""} else {set b $w}
-  foreach c [winfo chi $w] {destroy $c}
-  set canvw [canvas $b.c -width $width -height $height]
-  set txtw [text $b.t -width 60 -height 20 -takefocus 0 -font "normal 14" -yscrollcommand "$b.sb set"]
-  scrollbar $b.sb -orient v -command "$b.t yview"
-  message $b.m -width 250 -textvariable message
+   upvar #0 $w data
 
-  grid $b.c -row 0 -column 0 -sticky nsew
-  grid $b.t -row 0 -column 1 -sticky nsew
-  grid $b.sb -row 0 -column 2 -sticky nsw
-  grid $b.m -row 1 -column 0 -sticky ew
-  grid columnconf $w 0 -weight 1
-  grid columnconf $w 1 -weight 1
-  grid rowconf $w 0 -weight 1
-  bind $b.c <Motion> "canvasMotion %x %y"
-  bind $b.c <1> "+focus %W; canvasButton %x %y"
-  bind $b.c <Up> "+canvasUp"
-  bind $b.c <Down> "+canvasDown"
+   panedwindow $w.p
+   
+   # Filename selector
+   frame $w.f
+   label $w.f.l -text "Filename"
+   entry $w.f.e -textvariable $w\(filename\) -width 80
+   button $w.f.b -text Browse -command "browseFilename $w"
+   grid $w.f.l  -row 1 -column 1 -sticky w
+   grid $w.f.e  -row 1 -column 2 -sticky ew
+   grid $w.f.b  -row 1 -column 3 -sticky w
+   grid columnconf $w.f 1 -weight 1
 
-  focus $b.c
+   # The rugplot canvas
+   set data(canvas) [canvas $w.p.c]
+
+   # Scrollable text window
+   frame $w.p.t
+   set data(text) [text $w.p.t.t -takefocus 0 -font "normal 14" -yscrollcommand "$w.p.t.sb set"]
+   scrollbar $w.p.t.sb -orient v -command "$w.p.t.t yview"
+   grid $w.p.t.t  -row 1 -column 1 -sticky nsew
+   grid $w.p.t.sb -row 1 -column 2 -sticky nsw
+   grid columnconf $w.p.t 1 -weight 1
+   grid rowconf $w.p.t 1 -weight 1
+
+   message $w.m  -textvariable $w\(message\) -aspect 1000 -anchor w
+
+   $w.p add $w.p.c -sticky nsew
+   $w.p add $w.p.t -sticky new
+
+   grid $w.f  -row 1 -column 1 -sticky w
+   grid $w.p  -row 2 -column 1 -sticky nsew
+   grid $w.m  -row 3 -column 1  -sticky ew
+
+   bind $w.p.c &lt;Motion&gt; "catch \"canvasMotion $w %x %y\""
+   bind $w.p.c &lt;Button-1&gt;      "+focus %W; catch \"canvasButton $w %x %y\""
+   bind $w.p.c &lt;Key-Up&gt;     "+catch \"canvasUp $w\""
+   bind $w.p.c &lt;Key-Down&gt;   "+catch \"canvasDown $w\""
+   bind $w.p.c &lt;Key-Left&gt;   "+catch \"canvasLeft $w\""
+   bind $w.p.c &lt;Key-Right&gt;  "+catch \"canvasRight $w\""
+
+   bind $w.p.c &lt;Configure&gt;  "+catch \"draw $w\""
+   
+   grid columnconf $w 1 -weight 1
+   grid rowconf    $w 2 -weight 1
+   focus $w.p.c
+   return 1
 }
 
-proc min {a b} { return [expr ($a < $b) ? $a : $b] }
-proc max {a b} { return [expr ($a > $b) ? $a : $b] }
+proc browseFilename {w} {
+   set types {
+       {{Log Files}  .log }
+       {{All Files} * }
+   }
+   set newFile [tk_getOpenFile -filetypes $types -multiple 0 -title "Choose log file"]
+   if {$newFile != ""} {
+      upvar #0 $w data
+      set data(filename) $newFile
+      setValue $w filename $newFile
+      if {[readIn $w]} {draw $w}
+   }
+}
+
+proc min {a b} { return [expr ($a &lt; $b) ? $a : $b] }
+proc max {a b} { return [expr ($a &gt; $b) ? $a : $b] }
 
 # Coordinate transforms
-proc ctowx {c} {
-   global data width height
-   set colwidth [expr $width/2]
-   return [max [expr ($c-$colwidth)/$colwidth] 0]
+proc ctowx {w cx} {
+   upvar #0 $w data
+   set colwidth [expr ($data(width)-$data(xMargin))/[llength $data(paddocks)]]
+   return [max [expr ($cx-$data(xMargin))/$colwidth] 0]
 }
-proc wtocx {w} {
-   global data width height
-   set colwidth [expr $width/2]
-   return [expr $colwidth + $w * $colwidth]
+proc wtocx {w wx} {
+   upvar #0 $w data
+   set colwidth [expr ($data(width)-$data(xMargin))/[llength $data(paddocks)]]
+   return [expr $data(xMargin) + $wx * $colwidth]
 }
-proc wtocy {w} {
-   global data
-   return [expr 20 + ([date2num $w]+$data(offsetY))*$data(scaleFactY) ]
+proc wtocy {w wy} {
+   upvar #0 $w data
+   return [expr 20 + ([date2num $wy]+$data(offsetY))*$data(scaleFactY) ]
 }
-proc ctowy {c} {
-   global data
-   return [expr (($c-20)/$data(scaleFactY))-$data(offsetY) ]
+proc ctowy {w cy} {
+   upvar #0 $w data
+   return [expr (($cy-20)/$data(scaleFactY))-$data(offsetY) ]
 }
 proc date2num {d} {
    set z [split $d ","]
@@ -4832,287 +4643,1668 @@ proc num2date {n} {
    return "$d,$y"
 }
 
-# Canvas bindings
-proc canvasMotion {x y} {
-   global message data
-   set time [split [num2date [ctowy $y]] ","]
+# Canvas bindings - mouse and keys
+proc canvasMotion {w x y} {
+   upvar #0 $w data
+   set time [split [num2date [ctowy $w $y]] ","]
    set dstr ""
    catch {
      set dstr [clock format [clock scan "1/1/[lindex $time 1] + [expr [lindex $time 0]-1] days"] -format "%d-%b-%Y"]
    }
-   set message "date=$dstr"
+   set paddockName [lindex $data(paddocks) [ctowx $w $x]]
+   set data(message) "$paddockName ; date=$dstr"
    update
 }
-proc canvasButton {x y} {
-   global data currTime currPaddock
-   set currTime [num2date [ctowy $y]]
-   showText
+proc canvasButton {w x y} {
+   upvar #0 $w data
+   set data(currTime) [num2date [ctowy $w $y]]
+   set data(currPaddock) [lindex $data(paddocks) [ctowx $w $x]]
+   showText $w
 }
-proc canvasUp {} {
-   global currTime
-   foreach {day year} [split $currTime ","] {break}
+proc canvasUp {w} {
+   upvar #0 $w data
+   foreach {day year} [split $data(currTime) ","] {break}
    set day [expr $day-1]
-   if {$day <= 0} {set day 366; set year [expr $year-1]}
-   set currTime "$day,$year"
-   showText
+   if {$day &lt;= 0} {set day 366; set year [expr $year-1]}
+   set data(currTime) "$day,$year"
+   showText $w
 }
-proc canvasDown {} {
-   global currTime
-   foreach {day year} [split $currTime ","] {break}
+proc canvasDown {w} {
+   upvar #0 $w data
+   foreach {day year} [split $data(currTime) ","] {break}
    set day [expr $day+1]
-   if {$day > 366} {set day 1; set year [expr $year+1]}
-   set currTime "$day,$year"
-   showText
+   if {$day &gt; 366} {set day 1; set year [expr $year+1]}
+   set data(currTime) "$day,$year"
+   showText $w
 }
-proc canvasLeft {} {
-   showText
+proc canvasLeft {w} {
+   upvar #0 $w data
+   set paddock [lsearch $data(paddocks) $data(currPaddock)]
+   set paddock [expr $paddock-1]
+   if {$paddock &lt; 0} {set paddock [expr [llength $data(paddocks)]-1]}
+   set data(currPaddock) [lindex $data(paddocks) $paddock]
+   showText $w
 }
-proc canvasRight {} {
-   showText
+proc canvasRight {w} {
+   upvar #0 $w data
+   set paddock [lsearch $data(paddocks) $data(currPaddock)]
+   set paddock [expr $paddock+1]
+   if {$paddock &gt; [expr [llength $data(paddocks)]-1]} {set paddock 0}
+   set data(currPaddock) [lindex $data(paddocks) $paddock]
+   showText $w
 }
 
 # Display the current ruleset in the text window
-proc showText {} {
-   global data text canvw txtw currTime
-   set stime [split $currTime ","]
+proc showText {w} {
+   upvar #0 $w data
+   set stime [split $data(currTime) ","]
    set year [lindex $stime 1]; set day [max [expr [lindex $stime 0]-1] 0]
-
+  
    set dstr [clock format [clock scan "1/1/$year + $day days"] -format "%d-%b-%Y"]
-   $txtw delete 0.0 end
-   $txtw insert end "$dstr ($currTime)\n"
-   if {[info exists text(main,$currTime)]} {
-      $txtw insert end $text(main,$currTime)
-   }
-
-   $canvw coords currPos [wtocx 0] [wtocy $currTime] [wtocx 1] [wtocy $currTime]
+   $data(text) delete 0.0 end
+   $data(text) insert end "$dstr ($data(currTime))\n"
+   if {[info exists data(text,$data(currTime))]} {
+      $data(text) insert end $data(text,$data(currTime))
+   } 
+   
+   set paddock [lsearch $data(paddocks) $data(currPaddock)]
+   $data(canvas) coords currPos [wtocx $w 0] [wtocy $w $data(currTime)] [wtocx $w [llength $data(paddocks)]] [wtocy $w $data(currTime)] 
 }
 
 # Draw the paddock history
-proc draw {c} {
-   global data colours width height
-   set col 0;
+proc draw {w} {
+   upvar #0 $w data
 
-   for {set i 1} {$i < [llength $data(timeline)]} {incr i} {
-      set t0 [lindex [lindex $data(timeline) [expr $i-1]] 0]
-      set t1 [lindex [lindex $data(timeline)       $i   ] 0]
-      set what [lindex [lindex $data(timeline) [expr $i-1]] 1]
-      $c create rect [wtocx $col] [wtocy $t0] [wtocx [expr $col+1]] [wtocy $t1] -fill $colours($what) -outline {}
-      $c create text [expr 5 + [wtocx $col]] [wtocy $t0] -text $what -anchor nw
-   }
-
-   for {set y [lindex [split $data(earliest) ","] 1]} {$y <= [lindex [split $data(latest) ","] 1]} {incr y} {
-      $c create line  [wtocx -0.1]  [wtocy "1,$y"]  [wtocx 0] [wtocy "1,$y"]
-      $c create text [expr 5 + [wtocx -0.7]] [wtocy "1,$y"] -text "1/1/$y" -anchor w
-   }
-
-   $c create text [expr 20 + [wtocx 1]] [wtocy $data(earliest)] -text "Paddock 1" -anchor sw
-
-   $c create line [wtocx 0] [wtocy $data(earliest)] [wtocx 1] [wtocy $data(earliest)] -fill white -tag currPos
-}
-
-# Read in the logfiles
-proc readIn { filename } {
-   global data text width height message
-   set types {
-       {{Log Files}       {.log}        }
-       {{All Files}        *            }
-   }
-
-   if {$filename == ""} {
-     set filename [tk_getOpenFile -filetypes $types]
-   }
-
-   if {$filename == ""} { return }
-
-   set message "Reading..."; update
-
-   set fp [open $filename r]
-   set date "X"
-   set state fallow
-   while {[gets $fp line] > 0} {
-      if {[scan $line "%d,%d" day year]} {
-         set date $line
-         set data(latest) $date
-      } elseif {[string match "Starting" $line]} {
-         set data(earliest) $date
-         set data(latest) $date
-      } elseif {[string match "Finished" $line]} {
-         set data(latest) $date
-      } elseif {[string match changeState* $line]} {
-         set state [lindex $line 1]
-         lappend data(timeline) [list $date $state]
-      } else {
-         append text(main,$date) "$line\n"
-      }
-   }
-   lappend data(timeline) [list $data(latest) $state]
-   close $fp
-   if {![info exists data(earliest)]} {error "No 'Starting' tag found - is this really a logfile??"}
-
-
+   $data(canvas) delete all
+   
+   set data(height) [winfo height $data(canvas)]
+   set data(width)  [winfo width $data(canvas)]
+   set data(xMargin) 60
+   
    set t0 [date2num $data(earliest)]
    set t1 [date2num $data(latest)]
-   set data(scaleFactY) [expr ($height-20)/($t1 - $t0)]
+   set data(scaleFactY) [expr ($data(height)-20)/($t1 - $t0)]
    set data(offsetY) [expr - $t0]
 
-   set message "Done."; update
+   # boxes
+   set column 0
+   foreach paddock $data(paddocks) {
+      for {set i 1} {$i &lt; [llength $data($paddock,timeline)]} {incr i} {
+         set t0 [lindex [lindex $data($paddock,timeline) [expr $i-1]] 0]
+         set t1 [lindex [lindex $data($paddock,timeline)       $i   ] 0]
+         set what [lindex [lindex $data($paddock,timeline) [expr $i-1]] 1]
+         if {[info exists data(colours,$what)]} {set colour $data(colours,$what)} else {set colour white}
+         $data(canvas) create rect [wtocx $w $column] [wtocy $w $t0] [wtocx $w [expr $column+1]] [wtocy $w $t1] -fill $colour -outline {}
+      }
+      incr column 
+   }
+   # text
+   set column 0
+   foreach paddock $data(paddocks) {
+      for {set i 1} {$i &lt; [llength $data($paddock,timeline)]} {incr i} {
+         set t0 [lindex [lindex $data($paddock,timeline) [expr $i-1]] 0]
+         set t1 [lindex [lindex $data($paddock,timeline)       $i   ] 0]
+         set what [lindex [lindex $data($paddock,timeline) [expr $i-1]] 1]
+         $data(canvas) create text [expr 5 + [wtocx $w $column]] [wtocy $w $t0] -text $what -anchor nw
+      }
+      incr column 
+   }
+   # column boundaries
+   for {set col 0} {$col &lt; [llength $data(paddocks)]} {incr col} {
+      $data(canvas) create line [wtocx $w $col] [wtocy $w $data(earliest)] [wtocx $w $col] [wtocy $w $data(latest)] -fill lightgray
+   }
+   # year boundaries
+   for {set y [lindex [split $data(earliest) ","] 1]} {$y &lt;= [lindex [split $data(latest) ","] 1]} {incr y} {
+      $data(canvas) create line [wtocx $w 0] [wtocy $w "1,$y"] [wtocx $w [llength $data(paddocks)]] [wtocy $w "1,$y"] -fill lightgray
+      $data(canvas) create text 5 [wtocy $w "1,$y"] -text "1/1/$y" -anchor w
+   }
+   # top margin text
+   set y [wtocy $w $data(earliest)]
+   for {set x 0} {$x &lt; [llength $data(paddocks)]} {incr x} {
+      $data(canvas) create text [expr 20 + [wtocx $w $x]] $y -text "[lindex $data(paddocks) $x]" -anchor sw
+   }
+   #Current position
+   $data(canvas) create line [wtocx $w 0] [wtocy $w $data(earliest)] [wtocx $w 1] [wtocy $w $data(earliest)] -fill white -tag currPos
+   set data(message) "Finished Drawing. ($data(width)x$data(height))"
 }
 
+##############################
 ########Main program starts here
-readIn [lindex $argv 0]
-setupUI .
-draw .c
-canvasButton 100 100
+##############################
+catch {unset .w}
+catch {destroy .w}
+
+frame .w
+grid forget .
+grid .w -row 1 -column 1 -sticky nsew
+grid columnconf . 1 -weight 1
+grid rowconf    . 1 -weight 1
+
+appletInit .w
+setupUI .w
+if {[readIn .w]} {draw .w}
+
+proc setXML {name1 name2 op} {
+   upvar #0 .w data
+   if {[catch {set newXML [$data(doc) asXML]}]} {
+      global errorInfo; tk_messageBox -title "Error - not updating" -message "$errorInfo" -type ok
+   } else {
+      global XMLDoc
+      set XMLDoc $newXML
+   }
 }
-  close $fp
-  exec [file dirname $tcl_library]/wish84.exe rotations.tcl rotations.log &
+trace add variable XMLDoc read setXML
+</uiscript>
+          <filename>Rotation Sample 2.log</filename>
+        </tclui>
+        <tclui name="Rotation Management">
+          <uiscript><![CDATA[
+package req struct
+package req tdom
+trace remove variable XMLDoc read setXML
+
+# Get the value of one of our parameters
+proc getValue {id thing} {
+   foreach node [$id childNodes] {
+      if {[string equal -nocase [$node nodeName] $thing]} {
+         return [$node text]
+      }
+   }
+   return ""
 }
+
+# Get the values of one of our parameters
+proc getValues {id thing} {
+   set result {}
+   foreach node [$id childNodes] {
+      if {[string equal -nocase [$node nodeName] $thing]} {
+         lappend result [$node text]
+      }
+   }
+   return $result
+}
+
+
+# return the tag of an item near (x,y)
+proc getTag {c x y} {
+   set tag [lindex [$c find overlapping [expr $x-5] [expr $y-5] [expr $x+5] [expr $y+5]] end]
+   if {[llength $tag] > 0} {
+      foreach tag [$c gettags $tag] {
+         if {$tag != "current"} {
+             return $tag
+         }
+      }
+   }
+   return {}  
+}
+
+# Select an object near (x,y)
+proc select {w x y} {
+   upvar #0 $w cfg
+   if {$cfg(selected) != {}} {
+      foreach {type name} [split $cfg(selected) :] {break}
+      if {$type == "node"} {
+          catch {$cfg(c) itemconf $cfg(selected) -outline black -width 1}
+      } elseif {$type == "arc"} {
+          catch {$cfg(c) itemconf $cfg(selected) -fill black -width 1}
+      }
+   }
+   ## set x [$cfg(c) canvasx $x]; set y [$cfg(c) canvasy $y]
+   set tag [getTag $cfg(c) $x $y]
+   if {$tag != {}} {
+      set cfg(selected) $tag
+      set cfg(selectedX) $x
+      set cfg(selectedY) $y
+      foreach {type name} [split $tag :] {break}
+      if {$type == "node"} {
+        catch {$cfg(c) itemconf $tag -outline blue -width 3}
+      } elseif {$type == "arc"} {
+        catch {$cfg(c) itemconf $tag -fill blue -width 3}
+      }
+      showSelection $w $type $name
+   } else {
+      set cfg(selected) {}
+      set cfg(selectedX) {}
+      set cfg(selectedY) {}
+      set cfg(message) "No items selected."
+      showSelection $w help dummy
+   }
+}
+
+# Move an already selected object 
+proc move {w x y} {
+   upvar #0 $w cfg
+   if {$cfg(selected) != {}} {
+      set dx [expr {$x - $cfg(selectedX)}]
+      set dy [expr {$y - $cfg(selectedY)}]
+      set cfg(selectedX) $x
+      set cfg(selectedY) $y
+      foreach {type name} [split $cfg(selected) :] {break}
+      if {$type == "node"} {
+         $cfg(c) move $cfg(selected) $dx $dy
+         foreach {x1 y1 x2 y2} [$cfg(c) coords $cfg(selected)] {}
+         foreach what {x1 y1 x2 y2} {$cfg(g) node set $name $what [set $what]}
+         foreach arc [$cfg(g) arcs -adj $name] {
+             fixupArrow $w arc:$arc "node:[$cfg(g) arc source $arc]" "node:[$cfg(g) arc target $arc]"
+         }
+      } elseif {$type == "arc"} {
+         set coords [$cfg(c) coords $cfg(selected)]
+         set newx [expr $dx + [lindex $coords 2]]
+         set newy [expr $dy + [lindex $coords 3]]
+         $cfg(g) arc set $name x $newx
+         $cfg(g) arc set $name y $newy
+         fixupArrow $w $cfg(selected) "node:[$cfg(g) arc source $name]" "node:[$cfg(g) arc target $name]"
+      }  
+   }
+}
+
+ 
+#Return a point on the edge of the node on a line to (x,y)
+# NB. canvas origin at upper left corner
+# Used to find arrow positions between nodes
+proc findEdge {w x y node} {
+   upvar #0 $w cfg
+   set maxy [$w cget -height]
+
+   # center of node
+   set nc [$cfg(c) coords $node]
+   set xn [expr ([lindex $nc 2] + [lindex $nc 0])/2.0]
+   set yn [expr $maxy - ([lindex $nc 3] + [lindex $nc 1])/2.0]
+
+   # angle of midline
+   set a 0.0
+   catch {set a [expr atan((($maxy-$y)-$yn)/($x-$xn))]}
+
+   # Cheat - assume its always a circle and just take mid point of box
+   set r [expr abs(([lindex $nc 2] - [lindex $nc 0])/2.0)]
+   set dx [expr $x-$xn]
+   set dy [expr ($maxy-$y)-$yn]                
+   if {$dx < 0} {
+     set xe [expr $xn - $r * cos($a)]
+     set ye [expr $yn - $r * sin($a)] 
+   } else { 
+     set xe [expr $xn + $r * cos($a)]
+     set ye [expr $yn + $r * sin($a)] 
+   }  
+   return [list $xe [expr $maxy - $ye]]
+}
+
+# Set the arc coordinates between 2 nodes.
+proc fixupArrow {w arc srcNode destNode} {
+   upvar #0 $w cfg
+   set arc [lindex [split $arc ":"] 1]
+   set xm [$cfg(g) arc get $arc x] 
+   set ym [$cfg(g) arc get $arc y]
+
+   set p0 [findEdge $w $xm $ym $srcNode]
+   set p1 [findEdge $w $xm $ym $destNode]
+   
+   $cfg(c) coords arc:$arc [concat $p0 $xm $ym $p1]
+   #set cfg(message) "$arc = '[$cfg(c) coords arc:$arc]'"
+   #set cfg(message) "$arc = [concat $p0 $xm $ym $p1]"
+}
+
+# Right button click - post a context sensitive menu
+proc action {w x y} {
+   upvar #0 $w cfg
+   set tag [getTag $cfg(c) $x $y]
+   if {$cfg(selected) == {}} {
+      postNewNodeMenu $w $x $y
+   } elseif {$cfg(selected) != {} && "$tag" == $cfg(selected)} {
+      postChangeMenu $w $tag $x $y 
+   } elseif {$cfg(selected) != {} && "$tag" != {} && "$tag" != $cfg(selected)} {
+      postAddArcMenu $w $cfg(selected) $tag $x $y 
+   }
+}
+
+proc postNewNodeMenu {w x y} {
+   upvar #0 $w cfg
+   if {[winfo exists $cfg(c).newNodeMenu]} {destroy $cfg(c).newNodeMenu}
+   menu $cfg(c).newNodeMenu -tearoff 0
+   $cfg(c).newNodeMenu add command -label "Add New State" -command "addNewNode $w $x $y"
+   tk_popup $cfg(c).newNodeMenu [expr [winfo rootx $cfg(c)]+$x] [expr [winfo rooty $cfg(c)]+$y] 
+}
+
+proc addNewNode {w x y} {
+   upvar #0 $w cfg
+   set n 0; while {[$cfg(g) node exists n$n]} {incr n}; set n "n$n"
+   $cfg(g) node insert $n
+   $cfg(g) node set $n x1 [set x1 [expr $x-50]]
+   $cfg(g) node set $n y1 [set y1 [expr $y-50]]
+   $cfg(g) node set $n x2 [set x2 [expr $x+50]]
+   $cfg(g) node set $n y2 [set y2 [expr $y+50]]
+   $cfg(g) node set $n fill brown
+   $cfg(g) node set $n name $n
+   $cfg(g) node set $n desc  "New state"
+   $cfg(g) node set $n alias "newnode"
+
+   $cfg(c) create oval $x1 $y1 $x2 $y2 -fill brown -tags node:$n
+   set mx($n) [expr ($x1 + $x2) / 2.0]; set my($n) [expr ($y1 + $y2) / 2.0]
+   $cfg(c) create text $mx($n) $my($n) -text "$n" -anchor center -tags node:$n
+
+   select $w $x $y
+}
+
+proc deleteNode {w tag} {
+   upvar #0 $w cfg
+   set node [lindex [split $tag :] 1] 
+   foreach arcTag [$cfg(g) arcs -adj $node] {
+      $cfg(c) delete arc:$arcTag
+   }
+   $cfg(c) delete $tag
+   $cfg(g) node delete $node
+   set cfg(selected) {}
+   select $w 0 0
+}
+
+proc postAddArcMenu {w srcTag destTag x y} {
+   upvar #0 $w cfg
+   catch {destroy $cfg(c).addArcMenu}
+   menu $cfg(c).addArcMenu -tearoff 0
+   set srcName [lindex [split $srcTag :] 1]; set destName [lindex [split $destTag :] 1]
+   
+   if {![catch {set src [$cfg(g) node get $srcName name]; set dest [$cfg(g) node get $destName name]}]} {
+      $cfg(c).addArcMenu add command \
+          -label "Add arc from $src to $dest" \
+          -command "addNewArc $w $srcTag $destTag"
+      tk_popup $cfg(c).addArcMenu [expr [winfo rootx $cfg(c)]+$x] [expr [winfo rooty $cfg(c)]+$y] 
+   }  
+}
+
+proc addNewArc {w srcTag destTag} {
+   upvar #0 $w cfg
+   set n 0; while {[$cfg(g) arc exists arc$n]} {incr n}
+   set arc "arc$n"
+   set c1 [$cfg(c) coords $srcTag]
+   set x1 [expr ([lindex $c1 0] + [lindex $c1 2])/2]
+   set y1 [expr ([lindex $c1 1] + [lindex $c1 3])/2]
+   set c2 [$cfg(c) coords $destTag]
+   set x2 [expr ([lindex $c2 0] + [lindex $c2 2])/2]
+   set y2 [expr ([lindex $c2 1] + [lindex $c2 3])/2]
+   set mx [expr ($x1 + $x2) / 2.0]; set my [expr ($y1 + $y2) / 2.0]
+   $cfg(c) create line $x1 $y1 $mx $my $x2 $y2 -smooth bezier -tags arc:$arc -arrow last -arrowshape {15 25 10}
+   
+   $cfg(g) arc insert [lindex [split $srcTag :] 1] [lindex [split $destTag :] 1] $arc
+   $cfg(g) arc lappend $arc rules   {}
+   $cfg(g) arc lappend $arc actions {}
+   $cfg(g) arc set $arc x $mx
+   $cfg(g) arc set $arc y $my
+}
+
+proc deleteArc {w tag} {
+   upvar #0 $w cfg
+   $cfg(c) delete $tag
+   $cfg(g) arc delete [lindex [split $tag :] 1]
+}
+
+proc postChangeMenu {w tag x y} {
+   upvar #0 $w cfg
+   set isNode [string match "node*" $tag]
+   catch {destroy $cfg(c).postChangeMenu}
+   menu $cfg(c).postChangeMenu -tearoff 0
+   if {$isNode} {
+      $cfg(c).postChangeMenu add command -label "Delete" -command "deleteNode $w $tag"
+   } else {
+      $cfg(c).postChangeMenu add command -label "Delete" -command "deleteArc $w $tag"
+   }
+   tk_popup $cfg(c).postChangeMenu  [expr [winfo rootx $cfg(c)]+$x] [expr [winfo rooty $cfg(c)]+$y] 
+}
+
+# Create the UI for the current object and fill it out 
+proc showSelection {w type name} {
+   upvar #0 $w cfg
+   if {"$cfg(s)" != "$w.$type"} { setup_$type $w $name}
+   show_$type $w 
+}
+
+proc setup_help {w junk} {
+   upvar #0 $w cfg
+   catch {destroy $cfg(s)}
+   set f [set cfg(s) [text $w.help -width 70 -height 10]]
+   $f insert end {<left-click>: select a node or arc.
+<right-click>:  shows a context-sensitive  menu.
+
+Once a node/arc is selected, it can be dragged to a new position.
+
+Nodes are created by right-clicking on a blank area.
+
+Arcs are created by firstly selecting a source node, then right-
+clicking over a target node.
+}
+   grid $f -row 3 -column 1 -sticky ew
+}
+proc show_help {w} {}
+
+# UI for node editing
+proc setup_node {w name} {
+   upvar #0 $w cfg
+   catch {destroy $cfg(s)}
+   set f [set cfg(s) [frame $w.node]]
+   label $f.l1 -text "Name" 
+   entry $f.e1 -textvariable $w\(name\) -width 12 -validate key -vcmd {string is wordchar %P}
+   label $f.l2 -text "Alias" 
+   entry $f.e2 -textvariable $w\(alias\) -width 12 -validate key -vcmd {string is wordchar %P}
+   label $f.l3 -text "Description" 
+   entry $f.e3 -textvariable $w\(desc\) -width 40 
+   label $f.l4 -text "Colour" 
+   entry $f.e4 -textvariable $w\(fill\) -width 12 
+
+   frame $f.b
+   button $f.b.apply -text Apply -command "set_node $w" -state disabled
+   button $f.b.revert -text Revert -command "show_node $w" -state disabled
+   set cfg(buttons) [list $f.b.apply $f.b.revert]
+   foreach e [list $f.e1 $f.e2 $f.e3 $f.e4] {
+      bind $e  <Any-KeyRelease> "+armButtons $w"
+      bind $e  <Key-Return> "+set_node $w"
+   }  
+   
+   grid $f.l1 -row 1 -column 1 -sticky w
+   grid $f.e1 -row 1 -column 2 -sticky w
+   grid $f.l2 -row 2 -column 1 -sticky w
+   grid $f.e2 -row 2 -column 2 -sticky w
+   grid $f.l3 -row 3 -column 1 -sticky w
+   grid $f.e3 -row 3 -column 2 -sticky ew
+   grid $f.l4 -row 4 -column 1 -sticky w
+   grid $f.e4 -row 4 -column 2 -sticky w
+   grid $f.b.apply -row 1 -column 1 -sticky w -padx 20 
+   grid $f.b.revert -row 1 -column 2 -sticky w -padx 20 
+   grid $f.b -row 5 -column 1 -sticky ew
+   grid $f -row 3 -column 1 -sticky ew
+}
+
+proc show_node {w} {
+   upvar #0 $w cfg
+   set node [lindex [split $cfg(selected) :] 1]
+   set cfg(name) [$cfg(g) node get $node name]
+   set cfg(alias) [$cfg(g) node get $node alias]
+   set cfg(desc) [$cfg(g) node get $node desc]
+   set cfg(fill) [$cfg(g) node get $node fill]
+
+   set cfg(message) "State $cfg(name)"
+   disarmButtons $w
+}
+
+proc set_node {w} {
+   upvar #0 $w cfg
+   set node [lindex [split $cfg(selected) :] 1]
+
+   # Make the node name unique: append a "_1", "_2" etc.. if needed.
+   set candidate $cfg(name); set found 1
+   while {$found} {
+      set found 0
+      foreach otherNode [$cfg(g) nodes] {
+         if {"$node" != "$otherNode" && 
+             [string equal [$cfg(g) node get $otherNode name] $candidate]} {
+            set found 1
+         }
+      }
+      if {$found} {
+         set num [lindex [split $candidate "_"] end]
+         if {! [string is integer -strict $num]} {
+           set candidate "${candidate}_1"
+         } else {
+           set root [join [lrange [split $candidate "_"] 0 end-1] "_"]
+           set candidate "${root}_[expr 1+$num]"
+         }
+      }
+   }
+
+   $cfg(g) node set $node name [set cfg(name) $candidate]
+   $cfg(g) node set $node alias $cfg(alias)
+   $cfg(g) node set $node desc $cfg(desc)
+   $cfg(g) node set $node fill $cfg(fill)
+   foreach id [$cfg(c) find withtag node:$node] {
+     if {[$cfg(c) type $id] == "text"}  {$cfg(c) itemconf $id -text $cfg(name)}
+     if {[$cfg(c) type $id] == "oval"}  {$cfg(c) itemconf $id -fill $cfg(fill)}
+   }  
+   disarmButtons $w
+}
+
+proc setup_arc {w name} {
+   upvar #0 $w cfg
+   catch {destroy $cfg(s)}
+   set f [set cfg(s) [frame $w.arc]]
+   label $f.l1 -text "Rules" 
+   set cfg(rulesW) [text $f.rules -height 4 -wrap none  -yscrollcommand "$f.rsbar set"]
+   scrollbar $f.rsbar -orient vertical -command "$f.rules yview"
+   label $f.l2 -text "Actions" 
+   set cfg(actionsW) [text $f.actions -height 3 -wrap none  -yscrollcommand "$f.asbar set"]
+   scrollbar $f.asbar -orient vertical -command "$f.actions yview"
+
+   frame $f.b
+   button $f.b.apply -text Apply -command "set_arc $w" -state disabled
+   button $f.b.revert -text Revert -command "show_arc $w" -state disabled
+   set cfg(buttons) [list $f.b.apply $f.b.revert]
+
+   foreach t [list $cfg(actionsW) $cfg(rulesW)] {
+      bind $t  <Any-KeyRelease>  "+armButtons $w "
+   }  
+   grid $f.l1 -row 1 -column 1 -sticky w
+   grid $f.rules -row 2 -column 1 -sticky ew
+   grid $f.rsbar -row 2 -column 2 -sticky w
+   grid $f.l2 -row 3 -column 1 -sticky w
+   grid $f.actions -row 4 -column 1 -sticky ew
+   grid $f.asbar -row 3 -column 2 -sticky w -rowspan 2
+   grid $f.b.apply -row 1 -column 1 -sticky w -padx 20 
+   grid $f.b.revert -row 1 -column 2 -sticky w -padx 20 
+   grid $f.b -row 5 -column 1 -sticky ew
+
+   grid $f -row 3 -column 1 -sticky ew
+}
+proc show_arc {w} {
+   upvar #0 $w cfg
+   set arc [lindex [split $cfg(selected) :] 1]
+
+   $cfg(rulesW) delete 0.0 end
+   foreach rule [$cfg(g) arc get $arc rules] {
+      $cfg(rulesW) insert end "$rule\n"
+   }
+   $cfg(actionsW) delete 0.0 end
+   foreach action [$cfg(g) arc get $arc actions] {
+      $cfg(actionsW) insert end "$action\n"
+   }
+   set src [$cfg(g) node get [$cfg(g) arc source $arc] name]
+   set dest [$cfg(g) node get [$cfg(g) arc target $arc] name]
+   set cfg(message) "Transition from $src to $dest"
+   disarmButtons $w
+}
+
+proc set_arc {w} {
+   upvar #0 $w cfg
+   set arc [lindex [split $cfg(selected) :] 1]
+
+   $cfg(g) arc set $arc rules {}
+   foreach rule [split [$cfg(rulesW) get 0.0 end] "\n"] {
+      if {$rule != {}} {$cfg(g) arc lappend $arc rules $rule}
+   }
+   $cfg(g) arc set $arc actions {}
+   foreach action [split [$cfg(actionsW) get 0.0 end] "\n"] {
+      $cfg(g) arc lappend $arc actions $action
+   }
+   disarmButtons $w
+}
+
+proc disarmButtons {w} {
+   upvar #0 $w cfg
+   foreach b $cfg(buttons) { $b config -state disabled }
+}
+proc armButtons {w} {
+   upvar #0 $w cfg
+   foreach b $cfg(buttons) { $b config -state active }
+}
+
+# Save the graph to an XML tree. Makes both our node/ arc  objects, and an invisible rule
+# for the manager.
+proc saveGraph {w} {
+   upvar #0 $w cfg
+
+   if {!$cfg(setupOk)} {error "Initialisation failed - Not saving"}
+
+   set x "<tclui name=\"[$cfg(docroot) getAttribute name]\">\n"
+   append x "<uiscript><!\[CDATA\[[getValue $cfg(docroot) uiscript]\]\]></uiscript>\n"
+   set rule "<rule name=\"Init rule\" invisible=\"yes\" condition=\"init\">\n"
+   append rule "<!\[CDATA\[package require struct\n"
+   append rule "::struct::graph stateGraph\n"
+   
+   foreach node [$cfg(g) nodes] {
+      append x "<node>\n"
+      foreach key [$cfg(g) node keys $node] {
+         set value [$cfg(g) node get $node $key]
+         append x " <$key>$value</$key>\n"
+      }
+      append x "</node>\n"
+      append rule "stateGraph node insert \"[$cfg(g) node get $node name]\"\n"
+      append rule "set alias([$cfg(g) node get $node name]) \"[$cfg(g) node get $node alias]\"\n"
+      append rule "set colour([$cfg(g) node get $node name]) \"[$cfg(g) node get $node fill]\"\n"
+   }
+   foreach arc [$cfg(g) arcs] {
+      append x "<arc><name>$arc</name>\n"
+      set sourceNodeName [$cfg(g) node get [$cfg(g) arc source $arc] name]
+      append x " <source>$sourceNodeName</source>\n"
+      set targetNodeName [$cfg(g) node get [$cfg(g) arc target $arc] name]
+      append x " <target>$targetNodeName</target>\n"
+      append rule "stateGraph arc insert \"$sourceNodeName\" \"$targetNodeName\" \"$arc\"\n"
+
+      foreach {key value} [$cfg(g) arc getall $arc] {
+         if {$key != "rules" && $key != "actions"} {
+            append x " <$key>$value</$key>\n"
+         } else {
+            foreach thing [$cfg(g) arc get $arc $key] {
+               append rule "stateGraph arc lappend \"$arc\" $key \{$thing\}\n"
+               set thing [string map {\< "&lt;"  \> "&gt;" 
+                                      \& "&amp;" \" "&quot;" 
+                                      \[ "&#91;" \] "&#93;"} $thing]
+               append x " <$key>$thing</$key>\n"
+            }
+         }
+      }
+      append x "</arc>\n"
+   }
+
+   append x "$rule\]\]></rule>\n"
+   append x "</tclui>\n"
+
+   return $x
+}
+
+# Read the graph from an XML tree
+proc openGraph {w} {
+   upvar #0 $w cfg
+   catch {$cfg(g) destroy}
+   catch {g destroy}
+
+   set errorsFound 0
+
+   global XMLDoc 
+   set cfg(doc) [dom parse $XMLDoc]
+   set cfg(docroot) [$cfg(doc) documentElement]
+
+   set cfg(g) [::struct::graph g]
+   foreach node [$cfg(docroot) selectNodes //node] {
+      $cfg(g) node insert [set nodeName [getValue $node name]]
+      $cfg(g) node set $nodeName name $nodeName
+      foreach {what default} {x1 100 x2 200 y1 100 y2 200 fill purple desc "No description" alias zzz} {
+         if {[set value [getValue $node $what]] == ""} {
+            $cfg(g) node set $nodeName $what $default
+         } else {
+            $cfg(g) node set $nodeName $what $value
+         }
+      }
+   }
+
+   foreach arc [$cfg(docroot) selectNodes //arc] {
+      set arcName [getValue $arc name]
+      set sourceNode [getValue $arc source]
+      set targetNode [getValue $arc target]
+      if {[$cfg(g) node exists $sourceNode] && [$cfg(g) node exists $targetNode]} {
+         $cfg(g) arc insert $sourceNode $targetNode $arcName 
+         foreach {what default} {x 300 y 300} {
+            if {[set value [getValue $arc $what]] == ""} {
+                $cfg(g) arc set $arcName $what $default
+            } elseif {$what != "name"} {
+                $cfg(g) arc set $arcName $what $value
+            }
+         }
+         foreach {what} {rules actions} {
+            foreach value [getValues $arc $what] {
+               set value [string map {"&lt;"  \<  "&gt;" \> 
+                                      "&amp;" \&  "&quot;"  \"
+                                      "&#91;" \[  "&#93;" \] } $value]
+         
+               $cfg(g) arc lappend $arcName $what $value
+            }
+         }
+      } else {
+         tk_messageBox -title "Whoops!!" -message "source ($sourceNode) and/or target ($targetNode) is missing??" -type ok
+         set errorsFound 1
+      }   
+   }
+   set cfg(setupOk) [expr ! $errorsFound]
+}    
+
+# Create a graph on a canvas
+proc createGraph {w} {
+   upvar #0 $w cfg
+   foreach id [$cfg(c) find all] {$cfg(c) delete $id}
+   foreach n [$cfg(g) nodes] {
+      foreach what {x1 y1 x2 y2 name fill} {set $what [$cfg(g) node get $n $what]}
+      $cfg(c) create oval $x1 $y1 $x2 $y2 -fill $fill -tags node:$n
+      set mx($n) [expr ($x1 + $x2) / 2.0]; set my($n) [expr ($y1 + $y2) / 2.0]
+      $cfg(c) create text $mx($n) $my($n) -text $name -anchor center -tags node:$n
+   }
+
+   foreach a [$cfg(g) arcs] {
+      set n1 [$cfg(g) arc source $a]
+      set n2 [$cfg(g) arc target $a]
+      $cfg(c) create line 0 0 0 0 -smooth bezier -tags arc:$a -arrow last -arrowshape {15 25 10}
+      fixupArrow $w arc:$a "node:$n1" "node:$n2"
+   }
+
+   bind $cfg(c) <Button-1>  "+select $w %x %y"
+   bind $cfg(c) <B1-Motion> "+move $w %x %y"
+   bind $cfg(c) <Button-3>  "+action $w %x %y"
+   set cfg(selected) {}
+   showSelection $w help dummy
+}
+
+##############################
+catch {unset .w}
+catch {destroy .w}
+
+set .w(g) {}
+set .w(c) .w.c
+set .w(s) {}
+set .w(setupOk) 0
+
+if {[catch {openGraph .w}]} {tk_messageBox -title "openGraph" -message "$errorInfo" -type ok}
+
+frame .w
+canvas .w.c 
+label .w.m -width 40 -textvariable .w(message) -anchor w
+
+if {[catch {createGraph .w}]} {tk_messageBox -title "createGraph" -message "$errorInfo" -type ok}
+
+grid forget .
+grid .w.c -row 1 -column 1 -sticky nsew
+grid .w.m -row 2 -column 1 -sticky ew
+grid .w -row 1 -column 1   -sticky nsew
+
+grid columnconf .w 1 -weight 1
+grid rowconf    .w 1 -weight 1
+grid columnconf . 1 -weight 1
+grid rowconf    . 1 -weight 1
+
+trace add variable XMLDoc read setXML
+proc setXML {name1 name2 op} {
+   if {[catch {set newXML [saveGraph .w]}]} {
+      global errorInfo
+      tk_messageBox -title "Error - not saved" -message $errorInfo -type ok
+   }  else {
+      global XMLDoc
+      set XMLDoc $newXML
+   }
+}   
+]]></uiscript>
+          <node>
+            <x1>568.0</x1>
+            <name>Chickpea</name>
+            <alias>chickpea</alias>
+            <y1>44.0</y1>
+            <x2>668.0</x2>
+            <desc>Chickpea</desc>
+            <fill>lightgreen</fill>
+            <y2>144.0</y2>
+          </node>
+          <node>
+            <x1>194.0</x1>
+            <name>SummerFallow2</name>
+            <alias>fallow</alias>
+            <y1>406.0</y1>
+            <x2>294.0</x2>
+            <desc>New state</desc>
+            <fill>gray</fill>
+            <y2>506.0</y2>
+          </node>
+          <node>
+            <x1>427.0</x1>
+            <name>Wheat</name>
+            <alias>wheat</alias>
+            <y1>437.0</y1>
+            <x2>527.0</x2>
+            <desc>Wheat Crop</desc>
+            <fill>darkgreen</fill>
+            <y2>537.0</y2>
+          </node>
+          <node>
+            <x1>121.0</x1>
+            <name>WinterFallow</name>
+            <alias>fallow</alias>
+            <y1>228.0</y1>
+            <x2>221.0</x2>
+            <desc>New state</desc>
+            <fill>gray</fill>
+            <y2>328.0</y2>
+          </node>
+          <node>
+            <x1>173.0</x1>
+            <name>Cotton</name>
+            <alias>cotton</alias>
+            <y1>53.0</y1>
+            <x2>273.0</x2>
+            <desc>A Cotton Crop</desc>
+            <fill>purple</fill>
+            <y2>153.0</y2>
+          </node>
+          <node>
+            <x1>368.0</x1>
+            <name>F1</name>
+            <alias>fallow</alias>
+            <y1>4.0</y1>
+            <x2>468.0</x2>
+            <desc>New state</desc>
+            <fill>gray</fill>
+            <y2>104.0</y2>
+          </node>
+          <node>
+            <x1>563.0</x1>
+            <name>SummerFallow1</name>
+            <alias>fallow</alias>
+            <y1>277.0</y1>
+            <x2>663.0</x2>
+            <desc>New state</desc>
+            <fill>maroon</fill>
+            <y2>377.0</y2>
+          </node>
+          <arc>
+            <name>arc6</name>
+            <source>WinterFallow</source>
+            <target>Cotton</target>
+            <x>138.5</x>
+            <actions>apsimSendMessage cotton sow {plants_pm 10} {sowing_depth  30} {cultivar  siok} {row_spacing 1000}</actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <y>174.5</y>
+            <rules>[dateWithin 288 349]</rules>
+            <rules>[sumLastRain 4] &gt; 10</rules>
+            <rules>[apsimGet esw] &gt; 100</rules>
+          </arc>
+          <arc>
+            <name>arc2</name>
+            <source>SummerFallow1</source>
+            <target>WinterFallow</target>
+            <x>353.5</x>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <y>499.0</y>
+            <rules>[apsimGet day]  == 192</rules>
+          </arc>
+          <arc>
+            <name>arc7</name>
+            <source>F1</source>
+            <target>SummerFallow1</target>
+            <x>591.5</x>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <y>123.0</y>
+            <rules>[apsimGet day]  == 192</rules>
+          </arc>
+          <arc>
+            <name>arc3</name>
+            <source>Wheat</source>
+            <target>SummerFallow2</target>
+            <x>363.0</x>
+            <actions>apsimSendMessage wheat harvest</actions>
+            <actions>apsimSendMessage wheat end_crop</actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <y>522.5</y>
+            <rules>{[apsimGet wheat.stage_name] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}</rules>
+          </arc>
+          <arc>
+            <name>arc8</name>
+            <source>Chickpea</source>
+            <target>SummerFallow1</target>
+            <x>647.0</x>
+            <actions>apsimSendMessage chickpea harvest</actions>
+            <actions>apsimSendMessage chickpea end_crop</actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <y>210.5</y>
+            <rules>{[apsimGet chickpea.stage_name] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}</rules>
+          </arc>
+          <arc>
+            <name>arc0</name>
+            <source>F1</source>
+            <target>Chickpea</target>
+            <x>521.0</x>
+            <actions>apsimSendMessage chickpea sow {plants 25} {sowing_depth 30} {cultivar amethyst} {row_spacing 500} </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <y>39.0</y>
+            <rules>[dateWithin 135 191]</rules>
+            <rules>[sumLastRain 3] &gt; 25</rules>
+            <rules>[apsimGet esw] &gt; 50</rules>
+          </arc>
+          <arc>
+            <name>arc9</name>
+            <source>SummerFallow2</source>
+            <target>WinterFallow</target>
+            <x>164.0</x>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <y>385.5</y>
+            <rules>[apsimGet day]  == 74</rules>
+          </arc>
+          <arc>
+            <name>arc10</name>
+            <source>WinterFallow</source>
+            <target>Cotton</target>
+            <x>235.5</x>
+            <actions>apsimSendMessage cotton sow {plants_pm 10} {sowing_depth  30} {cultivar  siok} {row_spacing 1000}</actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <y>210.5</y>
+            <rules>[apsimGet day] == 350</rules>
+          </arc>
+          <arc>
+            <name>arc5</name>
+            <source>Cotton</source>
+            <target>F1</target>
+            <x>288.5</x>
+            <actions>apsimSendMessage cotton harvest</actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <y>34.5</y>
+            <rules>[apsimGet ozcot_status] &gt; 0</rules>
+          </arc>
+          <arc>
+            <name>arc1</name>
+            <source>SummerFallow1</source>
+            <target>Wheat</target>
+            <x>576.5</x>
+            <actions>apsimSendMessage wheat sow {plants 100} {sowing_depth 30} {cultivar hartog} {row_spacing 250} </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <actions>
+            </actions>
+            <y>410.5</y>
+            <rules>[dateWithin 135 191]</rules>
+            <rules>[sumLastRain 3] &gt; 25</rules>
+            <rules>[apsimGet esw] &gt; 50</rules>
+          </arc>
+          <rule name="Init rule" invisible="yes" condition="init"><![CDATA[package require struct
+::struct::graph stateGraph
+stateGraph node insert "Chickpea"
+set alias(Chickpea) "chickpea"
+set colour(Chickpea) "lightgreen"
+stateGraph node insert "SummerFallow2"
+set alias(SummerFallow2) "fallow"
+set colour(SummerFallow2) "gray"
+stateGraph node insert "Wheat"
+set alias(Wheat) "wheat"
+set colour(Wheat) "darkgreen"
+stateGraph node insert "WinterFallow"
+set alias(WinterFallow) "fallow"
+set colour(WinterFallow) "gray"
+stateGraph node insert "Cotton"
+set alias(Cotton) "cotton"
+set colour(Cotton) "purple"
+stateGraph node insert "F1"
+set alias(F1) "fallow"
+set colour(F1) "gray"
+stateGraph node insert "SummerFallow1"
+set alias(SummerFallow1) "fallow"
+set colour(SummerFallow1) "maroon"
+stateGraph arc insert "WinterFallow" "Cotton" "arc6"
+stateGraph arc lappend "arc6" actions {apsimSendMessage cotton sow {plants_pm 10} {sowing_depth  30} {cultivar  siok} {row_spacing 1000}}
+stateGraph arc lappend "arc6" actions {}
+stateGraph arc lappend "arc6" actions {}
+stateGraph arc lappend "arc6" actions {}
+stateGraph arc lappend "arc6" actions {}
+stateGraph arc lappend "arc6" actions {}
+stateGraph arc lappend "arc6" actions {}
+stateGraph arc lappend "arc6" rules {[dateWithin 288 349]}
+stateGraph arc lappend "arc6" rules {[sumLastRain 4] > 10}
+stateGraph arc lappend "arc6" rules {[apsimGet esw] > 100}
+stateGraph arc insert "SummerFallow1" "WinterFallow" "arc2"
+stateGraph arc lappend "arc2" actions {}
+stateGraph arc lappend "arc2" actions {}
+stateGraph arc lappend "arc2" actions {}
+stateGraph arc lappend "arc2" rules {[apsimGet day]  == 192}
+stateGraph arc insert "F1" "SummerFallow1" "arc7"
+stateGraph arc lappend "arc7" actions {}
+stateGraph arc lappend "arc7" actions {}
+stateGraph arc lappend "arc7" actions {}
+stateGraph arc lappend "arc7" rules {[apsimGet day]  == 192}
+stateGraph arc insert "Wheat" "SummerFallow2" "arc3"
+stateGraph arc lappend "arc3" actions {apsimSendMessage wheat harvest}
+stateGraph arc lappend "arc3" actions {apsimSendMessage wheat end_crop}
+stateGraph arc lappend "arc3" actions {}
+stateGraph arc lappend "arc3" actions {}
+stateGraph arc lappend "arc3" actions {}
+stateGraph arc lappend "arc3" actions {}
+stateGraph arc lappend "arc3" actions {}
+stateGraph arc lappend "arc3" actions {}
+stateGraph arc lappend "arc3" actions {}
+stateGraph arc lappend "arc3" actions {}
+stateGraph arc lappend "arc3" rules {{[apsimGet wheat.stage_name] == "harvest_ripe" || [apsimGet wheat.plant_status] == "dead"}}
+stateGraph arc insert "Chickpea" "SummerFallow1" "arc8"
+stateGraph arc lappend "arc8" actions {apsimSendMessage chickpea harvest}
+stateGraph arc lappend "arc8" actions {apsimSendMessage chickpea end_crop}
+stateGraph arc lappend "arc8" actions {}
+stateGraph arc lappend "arc8" actions {}
+stateGraph arc lappend "arc8" actions {}
+stateGraph arc lappend "arc8" actions {}
+stateGraph arc lappend "arc8" rules {{[apsimGet chickpea.stage_name] == "harvest_ripe" || [apsimGet chickpea.plant_status] == "dead"}}
+stateGraph arc insert "F1" "Chickpea" "arc0"
+stateGraph arc lappend "arc0" actions {apsimSendMessage chickpea sow {plants 25} {sowing_depth 30} {cultivar amethyst} {row_spacing 500} }
+stateGraph arc lappend "arc0" actions {}
+stateGraph arc lappend "arc0" actions {}
+stateGraph arc lappend "arc0" actions {}
+stateGraph arc lappend "arc0" actions {}
+stateGraph arc lappend "arc0" actions {}
+stateGraph arc lappend "arc0" actions {}
+stateGraph arc lappend "arc0" actions {}
+stateGraph arc lappend "arc0" actions {}
+stateGraph arc lappend "arc0" actions {}
+stateGraph arc lappend "arc0" actions {}
+stateGraph arc lappend "arc0" actions {}
+stateGraph arc lappend "arc0" actions {}
+stateGraph arc lappend "arc0" actions {}
+stateGraph arc lappend "arc0" actions {}
+stateGraph arc lappend "arc0" actions {}
+stateGraph arc lappend "arc0" actions {}
+stateGraph arc lappend "arc0" actions {}
+stateGraph arc lappend "arc0" actions {}
+stateGraph arc lappend "arc0" rules {[dateWithin 135 191]}
+stateGraph arc lappend "arc0" rules {[sumLastRain 3] > 25}
+stateGraph arc lappend "arc0" rules {[apsimGet esw] > 50}
+stateGraph arc insert "SummerFallow2" "WinterFallow" "arc9"
+stateGraph arc lappend "arc9" actions {}
+stateGraph arc lappend "arc9" actions {}
+stateGraph arc lappend "arc9" actions {}
+stateGraph arc lappend "arc9" actions {}
+stateGraph arc lappend "arc9" actions {}
+stateGraph arc lappend "arc9" rules {[apsimGet day]  == 74}
+stateGraph arc insert "WinterFallow" "Cotton" "arc10"
+stateGraph arc lappend "arc10" actions {apsimSendMessage cotton sow {plants_pm 10} {sowing_depth  30} {cultivar  siok} {row_spacing 1000}}
+stateGraph arc lappend "arc10" actions {}
+stateGraph arc lappend "arc10" actions {}
+stateGraph arc lappend "arc10" actions {}
+stateGraph arc lappend "arc10" actions {}
+stateGraph arc lappend "arc10" actions {}
+stateGraph arc lappend "arc10" actions {}
+stateGraph arc lappend "arc10" rules {[apsimGet day] == 350}
+stateGraph arc insert "Cotton" "F1" "arc5"
+stateGraph arc lappend "arc5" actions {apsimSendMessage cotton harvest}
+stateGraph arc lappend "arc5" actions {}
+stateGraph arc lappend "arc5" actions {}
+stateGraph arc lappend "arc5" actions {}
+stateGraph arc lappend "arc5" actions {}
+stateGraph arc lappend "arc5" actions {}
+stateGraph arc lappend "arc5" actions {}
+stateGraph arc lappend "arc5" actions {}
+stateGraph arc lappend "arc5" actions {}
+stateGraph arc lappend "arc5" rules {[apsimGet ozcot_status] > 0}
+stateGraph arc insert "SummerFallow1" "Wheat" "arc1"
+stateGraph arc lappend "arc1" actions {apsimSendMessage wheat sow {plants 100} {sowing_depth 30} {cultivar hartog} {row_spacing 250} }
+stateGraph arc lappend "arc1" actions {}
+stateGraph arc lappend "arc1" actions {}
+stateGraph arc lappend "arc1" actions {}
+stateGraph arc lappend "arc1" actions {}
+stateGraph arc lappend "arc1" actions {}
+stateGraph arc lappend "arc1" actions {}
+stateGraph arc lappend "arc1" rules {[dateWithin 135 191]}
+stateGraph arc lappend "arc1" rules {[sumLastRain 3] > 25}
+stateGraph arc lappend "arc1" rules {[apsimGet esw] > 50}
+]]></rule>
+        </tclui>
+        <rule name="Initialisation">
+          <condition name="init"><![CDATA[
+# Support procedures
+
+# return true if today's date is within 2 points.
+proc dateWithin {t0 t1} {
+   set t [apsimGet day]
+   if {$t0 > $t1} {
+      return [expr $t >= $t0 || $t <= $t1]
+   } else {   
+      return [expr $t >= $t0 && $t <= $t1]
+   }
+   # notreached
+}
+
+proc dateIs {t} {
+   return [expr $t == [apsimGet day]]
+}
+
+# Return the current state of the system
+proc currentState {} {
+   global state 
+   return $state   
+}
+
+# Return the sum of the last n days rainfall
+proc sumLastRain {n} {
+   global rainList
+   return  [expr [join [lrange $rainList end-[expr $n-1] end] "+"]]
+}
+
+# Maintain a list of rainfall amounts.
+proc accumRain {} {
+   global rainList 
+   set rainList [concat [lrange $rainList 1 end] [apsimGet rain]]
+}
+
+# This "logfile" is used to generate the rugplots of farm activities
+set logFile {}
+proc setupLogging {} {
+   global logFile simName colour
+   set logFile [open $simName.log w]
+   puts $logFile "Starting [apsimGet day],[apsimGet year]"
+   puts $logFile "paddocks = p1"
+   foreach {state col} [array get colour] {
+      puts $logFile "colour $state $col"
+   }
+   flush $logFile
+   apsimWriteToSummaryFile "initialised logging:paddocks=p1"
+}
+proc closeLogging {} {
+   global logFile 
+   puts $logFile "Finished"
+   close $logFile 
+}
+proc log {msg} {
+   global logFile
+   puts $logFile $msg
+   apsimWriteToSummaryFile $msg
+}
+
+############### The decision routine. 
+# Return the score for planting "what"
+proc checkRules {} {
+  log "State is [currentState]. (esw=[format %.0f [apsimGet esw]])"
+
+  set bestScore -1.0; set bestTarget {}
+  foreach arc [stateGraph arcs -out [currentState]] {
+     set expr {}
+     set target [stateGraph arc target $arc]
+     foreach rule [stateGraph arc get $arc rules] {
+        set value [uplevel #0 expr $rule]
+        log "target=$target,rule=$rule, value=$value"
+        lappend expr $value
+     }  
+     set score [expr [join $expr "*"]]
+     if {$score > $bestScore} {
+        set bestScore $score
+        set bestTarget $target
+     }
+  }
+  return [list $bestTarget $bestScore]
+}
+
+# Change state to another
+proc changeState {newState} {
+   global state
+   set arcs {}
+   foreach arc [stateGraph arcs -out [currentState]] {
+      if {[stateGraph arc target $arc] == "$newState" } {
+         lappend arcs $arc
+      }
+   }   
+   if {[llength $arcs] == 0} {error "No paths from [currentState] to $newState!"}
+   if {[llength $arcs] > 1} {
+      # More than 1 path - evaluate best option
+      set bestScore -1.0; set bestArc {}
+      foreach arc $arcs {
+         set expr {}
+         foreach rule [stateGraph arc get $arc rules] {
+            set value [uplevel #0 expr $rule]
+            lappend expr $value
+         }
+         set score [expr [join $expr "*"]]
+         if {$score > $bestScore} {
+            set bestScore $score
+            set bestArc $arc
+         }
+      }  
+      if {$bestScore > 0.0} {
+         apsimWriteToSummaryFile "Taking arc $bestArc from [currentState] to $newState"
+         set arc $bestArc
+      } else {
+         error "No viable paths from [currentState] to $newState! (candidates are $arcs)"
+      }
+   } else {
+      # Only 1 path - take it.
+      set arc $arcs
+   }
+   foreach action [stateGraph arc get $arc actions] { uplevel #0 $action }
+   set state $newState
+   log "changeState p1 $newState"
+}
+
+proc doProcess {} {
+    log "[apsimGet day],[apsimGet year]"
+    foreach  {target score} [checkRules] {break}
+    if {$score > 0} {changeState $target}
+}
+
+# A flag for initialisation procedures.
+# NB. some funny business here. Delay opening report file until the 1st day of 
+# simulation as it's hard to know how many paddocks are present at init2 time.
+set setupDone 0
+proc checkSetup {} {
+   global setupDone
+   if {!$setupDone} {
+      foreach node [stateGraph nodes] {
+         if {[llength [stateGraph arcs -out $node]] <= 0} {error "No arcs out of $node!!"}
+      }
+     setupLogging
+     log "changeState p1 [currentState]"
+     set setupDone 1
+  }
+}
+
+############### Stuff starts here. 
+# The 10 day rainfall accumulator - should be the 10 days of rain prior to start of simulation
+set rainList {0.2 1.0 0 0 0 0 15 12 0 0 0 0}
+
+# the initial state
+set state    "WinterFallow"
+
+set simName "Rotation Sample 2"
 ]]></condition>
+          <condition name="prepare" />
+          <condition name="process">if {[catch {checkSetup ; accumRain; doProcess}]} {
+    error "$errorInfo"
+}</condition>
+          <condition name="post" />
+          <condition name="exit">closeLogging
+</condition>
         </rule>
       </tclmanager>
-      <Soil name="#049 - Capella,Orion">
-        <region>Central Queensland</region>
-        <site>Capella</site>
-        <SoilType>Black Vertosol</SoilType>
-        <nearesttown>Capella, Q 4702</nearesttown>
-        <comment>Data provided by D. Lack (oc and ph not measured)</comment>
-        <naturalvegetation>Qld. Bluegrass, Mountain Coolibah</naturalvegetation>
+      <wheat />
+      <ozcot name="cotton" />
+      <chickpea />
+      <soil name="#009 - Kupunn">
+        <Site>Kupunn</Site>
+        <Region>South East Queensland</Region>
+        <LocalName>Brigalow</LocalName>
+        <SoilType>Grey Vertosol</SoilType>
+        <NearestTown>Dalby, Q 4405</NearestTown>
+        <NaturalVegetation>Brigalow, belah, wilga</NaturalVegetation>
         <Water>
-          <U>6</U>
           <Cona>3.5</Cona>
-          <Salb>0.13</Salb>
           <DiffusConst>40</DiffusConst>
           <DiffusSlope>16</DiffusSlope>
-          <CN2Bare>73</CN2Bare>
-          <CNRed>20</CNRed>
-          <CNCov>0.8</CNCov>
+          <U>6</U>
+          <Salb>0.13</Salb>
+          <Cn2Bare>73</Cn2Bare>
+          <CnRed>20</CnRed>
+          <CnCov>0.8</CnCov>
           <layer name="1">
             <thickness>150</thickness>
-            <bd>1.04</bd>
-            <ll15>0.25</ll15>
-            <airdry>0.125</airdry>
-            <dul>0.48</dul>
-            <sat>0.58</sat>
+            <bd>1.4</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.105</airdry>
+            <dul>0.39</dul>
+            <sat>0.44</sat>
+            <sw>9999.99</sw>
             <swcon>0.3</swcon>
           </layer>
           <layer name="2">
             <thickness>150</thickness>
-            <bd>1.22</bd>
-            <ll15>0.28</ll15>
-            <airdry>0.252</airdry>
-            <dul>0.46</dul>
-            <sat>0.51</sat>
+            <bd>1.39</bd>
+            <ll15>0.21</ll15>
+            <airdry>0.189</airdry>
+            <dul>0.39</dul>
+            <sat>0.44</sat>
+            <sw>9999.99</sw>
             <swcon>0.3</swcon>
           </layer>
           <layer name="3">
             <thickness>300</thickness>
-            <bd>1.21</bd>
-            <ll15>0.33</ll15>
-            <airdry>0.33</airdry>
-            <dul>0.46</dul>
-            <sat>0.51</sat>
+            <bd>1.37</bd>
+            <ll15>0.22</ll15>
+            <airdry>0.22</airdry>
+            <dul>0.4</dul>
+            <sat>0.45</sat>
+            <sw>9999.99</sw>
             <swcon>0.3</swcon>
           </layer>
           <layer name="4">
             <thickness>300</thickness>
-            <bd>1.32</bd>
-            <ll15>0.24</ll15>
-            <airdry>0.24</airdry>
-            <dul>0.35</dul>
-            <sat>0.47</sat>
+            <bd>1.36</bd>
+            <ll15>0.25</ll15>
+            <airdry>0.25</airdry>
+            <dul>0.41</dul>
+            <sat>0.46</sat>
+            <sw>9999.99</sw>
             <swcon>0.3</swcon>
           </layer>
           <layer name="5">
             <thickness>300</thickness>
-            <bd>1.42</bd>
-            <ll15>0.32</ll15>
-            <airdry>0.32</airdry>
-            <dul>0.33</dul>
-            <sat>0.43</sat>
+            <bd>1.38</bd>
+            <ll15>0.27</ll15>
+            <airdry>0.27</airdry>
+            <dul>0.4</dul>
+            <sat>0.45</sat>
+            <sw>9999.99</sw>
             <swcon>0.3</swcon>
           </layer>
           <layer name="6">
             <thickness>300</thickness>
-            <bd>1.5</bd>
-            <ll15>0.3</ll15>
-            <airdry>0.3</airdry>
-            <dul>0.33</dul>
-            <sat>0.4</sat>
+            <bd>1.39</bd>
+            <ll15>0.31</ll15>
+            <airdry>0.31</airdry>
+            <dul>0.39</dul>
+            <sat>0.44</sat>
+            <sw>9999.99</sw>
+            <swcon>0.3</swcon>
+          </layer>
+          <layer name="7">
+            <thickness>300</thickness>
+            <bd>1.42</bd>
+            <ll15>0.36</ll15>
+            <airdry>0.36</airdry>
+            <dul>0.38</dul>
+            <sat>0.43</sat>
+            <sw>9999.99</sw>
             <swcon>0.3</swcon>
           </layer>
         </Water>
         <Nitrogen>
-          <RootCN>40</RootCN>
-          <RootWT>200</RootWT>
-          <SoilCN>12.5</SoilCN>
+          <CnCanopyFact>1</CnCanopyFact>
+          <RootCn>40</RootCn>
+          <RootWt>200</RootWt>
+          <SoilCn>12.5</SoilCn>
           <EnrACoeff>7.4</EnrACoeff>
           <EnrBCoeff>0.2</EnrBCoeff>
           <layer name="1">
             <fbiom>0.03</fbiom>
             <finert>0.4</finert>
+            <no3>6.5</no3>
+            <nh4>0.6</nh4>
             <oc>1.24</oc>
             <ph>7</ph>
           </layer>
           <layer name="2">
             <fbiom>0.02</fbiom>
             <finert>0.6</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
             <oc>1.24</oc>
             <ph>7</ph>
           </layer>
           <layer name="3">
             <fbiom>0.01</fbiom>
             <finert>0.8</finert>
+            <no3>2.1</no3>
+            <nh4>0.1</nh4>
             <oc>1.25</oc>
             <ph>7</ph>
           </layer>
           <layer name="4">
             <fbiom>0.01</fbiom>
             <finert>0.9</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
             <oc>1.1</oc>
             <ph>7</ph>
           </layer>
           <layer name="5">
             <fbiom>0.01</fbiom>
             <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
             <oc>0.71</oc>
             <ph>7</ph>
           </layer>
           <layer name="6">
             <fbiom>0.01</fbiom>
             <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
             <oc>0.34</oc>
             <ph>7</ph>
           </layer>
+          <layer name="7">
+            <fbiom>0.01</fbiom>
+            <finert>0.95</finert>
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+            <oc>0.26</oc>
+            <ph>7</ph>
+          </layer>
         </Nitrogen>
-        <WaterFormat>VolumetricPercent</WaterFormat>
-        <InitWater>
+        <other />
+        <SoilCrop name="Chickpea">
           <layer name="1">
-            <sw>0.48</sw>
+            <ll>0.21</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
           </layer>
           <layer name="2">
-            <sw>0.46</sw>
+            <ll>0.21</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
           </layer>
           <layer name="3">
-            <sw>0.46</sw>
+            <ll>0.22</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
           </layer>
           <layer name="4">
-            <sw>0.35</sw>
+            <ll>0.27</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
           </layer>
           <layer name="5">
-            <sw>0.33</sw>
+            <ll>0.29</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
           </layer>
           <layer name="6">
-            <sw>0.33</sw>
+            <ll>0.34</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
           </layer>
+          <layer name="7">
+            <ll>0.38</ll>
+            <kl>0.01</kl>
+            <xf>1</xf>
+          </layer>
+        </SoilCrop>
+        <SoilCrop name="Cotton">
+          <layer name="1">
+            <ll>0.21</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.21</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.22</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.25</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.27</ll>
+            <kl>0.09</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.31</ll>
+            <kl>0.07</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.36</ll>
+            <kl>0.05</kl>
+            <xf>1</xf>
+          </layer>
+        </SoilCrop>
+        <SoilCrop name="Sorghum">
+          <layer name="1">
+            <ll>0.21</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.21</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.26</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.26</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.28</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.34</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.36</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+        </SoilCrop>
+        <SoilCrop name="Wheat">
+          <layer name="1">
+            <ll>0.21</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="2">
+            <ll>0.21</ll>
+            <kl>0.1</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="3">
+            <ll>0.25</ll>
+            <kl>0.08</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="4">
+            <ll>0.28</ll>
+            <kl>0.06</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="5">
+            <ll>0.31</ll>
+            <kl>0.04</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="6">
+            <ll>0.37</ll>
+            <kl>0.02</kl>
+            <xf>1</xf>
+          </layer>
+          <layer name="7">
+            <ll>0.38</ll>
+            <kl>0.01</kl>
+            <xf>1</xf>
+          </layer>
+        </SoilCrop>
+        <Comment>oc and ph not measured</Comment>
+        <InitWater>
+          <percentmethod>
+            <percent>1</percent>
+            <distributed>filled from top</distributed>
+          </percentmethod>
         </InitWater>
-        <other>
-          <layer name="1" />
-          <layer name="2" />
-          <layer name="3" />
-          <layer name="4" />
-          <layer name="5" />
-          <layer name="6" />
-        </other>
         <InitNitrogen>
           <layer name="1">
             <no3>6.5</no3>
@@ -5138,1713 +6330,32 @@ canvasButton 100 100
             <no3>1.7</no3>
             <nh4>0.1</nh4>
           </layer>
+          <layer name="7">
+            <no3>1.7</no3>
+            <nh4>0.1</nh4>
+          </layer>
         </InitNitrogen>
-        <SoilCrop name="Wheat">
-          <layer name="1">
-            <ll>0.25</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="2">
-            <ll>0.28</ll>
-            <kl>0.1</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="3">
-            <ll>0.33</ll>
-            <kl>0.08</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="4">
-            <ll>0.24</ll>
-            <kl>0.06</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="5">
-            <ll>0.32</ll>
-            <kl>0.04</kl>
-            <xf>1</xf>
-          </layer>
-          <layer name="6">
-            <ll>0.3</ll>
-            <kl>0.02</kl>
-            <xf>1</xf>
-          </layer>
-        </SoilCrop>
-        <SoilCrop name="sorghum">
-          <layer name="1">
-            <ll>0.25</ll>
-            <kl>0.10</kl>
-            <xf>1.00</xf>
-          </layer>
-          <layer name="2">
-            <ll>0.28</ll>
-            <kl>0.10</kl>
-            <xf>1.00</xf>
-          </layer>
-          <layer name="3">
-            <ll>0.33</ll>
-            <kl>0.08</kl>
-            <xf>1.00</xf>
-          </layer>
-          <layer name="4">
-            <ll>0.24</ll>
-            <kl>0.06</kl>
-            <xf>1.00</xf>
-          </layer>
-          <layer name="5">
-            <ll>0.32</ll>
-            <kl>0.04</kl>
-            <xf>1.00</xf>
-          </layer>
-          <layer name="6">
-            <ll>0.30</ll>
-            <kl>0.02</kl>
-            <xf>1.00</xf>
-          </layer>
-        </SoilCrop>
-        <SoilCrop name="chickpea">
-          <layer name="1">
-            <ll>0.25</ll>
-            <kl>0.10</kl>
-            <xf>1.00</xf>
-          </layer>
-          <layer name="2">
-            <ll>0.28</ll>
-            <kl>0.10</kl>
-            <xf>1.00</xf>
-          </layer>
-          <layer name="3">
-            <ll>0.33</ll>
-            <kl>0.08</kl>
-            <xf>1.00</xf>
-          </layer>
-          <layer name="4">
-            <ll>0.24</ll>
-            <kl>0.06</kl>
-            <xf>1.00</xf>
-          </layer>
-          <layer name="5">
-            <ll>0.32</ll>
-            <kl>0.04</kl>
-            <xf>1.00</xf>
-          </layer>
-          <layer name="6">
-            <ll>0.30</ll>
-            <kl>0.02</kl>
-            <xf>1.00</xf>
-          </layer>
-        </SoilCrop>
-      </Soil>
-      <wheat />
-      <sorghum />
-      <chickpea />
+      </soil>
+      <surfaceom name="surface organic matter">
+        <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
+        <type description="Organic Matter type">wheat</type>
+        <mass description="Initial surface residue (kg/ha)">1000.</mass>
+        <cnr description="C:N ration of initial residue">80.0</cnr>
+        <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
+      </surfaceom>
+      <outputfile name="outputfile">
+        <variables name="Variables">
+          <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+          <variable name="cotton.dm as Cotton.Biomass" description="Total above ground biomass (kg/ha)" array="?" />
+          <variable name="biomass" description="Biomass" array="No" />
+          <variable name="lai" description="Leaf area index" array="No" />
+        </variables>
+        <events name="Reporting Frequency">
+          <event name="harvesting" description="" />
+        </events>
+      </outputfile>
+      <fertiliser name="fertiliser" />
     </area>
-  </simulation>
-  <simulation name="Wether_Lucerne">
-    <metfile name="met">
-      <filename name="filename">C:\data\Apsim\development\apsim\met\sample\Workshop.met</filename>
-    </metfile>
-    <clock name="clock">
-      <start_date name="start_date" description="Select the start date of the simulation" type="date" lbound="1/01/1995" ubound="31/12/1996">1/01/1995</start_date>
-      <end_date name="end_date" description="Select the end date of the simulation" type="date" lbound="1/01/1995" ubound="31/12/1996">30/12/1996</end_date>
-    </clock>
-    <summaryfile name="summaryfile">
-      <filename name="filename">Wether_Lucerne.sum</filename>
-    </summaryfile>
-    <outputfile name="Outputfile">
-      <variables name="My Variables">
-        <variable name="StockHerbageConverter.dm_feed_on_offer()" description="Dry matter of feed on offer (kg/ha)" array="?" />
-        <variable name="StockHerbageConverter.dm_feed_removed()" description="Dry matter of feed removed (kg/ha)" array="?" />
-        <variable name="stock.age" array="?" />
-        <variable name="stock.wt_change" array="?" />
-        <variable name="stock.weight" array="?" />
-        <variable name="stock.sex" array="?" />
-        <variable name="stock.past_intake" array="?" />
-        <variable name="stock.number" array="?" />
-        <variable name="lucerne.biomass" description="Biomass" array="?" />
-        <variable name="lucerne.stage" description="Plant stage" array="?" />
-        <variable name="lucerne.lai" description="Leaf area index" array="?" />
-        <variable name="stock.cond_score_all" array="?" />
-        <variable name="stock.past_intake_all" array="?" />
-        <variable name="stock.supp_intake_all" array="?" />
-        <variable name="stock.fleece_wt_all" array="?" />
-        <variable name="stock.fibre_diam_all" array="?" />
-        <variable name="clock.dd/mmm/yyyy" description="Date (dd/mmm/yyyy)" array="?" />
-        <variable name="clock.year" description="Year" array="?" />
-        <variable name="met.rain" description="Rainfall (mm)" array="?" />
-        <variable name="lucerne.cover_tot" array="?" />
-        <variable name="lucerne.dlt_dm" description="Change in dry matter" array="?" />
-        <variable name="lucerne.dlt_dm_green as dlt_dm_green_leaf(2)" description="change in green pool" array="?" />
-        <variable name="lucerne.dlt_dm_green as dlt_dm_green_stem(3)" description="change in green pool" array="?" />
-        <variable name="lucerne.dm_green_leaf" description="Weight of leaf" array="?" />
-        <variable name="lucerne.dm_green_stem" description="Weight of stem" array="?" />
-        <variable name="lucerne.dm_senesced_leaf" description="Weight of senesced leaf" array="?" />
-        <variable name="lucerne.dm_senesced_stem" description="Weight of senesced stem" array="?" />
-        <variable name="lucerne.dm_dead_stem" description="Weight of dead stem" array="?" />
-        <variable name="lucerne.dm_dead_leaf" description="Weight of dead leaf" array="?" />
-      </variables>
-      <events name="My Variables Events">
-        <event name="clock.post" description="End of daily simulation time step" />
-      </events>
-    </outputfile>
-    <manager name="Manager">
-      <rule name="Sow on a fixed date">
-        <condition name="start_of_day">
-        if (today = date('[date]') then
-              [crop] sow plants =[density], sowing_depth = [depth], cultivar = [cultivar], row_spacing = [row_spacing]
-         endif
-               </condition>
-        <category name="Sowing criteria">
-          <date type="text" description="Enter sowing date (dd-mmm) : ">1/07/1995</date>
-        </category>
-        <category name="Sowing parameters">
-          <crop type="crop" description="Enter name of crop to sow : ">lucerne</crop>
-          <density type="text" description="Enter sowing density  (plants/m2) : ">100</density>
-          <depth type="text" description="Enter sowing depth  (mm) : ">50</depth>
-          <cultivar type="cultivars" croppropertyname="crop" description="Enter cultivar : ">sceptre</cultivar>
-          <row_spacing type="text" description="Enter row spacing (mm) : ">500</row_spacing>
-        </category>
-      </rule>
-      <rule name="Buy sheep on feed-on-offer">
-        <condition name="init">
-               sheep_presence = 'off'
-            </condition>
-        <condition name="start_of_day"><![CDATA[
-        if ([herbage_module].biomass >= [buy_feed_on_offer] AND sheep_presence = 'off') then
-           [stockmodule] buystock number = [buy_number] (-), genotype = '[genotype]', sex = [sex], age = [buy_age] (months), weight = [buy_weight] (kg)
-           sheep_presence = 'on'
-         endif
-               ]]></condition>
-        <category name="Buy properties">
-          <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
-          <genotype type="list" listvalues="black face x white face,border leicester, border leicester x merino,columbia,corriedale,delaine-merino,dorset x merino,dorset,finnsheep,hampshire,large merino,medium merino,small merino,polwarth,polypay,romney,ryeland,southdown,suffolk,targhee,texel,US corriedale,US romney,US southdown,US suffolk" description="Select Genotype : ">suffolk</genotype>
-          <herbage_module type="modulename" description="Module supplying herbage : ">lucerne</herbage_module>
-          <buy_feed_on_offer type="text" description="Feed on offer (kg/ha) : ">200</buy_feed_on_offer>
-          <buy_number type="text" description="Number of stock : ">50</buy_number>
-          <sex type="list" listvalues="ewe,wether,ram,crypto" description="Select sex : ">wether</sex>
-          <buy_age type="text" description="Age (months) : ">12</buy_age>
-          <buy_weight type="text" description="Weight (kg) : ">45</buy_weight>
-        </category>
-      </rule>
-      <rule name="Sell sheep on weight">
-        <condition name="start_of_day"><![CDATA[
-        if ((stock.weight >= [sell_on_weight_gain] OR stock.weight <= [sell_on_weight_loss]) AND sheep_presence = 'on') then
-           [stockmodule] sellstock number = [sell_number] (-)
-           sheep_presence = 'off'
-        endif
-               ]]></condition>
-        <category name="Sell properties">
-          <stockmodule type="modulename" description="Name of stock converter module : ">StockScienceConverter</stockmodule>
-          <sell_on_weight_gain type="text" description="Weight (gaining) : ">60</sell_on_weight_gain>
-          <sell_on_weight_loss type="text" description="Weight (losing) : ">0</sell_on_weight_loss>
-          <sell_number type="text" description="Number of stock : ">13</sell_number>
-        </category>
-      </rule>
-    </manager>
-    <surfaceom name="Surface Organic Matter">
-      <PoolName description="Organic Matter pool name">wheat_stubble</PoolName>
-      <type description="Organic Matter type">wheat</type>
-      <mass description="Initial surface residue (kg/ha)">1000.</mass>
-      <cnr description="C:N ratio of initial residue">80.0</cnr>
-      <standing_fraction description="Fraction of residue standing">0.0</standing_fraction>
-    </surfaceom>
-    <lucerne />
-    <stock>
-      <sheep>
-        <genotypename>medium merino</genotypename>
-        <number>0</number>
-        <sex type="list" listvalues="ewe,wether,ram,crypto">wether</sex>
-        <age>730.0</age>
-        <weight>50.0</weight>
-        <max_prev_wt>50.0</max_prev_wt>
-        <fleece_wt>6.0</fleece_wt>
-        <fibre_diam>20.0</fibre_diam>
-        <mated_to />
-        <pregnant>0</pregnant>
-        <lactating>0</lactating>
-        <no_young>0</no_young>
-        <birth_cs>0.0</birth_cs>
-        <lamb_wt>0.0</lamb_wt>
-        <lamb_fleece_wt>0.0</lamb_fleece_wt>
-        <paddock />
-        <tag>0</tag>
-        <priority>0</priority>
-      </sheep>
-      <stockgenotype name="Medium Merino Genotype">
-        <genotypename>medium merino</genotypename>
-        <dam_breed>medium merino</dam_breed>
-        <sire_breed>medium merino</sire_breed>
-        <generation>0</generation>
-        <srw>50.0</srw>
-        <conception1>0.8</conception1>
-        <conception2>0.15</conception2>
-        <death_rate>0.02</death_rate>
-        <ref_fleece_wt>4.5</ref_fleece_wt>
-        <max_fibre_diam>19.0</max_fibre_diam>
-        <fleece_yield>0.7</fleece_yield>
-        <peak_milk>25.0</peak_milk>
-      </stockgenotype>
-    </stock>
-    <StockScienceConverter>
-      <debug type="list" listvalues="on,off">off</debug>
-      <stock_module type="modulename">stock</stock_module>
-      <conversion_model>nonherbage</conversion_model>
-      <fraction_faeces_added>0.5</fraction_faeces_added>
-      <fraction_urine_added>0.5</fraction_urine_added>
-    </StockScienceConverter>
-    <StockHerbageConverter>
-      <debug type="list" listvalues="on,off">off</debug>
-      <conversion_model>herbage</conversion_model>
-      <herbage_model>plant</herbage_model>
-      <herbage_module_name type="modulename">lucerne</herbage_module_name>
-    </StockHerbageConverter>
-    <FarmwiseSequencerConverter name="FarmwiseSequencer" />
-    <Soil name="SampleBlackEarth">
-      <region>South East Queensland</region>
-      <site>Generic</site>
-      <SoilType>Black Vertosol</SoilType>
-      <comment>estimated cotton LL</comment>
-      <Water>
-        <U>6</U>
-        <Cona>3.5</Cona>
-        <Salb>0.13</Salb>
-        <DiffusConst>40</DiffusConst>
-        <DiffusSlope>16</DiffusSlope>
-        <CN2Bare>73</CN2Bare>
-        <CNRed>20</CNRed>
-        <CNCov>0.8</CNCov>
-        <layer name="1">
-          <thickness>150</thickness>
-          <bd>1.02</bd>
-          <ll15>0.29</ll15>
-          <airdry>0.14</airdry>
-          <dul>0.54</dul>
-          <sat>0.59</sat>
-          <swcon>0.3</swcon>
-        </layer>
-        <layer name="2">
-          <thickness>150</thickness>
-          <bd>1.03</bd>
-          <ll15>0.29</ll15>
-          <airdry>0.26</airdry>
-          <dul>0.53</dul>
-          <sat>0.58</sat>
-          <swcon>0.3</swcon>
-        </layer>
-        <layer name="3">
-          <thickness>300</thickness>
-          <bd>1.02</bd>
-          <ll15>0.29</ll15>
-          <airdry>0.29</airdry>
-          <dul>0.54</dul>
-          <sat>0.59</sat>
-          <swcon>0.3</swcon>
-        </layer>
-        <layer name="4">
-          <thickness>300</thickness>
-          <bd>1.02</bd>
-          <ll15>0.29</ll15>
-          <airdry>0.29</airdry>
-          <dul>0.54</dul>
-          <sat>0.58</sat>
-          <swcon>0.3</swcon>
-        </layer>
-        <layer name="5">
-          <thickness>300</thickness>
-          <bd>1.06</bd>
-          <ll15>0.3</ll15>
-          <airdry>0.3</airdry>
-          <dul>0.52</dul>
-          <sat>0.57</sat>
-          <swcon>0.3</swcon>
-        </layer>
-        <layer name="6">
-          <thickness>300</thickness>
-          <bd>1.11</bd>
-          <ll15>0.31</ll15>
-          <airdry>0.31</airdry>
-          <dul>0.5</dul>
-          <sat>0.55</sat>
-          <swcon>0.3</swcon>
-        </layer>
-        <layer name="7">
-          <thickness>300</thickness>
-          <bd>1.12</bd>
-          <ll15>0.32</ll15>
-          <airdry>0.32</airdry>
-          <dul>0.5</dul>
-          <sat>0.55</sat>
-          <swcon>0.3</swcon>
-        </layer>
-        <layer name="8">
-          <thickness>300</thickness>
-          <bd>1.15</bd>
-          <ll15>0.33</ll15>
-          <airdry>0.33</airdry>
-          <dul>0.48</dul>
-          <sat>0.53</sat>
-          <swcon>0.3</swcon>
-        </layer>
-        <layer name="9">
-          <thickness>300</thickness>
-          <bd>1.18</bd>
-          <ll15>0.34</ll15>
-          <airdry>0.34</airdry>
-          <dul>0.47</dul>
-          <sat>0.52</sat>
-          <swcon>0.3</swcon>
-        </layer>
-        <layer name="10">
-          <thickness>300</thickness>
-          <bd>1.2</bd>
-          <ll15>0.35</ll15>
-          <airdry>0.35</airdry>
-          <dul>0.46</dul>
-          <sat>0.51</sat>
-          <swcon>0.3</swcon>
-        </layer>
-        <layer name="11">
-          <thickness>300</thickness>
-          <bd>1.25</bd>
-          <ll15>0.36</ll15>
-          <airdry>0.36</airdry>
-          <dul>0.44</dul>
-          <sat>0.49</sat>
-          <swcon>0.3</swcon>
-        </layer>
-      </Water>
-      <Nitrogen>
-        <RootCN>40</RootCN>
-        <RootWT>200</RootWT>
-        <SoilCN>12.5</SoilCN>
-        <EnrACoeff>7.4</EnrACoeff>
-        <EnrBCoeff>0.2</EnrBCoeff>
-        <layer name="1">
-          <fbiom>0.025</fbiom>
-          <finert>0.4</finert>
-          <oc>1.04</oc>
-          <ph>8.4</ph>
-        </layer>
-        <layer name="2">
-          <fbiom>0.02</fbiom>
-          <finert>0.6</finert>
-          <oc>0.89</oc>
-          <ph>8.8</ph>
-        </layer>
-        <layer name="3">
-          <fbiom>0.015</fbiom>
-          <finert>0.8</finert>
-          <oc>0.89</oc>
-          <ph>9</ph>
-        </layer>
-        <layer name="4">
-          <fbiom>0.01</fbiom>
-          <finert>0.9</finert>
-          <oc>0.89</oc>
-          <ph>9.2</ph>
-        </layer>
-        <layer name="5">
-          <fbiom>0.01</fbiom>
-          <finert>0.95</finert>
-          <oc>0.77</oc>
-          <ph>9.2</ph>
-        </layer>
-        <layer name="6">
-          <fbiom>0.01</fbiom>
-          <finert>0.95</finert>
-          <oc>0.45</oc>
-          <ph>9.1</ph>
-        </layer>
-        <layer name="7">
-          <fbiom>0.01</fbiom>
-          <finert>0.95</finert>
-          <oc>0.27</oc>
-          <ph>9</ph>
-        </layer>
-        <layer name="8">
-          <fbiom>0.01</fbiom>
-          <finert>0.95</finert>
-          <oc>0.22</oc>
-          <ph>9</ph>
-        </layer>
-        <layer name="9">
-          <fbiom>0.01</fbiom>
-          <finert>0.95</finert>
-          <oc>0.16</oc>
-          <ph>8.9</ph>
-        </layer>
-        <layer name="10">
-          <fbiom>0.01</fbiom>
-          <finert>0.95</finert>
-          <oc>0.13</oc>
-          <ph>8.9</ph>
-        </layer>
-        <layer name="11">
-          <fbiom>0.01</fbiom>
-          <finert>0.95</finert>
-          <oc>0.12</oc>
-          <ph>8.9</ph>
-        </layer>
-      </Nitrogen>
-      <WaterFormat>VolumetricPercent</WaterFormat>
-      <InitWater>
-        <layer name="1">
-          <sw>0.54</sw>
-        </layer>
-        <layer name="2">
-          <sw>0.53</sw>
-        </layer>
-        <layer name="3">
-          <sw>0.54</sw>
-        </layer>
-        <layer name="4">
-          <sw>0.54</sw>
-        </layer>
-        <layer name="5">
-          <sw>0.52</sw>
-        </layer>
-        <layer name="6">
-          <sw>0.5</sw>
-        </layer>
-        <layer name="7">
-          <sw>0.5</sw>
-        </layer>
-        <layer name="8">
-          <sw>0.48</sw>
-        </layer>
-        <layer name="9">
-          <sw>0.47</sw>
-        </layer>
-        <layer name="10">
-          <sw>0.46</sw>
-        </layer>
-        <layer name="11">
-          <sw>0.44</sw>
-        </layer>
-      </InitWater>
-      <other>
-        <layer name="1">
-          <ec>0.2</ec>
-        </layer>
-        <layer name="2">
-          <ec>0.25</ec>
-        </layer>
-        <layer name="3">
-          <ec>0.31</ec>
-        </layer>
-        <layer name="4">
-          <ec>0.4</ec>
-        </layer>
-        <layer name="5">
-          <ec>0.59</ec>
-        </layer>
-        <layer name="6">
-          <ec>0.84</ec>
-        </layer>
-        <layer name="7">
-          <ec>0.93</ec>
-        </layer>
-        <layer name="8">
-          <ec>1.01</ec>
-        </layer>
-        <layer name="9">
-          <ec>1.06</ec>
-        </layer>
-        <layer name="10">
-          <ec>1.05</ec>
-        </layer>
-        <layer name="11">
-          <ec>1.01</ec>
-        </layer>
-      </other>
-      <InitNitrogen>
-        <layer name="1">
-          <no3>6.5</no3>
-          <nh4>0.6</nh4>
-        </layer>
-        <layer name="2">
-          <no3>2.1</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="3">
-          <no3>2.1</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="4">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="5">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="6">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="7">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="8">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="9">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="10">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-        <layer name="11">
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
-      </InitNitrogen>
-      <SoilCrop name="wheat">
-        <layer name="1">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.32</ll>
-          <kl>0.08</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.32</ll>
-          <kl>0.06</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="5">
-          <ll>0.35</ll>
-          <kl>0.04</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="6">
-          <ll>0.38</ll>
-          <kl>0.02</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="7">
-          <ll>0.41</ll>
-          <kl>0.01</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="8">
-          <ll>0.48</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="9">
-          <ll>0.47</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="10">
-          <ll>0.46</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="11">
-          <ll>0.44</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-      </SoilCrop>
-      <SoilCrop name="barley">
-        <layer name="1">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.32</ll>
-          <kl>0.08</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.38</ll>
-          <kl>0.06</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="5">
-          <ll>0.39</ll>
-          <kl>0.04</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="6">
-          <ll>0.39</ll>
-          <kl>0.02</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="7">
-          <ll>0.41</ll>
-          <kl>0.01</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="8">
-          <ll>0.48</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="9">
-          <ll>0.47</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="10">
-          <ll>0.46</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="11">
-          <ll>0.44</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-      </SoilCrop>
-      <SoilCrop name="canola">
-        <layer name="1">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.32</ll>
-          <kl>0.08</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.32</ll>
-          <kl>0.06</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="5">
-          <ll>0.35</ll>
-          <kl>0.04</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="6">
-          <ll>0.38</ll>
-          <kl>0.02</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="7">
-          <ll>0.41</ll>
-          <kl>0.01</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="8">
-          <ll>0.48</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="9">
-          <ll>0.47</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="10">
-          <ll>0.46</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="11">
-          <ll>0.44</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-      </SoilCrop>
-      <SoilCrop name="Chickpea">
-        <layer name="1">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.36</ll>
-          <kl>0.08</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.43</ll>
-          <kl>0.06</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="5">
-          <ll>0.51</ll>
-          <kl>0.04</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="6">
-          <ll>0.5</ll>
-          <kl>0.02</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="7">
-          <ll>0.5</ll>
-          <kl>0.01</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="8">
-          <ll>0.48</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="9">
-          <ll>0.47</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="10">
-          <ll>0.46</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="11">
-          <ll>0.44</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-      </SoilCrop>
-      <SoilCrop name="Lucerne">
-        <layer name="1">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="5">
-          <ll>0.3</ll>
-          <kl>0.09</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="6">
-          <ll>0.31</ll>
-          <kl>0.09</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="7">
-          <ll>0.32</ll>
-          <kl>0.09</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="8">
-          <ll>0.33</ll>
-          <kl>0.09</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="9">
-          <ll>0.34</ll>
-          <kl>0.09</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="10">
-          <ll>0.35</ll>
-          <kl>0.09</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="11">
-          <ll>0.36</ll>
-          <kl>0.09</kl>
-          <xf>1</xf>
-        </layer>
-      </SoilCrop>
-      <SoilCrop name="Maize">
-        <layer name="1">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.34</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.34</ll>
-          <kl>0.08</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="5">
-          <ll>0.37</ll>
-          <kl>0.06</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="6">
-          <ll>0.4</ll>
-          <kl>0.04</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="7">
-          <ll>0.42</ll>
-          <kl>0.02</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="8">
-          <ll>0.48</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="9">
-          <ll>0.47</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="10">
-          <ll>0.46</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="11">
-          <ll>0.44</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-      </SoilCrop>
-      <SoilCrop name="Perennial Grass">
-        <layer name="1">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.39</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.41</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="5">
-          <ll>0.4</ll>
-          <kl>0.09</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="6">
-          <ll>0.4</ll>
-          <kl>0.07</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="7">
-          <ll>0.41</ll>
-          <kl>0.05</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="8">
-          <ll>0.41</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="9">
-          <ll>0.4</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="10">
-          <ll>0.4</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="11">
-          <ll>0.42</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-      </SoilCrop>
-      <SoilCrop name="Sorghum">
-        <layer name="1">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.35</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.38</ll>
-          <kl>0.08</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="5">
-          <ll>0.4</ll>
-          <kl>0.06</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="6">
-          <ll>0.4</ll>
-          <kl>0.04</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="7">
-          <ll>0.4</ll>
-          <kl>0.02</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="8">
-          <ll>0.48</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="9">
-          <ll>0.47</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="10">
-          <ll>0.46</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="11">
-          <ll>0.44</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-      </SoilCrop>
-      <SoilCrop name="Cowpea">
-        <layer name="1">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.32</ll>
-          <kl>0.08</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.32</ll>
-          <kl>0.06</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="5">
-          <ll>0.35</ll>
-          <kl>0.04</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="6">
-          <ll>0.38</ll>
-          <kl>0.02</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="7">
-          <ll>0.41</ll>
-          <kl>0.01</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="8">
-          <ll>0.48</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="9">
-          <ll>0.47</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="10">
-          <ll>0.46</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="11">
-          <ll>0.44</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-      </SoilCrop>
-      <SoilCrop name="Fababean">
-        <layer name="1">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.32</ll>
-          <kl>0.08</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.32</ll>
-          <kl>0.06</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="5">
-          <ll>0.35</ll>
-          <kl>0.04</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="6">
-          <ll>0.38</ll>
-          <kl>0.02</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="7">
-          <ll>0.41</ll>
-          <kl>0.01</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="8">
-          <ll>0.48</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="9">
-          <ll>0.47</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="10">
-          <ll>0.46</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="11">
-          <ll>0.44</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-      </SoilCrop>
-      <SoilCrop name="Mungbean">
-        <layer name="1">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.32</ll>
-          <kl>0.08</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.32</ll>
-          <kl>0.06</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="5">
-          <ll>0.35</ll>
-          <kl>0.04</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="6">
-          <ll>0.38</ll>
-          <kl>0.02</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="7">
-          <ll>0.41</ll>
-          <kl>0.01</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="8">
-          <ll>0.48</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="9">
-          <ll>0.47</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="10">
-          <ll>0.46</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="11">
-          <ll>0.44</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-      </SoilCrop>
-      <SoilCrop name="Navybean">
-        <layer name="1">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.32</ll>
-          <kl>0.08</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.32</ll>
-          <kl>0.06</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="5">
-          <ll>0.35</ll>
-          <kl>0.04</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="6">
-          <ll>0.38</ll>
-          <kl>0.02</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="7">
-          <ll>0.41</ll>
-          <kl>0.01</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="8">
-          <ll>0.48</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="9">
-          <ll>0.47</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="10">
-          <ll>0.46</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="11">
-          <ll>0.44</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-      </SoilCrop>
-      <SoilCrop name="Peanut">
-        <layer name="1">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.32</ll>
-          <kl>0.08</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.32</ll>
-          <kl>0.06</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="5">
-          <ll>0.35</ll>
-          <kl>0.04</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="6">
-          <ll>0.38</ll>
-          <kl>0.02</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="7">
-          <ll>0.41</ll>
-          <kl>0.01</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="8">
-          <ll>0.48</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="9">
-          <ll>0.47</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="10">
-          <ll>0.46</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="11">
-          <ll>0.44</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-      </SoilCrop>
-      <SoilCrop name="Pigeonpea">
-        <layer name="1">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.32</ll>
-          <kl>0.08</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.32</ll>
-          <kl>0.06</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="5">
-          <ll>0.35</ll>
-          <kl>0.04</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="6">
-          <ll>0.38</ll>
-          <kl>0.02</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="7">
-          <ll>0.41</ll>
-          <kl>0.01</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="8">
-          <ll>0.48</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="9">
-          <ll>0.47</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="10">
-          <ll>0.46</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="11">
-          <ll>0.44</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-      </SoilCrop>
-      <SoilCrop name="Soybean">
-        <layer name="1">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.32</ll>
-          <kl>0.08</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.32</ll>
-          <kl>0.06</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="5">
-          <ll>0.35</ll>
-          <kl>0.04</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="6">
-          <ll>0.38</ll>
-          <kl>0.02</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="7">
-          <ll>0.41</ll>
-          <kl>0.01</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="8">
-          <ll>0.48</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="9">
-          <ll>0.47</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="10">
-          <ll>0.46</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="11">
-          <ll>0.44</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-      </SoilCrop>
-      <SoilCrop name="Stylo">
-        <layer name="1">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.32</ll>
-          <kl>0.08</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.32</ll>
-          <kl>0.06</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="5">
-          <ll>0.35</ll>
-          <kl>0.04</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="6">
-          <ll>0.38</ll>
-          <kl>0.02</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="7">
-          <ll>0.41</ll>
-          <kl>0.01</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="8">
-          <ll>0.48</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="9">
-          <ll>0.47</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="10">
-          <ll>0.46</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="11">
-          <ll>0.44</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-      </SoilCrop>
-      <SoilCrop name="Sugar">
-        <layer name="1">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.32</ll>
-          <kl>0.08</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.32</ll>
-          <kl>0.06</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="5">
-          <ll>0.35</ll>
-          <kl>0.04</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="6">
-          <ll>0.38</ll>
-          <kl>0.02</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="7">
-          <ll>0.41</ll>
-          <kl>0.01</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="8">
-          <ll>0.48</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="9">
-          <ll>0.47</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="10">
-          <ll>0.46</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="11">
-          <ll>0.44</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-      </SoilCrop>
-      <SoilCrop name="Sunflower">
-        <layer name="1">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.32</ll>
-          <kl>0.08</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.32</ll>
-          <kl>0.06</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="5">
-          <ll>0.35</ll>
-          <kl>0.04</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="6">
-          <ll>0.38</ll>
-          <kl>0.02</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="7">
-          <ll>0.41</ll>
-          <kl>0.01</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="8">
-          <ll>0.48</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="9">
-          <ll>0.47</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="10">
-          <ll>0.46</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="11">
-          <ll>0.44</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-      </SoilCrop>
-      <SoilCrop name="Lablab">
-        <layer name="1">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.32</ll>
-          <kl>0.08</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.32</ll>
-          <kl>0.06</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="5">
-          <ll>0.35</ll>
-          <kl>0.04</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="6">
-          <ll>0.38</ll>
-          <kl>0.02</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="7">
-          <ll>0.41</ll>
-          <kl>0.01</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="8">
-          <ll>0.48</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="9">
-          <ll>0.47</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="10">
-          <ll>0.46</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="11">
-          <ll>0.44</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-      </SoilCrop>
-      <SoilCrop name="Cotton">
-        <layer name="1">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="2">
-          <ll>0.29</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="3">
-          <ll>0.35</ll>
-          <kl>0.1</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="4">
-          <ll>0.36</ll>
-          <kl>0.08</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="5">
-          <ll>0.38</ll>
-          <kl>0.06</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="6">
-          <ll>0.39</ll>
-          <kl>0.04</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="7">
-          <ll>0.39</ll>
-          <kl>0.02</kl>
-          <xf>1</xf>
-        </layer>
-        <layer name="8">
-          <ll>0.48</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="9">
-          <ll>0.47</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="10">
-          <ll>0.46</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-        <layer name="11">
-          <ll>0.44</ll>
-          <kl>0</kl>
-          <xf>0</xf>
-        </layer>
-      </SoilCrop>
-    </Soil>
   </simulation>
   <simulation name="Wether_Lucerne_Supplement">
     <metfile name="met">
