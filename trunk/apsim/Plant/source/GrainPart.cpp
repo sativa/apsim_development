@@ -237,7 +237,7 @@ float fruitGrainPart::grainNumber (float stem_dm_green
    return grain_no;
 }
 
-void fruitGrainPart::doTick(protocol::timeType &tick)
+void fruitGrainPart::doTick(protocol::TimeType &tick)
    //===========================================================================
 {
    double sd = (double)tick.startday;
@@ -245,7 +245,7 @@ void fruitGrainPart::doTick(protocol::timeType &tick)
 }
 
 // Field a NewMet event
-void fruitGrainPart::doNewMet(protocol::newmetType &newmet)
+void fruitGrainPart::doNewMet(protocol::NewMetType &newmet)
    //===========================================================================
 {
    if (gHasreadconstants)

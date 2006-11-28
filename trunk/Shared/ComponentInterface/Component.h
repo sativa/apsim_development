@@ -380,7 +380,7 @@ class EXPORT Component
       bool setVariableSuccess;
       vector<unsigned> completeIDs;
       bool completeFound;
-      protocol::timeType tick;
+      protocol::TimeType tick;
       bool sendTickToComponent;
       bool haveWritenToStdOutToday;
       unsigned currentMsgID;

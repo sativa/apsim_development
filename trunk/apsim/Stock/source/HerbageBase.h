@@ -44,7 +44,7 @@ class HerbageBase : public protocol::Component
 
     virtual void doInit1(const FString& sdml) = 0;
     virtual void doInit2() = 0;
-    virtual void doGrazed(protocol::remove_herbageType &grazed) = 0;
+    virtual void doGrazed(protocol::RemoveHerbageType &grazed) = 0;
     virtual void doDigestibility() = 0;
 
     virtual float dmTotalVeg() = 0;

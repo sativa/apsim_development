@@ -809,7 +809,7 @@ C     Last change:  P    25 Oct 2000    9:26 am
      .            trim(Variable_value)
          g%local_variable_regIds(g%num_local_variables)
      .      = Add_Registration (respondToGetSetReg, Variable_name,
-     .                       singleTypeDDML, ' ', ' ')
+     .                       floatTypeDDML, ' ', ' ')
       endif
 
       call Write_string (str)

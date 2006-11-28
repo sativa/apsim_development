@@ -80,9 +80,9 @@ void __fastcall TMainForm::EditReportActionExecute(TObject *Sender)
       {
       palette->DragMode = dmAutomatic;
       palette->DragKind = dkDock;
-      palette->BorderIcons.Clear();
+//      palette->BorderIcons.Clear();
       palette->Caption = "";
-      palette->BorderStyle = bsNone;
+//      palette->BorderStyle = bsNone;
       palette->Parent = ButtonBar;
       }
    report.setObjectInspector(ObjectInspector, NULL);

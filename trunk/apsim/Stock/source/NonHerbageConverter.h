@@ -64,7 +64,7 @@ class NonHerbageConverter : public ConverterBase
       unsigned intakeGetID;
 
 ////      protocol::Component *system;
-      protocol::add_excretaType excreted;
+      protocol::AddExcretaType excreted;
 
       struct
       {

@@ -6235,7 +6235,7 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
 
 *+  Local Variables
 
-      type(new_cropType) :: new_crop
+      type(NewCropType) :: new_crop
 
 
 *- Implementation Section ----------------------------------
@@ -6244,7 +6244,7 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
       call get_name(new_crop%sender)
       new_crop%crop_type = c%crop_type
 
-      call publish_new_crop(id%new_crop, new_crop)
+      call publish_NewCrop(id%new_crop, new_crop)
 
       call pop_routine (myname)
       return

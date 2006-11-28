@@ -41,7 +41,7 @@
       <getVariableReg name="dlayer" type="dlayer"/>
       <respondToEventReg name="water_supplied" type="water_supplied"/>
       <respondToEventReg name="tick" type="tick"/>
-      <respondToEventReg name="new_solute" type="new_solute"/>
+      <respondToEventReg name="new_solute" type="NewSolute"/>
       <respondToEventReg name="process" type="process"/>
    </registrations>
 </component>

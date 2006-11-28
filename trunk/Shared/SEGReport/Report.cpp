@@ -304,7 +304,7 @@ TForm* Report::edit(bool turnOn)
       formDesigner->ShowComponents = false;
       formDesigner->ShowPalette = true;
       formDesigner->Active = true;
-      GetPalForm()->AutoSize = true;
+      GetPalForm()->AutoSize = false;
       return dynamic_cast<TForm*> (GetPalForm());
       }
    else if (!turnOn && formDesigner != NULL)

@@ -354,7 +354,7 @@ void Coordinator::onRegisterMessage(unsigned int fromID, RegisterData& registerD
          regName.erase(0, posPeriod+1);
          }
 
-      ::Registration newReg(fromID, registerData.ID, regName, registerData.kind);
+      ::Registration newReg(fromID, registerData.ID, regName, asString(registerData.type), registerData.kind);
       registrations.add(newReg, destID);
       }
    catch (const runtime_error& err)
@@ -543,13 +543,21 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
    if (posPeriod != string::npos)
       {
       string componentName = childName.substr(0, posPeriod);
-      childName.erase(0, posPeriod);
-      componentID = componentNameToID(childName);
+      childName.erase(0, posPeriod+1);
+      if (componentName != "*")
+         componentId = componentNameToID(componentName);
       }
    std::vector< ::Registration> matches;
 
    if (queryInfo.kind == respondToGetInfo)
+      {
       registrations.findMatching(componentId, childName, RegistrationType::respondToGet, matches);
+      if (matches.size() == 0)
+         {
+         pollComponentsForGetVariable(childName, componentId);
+         registrations.findMatching(componentId, childName, RegistrationType::respondToGet, matches);
+         }
+      }
    else if (queryInfo.kind == respondToSetInfo)
       registrations.findMatching(componentId, childName, RegistrationType::respondToSet, matches);
    else if (queryInfo.kind == respondToEventInfo)
@@ -585,7 +593,10 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
 
    for (unsigned i = 0; i != matches.size(); i++)
       {
-      string fqn = name;
+      char buffer[100];
+      FString st(buffer, sizeof(buffer), CString);
+      componentIDToName(matches[i].componentId, st);
+      string fqn = asString(st);
       fqn += ".";
       fqn += matches[i].name;
 
@@ -595,7 +606,7 @@ void Coordinator::onQueryInfoMessage(unsigned int fromID,
                                        matches[i].componentId,
                                        matches[i].id,
                                        fqn.c_str(),
-                                       " ",
+                                       matches[i].ddml.c_str(),
                                        queryInfo.kind));
       }
    }
@@ -855,7 +866,7 @@ void Coordinator::readAllRegistrations(void)
       unsigned regId = addRegistration(regType, reg->getName().c_str(),
                                        dataType.getTypeString().c_str());
 
-      registrations.add(::Registration(parentID, regId, internalName, oppositeRegType));
+      registrations.add(::Registration(parentID, regId, internalName, "", oppositeRegType));
       }
    }
 // ------------------------------------------------------------------
@@ -946,7 +957,7 @@ void Coordinator::onApsimGetQuery(ApsimGetQueryData& apsimGetQueryData)
             unsigned parentRegId = addRegistration(RegistrationType::respondToGet,
                                                    fqn.c_str(),
                                                    "<type/>");
-            registrations.add(::Registration(parentID, parentRegId, variableName, RegistrationType::get));
+            registrations.add(::Registration(parentID, parentRegId, matches[0].name, matches[0].ddml, RegistrationType::get));
             }
          }
       }

@@ -8,7 +8,7 @@
       message.obj Type.obj TypeConverter.obj Variant.obj Variants.obj 
       MessageData.obj ApsimVariant.obj ArraySpecifier.obj Registrations.obj 
       RegistrationItem.obj ProtocolVector.obj datatypes.obj RegistrationType.obj 
-      EntryPoints.obj Variable.obj VariableRef.obj"/>
+      EntryPoints.obj Variable.obj VariableRef.obj FORTRANdatatypes.obj"/>
     <RESFILES value="ComponentInterface.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -41,7 +41,7 @@
       -tWD -tWM -c"/>
     <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
-    <AFLAGS value="/mx /w2 /zd"/>
+    <AFLAGS value="/mx /w2 /zi"/>
     <LFLAGS value="-D&quot;&quot; -aa -Tpd -x -Gn -Gi -v"/>
     <OTHERFILES value=""/>
   </OPTIONS>
@@ -76,6 +76,7 @@
       <FILE FILENAME="EntryPoints.cpp" FORMNAME="" UNITNAME="EntryPoints" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Variable.cpp" FORMNAME="" UNITNAME="Variable.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="VariableRef.cpp" FORMNAME="" UNITNAME="VariableRef.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="FORTRANdatatypes.cpp" FORMNAME="" UNITNAME="FORTRANdatatypes" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -109,17 +110,19 @@ ProductVersion=1.0.0.0
 Comments=
 
 [Excluded Packages]
-C:\Program Files\Borland\CBuilder6\Components\TeeChart\Sources\Compiled\BuilderC6\System\TeeImage7C6.bpl=TeeChart Pro Graphic Exporting formats
+C:\Program Files\Borland\CBuilder6\Components\TeeChart\source\Sources\Compiled\BuilderC6\System\TeeImage7C6.bpl=TeeChart Pro Graphic Exporting formats
 
 [HistoryLists\hlIncludePath]
-Count=3
-Item0=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
-Item1=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
-Item2=$(BCB)\include;$(BCB)\include\vcl
+Count=4
+Item0=C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
+Item1=$(BCB)\include;$(BCB)\include\vcl;$(SHARED);$(BCB)\components\boost
+Item2=$(BCB)\include;$(BCB)\include\vcl;$(SHARED)
+Item3=$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
-Count=1
-Item0=$(BCB)\lib\obj;$(BCB)\lib
+Count=2
+Item0=C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\lib\obj;$(BCB)\lib
+Item1=$(BCB)\lib\obj;$(BCB)\lib
 
 [HistoryLists\hlDebugSourcePath]
 Count=1

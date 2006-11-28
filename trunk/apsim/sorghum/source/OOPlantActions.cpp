@@ -154,7 +154,7 @@ void OOPlant::doProcess(unsigned &, unsigned &, protocol::Variant &)
 //------------------------------------------------------------------------------------------------
 void OOPlant::doTick(unsigned &, unsigned &, protocol::Variant &v)
    {
-   struct protocol::timeType tick;
+   struct protocol::TimeType tick;
    v.unpack(tick);
    today.todayDate.convertJulian((float)tick.startday);
    }
@@ -179,7 +179,7 @@ void OOPlant::doKillCrop(unsigned &, unsigned &, protocol::Variant &v)
 //------------------------------------------------------------------------------------------------
 void OOPlant::doNewMet(unsigned &, unsigned &, protocol::Variant &v)
    {
-   struct protocol::newmetType newmet;
+   struct protocol::NewMetType newmet;
    v.unpack(newmet);
    today.radn = newmet.radn;
    today.maxT = newmet.maxt;

@@ -284,16 +284,16 @@ void Plant::doRegistrations(protocol::Component *system)
    // Events
    setupEvent(parent, "prepare",     RegistrationType::respondToEvent, &Plant::doPrepare, nullTypeDDML);
    setupEvent(parent, "process",     RegistrationType::respondToEvent, &Plant::doProcess, nullTypeDDML);
-   setupEvent(parent, "tick",        RegistrationType::respondToEvent, &Plant::doTick, DDML(protocol::timeType()).c_str());
-   setupEvent(parent, "newmet",      RegistrationType::respondToEvent, &Plant::doNewMet, DDML(protocol::newmetType()).c_str());
-   setupEvent(parent, "new_profile", RegistrationType::respondToEvent, &Plant::doNewProfile, DDML(protocol::new_profileType()).c_str());
+   setupEvent(parent, "tick",        RegistrationType::respondToEvent, &Plant::doTick, DDML(protocol::TimeType()).c_str());
+   setupEvent(parent, "newmet",      RegistrationType::respondToEvent, &Plant::doNewMet, DDML(protocol::NewMetType()).c_str());
+   setupEvent(parent, "new_profile", RegistrationType::respondToEvent, &Plant::doNewProfile, DDML(protocol::NewProfileType()).c_str());
    setupEvent(parent, "sow",         RegistrationType::respondToEvent, &Plant::doSow, sowDDML);
    setupEvent(parent, "harvest",     RegistrationType::respondToEvent, &Plant::doHarvest, nullTypeDDML);
    setupEvent(parent, "end_crop",    RegistrationType::respondToEvent, &Plant::doEndCrop, nullTypeDDML);
    setupEvent(parent, "kill_crop",   RegistrationType::respondToEvent, &Plant::doKillCrop, nullTypeDDML);
    setupEvent(parent, "end_run",     RegistrationType::respondToEvent, &Plant::doEndRun, nullTypeDDML);
    setupEvent(parent, "kill_stem",   RegistrationType::respondToEvent, &Plant::doKillStem, killStemDDML);
-   setupEvent(parent, "remove_crop_biomass",   RegistrationType::respondToEvent, &Plant::doRemoveCropBiomass, DDML(protocol::removeCropDmType()).c_str());
+   setupEvent(parent, "remove_crop_biomass",   RegistrationType::respondToEvent, &Plant::doRemoveCropBiomass, DDML(protocol::RemoveCropDmType()).c_str());
    setupEvent(parent, "detach_crop_biomass_rate",   RegistrationType::respondToEvent, &Plant::doDetachCropBiomass, doubleType);
 
 
@@ -801,7 +801,7 @@ void Plant::doAutoClassChange(unsigned &/*fromId*/, unsigned &eventId, protocol:
 // Field a Tick event
 void Plant::doTick(unsigned &, unsigned &, protocol::Variant &v)
   {
-  struct protocol::timeType tick;
+  struct protocol::TimeType tick;
   v.unpack(tick);
   double sd = (double)tick.startday;
   jday_to_day_of_year(&sd, &Environment.day_of_year, &Environment.year);
@@ -813,7 +813,7 @@ void Plant::doNewMet(unsigned &, unsigned &, protocol::Variant &v)
   {
   if (g.hasreadconstants)
      {
-     struct protocol::newmetType newmet;
+     struct protocol::NewMetType newmet;
      v.unpack(newmet);
      Environment.radn = newmet.radn;
      Environment.maxt = newmet.maxt;
@@ -3223,7 +3223,7 @@ void Plant::plant_remove_crop_biomass (protocol::Variant &v/*(INPUT) incoming me
 
     //plant_auto_class_change("remove_biomass");
 
-    protocol::removeCropDmType dmRemoved;
+    protocol::RemoveCropDmType dmRemoved;
     v.unpack(dmRemoved);
 
     if (c.remove_biomass_report == "on")
@@ -3257,7 +3257,7 @@ void Plant::plant_detach_crop_biomass (protocol::Variant &v/*(INPUT) incoming me
     float detachRate;
     v.unpack(detachRate);
 
-    protocol::removeCropDmType dmRemoved;
+    protocol::RemoveCropDmType dmRemoved;
 
       protocol::dmType dm;
 
@@ -3767,7 +3767,7 @@ void Plant::plant_kill_stem_update (protocol::Variant &v/*(INPUT) message argume
 //      261099 jngh removed energy from residue components
 //      131100 jngh removed energy
 //      210201 dsg replaced unprotected divides with 'divide' function
-void Plant::plant_remove_biomass_update (protocol::removeCropDmType dmRemoved)
+void Plant::plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved)
     {
 
 //+  Constant Values

@@ -33,7 +33,7 @@ void eventObserver::doRegistrations(protocol::Component *s)
    s->addGettableVar(varName2.c_str(), myDate,
                      "doy", desc2.c_str());
 
-   setupEvent(s, "tick", RegistrationType::respondToEvent, &eventObserver::onTick, DDML(protocol::timeType()).c_str());
+   setupEvent(s, "tick", RegistrationType::respondToEvent, &eventObserver::onTick, DDML(protocol::TimeType()).c_str());
    }
 
 void eventObserver::onTick(unsigned &, unsigned &, protocol::Variant &)

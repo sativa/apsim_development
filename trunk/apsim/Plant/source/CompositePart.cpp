@@ -1315,7 +1315,7 @@ void CompositePart::doGrainNumber (void)
       (*part)->doGrainNumber();
 }
 
-void CompositePart::doTick(protocol::timeType &tick)
+void CompositePart::doTick(protocol::TimeType &tick)
    //===========================================================================
 {
    vector <plantPart *>::iterator part;
@@ -1324,7 +1324,7 @@ void CompositePart::doTick(protocol::timeType &tick)
 }
 
 // Field a NewMet event
-void CompositePart::doNewMet(protocol::newmetType &newmet)
+void CompositePart::doNewMet(protocol::NewMetType &newmet)
    //===========================================================================
 {
    vector <plantPart *>::iterator part;
@@ -1442,7 +1442,7 @@ float CompositePart::dltNRemoved(void) const
    return NRemoved;
    }
 
-void CompositePart::doRemoveBiomass(protocol::removeCropDmType dmRemoved, string &c_remove_biomass_report)
+void CompositePart::doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_remove_biomass_report)
 //=======================================================================================
 {
    vector <plantPart *>::iterator part;

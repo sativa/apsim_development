@@ -11,8 +11,8 @@
       <respondToEventReg name="kill_crop" type="kill_crop"/>
       <respondToEventReg name="end_run" type="end_run"/>
 
-      <eventReg name="crop_chopped" type="crop_chopped"/>
-      <eventReg name="incorp_fom" type="incorp_fom"/>
+      <eventReg name="crop_chopped" type="cropchopped"/>
+      <eventReg name="incorp_fom" type="incorpfom"/>
       <eventReg name="sowing" type="sowing"/>
       <eventReg name="harvesting" type="harvesting"/>
 
@@ -21,7 +21,7 @@
 
       <respondToEventReg name="tick" type="tick"/>
       <respondToEventReg name="newmet" type="newmet"/>
-      <respondToEventReg name="new_profile" type="new_profile"/>
+      <respondToEventReg name="new_profile" type="newprofile"/>
       <respondToEventReg name="prepare" type="prepare"/>
       <respondToEventReg name="process" type="process"/>
 

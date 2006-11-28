@@ -2,6 +2,7 @@
 #ifndef PatchInputComponentH
 #define PatchInputComponentH
 
+#include <componentinterface/datatypes.h>
 // ------------------------------------------------------------------
 // This module patches an existing input component from data read in
 // by this module.
@@ -26,7 +27,7 @@ class PatchInputComponent : public InputComponent
       unsigned getDataMethodID;
       unsigned returnDataMethodID;
       std::vector<std::string> patchVariablesLongTerm;
-      typedef std::map<unsigned, protocol::newmetType> PatchData;
+      typedef std::map<unsigned, protocol::NewMetType> PatchData;
       PatchData patchData;
       bool haveReadPatchData;
       boost::gregorian::date patchDate;

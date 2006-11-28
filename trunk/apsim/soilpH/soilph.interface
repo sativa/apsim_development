@@ -9,11 +9,11 @@
       <respondToEventReg name="end_run" type="end_run"/>
       <respondToEventReg name="sum_report" type="sum_report"/>
       <respondToEventReg name="tillage" type="tillage"/>
-      <respondToEventReg name="n_balance" type="n_balance"/>
-      <respondToEventReg name="c_balance" type="c_balance"/>
+      <respondToEventReg name="n_balance" type="nbalance"/>
+      <respondToEventReg name="c_balance" type="cbalance"/>
       <respondToEventReg name="residue_added" type="residue_added"/>
       <respondToEventReg name="residue_removed" type="residue_removed"/>
-      <respondToEventReg name="crop_chopped" type="crop_chopped"/>
+      <respondToEventReg name="crop_chopped" type="cropchopped"/>
       <respondToEventReg name="process" type="process"/>
    </registrations>
 </component>

@@ -7,7 +7,7 @@
     <OBJFILES value="date_class.obj exec.obj general.obj IniFile.obj io_functions.obj 
       math_functions.obj path.obj stream_functions.obj stream_processor.obj 
       string_functions.obj StringTokenizer.obj stristr.obj macro.obj xml.obj 
-      http.obj"/>
+      http.obj dll.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -22,8 +22,8 @@
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_RTLDLL;USEPACKAGES"/>
     <MAINSOURCE value="general.bpf"/>
-    <INCLUDEPATH value="$(BCB)\include;$(SHARED);$(BCB)\components\boost;$(BCB)\components\libxml2\include"/>
-    <LIBPATH value="$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="..\ComponentInterface2\Test;$(BCB)\include;$(SHARED);$(BCB)\components\boost;$(BCB)\components\libxml2\include"/>
+    <LIBPATH value="..\ComponentInterface2\Test;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <LISTFILE value=""/>
     <OTHERFILES value=""/>
@@ -57,6 +57,7 @@
       <FILE FILENAME="macro.cpp" FORMNAME="" UNITNAME="Macro" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="xml.cpp" FORMNAME="" UNITNAME="xml" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="http.cpp" FORMNAME="" UNITNAME="http" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="dll.cpp" FORMNAME="" UNITNAME="dll" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

@@ -10,7 +10,7 @@ LIB=	../lib/report.so
 
 SRC=	ReportComponent.cpp
 
-OBJ=    $(SRC:.cpp=.o) $(APSROOT)/Shared/ComponentInterface/EntryPoints.o
+OBJ=    $(SRC:.cpp=.o) $(APSROOT)/Shared/ComponentInterface2/CMPComponentEntryPoints.o
 
 #-----------------------------------------------------------------------
 # Compiler options
@@ -18,7 +18,7 @@ OBJ=    $(SRC:.cpp=.o) $(APSROOT)/Shared/ComponentInterface/EntryPoints.o
 CC=		/usr/bin/gcc
 CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
 		-I$(APSROOT)/Shared				\
-		-I$(APSROOT)/Shared/ComponentInterface		\
+		-I$(APSROOT)/Shared/ComponentInterface2		\
 		-Wno-deprecated 				\
 		-fpermissive -fPIC $(CPPDEBUGFLAGS)
 
@@ -29,9 +29,7 @@ CPPFLAGS=	-I/usr/include/boost -I/usr/include/libxml2	\
 LDFLAGS=	-L/usr/lib 				\
 		-L$(APSROOT)/lib $(LDDEBUGFLAGS)
 
-LIBS=		-lComponentInterface	\
-		-lprotocol		\
-		-lApsimShared		\
+LIBS=		-lComponentInterface2	\
 		-lgeneral		\
 		-lboost_filesystem 	\
 		-lxml2
@@ -53,7 +51,7 @@ clobber:	clean
 	rm -f $(LIB)
 
 install: all
-	if [ ! -d $(DESTDIR)/apsim/report/lib ]; then mkdir -p $(DESTDIR)/apsim/report/lib; fi 
+	if [ ! -d $(DESTDIR)/apsim/report/lib ]; then mkdir -p $(DESTDIR)/apsim/report/lib; fi
 	cp $(LIB) $(DESTDIR)/apsim/report/lib
 
 %.o:	%.cpp

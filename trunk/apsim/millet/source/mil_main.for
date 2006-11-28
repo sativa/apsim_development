@@ -5386,7 +5386,7 @@ cjh special for erik - end
 
          ! WATER
       id = add_registration(respondToGetReg, 'ep'
-     :         , singleTypeDDML, 'mm', 'Plant water uptake')
+     :         , floatTypeDDML, 'mm', 'Plant water uptake')
 
          ! P
 !      id = add_registration(respondToGetReg, 'p_green'

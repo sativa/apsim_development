@@ -169,16 +169,16 @@
       <respondToEventReg name="end_run" type="end_runType"/>
 
       <respondToEventReg name="tick" type="time"/>
-      <EventReg name="swim_timestep_preparation" type="swim_timestep_preparationType"/>
-      <EventReg name="pre_swim_timestep" type="pre_swim_timestepType"/>
-      <EventReg name="post_swim_timestep" type="post_swim_timestepType"/>
-      <EventReg name="new_profile" type="new_profile"/>
+      <EventReg name="swim_timestep_preparation" type="SwimTimestepPreparationType"/>
+      <EventReg name="pre_swim_timestep" type="PreSwimTimestepType"/>
+      <EventReg name="post_swim_timestep" type="PostSwimTimestepType"/>
+      <EventReg name="new_profile" type="NewProfile"/>
 
-      <respondToEventReg name="new_solute" type="new_soluteType"/>
-      <respondToEventReg name="irrigated" type="irrigatedType"/>
+      <respondToEventReg name="new_solute" type="NewSoluteType"/>
+      <respondToEventReg name="irrigated" type="IrrigatedType"/>
       <respondToEventReg name="subsurfaceflow" type="SubSurfaceFlowType"/>
-      <respondToEventReg name="prepare" type="prepareType"/>
-      <respondToEventReg name="process" type="processType"/>
-      <respondToEventReg name="post" type="postType"/>
+      <respondToEventReg name="prepare" type="PrepareType"/>
+      <respondToEventReg name="process" type="ProcessType"/>
+      <respondToEventReg name="post" type="PostType"/>
    </registrations>
 </component>

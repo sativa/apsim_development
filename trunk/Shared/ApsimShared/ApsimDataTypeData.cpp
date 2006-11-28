@@ -45,7 +45,7 @@ bool ApsimDataTypeData::isArray(void) const
 // ------------------------------------------------------------------
 bool ApsimDataTypeData::isBuiltIn(void) const
    {
-     return (Str_i_Eq(node.getAttribute("builtin"), "T"));
+     return (Str_i_Eq(node.getName(), "builtin"));
    }
 // ------------------------------------------------------------------
 // Return true if data type is a message

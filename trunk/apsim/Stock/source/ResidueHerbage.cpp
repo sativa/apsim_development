@@ -84,9 +84,9 @@ void ResidueHerbage::readParameters ( void )
 // ------------------------------------------------------------------
 // Event handler.
 // ------------------------------------------------------------------
-void ResidueHerbage::doGrazed(protocol::remove_herbageType &grazed)
+void ResidueHerbage::doGrazed(protocol::RemoveHerbageType &grazed)
 {
-      protocol::removeCropDmType crop;
+      protocol::RemoveCropDmType crop;
 
       doDmdPoolsToHerbageParts(grazed, crop);
 
@@ -429,7 +429,7 @@ void ResidueHerbage::doRunTimeReg(void)
 // ------------------------------------------------------------------
 // Event handler.
 // ------------------------------------------------------------------
-void ResidueHerbage::doDmdPoolsToHerbageParts(protocol::remove_herbageType &grazed, protocol::removeCropDmType &crop)
+void ResidueHerbage::doDmdPoolsToHerbageParts(protocol::RemoveHerbageType &grazed, protocol::RemoveCropDmType &crop)
 {
       for (int pool = 0; pool < numDmdPoolsVeg(); pool++)
       {

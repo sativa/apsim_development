@@ -22,8 +22,8 @@ public:												// member functions
    void doInit1();
 
    void doRegistrations(protocol::Component *);
-   void doTick(protocol::timeType &tick) ;
-   void doNewMet(protocol::newmetType &newmet) ;
+   void doTick(protocol::TimeType &tick) ;
+   void doNewMet(protocol::NewMetType &newmet) ;
    void readConstants (protocol::Component *, const string &);
    void readSpeciesParameters (protocol::Component *, vector<string> &);
    void readCultivarParameters (protocol::Component *, const string &);

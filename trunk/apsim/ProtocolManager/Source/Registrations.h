@@ -14,14 +14,15 @@ class RegistrationsInternal;
 struct Registration
    {
    Registration(unsigned compId, unsigned regId,
-                const std::string& regName, RegistrationType regType)
-      : componentId(compId), id(regId), name(regName), type(regType)
+                const std::string& regName, const std::string& ddmL, RegistrationType regType)
+      : componentId(compId), id(regId), name(regName), ddml(ddmL), type(regType)
       { }
 
 
    unsigned componentId;
    unsigned id;
    std::string name;
+   std::string ddml;
    RegistrationType type;
    };
 

@@ -228,7 +228,7 @@
       <respondToEventReg name="graze" type="graze"/>
       <respondToEventReg name="hill_up" type="hill_up"/>
       <respondToEventReg name="lodge" type="lodge"/>
-      <eventReg name="crop_chopped" type="crop_chopped"/>
+      <eventReg name="crop_chopped" type="cropchopped"/>
       <getVariableReg name="maxt" type="maxt"/>
       <getVariableReg name="mint" type="mint"/>
       <getVariableReg name="radn" type="radn"/>
@@ -241,7 +241,7 @@
       <getVariableReg name="no3" type="no3"/>
       <getVariableReg name="NO3_min" type="NO3_min"/>
       <getVariableReg name="st" type="st"/>
-      <EventReg name="incorp_fom" type="incorp_fom"/>
+      <EventReg name="incorp_fom" type="incorpfom"/>
       <EventReg name="killing" type="null"/>
       <EventReg name="sowing" type="null"/>
       <EventReg name="harvesting" type="null"/>

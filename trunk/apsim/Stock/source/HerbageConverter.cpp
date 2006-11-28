@@ -35,8 +35,8 @@ HerbageConverter::~HerbageConverter(void)
 void HerbageConverter::doInit1(const FString& sdml)
    {
    tramplingID = system->addRegistration(RegistrationType::respondToGet, "herbage_trampling", singleTypeDDML);
-   plant2stockID = system->addRegistration(RegistrationType::respondToGet, "plant2stock", DDML(protocol::plant2stockType()).c_str());
-   removeHerbageID = system->addRegistration(RegistrationType::respondToEvent, "remove_herbage", DDML(protocol::remove_herbageType()).c_str());
+   plant2stockID = system->addRegistration(RegistrationType::respondToGet, "plant2stock", protocol::DDML(protocol::Plant2StockType()).c_str());
+   removeHerbageID = system->addRegistration(RegistrationType::respondToEvent, "remove_herbage", DDML(protocol::RemoveHerbageType()).c_str());
 
    dmFeedOnOfferID = system->addRegistration(RegistrationType::respondToGet, "dm_feed_on_offer", singleArrayTypeDDML);
    dmFeedRemovedID = system->addRegistration(RegistrationType::respondToGet, "dm_feed_removed", singleArrayTypeDDML);

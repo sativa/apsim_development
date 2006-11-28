@@ -705,7 +705,7 @@
       parameter (myname = 'Micromet_OnNewCrop')
 
 *+  Local Variables
-      type(new_cropType) :: new_crop
+      type(NewCropType) :: new_crop
 
       integer    numvals               ! number of values read
       integer    i
@@ -714,7 +714,7 @@
 
       call push_routine (myname)
 
-      call unpack_new_crop(variant, new_crop)
+      call unpack_newcrop(variant, new_crop)
 
 
 !      print*,'|',new_crop%sender,'|',new_crop%crop_type,'|'
@@ -2725,7 +2725,7 @@
          call MicroMet_ONtick(variant)
       else if (eventID .eq. id%newmet) then
          call MicroMet_ONnewmet(variant)
-      else if (eventID .eq. id%new_crop) then
+      else if (eventID .eq. id%newcrop) then
          call Micromet_OnNewCrop (variant)
       else if (eventID .eq. id%new_canopy) then
          call Micromet_OnNewCanopy (variant)
@@ -2735,4 +2735,3 @@
       return
       end subroutine respondToEvent
 
-      

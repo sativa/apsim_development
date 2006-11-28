@@ -291,8 +291,8 @@
       <getVariableReg name="no3" type="no3"/>
       <setVariableReg name="dlt_sw_dep" type="dlt_sw_dep"/>
       <setVariableReg name="dlt_no3" type="dlt_no3"/>
-      <eventReg name="incorp_fom" type="incorp_fom"/>
-      <eventReg name="crop_chopped" type="crop_chopped"/>
+      <eventReg name="incorp_fom" type="incorpfom"/>
+      <eventReg name="crop_chopped" type="cropchopped"/>
       <eventReg name="sowing" type="sowing"/>
       <eventReg name="harvesting" type="harvesting"/>
       <respondToEventReg name="tick" type="tick"/>

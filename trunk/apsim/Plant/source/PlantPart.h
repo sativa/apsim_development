@@ -322,7 +322,7 @@ public:
    virtual float pRetransDemand(void);
    virtual float height(void);
 
-   virtual void  doRemoveBiomass(protocol::removeCropDmType dmRemoved, string &c_remove_biomass_report);
+   virtual void  doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_remove_biomass_report);
    virtual void  removeBiomass(void);
    virtual void  removeBiomass2(float);
 
@@ -441,10 +441,10 @@ public:
    virtual void doGrainNumber (void);
    virtual void doInit1();
    virtual void doNDemandGrain(float nfact_grain_conc, float swdef_expansion);
-   virtual void doNewMet(protocol::newmetType &newmet) ;
+   virtual void doNewMet(protocol::NewMetType &newmet) ;
    virtual void doNInit (void);
    virtual void doTECO2(void);                                       // (OUTPUT) transpiration coefficient                         //FIXME
-   virtual void doTick(protocol::timeType &tick) ;
+   virtual void doTick(protocol::TimeType &tick) ;
    virtual void writeCultivarInfo (protocol::Component *);
 
    virtual bool isYieldPart(void) const {return c.yield_part;};

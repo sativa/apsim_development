@@ -574,7 +574,7 @@
          integer :: prepare
          integer :: process
          integer :: post
-   
+
       end type IDsType
 
       ! instance variables.
@@ -7307,171 +7307,171 @@ C        IF(DEF.LT.2.5) THEN                          ! waterlogging
       ml_external doInit1
       integer dummy
 
-      id%crop_chopped = add_registration(eventReg, 'crop_chopped', 
-     :                                   crop_choppedTypeDDML, '', '')
-      id%sowing = add_registration(eventReg, 'sowing', 
+      id%crop_chopped = add_registration(eventReg, 'crop_chopped',
+     :                                   cropchoppedTypeDDML, '', '')
+      id%sowing = add_registration(eventReg, 'sowing',
      :                             nullTypeDDML, '', '')
-      id%harvesting = add_registration(eventReg, 'harvesting', 
+      id%harvesting = add_registration(eventReg, 'harvesting',
      :                                 nullTypeDDML, '', '')
-     
-      id%create = add_registration(respondToEventReg, 'create', 
+
+      id%create = add_registration(respondToEventReg, 'create',
      :                             nullTypeDDML, '', '')
-      id%sysinit = add_registration(respondToEventReg, 'sysinit', 
+      id%sysinit = add_registration(respondToEventReg, 'sysinit',
      :                              nullTypeDDML, '', '')
-      id%end_run = add_registration(respondToEventReg, 'end_run', 
+      id%end_run = add_registration(respondToEventReg, 'end_run',
      :                              nullTypeDDML, '', '')
-      id%sow = add_registration(respondToEventReg, 'sow', 
+      id%sow = add_registration(respondToEventReg, 'sow',
      :                          nullTypeDDML, '', '')
-      id%harvest = add_registration(respondToEventReg, 'harvest', 
+      id%harvest = add_registration(respondToEventReg, 'harvest',
      :                              nullTypeDDML, '', '')
-      id%end_crop = add_registration(respondToEventReg, 'end_crop', 
+      id%end_crop = add_registration(respondToEventReg, 'end_crop',
      :                               nullTypeDDML, '', '')
-      id%kill_crop = add_registration(respondToEventReg, 'kill_crop', 
+      id%kill_crop = add_registration(respondToEventReg, 'kill_crop',
      :                                nullTypeDDML, '', '')
-      id%tick = add_registration(respondToEventReg, 'tick', 
+      id%tick = add_registration(respondToEventReg, 'tick',
      :                           nullTypeDDML, '', '')
-      id%newmet = add_registration(respondToEventReg, 'newmet', 
+      id%newmet = add_registration(respondToEventReg, 'newmet',
      :                             newmetTypeDDML, '', '')
-      id%prepare = add_registration(respondToEventReg, 'prepare', 
+      id%prepare = add_registration(respondToEventReg, 'prepare',
      :                              nullTypeDDML, '', '')
-      id%process = add_registration(respondToEventReg, 'process', 
+      id%process = add_registration(respondToEventReg, 'process',
      :                              nullTypeDDML, '', '')
-      id%post = add_registration(respondToEventReg, 'post', 
+      id%post = add_registration(respondToEventReg, 'post',
      :                           nullTypeDDML, '', '')
 
-      dummy = add_registration_with_units(getVariableReg, 'dlayer', 
-     :                                    singleArrayTypeDDML, 'mm')
-      dummy = add_registration_with_units(getVariableReg, 'bd', 
-     :                                    singleArrayTypeDDML, 'g/cm3')
-      dummy = add_registration_with_units(getVariableReg, 'll15', 
-     :                                    singleArrayTypeDDML, 'mm/mm')
-      dummy = add_registration_with_units(getVariableReg, 'dul', 
-     :                                    singleArrayTypeDDML, 'mm/mm') 
-      dummy = add_registration_with_units(getVariableReg, 'sat', 
-     :                                    singleArrayTypeDDML, 'mm/mm')
-      dummy = add_registration_with_units(getVariableReg, 'es', 
-     :                                    singleTypeDDML, 'mm')
-      dummy = add_registration_with_units(getVariableReg, 'runoff', 
-     :                                    singleTypeDDML, 'mm')
-      dummy = add_registration_with_units(getVariableReg, 'sw', 
-     :                                    singleArrayTypeDDML, 'mm/mm')
-      dummy = add_registration_with_units(getVariableReg, 'no3_min', 
-     :                                    singleArrayTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(getVariableReg, 'no3', 
-     :                                    singleArrayTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(getVariableReg, 'nh4_min', 
-     :                                    singleArrayTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(getVariableReg, 'nh4', 
-     :                                    singleArrayTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(getVariableReg, 'urea', 
-     :                                    singleArrayTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(getVariableReg, 'dlayer',
+     :                                    floatarrayTypeDDML, 'mm')
+      dummy = add_registration_with_units(getVariableReg, 'bd',
+     :                                    floatarrayTypeDDML, 'g/cm3')
+      dummy = add_registration_with_units(getVariableReg, 'll15',
+     :                                    floatarrayTypeDDML, 'mm/mm')
+      dummy = add_registration_with_units(getVariableReg, 'dul',
+     :                                    floatarrayTypeDDML, 'mm/mm')
+      dummy = add_registration_with_units(getVariableReg, 'sat',
+     :                                    floatarrayTypeDDML, 'mm/mm')
+      dummy = add_registration_with_units(getVariableReg, 'es',
+     :                                    floatTypeDDML, 'mm')
+      dummy = add_registration_with_units(getVariableReg, 'runoff',
+     :                                    floatTypeDDML, 'mm')
+      dummy = add_registration_with_units(getVariableReg, 'sw',
+     :                                    floatarrayTypeDDML, 'mm/mm')
+      dummy = add_registration_with_units(getVariableReg, 'no3_min',
+     :                                    floatarrayTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(getVariableReg, 'no3',
+     :                                    floatarrayTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(getVariableReg, 'nh4_min',
+     :                                    floatarrayTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(getVariableReg, 'nh4',
+     :                                    floatarrayTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(getVariableReg, 'urea',
+     :                                    floatarrayTypeDDML, 'kg/ha')
 
-      dummy = add_registration_with_units(respondToGetReg, 'das', 
-     :                                    singleTypeDDML, 'days')
-      dummy = add_registration_with_units(respondToGetReg, 'crop_type', 
+      dummy = add_registration_with_units(respondToGetReg, 'das',
+     :                                    floatTypeDDML, 'days')
+      dummy = add_registration_with_units(respondToGetReg, 'crop_type',
      :                                    stringTypeDDML, '')
-      dummy = add_registration_with_units(respondToGetReg, 'sumdd', 
-     :                                    singleTypeDDML, 'oCd')
-      dummy = add_registration_with_units(respondToGetReg, 'sites', 
-     :                                    singleTypeDDML, '1/m2')
-      dummy = add_registration_with_units(respondToGetReg, 'squarz', 
-     :                                    singleTypeDDML, '1/m2')
-      dummy = add_registration_with_units(respondToGetReg, 'fru_no_cat', 
-     :                                    singleArrayTypeDDML, '1/m2')
-      dummy = add_registration_with_units(respondToGetReg, 'bollz', 
-     :                                    singleTypeDDML, '1/m2')
-      dummy = add_registration_with_units(respondToGetReg, 'openz', 
-     :                                    singleTypeDDML, '1/m2')
-      dummy = add_registration_with_units(respondToGetReg, 'alint', 
-     :                                    singleTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(respondToGetReg, 'openwt', 
-     :                                    singleTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(respondToGetReg, 'frudw', 
-     :                                    singleTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(respondToGetReg, 'frudw_tot', 
-     :                                    singleTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(respondToGetReg, 'frudw_shed', 
-     :                                    singleTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(respondToGetReg, 'frun', 
-     :                                    singleTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(respondToGetReg, 'bload', 
-     :                                    singleTypeDDML, '')
-      dummy = add_registration_with_units(respondToGetReg, 'carcap_c', 
-     :                                    singleTypeDDML, '')
-      dummy = add_registration_with_units(respondToGetReg, 'carcap_n', 
-     :                                    singleTypeDDML, '')
-      dummy = add_registration_with_units(respondToGetReg, 'vnstrs', 
-     :                                    singleTypeDDML, '')
-      dummy = add_registration_with_units(respondToGetReg, 'fnstrs', 
-     :                                    singleTypeDDML, '')
-      dummy = add_registration_with_units(respondToGetReg, 'dm', 
-     :                                    singleTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(respondToGetReg, 'dw_boll', 
-     :                                    singleTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(respondToGetReg, 'dw_root', 
-     :                                    singleTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(respondToGetReg, 'dw_leaf', 
-     :                                    singleTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(respondToGetReg, 'dw_stem', 
-     :                                    singleTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(respondToGetReg, 'totnup', 
-     :                                    singleTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(respondToGetReg, 'yield', 
-     :                                    singleTypeDDML, 'bales/ha')
-      dummy = add_registration_with_units(respondToGetReg, 'lint_yield', 
-     :                                    singleTypeDDML, 'bales/ha')
-      dummy = add_registration_with_units(respondToGetReg, 'lai', 
-     :                                    singleTypeDDML, 'm^2/m^2')
-      dummy = add_registration_with_units(respondToGetReg, 
-     :                               'cover_green', singleTypeDDML, '')
-      dummy = add_registration_with_units(respondToGetReg, 'cover_tot', 
-     :                                    singleTypeDDML, '')
-      dummy = add_registration_with_units(respondToGetReg, 'height', 
-     :                                    singleTypeDDML, 'mm')
-      dummy = add_registration_with_units(respondToGetReg, 'availn', 
-     :                                    singleTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(respondToGetReg, 'uptakn', 
-     :                                    singleTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(respondToGetReg, 'tsno3', 
-     :                                    singleTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(respondToGetReg, 'ysno3', 
-     :                                    singleTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(respondToGetReg, 'tsnh4', 
-     :                                    singleTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(respondToGetReg, 'ysnh4', 
-     :                                    singleTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(respondToGetReg, 'd_nup', 
-     :                                    singleTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(respondToGetReg, 'rtdep', 
-     :                                    singleTypeDDML, 'cm')
-      dummy = add_registration_with_units(respondToGetReg, 's_bed_mi', 
-     :                                    singleTypeDDML, '')
-      dummy = add_registration_with_units(respondToGetReg, 'smi', 
-     :                                    singleTypeDDML, '')
-      dummy = add_registration_with_units(respondToGetReg, 'wli', 
-     :                                    singleTypeDDML, '')
-      dummy = add_registration_with_units(respondToGetReg, 'evap_plant', 
-     :                                    singleTypeDDML, 'cm')
-      dummy = add_registration_with_units(respondToGetReg, 'evap_soil', 
-     :                                    singleTypeDDML, 'cm')
-      dummy = add_registration_with_units(respondToGetReg, 'evap_pot', 
-     :                                    singleTypeDDML, '')
-      dummy = add_registration_with_units(respondToGetReg,  
+      dummy = add_registration_with_units(respondToGetReg, 'sumdd',
+     :                                    floatTypeDDML, 'oCd')
+      dummy = add_registration_with_units(respondToGetReg, 'sites',
+     :                                    floatTypeDDML, '1/m2')
+      dummy = add_registration_with_units(respondToGetReg, 'squarz',
+     :                                    floatTypeDDML, '1/m2')
+      dummy = add_registration_with_units(respondToGetReg, 'fru_no_cat',
+     :                                    floatarrayTypeDDML, '1/m2')
+      dummy = add_registration_with_units(respondToGetReg, 'bollz',
+     :                                    floatTypeDDML, '1/m2')
+      dummy = add_registration_with_units(respondToGetReg, 'openz',
+     :                                    floatTypeDDML, '1/m2')
+      dummy = add_registration_with_units(respondToGetReg, 'alint',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'openwt',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'frudw',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'frudw_tot',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'frudw_shed',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'frun',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'bload',
+     :                                    floatTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'carcap_c',
+     :                                    floatTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'carcap_n',
+     :                                    floatTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'vnstrs',
+     :                                    floatTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'fnstrs',
+     :                                    floatTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'dm',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'dw_boll',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'dw_root',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'dw_leaf',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'dw_stem',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'totnup',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'yield',
+     :                                    floatTypeDDML, 'bales/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'lint_yield',
+     :                                    floatTypeDDML, 'bales/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'lai',
+     :                                    floatTypeDDML, 'm^2/m^2')
+      dummy = add_registration_with_units(respondToGetReg,
+     :                               'cover_green', floatTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'cover_tot',
+     :                                    floatTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'height',
+     :                                    floatTypeDDML, 'mm')
+      dummy = add_registration_with_units(respondToGetReg, 'availn',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'uptakn',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'tsno3',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'ysno3',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'tsnh4',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'ysnh4',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'd_nup',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'rtdep',
+     :                                    floatTypeDDML, 'cm')
+      dummy = add_registration_with_units(respondToGetReg, 's_bed_mi',
+     :                                    floatTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'smi',
+     :                                    floatTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'wli',
+     :                                    floatTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'evap_plant',
+     :                                    floatTypeDDML, 'cm')
+      dummy = add_registration_with_units(respondToGetReg, 'evap_soil',
+     :                                    floatTypeDDML, 'cm')
+      dummy = add_registration_with_units(respondToGetReg, 'evap_pot',
+     :                                    floatTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg,
      :                            'ozcot_crop_in',booleanTypeDDML, '')
-      dummy = add_registration_with_units(respondToGetReg, 
-     :                           'ozcot_status', integer4TypeDDML, '')
-      dummy = add_registration_with_units(respondToGetReg, 'bolls_sc', 
-     :                                    singleTypeDDML, 'g/boll')
-      dummy = add_registration_with_units(respondToGetReg, 'n_uptake', 
-     :                                    singleTypeDDML, 'kg/ha')
-      dummy = add_registration_with_units(respondToGetReg, 'squarz_max', 
-     :                                    singleTypeDDML, '1/m2')
-      dummy = add_registration_with_units(respondToGetReg, 'lai_max', 
-     :                                    singleTypeDDML, 'm2/m2')
-      dummy = add_registration_with_units(respondToGetReg, 'i_def', 
-     :                                    integer4TypeDDML, 'das')
-      dummy = add_registration_with_units(respondToGetReg, 'i_def2', 
-     :                                    integer4TypeDDML, 'das')
+      dummy = add_registration_with_units(respondToGetReg,
+     :                           'ozcot_status', intTypeDDML, '')
+      dummy = add_registration_with_units(respondToGetReg, 'bolls_sc',
+     :                                    floatTypeDDML, 'g/boll')
+      dummy = add_registration_with_units(respondToGetReg, 'n_uptake',
+     :                                    floatTypeDDML, 'kg/ha')
+      dummy = add_registration_with_units(respondToGetReg, 'squarz_max',
+     :                                    floatTypeDDML, '1/m2')
+      dummy = add_registration_with_units(respondToGetReg, 'lai_max',
+     :                                    floatTypeDDML, 'm2/m2')
+      dummy = add_registration_with_units(respondToGetReg, 'i_def',
+     :                                    intTypeDDML, 'das')
+      dummy = add_registration_with_units(respondToGetReg, 'i_def2',
+     :                                    intTypeDDML, 'das')
 
       call ozcot_zero_all_globals ()
       end subroutine doInit1
