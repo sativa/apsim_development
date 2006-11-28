@@ -39,11 +39,17 @@ ApsimDataTypeData ApsimDataTypesFile::getDataType(const string& name)
    XMLNode::iterator i = find_if(xmlDoc.documentElement().begin(),
                                  xmlDoc.documentElement().end(),
                                  NodeEquals<XMLNode>("type", name));
+   if (i == xmlDoc.documentElement().end())
+      i = find_if(xmlDoc.documentElement().begin(),
+                  xmlDoc.documentElement().end(),
+                  NodeEquals<XMLNode>("builtin", name));
+
    if (i != xmlDoc.documentElement().end())
       return ApsimDataTypeData(*i);
-
-   throw std::runtime_error("Cannot find a data type: " + name
-                            + " in file: " + fileName);
+   else
+      return ApsimDataTypeData(*find_if(xmlDoc.documentElement().begin(),
+                                       xmlDoc.documentElement().end(),
+                                       NodeEquals<XMLNode>("builtin", "string")));
    }
 //---------------------------------------------------------------------------
 // return iterator to first data type.

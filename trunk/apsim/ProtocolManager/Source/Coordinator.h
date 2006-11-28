@@ -35,6 +35,7 @@ class Coordinator : public protocol::Component
       vector<unsigned> componentOrders;
       bool doTerminate;
       bool printReport;
+      std::string parentName;
       std::stack<unsigned> previousGetValueCompID;
       std::stack<unsigned> previousGetValueRegID;
       std::set<std::string> variablesBeenPolledForGets;

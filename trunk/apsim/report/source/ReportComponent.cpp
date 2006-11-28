@@ -101,7 +101,7 @@ void Field::getValues()
 // ------------------------------------------------------------------
 void Field::formatValues(void)
    {
-   if (format != "" && units != "(year)" && units != "(day)")
+   if (format != "" && units != "(year)" && units != "(day)" && units != "(days)" && units != "(d)")
       {
       for (unsigned i = 0; i != values.size(); i++)
          {
@@ -324,7 +324,7 @@ string ReportComponent::calcFileName()
    {
    string title, pmName;
 
-   scienceAPI.read("title", title, true);
+   scienceAPI.get("title", "", true, title);
 
    pmName = scienceAPI.parent();
 
