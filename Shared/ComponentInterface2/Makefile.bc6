@@ -1,0 +1,65 @@
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+!include $(APSROOT)\APSBuild\platform.make
+!include $(APSROOT)\APSBuild\cpp.make
+
+OBJECTS = ComponentInterface.obj       \
+          message.obj                  \
+          TypeConverter.obj            \
+          ArraySpecifier.obj           \
+          CMPScienceAPI.obj            \
+          CMPComponentInterface.obj    \
+          CMPData.obj                  \
+          CMPComponentEntryPoints.obj  \
+          EntryPoints.obj
+
+PACKAGES = rtl.bpi
+USERDEFINES =
+SYSDEFINES = NO_STRICT;_RTLDLL;USEPACKAGES;_NO_VCL
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\Components\Boost
+LIBPATH = $(SYSLIBPATH)
+LIBRARIES = rtl.lib
+LIBFILES = $(SYSLIBS)                                    \
+           $(APSROOT)\Shared\general\general.lib         \
+           $(BCB)\Components\LibXml2\win32\LibXml2.lib
+
+source: ComponentInterface2.dll
+
+ALLOBJ = c0d32.obj $(PACKAGES)
+ALLRES = $(RESFILES)
+ALLLIB = vcl.lib $(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib
+# ---------------------------------------------------------------------------
+# For ComponentInterface.dll, use:
+CFLAG1 =  $(SYSCFLAGS) -tWD -tWM
+# Use this with lahey fortran-linked objects
+CFLAGLF95 =  -x- -RT- -r- -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -k -y -v -vi- -tWD -tWM -c
+
+WARNINGS = -w-par
+LFLAGS = $(SYSLDFLAGS) -aa -Tpd -x -Gn -Gi -v
+
+CC=$(BCB)\Bin\bcc32.exe
+LINKER=$(BCB)\Bin\ilink32.exe
+IMPDEF=$(BCB)\Bin\impdef.exe
+
+.cpp.obj:
+    $(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
+
+ComponentInterface2.dll: $(OBJECTS)
+	$(LINKER) @&&!
+$(LFLAGS) -L$(LIBPATH) +
+$(ALLOBJ), +
+ComponentInterface2.dll,, +
+$(ALLLIB), +
+$(DEFFILE), +
+$(ALLRES)
+!
+	move /Y ComponentInterface2.dll ..\..\bin
+
+
+DataTypes.h: $(APSROOT)\apsim\infra\datatypes.interface datatypes.macro $(APSROOT)\Bin\ProcessDataTypesInterface.exe
+   call DataTypes.bat
+
+clean:
+	$(RM) ComponentInterface2.lib $(OBJECTS) datatypes.h

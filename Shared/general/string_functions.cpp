@@ -418,6 +418,23 @@ void addAttributeToXML(std::string& XML, const std::string& Attribute)
    XML.insert(PosEnd, " " + Attribute);
    }
 
+// -----------------------------------------------------------------------
+// Get an attribute from an xml string (e.g. unit="g/m2")
+// -----------------------------------------------------------------------
+std::string getAttributeFromXML(const std::string& XML, const std::string& attributeName)
+   {
+   unsigned posEnd = XML.find(">");
+   unsigned posAttribute = XML.find(attributeName);
+   if (posAttribute != string::npos && posAttribute < posEnd)
+      {
+      unsigned posOpenQuote = XML.find('\"', posAttribute);
+      unsigned posCloseQuote = XML.find('\"', posOpenQuote+1);
+      if (posOpenQuote != string::npos && posCloseQuote != string::npos)
+         return XML.substr(posOpenQuote+1, posCloseQuote-posOpenQuote-1);
+      }
+   return "";
+   }
+
 // ------------------------------------------------------------------
 // single quote the string passed in.
 // ------------------------------------------------------------------

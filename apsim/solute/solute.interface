@@ -10,7 +10,7 @@
       <respondToGetSetReg name="dlt_nnnnn" type="dlt_nnnnn"/>
       <respondToEventReg name="create" type="create"/>
       <respondToEventReg name="sys_init" type="sys_init"/>
-      <eventReg name="new_solute" type="new_solute"/>
+      <eventReg name="new_solute" type="newsolute"/>
       <getVariableReg name="dlayer" type="dlayer"/>
       <respondToEventReg name="process" type="process"/>
    </registrations>

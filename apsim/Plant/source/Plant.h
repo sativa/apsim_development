@@ -369,7 +369,7 @@ public:
    void plant_dormancy (protocol::Variant &v/*(INPUT) incoming message variant*/);
    void plant_harvest_update (protocol::Variant &v/*(INPUT)message arguments*/);
    void plant_kill_stem_update (protocol::Variant &v/*(INPUT) message arguments*/);
-   void plant_remove_biomass_update (protocol::removeCropDmType dmRemoved);
+   void plant_remove_biomass_update (protocol::RemoveCropDmType dmRemoved);
    void plant_zero_all_globals (void);
    void plant_zero_variables (void);
    void plant_zero_daily_variables ();

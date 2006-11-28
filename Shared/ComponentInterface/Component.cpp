@@ -314,7 +314,7 @@ void Component::doInit1(const FString& sdml)
                                SUMMARY_FILE_WRITE_TYPE);
    tickID = addRegistration(RegistrationType::respondToEvent,
                             "tick",
-                            DDML(timeType()).c_str());
+                            DDML(TimeType()).c_str());
    sendTickToComponent = false;
    }
 

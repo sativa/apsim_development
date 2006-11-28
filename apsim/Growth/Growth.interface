@@ -12,9 +12,9 @@
       <respondToEventReg name="change_class" type="change_class"/>
       <eventReg name="new_pot_growth" type="new_pot_growth"/>
       <eventReg name="new_canopy" type="new_canopy"/>
-      <eventReg name="new_crop" type="new_crop"/>
-      <EventReg name="incorp_fom" type="incorp_fom"/>
-      <EventReg name="crop_chopped" type="crop_chopped"/>
+      <eventReg name="new_crop" type="NewCrop"/>
+      <EventReg name="incorp_fom" type="IncorpFom"/>
+      <EventReg name="crop_chopped" type="CropChopped"/>
       <eventReg name="killing" type="null"/>
       <eventReg name="thinning" type="null"/>
       <eventReg name="cutting" type="null"/>

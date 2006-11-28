@@ -130,7 +130,7 @@ void PlantHerbage::doRunTimeReg(void)
    stageID = system->addRegistration(RegistrationType::get, "stage", singleTypeDDML,"", herbageModuleName().c_str());
    stageNameID = system->addRegistration(RegistrationType::get, "stage_name", stringTypeDDML,"", herbageModuleName().c_str());
 
-    removeCropBiomassID = system->addRegistration(RegistrationType::event, "remove_crop_biomass", DDML(protocol::removeCropDmType()).c_str(),"", herbageModuleName().c_str());
+    removeCropBiomassID = system->addRegistration(RegistrationType::event, "remove_crop_biomass", DDML(protocol::RemoveCropDmType()).c_str(),"", herbageModuleName().c_str());
     detachRateID = system->addRegistration(RegistrationType::event, "detach_crop_biomass_rate", "","", herbageModuleName().c_str());
   }
 
@@ -138,9 +138,9 @@ void PlantHerbage::doRunTimeReg(void)
 // ------------------------------------------------------------------
 // Event handler.
 // ------------------------------------------------------------------
-void PlantHerbage::doGrazed(protocol::remove_herbageType &grazed)
+void PlantHerbage::doGrazed(protocol::RemoveHerbageType &grazed)
 {
-      protocol::removeCropDmType crop;
+      protocol::RemoveCropDmType crop;
 
       doDmdPoolsToHerbageParts(grazed, crop);
 
@@ -197,7 +197,7 @@ void PlantHerbage::doGrazed(protocol::remove_herbageType &grazed)
 // ------------------------------------------------------------------
 // Event handler.
 // ------------------------------------------------------------------
-void PlantHerbage::doDmdPoolsToHerbageParts(protocol::remove_herbageType &grazed, protocol::removeCropDmType &crop)
+void PlantHerbage::doDmdPoolsToHerbageParts(protocol::RemoveHerbageType &grazed, protocol::RemoveCropDmType &crop)
 {
       for (int pool = 0; pool < numDmdPoolsVeg(); pool++)
       {

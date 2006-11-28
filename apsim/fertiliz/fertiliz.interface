@@ -8,7 +8,7 @@
       <respondToEventReg name="apply" type="apply"/>
       <respondToEventReg name="fertilize" type="fertilize"/>
       <respondToEventReg name="tick" type="tick"/>
-      <respondToEventReg name="new_profile" type="new_profile"/>
-      <respondToEventReg name="process" type="process"/>
+      <respondToEventReg name="new_profile" type="NewProfile"/>
+      <respondToEventReg name="process" type="Process"/>
    </registrations>
 </component>

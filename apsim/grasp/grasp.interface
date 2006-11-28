@@ -4,7 +4,7 @@
 <component name="grasp">
    <registrations>
       <respondToEventReg name="sysinit" type="sysinit"/>
-      <eventReg name="crop_chopped" type="crop_chopped"/>
+      <eventReg name="crop_chopped" type="CropChopped"/>
       <eventReg name="killing" type="null"/>
       <eventReg name="establishing" type="null"/>
       <respondToEventReg name="establish" type="establish"/>

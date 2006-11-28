@@ -18,8 +18,8 @@ public:												// member functions
    virtual void doInit1();
 
    virtual void doRegistrations(protocol::Component *);
-   virtual void doTick(protocol::timeType &tick) ;
-   virtual void doNewMet(protocol::newmetType &newmet) ;
+   virtual void doTick(protocol::TimeType &tick) ;
+   virtual void doNewMet(protocol::NewMetType &newmet) ;
    virtual void readConstants (protocol::Component *, const string &);
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &);
    virtual void readCultivarParameters (protocol::Component *, const string &);
@@ -75,7 +75,7 @@ public:												// member functions
    virtual void doPDetachment(void);
    virtual void doPDemand(void);
    virtual void doPSenescence(void);
-   virtual void  doRemoveBiomass(protocol::removeCropDmType dmRemoved, string &c_remove_biomass_report);
+   virtual void  doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_remove_biomass_report);
    virtual void  removeBiomass(void);
    virtual void  removeBiomass2(float);
 

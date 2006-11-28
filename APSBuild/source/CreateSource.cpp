@@ -173,12 +173,17 @@ std::string ddmlToFOR(const ApsimDataTypeData& dataType)
                                     field != thisNode.end();
                                     field++)
       {
-      st += "      '   <field name=\"" + field->getName()
-          + "\" kind=\"" + field->getKind() + "\"";
-      if (field->isArray())
-         st += " array=\"T\"";
+      if (field->isStructure())
+         st += ddmlToFOR(*field) + " // &\n";
+      else
+         {
+         st += "      '   <field name=\"" + field->getName()
+             + "\" kind=\"" + field->getKind() + "\"";
+         if (field->isArray())
+            st += " array=\"T\"";
 
-      st += "/>' // &\n";
+         st += "/>' // &\n";
+         }
       }
    if (dataType.isArray())
       st += "      '   </element>' // &\n";

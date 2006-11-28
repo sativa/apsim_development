@@ -38,20 +38,20 @@ void NonHerbageConverter::doInit1(const FString& sdml)
    dltLabilePID = system->addRegistration(RegistrationType::set, "dlt_labile_p", singleArrayTypeDDML);
 
    dayLengthID = system->addRegistration(RegistrationType::respondToGet, "dayLength", singleTypeDDML);
-   addExcretaID = system->addRegistration(RegistrationType::respondToEvent, "add_excreta", protocol::DDML(protocol::add_excretaType()).c_str());
+   addExcretaID = system->addRegistration(RegistrationType::respondToEvent, "add_excreta", protocol::DDML(protocol::AddExcretaType()).c_str());
 
    stockBuyID = system->addRegistration(RegistrationType::respondToEvent, "buystock", stringTypeDDML);
 //   buyID = system->addRegistration(RegistrationType::event, "buy", buystockTypeDDML);
 
    stockMoveID = system->addRegistration(RegistrationType::respondToEvent, "movestock", stringTypeDDML);
-   moveID = system->addRegistration(RegistrationType::event, "move", DDML(protocol::movestockType()).c_str());
+   moveID = system->addRegistration(RegistrationType::event, "move", DDML(protocol::MoveStockType()).c_str());
 
    stockSellID = system->addRegistration(RegistrationType::respondToEvent, "sellstock", stringTypeDDML);
-   sellID = system->addRegistration(RegistrationType::event, "sell", protocol::DDML(protocol::sellstockType()).c_str());
+   sellID = system->addRegistration(RegistrationType::event, "sell", protocol::DDML(protocol::SellStockType()).c_str());
 
    addManureID = system->addRegistration(RegistrationType::event, "add_surfaceom", "", "", "");
 
-   std::vector<protocol::intakeType> dummy;
+   std::vector<protocol::IntakeType> dummy;
    intakeGetID = system->addRegistration(RegistrationType::get, "intake", protocol::DDML(dummy).c_str());
    intakeSendID = system->addRegistration(RegistrationType::respondToGet, "intakestock", singleTypeDDML);
    }
@@ -127,7 +127,7 @@ void NonHerbageConverter::stockBuy (protocol::Variant &v/*(INPUT) message varian
     std::string  valuestr;
     int      value4;
     double   value;
-    protocol::buystockType buystock;
+    protocol::BuyStockType buystock;
 
     protocol::ApsimVariant incomingApsimVariant(this);
     incomingApsimVariant.aliasTo(v.getMessageData());
@@ -247,7 +247,7 @@ void NonHerbageConverter::stockBuy (protocol::Variant &v/*(INPUT) message varian
 void NonHerbageConverter::stockSell (protocol::Variant &v/*(INPUT) message variant*/)
 {
     int      value4;
-    protocol::sellstockType sellstock;
+    protocol::SellStockType sellstock;
 
     ostringstream msg;
     msg << "Sell stock :-" << endl;
@@ -286,7 +286,7 @@ void NonHerbageConverter::stockMove (protocol::Variant &v/*(INPUT) message varia
 {
     std::string  valuestr;
     int      value4;
-    protocol::movestockType movestock;
+    protocol::MoveStockType movestock;
 
     ostringstream msg;
     msg << "Name stock :-" << endl;
@@ -406,7 +406,7 @@ void NonHerbageConverter::intakeRelay (protocol::QueryValueData& queryData)
       bool ok = system->getVariable(intakeGetID, variant, true);
       if (ok)
       {
-         protocol::intakeType intake;
+         protocol::IntakeType intake;
          bool ok = variant->unpack(intake);
          if (ok)
          {
@@ -449,6 +449,6 @@ void NonHerbageConverter::readParameters ( void )
       buy = "buy";
    else
       buy = stockModuleName + ".buy";
-   buyID = system->addRegistration(RegistrationType::event, buy.c_str(), DDML(protocol::buystockType()).c_str());
+   buyID = system->addRegistration(RegistrationType::event, buy.c_str(), DDML(protocol::BuyStockType()).c_str());
 
 }

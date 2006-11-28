@@ -25,6 +25,20 @@ cd %APSROOT%\APSBuild\source
 echo ------Compiling  %APSROOT%\APSBuild\source >> %APSROOT%\build.out
 cmd /c %APSMAKE%  >> %APSROOT%\build.out
 
+REM -------Compile ProcessDataTypesInterface - needed to create ComponentInterface2/datatypes.h
+cd %APSROOT%\Shared\ComponentInterface2\ProcessDataTypesInterface
+echo ------Compiling ProcessDataTypesInterface >> %APSROOT%\build.out
+"C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\devenv" ProcessDataTypesInterface.sln /build release >> %APSROOT%\build.out
+
+REM -------Compile RunMacro - needed to create ComponentInterface2/datatypes.h
+cd %APSROOT%\tools\runmacro
+echo ------Compiling RunMacro >> %APSROOT%\build.out
+"C:\Program Files\Microsoft Visual Studio 8\Common7\IDE\devenv" RunMacro.sln /build release >> %APSROOT%\build.out
+
+REM -------Go create ComponentInterface2/datatypes.h
+cd %APSROOT%\Shared\ComponentInterface2
+call DataTypes.bat
+
 REM -------Protocol
 cd %APSROOT%\Shared\Protocol
 echo ------Compiling  %APSROOT%\Shared\Protocol >> %APSROOT%\build.out

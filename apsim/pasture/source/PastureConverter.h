@@ -129,7 +129,7 @@ class PastureConverter : public protocol::Component
       float sw_dep [max_layer];                         // soil water content of layer L (mm)
 
       float cSVPFract;
-      protocol::pasturewatersupplyType waterSupply;
+      protocol::PastureWaterSupplyType waterSupply;
 
 
 //   vector <double> sandLayers;

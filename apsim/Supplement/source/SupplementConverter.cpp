@@ -75,9 +75,9 @@ void SupplementConverter::doInit1(const FString& sdml)
    protocol::Component::doInit1(sdml);
 //   buyID = addRegistration(RegistrationType::event, "buy", supplementbuyTypeDDML);
    buySupplementID = addRegistration(RegistrationType::respondToEvent, "buysupplement", singleTypeDDML);
-   feedID = addRegistration(RegistrationType::event, "feed", protocol::DDML(protocol::supplementfeedType()).c_str());
+   feedID = addRegistration(RegistrationType::event, "feed", protocol::DDML(protocol::SupplementFeedType()).c_str());
    feedSupplementID = addRegistration(RegistrationType::respondToEvent, "feedsupplement", singleTypeDDML);
-   mixID = addRegistration(RegistrationType::event, "mix", protocol::DDML(protocol::supplementmixType()).c_str());
+   mixID = addRegistration(RegistrationType::event, "mix", protocol::DDML(protocol::SupplementMixType()).c_str());
    mixSupplementID = addRegistration(RegistrationType::respondToEvent, "mixsupplement", singleTypeDDML);
 
    }
@@ -110,7 +110,7 @@ void SupplementConverter::respondToEvent(unsigned int& fromID, unsigned int& eve
 void SupplementConverter::dobuySupplement(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant)
 //===========================================================================
 {
-   protocol::supplementbuyType SupplementBuy;
+   protocol::SupplementBuyType SupplementBuy;
 
     std::string  valuestr;
     double   value;
@@ -148,7 +148,7 @@ void SupplementConverter::dobuySupplement(unsigned int& fromID, unsigned int& ev
 void SupplementConverter::dofeedSupplement(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant)
 //===========================================================================
 {
-   protocol::supplementfeedType SupplementFeed;
+   protocol::SupplementFeedType SupplementFeed;
 
     std::string  valuestr;
     double   value;
@@ -195,7 +195,7 @@ void SupplementConverter::dofeedSupplement(unsigned int& fromID, unsigned int& e
 void SupplementConverter::domixSupplement(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant)
 //===========================================================================
 {
-   protocol::supplementmixType SupplementMix;
+   protocol::SupplementMixType SupplementMix;
 
     std::string  valuestr;
     double   value;
@@ -269,7 +269,7 @@ void SupplementConverter::readParameters ( void )
    writeString (msg.str().c_str());
 
    std::string buy = supplementModuleName + ".buy";
-   buyID = addRegistration(RegistrationType::event, buy.c_str(), protocol::DDML(protocol::supplementbuyType()).c_str());
+   buyID = addRegistration(RegistrationType::event, buy.c_str(), protocol::DDML(protocol::SupplementBuyType()).c_str());
 }
 
 

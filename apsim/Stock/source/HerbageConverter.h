@@ -43,8 +43,8 @@ class HerbageConverter : public ConverterBase
       bool plant2StockSent;
 
 ////      protocol::Component *system;
-      protocol::plant2stockType feed;
-      protocol::remove_herbageType grazed;
+      protocol::Plant2StockType feed;
+      protocol::RemoveHerbageType grazed;
 
       HerbageBase *conversion;
 

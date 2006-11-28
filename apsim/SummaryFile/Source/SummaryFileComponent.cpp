@@ -84,7 +84,7 @@ void SummaryFileComponent::doInit1(const FString& sdml)
    static const char* stringDDML = "<type kind=\"string\"\\>";
    static const char* stringArrayDDML = "<type kind=\"string\" array=\"T\"\\>";
    summaryFileWriteID = addRegistration(RegistrationType::respondToEvent, "summaryFileWrite", "");
-   tickID = addRegistration(RegistrationType::respondToEvent, "tick", DDML(timeType()).c_str());
+   tickID = addRegistration(RegistrationType::respondToEvent, "tick", DDML(TimeType()).c_str());
    prepareID = addRegistration(RegistrationType::respondToEvent, "prepare", "");
    externalErrorID = addRegistration(RegistrationType::respondToEvent, "error", "");
    summaryFileID = addRegistration(RegistrationType::respondToGet, "summaryFile", stringDDML);
@@ -203,7 +203,7 @@ void SummaryFileComponent::respondToEvent(unsigned int& fromID, unsigned int& ev
    {
    if (eventID == tickID)
       {
-      timeType tick;
+      TimeType tick;
       variant.unpack(tick);
       currentDate = tick.startday;
       }

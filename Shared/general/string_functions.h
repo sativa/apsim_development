@@ -482,5 +482,10 @@ std::string indentString(int level);
 // -----------------------------------------------------------------------
 void addAttributeToXML(std::string& XML, const std::string& Attribute);
 
+// -----------------------------------------------------------------------
+// Get an attribute from an xml string (e.g. unit="g/m2")
+// -----------------------------------------------------------------------
+std::string getAttributeFromXML(const std::string& XML, const std::string& AttributeName);
+
 #endif
 

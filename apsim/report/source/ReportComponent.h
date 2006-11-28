@@ -1,89 +1,79 @@
 //---------------------------------------------------------------------------
 #ifndef ReportComponentH
 #define ReportComponentH
-#include <ComponentInterface/Component.h>
 #include <string>
 #include <vector>
+#include <fstream>
+class ScienceAPI;
+
+// ------------------------------------------------------------------
+// A class encapsulating a user specified field (column) that needs
+// to be written to an ostream. A field can have multiple values if
+// it is an array.
+// ------------------------------------------------------------------
 class Field
    {
    public:
-      Field (protocol::Component* parent,
-             std::string variable,
-             bool csvformat,
+      Field (ScienceAPI& scienceAPI,
+             const std::string& fqn,
+             const std::string& units,
+             const std::string& alias,
              const std::string& nastring,
-             unsigned int precision);
+             const std::string& format,
+             bool csv);
 
-      void writeHeadings(std::ostream& headingOut, std::ostream& unitOut);
+      void writeHeadings(std::ostream& out);
+      void writeUnits(std::ostream& out);
       void writeValue(std::ostream& out);
       void writeToSummary(void);
-      void FormatValues(void);
 
    private:
-      protocol::Component* parent;
-      std::string VariableName;
-      std::string VariableFormat;
-      std::string NAString;
-      bool CSVFormat;
-      unsigned variableID;
-      unsigned int Precision;
-      std::vector<std::string> headings;
-      std::vector<std::string> units;
-      std::vector<std::string> values;
-      std::vector<unsigned> fieldWidths;
+      ScienceAPI& scienceAPI;
+      std::string fqn;
+      std::string units;
+      std::string alias;
+      std::string nastring;
+      std::string format;
+      bool csv;
 
-      void getValues(bool setupHeadings);
-      void storeValue(protocol::Variant* variant, bool setupHeadings,
-                      bool includeModuleNameInHeading);
-      void calcFieldWidths();
-      void writeValuesTo(std::ostream& out, std::vector<std::string>& values);
-      void formatAsFloats(void);
+      std::vector<unsigned> widths;
+      std::vector<string> values;
+
+      void getValues();
+      void writeValueTo(std::ostream& out, const std::string& value, unsigned fieldWidth);
+      void formatValues(void);
    };
 // ------------------------------------------------------------------
-//  Short description:
-//     INIT entry point
-
-//  Notes:
-//     ACTIONS:
-//        'do_output' - immediately write a line of output to output file.
-//        'do_end_day_output' - write a line of output to output file at end of day.
-
-//  Changes:
-//    DPH 29/7/99
-
+// Main report component
 // ------------------------------------------------------------------
-class ReportComponent : public protocol::Component
+class ReportComponent
    {
    public:
-      ReportComponent(void);
-      ~ReportComponent(void);
-      virtual void doInit1(const FString& sdml);
-      virtual void doInit2(void);
-      virtual void respondToGet(unsigned int& fromID, protocol::QueryValueData& queryData);
-      virtual void respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant);
+      ReportComponent(ScienceAPI& scienceAPI);
+      virtual void onInit1();
+      virtual void onInit2();
 
    private:
-      std::ofstream out;
-      bool OutputOnThisDay;
-      typedef std::vector<Field> Fields;
-      Fields fields;
-      int DaysSinceLastReport;
-      bool CSVFormat;
+      ScienceAPI& scienceAPI;
+      std::ofstream file;
+      bool outputOnThisDay;
+      std::vector<std::string> variableLines;
+      std::vector<Field> fields;
+      int daysSinceLastReport;
+      bool csv;
       bool haveWrittenHeadings;
-      unsigned int Precision;
-      std::vector<unsigned> frequencyIds;
-      std::string NAString;
+      int precision;
+      std::string nastring;
 
-      unsigned titleID;
-      unsigned summaryFileID;
-      unsigned repEventID;
-      unsigned doOutputID;
-      unsigned doEndDayOutputID;
-      unsigned daysSinceLastReportVariableID;
-      unsigned reportedID;
+      void createVariable(const std::string& name);
+      void onReport();
+      void onDoOutput();
+      void onDoEndDayOutput();
+      void onFrequency();      
 
       std::string calcFileName();
       void writeHeadings(void);
-      void WriteLineOfOutput(void);
+      void writeLineOfOutput(void);
    };
 
 

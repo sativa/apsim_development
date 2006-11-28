@@ -85,19 +85,19 @@ void PastureConverter::doInit1(const FString& sdml)
    protocol::Component::doInit1(sdml);
    sandID = addRegistration(RegistrationType::respondToGet, "sand", doubleArrayTypeDDML);
    vpdID = addRegistration(RegistrationType::respondToGet, "vpd", singleTypeDDML);
-   swLayerID = addRegistration(RegistrationType::respondToGet, "sw_layer", protocol::DDML(protocol::soillayersType()).c_str());
+   swLayerID = addRegistration(RegistrationType::respondToGet, "sw_layer", protocol::DDML(protocol::SoilLayersType()).c_str());
    maxtID = addRegistration(RegistrationType::get, "maxt", singleTypeDDML);
    mintID = addRegistration(RegistrationType::get, "mint", singleTypeDDML);
    rainID = addRegistration(RegistrationType::get, "rain", singleTypeDDML);
    radnID = addRegistration(RegistrationType::get, "radn", singleTypeDDML);
    windID = addRegistration(RegistrationType::get, "wind", singleTypeDDML);
-   weatherID = addRegistration(RegistrationType::respondToGet, "weather", protocol::DDML(protocol::pastureweatherType()).c_str());
+   weatherID = addRegistration(RegistrationType::respondToGet, "weather", protocol::DDML(protocol::PastureWeatherType()).c_str());
    dlayerID = addRegistration(RegistrationType::get, "dlayer", singleArrayTypeDDML);
    nh4ppmID = addRegistration(RegistrationType::get, "nh4ppm", singleArrayTypeDDML);
    no3ppmID = addRegistration(RegistrationType::get, "no3ppm", singleArrayTypeDDML);
    nh4_ppmID = addRegistration(RegistrationType::respondToGet, "nh4_ppm", doubleArrayTypeDDML);
    no3_ppmID = addRegistration(RegistrationType::respondToGet, "no3_ppm", doubleArrayTypeDDML);
-   sowID = addRegistration(RegistrationType::event, "sow", protocol::DDML(protocol::pasturesowType()).c_str());
+   sowID = addRegistration(RegistrationType::event, "sow", protocol::DDML(protocol::PastureSowType()).c_str());
    sowPastureID = addRegistration(RegistrationType::respondToEvent, "sowpasture", singleTypeDDML);
 //   cutID = addRegistration(RegistrationType::event, "cultivate", pasturecutTypeDDML);
 //   conserveID = addRegistration(RegistrationType::event, "conserve", pastureConserveTypeDDML);
@@ -111,14 +111,14 @@ void PastureConverter::doInit1(const FString& sdml)
    preWaterBalanceID = addRegistration(RegistrationType::event, "prewaterbalance", "");
    postID = addRegistration(RegistrationType::respondToEvent, "post", "");
    endStepID = addRegistration(RegistrationType::event, "end_step", "");
-   onUptakeID = addRegistration(RegistrationType::respondToEvent, "on_uptake", protocol::DDML(protocol::pasturenutrientuptakeType()).c_str());
-   fomAddedID = addRegistration(RegistrationType::respondToEvent, "fom_added", protocol::DDML(protocol::fom_addedType()).c_str());
-   newProfileID = addRegistration(RegistrationType::respondToEvent, "new_profile", protocol::DDML(protocol::new_profileType()).c_str());
-   cropwaterdemandID = addRegistration(RegistrationType::respondToEvent, "cropwaterdemand", protocol::DDML(protocol::pasturewaterdemandType()).c_str());
-   cropwatersupplyID = addRegistration(RegistrationType::event, "cropwatersupply", protocol::DDML(protocol::pasturewatersupplyType()).c_str());
+   onUptakeID = addRegistration(RegistrationType::respondToEvent, "on_uptake", protocol::DDML(protocol::PastureNutrientUptakeType()).c_str());
+   fomAddedID = addRegistration(RegistrationType::respondToEvent, "fom_added", protocol::DDML(protocol::FomAddedType()).c_str());
+   newProfileID = addRegistration(RegistrationType::respondToEvent, "new_profile", protocol::DDML(protocol::NewProfileType()).c_str());
+   cropwaterdemandID = addRegistration(RegistrationType::respondToEvent, "cropwaterdemand", protocol::DDML(protocol::PastureWaterDemandType()).c_str());
+   cropwatersupplyID = addRegistration(RegistrationType::event, "cropwatersupply", protocol::DDML(protocol::PastureWaterSupplyType()).c_str());
    incorpFOMID = addRegistration(RegistrationType::event, "incorp_fom", "");
    swDepthID = addRegistration(RegistrationType::get, "sw_dep", singleArrayTypeDDML);
-   waterInfoID = addRegistration(RegistrationType::get, "water_info", protocol::DDML(protocol::waterinfoType()).c_str());
+   waterInfoID = addRegistration(RegistrationType::get, "water_info", protocol::DDML(protocol::WaterInfoType()).c_str());
    rtDepID = addRegistration(RegistrationType::get, "rtdep", singleTypeDDML);
    swID = addRegistration(RegistrationType::get, "sw", singleArrayTypeDDML);
    ll15DepthID = addRegistration(RegistrationType::get, "ll15_dep", singleArrayTypeDDML);
@@ -191,7 +191,7 @@ void PastureConverter::doPost(unsigned int& fromID, unsigned int& eventID, proto
 void PastureConverter::dosowPasture(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant)
 //===========================================================================
 {
-   protocol::pasturesowType pastureSow;
+   protocol::PastureSowType pastureSow;
 
     double   value;
 
@@ -245,7 +245,7 @@ void PastureConverter::doNewProfile(unsigned int& fromID, unsigned int& eventID,
 void PastureConverter::doCropNutrientUptake(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant)
 //===========================================================================
 {
-   protocol::pasturenutrientuptakeType nutrientUptake;
+   protocol::PastureNutrientUptakeType nutrientUptake;
 
    variant.unpack(nutrientUptake);
    int numLayers = nutrientUptake.layers.size();
@@ -287,7 +287,7 @@ void PastureConverter::doCropWaterUptake(unsigned int& fromID, unsigned int& eve
    // get supply in each layer (sw_dep - ll_15) = esw
    // satisify demand proportionately to rlv in each layer down to root depth
 
-   protocol::pasturewaterdemandType waterDemand;
+   protocol::PastureWaterDemandType waterDemand;
 
    variant.unpack(waterDemand);
    if (cDebug == "on")
@@ -357,7 +357,7 @@ void PastureConverter::doCropWaterUptake(unsigned int& fromID, unsigned int& eve
 
       pasture_sw_supply (max_layer, dlayer, rtDep, sw_dep, kl, ll_dep, swSupply);
 
-      protocol::pasturewatersupplyType waterUptake;
+      protocol::PastureWaterSupplyType waterUptake;
       protocol::suppliesType supply;
       float demand_tot = 0.0;
       float rlv_tot = 0.0;
@@ -414,7 +414,7 @@ void PastureConverter::doCropWaterUptake(unsigned int& fromID, unsigned int& eve
 void PastureConverter::doAddFOM(unsigned int& fromID, unsigned int& eventID, protocol::Variant& variant)
 //===========================================================================
 {
-   protocol::fom_addedType FOMAdded;
+   protocol::FomAddedType FOMAdded;
 
    variant.unpack(FOMAdded);
    int numLayers = FOMAdded.layers.size();
@@ -618,7 +618,7 @@ void PastureConverter::sendSWLayer (protocol::QueryValueData& queryData)
          {
             vector <float> sw;
             bool ok = variantsw->unpack(sw);  // what happens if this is not ok?
-            protocol::soillayersType sw_depth;
+            protocol::SoilLayersType sw_depth;
             for (unsigned int layer = 0; layer < sw.size(); layer++)
             {
                sw_depth.layers.push_back(static_cast<double>(dlayer[layer]));
@@ -690,7 +690,7 @@ void PastureConverter::sendWeather (protocol::QueryValueData& queryData)
                   ok = variantMinT->unpack(mint);  // what happens if this is not ok?
                   float VPD = vpd(cSVPFract, maxt, mint);
 
-                  protocol::pastureweatherType weather;
+                  protocol::PastureWeatherType weather;
                   weather.maxt = static_cast<double>(maxt);
                   weather.mint = static_cast<double>(mint);
                   weather.rain = static_cast<double>(rain);

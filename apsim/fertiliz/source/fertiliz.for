@@ -670,9 +670,9 @@ c     include 'fertiliz.inc'
 *     ===========================================================
       Use infrastructure
       implicit none
-      
+
       integer, intent(in) :: variant
-      
+
 c     include   'fertiliz.inc'
 
 *+  Purpose
@@ -698,7 +698,7 @@ c     include   'fertiliz.inc'
 *- Implementation Section ----------------------------------
       call push_routine (myname)
 
-      call unpack_time(variant, tick)                                                 
+      call unpack_time(variant, tick)
       call jday_to_day_of_year(dble(tick%startday), g%day, g%year)
 
       g%fert_applied = 0.0
@@ -807,7 +807,7 @@ c     include   'fertiliz.inc'
       subroutine alloc_dealloc_instance(doAllocate)
 !     ===========================================================
       use FertilizModule
-      implicit none  
+      implicit none
       ml_external alloc_dealloc_instance
 
 !+  Sub-Program Arguments
@@ -916,7 +916,7 @@ C      call set_warning_off ()
       Use FertilizModule
       implicit none
       ml_external respondToEvent
-      
+
       integer, intent(in) :: fromID
       integer, intent(in) :: eventID
       integer, intent(in) :: variant
@@ -924,6 +924,6 @@ C      call set_warning_off ()
       if (eventID .eq. id%tick) then
          call fertiliz_ONtick(variant)
       endif
-            
+
       return
       end subroutine respondToEvent

@@ -768,10 +768,10 @@ extern "C" void EXPORT STDCALL respond2get_char_array
 // Module is returning the value of a variable to the system.
 // ------------------------------------------------------------------
 extern "C" void EXPORT STDCALL respond2get_time_var
-   (const char* variableName, const char* units, const protocol::timeType* value,
+   (const char* variableName, const char* units, const protocol::TimeType* value,
     unsigned variableNameLength, unsigned unitsLength)
    {
-   string timeDDML = DDML(protocol::timeType());
+   string timeDDML = DDML(protocol::TimeType());
    FortranWrapper::currentInstance->respond2var
       (FString(variableName, variableNameLength, FORString),
        FString(units, unitsLength, FORString), timeDDML.c_str(), *value);

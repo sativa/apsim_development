@@ -91,9 +91,9 @@ void InputComponent::doInit1(const FString& sdml)
       static const char* stringDDML = "<type kind=\"string\"/>";
 
       // register a few things.
-      tickID = addRegistration(RegistrationType::respondToEvent, "tick", DDML(protocol::timeType()).c_str());
-      preNewmetID = addRegistration(RegistrationType::event, "preNewmet", DDML(protocol::newmetType()).c_str());
-      newmetID = addRegistration(RegistrationType::event, "newmet", DDML(protocol::newmetType()).c_str());
+      tickID = addRegistration(RegistrationType::respondToEvent, "tick", DDML(protocol::TimeType()).c_str());
+      preNewmetID = addRegistration(RegistrationType::event, "preNewmet", DDML(protocol::NewMetType()).c_str());
+      newmetID = addRegistration(RegistrationType::event, "newmet", DDML(protocol::NewMetType()).c_str());
       hasDataTodayID = addRegistration(RegistrationType::respondToGet, "hasDataToday", hasDataTodayTypeDDML);
       getDataMethodID = addRegistration(RegistrationType::respondToEvent, "getData", getDataDDML);
       haveReadTodaysDataID = addRegistration(RegistrationType::event, "HaveReadTodaysData", nullTypeDDML);
@@ -278,7 +278,7 @@ void InputComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID,
    {
    if (eventID == tickID)
       {
-      protocol::timeType tick;
+      protocol::TimeType tick;
       variant.unpack(tick);
       todaysDate = date(tick.startday);
       fileDate = advanceToTodaysData();
@@ -296,7 +296,7 @@ void InputComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID,
    else if (eventID == getDataMethodID)
       {
       data.first();
-      vector<protocol::newmetType> newmets;
+      vector<protocol::NewMetType> newmets;
       vector<string> dataDates;
       variant.unpack(dataDates);
       for (unsigned i = 0; i != dataDates.size(); i++)
@@ -306,7 +306,7 @@ void InputComponent::respondToEvent(unsigned int& fromID, unsigned int& eventID,
             {
             data.gotoDate(dataDate);
 
-            protocol::newmetType newmet;
+            protocol::NewMetType newmet;
             newmet.today = dataDate.julian_day();
             newmet.maxt = getVariableValue("maxt");
             newmet.mint = getVariableValue("mint");
@@ -409,7 +409,7 @@ void InputComponent::publishNewMetEvent(void)
    if (iAmMet)
       {
       // send out a preNewMet Event.
-      protocol::newmetType newmet;
+      protocol::NewMetType newmet;
       newmet.today = todaysDate.julian_day();
       newmet.maxt = getVariableValue("maxt");
       newmet.mint = getVariableValue("mint");

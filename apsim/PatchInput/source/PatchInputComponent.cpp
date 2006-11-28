@@ -54,7 +54,7 @@ void PatchInputComponent::doInit1(const FString& sdml)
    InputComponent::doInit1(sdml);
 
    haveReadPatchData = false;
-   preNewmetID = addRegistration(RegistrationType::respondToEvent, "preNewmet", DDML(protocol::newmetType()).c_str());
+   preNewmetID = addRegistration(RegistrationType::respondToEvent, "preNewmet", DDML(protocol::NewMetType()).c_str());
    ApsimDataFile::iterator i = find(data.constantsBegin(),
                                     data.constantsEnd(),
                                     "patch_all_years");
@@ -192,7 +192,7 @@ void PatchInputComponent::respondToEvent(unsigned int& fromID, unsigned int& eve
    {
    if (eventID == preNewmetID)
       {
-      protocol::newmetType newmet;
+      protocol::NewMetType newmet;
       variant.unpack(newmet);
       todaysDate = newmet.today;
 
@@ -235,7 +235,7 @@ void PatchInputComponent::respondToEvent(unsigned int& fromID, unsigned int& eve
       }
    else if (eventID == returnDataMethodID)
       {
-      vector<protocol::newmetType> data;
+      vector<protocol::NewMetType> data;
       variant.unpack(data);
       for (unsigned i = 0; i != data.size(); i++)
          {

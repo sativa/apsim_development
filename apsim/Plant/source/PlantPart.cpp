@@ -789,7 +789,7 @@ void plantPart::removeBiomass(void)
    PDead -= dltNDeadRemoved();
    }
 
-void plantPart::doRemoveBiomass(protocol::removeCropDmType dmRemoved, string &c_remove_biomass_report)
+void plantPart::doRemoveBiomass(protocol::RemoveCropDmType dmRemoved, string &c_remove_biomass_report)
 //=======================================================================================
 // deltas have been given from an external module; update states.
 {
@@ -1797,10 +1797,10 @@ void plantPart::doDmPotTE(void){}                                       //(OUTPU
 void plantPart::doGrainNumber (void){}
 void plantPart::doInit1(){}
 void plantPart::doNDemandGrain(float nfact_grain_conc, float swdef_expansion){}
-void plantPart::doNewMet(protocol::newmetType &newmet) {}
+void plantPart::doNewMet(protocol::NewMetType &newmet) {}
 void plantPart::doNInit (void){}
 void plantPart::doTECO2(void){}                                       // (OUTPUT) transpiration coefficient                         //FIXME
-void plantPart::doTick(protocol::timeType &tick) {}
+void plantPart::doTick(protocol::TimeType &tick) {}
 void plantPart::writeCultivarInfo (protocol::Component *){}
 
 float plantPart::giveDmGreen(float delta)
