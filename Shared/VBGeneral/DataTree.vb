@@ -293,7 +293,7 @@ Public Class DataTree
         If Level < MaxNumLevels Then
             Dim ChildIndex As Integer = 0
             For Each Child As APSIMData In Data.Children
-                If ShowAllComponents OrElse Controller.IsComponentVisible(Child.Type) Then
+                If ShowAllComponents OrElse Controller.IsComponentVisible(Child) Then
                     Dim ChildTreeNode As TreeNode
                     If ChildIndex < Node.Nodes.Count Then
                         ChildTreeNode = Node.Nodes(ChildIndex)

@@ -70,7 +70,7 @@ Public MustInherit Class BaseController
     MustOverride ReadOnly Property SmallImageList() As ImageList
     MustOverride Function SmallImageIndex(ByVal ComponentType As String) As Integer
     MustOverride Function ImageFileForType(ByVal ComponentType As String) As String
-    MustOverride Function IsComponentVisible(ByVal ComponentName As String) As Boolean
+    MustOverride Function IsComponentVisible(ByVal Component As APSIMData) As Boolean
     MustOverride Function AllowComponentAdd(ByVal ChildComponentType As String, ByVal ParentComponentType As String) As Boolean
     MustOverride Function CreateUI(ByVal UIType As String) As BaseView
     Protected Overridable Function IsDataReadOnly() As Boolean
