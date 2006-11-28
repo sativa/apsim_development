@@ -17,7 +17,7 @@ LIBFILES = $(APSROOT)\Shared\general\general.lib                \
    $(APSROOT)\Shared\ComponentInterface2\ComponentInterface2.lib \
 
 USERDEFINES =
-SYSDEFINES = _RTLDLL;NO_STRICT;_NO_VCL;USEPACKAGES
+SYSDEFINES = _RTLDLL;NO_STRICT;USEPACKAGES
 INCLUDEPATH = $(APSROOT)\Shared\ComponentInterface2;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\Components\Boost;$(APSROOT)\Shared
 LIBPATH = $(BCB)\lib\obj;$(BCB)\lib;$(APSROOT)\Shared\ComponentInterface2
 
@@ -27,7 +27,7 @@ CFLAG1 = $(SYSCFLAGS) -O2 -vi -TWD
 WARNINGS = -w-par
 LFLAGS = -D"" -aa -Tpd -x -Gn -Gi
 
-ALLOBJ = c0d32.obj vcl.bpi $(OBJFILES)
+ALLOBJ = c0d32.obj rtl.bpi vcl.bpi Memmgr.Lib sysinit.obj $(OBJFILES)
 ALLRES = $(RESFILES)
 ALLLIB = $(SYSLIBS) $(LIBFILES) import32.lib cw32mti.lib
 
