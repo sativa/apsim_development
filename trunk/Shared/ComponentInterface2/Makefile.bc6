@@ -15,9 +15,9 @@ OBJECTS = ComponentInterface.obj       \
           CMPComponentEntryPoints.obj  \
           EntryPoints.obj
 
-PACKAGES = rtl.bpi
+PACKAGES = vcl.bpi rtl.bpi
 USERDEFINES =
-SYSDEFINES = NO_STRICT;_RTLDLL;USEPACKAGES;_NO_VCL
+SYSDEFINES = NO_STRICT;_RTLDLL;USEPACKAGES
 INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\Components\Boost
 LIBPATH = $(SYSLIBPATH)
 LIBRARIES = rtl.lib
@@ -29,7 +29,7 @@ source: ComponentInterface2.dll
 
 ALLOBJ = c0d32.obj $(PACKAGES) $(OBJECTS)
 ALLRES = $(RESFILES)
-ALLLIB = vcl.lib $(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib
+ALLLIB = vcl.lib $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib
 # ---------------------------------------------------------------------------
 # For ComponentInterface.dll, use:
 CFLAG1 =  $(SYSCFLAGS) -tWD -tWM
