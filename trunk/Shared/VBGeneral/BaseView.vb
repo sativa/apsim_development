@@ -82,6 +82,12 @@ Public Class BaseView
         ' ---------------------------------------------
     End Sub
 
+    Public Overridable Sub OnClose()
+        ' ---------------------------------------------
+        ' An overridable method that is called whenever
+        ' the object is being destroyed.
+        ' ---------------------------------------------
+    End Sub
     Public Property HelpText() As String
         ' ---------------------------------------------
         ' Provide access to the help label of this ui

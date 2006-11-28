@@ -162,7 +162,9 @@ Public Class ExplorerUI
         ' Close the current UI
         ' -------------------------------------------------
         If CurrentUIIndex <> -1 Then
-            UIPanel.Controls.Remove(UIs(CurrentUIIndex))
+            Dim View As BaseView = UIs(CurrentUIIndex)
+            View.OnClose()
+            UIPanel.Controls.Remove(View)
             CurrentUIIndex = -1
         End If
     End Sub

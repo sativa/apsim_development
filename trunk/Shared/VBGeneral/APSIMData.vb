@@ -404,11 +404,13 @@ Public Class APSIMData
         ' -----------------------------------------------------------------
         ' Return the specified attribute or "" if not found
         ' -----------------------------------------------------------------
-        Dim A As XmlAttribute = InternalNode.Attributes.GetNamedItem(AttributeName)
-        If Not IsNothing(A) Then
-            Return A.InnerText
-        Else
-            Return ""
+        If Not IsNothing(InternalNode.Attributes()) Then
+            Dim A As XmlAttribute = InternalNode.Attributes.GetNamedItem(AttributeName)
+            If Not IsNothing(A) Then
+                Return A.InnerText
+            Else
+                Return ""
+            End If
         End If
     End Function
     Public Sub SetAttribute(ByVal AttributeName As String, ByVal AttributeValue As String)
@@ -450,6 +452,10 @@ Public Class APSIMData
         End Get
         Set(ByVal Value As String)
             Node.InnerXml = Value
+
+            Dim data As New XmlDocument
+            data.LoadXml(Node.OuterXml())
+            InternalNode = data.DocumentElement
             FireDataChangedEvent()
         End Set
     End Property
