@@ -71,7 +71,7 @@
 struct QueryMatch
    {
    std::string name;
-   std::string units;
+   std::string ddml;
    };
 
 // ------------------------------------------------------------------
@@ -104,7 +104,7 @@ class ScienceAPI
       // [builtin.ctype]
       #define [builtin.name]Function(address) boost::function1<void, [builtin.ctype]& >(boost::bind(address, this, _1))
       virtual bool read(const std::string& name, [builtin.ctype]& data, bool optional) = 0;
-      virtual void get(const std::string& name, const std::string& units, bool optional, [builtin.ctype]& data) = 0;
+      virtual bool get(const std::string& name, const std::string& units, bool optional, [builtin.ctype]& data) = 0;
       virtual void set(const std::string& name, const std::string& units, [builtin.ctype]& data) = 0;
       virtual void expose(const std::string& name, const std::string& units, const std::string& description, bool writable, [builtin.ctype]& variable) = 0;
       virtual void exposeFunction(const std::string& name, const std::string& units, const std::string& description, boost::function1<void, [builtin.ctype]&> fn) = 0;
@@ -147,7 +147,7 @@ class CMPScienceAPI : public ScienceAPI
       [foreach types.builtin]
       // [builtin.ctype]
       virtual bool read(const std::string& name, [builtin.ctype]& data, bool optional);
-      virtual void get(const std::string& name, const std::string& units, bool optional, [builtin.ctype]& data);
+      virtual bool get(const std::string& name, const std::string& units, bool optional, [builtin.ctype]& data);
       virtual void set(const std::string& name, const std::string& units, [builtin.ctype]& data);
       virtual void expose(const std::string& name, const std::string& units, const std::string& description, bool writable, [builtin.ctype]& variable);
       virtual void exposeFunction(const std::string& name, const std::string& units, const std::string& description, boost::function1<void, [builtin.ctype]&> method);
@@ -205,7 +205,7 @@ void CMPScienceAPI::publish(const std::string& name)
 // [builtin.ctype]
 bool CMPScienceAPI::read(const std::string& name, [builtin.ctype]& data, bool optional)
    {return componentInterface.read(name, CMPBuiltIn<[builtin.ctype] >(data), optional);}
-void CMPScienceAPI::get(const std::string& name, const std::string& units, bool optional, [builtin.ctype]& data)
+bool CMPScienceAPI::get(const std::string& name, const std::string& units, bool optional, [builtin.ctype]& data)
    {return componentInterface.get(name, units, optional, new CMPBuiltIn<[builtin.ctype] >(data));}
 
 void CMPScienceAPI::set(const std::string& name, const std::string& units, [builtin.ctype]& data)

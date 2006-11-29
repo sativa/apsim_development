@@ -94,7 +94,7 @@ void CMPComponentInterface::messageToLogic(const Message& message)
 		}
    }
 
-void CMPComponentInterface::get(const std::string& name, const std::string& units, bool optional, IPackableData* data)
+bool CMPComponentInterface::get(const std::string& name, const std::string& units, bool optional, IPackableData* data)
    // -----------------------------------------------------------------------
    // Get the value of a variable from another component.
    // -----------------------------------------------------------------------
@@ -136,8 +136,14 @@ void CMPComponentInterface::get(const std::string& name, const std::string& unit
       delete data;
 
    delete arraySpecifier;
-   if (errorMsg != "" && !optional)
-      throw runtime_error(errorMsg);
+   if (errorMsg != "")
+      {
+      if (!optional)
+         throw runtime_error(errorMsg);
+      return false;
+      }
+   else
+      return true;
    }
 
 void CMPComponentInterface::set(const std::string& name,
@@ -291,7 +297,7 @@ void CMPComponentInterface::query(const std::string& pattern, std::vector<QueryM
       queryMatch.name = returnInfo.name;
       if (arraySpecifier != NULL)
          arraySpecifier->adornVariableName(queryMatch.name);
-      queryMatch.units = getAttributeFromXML(returnInfo.type, "unit");
+      queryMatch.ddml = returnInfo.type;
       matches.push_back(queryMatch);
       }
    delete arraySpecifier;

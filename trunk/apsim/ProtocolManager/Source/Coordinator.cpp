@@ -871,11 +871,16 @@ void Coordinator::readAllRegistrations(void)
       if (internalName == "")
          internalName = reg->getName();
 
+      string dataTypeName = reg->getDataTypeName();
       ApsimDataTypeData dataType = componentData->getDataType(reg->getDataTypeName());
-      unsigned regId = addRegistration(regType, reg->getName().c_str(),
-                                       dataType.getTypeString().c_str());
+      string ddml = dataType.getTypeString();
+      string units = reg->getUnits();
+      if (units != "")
+         addAttributeToXML(ddml, "unit=\"" + units + "\"");
 
-      registrations.add(::Registration(parentID, regId, internalName, "", oppositeRegType));
+      unsigned regId = addRegistration(regType, reg->getName().c_str(), ddml.c_str());
+
+      registrations.add(::Registration(parentID, regId, internalName, ddml.c_str(), oppositeRegType));
       }
    }
 // ------------------------------------------------------------------

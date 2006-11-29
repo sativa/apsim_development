@@ -16,7 +16,7 @@ using namespace std;
 // ------------------------------------------------------------------
 Field::Field (ScienceAPI& scienceAPI,
               const std::string& fqn,
-              const std::string& units,
+              const std::string& ddml,
               const std::string& alias,
               const std::string& nastring,
               const std::string& format,
@@ -24,7 +24,8 @@ Field::Field (ScienceAPI& scienceAPI,
    : scienceAPI(scienceAPI)
    {
    this->fqn = fqn;
-   this->units = units;
+   this->units = getAttributeFromXML(ddml, "unit");
+   this->kind =  getAttributeFromXML(ddml, "kind");
    this->alias = alias;
    this->nastring = nastring;
    this->format = format;
@@ -88,6 +89,7 @@ void Field::writeUnits(ostream& out)
 // ------------------------------------------------------------------
 void Field::getValues()
    {
+   values.erase(values.begin(), values.end());
    scienceAPI.get(fqn, "", true, values);
    if (values.size() == 0)
       values.push_back(nastring);
@@ -101,7 +103,7 @@ void Field::getValues()
 // ------------------------------------------------------------------
 void Field::formatValues(void)
    {
-   if (format != "" && units != "(year)" && units != "(day)" && units != "(days)" && units != "(d)")
+   if (format != "" && kind != "integer4")
       {
       for (unsigned i = 0; i != values.size(); i++)
          {
@@ -311,7 +313,7 @@ void ReportComponent::createVariable(const string& name)
          if (alias == "" && matches.size() > 1)
             thisAlias = matches[i].name;
 
-         fields.push_back(Field(scienceAPI, matches[i].name, matches[i].units, thisAlias,
+         fields.push_back(Field(scienceAPI, matches[i].name, matches[i].ddml, thisAlias,
                                 nastring, format, csv));
          }
       }

@@ -21,7 +21,7 @@ class CMPComponentInterface
       CMPComponentInterface(unsigned* callbackarg, CallbackType* callback, unsigned componentID, unsigned parentID);
       ~CMPComponentInterface();
 
-      void get(const std::string& name, const std::string& units, bool optional, IPackableData* data);
+      bool get(const std::string& name, const std::string& units, bool optional, IPackableData* data);
       void set(const std::string& name, const std::string& units, IPackableData* data);
       bool read(const std::string& name, IPackableData& value, bool optional);
 

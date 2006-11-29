@@ -278,7 +278,7 @@ class GetRulesFunction
          { }
       void operator () (T &arg)
          {
-         if (Str_i_Eq(arg.getName(), "rule")) 
+         if (Str_i_Eq(arg.getName(), "rule"))
             Container.push_back(arg.getAttribute("name"));
          };
    };
