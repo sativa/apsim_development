@@ -23,6 +23,13 @@ std::string ApsimRegistrationData::getName(void) const
    return node.getAttribute("name");
    }
 // ------------------------------------------------------------------
+// return the name of the registration.
+// ------------------------------------------------------------------
+std::string ApsimRegistrationData::getUnits(void) const
+   {
+   return node.getAttribute("unit");
+   }
+// ------------------------------------------------------------------
 // return the type of the registration.
 // ------------------------------------------------------------------
 std::string ApsimRegistrationData::getType(void) const

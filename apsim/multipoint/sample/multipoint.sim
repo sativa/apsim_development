@@ -82,13 +82,13 @@
       <registrations>
          <event name="summaryFileWrite" type="summaryFileWrite"/>
          <event name="error" type="string"/>
-         <respondToGet name="rain" type="rain"/>
-         <respondToSet name="dlt_sw_dep" type="single"/>
+         <respondToGet name="rain" type="float" unit="mm"/>
+         <respondToSet name="dlt_sw_dep" type="float"/>
          <respondToEvent name="tick" type="time"/>
          <respondToEvent name="do_output" type="do_output"/>
-         <get name="day" type="integer4"/>
+         <get name="day" type="int" unit="day"/>
          <get name="title" type="string"/>
-         <respondToSet name="rain" type="rain"/>
+         <respondToSet name="rain" type="float" unit="mm"/>
       </registrations>
       <types>
          <type name="summaryFileWrite">

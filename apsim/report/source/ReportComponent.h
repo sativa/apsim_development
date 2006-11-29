@@ -31,6 +31,7 @@ class Field
       ScienceAPI& scienceAPI;
       std::string fqn;
       std::string units;
+      std::string kind;
       std::string alias;
       std::string nastring;
       std::string format;
