@@ -408,10 +408,9 @@ Public Class APSIMData
             Dim A As XmlAttribute = InternalNode.Attributes.GetNamedItem(AttributeName)
             If Not IsNothing(A) Then
                 Return A.InnerText
-            Else
-                Return ""
             End If
         End If
+        Return ""
     End Function
     Public Sub SetAttribute(ByVal AttributeName As String, ByVal AttributeValue As String)
         ' ----------------------------------------

@@ -286,13 +286,21 @@ Public Class OutputFileDescUI
                        "       sw(2-4)                -  Ranges of elements of arrays can be reported." + vbCrLf + _
                        "       wheat.yield as whtyld  -  Variable names can also be renamed in the output file - aliased"
             DictionaryLabel.Text = "Variable dictionary - drag variables from the list below to the grid above."
+        ElseIf Controller.Data.Type.ToLower = "tracker" Then
+            HelpText = "Drag an example tracker variable from the list at the bottom to the grid at the top to use as a starting point for creating your own."
+            DictionaryLabel.Text = "Example tracker variables - drag an example tracker variable to the grid above."
         Else
             HelpText = "Drag one or more frequencies from the list at the bottom to the grid at the top."
             DictionaryLabel.Text = "Frequency list - drag one or more frequencies from the list below to the grid above."
         End If
 
+        ' We want to find the component that is a child of our paddock.
         Dim ApsimUI As ApsimUIController = Controller
-        ApsimUI.GetSiblingComponents(Controller.Data.Parent, ComponentNames, ComponentTypes)
+        Dim Comp As APSIMData = Controller.Data
+        While Not IsNothing(Comp.Parent) AndAlso Comp.Parent.Type.ToLower <> "area"
+            Comp = Comp.Parent
+        End While
+        ApsimUI.GetSiblingComponents(Comp, ComponentNames, ComponentTypes)
 
         UserChange = False
         PopulateComponentFilter()
@@ -324,7 +332,13 @@ Public Class OutputFileDescUI
         For Each ComponentName As String In ComponentNames
             ComponentFilter.Items.Add(ComponentName)
         Next
-        ComponentFilter.SelectedIndex = 0
+        If Controller.Data.Type.ToLower = "tracker" Then
+            ComponentFilter.Text = "tracker"
+            ComponentFilter.Visible = False
+        Else
+            ComponentFilter.SelectedIndex = 0
+        End If
+
     End Sub
 
     Private Sub PopulateVariableGrid()
@@ -339,6 +353,7 @@ Public Class OutputFileDescUI
             Grid.Cells(Row, 2).Value = Variable.Attribute("description")
             Row += 1
         Next
+        Grid.Columns(0).Width = Grid.Columns(0).GetPreferredWidth()
     End Sub
     Private Sub PopulateVariableListView()
         ' ----------------------------------------------
@@ -352,6 +367,9 @@ Public Class OutputFileDescUI
             Dim ComponentType As String = ComponentTypes(ComponentFilter.SelectedIndex)
             Dim ComponentName As String = ComponentNames(ComponentFilter.SelectedIndex)
             Dim PropertyGroup As String = Controller.Data.Type  ' e.g. variables or events
+            If PropertyGroup.ToLower = "tracker" Then
+                PropertyGroup = "variables"
+            End If
             Dim VariableData As New APSIMData(PropertyGroup, "")
             ApsimUI.GetVariablesForComponent(ComponentType, ComponentName, PropertyGroup, VariableData)
 
@@ -375,6 +393,7 @@ Public Class OutputFileDescUI
                 Next
             Next
             VariableListView.EndUpdate()
+            VariableListView.Columns(0).AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent)
             Windows.Forms.Cursor.Current = Cursors.Default
         End If
 
@@ -387,6 +406,9 @@ Public Class OutputFileDescUI
         ' Work out the property type from the currently selected data type by removing the last character.
         ' e.g. if current data type is 'variables' then property type is 'variable'
         Dim PropertyType As String = Controller.Data.Type
+        If PropertyType.ToLower = "tracker" Then
+            PropertyType = "variables"
+        End If
         PropertyType = PropertyType.Remove(PropertyType.Length - 1)
         'how many blank
         Dim BlankRows As Integer() = GridUtils.FindBlankCells(Grid, 0, Controller.Data.Children(PropertyType).Length)
