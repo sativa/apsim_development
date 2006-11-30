@@ -2886,11 +2886,6 @@
       <cultivar name="hhb67"/>
       <cultivar name="mh179"/>
    </millet>
-   <PatchInput>
-      <UItype>generic</UItype>
-      <ShowInMainTree>No</ShowInMainTree>
-      <Documentation name="Science documentation">../apsim/PatchInput/docs/PatchInput_science.htm</Documentation>
-   </PatchInput>
    <report>
       <UItype>generic</UItype>
       <ShowInMainTree>No</ShowInMainTree>
@@ -3660,5 +3655,23 @@
     	<drop name="surfaceom"/>
       </drops>
    </ini>
+   <patchinput>
+      <UItype>file</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>Images\thermometer32.png</LargeIcon>
+      <SmallIcon>Images\thermometer16.png</SmallIcon>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <Documentation name="Science documentation">../apsim/PatchInput/docs/PatchInput_science.htm</Documentation>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+     </drops>
+      <ApsimToSim>
+         <type>component</type>
+         <dll>%apsuite\apsim\PatchInput\lib\PatchInput.dll</dll>
+      </ApsimToSim>
+   </patchinput>
+
 </Types>
 
