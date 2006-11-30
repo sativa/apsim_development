@@ -6646,7 +6646,7 @@ float Plant::getDltDm(void) const{ return g.dlt_dm;}
 float Plant::getDmVeg(void) const {return leafPart->dmTotal() + stemPart->dmTotal();}
 float Plant::getDmGreenStem(void) const {return stemPart->dmGreen();}
 float Plant::getDmGreenTot(void) const {return plantGreen();}
-float Plant::getRelativeGrowthRate(void) {return divide(g.dlt_dm_pot_rue, getDmGreenTot(), 0.0);}
+float Plant::getRelativeGrowthRate(void) {return divide(arbitrator->dltDMWhole(g.dlt_dm_pot_rue), getDmGreenTot(), 0.0);} // the dlt_dm_pot_rue is only tops, thus either adjust it for roots or leave roots out of the divisor.
 float Plant::getDyingFractionPlants(void)
    {
        float dying_fract_plants = divide (-g.dlt_plants, g.plants, 0.0);
