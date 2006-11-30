@@ -41,7 +41,7 @@ module SoilPModule
       integer      nveg
 
 
-      real      labile_p (max_layer)   ! Labile P content for each layer (ppm)
+      real      labile_p (max_layer)   ! Labile P content for each layer (kg/ha)
       real      unavail_p (max_layer)  ! Unavailable P content for each layer (kg/ha)
       real      rock_p (max_layer)     ! Rock P content for each layer (kg/ha)
                                        ! ie. no water soluble
@@ -130,8 +130,8 @@ module SoilPModule
       real         crit_p_rlv (max_crops)
                                        ! critical rlv above which p status is maximum
 
-      real         lb_labile_p         ! lower bound for labile P (ppm)
-      real         ub_labile_p         ! upper bound for labile P (ppm)
+      real         lb_labile_p_ppm         ! lower bound for labile P (ppm)
+      real         ub_labile_p_ppm         ! upper bound for labile P (ppm)
       real         lb_unavail_p        ! lower bound for unavailable P (kg/ha)
       real         ub_unavail_p        ! upper bound for unavailable P (kg/ha)
       real         lb_banded_p         ! lower bound for banded P (kg/ha)
@@ -253,8 +253,8 @@ subroutine soilp_zero_variables ()
    c%act_energy_loss_avail_p = 0.0
    c%wf_loss_index           = 0.0
    c%wf_loss_values          = 0.0
-   c%lb_labile_p             = 0.0
-   c%ub_labile_p             = 0.0
+   c%lb_labile_p_ppm             = 0.0
+   c%ub_labile_p_ppm             = 0.0
    c%lb_unavail_p            = 0.0
    c%ub_unavail_p            = 0.0
    c%lb_banded_p             = 0.0
@@ -413,6 +413,16 @@ subroutine soilp_Send_my_variable (Variable_name)
          call Message_Unused ()
       endif
 
+   else if (index(Variable_name,'demand_p_').eq.1) then
+      crpnum = position_in_char_array (Variable_name(10:), g%crop_names, max_crops)
+      if (crpnum .gt. 0.0) then
+         !crop found so send uptake
+         call respond2Get_real_var ( Variable_name, '(kg/ha)', g%crop_p_demand (crpnum))
+      else
+         ! Don't use message
+         call Message_Unused ()
+      endif
+
 
    else
       ! Don't use message
@@ -460,10 +470,10 @@ subroutine soilp_read_param ()
 
    call write_string ( new_line//'   - Reading Parameters')
 
-   call read_real_array (section_name,'labile_p',max_layer,'(ppm)',lab_p,numvals,c%lb_labile_p,c%ub_labile_p)
+   call read_real_array (section_name, 'labile_p', max_layer, '(ppm)', lab_p, numvals, c%lb_labile_p_ppm, c%ub_labile_p_ppm)
    ! convert ppm to kg/ha
    do layer=1, max_layer
-      g%labile_p (layer) = divide (lab_p (layer),soilp_fac (layer), 0.0)
+      g%labile_p (layer) = divide (lab_p (layer), soilp_fac (layer), 0.0)
    end do
 
    call read_real_array_optional (section_name,'unavail_p',max_layer,'(kg/ha)',g%unavail_p,numvals,c%lb_unavail_p,c%ub_unavail_p)
@@ -646,9 +656,9 @@ subroutine soilp_read_constants ()
    call read_real_array (section_name,'crit_p_rlv',max_crops,'()',c%crit_p_rlv,numvals,0.0,100.0)
 
    ! read P pool bounds
-   call read_real_var (section_name,'lb_labile_p','(ppm)',c%lb_labile_p,numvals,0.0,100.0)
+   call read_real_var (section_name, 'lb_labile_p_ppm', '(ppm)', c%lb_labile_p_ppm, numvals, 0.0, 100.0)
 
-   call read_real_var (section_name,'ub_labile_p','(ppm)',c%ub_labile_p,numvals,0.0,1000.0)
+   call read_real_var (section_name,'ub_labile_p_ppm', '(ppm)', c%ub_labile_p_ppm, numvals, 0.0, 1000.0)
 
    call read_real_var (section_name,'lb_unavail_p','(kg/ha)',c%lb_unavail_p,numvals,0.0,100.0)
 
@@ -1113,7 +1123,7 @@ subroutine soilp_get_crop_variables ()
 
 
          call get_real_var (g%crop_owners(vegnum),'p_demand','(g/m2)',g%crop_p_demand (vegnum),numvals,0.0,2.0)
-         g%crop_p_demand = g%crop_p_demand * gm2kg/sm2ha
+         g%crop_p_demand(vegnum) = g%crop_p_demand(vegnum) * gm2kg/sm2ha
 
          if (numvals .eq. 0) then
             call fatal_error (Err_Internal,'no p demand returned from '//g%crop_names(vegnum))
@@ -1163,6 +1173,7 @@ subroutine soilp_crop_p_uptake ()
     real effective_p (max_layer)      !
     real p_layer                      ! temporary calculator
     real b_layer                      ! inverse of c%sorption_coeff
+   character string*300
 
 !- Implementation Section ----------------------------------
    call push_routine (myname)
@@ -1393,7 +1404,7 @@ subroutine soilp_Tillage ()
       call soilp_redistribute_p (g%rock_p, tillage_depth)
       call soilp_redistribute_p (g%effective_p, tillage_depth)
 
-      call bound_check_real_array (g%labile_p,0.0, 1000.0, 'g%labile_p', num_layers)
+      call bound_check_real_array (g%labile_p ,0.0, 1000.0, 'g%labile_p', num_layers)
       call Write_string ('Banded P destroyed')
 
    else
@@ -1522,7 +1533,7 @@ subroutine soilp_bound_check (num_layers)
 !- Implementation Section ----------------------------------
    call push_routine (myname)
 
-   call bound_check_real_array (g%labile_p,c%lb_labile_p, c%ub_labile_p,'g%labile_p', num_layers)
+   call bound_check_real_array (g%labile_p, c%lb_labile_p_ppm/soilp_fac(1), c%ub_labile_p_ppm/soilp_fac(1), 'g%labile_p', num_layers)    ! FIXME
 
    call bound_check_real_array (g%banded_p,c%lb_banded_p, c%ub_banded_p,'g%banded_p', num_layers)
 
