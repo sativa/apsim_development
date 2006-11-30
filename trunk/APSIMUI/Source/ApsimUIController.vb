@@ -115,9 +115,6 @@ Public Class ApsimUIController
                 Case "met"
                     Return New MetUI
 
-                Case "tracker"
-                    Return New TrackerUI
-
                 Case "soil"
                     Return New SoilUI
 
@@ -155,9 +152,6 @@ Public Class ApsimUIController
 
                 Case "memo"
                     Return New APSIMUI.MemoUI
-
-                Case "tracker"
-                    Return New APSIMUI.TrackerUI
 
                 Case "operations"
                     Return New APSIMUI.OperationsUI
