@@ -1003,26 +1003,17 @@ void plantPart::doPDemand(void)
    PDemand = 0.0;
    rel_growth_rate = plant->getRelativeGrowthRate();
 
-   if (c.p_yield_part)
-      {
-      // A yield part - does not contribute to soil demand
-      PDemand = 0.0;
-      }
-   else
-      {
-      // Not a yield part - therefore it contributes to demand
-      p_conc_max = linear_interp_real (plant->getStageCode()
-                                     , c.x_p_stage_code
-                                     , c.y_p_conc_max
-                                     , c.num_x_p_stage_code);
+   p_conc_max = linear_interp_real (plant->getStageCode()
+                                  , c.x_p_stage_code
+                                  , c.y_p_conc_max
+                                  , c.num_x_p_stage_code);
 
-      // scale up to include potential new growth
-      // assuming partitioning today similar to current
-      // plant form - a rough approximation
-      deficit = p_conc_max * DMGreen * (1.0 + rel_growth_rate) - PGreen;
+   // scale up to include potential new growth
+   // assuming partitioning today similar to current
+   // plant form - a rough approximation
+   deficit = p_conc_max * DMGreen * (1.0 + rel_growth_rate) - PGreen;
 
-      PDemand = l_bound(deficit, 0.0);
-      }
+   PDemand = l_bound(deficit, 0.0);
    }
 
 void plantPart::doSoilNDemand(void)
