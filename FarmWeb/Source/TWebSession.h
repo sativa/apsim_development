@@ -13,6 +13,7 @@
 #include <IWAppForm.hpp>
 #include "Data.h"
 class TTemporalDataForm;
+class TDataForm;
 class TTemporalDataMinMaxForm;
 class TUserDetailsForm;
 class TQuestionForm;
@@ -132,6 +133,13 @@ class TWebSession : public TIWUserSessionBase
                            bool fromGrowerManagement);
 
       //---------------------------------------------------------------------------
+      // Show the data form.
+      //---------------------------------------------------------------------------
+      void showDataForm(const std::string& userName,
+                        const std::string& paddockName,
+                        bool fromGrowerManagement);
+
+      //---------------------------------------------------------------------------
       // Show the reports form.
       //---------------------------------------------------------------------------
       void showReportsForm(const std::string& userName, bool readOnly,
@@ -238,6 +246,7 @@ class TWebSession : public TIWUserSessionBase
    private:
       TUserDetailsForm* userDetailsForm;
       TTemporalDataForm* temporalDataForm;
+      TDataForm* dataForm;
       TTemporalDataMinMaxForm* temporalDataMinMaxForm;
       TUserManagementForm* userManagementForm;
       TQuestionForm* questionForm;

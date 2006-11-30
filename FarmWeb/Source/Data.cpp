@@ -607,6 +607,56 @@ void Data::addTemporalData(const std::string& userName,
       throw runtime_error(err.Message.c_str());
       }
    }
+
+//---------------------------------------------------------------------------
+// Add some temporal data for the specified user and paddock. If user or paddock
+// doesn't exist then the method will throw runtime_error. If the data already
+// exists on the specified dates, then the data will be changed.
+//---------------------------------------------------------------------------
+void Data::addTemporalData(const std::string& userName,
+                           const std::string& paddockName,
+                           boost::gregorian::date startDate,
+                           boost::gregorian::date endDate,
+                           const TemporalValues& values)
+   {
+   unsigned userId = getUserId(userName);
+   unsigned paddockId = getPaddockId(userId, paddockName);
+
+   // See if data is already in database.
+   ostringstream sql;
+   sql << "DELETE * FROM TemporalData"
+       << " WHERE paddockId = " << paddockId
+       << " AND date >= " << singleQuoted(to_iso_extended_string(startDate))
+       << " AND date <= " << singleQuoted(to_iso_extended_string(endDate));
+   executeQuery(connection, sql.str());
+
+   TADOQuery* query = new TADOQuery(connection);
+   try
+      {
+      query->Connection = connection;
+      query->SQL->Text = "INSERT INTO [TemporalData] ([paddockId], [date], [name], [value]) "
+                         "VALUES (:paddockId, :date, :name, :value)";
+      query->Parameters->Items[0]->DataType = ftInteger;
+      query->Parameters->Items[1]->DataType = ftString;
+      query->Parameters->Items[2]->DataType = ftString;
+      query->Parameters->Items[3]->DataType = ftString;
+      query->Prepared = true;
+      for (unsigned i = 0; i != values.size(); i++)
+         {
+         query->Parameters->Items[0]->Value = paddockId;
+         query->Parameters->Items[1]->Value = to_iso_extended_string(values[i].date).c_str();
+         query->Parameters->Items[2]->Value = values[i].type.c_str();
+         query->Parameters->Items[3]->Value = values[i].value.c_str();
+         query->ExecSQL();
+         }
+      delete query;
+      }
+   catch (const Exception& err)
+      {
+      delete query;
+      throw runtime_error(err.Message.c_str());
+      }
+   }
 //---------------------------------------------------------------------------
 // Get some temporal data for the specified user and paddock. If user or paddock
 // doesn't exist then the method will throw runtime_error.
@@ -635,11 +685,48 @@ void Data::getTemporalData(const std::string& userName,
       AnsiString dateString = query->FieldValues["date"];
       AnsiString valueString = query->FieldValues["value"];
       values.push_back(TemporalData(from_string(dateString.c_str()),
-                                    valueString.c_str()));
+                                    valueString.c_str(),
+                                    dataName));
       query->Next();
       }
    delete query;
    }
+
+//---------------------------------------------------------------------------
+// Get some temporal data for the specified user and paddock. If user or paddock
+// doesn't exist then the method will throw runtime_error.
+//---------------------------------------------------------------------------
+void Data::getTemporalData(const std::string& userName,
+                           const std::string& paddockName,
+                           boost::gregorian::date startDate,
+                           boost::gregorian::date endDate,
+                           TemporalValues& values)
+   {
+   unsigned userId = getUserId(userName);
+   unsigned paddockId = getPaddockId(userId, paddockName);
+
+   ostringstream sql;
+   sql << "SELECT date,value,name FROM TemporalData"
+       << " WHERE paddockId = " << paddockId
+       << " AND date >= " << singleQuoted(to_iso_extended_string(startDate))
+       << " AND date <= " << singleQuoted(to_iso_extended_string(endDate))
+       << " ORDER BY date";
+
+   TDataSet* query = runQuery(connection, sql.str());
+
+   while (!query->Eof)
+      {
+      AnsiString dateString = query->FieldValues["date"];
+      AnsiString valueString = query->FieldValues["value"];
+      AnsiString dataName = query->FieldValues["name"];
+      values.push_back(TemporalData(from_string(dateString.c_str()),
+                                    valueString.c_str(),
+                                    dataName.c_str()));
+      query->Next();
+      }
+   delete query;
+   }
+
 //---------------------------------------------------------------------------
 // Create a temporal data query.
 //---------------------------------------------------------------------------

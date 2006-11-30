@@ -163,7 +163,7 @@ void TTemporalDataMinMaxForm::saveGrid(void)
                   int month = startDate.month() + (col-1)/2;
                   date cellDate(startDate.year(), month, day);
                   minValues.push_back(Data::TemporalData(cellDate,
-                                                         grid->Cells[col][row].c_str()));
+                                                         grid->Cells[col][row].c_str(), ""));
                   }
                }
             }
@@ -182,7 +182,7 @@ void TTemporalDataMinMaxForm::saveGrid(void)
                   int month = startDate.month() + (col-1)/2;
                   date cellDate(startDate.year(), month, day);
                   maxValues.push_back(Data::TemporalData(cellDate,
-                                                         grid->Cells[col][row].c_str()));
+                                                         grid->Cells[col][row].c_str(), ""));
                   }
                }
             }

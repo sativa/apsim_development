@@ -119,7 +119,7 @@ void TTemporalDataForm::saveGrid(void)
                   int day = row+1;
                   int month = col;
                   values.push_back(Data::TemporalData(date(startDate.year(), month, day),
-                                                      grid->Cells[col][row].c_str()));
+                                                      grid->Cells[col][row].c_str(), ""));
                   }
                }
             }

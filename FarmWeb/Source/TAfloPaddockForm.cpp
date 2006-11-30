@@ -146,4 +146,11 @@ void __fastcall TAfloPaddockForm::IRButton2Click(TObject *Sender)
    webSession->showViewReportForm(IRUrl2, userName, paddockName, false);
    }
 //---------------------------------------------------------------------------
+// User has clicked on enter all button
+//---------------------------------------------------------------------------
+void __fastcall TAfloPaddockForm::AllButtonClick(TObject *Sender)
+   {
+   webSession->showDataForm(userName, paddockName, false);
+   }
+//---------------------------------------------------------------------------
 

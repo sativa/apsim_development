@@ -59,6 +59,7 @@ class TAfloPaddockForm: public TIWAppForm
    TIWImageFile *IWImageFile2;
    TIWButton *IRButton1;
    TIWButton *IRButton2;
+   TIWButton *AllButton;
       void __fastcall SaveButtonClick(TObject *Sender);
       void __fastcall RainfallEntryButtonClick(TObject *Sender);
       void __fastcall CreateReportButtonClick(TObject *Sender);
@@ -68,6 +69,7 @@ class TAfloPaddockForm: public TIWAppForm
    void __fastcall IrrigationButtonClick(TObject *Sender);
    void __fastcall IRButton1Click(TObject *Sender);
    void __fastcall IRButton2Click(TObject *Sender);
+   void __fastcall AllButtonClick(TObject *Sender);
    private:
       TWebSession* webSession;
       Data* data;
