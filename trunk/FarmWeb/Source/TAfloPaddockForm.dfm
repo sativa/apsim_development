@@ -1,7 +1,7 @@
 object AfloPaddockForm: TAfloPaddockForm
   Left = 0
   Top = 0
-  Width = 1007
+  Width = 894
   Height = 659
   ConnectionMode = cmAny
   SupportedBrowsers = [brIE, brNetscape7, brOpera, brNetscape6]
@@ -60,7 +60,7 @@ object AfloPaddockForm: TAfloPaddockForm
   object PlantingDate: TTIWDatePicker
     Left = 336
     Top = 216
-    Width = 209
+    Width = 257
     Height = 21
     Cursor = crAuto
     IW50Hint = False
@@ -205,14 +205,14 @@ object AfloPaddockForm: TAfloPaddockForm
   object CultivarCombo: TIWComboBox
     Left = 336
     Top = 248
-    Width = 209
+    Width = 257
     Height = 21
     Cursor = crAuto
     IW50Hint = False
     ParentShowHint = False
     ShowHint = True
     ZIndex = 0
-    RenderSize = False
+    RenderSize = True
     BGColor = clNone
     Font.Color = clNone
     Font.Size = 10
@@ -224,7 +224,7 @@ object AfloPaddockForm: TAfloPaddockForm
     Required = False
     RequireSelection = True
     ScriptEvents = <>
-    UseSize = False
+    UseSize = True
     DoSubmitValidation = True
     Editable = True
     NonEditableAsLabel = True
@@ -258,14 +258,14 @@ object AfloPaddockForm: TAfloPaddockForm
   object WeatherStationCombo: TIWComboBox
     Left = 336
     Top = 88
-    Width = 209
+    Width = 257
     Height = 21
     Cursor = crAuto
     IW50Hint = False
     ParentShowHint = False
     ShowHint = True
     ZIndex = 0
-    RenderSize = False
+    RenderSize = True
     BGColor = clNone
     Font.Color = clNone
     Font.Size = 10
@@ -277,7 +277,7 @@ object AfloPaddockForm: TAfloPaddockForm
     Required = False
     RequireSelection = True
     ScriptEvents = <>
-    UseSize = False
+    UseSize = True
     DoSubmitValidation = True
     Editable = True
     NonEditableAsLabel = True
@@ -287,16 +287,16 @@ object AfloPaddockForm: TAfloPaddockForm
     FriendlyName = 'VarietyCombo'
   end
   object SoilTypeCombo: TIWComboBox
-    Left = 336
+    Left = 232
     Top = 120
-    Width = 209
+    Width = 361
     Height = 21
     Cursor = crAuto
     IW50Hint = False
     ParentShowHint = False
     ShowHint = True
     ZIndex = 0
-    RenderSize = False
+    RenderSize = True
     BGColor = clNone
     Font.Color = clNone
     Font.Size = 10
@@ -308,7 +308,7 @@ object AfloPaddockForm: TAfloPaddockForm
     Required = False
     RequireSelection = True
     ScriptEvents = <>
-    UseSize = False
+    UseSize = True
     DoSubmitValidation = True
     Editable = True
     NonEditableAsLabel = True
@@ -320,14 +320,14 @@ object AfloPaddockForm: TAfloPaddockForm
   object StartingSWCombo: TIWComboBox
     Left = 336
     Top = 280
-    Width = 209
+    Width = 257
     Height = 21
     Cursor = crAuto
     IW50Hint = False
     ParentShowHint = False
     ShowHint = True
     ZIndex = 0
-    RenderSize = False
+    RenderSize = True
     BGColor = clNone
     Font.Color = clNone
     Font.Size = 10
@@ -339,7 +339,7 @@ object AfloPaddockForm: TAfloPaddockForm
     Required = False
     RequireSelection = True
     ScriptEvents = <>
-    UseSize = False
+    UseSize = True
     DoSubmitValidation = True
     Editable = True
     NonEditableAsLabel = True
@@ -373,7 +373,7 @@ object AfloPaddockForm: TAfloPaddockForm
   object IWRectangle1: TIWRectangle
     Left = 0
     Top = 0
-    Width = 1007
+    Width = 894
     Height = 38
     Cursor = crAuto
     Align = alTop
@@ -547,7 +547,7 @@ object AfloPaddockForm: TAfloPaddockForm
     RawText = False
   end
   object IWLabel7: TIWLabel
-    Left = 566
+    Left = 614
     Top = 88
     Width = 255
     Height = 16
@@ -569,7 +569,7 @@ object AfloPaddockForm: TAfloPaddockForm
     RawText = False
   end
   object IWLabel8: TIWLabel
-    Left = 566
+    Left = 614
     Top = 112
     Width = 260
     Height = 16
@@ -680,9 +680,9 @@ object AfloPaddockForm: TAfloPaddockForm
     ImageFile.Filename = 'D:\development\FarmWeb\Source\Files\irrigation.GIF'
   end
   object IRButton1: TIWButton
-    Left = 568
+    Left = 648
     Top = 152
-    Width = 177
+    Width = 137
     Height = 33
     Cursor = crAuto
     IW50Hint = False
@@ -702,9 +702,9 @@ object AfloPaddockForm: TAfloPaddockForm
     OnClick = IRButton1Click
   end
   object IRButton2: TIWButton
-    Left = 568
+    Left = 648
     Top = 192
-    Width = 177
+    Width = 137
     Height = 33
     Cursor = crAuto
     IW50Hint = False
@@ -722,5 +722,27 @@ object AfloPaddockForm: TAfloPaddockForm
     ScriptEvents = <>
     TabOrder = 0
     OnClick = IRButton2Click
+  end
+  object AllButton: TIWButton
+    Left = 504
+    Top = 328
+    Width = 153
+    Height = 25
+    Cursor = crAuto
+    IW50Hint = False
+    ParentShowHint = False
+    ShowHint = True
+    ZIndex = 0
+    RenderSize = True
+    Caption = 'Enter all data'
+    DoSubmitValidation = True
+    Color = clBtnFace
+    Font.Color = clNone
+    Font.Size = 10
+    Font.Style = []
+    FriendlyName = 'AllButton'
+    ScriptEvents = <>
+    TabOrder = 0
+    OnClick = AllButtonClick
   end
 end

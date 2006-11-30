@@ -218,10 +218,11 @@ class Data
       //---------------------------------------------------------------------------
       struct TemporalData
          {
-         TemporalData(boost::gregorian::date d, const std::string& v)
-            : date(d), value(v) { }
+         TemporalData(boost::gregorian::date d, const std::string& v, const std::string& t)
+            : date(d), value(v), type(t) { }
          boost::gregorian::date date;
          std::string value;
+         std::string type;
          };
       typedef std::vector<TemporalData> TemporalValues;
       //---------------------------------------------------------------------------
@@ -236,6 +237,16 @@ class Data
                            boost::gregorian::date endDate,
                            const TemporalValues& values);
       //---------------------------------------------------------------------------
+      // Add some temporal data for the specified user and paddock. If user or paddock
+      // doesn't exist then the method will throw runtime_error. If the data already
+      // exists on the specified dates, then the data will be changed.
+      //---------------------------------------------------------------------------
+      void addTemporalData(const std::string& userName,
+                           const std::string& paddockName,
+                           boost::gregorian::date startDate,
+                           boost::gregorian::date endDate,
+                           const TemporalValues& values);
+      //---------------------------------------------------------------------------
       // Get some temporal data for the specified user and paddock. If user or paddock
       // doesn't exist then the method will throw runtime_error.
       //---------------------------------------------------------------------------
@@ -245,6 +256,17 @@ class Data
                            boost::gregorian::date startDate,
                            boost::gregorian::date endDate,
                            TemporalValues& values);
+
+      //---------------------------------------------------------------------------
+      // Get some temporal data for the specified user and paddock. If user or paddock
+      // doesn't exist then the method will throw runtime_error.
+      //---------------------------------------------------------------------------
+      void getTemporalData(const std::string& userName,
+                           const std::string& paddockName,
+                           boost::gregorian::date startDate,
+                           boost::gregorian::date endDate,
+                           TemporalValues& values);
+
       //---------------------------------------------------------------------------
       // Generate a temporal data file in APSIM format containing columns
       // for the specified data names. If user or paddock

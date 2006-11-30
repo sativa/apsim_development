@@ -8,6 +8,7 @@
 #include "TUserManagementForm.h"
 #include "TTemporalDataMinMaxForm.h"
 #include "TTemporalDataForm.h"
+#include "TDataForm.h"
 #include "TReportManagementForm.h"
 #include "TQuestionForm.h"
 #include "TInfoForm.h"
@@ -254,6 +255,29 @@ void TWebSession::showAirTempForm(const std::string& userName,
       webApplication->ShowMessage(err.what());
       }
    }
+//---------------------------------------------------------------------------
+// Show the rainfall form.
+//---------------------------------------------------------------------------
+void TWebSession::showDataForm(const std::string& userName,
+                               const string& paddockName,
+                               bool fromGrowerManagement)
+   {
+   try
+      {
+      if (dataForm == NULL)
+         {
+         dataForm = new TDataForm(this);
+         setupForm(dataForm);
+         }
+      dataForm->setup(this, data, userName, paddockName, fromGrowerManagement);
+      show(dataForm);
+      }
+   catch (const exception& err)
+      {
+      webApplication->ShowMessage(err.what());
+      }
+   }
+
 //---------------------------------------------------------------------------
 // Show the userManagement form.
 //---------------------------------------------------------------------------

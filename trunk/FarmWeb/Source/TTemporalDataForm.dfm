@@ -1171,8 +1171,8 @@ object TemporalDataForm: TTemporalDataForm
   object PromptLabel: TIWLabel
     Left = 146
     Top = 48
-    Width = 386
-    Height = 19
+    Width = 306
+    Height = 16
     Cursor = crAuto
     IW50Hint = False
     ParentShowHint = False
@@ -1281,8 +1281,8 @@ object TemporalDataForm: TTemporalDataForm
   object IWLabel1: TIWLabel
     Left = 354
     Top = 8
-    Width = 44
-    Height = 19
+    Width = 34
+    Height = 16
     Cursor = crAuto
     IW50Hint = False
     ParentShowHint = False
