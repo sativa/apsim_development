@@ -517,10 +517,35 @@ Public Class APSIMData
         ' ---------------------------------
         ' Delete the specified child
         ' ---------------------------------
-        Node.RemoveChild(Child(ChildName).InternalNode)
-        ChildrenLoaded = False
-        FireDataChangedEvent()
+        Dim SomeDeleted As Boolean = False
+        Dim ChildToDelete As APSIMData = Child(ChildName)
+        While Not IsNothing(ChildToDelete)
+            Node.RemoveChild(ChildToDelete.InternalNode)
+            SomeDeleted = True
+            ChildToDelete = Child(ChildName)
+        End While
+        If SomeDeleted Then
+            ChildrenLoaded = False
+            FireDataChangedEvent()
+        End If
     End Sub
+    Public Sub DeleteByType(ByVal ChildType As String)
+        ' ---------------------------------
+        ' Delete the specified child
+        ' ---------------------------------
+        Dim SomeDeleted As Boolean = False
+        Dim ChildToDelete As APSIMData = ChildByType(ChildType)
+        While Not IsNothing(ChildToDelete)
+            Node.RemoveChild(ChildToDelete.InternalNode)
+            SomeDeleted = True
+            ChildToDelete = ChildByType(ChildType)
+        End While
+        If SomeDeleted Then
+            ChildrenLoaded = False
+            FireDataChangedEvent()
+        End If
+    End Sub
+
     Public Sub EnsureNameIsUnique()
         ' ------------------------------------------------
         ' Ensure our name is unique among our siblings.

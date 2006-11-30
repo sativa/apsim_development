@@ -22,7 +22,7 @@ namespace APSoil
 			// Import all files
 			Cursor.Current = Cursors.WaitCursor;
             StringCollection TopNode = new StringCollection();
-            TopNode.Add("soils");
+            TopNode.Add(Apsoil.AllData.FullPath);
             Apsoil.SelectedPaths = TopNode;
 
 			DataTable Table = ExcelHelper.GetDataFromSheet(FileName, "SoilData");
@@ -188,10 +188,10 @@ namespace APSoil
 			// Store rest of soil layered variables.
 			NewSoil.BD = GetDoubleValues(Table, "bd", NumLayers, Row, 3);
             NewSoil.Rocks = GetDoubleValues(Table, "Rocks", NumLayers, Row, 0);
-            NewSoil.LL15 = GetDoubleValues(Table, "LL15", NumLayers, Row, 2);
-			NewSoil.Airdry = GetDoubleValues(Table, "Airdry", NumLayers, Row, 2);
-			NewSoil.DUL = GetDoubleValues(Table, "DUL", NumLayers, Row, 2);
-			NewSoil.SAT = GetDoubleValues(Table, "SAT", NumLayers, Row, 2);
+            NewSoil.LL15 = GetDoubleValues(Table, "LL15", NumLayers, Row, 3);
+			NewSoil.Airdry = GetDoubleValues(Table, "Airdry", NumLayers, Row, 3);
+			NewSoil.DUL = GetDoubleValues(Table, "DUL", NumLayers, Row, 3);
+			NewSoil.SAT = GetDoubleValues(Table, "SAT", NumLayers, Row, 3);
 			NewSoil.InitialWater.SetUsingLayered(GetDoubleValues(Table, "SW", NumLayers, Row, 2));
 
             NewSoil.Texture = GetStringValues(Table, "Texture", NumLayers, Row);
@@ -228,8 +228,8 @@ namespace APSoil
 			// Now import all crop stuff.
 			for (int i = 0; i != Crops.Count; i++)
 				{
-				double[] ll = GetDoubleValues(Table, "LL(" + Crops[i] + ")", NumLayers, Row, 2);
-				double[] kl = GetDoubleValues(Table, "KL(" + Crops[i] + ")", NumLayers, Row, 2);
+				double[] ll = GetDoubleValues(Table, "LL(" + Crops[i] + ")", NumLayers, Row, 3);
+				double[] kl = GetDoubleValues(Table, "KL(" + Crops[i] + ")", NumLayers, Row, 3);
 				double[] xf = GetDoubleValues(Table, "XF(" + Crops[i] + ")", NumLayers, Row, 2);
 
 				bool AllMissingValues = true;
@@ -314,7 +314,7 @@ namespace APSoil
 
 				if (rootNode)
 					{
-                    Apsoil.Data.Name = PathNodeName;
+                    //Apsoil.Data.Name = PathNodeName;
 					rootNode = false;
 					}
 				else
