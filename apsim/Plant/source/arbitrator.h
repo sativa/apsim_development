@@ -3,7 +3,7 @@
 
 #include "PlantInterface.h"
 
-class Arbitrator : public plantThing 
+class Arbitrator : public plantThing
    {
   protected:
    plantInterface *plant;                 // The plant we are attached to
@@ -21,24 +21,25 @@ class Arbitrator : public plantThing
    virtual void readConstants (protocol::Component *, const string &) {};
    virtual void readCultivarParameters (protocol::Component *, const string &) {};
    virtual void update(void) {};
+   virtual float dltDMWhole(float dlt_dm) {};
    virtual void zeroDeltas(void) {};
    virtual void zeroAllGlobals(void) {};
    };
 
 // A null arbitrator used to plug an empty hole...
-class nullArbitrator : public Arbitrator 
+class nullArbitrator : public Arbitrator
    {
   public:
    nullArbitrator(plantInterface *p) : Arbitrator(p) {};
    ~nullArbitrator(void) {};
-   virtual void partitionDM(float,plantPart *,plantLeafPart *,plantPart *,plantPart *) 
+   virtual void partitionDM(float,plantPart *,plantLeafPart *,plantPart *,plantPart *)
       {
       throw std::runtime_error("Aieee! Null arbitrator called!!");
       };
    };
 
 
-class genericArbitrator : public Arbitrator 
+class genericArbitrator : public Arbitrator
    {
   private:
    float frac_leaf[max_table];                       // fraction of remaining dm allocated to leaves
@@ -51,9 +52,10 @@ class genericArbitrator : public Arbitrator
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &);
    virtual void partitionDM(float,plantPart *,plantLeafPart *,plantPart *,plantPart *);
    virtual void zeroAllGlobals(void) ;
+   virtual float dltDMWhole(float dlt_dm);
    };
 
-class cerealArbitrator : public Arbitrator 
+class cerealArbitrator : public Arbitrator
    {
   private:
    float x_stage_no_partition[max_table];
@@ -68,10 +70,11 @@ class cerealArbitrator : public Arbitrator
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &);
    virtual void partitionDM(float,plantPart *,plantLeafPart *,plantPart *,plantPart *);
    virtual void zeroAllGlobals(void) ;
+   virtual float dltDMWhole(float dlt_dm);
    };
 
 
-class allometricArbitrator : public Arbitrator 
+class allometricArbitrator : public Arbitrator
    {
   private:
    interpolationFunction ratio_stem_leaf;               // stem:leaf ratio per stage
@@ -89,10 +92,11 @@ class allometricArbitrator : public Arbitrator
    virtual void readSpeciesParameters (protocol::Component *, vector<string> &);
    virtual void partitionDM(float,plantPart *,plantLeafPart *,plantPart *,plantPart *);
    virtual void zeroAllGlobals(void) ;
+   virtual float dltDMWhole(float dlt_dm);
    };
 
 
-Arbitrator* constructArbitrator(plantInterface *, const string &type);   
+Arbitrator* constructArbitrator(plantInterface *, const string &type);
 
 #endif
 
