@@ -1,5 +1,6 @@
       module GraspModule
       use Registrations
+      Use ConstantsModule
 
 !      ====================================================================
 !      grasp_array_sizes
@@ -129,6 +130,8 @@
          real       dlt_dm_plant(max_part)   ! sward biomass growth (kg/ha)
          real       dm_green(max_part)       ! live dry weight (kg/ha)
          real       dm_dead(max_part)        ! dead dry weight  (kg/ha)
+         real       n_green(max_part)       ! live dry weight (kg/ha)
+         real       n_dead(max_part)        ! dead dry weight  (kg/ha)
          real       dlt_root_depth           ! increase in root depth (mm)
          real       root_depth               ! depth of roots (mm)
          real       dlt_canopy_height        ! change in canopy height (mm)
@@ -143,6 +146,7 @@
          real       no3_min(max_layer)       ! minimum allowable
                                              ! No3 in soil (ppm)
          real       N_uptake                 ! Cumulative N used in season (kg)
+         real       dlt_N_uptake             ! N used in day (kg)
 
          ! /grasp1_root_profile/
 
@@ -197,6 +201,7 @@
          real dlt_dm_sen(max_part) ! plant death (kg/ha)
          real detach(max_part)   ! detached dm for residue (kg/ha)
          real litter             ! sum of dm for residue (kg/ha)
+         real n_litter             ! sum of n for residue (kg/ha)
          real biomass_yesterday  ! balance check (kg/ha)
          real soil_loss          ! soil loss from erosion (t/ha)
 
@@ -403,26 +408,26 @@
       if ( g%crop_status .eq. crop_alive) then
 
          call grasp_save_yesterday () ! save for mass balance check
-    
+
          call grasp_soil_loss ()      ! erode N from profile
-    
+
 c        do N at start of day to calculate N indexes for growth.
          call grasp_nitrogen ()   ! N uptake
-    
+
          call grasp_transpiration () ! water uptake
-    
+
          call grasp_phenology ()  ! phenological processes
-    
+
          call grasp_biomass ()    ! biomass production
-    
+
          call grasp_plant_death () ! see if sward has died (unused)
-    
+
          call grasp_store_report_vars () ! collect totals for output
-    
+
          call grasp_update ()     ! update pools
-    
+
          call grasp_balance_check () ! check we haven't gone silly
-    
+
          call grasp_event ()      ! do events of interest (date resets etc)
       endif
 
@@ -455,14 +460,14 @@ c        do N at start of day to calculate N indexes for growth.
 
       call grasp_zero_daily_variables ()
       call grasp_get_other_variables ()
-      
+
       if ( g%crop_status .eq. crop_alive) then
          call grasp_calculate_swi ()
-   
+
          g%out_sw_demand = grasp_sw_pot ()        !!  = f(pan)
          g%out_total_cover = grasp_total_cover () !!  = f(pool size)
       endif
-      
+
       call pop_routine (my_name)
       return
       end subroutine
@@ -1913,7 +1918,7 @@ c     NB. straight from grasp - may be another method:
       call push_routine (my_name)
 
                                 ! find N for soiln
-      call grasp_N_uptake (g%N_uptake, g%dlt_No3)
+      call grasp_N_uptake (g%dlt_N_uptake, g%dlt_No3)
 
       call pop_routine (my_name)
       return
@@ -1922,14 +1927,14 @@ c     NB. straight from grasp - may be another method:
 
 
 *     ===========================================================
-      subroutine grasp_N_uptake ( N_uptake, dlt_No3 )
+      subroutine grasp_N_uptake ( dlt_N_uptake, dlt_No3 )
 *     ===========================================================
       Use infrastructure
       implicit none
 
 *+  Sub-Program Arguments
       real      dlt_No3 (*)     ! (OUTPUT)
-      real      N_uptake        ! (OUTPUT) N uptake for the season (kg)
+      real      dlt_N_uptake        ! (OUTPUT) N uptake for the day (kg)
 
 *+  Purpose
 *       Find how much N is taken up by the sward as a function
@@ -1946,13 +1951,14 @@ c     NB. straight from grasp - may be another method:
       parameter (my_name = 'grasp_N_uptake')
 
 *+  Local Variables
-      real      dlt_N_uptake       ! todays N uptake
       real      N_avail(max_layer) ! N profile
       real      N_avail_sum        ! sum of N over profile
       real      max_N_sum          ! ditto
+      real      N_uptake        !  N uptake for the season (kg)
 *
       integer   layer
       integer   deepest_layer
+      character string*1000
 
 *- Implementation Section ----------------------------------
       call push_routine (my_name)
@@ -1970,13 +1976,16 @@ c     NB. straight from grasp - may be another method:
  500  continue
       max_n_sum = l_bound (max_n_sum,  c%residual_plant_N)
 
-      N_uptake = c%residual_plant_N +
-     :     c%N_uptk_per100 * g%acc_trans_for_N / 100.0
+      N_uptake = c%N_uptk_per100 * g%acc_trans_for_N / 100.0
 
-      N_uptake = bound (N_uptake, c%residual_plant_N, max_N_sum)
+      N_uptake = bound (N_uptake, 0.0, max_N_sum)
 
       dlt_N_uptake = bound (N_uptake - g%N_uptake, 0.0, N_uptake)
+      g%N_uptake = N_uptake
 
+!         write(string, *) ' N_uptake, max_N_sum, deepest_layer: ',
+!     :        N_uptake, max_N_sum, deepest_layer
+!         call write_string(string)
 
 c     PdeV 7/96.
 *     WARNING: this isn't present in grasp. If there isn't a N module
@@ -2001,9 +2010,8 @@ c     PdeV 7/96.
       dlt_N_uptake = bound (dlt_N_uptake, 0.0, N_avail_sum)
 
       do 2000 layer = 1, deepest_layer
-         dlt_No3(layer) = -1.0 * dlt_N_uptake *
-     :        divide (N_avail(layer), N_avail_sum, 0.0)
-
+         dlt_No3(layer) = -1.0 * dlt_N_uptake
+     :                  * divide (N_avail(layer), N_avail_sum, 0.0)
  2000 continue
 
       call pop_routine (my_name)
@@ -2109,16 +2117,28 @@ c      need to be changed. FIXME!
       g%canopy_height = g%canopy_height + g%dlt_canopy_height
 
                                 ! Plant dry matter.
+         g%N_green(stem) = g%N_green(stem)
+     :                   + g%dlt_dm_plant(stem)*c%litter_n/100.0
+         g%N_green(leaf) = g%N_green(leaf) + g%dlt_n_uptake
+     :                   - g%dlt_dm_plant(stem)*c%litter_n/100.0
+
       do 1000 part = 1, max_part
          g%dm_green(part) = g%dm_green(part) + g%dlt_dm_plant(part)
          g%dm_green(part) = g%dm_green(part) - g%dlt_dm_sen(part)
          g%dm_dead(part) = g%dm_dead(part) + g%dlt_dm_sen(part)
          g%dm_dead(part) = g%dm_dead(part) - g%detach(part)
          g%litter = g%litter + g%detach(part)
+
+         g%N_green(part) = g%N_green(part)
+     :                   - g%dlt_dm_sen(part)*c%litter_n/100.0
+         g%N_dead(part) = g%N_dead(part)
+     :                  + g%dlt_dm_sen(part)*c%litter_n/100.0
+         g%N_dead(part) = g%N_dead(part)
+     :                  - g%detach(part)*c%litter_n/100.0
  1000    continue
 
       call Grasp_Send_Crop_Chopped_Event (g%detach(:)
-     :                                  ,g%detach(:)*c%litter_n)
+     :                                  ,g%detach(:)*c%litter_n/100.0)
 
 
 C     Accumulate soilevap + grass transpiration (evapotranspiration) for
@@ -2533,6 +2553,8 @@ c     Bound to reasonable values:
       g%current_stage   = 0.0
       g%previous_stage  = 0.0
 
+      call fill_real_array (g%n_green, 0.0, max_part)
+      call fill_real_array (g%n_dead, 0.0, max_part)
       call fill_real_array (g%dm_green, 0.0, max_part)
       call fill_real_array (g%dm_dead, 0.0, max_part)
       g%root_depth      = 0.0
@@ -2541,6 +2563,8 @@ c     Bound to reasonable values:
       call fill_real_array (g%no3, 0.0, max_layer)
       call fill_real_array (g%no3_min, 0.0, max_layer)
       g%N_uptake     = 0.0
+      g%dlt_N_uptake     = 0.0
+      g%n_litter = 0.0
 
       g%num_layers   = 0
       call fill_real_array (g%dlayer, 0.0, max_layer)
@@ -2780,7 +2804,7 @@ c     Bound to reasonable values:
                                 ! parameter file
       call grasp_read_parameters ()
       call Grasp_write_summary()
-      
+
       call pop_routine (my_name)
       return
       end subroutine
@@ -3636,6 +3660,43 @@ cpdev. One of these is right. I don't know which...
      :        'root_depth',
      :        '(mm)', g%root_depth)
 
+      elseif (variable_name .eq. 'dlt_dm') then
+         call respond2get_real_var (
+     :        'dlt_dm',
+     :        '(g/m2)', g%dlt_dm*kg2gm/ha2sm)
+
+      elseif (variable_name .eq. 'n_green') then
+         temp(:) = 0.0
+         temp(1:max_part) = g%N_green(1:max_part) *kg2gm/ha2sm
+         call respond2get_real_array (
+     :        'n_green',
+     :        '(g/m2)', temp, max_part)
+
+      elseif (variable_name .eq. 'n_dead') then
+         temp(:) = 0.0
+         temp(1:max_part) = g%N_dead(1:max_part) *kg2gm/ha2sm
+         call respond2get_real_array (
+     :        'n_dead',
+     :        '(g/m2)', temp, max_part)
+
+      elseif (variable_name .eq. 'dm_green') then
+         temp(1:max_part) = g%dm_green(1:max_part) *kg2gm/ha2sm
+         call respond2get_real_array (
+     :        'dm_green',
+     :        '(g/m2)', temp, max_part)
+
+      elseif (variable_name .eq. 'dlt_dm_green') then
+         temp(1:max_part) = g%dlt_dm_plant(1:max_part) *kg2gm/ha2sm
+         call respond2get_real_array (
+     :        'dlt_dm_green',
+     :        '(g/m2)', temp, max_part)
+
+      elseif (variable_name .eq. 'dm_senesced') then
+         temp(1:max_part) = g%dm_dead(1:max_part) *kg2gm/ha2sm
+         call respond2get_real_array (
+     :        'dm_senesced',
+     :        '(g/m2)', temp, max_part)
+
       elseif (variable_name .eq. 'green_root') then
          call respond2get_real_var (
      :        'green_root',
@@ -3719,6 +3780,11 @@ cpdev. One of these is right. I don't know which...
      :        'growth',
      :        '(kg/ha)', g%dlt_dm)
 
+      elseif (variable_name .eq. 'dlt_dm') then
+         call respond2get_real_var (
+     :        'dlt_dm',
+     :        '(g/m2)', g%dlt_dm*kg2gm/ha2sm)
+
       elseif (variable_name .eq. 'growth_transp') then
          call respond2get_real_var (
      :        'growth_transp',
@@ -3797,6 +3863,11 @@ cpdev. One of these is right. I don't know which...
          call respond2get_real_var (
      :        'n_uptake',
      :        '(kg/ha)', g%N_uptake)
+
+      elseif (variable_name .eq. 'dlt_n_uptake') then
+         call respond2get_real_var (
+     :        'dlt_n_uptake',
+     :        '(kg/ha)', g%dlt_N_uptake)
 
       elseif (variable_name .eq. 'n_index') then
          call respond2get_real_var (
@@ -4305,8 +4376,8 @@ c     :                    , 0.0, 365.0)
              g%ll_dep(layer) = ll(layer)*g%dlayer(layer)
           enddo
       else
-          call get_real_array_optional (unknown_module 
-     :                                  , 'll15' 
+          call get_real_array_optional (unknown_module
+     :                                  , 'll15'
      :                                  , max_layer, '()'
      :                                  , ll, num_layers
      :                                  , 0.0, c%ll_ub)
@@ -4317,7 +4388,7 @@ c     :                    , 0.0, 365.0)
              call Write_String(
      :            'Using externally supplied Lower Limit (ll15)')
           else
-             call Fatal_error (ERR_internal, 
+             call Fatal_error (ERR_internal,
      :                         'No Crop Lower Limit found')
           endif
       endif
@@ -4449,7 +4520,7 @@ c     :                    , 0.0, 10000.0)
      :                   , 0.0, 1.0)
 
       call read_real_var (section_name
-     :                   , 'n_conc_dm_crit', '()'
+     :                   , 'N_conc_dm_crit', '()'
      :                   , c%N_conc_dm_crit, numvals
      :                   , 0.0, 10.0)
 
@@ -4913,6 +4984,7 @@ c     :                    , 0.0, 10000.0)
       g%dm_green(root) = p%dm_green_root_init
       g%dm_green(stem) = p%dm_green_stem_init
       g%dm_green(leaf) = p%dm_green_leaf_init
+      g%n_green(leaf) = c%residual_plant_N
 
       g%dm_dead(root) = p%dm_dead_root_init
       g%dm_dead(stem) = p%dm_dead_stem_init
@@ -4966,11 +5038,12 @@ c     :                    , 0.0, 10000.0)
       ! Publish an event stating biomass flows to other parts of the system
       dlt_dm(:) = g%dm_green(:) + g%dm_dead(:)
       dlt_n(:) = 0.0
-      dlt_n(leaf) = g%N_uptake
+c      dlt_n(leaf) = g%N_uptake
+      dlt_n(:) = g%n_green(:) + g%n_dead(:)
 
       call Grasp_Send_Crop_Chopped_Event (dlt_dm, dlt_n)
 
-C     zero a few important state variables      
+C     zero a few important state variables
       g%current_stage = real (crop_end)
       g%crop_status = crop_out
       call fill_real_array (g%dm_green, 0.0, max_part)
