@@ -52,6 +52,18 @@ namespace CSGeneral
 			{
 			get {return Convert.ToInt32(Data.get_ChildValue("DepthWetSoilMethod\\Depth"));}
 			}
+        public string RelativeTo
+            {
+            get {
+                string value = Data.get_ChildValue("RelativeTo");
+                if (value == "")
+                    value = "ll15";
+                return value;
+                }
+            set {
+                Data.set_ChildValue("RelativeTo", value);
+                }
+            }
 
 		// ------------------------------------
 		// Return the soil water for this class
@@ -59,10 +71,21 @@ namespace CSGeneral
 		public double[] SW
 			{
 			get {
-				double[] ll15 = ParentSoil.LL15;
+                double[] ll;
+                double[] pawc;
+                if (RelativeTo == "ll15")
+                    {
+                    ll = ParentSoil.LL15;
+                    pawc = ParentSoil.PAWC();
+                    }
+                else
+                    {
+                    ll = ParentSoil.LL(RelativeTo);
+                    pawc = ParentSoil.PAWC(RelativeTo);
+                    }
+                
 				double[] dul = ParentSoil.DUL;
-				double[] pawc = ParentSoil.PAWC();
-				double[] sw = new double[ll15.Length];
+				double[] sw = new double[ll.Length];
 				switch (Method)
 					{
 					case MethodType.Percent: 
@@ -70,7 +93,7 @@ namespace CSGeneral
 						if (FilledFromTop)
 							{
 							double AmountWater = MathUtility.Sum(pawc) * (Percent / 100.0);
-							for (int Layer = 0; Layer < ll15.Length; Layer++)
+							for (int Layer = 0; Layer < ll.Length; Layer++)
 								{
 								if (AmountWater >= pawc[Layer])
 									{
@@ -80,15 +103,15 @@ namespace CSGeneral
 								else
 									{
 									double Prop = AmountWater / pawc[Layer];
-									sw[Layer] = Prop * (dul[Layer] - ll15[Layer]) + ll15[Layer];
+									sw[Layer] = Prop * (dul[Layer] - ll[Layer]) + ll[Layer];
 									AmountWater = 0;
 									}
 								}
 							}
 						else
 							{	
-							for (int Layer = 0; Layer < ll15.Length; Layer++)
-								sw[Layer] = Percent / 100.0 * (dul[Layer] - ll15[Layer]) + ll15[Layer];
+							for (int Layer = 0; Layer < ll.Length; Layer++)
+								sw[Layer] = Percent / 100.0 * (dul[Layer] - ll[Layer]) + ll[Layer];
 							}
 						break;
 						}
@@ -96,14 +119,14 @@ namespace CSGeneral
 						{
 						double[] Thickness = ParentSoil.Thickness;
 						double DepthSoFar = 0;
-						for (int Layer = 0; Layer < ll15.Length; Layer++)
+						for (int Layer = 0; Layer < ll.Length; Layer++)
 							{
 							if (DepthWetSoil > DepthSoFar + Thickness[Layer])
 								sw[Layer] = dul[Layer];
 							else
 								{
 								double Prop = Math.Max(DepthWetSoil - DepthSoFar, 0) / Thickness[Layer];
-								sw[Layer] = Prop * (dul[Layer] - ll15[Layer]) + ll15[Layer];
+								sw[Layer] = Prop * (dul[Layer] - ll[Layer]) + ll[Layer];
 								}
 							DepthSoFar += Thickness[Layer];
 							}
@@ -131,8 +154,8 @@ namespace CSGeneral
 		// ----------------------------------
 		public void SetUsingPercent(int Percent, bool FilledFromTop)
 			{
-			APSIMData Data = ParentSoil.Data.Child("InitWater");
-			Data.Clear();
+            Data.DeleteByType("DepthWetSoilMethod");
+            Data.DeleteByType("layer");
 			double Prop = Percent / 100.0;
 			Data.set_ChildValue("PercentMethod\\Percent", Prop.ToString("f2"));
 			string Distributed = "Filled from top";
@@ -145,10 +168,11 @@ namespace CSGeneral
 		// ----------------------------------
 		// Set water via the depth wet soil method.
 		// ----------------------------------
-		public void SetUsingDepthWetSoil(int Depth)
+        public void SetUsingDepthWetSoil(int Depth)
 			{
-			Data.Clear();
-			Data.set_ChildValue("DepthWetSoilMethod\\Depth", Depth.ToString());
+            Data.DeleteByType("PercentMethod");
+            Data.DeleteByType("layer");
+            Data.set_ChildValue("DepthWetSoilMethod\\Depth", Depth.ToString());
 			}
 
 
@@ -159,7 +183,8 @@ namespace CSGeneral
 			{
             if (sw.Length > 0)
                 {
-                Data.Clear();
+                Data.DeleteByType("DepthWetSoilMethod");
+                Data.DeleteByType("PercentMethod");
                 setLayered("", "sw", sw);
                 }
 			}

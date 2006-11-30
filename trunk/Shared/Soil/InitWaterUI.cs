@@ -33,6 +33,8 @@ namespace CSGeneral
 		private CSGeneral.WaterChartControl WaterChartControl;
 		private FarPoint.Win.Spread.FpSpread Grid;
 		private FarPoint.Win.Spread.SheetView WaterGrid;
+        private Label label4;
+        private ComboBox RelativeToCombo;
 		private bool UserChange = true;
 		
 
@@ -88,6 +90,8 @@ namespace CSGeneral
         this.DepthWetSoilRadio = new System.Windows.Forms.RadioButton();
         this.PercentRadio = new System.Windows.Forms.RadioButton();
         this.splitter1 = new System.Windows.Forms.Splitter();
+        this.label4 = new System.Windows.Forms.Label();
+        this.RelativeToCombo = new System.Windows.Forms.ComboBox();
         this.WaterChartControl = new CSGeneral.WaterChartControl();
         this.WaterGrid = new FarPoint.Win.Spread.SheetView();
         this.panel1.SuspendLayout();
@@ -118,7 +122,7 @@ namespace CSGeneral
         this.Grid.BackColor = System.Drawing.SystemColors.Control;
         this.Grid.EditModeReplace = true;
         this.Grid.HorizontalScrollBarPolicy = FarPoint.Win.Spread.ScrollBarPolicy.AsNeeded;
-        this.Grid.Location = new System.Drawing.Point(16, 224);
+        this.Grid.Location = new System.Drawing.Point(14, 248);
         this.Grid.Name = "Grid";
         this.Grid.Sheets.AddRange(new FarPoint.Win.Spread.SheetView[] {
             this.WaterGrid});
@@ -141,6 +145,8 @@ namespace CSGeneral
         // 
         // GroupBox
         // 
+        this.GroupBox.Controls.Add(this.RelativeToCombo);
+        this.GroupBox.Controls.Add(this.label4);
         this.GroupBox.Controls.Add(this.PercentPanel);
         this.GroupBox.Controls.Add(this.DepthWetSoilPanel);
         this.GroupBox.Location = new System.Drawing.Point(8, 80);
@@ -158,9 +164,9 @@ namespace CSGeneral
         this.PercentPanel.Controls.Add(this.PAWCEdit);
         this.PercentPanel.Controls.Add(this.Label1);
         this.PercentPanel.Controls.Add(this.PercentEdit);
-        this.PercentPanel.Location = new System.Drawing.Point(8, 21);
+        this.PercentPanel.Location = new System.Drawing.Point(8, 19);
         this.PercentPanel.Name = "PercentPanel";
-        this.PercentPanel.Size = new System.Drawing.Size(256, 67);
+        this.PercentPanel.Size = new System.Drawing.Size(256, 69);
         this.PercentPanel.TabIndex = 15;
         // 
         // EvenlyDistributedRadio
@@ -275,6 +281,24 @@ namespace CSGeneral
         this.splitter1.TabIndex = 21;
         this.splitter1.TabStop = false;
         // 
+        // label4
+        // 
+        this.label4.AutoSize = true;
+        this.label4.Location = new System.Drawing.Point(11, 97);
+        this.label4.Name = "label4";
+        this.label4.Size = new System.Drawing.Size(61, 13);
+        this.label4.TabIndex = 17;
+        this.label4.Text = "Relative to:";
+        // 
+        // RelativeToCombo
+        // 
+        this.RelativeToCombo.FormattingEnabled = true;
+        this.RelativeToCombo.Location = new System.Drawing.Point(78, 94);
+        this.RelativeToCombo.Name = "RelativeToCombo";
+        this.RelativeToCombo.Size = new System.Drawing.Size(168, 21);
+        this.RelativeToCombo.TabIndex = 18;
+        this.RelativeToCombo.TextChanged += new System.EventHandler(this.RelativeToCombo_TextChanged);
+        // 
         // WaterChartControl
         // 
         this.WaterChartControl.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -340,6 +364,7 @@ namespace CSGeneral
         this.panel1.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
         this.GroupBox.ResumeLayout(false);
+        this.GroupBox.PerformLayout();
         this.PercentPanel.ResumeLayout(false);
         this.PercentPanel.PerformLayout();
         ((System.ComponentModel.ISupportInitialize)(this.PercentEdit)).EndInit();
@@ -366,6 +391,8 @@ namespace CSGeneral
 			InitialWater = SoilData.InitialWater;
 			WaterChartControl.LinkedSoil = SoilData;
 			WaterChartControl.ShowSoilWaterLine = true;
+            RelativeToCombo.Items.Add("ll15");
+            RelativeToCombo.Items.AddRange(SoilData.Crops);
 
 			PopulateControls();
 			}
@@ -383,6 +410,8 @@ namespace CSGeneral
 			PercentPanel.Visible = PercentRadio.Checked;
 			DepthWetSoilPanel.Visible = DepthWetSoilRadio.Checked;
 			GroupBox.Visible = !LayeredRadio.Checked;
+            RelativeToCombo.Visible = (PercentRadio.Checked || DepthWetSoilRadio.Checked);
+            RelativeToCombo.Text = InitialWater.RelativeTo;
 
 			if (InitialWater.Method == InitWater.MethodType.Percent)
 				{
@@ -406,16 +435,22 @@ namespace CSGeneral
 		// ------------------------------
 		private void SaveControls()
 			{
-			if (PercentRadio.Checked)
-				InitialWater.SetUsingPercent(Convert.ToInt32(PercentEdit.Text), FilledFromTopRadio.Checked);
-			else if (DepthWetSoilRadio.Checked)	
-				InitialWater.SetUsingDepthWetSoil(Convert.ToInt32(DepthEdit.Text));
-			else
-				{
-				double[] sw = GridUtils.GetColumnAsDoubles(WaterGrid, 3, WaterGrid.RowCount);
-				sw = MathUtility.Divide_Value(sw, 100);
-				InitialWater.SetUsingLayered(sw);
-				}
+            if (PercentRadio.Checked)
+                {
+                InitialWater.SetUsingPercent(Convert.ToInt32(PercentEdit.Text), FilledFromTopRadio.Checked);
+                InitialWater.RelativeTo = RelativeToCombo.Text;
+                }
+            else if (DepthWetSoilRadio.Checked)
+                {
+                InitialWater.SetUsingDepthWetSoil(Convert.ToInt32(DepthEdit.Text));
+                InitialWater.RelativeTo = RelativeToCombo.Text;
+                }
+            else
+                {
+                double[] sw = GridUtils.GetColumnAsDoubles(WaterGrid, 3, WaterGrid.RowCount);
+                sw = MathUtility.Divide_Value(sw, 100);
+                InitialWater.SetUsingLayered(sw);
+                }
 			}
 
 
@@ -425,8 +460,14 @@ namespace CSGeneral
 		private void UpdatePAWCBox()
 			{
 			UserChange = false;
+            double[] pawc;
+            if (RelativeToCombo.Text == "ll15")
+                pawc = SoilData.PAWC();
+            else
+                pawc = SoilData.PAWC(RelativeToCombo.Text);
+
 			double Proportion = Convert.ToInt32(PercentEdit.Value) / 100.0;
-			double AmountWater = MathUtility.Sum(SoilData.PAWC()) * Proportion;
+			double AmountWater = MathUtility.Sum(pawc) * Proportion;
 			PAWCEdit.Text = AmountWater.ToString("f0");    // This will call PopulateGrid
 			UserChange = true;
 			}
@@ -543,7 +584,12 @@ namespace CSGeneral
 			if (UserChange)
 				{
 				UserChange = false;
-				double TotalPAWC = MathUtility.Sum(SoilData.PAWC());
+                double[] pawc;
+                if (RelativeToCombo.Text == "ll15")
+                    pawc = SoilData.PAWC();
+                else
+                    pawc = SoilData.PAWC(RelativeToCombo.Text);
+                double TotalPAWC = MathUtility.Sum(pawc);
 				int Percent = 0;
 				if (PAWCEdit.Text != "")
 					Percent = Convert.ToInt32(Convert.ToDouble(PAWCEdit.Text) / TotalPAWC * 100);
@@ -589,6 +635,18 @@ namespace CSGeneral
 				UserChange = true;
 				}
 			}
+
+        private void RelativeToCombo_TextChanged(object sender, EventArgs e)
+            {
+			if (UserChange)
+				{
+				UserChange = false;
+                InitialWater.RelativeTo = RelativeToCombo.Text;
+                PopulateGrid();
+                UpdatePAWCBox();
+                UserChange = true;
+                }
+            }
 
 
 	}

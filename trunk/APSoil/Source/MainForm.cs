@@ -612,6 +612,7 @@ namespace APSoil
             foreach (string SelectedPath in Apsoil.SelectedPaths)
                 {
                 APSIMData SelectedData = Apsoil.AllData.Find(SelectedPath);
+
                 OnlySoilsSelected = (OnlySoilsSelected && (SelectedData.Type.ToLower() == "soil"));
                 }
 
