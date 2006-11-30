@@ -779,6 +779,7 @@
        real    rlv (max_layer)
        real    biomass
        real    total_n
+       real    total_dm
 
 *- Implementation Section ----------------------------------
       call push_routine (myname)
@@ -1176,6 +1177,27 @@ cnh         cover = 1.0 - exp (-g%extinction_coef*g%lai)
      :              ,'(kg/ha)'         ! variable units
      :              ,g%adm_green       ! variable
      :              ,max(1,c%num_above_gnd_parts))! array size
+
+      elseif (variable_name .eq. 'dlt_adm_total') then
+
+         total_dm = g%dlt_foliage_mass
+     :           + sum_real_array(g%dlt_adm_green,c%num_above_gnd_parts)
+
+         call respond2get_real_var (
+     :               variable_name       ! variable name
+     :              ,'(kg/ha)'           ! variable units
+     :              ,total_dm)            ! variable
+
+
+      elseif (variable_name .eq. 'dlt_bdm_total') then
+
+         total_dm = g%dlt_root_mass
+     :           + sum_real_array(g%dlt_bdm_green,c%num_below_gnd_parts)
+
+         call respond2get_real_var (
+     :               variable_name       ! variable name
+     :              ,'(kg/ha)'           ! variable units
+     :              ,total_dm)            ! variable
 
       elseif (variable_name .eq. 'dlt_adm_green') then
 
