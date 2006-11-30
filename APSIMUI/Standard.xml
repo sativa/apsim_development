@@ -397,6 +397,9 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
     <radiationmodifier description="Relative change in radiation">1.0</radiationmodifier>
     <co2 description="Atmospheric C02 concentration (ppm)">350</co2>
   </climatechange>
+  <patchinput>
+    <filename name="filename"></filename>
+  </patchinput>
   <soilwatkludge name="soilwatkludge">
     <mwcon>1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0</mwcon>
     <max_pond>100</max_pond>
