@@ -90,6 +90,8 @@ module SoilPModule
 ! ====================================================================
    type SoilPParameters
       sequence
+      real         rate_loss_avail_p   ! Fraction of P lost per yr
+                                       ! (less then 1) specified at 25 oC
       real         rate_dissol_rock_p  ! Rate at which rock P source
                                        ! becomes available (/yr)
       real         sorption (max_layer)
@@ -102,8 +104,6 @@ module SoilPModule
    type SoilPConstants
       sequence
       character*20   crop_table_name (max_crops)
-      real         rate_loss_avail_p   ! Fraction of P lost per yr
-                                       ! (less then 1) specified at 25 oC
       real         act_energy_loss_avail_p
                                        ! Effect of soil temperature
                                        ! on P availability
@@ -285,7 +285,7 @@ subroutine soilp_zero_variables ()
    p%root_cp = 0.0
    p%rate_dissol_rock_p = 0.0
 
-   c%rate_loss_avail_p = 0.0
+   p%rate_loss_avail_p = 0.0
    c%act_energy_loss_avail_p = 0.0
    c%availp_ratio = 0.0
    c%rate_decr_placement = 0.0
@@ -518,6 +518,11 @@ subroutine soilp_read_param ()
    ! year to fraction per day
    p%rate_dissol_rock_P = - alog (1 - p%rate_dissol_rock_p) / 365.0
 
+   call read_real_var (section_name, 'rate_loss_avail_p', '()', p%rate_loss_avail_p, numvals, 0.0, 1.0)
+
+   ! Now change rate coefficients from fraction per year to fraction per day
+   p%rate_loss_avail_p = - alog (1.0 - p%rate_loss_avail_p) / 365.0
+
    call pop_routine (myname)
    return
 end subroutine
@@ -622,8 +627,6 @@ subroutine soilp_read_constants ()
 
    call write_string (new_line//'   - Reading Constants')
 
-   call read_real_var (section_name, 'rate_loss_avail_p', '()', c%rate_loss_avail_p, numvals, 0.0, 1.0)
-
    call read_real_var (section_name, 'act_energy_loss_avail_p', '()', c%act_energy_loss_avail_p, numvals, 0.0, 100.0)
 
    call read_real_var (section_name, 'availp_ratio', '()', c%availp_ratio, numvals, 0.01, 0.25)
@@ -643,7 +646,6 @@ subroutine soilp_read_constants ()
 
 
    ! Now change rate coefficients from fraction per year to fraction per day
-   c%rate_loss_avail_p = - alog (1 - c%rate_loss_avail_p) / 365.0
    c%rate_decr_placement = - alog (1 - c%rate_decr_placement) / 365.0
 
    !  read crop constants
@@ -881,7 +883,7 @@ subroutine soilp_availability_loss ()
 
       ! calculate rate of loss of available P at soil temperature
       ! based on activation energy and value at 25oC
-      adj_rate_loss_avail_p = c%rate_loss_avail_p* exp (c%act_energy_loss_avail_P* 1000.0 / 8.314* ((1.0 / 298.0) - (1.0 / (273.0 + g%soil_t (layer)))))
+      adj_rate_loss_avail_p = p%rate_loss_avail_p* exp (c%act_energy_loss_avail_P* 1000.0 / 8.314* ((1.0 / 298.0) - (1.0 / (273.0 + g%soil_t (layer)))))
 
       ! calculate water factor
       wf = soilp_wf (layer)
