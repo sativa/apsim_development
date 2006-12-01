@@ -1,0 +1,721 @@
+     ###     ######     #####   #   #     #   
+    #   #    #     #   #        #   ##   ##   
+   #     #   #     #   #        #   ##   ##   
+   #######   ######     #####   #   # # # #   
+   #     #   #              #   #   #  #  #   
+   #     #   #         #####    #   #  #  #   
+                                              
+                                              
+ The Agricultural Production Systems Simulator
+             Copyright(c) APSRU               
+
+     Version                = 5.3
+     Title                  = Sample Simulation with observed evaporation data
+     Component DLL          = c:\development\apsim\SummaryFile\lib\SummaryFile.dll
+     Component DLL          = c:\development\apsim\clock\lib\clock.dll
+     Component DLL          = c:\development\apsim\report\lib\report.dll
+     Component DLL          = c:\development\apsim\input\lib\input.dll
+     Component DLL          = c:\development\apsim\canopy\lib\canopy.dll
+     Component DLL          = c:\development\apsim\operatns\lib\operatns.dll
+     Component DLL          = c:\development\apsim\fertiliz\lib\fertiliz.dll
+     Component DLL          = c:\development\apsim\irrigate\lib\irrigate.dll
+     Component DLL          = c:\development\apsim\manager\lib\manager.dll
+     Component DLL          = c:\development\apsim\apswim\lib\apswim.dll
+     Component DLL          = c:\development\apsim\SurfaceOM\lib\SurfaceOM.dll
+     Component DLL          = c:\development\apsim\soiln2\lib\soiln2.dll
+     Component DLL          = c:\development\apsim\solute\lib\solute.dll
+     Component DLL          = c:\development\apsim\Plant\lib\Plant.dll
+     Component DLL          = c:\development\apsim\maize\lib\maize.dll
+
+------- clock Initialisation --------------------------------------------------
+     Sequencer phases:
+        prepare
+        process
+        post
+     Simulation start date =  1/09/1988
+     Simulation end date   = 31/03/1989
+     Time step =           = 1440 (mins)
+
+------- report Initialisation -------------------------------------------------
+     Output variables:
+        clock.dd/mm/yyyy as Date
+        maize.biomass as m_biomass
+        maize.yield as m_yield
+        maize.root_depth as m_root_depth
+        maize.lai as m_lai
+        maize.sw_demand as m_sw_dmd
+        maize.ep as m_ep
+        maize.swdef_photo as m_swdef_photo
+        maize.biomass_n as m_biomass_n
+        maize.nfact_photo as m_nfact_photo
+        cowpea.biomass as c_biomass
+        cowpea.yield as c_yield
+        cowpea.root_depth as c_root_depth
+        cowpea.lai as c_lai
+        cowpea.sw_demand as c_sw_dmd
+        cowpea.ep as c_ep
+        cowpea.swdef_photo as c_swdef_photo
+        cowpea.biomass_n as c_biomass_n
+        cowpea.nfact_photo as c_nfact_photo
+        apswim.es
+        apswim.runoff
+        apswim.drain
+        apswim.sw_dep()
+        soiln2.no3()
+        solute.br()
+     
+     Output file = apswim_obs_eo.out
+     Format = normal
+
+------- Met Initialisation ----------------------------------------------------
+     Sparse data is not allowed
+     INPUT File name: c:\development\apsim\met\sample\dalby.met
+
+------- canopy Initialisation -------------------------------------------------
+      Initialising
+      Module rotation for intercropping :
+     maize                           cowpea
+
+------- operatns Initialisation -----------------------------------------------
+     Operations Schedule
+     ===================
+     26/10/1988  Prepare      maize sow cultivar = dekalb_xl82, plants = 10, sowing_depth = 30 (mm)
+     26/10/1988  Prepare      fertiliz apply amount = 150, type = no3_n, depth = 5
+     26/10/1988  Prepare      irrigate apply amount = 50
+      5/11/1988  Prepare      cowpea sow cultivar = banjo, plants = 25 (/m2), sowing_depth = 40 (mm)
+
+------- fertiliz Initialisation -----------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                    Fertiliser Schedule (kg/ha)
+          -----------------------------------------------
+           No fertiliser schedule is used
+          -----------------------------------------------
+
+------- irrigate Initialisation -----------------------------------------------
+      Initialising
+     
+        - Reading Parameters
+     
+     
+     
+                      Irrigation parameters
+          -----------------------------------------------
+           Irrigation Schedule (Disabled)
+           Automatic Irrigation Application (Disabled)
+           critical fraction of available soil water =  0.00
+           depth for calculating available soil water =       0.00
+           Irrigation Allocation Budget (Disabled)
+          -----------------------------------------------
+
+------- manager Initialisation ------------------------------------------------
+     Manager rules:
+     
+     SECTION:- end_of_day
+     if (maize.stage = 11 or maize.plant_status = 'dead') then
+        maize harvest
+        maize end_crop
+     endif
+     if cowpea.stage_name = 'harvest_ripe' or cowpea.plant_status = 'dead' then
+        cowpea harvest
+        cowpea end_crop
+     endif
+     report do_output
+     END of rules
+     
+
+------- apswim Initialisation -------------------------------------------------
+     Initialising
+     
+     
+           APSIM soil profile
+           ------------------
+     
+     
+           ---------------------------------------
+           dlayer   BD   SW     LL15   DUL   SAT
+           ---------------------------------------
+             5.0  1.05  0.537  0.192  0.537  0.550
+            15.0  1.05  0.537  0.192  0.537  0.550
+            32.5  1.05  0.537  0.192  0.537  0.550
+            47.5  1.05  0.537  0.192  0.537  0.550
+            62.5  1.05  0.537  0.192  0.537  0.550
+            87.5  1.05  0.537  0.192  0.537  0.550
+           100.0  1.05  0.537  0.192  0.537  0.550
+           100.0  1.05  0.537  0.192  0.537  0.550
+           100.0  1.05  0.519  0.208  0.519  0.540
+           100.0  1.05  0.464  0.223  0.502  0.530
+           125.0  1.05  0.435  0.239  0.484  0.520
+           150.0  1.05  0.420  0.239  0.484  0.520
+           175.0  1.05  0.420  0.239  0.484  0.520
+           200.0  1.05  0.420  0.239  0.484  0.520
+           200.0  1.05  0.420  0.239  0.484  0.520
+           200.0  1.05  0.420  0.239  0.484  0.520
+           200.0  1.05  0.420  0.239  0.484  0.520
+           100.0  1.05  0.420  0.239  0.484  0.520
+     
+     
+           APSWIM soil profile
+           -------------------
+     
+     
+          -------------------------------------------------
+           depth   Soil Type     Theta    Psi        Ks
+           ------------------------------------------------
+             0.0  soil1         0.5369890     -0.100      0.200
+            10.0  -             0.5369890     -0.100      0.200
+            30.0  -             0.5369890     -0.100      0.200
+            75.0  -             0.5369890     -0.100      0.200
+           125.0  -             0.5369890     -0.100      0.200
+           200.0  -             0.5369890     -0.100      0.200
+           300.0  -             0.5369890     -0.100      0.200
+           400.0  soil1         0.5369890     -0.100      0.200
+           500.0  -             0.5193625     -0.100      0.227
+           600.0  -             0.4635659     -0.200      0.257
+           700.0  soil2         0.4346072     -0.250      0.291
+           850.0  -             0.4199958     -0.330      0.291
+          1000.0  -             0.4199958     -0.330      0.291
+          1200.0  -             0.4199958     -0.330      0.291
+          1400.0  -             0.4199958     -0.330      0.291
+          1600.0  -             0.4199958     -0.330      0.291
+          1800.0  -             0.4199958     -0.330      0.291
+          2000.0  soil2         0.4199958     -0.330      0.291
+     
+     
+           Soil Moisture Characteristics
+           -----------------------------
+     
+     
+                                  nodes(0-6)
+     
+            g%psi   |        0          1          2          3          4          5          6
+          --------------------------------------------------------------------------------------
+           -15.00 |    0.19205    0.19205    0.19205    0.19205    0.19205    0.19205    0.19205
+            -1.00 |    0.35751    0.35751    0.35751    0.35751    0.35751    0.35751    0.35751
+            -0.10 |    0.53699    0.53699    0.53699    0.53699    0.53699    0.53699    0.53699
+            -0.01 |    0.54988    0.54988    0.54988    0.54988    0.54988    0.54988    0.54988
+     
+     
+           Soil Hydraulic Conductivity
+           ---------------------------
+     
+     
+                                  nodes(0-6)
+     
+            g%psi   |        0          1          2          3          4          5          6
+          --------------------------------------------------------------------------------------
+           -15.00 |    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+            -1.00 |    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+            -0.10 |    0.07590    0.07590    0.07590    0.07590    0.07590    0.07590    0.07590
+            -0.01 |    0.19817    0.19817    0.19817    0.19817    0.19817    0.19817    0.19817
+     
+     
+           Swim calculation parameters
+           ---------------------------
+           p%dtmin p%dtmax   p%ersoil   p%ernode    p%errex p%dppl p%dpnl max_water_increment
+           --------------------------------------------------------------------
+     
+            0.0  24.0 .100E-06 .100E-06 .100E-01 2.00 1.00        0.050
+     
+     
+     
+     
+          Bypass flow is INactive
+          No ponding (all runoff)
+          top boundary condition = infinite conductance
+          bottom boundary condition = specified gradient (     0.000)
+     
+     
+     
+     
+          vapour conductivity = on
+          Rainfall Source: rain
+     
+     
+          Evaporation Source: evap
+     
+     
+     
+     
+     
+
+------- SurfaceOM Initialisation ----------------------------------------------
+     
+         - Reading constants
+     
+         - Reading parameters
+     
+     
+     
+                         Initial Surface Organic Matter Data
+         ----------------------------------------------------------------------
+            Name   Type        Dry matter   C        N        P    Cover  Standing_fr
+                                (kg/ha)  (kg/ha)  (kg/ha)  (kg/ha) (0-1)     (0-1)
+         ----------------------------------------------------------------------
+          maize     maize         2000.0   800.0    10.0     0.0   0.551     0.0
+         ----------------------------------------------------------------------
+     
+                      Effective Cover from Surface Materials =   0.6
+     
+
+------- soiln2 Initialisation -------------------------------------------------
+     
+        - Reading Parameters
+     
+        - Reading Constants
+     
+     
+     
+           TAV and AMP supplied externally
+     
+     
+     
+                      Soil Profile Properties
+          ------------------------------------------------
+           Layer    pH    OC     NO3     NH4    Urea
+                         (%) (kg/ha) (kg/ha) (kg/ha)
+          ------------------------------------------------
+             1     7.70  0.58    0.52    0.02    0.00
+             2     7.70  0.58    1.57    0.05    0.00
+             3     7.70  0.58    3.41    0.10    0.00
+             4     7.70  0.58    4.99    0.15    0.00
+             5     7.70  0.58    3.28    0.20    0.00
+             6     8.00  0.42    4.59    0.46    0.00
+             7     8.00  0.42    5.25    0.52    0.00
+             8     8.00  0.42    5.25    0.52    0.00
+             9     8.60  0.23    1.05    0.52    0.00
+            10     8.60  0.23    1.05    0.52    0.00
+            11     8.60  0.23    1.31    0.66    0.00
+            12     8.60  0.17    1.57    0.79    0.00
+            13     8.60  0.17    1.84    0.92    0.00
+            14     8.60  0.15    2.10    1.05    0.00
+            15     8.60  0.15    2.10    1.05    0.00
+            16     8.60  0.14    2.10    1.05    0.00
+            17     8.60  0.14    2.10    1.05    0.00
+            18     8.60  0.14    1.05    0.52    0.00
+          ------------------------------------------------
+           Totals               45.15   10.16    0.00
+          ------------------------------------------------
+     
+     
+     
+     
+     
+     
+                  Initial Soil Organic Matter Status
+          ---------------------------------------------------------
+           Layer      Hum-C   Hum-N  Biom-C  Biom-N   FOM-C   FOM-N
+                    (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha) (kg/ha)
+          ---------------------------------------------------------
+             1        297.3    20.5     7.2     0.9    47.7     2.4
+             2        891.9    61.5    21.6     2.7    46.6     2.3
+             3       1932.4   133.3    46.9     5.9    44.4     2.2
+             4       2824.3   194.8    68.5     8.6    41.4     2.1
+             5       3716.1   256.3    90.1    11.3    37.7     1.9
+             6       3792.9   261.6    65.9     8.2    33.0     1.7
+             7       4345.5   299.7    64.5     8.1    28.4     1.4
+             8       4345.5   299.7    64.5     8.1    24.5     1.2
+             9       2385.5   164.5    29.5     3.7    21.1     1.1
+            10       2397.2   165.3    17.8     2.2    18.1     0.9
+            11       3000.9   207.0    17.8     2.2    15.0     0.8
+            12       2666.9   183.9    10.6     1.3    12.0     0.6
+            13       3116.0   214.9     7.7     1.0     9.2     0.5
+            14       3142.2   216.7     7.8     1.0     6.8     0.3
+            15       3146.9   217.0     3.1     0.4     5.1     0.3
+            16       2939.7   202.7     0.3     0.0     3.8     0.2
+            17       2939.7   202.7     0.3     0.0     2.8     0.1
+            18       1469.9   101.4     0.1     0.0     2.4     0.1
+          ---------------------------------------------------------
+           Totals   49350.7  3403.5   524.3    65.5   400.0    20.0
+          ---------------------------------------------------------
+
+------- solute Initialisation -------------------------------------------------
+     Initialising
+     
+        - Reading Constants
+
+------- cowpea Initialisation -------------------------------------------------
+     phenology model: TTT
+
+------- maize Initialisation --------------------------------------------------
+      Initialising, V1.0 2000.01.21
+     
+         - Reading constants
+     
+         - Reading constants
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     maxt_lb =    -50.00000
+             less than lower limit of    0.000000
+     Component name: maize
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+------- Start of simulation  --------------------------------------------------
+26 October 1988(Day of year=300), operatns: 
+      Sending sow message to maize
+26 October 1988(Day of year=300), maize: 
+     Sowing initiate
+     
+     
+     
+                      Crop Sowing Data
+         -------------------------------------------------------
+         Sowing   Depth  Plants Spacing Skiprow Cultivar    FTN
+         Day no    mm      m^2    m      code     name       no
+         -------------------------------------------------------
+            300   30.0   10.0    1.0    0.0   dekalb_xl8    0.00
+         -------------------------------------------------------
+     
+        - Reading root profile parameters
+     Uptake of NO3 and water calculated by another APSIM module
+     
+     
+     
+     
+                         Root Profile
+         ------------------------------------------------
+           Layer      Kl      Lower Exploration
+           Depth              limit   Factor
+           (mm)       ()     (mm/mm)    ()
+         ------------------------------------------------
+            5.000    0.120    0.192    1.000
+           15.000    0.120    0.192    1.000
+           32.500    0.120    0.192    1.000
+           47.500    0.120    0.192    1.000
+           62.500    0.120    0.192    1.000
+           87.500    0.120    0.192    1.000
+          100.000    0.120    0.192    1.000
+          100.000    0.120    0.192    1.000
+          100.000    0.120    0.208    1.000
+          100.000    0.080    0.223    1.000
+          125.000    0.080    0.239    1.000
+          150.000    0.080    0.239    1.000
+          175.000    0.080    0.239    1.000
+          200.000    0.040    0.239    1.000
+          200.000    0.040    0.239    1.000
+          200.000    0.000    0.239    0.000
+          200.000    0.000    0.239    0.000
+          100.000    0.000    0.239    0.000
+          ------------------------------------------------
+     
+            Crop factor for bounding water use is set to  100.0  times eo.
+     
+     
+     
+     
+        - Reading Cultivar Parameters
+         ------------------------------------------------
+         Cultivar                 = dekalb_xl82
+         est_days_endjuv_to_init  =      20
+         tt_emerg_to_endjuv       =  211.00
+         tt_flower_to_maturity    =  983.00
+         head_grain_no_max        =  610.00
+         grain_gth_rate           =    9.17
+         tt_flag_to_flower        =  101.00
+         tt_flower_to_start_grain =  170.00
+         tt_maturity_to_ripe      =    1.00
+         x_stem_wt      =     0.0   80.0
+         y_height      =     0.0 2000.0
+         ------------------------------------------------
+     
+     
+     
+26 October 1988(Day of year=300), operatns: 
+      Sending apply message to fertiliz
+26 October 1988(Day of year=300), fertiliz: 
+     
+        - Reading Fertiliser Type Parameters
+       150.00 of N as nitrate (no3_n)
+                                              added at depth    5.00 (layer   1)
+26 October 1988(Day of year=300), operatns: 
+      Sending apply message to irrigate
+27 October 1988(Day of year=301), maize: 
+      stage    2.0 germination
+29 October 1988(Day of year=303), maize: 
+      stage    3.0 emergence
+                          biomass =          0.2000000       lai =    0.3800000E-02
+                          stover N conc =    4.399999       extractable sw =    11.10876
+30 October 1988(Day of year=304), apswim: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Possible error with low total RLV for maize
+     Component name: apswim
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+5 November 1988(Day of year=310), operatns: 
+      Sending sow message to cowpea
+5 November 1988(Day of year=310), cowpea: 
+     Crop Sow
+      - reading constants for plant(cowpea)
+      - reading cultivar parameters
+      - reading grain cultivar parameters
+         ------------------------------------------------
+        cultivar                   = banjo
+        est_days_emerg_to_init     = 20 (days)
+        cum_vernal_days            =       0     100 (vd)
+        tt_emerg_to_endjuv         =     552     552 (dd)
+        x_pp_endjuv_to_init        =    13.3      18 (h)
+        y_tt_endjuv_to_init        =       1     229 (dd)
+        x_pp_init_to_flower        =       1      24 (h)
+        y_tt_init_to_flower        =      20      20 (dd)
+        x_pp_flower_to_start_grain =       1      24 (h)
+        y_tt_flower_to_start_grain =     100     100 (dd)
+        x_pp_start_to_end_grain    =       1      24 (h)
+        y_tt_start_to_end_grain    =     280     280 (dd)
+        tt_end_grain_to_maturity   =         20 (dd)
+        tt_maturity_to_ripe        =          5 (dd)
+        x_pp_hi_incr               =       1.00      24.00
+        y_hi_incr                  =     0.0140     0.0140
+        x_hi_max_pot_stress        =       0.00       1.00
+        y_hi_max_pot               =       0.40       0.40
+         ------------------------------------------------
+     
+     
+      - reading root profile parameters
+                        Root Profile
+         -----------------------------------------------
+          Layer       Kl           Lower    Exploration
+          Depth     Factor         Limit      Factor
+          (mm)         ()        (mm/mm)       (0-1)
+         -----------------------------------------------
+           5.0     0.080          0.192       1.000
+          15.0     0.080          0.192       1.000
+          32.5     0.080          0.192       1.000
+          47.5     0.080          0.192       1.000
+          62.5     0.080          0.192       1.000
+          87.5     0.080          0.192       1.000
+         100.0     0.080          0.192       1.000
+         100.0     0.060          0.192       1.000
+         100.0     0.060          0.208       1.000
+         100.0     0.040          0.223       1.000
+         125.0     0.040          0.239       1.000
+         150.0     0.040          0.239       1.000
+         175.0     0.020          0.239       1.000
+         200.0     0.020          0.239       1.000
+         200.0     0.010          0.239       1.000
+         200.0     0.000          0.239       0.000
+         200.0     0.000          0.239       0.000
+         100.0     0.000          0.239       0.000
+         -----------------------------------------------
+         Extractable SW:   546mm in  2000mm total depth ( 27%).
+         Crop factor for bounding water use is set to 100.0 times eo.
+     
+                      Crop Sowing Data
+         ------------------------------------------------
+         Sowing  Depth Plants Spacing Skip  Skip  Cultivar
+         Day no   mm     m^2     mm   row   plant name
+         ------------------------------------------------
+            310   40.0   25.0  500.0   0.0   0.0 banjo
+         ------------------------------------------------
+     
+6 November 1988(Day of year=311), cowpea: 
+      stage 2.0 germination
+11 November 1988(Day of year=316), maize: 
+      stage    4.0 end_of_juvenile
+                          biomass =           3.468929       lai =    0.4278167E-01
+                          stover N conc =    3.392777       extractable sw =    57.71358
+12 November 1988(Day of year=317), cowpea: 
+      stage 3.0 emergence
+                     biomass =           0.75 (g/m^2)   lai          =   0.020 (m^2/m^2)
+                     stover N conc =     6.00 (%)    extractable sw =   57.38 (mm)
+13 November 1988(Day of year=318), cowpea: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.007925 vs n_uptake_sum =0.008744
+     Component name: cowpea
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+16 November 1988(Day of year=321), maize: 
+      stage    5.0 floral_initiation
+                          biomass =           8.149297       lai =    0.9149694E-01
+                          stover N conc =    3.201967       extractable sw =    120.3951
+19 November 1988(Day of year=324), cowpea: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.024715 vs n_uptake_sum =0.030861
+     Component name: cowpea
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+23 December 1988(Day of year=358), cowpea: 
+      stage 4.0 end_of_juvenile
+                     biomass =          74.65 (g/m^2)   lai          =   1.188 (m^2/m^2)
+                     stover N conc =     3.95 (%)    extractable sw =  247.90 (mm)
+25 December 1988(Day of year=360), maize: 
+      stage    6.0 flag_leaf
+                          biomass =           614.8766       lai =     4.211425
+                          stover N conc =    2.303807       extractable sw =    231.2666
+27 December 1988(Day of year=362), cowpea: 
+      stage 5.0 floral_initiation
+                     biomass =          82.12 (g/m^2)   lai          =   1.294 (m^2/m^2)
+                     stover N conc =     3.63 (%)    extractable sw =  227.21 (mm)
+28 December 1988(Day of year=363), cowpea: 
+      stage 6.0 flowering
+                     biomass =          84.33 (g/m^2)   lai          =   1.318 (m^2/m^2)
+                     stover N conc =     3.53 (%)    extractable sw =  215.57 (mm)
+31 December 1988(Day of year=366), cowpea: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000382
+     Component name: cowpea
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+31 December 1988(Day of year=366), maize: 
+      stage    7.0 flowering
+                          biomass =           798.3914       lai =     4.076052
+                          stover N conc =    2.022411       extractable sw =    200.1142
+4 January 1989(Day of year=4), cowpea: 
+      stage 7.0 start_grain_fill
+                     biomass =          96.13 (g/m^2)   lai          =   1.428 (m^2/m^2)
+                     stover N conc =     3.15 (%)    extractable sw =  182.28 (mm)
+10 January 1989(Day of year=10), maize: 
+      stage    8.0 start_grain_fill
+                          biomass =           1075.672       lai =     3.738055
+                          stover N conc =    1.572380       extractable sw =    157.3562
+22 January 1989(Day of year=22), cowpea: 
+      stage 8.0 end_grain_fill
+                     biomass =         128.88 (g/m^2)   lai          =   0.855 (m^2/m^2)
+                     stover N conc =     2.22 (%)    extractable sw =  117.43 (mm)
+23 January 1989(Day of year=23), cowpea: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000068
+     Component name: cowpea
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+      stage 9.0 maturity
+                     biomass =         129.34 (g/m^2)   lai          =   0.780 (m^2/m^2)
+                     stover N conc =     2.21 (%)    extractable sw =  116.19 (mm)
+24 January 1989(Day of year=24), cowpea: 
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      APSIM Warning Error
+                      -------------------
+     Crop dlt_n_green mass balance is off: dlt_n_green_sum =0.000000 vs n_uptake_sum =0.000091
+     Component name: cowpea
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     
+     
+      stage 10.0 harvest_ripe
+                     biomass =         129.75 (g/m^2)   lai          =   0.000 (m^2/m^2)
+                     stover N conc =     2.30 (%)    extractable sw =  114.24 (mm)
+24 January 1989(Day of year=24), manager: 
+     Manager sending message :- cowpea harvest
+24 January 1989(Day of year=24), cowpea: 
+     
+      flowering day          =  363                           stover (kg/ha)         =      954.7
+      maturity day           =   23                           grain yield (kg/ha)    =      342.8
+      grain % water content  =   12.0                         grain yield wet (kg/ha)=      389.6
+      grain wt (g)           =    0.000                       grains/m^2             =      0.000
+      grains/plant           =    0.0                         maximum lai            =      1.434
+      total above ground biomass (kg/ha)    =     1297.5
+      live above ground biomass (kg/ha)     =     1297.5
+      green above ground biomass (kg/ha)    =      814.1
+      senesced above ground biomass (kg/ha) =      483.4
+      dead above ground biomass (kg/ha)     =        0.0
+      number of leaves       =    7.6
+      DM Root:Shoot ratio    =    0.564                       Harvest Index          =      0.264
+      Stover C:N ratio       =   18.619                       Root C:N ratio         =     26.640
+      grain N percent        =       4.50                     total N content (kg/ha)=      35.94
+      grain N uptake (kg/ha) =      15.43                     senesced N content (kg/ha)=    9.67
+      green N content (kg/ha)=      10.84                     dead N content (kg/ha) =       0.00
+     
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
+         emergence            to end_of_juvenile         0.057        0.000        0.000        0.018
+         end_of_juvenile      to floral_initiation       0.000        0.000        0.000        0.000
+         floral_initiation    to flowering               0.000        0.000        0.000        0.000
+         flowering            to start_grain_fill        0.000        0.000        0.000        0.000
+         start_grain_fill     to end_grain_fill          0.089        0.000        0.000        0.000
+     
+     
+     Crop harvested.
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                954.66                    0.00
+                          N  (kg/ha) =                 20.51                    0.00
+     
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =                342.83                    0.00
+                          N  (kg/ha) =                 15.43                    0.00
+     
+      stage 11.0 end_crop
+24 January 1989(Day of year=24), manager: 
+     Manager sending message :- cowpea end_crop
+24 January 1989(Day of year=24), cowpea: 
+     Crop ended. Yield (dw) =     0.0  (kg/ha)
+         Organic matter from crop:-      Tops to surface residue      Roots to soil FOM
+                          DM (kg/ha) =                  0.00                  732.23
+                          N  (kg/ha) =                  0.00                   10.99
+     
+2 March 1989(Day of year=61), maize: 
+      stage    9.0 end_grain_fill
+                          biomass =           1812.766       lai =     1.425188
+                          stover N conc =   0.9926521       extractable sw =    136.1732
+3 March 1989(Day of year=62), maize: 
+      stage   10.0 maturity
+                          biomass =           1817.348       lai =     1.383615
+                          stover N conc =   0.9915982       extractable sw =    135.0835
+4 March 1989(Day of year=63), maize: 
+      stage   11.0 harvest_ripe
+                          biomass =           1817.348       lai =    0.3800392E-02
+                          stover N conc =    1.005981       extractable sw =    134.5392
+4 March 1989(Day of year=63), manager: 
+     Manager sending message :- maize harvest
+4 March 1989(Day of year=63), maize: 
+     
+     
+     
+     flowering (DAS) =   67                                maturity (DAS)  =     129
+      flowering day  =  366                                 stover (kg/ha) =    9104.4
+      maturity day        =   62                            grain yield (kg/ha) =    9069.1
+      grain % water content   =   15.5                      grain yield wet (kg/ha) =   10732.7
+      grain wt (g) =     0.280                              grains/m^2   =  3240.330
+      grains/head = 324.0                                   maximum lai = 4.234
+      total above ground biomass (kg/ha) =   18173.5
+      live above ground biomass (kg/ha) =   18173.5
+      green above ground biomass (kg/ha) =   16580.1
+      senesced above ground biomass (kg/ha) =    1593.4
+      dead above ground biomass (kg/ha) =       0.0
+      number of leaves =  18.9
+      grain N percent =      1.36                           total N content (kg/ha) =    174.76
+      grain N uptake (kg/ha) =    123.56                    senesced N content (kg/ha) =      7.97
+      green N content (kg/ha) =     43.23                   dead N content (kg/ha) =      0.00
+     
+     
+      Average Stress Indices:                          Water Photo  Water Expan  N Photo      N grain conc
+         emergence           to end_of_juvenile         0.004        0.000        0.000        0.107
+         end_of_juvenile     to floral_initiation       0.000        0.000        0.000        0.137
+         floral_initiation   to flag_leaf               0.016        0.000        0.000        0.084
+         flag_leaf           to flowering               0.000        0.000        0.000        0.039
+         flowering           to start_grain_fill        0.007        0.000        0.002        0.145
+         start_grain_fill    to end_grain_fill          0.060        0.007        0.275        0.420
+     
+     Crop harvested.
+         Organic matter removed from system:-      From Tops               From Roots
+                          DM (kg/ha) =               9069.11                    0.00
+                          N  (kg/ha) =                123.56                    0.00
+     
+4 March 1989(Day of year=63), manager: 
+     Manager sending message :- maize end_crop
+4 March 1989(Day of year=63), maize: 
+         Crop ended. Yield (dw) =     0.0
+         Organic matter from crop:-      Tops to surface residue     Roots to soil FOM
+                          DM (kg/ha) =               9104.37                 2427.70
+                          N  (kg/ha) =                 51.20                   22.41
+                          P  (kg/ha) =                  0.00                    0.00
+     
+31 March 1989(Day of year=90), clock: 
+     Simulation is terminating due to end criteria being met.
