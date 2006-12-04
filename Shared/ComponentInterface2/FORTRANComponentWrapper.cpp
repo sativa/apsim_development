@@ -2,321 +2,143 @@
 // Wrapper dll for fortran routines.
 // Keeps pointers to fortran entry points (Main(), do_init1() etc..
 // and calls them when reqd.
-#pragma hdrstop
-#ifndef __WIN32__
-   #include <dlfcn.h>
-#else
-   #include <windows.h>  // for LoadLibrary
-#endif
-#include <stdlib.h>
-#include <stdio.h>
-
-#include "Component.h"
-#include "FORTRANComponentWrapper.h"
-#include "Variants.h"
-#include "datatypes.h"
-
-// turn of the warnings about "Functions containing for are not expanded inline.
+#include <stdexcept>
+#include <string>
 #pragma warn -inl
 
-static const int ERR_internal = 1;
-static const int ERR_user = 2;
+#include <boost/lexical_cast.hpp>
+
+#include <ComponentInterface2/CMPScienceAPI.h>
+#include <ComponentInterface2/CMPComponentInterface.h>
+#include <general/platform.h>
+#include <general/dll.h>
+#include <map>
+
+#include "FORTRANComponentWrapper.h"
 
 FortranWrapper* FortranWrapper::currentInstance = NULL;
+
+using namespace std;
+
+// ------------------------------------------------------------------
+// The PM is instructing us to create an instance of all our data.
+// ------------------------------------------------------------------
+extern "C" void EXPORT STDCALL createInstance
+   (const char* dllFileName,
+    unsigned int* componentID,
+    unsigned int* parentID,
+    unsigned int* instanceNumber,
+    unsigned int* callbackArg,
+    CallbackType* callback)
+   {
+printf("createInstance called, dll=%s\n", dllFileName);
+   // create a component interface and a science api that the component
+   // will talk to.
+   CMPComponentInterface *componentInterface = new CMPComponentInterface(callbackArg, callback, *componentID, *parentID);
+   CMPScienceAPI *scienceAPI = new CMPScienceAPI(*componentInterface);
+   void *dllHandle = loadDLL(dllFileName);
+   FortranWrapper *component = new FortranWrapper(componentInterface, scienceAPI, dllHandle);
+
+   // The instance number we return to the PM is a pointer to the component
+   // object we just created.
+   *instanceNumber = (unsigned) component;
+   }
+// ------------------------------------------------------------------
+// The PM is instructing us to delete an instance of our data.
+// ------------------------------------------------------------------
+extern "C" void EXPORT STDCALL deleteInstance (unsigned* instanceNumber)
+   {
+   FortranWrapper *component = (FortranWrapper*) *instanceNumber;
+   delete component;
+   }
+
+// ------------------------------------------------------------------
+// All messages to component go through here.
+// ------------------------------------------------------------------
+extern "C" void EXPORT STDCALL messageToLogic (unsigned* instanceNumber,
+                                                  Message* message,
+                                                  bool* processed)
+   {
+   FortranWrapper *component = (FortranWrapper*) *instanceNumber;
+   component->componentInterface->messageToLogic(*message);
+   *processed = true; // ???? not sure why we need this.
+   }
+
+// ------------------------------------------------------------------
+// Return component description info.
+// ------------------------------------------------------------------
+extern "C" void EXPORT STDCALL getDescriptionInternal(char* initScript,
+                                                         char* description)
+   {
+   }
 
 // ------------------------------------------------------------------
 // constructor
 // ------------------------------------------------------------------
-FortranWrapper::FortranWrapper(void)
-   : outgoingApsimVariant(this), incomingApsimVariant(this), queryData((unsigned)-1)
+FortranWrapper::FortranWrapper(CMPComponentInterface *componentinterface,
+                               ScienceAPI* scienceapi, 
+                               void *handle) : 
+                                  scienceAPI(scienceapi),   
+                                  componentInterface(componentinterface)
    {
-   // nothing
+printf("FortranWrapper::FortranWrapper called, handle=%x\n", handle);
+   dllHandle = handle;
+
+   // Instance pointers allow us to fiddle the fortran code "behind its back"..
+   // 1. tell the fortran runtime to allocate instance pointers
+   void STDCALL (*alloc_dealloc_instance) (const unsigned int* );
+   alloc_dealloc_instance = (void STDCALL (*)(const unsigned int* )) dllProcAddress(dllHandle, "alloc_dealloc_instance");
+   if (alloc_dealloc_instance)
+      {
+      const unsigned int doAllocate = true;
+      (*alloc_dealloc_instance) (&doAllocate);
+      }
+
+   // Get a copy of them so we can swap them in&out later.
+   void STDCALL (*getInstance) (Instance **);
+   getInstance = (void STDCALL (*)(Instance**)) dllProcAddress(dllHandle, "getInstance");
+   if (getInstance)
+      {
+      (*getInstance) (&instance);
+      myInstance = *instance;
+      }
+   
+   // We will want an init1 event when it comes..
+   scienceAPI->subscribe("init1", nullFunction(&FortranWrapper::onInit1));
    }
+
 // ------------------------------------------------------------------
 // destructor
 // ------------------------------------------------------------------
 FortranWrapper::~FortranWrapper(void)
    {
    // get FORTRAN to release memory blocks.
-   const unsigned int doAllocate = false;
-   const char *dlError;
-   swapInstanceIn();
-   alloc_dealloc_instance(&doAllocate);
-
-   if (libraryHandle)
-   {
-#ifdef __WIN32__
-      FreeLibrary(libraryHandle);
-#else
-      int return_code;
-      return_code = dlclose(libraryHandle);
-      if ( return_code ) {
-	dlError = dlerror();
-	throw runtime_error(dlError);
-      }
-#endif
-   }
-   }
-
-void FortranWrapper::setup(void)
-   {
-   setupFortranDll();
-
-   // get FORTRAN to create new memory blocks.
-   const unsigned int doAllocate = true;
-   alloc_dealloc_instance(&doAllocate);
-
-   // save pointers and contents of these memory blocks.
-   setupInstancePointers();
-   }
-// ------------------------------------------------------------------
-// Find entry points. Leave NULL if not found..
-// ------------------------------------------------------------------
-void FortranWrapper::setupFortranDll(void)
-   {
-   my_Main = NULL;
-   my_alloc_dealloc_instance = NULL;
-   my_respondToEvent = NULL;
-   const char *dlError = NULL;
-
-#ifdef __WIN32__
-   libraryHandle = LoadLibrary(this->dllName);
-#else
-   libraryHandle = dlopen(this->dllName, RTLD_NOW | RTLD_LOCAL);
-   dlError = dlerror();
-#endif
-
-   if (libraryHandle != NULL || dlError)
+   void STDCALL (*alloc_dealloc_instance) (const unsigned int* );
+   alloc_dealloc_instance = (void STDCALL (*)(const unsigned int* )) dllProcAddress(dllHandle, "alloc_dealloc_instance");
+   if (alloc_dealloc_instance)
       {
-#ifdef __WIN32__
-      my_Main = (Main_t*) GetProcAddress(libraryHandle, "Main");
-      my_alloc_dealloc_instance = (alloc_dealloc_instance_t*) GetProcAddress(libraryHandle, "alloc_dealloc_instance");
-      my_do_init1 = (do_init1_t*) GetProcAddress(libraryHandle, "doInit1");
-      //my_do_init2 = GetProcAddress(handle, "");
-      //my_do_commence = GetProcAddress(handle, "");
-      //my_notify_termination = GetProcAddress(handle, "");
-      //my_respondToGet = GetProcAddress(handle, "");
-      //my_respondToSet = GetProcAddress(handle, "");
-      my_respondToEvent = (respondToEvent_t*) GetProcAddress(libraryHandle, "respondToEvent");
-      //my_respondToMethod = GetProcAddress(handle, "");
-#else
-      my_Main = (Main_t*) dlsym(libraryHandle, "Main");
-      my_alloc_dealloc_instance = (alloc_dealloc_instance_t*) dlsym(libraryHandle, "alloc_dealloc_instance");
-      my_do_init1 = (do_init1_t*) dlsym(libraryHandle, "doInit1");
-      my_respondToEvent = (respondToEvent_t*) dlsym(libraryHandle, "respondToEvent");
-#endif
+      const unsigned int doAllocate = false;
+      (*alloc_dealloc_instance) (&doAllocate);
       }
-   }
-// ------------------------------------------------------------------
-// Find pointers to fortran common block, and keep a copy.
-// ------------------------------------------------------------------
-void FortranWrapper::setupInstancePointers(void)
-   {
-   instance = NULL;
-   memset(&myInstance, 0, sizeof(Instance));
 
-   if (libraryHandle != NULL)
+   if (componentInterface) delete componentInterface;
+   if (scienceAPI) delete scienceAPI;
+   if (dllHandle) closeDLL(dllHandle);
+   }
+
+void FortranWrapper::onInit1(void)
+   {
+printf("FortranWrapper::onInit1 called, handle=%x\n", dllHandle);
+   unsigned STDCALL (*initRoutine)(void);
+   initRoutine = (unsigned STDCALL(*)(void)) dllProcAddress(dllHandle, "create");
+   if (initRoutine) 
       {
-#ifdef __WIN32__
-      getInstance_t *proc = (getInstance_t *) GetProcAddress(libraryHandle, "getInstance");
-#else
-      getInstance_t *proc = (getInstance_t *) dlsym(libraryHandle, "getInstance");
-#endif
-      if (proc != NULL)
-         {
-         (*proc) (&instance);
-         myInstance = *instance;
-         }
-      else
-         {
-         throw "Missing getInstance()";
-         }
+      swapInstanceIn();
+printf("calling init routine\n");
+      initRoutine();
       }
    }
 
-void FortranWrapper::Main(const char* action, const char *data)
-   {
-   if (my_Main) {(*my_Main) (action, data, strlen(action), strlen(data));}
-   }
-void FortranWrapper::Main(const char* action, FString &data)
-   {
-   if (my_Main) {(*my_Main) (action, data.f_str(), strlen(action), data.length());}
-   }
-void FortranWrapper::Main(FString &action, FString &data)
-   {
-   if (my_Main) {(*my_Main) (action.f_str(), data.f_str(), action.length(), data.length());}
-   }
-void FortranWrapper::Main(FString &action, const char *data)
-   {
-   if (my_Main) {(*my_Main) (action.f_str(), data, action.length(), strlen(data));}
-   }
-
-void FortranWrapper::alloc_dealloc_instance(const unsigned int* doAllocate)
-   {
-   if (my_alloc_dealloc_instance) {(*my_alloc_dealloc_instance) (doAllocate);}
-   }
-
-// ------------------------------------------------------------------
-// do init1 stuff
-// ------------------------------------------------------------------
-void FortranWrapper::doInit1(const FString& sdml)
-   {
-   // Set up the dll pointers
-   setup();
-
-   protocol::Component::doInit1(sdml);
-   Instance saved = *instance;
-   FortranWrapper* savedThis = currentInstance;
-   swapInstanceIn();
-
-   if (my_do_init1)
-      (*my_do_init1)();
-   else
-      Main("create", "");
-
-   *instance = saved;
-   currentInstance = savedThis;
-   }
-// ------------------------------------------------------------------
-// do init2 stuff
-// ------------------------------------------------------------------
-void FortranWrapper::doInit2(void)
-   {
-   Instance saved = *instance;
-   FortranWrapper* savedThis = currentInstance;
-   swapInstanceIn();
-
-   Main("init2", "");
-
-   *instance = saved;
-   currentInstance = savedThis;
-   }
-// ------------------------------------------------------------------
-// do commence stuff
-// ------------------------------------------------------------------
-void FortranWrapper::doCommence(void)
-   {
-   Instance saved = *instance;
-   FortranWrapper* savedThis = currentInstance;
-   swapInstanceIn();
-
-   Main("start", "");
-
-   *instance = saved;
-   currentInstance = savedThis;
-   }
-// ------------------------------------------------------------------
-// respond to a get request.
-// ------------------------------------------------------------------
-void FortranWrapper::respondToGet(unsigned int& fromID, protocol::QueryValueData& qData)
-   {
-   Instance saved = *instance;
-   FortranWrapper* savedThis = currentInstance;
-   swapInstanceIn();
-
-   FString name = getRegistrationName(qData.ID);
-   inApsimGetQuery = false;
-   queryData = qData;
-   Main("get", name);
-
-   *instance = saved;
-   currentInstance = savedThis;
-   }
-// ------------------------------------------------------------------
-// respond to a set request.
-// ------------------------------------------------------------------
-bool FortranWrapper::respondToSet(unsigned int& fromID, protocol::QuerySetValueData& querySetData)
-   {
-   Instance saved = *instance;
-   FortranWrapper* savedThis = currentInstance;
-   swapInstanceIn();
-
-   FString name = getRegistrationName(querySetData.ID);
-
-   incomingVariant.aliasTo(querySetData.variant);
-   inRespondToSet = true;
-   messageWasUsed = true;
-
-   Main("set", name);
-
-   *instance = saved;
-   currentInstance = savedThis;
-
-   return messageWasUsed;
-   }
-// ------------------------------------------------------------------
-// respond to a notification of termination
-// ------------------------------------------------------------------
-void FortranWrapper::notifyTermination(void)
-   {
-   Instance saved = *instance;
-   FortranWrapper* savedThis = currentInstance;
-   swapInstanceIn();
-
-   Main("end_run", "");
-
-   *instance = saved;
-   currentInstance = savedThis;
-   }
-// ------------------------------------------------------------------
-// respond to an event.
-// ------------------------------------------------------------------
-void FortranWrapper::respondToEvent(unsigned int& fromID, unsigned int& eventID, protocol::Variant& var)
-   {
-   Instance saved = *instance;
-   FortranWrapper* savedThis = currentInstance;
-   swapInstanceIn();
-
-   FString event = getRegistrationName(eventID);
-   incomingApsimVariant.aliasTo(var.getMessageData());
-   inRespondToSet = false;
-
-   messageWasUsed = true;
-   char cevent[80];
-
-   Main(event, " ");
-   if (!messageWasUsed)
-      if (my_respondToEvent) {(*my_respondToEvent)(fromID, eventID, &var);}
-
-
-   *instance = saved;
-   currentInstance = savedThis;
-   }
-// ------------------------------------------------------------------
-// respond to an onApsimGetQuery message
-// ------------------------------------------------------------------
-void FortranWrapper::onApsimGetQuery(protocol::ApsimGetQueryData& apsimGetQueryData)
-   {
-   Instance saved = *instance;
-   FortranWrapper* savedThis = currentInstance;
-   swapInstanceIn();
-
-   inApsimGetQuery = true;
-   Main("get", apsimGetQueryData.name);
-
-   *instance = saved;
-   currentInstance = savedThis;
-   }
-// ------------------------------------------------------------------
-// respond to an onApsimSetQuery message
-// ------------------------------------------------------------------
-bool FortranWrapper::onApsimSetQuery(protocol::ApsimSetQueryData& apsimSetQueryData)
-   {
-   Instance saved = *instance;
-   FortranWrapper* savedThis = currentInstance;
-   swapInstanceIn();
-
-   incomingVariant.aliasTo(apsimSetQueryData.variant);
-   messageWasUsed = true;
-   inRespondToSet = true;
-
-   Main("set", apsimSetQueryData.name);
-
-   *instance = saved;
-   currentInstance = savedThis;
-
-   return messageWasUsed;
-   }
 // ------------------------------------------------------------------
 // swap an instance in.
 // ------------------------------------------------------------------
@@ -327,159 +149,87 @@ void FortranWrapper::swapInstanceIn(void)
    }
 
 // ------------------------------------------------------------------
-//  Short description:
-//     Create an instance of our FORTRAN component.
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
+// Our fortran module is subscribing to an event. Keep track of this instance
+// so we can swap in instance pointer when needed
 // ------------------------------------------------------------------
-protocol::Component* createComponent(void)
+int FortranWrapper::subscribe(const std::string &name, void *address)
    {
-   return new FortranWrapper;
+
+   typedef boost::function1<void, void*> pfcall;
+   pfcall p = boost::function1<void, void*>(
+                 boost::bind(&FortranWrapper::subscribedEventHandler, this, address));
+
+   scienceAPI->subscribe(name, nullFunction(p));
+   return 1;
+   }
+void FortranWrapper::subscribedEventHandler(void *address)
+   {
+   swapInstanceIn();
+
+   void STDCALL (*subscription) (void);
+   subscription = (void STDCALL (*)(void)) address;
+
+   (*subscription)();
    }
 
 // ------------------------------------------------------------------
 // ------------------------------------------------------------------
 // DLL Exports
+
+extern "C" int EXPORT STDCALL subscribe(const char *name, void *address, int nameLen)
 // ------------------------------------------------------------------
-
+//     Called from FORTRAN to subscribe to an event 
 // ------------------------------------------------------------------
-//  Short description:
-//    add a registration to the system.  Return it's registration ID
-//    to caller.
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-extern "C" unsigned  EXPORT STDCALL add_registration
-   (RegistrationType* kind, const char* name, const char* type,
-    const char* alias, const char* componentNameOrID,
-    unsigned nameLength, unsigned typeLength, unsigned aliasLength,
-    unsigned componentNameOrIDLength)
    {
-   return FortranWrapper::currentInstance->addRegistration
-      (*kind, FString(name, nameLength, FORString),
-       protocol::Type(FString(type, typeLength, FORString)),
-       FString(alias, aliasLength, FORString),
-       FString(componentNameOrID, componentNameOrIDLength, FORString));
+   return (FortranWrapper::currentInstance->subscribe(string(name, nameLen), address));
    }
 
-string addUnitsToDDML(const string& ddml, const string& units)
+// String converters
+void s2f (char *dest, int maxdest, const string &src) 
    {
-   string returnString = ddml;
-   unsigned pos = returnString.find("/>");
-   if (pos != string::npos)
-      returnString = returnString.substr(0, pos) + " unit=\"" + units + "\"/>";
-   return returnString;
+   memcpy(dest, src.c_str(), min(src.size(), maxdest));
+   }
+void f2s (string &dest, const char *src, int srcLen) 
+   {
+   dest = string(src, srcLen);
    }
 
-
-// ------------------------------------------------------------------
-//  Short description:
-//    add a registration to the system.  Return it's registration ID
-//    to caller.
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-extern "C" unsigned  EXPORT STDCALL add_registration_with_units
-   (RegistrationType* kind, const char* name, const char* type,
-    const char* units,
-    unsigned nameLength, unsigned typeLength, unsigned unitsLength)
-   {
-   string ddml = addUnitsToDDML(asString(FString(type, typeLength, FORString)),
-                                asString(FString(units, unitsLength, FORString)));
-   return FortranWrapper::currentInstance->addRegistration
-      (*kind, FString(name, nameLength, FORString),
-       protocol::Type(FString(ddml.c_str(), ddml.length(), CString)),
-       FString(""),
-       FString(""));
-   }
-// ------------------------------------------------------------------
-//  Short description:
-//     Called from FORTRAN to issue an error
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
 extern "C" void EXPORT STDCALL fortran_error(const char* msg, unsigned int* isFatal,
                                       unsigned int msgLength)
+// ------------------------------------------------------------------
+//     Called from FORTRAN to issue an error
+// ------------------------------------------------------------------
    {
-   FortranWrapper::currentInstance->error
-      (FString(msg, msgLength, FORString), *isFatal);
+   FortranWrapper::currentInstance->componentInterface->error(string(msg, msgLength), *isFatal);
    }
-// ------------------------------------------------------------------
-//  Short description:
-//     Called from FORTRAN to terminate a simulation
 
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
 extern "C" void EXPORT STDCALL terminate_simulation(void)
+// ------------------------------------------------------------------
+//     Called from FORTRAN to terminate a simulation
+// ------------------------------------------------------------------
    {
-   FortranWrapper::currentInstance->terminateSimulation();
+   //sendMessage(newTerminateSimulationMessage(componentID, parentID));
+   //FortranWrapper::currentInstance->terminateSimulation();
    }
 
-// ------------------------------------------------------------------
-//  Short description:
-//    get the value(s) of a variable from the system.
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
-extern "C" unsigned EXPORT STDCALL get_variables
-   (unsigned int* registrationID, protocol::Variants** values)
-   {
-   return FortranWrapper::currentInstance->getVariables
-      (*registrationID, *values);
-   }
-
-// ------------------------------------------------------------------
-//  Short description:
-//     Called from FORTRAN to write a string to the summary file
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
-// ------------------------------------------------------------------
 extern "C" void EXPORT STDCALL write_string(const char* msg, unsigned int msgLength)
+// ------------------------------------------------------------------
+//     Called from FORTRAN to write a string to the summary file
+// ------------------------------------------------------------------
    {
-   FortranWrapper::currentInstance->writeString(FString(msg, msgLength, FORString));
+   FortranWrapper::currentInstance->componentInterface->write(string(msg, msgLength));
    }
 
+#if 0
 // ------------------------------------------------------------------
-//  Short description:
-//   Send a message to system
-
-//  Notes:
-
-//  Changes:
-//    DPH 7/6/2001
-
+// Change the component order.
 // ------------------------------------------------------------------
-extern "C" void EXPORT STDCALL send_message(protocol::Message* message)
+extern "C" void EXPORT STDCALL change_component_order
+   (char* moduleList, unsigned* numModules,
+    unsigned moduleListLength)
    {
-   FortranWrapper::currentInstance->send_message(message);
+   FStrings names(moduleList, moduleListLength, *numModules, *numModules);
+   FortranWrapper::currentInstance->changeComponentOrder(names);
    }
 
 // ------------------------------------------------------------------
@@ -550,7 +300,7 @@ extern "C" void  EXPORT STDCALL get_name(char* name, unsigned nameLength)
 
 //  Changes:
 //    DPH 7/6/2001
-
+#endif
 // ------------------------------------------------------------------
 extern "C" void EXPORT STDCALL push_routine(const char* routineName,
                                        unsigned int routineNameLength)
@@ -571,7 +321,7 @@ extern "C" void EXPORT STDCALL pop_routine(const char* routineName,
    {
 
    }
-
+#if 0
 // ------------------------------------------------------------------
 //  Short description:
 //    Perform a case insensitive string comparison and return true
@@ -1512,36 +1262,120 @@ extern "C" unsigned EXPORT STDCALL component_name_to_id(char* name, unsigned* id
    return FortranWrapper::currentInstance->componentNameToID
       (FString(name, nameLength, FORString), *id);
    }
+#endif
 // ------------------------------------------------------------------
-// Module is reading a string from a file.
+// Module is reading a string from our "parameters".
 // ------------------------------------------------------------------
-extern "C" int EXPORT STDCALL read_parameter
-   (const char* parameterName, const char* sectionName, char* value, int* optional,
-    unsigned parameterNameLength, unsigned sectionNameLength, unsigned valueLength)
+extern "C" int EXPORT STDCALL read_real_raw
+   (const char* parameterName, float* value, int* optional,
+    unsigned parameterNameLength)
    {
-   FString fsect = FString(sectionName, sectionNameLength, FORString);
-   FString fpar = FString(parameterName, parameterNameLength, FORString);
-   FString fvar = FString(value, valueLength, FORString);
-   bool found = FortranWrapper::currentInstance->readParameter(fsect, fpar, fvar, *optional);
-
-   if (found)
-      return true;
-
-   else
-      {
-      memset((char*)value, ' ', valueLength);
-      return false;
-      }
+   std::string name(parameterName, parameterNameLength);
+   return (FortranWrapper::currentInstance->scienceAPI->read(name, *value, *optional)); 
    }
-// ------------------------------------------------------------------
-// Change the component order.
-// ------------------------------------------------------------------
-extern "C" void EXPORT STDCALL change_component_order
-   (char* moduleList, unsigned* numModules,
-    unsigned moduleListLength)
+extern "C" int EXPORT STDCALL read_double_raw
+   (const char* parameterName, double* value, int* optional,
+    unsigned parameterNameLength)
    {
-   FStrings names(moduleList, moduleListLength, *numModules, *numModules);
-   FortranWrapper::currentInstance->changeComponentOrder(names);
+   std::string name(parameterName, parameterNameLength);
+   return (FortranWrapper::currentInstance->scienceAPI->read(name, *value, *optional)); 
+   }
+extern "C" int EXPORT STDCALL read_integer_raw
+   (const char* parameterName, int* value, int* optional,
+    unsigned parameterNameLength)
+   {
+   std::string name(parameterName, parameterNameLength);
+   return (FortranWrapper::currentInstance->scienceAPI->read(name, *value, *optional)); 
+   }
+extern "C" int EXPORT STDCALL read_logical_raw
+   (const char* parameterName, int* value, int* optional,
+    unsigned parameterNameLength)
+   {
+   std::string name(parameterName, parameterNameLength);
+   return (FortranWrapper::currentInstance->scienceAPI->read(name, *value, *optional)); 
+   }
+
+extern "C" int EXPORT STDCALL read_string_raw
+   (const char* parameterName, char* value, int* optional,
+    unsigned parameterNameLength, unsigned valueLength)
+   {
+   memset((char*)value, ' ', valueLength);
+   std::string name(parameterName, parameterNameLength);
+   std::string sValue;
+
+   if (FortranWrapper::currentInstance->scienceAPI->read(name, sValue, *optional)) 
+      {
+      s2f(value, valueLength, sValue.c_str());
+      return true;
+      }
+   return false;
+   }
+extern "C" int EXPORT STDCALL read_real_array_raw
+   (const char* parameterName, float* value, int *maxElem, int* optional,
+    unsigned parameterNameLength)
+   {
+   std::string name(parameterName, parameterNameLength);
+   std::vector<int> iValue;
+   if (FortranWrapper::currentInstance->scienceAPI->read(name, iValue, *optional)) 
+      {
+      for (int i = 0; i < (int)iValue.size() && i < *maxElem; i++) 
+         {
+         value[i] = iValue[i];
+         }
+      return (min(iValue.size(), *maxElem));
+      }
+   return (0);
+   }
+extern "C" int EXPORT STDCALL read_double_array_raw
+   (const char* parameterName, double* value, int *maxElem, int* optional,
+    unsigned parameterNameLength)
+   {
+   std::string name(parameterName, parameterNameLength);
+   return (FortranWrapper::currentInstance->scienceAPI->read(name, *value, *optional)); 
+   }
+extern "C" int EXPORT STDCALL read_integer_array_raw
+   (const char* parameterName, int* value, int *maxElem, int* optional,
+    unsigned parameterNameLength)
+   {
+   std::string name(parameterName, parameterNameLength);
+   return (FortranWrapper::currentInstance->scienceAPI->read(name, *value, *optional)); 
+   }
+extern "C" int EXPORT STDCALL read_logical_array_raw
+   (const char* parameterName, int* value, int *maxElem, int* optional,
+    unsigned parameterNameLength)
+   {
+   std::string name(parameterName, parameterNameLength);
+   return (FortranWrapper::currentInstance->scienceAPI->read(name, *value, *optional)); 
+   }
+
+extern "C" void EXPORT STDCALL get_real_raw
+   (const char* variableName, const char* variableUnits, 
+    float* value, float *lower, float *upper,
+    int *optional, unsigned variableNameLength, unsigned unitsLength)
+   {
+   std::string name(variableName, variableNameLength);
+   std::string units(variableUnits, unitsLength);
+   FortranWrapper::currentInstance->scienceAPI->get(name, units, *optional, *value); 
+   if (*value < *lower || *value > *upper)
+       {
+       std::string msg = string("Bound check warning while getting variable.\n"
+                           "Variable  : ") + variableName + string("\n"
+                           "Condition : ") + ftoa(*lower, 2) + string(" <= ") +
+                            boost::lexical_cast<std::string>(value) + string(" <= ") + ftoa(*upper, 2);
+       FortranWrapper::currentInstance->componentInterface->error(msg.c_str(), false);
+       }
+   }
+
+extern "C" void EXPORT STDCALL get_char_raw
+   (const char* variableName, const char* variableUnits, 
+    char* value, 
+    int *optional, 
+    unsigned variableNameLength, unsigned unitsLength, unsigned valueLength)
+   {
+   std::string name(variableName, variableNameLength);
+   std::string units(variableUnits, unitsLength);
+   std::string sValue;
+   FortranWrapper::currentInstance->scienceAPI->get(name, units, *optional, sValue); 
    }
 
 // restore the warnings about "Functions containing for are not expanded inline.
