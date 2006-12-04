@@ -62,7 +62,7 @@
       <respondToEventReg name="post" type="post"/>
       <respondToEventReg name="tick" type="time"/>
       <respondToEventReg name="newmet" type="newmet"/>
-      <respondToEventReg name="newprofile" type="new_profile"/>
+      <respondToEventReg name="new_profile" type="newProfile"/>
 
       <eventReg name="add_surfaceom" type="add_surfom"/>
    </registrations>
