@@ -46,6 +46,8 @@ class CMPComponentInterface
       // internal stuff.
       void messageToLogic(const Message& message);
 
+      void error(const std::string& errorMessage, bool isFatal);
+
    private:
       ScienceAPI* scienceAPI;
       unsigned* callbackArg;
@@ -80,7 +82,6 @@ class CMPComponentInterface
                                RegistrationKind regKind);
 
       void sendMessage(Message& message);
-      void error(const std::string& errorMessage, bool isFatal);
 
       void onInit1(const Message& message);
       void onInit2(const Message& message);
