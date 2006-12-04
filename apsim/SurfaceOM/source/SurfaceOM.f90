@@ -2213,7 +2213,7 @@ subroutine surfom_set_phosphorus_aware ()
 
    call push_routine (my_name)
    numvals = 0
-   call Get_real_array_optional(unknown_module, 'labile_p', max_layer, '(kg/ha)', labile_p, numvals, 1.0, 1000.0)
+   call Get_real_array_optional(unknown_module, 'labile_p', max_layer, '(kg/ha)', labile_p, numvals, 0.5, 1000.0)
 
    if(numvals .gt. 0) then
       !manure is p aware
