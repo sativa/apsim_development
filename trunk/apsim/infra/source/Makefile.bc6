@@ -1,9 +1,5 @@
 # (Borlandish) Makefile for apsim infrastructure module
 
-# APSROOT needs to be defined here if you don't specify it on the commmand line. eg.
-#APSROOT=c:\progra~1\apsim33
-#APSROOT=c:\development
-
 # Platform specific defns
 !include $(APSROOT)\APSBuild\platform.make
 
@@ -15,7 +11,12 @@ convertmodule.obj constantsModule.obj error.obj string.obj \
 data.obj datastr.obj date.obj science.obj  \
 read.obj Infrastructure.obj
 
-source: ..\lib\apsinfra.lib datatypes.f90
+OBJECTS2=dataTypes.obj dataTypesInterface.obj ComponentInterface2Module.obj \
+convertmodule.obj constantsModule.obj error.obj string.obj \
+data.obj datastr.obj date.obj science.obj  \
+read2.obj get2.obj Infrastructure2.obj
+
+source: ..\lib\apsinfra.lib ..\lib\apsinfra2.lib datatypes.f90
 
 ### I GIVE UP.
 # For the life of me, I can't see why:
@@ -29,6 +30,15 @@ source: ..\lib\apsinfra.lib datatypes.f90
 	$(ECHO) apsinfra.lst >> linker.tmp
 	$(LFLM) @linker.tmp
 	$(MV) apsinfra.lib ..\lib\apsinfra.lib
+	$(RM) linker.tmp
+
+..\lib\apsinfra2.lib: $(OBJECTS2)
+	if exist apsinfra2.lib $(RM) apsinfra2.lib
+	$(ECHO) apsinfra2.lib > linker.tmp
+	$(ECHO) +ComponentInterface2Module.obj +convertmodule.obj +constantsModule.obj +error.obj +string.obj +data.obj +datastr.obj +date.obj +science.obj +dataTypes.obj +dataTypesInterface.obj +read2.obj +get2.obj +Infrastructure2.obj >> linker.tmp
+	$(ECHO) apsinfra2.lst >> linker.tmp
+	$(LFLM) @linker.tmp
+	$(MV) apsinfra2.lib ..\lib\apsinfra2.lib
 	$(RM) linker.tmp
 
 
