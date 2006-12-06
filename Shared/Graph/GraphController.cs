@@ -13,14 +13,39 @@ namespace Graph
 
 	public class GraphController : BaseController
         {
+        // -----------------------------------------------------------------------
+        // The APSIMData passed into this class' constructor should look like:
+        //    <Data>
+        //       <ApsimFileReader>
+        //          <FileName type="filenames">continuous wheat simulation.out</FileName>
+        //          <ParseTitle type="yesno">no</ParseTitle>
+        //       </ApsimFileReader>
+        //    </Data>
+        // For those methods that require a path it should NOT include the root node name
+        //    e.g. ApsimFileReader and NOT Data\ApsimFileReader
+        // -----------------------------------------------------------------------
+        
         private ImageList MyImageList;
         private string[] TopLevelComponents = { "apsimfilereader", "xmlfilereader", "rems", "excelreader" };
         private string[] NonTopLevelComponents = { "probability", "predobs" , "filter", "cumulative", "depth", "diff", "frequency", 
                                                    "kwtest", "regression", "stats", "soi" };
         private StringBuilder contents = new StringBuilder(500000);
-        UInt32 DataContainer = 0;
+        private UInt32 DataContainer = 0;
+        private APSIMData GraphData;
+        private bool WeCreatedDataContainer = false;
 
         #region Imports from external DLL's
+
+        [DllImport("segreport.dll",
+                   CharSet = CharSet.Ansi,
+                   CallingConvention = CallingConvention.StdCall)]
+        private static extern UInt32 CreateDataContainer();
+
+        [DllImport("segreport.dll",
+                   CharSet = CharSet.Ansi,
+                   CallingConvention = CallingConvention.StdCall)]
+        private static extern void DeleteDataContainer(UInt32 DataContainer);
+        
         [DllImport("segreport.dll",
                    CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
@@ -77,6 +102,15 @@ namespace Graph
                                                         UInt32 DataContainer,
                                                         string path);
 
+        [DllImport("segreport.dll",
+                        CharSet = CharSet.Ansi,
+                        CallingConvention = CallingConvention.StdCall)]
+        private static extern void GetXYData(UInt32 DataContainer,
+                                             string path,
+                                             string x,
+                                             string y,
+                                             byte[] Data);
+
         [DllImport("user32.dll",
                    CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
@@ -91,15 +125,36 @@ namespace Graph
         #endregion
 
         #region Constructor / destructor / setup
-        public GraphController(ImageList images, UInt32 datacontainer)	
-			: base("", "", "")
+        public GraphController(BaseController BaseController, string GraphDataPath) : base("", "", "")
+            {
+            // --------------------------------------
+            // constructor
+            // --------------------------------------
+            DataContainer = CreateDataContainer();
+            WeCreatedDataContainer = true;
+            AllData = BaseController.AllData;
+            SelectedPaths = BaseController.SelectedPaths;
+            GraphData = AllData.Find(GraphDataPath);
+            SetProperties(DataContainer, "", GraphData.XML);
+            }
+        public GraphController(ImageList images, UInt32 datacontainer) : base("", "", "")
 			{
             // --------------------------------------
             // constructor
             // --------------------------------------
             MyImageList = images;
             DataContainer = datacontainer;
-			}
+            WeCreatedDataContainer = false;
+            }
+        protected override void Dispose(bool Disposing)
+            {
+            if (WeCreatedDataContainer && DataContainer != 0)
+                {
+                DeleteDataContainer(DataContainer);
+                DataContainer = 0;
+                }
+            }
+
         #endregion
 
         #region Override methods from base class
@@ -167,13 +222,13 @@ namespace Graph
                 }
             return false;
             }		
-		public override bool IsComponentVisible(string ComponentName)
+		public override bool IsComponentVisible(APSIMData Component)
 			{
             // -------------------------------------------------
             // Return true if the specified component is visible
             // to the user.
             // -------------------------------------------------
-            return (IsTopLevelComponent(ComponentName) || IsNonTopLevelComponent(ComponentName));
+            return (IsTopLevelComponent(Component.Name) || IsNonTopLevelComponent(Component.Name));
             }
         public override bool AllowComponentAdd(string ChildComponentType, string ParentComponentType)
 			{
@@ -210,30 +265,115 @@ namespace Graph
         #region Data methods
         public string GetErrorMessage(string Path)
             {
-            StringBuilder message = new StringBuilder(50000);
-            GetErrorMessage(DataContainer, Path, message);
-            return message.ToString();
+            // -----------------------------------------------------
+            // Return any error message for the data component as
+            // specified by path.
+            // -----------------------------------------------------
+            GetErrorMessage(DataContainer, "Data\\" + Path, contents);
+            return contents.ToString();
             }
         public void SetProperties(string Path, string Properties)
             {
-            SetProperties(DataContainer, Path, Properties);
+            // -----------------------------------------------------
+            // Set the properties for the data component as specified
+            // by path.
+            // -----------------------------------------------------
+            SetProperties(DataContainer, "Data\\" + Path, Properties);
             }
-        public void GetAllDataSets(StringCollection DataSetNames)
+        public string[] GetAllDataSets()
             {
-            GetAllDataSets(Data, DataSetNames);
+            // -----------------------------------------------------
+            // Return a list of all data sets.
+            // -----------------------------------------------------
+            StringCollection DataSetNames = new StringCollection();
+            GetAllDataSets(GraphData, DataSetNames);
+            string[] Names = new string[DataSetNames.Count];
+
             // Make the dataset names relative to the graph data node rather than the entire simulation.
             for (int i = 0; i != DataSetNames.Count; i++)
-                DataSetNames[i] = DataSetNames[i].Replace(Data.FullPath + "//", "");
+                Names[i] = DataSetNames[i].Replace(GraphData.FullPath + "\\", "");
+            return Names;
             }
         private void GetAllDataSets(APSIMData Node, StringCollection DataSetNames)
             {
+            // ---------------------------------------------------------
+            // Return a list of all data sets - internal implementation
+            // ---------------------------------------------------------
             foreach (APSIMData Child in Node.get_Children(null))
                 {
-                if (Child.ChildNames(null).Length > 0)
+                if (Array.IndexOf(TopLevelComponents, Child.Name.ToLower()) != -1 ||
+                    Array.IndexOf(NonTopLevelComponents, Child.Name.ToLower()) != -1)
                     {
                     string DataPath = Child.FullPath;
                     DataSetNames.Add(DataPath);
                     GetAllDataSets(Child, DataSetNames);
+                    }
+                }
+            }
+        public string[] GetFieldNamesForDataSet(string Path)
+            {
+            // ------------------------------------------------------
+            // Return a list of all field names for specified dataset
+            // ------------------------------------------------------
+            GetFieldNames(DataContainer, "Data\\" + Path, contents);
+            return contents.ToString().Split("\t".ToCharArray());
+            }
+        public DataTable GetXYData(string Path, string x, string y)
+            {
+            // ------------------------------------------------------
+            // Return an xy datatable for specified dataset for the 
+            // 2 x and y columns.
+            // ------------------------------------------------------
+            DataTable Data = new DataTable();
+
+            byte[] ByteStream = new byte[50000];
+            GetXYData(DataContainer, "Data\\" + Path, x, y, ByteStream);
+
+            MemoryStream Mem = new MemoryStream(ByteStream);
+            BinaryReader In = new BinaryReader(Mem);
+            
+            FillDataTable(Data, x, In);
+            FillDataTable(Data, y, In);
+
+            return Data;
+            }
+        private void FillDataTable(DataTable Data, string ColumnName, BinaryReader In)
+            {
+            // ----------------------------------------------------------
+            // Internal method for extracting a column of numbers/strings
+            // from a byte stream.
+            // ----------------------------------------------------------
+            int DataType = In.ReadInt32();
+            if (DataType == 1)
+                Data.Columns.Add(ColumnName, typeof(float));
+            else if (DataType == 2)
+                Data.Columns.Add(ColumnName, typeof(DateTime));
+            else
+                Data.Columns.Add(ColumnName, typeof(string));
+            int NumValues = In.ReadInt32();
+
+            // Make sure there are enough values in the table.
+            while (Data.Rows.Count < NumValues)
+                Data.Rows.Add(Data.NewRow());
+
+            for (int Row = 0; Row != NumValues; Row++)
+                {
+                if (DataType == 1)
+                    {
+                    float Value = In.ReadSingle();
+                    Data.Rows[Row][ColumnName] = Value;
+                    }
+                else if (DataType == 2)
+                    {
+                    Int16 Year = In.ReadInt16();
+                    Int16 Month = In.ReadInt16();
+                    Int16 Day = In.ReadInt16();
+                    Data.Rows[Row][ColumnName] = new DateTime(Year, Month, Day);
+                    }
+                else
+                    {
+                    string Value = In.ReadString();
+                    Data.Rows[Row][ColumnName] = Value;
                     }
                 }
             }
@@ -268,7 +408,7 @@ namespace Graph
             // ------------------------------------------------
             // Refresh the data in the specified data window.
             // ------------------------------------------------
-            FillDataFormWithData(DataWindow, DataContainer, path);
+            FillDataFormWithData(DataWindow, DataContainer, "Data\\" + path);
             }
         #endregion
 
@@ -298,9 +438,11 @@ namespace Graph
 
         public override void PopulateCellEditor(APSIMData Prop, FarPoint.Win.Spread.CellType.BaseCellType Editor)
             {
+            string ParentPath = "Data\\" + Data.Parent.FullPath.Replace(GraphData.FullPath + "\\", "");
+            string OurPath = "Data\\" + Data.FullPath.Replace(GraphData.FullPath + "\\", "");
             if (Prop.Attribute("type") == "fieldname")
                 {
-                GetFieldNames(DataContainer, Data.Parent.FullPath, contents);
+                GetFieldNames(DataContainer, ParentPath, contents);
                 string st = contents.ToString();
                 string[] Names = st.Split('\t');
                 FarPoint.Win.Spread.CellType.ComboBoxCellType Combo = (FarPoint.Win.Spread.CellType.ComboBoxCellType)Editor;
@@ -308,7 +450,7 @@ namespace Graph
                 }
             else if (Prop.Attribute("type") == "fieldnames")
                 {
-                GetFieldNames(DataContainer, Data.Parent.FullPath, contents);
+                GetFieldNames(DataContainer, ParentPath, contents);
                 string st = contents.ToString();
                 string[] Names = st.Split('\t');
                 CheckedListBoxCellType ListBox = (CheckedListBoxCellType)Editor;
@@ -316,7 +458,7 @@ namespace Graph
                 }
             else if (Prop.Attribute("type") == "experiment")
                 {
-                GetREMSExperimentNames(DataContainer, Data.FullPath, contents);
+                GetREMSExperimentNames(DataContainer, OurPath, contents);
                 string st = contents.ToString();
                 string[] Names = st.Split('\t');
                 FarPoint.Win.Spread.CellType.ComboBoxCellType Combo = (FarPoint.Win.Spread.CellType.ComboBoxCellType) Editor;
@@ -324,7 +466,7 @@ namespace Graph
                 }
             else if (Prop.Attribute("type") == "treatment")
                 {
-                GetREMSTreatmentNames(DataContainer, Data.FullPath, contents);
+                GetREMSTreatmentNames(DataContainer, OurPath, contents);
                 string st = contents.ToString();
                 string[] Names = st.Split('\t');
                 FarPoint.Win.Spread.CellType.ComboBoxCellType Combo = (FarPoint.Win.Spread.CellType.ComboBoxCellType)Editor;

@@ -3,6 +3,7 @@ Imports System.Collections
 Imports System.Collections.Specialized
 Imports VBGeneral
 Imports CSGeneral
+Imports Graph
 
 Public Class ApsimUIController
     Inherits BaseController
@@ -37,7 +38,8 @@ Public Class ApsimUIController
         Dim FileNameNoPath As String = Path.GetFileName(FileName).ToLower()
         Return MyBase.IsDataReadOnly OrElse FileNameNoPath = "apsru-australia-soils.soils" _
                                      OrElse FileNameNoPath = "standard.xml" _
-                                     OrElse FileNameNoPath = "new simulations.xml"
+                                     OrElse FileNameNoPath = "new simulations.xml" _
+                                     OrElse FileNameNoPath = "graph.xml"
     End Function
 
     ' ----------------------------------------------
@@ -91,7 +93,7 @@ Public Class ApsimUIController
     Public Overrides Function AllowComponentAdd(ByVal ChildComponentType As String, ByVal ParentComponentType As String) As Boolean
         ' Look in the componentinfo's drop targets.
         For Each Drop As APSIMData In TypesData.Child(ChildComponentType).Child("drops").Children
-            If Drop.Name = ParentComponentType Then
+            If Drop.Name.ToLower = ParentComponentType.ToLower Then
                 Return True
             End If
         Next
@@ -158,6 +160,15 @@ Public Class ApsimUIController
 
                 Case "tclui"
                     Return New APSIMUI.TclUI
+
+                Case "graph"
+                    Return New GraphUI
+
+                Case "graphdata"
+                    Return New GraphDataUI
+
+                Case "series"
+                    Return New SeriesUI
 
                 Case Else
                     Return New GenericUI

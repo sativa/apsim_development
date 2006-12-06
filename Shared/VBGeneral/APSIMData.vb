@@ -629,7 +629,8 @@ Public Class APSIMData
             Add(New APSIMData(ChildType, ChildName))
         Next
         For i As Integer = 1 To NumChildrenToDelete
-            Delete(ChildrenNames(i - 1))
+            Dim ChildToDelete As APSIMData = Child(ChildType)
+            Node.RemoveChild(ChildToDelete.InternalNode)
         Next
         If NumChildrenToAdd > 0 Or NumChildrenToDelete > 0 Then
             EndInternalUpdate()

@@ -1,64 +1,131 @@
-<folder name="Graph data components">
-   <ApsimFileReader>
-      <FileName  type="filenames"></FileName>
+<folder name="Graph data components" image="Images/chart24.png" version="5">
+  <Graph name="XY graph">
+    <Data>
+      <ApsimFileReader>
+        <FileName type="filenames">
+        </FileName>
+        <ParseTitle type="yesno">no</ParseTitle>
+      </ApsimFileReader>
+    </Data>
+    <Series />
+  </Graph>
+   <Graph name="Probability graph">
+     <Data>
+       <ApsimFileReader>
+         <FileName type="filenames"></FileName>
+         <ParseTitle type="yesno">no</ParseTitle>
+         <Probability>
+           <Exceedence type="yesno">yes</Exceedence>
+           <FieldName type="fieldnames">yield</FieldName>
+           <GroupByFieldName type="fieldnames" />
+         </Probability>
+       </ApsimFileReader>
+     </Data>
+     <Series>
+       <XY>
+         <DataSource>ApsimFileReader\Probability</DataSource>
+         <X>yield</X>
+         <Y>Probability</Y>
+         <SeriesType>Line</SeriesType>
+         <PointType>None</PointType>
+         <X2 />
+         <Y2 />
+         <Colour>-65536</Colour>
+       </XY>
+     </Series>
+   </Graph>
+  <folder name="Graph data components">
+    <ApsimFileReader>
+      <FileName type="filenames">
+      </FileName>
       <ParseTitle type="yesno">yes</ParseTitle>
-   </ApsimFileReader>
-   <XmlFileReader>
-      <FileName type="filename"></FileName>
-   </XmlFileReader>
-   <Probability>
+    </ApsimFileReader>
+    <XmlFileReader>
+      <FileName type="filename">
+      </FileName>
+    </XmlFileReader>
+    <Probability>
       <Exceedence type="yesno">yes</Exceedence>
-      <FieldName type="fieldnames"></FieldName>
-      <GroupByFieldName type="fieldnames"></GroupByFieldName>
-   </Probability>
-   <Filter>
-      <FilterString></FilterString>
-      <GroupByFieldName type="fieldnames"></GroupByFieldName>
-   </Filter>
-   <Cumulative/>
-   <Depth/>
-   <Diff>
-      <Source2Name></Source2Name>
-      <CopyFieldName type="fieldnames"></CopyFieldName>
-      <DiffFieldName type="fieldnames"></DiffFieldName>
-   </Diff>
-   <Frequency>
-      <Label type="multiedit"></Label>
-      <FilterString  type="multiedit"></FilterString>
+      <FieldName type="fieldnames">
+      </FieldName>
+      <GroupByFieldName type="fieldnames">
+      </GroupByFieldName>
+    </Probability>
+    <Filter>
+      <FilterString>
+      </FilterString>
+      <GroupByFieldName type="fieldnames">
+      </GroupByFieldName>
+    </Filter>
+    <Cumulative />
+    <Depth />
+    <Diff>
+      <Source2Name>
+      </Source2Name>
+      <CopyFieldName type="fieldnames">
+      </CopyFieldName>
+      <DiffFieldName type="fieldnames">
+      </DiffFieldName>
+    </Diff>
+    <Frequency>
+      <Label type="multiedit">
+      </Label>
+      <FilterString type="multiedit">
+      </FilterString>
       <Percent type="yesno">no</Percent>
-   </Frequency>
-   <KWTest>
-      <Source2Name></Source2Name>
-      <FieldName type="fieldnames"></FieldName>
-      <GroupByFieldName type="fieldnames"></GroupByFieldName>
-   </KWTest>
-   <PredObs>
-      <ObsFileName type="filename"></ObsFileName>
-      <KeyFieldName type="fieldnames"></KeyFieldName>
-   </PredObs>
-   <Regression>
-      <XFieldName type="fieldname"></XFieldName>
-      <YFieldName type="fieldname"></YFieldName>
-   </Regression>
-   <Stats>
-      <FieldName type="fieldnames"></FieldName>
-      <Stat type="multilist" values="Mean, Count, Minimum, Maximum, Sum, 10, 20, 30, 40, 50, 60, 70, 80, 90"></Stat>
-      <GroupByFieldName type="fieldnames"></GroupByFieldName>
-   </Stats>
-   <SOI>
-      <FileName type="filename"></FileName>
-      <GetSOIFromSource type="yesno"></GetSOIFromSource>
-      <Month type="month"></Month>
-      <Phase type="multilist" values="Negative,Positive,Falling,Rising,Zero,AllOtherYears"></Phase>
-   </SOI>
-   <REMS>
-      <FileName type="filename"></FileName>
-      <ExperimentName type="experiment"></ExperimentName>
-      <TreatmentName type="treatment"></TreatmentName>
-      <DataSourceName type="list" values="Crop,Statistics,Soil layered">Crop</DataSourceName>
-   </REMS>
-   <ExcelReader>
-      <FileName type="filename"></FileName>
-      <PageName></PageName>
-   </ExcelReader>
+    </Frequency>
+    <KWTest>
+      <Source2Name>
+      </Source2Name>
+      <FieldName type="fieldnames">
+      </FieldName>
+      <GroupByFieldName type="fieldnames">
+      </GroupByFieldName>
+    </KWTest>
+    <PredObs>
+      <ObsFileName type="filename">
+      </ObsFileName>
+      <KeyFieldName type="fieldnames">
+      </KeyFieldName>
+    </PredObs>
+    <Regression>
+      <XFieldName type="fieldname">
+      </XFieldName>
+      <YFieldName type="fieldname">
+      </YFieldName>
+    </Regression>
+    <Stats>
+      <FieldName type="fieldnames">
+      </FieldName>
+      <Stat type="multilist" values="Mean, Count, Minimum, Maximum, Sum, 10, 20, 30, 40, 50, 60, 70, 80, 90">
+      </Stat>
+      <GroupByFieldName type="fieldnames">
+      </GroupByFieldName>
+    </Stats>
+    <SOI>
+      <FileName type="filename">
+      </FileName>
+      <GetSOIFromSource type="yesno">
+      </GetSOIFromSource>
+      <Month type="month">
+      </Month>
+      <Phase type="multilist" values="Negative,Positive,Falling,Rising,Zero,AllOtherYears">
+      </Phase>
+    </SOI>
+    <REMS>
+      <FileName type="filename">
+      </FileName>
+      <Experiment type="experiment">
+      </Experiment>
+      <Treatment type="treatment">
+      </Treatment>
+      <DataSource type="list" values="Crop,Statistics,Soil layered">Crop</DataSource>
+    </REMS>
+    <ExcelReader>
+      <FileName type="filename">
+      </FileName>
+      <PageName>
+      </PageName>
+    </ExcelReader>
+  </folder>
 </folder>

@@ -36,13 +36,15 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="Xceed.Chart, Version=4.0.100.0, Culture=neutral, PublicKeyToken=ba83ff368b7563c6" />
-    <Reference Include="Xceed.Chart.Core, Version=4.0.100.0, Culture=neutral, PublicKeyToken=ba83ff368b7563c6" />
-    <Reference Include="Xceed.Chart.GraphicsCore, Version=4.0.100.0, Culture=neutral, PublicKeyToken=ba83ff368b7563c6" />
-    <Reference Include="Xceed.Chart.Standard, Version=4.0.100.0, Culture=neutral, PublicKeyToken=ba83ff368b7563c6" />
-    <Reference Include="Xceed.Chart.Utilities, Version=4.0.100.0, Culture=neutral, PublicKeyToken=ba83ff368b7563c6" />
+    <Reference Include="TeeChart, Version=2.0.2306.26232, Culture=neutral, PublicKeyToken=9c8126276c77bdb7, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GraphControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GraphControl.Designer.cs">
+      <DependentUpon>GraphControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="GraphController.cs" />
     <Compile Include="GraphDataUI.cs">
       <SubType>UserControl</SubType>
@@ -62,6 +64,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SeriesUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SeriesUI.Designer.cs">
+      <DependentUpon>SeriesUI.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\C#General\CSGeneral.csproj">
@@ -74,6 +82,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GraphControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>GraphControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraphDataUI.resx">
       <SubType>Designer</SubType>
       <DependentUpon>GraphDataUI.cs</DependentUpon>
@@ -87,6 +99,10 @@
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeriesUI.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SeriesUI.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
