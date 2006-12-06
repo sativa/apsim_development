@@ -9,24 +9,13 @@ using System.Collections.Specialized;
 using VBGeneral;
 using System.Collections;
 using FarPoint.Win.Spread;
-using Xceed.Chart.GraphicsCore;
-using Xceed.Chart.Core;
-using Xceed.Chart;
+using Steema.TeeChart;
+
 
 namespace Graph
     {
     public partial class GraphUI : VBGeneral.BaseView
         {
-        private ArrayList Tables = new ArrayList();
-        private ArrayList Charts = new ArrayList(8);
-        private FarPoint.Win.Spread.CellType.ComboBoxCellType XAxisCombo = new FarPoint.Win.Spread.CellType.ComboBoxCellType();
-        private FarPoint.Win.Spread.CellType.ComboBoxCellType YAxisCombo = new FarPoint.Win.Spread.CellType.ComboBoxCellType();
-        private FarPoint.Win.Spread.CellType.ComboBoxCellType LineCombo = new FarPoint.Win.Spread.CellType.ComboBoxCellType();
-        private FarPoint.Win.Spread.CellType.ComboBoxCellType MarkerCombo = new FarPoint.Win.Spread.CellType.ComboBoxCellType();
-        private FarPoint.Win.Spread.CellType.ComboBoxCellType DataSourceCombo = new FarPoint.Win.Spread.CellType.ComboBoxCellType();
-        private StringCollection DataSetPaths = new StringCollection();
-        private bool Updating = false;
-
         public GraphUI()
             {
             InitializeComponent();
@@ -36,108 +25,16 @@ namespace Graph
             {
             base.RefreshView(Controller);
 
-            GraphController Graph = (GraphController)Controller;
-
-            // go find the graphdata node
-            APSIMData[] ChildNodes = Controller.Data.get_Children("graphdata");
-            if (ChildNodes.Length != 1)
-                return;
-            APSIMData GraphData = ChildNodes[0];
-
-            // grab hold of all data tables.
-            string GraphDataPath = GraphData.FullPath;
-            Graph.GetAllDataSets(DataSetPaths);
-            string[] DataSets = new string[DataSetPaths.Count];
-            for (int i = 0; i != DataSetPaths.Count; i++)
-                {
-                DataSets[i] = DataSetPaths[i];
-                //DataTable Data = Graph.FindData(DataSetPaths[i]);
-                //Tables.Add(Data);
-                }
-
-            // Create some combos that we can use in the sheet.
-            DataSourceCombo.Items = DataSets;
-            XAxisCombo.Items = new string[] { "Bottom", "Top" };
-            YAxisCombo.Items = new string[] { "Left", "Right" };
-            LineCombo.Items = new string[] { "Line", "No line", "Dash", "Dot", "Bar"};
-            MarkerCombo.Items = new string[] { "None", "Square", "Up triangle", "Down triangle", "Plus", "Circle", "Cross", 
-                                               "Star"};
-
-            // make sure we have the right number of sheets and graphs.
-            PopulateForm();
+            GraphControl.Refresh(Controller);
             }
 
-        private void PopulateForm()
-            // -------------------------------------------------------------
-            // Populate the entire form based on what is in our "Data"
-            // -------------------------------------------------------------
+        private void RefreshButton_Click(object sender, EventArgs e)
             {
-            Updating = true;
-            APSIMData[] ChartDatas = Controller.Data.get_Children("chart");
-            if (ChartDatas.Length > 0)
-                NumChartsCombo.Text = (string)NumChartsCombo.Items[ChartDatas.Length - 1];
-
-            for (int ChartIndex = 0; ChartIndex != ChartDatas.Length; ChartIndex++)
-                {
-                APSIMData ChartData = (APSIMData)ChartDatas[ChartIndex];
-                SheetView Sheet = Spread.Sheets[ChartIndex];
-                APSIMData[] SeriesDatas = ChartData.get_Children("series");
-                for (int Row = 0; Row != SeriesDatas.Length; Row++)
-                    {
-                    APSIMData SeriesData = (APSIMData)SeriesDatas[Row];
-                    Sheet.Cells[Row, 0].Text = SeriesData.get_ChildValue("DataSource");
-                    Sheet.Cells[Row, 1].Text = SeriesData.get_ChildValue("X");
-                    Sheet.Cells[Row, 2].Text = SeriesData.get_ChildValue("Y");
-                    Sheet.Cells[Row, 3].Text = SeriesData.get_ChildValue("Line");
-                    Sheet.Cells[Row, 4].Text = SeriesData.get_ChildValue("Marker");
-                    Sheet.Cells[Row, 5].BackColor = Color.FromName(SeriesData.get_ChildValue("Colour"));
-                    PopulateGraph( (ChartControl)Charts[ChartIndex], Sheet);
-                    }
-                }
-            Updating = false;
-
-            }
-
-        private void PopulateGraph(ChartControl Graph, SheetView Sheet)
-            // ------------------------------------------------------------------
-            // Populate the graph based on what is in the sheet
-            // ------------------------------------------------------------------
-            {
-            //bool RefreshNecessary = false;
-            //ChartHelper ChartHelper = new ChartHelper();
-            //ChartHelper.Chart = Graph;
-
-            //// loop through all rows in sheet and draw a chart series for each.
-            //for (int Row = 0; Row != Sheet.RowCount; Row++)
-            //    {
-            //    string TableName = Sheet.Cells[Row, 0].Text;
-            //    string XFieldName = Sheet.Cells[Row, 1].Text;
-            //    string YFieldName = Sheet.Cells[Row, 2].Text;
-            //    Color SeriesColour = Sheet.Cells[Row, 5].BackColor;
-            //    string LineTypeString = Sheet.Cells[Row, 6].Text;
-            //    string MarkerTypeString = Sheet.Cells[Row, 7].Text;
-
-            //    if (TableName != "" && XFieldName != "" && YFieldName != "")
-            //        {
-            //        int TableNumber = DataSetPaths.IndexOf(TableName);
-            //        DataTable Data = (DataTable)Tables[TableNumber];
-            //        if (Data != null)
-            //            {
-            //            ChartHelper.DataTable = Data;
-
-            //            ChartHelper.CreateChartSeriesFromDataTable(YFieldName, XFieldName, YFieldName, SeriesColour,
-            //                                                       MarkerTypeString, LineTypeString, 1,
-            //                                                       Xceed.Chart.Core.StandardAxis.PrimaryX, Xceed.Chart.Core.StandardAxis.PrimaryY);
-            //            RefreshNecessary = true;
-
-            //            }
-            //        }
-            //    }
-            //if (RefreshNecessary)
-            //    ChartHelper.Chart.Refresh();
+            GraphControl.Refresh(Controller);
             }
 
 
+/*
         private void CreateDefaultSheetsAndCharts()
             // -----------------------------------------------------------
             // Setup the right number of sheets and charts using defaults
@@ -149,7 +46,7 @@ namespace Graph
             while (Spread.Sheets.Count > NumChartsRequired)
                 {
                 Spread.Sheets.RemoveAt(Spread.Sheets.Count - 1);
-                ChartControl ChartToRemove = (ChartControl)Charts[Charts.Count - 1];
+                Chart ChartToRemove = (Chart)Charts[Charts.Count - 1];
                 ChartPanel.Controls.Remove(ChartToRemove);
                 Charts.RemoveAt(Charts.Count-1);
                 }
@@ -224,10 +121,10 @@ namespace Graph
                 NewSheet.SheetName = "Graph" + GraphNumber.ToString();
                 NewSheet.CellChanged += new SheetViewEventHandler(CellChanged);
                 Spread.Sheets.Add(NewSheet);
-                ChartControl NewChart = new ChartControl();
+                Chart NewChart = new Chart();
                 ChartPanel.Controls.Add(NewChart);
-                NewChart.Charts[0].MarginMode = MarginMode.Stretch;
-                NewChart.Charts[0].Margins = new Rectangle(10, 10, 80, 80);
+                //NewChart.Charts[0].MarginMode = MarginMode.Stretch;
+                //NewChart.Charts[0].Margins = new Rectangle(10, 10, 80, 80);
                 Charts.Add(NewChart);
                 }
 
@@ -355,7 +252,7 @@ namespace Graph
                     }
                 }
             }
-
+        */
 
         }
     }

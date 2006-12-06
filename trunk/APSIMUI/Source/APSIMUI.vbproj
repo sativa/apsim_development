@@ -345,6 +345,10 @@
       <Project>{416A3885-FD38-46D0-BE42-54AA33D146B7}</Project>
       <Name>ChangeTool</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Graph\Graph.csproj">
+      <Project>{97151919-5377-4FD3-ABF9-9400A332CE6C}</Project>
+      <Name>Graph</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Shared\Soil\Soil.csproj">
       <Project>{6FAC5AE5-F7B4-4C02-B0D4-B992E0F96CAA}</Project>
       <Name>Soil</Name>

@@ -185,9 +185,8 @@ Public Class GenericUI
                     If TypeOf (Grid.Cells(Row, 1).CellType) Is FarPoint.Win.Spread.CellType.ComboBoxCellType Then
                         Dim Combo As FarPoint.Win.Spread.CellType.ComboBoxCellType = Grid.Cells(Row, 1).CellType
                         If Trim(Grid.Cells(Row, 1).Value) = "" And Combo.Items.Length > 0 Then
-                            InRefresh = False    ' This is so that the cellchanged event is fired
                             Grid.Cells(Row, 1).Value = Combo.Items(0)
-                            InRefresh = True
+                            UpdateEditors()
                         End If
                     End If
                     Row = Row + 1
@@ -255,24 +254,26 @@ Public Class GenericUI
                 Parent.EndUpdate()
                 RaiseEvent PropertiesChangedEvent()
             End If
-
-            ' Update all cell editors now that we've changed a cell. 
-            ' e.g. a cultivars drop down may need updating if we just changed a crop.
-            For Row As Integer = 0 To PropertyData.Count - 1
-                If Not IsNothing(PropertyData(Row)) Then
-                    Dim RowProp As APSIMData = PropertyData(Row)
-                    If RowProp.Attribute("type").ToLower() = "filenames" Then
-                        Grid.Rows(Row).Height = Grid.Rows(Row).GetPreferredHeight
-                    End If
-
-                    If Not Grid.Rows(Row).Locked Then
-                        Controller.PopulateCellEditor(PropertyData(Row), Grid.Cells(Row, 1).CellType)
-                    End If
-                End If
-            Next
+            UpdateEditors()
         End If
     End Sub
 
+    Private Sub UpdateEditors()
+        ' Update all cell editors now that we've changed a cell. 
+        ' e.g. a cultivars drop down may need updating if we just changed a crop.
+        For Row As Integer = 0 To PropertyData.Count - 1
+            If Not IsNothing(PropertyData(Row)) Then
+                Dim RowProp As APSIMData = PropertyData(Row)
+                If RowProp.Attribute("type").ToLower() = "filenames" Then
+                    Grid.Rows(Row).Height = Grid.Rows(Row).GetPreferredHeight
+                End If
+
+                If Row < Grid.RowCount AndAlso Not Grid.Rows(Row).Locked Then
+                    Controller.PopulateCellEditor(PropertyData(Row), Grid.Cells(Row, 1).CellType)
+                End If
+            End If
+        Next
+    End Sub
     Overrides Sub Save()
         ' --------------------------------------------------------------
         ' User has clicked elsewhere make sure we drop the cell focus

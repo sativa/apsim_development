@@ -196,6 +196,9 @@ Public MustInherit Class BaseController
         If FileData.LoadFromFile(FileName) Then
             MyFileName = FileName
             MyIsReadOnly = IsDataReadOnly()
+            If Not MyIsReadOnly Then
+                Directory.SetCurrentDirectory(Path.GetDirectoryName(FileName))
+            End If
             AddFileToFrequentList(MyFileName)
             MyDirtyData = False
             AllData = FileData

@@ -2886,11 +2886,6 @@
       <cultivar name="hhb67"/>
       <cultivar name="mh179"/>
    </millet>
-   <report>
-      <UItype>generic</UItype>
-      <ShowInMainTree>No</ShowInMainTree>
-      <Documentation name="Science documentation">../apsim/report/docs/report_science.htm</Documentation>
-   </report>
    <SiloInput>
       <UItype>generic</UItype>
       <ShowInMainTree>No</ShowInMainTree>
@@ -3688,6 +3683,235 @@
          <dll>%apsuite\apsim\PatchInput\lib\PatchInput.dll</dll>
       </ApsimToSim>
    </patchinput>
+   <Report>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>Images\scroll32.png</LargeIcon>
+      <SmallIcon>Images\scroll16.png</SmallIcon>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <drops>
+         <drop name="toolbox"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+         <drop name="area"/>
+     </drops>
+   </Report>
+   <Graph>
+      <UItype>graph</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>Images\chart32.png</LargeIcon>
+      <SmallIcon>Images\chart16.png</SmallIcon>
+      <drops>
+         <drop name="report"/>
+         <drop name="toolbox"/>
+         <drop name="simulation"/>
+         <drop name="folder"/>
+         <drop name="area"/>
+     </drops>
+   </Graph>
+   <Data>
+      <UItype>empty</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>Images\data32.png</LargeIcon>
+      <SmallIcon>Images\data16.png</SmallIcon>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <drops>
+         <drop name="report"/>
+     </drops>
+   </Data>
+   <Series>
+      <UItype>Series</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>Images\Series16.png</LargeIcon>
+      <SmallIcon>Images\Series16.png</SmallIcon>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <drops>
+         <drop name="graph"/>
+     </drops>
+   </Series>
+   <ApsimFileReader>
+      <UItype>GraphData</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>Images\apsimfilereader.png</LargeIcon>
+      <SmallIcon>Images\apsimfilereader.png</SmallIcon>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <drops>
+         <drop name="data"/>
+     </drops>
+   </ApsimFileReader>
+   <XmlFileReader>
+      <UItype>GraphData</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>Images\xmlreader.png</LargeIcon>
+      <SmallIcon>Images\xmlreader.png</SmallIcon>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <drops>
+         <drop name="data"/>
+     </drops>
+   </XmlFileReader>
+   <REMS>
+      <UItype>GraphData</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>Images\rems.png</LargeIcon>
+      <SmallIcon>Images\rems.png</SmallIcon>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <drops>
+         <drop name="data"/>
+     </drops>
+   </REMS>
+   <ExcelReader>
+      <UItype>GraphData</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>Images\excelreader.png</LargeIcon>
+      <SmallIcon>Images\excelreader.png</SmallIcon>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <drops>
+         <drop name="data"/>
+     </drops>
+   </ExcelReader>
 
+   <Probability>
+      <UItype>GraphData</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>Images\data32.png</LargeIcon>
+      <SmallIcon>Images\data16.png</SmallIcon>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <drops>
+         <drop name="ApsimFileReader"/>
+         <drop name="xmlfilereader"/>
+         <drop name="rems"/>
+         <drop name="excelreader"/>
+     </drops>
+   </Probability>
+   <Filter>
+      <UItype>GraphData</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>Images\data32.png</LargeIcon>
+      <SmallIcon>Images\data16.png</SmallIcon>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <drops>
+         <drop name="apsimfilereader"/>
+         <drop name="xmlfilereader"/>
+         <drop name="rems"/>
+         <drop name="excelreader"/>
+     </drops>
+   </Filter>
+   <Cumulative>
+      <UItype>GraphData</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>Images\cumulative.png</LargeIcon>
+      <SmallIcon>Images\cumulative.png</SmallIcon>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <drops>
+         <drop name="apsimfilereader"/>
+         <drop name="xmlfilereader"/>
+         <drop name="rems"/>
+         <drop name="excelreader"/>
+     </drops>
+   </Cumulative>
+   <Depth>
+      <UItype>GraphData</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>Images\depth.png</LargeIcon>
+      <SmallIcon>Images\depth.png</SmallIcon>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <drops>
+         <drop name="apsimfilereader"/>
+         <drop name="xmlfilereader"/>
+         <drop name="rems"/>
+         <drop name="excelreader"/>
+     </drops>
+   </Depth>
+   <Diff>
+      <UItype>GraphData</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>Images\diff.png</LargeIcon>
+      <SmallIcon>Images\diff.png</SmallIcon>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <drops>
+         <drop name="apsimfilereader"/>
+         <drop name="xmlfilereader"/>
+         <drop name="rems"/>
+         <drop name="excelreader"/>
+     </drops>
+   </Diff>
+   <Frequency>
+      <UItype>GraphData</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>Images\data32.png</LargeIcon>
+      <SmallIcon>Images\data16.png</SmallIcon>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <drops>
+         <drop name="apsimfilereader"/>
+         <drop name="xmlfilereader"/>
+         <drop name="rems"/>
+         <drop name="excelreader"/>
+     </drops>
+   </Frequency>
+   <KWTest>
+      <UItype>GraphData</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>Images\data32.png</LargeIcon>
+      <SmallIcon>Images\data16.png</SmallIcon>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <drops>
+         <drop name="apsimfilereader"/>
+         <drop name="xmlfilereader"/>
+         <drop name="rems"/>
+         <drop name="excelreader"/>
+     </drops>
+   </KWTest>
+   <PredObs>
+      <UItype>GraphData</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>Images\PredObs.png</LargeIcon>
+      <SmallIcon>Images\PredObs.png</SmallIcon>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <drops>
+         <drop name="apsimfilereader"/>
+         <drop name="xmlfilereader"/>
+         <drop name="rems"/>
+         <drop name="excelreader"/>
+     </drops>
+   </PredObs>
+   <Regression>
+      <UItype>GraphData</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>Images\data32.png</LargeIcon>
+      <SmallIcon>Images\data16.png</SmallIcon>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <drops>
+         <drop name="apsimfilereader"/>
+         <drop name="xmlfilereader"/>
+         <drop name="rems"/>
+         <drop name="excelreader"/>
+     </drops>
+   </Regression>
+   <Stats>
+      <UItype>GraphData</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>Images\data32.png</LargeIcon>
+      <SmallIcon>Images\data16.png</SmallIcon>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <drops>
+         <drop name="apsimfilereader"/>
+         <drop name="xmlfilereader"/>
+         <drop name="rems"/>
+         <drop name="excelreader"/>
+     </drops>
+   </Stats>
+   <SOI>
+      <UItype>GraphData</UItype>
+      <ShowInMainTree>Yes</ShowInMainTree>
+      <LargeIcon>Images\data32.png</LargeIcon>
+      <SmallIcon>Images\data16.png</SmallIcon>
+      <Image>%apsuite\apsimui\images\banner2.jpg</Image>
+      <drops>
+         <drop name="apsimfilereader"/>
+         <drop name="xmlfilereader"/>
+         <drop name="rems"/>
+         <drop name="excelreader"/>
+     </drops>
+   </SOI>
 </Types>
 

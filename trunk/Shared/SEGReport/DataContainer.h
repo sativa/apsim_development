@@ -53,6 +53,8 @@ class __declspec(dllexport) DataContainer
       // save all properties to the specified xml node.
       void save(string& st, int level);
 
+      // return name to caller.
+      std::string getName() {return name;}
    private:
       std::string name;
       DataProcessor* processor;

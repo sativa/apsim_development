@@ -239,10 +239,82 @@ void DataContainer::save(string& st, int level)
    }
 
 
+char* StoreColumnInData(TDataSet* data, const char* fieldName, char* dataString)
+   {
+   int columnIndex = -1;
+   for (int f = 0; f != data->FieldDefs->Count; f++)
+      {
+      if (Str_i_Eq(data->FieldDefs->Items[f]->Name.c_str(), fieldName))
+         columnIndex = f;
+      }
+   char* pos = dataString;
+   if (columnIndex != -1)
+      {
+
+      // store the type of data. 1=float, 2=string
+      if (data->FieldDefs->Items[columnIndex]->DataType == ftFloat)
+         *((int*)pos) = 1;
+      else if (data->FieldDefs->Items[columnIndex]->DataType == ftDate)
+         *((int*)pos) = 2;
+      else
+         *((int*)pos) = 3;
+      pos += 4;
+
+      // store the number of records.
+      *((int*)pos) = data->RecordCount;
+      pos += 4;
+
+      data->First();
+      while (!data->Eof)
+         {
+         if (data->Fields->Fields[columnIndex]->DataType == ftFloat)
+            {
+            *((float*) pos) = data->Fields->Fields[columnIndex]->AsFloat;
+            pos += 4;
+            }
+         else if (data->Fields->Fields[columnIndex]->DataType == ftDate)
+            {
+            TDateTime d = data->Fields->Fields[columnIndex]->AsDateTime;
+            unsigned short year, month, day;
+            d.DecodeDate(&year, &month, &day);
+            *((short*) pos) = year;
+            pos += 2;
+            *((short*) pos) = month;
+            pos += 2;
+            *((short*) pos) = day;
+            pos += 2;
+            }
+         else
+            {
+            AnsiString st = data->Fields->Fields[columnIndex]->AsString.c_str();
+            *((int*)pos) = (byte) st.Length();
+            pos += 1;
+            strcpy(pos, st.c_str());
+            pos += st.Length();
+            }
+
+         data->Next();
+         }
+      }
+   return pos;
+   }
+
+
 #include "rems.h"
 //---------------------------------------------------------------------------
 //- INTERFACE CALLABLE FROM .NET --------------------------------------------
 //---------------------------------------------------------------------------
+extern "C" DataContainer* _export __stdcall CreateDataContainer()
+   {
+   return new DataContainer(NULL);
+   }
+
+extern "C" void _export __stdcall DeleteDataContainer(DataContainer* container)
+   {
+   delete container;
+   }
+
+
 extern "C" void _export __stdcall SetProperties(DataContainer* container,
                                                 const char* path,
                                                 const char* properties)
@@ -252,7 +324,12 @@ extern "C" void _export __stdcall SetProperties(DataContainer* container,
 
    try
       {
-      if (container != NULL && container->setProperties(path, properties))
+      if (strlen(path) == 0)
+         {
+         container->setup(properties);
+         container->refresh(container->getName());
+         }
+      else if (container != NULL && container->setProperties(path, properties))
          container->refresh(path);
       }
    catch (...)
@@ -372,6 +449,26 @@ extern "C" void _export __stdcall FillDataFormWithData(TForm* form,
          }
       else
          GridForm->DataSource->DataSet = NULL;
+      }
+   }
+
+
+
+extern "C" void _export __stdcall GetXYData(DataContainer* container,
+                                            const char* path,
+                                            const char* x,
+                                            const char* y,
+                                            char* dataAsString)
+   {
+   strcpy(dataAsString, "");
+   if (container != NULL)
+      {
+      TDataSet* data = container->findData(path);
+      if (data != NULL && data->Active && data->FieldDefs->Count > 0)
+         {
+         dataAsString = StoreColumnInData(data, x, dataAsString);
+         dataAsString = StoreColumnInData(data, y, dataAsString);
+         }
       }
    }
 
