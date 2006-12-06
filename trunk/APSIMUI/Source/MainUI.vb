@@ -863,7 +863,7 @@ Public Class MainUI
 
             CurrentRunningSimulationIndex = -1
             If RunAll Then
-                FillRunWindowWithSimulations(ApsimUI.AllData)
+                FillRunWindowWithAllSimulations(ApsimUI.AllData)
             Else
                 For Each SelectedPath As String In ApsimUI.SelectedPaths
                     Dim Data As APSIMData = ApsimUI.AllData.Find(SelectedPath)
@@ -877,6 +877,26 @@ Public Class MainUI
 
     Private Sub FillRunWindowWithSimulations(ByVal Data As APSIMData)
         ' ---------------------------------------------------------------
+        ' Look for simulations under the specified data node.
+        ' For all found simulations, add them to the run window.
+        ' ---------------------------------------------------------------
+        If Data.Name.ToLower <> "shared" Then
+            If Data.Type = "simulation" Then
+                RunPanelListBox.Items.Add(Data.FullPath)
+            ElseIf (Data.Type = "folder" Or Data.Type = "simulations") Then
+                For Each Child As APSIMData In Data.Children
+                    FillRunWindowWithAllSimulations(Child)
+                Next
+            Else
+                While Data.Type <> "simulation" AndAlso Data.Type <> "folder" AndAlso Data.Type <> "simulations"
+                    Data = Data.Parent
+                End While
+                FillRunWindowWithSimulations(Data)
+            End If
+        End If
+    End Sub
+    Private Sub FillRunWindowWithAllSimulations(ByVal Data As APSIMData)
+        ' ---------------------------------------------------------------
         ' Recursively look for simulations under the specified data node.
         ' For all found simulations, add them to the run window.
         ' ---------------------------------------------------------------
@@ -885,13 +905,10 @@ Public Class MainUI
                 RunPanelListBox.Items.Add(Data.FullPath)
             ElseIf (Data.Type = "folder" Or Data.Type = "simulations") Then
                 For Each Child As APSIMData In Data.Children
-                    FillRunWindowWithSimulations(Child)
+                    FillRunWindowWithAllSimulations(Child)
                 Next
             Else
-                While Data.Type <> "simulation" AndAlso Data.Type <> "folder" AndAlso Data.Type <> "simulations"
-                    Data = Data.Parent
-                End While
-                FillRunWindowWithSimulations(Data)
+                'This node can't have any runnable children below it. (eg a memo)
             End If
         End If
     End Sub
