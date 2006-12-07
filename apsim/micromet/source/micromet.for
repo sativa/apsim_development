@@ -2729,7 +2729,7 @@
          call Micromet_OnNewCrop (variant)
       else if (eventID .eq. id%new_canopy) then
          call Micromet_OnNewCanopy (variant)
-      else if (eventID .eq. id%new_pot_growth) then
+      else if (eventID .eq. id%NewPotentialGrowth) then
          call Micromet_OnNewPotGrowth (variant)
       endif
       return
