@@ -26,11 +26,11 @@
 
       <respondToEventReg name="process" type="process"/>
       <respondToEventReg name="prepare" type="prepare"/>
-      <respondToEventReg name="NewCrop" type="new_crop"/>
-      <respondToEventReg name="new_canopy" type="newcanopy"/>
-      <respondToEventReg name="new_pot_growth" type="new_pot_growth"/>
-      <respondToEventReg name="sys_init" type="sys_init"/>
-      <respondToEventReg name="create" type="createType"/>
+      <respondToEventReg name="NewCrop" type="NewCrop"/>
+      <respondToEventReg name="new_canopy" type="new_canopy"/>
+      <respondToEventReg name="NewPotentialGrowth" type="NewPotentialGrowth"/>
+      <respondToEventReg name="sys_init" type="sysinit"/>
+      <respondToEventReg name="create" type="create"/>
 
       <eventReg name="canopy_energy_balance" type="canopy_energy_balance"/>
       <eventReg name="canopy_water_balance" type="canopy_water_balance"/>
