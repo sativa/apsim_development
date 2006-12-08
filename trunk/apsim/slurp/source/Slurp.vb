@@ -144,7 +144,7 @@ Public Class Slurp
         Dim EventData As New NewCrop
         EventData.crop_type = CropType
         EventData.sender = Me.Name
-        events.Publish("new_crop", EventData)
+        events.Publish("NewCrop", EventData)
     End Sub
     Private Sub DoNewCanopyEvent()
         Dim EventData As New NewCanopy
