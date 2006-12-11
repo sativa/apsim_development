@@ -201,7 +201,7 @@ void ReportComponent::onInit2(void)
    {
    // work out a filename.
    string fileName;
-   if (!scienceAPI.read("outputfile", fileName, true))
+   if (!scienceAPI.read("outputfile", "", true, fileName))
       fileName = calcFileName();
    file.open(fileName.c_str());
    if (!file)
@@ -209,7 +209,7 @@ void ReportComponent::onInit2(void)
 
    // get output frequencies
    std::vector<string> frequencies;
-   if (scienceAPI.read("outputfrequency", frequencies, true))
+   if (scienceAPI.read("outputfrequency", "", true, frequencies))
       {
       if (frequencies.size() > 0)
          scienceAPI.write("Output frequency:");
@@ -222,16 +222,16 @@ void ReportComponent::onInit2(void)
          }
       }
 
-   if (!scienceAPI.read("NAString", nastring, true))
+   if (!scienceAPI.read("NAString", "", true, nastring))
       nastring = "?";
 
    // get format specifier.
    string csvString;
-   if (scienceAPI.read("format", csvString, true))
+   if (scienceAPI.read("format", "", true, csvString))
       csv = Str_i_Eq(csvString, "csv");
 
    // get precision.
-   if (!scienceAPI.read("precision", precision, true))
+   if (!scienceAPI.read("precision", "", true, precision, 0, 15))
       {
       if (csv)
          precision = 6;
@@ -242,7 +242,7 @@ void ReportComponent::onInit2(void)
    // enumerate through all output variables
    // and create a field for each.
    scienceAPI.write("Output variables:");
-   scienceAPI.read("variable", variableLines, true);
+   scienceAPI.read("variable", "", true, variableLines);
    for (unsigned i = 0; i != variableLines.size(); i++)
       scienceAPI.write("   " + variableLines[i]);
 

@@ -15,7 +15,7 @@ typedef EXPORT STDCALL void (CallbackType)(const unsigned int *compInst,
 
 
 
-class CMPComponentInterface
+class EXPORT CMPComponentInterface
    {
    public:
       CMPComponentInterface(unsigned* callbackarg, CallbackType* callback, unsigned componentID, unsigned parentID);

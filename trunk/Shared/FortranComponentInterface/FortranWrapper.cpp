@@ -1,87 +1,45 @@
-//---------------------------------------------------------------------------
-// Wrapper dll for fortran routines.
-// Keeps pointers to fortran entry points (Main(), do_init1() etc..
-// and calls them when reqd.
-#include <stdexcept>
-#include <string>
-#pragma warn -inl
+#pragma hdrstop
 
-#include <boost/lexical_cast.hpp>
-
+#include "FortranWrapper.h"
 #include <ComponentInterface2/CMPScienceAPI.h>
-#include <ComponentInterface2/CMPComponentInterface.h>
+//#include <ComponentInterface2/CMPComponentInterface.h>
+#include <boost/lexical_cast.hpp>
 #include <general/platform.h>
 #include <general/dll.h>
+#include <general/string_functions.h>
 #include <map>
-
-#include "FORTRANComponentWrapper.h"
 
 FortranWrapper* FortranWrapper::currentInstance = NULL;
 
 using namespace std;
 
-// ------------------------------------------------------------------
-// The PM is instructing us to create an instance of all our data.
-// ------------------------------------------------------------------
-extern "C" void EXPORT STDCALL createInstance
-   (const char* dllFileName,
-    unsigned int* componentID,
-    unsigned int* parentID,
-    unsigned int* instanceNumber,
-    unsigned int* callbackArg,
-    CallbackType* callback)
+FortranWrapper* CreateComponent(ScienceAPI* scienceAPI, CMPComponentInterface* componentInterface,
+                                const char* dllFileName, void* dllHandle)
    {
-printf("createInstance called, dll=%s\n", dllFileName);
-   // create a component interface and a science api that the component
-   // will talk to.
-   CMPComponentInterface *componentInterface = new CMPComponentInterface(callbackArg, callback, *componentID, *parentID);
-   CMPScienceAPI *scienceAPI = new CMPScienceAPI(*componentInterface);
-   void *dllHandle = loadDLL(dllFileName);
-   FortranWrapper *component = new FortranWrapper(componentInterface, scienceAPI, dllHandle);
-
-   // The instance number we return to the PM is a pointer to the component
-   // object we just created.
-   *instanceNumber = (unsigned) component;
+   // ------------------------------------------------------------------
+   // create an instance of our FortranWrapper.
+   // ------------------------------------------------------------------
+   return new FortranWrapper(scienceAPI, componentInterface, dllHandle);
    }
-// ------------------------------------------------------------------
-// The PM is instructing us to delete an instance of our data.
-// ------------------------------------------------------------------
-extern "C" void EXPORT STDCALL deleteInstance (unsigned* instanceNumber)
+void DeleteComponent(unsigned component, void* )
    {
-   FortranWrapper *component = (FortranWrapper*) *instanceNumber;
-   delete component;
+   // ------------------------------------------------------------------
+   // delete our instance of FortranWrapper.
+   // ------------------------------------------------------------------
+   delete (FortranWrapper*) component;
    }
 
-// ------------------------------------------------------------------
-// All messages to component go through here.
-// ------------------------------------------------------------------
-extern "C" void EXPORT STDCALL messageToLogic (unsigned* instanceNumber,
-                                                  Message* message,
-                                                  bool* processed)
-   {
-   FortranWrapper *component = (FortranWrapper*) *instanceNumber;
-   component->componentInterface->messageToLogic(*message);
-   *processed = true; // ???? not sure why we need this.
-   }
 
-// ------------------------------------------------------------------
-// Return component description info.
-// ------------------------------------------------------------------
-extern "C" void EXPORT STDCALL getDescriptionInternal(char* initScript,
-                                                         char* description)
-   {
-   }
 
-// ------------------------------------------------------------------
-// constructor
-// ------------------------------------------------------------------
-FortranWrapper::FortranWrapper(CMPComponentInterface *componentinterface,
-                               ScienceAPI* scienceapi, 
-                               void *handle) : 
-                                  scienceAPI(scienceapi),   
-                                  componentInterface(componentinterface)
+
+FortranWrapper::FortranWrapper(ScienceAPI* scienceapi,
+                               CMPComponentInterface* componentinterface,
+                               void *handle)
+   : scienceAPI(scienceapi), componentInterface(componentinterface)
    {
-printf("FortranWrapper::FortranWrapper called, handle=%x\n", handle);
+   // ------------------------------------------------------------------
+   // constructor
+   // ------------------------------------------------------------------
    dllHandle = handle;
 
    // Instance pointers allow us to fiddle the fortran code "behind its back"..
@@ -107,11 +65,11 @@ printf("FortranWrapper::FortranWrapper called, handle=%x\n", handle);
    scienceAPI->subscribe("init1", nullFunction(&FortranWrapper::onInit1));
    }
 
-// ------------------------------------------------------------------
-// destructor
-// ------------------------------------------------------------------
 FortranWrapper::~FortranWrapper(void)
    {
+   // ------------------------------------------------------------------
+   // destructor
+   // ------------------------------------------------------------------
    // get FORTRAN to release memory blocks.
    void STDCALL (*alloc_dealloc_instance) (const unsigned int* );
    alloc_dealloc_instance = (void STDCALL (*)(const unsigned int* )) dllProcAddress(dllHandle, "alloc_dealloc_instance");
@@ -121,39 +79,40 @@ FortranWrapper::~FortranWrapper(void)
       (*alloc_dealloc_instance) (&doAllocate);
       }
 
-   if (componentInterface) delete componentInterface;
+   //if (componentInterface) delete componentInterface;
    if (scienceAPI) delete scienceAPI;
    if (dllHandle) closeDLL(dllHandle);
    }
 
 void FortranWrapper::onInit1(void)
    {
-printf("FortranWrapper::onInit1 called, handle=%x\n", dllHandle);
+   // ------------------------------------------------------------------
+   // Init1 event handler.
+   // ------------------------------------------------------------------
    unsigned STDCALL (*initRoutine)(void);
-   initRoutine = (unsigned STDCALL(*)(void)) dllProcAddress(dllHandle, "create");
+   initRoutine = (unsigned STDCALL(*)(void)) dllProcAddress(dllHandle, "onInit1");
    if (initRoutine) 
       {
       swapInstanceIn();
-printf("calling init routine\n");
       initRoutine();
       }
    }
 
-// ------------------------------------------------------------------
-// swap an instance in.
-// ------------------------------------------------------------------
 void FortranWrapper::swapInstanceIn(void)
    {
+   // ------------------------------------------------------------------
+   // swap an instance in.
+   // ------------------------------------------------------------------
    *instance = myInstance;
    currentInstance = this;
    }
 
-// ------------------------------------------------------------------
-// Our fortran module is subscribing to an event. Keep track of this instance
-// so we can swap in instance pointer when needed
-// ------------------------------------------------------------------
 int FortranWrapper::subscribe(const std::string &name, void *address)
    {
+   // ------------------------------------------------------------------
+   // Our fortran module is subscribing to an event. Keep track of this instance
+   // so we can swap in instance pointer when needed
+   // ------------------------------------------------------------------
 
    typedef boost::function1<void, void*> pfcall;
    pfcall p = boost::function1<void, void*>(
@@ -172,15 +131,19 @@ void FortranWrapper::subscribedEventHandler(void *address)
    (*subscription)();
    }
 
+
+
 // ------------------------------------------------------------------
 // ------------------------------------------------------------------
 // DLL Exports
+// ------------------------------------------------------------------
+// ------------------------------------------------------------------
 
-extern "C" int EXPORT STDCALL subscribe(const char *name, void *address, int nameLen)
-// ------------------------------------------------------------------
-//     Called from FORTRAN to subscribe to an event 
-// ------------------------------------------------------------------
+extern "C" int EXPORT STDCALL Subscribe(const char *name, void *address, int nameLen)
    {
+   // ------------------------------------------------------------------
+   //     Called from FORTRAN to subscribe to an event
+   // ------------------------------------------------------------------
    return (FortranWrapper::currentInstance->subscribe(string(name, nameLen), address));
    }
 
@@ -188,36 +151,36 @@ extern "C" int EXPORT STDCALL subscribe(const char *name, void *address, int nam
 void s2f (char *dest, int maxdest, const string &src) 
    {
    memcpy(dest, src.c_str(), min(src.size(), maxdest));
-   }
+   }      
 void f2s (string &dest, const char *src, int srcLen) 
    {
    dest = string(src, srcLen);
    }
 
-extern "C" void EXPORT STDCALL fortran_error(const char* msg, unsigned int* isFatal,
-                                      unsigned int msgLength)
-// ------------------------------------------------------------------
-//     Called from FORTRAN to issue an error
-// ------------------------------------------------------------------
+extern "C" void EXPORT STDCALL Error(const char* msg, unsigned int* isFatal,
+                                     unsigned int msgLength)
    {
-   FortranWrapper::currentInstance->componentInterface->error(string(msg, msgLength), *isFatal);
+   // ------------------------------------------------------------------
+   //     Called from FORTRAN to issue an error
+   // ------------------------------------------------------------------
+//   FortranWrapper::currentInstance->componentInterface->error(string(msg, msgLength), *isFatal);
    }
 
 extern "C" void EXPORT STDCALL terminate_simulation(void)
-// ------------------------------------------------------------------
-//     Called from FORTRAN to terminate a simulation
-// ------------------------------------------------------------------
    {
+   // ------------------------------------------------------------------
+   //     Called from FORTRAN to terminate a simulation
+   // ------------------------------------------------------------------
    //sendMessage(newTerminateSimulationMessage(componentID, parentID));
    //FortranWrapper::currentInstance->terminateSimulation();
    }
 
-extern "C" void EXPORT STDCALL write_string(const char* msg, unsigned int msgLength)
-// ------------------------------------------------------------------
-//     Called from FORTRAN to write a string to the summary file
-// ------------------------------------------------------------------
+extern "C" void EXPORT STDCALL Write(const char* msg, unsigned int msgLength)
    {
-   FortranWrapper::currentInstance->componentInterface->write(string(msg, msgLength));
+   // ------------------------------------------------------------------
+   //     Called from FORTRAN to write a string to the summary file
+   // ------------------------------------------------------------------
+   FortranWrapper::currentInstance->scienceAPI->write(string(msg, msgLength));
    }
 
 #if 0
@@ -1262,122 +1225,37 @@ extern "C" unsigned EXPORT STDCALL component_name_to_id(char* name, unsigned* id
    return FortranWrapper::currentInstance->componentNameToID
       (FString(name, nameLength, FORString), *id);
    }
+
+
 #endif
-// ------------------------------------------------------------------
-// Module is reading a string from our "parameters".
-// ------------------------------------------------------------------
-extern "C" int EXPORT STDCALL read_real_raw
-   (const char* parameterName, float* value, int* optional,
-    unsigned parameterNameLength)
+
+void ToFortran(const std::string& cValue,
+               char* forValue, unsigned forValueLength)
    {
-   std::string name(parameterName, parameterNameLength);
-   return (FortranWrapper::currentInstance->scienceAPI->read(name, *value, *optional)); 
-   }
-extern "C" int EXPORT STDCALL read_double_raw
-   (const char* parameterName, double* value, int* optional,
-    unsigned parameterNameLength)
-   {
-   std::string name(parameterName, parameterNameLength);
-   return (FortranWrapper::currentInstance->scienceAPI->read(name, *value, *optional)); 
-   }
-extern "C" int EXPORT STDCALL read_integer_raw
-   (const char* parameterName, int* value, int* optional,
-    unsigned parameterNameLength)
-   {
-   std::string name(parameterName, parameterNameLength);
-   return (FortranWrapper::currentInstance->scienceAPI->read(name, *value, *optional)); 
-   }
-extern "C" int EXPORT STDCALL read_logical_raw
-   (const char* parameterName, int* value, int* optional,
-    unsigned parameterNameLength)
-   {
-   std::string name(parameterName, parameterNameLength);
-   return (FortranWrapper::currentInstance->scienceAPI->read(name, *value, *optional)); 
+   char* pos = forValue;
+   unsigned numChars = cValue.length();
+   if (forValueLength < numChars)
+      throw runtime_error("Fortran string not large enough to hold value: " + cValue);
+   memcpy(pos, cValue.c_str(), numChars);
+   pos += numChars;
+   memset(pos, ' ', forValueLength-numChars);
    }
 
-extern "C" int EXPORT STDCALL read_string_raw
-   (const char* parameterName, char* value, int* optional,
-    unsigned parameterNameLength, unsigned valueLength)
+void ToFortran(const std::vector<std::string>& cValue,
+               char* forValue, unsigned forValueLength, int arraySize, int& numValues)
    {
-   memset((char*)value, ' ', valueLength);
-   std::string name(parameterName, parameterNameLength);
-   std::string sValue;
-
-   if (FortranWrapper::currentInstance->scienceAPI->read(name, sValue, *optional)) 
+   char* pos = forValue;
+   numValues = 0;
+   for (unsigned i = 0; i != cValue.size(); i++)
       {
-      s2f(value, valueLength, sValue.c_str());
-      return true;
+      unsigned numChars = cValue[i].length();
+      if (forValueLength < numChars)
+         throw runtime_error("Fortran string array not large enough to hold value: " + cValue[i]);
+      if (numValues >= arraySize)
+         throw runtime_error("Fortran string array too small to hold " + itoa(numValues) + " values");
+      ToFortran(cValue[i], pos, forValueLength);
+      pos += forValueLength;
+      numValues++;
       }
-   return false;
    }
-extern "C" int EXPORT STDCALL read_real_array_raw
-   (const char* parameterName, float* value, int *maxElem, int* optional,
-    unsigned parameterNameLength)
-   {
-   std::string name(parameterName, parameterNameLength);
-   std::vector<int> iValue;
-   if (FortranWrapper::currentInstance->scienceAPI->read(name, iValue, *optional)) 
-      {
-      for (int i = 0; i < (int)iValue.size() && i < *maxElem; i++) 
-         {
-         value[i] = iValue[i];
-         }
-      return (min(iValue.size(), *maxElem));
-      }
-   return (0);
-   }
-extern "C" int EXPORT STDCALL read_double_array_raw
-   (const char* parameterName, double* value, int *maxElem, int* optional,
-    unsigned parameterNameLength)
-   {
-   std::string name(parameterName, parameterNameLength);
-   return (FortranWrapper::currentInstance->scienceAPI->read(name, *value, *optional)); 
-   }
-extern "C" int EXPORT STDCALL read_integer_array_raw
-   (const char* parameterName, int* value, int *maxElem, int* optional,
-    unsigned parameterNameLength)
-   {
-   std::string name(parameterName, parameterNameLength);
-   return (FortranWrapper::currentInstance->scienceAPI->read(name, *value, *optional)); 
-   }
-extern "C" int EXPORT STDCALL read_logical_array_raw
-   (const char* parameterName, int* value, int *maxElem, int* optional,
-    unsigned parameterNameLength)
-   {
-   std::string name(parameterName, parameterNameLength);
-   return (FortranWrapper::currentInstance->scienceAPI->read(name, *value, *optional)); 
-   }
-
-extern "C" void EXPORT STDCALL get_real_raw
-   (const char* variableName, const char* variableUnits, 
-    float* value, float *lower, float *upper,
-    int *optional, unsigned variableNameLength, unsigned unitsLength)
-   {
-   std::string name(variableName, variableNameLength);
-   std::string units(variableUnits, unitsLength);
-   FortranWrapper::currentInstance->scienceAPI->get(name, units, *optional, *value); 
-   if (*value < *lower || *value > *upper)
-       {
-       std::string msg = string("Bound check warning while getting variable.\n"
-                           "Variable  : ") + variableName + string("\n"
-                           "Condition : ") + ftoa(*lower, 2) + string(" <= ") +
-                            boost::lexical_cast<std::string>(value) + string(" <= ") + ftoa(*upper, 2);
-       FortranWrapper::currentInstance->componentInterface->error(msg.c_str(), false);
-       }
-   }
-
-extern "C" void EXPORT STDCALL get_char_raw
-   (const char* variableName, const char* variableUnits, 
-    char* value, 
-    int *optional, 
-    unsigned variableNameLength, unsigned unitsLength, unsigned valueLength)
-   {
-   std::string name(variableName, variableNameLength);
-   std::string units(variableUnits, unitsLength);
-   std::string sValue;
-   FortranWrapper::currentInstance->scienceAPI->get(name, units, *optional, sValue); 
-   }
-
-// restore the warnings about "Functions containing for are not expanded inline.
-#pragma warn .inl
 
