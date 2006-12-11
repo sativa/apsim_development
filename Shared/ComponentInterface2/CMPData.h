@@ -14,6 +14,9 @@
 void getKindAndArray(const std::string& ddml,
                      std::string& kind, bool& isArray);
 
+// -------------------------------------------------------------------
+// A wrapper class for passing builtin types via the CMP
+// -------------------------------------------------------------------
 template <class T>
 class CMPBuiltIn : public IPackableData
    {
@@ -146,6 +149,56 @@ class CMPBuiltIn : public IPackableData
 
    };
 
+// -------------------------------------------------------------------
+// bounding function templates + a bounded version of CMPBuiltIn
+// -------------------------------------------------------------------
+template <class T>
+void performBoundCheck(const std::string& name, const std::vector<T>& values, T lower, T upper)
+   {
+   for (unsigned i = 0; i != values.size(); i++)
+      performBoundCheck(name, values[i], lower, upper);
+   }
+
+template <class T>
+void performBoundCheck(const std::string& name, T value, T lower, T upper)
+   {
+   if (value < lower || value > upper)
+      printf("Value of variable is out of bounds.\n"
+             "Variable: %s\n"
+             "Value: %16.7f\n"
+             "Bounds: %16.7f to %16.7f",
+             name.c_str(), value, lower, upper);
+   }
+
+template <class T>
+class CMPBuiltInBounded : public CMPBuiltIn<T>
+   {
+   private:
+      T& variable;
+      T lowerBound;
+      T upperBound;
+      std::string name;
+   public:
+      CMPBuiltInBounded(const std::string& variableName,  T& value, T lower, T upper)
+         : name(variableName), variable(value), lowerBound(lower), upperBound(upper),
+           CMPBuiltIn<T>(value) { }
+
+      virtual void setValue(const std::vector<std::string>& values)
+         {
+         CMPBuiltIn<T>::setValue(values);
+         performBoundCheck(name, variable, lowerBound, upperBound);
+         }
+      virtual void unpack(MessageData& messageData, const std::string& sourceDDML,
+                          ArraySpecifier* arraySpecifier)
+         {
+         CMPBuiltIn<T>::unpack(messageData, sourceDDML, arraySpecifier);
+         performBoundCheck(name, variable, lowerBound, upperBound);
+         }
+   };
+
+// -------------------------------------------------------------------
+// A wrapper class for passing non builtin types via the CMP
+// -------------------------------------------------------------------
 template <class T>
 class CMPType : public IPackableData
    {
@@ -168,6 +221,10 @@ class CMPType : public IPackableData
 
    };
 
+// -------------------------------------------------------------------
+// A wrapper class for CMP events, gets and sets that take a single
+// data item as an arguemnt.
+// -------------------------------------------------------------------
 template <class FT, class T>
 class CMPMethod1 : public IPackableData
    {
@@ -220,6 +277,9 @@ class CMPMethod1 : public IPackableData
 
    };
 
+// -------------------------------------------------------------------
+// A wrapper class for CMP events that take no data ie. null events.
+// -------------------------------------------------------------------
 class CMPMethod0 : public IPackableData
    {
    private:

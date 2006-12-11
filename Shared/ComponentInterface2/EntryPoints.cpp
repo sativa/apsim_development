@@ -5,10 +5,13 @@
 #include <ComponentInterface2/CMPScienceAPI.h>
 #include <ComponentInterface2/CMPComponentInterface.h>
 #include <general/platform.h>
-#include <general/dll.h>
 #include <map>
+#include <general/dll.h>
 
 using namespace std;
+
+unsigned CreateComponent(ScienceAPI* scienceAPI, CMPComponentInterface* componentInterface, const char* dllFileName, void* dllHandle);
+void DeleteComponent(unsigned component, void* dllHandle);
 
 struct Bit
    {
@@ -22,13 +25,12 @@ struct Bit
       delete componentInterface;
       delete scienceAPI;
 
-      void STDCALL (*deleteComponent)(unsigned component);
-      deleteComponent = (void STDCALL(*)(unsigned component)) dllProcAddress(dllHandle, "deleteComponent");
-      deleteComponent(component);
+      DeleteComponent(component, dllHandle);
 
       closeDLL(dllHandle);
       }
    };
+
 
 // ------------------------------------------------------------------
 // The PM is instructing us to create an instance of all our data.
@@ -50,10 +52,9 @@ extern "C" void EXPORT STDCALL createInstance
 
    // go create an instance of our component by loading the correct dll
    // and calling a createComponent entry point.
-   unsigned STDCALL (*createComponent)(ScienceAPI* scienceAPI);
    bit->dllHandle = loadDLL(dllFileName);
-   createComponent = (unsigned STDCALL(*)(ScienceAPI* scienceAPI)) dllProcAddress(bit->dllHandle, "createComponent");
-   bit->component = createComponent(bit->scienceAPI);
+   bit->component = CreateComponent(bit->scienceAPI, bit->componentInterface,
+                                    dllFileName, bit->dllHandle);
 
    // The instance number we return to the PM is a pointer to the component
    // object we just created.

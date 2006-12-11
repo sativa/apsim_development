@@ -3,14 +3,15 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.06.00"/>
-    <PROJECT value="../../bin\ComponentInterface2.dll"/>
-    <OBJFILES value="ComponentInterface.obj message.obj TypeConverter.obj ArraySpecifier.obj 
-      CMPScienceAPI.obj CMPComponentInterface.obj CMPData.obj 
-      CMPComponentEntryPoints.obj EntryPoints.obj CreateComponent.obj"/>
+    <PROJECT value="../../bin\FortranComponentInterface.dll"/>
+    <OBJFILES value="FortranComponentInterface.obj FortranWrapper.obj 
+      ..\ComponentInterface2\EntryPoints.obj FortranScienceAPIImpl.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
-    <LIBFILES value="..\general\general.lib &quot;C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\bin.bcb\libxml2.lib&quot;"/>
+    <LIBFILES value="..\general\general.lib 
+      &quot;C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\bin.bcb\libxml2.lib&quot; 
+      ..\ComponentInterface2\ComponentInterface2.lib"/>
     <LIBRARIES value=""/>
     <SPARELIBS value="rtl.lib"/>
     <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi vcldb.bpi dbrtl.bpi qrpt.bpi 
@@ -19,7 +20,7 @@
       xmlrtl.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi nmfast.bpi 
       bcbie.bpi soaprtl.bpi dclocx.bpi dbexpress.bpi dbxcds.bpi indy.bpi 
       bcb2kaxserver.bpi adortl.bpi"/>
-    <PATHCPP value=".;"/>
+    <PATHCPP value=".;..\ComponentInterface2"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -28,9 +29,9 @@
     <LINKER value="ilink32"/>
     <USERDEFINES value="_DEBUG"/>
     <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
-    <MAINSOURCE value="ComponentInterface2.bpf"/>
-    <INCLUDEPATH value="$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)"/>
-    <LIBPATH value="$(BCB)\lib\obj;$(BCB)\lib"/>
+    <MAINSOURCE value="FortranComponentInterface.bpf"/>
+    <INCLUDEPATH value="..\ComponentInterface2;$(BCB)\include;$(BCB)\include\vcl;$(BCB)\components\boost;$(SHARED)"/>
+    <LIBPATH value="..\ComponentInterface2;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -50,19 +51,14 @@
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
-      <FILE FILENAME="ComponentInterface2.bpf" FORMNAME="" UNITNAME="ComponentInterface2" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="ComponentInterface.cpp" FORMNAME="" UNITNAME="ComponentInterface" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="FortranComponentInterface.bpf" FORMNAME="" UNITNAME="FortranComponentInterface" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="FortranComponentInterface.cpp" FORMNAME="" UNITNAME="FortranComponentInterface" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\general\general.lib" FORMNAME="" UNITNAME="general.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Components\LibXML2\win32\bin.bcb\libxml2.lib" FORMNAME="" UNITNAME="libxml2.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="message.cpp" FORMNAME="" UNITNAME="message" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="TypeConverter.cpp" FORMNAME="" UNITNAME="TypeConverter" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="ArraySpecifier.cpp" FORMNAME="" UNITNAME="ArraySpecifier" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="CMPScienceAPI.cpp" FORMNAME="" UNITNAME="CMPScienceAPI.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="CMPComponentInterface.cpp" FORMNAME="" UNITNAME="CMPComponentInterface.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="CMPData.cpp" FORMNAME="" UNITNAME="CMPData.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="CMPComponentEntryPoints.cpp" FORMNAME="" UNITNAME="CMPComponentEntryPoints" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="EntryPoints.cpp" FORMNAME="" UNITNAME="EntryPoints" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="CreateComponent.cpp" FORMNAME="" UNITNAME="CreateComponent" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\ComponentInterface2\ComponentInterface2.lib" FORMNAME="" UNITNAME="ComponentInterface2.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="FortranWrapper.cpp" FORMNAME="" UNITNAME="FortranWrapper" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\ComponentInterface2\EntryPoints.cpp" FORMNAME="" UNITNAME="EntryPoints" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="FortranScienceAPIImpl.cpp" FORMNAME="" UNITNAME="FortranScienceAPIImpl" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
@@ -132,11 +128,11 @@ Item0=.
 DebugSourceDirs=$(BCB)\source\vcl
 
 [Parameters]
-RunParams=
+RunParams=d:\Development\apsim\accum\sample\accum.sim
 Launcher=
 UseLauncher=0
 DebugCWD=
-HostApplication=C:\Program Files\FarmWise\farmwise.exe
+HostApplication=d:\development\bin\apsim.exe
 RemoteHost=
 RemotePath=
 RemoteLauncher=

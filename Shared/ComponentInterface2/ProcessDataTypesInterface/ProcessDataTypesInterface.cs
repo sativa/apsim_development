@@ -19,7 +19,7 @@ namespace ProcessDataTypesInterface
             try
                 {
                 // Comment the next 3 lines when not debugging.
-                //string StdInPath = "d:\\development\\shared\\componentinterface\\datatypes.interface";
+                //string StdInPath = "d:\\development\\apsim\\infra\\datatypes.interface";
                 //System.IO.TextReader StdInTextReader = new System.IO.StreamReader(StdInPath);
                 //Console.SetIn(StdInTextReader);
 
@@ -29,14 +29,7 @@ namespace ProcessDataTypesInterface
                 APSIMData InterfaceFile = new APSIMData(Contents);
                 APSIMData NewInterfaceFile = new APSIMData("types", "");
                 foreach (APSIMData DataType in InterfaceFile.get_Children(null))
-                    {
-                    if (DataType.Type == "type")
-                        ProcessType(DataType, NewInterfaceFile);
-                    else if (DataType.Type == "builtin")
-                        ProcessBuiltIn(DataType, NewInterfaceFile);
-                    else
-                        NewInterfaceFile.Add(DataType); // some other type
-                    }
+                    ProcessType(DataType, NewInterfaceFile, DataType.Type);
 
                 // write new interface file to stdout.
                 Console.Out.Write(NewInterfaceFile.XML);
@@ -49,7 +42,7 @@ namespace ProcessDataTypesInterface
             return 1;
             }
 
-        private static void ProcessType(APSIMData OldDataType, APSIMData NewDataTypes)
+        private static void ProcessType(APSIMData OldDataType, APSIMData NewDataTypes, string Type)
             {
             // -------------------------------------------------------------
             // Process the specified type and create a new <type> under
@@ -67,19 +60,23 @@ namespace ProcessDataTypesInterface
 
                 // If this type is an array type then skip past the <element> tag.
                 APSIMData ThisNode = OldDataType;
-                if (IsArray)
+                if (IsArray && OldDataType.Child("element") != null)
                     ThisNode = OldDataType.Child("element");
 
                 // Go through all child types first and process them.
                 foreach (APSIMData child in ThisNode.get_Children(null))
                     {
                     if (child.ChildNames(null).Length > 0)
-                        ProcessType(child, NewDataTypes);
+                        ProcessType(child, NewDataTypes, "type");
                     }
 
                 // Now create a new type and process all fields.
-                APSIMData NewDataType = NewDataTypes.Add(new APSIMData("type", TypeName));
-                NewDataType.SetAttribute("ctype", CalcCPPType(OldDataType));
+                APSIMData NewDataType = NewDataTypes.Add(new APSIMData(Type, TypeName));
+                NewDataType.SetAttribute("cpptype", CalcCPPType(OldDataType));
+                NewDataType.SetAttribute("ctype", CalcCType(OldDataType));
+                NewDataType.SetAttribute("fortype", CalcForType(OldDataType));
+                if (OldDataType.Attribute("boundable") == "T")
+                    NewDataType.SetAttribute("boundable", "T");
                 NewDataType.set_ChildValue("cddml", DDMLToCPP(OldDataType));
                 NewDataType.set_ChildValue("forddml", DDMLToFOR(OldDataType));
                 NewDataType.set_ChildValue("dotnetddml", DDMLToCPP(OldDataType));
@@ -98,27 +95,11 @@ namespace ProcessDataTypesInterface
                         //FieldDataType.SetAttribute("KKind", KKind);
                         FieldDataType.SetAttribute("dotnettype", DDMLKindToDotNet(Kind));
                         }
-                    FieldDataType.SetAttribute("ctype", CalcCPPType(child));
+                    FieldDataType.SetAttribute("cpptype", CalcCPPType(child));
+                    FieldDataType.SetAttribute("ctype", CalcCType(child));
                     }
                 }
 
-            }
-
-        private static void ProcessBuiltIn(APSIMData OldDataType, APSIMData NewDataTypes)
-            {
-            // -------------------------------------------------------------
-            // Process the specified type and create a new <type> under
-            // 'NewDataTypes'
-            // -------------------------------------------------------------
-            bool IsArray = (OldDataType.Attribute("array") == "T");
-
-            string TypeName = OldDataType.Name;
-
-            // Now create a new type and process all fields.
-            APSIMData NewDataType = NewDataTypes.Add(new APSIMData("builtin", TypeName));
-            NewDataType.SetAttribute("ctype", CalcCPPType(OldDataType));
-            if (IsArray)
-                NewDataType.SetAttribute("array", "T");
             }
 
         private static string CalcCPPType(APSIMData DataType)
@@ -150,6 +131,33 @@ namespace ProcessDataTypesInterface
             return CTypeName;
             }
 
+        private static string CalcCType(APSIMData DataType)
+            {
+            // ------------------------------------------------------------------
+            // convert a DDML 'kind' string to a CPP built in type.
+            // ------------------------------------------------------------------
+            string TypeName = DataType.Attribute("kind");
+            if (TypeName == "")
+                TypeName = DataType.Name;
+            string LowerTypeName = TypeName.ToLower();
+            string CTypeName;
+            if (LowerTypeName == "integer4")
+                CTypeName = "int";
+            else if (LowerTypeName == "single")
+                CTypeName = "float";
+            else if (LowerTypeName == "double")
+                CTypeName = "double";
+            else if (LowerTypeName == "boolean")
+                CTypeName = "bool";
+            else if (LowerTypeName == "char")
+                CTypeName = "char";
+            else if (LowerTypeName == "string")
+                CTypeName = "char*";
+            else
+                CTypeName = TypeName;
+            return CTypeName;
+            }
+
         private static string DDMLKindToDotNet(string kind)
             {
             // ------------------------------------------------------------------
@@ -172,12 +180,12 @@ namespace ProcessDataTypesInterface
                 return kind;
             }
 
-        private static string DDMLKindToFOR(string kind)
+        private static string CalcForType(APSIMData DataType)
             {
             // ------------------------------------------------------------------
             // convert a DDML 'kind' string to a FOR built in type.
             // ------------------------------------------------------------------
-            string LowerKind = kind.ToLower();
+            string LowerKind = DataType.Attribute("kind").ToLower();
             if (LowerKind == "integer4")
                 return "integer";
             else if (LowerKind == "single")
@@ -191,7 +199,7 @@ namespace ProcessDataTypesInterface
             else if (LowerKind == "string")
                 return "character(len=100)";
             else
-                return kind;
+                return "";
             }
 
         private static string DDMLToCPP(APSIMData DataType)

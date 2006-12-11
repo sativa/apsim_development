@@ -1,0 +1,36 @@
+# (Borlandish) Makefile for apsim infrastructure module
+
+# Platform specific defns
+!include $(APSROOT)\APSBuild\platform.make
+
+# Fortran compiler defns
+!include $(APSROOT)\APSBuild\fortran.make
+
+OBJECTS=FORScienceAPI.obj   \
+        convertmodule.obj   \
+        constantsModule.obj \
+        string.obj          \
+        data.obj            \
+        datastr.obj         \
+        date.obj            \
+        science.obj         \
+        Infrastructure.obj
+
+FortranScienceAPI.lib: $(OBJECTS) FortranEntryPoints.obj
+	if exist FortranScienceAPI.lib $(RM) FortranScienceAPI.lib
+	$(ECHO) FortranScienceAPI.lib > linker.tmp
+	$(ECHO) +convertmodule.obj +constantsModule.obj +string.obj +data.obj +datastr.obj +date.obj +science.obj +FORScienceAPI.obj +Infrastructure.obj >> linker.tmp
+	$(ECHO) FortranScienceAPI.tmp >> linker.tmp
+	$(LFLM) @linker.tmp
+	$(RM) *.tmp
+
+
+FORScienceAPI.f90: $(APSROOT)\apsim\infra\datatypes.interface datatypes.macro
+   call datatypes.bat
+
+SYSDEFINES = NO_STRICT;_RTLDLL;USEPACKAGES
+INCLUDEPATH = $(SYSINCLUDES);$(APSROOT)\Shared;$(BCB)\Components\Boost
+CFLAGLF95 =  -x- -RT- -r- -H=$(APSROOT)\Bin\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -k -y -v -vi- -tWD -tWM -c
+WARNINGS = -w-par
+FortranEntryPoints.obj : FortranEntryPoints.cpp
+    $(CC) $(CFLAGLF95) $(WARNINGS) -I$(INCLUDEPATH) -D$(SYSDEFINES) -n$(@D) FortranEntryPoints.cpp

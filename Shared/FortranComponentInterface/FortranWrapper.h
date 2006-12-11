@@ -1,22 +1,9 @@
-#ifndef FORTRANComponentWrapperH
-#define FORTRANComponentWrapperH
+#ifndef FortranWrapperH
+#define FortranWrapperH
 
-#include <vector>;
-#include "ScienceAPI.h"
-
-// turn of the warnings about "Functions containing for are not expanded inline.
-#pragma warn -inl
-
-static const char* nullType = "<type/>";
-static const char* integerType = "<type kind=\"integer4\"/>";
-static const char* integerArrayType = "<type kind=\"integer4\" array=\"T\"/>";
-static const char* realType = "<type kind=\"single\"/>";
-static const char* realArrayType = "<type kind=\"single\" array=\"T\"/>";
-static const char* doubleType = "<type kind=\"double\"/>";
-static const char* doubleArrayType = "<type kind=\"double\" array=\"T\"/>";
-static const char* stringType = "<type kind=\"string\"/>";
-static const char* stringArrayType = "<type kind=\"string\" array=\"T\"/>";
-static const char* logicalType = "<type kind=\"boolean\"/>";
+#include <vector>
+#include <string>
+#include <general/platform.h>
 
 // Declarations from the FORTRAN side.
 struct Instance
@@ -40,30 +27,41 @@ struct Instance
    unsigned int dummy9;
    unsigned int dummy10;
    };
+   
+class ScienceAPI;
+class CMPComponentInterface;
 
-class FortranWrapper  
+class EXPORT FortranWrapper
    {
+   //---------------------------------------------------------------------------
+   // Wrapper class for fortran routines.
+   // Keeps pointers to fortran entry points: Main(), do_init1() etc..
+   // and calls them when reqd.
+   //---------------------------------------------------------------------------
    public:
-      FortranWrapper(CMPComponentInterface *, ScienceAPI*, void *);
+      FortranWrapper(ScienceAPI*, CMPComponentInterface* componentInterface, void *);
       ~FortranWrapper(void);
 
       int subscribe(const std::string &name, void *address);
       void subscribedEventHandler(void *address);
 
       static FortranWrapper* currentInstance;
-      CMPComponentInterface* componentInterface;
       ScienceAPI*            scienceAPI;
+      CMPComponentInterface* componentInterface;
    private:
       void *                 dllHandle;       // The fortran dll we are wrapping
 
       Instance *instance;    // Pointer into fortran dll (same for all instantiations via getProcAddress())
       Instance myInstance;   // Saved copy of one instance as retrieved from alloc_dealloc()
-      
+
       void swapInstanceIn(void);
       void onInit1(void);
    };
 
-// restore the warnings about "Functions containing for are not expanded inline.
-#pragma warn .inl
+void ToFortran(const std::string& cValue,
+               char* forValue, unsigned forValueLength);
+
+void ToFortran(const std::vector<std::string>& cValue,
+               char* forValue, unsigned forValueLength, int arraySize, int& numValues);
 
 #endif

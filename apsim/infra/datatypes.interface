@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <types>
 
-   <builtin name="boolean" kind="boolean"/>
-   <builtin name="int" kind="integer4"/>
-   <builtin name="float" kind="single"/>
-   <builtin name="double" kind="double"/>
-   <builtin name="string" kind="string"/>
-   <builtin name="boolArray" kind="boolean" array="T"/>
-   <builtin name="intArray" kind="integer4" array="T"/>
-   <builtin name="floatArray" kind="single" array="T"/>
-   <builtin name="doubleArray" kind="double" array="T"/>
-   <builtin name="stringArray" kind="string" array="T"/>
+   <builtin name="Boolean" kind="boolean"/>
+   <builtin name="Int" kind="integer4" boundable="T"/>
+   <builtin name="Float" kind="single" boundable="T"/>
+   <builtin name="Double" kind="double" boundable="T"/>
+   <builtin name="String" kind="string"/>
+   <builtin name="BoolArray" kind="boolean" array="T"/>
+   <builtin name="IntArray" kind="integer4" array="T" boundable="T"/>
+   <builtin name="FloatArray" kind="single" array="T" boundable="T"/>
+   <builtin name="DoubleArray" kind="double" array="T" boundable="T"/>
+   <builtin name="StringArray" kind="string" array="T"/>
 
    !!!!! Message types !!!!!!
    <type name="Complete">
