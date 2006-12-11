@@ -6617,6 +6617,11 @@ c dsg 070302 added runon
       g%mint = newmet%mint
       g%rain = newmet%rain
 
+      call bound_check_real_var (g%radn, 0.0, 60.0,'radn')
+      call bound_check_real_var (g%maxt, -50.0, 60.0,'maxt')
+      call bound_check_real_var (g%mint, -50.0, 50.0,'mint')
+      call bound_check_real_var (g%rain, 0.0, 5000.0,'rain')
+
       call pop_routine (myname)
       return
       end subroutine
