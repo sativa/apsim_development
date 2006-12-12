@@ -60,6 +60,7 @@
     <Reference Include="FarPoint.Win.TextRenderer, Version=2.5.2001.2005, Culture=neutral, PublicKeyToken=64fbbfff0d07f045, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
+    <Reference Include="Soil, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -147,21 +148,9 @@
       <Project>{D2EDEF3F-995D-4E9D-9E7C-608D46259E9C}</Project>
       <Name>CSGeneral</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\..\..\Development\Shared\Soil\Soil.csproj">
-      <Project>{6FAC5AE5-F7B4-4C02-B0D4-B992E0F96CAA}</Project>
-      <Name>Soil</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\..\..\Development\Shared\VBGeneral\VBGeneral.vbproj">
+    <ProjectReference Include="..\..\..\Shared\VBGeneral\VBGeneral.vbproj">
       <Project>{F1F780B2-4762-48B6-B0D7-A68C57DDB347}</Project>
       <Name>VBGeneral</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Shared\CSUIControls\CSUIControls.csproj">
-      <Project>{25C8E90E-D464-4F49-B29E-2811F1B266DE}</Project>
-      <Name>CSUIControls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Shared\VBUIControls\VBUIControls.vbproj">
-      <Project>{E78183EC-403E-4ED6-B6B0-9F60013FFEF4}</Project>
-      <Name>VBUIControls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\HowwetModel\source\HowwetModel.csproj">
       <Project>{6AA0DEDD-1841-499F-8BEB-1161F9671F28}</Project>
@@ -194,6 +183,7 @@
     <Content Include="Resources\folder_document.png" />
     <Content Include="Resources\help2.png" />
     <Content Include="Resources\media_play.png" />
+    <None Include="Resources\nav_right_green.png" />
     <Content Include="Resources\paste.png" />
     <Content Include="Resources\Rainfall.ico" />
     <Content Include="Resources\shovel.png" />
