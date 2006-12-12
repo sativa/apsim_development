@@ -1,11 +1,5 @@
 <Simulation name="Stock" executable="%apsuite\apsim\protocolmanager\lib\protocolmanager.dll">
    <title>stock lablab SAMPLE Simulation</title>
-   <component name="log" executable="%apsuite\apsim\log\lib\log.dll">
-      <initdata>
-         <logfile>log.xml</logfile>
-         <debug_output>off</debug_output>
-      </initdata>
-   </component>
    <component name="SummaryFile" executable="%apsuite\apsim\SummaryFile\lib\SummaryFile.dll">
       <initdata>
          <summaryfile>lablab.sum</summaryfile>
