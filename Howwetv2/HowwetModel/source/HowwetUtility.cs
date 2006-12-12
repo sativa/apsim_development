@@ -10,7 +10,7 @@ using CSGeneral;
 using System.Xml;
 using APSRU.Error;
 
-namespace APSRU.Translator.Howwet
+namespace APSRU.Model.Howwet
     {
     public class CoverCrop
         {
@@ -41,7 +41,12 @@ namespace APSRU.Translator.Howwet
         bool trainingMode;
         String templateFileName;
         String defaultSoilFileName;
+        String defaultSoilName;
+        String defaultMetfile;
+        String defaultRegionName;
         ArrayList cropList;
+        XmlDocument doc;
+        String setupFile;
         
 
         public HowwetConfiguration(String fileName)
@@ -49,8 +54,9 @@ namespace APSRU.Translator.Howwet
             String errString = "";
             try
                 {
+                setupFile = fileName;
                 errString = "reading " + fileName;
-                XmlDocument doc = new XmlDocument();
+                doc = new XmlDocument();
                 doc.Load(fileName);
                 XmlElement element = doc.DocumentElement;
                 //version
@@ -65,7 +71,12 @@ namespace APSRU.Translator.Howwet
                 this.TemplateFileName = element.SelectSingleNode("/howwet/template_name").InnerText;
                 //Default soil file
                 this.DefaultSoilFileName = element.SelectSingleNode("/howwet/default_soil_file_name").InnerText;
-
+                //Default soil 
+                this.DefaultSoilName = element.SelectSingleNode("/howwet/default_soil").InnerText;
+                //Default Metfile 
+                this.DefaultMetfile = element.SelectSingleNode("/howwet/default_metfile").InnerText;
+                //Default Region 
+                this.DefaultRegionName = element.SelectSingleNode("/howwet/default_region").InnerText;
                 //SurfaceOM
                 XmlNodeList surfaceOMNodeList = element.SelectNodes("/howwet/surfaceOM/crop");
                 IEnumerator surfaceOMNodeEnum = surfaceOMNodeList.GetEnumerator();
@@ -88,10 +99,17 @@ namespace APSRU.Translator.Howwet
                 throw new CustomException(new CustomError("", "Problem reading Howwet setup file", errString + "\n Exception:" + e.ToString(), this.GetType().Name, this.GetType().FullName, true));
                 }
             }
-        public void Save()
+
+        public void SaveDefaults()
             {
-            //TODO
+            XmlElement element = doc.DocumentElement;
+            element.SelectSingleNode("/howwet/default_soil_file_name").InnerText = this.DefaultSoilFileName;
+            element.SelectSingleNode("/howwet/default_soil").InnerText = this.DefaultSoilName;
+            element.SelectSingleNode("/howwet/default_metfile").InnerText = this.DefaultMetfile;
+            element.SelectSingleNode("/howwet/default_region").InnerText = this.DefaultRegionName;
+            doc.Save(setupFile);
             }
+
         public String Version
             {
             set { version = value; }
@@ -117,6 +135,22 @@ namespace APSRU.Translator.Howwet
             set { defaultSoilFileName = value; }
             get { return defaultSoilFileName; }
             }
+        public String DefaultSoilName
+            {
+            set { defaultSoilName = value; }
+            get { return defaultSoilName; }
+            }
+        public String DefaultMetfile
+            {
+            set { defaultMetfile = value; }
+            get { return defaultMetfile; }
+            }
+        public String DefaultRegionName
+            {
+            set { defaultRegionName = value; }
+            get { return defaultRegionName; }
+            }
+
         public ArrayList CropList
             {
             set {cropList=value;}
