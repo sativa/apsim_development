@@ -165,6 +165,13 @@ namespace Howwet.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap nav_right_green {
+            get {
+                object obj = ResourceManager.GetObject("nav_right_green", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap paste {
             get {
                 object obj = ResourceManager.GetObject("paste", resourceCulture);
