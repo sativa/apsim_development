@@ -28,47 +28,101 @@ namespace APSRUUIControls
         /// </summary>
         private void InitializeComponent()
             {
-            this.metGraphControl1 = new APSRU.UIControls.MetGraphControl();
-            this.textHeader1 = new APSRU.UIControls.TextHeader();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.howwetPageTemplate1 = new APSRU.UIControls.HowwetPageTemplate();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.howwetPageTemplate1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // metGraphControl1
+            // tabControl1
             // 
-            this.metGraphControl1.Location = new System.Drawing.Point(23, 139);
-            this.metGraphControl1.Name = "metGraphControl1";
-            this.metGraphControl1.Size = new System.Drawing.Size(475, 327);
-            this.metGraphControl1.TabIndex = 1;
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabControl1.Location = new System.Drawing.Point(95, 116);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(629, 527);
+            this.tabControl1.TabIndex = 2;
             // 
-            // textHeader1
+            // tabPage1
             // 
-            this.textHeader1.Font = new System.Drawing.Font("Verdana", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textHeader1.HeaderText = "TextHeader";
-            this.textHeader1.LeftColor = System.Drawing.SystemColors.ActiveCaption;
-            this.textHeader1.Location = new System.Drawing.Point(186, 30);
-            this.textHeader1.Name = "textHeader1";
-            this.textHeader1.RightColor = System.Drawing.SystemColors.Control;
-            this.textHeader1.Size = new System.Drawing.Size(150, 58);
-            this.textHeader1.TabIndex = 2;
-            this.textHeader1.TextAlignmentX = 0;
+            this.tabPage1.Controls.Add(this.howwetPageTemplate1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 29);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(621, 494);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 29);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(621, 494);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // howwetPageTemplate1
+            // 
+            this.howwetPageTemplate1.BackColor = System.Drawing.Color.White;
+            this.howwetPageTemplate1.Controls.Add(this.label1);
+            this.howwetPageTemplate1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.howwetPageTemplate1.LeftText = null;
+            this.howwetPageTemplate1.Location = new System.Drawing.Point(41, 51);
+            this.howwetPageTemplate1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.howwetPageTemplate1.Name = "howwetPageTemplate1";
+            this.howwetPageTemplate1.Size = new System.Drawing.Size(507, 188);
+            this.howwetPageTemplate1.TabIndex = 0;
+            this.howwetPageTemplate1.Text1 = null;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.DarkGreen;
+            this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.label1.Location = new System.Drawing.Point(41, 76);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(51, 20);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "label1";
             // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(585, 478);
-            this.Controls.Add(this.textHeader1);
-            this.Controls.Add(this.metGraphControl1);
+            this.ClientSize = new System.Drawing.Size(748, 713);
+            this.Controls.Add(this.tabControl1);
             this.Name = "TestForm";
             this.Text = "TestForm";
             this.Load += new System.EventHandler(this.TestForm_Load);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.howwetPageTemplate1.ResumeLayout(false);
+            this.howwetPageTemplate1.PerformLayout();
             this.ResumeLayout(false);
 
             }
 
         #endregion
 
-        private APSRU.UIControls.MetGraphControl metGraphControl1;
-        private APSRU.UIControls.TextHeader textHeader1;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private APSRU.UIControls.HowwetPageTemplate howwetPageTemplate1;
+        private System.Windows.Forms.Label label1;
+
+
+
+
+
 
         }
     }
