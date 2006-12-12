@@ -1,10 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <howwet>
   <version>alpha</version>
   <debug>true</debug>
   <training_mode>false</training_mode>
   <template_name>HowwetTemplate.xml</template_name>
-  <default_soil_file_name>APSRU-Australia-Soils.soils</default_soil_file_name>
+  <default_soil_file_name>C:\Robert\Data\APSRU-Australia-Soils.soils</default_soil_file_name>
+  <default_soil>Clay (Wandella)</default_soil>
+  <default_metfile>C:\Robert\Data\emerald.met</default_metfile>
+  <default_region>
+  </default_region>
   <surfaceOM>
     <crop>
       <name>wheat</name>
