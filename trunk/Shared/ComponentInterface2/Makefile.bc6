@@ -13,16 +13,8 @@ OBJECTS = ComponentInterface.obj       \
           CMPComponentInterface.obj    \
           CMPData.obj                  \
           CMPComponentEntryPoints.obj  \
-          EntryPoints.obj
-
-FOBJECTS =  ComponentInterface.obj       \
-          message.obj                  \
-          TypeConverter.obj            \
-          ArraySpecifier.obj           \
-          CMPScienceAPI.obj            \
-          CMPComponentInterface.obj    \
-          CMPData.obj                  \
-          FORTRANComponentWrapper.obj  
+          EntryPoints.obj              \
+          CreateComponent.obj
 
 PACKAGES = vcl.bpi rtl.bpi
 USERDEFINES =
@@ -34,11 +26,10 @@ LIBFILES = $(SYSLIBS)                                    \
            $(APSROOT)\Shared\general\general.lib         \
            $(BCB)\Components\LibXml2\win32\LibXml2.lib
 
-all: DataTypes.h ComponentInterface2.dll FortranComponentInterface2.dll FORTRANEntryPoints.obj
+all: DataTypes.h ComponentInterface2.dll
 
 
 ALLOBJ = c0d32.obj $(PACKAGES) $(OBJECTS)
-ALLFOBJ = c0d32.obj $(PACKAGES) $(FOBJECTS)
 ALLRES = $(RESFILES)
 ALLLIB = vcl.lib $(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib
 # ---------------------------------------------------------------------------
@@ -55,10 +46,10 @@ LINKER=$(BCB)\Bin\ilink32.exe
 IMPLIB=$(BCB)\Bin\implib.exe
 IMPDEF=$(BCB)\Bin\impdef.exe
 
-.cpp.obj: 
+.cpp.obj:
     $(CC) $(CFLAG1) $(WARNINGS) -I$(INCLUDEPATH) -D$(USERDEFINES);$(SYSDEFINES) -n$(@D) {$< }
 
-ComponentInterface2.dll: $(OBJECTS) 
+ComponentInterface2.dll: $(OBJECTS)
 	$(LINKER) @&&!
 $(LFLAGS) -L$(LIBPATH) +
 $(ALLOBJ), +
@@ -70,24 +61,8 @@ $(ALLRES)
 	$(IMPLIB) ComponentInterface2.lib ComponentInterface2.dll
 	move /Y ComponentInterface2.dll ..\..\bin
 
-FortranComponentInterface2.dll: $(FOBJECTS)
-	$(LINKER) @&&!
-$(LFLAGS) -L$(LIBPATH) +
-$(ALLFOBJ), +
-FortranComponentInterface2.dll,, +
-$(ALLLIB), +
-$(DEFFILE), +
-$(ALLRES)
-!
-	$(IMPDEF) FortranComponentInterface2.def FortranComponentInterface2.dll
-	$(APSROOT)\Tools\def2imp\def2imp.exe FortranComponentInterface2.def FortranComponentInterface2.imp
-	#$(IMPLIB) FortranComponentInterface2.lib FortranComponentInterface2.dll
-	move /Y FortranComponentInterface2.dll ..\..\bin
-
-FORTRANEntryPoints.obj: FORTRANEntryPoints.cpp
-
 DataTypes.h: $(APSROOT)\apsim\infra\datatypes.interface datatypes.macro $(APSROOT)\Bin\ProcessDataTypesInterface.exe
    call DataTypes.bat
 
 clean:
-	$(RM) ComponentInterface2.lib $(OBJECTS) $(FOBJECTS) FORTRANEntryPoints.obj DataTypes.h
+	$(RM) ComponentInterface2.lib $(OBJECTS) DataTypes.h
