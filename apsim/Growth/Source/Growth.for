@@ -2557,7 +2557,7 @@ c   Needs to wait until we put reads into create phase
          call get_name(NewPotentialGrowth%sender)
          NewPotentialGrowth%Frgr = g%Frgr
 
-         call publish_NewPotentialGrowth(id%new_pot_growth
+         call publish_NewPotentialGrowth(id%newpotentialgrowth
      :                              ,NewPotentialGrowth)
 
       else
@@ -6266,7 +6266,7 @@ c      crown_cover = 1.0/(1.0 + 9.*exp(-1.66*G_LAI))
       call get_name(new_crop%sender)
       new_crop%crop_type = c%crop_type
 
-      call publish_NewCrop(id%new_crop, new_crop)
+      call publish_NewCrop(id%newcrop, new_crop)
 
       call pop_routine (myname)
       return
