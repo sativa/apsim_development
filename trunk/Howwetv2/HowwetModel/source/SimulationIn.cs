@@ -73,7 +73,24 @@ namespace APSRU.Model.Howwet
                 throw new CustomException(new CustomError("", "Problem adding Corp", errString + "\n Exception:" + e.ToString(), FUNCTION_NAME, this.GetType().FullName, true));
                 }
             }
-       
+
+        public void AddLogic(double mass, int days)
+            {
+            String errString = "";
+            const String FUNCTION_NAME = "AddLogic";
+            try
+                {
+                APSIMData logicNode = myData.FindChildByType("simulation|area|logic", '|');
+                logicNode.set_ChildValue("init", "delta="+mass.ToString("f0")+"/"+days.ToString("f0"));
+                logicNode.set_ChildValue("startofday","fraction = delta/"+mass.ToString("f0")+ "'surface organic matter' tillage f_incorp = fraction, tillage_depth = 50,type=decomp_fugde");
+                }
+            catch (Exception e)
+                {
+                throw new CustomException(new CustomError("", "Problem adding Logic", errString + "\n Exception:" + e.ToString(), FUNCTION_NAME, this.GetType().FullName, true));
+                }
+
+            }
+
         public Soil Soil
             {
             get
@@ -138,7 +155,29 @@ namespace APSRU.Model.Howwet
                 }
             }
 
-        
+        public int StartCover
+            {
+            set
+                {
+                
+                }
+            get
+                {
+                return 0;
+                }
+            }
+
+        public int EndCover
+            {
+            set
+                {
+
+                }
+            get
+                {
+                return 0;
+                }
+            }
 
         public String ErosionSlope
             {
