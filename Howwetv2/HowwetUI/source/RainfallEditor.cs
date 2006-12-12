@@ -10,7 +10,6 @@ using System.Text;
 using System.Windows.Forms;
 using FarPoint.Win.Spread;
 using FarPoint.Win.Spread.CellType;
-using APSRU.Translator.Howwet;
 using APSRU.Model.Howwet;
 using CSGeneral;
 
