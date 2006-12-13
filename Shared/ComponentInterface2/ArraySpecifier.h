@@ -34,35 +34,38 @@ class ArraySpecifier
       template <class T>
       void processArray(std::vector<T>& values)
          {
-         unsigned start = startIndex;
-         unsigned end = endIndex;
-         if (start == -1)
-            start = 0;
-         else
-            start--;   // 1 based to zero based indexing
-         if (end == -1)
-            end = values.size()-1;
-         else
-            end--;     // 1 base to zero based indexing.
-
-
-         unsigned index = 0;
-         for (unsigned i = start; i <= end; i++)
+         if (values.size() > 0)
             {
-            if (i >= values.size())
-               throw std::runtime_error("Invalid array index.");
-            values[index++] = values[i];
-            }
+            unsigned start = startIndex;
+            unsigned end = endIndex;
+            if (start == -1)
+               start = 0;
+            else
+               start--;   // 1 based to zero based indexing
+            if (end == -1)
+               end = values.size()-1;
+            else
+               end--;     // 1 base to zero based indexing.
 
-         values.erase(values.begin()+index, values.end());
 
-         if (functionName == "sum")
-            {
-            T sum = 0;
-            for (unsigned i = 0; i != values.size(); i++)
-               sum += values[i];
-            values.erase(values.begin(), values.end());
-            values.push_back(sum);
+            unsigned index = 0;
+            for (unsigned i = start; i <= end; i++)
+               {
+               if (i >= values.size())
+                  throw std::runtime_error("Invalid array index.");
+               values[index++] = values[i];
+               }
+
+            values.erase(values.begin()+index, values.end());
+
+            if (functionName == "sum")
+               {
+               T sum = 0;
+               for (unsigned i = 0; i != values.size(); i++)
+                  sum += values[i];
+               values.erase(values.begin(), values.end());
+               values.push_back(sum);
+               }
             }
          }
 
