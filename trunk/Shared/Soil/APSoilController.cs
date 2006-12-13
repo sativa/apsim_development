@@ -83,16 +83,16 @@ namespace CSGeneral
 
         protected override bool IsDataReadOnly()
 			{
-            string FileNameLower = FileName.ToLower();
+            string FileNameLower = Path.GetFileName(FileName).ToLower();
             if (FileNameLower.Substring(0, 6) == "apsru-" || FileNameLower.Substring(0, 4) == "npd-" || FileNameLower.Substring(0, 3) == "ap-")
                 {
                 string Password = InputDialog.InputBox("Enter password:", "This file is password protected", "", true);
                 if (Password == "soilinfo")
-                    return true;
+                    return false;
                 else
                     {
                     MessageBox.Show("Password incorrect. File will open as readonly", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
+                    return true;
                     }
 
                 }
@@ -105,12 +105,16 @@ namespace CSGeneral
 		// -------------------------------------------------
 		public override bool AllowComponentAdd(string ChildComponentType, string ParentComponentType)
 			{
-			if (ChildComponentType.ToLower() == "soil")
-            	return (ParentComponentType.ToLower() == "soils" || ParentComponentType.ToLower() == "folder");
-			else if (ChildComponentType.ToLower() == "initwater" || ChildComponentType.ToLower() == "initnitrogen")
-				return (ParentComponentType.ToLower() == "soil");
-			else if (ChildComponentType.ToLower() == "sample")
-				return (ParentComponentType.ToLower() == "soil");
+            if (!AllowDataChanges)
+                return false;
+            if (ChildComponentType.ToLower() == "soil")
+                return (ParentComponentType.ToLower() == "soils" || ParentComponentType.ToLower() == "folder");
+            else if (ChildComponentType.ToLower() == "initwater" || ChildComponentType.ToLower() == "initnitrogen")
+                return (ParentComponentType.ToLower() == "soil");
+            else if (ChildComponentType.ToLower() == "sample")
+                return (ParentComponentType.ToLower() == "soil");
+            else if (ChildComponentType.ToLower() == "folder")
+                return (ParentComponentType.ToLower() == "folder");
 			return true;
 			}
 
@@ -171,7 +175,7 @@ namespace CSGeneral
 			Soil MySoil = new Soil(Data);
 
 			ReorderForm Form = new ReorderForm();
-			Form.SetItems(MySoil.Crops);
+            Form.SetItems(MySoil.CropsMeasured);
 			if (Form.ShowDialog() == DialogResult.OK)
 				{
 				string[] Crops = Form.GetItems();

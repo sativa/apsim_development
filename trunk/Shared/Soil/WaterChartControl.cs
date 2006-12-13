@@ -824,7 +824,8 @@ namespace CSGeneral
 		private void PopulateWaterChart()
 			{
             double[] CumThicknessMidPoints = MathUtility.Divide_Value(MySoil.CumThicknessMidPoints, 10);
-
+            if (CumThicknessMidPoints.Length == 0)
+                return;
             if ((MySoil.SAT[MySoil.SAT.Length - 1] <= 1) && (MySoil.DUL[MySoil.DUL.Length - 1] <= 1) && (MySoil.LL15[MySoil.LL15.Length - 1] <= 1) && (MySoil.Airdry[MySoil.Airdry.Length - 1] <= 1))
                 {
                 SatLine.Add(MathUtility.Multiply_Value(MySoil.SAT, 100), CumThicknessMidPoints);

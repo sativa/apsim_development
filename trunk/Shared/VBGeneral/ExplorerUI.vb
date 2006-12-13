@@ -184,10 +184,10 @@ Public Class ExplorerUI
         ' Called to update the main form's caption
         ' ----------------------------------------
         If Not IsNothing(MyParentForm) Then
-            If Controller.DirtyData Then
-                MyParentForm.Text = MyApplicationName + " - " + Controller.FileName + "*"
-            ElseIf Not Controller.AllowDataChanges Then
+            If Not Controller.AllowDataChanges Then
                 MyParentForm.Text = MyApplicationName + " - " + Controller.FileName + " [readonly]"
+            ElseIf Controller.DirtyData Then
+                MyParentForm.Text = MyApplicationName + " - " + Controller.FileName + "*"
             Else
                 MyParentForm.Text = MyApplicationName + " - " + Controller.FileName
             End If

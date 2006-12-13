@@ -882,15 +882,22 @@ namespace CSGeneral
 					CropColor = Color.PaleGreen;
 				Color PredCropColor = Color.Pink;
 				if (CropNumber / 2.0 != CropNumber / 2)
-					PredCropColor = Color.DeepPink;
+					PredCropColor = Color.LightPink;
 
 				// setup the LL column.
 				bool Predicted = MySoil.CropIsPredicted(CropName);
-				if (Predicted)
-					Water.ColumnHeader.Cells[0, CropCol].Text = "Predicted " + CropName;
-				else
-					Water.ColumnHeader.Cells[0, CropCol].Text = CropName;
-
+                if (Predicted)
+                    {
+                    Water.ColumnHeader.Cells[0, CropCol].Text = "Predicted " + CropName;
+                    FarPoint.Win.Spread.CellType.NumberCellType PredLLFormatter = new FarPoint.Win.Spread.CellType.NumberCellType();
+                    PredLLFormatter.DecimalPlaces = 2;
+                    Water.Columns[CropCol].CellType = PredLLFormatter;
+                    }
+                else
+                    {
+                    Water.ColumnHeader.Cells[0, CropCol].Text = CropName;
+                    Water.Columns[CropCol].CellType = null;
+                    }
 				Water.ColumnHeader.Cells[0, CropCol].ColumnSpan = 4;
 				Water.ColumnHeader.Cells[0, CropCol].HorizontalAlignment = CellHorizontalAlignment.Center;
 				Water.ColumnHeader.Cells[1, CropCol].Text = "LL";

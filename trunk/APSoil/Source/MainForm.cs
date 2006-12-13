@@ -617,7 +617,6 @@ namespace APSoil
                 }
 
 			SaveButton.Enabled = Apsoil.AllowDataChanges;
-			SaveButton.Enabled = Apsoil.AllowDataChanges;
 
 			CutButton.Enabled = Apsoil.AllowCut;
 			CopyButton.Enabled = Apsoil.AllowCopy;
@@ -640,7 +639,7 @@ namespace APSoil
 			SortButton.Enabled = SomethingInTree;
             InsertNewFolder.Enabled = (Apsoil.AllowDataChanges && Apsoil.AllowInsertFolder);
             InsertNewSoil.Enabled = (Apsoil.AllowDataChanges && Apsoil.AllowInsertSoil);
-            InsertNewSample.Enabled = (Apsoil.AllowDataChanges && Apsoil.AllowInsertSample);
+            InsertNewSample.Enabled = false; // (Apsoil.AllowDataChanges && Apsoil.AllowInsertSample);
 			}
 
 		private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
