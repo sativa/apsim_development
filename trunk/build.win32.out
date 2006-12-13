@@ -1,0 +1,1413 @@
+------Compiling  C:\development\Shared\general 
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+date_class.cpp:
+exec.cpp:
+general.cpp:
+IniFile.cpp:
+io_functions.cpp:
+math_functions.cpp:
+path.cpp:
+Loaded pre-compiled headers.
+stream_functions.cpp:
+stream_processor.cpp:
+string_functions.cpp:
+StringTokenizer.cpp:
+stristr.cpp:
+macro.cpp:
+xml.cpp:
+http.cpp:
+dll.cpp:
+TLIB 4.5 Copyright (c) 1987, 1999 Inprise Corporation
+ date_class.obj exec.obj general.obj IniFile.obj   io_functions.obj math_functions.obj path.obj stream_functions.obj   stream_processor.obj string_functions.obj StringTokenizer.obj stristr.obj Macro.obj   xml.obj http.obj dll.obj c:\PROGRA~1\Borland\CBUILD~1\Bin\..\components\boost\libs\filesystem\src\path_posix_windows.obj  c:\PROGRA~1\Borland\CBUILD~1\Bin\..\components\boost\libs\filesystem\src\convenience.obj  c:\PROGRA~1\Borland\CBUILD~1\Bin\..\components\boost\libs\filesystem\src\exception.obj  c:\PROGRA~1\Borland\CBUILD~1\Bin\..\components\boost\libs\filesystem\src\operations_posix_windows.obj
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+vcl_functions.cpp:
+db_functions.cpp:
+Loaded cached pre-compiled headers.
+TLIB 4.5 Copyright (c) 1987, 1999 Inprise Corporation
+ /P128 vcl_functions.obj db_functions.obj
+------Compiling  C:\development\Tools\def2imp 
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+------Compiling  C:\development\Shared\ApsimShared 
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+ApsimShared.cpp:
+ApsimComponentData.cpp:
+ApsimControlFile.cpp:
+ApsimDirectories.cpp:
+ApsimRunFile.cpp:
+ApsimServiceData.cpp:
+ApsimSettings.cpp:
+ApsimSimulationFile.cpp:
+ApsimSystemData.cpp:
+ApsimVersion.cpp:
+TAboutForm.cpp:
+Loaded pre-compiled headers.
+TSplashForm.cpp:
+Loaded cached pre-compiled headers.
+ApsimForms.cpp:
+Loaded cached pre-compiled headers.
+ApsimDataFile.cpp:
+ApsimDataTypesFile.cpp:
+Warning W8037 ApsimDataTypesFile.cpp 59: Non-const function XMLDocument::documentElement() called for const object in function ApsimDataTypesFile::begin() const
+Warning W8037 ApsimDataTypesFile.cpp 66: Non-const function XMLDocument::documentElement() called for const object in function ApsimDataTypesFile::end() const
+ApsimDataTypeData.cpp:
+ApsimRegistrationData.cpp:
+ControlFileConverter.cpp:
+TMoveParametersForm.cpp:
+Loaded pre-compiled headers.
+SimCreator.cpp:
+SimCreatorSection.cpp:
+Loaded cached pre-compiled headers.
+ApsimMacroFile.cpp:
+FString.cpp:
+Loaded pre-compiled headers.
+FStringExt.cpp:
+phi_functions.cpp:
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+
+Borland Impdef Version 3.0.22 Copyright (c) 1991, 2000 Inprise Corporation
+------Compiling  C:\development\APSBuild\source 
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+CreateDataTypesSource.cpp:
+CreateSource.cpp:
+CreateDataTypesF90.cpp:
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+CreateComponentInterfaceSource.cpp:
+ComponentInterfaceGenerator.cpp:
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+------Compiling ProcessDataTypesInterface 
+
+Microsoft (R) Visual Studio Version 8.0.50727.42.
+Copyright (C) Microsoft Corp 1984-2005. All rights reserved.
+------ Build started: Project: VBGeneral, Configuration: Release Any CPU ------
+VBGeneral -> C:\development\Shared\VBGeneral\bin\Release\VBGeneral.dll
+------ Build started: Project: CSGeneral, Configuration: Release Any CPU ------
+C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Csc.exe /noconfig /unsafe- /checked- /nowarn:1701,1702 /nostdlib- /errorreport:prompt /warn:4 /baseaddress:285212672 /define:TRACE /reference:C:\WINDOWS\assembly\GAC_MSIL\FarPoint.Win\2.5.2001.2005__327c3516b1b18457\FarPoint.Win.dll /reference:C:\WINDOWS\assembly\GAC_MSIL\FarPoint.Win.Spread\2.5.2001.2005__327c3516b1b18457\FarPoint.Win.Spread.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Drawing.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Windows.Forms.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /reference:C:\development\Shared\VBGeneral\bin\Release\VBGeneral.dll /debug- /filealign:4096 /optimize+ /out:obj\Release\CSGeneral.dll /resource:obj\Release\CSGeneral.HyperTextLabel.resources /resource:obj\Release\CSGeneral.MemoUI.resources /target:library /warnaserror- APSIMInputFile.cs ComponentDescription.cs DataTableUtility.cs HyperTextLabel.cs HyperTextLink.cs ListviewAPI.cs Macro.cs MathUtility.cs MemoUI.cs Properties\AssemblyInfo.cs StringManip.cs Utility.cs
+
+Compile complete -- 0 errors, 0 warnings
+CSGeneral -> C:\development\Shared\C#General\bin\Release\CSGeneral.dll
+------ Build started: Project: ProcessDataTypesInterface, Configuration: Release Any CPU ------
+C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Csc.exe /noconfig /nowarn:1701,1702 /errorreport:prompt /warn:4 /define:TRACE /reference:"C:\development\Shared\C#General\bin\Release\CSGeneral.dll" /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /reference:C:\development\Shared\VBGeneral\bin\Release\VBGeneral.dll /debug:pdbonly /optimize+ /out:obj\Release\ProcessDataTypesInterface.exe /target:exe ProcessDataTypesInterface.cs Properties\AssemblyInfo.cs
+
+Compile complete -- 0 errors, 0 warnings
+ProcessDataTypesInterface -> C:\development\Bin\ProcessDataTypesInterface.exe
+========== Build: 3 succeeded or up-to-date, 0 failed, 0 skipped ==========
+------Compiling RunMacro 
+
+Microsoft (R) Visual Studio Version 8.0.50727.42.
+Copyright (C) Microsoft Corp 1984-2005. All rights reserved.
+------ Build started: Project: VBGeneral, Configuration: Release Any CPU ------
+VBGeneral -> C:\development\Shared\VBGeneral\bin\Release\VBGeneral.dll
+------ Build started: Project: CSGeneral, Configuration: Release Any CPU ------
+C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Csc.exe /noconfig /unsafe- /checked- /nowarn:1701,1702 /nostdlib- /errorreport:prompt /warn:4 /baseaddress:285212672 /define:TRACE /reference:C:\WINDOWS\assembly\GAC_MSIL\FarPoint.Win\2.5.2001.2005__327c3516b1b18457\FarPoint.Win.dll /reference:C:\WINDOWS\assembly\GAC_MSIL\FarPoint.Win.Spread\2.5.2001.2005__327c3516b1b18457\FarPoint.Win.Spread.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Drawing.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Windows.Forms.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /reference:C:\development\Shared\VBGeneral\bin\Release\VBGeneral.dll /debug- /filealign:4096 /optimize+ /out:obj\Release\CSGeneral.dll /resource:obj\Release\CSGeneral.HyperTextLabel.resources /resource:obj\Release\CSGeneral.MemoUI.resources /target:library /warnaserror- APSIMInputFile.cs ComponentDescription.cs DataTableUtility.cs HyperTextLabel.cs HyperTextLink.cs ListviewAPI.cs Macro.cs MathUtility.cs MemoUI.cs Properties\AssemblyInfo.cs StringManip.cs Utility.cs
+
+Compile complete -- 0 errors, 0 warnings
+CSGeneral -> C:\development\Shared\C#General\bin\Release\CSGeneral.dll
+------ Build started: Project: RunMacro, Configuration: Release Any CPU ------
+C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Csc.exe /noconfig /nowarn:1701,1702 /errorreport:prompt /warn:4 /define:TRACE /reference:"C:\development\Shared\C#General\bin\Release\CSGeneral.dll" /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Data.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.dll /reference:C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\System.Xml.dll /reference:C:\development\Shared\VBGeneral\bin\Release\VBGeneral.dll /debug:pdbonly /optimize+ /out:obj\Release\RunMacro.exe /target:exe RunMacro.cs Properties\AssemblyInfo.cs
+
+Compile complete -- 0 errors, 0 warnings
+RunMacro -> C:\development\Bin\RunMacro.exe
+========== Build: 3 succeeded or up-to-date, 0 failed, 0 skipped ==========
+------Compiling  C:\development\Shared\Protocol 
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Protocol.cpp:
+Transport.cpp:
+Computation.cpp:
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+------Compiling  C:\development\Shared\ComponentInterface 
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Wrote:C:\development\Shared\ComponentInterface\datatypes.h C:\development\Shared\ComponentInterface\datatypes.cpp C:\development\apsim\infra\source\datatypes.f90 C:\development\Shared\ComponentInterface\FORTRANdatatypes.cpp C:\development\apsim\infra\source\datatypes.f90 C:\development\apsim\infra\source\datatypesinterface.f90 C:\development\apsim\tcllink\lib\apsimDatatypes.tcl 
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+ComponentInterface.cpp:
+Component.cpp:
+Warning W8037 Component.cpp 169: Non-const function MessageData::reset() called for const object in function Component::messageToLogic(const Message *)
+Warning W8037 Component.cpp 1183: Non-const function INamedData::SetName(const string &) called for const object in function Component::ExportReadWriteVariable(const string &,const string &,const string &,const boost::function1<Variable,const string &,allocator<boost::function_base> > &,const INamedData &)
+Warning W8037 Component.cpp 1192: Non-const function INamedData::SetName(const string &) called for const object in function Component::SubscribeToEvent(const string &,const INamedData &)
+message.cpp:
+Type.cpp:
+TypeConverter.cpp:
+Variant.cpp:
+Variants.cpp:
+MessageData.cpp:
+ApsimVariant.cpp:
+ArraySpecifier.cpp:
+Registrations.cpp:
+RegistrationItem.cpp:
+ProtocolVector.cpp:
+RegistrationType.cpp:
+EntryPoints.cpp:
+Variable.cpp:
+VariableRef.cpp:
+datatypes.cpp:
+FORTRANComponentWrapper.cpp:
+FORTRANdatatypes.cpp:
+Loaded pre-compiled headers.
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+
+Borland Impdef Version 3.0.22 Copyright (c) 1991, 2000 Inprise Corporation
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+SimpleWrapper.cpp:
+------Compiling  C:\development\Shared\ComponentInterface2 
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+CMPScienceAPI.cpp:
+CreateComponent.cpp:
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+
+Borland Implib Version 3.0.22 Copyright (c) 1991, 2000 Inprise Corporation
+------Compiling  C:\development\apsim\ProtocolManager\Source 
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+ProtocolManager.cpp:
+Coordinator.cpp:
+ComponentAlias.cpp:
+Loaded cached pre-compiled headers.
+DebugHook.cpp:
+Loaded cached pre-compiled headers.
+Registrations.cpp:
+Loaded cached pre-compiled headers.
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+------Compiling  C:\development\apsrun\source 
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+.\apsrun.cpp:
+.\TRunForm.cpp:
+Loaded cached pre-compiled headers.
+.\PreviousRuns.cpp:
+Loaded cached pre-compiled headers.
+.\ApsimRuns.cpp:
+Loaded cached pre-compiled headers.
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+------Compiling  C:\development\apsrun\contosim 
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+ConToSim.cpp:
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+------Compiling  C:\development\apsrun\source\test\TestAPSRun 
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+.\TestAPSRun.cpp:
+.\TestConToSim.cpp:
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_suite and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|test_tools
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_suite and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_log
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_suite and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_main
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_suite and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_monitor
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_suite and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_result
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_log and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_main
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_log and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_monitor
+Warning: Public symbol 'void boost::throw_exception<boost::bad_weak_ptr>(const boost::bad_weak_ptr&)' defined in both module C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_log and C:\PROGRAM FILES\BORLAND\CBUILDER6\COMPONENTS\BOOST\LIBS\TEST\TEST.LIB|unit_test_result
+------Compiling  C:\development\apsim 
+------Compiling C:\development\apsim\infra\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit dataTypes at line 1:
+Encountered 0 errors, 0 warnings in file datatypes.f90.
+Compiling file datatypes.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit dataTypesInterface at line 1:
+Encountered 0 errors, 0 warnings in file dataTypesInterface.f90.
+Compiling file dataTypesInterface.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit ComponentInterfaceModule at line 1:
+Encountered 0 errors, 0 warnings in file ComponentInterfaceModule.f90.
+Compiling file ComponentInterfaceModule.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit ConvertModule at line 1:
+Encountered 0 errors, 0 warnings in file convertmodule.f90.
+Compiling file convertmodule.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit ConstantsModule at line 1:
+Encountered 0 errors, 0 warnings in file constantsModule.f90.
+Compiling file constantsModule.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit ErrorModule at line 1:
+Encountered 0 errors, 0 warnings in file error.f90.
+Compiling file error.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit StringModule at line 1:
+Encountered 0 errors, 0 warnings in file string.f90.
+Compiling file string.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit DataModule at line 1:
+Encountered 0 errors, 0 warnings in file data.f90.
+Compiling file data.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit DataStrModule at line 1:
+Encountered 0 errors, 0 warnings in file datastr.f90.
+Compiling file datastr.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit DateModule at line 1:
+Encountered 0 errors, 0 warnings in file date.f90.
+Compiling file date.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit ScienceModule at line 1:
+Encountered 0 errors, 0 warnings in file science.f90.
+Compiling file science.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit ReadModule at line 1:
+Encountered 0 errors, 0 warnings in file read.f90.
+Compiling file read.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Infrastructure at line 1:
+Encountered 0 errors, 0 warnings in file Infrastructure.f90.
+Compiling file Infrastructure.f90.
+LM Version 4.00d -- Copyright (C) 1988-1998, Lahey Computer Systems, Inc.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit ComponentInterface2Module at line 1:
+Encountered 0 errors, 0 warnings in file ComponentInterface2Module.f90.
+Compiling file ComponentInterface2Module.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Read2Module at line 1:
+Encountered 0 errors, 0 warnings in file read2.f90.
+Compiling file read2.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Get2Module at line 1:
+Encountered 0 errors, 0 warnings in file get2.f90.
+Compiling file get2.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Infrastructure2 at line 1:
+Encountered 0 errors, 0 warnings in file Infrastructure2.f90.
+Compiling file Infrastructure2.f90.
+LM Version 4.00d -- Copyright (C) 1988-1998, Lahey Computer Systems, Inc.
+------Compiling C:\development\apsim\infra\engine
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+apsim.cpp:
+Simulation.cpp:
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+------Compiling C:\development\apsim\croptemp\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit crp_utilModule at line 1:
+Encountered 0 errors, 0 warnings in file crp_util.f90.
+Compiling file crp_util.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit crp_rootModule at line 1:
+Encountered 0 errors, 0 warnings in file crp_root.f90.
+Compiling file crp_root.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit crp_watrModule at line 1:
+Encountered 0 errors, 0 warnings in file crp_watr.f90.
+Compiling file crp_watr.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit crp_biomModule at line 1:
+Encountered 0 errors, 0 warnings in file crp_biom.f90.
+Compiling file crp_biom.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit crp_cnpyModule at line 1:
+Encountered 0 errors, 0 warnings in file crp_cnpy.f90.
+Compiling file crp_cnpy.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit crp_commModule at line 1:
+ Module subprogram name(crop_top_residue)
+  1041-W: "crp_comm.f90", line 216: Non-standard free format specified.
+ Module subprogram name(Send_Crop_Chopped_Event)
+  1041-W: "crp_comm.f90", line 223: Non-standard free format specified.
+  1041-W: "crp_comm.f90", line 230: Non-standard free format specified.
+  1041-W: "crp_comm.f90", line 237: Non-standard free format specified.
+  1041-W: "crp_comm.f90", line 238: Non-standard free format specified.
+  1041-W: "crp_comm.f90", line 240: Non-standard free format specified.
+  1041-W: "crp_comm.f90", line 241: Non-standard free format specified.
+  1041-W: "crp_comm.f90", line 243: Non-standard free format specified.
+  1041-W: "crp_comm.f90", line 244: Non-standard free format specified.
+  1041-W: "crp_comm.f90", line 245: Non-standard free format specified.
+  1041-W: "crp_comm.f90", line 247: Non-standard free format specified.
+  1041-W: "crp_comm.f90", line 251: Non-standard free format specified.
+  1041-W: "crp_comm.f90", line 300: Non-standard free format specified.
+ Module subprogram name(Send_Crop_Chopped_Event_N_P)
+  1041-W: "crp_comm.f90", line 308: Non-standard free format specified.
+  1041-W: "crp_comm.f90", line 315: Non-standard free format specified.
+  1041-W: "crp_comm.f90", line 323: Non-standard free format specified.
+  1041-W: "crp_comm.f90", line 324: Non-standard free format specified.
+  1041-W: "crp_comm.f90", line 326: Non-standard free format specified.
+  1041-W: "crp_comm.f90", line 327: Non-standard free format specified.
+  1041-W: "crp_comm.f90", line 329: Non-standard free format specified.
+  1041-W: "crp_comm.f90", line 330: Non-standard free format specified.
+  1041-W: "crp_comm.f90", line 331: Non-standard free format specified.
+  1041-W: "crp_comm.f90", line 333: Non-standard free format specified.
+  1041-W: "crp_comm.f90", line 337: Non-standard free format specified.
+Encountered 0 errors, 24 warnings in file crp_comm.f90.
+Compiling file crp_comm.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit crp_failModule at line 1:
+Encountered 0 errors, 0 warnings in file crp_fail.f90.
+Compiling file crp_fail.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit crp_nitnModule at line 1:
+Encountered 0 errors, 0 warnings in file crp_nitn.f90.
+Compiling file crp_nitn.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit crp_phenModule at line 1:
+Encountered 0 errors, 0 warnings in file crp_phen.f90.
+Compiling file crp_phen.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit crp_tempModule at line 1:
+Encountered 0 errors, 0 warnings in file crp_temp.f90.
+Compiling file crp_temp.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit croplibrary at line 1:
+Encountered 0 errors, 0 warnings in file CropLibrary.f90.
+Compiling file CropLibrary.f90.
+LM Version 4.00d -- Copyright (C) 1988-1998, Lahey Computer Systems, Inc.
+------Compiling C:\development\apsim\CropMod\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit CropModData at line 1:
+Encountered 0 errors, 0 warnings in file cropmoddata.for.
+Compiling file cropmoddata.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit cropmodmodule at line 1:
+ Module subprogram name(maize_nit_demand_est)
+  2438-W: "maize.for", line 1677: Name demand_parts enclosed in slashes is not a common block name in a SAVE statement.
+ Module subprogram name(biomass_retranslocation)
+  2438-W: "cropmodtree.for", line 2482: Name supply_pools enclosed in slashes is not a common block name in a SAVE statement.
+ Module subprogram name(Maize_bio_retrans)
+  2438-W: "maize.for", line 3034: Name supply_pools enclosed in slashes is not a common block name in a SAVE statement.
+ Module subprogram name(nitrogen_demand)
+  2438-W: "cropmodtree.for", line 5015: Name demand_parts enclosed in slashes is not a common block name in a SAVE statement.
+Encountered 0 errors, 4 warnings in file cropmod.for.
+Compiling file cropmod.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit alloc_dealloc_instance at line 1:
+Compiling program unit doInit1 at line 29:
+Compiling program unit Main at line 32:
+Compiling program unit respondToEvent at line 319:
+Encountered 0 errors, 0 warnings in file cropmodmain.for.
+Compiling file cropmodmain.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\accum\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit AccumModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 340:
+Compiling program unit create at line 366:
+Encountered 0 errors, 0 warnings in file accum.for.
+Compiling file accum.for.
+Fatal: 'C:\development/shared/ComponentInterface2/FORTRANComponentInterface2.imp' does not exist - don't know how to make it
+------Compiling C:\development\apsim\apswim\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit APSwimModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 9520:
+Compiling program unit Main at line 9549:
+Compiling program unit respondToEvent at line 9641:
+Encountered 0 errors, 0 warnings in file apswim.for.
+Compiling file apswim.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\canopy\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit CanopyModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 1043:
+Compiling program unit Main at line 1068:
+Compiling program unit respondToEvent at line 1136:
+Encountered 0 errors, 0 warnings in file canopy.for.
+Compiling file canopy.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\clock\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit ClockModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 859:
+Compiling program unit Main at line 885:
+Compiling program unit respondToEvent at line 943:
+Encountered 0 errors, 0 warnings in file clock.for.
+Compiling file clock.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit read_params at line 1:
+Encountered 0 errors, 0 warnings in file clock_read_params.for.
+Compiling file clock_read_params.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\Correl\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit CorrelModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 610:
+Compiling program unit Main at line 640:
+Compiling program unit respondToEvent at line 705:
+Encountered 0 errors, 0 warnings in file correl.for.
+Compiling file correl.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\eo\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit EoModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 3323:
+Compiling program unit Main at line 3352:
+Compiling program unit respondToEvent at line 3415:
+Encountered 0 errors, 0 warnings in file eo.for.
+Compiling file eo.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\erosion\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit ErosionModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 1433:
+Compiling program unit Main at line 1461:
+Compiling program unit respondToEvent at line 1537:
+Encountered 0 errors, 0 warnings in file erosion.for.
+Compiling file erosion.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\FarmwiseSequencer\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+FarmwiseSequencerConverter.cpp:
+Loaded pre-compiled headers.
+FarmwiseSequencer.cpp:
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+------Compiling C:\development\apsim\fertiliz\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit FertilizModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 804:
+Compiling program unit Main at line 832:
+Compiling program unit respondToEvent at line 909:
+Encountered 0 errors, 0 warnings in file fertiliz.for.
+Compiling file fertiliz.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\frmrpt\SOURCE
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit FrmrptModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 1169:
+Compiling program unit Main at line 1196:
+Compiling program unit respondToEvent at line 1248:
+Encountered 0 errors, 0 warnings in file frmrpt.for.
+Compiling file frmrpt.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\grasp\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit GraspModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 5067:
+Compiling program unit Main at line 5096:
+Compiling program unit respondToEvent at line 5201:
+Encountered 0 errors, 0 warnings in file grasp.for.
+Compiling file grasp.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\Growth\Source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit GrowthModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 6374:
+Compiling program unit Main at line 6403:
+Compiling program unit respondToEvent at line 6479:
+Encountered 0 errors, 0 warnings in file growth.for.
+Compiling file growth.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\input\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Input.cpp:
+InputComponent.cpp:
+StringVariant.cpp:
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+------Compiling C:\development\apsim\irrigate\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit IrrigateModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 2169:
+Compiling program unit Main at line 2196:
+Compiling program unit respondToEvent at line 2270:
+Encountered 0 errors, 0 warnings in file irrigate.for.
+Compiling file irrigate.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\Log\Source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Log.cpp:
+LogComponent.cpp:
+Warning W8037 LogComponent.cpp 374: Non-const function Variant::getType() called for const object in function LogComponent::writeVariant(const Variant &)
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+------Compiling C:\development\apsim\maize\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit maizemodule at line 1:
+ Module subprogram name(Maize_bio_retrans)
+  2438-W: "maize.for", line 2376: Name supply_pools enclosed in slashes is not a common block name in a SAVE statement.
+ Module subprogram name(maize_nit_demand_est)
+  2438-W: "maize.for", line 3093: Name demand_parts enclosed in slashes is not a common block name in a SAVE statement.
+ Module subprogram name(Maize_nit_demand)
+  2438-W: "maize.for", line 4312: Name demand_parts enclosed in slashes is not a common block name in a SAVE statement.
+Compiling program unit Main at line 6116:
+Compiling program unit alloc_dealloc_instance at line 6296:
+Compiling program unit respondToEvent at line 6333:
+Compiling program unit doInit1 at line 6347:
+Encountered 0 errors, 3 warnings in file maize.for.
+Compiling file maize.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\manager\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit ManagerModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 3624:
+Compiling program unit Main at line 3649:
+Compiling program unit respondToEvent at line 3709:
+Encountered 0 errors, 0 warnings in file manager.for.
+Compiling file manager.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\map\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit MapModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 1635:
+Compiling program unit Main at line 1662:
+Compiling program unit respondToEvent at line 1716:
+Encountered 0 errors, 0 warnings in file map.for.
+Compiling file map.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\micromet\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit MicrometModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 2595:
+Compiling program unit Main at line 2626:
+Compiling program unit respondToEvent at line 2711:
+Encountered 0 errors, 0 warnings in file micromet.for.
+Compiling file micromet.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\millet\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit MilletModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 5141:
+Compiling program unit Main at line 5171:
+Compiling program unit respondToEvent at line 5356:
+Compiling program unit doSysbalRegistrations at line 5376:
+Encountered 0 errors, 0 warnings in file mil_main.for.
+Compiling file mil_main.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\operatns\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit OperatnsModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 698:
+Compiling program unit Main at line 723:
+Compiling program unit respondToEvent at line 786:
+Encountered 0 errors, 0 warnings in file operatns.for.
+Compiling file operatns.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\oryza\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit oryzaModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 5456:
+Compiling program unit Main at line 5483:
+Compiling program unit respondToEvent at line 5558:
+Encountered 0 errors, 0 warnings in file oryza.for.
+Compiling file oryza.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\ozcot\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit OzcotModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 7126:
+Compiling program unit Main at line 7156:
+Compiling program unit doInit1 at line 7300:
+Compiling program unit respondToEvent at line 7478:
+Encountered 0 errors, 0 warnings in file ozcot.for.
+Compiling file ozcot.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\pasture\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+PastureScienceConverter.cpp:
+Loaded pre-compiled headers.
+PastureConverter.cpp:
+Loaded pre-compiled headers.
+Warning W8004 PastureConverter.cpp 341: 'ok' is assigned a value that is never used in function PastureConverter::doCropWaterUptake(unsigned int &,unsigned int &,protocol::Variant &)
+Warning W8012 PastureConverter.cpp 382: Comparing signed and unsigned values in function PastureConverter::doCropWaterUptake(unsigned int &,unsigned int &,protocol::Variant &)
+Warning W8004 PastureConverter.cpp 411: 'rlv_tot' is assigned a value that is never used in function PastureConverter::doCropWaterUptake(unsigned int &,unsigned int &,protocol::Variant &)
+Warning W8004 PastureConverter.cpp 411: 'demand_tot' is assigned a value that is never used in function PastureConverter::doCropWaterUptake(unsigned int &,unsigned int &,protocol::Variant &)
+Warning W8012 PastureConverter.cpp 520: Comparing signed and unsigned values in function PastureConverter::readParameters()
+Warning W8012 PastureConverter.cpp 526: Comparing signed and unsigned values in function PastureConverter::readParameters()
+Warning W8004 PastureConverter.cpp 575: 'ok' is assigned a value that is never used in function PastureConverter::sendNH4(protocol::QueryValueData &)
+Warning W8004 PastureConverter.cpp 599: 'ok' is assigned a value that is never used in function PastureConverter::sendNO3(protocol::QueryValueData &)
+Warning W8004 PastureConverter.cpp 629: 'ok' is assigned a value that is never used in function PastureConverter::sendSWLayer(protocol::QueryValueData &)
+Warning W8004 PastureConverter.cpp 633: 'ok' is assigned a value that is never used in function PastureConverter::sendSWLayer(protocol::QueryValueData &)
+Warning W8004 PastureConverter.cpp 657: 'ok' is assigned a value that is never used in function PastureConverter::sendVPD(protocol::QueryValueData &)
+Warning W8004 PastureConverter.cpp 701: 'ok' is assigned a value that is never used in function PastureConverter::sendWeather(protocol::QueryValueData &)
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+------Compiling C:\development\apsim\parasite\Source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit ParasiteModule at line 1:
+ Module subprogram name(Get_Other_Variables)
+  0511-W: "parasite.for", line 384: Logical type cannot be mixed with arithmetic type in initializations, assignments, arithmetic operations, relational operations or statement function definitions.
+Compiling program unit alloc_dealloc_instance at line 2649:
+Compiling program unit Main at line 2679:
+Compiling program unit respondToEvent at line 2806:
+Encountered 0 errors, 1 warning in file parasite.for.
+Compiling file parasite.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\PatchInput\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+PatchInput.cpp:
+PatchInputComponent.cpp:
+Warning W8058 C:\development\Shared\general\date_functions.h 213: Cannot create pre-compiled header: code in header
+Warning W8070 PatchInputComponent.cpp 187: Function should return a value in function PatchInputComponent::advanceToTodaysPatchData(unsigned int)
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+------Compiling C:\development\apsim\Plant\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+PlantComponent.cpp:
+Plant.cpp:
+PlantPart.cpp:
+PlantBiomass.cpp:
+PlantCanopy.cpp:
+Loaded cached pre-compiled headers.
+PlantFail.cpp:
+PlantLibrary.cpp:
+PlantNitrogen.cpp:
+PlantRoot.cpp:
+PlantTemp.cpp:
+PlantUtility.cpp:
+PlantWater.cpp:
+Data.cpp:
+Science.cpp:
+Loaded pre-compiled headers.
+Date.cpp:
+Loaded pre-compiled headers.
+PlantComms.cpp:
+Loaded cached pre-compiled headers.
+PlantP.cpp:
+Environment.cpp:
+Observers.cpp:
+LeafPart.cpp:
+StemPart.cpp:
+PodPart.cpp:
+MealPart.cpp:
+OilPart.cpp:
+GrainPart.cpp:
+CompositePart.cpp:
+RootPart.cpp:
+FruitCohort.cpp:
+Output.cpp:
+OutputVariable.cpp:
+genericLeafPart.cpp:
+cohortingLeafPart.cpp:
+arbitrator.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Phenology\PlantPhenology.cpp:
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Phenology\Phase.cpp:
+Phenology\CompositePhase.cpp:
+Loaded cached pre-compiled headers.
+Phenology\TTTPhenology.cpp:
+Phenology\CropPhenology.cpp:
+Phenology\TTTRatePhenology.cpp:
+Phenology\WheatPhenology.cpp:
+Phenology\FixedPhase.cpp:
+Phenology\VernalPhase.cpp:
+Phenology\BroccoliPhenology.cpp:
+Phenology\GenericPhenology.cpp:
+Phenology\PhotoPhase.cpp:
+Phenology\EmergentPhase.cpp:
+Phenology\LeafAppPhase.cpp:
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+------Compiling C:\development\apsim\report\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+report.cpp:
+ReportComponent.cpp:
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+------Compiling C:\development\apsim\SiloInput\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+SiloInput.cpp:
+SiloInputComponent.cpp:
+C:\development\apsim\input\source\InputComponent.cpp:
+C:\development\apsim\input\source\StringVariant.cpp:
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+------Compiling C:\development\apsim\SOI\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit SOIModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 373:
+Compiling program unit Main at line 398:
+Compiling program unit respondToEvent at line 448:
+Encountered 0 errors, 0 warnings in file SOI.for.
+Compiling file SOI.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\soiln2\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Soiln2Module at line 1:
+ Module subprogram name(soiln2_notification)
+  0511-W: "soiln2.f90", line 4236: Logical type cannot be mixed with arithmetic type in initializations, assignments, arithmetic operations, relational operations or statement function definitions.
+Compiling program unit alloc_dealloc_instance at line 4611:
+Compiling program unit Main at line 4638:
+Compiling program unit doInit1 at line 4712:
+Compiling program unit respondToEvent at line 4833:
+Encountered 0 errors, 1 warning in file soiln2.f90.
+Compiling file soiln2.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\SoilP\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit SoilPModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 2398:
+Compiling program unit Main at line 2427:
+Compiling program unit respondToEvent at line 2498:
+Encountered 0 errors, 0 warnings in file SoilP.f90.
+Compiling file SoilP.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\soilpH\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit SoilpHModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 4878:
+Compiling program unit main at line 4910:
+Compiling program unit respondToEvent at line 5008:
+Encountered 0 errors, 0 warnings in file soilpH.for.
+Compiling file soilpH.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\soilt\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit SoilTModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 946:
+Compiling program unit Main at line 975:
+Compiling program unit respondToEvent at line 1050:
+Encountered 0 errors, 0 warnings in file soilt.for.
+Compiling file soilt.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\soiltemp\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit SoilTempModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 1398:
+Compiling program unit Main at line 1429:
+Compiling program unit respondToEvent at line 1503:
+Encountered 0 errors, 0 warnings in file soiltemp.for.
+Compiling file soiltemp.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\soilwat2\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit LateralModule at line 1:
+Encountered 0 errors, 0 warnings in file lateral.for.
+Compiling file lateral.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit EvapModule at line 1:
+Encountered 0 errors, 0 warnings in file evap.for.
+Compiling file evap.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Soilwat2Module at line 1:
+Compiling program unit alloc_dealloc_instance at line 6826:
+Compiling program unit Main at line 6860:
+Compiling program unit respondToEvent at line 6998:
+Compiling program unit doInit1 at line 7019:
+Encountered 0 errors, 0 warnings in file soilwat2.for.
+Compiling file soilwat2.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\solute\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit SoluteModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 764:
+Compiling program unit Main at line 793:
+Compiling program unit respondToEvent at line 851:
+Encountered 0 errors, 0 warnings in file solute.for.
+Compiling file solute.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\sorghum\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+OOLeaf.cpp:
+OOPlantInterface.cpp:
+OOBiomass.cpp:
+Warning W8004 OOBiomass.cpp 288: 'grainDifferential' is assigned a value that is never used in function Biomass::calcBiomassRetranslocation()
+Warning W8004 OOBiomass.cpp 432: 'sum' is assigned a value that is never used in function Biomass::incorporateResidue()
+Warning W8004 OOBiomass.cpp 433: 'p' is assigned a value that is never used in function Biomass::incorporateResidue()
+Warning W8004 OOBiomass.cpp 433: 'n' is assigned a value that is never used in function Biomass::incorporateResidue()
+OOPhosphorus.cpp:
+Warning W8004 OOPhosphorus.cpp 303: 'dumP' is assigned a value that is never used in function Phosphorus::uptake()
+Warning W8004 OOPhosphorus.cpp 454: 'f' is assigned a value that is never used in function Phosphorus::Summary()
+OOPlantActions.cpp:
+OOStem.cpp:
+Utilities.cpp:
+OONitrogen.cpp:
+Warning W8004 OONitrogen.cpp 484: 'nRequired' is assigned a value that is never used in function Nitrogen::partition()
+OORachis.cpp:
+OOGrain.cpp:
+Warning W8004 OOGrain.cpp 168: 'nRequired' is assigned a value that is never used in function Grain::calcNDemand()
+OOPlantComponents.cpp:
+OOWater.cpp:
+OOPhenology.cpp:
+OOPlant.cpp:
+Warning W8004 OOPlant.cpp 399: 'killfr' is assigned a value that is never used in function OOPlant::death()
+OORoots.cpp:
+Warning W8004 OORoots.cpp 394: 'pInc' is assigned a value that is never used in function Roots::incorporateResidue()
+Warning W8004 OORoots.cpp 394: 'nInc' is assigned a value that is never used in function Roots::incorporateResidue()
+Warning W8004 OORoots.cpp 394: 'dmInc' is assigned a value that is never used in function Roots::incorporateResidue()
+Warning W8004 OORoots.cpp 415: 'topArea' is assigned a value that is never used in function Roots::getRootArea(float,float,float,float)
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+------Compiling C:\development\apsim\Stock\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+StockScienceConverter.cpp:
+ScienceConverterComponent.cpp:
+PlantPool.cpp:
+SeedPool.cpp:
+ConverterBase.cpp:
+Loaded pre-compiled headers.
+HerbageBase.cpp:
+HerbageConverter.cpp:
+NonHerbageConverter.cpp:
+PlantHerbage.cpp:
+ResidueHerbage.cpp:
+ResiduePool.cpp:
+Constants.cpp:
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+------Compiling C:\development\apsim\sugar\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit SugarModule at line 1:
+ Module subprogram name(sugar_nit_demand)
+  2438-W: "sugar.for", line 5169: Name demand_parts enclosed in slashes is not a common block name in a SAVE statement.
+Compiling program unit alloc_dealloc_instance at line 4996:
+Compiling program unit Main at line 5026:
+Compiling program unit respondToEvent at line 5150:
+Encountered 0 errors, 1 warning in file sgr_main.for.
+Compiling file sgr_main.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\SummaryFile\Source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+SummaryFile.cpp:
+SummaryFileComponent.cpp:
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+------Compiling C:\development\apsim\Supplement\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+SupplementScienceConverter.cpp:
+Loaded pre-compiled headers.
+SupplementConverter.cpp:
+Loaded pre-compiled headers.
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+------Compiling C:\development\apsim\surface\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit SurfaceModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 950:
+Compiling program unit Main at line 977:
+Compiling program unit respondToEvent at line 1062:
+Encountered 0 errors, 0 warnings in file surface.for.
+Compiling file surface.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\SurfaceOM\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit SurfaceOMModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 2589:
+Compiling program unit Main at line 2620:
+Compiling program unit respondToEvent at line 2688:
+Encountered 0 errors, 0 warnings in file surfaceom.f90.
+Compiling file surfaceom.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\SysBal\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit SysBalModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 1931:
+Compiling program unit Main at line 1956:
+Compiling program unit respondToEvent at line 2026:
+Encountered 0 errors, 0 warnings in file sysbal.for.
+Compiling file sysbal.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\tamet2\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Tamet2Module at line 1:
+Compiling program unit alloc_dealloc_instance at line 1688:
+Compiling program unit main at line 1717:
+Compiling program unit respondToEvent at line 1783:
+Encountered 0 errors, 0 warnings in file tamet2.for.
+Compiling file tamet2.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\tcllink\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+TclLink.cpp:
+TclComponent.cpp:
+TclXtras.cpp:
+Warning W8008 TclXtras.cpp 112: Condition is always false in function StopTcl(Tcl_Interp *)
+Warning W8066 TclXtras.cpp 115: Unreachable code in function StopTcl(Tcl_Interp *)
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+------Compiling C:\development\apsim\Tracker\Source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+Tracker.cpp:
+TrackerVariable.cpp:
+TrackerComponent.cpp:
+Loaded cached pre-compiled headers.
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+------Compiling C:\development\apsim\tree\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit TreeModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 1425:
+Compiling program unit main at line 1455:
+Compiling program unit respondToEvent at line 1552:
+Encountered 0 errors, 0 warnings in file tree.for.
+Compiling file tree.for.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
+------Compiling C:\development\apsim\VenLink\Source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Borland C++ 5.6.4 for Win32 Copyright (c) 1993, 2002 Borland
+VenLink.cpp:
+VensimComponent.cpp:
+Loaded cached pre-compiled headers.
+Turbo Incremental Link 5.64 Copyright (c) 1997-2002 Borland
+------Compiling C:\development\apsim\WaterSupply\source
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit Registrations at line 1:
+Encountered 0 errors, 0 warnings in file Registrations.f90.
+Compiling file Registrations.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+Compiling program unit WaterSupplyModule at line 1:
+Compiling program unit alloc_dealloc_instance at line 1553:
+Compiling program unit Main at line 1583:
+Compiling program unit respondToEvent at line 1650:
+Encountered 0 errors, 0 warnings in file WaterSupply.f90.
+Compiling file WaterSupply.f90.
+Lahey/Fujitsu Fortran 95 Compiler Release 5.60h  S/N: F9365075S 
+Copyright (C) 1994-2002 Lahey Computer Systems.  All rights reserved.
+Copyright (C) 1998-2002 FUJITSU LIMITED. All rights reserved.
+386|LINK: 9.2 -- Copyright (C) 1986-98 Phar Lap Software, Inc.
