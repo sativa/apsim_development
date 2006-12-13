@@ -12,6 +12,7 @@ namespace CSGeneral
 	public class Soil : SoilBase
 		{
 		private APSIMData PredLLCoeff = null;
+        private APSIMData PredKLCoeff = null;
 		public Soil(APSIMData data)	: base(data) 
             {
             InitWater w = InitialWater;
@@ -295,7 +296,17 @@ namespace CSGeneral
 				return ReturnList;
 				}
 			}
-		public bool CropExists(string CropName)
+        public string[] CropsMeasured
+            {
+            get
+                {
+                String[] ReturnListCollection = Data.ChildNames("SoilCrop");
+                string[] ReturnList = new string[ReturnListCollection.Length];
+                ReturnListCollection.CopyTo(ReturnList, 0);
+                return ReturnList;
+                }
+            }
+        public bool CropExists(string CropName)
 			{
             return (Data.Child(CropName) != null);
 			}
@@ -373,16 +384,29 @@ namespace CSGeneral
 				}
 			return (PredLLCoeff != null);
 			}
+        private bool OpenPredKLCoeffFile()
+            {
+            if (PredKLCoeff == null)
+                {
+                string CoeffFileName = APSIMSettings.INIRead(APSIMSettings.ApsimIniFile(), "Soil", "PredKLCoeffFile");
+                if (File.Exists(CoeffFileName))
+                    {
+                    PredKLCoeff = new APSIMData();
+                    PredKLCoeff.LoadFromFile(CoeffFileName);
+                    }
+                }
+            return (PredKLCoeff != null);
+            }
 
 
 		private StringCollection PredictedCrops
 			{
 			get {
 				StringCollection PredCrops = new StringCollection();
-				if (Data.ChildNames("SoilCrop").Length > 0 && OpenPredLLCoeffFile())
+				if (OpenPredLLCoeffFile())
 					{
 					// get a list of all possible predicted crops.
-                        string SoilNameNoSpaces = Classification.Replace(" ", "");
+                    string SoilNameNoSpaces = Classification.Replace(" ", "");
 					double[] SoilDepthCentre = this.CumThicknessMidPoints;
 				
 					foreach (APSIMData PredSoil in  PredLLCoeff.get_Children(null))
@@ -431,7 +455,7 @@ namespace CSGeneral
 
 		private double[] PredictedLL(string CropName)
 			{
-			if (Crops.Length > 0 && OpenPredLLCoeffFile() && Utility.IndexOfCaseInsensitive(PredictedCrops, CropName) != -1)
+			if (OpenPredLLCoeffFile() && Utility.IndexOfCaseInsensitive(PredictedCrops, CropName) != -1)
 				{
 				double[] a = null;
 				double[] b = null;
@@ -441,50 +465,105 @@ namespace CSGeneral
 				// Get some soil numbers we're going to need.
 				double[] SoilDepthCentre = this.CumThicknessMidPoints;
 				double[] SoilDUL = MathUtility.Multiply_Value(this.DUL, 100);
-				double[] FirstCropLL = LL(Crops[0]);
-				if (FirstCropLL.Length > 0)
+
+                // Find the lowest measured crop LL in 3rd layer.
+                double LowestLL3rdLayer = FindLowestCropLL3rdLayer();
+
+				// only continue if our soil depth depth centers are within range of
+				// the coefficient depth centers.
+				if (SoilDepthCentre[SoilDepthCentre.Length-1] <= CoeffDepthCentre[CoeffDepthCentre.Length-1])
 					{
-					// only continue if our soil depth depth centers are within range of
-					// the coefficient depth centers.
-					if (SoilDepthCentre[SoilDepthCentre.Length-1] <= CoeffDepthCentre[CoeffDepthCentre.Length-1])
+					double[] PredLL = new double[SoilDepthCentre.Length];
+					for (int i = 0; i != SoilDepthCentre.Length; i++)
 						{
-						double[] PredLL = new double[SoilDepthCentre.Length];
-						for (int i = 0; i != SoilDepthCentre.Length; i++)
-							{
-							bool DidInterpolate = false;
-							double A = MathUtility.LinearInterpReal(SoilDepthCentre[i], CoeffDepthCentre, a, ref DidInterpolate);
-							double B = MathUtility.LinearInterpReal(SoilDepthCentre[i], CoeffDepthCentre, b, ref DidInterpolate);
-							PredLL[i] = SoilDUL[i] * (A + B * SoilDUL[i]) / 100.0;
+						bool DidInterpolate = false;
+						double A = MathUtility.LinearInterpReal(SoilDepthCentre[i], CoeffDepthCentre, a, ref DidInterpolate);
+						double B = MathUtility.LinearInterpReal(SoilDepthCentre[i], CoeffDepthCentre, b, ref DidInterpolate);
+						PredLL[i] = SoilDUL[i] * (A + B * SoilDUL[i]) / 100.0;
 
-							// Bound the predicted LL values.
-							PredLL[i] = Math.Max(PredLL[i], this.LL15[i]);
-							PredLL[i] = Math.Min(PredLL[i], this.DUL[i]);
-
-							// make the top 2 layers the same as the first measured crop LL
-							if (i == 0 || i == 1)
-								PredLL[i] = FirstCropLL[i];
-							}
-						return PredLL;
+						// Bound the predicted LL values.
+						PredLL[i] = Math.Max(PredLL[i], this.LL15[i]);
+						PredLL[i] = Math.Min(PredLL[i], this.DUL[i]);
 						}
+
+					// make the top 2 layers the same as the smallest measured crop LL[2]
+                    if (PredLL.Length >= 3)
+                        {
+                        if (LowestLL3rdLayer != MathUtility.MissingValue)
+                            {
+                            PredLL[0] = LowestLL3rdLayer;
+                            PredLL[1] = LowestLL3rdLayer;
+                            }
+                        else
+                            {
+                            PredLL[0] = PredLL[2];
+                            PredLL[1] = PredLL[2];
+                            }
+                        }
+                    
+                    return PredLL;
 					}
 				}
 			return new double[0];
 			}
 
+        private double FindLowestCropLL3rdLayer()
+            {
+            double LowestLL3rdLayer = MathUtility.MissingValue;
+            foreach (string CropName in CropsMeasured)
+                {
+                double[] ll = LL(CropName);
+                if (ll.Length >= 3)
+                    LowestLL3rdLayer = Math.Min(LowestLL3rdLayer, ll[2]);
+                }
+            return LowestLL3rdLayer;
+            }
+
 		private double[] PredictedKL(string CropName)
 			{
-			if (Crops.Length > 0 && OpenPredLLCoeffFile())
-				return KL(Crops[0]);
-			else
-				return new double[0];
+            if (OpenPredKLCoeffFile())
+                {
+                APSIMData CropKlValues = PredKLCoeff.Child(CropName);
+                if (CropKlValues != null)
+                    {
+                    StringCollection LayerCentreStrings = new StringCollection();
+                    StringCollection KLStrings = new StringCollection();
+                    foreach (APSIMData Layer in CropKlValues.get_Children("layer"))
+                        {
+                        KLStrings.Add(Layer.get_ChildValue("kl"));
+                        LayerCentreStrings.Add(Layer.get_ChildValue("LayerCentre"));
+                        }
+                    double[] kl = new double[KLStrings.Count];
+                    double[] CoeffDepthCentre = new double[LayerCentreStrings.Count];
+                    for (int i = 0; i != KLStrings.Count; i++)
+                        {
+                        kl[i] = Convert.ToDouble(KLStrings[i]);
+                        CoeffDepthCentre[i] = Convert.ToDouble(LayerCentreStrings[i]);
+                        }
+
+                    double[] SoilDepthCentre = this.CumThicknessMidPoints;
+                    double[] Values = new double[SoilDepthCentre.Length];
+                    bool DidInterpolate = true;
+                    for (int i = 0; i != SoilDepthCentre.Length; i++)
+                        Values[i] = MathUtility.LinearInterpReal(SoilDepthCentre[i], CoeffDepthCentre, kl, ref DidInterpolate);
+                    return Values;
+                    }
+                }
+            return new double[0];
 			}
 
-		private double[] PredictedXF(string CropName)
+        private double[] PredictedXF(string CropName)
 			{
-			if (Crops.Length > 0 && OpenPredLLCoeffFile())
-				return XF(Crops[0]);
+            if (CropsMeasured.Length > 0 && OpenPredLLCoeffFile())
+                return XF(CropsMeasured[0]);
 			else
-				return new double[0];
+                {
+                int NumLayers = Thickness.Length;
+                double[] Values = new double[NumLayers];
+                for (int i = 0; i != NumLayers; i++)
+                    Values[i] = 1.0;
+                return Values;
+                }
 			}
 
 		// -----------------------------------
