@@ -162,7 +162,7 @@ Public Class Slurp
         Dim EventData As New NewPotentialGrowth
         EventData.sender = Me.Name
         EventData.frgr = Min(Min(Frgr, Fvpd()), Ft())
-        events.Publish("new_pot_growth", EventData)
+        events.Publish("newpotentialgrowth", EventData)
     End Sub
 #End Region
 #Region "Properties"
