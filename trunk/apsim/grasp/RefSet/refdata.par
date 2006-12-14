@@ -539,7 +539,7 @@ slswt =  0.0
 ! ------------------------ climatic inputs ---------------------------
 [gmtb0.apswim.climate]
 rainfall_source =  gmtswms.dat
-evap_source =  sum_demands
+evap_source =  calc
 salb =  0.23
 
 
