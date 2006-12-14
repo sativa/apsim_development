@@ -90,7 +90,7 @@ slswt =  0.0
 ! ------------------------ climatic inputs ---------------------------
 [sample.apswim.climate]
 rainfall_source =  apsim
-evap_source =  sum_demands
+evap_source =  calc
 salb =  0.23
 
 ! ------------------------ runoff functions --------------------------
