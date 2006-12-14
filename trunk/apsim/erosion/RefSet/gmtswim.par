@@ -269,7 +269,10 @@ slswt =  0.0
 
 ! ------------------------ climatic inputs ---------------------------
 [gmtb0.apswim.climate]
-rainfall_source =  gmtswms.dat
+rainfall_source = file                   ()  ! get rainfall from a file
+rainfall_file = gmtswms.dat
+
+
 evap_source =  calc
 salb =  0.23
 
