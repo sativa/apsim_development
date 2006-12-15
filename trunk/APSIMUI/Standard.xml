@@ -741,7 +741,7 @@ IB0001 CABERNET FRANC   IB0001    07   590   020  4000  1000   0.8   4.5  42.0  
       </rule>
       <rule name="Reset water, nitrogen and surfaceOM on fixed date">
         <condition name="start_of_day">
-         if (today = date('[reset_date]') then
+         if (today = date('[reset_date]')) then
             resetWater = '[resetWater]'
             resetNitrogen  = '[resetNitrogen]'
             resetSurfaceOM = '[resetSurfaceOM]'
