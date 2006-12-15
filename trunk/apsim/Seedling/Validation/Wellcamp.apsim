@@ -18,6 +18,10 @@
     <area name="paddock">
       <registrations name="global" />
       <operations>
+        <operation condition="start_of_day">
+          <date>1-mar</date>
+          <action>'WellCamp Water' set sw = 0.53 0.49 0.48 0.41 0.30 0.31 0.32</action>
+        </operation>
       </operations>
       <soil name="WellCamp" shortcut="WellCamp" />
       <outputfile name="outputfile" shortcut="outputfile" />
@@ -50,13 +54,13 @@
         </operation>
         <operation condition="start_of_day">
           <date>1-mar</date>
-          <action>'WellCamp Water' set sw = 0.54 0.52 0.53 0.48 0.40 0.37 0.28</action>
+          <action>'WellCamp Water' set sw = 0.43 0.49 0.49 0.43 0.31 0.36 </action>
         </operation>
       </operations>
       <soil name="WellCamp" shortcut="WellCamp" />
       <outputfile name="outputfile" shortcut="outputfile" />
       <irrigation name="Irrigation">
-        <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">on</automatic_irrigation>
+        <automatic_irrigation type="list" listvalues="on,off" description="Automatic irrigation">off</automatic_irrigation>
         <asw_depth type="text" description="Depth to which ASW is calculated. (mm)">600.0</asw_depth>
         <crit_fr_asw type="text" description="Fraction of ASW below which irrigation is applied (0-1.0)">0.5</crit_fr_asw>
         <irrigation_efficiency description="Efficiency of the irrigation. (0-1.0)">1.0</irrigation_efficiency>
@@ -85,7 +89,7 @@
         </operation>
         <operation condition="start_of_day">
           <date>1-mar</date>
-          <action>'WellCamp Water' set sw = 0.54 0.25 0.3 0.25 0.21 0.21 0.28</action>
+          <action>'WellCamp Water' set sw = 0.25 0.36 0.3 0.25 0.21 0.21 0.28</action>
         </operation>
       </operations>
       <soil name="WellCamp" shortcut="WellCamp" />
@@ -120,7 +124,7 @@
         </operation>
         <operation condition="start_of_day">
           <date>1-mar</date>
-          <action>'WellCamp Water' set sw = 0.54 0.52 0.3 0.25 0.21 0.21 0.28</action>
+          <action>'WellCamp Water' set sw = 0.25 0.39 0.35 0.25 0.21 0.21 0.28</action>
         </operation>
       </operations>
       <soil name="WellCamp" shortcut="WellCamp" />
@@ -155,7 +159,7 @@
         </operation>
         <operation condition="start_of_day">
           <date>1-mar</date>
-          <action>'WellCamp Water' set sw = 0.54 0.52 0.53 0.25 0.21 0.21 0.28</action>
+          <action>'WellCamp Water' set sw = 0.25 0.43 0.36 0.25 0.21 0.21 0.28</action>
         </operation>
       </operations>
       <soil name="WellCamp" shortcut="WellCamp" />
@@ -260,7 +264,7 @@
         </operation>
         <operation condition="start_of_day">
           <date>1-mar</date>
-          <action>'WellCamp Water' set sw = 0.54 0.52 0.53 0.48 0.40 0.37 0.28</action>
+          <action>'WellCamp Water' set sw = 0.37 0.48 0.47 0.40 0.29 0.32</action>
         </operation>
       </operations>
       <soil name="WellCamp" shortcut="WellCamp" />
@@ -295,7 +299,7 @@
         </operation>
         <operation condition="start_of_day">
           <date>1-mar</date>
-          <action>'WellCamp Water' set sw = 0.54 0.52 0.53 0.48 0.40 0.37 0.28</action>
+          <action>'WellCamp Water' set sw = 0.41 0.49 0.49 0.41 0.30 0.31 </action>
         </operation>
       </operations>
       <soil name="WellCamp" shortcut="WellCamp" />
@@ -323,16 +327,16 @@
         <Cona>5</Cona>
         <DiffusConst>40</DiffusConst>
         <DiffusSlope>16</DiffusSlope>
-        <U>5</U>
-        <Salb>0.13</Salb>
-        <Cn2Bare>73</Cn2Bare>
+        <U>11</U>
+        <Salb>0.09</Salb>
+        <Cn2Bare>76</Cn2Bare>
         <CnRed>20</CnRed>
         <CnCov>0.8</CnCov>
         <layer name="1">
           <thickness>150</thickness>
           <bd>1.02</bd>
           <ll15>0.2</ll15>
-          <airdry>0.1</airdry>
+          <airdry>0.18</airdry>
           <dul>0.54</dul>
           <sat>0.59</sat>
           <sw>9999.99</sw>
@@ -341,7 +345,7 @@
         <layer name="2">
           <thickness>150</thickness>
           <bd>1.03</bd>
-          <ll15>0.25</ll15>
+          <ll15>0.3</ll15>
           <airdry>0.25</airdry>
           <dul>0.53</dul>
           <sat>0.58</sat>
@@ -385,16 +389,6 @@
           <airdry>0.21</airdry>
           <dul>0.38</dul>
           <sat>0.43</sat>
-          <sw>9999.99</sw>
-          <swcon>0.3</swcon>
-        </layer>
-        <layer name="7">
-          <thickness>300</thickness>
-          <bd>1.12</bd>
-          <ll15>0.28</ll15>
-          <airdry>0.28</airdry>
-          <dul>0.4</dul>
-          <sat>0.45</sat>
           <sw>9999.99</sw>
           <swcon>0.3</swcon>
         </layer>
@@ -454,14 +448,6 @@
           <no3>1.7</no3>
           <nh4>0.1</nh4>
         </layer>
-        <layer name="7">
-          <oc>0.27</oc>
-          <ph>9</ph>
-          <fbiom>0.01</fbiom>
-          <finert>0.95</finert>
-          <no3>1.7</no3>
-          <nh4>0.1</nh4>
-        </layer>
       </Nitrogen>
       <other>
         <layer name="1">
@@ -482,9 +468,6 @@
         <layer name="6">
           <ec>0.84</ec>
         </layer>
-        <layer name="7">
-          <ec>0.93</ec>
-        </layer>
       </other>
       <InitWater>
         <DepthWetSoilMethod>
@@ -498,12 +481,12 @@
           <xf>1</xf>
         </layer>
         <layer name="2">
-          <ll>0.25</ll>
+          <ll>0.3</ll>
           <kl>0.1</kl>
           <xf>1</xf>
         </layer>
         <layer name="3">
-          <ll>0.3</ll>
+          <ll>0.32</ll>
           <kl>0.1</kl>
           <xf>1</xf>
         </layer>
@@ -522,11 +505,6 @@
           <kl>0.04</kl>
           <xf>1</xf>
         </layer>
-        <layer name="7">
-          <ll>0.28</ll>
-          <kl>0.02</kl>
-          <xf>1</xf>
-        </layer>
       </SoilCrop>
       <InitNitrogen>
         <layer name="1">
@@ -534,71 +512,63 @@
           <nh4>0.599196200219218</nh4>
         </layer>
         <layer name="2">
-          <no3>2.10081167723893</no3>
+          <no3>5</no3>
           <nh4>0.0998660333698697</nh4>
         </layer>
         <layer name="3">
-          <no3>2.10081167723893</no3>
+          <no3>5</no3>
           <nh4>0.0998660333698697</nh4>
         </layer>
         <layer name="4">
-          <no3>1.70065707205056</no3>
+          <no3>5</no3>
           <nh4>0.0998660333698697</nh4>
         </layer>
         <layer name="5">
-          <no3>1.70065707205057</no3>
+          <no3>5</no3>
           <nh4>0.0998660333698697</nh4>
         </layer>
         <layer name="6">
-          <no3>1.70065707205056</no3>
-          <nh4>0.0998660333698697</nh4>
-        </layer>
-        <layer name="7">
-          <no3>1.70065707205056</no3>
+          <no3>5</no3>
           <nh4>0.0998660333698697</nh4>
         </layer>
       </InitNitrogen>
       <SoilCrop name="Seedling">
         <layer name="1">
           <ll>0.2</ll>
-          <xf>1</xf>
-          <kl>0.005</kl>
+          <xf>0.5</xf>
+          <kl>0.02</kl>
         </layer>
         <layer name="2">
           <ll>0.25</ll>
-          <xf>1</xf>
-          <kl>0.002</kl>
+          <xf>0.5</xf>
+          <kl>0.02</kl>
         </layer>
         <layer name="3">
           <ll>0.3</ll>
-          <xf>1</xf>
-          <kl>0.001</kl>
+          <xf>0.75</xf>
+          <kl>0.02</kl>
         </layer>
         <layer name="4">
           <ll>0.25</ll>
           <xf>1</xf>
-          <kl>0.001</kl>
+          <kl>0.02</kl>
         </layer>
         <layer name="5">
           <ll>0.21</ll>
           <xf>1</xf>
-          <kl>0.001</kl>
+          <kl>0.02</kl>
         </layer>
         <layer name="6">
           <ll>0.21</ll>
           <xf>1</xf>
-          <kl>0.001</kl>
-        </layer>
-        <layer name="7">
-          <ll>0.28</ll>
-          <xf>1</xf>
-          <kl>0.001</kl>
+          <kl>0.02</kl>
         </layer>
       </SoilCrop>
     </soil>
     <outputfile name="outputfile">
       <variables name="Variables">
         <variable name="dd/mm/yyyy as Date" description="Date (dd/mm/yyyy)" array="?" />
+        <variable name="day" />
         <variable name="lai" />
         <variable name="node_no" />
         <variable name="stem_wt" />
@@ -607,12 +577,12 @@
         <variable name="swdef_expan" />
         <variable name="nfact_photo" />
         <variable name="nfact_expan" />
-        <variable name="leaf_no()" />
-        <variable name="rain" array="" />
+        <variable name="leaf_no()" array="" />
+        <variable name="rain" />
         <variable name="irrigation" />
         <variable name="es" />
         <variable name="sw" />
-        <variable name="sw_dep()" />
+        <variable name="sw_dep()" array="" description="" />
         <variable name="leaf_area_tot" array="No" description="Total plant leaf area" />
         <variable name="temp_stress_photo" array="No" description="Temperature Stress in photosynthesis" />
         <variable name="plantleaf" />
@@ -620,14 +590,14 @@
         <variable name="plantla" />
         <variable name="plantbiomass" />
         <variable name="swsi" />
-        <variable name="plants" />
+        <variable name="plants" array="" description="" />
         <variable name="dlt_dm_green_leaf" array="No" description="Delta Weight of leaf" />
         <variable name="dlt_lai_pot" array="No" description="Potential change in live plant lai" />
         <variable name="dlt_lai_stressed" array="No" description="Potential change in lai allowing for stress" />
-        <variable name="slai" array="Senesced lai" />
+        <variable name="slai" array="Senesced lai" description="" />
         <variable name="biomass_n" array="No" description="N in total biomass" />
         <variable name="no3()" />
-        <variable name="nh4()" />
+        <variable name="nh4()" array="" description="" />
         <variable name="n_conc_stem" array="No" description="N concentration in stem" />
         <variable name="n_conc_leaf" array="No" description="N concentration in leaf" />
         <variable name="leaf_n" array="N in leaf" />
@@ -640,6 +610,9 @@
         <variable name="root_depth" />
         <variable name="rlv" />
         <variable name="biomass_wt" />
+        <variable name="ep" />
+        <variable name="eo" array="Potential evapotranspiration (mm)" />
+        <variable name="rtr" />
       </variables>
       <events name="Reporting Frequency">
         <event name="Daily" description="End of day" array="No" />
@@ -672,6 +645,7 @@ plantstem = 0
 plantla = 0
 SWSI = 0
 nodes = 0
+RTR = 0
 </script>
       <script name="startofday" />
       <script name="endofday"><![CDATA[ if lai > 0 then
@@ -681,6 +655,7 @@ nodes = 0
    plantla = lai * 10000 / plants
    nodes = node_no + 17
    SWSI = SWSI + (1.0 - swdef_photo)
+   RTR = ep / (eo * cover_green)
 endif]]></script>
     </logic>
   </folder>
